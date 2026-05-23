@@ -1,0 +1,271 @@
+import type { AttackKind } from './CombatSystem';
+import type { Hitbox } from './HeroNormalAttackSystem';
+import type { PlayerSlot } from './InputSystem';
+
+export type Monster30State = 'wait' | 'walk' | 'hurt' | 'hit1' | 'dead' | 'removed';
+
+export type Monster30Target = {
+  slot: PlayerSlot;
+  x: number;
+  y: number;
+};
+
+export type Monster30Model = {
+  id: string;
+  x: number;
+  y: number;
+  hp: number;
+  maxHp: number;
+  state: Monster30State;
+  facingX: -1 | 1;
+  targetSlot?: PlayerSlot;
+  stateTimerMs: number;
+  attackDecisionTimerMs: number;
+  attackSerial: number;
+  activeAttack?: Monster30ActiveAttack;
+};
+
+export type Monster30ActiveAttack = {
+  id: number;
+  attackId: string;
+  actionName: 'hit1';
+  elapsedMs: number;
+  hitboxActiveFromMs: number;
+  hitboxActiveUntilMs: number;
+  damage: number;
+  attackKind: AttackKind;
+  knockbackX: number;
+  knockbackY: number;
+  facingX: -1 | 1;
+};
+
+export const Monster30Tuning = {
+  maxHp: 150,
+  horizontalSpeed: 420,
+  attackRange: 250,
+  alertRange: 1000,
+  hoverOffsetY: 150,
+  riseSpeed: 132,
+  dropSpeed: 120,
+  attackDecisionIntervalMs: 1000,
+  normalAttackRate: 0.5,
+  hurtDurationMs: 250,
+  hit1DurationMs: 167,
+  hit1Damage: 15,
+  hit1HitboxStartMs: 55,
+  hit1HitboxEndMs: 145,
+  hit1HitboxOffsetX: 52,
+  hit1HitboxOffsetY: 28,
+  hit1HitboxWidth: 188,
+  hit1HitboxHeight: 176,
+  hit1KnockbackX: 6,
+  hit1KnockbackY: -5,
+  deadDurationMs: 233,
+} as const;
+
+let monster30Serial = 0;
+
+export function createMonster30(x: number, y: number, id?: string): Monster30Model {
+  monster30Serial += 1;
+
+  return {
+    id: id ?? `monster30-${monster30Serial}`,
+    x,
+    y,
+    hp: Monster30Tuning.maxHp,
+    maxHp: Monster30Tuning.maxHp,
+    state: 'wait',
+    facingX: -1,
+    stateTimerMs: 0,
+    attackDecisionTimerMs: Monster30Tuning.attackDecisionIntervalMs,
+    attackSerial: 0,
+  };
+}
+
+export function updateMonster30(
+  monster: Monster30Model,
+  targets: readonly Monster30Target[],
+  deltaMs: number,
+  random: () => number = Math.random,
+): void {
+  if (monster.state === 'removed') {
+    return;
+  }
+
+  if (monster.state === 'dead') {
+    monster.activeAttack = undefined;
+    monster.stateTimerMs -= deltaMs;
+    if (monster.stateTimerMs <= 0) {
+      monster.state = 'removed';
+    }
+    return;
+  }
+
+  if (monster.state === 'hurt') {
+    monster.activeAttack = undefined;
+    monster.stateTimerMs -= deltaMs;
+    if (monster.stateTimerMs > 0) {
+      return;
+    }
+
+    monster.state = 'wait';
+    monster.stateTimerMs = 0;
+  }
+
+  if (monster.state === 'hit1') {
+    monster.stateTimerMs -= deltaMs;
+    if (monster.activeAttack) {
+      monster.activeAttack.elapsedMs += deltaMs;
+    }
+
+    if (monster.stateTimerMs > 0) {
+      return;
+    }
+
+    monster.state = 'wait';
+    monster.stateTimerMs = 0;
+    monster.activeAttack = undefined;
+  }
+
+  const target = selectNearestTarget(monster, targets);
+  monster.targetSlot = target?.slot;
+
+  if (!target) {
+    monster.state = 'wait';
+    return;
+  }
+
+  hoverNearTarget(monster, target, deltaMs);
+
+  const xDistance = target.x - monster.x;
+  const absXDistance = Math.abs(xDistance);
+  monster.facingX = xDistance < 0 ? -1 : 1;
+  monster.attackDecisionTimerMs -= deltaMs;
+
+  if (absXDistance > Monster30Tuning.attackRange) {
+    monster.state = 'walk';
+    moveTowardTarget(monster, xDistance, deltaMs);
+    return;
+  }
+
+  monster.state = 'wait';
+
+  if (monster.attackDecisionTimerMs > 0) {
+    return;
+  }
+
+  monster.attackDecisionTimerMs = Monster30Tuning.attackDecisionIntervalMs;
+
+  if (random() <= Monster30Tuning.normalAttackRate) {
+    startMonster30Hit1(monster);
+  }
+}
+
+export function applyMonster30Hit(monster: Monster30Model, damage: number): boolean {
+  if (monster.state === 'dead' || monster.state === 'removed') {
+    return false;
+  }
+
+  monster.hp = Math.max(0, monster.hp - damage);
+
+  if (monster.hp <= 0) {
+    monster.state = 'dead';
+    monster.stateTimerMs = Monster30Tuning.deadDurationMs;
+    monster.activeAttack = undefined;
+    return true;
+  }
+
+  monster.state = 'hurt';
+  monster.stateTimerMs = Monster30Tuning.hurtDurationMs;
+  monster.activeAttack = undefined;
+  return true;
+}
+
+export function getMonster30AttackHitbox(monster: Monster30Model): Hitbox | undefined {
+  const attack = monster.activeAttack;
+  if (
+    monster.state !== 'hit1' ||
+    !attack ||
+    attack.elapsedMs < attack.hitboxActiveFromMs ||
+    attack.elapsedMs > attack.hitboxActiveUntilMs
+  ) {
+    return undefined;
+  }
+
+  const centerX = monster.x +
+    attack.facingX * Monster30Tuning.hit1HitboxOffsetX +
+    attack.facingX * Monster30Tuning.hit1HitboxWidth / 2;
+  const centerY = monster.y + Monster30Tuning.hit1HitboxOffsetY;
+
+  return {
+    x: centerX - Monster30Tuning.hit1HitboxWidth / 2,
+    y: centerY - Monster30Tuning.hit1HitboxHeight / 2,
+    width: Monster30Tuning.hit1HitboxWidth,
+    height: Monster30Tuning.hit1HitboxHeight,
+  };
+}
+
+function startMonster30Hit1(monster: Monster30Model): void {
+  const id = monster.attackSerial + 1;
+  monster.attackSerial = id;
+  monster.state = 'hit1';
+  monster.stateTimerMs = Monster30Tuning.hit1DurationMs;
+  monster.activeAttack = {
+    id,
+    attackId: `${monster.id}-hit1-${id}`,
+    actionName: 'hit1',
+    elapsedMs: 0,
+    hitboxActiveFromMs: Monster30Tuning.hit1HitboxStartMs,
+    hitboxActiveUntilMs: Monster30Tuning.hit1HitboxEndMs,
+    damage: Monster30Tuning.hit1Damage,
+    attackKind: 'physics',
+    knockbackX: Monster30Tuning.hit1KnockbackX,
+    knockbackY: Monster30Tuning.hit1KnockbackY,
+    facingX: monster.facingX,
+  };
+}
+
+function selectNearestTarget(
+  monster: Monster30Model,
+  targets: readonly Monster30Target[],
+): Monster30Target | undefined {
+  let nearest: Monster30Target | undefined;
+  let nearestDistance = Number.POSITIVE_INFINITY;
+
+  for (const target of targets) {
+    const distance = Math.hypot(target.x - monster.x, target.y - monster.y);
+    if (distance > Monster30Tuning.alertRange || distance >= nearestDistance) {
+      continue;
+    }
+
+    nearest = target;
+    nearestDistance = distance;
+  }
+
+  return nearest;
+}
+
+function hoverNearTarget(monster: Monster30Model, target: Monster30Target, deltaMs: number): void {
+  const desiredY = target.y - Monster30Tuning.hoverOffsetY;
+  const deltaSeconds = deltaMs / 1000;
+
+  if (monster.y > desiredY) {
+    monster.y = Math.max(
+      desiredY,
+      monster.y - Monster30Tuning.riseSpeed * deltaSeconds,
+    );
+  } else if (monster.y < desiredY) {
+    monster.y = Math.min(
+      desiredY,
+      monster.y + Monster30Tuning.dropSpeed * deltaSeconds,
+    );
+  }
+}
+
+function moveTowardTarget(monster: Monster30Model, xDistance: number, deltaMs: number): void {
+  const deltaSeconds = deltaMs / 1000;
+  const moveAmount = Monster30Tuning.horizontalSpeed * deltaSeconds;
+  const nextX = monster.x + Math.sign(xDistance) * moveAmount;
+
+  monster.x = xDistance < 0 ? Math.max(nextX, monster.x + xDistance) : Math.min(nextX, monster.x + xDistance);
+}

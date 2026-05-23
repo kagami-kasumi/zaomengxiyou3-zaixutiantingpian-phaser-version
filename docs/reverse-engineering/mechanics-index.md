@@ -1,0 +1,113 @@
+﻿# 总机制表
+
+本文记录整个项目的机制总进度：什么还没扒、什么已经扒了、什么已经复现。它是事实和进度清单，不是实现方案。
+
+它与 `docs/tasks/vertical-slices.md` 的分工：
+
+- `mechanics-index.md`：按机制记录逆向状态和复现状态。
+- `vertical-slices.md`：按可玩切片记录实现队列和验收。
+
+## 状态定义
+
+逆向状态：
+
+- `不适用`：不是从 AS3 机制逆向来的事项。
+- `未扒`：知道有这个机制，但还没系统阅读源码。
+- `部分已扒`：大方向清楚，但细节不足以完整实现。
+- `已扒`：有明确 AS3 证据和机制说明，可作为实现依据。
+- `暂缓`：当前阶段不准备逆向。
+
+复现状态：
+
+- `不适用`：不是现代游戏功能。
+- `未复现`：现代版本还没实现。
+- `部分复现`：已有技术验证或局部实现，但不完整或不符合正式玩法。
+- `已复现`：现代版本已实现并有验证方式。
+- `暂缓`：当前阶段不准备实现。
+
+## 总览
+
+| ID | 机制 | 逆向状态 | 复现状态 | 证据/逆向文档 | 现代产物 | 下一步 |
+| --- | --- | --- | --- | --- | --- | --- |
+| M-001 | 提取资料状态 | 已扒 | 不适用 | `extracted_flash/README_extract.md` | 无 | 缺资源时先列明资料缺口 |
+| M-002 | 主参考源码 | 已扒 | 不适用 | `extracted_flash/scripts/172845/scripts` | 无 | 遇疑点再看 `25034429` |
+| M-003 | 现代目标 | 已扒 | 部分复现 | `AGENTS.md`、`TASK_OUTLINE.md` | 当前文档体系 | 后续任务持续遵守 |
+| M-004 | 技术脚手架 | 不适用 | 已复现 | `modern-architecture.md` | `package.json`、`src/`、Vite/Phaser 骨架 | 用户手工安装依赖后验证 |
+| M-005 | 主流程 | 部分已扒 | 未复现 | `gameplay-index.md`、`runtime-index.md` | 无 | 继续细化 UI、读档、开场、地图分支 |
+| M-006 | 单人/双人规则 | 已扒 | 未复现 | `controls-index.md`、`gameplay-index.md` | 无 | 输入和选人实现时保留 P1/P2 |
+| M-007 | 玩家控制位 | 已扒 | 未复现 | `User.as`、`KeyBoardControl.as` | 无 | 实现 `PlayerSlot` |
+| M-008 | 基础键位 | 已扒 | 已复现 | `controls-index.md` | `src/systems/InputSystem.ts`、`src/scenes/TestScene.ts` 双玩家输入验证 | 后续角色控制器读取结构化 input state |
+| M-009 | 方向键归属 | 已扒 | 已复现 | `KeyBoardControl.as`、`controls-index.md` | `InputBindings.p2` 独占方向键，`TestScene` 同时显示 P1/P2 状态 | 后续移动切片继续保持方向键只属于 P2 |
+| M-010 | `keyarray` 四位 | 已扒 | 未复现 | `BaseHero.as`、`controls-index.md` | 无 | 角色控制器实现时转成结构化 input intent |
+| M-011 | 跑步 | 已扒 | 已复现 | `movement-index.md`、`BaseHero.addDoubleCount()` | `src/systems/HeroMovementSystem.ts`、`src/scenes/TestScene.ts` | 后续在正式角色控制器中复用并按真素材继续校准手感 |
+| M-012 | 跳跃 | 已扒 | 已复现 | `movement-index.md`、`BaseHero.jump()`、`BaseHero.step()`、`BaseObject.getDownFloor()` | `src/systems/HeroMovementSystem.ts`、`src/scenes/TestScene.ts` | 水中重复跳与白龙特例继续后置 |
+| M-013 | 下落平台 | 已扒 | 已复现 | `movement-index.md`、`BaseObject.getFallDown()`、`PhysicsWorld.addSubObj()` | `src/systems/HeroMovementSystem.ts`、`src/scenes/TestScene.ts` | 后续补完整平台库并继续校准特殊平台类型 |
+| M-014 | 上/交互/通关 | 已扒 | 已复现 | `levels-index.md`、`BaseHero.checkTransferDoor()`、`Role*.myKeyDown()`、`MainGame.levelClear()` | `src/systems/LevelSystem.ts`、`src/scenes/TestScene.ts` | 传送门可见性判定和按上通关已接入完整纵向爬升 → boss 区 → 通关闭环；完整多关卡流程后置 |
+| M-015 | 技能槽输入 | 已扒 | 已复现 | `skills-input-index.md`、`BaseHero.sendSkill()`、`KeyBoardControl.as`、`User.returnSkillNameBySkillKey()`、`roles-index.md` | `src/systems/InputSystem.ts`、`src/systems/HeroSkillSystem.ts`、`src/scenes/TestScene.ts` | 现代测试场景已按 0..4 普通技能槽触发，Space/小键盘 0 与 H/小键盘 7 不接普通技能；后续 UI 任务只负责可视化与配置 |
+| M-016 | UI 快捷键 | 已扒 | 已复现 | `skills-input-index.md`、`KeyBoardControl.as`、`GameInfo.as`、`RoleInfo.as` | `src/systems/SkillUISystem.ts`、`src/scenes/TestScene.ts` | V 键（P1）/小键盘 -（P2）打开完整心法树面板；五槽键位标签已可视显示；Tab/B/U/L/G/P/1-5 面板快捷键已接入 |
+| M-017 | 角色列表 | 已扒 | 未复现 | `roles-index.md`、`export/hero/Role1.as` 至 `Role5.as`、`User.getRoleName()` | 无 | 角色动作索引已够支撑选择首个角色，后续实现前先补移动和资源 |
+| M-018 | Role1 悟空 | 部分已扒 | 未复现 | `roles-index.md`、`Role1.as`、`gameplay-index.md` | 无 | 战斗任务中补伤害帧、子弹/特效细节和 `sx` 缺口 |
+| M-019 | Role2 唐僧 | 部分已扒 | 未复现 | `roles-index.md`、`Role2.as` | 无 | 推荐首个角色；补 `hit1`、`sgq -> hit5` 的攻击窗口 |
+| M-020 | Role3 八戒 | 部分已扒 | 未复现 | `roles-index.md`、`Role3.as` | 无 | 补伤害帧、`rj` 缺口和盾牌类状态 |
+| M-021 | Role4 沙僧 | 部分已扒 | 未复现 | `roles-index.md`、`Role4.as` | 无 | 补铲/弓攻击表现、`mds` 缺口和技能弹体 |
+| M-022 | Role5 白龙 | 部分已扒 | 未复现 | `roles-index.md`、`Role5.as` | 无 | 补枪/剑形态技能弹体、特殊对象和资源加载 |
+| M-023 | 普攻总规则 | 已扒 | 已复现 | `roles-index.md`、`attack-effects-index.md`、`Role*.normalHit()` | `src/systems/HeroNormalAttackSystem.ts`、`src/scenes/TestScene.ts` | 五角色普攻切片已完成；普攻已接入 `DamageEvent` 首批互伤结算 |
+| M-024 | 角色组合键 | 已扒 | 未复现 | `roles-index.md`、`Role*.myKeyDown()`、`controls-index.md` | 无 | 实现角色控制器时按结构化 input intent 转换 |
+| M-025 | 角色技能效果 | 已扒 | 部分复现 | `skills-input-index.md`、`roles-index.md`、`projectiles-index.md`、`Role*.showSkill()`、`Config.allSklName` | `src/systems/ProjectileSystem.ts`、`src/systems/HeroSkillSystem.ts`、`src/scenes/TestScene.ts` | `Role2.sgq -> hit5` 与 `Role2.smb -> hit4_1/hit4_2` 已接正式槽位、MP 门禁和二段重入；其他角色/技能效果后续分任务扩展 |
+| M-026 | 关卡类命名 | 已扒 | 未复现 | `levels-index.md`、`gameplay-index.md`、`MainGame.newGame()`、`PhysicsWorld.pWorldInit()` | 无 | 资源缺口已确认：`sl11`/`bg11`/`floorBg1` 均不在当前导出；VS-007 采用手工参数 |
+| M-027 | 地图标记 | 已扒 | 已复现 | `levels-index.md`、`BaseGameSence.as`、`PhysicsWorld.addSubObj()`、`StopPoint.as`、`MonsterAppearPoint.as` | `src/systems/LevelSystem.ts`（停点系统、刷怪点逻辑、传送门标记） | VS-007 已实现停点系统、刷怪管理和传送门通关闭环 |
+| M-028 | 第一个关卡 | 已扒 | 已复现 | `levels-index.md`、`Config.initData()`、`StageListener11.as`、`Monster3.as` | `src/systems/Monster3System.ts`、`src/systems/LevelSystem.ts`、`src/scenes/TestScene.ts` | 已实现完整纵向爬升（镜头跟随、云层视差）、周期刷怪（每 6s 2/4 只 Monster30）、停点系统、Monster3 boss 战斗和传送门通关闭环 |
+| M-029 | 世界主循环 | 已扒 | 未复现 | `runtime-index.md` | 无 | 现代架构修正时转为系统更新顺序 |
+| M-030 | 怪物系统 | 已扒 | 部分复现 | `monsters-index.md`、`BaseMonster.as`、`BaseObject.as`、`BaseBullet.as`、`PhysicsWorld.as`、`MainGame.as` | `src/systems/Monster30System.ts`、`src/systems/Monster3System.ts`、`src/scenes/TestScene.ts` | 已有飞行小怪和地面 boss 两种模式；后续扩展为通用怪物/战斗系统 |
+| M-031 | 第一个怪物 | 已扒 | 已复现 | `monsters-index.md`、`Monster30.as`、`StageListener11.as`、`SpecialEffectBullet.as` | `src/systems/Monster30System.ts`、`src/scenes/TestScene.ts` | `Monster30` 首切片已完成；后续在真实角色/关卡中复用 |
+| M-032 | 伤害/受击 | 已扒 | 已复现 | `combat-rules-index.md`、`monsters-index.md`、`BaseBullet.as`、`BaseHero.as`、`BaseMonster.as` | `src/systems/CombatSystem.ts`、`src/systems/HeroCombatSystem.ts`、`src/systems/Monster30System.ts`、`src/systems/HeroNormalAttackSystem.ts`、`src/scenes/TestScene.ts` | 首批互伤闭环已完成；后续技能/子弹继续复用 `DamageEvent` |
+| M-033 | 击退/硬直/保护 | 已扒 | 部分复现 | `combat-rules-index.md`、`BaseObject.setAttackBack()`、`BaseHero.beAttackDoing()`、`BaseObject.setYourFather()` | `src/systems/HeroCombatSystem.ts`、`src/systems/Monster30System.ts`、`src/scenes/TestScene.ts` | 已有玩家受击短保护和 `Monster30 hit1` 击退占位；完整受击条、浮空和原版硬直校准后置 |
+| M-034 | 子弹/技能飞行物 | 部分已扒 | 部分复现 | `projectiles-index.md`、`BaseBullet.as`、`export/bullet/`、`Role2.as`、`Role1.as` 至 `Role5.as` | `src/systems/ProjectileSystem.ts`、`src/scenes/TestScene.ts`、`src/assets/AssetManifest.ts` | 已复现固定位置 `Role2Bullet5`、移动 `Role2Bullet4_1` 以及基于第一段记录点生成的 `Role2Bullet4_2` 二段等价 projectile；下一步转向正式技能槽/MP/冷却逆向 |
+| M-035 | 资源加载策略 | 已扒 | 部分复现 | `README_extract.md`、`modern-architecture.md`、`attack-effects-index.md`、`assets-index.md`、`projectiles-index.md` | `src/assets/AssetManifest.ts` 的状态化 manifest 骨架和 `skill-projectile.role2.sgq.hit5`、`skill-projectile.role2.smb.hit4_1`、`skill-projectile.role2.smb.hit4_2` 缺口登记 | 已确认 Role2 技能 projectile 真素材不在当前主包/备用包导出目录；真素材需补 `TangSeng`/`SpecialUI/TangSeng` 等角色包，不阻塞占位资源切片 |
+| M-036 | 装备 | 未扒 | 未复现 | `my/AllEquipment.as`、xlsx | 无 | 纵向切片稳定后处理 |
+| M-037 | 背包 | 未扒 | 未复现 | `User.as`、UI 待读 | 无 | 装备任务前处理 |
+| M-038 | 掉落 | 未扒 | 未复现 | 怪物/装备表待读 | 无 | 怪物基础索引后处理 |
+| M-039 | 合成 | 未扒 | 未复现 | xlsx、相关 UI 待读 | 无 | 装备和背包之后 |
+| M-040 | 等级/经验 | 未扒 | 未复现 | `User.as`、属性类待读 | 无 | 成长系统阶段处理 |
+| M-041 | 技能学习/绑定 | 已扒 | 已复现 | `skills-input-index.md`、`User.skillbykey`、`SkillControl.as`、`SkillSetControl.as`、`BuySkill.as`、`PassiveSkillControl.as` | `src/systems/SkillUISystem.ts`、`src/systems/HeroSkillSystem.ts`、`src/scenes/TestScene.ts` | 完整心法树面板（5 角色 × 2 树 × 5 技能）、技能学习（上限 10）、升级（双公式+等级门禁）、键盘绑定交互（五槽分配）、被动技能五槽 UI 已全部实现；后续可接入存档持久化 |
+| M-042 | 宠物 | 未扒 | 未复现 | `BasePet`、`User.findCurrentPet()` 待读 | 无 | 核心切片后处理 |
+| M-043 | 法宝 | 未扒 | 未复现 | `export/magicWeapon/` 待读 | 无 | 技能/装备后处理 |
+| M-044 | 存档 | 部分已扒 | 未复现 | `skills-input-index.md`、`User.getSaveObj()`、`MemoryClass.setStorage()`、`SaveInter.as` | 无 | 已确认技能相关存档字段（isstudyskill、skillbykey、ispassiveskill、skillLimit、lhValue、curLevel、roleid 等）、文件格式（AMF+compress+encrypt → gameData/{0-5}.sav）和顶层存储结构；装备/任务/宠物等字段留给对应系统任务 |
+| M-045 | 多人网络 | 暂缓 | 暂缓 | `Config.as` 中 `Client` | 无 | 本地双人优先，网络不进第一批 |
+| M-046 | 支付/活动/礼包 | 暂缓 | 暂缓 | `Config.as`、UI | 无 | 非核心复刻，后续按需判断 |
+| M-047 | 角色普攻特效资源 | 部分已扒 | 部分复现 | `attack-effects-index.md`、`assets-index.md`、`Role*.normalHit()`、`Role*.doHit*()`、`BaseBitmapDataPool.as`、`extracted_flash/resources` | `src/assets/AssetManifest.ts`、`src/systems/HeroNormalAttackSystem.ts`、`src/scenes/TestScene.ts` | 现代占位 key 和可见特效已接入；真实素材与白龙枪形态 `doSingleHit(...)` 资源名仍需后续补提取/P-code |
+
+## 第一批复现门槛
+
+第一批纵向切片开始前，最低门槛如下：
+
+| 切片 | 需要机制 | 当前状态 | 处理 |
+| --- | --- | --- | --- |
+| VS-001 双玩家输入验证 | M-008 基础键位、M-009 方向键归属 | 已扒且已复现 | 已完成 |
+| VS-002 第一个角色动作索引 | M-017 角色列表、M-023 普攻、M-024 组合键、M-025 技能槽/效果 | 角色列表、组合键、普攻和技能分发已扒；推荐 Role2 | 已完成 |
+| VS-003 第一个角色移动切片 | VS-001、VS-002、M-011、M-012、M-013 | 已完成：`HeroMovementSystem.ts` 与 `TestScene.ts` 支持走、跑、双跳和 `ThroughWall` 下穿 | 已完成 |
+| VS-004 五角色普攻与特效切片 | VS-003、M-023、M-047、M-035 | 已完成：五角色普攻状态机、攻击窗口和占位特效已接入测试场景；真实资源仍后补 | 已接入 `VS-006` 首批伤害事件 |
+| VS-005 第一个怪物受击死亡 | M-030 怪物系统、M-031 第一个怪物 | 已完成：`Monster30` 等价怪物可追踪、受击、死亡并移除 | 已接入 `VS-006` 首批互伤闭环 |
+| VS-006 基础伤害闭环 | VS-004、VS-005、M-032、M-033 | 已完成：`DamageEvent`、命中去重、玩家 HP/受击/死亡、`Monster30 hit1` 对玩家造成 `power = 15` 物理伤害 | 已支撑后续 `VS-008` 的技能 projectile 伤害结算 |
+| VS-007 第一个关卡闭环 | M-014 通关交互、M-027 地图标记、M-028 第一个关卡 | 已完成：`Monster3System.ts` 实现 boss 行为、`LevelSystem.ts` 实现 arena/传送门/通关、`TestScene.ts` 接入 boss 区完整闭环 | 下一步扩展完整纵向爬升（云层、周期刷怪、停点）或转向 TASK-SLICE-010 技能 UI |
+| VS-008 一个技能/子弹 | M-025 角色技能效果、M-034 子弹/技能飞行物、M-015 技能槽输入、M-041 技能学习/绑定 | 已完成首个技能 projectile 扩展：`Role2.sgq -> hit5` 固定特效、`Role2.smb -> hit4_1` 移动弹体和 `hit4_2` 二段占位特效均可用 `DamageEvent` 命中 `Monster30`；正式槽位、MP 门禁和 `smb` 二段重入已接入测试场景 | 下一步 `TASK-SETTINGS-011`：细扒完整技能 UI、学习/拖拽绑定和存档字段，或转向 `VS-007` 关卡闭环前置资源 |
+
+## 更新规则
+
+逆向任务完成后：
+
+- 更新 `逆向状态`。
+- 补充 AS3 证据文件和逆向文档链接。
+- 如果已足够支持实现，把下一步指向对应 `VS-*` 或 `TASK-ARCH-*`。
+
+实现任务完成后：
+
+- 更新 `复现状态`。
+- 补充现代产物文件。
+- 同步更新 `docs/tasks/vertical-slices.md`。
+
+如果实现中发现机制没扒清楚：
+
+- 不硬写。
+- 把机制逆向状态退回 `部分已扒` 或 `未扒`。
+- 在 `下一步` 中写明需要新增的 `TASK-SETTINGS-*`。

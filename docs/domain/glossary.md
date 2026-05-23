@@ -1,0 +1,64 @@
+# 领域词汇表
+
+本文维护项目的统一语言。它不是完整 DDD 架构，而是轻量 DDD 约束：同一个领域概念只能有一个推荐代码名，避免不同对话把同一概念写成不同实体。
+
+规则：
+
+- 新增核心代码类型、系统或数据模型前，先查本文。
+- 如果概念已存在，必须使用“推荐代码名”。
+- 如果确实需要新概念，先按 `docs/domain/ubiquitous-language-process.md` 更新本文。
+- 禁止别名不代表 AS3 原名不能出现在逆向文档中；AS3 原名可作为来源证据，但现代代码使用推荐代码名。
+
+## 上下文
+
+- `Input`：键盘、玩家槽位、输入意图。
+- `Runtime`：Phaser 启动、场景、更新循环、系统调度。
+- `Combat`：角色、怪物、移动、攻击、受击、死亡、技能、伤害。
+- `Progression`：装备、背包、掉落、等级、经验、合成。
+- `Save`：存档、读档和持久化数据。
+- `Content`：关卡、地图、资源、动画和配置。
+
+## 统一语言表
+
+| 中文概念 | 推荐代码名 | 类型 | 上下文 | 说明 | 禁止别名 |
+| --- | --- | --- | --- | --- | --- |
+| 玩家槽位 | `PlayerSlot` | Value Object / Type | Input | P1/P2 控制位，不等于角色实体 | `PlayerIndex`, `UserSlot` |
+| 玩家输入状态 | `PlayerInputState` | Type | Input | 单个玩家当前输入意图 | `PlayerInput`, `KeyState`, `ControlState` |
+| 输入快照 | `InputState` | Type | Input | 一帧内 P1/P2 两套玩家输入状态 | `InputSnapshot`, `ControlsState` |
+| 输入绑定 | `InputBindings` | Config / Type | Input | P1/P2 键位映射 | `KeyBindings`, `ControlBindings` |
+| 输入系统 | `InputSystem` | System | Input | 读取键盘并输出玩家输入 | `KeyboardSystem`, `ControlSystem` |
+| 游戏设置 | `GameSettings` | Config | Runtime | 画布、速度等全局轻量配置 | `GameConfig`, `Settings` |
+| 资源清单 | `AssetManifest` | Config | Content | 现代资源键和加载策略 | `ResourceManifest`, `AssetsMap` |
+| 场景 | `Scene` | Phaser Concept | Runtime | Phaser 场景；具体类可用 `BootScene`、`TestScene` | `Screen`, `View` |
+| 英雄 | `Hero` | Entity | Combat | 玩家可控制战斗角色；对应 AS3 `Role*` 行为参考 | `Role`, `Character`, `PlayerCharacter` |
+| 英雄编号 | `HeroId` | Value Object / Type | Combat | 五个可选英雄的稳定编号，对应 AS3 `roleid` 1 至 5 | `RoleId`, `CharacterId` |
+| 英雄普攻模型 | `HeroNormalAttackModel` | Model | Combat | 单个英雄普攻连段、冷却、当前动作和武器形态的运行状态 | `RoleAttackModel`, `AttackState` |
+| 英雄普攻系统 | `HeroNormalAttackSystem` | System | Combat | 根据输入和英雄移动状态触发普攻动作、特效与命中框 | `RoleAttackSystem`, `NormalAttackSystem` |
+| 英雄战斗模型 | `HeroCombatModel` | Model | Combat | 单个英雄生命、受击、死亡、保护和最近伤害事件状态 | `PlayerCombatModel`, `HeroHealthState` |
+| 怪物 | `Monster` | Entity | Combat | 敌方单位 | `Enemy`, `Mob` |
+| 基础对象 | `GameObjectModel` | Model | Runtime / Combat | 现代逻辑对象模型；不要直接照搬 AS3 `BaseObject` | `BaseObject`, `EntityBase` |
+| 技能 | `Skill` | Entity / Config | Combat | 主动技能或技能配置 | `Ability`, `Spell` |
+| 技能绑定 | `SkillBinding` | Value Object / Config | Combat | 单个技能槽中绑定的技能名、等级等最小释放配置 | `AbilityBinding`, `SkillSlotBinding` |
+| 英雄技能配置 | `HeroSkillLoadout` | Config | Combat | 英雄五个普通技能槽的当前绑定集合 | `SkillLoadout`, `AbilityLoadout` |
+| 英雄技能模型 | `HeroSkillModel` | Model | Combat | 单个英雄技能释放所需的 MP、技能配置和当前技能动作状态 | `SkillState`, `ManaState` |
+| 子弹 | `Projectile` | Entity | Combat | 技能飞行物或抛射物 | `Bullet`, `Missile` |
+| 子弹系统 | `ProjectileSystem` | System | Combat | 管理技能飞行物生命周期、命中间隔和释放清理 | `BulletSystem`, `MissileSystem` |
+| 战斗系统 | `CombatSystem` | System | Combat | 伤害事件、命中去重和首批互伤结算函数 | `DamageSystem`, `HitSystem` |
+| 伤害事件 | `DamageEvent` | Value Object | Combat | 一次伤害结算输入 | `HitInfo`, `DamageInfo` |
+| 命中框 | `Hitbox` | Value Object / Component | Combat | 攻击判定区域 | `AttackBox` |
+| 受击框 | `Hurtbox` | Value Object / Component | Combat | 被命中判定区域 | `BodyBox` |
+| 关卡 | `Level` | Entity / Config | Content | 一次可进入、刷怪、通关的流程 | `Stage`, `Mission` |
+| 地图 | `MapData` | Config | Content | 地形、平台、出生点等数据 | `Map`, `TileMapData` |
+| 掉落 | `Drop` | Entity / Config | Progression | 怪物死亡产生的奖励项 | `Loot`, `RewardDrop` |
+| 物品 | `Item` | Entity / Config | Progression | 背包中的基础物品概念 | `Goods`, `InventoryItem` |
+| 装备 | `Equipment` | Entity / Config | Progression | 可穿戴、可提供属性的物品 | `Gear`, `Equip` |
+| 背包 | `Inventory` | Aggregate / Store | Progression | 玩家持有物品集合 | `Bag`, `Backpack` |
+| 存档 | `SaveData` | Data | Save | 可序列化的游戏进度数据 | `GameSave`, `SaveState` |
+
+## AS3 名称映射原则
+
+- AS3 `Role1` 至 `Role5` 在现代领域中归入 `Hero`。
+- AS3 `BaseMonster` 在现代领域中归入 `Monster` 基类或怪物系统参考。
+- AS3 `BaseObject` 是行为参考，不直接成为现代代码基类名。
+- AS3 `Bullet` 相关类在现代领域中优先命名为 `Projectile`。
+- AS3 `StageListener` 相关关卡流程在现代领域中归入 `Level`。

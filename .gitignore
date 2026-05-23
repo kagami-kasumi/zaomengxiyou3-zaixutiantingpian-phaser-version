@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.tmp/
+
+# Local FFDec candidates include several 100MB+ false positives and Windows-hostile paths.
+extracted_flash/ffdec_extract_all/
+extracted_flash/scripts/25034429/
+
+*.log
+*.err.log
+
+# Local personal notes.
+面试.md
+
+.DS_Store
+Thumbs.db

@@ -1,0 +1,11 @@
+{
+  "permissions": [],
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "command": "npm run check:workflow"
+      }
+    ]
+  }
+}

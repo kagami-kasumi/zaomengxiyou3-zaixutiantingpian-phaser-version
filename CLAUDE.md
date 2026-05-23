@@ -1,0 +1,65 @@
+# CLAUDE.md
+
+本项目用文档体系驱动多 AI agent 协作。完整规则见 [AGENTS.md](./AGENTS.md)，本文作为 Claude Code 的快速入口。
+
+## 启动必做
+
+每个新对话开始后，先跑一致性校验：
+
+```bash
+npm run check:workflow
+```
+
+如果校验失败，先修问题再继续。
+
+## 必读文档
+
+| 优先级 | 文档 | 何时读 |
+| --- | --- | --- |
+| 必须 | [AGENTS.md](./AGENTS.md) | 每次对话 |
+| 必须 | [TASK_OUTLINE.md](./TASK_OUTLINE.md) | 每次对话 |
+| 必须 | [docs/tasks/task-board.md](./docs/tasks/task-board.md) | 每次对话 |
+| 按需 | [docs/reverse-engineering/mechanics-index.md](./docs/reverse-engineering/mechanics-index.md) | 涉及玩法/机制时 |
+| 按需 | [docs/tasks/vertical-slices.md](./docs/tasks/vertical-slices.md) | 涉及实现时 |
+| 按需 | [docs/workflow/](./docs/workflow/) | 涉及脚手架维护时 |
+
+## 核心约束
+
+1. 一次对话只做一个 task，除非用户明确要求合并处理。
+2. 任务完成后必须更新相关文档并按项目规则归档。
+3. 不修改 `extracted_flash/`。
+4. AS3 源码是行为参考，不是架构模板。保留可观察行为，用现代方式重写。
+
+## Code Quality Gates
+
+修改 `src/` 后，不要只靠视觉测试。必须运行：
+
+```bash
+npm run test:systems
+npm run build
+```
+
+修改 workflow/task/domain/harness 文档后，必须运行：
+
+```bash
+npm run check:workflow
+```
+
+混合代码和工作流改动时，运行：
+
+```bash
+npm run check:all
+```
+
+完成代码任务前，确认：
+
+- 可受击、可交互、可结算的运行时实体都有稳定 ID；
+- 复杂战斗、关卡、技能、背包、存档或 AI 规则不要堆进 `src/scenes/`；
+- 命中去重、刷怪、停点、输入、技能槽、状态机等规则更新时，同步更新 `tools/system-tests.ts`；
+- 视觉测试通过不等于完成，必须有可自动结束的命令验证。
+
+详见 [docs/workflow/code-quality-gates.md](./docs/workflow/code-quality-gates.md)。
+
+## 技术栈
+
+Phaser 3 + TypeScript + Vite。`npm run dev` 由用户本地启动，Claude 默认不启动开发服务器。
