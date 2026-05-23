@@ -2,9 +2,9 @@ node_modules/
 dist/
 .tmp/
 
-# Local FFDec candidates include several 100MB+ false positives and Windows-hostile paths.
-extracted_flash/ffdec_extract_all/
-extracted_flash/scripts/25034429/
+# Local reverse-engineering extracts. Keep them outside Git unless the repo
+# later introduces a curated, documented extract package.
+extracted_flash/
 
 *.log
 *.err.log
