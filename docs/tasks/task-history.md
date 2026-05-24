@@ -47,6 +47,9 @@
 | TASK-SLICE-011 | 切片 | VS-007 boss 区 + Monster3 + 传送门通关闭环 | M-014、M-028、M-030、VS-007 | `Monster3System.ts`、`LevelSystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-010 | 切片 | 扩展完整技能学习/升级 UI（心法树、升级、拖拽绑定、被动技能） | M-041、M-016、VS-008 | `SkillUISystem.ts`、`HeroSkillSystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md` |
 | TASK-SLICE-012 | 切片 | 扩展 VS-007 完整纵向爬升关（云层、周期刷 Monster30、停点系统、多波次） | M-027、M-028、VS-007 | `LevelSystem.ts`（扩展）、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md` |
+| TASK-SETTINGS-013 | 逆向 | 装备/背包系统索引 | M-036、M-037、VS-010 | `equipment-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-013 | 切片 | 背包最小 UI 与装备穿脱数据切片 | VS-010、M-036、M-037 | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-014 | 逆向 | 掉落/拾取系统索引 | M-038、VS-009 | `drops-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
 
@@ -698,6 +701,96 @@
 验证：
 
 - `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-013
+
+完成时间：
+
+- 2026-05-23
+
+完成内容：
+
+- 细读 `AllEquipment.as`、`MyEquipObj.as`、`User.as`、`BackPack.as`、`BackPackElement.as`、`PackThings.as`、`Config.as` 和 `BaseRoleProperies.as`，建立 `docs/reverse-engineering/equipment-index.md`。
+- 确认装备/物品统一由 `MyEquipObj` 表示，核心 id 是 `fillName`，类型包括 `zbwq/zbfj/zbsp/zbfb/zbsz/zbcb/zbtx/zbwp/wpqhs`。
+- 确认背包四分类：`zblist` 装备、`djlist` 道具、`szlist` 时装、`jnslist` 技能书；已穿戴装备单独存入 `curarray`。
+- 确认背包 UI 每类 5 页、每页 25 格；代码未发现超过 125 格后的硬性阻止，只是 UI 不显示超出部分。
+- 确认穿戴/卸下链路：从背包列表移除，替换旧槽位，更新 `curarray`，通过 `BaseRoleProperies.addEquip/removeEquip` 增减属性，并刷新外观和面板。
+- 确认堆叠物品由 `Config.putQhsInBackPack()` / `putQHsInArray()` 按 `fillName` 合并数量；技能书按 `fillName` 包含 `jns` 进入 `jnslist`。
+- 确认装备/背包存档字段：`bagSaveString`、`curSaveString`、`bagdjSaveString`、`bagszSaveString`、`bagjnsSaveString`、`isshowfashion`。
+- 标记任务定义中的 xlsx 资料表当前不在项目根目录，本轮未使用表格资料。
+- 将 `M-036/M-037` 推进到已扒，`VS-010` 推进到可开始，并新增后续 Ready 任务 `TASK-SLICE-013`。
+
+更新文件：
+
+- `docs/reverse-engineering/equipment-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-013
+
+完成时间：
+
+- 2026-05-24
+
+完成内容：
+
+- 新增 `src/systems/EquipmentSystem.ts`，建立 `EquipmentDefinition`、`EquipmentInstance`、`EquipmentLoadout`、装备类型到槽位映射、角色限制、穿戴/卸下和属性汇总/预览。
+- 新增 `src/systems/InventorySystem.ts`，建立四分类 `InventoryStore`，支持装备实例、可堆叠物品、分类容量、旧装备退回背包和按 `fillName` 堆叠。
+- 新增 `src/systems/EquipmentUISystem.ts`，管理背包面板状态、分类切换、物品/槽位焦点、穿脱命令和属性预览文本。
+- 更新 `src/scenes/TestScene.ts`，为 P1 接入最小背包面板：`B` 开关，`Tab` 切分类，方向键选择/切焦点，`Enter` 穿戴或卸下，`Backspace/Delete` 卸下当前槽位。
+- 种子物品覆盖装备、道具、时装和技能书四类：`ptdcz`、`ptdjs`、`mysz`、`xhz`、`ptnmwsz`、`sms1`、`smbjns2`。
+- 穿戴/卸下后同步 P1 HP/MP 上限，并在面板显示当前属性和选中装备的预览变化。
+- 严格排除掉落、拾取、合成、强化、仓库、赠送、商城、完整法宝效果、真实资源替换和存档。
+- 将 `M-036/M-037` 推进到已复现，`VS-010` 推进到已完成，并把下一任务推荐为 `TASK-SETTINGS-014`。
+
+更新文件：
+
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/systems/EquipmentUISystem.ts`
+- `src/scenes/TestScene.ts`
+- `docs/domain/glossary.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-014
+
+完成时间：
+
+- 2026-05-24
+
+完成内容：
+
+- 细读 `BaseMonster.dropAura()/fallEquip()/fallStone()/addMedicine()`、`FallEquipObj.as`、`Config.putQhsInBackPack()`、`User` 背包查询/时装掉率加成，以及 `Monster3/Monster7/Monster30` 的首批掉落表形状。
+- 新建 `docs/reverse-engineering/drops-index.md`，记录怪物死亡后的掉落入口、掉率修正、动态权重选择、地面掉落物创建位置、拾取入包路径、容量限制和首个 `VS-009` 边界。
+- 确认 `FallEquipObj` 与背包分类关系：`zb -> zblist`，`dj -> Config.putQhsInBackPack()` 后进入 `djlist/jnslist`，`sz -> szlist`。
+- 记录拾取判定疑点：药品 `SmallHP` 有明确碰撞判定，但 `FallEquipObj.colwho()` 未看到显式 `hitTestObject()`；现代 `VS-009` 应采用明确可验收的拾取判定。
+- 将 `M-038` 逆向状态推进为已扒，`VS-009` 推进为可开始，并新增后续 Ready 任务 `TASK-SLICE-014`。
+
+更新文件：
+
+- `docs/reverse-engineering/drops-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
 - `npm run check:workflow` 通过。
 
 ## 执行记录

@@ -22,14 +22,14 @@
 | VS-006 基础伤害闭环 | 已完成 | 玩家与怪物互相造成伤害 | VS-004、VS-005、M-032、M-033、`combat-rules-index.md` | `CombatSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`TestScene.ts` | 玩家和怪物血量都可变化 |
 | VS-007 第一个关卡闭环 | 已完成 | 完整纵向爬升关（云层、周期刷怪、停点、boss 战斗、通关） | M-014、M-026、M-027、M-028、M-030、M-031 | `Monster3System.ts`、`LevelSystem.ts`、`TestScene.ts` | 纵向爬升（镜头跟随、云层视差）→ 周期刷怪（每 6s 2/4 只 Monster30）→ 停点系统（4 停点、清波解锁）→ boss 区触发 → Monster3 战斗 → 击杀 → 传送门出现 → 按上通关全部完成 |
 | VS-008 一个技能/子弹 | 已完成 | 第一个角色释放一个技能或子弹 | M-025、M-034、M-015、M-041、`projectiles-index.md`、`skills-input-index.md` | `ProjectileSystem.ts`、`HeroSkillSystem.ts`、`SkillUISystem.ts`、`TestScene.ts`、`AssetManifest.ts`、`skills-input-index.md` | 已完成 projectile + 正式槽位 + MP 门禁 + 二段重入 + 五槽技能栏 + 可配置 loadout + 完整心法树面板 + 技能学习/升级 + 键盘绑定 + 被动技能五槽 UI；下一步扩展其他角色技能 projectile 或转向装备/背包系统 |
-| VS-009 掉落和拾取 | 暂缓 | 怪物死亡掉落物品并可拾取 | M-036、M-038 | DropSystem、ItemData | 怪物死亡生成可拾取物 |
-| VS-010 背包最小 UI | 暂缓 | 打开背包并显示物品 | M-037 | UI、InventoryStore | 能看到拾取物 |
+| VS-009 掉落和拾取 | 可开始 | 怪物死亡掉落物品并可拾取 | M-036、M-037、M-038、`drops-index.md` | DropSystem、ItemData、现有 Inventory/Equipment 数据 | 怪物死亡生成可见地面物；玩家拾取后进入装备/道具背包并有反馈 |
+| VS-010 背包最小 UI | 已完成 | 打开背包并显示分类物品，支持首批装备穿脱 | M-036、M-037、`equipment-index.md` | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts` | `B` 打开背包；可切换装备/道具/时装/技能书分类；可穿戴/卸下种子装备并更新槽位与属性预览 |
 | VS-011 存档最小闭环 | 暂缓 | 保存/读取当前进度 | M-044 | SaveSystem | 刷新后能恢复基础状态 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-010`：扩展完整技能学习/升级 UI（心法树、升级、拖拽绑定、被动技能）。`TASK-SETTINGS-011` 已提供完整现代数据模型，可直接按最小范围实现。
-2. 后续可扩展 `VS-007` 完整纵向爬升关（云层、周期刷 Monster30、停点系统），或转向装备/背包系统。
+1. `TASK-SLICE-014`：实现 `VS-009` 掉落和拾取切片，复用 `drops-index.md`、现有背包/装备数据和怪物死亡链路。
+2. 后续再扩展药品、aura、强化石或完整怪物掉落表。
 
 ## 切片详情
 
@@ -303,6 +303,62 @@
 - `skills-input-index.md` 能回答哪个键触发哪个槽、槽位如何绑定技能、MP 如何扣、何时不能释放、以及 `smb` 二段为何允许重入。
 - 测试场景中 P1 的 Y 触发 `sgq`，L 触发 `smb`；P2 切到 Role2 后，小键盘 8/3 遵循同一槽位规则。
 - 空槽、MP 不足、死亡/受击、普攻中、`sgq` 活跃中或 `smb hit4_1` 以外的攻击状态下，普通技能键无效果；调试状态可观察 MP 扣减和拦截原因。
+
+### VS-009 掉落和拾取
+
+状态：可开始。
+
+依赖：
+
+- M-036 装备已扒并已有最小装备数据。
+- M-037 背包已扒并已有分类背包/堆叠切片。
+- M-038 掉落已扒，见 `docs/reverse-engineering/drops-index.md`。
+
+建议首批范围：
+
+- 怪物死亡后生成一个可见地面物，位置在怪物上方约 100 像素。
+- 掉落物至少覆盖一个装备 `bigtype = "zb"` 和一个道具 `bigtype = "dj"`。
+- 装备拾取后作为独立实例进入装备背包；道具同名时堆叠数量增加。
+- 背包满时不拾取，地面物保留并给出现代 UI 反馈。
+- 成功拾取后地面物向上淡出或用等价反馈移除。
+
+禁止范围：
+
+- 不做药品、aura、强化石、完整怪物掉落表、合成、商城或存档。
+- 不追求照搬 `FallEquipObj` 疑似无显式碰撞的拾取写法；现代侧应使用明确可验收的拾取判定。
+
+推荐任务：
+
+- `TASK-SLICE-014`
+
+### VS-010 背包最小 UI
+
+状态：已完成。
+
+依赖：
+
+- M-036 装备已扒并已复现首切片。
+- M-037 背包已扒并已复现首切片。
+- `equipment-index.md` 已确认 `MyEquipObj` 字段、四分类背包、`curarray` 已穿戴列表、穿戴/卸下链路和属性结算方向。
+
+实际结果：
+
+- 新增 `src/systems/EquipmentSystem.ts`：定义 `EquipmentDefinition`、`EquipmentInstance`、`EquipmentLoadout`、装备类型到槽位映射、角色限制、穿戴/卸下和属性汇总/预览。
+- 新增 `src/systems/InventorySystem.ts`：定义四分类 `InventoryStore`，支持装备实例、可堆叠物品、分类容量、旧装备退回背包和按 `fillName` 堆叠。
+- 新增 `src/systems/EquipmentUISystem.ts`：管理背包面板状态、分类切换、物品/槽位焦点、穿脱命令和属性预览文本。
+- 更新 `src/scenes/TestScene.ts`：加入 P1 最小背包面板，`B` 开关，`Tab` 切换装备/道具/时装/技能书，方向键切换焦点和选择，`Enter` 穿戴或卸下，`Backspace/Delete` 卸下槽位。
+- 种子数据覆盖唐僧武器 `ptdcz`、防具 `ptdjs`、通用饰品 `mysz/xhz`、时装 `ptnmwsz`、堆叠道具 `sms1` 和技能书 `smbjns2`。
+- 穿戴/卸下后会同步 P1 的 HP/MP 上限，并在面板内显示当前属性和选中装备的预览变化。
+
+边界：
+
+- 不实现掉落、拾取、合成、强化、仓库、赠送、商城、真实资源替换、完整法宝效果或存档。
+- 只做最小可验证 UI 和数据切片，完整装备表仍后置。
+
+验证：
+
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
 
 ## 更新规则
 

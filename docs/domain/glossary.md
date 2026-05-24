@@ -53,6 +53,12 @@
 | 物品 | `Item` | Entity / Config | Progression | 背包中的基础物品概念 | `Goods`, `InventoryItem` |
 | 装备 | `Equipment` | Entity / Config | Progression | 可穿戴、可提供属性的物品 | `Gear`, `Equip` |
 | 背包 | `Inventory` | Aggregate / Store | Progression | 玩家持有物品集合 | `Bag`, `Backpack` |
+| 装备配置 | `EquipmentDefinition` | Config | Progression | 只读装备/物品静态数据，保留原版 `fillName/type/user/quality` 映射 | `GearDefinition`, `EquipDefinition` |
+| 装备实例 | `EquipmentInstance` | Entity | Progression | 背包中一件可穿戴装备的运行实例 | `GearInstance`, `EquipInstance` |
+| 装备栏 | `EquipmentLoadout` | Aggregate / Store | Progression | 当前已穿戴装备的槽位集合 | `GearLoadout`, `EquipSlots` |
+| 背包系统 | `InventorySystem` | System | Progression | 管理分类背包、堆叠物品、装备进出背包 | `BagSystem`, `BackpackSystem` |
+| 装备系统 | `EquipmentSystem` | System | Progression | 管理装备槽位、角色限制和属性汇总 | `GearSystem`, `EquipSystem` |
+| 装备 UI 系统 | `EquipmentUISystem` | System | Progression | 管理背包/装备面板状态、选择、穿脱命令和属性预览文本 | `InventoryUISystem`, `GearUISystem` |
 | 存档 | `SaveData` | Data | Save | 可序列化的游戏进度数据 | `GameSave`, `SaveState` |
 
 ## AS3 名称映射原则

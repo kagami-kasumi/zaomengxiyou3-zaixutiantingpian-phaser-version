@@ -64,10 +64,10 @@
 | M-033 | 击退/硬直/保护 | 已扒 | 部分复现 | `combat-rules-index.md`、`BaseObject.setAttackBack()`、`BaseHero.beAttackDoing()`、`BaseObject.setYourFather()` | `src/systems/HeroCombatSystem.ts`、`src/systems/Monster30System.ts`、`src/scenes/TestScene.ts` | 已有玩家受击短保护和 `Monster30 hit1` 击退占位；完整受击条、浮空和原版硬直校准后置 |
 | M-034 | 子弹/技能飞行物 | 部分已扒 | 部分复现 | `projectiles-index.md`、`BaseBullet.as`、`export/bullet/`、`Role2.as`、`Role1.as` 至 `Role5.as` | `src/systems/ProjectileSystem.ts`、`src/scenes/TestScene.ts`、`src/assets/AssetManifest.ts` | 已复现固定位置 `Role2Bullet5`、移动 `Role2Bullet4_1` 以及基于第一段记录点生成的 `Role2Bullet4_2` 二段等价 projectile；下一步转向正式技能槽/MP/冷却逆向 |
 | M-035 | 资源加载策略 | 已扒 | 部分复现 | `README_extract.md`、`modern-architecture.md`、`attack-effects-index.md`、`assets-index.md`、`projectiles-index.md` | `src/assets/AssetManifest.ts` 的状态化 manifest 骨架和 `skill-projectile.role2.sgq.hit5`、`skill-projectile.role2.smb.hit4_1`、`skill-projectile.role2.smb.hit4_2` 缺口登记 | 已确认 Role2 技能 projectile 真素材不在当前主包/备用包导出目录；真素材需补 `TangSeng`/`SpecialUI/TangSeng` 等角色包，不阻塞占位资源切片 |
-| M-036 | 装备 | 未扒 | 未复现 | `my/AllEquipment.as`、xlsx | 无 | 纵向切片稳定后处理 |
-| M-037 | 背包 | 未扒 | 未复现 | `User.as`、UI 待读 | 无 | 装备任务前处理 |
-| M-038 | 掉落 | 未扒 | 未复现 | 怪物/装备表待读 | 无 | 怪物基础索引后处理 |
-| M-039 | 合成 | 未扒 | 未复现 | xlsx、相关 UI 待读 | 无 | 装备和背包之后 |
+| M-036 | 装备 | 已扒 | 已复现 | `equipment-index.md`、`my/AllEquipment.as`、`my/MyEquipObj.as`、`export/pack/BackPack.as`、`base/BaseRoleProperies.as` | `src/systems/EquipmentSystem.ts`、`src/systems/EquipmentUISystem.ts`、`src/scenes/TestScene.ts` | 最小装备槽位、角色限制、穿戴/卸下和属性预览已完成；完整法宝、强化和真实装备表后置 |
+| M-037 | 背包 | 已扒 | 已复现 | `equipment-index.md`、`user/User.as`、`export/pack/BackPackElement.as`、`export/pack/PackThings.as`、`config/Config.as` | `src/systems/InventorySystem.ts`、`src/systems/EquipmentUISystem.ts`、`src/scenes/TestScene.ts` | 分类背包、堆叠数量、种子装备/道具/时装/技能书已完成；下一步 `TASK-SETTINGS-014` 逆向掉落/拾取 |
+| M-038 | 掉落 | 已扒 | 未复现 | `drops-index.md`、`BaseMonster.as`、`my/FallEquipObj.as`、`Config.as`、`User.as`、`Monster3.as`、`Monster7.as` | 无 | `TASK-SLICE-014`：实现 `VS-009` 掉落和拾取切片 |
+| M-039 | 合成 | 未扒 | 未复现 | xlsx、`export/strength/` 待读 | 无 | 背包首切片之后，先补 xlsx 资料表或按 AS3 合成 UI 逆向 |
 | M-040 | 等级/经验 | 未扒 | 未复现 | `User.as`、属性类待读 | 无 | 成长系统阶段处理 |
 | M-041 | 技能学习/绑定 | 已扒 | 已复现 | `skills-input-index.md`、`User.skillbykey`、`SkillControl.as`、`SkillSetControl.as`、`BuySkill.as`、`PassiveSkillControl.as` | `src/systems/SkillUISystem.ts`、`src/systems/HeroSkillSystem.ts`、`src/scenes/TestScene.ts` | 完整心法树面板（5 角色 × 2 树 × 5 技能）、技能学习（上限 10）、升级（双公式+等级门禁）、键盘绑定交互（五槽分配）、被动技能五槽 UI 已全部实现；后续可接入存档持久化 |
 | M-042 | 宠物 | 未扒 | 未复现 | `BasePet`、`User.findCurrentPet()` 待读 | 无 | 核心切片后处理 |

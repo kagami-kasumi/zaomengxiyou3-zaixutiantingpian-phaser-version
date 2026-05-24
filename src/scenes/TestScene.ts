@@ -109,6 +109,7 @@ import {
   getSpawnPosition,
   isBossDead,
   isBossZoneTriggered,
+  markStopPointWaveSpawned,
   markBossTriggered,
   revealTransferDoor,
   tryClearArena,
@@ -118,6 +119,30 @@ import {
   type BossArenaModel,
   type VerticalClimbState,
 } from '../systems/LevelSystem';
+import {
+  calculateEffectiveStats,
+  createEmptyEquipmentLoadout,
+  createSeedEquipmentRegistry,
+  HeroNamesById,
+  type EquipmentDefinition,
+  type EquipmentLoadout,
+  type HeroBaseStats,
+} from '../systems/EquipmentSystem';
+import {
+  createSeedInventoryStore,
+  type InventoryStore,
+} from '../systems/InventorySystem';
+import {
+  buildInventoryPanelLines,
+  createInventoryUIState,
+  equipSelectedInventoryEntry,
+  moveInventorySelection,
+  selectNextInventoryCategory,
+  setInventoryFocus,
+  toggleInventoryUI,
+  unequipSelectedLoadoutSlot,
+  type InventoryUIState,
+} from '../systems/EquipmentUISystem';
 
 type PlayerView = {
   slot: PlayerSlot;
@@ -127,6 +152,7 @@ type PlayerView = {
   combat: HeroCombatModel;
   normalAttack: HeroNormalAttackModel;
   skill: HeroSkillModel;
+  baseStats: HeroBaseStats;
 };
 
 type MonsterView = {
@@ -192,6 +218,12 @@ type SkillPanelView = {
   texts: Phaser.GameObjects.Text[];
 };
 
+type InventoryPanelView = {
+  container: Phaser.GameObjects.Container;
+  bg: Phaser.GameObjects.Graphics;
+  text: Phaser.GameObjects.Text;
+};
+
 export class TestScene extends Phaser.Scene {
   private inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
@@ -225,6 +257,15 @@ export class TestScene extends Phaser.Scene {
   private panelTreeUpgradeKey?: Phaser.Input.Keyboard.Key;
   private panelPassiveKey?: Phaser.Input.Keyboard.Key;
   private panelSkillSelectKeys?: Phaser.Input.Keyboard.Key[];
+  private inventoryToggleKey?: Phaser.Input.Keyboard.Key;
+  private inventoryTabKey?: Phaser.Input.Keyboard.Key;
+  private inventoryUpKey?: Phaser.Input.Keyboard.Key;
+  private inventoryDownKey?: Phaser.Input.Keyboard.Key;
+  private inventoryLeftKey?: Phaser.Input.Keyboard.Key;
+  private inventoryRightKey?: Phaser.Input.Keyboard.Key;
+  private inventoryConfirmKey?: Phaser.Input.Keyboard.Key;
+  private inventoryBackspaceKey?: Phaser.Input.Keyboard.Key;
+  private inventoryDeleteKey?: Phaser.Input.Keyboard.Key;
   private p1SkillUI: SkillUIState = createSkillUIState();
   private p2SkillUI: SkillUIState = createSkillUIState();
   private p1SkillBar?: SkillBarView;
@@ -240,6 +281,11 @@ export class TestScene extends Phaser.Scene {
   private clearOverlay?: Phaser.GameObjects.Container;
   private arenaWasActive = false;
   private bossSpawnedOnce = false;
+  private equipmentRegistry: Record<string, EquipmentDefinition> = createSeedEquipmentRegistry();
+  private inventoryStore: InventoryStore = createSeedInventoryStore(this.equipmentRegistry);
+  private equipmentLoadout: EquipmentLoadout = createEmptyEquipmentLoadout();
+  private inventoryUI: InventoryUIState = createInventoryUIState();
+  private inventoryPanel?: InventoryPanelView;
   private movementPlatforms: MovementPlatform[] = [];
   private movementBounds: HeroMovementBounds = {
     left: 0,
@@ -349,6 +395,7 @@ export class TestScene extends Phaser.Scene {
     this.inputSystem = createInputSystem(this);
     this.createHeroDebugKeys();
     this.createSkillUIKeys();
+    this.createInventoryUIKeys();
     this.p1SkillBar = this.createSkillBar('p1', 44, 540);
     this.p2SkillBar = this.createSkillBar('p2', 488, 540);
     this.p1SkillBar.container.setScrollFactor(0).setDepth(80);
@@ -357,6 +404,8 @@ export class TestScene extends Phaser.Scene {
     this.p2SkillPanel = this.createSkillPanel('p2');
     this.p1SkillPanel.container.setScrollFactor(0).setDepth(85);
     this.p2SkillPanel.container.setScrollFactor(0).setDepth(85);
+    this.inventoryPanel = this.createInventoryPanel();
+    this.inventoryPanel.container.setScrollFactor(0).setDepth(95);
     this.bossView = this.createBossView();
     this.bossDoorView = this.createTransferDoorView();
     this.bossArenaLabel = this.add.text(470, 50, '', {
@@ -397,7 +446,10 @@ export class TestScene extends Phaser.Scene {
 
     this.updateAttackEffectViews(time);
     this.updateAttackFlashes(time);
-    this.handleSkillUIKeys();
+    this.handleInventoryUIKeys();
+    if (!this.inventoryUI.isOpen) {
+      this.handleSkillUIKeys();
+    }
     this.updateSkillBars();
     if (this.p1SkillPanel) {
       this.updateSkillPanel(
@@ -417,9 +469,10 @@ export class TestScene extends Phaser.Scene {
         this.p2SkillLearning,
       );
     }
-    this.updateBossArena(input, time);
+    this.updateBossArena(input, time, delta);
     this.updateBossArenaVisuals();
     this.updateCloudVisuals();
+    this.updateInventoryPanel();
     this.updateStatusText(input);
     this.lastInput = input;
   }
@@ -552,9 +605,15 @@ export class TestScene extends Phaser.Scene {
     const normalAttack = createHeroNormalAttack(heroId);
     const combat = createHeroCombat(slot);
     const skill = createHeroSkillModel();
+    const baseStats = {
+      maxHp: combat.maxHp,
+      maxMp: skill.maxMp,
+      power: 0,
+      defense: 0,
+    };
     label.setText(formatHeroLabel(slot, normalAttack, combat));
 
-    return { slot, sprite, label, combat, normalAttack, skill };
+    return { slot, sprite, label, combat, normalAttack, skill, baseStats };
   }
 
   private createMonsterView(monster: Monster30Model): MonsterView {
@@ -639,6 +698,45 @@ export class TestScene extends Phaser.Scene {
       keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR),
       keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE),
     ];
+  }
+
+  private createInventoryUIKeys(): void {
+    const keyboard = this.input.keyboard;
+    if (!keyboard) {
+      return;
+    }
+
+    this.inventoryToggleKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+    this.inventoryTabKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
+    this.inventoryUpKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.inventoryDownKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.inventoryLeftKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.inventoryRightKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    this.inventoryConfirmKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.inventoryBackspaceKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
+    this.inventoryDeleteKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DELETE);
+  }
+
+  private createInventoryPanel(): InventoryPanelView {
+    const container = this.add.container(0, 0);
+    container.setVisible(false);
+
+    const bg = this.add.graphics();
+    bg.fillStyle(0x101724, 0.96);
+    bg.fillRoundedRect(24, 54, 560, 480, 8);
+    bg.lineStyle(1, 0x72d2b1, 0.85);
+    bg.strokeRoundedRect(24, 54, 560, 480, 8);
+    container.add(bg);
+
+    const text = this.add.text(40, 68, '', {
+      color: '#dfe8f5',
+      fontFamily: 'Courier New, monospace',
+      fontSize: '12px',
+      lineSpacing: 3,
+    });
+    container.add(text);
+
+    return { container, bg, text };
   }
 
   private createSkillBar(slot: PlayerSlot, x: number, y: number): SkillBarView {
@@ -852,6 +950,93 @@ export class TestScene extends Phaser.Scene {
     bar.panelIndicator.setText(ui.skillPanelOpen ? '[V] panel open' : '');
   }
 
+  private handleInventoryUIKeys(): void {
+    if (this.inventoryToggleKey && Phaser.Input.Keyboard.JustDown(this.inventoryToggleKey)) {
+      toggleInventoryUI(this.inventoryUI);
+      if (this.inventoryUI.isOpen) {
+        this.p1SkillUI.skillPanelOpen = false;
+        this.p2SkillUI.skillPanelOpen = false;
+      }
+    }
+
+    if (!this.inventoryUI.isOpen) {
+      return;
+    }
+
+    if (this.inventoryTabKey && Phaser.Input.Keyboard.JustDown(this.inventoryTabKey)) {
+      selectNextInventoryCategory(this.inventoryUI, this.inventoryStore, 1);
+    }
+
+    if (this.inventoryLeftKey && Phaser.Input.Keyboard.JustDown(this.inventoryLeftKey)) {
+      setInventoryFocus(this.inventoryUI, 'inventory');
+    }
+
+    if (this.inventoryRightKey && Phaser.Input.Keyboard.JustDown(this.inventoryRightKey)) {
+      setInventoryFocus(this.inventoryUI, 'loadout');
+    }
+
+    if (this.inventoryUpKey && Phaser.Input.Keyboard.JustDown(this.inventoryUpKey)) {
+      moveInventorySelection(this.inventoryUI, this.inventoryStore, -1);
+    }
+
+    if (this.inventoryDownKey && Phaser.Input.Keyboard.JustDown(this.inventoryDownKey)) {
+      moveInventorySelection(this.inventoryUI, this.inventoryStore, 1);
+    }
+
+    if (this.inventoryConfirmKey && Phaser.Input.Keyboard.JustDown(this.inventoryConfirmKey)) {
+      if (this.inventoryUI.focus === 'inventory') {
+        if (equipSelectedInventoryEntry({
+          ui: this.inventoryUI,
+          store: this.inventoryStore,
+          loadout: this.equipmentLoadout,
+          heroName: this.getInventoryHeroName(),
+        })) {
+          this.syncInventoryHeroStats();
+        }
+      } else if (unequipSelectedLoadoutSlot({
+        ui: this.inventoryUI,
+        store: this.inventoryStore,
+        loadout: this.equipmentLoadout,
+      })) {
+        this.syncInventoryHeroStats();
+      }
+    }
+
+    const unequipPressed =
+      (this.inventoryBackspaceKey && Phaser.Input.Keyboard.JustDown(this.inventoryBackspaceKey)) ||
+      (this.inventoryDeleteKey && Phaser.Input.Keyboard.JustDown(this.inventoryDeleteKey));
+    if (unequipPressed && unequipSelectedLoadoutSlot({
+      ui: this.inventoryUI,
+      store: this.inventoryStore,
+      loadout: this.equipmentLoadout,
+    })) {
+      this.syncInventoryHeroStats();
+    }
+  }
+
+  private updateInventoryPanel(): void {
+    if (!this.inventoryPanel) {
+      return;
+    }
+
+    if (!this.inventoryUI.isOpen) {
+      this.inventoryPanel.container.setVisible(false);
+      return;
+    }
+
+    this.inventoryPanel.container.setVisible(true);
+    const player = this.getInventoryPlayer();
+    const lines = buildInventoryPanelLines({
+      store: this.inventoryStore,
+      loadout: this.equipmentLoadout,
+      baseStats: player?.baseStats ?? { maxHp: 120, maxMp: 160, power: 0, defense: 0 },
+      playerLabel: player?.slot.toUpperCase() ?? 'P1',
+      heroName: this.getInventoryHeroName(),
+      ui: this.inventoryUI,
+    });
+    this.inventoryPanel.text.setText(lines.join('\n'));
+  }
+
   private handleSkillUIKeys(): void {
     this.handleSkillUIForPlayer(
       'p1',
@@ -1047,7 +1232,7 @@ export class TestScene extends Phaser.Scene {
     return { frame, glow, label };
   }
 
-  private updateBossArena(input: InputState, time: number): void {
+  private updateBossArena(input: InputState, time: number, delta: number): void {
     if (this.bossArena.state === 'cleared') {
       return;
     }
@@ -1070,7 +1255,7 @@ export class TestScene extends Phaser.Scene {
       updateMonster3(
         this.bossArena.boss,
         this.getMonster3Targets(),
-        this.game.loop.delta,
+        delta,
       );
 
       if (!this.bossSpawnedOnce && this.bossArena.boss.state !== 'dead') {
@@ -1540,7 +1725,7 @@ export class TestScene extends Phaser.Scene {
       }
 
       const damageEvent = createDamageEvent({
-        sourceId: 'monster30',
+        sourceId: monster.id,
         targetId: player.slot,
         attackId: activeAttack.attackId,
         actionName: activeAttack.actionName,
@@ -1615,8 +1800,16 @@ export class TestScene extends Phaser.Scene {
       const alivePlayerCount = this.playerViews.filter(
         (p) => p.movement && !isHeroCombatDead(p.combat),
       ).length;
+      const activeStopIndexBeforeSpawn = this.verticalClimb.activeStopIndex;
       if (updateVerticalClimbSpawn(this.verticalClimb, delta, activeMonsterCount, alivePlayerCount)) {
-        this.spawnMonster30Wave();
+        const spawnedCount = this.spawnMonster30Wave();
+        if (activeStopIndexBeforeSpawn >= 0) {
+          markStopPointWaveSpawned(
+            this.verticalClimb,
+            activeStopIndexBeforeSpawn,
+            spawnedCount,
+          );
+        }
       }
 
       if (isBossZoneTriggered(this.verticalClimb, playerMinY)) {
@@ -1659,12 +1852,12 @@ export class TestScene extends Phaser.Scene {
     }
   }
 
-  private spawnMonster30Wave(): void {
+  private spawnMonster30Wave(): number {
     const alivePlayers = this.playerViews.filter(
       (p) => p.movement && !isHeroCombatDead(p.combat),
     );
     if (alivePlayers.length === 0) {
-      return;
+      return 0;
     }
 
     const playerCount = alivePlayers.length;
@@ -1680,6 +1873,8 @@ export class TestScene extends Phaser.Scene {
       const monster = createMonster30(pos.x, pos.y);
       this.monster30s.push(monster);
     }
+
+    return count;
   }
 
   private finalizeCameraPosition(): void {
@@ -2057,8 +2252,47 @@ export class TestScene extends Phaser.Scene {
       `skill cast:${formatSkillEvent(this.lastSkillEvent)}`,
       `skill ui p1:${formatSkillUIState(this.p1SkillUI)}`,
       `skill ui p2:${formatSkillUIState(this.p2SkillUI)}`,
+      `inventory:${formatInventoryUIState(this.inventoryUI)}`,
       `damage:${formatDamageEvent(this.lastDamageEvent)}`,
     ]);
+  }
+
+  private getInventoryPlayer(): PlayerView | undefined {
+    return this.playerViews.find((player) => player.slot === 'p1');
+  }
+
+  private getInventoryHeroName(): string {
+    const player = this.getInventoryPlayer();
+    if (!player) {
+      return HeroNamesById[2];
+    }
+
+    return HeroNamesById[player.normalAttack.heroId] ?? `R${player.normalAttack.heroId}`;
+  }
+
+  private syncInventoryHeroStats(): void {
+    const player = this.getInventoryPlayer();
+    if (!player) {
+      return;
+    }
+
+    const previousMaxHp = player.combat.maxHp;
+    const previousMaxMp = player.skill.maxMp;
+    const stats = calculateEffectiveStats(player.baseStats, this.equipmentLoadout);
+    const hpDelta = stats.maxHp - previousMaxHp;
+    const mpDelta = stats.maxMp - previousMaxMp;
+
+    player.combat.maxHp = stats.maxHp;
+    player.combat.hp = Math.min(
+      Math.max(0, player.combat.hp + Math.max(0, hpDelta)),
+      player.combat.maxHp,
+    );
+    player.skill.maxMp = stats.maxMp;
+    player.skill.mp = Math.min(
+      Math.max(0, player.skill.mp + Math.max(0, mpDelta)),
+      player.skill.maxMp,
+    );
+    this.refreshPlayerHeroView(player);
   }
 
   private refreshPlayerHeroView(player: PlayerView): void {
@@ -2192,6 +2426,16 @@ function formatSkillUIState(ui: SkillUIState): string {
   return [
     `sel:${ui.selectedSlotIndex}`,
     `panel:${ui.skillPanelOpen ? 'open' : 'closed'}`,
+  ].join(' | ');
+}
+
+function formatInventoryUIState(ui: InventoryUIState): string {
+  return [
+    ui.isOpen ? 'open' : 'closed',
+    `cat:${ui.activeCategory}`,
+    `focus:${ui.focus}`,
+    `sel:${ui.focus === 'inventory' ? ui.selectedIndex : ui.selectedSlotIndex}`,
+    ui.message,
   ].join(' | ');
 }
 

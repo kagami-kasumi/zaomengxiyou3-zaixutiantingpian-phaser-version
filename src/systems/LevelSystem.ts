@@ -97,6 +97,7 @@ export type StopPointDef = {
   y: number;
   cleared: boolean;
   waveSpawned: boolean;
+  waveHadActiveMonsters: boolean;
 };
 
 export type VerticalClimbTuning = {
@@ -118,10 +119,10 @@ export const defaultClimbTuning: VerticalClimbTuning = {
   duoPlayerSpawnCount: 4,
   bossTriggerY: 180,
   stopPoints: [
-    { y: 2000, cleared: false, waveSpawned: false },
-    { y: 1500, cleared: false, waveSpawned: false },
-    { y: 1000, cleared: false, waveSpawned: false },
-    { y: 500, cleared: false, waveSpawned: false },
+    { y: 2000, cleared: false, waveSpawned: false, waveHadActiveMonsters: false },
+    { y: 1500, cleared: false, waveSpawned: false, waveHadActiveMonsters: false },
+    { y: 1000, cleared: false, waveSpawned: false, waveHadActiveMonsters: false },
+    { y: 500, cleared: false, waveSpawned: false, waveHadActiveMonsters: false },
   ],
   cloudLayers: [
     { parallaxSpeed: 0.12, count: 6 },
@@ -151,6 +152,7 @@ export function createVerticalClimbState(viewportHeight: number): VerticalClimbS
       y: sp.y,
       cleared: sp.cleared,
       waveSpawned: sp.waveSpawned,
+      waveHadActiveMonsters: sp.waveHadActiveMonsters,
     })),
     activeStopIndex: -1,
     bossTriggered: false,
@@ -224,6 +226,11 @@ export function updateVerticalClimbSpawn(
     }
 
     if (activeMonsterCount > 0) {
+      stopPoint.waveHadActiveMonsters = true;
+      return false;
+    }
+
+    if (!stopPoint.waveHadActiveMonsters) {
       return false;
     }
 
@@ -239,6 +246,21 @@ export function updateVerticalClimbSpawn(
 
   state.spawnTimerMs = defaultClimbTuning.spawnIntervalMs;
   return true;
+}
+
+export function markStopPointWaveSpawned(
+  state: VerticalClimbState,
+  stopIndex: number,
+  spawnedCount: number,
+): void {
+  const stopPoint = state.stopPoints[stopIndex];
+  if (!stopPoint) {
+    return;
+  }
+
+  if (spawnedCount > 0) {
+    stopPoint.waveHadActiveMonsters = true;
+  }
 }
 
 export function getSpawnCount(playerCount: number): number {
