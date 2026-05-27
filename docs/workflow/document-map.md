@@ -40,13 +40,16 @@
 
 - `AGENTS.md`
   - Agent 强规则入口。
-  - 维护跨对话执行协议、禁止事项和必读文档。
+  - 维护任务分级、冷启动阅读分流、正式游戏 task 执行协议和禁止事项。
 - `CLAUDE.md`
   - Claude Code 快速入口。
   - 摘要列出启动校验、核心约束和代码质量门禁。
 - `docs/workflow/task-generation.md`
   - 标准游戏任务生成规范。
   - 说明如何从机制缺口、切片缺口或工程基础缺口生成任务。
+- `docs/workflow/agent-protocol.md`
+  - Agent 详细执行协议。
+  - 维护正式游戏 task、代码任务、Git、对话收束、任务生成和统一语言的细则，避免 `AGENTS.md` 过长。
 - `docs/workflow/code-quality-gates.md`
   - AI 代码质量门禁。
   - 规定自动验证、系统测试触发条件、场景层边界和 Git 工作要求。

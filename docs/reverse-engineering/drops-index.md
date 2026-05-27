@@ -1,6 +1,6 @@
 # 掉落/拾取系统索引
 
-本文记录 `TASK-SETTINGS-014` 对怪物掉落和拾取系统的逆向结果。范围只覆盖 `VS-009` 需要的事实：怪物死亡入口、掉落概率、掉落对象、拾取入包路径、容量限制和首个现代切片边界。不展开完整装备表、合成、强化、商城、法宝或存档实现。
+本文记录 `TASK-SETTINGS-014` 和 `TASK-SETTINGS-015` 对怪物掉落和拾取系统的逆向结果。范围覆盖 `VS-009` 已实现的最小装备/道具掉落，也补齐药品、aura、强化石和 `Monster3` 至 `Monster30` 掉落表边界。不展开合成、商城、法宝、存档或完整装备属性实现。
 
 ## 资料状态
 
@@ -15,6 +15,11 @@
 - `extracted_flash/scripts/172845/scripts/export/cure/SmallHP.as`
 - `extracted_flash/scripts/172845/scripts/export/cure/BigHP.as`
 - `extracted_flash/scripts/172845/scripts/export/cure/SmallMP.as`
+- `extracted_flash/scripts/172845/scripts/base/BaseAura.as`
+- `extracted_flash/scripts/172845/scripts/export/aura/auraRed.as`
+- `extracted_flash/scripts/172845/scripts/export/aura/auraWhile.as`
+- `extracted_flash/scripts/172845/scripts/export/monster/Monster3.as`
+- `extracted_flash/scripts/172845/scripts/export/monster/Monster7.as` 至 `Monster30.as`
 
 相关前置文档：
 
@@ -26,6 +31,7 @@
 - 当前没有读取项目外的 `再续1.0装备属性合成掉落表.xlsx`；本轮掉落表事实来自怪物类中的 `fallList`。
 - `FallEquipObj.colwho()` 未看到显式 `hitTestObject()` 或像素级碰撞判定；药品掉落 `SmallHP.colwho()` 有明确碰撞检测。装备/道具拾取的可观察距离建议后续用原版实测或录屏校准。
 - `FallEquipObj` 的 `bigtype` 分支只处理 `zb/dj/sz`；扫描中存在 `cwzb` 等掉落类型，首个切片不覆盖。
+- 主源码中只发现 `BaseMonster.fallStone()` 定义，未发现 `fallStone()` 调用点；强化石可按入口实现，但需要继续确认原版何时触发。
 
 ## 死亡后的掉落入口
 
@@ -159,16 +165,129 @@ tdlzjzzs, shsjt, wpqhs1, tlzsp, llzsp, hlzsp, flzsp, slzsp
 - 已有同 `fillName` 堆叠时调用 `setNum(count)`，实际是增加数量。
 - 没有同名物品时从 `AllEquipment.findByName(name)` 取模板，调用 `setnum(count)` 设置数量，然后 push。
 
-## 药品掉落对照
+## 药品掉落
 
 `BaseMonster.addMedicine()` 与 `FallEquipObj` 是不同对象链路：
 
-- 有概率生成 `SmallHP`、`BigHP` 或 `SmallMP`。
-- `SmallHP.step()` 会过滤距离：x 差不超过 `700`、y 差小于 `200`。
-- `SmallHP.colwho()` 先 `hitTestObject(hero.colipse)`，再 `HitTest.complexHitTestObject(this, hero.colipse)`。
-- 成功后恢复百分比 HP/MP，并同样向上淡出。
+- 入口：`dropAura()` 在 `gc.curStage != 98` 时先调用 `addMedicine()`，再调用 `fallEquip()`。
+- 生成概率：
+  - 第一分支 `Math.random() >= 0.5` 后再抽 `_loc2_`，`_loc2_ <= 0.2` 才生成 HP 药。
+  - `0 <= _loc2_ <= 0.1` 时再抽一次，约 45% 为 `SmallHP`，约 55% 为 `BigHP`。
+  - `0.1 < _loc2_ <= 0.2` 时生成 `SmallHP`。
+  - 第二分支 `Math.random() < 0.5` 且下一次 `Math.random() <= 0.25` 时生成 `SmallMP`。
+- 生成位置：`x = monster.x`，`y = monster.y - medicine.height`。
+- 地面对象：药品直接加入 `gc.gameSence` 和 `gc.otherList`，不是 `FallEquipObj`，不会入背包。
+- 拾取检测：`SmallHP.step()` 会过滤距离，x 差不超过 `700`、y 差小于 `200`；`colwho()` 先 `hitTestObject(hero.colipse)`，再 `HitTest.complexHitTestObject(this, hero.colipse)`。
+- 有效期：`SmallHP.step()` 中 `tcount >= gc.frameClips * 60` 后移除，约 60 秒。
+- 成功效果：药品向上漂移 `100` 像素并 `alpha -> 0`，`0.8s` 后移除。
 
-首个掉落/拾取切片可不实现药品，但药品是确认“原版拾取可以有真实碰撞判定”的重要对照证据。
+药品效果：
+
+| 类 | `cname` | 效果 |
+| --- | --- | --- |
+| `SmallHP` | `SHp` | 恢复玩家最大 HP 的 `25%` |
+| `BigHP` | `BHp` | 恢复玩家最大 HP 的 `50%` |
+| `SmallMP` | `SMp` | 恢复玩家最大 MP 的 `25%` |
+
+未发现 `BigMP` 类；当前主包只有 `SmallHP/BigHP/SmallMP` 三个药品类。后续药品切片可以独立实现，不需要依赖装备掉落表。
+
+## Aura 掉落与收集
+
+`BaseMonster.dropAura()` 在药品和装备/道具掉落之后继续生成 aura。`gc.curStage == 98` 只跳过 `addMedicine()` 和 `fallEquip()`，不会跳过 aura。
+
+击杀者归属：
+
+- `curAttackTarget is BasePet` 时取 `BasePet.getSourceRole()`。
+- `curAttackTarget is BaseHero` 时直接取英雄。
+- 无法取得英雄时直接返回，不生成 aura。
+
+生成规则：
+
+| 类型 | 类 | 数量 | 初始偏移 | power | 收集事件 |
+| --- | --- | --- | --- | --- | --- |
+| 红色 aura | `auraRed` | `2 + floor(random * 3)`，即 2 至 4 个 | x/y 各 `±5` 像素 | `monster.gxp * 2` | `AuraEvent [hero, 0, 0, power, 0]` |
+| 白色 aura | `auraWhile` | 随机：`<0.04` 为 3 个，`<0.08` 为 2 个，`<0.12` 为 1 个，否则 0 个 | x/y 各 `±20` 像素 | 固定 `5` | `AuraEvent [hero, 0, 0, 0, power]` |
+
+`BaseAura.step()` 行为：
+
+- 初始等待 `20` 帧。
+- 先上浮约 `30` 至 `50` 像素。
+- 然后朝 `sourceHero` 移动，初始速度约 `4` 至 `6`，每帧加 `2`，上限 `20`。
+- 与英雄距离 `<= 10` 时 `destroy()` 并派发收益事件。
+- 超过 `gc.frameClips * 15` 未收集会销毁。
+
+现代边界：
+
+- aura 是自动吸附收益，不是背包物品，也不走 `FallEquipObj`。
+- `curStage == 98` 是“只保留 aura”的特殊分支，可作为后续 aura 切片的验收点。
+- 现代实现应把收益事件接到成长/资源系统；在成长系统未实现前，aura 切片可先显示收集反馈和记录收益数值。
+
+## 强化石 `fallStone()` 边界
+
+`BaseMonster.fallStone()` 是独立入口，不在 `dropAura()` 内调用。主参考源码扫描只发现这一个定义，未发现调用点。
+
+生成规则：
+
+- 概率来自 `protectedParamsObject.stoneFallRate`。
+- 时装掉率加成同装备/道具掉落，取 P1/P2 当前时装掉落加成最大值。
+- 最终概率为 `stoneFallRate * (1 + maxFashionBonus)`。
+- 成功时创建 `new FallEquipObj({ name: "wpqhs1", bigtype: "dj" })`。
+- 位置为 `x = monster.x`，`y = monster.y - 100`；屏幕 x 大于 `930` 左偏 `150`，小于 `10` 右偏 `150`。
+- 入包路径与普通 `dj` 相同：`FallEquipObj.colwho()` -> `Config.putQhsInBackPack(player, "wpqhs1")` -> `djlist` 堆叠。
+
+现代边界：
+
+- `wpqhs1` 已能作为普通道具掉落或 `fallStone()` 固定产物。
+- 因调用点未确认，强化石切片不应默认挂到所有怪物死亡；应先选明确触发入口，或把它作为测试/配置化掉落入口实现。
+- 完整强化系统、强化 UI、装备强化数值和合成不属于掉落任务。
+
+## `Monster3` 至 `Monster30` 掉落表扫描
+
+本表只记录怪物构造函数中的 `protectedParamsObject.probability` 和 `fallList`。实际掉率还会经过难度、boss 乘 `1.5`、`gc.isLWYP` 和时装加成修正。
+
+| 怪物 | 条件/身份 | `probability` | `fallList` 摘要 | 边界说明 |
+| --- | --- | --- | --- | --- |
+| `Monster3` | `curStage == 1 && curLevel == 1` 时 boss，否则普通怪 | boss `1`；普通 `0.15` | boss 掉 `ptdxzg/ptdxzf/ptdcz/ptdjs/ptddp/ptdcs/ptdyyc/ptdcp/ptdtj/ptdcf`（全 `zb`）；普通掉 `wptm/wpxt/wpsc`（`dj`） | boss 分支实际必掉；普通分支是材料池 |
+| `Monster7` | 普通怪 | `0.15` | `wptm/wpxt/wpsc`（`dj`）+ `ptdxzg/ptdxzf/ptdcz/ptdjs/ptddp/ptdcs/ptdyyc/ptdcp`（`zb`） | 早期地面怪装备/材料混合池 |
+| `Monster8` | 普通怪 | `0.15` | 同 `Monster7` | 与 `Monster7` 掉落池一致 |
+| `Monster9` | `curStage == 9` 时掉率改为正值 | 默认 `-1`；`curStage == 9` 时 `0.05` | `wpqhs1/gjs1/fys1/mfs1/sms1`（全 `dj`） | 非 9 关卡时负掉率等价不掉；9 关卡才可掉 |
+| `Monster10` | `curStage == 9` 时掉率改为正值 | 默认 `-1`；`curStage == 9` 时 `0.05` | 同 `Monster9` | 与 `Monster9` 同类 |
+| `Monster11` | 普通怪 | `0.12` | `wptm/wpxt/wpsc`（`dj`） | 材料池 |
+| `Monster12` | 普通怪 | `0.12` | `wptm/wpxt/wpsc`（`dj`） | 材料池 |
+| `Monster13` | 普通怪 | `0.12` | `wptm/wpxt/wpsc`（`dj`） | 材料池 |
+| `Monster14` | 普通怪 | `0.12` | `wptm/wpxt/wpsc`（`dj`） | 材料池 |
+| `Monster15` | 多数场景 boss；`curStage == 3 && curLevel == 3` 或 `curStage == 8` 时非 boss | `0.5` | `hylc/hylz`（`zb`） | boss 与非 boss 共用掉落池 |
+| `Monster16` | boss 条件见类内分支 | `0.55` | `qysz/hylk/chilj`（`zb`） | 高阶装备池 |
+| `Monster17` | `curStage == 9` 时掉率改为正值 | 默认 `-1`；`curStage == 9` 时 `0.05` | `wpqhs1/gjs1/fys1/mfs1/sms1`（`dj`） | 同 9 关卡道具池 |
+| `Monster18` | `curStage == 9` 时掉率改为正值 | 默认 `-1`；`curStage == 9` 时 `0.05` | `wpqhs1/gjs1/fys1/mfs1/sms1`（`dj`） | 同 9 关卡道具池 |
+| `Monster19` | `curStage == 9` 时掉率改为正值 | 默认 `-1`；`curStage == 9` 时 `0.05` | `wpqhs1/gjs1/fys1/mfs1/sms1`（`dj`） | 同 9 关卡道具池 |
+| `Monster20` | 多数场景 boss；`curStage == 3 && curLevel == 3` 或 `curStage == 8` 时非 boss | `0.5` | `zjbtg/jllm/smz/jxqtj`（`zb`） | boss 与非 boss 共用掉落池 |
+| `Monster21` | boss 条件见类内分支 | `0.5` | `zjksf/zjqj/zjxmc/jxztp`（`zb`） | 高阶装备池 |
+| `Monster22` | boss | `0.45` | `shsjt`（`zb`） | `FallEquipObj` 对 `shsjt` 有唯一性保护 |
+| `Monster23` | 普通/召唤类 | `0` | 空 | 不掉装备/道具 |
+| `Monster24` | boss | `0.4` | `mgzhzzs`（`dj`） | 特殊道具池 |
+| `Monster25` | boss | `0.42` | `tfljzzs`（`dj`） | 特殊道具池 |
+| `Monster26` | boss | `0.25` | `tdlzjzzs`（`dj`） | `tdlzjzzs` 在 `bosslist` 中，不自动超时移除 |
+| `Monster27` | 普通怪 | `0.05` | `wptm/wpxt/wpsc`（`dj`） | 低掉率材料池 |
+| `Monster28` | 普通怪 | `0.05` | `wptm/wpxt/wpsc`（`dj`） | 低掉率材料池 |
+| `Monster29` | 普通怪 | `0.02` | `wpqhs1`（`dj`） | 强化石也可作为普通掉落表道具出现 |
+| `Monster30` | 普通飞行怪 | `0` | 空 | 死亡仍走 `dropAura()`，但不会掉装备/道具 |
+
+完整表可实现所需字段：
+
+- `monsterId` 或 AS3 类名。
+- 场景条件：如 `curStage/curLevel`、boss/非 boss 分支。
+- `probability` 基础掉率。
+- `fallList[]` 的 `name` 和 `bigtype`。
+- 是否 boss，用于 `fallEquip()` 中额外 `* 1.5`。
+- 是否存在特殊拾取规则，如 `shsjt` 唯一性、`bosslist` 不超时、`probability = -1` 的条件掉落。
+
+仍需 xlsx 或实测补证：
+
+- `fillName` 对应的中文名、装备部位、等级、属性、合成材料和强化关系。
+- 各关卡实际会刷哪些怪、哪些分支会触发 boss/非 boss 版本。
+- `FallEquipObj` 原版拾取距离或碰撞体表现。
+- `cwzb` 等不在本段 `Monster3` 至 `Monster30` 中出现的 `bigtype` 如何入包。
 
 ## 首批掉落表形状
 
@@ -233,9 +352,20 @@ tdlzjzzs, shsjt, wpqhs1, tlzsp, llzsp, hlzsp, flzsp, slzsp
 
 不要照搬原版 UI 和全局数组互相直接 `push/splice` 的结构。可观察行为上保留：死亡触发、概率和掉落候选、地面可见物、拾取入包、堆叠和背包满处理。
 
+## 后续任务拆分
+
+后续实现不要把药品、aura、强化石和完整掉落表混成一个大切片。推荐拆分为：
+
+| 推荐任务 | 范围 | 前置已足够吗 | 不做 |
+| --- | --- | --- | --- |
+| `TASK-SLICE-015` | 药品掉落和即时恢复最小切片 | 足够：`addMedicine()`、`SmallHP/BigHP/SmallMP` 已扒 | 不入背包，不做 aura/强化石 |
+| 后续 aura 切片 | 红/白 aura 生成、吸附、收益反馈 | 足够支撑最小表现；成长系统收益可先记录 | 不做经验/成长完整 UI |
+| 后续强化石切片 | `wpqhs1` 作为 `dj` 掉落和入包 | 入包路径足够；触发入口不足 | 不做强化 UI/数值 |
+| 后续完整表任务 | 把怪物掉落表转成现代配置 | `Monster3..30` 足够作首批；全怪物仍需继续扫描 | 不做装备属性和合成 |
+
 ## 后续缺口
 
-- `VS-009` 实现前可直接使用本文事实，不需要再读完整怪物表。
-- 如果要做完整掉落表，需要系统扫描所有 `export/monster/Monster*.as` 的 `probability/fallList`，并补 `cwzb` 等非首批类型。
+- `VS-009` 已完成最小装备/道具掉落和拾取切片；本文新增事实只作为后续扩展任务依据。
+- 如果要做全怪物完整掉落表，还需要系统扫描所有 `export/monster/Monster*.as` 的 `probability/fallList`，并补 `cwzb` 等非首批类型。
 - 如果要校准原版装备/道具拾取距离，需要原版实测，因为 `FallEquipObj` 代码中未看到明确碰撞检查。
 - 药品、aura、强化石应拆成后续小任务，避免把掉落切片做成成长系统大杂烩。

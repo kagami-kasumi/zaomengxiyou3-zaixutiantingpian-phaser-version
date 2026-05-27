@@ -2,14 +2,12 @@
 
 本文是项目的战略导航。它回答“目标是什么、路线是什么、文档如何分工、任务类型有哪些”。具体任务状态不在本文维护，请看 `docs/tasks/task-board.md`。
 
-新的 AI 接手时，先读：
+新的 AI 接手时，默认先读：
 
 1. `AGENTS.md`
 2. `TASK_OUTLINE.md`
-3. `docs/tasks/task-board.md`
-4. `docs/reverse-engineering/mechanics-index.md`
-5. `docs/tasks/vertical-slices.md`
-6. `extracted_flash/README_extract.md`
+
+随后按 `AGENTS.md` 的“任务分级”和“冷启动阅读分流”读取最小必读集。只有正式游戏 task 才默认读取 `docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`；玩法逆向再读取 `extracted_flash/README_extract.md` 和对应 AS3 路径。
 
 ## 0. 项目目标
 
@@ -98,7 +96,11 @@
 
 ## 4. 工作流
 
-具体跨对话执行协议以 `AGENTS.md` 的“跨对话任务工作流”为准。本文只保留路线判断。
+具体执行协议以 `AGENTS.md` 的“任务分级”和“正式游戏 task 工作流”为准。本文只保留路线判断。
+
+轻量请求不进入完整看板流程，不归档 task-history，也不要求完成后切换对话。正式游戏 task 才执行看板、机制表、切片表和历史归档流程。
+
+同一个正式游戏 task 未完成时优先继续当前对话；上下文过长时优先 compact，并在 compact 后复查关键文档和当前改动文件。只有完成 task、切换明显不同机制/切片/子系统，或已读取大量 AS3/逆向/历史资料时，才在文档收尾后建议新开对话。
 
 默认选择：
 
@@ -265,7 +267,7 @@
 推荐开场：
 
 ```text
-请按 AGENTS.md 的“跨对话任务工作流”执行一个 task。
+请按 AGENTS.md 的“正式游戏 task 工作流”执行一个 task。
 如果我没有指定 task id，请从 docs/tasks/task-board.md 的 Ready 任务中选择当前推荐项。
 ```
 

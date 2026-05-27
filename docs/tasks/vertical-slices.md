@@ -22,14 +22,14 @@
 | VS-006 基础伤害闭环 | 已完成 | 玩家与怪物互相造成伤害 | VS-004、VS-005、M-032、M-033、`combat-rules-index.md` | `CombatSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`TestScene.ts` | 玩家和怪物血量都可变化 |
 | VS-007 第一个关卡闭环 | 已完成 | 完整纵向爬升关（云层、周期刷怪、停点、boss 战斗、通关） | M-014、M-026、M-027、M-028、M-030、M-031 | `Monster3System.ts`、`LevelSystem.ts`、`TestScene.ts` | 纵向爬升（镜头跟随、云层视差）→ 周期刷怪（每 6s 2/4 只 Monster30）→ 停点系统（4 停点、清波解锁）→ boss 区触发 → Monster3 战斗 → 击杀 → 传送门出现 → 按上通关全部完成 |
 | VS-008 一个技能/子弹 | 已完成 | 第一个角色释放一个技能或子弹 | M-025、M-034、M-015、M-041、`projectiles-index.md`、`skills-input-index.md` | `ProjectileSystem.ts`、`HeroSkillSystem.ts`、`SkillUISystem.ts`、`TestScene.ts`、`AssetManifest.ts`、`skills-input-index.md` | 已完成 projectile + 正式槽位 + MP 门禁 + 二段重入 + 五槽技能栏 + 可配置 loadout + 完整心法树面板 + 技能学习/升级 + 键盘绑定 + 被动技能五槽 UI；下一步扩展其他角色技能 projectile 或转向装备/背包系统 |
-| VS-009 掉落和拾取 | 可开始 | 怪物死亡掉落物品并可拾取 | M-036、M-037、M-038、`drops-index.md` | DropSystem、ItemData、现有 Inventory/Equipment 数据 | 怪物死亡生成可见地面物；玩家拾取后进入装备/道具背包并有反馈 |
+| VS-009 掉落和拾取 | 已完成 | 怪物死亡掉落物品并可拾取 | M-036、M-037、M-038、`drops-index.md` | `DropSystem.ts`、`InventorySystem.ts`、`TestScene.ts` | `Monster30` 死亡生成装备/道具掉落并可拾取；药品掉落可即时恢复 HP/MP |
 | VS-010 背包最小 UI | 已完成 | 打开背包并显示分类物品，支持首批装备穿脱 | M-036、M-037、`equipment-index.md` | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts` | `B` 打开背包；可切换装备/道具/时装/技能书分类；可穿戴/卸下种子装备并更新槽位与属性预览 |
 | VS-011 存档最小闭环 | 暂缓 | 保存/读取当前进度 | M-044 | SaveSystem | 刷新后能恢复基础状态 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-014`：实现 `VS-009` 掉落和拾取切片，复用 `drops-index.md`、现有背包/装备数据和怪物死亡链路。
-2. 后续再扩展药品、aura、强化石或完整怪物掉落表。
+1. `TASK-SLICE-016`：只实现 aura 收集反馈最小切片。
+2. 后续再按强化石或完整怪物掉落表拆成独立切片。
 
 ## 切片详情
 
@@ -306,7 +306,7 @@
 
 ### VS-009 掉落和拾取
 
-状态：可开始。
+状态：已完成。
 
 依赖：
 
@@ -314,13 +314,31 @@
 - M-037 背包已扒并已有分类背包/堆叠切片。
 - M-038 掉落已扒，见 `docs/reverse-engineering/drops-index.md`。
 
-建议首批范围：
+实际结果：
 
-- 怪物死亡后生成一个可见地面物，位置在怪物上方约 100 像素。
-- 掉落物至少覆盖一个装备 `bigtype = "zb"` 和一个道具 `bigtype = "dj"`。
-- 装备拾取后作为独立实例进入装备背包；道具同名时堆叠数量增加。
-- 背包满时不拾取，地面物保留并给出现代 UI 反馈。
-- 成功拾取后地面物向上淡出或用等价反馈移除。
+- 新增 `src/systems/DropSystem.ts`，实现最小 `WorldDrop` 数据、`Monster30DropEntries`、掉落生成、落到平台表面、拾取入包和拾取淡出。
+- `src/scenes/TestScene.ts` 在 `Monster30` 从死亡生命周期进入 `removed` 时生成两个可见地面物：装备 `ptdcz`（`bigType = "zb"`）和道具 `sms1`（`bigType = "dj"`），初始位置为怪物 `y - 100` 附近。
+- P1 进入明确拾取范围后会尝试拾取；装备进入装备背包，道具 `sms1` 会与现有同名道具堆叠。
+- 分类背包容量不足时拾取失败，地面物保持 `idle`，状态栏和背包 UI 消息给出失败原因。
+- 拾取成功后地面物向上淡出并显示拾取反馈，状态栏显示当前掉落列表和最近拾取消息。
+- `InventorySystem.ts` 修正 `addEquipmentByFillName()` / `addStackByFillName()` 的容量失败返回值，避免拾取失败被误判为成功。
+- `TASK-SLICE-015` 扩展 `DropSystem.ts` 的掉落联合模型，新增 `SmallHP`、`BigHP`、`SmallMP` 三类药品。
+- 怪物死亡时会按 `BaseMonster.addMedicine()` 等价概率尝试生成药品；测试场景也可用数字键 `6/7/8` 直接生成三类药品验证。
+- 药品使用独立拾取路径，不进入背包；P1 碰到药品后按最大 HP/MP 百分比即时恢复：`SmallHP = 25% max HP`，`BigHP = 50% max HP`，`SmallMP = 25% max MP`。
+- 药品拾取成功后向上淡出并移除；未拾取药品按约 60 秒有效期清理。
+
+验证：
+
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+扩展逆向边界：
+
+- `TASK-SETTINGS-015` 已补齐药品、aura、强化石和 `Monster3..30` 掉落表边界，见 `docs/reverse-engineering/drops-index.md`。
+- 药品独立对象链路已复现：`addMedicine()` 生成 `SmallHP/BigHP/SmallMP`，碰撞后即时恢复 HP/MP，不入背包。
+- aura 在 `curStage == 98` 也会生成；红色 aura 走 `gxp` 收益，白色 aura 固定 `power = 5`，都吸附到击杀者并派发 `AuraEvent`。
+- 强化石 `fallStone()` 会生成 `wpqhs1` 的 `FallEquipObj` 并走 `dj` 入包，但主源码未发现调用点，后续实现不能默认挂到所有死亡流程。
+- `Monster3..30` 的首批完整表字段足够做现代配置雏形，但装备中文名、属性、合成、关卡实际刷怪和拾取距离仍需 xlsx 或实测。
 
 禁止范围：
 
@@ -329,7 +347,7 @@
 
 推荐任务：
 
-- `TASK-SLICE-014`
+- `TASK-SLICE-016`
 
 ### VS-010 背包最小 UI
 

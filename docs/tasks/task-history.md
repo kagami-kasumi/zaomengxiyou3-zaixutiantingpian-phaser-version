@@ -50,6 +50,9 @@
 | TASK-SETTINGS-013 | 逆向 | 装备/背包系统索引 | M-036、M-037、VS-010 | `equipment-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-013 | 切片 | 背包最小 UI 与装备穿脱数据切片 | VS-010、M-036、M-037 | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-014 | 逆向 | 掉落/拾取系统索引 | M-038、VS-009 | `drops-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-014 | 切片 | VS-009 掉落和拾取最小切片 | M-038、VS-009 | `DropSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-015 | 逆向 | 药品、aura、强化石和首批完整怪物掉落表边界 | M-038、VS-009 | `drops-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-015 | 切片 | 药品掉落和拾取/即时恢复最小切片 | M-038、VS-009 | `DropSystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
 
@@ -791,6 +794,95 @@
 
 验证：
 
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-014
+
+完成时间：
+
+- 2026-05-24
+
+完成内容：
+
+- 新增 `src/systems/DropSystem.ts`，建立最小 `WorldDrop`、`DropSystemModel`、`Monster30DropEntries` 和拾取结果模型。
+- `Monster30` 死亡生命周期走到 `removed` 时，在怪物 `y - 100` 附近生成两个可见地面物：装备 `ptdcz`（`bigType = "zb"`）和道具 `sms1`（`bigType = "dj"`）。
+- 掉落会向下落到当前平台表面；P1 进入明确拾取范围后自动拾取。
+- 装备拾取后作为独立实例进入装备背包；`sms1` 拾取后与现有同名道具堆叠。
+- 背包分类容量不足时拾取失败，地面物保留，并在状态栏/背包 UI 消息中显示失败原因。
+- 成功拾取后地面物向上淡出并显示拾取反馈；状态栏显示当前地面掉落和最近拾取消息。
+- 修正 `InventorySystem.ts` 中 `addEquipmentByFillName()` 与 `addStackByFillName()` 的容量失败返回值，避免满包时误判为拾取成功。
+- 将 `M-038` 复现状态推进到已复现，`VS-009` 推进到已完成；新增后续 Ready 任务 `TASK-SETTINGS-015`，只逆向药品、aura、强化石和完整怪物掉落表边界。
+
+更新文件：
+
+- `src/systems/DropSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-015
+
+完成时间：
+
+- 2026-05-24
+
+完成内容：
+
+- 细读 `BaseMonster.addMedicine()/dropAura()/fallStone()`、`SmallHP.as`、`BigHP.as`、`SmallMP.as`、`BaseAura.as`、`auraRed.as`、`auraWhile.as`，补齐药品、aura 和强化石的生成、拾取/收集、效果和后续实现边界。
+- 在 `drops-index.md` 中确认药品是独立即时恢复对象，不入背包：`SmallHP` 恢复最大 HP 25%，`BigHP` 恢复最大 HP 50%，`SmallMP` 恢复最大 MP 25%；当前主包未发现 `BigMP`。
+- 确认 aura 在 `curStage == 98` 仍会生成：红色 aura 按 `gxp * 2` 派发收益，白色 aura 固定 `power = 5`，两者都吸附到击杀者并触发 `AuraEvent`。
+- 确认 `fallStone()` 生成 `wpqhs1` 的 `FallEquipObj` 并走 `dj` 入包路径，但主源码扫描未发现调用点，后续不能默认挂到所有怪物死亡。
+- 扫描并落表 `Monster3`、`Monster7` 至 `Monster30` 的 `probability/fallList`，明确哪些字段足够支撑现代掉落配置，哪些仍需 xlsx 或原版实测。
+- 将看板下一推荐任务切到 `TASK-SLICE-015`：只实现药品掉落和即时恢复最小切片，不混入 aura、强化石或完整怪物掉落表。
+
+更新文件：
+
+- `docs/reverse-engineering/drops-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-015
+
+完成时间：
+
+- 2026-05-24
+
+完成内容：
+
+- 扩展 `src/systems/DropSystem.ts`，把 `WorldDrop` 拆成装备/道具 `item` 与药品 `medicine` 两条类型化路径，避免药品误走背包入包逻辑。
+- 新增 `SmallHP`、`BigHP`、`SmallMP` 三类药品定义：分别恢复最大 HP 25%、最大 HP 50%、最大 MP 25%。
+- 实现 `BaseMonster.addMedicine()` 等价概率函数：怪物死亡时会尝试生成三类药品之一。
+- 药品使用明确拾取范围；P1 碰撞拾取后即时修改 `HeroCombatModel.hp` 或 `HeroSkillModel.mp`，并显示最近拾取反馈。
+- 药品拾取成功后向上淡出并移除；未拾取药品按约 60 秒有效期清理。
+- `src/scenes/TestScene.ts` 保留已完成的装备/道具掉落，同时接入药品死亡掉落；数字键 `6/7/8` 可直接生成 `SmallHP/BigHP/SmallMP` 作为测试入口，便于验证三类恢复效果。
+- 更新 `M-038` 与 `VS-009` 说明，并把下一推荐任务切到 `TASK-SLICE-016`：只做 aura 收集反馈最小切片。
+
+更新文件：
+
+- `src/systems/DropSystem.ts`
+- `src/scenes/TestScene.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
 
 ## 执行记录

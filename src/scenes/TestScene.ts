@@ -143,6 +143,22 @@ import {
   unequipSelectedLoadoutSlot,
   type InventoryUIState,
 } from '../systems/EquipmentUISystem';
+import {
+  createDropSystem,
+  DropTuning,
+  getDropPickupAlpha,
+  getWorldDrops,
+  maybeSpawnMedicineDrop,
+  Monster30DropEntries,
+  pickupMedicineDrop,
+  pickupWorldDrop,
+  spawnMedicineDrop,
+  spawnWorldDrop,
+  updateWorldDrops,
+  type DropSystemModel,
+  type MedicineDropType,
+  type WorldDrop,
+} from '../systems/DropSystem';
 
 type PlayerView = {
   slot: PlayerSlot;
@@ -184,6 +200,15 @@ type ProjectileEffectView = {
   shape: Phaser.GameObjects.Ellipse;
   core: Phaser.GameObjects.Ellipse;
   label: Phaser.GameObjects.Text;
+};
+
+type DropView = {
+  root: Phaser.GameObjects.Container;
+  shadow: Phaser.GameObjects.Ellipse;
+  body: Phaser.GameObjects.Ellipse;
+  shine: Phaser.GameObjects.Ellipse;
+  label: Phaser.GameObjects.Text;
+  feedback: Phaser.GameObjects.Text;
 };
 
 type BossView = {
@@ -238,6 +263,8 @@ export class TestScene extends Phaser.Scene {
   private attackEffectViews: AttackEffectView[] = [];
   private projectileSystem: ProjectileSystemModel = createProjectileSystem();
   private projectileEffectViews: ProjectileEffectView[] = [];
+  private dropSystem: DropSystemModel = createDropSystem();
+  private dropViews = new Map<string, DropView>();
   private hitRegistry: HitRegistry = createHitRegistry();
   private lastDamageEvent?: DamageEvent;
   private lastSkillEvent?: HeroSkillCastEvent;
@@ -266,6 +293,7 @@ export class TestScene extends Phaser.Scene {
   private inventoryConfirmKey?: Phaser.Input.Keyboard.Key;
   private inventoryBackspaceKey?: Phaser.Input.Keyboard.Key;
   private inventoryDeleteKey?: Phaser.Input.Keyboard.Key;
+  private medicineSpawnKeys?: Record<MedicineDropType, Phaser.Input.Keyboard.Key>;
   private p1SkillUI: SkillUIState = createSkillUIState();
   private p2SkillUI: SkillUIState = createSkillUIState();
   private p1SkillBar?: SkillBarView;
@@ -396,6 +424,7 @@ export class TestScene extends Phaser.Scene {
     this.createHeroDebugKeys();
     this.createSkillUIKeys();
     this.createInventoryUIKeys();
+    this.createMedicineDebugKeys();
     this.p1SkillBar = this.createSkillBar('p1', 44, 540);
     this.p2SkillBar = this.createSkillBar('p2', 488, 540);
     this.p1SkillBar.container.setScrollFactor(0).setDepth(80);
@@ -439,8 +468,12 @@ export class TestScene extends Phaser.Scene {
     this.updateProjectileSystem(time, delta);
 
     this.updateMonster30s(delta);
+    this.handleMedicineDebugKeys();
+    updateWorldDrops(this.dropSystem, delta);
+    this.handleDropPickup();
     this.applyAllMonster30Attacks(time);
     this.updateAllMonsterViews();
+    this.updateDropViews();
     this.updateVerticalClimbLogic(input, time, delta, previousCameraY);
     this.finalizeCameraPosition();
 
@@ -715,6 +748,19 @@ export class TestScene extends Phaser.Scene {
     this.inventoryConfirmKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.inventoryBackspaceKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
     this.inventoryDeleteKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DELETE);
+  }
+
+  private createMedicineDebugKeys(): void {
+    const keyboard = this.input.keyboard;
+    if (!keyboard) {
+      return;
+    }
+
+    this.medicineSpawnKeys = {
+      SmallHP: keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX),
+      BigHP: keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEVEN),
+      SmallMP: keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.EIGHT),
+    };
   }
 
   private createInventoryPanel(): InventoryPanelView {
@@ -1672,6 +1718,8 @@ export class TestScene extends Phaser.Scene {
       updateMonster30(monster, targets, delta);
       if (monster.state !== 'removed') {
         surviving.push(monster);
+      } else {
+        this.spawnMonster30DropSlice(monster);
       }
     }
 
@@ -1875,6 +1923,74 @@ export class TestScene extends Phaser.Scene {
     }
 
     return count;
+  }
+
+  private spawnMonster30DropSlice(monster: Monster30Model): void {
+    const medicineSpawnY = monster.y + DropTuning.spawnOffsetY;
+    maybeSpawnMedicineDrop(
+      this.dropSystem,
+      monster.x,
+      monster.y,
+      this.findDropSettleY(monster.x, medicineSpawnY),
+    );
+
+    const offsets = [-24, 24];
+    for (let i = 0; i < Monster30DropEntries.length; i += 1) {
+      const entry = Monster30DropEntries[i];
+      const x = monster.x + offsets[i % offsets.length];
+      const spawnY = monster.y + DropTuning.spawnOffsetY;
+      spawnWorldDrop(
+        this.dropSystem,
+        entry,
+        x,
+        monster.y,
+        this.findDropSettleY(x, spawnY),
+      );
+    }
+  }
+
+  private findDropSettleY(x: number, spawnY: number): number {
+    const surface = this.movementPlatforms
+      .filter((platform) =>
+        x >= platform.left - 24 &&
+        x <= platform.right + 24 &&
+        platform.top >= spawnY,
+      )
+      .sort((a, b) => a.top - b.top)[0];
+
+    if (surface) {
+      return Math.max(spawnY, surface.top - 14);
+    }
+
+    return Math.max(spawnY, (this.movementBounds.bottom ?? defaultClimbTuning.worldHeight) - 59);
+  }
+
+  private handleMedicineDebugKeys(): void {
+    if (!this.medicineSpawnKeys) {
+      return;
+    }
+
+    const types: readonly MedicineDropType[] = ['SmallHP', 'BigHP', 'SmallMP'];
+    for (const type of types) {
+      const key = this.medicineSpawnKeys[type];
+      if (Phaser.Input.Keyboard.JustDown(key)) {
+        this.spawnMedicineDropNearP1(type);
+      }
+    }
+  }
+
+  private spawnMedicineDropNearP1(type: MedicineDropType): void {
+    const player = this.getInventoryPlayer();
+    const x = player?.movement?.x ?? defaultClimbTuning.worldWidth / 2;
+    const monsterY = (player?.movement?.y ?? defaultClimbTuning.worldHeight - 140) + 70;
+    const spawnY = monsterY + DropTuning.spawnOffsetY;
+    spawnMedicineDrop(
+      this.dropSystem,
+      type,
+      x,
+      monsterY,
+      this.findDropSettleY(x, spawnY),
+    );
   }
 
   private finalizeCameraPosition(): void {
@@ -2165,6 +2281,134 @@ export class TestScene extends Phaser.Scene {
     this.projectileEffectViews = activeViews;
   }
 
+  private handleDropPickup(): void {
+    const player = this.getInventoryPlayer();
+    if (!player?.movement || isHeroCombatDead(player.combat)) {
+      return;
+    }
+
+    const playerBounds = this.getPlayerBounds(player);
+    for (const drop of getWorldDrops(this.dropSystem)) {
+      if (drop.state !== 'idle') {
+        continue;
+      }
+
+      if (!Phaser.Geom.Intersects.RectangleToRectangle(
+        playerBounds,
+        this.getDropBounds(drop),
+      )) {
+        continue;
+      }
+
+      if (drop.kind === 'medicine') {
+        const result = pickupMedicineDrop({
+          model: this.dropSystem,
+          drop,
+          currentHp: player.combat.hp,
+          maxHp: player.combat.maxHp,
+          currentMp: player.skill.mp,
+          maxMp: player.skill.maxMp,
+        });
+        if (result.ok) {
+          if (result.target === 'hp') {
+            player.combat.hp = result.after;
+          } else {
+            player.skill.mp = result.after;
+          }
+          this.refreshPlayerHeroView(player);
+        }
+        this.inventoryUI.message = result.message;
+      } else {
+        const result = pickupWorldDrop(
+          this.dropSystem,
+          drop,
+          this.inventoryStore,
+          this.equipmentRegistry,
+        );
+        this.inventoryUI.message = result.message;
+      }
+    }
+  }
+
+  private updateDropViews(): void {
+    const activeDrops = getWorldDrops(this.dropSystem);
+    const activeIds = new Set(activeDrops.map((drop) => drop.id));
+
+    for (const drop of activeDrops) {
+      let view = this.dropViews.get(drop.id);
+      if (!view) {
+        view = this.createDropView(drop);
+        this.dropViews.set(drop.id, view);
+      }
+
+      this.syncDropView(drop, view);
+    }
+
+    for (const [dropId, view] of this.dropViews) {
+      if (!activeIds.has(dropId)) {
+        this.destroyDropView(view);
+        this.dropViews.delete(dropId);
+      }
+    }
+  }
+
+  private createDropView(drop: WorldDrop): DropView {
+    const root = this.add.container(drop.x, drop.y);
+    const color = getDropColor(drop);
+    const shadow = this.add.ellipse(0, 18, 44, 10, 0x000000, 0.22);
+    const body = this.add.ellipse(0, 0, 30, 24, color, 0.88);
+    const shine = this.add.ellipse(-6, -5, 9, 6, 0xf3f6ff, 0.46);
+    const label = this.add.text(-46, -40, this.getDropLabel(drop), {
+      color: '#f3f6ff',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '12px',
+    });
+    const feedback = this.add.text(-52, -60, '', {
+      color: '#f2c14e',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '13px',
+    });
+
+    body.setStrokeStyle(2, color, 1);
+    root.add([shadow, body, shine, label, feedback]);
+    root.setDepth(44);
+    return { root, shadow, body, shine, label, feedback };
+  }
+
+  private syncDropView(drop: WorldDrop, view: DropView): void {
+    const alpha = getDropPickupAlpha(drop);
+    view.root.setPosition(drop.x, drop.y);
+    view.root.setAlpha(alpha);
+    view.shadow.setVisible(drop.state === 'idle');
+    view.body.setFillStyle(getDropColor(drop), drop.state === 'idle' ? 0.88 : 0.4);
+    view.body.setScale(drop.state === 'idle' ? 1 + Math.sin(drop.ageMs * 0.006) * 0.05 : 1);
+    view.shine.setVisible(drop.state === 'idle');
+    view.label.setText(this.getDropLabel(drop));
+    view.feedback.setText(drop.state === 'picked' ? drop.feedback : '');
+  }
+
+  private destroyDropView(view: DropView): void {
+    view.root.destroy(true);
+  }
+
+  private getDropBounds(drop: WorldDrop): Phaser.Geom.Rectangle {
+    return new Phaser.Geom.Rectangle(
+      drop.x - DropTuning.pickupWidth / 2,
+      drop.y - DropTuning.pickupHeight / 2,
+      DropTuning.pickupWidth,
+      DropTuning.pickupHeight,
+    );
+  }
+
+  private getDropLabel(drop: WorldDrop): string {
+    if (drop.kind === 'medicine') {
+      return drop.medicine.label;
+    }
+
+    const name = this.equipmentRegistry[drop.fillName]?.name ?? drop.fillName;
+    return drop.quantity > 1 ? `${name} x${drop.quantity}` : name;
+  }
+
   private updateAttackEffectViews(time: number): void {
     const activeViews: AttackEffectView[] = [];
 
@@ -2253,6 +2497,8 @@ export class TestScene extends Phaser.Scene {
       `skill ui p1:${formatSkillUIState(this.p1SkillUI)}`,
       `skill ui p2:${formatSkillUIState(this.p2SkillUI)}`,
       `inventory:${formatInventoryUIState(this.inventoryUI)}`,
+      `drops:${formatDropState(getWorldDrops(this.dropSystem))}`,
+      `drop msg:${this.dropSystem.lastMessage}`,
       `damage:${formatDamageEvent(this.lastDamageEvent)}`,
     ]);
   }
@@ -2299,6 +2545,25 @@ export class TestScene extends Phaser.Scene {
     player.sprite.setTint(getHeroTint(player.normalAttack.heroId));
     player.label.setText(formatHeroLabel(player.slot, player.normalAttack, player.combat));
   }
+}
+
+function getDropColor(drop: WorldDrop): number {
+  if (drop.kind === 'medicine') {
+    return drop.medicine.color;
+  }
+
+  return drop.bigType === 'zb' ? 0xf2c14e : 0x72d2b1;
+}
+
+function formatDropState(drops: readonly WorldDrop[]): string {
+  const idle = drops.filter((drop) => drop.state === 'idle');
+  if (idle.length === 0) {
+    return 'none';
+  }
+
+  return idle
+    .map((drop) => `${drop.bigType}/${drop.fillName}@${Math.round(drop.x)},${Math.round(drop.y)}`)
+    .join(', ');
 }
 
 function formatPlayerInput(label: string, input: PlayerInputState): string {

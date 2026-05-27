@@ -2,6 +2,94 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-05-27
+
+### 收缩 AGENTS 入口并外移详细协议
+
+变更内容：
+
+- 将 `AGENTS.md` 收缩为高频硬规则、任务分级、冷启动阅读分流和对话收束摘要。
+- 新增 `docs/workflow/agent-protocol.md`，承接正式游戏 task 工作流、代码任务规则、Git 维护、对话收束、任务生成和统一语言细则。
+- 更新 `docs/workflow/README.md` 和 `docs/workflow/document-map.md`，登记新协议文档及读取时机。
+
+影响范围：
+
+- `AGENTS.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
+### 明确新开对话与 compact 的权衡
+
+变更内容：
+
+- 在 `AGENTS.md` 中明确：同一个正式游戏 task 未完成时默认继续当前对话，上下文过长时优先依赖 compact。
+- 明确 compact 后应重新检查当前 task 的关键文档和正在修改的文件，避免只凭摘要继续。
+- 明确不要因为只完成少量工作、仍在同一 task 的验证/修 bug/补文档阶段，就建议用户新开对话。
+- 明确只有完成 task、切换明显不同机制/切片/子系统，或已阅读大量 AS3/逆向文档/历史记录时，才在文档收尾后温和建议新开对话。
+- 同步更新 `TASK_OUTLINE.md`、`CLAUDE.md` 和 `docs/workflow/README.md` 的入口规则摘要。
+
+影响范围：
+
+- `AGENTS.md`
+- `TASK_OUTLINE.md`
+- `CLAUDE.md`
+- `docs/workflow/README.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
+## 2026-05-24
+
+### 降低轻量请求的启动和收束成本
+
+变更内容：
+
+- 重写 `AGENTS.md` 为更短的协作入口，新增“轻量请求 / 正式游戏 task / 脚手架维护”三档分流。
+- 明确轻量请求只读入口和直接相关文件，不进入完整看板流程，不归档 `task-history.md`，完成后不要求建议新开对话。
+- 将正式游戏 task 的完整看板、机制表、切片表和历史归档流程限制在用户指定 task 或明确执行游戏任务时。
+- 同步更新 `TASK_OUTLINE.md`、`CLAUDE.md`、`README.md`、`docs/workflow/README.md` 和 `docs/workflow/document-map.md` 的入口说明。
+
+影响范围：
+
+- `AGENTS.md`
+- `TASK_OUTLINE.md`
+- `CLAUDE.md`
+- `README.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
+### 加入 Git 维护规则
+
+变更内容：
+
+- 在 `AGENTS.md` 中新增 Git 维护规则，明确 Codex 默认不自动提交。
+- 明确只有用户要求“提交/commit”时才执行 `git add` 和 `git commit`。
+- 明确提交前必须区分本次改动和已有未提交改动，不提交无关文件，不回滚用户改动。
+- 在 `docs/workflow/README.md` 中同步 Git 规则摘要。
+
+影响范围：
+
+- `AGENTS.md`
+- `docs/workflow/README.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ## 2026-05-23
 
 ### 明确 dev server 与编译检查分工

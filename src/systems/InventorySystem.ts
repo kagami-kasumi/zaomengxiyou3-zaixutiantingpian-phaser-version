@@ -101,8 +101,13 @@ export function addEquipmentByFillName(
     return undefined;
   }
 
+  const category = getInventoryCategoryForDefinition(definition);
+  if (store.categories[category].length >= store.capacityPerCategory) {
+    return undefined;
+  }
+
   const instance = createEquipmentInstance(store, definition);
-  addInventoryEntry(store, instance);
+  store.categories[category].push(instance);
   return instance;
 }
 
@@ -127,13 +132,17 @@ export function addStackByFillName(
     return existing;
   }
 
+  if (store.categories[category].length >= store.capacityPerCategory) {
+    return undefined;
+  }
+
   const stack: InventoryItemStack = {
     kind: 'stack',
     stackId: `stack-${fillName}`,
     definition,
     quantity,
   };
-  addInventoryEntry(store, stack);
+  store.categories[category].push(stack);
   return stack;
 }
 

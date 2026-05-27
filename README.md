@@ -70,6 +70,7 @@ npm run check:all
 ## 开发约定
 
 - 先阅读 `AGENTS.md` 和 `TASK_OUTLINE.md`。
+- 轻量请求只读直接相关文件，不进入完整游戏 task 流程。
 - 执行游戏任务时参考 `docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md` 和 `docs/tasks/vertical-slices.md`。
 - 修改 `src/` 前参考 `docs/architecture/src-boundaries.md`。
 - 脚手架和任务工作流变更后运行 `npm run check:workflow`。
