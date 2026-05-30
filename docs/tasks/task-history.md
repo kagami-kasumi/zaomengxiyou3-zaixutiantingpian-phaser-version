@@ -53,6 +53,15 @@
 | TASK-SLICE-014 | 切片 | VS-009 掉落和拾取最小切片 | M-038、VS-009 | `DropSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-015 | 逆向 | 药品、aura、强化石和首批完整怪物掉落表边界 | M-038、VS-009 | `drops-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-015 | 切片 | 药品掉落和拾取/即时恢复最小切片 | M-038、VS-009 | `DropSystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-016 | 切片 | aura 掉落和收集反馈最小切片 | M-038、VS-009 | `DropSystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-017 | 切片 | 强化石掉落/入包最小切片 | M-038、VS-009 | `DropSystem.ts`、`EquipmentSystem.ts`、`TestScene.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-018 | 切片 | 首批怪物掉落表配置雏形 | M-038、VS-009 | `DropSystem.ts`、`EquipmentSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-016 | 逆向 | 全怪物掉落表逆向扫描 | M-038、VS-009 | `drops-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-019 | 切片 | 全怪物掉落表现代配置扩展 | M-038、VS-009 | `DropSystem.ts`、`EquipmentSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-017 | 逆向 | `cwzb` 掉落类型入包路径逆向 | M-038、M-042 | `drops-index.md`、`mechanics-index.md`、`task-board.md` |
+| TASK-SETTINGS-018 | 逆向 | 宠物系统基础逆向 | M-042、M-016、M-044 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-020 | 切片 | 宠物出战与跟随最小切片 | VS-012、M-042、M-016 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`glossary.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-019 | 逆向 | 宠物捕捉与法宝葫芦入口逆向 | M-042、M-043、M-030 | `pets-index.md`、`magic-weapons-index.md`、`mechanics-index.md`、`task-board.md` |
 
 ## 已完成任务定义
 
@@ -883,6 +892,274 @@
 验证：
 
 - `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-016
+
+完成时间：
+
+- 2026-05-27
+
+完成内容：
+
+- 扩展 `src/systems/DropSystem.ts`，把 `WorldDrop` 增加为装备/道具 `item`、药品 `medicine`、aura `aura` 三条类型化路径。
+- 实现 `BaseMonster.dropAura()` 等价红/白 aura 生成：红色 aura 生成 2 至 4 个，`power = gxp * 2`；白色 aura 按 `< 0.04 / < 0.08 / < 0.12` 生成 3/2/1 个，固定 `power = 5`。
+- 实现 `BaseAura.step()` 等价节奏：短暂停留、上浮约 30 至 50 像素、加速吸附目标，收集距离约 10 像素，未收集约 15 秒清理。
+- `src/scenes/TestScene.ts` 在 `Monster30` 死亡移除时生成 aura，目标优先使用最后命中者，缺省回退 P1 等价目标。
+- 测试场景状态栏显示当前 aura、累计红色 `gxp` 收益、累计白色 `power` 收益和最近收集反馈；`R/F` 可直接生成红/白 aura 作为调试入口。
+- 保留边界：不实现经验/成长完整系统，不实现强化石、完整怪物掉落表、合成、商城或存档。
+- 将看板下一推荐任务切到 `TASK-SLICE-017`：只实现强化石掉落/入包最小切片，不做强化 UI 或强化数值。
+
+更新文件：
+
+- `src/systems/DropSystem.ts`
+- `src/scenes/TestScene.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-017
+
+完成时间：
+
+- 2026-05-27
+
+完成内容：
+
+- 在 `src/systems/EquipmentSystem.ts` 中新增 `wpqhs1` 最小道具定义：`1级强化石`，类型为 `zbwp`，按道具背包可堆叠物处理；强化效果后置。
+- 在 `src/systems/DropSystem.ts` 中新增 `StrengthStoneDropEntry` 和 `spawnStrengthStoneDrop()`，固定生成 `wpqhs1` / `dj` / `quantity = 1` 的地面掉落。
+- `src/scenes/TestScene.ts` 新增明确测试入口：按 `C` 在 P1 附近生成强化石地面物；拾取后复用现有 `pickupWorldDrop()` 和 `addStackByFillName()` 进入道具背包或堆叠。
+- 强化石使用独立紫色占位显示；拾取成功、背包容量不足和缺定义均沿用现有掉落反馈。
+- 保留原版边界：`fallStone()` 是独立入口，主源码未发现调用点，因此现代侧不默认挂到所有怪物死亡流程。
+- 将看板下一推荐任务切到 `TASK-SLICE-018`：首批怪物掉落表配置雏形。
+
+更新文件：
+
+- `src/systems/DropSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/scenes/TestScene.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-018
+
+完成时间：
+
+- 2026-05-27
+
+完成内容：
+
+- 在 `src/systems/DropSystem.ts` 中新增 `MonsterDropTables`、`MonsterDropId`、`MonsterDropContext`、分支条件、掉率解析和 `spawnConfiguredMonsterDrop()`。
+- 首批配置覆盖 `Monster3`、`Monster7` 至 `Monster30` 已在 `drops-index.md` 落表的 `probability/fallList`；`Monster3` 支持 1-1 boss/普通分支，`Monster9/10/17/18/19` 支持 `curStage == 9` 条件分支。
+- `probability <= 0` 或空 `fallList` 的配置不会生成装备/道具掉落；`Monster30` 死亡流程改为走配置入口，因此只保留药品/aura，不再用旧固定装备/道具表。
+- `src/scenes/TestScene.ts` 新增明确测试入口：`N` 生成 `Monster3` boss 分支候选，`M` 生成 `Monster7` 普通分支候选，`,` 生成 `Monster29` 的 `wpqhs1` 分支；地面物复用现有拾取、入包和背包满反馈。
+- `src/systems/EquipmentSystem.ts` 补首批掉落表所需的最小占位定义，只保证拾取入包可验证；完整中文名、属性、合成和强化关系后置。
+- `tools/system-tests.ts` 新增掉落表分支和负掉率/空表不掉落的系统测试。
+- 看板移除 `TASK-SLICE-018`，并新增后续 Ready 任务 `TASK-SETTINGS-016`：全怪物掉落表逆向扫描。
+
+更新文件：
+
+- `src/systems/DropSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-016
+
+完成时间：
+
+- 2026-05-27
+
+完成内容：
+
+- 系统扫描 `extracted_flash/scripts/172845/scripts/export/monster/Monster*.as`，范围共 146 个文件。
+- 在 `docs/reverse-engineering/drops-index.md` 中新增“全 `Monster*.as` 掉落表扫描”章节；除已覆盖的 `Monster3..30` 外，补齐 118 条怪物/辅助对象扫描结果。
+- 记录每个新增怪物构造函数中的 `protectedParamsObject.probability`、`fallList`、`isBoss` 和明显条件分支；同时标注继承 `BaseMonster` 默认 `probability = 0.15` 的情况。
+- 明确 `fallList` 空、无有效候选、`probability = 0/-1` 时不产生装备/道具掉落；死亡仍可能走药品和 aura 逻辑。
+- 发现全表中 `bigtype` 只有 `dj/zb/cwzb` 三类；`cwzb` 只在 `Monster2001` 的 `p_cykljl` 中出现，`FallEquipObj.colwho()` 未处理该类型，入包路径需后续逆向。
+- 记录特殊边界：`Monster128` 平均等级分支、`Monster172` `curStage != 4` / `curStage == 4` 分支、`Monster136` 多次赋值最终覆盖、`Monster11111` 的 `fallList = [{}]` 空对象、`MonsterRole4Hit5` 非标准构造函数文件。
+- 将看板下一推荐任务切到 `TASK-SLICE-019`：全怪物掉落表现代配置扩展。
+
+更新文件：
+
+- `docs/reverse-engineering/drops-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-019
+
+完成时间：
+
+- 2026-05-28
+
+完成内容：
+
+- 将 `drops-index.md` 全 `Monster*.as` 扫描中已确认的 `dj/zb` 候选扩展到 `src/systems/DropSystem.ts` 的 `MonsterDropTables`，覆盖全表现代掉落配置。
+- 扩展掉落上下文与分支条件，支持 `averageLevelMin` 和 `curStageNot`，覆盖 `Monster128` 与 `Monster172`。
+- 保留零掉率、空 `fallList`、多次赋值最终分支和 `Monster2001` unsupported 边界。
+- 更新测试场景配置化掉落入口和系统测试。
+
+更新文件：
+
+- `src/systems/DropSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-017
+
+完成时间：
+
+- 2026-05-28
+
+完成内容：
+
+- 追踪 `cwzb/p_cykljl/cykljl` 在主参考包与备用包中的全文命中，确认 `p_cykljl` 只出现在 `Monster2001`，未在 `AllEquipment`、背包、`PetInfo` 或 `PetInterface` 中发现定义或入包分支。
+- 确认 `Monster2001` 写入的是 `protectedParamsObject.fallProbability = 0.1` 与 `protectedParamsObject.fallList`，而可见 `BaseMonster.fallEquip()` 读取 `protectedParamsObject.probability` 与 `this.fallList`，主参考源码未发现桥接复制。
+- 确认即便有隐藏桥接创建 `FallEquipObj({ bigtype:"cwzb" })`，`FallEquipObj.colwho()` 也只处理 `zb/dj/sz`；未匹配分支不会写入 `petsAry` 或任何背包列表。
+- 初步梳理宠物系统边界：宠物主数据在 `User.petsAry/PetInfo`，UI 入口为 `RoleInfo.btn_cw -> PetInterface`，宠物消耗品是普通 `zbwp` 道具并走道具背包。
+- 将看板下一推荐任务切到 `TASK-SETTINGS-018`，用于宠物系统基础逆向。
+
+更新文件：
+
+- `docs/reverse-engineering/drops-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-018
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 细读 `User.as`、`PetInfo.as`、`BaseHero.as`、`BasePet.as`、`PetInterface.as`、`PackThings.as`、`RoleInfo.as`、`KeyBoardControl.as`、`MagicBottle.as` 以及活动/任务/商城宠物获得入口。
+- 新建 `docs/reverse-engineering/pets-index.md`，记录宠物主数据 `User.petsAry`、`PetInfo` 初始化、10 格容量、`petSave` 存档格式、`isFight` 出战切换、`BaseHero.initPet()/addPetByPi()` 战斗实体创建链路和 `BasePet` 最小行为边界。
+- 确认宠物 UI 入口为 `RoleInfo.btn_cw -> PetInterface`，快捷键为 P1 `B`（keyCode 66）和 P2 小键盘 `-`（keyCode 109）；面板展示列表、出战标记、属性、寿命、资质和最多 8 个技能槽。
+- 梳理宠物获得入口：`MagicBottle` 捕捉调用 `User.catchNewPet()`，商城/活动/任务/地图入口直接创建 `PetInfo` 并 push 到 `petsAry`。
+- 梳理宠物消耗品边界：`wphhd/wpcsd/djyys/cwzzxld/cwjnxld/wphtd/nianqld/nianjhd` 都是普通道具背包使用分支，不走 `cwzb`。
+- 明确掉落边界：`Monster2001/cwzb/p_cykljl` 不作为宠物获得实现依据；宠物本体应走独立宠物数据入口，宠物消耗品可走普通 `dj` 道具。
+- 更新 `mechanics-index.md`：`M-042` 推进为已扒，`M-016` 补充宠物快捷键，`M-044` 补充 `petSave` 存档字段说明。
+- 更新 `vertical-slices.md`：新增 `VS-012` 宠物最小可玩切片并标为可开始。
+- 将看板下一个推荐任务切到 `TASK-SLICE-020`，用于实现 P1 预置宠物、B 键面板、单只出战/休息和跟随实体的最小切片。
+
+更新文件：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-020
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 新增 `src/systems/PetSystem.ts`，建立首批现代宠物模型：`PetState`、`PetRoster`、`PetRuntimeModel`、10 格容量、单只出战、休息、选择、面板文本，以及跟随/远距传送逻辑。
+- 更新 `src/scenes/TestScene.ts`：P1 默认拥有一只 `monkey1` 等价宠物；出战时生成绿色占位宠物实体，跟随 P1，距离过远时传送回玩家附近。
+- 新增 B 键宠物面板：显示宠物列表、出战/休息标记、核心属性、资质和技能；方向键选择，`Enter` 切换出战/休息。
+- 为原版宠物 B 键入口让位，将测试场景背包入口从 B 调整为 C；心法面板打开时 B 仍用于技能绑定，不触发宠物面板。
+- `tools/system-tests.ts` 新增宠物单只出战、休息、跟随和远距传送测试。
+- 更新 `docs/domain/glossary.md`，登记 `Pet`、`PetState`、`PetSystem` 统一语言。
+- 更新 `VS-012` 为已完成，`M-042` 推进为部分复现，`M-016` 补充现代快捷键说明。
+- 将看板下一推荐任务切到 `TASK-SETTINGS-019`，用于细化宠物捕捉与法宝葫芦入口逆向。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/domain/glossary.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-019
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 细读 `MagicBottle.as`、`BaseMagicWeapon.as`、`BaseHero.as`、`KeyBoardControl.as`、`User.as`、`AllEquipment.as`、`BackPack.as`、`PackThings.as`、`RoleInfo.as` 以及 `Monster70.as` 至 `Monster78.as`。
+- 补充 `pets-index.md`：记录宣花葫芦 `xhhl/zbfb` 装备入口、`H`/小键盘 `7` 法宝键、灵魂 `< 5000` 门禁、命中扣除 `5000`、单机限定、复杂碰撞检测、捕捉概率、成功/失败/满栏反馈和 `catchNewPet(petName, bm.getLevel())` 入库链路。
+- 列出 `Monster70-78` 到宠物名的映射：`horse1/horse2/monkey1/monkey2/tigress1/turtle1/phoenix1/dragon1/rabbit1`，以及各自概率、资源名和等级来源。
+- 新增 `magic-weapons-index.md`，记录法宝基础生命周期、`BaseHero.initMagicWeapon()` 创建入口、`BaseMagicWeapon.useSkill()/step()`、`showSkillFaBao()` 和宣花葫芦捕捉边界。
+- 更新 `mechanics-index.md`：`M-043` 从未扒推进到部分已扒，`M-042` 补充捕捉链路已扒清但现代侧仍未复现。
+- 保持 `cwzb` 边界：捕捉成功直接进入宠物列表，不走掉落背包。
+- 将看板下一推荐任务切到 `TASK-SLICE-021`，用于实现宣花葫芦捕捉宠物最小切片。
+
+更新文件：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
 - `npm run check:workflow` 通过。
 
 ## 执行记录
@@ -1719,6 +1996,66 @@
 - `docs/reverse-engineering/skills-input-index.md`
 - `docs/reverse-engineering/mechanics-index.md`
 - `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+### TASK-SLICE-019
+
+完成时间：
+
+- 2026-05-28
+
+完成内容：
+
+- 将 `drops-index.md` 全 `Monster*.as` 扫描中已确认的 `dj/zb` 候选扩展到 `src/systems/DropSystem.ts` 的 `MonsterDropTables`，覆盖 `Monster1/2/31+`、`Monster100+`、`Monster600+`、`Monster1000+`、`Monster6000+` 等现代掉落配置。
+- 扩展掉落上下文与分支条件，支持 `averageLevelMin` 和 `curStageNot`，覆盖 `Monster128` 平均等级分支与 `Monster172` 关卡/平均等级分支。
+- 保留零掉率、空 `fallList` 和多次赋值边界：`Monster601` 等零概率不生成掉落，`Monster136` 采用最终 `xhb` 分支，默认概率怪如 `Monster207` 保持 `probability = 0.15`。
+- `Monster2001` 的 `cwzb:p_cykljl` 只登记为 `unsupported` 空分支，没有伪装成 `dj/zb` 入包。
+- `EquipmentSystem.ts` 增补本批 `dj/zb` 掉落所需的最小占位定义，完整中文名、属性、合成和强化关系后置。
+- `TestScene.ts` 新增配置化掉落调试入口：`F9` 为新增普通怪 `Monster1`，`F10` 为新增 boss `Monster31`，`F11` 为默认掉率 `Monster207`，`F12` 为零掉率 `Monster601`。
+- `tools/system-tests.ts` 补充默认概率、零概率、最终赋值、`Monster128/172` 条件分支和 `Monster2001` unsupported 边界测试。
+- 更新 `VS-009` 与 `M-038` 说明，并从 `task-board.md` 移除已完成任务。
+
+更新文件：
+
+- `src/systems/DropSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-017
+
+完成时间：
+
+- 2026-05-28
+
+完成内容：
+
+- 追踪 `cwzb/p_cykljl/cykljl` 在主参考包与备用包中的全文命中，确认 `p_cykljl` 只出现在 `Monster2001`，未在 `AllEquipment`、背包、`PetInfo` 或 `PetInterface` 中发现定义或入包分支。
+- 确认 `Monster2001` 写入的是 `protectedParamsObject.fallProbability = 0.1` 与 `protectedParamsObject.fallList`，而可见 `BaseMonster.fallEquip()` 读取 `protectedParamsObject.probability` 与 `this.fallList`，主参考源码未发现桥接复制。
+- 确认即便有隐藏桥接创建 `FallEquipObj({ bigtype:"cwzb" })`，`FallEquipObj.colwho()` 也只处理 `zb/dj/sz`；未匹配分支不会写入 `petsAry` 或任何背包列表，随后仍会淡出移除。
+- 初步梳理宠物系统边界：宠物主数据在 `User.petsAry/PetInfo`，UI 入口为 `RoleInfo.btn_cw -> PetInterface`，宠物消耗品如 `cwzzxld/cwjnxld/djyys/wpcsd/wphhd/wphtd` 是普通 `zbwp` 道具并走道具背包。
+- 更新 `drops-index.md`，将 `Monster2001/cwzb` 结论改为未接通/unsupported，不再作为待实现掉落类型。
+- 更新 `mechanics-index.md`：`M-038` 明确 `cwzb` 不作为现代掉落类型；`M-042` 推进为部分已扒。
+- 将看板下一推荐任务切到 `TASK-SETTINGS-018`，用于宠物系统基础逆向。
+
+更新文件：
+
+- `docs/reverse-engineering/drops-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
 - `docs/tasks/task-board.md`
 - `docs/tasks/task-history.md`
 
