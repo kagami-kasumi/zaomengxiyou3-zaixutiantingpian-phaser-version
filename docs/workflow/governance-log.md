@@ -2,6 +2,53 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-05-31
+
+### 增加 `/goal` 自动推进与收尾提醒规则
+
+变更内容：
+
+- 在 `docs/workflow/agent-protocol.md` 新增 `Goal 管理协议`，明确 `/goal` 按任务文档自动推进到可交接点，不因普通阶段性进展要求用户手动“继续”。
+- 明确 `/goal` 的停止条件：完成定义达成、验证失败且无法自行修复、任务过大需要拆分、权限/资料缺口，或需要用户确认 Git / 对话边界。
+- 明确正式 task 或 `/goal` 收尾时必须输出下一步、验证结果、对话管理判断、commit 建议和 push 建议。
+- 将 Git 规则扩展为：AI 必须主动给出是否建议 commit / push，但 `git add`、`git commit` 和 `git push` 仍必须由用户明确授权。
+- 同步更新 `AGENTS.md`、`TASK_OUTLINE.md`、`CLAUDE.md`、`docs/workflow/README.md` 和 `docs/workflow/document-map.md` 的摘要规则。
+
+影响范围：
+
+- `AGENTS.md`
+- `TASK_OUTLINE.md`
+- `CLAUDE.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
+## 2026-05-30
+
+### 增加 TestScene / sandbox 增长约束
+
+变更内容：
+
+- 在 `docs/architecture/src-boundaries.md` 新增 `TestScene` / sandbox 增长约束。
+- 明确 `TestScene.ts` 是集成验证场景，不作为最终正式游戏架构承载点。
+- 明确新增切片若预计让 `TestScene.ts` 增加超过约 150 行，应先判断是否抽到 `src/scenes/test-scene/` helper 或 `src/systems/`。
+- 明确同类职责第二次出现时优先抽 helper：视图创建、调试键、命中桥接、UI 面板桥接、运行时查询、系统调度。
+- 明确不为“彻底架构化”做大重构，每次只拆一个职责簇，并保持 `npm run build` 通过。
+
+影响范围：
+
+- `docs/architecture/src-boundaries.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ## 2026-05-27
 
 ### 收缩 AGENTS 入口并外移详细协议

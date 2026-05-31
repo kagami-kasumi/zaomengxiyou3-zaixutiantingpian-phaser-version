@@ -33,6 +33,13 @@ export type InventoryTransferResult = {
   unequipped?: EquipmentInstance;
 };
 
+export type InventoryConsumeResult = {
+  ok: boolean;
+  message: string;
+  before: number;
+  after: number;
+};
+
 export const InventoryCategoryLabels: Record<InventoryCategory, string> = {
   equipment: '装备',
   items: '道具',
@@ -70,8 +77,23 @@ export function createSeedInventoryStore(
   addEquipmentByFillName(store, registry, 'ptdjs');
   addEquipmentByFillName(store, registry, 'mysz');
   addEquipmentByFillName(store, registry, 'xhz');
+  addEquipmentByFillName(store, registry, 'kyl');
+  addEquipmentByFillName(store, registry, 'syl');
+  addEquipmentByFillName(store, registry, 'lxj');
+  addEquipmentByFillName(store, registry, 'hyzzs');
+  addEquipmentByFillName(store, registry, 'zjld');
+  addEquipmentByFillName(store, registry, 'zsTimer');
+  addEquipmentByFillName(store, registry, 'hywjs');
+  addEquipmentByFillName(store, registry, 'fbqpj');
+  addEquipmentByFillName(store, registry, 'jyhl');
+  addEquipmentByFillName(store, registry, 'lxfb');
+  addEquipmentByFillName(store, registry, 'sxfb');
+  addEquipmentByFillName(store, registry, 'yxfb');
   addEquipmentByFillName(store, registry, 'ptnmwsz');
   addStackByFillName(store, registry, 'sms1', 8);
+  addStackByFillName(store, registry, 'wpcsd', 2);
+  addStackByFillName(store, registry, 'wphhd', 1);
+  addStackByFillName(store, registry, 'djyys', 1);
   addStackByFillName(store, registry, 'smbjns2', 2);
   return store;
 }
@@ -144,6 +166,52 @@ export function addStackByFillName(
   };
   store.categories[category].push(stack);
   return stack;
+}
+
+export function consumeStackByFillName(
+  store: InventoryStore,
+  fillName: string,
+  quantity = 1,
+): InventoryConsumeResult {
+  if (quantity <= 0) {
+    return { ok: false, message: '消耗数量无效', before: 0, after: 0 };
+  }
+
+  for (const category of InventoryCategories) {
+    const entries = store.categories[category];
+    const index = entries.findIndex((entry): entry is InventoryItemStack =>
+      entry.kind === 'stack' && entry.definition.fillName === fillName
+    );
+    if (index < 0) {
+      continue;
+    }
+
+    const stack = entries[index] as InventoryItemStack;
+    const before = stack.quantity;
+    if (before < quantity) {
+      return {
+        ok: false,
+        message: `${stack.definition.name} 数量不足`,
+        before,
+        after: before,
+      };
+    }
+
+    stack.quantity -= quantity;
+    const after = stack.quantity;
+    if (stack.quantity <= 0) {
+      entries.splice(index, 1);
+    }
+
+    return {
+      ok: true,
+      message: `消耗 ${stack.definition.name} x${quantity}`,
+      before,
+      after,
+    };
+  }
+
+  return { ok: false, message: `${fillName} 不在背包中`, before: 0, after: 0 };
 }
 
 export function addInventoryEntry(

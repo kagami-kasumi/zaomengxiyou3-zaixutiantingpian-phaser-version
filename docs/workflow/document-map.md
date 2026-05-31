@@ -49,7 +49,7 @@
   - 说明如何从机制缺口、切片缺口或工程基础缺口生成任务。
 - `docs/workflow/agent-protocol.md`
   - Agent 详细执行协议。
-  - 维护正式游戏 task、代码任务、Git、对话收束、任务生成和统一语言的细则，避免 `AGENTS.md` 过长。
+  - 维护正式游戏 task、`/goal` 管理、代码任务、Git、对话收束、任务生成和统一语言的细则，避免 `AGENTS.md` 过长。
 - `docs/workflow/code-quality-gates.md`
   - AI 代码质量门禁。
   - 规定自动验证、系统测试触发条件、场景层边界和 Git 工作要求。

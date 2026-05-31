@@ -5,7 +5,7 @@
 ## 分工
 
 - `task-generation.md`：如何从机制、切片或工程缺口生成标准游戏任务。
-- `agent-protocol.md`：正式游戏 task、代码任务、Git、对话收束和统一语言的详细执行协议。
+- `agent-protocol.md`：正式游戏 task、`/goal` 管理、代码任务、Git、对话收束和统一语言的详细执行协议。
 - `document-map.md`：项目文档职责地图。
 - `code-quality-gates.md`：AI 写代码时必须遵守的工程质量门禁。
 - `governance-log.md`：AI 工作流、任务体系和文档脚手架维护记录。
@@ -27,6 +27,8 @@
 - 默认不要要求 Codex 或 Claude 启动 `npm run dev`；开发服务器和视觉检查由用户本地完成。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。
 - 一个正式游戏 task 对话默认只执行一个 task；同一 task 未完成时默认继续当前对话，上下文过长时优先依赖 compact，并在 compact 后重新检查关键文件。
+- 用户使用 `/goal` 时，AI 按任务文档自动推进到可交接点；任务文档生成和维护仍受本脚手架约束。
 - 不要因为只完成少量工作、仍在同一 task 的验证/修 bug/补文档阶段，就建议新开对话；只有完成 task、切换明显不同机制/切片/子系统，或已读取大量 AS3/逆向/历史资料时，才在文档收尾后温和建议新开对话。
-- Codex 默认不自动提交；只有用户明确要求提交时才运行 `git add` 和 `git commit`。
+- 正式 task 或 `/goal` 收尾时必须明确告诉用户：是否建议继续当前对话、compact 或新开对话；是否建议 commit；已提交后是否建议 push。
+- Codex 默认不自动提交或 push；只有用户明确要求提交时才运行 `git add` 和 `git commit`，只有用户明确要求上传时才运行 `git push`。
 - 提交前必须检查工作区，区分本次改动和已有未提交改动，不提交无关文件，不回滚用户改动。

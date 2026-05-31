@@ -47,6 +47,11 @@ export const SkillProjectileEffectKeys = {
   role2SmbHit4_2: 'skill-projectile.role2.smb.hit4_2',
 } as const;
 
+export const MagicWeaponEffectKeys = {
+  magicSword2: 'magic-weapon.lxj.magic-sword2',
+  magicQpj: 'magic-weapon.fbqpj.qpjeffect',
+} as const;
+
 export const scaffoldAssets = {
   playerPlaceholder: {
     key: AssetKeys.playerPlaceholder,
@@ -130,6 +135,18 @@ export const sourceAssetFamilies = {
       'Role2_hit4',
     ],
     notes: 'Role2 skill projectile/effect family; absent from current symbol and image exports, expected in TangSeng or SpecialUI/TangSeng resource packages.',
+  },
+  magicWeaponProjectiles: {
+    status: 'missing-original',
+    sourceSymbols: [
+      'MagicSwordBmd2',
+      'MagicSword2_1',
+      'MagicSword2_2',
+      'QPJBmd',
+      'qpjeffect',
+      'qpjeffect_box',
+    ],
+    notes: 'First damage magic-weapon projectile families for lxj/MagicSword2 and fbqpj/MagicQPJ; absent from current exported bitmap resources, represented by modern placeholder effects.',
   },
   stage11: {
     status: 'missing-original',

@@ -23,6 +23,15 @@ export type Monster30Model = {
   attackDecisionTimerMs: number;
   attackSerial: number;
   activeAttack?: Monster30ActiveAttack;
+  magicFlowerDebuff?: MonsterMagicFlowerDebuff;
+};
+
+export type MonsterMagicFlowerDebuff = {
+  kind: 'magicFlowerDebuff';
+  sourceName: string;
+  damageMultiplier: number;
+  totalMs: number;
+  remainingMs: number;
 };
 
 export type Monster30ActiveAttack = {
@@ -52,6 +61,7 @@ export const Monster30Tuning = {
   hurtDurationMs: 250,
   hit1DurationMs: 167,
   hit1Damage: 15,
+  magicFlowerDamageMultiplier: 0.925,
   hit1HitboxStartMs: 55,
   hit1HitboxEndMs: 145,
   hit1HitboxOffsetX: 52,
@@ -181,6 +191,26 @@ export function applyMonster30Hit(monster: Monster30Model, damage: number): bool
   return true;
 }
 
+export function applyMonster30MagicFlowerDebuff(
+  monster: Monster30Model,
+  debuff: MonsterMagicFlowerDebuff,
+): void {
+  if (monster.state === 'dead' || monster.state === 'removed') {
+    return;
+  }
+
+  monster.magicFlowerDebuff = {
+    ...debuff,
+    damageMultiplier: Math.max(0, debuff.damageMultiplier),
+    totalMs: Math.max(0, debuff.totalMs),
+    remainingMs: Math.max(0, debuff.remainingMs),
+  };
+}
+
+export function clearMonster30MagicFlowerDebuff(monster: Monster30Model): void {
+  monster.magicFlowerDebuff = undefined;
+}
+
 export function getMonster30AttackHitbox(monster: Monster30Model): Hitbox | undefined {
   const attack = monster.activeAttack;
   if (
@@ -208,6 +238,7 @@ export function getMonster30AttackHitbox(monster: Monster30Model): Hitbox | unde
 function startMonster30Hit1(monster: Monster30Model): void {
   const id = monster.attackSerial + 1;
   monster.attackSerial = id;
+  const damageMultiplier = monster.magicFlowerDebuff?.damageMultiplier ?? 1;
   monster.state = 'hit1';
   monster.stateTimerMs = Monster30Tuning.hit1DurationMs;
   monster.activeAttack = {
@@ -217,7 +248,7 @@ function startMonster30Hit1(monster: Monster30Model): void {
     elapsedMs: 0,
     hitboxActiveFromMs: Monster30Tuning.hit1HitboxStartMs,
     hitboxActiveUntilMs: Monster30Tuning.hit1HitboxEndMs,
-    damage: Monster30Tuning.hit1Damage,
+    damage: Monster30Tuning.hit1Damage * damageMultiplier,
     attackKind: 'physics',
     knockbackX: Monster30Tuning.hit1KnockbackX,
     knockbackY: Monster30Tuning.hit1KnockbackY,

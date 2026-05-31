@@ -29,6 +29,11 @@
 | TASK-SLICE-002 | 切片 | 第一只怪物受击死亡切片 | VS-005、M-030、M-031、M-032 | `Monster30System.ts`、`TestScene.ts`、`vertical-slices.md`、`mechanics-index.md` |
 | TASK-SETTINGS-005 | 逆向 | 五角色普攻特效资源索引 | VS-004、M-023、M-035、M-047 | `attack-effects-index.md`、`roles-index.md`、`mechanics-index.md`、`vertical-slices.md` |
 | TASK-ARCH-002 | 架构 | 资源索引和加载策略 | M-035 | `assets-index.md`、`AssetManifest.ts`、`mechanics-index.md`、`vertical-slices.md` |
+| TASK-ARCH-003 | 架构 | TestScene 视图工厂拆分 | M-004、VS-000 | `TestScene.ts`、`TestSceneViews.ts`、`vertical-slices.md`、`task-board.md` |
+| TASK-ARCH-004 | 架构 | TestScene update 调度层拆分 | M-004、M-029、VS-000 | `TestScene.ts`、`TestSceneUpdatePipeline.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-ARCH-005 | 架构 | 薄 GameContext 与首批运行时查询接口 | M-004、M-029、M-030、VS-000 | `GameContext.ts`、`TestScene.ts`、`glossary.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-ARCH-006 | 架构 | TestScene 首批碰撞/命中桥接拆分 | M-029、M-030、M-032、M-033、VS-006 | `TestScene.ts`、`TestSceneCombatBridge.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-ARCH-007 | 架构 | TestScene 调试键桥接拆分 | M-016、M-029、VS-000 | `TestScene.ts`、`TestSceneDebugKeys.ts`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-006 | 逆向 | 首个角色移动细节索引 | VS-003、M-011、M-012、M-013 | `movement-index.md`、`mechanics-index.md`、`vertical-slices.md` |
 | TASK-SLICE-003 | 切片 | 第一个角色移动切片 | VS-003、M-011、M-012、M-013 | `HeroMovementSystem.ts`、`TestScene.ts`、`vertical-slices.md`、`mechanics-index.md` |
 | TASK-SLICE-001 | 切片 | 五角色普攻与特效切片 | VS-004、M-023、M-047 | `HeroNormalAttackSystem.ts`、`TestScene.ts`、`AssetManifest.ts`、`vertical-slices.md`、`mechanics-index.md` |
@@ -62,8 +67,368 @@
 | TASK-SETTINGS-018 | 逆向 | 宠物系统基础逆向 | M-042、M-016、M-044 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-020 | 切片 | 宠物出战与跟随最小切片 | VS-012、M-042、M-016 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`glossary.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-019 | 逆向 | 宠物捕捉与法宝葫芦入口逆向 | M-042、M-043、M-030 | `pets-index.md`、`magic-weapons-index.md`、`mechanics-index.md`、`task-board.md` |
+| TASK-SLICE-021 | 切片 | 宣花葫芦捕捉宠物最小切片 | M-042、M-043、M-030、VS-012 | `PetSystem.ts`、`EquipmentSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-022 | 切片 | 宠物道具消耗最小切片 | M-042、M-037、VS-012 | `PetSystem.ts`、`InventorySystem.ts`、`EquipmentSystem.ts`、`TestScene.ts`、`system-tests.ts`、`glossary.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-020 | 逆向 | 完整法宝系统基础逆向 | M-043、M-036、M-015 | `magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-023 | 切片 | 枯叶灵/神叶灵治疗法宝最小切片 | M-043、M-036、M-015、M-033、VS-013 | `MagicWeaponSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`glossary.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-024 | 切片 | 戮仙剑/MagicSword2 伤害法宝最小切片 | M-043、M-036、M-015、M-032、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-025 | 切片 | 青萍剑/MagicQPJ 多剑与自动飞剑最小切片 | M-043、M-036、M-015、M-032、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-026 | 切片 | 混元珍珠伞/混元无极伞护盾法宝最小切片 | M-043、M-036、M-015、M-033、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-027 | 切片 | 紫金铃铛/MagicRing 无敌与回复法宝最小切片 | M-043、M-036、M-015、M-033、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-028 | 切片 | 烁时金轮/MagicTimer 时间回溯法宝最小切片 | M-043、M-036、M-015、M-033、VS-013 | `MagicWeaponSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-029 | 切片 | 流邪/沙邪/渊邪入魔 buff 法宝最小切片 | M-043、M-036、M-015、M-033、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-030 | 切片 | 九佑魂莲/MagicFlower 全体增减益法宝最小切片 | M-043、M-036、M-015、M-032、M-033、M-042、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-030
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `jyhl` 九佑魂莲触发分支；装备对应 `zbfb` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- 触发后生成等价 `MagicFlower` 的持续效果：基础持续按 `5 + level / 2` 秒计算；木五行仅按 AS3 行为缩短动作边界，不擅自改变持续时间。
+- 对当前最小切片内友方目标接入可测试增益：覆盖当前玩家，若宠物已出战则同步记录宠物增益状态；增益作为派生攻击加值/倍率和状态展示，不要求改完整原版全角色伤害公式。
+- 对当前最小切片内怪物目标接入可测试减益：覆盖 `Monster30` 的攻击减益，`hit1` 伤害按 `0.925` 派生倍率降低。
+- 使用中重复按 H 拒绝重入；效果到期后回 `wait` 并清理友方增益、宠物增益和怪物减益。
+- 测试场景能装备/切换 `jyhl`，并能观察友方增益、怪物减益、剩余时间和到期清理反馈。
+- 补系统测试覆盖：持续时间公式、木五行动作边界、友方增益、宠物增益、怪物减益、到期清理、重入拒绝、无 `zbfb` 时 H 不触发且不影响普通技能。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/systems/PetSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `jyhl/MagicFlower` active effect，H 触发后按 `5 + level / 2` 秒建立全体增减益，木五行只把动作边界缩短到 450ms。
+- `HeroCombatSystem.ts` 新增 `magicFlowerBuff`，记录当前玩家的派生攻击加值和攻击倍率展示。
+- `PetSystem.ts` 新增出战宠物 `magicFlowerBuff`，由法宝系统触发和清理。
+- `Monster30System.ts` 新增 `magicFlowerDebuff`，使 `Monster30 hit1` 在减益期间按 `0.925` 倍派生伤害。
+- `EquipmentSystem.ts` 和 `InventorySystem.ts` 新增 `jyhl` 种子装备，测试场景可通过背包穿戴/切换。
+- `TestScene.ts` 状态栏和角色标签补充玩家、宠物、Monster30 的 MagicFlower 状态反馈。
+- `tools/system-tests.ts` 覆盖玩家/宠物/怪物状态、持续时间公式、木五行动作边界、重入拒绝、到期清理和 Monster30 攻击减益伤害。
+- 更新 `mechanics-index.md`、`vertical-slices.md`，并把下一推荐任务切到 `TASK-SETTINGS-021`。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-029
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `lxfb` 流邪、`sxfb` 沙邪和 `yxfb` 渊邪触发分支；装备对应 `zbfb` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- `lxfb` 生成等价 `XLFB_BUFF`：基础持续 `7s`，木五行 `10s`，提供小幅攻击/暴击增益并持续扣血。
+- `sxfb` 生成等价 `SXFB_BUFF`：基础持续 `7s`，木五行 `11s`，提供中幅攻击/暴击增益并持续扣血。
+- `yxfb` 释放时先扣当前生命一半，再生成等价 `YXFB_BUFF2`：基础持续 `8s`，木五行持续翻倍，提供大幅攻击/暴击增益；本切片按 AS3 可确认入口只保留半血消耗，不额外增加持续扣血。
+- 增益作为可测试的玩家战斗 buff/派生属性展示接入；不要求本切片把所有普攻/技能伤害公式改成完整原版。
+- 使用中重复按 H 拒绝重入；buff 到期后回 `wait` 并清理增益。
+- 测试场景能装备/切换 `lxfb/sxfb/yxfb`，并能观察 buff 名称、剩余时间、攻击/暴击增益和扣血反馈。
+- 补系统测试覆盖：三种持续时间、木五行加成、渊邪半血消耗、持续扣血、到期清理、重入拒绝、无 `zbfb` 时 H 不触发且不影响普通技能。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `lxfb/sxfb/yxfb` 支持：按 H 进入 `hit` 并创建 `magicDemonBuff` 主动效果；流邪木五行持续 10 秒，沙邪基础持续 7 秒，渊邪木五行持续 16 秒。
+- `HeroCombatSystem.ts` 新增法宝入魔 buff 状态，记录 buff 名称、攻击/暴击派生增益和剩余时间；`resetHeroCombat()` 会清理入魔状态。
+- `MagicWeaponSystem.ts` 为流邪/沙邪接入持续扣血：流邪每秒扣最大生命 5%，沙邪每秒扣最大生命 5.4%，并保留至少 1 点生命；渊邪释放时先扣当前生命一半。
+- `EquipmentSystem.ts`/`InventorySystem.ts` 增补 `lxfb/sxfb/yxfb` 最小法宝定义和测试背包入口。
+- `TestScene.ts` 在玩家标签和状态栏展示入魔 buff、剩余时间、攻击/暴击增益和扣血反馈。
+- `tools/system-tests.ts` 增加流邪木五行持续和扣血、沙邪持续和扣血、渊邪半血与到期清理测试。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-028
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `zsTimer` 烁时金轮触发分支；装备 `zsTimer` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- 第一次按 H 记录当前玩家坐标、HP、MP 和等待剩余时间，并进入等价 `MagicTimer` 的等待状态。
+- 等待状态中再次按 H 触发特殊重入例外：销毁等待记录并把玩家坐标、HP、MP 回溯到记录值，然后回到 `wait`。
+- 未手动二次触发时，等待记录在基础 `30s` 后失效；木五行等待时间为 `27s`。
+- 回溯只处理当前最小切片可验证的玩家坐标、HP、MP 和法宝状态；不实现 tween 动画、真实特效或联机同步。
+- 测试场景能装备/切换 `zsTimer`，并能观察记录点、剩余等待时间和回溯反馈。
+- 补系统测试覆盖：首次记录、二次 H 回溯、等待过期失效、木五行 27s、普通重入规则不影响其他法宝、无 `zbfb` 时 H 不触发且不影响普通技能。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `zsTimer` 支持：第一次 H 创建 `magicTimer` 记录，保存 HP/MP/坐标和等待时长；等待期间第二次 H 触发特殊重入例外，恢复记录值并回到 `wait`。
+- `MagicWeaponSystem.ts` 保留 `zsTimer` 过期逻辑：基础等待 `30s`，木五行 `27s`；等待结束后记录失效并回 `wait`。
+- `EquipmentSystem.ts`/`InventorySystem.ts` 增补 `zsTimer` 烁时金轮最小法宝定义和测试背包入口；正式种子装备定义优先于同名掉落占位定义，避免法宝五行被占位覆盖。
+- `TestScene.ts` 将当前玩家 movement 传给法宝系统，回溯时直接恢复当前测试场景内坐标。
+- `tools/system-tests.ts` 增加首次记录、第二次 H 回溯、木五行 27 秒等待和过期后新记录测试。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-027
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `zjld` 紫金铃铛触发分支；装备 `zjld` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- `zjld` 生成等价 `MAGIC_RING_INVINCIBLE` 保护：基础无敌 `2s`，木五行无敌持续 `1.5` 倍。
+- 触发时按 `最大生命 * 法宝等级 * 0.00904` 回复 HP，MP 按同倍率的一半回复；木五行回复翻倍。
+- 无敌期间 `applyHeroDamage` 或等价玩家受击入口不扣 HP、不进入受击硬直；无敌过期后恢复正常受击。
+- 使用中重复按 H 拒绝重入；无敌持续期间动作回 `wait` 后允许再次释放并刷新无敌，这是当前最小切片的明确边界。
+- 测试场景能装备/切换 `zjld`，并能观察无敌剩余时间、回复和受击免伤反馈。
+- 补系统测试覆盖：HP/MP 回复公式、木五行加成、无敌免伤、过期后正常受击、重入拒绝、无 `zbfb` 时 H 不触发且不影响普通技能。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `zjld` 支持：按 H 进入 `hit`，生成 `magicRing` 主动效果，约 500ms 后回 `wait`；基础无敌 2s，木五行 3s；回复比例按 `level * 0.00904`，木五行翻倍，MP 为同倍率的一半。
+- `HeroCombatSystem.ts` 新增法宝无敌状态，`applyHeroDamage()` 在无敌期间直接拒绝扣血和受击硬直；`updateHeroCombat()` 推进无敌剩余时间并过期清理。
+- `EquipmentSystem.ts`/`InventorySystem.ts` 增补 `zjld` 紫金铃铛最小法宝定义和测试背包入口。
+- `TestScene.ts` 在玩家标签/状态栏显示 `INV` 与 `inv` 剩余时间，方便观察免伤状态。
+- `tools/system-tests.ts` 增加普通/木五行回复公式、无敌免伤、无敌过期后正常受击和重入拒绝测试。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-026
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `hyzzs` 混元珍珠伞和 `hywjs` 混元无极伞触发分支；装备对应 `zbfb` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- `hyzzs` 生成等价 `MAGIC_UMBRELLA_DEFEND` 护盾：基础盾量 `物防 * 法宝等级`，持续 `10s`，木五行盾量 `1.5` 倍。
+- `hywjs` 生成等价 `MAGIC_UMBRELLA_DEFEND2` 护盾：基础盾量 `物防 * 法宝等级 + 魔防 * 法宝等级 * 20`，持续 `10s`，木五行盾量 `2` 倍。
+- 护盾在玩家扣 HP 前吸收伤害；伤害超过剩余盾量时只把溢出部分扣到 HP，盾量耗尽或持续时间结束后失效。
+- 使用中重复按 H 拒绝重入；护盾动作回到 `wait` 后允许再次释放并刷新护盾，这是当前最小切片的明确边界。
+- 测试场景能装备/切换 `hyzzs`/`hywjs`，并能观察护盾剩余量、过期和受击吸收反馈。
+- 补系统测试覆盖：盾量公式、木五行加成、受击吸收/溢出扣血、耗尽/过期、重入拒绝、无 `zbfb` 时 H 不触发且不影响普通技能。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `hyzzs/hywjs` 支持：按 H 进入 `hit`，生成 `magicUmbrella` 主动效果，约 500ms 后回 `wait`；`hyzzs` 按防御和等级生成护盾，木五行 1.5 倍；`hywjs` 按防御、魔防、等级生成护盾，木五行 2 倍。
+- `HeroCombatSystem.ts` 新增法宝护盾状态，`applyHeroDamage()` 在扣 HP 和进入受击硬直前先吸收伤害；全额吸收时不进入 `hurt`，溢出时只扣溢出伤害。
+- `EquipmentSystem.ts`/`InventorySystem.ts` 增补 `hyzzs/hywjs` 最小法宝定义和测试背包入口。
+- `TestScene.ts` 将当前装备属性传给法宝系统，并在玩家标签/状态栏显示护盾剩余量和剩余时间。
+- `tools/system-tests.ts` 增加珍珠伞木五行盾量、无极伞公式、伤害吸收、溢出扣血、盾量耗尽、10 秒过期和重入拒绝测试。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-025
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `fbqpj` 青萍剑触发分支；装备 `fbqpj` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- 主动释放生成 6 个等价 `qpjeffect` 占位 projectile，均按当前最近未死亡怪物锁定目标；释放中重复按 H 拒绝重入。
+- 空闲状态每约 `11.225s` 自动生成 1 个等价飞剑 projectile；木五行主动回待机时间按 `MagicQPJ` 记录缩短。
+- projectile 命中复用现有 `DamageEvent` 链路，能命中 `Monster30` 或 boss 等价目标。
+- 测试场景能装备/切换 `fbqpj`，并能观察主动 6 剑、自动 1 剑和命中反馈。
+- 补系统测试覆盖：主动 6 剑、自动 1 剑、最近目标锁定、重入拒绝、无目标边界和 H 法宝入口不影响普通技能。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `fbqpj` 支持：主动 H 进入 `hit` 后生成 6 个 `magicQpj` projectile；空闲约 `11.225s` 时自动生成 1 个 `fabao-qpj1` projectile；两者都复用最近未死亡目标选择。
+- `ProjectileSystem.ts` 新增 `magic-weapon-qpj-active` 和 `magic-weapon-qpj-auto` 变体，使用 `qpjeffect`/`magic-weapon.fbqpj.qpjeffect` 占位资源 key，并接入现有 magic 伤害链路。
+- `EquipmentSystem.ts`/`InventorySystem.ts` 增补 `fbqpj` 青萍剑最小法宝定义和测试背包入口；`AssetManifest.ts` 记录 `QPJBmd/qpjeffect/qpjeffect_box` 缺失资源映射。
+- `TestScene.ts` 继续通过法宝入口和 projectile 视图/命中管线展示 `fbqpj` 主动 6 剑、空闲自动 1 剑及命中反馈。
+- `tools/system-tests.ts` 增加主动 6 剑、自动 1 剑、最近目标锁定、重入拒绝和无目标边界测试。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-024
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `lxj` 戮仙剑触发分支；装备 `lxj` 后按 `H` 释放，不占普通技能槽或 Space。
+- 释放时先产生起手/剑击占位反馈，并锁定最近未死亡怪物，等价 `MagicSword2.releasesword()` 的最近目标选择。
+- 对目标产生一次可测试伤害事件或法宝 projectile 命中；命中应复用现有 `DamageEvent`/projectile 或保持同等可测试边界。
+- 使用中重复按 H 继续拒绝重入；释放结束后回到 `wait`。
+- 测试场景能装备/切换 `lxj`，并能观察法宝剑击命中 `Monster30` 或 boss 等价目标。
+- 补系统测试覆盖：最近目标选择、伤害命中、重入拒绝、无目标时正常结束、H 法宝入口不影响普通技能。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `lxj` 支持：按 H 进入 `hit`，记录 `MagicSword2_1` 起手，约 1 秒后选择最近未死亡目标并生成剑击。
+- `ProjectileSystem.ts` 新增 `magic-weapon-sword2` projectile 变体，使用 `MagicSword2_2`/`magicsword2` 命名、单次命中、magic 伤害和占位资源 key。
+- `EquipmentSystem.ts`/`InventorySystem.ts` 增补 `lxj` 戮仙剑最小法宝定义和测试背包入口。
+- `TestScene.ts` 将法宝 projectile 接入现有 projectile 视图与命中链路，可命中 `Monster30` 或 boss 等价目标。
+- `tools/system-tests.ts` 增加最近目标选择、projectile 生成、重入拒绝、无目标回待机和 projectile 生命周期测试。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-023
+
+完成定义：
+
+- 建立现代 `MagicWeaponSystem` 或等价边界，读取当前 `zbfb` 法宝并暴露 `trigger/update`。
+- `H` 触发法宝，不占用 0..4 普通技能槽，也不影响 Space 特殊技；若当前法宝正在 `hit`/使用中，重复触发按原版拒绝重入。
+- 支持 `kyl` 枯叶灵：触发后给玩家等价治疗持续效果，基础持续时间按 `MagicLeaf` 的 `8s`，木五行延长 1.5 倍。
+- 支持 `syl` 神叶灵：区分为生命+魔法恢复或至少在数据模型中保留 `MAGIC_LEAF_CURE2` 能力边界。
+- 测试场景能切换/装备 `kyl` 或 `syl`，显示法宝状态和治疗反馈。
+- 补系统测试覆盖：触发成功、重入被拒、木五行持续时间加成、非 `zbfb` 时不触发。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneUpdatePipeline.ts`
+- `tools/system-tests.ts`
+- `docs/domain/glossary.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- 新增统一语言 `MagicWeapon` / `MagicWeaponSystem`。
+- 新增 `MagicWeaponSystem.ts`，覆盖当前法宝读取、H 键边沿触发、`wait/hit`、治疗持续效果、木五行 1.5 倍持续时间和使用中拒绝重入。
+- `EquipmentSystem.ts` 增补 `kyl/xhhl/syl` 的最小法宝定义和 `level/element` 字段；`InventorySystem.ts` 把 `kyl/syl` 加入测试背包，`TestScene` 默认仍装备 `xhhl` 保留宣花葫芦捕捉链路。
+- `TestScene.ts` 接入当前装备栏 `zbfb`：`xhhl` 走捕捉，`kyl` 走 HP 恢复，`syl` 走 HP/MP 恢复；状态栏显示当前法宝和剩余时间。
+- `tools/system-tests.ts` 新增未装备不触发、`kyl` 治疗与重入拒绝、`syl` MP 恢复和木五行持续时间测试。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-020
+
+完成定义：
+
+- 扫描并记录 `export/magicWeapon/` 中首批法宝类的触发方式、动作生命周期、资源名、消耗、伤害/效果目标和结束条件。
+- 梳理 `SutraInterface.as` 中法宝强化/升级入口、消耗资源和与装备 `zbfb` 的关系。
+- 明确 `BaseHero.showSkillFaBao()`、`BaseMagicWeapon.useSkill()` 与普通技能槽/Space 特殊技的边界。
+- 在 `magic-weapons-index.md` 中给出后续现代实现建议，并拆出可执行后续任务。
+- 不写现代 `src/` 实现代码。
+
+已完成产物：
+
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- 已确认 `AllEquipment.initSutraEquipment()` 中 20 个 `zbfb` 法宝定义，以及 `BaseHero.initMagicWeapon()` 中 21 个法宝类映射；`hxyb -> MagicYuban` 是当前装备表外的保留分支。
+- 已记录 `H`/小键盘 7 的独立法宝触发位、单机限制、`wait/hit` 生命周期、`MagicTimer` 二次触发回溯例外，以及背包在使用中阻止穿脱 `zbfb`。
+- 已记录 `SutraInterface` 的灵魂、龙女的眼泪、昆仑玉、烛时星魄、青萍精元和传承法器五行重置规则。
+- 已新增 `TASK-SLICE-023` 作为下一步推荐：枯叶灵/神叶灵治疗法宝最小切片。
 
 ### TASK-001
 
@@ -743,6 +1108,215 @@
 
 验证：
 
+- `npm run check:workflow` 通过。
+
+### TASK-ARCH-003
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 新增 `src/scenes/test-scene/TestSceneViews.ts`，把 `TestScene.ts` 中的纯 Phaser 显示对象工厂拆出到独立 helper。
+- 已抽出 `Monster30` 视图、`Monster3` boss 视图、传送门视图、宠物视图、掉落物视图、普攻特效、projectile 特效、命中闪框和 boss 区静态装饰。
+- `TestScene.ts` 继续保留玩法状态、系统调用、碰撞判定和调试输入；本轮不改变任何玩法规则、数值、键位或系统数据模型。
+- `TestScene.ts` 从巨型场景类中移出第一批视图创建细节，为后续拆系统调度层和薄 `GameContext` 留出边界。
+- 在 `task-board.md` 新增后续 `TASK-ARCH-004`，下一步聚焦 update 调度层，不直接做完整 EntityManager。
+
+更新文件：
+
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneViews.ts`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过。
+
+### TASK-ARCH-004
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 新增 `src/scenes/test-scene/TestSceneUpdatePipeline.ts`，把 `TestScene.update()` 的每帧调度顺序移出场景类。
+- `TestScene.ts` 新增惰性 `updatePipeline`，只负责读取当前输入、记录上一帧相机位置，并调用 pipeline。
+- 将原本内联在 `update()` 中的技能面板刷新整理为 `updateSkillPanels()`，由 pipeline 统一调度。
+- 调度顺序保持原样：输入/角色/宠物/法宝捕捉/projectile/怪物/掉落/爬升/视图/UI/status/lastInput 的先后关系未改变。
+- 本轮不引入完整 `EntityManager`，不改变玩法规则、键位、数值、系统数据模型或 Phaser 显示对象归属。
+- 在 `task-board.md` 新增后续 `TASK-ARCH-005`，下一步聚焦薄 `GameContext` 与首批实体查询接口。
+
+更新文件：
+
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneUpdatePipeline.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过。
+
+### TASK-ARCH-005
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 新增 `src/core/GameContext.ts`，建立薄运行时上下文和 `findPlayerBySlot()` 查询函数。
+- `GameContext` 采用 getter 形式引用当前运行时集合，避免数组替换后引用陈旧；首批覆盖玩家、`Monster30`、boss arena、projectile system、drop system、pet roster 和可捕捉目标集合。
+- `TestScene.ts` 新增 `gameContext`、`getPlayer()`、`getPlayers()`、`getMonster30s()`、`getBossArena()`、`getProjectileSystem()`、`getDropSystem()`、`getPetRoster()`、`getCapturablePetTargets()` 等查询入口。
+- 将技能栏/技能面板/status 文本、部分 boss 命中与可视化读取改为通过上下文查询，减少直接散数组访问。
+- 更新统一语言表，新增 `GameContext` 作为 Runtime 上下文中的查询外壳，明确不承载玩法规则或完整 ECS 生命周期。
+- 本轮不改变玩法规则、键位、数值、系统数据模型、Phaser 显示对象归属或怪物/掉落/宠物生命周期。
+- 在 `task-board.md` 新增后续 `TASK-ARCH-006`，下一步拆 TestScene 碰撞/命中桥接 helper。
+
+更新文件：
+
+- `src/core/GameContext.ts`
+- `src/scenes/TestScene.ts`
+- `docs/domain/glossary.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过。
+
+### TASK-ARCH-006
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 新增 `src/scenes/test-scene/TestSceneCombatBridge.ts`，把首批 Phaser Rectangle 碰撞判定和 `DamageEvent` 桥接从 `TestScene.ts` 中移出。
+- 已抽出玩家普攻命中 `Monster30` 的桥接：读取普攻 hitbox、判定 `Monster30` 受击框、按 `HitRegistry` 去重、创建伤害事件、调用 `applyMonster30Hit()`，并返回 aura 归属目标。
+- 已抽出 `Monster30` 命中玩家的桥接：读取怪物攻击 hitbox、判定玩家受击框、记录攻击可视化 flash 边界、按 `HitRegistry` 去重、创建伤害事件、调用 `applyHeroDamage()`。
+- `TestScene.ts` 保留场景职责：接收桥接结果，更新 `lastDamageEvent`、显示命中闪框、记录 `monster30AuraTargets`。
+- 暂不迁移 boss/projectile 命中路径，避免一次牵动过多战斗路径；后续可在同一 helper 中继续扩展。
+- 本轮不改变伤害数值、命中去重、击退、死亡、调试可视化、系统数据模型或 Phaser 显示对象归属。
+- 在 `task-board.md` 新增后续 `TASK-ARCH-007`，下一步拆调试输入与 UI 面板桥接 helper。
+
+更新文件：
+
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneCombatBridge.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过。
+
+### TASK-ARCH-007
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 新增 `src/scenes/test-scene/TestSceneDebugKeys.ts`，把 `TestScene.ts` 中第一批调试键创建与 `JustDown` 判定移出场景类。
+- 已覆盖药品调试键 `6/7/8`、aura 调试键 `R/F`、强化石调试键 `C`、配置化掉落调试键 `N/M/,/F9/F10/F11/F12`。
+- `TestScene.ts` 只保留具体调试行为：在 P1 附近生成药品、aura、强化石或配置化掉落，并继续使用原有掉落/背包反馈。
+- 本轮不改变键位、调试入口语义、面板行为、UI 系统数据模型、掉落系统数据模型或 Phaser 显示对象归属。
+- 第一阶段 `TestScene` 重构收束：已完成视图工厂、update 调度层、薄 `GameContext`、首批命中桥接和首批调试键桥接拆分。后续推荐回到 `TASK-SETTINGS-020` 法宝系统基础逆向。
+
+更新文件：
+
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneDebugKeys.ts`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run build` 通过。
+
+### TASK-SLICE-021
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 在 `src/systems/PetSystem.ts` 扩展宣花葫芦捕捉最小模型：`MagicBottleCaptureModel`、`CapturablePetTarget`、`Monster70-78` 到宠物名/概率映射、`catchNewPet()`、H 键触发、捕捉特效生命周期和命中结算。
+- 捕捉逻辑按 `pets-index.md`/`magic-weapons-index.md` 边界实现：灵魂 `< 5000` 拒绝；命中可捕捉怪后扣除 `5000` 灵魂；成功入 `PetSystem` 宠物列表并移除怪物；失败或满栏保留怪物；不生成 `cwzb` 掉落，不进入背包。
+- `src/scenes/TestScene.ts` 新增 P1 默认 `xhhl` 等价入口、`MagicBottleEffect3` 占位捕捉范围、一只 `Monster72 -> monkey1` 等价可捕捉目标，以及状态栏中的灵魂/捕捉反馈。
+- `src/systems/EquipmentSystem.ts` 增补 `xhhl` 宣花葫芦最小装备定义，保留 `zbfb`/法宝语义；完整法宝 UI、强化和其他法宝后置。
+- `tools/system-tests.ts` 补充灵魂不足、成功入列表、失败保留怪物、满栏不入列表和 H 法宝入口不影响普通技能槽的自动化测试。
+- 更新 `mechanics-index.md`：`M-042` 记录宠物捕捉最小链路已复现，`M-043` 推进为宣花葫芦入口部分复现。
+- 更新 `vertical-slices.md`：`VS-012` 从宠物面板/跟随扩展为宠物面板、出战跟随和宣花葫芦捕捉切片。
+- 从 `task-board.md` 移除已完成任务；新增并推荐 `TASK-SLICE-022` 作为下一步，用于实现宠物道具消耗最小切片。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-022
+
+完成时间：
+
+- 2026-05-30
+
+完成内容：
+
+- 在 `docs/domain/glossary.md` 新增统一语言 `PetConsumable`，用于描述道具背包中对当前出战宠物生效的普通道具效果。
+- 在 `src/systems/PetSystem.ts` 新增宠物道具效果入口：`wpcsd` 使当前出战宠物寿命 `+20` 且夹到 `100`，`wphhd` 恢复当前出战宠物 HP/MP 并保证寿命至少为 `1`，`djyys` 为当前出战宠物增加 `30000` 经验。
+- 在 `src/systems/InventorySystem.ts` 新增堆叠道具消耗函数，并在测试背包中加入 `wpcsd/wphhd/djyys`。
+- 在 `src/systems/EquipmentSystem.ts` 增补三种宠物道具的最小 `EquipmentDefinition`，保留 `zbwp/fillName` 边界。
+- 在 `src/scenes/TestScene.ts` 接入背包道具页使用流程：选中宠物道具后按 `Enter` 生效并扣减数量；没有当前出战宠物时不消耗并反馈。
+- `tools/system-tests.ts` 补充成功消耗、无出战宠物不消耗、寿命上限、还魂丹状态恢复和经验石反馈测试。
+- 更新 `mechanics-index.md` 和 `vertical-slices.md`：`M-042/VS-012` 记录宠物道具消耗最小切片已复现。
+- 从 `task-board.md` 移除已完成任务；新增并推荐 `TASK-SETTINGS-020` 作为下一步，用于完整法宝系统基础逆向。
+
+更新文件：
+
+- `docs/domain/glossary.md`
+- `src/systems/PetSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
 
 ### TASK-SLICE-013

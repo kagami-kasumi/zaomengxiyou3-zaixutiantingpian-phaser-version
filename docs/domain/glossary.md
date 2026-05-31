@@ -28,6 +28,7 @@
 | 输入绑定 | `InputBindings` | Config / Type | Input | P1/P2 键位映射 | `KeyBindings`, `ControlBindings` |
 | 输入系统 | `InputSystem` | System | Input | 读取键盘并输出玩家输入 | `KeyboardSystem`, `ControlSystem` |
 | 游戏设置 | `GameSettings` | Config | Runtime | 画布、速度等全局轻量配置 | `GameConfig`, `Settings` |
+| 游戏上下文 | `GameContext` | Context / Query Facade | Runtime | 薄运行时上下文，只提供共享运行时集合和查询入口，不承载玩法规则或完整 ECS 生命周期 | `WorldContext`, `RuntimeContext`, `GameWorld` |
 | 资源清单 | `AssetManifest` | Config | Content | 现代资源键和加载策略 | `ResourceManifest`, `AssetsMap` |
 | 场景 | `Scene` | Phaser Concept | Runtime | Phaser 场景；具体类可用 `BootScene`、`TestScene` | `Screen`, `View` |
 | 英雄 | `Hero` | Entity | Combat | 玩家可控制战斗角色；对应 AS3 `Role*` 行为参考 | `Role`, `Character`, `PlayerCharacter` |
@@ -36,6 +37,10 @@
 | 英雄普攻系统 | `HeroNormalAttackSystem` | System | Combat | 根据输入和英雄移动状态触发普攻动作、特效与命中框 | `RoleAttackSystem`, `NormalAttackSystem` |
 | 英雄战斗模型 | `HeroCombatModel` | Model | Combat | 单个英雄生命、受击、死亡、保护和最近伤害事件状态 | `PlayerCombatModel`, `HeroHealthState` |
 | 怪物 | `Monster` | Entity | Combat | 敌方单位 | `Enemy`, `Mob` |
+| 宠物 | `Pet` | Entity | Combat / Progression | 玩家持有并可出战的伙伴实体；对应 AS3 `PetInfo`/`BasePet` 行为参考 | `Companion`, `Familiar` |
+| 宠物模型 | `PetState` | Model | Combat / Progression | 单只宠物的可持久化运行数据，包含名称、等级、HP/MP、寿命、出战状态和技能名 | `PetInfo`, `PetData` |
+| 宠物消耗品 | `PetConsumable` | Item Effect / Type | Progression | 道具背包中可对当前出战宠物生效的普通道具效果，例如寿命丹、还魂丹、经验石 | `PetItem`, `CompanionConsumable`, `FamiliarItem` |
+| 宠物系统 | `PetSystem` | System | Combat / Progression | 管理宠物列表、单只出战、跟随实体运行状态和首批宠物 UI 数据 | `CompanionSystem`, `FamiliarSystem` |
 | 基础对象 | `GameObjectModel` | Model | Runtime / Combat | 现代逻辑对象模型；不要直接照搬 AS3 `BaseObject` | `BaseObject`, `EntityBase` |
 | 技能 | `Skill` | Entity / Config | Combat | 主动技能或技能配置 | `Ability`, `Spell` |
 | 技能绑定 | `SkillBinding` | Value Object / Config | Combat | 单个技能槽中绑定的技能名、等级等最小释放配置 | `AbilityBinding`, `SkillSlotBinding` |
@@ -43,6 +48,8 @@
 | 英雄技能模型 | `HeroSkillModel` | Model | Combat | 单个英雄技能释放所需的 MP、技能配置和当前技能动作状态 | `SkillState`, `ManaState` |
 | 子弹 | `Projectile` | Entity | Combat | 技能飞行物或抛射物 | `Bullet`, `Missile` |
 | 子弹系统 | `ProjectileSystem` | System | Combat | 管理技能飞行物生命周期、命中间隔和释放清理 | `BulletSystem`, `MissileSystem` |
+| 法宝 | `MagicWeapon` | Entity / Config | Combat / Progression | 装备在 `zbfb` 槽位、由 H/小键盘 7 触发的特殊装备能力 | `Artifact`, `Relic`, `Sutra` |
+| 法宝系统 | `MagicWeaponSystem` | System | Combat / Progression | 管理当前法宝、H 键触发、使用中重入边界和首批持续效果 | `ArtifactSystem`, `RelicSystem`, `SutraSystem` |
 | 战斗系统 | `CombatSystem` | System | Combat | 伤害事件、命中去重和首批互伤结算函数 | `DamageSystem`, `HitSystem` |
 | 伤害事件 | `DamageEvent` | Value Object | Combat | 一次伤害结算输入 | `HitInfo`, `DamageInfo` |
 | 命中框 | `Hitbox` | Value Object / Component | Combat | 攻击判定区域 | `AttackBox` |

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { AssetKeys } from '../assets/AssetManifest';
+import { createGameContext, findPlayerBySlot } from '../core/GameContext';
 import { GameSettings } from '../core/GameSettings';
 import {
   createDamageEvent,
@@ -33,9 +34,10 @@ import {
   type MovementPlatform,
 } from '../systems/HeroMovementSystem';
 import {
+  applyMonster30MagicFlowerDebuff,
   applyMonster30Hit,
+  clearMonster30MagicFlowerDebuff,
   createMonster30,
-  getMonster30AttackHitbox,
   updateMonster30,
   type Monster30Model,
 } from '../systems/Monster30System';
@@ -46,7 +48,6 @@ import {
   setHeroId,
   setHeroWeaponMode,
   updateHeroNormalAttack,
-  type ActiveHeroNormalAttack,
   type HeroId,
   type HeroNormalAttackModel,
 } from '../systems/HeroNormalAttackSystem';
@@ -125,10 +126,12 @@ import {
   createSeedEquipmentRegistry,
   HeroNamesById,
   type EquipmentDefinition,
+  type EquipmentInstance,
   type EquipmentLoadout,
   type HeroBaseStats,
 } from '../systems/EquipmentSystem';
 import {
+  consumeStackByFillName,
   createSeedInventoryStore,
   type InventoryStore,
 } from '../systems/InventorySystem';
@@ -136,6 +139,7 @@ import {
   buildInventoryPanelLines,
   createInventoryUIState,
   equipSelectedInventoryEntry,
+  getSelectedInventoryEntry,
   moveInventorySelection,
   selectNextInventoryCategory,
   setInventoryFocus,
@@ -146,19 +150,93 @@ import {
 import {
   createDropSystem,
   DropTuning,
+  type AuraDropType,
+  type AuraTargetSnapshot,
   getDropPickupAlpha,
   getWorldDrops,
   maybeSpawnMedicineDrop,
-  Monster30DropEntries,
   pickupMedicineDrop,
   pickupWorldDrop,
+  spawnAuraDrop,
+  spawnAuraDrops,
+  spawnConfiguredMonsterDrop,
   spawnMedicineDrop,
-  spawnWorldDrop,
+  spawnStrengthStoneDrop,
   updateWorldDrops,
   type DropSystemModel,
   type MedicineDropType,
+  type MonsterDropContext,
+  type MonsterDropId,
   type WorldDrop,
 } from '../systems/DropSystem';
+import {
+  buildPetPanelLines,
+  createMagicBottleCaptureModel,
+  createSeedPetRoster,
+  getActivePet,
+  isPetConsumableFillName,
+  requestMagicBottleCapture,
+  resolveMagicBottleCaptureHit,
+  selectPet,
+  syncPetRuntimeWithRoster,
+  toggleSelectedPetActive,
+  updateMagicBottleCapture,
+  updatePetRuntime,
+  usePetConsumable,
+  type CapturablePetTarget,
+  type MagicBottleCaptureModel,
+  type PetRoster,
+  type PetRuntimeModel,
+} from '../systems/PetSystem';
+import {
+  createMagicWeaponModel,
+  formatMagicWeaponState,
+  requestMagicWeaponTrigger,
+  syncMagicWeaponFromLoadout,
+  updateMagicWeapon,
+  type MagicWeaponEnemyTarget,
+  type MagicWeaponModel,
+} from '../systems/MagicWeaponSystem';
+import {
+  applyHeroNormalAttackToMonster30s,
+  applyMonster30AttackToPlayers,
+  getMonster30Bounds,
+  getPlayerBounds,
+  type CombatBridgeResult,
+} from './test-scene/TestSceneCombatBridge';
+import {
+  collectAuraDebugActions,
+  collectConfiguredDropDebugActions,
+  collectMedicineDebugActions,
+  createTestSceneDebugKeys,
+  isStoneDebugJustDown,
+  type TestSceneDebugKeys,
+} from './test-scene/TestSceneDebugKeys';
+import {
+  createAttackEffectView,
+  createAttackFlash,
+  createBossView,
+  createDropView,
+  createMonsterView,
+  createPetView,
+  createProjectileEffectView,
+  createTransferDoorView,
+  destroyDropView,
+  drawBossArenaStage,
+  type AttackEffectView,
+  type AttackFlash,
+  type BossView,
+  type DropView,
+  type MonsterView,
+  type PetView,
+  type ProjectileEffectView,
+  type TransferDoorView,
+  syncDropView,
+} from './test-scene/TestSceneViews';
+import {
+  createTestSceneUpdatePipeline,
+  type TestSceneUpdatePipeline,
+} from './test-scene/TestSceneUpdatePipeline';
 
 type PlayerView = {
   slot: PlayerSlot;
@@ -169,62 +247,6 @@ type PlayerView = {
   normalAttack: HeroNormalAttackModel;
   skill: HeroSkillModel;
   baseStats: HeroBaseStats;
-};
-
-type MonsterView = {
-  root: Phaser.GameObjects.Container;
-  body: Phaser.GameObjects.Ellipse;
-  wingLeft: Phaser.GameObjects.Ellipse;
-  wingRight: Phaser.GameObjects.Ellipse;
-  eye: Phaser.GameObjects.Ellipse;
-  hpTrack: Phaser.GameObjects.Rectangle;
-  hpFill: Phaser.GameObjects.Rectangle;
-  label: Phaser.GameObjects.Text;
-  stateText: Phaser.GameObjects.Text;
-};
-
-type AttackFlash = {
-  shape: Phaser.GameObjects.Rectangle;
-  expiresAt: number;
-};
-
-type AttackEffectView = {
-  slot: PlayerSlot;
-  attack: ActiveHeroNormalAttack;
-  shape: Phaser.GameObjects.Rectangle | Phaser.GameObjects.Ellipse;
-  label: Phaser.GameObjects.Text;
-};
-
-type ProjectileEffectView = {
-  projectileId: number;
-  shape: Phaser.GameObjects.Ellipse;
-  core: Phaser.GameObjects.Ellipse;
-  label: Phaser.GameObjects.Text;
-};
-
-type DropView = {
-  root: Phaser.GameObjects.Container;
-  shadow: Phaser.GameObjects.Ellipse;
-  body: Phaser.GameObjects.Ellipse;
-  shine: Phaser.GameObjects.Ellipse;
-  label: Phaser.GameObjects.Text;
-  feedback: Phaser.GameObjects.Text;
-};
-
-type BossView = {
-  body: Phaser.GameObjects.Ellipse;
-  crown: Phaser.GameObjects.Ellipse;
-  eye: Phaser.GameObjects.Ellipse;
-  hpTrack: Phaser.GameObjects.Rectangle;
-  hpFill: Phaser.GameObjects.Rectangle;
-  label: Phaser.GameObjects.Text;
-  stateText: Phaser.GameObjects.Text;
-};
-
-type TransferDoorView = {
-  frame: Phaser.GameObjects.Rectangle;
-  glow: Phaser.GameObjects.Rectangle;
-  label: Phaser.GameObjects.Text;
 };
 
 type HeroSelectionKeys = Record<HeroId, Phaser.Input.Keyboard.Key>;
@@ -249,6 +271,27 @@ type InventoryPanelView = {
   text: Phaser.GameObjects.Text;
 };
 
+type PetPanelView = {
+  container: Phaser.GameObjects.Container;
+  bg: Phaser.GameObjects.Graphics;
+  text: Phaser.GameObjects.Text;
+};
+
+type CapturablePetTargetView = {
+  root: Phaser.GameObjects.Container;
+  body: Phaser.GameObjects.Ellipse;
+  mark: Phaser.GameObjects.Ellipse;
+  label: Phaser.GameObjects.Text;
+  feedback: Phaser.GameObjects.Text;
+};
+
+type MagicBottleEffectView = {
+  root: Phaser.GameObjects.Container;
+  body: Phaser.GameObjects.Ellipse;
+  glow: Phaser.GameObjects.Ellipse;
+  label: Phaser.GameObjects.Text;
+};
+
 export class TestScene extends Phaser.Scene {
   private inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
@@ -265,6 +308,7 @@ export class TestScene extends Phaser.Scene {
   private projectileEffectViews: ProjectileEffectView[] = [];
   private dropSystem: DropSystemModel = createDropSystem();
   private dropViews = new Map<string, DropView>();
+  private monster30AuraTargets = new Map<string, PlayerSlot>();
   private hitRegistry: HitRegistry = createHitRegistry();
   private lastDamageEvent?: DamageEvent;
   private lastSkillEvent?: HeroSkillCastEvent;
@@ -293,7 +337,11 @@ export class TestScene extends Phaser.Scene {
   private inventoryConfirmKey?: Phaser.Input.Keyboard.Key;
   private inventoryBackspaceKey?: Phaser.Input.Keyboard.Key;
   private inventoryDeleteKey?: Phaser.Input.Keyboard.Key;
-  private medicineSpawnKeys?: Record<MedicineDropType, Phaser.Input.Keyboard.Key>;
+  private petPanelToggleKey?: Phaser.Input.Keyboard.Key;
+  private petPanelUpKey?: Phaser.Input.Keyboard.Key;
+  private petPanelDownKey?: Phaser.Input.Keyboard.Key;
+  private petPanelConfirmKey?: Phaser.Input.Keyboard.Key;
+  private debugKeys?: TestSceneDebugKeys;
   private p1SkillUI: SkillUIState = createSkillUIState();
   private p2SkillUI: SkillUIState = createSkillUIState();
   private p1SkillBar?: SkillBarView;
@@ -314,12 +362,33 @@ export class TestScene extends Phaser.Scene {
   private equipmentLoadout: EquipmentLoadout = createEmptyEquipmentLoadout();
   private inventoryUI: InventoryUIState = createInventoryUIState();
   private inventoryPanel?: InventoryPanelView;
+  private magicWeapon: MagicWeaponModel = createMagicWeaponModel();
+  private petRoster: PetRoster = createSeedPetRoster();
+  private magicBottle: MagicBottleCaptureModel = createMagicBottleCaptureModel();
+  private capturablePetTargets: CapturablePetTarget[] = [];
+  private capturablePetTargetViews = new Map<string, CapturablePetTargetView>();
+  private magicBottleEffectView?: MagicBottleEffectView;
+  private petPanelOpen = false;
+  private petRuntime?: PetRuntimeModel;
+  private petView?: PetView;
+  private petPanel?: PetPanelView;
+  private updatePipeline?: TestSceneUpdatePipeline;
   private movementPlatforms: MovementPlatform[] = [];
   private movementBounds: HeroMovementBounds = {
     left: 0,
     right: defaultClimbTuning.worldWidth,
     bottom: defaultClimbTuning.worldHeight,
   };
+  private gameContext = createGameContext({
+    players: () => this.playerViews,
+    monster30s: () => this.monster30s,
+    bossArena: () => this.bossArena,
+    projectileSystem: () => this.projectileSystem,
+    dropSystem: () => this.dropSystem,
+    petRoster: () => this.petRoster,
+    capturablePetTargets: () => this.capturablePetTargets,
+  });
+
   public constructor() {
     super('TestScene');
   }
@@ -339,7 +408,9 @@ export class TestScene extends Phaser.Scene {
     this.createStage();
     this.createClimbingPlatforms();
     this.createClouds();
+    this.equipDefaultMagicWeapon();
     this.playerViews = this.createPlayerMarkers();
+    this.capturablePetTargets = this.createCapturablePetTargets();
 
     this.movementPlatforms = [
       {
@@ -424,7 +495,8 @@ export class TestScene extends Phaser.Scene {
     this.createHeroDebugKeys();
     this.createSkillUIKeys();
     this.createInventoryUIKeys();
-    this.createMedicineDebugKeys();
+    this.createPetUIKeys();
+    this.createDebugKeys();
     this.p1SkillBar = this.createSkillBar('p1', 44, 540);
     this.p2SkillBar = this.createSkillBar('p2', 488, 540);
     this.p1SkillBar.container.setScrollFactor(0).setDepth(80);
@@ -435,14 +507,16 @@ export class TestScene extends Phaser.Scene {
     this.p2SkillPanel.container.setScrollFactor(0).setDepth(85);
     this.inventoryPanel = this.createInventoryPanel();
     this.inventoryPanel.container.setScrollFactor(0).setDepth(95);
-    this.bossView = this.createBossView();
-    this.bossDoorView = this.createTransferDoorView();
+    this.petPanel = this.createPetPanel();
+    this.petPanel.container.setScrollFactor(0).setDepth(96);
+    this.bossView = createBossView(this);
+    this.bossDoorView = createTransferDoorView(this);
     this.bossArenaLabel = this.add.text(470, 50, '', {
       color: '#f2c14e',
       fontFamily: 'Arial, sans-serif',
       fontSize: '18px',
     }).setOrigin(0.5, 0.5);
-    this.drawBossArenaStage();
+    drawBossArenaStage(this);
     this.statusText = this.add.text(24, 22, '', {
       color: '#f3f6ff',
       fontFamily: 'Arial, sans-serif',
@@ -459,55 +533,66 @@ export class TestScene extends Phaser.Scene {
     const input = this.inputSystem.read();
     const previousCameraY = this.verticalClimb.cameraY;
 
-    this.updateHeroDebugSelection();
-    this.updateHeroMovement(input, time, delta);
-    this.updateHeroCombatStates(time, delta);
-    this.updateHeroNormalAttacks(input, time);
-    this.updateBossHitByPlayers(time);
-    this.updateHeroSkillProjectiles(input);
-    this.updateProjectileSystem(time, delta);
+    this.getUpdatePipeline().run(time, delta, input, previousCameraY);
+  }
 
-    this.updateMonster30s(delta);
-    this.handleMedicineDebugKeys();
-    updateWorldDrops(this.dropSystem, delta);
-    this.handleDropPickup();
-    this.applyAllMonster30Attacks(time);
-    this.updateAllMonsterViews();
-    this.updateDropViews();
-    this.updateVerticalClimbLogic(input, time, delta, previousCameraY);
-    this.finalizeCameraPosition();
+  private getUpdatePipeline(): TestSceneUpdatePipeline {
+    if (!this.updatePipeline) {
+      this.updatePipeline = this.createUpdatePipeline();
+    }
 
-    this.updateAttackEffectViews(time);
-    this.updateAttackFlashes(time);
-    this.handleInventoryUIKeys();
-    if (!this.inventoryUI.isOpen) {
-      this.handleSkillUIKeys();
-    }
-    this.updateSkillBars();
-    if (this.p1SkillPanel) {
-      this.updateSkillPanel(
-        this.p1SkillPanel,
-        'p1',
-        this.playerViews.find((p) => p.slot === 'p1'),
-        this.p1SkillUI,
-        this.p1SkillLearning,
-      );
-    }
-    if (this.p2SkillPanel) {
-      this.updateSkillPanel(
-        this.p2SkillPanel,
-        'p2',
-        this.playerViews.find((p) => p.slot === 'p2'),
-        this.p2SkillUI,
-        this.p2SkillLearning,
-      );
-    }
-    this.updateBossArena(input, time, delta);
-    this.updateBossArenaVisuals();
-    this.updateCloudVisuals();
-    this.updateInventoryPanel();
-    this.updateStatusText(input);
-    this.lastInput = input;
+    return this.updatePipeline;
+  }
+
+  private createUpdatePipeline(): TestSceneUpdatePipeline {
+    return createTestSceneUpdatePipeline({
+      updateHeroDebugSelection: () => this.updateHeroDebugSelection(),
+      updateHeroMovement: (input, time, delta) => this.updateHeroMovement(input, time, delta),
+      updateHeroCombatStates: (time, delta) => this.updateHeroCombatStates(time, delta),
+      updateHeroNormalAttacks: (input, time) => this.updateHeroNormalAttacks(input, time),
+      updatePetSystem: (delta) => this.updatePetSystem(delta),
+      updateMagicWeapon: (input, delta) => this.updateMagicWeapon(input, delta),
+      updateMagicBottleCapture: (input, delta) => this.updateMagicBottleCapture(input, delta),
+      updateBossHitByPlayers: (time) => this.updateBossHitByPlayers(time),
+      updateHeroSkillProjectiles: (input) => this.updateHeroSkillProjectiles(input),
+      updateProjectileSystem: (time, delta) => this.updateProjectileSystem(time, delta),
+      updateMonster30s: (delta) => this.updateMonster30s(delta),
+      handleMedicineDebugKeys: () => this.handleMedicineDebugKeys(),
+      handleAuraDebugKeys: () => this.handleAuraDebugKeys(),
+      handleStoneDebugKey: () => this.handleStoneDebugKey(),
+      handleConfiguredDropDebugKeys: () => this.handleConfiguredDropDebugKeys(),
+      updateWorldDrops: (delta) => updateWorldDrops(
+        this.dropSystem,
+        delta,
+        this.createAuraTargetSnapshots(),
+      ),
+      handleDropPickup: () => this.handleDropPickup(),
+      applyAllMonster30Attacks: (time) => this.applyAllMonster30Attacks(time),
+      updateAllMonsterViews: () => this.updateAllMonsterViews(),
+      updateCapturablePetTargetViews: () => this.updateCapturablePetTargetViews(),
+      updateMagicBottleEffectView: () => this.updateMagicBottleEffectView(),
+      updateDropViews: () => this.updateDropViews(),
+      updateVerticalClimbLogic: (input, time, delta, previousCameraY) =>
+        this.updateVerticalClimbLogic(input, time, delta, previousCameraY),
+      finalizeCameraPosition: () => this.finalizeCameraPosition(),
+      updateAttackEffectViews: (time) => this.updateAttackEffectViews(time),
+      updateAttackFlashes: (time) => this.updateAttackFlashes(time),
+      handleInventoryUIKeys: () => this.handleInventoryUIKeys(),
+      handlePetUIKeys: () => this.handlePetUIKeys(),
+      canHandleSkillUI: () => !this.inventoryUI.isOpen && !this.petPanelOpen,
+      handleSkillUIKeys: () => this.handleSkillUIKeys(),
+      updateSkillBars: () => this.updateSkillBars(),
+      updateSkillPanels: () => this.updateSkillPanels(),
+      updateBossArena: (input, time, delta) => this.updateBossArena(input, time, delta),
+      updateBossArenaVisuals: () => this.updateBossArenaVisuals(),
+      updateCloudVisuals: () => this.updateCloudVisuals(),
+      updateInventoryPanel: () => this.updateInventoryPanel(),
+      updatePetPanel: () => this.updatePetPanel(),
+      updateStatusText: (input) => this.updateStatusText(input),
+      rememberInput: (input) => {
+        this.lastInput = input;
+      },
+    });
   }
 
   private createStage(): void {
@@ -555,6 +640,23 @@ export class TestScene extends Phaser.Scene {
     p2.movement.currentPlatformId = 'climb-ground';
 
     return [p1, p2];
+  }
+
+  private createCapturablePetTargets(): CapturablePetTarget[] {
+    const groundY = defaultClimbTuning.worldHeight - 45;
+    return [
+      {
+        id: 'catch-monster72',
+        monsterId: 'Monster72',
+        x: defaultClimbTuning.worldWidth * 0.34 + 108,
+        y: groundY - 34,
+        width: 72,
+        height: 68,
+        level: 6,
+        removed: false,
+        feedback: 'Monster72 monkey1 40%',
+      },
+    ];
   }
 
   private createClimbingPlatforms(): void {
@@ -649,39 +751,20 @@ export class TestScene extends Phaser.Scene {
     return { slot, sprite, label, combat, normalAttack, skill, baseStats };
   }
 
-  private createMonsterView(monster: Monster30Model): MonsterView {
-    const root = this.add.container(monster.x, monster.y);
-    const wingLeft = this.add.ellipse(-28, 2, 34, 18, 0x445d7e);
-    const wingRight = this.add.ellipse(28, 2, 34, 18, 0x445d7e);
-    const body = this.add.ellipse(0, 0, 72, 56, 0x7b4e79);
-    const eye = this.add.ellipse(14, -8, 12, 12, 0xf5d27a);
-    const hpTrack = this.add.rectangle(0, -48, 82, 8, 0x182233);
-    const hpFill = this.add.rectangle(-41, -48, 82, 8, 0xe3646d);
-    hpFill.setOrigin(0, 0.5);
-    const label = this.add.text(-42, -78, 'Monster30', {
-      color: '#f3f6ff',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '14px',
-    });
-    const stateText = this.add.text(-42, -62, '', {
-      color: '#c8d3e2',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '13px',
-    });
+  private equipDefaultMagicWeapon(): void {
+    const definition = this.equipmentRegistry.xhhl;
+    if (!definition) {
+      return;
+    }
 
-    root.add([wingLeft, wingRight, body, eye, hpTrack, hpFill, label, stateText]);
-
-    return {
-      root,
-      body,
-      wingLeft,
-      wingRight,
-      eye,
-      hpTrack,
-      hpFill,
-      label,
-      stateText,
+    const equipped: EquipmentInstance = {
+      kind: 'equipment',
+      instanceId: 'seed-equipped-xhhl',
+      definition,
+      quantity: 1,
     };
+    this.equipmentLoadout.magicWeapon = equipped;
+    syncMagicWeaponFromLoadout(this.magicWeapon, this.equipmentLoadout);
   }
 
   private createHeroDebugKeys(): void {
@@ -739,7 +822,7 @@ export class TestScene extends Phaser.Scene {
       return;
     }
 
-    this.inventoryToggleKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+    this.inventoryToggleKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
     this.inventoryTabKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
     this.inventoryUpKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     this.inventoryDownKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -750,17 +833,25 @@ export class TestScene extends Phaser.Scene {
     this.inventoryDeleteKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DELETE);
   }
 
-  private createMedicineDebugKeys(): void {
+  private createPetUIKeys(): void {
     const keyboard = this.input.keyboard;
     if (!keyboard) {
       return;
     }
 
-    this.medicineSpawnKeys = {
-      SmallHP: keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX),
-      BigHP: keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEVEN),
-      SmallMP: keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.EIGHT),
-    };
+    this.petPanelToggleKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+    this.petPanelUpKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.petPanelDownKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.petPanelConfirmKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+  }
+
+  private createDebugKeys(): void {
+    const keyboard = this.input.keyboard;
+    if (!keyboard) {
+      return;
+    }
+
+    this.debugKeys = createTestSceneDebugKeys(keyboard);
   }
 
   private createInventoryPanel(): InventoryPanelView {
@@ -779,6 +870,28 @@ export class TestScene extends Phaser.Scene {
       fontFamily: 'Courier New, monospace',
       fontSize: '12px',
       lineSpacing: 3,
+    });
+    container.add(text);
+
+    return { container, bg, text };
+  }
+
+  private createPetPanel(): PetPanelView {
+    const container = this.add.container(0, 0);
+    container.setVisible(false);
+
+    const bg = this.add.graphics();
+    bg.fillStyle(0x101724, 0.96);
+    bg.fillRoundedRect(600, 54, 316, 330, 8);
+    bg.lineStyle(1, 0xf2c14e, 0.85);
+    bg.strokeRoundedRect(600, 54, 316, 330, 8);
+    container.add(bg);
+
+    const text = this.add.text(616, 68, '', {
+      color: '#dfe8f5',
+      fontFamily: 'Courier New, monospace',
+      fontSize: '12px',
+      lineSpacing: 4,
     });
     container.add(text);
 
@@ -918,7 +1031,7 @@ export class TestScene extends Phaser.Scene {
     }
 
     const keyLabels = SkillSlotKeyLabels[slot];
-    const player = this.playerViews.find((p) => p.slot === slot);
+    const player = this.getPlayer(slot);
     const loadout = player?.skill.loadout;
     const bindParts: string[] = [];
     if (loadout) {
@@ -951,7 +1064,7 @@ export class TestScene extends Phaser.Scene {
     if (this.p1SkillBar) {
       this.updateSkillBar(
         this.p1SkillBar,
-        this.playerViews.find((p) => p.slot === 'p1'),
+        this.getPlayer('p1'),
         this.p1SkillUI,
         'p1',
       );
@@ -960,9 +1073,31 @@ export class TestScene extends Phaser.Scene {
     if (this.p2SkillBar) {
       this.updateSkillBar(
         this.p2SkillBar,
-        this.playerViews.find((p) => p.slot === 'p2'),
+        this.getPlayer('p2'),
         this.p2SkillUI,
         'p2',
+      );
+    }
+  }
+
+  private updateSkillPanels(): void {
+    if (this.p1SkillPanel) {
+      this.updateSkillPanel(
+        this.p1SkillPanel,
+        'p1',
+        this.getPlayer('p1'),
+        this.p1SkillUI,
+        this.p1SkillLearning,
+      );
+    }
+
+    if (this.p2SkillPanel) {
+      this.updateSkillPanel(
+        this.p2SkillPanel,
+        'p2',
+        this.getPlayer('p2'),
+        this.p2SkillUI,
+        this.p2SkillLearning,
       );
     }
   }
@@ -1002,6 +1137,7 @@ export class TestScene extends Phaser.Scene {
       if (this.inventoryUI.isOpen) {
         this.p1SkillUI.skillPanelOpen = false;
         this.p2SkillUI.skillPanelOpen = false;
+        this.petPanelOpen = false;
       }
     }
 
@@ -1031,7 +1167,9 @@ export class TestScene extends Phaser.Scene {
 
     if (this.inventoryConfirmKey && Phaser.Input.Keyboard.JustDown(this.inventoryConfirmKey)) {
       if (this.inventoryUI.focus === 'inventory') {
-        if (equipSelectedInventoryEntry({
+        if (this.tryUseSelectedPetConsumable()) {
+          // Pet consumable handled by the inventory item branch.
+        } else if (equipSelectedInventoryEntry({
           ui: this.inventoryUI,
           store: this.inventoryStore,
           loadout: this.equipmentLoadout,
@@ -1060,6 +1198,34 @@ export class TestScene extends Phaser.Scene {
     }
   }
 
+  private tryUseSelectedPetConsumable(): boolean {
+    const selected = getSelectedInventoryEntry(this.inventoryUI, this.inventoryStore);
+    if (
+      this.inventoryUI.activeCategory !== 'items' ||
+      !selected ||
+      selected.kind !== 'stack' ||
+      !isPetConsumableFillName(selected.definition.fillName)
+    ) {
+      return false;
+    }
+
+    const result = usePetConsumable(this.petRoster, selected.definition.fillName);
+    if (!result.shouldConsume) {
+      this.inventoryUI.message = result.message;
+      return true;
+    }
+
+    const consume = consumeStackByFillName(
+      this.inventoryStore,
+      selected.definition.fillName,
+      1,
+    );
+    this.inventoryUI.message = consume.ok
+      ? `${consume.message}；${result.message}`
+      : consume.message;
+    return true;
+  }
+
   private updateInventoryPanel(): void {
     if (!this.inventoryPanel) {
       return;
@@ -1081,6 +1247,55 @@ export class TestScene extends Phaser.Scene {
       ui: this.inventoryUI,
     });
     this.inventoryPanel.text.setText(lines.join('\n'));
+  }
+
+  private handlePetUIKeys(): void {
+    if (this.p1SkillUI.skillPanelOpen || this.p2SkillUI.skillPanelOpen) {
+      return;
+    }
+
+    if (this.petPanelToggleKey && Phaser.Input.Keyboard.JustDown(this.petPanelToggleKey)) {
+      this.petPanelOpen = !this.petPanelOpen;
+      if (this.petPanelOpen) {
+        this.inventoryUI.isOpen = false;
+        this.p1SkillUI.skillPanelOpen = false;
+        this.p2SkillUI.skillPanelOpen = false;
+        this.petRoster.message = 'Pet panel opened';
+      } else {
+        this.petRoster.message = 'Pet panel closed';
+      }
+    }
+
+    if (!this.petPanelOpen) {
+      return;
+    }
+
+    if (this.petPanelUpKey && Phaser.Input.Keyboard.JustDown(this.petPanelUpKey)) {
+      selectPet(this.petRoster, -1);
+    }
+
+    if (this.petPanelDownKey && Phaser.Input.Keyboard.JustDown(this.petPanelDownKey)) {
+      selectPet(this.petRoster, 1);
+    }
+
+    if (this.petPanelConfirmKey && Phaser.Input.Keyboard.JustDown(this.petPanelConfirmKey)) {
+      toggleSelectedPetActive(this.petRoster);
+      this.petRuntime = undefined;
+    }
+  }
+
+  private updatePetPanel(): void {
+    if (!this.petPanel) {
+      return;
+    }
+
+    if (!this.petPanelOpen) {
+      this.petPanel.container.setVisible(false);
+      return;
+    }
+
+    this.petPanel.container.setVisible(true);
+    this.petPanel.text.setText(buildPetPanelLines(this.petRoster).join('\n'));
   }
 
   private handleSkillUIKeys(): void {
@@ -1214,70 +1429,6 @@ export class TestScene extends Phaser.Scene {
     }
   }
 
-  private drawBossArenaStage(): void {
-    this.add.rectangle(470, 200, 760, 8, 0xd4a574);
-    this.add.rectangle(470, 280, 560, 6, 0x888c94);
-    this.add.rectangle(470, 220, 940, 20, 0x101724, 0.3);
-    this.add.text(180, 164, 'BOSS ARENA', {
-      color: '#d4a574',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '14px',
-    });
-    this.add.text(470, 190, '↑ enter to trigger ↑', {
-      color: '#8a9bb5',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '12px',
-    }).setOrigin(0.5, 0.5);
-  }
-
-  private createBossView(): BossView {
-    const body = this.add.ellipse(470, 120, 90, 70, 0x8b2252);
-    const crown = this.add.ellipse(470, 72, 48, 32, 0xd4a574);
-    const eye = this.add.ellipse(482, 108, 14, 14, 0xf5d27a);
-    const hpTrack = this.add.rectangle(470, 48, 96, 8, 0x182233);
-    const hpFill = this.add.rectangle(422, 48, 96, 8, 0xe3646d);
-    hpFill.setOrigin(0, 0.5);
-    const label = this.add.text(410, 18, 'Monster3 巫鹰', {
-      color: '#f3f6ff',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '14px',
-    });
-    const stateText = this.add.text(410, 34, '', {
-      color: '#c8d3e2',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '13px',
-    });
-
-    body.setVisible(false);
-    crown.setVisible(false);
-    eye.setVisible(false);
-    hpTrack.setVisible(false);
-    hpFill.setVisible(false);
-    label.setVisible(false);
-    stateText.setVisible(false);
-
-    return { body, crown, eye, hpTrack, hpFill, label, stateText };
-  }
-
-  private createTransferDoorView(): TransferDoorView {
-    const frame = this.add.rectangle(470, 270, 90, 110, 0x182233, 0.85);
-    frame.setStrokeStyle(2, 0xf2c14e);
-    const glow = this.add.rectangle(470, 270, 78, 98, 0xf2c14e, 0.1);
-    glow.setStrokeStyle(1, 0xf2c14e, 0.5);
-    const label = this.add.text(470, 300, 'DOOR\n[↑]', {
-      color: '#f2c14e',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '14px',
-      align: 'center',
-    }).setOrigin(0.5, 0.5);
-
-    frame.setVisible(false);
-    glow.setVisible(false);
-    label.setVisible(false);
-
-    return { frame, glow, label };
-  }
-
   private updateBossArena(input: InputState, time: number, delta: number): void {
     if (this.bossArena.state === 'cleared') {
       return;
@@ -1358,7 +1509,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   private getMonster3Targets(): readonly { slot: PlayerSlot; x: number; y: number }[] {
-    return this.playerViews
+    return this.getPlayers()
       .filter((player) => player.movement !== undefined && !isHeroCombatDead(player.combat))
       .map((player) => ({
         slot: player.slot,
@@ -1368,7 +1519,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   private applyBossAttack(time: number): void {
-    const boss = this.bossArena.boss;
+    const boss = this.getBossArena().boss;
     if (!boss) {
       return;
     }
@@ -1384,16 +1535,16 @@ export class TestScene extends Phaser.Scene {
 
     if (!this.renderedMonsterAttackIds.has(activeAttack.attackId)) {
       this.renderedMonsterAttackIds.add(activeAttack.attackId);
-      this.showAttackFlash(toPhaserRect(hitbox), time, 0xff4444);
+      this.attackFlashes.push(createAttackFlash(this, toPhaserRect(hitbox), time, 0xff4444));
     }
 
     const attackBounds = toPhaserRect(hitbox);
-    for (const player of this.playerViews) {
+    for (const player of this.getPlayers()) {
       if (!player.movement || isHeroCombatDead(player.combat)) {
         continue;
       }
 
-      if (!Phaser.Geom.Intersects.RectangleToRectangle(attackBounds, this.getPlayerBounds(player))) {
+      if (!Phaser.Geom.Intersects.RectangleToRectangle(attackBounds, getPlayerBounds(player))) {
         continue;
       }
 
@@ -1420,7 +1571,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   private applyPlayerHitOnBoss(player: PlayerView, time: number): void {
-    const boss = this.bossArena.boss;
+    const boss = this.getBossArena().boss;
     if (!boss || !player.movement || isBossDead(boss)) {
       return;
     }
@@ -1468,11 +1619,12 @@ export class TestScene extends Phaser.Scene {
   }
 
   private updateBossHitByPlayers(time: number): void {
-    if (this.bossArena.state !== 'active' || !this.bossArena.boss) {
+    const bossArena = this.getBossArena();
+    if (bossArena.state !== 'active' || !bossArena.boss) {
       return;
     }
 
-    for (const player of this.playerViews) {
+    for (const player of this.getPlayers()) {
       if (player.movement && !isHeroCombatDead(player.combat)) {
         this.applyPlayerHitOnBoss(player, time);
       }
@@ -1480,17 +1632,18 @@ export class TestScene extends Phaser.Scene {
   }
 
   private updateBossArenaVisuals(): void {
-    const boss = this.bossArena.boss;
+    const bossArena = this.getBossArena();
+    const boss = bossArena.boss;
     if (!boss || !this.bossView || !this.bossArenaLabel) {
       return;
     }
 
-    if (this.bossArena.state === 'inactive') {
+    if (bossArena.state === 'inactive') {
       this.bossArenaLabel.setText('');
       return;
     }
 
-    if (this.bossArena.state === 'cleared') {
+    if (bossArena.state === 'cleared') {
       this.bossArenaLabel.setText('CLEARED');
       this.bossView.body.setAlpha(0.3);
       this.bossView.crown.setAlpha(0.3);
@@ -1650,6 +1803,160 @@ export class TestScene extends Phaser.Scene {
     }
   }
 
+  private updatePetSystem(delta: number): void {
+    const owner = this.getInventoryPlayer();
+    if (!owner?.movement || isHeroCombatDead(owner.combat)) {
+      this.petRuntime = undefined;
+      this.destroyPetView();
+      return;
+    }
+
+    this.petRuntime = syncPetRuntimeWithRoster(
+      this.petRoster,
+      this.petRuntime,
+      {
+        x: owner.movement.x,
+        y: owner.movement.y,
+        facingX: owner.movement.facingX,
+      },
+    );
+
+    const activePet = getActivePet(this.petRoster);
+    if (!this.petRuntime || !activePet) {
+      this.destroyPetView();
+      return;
+    }
+
+    updatePetRuntime(
+      this.petRuntime,
+      activePet,
+      {
+        x: owner.movement.x,
+        y: owner.movement.y,
+        facingX: owner.movement.facingX,
+      },
+      delta,
+    );
+    this.syncPetView(activePet);
+  }
+
+  private updateMagicWeapon(input: InputState, delta: number): void {
+    const owner = this.getInventoryPlayer();
+    syncMagicWeaponFromLoadout(this.magicWeapon, this.equipmentLoadout);
+
+    if (!owner || isHeroCombatDead(owner.combat)) {
+      return;
+    }
+
+    requestMagicWeaponTrigger({
+      model: this.magicWeapon,
+      target: {
+        combat: owner.combat,
+        skill: owner.skill,
+        effectiveStats: calculateEffectiveStats(owner.baseStats, this.equipmentLoadout),
+        movement: owner.movement,
+      },
+      source: owner.movement
+        ? {
+          sourceId: owner.slot,
+          x: owner.movement.x,
+          y: owner.movement.y,
+          facingX: owner.movement.facingX,
+        }
+        : undefined,
+      input: input.p1,
+      previousInput: this.lastInput?.p1,
+      friendlyPets: this.getActiveMagicWeaponPets(),
+      enemyTargets: this.createMagicWeaponEnemyTargets(),
+    });
+
+    updateMagicWeapon(
+      this.magicWeapon,
+      {
+        combat: owner.combat,
+        skill: owner.skill,
+        effectiveStats: calculateEffectiveStats(owner.baseStats, this.equipmentLoadout),
+        movement: owner.movement,
+      },
+      delta,
+      this.projectileSystem,
+      this.createMagicWeaponEnemyTargets(),
+      owner.movement
+        ? {
+          sourceId: owner.slot,
+          x: owner.movement.x,
+          y: owner.movement.y,
+          facingX: owner.movement.facingX,
+        }
+        : undefined,
+      this.getActiveMagicWeaponPets(),
+    );
+  }
+
+  private updateMagicBottleCapture(input: InputState, delta: number): void {
+    const owner = this.getInventoryPlayer();
+    if (!owner?.movement || isHeroCombatDead(owner.combat)) {
+      return;
+    }
+
+    if (this.magicWeapon.current?.fillName !== 'xhhl') {
+      this.magicBottle.effect = undefined;
+      if (this.magicBottle.lastResult.startsWith('宣花葫芦')) {
+        this.magicBottle.lastResult = '宣花葫芦未装备';
+      }
+      return;
+    }
+
+    requestMagicBottleCapture({
+      model: this.magicBottle,
+      owner: {
+        x: owner.movement.x,
+        y: owner.movement.y,
+        facingX: owner.movement.facingX,
+      },
+      inputMagicWeapon: input.p1.magicWeapon,
+      previousInputMagicWeapon: this.lastInput?.p1.magicWeapon ?? false,
+    });
+
+    resolveMagicBottleCaptureHit({
+      model: this.magicBottle,
+      roster: this.petRoster,
+      targets: this.capturablePetTargets,
+    });
+    updateMagicBottleCapture(this.magicBottle, delta);
+  }
+
+  private syncPetView(activePet: NonNullable<ReturnType<typeof getActivePet>>): void {
+    if (!this.petRuntime) {
+      this.destroyPetView();
+      return;
+    }
+
+    if (!this.petView) {
+      this.petView = createPetView(
+        this,
+        activePet,
+        this.petRuntime?.x ?? 0,
+        this.petRuntime?.y ?? 0,
+      );
+    }
+
+    this.petView.root.setPosition(this.petRuntime.x, this.petRuntime.y);
+    this.petView.root.setScale(this.petRuntime.facingX < 0 ? -1 : 1, 1);
+    this.petView.body.setFillStyle(this.petRuntime.state === 'warp' ? 0xf2c14e : 0x7ad7a8, 0.9);
+    this.petView.ear.setFillStyle(0xf3f6ff, this.petRuntime.state === 'follow' ? 0.7 : 0.45);
+    this.petView.label.setText(`${activePet.displayName} ${this.petRuntime.state}`);
+  }
+
+  private destroyPetView(): void {
+    if (!this.petView) {
+      return;
+    }
+
+    this.petView.root.destroy(true);
+    this.petView = undefined;
+  }
+
   private updateHeroNormalAttacks(input: InputState, time: number): void {
     for (const player of this.playerViews) {
       if (!player.movement || isHeroCombatDead(player.combat)) {
@@ -1665,8 +1972,13 @@ export class TestScene extends Phaser.Scene {
       );
 
       if (attackEvent) {
-        this.attackEffectViews.push(this.createAttackEffectView(player, attackEvent.attack));
-        this.showAttackFlash(toPhaserRect(attackEvent.hitbox), time);
+        this.attackEffectViews.push(createAttackEffectView(
+          this,
+          { slot: player.slot, x: player.sprite.x, y: player.sprite.y },
+          attackEvent.attack,
+          getHeroTint(attackEvent.attack.heroId),
+        ));
+        this.attackFlashes.push(createAttackFlash(this, toPhaserRect(attackEvent.hitbox), time));
       }
 
       this.applyHeroAttackHit(player, time);
@@ -1692,7 +2004,12 @@ export class TestScene extends Phaser.Scene {
 
       if (skillEvent) {
         this.lastSkillEvent = skillEvent;
-        this.createProjectileEffectView(skillEvent.projectile);
+        const hasProjectileView = this.projectileEffectViews.some(
+          (view) => view.projectileId === skillEvent.projectile.id,
+        );
+        if (!hasProjectileView) {
+          this.projectileEffectViews.push(createProjectileEffectView(this, skillEvent.projectile));
+        }
       }
     }
   }
@@ -1708,6 +2025,40 @@ export class TestScene extends Phaser.Scene {
       id: player.slot,
       state: player.combat.state,
     }));
+  }
+
+  private createMagicWeaponEnemyTargets(): MagicWeaponEnemyTarget[] {
+    const targets: MagicWeaponEnemyTarget[] = this.monster30s.map((monster) => ({
+      id: monster.id,
+      x: monster.x,
+      y: monster.y,
+      isAlive: monster.state !== 'dead' && monster.state !== 'removed',
+      applyMagicFlowerDebuff: (debuff) =>
+        applyMonster30MagicFlowerDebuff(monster, {
+          kind: 'magicFlowerDebuff',
+          sourceName: debuff.sourceName,
+          damageMultiplier: debuff.damageMultiplier,
+          totalMs: debuff.totalMs,
+          remainingMs: debuff.remainingMs,
+        }),
+      clearMagicFlowerDebuff: () => clearMonster30MagicFlowerDebuff(monster),
+    }));
+
+    if (this.bossArena.state === 'active' && this.bossArena.boss) {
+      targets.push({
+        id: 'monster3',
+        x: this.bossArena.boss.x,
+        y: this.bossArena.boss.y,
+        isAlive: !isBossDead(this.bossArena.boss),
+      });
+    }
+
+    return targets;
+  }
+
+  private getActiveMagicWeaponPets(): NonNullable<ReturnType<typeof getActivePet>>[] {
+    const activePet = getActivePet(this.petRoster);
+    return activePet ? [activePet] : [];
   }
 
   private updateMonster30s(delta: number): void {
@@ -1740,61 +2091,24 @@ export class TestScene extends Phaser.Scene {
   }
 
   private applySingleMonster30Attack(monster: Monster30Model, time: number): void {
-    if (monster.state === 'removed') {
-      return;
-    }
-
-    const activeAttack = monster.activeAttack;
-    const hitbox = getMonster30AttackHitbox(monster);
-    if (!activeAttack || !hitbox) {
-      return;
-    }
-
-    if (!this.renderedMonsterAttackIds.has(activeAttack.attackId)) {
-      this.renderedMonsterAttackIds.add(activeAttack.attackId);
-      this.showAttackFlash(toPhaserRect(hitbox), time, 0xff6b6b);
-    }
-
-    const attackBounds = toPhaserRect(hitbox);
-    for (const player of this.playerViews) {
-      if (!player.movement || isHeroCombatDead(player.combat)) {
-        continue;
-      }
-
-      if (!Phaser.Geom.Intersects.RectangleToRectangle(
-        attackBounds,
-        this.getPlayerBounds(player),
-      )) {
-        continue;
-      }
-
-      if (!resolveHitOnce(this.hitRegistry, activeAttack.attackId, player.slot)) {
-        continue;
-      }
-
-      const damageEvent = createDamageEvent({
-        sourceId: monster.id,
-        targetId: player.slot,
-        attackId: activeAttack.attackId,
-        actionName: activeAttack.actionName,
-        amount: activeAttack.damage,
-        attackKind: activeAttack.attackKind,
-        knockbackX: activeAttack.facingX * activeAttack.knockbackX,
-        knockbackY: activeAttack.knockbackY,
-        occurredAtMs: time,
-      });
-
-      if (applyHeroDamage(player.combat, damageEvent, time)) {
-        this.lastDamageEvent = damageEvent;
-      }
-    }
+    this.applyCombatBridgeResult(
+      applyMonster30AttackToPlayers({
+        monster,
+        players: this.getPlayers(),
+        hitRegistry: this.hitRegistry,
+        renderedMonsterAttackIds: this.renderedMonsterAttackIds,
+        time,
+      }),
+      time,
+      0xff6b6b,
+    );
   }
 
   private updateAllMonsterViews(): void {
     for (const monster of this.monster30s) {
       let view = this.monsterViews.get(monster);
       if (!view) {
-        view = this.createMonsterView(monster);
+        view = createMonsterView(this, monster);
         this.monsterViews.set(monster, view);
       }
       this.syncMonsterView(monster, view);
@@ -1824,6 +2138,100 @@ export class TestScene extends Phaser.Scene {
 
   private destroyMonsterView(view: MonsterView): void {
     view.root.destroy();
+  }
+
+  private updateCapturablePetTargetViews(): void {
+    const activeTargets = this.capturablePetTargets.filter((target) => !target.removed);
+    const activeIds = new Set(activeTargets.map((target) => target.id));
+
+    for (const target of activeTargets) {
+      let view = this.capturablePetTargetViews.get(target.id);
+      if (!view) {
+        view = this.createCapturablePetTargetView(target);
+        this.capturablePetTargetViews.set(target.id, view);
+      }
+      this.syncCapturablePetTargetView(target, view);
+    }
+
+    for (const [targetId, view] of this.capturablePetTargetViews) {
+      if (!activeIds.has(targetId)) {
+        view.root.destroy(true);
+        this.capturablePetTargetViews.delete(targetId);
+      }
+    }
+  }
+
+  private createCapturablePetTargetView(
+    target: CapturablePetTarget,
+  ): CapturablePetTargetView {
+    const root = this.add.container(target.x, target.y);
+    const body = this.add.ellipse(0, 0, target.width, target.height, 0x8bcf7a, 0.9);
+    const mark = this.add.ellipse(14, -12, 12, 12, 0x182233, 0.9);
+    const label = this.add.text(-58, -64, target.monsterId, {
+      color: '#dff7ef',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '13px',
+    });
+    const feedback = this.add.text(-70, -84, target.feedback, {
+      color: '#f2c14e',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '12px',
+    });
+
+    body.setStrokeStyle(2, 0xdff7ef, 0.85);
+    root.add([body, mark, label, feedback]);
+    root.setDepth(41);
+    return { root, body, mark, label, feedback };
+  }
+
+  private syncCapturablePetTargetView(
+    target: CapturablePetTarget,
+    view: CapturablePetTargetView,
+  ): void {
+    view.root.setPosition(target.x, target.y);
+    view.body.setScale(1 + Math.sin(this.time.now * 0.005) * 0.03);
+    view.label.setText(`${target.monsterId} Lv.${target.level}`);
+    view.feedback.setText(target.feedback);
+  }
+
+  private updateMagicBottleEffectView(): void {
+    const effect = this.magicBottle.effect;
+    if (!effect) {
+      if (this.magicBottleEffectView) {
+        this.magicBottleEffectView.root.destroy(true);
+        this.magicBottleEffectView = undefined;
+      }
+      return;
+    }
+
+    if (!this.magicBottleEffectView) {
+      this.magicBottleEffectView = this.createMagicBottleEffectView();
+    }
+
+    const view = this.magicBottleEffectView;
+    const progress = Math.min(effect.ageMs / 2_000, 1);
+    view.root.setPosition(effect.x, effect.y);
+    view.root.setScale(effect.facingX, 1);
+    view.root.setAlpha(0.9 - progress * 0.45);
+    view.body.setSize(effect.width, effect.height);
+    view.glow.setScale(1 + Math.sin(effect.ageMs * 0.018) * 0.08);
+  }
+
+  private createMagicBottleEffectView(): MagicBottleEffectView {
+    const root = this.add.container(0, 0);
+    const body = this.add.ellipse(0, 0, 112, 86, 0x7ee7ff, 0.18);
+    const glow = this.add.ellipse(0, 0, 58, 44, 0xf2c14e, 0.32);
+    const label = this.add.text(-58, -66, 'MagicBottleEffect3', {
+      color: '#dff7ef',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '12px',
+    });
+
+    body.setStrokeStyle(2, 0x7ee7ff, 0.95);
+    glow.setStrokeStyle(1, 0xf2c14e, 0.75);
+    root.add([body, glow, label]);
+    root.setDepth(63);
+    return { root, body, glow, label };
   }
 
   private updateVerticalClimbLogic(
@@ -1926,6 +2334,19 @@ export class TestScene extends Phaser.Scene {
   }
 
   private spawnMonster30DropSlice(monster: Monster30Model): void {
+    const auraTarget = this.monster30AuraTargets.get(monster.id) ??
+      this.getInventoryPlayer()?.slot;
+    if (auraTarget) {
+      spawnAuraDrops({
+        model: this.dropSystem,
+        monsterX: monster.x,
+        monsterY: monster.y,
+        targetId: auraTarget,
+        gxp: 1,
+      });
+    }
+    this.monster30AuraTargets.delete(monster.id);
+
     const medicineSpawnY = monster.y + DropTuning.spawnOffsetY;
     maybeSpawnMedicineDrop(
       this.dropSystem,
@@ -1934,19 +2355,25 @@ export class TestScene extends Phaser.Scene {
       this.findDropSettleY(monster.x, medicineSpawnY),
     );
 
-    const offsets = [-24, 24];
-    for (let i = 0; i < Monster30DropEntries.length; i += 1) {
-      const entry = Monster30DropEntries[i];
-      const x = monster.x + offsets[i % offsets.length];
-      const spawnY = monster.y + DropTuning.spawnOffsetY;
-      spawnWorldDrop(
-        this.dropSystem,
-        entry,
-        x,
-        monster.y,
-        this.findDropSettleY(x, spawnY),
-      );
-    }
+    const spawnY = monster.y + DropTuning.spawnOffsetY;
+    spawnConfiguredMonsterDrop({
+      model: this.dropSystem,
+      monsterId: 'Monster30',
+      context: this.createCurrentDropContext(),
+      x: monster.x,
+      monsterY: monster.y,
+      settleY: this.findDropSettleY(monster.x, spawnY),
+    });
+  }
+
+  private createAuraTargetSnapshots(): readonly AuraTargetSnapshot[] {
+    return this.playerViews
+      .filter((player) => player.movement && !isHeroCombatDead(player.combat))
+      .map((player) => ({
+        id: player.slot,
+        x: player.movement?.x ?? player.sprite.x,
+        y: (player.movement?.y ?? player.sprite.y) - 52,
+      }));
   }
 
   private findDropSettleY(x: number, spawnY: number): number {
@@ -1966,16 +2393,8 @@ export class TestScene extends Phaser.Scene {
   }
 
   private handleMedicineDebugKeys(): void {
-    if (!this.medicineSpawnKeys) {
-      return;
-    }
-
-    const types: readonly MedicineDropType[] = ['SmallHP', 'BigHP', 'SmallMP'];
-    for (const type of types) {
-      const key = this.medicineSpawnKeys[type];
-      if (Phaser.Input.Keyboard.JustDown(key)) {
-        this.spawnMedicineDropNearP1(type);
-      }
+    for (const type of collectMedicineDebugActions(this.debugKeys)) {
+      this.spawnMedicineDropNearP1(type);
     }
   }
 
@@ -1991,6 +2410,90 @@ export class TestScene extends Phaser.Scene {
       monsterY,
       this.findDropSettleY(x, spawnY),
     );
+  }
+
+  private handleAuraDebugKeys(): void {
+    for (const type of collectAuraDebugActions(this.debugKeys)) {
+      this.spawnAuraDropNearP1(type);
+    }
+  }
+
+  private spawnAuraDropNearP1(type: AuraDropType): void {
+    const player = this.getInventoryPlayer();
+    const x = player?.movement?.x ?? defaultClimbTuning.worldWidth / 2;
+    const y = (player?.movement?.y ?? defaultClimbTuning.worldHeight - 140) - 54;
+    spawnAuraDrop({
+      model: this.dropSystem,
+      auraType: type,
+      x,
+      y,
+      targetId: player?.slot ?? 'p1',
+      power: type === 'red' ? 2 : 5,
+    });
+  }
+
+  private handleStoneDebugKey(): void {
+    if (isStoneDebugJustDown(this.debugKeys)) {
+      this.spawnStrengthStoneNearP1();
+    }
+  }
+
+  private spawnStrengthStoneNearP1(): void {
+    const player = this.getInventoryPlayer();
+    const x = player?.movement?.x ?? defaultClimbTuning.worldWidth / 2;
+    const monsterY = (player?.movement?.y ?? defaultClimbTuning.worldHeight - 140) + 70;
+    const spawnY = monsterY + DropTuning.spawnOffsetY;
+    spawnStrengthStoneDrop(
+      this.dropSystem,
+      x,
+      monsterY,
+      this.findDropSettleY(x, spawnY),
+    );
+  }
+
+  private handleConfiguredDropDebugKeys(): void {
+    const defaultContext = this.createCurrentDropContext();
+    for (const action of collectConfiguredDropDebugActions(this.debugKeys, defaultContext)) {
+      this.spawnConfiguredDropNearP1(
+        action.monsterId,
+        action.context,
+        action.entryIndex,
+        action.forceDrop,
+      );
+    }
+  }
+
+  private spawnConfiguredDropNearP1(
+    monsterId: MonsterDropId,
+    context: MonsterDropContext,
+    entryIndex: number,
+    forceDrop = true,
+  ): void {
+    const player = this.getInventoryPlayer();
+    const x = player?.movement?.x ?? defaultClimbTuning.worldWidth / 2;
+    const monsterY = (player?.movement?.y ?? defaultClimbTuning.worldHeight - 140) + 70;
+    const spawnY = monsterY + DropTuning.spawnOffsetY;
+    const drop = spawnConfiguredMonsterDrop({
+      model: this.dropSystem,
+      monsterId,
+      context,
+      x,
+      monsterY,
+      settleY: this.findDropSettleY(x, spawnY),
+      forceDrop,
+      entryIndex,
+    });
+
+    this.inventoryUI.message = drop
+      ? `配置掉落 ${monsterId}: ${drop.fillName}`
+      : this.dropSystem.lastMessage;
+  }
+
+  private createCurrentDropContext(): MonsterDropContext {
+    return {
+      curStage: 1,
+      curLevel: 1,
+    };
   }
 
   private finalizeCameraPosition(): void {
@@ -2015,49 +2518,34 @@ export class TestScene extends Phaser.Scene {
     }
   }
 
-  private applyHeroAttackHit(player: PlayerView, time: number): void {
-    if (!player.movement) {
-      return;
-    }
-
-    const activeAttack = player.normalAttack.activeAttack;
-    const hitbox = getActiveHeroHitbox(player.normalAttack, player.movement, time);
-    if (!activeAttack || !hitbox) {
-      return;
-    }
-
-    const attackBounds = toPhaserRect(hitbox);
-    for (const monster of this.monster30s) {
-      if (monster.state === 'dead' || monster.state === 'removed') {
-        continue;
-      }
-
-      if (!Phaser.Geom.Intersects.RectangleToRectangle(
-        attackBounds,
-        this.getMonster30Bounds(monster),
-      )) {
-        continue;
-      }
-
-      const attackId = `${player.slot}-normal-${activeAttack.id}-${monster.id}`;
-      if (!resolveHitOnce(this.hitRegistry, attackId, monster.id)) {
-        continue;
-      }
-
-      const damageEvent = createDamageEvent({
-        sourceId: player.slot,
-        targetId: monster.id,
-        attackId,
-        actionName: activeAttack.actionName,
-        amount: activeAttack.damage,
-        attackKind: activeAttack.attackKind,
-        knockbackX: activeAttack.facingX * 4,
-        knockbackY: -2,
-        occurredAtMs: time,
-      });
+  private applyCombatBridgeResult(
+    result: CombatBridgeResult,
+    time: number,
+    flashColor = 0xf2c14e,
+  ): void {
+    for (const damageEvent of result.damageEvents) {
       this.lastDamageEvent = damageEvent;
-      applyMonster30Hit(monster, damageEvent.amount);
     }
+
+    for (const flashBounds of result.flashBounds) {
+      this.attackFlashes.push(createAttackFlash(this, flashBounds, time, flashColor));
+    }
+
+    for (const target of result.monsterAuraTargets) {
+      this.monster30AuraTargets.set(target.monsterId, target.slot);
+    }
+  }
+
+  private applyHeroAttackHit(player: PlayerView, time: number): void {
+    this.applyCombatBridgeResult(
+      applyHeroNormalAttackToMonster30s({
+        player,
+        monsters: this.getMonster30s(),
+        hitRegistry: this.hitRegistry,
+        time,
+      }),
+      time,
+    );
   }
 
   private applyProjectileHits(time: number): void {
@@ -2066,7 +2554,7 @@ export class TestScene extends Phaser.Scene {
         continue;
       }
 
-      const monsterBounds = this.getMonster30Bounds(monster);
+      const monsterBounds = getMonster30Bounds(monster);
       for (const projectile of getActiveProjectiles(this.projectileSystem)) {
         const hitbox = getProjectileHitbox(projectile);
         const attackBounds = toPhaserRect(hitbox);
@@ -2093,9 +2581,12 @@ export class TestScene extends Phaser.Scene {
         });
 
         if (applyMonster30Hit(monster, damageEvent.amount)) {
+          if (isPlayerSlot(projectile.sourceId)) {
+            this.monster30AuraTargets.set(monster.id, projectile.sourceId);
+          }
           this.lastDamageEvent = damageEvent;
           recordProjectileHit(projectile);
-          this.showAttackFlash(attackBounds, time, 0x7ee7ff);
+          this.attackFlashes.push(createAttackFlash(this, attackBounds, time, 0x7ee7ff));
         }
       }
     }
@@ -2130,111 +2621,12 @@ export class TestScene extends Phaser.Scene {
         if (applyMonster3Hit(this.bossArena.boss, damageEvent.amount)) {
           this.lastDamageEvent = damageEvent;
           recordProjectileHit(projectile);
-          this.showAttackFlash(attackBounds, time, 0x7ee7ff);
+          this.attackFlashes.push(createAttackFlash(this, attackBounds, time, 0x7ee7ff));
         }
       }
     }
   }
 
-
-  private createAttackEffectView(
-    player: PlayerView,
-    attack: ActiveHeroNormalAttack,
-  ): AttackEffectView {
-    const effectColor = getHeroTint(attack.heroId);
-    const shape = attack.followsHero
-      ? this.add.ellipse(player.sprite.x + attack.facingX * 82, player.sprite.y - 80, 86, 36, effectColor, 0.35)
-      : this.add.rectangle(player.sprite.x + attack.facingX * 105, player.sprite.y - 82, 102, 42, effectColor, 0.28);
-    const label = this.add.text(player.sprite.x + attack.facingX * 54, player.sprite.y - 128, attack.actionName, {
-      color: '#f3f6ff',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '13px',
-    });
-
-    shape.setStrokeStyle(2, effectColor, 0.9);
-
-    return {
-      slot: player.slot,
-      attack,
-      shape,
-      label,
-    };
-  }
-
-  private createProjectileEffectView(projectile: ProjectileModel): void {
-    const existingView = this.projectileEffectViews.find((view) => view.projectileId === projectile.id);
-    if (existingView) {
-      return;
-    }
-
-    const isMovingProjectile = projectile.velocityX !== 0 || projectile.velocityY !== 0;
-    const color = isMovingProjectile ? 0xf2c14e : 0x7ee7ff;
-    const shape = this.add.ellipse(
-      projectile.x,
-      projectile.y,
-      projectile.width,
-      projectile.height,
-      color,
-      0.18,
-    );
-    const core = this.add.ellipse(
-      projectile.x,
-      projectile.y,
-      projectile.width * 0.48,
-      projectile.height * 0.34,
-      0xf3f6ff,
-      0.28,
-    );
-    const label = this.add.text(
-      projectile.x - 46,
-      projectile.y - projectile.height / 2 - 18,
-      `${projectile.runtimeName} ${projectile.actionName}`,
-      {
-        color: '#f3f6ff',
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '13px',
-      },
-    );
-
-    shape.setStrokeStyle(2, color, 0.9);
-    core.setStrokeStyle(1, 0xf3f6ff, 0.9);
-    this.projectileEffectViews.push({
-      projectileId: projectile.id,
-      shape,
-      core,
-      label,
-    });
-  }
-
-  private showAttackFlash(
-    bounds: Phaser.Geom.Rectangle,
-    time: number,
-    color = 0xf2c14e,
-  ): void {
-    const shape = this.add.rectangle(
-      bounds.centerX,
-      bounds.centerY,
-      bounds.width,
-      bounds.height,
-      color,
-      0.16,
-    );
-    shape.setStrokeStyle(2, color, 0.85);
-    this.attackFlashes.push({ shape, expiresAt: time + 120 });
-  }
-
-  private getMonster30Bounds(monster: Monster30Model): Phaser.Geom.Rectangle {
-    return new Phaser.Geom.Rectangle(monster.x - 36, monster.y - 28, 72, 56);
-  }
-
-  private getPlayerBounds(player: PlayerView): Phaser.Geom.Rectangle {
-    const movement = player.movement;
-    if (!movement) {
-      return new Phaser.Geom.Rectangle();
-    }
-
-    return new Phaser.Geom.Rectangle(movement.x - 24, movement.y - 96, 48, 96);
-  }
 
   private updatePlayerCombatVisual(player: PlayerView, time: number): void {
     if (isHeroCombatDead(player.combat)) {
@@ -2255,6 +2647,15 @@ export class TestScene extends Phaser.Scene {
     const activeProjectiles = getActiveProjectiles(this.projectileSystem);
     const activeIds = new Set(activeProjectiles.map((projectile) => projectile.id));
     const activeViews: ProjectileEffectView[] = [];
+
+    for (const projectile of activeProjectiles) {
+      const hasView = this.projectileEffectViews.some((view) =>
+        view.projectileId === projectile.id
+      );
+      if (!hasView) {
+        this.projectileEffectViews.push(createProjectileEffectView(this, projectile));
+      }
+    }
 
     for (const view of this.projectileEffectViews) {
       const projectile = activeProjectiles.find((candidate) => candidate.id === view.projectileId);
@@ -2287,7 +2688,7 @@ export class TestScene extends Phaser.Scene {
       return;
     }
 
-    const playerBounds = this.getPlayerBounds(player);
+    const playerBounds = getPlayerBounds(player);
     for (const drop of getWorldDrops(this.dropSystem)) {
       if (drop.state !== 'idle') {
         continue;
@@ -2318,6 +2719,8 @@ export class TestScene extends Phaser.Scene {
           this.refreshPlayerHeroView(player);
         }
         this.inventoryUI.message = result.message;
+      } else if (drop.kind === 'aura') {
+        continue;
       } else {
         const result = pickupWorldDrop(
           this.dropSystem,
@@ -2337,58 +2740,19 @@ export class TestScene extends Phaser.Scene {
     for (const drop of activeDrops) {
       let view = this.dropViews.get(drop.id);
       if (!view) {
-        view = this.createDropView(drop);
+        view = createDropView(this, drop, this.getDropLabel(drop));
         this.dropViews.set(drop.id, view);
       }
 
-      this.syncDropView(drop, view);
+      syncDropView(drop, view, getDropPickupAlpha(drop), this.getDropLabel(drop));
     }
 
     for (const [dropId, view] of this.dropViews) {
       if (!activeIds.has(dropId)) {
-        this.destroyDropView(view);
+        destroyDropView(view);
         this.dropViews.delete(dropId);
       }
     }
-  }
-
-  private createDropView(drop: WorldDrop): DropView {
-    const root = this.add.container(drop.x, drop.y);
-    const color = getDropColor(drop);
-    const shadow = this.add.ellipse(0, 18, 44, 10, 0x000000, 0.22);
-    const body = this.add.ellipse(0, 0, 30, 24, color, 0.88);
-    const shine = this.add.ellipse(-6, -5, 9, 6, 0xf3f6ff, 0.46);
-    const label = this.add.text(-46, -40, this.getDropLabel(drop), {
-      color: '#f3f6ff',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '12px',
-    });
-    const feedback = this.add.text(-52, -60, '', {
-      color: '#f2c14e',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '13px',
-    });
-
-    body.setStrokeStyle(2, color, 1);
-    root.add([shadow, body, shine, label, feedback]);
-    root.setDepth(44);
-    return { root, shadow, body, shine, label, feedback };
-  }
-
-  private syncDropView(drop: WorldDrop, view: DropView): void {
-    const alpha = getDropPickupAlpha(drop);
-    view.root.setPosition(drop.x, drop.y);
-    view.root.setAlpha(alpha);
-    view.shadow.setVisible(drop.state === 'idle');
-    view.body.setFillStyle(getDropColor(drop), drop.state === 'idle' ? 0.88 : 0.4);
-    view.body.setScale(drop.state === 'idle' ? 1 + Math.sin(drop.ageMs * 0.006) * 0.05 : 1);
-    view.shine.setVisible(drop.state === 'idle');
-    view.label.setText(this.getDropLabel(drop));
-    view.feedback.setText(drop.state === 'picked' ? drop.feedback : '');
-  }
-
-  private destroyDropView(view: DropView): void {
-    view.root.destroy(true);
   }
 
   private getDropBounds(drop: WorldDrop): Phaser.Geom.Rectangle {
@@ -2403,6 +2767,10 @@ export class TestScene extends Phaser.Scene {
   private getDropLabel(drop: WorldDrop): string {
     if (drop.kind === 'medicine') {
       return drop.medicine.label;
+    }
+
+    if (drop.kind === 'aura') {
+      return drop.auraType === 'red' ? `Red aura +${drop.power}` : `White aura +${drop.power}`;
     }
 
     const name = this.equipmentRegistry[drop.fillName]?.name ?? drop.fillName;
@@ -2465,15 +2833,18 @@ export class TestScene extends Phaser.Scene {
     }
 
     const climb = this.verticalClimb;
-    const activeMonsters = this.monster30s.filter(
+    const monster30s = this.getMonster30s();
+    const activeMonsters = monster30s.filter(
       (m) => m.state !== 'dead' && m.state !== 'removed',
     );
     const activeStop = climb.activeStopIndex >= 0
       ? `stop@${climb.stopPoints[climb.activeStopIndex].y}`
       : 'none';
+    const p1 = this.getPlayer('p1');
+    const p2 = this.getPlayer('p2');
 
     this.statusText.setText([
-      `Vertical Climb | monsters:${this.monster30s.length} alive:${activeMonsters.length}`,
+      `Vertical Climb | monsters:${monster30s.length} alive:${activeMonsters.length}`,
       formatPlayerInput('P1', input.p1),
       formatPlayerInput('P2', input.p2),
       '',
@@ -2482,29 +2853,68 @@ export class TestScene extends Phaser.Scene {
       `activeStop:${activeStop}`,
       `spawnTimer:${Math.round(climb.spawnTimerMs)}ms`,
       `boss:${climb.bossTriggered ? 'triggered' : 'pending'}`,
-      `arena:${formatBossArenaState(this.bossArena)}`,
-      ...activeMonsters.map((m) => `  m30:${m.state} hp:${m.hp}/${m.maxHp} target:${m.targetSlot ?? '-'}`),
-      `hero p1:${formatHeroMovementState(this.playerViews.find((player) => player.slot === 'p1')?.movement)}`,
-      `hero p2:${formatHeroMovementState(this.playerViews.find((player) => player.slot === 'p2')?.movement)}`,
-      `combat p1:${formatHeroCombatState(this.playerViews.find((player) => player.slot === 'p1')?.combat)}`,
-      `combat p2:${formatHeroCombatState(this.playerViews.find((player) => player.slot === 'p2')?.combat)}`,
-      `normal p1:${formatHeroNormalAttackState(this.playerViews.find((player) => player.slot === 'p1')?.normalAttack)}`,
-      `normal p2:${formatHeroNormalAttackState(this.playerViews.find((player) => player.slot === 'p2')?.normalAttack)}`,
-      `skill p1:${formatHeroSkillState(this.playerViews.find((player) => player.slot === 'p1')?.skill)}`,
-      `skill p2:${formatHeroSkillState(this.playerViews.find((player) => player.slot === 'p2')?.skill)}`,
-      `projectiles:${formatProjectileState(getActiveProjectiles(this.projectileSystem))}`,
+      `arena:${formatBossArenaState(this.getBossArena())}`,
+      ...activeMonsters.map((m) => `  m30:${m.state} hp:${m.hp}/${m.maxHp} target:${m.targetSlot ?? '-'}${formatMonsterMagicFlowerDebuff(m)}`),
+      `hero p1:${formatHeroMovementState(p1?.movement)}`,
+      `hero p2:${formatHeroMovementState(p2?.movement)}`,
+      `combat p1:${formatHeroCombatState(p1?.combat)}`,
+      `combat p2:${formatHeroCombatState(p2?.combat)}`,
+      `normal p1:${formatHeroNormalAttackState(p1?.normalAttack)}`,
+      `normal p2:${formatHeroNormalAttackState(p2?.normalAttack)}`,
+      `skill p1:${formatHeroSkillState(p1?.skill)}`,
+      `skill p2:${formatHeroSkillState(p2?.skill)}`,
+      `projectiles:${formatProjectileState(getActiveProjectiles(this.getProjectileSystem()))}`,
       `skill cast:${formatSkillEvent(this.lastSkillEvent)}`,
       `skill ui p1:${formatSkillUIState(this.p1SkillUI)}`,
       `skill ui p2:${formatSkillUIState(this.p2SkillUI)}`,
       `inventory:${formatInventoryUIState(this.inventoryUI)}`,
-      `drops:${formatDropState(getWorldDrops(this.dropSystem))}`,
-      `drop msg:${this.dropSystem.lastMessage}`,
+      `pet:${formatPetState(this.getPetRoster(), this.petRuntime, this.petPanelOpen)}`,
+      `magic weapon:${formatMagicWeaponState(this.magicWeapon)}`,
+      `magic bottle:${this.magicBottle.equippedFillName} H | soul ${this.magicBottle.soul} | ${this.magicBottle.lastResult}`,
+      `catch targets:${formatCapturablePetTargets(this.getCapturablePetTargets())}`,
+      'drop config keys:N Monster3 boss | M Monster7 | < Monster29 | F9 M1 | F10 M31 boss | F11 M207 default | F12 M601 zero',
+      `drops:${formatDropState(getWorldDrops(this.getDropSystem()))}`,
+      `drop msg:${this.getDropSystem().lastMessage}`,
+      `aura total:gxp ${this.getDropSystem().auraRedGxp} | power ${this.getDropSystem().auraWhitePower}`,
+      `aura msg:${this.getDropSystem().lastAuraMessage}`,
       `damage:${formatDamageEvent(this.lastDamageEvent)}`,
     ]);
   }
 
   private getInventoryPlayer(): PlayerView | undefined {
-    return this.playerViews.find((player) => player.slot === 'p1');
+    return this.getPlayer('p1');
+  }
+
+  private getPlayer(slot: PlayerSlot): PlayerView | undefined {
+    return findPlayerBySlot(this.gameContext, slot);
+  }
+
+  private getPlayers(): readonly PlayerView[] {
+    return this.gameContext.players();
+  }
+
+  private getMonster30s(): readonly Monster30Model[] {
+    return this.gameContext.monster30s();
+  }
+
+  private getBossArena(): BossArenaModel {
+    return this.gameContext.bossArena();
+  }
+
+  private getProjectileSystem(): ProjectileSystemModel {
+    return this.gameContext.projectileSystem();
+  }
+
+  private getDropSystem(): DropSystemModel {
+    return this.gameContext.dropSystem();
+  }
+
+  private getPetRoster(): PetRoster {
+    return this.gameContext.petRoster();
+  }
+
+  private getCapturablePetTargets(): readonly CapturablePetTarget[] {
+    return this.gameContext.capturablePetTargets();
   }
 
   private getInventoryHeroName(): string {
@@ -2547,14 +2957,6 @@ export class TestScene extends Phaser.Scene {
   }
 }
 
-function getDropColor(drop: WorldDrop): number {
-  if (drop.kind === 'medicine') {
-    return drop.medicine.color;
-  }
-
-  return drop.bigType === 'zb' ? 0xf2c14e : 0x72d2b1;
-}
-
 function formatDropState(drops: readonly WorldDrop[]): string {
   const idle = drops.filter((drop) => drop.state === 'idle');
   if (idle.length === 0) {
@@ -2562,8 +2964,18 @@ function formatDropState(drops: readonly WorldDrop[]): string {
   }
 
   return idle
-    .map((drop) => `${drop.bigType}/${drop.fillName}@${Math.round(drop.x)},${Math.round(drop.y)}`)
+    .map((drop) => {
+      if (drop.kind === 'aura') {
+        return `${drop.auraType}Aura/${drop.phase}/${drop.power}@${Math.round(drop.x)},${Math.round(drop.y)}`;
+      }
+
+      return `${drop.bigType}/${drop.fillName}@${Math.round(drop.x)},${Math.round(drop.y)}`;
+    })
     .join(', ');
+}
+
+function isPlayerSlot(value: string): value is PlayerSlot {
+  return value === 'p1' || value === 'p2';
 }
 
 function formatPlayerInput(label: string, input: PlayerInputState): string {
@@ -2680,11 +3092,23 @@ function formatHeroCombatState(combat: HeroCombatModel | undefined): string {
     return 'missing';
   }
 
+  const shield = combat.magicShield
+    ? ` | shield:${Math.round(combat.magicShield.remainingAmount)}/${Math.round(combat.magicShield.initialAmount)} ${formatSeconds(combat.magicShield.remainingMs)}s`
+    : '';
+  const invincible = combat.magicInvulnerability
+    ? ` | inv:${formatSeconds(combat.magicInvulnerability.remainingMs)}s`
+    : '';
+  const buff = combat.magicBuff
+    ? ` | buff:${combat.magicBuff.kind} atk+${combat.magicBuff.attackBonusPercent}% crit+${combat.magicBuff.critBonusPercent}% ${formatSeconds(combat.magicBuff.remainingMs)}s`
+    : '';
+  const flower = combat.magicFlowerBuff
+    ? ` | flower:+${combat.magicFlowerBuff.attackBonusFlat.toFixed(1)} x${combat.magicFlowerBuff.attackMultiplier.toFixed(2)} ${formatSeconds(combat.magicFlowerBuff.remainingMs)}s`
+    : '';
   return [
     combat.state,
     `hp:${combat.hp}/${combat.maxHp}`,
     `last:${combat.lastDamageEvent?.amount ?? 0}`,
-  ].join(' | ');
+  ].join(' | ') + shield + invincible + buff + flower;
 }
 
 function formatSkillUIState(ui: SkillUIState): string {
@@ -2702,6 +3126,38 @@ function formatInventoryUIState(ui: InventoryUIState): string {
     `sel:${ui.focus === 'inventory' ? ui.selectedIndex : ui.selectedSlotIndex}`,
     ui.message,
   ].join(' | ');
+}
+
+function formatPetState(
+  roster: PetRoster,
+  runtime: PetRuntimeModel | undefined,
+  panelOpen: boolean,
+): string {
+  const active = getActivePet(roster);
+  const flower = active?.magicFlowerBuff
+    ? ` flower:x${active.magicFlowerBuff.attackMultiplier.toFixed(2)} ${formatSeconds(active.magicFlowerBuff.remainingMs)}s`
+    : '';
+  return [
+    panelOpen ? 'panel:open' : 'panel:closed',
+    `active:${active?.displayName ?? '-'}${flower}`,
+    runtime
+      ? `${runtime.state}@${Math.round(runtime.x)},${Math.round(runtime.y)}`
+      : 'runtime:none',
+    roster.message,
+  ].join(' | ');
+}
+
+function formatCapturablePetTargets(targets: readonly CapturablePetTarget[]): string {
+  const alive = targets.filter((target) => !target.removed);
+  if (alive.length === 0) {
+    return 'none';
+  }
+
+  return alive
+    .map((target) =>
+      `${target.monsterId} Lv.${target.level}@${Math.round(target.x)},${Math.round(target.y)} ${target.feedback}`
+    )
+    .join(', ');
 }
 
 function formatProjectileState(projectiles: readonly ProjectileModel[]): string {
@@ -2725,7 +3181,26 @@ function formatHeroLabel(
   model: HeroNormalAttackModel,
   combat: HeroCombatModel,
 ): string {
-  return `${slot.toUpperCase()} R${model.heroId} ${HeroDisplayNames[model.heroId]} HP ${combat.hp}/${combat.maxHp}`;
+  const shield = combat.magicShield
+    ? ` S${Math.round(combat.magicShield.remainingAmount)}`
+    : '';
+  const invincible = combat.magicInvulnerability ? ' INV' : '';
+  const buff = combat.magicBuff ? ` ${combat.magicBuff.kind}` : '';
+  const flower = combat.magicFlowerBuff ? ' flower' : '';
+  return `${slot.toUpperCase()} R${model.heroId} ${HeroDisplayNames[model.heroId]} HP ${combat.hp}/${combat.maxHp}${shield}${invincible}${buff}${flower}`;
+}
+
+function formatMonsterMagicFlowerDebuff(monster: Monster30Model): string {
+  const debuff = monster.magicFlowerDebuff;
+  if (!debuff) {
+    return '';
+  }
+
+  return ` flower:x${debuff.damageMultiplier.toFixed(3)} ${formatSeconds(debuff.remainingMs)}s`;
+}
+
+function formatSeconds(ms: number): string {
+  return (ms / 1000).toFixed(ms % 1000 === 0 ? 0 : 1);
 }
 
 function getHeroTint(heroId: HeroId): number {

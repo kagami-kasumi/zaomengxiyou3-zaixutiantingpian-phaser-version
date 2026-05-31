@@ -1,4 +1,7 @@
-import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
+import {
+  MagicWeaponEffectKeys,
+  SkillProjectileEffectKeys,
+} from '../assets/AssetManifest';
 import type { AttackKind } from './CombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
 
@@ -58,7 +61,10 @@ export type ProjectileSystemModel = {
 export type ProjectileVariant =
   | 'role2-sgq-hit5'
   | 'role2-smb-hit4-1'
-  | 'role2-smb-hit4-2';
+  | 'role2-smb-hit4-2'
+  | 'magic-weapon-sword2'
+  | 'magic-weapon-qpj-active'
+  | 'magic-weapon-qpj-auto';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -121,6 +127,55 @@ export const Role2SmbSecondStageProjectileTuning = {
   knockbackY: -3,
   hitIntervalFrames: 999,
   maxHits: 100,
+} as const;
+
+export const MagicSword2ProjectileTuning = {
+  actionName: 'magicsword2',
+  assetKey: MagicWeaponEffectKeys.magicSword2,
+  sourceSymbol: 'MagicSword2_2',
+  runtimeName: 'MagicSword2_2',
+  offsetX: 0,
+  offsetY: 15,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 126,
+  height: 118,
+  lifetimeMs: 560,
+  damage: 22,
+  attackKind: 'magic',
+  knockbackX: 0,
+  knockbackY: -4,
+  hitIntervalFrames: 999,
+  maxHits: 1,
+} as const;
+
+export const MagicQpjActiveProjectileTuning = {
+  actionName: 'fabao-qpj',
+  assetKey: MagicWeaponEffectKeys.magicQpj,
+  sourceSymbol: 'qpjeffect',
+  runtimeName: 'qpjeffect',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 92,
+  height: 92,
+  lifetimeMs: 8_800,
+  damage: 14,
+  attackKind: 'magic',
+  knockbackX: 0,
+  knockbackY: -2,
+  hitIntervalFrames: 999,
+  maxHits: 1,
+} as const;
+
+export const MagicQpjAutoProjectileTuning = {
+  ...MagicQpjActiveProjectileTuning,
+  actionName: 'fabao-qpj1',
+  lifetimeMs: 7_500,
+  damage: 10,
 } as const;
 
 const frameMs = 1000 / 60;
@@ -187,6 +242,41 @@ export function spawnRole2SmbSecondStageProjectile(
   return projectile;
 }
 
+export function spawnMagicSword2Projectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'magic-weapon-sword2',
+    'magic-sword2',
+    MagicSword2ProjectileTuning,
+  );
+
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
+export function spawnMagicQpjProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  mode: 'active' | 'auto',
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    mode === 'active' ? 'magic-weapon-qpj-active' : 'magic-weapon-qpj-auto',
+    mode === 'active' ? 'magic-qpj-active' : 'magic-qpj-auto',
+    mode === 'active'
+      ? MagicQpjActiveProjectileTuning
+      : MagicQpjAutoProjectileTuning,
+  );
+
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -233,7 +323,10 @@ function spawnProjectileFromTuning(
   tuning:
     | typeof Role2SgqProjectileTuning
     | typeof Role2SmbFirstStageProjectileTuning
-    | typeof Role2SmbSecondStageProjectileTuning,
+    | typeof Role2SmbSecondStageProjectileTuning
+    | typeof MagicSword2ProjectileTuning
+    | typeof MagicQpjActiveProjectileTuning
+    | typeof MagicQpjAutoProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

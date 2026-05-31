@@ -3,6 +3,43 @@ import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem
 
 export type HeroCombatState = 'ready' | 'hurt' | 'dead';
 
+export type HeroMagicShieldKind = 'magicUmbrellaDefend' | 'magicUmbrellaDefend2';
+
+export type HeroMagicShield = {
+  kind: HeroMagicShieldKind;
+  sourceName: string;
+  initialAmount: number;
+  remainingAmount: number;
+  totalMs: number;
+  remainingMs: number;
+};
+
+export type HeroMagicInvulnerability = {
+  sourceName: string;
+  totalMs: number;
+  remainingMs: number;
+};
+
+export type HeroMagicBuffKind = 'xlfbBuff' | 'sxfbBuff' | 'yxfbBuff2';
+
+export type HeroMagicBuff = {
+  kind: HeroMagicBuffKind;
+  sourceName: string;
+  attackBonusPercent: number;
+  critBonusPercent: number;
+  totalMs: number;
+  remainingMs: number;
+};
+
+export type HeroMagicFlowerBuff = {
+  kind: 'magicFlowerAddBuff';
+  sourceName: string;
+  attackBonusFlat: number;
+  attackMultiplier: number;
+  totalMs: number;
+  remainingMs: number;
+};
+
 export type HeroCombatModel = {
   id: string;
   hp: number;
@@ -12,6 +49,10 @@ export type HeroCombatModel = {
   invulnerableUntilMs: number;
   knockbackVelocityX: number;
   lastDamageEvent?: DamageEvent;
+  magicShield?: HeroMagicShield;
+  magicInvulnerability?: HeroMagicInvulnerability;
+  magicBuff?: HeroMagicBuff;
+  magicFlowerBuff?: HeroMagicFlowerBuff;
 };
 
 export const HeroCombatTuning = {
@@ -41,6 +82,10 @@ export function resetHeroCombat(hero: HeroCombatModel): void {
   hero.invulnerableUntilMs = 0;
   hero.knockbackVelocityX = 0;
   hero.lastDamageEvent = undefined;
+  hero.magicShield = undefined;
+  hero.magicInvulnerability = undefined;
+  hero.magicBuff = undefined;
+  hero.magicFlowerBuff = undefined;
 }
 
 export function isHeroCombatDead(hero: HeroCombatModel): boolean {
@@ -56,11 +101,16 @@ export function applyHeroDamage(
   event: DamageEvent,
   timeMs: number,
 ): boolean {
-  if (hero.state === 'dead' || timeMs < hero.invulnerableUntilMs) {
+  if (
+    hero.state === 'dead' ||
+    timeMs < hero.invulnerableUntilMs ||
+    hero.magicInvulnerability
+  ) {
     return false;
   }
 
-  hero.hp = Math.max(0, hero.hp - event.amount);
+  const remainingDamage = absorbHeroDamageWithMagicShield(hero, event.amount);
+  hero.hp = Math.max(0, hero.hp - remainingDamage);
   hero.lastDamageEvent = event;
 
   if (hero.hp <= 0) {
@@ -71,11 +121,75 @@ export function applyHeroDamage(
     return true;
   }
 
-  hero.state = 'hurt';
-  hero.hurtUntilMs = timeMs + HeroCombatTuning.hurtDurationMs;
-  hero.invulnerableUntilMs = timeMs + HeroCombatTuning.invulnerableDurationMs;
-  hero.knockbackVelocityX = event.knockbackX * HeroCombatTuning.knockbackPixelsPerSecond;
+  if (remainingDamage > 0) {
+    hero.state = 'hurt';
+    hero.hurtUntilMs = timeMs + HeroCombatTuning.hurtDurationMs;
+    hero.invulnerableUntilMs = timeMs + HeroCombatTuning.invulnerableDurationMs;
+    hero.knockbackVelocityX = event.knockbackX * HeroCombatTuning.knockbackPixelsPerSecond;
+  }
   return true;
+}
+
+export function applyHeroMagicShield(
+  hero: HeroCombatModel,
+  shield: HeroMagicShield,
+): void {
+  if (hero.state === 'dead') {
+    return;
+  }
+
+  hero.magicShield = {
+    ...shield,
+    initialAmount: Math.max(0, shield.initialAmount),
+    remainingAmount: Math.max(0, shield.remainingAmount),
+    totalMs: Math.max(0, shield.totalMs),
+    remainingMs: Math.max(0, shield.remainingMs),
+  };
+}
+
+export function updateHeroMagicShield(
+  hero: HeroCombatModel,
+  deltaMs: number,
+): void {
+  const shield = hero.magicShield;
+  if (!shield) {
+    return;
+  }
+
+  shield.remainingMs -= Math.max(0, deltaMs);
+  if (shield.remainingMs <= 0 || shield.remainingAmount <= 0) {
+    hero.magicShield = undefined;
+  }
+}
+
+export function applyHeroMagicInvulnerability(
+  hero: HeroCombatModel,
+  invulnerability: HeroMagicInvulnerability,
+): void {
+  if (hero.state === 'dead') {
+    return;
+  }
+
+  hero.magicInvulnerability = {
+    ...invulnerability,
+    totalMs: Math.max(0, invulnerability.totalMs),
+    remainingMs: Math.max(0, invulnerability.remainingMs),
+  };
+}
+
+export function updateHeroMagicInvulnerability(
+  hero: HeroCombatModel,
+  deltaMs: number,
+): void {
+  const invulnerability = hero.magicInvulnerability;
+  if (!invulnerability) {
+    return;
+  }
+
+  invulnerability.remainingMs -= Math.max(0, deltaMs);
+  if (invulnerability.remainingMs <= 0) {
+    hero.magicInvulnerability = undefined;
+  }
 }
 
 export function updateHeroCombat(
@@ -85,6 +199,9 @@ export function updateHeroCombat(
   timeMs: number,
   deltaMs: number,
 ): void {
+  updateHeroMagicShield(hero, deltaMs);
+  updateHeroMagicInvulnerability(hero, deltaMs);
+
   if (hero.state === 'hurt' && timeMs >= hero.hurtUntilMs) {
     hero.state = 'ready';
   }
@@ -106,6 +223,44 @@ export function updateHeroCombat(
   if (Math.abs(hero.knockbackVelocityX) < 1) {
     hero.knockbackVelocityX = 0;
   }
+}
+
+export function applyHeroMagicFlowerBuff(
+  hero: HeroCombatModel,
+  buff: HeroMagicFlowerBuff,
+): void {
+  if (hero.state === 'dead') {
+    return;
+  }
+
+  hero.magicFlowerBuff = {
+    ...buff,
+    attackBonusFlat: Math.max(0, buff.attackBonusFlat),
+    attackMultiplier: Math.max(1, buff.attackMultiplier),
+    totalMs: Math.max(0, buff.totalMs),
+    remainingMs: Math.max(0, buff.remainingMs),
+  };
+}
+
+export function clearHeroMagicFlowerBuff(hero: HeroCombatModel): void {
+  hero.magicFlowerBuff = undefined;
+}
+
+function absorbHeroDamageWithMagicShield(
+  hero: HeroCombatModel,
+  amount: number,
+): number {
+  const shield = hero.magicShield;
+  if (!shield || amount <= 0) {
+    return amount;
+  }
+
+  const absorbed = Math.min(shield.remainingAmount, amount);
+  shield.remainingAmount -= absorbed;
+  if (shield.remainingAmount <= 0) {
+    hero.magicShield = undefined;
+  }
+  return amount - absorbed;
 }
 
 function keepMovementInsideBounds(

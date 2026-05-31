@@ -28,6 +28,14 @@
   - 现代资源 manifest 和资源键。
   - 不直接复制或重生成 `extracted_flash/` 原始提取结果。
 
+## `TestScene` / sandbox 增长约束
+
+- `TestScene.ts` 是集成验证场景，不作为最终正式游戏架构承载点。
+- 新增切片如果预计会在 `TestScene.ts` 增加超过约 150 行代码，先判断是否应抽到 `src/scenes/test-scene/` helper 或 `src/systems/`。
+- 同一类职责第二次出现时优先抽 helper：视图创建、调试键、命中桥接、UI 面板桥接、运行时查询、系统调度。
+- 不为“彻底架构化”做大重构；每次只拆一个职责簇，并保持 `npm run build` 通过。
+- `src/scenes/test-scene/` helper 仍属于场景桥接层，可以依赖 Phaser；不要把 Phaser 显示对象传入 `src/systems/`。
+
 ## 逆向与实现边界
 
 - AS3 类名可以写入注释或映射文档，但不要照搬 AS3 类结构。
