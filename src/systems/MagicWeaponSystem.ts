@@ -4,9 +4,11 @@ import type {
   EquipmentLoadout,
 } from './EquipmentSystem';
 import {
+  applyHeroMagicFlagGuard,
   applyHeroMagicFlowerBuff,
   applyHeroMagicInvulnerability,
   applyHeroMagicShield,
+  clearHeroMagicFlagGuard,
   clearHeroMagicFlowerBuff,
   type HeroCombatModel,
 } from './HeroCombatSystem';
@@ -35,6 +37,7 @@ export type MagicWeaponFillName =
   | 'zjld'
   | 'zsTimer'
   | 'jyhl'
+  | 'mdhf'
   | 'lxfb'
   | 'sxfb'
   | 'yxfb';
@@ -50,6 +53,7 @@ export type MagicWeaponEffectKind =
   | 'magicRing'
   | 'magicTimer'
   | 'magicFlower'
+  | 'magicFlag'
   | 'magicDemonBuff';
 
 export type MagicWeaponEquipState = {
@@ -144,6 +148,14 @@ export type MagicWeaponFlowerEffect = {
   affectedEnemyIds: string[];
 };
 
+export type MagicWeaponFlagEffect = {
+  kind: 'magicFlag';
+  totalMs: number;
+  remainingMs: number;
+  actionRemainingMs: number;
+  debuffMs: number;
+};
+
 export type MagicWeaponActiveEffect =
   | MagicWeaponHealingEffect
   | MagicWeaponSword2Effect
@@ -152,6 +164,7 @@ export type MagicWeaponActiveEffect =
   | MagicWeaponRingEffect
   | MagicWeaponTimerEffect
   | MagicWeaponFlowerEffect
+  | MagicWeaponFlagEffect
   | MagicWeaponDemonBuffEffect;
 
 export type MagicWeaponModel = {
@@ -193,6 +206,12 @@ export type MagicWeaponEnemyTarget = {
     damageMultiplier: number;
   }) => void;
   clearMagicFlowerDebuff?: () => void;
+  applyMagicFlagDebuff?: (debuff: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs: number;
+  }) => void;
+  clearMagicFlagDebuff?: () => void;
 };
 
 export type MagicWeaponTriggerResult = {
@@ -246,6 +265,10 @@ export const MagicWeaponTuning = {
   flowerHeroAttackFlatRate: 0.21,
   flowerPetAttackMultiplier: 1.21,
   flowerEnemyDamageMultiplier: 0.925,
+  flagGuardDurationMs: 10_000,
+  flagActionMs: 1_000,
+  flagWoodActionMs: 833,
+  flagDebuffMs: 5_000,
 } as const;
 
 export function createMagicWeaponModel(): MagicWeaponModel {
@@ -399,6 +422,15 @@ export function requestMagicWeaponTrigger(params: {
     return { triggered: true, message: params.model.message };
   }
 
+  if (current.fillName === 'mdhf') {
+    const effect = createFlagEffect(current);
+    params.model.action = 'hit';
+    params.model.activeEffect = effect;
+    applyMagicWeaponFlag(params.target, effect, current);
+    params.model.message = `${current.name} 护体 ${formatSeconds(effect.totalMs)}s`;
+    return { triggered: true, message: params.model.message };
+  }
+
   const effect = createHealingEffect(current);
   params.model.action = 'hit';
   params.model.activeEffect = effect;
@@ -434,6 +466,8 @@ export function updateMagicWeapon(
     updateDemonBuffEffect(target, effect, elapsedMs);
   } else if (effect.kind === 'magicFlower') {
     updateFlowerEffect(model, target, friendlyPets, enemyTargets, effect, elapsedMs);
+  } else if (effect.kind === 'magicFlag') {
+    updateFlagEffect(model, target, effect, elapsedMs);
   }
   effect.remainingMs -= elapsedMs;
 
@@ -442,6 +476,8 @@ export function updateMagicWeapon(
       target.combat.magicBuff = undefined;
     } else if (effect.kind === 'magicFlower') {
       clearMagicWeaponFlower(target, friendlyPets, effect, enemyTargets);
+    } else if (effect.kind === 'magicFlag') {
+      clearHeroMagicFlagGuard(target.combat);
     }
     model.action = 'wait';
     model.activeEffect = undefined;
@@ -701,6 +737,20 @@ function createFlowerEffect(
   };
 }
 
+function createFlagEffect(current: MagicWeaponEquipState): MagicWeaponFlagEffect {
+  const actionRemainingMs = current.element.includes('木')
+    ? MagicWeaponTuning.flagWoodActionMs
+    : MagicWeaponTuning.flagActionMs;
+
+  return {
+    kind: 'magicFlag',
+    totalMs: MagicWeaponTuning.flagGuardDurationMs,
+    remainingMs: MagicWeaponTuning.flagGuardDurationMs,
+    actionRemainingMs,
+    debuffMs: MagicWeaponTuning.flagDebuffMs,
+  };
+}
+
 function applyMagicWeaponHealing(
   target: MagicWeaponTarget,
   effect: MagicWeaponHealingEffect,
@@ -824,6 +874,20 @@ function applyMagicWeaponFlower(params: {
   }
 }
 
+function applyMagicWeaponFlag(
+  target: MagicWeaponTarget,
+  effect: MagicWeaponFlagEffect,
+  current: MagicWeaponEquipState,
+): void {
+  applyHeroMagicFlagGuard(target.combat, {
+    kind: 'magicFlagEffect',
+    sourceName: current.name,
+    totalMs: effect.totalMs,
+    remainingMs: effect.remainingMs,
+    debuffMs: effect.debuffMs,
+  });
+}
+
 function clearMagicWeaponFlower(
   target: MagicWeaponTarget,
   pets: readonly MagicWeaponFriendlyPetTarget[],
@@ -840,6 +904,21 @@ function clearMagicWeaponFlower(
     if (effect.affectedEnemyIds.includes(enemy.id)) {
       enemy.clearMagicFlowerDebuff?.();
     }
+  }
+}
+
+function updateFlagEffect(
+  model: MagicWeaponModel,
+  target: MagicWeaponTarget,
+  effect: MagicWeaponFlagEffect,
+  elapsedMs: number,
+): void {
+  effect.actionRemainingMs = Math.max(0, effect.actionRemainingMs - elapsedMs);
+  if (target.combat.magicFlagGuard) {
+    target.combat.magicFlagGuard.remainingMs = Math.max(0, effect.remainingMs - elapsedMs);
+  }
+  if (effect.actionRemainingMs <= 0) {
+    model.message = `${model.current?.name ?? '摩多魂幡'} 动作完成，护体持续`;
   }
 }
 
@@ -1053,6 +1132,7 @@ function isSupportedMagicWeapon(fillName: string): fillName is MagicWeaponFillNa
     fillName === 'zjld' ||
     fillName === 'zsTimer' ||
     fillName === 'jyhl' ||
+    fillName === 'mdhf' ||
     fillName === 'lxfb' ||
     fillName === 'sxfb' ||
     fillName === 'yxfb';

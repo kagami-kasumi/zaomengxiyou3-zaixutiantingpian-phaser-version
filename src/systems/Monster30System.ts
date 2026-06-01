@@ -1,4 +1,5 @@
 import type { AttackKind } from './CombatSystem';
+import type { HeroCombatModel } from './HeroCombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
 import type { PlayerSlot } from './InputSystem';
 
@@ -24,6 +25,7 @@ export type Monster30Model = {
   attackSerial: number;
   activeAttack?: Monster30ActiveAttack;
   magicFlowerDebuff?: MonsterMagicFlowerDebuff;
+  magicFlagDebuff?: MonsterMagicFlagDebuff;
 };
 
 export type MonsterMagicFlowerDebuff = {
@@ -32,6 +34,17 @@ export type MonsterMagicFlowerDebuff = {
   damageMultiplier: number;
   totalMs: number;
   remainingMs: number;
+};
+
+export type MonsterMagicFlagDebuff = {
+  kind: 'magicFlagDebuff';
+  sourceName: string;
+  hitMultiplier: number;
+  hpDamageRatePerSecond: number;
+  totalMs: number;
+  remainingMs: number;
+  tickCarryMs: number;
+  lastTickDamage: number;
 };
 
 export type Monster30ActiveAttack = {
@@ -62,6 +75,9 @@ export const Monster30Tuning = {
   hit1DurationMs: 167,
   hit1Damage: 15,
   magicFlowerDamageMultiplier: 0.925,
+  magicFlagDurationMs: 5_000,
+  magicFlagHpDamageRatePerSecond: 0.02,
+  magicFlagHitMultiplier: 0.5,
   hit1HitboxStartMs: 55,
   hit1HitboxEndMs: 145,
   hit1HitboxOffsetX: 52,
@@ -102,7 +118,14 @@ export function updateMonster30(
     return;
   }
 
+  const stateBeforeDebuff = monster.state;
+  updateMonster30MagicFlagDebuff(monster, deltaMs);
+  if (stateBeforeDebuff !== 'dead' && monster.state === 'dead') {
+    return;
+  }
+
   if (monster.state === 'dead') {
+    clearMonster30MagicFlagDebuff(monster);
     monster.activeAttack = undefined;
     monster.stateTimerMs -= deltaMs;
     if (monster.stateTimerMs <= 0) {
@@ -211,6 +234,52 @@ export function clearMonster30MagicFlowerDebuff(monster: Monster30Model): void {
   monster.magicFlowerDebuff = undefined;
 }
 
+export function applyMonster30MagicFlagDebuff(
+  monster: Monster30Model,
+  params: {
+    sourceName: string;
+    totalMs?: number;
+    remainingMs?: number;
+  },
+): void {
+  if (monster.state === 'dead' || monster.state === 'removed') {
+    return;
+  }
+
+  const totalMs = params.totalMs ?? Monster30Tuning.magicFlagDurationMs;
+  monster.magicFlagDebuff = {
+    kind: 'magicFlagDebuff',
+    sourceName: params.sourceName,
+    hitMultiplier: Monster30Tuning.magicFlagHitMultiplier,
+    hpDamageRatePerSecond: Monster30Tuning.magicFlagHpDamageRatePerSecond,
+    totalMs,
+    remainingMs: params.remainingMs ?? totalMs,
+    tickCarryMs: 0,
+    lastTickDamage: 0,
+  };
+}
+
+export function clearMonster30MagicFlagDebuff(monster: Monster30Model): void {
+  monster.magicFlagDebuff = undefined;
+}
+
+export function applyMonster30MagicFlagCounterFromHero(
+  monster: Monster30Model,
+  hero: HeroCombatModel,
+): boolean {
+  const guard = hero.magicFlagGuard;
+  if (!guard) {
+    return false;
+  }
+
+  applyMonster30MagicFlagDebuff(monster, {
+    sourceName: guard.sourceName,
+    totalMs: guard.debuffMs,
+    remainingMs: guard.debuffMs,
+  });
+  return true;
+}
+
 export function getMonster30AttackHitbox(monster: Monster30Model): Hitbox | undefined {
   const attack = monster.activeAttack;
   if (
@@ -254,6 +323,35 @@ function startMonster30Hit1(monster: Monster30Model): void {
     knockbackY: Monster30Tuning.hit1KnockbackY,
     facingX: monster.facingX,
   };
+}
+
+function updateMonster30MagicFlagDebuff(monster: Monster30Model, deltaMs: number): void {
+  const debuff = monster.magicFlagDebuff;
+  if (!debuff || monster.state === 'dead' || monster.state === 'removed') {
+    return;
+  }
+
+  const elapsedMs = Math.max(0, Math.min(deltaMs, debuff.remainingMs));
+  debuff.remainingMs -= elapsedMs;
+  debuff.tickCarryMs += elapsedMs;
+
+  while (debuff.tickCarryMs >= 1_000) {
+    debuff.tickCarryMs -= 1_000;
+    const damage = monster.maxHp * debuff.hpDamageRatePerSecond;
+    debuff.lastTickDamage = damage;
+    monster.hp = Math.max(0, monster.hp - damage);
+
+    if (monster.hp <= 0) {
+      monster.state = 'dead';
+      monster.stateTimerMs = Monster30Tuning.deadDurationMs;
+      monster.activeAttack = undefined;
+      break;
+    }
+  }
+
+  if (debuff.remainingMs <= 0 || monster.state === 'dead') {
+    monster.magicFlagDebuff = undefined;
+  }
 }
 
 function selectNearestTarget(

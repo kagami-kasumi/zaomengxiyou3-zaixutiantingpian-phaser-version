@@ -35,7 +35,9 @@ import {
 } from '../systems/HeroMovementSystem';
 import {
   applyMonster30MagicFlowerDebuff,
+  clearMonster30MagicFlagDebuff,
   applyMonster30Hit,
+  applyMonster30MagicFlagDebuff,
   clearMonster30MagicFlowerDebuff,
   createMonster30,
   updateMonster30,
@@ -2042,6 +2044,13 @@ export class TestScene extends Phaser.Scene {
           remainingMs: debuff.remainingMs,
         }),
       clearMagicFlowerDebuff: () => clearMonster30MagicFlowerDebuff(monster),
+      applyMagicFlagDebuff: (debuff) =>
+        applyMonster30MagicFlagDebuff(monster, {
+          sourceName: debuff.sourceName,
+          totalMs: debuff.totalMs,
+          remainingMs: debuff.remainingMs,
+        }),
+      clearMagicFlagDebuff: () => clearMonster30MagicFlagDebuff(monster),
     }));
 
     if (this.bossArena.state === 'active' && this.bossArena.boss) {
@@ -2854,7 +2863,7 @@ export class TestScene extends Phaser.Scene {
       `spawnTimer:${Math.round(climb.spawnTimerMs)}ms`,
       `boss:${climb.bossTriggered ? 'triggered' : 'pending'}`,
       `arena:${formatBossArenaState(this.getBossArena())}`,
-      ...activeMonsters.map((m) => `  m30:${m.state} hp:${m.hp}/${m.maxHp} target:${m.targetSlot ?? '-'}${formatMonsterMagicFlowerDebuff(m)}`),
+      ...activeMonsters.map((m) => `  m30:${m.state} hp:${m.hp}/${m.maxHp} target:${m.targetSlot ?? '-'}${formatMonsterMagicFlowerDebuff(m)}${formatMonsterMagicFlagDebuff(m)}`),
       `hero p1:${formatHeroMovementState(p1?.movement)}`,
       `hero p2:${formatHeroMovementState(p2?.movement)}`,
       `combat p1:${formatHeroCombatState(p1?.combat)}`,
@@ -3104,11 +3113,14 @@ function formatHeroCombatState(combat: HeroCombatModel | undefined): string {
   const flower = combat.magicFlowerBuff
     ? ` | flower:+${combat.magicFlowerBuff.attackBonusFlat.toFixed(1)} x${combat.magicFlowerBuff.attackMultiplier.toFixed(2)} ${formatSeconds(combat.magicFlowerBuff.remainingMs)}s`
     : '';
+  const flag = combat.magicFlagGuard
+    ? ` | flag:${formatSeconds(combat.magicFlagGuard.remainingMs)}s debuff:${formatSeconds(combat.magicFlagGuard.debuffMs)}s`
+    : '';
   return [
     combat.state,
     `hp:${combat.hp}/${combat.maxHp}`,
     `last:${combat.lastDamageEvent?.amount ?? 0}`,
-  ].join(' | ') + shield + invincible + buff + flower;
+  ].join(' | ') + shield + invincible + buff + flower + flag;
 }
 
 function formatSkillUIState(ui: SkillUIState): string {
@@ -3187,7 +3199,8 @@ function formatHeroLabel(
   const invincible = combat.magicInvulnerability ? ' INV' : '';
   const buff = combat.magicBuff ? ` ${combat.magicBuff.kind}` : '';
   const flower = combat.magicFlowerBuff ? ' flower' : '';
-  return `${slot.toUpperCase()} R${model.heroId} ${HeroDisplayNames[model.heroId]} HP ${combat.hp}/${combat.maxHp}${shield}${invincible}${buff}${flower}`;
+  const flag = combat.magicFlagGuard ? ' flag' : '';
+  return `${slot.toUpperCase()} R${model.heroId} ${HeroDisplayNames[model.heroId]} HP ${combat.hp}/${combat.maxHp}${shield}${invincible}${buff}${flower}${flag}`;
 }
 
 function formatMonsterMagicFlowerDebuff(monster: Monster30Model): string {
@@ -3197,6 +3210,15 @@ function formatMonsterMagicFlowerDebuff(monster: Monster30Model): string {
   }
 
   return ` flower:x${debuff.damageMultiplier.toFixed(3)} ${formatSeconds(debuff.remainingMs)}s`;
+}
+
+function formatMonsterMagicFlagDebuff(monster: Monster30Model): string {
+  const debuff = monster.magicFlagDebuff;
+  if (!debuff) {
+    return '';
+  }
+
+  return ` flag:hitx${debuff.hitMultiplier.toFixed(2)} ${formatSeconds(debuff.remainingMs)}s tick:${debuff.lastTickDamage.toFixed(1)}`;
 }
 
 function formatSeconds(ms: number): string {

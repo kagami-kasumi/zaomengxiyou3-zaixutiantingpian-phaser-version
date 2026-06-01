@@ -79,8 +79,53 @@
 | TASK-SLICE-029 | 切片 | 流邪/沙邪/渊邪入魔 buff 法宝最小切片 | M-043、M-036、M-015、M-033、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-030 | 切片 | 九佑魂莲/MagicFlower 全体增减益法宝最小切片 | M-043、M-036、M-015、M-032、M-033、M-042、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-021 | 逆向 | MagicFlag/MagicPearl 全屏法宝逆向索引 | M-043、M-032、M-033、VS-013 | `magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-031 | 切片 | 摩多魂幡/MagicFlag 反制 debuff 法宝最小切片 | M-043、M-032、M-033、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-031
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `mdhf` 摩多魂幡触发分支；装备对应 `zbfb` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- 触发后进入 `MagicFlagEffect` 等价护体状态：持续 `10s`；使用中拒绝重入；木五行只把法宝动作回待机窗口从约 `60` 帧缩短到约 `50` 帧，不改变护体持续时间。
+- 玩家在护体期间被 `Monster30 hit1` 命中时，给攻击者添加 `MAGIC_FLAG_DEBUFF` 等价状态，持续 `5s`。
+- debuff 期间每秒按怪物最大 HP 的 `2%` 扣血并显示/记录状态；Monster30 死亡或 debuff 到期后清理。
+- 先把原版 `Hit` 降低事实记录为状态/调试展示或数据字段，不要求接入完整命中/闪避判定。
+- 测试场景能装备/切换 `mdhf`，并能观察护体剩余时间、Monster30 debuff 剩余时间和每秒扣血反馈。
+- 补系统测试覆盖：触发、重入拒绝、木五行动作边界、受击挂 debuff、每秒扣血、到期清理、死亡清理、无 `zbfb` 时 H 不触发且不影响普通技能。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/scenes/test-scene/TestSceneCombatBridge.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `mdhf/MagicFlag` active effect，H 触发后建立 10 秒护体；木五行只把动作边界缩短到约 833ms，不改变护体持续。
+- `HeroCombatSystem.ts` 新增 `magicFlagGuard`，记录护体来源、剩余时间和反制 debuff 时长。
+- `TestSceneCombatBridge.ts` 在 `Monster30 hit1` 命中玩家且 `applyHeroDamage()` 成立后触发反制，给攻击者挂 MagicFlag debuff。
+- `Monster30System.ts` 新增 `magicFlagDebuff`，记录原版 Hit 降低倍率，期间每秒按最大 HP 2% 扣血，到期或死亡清理。
+- `EquipmentSystem.ts` 和 `InventorySystem.ts` 新增 `mdhf` 种子装备，测试场景可通过背包装备/切换。
+- `TestScene.ts` 状态栏和角色标签补充 MagicFlag 护体、Monster30 debuff 剩余时间、命中倍率记录和 tick 伤害反馈。
+- `tools/system-tests.ts` 覆盖触发、重入拒绝、木五行动作边界、受击反制、每秒扣血、到期清理和死亡清理。
+- 更新 `mechanics-index.md`、`vertical-slices.md`，并把下一推荐任务切到 `TASK-SLICE-032`。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SETTINGS-021
 

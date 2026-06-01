@@ -17,6 +17,7 @@ import {
 import type { HeroMovementModel } from '../../systems/HeroMovementSystem';
 import type { PlayerSlot } from '../../systems/InputSystem';
 import {
+  applyMonster30MagicFlagCounterFromHero,
   applyMonster30Hit,
   getMonster30AttackHitbox,
   type Monster30Model,
@@ -170,6 +171,7 @@ export function applyMonster30AttackToPlayers(params: {
     });
 
     if (applyHeroDamage(player.combat, damageEvent, time)) {
+      applyMonster30MagicFlagCounterFromHero(monster, player.combat);
       result.damageEvents.push(damageEvent);
     }
   }

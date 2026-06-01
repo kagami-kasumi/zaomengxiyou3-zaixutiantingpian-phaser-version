@@ -30,7 +30,7 @@
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-031`：摩多魂幡/MagicFlag 反制 debuff 法宝最小切片。
+1. `TASK-SLICE-032`：血海魔童/MagicPearl 多段随机打击法宝最小切片。
 2. 后续按更多法宝、法宝强化 UI、宠物成长/技能、成长系统或强化系统继续拆分。
 
 ## 切片详情
@@ -493,6 +493,9 @@
 - `HeroCombatSystem.ts` 新增 `magicFlowerBuff`，以当前玩家派生攻击加值和倍率展示友方增益；`PetSystem.ts` 新增出战宠物 `magicFlowerBuff`；`Monster30System.ts` 新增 `magicFlowerDebuff`，让 `Monster30 hit1` 伤害按 `0.925` 倍派生降低。
 - `EquipmentSystem.ts`/测试背包新增 `jyhl`；`TestScene.ts` 可通过背包装备/切换并在状态栏观察玩家、宠物和 Monster30 的增减益剩余时间；`tools/system-tests.ts` 覆盖持续时间公式、木五行动作边界、友方增益、宠物增益、怪物减益、到期清理和重入拒绝。
 - `TASK-SETTINGS-021` 已补清 `mdhf/MagicFlag` 与 `xhmt/MagicPearl`：MagicFlag 是 10 秒护体反制，玩家被怪物命中时给攻击者 5 秒 `MAGIC_FLAG_DEBUFF`；MagicPearl 是最近目标多轮链式打击，三段 `MagicPearlBullet1/2/3` 使用 `fabao-pearl` 参数，结束随机回蓝、全怪眩晕或全怪中毒。
+- `TASK-SLICE-031` 扩展 `mdhf` 摩多魂幡/MagicFlag：H 触发 10 秒护体，木五行只缩短动作边界到约 833ms，不改变护体持续时间；护体期间玩家被 `Monster30 hit1` 命中后，会给攻击者添加 5 秒 `MAGIC_FLAG_DEBUFF` 等价状态。
+- `HeroCombatSystem.ts` 新增 `magicFlagGuard` 护体状态；`Monster30System.ts` 新增 `magicFlagDebuff`，期间记录命中降低倍率并每秒按最大 HP 2% 扣血；`TestSceneCombatBridge.ts` 在 Monster30 命中玩家且扣血成立时触发反制。
+- `EquipmentSystem.ts`/测试背包新增 `mdhf`；`TestScene.ts` 可通过背包装备/切换并在状态栏观察玩家护体、Monster30 debuff 剩余时间、命中倍率记录和 tick 伤害；`tools/system-tests.ts` 覆盖触发、重入拒绝、木五行动作边界、受击反制、每秒扣血、到期清理和死亡清理。
 
 验证：
 
@@ -503,11 +506,11 @@
 边界：
 
 - 不实现法宝强化 UI、材料消耗、五行重置、真实资源或全部法宝。
-- MagicFlag 的真实命中/闪避降命中接线、MagicPearl 的完整全怪 AddEffect 泛化、反弹吸血和联机同步后置。
+- MagicFlag 的真实命中/闪避降命中接线、MagicPearl 的多段链与完整全怪 AddEffect 泛化、反弹吸血和联机同步后置。
 
 推荐任务：
 
-- `TASK-SLICE-031`
+- `TASK-SLICE-032`
 
 ## 更新规则
 

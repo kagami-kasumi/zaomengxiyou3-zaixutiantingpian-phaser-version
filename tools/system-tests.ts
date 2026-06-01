@@ -10,7 +10,10 @@ import {
   updateVerticalClimbSpawn,
 } from '../src/systems/LevelSystem';
 import {
+  applyMonster30MagicFlagCounterFromHero,
+  applyMonster30MagicFlagDebuff,
   createMonster30,
+  Monster30Tuning,
   updateMonster30,
 } from '../src/systems/Monster30System';
 import {
@@ -107,6 +110,10 @@ testMagicWeaponYxfbHalvesHpAndClearsBuff();
 testMagicWeaponFlowerAppliesHeroPetAndMonsterEffects();
 testMagicWeaponFlowerWoodOnlyShortensActionBoundary();
 testMagicWeaponFlowerDebuffReducesMonster30AttackDamage();
+testMagicWeaponFlagCreatesGuardAndRejectsReentry();
+testMagicWeaponFlagWoodOnlyShortensActionBoundary();
+testMagicWeaponFlagCounterDebuffDamagesAndExpires();
+testMagicWeaponFlagDebuffDeathClears();
 
 console.log('System tests passed.');
 
@@ -1341,6 +1348,116 @@ function testMagicWeaponFlowerDebuffReducesMonster30AttackDamage(): void {
 
   assert.equal(monster.state, 'hit1');
   assertNearlyEqual(monster.activeAttack?.damage ?? 0, 15 * MagicWeaponTuning.flowerEnemyDamageMultiplier);
+}
+
+function testMagicWeaponFlagCreatesGuardAndRejectsReentry(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.mdhf, 'mdhf-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  const result = requestMagicWeaponTrigger({
+    model,
+    target,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(result.triggered, true);
+  assert.equal(model.action, 'hit');
+  assert.equal(model.activeEffect?.kind, 'magicFlag');
+  assert.equal(model.activeEffect?.totalMs, MagicWeaponTuning.flagGuardDurationMs);
+  assert.equal(target.combat.magicFlagGuard?.remainingMs, MagicWeaponTuning.flagGuardDurationMs);
+  assert.equal(target.combat.magicFlagGuard?.debuffMs, MagicWeaponTuning.flagDebuffMs);
+
+  const reentry = requestMagicWeaponTrigger({
+    model,
+    target,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  assert.equal(reentry.triggered, false);
+  assert.match(reentry.message, /正在使用/);
+}
+
+function testMagicWeaponFlagWoodOnlyShortensActionBoundary(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.mdhf, 'mdhf-wood-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(model.activeEffect?.kind, 'magicFlag');
+  if (model.activeEffect?.kind === 'magicFlag') {
+    assert.equal(model.activeEffect.actionRemainingMs, MagicWeaponTuning.flagWoodActionMs);
+    assert.equal(model.activeEffect.totalMs, MagicWeaponTuning.flagGuardDurationMs);
+  }
+
+  updateMagicWeapon(model, target, MagicWeaponTuning.flagWoodActionMs);
+  assert.equal(model.action, 'hit');
+  assert.match(model.message, /动作完成/);
+  assert.ok(target.combat.magicFlagGuard);
+
+  updateMagicWeapon(model, target, MagicWeaponTuning.flagGuardDurationMs);
+  assert.equal(model.action, 'wait');
+  assert.equal(target.combat.magicFlagGuard, undefined);
+}
+
+function testMagicWeaponFlagCounterDebuffDamagesAndExpires(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.mdhf, 'mdhf-counter-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const monster = createMonster30(0, 0, 'm30-flag-counter');
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(applyMonster30MagicFlagCounterFromHero(monster, target.combat), true);
+  assert.equal(monster.magicFlagDebuff?.remainingMs, MagicWeaponTuning.flagDebuffMs);
+  assert.equal(monster.magicFlagDebuff?.hitMultiplier, Monster30Tuning.magicFlagHitMultiplier);
+
+  updateMonster30(monster, [], 1_000);
+  assertNearlyEqual(
+    monster.hp,
+    monster.maxHp * (1 - Monster30Tuning.magicFlagHpDamageRatePerSecond),
+  );
+  assertNearlyEqual(monster.magicFlagDebuff?.lastTickDamage ?? 0, monster.maxHp * 0.02);
+
+  updateMonster30(monster, [], MagicWeaponTuning.flagDebuffMs - 1_000);
+  assert.equal(monster.magicFlagDebuff, undefined);
+  assert.equal(monster.state, 'wait');
+}
+
+function testMagicWeaponFlagDebuffDeathClears(): void {
+  const monster = createMonster30(0, 0, 'm30-flag-death');
+  monster.hp = 2;
+  applyMonster30MagicFlagDebuff(monster, {
+    sourceName: '摩多魂幡',
+    totalMs: MagicWeaponTuning.flagDebuffMs,
+    remainingMs: MagicWeaponTuning.flagDebuffMs,
+  });
+
+  updateMonster30(monster, [], 1_000);
+
+  assert.equal(monster.state, 'dead');
+  assert.equal(monster.magicFlagDebuff, undefined);
 }
 
 function createTestCapturableTarget(): CapturablePetTarget {

@@ -244,7 +244,8 @@ time = gc.frameClips * 5
 - `TASK-SLICE-028` 已新增 `zsTimer` 烁时金轮/MagicTimer 时间回溯法宝最小切片，范围包括第一次记录 HP/MP/坐标、等待期间第二次 H 特殊回溯、基础 30 秒等待、木五行 27 秒等待和过期失效。
 - `TASK-SLICE-029` 已新增 `lxfb` 流邪/MagicLXFB、`sxfb` 沙邪/MagicSXFB 与 `yxfb` 渊邪/MagicYXFB 入魔 buff 法宝最小切片，范围包括 H 触发、21 帧回待机等价动作窗口、攻击/暴击增益、流邪/沙邪持续扣血、渊邪半血消耗、木五行持续时间和到期清理。
 - `TASK-SLICE-030` 已新增 `jyhl` 九佑魂莲/MagicFlower 全体增减益法宝最小切片，范围包括玩家/出战宠物增益、`Monster30` 攻击减益、持续时间公式、木五行动作边界和到期清理。
-- `TASK-SETTINGS-021` 已细扒 `mdhf/MagicFlag` 与 `xhmt/MagicPearl`。下一步推荐 `TASK-SLICE-031`：摩多魂幡/MagicFlag 反制 debuff 法宝最小切片；再后续拆 `TASK-SLICE-032` 做血海魔童/MagicPearl 多段随机打击。
+- `TASK-SLICE-031` 已新增 `mdhf` 摩多魂幡/MagicFlag 反制 debuff 法宝最小切片，范围包括 H 触发 10 秒护体、木五行动作边界、玩家受击反制 `Monster30`、每秒最大 HP 2% 扣血、Hit 降低倍率记录和到期/死亡清理。
+- 下一步推荐 `TASK-SLICE-032`：血海魔童/MagicPearl 多段随机打击法宝最小切片。
 - 强化 UI 独立成后续 `TASK-SLICE` 或 `TASK-SETTINGS`，不要和首个能力切片混在一起。
 
 后置范围：

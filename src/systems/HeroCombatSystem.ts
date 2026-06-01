@@ -40,6 +40,14 @@ export type HeroMagicFlowerBuff = {
   remainingMs: number;
 };
 
+export type HeroMagicFlagGuard = {
+  kind: 'magicFlagEffect';
+  sourceName: string;
+  totalMs: number;
+  remainingMs: number;
+  debuffMs: number;
+};
+
 export type HeroCombatModel = {
   id: string;
   hp: number;
@@ -53,6 +61,7 @@ export type HeroCombatModel = {
   magicInvulnerability?: HeroMagicInvulnerability;
   magicBuff?: HeroMagicBuff;
   magicFlowerBuff?: HeroMagicFlowerBuff;
+  magicFlagGuard?: HeroMagicFlagGuard;
 };
 
 export const HeroCombatTuning = {
@@ -86,6 +95,7 @@ export function resetHeroCombat(hero: HeroCombatModel): void {
   hero.magicInvulnerability = undefined;
   hero.magicBuff = undefined;
   hero.magicFlowerBuff = undefined;
+  hero.magicFlagGuard = undefined;
 }
 
 export function isHeroCombatDead(hero: HeroCombatModel): boolean {
@@ -244,6 +254,41 @@ export function applyHeroMagicFlowerBuff(
 
 export function clearHeroMagicFlowerBuff(hero: HeroCombatModel): void {
   hero.magicFlowerBuff = undefined;
+}
+
+export function applyHeroMagicFlagGuard(
+  hero: HeroCombatModel,
+  guard: HeroMagicFlagGuard,
+): void {
+  if (hero.state === 'dead') {
+    return;
+  }
+
+  hero.magicFlagGuard = {
+    ...guard,
+    totalMs: Math.max(0, guard.totalMs),
+    remainingMs: Math.max(0, guard.remainingMs),
+    debuffMs: Math.max(0, guard.debuffMs),
+  };
+}
+
+export function clearHeroMagicFlagGuard(hero: HeroCombatModel): void {
+  hero.magicFlagGuard = undefined;
+}
+
+export function updateHeroMagicFlagGuard(
+  hero: HeroCombatModel,
+  deltaMs: number,
+): void {
+  const guard = hero.magicFlagGuard;
+  if (!guard) {
+    return;
+  }
+
+  guard.remainingMs -= Math.max(0, deltaMs);
+  if (guard.remainingMs <= 0 || hero.state === 'dead') {
+    hero.magicFlagGuard = undefined;
+  }
 }
 
 function absorbHeroDamageWithMagicShield(

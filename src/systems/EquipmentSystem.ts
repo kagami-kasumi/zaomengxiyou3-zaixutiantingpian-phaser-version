@@ -592,6 +592,24 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
     },
     {
       showId: 1,
+      name: '摩多魂幡',
+      fillName: 'mdhf',
+      type: 'zbfb',
+      user: '',
+      quality: '神 器',
+      color: '0xFF0000',
+      stats: createEmptyEquipmentStats({
+        maxHp: 640,
+        defense: 120,
+      }),
+      description: '召唤恶魂环绕自身',
+      magicWeapon: {
+        level: 1,
+        element: '木',
+      },
+    },
+    {
+      showId: 1,
       name: '流邪',
       fillName: 'lxfb',
       type: 'zbfb',
