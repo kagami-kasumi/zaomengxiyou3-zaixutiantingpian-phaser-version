@@ -2,6 +2,28 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-06-01
+
+### 重做项目 README 与脚手架 README
+
+变更内容：
+
+- 重写根目录 `README.md`，面向 GitHub 访问者说明项目目标、当前进度、快速开始、仓库结构、提取资料边界和检索关键词。
+- 重写 `docs/workflow/README.md`，面向 AI agent 接手者说明脚手架目标、文档分工、冷启动路由、维护规则和验证入口。
+- 从 `.gitignore` 移除 `面试.md`，允许将 Harness Engineering 面试准备文档纳入版本管理。
+
+影响范围：
+
+- `.gitignore`
+- `README.md`
+- `docs/workflow/README.md`
+- `docs/workflow/governance-log.md`
+- `面试.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ## 2026-05-31
 
 ### 增加 `/goal` 自动推进与收尾提醒规则

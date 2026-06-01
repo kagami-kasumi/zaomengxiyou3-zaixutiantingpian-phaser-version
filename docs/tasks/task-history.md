@@ -78,8 +78,43 @@
 | TASK-SLICE-028 | 切片 | 烁时金轮/MagicTimer 时间回溯法宝最小切片 | M-043、M-036、M-015、M-033、VS-013 | `MagicWeaponSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-029 | 切片 | 流邪/沙邪/渊邪入魔 buff 法宝最小切片 | M-043、M-036、M-015、M-033、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-030 | 切片 | 九佑魂莲/MagicFlower 全体增减益法宝最小切片 | M-043、M-036、M-015、M-032、M-033、M-042、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-021 | 逆向 | MagicFlag/MagicPearl 全屏法宝逆向索引 | M-043、M-032、M-033、VS-013 | `magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-021
+
+完成定义：
+
+- 梳理 `MagicFlag`（`mdhf` 摩多魂幡）的释放入口、动作回待机时间、跟随效果物、持续时间、命中/环绕目标、伤害/控制参数和销毁边界。
+- 梳理 `MagicPearl`（`xhmt` 血海魔童）的起手、攻击次数公式、木五行次数加成、最近目标选择、多段 bullet 链、结束随机效果和 MP 记录字段边界。
+- 更新 `magic-weapons-index.md`，给出足够支撑一个或两个后续 `TASK-SLICE` 的现代实现建议，明确哪些行为可先做占位，哪些必须后置。
+- 同步更新 `mechanics-index.md` 中 `M-043` 的下一步；如果 `M-032`/`M-033` 的伤害、控制或 debuff 事实有新增，也同步补充。
+- 更新 `vertical-slices.md` 的 `VS-013` 后续说明和任务队列推荐。
+- 不修改现代游戏代码；本任务只做逆向索引和任务交接。
+
+已完成产物：
+
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicFlag.as` 已确认 `mdhf` 释放时创建 `MagicFlagStart` 起手表现和 `MagicFlagEffect` 跟随护体；护体持续 `gc.frameClips * 10`，受击不打断，不等动画末帧销毁；木五行只把动作回待机从 60 帧缩短到 50 帧。
+- `BaseHero.beMagicAttack()` 已确认玩家护体期间被打时，会给攻击者挂 `MAGIC_FLAG_DEBUFF` 5 秒；`BaseAddEffect` 每秒对怪物扣最大 HP 2%，`BaseMonster.Hit` 在 debuff 期间降低。
+- `MagicPearl.as` 已确认 `xhmt` 起手记录 `mp = 100 + 最大MP * 0.02` 但不扣 MP；攻击次数为 `3 + level / 3`，木五行 +2，每轮重新选择离英雄最近的怪物。
+- `MagicPearl` 链路已确认 `MagicPearlRun/Back` 飞向目标，`MagicPearlEffect` 在第 3/12/28 帧分别生成 `MagicPearlBullet1/2/3`；三段 bullet 使用 `fabao-pearl` 参数 `[2,-2]`、`magic`、`attackInterval = 2`。
+- `BaseMonster.beMagicAttack()` 已确认 `MagicPearlBullet1/2/3` 直接取原始 hurt，不走怪物防御修正；五角色 `getRealPower("fabao-pearl")` 中木五行伤害分支在反编译代码里被默认分支覆盖，现代侧先不擅自加木倍率。
+- `MagicPearl` 结束随机效果已记录：回蓝、全怪眩晕或全怪中毒；木五行把等级系数乘 1.5，影响回蓝量、眩晕时长、毒时长和毒伤。
+- 更新 `mechanics-index.md` 的 `M-032/M-033/M-043`，并把下一推荐任务切到 `TASK-SLICE-031`。
+- 更新 `vertical-slices.md` 的 `VS-013` 后续队列，推荐先做更窄的 MagicFlag，MagicPearl 单独拆后续切片。
+
+验证：
+
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-030
 
@@ -117,7 +152,7 @@
 - `EquipmentSystem.ts` 和 `InventorySystem.ts` 新增 `jyhl` 种子装备，测试场景可通过背包穿戴/切换。
 - `TestScene.ts` 状态栏和角色标签补充玩家、宠物、Monster30 的 MagicFlower 状态反馈。
 - `tools/system-tests.ts` 覆盖玩家/宠物/怪物状态、持续时间公式、木五行动作边界、重入拒绝、到期清理和 Monster30 攻击减益伤害。
-- 更新 `mechanics-index.md`、`vertical-slices.md`，并把下一推荐任务切到 `TASK-SETTINGS-021`。
+- 更新 `mechanics-index.md`、`vertical-slices.md`，并把当时的下一轮法宝逆向任务写入看板。
 
 验证：
 

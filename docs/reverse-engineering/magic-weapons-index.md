@@ -150,6 +150,87 @@
 
 详细怪物映射、概率、等级来源和现代捕捉切片边界见 `docs/reverse-engineering/pets-index.md`。
 
+## 摩多魂幡 / MagicFlag
+
+`mdhf` 由 `BaseHero.initMagicWeapon()` 创建 `MagicFlag`，仍通过 `H` / 小键盘 7 走 `BaseMagicWeapon.useSkill()`。释放时没有显式 MP、灵魂或等级门禁；通用 `useSkill()` 会先把法宝动作切到 `hit`，使用中再次按键直接返回。
+
+`MagicFlag.showSkill()` 的可观察链路：
+
+- 在法宝当前位置创建 `SpecialEffectBullet("MagicFlagStart")`，`setDisable()`、`setRole(sourceRole)`、`setAction("wait")`，只作为起手表现加入 `sourceRole.magicBulletArray`。
+- 在英雄当前位置创建 `FollowBaseObjectBullet("MagicFlagEffect")`，同样 `setDisable()`、`setAction("wait")`，但设置 `destroyInCount = gc.frameClips * 10`、`setHurtCanCutDownEffect(false)`、`setDestroyWhenLastFrame(false)`，因此效果物会跟随英雄存在约 `10s`，不会因为英雄受击而中断，也不等动画末帧销毁。
+- 动作回待机时间默认 `60` 帧；装备五行包含 `木` 时改为 `50` 帧。这个时间只影响法宝自身 `hit -> wait`，不改变 `MagicFlagEffect` 的 10 秒持续。
+
+`MagicFlagEffect` 本身被禁用，不主动 `checkAttack()`，也没有独立伤害 action。它的实际效果在玩家受击链路中触发：`BaseHero.beMagicAttack()` 遍历被攻击玩家自己的 `magicBulletArray`，只要存在 `getImcName() == "MagicFlagEffect"`，就给攻击者 `param2` 添加：
+
+```text
+BaseAddEffect.MAGIC_FLAG_DEBUFF
+time = gc.frameClips * 5
+```
+
+`MAGIC_FLAG_DEBUFF` 的后续效果：
+
+- `BaseAddEffect` 每秒对 `BaseMonster` 扣 `怪物最大生命 * 0.02`，并显示怪物伤害数字；死亡怪不再扣。
+- `BaseMonster.Hit` getter 中，普通怪命中值变为原值一半；boss 变为原值一半后再加 3。
+- 视觉上挂 `MagicFlagDebuff` 子对象，到期时移除。
+
+现代最小实现边界：
+
+- `TASK-SLICE-031` 可以先做 `mdhf`：H 触发 10 秒护体状态，木五行只缩短动作窗口；玩家被 `Monster30 hit1` 命中时，给该怪添加 5 秒 debuff。
+- 首切片可把 `Hit` 降低记录为状态展示，先实现每秒按最大 HP 2% 扣血和到期清理；等怪物命中/闪避系统细化后再把命中值减半接进真实 miss 判定。
+- 起手/环绕/减益视觉继续使用占位 key；真实 `MagicFlagStart/Effect/Debuff` 资源后置。
+- 不需要新增 projectile 伤害窗口，因为原版 `MagicFlagEffect` 的反制发生在玩家受击链路，而不是主动环绕命中怪物。
+
+## 血海魔童 / MagicPearl
+
+`xhmt` 由 `BaseHero.initMagicWeapon()` 创建 `MagicPearl`。构造时设置 `bmwId = BaseMagicWeapon.BMW_pearl`；`showSkill()` 内部会写入 `mp = 100 + 最大MP * 0.02`，但本轮证据中没有实际扣 MP 或用该字段做门禁，应视为旧记录字段或后续未接线字段。
+
+释放起手：
+
+- 创建 `SpecialEffectBullet("MagicPearlBegin")`，位置为法宝当前位置，`setDisable()`、`setRole(sourceRole)`、`setAction("wait")`，朝向跟英雄一致。
+- 从当前 `zbfb` 装备读取等级和五行：`attacktimes = 3 + equip.getELevel() / 3`；五行包含 `木` 时 `attacktimes += 2`。AS3 变量是 `int`，现代侧建议用向下取整后的总次数。
+- `MagicPearlBegin` 销毁时调用 `run()` 开始攻击链；同时 30 帧后法宝自身回 `wait`。攻击链不依赖法宝自身继续保持 `hit`。
+
+`run()` 每轮重新扫描 `gc.pWorld.monsterArray`，按与英雄距离选最近怪物。没有怪物，或 `times > attacktimes`，都会进入 `dowhendestroy()` 做结束随机效果。每次有效轮次：
+
+- 第 1 轮创建 `SpecialEffectBullet("MagicPearlRun")`，从法宝当前位置飞向目标附近。
+- 第 2 轮起创建 `SpecialEffectBullet("MagicPearlBack")`，从上一目标位置飞向新目标附近。
+- 飞行 Tween 固定 `0.5s`，目标点为怪物 `x +/- 30, y`；左右方向由起点和目标 x 比较决定。
+- 飞行特效销毁后调用 `attack()`，在记录的目标点创建 `SpecialEffectBullet("MagicPearlEffect")`。
+
+`MagicPearlEffect` 在自身动画第 3、12、28 帧分别只触发一次：
+
+- 第 3 帧：创建 `MagicPearlBullet1`，位置 `targetY - 15`。
+- 第 12 帧：创建 `MagicPearlBullet2`，位置 `targetY`。
+- 第 28 帧：创建 `MagicPearlBullet3`，位置 `targetY + 10`。
+- 三个 bullet 都 `setRole(sourceRole)`、`setAction("fabao-pearl")`、按方向 `setDirect(dir)`，进入普通 `BaseBullet` 命中链路。
+
+`BaseHero.attackBackInfoDict["fabao-pearl"]`：
+
+| 字段 | 值 |
+| --- | --- |
+| `hitMaxCount` | `999` |
+| `attackBackSpeed` | `[2, -2]` |
+| `attackInterval` | `2` |
+| `attackKind` | `magic` |
+| `addprotection` | `0` |
+
+五角色 `getRealPower("fabao-pearl")` 都按 `装备等级 * 0.0315 * Hurt` 计算基础伤害，并乘各角色既有修正系数；反编译代码里木五行的 `0.0473` 分支随后被无条件默认分支覆盖，所以现代实现不应擅自给命中伤害加木倍率。`BaseMonster.beMagicAttack()` 对 `MagicPearlBullet1/2/3` 有特判：伤害直接取 bullet 原始 `hurt`，不再走怪物防御修正 `getRealHurt()`。
+
+攻击链结束后 `dowhendestroy()` 随机三选一：
+
+- `0.00..0.33`：给英雄回复 `最大MP * 等级 * 0.01`。
+- `0.34..0.66`：若没有怪物，改为回蓝；否则给所有非无敌、未死亡怪物添加 `STUN`，持续 `gc.frameClips * (等级 / 8)`。
+- `>= 0.67`：若没有怪物，改为回蓝；否则给所有非无敌、未死亡怪物添加 `POISON` 和 `POISON_TIMES`，持续 `gc.frameClips * (等级 / 4)`，毒伤 power 为 `英雄Hurt * 等级 * 0.0413`。
+
+如果装备五行包含 `木`，结束随机效果中的等级系数先乘 `1.5`，因此回蓝量、眩晕持续、毒持续和毒伤都会随之放大。
+
+现代最小实现边界：
+
+- 建议把 `xhmt` 拆成 `TASK-SLICE-032`，不要和 `mdhf` 同切片完成。它需要一个小型法宝攻击链状态机：起手、最近目标选择、0.5 秒飞行段、三段命中、循环次数、结束随机效果。
+- 首切片可用占位线段/闪光表现 `MagicPearlRun/Back/Effect/Bullet1-3`，但必须保留三段 bullet 的帧序和 `fabao-pearl` 参数。
+- 伤害可先接现有法宝 projectile 结算，但需要标记“MagicPearl 三 bullet 不走怪物防御修正”这一差异；完整五角色 `getRealPower` 和吸血/qixue 可后置。
+- 结束随机效果首版可以先实现回蓝、Monster30 眩晕状态、Monster30 中毒 tick；全怪物通用 AddEffect、真实概率 UI、联网同步后置。
+
 ## 现代实现建议
 
 现代侧已经完成首个非葫芦治疗法宝切片：
@@ -162,12 +243,13 @@
 - `TASK-SLICE-027` 已新增 `zjld` 紫金铃铛/MagicRing 无敌与回复法宝最小切片，范围包括 H 触发、30 帧回待机、基础 `2s` 无敌、木五行 `1.5` 倍无敌、HP/MP 回复公式和无敌期间免伤。
 - `TASK-SLICE-028` 已新增 `zsTimer` 烁时金轮/MagicTimer 时间回溯法宝最小切片，范围包括第一次记录 HP/MP/坐标、等待期间第二次 H 特殊回溯、基础 30 秒等待、木五行 27 秒等待和过期失效。
 - `TASK-SLICE-029` 已新增 `lxfb` 流邪/MagicLXFB、`sxfb` 沙邪/MagicSXFB 与 `yxfb` 渊邪/MagicYXFB 入魔 buff 法宝最小切片，范围包括 H 触发、21 帧回待机等价动作窗口、攻击/暴击增益、流邪/沙邪持续扣血、渊邪半血消耗、木五行持续时间和到期清理。
-- 下一步推荐 `TASK-SLICE-030`：九佑魂莲/MagicFlower 全体增减益法宝最小切片，因为它能复用当前 buff 状态与目标查询边界，开始覆盖“玩家/宠物增益、怪物减益”的全体目标类法宝。
+- `TASK-SLICE-030` 已新增 `jyhl` 九佑魂莲/MagicFlower 全体增减益法宝最小切片，范围包括玩家/出战宠物增益、`Monster30` 攻击减益、持续时间公式、木五行动作边界和到期清理。
+- `TASK-SETTINGS-021` 已细扒 `mdhf/MagicFlag` 与 `xhmt/MagicPearl`。下一步推荐 `TASK-SLICE-031`：摩多魂幡/MagicFlag 反制 debuff 法宝最小切片；再后续拆 `TASK-SLICE-032` 做血海魔童/MagicPearl 多段随机打击。
 - 强化 UI 独立成后续 `TASK-SLICE` 或 `TASK-SETTINGS`，不要和首个能力切片混在一起。
 
 后置范围：
 
-- 完整 20 个法宝的技能表现。
+- 剩余未实现法宝的技能表现，尤其 `xhmt` 的完整多段链和 `tjbg/zltc/stlp/qljfb` 等特殊表现。
 - 法宝强化面板、材料消耗和五行重置。
 - 真实法宝资源接入。
 - P2/联机法宝同步。

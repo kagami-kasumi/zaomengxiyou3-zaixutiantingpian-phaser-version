@@ -1,34 +1,76 @@
-# 工作流脚手架
+# AI 协作脚手架
 
-本目录维护 AI 协作和项目治理规则，不记录游戏复现任务。
+本目录维护 AI agent 在本项目中的协作协议、质量门禁和文档治理规则。它服务于游戏现代化重写，但不记录具体游戏复现任务。
 
-## 分工
+## 设计目标
 
-- `task-generation.md`：如何从机制、切片或工程缺口生成标准游戏任务。
-- `agent-protocol.md`：正式游戏 task、`/goal` 管理、代码任务、Git、对话收束和统一语言的详细执行协议。
-- `document-map.md`：项目文档职责地图。
-- `code-quality-gates.md`：AI 写代码时必须遵守的工程质量门禁。
-- `governance-log.md`：AI 工作流、任务体系和文档脚手架维护记录。
-- `../domain/glossary.md`：轻量 DDD 统一语言表。
-- `../domain/ubiquitous-language-process.md`：统一语言更新流程。
+这套脚手架解决三个问题：
 
-## 规则
+- 新 agent 如何在没有人工交接的情况下冷启动。
+- 任务、逆向、实现、历史和治理文档如何保持边界清晰。
+- AI 产出的文档和代码如何通过自动校验及时反馈。
 
-- 新对话默认只读 `AGENTS.md` 和 `TASK_OUTLINE.md`，再按任务分级读取最小必读集。
-- 只有执行正式游戏 task 或需要细则时，才读取 `docs/workflow/agent-protocol.md`。
-- 轻量请求不进入完整游戏 task 流程，不更新 `task-board.md`，不归档 `task-history.md`，完成后不要求建议新开对话。
+核心原则是 **Map, Not Manual**：入口文件只给阅读路由和硬规则，细节按任务类型逐层打开，避免把上下文窗口浪费在无关材料上。
+
+## 文档分工
+
+| 文档 | 职责 |
+| --- | --- |
+| `agent-protocol.md` | 正式游戏 task、`/goal`、代码任务、Git、对话收束和统一语言的详细协议 |
+| `task-generation.md` | 从机制缺口、切片缺口或工程基础缺口生成标准游戏任务 |
+| `code-quality-gates.md` | AI 修改代码时必须遵守的验证、边界和测试要求 |
+| `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
+| `governance-log.md` | 工作流、任务体系、文档职责和质量门禁的维护历史 |
+| `../domain/glossary.md` | 轻量 DDD 统一语言表 |
+| `../domain/ubiquitous-language-process.md` | 统一语言更新流程 |
+
+## 冷启动路由
+
+新对话默认只读：
+
+1. `AGENTS.md`
+2. `TASK_OUTLINE.md`
+
+随后按任务类型补读最小集合：
+
+- **轻量请求**：只读直接相关文件。
+- **正式游戏 task**：补读 `agent-protocol.md`、`task-board.md`、`mechanics-index.md`、`vertical-slices.md`。
+- **代码实现**：在正式 task 基础上补读 `docs/architecture/src-boundaries.md` 和目标源码。
+- **玩法逆向**：在正式 task 基础上补读 `extracted_flash/README_extract.md` 和对应 AS3 路径。
+- **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
+- **历史追溯**：只有需要追溯或修改已完成任务时才读 `task-history.md`。
+
+## 维护规则
+
 - 游戏逆向、实现、切片和现代架构任务写入 `docs/tasks/task-board.md`。
 - 已完成游戏任务从 `task-board.md` 归档到 `docs/tasks/task-history.md`。
-- 新对话默认不读取 `task-history.md`，除非需要追溯历史或修改已完成任务。
-- 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁等脚手架维护写入本目录，不新增 `TASK-DOCS-*` 到游戏任务看板。
-- 脚手架维护必须在 `governance-log.md` 留下日期、变更内容和影响范围。
-- 修改任务或工作流文档后运行 `npm run check:workflow`。
-- 修改 `src/` 后运行 `npm run test:systems` 和 `npm run build`；混合代码和工作流改动后运行 `npm run check:all`。
-- 默认不要要求 Codex 或 Claude 启动 `npm run dev`；开发服务器和视觉检查由用户本地完成。
+- 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁只写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板。
+- 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。
-- 一个正式游戏 task 对话默认只执行一个 task；同一 task 未完成时默认继续当前对话，上下文过长时优先依赖 compact，并在 compact 后重新检查关键文件。
-- 用户使用 `/goal` 时，AI 按任务文档自动推进到可交接点；任务文档生成和维护仍受本脚手架约束。
-- 不要因为只完成少量工作、仍在同一 task 的验证/修 bug/补文档阶段，就建议新开对话；只有完成 task、切换明显不同机制/切片/子系统，或已读取大量 AS3/逆向/历史资料时，才在文档收尾后温和建议新开对话。
-- 正式 task 或 `/goal` 收尾时必须明确告诉用户：是否建议继续当前对话、compact 或新开对话；是否建议 commit；已提交后是否建议 push。
-- Codex 默认不自动提交或 push；只有用户明确要求提交时才运行 `git add` 和 `git commit`，只有用户明确要求上传时才运行 `git push`。
-- 提交前必须检查工作区，区分本次改动和已有未提交改动，不提交无关文件，不回滚用户改动。
+- 同一个正式游戏 task 未完成时默认继续当前对话；上下文过长时优先 compact，并在 compact 后复查关键文档和当前改动文件。
+- 只有完成 task、切换明显不同机制/切片/子系统，或已读取大量 AS3/逆向/历史资料时，才建议新开对话。
+- Codex 默认不自动提交或 push；只有用户明确要求时才执行 Git 提交和上传。
+- 提交前必须检查工作区，区分本次改动和已有未提交改动，不回滚用户改动。
+
+## 验证入口
+
+修改任务或工作流文档后运行：
+
+```bash
+npm run check:workflow
+```
+
+修改 `src/` 后运行：
+
+```bash
+npm run test:systems
+npm run build
+```
+
+混合代码和工作流改动后运行：
+
+```bash
+npm run check:all
+```
+
+默认不启动 `npm run dev`。开发服务器和视觉检查由用户本地需要时手动运行。

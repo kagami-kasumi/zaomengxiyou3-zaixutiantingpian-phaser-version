@@ -1,77 +1,76 @@
 # 再续天庭现代化重写
 
-这是一个基于原 Flash 游戏提取资料的现代化重写项目。当前技术路线是 Phaser 3 + TypeScript + Vite，目标是在浏览器中逐步复现原版的外观、玩法、数值、手感和流程。
+用 Phaser 3、TypeScript 和 Vite 重写 Flash 动作 RPG《再续天庭》的现代浏览器版本。
 
-项目不追求维护原 Flash 工程，也不照搬 AS3 的技术结构。AS3 源码和导出资源只作为行为与素材参考；现代代码优先使用清晰模块边界、显式数据模型和可测试的系统函数。
+本仓库的目标不是维护原 Flash 工程，也不是照搬 AS3 架构，而是在保留原版外观、玩法、数值、手感和流程的前提下，用现代前端工程方式逐步复现一个可测试、可演进的 2D 动作 RPG。
 
-## 当前状态
+## 项目亮点
 
-- 已搭建 Phaser 3 + TypeScript 工程。
-- 已有最小战斗切片相关系统：输入、角色移动、普通攻击、技能、投射物、怪物、碰撞与关卡停止点。
-- 已补充系统级测试入口和工作流校验。
-- 原始 FFDec 提取目录 `extracted_flash/` 保留为本地资料，不纳入 Git 仓库。
+- **Flash 游戏现代化**：以 FFDec 提取资料和 AS3 反编译源码为行为参考，重建浏览器端游戏体验。
+- **Phaser 3 + TypeScript**：游戏场景、输入、角色、技能、怪物、碰撞和关卡逻辑都放在现代工程结构中迭代。
+- **系统级测试**：把输入、战斗、技能、投射物、怪物和关卡停止点等规则沉到可自动验证的 `src/systems/`。
+- **AI Agent 协作脚手架**：通过任务看板、机制索引、纵向切片、统一语言和工作流校验，让不同 AI agent 可以冷启动接手。
+- **逆向与实现分离**：AS3 只作为玩法证据；现代代码按清晰模块边界和显式数据模型重写。
 
-## 本地运行
+## 当前进度
 
-安装依赖：
+已完成基础 Phaser 工程和最小战斗切片所需的多项系统：
+
+- 双玩家输入与动作状态。
+- 角色移动、普通攻击、技能槽和投射物。
+- 怪物受击、死亡、掉落与基础碰撞。
+- 关卡停止点、测试场景和系统级断言。
+- 任务看板、机制索引、纵向切片和工作流治理文档。
+
+更多实现状态见 `docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md` 和 `docs/tasks/vertical-slices.md`。
+
+## 快速开始
 
 ```bash
 npm install
-```
-
-启动开发服务器：
-
-```bash
 npm run dev
 ```
 
-构建检查：
+常用检查：
 
 ```bash
 npm run build
-```
-
-运行系统测试：
-
-```bash
 npm run test:systems
-```
-
-运行完整检查：
-
-```bash
+npm run check:workflow
 npm run check:all
 ```
 
-## 目录说明
+## 仓库结构
 
-- `src/`: Phaser 现代重写代码。
-- `src/scenes/`: 游戏场景。
-- `src/systems/`: 输入、战斗、关卡、怪物、技能等可测试系统。
-- `src/assets/`: 现代工程的资源清单与加载描述。
-- `docs/`: 逆向记录、任务看板、纵向切片和工作流文档。
-- `tools/`: 自动化检查与系统测试脚本。
-- `public/`: Vite 静态资源入口。
-- `extracted_flash/`: 本地 FFDec 提取资料，默认不提交到 Git。
+| 路径 | 说明 |
+| --- | --- |
+| `src/` | Phaser 现代重写代码 |
+| `src/scenes/` | Phaser 场景创建与系统调度 |
+| `src/systems/` | 输入、战斗、技能、怪物、关卡等可测试规则 |
+| `src/assets/` | 现代工程资源清单与加载描述 |
+| `docs/reverse-engineering/` | AS3 逆向记录和机制索引 |
+| `docs/tasks/` | 游戏任务看板、历史和纵向切片 |
+| `docs/workflow/` | AI agent 协作脚手架、质量门禁和治理日志 |
+| `docs/domain/` | 轻量 DDD 统一语言和命名流程 |
+| `tools/` | 工作流校验和系统测试脚本 |
+| `extracted_flash/` | 本地 FFDec 提取资料，默认不提交 |
 
-## 关于提取资料
+## 协作方式
 
-`extracted_flash/` 可能包含大量候选 SWF、反编译脚本、图片、声音和中间产物，其中有些文件体积大、路径不适合跨平台协作，也有误命中的候选包。当前仓库只提交现代重写代码、文档和必要脚手架。
+新接手时先读 `AGENTS.md` 和 `TASK_OUTLINE.md`，再按任务类型补读最小必读文档。
 
-如果未来确实需要把提取资料纳入仓库，应先拆分清楚：
-
-- 哪些是原始提取结果。
-- 哪些是经过筛选的可用资源。
-- 哪些是只供逆向参考的中间产物。
-- 哪些文件需要 Git LFS 或外部制品存储。
-
-在完成这层治理前，不直接提交 `extracted_flash/`。
-
-## 开发约定
-
-- 先阅读 `AGENTS.md` 和 `TASK_OUTLINE.md`。
-- 轻量请求只读直接相关文件，不进入完整游戏 task 流程。
-- 执行游戏任务时参考 `docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md` 和 `docs/tasks/vertical-slices.md`。
+- 轻量请求只读直接相关文件。
+- 正式游戏任务从 `docs/tasks/task-board.md` 选择或执行指定 task。
 - 修改 `src/` 前参考 `docs/architecture/src-boundaries.md`。
-- 脚手架和任务工作流变更后运行 `npm run check:workflow`。
-- 默认不自动启动 `npm run dev`；优先运行可终止的构建或检查命令。
+- 修改任务或工作流文档后运行 `npm run check:workflow`。
+- 修改代码后优先运行 `npm run test:systems` 和 `npm run build`。
+
+## 提取资料边界
+
+`extracted_flash/` 是本地逆向参考资料，可能包含大量 SWF、反编译脚本、图片、声音和中间产物。当前仓库只提交现代重写代码、文档和必要脚手架。
+
+除非明确要重新提取或整理资源，不修改、不删除、不重新生成 `extracted_flash/` 中的原始提取结果。
+
+## 关键词
+
+Flash 游戏重写、Phaser 3、TypeScript 游戏开发、Vite、2D 动作 RPG、浏览器游戏、AS3 逆向、AI Agent 工作流、Harness Engineering。

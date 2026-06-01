@@ -9,8 +9,5 @@ extracted_flash/
 *.log
 *.err.log
 
-# Local personal notes.
-面试.md
-
 .DS_Store
 Thumbs.db
