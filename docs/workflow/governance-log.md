@@ -4,6 +4,25 @@
 
 ## 2026-06-02
 
+### 固化 PowerShell rg 低风险命令模板
+
+变更内容：
+
+- 在 `AGENTS.md` 的读取与编码约束中新增低风险 `rg` 模板：中文、代码片段或含引号内容优先搜短而窄的固定字符串，再按行号读取小范围上下文。
+- 明确不要手拼包含转义双引号的 regex alternation，也不要把宽关键词和窄关键词混进一个 `a|b|c` 或多个 `-e` 中造成海量输出；多个 `-e` 只用于每个关键词都足够窄的情况。
+- 目标从“失败后少汇报”调整为“命令一次成功，避免浪费 token 和时间”。
+- 在 `docs/workflow/README.md` 同步读取纪律摘要。
+
+影响范围：
+
+- `AGENTS.md`
+- `docs/workflow/README.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ### 固定 1.0 装备资料表位置和使用边界
 
 变更内容：

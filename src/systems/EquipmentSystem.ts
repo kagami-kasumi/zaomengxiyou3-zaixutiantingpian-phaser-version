@@ -45,6 +45,7 @@ export type EquipmentDefinition = {
   magicWeapon?: {
     level: number;
     element: string;
+    growthRate?: number;
   };
 };
 
@@ -65,6 +66,30 @@ export type HeroBaseStats = {
 };
 
 export type HeroEffectiveStats = HeroBaseStats & EquipmentStats;
+
+export type MagicWeaponUpgradePanelState = {
+  equipped: boolean;
+  name: string;
+  fillName: string;
+  level: number;
+  element: string;
+  growthRate: number;
+  stats: EquipmentStats;
+  nextSoulCost: number;
+  soul: number;
+  canUpgrade: boolean;
+  message: string;
+};
+
+export type MagicWeaponUpgradeResult = {
+  ok: boolean;
+  message: string;
+  beforeLevel?: number;
+  afterLevel?: number;
+  soulBefore: number;
+  soulAfter: number;
+  upgraded?: EquipmentInstance;
+};
 
 export const EquipmentSlotLabels: Record<EquipmentSlot, string> = {
   weapon: '武器',
@@ -283,6 +308,101 @@ export function formatEquipmentStats(stats: EquipmentStats): string[] {
   return lines.length > 0 ? lines : ['no stats'];
 }
 
+export function getMagicWeaponNextSoulCost(level: number): number {
+  return level * level * 1000;
+}
+
+export function buildMagicWeaponUpgradePanelState(
+  loadout: EquipmentLoadout,
+  soul: number,
+): MagicWeaponUpgradePanelState {
+  const equipped = loadout.magicWeapon;
+  const magicWeapon = equipped?.definition.magicWeapon;
+  if (!equipped || !magicWeapon) {
+    return {
+      equipped: false,
+      name: '-',
+      fillName: '-',
+      level: 0,
+      element: '-',
+      growthRate: 0,
+      stats: createEmptyEquipmentStats(),
+      nextSoulCost: 0,
+      soul,
+      canUpgrade: false,
+      message: '未装备法宝',
+    };
+  }
+
+  const { definition } = equipped;
+  const level = magicWeapon.level;
+  const nextSoulCost = getMagicWeaponNextSoulCost(level);
+  return {
+    equipped: true,
+    name: definition.name,
+    fillName: definition.fillName,
+    level,
+    element: magicWeapon.element,
+    growthRate: getMagicWeaponGrowthRate(definition),
+    stats: definition.stats,
+    nextSoulCost,
+    soul,
+    canUpgrade: soul >= nextSoulCost && level < 10,
+    message: soul >= nextSoulCost ? '可升级' : '灵魂不足',
+  };
+}
+
+export function upgradeEquippedMagicWeapon(params: {
+  loadout: EquipmentLoadout;
+  soul: number;
+}): MagicWeaponUpgradeResult {
+  const equipped = params.loadout.magicWeapon;
+  if (!equipped?.definition.magicWeapon) {
+    return {
+      ok: false,
+      message: '未装备法宝',
+      soulBefore: params.soul,
+      soulAfter: params.soul,
+    };
+  }
+
+  const beforeLevel = equipped.definition.magicWeapon.level;
+  if (beforeLevel >= 10) {
+    return {
+      ok: false,
+      message: '当前最小切片只支持 10 级前灵魂升级',
+      beforeLevel,
+      afterLevel: beforeLevel,
+      soulBefore: params.soul,
+      soulAfter: params.soul,
+    };
+  }
+
+  const soulCost = getMagicWeaponNextSoulCost(beforeLevel);
+  if (params.soul < soulCost) {
+    return {
+      ok: false,
+      message: '灵魂不足',
+      beforeLevel,
+      afterLevel: beforeLevel,
+      soulBefore: params.soul,
+      soulAfter: params.soul,
+    };
+  }
+
+  const upgraded = upgradeMagicWeaponInstance(equipped);
+  params.loadout.magicWeapon = upgraded;
+  return {
+    ok: true,
+    message: `${upgraded.definition.name} 升到 Lv.${beforeLevel + 1}`,
+    beforeLevel,
+    afterLevel: beforeLevel + 1,
+    soulBefore: params.soul,
+    soulAfter: params.soul - soulCost,
+    upgraded,
+  };
+}
+
 export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinition> {
   const definitions: EquipmentDefinition[] = [
     {
@@ -424,6 +544,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 1,
       },
     },
     {
@@ -439,6 +560,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '水',
+        growthRate: 1.2,
       },
     },
     {
@@ -454,6 +576,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '火',
+        growthRate: 1.4,
       },
     },
     {
@@ -469,6 +592,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '金',
+        growthRate: 1.6,
       },
     },
     {
@@ -487,6 +611,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 1.6,
       },
     },
     {
@@ -506,6 +631,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 1.8,
       },
     },
     {
@@ -525,6 +651,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 2.5,
       },
     },
     {
@@ -544,6 +671,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '火',
+        growthRate: 1.8,
       },
     },
     {
@@ -570,6 +698,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 3,
       },
     },
     {
@@ -588,6 +717,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 2.5,
       },
     },
     {
@@ -606,6 +736,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 3,
       },
     },
     {
@@ -624,6 +755,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 3,
         element: '木',
+        growthRate: 2,
       },
     },
     {
@@ -643,6 +775,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 3,
       },
     },
     {
@@ -668,6 +801,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 3,
       },
     },
     {
@@ -683,6 +817,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 2.4,
       },
     },
     {
@@ -705,6 +840,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 3,
       },
     },
     {
@@ -723,6 +859,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '木',
+        growthRate: 1.5,
       },
     },
     {
@@ -741,6 +878,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '火',
+        growthRate: 2,
       },
     },
     {
@@ -759,6 +897,7 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       magicWeapon: {
         level: 1,
         element: '金',
+        growthRate: 2.5,
       },
     },
     {
@@ -938,4 +1077,100 @@ function createPlaceholderDropDefinitions(
     stats: createEmptyEquipmentStats(),
     description: '首批掉落表占位定义；完整名称、属性、合成和强化关系后置',
   }));
+}
+
+function upgradeMagicWeaponInstance(
+  equipped: EquipmentInstance,
+): EquipmentInstance {
+  const { definition } = equipped;
+  const magicWeapon = definition.magicWeapon;
+  if (!magicWeapon) {
+    return equipped;
+  }
+
+  const growth = getMagicWeaponGrowth(definition.fillName);
+  const growthRate = getMagicWeaponGrowthRate(definition);
+  const element = magicWeapon.element;
+  const upgradedStats = addEquipmentStats(
+    definition.stats,
+    createEmptyEquipmentStats({
+      maxHp: getGrownStat(growth.maxHp, growthRate, element.includes('火')),
+      maxMp: getGrownStat(growth.maxMp, growthRate, element.includes('水')),
+      power: getGrownStat(growth.power, growthRate, element.includes('金')),
+      defense: getGrownStat(growth.defense, growthRate, element.includes('土')),
+    }),
+  );
+
+  return {
+    ...equipped,
+    definition: {
+      ...definition,
+      stats: upgradedStats,
+      magicWeapon: {
+        ...magicWeapon,
+        level: magicWeapon.level + 1,
+        growthRate,
+      },
+    },
+  };
+}
+
+function getMagicWeaponGrowthRate(definition: EquipmentDefinition): number {
+  return definition.magicWeapon?.growthRate ?? 1;
+}
+
+function getGrownStat(
+  baseGrowth: number,
+  growthRate: number,
+  hasElementBonus: boolean,
+): number {
+  const passiveGrowth = Math.floor(baseGrowth * growthRate);
+  return hasElementBonus ? baseGrowth + passiveGrowth : passiveGrowth;
+}
+
+function getMagicWeaponGrowth(fillName: string): Pick<
+  EquipmentStats,
+  'maxHp' | 'maxMp' | 'power' | 'defense'
+> {
+  switch (fillName) {
+    case 'kyl':
+      return { defense: 2, maxMp: 20, power: 4, maxHp: 20 };
+    case 'xhhl':
+      return { defense: 2, maxMp: 30, power: 5, maxHp: 30 };
+    case 'hyzzs':
+      return { defense: 4, maxMp: 30, power: 5, maxHp: 50 };
+    case 'zjld':
+      return { defense: 2, maxMp: 30, power: 9, maxHp: 30 };
+    case 'syl':
+      return { defense: 3, maxMp: 35, power: 6, maxHp: 35 };
+    case 'lxj':
+      return { defense: 4, maxMp: 60, power: 7, maxHp: 40 };
+    case 'hywjs':
+      return { defense: 5, maxMp: 35, power: 8, maxHp: 65 };
+    case 'xhmt':
+      return { defense: 4, maxMp: 40, power: 15, maxHp: 60 };
+    case 'zsTimer':
+      return { defense: 4, maxMp: 45, power: 15, maxHp: 75 };
+    case 'mdhf':
+      return { defense: 5, maxMp: 45, power: 14.4, maxHp: 72 };
+    case 'jyhl':
+      return { defense: 4, maxMp: 39, power: 20, maxHp: 70 };
+    case 'qljfb':
+      return { defense: 5, maxMp: 60, power: 14, maxHp: 60 };
+    case 'yxfb':
+      return { defense: 0, maxMp: 40, power: 20, maxHp: 40 };
+    case 'sxfb':
+      return { defense: 0, maxMp: 20, power: 15, maxHp: 20 };
+    case 'tjbg':
+    case 'fbqpj':
+      return { defense: 35, maxMp: 170, power: 40, maxHp: 285 };
+    case 'zltc':
+      return { defense: 16.8, maxMp: 71.4, power: 19.2, maxHp: 119.7 };
+    case 'lxfb':
+      return { defense: 0, maxMp: 10, power: 5, maxHp: 10 };
+    case 'stlp':
+      return { defense: 4, maxMp: 40.5, power: 16.2, maxHp: 67.5 };
+    default:
+      return { defense: 0, maxMp: 0, power: 0, maxHp: 0 };
+  }
 }

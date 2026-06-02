@@ -14,6 +14,7 @@
 
 - PowerShell 读取中文/Markdown 文档必须显式使用 `Get-Content -Encoding UTF8 -LiteralPath ...`；如果输出出现乱码，立刻停止基于该输出推理，改用 UTF-8 重新读取。
 - 优先用 `rg -n`、`Select-Object -First/-Skip/-Last` 或精确路径读取相关片段；不要为了找一条记录全文读入大型 Markdown、AS3 或历史文档。
+- 在 PowerShell 中用 `rg` 搜中文、代码片段或含引号内容时，优先搜“短而窄”的稳定关键词，再按行号读取上下文；不要手拼包含转义双引号的正则串，不要把宽关键词和窄关键词塞进一个 `a|b|c` 或多个 `-e` 里导致海量输出。首选模板：`rg -n -F -e '枯叶灵' path`，命中后 `Get-Content -Encoding UTF8 -LiteralPath path | Select-Object -Skip <n> -First <m>`。多个 `-e` 只用于每个关键词都足够窄的情况。目标是让 `rg` 命令一次成功且输出很小。
 - `task-history.md`、大型 reverse-engineering 文档和 AS3 文件默认先关键词定位，再读取命中的小范围上下文。
 
 ## 默认入口

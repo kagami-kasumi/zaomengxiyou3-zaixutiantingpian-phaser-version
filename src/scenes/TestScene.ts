@@ -137,6 +137,7 @@ import {
   createEmptyEquipmentLoadout,
   createSeedEquipmentRegistry,
   HeroNamesById,
+  upgradeEquippedMagicWeapon,
   type EquipmentDefinition,
   type EquipmentInstance,
   type EquipmentLoadout,
@@ -357,6 +358,7 @@ export class TestScene extends Phaser.Scene {
   private inventoryConfirmKey?: Phaser.Input.Keyboard.Key;
   private inventoryBackspaceKey?: Phaser.Input.Keyboard.Key;
   private inventoryDeleteKey?: Phaser.Input.Keyboard.Key;
+  private inventoryMagicWeaponUpgradeKey?: Phaser.Input.Keyboard.Key;
   private petPanelToggleKey?: Phaser.Input.Keyboard.Key;
   private petPanelUpKey?: Phaser.Input.Keyboard.Key;
   private petPanelDownKey?: Phaser.Input.Keyboard.Key;
@@ -383,6 +385,7 @@ export class TestScene extends Phaser.Scene {
   private inventoryUI: InventoryUIState = createInventoryUIState();
   private inventoryPanel?: InventoryPanelView;
   private magicWeapon: MagicWeaponModel = createMagicWeaponModel();
+  private magicWeaponSoul = 5_000;
   private petRoster: PetRoster = createSeedPetRoster();
   private magicBottle: MagicBottleCaptureModel = createMagicBottleCaptureModel();
   private capturablePetTargets: CapturablePetTarget[] = [];
@@ -852,6 +855,7 @@ export class TestScene extends Phaser.Scene {
     this.inventoryConfirmKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.inventoryBackspaceKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
     this.inventoryDeleteKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DELETE);
+    this.inventoryMagicWeaponUpgradeKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
   }
 
   private createPetUIKeys(): void {
@@ -1217,6 +1221,13 @@ export class TestScene extends Phaser.Scene {
     })) {
       this.syncInventoryHeroStats();
     }
+
+    if (
+      this.inventoryMagicWeaponUpgradeKey &&
+      Phaser.Input.Keyboard.JustDown(this.inventoryMagicWeaponUpgradeKey)
+    ) {
+      this.upgradeCurrentMagicWeapon();
+    }
   }
 
   private tryUseSelectedPetConsumable(): boolean {
@@ -1266,8 +1277,24 @@ export class TestScene extends Phaser.Scene {
       playerLabel: player?.slot.toUpperCase() ?? 'P1',
       heroName: this.getInventoryHeroName(),
       ui: this.inventoryUI,
+      magicWeaponSoul: this.magicWeaponSoul,
     });
     this.inventoryPanel.text.setText(lines.join('\n'));
+  }
+
+  private upgradeCurrentMagicWeapon(): void {
+    const result = upgradeEquippedMagicWeapon({
+      loadout: this.equipmentLoadout,
+      soul: this.magicWeaponSoul,
+    });
+    this.magicWeaponSoul = result.soulAfter;
+    this.inventoryUI.message = result.message;
+    if (!result.ok) {
+      return;
+    }
+
+    this.syncInventoryHeroStats();
+    syncMagicWeaponFromLoadout(this.magicWeapon, this.equipmentLoadout);
   }
 
   private handlePetUIKeys(): void {
@@ -3046,6 +3073,7 @@ export class TestScene extends Phaser.Scene {
       `inventory:${formatInventoryUIState(this.inventoryUI)}`,
       `pet:${formatPetState(this.getPetRoster(), this.petRuntime, this.petPanelOpen)}`,
       `magic weapon:${formatMagicWeaponState(this.magicWeapon)}`,
+      `magic weapon soul:${this.magicWeaponSoul}`,
       `magic platforms:${formatMagicWeaponPlatforms(this.magicWeapon.platforms)}`,
       `magic bottle:${this.magicBottle.equippedFillName} H | soul ${this.magicBottle.soul} | ${this.magicBottle.lastResult}`,
       `catch targets:${formatCapturablePetTargets(this.getCapturablePetTargets())}`,

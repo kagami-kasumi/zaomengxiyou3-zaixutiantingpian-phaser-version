@@ -354,13 +354,13 @@ time = gc.frameClips * 5
 - `TASK-SLICE-035` 已新增 `stlp` 奢天化雪令/Ling 随机落雪法宝最小切片，范围包括 `zbfb` 装备种子、H 触发 `LingPaiEffect` 起手反馈、一次性 120 个 `ef_snow` 等价 projectile、镜头上方随机起点、普通/木五行动作窗口、Monster30 命中伤害和 3 秒 `magicSnowIce` 冰冻最小状态；`AssetManifest` 已登记 `LingBmd`、`LingPaiEffect`、`ef_snow` 真资源缺口。
 - `TASK-SETTINGS-023` 已补清 `qljfb/MagicBigBottle` 青龙剑/墙船法宝：H 触发 `StageBoat` 临时 `ThroughWall`，加入 `pWorld.getWallArray()`，跟随来源角色并约 `20s` 后销毁；普通五行 `60` 帧回 `wait`，木五行 `40` 帧回 `wait`；它不走 projectile 伤害链。
 - `TASK-SLICE-036` 已新增 `qljfb` 青龙剑/MagicBigBottle 临时跟随平台法宝最小切片，范围包括 `zbfb` 装备种子、H 触发 `MagicBigSwordBmd` 等价反馈、`StageBoat` 等价动态平台数据、接入 `MovementPlatform` 站立/托举闭环、约 `20s` 平台生命周期、来源消失清理、普通/木五行动作窗口和状态栏/场景占位视图；`AssetManifest` 已登记 `MagicBigSwordBmd`、`MagicBigBottleData` 真资源缺口。
-- 下一步推荐 `TASK-SLICE-037`：法宝强化 UI 最小可玩切片。
-- 强化 UI 独立成后续 `TASK-SLICE` 或 `TASK-SETTINGS`，不要和首个能力切片混在一起。
+- `TASK-SLICE-037` 已新增 `SutraInterface` 等价最小强化入口，范围包括当前 `zbfb` 面板状态、等级/五行/成长率/主要属性/灵魂消耗显示、`getNextGradeLHValue(level) = level * level * 1000` 的 1→2 级灵魂升级、升级后按 `MyEquipObj.getGrowthByName(fillName)` 的现代成长表刷新装备属性与 `magicWeapon.level`，并让 `MagicWeaponSystem` 同步读取新等级。测试场景中 C 打开背包面板，面板内 U 消耗测试灵魂升级当前法宝；灵魂不足和未装备法宝会拒绝并显示状态反馈。
+- 下一步不再继续扩展同一最小切片；当前看板推荐 `TASK-SETTINGS-024` 等级/经验基础逆向。
 
 后置范围：
 
 - `stlp` 后置完整五角色 `getRealPower("fabao-snow")`、qixue/吸血、全怪物通用冰冻 AddEffect 泛化和真资源校准。
 - `xhmt` 后置完整五角色 `getRealPower("fabao-pearl")`、吸血/qixue、全怪物通用 AddEffect 泛化和真资源校准。
-- 法宝强化面板、材料消耗和五行重置。
+- 完整 `SutraInterface` 视觉布局、材料阶段、10 级以后特殊材料、五行重置和真实灵魂存档。
 - 真实法宝资源接入。
 - P2/联机法宝同步。

@@ -86,8 +86,37 @@
 | TASK-SLICE-035 | 切片 | 奢天化雪令/Ling 随机落雪法宝最小切片 | M-043、M-032、M-033、M-034、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`TestSceneViews.ts`、`system-tests.ts`、`magic-weapons-index.md`、`projectiles-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-023 | 逆向 | `qljfb/MagicBigBottle` 青龙剑/墙船法宝逆向索引 | M-043、M-034、VS-013 | `magic-weapons-index.md`、`projectiles-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-036 | 切片 | `qljfb/MagicBigBottle` 临时跟随平台法宝最小切片 | M-043、VS-013 | `MagicWeaponSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-024 | 逆向 | 等级/经验基础逆向 | M-040、VS-014 | `progression-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-024
+
+完成时间：
+
+- 2026-06-02
+
+完成内容：
+
+- 新增 `docs/reverse-engineering/progression-index.md`，记录玩家等级上限、`User.curLevel/curExp`、`BaseRoleProperies.level/exper/exp`、初始化同步、升级触发、升级扣经验和存档字段。
+- 确认五角色共用经验曲线：1-6 级 `135 + 10 * (L - 1)`，7-12 级 `625 + 50 * (L - 7)`，13-18 级 `1950 + 100 * (L - 13)`，19-88 级 `5000 + 5000 * (L - 19)`，89 级后使用 `999999999`，等级上限 90。
+- 整理五角色基础属性成长公式：HP、MP、基础攻击、防御均在各 `Role*.upGrade()` 中重算，升级后 HP/MP 回满并重新 `initAll()`。
+- 确认普通怪物死亡经验入口在 `BaseMonster.reduceHp()`，无宠物时玩家获得完整 `protectedParamsObject.exp`，有当前宠物时玩家和宠物各获得 `60%`；`Monster111` 和任务奖励经验存在特殊旁路，首个现代切片后置。
+- 更新 `mechanics-index.md`，将 `M-040` 标为已扒但未复现。
+- 更新 `vertical-slices.md`，新增 `VS-014 等级/经验最小闭环`，状态为可开始。
+- 更新 `task-board.md`，归档当前逆向任务并新增 Ready 任务 `TASK-SLICE-038`。
+
+更新文件：
+
+- `docs/reverse-engineering/progression-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-036
 
@@ -2991,4 +3020,33 @@
 - `docs/tasks/task-history.md`
 
 验证：
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-037
+
+完成时间：
+- 2026-06-02
+
+完成内容：
+- 扩展 `src/systems/EquipmentSystem.ts`，新增法宝强化最小模型：面板状态构建、下一级灵魂消耗 `level * level * 1000`、`MyEquipObj.getGrowthByName(fillName)` 等价现代成长表、成长率字段和 `upgradeEquippedMagicWeapon()` 纯函数。
+- 强化成功会消耗测试灵魂、把当前 `zbfb` 从 1 级升到 2 级，并按成长表刷新 `magicWeapon.level` 与可观察装备属性；灵魂不足、未装备法宝和 10 级后材料阶段会拒绝并返回状态反馈。
+- 扩展 `src/systems/EquipmentUISystem.ts`，在背包面板中追加 `Sutra` 区块，显示当前法宝名、等级、五行、成长率、主要属性、灵魂进度和可升级/不可升级状态。
+- 扩展 `src/scenes/TestScene.ts`，提供测试灵魂池；C 打开背包面板后按 U 可触发一次法宝升级，升级后同步玩家属性、状态栏和 `MagicWeaponSystem` 当前等级。
+- 扩展 `tools/system-tests.ts`，覆盖面板状态构建、灵魂消耗、升级成功、灵魂不足拒绝、未装备边界，以及 `zltc` 升级后雷锤伤害读取新等级。
+- 更新 `docs/reverse-engineering/magic-weapons-index.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将当前 Ready 任务归档；下一步推荐 `TASK-SETTINGS-024` 等级/经验基础逆向。
+
+更新文件：
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/EquipmentUISystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。

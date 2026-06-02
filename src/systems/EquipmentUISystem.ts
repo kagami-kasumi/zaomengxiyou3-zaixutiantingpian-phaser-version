@@ -1,6 +1,7 @@
 import {
   calculateEffectiveStats,
   calculatePreviewStats,
+  buildMagicWeaponUpgradePanelState,
   EquipmentSlotLabels,
   EquipmentTypeLabels,
   formatEquipmentStats,
@@ -38,6 +39,7 @@ export type InventoryPanelLinesParams = {
   playerLabel: string;
   heroName: string;
   ui: InventoryUIState;
+  magicWeaponSoul?: number;
 };
 
 export const EquipmentSlotOrder: readonly EquipmentSlot[] = [
@@ -202,7 +204,33 @@ export function buildInventoryPanelLines(
     lines.push(`main:${formatEquipmentStats(selectedEntry.definition.stats).join(' ')}`);
   }
 
+  if (params.magicWeaponSoul !== undefined) {
+    lines.push('');
+    lines.push(...buildMagicWeaponUpgradePanelLines(
+      params.loadout,
+      params.magicWeaponSoul,
+    ));
+  }
+
   return lines;
+}
+
+export function buildMagicWeaponUpgradePanelLines(
+  loadout: EquipmentLoadout,
+  soul: number,
+): string[] {
+  const panel = buildMagicWeaponUpgradePanelState(loadout, soul);
+  if (!panel.equipped) {
+    return ['Sutra', '法宝: -', `Soul: ${panel.soul}`, panel.message];
+  }
+
+  return [
+    'Sutra',
+    `${panel.name} (${panel.fillName}) Lv.${panel.level}`,
+    `Element:${panel.element} Growth:${formatNumber(panel.growthRate)}`,
+    `Main:${formatEquipmentStats(panel.stats).join(' ')}`,
+    `Soul:${panel.soul}/${panel.nextSoulCost} | ${panel.canUpgrade ? 'U upgrade ready' : panel.message}`,
+  ];
 }
 
 function clampInventorySelection(

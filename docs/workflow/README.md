@@ -17,6 +17,7 @@
 - 在 PowerShell 中读取中文/Markdown 文档时，必须显式使用 `Get-Content -Encoding UTF8 -LiteralPath ...`，避免 mojibake 输出污染上下文。
 - 如果已经看到乱码输出，不能继续基于该输出总结或修改文档；应改用 UTF-8 重新读取。
 - 优先用 `rg -n` 定位关键词，再读取命中附近的小范围片段；大型 Markdown、AS3 和历史文档不做无差别全文读入。
+- 在 PowerShell 中执行 `rg` 时，中文、代码片段或含引号内容优先搜“短而窄”的固定字符串，例如 `rg -n -F -e '枯叶灵' path`，再按行号读取小范围上下文。不要手拼含转义双引号的 regex alternation，也不要把宽关键词和窄关键词混在多个 `-e` 中造成海量输出；多个 `-e` 只用于每个关键词都足够窄的情况。
 - 需要硬性约束时，把入口文档中的 UTF-8 读取要求接入 `tools/validate-workflow.mjs` 或本地 agent hook，确保约束被删除时能失败。
 
 ## 文档分工

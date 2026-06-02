@@ -34,8 +34,10 @@ import {
   spawnConfiguredMonsterDrop,
 } from '../src/systems/DropSystem';
 import {
+  buildMagicWeaponUpgradePanelState,
   createSeedEquipmentRegistry,
   createEmptyEquipmentLoadout,
+  upgradeEquippedMagicWeapon,
   type EquipmentDefinition,
   type EquipmentInstance,
 } from '../src/systems/EquipmentSystem';
@@ -150,6 +152,10 @@ testMagicWeaponBigBottleFollowsAndExpires();
 testMagicWeaponBigBottlePlatformCatchesFallingHero();
 testMagicWeaponSnowSpawnsRandomFallAndRejectsReentry();
 testMagicWeaponSnowHitAppliesDamageAndIce();
+testMagicWeaponUpgradePanelShowsCurrentZbfb();
+testMagicWeaponUpgradeConsumesSoulAndRefreshesStats();
+testMagicWeaponUpgradeRejectsLowSoulAndMissingEquipment();
+testMagicWeaponSystemReadsUpgradedLevel();
 
 console.log('System tests passed.');
 
@@ -2394,6 +2400,97 @@ function testMagicWeaponSnowHitAppliesDamageAndIce(): void {
 
   updateProjectiles(projectiles, [{ id: 'p1', state: 'ready' }], 3_000);
   assert.equal(getActiveProjectiles(projectiles).length, 0);
+}
+
+function testMagicWeaponUpgradePanelShowsCurrentZbfb(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.kyl, 'kyl-upgrade-panel');
+
+  const panel = buildMagicWeaponUpgradePanelState(loadout, 1_000);
+
+  assert.equal(panel.equipped, true);
+  assert.equal(panel.name, '枯叶灵');
+  assert.equal(panel.fillName, 'kyl');
+  assert.equal(panel.level, 1);
+  assert.equal(panel.element, '木');
+  assert.equal(panel.growthRate, 1);
+  assert.equal(panel.nextSoulCost, 1_000);
+  assert.equal(panel.canUpgrade, true);
+}
+
+function testMagicWeaponUpgradeConsumesSoulAndRefreshesStats(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.kyl, 'kyl-upgrade-success');
+
+  const result = upgradeEquippedMagicWeapon({ loadout, soul: 1_500 });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.beforeLevel, 1);
+  assert.equal(result.afterLevel, 2);
+  assert.equal(result.soulAfter, 500);
+  assert.equal(loadout.magicWeapon?.definition.magicWeapon?.level, 2);
+  assert.equal(loadout.magicWeapon?.definition.stats.power, 4);
+  assert.equal(loadout.magicWeapon?.definition.stats.maxHp, 20);
+  assert.equal(loadout.magicWeapon?.definition.stats.maxMp, 20);
+  assert.equal(loadout.magicWeapon?.definition.stats.defense, 2);
+}
+
+function testMagicWeaponUpgradeRejectsLowSoulAndMissingEquipment(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.kyl, 'kyl-upgrade-low-soul');
+
+  const lowSoul = upgradeEquippedMagicWeapon({ loadout, soul: 999 });
+  assert.equal(lowSoul.ok, false);
+  assert.equal(lowSoul.soulAfter, 999);
+  assert.equal(loadout.magicWeapon.definition.magicWeapon?.level, 1);
+  assert.match(lowSoul.message, /灵魂不足/);
+
+  const missing = upgradeEquippedMagicWeapon({
+    loadout: createEmptyEquipmentLoadout(),
+    soul: 10_000,
+  });
+  assert.equal(missing.ok, false);
+  assert.equal(missing.soulAfter, 10_000);
+  assert.match(missing.message, /未装备法宝/);
+}
+
+function testMagicWeaponSystemReadsUpgradedLevel(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const zltcDefinition: EquipmentDefinition = {
+    ...registry.zltc,
+    magicWeapon: {
+      level: 1,
+      element: '火',
+      growthRate: 3,
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(zltcDefinition, 'zltc-upgrade-read');
+  const upgrade = upgradeEquippedMagicWeapon({ loadout, soul: 1_000 });
+  assert.equal(upgrade.ok, true);
+
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+  const source = { sourceId: 'p1', x: 100, y: 200, facingX: 1 as const };
+  syncMagicWeaponFromLoadout(model, loadout);
+
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(model, target, 1, projectiles, [], source);
+
+  assert.equal(model.current?.level, 2);
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assertNearlyEqual(projectile.damage, 94.5);
 }
 
 function createTestCapturableTarget(): CapturablePetTarget {

@@ -26,12 +26,12 @@
 | VS-010 背包最小 UI | 已完成 | 打开背包并显示分类物品，支持首批装备穿脱 | M-036、M-037、`equipment-index.md` | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts` | `C` 打开背包；可切换装备/道具/时装/技能书分类；可穿戴/卸下种子装备并更新槽位与属性预览 |
 | VS-011 存档最小闭环 | 暂缓 | 保存/读取当前进度 | M-044 | SaveSystem | 刷新后能恢复基础状态 |
 | VS-012 宠物最小可玩切片 | 已完成 | P1 宠物面板、出战跟随、宣花葫芦捕捉和宠物道具消耗 | M-042、M-043、M-016、M-037、`pets-index.md`、`magic-weapons-index.md` | `PetSystem.ts`、宠物 UI、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 拥有一只可出战宠物；B 键面板可查看/切换出战；出战宠物跟随玩家；H 键使用 `xhhl` 等价捕捉 `Monster70-78`；背包道具 `wpcsd/wphhd/djyys` 可消耗并影响当前出战宠物 |
-| VS-013 法宝最小可玩切片 | 已完成 | 非葫芦法宝接入装备槽、H 键触发、持续效果、伤害法宝、防护法宝、回复法宝、时间回溯、入魔 buff、全体增减益、全屏眩晕、前方雷锤、随机落雪和临时平台 | M-043、M-036、M-015、M-032、M-033、M-034、M-042、`magic-weapons-index.md` | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `kyl`/`syl` 可装备为 `zbfb` 并触发治疗；`lxj` 可触发最近目标剑击 projectile；`fbqpj` 可主动 6 剑并空闲自动 1 剑；`hyzzs`/`hywjs` 可触发扣血前吸收伤害的护盾；`zjld` 可触发无敌和 HP/MP 回复；`zsTimer` 可首次记录、二次 H 回溯 HP/MP/坐标；`lxfb/sxfb/yxfb` 可触发攻击/暴击增益与扣血边界；`jyhl` 可触发玩家/宠物增益与 Monster30 攻击减益；`mdhf` 可触发护体反制 debuff；`xhmt` 可触发多段随机打击和结束随机效果；`tjbg` 可触发全体 Monster30 眩晕；`zltc` 可触发前方雷锤 projectile、伤害和 4.5 秒 Monster30 眩晕；`stlp` 可触发 120 个随机落雪 projectile、Monster30 受击和 3 秒冰冻；`qljfb` 可触发 20 秒临时跟随平台并托住角色；使用中拒绝重入；木五行、最近目标、多 projectile、伤害 projectile、护盾吸收、无敌免伤、特殊重入、buff/眩晕/冰冻/平台清理已由系统测试覆盖 |
+| VS-013 法宝最小可玩切片 | 已完成 | 非葫芦法宝接入装备槽、H 键触发、持续效果、伤害法宝、防护法宝、回复法宝、时间回溯、入魔 buff、全体增减益、全屏眩晕、前方雷锤、随机落雪、临时平台和最小强化入口 | M-043、M-036、M-016、M-015、M-032、M-033、M-034、M-042、`magic-weapons-index.md` | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`InventorySystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `kyl`/`syl` 可装备为 `zbfb` 并触发治疗；`lxj` 可触发最近目标剑击 projectile；`fbqpj` 可主动 6 剑并空闲自动 1 剑；`hyzzs`/`hywjs` 可触发扣血前吸收伤害的护盾；`zjld` 可触发无敌和 HP/MP 回复；`zsTimer` 可首次记录、二次 H 回溯 HP/MP/坐标；`lxfb/sxfb/yxfb` 可触发攻击/暴击增益与扣血边界；`jyhl` 可触发玩家/宠物增益与 Monster30 攻击减益；`mdhf` 可触发护体反制 debuff；`xhmt` 可触发多段随机打击和结束随机效果；`tjbg` 可触发全体 Monster30 眩晕；`zltc` 可触发前方雷锤 projectile、伤害和 4.5 秒 Monster30 眩晕；`stlp` 可触发 120 个随机落雪 projectile、Monster30 受击和 3 秒冰冻；`qljfb` 可触发 20 秒临时跟随平台并托住角色；C 背包面板展示当前 `zbfb` 等级/五行/成长率/主要属性/灵魂消耗，U 可消耗测试灵魂完成 1→2 升级；使用中拒绝重入、等级读取、木五行、最近目标、多 projectile、伤害 projectile、护盾吸收、无敌免伤、特殊重入、buff/眩晕/冰冻/平台清理和强化边界已由系统测试覆盖 |
+| VS-014 等级/经验最小闭环 | 可开始 | 击杀怪物获得经验并自动升级，刷新基础属性和状态显示 | M-040、M-030、M-031、M-032、`progression-index.md` | ProgressionSystem（待建）、`TestScene.ts`、`system-tests.ts` | 击杀 `Monster30` 后玩家经验增加；经验达到本级需求时等级 +1、扣除本级经验、HP/MP 回满、当前角色基础 HP/MP/攻击/防御按角色公式刷新；P1/P2 经验互不串线 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-037`：法宝强化 UI 最小可玩切片。
-2. 后续按宠物成长/技能、成长系统或强化系统继续拆分。
+1. `TASK-SLICE-038`：等级/经验最小闭环。
 
 ## 切片详情
 
@@ -514,6 +514,7 @@
 - `qljfb` 的现代后续切片应接平台/墙体查询，而不是 projectile 伤害链；首版只需要测试场景中的临时跟随平台、可站立/托举、到期清理、重入拒绝、动作窗口和资源缺口登记。
 - `TASK-SLICE-036` 扩展 `qljfb` 青龙剑/MagicBigBottle：H 触发生成 `magicBigBottle` active effect 和一个 `StageBoat` 等价 `MagicWeaponPlatform`，平台初始在角色 `y - 100`，随后按 AS3 dead-zone 和 `+70` 纵向偏移跟随来源角色，接入 `MovementPlatform` 让角色可站立/被托举，约 20 秒后或来源消失时清理。
 - `EquipmentSystem.ts`/`InventorySystem.ts` 新增 `qljfb` 测试种子；`AssetManifest.ts` 登记 `MagicBigSwordBmd`、`MagicBigBottleData` 真资源缺口；`TestScene.ts` 可通过背包装备/切换观察青龙剑临时平台、状态栏 `magic platforms` 和到期消失；`tools/system-tests.ts` 覆盖触发、重入拒绝、普通/木动作窗口、跟随、20 秒清理、来源消失清理和站立托举。
+- `TASK-SLICE-037` 扩展 `SutraInterface` 等价最小强化入口：`EquipmentSystem.ts` 新增法宝成长率、成长表、灵魂消耗 `level * level * 1000`、面板状态构建和升级函数；`EquipmentUISystem.ts` 在 C 背包面板显示当前 `zbfb` 名称、等级、五行、成长率、主要属性、下一级灵魂消耗和可升级/不可升级状态；`TestScene.ts` 提供测试灵魂池，背包面板内按 U 消耗灵魂完成 1→2 升级并刷新装备属性、状态栏和 `MagicWeaponSystem` 当前等级；`tools/system-tests.ts` 覆盖面板状态、灵魂消耗、升级成功、灵魂不足拒绝、未装备边界和 `zltc` 升级后伤害读取新等级。
 
 验证：
 
@@ -523,12 +524,12 @@
 
 边界：
 
-- 不实现法宝强化 UI、材料消耗、五行重置、真实资源或全部法宝。
+- 不实现完整 `SutraInterface` 视觉布局、材料阶段、10 级以后特殊材料、五行重置、真实灵魂存档、真实资源或联机同步。
 - MagicFlag 的真实命中/闪避降命中接线、MagicPearl 的完整五角色 `getRealPower("fabao-pearl")`、吸血/qixue、MagicBagua 真实 `baguaEffect` 资源、MagicZLHummer 真实 `zltcskill`/`zltcbox` 资源、全怪物通用 AddEffect 泛化、反弹吸血和联机同步后置。
 
 推荐任务：
 
-- `TASK-SLICE-037`：法宝强化 UI 最小可玩切片。
+- `TASK-SETTINGS-024`：等级/经验基础逆向。
 
 ## 更新规则
 
