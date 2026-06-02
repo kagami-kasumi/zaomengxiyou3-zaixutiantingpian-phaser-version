@@ -291,7 +291,8 @@ export function createProjectileEffectView(
   projectile: ProjectileModel,
 ): ProjectileEffectView {
   const isMovingProjectile = projectile.velocityX !== 0 || projectile.velocityY !== 0;
-  const color = isMovingProjectile ? 0xf2c14e : 0x7ee7ff;
+  const isSnow = projectile.variant === 'magic-weapon-snow';
+  const color = isSnow ? 0xdff7ff : isMovingProjectile ? 0xf2c14e : 0x7ee7ff;
   const shape = scene.add.ellipse(
     projectile.x,
     projectile.y,
@@ -303,10 +304,10 @@ export function createProjectileEffectView(
   const core = scene.add.ellipse(
     projectile.x,
     projectile.y,
-    projectile.width * 0.48,
-    projectile.height * 0.34,
+    projectile.width * (isSnow ? 0.32 : 0.48),
+    projectile.height * (isSnow ? 0.32 : 0.34),
     0xf3f6ff,
-    0.28,
+    isSnow ? 0.52 : 0.28,
   );
   const label = scene.add.text(
     projectile.x - 46,
@@ -321,6 +322,7 @@ export function createProjectileEffectView(
 
   shape.setStrokeStyle(2, color, 0.9);
   core.setStrokeStyle(1, 0xf3f6ff, 0.9);
+  label.setVisible(!isSnow);
   return {
     projectileId: projectile.id,
     shape,

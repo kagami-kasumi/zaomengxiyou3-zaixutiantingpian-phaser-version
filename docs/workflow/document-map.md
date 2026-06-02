@@ -65,6 +65,15 @@
 - `extracted_flash/README_extract.md`
   - 提取结果说明。
   - 只读参考。
+- `docs/reverse-engineering/reference/equipment-spreadsheet.md`
+  - 1.0 装备属性、合成、宝石和掉落工作簿的使用说明。
+  - 规定该工作簿只能作为 1.1 AS3 逆向的辅助索引和交叉校验资料。
+- `docs/reverse-engineering/reference/equipment-spreadsheet/`
+  - 从 1.0 工作簿拆分出的 CSV 小文件。
+  - 供装备、合成、宝石和掉落任务按需读取，避免每次解析完整 xlsx。
+- `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`
+  - 1.0 装备资料工作簿。
+  - 只读参考；现代实现数据必须先经 AS3 校验。
 - `docs/FFDEC_EXTRACTION_GUIDE.md`
   - FFDec 提取资料维护说明。
   - 记录现有提取结果的维护边界。

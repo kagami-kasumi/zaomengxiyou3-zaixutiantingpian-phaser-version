@@ -16,6 +16,7 @@ import {
   applyMonster30MagicFlagDebuff,
   applyMonster30MagicPearlPoison,
   applyMonster30MagicPearlStun,
+  applyMonster30MagicSnowIce,
   applyMonster30MagicZlHummerStun,
   clearMonster30MagicBaguaStun,
   clearMonster30MagicPearlPoison,
@@ -140,6 +141,8 @@ testMagicWeaponZlHummerWoodActionBoundary();
 testMagicWeaponZlHummerNoTargetsStillCleansUp();
 testMagicWeaponZlHummerHitAppliesDamageAndStun();
 testMagicWeaponZlHummerStunExpiresAndRestoresMonster30();
+testMagicWeaponSnowSpawnsRandomFallAndRejectsReentry();
+testMagicWeaponSnowHitAppliesDamageAndIce();
 
 console.log('System tests passed.');
 
@@ -2110,6 +2113,142 @@ function testMagicWeaponZlHummerStunExpiresAndRestoresMonster30(): void {
   updateMonster30(monster, [{ slot: 'p1', x: 0, y: 0 }], 1, () => 1);
   assert.equal(monster.magicZlHummerStun, undefined);
   assert.equal(monster.state, 'wait');
+}
+
+function testMagicWeaponSnowSpawnsRandomFallAndRejectsReentry(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.stlp, 'stlp-snow-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+  const source = {
+    sourceId: 'p1',
+    x: 470,
+    y: 300,
+    facingX: 1 as const,
+    cameraX: 500,
+    cameraY: 1_000,
+  };
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  const result = requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(result.triggered, true);
+  assert.equal(model.action, 'hit');
+  assert.equal(model.activeEffect?.kind, 'magicSnow');
+  if (model.activeEffect?.kind === 'magicSnow') {
+    assert.equal(model.activeEffect.totalMs, MagicWeaponTuning.snowWoodActionMs);
+  }
+
+  const reentry = requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  assert.equal(reentry.triggered, false);
+  assert.match(reentry.message, /正在使用/);
+
+  updateMagicWeapon(model, target, 1, projectiles, [], source, [], () => 0);
+  const activeProjectiles = getActiveProjectiles(projectiles);
+  assert.equal(activeProjectiles.length, MagicWeaponTuning.snowCount);
+  assert.equal(activeProjectiles.every((projectile) => projectile.variant === 'magic-weapon-snow'), true);
+  assert.equal(activeProjectiles.every((projectile) => projectile.actionName === 'fabao-snow'), true);
+
+  const first = activeProjectiles[0];
+  assert.ok(first);
+  assert.equal(first.runtimeName, 'ef_snow');
+  assert.equal(first.x, 0);
+  assert.equal(first.y, 520);
+  assertNearlyEqual(first.velocityX, Math.cos(50 / 180 * Math.PI) * 10);
+  assertNearlyEqual(first.velocityY, Math.sin(50 / 180 * Math.PI) * 10);
+  assert.equal(first.remainingDistance, 1500);
+  assert.equal(first.magicIceMs, 3_000);
+
+  updateMagicWeapon(model, target, MagicWeaponTuning.snowWoodActionMs - 1, projectiles, [], source);
+  assert.equal(model.action, 'wait');
+  assert.equal(model.activeEffect, undefined);
+}
+
+function testMagicWeaponSnowHitAppliesDamageAndIce(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const stlpDefinition: EquipmentDefinition = {
+    ...registry.stlp,
+    magicWeapon: {
+      level: 1,
+      element: '火',
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(stlpDefinition, 'stlp-hit-test');
+  const model = createMagicWeaponModel();
+  const target = {
+    ...createMagicWeaponTestTarget(),
+    effectiveStats: {
+      defense: 0,
+      magicDefensePercent: 0,
+      power: 200,
+    },
+  };
+  const projectiles = createProjectileSystem();
+  const source = {
+    sourceId: 'p1',
+    x: 0,
+    y: 0,
+    facingX: 1 as const,
+    cameraX: 500,
+    cameraY: 480,
+  };
+  const monster = createMonster30(0, 0, 'm30-snow-hit');
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(model, target, 1, projectiles, [], source, [], () => 0);
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(rectanglesIntersect(
+    getProjectileHitbox(projectile),
+    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
+  ), true);
+  assert.equal(projectile.damage, 18);
+  assert.equal(projectile.attackKind, 'magic');
+  assert.equal(projectile.knockbackX, 2);
+  assert.equal(projectile.knockbackY, -2);
+  assert.equal(projectile.hitIntervalFrames, 999);
+
+  const applied = applyMonster30Hit(monster, projectile.damage);
+  assert.equal(applied, true);
+  applyMonster30MagicSnowIce(monster, {
+    sourceName: projectile.runtimeName,
+    totalMs: projectile.magicIceMs ?? 0,
+  });
+  assert.equal(monster.hp, 132);
+  assert.equal(monster.magicSnowIce?.remainingMs, 3_000);
+  assert.equal(monster.state, 'hurt');
+
+  updateMonster30(monster, [{ slot: 'p1', x: 0, y: 0 }], 2_999, () => 0);
+  assert.equal(monster.magicSnowIce?.remainingMs, 1);
+  assert.equal(monster.state, 'wait');
+  updateMonster30(monster, [{ slot: 'p1', x: 0, y: 0 }], 1, () => 1);
+  assert.equal(monster.magicSnowIce, undefined);
+
+  updateProjectiles(projectiles, [{ id: 'p1', state: 'ready' }], 3_000);
+  assert.equal(getActiveProjectiles(projectiles).length, 0);
 }
 
 function createTestCapturableTarget(): CapturablePetTarget {

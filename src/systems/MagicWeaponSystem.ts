@@ -22,6 +22,7 @@ import {
 import {
   spawnMagicQpjProjectile,
   spawnMagicPearlProjectile,
+  spawnMagicSnowProjectile,
   spawnMagicSword2Projectile,
   spawnMagicZlHummerProjectile,
   type ProjectileModel,
@@ -43,6 +44,7 @@ export type MagicWeaponFillName =
   | 'xhmt'
   | 'tjbg'
   | 'zltc'
+  | 'stlp'
   | 'lxfb'
   | 'sxfb'
   | 'yxfb';
@@ -61,6 +63,7 @@ export type MagicWeaponEffectKind =
   | 'magicFlag'
   | 'magicBagua'
   | 'magicZlHummer'
+  | 'magicSnow'
   | 'magicPearl'
   | 'magicDemonBuff';
 
@@ -185,6 +188,18 @@ export type MagicWeaponZlHummerEffect = {
   damage: number;
 };
 
+export type MagicWeaponSnowEffect = {
+  kind: 'magicSnow';
+  totalMs: number;
+  remainingMs: number;
+  sourceId: string;
+  cameraX: number;
+  cameraY: number;
+  hasSpawnedSnow: boolean;
+  projectileIds: number[];
+  damage: number;
+};
+
 export type MagicWeaponPearlEffect = {
   kind: 'magicPearl';
   totalMs: number;
@@ -238,6 +253,7 @@ export type MagicWeaponActiveEffect =
   | MagicWeaponFlagEffect
   | MagicWeaponBaguaEffect
   | MagicWeaponZlHummerEffect
+  | MagicWeaponSnowEffect
   | MagicWeaponPearlEffect
   | MagicWeaponDemonBuffEffect;
 
@@ -266,6 +282,8 @@ export type MagicWeaponSourceSnapshot = {
   x: number;
   y: number;
   facingX: -1 | 1;
+  cameraX?: number;
+  cameraY?: number;
 };
 
 export type MagicWeaponEnemyTarget = {
@@ -298,6 +316,12 @@ export type MagicWeaponEnemyTarget = {
     remainingMs: number;
   }) => void;
   clearMagicZlHummerStun?: () => void;
+  applyMagicSnowIce?: (effect: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs: number;
+  }) => void;
+  clearMagicSnowIce?: () => void;
   applyMagicPearlStun?: (effect: {
     sourceName: string;
     totalMs: number;
@@ -378,6 +402,19 @@ export const MagicWeaponTuning = {
   zlHummerDamageDivisor: 4,
   zlHummerDamageMultiplier: 1.8,
   zlHummerFallbackPower: 10,
+  snowActionMs: 417,
+  snowWoodActionMs: 333,
+  snowCount: 120,
+  snowCameraOffsetX: -500,
+  snowCameraWidth: 1240,
+  snowCameraOffsetY: -480,
+  snowCameraHeight: 100,
+  snowMinAngleDegrees: 50,
+  snowAngleSpreadDegrees: 10,
+  snowMinSpeed: 10,
+  snowSpeedSpread: 5,
+  snowDamageLevelRate: 0.09,
+  snowFallbackPower: 200,
   pearlActionMs: 500,
   pearlBeginMs: 160,
   pearlFlyMs: 500,
@@ -602,6 +639,18 @@ export function requestMagicWeaponTrigger(params: {
     return { triggered: true, message: params.model.message };
   }
 
+  if (current.fillName === 'stlp') {
+    if (!params.source) {
+      params.model.message = '奢天化雪令缺少释放源';
+      return { triggered: false, message: params.model.message };
+    }
+
+    params.model.action = 'hit';
+    params.model.activeEffect = createSnowEffect(current, params.target, params.source);
+    params.model.message = `${current.name} 起手 LingPaiEffect`;
+    return { triggered: true, message: params.model.message };
+  }
+
   const effect = createHealingEffect(current);
   params.model.action = 'hit';
   params.model.activeEffect = effect;
@@ -644,6 +693,8 @@ export function updateMagicWeapon(
     updateBaguaEffect(model, effect, elapsedMs);
   } else if (effect.kind === 'magicZlHummer') {
     updateZlHummerEffect(model, effect, projectiles);
+  } else if (effect.kind === 'magicSnow') {
+    updateSnowEffect(model, effect, projectiles, random);
   } else if (effect.kind === 'magicPearl') {
     updatePearlEffect(model, target, effect, elapsedMs, projectiles, enemyTargets, random);
   }
@@ -975,6 +1026,33 @@ function createZlHummerEffect(
   };
 }
 
+function createSnowEffect(
+  current: MagicWeaponEquipState,
+  target: MagicWeaponTarget,
+  source: MagicWeaponSourceSnapshot,
+): MagicWeaponSnowEffect {
+  const totalMs = current.element.includes('木')
+    ? MagicWeaponTuning.snowWoodActionMs
+    : MagicWeaponTuning.snowActionMs;
+  const level = Math.max(1, current.level);
+  const basePower = Math.max(
+    1,
+    target.effectiveStats?.power ?? MagicWeaponTuning.snowFallbackPower,
+  );
+
+  return {
+    kind: 'magicSnow',
+    totalMs,
+    remainingMs: totalMs,
+    sourceId: source.sourceId,
+    cameraX: source.cameraX ?? source.x - 470,
+    cameraY: source.cameraY ?? source.y - 300,
+    hasSpawnedSnow: false,
+    projectileIds: [],
+    damage: Math.max(1, basePower * level * MagicWeaponTuning.snowDamageLevelRate),
+  };
+}
+
 function createPearlEffect(
   current: MagicWeaponEquipState,
   target: MagicWeaponTarget,
@@ -1240,6 +1318,49 @@ function updateZlHummerEffect(
   }, effect.damage);
   effect.projectileId = projectile.id;
   model.message = `${model.current?.name ?? 'zltc'} ${projectile.runtimeName}`;
+}
+
+function updateSnowEffect(
+  model: MagicWeaponModel,
+  effect: MagicWeaponSnowEffect,
+  projectiles: ProjectileSystemModel | undefined,
+  random: () => number,
+): void {
+  if (effect.hasSpawnedSnow) {
+    return;
+  }
+
+  effect.hasSpawnedSnow = true;
+  if (!projectiles) {
+    model.message = `${model.current?.name ?? 'stlp'} ef_snow x${MagicWeaponTuning.snowCount}`;
+    return;
+  }
+
+  for (let index = 0; index < MagicWeaponTuning.snowCount; index += 1) {
+    const x = effect.cameraX +
+      MagicWeaponTuning.snowCameraOffsetX +
+      random() * MagicWeaponTuning.snowCameraWidth;
+    const y = effect.cameraY +
+      MagicWeaponTuning.snowCameraOffsetY +
+      random() * MagicWeaponTuning.snowCameraHeight;
+    const angleDegrees = MagicWeaponTuning.snowMinAngleDegrees +
+      random() * MagicWeaponTuning.snowAngleSpreadDegrees;
+    const speed = MagicWeaponTuning.snowMinSpeed +
+      random() * MagicWeaponTuning.snowSpeedSpread;
+    const projectile = spawnMagicSnowProjectile(projectiles, {
+      sourceId: effect.sourceId,
+      x,
+      y,
+      facingX: 1,
+    }, {
+      angleDegrees,
+      speed,
+      damage: effect.damage,
+    });
+    effect.projectileIds.push(projectile.id);
+  }
+
+  model.message = `${model.current?.name ?? 'stlp'} ef_snow x${effect.projectileIds.length}`;
 }
 
 function updateDemonBuffEffect(
@@ -1675,6 +1796,7 @@ function isSupportedMagicWeapon(fillName: string): fillName is MagicWeaponFillNa
     fillName === 'xhmt' ||
     fillName === 'tjbg' ||
     fillName === 'zltc' ||
+    fillName === 'stlp' ||
     fillName === 'lxfb' ||
     fillName === 'sxfb' ||
     fillName === 'yxfb';

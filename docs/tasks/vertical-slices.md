@@ -26,12 +26,12 @@
 | VS-010 背包最小 UI | 已完成 | 打开背包并显示分类物品，支持首批装备穿脱 | M-036、M-037、`equipment-index.md` | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts` | `C` 打开背包；可切换装备/道具/时装/技能书分类；可穿戴/卸下种子装备并更新槽位与属性预览 |
 | VS-011 存档最小闭环 | 暂缓 | 保存/读取当前进度 | M-044 | SaveSystem | 刷新后能恢复基础状态 |
 | VS-012 宠物最小可玩切片 | 已完成 | P1 宠物面板、出战跟随、宣花葫芦捕捉和宠物道具消耗 | M-042、M-043、M-016、M-037、`pets-index.md`、`magic-weapons-index.md` | `PetSystem.ts`、宠物 UI、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 拥有一只可出战宠物；B 键面板可查看/切换出战；出战宠物跟随玩家；H 键使用 `xhhl` 等价捕捉 `Monster70-78`；背包道具 `wpcsd/wphhd/djyys` 可消耗并影响当前出战宠物 |
-| VS-013 法宝最小可玩切片 | 已完成 | 非葫芦法宝接入装备槽、H 键触发、持续效果、伤害法宝、防护法宝、回复法宝、时间回溯、入魔 buff、全体增减益、全屏眩晕和前方雷锤 | M-043、M-036、M-015、M-032、M-033、M-034、M-042、`magic-weapons-index.md` | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `kyl`/`syl` 可装备为 `zbfb` 并触发治疗；`lxj` 可触发最近目标剑击 projectile；`fbqpj` 可主动 6 剑并空闲自动 1 剑；`hyzzs`/`hywjs` 可触发扣血前吸收伤害的护盾；`zjld` 可触发无敌和 HP/MP 回复；`zsTimer` 可首次记录、二次 H 回溯 HP/MP/坐标；`lxfb/sxfb/yxfb` 可触发攻击/暴击增益与扣血边界；`jyhl` 可触发玩家/宠物增益与 Monster30 攻击减益；`mdhf` 可触发护体反制 debuff；`xhmt` 可触发多段随机打击和结束随机效果；`tjbg` 可触发全体 Monster30 眩晕；`zltc` 可触发前方雷锤 projectile、伤害和 4.5 秒 Monster30 眩晕；`stlp/Ling` 落雪机制已扒清并可拆实现；使用中拒绝重入；木五行、最近目标、多 projectile、伤害 projectile、护盾吸收、无敌免伤、特殊重入、buff/眩晕清理已由系统测试覆盖 |
+| VS-013 法宝最小可玩切片 | 已完成 | 非葫芦法宝接入装备槽、H 键触发、持续效果、伤害法宝、防护法宝、回复法宝、时间回溯、入魔 buff、全体增减益、全屏眩晕、前方雷锤和随机落雪 | M-043、M-036、M-015、M-032、M-033、M-034、M-042、`magic-weapons-index.md` | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `kyl`/`syl` 可装备为 `zbfb` 并触发治疗；`lxj` 可触发最近目标剑击 projectile；`fbqpj` 可主动 6 剑并空闲自动 1 剑；`hyzzs`/`hywjs` 可触发扣血前吸收伤害的护盾；`zjld` 可触发无敌和 HP/MP 回复；`zsTimer` 可首次记录、二次 H 回溯 HP/MP/坐标；`lxfb/sxfb/yxfb` 可触发攻击/暴击增益与扣血边界；`jyhl` 可触发玩家/宠物增益与 Monster30 攻击减益；`mdhf` 可触发护体反制 debuff；`xhmt` 可触发多段随机打击和结束随机效果；`tjbg` 可触发全体 Monster30 眩晕；`zltc` 可触发前方雷锤 projectile、伤害和 4.5 秒 Monster30 眩晕；`stlp` 可触发 120 个随机落雪 projectile、Monster30 受击和 3 秒冰冻；使用中拒绝重入；木五行、最近目标、多 projectile、伤害 projectile、护盾吸收、无敌免伤、特殊重入、buff/眩晕/冰冻清理已由系统测试覆盖 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-035`：`stlp/Ling` 随机落雪法宝最小可玩切片。
-2. 后续按 `qljfb`、法宝强化 UI、宠物成长/技能、成长系统或强化系统继续拆分。
+1. `TASK-SETTINGS-023`：`qljfb/MagicBigBottle` 青龙剑/墙船法宝逆向索引。
+2. 后续按 `qljfb` 现代切片、法宝强化 UI、宠物成长/技能、成长系统或强化系统继续拆分。
 
 ## 切片详情
 
@@ -508,6 +508,8 @@
 - `Monster30System.ts` 新增 `magicBaguaStun` 最小状态，眩晕期间打断 `hit1` 并保持 `wait`，到期或死亡时清理；`EquipmentSystem.ts`/`InventorySystem.ts` 新增 `tjbg` 种子法宝。
 - `TestScene.ts` 可通过背包装备/切换 `tjbg`，并在状态栏观察 `bagua-stun` 剩余时间、Monster30 行动停止和到期恢复；`tools/system-tests.ts` 覆盖等级门禁、普通/木持续时间、全体存活 Monster30 生效、死亡目标跳过、动作回待机、重入拒绝和到期恢复。
 - `TASK-SETTINGS-022` 已补清 `stlp/Ling` 奢天化雪令：H 触发无显式 MP/灵魂/等级门禁，起手创建 `LingPaiEffect`，随后一次性生成 120 个 `EnemyMoveBullet("ef_snow")`；落雪从当前镜头上方随机起点斜向下移动约 1500 像素，不锁定目标，命中动作名 `fabao-snow`，参数为 `magic`、击退 `[2,-2]`、命中间隔 `999`、最大命中 `999`，附加 3 秒 `PETHORSE_ICE`；普通五行约 25 帧回 `wait`，木五行约 20 帧。
+- `TASK-SLICE-035` 扩展 `stlp` 奢天化雪令/Ling：H 触发 `LingPaiEffect` 等价起手并一次性生成 120 个 `magic-weapon-snow`/`ef_snow` 占位 projectile，起点来自当前镜头上方随机范围，按 `fabao-snow`、`magic`、击退 `[2,-2]`、命中间隔 `999` 命中 Monster30，并附加 3 秒 `magicSnowIce` 冰冻最小状态。
+- `EquipmentSystem.ts`/`InventorySystem.ts` 新增 `stlp` 测试种子；`AssetManifest.ts` 登记 `LingBmd`、`LingPaiEffect`、`ef_snow` 真资源缺口；`TestScene.ts` 可通过背包装备/切换观察落雪、Monster30 受击和 `snow-ice` 状态；`tools/system-tests.ts` 覆盖触发、重入拒绝、雪花数量/生成范围、木五行动作窗口、命中伤害、冰冻状态和 projectile 到期清理。
 
 验证：
 
@@ -522,7 +524,7 @@
 
 推荐任务：
 
-- `TASK-SLICE-035`：`stlp/Ling` 随机落雪法宝最小可玩切片。
+- `TASK-SETTINGS-023`：`qljfb/MagicBigBottle` 青龙剑/墙船法宝逆向索引。
 
 ## 更新规则
 

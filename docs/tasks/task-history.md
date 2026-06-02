@@ -83,8 +83,45 @@
 | TASK-SLICE-032 | 切片 | 血海魔童/MagicPearl 多段随机打击法宝最小切片 | M-043、M-032、M-033、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-033 | 切片 | 太极八卦/MagicBagua 全屏眩晕法宝最小切片 | M-043、M-033、VS-013 | `MagicWeaponSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-034 | 切片 | 震雷天锤/MagicZLHummer 前方雷锤法宝最小切片 | M-043、M-032、M-033、M-034、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-035 | 切片 | 奢天化雪令/Ling 随机落雪法宝最小切片 | M-043、M-032、M-033、M-034、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`TestSceneViews.ts`、`system-tests.ts`、`magic-weapons-index.md`、`projectiles-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-035
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `stlp` 奢天化雪令/Ling 触发分支；装备对应 `zbfb` 后按 `H` 主动释放，无显式 MP、灵魂或等级门禁，使用中重复 H 拒绝重入。
+- 释放后进入 `hit`，创建 `LingPaiEffect` 等价起手反馈，并一次性生成 120 个 `ef_snow` 等价 `magic-weapon-snow` projectile；雪花从当前镜头上方随机区域斜向下移动，行进距离约 `1500` 后销毁。
+- `fabao-snow` 命中参数接入现有伤害闭环：`attackKind = magic`、击退 `[2,-2]`、`attackInterval = 999`、`hitMaxCount = 999`。
+- 命中 `Monster30` 后附加 3 秒 `magicSnowIce` 冰冻最小状态，到期或死亡清理；首版只覆盖 `Monster30`，不做全怪物通用 AddEffect 泛化。
+- 保留 AS3 动作窗口边界：普通五行约 `25` 帧回 `wait`，木五行约 `20` 帧回 `wait`；法宝自身到期回 `wait`，雪花 projectile 继续按自身生命周期清理。
+- `AssetManifest` 登记 `LingBmd`、`LingPaiEffect`、`ef_snow` 真资源缺口，并使用稳定占位 key。
+- 系统测试覆盖触发、重入拒绝、雪花数量/生成范围、木五行动作窗口、命中伤害、冰冻状态和到期清理。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneViews.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/projectiles-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-034
 

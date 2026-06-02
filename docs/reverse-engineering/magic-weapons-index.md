@@ -289,11 +289,11 @@ time = gc.frameClips * 5
 
 现代最小实现边界：
 
-- `TASK-SLICE-035` 应实现 `stlp/Ling` 为镜头范围随机落雪 projectile：H 触发一次性生成 120 个 `fabao-snow` 等价实例，从当前相机上方随机起点斜向下移动，行进距离约 1500 后销毁。
+- `TASK-SLICE-035` 已实现 `stlp/Ling` 为镜头范围随机落雪 projectile：H 触发一次性生成 120 个 `fabao-snow` 等价实例，从当前相机上方随机起点斜向下移动，行进距离约 1500 后销毁。
 - 首切片保留 `magic`、击退 `[2,-2]`、`attackInterval = 999`、`hitMaxCount = 999` 和 3 秒冰冻最小状态。可以先把冰冻表达为 `Monster30 magicSnowIce` 状态，打断/暂停行为并到期清理；完整全怪物 AddEffect 泛化后置。
 - 伤害先沿用现代法宝 projectile 伤害模型，记录 `0.09 * Hurt * level` 及角色修正为校准依据；完整五角色 qixue/吸血和防御修正细节后置。
 - 真实 `LingBmd`、`LingPaiEffect`、`ef_snow` 或碰撞 box 在当前 `resources/` 文件名和 SymbolClass 检索中未命中；现代侧继续使用稳定占位 key，不重新生成 `extracted_flash/`。
-- 不实现法宝强化 UI、材料消耗、五行重置、联机同步、`qljfb` 或其他法宝。
+- 当前现代切片不实现法宝强化 UI、材料消耗、五行重置、联机同步、`qljfb` 或其他法宝。
 
 ## 现代实现建议
 
@@ -314,7 +314,8 @@ time = gc.frameClips * 5
 - `TASK-SLICE-034` 已新增 `zltc` 震雷天锤/MagicZLHummer 前方雷锤法宝最小切片。AS3 证据为 `MagicZLHummer.useSkill()` 要求当前 `zbfb` 等级至少 `1`；`showSkill()` 创建 `SpecialEffectBullet("zltcskill","zltcbox")`，按角色朝向放在 `x +/- 160`、`y - 42`，`setAction("fabao-zltc")`，普通五行 `25` 帧回 `wait`，木五行 `20` 帧回 `wait`。
 - `BaseHero.attackBackInfoDict["fabao-zltc"]` 参数为 `hitMaxCount = 999`、`attackBackSpeed = [2,-2]`、`attackInterval = 6`、`attackKind = magic`、`addEffect = STUN` 且持续 `gc.frameClips * 4.5`。现代侧已用 `magic-weapon-zltc` 占位 projectile 和 Monster30 `magicZlHummerStun` 表达伤害、受击和 4.5 秒眩晕，不引入通用 AddEffect 重构。
 - `TASK-SETTINGS-022` 已补清 `stlp/Ling` 奢天化雪令：H 触发一次性创建 `LingPaiEffect` 起手和 120 个 `ef_snow` 随机落雪，动作名 `fabao-snow`，按 `magic`、击退 `[2,-2]`、`attackInterval = 999` 命中，并附加 3 秒 `PETHORSE_ICE`。
-- 下一步推荐 `TASK-SLICE-035`：`stlp/Ling` 随机落雪法宝最小可玩切片。
+- `TASK-SLICE-035` 已新增 `stlp` 奢天化雪令/Ling 随机落雪法宝最小切片，范围包括 `zbfb` 装备种子、H 触发 `LingPaiEffect` 起手反馈、一次性 120 个 `ef_snow` 等价 projectile、镜头上方随机起点、普通/木五行动作窗口、Monster30 命中伤害和 3 秒 `magicSnowIce` 冰冻最小状态；`AssetManifest` 已登记 `LingBmd`、`LingPaiEffect`、`ef_snow` 真资源缺口。
+- 下一步推荐 `TASK-SETTINGS-023`：`qljfb/MagicBigBottle` 青龙剑/墙船法宝逆向索引。
 - 强化 UI 独立成后续 `TASK-SLICE` 或 `TASK-SETTINGS`，不要和首个能力切片混在一起。
 
 后置范围：

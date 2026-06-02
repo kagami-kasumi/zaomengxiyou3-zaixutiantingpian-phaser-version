@@ -332,6 +332,7 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 - `TASK-SLICE-007` 已实现 `Role2.smb -> hit4_2` 等价二段 projectile：第一段仍活跃且尚未触发二段时，再按第二技能键会用 `skill-projectile.role2.smb.hit4_2` 占位 key 生成 `Role2Bullet4_2`，位置来自第一段当前记录点而不是角色当前位置，命中继续复用 `DamageEvent` 与现有命中去重。
 - `TASK-SLICE-034` 已实现法宝 `zltc/MagicZLHummer` 的 `zltcskill` 前方占位 projectile：使用 `magic-weapon.zltc.zltcskill` 占位 key，按角色朝向生成在 `x +/- 160`、`y - 42`，动作名 `fabao-zltc`，以 `magic`、击退 `[2,-2]`、`attackInterval = 6` 命中 `Monster30`，并把 AS3 `STUN 4.5s` 表达为 Monster30 `magicZlHummerStun` 最小状态。
 - `TASK-SETTINGS-022` 已补清法宝 `stlp/Ling` 的 `ef_snow` 落雪 projectile：AS3 一次 H 触发生成 120 个 `EnemyMoveBullet("ef_snow")`，起点为当前镜头上方随机范围 `x = -gameSence.x - 500 + random() * 1240`、`y = -gameSence.y - 480 + random() * 100`，角度 `50..60` 度，速度约 `10..15`，距离 `1500` 后销毁；没有 `moveTarget`，因此不是目标锁定 projectile。动作名 `fabao-snow`，命中参数为 `magic`、击退 `[2,-2]`、`attackInterval = 999`、`hitMaxCount = 999`，附加 `PETHORSE_ICE` 3 秒。现代占位 key 建议：`magic-weapon.stlp.ling-pai-effect` 和 `magic-weapon.stlp.ef-snow`。
+- `TASK-SLICE-035` 已接入 `stlp/Ling` 的 `ef_snow` 现代占位 projectile：`ProjectileSystem.ts` 新增 `magic-weapon-snow` 变体和 `spawnMagicSnowProjectile()`，保留 `fabao-snow`、`magic`、击退 `[2,-2]`、`attackInterval = 999`、`hitMaxCount = 999`、距离 `1500` 与 3 秒冰冻参数；`TestScene.ts` 在命中 `Monster30` 后附加 `magicSnowIce`，`TestSceneViews.ts` 用轻量雪色占位表现大量 projectile。
 
 ## 正式技能输入边界
 

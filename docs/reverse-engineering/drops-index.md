@@ -29,7 +29,7 @@
 
 资料缺口和疑点：
 
-- 当前没有读取项目外的 `再续1.0装备属性合成掉落表.xlsx`；本轮掉落表事实来自怪物类中的 `fallList`。
+- 1.0 资料表位于 `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`，拆分 CSV 位于 `docs/reverse-engineering/reference/equipment-spreadsheet/`，使用规则见 `docs/reverse-engineering/reference/equipment-spreadsheet.md`。其中 `drop-reference.csv` 可辅助定位 BOSS、副本和掉落物中文名；1.1 掉落事实仍以怪物类中的 `fallList` 为准。
 - `FallEquipObj.colwho()` 未看到显式 `hitTestObject()` 或像素级碰撞判定；药品掉落 `SmallHP.colwho()` 有明确碰撞检测。装备/道具拾取的可观察距离建议后续用原版实测或录屏校准。
 - `FallEquipObj` 的 `bigtype` 分支只处理 `zb/dj/sz`；全怪物扫描中发现 `Monster2001` 写入 `cwzb`，但 `TASK-SETTINGS-017` 确认主参考源码没有可用入包路径，现代配置时应继续标为 unsupported。
 - 主源码中只发现 `BaseMonster.fallStone()` 定义，未发现 `fallStone()` 调用点；强化石可按入口实现，但需要继续确认原版何时触发。
@@ -314,7 +314,7 @@ tdlzjzzs, shsjt, wpqhs1, tlzsp, llzsp, hlzsp, flzsp, slzsp
 
 - `BaseMonster` 构造函数默认 `protectedParamsObject.probability = 0.15`，默认 `fallList = []`。表中“未显式赋值”表示该怪物构造函数没有覆盖默认值；如果 `fallList` 有候选，则基础掉率按默认 `0.15` 继续理解。
 - `fallList` 空、无有效候选、`probability = 0` 或 `probability = -1` 时，不产生装备/道具掉落，但死亡仍可能走药品和 aura 逻辑。
-- 扫描只记录构造函数里的 `probability`、`fallList`、`isBoss` 和明显条件分支；完整装备属性、中文名、合成/强化关系仍需 xlsx 或装备系统继续逆向。
+- 扫描只记录构造函数里的 `probability`、`fallList`、`isBoss` 和明显条件分支；完整装备属性、中文名、合成/强化关系仍需用拆分 CSV 辅助定位，并回到装备系统 AS3 继续逆向。
 - `MonsterRole4Hit5.as` 文件名匹配 `Monster*.as`，但没有同名构造函数，疑似角色技能辅助对象，不作为标准怪物掉落表处理。
 
 | 怪物 | 条件/身份 | `probability` | `fallList` 摘要 | 边界说明 |
@@ -447,7 +447,7 @@ tdlzjzzs, shsjt, wpqhs1, tlzsp, llzsp, hlzsp, flzsp, slzsp
 - 是否 boss，用于 `fallEquip()` 中额外 `* 1.5`。
 - 是否存在特殊拾取规则，如 `shsjt` 唯一性、`bosslist` 不超时、`probability = -1` 的条件掉落。
 
-仍需 xlsx 或实测补证：
+仍需拆分 CSV 辅助定位或实测补证：
 
 - `fillName` 对应的中文名、装备部位、等级、属性、合成材料和强化关系。
 - 各关卡实际会刷哪些怪、哪些分支会触发 boss/非 boss 版本。

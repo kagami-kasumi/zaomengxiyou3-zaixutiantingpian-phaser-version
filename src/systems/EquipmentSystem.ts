@@ -672,6 +672,28 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
     },
     {
       showId: 1,
+      name: '奢天化雪令',
+      fillName: 'stlp',
+      type: 'zbfb',
+      user: '',
+      quality: '神 器',
+      color: '0xFF0000',
+      stats: createEmptyEquipmentStats({
+        maxHp: 784,
+        maxMp: 640,
+        power: 132,
+        defense: 40,
+        critPercent: 4,
+        missPercent: 3,
+      }),
+      description: '凛冬将至，大雪纷飞。',
+      magicWeapon: {
+        level: 1,
+        element: '木',
+      },
+    },
+    {
+      showId: 1,
       name: '流邪',
       fillName: 'lxfb',
       type: 'zbfb',

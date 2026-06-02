@@ -48,6 +48,7 @@ export type ProjectileModel = {
   hitSerial: number;
   remainingHits: number;
   magicStunMs?: number;
+  magicIceMs?: number;
   destroyWhenSourceHurt: boolean;
   hasSpawnedSecondStage: boolean;
   isExpired: boolean;
@@ -69,7 +70,8 @@ export type ProjectileVariant =
   | 'magic-weapon-pearl-bullet1'
   | 'magic-weapon-pearl-bullet2'
   | 'magic-weapon-pearl-bullet3'
-  | 'magic-weapon-zltc';
+  | 'magic-weapon-zltc'
+  | 'magic-weapon-snow';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -268,6 +270,28 @@ export const MagicZlHummerProjectileTuning = {
   stunMs: 4_500,
 } as const;
 
+export const MagicSnowProjectileTuning = {
+  actionName: 'fabao-snow',
+  assetKey: MagicWeaponEffectKeys.magicSnow,
+  sourceSymbol: 'ef_snow',
+  runtimeName: 'ef_snow',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: 1500,
+  width: 42,
+  height: 42,
+  lifetimeMs: 2_400,
+  damage: 18,
+  attackKind: 'magic',
+  knockbackX: 2,
+  knockbackY: -2,
+  hitIntervalFrames: 999,
+  maxHits: 999,
+  iceMs: 3_000,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -415,6 +439,33 @@ export function spawnMagicZlHummerProjectile(
   return projectile;
 }
 
+export function spawnMagicSnowProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  params: {
+    angleDegrees: number;
+    speed: number;
+    damage: number;
+  },
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'magic-weapon-snow',
+    'magic-snow',
+    MagicSnowProjectileTuning,
+  );
+
+  const radians = params.angleDegrees / 180 * Math.PI;
+  projectile.velocityX = Math.cos(radians) * params.speed;
+  projectile.velocityY = Math.sin(radians) * params.speed;
+  projectile.damage = params.damage;
+  projectile.magicIceMs = MagicSnowProjectileTuning.iceMs;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -468,7 +519,8 @@ function spawnProjectileFromTuning(
     | typeof MagicPearlBulletTunings.bullet1
     | typeof MagicPearlBulletTunings.bullet2
     | typeof MagicPearlBulletTunings.bullet3
-    | typeof MagicZlHummerProjectileTuning,
+    | typeof MagicZlHummerProjectileTuning
+    | typeof MagicSnowProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

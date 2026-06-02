@@ -90,6 +90,7 @@ export function createSeedInventoryStore(
   addEquipmentByFillName(store, registry, 'xhmt');
   addEquipmentByFillName(store, registry, 'tjbg');
   addEquipmentByFillName(store, registry, 'zltc');
+  addEquipmentByFillName(store, registry, 'stlp');
   addEquipmentByFillName(store, registry, 'lxfb');
   addEquipmentByFillName(store, registry, 'sxfb');
   addEquipmentByFillName(store, registry, 'yxfb');

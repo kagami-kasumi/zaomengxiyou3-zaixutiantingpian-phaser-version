@@ -17,7 +17,7 @@
 
 资料缺口：
 
-- 任务定义提到的 `再续1.0装备属性合成掉落表.xlsx` 当前不在项目根目录；本轮没有表格数据可读。装备静态数据先以 `AllEquipment.as` 的 `new MyEquipObj(...)` 初始化为准。
+- 1.0 资料表位于 `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`，拆分 CSV 位于 `docs/reverse-engineering/reference/equipment-spreadsheet/`，使用规则见 `docs/reverse-engineering/reference/equipment-spreadsheet.md`。其中 `equipment-attributes.csv` 可作为装备名、属性字段和强化字段的辅助索引，`gem-attributes.csv` 可作为宝石数值候选索引；1.1 装备静态数据仍以 `AllEquipment.as` 的 `new MyEquipObj(...)` 初始化为准。
 - `User.as` 实际路径是 `extracted_flash/scripts/172845/scripts/user/User.as`，不是看板中旧写法 `my/User.as`。
 
 ## 核心对象
@@ -224,6 +224,6 @@ fashionTime? (仅 zbsz/zbcb)
 ## 后续缺口
 
 - `M-038 掉落`：需要细读 `BaseMonster.fallEquip()`、怪物 loot 表和 `FallEquipObj`。
-- `M-039 合成`：需要细读 `export/strength/Making.as`、`Fusion.as`、`Strength.as`、`Resolution.as`，并补 xlsx 资料表。
+- `M-039 合成`：需要细读 `export/strength/Making.as`、`Fusion.as`、`Strength.as`、`Resolution.as`，并用 `docs/reverse-engineering/reference/equipment-spreadsheet/crafting-recipes.csv` 辅助定位和校验配方。
 - `M-043 法宝`：需要细读 `export/magicWeapon/` 与 `SutraInterface.as`。
 - `M-044 存档`：装备字段已确认，但现代读写格式还未实现。

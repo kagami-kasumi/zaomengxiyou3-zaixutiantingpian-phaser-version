@@ -38,12 +38,14 @@ import {
   applyMonster30MagicBaguaStun,
   applyMonster30MagicPearlPoison,
   applyMonster30MagicPearlStun,
+  applyMonster30MagicSnowIce,
   applyMonster30MagicZlHummerStun,
   clearMonster30MagicBaguaStun,
   clearMonster30MagicFlagDebuff,
   applyMonster30Hit,
   applyMonster30MagicFlagDebuff,
   clearMonster30MagicFlowerDebuff,
+  clearMonster30MagicSnowIce,
   clearMonster30MagicPearlPoison,
   clearMonster30MagicPearlStun,
   clearMonster30MagicZlHummerStun,
@@ -1872,6 +1874,8 @@ export class TestScene extends Phaser.Scene {
           x: owner.movement.x,
           y: owner.movement.y,
           facingX: owner.movement.facingX,
+          cameraX: this.cameras.main.scrollX,
+          cameraY: this.cameras.main.scrollY,
         }
         : undefined,
       input: input.p1,
@@ -1897,6 +1901,8 @@ export class TestScene extends Phaser.Scene {
           x: owner.movement.x,
           y: owner.movement.y,
           facingX: owner.movement.facingX,
+          cameraX: this.cameras.main.scrollX,
+          cameraY: this.cameras.main.scrollY,
         }
         : undefined,
       this.getActiveMagicWeaponPets(),
@@ -2073,6 +2079,13 @@ export class TestScene extends Phaser.Scene {
           remainingMs: effect.remainingMs,
         }),
       clearMagicZlHummerStun: () => clearMonster30MagicZlHummerStun(monster),
+      applyMagicSnowIce: (effect) =>
+        applyMonster30MagicSnowIce(monster, {
+          sourceName: effect.sourceName,
+          totalMs: effect.totalMs,
+          remainingMs: effect.remainingMs,
+        }),
+      clearMagicSnowIce: () => clearMonster30MagicSnowIce(monster),
       applyMagicPearlStun: (effect) =>
         applyMonster30MagicPearlStun(monster, {
           sourceName: effect.sourceName,
@@ -2631,6 +2644,12 @@ export class TestScene extends Phaser.Scene {
             applyMonster30MagicZlHummerStun(monster, {
               sourceName: projectile.runtimeName,
               totalMs: projectile.magicStunMs,
+            });
+          }
+          if (projectile.magicIceMs && projectile.magicIceMs > 0) {
+            applyMonster30MagicSnowIce(monster, {
+              sourceName: projectile.runtimeName,
+              totalMs: projectile.magicIceMs,
             });
           }
           if (isPlayerSlot(projectile.sourceId)) {
@@ -3220,7 +3239,8 @@ function formatProjectileState(projectiles: readonly ProjectileModel[]): string 
     return 'none';
   }
 
-  return projectiles
+  const shownProjectiles = projectiles.slice(0, 8);
+  const shown = shownProjectiles
     .map((projectile) => [
       projectile.sourceId,
       projectile.actionName,
@@ -3229,6 +3249,9 @@ function formatProjectileState(projectiles: readonly ProjectileModel[]): string 
       `hits:${projectile.remainingHits}`,
     ].join('/'))
     .join(', ');
+  return projectiles.length > shownProjectiles.length
+    ? `${shown}, ... +${projectiles.length - shownProjectiles.length}`
+    : shown;
 }
 
 function formatHeroLabel(
@@ -3271,6 +3294,9 @@ function formatMonsterMagicPearlEffects(monster: Monster30Model): string {
   }
   if (monster.magicZlHummerStun) {
     parts.push(`zltc-stun:${formatSeconds(monster.magicZlHummerStun.remainingMs)}s`);
+  }
+  if (monster.magicSnowIce) {
+    parts.push(`snow-ice:${formatSeconds(monster.magicSnowIce.remainingMs)}s`);
   }
   if (monster.magicPearlStun) {
     parts.push(`pearl-stun:${formatSeconds(monster.magicPearlStun.remainingMs)}s`);

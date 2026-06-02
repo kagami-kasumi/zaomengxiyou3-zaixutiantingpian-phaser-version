@@ -37,8 +37,10 @@
 资源和数据：
 
 - `extracted_flash/resources`
-- `gameData`
-- `再续1.0装备属性合成掉落表.xlsx`
+- `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`
+- `docs/reverse-engineering/reference/equipment-spreadsheet/`
+- `docs/reverse-engineering/reference/equipment-spreadsheet.md`
+- `gameData`（如存在本地存档样本）
 
 提取说明：
 

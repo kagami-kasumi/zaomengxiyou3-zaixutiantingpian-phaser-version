@@ -4,6 +4,36 @@
 
 ## 2026-06-02
 
+### 固定 1.0 装备资料表位置和使用边界
+
+变更内容：
+
+- 将根目录 `再续1.0装备属性合成掉落表.xlsx` 移动到 `docs/reverse-engineering/reference/`。
+- 新增 `docs/reverse-engineering/reference/equipment-spreadsheet.md`，说明该表只能作为 1.0 辅助索引和交叉校验资料，1.1 事实仍以 AS3 为准。
+- 将工作簿四个 sheet 拆分为 `docs/reverse-engineering/reference/equipment-spreadsheet/*.csv`，并新增拆分索引 README，方便 agent 按任务读取小文件。
+- 更新 `TASK_OUTLINE.md` 和 `docs/workflow/document-map.md` 的资源入口。
+- 更新装备、掉落和合成相关逆向索引中的 xlsx 资料状态。
+
+影响范围：
+
+- `TASK_OUTLINE.md`
+- `docs/reverse-engineering/reference/equipment-spreadsheet.md`
+- `docs/reverse-engineering/reference/equipment-spreadsheet/README.md`
+- `docs/reverse-engineering/reference/equipment-spreadsheet/equipment-attributes.csv`
+- `docs/reverse-engineering/reference/equipment-spreadsheet/crafting-recipes.csv`
+- `docs/reverse-engineering/reference/equipment-spreadsheet/gem-attributes.csv`
+- `docs/reverse-engineering/reference/equipment-spreadsheet/drop-reference.csv`
+- `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`
+- `docs/reverse-engineering/equipment-index.md`
+- `docs/reverse-engineering/drops-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ### 增加 UTF-8 读取纪律与片段读取约束
 
 变更内容：
