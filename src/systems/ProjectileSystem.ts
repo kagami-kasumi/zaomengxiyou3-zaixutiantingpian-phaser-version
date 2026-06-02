@@ -64,7 +64,10 @@ export type ProjectileVariant =
   | 'role2-smb-hit4-2'
   | 'magic-weapon-sword2'
   | 'magic-weapon-qpj-active'
-  | 'magic-weapon-qpj-auto';
+  | 'magic-weapon-qpj-auto'
+  | 'magic-weapon-pearl-bullet1'
+  | 'magic-weapon-pearl-bullet2'
+  | 'magic-weapon-pearl-bullet3';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -178,6 +181,69 @@ export const MagicQpjAutoProjectileTuning = {
   damage: 10,
 } as const;
 
+export const MagicPearlBulletTunings = {
+  bullet1: {
+    actionName: 'fabao-pearl',
+    assetKey: MagicWeaponEffectKeys.magicPearlBullet1,
+    sourceSymbol: 'MagicPearlBullet1',
+    runtimeName: 'MagicPearlBullet1',
+    offsetX: 0,
+    offsetY: -15,
+    speedX: 0,
+    speedY: 0,
+    distance: undefined,
+    width: 108,
+    height: 92,
+    lifetimeMs: 180,
+    damage: 19,
+    attackKind: 'magic',
+    knockbackX: 2,
+    knockbackY: -2,
+    hitIntervalFrames: 2,
+    maxHits: 999,
+  },
+  bullet2: {
+    actionName: 'fabao-pearl',
+    assetKey: MagicWeaponEffectKeys.magicPearlBullet2,
+    sourceSymbol: 'MagicPearlBullet2',
+    runtimeName: 'MagicPearlBullet2',
+    offsetX: 0,
+    offsetY: 0,
+    speedX: 0,
+    speedY: 0,
+    distance: undefined,
+    width: 116,
+    height: 96,
+    lifetimeMs: 180,
+    damage: 19,
+    attackKind: 'magic',
+    knockbackX: 2,
+    knockbackY: -2,
+    hitIntervalFrames: 2,
+    maxHits: 999,
+  },
+  bullet3: {
+    actionName: 'fabao-pearl',
+    assetKey: MagicWeaponEffectKeys.magicPearlBullet3,
+    sourceSymbol: 'MagicPearlBullet3',
+    runtimeName: 'MagicPearlBullet3',
+    offsetX: 0,
+    offsetY: 10,
+    speedX: 0,
+    speedY: 0,
+    distance: undefined,
+    width: 124,
+    height: 102,
+    lifetimeMs: 180,
+    damage: 19,
+    attackKind: 'magic',
+    knockbackX: 2,
+    knockbackY: -2,
+    hitIntervalFrames: 2,
+    maxHits: 999,
+  },
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -277,6 +343,35 @@ export function spawnMagicQpjProjectile(
   return projectile;
 }
 
+export function spawnMagicPearlProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  bulletIndex: 1 | 2 | 3,
+  damage: number,
+): ProjectileModel {
+  const tuning = bulletIndex === 1
+    ? MagicPearlBulletTunings.bullet1
+    : bulletIndex === 2
+      ? MagicPearlBulletTunings.bullet2
+      : MagicPearlBulletTunings.bullet3;
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    bulletIndex === 1
+      ? 'magic-weapon-pearl-bullet1'
+      : bulletIndex === 2
+        ? 'magic-weapon-pearl-bullet2'
+        : 'magic-weapon-pearl-bullet3',
+    `magic-pearl-bullet${bulletIndex}`,
+    tuning,
+  );
+
+  projectile.damage = damage;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -326,7 +421,10 @@ function spawnProjectileFromTuning(
     | typeof Role2SmbSecondStageProjectileTuning
     | typeof MagicSword2ProjectileTuning
     | typeof MagicQpjActiveProjectileTuning
-    | typeof MagicQpjAutoProjectileTuning,
+    | typeof MagicQpjAutoProjectileTuning
+    | typeof MagicPearlBulletTunings.bullet1
+    | typeof MagicPearlBulletTunings.bullet2
+    | typeof MagicPearlBulletTunings.bullet3,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

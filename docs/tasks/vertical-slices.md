@@ -26,11 +26,11 @@
 | VS-010 背包最小 UI | 已完成 | 打开背包并显示分类物品，支持首批装备穿脱 | M-036、M-037、`equipment-index.md` | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts` | `C` 打开背包；可切换装备/道具/时装/技能书分类；可穿戴/卸下种子装备并更新槽位与属性预览 |
 | VS-011 存档最小闭环 | 暂缓 | 保存/读取当前进度 | M-044 | SaveSystem | 刷新后能恢复基础状态 |
 | VS-012 宠物最小可玩切片 | 已完成 | P1 宠物面板、出战跟随、宣花葫芦捕捉和宠物道具消耗 | M-042、M-043、M-016、M-037、`pets-index.md`、`magic-weapons-index.md` | `PetSystem.ts`、宠物 UI、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 拥有一只可出战宠物；B 键面板可查看/切换出战；出战宠物跟随玩家；H 键使用 `xhhl` 等价捕捉 `Monster70-78`；背包道具 `wpcsd/wphhd/djyys` 可消耗并影响当前出战宠物 |
-| VS-013 法宝最小可玩切片 | 已完成 | 非葫芦法宝接入装备槽、H 键触发、持续效果、伤害法宝、防护法宝、回复法宝、时间回溯、入魔 buff 和全体增减益 | M-043、M-036、M-015、M-032、M-033、M-042、`magic-weapons-index.md` | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `kyl`/`syl` 可装备为 `zbfb` 并触发治疗；`lxj` 可触发最近目标剑击 projectile；`fbqpj` 可主动 6 剑并空闲自动 1 剑；`hyzzs`/`hywjs` 可触发扣血前吸收伤害的护盾；`zjld` 可触发无敌和 HP/MP 回复；`zsTimer` 可首次记录、二次 H 回溯 HP/MP/坐标；`lxfb/sxfb/yxfb` 可触发攻击/暴击增益与扣血边界；`jyhl` 可触发玩家/宠物增益与 Monster30 攻击减益；使用中拒绝重入；木五行、最近目标、多 projectile、伤害 projectile、护盾吸收、无敌免伤、特殊重入和 buff 清理已由系统测试覆盖 |
+| VS-013 法宝最小可玩切片 | 已完成 | 非葫芦法宝接入装备槽、H 键触发、持续效果、伤害法宝、防护法宝、回复法宝、时间回溯、入魔 buff、全体增减益和全屏眩晕 | M-043、M-036、M-015、M-032、M-033、M-042、`magic-weapons-index.md` | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `kyl`/`syl` 可装备为 `zbfb` 并触发治疗；`lxj` 可触发最近目标剑击 projectile；`fbqpj` 可主动 6 剑并空闲自动 1 剑；`hyzzs`/`hywjs` 可触发扣血前吸收伤害的护盾；`zjld` 可触发无敌和 HP/MP 回复；`zsTimer` 可首次记录、二次 H 回溯 HP/MP/坐标；`lxfb/sxfb/yxfb` 可触发攻击/暴击增益与扣血边界；`jyhl` 可触发玩家/宠物增益与 Monster30 攻击减益；`mdhf` 可触发护体反制 debuff；`xhmt` 可触发多段随机打击和结束随机效果；`tjbg` 可触发全体 Monster30 眩晕；使用中拒绝重入；木五行、最近目标、多 projectile、伤害 projectile、护盾吸收、无敌免伤、特殊重入、buff/眩晕清理已由系统测试覆盖 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-032`：血海魔童/MagicPearl 多段随机打击法宝最小切片。
+1. `TASK-SLICE-034`：震雷天锤/MagicZLHummer 前方雷锤法宝最小切片。
 2. 后续按更多法宝、法宝强化 UI、宠物成长/技能、成长系统或强化系统继续拆分。
 
 ## 切片详情
@@ -496,6 +496,13 @@
 - `TASK-SLICE-031` 扩展 `mdhf` 摩多魂幡/MagicFlag：H 触发 10 秒护体，木五行只缩短动作边界到约 833ms，不改变护体持续时间；护体期间玩家被 `Monster30 hit1` 命中后，会给攻击者添加 5 秒 `MAGIC_FLAG_DEBUFF` 等价状态。
 - `HeroCombatSystem.ts` 新增 `magicFlagGuard` 护体状态；`Monster30System.ts` 新增 `magicFlagDebuff`，期间记录命中降低倍率并每秒按最大 HP 2% 扣血；`TestSceneCombatBridge.ts` 在 Monster30 命中玩家且扣血成立时触发反制。
 - `EquipmentSystem.ts`/测试背包新增 `mdhf`；`TestScene.ts` 可通过背包装备/切换并在状态栏观察玩家护体、Monster30 debuff 剩余时间、命中倍率记录和 tick 伤害；`tools/system-tests.ts` 覆盖触发、重入拒绝、木五行动作边界、受击反制、每秒扣血、到期清理和死亡清理。
+- `TASK-SLICE-032` 扩展 `xhmt` 血海魔童/MagicPearl：H 触发 `MagicPearlBegin` 等价起手，按 `3 + floor(level / 3)`、木五行额外 `+2` 计算链式打击次数；每轮重新选择最近存活 `Monster30`，在目标点按第 3/12/28 帧等价生成 `MagicPearlBullet1/2/3` 的 `fabao-pearl` 三段 projectile。
+- `ProjectileSystem.ts` 新增 `MagicPearlBullet1/2/3` 占位 projectile，保留 `magic`、击退 `[2,-2]`、`attackInterval = 2` 和“不走怪物防御修正”的现代可测边界；`AssetManifest.ts` 记录 `MagicPearlBegin/Run/Back/Effect/Bullet1-3` 真资源缺口。
+- `Monster30System.ts` 新增 `magicPearlStun` 和 `magicPearlPoison` 最小状态；攻击链结束随机回蓝、全体眩晕或全体中毒，无可作用怪物时回退为回蓝，木五行把结束效果等级系数乘 `1.5`。
+- `EquipmentSystem.ts`/`InventorySystem.ts` 新增 `xhmt` 种子法宝；`TestScene.ts` 可通过背包装备/切换并在状态栏观察链式目标、三段 projectile、结束随机效果和 Monster30 眩晕/中毒状态；`tools/system-tests.ts` 覆盖触发、攻击次数、木五行次数、最近目标、无目标回蓝、三段 bullet、眩晕、中毒 tick 和链中重入边界。
+- `TASK-SLICE-033` 扩展 `tjbg` 太极八卦/MagicBagua：H 触发全屏 Monster30 眩晕，法宝等级低于 1 时拒绝释放并保持 `wait`；普通五行眩晕 `6s`，木五行眩晕 `8s`；动作窗口按约 24 帧等价回 `wait`，使用中重复 H 拒绝重入。
+- `Monster30System.ts` 新增 `magicBaguaStun` 最小状态，眩晕期间打断 `hit1` 并保持 `wait`，到期或死亡时清理；`EquipmentSystem.ts`/`InventorySystem.ts` 新增 `tjbg` 种子法宝。
+- `TestScene.ts` 可通过背包装备/切换 `tjbg`，并在状态栏观察 `bagua-stun` 剩余时间、Monster30 行动停止和到期恢复；`tools/system-tests.ts` 覆盖等级门禁、普通/木持续时间、全体存活 Monster30 生效、死亡目标跳过、动作回待机、重入拒绝和到期恢复。
 
 验证：
 
@@ -506,11 +513,11 @@
 边界：
 
 - 不实现法宝强化 UI、材料消耗、五行重置、真实资源或全部法宝。
-- MagicFlag 的真实命中/闪避降命中接线、MagicPearl 的多段链与完整全怪 AddEffect 泛化、反弹吸血和联机同步后置。
+- MagicFlag 的真实命中/闪避降命中接线、MagicPearl 的完整五角色 `getRealPower("fabao-pearl")`、吸血/qixue、MagicBagua 真实 `baguaEffect` 资源、全怪物通用 AddEffect 泛化、反弹吸血和联机同步后置。
 
 推荐任务：
 
-- `TASK-SLICE-032`
+- `TASK-SLICE-034`：震雷天锤/MagicZLHummer 前方雷锤法宝最小切片。
 
 ## 更新规则
 

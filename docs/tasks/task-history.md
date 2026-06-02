@@ -80,8 +80,96 @@
 | TASK-SLICE-030 | 切片 | 九佑魂莲/MagicFlower 全体增减益法宝最小切片 | M-043、M-036、M-015、M-032、M-033、M-042、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-021 | 逆向 | MagicFlag/MagicPearl 全屏法宝逆向索引 | M-043、M-032、M-033、VS-013 | `magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-031 | 切片 | 摩多魂幡/MagicFlag 反制 debuff 法宝最小切片 | M-043、M-032、M-033、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-032 | 切片 | 血海魔童/MagicPearl 多段随机打击法宝最小切片 | M-043、M-032、M-033、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-033 | 切片 | 太极八卦/MagicBagua 全屏眩晕法宝最小切片 | M-043、M-033、VS-013 | `MagicWeaponSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-033
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `tjbg` 太极八卦触发分支；装备对应 `zbfb` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- 法宝等级至少 `1` 才能释放；等级不足时不进入 `hit`，并给出可观察反馈。
+- 释放后对当前存活 `Monster30` 添加太极八卦等价眩晕状态：普通五行持续 `6s`，木五行持续 `8s`。
+- 动作窗口按 AS3 约 `24` 帧回 `wait`；使用中重复按 H 拒绝重入。
+- 测试场景能装备/切换 `tjbg`，并能观察 Monster30 眩晕剩余时间、行动停止和到期恢复。
+- 系统测试覆盖触发、等级门禁、木五行持续时间、全体 Monster30 眩晕、到期清理和重入拒绝。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+- `MagicWeaponSystem.ts` 新增 `tjbg/MagicBagua` active effect：等级低于 1 时拒绝释放并保持 `wait`；等级满足时进入 `hit`，动作窗口按 `400ms` 等价约 24 帧回待机。
+- `tjbg` 释放时扫描当前 enemy targets，仅对存活目标调用 `applyMagicBaguaStun`；普通五行眩晕 `6000ms`，木五行眩晕 `8000ms`。
+- `Monster30System.ts` 新增 `magicBaguaStun` 最小状态，眩晕期间清空正在进行的 `hit1`，保持 `wait`，到期自动清理；死亡时同步清理。
+- `EquipmentSystem.ts` 与 `InventorySystem.ts` 新增 `tjbg` 种子法宝，测试场景可通过背包装备/切换。
+- `TestScene.ts` 的法宝目标适配器接入 `applyMagicBaguaStun/clearMagicBaguaStun`，状态栏显示 `bagua-stun` 剩余时间，便于观察行动停止与恢复。
+- `tools/system-tests.ts` 新增太极八卦覆盖：等级门禁、普通 6 秒、木 8 秒、全体存活 Monster30 生效、死亡目标跳过、动作回待机、重入拒绝和到期恢复。
+- 更新 `mechanics-index.md`、`magic-weapons-index.md`、`vertical-slices.md`，并创建后续 `TASK-SLICE-034` 作为当前推荐任务。
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过，Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-032
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `xhmt` 血海魔童触发分支；装备对应 `zbfb` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- 触发后按 `MagicPearlBegin` 等价起手进入攻击链；法宝自身约 `30` 帧回 `wait`，但攻击链继续执行；链中重入边界必须可测试。
+- 攻击次数按 `3 + floor(level / 3)` 计算，木五行额外 `+2` 次。
+- 每轮重新选择离玩家最近且未死亡的 `Monster30`；无目标时提前进入结束随机效果。
+- 用现代占位表现 `MagicPearlRun/Back/Effect/Bullet1-3`，并在每轮目标点按第 3/12/28 帧等价顺序生成三段 `fabao-pearl` 命中。
+- 三段命中使用 `magic`、击退 `[2,-2]`、`attackInterval = 2` 的等价参数；首版用当前玩家 `power` 和法宝等级推导占位伤害，并记录 MagicPearl 三 bullet 不走怪物防御修正的差异。
+- 攻击链结束后随机三选一：回蓝、给当前 Monster30 全体眩晕、给当前 Monster30 全体中毒；无怪物时眩晕/中毒分支回退为回蓝。木五行把结束效果等级系数乘 `1.5`。
+- 测试场景能装备/切换 `xhmt`，并能观察链式目标、段数、命中、结束随机结果和 Monster30 状态。
+- 补系统测试覆盖：触发、攻击次数公式、木五行次数加成、最近目标选择、无目标结束、三段 bullet/伤害、回蓝分支、眩晕分支、中毒 tick、重入边界。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+执行记录：
+
+- `MagicWeaponSystem.ts` 新增 `xhmt/MagicPearl` active effect，H 触发后建立起手、飞行、三段 effect 和结束随机效果的最小状态机；动作窗口约 500ms 后回 `wait`，攻击链继续执行，链中再次 H 会被拒绝并反馈攻击链进行中。
+- 攻击次数按 `3 + floor(level / 3)` 计算，木五行额外 `+2`；每轮重新基于玩家位置选择最近存活目标，目标死亡后下一轮会重新选择。
+- `ProjectileSystem.ts` 新增 `MagicPearlBullet1/2/3` 占位 projectile，统一使用 `fabao-pearl`、`magic`、击退 `[2,-2]`、`attackInterval = 2`；首版伤害按当前玩家 `power * level * 0.0315` 派生，无 power 时使用可测占位值。
+- `Monster30System.ts` 新增 `magicPearlStun` 和 `magicPearlPoison` 状态；眩晕会中止 Monster30 行动，中毒每秒按结束效果派生值扣血并可致死清理。
+- `EquipmentSystem.ts` 和 `InventorySystem.ts` 新增 `xhmt` 种子法宝；测试场景可通过背包装备/切换。
+- `TestScene.ts` 状态栏补充 Monster30 的 MagicPearl 眩晕/中毒剩余时间和 tick 反馈，现有 projectile 视图可显示 `MagicPearlBullet1/2/3`。
+- `AssetManifest.ts` 登记 `MagicPearlBegin/Run/Back/Effect/Bullet1-3` 真资源缺口，继续使用现代占位表现。
+- 更新 `mechanics-index.md`、`magic-weapons-index.md`、`vertical-slices.md`，并创建后续 `TASK-SLICE-033` 作为当前推荐任务。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示现有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-031
 

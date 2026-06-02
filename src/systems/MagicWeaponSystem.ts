@@ -21,6 +21,7 @@ import {
 } from './PetSystem';
 import {
   spawnMagicQpjProjectile,
+  spawnMagicPearlProjectile,
   spawnMagicSword2Projectile,
   type ProjectileModel,
   type ProjectileSystemModel,
@@ -38,6 +39,8 @@ export type MagicWeaponFillName =
   | 'zsTimer'
   | 'jyhl'
   | 'mdhf'
+  | 'xhmt'
+  | 'tjbg'
   | 'lxfb'
   | 'sxfb'
   | 'yxfb';
@@ -54,6 +57,8 @@ export type MagicWeaponEffectKind =
   | 'magicTimer'
   | 'magicFlower'
   | 'magicFlag'
+  | 'magicBagua'
+  | 'magicPearl'
   | 'magicDemonBuff';
 
 export type MagicWeaponEquipState = {
@@ -156,6 +161,56 @@ export type MagicWeaponFlagEffect = {
   debuffMs: number;
 };
 
+export type MagicWeaponBaguaEffect = {
+  kind: 'magicBagua';
+  totalMs: number;
+  remainingMs: number;
+  durationMs: number;
+  affectedEnemyIds: string[];
+};
+
+export type MagicWeaponPearlEffect = {
+  kind: 'magicPearl';
+  totalMs: number;
+  remainingMs: number;
+  actionRemainingMs: number;
+  sourceId: string;
+  sourceX: number;
+  sourceY: number;
+  facingX: -1 | 1;
+  attackCount: number;
+  completedAttacks: number;
+  phase: 'begin' | 'fly' | 'effect' | 'finished';
+  phaseElapsedMs: number;
+  lastX: number;
+  lastY: number;
+  targetX: number;
+  targetY: number;
+  targetId?: string;
+  targetLog: string[];
+  spawnedFrames: number[];
+  projectileIds: number[];
+  pearlDamage: number;
+  endEffect?: MagicWeaponPearlEndEffect;
+};
+
+export type MagicWeaponPearlEndEffect =
+  | {
+    kind: 'mp';
+    amount: number;
+  }
+  | {
+    kind: 'stun';
+    durationMs: number;
+    affectedEnemyIds: string[];
+  }
+  | {
+    kind: 'poison';
+    durationMs: number;
+    damagePerSecond: number;
+    affectedEnemyIds: string[];
+  };
+
 export type MagicWeaponActiveEffect =
   | MagicWeaponHealingEffect
   | MagicWeaponSword2Effect
@@ -165,6 +220,8 @@ export type MagicWeaponActiveEffect =
   | MagicWeaponTimerEffect
   | MagicWeaponFlowerEffect
   | MagicWeaponFlagEffect
+  | MagicWeaponBaguaEffect
+  | MagicWeaponPearlEffect
   | MagicWeaponDemonBuffEffect;
 
 export type MagicWeaponModel = {
@@ -212,6 +269,25 @@ export type MagicWeaponEnemyTarget = {
     remainingMs: number;
   }) => void;
   clearMagicFlagDebuff?: () => void;
+  applyMagicBaguaStun?: (effect: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs: number;
+  }) => void;
+  clearMagicBaguaStun?: () => void;
+  applyMagicPearlStun?: (effect: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs: number;
+  }) => void;
+  clearMagicPearlStun?: () => void;
+  applyMagicPearlPoison?: (effect: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs: number;
+    damagePerSecond: number;
+  }) => void;
+  clearMagicPearlPoison?: () => void;
 };
 
 export type MagicWeaponTriggerResult = {
@@ -269,6 +345,22 @@ export const MagicWeaponTuning = {
   flagActionMs: 1_000,
   flagWoodActionMs: 833,
   flagDebuffMs: 5_000,
+  baguaActionMs: 400,
+  baguaStunMs: 6_000,
+  baguaWoodStunMs: 8_000,
+  pearlActionMs: 500,
+  pearlBeginMs: 160,
+  pearlFlyMs: 500,
+  pearlEffectMs: 500,
+  pearlFrame3Ms: 50,
+  pearlFrame12Ms: 200,
+  pearlFrame28Ms: 467,
+  pearlDamageLevelRate: 0.0315,
+  pearlFallbackDamage: 19,
+  pearlMpRestoreRatePerLevel: 0.01,
+  pearlStunDurationPerLevelMs: 125,
+  pearlPoisonDurationPerLevelMs: 250,
+  pearlPoisonDamageRate: 0.0413,
 } as const;
 
 export function createMagicWeaponModel(): MagicWeaponModel {
@@ -335,6 +427,11 @@ export function requestMagicWeaponTrigger(params: {
 
   if (params.model.action === 'hit') {
     params.model.message = `${current.name} 正在使用`;
+    return { triggered: false, message: params.model.message };
+  }
+
+  if (params.model.activeEffect?.kind === 'magicPearl') {
+    params.model.message = `${current.name} 攻击链进行中`;
     return { triggered: false, message: params.model.message };
   }
 
@@ -431,6 +528,33 @@ export function requestMagicWeaponTrigger(params: {
     return { triggered: true, message: params.model.message };
   }
 
+  if (current.fillName === 'xhmt') {
+    if (!params.source) {
+      params.model.message = '血海魔童缺少释放源';
+      return { triggered: false, message: params.model.message };
+    }
+
+    const effect = createPearlEffect(current, params.target, params.source);
+    params.model.action = 'hit';
+    params.model.activeEffect = effect;
+    params.model.message = `${current.name} 起手 ${effect.attackCount} 段`;
+    return { triggered: true, message: params.model.message };
+  }
+
+  if (current.fillName === 'tjbg') {
+    if (current.level < 1) {
+      params.model.message = `${current.name} level too low`;
+      return { triggered: false, message: params.model.message };
+    }
+
+    const effect = createBaguaEffect(current);
+    params.model.action = 'hit';
+    params.model.activeEffect = effect;
+    applyMagicWeaponBagua(params.enemyTargets ?? [], effect, current);
+    params.model.message = `${current.name} stun ${effect.affectedEnemyIds.length} for ${formatSeconds(effect.durationMs)}s`;
+    return { triggered: true, message: params.model.message };
+  }
+
   const effect = createHealingEffect(current);
   params.model.action = 'hit';
   params.model.activeEffect = effect;
@@ -447,6 +571,7 @@ export function updateMagicWeapon(
   enemyTargets: readonly MagicWeaponEnemyTarget[] = [],
   source?: MagicWeaponSourceSnapshot,
   friendlyPets: readonly MagicWeaponFriendlyPetTarget[] = [],
+  random: () => number = Math.random,
 ): void {
   updateQpjAutoCast(model, deltaMs, projectiles, enemyTargets, source);
 
@@ -468,6 +593,10 @@ export function updateMagicWeapon(
     updateFlowerEffect(model, target, friendlyPets, enemyTargets, effect, elapsedMs);
   } else if (effect.kind === 'magicFlag') {
     updateFlagEffect(model, target, effect, elapsedMs);
+  } else if (effect.kind === 'magicBagua') {
+    updateBaguaEffect(model, effect, elapsedMs);
+  } else if (effect.kind === 'magicPearl') {
+    updatePearlEffect(model, target, effect, elapsedMs, projectiles, enemyTargets, random);
   }
   effect.remainingMs -= elapsedMs;
 
@@ -751,6 +880,62 @@ function createFlagEffect(current: MagicWeaponEquipState): MagicWeaponFlagEffect
   };
 }
 
+function createBaguaEffect(current: MagicWeaponEquipState): MagicWeaponBaguaEffect {
+  const durationMs = current.element === 'wood' || current.element.includes('木')
+    ? MagicWeaponTuning.baguaWoodStunMs
+    : MagicWeaponTuning.baguaStunMs;
+
+  return {
+    kind: 'magicBagua',
+    totalMs: MagicWeaponTuning.baguaActionMs,
+    remainingMs: MagicWeaponTuning.baguaActionMs,
+    durationMs,
+    affectedEnemyIds: [],
+  };
+}
+
+function createPearlEffect(
+  current: MagicWeaponEquipState,
+  target: MagicWeaponTarget,
+  source: MagicWeaponSourceSnapshot,
+): MagicWeaponPearlEffect {
+  const level = Math.max(1, current.level);
+  const attackCount = 3 + Math.floor(level / 3) + (current.element.includes('木') ? 2 : 0);
+  const totalMs = MagicWeaponTuning.pearlBeginMs +
+    attackCount * (MagicWeaponTuning.pearlFlyMs + MagicWeaponTuning.pearlEffectMs) +
+    1;
+  const basePower = Math.max(0, target.effectiveStats?.power ?? 0);
+  const pearlDamage = Math.max(
+    1,
+    basePower > 0
+      ? basePower * level * MagicWeaponTuning.pearlDamageLevelRate
+      : MagicWeaponTuning.pearlFallbackDamage,
+  );
+
+  return {
+    kind: 'magicPearl',
+    totalMs,
+    remainingMs: totalMs,
+    actionRemainingMs: MagicWeaponTuning.pearlActionMs,
+    sourceId: source.sourceId,
+    sourceX: source.x,
+    sourceY: source.y,
+    facingX: source.facingX,
+    attackCount,
+    completedAttacks: 0,
+    phase: 'begin',
+    phaseElapsedMs: 0,
+    lastX: source.x,
+    lastY: source.y,
+    targetX: source.x,
+    targetY: source.y,
+    targetLog: [],
+    spawnedFrames: [],
+    projectileIds: [],
+    pearlDamage,
+  };
+}
+
 function applyMagicWeaponHealing(
   target: MagicWeaponTarget,
   effect: MagicWeaponHealingEffect,
@@ -888,6 +1073,25 @@ function applyMagicWeaponFlag(
   });
 }
 
+function applyMagicWeaponBagua(
+  enemies: readonly MagicWeaponEnemyTarget[],
+  effect: MagicWeaponBaguaEffect,
+  current: MagicWeaponEquipState,
+): void {
+  for (const enemy of enemies) {
+    if (!enemy.isAlive || !enemy.applyMagicBaguaStun) {
+      continue;
+    }
+
+    enemy.applyMagicBaguaStun({
+      sourceName: current.name,
+      totalMs: effect.durationMs,
+      remainingMs: effect.durationMs,
+    });
+    effect.affectedEnemyIds.push(enemy.id);
+  }
+}
+
 function clearMagicWeaponFlower(
   target: MagicWeaponTarget,
   pets: readonly MagicWeaponFriendlyPetTarget[],
@@ -919,6 +1123,16 @@ function updateFlagEffect(
   }
   if (effect.actionRemainingMs <= 0) {
     model.message = `${model.current?.name ?? '摩多魂幡'} 动作完成，护体持续`;
+  }
+}
+
+function updateBaguaEffect(
+  model: MagicWeaponModel,
+  effect: MagicWeaponBaguaEffect,
+  elapsedMs: number,
+): void {
+  if (elapsedMs > 0 && effect.remainingMs - elapsedMs <= 0) {
+    model.message = `${model.current?.name ?? 'tjbg'} action done`;
   }
 }
 
@@ -974,6 +1188,225 @@ function updateFlowerEffect(
   if (effect.actionRemainingMs <= 0) {
     model.message = `${model.current?.name ?? '九佑魂莲'} 动作完成，效果持续`;
   }
+}
+
+function updatePearlEffect(
+  model: MagicWeaponModel,
+  target: MagicWeaponTarget,
+  effect: MagicWeaponPearlEffect,
+  elapsedMs: number,
+  projectiles: ProjectileSystemModel | undefined,
+  targets: readonly MagicWeaponEnemyTarget[],
+  random: () => number,
+): void {
+  effect.actionRemainingMs = Math.max(0, effect.actionRemainingMs - elapsedMs);
+  if (effect.actionRemainingMs <= 0 && model.action === 'hit') {
+    model.action = 'wait';
+  }
+
+  let remainingStepMs = elapsedMs;
+  while (remainingStepMs > 0 && effect.phase !== 'finished') {
+    const phaseDuration = getPearlPhaseDuration(effect.phase);
+    const phaseRemainingMs = phaseDuration - effect.phaseElapsedMs;
+    const stepMs = Math.min(remainingStepMs, phaseRemainingMs);
+    effect.phaseElapsedMs += stepMs;
+    remainingStepMs -= stepMs;
+
+    if (effect.phase === 'effect') {
+      spawnDuePearlBullets(effect, projectiles);
+    }
+
+    if (effect.phaseElapsedMs >= phaseDuration) {
+      advancePearlPhase(model, target, effect, projectiles, targets, random);
+    }
+  }
+}
+
+function advancePearlPhase(
+  model: MagicWeaponModel,
+  target: MagicWeaponTarget,
+  effect: MagicWeaponPearlEffect,
+  projectiles: ProjectileSystemModel | undefined,
+  targets: readonly MagicWeaponEnemyTarget[],
+  random: () => number,
+): void {
+  effect.phaseElapsedMs = 0;
+
+  if (effect.phase === 'begin' || effect.phase === 'effect') {
+    if (effect.phase === 'effect') {
+      effect.completedAttacks += 1;
+      effect.lastX = effect.targetX;
+      effect.lastY = effect.targetY;
+    }
+
+    if (effect.completedAttacks >= effect.attackCount) {
+      finishPearlEffect(model, target, effect, targets, random);
+      return;
+    }
+
+    const nextTarget = findClosestMagicWeaponTarget(
+      { x: effect.sourceX, y: effect.sourceY },
+      targets,
+    );
+    if (!nextTarget) {
+      finishPearlEffect(model, target, effect, targets, random);
+      return;
+    }
+
+    effect.phase = 'fly';
+    effect.targetId = nextTarget.id;
+    effect.targetX = nextTarget.x;
+    effect.targetY = nextTarget.y;
+    effect.facingX = (effect.completedAttacks === 0 ? effect.sourceX : effect.lastX) < nextTarget.x ? 1 : -1;
+    effect.targetLog.push(nextTarget.id);
+    model.message = `${model.current?.name ?? '血海魔童'} ${effect.completedAttacks + 1}/${effect.attackCount} 锁定 ${nextTarget.id}`;
+    return;
+  }
+
+  if (effect.phase === 'fly') {
+    effect.phase = 'effect';
+    effect.spawnedFrames = [];
+    spawnDuePearlBullets(effect, projectiles);
+    model.message = `${model.current?.name ?? '血海魔童'} ${effect.targetId ?? '-'} 三段打击`;
+  }
+}
+
+function finishPearlEffect(
+  model: MagicWeaponModel,
+  target: MagicWeaponTarget,
+  effect: MagicWeaponPearlEffect,
+  targets: readonly MagicWeaponEnemyTarget[],
+  random: () => number,
+): void {
+  effect.phase = 'finished';
+  effect.remainingMs = 0;
+  effect.endEffect = resolvePearlEndEffect(model.current, target, targets, random);
+  if (effect.endEffect.kind === 'mp') {
+    target.skill.mp = Math.min(target.skill.maxMp, target.skill.mp + effect.endEffect.amount);
+    model.message = `${model.current?.name ?? '血海魔童'} 结束回蓝 ${Math.round(effect.endEffect.amount)}`;
+  } else if (effect.endEffect.kind === 'stun') {
+    model.message = `${model.current?.name ?? '血海魔童'} 结束眩晕 ${effect.endEffect.affectedEnemyIds.length} 个`;
+  } else {
+    model.message = `${model.current?.name ?? '血海魔童'} 结束中毒 ${effect.endEffect.affectedEnemyIds.length} 个`;
+  }
+}
+
+function resolvePearlEndEffect(
+  current: MagicWeaponEquipState | undefined,
+  target: MagicWeaponTarget,
+  targets: readonly MagicWeaponEnemyTarget[],
+  random: () => number,
+): MagicWeaponPearlEndEffect {
+  const level = Math.max(1, current?.level ?? 1) * (current?.element.includes('木') ? 1.5 : 1);
+  const aliveTargets = targets.filter((enemy) => enemy.isAlive);
+  const roll = random();
+  const mpAmount = target.skill.maxMp * level * MagicWeaponTuning.pearlMpRestoreRatePerLevel;
+
+  if (roll <= 0.33 || aliveTargets.length === 0) {
+    return {
+      kind: 'mp',
+      amount: mpAmount,
+    };
+  }
+
+  if (roll <= 0.66) {
+    const durationMs = level * MagicWeaponTuning.pearlStunDurationPerLevelMs;
+    const affectedEnemyIds: string[] = [];
+    for (const enemy of aliveTargets) {
+      if (!enemy.applyMagicPearlStun) {
+        continue;
+      }
+      enemy.applyMagicPearlStun({
+        sourceName: current?.name ?? '血海魔童',
+        totalMs: durationMs,
+        remainingMs: durationMs,
+      });
+      affectedEnemyIds.push(enemy.id);
+    }
+    if (affectedEnemyIds.length === 0) {
+      return {
+        kind: 'mp',
+        amount: mpAmount,
+      };
+    }
+    return {
+      kind: 'stun',
+      durationMs,
+      affectedEnemyIds,
+    };
+  }
+
+  const durationMs = level * MagicWeaponTuning.pearlPoisonDurationPerLevelMs;
+  const basePower = Math.max(1, target.effectiveStats?.power ?? MagicWeaponTuning.pearlFallbackDamage);
+  const damagePerSecond = basePower * level * MagicWeaponTuning.pearlPoisonDamageRate;
+  const affectedEnemyIds: string[] = [];
+  for (const enemy of aliveTargets) {
+    if (!enemy.applyMagicPearlPoison) {
+      continue;
+    }
+    enemy.applyMagicPearlPoison({
+      sourceName: current?.name ?? '血海魔童',
+      totalMs: durationMs,
+      remainingMs: durationMs,
+      damagePerSecond,
+    });
+    affectedEnemyIds.push(enemy.id);
+  }
+  if (affectedEnemyIds.length === 0) {
+    return {
+      kind: 'mp',
+      amount: mpAmount,
+    };
+  }
+  return {
+    kind: 'poison',
+    durationMs,
+    damagePerSecond,
+    affectedEnemyIds,
+  };
+}
+
+function spawnDuePearlBullets(
+  effect: MagicWeaponPearlEffect,
+  projectiles: ProjectileSystemModel | undefined,
+): void {
+  if (!projectiles) {
+    return;
+  }
+
+  const frameChecks: readonly [number, 1 | 2 | 3][] = [
+    [MagicWeaponTuning.pearlFrame3Ms, 1],
+    [MagicWeaponTuning.pearlFrame12Ms, 2],
+    [MagicWeaponTuning.pearlFrame28Ms, 3],
+  ];
+
+  for (const [dueMs, bulletIndex] of frameChecks) {
+    if (effect.phaseElapsedMs < dueMs || effect.spawnedFrames.includes(bulletIndex)) {
+      continue;
+    }
+
+    const projectile = spawnMagicPearlProjectile(projectiles, {
+      sourceId: effect.sourceId,
+      x: effect.targetX,
+      y: effect.targetY,
+      facingX: effect.facingX,
+    }, bulletIndex, effect.pearlDamage);
+    effect.spawnedFrames.push(bulletIndex);
+    effect.projectileIds.push(projectile.id);
+  }
+}
+
+function getPearlPhaseDuration(phase: MagicWeaponPearlEffect['phase']): number {
+  if (phase === 'begin') {
+    return MagicWeaponTuning.pearlBeginMs;
+  }
+  if (phase === 'fly') {
+    return MagicWeaponTuning.pearlFlyMs;
+  }
+  if (phase === 'effect') {
+    return MagicWeaponTuning.pearlEffectMs;
+  }
+  return 0;
 }
 
 function updateSword2Effect(
@@ -1133,6 +1566,8 @@ function isSupportedMagicWeapon(fillName: string): fillName is MagicWeaponFillNa
     fillName === 'zsTimer' ||
     fillName === 'jyhl' ||
     fillName === 'mdhf' ||
+    fillName === 'xhmt' ||
+    fillName === 'tjbg' ||
     fillName === 'lxfb' ||
     fillName === 'sxfb' ||
     fillName === 'yxfb';

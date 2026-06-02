@@ -610,6 +610,43 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
     },
     {
       showId: 1,
+      name: '血海魔童',
+      fillName: 'xhmt',
+      type: 'zbfb',
+      user: '',
+      quality: '史 诗',
+      color: '0x8A2BE2',
+      stats: createEmptyEquipmentStats({
+        maxMp: 220,
+        power: 120,
+      }),
+      description: '多段随机打击，结束后随机效果',
+      magicWeapon: {
+        level: 3,
+        element: '木',
+      },
+    },
+    {
+      showId: 1,
+      name: '太极八卦',
+      fillName: 'tjbg',
+      type: 'zbfb',
+      user: '',
+      quality: '传 说',
+      color: '0xFF9900',
+      stats: createEmptyEquipmentStats({
+        maxHp: 360,
+        maxMp: 360,
+        defense: 24,
+      }),
+      description: '全屏眩晕未死亡怪物',
+      magicWeapon: {
+        level: 1,
+        element: '木',
+      },
+    },
+    {
+      showId: 1,
       name: '流邪',
       fillName: 'lxfb',
       type: 'zbfb',

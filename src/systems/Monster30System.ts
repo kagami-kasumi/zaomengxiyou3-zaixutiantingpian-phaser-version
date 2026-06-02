@@ -26,6 +26,9 @@ export type Monster30Model = {
   activeAttack?: Monster30ActiveAttack;
   magicFlowerDebuff?: MonsterMagicFlowerDebuff;
   magicFlagDebuff?: MonsterMagicFlagDebuff;
+  magicBaguaStun?: MonsterMagicBaguaStun;
+  magicPearlStun?: MonsterMagicPearlStun;
+  magicPearlPoison?: MonsterMagicPearlPoison;
 };
 
 export type MonsterMagicFlowerDebuff = {
@@ -41,6 +44,30 @@ export type MonsterMagicFlagDebuff = {
   sourceName: string;
   hitMultiplier: number;
   hpDamageRatePerSecond: number;
+  totalMs: number;
+  remainingMs: number;
+  tickCarryMs: number;
+  lastTickDamage: number;
+};
+
+export type MonsterMagicBaguaStun = {
+  kind: 'magicBaguaStun';
+  sourceName: string;
+  totalMs: number;
+  remainingMs: number;
+};
+
+export type MonsterMagicPearlStun = {
+  kind: 'magicPearlStun';
+  sourceName: string;
+  totalMs: number;
+  remainingMs: number;
+};
+
+export type MonsterMagicPearlPoison = {
+  kind: 'magicPearlPoison';
+  sourceName: string;
+  damagePerSecond: number;
   totalMs: number;
   remainingMs: number;
   tickCarryMs: number;
@@ -78,6 +105,7 @@ export const Monster30Tuning = {
   magicFlagDurationMs: 5_000,
   magicFlagHpDamageRatePerSecond: 0.02,
   magicFlagHitMultiplier: 0.5,
+  magicPearlPoisonTickMs: 1_000,
   hit1HitboxStartMs: 55,
   hit1HitboxEndMs: 145,
   hit1HitboxOffsetX: 52,
@@ -120,12 +148,16 @@ export function updateMonster30(
 
   const stateBeforeDebuff = monster.state;
   updateMonster30MagicFlagDebuff(monster, deltaMs);
+  updateMonster30MagicPearlEffects(monster, deltaMs);
   if (stateBeforeDebuff !== 'dead' && monster.state === 'dead') {
     return;
   }
 
   if (monster.state === 'dead') {
     clearMonster30MagicFlagDebuff(monster);
+    clearMonster30MagicBaguaStun(monster);
+    clearMonster30MagicPearlStun(monster);
+    clearMonster30MagicPearlPoison(monster);
     monster.activeAttack = undefined;
     monster.stateTimerMs -= deltaMs;
     if (monster.stateTimerMs <= 0) {
@@ -158,6 +190,12 @@ export function updateMonster30(
     monster.state = 'wait';
     monster.stateTimerMs = 0;
     monster.activeAttack = undefined;
+  }
+
+  if (monster.magicBaguaStun || monster.magicPearlStun) {
+    monster.state = 'wait';
+    monster.activeAttack = undefined;
+    return;
   }
 
   const target = selectNearestTarget(monster, targets);
@@ -263,6 +301,92 @@ export function clearMonster30MagicFlagDebuff(monster: Monster30Model): void {
   monster.magicFlagDebuff = undefined;
 }
 
+export function applyMonster30MagicBaguaStun(
+  monster: Monster30Model,
+  params: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs?: number;
+  },
+): void {
+  if (monster.state === 'dead' || monster.state === 'removed') {
+    return;
+  }
+
+  monster.magicBaguaStun = {
+    kind: 'magicBaguaStun',
+    sourceName: params.sourceName,
+    totalMs: Math.max(0, params.totalMs),
+    remainingMs: Math.max(0, params.remainingMs ?? params.totalMs),
+  };
+  monster.activeAttack = undefined;
+  if (monster.state === 'hit1') {
+    monster.state = 'wait';
+    monster.stateTimerMs = 0;
+  }
+}
+
+export function clearMonster30MagicBaguaStun(monster: Monster30Model): void {
+  monster.magicBaguaStun = undefined;
+}
+
+export function applyMonster30MagicPearlStun(
+  monster: Monster30Model,
+  params: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs?: number;
+  },
+): void {
+  if (monster.state === 'dead' || monster.state === 'removed') {
+    return;
+  }
+
+  monster.magicPearlStun = {
+    kind: 'magicPearlStun',
+    sourceName: params.sourceName,
+    totalMs: Math.max(0, params.totalMs),
+    remainingMs: Math.max(0, params.remainingMs ?? params.totalMs),
+  };
+  monster.activeAttack = undefined;
+  if (monster.state === 'hit1') {
+    monster.state = 'wait';
+    monster.stateTimerMs = 0;
+  }
+}
+
+export function clearMonster30MagicPearlStun(monster: Monster30Model): void {
+  monster.magicPearlStun = undefined;
+}
+
+export function applyMonster30MagicPearlPoison(
+  monster: Monster30Model,
+  params: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs?: number;
+    damagePerSecond: number;
+  },
+): void {
+  if (monster.state === 'dead' || monster.state === 'removed') {
+    return;
+  }
+
+  monster.magicPearlPoison = {
+    kind: 'magicPearlPoison',
+    sourceName: params.sourceName,
+    totalMs: Math.max(0, params.totalMs),
+    remainingMs: Math.max(0, params.remainingMs ?? params.totalMs),
+    damagePerSecond: Math.max(0, params.damagePerSecond),
+    tickCarryMs: 0,
+    lastTickDamage: 0,
+  };
+}
+
+export function clearMonster30MagicPearlPoison(monster: Monster30Model): void {
+  monster.magicPearlPoison = undefined;
+}
+
 export function applyMonster30MagicFlagCounterFromHero(
   monster: Monster30Model,
   hero: HeroCombatModel,
@@ -351,6 +475,51 @@ function updateMonster30MagicFlagDebuff(monster: Monster30Model, deltaMs: number
 
   if (debuff.remainingMs <= 0 || monster.state === 'dead') {
     monster.magicFlagDebuff = undefined;
+  }
+}
+
+function updateMonster30MagicPearlEffects(monster: Monster30Model, deltaMs: number): void {
+  const baguaStun = monster.magicBaguaStun;
+  if (baguaStun && monster.state !== 'dead' && monster.state !== 'removed') {
+    const elapsedMs = Math.max(0, Math.min(deltaMs, baguaStun.remainingMs));
+    baguaStun.remainingMs -= elapsedMs;
+    if (baguaStun.remainingMs <= 0) {
+      monster.magicBaguaStun = undefined;
+    }
+  }
+
+  const stun = monster.magicPearlStun;
+  if (stun && monster.state !== 'dead' && monster.state !== 'removed') {
+    const elapsedMs = Math.max(0, Math.min(deltaMs, stun.remainingMs));
+    stun.remainingMs -= elapsedMs;
+    if (stun.remainingMs <= 0) {
+      monster.magicPearlStun = undefined;
+    }
+  }
+
+  const poison = monster.magicPearlPoison;
+  if (!poison || monster.state === 'dead' || monster.state === 'removed') {
+    return;
+  }
+
+  const elapsedMs = Math.max(0, Math.min(deltaMs, poison.remainingMs));
+  poison.remainingMs -= elapsedMs;
+  poison.tickCarryMs += elapsedMs;
+
+  while (poison.tickCarryMs >= Monster30Tuning.magicPearlPoisonTickMs) {
+    poison.tickCarryMs -= Monster30Tuning.magicPearlPoisonTickMs;
+    poison.lastTickDamage = poison.damagePerSecond;
+    monster.hp = Math.max(0, monster.hp - poison.damagePerSecond);
+    if (monster.hp <= 0) {
+      monster.state = 'dead';
+      monster.stateTimerMs = Monster30Tuning.deadDurationMs;
+      monster.activeAttack = undefined;
+      break;
+    }
+  }
+
+  if (poison.remainingMs <= 0 || monster.state === 'dead') {
+    monster.magicPearlPoison = undefined;
   }
 }
 

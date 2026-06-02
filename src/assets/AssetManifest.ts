@@ -50,6 +50,9 @@ export const SkillProjectileEffectKeys = {
 export const MagicWeaponEffectKeys = {
   magicSword2: 'magic-weapon.lxj.magic-sword2',
   magicQpj: 'magic-weapon.fbqpj.qpjeffect',
+  magicPearlBullet1: 'magic-weapon.xhmt.magic-pearl-bullet1',
+  magicPearlBullet2: 'magic-weapon.xhmt.magic-pearl-bullet2',
+  magicPearlBullet3: 'magic-weapon.xhmt.magic-pearl-bullet3',
 } as const;
 
 export const scaffoldAssets = {
@@ -145,8 +148,16 @@ export const sourceAssetFamilies = {
       'QPJBmd',
       'qpjeffect',
       'qpjeffect_box',
+      'MagicPearlBmd2',
+      'MagicPearlBegin',
+      'MagicPearlRun',
+      'MagicPearlBack',
+      'MagicPearlEffect',
+      'MagicPearlBullet1',
+      'MagicPearlBullet2',
+      'MagicPearlBullet3',
     ],
-    notes: 'First damage magic-weapon projectile families for lxj/MagicSword2 and fbqpj/MagicQPJ; absent from current exported bitmap resources, represented by modern placeholder effects.',
+    notes: 'Damage magic-weapon projectile families for lxj/MagicSword2, fbqpj/MagicQPJ, and xhmt/MagicPearl; absent from current exported bitmap resources, represented by modern placeholder effects.',
   },
   stage11: {
     status: 'missing-original',

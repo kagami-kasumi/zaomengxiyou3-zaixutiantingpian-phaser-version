@@ -11,7 +11,13 @@ import {
 } from '../src/systems/LevelSystem';
 import {
   applyMonster30MagicFlagCounterFromHero,
+  applyMonster30MagicBaguaStun,
   applyMonster30MagicFlagDebuff,
+  applyMonster30MagicPearlPoison,
+  applyMonster30MagicPearlStun,
+  clearMonster30MagicBaguaStun,
+  clearMonster30MagicPearlPoison,
+  clearMonster30MagicPearlStun,
   createMonster30,
   Monster30Tuning,
   updateMonster30,
@@ -114,6 +120,16 @@ testMagicWeaponFlagCreatesGuardAndRejectsReentry();
 testMagicWeaponFlagWoodOnlyShortensActionBoundary();
 testMagicWeaponFlagCounterDebuffDamagesAndExpires();
 testMagicWeaponFlagDebuffDeathClears();
+testMagicWeaponPearlAttackCountAndWoodBonus();
+testMagicWeaponPearlSpawnsThreeBulletsPerTargetAndActionReturnsToWait();
+testMagicWeaponPearlSelectsClosestTargetEachRound();
+testMagicWeaponPearlNoTargetsFallsBackToMp();
+testMagicWeaponPearlStunAndPoisonEndEffects();
+testMagicWeaponPearlRejectsReentryDuringChain();
+testMagicWeaponBaguaRequiresLevelAtLeastOne();
+testMagicWeaponBaguaStunsAllMonster30sAndRejectsReentry();
+testMagicWeaponBaguaWoodStunsForEightSeconds();
+testMagicWeaponBaguaStunExpiresAndRestoresMonster30();
 
 console.log('System tests passed.');
 
@@ -1460,6 +1476,418 @@ function testMagicWeaponFlagDebuffDeathClears(): void {
   assert.equal(monster.magicFlagDebuff, undefined);
 }
 
+function testMagicWeaponPearlAttackCountAndWoodBonus(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.xhmt, 'xhmt-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  const result = requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(result.triggered, true);
+  assert.equal(model.activeEffect?.kind, 'magicPearl');
+  if (model.activeEffect?.kind === 'magicPearl') {
+    assert.equal(model.activeEffect.attackCount, 6);
+    assert.equal(model.activeEffect.pearlDamage, MagicWeaponTuning.pearlFallbackDamage);
+  }
+}
+
+function testMagicWeaponPearlSpawnsThreeBulletsPerTargetAndActionReturnsToWait(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const xhmtDefinition: EquipmentDefinition = {
+    ...registry.xhmt,
+    magicWeapon: {
+      level: 1,
+      element: '火',
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(xhmtDefinition, 'xhmt-fire-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+  const monster = createMonster30(100, 0, 'm30-pearl-one');
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  updateMagicWeapon(
+    model,
+    target,
+    MagicWeaponTuning.pearlActionMs,
+    projectiles,
+    [createMagicPearlMonsterTarget(monster)],
+    { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+  );
+  assert.equal(model.action, 'wait');
+  assert.equal(model.activeEffect?.kind, 'magicPearl');
+
+  updateMagicWeapon(
+    model,
+    target,
+    MagicWeaponTuning.pearlBeginMs + MagicWeaponTuning.pearlFlyMs + MagicWeaponTuning.pearlFrame28Ms,
+    projectiles,
+    [createMagicPearlMonsterTarget(monster)],
+    { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+  );
+
+  assert.deepEqual(
+    getActiveProjectiles(projectiles).map((projectile) => projectile.runtimeName),
+    ['MagicPearlBullet1', 'MagicPearlBullet2', 'MagicPearlBullet3'],
+  );
+  assert.deepEqual(
+    getActiveProjectiles(projectiles).map((projectile) => projectile.actionName),
+    ['fabao-pearl', 'fabao-pearl', 'fabao-pearl'],
+  );
+}
+
+function testMagicWeaponPearlSelectsClosestTargetEachRound(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const xhmtDefinition: EquipmentDefinition = {
+    ...registry.xhmt,
+    magicWeapon: {
+      level: 1,
+      element: '火',
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(xhmtDefinition, 'xhmt-target-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+  const near = createMonster30(80, 0, 'm30-near');
+  const far = createMonster30(400, 0, 'm30-far');
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(
+    model,
+    target,
+    MagicWeaponTuning.pearlBeginMs,
+    projectiles,
+    [createMagicPearlMonsterTarget(near), createMagicPearlMonsterTarget(far)],
+    { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+  );
+  near.state = 'dead';
+  updateMagicWeapon(
+    model,
+    target,
+    MagicWeaponTuning.pearlFlyMs + MagicWeaponTuning.pearlEffectMs,
+    projectiles,
+    [createMagicPearlMonsterTarget(near), createMagicPearlMonsterTarget(far)],
+    { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+  );
+
+  assert.equal(model.activeEffect?.kind, 'magicPearl');
+  if (model.activeEffect?.kind === 'magicPearl') {
+    assert.deepEqual(model.activeEffect.targetLog.slice(0, 2), ['m30-near', 'm30-far']);
+  }
+}
+
+function testMagicWeaponPearlNoTargetsFallsBackToMp(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.xhmt, 'xhmt-empty-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  target.skill.maxMp = 1_000;
+  target.skill.mp = 10;
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(
+    model,
+    target,
+    MagicWeaponTuning.pearlBeginMs,
+    undefined,
+    [],
+    { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    [],
+    () => 0.5,
+  );
+
+  assert.equal(model.action, 'wait');
+  assert.equal(model.activeEffect, undefined);
+  assert.equal(target.skill.mp, 55);
+}
+
+function testMagicWeaponPearlStunAndPoisonEndEffects(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const xhmtDefinition: EquipmentDefinition = {
+    ...registry.xhmt,
+    magicWeapon: {
+      level: 8,
+      element: '火',
+    },
+  };
+  const stunMonster = createMonster30(100, 0, 'm30-pearl-stun');
+  const poisonMonster = createMonster30(120, 0, 'm30-pearl-poison');
+
+  loadout.magicWeapon = createTestEquipmentInstance(xhmtDefinition, 'xhmt-stun-test');
+  const stunModel = createMagicWeaponModel();
+  const stunTarget = createMagicWeaponTestTarget();
+  syncMagicWeaponFromLoadout(stunModel, loadout);
+  requestMagicWeaponTrigger({
+    model: stunModel,
+    target: stunTarget,
+    source: { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(
+    stunModel,
+    stunTarget,
+    99_999,
+    undefined,
+    [createMagicPearlMonsterTarget(stunMonster)],
+    { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    [],
+    () => 0.5,
+  );
+  assert.equal(stunMonster.magicPearlStun?.remainingMs, 1_000);
+
+  loadout.magicWeapon = createTestEquipmentInstance(xhmtDefinition, 'xhmt-poison-test');
+  const poisonModel = createMagicWeaponModel();
+  const poisonTarget = createMagicWeaponTestTarget();
+  const poisonMagicTarget = {
+    ...poisonTarget,
+    effectiveStats: {
+    defense: 0,
+    magicDefensePercent: 0,
+    power: 100,
+    },
+  };
+  syncMagicWeaponFromLoadout(poisonModel, loadout);
+  requestMagicWeaponTrigger({
+    model: poisonModel,
+    target: poisonMagicTarget,
+    source: { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(
+    poisonModel,
+    poisonMagicTarget,
+    99_999,
+    undefined,
+    [createMagicPearlMonsterTarget(poisonMonster)],
+    { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    [],
+    () => 0.9,
+  );
+  assert.equal(poisonMonster.magicPearlPoison?.remainingMs, 2_000);
+  updateMonster30(poisonMonster, [], 1_000);
+  assertNearlyEqual(poisonMonster.hp, 150 - 100 * 8 * MagicWeaponTuning.pearlPoisonDamageRate);
+}
+
+function testMagicWeaponPearlRejectsReentryDuringChain(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.xhmt, 'xhmt-reentry-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const monster = createMonster30(100, 0, 'm30-reentry');
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(
+    model,
+    target,
+    MagicWeaponTuning.pearlActionMs,
+    undefined,
+    [createMagicPearlMonsterTarget(monster)],
+    { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+  );
+  const reentry = requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 0, y: 0, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(model.action, 'wait');
+  assert.equal(reentry.triggered, false);
+  assert.match(reentry.message, /攻击链进行中/);
+}
+
+function testMagicWeaponBaguaRequiresLevelAtLeastOne(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const tjbgDefinition: EquipmentDefinition = {
+    ...registry.tjbg,
+    magicWeapon: {
+      level: 0,
+      element: '火',
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(tjbgDefinition, 'tjbg-low-level-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const monster = createMonster30(0, 0, 'm30-bagua-low');
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  const result = requestMagicWeaponTrigger({
+    model,
+    target,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+    enemyTargets: [createMagicBaguaMonsterTarget(monster)],
+  });
+
+  assert.equal(result.triggered, false);
+  assert.equal(model.action, 'wait');
+  assert.equal(model.activeEffect, undefined);
+  assert.equal(monster.magicBaguaStun, undefined);
+  assert.match(model.message, /level too low/);
+}
+
+function testMagicWeaponBaguaStunsAllMonster30sAndRejectsReentry(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const tjbgDefinition: EquipmentDefinition = {
+    ...registry.tjbg,
+    magicWeapon: {
+      level: 1,
+      element: '火',
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(tjbgDefinition, 'tjbg-fire-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const first = createMonster30(0, 0, 'm30-bagua-a');
+  const second = createMonster30(100, 0, 'm30-bagua-b');
+  const dead = createMonster30(200, 0, 'm30-bagua-dead');
+  dead.state = 'dead';
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  const result = requestMagicWeaponTrigger({
+    model,
+    target,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+    enemyTargets: [
+      createMagicBaguaMonsterTarget(first),
+      createMagicBaguaMonsterTarget(second),
+      createMagicBaguaMonsterTarget(dead),
+    ],
+  });
+
+  assert.equal(result.triggered, true);
+  assert.equal(model.action, 'hit');
+  assert.equal(model.activeEffect?.kind, 'magicBagua');
+  if (model.activeEffect?.kind === 'magicBagua') {
+    assert.deepEqual(model.activeEffect.affectedEnemyIds, ['m30-bagua-a', 'm30-bagua-b']);
+    assert.equal(model.activeEffect.durationMs, MagicWeaponTuning.baguaStunMs);
+  }
+  assert.equal(first.magicBaguaStun?.remainingMs, MagicWeaponTuning.baguaStunMs);
+  assert.equal(second.magicBaguaStun?.remainingMs, MagicWeaponTuning.baguaStunMs);
+  assert.equal(dead.magicBaguaStun, undefined);
+
+  const reentry = requestMagicWeaponTrigger({
+    model,
+    target,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  assert.equal(reentry.triggered, false);
+  assert.match(reentry.message, /正在使用/);
+
+  updateMagicWeapon(model, target, MagicWeaponTuning.baguaActionMs);
+  assert.equal(model.action, 'wait');
+  assert.equal(model.activeEffect, undefined);
+}
+
+function testMagicWeaponBaguaWoodStunsForEightSeconds(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.tjbg, 'tjbg-wood-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const monster = createMonster30(0, 0, 'm30-bagua-wood');
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+    enemyTargets: [createMagicBaguaMonsterTarget(monster)],
+  });
+
+  assert.equal(model.activeEffect?.kind, 'magicBagua');
+  if (model.activeEffect?.kind === 'magicBagua') {
+    assert.equal(model.activeEffect.durationMs, MagicWeaponTuning.baguaWoodStunMs);
+  }
+  assert.equal(monster.magicBaguaStun?.remainingMs, MagicWeaponTuning.baguaWoodStunMs);
+}
+
+function testMagicWeaponBaguaStunExpiresAndRestoresMonster30(): void {
+  const monster = createMonster30(0, 0, 'm30-bagua-expire');
+  monster.state = 'hit1';
+  monster.activeAttack = {
+    id: 1,
+    attackId: 'm30-bagua-expire-hit1-1',
+    actionName: 'hit1',
+    elapsedMs: 0,
+    hitboxActiveFromMs: 0,
+    hitboxActiveUntilMs: 100,
+    damage: 15,
+    attackKind: 'physics',
+    knockbackX: 6,
+    knockbackY: -5,
+    facingX: 1,
+  };
+
+  applyMonster30MagicBaguaStun(monster, {
+    sourceName: '太极八卦',
+    totalMs: MagicWeaponTuning.baguaStunMs,
+  });
+
+  assert.equal(monster.state, 'wait');
+  assert.equal(monster.activeAttack, undefined);
+  updateMonster30(monster, [{ slot: 'p1', x: 0, y: 0 }], MagicWeaponTuning.baguaStunMs - 1, () => 0);
+  assert.equal(monster.magicBaguaStun?.remainingMs, 1);
+  assert.equal(monster.state, 'wait');
+
+  updateMonster30(monster, [{ slot: 'p1', x: 0, y: 0 }], 1, () => 1);
+  assert.equal(monster.magicBaguaStun, undefined);
+  assert.equal(monster.state, 'wait');
+}
+
 function createTestCapturableTarget(): CapturablePetTarget {
   return {
     id: 'test-monster72',
@@ -1522,6 +1950,59 @@ function createMagicFlowerMonsterTarget(
     },
     clearMagicFlowerDebuff: () => {
       monster.magicFlowerDebuff = undefined;
+    },
+  };
+}
+
+function createMagicBaguaMonsterTarget(
+  monster: ReturnType<typeof createMonster30>,
+) {
+  return {
+    id: monster.id,
+    x: monster.x,
+    y: monster.y,
+    isAlive: monster.state !== 'dead' && monster.state !== 'removed',
+    applyMagicBaguaStun: (effect: {
+      sourceName: string;
+      totalMs: number;
+      remainingMs: number;
+    }) => {
+      applyMonster30MagicBaguaStun(monster, effect);
+    },
+    clearMagicBaguaStun: () => {
+      clearMonster30MagicBaguaStun(monster);
+    },
+  };
+}
+
+function createMagicPearlMonsterTarget(
+  monster: ReturnType<typeof createMonster30>,
+) {
+  return {
+    id: monster.id,
+    x: monster.x,
+    y: monster.y,
+    isAlive: monster.state !== 'dead' && monster.state !== 'removed',
+    applyMagicPearlStun: (effect: {
+      sourceName: string;
+      totalMs: number;
+      remainingMs: number;
+    }) => {
+      applyMonster30MagicPearlStun(monster, effect);
+    },
+    clearMagicPearlStun: () => {
+      clearMonster30MagicPearlStun(monster);
+    },
+    applyMagicPearlPoison: (effect: {
+      sourceName: string;
+      totalMs: number;
+      remainingMs: number;
+      damagePerSecond: number;
+    }) => {
+      applyMonster30MagicPearlPoison(monster, effect);
+    },
+    clearMagicPearlPoison: () => {
+      clearMonster30MagicPearlPoison(monster);
     },
   };
 }

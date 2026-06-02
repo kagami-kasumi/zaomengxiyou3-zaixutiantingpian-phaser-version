@@ -35,10 +35,16 @@ import {
 } from '../systems/HeroMovementSystem';
 import {
   applyMonster30MagicFlowerDebuff,
+  applyMonster30MagicBaguaStun,
+  applyMonster30MagicPearlPoison,
+  applyMonster30MagicPearlStun,
+  clearMonster30MagicBaguaStun,
   clearMonster30MagicFlagDebuff,
   applyMonster30Hit,
   applyMonster30MagicFlagDebuff,
   clearMonster30MagicFlowerDebuff,
+  clearMonster30MagicPearlPoison,
+  clearMonster30MagicPearlStun,
   createMonster30,
   updateMonster30,
   type Monster30Model,
@@ -2051,6 +2057,28 @@ export class TestScene extends Phaser.Scene {
           remainingMs: debuff.remainingMs,
         }),
       clearMagicFlagDebuff: () => clearMonster30MagicFlagDebuff(monster),
+      applyMagicBaguaStun: (effect) =>
+        applyMonster30MagicBaguaStun(monster, {
+          sourceName: effect.sourceName,
+          totalMs: effect.totalMs,
+          remainingMs: effect.remainingMs,
+        }),
+      clearMagicBaguaStun: () => clearMonster30MagicBaguaStun(monster),
+      applyMagicPearlStun: (effect) =>
+        applyMonster30MagicPearlStun(monster, {
+          sourceName: effect.sourceName,
+          totalMs: effect.totalMs,
+          remainingMs: effect.remainingMs,
+        }),
+      clearMagicPearlStun: () => clearMonster30MagicPearlStun(monster),
+      applyMagicPearlPoison: (effect) =>
+        applyMonster30MagicPearlPoison(monster, {
+          sourceName: effect.sourceName,
+          totalMs: effect.totalMs,
+          remainingMs: effect.remainingMs,
+          damagePerSecond: effect.damagePerSecond,
+        }),
+      clearMagicPearlPoison: () => clearMonster30MagicPearlPoison(monster),
     }));
 
     if (this.bossArena.state === 'active' && this.bossArena.boss) {
@@ -2863,7 +2891,7 @@ export class TestScene extends Phaser.Scene {
       `spawnTimer:${Math.round(climb.spawnTimerMs)}ms`,
       `boss:${climb.bossTriggered ? 'triggered' : 'pending'}`,
       `arena:${formatBossArenaState(this.getBossArena())}`,
-      ...activeMonsters.map((m) => `  m30:${m.state} hp:${m.hp}/${m.maxHp} target:${m.targetSlot ?? '-'}${formatMonsterMagicFlowerDebuff(m)}${formatMonsterMagicFlagDebuff(m)}`),
+      ...activeMonsters.map((m) => `  m30:${m.state} hp:${m.hp}/${m.maxHp} target:${m.targetSlot ?? '-'}${formatMonsterMagicFlowerDebuff(m)}${formatMonsterMagicFlagDebuff(m)}${formatMonsterMagicPearlEffects(m)}`),
       `hero p1:${formatHeroMovementState(p1?.movement)}`,
       `hero p2:${formatHeroMovementState(p2?.movement)}`,
       `combat p1:${formatHeroCombatState(p1?.combat)}`,
@@ -3219,6 +3247,22 @@ function formatMonsterMagicFlagDebuff(monster: Monster30Model): string {
   }
 
   return ` flag:hitx${debuff.hitMultiplier.toFixed(2)} ${formatSeconds(debuff.remainingMs)}s tick:${debuff.lastTickDamage.toFixed(1)}`;
+}
+
+function formatMonsterMagicPearlEffects(monster: Monster30Model): string {
+  const parts: string[] = [];
+  if (monster.magicBaguaStun) {
+    parts.push(`bagua-stun:${formatSeconds(monster.magicBaguaStun.remainingMs)}s`);
+  }
+  if (monster.magicPearlStun) {
+    parts.push(`pearl-stun:${formatSeconds(monster.magicPearlStun.remainingMs)}s`);
+  }
+  if (monster.magicPearlPoison) {
+    parts.push(
+      `pearl-poison:${formatSeconds(monster.magicPearlPoison.remainingMs)}s tick:${monster.magicPearlPoison.lastTickDamage.toFixed(1)}`,
+    );
+  }
+  return parts.length > 0 ? ` ${parts.join(' ')}` : '';
 }
 
 function formatSeconds(ms: number): string {
