@@ -112,6 +112,43 @@
 
 当前 AS3 子类大量依赖 `SpecialEffectBullet`、`TrailBullet`、`FollowBaseObjectBullet`、`ThroughWallBullet` 和 buff 常量。现代实现不应照搬类层级，建议先抽成数据驱动的 `MagicWeaponSystem`：装备槽决定当前法宝，`H` 触发能力，能力内部复用现有 combat/projectile/buff 查询接口。
 
+### `qljfb/MagicBigBottle` 青龙剑
+
+`TASK-SETTINGS-023` 已补清 `qljfb` 的 AS3 行为。`BaseHero.initMagicWeapon()` 在当前 `zbfb.fillName == "qljfb"` 时创建 `new MagicBigBottle(this)`；`showSkillFaBao()` 在单机且存在 `curMagicWeapon` 时直接调用 `useSkill()`。`BaseMagicWeapon.useSkill()` 的通用重入规则适用：当前 `curAction == "hit"` 时直接返回，否则切到 `hit` 并调用 `showSkill()`。`qljfb` 自身没有额外 MP、灵魂或等级门禁。
+
+`MagicBigBottle.initBBDC()` 读取 `BaseBitmapDataPool.getBitmapDataArrayByName("MagicBigSwordBmd")` 作为法宝本体动画，创建 `BaseBitmapDataClip([body], 100, 150)`；帧配置为 `wait/hit` 两行、各 1 帧，`hit` 行默认到末帧脚本后回 `wait`，但 `showSkill()` 又会用延迟显式控制动作窗口。
+
+`MagicBigBottle.showSkill()` 的核心不是伤害 projectile，而是临时墙/船对象：
+
+- 如果已有 `bingWall`，先 `destroy()` 并置空，避免同一法宝残留多个墙对象。
+- 创建 `new StageBoat(sourceRole, gc.frameClips * 20)`，监听其 `"destroy"` 事件以把 `bingWall` 置空。
+- 初始位置为 `x = sourceRole.x`、`y = sourceRole.y - 100`。
+- 把 `StageBoat` push 到 `gc.pWorld.getWallArray()`，并 addChild 到 `gc.gameSence`。
+- 动作窗口默认 `60` 帧；若当前 `zbfb.getWX()` 包含 `"木"`，改为 `40` 帧，延迟后 `setAction("wait")`。
+
+`StageBoat` 位于 `export.magicWeapon.MagicBigBottleChild.StageBoat`，继承 `ThroughWall -> Wall`，不是 `BaseBullet`。构造时保存 `sourceRole`，持续帧数来自第二参数；法宝释放传入 `gc.frameClips * 20`，关卡 `StageListener221/222/223.addBoatByBaseObject()` 也复用 `StageBoat(param1, -1)` 生成永久跟随船。`StageBoat` 自身 `width = 130`、`height = 20`、`visible = false`，并设置 `userDataName = "MagicBigBottleData"`，真实可视对象由 `Wall.step()` 首次通过 `AUtils.getNewObj("MagicBigBottleData")` 创建并跟随墙体坐标。
+
+`StageBoat.step()` 每帧跟随来源：
+
+- 若 `abs(x - sourceRole.x) > 30`，计算横向差值并用 `TweenMax.to(this, 0.4, { x: this.x + dx })` 追随，且按差值方向翻转 `userData`。
+- 若 `abs(y - sourceRole.y) > 62`，计算纵向差值并用 `TweenMax.to(this, 0.1, { y: this.y + dy + 70 })` 追随；因此初始 `sourceRole.y - 100` 会逐步贴近角色脚下/下方的可站平台位置。
+- 每帧 `TweenMax.killChildTweensOf(this)` 后重建 tween。
+- 来源角色准备销毁时立刻 `destroy()`。
+- 持续帧参数 `INTERVALCOUNTCONST >= 0` 时计数，到达后 `destroy()`；法宝释放约 `20s`，关卡船传 `-1` 不按计时销毁。
+
+`Wall.destroy()` 会从父容器移除自身、移除 `userData`，并从 `gc.pWorld.getWallArray()` 中 splice 掉当前墙对象，因此 `qljfb` 的临时墙生命周期在 AS3 中闭合。`PhysicsWorld` 和 `BaseObject` 会把带 `isThroughWall` 标记的对象视作可下落站立的穿透墙，角色下落命中 `ThroughWall` 时设置 `standInObj`、校正 `y` 并清空 `speed.y`；这就是“御剑飞行”的主要可观察效果。
+
+资源状态：
+
+- `ThroughWall` 自身在 `symbols.csv` 中有 `symbol120 -> export.ThroughWall`，可作为墙体碰撞/标记证据。
+- 当前资源文件名和 SymbolClass 检索未命中 `MagicBigSwordBmd`、`MagicBigBottleData` 或 `StageBoat` 专属素材；现代侧应登记稳定占位 key：`magic-weapon.qljfb.magic-big-sword`、`magic-weapon.qljfb.magic-big-bottle-data`。
+
+现代最小切片建议：
+
+- `TASK-SLICE-036` 可实现 `qljfb` 为临时跟随平台/穿透墙，而不是 projectile：H 触发创建一个 `magicBigBottlePlatform` 活动对象，进入现代平台/碰撞查询，持续 `20s` 后销毁。
+- 首切片只需要覆盖 P1/TestScene 中的跟随平台、站立/托举、到期清理、使用中重入拒绝、普通/木五行动作窗口和资源缺口登记。
+- 不在该切片中实现完整地图墙体系统重构、真实素材、关卡 221/222/223 永久船、联机同步或强化 UI。
+
 ## 强化 UI
 
 `SutraInterface` 是法宝强化界面：
@@ -293,7 +330,7 @@ time = gc.frameClips * 5
 - 首切片保留 `magic`、击退 `[2,-2]`、`attackInterval = 999`、`hitMaxCount = 999` 和 3 秒冰冻最小状态。可以先把冰冻表达为 `Monster30 magicSnowIce` 状态，打断/暂停行为并到期清理；完整全怪物 AddEffect 泛化后置。
 - 伤害先沿用现代法宝 projectile 伤害模型，记录 `0.09 * Hurt * level` 及角色修正为校准依据；完整五角色 qixue/吸血和防御修正细节后置。
 - 真实 `LingBmd`、`LingPaiEffect`、`ef_snow` 或碰撞 box 在当前 `resources/` 文件名和 SymbolClass 检索中未命中；现代侧继续使用稳定占位 key，不重新生成 `extracted_flash/`。
-- 当前现代切片不实现法宝强化 UI、材料消耗、五行重置、联机同步、`qljfb` 或其他法宝。
+- 当前现代落雪切片不实现法宝强化 UI、材料消耗、五行重置、联机同步或其他法宝。
 
 ## 现代实现建议
 
@@ -315,12 +352,13 @@ time = gc.frameClips * 5
 - `BaseHero.attackBackInfoDict["fabao-zltc"]` 参数为 `hitMaxCount = 999`、`attackBackSpeed = [2,-2]`、`attackInterval = 6`、`attackKind = magic`、`addEffect = STUN` 且持续 `gc.frameClips * 4.5`。现代侧已用 `magic-weapon-zltc` 占位 projectile 和 Monster30 `magicZlHummerStun` 表达伤害、受击和 4.5 秒眩晕，不引入通用 AddEffect 重构。
 - `TASK-SETTINGS-022` 已补清 `stlp/Ling` 奢天化雪令：H 触发一次性创建 `LingPaiEffect` 起手和 120 个 `ef_snow` 随机落雪，动作名 `fabao-snow`，按 `magic`、击退 `[2,-2]`、`attackInterval = 999` 命中，并附加 3 秒 `PETHORSE_ICE`。
 - `TASK-SLICE-035` 已新增 `stlp` 奢天化雪令/Ling 随机落雪法宝最小切片，范围包括 `zbfb` 装备种子、H 触发 `LingPaiEffect` 起手反馈、一次性 120 个 `ef_snow` 等价 projectile、镜头上方随机起点、普通/木五行动作窗口、Monster30 命中伤害和 3 秒 `magicSnowIce` 冰冻最小状态；`AssetManifest` 已登记 `LingBmd`、`LingPaiEffect`、`ef_snow` 真资源缺口。
-- 下一步推荐 `TASK-SETTINGS-023`：`qljfb/MagicBigBottle` 青龙剑/墙船法宝逆向索引。
+- `TASK-SETTINGS-023` 已补清 `qljfb/MagicBigBottle` 青龙剑/墙船法宝：H 触发 `StageBoat` 临时 `ThroughWall`，加入 `pWorld.getWallArray()`，跟随来源角色并约 `20s` 后销毁；普通五行 `60` 帧回 `wait`，木五行 `40` 帧回 `wait`；它不走 projectile 伤害链。
+- `TASK-SLICE-036` 已新增 `qljfb` 青龙剑/MagicBigBottle 临时跟随平台法宝最小切片，范围包括 `zbfb` 装备种子、H 触发 `MagicBigSwordBmd` 等价反馈、`StageBoat` 等价动态平台数据、接入 `MovementPlatform` 站立/托举闭环、约 `20s` 平台生命周期、来源消失清理、普通/木五行动作窗口和状态栏/场景占位视图；`AssetManifest` 已登记 `MagicBigSwordBmd`、`MagicBigBottleData` 真资源缺口。
+- 下一步推荐 `TASK-SLICE-037`：法宝强化 UI 最小可玩切片。
 - 强化 UI 独立成后续 `TASK-SLICE` 或 `TASK-SETTINGS`，不要和首个能力切片混在一起。
 
 后置范围：
 
-- 剩余未实现法宝的技能表现，尤其 `qljfb` 等特殊表现。
 - `stlp` 后置完整五角色 `getRealPower("fabao-snow")`、qixue/吸血、全怪物通用冰冻 AddEffect 泛化和真资源校准。
 - `xhmt` 后置完整五角色 `getRealPower("fabao-pearl")`、吸血/qixue、全怪物通用 AddEffect 泛化和真资源校准。
 - 法宝强化面板、材料消耗和五行重置。

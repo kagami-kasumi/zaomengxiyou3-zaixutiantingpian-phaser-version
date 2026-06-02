@@ -54,6 +54,8 @@ export const MagicWeaponEffectKeys = {
   magicPearlBullet2: 'magic-weapon.xhmt.magic-pearl-bullet2',
   magicPearlBullet3: 'magic-weapon.xhmt.magic-pearl-bullet3',
   magicZlHummer: 'magic-weapon.zltc.zltcskill',
+  magicBigBottleBody: 'magic-weapon.qljfb.magic-big-sword',
+  magicBigBottlePlatform: 'magic-weapon.qljfb.magic-big-bottle-data',
   magicSnowStart: 'magic-weapon.stlp.ling-pai-effect',
   magicSnow: 'magic-weapon.stlp.ef-snow',
 } as const;
@@ -162,11 +164,13 @@ export const sourceAssetFamilies = {
       'ZLHummerBmd',
       'zltcskill',
       'zltcbox',
+      'MagicBigSwordBmd',
+      'MagicBigBottleData',
       'LingBmd',
       'LingPaiEffect',
       'ef_snow',
     ],
-    notes: 'Damage magic-weapon projectile families for lxj/MagicSword2, fbqpj/MagicQPJ, xhmt/MagicPearl, zltc/MagicZLHummer, and stlp/Ling; absent from current exported bitmap resources, represented by modern placeholder effects.',
+    notes: 'Magic-weapon effect families for lxj/MagicSword2, fbqpj/MagicQPJ, xhmt/MagicPearl, zltc/MagicZLHummer, qljfb/MagicBigBottle, and stlp/Ling; absent from current exported bitmap resources, represented by modern placeholder effects.',
   },
   stage11: {
     status: 'missing-original',

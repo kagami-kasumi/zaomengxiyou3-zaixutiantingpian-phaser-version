@@ -84,8 +84,64 @@
 | TASK-SLICE-033 | 切片 | 太极八卦/MagicBagua 全屏眩晕法宝最小切片 | M-043、M-033、VS-013 | `MagicWeaponSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-034 | 切片 | 震雷天锤/MagicZLHummer 前方雷锤法宝最小切片 | M-043、M-032、M-033、M-034、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-035 | 切片 | 奢天化雪令/Ling 随机落雪法宝最小切片 | M-043、M-032、M-033、M-034、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`TestSceneViews.ts`、`system-tests.ts`、`magic-weapons-index.md`、`projectiles-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-023 | 逆向 | `qljfb/MagicBigBottle` 青龙剑/墙船法宝逆向索引 | M-043、M-034、VS-013 | `magic-weapons-index.md`、`projectiles-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-036 | 切片 | `qljfb/MagicBigBottle` 临时跟随平台法宝最小切片 | M-043、VS-013 | `MagicWeaponSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-036
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `qljfb` 青龙剑/MagicBigBottle 触发分支；装备对应 `zbfb` 后按 `H` 主动释放，无显式 MP、灵魂或等级门禁，使用中重复 H 拒绝重入。
+- 释放后进入 `hit`，创建 `MagicBigSwordBmd` 等价反馈，并生成一个 `StageBoat` 等价 `MagicWeaponPlatform`；平台初始在角色 `y - 100`，按 AS3 dead-zone 和纵向 `+70` 偏移持续跟随来源角色。
+- 临时平台接入现代测试场景的 `MovementPlatform` 站立/托举闭环；角色下落可落在平台上，平台移动和剩余时间可在场景占位视图与状态栏观察。
+- 保留 AS3 动作窗口边界：普通五行约 `60` 帧回 `wait`，木五行约 `40` 帧回 `wait`；平台生命周期独立于法宝动作，约 `20s` 后或来源消失时清理。
+- `AssetManifest` 登记 `MagicBigSwordBmd`、`MagicBigBottleData` 真资源缺口，并使用稳定占位 key。
+- 系统测试覆盖触发、重入拒绝、普通/木五行动作窗口、平台生成位置/跟随、站立托举、20 秒到期清理和来源消失清理。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-023
+
+完成定义：
+
+- 补清 `qljfb` 在 `BaseHero.showSkillFaBao()` 中的创建入口、门禁、动作重入边界和五行动作窗口：`BaseHero.initMagicWeapon()` 由 `fillName == "qljfb"` 创建 `MagicBigBottle`，`showSkillFaBao()` 在单机且存在法宝时调用 `useSkill()`；`MagicBigBottle` 自身无额外 MP、灵魂或等级门禁，沿用 `BaseMagicWeapon.useSkill()` 的 `hit` 重入拒绝。
+- 补清 `MagicBigBottle.showSkill()` 的核心效果：先销毁旧 `bingWall`，再创建 `StageBoat(sourceRole, gc.frameClips * 20)`，初始位置 `x = sourceRole.x`、`y = sourceRole.y - 100`，加入 `gc.pWorld.getWallArray()` 和 `gc.gameSence`，普通五行 60 帧回 `wait`，木五行 40 帧回 `wait`。
+- 补清 `StageBoat` 与 `ThroughWall`/世界墙数组的关系：`StageBoat extends ThroughWall -> Wall`，不是 `BaseBullet`；它用宽 `130`、高 `20` 的隐藏墙体承载 `MagicBigBottleData` 视觉对象，跟随来源角色，约 20 秒后由 `Wall.destroy()` 从显示树和 `pWorld.getWallArray()` 清理。
+- 明确资源状态：`ThroughWall` 有 `symbol120`，当前资源文件名和 SymbolClass 检索未命中 `MagicBigSwordBmd`、`MagicBigBottleData` 或 `StageBoat` 专属素材；现代侧建议稳定占位 key 为 `magic-weapon.qljfb.magic-big-sword`、`magic-weapon.qljfb.magic-big-bottle-data`。
+- 给出下一步现代最小可玩切片边界：`qljfb` 应作为临时跟随平台/穿透墙实现，不进入 projectile 伤害命中链；首版只覆盖 P1/TestScene 的触发、站立/托举、跟随、20 秒清理、重入拒绝和动作窗口。
+
+已完成产物：
+
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/projectiles-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-035
 

@@ -672,6 +672,21 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
     },
     {
       showId: 1,
+      name: '青龙剑',
+      fillName: 'qljfb',
+      type: 'zbfb',
+      user: '',
+      quality: '魂 器',
+      color: '0x66ffff',
+      stats: createEmptyEquipmentStats(),
+      description: '御剑飞行',
+      magicWeapon: {
+        level: 1,
+        element: '木',
+      },
+    },
+    {
+      showId: 1,
       name: '奢天化雪令',
       fillName: 'stlp',
       type: 'zbfb',

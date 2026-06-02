@@ -44,6 +44,7 @@ export type MagicWeaponFillName =
   | 'xhmt'
   | 'tjbg'
   | 'zltc'
+  | 'qljfb'
   | 'stlp'
   | 'lxfb'
   | 'sxfb'
@@ -63,6 +64,7 @@ export type MagicWeaponEffectKind =
   | 'magicFlag'
   | 'magicBagua'
   | 'magicZlHummer'
+  | 'magicBigBottle'
   | 'magicSnow'
   | 'magicPearl'
   | 'magicDemonBuff';
@@ -200,6 +202,26 @@ export type MagicWeaponSnowEffect = {
   damage: number;
 };
 
+export type MagicWeaponPlatform = {
+  id: string;
+  sourceId: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  totalMs: number;
+  remainingMs: number;
+  active: boolean;
+};
+
+export type MagicWeaponBigBottleEffect = {
+  kind: 'magicBigBottle';
+  totalMs: number;
+  remainingMs: number;
+  sourceId: string;
+  platformId: string;
+};
+
 export type MagicWeaponPearlEffect = {
   kind: 'magicPearl';
   totalMs: number;
@@ -253,6 +275,7 @@ export type MagicWeaponActiveEffect =
   | MagicWeaponFlagEffect
   | MagicWeaponBaguaEffect
   | MagicWeaponZlHummerEffect
+  | MagicWeaponBigBottleEffect
   | MagicWeaponSnowEffect
   | MagicWeaponPearlEffect
   | MagicWeaponDemonBuffEffect;
@@ -261,6 +284,7 @@ export type MagicWeaponModel = {
   current?: MagicWeaponEquipState;
   action: MagicWeaponAction;
   activeEffect?: MagicWeaponActiveEffect;
+  platforms: MagicWeaponPlatform[];
   qpjAutoTimerMs: number;
   message: string;
 };
@@ -402,6 +426,15 @@ export const MagicWeaponTuning = {
   zlHummerDamageDivisor: 4,
   zlHummerDamageMultiplier: 1.8,
   zlHummerFallbackPower: 10,
+  bigBottleActionMs: 1_000,
+  bigBottleWoodActionMs: 667,
+  bigBottleDurationMs: 20_000,
+  bigBottleWidth: 130,
+  bigBottleHeight: 20,
+  bigBottleInitialOffsetY: -100,
+  bigBottleFollowDeadZoneX: 30,
+  bigBottleFollowDeadZoneY: 62,
+  bigBottleFollowOffsetY: 70,
   snowActionMs: 417,
   snowWoodActionMs: 333,
   snowCount: 120,
@@ -433,6 +466,7 @@ export const MagicWeaponTuning = {
 export function createMagicWeaponModel(): MagicWeaponModel {
   return {
     action: 'wait',
+    platforms: [],
     qpjAutoTimerMs: 0,
     message: '未装备法宝',
   };
@@ -451,6 +485,7 @@ export function syncMagicWeaponFromLoadout(
   if (previousFillName !== next?.fillName) {
     model.action = 'wait';
     model.activeEffect = undefined;
+    model.platforms = [];
     model.qpjAutoTimerMs = 0;
     model.message = next ? `${next.name} 就绪` : '未装备法宝';
   }
@@ -651,6 +686,18 @@ export function requestMagicWeaponTrigger(params: {
     return { triggered: true, message: params.model.message };
   }
 
+  if (current.fillName === 'qljfb') {
+    if (!params.source) {
+      params.model.message = '青龙剑缺少释放源';
+      return { triggered: false, message: params.model.message };
+    }
+
+    params.model.action = 'hit';
+    params.model.activeEffect = createBigBottleEffect(params.model, current, params.source);
+    params.model.message = `${current.name} StageBoat`;
+    return { triggered: true, message: params.model.message };
+  }
+
   const effect = createHealingEffect(current);
   params.model.action = 'hit';
   params.model.activeEffect = effect;
@@ -670,6 +717,7 @@ export function updateMagicWeapon(
   random: () => number = Math.random,
 ): void {
   updateQpjAutoCast(model, deltaMs, projectiles, enemyTargets, source);
+  updateMagicWeaponPlatforms(model, deltaMs, source);
 
   const effect = model.activeEffect;
   if (!effect) {
@@ -693,6 +741,8 @@ export function updateMagicWeapon(
     updateBaguaEffect(model, effect, elapsedMs);
   } else if (effect.kind === 'magicZlHummer') {
     updateZlHummerEffect(model, effect, projectiles);
+  } else if (effect.kind === 'magicBigBottle') {
+    updateBigBottleEffect(model, effect, source);
   } else if (effect.kind === 'magicSnow') {
     updateSnowEffect(model, effect, projectiles, random);
   } else if (effect.kind === 'magicPearl') {
@@ -1023,6 +1073,38 @@ function createZlHummerEffect(
     facingX: source.facingX,
     hasSpawnedHammer: false,
     damage,
+  };
+}
+
+function createBigBottleEffect(
+  model: MagicWeaponModel,
+  current: MagicWeaponEquipState,
+  source: MagicWeaponSourceSnapshot,
+): MagicWeaponBigBottleEffect {
+  const totalMs = current.element.includes('木')
+    ? MagicWeaponTuning.bigBottleWoodActionMs
+    : MagicWeaponTuning.bigBottleActionMs;
+  const platformId = `magic-big-bottle-${source.sourceId}`;
+
+  model.platforms = model.platforms.filter((platform) => platform.id !== platformId && platform.active);
+  model.platforms.push({
+    id: platformId,
+    sourceId: source.sourceId,
+    x: source.x,
+    y: source.y + MagicWeaponTuning.bigBottleInitialOffsetY,
+    width: MagicWeaponTuning.bigBottleWidth,
+    height: MagicWeaponTuning.bigBottleHeight,
+    totalMs: MagicWeaponTuning.bigBottleDurationMs,
+    remainingMs: MagicWeaponTuning.bigBottleDurationMs,
+    active: true,
+  });
+
+  return {
+    kind: 'magicBigBottle',
+    totalMs,
+    remainingMs: totalMs,
+    sourceId: source.sourceId,
+    platformId,
   };
 }
 
@@ -1361,6 +1443,64 @@ function updateSnowEffect(
   }
 
   model.message = `${model.current?.name ?? 'stlp'} ef_snow x${effect.projectileIds.length}`;
+}
+
+function updateBigBottleEffect(
+  model: MagicWeaponModel,
+  effect: MagicWeaponBigBottleEffect,
+  _source: MagicWeaponSourceSnapshot | undefined,
+): void {
+  const platform = model.platforms.find((candidate) => candidate.id === effect.platformId);
+  if (!platform || !platform.active) {
+    model.message = `${model.current?.name ?? 'qljfb'} platform ended`;
+    return;
+  }
+
+  model.message = `${model.current?.name ?? 'qljfb'} platform ${formatSeconds(platform.remainingMs)}s`;
+}
+
+function updateMagicWeaponPlatforms(
+  model: MagicWeaponModel,
+  deltaMs: number,
+  source: MagicWeaponSourceSnapshot | undefined,
+): void {
+  const nextPlatforms: MagicWeaponPlatform[] = [];
+
+  for (const platform of model.platforms) {
+    if (!platform.active) {
+      continue;
+    }
+
+    if (!source || source.sourceId !== platform.sourceId) {
+      platform.active = false;
+      continue;
+    }
+
+    followBigBottlePlatform(platform, source);
+    platform.remainingMs -= Math.max(0, deltaMs);
+    if (platform.remainingMs > 0) {
+      nextPlatforms.push(platform);
+    } else {
+      platform.active = false;
+    }
+  }
+
+  model.platforms = nextPlatforms;
+}
+
+function followBigBottlePlatform(
+  platform: MagicWeaponPlatform,
+  source: MagicWeaponSourceSnapshot,
+): void {
+  const deltaX = source.x - platform.x;
+  if (Math.abs(deltaX) > MagicWeaponTuning.bigBottleFollowDeadZoneX) {
+    platform.x += deltaX;
+  }
+
+  const deltaY = source.y - platform.y;
+  if (Math.abs(deltaY) > MagicWeaponTuning.bigBottleFollowDeadZoneY) {
+    platform.y += deltaY + MagicWeaponTuning.bigBottleFollowOffsetY;
+  }
 }
 
 function updateDemonBuffEffect(
@@ -1796,6 +1936,7 @@ function isSupportedMagicWeapon(fillName: string): fillName is MagicWeaponFillNa
     fillName === 'xhmt' ||
     fillName === 'tjbg' ||
     fillName === 'zltc' ||
+    fillName === 'qljfb' ||
     fillName === 'stlp' ||
     fillName === 'lxfb' ||
     fillName === 'sxfb' ||

@@ -82,6 +82,10 @@ import {
 import {
   createHeroSkillModel,
 } from '../src/systems/HeroSkillSystem';
+import {
+  createHeroMovement,
+  updateHeroMovement,
+} from '../src/systems/HeroMovementSystem';
 import type { PlayerInputState } from '../src/systems/InputSystem';
 
 testMonster30StableIds();
@@ -141,6 +145,9 @@ testMagicWeaponZlHummerWoodActionBoundary();
 testMagicWeaponZlHummerNoTargetsStillCleansUp();
 testMagicWeaponZlHummerHitAppliesDamageAndStun();
 testMagicWeaponZlHummerStunExpiresAndRestoresMonster30();
+testMagicWeaponBigBottleCreatesPlatformAndRejectsReentry();
+testMagicWeaponBigBottleFollowsAndExpires();
+testMagicWeaponBigBottlePlatformCatchesFallingHero();
 testMagicWeaponSnowSpawnsRandomFallAndRejectsReentry();
 testMagicWeaponSnowHitAppliesDamageAndIce();
 
@@ -2113,6 +2120,144 @@ function testMagicWeaponZlHummerStunExpiresAndRestoresMonster30(): void {
   updateMonster30(monster, [{ slot: 'p1', x: 0, y: 0 }], 1, () => 1);
   assert.equal(monster.magicZlHummerStun, undefined);
   assert.equal(monster.state, 'wait');
+}
+
+function testMagicWeaponBigBottleCreatesPlatformAndRejectsReentry(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.qljfb, 'qljfb-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  const result = requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 300, y: 900, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(result.triggered, true);
+  assert.equal(model.action, 'hit');
+  assert.equal(model.activeEffect?.kind, 'magicBigBottle');
+  assert.equal(model.activeEffect?.totalMs, MagicWeaponTuning.bigBottleWoodActionMs);
+  assert.equal(model.platforms.length, 1);
+  assert.equal(model.platforms[0].x, 300);
+  assert.equal(model.platforms[0].y, 800);
+  assert.equal(model.platforms[0].width, 130);
+  assert.equal(model.platforms[0].height, 20);
+  assert.equal(model.platforms[0].remainingMs, MagicWeaponTuning.bigBottleDurationMs);
+
+  const reentry = requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 300, y: 900, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  assert.equal(reentry.triggered, false);
+  assert.match(reentry.message, /正在使用/);
+
+  updateMagicWeapon(
+    model,
+    target,
+    MagicWeaponTuning.bigBottleWoodActionMs,
+    undefined,
+    [],
+    { sourceId: 'p1', x: 300, y: 900, facingX: 1 },
+  );
+  assert.equal(model.action, 'wait');
+  assert.equal(model.activeEffect, undefined);
+  assert.equal(model.platforms.length, 1);
+}
+
+function testMagicWeaponBigBottleFollowsAndExpires(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const qljfbDefinition: EquipmentDefinition = {
+    ...registry.qljfb,
+    magicWeapon: {
+      level: 1,
+      element: '火',
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(qljfbDefinition, 'qljfb-fire-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 100, y: 500, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(model.activeEffect?.kind, 'magicBigBottle');
+  assert.equal(model.activeEffect?.totalMs, MagicWeaponTuning.bigBottleActionMs);
+  updateMagicWeapon(
+    model,
+    target,
+    16,
+    undefined,
+    [],
+    { sourceId: 'p1', x: 160, y: 560, facingX: 1 },
+  );
+  assert.equal(model.platforms[0].x, 160);
+  assert.equal(model.platforms[0].y, 630);
+  assert.equal(model.platforms[0].remainingMs, MagicWeaponTuning.bigBottleDurationMs - 16);
+
+  updateMagicWeapon(
+    model,
+    target,
+    MagicWeaponTuning.bigBottleDurationMs,
+    undefined,
+    [],
+    { sourceId: 'p1', x: 160, y: 560, facingX: 1 },
+  );
+  assert.equal(model.platforms.length, 0);
+
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 220, y: 600, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  assert.equal(model.platforms.length, 1);
+  updateMagicWeapon(model, target, 16, undefined, [], undefined);
+  assert.equal(model.platforms.length, 0);
+}
+
+function testMagicWeaponBigBottlePlatformCatchesFallingHero(): void {
+  const platform = {
+    id: 'magic-big-bottle-p1',
+    kind: 'through' as const,
+    left: 235,
+    right: 365,
+    top: 800,
+  };
+  const hero = createHeroMovement(300, 760);
+  hero.grounded = false;
+  hero.currentPlatformId = undefined;
+  hero.velocityY = 200;
+
+  updateHeroMovement(
+    hero,
+    createMagicWeaponInput(false),
+    createMagicWeaponInput(false),
+    [platform],
+    { left: 0, right: 940, bottom: 2_500 },
+    0,
+    200,
+  );
+
+  assert.equal(hero.grounded, true);
+  assert.equal(hero.currentPlatformId, 'magic-big-bottle-p1');
+  assert.equal(hero.y, 800);
+  assert.equal(hero.velocityY, 0);
 }
 
 function testMagicWeaponSnowSpawnsRandomFallAndRejectsReentry(): void {

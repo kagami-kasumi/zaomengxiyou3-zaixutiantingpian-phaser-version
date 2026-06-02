@@ -208,6 +208,7 @@ import {
   updateMagicWeapon,
   type MagicWeaponEnemyTarget,
   type MagicWeaponModel,
+  type MagicWeaponPlatform,
 } from '../systems/MagicWeaponSystem';
 import {
   applyHeroNormalAttackToMonster30s,
@@ -304,6 +305,13 @@ type MagicBottleEffectView = {
   label: Phaser.GameObjects.Text;
 };
 
+type MagicWeaponPlatformView = {
+  root: Phaser.GameObjects.Container;
+  body: Phaser.GameObjects.Rectangle;
+  glow: Phaser.GameObjects.Rectangle;
+  label: Phaser.GameObjects.Text;
+};
+
 export class TestScene extends Phaser.Scene {
   private inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
@@ -384,6 +392,7 @@ export class TestScene extends Phaser.Scene {
   private petRuntime?: PetRuntimeModel;
   private petView?: PetView;
   private petPanel?: PetPanelView;
+  private magicWeaponPlatformViews = new Map<string, MagicWeaponPlatformView>();
   private updatePipeline?: TestSceneUpdatePipeline;
   private movementPlatforms: MovementPlatform[] = [];
   private movementBounds: HeroMovementBounds = {
@@ -1774,6 +1783,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   private updateHeroMovement(input: InputState, time: number, delta: number): void {
+    const platforms = this.getActiveMovementPlatforms();
     for (const player of this.playerViews) {
       if (!player.movement) {
         continue;
@@ -1789,7 +1799,7 @@ export class TestScene extends Phaser.Scene {
         player.movement,
         input[player.slot],
         this.lastInput?.[player.slot],
-        this.movementPlatforms,
+        platforms,
         this.movementBounds,
         time,
         delta,
@@ -1857,6 +1867,23 @@ export class TestScene extends Phaser.Scene {
     syncMagicWeaponFromLoadout(this.magicWeapon, this.equipmentLoadout);
 
     if (!owner || isHeroCombatDead(owner.combat)) {
+      updateMagicWeapon(
+        this.magicWeapon,
+        owner
+          ? {
+            combat: owner.combat,
+            skill: owner.skill,
+            effectiveStats: calculateEffectiveStats(owner.baseStats, this.equipmentLoadout),
+            movement: owner.movement,
+          }
+          : this.createFallbackMagicWeaponTarget(),
+        delta,
+        this.projectileSystem,
+        [],
+        undefined,
+        [],
+      );
+      this.syncMagicWeaponPlatformViews();
       return;
     }
 
@@ -1907,6 +1934,7 @@ export class TestScene extends Phaser.Scene {
         : undefined,
       this.getActiveMagicWeaponPets(),
     );
+    this.syncMagicWeaponPlatformViews();
   }
 
   private updateMagicBottleCapture(input: InputState, delta: number): void {
@@ -1940,6 +1968,83 @@ export class TestScene extends Phaser.Scene {
       targets: this.capturablePetTargets,
     });
     updateMagicBottleCapture(this.magicBottle, delta);
+  }
+
+  private getActiveMovementPlatforms(): MovementPlatform[] {
+    const magicPlatforms = this.magicWeapon.platforms
+      .filter((platform) => platform.active)
+      .map((platform) => ({
+        id: platform.id,
+        kind: 'through' as const,
+        left: platform.x - platform.width / 2,
+        right: platform.x + platform.width / 2,
+        top: platform.y,
+      }));
+    return [...this.movementPlatforms, ...magicPlatforms];
+  }
+
+  private syncMagicWeaponPlatformViews(): void {
+    const activeIds = new Set<string>();
+
+    for (const platform of this.magicWeapon.platforms) {
+      if (!platform.active) {
+        continue;
+      }
+      activeIds.add(platform.id);
+      const view = this.getOrCreateMagicWeaponPlatformView(platform);
+      this.syncMagicWeaponPlatformView(view, platform);
+    }
+
+    for (const [id, view] of this.magicWeaponPlatformViews) {
+      if (activeIds.has(id)) {
+        continue;
+      }
+      view.root.destroy();
+      this.magicWeaponPlatformViews.delete(id);
+    }
+  }
+
+  private getOrCreateMagicWeaponPlatformView(
+    platform: MagicWeaponPlatform,
+  ): MagicWeaponPlatformView {
+    const existing = this.magicWeaponPlatformViews.get(platform.id);
+    if (existing) {
+      return existing;
+    }
+
+    const root = this.add.container(platform.x, platform.y).setDepth(18);
+    const glow = this.add.rectangle(0, 0, platform.width + 18, 12, 0x8ff4ff, 0.18);
+    const body = this.add.rectangle(0, 0, platform.width, Math.max(6, platform.height), 0x7ee7ff, 0.78);
+    const label = this.add.text(0, -18, 'MagicBigBottleData', {
+      color: '#dffaff',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '10px',
+    }).setOrigin(0.5, 0.5);
+    root.add([glow, body, label]);
+
+    const view = { root, body, glow, label };
+    this.magicWeaponPlatformViews.set(platform.id, view);
+    return view;
+  }
+
+  private syncMagicWeaponPlatformView(
+    view: MagicWeaponPlatformView,
+    platform: MagicWeaponPlatform,
+  ): void {
+    const remainingRatio = Math.max(0, platform.remainingMs / platform.totalMs);
+    view.root.setPosition(platform.x, platform.y);
+    view.body.setSize(platform.width, Math.max(6, platform.height));
+    view.glow.setSize(platform.width + 18, 12);
+    view.body.setFillStyle(0x7ee7ff, 0.62 + remainingRatio * 0.24);
+    view.glow.setFillStyle(0x8ff4ff, 0.1 + remainingRatio * 0.18);
+    view.label.setAlpha(0.35 + remainingRatio * 0.45);
+  }
+
+  private createFallbackMagicWeaponTarget() {
+    return {
+      combat: createHeroCombat('magic-platform-fallback'),
+      skill: createHeroSkillModel(),
+    };
   }
 
   private syncPetView(activePet: NonNullable<ReturnType<typeof getActivePet>>): void {
@@ -2941,6 +3046,7 @@ export class TestScene extends Phaser.Scene {
       `inventory:${formatInventoryUIState(this.inventoryUI)}`,
       `pet:${formatPetState(this.getPetRoster(), this.petRuntime, this.petPanelOpen)}`,
       `magic weapon:${formatMagicWeaponState(this.magicWeapon)}`,
+      `magic platforms:${formatMagicWeaponPlatforms(this.magicWeapon.platforms)}`,
       `magic bottle:${this.magicBottle.equippedFillName} H | soul ${this.magicBottle.soul} | ${this.magicBottle.lastResult}`,
       `catch targets:${formatCapturablePetTargets(this.getCapturablePetTargets())}`,
       'drop config keys:N Monster3 boss | M Monster7 | < Monster29 | F9 M1 | F10 M31 boss | F11 M207 default | F12 M601 zero',
@@ -3112,6 +3218,18 @@ function formatHeroMovementState(movement: HeroMovementModel | undefined): strin
     movement.grounded ? 'grounded' : 'air',
     `jump:${movement.jumpCount}`,
   ].join(' | ');
+}
+
+function formatMagicWeaponPlatforms(platforms: readonly MagicWeaponPlatform[]): string {
+  const active = platforms.filter((platform) => platform.active);
+  if (active.length === 0) {
+    return 'none';
+  }
+  return active
+    .map((platform) =>
+      `${platform.id}@${Math.round(platform.x)},${Math.round(platform.y)} ${Math.ceil(platform.remainingMs)}ms`,
+    )
+    .join(' | ');
 }
 
 function formatHeroNormalAttackState(model: HeroNormalAttackModel | undefined): string {
