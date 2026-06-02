@@ -108,7 +108,7 @@
 | `MagicQPJ` | `QPJBmd`、`qpjeffect` | 法宝等级至少 1 | 主动释放生成 6 支追踪最近怪物的飞剑；空闲每约 `11.225s` 自动生成 1 支飞剑 | 主动木五行 24 帧回 `wait`，否则 27 帧；弹体 7.5/8.8 秒销毁 |
 | `MagicBigBottle` | `MagicBigSwordBmd`、`StageBoat` | 无显式 MP 消耗 | 创建持续 `20s` 的墙/船对象加入世界墙数组 | 木五行 40 帧回 `wait`，否则 60 帧 |
 | `MagicYuban` | `MagicYubanBmd`、`yubanEffect` | 装备存在即可 | 固定 Y=420 生成 5 秒效果，碰到怪物 bullet 时按 `攻击源真实伤害 * 法宝等级 * 20` 反击怪物 | 20 帧后回 `wait`；当前装备表未列出入口 |
-| `Ling` | 奢天化雪令相关雪花对象 | 无显式 MP 消耗 | 屏幕上方随机落雪攻击；等级影响效果 | 子弹/雪花自行销毁，动作回 `wait` |
+| `Ling` | `LingBmd`、`LingPaiEffect`、`ef_snow` | 无显式 MP 消耗 | 一次性从当前镜头上方随机生成 120 个斜向落雪 projectile，动作名 `fabao-snow` | 雪花行进约 1500 像素后销毁；木五行 20 帧回 `wait`，否则 25 帧 |
 
 当前 AS3 子类大量依赖 `SpecialEffectBullet`、`TrailBullet`、`FollowBaseObjectBullet`、`ThroughWallBullet` 和 buff 常量。现代实现不应照搬类层级，建议先抽成数据驱动的 `MagicWeaponSystem`：装备槽决定当前法宝，`H` 触发能力，能力内部复用现有 combat/projectile/buff 查询接口。
 
@@ -231,6 +231,70 @@ time = gc.frameClips * 5
 - 伤害可先接现有法宝 projectile 结算，但需要标记“MagicPearl 三 bullet 不走怪物防御修正”这一差异；完整五角色 `getRealPower` 和吸血/qixue 可后置。
 - 结束随机效果首版可以先实现回蓝、Monster30 眩晕状态、Monster30 中毒 tick；全怪物通用 AddEffect、真实概率 UI、联网同步后置。
 
+## 奢天化雪令 / Ling
+
+`stlp` 由 `BaseHero.initMagicWeapon()` 的 `fillName == "stlp"` 分支创建 `Ling`，仍走 `H` / 小键盘 7 -> `BaseHero.showSkillFaBao()` -> `BaseMagicWeapon.useSkill()`。释放没有显式 MP、灵魂或等级门禁；通用 `useSkill()` 会在法宝当前动作为 `hit` 时直接返回，因此使用中拒绝重入。
+
+装备表证据：
+
+- `AllEquipment.initSutraEquipment()` 定义 `sutra17 = new MyEquipObj(..., "奢天化雪令", "stlp", "zbfb", ..., "神 器", ...)`，初始等级字段为 `elevel: 1`。
+- `SutraInterface` 标明 `stlp` 最高 10 级。
+- `MyEquipObj.getGrowthByName("stlp")` 的强化成长为 `fdef = 4`、`fmp = 45 * 0.9`、`fatk = 18 * 0.9`、`fhp = 75 * 0.9`；强化 UI 和材料消耗继续后置。
+
+释放表现：
+
+- `Ling.initBBDC()` 读取 `LingBmd`，本体动画尺寸 `150x150`，`wait` 为 6 帧且每帧停 5，`hit` 为 1 帧且停 `9999`。
+- `showSkill()` 先在法宝当前位置创建 `SpecialEffectBullet("LingPaiEffect")`，位置 `x = Ling.x`、`y = Ling.y + 200`，`setDisable()`、`setRole(sourceRole)`、`setAction("wait")`，只作为起手表现加入 `sourceRole.magicBulletArray` 和 `gc.gameSence`。
+- 随后循环 `totalNum = 120` 次调用 `createSnow()`，一次性铺满落雪；不是按目标锁定、也不是持续计时生成。
+- 动作回待机窗口默认 `25` 帧；装备五行包含 `木` 时改为 `20` 帧。这个窗口只控制法宝自身 `hit -> wait`，雪花 projectile 按自己的距离生命周期清理。
+
+每个雪花由 `createSnow()` 创建：
+
+| 字段 | AS3 值 |
+| --- | --- |
+| bullet 类/资源 | `EnemyMoveBullet("ef_snow")` |
+| 初始 x | `-gc.gameSence.x - 500 + random() * (940 + 300)` |
+| 初始 y | `-gc.gameSence.y - 480 + random() * 100` |
+| 角度 | `50 + random() * 10` 度 |
+| 速度 | `speed = random() * 10 / 2 + 10`，再按角度拆成 `cos/sin` |
+| 旋转 | 等于角度 |
+| 透明度 | `random() + 0.2` |
+| 方向 | `setDirect(0)` |
+| 动画末帧销毁 | `setDestroyWhenLastFrame(false)` |
+| 行进距离 | `setDistance(1500)` |
+| 来源/动作 | `setRole(sourceRole)`、`setAction("fabao-snow")` |
+
+因为 `createSnow()` 没有调用 `setMoveTarget()`，这些 `EnemyMoveBullet` 是随机斜向移动 projectile，不追踪最近怪物、最低 HP 或最高 HP 目标。命中目标仍由 `BaseBullet.checkAttack()` 的通用规则决定：玩家来源命中 `monsterArray + likeMonsterArray`，现代首切片只需要命中 `Monster30`。
+
+`BaseHero.attackBackInfoDict["fabao-snow"]`：
+
+| 字段 | 值 |
+| --- | --- |
+| `hitMaxCount` | `999` |
+| `attackBackSpeed` | `[2, -2]` |
+| `attackInterval` | `999` |
+| `attackKind` | `magic` |
+| `addprotection` | `0` |
+| `addEffect` | `PETHORSE_ICE`，持续 `gc.frameClips * 3` |
+
+五角色 `getRealPower("fabao-snow")` 都按当前 `zbfb` 等级派生伤害，核心倍率为 `Hurt * level * 0.09`，并乘各角色既有修正系数：
+
+| 角色 | hurt 修正 | qixue 修正 |
+| --- | --- | --- |
+| Role1 | `0.09 * Hurt * level` | `0.09 * Haveblood * addhurt * level` |
+| Role2 | `0.09 * Hurt * level * 6201 / 6550` | 同倍率 |
+| Role3 | `0.09 * Hurt * level * 6201 / 6782` | 同倍率 |
+| Role4 | `0.09 * Hurt * level * 6201 / 6550` | `0.09 * Haveblood * addhurt * level * 6201 / 5658` |
+| Role5 | `0.09 * Hurt * level * addhurt` | 同倍率 |
+
+现代最小实现边界：
+
+- `TASK-SLICE-035` 应实现 `stlp/Ling` 为镜头范围随机落雪 projectile：H 触发一次性生成 120 个 `fabao-snow` 等价实例，从当前相机上方随机起点斜向下移动，行进距离约 1500 后销毁。
+- 首切片保留 `magic`、击退 `[2,-2]`、`attackInterval = 999`、`hitMaxCount = 999` 和 3 秒冰冻最小状态。可以先把冰冻表达为 `Monster30 magicSnowIce` 状态，打断/暂停行为并到期清理；完整全怪物 AddEffect 泛化后置。
+- 伤害先沿用现代法宝 projectile 伤害模型，记录 `0.09 * Hurt * level` 及角色修正为校准依据；完整五角色 qixue/吸血和防御修正细节后置。
+- 真实 `LingBmd`、`LingPaiEffect`、`ef_snow` 或碰撞 box 在当前 `resources/` 文件名和 SymbolClass 检索中未命中；现代侧继续使用稳定占位 key，不重新生成 `extracted_flash/`。
+- 不实现法宝强化 UI、材料消耗、五行重置、联机同步、`qljfb` 或其他法宝。
+
 ## 现代实现建议
 
 现代侧已经完成首个非葫芦治疗法宝切片：
@@ -249,12 +313,14 @@ time = gc.frameClips * 5
 - `TASK-SLICE-033` 已新增 `tjbg` 太极八卦/MagicBagua 全屏眩晕法宝最小切片，范围包括 H 触发等级门禁、全体存活 `Monster30` 眩晕、普通 `6s`/木五行 `8s` 持续、约 24 帧动作回待机、重入拒绝和到期恢复。
 - `TASK-SLICE-034` 已新增 `zltc` 震雷天锤/MagicZLHummer 前方雷锤法宝最小切片。AS3 证据为 `MagicZLHummer.useSkill()` 要求当前 `zbfb` 等级至少 `1`；`showSkill()` 创建 `SpecialEffectBullet("zltcskill","zltcbox")`，按角色朝向放在 `x +/- 160`、`y - 42`，`setAction("fabao-zltc")`，普通五行 `25` 帧回 `wait`，木五行 `20` 帧回 `wait`。
 - `BaseHero.attackBackInfoDict["fabao-zltc"]` 参数为 `hitMaxCount = 999`、`attackBackSpeed = [2,-2]`、`attackInterval = 6`、`attackKind = magic`、`addEffect = STUN` 且持续 `gc.frameClips * 4.5`。现代侧已用 `magic-weapon-zltc` 占位 projectile 和 Monster30 `magicZlHummerStun` 表达伤害、受击和 4.5 秒眩晕，不引入通用 AddEffect 重构。
-- 下一步推荐 `TASK-SETTINGS-022`：套天化雪令/Ling 落雪法宝逆向。
+- `TASK-SETTINGS-022` 已补清 `stlp/Ling` 奢天化雪令：H 触发一次性创建 `LingPaiEffect` 起手和 120 个 `ef_snow` 随机落雪，动作名 `fabao-snow`，按 `magic`、击退 `[2,-2]`、`attackInterval = 999` 命中，并附加 3 秒 `PETHORSE_ICE`。
+- 下一步推荐 `TASK-SLICE-035`：`stlp/Ling` 随机落雪法宝最小可玩切片。
 - 强化 UI 独立成后续 `TASK-SLICE` 或 `TASK-SETTINGS`，不要和首个能力切片混在一起。
 
 后置范围：
 
-- 剩余未实现法宝的技能表现，尤其 `stlp/qljfb` 等特殊表现。
+- 剩余未实现法宝的技能表现，尤其 `qljfb` 等特殊表现。
+- `stlp` 后置完整五角色 `getRealPower("fabao-snow")`、qixue/吸血、全怪物通用冰冻 AddEffect 泛化和真资源校准。
 - `xhmt` 后置完整五角色 `getRealPower("fabao-pearl")`、吸血/qixue、全怪物通用 AddEffect 泛化和真资源校准。
 - 法宝强化面板、材料消耗和五行重置。
 - 真实法宝资源接入。

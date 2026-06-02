@@ -323,6 +323,25 @@ function checkStartupRules(agents, outline) {
   }
 }
 
+function checkUtf8ReadingRules(agents, claude, workflowReadme) {
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['docs/workflow/README.md', workflowReadme],
+  ]) {
+    if (!text.includes('Get-Content -Encoding UTF8 -LiteralPath')) {
+      error(`${name} must require PowerShell UTF-8 reads with Get-Content -Encoding UTF8 -LiteralPath.`);
+    }
+  }
+
+  if (!agents.includes('乱码') || !workflowReadme.includes('mojibake')) {
+    error('Workflow docs must tell agents to stop and reread as UTF-8 when text output is garbled.');
+  }
+  if (!agents.includes('rg -n') || !agents.includes('Select-Object -First/-Skip/-Last')) {
+    error('AGENTS.md must require targeted snippet reads instead of broad full-document reads.');
+  }
+}
+
 function checkWorkflowSeparation(mechanics) {
   if (/任务生成规范|task-generation|工作流脚手架/.test(mechanics)) {
     error('mechanics-index.md should not contain workflow scaffolding entries.');
@@ -431,6 +450,7 @@ const history = read(files.history);
 const mechanicsText = read(files.mechanics);
 const verticalSlices = read(files.verticalSlices);
 const governanceLog = read(files.governanceLog);
+const workflowReadme = read(files.workflowReadme);
 const packageJsonText = read(files.packageJson);
 const codeQualityGates = read(files.codeQualityGates);
 const tsconfig = read(files.tsconfig);
@@ -452,6 +472,7 @@ const { historyRows, historyDefinitionIds } = checkHistory(history, boardIds);
 checkRefs(taskRows, mechanics, verticalSlices);
 checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
+checkUtf8ReadingRules(agents, claude, workflowReadme);
 checkWorkflowSeparation(mechanicsText);
 checkGovernanceLog([files.taskGeneration, files.workflowReadme, files.documentMap, files.codeQualityGates], governanceLog);
 checkCodeQualityGates(packageJsonText, codeQualityGates, claude);

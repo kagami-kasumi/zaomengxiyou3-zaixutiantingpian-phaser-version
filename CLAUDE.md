@@ -35,6 +35,11 @@ npm run check:workflow
 8. 不修改 `extracted_flash/`。
 9. AS3 源码是行为参考，不是架构模板。保留可观察行为，用现代方式重写。
 
+## 读取约束
+
+- PowerShell 读取中文/Markdown 文档时使用 `Get-Content -Encoding UTF8 -LiteralPath ...`。
+- 优先 `rg -n` 或小范围片段读取；遇到乱码时不要继续推理，改用 UTF-8 重新读取。
+
 ## Code Quality Gates
 
 修改 `src/` 后，不要只靠视觉测试。必须运行：

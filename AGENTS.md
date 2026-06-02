@@ -10,6 +10,12 @@
 4. 不要一次性重构大量系统。每次任务选择一个清晰子系统或一个可玩的纵向切片。
 5. 默认不启动 `npm run dev`；修改代码后优先运行可自动结束的检查命令。
 
+## 读取与编码约束
+
+- PowerShell 读取中文/Markdown 文档必须显式使用 `Get-Content -Encoding UTF8 -LiteralPath ...`；如果输出出现乱码，立刻停止基于该输出推理，改用 UTF-8 重新读取。
+- 优先用 `rg -n`、`Select-Object -First/-Skip/-Last` 或精确路径读取相关片段；不要为了找一条记录全文读入大型 Markdown、AS3 或历史文档。
+- `task-history.md`、大型 reverse-engineering 文档和 AS3 文件默认先关键词定位，再读取命中的小范围上下文。
+
 ## 默认入口
 
 新对话默认先读：

@@ -2,6 +2,30 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-06-02
+
+### 增加 UTF-8 读取纪律与片段读取约束
+
+变更内容：
+
+- 在 `AGENTS.md` 新增读取与编码约束，要求 PowerShell 读取中文/Markdown 文档时显式使用 `Get-Content -Encoding UTF8 -LiteralPath ...`。
+- 明确遇到乱码输出时不能继续基于该输出推理，必须用 UTF-8 重新读取。
+- 明确优先用 `rg -n` 和小范围片段读取，避免为了定位单条记录全文读入大型 Markdown、AS3 或历史文档。
+- 在 `CLAUDE.md` 和 `docs/workflow/README.md` 同步入口摘要。
+- 扩展 `tools/validate-workflow.mjs`，校验入口文档是否保留 UTF-8 读取纪律和片段读取要求。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `docs/workflow/README.md`
+- `docs/workflow/governance-log.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ## 2026-06-01
 
 ### 重做项目 README 与脚手架 README

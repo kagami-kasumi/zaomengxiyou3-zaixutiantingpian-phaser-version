@@ -12,6 +12,13 @@
 
 核心原则是 **Map, Not Manual**：入口文件只给阅读路由和硬规则，细节按任务类型逐层打开，避免把上下文窗口浪费在无关材料上。
 
+## 读取纪律
+
+- 在 PowerShell 中读取中文/Markdown 文档时，必须显式使用 `Get-Content -Encoding UTF8 -LiteralPath ...`，避免 mojibake 输出污染上下文。
+- 如果已经看到乱码输出，不能继续基于该输出总结或修改文档；应改用 UTF-8 重新读取。
+- 优先用 `rg -n` 定位关键词，再读取命中附近的小范围片段；大型 Markdown、AS3 和历史文档不做无差别全文读入。
+- 需要硬性约束时，把入口文档中的 UTF-8 读取要求接入 `tools/validate-workflow.mjs` 或本地 agent hook，确保约束被删除时能失败。
+
 ## 文档分工
 
 | 文档 | 职责 |

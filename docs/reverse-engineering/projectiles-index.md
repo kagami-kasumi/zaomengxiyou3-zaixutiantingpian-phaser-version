@@ -114,7 +114,7 @@ projectileId + ":" + sourceAttackId + ":" + hitSerial + ":" + targetId
 | --- | --- | --- |
 | `SpecialEffectBullet` | 静态或局部跟随特效；默认依赖动画帧销毁，可选跟随 `ThroughWallBullet` | `Role2Bullet5` 使用它，`VS-008` 必须支持 |
 | `FollowBaseObjectBullet` | 跟随来源对象位置和朝向，来源受击时默认可销毁 | 普攻/贴身技能常用；后续通用化 |
-| `EnemyMoveBullet` | 按速度/距离移动，可追踪目标，可切换最低/最高 HP 目标 | 首批可不做，后续远程弹体需要 |
+| `EnemyMoveBullet` | 按速度/距离移动，可追踪目标，可切换最低/最高 HP 目标 | 已有 `Role2.smb` 移动弹体；`stlp/Ling` 使用无目标随机落雪变体 |
 | `EnemyMoveBullet1/2/3` | 移动弹体变体，含目标转向或旋转逻辑 | 后置 |
 | `FastAndSlowBullet` | 移动一段后降速 | 后置 |
 | `ParabolaBullet` | 带重力的抛物线弹体 | 后置 |
@@ -331,6 +331,7 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 - `TASK-SLICE-006` 已实现 `Role2.smb -> hit4_1` 等价移动 projectile：使用 `skill-projectile.role2.smb.hit4_1` 占位 key、来源符号 `Role2Bullet4_1`、运行时兼容名 `Role1Bullet4_1`，朝角色面向水平移动并以 `magic`、`[0,-3]` 击退命中 `Monster30`。
 - `TASK-SLICE-007` 已实现 `Role2.smb -> hit4_2` 等价二段 projectile：第一段仍活跃且尚未触发二段时，再按第二技能键会用 `skill-projectile.role2.smb.hit4_2` 占位 key 生成 `Role2Bullet4_2`，位置来自第一段当前记录点而不是角色当前位置，命中继续复用 `DamageEvent` 与现有命中去重。
 - `TASK-SLICE-034` 已实现法宝 `zltc/MagicZLHummer` 的 `zltcskill` 前方占位 projectile：使用 `magic-weapon.zltc.zltcskill` 占位 key，按角色朝向生成在 `x +/- 160`、`y - 42`，动作名 `fabao-zltc`，以 `magic`、击退 `[2,-2]`、`attackInterval = 6` 命中 `Monster30`，并把 AS3 `STUN 4.5s` 表达为 Monster30 `magicZlHummerStun` 最小状态。
+- `TASK-SETTINGS-022` 已补清法宝 `stlp/Ling` 的 `ef_snow` 落雪 projectile：AS3 一次 H 触发生成 120 个 `EnemyMoveBullet("ef_snow")`，起点为当前镜头上方随机范围 `x = -gameSence.x - 500 + random() * 1240`、`y = -gameSence.y - 480 + random() * 100`，角度 `50..60` 度，速度约 `10..15`，距离 `1500` 后销毁；没有 `moveTarget`，因此不是目标锁定 projectile。动作名 `fabao-snow`，命中参数为 `magic`、击退 `[2,-2]`、`attackInterval = 999`、`hitMaxCount = 999`，附加 `PETHORSE_ICE` 3 秒。现代占位 key 建议：`magic-weapon.stlp.ling-pai-effect` 和 `magic-weapon.stlp.ef-snow`。
 
 ## 正式技能输入边界
 

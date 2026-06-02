@@ -2869,3 +2869,33 @@
 - `npm run test:systems` 通过。
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-022
+
+完成时间：
+- 2026-06-02
+
+完成内容：
+- 细读 `Ling.as`、`BaseMagicWeapon.as`、`BaseHero.as`、`BaseBullet.as`、`EnemyMoveBullet.as`、五个 `Role*.as` 的 `getRealPower("fabao-snow")` 分支，以及 `AllEquipment.as` / `MyEquipObj.as` 中 `stlp` 装备定义。
+- 确认 `stlp` 装备入口：`BaseHero.initMagicWeapon()` 通过 `fillName == "stlp"` 创建 `Ling`；H / 小键盘 7 走通用 `BaseMagicWeapon.useSkill()`，无显式 MP、灵魂或等级门禁，使用中重入直接返回。
+- 确认 `Ling.showSkill()` 释放链路：创建禁用的 `LingPaiEffect` 起手表现，然后一次性生成 `totalNum = 120` 个 `EnemyMoveBullet("ef_snow")`；普通五行动作窗口 25 帧，木五行 20 帧。
+- 确认 `ef_snow` 不是目标锁定 projectile：起点在当前镜头上方随机范围，角度 50 至 60 度，速度约 10 至 15，行进距离 1500 后销毁，未调用 `setMoveTarget()`。
+- 确认 `fabao-snow` 命中参数：`hitMaxCount = 999`、击退 `[2,-2]`、`attackInterval = 999`、`attackKind = magic`、`addEffect = PETHORSE_ICE` 且持续 3 秒。
+- 确认五角色伤害公式核心为当前 `zbfb` 等级派生的 `0.09 * Hurt * level`，并保留 Role2/Role3/Role4/Role5 的角色修正系数作为后续校准依据。
+- 确认当前 `resources/` 文件名和 SymbolClass 检索未命中 `LingBmd`、`LingPaiEffect`、`ef_snow` 或 `stlp` 真资源；后续实现使用占位 key，不重新生成 `extracted_flash/`。
+- 更新 `magic-weapons-index.md`，新增 `奢天化雪令 / Ling` 章节，写明装备入口、释放窗口、120 个随机落雪、命中参数、伤害公式、资源缺口和现代最小实现边界。
+- 更新 `projectiles-index.md`，补充 `ef_snow` 的 `EnemyMoveBullet` 映射、随机生成范围、非目标锁定结论、`fabao-snow` 参数和建议占位 key。
+- 更新 `mechanics-index.md` 的 `M-034/M-043` 下一步，明确逆向已足够支撑 `TASK-SLICE-035`。
+- 更新 `vertical-slices.md`，把当前推荐切到 `TASK-SLICE-035`，并在 `VS-013` 中记录 `stlp/Ling` 已扒清。
+- 更新 `task-board.md`，移除已完成的 `TASK-SETTINGS-022`，新增 Ready 任务 `TASK-SLICE-035`。
+
+更新文件：
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/reverse-engineering/projectiles-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:workflow` 通过。
