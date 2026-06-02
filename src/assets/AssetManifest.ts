@@ -53,6 +53,7 @@ export const MagicWeaponEffectKeys = {
   magicPearlBullet1: 'magic-weapon.xhmt.magic-pearl-bullet1',
   magicPearlBullet2: 'magic-weapon.xhmt.magic-pearl-bullet2',
   magicPearlBullet3: 'magic-weapon.xhmt.magic-pearl-bullet3',
+  magicZlHummer: 'magic-weapon.zltc.zltcskill',
 } as const;
 
 export const scaffoldAssets = {
@@ -156,8 +157,11 @@ export const sourceAssetFamilies = {
       'MagicPearlBullet1',
       'MagicPearlBullet2',
       'MagicPearlBullet3',
+      'ZLHummerBmd',
+      'zltcskill',
+      'zltcbox',
     ],
-    notes: 'Damage magic-weapon projectile families for lxj/MagicSword2, fbqpj/MagicQPJ, and xhmt/MagicPearl; absent from current exported bitmap resources, represented by modern placeholder effects.',
+    notes: 'Damage magic-weapon projectile families for lxj/MagicSword2, fbqpj/MagicQPJ, xhmt/MagicPearl, and zltc/MagicZLHummer; absent from current exported bitmap resources, represented by modern placeholder effects.',
   },
   stage11: {
     status: 'missing-original',

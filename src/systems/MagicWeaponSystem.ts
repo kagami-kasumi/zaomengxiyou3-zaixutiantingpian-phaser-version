@@ -23,6 +23,7 @@ import {
   spawnMagicQpjProjectile,
   spawnMagicPearlProjectile,
   spawnMagicSword2Projectile,
+  spawnMagicZlHummerProjectile,
   type ProjectileModel,
   type ProjectileSystemModel,
 } from './ProjectileSystem';
@@ -41,6 +42,7 @@ export type MagicWeaponFillName =
   | 'mdhf'
   | 'xhmt'
   | 'tjbg'
+  | 'zltc'
   | 'lxfb'
   | 'sxfb'
   | 'yxfb';
@@ -58,6 +60,7 @@ export type MagicWeaponEffectKind =
   | 'magicFlower'
   | 'magicFlag'
   | 'magicBagua'
+  | 'magicZlHummer'
   | 'magicPearl'
   | 'magicDemonBuff';
 
@@ -169,6 +172,19 @@ export type MagicWeaponBaguaEffect = {
   affectedEnemyIds: string[];
 };
 
+export type MagicWeaponZlHummerEffect = {
+  kind: 'magicZlHummer';
+  totalMs: number;
+  remainingMs: number;
+  sourceId: string;
+  sourceX: number;
+  sourceY: number;
+  facingX: -1 | 1;
+  hasSpawnedHammer: boolean;
+  projectileId?: number;
+  damage: number;
+};
+
 export type MagicWeaponPearlEffect = {
   kind: 'magicPearl';
   totalMs: number;
@@ -221,6 +237,7 @@ export type MagicWeaponActiveEffect =
   | MagicWeaponFlowerEffect
   | MagicWeaponFlagEffect
   | MagicWeaponBaguaEffect
+  | MagicWeaponZlHummerEffect
   | MagicWeaponPearlEffect
   | MagicWeaponDemonBuffEffect;
 
@@ -275,6 +292,12 @@ export type MagicWeaponEnemyTarget = {
     remainingMs: number;
   }) => void;
   clearMagicBaguaStun?: () => void;
+  applyMagicZlHummerStun?: (effect: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs: number;
+  }) => void;
+  clearMagicZlHummerStun?: () => void;
   applyMagicPearlStun?: (effect: {
     sourceName: string;
     totalMs: number;
@@ -348,6 +371,13 @@ export const MagicWeaponTuning = {
   baguaActionMs: 400,
   baguaStunMs: 6_000,
   baguaWoodStunMs: 8_000,
+  zlHummerActionMs: 417,
+  zlHummerWoodActionMs: 333,
+  zlHummerDamageLevelBase: 18,
+  zlHummerDamageLevelStep: 3,
+  zlHummerDamageDivisor: 4,
+  zlHummerDamageMultiplier: 1.8,
+  zlHummerFallbackPower: 10,
   pearlActionMs: 500,
   pearlBeginMs: 160,
   pearlFlyMs: 500,
@@ -555,6 +585,23 @@ export function requestMagicWeaponTrigger(params: {
     return { triggered: true, message: params.model.message };
   }
 
+  if (current.fillName === 'zltc') {
+    if (current.level < 1) {
+      params.model.message = `${current.name} level too low`;
+      return { triggered: false, message: params.model.message };
+    }
+
+    if (!params.source) {
+      params.model.message = '震雷天锤缺少释放源';
+      return { triggered: false, message: params.model.message };
+    }
+
+    params.model.action = 'hit';
+    params.model.activeEffect = createZlHummerEffect(current, params.target, params.source);
+    params.model.message = `${current.name} zltcskill`;
+    return { triggered: true, message: params.model.message };
+  }
+
   const effect = createHealingEffect(current);
   params.model.action = 'hit';
   params.model.activeEffect = effect;
@@ -595,6 +642,8 @@ export function updateMagicWeapon(
     updateFlagEffect(model, target, effect, elapsedMs);
   } else if (effect.kind === 'magicBagua') {
     updateBaguaEffect(model, effect, elapsedMs);
+  } else if (effect.kind === 'magicZlHummer') {
+    updateZlHummerEffect(model, effect, projectiles);
   } else if (effect.kind === 'magicPearl') {
     updatePearlEffect(model, target, effect, elapsedMs, projectiles, enemyTargets, random);
   }
@@ -894,6 +943,38 @@ function createBaguaEffect(current: MagicWeaponEquipState): MagicWeaponBaguaEffe
   };
 }
 
+function createZlHummerEffect(
+  current: MagicWeaponEquipState,
+  target: MagicWeaponTarget,
+  source: MagicWeaponSourceSnapshot,
+): MagicWeaponZlHummerEffect {
+  const totalMs = current.element.includes('木')
+    ? MagicWeaponTuning.zlHummerWoodActionMs
+    : MagicWeaponTuning.zlHummerActionMs;
+  const level = Math.max(1, current.level);
+  const basePower = Math.max(
+    1,
+    target.effectiveStats?.power ?? MagicWeaponTuning.zlHummerFallbackPower,
+  );
+  const damage = basePower *
+    (MagicWeaponTuning.zlHummerDamageLevelBase +
+      (level - 1) * MagicWeaponTuning.zlHummerDamageLevelStep) /
+    MagicWeaponTuning.zlHummerDamageDivisor *
+    MagicWeaponTuning.zlHummerDamageMultiplier;
+
+  return {
+    kind: 'magicZlHummer',
+    totalMs,
+    remainingMs: totalMs,
+    sourceId: source.sourceId,
+    sourceX: source.x,
+    sourceY: source.y,
+    facingX: source.facingX,
+    hasSpawnedHammer: false,
+    damage,
+  };
+}
+
 function createPearlEffect(
   current: MagicWeaponEquipState,
   target: MagicWeaponTarget,
@@ -1134,6 +1215,31 @@ function updateBaguaEffect(
   if (elapsedMs > 0 && effect.remainingMs - elapsedMs <= 0) {
     model.message = `${model.current?.name ?? 'tjbg'} action done`;
   }
+}
+
+function updateZlHummerEffect(
+  model: MagicWeaponModel,
+  effect: MagicWeaponZlHummerEffect,
+  projectiles: ProjectileSystemModel | undefined,
+): void {
+  if (effect.hasSpawnedHammer) {
+    return;
+  }
+
+  effect.hasSpawnedHammer = true;
+  if (!projectiles) {
+    model.message = `${model.current?.name ?? 'zltc'} zltcskill`;
+    return;
+  }
+
+  const projectile = spawnMagicZlHummerProjectile(projectiles, {
+    sourceId: effect.sourceId,
+    x: effect.sourceX,
+    y: effect.sourceY,
+    facingX: effect.facingX,
+  }, effect.damage);
+  effect.projectileId = projectile.id;
+  model.message = `${model.current?.name ?? 'zltc'} ${projectile.runtimeName}`;
 }
 
 function updateDemonBuffEffect(
@@ -1568,6 +1674,7 @@ function isSupportedMagicWeapon(fillName: string): fillName is MagicWeaponFillNa
     fillName === 'mdhf' ||
     fillName === 'xhmt' ||
     fillName === 'tjbg' ||
+    fillName === 'zltc' ||
     fillName === 'lxfb' ||
     fillName === 'sxfb' ||
     fillName === 'yxfb';

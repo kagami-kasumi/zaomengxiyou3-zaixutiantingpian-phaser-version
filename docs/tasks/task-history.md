@@ -82,8 +82,41 @@
 | TASK-SLICE-031 | 切片 | 摩多魂幡/MagicFlag 反制 debuff 法宝最小切片 | M-043、M-032、M-033、VS-013 | `MagicWeaponSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-032 | 切片 | 血海魔童/MagicPearl 多段随机打击法宝最小切片 | M-043、M-032、M-033、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-033 | 切片 | 太极八卦/MagicBagua 全屏眩晕法宝最小切片 | M-043、M-033、VS-013 | `MagicWeaponSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-034 | 切片 | 震雷天锤/MagicZLHummer 前方雷锤法宝最小切片 | M-043、M-032、M-033、M-034、VS-013 | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`Monster30System.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-034
+
+完成定义：
+
+- 在当前 `MagicWeaponSystem` 中扩展 `zltc` 震雷天锤触发分支；装备对应 `zbfb` 后按 `H` 主动释放，不占普通技能槽或 Space。
+- 法宝等级至少 `1` 才能释放；等级不足时不进入 `hit`，并给出可观察反馈。
+- 释放后在角色前方生成 `zltcskill` 等价雷锤占位 projectile；命中当前存活 `Monster30` 时通过现有伤害/projectile 桥接产生扣血、受击和 `zltc-stun` 可观测状态。
+- 保留 AS3 动作窗口边界：普通五行约 `25` 帧回 `wait`，木五行约 `20` 帧回 `wait`；使用中重复按 H 拒绝重入。
+- 系统测试覆盖触发、等级门禁、木五行动作边界、前方目标命中、无目标边界、到期清理、重入拒绝。
+
+已完成产物：
+
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-033
 
@@ -2803,4 +2836,36 @@
 
 验证：
 
+- `npm run check:workflow` 通过。
+### TASK-SLICE-034
+
+完成时间：
+- 2026-06-02
+
+完成内容：
+- 扩展 `src/systems/MagicWeaponSystem.ts`，新增 `zltc` 震雷天锤 H 触发分支：法宝等级低于 1 时拒绝释放并保持 `wait`；普通五行动作窗口约 25 帧（417ms），木五行动作窗口约 20 帧（333ms）；使用中重复 H 拒绝重入。
+- 扩展 `src/systems/ProjectileSystem.ts`，新增 `magic-weapon-zltc` / `zltcskill` 占位 projectile：按 AS3 `MagicZLHummer` 在角色前方 160、上方 42 生成，动作名 `fabao-zltc`，命中参数保留 `magic`、击退 `[2,-2]`、`attackInterval = 6`，并携带 4.5 秒 stun 数据。
+- 扩展 `src/systems/Monster30System.ts` 与 `src/scenes/TestScene.ts`，新增 Monster30 `magicZlHummerStun` 最小状态；雷锤 projectile 命中时走现有 `DamageEvent`/`applyMonster30Hit()` 扣血受击，并挂 `zltc-stun` 可观测状态，到期清理并恢复行为。
+- 扩展 `src/systems/EquipmentSystem.ts`、`src/systems/InventorySystem.ts` 与 `src/assets/AssetManifest.ts`，加入 `zltc` 种子 `zbfb` 法宝、测试背包装备入口，以及 `ZLHummerBmd/zltcskill/zltcbox` 资源缺口登记。
+- 扩展 `tools/system-tests.ts`，覆盖 `zltc` 等级门禁、前方 projectile 生成、普通/木五行动作边界、无目标边界、命中伤害和 4.5 秒 stun、到期清理、重入拒绝。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/reverse-engineering/magic-weapons-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将下一步推荐切到 `TASK-SETTINGS-022`。
+
+更新文件：
+- `src/systems/MagicWeaponSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/systems/EquipmentSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/magic-weapons-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。

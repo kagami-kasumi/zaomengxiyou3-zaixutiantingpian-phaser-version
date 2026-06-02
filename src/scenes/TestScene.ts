@@ -38,6 +38,7 @@ import {
   applyMonster30MagicBaguaStun,
   applyMonster30MagicPearlPoison,
   applyMonster30MagicPearlStun,
+  applyMonster30MagicZlHummerStun,
   clearMonster30MagicBaguaStun,
   clearMonster30MagicFlagDebuff,
   applyMonster30Hit,
@@ -45,6 +46,7 @@ import {
   clearMonster30MagicFlowerDebuff,
   clearMonster30MagicPearlPoison,
   clearMonster30MagicPearlStun,
+  clearMonster30MagicZlHummerStun,
   createMonster30,
   updateMonster30,
   type Monster30Model,
@@ -2064,6 +2066,13 @@ export class TestScene extends Phaser.Scene {
           remainingMs: effect.remainingMs,
         }),
       clearMagicBaguaStun: () => clearMonster30MagicBaguaStun(monster),
+      applyMagicZlHummerStun: (effect) =>
+        applyMonster30MagicZlHummerStun(monster, {
+          sourceName: effect.sourceName,
+          totalMs: effect.totalMs,
+          remainingMs: effect.remainingMs,
+        }),
+      clearMagicZlHummerStun: () => clearMonster30MagicZlHummerStun(monster),
       applyMagicPearlStun: (effect) =>
         applyMonster30MagicPearlStun(monster, {
           sourceName: effect.sourceName,
@@ -2618,6 +2627,12 @@ export class TestScene extends Phaser.Scene {
         });
 
         if (applyMonster30Hit(monster, damageEvent.amount)) {
+          if (projectile.magicStunMs && projectile.magicStunMs > 0) {
+            applyMonster30MagicZlHummerStun(monster, {
+              sourceName: projectile.runtimeName,
+              totalMs: projectile.magicStunMs,
+            });
+          }
           if (isPlayerSlot(projectile.sourceId)) {
             this.monster30AuraTargets.set(monster.id, projectile.sourceId);
           }
@@ -3253,6 +3268,9 @@ function formatMonsterMagicPearlEffects(monster: Monster30Model): string {
   const parts: string[] = [];
   if (monster.magicBaguaStun) {
     parts.push(`bagua-stun:${formatSeconds(monster.magicBaguaStun.remainingMs)}s`);
+  }
+  if (monster.magicZlHummerStun) {
+    parts.push(`zltc-stun:${formatSeconds(monster.magicZlHummerStun.remainingMs)}s`);
   }
   if (monster.magicPearlStun) {
     parts.push(`pearl-stun:${formatSeconds(monster.magicPearlStun.remainingMs)}s`);

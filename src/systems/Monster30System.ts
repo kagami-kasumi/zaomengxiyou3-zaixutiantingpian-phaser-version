@@ -27,6 +27,7 @@ export type Monster30Model = {
   magicFlowerDebuff?: MonsterMagicFlowerDebuff;
   magicFlagDebuff?: MonsterMagicFlagDebuff;
   magicBaguaStun?: MonsterMagicBaguaStun;
+  magicZlHummerStun?: MonsterMagicZlHummerStun;
   magicPearlStun?: MonsterMagicPearlStun;
   magicPearlPoison?: MonsterMagicPearlPoison;
 };
@@ -52,6 +53,13 @@ export type MonsterMagicFlagDebuff = {
 
 export type MonsterMagicBaguaStun = {
   kind: 'magicBaguaStun';
+  sourceName: string;
+  totalMs: number;
+  remainingMs: number;
+};
+
+export type MonsterMagicZlHummerStun = {
+  kind: 'magicZlHummerStun';
   sourceName: string;
   totalMs: number;
   remainingMs: number;
@@ -156,6 +164,7 @@ export function updateMonster30(
   if (monster.state === 'dead') {
     clearMonster30MagicFlagDebuff(monster);
     clearMonster30MagicBaguaStun(monster);
+    clearMonster30MagicZlHummerStun(monster);
     clearMonster30MagicPearlStun(monster);
     clearMonster30MagicPearlPoison(monster);
     monster.activeAttack = undefined;
@@ -192,7 +201,7 @@ export function updateMonster30(
     monster.activeAttack = undefined;
   }
 
-  if (monster.magicBaguaStun || monster.magicPearlStun) {
+  if (monster.magicBaguaStun || monster.magicZlHummerStun || monster.magicPearlStun) {
     monster.state = 'wait';
     monster.activeAttack = undefined;
     return;
@@ -328,6 +337,35 @@ export function applyMonster30MagicBaguaStun(
 
 export function clearMonster30MagicBaguaStun(monster: Monster30Model): void {
   monster.magicBaguaStun = undefined;
+}
+
+export function applyMonster30MagicZlHummerStun(
+  monster: Monster30Model,
+  params: {
+    sourceName: string;
+    totalMs: number;
+    remainingMs?: number;
+  },
+): void {
+  if (monster.state === 'dead' || monster.state === 'removed') {
+    return;
+  }
+
+  monster.magicZlHummerStun = {
+    kind: 'magicZlHummerStun',
+    sourceName: params.sourceName,
+    totalMs: Math.max(0, params.totalMs),
+    remainingMs: Math.max(0, params.remainingMs ?? params.totalMs),
+  };
+  monster.activeAttack = undefined;
+  if (monster.state === 'hit1') {
+    monster.state = 'wait';
+    monster.stateTimerMs = 0;
+  }
+}
+
+export function clearMonster30MagicZlHummerStun(monster: Monster30Model): void {
+  monster.magicZlHummerStun = undefined;
 }
 
 export function applyMonster30MagicPearlStun(
@@ -489,6 +527,15 @@ function updateMonster30MagicPearlEffects(monster: Monster30Model, deltaMs: numb
   }
 
   const stun = monster.magicPearlStun;
+  const zlHummerStun = monster.magicZlHummerStun;
+  if (zlHummerStun && monster.state !== 'dead' && monster.state !== 'removed') {
+    const elapsedMs = Math.max(0, Math.min(deltaMs, zlHummerStun.remainingMs));
+    zlHummerStun.remainingMs -= elapsedMs;
+    if (zlHummerStun.remainingMs <= 0) {
+      monster.magicZlHummerStun = undefined;
+    }
+  }
+
   if (stun && monster.state !== 'dead' && monster.state !== 'removed') {
     const elapsedMs = Math.max(0, Math.min(deltaMs, stun.remainingMs));
     stun.remainingMs -= elapsedMs;

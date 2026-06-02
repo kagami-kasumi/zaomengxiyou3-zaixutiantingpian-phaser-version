@@ -11,13 +11,16 @@ import {
 } from '../src/systems/LevelSystem';
 import {
   applyMonster30MagicFlagCounterFromHero,
+  applyMonster30Hit,
   applyMonster30MagicBaguaStun,
   applyMonster30MagicFlagDebuff,
   applyMonster30MagicPearlPoison,
   applyMonster30MagicPearlStun,
+  applyMonster30MagicZlHummerStun,
   clearMonster30MagicBaguaStun,
   clearMonster30MagicPearlPoison,
   clearMonster30MagicPearlStun,
+  clearMonster30MagicZlHummerStun,
   createMonster30,
   Monster30Tuning,
   updateMonster30,
@@ -66,6 +69,7 @@ import {
 import {
   createProjectileSystem,
   getActiveProjectiles,
+  getProjectileHitbox,
   updateProjectiles,
 } from '../src/systems/ProjectileSystem';
 import {
@@ -130,6 +134,12 @@ testMagicWeaponBaguaRequiresLevelAtLeastOne();
 testMagicWeaponBaguaStunsAllMonster30sAndRejectsReentry();
 testMagicWeaponBaguaWoodStunsForEightSeconds();
 testMagicWeaponBaguaStunExpiresAndRestoresMonster30();
+testMagicWeaponZlHummerRequiresLevelAtLeastOne();
+testMagicWeaponZlHummerSpawnsFrontHammerAndRejectsReentry();
+testMagicWeaponZlHummerWoodActionBoundary();
+testMagicWeaponZlHummerNoTargetsStillCleansUp();
+testMagicWeaponZlHummerHitAppliesDamageAndStun();
+testMagicWeaponZlHummerStunExpiresAndRestoresMonster30();
 
 console.log('System tests passed.');
 
@@ -1888,6 +1898,220 @@ function testMagicWeaponBaguaStunExpiresAndRestoresMonster30(): void {
   assert.equal(monster.state, 'wait');
 }
 
+function testMagicWeaponZlHummerRequiresLevelAtLeastOne(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const zltcDefinition: EquipmentDefinition = {
+    ...registry.zltc,
+    magicWeapon: {
+      level: 0,
+      element: '火',
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(zltcDefinition, 'zltc-low-level-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  const result = requestMagicWeaponTrigger({
+    model,
+    target,
+    source: { sourceId: 'p1', x: 100, y: 200, facingX: 1 },
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(result.triggered, false);
+  assert.equal(model.action, 'wait');
+  assert.equal(model.activeEffect, undefined);
+  updateMagicWeapon(model, target, 16, projectiles);
+  assert.equal(getActiveProjectiles(projectiles).length, 0);
+  assert.match(model.message, /level too low/);
+}
+
+function testMagicWeaponZlHummerSpawnsFrontHammerAndRejectsReentry(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.zltc, 'zltc-spawn-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+  const source = { sourceId: 'p1', x: 100, y: 200, facingX: 1 as const };
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  const result = requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(result.triggered, true);
+  assert.equal(model.action, 'hit');
+  assert.equal(model.activeEffect?.kind, 'magicZlHummer');
+
+  const reentry = requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  assert.equal(reentry.triggered, false);
+  assert.match(reentry.message, /正在使用/);
+
+  updateMagicWeapon(model, target, 1, projectiles, [], source);
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(projectile.variant, 'magic-weapon-zltc');
+  assert.equal(projectile.actionName, 'fabao-zltc');
+  assert.equal(projectile.runtimeName, 'zltcskill');
+  assert.equal(projectile.x, 260);
+  assert.equal(projectile.y, 158);
+  assert.equal(projectile.knockbackX, 2);
+  assert.equal(projectile.knockbackY, -2);
+  assert.equal(projectile.hitIntervalFrames, 6);
+  assert.equal(projectile.magicStunMs, 4_500);
+
+  updateMagicWeapon(model, target, MagicWeaponTuning.zlHummerActionMs, projectiles, [], source);
+  assert.equal(model.action, 'wait');
+  assert.equal(model.activeEffect, undefined);
+}
+
+function testMagicWeaponZlHummerWoodActionBoundary(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.zltc, 'zltc-wood-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+  const source = { sourceId: 'p1', x: 0, y: 0, facingX: 1 as const };
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+
+  assert.equal(model.activeEffect?.kind, 'magicZlHummer');
+  if (model.activeEffect?.kind === 'magicZlHummer') {
+    assert.equal(model.activeEffect.totalMs, MagicWeaponTuning.zlHummerWoodActionMs);
+  }
+  updateMagicWeapon(model, target, MagicWeaponTuning.zlHummerWoodActionMs, projectiles, [], source);
+  assert.equal(model.action, 'wait');
+}
+
+function testMagicWeaponZlHummerNoTargetsStillCleansUp(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  loadout.magicWeapon = createTestEquipmentInstance(registry.zltc, 'zltc-no-target-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+  const source = { sourceId: 'p1', x: 20, y: 40, facingX: -1 as const };
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(model, target, 1, projectiles, [], source);
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(projectile.x, -140);
+  updateMagicWeapon(model, target, MagicWeaponTuning.zlHummerWoodActionMs, projectiles, [], source);
+  assert.equal(model.action, 'wait');
+  updateProjectiles(projectiles, [{ id: 'p1', state: 'ready' }], projectile.lifetimeMs);
+  assert.equal(getActiveProjectiles(projectiles).length, 0);
+}
+
+function testMagicWeaponZlHummerHitAppliesDamageAndStun(): void {
+  const registry = createSeedEquipmentRegistry();
+  const loadout = createEmptyEquipmentLoadout();
+  const zltcDefinition: EquipmentDefinition = {
+    ...registry.zltc,
+    magicWeapon: {
+      level: 1,
+      element: '火',
+    },
+  };
+  loadout.magicWeapon = createTestEquipmentInstance(zltcDefinition, 'zltc-hit-test');
+  const model = createMagicWeaponModel();
+  const target = createMagicWeaponTestTarget();
+  const projectiles = createProjectileSystem();
+  const source = { sourceId: 'p1', x: 100, y: 200, facingX: 1 as const };
+  const monster = createMonster30(260, 158, 'm30-zltc-hit');
+
+  syncMagicWeaponFromLoadout(model, loadout);
+  requestMagicWeaponTrigger({
+    model,
+    target,
+    source,
+    input: createMagicWeaponInput(true),
+    previousInput: createMagicWeaponInput(false),
+  });
+  updateMagicWeapon(model, target, 1, projectiles, [createMagicZlHummerMonsterTarget(monster)], source);
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(rectanglesIntersect(
+    getProjectileHitbox(projectile),
+    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
+  ), true);
+
+  const applied = applyMonster30Hit(monster, projectile.damage);
+  assert.equal(applied, true);
+  applyMonster30MagicZlHummerStun(monster, {
+    sourceName: projectile.runtimeName,
+    totalMs: projectile.magicStunMs ?? 0,
+  });
+  assert.equal(monster.hp, 69);
+  assert.equal(monster.magicZlHummerStun?.remainingMs, 4_500);
+  assert.equal(monster.state, 'hurt');
+}
+
+function testMagicWeaponZlHummerStunExpiresAndRestoresMonster30(): void {
+  const monster = createMonster30(0, 0, 'm30-zltc-expire');
+  monster.state = 'hit1';
+  monster.activeAttack = {
+    id: 1,
+    attackId: 'm30-zltc-expire-hit1-1',
+    actionName: 'hit1',
+    elapsedMs: 0,
+    hitboxActiveFromMs: 0,
+    hitboxActiveUntilMs: 100,
+    damage: 15,
+    attackKind: 'physics',
+    knockbackX: 6,
+    knockbackY: -5,
+    facingX: 1,
+  };
+
+  applyMonster30MagicZlHummerStun(monster, {
+    sourceName: 'zltcskill',
+    totalMs: 4_500,
+  });
+
+  assert.equal(monster.state, 'wait');
+  assert.equal(monster.activeAttack, undefined);
+  updateMonster30(monster, [{ slot: 'p1', x: 0, y: 0 }], 4_499, () => 0);
+  assert.equal(monster.magicZlHummerStun?.remainingMs, 1);
+  assert.equal(monster.state, 'wait');
+
+  updateMonster30(monster, [{ slot: 'p1', x: 0, y: 0 }], 1, () => 1);
+  assert.equal(monster.magicZlHummerStun, undefined);
+  assert.equal(monster.state, 'wait');
+}
+
 function createTestCapturableTarget(): CapturablePetTarget {
   return {
     id: 'test-monster72',
@@ -1975,6 +2199,27 @@ function createMagicBaguaMonsterTarget(
   };
 }
 
+function createMagicZlHummerMonsterTarget(
+  monster: ReturnType<typeof createMonster30>,
+) {
+  return {
+    id: monster.id,
+    x: monster.x,
+    y: monster.y,
+    isAlive: monster.state !== 'dead' && monster.state !== 'removed',
+    applyMagicZlHummerStun: (effect: {
+      sourceName: string;
+      totalMs: number;
+      remainingMs: number;
+    }) => {
+      applyMonster30MagicZlHummerStun(monster, effect);
+    },
+    clearMagicZlHummerStun: () => {
+      clearMonster30MagicZlHummerStun(monster);
+    },
+  };
+}
+
 function createMagicPearlMonsterTarget(
   monster: ReturnType<typeof createMonster30>,
 ) {
@@ -2005,6 +2250,16 @@ function createMagicPearlMonsterTarget(
       clearMonster30MagicPearlPoison(monster);
     },
   };
+}
+
+function rectanglesIntersect(
+  left: { x: number; y: number; width: number; height: number },
+  right: { x: number; y: number; width: number; height: number },
+): boolean {
+  return left.x < right.x + right.width &&
+    left.x + left.width > right.x &&
+    left.y < right.y + right.height &&
+    left.y + left.height > right.y;
 }
 
 function assertNearlyEqual(actual: number, expected: number): void {

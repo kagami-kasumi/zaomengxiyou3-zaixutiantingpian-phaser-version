@@ -47,6 +47,7 @@ export type ProjectileModel = {
   nextHitSerialAtFrame: number;
   hitSerial: number;
   remainingHits: number;
+  magicStunMs?: number;
   destroyWhenSourceHurt: boolean;
   hasSpawnedSecondStage: boolean;
   isExpired: boolean;
@@ -67,7 +68,8 @@ export type ProjectileVariant =
   | 'magic-weapon-qpj-auto'
   | 'magic-weapon-pearl-bullet1'
   | 'magic-weapon-pearl-bullet2'
-  | 'magic-weapon-pearl-bullet3';
+  | 'magic-weapon-pearl-bullet3'
+  | 'magic-weapon-zltc';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -244,6 +246,28 @@ export const MagicPearlBulletTunings = {
   },
 } as const;
 
+export const MagicZlHummerProjectileTuning = {
+  actionName: 'fabao-zltc',
+  assetKey: MagicWeaponEffectKeys.magicZlHummer,
+  sourceSymbol: 'zltcskill',
+  runtimeName: 'zltcskill',
+  offsetX: 160,
+  offsetY: -42,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 190,
+  height: 132,
+  lifetimeMs: 420,
+  damage: 81,
+  attackKind: 'magic',
+  knockbackX: 2,
+  knockbackY: -2,
+  hitIntervalFrames: 6,
+  maxHits: 999,
+  stunMs: 4_500,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -372,6 +396,25 @@ export function spawnMagicPearlProjectile(
   return projectile;
 }
 
+export function spawnMagicZlHummerProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'magic-weapon-zltc',
+    'magic-zltc',
+    MagicZlHummerProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.magicStunMs = MagicZlHummerProjectileTuning.stunMs;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -424,7 +467,8 @@ function spawnProjectileFromTuning(
     | typeof MagicQpjAutoProjectileTuning
     | typeof MagicPearlBulletTunings.bullet1
     | typeof MagicPearlBulletTunings.bullet2
-    | typeof MagicPearlBulletTunings.bullet3,
+    | typeof MagicPearlBulletTunings.bullet3
+    | typeof MagicZlHummerProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

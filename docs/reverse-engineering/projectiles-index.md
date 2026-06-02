@@ -330,6 +330,7 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 - `Role2Bullet5` 与 `Role2_hit5` 真资源已在 `TASK-SETTINGS-009` 中确认缺失于当前主包/备用包导出；后续应补 `TangSeng` / `SpecialUI/TangSeng` 角色包，或继续用占位 key 扩展第二个 projectile。
 - `TASK-SLICE-006` 已实现 `Role2.smb -> hit4_1` 等价移动 projectile：使用 `skill-projectile.role2.smb.hit4_1` 占位 key、来源符号 `Role2Bullet4_1`、运行时兼容名 `Role1Bullet4_1`，朝角色面向水平移动并以 `magic`、`[0,-3]` 击退命中 `Monster30`。
 - `TASK-SLICE-007` 已实现 `Role2.smb -> hit4_2` 等价二段 projectile：第一段仍活跃且尚未触发二段时，再按第二技能键会用 `skill-projectile.role2.smb.hit4_2` 占位 key 生成 `Role2Bullet4_2`，位置来自第一段当前记录点而不是角色当前位置，命中继续复用 `DamageEvent` 与现有命中去重。
+- `TASK-SLICE-034` 已实现法宝 `zltc/MagicZLHummer` 的 `zltcskill` 前方占位 projectile：使用 `magic-weapon.zltc.zltcskill` 占位 key，按角色朝向生成在 `x +/- 160`、`y - 42`，动作名 `fabao-zltc`，以 `magic`、击退 `[2,-2]`、`attackInterval = 6` 命中 `Monster30`，并把 AS3 `STUN 4.5s` 表达为 Monster30 `magicZlHummerStun` 最小状态。
 
 ## 正式技能输入边界
 

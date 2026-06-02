@@ -247,12 +247,14 @@ time = gc.frameClips * 5
 - `TASK-SLICE-031` 已新增 `mdhf` 摩多魂幡/MagicFlag 反制 debuff 法宝最小切片，范围包括 H 触发 10 秒护体、木五行动作边界、玩家受击反制 `Monster30`、每秒最大 HP 2% 扣血、Hit 降低倍率记录和到期/死亡清理。
 - `TASK-SLICE-032` 已新增 `xhmt` 血海魔童/MagicPearl 多段随机打击法宝最小切片，范围包括 H 触发 `MagicPearlBegin` 等价起手、`3 + floor(level / 3)` 且木五行 `+2` 的攻击次数、每轮最近目标选择、`MagicPearlBullet1/2/3` 三段 `fabao-pearl` projectile，以及结束随机回蓝/Monster30 眩晕/Monster30 中毒。
 - `TASK-SLICE-033` 已新增 `tjbg` 太极八卦/MagicBagua 全屏眩晕法宝最小切片，范围包括 H 触发等级门禁、全体存活 `Monster30` 眩晕、普通 `6s`/木五行 `8s` 持续、约 24 帧动作回待机、重入拒绝和到期恢复。
-- 下一步推荐 `TASK-SLICE-034`：震雷天锤/MagicZLHummer 前方雷锤法宝最小切片。
+- `TASK-SLICE-034` 已新增 `zltc` 震雷天锤/MagicZLHummer 前方雷锤法宝最小切片。AS3 证据为 `MagicZLHummer.useSkill()` 要求当前 `zbfb` 等级至少 `1`；`showSkill()` 创建 `SpecialEffectBullet("zltcskill","zltcbox")`，按角色朝向放在 `x +/- 160`、`y - 42`，`setAction("fabao-zltc")`，普通五行 `25` 帧回 `wait`，木五行 `20` 帧回 `wait`。
+- `BaseHero.attackBackInfoDict["fabao-zltc"]` 参数为 `hitMaxCount = 999`、`attackBackSpeed = [2,-2]`、`attackInterval = 6`、`attackKind = magic`、`addEffect = STUN` 且持续 `gc.frameClips * 4.5`。现代侧已用 `magic-weapon-zltc` 占位 projectile 和 Monster30 `magicZlHummerStun` 表达伤害、受击和 4.5 秒眩晕，不引入通用 AddEffect 重构。
+- 下一步推荐 `TASK-SETTINGS-022`：套天化雪令/Ling 落雪法宝逆向。
 - 强化 UI 独立成后续 `TASK-SLICE` 或 `TASK-SETTINGS`，不要和首个能力切片混在一起。
 
 后置范围：
 
-- 剩余未实现法宝的技能表现，尤其 `zltc/stlp/qljfb` 等特殊表现。
+- 剩余未实现法宝的技能表现，尤其 `stlp/qljfb` 等特殊表现。
 - `xhmt` 后置完整五角色 `getRealPower("fabao-pearl")`、吸血/qixue、全怪物通用 AddEffect 泛化和真资源校准。
 - 法宝强化面板、材料消耗和五行重置。
 - 真实法宝资源接入。
