@@ -193,6 +193,7 @@ import {
   markActivePetSkillTriggered,
   requestMagicBottleCapture,
   requestPetMonkey2LjSkill,
+  requestPetMonkey2XjSkill,
   requestPetMonkey1XjSkill,
   resolveMagicBottleCaptureHit,
   selectPet,
@@ -1922,7 +1923,24 @@ export class TestScene extends Phaser.Scene {
       activePet.form === 2 &&
       (activePet.skillState?.monkey2Lj.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
     ) {
-      requestPetMonkey2LjSkill({
+      const result = requestPetMonkey2LjSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'monkey' &&
+      activePet.form === 2 &&
+      activePet.skillState?.monkey2Xj.releaseReady &&
+      activePet.skillState.monkey2Xj.cooldownMs <= 0
+    ) {
+      requestPetMonkey2XjSkill({
         roster: this.petRoster,
         runtime: this.petRuntime,
         targets: this.createPetSkillTargets(),
@@ -3507,7 +3525,7 @@ function formatPetState(
     ? ` flower:x${active.magicFlowerBuff.attackMultiplier.toFixed(2)} ${formatSeconds(active.magicFlowerBuff.remainingMs)}s`
     : '';
   const skill = active?.skillState
-    ? ` skills:${active.skills.join(',') || '-'} xj:${active.skillState.monkey1Xj.releaseReady ? 'ready' : 'idle'} cd:${Math.ceil(active.skillState.monkey1Xj.cooldownMs)} ljCd:${Math.ceil(active.skillState.monkey2Lj.cooldownMs)} ${active.skillState.lastResult}`
+    ? ` skills:${active.skills.join(',') || '-'} xj:${active.skillState.monkey1Xj.releaseReady ? 'ready' : 'idle'} cd:${Math.ceil(active.skillState.monkey1Xj.cooldownMs)} ljCd:${Math.ceil(active.skillState.monkey2Lj.cooldownMs)} m2xj:${active.skillState.monkey2Xj.releaseReady ? 'ready' : 'idle'} m2xjCd:${Math.ceil(active.skillState.monkey2Xj.cooldownMs)} ${active.skillState.lastResult}`
     : '';
   return [
     panelOpen ? 'panel:open' : 'panel:closed',

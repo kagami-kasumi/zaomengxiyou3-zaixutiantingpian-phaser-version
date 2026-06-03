@@ -63,6 +63,7 @@ export const MagicWeaponEffectKeys = {
 export const PetSkillEffectKeys = {
   monkey1Xj: 'pet-skill.monkey1.xj',
   monkey2Lj: 'pet-skill.monkey2.lj',
+  monkey2Xj: 'pet-skill.monkey2.xj',
 } as const;
 
 export const scaffoldAssets = {
@@ -182,6 +183,7 @@ export const sourceAssetFamilies = {
     sourceSymbols: [
       'PetMonkey1Bullet2',
       'PetMonkey2Bullet2',
+      'PetMonkey2Bullet3',
     ],
     notes: 'Pet monkey xj/lj hit2 projectile families; represented by modern placeholder effects for VS-016 and VS-017.',
   },
