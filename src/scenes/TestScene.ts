@@ -2107,7 +2107,7 @@ export class TestScene extends Phaser.Scene {
     this.petView.root.setScale(this.petRuntime.facingX < 0 ? -1 : 1, 1);
     this.petView.body.setFillStyle(this.petRuntime.state === 'warp' ? 0xf2c14e : 0x7ad7a8, 0.9);
     this.petView.ear.setFillStyle(0xf3f6ff, this.petRuntime.state === 'follow' ? 0.7 : 0.45);
-    this.petView.label.setText(`${activePet.displayName} ${this.petRuntime.state}`);
+    this.petView.label.setText(`${activePet.displayName} F${activePet.form} ${this.petRuntime.state}`);
   }
 
   private destroyPetView(): void {
@@ -3455,10 +3455,10 @@ function formatPetState(
   return [
     panelOpen ? 'panel:open' : 'panel:closed',
     active
-      ? `active:${active.displayName} Lv.${active.level} exp:${active.exp}/${active.expToNext} hp:${Math.round(active.hp)}/${Math.round(active.maxHp)} mp:${Math.round(active.mp)}/${Math.round(active.maxMp)} atk:${active.atk.toFixed(2)} def:${active.def}${flower}`
+      ? `active:${active.displayName} F${active.form} Lv.${active.level} exp:${active.exp}/${active.expToNext} hp:${Math.round(active.hp)}/${Math.round(active.maxHp)} mp:${Math.round(active.mp)}/${Math.round(active.maxMp)} atk:${active.atk.toFixed(2)} def:${active.def}${flower}`
       : 'active:-',
     runtime
-      ? `${runtime.state}@${Math.round(runtime.x)},${Math.round(runtime.y)}`
+      ? `${runtime.state}[${runtime.runtimeKey}]@${Math.round(runtime.x)},${Math.round(runtime.y)}`
       : 'runtime:none',
     roster.message,
   ].join(' | ');

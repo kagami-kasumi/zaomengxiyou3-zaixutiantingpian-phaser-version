@@ -59,6 +59,7 @@ import {
   resolveMagicBottleCaptureHit,
   selectPet,
   setSelectedPetActive,
+  syncPetRuntimeWithRoster,
   toggleSelectedPetActive,
   updatePetRuntime,
   usePetConsumable,
@@ -126,6 +127,10 @@ testPetExperienceMonster30FullHeroAwardWithoutPet();
 testPetExperienceSingleLevelRefreshesStats();
 testPetExperienceOverflowAndDjyysShareUpgradePath();
 testPetExperienceSpeciesBaseStats();
+testPetFormChangeFromNaturalExperience();
+testPetFormChangeFromDjyysRebuildsRuntime();
+testPetFormDoesNotChangeBeforeThreshold();
+testPetFormThreeDoesNotRepeatChange();
 testMagicWeaponRejectsWithoutZbfb();
 testMagicWeaponKylHealsAndRejectsReentry();
 testMagicWeaponSylRestoresMpAndWoodDuration();
@@ -478,6 +483,7 @@ function testPetRuntimeFollowsAndWarps(): void {
 
   const runtime: PetRuntimeModel = {
     petId: pet.id,
+    runtimeKey: `${pet.id}:${pet.species}:${pet.form}`,
     x: 0,
     y: 0,
     facingX: 1,
@@ -759,6 +765,95 @@ function testPetExperienceSpeciesBaseStats(): void {
     atk: 32,
     def: 6,
   });
+}
+
+function testPetFormChangeFromNaturalExperience(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.level = 15;
+  pet.exp = getPetExperienceToNextLevel(15) - 1;
+  pet.expToNext = getPetExperienceToNextLevel(15);
+  pet.form = 1;
+  pet.displayName = '小猴';
+
+  const result = addPetExperience(pet, 1);
+
+  assert.equal(result.levelsGained, 1);
+  assert.equal(pet.level, 16);
+  assert.equal(pet.form, 2);
+  assert.equal(result.formChanges.length, 1);
+  assert.deepEqual(result.formChanges[0], {
+    fromForm: 1,
+    toForm: 2,
+    fromDisplayName: '小猴',
+    toDisplayName: '小猴 F2',
+    level: 16,
+  });
+}
+
+function testPetFormChangeFromDjyysRebuildsRuntime(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.level = 30;
+  pet.exp = getPetExperienceToNextLevel(30) - 1;
+  pet.expToNext = getPetExperienceToNextLevel(30);
+  pet.form = 2;
+  pet.displayName = '小猴 F2';
+
+  const owner = { x: 100, y: 200, facingX: 1 as const };
+  const runtime = syncPetRuntimeWithRoster(roster, undefined, owner);
+  assert.ok(runtime);
+  assert.equal(runtime.runtimeKey, 'pet-monkey-1:monkey:2');
+
+  const consumable = usePetConsumable(roster, 'djyys');
+  assert.equal(consumable.ok, true);
+  assert.ok((consumable.experience?.formChanges.length ?? 0) >= 1);
+  assert.equal(pet.form, 3);
+
+  const rebuilt = syncPetRuntimeWithRoster(roster, runtime, owner);
+  assert.ok(rebuilt);
+  assert.notEqual(rebuilt, runtime);
+  assert.equal(rebuilt.runtimeKey, 'pet-monkey-1:monkey:3');
+  assert.equal(rebuilt.x, 42);
+  assert.equal(rebuilt.y, 170);
+}
+
+function testPetFormDoesNotChangeBeforeThreshold(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.level = 14;
+  pet.exp = getPetExperienceToNextLevel(14) - 1;
+  pet.expToNext = getPetExperienceToNextLevel(14);
+  pet.form = 1;
+  pet.displayName = '小猴';
+
+  const result = addPetExperience(pet, 1);
+
+  assert.equal(pet.level, 15);
+  assert.equal(pet.form, 1);
+  assert.equal(pet.displayName, '小猴');
+  assert.equal(result.formChanges.length, 0);
+}
+
+function testPetFormThreeDoesNotRepeatChange(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.level = 31;
+  pet.exp = getPetExperienceToNextLevel(31) - 1;
+  pet.expToNext = getPetExperienceToNextLevel(31);
+  pet.form = 3;
+  pet.displayName = '小猴 F3';
+
+  const result = addPetExperience(pet, 1);
+
+  assert.equal(pet.level, 32);
+  assert.equal(pet.form, 3);
+  assert.equal(pet.displayName, '小猴 F3');
+  assert.equal(result.formChanges.length, 0);
 }
 
 function testMagicWeaponRejectsWithoutZbfb(): void {

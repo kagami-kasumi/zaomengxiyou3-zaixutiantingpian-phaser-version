@@ -268,6 +268,111 @@
 - 支持当前出战宠物升级、扣除本级经验、保留溢出、HP/MP 回满、基础属性按当前宠物族首批公式刷新。
 - 首批可先覆盖当前现代种子宠物使用的族；未确认 `setPetValue()` 公式的宠物族、60 级后随机暴击/闪避/魔防、形态变化实体重建、任务奖励异常、P2 宠物、存档和全部技能后置。
 
+## 技能、技能槽和战斗触发
+
+`PetInfo` 中 `skill:Array` 保存已学技能，元素结构为 `{sname, sinfo}`；`allSkill:Array` 是当前还可能学到的候选池。构造函数把 `skill` 初始化为空数组，并把基础候选池设为：
+
+| 技能 key | 中文名 | 基础分类 |
+| --- | --- | --- |
+| `tsml` | 天生蛮力 | 被动属性 |
+| `zrsh` | 自然守护 | 被动属性 |
+| `smzf` | 生命祝福 | 被动属性 |
+| `mfby` | 魔法庇佑 | 被动属性 |
+| `qlfj` | 强力反击 | 被动/反击 |
+| `sxkb` | 嗜血狂暴 | 自动 buff |
+| `fsnl` | 法术能量 | 自动 buff |
+| `smjc` | 生命加成 | 自动 buff |
+| `mfjc` | 魔法加成 | 自动 buff |
+| `gjjc` | 攻击加成 | 自动 buff |
+| `fyjc` | 防御加成 | 自动 buff |
+
+`PetInterface.setPetAllSkill()` 明确清理并刷新 `skill1` 到 `skill8` 八个 UI 槽；这只是界面容量。自动学习时的上限来自 `skill.length >= getperception()`，普通悟性上限不是 8。超级进化入口 `AfterSuperRevolution()` 会在悟性 `< 8` 时 +1 并刷新技能 UI，属于后续切片范围。
+
+### 技能存档
+
+原版没有单独命名为 `skillSaveString` 的公开字段，但有等价函数：
+
+- `getSkillSaveString()`：把已学技能的 `sname` 用 `~` 拼接，例如 `xj~tsml`。
+- `setSkillSaveString(value)`：清空 `skill`，按 `~` 拆出 `sname`，为每个技能重建 `{sname, sinfo:getIntroByName(sname)}`，并从 `allSkill` 候选池移除已学技能，最后调用 `addSpecialSkill()` 补当前形态候选。
+- `getSaveString()` 的单只宠物存档共 26 个 `|` 字段，最后一个字段，也就是索引 `25`，是 `getSkillSaveString()`；索引 `24` 是 `isFight`。
+
+首个现代技能切片可先不接完整存档，但数据模型应保留 `learnedSkills: string[]` 或等价字段，避免后续接 `sname~sname` 时重拆结构。
+
+### 候选池和自动学习
+
+`setPetNameAndLevel()` 会调用 `addSpecialSkill()`，升级重建候选时走 `refreshPetAllSkillByLevel()`：先 `deletePassiveWhenUpdata()`，把 `allSkill` 还原为基础候选池，清空 `skill`，再由 `rePetSkill()` 按宠物种类/形态补候选并回放历史等级的随机学习检查。
+
+`studySkillSuddenly(level)` 的可观察规则：
+
+- 只在 `level == 3 * (n + 1) - 1` 时尝试学习，也就是 2、5、8、11……这些等级。
+- 如果已学数量 `>= getperception()`，直接返回。
+- 如果 `Math.random() > 0.4`，直接返回；因此命中学习窗口时约 40% 概率学习。
+- 真正学习时从 `allSkill` 随机取一个 key，写入 `{sname, sinfo}`，并把该 key 从候选池移除。
+
+升级入口 `petUpdate()` 的顺序是：先移除旧被动，等级 +1，形态阈值可能改 `petName` 并调用 `addSpecialSkill()`/`changePetSkillIntroduce()`，再调用 `studySkillSuddenly(level)`，之后重新添加已学被动、刷新属性和额外被动。形态变化本身不是无条件学会新技能，只是调整候选池和技能说明。
+
+猴子形态的候选池最小表：
+
+| 形态 | 额外候选 |
+| --- | --- |
+| `monkey1` | `xj` 献祭 |
+| `monkey2` | `xj` 献祭、`lj` 连击 |
+| `monkey3` | `xj` 献祭、`lj` 连击、`lyq` 烈焰拳 |
+| `monkey4` | `xj` 献祭、`lj` 连击、`lyq` 烈焰拳、`jgaoyi` 金刚奥义 |
+
+`addSpecialSkill()` 在形态推进时还会从候选池移除旧形态技能并加入新形态技能：`monkey1 -> monkey2` 时倾向移除 `xj`、加入 `lj`；`monkey2 -> monkey3` 时倾向移除 `lj`、加入 `lyq`。它会检查技能是否已学或已在候选池中，避免重复加入。
+
+### 被动和自动 buff
+
+`deletePassiveWhenUpdata()` / `addPassiveAfterUpdata()` 负责升级前后移除和重加属性被动：
+
+| 技能 | 效果入口 |
+| --- | --- |
+| `tsml` | `atk += getPetHarmObj("tsml").first` |
+| `zrsh` | `def += getPetHarmObj("zrsh").first` |
+| `smzf` | `hp/shp += getPetHarmObj("smzf").first` |
+| `mfby` | `mp/smp += getPetHarmObj("mfby").first` |
+
+`BasePet.checkBuffSkill()` 每帧检查一组已学技能并按 MP 门禁自动释放：
+
+- `sxkb` 和 `fsnl` 给宠物自身加 `PET_SXKB` / `PET_FSNL`。
+- `smjc/mfjc/gjjc/fyjc` 给来源英雄加生命、魔法、攻击或防御加成。
+- 这些技能消耗 20 MP，使用内部计数器控制持续时间，不走 `skillCD1..4` 主动技能槽。
+
+`findPetUsedMagic()` 给出 MP 消耗边界：基础被动和 `qlfj` 消耗 0；普通主动/自动 buff 多数消耗 20；奥义类消耗 30。`getPetHarmObj()` 给出最小数值来源，其中猴子主动技能为 `xj = 2.6 * atk`、`lj = 4.2 * atk`、`lyq = 6.8 * atk`。
+
+### 出战宠物主动技能链路
+
+`BasePet` 初始化 `skillCD1..4 = [-1, 30]`，每帧 `countSkillCD()` 递减冷却。`myIntelligence()` 在有目标、未受伤且未攻击时，按 `skill1 -> skill2 -> skill3 -> skill4` 顺序检查：
+
+1. `beforeSkillNStart()` 返回 true。
+2. 对应 `skillCDN[0] == 0`。
+3. 调用 `releSkillN()`，再把冷却重置为 `skillCDN[1]`。
+
+`beforeSkillNStart()` 和 `releSkillN()` 默认空实现，具体宠物类覆写。若四个技能都不能释放，宠物才按普攻距离和 `attackRate` 走 `normalHit()`。
+
+猴子首批链路：
+
+| 类 | 技能槽 | 条件 | 动作/伤害 |
+| --- | --- | --- | --- |
+| `PetMonkey1` | skill1 | 已学 `xj`、MP 足够、`skill1Release == true`、CD1 就绪 | `releSkill1()` 进入 `hit2`，扣 `xj` MP，`doHit2()` 发 `PetMonkey1Bullet2`；`getRealPower("hit2")` 用 `getPetHarmObj("xj") = 2.6 * atk` |
+| `PetMonkey2` | skill1 | 已学 `lj`、MP 足够、CD1 就绪 | `hit2`，伤害取 `lj = 4.2 * atk` |
+| `PetMonkey2` | skill2 | 已学 `xj`、MP 足够、`skill2Release == true`、CD2 就绪 | `hit3`，伤害取 `xj = 2.6 * atk` |
+| `PetMonkey3` | skill1 | 已学 `lyq`、MP 足够、目标距离 `<= 400`、CD1 就绪 | `hit2`，伤害取 `lyq = 6.8 * atk` |
+| `PetMonkey3` | skill2 | 已学 `xj`、MP 足够、CD2 就绪 | `hit3`，伤害取 `xj = 2.6 * atk` |
+| `PetMonkey3` | skill3 | 已学 `lj`、MP 足够、`skill3Release == true`、CD3 就绪 | `hit4`，伤害取 `lj = 4.2 * atk` |
+
+`PetMonkey1.reduceHp()` 会把 `skill1Release = true`，因此 `monkey1/xj` 是“宠物受击后允许释放”的反击式主动技能，不是空闲自动常驻释放。技能释放后 `doHit2()` 把 `skill1Release` 重新设为 false。
+
+## 现代宠物技能切片建议
+
+推荐后续切片为 `VS-016 宠物技能最小闭环`，首个实现目标固定为 `monkey1` 的 `xj`：
+
+- 数据侧只要求 P1 当前出战宠物支持已学技能列表，测试种子可直接让 `monkey1` 学会 `xj`，不实现随机自动学习。
+- 战斗侧只覆盖已学 `xj`、宠物 MP `>= 20`、宠物曾受击或等价触发标记、冷却就绪、存在 `Monster30` 目标时释放。
+- 释放时扣 20 MP、重置触发标记和冷却，生成可见占位 projectile/特效，并对 `Monster30` 造成等价 `2.6 * pet.atk` 的一次伤害。
+- UI/状态栏只需展示已学技能、MP、冷却或最近释放反馈；完整 8 槽宠物面板、`sname~sname` 存档、自动学习、所有被动/自动 buff、`monkey2/3/4`、P2/联机和真实宠物资源后置。
+
 ## UI 与快捷键
 
 `RoleInfo.btn_cw` 是宠物面板按钮。点击后 `RoleInfo.cwClick()` 创建 `new PetInterface(this.hero.getPlayer())` 并加入 UI；单人模式下会暂停游戏。再次触发或停止状态下会派发 `closePetInterface`。

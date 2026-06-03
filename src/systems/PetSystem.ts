@@ -47,10 +47,19 @@ export type PetRuntimeState = 'idle' | 'follow' | 'warp';
 
 export type PetRuntimeModel = {
   petId: PetId;
+  runtimeKey: string;
   x: number;
   y: number;
   facingX: -1 | 1;
   state: PetRuntimeState;
+};
+
+export type PetFormChange = {
+  fromForm: number;
+  toForm: number;
+  fromDisplayName: string;
+  toDisplayName: string;
+  level: number;
 };
 
 export type CapturableMonsterId =
@@ -117,6 +126,7 @@ export type PetExperienceResult = {
   levelBefore: number;
   levelAfter: number;
   levelsGained: number;
+  formChanges: PetFormChange[];
   expToNext: number;
   appliedExp: number;
 };
@@ -486,10 +496,11 @@ export function addPetExperience(pet: PetState, amount: number): PetExperienceRe
   const appliedExp = Math.max(0, Math.floor(amount));
   const levelBefore = pet.level;
   const expBefore = pet.exp;
+  const formChanges: PetFormChange[] = [];
 
   pet.expToNext = getPetExperienceToNextLevel(pet.level);
   if (appliedExp <= 0) {
-    return createPetExperienceResult(pet, levelBefore, expBefore, 0, appliedExp);
+    return createPetExperienceResult(pet, levelBefore, expBefore, 0, appliedExp, formChanges);
   }
 
   pet.exp += appliedExp;
@@ -499,6 +510,10 @@ export function addPetExperience(pet: PetState, amount: number): PetExperienceRe
     pet.exp -= pet.expToNext;
     pet.level += 1;
     levelsGained += 1;
+    const formChange = updatePetFormForLevel(pet);
+    if (formChange) {
+      formChanges.push(formChange);
+    }
     refreshPetStatsForLevel(pet);
     pet.expToNext = getPetExperienceToNextLevel(pet.level);
   }
@@ -509,7 +524,7 @@ export function addPetExperience(pet: PetState, amount: number): PetExperienceRe
     pet.exp = Math.max(0, pet.exp);
   }
 
-  return createPetExperienceResult(pet, levelBefore, expBefore, levelsGained, appliedExp);
+  return createPetExperienceResult(pet, levelBefore, expBefore, levelsGained, appliedExp, formChanges);
 }
 
 export function getPetExperienceToNextLevel(level: number): number {
@@ -557,6 +572,7 @@ export function createPetRuntime(
 ): PetRuntimeModel {
   return {
     petId: pet.id,
+    runtimeKey: getPetRuntimeKey(pet),
     x: owner.x - owner.facingX * PetTuning.followOffsetX,
     y: owner.y + PetTuning.warpOffsetY,
     facingX: owner.facingX,
@@ -574,7 +590,7 @@ export function syncPetRuntimeWithRoster(
     return undefined;
   }
 
-  if (!runtime || runtime.petId !== activePet.id) {
+  if (!runtime || runtime.petId !== activePet.id || runtime.runtimeKey !== getPetRuntimeKey(activePet)) {
     return createPetRuntime(activePet, owner);
   }
 
@@ -649,7 +665,7 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
       const pointer = i === roster.selectedIndex ? '▶' : ' ';
       const activeMark = pet.isActive ? '(出战)' : '';
       lines.push(
-        `${pointer}${pet.displayName}${activeMark} Lv.${pet.level} HP ${pet.hp}/${pet.maxHp} Life ${pet.lifetime}/100`,
+        `${pointer}${pet.displayName}${activeMark} F${pet.form} Lv.${pet.level} HP ${pet.hp}/${pet.maxHp} Life ${pet.lifetime}/100`,
       );
     }
   }
@@ -731,6 +747,44 @@ function createPetStateFromDefinition(
   };
 }
 
+function updatePetFormForLevel(pet: PetState): PetFormChange | undefined {
+  const nextForm = getNextPetFormForLevel(pet.form, pet.level);
+  if (nextForm === pet.form) {
+    return undefined;
+  }
+
+  const previousForm = pet.form;
+  const previousDisplayName = pet.displayName;
+  pet.form = nextForm;
+  pet.displayName = formatPetDisplayNameForForm(pet.displayName, nextForm);
+
+  return {
+    fromForm: previousForm,
+    toForm: nextForm,
+    fromDisplayName: previousDisplayName,
+    toDisplayName: pet.displayName,
+    level: pet.level,
+  };
+}
+
+function getNextPetFormForLevel(currentForm: number, level: number): number {
+  if (currentForm === 1 && level >= 16 && level < 30) {
+    return 2;
+  }
+  if (currentForm === 2 && level > 30) {
+    return 3;
+  }
+  return currentForm;
+}
+
+function formatPetDisplayNameForForm(displayName: string, form: number): string {
+  return displayName.replace(/\s*F[123]$/, '') + ` F${form}`;
+}
+
+function getPetRuntimeKey(pet: PetState): string {
+  return `${pet.id}:${pet.species}:${pet.form}`;
+}
+
 function createDefaultPetQualities(): Pick<PetState, 'hpQuality' | 'mpQuality' | 'atkQuality' | 'defQuality'> {
   return {
     hpQuality: 1,
@@ -753,6 +807,7 @@ function createPetExperienceResult(
   expBefore: number,
   levelsGained: number,
   appliedExp: number,
+  formChanges: PetFormChange[],
 ): PetExperienceResult {
   return {
     expBefore,
@@ -760,6 +815,7 @@ function createPetExperienceResult(
     levelBefore,
     levelAfter: pet.level,
     levelsGained,
+    formChanges,
     expToNext: pet.expToNext,
     appliedExp,
   };
