@@ -195,6 +195,7 @@ import {
   requestPetMonkey2LjSkill,
   requestPetMonkey2XjSkill,
   requestPetMonkey3LyqSkill,
+  requestPetMonkey3XjSkill,
   requestPetMonkey1XjSkill,
   resolveMagicBottleCaptureHit,
   selectPet,
@@ -1953,7 +1954,23 @@ export class TestScene extends Phaser.Scene {
       activePet.form === 3 &&
       (activePet.skillState?.monkey3Lyq.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
     ) {
-      requestPetMonkey3LyqSkill({
+      const result = requestPetMonkey3LyqSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'monkey' &&
+      activePet.form === 3 &&
+      (activePet.skillState?.monkey3Xj.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
+    ) {
+      requestPetMonkey3XjSkill({
         roster: this.petRoster,
         runtime: this.petRuntime,
         targets: this.createPetSkillTargets(),
@@ -3538,7 +3555,7 @@ function formatPetState(
     ? ` flower:x${active.magicFlowerBuff.attackMultiplier.toFixed(2)} ${formatSeconds(active.magicFlowerBuff.remainingMs)}s`
     : '';
   const skill = active?.skillState
-    ? ` skills:${active.skills.join(',') || '-'} xj:${active.skillState.monkey1Xj.releaseReady ? 'ready' : 'idle'} cd:${Math.ceil(active.skillState.monkey1Xj.cooldownMs)} ljCd:${Math.ceil(active.skillState.monkey2Lj.cooldownMs)} m2xj:${active.skillState.monkey2Xj.releaseReady ? 'ready' : 'idle'} m2xjCd:${Math.ceil(active.skillState.monkey2Xj.cooldownMs)} lyqCd:${Math.ceil(active.skillState.monkey3Lyq.cooldownMs)} ${active.skillState.lastResult}`
+    ? ` skills:${active.skills.join(',') || '-'} xj:${active.skillState.monkey1Xj.releaseReady ? 'ready' : 'idle'} cd:${Math.ceil(active.skillState.monkey1Xj.cooldownMs)} ljCd:${Math.ceil(active.skillState.monkey2Lj.cooldownMs)} m2xj:${active.skillState.monkey2Xj.releaseReady ? 'ready' : 'idle'} m2xjCd:${Math.ceil(active.skillState.monkey2Xj.cooldownMs)} lyqCd:${Math.ceil(active.skillState.monkey3Lyq.cooldownMs)} m3xjCd:${Math.ceil(active.skillState.monkey3Xj.cooldownMs)} ${active.skillState.lastResult}`
     : '';
   return [
     panelOpen ? 'panel:open' : 'panel:closed',

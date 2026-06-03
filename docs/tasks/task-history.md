@@ -3137,6 +3137,35 @@
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
 
+### TASK-SLICE-045
+
+完成时间：
+- 2026-06-03
+
+完成内容：
+- 扩展 `src/systems/PetSystem.ts`，让种子 `monkey3` 持有已学 `xj`，新增 `monkey3Xj` 冷却状态、20 MP 门禁、500ms 冷却和 `2.6 * pet.atk` 伤害结算。
+- `monkey3/xj` 不要求受击触发或距离门禁；满足已学习、MP、冷却和目标存在时释放，并记录最近释放反馈。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-xj` 占位 projectile；按 AS3 `PetMonkey3.doHit3()` 事实复用 `PetMonkey1Bullet2` / `hit3` 映射，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/scenes/TestScene.ts`，当前出战宠物为 `monkey3` 时保持 `lyq -> xj` 的技能尝试顺序；`lyq` 成功释放则本帧不再释放 `xj`，`lyq` 未成功时可尝试 `xj`。
+- 扩展 `tools/system-tests.ts`，覆盖 `monkey3/xj` 未学习、MP 不足、无目标、冷却、扣 MP、projectile 生成和 `Monster30` 伤害。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-020` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-046`。
+
+更新文件：
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
 ### TASK-SLICE-044
 
 完成时间：

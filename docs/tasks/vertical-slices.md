@@ -33,11 +33,12 @@
 | VS-017 `monkey2/lj` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey2` 释放 `lj` 主动技能 | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子宠物列表新增可切换出战的 `monkey2`，并持有已学 `lj`；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置 500ms 冷却，生成 `PetMonkey2Bullet2` 占位 projectile 并造成 `4.2 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、冷却、无目标、伤害和扣 MP |
 | VS-018 `monkey2/xj` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey2` 释放受击触发的 `xj` | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子 `monkey2` 持有已学 `xj`；P1 被 `Monster30` 命中时给二阶猴设置等价触发标记；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置触发和 500ms 冷却，生成 `PetMonkey2Bullet3` / `hit3` 占位 projectile 并造成 `2.6 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、触发未就绪、无目标、冷却、伤害、扣 MP 和触发重置 |
 | VS-019 `monkey3/lyq` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey3` 释放 `lyq` 主动技能 | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子宠物列表新增可切换出战的 `monkey3`，并持有已学 `lyq`；MP `>= 20`、冷却就绪、存在 `Monster30` 目标且距离不超过 `400` 时释放；释放扣 20 MP、重置 500ms 冷却，生成 `PetMonkey3Bullet2` / `hit2` 占位 projectile 并造成 `6.8 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、无目标、距离门禁、冷却、伤害和扣 MP |
-| VS-020 `monkey3/xj` 宠物技能最小闭环 | 可开始 | 当前出战 `monkey3` 释放 `xj` 主动技能 | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 可切到或种下出战 `monkey3`，并持有已学 `xj`；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置冷却，生成可见占位效果并造成 `2.6 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、冷却、无目标、伤害和扣 MP |
+| VS-020 `monkey3/xj` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey3` 释放 `xj` 主动技能 | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子 `monkey3` 持有已学 `xj`；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置 500ms 冷却，生成 `PetMonkey1Bullet2` / `hit3` 占位 projectile 并造成 `2.6 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、无目标、冷却、伤害和扣 MP |
+| VS-021 `monkey3/lj` 宠物技能最小闭环 | 可开始 | 当前出战 `monkey3` 释放受击触发的 `lj` | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 可切到或种下出战 `monkey3`，并持有已学 `lj`；宠物受击或等价触发标记、MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置触发和冷却，生成可见占位效果并造成 `4.2 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、触发未就绪、冷却、无目标、伤害、扣 MP 和触发重置 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-045`：`monkey3/xj` 宠物技能最小闭环。
+1. `TASK-SLICE-046`：`monkey3/lj` 宠物技能最小闭环。
 
 ## 切片详情
 
