@@ -1,4 +1,5 @@
 import {
+  spawnPetMonkey2LjProjectile,
   spawnPetMonkey1XjProjectile,
   type ProjectileModel,
   type ProjectileSystemModel,
@@ -46,11 +47,16 @@ export type PetMagicFlowerBuff = {
 
 export type PetSkillState = {
   monkey1Xj: PetMonkey1XjSkillState;
+  monkey2Lj: PetMonkey2LjSkillState;
   lastResult: string;
 };
 
 export type PetMonkey1XjSkillState = {
   releaseReady: boolean;
+  cooldownMs: number;
+};
+
+export type PetMonkey2LjSkillState = {
   cooldownMs: number;
 };
 
@@ -196,6 +202,9 @@ export const PetTuning = {
   monkey1XjMpCost: 20,
   monkey1XjCooldownMs: 500,
   monkey1XjDamageMultiplier: 2.6,
+  monkey2LjMpCost: 20,
+  monkey2LjCooldownMs: 500,
+  monkey2LjDamageMultiplier: 4.2,
 } as const;
 
 const PetHpByLevel = [
@@ -247,34 +256,59 @@ export const CapturablePetDefinitions: Record<CapturableMonsterId, CapturablePet
   Monster78: createCapturablePetDefinition('Monster78', 'rabbit1', '小兔', 'rabbit', 1, 0.4),
 };
 
+function createSeedMonkeyPet(params: {
+  id: string;
+  form: number;
+  displayName: string;
+  isActive: boolean;
+  skills: string[];
+}): PetState {
+  const qualities = createDefaultPetQualities();
+  const stats = getPetBaseStats('monkey', 1, qualities);
+  return {
+    id: params.id,
+    species: 'monkey',
+    form: params.form,
+    displayName: params.displayName,
+    level: 1,
+    exp: 0,
+    expToNext: getPetExperienceToNextLevel(1),
+    hp: stats.maxHp,
+    maxHp: stats.maxHp,
+    mp: stats.maxMp,
+    maxMp: stats.maxMp,
+    atk: stats.atk,
+    def: stats.def,
+    moveSpeed: 5,
+    lifetime: 100,
+    quality: 1,
+    ...qualities,
+    perception: 1,
+    technique: 1,
+    warpower: 1,
+    isActive: params.isActive,
+    skills: params.skills,
+    skillState: createPetSkillState(),
+  };
+}
+
 export function createSeedPetRoster(): PetRoster {
   return {
     pets: [
-      {
+      createSeedMonkeyPet({
         id: 'pet-monkey-1',
-        species: 'monkey',
         form: 1,
         displayName: '小猴',
-        level: 1,
-        exp: 0,
-        expToNext: getPetExperienceToNextLevel(1),
-        hp: getPetBaseStats('monkey', 1, createDefaultPetQualities()).maxHp,
-        maxHp: getPetBaseStats('monkey', 1, createDefaultPetQualities()).maxHp,
-        mp: getPetBaseStats('monkey', 1, createDefaultPetQualities()).maxMp,
-        maxMp: getPetBaseStats('monkey', 1, createDefaultPetQualities()).maxMp,
-        atk: getPetBaseStats('monkey', 1, createDefaultPetQualities()).atk,
-        def: getPetBaseStats('monkey', 1, createDefaultPetQualities()).def,
-        moveSpeed: 5,
-        lifetime: 100,
-        quality: 1,
-        ...createDefaultPetQualities(),
-        perception: 1,
-        technique: 1,
-        warpower: 1,
         isActive: true,
         skills: ['tsml', 'xj'],
-        skillState: createPetSkillState(),
-      },
+      }),
+      createSeedMonkeyPet({
+        id: 'pet-monkey-2',
+        form: 2,
+        displayName: '小猴 F2',
+        isActive: false,
+        skills: ['tsml', 'lj'],
+      }),
     ],
     selectedIndex: 0,
     message: 'Pet ready',
@@ -401,6 +435,7 @@ export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
     }
 
     state.monkey1Xj.cooldownMs = Math.max(0, state.monkey1Xj.cooldownMs - Math.max(0, deltaMs));
+    state.monkey2Lj.cooldownMs = Math.max(0, state.monkey2Lj.cooldownMs - Math.max(0, deltaMs));
   }
 }
 
@@ -455,6 +490,66 @@ export function requestPetMonkey1XjSkill(params: {
   }, damage);
 
   const message = `${pet.displayName} xj -> ${target.id} ${damage.toFixed(1)}`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    projectile,
+    damage,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
+}
+
+export function requestPetMonkey2LjSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'monkey' || pet.form !== 2) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not monkey2`, pet);
+  }
+
+  if (!pet.skills.includes('lj')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned lj`, pet);
+  }
+
+  if (pet.mp < PetTuning.monkey2LjMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for lj`, pet);
+  }
+
+  if (state.monkey2Lj.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} lj cooling ${Math.ceil(state.monkey2Lj.cooldownMs)}ms`, pet);
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} lj has no target`, pet);
+  }
+
+  const mpBefore = pet.mp;
+  const damage = pet.atk * PetTuning.monkey2LjDamageMultiplier;
+  pet.mp = Math.max(0, pet.mp - PetTuning.monkey2LjMpCost);
+  state.monkey2Lj.cooldownMs = PetTuning.monkey2LjCooldownMs;
+
+  const projectile = spawnPetMonkey2LjProjectile(params.projectiles, {
+    sourceId: pet.id,
+    x: target.x,
+    y: target.y,
+    facingX: getPetSkillFacing(params.runtime, target),
+  }, damage);
+
+  const message = `${pet.displayName} lj -> ${target.id} ${damage.toFixed(1)}`;
   state.lastResult = message;
   params.roster.message = message;
   return {
@@ -808,6 +903,7 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
     const skillState = selected.skillState;
     if (skillState) {
       lines.push(`XJ ready:${skillState.monkey1Xj.releaseReady ? 'Y' : 'N'} cd:${Math.ceil(skillState.monkey1Xj.cooldownMs)}ms`);
+      lines.push(`LJ cd:${Math.ceil(skillState.monkey2Lj.cooldownMs)}ms`);
       lines.push(`Last skill: ${skillState.lastResult}`);
     }
   } else {
@@ -884,6 +980,9 @@ function createPetSkillState(): PetSkillState {
   return {
     monkey1Xj: {
       releaseReady: false,
+      cooldownMs: 0,
+    },
+    monkey2Lj: {
       cooldownMs: 0,
     },
     lastResult: 'pet skill ready',

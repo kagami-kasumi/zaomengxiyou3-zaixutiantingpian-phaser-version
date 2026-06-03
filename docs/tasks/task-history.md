@@ -3137,6 +3137,36 @@
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
 
+### TASK-SLICE-042
+
+完成时间：
+- 2026-06-03
+
+完成内容：
+- 扩展 `src/systems/PetSystem.ts`，在测试种子宠物列表中新增可切换出战的 `monkey2`，并让其持有已学 `lj`；宠物面板可通过选择/出战切换到 `monkey2`。
+- 为 `monkey2/lj` 增加最小主动技能状态：已学习、MP `>= 20`、冷却就绪且存在存活 `Monster30` 目标时释放；`lj` 不要求受击触发标记。
+- 释放 `lj` 时扣 20 MP、进入 500ms 冷却、记录最近释放反馈，并按 `4.2 * pet.atk` 派生伤害。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey2-lj` / `PetMonkey2Bullet2` 占位 projectile 和资源缺口登记，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/scenes/TestScene.ts`，当当前出战宠物为 `monkey2` 且冷却就绪时，自动尝试 `lj` 目标选择并生成可见 projectile；状态栏和宠物面板展示 `lj` 冷却与最近释放结果。
+- 扩展 `tools/system-tests.ts`，覆盖 `monkey2/lj` 未学习、MP 不足、冷却门禁、无目标、扣 MP、projectile 生成和 `Monster30` 伤害；同步调整种子宠物列表的单只出战测试。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-017` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-043`。
+
+更新文件：
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
 ### TASK-SLICE-041
 
 完成时间：

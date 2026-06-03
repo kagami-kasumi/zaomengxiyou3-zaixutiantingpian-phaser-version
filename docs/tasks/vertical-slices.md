@@ -30,11 +30,12 @@
 | VS-014 等级/经验最小闭环 | 已完成 | 击杀怪物获得经验并自动升级，刷新基础属性和状态显示 | M-040、M-030、M-031、M-032、`progression-index.md` | `ProgressionSystem.ts`、`Monster30System.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts` | 击杀 `Monster30` 后玩家经验增加；经验达到本级需求时等级 +1、扣除本级经验、HP/MP 回满、当前角色基础 HP/MP/攻击/防御按角色公式刷新；P1/P2 经验互不串线；状态栏显示等级、当前经验、下级经验和关键属性 |
 | VS-015 宠物经验/升级最小闭环 | 已完成 | 当前出战宠物获得经验并自动升级，刷新基础属性和面板显示 | M-042、M-040、M-030、M-031、M-032、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 有出战宠物时击杀 `Monster30` 后玩家/宠物按普通路径各得 60% 经验；无出战宠物时玩家获得完整经验；宠物经验达到下级需求时等级 +1、扣除本级经验、保留溢出、HP/MP 回满并刷新 HP/MP/攻击/防御；`djyys` 等价入口与自然经验共用同一升级逻辑；升级到形态阈值时更新 form/displayName，并让测试场景宠物 runtime 按 `petId/species/form` 重建；状态栏和宠物面板显示等级、经验、形态和关键属性 |
 | VS-016 宠物技能最小闭环 | 已完成 | 当前出战 `monkey1` 释放首个宠物技能 `xj` | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 出战 `monkey1` 种子已学 `xj`；P1 被 `Monster30` 命中时设置等价触发标记；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置触发和 500ms 冷却，生成 `PetMonkey1Bullet2` 占位 projectile 并造成 `2.6 * pet.atk` 伤害；系统测试覆盖未学习、MP 不足、冷却、无目标、伤害、扣 MP 和触发重置 |
-| VS-017 `monkey2/lj` 宠物技能最小闭环 | 可开始 | 当前出战 `monkey2` 释放 `lj` 主动技能 | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 出战 `monkey2` 可持有已学 `lj`；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置冷却，生成可见占位效果并造成 `4.2 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、冷却、伤害和扣 MP |
+| VS-017 `monkey2/lj` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey2` 释放 `lj` 主动技能 | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子宠物列表新增可切换出战的 `monkey2`，并持有已学 `lj`；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置 500ms 冷却，生成 `PetMonkey2Bullet2` 占位 projectile 并造成 `4.2 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、冷却、无目标、伤害和扣 MP |
+| VS-018 `monkey2/xj` 宠物技能最小闭环 | 可开始 | 当前出战 `monkey2` 释放受击触发的 `xj` | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 出战 `monkey2` 可持有已学 `xj`；宠物受击或等价触发标记、MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置触发和冷却，生成可见占位效果并造成 `2.6 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、冷却、伤害和触发重置 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-042`：`monkey2/lj` 宠物技能最小闭环。
+1. `TASK-SLICE-043`：`monkey2/xj` 宠物技能最小闭环。
 
 ## 切片详情
 

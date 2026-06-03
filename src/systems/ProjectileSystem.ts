@@ -73,7 +73,8 @@ export type ProjectileVariant =
   | 'magic-weapon-pearl-bullet3'
   | 'magic-weapon-zltc'
   | 'magic-weapon-snow'
-  | 'pet-monkey1-xj';
+  | 'pet-monkey1-xj'
+  | 'pet-monkey2-lj';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -315,6 +316,27 @@ export const PetMonkey1XjProjectileTuning = {
   maxHits: 1,
 } as const;
 
+export const PetMonkey2LjProjectileTuning = {
+  actionName: 'hit2',
+  assetKey: PetSkillEffectKeys.monkey2Lj,
+  sourceSymbol: 'PetMonkey2Bullet2',
+  runtimeName: 'PetMonkey2Bullet2',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 138,
+  height: 94,
+  lifetimeMs: 520,
+  damage: 84,
+  attackKind: 'magic',
+  knockbackX: 2,
+  knockbackY: -2,
+  hitIntervalFrames: 999,
+  maxHits: 1,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -508,6 +530,25 @@ export function spawnPetMonkey1XjProjectile(
   return projectile;
 }
 
+export function spawnPetMonkey2LjProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-monkey2-lj',
+    'pet-monkey2-lj',
+    PetMonkey2LjProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -563,7 +604,8 @@ function spawnProjectileFromTuning(
     | typeof MagicPearlBulletTunings.bullet3
     | typeof MagicZlHummerProjectileTuning
     | typeof MagicSnowProjectileTuning
-    | typeof PetMonkey1XjProjectileTuning,
+    | typeof PetMonkey1XjProjectileTuning
+    | typeof PetMonkey2LjProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;
