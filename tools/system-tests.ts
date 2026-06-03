@@ -55,14 +55,18 @@ import {
   getActivePet,
   getPetBaseStats,
   getPetExperienceToNextLevel,
+  markActivePetSkillTriggered,
+  requestPetMonkey1XjSkill,
   requestMagicBottleCapture,
   resolveMagicBottleCaptureHit,
   selectPet,
   setSelectedPetActive,
   syncPetRuntimeWithRoster,
   toggleSelectedPetActive,
+  updatePetSkillState,
   updatePetRuntime,
   usePetConsumable,
+  PetTuning,
   type CapturablePetTarget,
   type PetRuntimeModel,
 } from '../src/systems/PetSystem';
@@ -131,6 +135,9 @@ testPetFormChangeFromNaturalExperience();
 testPetFormChangeFromDjyysRebuildsRuntime();
 testPetFormDoesNotChangeBeforeThreshold();
 testPetFormThreeDoesNotRepeatChange();
+testPetMonkey1XjRequiresLearnedSkill();
+testPetMonkey1XjRequiresMpTriggerCooldownAndTarget();
+testPetMonkey1XjSpawnsProjectileAndDamagesMonster30();
 testMagicWeaponRejectsWithoutZbfb();
 testMagicWeaponKylHealsAndRejectsReentry();
 testMagicWeaponSylRestoresMpAndWoodDuration();
@@ -854,6 +861,132 @@ function testPetFormThreeDoesNotRepeatChange(): void {
   assert.equal(pet.form, 3);
   assert.equal(pet.displayName, '小猴 F3');
   assert.equal(result.formChanges.length, 0);
+}
+
+function testPetMonkey1XjRequiresLearnedSkill(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.skills = pet.skills.filter((skill) => skill !== 'xj');
+  const projectiles = createProjectileSystem();
+
+  assert.equal(markActivePetSkillTriggered(roster), true);
+  const result = requestPetMonkey1XjSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 100, 'm30-pet-xj-unlearned'))],
+    projectiles,
+  });
+
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned xj/);
+  assert.equal(getActiveProjectiles(projectiles).length, 0);
+}
+
+function testPetMonkey1XjRequiresMpTriggerCooldownAndTarget(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id);
+  const target = createPetSkillMonsterTarget(createMonster30(100, 100, 'm30-pet-xj-gates'));
+
+  let result = requestPetMonkey1XjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /trigger not ready/);
+
+  pet.mp = PetTuning.monkey1XjMpCost - 1;
+  markActivePetSkillTriggered(roster);
+  result = requestPetMonkey1XjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetMonkey1XjSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetMonkey1XjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(pet.skillState?.monkey1Xj.releaseReady, false);
+  assert.equal(pet.skillState?.monkey1Xj.cooldownMs, PetTuning.monkey1XjCooldownMs);
+
+  markActivePetSkillTriggered(roster);
+  result = requestPetMonkey1XjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.monkey1XjCooldownMs);
+  result = requestPetMonkey1XjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetMonkey1XjSpawnsProjectileAndDamagesMonster30(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  const monster = createMonster30(100, 100, 'm30-pet-xj-hit');
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+
+  markActivePetSkillTriggered(roster);
+  const result = requestPetMonkey1XjSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.monkey1XjMpCost);
+  assert.equal(pet.mp, mpBefore - PetTuning.monkey1XjMpCost);
+  assertNearlyEqual(result.damage ?? 0, pet.atk * PetTuning.monkey1XjDamageMultiplier);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(projectile.variant, 'pet-monkey1-xj');
+  assert.equal(projectile.sourceId, pet.id);
+  assert.equal(projectile.runtimeName, 'PetMonkey1Bullet2');
+  assert.equal(rectanglesIntersect(
+    getProjectileHitbox(projectile),
+    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
+  ), true);
+
+  assert.equal(applyMonster30Hit(monster, projectile.damage), true);
+  assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.monkey1XjDamageMultiplier);
+  assert.equal(pet.skillState?.monkey1Xj.releaseReady, false);
 }
 
 function testMagicWeaponRejectsWithoutZbfb(): void {
@@ -2783,6 +2916,28 @@ function createTestCapturableTarget(): CapturablePetTarget {
     level: 6,
     removed: false,
     feedback: '',
+  };
+}
+
+function createTestPetRuntime(petId: string): PetRuntimeModel {
+  return {
+    petId,
+    runtimeKey: `${petId}:monkey:1`,
+    x: 0,
+    y: 0,
+    facingX: 1,
+    state: 'idle',
+  };
+}
+
+function createPetSkillMonsterTarget(
+  monster: ReturnType<typeof createMonster30>,
+) {
+  return {
+    id: monster.id,
+    x: monster.x,
+    y: monster.y,
+    isAlive: monster.state !== 'dead' && monster.state !== 'removed',
   };
 }
 

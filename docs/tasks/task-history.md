@@ -3137,6 +3137,35 @@
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
 
+### TASK-SLICE-041
+
+完成时间：
+- 2026-06-03
+
+完成内容：
+- 扩展 `src/systems/PetSystem.ts`，为 P1 出战 `monkey1` 增加最小宠物技能状态：测试种子已学 `xj`，包含受击等价触发标记、500ms 冷却、最近释放反馈和 `2.6 * pet.atk` 伤害派生。
+- `xj` 释放门禁覆盖已学习、MP `>= 20`、触发标记、冷却就绪和存在存活 `Monster30` 目标；释放成功扣 20 MP，重置触发标记并进入冷却。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey1-xj` / `PetMonkey1Bullet2` 占位 projectile 和资源缺口登记，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/scenes/TestScene.ts`，在 P1 被 `Monster30` 命中时给出战宠物设置等价触发标记；宠物系统更新时满足门禁会生成可见 projectile，并复用现有 projectile 命中链路对 `Monster30` 造成伤害。状态栏和宠物面板显示已学技能、MP、触发/冷却和最近释放结果。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、触发未就绪、MP 不足、无目标、冷却门禁、扣 MP、触发重置、projectile 生成和 `Monster30` 伤害。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-016` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-042`。
+
+更新文件：
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
 ### TASK-SETTINGS-022
 
 完成时间：

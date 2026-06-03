@@ -1,5 +1,6 @@
 import {
   MagicWeaponEffectKeys,
+  PetSkillEffectKeys,
   SkillProjectileEffectKeys,
 } from '../assets/AssetManifest';
 import type { AttackKind } from './CombatSystem';
@@ -71,7 +72,8 @@ export type ProjectileVariant =
   | 'magic-weapon-pearl-bullet2'
   | 'magic-weapon-pearl-bullet3'
   | 'magic-weapon-zltc'
-  | 'magic-weapon-snow';
+  | 'magic-weapon-snow'
+  | 'pet-monkey1-xj';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -292,6 +294,27 @@ export const MagicSnowProjectileTuning = {
   iceMs: 3_000,
 } as const;
 
+export const PetMonkey1XjProjectileTuning = {
+  actionName: 'hit2',
+  assetKey: PetSkillEffectKeys.monkey1Xj,
+  sourceSymbol: 'PetMonkey1Bullet2',
+  runtimeName: 'PetMonkey1Bullet2',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 118,
+  height: 86,
+  lifetimeMs: 420,
+  damage: 52,
+  attackKind: 'magic',
+  knockbackX: 2,
+  knockbackY: -2,
+  hitIntervalFrames: 999,
+  maxHits: 1,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -466,6 +489,25 @@ export function spawnMagicSnowProjectile(
   return projectile;
 }
 
+export function spawnPetMonkey1XjProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-monkey1-xj',
+    'pet-monkey1-xj',
+    PetMonkey1XjProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -520,7 +562,8 @@ function spawnProjectileFromTuning(
     | typeof MagicPearlBulletTunings.bullet2
     | typeof MagicPearlBulletTunings.bullet3
     | typeof MagicZlHummerProjectileTuning
-    | typeof MagicSnowProjectileTuning,
+    | typeof MagicSnowProjectileTuning
+    | typeof PetMonkey1XjProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

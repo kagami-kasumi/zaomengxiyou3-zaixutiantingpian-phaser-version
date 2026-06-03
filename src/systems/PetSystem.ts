@@ -1,3 +1,9 @@
+import {
+  spawnPetMonkey1XjProjectile,
+  type ProjectileModel,
+  type ProjectileSystemModel,
+} from './ProjectileSystem';
+
 export type PetId = string;
 
 export type PetState = {
@@ -27,6 +33,7 @@ export type PetState = {
   isActive: boolean;
   skills: string[];
   magicFlowerBuff?: PetMagicFlowerBuff;
+  skillState?: PetSkillState;
 };
 
 export type PetMagicFlowerBuff = {
@@ -35,6 +42,16 @@ export type PetMagicFlowerBuff = {
   attackMultiplier: number;
   totalMs: number;
   remainingMs: number;
+};
+
+export type PetSkillState = {
+  monkey1Xj: PetMonkey1XjSkillState;
+  lastResult: string;
+};
+
+export type PetMonkey1XjSkillState = {
+  releaseReady: boolean;
+  cooldownMs: number;
 };
 
 export type PetRoster = {
@@ -143,6 +160,24 @@ export type PetOwnerSnapshot = {
   facingX: -1 | 1;
 };
 
+export type PetSkillTarget = {
+  id: string;
+  x: number;
+  y: number;
+  isAlive: boolean;
+};
+
+export type PetSkillCastResult = {
+  ok: boolean;
+  message: string;
+  pet?: PetState;
+  target?: PetSkillTarget;
+  projectile?: ProjectileModel;
+  damage?: number;
+  mpBefore?: number;
+  mpAfter?: number;
+};
+
 export const PetTuning = {
   maxSeats: 10,
   followMinDistance: 64,
@@ -158,6 +193,9 @@ export const PetTuning = {
   petLifetimeRecover: 20,
   petExperienceStoneExp: 30_000,
   maxLevel: 90,
+  monkey1XjMpCost: 20,
+  monkey1XjCooldownMs: 500,
+  monkey1XjDamageMultiplier: 2.6,
 } as const;
 
 const PetHpByLevel = [
@@ -234,7 +272,8 @@ export function createSeedPetRoster(): PetRoster {
         technique: 1,
         warpower: 1,
         isActive: true,
-        skills: ['tsml'],
+        skills: ['tsml', 'xj'],
+        skillState: createPetSkillState(),
       },
     ],
     selectedIndex: 0,
@@ -340,6 +379,94 @@ export function catchNewPet(
   roster.selectedIndex = roster.pets.length - 1;
   roster.message = `捕捉成功：${pet.displayName}`;
   return pet;
+}
+
+export function markActivePetSkillTriggered(roster: PetRoster): boolean {
+  const pet = getActivePet(roster);
+  if (!pet) {
+    roster.message = 'No active pet skill trigger';
+    return false;
+  }
+
+  ensurePetSkillState(pet).monkey1Xj.releaseReady = true;
+  roster.message = `${pet.displayName} xj trigger ready`;
+  return true;
+}
+
+export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
+  for (const pet of roster.pets) {
+    const state = pet.skillState;
+    if (!state) {
+      continue;
+    }
+
+    state.monkey1Xj.cooldownMs = Math.max(0, state.monkey1Xj.cooldownMs - Math.max(0, deltaMs));
+  }
+}
+
+export function requestPetMonkey1XjSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'monkey' || pet.form !== 1) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not monkey1`, pet);
+  }
+
+  if (!pet.skills.includes('xj')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned xj`, pet);
+  }
+
+  if (pet.mp < PetTuning.monkey1XjMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for xj`, pet);
+  }
+
+  if (!state.monkey1Xj.releaseReady) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} xj trigger not ready`, pet);
+  }
+
+  if (state.monkey1Xj.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} xj cooling ${Math.ceil(state.monkey1Xj.cooldownMs)}ms`, pet);
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} xj has no target`, pet);
+  }
+
+  const mpBefore = pet.mp;
+  const damage = pet.atk * PetTuning.monkey1XjDamageMultiplier;
+  pet.mp = Math.max(0, pet.mp - PetTuning.monkey1XjMpCost);
+  state.monkey1Xj.releaseReady = false;
+  state.monkey1Xj.cooldownMs = PetTuning.monkey1XjCooldownMs;
+
+  const projectile = spawnPetMonkey1XjProjectile(params.projectiles, {
+    sourceId: pet.id,
+    x: target.x,
+    y: target.y,
+    facingX: getPetSkillFacing(params.runtime, target),
+  }, damage);
+
+  const message = `${pet.displayName} xj -> ${target.id} ${damage.toFixed(1)}`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    projectile,
+    damage,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
 }
 
 export function requestMagicBottleCapture(params: {
@@ -678,6 +805,11 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
     lines.push(`EXP ${selected.exp}/${formatPetNextExperience(selected)}`);
     lines.push(`悟 ${selected.perception}  技 ${selected.technique}  战 ${selected.warpower}`);
     lines.push(`Skills: ${selected.skills.length > 0 ? selected.skills.join(', ') : '-'}`);
+    const skillState = selected.skillState;
+    if (skillState) {
+      lines.push(`XJ ready:${skillState.monkey1Xj.releaseReady ? 'Y' : 'N'} cd:${Math.ceil(skillState.monkey1Xj.cooldownMs)}ms`);
+      lines.push(`Last skill: ${skillState.lastResult}`);
+    }
   } else {
     lines.push('-');
   }
@@ -744,7 +876,65 @@ function createPetStateFromDefinition(
     warpower: 1,
     isActive: false,
     skills: ['tsml'],
+    skillState: createPetSkillState(),
   };
+}
+
+function createPetSkillState(): PetSkillState {
+  return {
+    monkey1Xj: {
+      releaseReady: false,
+      cooldownMs: 0,
+    },
+    lastResult: 'pet skill ready',
+  };
+}
+
+function ensurePetSkillState(pet: PetState): PetSkillState {
+  pet.skillState ??= createPetSkillState();
+  return pet.skillState;
+}
+
+function setPetSkillFailure(
+  roster: PetRoster,
+  message: string,
+  pet?: PetState,
+): PetSkillCastResult {
+  if (pet) {
+    ensurePetSkillState(pet).lastResult = message;
+  }
+  roster.message = message;
+  return { ok: false, message, pet };
+}
+
+function selectPetSkillTarget(
+  runtime: PetRuntimeModel | undefined,
+  targets: readonly PetSkillTarget[],
+): PetSkillTarget | undefined {
+  const aliveTargets = targets.filter((target) => target.isAlive);
+  if (aliveTargets.length === 0) {
+    return undefined;
+  }
+
+  if (!runtime) {
+    return aliveTargets[0];
+  }
+
+  return aliveTargets.reduce((nearest, target) => {
+    const nearestDistance = Math.hypot(nearest.x - runtime.x, nearest.y - runtime.y);
+    const targetDistance = Math.hypot(target.x - runtime.x, target.y - runtime.y);
+    return targetDistance < nearestDistance ? target : nearest;
+  });
+}
+
+function getPetSkillFacing(
+  runtime: PetRuntimeModel | undefined,
+  target: PetSkillTarget,
+): -1 | 1 {
+  if (!runtime) {
+    return 1;
+  }
+  return target.x < runtime.x ? -1 : 1;
 }
 
 function updatePetFormForLevel(pet: PetState): PetFormChange | undefined {

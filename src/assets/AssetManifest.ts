@@ -60,6 +60,10 @@ export const MagicWeaponEffectKeys = {
   magicSnow: 'magic-weapon.stlp.ef-snow',
 } as const;
 
+export const PetSkillEffectKeys = {
+  monkey1Xj: 'pet-skill.monkey1.xj',
+} as const;
+
 export const scaffoldAssets = {
   playerPlaceholder: {
     key: AssetKeys.playerPlaceholder,
@@ -171,6 +175,13 @@ export const sourceAssetFamilies = {
       'ef_snow',
     ],
     notes: 'Magic-weapon effect families for lxj/MagicSword2, fbqpj/MagicQPJ, xhmt/MagicPearl, zltc/MagicZLHummer, qljfb/MagicBigBottle, and stlp/Ling; absent from current exported bitmap resources, represented by modern placeholder effects.',
+  },
+  petSkillProjectiles: {
+    status: 'missing-original',
+    sourceSymbols: [
+      'PetMonkey1Bullet2',
+    ],
+    notes: 'Pet monkey1 xj / hit2 projectile family; represented by a modern placeholder effect for VS-016.',
   },
   stage11: {
     status: 'missing-original',

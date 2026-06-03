@@ -190,12 +190,15 @@ import {
   createSeedPetRoster,
   getActivePet,
   isPetConsumableFillName,
+  markActivePetSkillTriggered,
   requestMagicBottleCapture,
+  requestPetMonkey1XjSkill,
   resolveMagicBottleCaptureHit,
   selectPet,
   syncPetRuntimeWithRoster,
   toggleSelectedPetActive,
   updateMagicBottleCapture,
+  updatePetSkillState,
   updatePetRuntime,
   usePetConsumable,
   type CapturablePetTarget,
@@ -203,6 +206,7 @@ import {
   type MonsterExperienceShareResult,
   type PetRoster,
   type PetRuntimeModel,
+  type PetSkillTarget,
 } from '../systems/PetSystem';
 import {
   createMagicWeaponModel,
@@ -1900,6 +1904,18 @@ export class TestScene extends Phaser.Scene {
       },
       delta,
     );
+    updatePetSkillState(this.petRoster, delta);
+    if (
+      activePet.skillState?.monkey1Xj.releaseReady &&
+      activePet.skillState.monkey1Xj.cooldownMs <= 0
+    ) {
+      requestPetMonkey1XjSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+    }
     this.syncPetView(activePet);
   }
 
@@ -2183,9 +2199,30 @@ export class TestScene extends Phaser.Scene {
   }
 
   private createProjectileSourceSnapshots(): readonly ProjectileSourceSnapshot[] {
-    return this.playerViews.map((player) => ({
+    const playerSnapshots = this.playerViews.map((player) => ({
       id: player.slot,
       state: player.combat.state,
+    }));
+    const activePet = getActivePet(this.petRoster);
+    if (!activePet) {
+      return playerSnapshots;
+    }
+
+    return [
+      ...playerSnapshots,
+      {
+        id: activePet.id,
+        state: activePet.hp <= 0 ? 'dead' as const : 'ready' as const,
+      },
+    ];
+  }
+
+  private createPetSkillTargets(): PetSkillTarget[] {
+    return this.monster30s.map((monster) => ({
+      id: monster.id,
+      x: monster.x,
+      y: monster.y,
+      isAlive: monster.state !== 'dead' && monster.state !== 'removed',
     }));
   }
 
@@ -2296,14 +2333,18 @@ export class TestScene extends Phaser.Scene {
   }
 
   private applySingleMonster30Attack(monster: Monster30Model, time: number): void {
+    const result = applyMonster30AttackToPlayers({
+      monster,
+      players: this.getPlayers(),
+      hitRegistry: this.hitRegistry,
+      renderedMonsterAttackIds: this.renderedMonsterAttackIds,
+      time,
+    });
+    if (result.damageEvents.some((event) => event.targetId === 'p1')) {
+      markActivePetSkillTriggered(this.petRoster);
+    }
     this.applyCombatBridgeResult(
-      applyMonster30AttackToPlayers({
-        monster,
-        players: this.getPlayers(),
-        hitRegistry: this.hitRegistry,
-        renderedMonsterAttackIds: this.renderedMonsterAttackIds,
-        time,
-      }),
+      result,
       time,
       0xff6b6b,
     );
@@ -3452,10 +3493,13 @@ function formatPetState(
   const flower = active?.magicFlowerBuff
     ? ` flower:x${active.magicFlowerBuff.attackMultiplier.toFixed(2)} ${formatSeconds(active.magicFlowerBuff.remainingMs)}s`
     : '';
+  const skill = active?.skillState
+    ? ` skills:${active.skills.join(',') || '-'} xj:${active.skillState.monkey1Xj.releaseReady ? 'ready' : 'idle'} cd:${Math.ceil(active.skillState.monkey1Xj.cooldownMs)} ${active.skillState.lastResult}`
+    : '';
   return [
     panelOpen ? 'panel:open' : 'panel:closed',
     active
-      ? `active:${active.displayName} F${active.form} Lv.${active.level} exp:${active.exp}/${active.expToNext} hp:${Math.round(active.hp)}/${Math.round(active.maxHp)} mp:${Math.round(active.mp)}/${Math.round(active.maxMp)} atk:${active.atk.toFixed(2)} def:${active.def}${flower}`
+      ? `active:${active.displayName} F${active.form} Lv.${active.level} exp:${active.exp}/${active.expToNext} hp:${Math.round(active.hp)}/${Math.round(active.maxHp)} mp:${Math.round(active.mp)}/${Math.round(active.maxMp)} atk:${active.atk.toFixed(2)} def:${active.def}${flower}${skill}`
       : 'active:-',
     runtime
       ? `${runtime.state}[${runtime.runtimeKey}]@${Math.round(runtime.x)},${Math.round(runtime.y)}`
