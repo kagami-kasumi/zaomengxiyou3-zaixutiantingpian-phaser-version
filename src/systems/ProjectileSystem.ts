@@ -77,7 +77,8 @@ export type ProjectileVariant =
   | 'pet-monkey2-lj'
   | 'pet-monkey2-xj'
   | 'pet-monkey3-lyq'
-  | 'pet-monkey3-xj';
+  | 'pet-monkey3-xj'
+  | 'pet-monkey3-lj';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -403,6 +404,27 @@ export const PetMonkey3XjProjectileTuning = {
   maxHits: 1,
 } as const;
 
+export const PetMonkey3LjProjectileTuning = {
+  actionName: 'hit4',
+  assetKey: PetSkillEffectKeys.monkey3Lj,
+  sourceSymbol: 'PetMonkey3Bullet3_2',
+  runtimeName: 'PetMonkey3Bullet3_2',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 144,
+  height: 104,
+  lifetimeMs: 560,
+  damage: 84,
+  attackKind: 'magic',
+  knockbackX: 2,
+  knockbackY: -2,
+  hitIntervalFrames: 999,
+  maxHits: 1,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -672,6 +694,25 @@ export function spawnPetMonkey3XjProjectile(
   return projectile;
 }
 
+export function spawnPetMonkey3LjProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-monkey3-lj',
+    'pet-monkey3-lj',
+    PetMonkey3LjProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -731,7 +772,8 @@ function spawnProjectileFromTuning(
     | typeof PetMonkey2LjProjectileTuning
     | typeof PetMonkey2XjProjectileTuning
     | typeof PetMonkey3LyqProjectileTuning
-    | typeof PetMonkey3XjProjectileTuning,
+    | typeof PetMonkey3XjProjectileTuning
+    | typeof PetMonkey3LjProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

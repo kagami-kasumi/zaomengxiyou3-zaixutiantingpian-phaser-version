@@ -3137,6 +3137,35 @@
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
 
+### TASK-SLICE-046
+
+完成时间：
+- 2026-06-03
+
+完成内容：
+- 扩展 `src/systems/PetSystem.ts`，让种子 `monkey3` 持有已学 `lj`，新增 `monkey3Lj` 受击触发/冷却状态、20 MP 门禁、500ms 冷却、触发重置和 `4.2 * pet.atk` 伤害结算。
+- `markActivePetSkillTriggered()` 现在会按当前出战宠物形态把等价受击触发写入 `monkey1Xj`、`monkey2Xj` 或 `monkey3Lj`，保持已有 `monkey1/xj`、`monkey2/xj` 行为不回退。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-lj` / `PetMonkey3Bullet3_2` / `hit4` 占位 projectile，并登记 `PetMonkey3Bullet3_1/_2` 资源缺口，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/scenes/TestScene.ts`，当前出战宠物为 `monkey3` 时保持 `lyq -> xj -> lj` 的技能尝试顺序；`lj` 只在受击触发标记为 ready 且前置技能未成功释放时尝试。
+- 扩展 `tools/system-tests.ts`，覆盖 `monkey3/lj` 未学习、触发未就绪、MP 不足、无目标、冷却、扣 MP、触发重置、projectile 生成和 `Monster30` 伤害。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-021` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-047`。
+
+更新文件：
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
 ### TASK-SLICE-045
 
 完成时间：
