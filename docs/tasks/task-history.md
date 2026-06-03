@@ -3137,6 +3137,36 @@
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
 
+### TASK-SLICE-044
+
+完成时间：
+- 2026-06-03
+
+完成内容：
+- 扩展 `src/systems/PetSystem.ts`，在测试种子宠物列表中新增可切换出战的 `monkey3`，并让其持有已学 `lyq`。
+- 为 `monkey3/lyq` 增加最小主动技能状态：已学习、MP `>= 20`、500ms 冷却、存在存活 `Monster30` 目标且宠物到目标距离 `<= 400` 时释放。
+- 释放 `lyq` 时扣 20 MP、进入冷却、记录最近释放反馈，并按 `6.8 * pet.atk` 派生伤害。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-lyq` / `PetMonkey3Bullet2` / `hit2` 占位 projectile 和资源缺口登记，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/scenes/TestScene.ts`，当前出战宠物为 `monkey3` 且冷却就绪时自动尝试 `lyq` 目标选择；状态栏和宠物面板显示 `lyq` 冷却和最近释放结果。
+- 扩展 `tools/system-tests.ts`，覆盖 `monkey3/lyq` 未学习、MP 不足、无目标、距离门禁、冷却、扣 MP、projectile 生成和 `Monster30` 伤害。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-019` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-045`。
+
+更新文件：
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
 ### TASK-SLICE-043
 
 完成时间：

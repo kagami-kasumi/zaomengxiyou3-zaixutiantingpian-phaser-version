@@ -1,6 +1,7 @@
 import {
   spawnPetMonkey2LjProjectile,
   spawnPetMonkey2XjProjectile,
+  spawnPetMonkey3LyqProjectile,
   spawnPetMonkey1XjProjectile,
   type ProjectileModel,
   type ProjectileSystemModel,
@@ -50,6 +51,7 @@ export type PetSkillState = {
   monkey1Xj: PetMonkey1XjSkillState;
   monkey2Lj: PetMonkey2LjSkillState;
   monkey2Xj: PetMonkey2XjSkillState;
+  monkey3Lyq: PetMonkey3LyqSkillState;
   lastResult: string;
 };
 
@@ -64,6 +66,10 @@ export type PetMonkey2LjSkillState = {
 
 export type PetMonkey2XjSkillState = {
   releaseReady: boolean;
+  cooldownMs: number;
+};
+
+export type PetMonkey3LyqSkillState = {
   cooldownMs: number;
 };
 
@@ -215,6 +221,10 @@ export const PetTuning = {
   monkey2XjMpCost: 20,
   monkey2XjCooldownMs: 500,
   monkey2XjDamageMultiplier: 2.6,
+  monkey3LyqMpCost: 20,
+  monkey3LyqCooldownMs: 500,
+  monkey3LyqDamageMultiplier: 6.8,
+  monkey3LyqMaxDistance: 400,
 } as const;
 
 const PetHpByLevel = [
@@ -318,6 +328,13 @@ export function createSeedPetRoster(): PetRoster {
         displayName: '小猴 F2',
         isActive: false,
         skills: ['tsml', 'lj', 'xj'],
+      }),
+      createSeedMonkeyPet({
+        id: 'pet-monkey-3',
+        form: 3,
+        displayName: '小猴 F3',
+        isActive: false,
+        skills: ['tsml', 'lyq'],
       }),
     ],
     selectedIndex: 0,
@@ -452,6 +469,7 @@ export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
     state.monkey1Xj.cooldownMs = Math.max(0, state.monkey1Xj.cooldownMs - Math.max(0, deltaMs));
     state.monkey2Lj.cooldownMs = Math.max(0, state.monkey2Lj.cooldownMs - Math.max(0, deltaMs));
     state.monkey2Xj.cooldownMs = Math.max(0, state.monkey2Xj.cooldownMs - Math.max(0, deltaMs));
+    state.monkey3Lyq.cooldownMs = Math.max(0, state.monkey3Lyq.cooldownMs - Math.max(0, deltaMs));
   }
 }
 
@@ -631,6 +649,71 @@ export function requestPetMonkey2XjSkill(params: {
   }, damage);
 
   const message = `${pet.displayName} xj -> ${target.id} ${damage.toFixed(1)}`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    projectile,
+    damage,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
+}
+
+export function requestPetMonkey3LyqSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'monkey' || pet.form !== 3) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not monkey3`, pet);
+  }
+
+  if (!pet.skills.includes('lyq')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned lyq`, pet);
+  }
+
+  if (pet.mp < PetTuning.monkey3LyqMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for lyq`, pet);
+  }
+
+  if (state.monkey3Lyq.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} lyq cooling ${Math.ceil(state.monkey3Lyq.cooldownMs)}ms`, pet);
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} lyq has no target`, pet);
+  }
+
+  const distance = getPetSkillDistance(params.runtime, target);
+  if (distance > PetTuning.monkey3LyqMaxDistance) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} lyq target too far ${Math.ceil(distance)}`, pet);
+  }
+
+  const mpBefore = pet.mp;
+  const damage = pet.atk * PetTuning.monkey3LyqDamageMultiplier;
+  pet.mp = Math.max(0, pet.mp - PetTuning.monkey3LyqMpCost);
+  state.monkey3Lyq.cooldownMs = PetTuning.monkey3LyqCooldownMs;
+
+  const projectile = spawnPetMonkey3LyqProjectile(params.projectiles, {
+    sourceId: pet.id,
+    x: target.x,
+    y: target.y,
+    facingX: getPetSkillFacing(params.runtime, target),
+  }, damage);
+
+  const message = `${pet.displayName} lyq -> ${target.id} ${damage.toFixed(1)}`;
   state.lastResult = message;
   params.roster.message = message;
   return {
@@ -986,6 +1069,7 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
       lines.push(`XJ ready:${skillState.monkey1Xj.releaseReady ? 'Y' : 'N'} cd:${Math.ceil(skillState.monkey1Xj.cooldownMs)}ms`);
       lines.push(`LJ cd:${Math.ceil(skillState.monkey2Lj.cooldownMs)}ms`);
       lines.push(`M2 XJ ready:${skillState.monkey2Xj.releaseReady ? 'Y' : 'N'} cd:${Math.ceil(skillState.monkey2Xj.cooldownMs)}ms`);
+      lines.push(`M3 LYQ cd:${Math.ceil(skillState.monkey3Lyq.cooldownMs)}ms`);
       lines.push(`Last skill: ${skillState.lastResult}`);
     }
   } else {
@@ -1071,6 +1155,9 @@ function createPetSkillState(): PetSkillState {
       releaseReady: false,
       cooldownMs: 0,
     },
+    monkey3Lyq: {
+      cooldownMs: 0,
+    },
     lastResult: 'pet skill ready',
   };
 }
@@ -1110,6 +1197,17 @@ function selectPetSkillTarget(
     const targetDistance = Math.hypot(target.x - runtime.x, target.y - runtime.y);
     return targetDistance < nearestDistance ? target : nearest;
   });
+}
+
+function getPetSkillDistance(
+  runtime: PetRuntimeModel | undefined,
+  target: PetSkillTarget,
+): number {
+  if (!runtime) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  return Math.hypot(target.x - runtime.x, target.y - runtime.y);
 }
 
 function getPetSkillFacing(
