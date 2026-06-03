@@ -151,6 +151,123 @@
 
 掉落系统已确认会把 `curAttackTarget is BasePet` 映射回来源英雄，保证 aura 归属按宠物主人结算。
 
+## 经验、升级和成长
+
+`PetInfo` 保存宠物等级和经验，字段在 `Antiwear` 包装对象 `_anti` 中：
+
+- `level`：当前等级。
+- `curExper`：当前等级内经验。
+- `hp/shp`：当前 HP / 最大 HP。
+- `mp/smp`：当前 MP / 最大 MP。
+- `atk/def`：攻击和防御。
+- `hpQuality/mpQuality/atkQuality/defQuality`：四类资质，影响 MP、攻击等成长。
+
+### 下级经验
+
+`PetInfo.getPetNextExper()` 是宠物升级曲线：
+
+| 当前等级 | 下级经验 |
+| --- | --- |
+| `level <= 10` | `level * 50` |
+| `level > 10` | `(level + 1) * (level + 1) * (5 + (level - 10) * 2)` |
+
+`AllConsts.GAME_PET_MAXLEVEL = 90`。`PetInfo.petUpdate()` 只在 `getLevel() < GAME_PET_MAXLEVEL` 时尝试升级。存档读取时如果首轮加载发现宠物等级 `>= GAME_PET_MAXLEVEL`，会降到 `GAME_PET_MAXLEVEL - 1` 并清经验。
+
+### 升级触发
+
+`PetInfo.setCurExper(value)` 写入 `_anti.curExper = value` 后立即调用 `petUpdate()`。因此战斗经验、任务奖励和宠物经验道具只要走 `setCurExper()`，都会共用同一个升级入口。
+
+`petUpdate()` 行为：
+
+1. 读取 `_loc1_ = getPetNextExper()`。
+2. 如果 `curExper >= _loc1_`，先 `deletePassiveWhenUpdata()`。
+3. 等级 +1。
+4. 处理形态变化：
+   - `16 <= level < 30` 且当前形态尾号为 `1` 时，宠物名尾号变成 `2`，补特殊技能、调用 `doWhenChangeState()`、刷新中文名和技能说明。
+   - `level > 30` 且当前形态尾号为 `2` 时，宠物名尾号变成 `3`，同样补技能并触发形态变化回调。
+5. 调用 `studySkillSuddenly(level)`，再 `addPassiveAfterUpdata()`。
+6. 调用 `reSetPetAttributeValue()` 刷新属性，并 `upPassive()` 刷新额外 HP/MP、暴击、闪避、魔防等被动加成。
+7. 如果有 `doWhenLevelUp` 回调，调用它；`BaseHero.doWhenLevelUp()` 会在当前宠物实体上添加 `PetLevelUpMc` 升级表现。
+8. `setCurExper(curExper - _loc1_)` 扣除本级经验。因为 `setCurExper()` 会再次触发 `petUpdate()`，一次性获得大量经验时可以连续升级并保留溢出。
+
+`BaseHero.initPet()` 会把 `PetInfo` 的 `doWhenLevelUp` 设为英雄的升级特效回调，把 `doWhenChangeState` 设为 `BaseHero.changePet()`。因此宠物形态变化会销毁并重建当前宠物战斗实体。
+
+### 属性成长
+
+`PetInfo` 构造中内置两条核心数组：
+
+- `hpArr`：按等级索引的最大 HP 表，使用 `hpArr[level - 1]`。
+- `defArr`：按等级索引的防御基表，升级/重算时常取 `int(defArr[level - 1] * 0.9)`。
+
+捕捉或创建宠物时，`setPetNameAndLevel()` 会根据初始等级设置宠物形态、等级、经验 0、寿命 100、品质和初始属性。`level == 1` 的宠物为 `quality = 1`，否则 `quality = 2`。初始属性由 `initPetInfoData()` 按宠物种类和品质计算，非 1 级宠物带一定随机资质和初值。
+
+升级后的通用刷新来自 `reSetPetAttributeValue()`：
+
+- `SHp = hpArr[level - 1]`，并把当前 `Hp` 回满到 `SHp`。
+- `SMp += mpQuality * 0.08`，并把当前 `Mp` 回满到 `SMp`。
+- `Atk += atkQuality * 0.015`。
+- `Def = int(defArr[level - 1] * 0.9)`。
+- `level >= 60` 时额外增加少量闪避、魔防和暴击随机成长。
+
+存档读取后的 `setPetValue(petName)` 会按当前等级和宠物种类重建基础 HP/MP/攻击/防御。首批现代实现可用 `setPetValue()` 的确定性公式做初始化和读档重建，用 `reSetPetAttributeValue()` 的增量规则做升级：
+
+| 宠物种类 | 最大 MP 基数 | 攻击基数 |
+| --- | --- | --- |
+| `monkey` | `150` | `20` |
+| `horse` | `250` | `25` |
+| `ufo` | `150` | `30` |
+| `mouse` | `200` | `32` |
+| `dragon` | `175` | `25` |
+| `turtle` | `150` | `25` |
+| `tigress` | `150` | `30` |
+| `phoenix` | `200` | `32` |
+| `roomhorse` | `800` | `50` |
+| `rabbit` | `200` | `30` |
+
+这些 `setPetValue()` 分支统一使用：
+
+- `SHp = hpArr[level - 1]`。
+- `SMp = mpBase + mpQuality * 0.08 * (level - 1)`。
+- `Atk = atkBase + atkQuality * 0.015 * (level - 1)`。
+- `Def = int(defArr[level - 1] * 0.9)`。
+
+`setPetValue()` 当前没有覆盖 `neat/nian/terribletiger` 等后续宠物族，首个现代成长切片不应伪造这些族的完整公式。
+
+### 经验来源
+
+`BaseMonster.reduceHp()` 普通死亡路径：
+
+- 击杀目标是 `BaseHero` 且英雄有当前宠物时：玩家获得 `monster.exp * 0.6`，当前宠物获得 `monster.exp * 0.6`。
+- 击杀目标是 `BaseHero` 且无宠物时：玩家获得完整 `monster.exp`。
+- 击杀目标是 `BasePet` 时：宠物获得完整 `monster.exp`。
+
+特殊怪 `Monster111` 覆写死亡经验：
+
+- 击杀目标是英雄且有宠物时，玩家和宠物各获得完整 `monster.exp`。
+- 击杀目标是英雄且无宠物时，尝试给 P1/P2 英雄都加经验，且以击杀者当前经验为基准；这是特殊/异常路径，不作为普通规则。
+- 击杀目标是宠物时，宠物获得完整 `monster.exp`。
+
+`TaskInterface` 的任务奖励类型 `"exp"`：
+
+- P1 有当前宠物时，给该宠物 `curExper += award.value`，否则直接写 `player1.curExp`。
+- P2 分支代码也先读取 `player1.findCurrentPet()`，若存在则仍给 `_loc3_` 宠物加经验，否则写 `player2.curExp`；这是原版旁路/疑似 bug，首个现代宠物成长切片不应复刻该异常。
+
+`PackThings` 的宠物经验道具：
+
+- `djyys` 要求 `findCurrentPet(true)` 非空，否则提示“你还没有出战的宠物”并返回。
+- 有宠物时调用当前英雄 `getPet().petInfo.setCurExper(getCurExper() + 30000)`，提示“宠物增加经验30000点”。
+- 因为走 `setCurExper()`，`djyys` 与自然战斗经验共用升级、形态变化、属性刷新和溢出经验逻辑。
+
+## 现代宠物成长切片建议
+
+推荐后续切片为 `VS-015 宠物经验/升级最小闭环`：
+
+- 只覆盖 P1 当前出战宠物。
+- 接入 `Monster30` 击杀时的普通分成：有出战宠物时玩家与宠物各得 `60%`，无宠物时玩家得完整经验。
+- 接入 `djyys` 等价测试道具或现有宠物消耗品入口，使它走同一个 `setCurExper()` 等价函数。
+- 支持当前出战宠物升级、扣除本级经验、保留溢出、HP/MP 回满、基础属性按当前宠物族首批公式刷新。
+- 首批可先覆盖当前现代种子宠物使用的族；未确认 `setPetValue()` 公式的宠物族、60 级后随机暴击/闪避/魔防、形态变化实体重建、任务奖励异常、P2 宠物、存档和全部技能后置。
+
 ## UI 与快捷键
 
 `RoleInfo.btn_cw` 是宠物面板按钮。点击后 `RoleInfo.cwClick()` 创建 `new PetInterface(this.hero.getPlayer())` 并加入 UI；单人模式下会暂停游戏。再次触发或停止状态下会派发 `closePetInterface`。

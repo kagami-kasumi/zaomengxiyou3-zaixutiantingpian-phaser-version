@@ -47,10 +47,14 @@ import {
   getInventoryEntries,
 } from '../src/systems/InventorySystem';
 import {
+  addPetExperience,
+  awardMonsterExperienceWithCurrentPet,
   catchNewPet,
   createMagicBottleCaptureModel,
   createSeedPetRoster,
   getActivePet,
+  getPetBaseStats,
+  getPetExperienceToNextLevel,
   requestMagicBottleCapture,
   resolveMagicBottleCaptureHit,
   selectPet,
@@ -117,6 +121,11 @@ testMagicWeaponInputIsSeparateFromNormalSkillSlots();
 testPetConsumableLifetimeConsumesStackAndCapsAt100();
 testPetConsumableRequiresActivePetWithoutConsuming();
 testPetConsumableRestoreAndExperience();
+testPetExperienceMonster30ShareWithActivePet();
+testPetExperienceMonster30FullHeroAwardWithoutPet();
+testPetExperienceSingleLevelRefreshesStats();
+testPetExperienceOverflowAndDjyysShareUpgradePath();
+testPetExperienceSpeciesBaseStats();
 testMagicWeaponRejectsWithoutZbfb();
 testMagicWeaponKylHealsAndRejectsReentry();
 testMagicWeaponSylRestoresMpAndWoodDuration();
@@ -651,7 +660,105 @@ function testPetConsumableRestoreAndExperience(): void {
 
   const experience = usePetConsumable(roster, 'djyys');
   assert.equal(experience.ok, true);
-  assert.equal(pet.exp, 30_007);
+  assert.equal(experience.experience?.levelsGained, 17);
+  assert.equal(pet.level, 18);
+  assert.equal(pet.exp, 4_738);
+  assert.equal(pet.expToNext, getPetExperienceToNextLevel(18));
+  assert.equal(pet.hp, pet.maxHp);
+  assert.equal(pet.mp, pet.maxMp);
+  assert.equal(pet.maxHp, 3_480);
+}
+
+function testPetExperienceMonster30ShareWithActivePet(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+
+  const share = awardMonsterExperienceWithCurrentPet(roster, Monster30Tuning.experience);
+
+  assert.equal(share.heroExperience, 2);
+  assert.equal(share.petExperience, 2);
+  assert.equal(share.petResult?.appliedExp, 2);
+  assert.equal(pet.exp, 2);
+  assert.equal(pet.level, 1);
+}
+
+function testPetExperienceMonster30FullHeroAwardWithoutPet(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.isActive = false;
+
+  const share = awardMonsterExperienceWithCurrentPet(roster, Monster30Tuning.experience);
+
+  assert.equal(share.heroExperience, Monster30Tuning.experience);
+  assert.equal(share.petExperience, 0);
+  assert.equal(share.petResult, undefined);
+  assert.equal(pet.exp, 0);
+}
+
+function testPetExperienceSingleLevelRefreshesStats(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.exp = 49;
+  pet.hp = 1;
+  pet.mp = 2;
+
+  const result = addPetExperience(pet, 1);
+
+  assert.equal(result.levelsGained, 1);
+  assert.equal(pet.level, 2);
+  assert.equal(pet.exp, 0);
+  assert.equal(pet.expToNext, 100);
+  assert.equal(pet.maxHp, 840);
+  assert.equal(pet.hp, pet.maxHp);
+  assert.equal(pet.maxMp, 150.08);
+  assert.equal(pet.mp, pet.maxMp);
+  assert.equal(pet.atk, 20.015);
+  assert.equal(pet.def, 11);
+}
+
+function testPetExperienceOverflowAndDjyysShareUpgradePath(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.exp = 49;
+
+  const direct = addPetExperience(pet, 101);
+  assert.equal(direct.levelsGained, 2);
+  assert.equal(pet.level, 3);
+  assert.equal(pet.exp, 0);
+  assert.equal(pet.expToNext, 150);
+
+  pet.level = 1;
+  pet.exp = 49;
+  pet.expToNext = getPetExperienceToNextLevel(1);
+  const consumable = usePetConsumable(roster, 'djyys');
+  assert.equal(consumable.experience?.levelsGained, 17);
+  assert.equal(pet.level, 18);
+  assert.equal(pet.exp, 4_780);
+}
+
+function testPetExperienceSpeciesBaseStats(): void {
+  assert.deepEqual(getPetBaseStats('horse', 2, {
+    mpQuality: 1,
+    atkQuality: 1,
+  }), {
+    maxHp: 840,
+    maxMp: 250.08,
+    atk: 25.015,
+    def: 11,
+  });
+  assert.deepEqual(getPetBaseStats('phoenix', 1, {
+    mpQuality: 2,
+    atkQuality: 3,
+  }), {
+    maxHp: 840,
+    maxMp: 200,
+    atk: 32,
+    def: 6,
+  });
 }
 
 function testMagicWeaponRejectsWithoutZbfb(): void {

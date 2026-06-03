@@ -185,6 +185,7 @@ import {
 } from '../systems/DropSystem';
 import {
   buildPetPanelLines,
+  awardMonsterExperienceWithCurrentPet,
   createMagicBottleCaptureModel,
   createSeedPetRoster,
   getActivePet,
@@ -199,6 +200,7 @@ import {
   usePetConsumable,
   type CapturablePetTarget,
   type MagicBottleCaptureModel,
+  type MonsterExperienceShareResult,
   type PetRoster,
   type PetRuntimeModel,
 } from '../systems/PetSystem';
@@ -3203,17 +3205,27 @@ export class TestScene extends Phaser.Scene {
     this.refreshPlayerHeroView(player);
   }
 
-  private awardMonsterExperience(slot: PlayerSlot, experience: number): void {
+  private awardMonsterExperience(
+    slot: PlayerSlot,
+    experience: number,
+  ): MonsterExperienceShareResult | undefined {
     const player = this.getPlayer(slot);
     if (!player) {
-      return;
+      return undefined;
     }
 
-    const result = addHeroExperience(player.progression, experience);
+    const share = slot === 'p1'
+      ? awardMonsterExperienceWithCurrentPet(this.petRoster, experience)
+      : {
+          heroExperience: Math.max(0, Math.floor(experience)),
+          petExperience: 0,
+        };
+    const result = addHeroExperience(player.progression, share.heroExperience);
     if (result.levelsGained > 0) {
       player.baseStats = result.baseStatsAfter;
       this.syncPlayerEffectiveStats(player, { refill: true });
     }
+    return share;
   }
 
   private getEquipmentLoadoutForPlayer(player: PlayerView): EquipmentLoadout {
@@ -3442,7 +3454,9 @@ function formatPetState(
     : '';
   return [
     panelOpen ? 'panel:open' : 'panel:closed',
-    `active:${active?.displayName ?? '-'}${flower}`,
+    active
+      ? `active:${active.displayName} Lv.${active.level} exp:${active.exp}/${active.expToNext} hp:${Math.round(active.hp)}/${Math.round(active.maxHp)} mp:${Math.round(active.mp)}/${Math.round(active.maxMp)} atk:${active.atk.toFixed(2)} def:${active.def}${flower}`
+      : 'active:-',
     runtime
       ? `${runtime.state}@${Math.round(runtime.x)},${Math.round(runtime.y)}`
       : 'runtime:none',

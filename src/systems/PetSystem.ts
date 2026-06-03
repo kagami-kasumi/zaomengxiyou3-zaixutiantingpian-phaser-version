@@ -7,6 +7,7 @@ export type PetState = {
   displayName: string;
   level: number;
   exp: number;
+  expToNext: number;
   hp: number;
   maxHp: number;
   mp: number;
@@ -16,6 +17,10 @@ export type PetState = {
   moveSpeed: number;
   lifetime: number;
   quality: number;
+  hpQuality: number;
+  mpQuality: number;
+  atkQuality: number;
+  defQuality: number;
   perception: number;
   technique: number;
   warpower: number;
@@ -103,6 +108,23 @@ export type PetConsumableResult = {
   shouldConsume: boolean;
   message: string;
   pet?: PetState;
+  experience?: PetExperienceResult;
+};
+
+export type PetExperienceResult = {
+  expBefore: number;
+  expAfter: number;
+  levelBefore: number;
+  levelAfter: number;
+  levelsGained: number;
+  expToNext: number;
+  appliedExp: number;
+};
+
+export type MonsterExperienceShareResult = {
+  heroExperience: number;
+  petExperience: number;
+  petResult?: PetExperienceResult;
 };
 
 export type PetOwnerSnapshot = {
@@ -125,7 +147,45 @@ export const PetTuning = {
   magicBottleEffectLifetimeMs: 2_000,
   petLifetimeRecover: 20,
   petExperienceStoneExp: 30_000,
+  maxLevel: 90,
 } as const;
+
+const PetHpByLevel = [
+  840, 840, 870, 900, 930, 1080, 1350, 1980, 2130, 2250,
+  2400, 2580, 2730, 2880, 3030, 3180, 3330, 3480, 3630, 4551,
+  5475, 6174, 6873, 7575, 7725, 12000, 16239, 17619, 18600, 19779,
+  21000, 22779, 26112, 26541, 26970, 27399, 27828, 28257, 28686, 29115,
+  29544, 29973, 30402, 31167, 31917, 32667, 33417, 34167, 34917, 35667,
+  36417, 37167, 37917, 38667, 39417, 40167, 40917, 41667, 42417, 43167,
+  43917, 44667, 45417, 46191, 48792, 51483, 54174, 56985, 59556, 62247,
+  64938, 67629, 70320, 73011, 75702, 78393, 81084, 83775, 86466, 89157,
+  91848, 94539, 97230, 99921, 102612, 105303, 107994, 110685, 113376, 116067,
+] as const;
+
+const PetDefenseByLevel = [
+  7, 13, 19, 25, 31, 37, 43, 48, 50, 52,
+  54, 56, 82, 108, 110, 112, 114, 116, 118, 120,
+  122, 167, 212, 258, 260, 280, 321, 361, 363, 365,
+  385, 405, 425, 445, 465, 485, 505, 525, 545, 567,
+  577, 587, 597, 607, 617, 627, 637, 647, 657, 667,
+  682, 707, 727, 757, 907, 1257, 1457, 1657, 1937, 2027,
+  2115, 2178, 2241, 2304, 2367, 2430, 2493, 2556, 2619, 2682,
+  2745, 2808, 2872, 3013, 3154, 3295, 3436, 3577, 3718, 3862,
+  4111, 4118, 4120, 4122, 4124, 4501, 4878, 5255, 5632, 5998,
+] as const;
+
+const PetSpeciesBaseStats: Record<string, { maxMp: number; atk: number }> = {
+  monkey: { maxMp: 150, atk: 20 },
+  horse: { maxMp: 250, atk: 25 },
+  ufo: { maxMp: 150, atk: 30 },
+  mouse: { maxMp: 200, atk: 32 },
+  dragon: { maxMp: 175, atk: 25 },
+  turtle: { maxMp: 150, atk: 25 },
+  tigress: { maxMp: 150, atk: 30 },
+  phoenix: { maxMp: 200, atk: 32 },
+  roomhorse: { maxMp: 800, atk: 50 },
+  rabbit: { maxMp: 200, atk: 30 },
+};
 
 export const CapturablePetDefinitions: Record<CapturableMonsterId, CapturablePetDefinition> = {
   Monster70: createCapturablePetDefinition('Monster70', 'horse1', '小马', 'horse', 1, 0.4),
@@ -149,15 +209,17 @@ export function createSeedPetRoster(): PetRoster {
         displayName: '小猴',
         level: 1,
         exp: 0,
-        hp: 180,
-        maxHp: 180,
-        mp: 150,
-        maxMp: 150,
-        atk: 20,
-        def: 6,
+        expToNext: getPetExperienceToNextLevel(1),
+        hp: getPetBaseStats('monkey', 1, createDefaultPetQualities()).maxHp,
+        maxHp: getPetBaseStats('monkey', 1, createDefaultPetQualities()).maxHp,
+        mp: getPetBaseStats('monkey', 1, createDefaultPetQualities()).maxMp,
+        maxMp: getPetBaseStats('monkey', 1, createDefaultPetQualities()).maxMp,
+        atk: getPetBaseStats('monkey', 1, createDefaultPetQualities()).atk,
+        def: getPetBaseStats('monkey', 1, createDefaultPetQualities()).def,
         moveSpeed: 5,
         lifetime: 100,
         quality: 1,
+        ...createDefaultPetQualities(),
         perception: 1,
         technique: 1,
         warpower: 1,
@@ -386,10 +448,107 @@ export function usePetConsumable(
     return { ok: true, shouldConsume: true, message, pet };
   }
 
-  pet.exp += PetTuning.petExperienceStoneExp;
-  const message = `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp}`;
+  const experience = addPetExperience(pet, PetTuning.petExperienceStoneExp);
+  const message = experience.levelsGained > 0
+    ? `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp} Lv.${experience.levelBefore}->${experience.levelAfter}`
+    : `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp}`;
   roster.message = message;
-  return { ok: true, shouldConsume: true, message, pet };
+  return { ok: true, shouldConsume: true, message, pet, experience };
+}
+
+export function awardMonsterExperienceWithCurrentPet(
+  roster: PetRoster,
+  monsterExperience: number,
+): MonsterExperienceShareResult {
+  const activePet = getCurrentPet(roster);
+  const normalizedExperience = Math.max(0, Math.floor(monsterExperience));
+  if (!activePet) {
+    return {
+      heroExperience: normalizedExperience,
+      petExperience: 0,
+    };
+  }
+
+  const sharedExperience = Math.floor(normalizedExperience * 0.6);
+  const petResult = addPetExperience(activePet, sharedExperience);
+  roster.message = petResult.levelsGained > 0
+    ? `${activePet.displayName} 获得 ${sharedExperience} 经验 Lv.${petResult.levelBefore}->${petResult.levelAfter}`
+    : `${activePet.displayName} 获得 ${sharedExperience} 经验`;
+
+  return {
+    heroExperience: sharedExperience,
+    petExperience: sharedExperience,
+    petResult,
+  };
+}
+
+export function addPetExperience(pet: PetState, amount: number): PetExperienceResult {
+  const appliedExp = Math.max(0, Math.floor(amount));
+  const levelBefore = pet.level;
+  const expBefore = pet.exp;
+
+  pet.expToNext = getPetExperienceToNextLevel(pet.level);
+  if (appliedExp <= 0) {
+    return createPetExperienceResult(pet, levelBefore, expBefore, 0, appliedExp);
+  }
+
+  pet.exp += appliedExp;
+  let levelsGained = 0;
+
+  while (pet.level < PetTuning.maxLevel && pet.exp >= pet.expToNext) {
+    pet.exp -= pet.expToNext;
+    pet.level += 1;
+    levelsGained += 1;
+    refreshPetStatsForLevel(pet);
+    pet.expToNext = getPetExperienceToNextLevel(pet.level);
+  }
+
+  if (pet.level >= PetTuning.maxLevel) {
+    pet.level = PetTuning.maxLevel;
+    pet.expToNext = Number.POSITIVE_INFINITY;
+    pet.exp = Math.max(0, pet.exp);
+  }
+
+  return createPetExperienceResult(pet, levelBefore, expBefore, levelsGained, appliedExp);
+}
+
+export function getPetExperienceToNextLevel(level: number): number {
+  const normalizedLevel = normalizePetLevel(level);
+  if (normalizedLevel <= 10) {
+    return normalizedLevel * 50;
+  }
+
+  return (normalizedLevel + 1) * (normalizedLevel + 1) * (5 + (normalizedLevel - 10) * 2);
+}
+
+export function getPetBaseStats(
+  species: string,
+  level: number,
+  qualities: {
+    mpQuality: number;
+    atkQuality: number;
+  },
+): Pick<PetState, 'maxHp' | 'maxMp' | 'atk' | 'def'> {
+  const normalizedLevel = normalizePetLevel(level);
+  const levelIndex = normalizedLevel - 1;
+  const speciesBase = PetSpeciesBaseStats[species] ?? PetSpeciesBaseStats.monkey;
+
+  return {
+    maxHp: PetHpByLevel[levelIndex] ?? PetHpByLevel[PetHpByLevel.length - 1],
+    maxMp: speciesBase.maxMp + qualities.mpQuality * 0.08 * levelIndex,
+    atk: speciesBase.atk + qualities.atkQuality * 0.015 * levelIndex,
+    def: Math.trunc((PetDefenseByLevel[levelIndex] ?? PetDefenseByLevel[PetDefenseByLevel.length - 1]) * 0.9),
+  };
+}
+
+export function refreshPetStatsForLevel(pet: PetState): void {
+  const stats = getPetBaseStats(pet.species, pet.level, pet);
+  pet.maxHp = stats.maxHp;
+  pet.hp = stats.maxHp;
+  pet.maxMp = stats.maxMp;
+  pet.mp = stats.maxMp;
+  pet.atk = stats.atk;
+  pet.def = stats.def;
 }
 
 export function createPetRuntime(
@@ -500,7 +659,7 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
   if (selected) {
     lines.push(`Species: ${selected.species}${selected.form}  Quality:${selected.quality}`);
     lines.push(`MP ${selected.mp}/${selected.maxMp}  ATK ${selected.atk}  DEF ${selected.def}`);
-    lines.push(`EXP ${selected.exp}`);
+    lines.push(`EXP ${selected.exp}/${formatPetNextExperience(selected)}`);
     lines.push(`悟 ${selected.perception}  技 ${selected.technique}  战 ${selected.warpower}`);
     lines.push(`Skills: ${selected.skills.length > 0 ? selected.skills.join(', ') : '-'}`);
   } else {
@@ -543,8 +702,8 @@ function createPetStateFromDefinition(
   serial: number,
 ): PetState {
   const normalizedLevel = Math.max(1, Math.floor(level));
-  const maxHp = 160 + normalizedLevel * 20;
-  const maxMp = 120 + normalizedLevel * 12;
+  const qualities = createDefaultPetQualities();
+  const stats = getPetBaseStats(definition.species, normalizedLevel, qualities);
 
   return {
     id: `pet-${definition.petName}-${serial}`,
@@ -553,21 +712,61 @@ function createPetStateFromDefinition(
     displayName: definition.displayName,
     level: normalizedLevel,
     exp: 0,
-    hp: maxHp,
-    maxHp,
-    mp: maxMp,
-    maxMp,
-    atk: 16 + normalizedLevel * 4,
-    def: 5 + normalizedLevel,
+    expToNext: getPetExperienceToNextLevel(normalizedLevel),
+    hp: stats.maxHp,
+    maxHp: stats.maxHp,
+    mp: stats.maxMp,
+    maxMp: stats.maxMp,
+    atk: stats.atk,
+    def: stats.def,
     moveSpeed: 5,
     lifetime: 100,
     quality: normalizedLevel === 1 ? 1 : 2,
+    ...qualities,
     perception: 1,
     technique: 1,
     warpower: 1,
     isActive: false,
     skills: ['tsml'],
   };
+}
+
+function createDefaultPetQualities(): Pick<PetState, 'hpQuality' | 'mpQuality' | 'atkQuality' | 'defQuality'> {
+  return {
+    hpQuality: 1,
+    mpQuality: 1,
+    atkQuality: 1,
+    defQuality: 1,
+  };
+}
+
+function normalizePetLevel(level: number): number {
+  return Math.min(
+    PetTuning.maxLevel,
+    Math.max(1, Math.floor(level)),
+  );
+}
+
+function createPetExperienceResult(
+  pet: PetState,
+  levelBefore: number,
+  expBefore: number,
+  levelsGained: number,
+  appliedExp: number,
+): PetExperienceResult {
+  return {
+    expBefore,
+    expAfter: pet.exp,
+    levelBefore,
+    levelAfter: pet.level,
+    levelsGained,
+    expToNext: pet.expToNext,
+    appliedExp,
+  };
+}
+
+function formatPetNextExperience(pet: PetState): string {
+  return Number.isFinite(pet.expToNext) ? String(pet.expToNext) : 'MAX';
 }
 
 function rectanglesOverlap(

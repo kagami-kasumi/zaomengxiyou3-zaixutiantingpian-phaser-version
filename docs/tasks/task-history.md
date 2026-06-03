@@ -88,8 +88,36 @@
 | TASK-SLICE-036 | 切片 | `qljfb/MagicBigBottle` 临时跟随平台法宝最小切片 | M-043、VS-013 | `MagicWeaponSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-024 | 逆向 | 等级/经验基础逆向 | M-040、VS-014 | `progression-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-038 | 切片 | 等级/经验最小闭环 | VS-014、M-040 | `ProgressionSystem.ts`、`Monster30System.ts`、`HeroSkillSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`glossary.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-025 | 逆向 | 宠物经验/升级逆向 | M-042、VS-015 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-025
+
+完成时间：
+
+- 2026-06-03
+
+完成内容：
+
+- 更新 `docs/reverse-engineering/pets-index.md`，新增“经验、升级和成长”章节，记录 `PetInfo` 的 `level/curExper` 字段、`setCurExper()` 立即触发 `petUpdate()` 的升级入口、`getPetNextExper()` 曲线、升级扣经验和溢出递归、形态变化回调、属性成长和 UI 展示。
+- 补清宠物下级经验公式：`level <= 10` 时 `level * 50`；`level > 10` 时 `(level + 1)^2 * (5 + (level - 10) * 2)`。
+- 补清升级后属性处理：`SHp = hpArr[level - 1]` 且 HP 回满，`SMp += mpQuality * 0.08` 且 MP 回满，`Atk += atkQuality * 0.015`，`Def = int(defArr[level - 1] * 0.9)`；60 级后还有少量随机暴击/闪避/魔防成长。
+- 补清经验来源边界：普通 `BaseMonster.reduceHp()` 有宠物时玩家和宠物各得 `exp * 0.6`，无宠物时玩家得完整经验，击杀目标是 `BasePet` 时宠物得完整经验；`Monster111` 和任务奖励 `"exp"` 是特殊/异常旁路。
+- 确认 `djyys` 宠物经验道具调用当前宠物 `setCurExper(curExper + 30000)`，与自然战斗经验共用升级入口。
+- 更新 `mechanics-index.md` 的 `M-042` 下一步，新增/更新 `vertical-slices.md` 的 `VS-015`，并将当前 Ready 任务切到 `TASK-SLICE-039`。
+
+更新文件：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-038
 
@@ -3088,3 +3116,29 @@
 - `npm run test:systems` 通过。
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
+
+### TASK-SLICE-039
+
+完成时间：
+- 2026-06-03
+
+完成内容：
+- 扩展 `src/systems/PetSystem.ts`，新增宠物下级经验曲线、`hpArr/defArr` 首批属性表、宠物族 MP/攻击基数、统一 `addPetExperience()` 升级入口和 `awardMonsterExperienceWithCurrentPet()` 普通击杀分成入口。
+- `djyys` 宠物经验石改为走统一宠物升级函数，支持连续升级、只扣本级经验、保留溢出经验，升级后按首批公式刷新 HP/MP/攻击/防御并回满 HP/MP。
+- `src/scenes/TestScene.ts` 的 `Monster30` 击杀经验结算接入 P1 当前出战宠物：有出战宠物时玩家和宠物各获得怪物经验的 60%，无出战宠物时玩家获得完整经验；状态栏和宠物面板显示等级、当前经验、下级经验和关键属性。
+- 扩展 `tools/system-tests.ts`，覆盖宠物自然经验增加、`Monster30` 60/60 分成、无出战宠物玩家完整经验、单次升级、溢出经验、`djyys` 共用入口和至少一个宠物族的属性刷新。
+- 更新 `docs/reverse-engineering/mechanics-index.md` 和 `docs/tasks/vertical-slices.md`，将 `VS-015` 标记为已完成；`M-042` 仍保持部分复现，宠物存档、技能、P2、任务奖励经验、形态变化实体重建和 60 级后随机成长后置。
+- 更新 `docs/tasks/task-board.md`，移除已完成的 `TASK-SLICE-039`，并新增 Ready 后续任务 `TASK-SLICE-040`：宠物升级形态变化最小闭环。
+
+更新文件：
+- `src/systems/PetSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
