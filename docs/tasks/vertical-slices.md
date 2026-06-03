@@ -27,11 +27,11 @@
 | VS-011 存档最小闭环 | 暂缓 | 保存/读取当前进度 | M-044 | SaveSystem | 刷新后能恢复基础状态 |
 | VS-012 宠物最小可玩切片 | 已完成 | P1 宠物面板、出战跟随、宣花葫芦捕捉和宠物道具消耗 | M-042、M-043、M-016、M-037、`pets-index.md`、`magic-weapons-index.md` | `PetSystem.ts`、宠物 UI、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 拥有一只可出战宠物；B 键面板可查看/切换出战；出战宠物跟随玩家；H 键使用 `xhhl` 等价捕捉 `Monster70-78`；背包道具 `wpcsd/wphhd/djyys` 可消耗并影响当前出战宠物 |
 | VS-013 法宝最小可玩切片 | 已完成 | 非葫芦法宝接入装备槽、H 键触发、持续效果、伤害法宝、防护法宝、回复法宝、时间回溯、入魔 buff、全体增减益、全屏眩晕、前方雷锤、随机落雪、临时平台和最小强化入口 | M-043、M-036、M-016、M-015、M-032、M-033、M-034、M-042、`magic-weapons-index.md` | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`InventorySystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `kyl`/`syl` 可装备为 `zbfb` 并触发治疗；`lxj` 可触发最近目标剑击 projectile；`fbqpj` 可主动 6 剑并空闲自动 1 剑；`hyzzs`/`hywjs` 可触发扣血前吸收伤害的护盾；`zjld` 可触发无敌和 HP/MP 回复；`zsTimer` 可首次记录、二次 H 回溯 HP/MP/坐标；`lxfb/sxfb/yxfb` 可触发攻击/暴击增益与扣血边界；`jyhl` 可触发玩家/宠物增益与 Monster30 攻击减益；`mdhf` 可触发护体反制 debuff；`xhmt` 可触发多段随机打击和结束随机效果；`tjbg` 可触发全体 Monster30 眩晕；`zltc` 可触发前方雷锤 projectile、伤害和 4.5 秒 Monster30 眩晕；`stlp` 可触发 120 个随机落雪 projectile、Monster30 受击和 3 秒冰冻；`qljfb` 可触发 20 秒临时跟随平台并托住角色；C 背包面板展示当前 `zbfb` 等级/五行/成长率/主要属性/灵魂消耗，U 可消耗测试灵魂完成 1→2 升级；使用中拒绝重入、等级读取、木五行、最近目标、多 projectile、伤害 projectile、护盾吸收、无敌免伤、特殊重入、buff/眩晕/冰冻/平台清理和强化边界已由系统测试覆盖 |
-| VS-014 等级/经验最小闭环 | 可开始 | 击杀怪物获得经验并自动升级，刷新基础属性和状态显示 | M-040、M-030、M-031、M-032、`progression-index.md` | ProgressionSystem（待建）、`TestScene.ts`、`system-tests.ts` | 击杀 `Monster30` 后玩家经验增加；经验达到本级需求时等级 +1、扣除本级经验、HP/MP 回满、当前角色基础 HP/MP/攻击/防御按角色公式刷新；P1/P2 经验互不串线 |
+| VS-014 等级/经验最小闭环 | 已完成 | 击杀怪物获得经验并自动升级，刷新基础属性和状态显示 | M-040、M-030、M-031、M-032、`progression-index.md` | `ProgressionSystem.ts`、`Monster30System.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts` | 击杀 `Monster30` 后玩家经验增加；经验达到本级需求时等级 +1、扣除本级经验、HP/MP 回满、当前角色基础 HP/MP/攻击/防御按角色公式刷新；P1/P2 经验互不串线；状态栏显示等级、当前经验、下级经验和关键属性 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-038`：等级/经验最小闭环。
+1. `TASK-SETTINGS-025`：宠物经验/升级逆向。
 
 ## 切片详情
 

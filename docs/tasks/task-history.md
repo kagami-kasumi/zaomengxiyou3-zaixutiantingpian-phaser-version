@@ -87,8 +87,46 @@
 | TASK-SETTINGS-023 | 逆向 | `qljfb/MagicBigBottle` 青龙剑/墙船法宝逆向索引 | M-043、M-034、VS-013 | `magic-weapons-index.md`、`projectiles-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-036 | 切片 | `qljfb/MagicBigBottle` 临时跟随平台法宝最小切片 | M-043、VS-013 | `MagicWeaponSystem.ts`、`EquipmentSystem.ts`、`InventorySystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`magic-weapons-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-024 | 逆向 | 等级/经验基础逆向 | M-040、VS-014 | `progression-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-038 | 切片 | 等级/经验最小闭环 | VS-014、M-040 | `ProgressionSystem.ts`、`Monster30System.ts`、`HeroSkillSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`glossary.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-038
+
+完成时间：
+
+- 2026-06-03
+
+完成内容：
+
+- 新增 `src/systems/ProgressionSystem.ts`，实现 `HeroProgressionModel`、五角色经验曲线、五角色基础属性成长公式、经验增加、自动升级、溢出经验保留和满级边界。
+- 更新 `docs/domain/glossary.md`，补充 `HeroProgressionModel` 和 `ProgressionSystem` 统一语言。
+- 扩展 `src/systems/Monster30System.ts`，为 `Monster30` 增加 `experience = 4` 和经验已授予标记。
+- 扩展 `src/scenes/test-scene/TestSceneCombatBridge.ts`，玩家普攻击杀 `Monster30` 时产生经验奖励事件。
+- 扩展 `src/scenes/TestScene.ts`，为 P1/P2 建立独立成长模型；玩家普通攻击或 projectile 击杀 `Monster30` 后获得经验，升级时按当前英雄公式刷新基础 HP/MP/攻击/防御并回满 HP/MP；P1 装备栏只影响 P1，P2 使用空装备栏避免属性串线；状态栏显示等级、当前经验、下级经验和关键属性。
+- 调整 `src/systems/HeroSkillSystem.ts` 的 `createHeroSkillModel()` 参数类型，使升级后可传入动态 MP 上限。
+- 扩展 `tools/system-tests.ts`，覆盖 Monster30 经验奖励、P1/P2 经验隔离、单次升级、溢出多级升级、Role5 属性公式和近满级边界。
+- 更新 `mechanics-index.md`、`vertical-slices.md` 和 `task-board.md`，将 `M-040/VS-014` 标为已复现/已完成，并新增下一步 Ready 任务 `TASK-SETTINGS-025`。
+
+更新文件：
+
+- `src/systems/ProgressionSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneCombatBridge.ts`
+- `tools/system-tests.ts`
+- `docs/domain/glossary.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SETTINGS-024
 

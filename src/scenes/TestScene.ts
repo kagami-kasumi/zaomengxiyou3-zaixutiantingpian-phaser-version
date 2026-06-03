@@ -142,6 +142,7 @@ import {
   type EquipmentInstance,
   type EquipmentLoadout,
   type HeroBaseStats,
+  type HeroEffectiveStats,
 } from '../systems/EquipmentSystem';
 import {
   consumeStackByFillName,
@@ -212,6 +213,14 @@ import {
   type MagicWeaponPlatform,
 } from '../systems/MagicWeaponSystem';
 import {
+  addHeroExperience,
+  createHeroProgression,
+  formatHeroProgression,
+  getHeroBaseStats,
+  setHeroProgressionHero,
+  type HeroProgressionModel,
+} from '../systems/ProgressionSystem';
+import {
   applyHeroNormalAttackToMonster30s,
   applyMonster30AttackToPlayers,
   getMonster30Bounds,
@@ -261,6 +270,7 @@ type PlayerView = {
   normalAttack: HeroNormalAttackModel;
   skill: HeroSkillModel;
   baseStats: HeroBaseStats;
+  progression: HeroProgressionModel;
 };
 
 type HeroSelectionKeys = Record<HeroId, Phaser.Input.Keyboard.Key>;
@@ -382,6 +392,7 @@ export class TestScene extends Phaser.Scene {
   private equipmentRegistry: Record<string, EquipmentDefinition> = createSeedEquipmentRegistry();
   private inventoryStore: InventoryStore = createSeedInventoryStore(this.equipmentRegistry);
   private equipmentLoadout: EquipmentLoadout = createEmptyEquipmentLoadout();
+  private emptyEquipmentLoadout: EquipmentLoadout = createEmptyEquipmentLoadout();
   private inventoryUI: InventoryUIState = createInventoryUIState();
   private inventoryPanel?: InventoryPanelView;
   private magicWeapon: MagicWeaponModel = createMagicWeaponModel();
@@ -762,17 +773,15 @@ export class TestScene extends Phaser.Scene {
     });
 
     const normalAttack = createHeroNormalAttack(heroId);
+    const progression = createHeroProgression(heroId);
+    const baseStats = getHeroBaseStats(heroId, progression.level);
     const combat = createHeroCombat(slot);
-    const skill = createHeroSkillModel();
-    const baseStats = {
-      maxHp: combat.maxHp,
-      maxMp: skill.maxMp,
-      power: 0,
-      defense: 0,
-    };
+    combat.maxHp = baseStats.maxHp;
+    combat.hp = combat.maxHp;
+    const skill = createHeroSkillModel(undefined, baseStats.maxMp);
     label.setText(formatHeroLabel(slot, normalAttack, combat));
 
-    return { slot, sprite, label, combat, normalAttack, skill, baseStats };
+    return { slot, sprite, label, combat, normalAttack, skill, baseStats, progression };
   }
 
   private equipDefaultMagicWeapon(): void {
@@ -1768,8 +1777,11 @@ export class TestScene extends Phaser.Scene {
         const player = this.playerViews.find((view) => view.slot === slot);
         if (player) {
           setHeroId(player.normalAttack, heroId);
+          setHeroProgressionHero(player.progression, heroId);
+          player.baseStats = getHeroBaseStats(heroId, player.progression.level);
           resetHeroCombat(player.combat);
           resetHeroSkill(player.skill);
+          this.syncPlayerEffectiveStats(player, { refill: true });
           this.refreshPlayerHeroView(player);
         }
       }
@@ -2725,6 +2737,10 @@ export class TestScene extends Phaser.Scene {
     for (const target of result.monsterAuraTargets) {
       this.monster30AuraTargets.set(target.monsterId, target.slot);
     }
+
+    for (const award of result.monsterExperienceAwards) {
+      this.awardMonsterExperience(award.slot, award.experience);
+    }
   }
 
   private applyHeroAttackHit(player: PlayerView, time: number): void {
@@ -2786,6 +2802,14 @@ export class TestScene extends Phaser.Scene {
           }
           if (isPlayerSlot(projectile.sourceId)) {
             this.monster30AuraTargets.set(monster.id, projectile.sourceId);
+            if (
+              monster.hp <= 0 &&
+              !monster.experienceAwardedTo &&
+              monster.experience > 0
+            ) {
+              monster.experienceAwardedTo = projectile.sourceId;
+              this.awardMonsterExperience(projectile.sourceId, monster.experience);
+            }
           }
           this.lastDamageEvent = damageEvent;
           recordProjectileHit(projectile);
@@ -3062,6 +3086,14 @@ export class TestScene extends Phaser.Scene {
       `hero p2:${formatHeroMovementState(p2?.movement)}`,
       `combat p1:${formatHeroCombatState(p1?.combat)}`,
       `combat p2:${formatHeroCombatState(p2?.combat)}`,
+      `progress p1:${formatHeroProgressionState(
+        p1,
+        p1 ? calculateEffectiveStats(p1.baseStats, this.getEquipmentLoadoutForPlayer(p1)) : undefined,
+      )}`,
+      `progress p2:${formatHeroProgressionState(
+        p2,
+        p2 ? calculateEffectiveStats(p2.baseStats, this.getEquipmentLoadoutForPlayer(p2)) : undefined,
+      )}`,
       `normal p1:${formatHeroNormalAttackState(p1?.normalAttack)}`,
       `normal p2:${formatHeroNormalAttackState(p2?.normalAttack)}`,
       `skill p1:${formatHeroSkillState(p1?.skill)}`,
@@ -3137,23 +3169,57 @@ export class TestScene extends Phaser.Scene {
       return;
     }
 
+    this.syncPlayerEffectiveStats(player);
+  }
+
+  private syncPlayerEffectiveStats(
+    player: PlayerView,
+    options: { refill?: boolean } = {},
+  ): void {
     const previousMaxHp = player.combat.maxHp;
     const previousMaxMp = player.skill.maxMp;
-    const stats = calculateEffectiveStats(player.baseStats, this.equipmentLoadout);
+    const stats = calculateEffectiveStats(
+      player.baseStats,
+      this.getEquipmentLoadoutForPlayer(player),
+    );
     const hpDelta = stats.maxHp - previousMaxHp;
     const mpDelta = stats.maxMp - previousMaxMp;
 
     player.combat.maxHp = stats.maxHp;
-    player.combat.hp = Math.min(
-      Math.max(0, player.combat.hp + Math.max(0, hpDelta)),
-      player.combat.maxHp,
-    );
     player.skill.maxMp = stats.maxMp;
-    player.skill.mp = Math.min(
-      Math.max(0, player.skill.mp + Math.max(0, mpDelta)),
-      player.skill.maxMp,
-    );
+    if (options.refill) {
+      player.combat.hp = player.combat.maxHp;
+      player.skill.mp = player.skill.maxMp;
+    } else {
+      player.combat.hp = Math.min(
+        Math.max(0, player.combat.hp + Math.max(0, hpDelta)),
+        player.combat.maxHp,
+      );
+      player.skill.mp = Math.min(
+        Math.max(0, player.skill.mp + Math.max(0, mpDelta)),
+        player.skill.maxMp,
+      );
+    }
     this.refreshPlayerHeroView(player);
+  }
+
+  private awardMonsterExperience(slot: PlayerSlot, experience: number): void {
+    const player = this.getPlayer(slot);
+    if (!player) {
+      return;
+    }
+
+    const result = addHeroExperience(player.progression, experience);
+    if (result.levelsGained > 0) {
+      player.baseStats = result.baseStatsAfter;
+      this.syncPlayerEffectiveStats(player, { refill: true });
+    }
+  }
+
+  private getEquipmentLoadoutForPlayer(player: PlayerView): EquipmentLoadout {
+    return player.slot === 'p1'
+      ? this.equipmentLoadout
+      : this.emptyEquipmentLoadout;
   }
 
   private refreshPlayerHeroView(player: PlayerView): void {
@@ -3329,6 +3395,23 @@ function formatHeroCombatState(combat: HeroCombatModel | undefined): string {
     `hp:${combat.hp}/${combat.maxHp}`,
     `last:${combat.lastDamageEvent?.amount ?? 0}`,
   ].join(' | ') + shield + invincible + buff + flower + flag;
+}
+
+function formatHeroProgressionState(
+  player: PlayerView | undefined,
+  effectiveStats: HeroEffectiveStats | undefined,
+): string {
+  if (!player || !effectiveStats) {
+    return 'missing';
+  }
+
+  return [
+    formatHeroProgression(player.progression),
+    `hp:${effectiveStats.maxHp}`,
+    `mp:${effectiveStats.maxMp}`,
+    `power:${effectiveStats.power}`,
+    `def:${effectiveStats.defense}`,
+  ].join(' | ');
 }
 
 function formatSkillUIState(ui: SkillUIState): string {

@@ -84,7 +84,7 @@ export function createTestRole2SkillLoadout(): HeroSkillLoadout {
 
 export function createHeroSkillModel(
   loadout: HeroSkillLoadout = createTestRole2SkillLoadout(),
-  maxMp = Role2SkillTuning.maxMp,
+  maxMp: number = Role2SkillTuning.maxMp,
 ): HeroSkillModel {
   return {
     mp: maxMp,

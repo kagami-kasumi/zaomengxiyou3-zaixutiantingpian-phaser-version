@@ -17,6 +17,8 @@ export type Monster30Model = {
   y: number;
   hp: number;
   maxHp: number;
+  experience: number;
+  experienceAwardedTo?: PlayerSlot;
   state: Monster30State;
   facingX: -1 | 1;
   targetSlot?: PlayerSlot;
@@ -131,6 +133,7 @@ export const Monster30Tuning = {
   hit1KnockbackX: 6,
   hit1KnockbackY: -5,
   deadDurationMs: 233,
+  experience: 4,
 } as const;
 
 let monster30Serial = 0;
@@ -144,6 +147,7 @@ export function createMonster30(x: number, y: number, id?: string): Monster30Mod
     y,
     hp: Monster30Tuning.maxHp,
     maxHp: Monster30Tuning.maxHp,
+    experience: Monster30Tuning.experience,
     state: 'wait',
     facingX: -1,
     stateTimerMs: 0,

@@ -37,6 +37,11 @@ export type CombatBridgeResult = {
     monsterId: string;
     slot: PlayerSlot;
   }>;
+  monsterExperienceAwards: Array<{
+    monster: Monster30Model;
+    slot: PlayerSlot;
+    experience: number;
+  }>;
 };
 
 export function createEmptyCombatBridgeResult(): CombatBridgeResult {
@@ -44,6 +49,7 @@ export function createEmptyCombatBridgeResult(): CombatBridgeResult {
     damageEvents: [],
     flashBounds: [],
     monsterAuraTargets: [],
+    monsterExperienceAwards: [],
   };
 }
 
@@ -111,6 +117,18 @@ export function applyHeroNormalAttackToMonster30s(params: {
     applyMonster30Hit(monster, damageEvent.amount);
     result.damageEvents.push(damageEvent);
     result.monsterAuraTargets.push({ monsterId: monster.id, slot: player.slot });
+    if (
+      monster.hp <= 0 &&
+      !monster.experienceAwardedTo &&
+      monster.experience > 0
+    ) {
+      monster.experienceAwardedTo = player.slot;
+      result.monsterExperienceAwards.push({
+        monster,
+        slot: player.slot,
+        experience: monster.experience,
+      });
+    }
   }
 
   return result;

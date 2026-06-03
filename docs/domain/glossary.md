@@ -57,6 +57,8 @@
 | 关卡 | `Level` | Entity / Config | Content | 一次可进入、刷怪、通关的流程 | `Stage`, `Mission` |
 | 地图 | `MapData` | Config | Content | 地形、平台、出生点等数据 | `Map`, `TileMapData` |
 | 掉落 | `Drop` | Entity / Config | Progression | 怪物死亡产生的奖励项 | `Loot`, `RewardDrop` |
+| 英雄成长模型 | `HeroProgressionModel` | Model | Progression | 单个英雄等级、当前经验、本级升级所需经验和最近升级结果 | `HeroLevelState`, `ExperienceState`, `LevelProgress` |
+| 成长系统 | `ProgressionSystem` | System | Progression | 管理玩家英雄经验增加、升级曲线和五角色基础属性成长 | `LevelSystem`, `ExperienceSystem`, `GrowthSystem` |
 | 物品 | `Item` | Entity / Config | Progression | 背包中的基础物品概念 | `Goods`, `InventoryItem` |
 | 装备 | `Equipment` | Entity / Config | Progression | 可穿戴、可提供属性的物品 | `Gear`, `Equip` |
 | 背包 | `Inventory` | Aggregate / Store | Progression | 玩家持有物品集合 | `Bag`, `Backpack` |

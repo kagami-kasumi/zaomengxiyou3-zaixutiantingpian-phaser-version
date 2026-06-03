@@ -76,6 +76,13 @@ import {
   updateProjectiles,
 } from '../src/systems/ProjectileSystem';
 import {
+  addHeroExperience,
+  createHeroProgression,
+  getHeroBaseStats,
+  getHeroExperienceToNextLevel,
+  ProgressionTuning,
+} from '../src/systems/ProgressionSystem';
+import {
   applyHeroDamage,
   createHeroCombat,
   updateHeroMagicInvulnerability,
@@ -91,6 +98,10 @@ import {
 import type { PlayerInputState } from '../src/systems/InputSystem';
 
 testMonster30StableIds();
+testProgressionMonster30AwardAndPlayerIsolation();
+testProgressionSingleLevelRefreshesRole2Stats();
+testProgressionOverflowMultipleLevels();
+testProgressionRole5FormulaAndMaxBoundary();
 testHitRegistryAllowsDistinctTargets();
 testStopPointRequiresSpawnedWaveBeforeClearing();
 testMonsterDropTableBranches();
@@ -173,6 +184,72 @@ function testMonster30StableIds(): void {
   assert.equal(second.id, 'm30-b');
   assert.equal(first.activeAttack?.attackId, 'm30-a-hit1-1');
   assert.equal(second.activeAttack?.attackId, 'm30-b-hit1-1');
+}
+
+function testProgressionMonster30AwardAndPlayerIsolation(): void {
+  const p1 = createHeroProgression(2);
+  const p2 = createHeroProgression(3);
+  const monster = createMonster30(0, 0, 'm30-exp');
+
+  assert.equal(applyMonster30Hit(monster, monster.maxHp), true);
+  assert.equal(monster.state, 'dead');
+
+  const result = addHeroExperience(p1, monster.experience);
+  assert.equal(result.appliedExp, ProgressionTuning.monster30Experience);
+  assert.equal(p1.currentExp, ProgressionTuning.monster30Experience);
+  assert.equal(p1.level, 1);
+  assert.equal(p2.currentExp, 0);
+  assert.equal(p2.level, 1);
+}
+
+function testProgressionSingleLevelRefreshesRole2Stats(): void {
+  const progression = createHeroProgression(2, 1, 134);
+  const result = addHeroExperience(progression, 1);
+
+  assert.equal(result.levelsGained, 1);
+  assert.equal(progression.level, 2);
+  assert.equal(progression.currentExp, 0);
+  assert.equal(progression.expToNext, 145);
+  assert.deepEqual(result.baseStatsAfter, {
+    maxHp: 70,
+    maxMp: 140,
+    power: 20,
+    defense: 1,
+  });
+}
+
+function testProgressionOverflowMultipleLevels(): void {
+  const progression = createHeroProgression(1, 1, 134);
+  const result = addHeroExperience(progression, 300);
+
+  assert.equal(result.levelsGained, 2);
+  assert.equal(progression.level, 3);
+  assert.equal(progression.currentExp, 154);
+  assert.equal(progression.expToNext, 155);
+  assert.deepEqual(result.baseStatsAfter, {
+    maxHp: 180,
+    maxMp: 90,
+    power: 20,
+    defense: 6,
+  });
+}
+
+function testProgressionRole5FormulaAndMaxBoundary(): void {
+  assert.deepEqual(getHeroBaseStats(5, 3), {
+    maxHp: 168,
+    maxMp: 103,
+    power: 21,
+    defense: 5,
+  });
+  assert.equal(getHeroExperienceToNextLevel(89), ProgressionTuning.maxLevelExpToNext);
+
+  const progression = createHeroProgression(5, 88, 349_999);
+  const result = addHeroExperience(progression, 1);
+
+  assert.equal(result.levelsGained, 1);
+  assert.equal(progression.level, 89);
+  assert.equal(progression.currentExp, 0);
+  assert.equal(progression.expToNext, ProgressionTuning.maxLevelExpToNext);
 }
 
 function testHitRegistryAllowsDistinctTargets(): void {
