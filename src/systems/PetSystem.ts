@@ -165,7 +165,7 @@ export type MagicBottleCaptureModel = {
   lastResult: string;
 };
 
-export type PetConsumableFillName = 'wphhd' | 'wpcsd' | 'djyys';
+export type PetConsumableFillName = 'wphhd' | 'wpcsd' | 'djyys' | 'cwjnxld';
 
 export type PetConsumableResult = {
   ok: boolean;
@@ -173,6 +173,7 @@ export type PetConsumableResult = {
   message: string;
   pet?: PetState;
   experience?: PetExperienceResult;
+  skillReset?: PetSkillResetResult;
 };
 
 export type PetExperienceResult = {
@@ -216,6 +217,25 @@ export type PetSkillCastResult = {
   mpAfter?: number;
 };
 
+export type PetSkillSlotView = {
+  slot: number;
+  skillKey: string;
+  name: string;
+  info: string;
+  isEmpty: boolean;
+  isKnown: boolean;
+};
+
+export type PetSkillResetResult = {
+  ok: boolean;
+  message: string;
+  pet: PetState;
+  beforeSkills: string[];
+  afterSkills: string[];
+};
+
+export type PetSkillRandomSource = () => number;
+
 export const PetTuning = {
   maxSeats: 10,
   followMinDistance: 64,
@@ -253,7 +273,40 @@ export const PetTuning = {
   monkey4JgaoyiMpCost: 30,
   monkey4JgaoyiCooldownMs: 500,
   monkey4JgaoyiHit5Damage: 0,
+  skillSlotCount: 8,
 } as const;
+
+export const PetBaseSkillCandidates = [
+  'tsml',
+  'zrsh',
+  'smzf',
+  'mfby',
+  'qlfj',
+  'sxkb',
+  'fsnl',
+  'smjc',
+  'mfjc',
+  'gjjc',
+  'fyjc',
+] as const;
+
+export const PetSkillInfoByKey: Record<string, { name: string; info: string }> = {
+  tsml: { name: '天生蛮力', info: '提升宠物攻击' },
+  zrsh: { name: '自然守护', info: '提升宠物防御' },
+  smzf: { name: '生命祝福', info: '提升宠物生命' },
+  mfby: { name: '魔法庇佑', info: '提升宠物魔法' },
+  qlfj: { name: '强力反击', info: '被攻击时反击' },
+  sxkb: { name: '嗜血狂暴', info: '自动提升宠物暴击' },
+  fsnl: { name: '法术能量', info: '自动提升宠物技能伤害' },
+  smjc: { name: '生命加成', info: '自动提升主人生命' },
+  mfjc: { name: '魔法加成', info: '自动提升主人魔法' },
+  gjjc: { name: '攻击加成', info: '自动提升主人攻击' },
+  fyjc: { name: '防御加成', info: '自动提升主人防御' },
+  xj: { name: '献祭', info: '附近有怪物时自动燃烧造成火焰伤害' },
+  lj: { name: '连击', info: '对怪物造成多次伤害' },
+  lyq: { name: '烈焰拳', info: '对前方怪物造成火焰伤害' },
+  jgaoyi: { name: '金刚奥义', info: '拥有献祭、连击、烈焰拳才能发挥最大威力' },
+};
 
 const PetHpByLevel = [
   840, 840, 870, 900, 930, 1080, 1350, 1980, 2130, 2250,
@@ -382,6 +435,87 @@ export function createMagicBottleCaptureModel(initialSoul = 8_000): MagicBottleC
     equippedFillName: 'xhhl',
     soul: initialSoul,
     lastResult: 'xhhl ready',
+  };
+}
+
+export function encodePetSkillSaveString(skills: readonly string[]): string {
+  return skills.join('~');
+}
+
+export function decodePetSkillSaveString(value: string): string[] {
+  if (value === '') {
+    return [];
+  }
+
+  return value.split('~');
+}
+
+export function getPetSkillDisplay(skillKey: string): { name: string; info: string; isKnown: boolean } {
+  const info = PetSkillInfoByKey[skillKey];
+  if (!info) {
+    return {
+      name: skillKey || 'unknown',
+      info: 'unknown pet skill',
+      isKnown: false,
+    };
+  }
+
+  return { ...info, isKnown: true };
+}
+
+export function buildPetSkillSlotViews(pet: PetState): PetSkillSlotView[] {
+  const slots: PetSkillSlotView[] = [];
+  for (let index = 0; index < PetTuning.skillSlotCount; index += 1) {
+    const skillKey = pet.skills[index] ?? '';
+    if (skillKey === '') {
+      slots.push({
+        slot: index + 1,
+        skillKey: '',
+        name: '',
+        info: '',
+        isEmpty: true,
+        isKnown: true,
+      });
+      continue;
+    }
+
+    const display = getPetSkillDisplay(skillKey);
+    slots.push({
+      slot: index + 1,
+      skillKey,
+      name: display.name,
+      info: display.info,
+      isEmpty: false,
+      isKnown: display.isKnown,
+    });
+  }
+
+  return slots;
+}
+
+export function applyPetSkillSaveString(pet: PetState, value: string): void {
+  pet.skills = decodePetSkillSaveString(value);
+}
+
+export function resetPetSkillsByLevel(
+  pet: PetState,
+  random: PetSkillRandomSource = Math.random,
+): PetSkillResetResult {
+  const beforeSkills = [...pet.skills];
+  pet.skills = [];
+  const candidates = buildPetSkillCandidatePool(pet);
+
+  for (let level = 2; level <= pet.level; level += 1) {
+    tryStudyPetSkillAtLevel(pet, candidates, level, random);
+  }
+
+  const message = `${pet.displayName} 技能已重置`;
+  return {
+    ok: true,
+    message,
+    pet,
+    beforeSkills,
+    afterSkills: [...pet.skills],
   };
 }
 
@@ -1037,12 +1171,13 @@ export function resolveMagicBottleCaptureHit(params: {
 }
 
 export function isPetConsumableFillName(fillName: string): fillName is PetConsumableFillName {
-  return fillName === 'wphhd' || fillName === 'wpcsd' || fillName === 'djyys';
+  return fillName === 'wphhd' || fillName === 'wpcsd' || fillName === 'djyys' || fillName === 'cwjnxld';
 }
 
 export function usePetConsumable(
   roster: PetRoster,
   fillName: PetConsumableFillName,
+  random: PetSkillRandomSource = Math.random,
 ): PetConsumableResult {
   const pet = getCurrentPet(roster);
   if (!pet) {
@@ -1068,12 +1203,24 @@ export function usePetConsumable(
     return { ok: true, shouldConsume: true, message, pet };
   }
 
-  const experience = addPetExperience(pet, PetTuning.petExperienceStoneExp);
-  const message = experience.levelsGained > 0
-    ? `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp} Lv.${experience.levelBefore}->${experience.levelAfter}`
-    : `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp}`;
-  roster.message = message;
-  return { ok: true, shouldConsume: true, message, pet, experience };
+  if (fillName === 'djyys') {
+    const experience = addPetExperience(pet, PetTuning.petExperienceStoneExp);
+    const message = experience.levelsGained > 0
+      ? `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp} Lv.${experience.levelBefore}->${experience.levelAfter}`
+      : `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp}`;
+    roster.message = message;
+    return { ok: true, shouldConsume: true, message, pet, experience };
+  }
+
+  const skillReset = resetPetSkillsByLevel(pet, random);
+  roster.message = skillReset.message;
+  return {
+    ok: true,
+    shouldConsume: true,
+    message: skillReset.message,
+    pet,
+    skillReset,
+  };
 }
 
 export function awardMonsterExperienceWithCurrentPet(
@@ -1288,6 +1435,11 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
     lines.push(`EXP ${selected.exp}/${formatPetNextExperience(selected)}`);
     lines.push(`悟 ${selected.perception}  技 ${selected.technique}  战 ${selected.warpower}`);
     lines.push(`Skills: ${selected.skills.length > 0 ? selected.skills.join(', ') : '-'}`);
+    for (const slot of buildPetSkillSlotViews(selected)) {
+      lines.push(
+        `Slot ${slot.slot}: ${slot.isEmpty ? '-' : `${slot.skillKey} ${slot.name}${slot.isKnown ? '' : ' (unknown)'}`}`,
+      );
+    }
     const skillState = selected.skillState;
     if (skillState) {
       lines.push(`XJ ready:${skillState.monkey1Xj.releaseReady ? 'Y' : 'N'} cd:${Math.ceil(skillState.monkey1Xj.cooldownMs)}ms`);
@@ -1367,6 +1519,56 @@ function createPetStateFromDefinition(
     skills: ['tsml'],
     skillState: createPetSkillState(),
   };
+}
+
+function buildPetSkillCandidatePool(pet: PetState): string[] {
+  const candidates: string[] = [...PetBaseSkillCandidates];
+  candidates.push(...getPetFormSkillCandidates(pet.species, pet.form));
+  return candidates.filter((skillKey, index) =>
+    candidates.indexOf(skillKey) === index && !pet.skills.includes(skillKey)
+  );
+}
+
+function getPetFormSkillCandidates(species: string, form: number): string[] {
+  if (species === 'monkey') {
+    if (form <= 1) {
+      return ['xj'];
+    }
+    if (form === 2) {
+      return ['xj', 'lj'];
+    }
+    if (form === 3) {
+      return ['xj', 'lj', 'lyq'];
+    }
+    return ['xj', 'lj', 'lyq', 'jgaoyi'];
+  }
+
+  return [];
+}
+
+function tryStudyPetSkillAtLevel(
+  pet: PetState,
+  candidates: string[],
+  level: number,
+  random: PetSkillRandomSource,
+): void {
+  if ((level + 1) % 3 !== 0) {
+    return;
+  }
+
+  if (pet.skills.length >= pet.perception || candidates.length === 0) {
+    return;
+  }
+
+  if (random() > 0.4) {
+    return;
+  }
+
+  const index = Math.min(candidates.length - 1, Math.max(0, Math.floor(random() * candidates.length)));
+  const [skillKey] = candidates.splice(index, 1);
+  if (skillKey && !pet.skills.includes(skillKey)) {
+    pet.skills.push(skillKey);
+  }
 }
 
 function createPetSkillState(): PetSkillState {

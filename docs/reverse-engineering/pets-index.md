@@ -382,22 +382,69 @@
 
 ### 被动和自动 buff
 
-`deletePassiveWhenUpdata()` / `addPassiveAfterUpdata()` 负责升级前后移除和重加属性被动：
+证据：
+
+- `extracted_flash/scripts/172845/scripts/petInfo/PetInfo.as`
+  - 基础候选池行 40 附近，包含 `tsml/zrsh/smzf/mfby/qlfj/sxkb/fsnl/smjc/mfjc/gjjc/fyjc`。
+  - `getIntroByName()` 行 843 附近，给出中文说明和持续秒数展示。
+  - `getPetHarmObj()` 行 1017 附近，给出被动、自动 buff 和部分主动技能数值公式；函数末尾统一把 `first` 乘以 `1.05`。
+  - `deletePassiveWhenUpdata()` / `addPassiveAfterUpdata()` 行 1812 / 1851 附近，负责升级或重算属性前后移除和重加基础被动。
+  - `findPetUsedMagic()` 行 1862 附近，给出 MP 消耗：基础被动和 `qlfj` 为 0，六个自动 buff 为 20。
+- `extracted_flash/scripts/172845/scripts/base/BasePet.as`
+  - `sxkbCount/fsnlCount/smjcCount/mfjcCount/gjjcCount/fyjcCount` 初值均为 300。
+  - `checkBuffSkill()` 行 405 附近，每帧递减计数器并在计数归零、已学技能、MP 足够时自动加 buff。
+  - `reduceHp()` 行 909 附近，`qlfj` 在受击路径中按概率触发 `normalHit()`。
+  - `getCriteValue()` / `getMagicAddValue()` 行 819 / 847 附近，读取 `PET_SXKB` 和 `PET_FSNL` 的宠物自身 buff。
+- `extracted_flash/scripts/172845/scripts/base/BaseRoleProperies.as`
+  - `addBuff()` / `removeBuff()` 行 365 / 440 附近，读取主人身上的 `PET_SMJC/MFJC/GJJC/FYJC` 并调整 HP/MP 上限、基础攻击或防御。
+- `extracted_flash/scripts/172845/scripts/base/BaseAddEffect.as`
+  - 行 88 至 98 定义六个宠物自动 buff 名；行 1454 附近负责 buff 结束时隐藏对应表现。
+
+基础属性被动不走 `BasePet.checkBuffSkill()`，而是在 `PetInfo` 刷新属性前后成对移除/重加。`deletePassiveWhenUpdata()` / `addPassiveAfterUpdata()` 负责升级、属性刷新和洗练重算前后的数值一致性：
 
 | 技能 | 效果入口 |
 | --- | --- |
-| `tsml` | `atk += getPetHarmObj("tsml").first` |
-| `zrsh` | `def += getPetHarmObj("zrsh").first` |
-| `smzf` | `hp/shp += getPetHarmObj("smzf").first` |
-| `mfby` | `mp/smp += getPetHarmObj("mfby").first` |
+| `tsml` 天生蛮力 | `atk += getPetHarmObj("tsml").first`，公式为 `curPetState * 6 * warpower * 1.05` |
+| `zrsh` 自然守护 | `def += getPetHarmObj("zrsh").first`，公式为 `curPetState * 4 * technique * 1.05` |
+| `smzf` 生命祝福 | `hp/shp += getPetHarmObj("smzf").first`，公式为 `curPetState * 50 * warpower * 1.05` |
+| `mfby` 魔法庇佑 | `mp/smp += getPetHarmObj("mfby").first`，公式为 `curPetState * 50 * technique * 1.05` |
 
-`BasePet.checkBuffSkill()` 每帧检查一组已学技能并按 MP 门禁自动释放：
+`qlfj` 强力反击是受击反击，不是持续 buff：`findPetUsedMagic("qlfj")` 返回 0；`BasePet.reduceHp(damage, true)` 在宠物存活且走受击表现路径时检查已学 `qlfj`，取 `getPetHarmObj("qlfj").first = (0.05 + curPetState / 100) * warpower * 1.05` 作为概率，`Math.random() <= 概率` 时立刻调用 `normalHit()`，失败才继续普通受击动作。它不消耗 MP，不走 `skillCD1..4`，也不进入 `checkBuffSkill()` 计数器。
 
-- `sxkb` 和 `fsnl` 给宠物自身加 `PET_SXKB` / `PET_FSNL`。
-- `smjc/mfjc/gjjc/fyjc` 给来源英雄加生命、魔法、攻击或防御加成。
-- 这些技能消耗 20 MP，使用内部计数器控制持续时间，不走 `skillCD1..4` 主动技能槽。
+`BasePet.checkBuffSkill()` 每帧检查六个已学自动 buff，并按 MP 门禁自动释放。每个计数器初值为 300，计数归零后才会尝试第一次释放；释放成功后 `sxkb` 计数设为 4320，其余五个计数设为 5400。成功释放都会消耗 20 MP，添加 `BaseAddEffect`，并以 `getPetHarmObj(skill).second * gc.frameClips` 作为 buff 持续时间。
+
+| 技能 | 目标 | 数值 `first` | 持续 `second` | 重触发计数 | 现代含义 |
+| --- | --- | --- | --- | --- | --- |
+| `sxkb` 嗜血狂暴 | 宠物自身 `curAddEffect`，`PET_SXKB` | `curPetState * 0.07 * technique * 0.27 * 1.05` | `(30 + curPetState * 5) * warpower / 2 * 0.6` 秒 | 4320 | `BasePet.getCriteValue(true)` 读取该 buff，把值加到宠物暴击率 |
+| `fsnl` 法术能量 | 宠物自身 `curAddEffect`，`PET_FSNL` | `curPetState * 30 * technique * 1.05` | 同上 | 5400 | `BasePet.getMagicAddValue()` 返回该 buff 值，作为宠物技能额外伤害加值 |
+| `smjc` 生命加成 | 来源英雄 `sourceRole.curAddEffect`，`PET_SMJC` | `curPetState * 70 * technique * 1.05` | 同上 | 5400 | `BaseRoleProperies.addBuff()` 提升主人 HP 上限，并按当前 HP 比例同步当前 HP |
+| `mfjc` 魔法加成 | 来源英雄，`PET_MFJC` | `curPetState * 70 * technique * 1.05` | 同上 | 5400 | 提升主人 MP 上限，并按当前 MP 比例同步当前 MP |
+| `gjjc` 攻击加成 | 来源英雄，`PET_GJJC` | `curPetState * 6 * technique * 1.05` | 同上 | 5400 | 提升主人 `basePower` |
+| `fyjc` 防御加成 | 来源英雄，`PET_FYJC` | `curPetState * 5 * technique * 1.05` | 同上 | 5400 | 提升主人 `defense` |
 
 `findPetUsedMagic()` 给出 MP 消耗边界：基础被动和 `qlfj` 消耗 0；普通主动/自动 buff 多数消耗 20；奥义类消耗 30。`getPetHarmObj()` 给出最小数值来源，其中猴子主动技能为 `xj = 2.6 * atk`、`lj = 4.2 * atk`、`lyq = 6.8 * atk`。
+
+#### 其他宠物技能类别边界
+
+`PetInfo.addSpecialSkill()` 表明除基础候选池外，各宠物形态还会追加形态专属技能。它们大多通过具体 `Pet*.as` 的 `beforeSkillNStart()` / `releSkillN()` 在宠物 AI 中自动释放，不是玩家手动技能书入口。当前现代侧只完成了猴子 `xj/lj/lyq/jgaoyi`，其余专属技能仍未复现。
+
+| 宠物族/形态推进 | 追加技能链 |
+| --- | --- |
+| 猴子 `monkey1..4` | `xj -> lj -> lyq -> jgaoyi`，现代已覆盖 |
+| 马 `horse1..4` | `sp -> bd -> bz -> tmaoyi` |
+| UFO `ufo1..3` | `pms -> ss -> kmsk` |
+| 白虎/母虎 `tigress1..4` | `hy -> sxhz -> hsqj -> bhaoyi` |
+| 玄龟 `turtle1..4` | `sld -> txlj -> sybh -> xwaoyi` |
+| 凤凰 `phoenix1..4` | `np -> bshn -> dhly -> zqaoyi` |
+| 青龙 `dragon1..4` | `fs -> sdcc -> ltwj -> qlaoyi` |
+| 玉兔 `rabbit1..4` | `yg -> jf -> bs -> ysaoyi` |
+| 房日兔/坐骑马 `roomhorse1..4` | `hybt -> hhjt` |
+| 子鼠 `mouse1..4` | `sc -> hxfb -> zsaoyi` |
+| 丑牛 `neat1..4` | `mncz -> mljt -> cnaoyi` |
+| 年兽 `nian1..5` | `qxyl -> bhjm -> jhgy` |
+| 影虎 `terribletiger1..4` | `hx -> mhxs -> yhaoyi` |
+
+现代 `VS-024` 建议优先实现基础技能中的一个可观察且不依赖新宠物资源的闭环。推荐首个实现目标是 `smjc` 或 `gjjc`：它们只要求当前出战宠物已学对应技能、有 20 MP、计数归零后自动给来源英雄加 HP 上限或攻击，系统测试可用纯数据模型验证 buff 添加、MP 消耗、持续时间和到期移除。`sxkb/fsnl` 作用在宠物自身战斗计算上，也适合作为后续切片；`qlfj` 依赖宠物受击与普攻反击路径，可作为第二批反击切片。继续禁止一次性实现全部宠物专属技能、真实 buff 特效、P2/联机同步和完整资源替换。
 
 ### 出战宠物主动技能链路
 

@@ -52,6 +52,9 @@ import {
   catchNewPet,
   createMagicBottleCaptureModel,
   createSeedPetRoster,
+  applyPetSkillSaveString,
+  buildPetSkillSlotViews,
+  encodePetSkillSaveString,
   getActivePet,
   getPetBaseStats,
   getPetExperienceToNextLevel,
@@ -132,6 +135,10 @@ testMagicWeaponInputIsSeparateFromNormalSkillSlots();
 testPetConsumableLifetimeConsumesStackAndCapsAt100();
 testPetConsumableRequiresActivePetWithoutConsuming();
 testPetConsumableRestoreAndExperience();
+testPetSkillSaveStringRoundTripEmptyAndUnknown();
+testPetSkillSlotsExposeEightDisplaySlots();
+testPetSkillResetConsumableRequiresActivePetWithoutConsuming();
+testPetSkillResetConsumableConsumesStackAndUsesInjectedRandom();
 testPetExperienceMonster30ShareWithActivePet();
 testPetExperienceMonster30FullHeroAwardWithoutPet();
 testPetExperienceSingleLevelRefreshesStats();
@@ -691,6 +698,85 @@ function testPetConsumableRestoreAndExperience(): void {
   assert.equal(pet.hp, pet.maxHp);
   assert.equal(pet.mp, pet.maxMp);
   assert.equal(pet.maxHp, 3_480);
+}
+
+function testPetSkillSaveStringRoundTripEmptyAndUnknown(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+
+  pet.skills = [];
+  assert.equal(encodePetSkillSaveString(pet.skills), '');
+
+  applyPetSkillSaveString(pet, '');
+  assert.deepEqual(pet.skills, []);
+
+  applyPetSkillSaveString(pet, 'xj~mysterySkill');
+  assert.deepEqual(pet.skills, ['xj', 'mysterySkill']);
+  assert.equal(encodePetSkillSaveString(pet.skills), 'xj~mysterySkill');
+}
+
+function testPetSkillSlotsExposeEightDisplaySlots(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.skills = ['xj', 'mysterySkill'];
+
+  const slots = buildPetSkillSlotViews(pet);
+
+  assert.equal(slots.length, PetTuning.skillSlotCount);
+  assert.equal(slots[0]?.slot, 1);
+  assert.equal(slots[0]?.skillKey, 'xj');
+  assert.equal(slots[0]?.name, '献祭');
+  assert.equal(slots[0]?.isKnown, true);
+  assert.equal(slots[1]?.skillKey, 'mysterySkill');
+  assert.equal(slots[1]?.name, 'mysterySkill');
+  assert.equal(slots[1]?.isKnown, false);
+  assert.equal(slots[2]?.isEmpty, true);
+  assert.equal(slots[7]?.slot, 8);
+  assert.equal(slots[7]?.isEmpty, true);
+}
+
+function testPetSkillResetConsumableRequiresActivePetWithoutConsuming(): void {
+  const registry = createSeedEquipmentRegistry();
+  const inventory = createSeedInventoryStore(registry);
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.isActive = false;
+
+  const before = getStackQuantity(inventory, 'cwjnxld');
+  const result = usePetConsumable(roster, 'cwjnxld', () => 0);
+
+  assert.equal(result.ok, false);
+  assert.equal(result.shouldConsume, false);
+  assert.equal(getStackQuantity(inventory, 'cwjnxld'), before);
+}
+
+function testPetSkillResetConsumableConsumesStackAndUsesInjectedRandom(): void {
+  const registry = createSeedEquipmentRegistry();
+  const inventory = createSeedInventoryStore(registry);
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.level = 5;
+  pet.perception = 8;
+  pet.skills = ['oldSkill'];
+  const randomValues = [0.1, 0, 0.1, 0.99];
+  const random = () => randomValues.shift() ?? 0;
+
+  const result = usePetConsumable(roster, 'cwjnxld', random);
+  assert.equal(result.ok, true);
+  assert.equal(result.shouldConsume, true);
+  assert.deepEqual(result.skillReset?.beforeSkills, ['oldSkill']);
+  assert.deepEqual(result.skillReset?.afterSkills, ['tsml', 'xj']);
+  assert.deepEqual(pet.skills, ['tsml', 'xj']);
+
+  const consume = consumeStackByFillName(inventory, 'cwjnxld', 1);
+  assert.equal(consume.ok, true);
+  assert.equal(consume.before, 1);
+  assert.equal(consume.after, 0);
+  assert.equal(getStackQuantity(inventory, 'cwjnxld'), 0);
 }
 
 function testPetExperienceMonster30ShareWithActivePet(): void {

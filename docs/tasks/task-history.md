@@ -94,8 +94,70 @@
 | TASK-SETTINGS-026 | 逆向 | 宠物技能基础逆向 | M-042、VS-016 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-047 | 切片 | `monkey4/jgaoyi` 宠物技能最小闭环 | M-042、VS-022 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-027 | 逆向 | 宠物技能存档/面板边界逆向 | M-042、M-044、VS-023 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-048 | 切片 | 宠物技能存档/面板最小闭环 | M-042、M-044、VS-023 | `PetSystem.ts`、`InventorySystem.ts`、`EquipmentSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SETTINGS-028 | 逆向 | 宠物被动/自动 buff 边界逆向 | M-042、VS-024 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-028
+
+完成时间：
+
+- 2026-06-05
+
+完成内容：
+
+- 复查 `PetInfo.as` 基础候选池、`getIntroByName()`、`getPetHarmObj()`、`findPetUsedMagic()`、`deletePassiveWhenUpdata()` 和 `addPassiveAfterUpdata()`，补清基础属性被动 `tsml/zrsh/smzf/mfby` 的入口、公式和升级前后移除/重加边界。
+- 复查 `BasePet.as` 的 `checkBuffSkill()`，确认 `sxkb/fsnl/smjc/mfjc/gjjc/fyjc` 是每帧自动检查的宠物基础自动 buff：初始计数 300，触发消耗 20 MP，`sxkb` 重触发计数 4320，其余为 5400，持续时间来自 `getPetHarmObj().second * gc.frameClips`。
+- 复查 `BasePet.as` 的 `reduceHp()`，确认 `qlfj` 是受击路径中的概率反击：不消耗 MP，不走主动技能冷却或自动 buff 计数，命中概率来自 `(0.05 + curPetState / 100) * warpower * 1.05`。
+- 复查 `BasePet.getCriteValue()` / `getMagicAddValue()` 和 `BaseRoleProperies.addBuff()` / `removeBuff()`，确认 `sxkb/fsnl` 作用于宠物自身暴击/技能伤害，`smjc/mfjc/gjjc/fyjc` 作用于主人 HP/MP 上限、基础攻击和防御。
+- 复查 `PetInfo.addSpecialSkill()`，列出猴子以外宠物形态专属技能链，明确它们多数仍属于宠物 AI 自动释放的专属技能，未进入当前最小实现范围。
+- 更新 `docs/reverse-engineering/pets-index.md`，新增“被动和自动 buff”证据、公式表、触发门禁、现代实现建议和禁止范围。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-024` 标记为可开始，并新增 Ready 后续任务 `TASK-SLICE-049`。
+
+更新文件：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-048
+
+完成时间：
+
+- 2026-06-05
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增宠物技能字段级编解码：`PetState.skills` 可写为原版 `sname~sname`，空技能保存为空字符串，读取未知 key 时保留在已学列表但不会进入已实现释放链路。
+- 新增 8 槽宠物技能展示模型；宠物面板现在按当前选中宠物输出 8 个槽位，已学技能显示 key/中文名或未知 fallback，空槽保持空位语义，不接点学、遗忘或拖拽绑定。
+- 接入 `cwjnxld` 宠物技能洗练丹：装备注册表和背包种子新增该道具；使用时要求当前出战宠物存在，成功后按宠物种类/形态/等级重算技能并返回消耗信号，无出战宠物时不消耗。
+- 洗练重算使用可注入随机源，复用原版等级窗口、悟性上限、约 40% 学习概率和候选池随机抽取边界；已实现猴子形态技能候选与基础技能候选。
+- 扩展 `tools/system-tests.ts`，覆盖空技能编码、未知 key 保留、8 槽展示、无出战宠物不消耗 `cwjnxld`、成功洗练消耗 1 个和固定随机学习结果。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-023` 标记完成，并新增 Ready 后续任务 `TASK-SETTINGS-028`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/systems/EquipmentSystem.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SETTINGS-027
 

@@ -532,6 +532,17 @@ export function createSeedEquipmentRegistry(): Record<string, EquipmentDefinitio
       description: '当前出战宠物经验增加30000',
     },
     {
+      showId: 129,
+      name: '宠物技能洗练丹',
+      fillName: 'cwjnxld',
+      type: 'zbwp',
+      user: '',
+      quality: '普 通',
+      color: '0xFFFFFF',
+      stats: createEmptyEquipmentStats(),
+      description: '当前出战宠物按等级重新获得宠物技能',
+    },
+    {
       showId: 1,
       name: '枯叶灵',
       fillName: 'kyl',
