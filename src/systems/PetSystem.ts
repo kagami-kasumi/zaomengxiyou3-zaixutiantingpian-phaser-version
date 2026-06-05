@@ -40,6 +40,7 @@ export type PetState = {
   skills: string[];
   magicFlowerBuff?: PetMagicFlowerBuff;
   skillState?: PetSkillState;
+  autoBuffState?: PetAutoBuffState;
 };
 
 export type PetMagicFlowerBuff = {
@@ -59,6 +60,51 @@ export type PetSkillState = {
   monkey3Lj: PetMonkey3LjSkillState;
   monkey4Jgaoyi: PetMonkey4JgaoyiSkillState;
   lastResult: string;
+};
+
+export type PetAutoBuffState = {
+  smjc: PetAutoBuffEffectState;
+  mfjc: PetAutoBuffEffectState;
+  gjjc: PetAutoBuffEffectState;
+  fyjc: PetAutoBuffEffectState;
+  lastResult: string;
+};
+
+export type PetAutoBuffEffectState = {
+  counterMs: number;
+  active?: PetAutoBuffActiveEffect;
+};
+
+export type PetAutoBuffActiveEffect = {
+  kind: 'smjc' | 'mfjc' | 'gjjc' | 'fyjc';
+  bonusPower?: number;
+  bonusDefense?: number;
+  bonusMaxHp?: number;
+  bonusMaxMp?: number;
+  totalMs: number;
+  remainingMs: number;
+};
+
+export type PetAutoBuffOwnerStats = {
+  hp: number;
+  maxHp: number;
+  mp: number;
+  maxMp: number;
+  power: number;
+  defense: number;
+};
+
+export type PetAutoBuffUpdateResult = {
+  triggered: boolean;
+  expired: boolean;
+  message: string;
+  pet?: PetState;
+  mpBefore?: number;
+  mpAfter?: number;
+  bonusPower?: number;
+  bonusDefense?: number;
+  bonusMaxHp?: number;
+  bonusMaxMp?: number;
 };
 
 export type PetMonkey1XjSkillState = {
@@ -236,6 +282,8 @@ export type PetSkillResetResult = {
 
 export type PetSkillRandomSource = () => number;
 
+export type PetCounterRandomSource = () => number;
+
 export const PetTuning = {
   maxSeats: 10,
   followMinDistance: 64,
@@ -274,6 +322,19 @@ export const PetTuning = {
   monkey4JgaoyiCooldownMs: 500,
   monkey4JgaoyiHit5Damage: 0,
   skillSlotCount: 8,
+  autoBuffFrameMs: 1000 / 24,
+  autoBuffInitialDelayFrames: 300,
+  autoBuffGjjcRetriggerFrames: 5400,
+  autoBuffSmjcRetriggerFrames: 5400,
+  autoBuffMfjcRetriggerFrames: 5400,
+  autoBuffFyjcRetriggerFrames: 5400,
+  autoBuffGjjcMpCost: 20,
+  autoBuffSmjcMpCost: 20,
+  autoBuffMfjcMpCost: 20,
+  autoBuffFyjcMpCost: 20,
+  qlfjBaseChance: 0.05,
+  qlfjFormChanceStep: 0.01,
+  qlfjChanceMultiplier: 1.05,
 } as const;
 
 export const PetBaseSkillCandidates = [
@@ -645,6 +706,136 @@ export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
     state.monkey3Lj.cooldownMs = Math.max(0, state.monkey3Lj.cooldownMs - Math.max(0, deltaMs));
     state.monkey4Jgaoyi.cooldownMs = Math.max(0, state.monkey4Jgaoyi.cooldownMs - Math.max(0, deltaMs));
   }
+}
+
+export function updatePetAutoBuffs(params: {
+  roster: PetRoster;
+  ownerStats: PetAutoBuffOwnerStats;
+  deltaMs: number;
+}): PetAutoBuffUpdateResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return {
+      triggered: false,
+      expired: false,
+      message: 'No active pet',
+    };
+  }
+
+  const state = ensurePetAutoBuffState(pet);
+  const deltaMs = Math.max(0, params.deltaMs);
+  let expired = false;
+
+  if (updateActivePetAutoBuffEffect(params.roster, pet, state.smjc, params.ownerStats, deltaMs)) {
+    expired = true;
+  }
+  if (updateActivePetAutoBuffEffect(params.roster, pet, state.mfjc, params.ownerStats, deltaMs)) {
+    expired = true;
+  }
+  if (updateActivePetAutoBuffEffect(params.roster, pet, state.gjjc, params.ownerStats, deltaMs)) {
+    expired = true;
+  }
+  if (updateActivePetAutoBuffEffect(params.roster, pet, state.fyjc, params.ownerStats, deltaMs)) {
+    expired = true;
+  }
+
+  state.smjc.counterMs = Math.max(0, state.smjc.counterMs - deltaMs);
+  state.mfjc.counterMs = Math.max(0, state.mfjc.counterMs - deltaMs);
+  state.gjjc.counterMs = Math.max(0, state.gjjc.counterMs - deltaMs);
+  state.fyjc.counterMs = Math.max(0, state.fyjc.counterMs - deltaMs);
+
+  const smjcResult = tryTriggerPetSmjcAutoBuff(params.roster, pet, state, params.ownerStats);
+  if (smjcResult) {
+    return {
+      ...smjcResult,
+      expired,
+    };
+  }
+
+  const mfjcResult = tryTriggerPetMfjcAutoBuff(params.roster, pet, state, params.ownerStats);
+  if (mfjcResult) {
+    return {
+      ...mfjcResult,
+      expired,
+    };
+  }
+
+  const gjjcResult = tryTriggerPetGjjcAutoBuff(params.roster, pet, state, params.ownerStats);
+  if (gjjcResult) {
+    return {
+      ...gjjcResult,
+      expired,
+    };
+  }
+
+  const fyjcResult = tryTriggerPetFyjcAutoBuff(params.roster, pet, state, params.ownerStats);
+  if (fyjcResult) {
+    return {
+      ...fyjcResult,
+      expired,
+    };
+  }
+
+  return {
+    triggered: false,
+    expired,
+    message: state.lastResult,
+    pet,
+  };
+}
+
+export function requestPetQlfjCounterAttack(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  random?: PetCounterRandomSource;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  if (!pet.skills.includes('qlfj')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned qlfj`, pet);
+  }
+
+  if (pet.hp <= 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} qlfj cannot counter while defeated`, pet);
+  }
+
+  const chance = calculatePetQlfjCounterChance(pet);
+  const roll = Math.max(0, Math.min(1, params.random?.() ?? Math.random()));
+  if (roll > chance) {
+    const message = `${pet.displayName} qlfj missed roll:${roll.toFixed(3)} chance:${chance.toFixed(3)}`;
+    ensurePetSkillState(pet).lastResult = message;
+    params.roster.message = message;
+    return {
+      ok: false,
+      message,
+      pet,
+      mpBefore: pet.mp,
+      mpAfter: pet.mp,
+    };
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} qlfj has no target`, pet);
+  }
+
+  const damage = pet.atk;
+  const message = `${pet.displayName} qlfj counter -> ${target.id} ${damage.toFixed(1)}`;
+  ensurePetSkillState(pet).lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    damage,
+    mpBefore: pet.mp,
+    mpAfter: pet.mp,
+  };
 }
 
 export function requestPetMonkey1XjSkill(params: {
@@ -1451,6 +1642,26 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
       lines.push(`M4 JGAOYI cd:${Math.ceil(skillState.monkey4Jgaoyi.cooldownMs)}ms`);
       lines.push(`Last skill: ${skillState.lastResult}`);
     }
+    const autoBuffState = selected.autoBuffState;
+    if (autoBuffState) {
+      const smjcActive = autoBuffState.smjc.active;
+      const mfjcActive = autoBuffState.mfjc.active;
+      const gjjcActive = autoBuffState.gjjc.active;
+      const fyjcActive = autoBuffState.fyjc.active;
+      lines.push(
+        `SMJC ${smjcActive ? `+${(smjcActive.bonusMaxHp ?? 0).toFixed(1)} ${formatPetAutoBuffMs(smjcActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.smjc.counterMs)}`}`,
+      );
+      lines.push(
+        `MFJC ${mfjcActive ? `+${(mfjcActive.bonusMaxMp ?? 0).toFixed(1)} ${formatPetAutoBuffMs(mfjcActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.mfjc.counterMs)}`}`,
+      );
+      lines.push(
+        `GJJC ${gjjcActive ? `+${(gjjcActive.bonusPower ?? 0).toFixed(1)} ${formatPetAutoBuffMs(gjjcActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.gjjc.counterMs)}`}`,
+      );
+      lines.push(
+        `FYJC ${fyjcActive ? `+${(fyjcActive.bonusDefense ?? 0).toFixed(1)} ${formatPetAutoBuffMs(fyjcActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.fyjc.counterMs)}`}`,
+      );
+      lines.push(`Last auto: ${autoBuffState.lastResult}`);
+    }
   } else {
     lines.push('-');
   }
@@ -1601,9 +1812,334 @@ function createPetSkillState(): PetSkillState {
   };
 }
 
+function createPetAutoBuffState(): PetAutoBuffState {
+  return {
+    smjc: {
+      counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
+    },
+    mfjc: {
+      counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
+    },
+    gjjc: {
+      counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
+    },
+    fyjc: {
+      counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
+    },
+    lastResult: 'pet auto buff ready',
+  };
+}
+
 function ensurePetSkillState(pet: PetState): PetSkillState {
   pet.skillState ??= createPetSkillState();
   return pet.skillState;
+}
+
+function ensurePetAutoBuffState(pet: PetState): PetAutoBuffState {
+  pet.autoBuffState ??= createPetAutoBuffState();
+  const initialCounterMs = petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames);
+  pet.autoBuffState.smjc ??= { counterMs: initialCounterMs };
+  pet.autoBuffState.mfjc ??= { counterMs: initialCounterMs };
+  pet.autoBuffState.gjjc ??= { counterMs: initialCounterMs };
+  pet.autoBuffState.fyjc ??= { counterMs: initialCounterMs };
+  pet.autoBuffState.lastResult ??= 'pet auto buff ready';
+  return pet.autoBuffState;
+}
+
+function updateActivePetAutoBuffEffect(
+  roster: PetRoster,
+  pet: PetState,
+  effect: PetAutoBuffEffectState,
+  ownerStats: PetAutoBuffOwnerStats,
+  deltaMs: number,
+): boolean {
+  const active = effect.active;
+  if (!active) {
+    return false;
+  }
+
+  active.remainingMs -= deltaMs;
+  if (active.remainingMs > 0) {
+    return false;
+  }
+
+  const state = ensurePetAutoBuffState(pet);
+  if (active.kind === 'smjc') {
+    const bonusMaxHp = active.bonusMaxHp ?? 0;
+    const ratio = ownerStats.maxHp > 0 ? ownerStats.hp / ownerStats.maxHp : 0;
+    ownerStats.maxHp = Math.max(1, ownerStats.maxHp - bonusMaxHp);
+    ownerStats.hp = Math.min(ownerStats.maxHp, ownerStats.maxHp * ratio);
+    const message = `${pet.displayName} smjc expired -${bonusMaxHp.toFixed(1)} maxHp`;
+    effect.active = undefined;
+    state.lastResult = message;
+    roster.message = message;
+    return true;
+  }
+
+  if (active.kind === 'mfjc') {
+    const bonusMaxMp = active.bonusMaxMp ?? 0;
+    const ratio = ownerStats.maxMp > 0 ? ownerStats.mp / ownerStats.maxMp : 0;
+    ownerStats.maxMp = Math.max(1, ownerStats.maxMp - bonusMaxMp);
+    ownerStats.mp = Math.min(ownerStats.maxMp, ownerStats.maxMp * ratio);
+    const message = `${pet.displayName} mfjc expired -${bonusMaxMp.toFixed(1)} maxMp`;
+    effect.active = undefined;
+    state.lastResult = message;
+    roster.message = message;
+    return true;
+  }
+
+  if (active.kind === 'fyjc') {
+    const bonusDefense = active.bonusDefense ?? 0;
+    ownerStats.defense -= bonusDefense;
+    const message = `${pet.displayName} fyjc expired -${bonusDefense.toFixed(1)} defense`;
+    effect.active = undefined;
+    state.lastResult = message;
+    roster.message = message;
+    return true;
+  }
+
+  const bonusPower = active.bonusPower ?? 0;
+  ownerStats.power -= bonusPower;
+  const message = `${pet.displayName} gjjc expired -${bonusPower.toFixed(1)} power`;
+  effect.active = undefined;
+  state.lastResult = message;
+  roster.message = message;
+  return true;
+}
+
+function tryTriggerPetSmjcAutoBuff(
+  roster: PetRoster,
+  pet: PetState,
+  state: PetAutoBuffState,
+  ownerStats: PetAutoBuffOwnerStats,
+): PetAutoBuffUpdateResult | undefined {
+  const smjc = state.smjc;
+  if (smjc.active || smjc.counterMs > 0 || !pet.skills.includes('smjc')) {
+    return undefined;
+  }
+
+  if (pet.mp < PetTuning.autoBuffSmjcMpCost) {
+    const message = `${pet.displayName} smjc MP not enough`;
+    state.lastResult = message;
+    roster.message = message;
+    return {
+      triggered: false,
+      expired: false,
+      message,
+      pet,
+    };
+  }
+
+  const mpBefore = pet.mp;
+  const bonusMaxHp = calculatePetSmjcMaxHpBonus(pet);
+  const totalMs = calculatePetAutoBuffDurationMs(pet);
+  const ratio = ownerStats.maxHp > 0 ? ownerStats.hp / ownerStats.maxHp : 0;
+  pet.mp = Math.max(0, pet.mp - PetTuning.autoBuffSmjcMpCost);
+  ownerStats.maxHp += bonusMaxHp;
+  ownerStats.hp = Math.min(ownerStats.maxHp, ownerStats.maxHp * ratio);
+  smjc.active = {
+    kind: 'smjc',
+    bonusMaxHp,
+    totalMs,
+    remainingMs: totalMs,
+  };
+  smjc.counterMs = petAutoBuffFramesToMs(PetTuning.autoBuffSmjcRetriggerFrames);
+
+  const message = `${pet.displayName} smjc +${bonusMaxHp.toFixed(1)} maxHp`;
+  state.lastResult = message;
+  roster.message = message;
+  return {
+    triggered: true,
+    expired: false,
+    message,
+    pet,
+    mpBefore,
+    mpAfter: pet.mp,
+    bonusMaxHp,
+  };
+}
+
+function tryTriggerPetMfjcAutoBuff(
+  roster: PetRoster,
+  pet: PetState,
+  state: PetAutoBuffState,
+  ownerStats: PetAutoBuffOwnerStats,
+): PetAutoBuffUpdateResult | undefined {
+  const mfjc = state.mfjc;
+  if (mfjc.active || mfjc.counterMs > 0 || !pet.skills.includes('mfjc')) {
+    return undefined;
+  }
+
+  if (pet.mp < PetTuning.autoBuffMfjcMpCost) {
+    const message = `${pet.displayName} mfjc MP not enough`;
+    state.lastResult = message;
+    roster.message = message;
+    return {
+      triggered: false,
+      expired: false,
+      message,
+      pet,
+    };
+  }
+
+  const mpBefore = pet.mp;
+  const bonusMaxMp = calculatePetMfjcMaxMpBonus(pet);
+  const totalMs = calculatePetAutoBuffDurationMs(pet);
+  const ratio = ownerStats.maxMp > 0 ? ownerStats.mp / ownerStats.maxMp : 0;
+  pet.mp = Math.max(0, pet.mp - PetTuning.autoBuffMfjcMpCost);
+  ownerStats.maxMp += bonusMaxMp;
+  ownerStats.mp = Math.min(ownerStats.maxMp, ownerStats.maxMp * ratio);
+  mfjc.active = {
+    kind: 'mfjc',
+    bonusMaxMp,
+    totalMs,
+    remainingMs: totalMs,
+  };
+  mfjc.counterMs = petAutoBuffFramesToMs(PetTuning.autoBuffMfjcRetriggerFrames);
+
+  const message = `${pet.displayName} mfjc +${bonusMaxMp.toFixed(1)} maxMp`;
+  state.lastResult = message;
+  roster.message = message;
+  return {
+    triggered: true,
+    expired: false,
+    message,
+    pet,
+    mpBefore,
+    mpAfter: pet.mp,
+    bonusMaxMp,
+  };
+}
+
+function tryTriggerPetGjjcAutoBuff(
+  roster: PetRoster,
+  pet: PetState,
+  state: PetAutoBuffState,
+  ownerStats: PetAutoBuffOwnerStats,
+): PetAutoBuffUpdateResult | undefined {
+  const gjjc = state.gjjc;
+  if (gjjc.active || gjjc.counterMs > 0 || !pet.skills.includes('gjjc')) {
+    return undefined;
+  }
+
+  if (pet.mp < PetTuning.autoBuffGjjcMpCost) {
+    const message = `${pet.displayName} gjjc MP not enough`;
+    state.lastResult = message;
+    roster.message = message;
+    return {
+      triggered: false,
+      expired: false,
+      message,
+      pet,
+    };
+  }
+
+  const mpBefore = pet.mp;
+  const bonusPower = calculatePetGjjcPowerBonus(pet);
+  const totalMs = calculatePetAutoBuffDurationMs(pet);
+  pet.mp = Math.max(0, pet.mp - PetTuning.autoBuffGjjcMpCost);
+  ownerStats.power += bonusPower;
+  gjjc.active = {
+    kind: 'gjjc',
+    bonusPower,
+    totalMs,
+    remainingMs: totalMs,
+  };
+  gjjc.counterMs = petAutoBuffFramesToMs(PetTuning.autoBuffGjjcRetriggerFrames);
+
+  const message = `${pet.displayName} gjjc +${bonusPower.toFixed(1)} power`;
+  state.lastResult = message;
+  roster.message = message;
+  return {
+    triggered: true,
+    expired: false,
+    message,
+    pet,
+    mpBefore,
+    mpAfter: pet.mp,
+    bonusPower,
+  };
+}
+
+function tryTriggerPetFyjcAutoBuff(
+  roster: PetRoster,
+  pet: PetState,
+  state: PetAutoBuffState,
+  ownerStats: PetAutoBuffOwnerStats,
+): PetAutoBuffUpdateResult | undefined {
+  const fyjc = state.fyjc;
+  if (fyjc.active || fyjc.counterMs > 0 || !pet.skills.includes('fyjc')) {
+    return undefined;
+  }
+
+  if (pet.mp < PetTuning.autoBuffFyjcMpCost) {
+    const message = `${pet.displayName} fyjc MP not enough`;
+    state.lastResult = message;
+    roster.message = message;
+    return {
+      triggered: false,
+      expired: false,
+      message,
+      pet,
+    };
+  }
+
+  const mpBefore = pet.mp;
+  const bonusDefense = calculatePetFyjcDefenseBonus(pet);
+  const totalMs = calculatePetAutoBuffDurationMs(pet);
+  pet.mp = Math.max(0, pet.mp - PetTuning.autoBuffFyjcMpCost);
+  ownerStats.defense += bonusDefense;
+  fyjc.active = {
+    kind: 'fyjc',
+    bonusDefense,
+    totalMs,
+    remainingMs: totalMs,
+  };
+  fyjc.counterMs = petAutoBuffFramesToMs(PetTuning.autoBuffFyjcRetriggerFrames);
+
+  const message = `${pet.displayName} fyjc +${bonusDefense.toFixed(1)} defense`;
+  state.lastResult = message;
+  roster.message = message;
+  return {
+    triggered: true,
+    expired: false,
+    message,
+    pet,
+    mpBefore,
+    mpAfter: pet.mp,
+    bonusDefense,
+  };
+}
+
+function calculatePetSmjcMaxHpBonus(pet: PetState): number {
+  return pet.form * 70 * pet.technique * 1.05;
+}
+
+function calculatePetMfjcMaxMpBonus(pet: PetState): number {
+  return pet.form * 70 * pet.technique * 1.05;
+}
+
+function calculatePetGjjcPowerBonus(pet: PetState): number {
+  return pet.form * 6 * pet.technique * 1.05;
+}
+
+function calculatePetFyjcDefenseBonus(pet: PetState): number {
+  return pet.form * 5 * pet.technique * 1.05;
+}
+
+function calculatePetQlfjCounterChance(pet: PetState): number {
+  return Math.max(0, Math.min(1, (
+    PetTuning.qlfjBaseChance + pet.form * PetTuning.qlfjFormChanceStep
+  ) * pet.warpower * PetTuning.qlfjChanceMultiplier));
+}
+
+function calculatePetAutoBuffDurationMs(pet: PetState): number {
+  const seconds = (30 + pet.form * 5) * pet.warpower / 2 * 0.6;
+  return Math.max(0, seconds * 1000);
+}
+
+function petAutoBuffFramesToMs(frames: number): number {
+  return Math.max(0, frames * PetTuning.autoBuffFrameMs);
 }
 
 function setPetSkillFailure(
@@ -1735,6 +2271,10 @@ function createPetExperienceResult(
 
 function formatPetNextExperience(pet: PetState): string {
   return Number.isFinite(pet.expToNext) ? String(pet.expToNext) : 'MAX';
+}
+
+function formatPetAutoBuffMs(value: number): string {
+  return `${Math.max(0, value / 1000).toFixed(1)}s`;
 }
 
 function rectanglesOverlap(

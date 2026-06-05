@@ -37,11 +37,16 @@
 | VS-021 `monkey3/lj` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey3` 释放受击触发的 `lj` | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子 `monkey3` 持有已学 `lj`；P1 被 `Monster30` 命中时给三阶猴设置等价触发标记；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置触发和 500ms 冷却，生成 `PetMonkey3Bullet3_2` / `hit4` 占位 projectile 并造成 `4.2 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、触发未就绪、无目标、冷却、伤害、扣 MP 和触发重置 |
 | VS-022 `monkey4/jgaoyi` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey4` 释放 `jgaoyi` 奥义技能 | M-042、M-032、M-033、`pets-index.md`、`PetMonkey4.as` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子宠物列表新增可切换出战的 `monkey4`，并持有已学 `xj/lj/lyq/jgaoyi`；`jgaoyi` 满足已学习、MP `>= 30`、冷却就绪且存在 `Monster30` 目标后释放；释放扣 30 MP、重置 500ms 冷却，生成 `hit5` 可见占位 projectile；AS3 `getRealPower("hit5")` 为 0，本切片固定 `hit5` 无直接伤害边界 |
 | VS-023 宠物技能存档/面板最小闭环 | 已完成 | 展示宠物 8 个技能槽，并提供 `sname~sname` 技能存档与 `cwjnxld` 技能洗练丹最小链路 | M-042、M-044、`pets-index.md` | `PetSystem.ts`、`InventorySystem.ts`、`EquipmentSystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 宠物面板已展示当前宠物 8 个技能槽和空槽；`PetState.skills` 已可编码/解码为原版 `sname~sname`，空技能保存为空字符串，未知 key 安全保留但不可释放；背包内 `cwjnxld` 已可对当前出战宠物按当前等级重算技能并消耗 1 个；随机学习使用可注入随机源，系统测试覆盖固定结果 |
-| VS-024 宠物被动/自动 buff 最小闭环 | 可开始 | 复现一个非手动释放类宠物技能或被动/自动 buff 的可观察效果 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `TASK-SETTINGS-028` 已补清基础被动、`qlfj` 反击和六个自动 buff 边界；下一步先实现 `smjc` 或 `gjjc` 中一个不依赖新资源的自动 buff，覆盖已学技能、MP、计数器、消耗、持续时间、数值增加和到期恢复 |
+| VS-024 宠物被动/自动 buff 最小闭环 | 已完成 | 复现一个非手动释放类宠物技能或被动/自动 buff 的可观察效果 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `gjjc` 攻击加成最小闭环：当前出战宠物已学 `gjjc`、MP `>= 20`、计数器归零时自动触发；触发后扣 20 MP，按 `form * 6 * technique * 1.05` 增加 P1 主人攻击，记录持续时间和重触发计数，到期恢复数值；宠物面板展示自动 buff 最近结果和剩余时间；系统测试覆盖未学、MP 不足、计数未归零、触发、到期恢复和重触发门禁 |
+| VS-025 宠物 `qlfj` 强力反击最小闭环 | 已完成 | 当前出战宠物受击后按概率触发普通反击 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 当前出战宠物已学 `qlfj`、受击且存活时，按 `(0.05 + form / 100) * warpower * 1.05` 概率触发普通反击；反击不消耗 MP、不走主动技能 CD 或自动 buff 计数，命中时对最近 `Monster30` 造成一次 `pet.atk` 等价物理伤害；随机源可注入，系统测试覆盖未学、死亡、概率未命中、命中、MP 不变和伤害 |
+| VS-026 宠物 `smjc` 生命加成自动 buff 最小闭环 | 已完成 | 当前出战宠物自动给主人增加 HP 上限并按比例同步当前 HP | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `smjc`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 70 * technique * 1.05` 提升 P1 主人 HP 上限，并按当前 HP 比例同步；到期后按当前比例恢复 HP 上限和当前 HP；宠物面板展示 `SMJC` 状态，系统测试覆盖门禁、消耗、HP 同步、持续和移除 |
+| VS-027 宠物 `mfjc` 魔法加成自动 buff 最小闭环 | 已完成 | 当前出战宠物自动给主人增加 MP 上限并按比例同步当前 MP | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `mfjc`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 70 * technique * 1.05` 提升 P1 主人 MP 上限，并按当前 MP 比例同步；到期后按当前比例恢复 MP 上限和当前 MP；宠物面板展示 `MFJC` 状态，系统测试覆盖门禁、消耗、MP 同步、持续和移除 |
+| VS-028 宠物 `fyjc` 防御加成自动 buff 最小闭环 | 已完成 | 当前出战宠物自动给主人增加防御 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `fyjc`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 5 * technique * 1.05` 提升 P1 主人防御，到期恢复；宠物面板展示 `FYJC` 状态，系统测试覆盖门禁、消耗、防御加成、持续和移除 |
+| VS-029 宠物 `sxkb` 嗜血狂暴自动 buff 最小闭环 | 可开始 | 当前出战宠物自动增加自身暴击加成 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 基于基础自动 buff 模型，扩展 `sxkb`：已学技能、MP `>= 20`、计数器归零时触发，按 `form * 0.07 * technique * 0.27 * 1.05` 提升宠物自身暴击加成，到期恢复，重触发计数使用 4320 帧 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-049`：宠物基础自动 buff 最小闭环。
+1. `TASK-SLICE-054`：宠物 `sxkb` 嗜血狂暴自动 buff 最小闭环。
 
 ## 切片详情
 

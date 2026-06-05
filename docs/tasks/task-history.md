@@ -96,8 +96,172 @@
 | TASK-SETTINGS-027 | 逆向 | 宠物技能存档/面板边界逆向 | M-042、M-044、VS-023 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-048 | 切片 | 宠物技能存档/面板最小闭环 | M-042、M-044、VS-023 | `PetSystem.ts`、`InventorySystem.ts`、`EquipmentSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SETTINGS-028 | 逆向 | 宠物被动/自动 buff 边界逆向 | M-042、VS-024 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-049 | 切片 | 宠物基础自动 buff 最小闭环 | M-042、VS-024 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-050 | 切片 | 宠物 `qlfj` 强力反击最小闭环 | M-042、M-032、VS-025 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-051 | 切片 | 宠物 `smjc` 生命加成自动 buff 最小闭环 | M-042、VS-026 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-052 | 切片 | 宠物 `mfjc` 魔法加成自动 buff 最小闭环 | M-042、VS-027 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-053 | 切片 | 宠物 `fyjc` 防御加成自动 buff 最小闭环 | M-042、VS-028 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-053
+
+完成时间：
+
+- 2026-06-05
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts` 的基础自动 buff 模型，新增 `fyjc` 状态、触发、持续和到期恢复逻辑，并保留既有 `smjc/mfjc/gjjc` 行为。
+- `fyjc` 在当前出战宠物已学、MP `>= 20`、计数器归零时自动触发；触发后扣宠物 20 MP，按 `form * 5 * technique * 1.05` 增加 P1 主人防御。
+- 到期后移除防御加成；触发后设置 5400 帧等价重触发计数。
+- 扩展 `src/scenes/TestScene.ts`，把宠物自动 buff owner stats 写回 `owner.baseStats.defense`，让测试场景状态栏的有效防御链路可观察。
+- 扩展宠物面板，显示 `FYJC` 等待/剩余时间和最近自动 buff 结果。
+- 扩展 `tools/system-tests.ts`，覆盖 `fyjc` 未学习、计数未归零、MP 不足、宠物 MP 消耗、防御加成增加、到期恢复和重触发门禁。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-028` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-054`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-052
+
+完成时间：
+
+- 2026-06-05
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts` 的基础自动 buff 模型，新增 `mfjc` 状态、触发、持续和到期恢复逻辑，并保留既有 `smjc/gjjc` 行为。
+- `mfjc` 在当前出战宠物已学、MP `>= 20`、计数器归零时自动触发；触发后扣宠物 20 MP，按 `form * 70 * technique * 1.05` 增加 P1 主人 MP 上限。
+- 触发和到期均按当前 MP / MP 上限比例同步当前 MP，避免 buff 添加或移除时改变法力比例。
+- 扩展 `src/scenes/TestScene.ts`，把宠物自动 buff owner stats 写回 `owner.skill.mp/maxMp`，并继续写回 HP 与攻击字段。
+- 扩展宠物面板，显示 `MFJC` 等待/剩余时间和最近自动 buff 结果。
+- 扩展 `tools/system-tests.ts`，覆盖 `mfjc` 未学习、计数未归零、MP 不足、宠物 MP 消耗、MP 上限增加、当前 MP 比例同步、到期恢复和重触发门禁。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-027` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-053`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-051
+
+完成时间：
+
+- 2026-06-05
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts` 的基础自动 buff 模型，新增 `smjc` 状态、触发、持续和到期恢复逻辑，并保留既有 `gjjc` 行为。
+- `smjc` 在当前出战宠物已学、MP `>= 20`、计数器归零时自动触发；触发后扣宠物 20 MP，按 `form * 70 * technique * 1.05` 增加 P1 主人 HP 上限。
+- 触发和到期均按当前 HP / HP 上限比例同步当前 HP，避免 buff 添加或移除时改变血量比例。
+- 扩展 `src/scenes/TestScene.ts`，把宠物自动 buff owner stats 写回 `owner.combat.hp/maxHp` 与 `owner.baseStats.power`。
+- 扩展宠物面板，显示 `SMJC` 等待/剩余时间和最近自动 buff 结果。
+- 扩展 `tools/system-tests.ts`，覆盖 `smjc` 门禁、宠物 MP 消耗、HP 上限增加、当前 HP 比例同步、到期恢复和重触发门禁。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-026` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-052`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-050
+
+完成时间：
+
+- 2026-06-05
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `requestPetQlfjCounterAttack()`：当前出战宠物已学 `qlfj`、宠物存活且概率命中时触发普通反击；概率公式为 `(0.05 + form / 100) * warpower * 1.05`，随机源可注入。
+- `qlfj` 反击不消耗 MP，不走主动技能 `skillCD1..4`，也不走基础自动 buff 计数器；未学、死亡、概率未命中时只写安全反馈。
+- 反击命中返回 `PetSkillCastResult`，伤害为 `pet.atk`，目标取最近存活 `PetSkillTarget`，用于现代最小可见反馈和系统测试。
+- 扩展 `src/scenes/TestScene.ts`，在 P1 被 `Monster30` 攻击命中时，保留已有宠物受击技能触发，并额外尝试 `qlfj`；命中后对该 `Monster30` 施加一次物理反击伤害并显示金色命中闪框。
+- 扩展 `tools/system-tests.ts`，覆盖未学不触发、死亡不触发、随机未命中不触发、随机命中触发、MP 不变和一次反击伤害。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-025` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-051`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-049
+
+完成时间：
+
+- 2026-06-05
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增宠物基础自动 buff 最小模型：`PetState.autoBuffState`、`gjjc` 触发计数、持续状态、最近结果和 owner stats 更新结果。
+- 首个实现目标固定为 `gjjc` 攻击加成：当前出战宠物已学 `gjjc`、MP `>= 20`、计数器归零时自动触发；触发扣 20 MP，按 `form * 6 * technique * 1.05` 增加 P1 主人攻击，持续时间按 AS3 `second` 公式换算，到期恢复原攻击。
+- 自动 buff 不走主动技能 `skillCD1..4`；触发后记录 5400 帧等价重触发计数，初次计数默认 300 帧等价延迟。
+- 扩展宠物面板，显示 `GJJC` 等待/剩余时间和最近自动 buff 结果。
+- 扩展 `src/scenes/TestScene.ts`，在宠物系统更新中调用 `updatePetAutoBuffs()`，把效果应用到 P1 当前 owner 的 `baseStats.power`，使状态栏 effective power 可观察。
+- 扩展 `tools/system-tests.ts`，覆盖未学不触发、MP 不足不触发、计数未归零不触发、触发扣 MP、攻击数值增加、到期恢复和重触发门禁。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-024` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-050`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SETTINGS-028
 

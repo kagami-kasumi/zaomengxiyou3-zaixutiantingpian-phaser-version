@@ -199,11 +199,13 @@ import {
   requestPetMonkey3LjSkill,
   requestPetMonkey4JgaoyiSkill,
   requestPetMonkey1XjSkill,
+  requestPetQlfjCounterAttack,
   resolveMagicBottleCaptureHit,
   selectPet,
   syncPetRuntimeWithRoster,
   toggleSelectedPetActive,
   updateMagicBottleCapture,
+  updatePetAutoBuffs,
   updatePetSkillState,
   updatePetRuntime,
   usePetConsumable,
@@ -1910,6 +1912,25 @@ export class TestScene extends Phaser.Scene {
       },
       delta,
     );
+    const petAutoBuffOwnerStats = {
+      hp: owner.combat.hp,
+      maxHp: owner.combat.maxHp,
+      mp: owner.skill.mp,
+      maxMp: owner.skill.maxMp,
+      power: owner.baseStats.power,
+      defense: owner.baseStats.defense,
+    };
+    updatePetAutoBuffs({
+      roster: this.petRoster,
+      ownerStats: petAutoBuffOwnerStats,
+      deltaMs: delta,
+    });
+    owner.combat.hp = petAutoBuffOwnerStats.hp;
+    owner.combat.maxHp = petAutoBuffOwnerStats.maxHp;
+    owner.skill.mp = petAutoBuffOwnerStats.mp;
+    owner.skill.maxMp = petAutoBuffOwnerStats.maxMp;
+    owner.baseStats.power = petAutoBuffOwnerStats.power;
+    owner.baseStats.defense = petAutoBuffOwnerStats.defense;
     updatePetSkillState(this.petRoster, delta);
     if (
       activePet.skillState?.monkey1Xj.releaseReady &&
@@ -2438,12 +2459,50 @@ export class TestScene extends Phaser.Scene {
     });
     if (result.damageEvents.some((event) => event.targetId === 'p1')) {
       markActivePetSkillTriggered(this.petRoster);
+      this.tryPetQlfjCounterAttack(monster, time);
     }
     this.applyCombatBridgeResult(
       result,
       time,
       0xff6b6b,
     );
+  }
+
+  private tryPetQlfjCounterAttack(monster: Monster30Model, time: number): void {
+    const result = requestPetQlfjCounterAttack({
+      roster: this.petRoster,
+      runtime: this.petRuntime,
+      targets: [{
+        id: monster.id,
+        x: monster.x,
+        y: monster.y,
+        isAlive: monster.state !== 'dead' && monster.state !== 'removed',
+      }],
+    });
+    if (!result.ok || !result.damage) {
+      return;
+    }
+
+    const damageEvent = createDamageEvent({
+      sourceId: result.pet?.id ?? 'pet-qlfj',
+      targetId: monster.id,
+      attackId: `pet-qlfj-${monster.id}-${time}`,
+      actionName: 'qlfj',
+      amount: result.damage,
+      attackKind: 'physics',
+      knockbackX: 0,
+      knockbackY: 0,
+      occurredAtMs: time,
+    });
+    if (applyMonster30Hit(monster, damageEvent.amount)) {
+      this.lastDamageEvent = damageEvent;
+      this.attackFlashes.push(createAttackFlash(
+        this,
+        new Phaser.Geom.Rectangle(monster.x - 18, monster.y - 48, 36, 42),
+        time,
+        0xffd166,
+      ));
+    }
   }
 
   private updateAllMonsterViews(): void {
