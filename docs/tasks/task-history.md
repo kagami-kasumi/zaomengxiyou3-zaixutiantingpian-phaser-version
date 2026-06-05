@@ -92,8 +92,72 @@
 | TASK-SLICE-039 | 切片 | 宠物经验/升级最小闭环 | M-042、VS-015 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SLICE-040 | 切片 | 宠物升级形态变化最小闭环 | M-042、VS-015 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-SETTINGS-026 | 逆向 | 宠物技能基础逆向 | M-042、VS-016 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-047 | 切片 | `monkey4/jgaoyi` 宠物技能最小闭环 | M-042、VS-022 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-027 | 逆向 | 宠物技能存档/面板边界逆向 | M-042、M-044、VS-023 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-027
+
+完成时间：
+
+- 2026-06-05
+
+完成内容：
+
+- 复查 `PetInfo.as` 的 `getSkillSaveString()`、`setSkillSaveString()`、`getSaveString()`、`setSaveString()`，确认宠物已学技能以 `sname~sname` 写入单只宠物存档字段索引 `25`；空技能保存为空字符串，读取空串时 `skill` 保持为空但仍重建当前形态候选池。
+- 复查 `User.as` 的 `getPetSaveString()` / `savePetSaveString()`，确认多只宠物用 `}` 分隔，读取时对每段非空字符串 new `PetInfo()` 并调用 `setSaveString()`。
+- 复查 `PetInterface.as`，确认 `skill1` 到 `skill8` 是 8 个技能展示槽；`setPetAllSkill()` 先清空 8 槽，再按 `pif.skill` 顺序写入 `{sname,cname,sinfo}`；没有发现宠物技能槽点击学习、遗忘或拖拽绑定逻辑。
+- 复查 `PackThings.as` 和 `AllEquipment.as` 的 `cwjnxld`，确认宠物技能洗练丹会对当前出战宠物调用 `refreshPetAllSkillByLevel()` 并消耗 1 个；面板按钮 `czjnbtn` 也可对当前面板宠物执行同类重算。
+- 补清升级随机学习边界：学习来自 `studySkillSuddenly(level)` 的等级窗口、悟性上限、约 40% 概率和候选池随机抽取；形态变化只调整候选池和技能说明，不无条件学会新技能。
+- 更新 `docs/reverse-engineering/pets-index.md`，新增/扩展“宠物技能存档/面板边界”内容，记录空串、未知 key、8 槽展示、洗练丹和现代实现建议。
+- 更新 `docs/reverse-engineering/mechanics-index.md` 的 `M-042/M-044` 下一步，新增 `docs/tasks/vertical-slices.md` 的 `VS-023`，并在 `docs/tasks/task-board.md` 创建 Ready 后续任务 `TASK-SLICE-048`。
+
+更新文件：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-047
+
+完成时间：
+
+- 2026-06-03
+
+完成内容：
+
+- 复查 `PetMonkey4.as` 的 `beforeSkill4Start()`、`releSkill4()`、`hit5` 连段段落和 `PetInfo.findPetUsedMagic("jgaoyi")`：`jgaoyi` 要求目标存在、已学习且 MP 足够，释放扣 30 MP；`hit5` 本身 `getRealPower("hit5")` 返回 0，后续伤害来自奥义连起的其他技能/普攻。
+- 扩展 `src/systems/PetSystem.ts`，在 P1 种子宠物列表中新增可切换出战的 `monkey4`，并让其持有已学 `xj/lj/lyq/jgaoyi`。
+- 为 `monkey4/jgaoyi` 增加最小主动技能状态：已学习、MP `>= 30`、冷却就绪且存在存活 `Monster30` 目标时释放；释放成功扣 30 MP、进入 500ms 冷却并记录最近释放反馈。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey4-jgaoyi` / `PetMonkey4Hit5` 占位 projectile 和资源缺口登记；该 projectile 固定无直接伤害，用于表现 `hit5` 最小可观察反馈。
+- 扩展 `src/scenes/TestScene.ts`，当前出战宠物为 `monkey4` 且门禁满足时自动尝试 `jgaoyi`，状态栏和宠物面板展示 `m4jgCd`、已学技能和最近释放结果。
+- 扩展 `tools/system-tests.ts`，覆盖 `jgaoyi` 未学习、MP 不足、无目标、冷却门禁、扣 MP、`hit5` projectile 生成，以及 `Monster30` 不掉血的 AS3 无直接伤害边界。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-022` 标记完成，并清空当前 Ready 游戏任务。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SETTINGS-025
 

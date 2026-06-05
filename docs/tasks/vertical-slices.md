@@ -35,11 +35,12 @@
 | VS-019 `monkey3/lyq` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey3` 释放 `lyq` 主动技能 | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子宠物列表新增可切换出战的 `monkey3`，并持有已学 `lyq`；MP `>= 20`、冷却就绪、存在 `Monster30` 目标且距离不超过 `400` 时释放；释放扣 20 MP、重置 500ms 冷却，生成 `PetMonkey3Bullet2` / `hit2` 占位 projectile 并造成 `6.8 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、无目标、距离门禁、冷却、伤害和扣 MP |
 | VS-020 `monkey3/xj` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey3` 释放 `xj` 主动技能 | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子 `monkey3` 持有已学 `xj`；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置 500ms 冷却，生成 `PetMonkey1Bullet2` / `hit3` 占位 projectile 并造成 `2.6 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、无目标、冷却、伤害和扣 MP |
 | VS-021 `monkey3/lj` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey3` 释放受击触发的 `lj` | M-042、M-032、M-033、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子 `monkey3` 持有已学 `lj`；P1 被 `Monster30` 命中时给三阶猴设置等价触发标记；MP `>= 20`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 20 MP、重置触发和 500ms 冷却，生成 `PetMonkey3Bullet3_2` / `hit4` 占位 projectile 并造成 `4.2 * pet.atk` 等价伤害；系统测试覆盖未学习、MP 不足、触发未就绪、无目标、冷却、伤害、扣 MP 和触发重置 |
-| VS-022 `monkey4/jgaoyi` 宠物技能最小闭环 | 可开始 | 当前出战 `monkey4` 释放 `jgaoyi` 奥义技能 | M-042、M-032、M-033、`pets-index.md`、`PetMonkey4.as` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 可切到或种下出战 `monkey4`，并持有已学 `jgaoyi`；复查 `PetMonkey4.as` 的 `hit5` 命中/表现边界；MP `>= 30`、冷却就绪且存在 `Monster30` 目标时释放；释放扣 30 MP、重置冷却，生成 `hit5` 可见占位效果并覆盖 AS3 确认后的伤害/无伤害边界 |
+| VS-022 `monkey4/jgaoyi` 宠物技能最小闭环 | 已完成 | 当前出战 `monkey4` 释放 `jgaoyi` 奥义技能 | M-042、M-032、M-033、`pets-index.md`、`PetMonkey4.as` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | P1 种子宠物列表新增可切换出战的 `monkey4`，并持有已学 `xj/lj/lyq/jgaoyi`；`jgaoyi` 满足已学习、MP `>= 30`、冷却就绪且存在 `Monster30` 目标后释放；释放扣 30 MP、重置 500ms 冷却，生成 `hit5` 可见占位 projectile；AS3 `getRealPower("hit5")` 为 0，本切片固定 `hit5` 无直接伤害边界 |
+| VS-023 宠物技能存档/面板最小闭环 | 可开始 | 展示宠物 8 个技能槽，并提供 `sname~sname` 技能存档与 `cwjnxld` 技能洗练丹最小链路 | M-042、M-044、`pets-index.md` | `PetSystem.ts`、`InventorySystem.ts`、`EquipmentSystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 宠物面板能展示当前宠物 8 个技能槽和空槽；`PetState.skills` 可编码/解码为原版 `sname~sname`，空技能保存为空字符串，未知 key 安全保留但不可释放；背包内 `cwjnxld` 可对当前出战宠物按当前等级重算技能并消耗 1 个；随机学习使用可注入随机源以便测试 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-047`：`monkey4/jgaoyi` 宠物技能最小闭环。
+1. `TASK-SLICE-048`：宠物技能存档/面板最小闭环。
 
 ## 切片详情
 

@@ -298,6 +298,64 @@
 
 首个现代技能切片可先不接完整存档，但数据模型应保留 `learnedSkills: string[]` 或等价字段，避免后续接 `sname~sname` 时重拆结构。
 
+#### `skillSaveString` 读取边界
+
+证据：
+
+- `extracted_flash/scripts/172845/scripts/petInfo/PetInfo.as`
+  - `getSkillSaveString()` 行 2233 附近。
+  - `setSkillSaveString(value)` 行 2250 附近。
+  - `getSaveString()` 行 2283 附近。
+  - `setSaveString(value)` 行 2351 附近。
+- `extracted_flash/scripts/172845/scripts/user/User.as`
+  - `getPetSaveString()` 行 955 附近。
+  - `savePetSaveString(value)` 行 972 附近。
+
+事实：
+
+- `getSkillSaveString()` 只序列化当前 `skill` 数组中已有项目的 `sname`，中间用 `~` 拼接；没有技能时返回空字符串。
+- `setSkillSaveString("")` 会保持 `skill = []`，随后仍调用 `addSpecialSkill()` 重建当前形态候选池；不会凭空学会技能。
+- `setSkillSaveString(value)` 不校验 `sname` 是否属于当前宠物候选池。未知 key 也会被塞进 `skill`，`sinfo` 由 `getIntroByName(key)` 派生；若候选池里找不到该 key，就不会从 `allSkill` 删除。这意味着现代读取可以选择兼容保留未知 key，但 UI 应显示安全 fallback。
+- 单只宠物的 `skillSaveString` 属于 `PetInfo.getSaveString()` 的第 26 个字段，索引 `25`；整组宠物由 `User.getPetSaveString()` 使用 `}` 连接。读取时 `User.savePetSaveString(value)` 对每段非空字符串 new `PetInfo()` 并调用 `setSaveString()`。
+- `setSaveString()` 在读取字段 `25` 后调用 `transPetChinaName()` 和 `setPetValue(petName)`。因此技能读取发生在宠物基础字段恢复之后，后续属性刷新可能再根据当前宠物名/等级修正显示和数值。
+
+现代边界：
+
+- 后续最小存档实现应把 `PetState.skills: string[]` 映射为原版 `sname~sname`，并保留空字符串为“无已学技能”。
+- 读取未知技能 key 时，建议保留 key、使用 `getIntroByName` 等价 fallback 或显示 `unknown`，不要在读取阶段静默丢弃；但释放技能仍必须走已支持技能白名单，避免未知 key 触发未实现行为。
+- `skillSaveString` 只保存已学技能，不保存当前 `allSkill` 候选池；候选池应由宠物种类/形态、已学技能和 `addSpecialSkill()` 等价规则重建。
+
+### 宠物面板 8 槽和技能重置
+
+证据：
+
+- `extracted_flash/scripts/172845/scripts/export/pet/PetInterface.as`
+  - 字段 `skill1` 到 `skill8` 行 75 至 89 附近。
+  - `reSkills()` 行 172 附近。
+  - `setPetInfomation()` 行 359 附近。
+  - `setPetAllSkill()` 行 364 附近。
+  - `AfterSuperRevolution()` 行 592 附近。
+- `extracted_flash/scripts/172845/scripts/export/pack/PackThings.as`
+  - 背包道具 `cwjnxld` 分支行 712 附近。
+- `extracted_flash/scripts/172845/scripts/my/AllEquipment.as`
+  - `cwjnxld` 定义行 2700 附近。
+
+事实：
+
+- `PetInterface` 声明 `skill1` 到 `skill8` 共 8 个显示槽；`setPetAllSkill()` 每次先对 8 个槽调用 `removeSkill()`，再按 `pif.skill` 的顺序把 `{sname,cname,sinfo}` 写入 `skill1..skillN`。
+- `PetInterface` 内没有单个技能槽点击学习、遗忘或拖拽绑定逻辑；全局搜索中 `setCurrentSkill/removeSkill` 的宠物路径只出现在 `PetInterface.setPetAllSkill()`。因此 8 槽是展示容量，不是学习入口。
+- 自动学习的硬上限不是 8 槽，而是 `PetInfo.studySkillSuddenly()` 中的 `skill.length >= getperception()`。`AfterSuperRevolution()` 会在 `perception < 8` 时 `+1` 并刷新技能 UI，所以现代 UI 上限可以先按 8 槽展示，但学习上限仍应读取悟性。
+- `PetInterface.reSkills()` 的按钮 `czjnbtn` 要求玩家背包有 `cwjnxld`，调用当前面板宠物 `refreshPetAllSkillByLevel()`，刷新 8 槽并消耗 `cwjnxld` 1 个，成功提示“重置完成”。
+- 背包直接使用 `cwjnxld` 时，`PackThings` 要求 `findCurrentPet(true)` 存在，否则提示“你还没有出战的宠物”；成功时对当前出战宠物调用 `refreshPetAllSkillByLevel()` 并消耗道具。面板按钮和背包道具入口目标不同：面板按钮作用于当前面板选中宠物，背包入口作用于当前出战宠物。
+- `AllEquipment` 中 `cwjnxld` 中文名为“宠物技能洗练丹”，说明是“服用后可以重新获得宠物技能”；这不是指定技能书学习入口。
+
+现代边界：
+
+- `TASK-SLICE-048` 可先实现宠物面板中 8 槽展示 `PetState.skills`，显示中文名/说明，空槽显示为空。
+- 首版可只实现背包内 `cwjnxld` 对当前出战宠物的等价技能重置，不必实现面板按钮版本、商城来源或完整素材。
+- 技能重置应重建候选池并按当前等级回放自动学习窗口；由于原版随机，现代首版应使用可注入随机源保证系统测试可复现。
+- 不应实现宠物技能书手动学习，因为当前 AS3 证据显示普通 `jns` 技能书已经提示“技能书不再有用”，宠物技能学习来自升级随机和洗练丹重算。
+
 ### 候选池和自动学习
 
 `setPetNameAndLevel()` 会调用 `addSpecialSkill()`，升级重建候选时走 `refreshPetAllSkillByLevel()`：先 `deletePassiveWhenUpdata()`，把 `allSkill` 还原为基础候选池，清空 `skill`，再由 `rePetSkill()` 按宠物种类/形态补候选并回放历史等级的随机学习检查。

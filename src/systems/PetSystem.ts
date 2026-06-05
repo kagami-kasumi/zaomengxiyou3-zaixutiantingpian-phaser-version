@@ -4,6 +4,7 @@ import {
   spawnPetMonkey3LyqProjectile,
   spawnPetMonkey3XjProjectile,
   spawnPetMonkey3LjProjectile,
+  spawnPetMonkey4JgaoyiProjectile,
   spawnPetMonkey1XjProjectile,
   type ProjectileModel,
   type ProjectileSystemModel,
@@ -56,6 +57,7 @@ export type PetSkillState = {
   monkey3Lyq: PetMonkey3LyqSkillState;
   monkey3Xj: PetMonkey3XjSkillState;
   monkey3Lj: PetMonkey3LjSkillState;
+  monkey4Jgaoyi: PetMonkey4JgaoyiSkillState;
   lastResult: string;
 };
 
@@ -83,6 +85,10 @@ export type PetMonkey3XjSkillState = {
 
 export type PetMonkey3LjSkillState = {
   releaseReady: boolean;
+  cooldownMs: number;
+};
+
+export type PetMonkey4JgaoyiSkillState = {
   cooldownMs: number;
 };
 
@@ -244,6 +250,9 @@ export const PetTuning = {
   monkey3LjMpCost: 20,
   monkey3LjCooldownMs: 500,
   monkey3LjDamageMultiplier: 4.2,
+  monkey4JgaoyiMpCost: 30,
+  monkey4JgaoyiCooldownMs: 500,
+  monkey4JgaoyiHit5Damage: 0,
 } as const;
 
 const PetHpByLevel = [
@@ -354,6 +363,13 @@ export function createSeedPetRoster(): PetRoster {
         displayName: '小猴 F3',
         isActive: false,
         skills: ['tsml', 'lyq', 'xj', 'lj'],
+      }),
+      createSeedMonkeyPet({
+        id: 'pet-monkey-4',
+        form: 4,
+        displayName: '小猴 F4',
+        isActive: false,
+        skills: ['tsml', 'xj', 'lj', 'lyq', 'jgaoyi'],
       }),
     ],
     selectedIndex: 0,
@@ -493,6 +509,7 @@ export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
     state.monkey3Lyq.cooldownMs = Math.max(0, state.monkey3Lyq.cooldownMs - Math.max(0, deltaMs));
     state.monkey3Xj.cooldownMs = Math.max(0, state.monkey3Xj.cooldownMs - Math.max(0, deltaMs));
     state.monkey3Lj.cooldownMs = Math.max(0, state.monkey3Lj.cooldownMs - Math.max(0, deltaMs));
+    state.monkey4Jgaoyi.cooldownMs = Math.max(0, state.monkey4Jgaoyi.cooldownMs - Math.max(0, deltaMs));
   }
 }
 
@@ -876,6 +893,65 @@ export function requestPetMonkey3LjSkill(params: {
   };
 }
 
+export function requestPetMonkey4JgaoyiSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'monkey' || pet.form !== 4) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not monkey4`, pet);
+  }
+
+  if (!pet.skills.includes('jgaoyi')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned jgaoyi`, pet);
+  }
+
+  if (pet.mp < PetTuning.monkey4JgaoyiMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for jgaoyi`, pet);
+  }
+
+  if (state.monkey4Jgaoyi.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} jgaoyi cooling ${Math.ceil(state.monkey4Jgaoyi.cooldownMs)}ms`, pet);
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} jgaoyi has no target`, pet);
+  }
+
+  const mpBefore = pet.mp;
+  pet.mp = Math.max(0, pet.mp - PetTuning.monkey4JgaoyiMpCost);
+  state.monkey4Jgaoyi.cooldownMs = PetTuning.monkey4JgaoyiCooldownMs;
+
+  const projectile = spawnPetMonkey4JgaoyiProjectile(params.projectiles, {
+    sourceId: pet.id,
+    x: target.x,
+    y: target.y,
+    facingX: getPetSkillFacing(params.runtime, target),
+  });
+
+  const message = `${pet.displayName} jgaoyi -> ${target.id} hit5`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    projectile,
+    damage: PetTuning.monkey4JgaoyiHit5Damage,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
+}
+
 export function requestMagicBottleCapture(params: {
   model: MagicBottleCaptureModel;
   owner: PetOwnerSnapshot;
@@ -1220,6 +1296,7 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
       lines.push(`M3 LYQ cd:${Math.ceil(skillState.monkey3Lyq.cooldownMs)}ms`);
       lines.push(`M3 XJ cd:${Math.ceil(skillState.monkey3Xj.cooldownMs)}ms`);
       lines.push(`M3 LJ ready:${skillState.monkey3Lj.releaseReady ? 'Y' : 'N'} cd:${Math.ceil(skillState.monkey3Lj.cooldownMs)}ms`);
+      lines.push(`M4 JGAOYI cd:${Math.ceil(skillState.monkey4Jgaoyi.cooldownMs)}ms`);
       lines.push(`Last skill: ${skillState.lastResult}`);
     }
   } else {
@@ -1313,6 +1390,9 @@ function createPetSkillState(): PetSkillState {
     },
     monkey3Lj: {
       releaseReady: false,
+      cooldownMs: 0,
+    },
+    monkey4Jgaoyi: {
       cooldownMs: 0,
     },
     lastResult: 'pet skill ready',
