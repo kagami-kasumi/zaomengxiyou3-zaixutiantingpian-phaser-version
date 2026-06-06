@@ -102,8 +102,100 @@
 | TASK-SLICE-052 | 切片 | 宠物 `mfjc` 魔法加成自动 buff 最小闭环 | M-042、VS-027 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-053 | 切片 | 宠物 `fyjc` 防御加成自动 buff 最小闭环 | M-042、VS-028 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-054 | 切片 | 宠物 `sxkb` 嗜血狂暴自动 buff 最小闭环 | M-042、VS-029 | `PetSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-055 | 切片 | 宠物 `fsnl` 法术能量自动 buff 最小闭环 | M-042、VS-030 | `PetSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-056 | 切片 | 宠物 `fsnl` 技能伤害加值接入最小闭环 | M-042、M-032、VS-031 | `PetSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-057 | 切片 | 宠物 `sxkb` 暴击率接入主动技能最小闭环 | M-042、M-032、VS-032 | `PetSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-057
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `PetTuning.petSkillCritDamageMultiplier = 2`，将 `pet.critBonusRate` 接入已复现宠物主动技能伤害 helper。
+- `monkey1/xj`、`monkey2/lj/xj`、`monkey3/lyq/xj/lj` 的请求均支持可注入 `random`，伤害先结算 `pet.atk * multiplier + skillDamageBonus`，再按钳制后的 `critBonusRate` 判定暴击。
+- 暴击未命中或无暴击率时保持旧伤害；暴击命中时对包含 `fsnl` 加值后的技能伤害应用 2 倍最小可测倍率。
+- `qlfj` 普通反击继续只造成 `pet.atk` 等价物理伤害；`monkey4/jgaoyi` 的 `hit5` 仍保持 0 直接伤害，不接入 `sxkb`。
+- 扩展 `tools/system-tests.ts`，覆盖旧伤害不变、暴击未命中、暴击命中、`fsnl` 加值与暴击组合、`qlfj/jgaoyi` 边界不变。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-032` 标记完成，并新增 Ready 后续任务 `TASK-SETTINGS-029`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-056
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `calculatePetSkillDamage()`，将 `pet.skillDamageBonus` 接入已复现宠物主动技能伤害。
+- `monkey1/xj`、`monkey2/lj/xj`、`monkey3/lyq/xj/lj` 的伤害从 `倍率 * pet.atk` 扩展为 `倍率 * pet.atk + skillDamageBonus`。
+- `qlfj` 普通反击继续只造成 `pet.atk` 等价物理伤害；`monkey4/jgaoyi` 的 `hit5` 仍保持 0 直接伤害。
+- 扩展 `tools/system-tests.ts`，覆盖无 `fsnl` 时旧伤害不变、有 `skillDamageBonus` 时主动技能伤害和 projectile 伤害增加、`qlfj` 与 `jgaoyi` 边界不变。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-031` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-057`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-055
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts` 的基础自动 buff 模型，新增 `fsnl` 状态、触发、持续和到期恢复逻辑，并保留既有 `sxkb/smjc/mfjc/gjjc/fyjc` 行为。
+- `fsnl` 在当前出战宠物已学、MP `>= 20`、计数器归零时自动触发；触发后扣宠物 20 MP，按 `form * 30 * technique * 1.05` 增加宠物自身 `skillDamageBonus`。
+- `fsnl` 触发后设置 5400 帧等价重触发计数；到期后移除技能伤害加值。
+- 扩展宠物面板，显示当前 `SKILL` 加值和 `FSNL` 等待/剩余时间、最近自动 buff 结果。
+- 扩展 `tools/system-tests.ts`，覆盖 `fsnl` 未学习、计数未归零、MP 不足、宠物 MP 消耗、技能伤害加值增加、到期恢复和重触发门禁。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-030` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-056`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-054
 

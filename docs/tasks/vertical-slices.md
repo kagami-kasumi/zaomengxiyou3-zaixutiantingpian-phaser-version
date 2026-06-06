@@ -43,11 +43,14 @@
 | VS-027 宠物 `mfjc` 魔法加成自动 buff 最小闭环 | 已完成 | 当前出战宠物自动给主人增加 MP 上限并按比例同步当前 MP | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `mfjc`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 70 * technique * 1.05` 提升 P1 主人 MP 上限，并按当前 MP 比例同步；到期后按当前比例恢复 MP 上限和当前 MP；宠物面板展示 `MFJC` 状态，系统测试覆盖门禁、消耗、MP 同步、持续和移除 |
 | VS-028 宠物 `fyjc` 防御加成自动 buff 最小闭环 | 已完成 | 当前出战宠物自动给主人增加防御 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `fyjc`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 5 * technique * 1.05` 提升 P1 主人防御，到期恢复；宠物面板展示 `FYJC` 状态，系统测试覆盖门禁、消耗、防御加成、持续和移除 |
 | VS-029 宠物 `sxkb` 嗜血狂暴自动 buff 最小闭环 | 已完成 | 当前出战宠物自动增加自身暴击加成 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `sxkb`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 0.07 * technique * 0.27 * 1.05` 提升宠物自身暴击加成，到期恢复，重触发计数使用 4320 帧；宠物面板展示 `SXKB` 状态和 `CRIT` 加成，系统测试覆盖门禁、消耗、暴击加成、持续和移除 |
-| VS-030 宠物 `fsnl` 法术能量自动 buff 最小闭环 | 可开始 | 当前出战宠物自动增加自身技能伤害加值 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 基于基础自动 buff 模型，扩展 `fsnl`：已学技能、MP `>= 20`、计数器归零时触发，按 `form * 30 * technique * 1.05` 提升宠物自身技能伤害加值，到期恢复，重触发计数使用 5400 帧 |
+| VS-030 宠物 `fsnl` 法术能量自动 buff 最小闭环 | 已完成 | 当前出战宠物自动增加自身技能伤害加值 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `fsnl`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 30 * technique * 1.05` 提升宠物自身技能伤害加值，到期恢复，重触发计数使用 5400 帧；宠物面板展示 `FSNL` 状态和 `SKILL` 加值，系统测试覆盖门禁、消耗、技能伤害加值、持续和移除 |
+| VS-031 宠物 `fsnl` 技能伤害加值接入最小闭环 | 已完成 | 将宠物自身技能伤害加值接入已复现宠物主动技能伤害 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `fsnl` 技能伤害加值接入：`monkey1/xj`、`monkey2/lj/xj`、`monkey3/lyq/xj/lj` 在原倍率伤害上增加 `skillDamageBonus`；无 `fsnl` 时旧伤害不变；`qlfj` 普通反击和 `jgaoyi/hit5` 无直接伤害边界保持不变 |
+| VS-032 宠物 `sxkb` 暴击率接入主动技能最小闭环 | 已完成 | 将宠物自身暴击率接入已复现宠物主动技能伤害 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`system-tests.ts` | 已完成 `sxkb` 暴击率接入：`monkey1/xj`、`monkey2/lj/xj`、`monkey3/lyq/xj/lj` 使用同一可注入随机源的伤害 helper，先结算 `fsnl` 技能伤害加值，再按 `critBonusRate` 命中时应用 2 倍最小暴击倍率；无暴击率和暴击未命中时旧伤害不变；`qlfj` 普通反击和 `jgaoyi/hit5` 无直接伤害边界保持不变 |
+| VS-033 宠物马系专属技能链最小闭环 | Planned | 复现第一条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | 等 `TASK-SETTINGS-029` 扒清 `horse1..4` 的 `sp/bd/bz/tmaoyi` 入口、门禁、数值、投射物/特效和最小实现边界后，优先选择证据最完整的马系技能切成实现任务 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-055`：宠物 `fsnl` 法术能量自动 buff 最小闭环。
+1. `TASK-SETTINGS-029`：宠物马系 `sp/bd/bz/tmaoyi` 专属技能链边界逆向。
 
 ## 切片详情
 

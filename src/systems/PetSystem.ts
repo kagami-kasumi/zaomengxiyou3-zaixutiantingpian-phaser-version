@@ -27,6 +27,7 @@ export type PetState = {
   atk: number;
   def: number;
   critBonusRate: number;
+  skillDamageBonus: number;
   moveSpeed: number;
   lifetime: number;
   quality: number;
@@ -65,6 +66,7 @@ export type PetSkillState = {
 
 export type PetAutoBuffState = {
   sxkb: PetAutoBuffEffectState;
+  fsnl: PetAutoBuffEffectState;
   smjc: PetAutoBuffEffectState;
   mfjc: PetAutoBuffEffectState;
   gjjc: PetAutoBuffEffectState;
@@ -78,10 +80,11 @@ export type PetAutoBuffEffectState = {
 };
 
 export type PetAutoBuffActiveEffect = {
-  kind: 'sxkb' | 'smjc' | 'mfjc' | 'gjjc' | 'fyjc';
+  kind: 'sxkb' | 'fsnl' | 'smjc' | 'mfjc' | 'gjjc' | 'fyjc';
   bonusPower?: number;
   bonusDefense?: number;
   bonusCritRate?: number;
+  bonusSkillDamage?: number;
   bonusMaxHp?: number;
   bonusMaxMp?: number;
   totalMs: number;
@@ -107,6 +110,7 @@ export type PetAutoBuffUpdateResult = {
   bonusPower?: number;
   bonusDefense?: number;
   bonusCritRate?: number;
+  bonusSkillDamage?: number;
   bonusMaxHp?: number;
   bonusMaxMp?: number;
 };
@@ -325,15 +329,18 @@ export const PetTuning = {
   monkey4JgaoyiMpCost: 30,
   monkey4JgaoyiCooldownMs: 500,
   monkey4JgaoyiHit5Damage: 0,
+  petSkillCritDamageMultiplier: 2,
   skillSlotCount: 8,
   autoBuffFrameMs: 1000 / 24,
   autoBuffInitialDelayFrames: 300,
   autoBuffSxkbRetriggerFrames: 4320,
+  autoBuffFsnlRetriggerFrames: 5400,
   autoBuffGjjcRetriggerFrames: 5400,
   autoBuffSmjcRetriggerFrames: 5400,
   autoBuffMfjcRetriggerFrames: 5400,
   autoBuffFyjcRetriggerFrames: 5400,
   autoBuffSxkbMpCost: 20,
+  autoBuffFsnlMpCost: 20,
   autoBuffGjjcMpCost: 20,
   autoBuffSmjcMpCost: 20,
   autoBuffMfjcMpCost: 20,
@@ -448,6 +455,7 @@ function createSeedMonkeyPet(params: {
     atk: stats.atk,
     def: stats.def,
     critBonusRate: 0,
+    skillDamageBonus: 0,
     moveSpeed: 5,
     lifetime: 100,
     quality: 1,
@@ -736,6 +744,9 @@ export function updatePetAutoBuffs(params: {
   if (updateActivePetAutoBuffEffect(params.roster, pet, state.sxkb, params.ownerStats, deltaMs)) {
     expired = true;
   }
+  if (updateActivePetAutoBuffEffect(params.roster, pet, state.fsnl, params.ownerStats, deltaMs)) {
+    expired = true;
+  }
   if (updateActivePetAutoBuffEffect(params.roster, pet, state.smjc, params.ownerStats, deltaMs)) {
     expired = true;
   }
@@ -750,6 +761,7 @@ export function updatePetAutoBuffs(params: {
   }
 
   state.sxkb.counterMs = Math.max(0, state.sxkb.counterMs - deltaMs);
+  state.fsnl.counterMs = Math.max(0, state.fsnl.counterMs - deltaMs);
   state.smjc.counterMs = Math.max(0, state.smjc.counterMs - deltaMs);
   state.mfjc.counterMs = Math.max(0, state.mfjc.counterMs - deltaMs);
   state.gjjc.counterMs = Math.max(0, state.gjjc.counterMs - deltaMs);
@@ -759,6 +771,14 @@ export function updatePetAutoBuffs(params: {
   if (sxkbResult) {
     return {
       ...sxkbResult,
+      expired,
+    };
+  }
+
+  const fsnlResult = tryTriggerPetFsnlAutoBuff(params.roster, pet, state);
+  if (fsnlResult) {
+    return {
+      ...fsnlResult,
       expired,
     };
   }
@@ -862,6 +882,7 @@ export function requestPetMonkey1XjSkill(params: {
   runtime: PetRuntimeModel | undefined;
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -895,7 +916,7 @@ export function requestPetMonkey1XjSkill(params: {
   }
 
   const mpBefore = pet.mp;
-  const damage = pet.atk * PetTuning.monkey1XjDamageMultiplier;
+  const damage = calculatePetSkillDamage(pet, PetTuning.monkey1XjDamageMultiplier, params.random);
   pet.mp = Math.max(0, pet.mp - PetTuning.monkey1XjMpCost);
   state.monkey1Xj.releaseReady = false;
   state.monkey1Xj.cooldownMs = PetTuning.monkey1XjCooldownMs;
@@ -927,6 +948,7 @@ export function requestPetMonkey2LjSkill(params: {
   runtime: PetRuntimeModel | undefined;
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -956,7 +978,7 @@ export function requestPetMonkey2LjSkill(params: {
   }
 
   const mpBefore = pet.mp;
-  const damage = pet.atk * PetTuning.monkey2LjDamageMultiplier;
+  const damage = calculatePetSkillDamage(pet, PetTuning.monkey2LjDamageMultiplier, params.random);
   pet.mp = Math.max(0, pet.mp - PetTuning.monkey2LjMpCost);
   state.monkey2Lj.cooldownMs = PetTuning.monkey2LjCooldownMs;
 
@@ -987,6 +1009,7 @@ export function requestPetMonkey2XjSkill(params: {
   runtime: PetRuntimeModel | undefined;
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -1020,7 +1043,7 @@ export function requestPetMonkey2XjSkill(params: {
   }
 
   const mpBefore = pet.mp;
-  const damage = pet.atk * PetTuning.monkey2XjDamageMultiplier;
+  const damage = calculatePetSkillDamage(pet, PetTuning.monkey2XjDamageMultiplier, params.random);
   pet.mp = Math.max(0, pet.mp - PetTuning.monkey2XjMpCost);
   state.monkey2Xj.releaseReady = false;
   state.monkey2Xj.cooldownMs = PetTuning.monkey2XjCooldownMs;
@@ -1052,6 +1075,7 @@ export function requestPetMonkey3LyqSkill(params: {
   runtime: PetRuntimeModel | undefined;
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -1086,7 +1110,7 @@ export function requestPetMonkey3LyqSkill(params: {
   }
 
   const mpBefore = pet.mp;
-  const damage = pet.atk * PetTuning.monkey3LyqDamageMultiplier;
+  const damage = calculatePetSkillDamage(pet, PetTuning.monkey3LyqDamageMultiplier, params.random);
   pet.mp = Math.max(0, pet.mp - PetTuning.monkey3LyqMpCost);
   state.monkey3Lyq.cooldownMs = PetTuning.monkey3LyqCooldownMs;
 
@@ -1117,6 +1141,7 @@ export function requestPetMonkey3XjSkill(params: {
   runtime: PetRuntimeModel | undefined;
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -1146,7 +1171,7 @@ export function requestPetMonkey3XjSkill(params: {
   }
 
   const mpBefore = pet.mp;
-  const damage = pet.atk * PetTuning.monkey3XjDamageMultiplier;
+  const damage = calculatePetSkillDamage(pet, PetTuning.monkey3XjDamageMultiplier, params.random);
   pet.mp = Math.max(0, pet.mp - PetTuning.monkey3XjMpCost);
   state.monkey3Xj.cooldownMs = PetTuning.monkey3XjCooldownMs;
 
@@ -1177,6 +1202,7 @@ export function requestPetMonkey3LjSkill(params: {
   runtime: PetRuntimeModel | undefined;
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -1210,7 +1236,7 @@ export function requestPetMonkey3LjSkill(params: {
   }
 
   const mpBefore = pet.mp;
-  const damage = pet.atk * PetTuning.monkey3LjDamageMultiplier;
+  const damage = calculatePetSkillDamage(pet, PetTuning.monkey3LjDamageMultiplier, params.random);
   pet.mp = Math.max(0, pet.mp - PetTuning.monkey3LjMpCost);
   state.monkey3Lj.releaseReady = false;
   state.monkey3Lj.cooldownMs = PetTuning.monkey3LjCooldownMs;
@@ -1641,7 +1667,7 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
   lines.push('Selected');
   if (selected) {
     lines.push(`Species: ${selected.species}${selected.form}  Quality:${selected.quality}`);
-    lines.push(`MP ${selected.mp}/${selected.maxMp}  ATK ${selected.atk}  DEF ${selected.def}  CRIT +${((selected.critBonusRate ?? 0) * 100).toFixed(2)}%`);
+    lines.push(`MP ${selected.mp}/${selected.maxMp}  ATK ${selected.atk}  DEF ${selected.def}  CRIT +${((selected.critBonusRate ?? 0) * 100).toFixed(2)}%  SKILL +${(selected.skillDamageBonus ?? 0).toFixed(1)}`);
     lines.push(`EXP ${selected.exp}/${formatPetNextExperience(selected)}`);
     lines.push(`悟 ${selected.perception}  技 ${selected.technique}  战 ${selected.warpower}`);
     lines.push(`Skills: ${selected.skills.length > 0 ? selected.skills.join(', ') : '-'}`);
@@ -1664,12 +1690,16 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
     const autoBuffState = selected.autoBuffState;
     if (autoBuffState) {
       const sxkbActive = autoBuffState.sxkb.active;
+      const fsnlActive = autoBuffState.fsnl.active;
       const smjcActive = autoBuffState.smjc.active;
       const mfjcActive = autoBuffState.mfjc.active;
       const gjjcActive = autoBuffState.gjjc.active;
       const fyjcActive = autoBuffState.fyjc.active;
       lines.push(
         `SXKB ${sxkbActive ? `+${((sxkbActive.bonusCritRate ?? 0) * 100).toFixed(2)}% ${formatPetAutoBuffMs(sxkbActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.sxkb.counterMs)}`}`,
+      );
+      lines.push(
+        `FSNL ${fsnlActive ? `+${(fsnlActive.bonusSkillDamage ?? 0).toFixed(1)} ${formatPetAutoBuffMs(fsnlActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.fsnl.counterMs)}`}`,
       );
       lines.push(
         `SMJC ${smjcActive ? `+${(smjcActive.bonusMaxHp ?? 0).toFixed(1)} ${formatPetAutoBuffMs(smjcActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.smjc.counterMs)}`}`,
@@ -1743,6 +1773,7 @@ function createPetStateFromDefinition(
     atk: stats.atk,
     def: stats.def,
     critBonusRate: 0,
+    skillDamageBonus: 0,
     moveSpeed: 5,
     lifetime: 100,
     quality: normalizedLevel === 1 ? 1 : 2,
@@ -1841,6 +1872,9 @@ function createPetAutoBuffState(): PetAutoBuffState {
     sxkb: {
       counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
     },
+    fsnl: {
+      counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
+    },
     smjc: {
       counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
     },
@@ -1866,6 +1900,7 @@ function ensurePetAutoBuffState(pet: PetState): PetAutoBuffState {
   pet.autoBuffState ??= createPetAutoBuffState();
   const initialCounterMs = petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames);
   pet.autoBuffState.sxkb ??= { counterMs: initialCounterMs };
+  pet.autoBuffState.fsnl ??= { counterMs: initialCounterMs };
   pet.autoBuffState.smjc ??= { counterMs: initialCounterMs };
   pet.autoBuffState.mfjc ??= { counterMs: initialCounterMs };
   pet.autoBuffState.gjjc ??= { counterMs: initialCounterMs };
@@ -1896,6 +1931,16 @@ function updateActivePetAutoBuffEffect(
     const bonusCritRate = active.bonusCritRate ?? 0;
     pet.critBonusRate = Math.max(0, (pet.critBonusRate ?? 0) - bonusCritRate);
     const message = `${pet.displayName} sxkb expired -${(bonusCritRate * 100).toFixed(2)}% crit`;
+    effect.active = undefined;
+    state.lastResult = message;
+    roster.message = message;
+    return true;
+  }
+
+  if (active.kind === 'fsnl') {
+    const bonusSkillDamage = active.bonusSkillDamage ?? 0;
+    pet.skillDamageBonus = Math.max(0, (pet.skillDamageBonus ?? 0) - bonusSkillDamage);
+    const message = `${pet.displayName} fsnl expired -${bonusSkillDamage.toFixed(1)} skill damage`;
     effect.active = undefined;
     state.lastResult = message;
     roster.message = message;
@@ -1991,6 +2036,55 @@ function tryTriggerPetSxkbAutoBuff(
     mpBefore,
     mpAfter: pet.mp,
     bonusCritRate,
+  };
+}
+
+function tryTriggerPetFsnlAutoBuff(
+  roster: PetRoster,
+  pet: PetState,
+  state: PetAutoBuffState,
+): PetAutoBuffUpdateResult | undefined {
+  const fsnl = state.fsnl;
+  if (fsnl.active || fsnl.counterMs > 0 || !pet.skills.includes('fsnl')) {
+    return undefined;
+  }
+
+  if (pet.mp < PetTuning.autoBuffFsnlMpCost) {
+    const message = `${pet.displayName} fsnl MP not enough`;
+    state.lastResult = message;
+    roster.message = message;
+    return {
+      triggered: false,
+      expired: false,
+      message,
+      pet,
+    };
+  }
+
+  const mpBefore = pet.mp;
+  const bonusSkillDamage = calculatePetFsnlSkillDamageBonus(pet);
+  const totalMs = calculatePetAutoBuffDurationMs(pet);
+  pet.mp = Math.max(0, pet.mp - PetTuning.autoBuffFsnlMpCost);
+  pet.skillDamageBonus = (pet.skillDamageBonus ?? 0) + bonusSkillDamage;
+  fsnl.active = {
+    kind: 'fsnl',
+    bonusSkillDamage,
+    totalMs,
+    remainingMs: totalMs,
+  };
+  fsnl.counterMs = petAutoBuffFramesToMs(PetTuning.autoBuffFsnlRetriggerFrames);
+
+  const message = `${pet.displayName} fsnl +${bonusSkillDamage.toFixed(1)} skill damage`;
+  state.lastResult = message;
+  roster.message = message;
+  return {
+    triggered: true,
+    expired: false,
+    message,
+    pet,
+    mpBefore,
+    mpAfter: pet.mp,
+    bonusSkillDamage,
   };
 }
 
@@ -2200,6 +2294,24 @@ function tryTriggerPetFyjcAutoBuff(
 
 function calculatePetSxkbCritBonusRate(pet: PetState): number {
   return pet.form * 0.07 * pet.technique * 0.27 * 1.05;
+}
+
+function calculatePetFsnlSkillDamageBonus(pet: PetState): number {
+  return pet.form * 30 * pet.technique * 1.05;
+}
+
+function calculatePetSkillDamage(
+  pet: PetState,
+  multiplier: number,
+  random: PetSkillRandomSource = Math.random,
+): number {
+  const baseDamage = pet.atk * multiplier + Math.max(0, pet.skillDamageBonus ?? 0);
+  const critRate = Math.max(0, Math.min(1, pet.critBonusRate ?? 0));
+  if (critRate <= 0) {
+    return baseDamage;
+  }
+
+  return random() <= critRate ? baseDamage * PetTuning.petSkillCritDamageMultiplier : baseDamage;
 }
 
 function calculatePetSmjcMaxHpBonus(pet: PetState): number {
