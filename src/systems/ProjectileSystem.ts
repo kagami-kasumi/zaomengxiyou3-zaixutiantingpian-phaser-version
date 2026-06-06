@@ -50,6 +50,10 @@ export type ProjectileModel = {
   remainingHits: number;
   magicStunMs?: number;
   magicIceMs?: number;
+  trackingTargetId?: string;
+  explosionDelayMs?: number;
+  secondStageDamage?: number;
+  secondStageMagicIceMs?: number;
   destroyWhenSourceHurt: boolean;
   hasSpawnedSecondStage: boolean;
   isExpired: boolean;
@@ -81,7 +85,10 @@ export type ProjectileVariant =
   | 'pet-monkey3-lj'
   | 'pet-monkey4-jgaoyi'
   | 'pet-horse1-sp'
-  | 'pet-horse2-bd';
+  | 'pet-horse2-bd'
+  | 'pet-horse3-bz'
+  | 'pet-horse4-tmaoyi'
+  | 'pet-horse4-tmaoyi-explode';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -493,6 +500,71 @@ export const PetHorse2BdProjectileTuning = {
   iceMs: 2_000,
 } as const;
 
+export const PetHorse3BzProjectileTuning = {
+  actionName: 'hit4',
+  assetKey: PetSkillEffectKeys.horse3Bz,
+  sourceSymbol: 'PetHorse3Bullet4',
+  runtimeName: 'PetHorse3Bullet4',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 180,
+  height: 128,
+  lifetimeMs: 700,
+  damage: 173.25,
+  attackKind: 'magic',
+  knockbackX: 5,
+  knockbackY: 0,
+  hitIntervalFrames: 24,
+  maxHits: 1,
+  iceMs: 2_000,
+} as const;
+
+export const PetHorse4TmaoyiProjectileTuning = {
+  actionName: 'hit5',
+  assetKey: PetSkillEffectKeys.horse4Tmaoyi,
+  sourceSymbol: 'PetHorse4Bullet5',
+  runtimeName: 'PetHorse4Bullet5',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: 2_000,
+  width: 160,
+  height: 128,
+  lifetimeMs: 10_000,
+  damage: 0,
+  attackKind: 'magic',
+  knockbackX: 5,
+  knockbackY: 0,
+  hitIntervalFrames: 24,
+  maxHits: 1,
+  iceMsWithBd: 2_400,
+} as const;
+
+export const PetHorse4TmaoyiExplodeProjectileTuning = {
+  actionName: 'hit5_2',
+  assetKey: PetSkillEffectKeys.horse4TmaoyiExplode,
+  sourceSymbol: 'PetHorse4Bullet5Explode',
+  runtimeName: 'PetHorse4Bullet5Explode',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 220,
+  height: 160,
+  lifetimeMs: 700,
+  damage: 173.25,
+  attackKind: 'magic',
+  knockbackX: 5,
+  knockbackY: 0,
+  hitIntervalFrames: 24,
+  maxHits: 1,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -839,6 +911,74 @@ export function spawnPetHorse2BdProjectile(
   return projectile;
 }
 
+export function spawnPetHorse3BzProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-horse3-bz',
+    'pet-horse3-bz',
+    PetHorse3BzProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.magicIceMs = PetHorse3BzProjectileTuning.iceMs;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
+export function spawnPetHorse4TmaoyiProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  options: {
+    targetId: string;
+    tracksTarget: boolean;
+    magicIceMs?: number;
+    explosionDelayMs?: number;
+    explosionDamage?: number;
+  },
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-horse4-tmaoyi',
+    'pet-horse4-tmaoyi',
+    PetHorse4TmaoyiProjectileTuning,
+  );
+
+  projectile.damage = 0;
+  projectile.trackingTargetId = options.tracksTarget ? options.targetId : undefined;
+  projectile.magicIceMs = options.magicIceMs;
+  projectile.explosionDelayMs = options.explosionDelayMs;
+  projectile.secondStageDamage = options.explosionDamage;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
+export function spawnPetHorse4TmaoyiExplodeProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-horse4-tmaoyi-explode',
+    'pet-horse4-tmaoyi-explode',
+    PetHorse4TmaoyiExplodeProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -902,7 +1042,10 @@ function spawnProjectileFromTuning(
     | typeof PetMonkey3LjProjectileTuning
     | typeof PetMonkey4JgaoyiProjectileTuning
     | typeof PetHorse1SpProjectileTuning
-    | typeof PetHorse2BdProjectileTuning,
+    | typeof PetHorse2BdProjectileTuning
+    | typeof PetHorse3BzProjectileTuning
+    | typeof PetHorse4TmaoyiProjectileTuning
+    | typeof PetHorse4TmaoyiExplodeProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

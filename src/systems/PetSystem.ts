@@ -8,6 +8,9 @@ import {
   spawnPetMonkey1XjProjectile,
   spawnPetHorse1SpProjectile,
   spawnPetHorse2BdProjectile,
+  spawnPetHorse3BzProjectile,
+  spawnPetHorse4TmaoyiExplodeProjectile,
+  spawnPetHorse4TmaoyiProjectile,
   type ProjectileModel,
   type ProjectileSystemModel,
 } from './ProjectileSystem';
@@ -65,6 +68,8 @@ export type PetSkillState = {
   monkey4Jgaoyi: PetMonkey4JgaoyiSkillState;
   horse1Sp: PetHorse1SpSkillState;
   horse2Bd: PetHorse2BdSkillState;
+  horse3Bz: PetHorse3BzSkillState;
+  horse4Tmaoyi: PetHorse4TmaoyiSkillState;
   lastResult: string;
 };
 
@@ -156,6 +161,14 @@ export type PetHorse1SpSkillState = {
 
 export type PetHorse2BdSkillState = {
   releaseReady: boolean;
+  cooldownMs: number;
+};
+
+export type PetHorse3BzSkillState = {
+  cooldownMs: number;
+};
+
+export type PetHorse4TmaoyiSkillState = {
   cooldownMs: number;
 };
 
@@ -352,6 +365,16 @@ export const PetTuning = {
   horse2BdCooldownMs: 2_000,
   horse2BdDamageMultiplier: 3.6,
   horse2BdIceMs: 2_000,
+  horse3BzMpCost: 20,
+  horse3BzCooldownMs: 6_000,
+  horse3BzDamageMultiplier: 6.6,
+  horse3BzMaxDistance: 250,
+  horse3BzIceMs: 2_000,
+  horse4TmaoyiMpCost: 30,
+  horse4TmaoyiCooldownMs: 8_000,
+  horse4TmaoyiHit5Damage: 0,
+  horse4TmaoyiIceMsWithBd: 2_400,
+  horse4TmaoyiExplosionDelayMsWithBd: 1_000,
   petSkillCritDamageMultiplier: 2,
   skillSlotCount: 8,
   autoBuffFrameMs: 1000 / 24,
@@ -405,6 +428,8 @@ export const PetSkillInfoByKey: Record<string, { name: string; info: string }> =
   jgaoyi: { name: '金刚奥义', info: '拥有献祭、连击、烈焰拳才能发挥最大威力' },
   sp: { name: '水泡', info: '吐出水泡攻击前方怪物' },
   bd: { name: '冰冻', info: '受击后反击并冰冻怪物' },
+  bz: { name: '冰锥', info: '攻击前方较远范围内的怪物' },
+  tmaoyi: { name: '天马奥义', info: '拥有水泡、冰冻、冰锥才能发挥最大威力' },
 };
 
 const PetHpByLevel = [
@@ -576,6 +601,20 @@ export function createSeedPetRoster(): PetRoster {
         displayName: '小马 F2',
         isActive: false,
         skills: ['tsml', 'sp', 'bd'],
+      }),
+      createSeedHorsePet({
+        id: 'pet-horse-3',
+        form: 3,
+        displayName: '小马 F3',
+        isActive: false,
+        skills: ['tsml', 'sp', 'bd', 'bz'],
+      }),
+      createSeedHorsePet({
+        id: 'pet-horse-4',
+        form: 4,
+        displayName: '小马 F4',
+        isActive: false,
+        skills: ['tsml', 'sp', 'bd', 'bz', 'tmaoyi'],
       }),
     ],
     selectedIndex: 0,
@@ -801,6 +840,8 @@ export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
     state.monkey4Jgaoyi.cooldownMs = Math.max(0, state.monkey4Jgaoyi.cooldownMs - Math.max(0, deltaMs));
     state.horse1Sp.cooldownMs = Math.max(0, state.horse1Sp.cooldownMs - Math.max(0, deltaMs));
     state.horse2Bd.cooldownMs = Math.max(0, state.horse2Bd.cooldownMs - Math.max(0, deltaMs));
+    state.horse3Bz.cooldownMs = Math.max(0, state.horse3Bz.cooldownMs - Math.max(0, deltaMs));
+    state.horse4Tmaoyi.cooldownMs = Math.max(0, state.horse4Tmaoyi.cooldownMs - Math.max(0, deltaMs));
   }
 }
 
@@ -1538,6 +1579,154 @@ export function requestPetHorse2BdSkill(params: {
   };
 }
 
+export function requestPetHorse3BzSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'horse' || pet.form !== 3) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not horse3`, pet);
+  }
+
+  if (!pet.skills.includes('bz')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned bz`, pet);
+  }
+
+  if (pet.mp < PetTuning.horse3BzMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for bz`, pet);
+  }
+
+  if (state.horse3Bz.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} bz cooling ${Math.ceil(state.horse3Bz.cooldownMs)}ms`, pet);
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} bz has no target`, pet);
+  }
+
+  const distance = getPetSkillDistance(params.runtime, target);
+  if (distance > PetTuning.horse3BzMaxDistance) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} bz target too far ${Math.ceil(distance)}`, pet);
+  }
+
+  const mpBefore = pet.mp;
+  const damage = calculatePetSkillDamage(pet, PetTuning.horse3BzDamageMultiplier, params.random);
+  pet.mp = Math.max(0, pet.mp - PetTuning.horse3BzMpCost);
+  state.horse3Bz.cooldownMs = PetTuning.horse3BzCooldownMs;
+
+  const projectile = spawnPetHorse3BzProjectile(params.projectiles, {
+    sourceId: pet.id,
+    x: target.x,
+    y: target.y,
+    facingX: getPetSkillFacing(params.runtime, target),
+  }, damage);
+
+  const message = `${pet.displayName} bz -> ${target.id} ${damage.toFixed(1)} ice`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    projectile,
+    damage,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
+}
+
+export function requestPetHorse4TmaoyiSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'horse' || pet.form !== 4) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not horse4`, pet);
+  }
+
+  if (!pet.skills.includes('tmaoyi')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned tmaoyi`, pet);
+  }
+
+  if (pet.mp < PetTuning.horse4TmaoyiMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for tmaoyi`, pet);
+  }
+
+  if (state.horse4Tmaoyi.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} tmaoyi cooling ${Math.ceil(state.horse4Tmaoyi.cooldownMs)}ms`, pet);
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} tmaoyi has no target`, pet);
+  }
+
+  const hasSp = pet.skills.includes('sp');
+  const hasBd = pet.skills.includes('bd');
+  const hasBz = pet.skills.includes('bz');
+  const explosionDamage = hasBz
+    ? calculatePetSkillDamage(pet, PetTuning.horse3BzDamageMultiplier, params.random)
+    : undefined;
+  const mpBefore = pet.mp;
+  pet.mp = Math.max(0, pet.mp - PetTuning.horse4TmaoyiMpCost);
+  state.horse4Tmaoyi.cooldownMs = PetTuning.horse4TmaoyiCooldownMs;
+
+  const projectile = spawnPetHorse4TmaoyiProjectile(params.projectiles, {
+    sourceId: pet.id,
+    x: target.x,
+    y: target.y,
+    facingX: getPetSkillFacing(params.runtime, target),
+  }, {
+    targetId: target.id,
+    tracksTarget: hasSp,
+    magicIceMs: hasBd ? PetTuning.horse4TmaoyiIceMsWithBd : undefined,
+    explosionDelayMs: hasBd && hasBz ? PetTuning.horse4TmaoyiExplosionDelayMsWithBd : undefined,
+    explosionDamage,
+  });
+
+  if (hasBz && explosionDamage !== undefined) {
+    spawnPetHorse4TmaoyiExplodeProjectile(params.projectiles, {
+      sourceId: pet.id,
+      x: target.x,
+      y: target.y,
+      facingX: getPetSkillFacing(params.runtime, target),
+    }, explosionDamage);
+  }
+
+  const comboText = `${hasSp ? 'sp-track' : 'drop'}${hasBd ? '+bd-ice' : ''}${hasBz ? '+bz-explode' : ''}`;
+  const message = `${pet.displayName} tmaoyi -> ${target.id} ${comboText}`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    projectile,
+    damage: PetTuning.horse4TmaoyiHit5Damage,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
+}
+
 export function requestMagicBottleCapture(params: {
   model: MagicBottleCaptureModel;
   owner: PetOwnerSnapshot;
@@ -1903,6 +2092,8 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
       lines.push(`M4 JGAOYI cd:${Math.ceil(skillState.monkey4Jgaoyi.cooldownMs)}ms`);
       lines.push(`H1 SP cd:${Math.ceil(skillState.horse1Sp.cooldownMs)}ms`);
       lines.push(`H2 BD ready:${skillState.horse2Bd.releaseReady ? 'Y' : 'N'} cd:${Math.ceil(skillState.horse2Bd.cooldownMs)}ms`);
+      lines.push(`H3 BZ cd:${Math.ceil(skillState.horse3Bz.cooldownMs)}ms`);
+      lines.push(`H4 TMAOYI cd:${Math.ceil(skillState.horse4Tmaoyi.cooldownMs)}ms`);
       lines.push(`Last skill: ${skillState.lastResult}`);
     }
     const autoBuffState = selected.autoBuffState;
@@ -2099,6 +2290,12 @@ function createPetSkillState(): PetSkillState {
     },
     horse2Bd: {
       releaseReady: false,
+      cooldownMs: 0,
+    },
+    horse3Bz: {
+      cooldownMs: 0,
+    },
+    horse4Tmaoyi: {
       cooldownMs: 0,
     },
     lastResult: 'pet skill ready',

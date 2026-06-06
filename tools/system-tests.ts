@@ -68,6 +68,8 @@ import {
   requestPetMonkey1XjSkill,
   requestPetHorse1SpSkill,
   requestPetHorse2BdSkill,
+  requestPetHorse3BzSkill,
+  requestPetHorse4TmaoyiSkill,
   requestPetQlfjCounterAttack,
   requestMagicBottleCapture,
   resolveMagicBottleCaptureHit,
@@ -190,6 +192,12 @@ testPetHorse1SpCombinesWithFsnlAndSxkb();
 testPetHorse2BdRequiresLearnedSkillMpTriggerCooldownAndTarget();
 testPetHorse2BdSpawnsProjectileDamagesIcesAndClearsTrigger();
 testPetHorse2BdCombinesWithFsnlAndSxkb();
+testPetHorse3BzRequiresLearnedSkillMpDistanceCooldownAndTarget();
+testPetHorse3BzSpawnsProjectileDamagesAndIcesMonster30();
+testPetHorse3BzCombinesWithFsnlAndSxkbAndKeepsEarlierHorseSkillsCompatible();
+testPetHorse4TmaoyiRequiresLearnedSkillMpCooldownAndTarget();
+testPetHorse4TmaoyiSpawnsComboProjectilesAndKeepsDirectDamageZero();
+testPetHorse4TmaoyiCombinationFallbacksAndEarlierHorseSkillCompatibility();
 testMagicWeaponRejectsWithoutZbfb();
 testMagicWeaponKylHealsAndRejectsReentry();
 testMagicWeaponSylRestoresMpAndWoodDuration();
@@ -2693,6 +2701,355 @@ function testPetHorse2BdCombinesWithFsnlAndSxkb(): void {
   assertNearlyEqual(result.damage ?? 0, baseDamage * PetTuning.petSkillCritDamageMultiplier);
 }
 
+function testPetHorse3BzRequiresLearnedSkillMpDistanceCooldownAndTarget(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse3(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 3, 'horse');
+  const target = createPetSkillMonsterTarget(createMonster30(250, 0, 'm30-pet-bz-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'bz');
+  let result = requestPetHorse3BzSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned bz/);
+
+  pet.skills.push('bz');
+  pet.mp = PetTuning.horse3BzMpCost - 1;
+  result = requestPetHorse3BzSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetHorse3BzSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetHorse3BzSkill({
+    roster,
+    runtime,
+    targets: [createPetSkillMonsterTarget(createMonster30(300, 0, 'm30-pet-bz-far'))],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /too far/);
+
+  result = requestPetHorse3BzSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(pet.skillState?.horse3Bz.cooldownMs, PetTuning.horse3BzCooldownMs);
+
+  result = requestPetHorse3BzSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.horse3BzCooldownMs);
+  result = requestPetHorse3BzSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetHorse3BzSpawnsProjectileDamagesAndIcesMonster30(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse3(roster);
+  const monster = createMonster30(250, 0, 'm30-pet-bz-hit');
+  monster.maxHp = 320;
+  monster.hp = monster.maxHp;
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+
+  const result = requestPetHorse3BzSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 3, 'horse'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.horse3BzMpCost);
+  assert.equal(pet.mp, mpBefore - PetTuning.horse3BzMpCost);
+  assertNearlyEqual(result.damage ?? 0, pet.atk * PetTuning.horse3BzDamageMultiplier);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(projectile.variant, 'pet-horse3-bz');
+  assert.equal(projectile.sourceId, pet.id);
+  assert.equal(projectile.actionName, 'hit4');
+  assert.equal(projectile.runtimeName, 'PetHorse3Bullet4');
+  assert.equal(projectile.magicIceMs, PetTuning.horse3BzIceMs);
+  assert.equal(rectanglesIntersect(
+    getProjectileHitbox(projectile),
+    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
+  ), true);
+
+  assert.equal(applyMonster30Hit(monster, projectile.damage), true);
+  applyMonster30MagicSnowIce(monster, {
+    sourceName: projectile.runtimeName,
+    totalMs: projectile.magicIceMs ?? 0,
+  });
+  assertNearlyEqual(monster.hp, Math.max(0, monster.maxHp - pet.atk * PetTuning.horse3BzDamageMultiplier));
+  assert.equal(monster.magicSnowIce?.remainingMs, PetTuning.horse3BzIceMs);
+}
+
+function testPetHorse3BzCombinesWithFsnlAndSxkbAndKeepsEarlierHorseSkillsCompatible(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse3(roster);
+  const monster = createMonster30(250, 0, 'm30-pet-bz-crit');
+  const projectiles = createProjectileSystem();
+  pet.skillDamageBonus = 12.5;
+  pet.critBonusRate = 1;
+
+  const baseDamage = pet.atk * PetTuning.horse3BzDamageMultiplier + pet.skillDamageBonus;
+  const result = requestPetHorse3BzSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 3, 'horse'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+    random: () => 0,
+  });
+
+  assert.equal(result.ok, true);
+  assertNearlyEqual(result.damage ?? 0, baseDamage * PetTuning.petSkillCritDamageMultiplier);
+
+  const horse1Roster = createSeedPetRoster();
+  const horse1 = deploySeedHorse1(horse1Roster);
+  const horse1Result = requestPetHorse1SpSkill({
+    roster: horse1Roster,
+    runtime: createTestPetRuntime(horse1.id, 1, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-bz-horse1-compat'))],
+    projectiles: createProjectileSystem(),
+  });
+  assert.equal(horse1Result.ok, true);
+
+  const horse2Roster = createSeedPetRoster();
+  const horse2 = deploySeedHorse2(horse2Roster);
+  markActivePetSkillTriggered(horse2Roster);
+  const horse2Result = requestPetHorse2BdSkill({
+    roster: horse2Roster,
+    runtime: createTestPetRuntime(horse2.id, 2, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-bz-horse2-compat'))],
+    projectiles: createProjectileSystem(),
+  });
+  assert.equal(horse2Result.ok, true);
+}
+
+function testPetHorse4TmaoyiRequiresLearnedSkillMpCooldownAndTarget(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse4(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 4, 'horse');
+  const target = createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-tmaoyi-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'tmaoyi');
+  let result = requestPetHorse4TmaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned tmaoyi/);
+
+  pet.skills.push('tmaoyi');
+  pet.mp = PetTuning.horse4TmaoyiMpCost - 1;
+  result = requestPetHorse4TmaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetHorse4TmaoyiSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetHorse4TmaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.damage, PetTuning.horse4TmaoyiHit5Damage);
+  assert.equal(pet.skillState?.horse4Tmaoyi.cooldownMs, PetTuning.horse4TmaoyiCooldownMs);
+
+  result = requestPetHorse4TmaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.horse4TmaoyiCooldownMs);
+  result = requestPetHorse4TmaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetHorse4TmaoyiSpawnsComboProjectilesAndKeepsDirectDamageZero(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse4(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-tmaoyi-combo');
+  monster.maxHp = 360;
+  monster.hp = monster.maxHp;
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+
+  const result = requestPetHorse4TmaoyiSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 4, 'horse'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.horse4TmaoyiMpCost);
+  assert.equal(pet.mp, mpBefore - PetTuning.horse4TmaoyiMpCost);
+  assert.equal(result.damage, PetTuning.horse4TmaoyiHit5Damage);
+  assert.equal(getActiveProjectiles(projectiles).length, 2);
+
+  const [primary, explosion] = getActiveProjectiles(projectiles);
+  assert.ok(primary);
+  assert.ok(explosion);
+  assert.equal(primary.variant, 'pet-horse4-tmaoyi');
+  assert.equal(primary.sourceId, pet.id);
+  assert.equal(primary.actionName, 'hit5');
+  assert.equal(primary.runtimeName, 'PetHorse4Bullet5');
+  assert.equal(primary.damage, 0);
+  assert.equal(primary.trackingTargetId, monster.id);
+  assert.equal(primary.magicIceMs, PetTuning.horse4TmaoyiIceMsWithBd);
+  assert.equal(primary.explosionDelayMs, PetTuning.horse4TmaoyiExplosionDelayMsWithBd);
+  assertNearlyEqual(primary.secondStageDamage ?? 0, pet.atk * PetTuning.horse3BzDamageMultiplier);
+
+  assert.equal(explosion.variant, 'pet-horse4-tmaoyi-explode');
+  assert.equal(explosion.runtimeName, 'PetHorse4Bullet5Explode');
+  assertNearlyEqual(explosion.damage, pet.atk * PetTuning.horse3BzDamageMultiplier);
+
+  assert.equal(applyMonster30Hit(monster, primary.damage), true);
+  applyMonster30MagicSnowIce(monster, {
+    sourceName: primary.runtimeName,
+    totalMs: primary.magicIceMs ?? 0,
+  });
+  assertNearlyEqual(monster.hp, monster.maxHp);
+  assert.equal(monster.magicSnowIce?.remainingMs, PetTuning.horse4TmaoyiIceMsWithBd);
+
+  assert.equal(applyMonster30Hit(monster, explosion.damage), true);
+  assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.horse3BzDamageMultiplier);
+}
+
+function testPetHorse4TmaoyiCombinationFallbacksAndEarlierHorseSkillCompatibility(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse4(roster);
+  const projectiles = createProjectileSystem();
+  pet.skills = ['tsml', 'tmaoyi'];
+
+  const result = requestPetHorse4TmaoyiSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 4, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-tmaoyi-fallback'))],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+  const primary = getActiveProjectiles(projectiles)[0];
+  assert.ok(primary);
+  assert.equal(primary.trackingTargetId, undefined);
+  assert.equal(primary.magicIceMs, undefined);
+  assert.equal(primary.explosionDelayMs, undefined);
+  assert.equal(primary.secondStageDamage, undefined);
+
+  const critRoster = createSeedPetRoster();
+  const critPet = deploySeedHorse4(critRoster);
+  critPet.skillDamageBonus = 12.5;
+  critPet.critBonusRate = 1;
+  const critProjectiles = createProjectileSystem();
+  const baseDamage = critPet.atk * PetTuning.horse3BzDamageMultiplier + critPet.skillDamageBonus;
+  const critResult = requestPetHorse4TmaoyiSkill({
+    roster: critRoster,
+    runtime: createTestPetRuntime(critPet.id, 4, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-tmaoyi-crit'))],
+    projectiles: critProjectiles,
+    random: () => 0,
+  });
+  assert.equal(critResult.ok, true);
+  const explosion = getActiveProjectiles(critProjectiles).find((projectile) => projectile.variant === 'pet-horse4-tmaoyi-explode');
+  assert.ok(explosion);
+  assertNearlyEqual(explosion.damage, baseDamage * PetTuning.petSkillCritDamageMultiplier);
+
+  const horse1Roster = createSeedPetRoster();
+  const horse1 = deploySeedHorse1(horse1Roster);
+  assert.equal(requestPetHorse1SpSkill({
+    roster: horse1Roster,
+    runtime: createTestPetRuntime(horse1.id, 1, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-tmaoyi-horse1-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+
+  const horse2Roster = createSeedPetRoster();
+  const horse2 = deploySeedHorse2(horse2Roster);
+  markActivePetSkillTriggered(horse2Roster);
+  assert.equal(requestPetHorse2BdSkill({
+    roster: horse2Roster,
+    runtime: createTestPetRuntime(horse2.id, 2, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-tmaoyi-horse2-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+
+  const horse3Roster = createSeedPetRoster();
+  const horse3 = deploySeedHorse3(horse3Roster);
+  assert.equal(requestPetHorse3BzSkill({
+    roster: horse3Roster,
+    runtime: createTestPetRuntime(horse3.id, 3, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(250, 0, 'm30-pet-tmaoyi-horse3-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+}
+
 function testMagicWeaponRejectsWithoutZbfb(): void {
   const model = createMagicWeaponModel();
   const loadout = createEmptyEquipmentLoadout();
@@ -4693,6 +5050,39 @@ function deploySeedHorse2(roster: ReturnType<typeof createSeedPetRoster>) {
   assert.equal(pet.id, 'pet-horse-2');
   assert.equal(pet.species, 'horse');
   assert.equal(pet.form, 2);
+  return pet;
+}
+
+function deploySeedHorse3(roster: ReturnType<typeof createSeedPetRoster>) {
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-horse-3');
+  assert.equal(pet.species, 'horse');
+  assert.equal(pet.form, 3);
+  return pet;
+}
+
+function deploySeedHorse4(roster: ReturnType<typeof createSeedPetRoster>) {
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-horse-4');
+  assert.equal(pet.species, 'horse');
+  assert.equal(pet.form, 4);
   return pet;
 }
 

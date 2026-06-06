@@ -108,8 +108,81 @@
 | TASK-SETTINGS-029 | 逆向 | 宠物马系专属技能链边界逆向 | M-042、VS-033 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-058 | 切片 | 宠物 `horse1/sp` 水泡技能最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-059 | 切片 | 宠物 `horse2/bd` 受击触发冰冻反击最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-060 | 切片 | 宠物 `horse3/bz` 大范围冰锥技能最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-061 | 切片 | 宠物 `horse4/tmaoyi` 奥义反馈最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-061
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `horse4/tmaoyi` 最小奥义模型：P1 种子宠物列表加入可切换出战的 `horse4`，持有已学 `sp/bd/bz/tmaoyi`，技能状态包含奥义冷却。
+- 新增 `requestPetHorse4TmaoyiSkill()`，覆盖已学习、MP `>= 30`、目标存在和 CD 就绪门禁；释放成功扣 30 MP，重置奥义冷却。
+- `tmaoyi` 本体直接伤害保持 0；已学 `sp` 时首段 `PetHorse4Bullet5` 占位 projectile 记录追踪目标，未学 `sp` 时保持非追踪下落反馈。
+- 已学 `bd` 时首段携带 2.4 秒 `magicIceMs` 并记录 1 秒爆炸延迟；已学 `bz` 时生成 `PetHorse4Bullet5Explode` 爆炸段，爆炸伤害使用 `6.6 * pet.atk + skillDamageBonus` 并复用既有宠物主动技能暴击 helper 接入 `sxkb`。
+- 扩展 `src/systems/ProjectileSystem.ts`，新增 `pet-horse4-tmaoyi` 和 `pet-horse4-tmaoyi-explode` 两种占位 projectile，并为 projectile 模型补充追踪目标、爆炸延迟和二段伤害记录字段。
+- 扩展 `src/assets/AssetManifest.ts`，登记 `PetHorseBmd4`、`PetHorse4Bullet5`、`PetHorse4Bullet5Explode` 真资源缺口，并将马系占位资源说明扩展到 `horse4/tmaoyi`。
+- 扩展 `src/scenes/TestScene.ts`，当前出战 `horse4` 满足门禁时自动释放 `tmaoyi`；状态栏展示 `h4tmCd`。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、无目标、冷却、扣 MP、直接伤害 0、`sp/bd/bz` 组合反馈、`fsnl/sxkb` 兼容，以及 `horse1/sp`、`horse2/bd`、`horse3/bz` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `horse4/tmaoyi` 纳入 `VS-033` 已完成链路，并新增 Ready 后续任务 `TASK-SETTINGS-030`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-060
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `horse3/bz` 最小技能模型：P1 种子宠物列表加入可切换出战的 `horse3`，持有已学 `sp/bd/bz`，技能状态包含 `bz` 约 6 秒 CD。
+- 新增 `requestPetHorse3BzSkill()`，覆盖已学习、MP `>= 20`、目标存在、目标距离 `<= 250` 和 CD 就绪门禁；释放成功扣 20 MP，重置 CD。
+- `bz` 伤害使用 `6.6 * pet.atk + skillDamageBonus`，并复用既有宠物主动技能暴击 helper，让 `fsnl` 技能加值和 `sxkb` 暴击率自然接入。
+- 扩展 `src/systems/ProjectileSystem.ts`，新增 `pet-horse3-bz` / `PetHorse3Bullet4` / `hit4` 占位 projectile，保留 magic、击退 `[5,0]`、`attackInterval = 24`、单次命中和 2 秒 `magicIceMs`。
+- 扩展 `src/assets/AssetManifest.ts`，登记 `PetHorseBmd3`、`PetHorse3Bullet1`、`PetHorse3Bullet2`、`PetHorse3Bullet3`、`PetHorse3Bullet4` 真资源缺口，并将马系占位资源说明扩展到 `horse3/bz`。
+- 扩展 `src/scenes/TestScene.ts`，当前出战 `horse3` 满足门禁时自动释放 `bz`；projectile 命中 Monster30 后复用已有 `applyMonster30MagicSnowIce()`，形成 2 秒冰冻/定身最小状态；状态栏展示 `h3bzCd`。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、无目标、距离过远、冷却、伤害、扣 MP、projectile 生成、冰冻状态、`fsnl/sxkb` 兼容，以及 `horse1/sp` 与 `horse2/bd` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `horse3/bz` 纳入 `VS-033` 已完成链路，并新增 Ready 后续任务 `TASK-SLICE-061`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-059
 
