@@ -101,8 +101,39 @@
 | TASK-SLICE-051 | 切片 | 宠物 `smjc` 生命加成自动 buff 最小闭环 | M-042、VS-026 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-052 | 切片 | 宠物 `mfjc` 魔法加成自动 buff 最小闭环 | M-042、VS-027 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-053 | 切片 | 宠物 `fyjc` 防御加成自动 buff 最小闭环 | M-042、VS-028 | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-054 | 切片 | 宠物 `sxkb` 嗜血狂暴自动 buff 最小闭环 | M-042、VS-029 | `PetSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-054
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts` 的基础自动 buff 模型，新增 `sxkb` 状态、触发、持续和到期恢复逻辑，并保留既有 `smjc/mfjc/gjjc/fyjc` 行为。
+- `sxkb` 在当前出战宠物已学、MP `>= 20`、计数器归零时自动触发；触发后扣宠物 20 MP，按 `form * 0.07 * technique * 0.27 * 1.05` 增加宠物自身 `critBonusRate`。
+- `sxkb` 触发后设置原版 4320 帧等价重触发计数；到期后移除暴击加成。
+- 扩展宠物面板，显示当前 `CRIT` 加成和 `SXKB` 等待/剩余时间、最近自动 buff 结果。
+- 扩展 `tools/system-tests.ts`，覆盖 `sxkb` 未学习、计数未归零、MP 不足、宠物 MP 消耗、暴击加成增加、到期恢复和 4320 帧重触发门禁。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-029` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-055`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-053
 

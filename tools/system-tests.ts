@@ -141,6 +141,8 @@ testPetSkillSaveStringRoundTripEmptyAndUnknown();
 testPetSkillSlotsExposeEightDisplaySlots();
 testPetSkillResetConsumableRequiresActivePetWithoutConsuming();
 testPetSkillResetConsumableConsumesStackAndUsesInjectedRandom();
+testPetSxkbAutoBuffRequiresLearnedSkillMpAndReadyCounter();
+testPetSxkbAutoBuffAppliesExpiresAndUsesShorterRetriggerCounter();
 testPetGjjcAutoBuffRequiresLearnedSkillMpAndReadyCounter();
 testPetGjjcAutoBuffAppliesExpiresAndRespectsRetriggerCounter();
 testPetSmjcAutoBuffAppliesHpRatioAndExpires();
@@ -790,6 +792,87 @@ function testPetSkillResetConsumableConsumesStackAndUsesInjectedRandom(): void {
   assert.equal(getStackQuantity(inventory, 'cwjnxld'), 0);
 }
 
+function testPetSxkbAutoBuffRequiresLearnedSkillMpAndReadyCounter(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  const ownerStats = { hp: 80, maxHp: 120, mp: 40, maxMp: 100, power: 100, defense: 30 };
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'sxkb');
+  pet.critBonusRate = 0;
+  pet.autoBuffState = {
+    sxkb: { counterMs: 0 },
+    smjc: { counterMs: 9999 },
+    mfjc: { counterMs: 9999 },
+    gjjc: { counterMs: 9999 },
+    fyjc: { counterMs: 9999 },
+    lastResult: 'ready',
+  };
+  const unlearned = updatePetAutoBuffs({ roster, ownerStats, deltaMs: 0 });
+  assert.equal(unlearned.triggered, false);
+  assert.equal(pet.critBonusRate, 0);
+
+  pet.skills.push('sxkb');
+  pet.autoBuffState.sxkb.counterMs = 100;
+  const cooling = updatePetAutoBuffs({ roster, ownerStats, deltaMs: 50 });
+  assert.equal(cooling.triggered, false);
+  assert.equal(pet.autoBuffState.sxkb.counterMs, 50);
+  assert.equal(pet.critBonusRate, 0);
+
+  pet.autoBuffState.sxkb.counterMs = 0;
+  pet.mp = PetTuning.autoBuffSxkbMpCost - 1;
+  const mpBlocked = updatePetAutoBuffs({ roster, ownerStats, deltaMs: 0 });
+  assert.equal(mpBlocked.triggered, false);
+  assert.equal(pet.mp, PetTuning.autoBuffSxkbMpCost - 1);
+  assert.equal(pet.critBonusRate, 0);
+}
+
+function testPetSxkbAutoBuffAppliesExpiresAndUsesShorterRetriggerCounter(): void {
+  const roster = createSeedPetRoster();
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  pet.skills.push('sxkb');
+  pet.mp = 100;
+  pet.form = 1;
+  pet.technique = 1;
+  pet.warpower = 1;
+  pet.critBonusRate = 0;
+  pet.autoBuffState = {
+    sxkb: { counterMs: 0 },
+    smjc: { counterMs: 9999 },
+    mfjc: { counterMs: 9999 },
+    gjjc: { counterMs: 9999 },
+    fyjc: { counterMs: 9999 },
+    lastResult: 'ready',
+  };
+  const ownerStats = { hp: 80, maxHp: 120, mp: 40, maxMp: 100, power: 100, defense: 30 };
+
+  const triggered = updatePetAutoBuffs({ roster, ownerStats, deltaMs: 0 });
+  assert.equal(triggered.triggered, true);
+  assert.equal(triggered.mpBefore, 100);
+  assert.equal(triggered.mpAfter, 80);
+  assert.equal(pet.mp, 80);
+  assert.ok(Math.abs((triggered.bonusCritRate ?? 0) - 0.019845) < 0.000001);
+  assert.ok(Math.abs(pet.critBonusRate - 0.019845) < 0.000001);
+  assert.equal(pet.autoBuffState.sxkb.active?.kind, 'sxkb');
+  assert.ok(Math.abs(pet.autoBuffState.sxkb.counterMs - PetTuning.autoBuffSxkbRetriggerFrames * PetTuning.autoBuffFrameMs) < 0.0001);
+
+  const retriggerBlocked = updatePetAutoBuffs({ roster, ownerStats, deltaMs: 0 });
+  assert.equal(retriggerBlocked.triggered, false);
+  assert.ok(Math.abs(pet.critBonusRate - 0.019845) < 0.000001);
+
+  const expired = updatePetAutoBuffs({
+    roster,
+    ownerStats,
+    deltaMs: pet.autoBuffState.sxkb.active?.remainingMs ?? 0,
+  });
+  assert.equal(expired.expired, true);
+  assert.equal(expired.triggered, false);
+  assert.ok(Math.abs(pet.critBonusRate) < 0.000001);
+  assert.equal(pet.autoBuffState.sxkb.active, undefined);
+  assert.ok(pet.autoBuffState.sxkb.counterMs > 0);
+}
+
 function testPetGjjcAutoBuffRequiresLearnedSkillMpAndReadyCounter(): void {
   const roster = createSeedPetRoster();
   const pet = getActivePet(roster);
@@ -798,6 +881,7 @@ function testPetGjjcAutoBuffRequiresLearnedSkillMpAndReadyCounter(): void {
 
   pet.skills = pet.skills.filter((skill) => skill !== 'gjjc');
   pet.autoBuffState = {
+    sxkb: { counterMs: 9999 },
     smjc: { counterMs: 9999 },
     mfjc: { counterMs: 9999 },
     gjjc: { counterMs: 0 },
@@ -833,6 +917,7 @@ function testPetGjjcAutoBuffAppliesExpiresAndRespectsRetriggerCounter(): void {
   pet.technique = 1;
   pet.warpower = 1;
   pet.autoBuffState = {
+    sxkb: { counterMs: 9999 },
     smjc: { counterMs: 9999 },
     mfjc: { counterMs: 9999 },
     gjjc: { counterMs: 0 },
@@ -876,6 +961,7 @@ function testPetSmjcAutoBuffAppliesHpRatioAndExpires(): void {
   pet.technique = 1;
   pet.warpower = 1;
   pet.autoBuffState = {
+    sxkb: { counterMs: 9999 },
     smjc: { counterMs: 0 },
     mfjc: { counterMs: 9999 },
     gjjc: { counterMs: 9999 },
@@ -916,6 +1002,7 @@ function testPetMfjcAutoBuffRequiresLearnedSkillMpAndReadyCounter(): void {
 
   pet.skills = pet.skills.filter((skill) => skill !== 'mfjc');
   pet.autoBuffState = {
+    sxkb: { counterMs: 9999 },
     smjc: { counterMs: 9999 },
     mfjc: { counterMs: 0 },
     gjjc: { counterMs: 9999 },
@@ -954,6 +1041,7 @@ function testPetMfjcAutoBuffAppliesMpRatioAndExpires(): void {
   pet.technique = 1;
   pet.warpower = 1;
   pet.autoBuffState = {
+    sxkb: { counterMs: 9999 },
     smjc: { counterMs: 9999 },
     mfjc: { counterMs: 0 },
     gjjc: { counterMs: 9999 },
@@ -1001,6 +1089,7 @@ function testPetFyjcAutoBuffRequiresLearnedSkillMpAndReadyCounter(): void {
 
   pet.skills = pet.skills.filter((skill) => skill !== 'fyjc');
   pet.autoBuffState = {
+    sxkb: { counterMs: 9999 },
     smjc: { counterMs: 9999 },
     mfjc: { counterMs: 9999 },
     gjjc: { counterMs: 9999 },
@@ -1036,6 +1125,7 @@ function testPetFyjcAutoBuffAppliesExpiresAndRespectsRetriggerCounter(): void {
   pet.technique = 1;
   pet.warpower = 1;
   pet.autoBuffState = {
+    sxkb: { counterMs: 9999 },
     smjc: { counterMs: 9999 },
     mfjc: { counterMs: 9999 },
     gjjc: { counterMs: 9999 },

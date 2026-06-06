@@ -42,11 +42,12 @@
 | VS-026 宠物 `smjc` 生命加成自动 buff 最小闭环 | 已完成 | 当前出战宠物自动给主人增加 HP 上限并按比例同步当前 HP | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `smjc`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 70 * technique * 1.05` 提升 P1 主人 HP 上限，并按当前 HP 比例同步；到期后按当前比例恢复 HP 上限和当前 HP；宠物面板展示 `SMJC` 状态，系统测试覆盖门禁、消耗、HP 同步、持续和移除 |
 | VS-027 宠物 `mfjc` 魔法加成自动 buff 最小闭环 | 已完成 | 当前出战宠物自动给主人增加 MP 上限并按比例同步当前 MP | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `mfjc`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 70 * technique * 1.05` 提升 P1 主人 MP 上限，并按当前 MP 比例同步；到期后按当前比例恢复 MP 上限和当前 MP；宠物面板展示 `MFJC` 状态，系统测试覆盖门禁、消耗、MP 同步、持续和移除 |
 | VS-028 宠物 `fyjc` 防御加成自动 buff 最小闭环 | 已完成 | 当前出战宠物自动给主人增加防御 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `fyjc`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 5 * technique * 1.05` 提升 P1 主人防御，到期恢复；宠物面板展示 `FYJC` 状态，系统测试覆盖门禁、消耗、防御加成、持续和移除 |
-| VS-029 宠物 `sxkb` 嗜血狂暴自动 buff 最小闭环 | 可开始 | 当前出战宠物自动增加自身暴击加成 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 基于基础自动 buff 模型，扩展 `sxkb`：已学技能、MP `>= 20`、计数器归零时触发，按 `form * 0.07 * technique * 0.27 * 1.05` 提升宠物自身暴击加成，到期恢复，重触发计数使用 4320 帧 |
+| VS-029 宠物 `sxkb` 嗜血狂暴自动 buff 最小闭环 | 已完成 | 当前出战宠物自动增加自身暴击加成 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `sxkb`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 0.07 * technique * 0.27 * 1.05` 提升宠物自身暴击加成，到期恢复，重触发计数使用 4320 帧；宠物面板展示 `SXKB` 状态和 `CRIT` 加成，系统测试覆盖门禁、消耗、暴击加成、持续和移除 |
+| VS-030 宠物 `fsnl` 法术能量自动 buff 最小闭环 | 可开始 | 当前出战宠物自动增加自身技能伤害加值 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 基于基础自动 buff 模型，扩展 `fsnl`：已学技能、MP `>= 20`、计数器归零时触发，按 `form * 30 * technique * 1.05` 提升宠物自身技能伤害加值，到期恢复，重触发计数使用 5400 帧 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-054`：宠物 `sxkb` 嗜血狂暴自动 buff 最小闭环。
+1. `TASK-SLICE-055`：宠物 `fsnl` 法术能量自动 buff 最小闭环。
 
 ## 切片详情
 

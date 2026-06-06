@@ -26,6 +26,7 @@ export type PetState = {
   maxMp: number;
   atk: number;
   def: number;
+  critBonusRate: number;
   moveSpeed: number;
   lifetime: number;
   quality: number;
@@ -63,6 +64,7 @@ export type PetSkillState = {
 };
 
 export type PetAutoBuffState = {
+  sxkb: PetAutoBuffEffectState;
   smjc: PetAutoBuffEffectState;
   mfjc: PetAutoBuffEffectState;
   gjjc: PetAutoBuffEffectState;
@@ -76,9 +78,10 @@ export type PetAutoBuffEffectState = {
 };
 
 export type PetAutoBuffActiveEffect = {
-  kind: 'smjc' | 'mfjc' | 'gjjc' | 'fyjc';
+  kind: 'sxkb' | 'smjc' | 'mfjc' | 'gjjc' | 'fyjc';
   bonusPower?: number;
   bonusDefense?: number;
+  bonusCritRate?: number;
   bonusMaxHp?: number;
   bonusMaxMp?: number;
   totalMs: number;
@@ -103,6 +106,7 @@ export type PetAutoBuffUpdateResult = {
   mpAfter?: number;
   bonusPower?: number;
   bonusDefense?: number;
+  bonusCritRate?: number;
   bonusMaxHp?: number;
   bonusMaxMp?: number;
 };
@@ -324,10 +328,12 @@ export const PetTuning = {
   skillSlotCount: 8,
   autoBuffFrameMs: 1000 / 24,
   autoBuffInitialDelayFrames: 300,
+  autoBuffSxkbRetriggerFrames: 4320,
   autoBuffGjjcRetriggerFrames: 5400,
   autoBuffSmjcRetriggerFrames: 5400,
   autoBuffMfjcRetriggerFrames: 5400,
   autoBuffFyjcRetriggerFrames: 5400,
+  autoBuffSxkbMpCost: 20,
   autoBuffGjjcMpCost: 20,
   autoBuffSmjcMpCost: 20,
   autoBuffMfjcMpCost: 20,
@@ -441,6 +447,7 @@ function createSeedMonkeyPet(params: {
     maxMp: stats.maxMp,
     atk: stats.atk,
     def: stats.def,
+    critBonusRate: 0,
     moveSpeed: 5,
     lifetime: 100,
     quality: 1,
@@ -726,6 +733,9 @@ export function updatePetAutoBuffs(params: {
   const deltaMs = Math.max(0, params.deltaMs);
   let expired = false;
 
+  if (updateActivePetAutoBuffEffect(params.roster, pet, state.sxkb, params.ownerStats, deltaMs)) {
+    expired = true;
+  }
   if (updateActivePetAutoBuffEffect(params.roster, pet, state.smjc, params.ownerStats, deltaMs)) {
     expired = true;
   }
@@ -739,10 +749,19 @@ export function updatePetAutoBuffs(params: {
     expired = true;
   }
 
+  state.sxkb.counterMs = Math.max(0, state.sxkb.counterMs - deltaMs);
   state.smjc.counterMs = Math.max(0, state.smjc.counterMs - deltaMs);
   state.mfjc.counterMs = Math.max(0, state.mfjc.counterMs - deltaMs);
   state.gjjc.counterMs = Math.max(0, state.gjjc.counterMs - deltaMs);
   state.fyjc.counterMs = Math.max(0, state.fyjc.counterMs - deltaMs);
+
+  const sxkbResult = tryTriggerPetSxkbAutoBuff(params.roster, pet, state);
+  if (sxkbResult) {
+    return {
+      ...sxkbResult,
+      expired,
+    };
+  }
 
   const smjcResult = tryTriggerPetSmjcAutoBuff(params.roster, pet, state, params.ownerStats);
   if (smjcResult) {
@@ -1622,7 +1641,7 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
   lines.push('Selected');
   if (selected) {
     lines.push(`Species: ${selected.species}${selected.form}  Quality:${selected.quality}`);
-    lines.push(`MP ${selected.mp}/${selected.maxMp}  ATK ${selected.atk}  DEF ${selected.def}`);
+    lines.push(`MP ${selected.mp}/${selected.maxMp}  ATK ${selected.atk}  DEF ${selected.def}  CRIT +${((selected.critBonusRate ?? 0) * 100).toFixed(2)}%`);
     lines.push(`EXP ${selected.exp}/${formatPetNextExperience(selected)}`);
     lines.push(`悟 ${selected.perception}  技 ${selected.technique}  战 ${selected.warpower}`);
     lines.push(`Skills: ${selected.skills.length > 0 ? selected.skills.join(', ') : '-'}`);
@@ -1644,10 +1663,14 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
     }
     const autoBuffState = selected.autoBuffState;
     if (autoBuffState) {
+      const sxkbActive = autoBuffState.sxkb.active;
       const smjcActive = autoBuffState.smjc.active;
       const mfjcActive = autoBuffState.mfjc.active;
       const gjjcActive = autoBuffState.gjjc.active;
       const fyjcActive = autoBuffState.fyjc.active;
+      lines.push(
+        `SXKB ${sxkbActive ? `+${((sxkbActive.bonusCritRate ?? 0) * 100).toFixed(2)}% ${formatPetAutoBuffMs(sxkbActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.sxkb.counterMs)}`}`,
+      );
       lines.push(
         `SMJC ${smjcActive ? `+${(smjcActive.bonusMaxHp ?? 0).toFixed(1)} ${formatPetAutoBuffMs(smjcActive.remainingMs)}` : `wait:${formatPetAutoBuffMs(autoBuffState.smjc.counterMs)}`}`,
       );
@@ -1719,6 +1742,7 @@ function createPetStateFromDefinition(
     maxMp: stats.maxMp,
     atk: stats.atk,
     def: stats.def,
+    critBonusRate: 0,
     moveSpeed: 5,
     lifetime: 100,
     quality: normalizedLevel === 1 ? 1 : 2,
@@ -1814,6 +1838,9 @@ function createPetSkillState(): PetSkillState {
 
 function createPetAutoBuffState(): PetAutoBuffState {
   return {
+    sxkb: {
+      counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
+    },
     smjc: {
       counterMs: petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames),
     },
@@ -1838,6 +1865,7 @@ function ensurePetSkillState(pet: PetState): PetSkillState {
 function ensurePetAutoBuffState(pet: PetState): PetAutoBuffState {
   pet.autoBuffState ??= createPetAutoBuffState();
   const initialCounterMs = petAutoBuffFramesToMs(PetTuning.autoBuffInitialDelayFrames);
+  pet.autoBuffState.sxkb ??= { counterMs: initialCounterMs };
   pet.autoBuffState.smjc ??= { counterMs: initialCounterMs };
   pet.autoBuffState.mfjc ??= { counterMs: initialCounterMs };
   pet.autoBuffState.gjjc ??= { counterMs: initialCounterMs };
@@ -1864,6 +1892,16 @@ function updateActivePetAutoBuffEffect(
   }
 
   const state = ensurePetAutoBuffState(pet);
+  if (active.kind === 'sxkb') {
+    const bonusCritRate = active.bonusCritRate ?? 0;
+    pet.critBonusRate = Math.max(0, (pet.critBonusRate ?? 0) - bonusCritRate);
+    const message = `${pet.displayName} sxkb expired -${(bonusCritRate * 100).toFixed(2)}% crit`;
+    effect.active = undefined;
+    state.lastResult = message;
+    roster.message = message;
+    return true;
+  }
+
   if (active.kind === 'smjc') {
     const bonusMaxHp = active.bonusMaxHp ?? 0;
     const ratio = ownerStats.maxHp > 0 ? ownerStats.hp / ownerStats.maxHp : 0;
@@ -1905,6 +1943,55 @@ function updateActivePetAutoBuffEffect(
   state.lastResult = message;
   roster.message = message;
   return true;
+}
+
+function tryTriggerPetSxkbAutoBuff(
+  roster: PetRoster,
+  pet: PetState,
+  state: PetAutoBuffState,
+): PetAutoBuffUpdateResult | undefined {
+  const sxkb = state.sxkb;
+  if (sxkb.active || sxkb.counterMs > 0 || !pet.skills.includes('sxkb')) {
+    return undefined;
+  }
+
+  if (pet.mp < PetTuning.autoBuffSxkbMpCost) {
+    const message = `${pet.displayName} sxkb MP not enough`;
+    state.lastResult = message;
+    roster.message = message;
+    return {
+      triggered: false,
+      expired: false,
+      message,
+      pet,
+    };
+  }
+
+  const mpBefore = pet.mp;
+  const bonusCritRate = calculatePetSxkbCritBonusRate(pet);
+  const totalMs = calculatePetAutoBuffDurationMs(pet);
+  pet.mp = Math.max(0, pet.mp - PetTuning.autoBuffSxkbMpCost);
+  pet.critBonusRate = (pet.critBonusRate ?? 0) + bonusCritRate;
+  sxkb.active = {
+    kind: 'sxkb',
+    bonusCritRate,
+    totalMs,
+    remainingMs: totalMs,
+  };
+  sxkb.counterMs = petAutoBuffFramesToMs(PetTuning.autoBuffSxkbRetriggerFrames);
+
+  const message = `${pet.displayName} sxkb +${(bonusCritRate * 100).toFixed(2)}% crit`;
+  state.lastResult = message;
+  roster.message = message;
+  return {
+    triggered: true,
+    expired: false,
+    message,
+    pet,
+    mpBefore,
+    mpAfter: pet.mp,
+    bonusCritRate,
+  };
 }
 
 function tryTriggerPetSmjcAutoBuff(
@@ -2109,6 +2196,10 @@ function tryTriggerPetFyjcAutoBuff(
     mpAfter: pet.mp,
     bonusDefense,
   };
+}
+
+function calculatePetSxkbCritBonusRate(pet: PetState): number {
+  return pet.form * 0.07 * pet.technique * 0.27 * 1.05;
 }
 
 function calculatePetSmjcMaxHpBonus(pet: PetState): number {
