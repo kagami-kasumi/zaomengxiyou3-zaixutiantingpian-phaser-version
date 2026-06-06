@@ -66,6 +66,8 @@ import {
   requestPetMonkey3LjSkill,
   requestPetMonkey4JgaoyiSkill,
   requestPetMonkey1XjSkill,
+  requestPetHorse1SpSkill,
+  requestPetHorse2BdSkill,
   requestPetQlfjCounterAttack,
   requestMagicBottleCapture,
   resolveMagicBottleCaptureHit,
@@ -182,6 +184,12 @@ testPetMonkey3LjRequiresLearnedSkillMpTriggerCooldownAndTarget();
 testPetMonkey3LjSpawnsProjectileAndDamagesMonster30();
 testPetMonkey4JgaoyiRequiresLearnedSkillMpCooldownAndTarget();
 testPetMonkey4JgaoyiSpawnsHit5FeedbackWithoutDirectDamage();
+testPetHorse1SpRequiresLearnedSkillMpDistanceCooldownAndTarget();
+testPetHorse1SpSpawnsProjectileDamagesAndIcesMonster30();
+testPetHorse1SpCombinesWithFsnlAndSxkb();
+testPetHorse2BdRequiresLearnedSkillMpTriggerCooldownAndTarget();
+testPetHorse2BdSpawnsProjectileDamagesIcesAndClearsTrigger();
+testPetHorse2BdCombinesWithFsnlAndSxkb();
 testMagicWeaponRejectsWithoutZbfb();
 testMagicWeaponKylHealsAndRejectsReentry();
 testMagicWeaponSylRestoresMpAndWoodDuration();
@@ -2394,6 +2402,297 @@ function testPetMonkey4JgaoyiSpawnsHit5FeedbackWithoutDirectDamage(): void {
   assert.equal(pet.skillState?.monkey4Jgaoyi.cooldownMs, PetTuning.monkey4JgaoyiCooldownMs);
 }
 
+function testPetHorse1SpRequiresLearnedSkillMpDistanceCooldownAndTarget(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse1(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 1, 'horse');
+  const target = createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-sp-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'sp');
+  let result = requestPetHorse1SpSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned sp/);
+
+  pet.skills.push('sp');
+  pet.mp = PetTuning.horse1SpMpCost - 1;
+  result = requestPetHorse1SpSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetHorse1SpSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetHorse1SpSkill({
+    roster,
+    runtime,
+    targets: [createPetSkillMonsterTarget(createMonster30(20, 0, 'm30-pet-sp-close'))],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /too close/);
+
+  result = requestPetHorse1SpSkill({
+    roster,
+    runtime,
+    targets: [createPetSkillMonsterTarget(createMonster30(180, 0, 'm30-pet-sp-far'))],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /too far/);
+
+  result = requestPetHorse1SpSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(pet.skillState?.horse1Sp.cooldownMs, PetTuning.horse1SpCooldownMs);
+
+  result = requestPetHorse1SpSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.horse1SpCooldownMs);
+  result = requestPetHorse1SpSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetHorse1SpSpawnsProjectileDamagesAndIcesMonster30(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse1(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-sp-hit');
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+
+  const result = requestPetHorse1SpSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 1, 'horse'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.horse1SpMpCost);
+  assert.equal(pet.mp, mpBefore - PetTuning.horse1SpMpCost);
+  assertNearlyEqual(result.damage ?? 0, pet.atk * PetTuning.horse1SpDamageMultiplier);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(projectile.variant, 'pet-horse1-sp');
+  assert.equal(projectile.sourceId, pet.id);
+  assert.equal(projectile.runtimeName, 'PetHorse1Bullet2');
+  assert.equal(projectile.magicIceMs, PetTuning.horse1SpIceMs);
+  assert.equal(rectanglesIntersect(
+    getProjectileHitbox(projectile),
+    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
+  ), true);
+
+  assert.equal(applyMonster30Hit(monster, projectile.damage), true);
+  applyMonster30MagicSnowIce(monster, {
+    sourceName: projectile.runtimeName,
+    totalMs: projectile.magicIceMs ?? 0,
+  });
+  assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.horse1SpDamageMultiplier);
+  assert.equal(monster.magicSnowIce?.remainingMs, PetTuning.horse1SpIceMs);
+}
+
+function testPetHorse1SpCombinesWithFsnlAndSxkb(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse1(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-sp-crit');
+  const projectiles = createProjectileSystem();
+  pet.skillDamageBonus = 12.5;
+  pet.critBonusRate = 1;
+
+  const baseDamage = pet.atk * PetTuning.horse1SpDamageMultiplier + pet.skillDamageBonus;
+  const result = requestPetHorse1SpSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 1, 'horse'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+    random: () => 0,
+  });
+
+  assert.equal(result.ok, true);
+  assertNearlyEqual(result.damage ?? 0, baseDamage * PetTuning.petSkillCritDamageMultiplier);
+}
+
+function testPetHorse2BdRequiresLearnedSkillMpTriggerCooldownAndTarget(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse2(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 2, 'horse');
+  const target = createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-bd-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'bd');
+  markActivePetSkillTriggered(roster);
+  let result = requestPetHorse2BdSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned bd/);
+
+  pet.skills.push('bd');
+  pet.mp = PetTuning.horse2BdMpCost - 1;
+  result = requestPetHorse2BdSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  pet.skillState!.horse2Bd.releaseReady = false;
+  result = requestPetHorse2BdSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /trigger not ready/);
+
+  markActivePetSkillTriggered(roster);
+  result = requestPetHorse2BdSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetHorse2BdSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(pet.skillState?.horse2Bd.releaseReady, false);
+  assert.equal(pet.skillState?.horse2Bd.cooldownMs, PetTuning.horse2BdCooldownMs);
+
+  markActivePetSkillTriggered(roster);
+  result = requestPetHorse2BdSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.horse2BdCooldownMs);
+  result = requestPetHorse2BdSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetHorse2BdSpawnsProjectileDamagesIcesAndClearsTrigger(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse2(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-bd-hit');
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+
+  markActivePetSkillTriggered(roster);
+  const result = requestPetHorse2BdSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 2, 'horse'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.horse2BdMpCost);
+  assert.equal(pet.mp, mpBefore - PetTuning.horse2BdMpCost);
+  assert.equal(pet.skillState?.horse2Bd.releaseReady, false);
+  assertNearlyEqual(result.damage ?? 0, pet.atk * PetTuning.horse2BdDamageMultiplier);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(projectile.variant, 'pet-horse2-bd');
+  assert.equal(projectile.sourceId, pet.id);
+  assert.equal(projectile.runtimeName, 'PetHorse2Bullet2');
+  assert.equal(projectile.magicIceMs, PetTuning.horse2BdIceMs);
+  assert.equal(rectanglesIntersect(
+    getProjectileHitbox(projectile),
+    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
+  ), true);
+
+  assert.equal(applyMonster30Hit(monster, projectile.damage), true);
+  applyMonster30MagicSnowIce(monster, {
+    sourceName: projectile.runtimeName,
+    totalMs: projectile.magicIceMs ?? 0,
+  });
+  assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.horse2BdDamageMultiplier);
+  assert.equal(monster.magicSnowIce?.remainingMs, PetTuning.horse2BdIceMs);
+}
+
+function testPetHorse2BdCombinesWithFsnlAndSxkb(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedHorse2(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-bd-crit');
+  const projectiles = createProjectileSystem();
+  pet.skillDamageBonus = 12.5;
+  pet.critBonusRate = 1;
+
+  const baseDamage = pet.atk * PetTuning.horse2BdDamageMultiplier + pet.skillDamageBonus;
+  markActivePetSkillTriggered(roster);
+  const result = requestPetHorse2BdSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 2, 'horse'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+    random: () => 0,
+  });
+
+  assert.equal(result.ok, true);
+  assertNearlyEqual(result.damage ?? 0, baseDamage * PetTuning.petSkillCritDamageMultiplier);
+}
+
 function testMagicWeaponRejectsWithoutZbfb(): void {
   const model = createMagicWeaponModel();
   const loadout = createEmptyEquipmentLoadout();
@@ -4324,10 +4623,10 @@ function createTestCapturableTarget(): CapturablePetTarget {
   };
 }
 
-function createTestPetRuntime(petId: string, form = 1): PetRuntimeModel {
+function createTestPetRuntime(petId: string, form = 1, species = 'monkey'): PetRuntimeModel {
   return {
     petId,
-    runtimeKey: `${petId}:monkey:${form}`,
+    runtimeKey: `${petId}:${species}:${form}`,
     x: 0,
     y: 0,
     facingX: 1,
@@ -4365,6 +4664,35 @@ function deploySeedMonkey4(roster: ReturnType<typeof createSeedPetRoster>) {
   assert.ok(pet);
   assert.equal(pet.id, 'pet-monkey-4');
   assert.equal(pet.form, 4);
+  return pet;
+}
+
+function deploySeedHorse1(roster: ReturnType<typeof createSeedPetRoster>) {
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-horse-1');
+  assert.equal(pet.species, 'horse');
+  assert.equal(pet.form, 1);
+  return pet;
+}
+
+function deploySeedHorse2(roster: ReturnType<typeof createSeedPetRoster>) {
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-horse-2');
+  assert.equal(pet.species, 'horse');
+  assert.equal(pet.form, 2);
   return pet;
 }
 

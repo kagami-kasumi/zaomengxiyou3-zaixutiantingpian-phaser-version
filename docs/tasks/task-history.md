@@ -105,8 +105,110 @@
 | TASK-SLICE-055 | 切片 | 宠物 `fsnl` 法术能量自动 buff 最小闭环 | M-042、VS-030 | `PetSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-056 | 切片 | 宠物 `fsnl` 技能伤害加值接入最小闭环 | M-042、M-032、VS-031 | `PetSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-057 | 切片 | 宠物 `sxkb` 暴击率接入主动技能最小闭环 | M-042、M-032、VS-032 | `PetSystem.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SETTINGS-029 | 逆向 | 宠物马系专属技能链边界逆向 | M-042、VS-033 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-058 | 切片 | 宠物 `horse1/sp` 水泡技能最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-059 | 切片 | 宠物 `horse2/bd` 受击触发冰冻反击最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-059
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `horse2/bd` 最小技能模型：P1 种子宠物列表加入可切换出战的 `horse2`，持有已学 `sp/bd`，技能状态包含 `bd` 触发 ready 和 2 秒 CD。
+- `markActivePetSkillTriggered()` 在当前出战 `horse2` 时设置 `horse2Bd.releaseReady`，复用 P1 受击等价触发入口；`requestPetHorse2BdSkill()` 覆盖已学习、MP `>= 20`、触发 ready、目标存在和 CD 就绪门禁。
+- `bd` 释放成功扣 20 MP、清除触发 ready、重置 2 秒 CD，伤害使用 `3.6 * pet.atk + skillDamageBonus`，并复用既有宠物主动技能暴击 helper 接入 `sxkb`。
+- 扩展 `src/systems/ProjectileSystem.ts`，新增 `pet-horse2-bd` / `PetHorse2Bullet2` / `hit2` 占位 projectile，保留 magic、击退 `[5,0]`、`attackInterval = 24`、单次命中和 2 秒 `magicIceMs`。
+- 扩展 `src/assets/AssetManifest.ts`，登记 `PetHorseBmd2`、`PetHorse2Bullet1`、`PetHorse2Bullet2` 真资源缺口，并将马系占位资源说明扩展到 `horse2/bd`。
+- 扩展 `src/scenes/TestScene.ts`，当前出战 `horse2` 且受击触发 ready/CD 就绪时自动释放 `bd`；projectile 命中 Monster30 后复用已有 `applyMonster30MagicSnowIce()`，形成 2 秒冰冻/定身最小状态；状态栏展示 `h2bd` ready 和 CD。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、触发未就绪、无目标、冷却、伤害、扣 MP、触发清除、projectile 生成、冰冻状态，以及 `fsnl/sxkb` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `horse2/bd` 纳入 `VS-033` 已完成链路，并新增 Ready 后续任务 `TASK-SLICE-060`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-058
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `horse1/sp` 最小技能模型：P1 种子宠物列表加入可切换出战的 `horse1`，持有已学 `sp`，技能状态包含 2 秒 CD。
+- 新增 `requestPetHorse1SpSkill()`，覆盖已学习、MP `>= 20`、目标存在、距离 `50..100`、CD 就绪门禁；释放成功扣 20 MP，重置 CD。
+- `sp` 伤害使用 `3.6 * pet.atk + skillDamageBonus`，并复用既有宠物主动技能暴击 helper，让 `fsnl` 技能加值和 `sxkb` 暴击率自然接入。
+- 扩展 `src/systems/ProjectileSystem.ts`，新增 `pet-horse1-sp` / `PetHorse1Bullet2` 占位 projectile，保留 magic、击退 `[5,0]`、`attackInterval = 24`、单次命中和 2 秒 `magicIceMs`。
+- 扩展 `src/assets/AssetManifest.ts`，登记 `PetHorseBmd1`、`PetHorse1Bullet1`、`PetHorse1Bullet2`、`PetHorseIceEffect` 真资源缺口。
+- 扩展 `src/scenes/TestScene.ts`，当前出战 `horse1` 满足门禁时自动释放 `sp`；projectile 命中 Monster30 后复用已有 `applyMonster30MagicSnowIce()`，形成 2 秒冰冻/定身最小状态；状态栏展示 `h1spCd` 和最近释放结果。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、无目标、距离过近/过远、冷却、伤害、扣 MP、projectile 生成、冰冻状态，以及 `fsnl/sxkb` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-033` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-059`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-029
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 细读 `PetHorse1.as`、`PetHorse2.as`、`PetHorse3.as`、`PetHorse4.as`、`PetInfo.as`、`BaseHero.as`、`BaseAddEffect.as`、`PetInterface.as` 和 `PackThings.as` 中与 `horse1..4`、`sp/bd/bz/tmaoyi` 相关的入口。
+- 确认马系宠物实例入口：`BaseHero.addPetByPi()` 按 `horse1..4` 创建 `PetHorse1..4`；`PetInfo.rePetSkill()` 按形态把 `sp/bd/bz/tmaoyi` 放入候选池。
+- 确认学习/形态边界：`addSpecialSkill()` 在低阶形态推进时追加 `bd/bz`，四阶 `tmaoyi` 由 `PetInterface.revolution()` 或 `nianjhd` 道具触发 `theFourShape()`，再通过 `studyEsoteric()` 直接加入已学技能；普通角色技能书 `jns` 不参与。
+- 确认 MP 与伤害公式：`sp/bd/bz` 都消耗 20 MP，`tmaoyi` 消耗 30 MP；`sp/bd = 3.6 * atk * 1.05`，`bz = 6.6 * atk * 1.05`，奥义直接公式为 0，实际通过 `hit5_1` 复用 `sp`、`hit5_2` 复用 `bz`。
+- 确认释放门禁：`sp` 需要目标距离 `50..100`；`bd` 由 `reduceHp()` 设置 `skill1Release` 后释放；`bz` 需要目标距离 `<= 250`；`tmaoyi` 需要存在 `curAttackTarget`。
+- 确认弹体/特效资源键：`PetHorseBmd1..4`、`PetHorse1Bullet1/2`、`PetHorse2Bullet1/2`、`PetHorse3Bullet1/2/3/4`、`PetHorse4Bullet5`、`PetHorse4Bullet5Explode` 和 `PetHorseIceEffect`；当前 `resources/` 文件名检索未直接命中，现代侧仍按占位资源处理。
+- 更新 `docs/reverse-engineering/pets-index.md`，新增马系首批链路、奥义组合门槛、资源缺口和现代最小切片建议。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-033` 标记为可开始，并新增 Ready 后续任务 `TASK-SLICE-058`。
+
+更新文件：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-057
 

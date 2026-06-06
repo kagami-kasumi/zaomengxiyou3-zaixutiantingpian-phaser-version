@@ -469,6 +469,33 @@
 
 `PetMonkey1.reduceHp()` 会把 `skill1Release = true`，因此 `monkey1/xj` 是“宠物受击后允许释放”的反击式主动技能，不是空闲自动常驻释放。技能释放后 `doHit2()` 把 `skill1Release` 重新设为 false。
 
+马系首批链路：
+
+`BaseHero.addPetByPi()` 按 `horse1..4` 分别创建 `PetHorse1..4`。`PetInfo.rePetSkill()` 会把马系候选池扩成 `horse1: sp`、`horse2: sp/bd`、`horse3: sp/bd/bz`、`horse4: sp/bd/bz/tmaoyi`；`addSpecialSkill()` 在 `horse1 -> horse2` 时把 `sp` 从候选池移除并追加 `bd`，在 `horse2 -> horse3` 时把 `bd` 移除并追加 `bz`。四阶奥义不是普通技能书入口：`PetInterface.revolution()` 要求 `horse3` 且等级 `>= 50` 后调用 `PetInfo.theFourShape()`，再由 `studyEsoteric()` 直接把 `tmaoyi` 加入已学技能；道具 `nianjhd` 也会对当前出战宠物调用同一四阶入口。普通角色技能书 `jns` 不参与宠物专属技能学习。
+
+`findPetUsedMagic()` 给出马系消耗：`sp/bd/bz` 都消耗 20 MP，`tmaoyi` 消耗 30 MP。`getPetHarmObj()` 给出伤害基数：`sp = 3.6 * atk * 1.05`、`bd = 3.6 * atk * 1.05`、`bz = 6.6 * atk * 1.05`，`tmaoyi` 本身为 0；奥义的实际伤害来自 `hit5_1` 复用 `sp` 伤害和 `hit5_2` 复用 `bz` 伤害。所有这些伤害在宠物类 `getRealPower()` 中还会叠加 `fsnl` 的 `getMagicAddValue()`、`sxkb` 的宠物暴击 2 倍，以及 `isGXP` 的 1.2 倍；`PetHorse4` 额外乘 `hurtBaseEffectRate()`。
+
+| 类 | 技能槽 | 条件 | 动作/伤害 |
+| --- | --- | --- | --- |
+| `PetHorse1` | skill1 `sp` | 已学 `sp`、MP 足够、目标距离 `50..100`、CD1 就绪 | `hit2`，扣 20 MP；第 4 帧附近生成 `FollowBaseObjectBullet("PetHorse1Bullet2")`，`attackBackInfoDict.hit2` 为 magic、击退 `[5,0]`、`attackInterval = 24`、附加 `PETHORSE_ICE` 2 秒；伤害取 `sp = 3.6 * atk * 1.05` |
+| `PetHorse2` | skill1 `bd` | 已学 `bd`、MP 足够、`skill1Release == true`、CD1 就绪；`reduceHp()` 设置触发标记 | `hit2`，扣 20 MP，`doHit2()` 前 `setYourFather(15)`，生成 `FollowBaseObjectBullet("PetHorse2Bullet2")` 且 `setHurtCanCutDownEffect(false)`，命中后清 `skill1Release`；伤害取 `bd = 3.6 * atk * 1.05`，同样附加 2 秒 `PETHORSE_ICE` |
+| `PetHorse2` | skill2 `sp` | 已学 `sp`、MP 足够、目标距离 `50..100`、CD2 就绪 | `hit3`，扣 20 MP，生成 `SpecialEffectBullet("PetHorse1Bullet2")`；伤害取 `sp = 3.6 * atk * 1.05` |
+| `PetHorse3/4` | skill3 `bz` | 已学 `bz`、MP 足够、目标距离 `<= 250`、CD3 就绪 | `hit4`，扣 20 MP，生成 `SpecialEffectBullet("PetHorse3Bullet4")`；伤害取 `bz = 6.6 * atk * 1.05` |
+| `PetHorse4` | skill4 `tmaoyi` | 已学 `tmaoyi`、MP 足够、`curAttackTarget != null`、CD4 就绪 | `releSkill4()` 先 `addAoyiBuff()`、`setYourFather(20)`，进入 `hit5` 并扣 30 MP；`doHit5()` 为当前 `monsterArray` 每只怪生成一个 `EnemyMoveBullet("PetHorse4Bullet5")`，10 秒或 2000 距离销毁 |
+
+`PetHorse3/4` 仍保留 `bd` 与 `sp` 的前两个技能槽：`bd` 是受击触发的 `hit2`，`sp` 是 `50..100` 距离门禁的 `hit3`。四阶奥义的组合技能门槛体现在 `doHit5()`：如果已学 `sp`，`PetHorse4Bullet5` 会 `setMoveTarget(monster)` 追踪目标，否则只按向下加速度落下；如果已学 `bd`，`hit5_1` 命中会附加 2.4 秒 `PETHORSE_ICE`；如果已学 `bz`，命中后生成 `SpecialEffectBullet("PetHorse4Bullet5Explode")` 的 `hit5_2` 爆炸段，且已学 `bd` 时爆炸延迟 1 秒，否则立即爆炸。说明文本“拥有水泡、冰冻、冰锥才能发挥出奥义的最大威力”与这些条件一致。
+
+马系资源键已由 AS3 确认：本体为 `PetHorseBmd1..4`，普攻/技能包括 `PetHorse1Bullet1`、`PetHorse1Bullet2`、`PetHorse2Bullet1`、`PetHorse2Bullet2`、`PetHorse3Bullet1`、`PetHorse3Bullet2`、`PetHorse3Bullet3`、`PetHorse3Bullet4`、`PetHorse4Bullet5`、`PetHorse4Bullet5Explode`，冰冻表现为 `BaseAddEffect.PETHORSE_ICE` / `PetHorseIceEffect`。当前 `resources/` 文件名检索未直接命中 `PetHorse*` 导出资源，因此现代实现先登记资源缺口并使用占位 key，不重新提取。
+
+现代最小切片建议：
+
+| 优先级 | 切片 | 理由与边界 |
+| --- | --- | --- |
+| 1 | `horse1/sp` | 证据最完整，只有已学、MP、目标距离 `50..100` 和 CD 门禁；可复用现有宠物主动技能、projectile、`fsnl/sxkb` 伤害 helper，并新增一个 Monster30 冰冻最小状态 |
+| 2 | `horse2/bd` | 可复用 `sp` 的冰冻状态，但需要接入“宠物受击后允许释放”的触发标记 |
+| 3 | `horse3/bz` | 只需主动距离 `<= 250` 和范围占位特效，但建议等 `sp/bd` 的马系资源/冰冻边界稳定后再做 |
+| 4 | `horse4/tmaoyi` | 涉及全怪生成、追踪/非追踪差异、冰冻增强、爆炸二段和奥义 buff，适合拆成单独切片，不与 `sp/bd/bz` 同次实现 |
+
 ## 现代宠物技能切片建议
 
 推荐后续切片为 `VS-016 宠物技能最小闭环`，首个实现目标固定为 `monkey1` 的 `xj`：

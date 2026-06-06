@@ -46,11 +46,11 @@
 | VS-030 宠物 `fsnl` 法术能量自动 buff 最小闭环 | 已完成 | 当前出战宠物自动增加自身技能伤害加值 | M-042、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `fsnl`：当前出战宠物已学、MP `>= 20`、计数器归零时触发，按 `form * 30 * technique * 1.05` 提升宠物自身技能伤害加值，到期恢复，重触发计数使用 5400 帧；宠物面板展示 `FSNL` 状态和 `SKILL` 加值，系统测试覆盖门禁、消耗、技能伤害加值、持续和移除 |
 | VS-031 宠物 `fsnl` 技能伤害加值接入最小闭环 | 已完成 | 将宠物自身技能伤害加值接入已复现宠物主动技能伤害 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | 已完成 `fsnl` 技能伤害加值接入：`monkey1/xj`、`monkey2/lj/xj`、`monkey3/lyq/xj/lj` 在原倍率伤害上增加 `skillDamageBonus`；无 `fsnl` 时旧伤害不变；`qlfj` 普通反击和 `jgaoyi/hit5` 无直接伤害边界保持不变 |
 | VS-032 宠物 `sxkb` 暴击率接入主动技能最小闭环 | 已完成 | 将宠物自身暴击率接入已复现宠物主动技能伤害 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`system-tests.ts` | 已完成 `sxkb` 暴击率接入：`monkey1/xj`、`monkey2/lj/xj`、`monkey3/lyq/xj/lj` 使用同一可注入随机源的伤害 helper，先结算 `fsnl` 技能伤害加值，再按 `critBonusRate` 命中时应用 2 倍最小暴击倍率；无暴击率和暴击未命中时旧伤害不变；`qlfj` 普通反击和 `jgaoyi/hit5` 无直接伤害边界保持不变 |
-| VS-033 宠物马系专属技能链最小闭环 | Planned | 复现第一条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | 等 `TASK-SETTINGS-029` 扒清 `horse1..4` 的 `sp/bd/bz/tmaoyi` 入口、门禁、数值、投射物/特效和最小实现边界后，优先选择证据最完整的马系技能切成实现任务 |
+| VS-033 宠物马系专属技能链最小闭环 | 已完成 | 复现第一条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | `TASK-SLICE-058` 已完成 `horse1/sp`：P1 可切换出战 `horse1`，已学 `sp`，满足 MP、距离 `50..100`、目标和 2 秒 CD 门禁后扣 20 MP，生成 `PetHorse1Bullet2` 占位 projectile，按 `3.6 * pet.atk + skillDamageBonus` 并接入 `sxkb` 暴击造成伤害，命中附加 2 秒冰冻。`TASK-SLICE-059` 已完成 `horse2/bd`：P1 可切换出战 `horse2`，已学 `bd`，主人受击等价触发后满足 MP、目标、ready 标记和 2 秒 CD 门禁扣 20 MP，生成 `PetHorse2Bullet2` / `hit2` 占位 projectile，按 `3.6 * pet.atk + skillDamageBonus` 并接入 `sxkb` 暴击造成伤害，释放后清除触发，命中附加 2 秒冰冻；下一步 `TASK-SLICE-060` 实现 `horse3/bz` |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SETTINGS-029`：宠物马系 `sp/bd/bz/tmaoyi` 专属技能链边界逆向。
+1. `TASK-SLICE-060`：宠物 `horse3/bz` 大范围冰锥技能最小闭环。
 
 ## 切片详情
 
