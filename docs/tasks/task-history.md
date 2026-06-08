@@ -110,8 +110,146 @@
 | TASK-SLICE-059 | 切片 | 宠物 `horse2/bd` 受击触发冰冻反击最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-060 | 切片 | 宠物 `horse3/bz` 大范围冰锥技能最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-061 | 切片 | 宠物 `horse4/tmaoyi` 奥义反馈最小闭环 | M-042、M-032、VS-033 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SETTINGS-030 | 逆向 | 宠物青龙专属技能链边界逆向 | M-042、M-032、VS-034 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-062 | 切片 | 宠物 `dragon1/fs` 分身反馈最小闭环 | M-042、M-032、VS-034 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`pets-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-063 | 切片 | 宠物 `dragon2/sdcc` 神龙冲刺最小闭环 | M-042、M-032、VS-034 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`pets-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-064 | 切片 | 宠物 `dragon3/ltwj` 龙腾万钧最小闭环 | M-042、M-032、VS-034 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`pets-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-064
+
+完成时间：
+
+- 2026-06-08
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `dragon3/ltwj` 最小模型：P1 种子宠物列表加入可切换出战的 `dragon3`，持有已学 `fs/sdcc/ltwj`，技能状态包含约 5 秒 CD 和最近命中治疗记录。
+- 新增 `requestPetDragon3LtwjSkill()`，覆盖已学习、MP `>= 20`、目标存在、目标距离 `<= 500` 和 CD 就绪门禁；释放成功扣 20 MP 并重置 CD。
+- `ltwj` 生成 4 段 `PetDragon3Bullet3` / `hit3` 占位 projectile，伤害使用 `((0.024 * pet.maxHp) + 3.6 * 2 * pet.atk) * 1.05 + skillDamageBonus`，并复用既有 `sxkb` 暴击 helper；projectile 记录 `int(maxHp * 0.028 + atk * 0.09 + level * 2)` 命中治疗值。
+- 扩展 `src/systems/ProjectileSystem.ts`，新增 `pet-dragon3-ltwj` projectile variant 和 `PetDragon3LtwjProjectileTuning`，多段 projectile 共用伤害和治疗记录。
+- 扩展 `src/assets/AssetManifest.ts`，登记 `PetDragonBmd3`、`PetDragon3Bullet1`、`PetDragon3Bullet3` 真资源缺口，并新增 `pet-skill.dragon3.ltwj` 稳定 key。
+- 扩展 `src/scenes/TestScene.ts`，当前出战 `dragon3` 满足门禁时自动释放 `ltwj`；宠物面板/状态文本展示 `D3 LTWJ` CD 和最近治疗反馈。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、无目标、距离过远、CD、扣 MP、4 段 projectile、伤害、命中治疗记录、`fsnl/sxkb` 兼容和 `dragon1/fs`、`dragon2/sdcc` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/reverse-engineering/pets-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `dragon3/ltwj` 纳入 `VS-034`，并新增 Ready 后续任务 `TASK-SLICE-065`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/pets-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-063
+
+完成时间：
+
+- 2026-06-08
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `dragon2/sdcc` 最小模型：P1 种子宠物列表加入可切换出战的 `dragon2`，持有已学 `fs/sdcc`，技能状态包含约 3.6 秒 CD 和最近命中治疗记录。
+- 新增 `requestPetDragon2SdccSkill()`，覆盖已学习、MP `>= 20`、目标存在、目标距离 `<= 300` 和 CD 就绪门禁；释放成功扣 20 MP 并重置 CD。
+- `sdcc` 生成 `PetDragon2Bullet2` / `hit2` 占位 projectile，伤害使用 `((0.03 * pet.maxHp) + 3 * pet.atk) * 1.05 + skillDamageBonus`，并复用既有 `sxkb` 暴击 helper；projectile 记录 `int(maxHp * 0.018 + atk * 0.18 + level * 2)` 命中治疗值。
+- 扩展 `src/systems/ProjectileSystem.ts`，新增 `pet-dragon2-sdcc` projectile variant、`PetDragon2SdccProjectileTuning` 和 `petHealOnHit` 记录字段。
+- 扩展 `src/assets/AssetManifest.ts`，登记 `PetDragonBmd2`、`PetDragon2Bullet1`、`PetDragon2Bullet2` 真资源缺口，并新增 `pet-skill.dragon2.sdcc` 稳定 key。
+- 扩展 `src/scenes/TestScene.ts`，当前出战 `dragon2` 满足门禁时自动释放 `sdcc`；宠物面板/状态文本展示 `D2 SDCC` CD 和最近治疗反馈。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、无目标、距离过远、CD、扣 MP、伤害、命中治疗记录、`fsnl/sxkb` 兼容和 `dragon1/fs` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/reverse-engineering/pets-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `dragon2/sdcc` 纳入 `VS-034`，并新增 Ready 后续任务 `TASK-SLICE-064`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/pets-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-062
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `dragon1/fs` 最小模型：P1 种子宠物列表加入可切换出战的 `dragon1`，持有已学 `fs`，技能状态包含约 10 秒 CD 和分身剩余时间。
+- 新增 `requestPetDragon1FsSkill()`，覆盖已学习、MP `>= 20` 和 CD 就绪门禁；一阶 AS3 未写显式目标门禁，现代切片允许无目标释放。
+- 释放成功扣 20 MP，重置约 10 秒 CD，记录 10 秒 `cloneRemainingMs`，并生成 `PetDragon1Clone` / `hit2` 占位 projectile；`fs` 本体直接伤害固定为 0，`fsnl/sxkb` 不放大 0 伤害。
+- 扩展 `src/systems/ProjectileSystem.ts`，新增 `pet-dragon1-fs` projectile variant 和 `PetDragon1FsProjectileTuning`，占位表现使用 10 秒 lifetime、0 伤害、`hit2` 动作。
+- 扩展 `src/assets/AssetManifest.ts`，登记 `PetDragonBmd1`、`PetDragon1Bullet1` 真资源缺口，并新增 `pet-skill.dragon1.fs` 稳定 key。
+- 扩展 `src/scenes/TestScene.ts`，当前出战 `dragon1` 满足门禁时自动释放 `fs`；宠物面板/状态文本展示 `D1 FS` CD 和分身剩余时间。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、CD、扣 MP、无目标释放、分身持续/到期、直接伤害 0、`fsnl/sxkb` 不影响 0 伤害，以及 `horse4/tmaoyi` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/reverse-engineering/pets-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-034` 标记已完成首段，并新增 Ready 后续任务 `TASK-SLICE-063`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/pets-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-030
+
+完成时间：
+
+- 2026-06-06
+
+完成内容：
+
+- 选择青龙 `dragon1..4` 作为马系之后的下一组宠物专属技能链；AS3 证据来自 `PetDragon1.as`、`PetDragon2.as`、`PetDragon3.as`、`PetDragon4.as` 和 `PetInfo.as`。
+- 在 `docs/reverse-engineering/pets-index.md` 记录青龙 `fs -> sdcc -> ltwj -> qlaoyi` 的技能候选池、形态学习入口、MP 消耗、CD、目标/距离门禁、动作、伤害公式、命中治疗、分身边界、奥义组合边界和资源 key。
+- 明确 `dragon1/fs` 是最适合先做的现代最小切片：已学、MP、约 10 秒 CD，释放 10 秒分身反馈，直接伤害为 0；`sdcc/ltwj/qlaoyi` 后置为单独切片。
+- 新增 `VS-034 宠物青龙专属技能链最小闭环`，并将当前 Ready 任务切换为 `TASK-SLICE-062 宠物 dragon1/fs 分身反馈最小闭环`。
+- 更新 `docs/reverse-engineering/mechanics-index.md` 的 `M-042` 下一步，从“继续逆向下一组宠物链”推进为实现 `dragon1/fs`。
+
+更新文件：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-061
 

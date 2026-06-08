@@ -73,6 +73,9 @@ export const PetSkillEffectKeys = {
   horse3Bz: 'pet-skill.horse3.bz',
   horse4Tmaoyi: 'pet-skill.horse4.tmaoyi',
   horse4TmaoyiExplode: 'pet-skill.horse4.tmaoyi.explode',
+  dragon1Fs: 'pet-skill.dragon1.fs',
+  dragon2Sdcc: 'pet-skill.dragon2.sdcc',
+  dragon3Ltwj: 'pet-skill.dragon3.ltwj',
 } as const;
 
 export const scaffoldAssets = {
@@ -212,8 +215,16 @@ export const sourceAssetFamilies = {
       'PetHorse4Bullet5',
       'PetHorse4Bullet5Explode',
       'PetHorseIceEffect',
+      'PetDragonBmd1',
+      'PetDragon1Bullet1',
+      'PetDragonBmd2',
+      'PetDragon2Bullet1',
+      'PetDragon2Bullet2',
+      'PetDragonBmd3',
+      'PetDragon3Bullet1',
+      'PetDragon3Bullet3',
     ],
-    notes: 'Pet monkey xj/lj/lyq/jgaoyi and horse1/sp, horse2/bd, horse3/bz, horse4/tmaoyi projectile families; represented by modern placeholder effects for VS-016 through VS-022 and VS-033.',
+    notes: 'Pet monkey xj/lj/lyq/jgaoyi, horse1/sp, horse2/bd, horse3/bz, horse4/tmaoyi, dragon1/fs, dragon2/sdcc, and dragon3/ltwj projectile families; represented by modern placeholder effects for VS-016 through VS-022, VS-033, and VS-034.',
   },
   stage11: {
     status: 'missing-original',

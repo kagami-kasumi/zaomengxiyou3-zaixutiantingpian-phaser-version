@@ -51,6 +51,7 @@ export type ProjectileModel = {
   magicStunMs?: number;
   magicIceMs?: number;
   trackingTargetId?: string;
+  petHealOnHit?: number;
   explosionDelayMs?: number;
   secondStageDamage?: number;
   secondStageMagicIceMs?: number;
@@ -88,7 +89,10 @@ export type ProjectileVariant =
   | 'pet-horse2-bd'
   | 'pet-horse3-bz'
   | 'pet-horse4-tmaoyi'
-  | 'pet-horse4-tmaoyi-explode';
+  | 'pet-horse4-tmaoyi-explode'
+  | 'pet-dragon1-fs'
+  | 'pet-dragon2-sdcc'
+  | 'pet-dragon3-ltwj';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -565,6 +569,69 @@ export const PetHorse4TmaoyiExplodeProjectileTuning = {
   maxHits: 1,
 } as const;
 
+export const PetDragon1FsProjectileTuning = {
+  actionName: 'hit2',
+  assetKey: PetSkillEffectKeys.dragon1Fs,
+  sourceSymbol: 'PetDragon1Bullet1',
+  runtimeName: 'PetDragon1Clone',
+  offsetX: -44,
+  offsetY: -50,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 68,
+  height: 92,
+  lifetimeMs: 10_000,
+  damage: 0,
+  attackKind: 'magic',
+  knockbackX: 0,
+  knockbackY: 0,
+  hitIntervalFrames: 999,
+  maxHits: 0,
+} as const;
+
+export const PetDragon2SdccProjectileTuning = {
+  actionName: 'hit2',
+  assetKey: PetSkillEffectKeys.dragon2Sdcc,
+  sourceSymbol: 'PetDragon2Bullet2',
+  runtimeName: 'PetDragon2Bullet2',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 138,
+  height: 96,
+  lifetimeMs: 700,
+  damage: 0,
+  attackKind: 'magic',
+  knockbackX: 2,
+  knockbackY: -5,
+  hitIntervalFrames: 999,
+  maxHits: 1,
+} as const;
+
+export const PetDragon3LtwjProjectileTuning = {
+  actionName: 'hit3',
+  assetKey: PetSkillEffectKeys.dragon3Ltwj,
+  sourceSymbol: 'PetDragon3Bullet3',
+  runtimeName: 'PetDragon3Bullet3',
+  offsetX: 0,
+  offsetY: 0,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 170,
+  height: 126,
+  lifetimeMs: 900,
+  damage: 0,
+  attackKind: 'magic',
+  knockbackX: 2,
+  knockbackY: -5,
+  hitIntervalFrames: 999,
+  maxHits: 1,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -979,6 +1046,67 @@ export function spawnPetHorse4TmaoyiExplodeProjectile(
   return projectile;
 }
 
+export function spawnPetDragon1FsProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-dragon1-fs',
+    'pet-dragon1-fs',
+    PetDragon1FsProjectileTuning,
+  );
+
+  projectile.damage = 0;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
+export function spawnPetDragon2SdccProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+  healOnHit: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-dragon2-sdcc',
+    'pet-dragon2-sdcc',
+    PetDragon2SdccProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.petHealOnHit = healOnHit;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
+export function spawnPetDragon3LtwjProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+  healOnHit: number,
+  stageIndex: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-dragon3-ltwj',
+    `pet-dragon3-ltwj-${stageIndex}`,
+    PetDragon3LtwjProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.petHealOnHit = healOnHit;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -1045,7 +1173,10 @@ function spawnProjectileFromTuning(
     | typeof PetHorse2BdProjectileTuning
     | typeof PetHorse3BzProjectileTuning
     | typeof PetHorse4TmaoyiProjectileTuning
-    | typeof PetHorse4TmaoyiExplodeProjectileTuning,
+    | typeof PetHorse4TmaoyiExplodeProjectileTuning
+    | typeof PetDragon1FsProjectileTuning
+    | typeof PetDragon2SdccProjectileTuning
+    | typeof PetDragon3LtwjProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

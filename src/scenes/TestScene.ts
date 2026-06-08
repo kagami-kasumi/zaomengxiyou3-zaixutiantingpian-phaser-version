@@ -203,6 +203,9 @@ import {
   requestPetHorse2BdSkill,
   requestPetHorse3BzSkill,
   requestPetHorse4TmaoyiSkill,
+  requestPetDragon1FsSkill,
+  requestPetDragon2SdccSkill,
+  requestPetDragon3LtwjSkill,
   requestPetQlfjCounterAttack,
   resolveMagicBottleCaptureHit,
   selectPet,
@@ -2092,6 +2095,53 @@ export class TestScene extends Phaser.Scene {
       (activePet.skillState?.horse4Tmaoyi.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
     ) {
       const result = requestPetHorse4TmaoyiSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'dragon' &&
+      activePet.form === 1 &&
+      (activePet.skillState?.dragon1Fs.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
+    ) {
+      const result = requestPetDragon1FsSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'dragon' &&
+      activePet.form === 2 &&
+      (activePet.skillState?.dragon2Sdcc.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
+    ) {
+      const result = requestPetDragon2SdccSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'dragon' &&
+      activePet.form === 3 &&
+      (activePet.skillState?.dragon3Ltwj.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
+    ) {
+      const result = requestPetDragon3LtwjSkill({
         roster: this.petRoster,
         runtime: this.petRuntime,
         targets: this.createPetSkillTargets(),

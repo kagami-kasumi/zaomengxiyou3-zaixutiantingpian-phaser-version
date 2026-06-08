@@ -11,6 +11,9 @@ import {
   spawnPetHorse3BzProjectile,
   spawnPetHorse4TmaoyiExplodeProjectile,
   spawnPetHorse4TmaoyiProjectile,
+  spawnPetDragon1FsProjectile,
+  spawnPetDragon2SdccProjectile,
+  spawnPetDragon3LtwjProjectile,
   type ProjectileModel,
   type ProjectileSystemModel,
 } from './ProjectileSystem';
@@ -70,6 +73,9 @@ export type PetSkillState = {
   horse2Bd: PetHorse2BdSkillState;
   horse3Bz: PetHorse3BzSkillState;
   horse4Tmaoyi: PetHorse4TmaoyiSkillState;
+  dragon1Fs: PetDragon1FsSkillState;
+  dragon2Sdcc: PetDragon2SdccSkillState;
+  dragon3Ltwj: PetDragon3LtwjSkillState;
   lastResult: string;
 };
 
@@ -170,6 +176,21 @@ export type PetHorse3BzSkillState = {
 
 export type PetHorse4TmaoyiSkillState = {
   cooldownMs: number;
+};
+
+export type PetDragon1FsSkillState = {
+  cooldownMs: number;
+  cloneRemainingMs: number;
+};
+
+export type PetDragon2SdccSkillState = {
+  cooldownMs: number;
+  lastHealOnHit: number;
+};
+
+export type PetDragon3LtwjSkillState = {
+  cooldownMs: number;
+  lastHealOnHit: number;
 };
 
 export type PetRoster = {
@@ -293,6 +314,7 @@ export type PetSkillCastResult = {
   target?: PetSkillTarget;
   projectile?: ProjectileModel;
   damage?: number;
+  healOnHit?: number;
   mpBefore?: number;
   mpAfter?: number;
 };
@@ -375,6 +397,17 @@ export const PetTuning = {
   horse4TmaoyiHit5Damage: 0,
   horse4TmaoyiIceMsWithBd: 2_400,
   horse4TmaoyiExplosionDelayMsWithBd: 1_000,
+  dragon1FsMpCost: 20,
+  dragon1FsCooldownMs: 10_000,
+  dragon1FsCloneDurationMs: 10_000,
+  dragon1FsHit2Damage: 0,
+  dragon2SdccMpCost: 20,
+  dragon2SdccCooldownMs: 3_600,
+  dragon2SdccMaxDistance: 300,
+  dragon3LtwjMpCost: 20,
+  dragon3LtwjCooldownMs: 5_000,
+  dragon3LtwjMaxDistance: 500,
+  dragon3LtwjProjectileCount: 4,
   petSkillCritDamageMultiplier: 2,
   skillSlotCount: 8,
   autoBuffFrameMs: 1000 / 24,
@@ -430,6 +463,9 @@ export const PetSkillInfoByKey: Record<string, { name: string; info: string }> =
   bd: { name: '冰冻', info: '受击后反击并冰冻怪物' },
   bz: { name: '冰锥', info: '攻击前方较远范围内的怪物' },
   tmaoyi: { name: '天马奥义', info: '拥有水泡、冰冻、冰锥才能发挥最大威力' },
+  fs: { name: '分身', info: '召唤分身协助作战' },
+  sdcc: { name: '神龙冲刺', info: '冲向目标造成伤害并治疗自身' },
+  ltwj: { name: '龙腾万钧', info: '召唤多段龙影攻击并治疗自身' },
 };
 
 const PetHpByLevel = [
@@ -557,6 +593,44 @@ function createSeedHorsePet(params: {
   };
 }
 
+function createSeedDragonPet(params: {
+  id: string;
+  form: number;
+  displayName: string;
+  isActive: boolean;
+  skills: string[];
+}): PetState {
+  const qualities = createDefaultPetQualities();
+  const stats = getPetBaseStats('dragon', 1, qualities);
+  return {
+    id: params.id,
+    species: 'dragon',
+    form: params.form,
+    displayName: params.displayName,
+    level: 1,
+    exp: 0,
+    expToNext: getPetExperienceToNextLevel(1),
+    hp: stats.maxHp,
+    maxHp: stats.maxHp,
+    mp: stats.maxMp,
+    maxMp: stats.maxMp,
+    atk: stats.atk,
+    def: stats.def,
+    critBonusRate: 0,
+    skillDamageBonus: 0,
+    moveSpeed: 5,
+    lifetime: 100,
+    quality: 1,
+    ...qualities,
+    perception: 1,
+    technique: 1,
+    warpower: 1,
+    isActive: params.isActive,
+    skills: params.skills,
+    skillState: createPetSkillState(),
+  };
+}
+
 export function createSeedPetRoster(): PetRoster {
   return {
     pets: [
@@ -615,6 +689,27 @@ export function createSeedPetRoster(): PetRoster {
         displayName: '小马 F4',
         isActive: false,
         skills: ['tsml', 'sp', 'bd', 'bz', 'tmaoyi'],
+      }),
+      createSeedDragonPet({
+        id: 'pet-dragon-1',
+        form: 1,
+        displayName: '小龙',
+        isActive: false,
+        skills: ['tsml', 'fs'],
+      }),
+      createSeedDragonPet({
+        id: 'pet-dragon-2',
+        form: 2,
+        displayName: '小龙 F2',
+        isActive: false,
+        skills: ['tsml', 'fs', 'sdcc'],
+      }),
+      createSeedDragonPet({
+        id: 'pet-dragon-3',
+        form: 3,
+        displayName: '小龙 F3',
+        isActive: false,
+        skills: ['tsml', 'fs', 'sdcc', 'ltwj'],
       }),
     ],
     selectedIndex: 0,
@@ -842,6 +937,10 @@ export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
     state.horse2Bd.cooldownMs = Math.max(0, state.horse2Bd.cooldownMs - Math.max(0, deltaMs));
     state.horse3Bz.cooldownMs = Math.max(0, state.horse3Bz.cooldownMs - Math.max(0, deltaMs));
     state.horse4Tmaoyi.cooldownMs = Math.max(0, state.horse4Tmaoyi.cooldownMs - Math.max(0, deltaMs));
+    state.dragon1Fs.cooldownMs = Math.max(0, state.dragon1Fs.cooldownMs - Math.max(0, deltaMs));
+    state.dragon1Fs.cloneRemainingMs = Math.max(0, state.dragon1Fs.cloneRemainingMs - Math.max(0, deltaMs));
+    state.dragon2Sdcc.cooldownMs = Math.max(0, state.dragon2Sdcc.cooldownMs - Math.max(0, deltaMs));
+    state.dragon3Ltwj.cooldownMs = Math.max(0, state.dragon3Ltwj.cooldownMs - Math.max(0, deltaMs));
   }
 }
 
@@ -1727,6 +1826,201 @@ export function requestPetHorse4TmaoyiSkill(params: {
   };
 }
 
+export function requestPetDragon1FsSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  projectiles: ProjectileSystemModel;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'dragon' || pet.form !== 1) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not dragon1`, pet);
+  }
+
+  if (!pet.skills.includes('fs')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned fs`, pet);
+  }
+
+  if (pet.mp < PetTuning.dragon1FsMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for fs`, pet);
+  }
+
+  if (state.dragon1Fs.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} fs cooling ${Math.ceil(state.dragon1Fs.cooldownMs)}ms`, pet);
+  }
+
+  const mpBefore = pet.mp;
+  pet.mp = Math.max(0, pet.mp - PetTuning.dragon1FsMpCost);
+  state.dragon1Fs.cooldownMs = PetTuning.dragon1FsCooldownMs;
+  state.dragon1Fs.cloneRemainingMs = PetTuning.dragon1FsCloneDurationMs;
+
+  const projectile = spawnPetDragon1FsProjectile(params.projectiles, {
+    sourceId: pet.id,
+    x: (params.runtime?.x ?? 0) - (params.runtime?.facingX ?? 1) * 44,
+    y: (params.runtime?.y ?? 0) - 50,
+    facingX: params.runtime?.facingX ?? 1,
+  });
+
+  const message = `${pet.displayName} fs clone ${Math.ceil(PetTuning.dragon1FsCloneDurationMs / 1000)}s`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    projectile,
+    damage: PetTuning.dragon1FsHit2Damage,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
+}
+
+export function requestPetDragon2SdccSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'dragon' || pet.form !== 2) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not dragon2`, pet);
+  }
+
+  if (!pet.skills.includes('sdcc')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned sdcc`, pet);
+  }
+
+  if (pet.mp < PetTuning.dragon2SdccMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for sdcc`, pet);
+  }
+
+  if (state.dragon2Sdcc.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} sdcc cooling ${Math.ceil(state.dragon2Sdcc.cooldownMs)}ms`, pet);
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} sdcc has no target`, pet);
+  }
+
+  const distance = getPetSkillDistance(params.runtime, target);
+  if (distance > PetTuning.dragon2SdccMaxDistance) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} sdcc target too far ${Math.ceil(distance)}`, pet);
+  }
+
+  const damage = calculatePetSkillDamageFromBase(calculatePetDragon2SdccBaseDamage(pet), pet, params.random);
+  const healOnHit = calculatePetDragon2SdccHealOnHit(pet);
+  const mpBefore = pet.mp;
+  pet.mp = Math.max(0, pet.mp - PetTuning.dragon2SdccMpCost);
+  state.dragon2Sdcc.cooldownMs = PetTuning.dragon2SdccCooldownMs;
+  state.dragon2Sdcc.lastHealOnHit = healOnHit;
+
+  const projectile = spawnPetDragon2SdccProjectile(params.projectiles, {
+    sourceId: pet.id,
+    x: target.x,
+    y: target.y,
+    facingX: getPetSkillFacing(params.runtime, target),
+  }, damage, healOnHit);
+
+  const message = `${pet.displayName} sdcc -> ${target.id} ${damage.toFixed(1)} heal:${healOnHit}`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    projectile,
+    damage,
+    healOnHit,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
+}
+
+export function requestPetDragon3LtwjSkill(params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
+}): PetSkillCastResult {
+  const pet = getActivePet(params.roster);
+  if (!pet) {
+    return setPetSkillFailure(params.roster, 'No active pet');
+  }
+
+  const state = ensurePetSkillState(pet);
+  if (pet.species !== 'dragon' || pet.form !== 3) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} is not dragon3`, pet);
+  }
+
+  if (!pet.skills.includes('ltwj')) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned ltwj`, pet);
+  }
+
+  if (pet.mp < PetTuning.dragon3LtwjMpCost) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for ltwj`, pet);
+  }
+
+  if (state.dragon3Ltwj.cooldownMs > 0) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} ltwj cooling ${Math.ceil(state.dragon3Ltwj.cooldownMs)}ms`, pet);
+  }
+
+  const target = selectPetSkillTarget(params.runtime, params.targets);
+  if (!target) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} ltwj has no target`, pet);
+  }
+
+  const distance = getPetSkillDistance(params.runtime, target);
+  if (distance > PetTuning.dragon3LtwjMaxDistance) {
+    return setPetSkillFailure(params.roster, `${pet.displayName} ltwj target too far ${Math.ceil(distance)}`, pet);
+  }
+
+  const damage = calculatePetSkillDamageFromBase(calculatePetDragon3LtwjBaseDamage(pet), pet, params.random);
+  const healOnHit = calculatePetDragon3LtwjHealOnHit(pet);
+  const mpBefore = pet.mp;
+  pet.mp = Math.max(0, pet.mp - PetTuning.dragon3LtwjMpCost);
+  state.dragon3Ltwj.cooldownMs = PetTuning.dragon3LtwjCooldownMs;
+  state.dragon3Ltwj.lastHealOnHit = healOnHit;
+
+  let firstProjectile: ProjectileModel | undefined;
+  for (let index = 0; index < PetTuning.dragon3LtwjProjectileCount; index += 1) {
+    const projectile = spawnPetDragon3LtwjProjectile(params.projectiles, {
+      sourceId: pet.id,
+      x: target.x + (index - 1.5) * 28,
+      y: target.y - index * 10,
+      facingX: getPetSkillFacing(params.runtime, target),
+    }, damage, healOnHit, index + 1);
+    firstProjectile ??= projectile;
+  }
+
+  const message = `${pet.displayName} ltwj -> ${target.id} ${damage.toFixed(1)}x${PetTuning.dragon3LtwjProjectileCount} heal:${healOnHit}`;
+  state.lastResult = message;
+  params.roster.message = message;
+  return {
+    ok: true,
+    message,
+    pet,
+    target,
+    projectile: firstProjectile,
+    damage,
+    healOnHit,
+    mpBefore,
+    mpAfter: pet.mp,
+  };
+}
+
 export function requestMagicBottleCapture(params: {
   model: MagicBottleCaptureModel;
   owner: PetOwnerSnapshot;
@@ -2094,6 +2388,9 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
       lines.push(`H2 BD ready:${skillState.horse2Bd.releaseReady ? 'Y' : 'N'} cd:${Math.ceil(skillState.horse2Bd.cooldownMs)}ms`);
       lines.push(`H3 BZ cd:${Math.ceil(skillState.horse3Bz.cooldownMs)}ms`);
       lines.push(`H4 TMAOYI cd:${Math.ceil(skillState.horse4Tmaoyi.cooldownMs)}ms`);
+      lines.push(`D1 FS cd:${Math.ceil(skillState.dragon1Fs.cooldownMs)}ms clone:${formatPetAutoBuffMs(skillState.dragon1Fs.cloneRemainingMs)}`);
+      lines.push(`D2 SDCC cd:${Math.ceil(skillState.dragon2Sdcc.cooldownMs)}ms heal:${skillState.dragon2Sdcc.lastHealOnHit}`);
+      lines.push(`D3 LTWJ cd:${Math.ceil(skillState.dragon3Ltwj.cooldownMs)}ms heal:${skillState.dragon3Ltwj.lastHealOnHit}`);
       lines.push(`Last skill: ${skillState.lastResult}`);
     }
     const autoBuffState = selected.autoBuffState;
@@ -2231,6 +2528,19 @@ function getPetFormSkillCandidates(species: string, form: number): string[] {
     return ['sp', 'bd', 'bz', 'tmaoyi'];
   }
 
+  if (species === 'dragon') {
+    if (form <= 1) {
+      return ['fs'];
+    }
+    if (form === 2) {
+      return ['fs', 'sdcc'];
+    }
+    if (form === 3) {
+      return ['fs', 'sdcc', 'ltwj'];
+    }
+    return ['fs', 'sdcc', 'ltwj', 'qlaoyi'];
+  }
+
   return [];
 }
 
@@ -2297,6 +2607,18 @@ function createPetSkillState(): PetSkillState {
     },
     horse4Tmaoyi: {
       cooldownMs: 0,
+    },
+    dragon1Fs: {
+      cooldownMs: 0,
+      cloneRemainingMs: 0,
+    },
+    dragon2Sdcc: {
+      cooldownMs: 0,
+      lastHealOnHit: 0,
+    },
+    dragon3Ltwj: {
+      cooldownMs: 0,
+      lastHealOnHit: 0,
     },
     lastResult: 'pet skill ready',
   };
@@ -2741,12 +3063,36 @@ function calculatePetSkillDamage(
   random: PetSkillRandomSource = Math.random,
 ): number {
   const baseDamage = pet.atk * multiplier + Math.max(0, pet.skillDamageBonus ?? 0);
+  return calculatePetSkillDamageFromBase(baseDamage, pet, random);
+}
+
+function calculatePetSkillDamageFromBase(
+  baseDamage: number,
+  pet: PetState,
+  random: PetSkillRandomSource = Math.random,
+): number {
   const critRate = Math.max(0, Math.min(1, pet.critBonusRate ?? 0));
   if (critRate <= 0) {
     return baseDamage;
   }
 
   return random() <= critRate ? baseDamage * PetTuning.petSkillCritDamageMultiplier : baseDamage;
+}
+
+function calculatePetDragon2SdccBaseDamage(pet: PetState): number {
+  return ((0.03 * pet.maxHp) + (3 * pet.atk)) * 1.05 + Math.max(0, pet.skillDamageBonus ?? 0);
+}
+
+function calculatePetDragon2SdccHealOnHit(pet: PetState): number {
+  return Math.floor((pet.maxHp * 0.018) + (pet.atk * 0.18) + (pet.level * 2));
+}
+
+function calculatePetDragon3LtwjBaseDamage(pet: PetState): number {
+  return ((0.024 * pet.maxHp) + (3.6 * 2 * pet.atk)) * 1.05 + Math.max(0, pet.skillDamageBonus ?? 0);
+}
+
+function calculatePetDragon3LtwjHealOnHit(pet: PetState): number {
+  return Math.floor((pet.maxHp * 0.028) + (pet.atk * 0.09) + (pet.level * 2));
 }
 
 function calculatePetSmjcMaxHpBonus(pet: PetState): number {

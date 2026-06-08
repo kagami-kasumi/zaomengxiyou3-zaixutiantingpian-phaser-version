@@ -70,6 +70,9 @@ import {
   requestPetHorse2BdSkill,
   requestPetHorse3BzSkill,
   requestPetHorse4TmaoyiSkill,
+  requestPetDragon1FsSkill,
+  requestPetDragon2SdccSkill,
+  requestPetDragon3LtwjSkill,
   requestPetQlfjCounterAttack,
   requestMagicBottleCapture,
   resolveMagicBottleCaptureHit,
@@ -198,6 +201,15 @@ testPetHorse3BzCombinesWithFsnlAndSxkbAndKeepsEarlierHorseSkillsCompatible();
 testPetHorse4TmaoyiRequiresLearnedSkillMpCooldownAndTarget();
 testPetHorse4TmaoyiSpawnsComboProjectilesAndKeepsDirectDamageZero();
 testPetHorse4TmaoyiCombinationFallbacksAndEarlierHorseSkillCompatibility();
+testPetDragon1FsRequiresLearnedSkillMpAndCooldown();
+testPetDragon1FsSpawnsCloneFeedbackWithoutTargetOrDamage();
+testPetDragon1FsKeepsEarlierHorseSkillCompatible();
+testPetDragon2SdccRequiresLearnedSkillMpTargetDistanceAndCooldown();
+testPetDragon2SdccSpawnsProjectileDamageAndHealOnHit();
+testPetDragon2SdccCombinesWithFsnlAndSxkbAndKeepsDragon1Compatible();
+testPetDragon3LtwjRequiresLearnedSkillMpTargetDistanceAndCooldown();
+testPetDragon3LtwjSpawnsMultiProjectilesDamageAndHealOnHit();
+testPetDragon3LtwjCombinesWithFsnlAndSxkbAndKeepsEarlierDragonSkillsCompatible();
 testMagicWeaponRejectsWithoutZbfb();
 testMagicWeaponKylHealsAndRejectsReentry();
 testMagicWeaponSylRestoresMpAndWoodDuration();
@@ -3050,6 +3062,417 @@ function testPetHorse4TmaoyiCombinationFallbacksAndEarlierHorseSkillCompatibilit
   }).ok, true);
 }
 
+function testPetDragon1FsRequiresLearnedSkillMpAndCooldown(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon1(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 1, 'dragon');
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'fs');
+  let result = requestPetDragon1FsSkill({
+    roster,
+    runtime,
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned fs/);
+
+  pet.skills.push('fs');
+  pet.mp = PetTuning.dragon1FsMpCost - 1;
+  result = requestPetDragon1FsSkill({
+    roster,
+    runtime,
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetDragon1FsSkill({
+    roster,
+    runtime,
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.damage, PetTuning.dragon1FsHit2Damage);
+  assert.equal(pet.skillState?.dragon1Fs.cooldownMs, PetTuning.dragon1FsCooldownMs);
+  assert.equal(pet.skillState?.dragon1Fs.cloneRemainingMs, PetTuning.dragon1FsCloneDurationMs);
+
+  result = requestPetDragon1FsSkill({
+    roster,
+    runtime,
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.dragon1FsCooldownMs);
+  result = requestPetDragon1FsSkill({
+    roster,
+    runtime,
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetDragon1FsSpawnsCloneFeedbackWithoutTargetOrDamage(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon1(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 1, 'dragon');
+  runtime.x = 120;
+  runtime.y = 80;
+  runtime.facingX = -1;
+  const monster = createMonster30(100, 0, 'm30-pet-dragon1-fs-zero');
+  monster.maxHp = 240;
+  monster.hp = monster.maxHp;
+  pet.skillDamageBonus = 50;
+  pet.critBonusRate = 1;
+  const mpBefore = pet.mp;
+
+  const result = requestPetDragon1FsSkill({
+    roster,
+    runtime,
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.target, undefined);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.dragon1FsMpCost);
+  assert.equal(result.damage, 0);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+
+  const [clone] = getActiveProjectiles(projectiles);
+  assert.ok(clone);
+  assert.equal(clone.variant, 'pet-dragon1-fs');
+  assert.equal(clone.sourceId, pet.id);
+  assert.equal(clone.actionName, 'hit2');
+  assert.equal(clone.runtimeName, 'PetDragon1Clone');
+  assert.equal(clone.damage, 0);
+  assert.equal(clone.lifetimeMs, PetTuning.dragon1FsCloneDurationMs);
+  assert.equal(applyMonster30Hit(monster, clone.damage), true);
+  assertNearlyEqual(monster.hp, monster.maxHp);
+
+  updatePetSkillState(roster, PetTuning.dragon1FsCloneDurationMs - 1);
+  assert.equal(pet.skillState?.dragon1Fs.cloneRemainingMs, 1);
+  updatePetSkillState(roster, 1);
+  assert.equal(pet.skillState?.dragon1Fs.cloneRemainingMs, 0);
+}
+
+function testPetDragon1FsKeepsEarlierHorseSkillCompatible(): void {
+  const dragonRoster = createSeedPetRoster();
+  const dragon = deploySeedDragon1(dragonRoster);
+  assert.equal(requestPetDragon1FsSkill({
+    roster: dragonRoster,
+    runtime: createTestPetRuntime(dragon.id, 1, 'dragon'),
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+
+  const horse4Roster = createSeedPetRoster();
+  const horse4 = deploySeedHorse4(horse4Roster);
+  assert.equal(requestPetHorse4TmaoyiSkill({
+    roster: horse4Roster,
+    runtime: createTestPetRuntime(horse4.id, 4, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-dragon1-horse4-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+}
+
+function testPetDragon2SdccRequiresLearnedSkillMpTargetDistanceAndCooldown(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon2(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 2, 'dragon');
+  const target = createPetSkillMonsterTarget(createMonster30(300, 0, 'm30-pet-sdcc-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'sdcc');
+  let result = requestPetDragon2SdccSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned sdcc/);
+
+  pet.skills.push('sdcc');
+  pet.mp = PetTuning.dragon2SdccMpCost - 1;
+  result = requestPetDragon2SdccSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetDragon2SdccSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetDragon2SdccSkill({
+    roster,
+    runtime,
+    targets: [createPetSkillMonsterTarget(createMonster30(PetTuning.dragon2SdccMaxDistance + 1, 0, 'm30-pet-sdcc-far'))],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /target too far/);
+
+  result = requestPetDragon2SdccSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(pet.skillState?.dragon2Sdcc.cooldownMs, PetTuning.dragon2SdccCooldownMs);
+
+  result = requestPetDragon2SdccSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.dragon2SdccCooldownMs);
+  result = requestPetDragon2SdccSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetDragon2SdccSpawnsProjectileDamageAndHealOnHit(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon2(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-sdcc-hit');
+  monster.maxHp = 420;
+  monster.hp = monster.maxHp;
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+  const expectedDamage = ((0.03 * pet.maxHp) + (3 * pet.atk)) * 1.05;
+  const expectedHeal = Math.floor((pet.maxHp * 0.018) + (pet.atk * 0.18) + (pet.level * 2));
+
+  const result = requestPetDragon2SdccSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 2, 'dragon'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.dragon2SdccMpCost);
+  assertNearlyEqual(result.damage ?? 0, expectedDamage);
+  assert.equal(result.healOnHit, expectedHeal);
+  assert.equal(pet.skillState?.dragon2Sdcc.lastHealOnHit, expectedHeal);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+
+  const [projectile] = getActiveProjectiles(projectiles);
+  assert.ok(projectile);
+  assert.equal(projectile.variant, 'pet-dragon2-sdcc');
+  assert.equal(projectile.sourceId, pet.id);
+  assert.equal(projectile.actionName, 'hit2');
+  assert.equal(projectile.runtimeName, 'PetDragon2Bullet2');
+  assertNearlyEqual(projectile.damage, expectedDamage);
+  assert.equal(projectile.petHealOnHit, expectedHeal);
+
+  assert.equal(applyMonster30Hit(monster, projectile.damage), true);
+  assertNearlyEqual(monster.hp, monster.maxHp - expectedDamage);
+}
+
+function testPetDragon2SdccCombinesWithFsnlAndSxkbAndKeepsDragon1Compatible(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon2(roster);
+  pet.skillDamageBonus = 12.5;
+  pet.critBonusRate = 1;
+  const projectiles = createProjectileSystem();
+  const baseDamage = ((0.03 * pet.maxHp) + (3 * pet.atk)) * 1.05 + pet.skillDamageBonus;
+
+  const result = requestPetDragon2SdccSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 2, 'dragon'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-sdcc-crit'))],
+    projectiles,
+    random: () => 0,
+  });
+
+  assert.equal(result.ok, true);
+  assertNearlyEqual(result.damage ?? 0, baseDamage * PetTuning.petSkillCritDamageMultiplier);
+
+  const dragon1Roster = createSeedPetRoster();
+  const dragon1 = deploySeedDragon1(dragon1Roster);
+  assert.equal(requestPetDragon1FsSkill({
+    roster: dragon1Roster,
+    runtime: createTestPetRuntime(dragon1.id, 1, 'dragon'),
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+}
+
+function testPetDragon3LtwjRequiresLearnedSkillMpTargetDistanceAndCooldown(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon3(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 3, 'dragon');
+  const target = createPetSkillMonsterTarget(createMonster30(300, 0, 'm30-pet-ltwj-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'ltwj');
+  let result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned ltwj/);
+
+  pet.skills.push('ltwj');
+  pet.mp = PetTuning.dragon3LtwjMpCost - 1;
+  result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime,
+    targets: [createPetSkillMonsterTarget(createMonster30(PetTuning.dragon3LtwjMaxDistance + 1, 0, 'm30-pet-ltwj-far'))],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /target too far/);
+
+  result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(pet.skillState?.dragon3Ltwj.cooldownMs, PetTuning.dragon3LtwjCooldownMs);
+
+  result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.dragon3LtwjCooldownMs);
+  result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetDragon3LtwjSpawnsMultiProjectilesDamageAndHealOnHit(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon3(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-ltwj-hit');
+  monster.maxHp = 720;
+  monster.hp = monster.maxHp;
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+  const expectedDamage = ((0.024 * pet.maxHp) + (3.6 * 2 * pet.atk)) * 1.05;
+  const expectedHeal = Math.floor((pet.maxHp * 0.028) + (pet.atk * 0.09) + (pet.level * 2));
+
+  const result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 3, 'dragon'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.dragon3LtwjMpCost);
+  assertNearlyEqual(result.damage ?? 0, expectedDamage);
+  assert.equal(result.healOnHit, expectedHeal);
+  assert.equal(pet.skillState?.dragon3Ltwj.lastHealOnHit, expectedHeal);
+  assert.equal(getActiveProjectiles(projectiles).length, PetTuning.dragon3LtwjProjectileCount);
+
+  const activeProjectiles = getActiveProjectiles(projectiles);
+  assert.equal(activeProjectiles.every((projectile) => projectile.variant === 'pet-dragon3-ltwj'), true);
+  for (const projectile of activeProjectiles) {
+    assert.equal(projectile.sourceId, pet.id);
+    assert.equal(projectile.actionName, 'hit3');
+    assert.equal(projectile.runtimeName, 'PetDragon3Bullet3');
+    assertNearlyEqual(projectile.damage, expectedDamage);
+    assert.equal(projectile.petHealOnHit, expectedHeal);
+  }
+
+  assert.equal(applyMonster30Hit(monster, activeProjectiles[0]?.damage ?? 0), true);
+  assertNearlyEqual(monster.hp, monster.maxHp - expectedDamage);
+}
+
+function testPetDragon3LtwjCombinesWithFsnlAndSxkbAndKeepsEarlierDragonSkillsCompatible(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon3(roster);
+  pet.skillDamageBonus = 12.5;
+  pet.critBonusRate = 1;
+  const projectiles = createProjectileSystem();
+  const baseDamage = ((0.024 * pet.maxHp) + (3.6 * 2 * pet.atk)) * 1.05 + pet.skillDamageBonus;
+
+  const result = requestPetDragon3LtwjSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 3, 'dragon'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-ltwj-crit'))],
+    projectiles,
+    random: () => 0,
+  });
+
+  assert.equal(result.ok, true);
+  assertNearlyEqual(result.damage ?? 0, baseDamage * PetTuning.petSkillCritDamageMultiplier);
+
+  const dragon1Roster = createSeedPetRoster();
+  const dragon1 = deploySeedDragon1(dragon1Roster);
+  assert.equal(requestPetDragon1FsSkill({
+    roster: dragon1Roster,
+    runtime: createTestPetRuntime(dragon1.id, 1, 'dragon'),
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+
+  const dragon2Roster = createSeedPetRoster();
+  const dragon2 = deploySeedDragon2(dragon2Roster);
+  assert.equal(requestPetDragon2SdccSkill({
+    roster: dragon2Roster,
+    runtime: createTestPetRuntime(dragon2.id, 2, 'dragon'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-ltwj-dragon2-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+}
+
 function testMagicWeaponRejectsWithoutZbfb(): void {
   const model = createMagicWeaponModel();
   const loadout = createEmptyEquipmentLoadout();
@@ -5083,6 +5506,63 @@ function deploySeedHorse4(roster: ReturnType<typeof createSeedPetRoster>) {
   assert.equal(pet.id, 'pet-horse-4');
   assert.equal(pet.species, 'horse');
   assert.equal(pet.form, 4);
+  return pet;
+}
+
+function deploySeedDragon1(roster: ReturnType<typeof createSeedPetRoster>) {
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-dragon-1');
+  assert.equal(pet.species, 'dragon');
+  assert.equal(pet.form, 1);
+  return pet;
+}
+
+function deploySeedDragon2(roster: ReturnType<typeof createSeedPetRoster>) {
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-dragon-2');
+  assert.equal(pet.species, 'dragon');
+  assert.equal(pet.form, 2);
+  return pet;
+}
+
+function deploySeedDragon3(roster: ReturnType<typeof createSeedPetRoster>) {
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-dragon-3');
+  assert.equal(pet.species, 'dragon');
+  assert.equal(pet.form, 3);
   return pet;
 }
 

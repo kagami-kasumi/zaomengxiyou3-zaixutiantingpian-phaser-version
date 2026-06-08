@@ -496,6 +496,40 @@
 | 3 | `horse3/bz` | 只需主动距离 `<= 250` 和范围占位特效，但建议等 `sp/bd` 的马系资源/冰冻边界稳定后再做 |
 | 4 | `horse4/tmaoyi` | 涉及全怪生成、追踪/非追踪差异、冰冻增强、爆炸二段和奥义 buff，适合拆成单独切片，不与 `sp/bd/bz` 同次实现 |
 
+青龙首批链路：
+
+`BaseHero.addPetByPi()` 按 `dragon1..4` 分别创建 `PetDragon1..4`。`PetInfo.rePetSkill()` 会把青龙候选池扩成 `dragon1: fs`、`dragon2: fs/sdcc`、`dragon3: fs/sdcc/ltwj`、`dragon4: fs/sdcc/ltwj/qlaoyi`；`addSpecialSkill()` 在 `dragon1 -> dragon2` 时把 `fs` 从追加候选中替换为 `sdcc`，在 `dragon2 -> dragon3` 时把 `sdcc` 替换为 `ltwj`。四阶说明和四阶学习入口会让 `dragon4` 持有 `qlaoyi`，普通角色技能书 `jns` 不参与宠物专属技能学习。
+
+`findPetUsedMagic()` 给出青龙消耗：`fs/sdcc/ltwj` 都消耗 20 MP，`qlaoyi` 消耗 30 MP。`getPetHarmObj()` 给出伤害基数：`fs = 0`、`sdcc = (0.03 * SHp + 3 * atk) * 1.05`、`ltwj = (0.024 * SHp + 3.6 * 2 * atk) * 1.05`、`qlaoyi = 0`。青龙现代基础属性已按宠物种族给出 `maxMp = 175`、`atk = 25`，后续实现可先沿用现有宠物伤害 helper 接入 `fsnl/sxkb`，但 `fs/qlaoyi` 本体仍保持直接伤害 0。
+
+| 类 | 技能槽 | 条件 | 动作/伤害 |
+| --- | --- | --- | --- |
+| `PetDragon1` | skill1 `fs` | 已学 `fs`、MP 足够、CD1 就绪；一阶 AS3 未写显式目标门禁 | `hit2`，扣 20 MP；创建同类分身，`type = 1`、透明度约 `0.5`、位置随机偏移、持续 `gc.frameClips * 10`，`getRealPower("hit2")` 为 0 |
+| `PetDragon2/3` | skill1 `fs` | 已学 `fs`、MP 足够、CD1 就绪 | 同上；`PetDragon3.releSkill1()` 内扣 MP key 写成 `"sp"`，但门禁和技能池均为 `fs`，按 AS3 旧复制痕迹记录，现代实现以 `fs` 为准 |
+| `PetDragon4` | skill1 `fs` | 已学 `fs`、MP 足够、目标存在、CD1 就绪 | 同上；四阶版本额外要求 `curAttackTarget != null` |
+| `PetDragon2/3` | skill2 `sdcc` | 已学 `sdcc`、MP 足够、目标存在、距离 `<= 300`、CD2 就绪 | `hit3`，扣 20 MP；生成 `FollowBaseObjectBullet("PetDragon2Bullet2")` / `hit2`，命中造成 `sdcc` 伤害并按 `int(SHp * 0.018 + atk * 0.18 + level * 2)` 治疗宠物 |
+| `PetDragon4` | skill2 `sdcc` | 已学 `sdcc`、MP 足够、目标存在、距离 `<= 180`、CD2 就绪 | 同 `sdcc`，四阶距离门禁收窄到 `180` |
+| `PetDragon3` | skill3 `ltwj` | 已学 `ltwj`、MP 足够、目标存在、距离 `<= 500`、CD3 就绪 | `hit4`，扣 20 MP；分批生成多个 `SpecialEffectBullet("PetDragon3Bullet3")` / `hit3`，命中造成 `ltwj` 伤害并按 `int(SHp * 0.028 + atk * 0.09 + level * 2)` 治疗宠物 |
+| `PetDragon4` | skill3 `ltwj` | 已学 `ltwj`、MP 足够、目标存在、距离 `<= 220`、CD3 就绪 | 同 `ltwj`，四阶距离门禁收窄到 `220` |
+| `PetDragon4` | skill4 `qlaoyi` | 已学 `qlaoyi`、MP `>= 30`、目标存在、CD4 就绪 | `hit5`，进入奥义 buff；第 48 帧生成 `FollowBaseObjectBullet("PetDragonBullet4")` / `hit4`，自身直接伤害为 0，实际威力依赖已学 `fs/sdcc/ltwj` 的分身组合 |
+
+青龙 CD 来自 `skillCDN = [初始, 间隔]`：`fs` 约 `10s`、`sdcc` 约 `3.6s`、`ltwj` 约 `5s`、`qlaoyi` 约 `24s`。`qlaoyi` 的 `releSkill4()` 未在已读片段中看到显式 MP 扣除，门禁仍使用 `findPetUsedMagic("qlaoyi") = 30`；现代实现应先按门禁和其他奥义一致性扣 30 MP，并在文档中保留 AS3 片段未见扣 MP 的边界说明。
+
+`fs` 分身边界：`doHit2()` 会创建同类宠物分身并加入 `fenshenArray`，分身复制宠物信息、设 `type = 1`、`alpha = 0.5`，持续 `gc.frameClips * 10` 后销毁；主宠会在分身回收路径中执行一次按 `SHp * 0.036` 的治疗。首个现代切片建议只做分身可见反馈、10 秒持续和直接伤害 0，分身 AI、分身到期治疗和多分身协同后置。
+
+`qlaoyi` 组合边界：如果已学 `fs`，奥义会创建分身；如果已学 `sdcc`，分身会走 `releSkill2WithoutMana()`；否则若已学 `ltwj`，分身进入 `hit6`；都不满足时清掉 `isAoyi`。这说明四阶奥义不是单个高伤害 projectile，而是依赖前置技能链的组合表现，适合等 `fs/sdcc/ltwj` 都有最小实现后再拆独立切片。
+
+青龙资源键已由 AS3 确认：本体为 `PetDragonBmd1..4`，技能/弹体包括 `PetDragon1Bullet1`、`PetDragon2Bullet1`、`PetDragon2Bullet2`、`PetDragon3Bullet1`、`PetDragon3Bullet3`、`PetDragonBullet4`。`attackBackInfoDict` 中 `hit1/hit2` 为 physics，`hit3/hit4` 为 magic，击退大致为 `[3,-5]`、`[7,-5]`、`[2,-5]`、`[1,-5]`；现代首批只登记占位资源 key，不重新提取资源。
+
+青龙现代最小切片建议：
+
+| 优先级 | 切片 | 理由与边界 |
+| --- | --- | --- |
+| 1 | `dragon1/fs` | 已由 `TASK-SLICE-062` 完成：已学、MP、约 10 秒 CD、10 秒分身占位反馈、无目标释放和直接伤害 0 |
+| 2 | `dragon2/sdcc` | 已由 `TASK-SLICE-063` 完成：目标/距离 `<= 300` 门禁、混合伤害公式、`fsnl/sxkb` 兼容和命中治疗记录 |
+| 3 | `dragon3/ltwj` | 已由 `TASK-SLICE-064` 完成：距离 `<= 500` 门禁、4 段 `PetDragon3Bullet3` 占位反馈、混合伤害公式、`fsnl/sxkb` 兼容和命中治疗记录 |
+| 4 | `dragon4/qlaoyi` | 下一步推荐：依赖 `fs/sdcc/ltwj` 组合表现、奥义 buff、分身协同和 MP 扣除疑点，适合拆为独立奥义反馈切片 |
+
 ## 现代宠物技能切片建议
 
 推荐后续切片为 `VS-016 宠物技能最小闭环`，首个实现目标固定为 `monkey1` 的 `xj`：
