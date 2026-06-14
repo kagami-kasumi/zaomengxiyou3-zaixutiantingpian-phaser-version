@@ -44,6 +44,10 @@
 - `CLAUDE.md`
   - Claude Code 快速入口。
   - 摘要列出启动校验、核心约束和代码质量门禁。
+- `.claude/agents/`
+  - Claude Code subagent 定义目录。
+  - 维护 `reverse-engineering-researcher`、`modern-implementation-engineer`、`engineering-reviewer` 和 `workflow-steward` 的职责、读取路线、写入边界和输出格式。
+  - 不记录具体游戏任务状态。
 - `docs/workflow/task-generation.md`
   - 标准游戏任务生成规范。
   - 说明如何从机制缺口、切片缺口或工程基础缺口生成任务。

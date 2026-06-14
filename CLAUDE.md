@@ -24,6 +24,19 @@ npm run check:workflow
 | 按需 | [docs/workflow/review-protocol.md](./docs/workflow/review-protocol.md) | 执行工程评审时 |
 | 按需 | [docs/workflow/](./docs/workflow/) | 涉及脚手架维护时 |
 
+## Subagents
+
+项目内置 4 个 Claude Code subagent，定义在 [`.claude/agents/`](./.claude/agents/)：
+
+| Agent | 何时使用 | 写入权限边界 |
+| --- | --- | --- |
+| `reverse-engineering-researcher` | 需要 AS3/提取资料证据、机制事实确认、逆向索引前置调研 | 只读；不改 `extracted_flash/` 或项目文件 |
+| `modern-implementation-engineer` | 机制事实已明确，需要实现一个现代 TypeScript/Phaser 任务或纵向切片 | 可改当前任务所需 `src/`、测试和状态文档 |
+| `engineering-reviewer` | 评审实现结果、阶段成果或 `docs/评审/` 文档 | 默认只读；按 `review-protocol.md` 输出发现 |
+| `workflow-steward` | 维护 AGENTS/CLAUDE、workflow 文档、任务规则、校验脚本或治理规则 | 可改脚手架文件；不把治理任务写入游戏看板 |
+
+默认由主 agent 负责最终整合、编辑确认和收尾。subagent 优先承担只读调研、受限实现、独立评审或脚手架维护，避免多个 agent 同时改同一批状态文档。
+
 ## 核心约束
 
 1. 轻量请求不进入完整游戏 task 流程，不更新看板，不要求切换对话。
