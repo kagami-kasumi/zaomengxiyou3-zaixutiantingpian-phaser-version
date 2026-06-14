@@ -21,6 +21,7 @@ npm run check:workflow
 | 按需 | [docs/tasks/task-board.md](./docs/tasks/task-board.md) | 执行正式游戏 task 时 |
 | 按需 | [docs/reverse-engineering/mechanics-index.md](./docs/reverse-engineering/mechanics-index.md) | 涉及玩法/机制时 |
 | 按需 | [docs/tasks/vertical-slices.md](./docs/tasks/vertical-slices.md) | 涉及实现时 |
+| 按需 | [docs/workflow/review-protocol.md](./docs/workflow/review-protocol.md) | 执行工程评审时 |
 | 按需 | [docs/workflow/](./docs/workflow/) | 涉及脚手架维护时 |
 
 ## 核心约束
@@ -34,6 +35,7 @@ npm run check:workflow
 7. 正式游戏 task 完成后必须更新相关文档并按项目规则归档。
 8. 不修改 `extracted_flash/`。
 9. AS3 源码是行为参考，不是架构模板。保留可观察行为，用现代方式重写。
+10. 执行工程评审时遵循 `docs/workflow/review-protocol.md`，输出可比较、可执行的结论。
 
 ## 读取约束
 

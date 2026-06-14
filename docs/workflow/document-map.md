@@ -53,6 +53,9 @@
 - `docs/workflow/code-quality-gates.md`
   - AI 代码质量门禁。
   - 规定自动验证、系统测试触发条件、结构性门禁（文件大小上限、代码重复、scene 耦合度）、场景层边界和 Git 工作要求。
+- `docs/workflow/review-protocol.md`
+  - 工程评审协议。
+  - 规定评审适用范围、必读资料、流程、严重程度、输出格式、评分维度和整改落点。
 - `docs/workflow/governance-log.md`
   - 工作流脚手架维护日志。
   - 记录任务体系、文档职责、AI 交接协议和代码质量门禁等变化。

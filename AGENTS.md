@@ -35,6 +35,12 @@
 
 规则：只读直接相关文件；不进完整游戏 task 流程；不更新 task-board；不归档 task-history；不推荐新开对话。修改 workflow/task/domain 文档时仍运行 `npm run check:workflow`。
 
+### 工程评审
+
+适用：用户要求评审代码、阶段性实现、任务结果或 `docs/评审/` 中的评审文档。
+
+规则：按 `docs/workflow/review-protocol.md` 输出可比较、可执行的评审结论；评审本身不等于完成整改，若结论需要新增游戏复现工作，再按任务生成规则进入 task-board。
+
 ### 正式游戏 task
 
 适用：用户指定 task id、要求执行 task、玩法逆向、修改 `src/` 实现玩法、生成/拆分/重排游戏任务、完成一个可交接切片。
@@ -57,6 +63,7 @@
 | 游戏任务执行：用户指定或要求执行 task | `docs/workflow/agent-protocol.md`、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | 玩法逆向：阅读 AS3、建立索引 | 上一行 + `extracted_flash/README_extract.md` + 对应 AS3 路径 |
 | 代码实现：修改 `src/` | 游戏任务执行必读集 + `docs/architecture/src-boundaries.md` + 对应 `src/` 文件 |
+| 工程评审：评审代码、阶段成果或评审文档 | `docs/workflow/review-protocol.md`，涉及代码质量再读 `docs/workflow/code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md` |
 | 新增核心领域命名、系统、实体、类型或数据模型 | `docs/domain/glossary.md`、`docs/domain/ubiquitous-language-process.md` |
 | 新增/拆分/重排游戏任务 | `docs/workflow/task-generation.md`、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | AI 工作流、任务体系、文档职责或脚手架维护 | `docs/workflow/README.md`、`docs/workflow/document-map.md`、`docs/workflow/governance-log.md` |

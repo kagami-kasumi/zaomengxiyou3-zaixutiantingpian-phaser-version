@@ -15,6 +15,7 @@ const files = {
   workflowReadme: 'docs/workflow/README.md',
   documentMap: 'docs/workflow/document-map.md',
   codeQualityGates: 'docs/workflow/code-quality-gates.md',
+  reviewProtocol: 'docs/workflow/review-protocol.md',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
   glossary: 'docs/domain/glossary.md',
   languageProcess: 'docs/domain/ubiquitous-language-process.md',
@@ -405,6 +406,34 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
   }
 }
 
+function checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, documentMap) {
+  for (const requiredText of [
+    '适用范围',
+    '评审原则',
+    '必读资料',
+    '评审流程',
+    '输出格式',
+    '严重程度',
+    '评分维度',
+    '整改落点',
+  ]) {
+    if (!reviewProtocol.includes(requiredText)) {
+      error(`review-protocol.md must mention: ${requiredText}`);
+    }
+  }
+
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+  ]) {
+    if (!text.includes('review-protocol.md')) {
+      error(`${name} must reference docs/workflow/review-protocol.md.`);
+    }
+  }
+}
+
 function checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanics, inputSystem) {
   if (tsconfig.includes('"noUnusedParameters": true')) {
     if (!srcBoundaries.includes('_time') || !srcBoundaries.includes('noUnusedParameters')) {
@@ -463,8 +492,10 @@ const mechanicsText = read(files.mechanics);
 const verticalSlices = read(files.verticalSlices);
 const governanceLog = read(files.governanceLog);
 const workflowReadme = read(files.workflowReadme);
+const documentMap = read(files.documentMap);
 const packageJsonText = read(files.packageJson);
 const codeQualityGates = read(files.codeQualityGates);
+const reviewProtocol = read(files.reviewProtocol);
 const tsconfig = read(files.tsconfig);
 const srcBoundaries = read(files.srcBoundaries);
 const inputSystem = read(files.inputSystem);
@@ -486,8 +517,9 @@ checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
 checkUtf8ReadingRules(agents, claude, workflowReadme);
 checkWorkflowSeparation(mechanicsText);
-checkGovernanceLog([files.taskGeneration, files.workflowReadme, files.documentMap, files.codeQualityGates], governanceLog);
+checkGovernanceLog([files.taskGeneration, files.workflowReadme, files.documentMap, files.codeQualityGates, files.reviewProtocol], governanceLog);
 checkCodeQualityGates(packageJsonText, codeQualityGates, claude);
+checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, documentMap);
 checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanicsText, inputSystem);
 checkDomainLanguage(glossary, languageProcess, [inputSystem]);
 

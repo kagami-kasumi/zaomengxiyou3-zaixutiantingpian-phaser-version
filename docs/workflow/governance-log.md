@@ -4,6 +4,29 @@
 
 ## 2026-06-14
 
+### 增加工程评审协议
+
+变更内容：
+
+- 新增 `docs/workflow/review-protocol.md`，统一 Codex、Claude、DeepSeek 或人工 reviewer 的工程评审流程。
+- 明确评审适用范围、必读资料、评审流程、严重程度、输出格式、评分维度和整改落点。
+- 在 `AGENTS.md`、`CLAUDE.md`、`docs/workflow/README.md` 和 `docs/workflow/document-map.md` 中登记评审入口。
+- 将 `review-protocol.md` 接入 `tools/validate-workflow.mjs` 的必备文件和内容校验，避免评审协议从脚手架中漂移。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/review-protocol.md`
+- `docs/workflow/governance-log.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ### 调整结构门禁和现代架构路线
 
 变更内容：
