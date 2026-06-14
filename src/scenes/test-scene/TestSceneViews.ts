@@ -1,3 +1,5 @@
+﻿// boundary: view factories create Phaser display objects only; they do not own
+// gameplay state transitions.
 import Phaser from 'phaser';
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
@@ -348,3 +350,5 @@ export function createAttackFlash(
   shape.setStrokeStyle(2, color, 0.85);
   return { shape, expiresAt: time + 120 };
 }
+
+

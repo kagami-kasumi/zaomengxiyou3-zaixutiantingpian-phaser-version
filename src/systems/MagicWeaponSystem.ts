@@ -1,6 +1,4 @@
-import type {
-  HeroEffectiveStats,
-  EquipmentInstance,
+﻿import type {
   EquipmentLoadout,
 } from './EquipmentSystem';
 import {
@@ -10,14 +8,11 @@ import {
   applyHeroMagicShield,
   clearHeroMagicFlagGuard,
   clearHeroMagicFlowerBuff,
-  type HeroCombatModel,
 } from './HeroCombatSystem';
-import type { HeroSkillModel } from './HeroSkillSystem';
 import type { PlayerInputState } from './InputSystem';
 import {
   applyPetMagicFlowerBuff,
   clearPetMagicFlowerBuff,
-  type PetState,
 } from './PetSystem';
 import {
   spawnMagicQpjProjectile,
@@ -28,441 +23,80 @@ import {
   type ProjectileModel,
   type ProjectileSystemModel,
 } from './ProjectileSystem';
+import { MagicWeaponTuning } from './MagicWeaponTuning';
+import type {
+  MagicWeaponActiveEffect,
+  MagicWeaponBaguaEffect,
+  MagicWeaponBigBottleEffect,
+  MagicWeaponDemonBuffEffect,
+  MagicWeaponEnemyTarget,
+  MagicWeaponEquipState,
+  MagicWeaponFlagEffect,
+  MagicWeaponFlowerEffect,
+  MagicWeaponFriendlyPetTarget,
+  MagicWeaponHealingEffect,
+  MagicWeaponModel,
+  MagicWeaponPearlEndEffect,
+  MagicWeaponPearlEffect,
+  MagicWeaponPlatform,
+  MagicWeaponQpjEffect,
+  MagicWeaponRingEffect,
+  MagicWeaponSnowEffect,
+  MagicWeaponSourceSnapshot,
+  MagicWeaponSword2Effect,
+  MagicWeaponTarget,
+  MagicWeaponTimerEffect,
+  MagicWeaponTriggerResult,
+  MagicWeaponUmbrellaEffect,
+  MagicWeaponZlHummerEffect,
+} from './MagicWeaponTypes';
+import {
+  createBaguaEffect,
+  createBigBottleEffect,
+  createDemonBuffEffect,
+  createFlagEffect,
+  createFlowerEffect,
+  createHealingEffect,
+  createMagicWeaponEquipState,
+  createPearlEffect,
+  createQpjEffect,
+  createRingEffect,
+  createSnowEffect,
+  createSword2Effect,
+  createTimerEffect,
+  createUmbrellaEffect,
+  createZlHummerEffect,
+} from './MagicWeaponEffectFactory';
 
-export type MagicWeaponFillName =
-  | 'xhhl'
-  | 'kyl'
-  | 'syl'
-  | 'lxj'
-  | 'fbqpj'
-  | 'hyzzs'
-  | 'hywjs'
-  | 'zjld'
-  | 'zsTimer'
-  | 'jyhl'
-  | 'mdhf'
-  | 'xhmt'
-  | 'tjbg'
-  | 'zltc'
-  | 'qljfb'
-  | 'stlp'
-  | 'lxfb'
-  | 'sxfb'
-  | 'yxfb';
-
-export type MagicWeaponAction = 'wait' | 'hit';
-
-export type MagicWeaponEffectKind =
-  | 'magicLeafCure'
-  | 'magicLeafCure2'
-  | 'magicSword2'
-  | 'magicQpj'
-  | 'magicUmbrella'
-  | 'magicRing'
-  | 'magicTimer'
-  | 'magicFlower'
-  | 'magicFlag'
-  | 'magicBagua'
-  | 'magicZlHummer'
-  | 'magicBigBottle'
-  | 'magicSnow'
-  | 'magicPearl'
-  | 'magicDemonBuff';
-
-export type MagicWeaponEquipState = {
-  fillName: MagicWeaponFillName;
-  name: string;
-  level: number;
-  element: string;
-};
-
-export type MagicWeaponHealingEffect = {
-  kind: 'magicLeafCure' | 'magicLeafCure2';
-  totalMs: number;
-  remainingMs: number;
-  hpPerSecond: number;
-  mpPerSecond: number;
-};
-
-export type MagicWeaponSword2Effect = {
-  kind: 'magicSword2';
-  totalMs: number;
-  remainingMs: number;
-  windupMs: number;
-  sourceId: string;
-  sourceX: number;
-  sourceY: number;
-  facingX: -1 | 1;
-  hasSpawnedStrike: boolean;
-  targetId?: string;
-  projectileId?: number;
-};
-
-export type MagicWeaponQpjEffect = {
-  kind: 'magicQpj';
-  totalMs: number;
-  remainingMs: number;
-  sourceId: string;
-  sourceX: number;
-  sourceY: number;
-  facingX: -1 | 1;
-  hasSpawnedSwords: boolean;
-  projectileIds: number[];
-};
-
-export type MagicWeaponUmbrellaEffect = {
-  kind: 'magicUmbrella';
-  shieldKind: 'magicUmbrellaDefend' | 'magicUmbrellaDefend2';
-  totalMs: number;
-  remainingMs: number;
-  shieldAmount: number;
-};
-
-export type MagicWeaponRingEffect = {
-  kind: 'magicRing';
-  totalMs: number;
-  remainingMs: number;
-  invulnerableMs: number;
-  hpRestore: number;
-  mpRestore: number;
-};
-
-export type MagicWeaponTimerEffect = {
-  kind: 'magicTimer';
-  totalMs: number;
-  remainingMs: number;
-  recordedHp: number;
-  recordedMp: number;
-  recordedX: number;
-  recordedY: number;
-};
-
-export type MagicWeaponDemonBuffEffect = {
-  kind: 'magicDemonBuff';
-  buffKind: 'xlfbBuff' | 'sxfbBuff' | 'yxfbBuff2';
-  totalMs: number;
-  remainingMs: number;
-  attackBonusPercent: number;
-  critBonusPercent: number;
-  hpDrainPerSecond: number;
-  drainCarryMs: number;
-};
-
-export type MagicWeaponFlowerEffect = {
-  kind: 'magicFlower';
-  totalMs: number;
-  remainingMs: number;
-  actionRemainingMs: number;
-  attackBonusFlat: number;
-  allyAttackMultiplier: number;
-  enemyDamageMultiplier: number;
-  affectedHeroIds: string[];
-  affectedPetIds: string[];
-  affectedEnemyIds: string[];
-};
-
-export type MagicWeaponFlagEffect = {
-  kind: 'magicFlag';
-  totalMs: number;
-  remainingMs: number;
-  actionRemainingMs: number;
-  debuffMs: number;
-};
-
-export type MagicWeaponBaguaEffect = {
-  kind: 'magicBagua';
-  totalMs: number;
-  remainingMs: number;
-  durationMs: number;
-  affectedEnemyIds: string[];
-};
-
-export type MagicWeaponZlHummerEffect = {
-  kind: 'magicZlHummer';
-  totalMs: number;
-  remainingMs: number;
-  sourceId: string;
-  sourceX: number;
-  sourceY: number;
-  facingX: -1 | 1;
-  hasSpawnedHammer: boolean;
-  projectileId?: number;
-  damage: number;
-};
-
-export type MagicWeaponSnowEffect = {
-  kind: 'magicSnow';
-  totalMs: number;
-  remainingMs: number;
-  sourceId: string;
-  cameraX: number;
-  cameraY: number;
-  hasSpawnedSnow: boolean;
-  projectileIds: number[];
-  damage: number;
-};
-
-export type MagicWeaponPlatform = {
-  id: string;
-  sourceId: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  totalMs: number;
-  remainingMs: number;
-  active: boolean;
-};
-
-export type MagicWeaponBigBottleEffect = {
-  kind: 'magicBigBottle';
-  totalMs: number;
-  remainingMs: number;
-  sourceId: string;
-  platformId: string;
-};
-
-export type MagicWeaponPearlEffect = {
-  kind: 'magicPearl';
-  totalMs: number;
-  remainingMs: number;
-  actionRemainingMs: number;
-  sourceId: string;
-  sourceX: number;
-  sourceY: number;
-  facingX: -1 | 1;
-  attackCount: number;
-  completedAttacks: number;
-  phase: 'begin' | 'fly' | 'effect' | 'finished';
-  phaseElapsedMs: number;
-  lastX: number;
-  lastY: number;
-  targetX: number;
-  targetY: number;
-  targetId?: string;
-  targetLog: string[];
-  spawnedFrames: number[];
-  projectileIds: number[];
-  pearlDamage: number;
-  endEffect?: MagicWeaponPearlEndEffect;
-};
-
-export type MagicWeaponPearlEndEffect =
-  | {
-    kind: 'mp';
-    amount: number;
-  }
-  | {
-    kind: 'stun';
-    durationMs: number;
-    affectedEnemyIds: string[];
-  }
-  | {
-    kind: 'poison';
-    durationMs: number;
-    damagePerSecond: number;
-    affectedEnemyIds: string[];
-  };
-
-export type MagicWeaponActiveEffect =
-  | MagicWeaponHealingEffect
-  | MagicWeaponSword2Effect
-  | MagicWeaponQpjEffect
-  | MagicWeaponUmbrellaEffect
-  | MagicWeaponRingEffect
-  | MagicWeaponTimerEffect
-  | MagicWeaponFlowerEffect
-  | MagicWeaponFlagEffect
-  | MagicWeaponBaguaEffect
-  | MagicWeaponZlHummerEffect
-  | MagicWeaponBigBottleEffect
-  | MagicWeaponSnowEffect
-  | MagicWeaponPearlEffect
-  | MagicWeaponDemonBuffEffect;
-
-export type MagicWeaponModel = {
-  current?: MagicWeaponEquipState;
-  action: MagicWeaponAction;
-  activeEffect?: MagicWeaponActiveEffect;
-  platforms: MagicWeaponPlatform[];
-  qpjAutoTimerMs: number;
-  message: string;
-};
-
-export type MagicWeaponTarget = {
-  combat: HeroCombatModel;
-  skill: HeroSkillModel;
-  effectiveStats?: Pick<HeroEffectiveStats, 'defense' | 'magicDefensePercent' | 'power'>;
-  movement?: {
-    x: number;
-    y: number;
-  };
-};
-
-export type MagicWeaponFriendlyPetTarget = PetState;
-
-export type MagicWeaponSourceSnapshot = {
-  sourceId: string;
-  x: number;
-  y: number;
-  facingX: -1 | 1;
-  cameraX?: number;
-  cameraY?: number;
-};
-
-export type MagicWeaponEnemyTarget = {
-  id: string;
-  x: number;
-  y: number;
-  isAlive: boolean;
-  applyMagicFlowerDebuff?: (debuff: {
-    sourceName: string;
-    totalMs: number;
-    remainingMs: number;
-    damageMultiplier: number;
-  }) => void;
-  clearMagicFlowerDebuff?: () => void;
-  applyMagicFlagDebuff?: (debuff: {
-    sourceName: string;
-    totalMs: number;
-    remainingMs: number;
-  }) => void;
-  clearMagicFlagDebuff?: () => void;
-  applyMagicBaguaStun?: (effect: {
-    sourceName: string;
-    totalMs: number;
-    remainingMs: number;
-  }) => void;
-  clearMagicBaguaStun?: () => void;
-  applyMagicZlHummerStun?: (effect: {
-    sourceName: string;
-    totalMs: number;
-    remainingMs: number;
-  }) => void;
-  clearMagicZlHummerStun?: () => void;
-  applyMagicSnowIce?: (effect: {
-    sourceName: string;
-    totalMs: number;
-    remainingMs: number;
-  }) => void;
-  clearMagicSnowIce?: () => void;
-  applyMagicPearlStun?: (effect: {
-    sourceName: string;
-    totalMs: number;
-    remainingMs: number;
-  }) => void;
-  clearMagicPearlStun?: () => void;
-  applyMagicPearlPoison?: (effect: {
-    sourceName: string;
-    totalMs: number;
-    remainingMs: number;
-    damagePerSecond: number;
-  }) => void;
-  clearMagicPearlPoison?: () => void;
-};
-
-export type MagicWeaponTriggerResult = {
-  triggered: boolean;
-  message: string;
-  projectile?: ProjectileModel;
-};
-
-export const MagicWeaponTuning = {
-  leafDurationMs: 8_000,
-  leafWoodMultiplier: 1.5,
-  leafHpPerSecond: 6,
-  leaf2HpPerSecond: 6,
-  leaf2MpPerSecond: 5,
-  sword2WindupMs: 1_000,
-  sword2ActionMs: 1_500,
-  qpjAutoIntervalMs: 11_225,
-  qpjActiveCount: 6,
-  qpjActiveActionMs: 450,
-  qpjActiveWoodActionMs: 400,
-  umbrellaShieldDurationMs: 10_000,
-  umbrellaActionMs: 500,
-  umbrellaWoodMultiplier: 1.5,
-  umbrella2WoodMultiplier: 2,
-  ringActionMs: 500,
-  ringInvulnerableMs: 2_000,
-  ringWoodInvulnerableMultiplier: 1.5,
-  ringRestoreRatePerLevel: 0.00904,
-  ringMpRestoreScale: 0.5,
-  timerWaitMs: 30_000,
-  timerWoodWaitMs: 27_000,
-  demonActionMs: 700,
-  lxfbDurationMs: 7_000,
-  lxfbWoodDurationMs: 10_000,
-  lxfbAttackBonusPercent: 10,
-  lxfbCritBonusPercent: 10,
-  lxfbHpDrainRatePerSecond: 0.05,
-  sxfbDurationMs: 7_000,
-  sxfbWoodDurationMs: 11_000,
-  sxfbAttackBonusPercent: 15,
-  sxfbCritBonusPercent: 15,
-  sxfbHpDrainRatePerSecond: 0.054,
-  yxfbDurationMs: 8_000,
-  yxfbWoodMultiplier: 2,
-  yxfbAttackBonusPercent: 30,
-  yxfbCritBonusPercent: 30,
-  flowerActionMs: 500,
-  flowerWoodActionMs: 450,
-  flowerBaseDurationMs: 5_000,
-  flowerDurationPerLevelMs: 500,
-  flowerHeroAttackFlatRate: 0.21,
-  flowerPetAttackMultiplier: 1.21,
-  flowerEnemyDamageMultiplier: 0.925,
-  flagGuardDurationMs: 10_000,
-  flagActionMs: 1_000,
-  flagWoodActionMs: 833,
-  flagDebuffMs: 5_000,
-  baguaActionMs: 400,
-  baguaStunMs: 6_000,
-  baguaWoodStunMs: 8_000,
-  zlHummerActionMs: 417,
-  zlHummerWoodActionMs: 333,
-  zlHummerDamageLevelBase: 18,
-  zlHummerDamageLevelStep: 3,
-  zlHummerDamageDivisor: 4,
-  zlHummerDamageMultiplier: 1.8,
-  zlHummerFallbackPower: 10,
-  bigBottleActionMs: 1_000,
-  bigBottleWoodActionMs: 667,
-  bigBottleDurationMs: 20_000,
-  bigBottleWidth: 130,
-  bigBottleHeight: 20,
-  bigBottleInitialOffsetY: -100,
-  bigBottleFollowDeadZoneX: 30,
-  bigBottleFollowDeadZoneY: 62,
-  bigBottleFollowOffsetY: 70,
-  snowActionMs: 417,
-  snowWoodActionMs: 333,
-  snowCount: 120,
-  snowCameraOffsetX: -500,
-  snowCameraWidth: 1240,
-  snowCameraOffsetY: -480,
-  snowCameraHeight: 100,
-  snowMinAngleDegrees: 50,
-  snowAngleSpreadDegrees: 10,
-  snowMinSpeed: 10,
-  snowSpeedSpread: 5,
-  snowDamageLevelRate: 0.09,
-  snowFallbackPower: 200,
-  pearlActionMs: 500,
-  pearlBeginMs: 160,
-  pearlFlyMs: 500,
-  pearlEffectMs: 500,
-  pearlFrame3Ms: 50,
-  pearlFrame12Ms: 200,
-  pearlFrame28Ms: 467,
-  pearlDamageLevelRate: 0.0315,
-  pearlFallbackDamage: 19,
-  pearlMpRestoreRatePerLevel: 0.01,
-  pearlStunDurationPerLevelMs: 125,
-  pearlPoisonDurationPerLevelMs: 250,
-  pearlPoisonDamageRate: 0.0413,
-} as const;
-
+export { MagicWeaponTuning } from './MagicWeaponTuning';
+export type {
+  MagicWeaponAction,
+  MagicWeaponActiveEffect,
+  MagicWeaponBaguaEffect,
+  MagicWeaponBigBottleEffect,
+  MagicWeaponDemonBuffEffect,
+  MagicWeaponEffectKind,
+  MagicWeaponEnemyTarget,
+  MagicWeaponEquipState,
+  MagicWeaponFlagEffect,
+  MagicWeaponFlowerEffect,
+  MagicWeaponFriendlyPetTarget,
+  MagicWeaponHealingEffect,
+  MagicWeaponModel,
+  MagicWeaponPearlEndEffect,
+  MagicWeaponPearlEffect,
+  MagicWeaponPlatform,
+  MagicWeaponQpjEffect,
+  MagicWeaponRingEffect,
+  MagicWeaponSnowEffect,
+  MagicWeaponSourceSnapshot,
+  MagicWeaponSword2Effect,
+  MagicWeaponTarget,
+  MagicWeaponTimerEffect,
+  MagicWeaponTriggerResult,
+  MagicWeaponUmbrellaEffect,
+  MagicWeaponZlHummerEffect,
+} from './MagicWeaponTypes';
 export function createMagicWeaponModel(): MagicWeaponModel {
   return {
     action: 'wait',
@@ -795,386 +429,6 @@ export function findClosestMagicWeaponTarget(
   }
 
   return closest;
-}
-
-function createMagicWeaponEquipState(
-  equipped: EquipmentInstance,
-): MagicWeaponEquipState | undefined {
-  const fillName = equipped.definition.fillName;
-  if (!isSupportedMagicWeapon(fillName)) {
-    return undefined;
-  }
-
-  return {
-    fillName,
-    name: equipped.definition.name,
-    level: equipped.definition.magicWeapon?.level ?? 1,
-    element: equipped.definition.magicWeapon?.element ?? '无',
-  };
-}
-
-function createHealingEffect(current: MagicWeaponEquipState): MagicWeaponHealingEffect {
-  const woodMultiplier = current.element.includes('木')
-    ? MagicWeaponTuning.leafWoodMultiplier
-    : 1;
-  const totalMs = MagicWeaponTuning.leafDurationMs * woodMultiplier;
-
-  if (current.fillName === 'syl') {
-    return {
-      kind: 'magicLeafCure2',
-      totalMs,
-      remainingMs: totalMs,
-      hpPerSecond: MagicWeaponTuning.leaf2HpPerSecond,
-      mpPerSecond: MagicWeaponTuning.leaf2MpPerSecond,
-    };
-  }
-
-  return {
-    kind: 'magicLeafCure',
-    totalMs,
-    remainingMs: totalMs,
-    hpPerSecond: MagicWeaponTuning.leafHpPerSecond,
-    mpPerSecond: 0,
-  };
-}
-
-function createSword2Effect(source: MagicWeaponSourceSnapshot): MagicWeaponSword2Effect {
-  return {
-    kind: 'magicSword2',
-    totalMs: MagicWeaponTuning.sword2ActionMs,
-    remainingMs: MagicWeaponTuning.sword2ActionMs,
-    windupMs: MagicWeaponTuning.sword2WindupMs,
-    sourceId: source.sourceId,
-    sourceX: source.x,
-    sourceY: source.y,
-    facingX: source.facingX,
-    hasSpawnedStrike: false,
-  };
-}
-
-function createQpjEffect(
-  source: MagicWeaponSourceSnapshot,
-  current: MagicWeaponEquipState,
-): MagicWeaponQpjEffect {
-  const totalMs = current.element.includes('木')
-    ? MagicWeaponTuning.qpjActiveWoodActionMs
-    : MagicWeaponTuning.qpjActiveActionMs;
-  return {
-    kind: 'magicQpj',
-    totalMs,
-    remainingMs: totalMs,
-    sourceId: source.sourceId,
-    sourceX: source.x,
-    sourceY: source.y,
-    facingX: source.facingX,
-    hasSpawnedSwords: false,
-    projectileIds: [],
-  };
-}
-
-function createUmbrellaEffect(
-  current: MagicWeaponEquipState,
-  effectiveStats: Pick<HeroEffectiveStats, 'defense' | 'magicDefensePercent'> | undefined,
-): MagicWeaponUmbrellaEffect {
-  const defense = Math.max(1, effectiveStats?.defense ?? 1);
-  const magicDefense = Math.max(0, effectiveStats?.magicDefensePercent ?? 0);
-  const level = Math.max(1, current.level);
-  const isWood = current.element.includes('木');
-  const isUmbrella2 = current.fillName === 'hywjs';
-  const baseAmount = isUmbrella2
-    ? defense * level + magicDefense * level * 20
-    : defense * level;
-  const multiplier = isWood
-    ? (isUmbrella2
-      ? MagicWeaponTuning.umbrella2WoodMultiplier
-      : MagicWeaponTuning.umbrellaWoodMultiplier)
-    : 1;
-  const shieldAmount = baseAmount * multiplier;
-
-  return {
-    kind: 'magicUmbrella',
-    shieldKind: isUmbrella2 ? 'magicUmbrellaDefend2' : 'magicUmbrellaDefend',
-    totalMs: MagicWeaponTuning.umbrellaActionMs,
-    remainingMs: MagicWeaponTuning.umbrellaActionMs,
-    shieldAmount,
-  };
-}
-
-function createRingEffect(
-  current: MagicWeaponEquipState,
-  target: MagicWeaponTarget,
-): MagicWeaponRingEffect {
-  const isWood = current.element.includes('木');
-  const baseRestoreRate = Math.max(1, current.level) * MagicWeaponTuning.ringRestoreRatePerLevel;
-  const restoreRate = isWood ? baseRestoreRate * 2 : baseRestoreRate;
-  const invulnerableMs = MagicWeaponTuning.ringInvulnerableMs *
-    (isWood ? MagicWeaponTuning.ringWoodInvulnerableMultiplier : 1);
-
-  return {
-    kind: 'magicRing',
-    totalMs: MagicWeaponTuning.ringActionMs,
-    remainingMs: MagicWeaponTuning.ringActionMs,
-    invulnerableMs,
-    hpRestore: target.combat.maxHp * restoreRate,
-    mpRestore: target.skill.maxMp * restoreRate * MagicWeaponTuning.ringMpRestoreScale,
-  };
-}
-
-function createTimerEffect(
-  current: MagicWeaponEquipState,
-  target: MagicWeaponTarget,
-  source: MagicWeaponSourceSnapshot,
-): MagicWeaponTimerEffect {
-  const totalMs = current.element.includes('木')
-    ? MagicWeaponTuning.timerWoodWaitMs
-    : MagicWeaponTuning.timerWaitMs;
-
-  return {
-    kind: 'magicTimer',
-    totalMs,
-    remainingMs: totalMs,
-    recordedHp: target.combat.hp,
-    recordedMp: target.skill.mp,
-    recordedX: source.x,
-    recordedY: source.y,
-  };
-}
-
-function createDemonBuffEffect(
-  current: MagicWeaponEquipState,
-  target: MagicWeaponTarget,
-): MagicWeaponDemonBuffEffect {
-  if (current.fillName === 'sxfb') {
-    const totalMs = current.element.includes('木')
-      ? MagicWeaponTuning.sxfbWoodDurationMs
-      : MagicWeaponTuning.sxfbDurationMs;
-    return {
-      kind: 'magicDemonBuff',
-      buffKind: 'sxfbBuff',
-      totalMs,
-      remainingMs: totalMs,
-      attackBonusPercent: MagicWeaponTuning.sxfbAttackBonusPercent,
-      critBonusPercent: MagicWeaponTuning.sxfbCritBonusPercent,
-      hpDrainPerSecond: target.combat.maxHp * MagicWeaponTuning.sxfbHpDrainRatePerSecond,
-      drainCarryMs: 0,
-    };
-  }
-
-  if (current.fillName === 'yxfb') {
-    const totalMs = MagicWeaponTuning.yxfbDurationMs *
-      (current.element.includes('木') ? MagicWeaponTuning.yxfbWoodMultiplier : 1);
-    return {
-      kind: 'magicDemonBuff',
-      buffKind: 'yxfbBuff2',
-      totalMs,
-      remainingMs: totalMs,
-      attackBonusPercent: MagicWeaponTuning.yxfbAttackBonusPercent,
-      critBonusPercent: MagicWeaponTuning.yxfbCritBonusPercent,
-      hpDrainPerSecond: 0,
-      drainCarryMs: 0,
-    };
-  }
-
-  const totalMs = current.element.includes('木')
-    ? MagicWeaponTuning.lxfbWoodDurationMs
-    : MagicWeaponTuning.lxfbDurationMs;
-  return {
-    kind: 'magicDemonBuff',
-    buffKind: 'xlfbBuff',
-    totalMs,
-    remainingMs: totalMs,
-    attackBonusPercent: MagicWeaponTuning.lxfbAttackBonusPercent,
-    critBonusPercent: MagicWeaponTuning.lxfbCritBonusPercent,
-    hpDrainPerSecond: target.combat.maxHp * MagicWeaponTuning.lxfbHpDrainRatePerSecond,
-    drainCarryMs: 0,
-  };
-}
-
-function createFlowerEffect(
-  current: MagicWeaponEquipState,
-  target: MagicWeaponTarget,
-): MagicWeaponFlowerEffect {
-  const level = Math.max(1, current.level);
-  const totalMs = MagicWeaponTuning.flowerBaseDurationMs +
-    level * MagicWeaponTuning.flowerDurationPerLevelMs;
-  const actionRemainingMs = current.element.includes('木')
-    ? MagicWeaponTuning.flowerWoodActionMs
-    : MagicWeaponTuning.flowerActionMs;
-  const basePower = Math.max(0, target.effectiveStats?.power ?? 0);
-
-  return {
-    kind: 'magicFlower',
-    totalMs,
-    remainingMs: totalMs,
-    actionRemainingMs,
-    attackBonusFlat: basePower * MagicWeaponTuning.flowerHeroAttackFlatRate,
-    allyAttackMultiplier: MagicWeaponTuning.flowerPetAttackMultiplier,
-    enemyDamageMultiplier: MagicWeaponTuning.flowerEnemyDamageMultiplier,
-    affectedHeroIds: [],
-    affectedPetIds: [],
-    affectedEnemyIds: [],
-  };
-}
-
-function createFlagEffect(current: MagicWeaponEquipState): MagicWeaponFlagEffect {
-  const actionRemainingMs = current.element.includes('木')
-    ? MagicWeaponTuning.flagWoodActionMs
-    : MagicWeaponTuning.flagActionMs;
-
-  return {
-    kind: 'magicFlag',
-    totalMs: MagicWeaponTuning.flagGuardDurationMs,
-    remainingMs: MagicWeaponTuning.flagGuardDurationMs,
-    actionRemainingMs,
-    debuffMs: MagicWeaponTuning.flagDebuffMs,
-  };
-}
-
-function createBaguaEffect(current: MagicWeaponEquipState): MagicWeaponBaguaEffect {
-  const durationMs = current.element === 'wood' || current.element.includes('木')
-    ? MagicWeaponTuning.baguaWoodStunMs
-    : MagicWeaponTuning.baguaStunMs;
-
-  return {
-    kind: 'magicBagua',
-    totalMs: MagicWeaponTuning.baguaActionMs,
-    remainingMs: MagicWeaponTuning.baguaActionMs,
-    durationMs,
-    affectedEnemyIds: [],
-  };
-}
-
-function createZlHummerEffect(
-  current: MagicWeaponEquipState,
-  target: MagicWeaponTarget,
-  source: MagicWeaponSourceSnapshot,
-): MagicWeaponZlHummerEffect {
-  const totalMs = current.element.includes('木')
-    ? MagicWeaponTuning.zlHummerWoodActionMs
-    : MagicWeaponTuning.zlHummerActionMs;
-  const level = Math.max(1, current.level);
-  const basePower = Math.max(
-    1,
-    target.effectiveStats?.power ?? MagicWeaponTuning.zlHummerFallbackPower,
-  );
-  const damage = basePower *
-    (MagicWeaponTuning.zlHummerDamageLevelBase +
-      (level - 1) * MagicWeaponTuning.zlHummerDamageLevelStep) /
-    MagicWeaponTuning.zlHummerDamageDivisor *
-    MagicWeaponTuning.zlHummerDamageMultiplier;
-
-  return {
-    kind: 'magicZlHummer',
-    totalMs,
-    remainingMs: totalMs,
-    sourceId: source.sourceId,
-    sourceX: source.x,
-    sourceY: source.y,
-    facingX: source.facingX,
-    hasSpawnedHammer: false,
-    damage,
-  };
-}
-
-function createBigBottleEffect(
-  model: MagicWeaponModel,
-  current: MagicWeaponEquipState,
-  source: MagicWeaponSourceSnapshot,
-): MagicWeaponBigBottleEffect {
-  const totalMs = current.element.includes('木')
-    ? MagicWeaponTuning.bigBottleWoodActionMs
-    : MagicWeaponTuning.bigBottleActionMs;
-  const platformId = `magic-big-bottle-${source.sourceId}`;
-
-  model.platforms = model.platforms.filter((platform) => platform.id !== platformId && platform.active);
-  model.platforms.push({
-    id: platformId,
-    sourceId: source.sourceId,
-    x: source.x,
-    y: source.y + MagicWeaponTuning.bigBottleInitialOffsetY,
-    width: MagicWeaponTuning.bigBottleWidth,
-    height: MagicWeaponTuning.bigBottleHeight,
-    totalMs: MagicWeaponTuning.bigBottleDurationMs,
-    remainingMs: MagicWeaponTuning.bigBottleDurationMs,
-    active: true,
-  });
-
-  return {
-    kind: 'magicBigBottle',
-    totalMs,
-    remainingMs: totalMs,
-    sourceId: source.sourceId,
-    platformId,
-  };
-}
-
-function createSnowEffect(
-  current: MagicWeaponEquipState,
-  target: MagicWeaponTarget,
-  source: MagicWeaponSourceSnapshot,
-): MagicWeaponSnowEffect {
-  const totalMs = current.element.includes('木')
-    ? MagicWeaponTuning.snowWoodActionMs
-    : MagicWeaponTuning.snowActionMs;
-  const level = Math.max(1, current.level);
-  const basePower = Math.max(
-    1,
-    target.effectiveStats?.power ?? MagicWeaponTuning.snowFallbackPower,
-  );
-
-  return {
-    kind: 'magicSnow',
-    totalMs,
-    remainingMs: totalMs,
-    sourceId: source.sourceId,
-    cameraX: source.cameraX ?? source.x - 470,
-    cameraY: source.cameraY ?? source.y - 300,
-    hasSpawnedSnow: false,
-    projectileIds: [],
-    damage: Math.max(1, basePower * level * MagicWeaponTuning.snowDamageLevelRate),
-  };
-}
-
-function createPearlEffect(
-  current: MagicWeaponEquipState,
-  target: MagicWeaponTarget,
-  source: MagicWeaponSourceSnapshot,
-): MagicWeaponPearlEffect {
-  const level = Math.max(1, current.level);
-  const attackCount = 3 + Math.floor(level / 3) + (current.element.includes('木') ? 2 : 0);
-  const totalMs = MagicWeaponTuning.pearlBeginMs +
-    attackCount * (MagicWeaponTuning.pearlFlyMs + MagicWeaponTuning.pearlEffectMs) +
-    1;
-  const basePower = Math.max(0, target.effectiveStats?.power ?? 0);
-  const pearlDamage = Math.max(
-    1,
-    basePower > 0
-      ? basePower * level * MagicWeaponTuning.pearlDamageLevelRate
-      : MagicWeaponTuning.pearlFallbackDamage,
-  );
-
-  return {
-    kind: 'magicPearl',
-    totalMs,
-    remainingMs: totalMs,
-    actionRemainingMs: MagicWeaponTuning.pearlActionMs,
-    sourceId: source.sourceId,
-    sourceX: source.x,
-    sourceY: source.y,
-    facingX: source.facingX,
-    attackCount,
-    completedAttacks: 0,
-    phase: 'begin',
-    phaseElapsedMs: 0,
-    lastX: source.x,
-    lastY: source.y,
-    targetX: source.x,
-    targetY: source.y,
-    targetLog: [],
-    spawnedFrames: [],
-    projectileIds: [],
-    pearlDamage,
-  };
 }
 
 function applyMagicWeaponHealing(
@@ -1647,14 +901,15 @@ function finishPearlEffect(
 ): void {
   effect.phase = 'finished';
   effect.remainingMs = 0;
-  effect.endEffect = resolvePearlEndEffect(model.current, target, targets, random);
-  if (effect.endEffect.kind === 'mp') {
-    target.skill.mp = Math.min(target.skill.maxMp, target.skill.mp + effect.endEffect.amount);
-    model.message = `${model.current?.name ?? '血海魔童'} 结束回蓝 ${Math.round(effect.endEffect.amount)}`;
-  } else if (effect.endEffect.kind === 'stun') {
-    model.message = `${model.current?.name ?? '血海魔童'} 结束眩晕 ${effect.endEffect.affectedEnemyIds.length} 个`;
+  const endEffect = resolvePearlEndEffect(model.current, target, targets, random);
+  effect.endEffect = endEffect;
+  if (endEffect.kind === 'mp') {
+    target.skill.mp = Math.min(target.skill.maxMp, target.skill.mp + endEffect.amount);
+    model.message = `${model.current?.name ?? '血海魔童'} 结束回蓝 ${Math.round(endEffect.amount)}`;
+  } else if (endEffect.kind === 'stun') {
+    model.message = `${model.current?.name ?? '血海魔童'} 结束眩晕 ${endEffect.affectedEnemyIds.length} 个`;
   } else {
-    model.message = `${model.current?.name ?? '血海魔童'} 结束中毒 ${effect.endEffect.affectedEnemyIds.length} 个`;
+    model.message = `${model.current?.name ?? '血海魔童'} 结束中毒 ${endEffect.affectedEnemyIds.length} 个`;
   }
 }
 
@@ -1921,28 +1176,10 @@ function isMagicWeaponJustPressed(
   return input.magicWeapon && !(previousInput?.magicWeapon ?? false);
 }
 
-function isSupportedMagicWeapon(fillName: string): fillName is MagicWeaponFillName {
-  return fillName === 'xhhl' ||
-    fillName === 'kyl' ||
-    fillName === 'syl' ||
-    fillName === 'lxj' ||
-    fillName === 'fbqpj' ||
-    fillName === 'hyzzs' ||
-    fillName === 'hywjs' ||
-    fillName === 'zjld' ||
-    fillName === 'zsTimer' ||
-    fillName === 'jyhl' ||
-    fillName === 'mdhf' ||
-    fillName === 'xhmt' ||
-    fillName === 'tjbg' ||
-    fillName === 'zltc' ||
-    fillName === 'qljfb' ||
-    fillName === 'stlp' ||
-    fillName === 'lxfb' ||
-    fillName === 'sxfb' ||
-    fillName === 'yxfb';
-}
-
 function formatSeconds(ms: number): string {
   return (ms / 1000).toFixed(ms % 1000 === 0 ? 0 : 1);
 }
+
+
+
+

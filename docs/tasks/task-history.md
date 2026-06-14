@@ -114,8 +114,139 @@
 | TASK-SLICE-062 | 切片 | 宠物 `dragon1/fs` 分身反馈最小闭环 | M-042、M-032、VS-034 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`pets-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-063 | 切片 | 宠物 `dragon2/sdcc` 神龙冲刺最小闭环 | M-042、M-032、VS-034 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`pets-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-064 | 切片 | 宠物 `dragon3/ltwj` 龙腾万钧最小闭环 | M-042、M-032、VS-034 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`pets-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-065 | 切片 | 宠物 `dragon4/qlaoyi` 青龙奥义反馈最小闭环 | M-042、M-032、VS-034 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`pets-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SETTINGS-031 | 逆向 | 宠物玄龟专属技能链边界逆向 | M-042、M-032、VS-035 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-066 | 切片 | 宠物 `turtle1/sld` 水疗盾技能最小闭环 | M-042、M-032、VS-035 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-067
+
+完成时间：
+
+- 2026-06-08
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `turtle2/txlj` 技能状态、20 MP 消耗、约 20 秒 CD、按 `4 * warpower` 秒记录的链接持续时间，以及最近承伤/治疗反馈字段。
+- 新增 `requestPetTurtle2TxljSkill()`：按已学习、MP、CD 和目标门禁释放；成功扣 20 MP，添加等价 `PETTURTKE_BUFF` 链接状态，不生成伤害 projectile。
+- 新增 `applyPetTurtleTxljOwnerDamage()` 和 `applyPetTurtleTxljOwnerHeal()`：链接期间主人受伤时宠物承受 `ceil(damage * 0.05)`，主人承受 `ceil(damage * 0.95)`；主人治疗时主人和宠物按 `ceil(heal * 1.05)` 回复并遵守 HP 上限。
+- 扩展 `requestPetTurtle1SldSkill()`，允许已学 `sld` 的玄龟形态复用水疗盾；链接状态有效且传入 owner stats 时，会把本次宠物自疗同步给主人最小治疗反馈。
+- 扩展 `src/scenes/TestScene.ts` 和 `src/scenes/test-scene/TestSceneCombatBridge.ts`，出战 `turtle2` 时自动尝试 `txlj`，P1 受到 Monster30/Boss 伤害时接入同心链接承伤转嫁；宠物面板展示 `T2 TXLJ` CD、链接剩余时间和最近承伤/治疗反馈。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、无目标、CD、扣 MP、链接持续/过期、主人承伤转嫁、主人治疗放大、宠物治疗、`sld` 联动给主人回血，以及 `turtle1/sld` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-035` 标记为已完成第二段，并新增 Ready 后续任务 `TASK-SLICE-068`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneCombatBridge.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-066
+
+完成时间：
+
+- 2026-06-08
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，新增 `turtle1/sld` 技能状态、20 MP 消耗、约 6 秒 CD、距离 `50..200` 门禁、`sld` 技能说明和 `turtle1` 测试种子宠物。
+- 新增 `requestPetTurtle1SldSkill()`：按已学习、MP、CD、目标和距离门禁释放；成功扣 20 MP、重置 CD，按 `pet.atk + skillDamageBonus` 接入既有 `sxkb` 暴击伤害 helper，并按本次实际伤害治疗宠物自身，HP 不超过 `maxHp`。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-turtle1-sld` projectile、`PetTurtle1Bullet2` 占位资源 key 和 `PetTurtleBmd1` / `PetTurtle1Bullet2` 资源缺口登记。
+- 扩展 `src/scenes/TestScene.ts`，出战 `turtle1` 时自动尝试 `sld`，宠物面板展示 `T1 SLD` CD 与最近治疗反馈。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、无目标、距离过近、距离过远、CD、扣 MP、projectile 生成、伤害、治疗、治疗上限、`fsnl/sxkb` 兼容，以及既有马系和青龙技能兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-035` 标记为已完成首段，并新增 Ready 后续任务 `TASK-SLICE-067`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SETTINGS-031
+
+完成时间：
+
+- 2026-06-08
+
+完成内容：
+
+- 从当前未完成宠物专属链中选择玄龟 `turtle1..4` 作为下一组；UFO 存在技能池但常规 `export/pet` 类证据不如玄龟完整，玄龟具备 4 形态、4 技能和专属 `PETTURTKE_BUFF` 行为，适合拆成后续 3-4 个小切片。
+- 细读 `PetInfo.as`、`BaseHero.as`、`BasePet.as`、`BaseAddEffect.as`、`PetTurtle1.as` 至 `PetTurtle4.as` 小范围片段，确认 `sld -> txlj -> sybh -> xwaoyi` 的学习/替换关系、MP 消耗、CD、目标与距离门禁、伤害/治疗/状态公式、资源 key 和最小实现边界。
+- 更新 `docs/reverse-engineering/pets-index.md`，新增玄龟首批链路：`sld` 为 20 MP、距离 `50..200`、约 6 秒 CD 的 `PetTurtle1Bullet2` 伤害+宠物自疗；`txlj` 为主人/宠物 `PETTURTKE_BUFF` 链接，提供 5% 承伤转嫁、治疗放大和同步回血；`sybh` 为 `PetTurtle3Bullet3` 范围伤害；`xwaoyi` 为 5 秒组合奥义，免蓝触发多次 `sld`、刷新 `txlj` 并生成持续 `sybh` 范围反馈。
+- 更新 `docs/reverse-engineering/mechanics-index.md` 的 M-042 补充说明，标记玄龟链事实已足够进入实现。
+- 更新 `docs/tasks/vertical-slices.md`，新增 `VS-035 宠物玄龟专属技能链最小闭环`，并将首个实现目标固定为 `TASK-SLICE-066 turtle1/sld`。
+- 更新 `docs/tasks/task-board.md`，移除已完成的 `TASK-SETTINGS-031`，新增 Ready 后续任务 `TASK-SLICE-066`，完成定义覆盖 `turtle1` 种子、已学 `sld`、MP/CD/目标/距离门禁、`PetTurtle1Bullet2` 占位 projectile、伤害、宠物自疗、资源 key、系统测试和禁止范围。
+
+更新文件：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-065
+
+完成时间：
+
+- 2026-06-08
+
+完成内容：
+
+- 扩展 `src/systems/PetSystem.ts`，P1 种子新增可切换出战 `dragon4`，默认持有 `fs/sdcc/ltwj/qlaoyi`；新增 `qlaoyi` 技能信息、30 MP 消耗、约 24 秒 CD、距离 `<= 200` 门禁、直接伤害 0 和最近组合状态。
+- 新增 `requestPetDragon4QlaoyiSkill()`：按已学习、MP、CD、目标和距离门禁释放；成功扣 30 MP、重置 CD，生成 `PetDragonBullet4` / `hit4` 奥义占位 projectile，并按已学 `fs/sdcc/ltwj` 记录 `fs-clone`、`sdcc-charge`、`ltwj-multi` 组合反馈。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-dragon4-qlaoyi` projectile、`PetDragonBullet4` 占位资源 key 和 `PetDragonBmd4` / `PetDragonBullet4` 资源缺口登记。
+- 扩展 `src/scenes/TestScene.ts`，出战 `dragon4` 时自动尝试 `qlaoyi`，宠物面板展示 `D4 QLAOYI` CD 与组合反馈。
+- 扩展 `tools/system-tests.ts`，覆盖未学习、MP 不足、无目标、距离过远、CD、扣 MP、直接伤害 0、组合记录，以及 `dragon1/fs`、`dragon2/sdcc`、`dragon3/ltwj` 兼容。
+- 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/reverse-engineering/pets-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-034` 青龙链标记为完整闭环，并新增 Ready 后续任务 `TASK-SETTINGS-031`。
+
+更新文件：
+
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/pets-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
 
 ### TASK-SLICE-064
 

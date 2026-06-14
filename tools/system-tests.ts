@@ -49,6 +49,8 @@ import {
 import {
   addPetExperience,
   awardMonsterExperienceWithCurrentPet,
+  applyPetTurtleTxljOwnerDamage,
+  applyPetTurtleTxljOwnerHeal,
   catchNewPet,
   createMagicBottleCaptureModel,
   createSeedPetRoster,
@@ -73,6 +75,9 @@ import {
   requestPetDragon1FsSkill,
   requestPetDragon2SdccSkill,
   requestPetDragon3LtwjSkill,
+  requestPetDragon4QlaoyiSkill,
+  requestPetTurtle1SldSkill,
+  requestPetTurtle2TxljSkill,
   requestPetQlfjCounterAttack,
   requestMagicBottleCapture,
   resolveMagicBottleCaptureHit,
@@ -210,6 +215,15 @@ testPetDragon2SdccCombinesWithFsnlAndSxkbAndKeepsDragon1Compatible();
 testPetDragon3LtwjRequiresLearnedSkillMpTargetDistanceAndCooldown();
 testPetDragon3LtwjSpawnsMultiProjectilesDamageAndHealOnHit();
 testPetDragon3LtwjCombinesWithFsnlAndSxkbAndKeepsEarlierDragonSkillsCompatible();
+testPetDragon4QlaoyiRequiresLearnedSkillMpTargetDistanceAndCooldown();
+testPetDragon4QlaoyiSpawnsUltimateFeedbackAndKeepsDirectDamageZero();
+testPetDragon4QlaoyiRecordsCombinationFallbacksAndKeepsEarlierDragonSkillsCompatible();
+testPetTurtle1SldRequiresLearnedSkillMpTargetDistanceAndCooldown();
+testPetTurtle1SldSpawnsProjectileDamagesAndHealsPet();
+testPetTurtle1SldCombinesWithFsnlAndSxkbAndKeepsEarlierPetSkillsCompatible();
+testPetTurtle2TxljRequiresLearnedSkillMpTargetAndCooldown();
+testPetTurtle2TxljRedirectsOwnerDamageAndBoostsHealing();
+testPetTurtle2TxljLinksSldOwnerHealAndKeepsTurtle1SldCompatible();
 testMagicWeaponRejectsWithoutZbfb();
 testMagicWeaponKylHealsAndRejectsReentry();
 testMagicWeaponSylRestoresMpAndWoodDuration();
@@ -3473,6 +3487,464 @@ function testPetDragon3LtwjCombinesWithFsnlAndSxkbAndKeepsEarlierDragonSkillsCom
   }).ok, true);
 }
 
+function testPetDragon4QlaoyiRequiresLearnedSkillMpTargetDistanceAndCooldown(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon4(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 4, 'dragon');
+  const target = createPetSkillMonsterTarget(createMonster30(200, 0, 'm30-pet-qlaoyi-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'qlaoyi');
+  let result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned qlaoyi/);
+
+  pet.skills.push('qlaoyi');
+  pet.mp = PetTuning.dragon4QlaoyiMpCost - 1;
+  result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime,
+    targets: [createPetSkillMonsterTarget(createMonster30(PetTuning.dragon4QlaoyiMaxDistance + 1, 0, 'm30-pet-qlaoyi-far'))],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /target too far/);
+
+  result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(pet.skillState?.dragon4Qlaoyi.cooldownMs, PetTuning.dragon4QlaoyiCooldownMs);
+
+  result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.dragon4QlaoyiCooldownMs);
+  result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetDragon4QlaoyiSpawnsUltimateFeedbackAndKeepsDirectDamageZero(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon4(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-qlaoyi-hit');
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+
+  const result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 4, 'dragon'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.dragon4QlaoyiMpCost);
+  assert.equal(result.damage, PetTuning.dragon4QlaoyiHit4Damage);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+  assert.deepEqual(pet.skillState?.dragon4Qlaoyi.lastCombo, {
+    cloneCombo: true,
+    sdccCombo: true,
+    ltwjCombo: true,
+  });
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(projectile.variant, 'pet-dragon4-qlaoyi');
+  assert.equal(projectile.actionName, 'hit4');
+  assert.equal(projectile.runtimeName, 'PetDragonBullet4');
+  assert.equal(projectile.sourceSymbol, 'PetDragonBullet4');
+  assert.equal(projectile.damage, 0);
+  assert.deepEqual(projectile.petComboTags, ['fs-clone', 'sdcc-charge', 'ltwj-multi']);
+
+  assert.equal(applyMonster30Hit(monster, projectile.damage), true);
+  assert.equal(monster.hp, monster.maxHp);
+}
+
+function testPetDragon4QlaoyiRecordsCombinationFallbacksAndKeepsEarlierDragonSkillsCompatible(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedDragon4(roster);
+  pet.skills = ['tsml', 'qlaoyi'];
+  const projectiles = createProjectileSystem();
+
+  const result = requestPetDragon4QlaoyiSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 4, 'dragon'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-qlaoyi-fallback'))],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(pet.skillState?.dragon4Qlaoyi.lastCombo, {
+    cloneCombo: false,
+    sdccCombo: false,
+    ltwjCombo: false,
+  });
+  assert.deepEqual(getActiveProjectiles(projectiles)[0]?.petComboTags, []);
+
+  const dragon1Roster = createSeedPetRoster();
+  const dragon1 = deploySeedDragon1(dragon1Roster);
+  assert.equal(requestPetDragon1FsSkill({
+    roster: dragon1Roster,
+    runtime: createTestPetRuntime(dragon1.id, 1, 'dragon'),
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+
+  const dragon2Roster = createSeedPetRoster();
+  const dragon2 = deploySeedDragon2(dragon2Roster);
+  assert.equal(requestPetDragon2SdccSkill({
+    roster: dragon2Roster,
+    runtime: createTestPetRuntime(dragon2.id, 2, 'dragon'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-qlaoyi-dragon2-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+
+  const dragon3Roster = createSeedPetRoster();
+  const dragon3 = deploySeedDragon3(dragon3Roster);
+  assert.equal(requestPetDragon3LtwjSkill({
+    roster: dragon3Roster,
+    runtime: createTestPetRuntime(dragon3.id, 3, 'dragon'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-qlaoyi-dragon3-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+}
+
+function testPetTurtle1SldRequiresLearnedSkillMpTargetDistanceAndCooldown(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedTurtle1(roster);
+  const projectiles = createProjectileSystem();
+  const runtime = createTestPetRuntime(pet.id, 1, 'turtle');
+  const target = createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-sld-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'sld');
+  let result = requestPetTurtle1SldSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned sld/);
+
+  pet.skills.push('sld');
+  pet.mp = PetTuning.turtle1SldMpCost - 1;
+  result = requestPetTurtle1SldSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetTurtle1SldSkill({
+    roster,
+    runtime,
+    targets: [],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetTurtle1SldSkill({
+    roster,
+    runtime,
+    targets: [createPetSkillMonsterTarget(createMonster30(PetTuning.turtle1SldMinDistance - 1, 0, 'm30-pet-sld-close'))],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /too close/);
+
+  result = requestPetTurtle1SldSkill({
+    roster,
+    runtime,
+    targets: [createPetSkillMonsterTarget(createMonster30(PetTuning.turtle1SldMaxDistance + 1, 0, 'm30-pet-sld-far'))],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /too far/);
+
+  result = requestPetTurtle1SldSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(pet.skillState?.turtle1Sld.cooldownMs, PetTuning.turtle1SldCooldownMs);
+
+  result = requestPetTurtle1SldSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.turtle1SldCooldownMs);
+  result = requestPetTurtle1SldSkill({
+    roster,
+    runtime,
+    targets: [target],
+    projectiles,
+  });
+  assert.equal(result.ok, true);
+}
+
+function testPetTurtle1SldSpawnsProjectileDamagesAndHealsPet(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedTurtle1(roster);
+  const monster = createMonster30(100, 0, 'm30-pet-sld-hit');
+  const projectiles = createProjectileSystem();
+  const mpBefore = pet.mp;
+  pet.hp = pet.maxHp - 10;
+
+  const result = requestPetTurtle1SldSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 1, 'turtle'),
+    targets: [createPetSkillMonsterTarget(monster)],
+    projectiles,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, mpBefore);
+  assert.equal(result.mpAfter, mpBefore - PetTuning.turtle1SldMpCost);
+  assertNearlyEqual(result.damage ?? 0, pet.atk);
+  assert.equal(result.healOnHit, 10);
+  assert.equal(pet.hp, pet.maxHp);
+  assert.equal(pet.skillState?.turtle1Sld.lastHeal, 10);
+  assert.equal(getActiveProjectiles(projectiles).length, 1);
+
+  const projectile = getActiveProjectiles(projectiles)[0];
+  assert.ok(projectile);
+  assert.equal(projectile.variant, 'pet-turtle1-sld');
+  assert.equal(projectile.sourceId, pet.id);
+  assert.equal(projectile.actionName, 'hit2');
+  assert.equal(projectile.runtimeName, 'PetTurtle1Bullet2');
+  assert.equal(projectile.sourceSymbol, 'PetTurtle1Bullet2');
+  assertNearlyEqual(projectile.damage, pet.atk);
+
+  assert.equal(applyMonster30Hit(monster, projectile.damage), true);
+  assertNearlyEqual(monster.hp, monster.maxHp - pet.atk);
+}
+
+function testPetTurtle1SldCombinesWithFsnlAndSxkbAndKeepsEarlierPetSkillsCompatible(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedTurtle1(roster);
+  pet.hp = pet.maxHp - 999;
+  pet.skillDamageBonus = 12.5;
+  pet.critBonusRate = 1;
+  const projectiles = createProjectileSystem();
+  const expectedDamage = (pet.atk + pet.skillDamageBonus) * PetTuning.petSkillCritDamageMultiplier;
+
+  const result = requestPetTurtle1SldSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 1, 'turtle'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-sld-crit'))],
+    projectiles,
+    random: () => 0,
+  });
+
+  assert.equal(result.ok, true);
+  assertNearlyEqual(result.damage ?? 0, expectedDamage);
+  assertNearlyEqual(result.healOnHit ?? 0, expectedDamage);
+  assertNearlyEqual(pet.hp, pet.maxHp - 999 + expectedDamage);
+  assertNearlyEqual(getActiveProjectiles(projectiles)[0]?.damage ?? 0, expectedDamage);
+
+  const horse1Roster = createSeedPetRoster();
+  const horse1 = deploySeedHorse1(horse1Roster);
+  assert.equal(requestPetHorse1SpSkill({
+    roster: horse1Roster,
+    runtime: createTestPetRuntime(horse1.id, 1, 'horse'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-sld-horse1-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+
+  const dragon4Roster = createSeedPetRoster();
+  const dragon4 = deploySeedDragon4(dragon4Roster);
+  assert.equal(requestPetDragon4QlaoyiSkill({
+    roster: dragon4Roster,
+    runtime: createTestPetRuntime(dragon4.id, 4, 'dragon'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-sld-dragon4-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+}
+
+function testPetTurtle2TxljRequiresLearnedSkillMpTargetAndCooldown(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedTurtle2(roster);
+  const runtime = createTestPetRuntime(pet.id, 2, 'turtle');
+  const target = createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-txlj-gates'));
+
+  pet.skills = pet.skills.filter((skill) => skill !== 'txlj');
+  let result = requestPetTurtle2TxljSkill({
+    roster,
+    runtime,
+    targets: [target],
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /has not learned txlj/);
+
+  pet.skills.push('txlj');
+  pet.mp = PetTuning.turtle2TxljMpCost - 1;
+  result = requestPetTurtle2TxljSkill({
+    roster,
+    runtime,
+    targets: [target],
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /MP not enough/);
+
+  pet.mp = pet.maxMp;
+  result = requestPetTurtle2TxljSkill({
+    roster,
+    runtime,
+    targets: [],
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /no target/);
+
+  result = requestPetTurtle2TxljSkill({
+    roster,
+    runtime,
+    targets: [target],
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.mpBefore, pet.maxMp);
+  assert.equal(result.mpAfter, pet.maxMp - PetTuning.turtle2TxljMpCost);
+  assert.equal(pet.skillState?.turtle2Txlj.cooldownMs, PetTuning.turtle2TxljCooldownMs);
+  assert.equal(pet.skillState?.turtle2Txlj.linkRemainingMs, pet.warpower * PetTuning.turtle2TxljDurationMultiplierMs);
+
+  result = requestPetTurtle2TxljSkill({
+    roster,
+    runtime,
+    targets: [target],
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /cooling/);
+
+  updatePetSkillState(roster, PetTuning.turtle2TxljCooldownMs);
+  assert.equal(pet.skillState?.turtle2Txlj.cooldownMs, 0);
+  assert.equal(pet.skillState?.turtle2Txlj.linkRemainingMs, 0);
+}
+
+function testPetTurtle2TxljRedirectsOwnerDamageAndBoostsHealing(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedTurtle2(roster);
+  const ownerStats = createPetOwnerStatsForTest();
+  pet.hp = 200;
+
+  const cast = requestPetTurtle2TxljSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 2, 'turtle'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-txlj-link'))],
+  });
+  assert.equal(cast.ok, true);
+
+  const damage = applyPetTurtleTxljOwnerDamage(roster, 101);
+  assert.equal(damage.active, true);
+  assert.equal(damage.ownerDamage, 96);
+  assert.equal(damage.petDamage, 6);
+  assert.equal(pet.hp, 194);
+  assert.equal(pet.skillState?.turtle2Txlj.lastOwnerDamageAfterRedirect, 96);
+  assert.equal(pet.skillState?.turtle2Txlj.lastOwnerDamageRedirect, 6);
+
+  ownerStats.hp = 50;
+  pet.hp = 100;
+  const heal = applyPetTurtleTxljOwnerHeal(roster, ownerStats, 20);
+  assert.equal(heal.active, true);
+  assert.equal(heal.ownerHeal, 21);
+  assert.equal(heal.petHeal, 21);
+  assert.equal(ownerStats.hp, 71);
+  assert.equal(pet.hp, 121);
+  assert.equal(pet.skillState?.turtle2Txlj.lastOwnerHealBoost, 21);
+  assert.equal(pet.skillState?.turtle2Txlj.lastPetHeal, 21);
+
+  updatePetSkillState(roster, PetTuning.turtle2TxljDurationMultiplierMs * pet.warpower);
+  const expiredDamage = applyPetTurtleTxljOwnerDamage(roster, 100);
+  assert.equal(expiredDamage.active, false);
+  assert.equal(expiredDamage.ownerDamage, 100);
+}
+
+function testPetTurtle2TxljLinksSldOwnerHealAndKeepsTurtle1SldCompatible(): void {
+  const roster = createSeedPetRoster();
+  const pet = deploySeedTurtle2(roster);
+  const ownerStats = createPetOwnerStatsForTest();
+  ownerStats.hp = 40;
+  pet.hp = pet.maxHp - 30;
+  const projectiles = createProjectileSystem();
+
+  const link = requestPetTurtle2TxljSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 2, 'turtle'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-txlj-sld-link'))],
+  });
+  assert.equal(link.ok, true);
+
+  const sld = requestPetTurtle1SldSkill({
+    roster,
+    runtime: createTestPetRuntime(pet.id, 2, 'turtle'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-txlj-sld'))],
+    projectiles,
+    ownerStats,
+  });
+  assert.equal(sld.ok, true);
+  assert.equal(sld.healOnHit, 25);
+  assert.equal(pet.hp, pet.maxHp - 5);
+  assert.equal(ownerStats.hp, 65);
+  assert.equal(pet.skillState?.turtle1Sld.lastOwnerHeal, 25);
+
+  const turtle1Roster = createSeedPetRoster();
+  const turtle1 = deploySeedTurtle1(turtle1Roster);
+  assert.equal(requestPetTurtle1SldSkill({
+    roster: turtle1Roster,
+    runtime: createTestPetRuntime(turtle1.id, 1, 'turtle'),
+    targets: [createPetSkillMonsterTarget(createMonster30(100, 0, 'm30-pet-txlj-turtle1-compat'))],
+    projectiles: createProjectileSystem(),
+  }).ok, true);
+}
+
 function testMagicWeaponRejectsWithoutZbfb(): void {
   const model = createMagicWeaponModel();
   const loadout = createEmptyEquipmentLoadout();
@@ -5566,6 +6038,59 @@ function deploySeedDragon3(roster: ReturnType<typeof createSeedPetRoster>) {
   return pet;
 }
 
+function deploySeedDragon4(roster: ReturnType<typeof createSeedPetRoster>) {
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  selectPet(roster, 1);
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-dragon-4');
+  assert.equal(pet.species, 'dragon');
+  assert.equal(pet.form, 4);
+  return pet;
+}
+
+function deploySeedTurtle1(roster: ReturnType<typeof createSeedPetRoster>) {
+  for (let i = 0; i < roster.pets.length; i += 1) {
+    if (roster.pets[roster.selectedIndex]?.id === 'pet-turtle-1') {
+      break;
+    }
+    selectPet(roster, 1);
+  }
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-turtle-1');
+  assert.equal(pet.species, 'turtle');
+  assert.equal(pet.form, 1);
+  return pet;
+}
+
+function deploySeedTurtle2(roster: ReturnType<typeof createSeedPetRoster>) {
+  for (let i = 0; i < roster.pets.length; i += 1) {
+    if (roster.pets[roster.selectedIndex]?.id === 'pet-turtle-2') {
+      break;
+    }
+    selectPet(roster, 1);
+  }
+  assert.equal(setSelectedPetActive(roster), true);
+  const pet = getActivePet(roster);
+  assert.ok(pet);
+  assert.equal(pet.id, 'pet-turtle-2');
+  assert.equal(pet.species, 'turtle');
+  assert.equal(pet.form, 2);
+  return pet;
+}
+
 function createPetSkillMonsterTarget(
   monster: ReturnType<typeof createMonster30>,
 ) {
@@ -5574,6 +6099,17 @@ function createPetSkillMonsterTarget(
     x: monster.x,
     y: monster.y,
     isAlive: monster.state !== 'dead' && monster.state !== 'removed',
+  };
+}
+
+function createPetOwnerStatsForTest() {
+  return {
+    hp: 100,
+    maxHp: 200,
+    mp: 100,
+    maxMp: 100,
+    power: 10,
+    defense: 5,
   };
 }
 

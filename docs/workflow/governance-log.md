@@ -2,6 +2,69 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-06-14
+
+### 调整结构门禁和现代架构路线
+
+变更内容：
+
+- 将结构 warning 从“绝对阻塞”调整为“目标文件优先拆分、轻量小修可说明理由后局部修改、无关 warning 不阻塞当前任务”。
+- 为 `src/scenes/test-scene/*Bridge.ts` 增加独立 warn 阈值：800 行 warn、1200 行 error，承认桥接层短期偏厚但仍禁止承载领域规则。
+- 在 `src` 边界文档中明确 `test-scene` bridge 是过渡层，后续增长优先把纯规则下沉到 `src/systems/`。
+- 将阶段 3 的 `GameContext` / `EntityManager` 路线调整为：保留薄 `GameContext`，等统一生命周期需求明确后再引入轻量 `EntityManager`，不提前上完整 ECS。
+
+影响范围：
+
+- `AGENTS.md`
+- `TASK_OUTLINE.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/architecture/src-boundaries.md`
+- `tools/check-structure.mjs`
+- `docs/workflow/governance-log.md`
+
+后续规则：
+
+- error 仍是硬阻塞，必须先拆。
+- warning 是维护信号，不再让无关文件阻塞当前任务。
+- bridge 文件只能做场景和系统的适配，不作为新领域规则的归宿。
+
+## 2026-06-08
+
+### 增加结构性代码门禁（check:structure）
+
+变更内容：
+
+- 新增 `tools/check-structure.mjs`，对 `src/` 和 `tools/` 执行四项结构性检查：
+  - **文件行数上限**：system > 800 行 warn、> 1500 行 error；scene > 600 行 warn、> 1200 行 error；test > 6000 行 warn、> 10000 行 error。
+  - **代码重复检测**：基于结构指纹（归一化标识符、字符串、数值后的行级相似度比较），同一文件中超过 3 个相似代码块时告警。
+  - **Scene 导入耦合度**：scene 导入超过 10 个 system 文件时 warn、超过 15 个时 error。
+  - **Scene 边界注释**：超过 300 行的 scene 文件必须有文档化边界注释。
+- 脚本始终 exit 0；强制力来自 agent protocol 规则。
+- 新增 `npm run check:structure` 脚本。
+- `npm run check:all` 扩展为 `check:workflow && check:structure && check:code`。
+- 更新 `docs/workflow/code-quality-gates.md`，新增 Structural Gates 章节（文件大小限制表、代码重复规则、scene 导入耦合度和边界注释要求）。
+- 更新 `docs/workflow/agent-protocol.md` 代码任务规则，要求修改现有文件前先运行 `check:structure`。
+- 更新 `AGENTS.md` 必须遵守规则，新增第 6 条：新增逻辑前先运行 `check:structure`。
+- 更新 `CLAUDE.md` Code Quality Gates 章节，加入 structural check 步骤。
+- 扩展 `tools/validate-workflow.mjs`：校验 `check:structure` 脚本存在、`package.json` 包含所需 script、`code-quality-gates.md` 包含 Structural Gates 章节、`CLAUDE.md` 和 `agent-protocol.md` 引用 structural gate。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `package.json`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+- `tools/check-structure.mjs`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+- 已运行 `npm run check:structure`，预期输出当前超标文件的 warning/error 列表。
+
 ## 2026-06-02
 
 ### 固化 PowerShell rg 低风险命令模板

@@ -52,7 +52,7 @@
   - 维护正式游戏 task、`/goal` 管理、代码任务、Git、对话收束、任务生成和统一语言的细则，避免 `AGENTS.md` 过长。
 - `docs/workflow/code-quality-gates.md`
   - AI 代码质量门禁。
-  - 规定自动验证、系统测试触发条件、场景层边界和 Git 工作要求。
+  - 规定自动验证、系统测试触发条件、结构性门禁（文件大小上限、代码重复、scene 耦合度）、场景层边界和 Git 工作要求。
 - `docs/workflow/governance-log.md`
   - 工作流脚手架维护日志。
   - 记录任务体系、文档职责、AI 交接协议和代码质量门禁等变化。

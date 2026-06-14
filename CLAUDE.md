@@ -49,6 +49,8 @@ npm run test:systems
 npm run build
 ```
 
+在现有文件中新增逻辑前，先运行 `npm run check:structure`，确认目标文件不在 warning/error 列表中。若在列表中，必须先拆分再添加新功能。
+
 修改 workflow/task/domain/harness 文档后，必须运行：
 
 ```bash
@@ -66,7 +68,8 @@ npm run check:all
 - 可受击、可交互、可结算的运行时实体都有稳定 ID；
 - 复杂战斗、关卡、技能、背包、存档或 AI 规则不要堆进 `src/scenes/`；
 - 命中去重、刷怪、停点、输入、技能槽、状态机等规则更新时，同步更新 `tools/system-tests.ts`；
-- 视觉测试通过不等于完成，必须有可自动结束的命令验证。
+- 视觉测试通过不等于完成，必须有可自动结束的命令验证；
+- 修改过的文件不触发 `npm run check:structure` 的新 warning/error。
 
 详见 [docs/workflow/code-quality-gates.md](./docs/workflow/code-quality-gates.md)。
 

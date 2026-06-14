@@ -164,8 +164,8 @@
 
 - 双玩家输入。
 - `InputBindings`。
-- 薄 `GameContext`。
-- `EntityManager`。
+- 保留薄 `GameContext`：只做运行时查询和系统调度上下文，不承载玩法规则。
+- 轻量 `EntityManager`：等怪物、掉落、宠物、投射物等实体需要统一生命周期时再引入，不为架构洁癖提前上完整 ECS。
 - 系统更新顺序。
 - 资源 manifest。
 

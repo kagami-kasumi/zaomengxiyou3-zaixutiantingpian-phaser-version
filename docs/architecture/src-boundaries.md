@@ -35,6 +35,15 @@
 - 同一类职责第二次出现时优先抽 helper：视图创建、调试键、命中桥接、UI 面板桥接、运行时查询、系统调度。
 - 不为“彻底架构化”做大重构；每次只拆一个职责簇，并保持 `npm run build` 通过。
 - `src/scenes/test-scene/` helper 仍属于场景桥接层，可以依赖 Phaser；不要把 Phaser 显示对象传入 `src/systems/`。
+- `src/scenes/test-scene/*Bridge.ts` 是过渡层：负责把 scene 状态、Phaser 显示对象和可测试 system 输入/输出接起来。桥接层可以短期偏厚，但不能新增核心战斗、掉落、宠物、法宝或关卡规则。
+- 当 bridge 文件继续增长时，优先判断哪些逻辑可以下沉到 `src/systems/`，而不是只把 bridge 再机械拆成更多场景文件。
+
+## `GameContext` / `EntityManager` 路线
+
+- 保留薄 `GameContext`：它只提供当前集成场景需要的运行时查询，不承载规则、不持有复杂生命周期。
+- 暂不为了架构洁癖强上完整 ECS。只有当怪物、掉落、宠物、投射物、Boss 或场景物件需要统一生成、销毁、查询和调度时，才引入轻量 `EntityManager`。
+- `EntityManager` 的第一版目标应是稳定 ID、生命周期登记、按类型查询和安全移除；不要一次性引入组件系统、事件总线或复杂依赖注入。
+- 在引入 `EntityManager` 前，系统函数仍应保持明确输入/输出，并避免直接读取 Phaser 显示对象。
 
 ## 逆向与实现边界
 

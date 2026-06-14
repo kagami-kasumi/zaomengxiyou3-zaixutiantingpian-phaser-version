@@ -22,6 +22,10 @@ import {
   getMonster30AttackHitbox,
   type Monster30Model,
 } from '../../systems/Monster30System';
+import {
+  applyPetTurtleTxljOwnerDamage,
+  type PetRoster,
+} from '../../systems/PetSystem';
 
 export type CombatBridgePlayer = {
   slot: PlayerSlot;
@@ -137,6 +141,7 @@ export function applyHeroNormalAttackToMonster30s(params: {
 export function applyMonster30AttackToPlayers(params: {
   monster: Monster30Model;
   players: readonly CombatBridgePlayer[];
+  petRoster?: PetRoster;
   hitRegistry: HitRegistry;
   renderedMonsterAttackIds: Set<string>;
   time: number;
@@ -181,7 +186,9 @@ export function applyMonster30AttackToPlayers(params: {
       targetId: player.slot,
       attackId: activeAttack.attackId,
       actionName: activeAttack.actionName,
-      amount: activeAttack.damage,
+      amount: player.slot === 'p1' && params.petRoster
+        ? applyPetTurtleTxljOwnerDamage(params.petRoster, activeAttack.damage).ownerDamage
+        : activeAttack.damage,
       attackKind: activeAttack.attackKind,
       knockbackX: activeAttack.facingX * activeAttack.knockbackX,
       knockbackY: activeAttack.knockbackY,

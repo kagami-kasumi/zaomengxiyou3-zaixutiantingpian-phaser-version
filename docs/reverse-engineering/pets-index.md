@@ -528,7 +528,35 @@
 | 1 | `dragon1/fs` | 已由 `TASK-SLICE-062` 完成：已学、MP、约 10 秒 CD、10 秒分身占位反馈、无目标释放和直接伤害 0 |
 | 2 | `dragon2/sdcc` | 已由 `TASK-SLICE-063` 完成：目标/距离 `<= 300` 门禁、混合伤害公式、`fsnl/sxkb` 兼容和命中治疗记录 |
 | 3 | `dragon3/ltwj` | 已由 `TASK-SLICE-064` 完成：距离 `<= 500` 门禁、4 段 `PetDragon3Bullet3` 占位反馈、混合伤害公式、`fsnl/sxkb` 兼容和命中治疗记录 |
-| 4 | `dragon4/qlaoyi` | 下一步推荐：依赖 `fs/sdcc/ltwj` 组合表现、奥义 buff、分身协同和 MP 扣除疑点，适合拆为独立奥义反馈切片 |
+| 4 | `dragon4/qlaoyi` | 已由 `TASK-SLICE-065` 完成：目标/距离 `<= 200` 门禁、30 MP、约 24 秒 CD、`PetDragonBullet4` 奥义占位反馈、直接伤害 0，并按已学 `fs/sdcc/ltwj` 记录组合标签 |
+
+玄龟首批链路：
+
+`BaseHero.addPetByPi()` 按 `turtle1..4` 分别创建 `PetTurtle1..4`。`PetInfo.rePetSkill()` 会把玄龟候选池扩成 `turtle1: sld`、`turtle2: sld/txlj`、`turtle3: sld/txlj/sybh`、`turtle4: sld/txlj/sybh/xwaoyi`；`addSpecialSkill()` 在 `turtle1 -> turtle2` 时把 `sld` 替换为 `txlj`，在 `turtle2 -> turtle3` 时把 `txlj` 替换为 `sybh`。四阶奥义 `xwaoyi` 由四阶入口直接加入已学技能，普通角色技能书 `jns` 不参与宠物专属技能学习。
+
+`findPetUsedMagic()` 给出玄龟消耗：`sld/txlj/sybh` 都消耗 20 MP，`xwaoyi` 消耗 30 MP。`getPetHarmObj()` 给出数值基数：`sld = atk`，`txlj.first = 5 * technique`、`txlj.second = 4 * warpower`，`sybh = 5.4 * atk`，`xwaoyi = 0`。`sld` 和 `sybh` 在 `getRealPower()` 中继续叠加 `fsnl` 的 `getMagicAddValue()`、`sxkb` 的宠物暴击 2 倍、`isGXP` 的 1.2 倍；四阶 `PetTurtle4` 还额外乘 `hurtBaseEffectRate()`。
+
+| 类 | 技能槽 | 条件 | 动作/伤害或状态 |
+| --- | --- | --- | --- |
+| `PetTurtle1..4` | skill1 `sld` | 已学 `sld`、MP 足够、目标距离 `50..200`、CD1 就绪 | `hit2`，扣 20 MP；第 10 帧附近生成 `FollowBaseObjectBullet("PetTurtle1Bullet2")` / `hit2`，魔法命中；按 `sld = atk` 派生伤害，同时宠物按本次 `hit2` 伤害量治疗自身 |
+| `PetTurtle2..4` | skill2 `txlj` | 已学 `txlj`、MP 足够、存在目标、CD2 就绪 | 不生成伤害 projectile；给宠物自身和主人同时添加 `BaseAddEffect.PETTURTKE_BUFF`，持续 `txlj.second * gc.frameClips = 4 * warpower` 秒，值为 `5 * technique`，扣 20 MP |
+| `PetTurtle3..4` | skill3 `sybh` | 已学 `sybh`、MP 足够、存在目标、CD3 就绪 | `hit3`，扣 20 MP；第 10 帧附近在宠物自身附近生成 `SpecialEffectBullet("PetTurtle3Bullet3")` / `hit3`，三阶和四阶都把表现放大到约 2 倍；按 `sybh = 5.4 * atk` 派生范围伤害 |
+| `PetTurtle4` | skill4 `xwaoyi` | 已学 `xwaoyi`、MP `>= 30`、存在目标、CD4 就绪 | 进入 5 秒奥义状态；若已学 `sld`，立刻、2 秒后、4 秒后各免蓝释放一次 `sld`；若已学 `txlj`，免蓝添加同心链接；若已学 `sybh`，生成持续 5 秒、不随末帧销毁的 `PetTurtle3Bullet3` 奥义范围反馈；奥义期间不移动、不转向、受击表现参数被压制 |
+
+玄龟 CD 来自 `skillCDN = [初始, 间隔]`：`sld` 初始约 `3s`、间隔约 `6s`；`txlj` 初始约 `3s`、间隔约 `20s`；`sybh` 初始约 `4s`、间隔约 `5.5s`；`xwaoyi` 初始约 `12s`、间隔约 `18s`。
+
+`PETTURTKE_BUFF` 的可观察战斗边界来自 `BaseHero`：主人受伤时，如果主人和宠物都持有该 buff，会让宠物承受 `ceil(原伤害 * 0.05)`，主人实际伤害变为 `ceil(原伤害 * 0.95)`；主人被治疗时，如果双方都持有该 buff，会先让宠物按 `治疗量 * 1.05` 回血，再把主人治疗量放大到 `ceil(治疗量 * 1.05)`。`PetTurtle2/3/4.doHit2()` 还会在宠物 `sld` 治疗自身后，如果双方存在链接 buff，同步给主人增加同等治疗量。
+
+玄龟资源键已由 AS3 确认：本体为 `PetTurtleBmd1..4`，普通表现为 `PetTurtle2Bullet1`，技能/弹体包括 `PetTurtle1Bullet2`、`PetTurtle3Bullet3`。`attackBackInfoDict` 中 `hit1` 为 physics；`hit2` 在一至三阶为 magic、四阶配置为 physics 但仍用于 `sld`，`hit3` 为 magic；现代首批只登记占位资源 key，不重新提取资源。
+
+玄龟现代最小切片建议：
+
+| 优先级 | 切片 | 理由与边界 |
+| --- | --- | --- |
+| 1 | `turtle1/sld` | 证据最小且可观察：只需已学、MP、目标距离 `50..200`、约 6 秒 CD、`PetTurtle1Bullet2` 占位 projectile、`atk + skillDamageBonus` 伤害、自身治疗和 `sxkb` 暴击兼容 |
+| 2 | `turtle2/txlj` | 不依赖新伤害 projectile，但要接入主人扣血前 5% 转嫁、治疗放大和宠物同步回血，适合在 `sld` 治疗链稳定后做 |
+| 3 | `turtle3/sybh` | 主动范围伤害，可复用宠物主动技能和 `fsnl/sxkb` 伤害 helper；只需新增 `PetTurtle3Bullet3` 占位范围反馈 |
+| 4 | `turtle4/xwaoyi` | 组合奥义，依赖 `sld/txlj/sybh` 三个前置最小实现；建议单独切片记录免蓝连发、链接刷新、5 秒持续范围反馈和奥义期间移动/受击边界 |
 
 ## 现代宠物技能切片建议
 

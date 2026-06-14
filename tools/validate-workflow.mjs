@@ -18,6 +18,8 @@ const files = {
   srcBoundaries: 'docs/architecture/src-boundaries.md',
   glossary: 'docs/domain/glossary.md',
   languageProcess: 'docs/domain/ubiquitous-language-process.md',
+  agentProtocol: 'docs/workflow/agent-protocol.md',
+  structureCheck: 'tools/check-structure.mjs',
   packageJson: 'package.json',
   tsconfig: 'tsconfig.json',
   inputSystem: 'src/systems/InputSystem.ts',
@@ -370,7 +372,7 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
   }
 
   const scripts = packageJson.scripts ?? {};
-  for (const scriptName of ['test:systems', 'check:code', 'check:all']) {
+  for (const scriptName of ['test:systems', 'check:code', 'check:structure', 'check:all']) {
     if (typeof scripts[scriptName] !== 'string') {
       error(`package.json is missing required script: ${scriptName}`);
     }
@@ -381,7 +383,10 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
     'Visual testing',
     'npm run test:systems',
     'npm run build',
+    'npm run check:structure',
     'npm run check:all',
+    'Structural Gates',
+    'File size limits',
   ]) {
     if (!codeQualityGates.includes(requiredText)) {
       error(`code-quality-gates.md must mention: ${requiredText}`);
@@ -390,6 +395,13 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
 
   if (!claude.includes('npm run test:systems') || !claude.includes('code-quality-gates.md')) {
     error('CLAUDE.md must point agents at system tests and code-quality-gates.md.');
+  }
+  if (!claude.includes('check:structure')) {
+    error('CLAUDE.md must reference npm run check:structure for structural gates.');
+  }
+
+  if (!existsSync(filePath(files.structureCheck))) {
+    error(`Missing structural check script: ${files.structureCheck}`);
   }
 }
 
@@ -478,6 +490,11 @@ checkGovernanceLog([files.taskGeneration, files.workflowReadme, files.documentMa
 checkCodeQualityGates(packageJsonText, codeQualityGates, claude);
 checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanicsText, inputSystem);
 checkDomainLanguage(glossary, languageProcess, [inputSystem]);
+
+const agentProtocol = read(files.agentProtocol);
+if (agentProtocol && !agentProtocol.includes('check:structure')) {
+  error('agent-protocol.md must include structural gate rules (check:structure before adding to existing files).');
+}
 
 if (warnings.length > 0) {
   console.warn('Workflow validation warnings:');

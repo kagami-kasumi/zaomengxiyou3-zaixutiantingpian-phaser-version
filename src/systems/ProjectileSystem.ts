@@ -52,6 +52,7 @@ export type ProjectileModel = {
   magicIceMs?: number;
   trackingTargetId?: string;
   petHealOnHit?: number;
+  petComboTags?: string[];
   explosionDelayMs?: number;
   secondStageDamage?: number;
   secondStageMagicIceMs?: number;
@@ -92,7 +93,9 @@ export type ProjectileVariant =
   | 'pet-horse4-tmaoyi-explode'
   | 'pet-dragon1-fs'
   | 'pet-dragon2-sdcc'
-  | 'pet-dragon3-ltwj';
+  | 'pet-dragon3-ltwj'
+  | 'pet-dragon4-qlaoyi'
+  | 'pet-turtle1-sld';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -632,6 +635,48 @@ export const PetDragon3LtwjProjectileTuning = {
   maxHits: 1,
 } as const;
 
+export const PetDragon4QlaoyiProjectileTuning = {
+  actionName: 'hit4',
+  assetKey: PetSkillEffectKeys.dragon4Qlaoyi,
+  sourceSymbol: 'PetDragonBullet4',
+  runtimeName: 'PetDragonBullet4',
+  offsetX: 0,
+  offsetY: -24,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 190,
+  height: 138,
+  lifetimeMs: 1_000,
+  damage: 0,
+  attackKind: 'magic',
+  knockbackX: 1,
+  knockbackY: -5,
+  hitIntervalFrames: 999,
+  maxHits: 1,
+} as const;
+
+export const PetTurtle1SldProjectileTuning = {
+  actionName: 'hit2',
+  assetKey: PetSkillEffectKeys.turtle1Sld,
+  sourceSymbol: 'PetTurtle1Bullet2',
+  runtimeName: 'PetTurtle1Bullet2',
+  offsetX: 0,
+  offsetY: -28,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 150,
+  height: 112,
+  lifetimeMs: 700,
+  damage: 25,
+  attackKind: 'magic',
+  knockbackX: 10,
+  knockbackY: 0,
+  hitIntervalFrames: 7,
+  maxHits: 1,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -1107,6 +1152,45 @@ export function spawnPetDragon3LtwjProjectile(
   return projectile;
 }
 
+export function spawnPetDragon4QlaoyiProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  comboTags: readonly string[],
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-dragon4-qlaoyi',
+    'pet-dragon4-qlaoyi',
+    PetDragon4QlaoyiProjectileTuning,
+  );
+
+  projectile.damage = 0;
+  projectile.petComboTags = [...comboTags];
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
+export function spawnPetTurtle1SldProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-turtle1-sld',
+    'pet-turtle1-sld',
+    PetTurtle1SldProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -1176,7 +1260,9 @@ function spawnProjectileFromTuning(
     | typeof PetHorse4TmaoyiExplodeProjectileTuning
     | typeof PetDragon1FsProjectileTuning
     | typeof PetDragon2SdccProjectileTuning
-    | typeof PetDragon3LtwjProjectileTuning,
+    | typeof PetDragon3LtwjProjectileTuning
+    | typeof PetDragon4QlaoyiProjectileTuning
+    | typeof PetTurtle1SldProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

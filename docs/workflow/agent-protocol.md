@@ -52,6 +52,7 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 - 实现任务开始前检查 `docs/tasks/vertical-slices.md` 中对应切片依赖是否满足；依赖机制未确认时，先做逆向任务。
 - 能验证就运行验证，不能验证要说明原因。
 - 默认不启动 `npm run dev`；开发服务器由用户自行运行。修改代码后优先运行可自动结束的检查命令，如 `npm run build`、`npm run test:systems` 或更小范围检查。
+- **在现有文件中新增逻辑前**，先运行 `npm run check:structure`。如果目标文件出现在 warning 列表中，应先拆分再添加新功能。如果出现在 error 列表中，禁止在拆分前向该文件添加任何新逻辑。
 
 ## Git 维护规则
 
