@@ -52,7 +52,10 @@ export function buildPetSkillSlotViews(pet: PetState): PetSkillSlotView[] {
 }
 
 
-export function buildPetPanelLines(roster: PetRoster): string[] {
+export function buildPetPanelLines(
+  roster: PetRoster,
+  controlHint = '[鼠标] 选择 / 出战 / 休息',
+): string[] {
   const lines: string[] = [];
   const selected = getSelectedPet(roster);
   const active = getActivePet(roster);
@@ -83,6 +86,7 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
     lines.push(`MP ${selected.mp}/${selected.maxMp}  ATK ${selected.atk}  DEF ${selected.def}  CRIT +${((selected.critBonusRate ?? 0) * 100).toFixed(2)}%  SKILL +${(selected.skillDamageBonus ?? 0).toFixed(1)}`);
     lines.push(`EXP ${selected.exp}/${formatPetNextExperience(selected)}`);
     lines.push(`悟 ${selected.perception}  技 ${selected.technique}  战 ${selected.warpower}`);
+    lines.push(`资质 HP ${selected.hpQuality}  MP ${selected.mpQuality}  ATK ${selected.atkQuality}  DEF ${selected.defQuality}`);
     lines.push(`Skills: ${selected.skills.length > 0 ? selected.skills.join(', ') : '-'}`);
     for (const slot of buildPetSkillSlotViews(selected)) {
       lines.push(
@@ -143,7 +147,37 @@ export function buildPetPanelLines(roster: PetRoster): string[] {
   }
 
   lines.push('');
-  lines.push('[↑/↓] select  [Enter] 出战/休息  [B] close');
+  lines.push(controlHint);
+  return lines;
+}
+
+export function buildCompactPetPanelLines(roster: PetRoster): string[] {
+  const selected = getSelectedPet(roster);
+  const active = getActivePet(roster);
+  const lines = [
+    `数量 ${roster.pets.length}/${PetTuning.maxSeats}  出战 ${active?.displayName ?? '-'}`,
+    roster.message,
+    '',
+    '宠物列表（当前附近）',
+  ];
+  const start = Math.max(0, Math.min(roster.selectedIndex - 2, roster.pets.length - 5));
+  for (let index = start; index < Math.min(roster.pets.length, start + 5); index += 1) {
+    const pet = roster.pets[index];
+    lines.push(`${index === roster.selectedIndex ? '▶' : ' '} ${pet.displayName} F${pet.form} Lv.${pet.level}${pet.isActive ? ' [出战]' : ''}`);
+  }
+  if (!selected) {
+    lines.push('', '没有可选择的宠物');
+    return lines;
+  }
+  lines.push(
+    '',
+    `HP ${selected.hp}/${selected.maxHp}  MP ${selected.mp}/${selected.maxMp}`,
+    `ATK ${selected.atk}  DEF ${selected.def}  LIFE ${selected.lifetime}/100`,
+    `悟 ${selected.perception}  技 ${selected.technique}  战 ${selected.warpower}`,
+    `技能 ${selected.skills.length > 0 ? selected.skills.join(' / ') : '-'}`,
+    '',
+    '请使用下方鼠标按钮操作',
+  );
   return lines;
 }
 

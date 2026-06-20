@@ -33,6 +33,7 @@ export type Monster30Model = {
   magicSnowIce?: MonsterMagicSnowIce;
   magicPearlStun?: MonsterMagicPearlStun;
   magicPearlPoison?: MonsterMagicPearlPoison;
+  petBurn?: MonsterPetBurn;
 };
 
 export type MonsterMagicFlowerDebuff = {
@@ -84,6 +85,16 @@ export type MonsterMagicPearlStun = {
 
 export type MonsterMagicPearlPoison = {
   kind: 'magicPearlPoison';
+  sourceName: string;
+  damagePerSecond: number;
+  totalMs: number;
+  remainingMs: number;
+  tickCarryMs: number;
+  lastTickDamage: number;
+};
+
+export type MonsterPetBurn = {
+  kind: 'petBurn';
   sourceName: string;
   damagePerSecond: number;
   totalMs: number;
@@ -169,6 +180,7 @@ export function updateMonster30(
   const stateBeforeDebuff = monster.state;
   updateMonster30MagicFlagDebuff(monster, deltaMs);
   updateMonster30MagicPearlEffects(monster, deltaMs);
+  updateMonster30PetBurn(monster, deltaMs);
   if (stateBeforeDebuff !== 'dead' && monster.state === 'dead') {
     return;
   }
@@ -180,6 +192,7 @@ export function updateMonster30(
     clearMonster30MagicSnowIce(monster);
     clearMonster30MagicPearlStun(monster);
     clearMonster30MagicPearlPoison(monster);
+    clearMonster30PetBurn(monster);
     monster.activeAttack = undefined;
     monster.stateTimerMs -= deltaMs;
     if (monster.stateTimerMs <= 0) {
@@ -467,6 +480,26 @@ export function clearMonster30MagicPearlPoison(monster: Monster30Model): void {
   monster.magicPearlPoison = undefined;
 }
 
+export function applyMonster30PetBurn(
+  monster: Monster30Model,
+  params: { sourceName: string; totalMs: number; damagePerSecond: number },
+): void {
+  if (monster.state === 'dead' || monster.state === 'removed') return;
+  monster.petBurn = {
+    kind: 'petBurn',
+    sourceName: params.sourceName,
+    damagePerSecond: Math.max(0, params.damagePerSecond),
+    totalMs: Math.max(0, params.totalMs),
+    remainingMs: Math.max(0, params.totalMs),
+    tickCarryMs: 0,
+    lastTickDamage: 0,
+  };
+}
+
+export function clearMonster30PetBurn(monster: Monster30Model): void {
+  monster.petBurn = undefined;
+}
+
 export function applyMonster30MagicFlagCounterFromHero(
   monster: Monster30Model,
   hero: HeroCombatModel,
@@ -619,6 +652,26 @@ function updateMonster30MagicPearlEffects(monster: Monster30Model, deltaMs: numb
   if (poison.remainingMs <= 0 || monster.state === 'dead') {
     monster.magicPearlPoison = undefined;
   }
+}
+
+function updateMonster30PetBurn(monster: Monster30Model, deltaMs: number): void {
+  const burn = monster.petBurn;
+  if (!burn || monster.state === 'dead' || monster.state === 'removed') return;
+  const elapsedMs = Math.max(0, Math.min(deltaMs, burn.remainingMs));
+  burn.remainingMs -= elapsedMs;
+  burn.tickCarryMs += elapsedMs;
+  while (burn.tickCarryMs >= 1_000) {
+    burn.tickCarryMs -= 1_000;
+    burn.lastTickDamage = burn.damagePerSecond;
+    monster.hp = Math.max(0, monster.hp - burn.damagePerSecond);
+    if (monster.hp <= 0) {
+      monster.state = 'dead';
+      monster.stateTimerMs = Monster30Tuning.deadDurationMs;
+      monster.activeAttack = undefined;
+      break;
+    }
+  }
+  if (burn.remainingMs <= 0 || monster.state === 'dead') monster.petBurn = undefined;
 }
 
 function selectNearestTarget(

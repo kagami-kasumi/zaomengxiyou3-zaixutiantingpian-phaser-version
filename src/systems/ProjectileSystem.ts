@@ -3,6 +3,7 @@ import {
   PetSkillEffectKeys,
   SkillProjectileEffectKeys,
 } from '../assets/AssetManifest';
+import type { PetUfo1PmsProjectileTuning, PetUfo3KmskProjectileTuning } from './PetUfoProjectileSystem';
 import type { AttackKind } from './CombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
 
@@ -56,6 +57,8 @@ export type ProjectileModel = {
   explosionDelayMs?: number;
   secondStageDamage?: number;
   secondStageMagicIceMs?: number;
+  petBurnMs?: number;
+  petBurnDamage?: number;
   destroyWhenSourceHurt: boolean;
   hasSpawnedSecondStage: boolean;
   isExpired: boolean;
@@ -95,7 +98,20 @@ export type ProjectileVariant =
   | 'pet-dragon2-sdcc'
   | 'pet-dragon3-ltwj'
   | 'pet-dragon4-qlaoyi'
-  | 'pet-turtle1-sld';
+  | 'pet-turtle1-sld'
+  | 'pet-turtle3-sybh'
+  | 'pet-turtle4-xwaoyi'
+  | 'pet-ufo1-pms'
+  | 'pet-ufo3-kmsk'
+  | 'pet-tiger1-hy'
+  | 'pet-tiger2-sxhz'
+  | 'pet-tiger3-hsqj'
+  | 'pet-phoenix2-bshn'
+  | 'pet-phoenix3-dhly'
+  | 'pet-rabbit1-yg'
+  | 'pet-rabbit3-bs'
+  | 'pet-mouse1-sc'
+  | 'pet-mouse4-hxfb';
 
 export const Role2SgqProjectileTuning = {
   actionName: 'hit5',
@@ -677,6 +693,48 @@ export const PetTurtle1SldProjectileTuning = {
   maxHits: 1,
 } as const;
 
+export const PetTurtle3SybhProjectileTuning = {
+  actionName: 'hit3',
+  assetKey: PetSkillEffectKeys.turtle3Sybh,
+  sourceSymbol: 'PetTurtle3Bullet3',
+  runtimeName: 'PetTurtle3Bullet3',
+  offsetX: 0,
+  offsetY: -28,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 300,
+  height: 224,
+  lifetimeMs: 900,
+  damage: 135,
+  attackKind: 'magic',
+  knockbackX: 2,
+  knockbackY: -5,
+  hitIntervalFrames: 999,
+  maxHits: 999,
+} as const;
+
+export const PetTurtle4XwaoyiProjectileTuning = {
+  actionName: 'hit5',
+  assetKey: PetSkillEffectKeys.turtle4Xwaoyi,
+  sourceSymbol: 'PetTurtle4Hit5',
+  runtimeName: 'PetTurtle4Hit5',
+  offsetX: 0,
+  offsetY: -38,
+  speedX: 0,
+  speedY: 0,
+  distance: undefined,
+  width: 240,
+  height: 180,
+  lifetimeMs: 5_000,
+  damage: 0,
+  attackKind: 'magic',
+  knockbackX: 0,
+  knockbackY: 0,
+  hitIntervalFrames: 999,
+  maxHits: 999,
+} as const;
+
 const frameMs = 1000 / 60;
 
 export function createProjectileSystem(): ProjectileSystemModel {
@@ -1191,6 +1249,42 @@ export function spawnPetTurtle1SldProjectile(
   return projectile;
 }
 
+export function spawnPetTurtle3SybhProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+  damage: number,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-turtle3-sybh',
+    'pet-turtle3-sybh',
+    PetTurtle3SybhProjectileTuning,
+  );
+
+  projectile.damage = damage;
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
+export function spawnPetTurtle4XwaoyiProjectile(
+  system: ProjectileSystemModel,
+  spawnPoint: ProjectileSpawnPoint,
+): ProjectileModel {
+  const projectile = spawnProjectileFromTuning(
+    system,
+    spawnPoint,
+    'pet-turtle4-xwaoyi',
+    'pet-turtle4-xwaoyi',
+    PetTurtle4XwaoyiProjectileTuning,
+  );
+
+  projectile.destroyWhenSourceHurt = false;
+  system.projectiles.push(projectile);
+  return projectile;
+}
+
 export function updateProjectiles(
   system: ProjectileSystemModel,
   sourceSnapshots: readonly ProjectileSourceSnapshot[],
@@ -1229,7 +1323,7 @@ export function updateProjectiles(
   system.projectiles = system.projectiles.filter((projectile) => !projectile.isExpired);
 }
 
-function spawnProjectileFromTuning(
+export function spawnProjectileFromTuning(
   system: ProjectileSystemModel,
   spawnPoint: ProjectileSpawnPoint,
   variant: ProjectileVariant,
@@ -1262,7 +1356,11 @@ function spawnProjectileFromTuning(
     | typeof PetDragon2SdccProjectileTuning
     | typeof PetDragon3LtwjProjectileTuning
     | typeof PetDragon4QlaoyiProjectileTuning
-    | typeof PetTurtle1SldProjectileTuning,
+    | typeof PetTurtle1SldProjectileTuning
+    | typeof PetTurtle3SybhProjectileTuning
+    | typeof PetTurtle4XwaoyiProjectileTuning
+    | typeof PetUfo1PmsProjectileTuning
+    | typeof PetUfo3KmskProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

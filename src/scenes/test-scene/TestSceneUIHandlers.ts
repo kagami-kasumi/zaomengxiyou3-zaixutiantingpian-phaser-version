@@ -4,87 +4,98 @@ import Phaser from 'phaser';
 import {
   assignSkillToSlot,
   buildInventoryPanelLines,
-  buildPetPanelLines,
+  buildCompactPetPanelLines,
   canLearnSkill,
   canUpgradePassiveSkill,
   canUpgradeSkill,
   canUpgradeTree,
-  consumeStackByFillName,
+  closePetPanel,
   equipSelectedInventoryEntry,
   findSkillInState,
-  getSelectedInventoryEntry,
   getSkillTreeForHero,
-  isPetConsumableFillName,
   learnSkill,
   moveInventorySelection,
   selectNextInventoryCategory,
-  selectPet,
+  selectOwnedPet,
   setInventoryFocus,
   syncMagicWeaponFromLoadout,
-  toggleInventoryUI,
-  toggleSelectedPetActive,
+  toggleInventoryForOwner,
+  toggleOwnedPetActive,
+  togglePetPanelForOwner,
   unequipSelectedLoadoutSlot,
   upgradeEquippedMagicWeapon,
   upgradePassiveSkill,
   upgradeSkill,
   upgradeTree,
-  usePetConsumable,
+  useOwnedPetConsumable,
+  type PlayerInventoryRuntime,
   type PlayerSlot,
   type SkillPanelTab,
   type SkillUIState,
 } from './TestSceneSystems';
+import { setPetPanelOwnerLabel } from './TestScenePetPanelBridge';
 export function handleInventoryUIKeys(this: any): void {
-    if (this.inventoryToggleKey && Phaser.Input.Keyboard.JustDown(this.inventoryToggleKey)) {
-      toggleInventoryUI(this.inventoryUI);
-      if (this.inventoryUI.isOpen) {
+    const p1Pressed = this.inventoryToggleKey && Phaser.Input.Keyboard.JustDown(this.inventoryToggleKey);
+    const p2Pressed = this.p2InventoryToggleKey && Phaser.Input.Keyboard.JustDown(this.p2InventoryToggleKey);
+    const requestedOwner: PlayerSlot | undefined = p1Pressed ? 'p1' : p2Pressed ? 'p2' : undefined;
+    if (requestedOwner) {
+      const result = toggleInventoryForOwner(
+        this.playerInventoryRuntimes,
+        this.inventoryOwner,
+        requestedOwner,
+      );
+      this.inventoryOwner = result.ownerSlot;
+      if (result.isOpen) {
         this.p1SkillUI.skillPanelOpen = false;
         this.p2SkillUI.skillPanelOpen = false;
         this.petPanelOpen = false;
+        closePetPanel(this.petPanelSession);
       }
     }
 
-    if (!this.inventoryUI.isOpen) {
+    const runtime = getActiveInventoryRuntime(this);
+    if (!runtime.ui.isOpen) {
       return;
     }
 
     if (this.inventoryTabKey && Phaser.Input.Keyboard.JustDown(this.inventoryTabKey)) {
-      selectNextInventoryCategory(this.inventoryUI, this.inventoryStore, 1);
+      selectNextInventoryCategory(runtime.ui, runtime.store, 1);
     }
 
     if (this.inventoryLeftKey && Phaser.Input.Keyboard.JustDown(this.inventoryLeftKey)) {
-      setInventoryFocus(this.inventoryUI, 'inventory');
+      setInventoryFocus(runtime.ui, 'inventory');
     }
 
     if (this.inventoryRightKey && Phaser.Input.Keyboard.JustDown(this.inventoryRightKey)) {
-      setInventoryFocus(this.inventoryUI, 'loadout');
+      setInventoryFocus(runtime.ui, 'loadout');
     }
 
     if (this.inventoryUpKey && Phaser.Input.Keyboard.JustDown(this.inventoryUpKey)) {
-      moveInventorySelection(this.inventoryUI, this.inventoryStore, -1);
+      moveInventorySelection(runtime.ui, runtime.store, -1);
     }
 
     if (this.inventoryDownKey && Phaser.Input.Keyboard.JustDown(this.inventoryDownKey)) {
-      moveInventorySelection(this.inventoryUI, this.inventoryStore, 1);
+      moveInventorySelection(runtime.ui, runtime.store, 1);
     }
 
     if (this.inventoryConfirmKey && Phaser.Input.Keyboard.JustDown(this.inventoryConfirmKey)) {
-      if (this.inventoryUI.focus === 'inventory') {
+      if (runtime.ui.focus === 'inventory') {
         if (this.tryUseSelectedPetConsumable()) {
           // Pet consumable handled by the inventory item branch.
         } else if (equipSelectedInventoryEntry({
-          ui: this.inventoryUI,
-          store: this.inventoryStore,
-          loadout: this.equipmentLoadout,
-          heroName: this.getInventoryHeroName(),
+          ui: runtime.ui,
+          store: runtime.store,
+          loadout: runtime.loadout,
+          heroName: this.getInventoryHeroName(runtime.ownerSlot),
         })) {
-          this.syncInventoryHeroStats();
+          this.syncInventoryHeroStats(runtime.ownerSlot);
         }
       } else if (unequipSelectedLoadoutSlot({
-        ui: this.inventoryUI,
-        store: this.inventoryStore,
-        loadout: this.equipmentLoadout,
+        ui: runtime.ui,
+        store: runtime.store,
+        loadout: runtime.loadout,
       })) {
-        this.syncInventoryHeroStats();
+        this.syncInventoryHeroStats(runtime.ownerSlot);
       }
     }
 
@@ -92,11 +103,11 @@ export function handleInventoryUIKeys(this: any): void {
       (this.inventoryBackspaceKey && Phaser.Input.Keyboard.JustDown(this.inventoryBackspaceKey)) ||
       (this.inventoryDeleteKey && Phaser.Input.Keyboard.JustDown(this.inventoryDeleteKey));
     if (unequipPressed && unequipSelectedLoadoutSlot({
-      ui: this.inventoryUI,
-      store: this.inventoryStore,
-      loadout: this.equipmentLoadout,
+      ui: runtime.ui,
+      store: runtime.store,
+      loadout: runtime.loadout,
     })) {
-      this.syncInventoryHeroStats();
+      this.syncInventoryHeroStats(runtime.ownerSlot);
     }
 
     if (
@@ -108,31 +119,16 @@ export function handleInventoryUIKeys(this: any): void {
   }
 
 export function tryUseSelectedPetConsumable(this: any): boolean {
-    const selected = getSelectedInventoryEntry(this.inventoryUI, this.inventoryStore);
-    if (
-      this.inventoryUI.activeCategory !== 'items' ||
-      !selected ||
-      selected.kind !== 'stack' ||
-      !isPetConsumableFillName(selected.definition.fillName)
-    ) {
-      return false;
+    const runtime = getActiveInventoryRuntime(this);
+    const result = useOwnedPetConsumable({
+      runtime,
+      roster: this.playerPetRosters[runtime.ownerSlot],
+    });
+    if (result.rebuildRuntime) {
+      if (runtime.ownerSlot === 'p1') this.petRuntime = undefined;
+      else this.p2PetRuntime = undefined;
     }
-
-    const result = usePetConsumable(this.petRoster, selected.definition.fillName);
-    if (!result.shouldConsume) {
-      this.inventoryUI.message = result.message;
-      return true;
-    }
-
-    const consume = consumeStackByFillName(
-      this.inventoryStore,
-      selected.definition.fillName,
-      1,
-    );
-    this.inventoryUI.message = consume.ok
-      ? `${consume.message}；${result.message}`
-      : consume.message;
-    return true;
+    return result.handled;
   }
 
 export function updateInventoryPanel(this: any): void {
@@ -140,38 +136,40 @@ export function updateInventoryPanel(this: any): void {
       return;
     }
 
-    if (!this.inventoryUI.isOpen) {
+    const runtime = getActiveInventoryRuntime(this);
+    if (!runtime.ui.isOpen) {
       this.inventoryPanel.container.setVisible(false);
       return;
     }
 
     this.inventoryPanel.container.setVisible(true);
-    const player = this.getInventoryPlayer();
+    const player = this.getPlayers().find((candidate: any) => candidate.slot === runtime.ownerSlot);
     const lines = buildInventoryPanelLines({
-      store: this.inventoryStore,
-      loadout: this.equipmentLoadout,
+      store: runtime.store,
+      loadout: runtime.loadout,
       baseStats: player?.baseStats ?? { maxHp: 120, maxMp: 160, power: 0, defense: 0 },
       playerLabel: player?.slot.toUpperCase() ?? 'P1',
-      heroName: this.getInventoryHeroName(),
-      ui: this.inventoryUI,
-      magicWeaponSoul: this.magicWeaponSoul,
+      heroName: this.getInventoryHeroName(runtime.ownerSlot),
+      ui: runtime.ui,
+      magicWeaponSoul: runtime.magicWeaponSoul,
     });
     this.inventoryPanel.text.setText(lines.join('\n'));
   }
 
 export function upgradeCurrentMagicWeapon(this: any): void {
+    const runtime = getActiveInventoryRuntime(this);
     const result = upgradeEquippedMagicWeapon({
-      loadout: this.equipmentLoadout,
-      soul: this.magicWeaponSoul,
+      loadout: runtime.loadout,
+      soul: runtime.magicWeaponSoul,
     });
-    this.magicWeaponSoul = result.soulAfter;
-    this.inventoryUI.message = result.message;
+    runtime.magicWeaponSoul = result.soulAfter;
+    runtime.ui.message = result.message;
     if (!result.ok) {
       return;
     }
 
-    this.syncInventoryHeroStats();
-    syncMagicWeaponFromLoadout(this.magicWeapon, this.equipmentLoadout);
+    this.syncInventoryHeroStats(runtime.ownerSlot);
+    syncMagicWeaponFromLoadout(runtime.magicWeapon, runtime.loadout);
   }
 
 export function handlePetUIKeys(this: any): void {
@@ -179,35 +177,37 @@ export function handlePetUIKeys(this: any): void {
       return;
     }
 
-    if (this.petPanelToggleKey && Phaser.Input.Keyboard.JustDown(this.petPanelToggleKey)) {
-      this.petPanelOpen = !this.petPanelOpen;
-      if (this.petPanelOpen) {
-        this.inventoryUI.isOpen = false;
-        this.p1SkillUI.skillPanelOpen = false;
-        this.p2SkillUI.skillPanelOpen = false;
-        this.petRoster.message = 'Pet panel opened';
-      } else {
-        this.petRoster.message = 'Pet panel closed';
-      }
-    }
+    const p1Pressed = this.petPanelToggleKey && Phaser.Input.Keyboard.JustDown(this.petPanelToggleKey);
+    const p2Pressed = this.p2PetPanelToggleKey && Phaser.Input.Keyboard.JustDown(this.p2PetPanelToggleKey);
+    const owner: PlayerSlot | undefined = p1Pressed ? 'p1' : p2Pressed ? 'p2' : undefined;
+    if (!owner) return;
 
-    if (!this.petPanelOpen) {
-      return;
-    }
-
-    if (this.petPanelUpKey && Phaser.Input.Keyboard.JustDown(this.petPanelUpKey)) {
-      selectPet(this.petRoster, -1);
-    }
-
-    if (this.petPanelDownKey && Phaser.Input.Keyboard.JustDown(this.petPanelDownKey)) {
-      selectPet(this.petRoster, 1);
-    }
-
-    if (this.petPanelConfirmKey && Phaser.Input.Keyboard.JustDown(this.petPanelConfirmKey)) {
-      toggleSelectedPetActive(this.petRoster);
-      this.petRuntime = undefined;
+    this.petPanelOpen = togglePetPanelForOwner(
+      this.petPanelSession,
+      this.playerPetRosters,
+      owner,
+    );
+    if (this.petPanelOpen) {
+      this.playerInventoryRuntimes.p1.ui.isOpen = false;
+      this.playerInventoryRuntimes.p2.ui.isOpen = false;
+      this.p1SkillUI.skillPanelOpen = false;
+      this.p2SkillUI.skillPanelOpen = false;
     }
   }
+
+export function selectPetFromPanel(this: any, direction: 1 | -1): void {
+  const owner = this.petPanelSession.owner as PlayerSlot | undefined;
+  if (!this.petPanelOpen || !owner) return;
+  selectOwnedPet(this.playerPetRosters, owner, direction);
+}
+
+export function togglePetFromPanel(this: any): void {
+  const owner = this.petPanelSession.owner as PlayerSlot | undefined;
+  if (!this.petPanelOpen || !owner) return;
+  toggleOwnedPetActive(this.playerPetRosters, owner);
+  if (owner === 'p1') this.petRuntime = undefined;
+  else this.p2PetRuntime = undefined;
+}
 
 export function updatePetPanel(this: any): void {
     if (!this.petPanel) {
@@ -220,7 +220,15 @@ export function updatePetPanel(this: any): void {
     }
 
     this.petPanel.container.setVisible(true);
-    this.petPanel.text.setText(buildPetPanelLines(this.petRoster).join('\n'));
+    const owner = this.petPanelSession.owner as PlayerSlot | undefined;
+    if (!owner) {
+      this.petPanelOpen = false;
+      this.petPanel.container.setVisible(false);
+      return;
+    }
+    const roster = this.playerPetRosters[owner];
+    setPetPanelOwnerLabel(this.petPanel, owner);
+    this.petPanel.text.setText(buildCompactPetPanelLines(roster).join('\n'));
   }
 
 export function handleSkillUIKeys(this: any): void {
@@ -354,7 +362,6 @@ export function handleSkillUIForPlayer(this: any,
     }
   }
 
-
-
-
-
+function getActiveInventoryRuntime(scene: any): PlayerInventoryRuntime {
+  return scene.playerInventoryRuntimes[scene.inventoryOwner];
+}

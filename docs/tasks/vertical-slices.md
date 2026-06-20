@@ -24,8 +24,8 @@
 | VS-008 一个技能/子弹 | 已完成 | 第一个角色释放一个技能或子弹 | M-025、M-034、M-015、M-041、`projectiles-index.md`、`skills-input-index.md` | `ProjectileSystem.ts`、`HeroSkillSystem.ts`、`SkillUISystem.ts`、`TestScene.ts`、`AssetManifest.ts`、`skills-input-index.md` | 已完成 projectile + 正式槽位 + MP 门禁 + 二段重入 + 五槽技能栏 + 可配置 loadout + 完整心法树面板 + 技能学习/升级 + 键盘绑定 + 被动技能五槽 UI；下一步扩展其他角色技能 projectile 或转向装备/背包系统 |
 | VS-009 掉落和拾取 | 已完成 | 怪物死亡掉落物品并可拾取 | M-036、M-037、M-038、`drops-index.md` | `DropSystem.ts`、`InventorySystem.ts`、`EquipmentSystem.ts`、`TestScene.ts` | 已完成装备/道具拾取、药品即时恢复、红/白 aura 收集反馈、`wpqhs1` 强化石入包，以及全 `Monster*.as` 扫描中已确认 `dj/zb` 的现代配置化掉落表和测试入口 |
 | VS-010 背包最小 UI | 已完成 | 打开背包并显示分类物品，支持首批装备穿脱 | M-036、M-037、`equipment-index.md` | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts` | `C` 打开背包；可切换装备/道具/时装/技能书分类；可穿戴/卸下种子装备并更新槽位与属性预览 |
-| VS-011 存档最小闭环 | 暂缓 | 保存/读取当前进度 | M-044 | SaveSystem | 刷新后能恢复基础状态 |
-| VS-012 宠物最小可玩切片 | 已完成 | P1 宠物面板、出战跟随、宣花葫芦捕捉和宠物道具消耗 | M-042、M-043、M-016、M-037、`pets-index.md`、`magic-weapons-index.md` | `PetSystem.ts`、宠物 UI、`InventorySystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 拥有一只可出战宠物；B 键面板可查看/切换出战；出战宠物跟随玩家；H 键使用 `xhhl` 等价捕捉 `Monster70-78`；背包道具 `wpcsd/wphhd/djyys` 可消耗并影响当前出战宠物 |
+| VS-011 存档最小闭环 | 已完成 | 保存/读取当前进度 | M-044 | `SaveSystem.ts`、`TestSceneSaveBridge.ts`、`system-tests.ts` | V2 保存 P1 角色/装备/技能与 P1/P2 双宠物 roster；刷新时分别恢复列表、选择和出战状态，V1 保留 P1 并迁移为空 P2，宠物冷却和临时 Buff 按运行时状态重建 |
+| VS-012 宠物最小可玩切片 | 已完成 | 双玩家宠物面板、出战跟随、战斗、捕捉、道具和存档 | M-042、M-043、M-016、M-037、M-044、`pets-index.md`、`magic-weapons-index.md` | `PetSystem.ts`、owner 系统/桥接、宠物 UI、`SaveSystem.ts`、宠物专项测试 | P1/P2 各有独立 roster、面板、跟随/战斗实体、经验、道具、宣花葫芦捕捉和 V2 存档；全部已逆向物种技能链、成长洗练与证据不足的潜力丹拒绝边界均有自动测试 |
 | VS-013 法宝最小可玩切片 | 已完成 | 非葫芦法宝接入装备槽、H 键触发、持续效果、伤害法宝、防护法宝、回复法宝、时间回溯、入魔 buff、全体增减益、全屏眩晕、前方雷锤、随机落雪、临时平台和最小强化入口 | M-043、M-036、M-016、M-015、M-032、M-033、M-034、M-042、`magic-weapons-index.md` | `MagicWeaponSystem.ts`、`ProjectileSystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`InventorySystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | `kyl`/`syl` 可装备为 `zbfb` 并触发治疗；`lxj` 可触发最近目标剑击 projectile；`fbqpj` 可主动 6 剑并空闲自动 1 剑；`hyzzs`/`hywjs` 可触发扣血前吸收伤害的护盾；`zjld` 可触发无敌和 HP/MP 回复；`zsTimer` 可首次记录、二次 H 回溯 HP/MP/坐标；`lxfb/sxfb/yxfb` 可触发攻击/暴击增益与扣血边界；`jyhl` 可触发玩家/宠物增益与 Monster30 攻击减益；`mdhf` 可触发护体反制 debuff；`xhmt` 可触发多段随机打击和结束随机效果；`tjbg` 可触发全体 Monster30 眩晕；`zltc` 可触发前方雷锤 projectile、伤害和 4.5 秒 Monster30 眩晕；`stlp` 可触发 120 个随机落雪 projectile、Monster30 受击和 3 秒冰冻；`qljfb` 可触发 20 秒临时跟随平台并托住角色；C 背包面板展示当前 `zbfb` 等级/五行/成长率/主要属性/灵魂消耗，U 可消耗测试灵魂完成 1→2 升级；使用中拒绝重入、等级读取、木五行、最近目标、多 projectile、伤害 projectile、护盾吸收、无敌免伤、特殊重入、buff/眩晕/冰冻/平台清理和强化边界已由系统测试覆盖 |
 | VS-014 等级/经验最小闭环 | 已完成 | 击杀怪物获得经验并自动升级，刷新基础属性和状态显示 | M-040、M-030、M-031、M-032、`progression-index.md` | `ProgressionSystem.ts`、`Monster30System.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts` | 击杀 `Monster30` 后玩家经验增加；经验达到本级需求时等级 +1、扣除本级经验、HP/MP 回满、当前角色基础 HP/MP/攻击/防御按角色公式刷新；P1/P2 经验互不串线；状态栏显示等级、当前经验、下级经验和关键属性 |
 | VS-015 宠物经验/升级最小闭环 | 已完成 | 当前出战宠物获得经验并自动升级，刷新基础属性和面板显示 | M-042、M-040、M-030、M-031、M-032、`pets-index.md` | `PetSystem.ts`、`TestScene.ts`、`system-tests.ts` | P1 有出战宠物时击杀 `Monster30` 后玩家/宠物按普通路径各得 60% 经验；无出战宠物时玩家获得完整经验；宠物经验达到下级需求时等级 +1、扣除本级经验、保留溢出、HP/MP 回满并刷新 HP/MP/攻击/防御；`djyys` 等价入口与自然经验共用同一升级逻辑；升级到形态阈值时更新 form/displayName，并让测试场景宠物 runtime 按 `petId/species/form` 重建；状态栏和宠物面板显示等级、经验、形态和关键属性 |
@@ -48,11 +48,12 @@
 | VS-032 宠物 `sxkb` 暴击率接入主动技能最小闭环 | 已完成 | 将宠物自身暴击率接入已复现宠物主动技能伤害 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`system-tests.ts` | 已完成 `sxkb` 暴击率接入：`monkey1/xj`、`monkey2/lj/xj`、`monkey3/lyq/xj/lj` 使用同一可注入随机源的伤害 helper，先结算 `fsnl` 技能伤害加值，再按 `critBonusRate` 命中时应用 2 倍最小暴击倍率；无暴击率和暴击未命中时旧伤害不变；`qlfj` 普通反击和 `jgaoyi/hit5` 无直接伤害边界保持不变 |
 | VS-033 宠物马系专属技能链最小闭环 | 已完成 | 复现第一条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | `TASK-SLICE-058` 已完成 `horse1/sp`：P1 可切换出战 `horse1`，已学 `sp`，满足 MP、距离 `50..100`、目标和 2 秒 CD 门禁后扣 20 MP，生成 `PetHorse1Bullet2` 占位 projectile，按 `3.6 * pet.atk + skillDamageBonus` 并接入 `sxkb` 暴击造成伤害，命中附加 2 秒冰冻。`TASK-SLICE-059` 已完成 `horse2/bd`：P1 可切换出战 `horse2`，已学 `bd`，主人受击等价触发后满足 MP、目标、ready 标记和 2 秒 CD 门禁扣 20 MP，生成 `PetHorse2Bullet2` / `hit2` 占位 projectile，按 `3.6 * pet.atk + skillDamageBonus` 并接入 `sxkb` 暴击造成伤害，释放后清除触发，命中附加 2 秒冰冻。`TASK-SLICE-060` 已完成 `horse3/bz`：P1 可切换出战 `horse3`，已学 `bz`，满足 MP、目标距离 `<= 250`、目标和约 6 秒 CD 门禁后扣 20 MP，生成 AS3 对应 `PetHorse3Bullet4` / `hit4` 占位 projectile，按 `6.6 * pet.atk + skillDamageBonus` 并接入 `sxkb` 暴击造成伤害，命中附加 2 秒冰冻。`TASK-SLICE-061` 已完成 `horse4/tmaoyi`：P1 可切换出战 `horse4`，已学 `sp/bd/bz/tmaoyi`，满足 MP、目标和奥义 CD 门禁后扣 30 MP，生成 `PetHorse4Bullet5` 占位 projectile；`sp` 记录追踪目标，`bd` 让首段附加 2.4 秒冰冻并记录 1 秒爆炸延迟，`bz` 生成 `PetHorse4Bullet5Explode` 爆炸段并按 `6.6 * pet.atk + skillDamageBonus` 接入 `sxkb` 暴击造成伤害，`tmaoyi` 本体直接伤害保持 0 |
 | VS-034 宠物青龙专属技能链最小闭环 | 已完成 | 复现第二条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | `TASK-SLICE-062` 已完成 `dragon1/fs`：P1 可切换出战 `dragon1`，已学 `fs`，满足 MP 和约 10 秒 CD 门禁后即使无目标也能释放 10 秒分身占位反馈，扣 20 MP，生成 `PetDragon1Clone` / `hit2` 占位 projectile，直接伤害保持 0。`TASK-SLICE-063` 已完成 `dragon2/sdcc`：P1 可切换出战 `dragon2`，已学 `fs/sdcc`，满足 MP、约 3.6 秒 CD、目标和距离 `<= 300` 门禁后扣 20 MP，生成 `PetDragon2Bullet2` / `hit2` 占位 projectile，按 `((0.03 * pet.maxHp) + 3 * pet.atk) * 1.05 + skillDamageBonus` 接入 `sxkb` 暴击，记录 `int(maxHp * 0.018 + atk * 0.18 + level * 2)` 命中治疗。`TASK-SLICE-064` 已完成 `dragon3/ltwj`：P1 可切换出战 `dragon3`，已学 `fs/sdcc/ltwj`，满足 MP、约 5 秒 CD、目标和距离 `<= 500` 门禁后扣 20 MP，生成 4 段 `PetDragon3Bullet3` / `hit3` 占位 projectile，按 `((0.024 * pet.maxHp) + 3.6 * 2 * pet.atk) * 1.05 + skillDamageBonus` 接入 `sxkb` 暴击，记录 `int(maxHp * 0.028 + atk * 0.09 + level * 2)` 命中治疗。`TASK-SLICE-065` 已完成 `dragon4/qlaoyi`：P1 可切换出战 `dragon4`，已学 `fs/sdcc/ltwj/qlaoyi`，满足 MP `>= 30`、约 24 秒 CD、目标和距离 `<= 200` 门禁后扣 30 MP，生成 `PetDragonBullet4` / `hit4` 奥义占位 projectile，直接伤害保持 0，并按已学 `fs/sdcc/ltwj` 记录 `fs-clone`、`sdcc-charge`、`ltwj-multi` 组合反馈；状态栏展示 `D1 FS`、`D2 SDCC`、`D3 LTWJ`、`D4 QLAOYI` CD/治疗/组合反馈 |
-| VS-035 宠物玄龟专属技能链最小闭环 | 进行中 | 复现第三条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | `TASK-SETTINGS-031` 已扒清 `turtle1..4` 的 `sld/txlj/sybh/xwaoyi` 链路。`TASK-SLICE-066` 已完成首段 `turtle1/sld`：P1 可切换出战 `turtle1`，已学 `sld`，满足 MP、目标、距离 `50..200` 和约 6 秒 CD 门禁后扣 20 MP，生成 `PetTurtle1Bullet2` / `hit2` 占位 projectile，按 `pet.atk + skillDamageBonus` 接入 `sxkb` 暴击造成伤害，并按本次实际伤害治疗宠物自身且不超过 `maxHp`。`TASK-SLICE-067` 已完成第二段 `turtle2/txlj`：P1 可切换出战 `turtle2`，已学 `sld/txlj`，满足 MP、目标和约 20 秒 CD 门禁后扣 20 MP，添加按 `4 * warpower` 秒计时的链接状态；链接期间主人受伤时宠物承受 `ceil(damage * 0.05)`、主人实际伤害为 `ceil(damage * 0.95)`，主人治疗时主人和宠物按 `ceil(heal * 1.05)` 回复，`sld` 宠物自疗也可同步给主人最小治疗反馈。`sybh` 释放 `PetTurtle3Bullet3` 范围伤害，基础 `5.4 * atk`；`xwaoyi` 是四阶组合奥义，5 秒内免蓝触发多次 `sld`、刷新 `txlj` 并生成持续 `sybh` 范围反馈。下一步 `TASK-SLICE-068` 实现 `turtle3/sybh` 水湮八荒范围伤害最小闭环 |
+| VS-035 宠物玄龟专属技能链最小闭环 | 已完成 | 复现第三条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetTurtleSkillSystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScenePetMagicBridge.ts`、`system-tests.ts` | `TASK-SETTINGS-031` 已扒清 `turtle1..4` 的 `sld/txlj/sybh/xwaoyi` 链路。`TASK-SLICE-066` 已完成 `turtle1/sld`，`TASK-SLICE-067` 已完成 `turtle2/txlj`，`TASK-SLICE-068` 已完成 `turtle3/sybh`。`TASK-SLICE-069` 已完成 `turtle4/xwaoyi`：P1 可切换出战 `turtle4`，已学 `sld/txlj/sybh/xwaoyi`，满足已学习、MP `>= 30`、目标和约 18 秒 CD 门禁后扣 30 MP，记录 5 秒奥义状态，生成 `PetTurtle4Hit5` / `hit5` 占位反馈；按已学前置记录 3 次免蓝 `sld` 反馈、刷新 `txlj` 链接，并生成持续 5 秒的 `PetTurtle3Bullet3` 范围反馈。真实资源、完整移动锁定和伤害校准后置。 |
+| VS-036 全宠物专属技能链最小闭环 | 已完成 | 复现全部已逆向宠物物种（UFO/虎/凤凰/兔/鼠）专属技能链 | M-042、M-032、`pets-index.md` | `PetUfoSkillSystem.ts`、`PetTigerSkillSystem.ts`、`PetPhoenixSkillSystem.ts`、`PetRabbitSkillSystem.ts`、`PetMouseSkillSystem.ts`、`PetSkillPrioritySystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`TestSceneAdvancedPetSkillBridge.ts`、`system-tests.ts` | 全部 9 物种专属技能链已具备可验证闭环；`TASK-SLICE-078` 补齐涅槃持续状态、凤凰灼烧、兔系触发/疾风/月神治疗、三枚回旋飞镖、白虎/紫鼠分段奥义及 `skill1 -> skill4` 调度 |
 
 ## 第一批推荐执行顺序
 
-1. `TASK-SLICE-068`：宠物 `turtle3/sybh` 水湮八荒范围伤害最小闭环。
+1. 全部已逆向宠物物种技能链均已完成实现。推荐转向存档或法宝深度逆向。
 
 ## 切片详情
 
@@ -462,6 +463,18 @@
 - `EquipmentSystem.ts` 增补三种宠物道具的最小定义；完整中文表、真实图标和更复杂效果后置。
 - `TestScene.ts` 在背包道具页选中宠物道具后按 `Enter` 使用；没有当前出战宠物时不消耗并给出反馈。宠物面板和状态栏可观察寿命、HP/MP、经验和消息变化。
 - `tools/system-tests.ts` 覆盖成功消耗、无出战宠物不消耗、寿命上限、还魂丹状态恢复和经验石反馈。
+- `TASK-SLICE-080` 新增 `PetOwnershipSystem.ts`，为 P1/P2 创建对象与宠物 ID 均隔离的 roster，并用单一 `PetPanelSession.owner` 管理同一时刻唯一宠物面板。
+- P1 `B` 与 P2 小键盘 `-` 分别打开自己的宠物面板，P2 心法键修正为小键盘 `*`；面板改用指针按钮选择和出战/休息，不再占用 P2 方向键。
+- 新增 `TestSceneP2PetBridge.ts`：P2 宠物独立生成、跟随 P2、远距传送和休息销毁；P1/P2 宠物可同时存在，P1 原有技能链保持不变。
+- 新增独立 `pet-ownership-tests.ts`，覆盖双 roster 对象/ID 隔离、面板 owner 切换、跨玩家不串改、双宠同时跟随和原版快捷键数值。
+- `TASK-SLICE-081` 新增显式 `updateOwnedPetSystem(ownerSlot, owner, roster, runtime, targets, projectiles)` 等价共享入口；P1/P2 均经同一完整技能调度，P2 宠物 ID 前缀使 projectile source 与 P1 隔离。
+- 新增 `PetBattleOwnershipSystem.ts`，按 owner 路由自动 Buff、受击技能触发、玄龟承伤转嫁和经验；Monster30 普攻、projectile、反击与持续伤害死亡统一按当前 `targetSlot` 领取一次经验。
+- P2 英雄有出战宠物时普通怪经验为英雄/宠物各 60%，无宠物时英雄 100%；保留直接以宠物为目标时宠物获得 100% 的显式可测试接口。
+- 新增 `pet-battle-ownership-tests.ts`，覆盖 P2 Buff/触发/承伤隔离、P2 projectile source、目标 owner 优先、60/60、100/0 和直接宠物 100% 路由。
+- `TASK-SLICE-082` 新增双玩家独立背包、法宝 loadout、强化/捕捉灵魂和 UI owner；P1 `C`、P2 小键盘 `/` 打开同一带 owner 标识的背包面板。
+- P2 使用全部八类宠物道具时只修改 P2 roster/堆叠，P2 小键盘 `7` 触发独立宣花葫芦，捕捉结果和 5000 灵魂扣除不影响 P1。
+- 新增共享 owner 捕捉桥接、双玩家捕捉特效和 `pet-item-ownership-tests.ts`，覆盖全部道具成功/拒绝及捕捉成功/失败/灵魂不足/满栏隔离。
+- `TASK-SLICE-083` 将存档升级为 V2：分别保存并恢复 P1/P2 宠物列表、选择与出战状态，V1 自动迁移为空 P2；冷却、临时 Buff 和场景状态继续重建而不持久化。
 
 验证：
 
@@ -471,12 +484,12 @@
 
 边界：
 
-- 不实现完整法宝系统、法宝强化 UI、其他法宝技能、商城/活动/任务奖励、成长洗练、全部技能、完整升级曲线、全部种族数值、P2/联机或真实资源接入。
+- 商城/活动/任务奖励属于外部系统，联机与真实资源属于全局后续；宠物领域自身的双玩家玩法和存档闭环已完成。
 - 不把 `Monster2001/cwzb` 作为宠物获得实现依据。
 
 推荐任务：
 
-- 后续可拆宠物成长/技能、完整法宝系统基础逆向、成长系统或强化系统任务。
+- 宠物系统闭环完成；下一块大任务转向五角色完整战斗扩展，先执行 `TASK-SETTINGS-036`。
 
 ### VS-013 法宝最小可玩切片
 

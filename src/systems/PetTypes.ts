@@ -61,6 +61,26 @@ export type PetSkillState = {
   dragon4Qlaoyi: PetDragon4QlaoyiSkillState;
   turtle1Sld: PetTurtle1SldSkillState;
   turtle2Txlj: PetTurtle2TxljSkillState;
+  turtle3Sybh: PetTurtle3SybhSkillState;
+  turtle4Xwaoyi: PetTurtle4XwaoyiSkillState;
+  ufo1Pms: PetUfo1PmsSkillState;
+  ufo2Ss: PetUfo2SsSkillState;
+  ufo3Kmsk: PetUfo3KmskSkillState;
+  tiger1Hy: PetTiger1HySkillState;
+  tiger2Sxhz: PetTiger2SxhzSkillState;
+  tiger3Hsqj: PetTiger3HsqjSkillState;
+  tiger4Bhaoyi: PetTiger4BhaoyiSkillState;
+  phoenix1Np: PetPhoenix1NpSkillState;
+  phoenix2Bshn: { cooldownMs: number };
+  phoenix3Dhly: { cooldownMs: number };
+  phoenix4Zqaoyi: PetPhoenix4ZqaoyiSkillState;
+  rabbit1Yg: PetRabbit1YgSkillState;
+  rabbit2Jf: PetRabbit2JfSkillState;
+  rabbit3Bs: { cooldownMs: number };
+  rabbit4Ysaoyi: PetRabbit4YsaoyiSkillState;
+  mouse1Sc: { cooldownMs: number };
+  mouse4Hxfb: { cooldownMs: number };
+  mouse4Zsaoyi: PetMouse4ZsaoyiSkillState;
   lastResult: string;
 };
 
@@ -184,6 +204,12 @@ export type PetDragon4QlaoyiComboState = {
   ltwjCombo: boolean;
 };
 
+export type PetTurtle4XwaoyiComboState = {
+  sldFreeCasts: number;
+  txljRefreshed: boolean;
+  sybhSustained: boolean;
+};
+
 export type PetDragon4QlaoyiSkillState = {
   cooldownMs: number;
   lastCombo: PetDragon4QlaoyiComboState;
@@ -202,6 +228,107 @@ export type PetTurtle2TxljSkillState = {
   lastOwnerDamageAfterRedirect: number;
   lastOwnerHealBoost: number;
   lastPetHeal: number;
+};
+
+export type PetTurtle3SybhSkillState = {
+  cooldownMs: number;
+};
+
+export type PetTurtle4XwaoyiSkillState = {
+  cooldownMs: number;
+  ultimateRemainingMs: number;
+  sldFreeCastTimersMs: number[];
+  lastCombo: PetTurtle4XwaoyiComboState;
+};
+
+export type PetUfo1PmsSkillState = {
+  cooldownMs: number;
+};
+
+export type PetUfo2SsSkillState = {
+  cooldownMs: number;
+  teleportX?: number;
+  teleportY?: number;
+  basicAttackTargetId?: string;
+};
+
+export type PetUfo3KmskSkillState = {
+  cooldownMs: number;
+  risingMs: number;
+  risingTotalMs: number;
+  lastProjectileSpawnX?: number;
+  lastProjectileSpawnY?: number;
+};
+
+export type PetTiger1HySkillState = {
+  cooldownMs: number;
+};
+
+export type PetTiger2SxhzSkillState = {
+  cooldownMs: number;
+  lastHeal: number;
+};
+
+export type PetTiger3HsqjSkillState = {
+  cooldownMs: number;
+};
+
+export type PetTiger4BhaoyiSkillState = {
+  cooldownMs: number;
+  lastCombo: PetTiger4BhaoyiComboState;
+  comboStep: number;
+  comboStepElapsedMs: number;
+  comboTargetId?: string;
+  emittedSteps: string[];
+  attackBoostReady: boolean;
+};
+
+export type PetTiger4BhaoyiComboState = {
+  hyFreeCast: boolean;
+  sxhzFreeCast: boolean;
+  hsqjFreeCast: boolean;
+};
+
+export type PetPhoenix1NpSkillState = {
+  cooldownMs: number;
+  transformationRemainingMs: number;
+  pendingFullHeal: boolean;
+  damageTakenMultiplier: number;
+  hurtActionImmune: boolean;
+};
+
+export type PetPhoenix4ZqaoyiSkillState = {
+  cooldownMs: number;
+  fireImbueActive: boolean;
+};
+
+export type PetRabbit1YgSkillState = {
+  releaseReady: boolean;
+  cooldownMs: number;
+  lastProcRoll?: number;
+};
+
+export type PetRabbit2JfSkillState = {
+  cooldownMs: number;
+  activeRemainingMs: number;
+  attackRate: number;
+  dodgeBonusRate: number;
+};
+
+export type PetRabbit4YsaoyiSkillState = {
+  cooldownMs: number;
+  activeRemainingMs: number;
+  healTickAccumulatorMs: number;
+  lastPetHeal: number;
+  lastOwnerHeal: number;
+};
+
+export type PetMouse4ZsaoyiSkillState = {
+  cooldownMs: number;
+  comboStep: number;
+  comboStepElapsedMs: number;
+  comboTargetId?: string;
+  emittedSteps: string[];
 };
 
 export type PetRoster = {
@@ -277,7 +404,15 @@ export type MagicBottleCaptureModel = {
   lastResult: string;
 };
 
-export type PetConsumableFillName = 'wphhd' | 'wpcsd' | 'djyys' | 'cwjnxld';
+export type PetConsumableFillName =
+  | 'wphhd'
+  | 'wpcsd'
+  | 'djyys'
+  | 'cwjnxld'
+  | 'cwzzxld'
+  | 'wphtd'
+  | 'nianqld'
+  | 'nianjhd';
 
 export type PetConsumableResult = {
   ok: boolean;
@@ -286,6 +421,7 @@ export type PetConsumableResult = {
   pet?: PetState;
   experience?: PetExperienceResult;
   skillReset?: PetSkillResetResult;
+  rebuildRuntime?: boolean;
 };
 
 export type PetExperienceResult = {
@@ -328,6 +464,10 @@ export type PetSkillCastResult = {
   healOnHit?: number;
   mpBefore?: number;
   mpAfter?: number;
+  teleportX?: number;
+  teleportY?: number;
+  basicAttackFeedback?: string;
+  projectiles?: ProjectileModel[];
 };
 
 export type PetSkillSlotView = {

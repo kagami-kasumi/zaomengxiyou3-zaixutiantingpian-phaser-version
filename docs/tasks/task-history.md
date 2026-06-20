@@ -13,6 +13,21 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-083 | 切片 | 双玩家宠物存档 V2 与 V1 迁移 | M-042、M-044、VS-011、VS-012 | `SaveSystem.ts` V2、V1 迁移、双 roster 恢复、`dual-player-pet-save-tests.ts`、状态文档 |
+| TASK-SLICE-082 | 切片 | P2 宠物道具与宣花葫芦捕捉所有权 | M-016、M-037、M-042、M-043、VS-012 | `PlayerInventoryOwnershipSystem.ts`、owner 背包/捕捉桥接、双捕捉特效、`pet-item-ownership-tests.ts`、状态文档 |
+| TASK-SLICE-081 | 切片 | P2 宠物战斗与普通击杀经验归属 | M-032、M-040、M-042、VS-012 | `PetBattleOwnershipSystem.ts`、共享 owner 调度、战斗/世界桥接、`pet-battle-ownership-tests.ts`、状态文档 |
+| TASK-SLICE-080 | 切片 | P2 独立宠物 roster、面板与跟随实体 | M-016、M-042、VS-012 | `PetOwnershipSystem.ts`、`TestScenePetPanelBridge.ts`、`TestSceneP2PetBridge.ts`、`pet-ownership-tests.ts`、状态文档 |
+| TASK-SETTINGS-035 | 逆向 | P2 宠物完整链路逆向 | M-016、M-042、M-044 | `pets-index.md`、`mechanics-index.md`、`task-board.md` |
+| TASK-SLICE-079 | 切片 | 宠物成长洗练道具闭环 | M-042、VS-012 | `PetGrowthSystem.ts`、`PetConsumableSystem.ts`、`PetTypes.ts`、`PetPanelSystem.ts`、`InventorySystem.ts`、`EquipmentSystem.ts`、`TestSceneUIHandlers.ts`、`pet-growth-tests.ts`、状态文档 |
+| TASK-SETTINGS-034 | 逆向 | 宠物剩余成长洗练机制逆向 | M-042 | `pets-index.md`、`mechanics-index.md`、`task-board.md` |
+| TASK-SLICE-077 | 切片 | 存档最小闭环 | M-044、VS-011 | `SaveSystem.ts`、`TestSceneSaveBridge.ts`、`TestSceneUpdatePipeline.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`pets-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-078 | 切片 | 宠物专属技能链完成度整改 | M-042、M-032、VS-036 | `PetSkillPrioritySystem.ts`、`PetTigerSkillSystem.ts`、`PetPhoenixSkillSystem.ts`、`PetRabbitSkillSystem.ts`、`PetMouseSkillSystem.ts`、`Monster30System.ts`、`ProjectileSystem.ts`、`TestSceneAdvancedPetSkillBridge.ts`、`TestScenePetMagicBridge.ts`、`system-tests.ts` |
+| TASK-SLICE-076 | 切片 | 宠物 tigress/bhaoyi+phoenix/rabbit/mouse 全部技能链 | M-042、M-032、VS-036 | `PetTigerSkillSystem.ts`、`PetPhoenixSkillSystem.ts`、`PetRabbitSkillSystem.ts`、`PetMouseSkillSystem.ts`、`PetSystem.ts`、`PetRosterSystem.ts`、`PetSkillStateSystem.ts`、`PetSkillTickSystem.ts`、`PetTypes.ts`、`PetTuning.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScenePetMagicBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-075 | 切片 | 宠物 tigress1-3/hy+sxhz+hsqj 虎系前三段 | M-042、M-032、VS-036 | `PetTigerSkillSystem.ts`、`PetSystem.ts`、`PetRosterSystem.ts`、`PetSkillStateSystem.ts`、`PetSkillTickSystem.ts`、`PetTypes.ts`、`PetTuning.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScenePetMagicBridge.ts`、`system-tests.ts` |
+| TASK-SLICE-072 | 切片 | 宠物 `ufo3/kmsk` 狂魔闪空技能最小闭环 | M-042、M-032、VS-036 | `PetUfoSkillSystem.ts`、`PetUfoProjectileSystem.ts`、`PetSystem.ts`、`PetRosterSystem.ts`、`PetSkillStateSystem.ts`、`PetSkillTickSystem.ts`、`PetTypes.ts`、`PetTuning.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScenePetMagicBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-071 | 切片 | 宠物 `ufo2/ss` 瞬闪技能最小闭环 | M-042、M-032、VS-036 | `PetUfoSkillSystem.ts`、`PetSystem.ts`、`PetRosterSystem.ts`、`PetSkillStateSystem.ts`、`PetSkillTickSystem.ts`、`PetTypes.ts`、`PetTuning.ts`、`TestScenePetMagicBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SLICE-070 | 切片 | 宠物 `ufo1/pms` 魔破杀技能最小闭环 | M-042、M-032、VS-036 | `PetUfoSkillSystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScenePetMagicBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
+| TASK-SETTINGS-033 | 逆向 | 剩余宠物物种（虎/凤凰/兔/鼠）专属技能链逆向 | M-042、VS-036 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md` |
 | TASK-001 | 逆向 | AS3 入口和运行时索引 | 主流程、世界主循环、BaseObject | `runtime-index.md` |
 | TASK-002 | 工程 | Phaser + TypeScript 技术脚手架 | VS-000 | `package.json`、`src/`、`modern-architecture.md` |
 | TASK-SETTINGS-001 | 逆向 | 操作和玩法总览 | 双人、键位、keyarray、主流程 | `controls-index.md`、`gameplay-index.md` |
@@ -3059,6 +3074,425 @@
 - `docs/tasks/task-history.md`
 
 验证：
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-070
+
+任务类型：
+
+- `TASK-SLICE`
+
+目标机制/切片：
+
+- `M-042` 宠物
+- `M-032` 伤害/受击
+- `VS-036` UFO/卡布专属技能链最小闭环
+
+输入资料：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/architecture/src-boundaries.md`
+- `src/systems/PetUfoSkillSystem.ts`
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`
+- `tools/system-tests.ts`
+
+输出产物：
+
+- `src/systems/PetUfoSkillSystem.ts`
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+完成定义：
+
+- P1 测试宠物种子新增可切换出战的 `ufo1`，并持有已学 `pms`。
+- `ufo1/pms` 按已学习、宠物 MP `>= 20`、约 2 秒 CD 就绪、存在 `Monster30` 目标门禁释放。
+- 释放成功扣 20 MP，重置约 2 秒 CD；选择最近存活目标，生成 `PetKabu1Bullet2` / `hit2` 占位 projectile 并造成 `3.6 * pet.atk + skillDamageBonus` 接入 `sxkb` 暴击伤害。
+- `TestScene` 状态栏/宠物面板能观察 `ufo1/pms` MP、CD、最近释放反馈和伤害。
+- 系统测试覆盖未学习、MP 不足、无目标、CD、扣 MP、projectile 生成、伤害公式与 `fsnl/sxkb` 接入，以及既有宠物技能兼容。
+
+验收标准：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+- `VS-036` 记录 `ufo1/pms` 已完成首段。
+
+### TASK-SLICE-071
+
+任务类型：
+
+- `TASK-SLICE`
+
+目标机制/切片：
+
+- `M-042` 宠物
+- `M-032` 伤害/受击
+- `VS-036` UFO/卡布专属技能链最小闭环
+
+输入资料：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/architecture/src-boundaries.md`
+- `src/systems/PetUfoSkillSystem.ts`
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`
+- `tools/system-tests.ts`
+
+输出产物：
+
+- `src/systems/PetTypes.ts`、`PetTuning.ts`、`PetSkillStateSystem.ts`、`PetSkillTickSystem.ts`
+- `src/systems/PetUfoSkillSystem.ts`、`PetRosterSystem.ts`、`PetSystem.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`、`docs/tasks/task-board.md`、`docs/tasks/task-history.md`
+
+完成定义：
+
+- P1 测试宠物种子新增可切换出战的 `ufo2`，并持有已学 `pms/ss`；已有猴、马、青龙、玄龟和 `ufo1/pms` 行为保持不变。
+- `ufo2/ss` 按已学习、宠物 MP `>= 20`、约 4 秒 CD 就绪、存在 `Monster30` 目标门禁释放。
+- 释放成功扣 20 MP，重置约 4 秒 CD；从当前目标集合中随机选择存活目标，记录/应用传送到目标背后约 40 像素、`y - 40` 的现代最小位移反馈。
+- `ss` 直接技能伤害保持 0；释放后记录一次普攻等价反馈。
+- `TestScene` 状态栏/宠物面板能观察 `ufo2/ss` MP、CD、最近释放反馈和瞬移位置。
+- 系统测试覆盖未学习、MP 不足、无目标、CD、扣 MP、随机目标选择/瞬移反馈、直接伤害为 0，以及既有宠物技能兼容。
+
+验收标准：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+- `VS-036` 记录 `ufo2/ss` 已完成第二段。
+
+### TASK-SLICE-072
+
+任务类型：
+
+- `TASK-SLICE`
+
+目标机制/切片：
+
+- `M-042` 宠物
+- `M-032` 伤害/受击
+- `VS-036` UFO/卡布专属技能链最小闭环
+
+输入资料：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `src/systems/PetUfoSkillSystem.ts`
+- `src/systems/PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`
+- `tools/system-tests.ts`
+
+输出产物：
+
+- `src/systems/PetTypes.ts`、`PetTuning.ts`、`PetSkillStateSystem.ts`、`PetSkillTickSystem.ts`
+- `src/systems/PetUfoSkillSystem.ts`、`PetUfoProjectileSystem.ts`、`PetRosterSystem.ts`、`PetSystem.ts`
+- `src/systems/ProjectileSystem.ts`、`src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`
+- `tools/system-tests.ts`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`、`docs/tasks/task-board.md`、`docs/tasks/task-history.md`
+
+完成定义：
+
+- P1 测试宠物种子新增可切换出战的 `ufo3`（冲霄），并持有已学 `pms/ss/kmsk`；已有猴、马、青龙、玄龟、`ufo1/pms` 和 `ufo2/ss` 行为保持不变。
+- `ufo3/kmsk` 两阶段释放：`hit4_1` 上升约 600ms → `hit4_2` 在宠物下方 `y + 30` 生成 `PetKabu3Bullet4` / `hit4` 占位 projectile。
+- 按 `6 * pet.atk + skillDamageBonus` 接入 `sxkb` 暴击造成下方/范围伤害。
+- ProjectileSystem.ts 拆分 `PetUfoProjectileSystem.ts` 解决 1500 行天花板。
+
+验收标准：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+- `npm run check:workflow` 通过。
+- `npm run check:structure` 无 error（ProjectileSystem.ts 降至 1461 行）。
+- UFO/卡布三条技能链（`pms/ss/kmsk`）全部完成。
+
+### TASK-SETTINGS-033
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+目标机制/切片：
+
+- `M-042` 宠物
+- `VS-036` UFO/卡布专属技能链最小闭环（已完成，参考模式）
+
+输出产物：
+
+- `docs/reverse-engineering/pets-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+
+完成定义：
+
+- ✅ 虎 `tigress1..4`：`hy/sxhz/hsqj/bhaoyi`（含 AS3 证据、CD 表、伤害公式 `2×/4×/6×atk`、MP 20/20/20/30）
+- ✅ 凤凰 `phoenix1..4`：`np/bshn/dhly/zqaoyi`（特殊触发涅槃、主动伤害、奥义组合）
+- ✅ 兔 `rabbit1..4`：`yg/jf/bs/ysaoyi`（被动月光、buff、冰冻狙击、奥义领域）
+- ✅ 鼠 `mouse1..4`：`sc/hxfb/zsaoyi`（鼠窜冲撞、回旋飞镖、奥义步进 combo）
+
+验收标准：
+
+- `npm run check:workflow` 通过。
+- `pets-index.md` 已登记四物种完整技能链（AS3 证据、CD、伤害公式、MP、资源键）。
+
+### TASK-SLICE-075
+
+任务类型：
+
+- `TASK-SLICE`
+
+目标机制/切片：
+
+- `M-042` 宠物
+- `M-032` 伤害/受击
+- `VS-036` 全宠物专属技能链
+
+输出产物：
+
+- `src/systems/PetTigerSkillSystem.ts`（虎系四段：`hy/sxhz/hsqj/bhaoyi`）
+- `src/systems/PetSystem.ts`、`PetRosterSystem.ts`、`PetSkillStateSystem.ts`、`PetSkillTickSystem.ts`、`PetTypes.ts`、`PetTuning.ts`
+- `src/systems/ProjectileSystem.ts`、`src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`
+- `tools/system-tests.ts`
+
+完成定义：
+
+- 虎系链全部四段（虎跃 2×atk/嗜血虎爪 4×atk+吸血/虎声咆哮 6×atk/白虎奥义 combo）均已实现并通过系统测试。
+
+### TASK-SLICE-076
+
+任务类型：
+
+- `TASK-SLICE`
+
+目标机制/切片：
+
+- `M-042` 宠物、`M-032` 伤害/受击、`VS-036`
+
+输出产物：
+
+- `src/systems/PetPhoenixSkillSystem.ts`（凤凰四段：`np/bshn/dhly/zqaoyi`）
+- `src/systems/PetRabbitSkillSystem.ts`（兔四段：`yg/jf/bs/ysaoyi`）
+- `src/systems/PetMouseSkillSystem.ts`（鼠三段：`sc/hxfb/zsaoyi`）
+- `src/systems/PetSystem.ts`、`PetRosterSystem.ts`、`PetSkillStateSystem.ts`、`PetSkillTickSystem.ts`、`PetTypes.ts`、`PetTuning.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`、`tools/system-tests.ts`
+
+完成定义：
+
+- 凤凰（涅槃 HP≤20% 满血复活/不死火鸟 3.6×atk/地火燎原 7.4×atk/朱雀奥义）、兔（月光被动 3.6×atk/疾风 buff/冰霜狙击 8×atk/月神奥义）、鼠（鼠窜 2.86×atk 15MP/回旋飞镖 3.45×atk/紫鼠奥义 combo）全部 11 个技能均已实现并通过系统测试。
+- 全部 9 物种宠物专属技能链复现完成。
+
+### TASK-SLICE-078
+
+完成时间：
+
+- 2026-06-20
+
+完成内容：
+
+- 修正虎、凤凰、兔和鼠系技能调度，新增 `PetSkillPrioritySystem.ts`，由场景桥接按原版 `skill1 -> skill4` 顺序尝试；低血凤凰优先进入涅槃，不再先被高阶技能消耗 MP。
+- 涅槃改为约 4 秒持续形态：期间伤害降为三分之一、拒绝受击动作，结束时存活宠物回满 HP；朱雀奥义为后续凤凰攻击附加 5 秒、每秒 `pet.atk` 的灼烧，并接入 `Monster30` 持续伤害。
+- 兔系补齐月光 30% 命中触发/月神奥义期间 50% 触发、疾风 10 秒攻击频率和形态闪避加成、冰霜冻结，以及月神奥义 10 秒内每秒恢复宠物和主人各 10% 最大 HP。
+- 鼠系回旋飞镖改为三枚 projectile 且总伤害保持已确认倍率；紫鼠奥义按步骤执行免蓝 `sc/hxfb` 连招。
+- 白虎奥义执行目标两侧瞬移、免蓝 `hy/sxhz/hsqj` 三段组合和末段 1.3 倍加成，不再只记录组合布尔值。
+- 新增 `TestSceneAdvancedPetSkillBridge.ts`，把高级宠物技能调度从宠物/法宝综合桥接拆出，消除该桥接的结构 warning。
+- 系统测试从“提示文字存在”提升为验证持续状态、到期恢复、概率入口、治疗、三枚飞镖、奥义实际 projectile、灼烧伤害和技能优先顺序。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；保留既有 Vite 大 chunk warning。
+- `npm run check:structure` 无 error；`TestScenePetMagicBridge.ts` 已低于 warning 阈值，其他既有/相关 warning 继续按后续任务拆分。
+
+### TASK-SLICE-077
+
+完成时间：
+
+- 2026-06-20
+
+完成内容：
+
+- 新增 `SaveSystem.ts`，使用带 `version: 1` 的 JSON schema 保存 P1 角色 ID、等级/经验、五槽技能配置、两棵心法树、被动技能、已穿戴装备和完整宠物列表。
+- 宠物存档覆盖稳定 ID、物种/形态、等级/经验、HP/MP、攻击/防御、四类资质、寿命、悟性/技巧/战力、出战标记和已学技能；读取时恢复单只出战约束并重建技能运行时状态。
+- 冷却、奥义步骤、自动 Buff 和花篮临时 Buff 等瞬时状态不会写入存档，避免刷新后保留过期战斗状态。
+- 新增 `TestSceneSaveBridge.ts`：场景创建时从 localStorage 读取，之后每 2 秒自动保存；左上角显示新游戏、已读取、自动保存或存储失败反馈。
+- 装备按 `fillName` 和实例 ID 存储，读取时通过现代装备 registry 恢复；未知装备安全忽略，损坏 JSON 和未知版本安全拒绝。
+- 系统测试覆盖内存存储往返、角色/技能/装备/宠物恢复、瞬时宠物状态排除和损坏存档拒绝。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；保留既有 Vite 大 chunk warning。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-083
+
+完成时间：
+- 2026-06-20
+
+完成内容：
+- `SaveSystem.ts` 升级为 V2，在保留原存储 key 的前提下分别保存 P1 完整状态和 P2 宠物 roster。
+- V1 读取自动迁移为 V2：P1 数据完整保留，P2 建立空 roster；V2 两位玩家的宠物对象、ID、选择位置和单只出战状态独立恢复。
+- 宠物冷却、自动 Buff、MagicFlower 临时状态和场景运行时继续不持久化；P2 非前缀 ID 在恢复时规范为 `p2-`，防止跨 owner 冲突。
+- `TestSceneSaveBridge.ts` 在加载后同时替换两位玩家 roster、销毁旧视图并清空双宠 runtime，保存时写入 P2 roster。
+- 新增 `dual-player-pet-save-tests.ts`，覆盖 V2 往返、V1 迁移、瞬态清理、对象/ID 隔离和损坏 P2 数据拒绝；既有 P1 存档测试保持通过。
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:all` 通过。
+
+### TASK-SLICE-082
+
+完成时间：
+- 2026-06-20
+
+完成内容：
+- 新增 `PlayerInventoryOwnershipSystem.ts`，建立 P1/P2 独立背包、装备 loadout、法宝模型、强化灵魂、宣花葫芦灵魂与 UI 状态；P1 `C`、P2 小键盘 `/` 复用同一 owner 面板。
+- 八类宠物道具经共享 owner 入口使用，只修改对应 roster/堆叠；拒绝不扣除，需重建时只清对应宠物运行时。
+- 新增 `TestSceneMagicOwnershipBridge.ts`，P1 `H` 与 P2 小键盘 `7` 经同一捕捉适配器路由到各自宣花葫芦、灵魂和 roster。
+- 新增 `TestSceneMagicBottleViewBridge.ts`，为两位玩家独立显示捕捉范围；同时拆出既有过长桥接文件中的相关职责。
+- P1 存档恢复继续写入 P1 owner loadout；P1 既有背包、法宝和宠物行为保持兼容。
+- 新增 `pet-item-ownership-tests.ts`，覆盖全部宠物道具成功/拒绝隔离、键位、独立状态和 P2 捕捉成功/失败/灵魂不足/满栏。
+
+更新文件：
+- `src/systems/PlayerInventoryOwnershipSystem.ts`
+- `src/systems/PetOwnershipSystem.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneUIHandlers.ts`
+- `src/scenes/test-scene/TestSceneMagicOwnershipBridge.ts`
+- `src/scenes/test-scene/TestSceneMagicBottleViewBridge.ts`
+- `src/scenes/test-scene/TestScenePetMagicBridge.ts`
+- `src/scenes/test-scene/TestSceneWorldBridge.ts`
+- `src/scenes/test-scene/TestSceneSaveBridge.ts`
+- `tools/system-tests/pet-item-ownership-tests.ts`
+- 状态文档
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:all` 通过。
+
+### TASK-SLICE-081
+
+完成时间：
+
+- 2026-06-20
+
+完成内容：
+
+- 在 `TestScenePetMagicBridge.ts` 建立显式接收 `ownerSlot/owner/roster/runtime/targets/projectiles` 的共享 `updateOwnedPetSystem()`；P1/P2 均调用同一份完整宠物自动 Buff、主动技能和高级连段调度，不复制 P2 分支。
+- `TestSceneP2PetBridge.ts` 从只跟随升级为完整战斗桥接；P2 主人属性、宠物冷却、治疗和 projectile 均来自 P2 roster/runtime，带 owner 前缀的宠物 ID 保证 source 唯一。
+- 新增 `PetBattleOwnershipSystem.ts`，统一按 owner 路由玄龟承伤转嫁、宠物受击触发和经验；普通 Monster30 的英雄普攻、projectile、强力反击和持续伤害死亡均按当前 `targetSlot` 只领取一次经验。
+- `TestSceneCombatBridge.ts` 和 Boss 桥接不再硬编码只有 P1 可享受玄龟链接；Monster30 击中 P2 时会触发 P2 宠物的受击技能状态和强力反击。
+- P1/P2 英雄目标均按有宠物 60%/60%、无宠物 100%/0 分配普通怪经验；另提供直接宠物目标获得 100% 的显式接口，不复制任务奖励误查 P1 的原版 bug。
+- 新增 `pet-battle-ownership-tests.ts`，覆盖 P2 Buff/触发/承伤隔离、P2 技能 projectile source、目标 owner 优先、经验一次性领取、60/60、100/0 和宠物目标 100%。
+- 新增 `TestScenePetViewBridge.ts` 承接宠物视图同步和目标快照，使共享调度改造后的 `TestScenePetMagicBridge.ts` 保持在结构 warning 阈值内；其他 warning 文件仅做 owner 参数化和薄路由替换。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；保留既有 Vite 大 chunk warning。
+- `npm run check:all` 通过；结构检查无新增 warning 或 error。
+
+### TASK-SLICE-080
+
+完成时间：
+
+- 2026-06-20
+
+完成内容：
+
+- 新增 `PetOwnershipSystem.ts`，一次创建完全独立的 P1/P2 roster；P2 宠物 ID 增加 owner 前缀，选择、出战和休息只作用于明确 owner。
+- 新增唯一 `PetPanelSession.owner`；P1 `B` 与 P2 小键盘 `-` 可打开、切换或关闭同一个宠物面板，P2 心法键从错误的小键盘 `-` 修正为 `*`。
+- 把宠物面板视图和键位从已超结构 warning 的 `TestSceneSetup.ts` 拆到 `TestScenePetPanelBridge.ts`，新增指针按钮执行上一只、下一只、出战/休息，不再用方向键控制宠物面板。
+- 新增 `TestSceneP2PetBridge.ts`，P2 出战宠物绑定 P2 英雄位置与朝向，独立跟随、远距传送和销毁；P1/P2 宠物可同时存在，P1 既有战斗技能链未改写。
+- 新增 `pet-ownership-tests.ts`，覆盖双 roster 对象/ID 隔离、面板 owner、跨玩家不串改、双宠同时跟随和 P1 `B` / P2 小键盘 `-` / P2 心法小键盘 `*` 映射。
+- `TestSceneSetup.ts` 已从 613 行降到结构 warning 阈值以下；对仍超阈值的 `TestScene.ts` 和测试 runner 仅增加薄字段/调度与测试注册，新领域逻辑均位于独立文件。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；保留既有 Vite 大 chunk warning。
+- `npm run check:all` 通过；`TestSceneSetup.ts` 已退出结构 warning，其他既有大文件 warning 无新增 error。
+- 浏览器可视化验收因当前 in-app browser 不可用未执行，系统级交互与键位测试已通过。
+
+### TASK-SETTINGS-035
+
+完成时间：
+
+- 2026-06-20
+
+完成内容：
+
+- 确认原版 P1/P2 各自持有独立 `User.petsAry`，英雄只查询自己的当前宠物，双宠实体可以同时存在；面板的选择、出战、休息和刷新也按 owner 隔离。
+- 确认 P1 `B`、P2 小键盘 `-` 分别打开各自宠物面板，小键盘 `*` 是 P2 心法面板；原版宠物列表和操作按钮由鼠标驱动，现代方向键选择会抢占 P2 移动键。
+- 确认普通击杀经验沿怪物当前攻击目标分配；任务奖励第二玩家分支误查 P1 当前宠物，是独立于普通路径的原版 bug，现代接入时应按玩家修正。
+- 确认 `PackThings.who` 让 P2 宠物消耗品作用于 player2，P2 使用宣花葫芦也会把捕获宠物写入 player2 roster；本地双人仍满足捕捉的单机门禁。
+- 确认原版分别保存 `player1_obj` / `player2_obj` 及各自 `petSave`，读取先恢复 User 再创建英雄/宠物；记录原版读取反转宠物列表的顺序 bug，并明确现代存档不复刻。
+- 生成 `TASK-SLICE-080`，先实现 P2 独立 roster、面板 owner、正确快捷键和跟随实体；战斗经验、道具/捕捉与版本化存档继续拆分，避免一次改动过大。
+
+验证：
+
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-079
+
+完成时间：
+
+- 2026-06-20
+
+完成内容：
+
+- 新增 `PetGrowthSystem.ts`，独立实现 `cwzzxld` 悟性/技巧/战力洗练；保留原版条件链内多次独立随机取样顺序，并支持注入随机源。
+- 实现 `wphtd` 全已知物种还童：等级/经验/形态/品质、四类资质和基础属性按原表重置，技能、寿命和出战标记保留，战斗瞬时状态重建；未知物种因无公式拒绝且不消耗。
+- 实现 `nianjhd`：四阶拒绝不消耗，三阶进四阶并按槽位尝试学习奥义，形态 1/2 保留原版空耗；进化按形态差重算 `tsml/zrsh/smzf/mfby` 被动并触发宠物运行时重建。
+- `nianqld` 明确提示当前原版构建缺少潜力字段和公式，不消耗道具，不猜造换算。
+- 四种道具加入现代 registry 和测试背包；背包使用桥接按结果扣除并清理旧宠物 runtime；宠物面板新增四类资质显示。
+- 新增独立 `tools/system-tests/pet-growth-tests.ts`，主测试文件只增加导入和调用，覆盖随机分支、字段保持/重置、还童数值、被动重算、技能满槽、空耗/拒绝、真实背包数量和 runtime key 重建。
+- `EquipmentSystem.ts` 已有结构 warning，本次仅增加任务要求的四条静态道具定义；成长规则未继续写入该文件或已超 warning 的 `PetSystem.ts`。
+
+验证：
+
+- `npm run test:systems` 通过。
+- `npm run build` 通过；保留既有 Vite 大 chunk warning。
+- `npm run check:all` 通过；结构检查无 error，既有 warning 已记录。
+
+### TASK-SETTINGS-034
+
+完成时间：
+
+- 2026-06-20
+
+完成内容：
+
+- 补清 `cwzzxld` 对悟性/技巧/战力逐项洗练的全部随机分支，确认三个字段使用同构逻辑、条件链内多次独立取样，且不改四类资质或基础战斗属性。
+- 补清 `wphtd` 还童顺序、全物种一阶品质 1 资质表、基础属性、随机成长字段和出战实体重建链；确认技能、寿命和出战标记不会被清除。
+- 补清 `nianjhd` 道具与宠物面板进化入口的差异：道具无 50 级门禁，不给悟性 +1；仅三阶真正进化，形态 1/2 会空耗，四阶拒绝且不消耗，技能满槽不阻止形态变化；进化会按新旧形态差重算 `tsml/zrsh/smzf/mfby` 四个基础属性被动。
+- 确认 `nianqld` 只有 `potential + 100` 调用点，而当前 `PetInfo`、备用源码调用链和 26 字段宠物存档均无潜力定义或数值公式；将其登记为悬空入口，不用猜测补齐。
+- 生成 `TASK-SLICE-079`，把有充分证据的三种成长洗练行为拆成现代实现切片，并要求 `nianqld` 采用明确、不消耗的证据不足反馈。
+
+验证：
+
 - `npm run check:workflow` 通过。
 
 ## 执行记录

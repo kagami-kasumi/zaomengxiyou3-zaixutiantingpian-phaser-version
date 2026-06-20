@@ -101,6 +101,10 @@ export function createSeedInventoryStore(
   addStackByFillName(store, registry, 'wphhd', 1);
   addStackByFillName(store, registry, 'djyys', 1);
   addStackByFillName(store, registry, 'cwjnxld', 1);
+  addStackByFillName(store, registry, 'cwzzxld', 1);
+  addStackByFillName(store, registry, 'wphtd', 1);
+  addStackByFillName(store, registry, 'nianqld', 1);
+  addStackByFillName(store, registry, 'nianjhd', 1);
   addStackByFillName(store, registry, 'smbjns2', 2);
   return store;
 }

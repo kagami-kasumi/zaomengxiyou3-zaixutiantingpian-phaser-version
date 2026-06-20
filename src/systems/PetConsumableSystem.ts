@@ -1,5 +1,6 @@
 ﻿import { PetTuning } from './PetTuning';
 import { addPetExperience, resetPetSkillsByLevel } from './PetProgressionSystem';
+import { evolvePetWithItem, rerollPetGrowthAttributes, returnPetToChild } from './PetGrowthSystem';
 import { getCurrentPet } from './PetRosterSystem';
 import type {
   MonsterExperienceShareResult,
@@ -9,7 +10,9 @@ import type {
   PetSkillRandomSource,
 } from './PetTypes';
 export function isPetConsumableFillName(fillName: string): fillName is PetConsumableFillName {
-  return fillName === 'wphhd' || fillName === 'wpcsd' || fillName === 'djyys' || fillName === 'cwjnxld';
+  return fillName === 'wphhd' || fillName === 'wpcsd' || fillName === 'djyys' ||
+    fillName === 'cwjnxld' || fillName === 'cwzzxld' || fillName === 'wphtd' ||
+    fillName === 'nianqld' || fillName === 'nianjhd';
 }
 
 export function usePetConsumable(
@@ -48,6 +51,42 @@ export function usePetConsumable(
       : `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp}`;
     roster.message = message;
     return { ok: true, shouldConsume: true, message, pet, experience };
+  }
+
+  if (fillName === 'cwzzxld') {
+    const result = rerollPetGrowthAttributes(pet, random);
+    const message = `${pet.displayName} 悟/技/战 ${result.before.perception}/${result.before.technique}/${result.before.warpower}->${result.after.perception}/${result.after.technique}/${result.after.warpower}`;
+    roster.message = message;
+    return { ok: true, shouldConsume: true, message, pet };
+  }
+
+  if (fillName === 'wphtd') {
+    if (!returnPetToChild(pet, random)) {
+      const message = `${pet.species} 缺少可验证的还童公式`;
+      roster.message = message;
+      return { ok: false, shouldConsume: false, message, pet };
+    }
+    const message = `${pet.displayName} 已还童至 Lv.1 F1`;
+    roster.message = message;
+    return { ok: true, shouldConsume: true, rebuildRuntime: true, message, pet };
+  }
+
+  if (fillName === 'nianqld') {
+    const message = '原版当前构建缺少潜力字段与公式，该道具暂不可用';
+    roster.message = message;
+    return { ok: false, shouldConsume: false, message, pet };
+  }
+
+  if (fillName === 'nianjhd') {
+    const evolution = evolvePetWithItem(pet);
+    roster.message = evolution.message;
+    return {
+      ok: evolution.formChanged,
+      shouldConsume: evolution.shouldConsume,
+      rebuildRuntime: evolution.rebuildRuntime,
+      message: evolution.message,
+      pet,
+    };
   }
 
   const skillReset = resetPetSkillsByLevel(pet, random);

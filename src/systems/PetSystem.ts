@@ -15,7 +15,6 @@
   spawnPetDragon2SdccProjectile,
   spawnPetDragon3LtwjProjectile,
   spawnPetDragon4QlaoyiProjectile,
-  spawnPetTurtle1SldProjectile,
   type ProjectileModel,
   type ProjectileSystemModel,
 } from './ProjectileSystem';
@@ -23,7 +22,6 @@ import { PetTuning } from './PetTuning';
 import { getActivePet } from './PetRosterSystem';
 import { createPetSkillState } from './PetSkillStateSystem';
 import type {
-  PetAutoBuffOwnerStats,
   PetCounterRandomSource,
   PetDragon4QlaoyiComboState,
   PetRoster,
@@ -35,17 +33,36 @@ import type {
   PetState,
 } from './PetTypes';
 export { CapturablePetDefinitions, PetBaseSkillCandidates, PetSkillInfoByKey, PetTuning } from './PetTuning';
-export { buildPetPanelLines, buildPetSkillSlotViews, getPetSkillDisplay } from './PetPanelSystem';
+export { buildCompactPetPanelLines, buildPetPanelLines, buildPetSkillSlotViews, getPetSkillDisplay } from './PetPanelSystem';
 export { addPetExperience, getPetBaseStats, getPetExperienceToNextLevel, refreshPetStatsForLevel, resetPetSkillsByLevel } from './PetProgressionSystem';
 export { updatePetAutoBuffs } from './PetAutoBuffSystem';
 export { createPetRuntime, syncPetRuntimeWithRoster, updatePetRuntime } from './PetRuntimeSystem';
 export { createPetSkillState } from './PetSkillStateSystem';
 export { catchNewPet, createSeedPetRoster, getActivePet, getCurrentPet, getSelectedPet, restSelectedPet, selectPet, setSelectedPetActive, toggleSelectedPetActive } from './PetRosterSystem';
+export { closePetPanel, createPetPanelSession, createPlayerPetRosters, getPlayerPetRoster, PetUiKeyCodes, selectOwnedPet, toggleOwnedPetActive, togglePetPanelForOwner } from './PetOwnershipSystem';
+export type { PetPanelSession, PlayerPetRosters } from './PetOwnershipSystem';
+export { applyOwnedPetDamageRedirect, awardMonsterExperienceByTarget, claimMonsterExperienceForCurrentTarget, markOwnedPetSkillTriggered } from './PetBattleOwnershipSystem';
+export type { OwnedMonsterExperienceAward, PetExperienceTarget } from './PetBattleOwnershipSystem';
 export { awardMonsterExperienceWithCurrentPet, isPetConsumableFillName, usePetConsumable } from './PetConsumableSystem';
+export { evolvePetWithItem, rerollPetGrowthAttribute, rerollPetGrowthAttributes, returnPetToChild } from './PetGrowthSystem';
 export { createMagicBottleCaptureModel, requestMagicBottleCapture, resolveMagicBottleCaptureHit, updateMagicBottleCapture } from './PetMagicBottleSystem';
 export { markActivePetSkillTriggered, updatePetSkillState } from './PetSkillTickSystem';
+export { getAdvancedPetSkillPriority, type AdvancedPetSkillSpecies } from './PetSkillPrioritySystem';
 export { applyPetMagicFlowerBuff, clearPetMagicFlowerBuff } from './PetMagicFlowerSystem';
 export { applyPetSkillSaveString, decodePetSkillSaveString, encodePetSkillSaveString } from './PetSkillSaveSystem';
+export {
+  applyPetTurtleTxljOwnerDamage,
+  applyPetTurtleTxljOwnerHeal,
+  requestPetTurtle1SldSkill,
+  requestPetTurtle2TxljSkill,
+  requestPetTurtle3SybhSkill,
+  requestPetTurtle4XwaoyiSkill,
+} from './PetTurtleSkillSystem';
+export { completePetUfo3KmskRising, requestPetUfo1PmsSkill, requestPetUfo2SsSkill, requestPetUfo3KmskSkill } from './PetUfoSkillSystem';
+export { requestPetTiger1HySkill, requestPetTiger2SxhzSkill, requestPetTiger3HsqjSkill, requestPetTiger4BhaoyiSkill, updatePetTiger4BhaoyiCombo } from './PetTigerSkillSystem';
+export { applyPetPhoenixNpIncomingDamage, requestPetPhoenix1NpSkill, requestPetPhoenix2BshnSkill, requestPetPhoenix3DhlySkill, requestPetPhoenix4ZqaoyiSkill } from './PetPhoenixSkillSystem';
+export { markPetRabbitBasicAttackHit, requestPetRabbit1YgSkill, requestPetRabbit2JfSkill, requestPetRabbit3BsSkill, requestPetRabbit4YsaoyiSkill, updatePetRabbitPersistentEffects } from './PetRabbitSkillSystem';
+export { requestPetMouse1ScSkill, requestPetMouse4HxfbSkill, requestPetMouse4ZsaoyiSkill, updatePetMouse4ZsaoyiCombo } from './PetMouseSkillSystem';
 export type {
   CapturableMonsterId,
   CapturablePetDefinition,
@@ -1121,230 +1138,6 @@ export function requestPetDragon4QlaoyiSkill(params: {
   };
 }
 
-export function requestPetTurtle1SldSkill(params: {
-  roster: PetRoster;
-  runtime: PetRuntimeModel | undefined;
-  targets: readonly PetSkillTarget[];
-  projectiles: ProjectileSystemModel;
-  ownerStats?: PetAutoBuffOwnerStats;
-  random?: PetSkillRandomSource;
-}): PetSkillCastResult {
-  const pet = getActivePet(params.roster);
-  if (!pet) {
-    return setPetSkillFailure(params.roster, 'No active pet');
-  }
-
-  const state = ensurePetSkillState(pet);
-  if (pet.species !== 'turtle') {
-    return setPetSkillFailure(params.roster, `${pet.displayName} is not turtle`, pet);
-  }
-
-  if (!pet.skills.includes('sld')) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned sld`, pet);
-  }
-
-  if (pet.mp < PetTuning.turtle1SldMpCost) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for sld`, pet);
-  }
-
-  if (state.turtle1Sld.cooldownMs > 0) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} sld cooling ${Math.ceil(state.turtle1Sld.cooldownMs)}ms`, pet);
-  }
-
-  const target = selectPetSkillTarget(params.runtime, params.targets);
-  if (!target) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} sld has no target`, pet);
-  }
-
-  const distance = getPetSkillDistance(params.runtime, target);
-  if (distance < PetTuning.turtle1SldMinDistance) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} sld target too close ${Math.floor(distance)}`, pet);
-  }
-  if (distance > PetTuning.turtle1SldMaxDistance) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} sld target too far ${Math.ceil(distance)}`, pet);
-  }
-
-  const mpBefore = pet.mp;
-  const hpBefore = pet.hp;
-  const damage = calculatePetSkillDamage(pet, PetTuning.turtle1SldDamageMultiplier, params.random);
-  const heal = Math.max(0, damage);
-  pet.mp = Math.max(0, pet.mp - PetTuning.turtle1SldMpCost);
-  pet.hp = Math.min(pet.maxHp, pet.hp + heal);
-  state.turtle1Sld.cooldownMs = PetTuning.turtle1SldCooldownMs;
-  state.turtle1Sld.lastHeal = pet.hp - hpBefore;
-  state.turtle1Sld.lastOwnerHeal = 0;
-  if (params.ownerStats && isPetTurtleTxljLinkActive(pet)) {
-    const ownerHpBefore = params.ownerStats.hp;
-    params.ownerStats.hp = Math.min(params.ownerStats.maxHp, params.ownerStats.hp + state.turtle1Sld.lastHeal);
-    state.turtle1Sld.lastOwnerHeal = params.ownerStats.hp - ownerHpBefore;
-  }
-
-  const projectile = spawnPetTurtle1SldProjectile(params.projectiles, {
-    sourceId: pet.id,
-    x: target.x,
-    y: target.y,
-    facingX: getPetSkillFacing(params.runtime, target),
-  }, damage);
-
-  const message = `${pet.displayName} sld -> ${target.id} ${damage.toFixed(1)} heal:${state.turtle1Sld.lastHeal.toFixed(1)} owner:${state.turtle1Sld.lastOwnerHeal.toFixed(1)}`;
-  state.lastResult = message;
-  params.roster.message = message;
-  return {
-    ok: true,
-    message,
-    pet,
-    target,
-    projectile,
-    damage,
-    healOnHit: state.turtle1Sld.lastHeal,
-    mpBefore,
-    mpAfter: pet.mp,
-  };
-}
-
-export function requestPetTurtle2TxljSkill(params: {
-  roster: PetRoster;
-  runtime: PetRuntimeModel | undefined;
-  targets: readonly PetSkillTarget[];
-}): PetSkillCastResult {
-  const pet = getActivePet(params.roster);
-  if (!pet) {
-    return setPetSkillFailure(params.roster, 'No active pet');
-  }
-
-  const state = ensurePetSkillState(pet);
-  if (pet.species !== 'turtle' || pet.form !== 2) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} is not turtle2`, pet);
-  }
-
-  if (!pet.skills.includes('txlj')) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} has not learned txlj`, pet);
-  }
-
-  if (pet.mp < PetTuning.turtle2TxljMpCost) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for txlj`, pet);
-  }
-
-  if (state.turtle2Txlj.cooldownMs > 0) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} txlj cooling ${Math.ceil(state.turtle2Txlj.cooldownMs)}ms`, pet);
-  }
-
-  const target = selectPetSkillTarget(params.runtime, params.targets);
-  if (!target) {
-    return setPetSkillFailure(params.roster, `${pet.displayName} txlj has no target`, pet);
-  }
-
-  const mpBefore = pet.mp;
-  pet.mp = Math.max(0, pet.mp - PetTuning.turtle2TxljMpCost);
-  state.turtle2Txlj.cooldownMs = PetTuning.turtle2TxljCooldownMs;
-  state.turtle2Txlj.linkRemainingMs = calculatePetTurtle2TxljDurationMs(pet);
-  state.turtle2Txlj.lastOwnerDamageRedirect = 0;
-  state.turtle2Txlj.lastOwnerDamageAfterRedirect = 0;
-  state.turtle2Txlj.lastOwnerHealBoost = 0;
-  state.turtle2Txlj.lastPetHeal = 0;
-
-  const message = `${pet.displayName} txlj link ${formatPetAutoBuffMs(state.turtle2Txlj.linkRemainingMs)}`;
-  state.lastResult = message;
-  params.roster.message = message;
-  return {
-    ok: true,
-    message,
-    pet,
-    target,
-    damage: 0,
-    mpBefore,
-    mpAfter: pet.mp,
-  };
-}
-
-export type PetTurtleTxljOwnerDamageResult = {
-  active: boolean;
-  ownerDamage: number;
-  petDamage: number;
-  petHpBefore?: number;
-  petHpAfter?: number;
-};
-
-export function applyPetTurtleTxljOwnerDamage(
-  roster: PetRoster,
-  ownerDamage: number,
-): PetTurtleTxljOwnerDamageResult {
-  const normalizedDamage = Math.max(0, ownerDamage);
-  const pet = getActivePet(roster);
-  if (!pet || !isPetTurtleTxljLinkActive(pet) || normalizedDamage <= 0) {
-    return {
-      active: false,
-      ownerDamage: normalizedDamage,
-      petDamage: 0,
-    };
-  }
-
-  const state = ensurePetSkillState(pet);
-  const petHpBefore = pet.hp;
-  const petDamage = Math.ceil(normalizedDamage * PetTuning.turtle2TxljPetDamageRate);
-  const redirectedOwnerDamage = Math.ceil(normalizedDamage * PetTuning.turtle2TxljOwnerDamageRate);
-  pet.hp = Math.max(0, pet.hp - petDamage);
-  state.turtle2Txlj.lastOwnerDamageRedirect = petDamage;
-  state.turtle2Txlj.lastOwnerDamageAfterRedirect = redirectedOwnerDamage;
-  return {
-    active: true,
-    ownerDamage: redirectedOwnerDamage,
-    petDamage,
-    petHpBefore,
-    petHpAfter: pet.hp,
-  };
-}
-
-export type PetTurtleTxljOwnerHealResult = {
-  active: boolean;
-  ownerHeal: number;
-  petHeal: number;
-  ownerHpBefore?: number;
-  ownerHpAfter?: number;
-  petHpBefore?: number;
-  petHpAfter?: number;
-};
-
-export function applyPetTurtleTxljOwnerHeal(
-  roster: PetRoster,
-  ownerStats: PetAutoBuffOwnerStats,
-  heal: number,
-): PetTurtleTxljOwnerHealResult {
-  const normalizedHeal = Math.max(0, heal);
-  const pet = getActivePet(roster);
-  if (!pet || !isPetTurtleTxljLinkActive(pet) || normalizedHeal <= 0) {
-    const ownerHpBefore = ownerStats.hp;
-    ownerStats.hp = Math.min(ownerStats.maxHp, ownerStats.hp + normalizedHeal);
-    return {
-      active: false,
-      ownerHeal: ownerStats.hp - ownerHpBefore,
-      petHeal: 0,
-      ownerHpBefore,
-      ownerHpAfter: ownerStats.hp,
-    };
-  }
-
-  const state = ensurePetSkillState(pet);
-  const ownerHpBefore = ownerStats.hp;
-  const petHpBefore = pet.hp;
-  const boostedHeal = Math.ceil(normalizedHeal * PetTuning.turtle2TxljHealMultiplier);
-  ownerStats.hp = Math.min(ownerStats.maxHp, ownerStats.hp + boostedHeal);
-  pet.hp = Math.min(pet.maxHp, pet.hp + boostedHeal);
-  const ownerHeal = ownerStats.hp - ownerHpBefore;
-  const petHeal = pet.hp - petHpBefore;
-  state.turtle2Txlj.lastOwnerHealBoost = ownerHeal;
-  state.turtle2Txlj.lastPetHeal = petHeal;
-  return {
-    active: true,
-    ownerHeal,
-    petHeal,
-    ownerHpBefore,
-    ownerHpAfter: ownerStats.hp,
-    petHpBefore,
-    petHpAfter: pet.hp,
-  };
-}
-
 function ensurePetSkillState(pet: PetState): PetSkillState {
   pet.skillState ??= createPetSkillState();
   return pet.skillState;
@@ -1386,17 +1179,6 @@ function calculatePetDragon3LtwjBaseDamage(pet: PetState): number {
 
 function calculatePetDragon3LtwjHealOnHit(pet: PetState): number {
   return Math.floor((pet.maxHp * 0.028) + (pet.atk * 0.09) + (pet.level * 2));
-}
-
-function isPetTurtleTxljLinkActive(pet: PetState): boolean {
-  return pet.species === 'turtle' &&
-    pet.hp > 0 &&
-    pet.skills.includes('txlj') &&
-    (pet.skillState?.turtle2Txlj.linkRemainingMs ?? 0) > 0;
-}
-
-function calculatePetTurtle2TxljDurationMs(pet: PetState): number {
-  return Math.max(0, pet.warpower * PetTuning.turtle2TxljDurationMultiplierMs);
 }
 
 function getPetDragon4QlaoyiComboState(pet: PetState): PetDragon4QlaoyiComboState {
@@ -1479,21 +1261,6 @@ function getPetSkillFacing(
   }
   return target.x < runtime.x ? -1 : 1;
 }
-
-function formatPetAutoBuffMs(value: number): string {
-  return `${Math.max(0, value / 1000).toFixed(1)}s`;
-}
-
-
-
-
-
-
-
-
-
-
-
 
 
 

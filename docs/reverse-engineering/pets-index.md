@@ -95,6 +95,16 @@
 - `miss` 最大 `0.48`。
 - getter 侧将 `lifetime` 最大夹到 `100`，`perception/technique/warpower` 最大夹到 `8`。
 
+### 现代存档闭环（TASK-SLICE-077）
+
+现代版不复制 Flash 的 AMF/compress/XOR 容器，改用带版本号的 localStorage JSON；保留相同的可观察结果：刷新页面后恢复 P1 基础进度和宠物主数据。
+
+- `SaveSystem.ts` 的 `GameSaveV1` 保存 P1 角色等级/经验、装备、五槽技能配置、心法树和被动技能。
+- 每只宠物保存稳定 ID、物种/形态、等级/经验、HP/MP、攻击/防御、四类资质、寿命、悟性/技巧/战力、`isActive` 和 `skills[]`。
+- `skills[]` 是原版 `skillSaveString` 的现代等价字段；既有 `encodePetSkillSaveString()` 仍可用于原版 `sname~sname` 字段级兼容。
+- `skillState/autoBuffState/magicFlowerBuff` 属于瞬时战斗状态，不持久化；读取时由 `createPetSkillState()` 重建，避免冷却、奥义步骤和临时 Buff 跨刷新残留。
+- `TestSceneSaveBridge.ts` 创建场景时读取，之后每 2 秒自动保存；损坏 JSON、未知 schema version 和未知装备均安全降级。
+
 ## 出战与战斗实体
 
 `PetInfo.isFight == 1` 表示当前出战宠物。`User.findCurrentPet(includeDead = false)` 倒序查找出战宠物：
@@ -558,6 +568,75 @@
 | 3 | `turtle3/sybh` | 主动范围伤害，可复用宠物主动技能和 `fsnl/sxkb` 伤害 helper；只需新增 `PetTurtle3Bullet3` 占位范围反馈 |
 | 4 | `turtle4/xwaoyi` | 组合奥义，依赖 `sld/txlj/sybh` 三个前置最小实现；建议单独切片记录免蓝连发、链接刷新、5 秒持续范围反馈和奥义期间移动/受击边界 |
 
+UFO/卡布首批链路：
+
+`BaseHero.addPetByPi()` 按 `ufo1..3` 分别创建 `PetKabu1..3`，`PetInfo` 中文名为 `ufo1 = 小飞`、`ufo2 = 裂云`、`ufo3 = 冲霄`。`PetInfo.rePetSkill()` 会把 UFO 候选池扩成 `ufo1: pms`、`ufo2: pms/ss`、`ufo3: pms/ss/kmsk`；`addSpecialSkill()` 在 `ufo1 -> ufo2` 时把 `pms` 替换为 `ss`，在 `ufo2 -> ufo3` 时把 `ss` 替换为 `kmsk`。没有 `ufo4` 奥义形态，普通角色技能书 `jns` 不参与宠物专属技能学习。
+
+技能中文名和说明来自 `PetInfo.getSkillChinaName()` / `getIntroByName()`：`pms = 魔破杀`，说明“撕裂前方怪物”；`ss = 瞬闪`，说明“瞬间闪烁到怪物后面”；`kmsk = 狂魔闪空`，说明“飞到空中对下方怪物造成伤害”。
+
+`findPetUsedMagic()` 给出 `pms/ss/kmsk` 都消耗 20 MP。`getPetHarmObj()` 给出数值基数：`pms = 3.6 * atk`，`ss = 0`，`kmsk = 6 * atk`。`pms` 和 `kmsk` 在 `getRealPower()` 中继续叠加 `fsnl` 的 `getMagicAddValue()`、`sxkb` 的宠物暴击 2 倍、`isGXP` 的 1.2 倍；`ss` 本身不走 `getRealPower("hit3")` 伤害，而是瞬移后调用 `normalHit()` 触发普攻 `hit1`。
+
+| 类 | 技能槽 | 条件 | 动作/伤害或状态 |
+| --- | --- | --- | --- |
+| `PetKabu1..3` | skill1 `pms` | 已学 `pms`、MP 足够、存在目标、CD1 就绪 | `hit2`，扣 20 MP；第 10 帧附近生成 `FollowBaseObjectBullet("PetKabu1Bullet2")` / `hit2`，魔法命中；按 `pms = 3.6 * atk` 派生伤害 |
+| `PetKabu2..3` | skill2 `ss` | 已学 `ss`、MP 足够、存在目标、CD2 就绪 | `hit3`，源码释放时调用 `findPetUsedMagic("pms")` 扣蓝；因 `pms/ss` 都是 20 MP，现代可按 20 MP 等价处理；第 10 帧附近从 `gc.obbsiteArray` 随机取目标，传送到目标朝向背后约 40 像素、`y - 40`，再调用 `normalHit()` |
+| `PetKabu3` | skill3 `kmsk` | 已学 `kmsk`、MP 足够、存在目标、CD3 就绪 | `hit4_1`，扣 20 MP，先用 Tween 上升约 100 像素；动作结束转 `hit4_2`，第 10 帧在宠物下方 `y + 30` 生成 `SpecialEffectBullet("PetKabu3Bullet4")` / `hit4`，按 `kmsk = 6 * atk` 派生范围/下方伤害 |
+
+UFO CD 来自 `skillCDN = [初始, 间隔]` 且 `Config.frameClips = 30`：`pms` 初始约 `2s`、间隔约 `2s`；`ss` 初始约 `2s`、间隔约 `4s`；`kmsk` 初始约 `3s`、间隔约 `5s`。`BasePet.myIntelligence()` 的通用目标边界仍适用：需要存在 `curAttackTarget`，目标死亡或距离 `>= 1200` 会清空目标，未受击且未攻击时按 skill1 -> skill2 -> skill3 -> skill4 顺序尝试。
+
+UFO 资源键已由 AS3 确认：本体为 `PetKabuBmd1..3`；技能/弹体包括 `PetKabu1Bullet1`、`PetKabu1Bullet2`、`PetKabu3Bullet4`。`attackBackInfoDict` 中 `hit1` 为 physics，`hit2` 和 `hit4` 为 magic；Kabu1 的 `hit2` 击退为 `[-10,0]`、间隔 24，Kabu2/3 的 `hit2` 击退为 `[8,0]`、间隔 999，Kabu3 的 `hit4` 击退为 `[8,0]`、间隔 999。现代首批只登记占位资源 key，不重新提取资源。
+
+UFO 现代最小切片建议（`TASK-SLICE-070/071/072` 已全部完成）：
+
+| 优先级 | 切片 | 状态 |
+| --- | --- | --- |
+| 1 | `ufo1/pms` | ✅ 已完成 |
+| 2 | `ufo2/ss` | ✅ 已完成 |
+| 3 | `ufo3/kmsk` | ✅ 已完成 |
+
+## 白虎/母虎 `tigress1..4` 专属技能链（`TASK-SETTINGS-033` 部分逆向）
+
+`BaseHero.addPetByPi()` 按 `tigress1..4` 分别创建 `PetTiger1..4`（别名 `PetYingTiger1/4`）。`PetInfo` 中文名：`tigress1 = 小虎`、`tigress2..4` 待确认。`PetInfo.rePetSkill()` 把虎候选池扩成 `tigress1: hy`、`tigress2: hy/sxhz`、`tigress3: hy/sxhz/hsqj`、`tigress4: hy/sxhz/hsqj/bhaoyi`。`addSpecialSkill()` 在各形态进化时把前阶技能替换为后阶特殊技能。没有 `tigress4` 以上的奥义形态。
+
+技能中文名和说明来自 `PetInfo.getSkillChinaName()` / `getIntroByName()`：`hy = 虎跃`、`sxhz = 嗜血虎爪`、`hsqj = 虎声咆哮`、`bhaoyi = 白虎奥义`。
+
+`findPetUsedMagic()` 给出 `hy/sxhz/hsqj/bhaoyi` 均消耗 20 MP。
+
+AS3 数据来自 `PetTiger1..4.as`（主参考包 172845）：
+
+| 类 | 技能槽 | 条件 | 动作/伤害或状态 |
+| --- | --- | --- | --- |
+| `PetTiger1` | skill1 `hy` | 已学 `hy`、MP 足够、目标距离 `50..100`、CD1 就绪 | `hit2`，扣 20 MP；第 10 帧生成 `SpecialEffectBullet("PetTiger1Bullet2")` / `hit2`，魔法命中，击退 `[9,0]`、间隔 6；按 `hy.first + fsnl` 派生伤害，接入 `sxkb` 暴击 2 倍 |
+| `PetTiger2..3` | skill1 `hy` | 同上 | 同上 |
+| `PetTiger4` | skill1 `hy` | 目标距离 `50..100`、MP 满足 | 同上，但 `hit2` 攻击类型变为 physics |
+| `PetTiger2..3` | skill2 `sxhz` | 已学 `sxhz`、MP 足够、目标距离 `≤80`、CD2 就绪 | `hit3`，扣 20 MP；两段 projectile：第 10 帧 `PetTiger2Bullet3_1` / `hit3_1`（附加 `Pet_TIGER_SXHZ` 效果约 2 秒），第 1 帧 `PetTiger2Bullet3_2` / `hit3_2`（魔法、间隔 6、命中时治疗 `sxhz.first`） |
+| `PetTiger4` | skill2 `sxhz` | 同上 | 同上，CD2 更长：`[240, 138]` 即初始约 8 秒、间隔约 4.6 秒 |
+| `PetTiger3` | skill3 `hsqj` | 已学 `hsqj`、MP 足够、目标距离 `≤450`、CD3 就绪 | `hit4`，扣 20 MP；两段：起手 `PetTiger3Bullet4_1` / `hit4`（disabled 纯视觉），第 10 帧 `PetTiger3Bullet4_2` / `hit4`（魔法、击退 `[-7,0]` 或 `[-15,0]`、间隔 3）；按 `hsqj.first + fsnl` 派生伤害 |
+| `PetTiger4` | skill3 `hsqj` | 同上 | 同上，CD3: `[180, 180]` 即初始约 6 秒、间隔约 6 秒 |
+| `PetTiger4` | skill4 `bhaoyi` | 已学 `bhaoyi`、MP 足够、存在目标、CD4 就绪 | `hit5`，扣 20 MP；白虎奥义：三段式 combo — 第一步 50% 概率瞬移到目标 `x±80`，若已学 `hy` 则免费释放 `hy`；第二步再次瞬移，若已学 `sxhz` 则免费释放 `sxhz`；第三步延迟约 120 帧后触发 `hit6`，若已学 `hsqj` 则免费释放 `hsqj`，并设置 `isAtkUp=true` 使下段普攻或 `hsqj` 获得 1.3 倍伤害加成。奥义本体直接伤害保持 0 |
+
+CD 参数（`skillCDN = [初始帧, 间隔帧]`，`gc.frameClips = 30`）：
+
+| 形态 | CD1 `hy` | CD2 `sxhz` | CD3 `hsqj` | CD4 `bhaoyi` |
+| --- | --- | --- | --- | --- |
+| tiger1 | `[120, 60]` ≈ 4s/2s | — | — | — |
+| tiger2 | `[120, 90]` ≈ 4s/3s | `[150, 90]` ≈ 5s/3s | — | — |
+| tiger3 | `[120, 60]` ≈ 4s/2s | `[150, 150]` ≈ 5s/5s | `[180, 150]` ≈ 6s/5s | — |
+| tiger4 | `[120, 60]` ≈ 4s/2s | `[240, 138]` ≈ 8s/4.6s | `[180, 180]` ≈ 6s/6s | `[450, 720]` ≈ 15s/24s |
+
+资源键：本体 `PetTigerBmd1..4`；技能/弹体 `PetTiger1Bullet1`、`PetTiger1Bullet2`、`PetTiger2Bullet1`、`PetTiger2Bullet3_1`、`PetTiger2Bullet3_2`、`PetTiger3Bullet4_1`、`PetTiger3Bullet4_2`。现代占位资源 key 待实现时登记。
+
+虎系现代最小切片建议：
+
+| 优先级 | 切片 | 理由与边界 |
+| --- | --- | --- |
+| 1 | `tigress1/hy` | 证据最小：只需 P1 可切换出战 `tigress1`，已学 `hy`、MP `>= 20`、目标距离 `50..100` 和约 2 秒 CD 门禁，生成 `PetTiger1Bullet2` 占位 projectile，按 `hy.first` 派生伤害并接入 `fsnl/sxkb` |
+| 2 | `tigress2/sxhz` | 两段 projectile + 命中治疗，CD 稍长 |
+| 3 | `tigress3/hsqj` | 两段 projectile + 长距离 |
+| 4 | `tigress4/bhaoyi` | 白虎奥义三段组合，带瞬移和免费技能释放 |
+
+**注意**：AS3 数值基数 `hy.first`、`sxhz.first`、`hsqj.first` 等来自 `PetInfo.getPetHarmObj()`，仍需从 `PetInfo.as` 确认具体倍率。凤凰 `phoenix1..4`（`np/bshn/dhly/zqaoyi`）、兔 `rabbit1..4`、鼠 `mouse1..4` 的专属技能链仍未逆向，推荐拆分独立 `TASK-SETTINGS-*` 任务继续。
+
 ## 现代宠物技能切片建议
 
 推荐后续切片为 `VS-016 宠物技能最小闭环`，首个实现目标固定为 `monkey1` 的 `xj`：
@@ -662,6 +741,131 @@
 
 这些分支都要求 `findCurrentPet(true) != null`，也就是必须存在被标记为出战的宠物；寿命为 0 的宠物也可被部分道具处理。
 
+### 成长洗练道具精确行为（`TASK-SETTINGS-034`）
+
+共同入口来自 `PackThings.useEquip()`：四种道具都先查找当前出战宠物；未找到时提示“你还没有出战的宠物”并提前返回，因此不消耗道具。成功走完分支后设置使用成功标记，随后由背包统一扣除一件并触发存档。
+
+#### `cwzzxld` 宠物属性洗练丹
+
+调用 `PetInfo.refreshTherrAttributeByImmortality()`，只逐项重投 `perception/technique/warpower`（悟性/技巧/战力）。道具文案写“悟性、根骨、灵力”，但实际字段以代码为准。三个字段各自执行同一套逻辑，并且每个 `else if` 都会重新调用一次 `Math.random()`，不是共用一次随机值：
+
+- 当前值 `< 5`：`quality == 1` 时取 `round(random * 4) + 1`（1..5）；否则取 `round(random * 4)`（0..4）。
+- 当前值 `>= 5`：第一次随机 `<= 0.6` 时减 1；否则第二次独立随机 `<= 0.35` 且旧值 `<= 7` 时加 1；否则第三次独立随机 `<= 0.2` 且旧值 `<= 6` 时加 2；其余情况重投为 `round(random * 5) + 3`（3..8）。
+
+该方法不修改等级、经验、形态、`hp/mp/atk/def quality` 四类资质、当前/最大 HP/MP、攻击、防御、寿命、品质、技能或出战标记，也不要求重建场景宠物实体。
+
+#### `wphtd` 宠物还童丹
+
+调用 `PetInfo.makePetBecomeChild()`，顺序如下：
+
+1. 等级设为 1，宠物名最后一位形态数字强制改为 `1`，并刷新中文名。
+2. 当前经验设为 0；若 `quality != 1`，品质强制设为 1。
+3. 调用 `initPetInfoData()`，按一阶/品质 1 的物种表重投或重设四类资质和基础属性，并把当前 HP/MP 同步为新的最大 HP/MP。
+4. 品质 1 的悟性为 `4 + round(random * 3)`（4..7），技巧和战力均为 `4 + round(random * 4)`（4..8）。
+5. `PackThings` 随后对对应 P1/P2 英雄调用 `changePet()`，并广播 `CHANGECURRENTPET`，所以出战实体会按一阶种类重建。
+
+一阶品质 1 的固定资质/基础值如下；带随机表达式的物种在还童时重新抽取：
+
+| 物种 | HP/MP/攻击/防御资质 | 1 级基础 HP / MP / ATK / DEF |
+| --- | --- | --- |
+| monkey | `1040/1040/1040/1040` | `840/150/20/6` |
+| horse | `949/1222/1105/520` | `840/200/25/6` |
+| ufo | `1170/1040/1170/351` | `840/150/30/8` |
+| tigress | `1300/1040/1300/520` | `840/150/30/8` |
+| turtle | `1560/910/1170/611` | `840/150/25/10` |
+| phoenix | `1170/1170/1300/520` | `840/200/32/6` |
+| dragon | `1430/780/1430/520` | `840/200/30/8` |
+| rabbit | `(800+round(r*300))*1.3 / (500+round(r*400))*1.3 / (800+round(r*300))*1.3 / (200+round(r*200))*1.3` | `840/200/30/5` |
+| roomhorse | `(700+round(r*500))*1.3 / (550+round(r*440))*1.3 / (1000+round(r*300))*1.3 / (200+round(r*200))*1.3` | `840/800/50/10` |
+| mouse、neat、nian、terribletiger | `(700+round(r*500))*1.3 / (250+round(r*440))*1.3 / (1000+round(r*300))*1.3 / (200+round(r*200))*1.3` | `840/800/50/10` |
+
+`makePetBecomeChild()` 没有清空或重投 `skill`，也不改寿命、出战标记、闪避/暴击/魔防、移动速度或被动附加值；现代实现不应因为“还童”二字额外删除技能。它也没有显式调用 `upPassive()`，因此原版这里可能保留还童前的 `EHp/EMp`，属于应忠实隔离而不扩大的旧实现边界。
+
+#### `nianqld`
+
+入口唯一已确认行为是动态调用 `setpotential(getpotential() + 100)`。但主参考包的 `PetInfo.as` 没有 `potential` 字段，也没有这两个方法；宠物 26 字段存档同样不包含潜力。备用包只再次出现调用点，未找到可验证的属性公式或持久化字段。因此当前证据只能确认“意图增加 100”，不能证明潜力如何影响资质或战斗数值；该调用应登记为当前版本的悬空/残留入口，现代实现不得猜造换算公式。
+
+#### `nianjhd`
+
+道具入口只拒绝当前形态 `4`，提示“该宠物已经是第二形态”且不消耗；它不检查等级。其他形态都会调用 `theFourShape(true)` 并消耗道具，但 `PetInfo.theFourShape()` 实际只在形态 `3` 时生效：
+
+- 形态 3：移除旧被动加值，将名称改为同物种形态 4，刷新中文名和技能说明，再恢复被动、尝试学习该物种奥义，并通过 `doWhenChangeState()` 让存活的出战实体调用 `BaseHero.changePet()` 重建。
+- 形态 1/2：方法不做任何字段变化，但背包入口仍把道具判为成功并消耗。这是原版可观察的空耗边界。
+- 形态 4：入口提前返回，不消耗。
+
+进化不修改等级、经验、四类资质、悟性/技巧/战力、寿命、品质或出战标记，但会先按形态 3 移除、再按形态 4 恢复已学的四个基础属性被动：每个 `tsml` 让攻击净增 `6 * warpower`，每个 `zrsh` 让防御净增 `4 * technique`，每个 `smzf` 让最大 HP 净增 `50 * warpower`，每个 `mfby` 让最大 MP 净增 `50 * technique`；当前 HP/MP 还保留原版“仅当大于旧被动值才先扣旧值、随后总是加新值”的边界。没有这四种技能时，HP/MP/攻击/防御不变。奥义仅在技能槽少于 8 时加入；槽位已满时形态仍会变为 4，但 `studyEsoteric()` 返回失败，进化方法不回滚。宠物面板的普通“超进化”按钮另有 `level >= 50` 且必须为指定物种形态 3 的门禁，成功后还会把低于 8 的悟性加 1；`nianjhd` 道具绕过这些 UI 门禁和额外悟性奖励。
+
+现代实现切片应只复现以上已证实行为：精确可注入随机的三属性洗练、还童字段重置与实体重建、三阶到四阶进化及奥义槽位边界。`nianqld` 可保留为明确的“不支持/证据不足”道具反馈，不应连接到任何战斗公式，直到出现包含 `potential` 定义的可靠构建或实测证据。
+
+现代实现（`TASK-SLICE-079`）：
+
+- `PetGrowthSystem.ts` 独立承载可注入随机的三属性洗练、全已知物种一阶还童表、基础被动随三阶到四阶的差值重算、奥义槽位门禁和原版形态 1/2 空耗边界。
+- `PetConsumableSystem.ts` 已接入 `cwzzxld/wphtd/nianjhd`；`nianqld` 会明确提示原版字段/公式缺失并拒绝消耗。
+- 还童与有效进化返回运行时重建信号，场景背包桥接清除旧 `petRuntime`，后续同步按新的 `species/form` 建立实体。
+- 背包种子与物品 registry 已加入四个道具；宠物面板显示四类资质和悟性/技巧/战力，使用结果可观察。
+- 独立 `pet-growth-tests.ts` 覆盖随机取样顺序、字段保持/重置、还童物种数值、被动重算、技能满槽、形态空耗/拒绝、背包消耗门禁和运行时重建。
+
+## P2 本地双人宠物链（`TASK-SETTINGS-035`）
+
+### 所有权与运行时隔离
+
+- `Config.initData()` 始终分别创建 `player1 = new User()` 与 `player2 = new User()`；两个 `User` 构造函数各自创建独立 `petsAry`。`player1.init(0)`、`player2.init(1)` 只设置控制位，不共享宠物数据。
+- `Config.createHero()` 分别把 `player1` 注入 `hero1`、把 `player2` 注入 `hero2`。`BaseHero.start() -> initPet()` 只调用自身 `getPlayer().findCurrentPet()`，所以每名英雄只从自己的宠物表创建出战实体。
+- `BasePet(sourceRole, petInfo)` 保存所属英雄 `sourceRole`；跟随、传送、主人 buff、技能来源、联机 role id 和死亡同步都沿该英雄回溯。因此 P2 宠物必须绑定 P2 英雄，不能只给第二个视图复用 P1 runtime。
+- `Config.getPetArray()` 可同时收集 `hero1.getPet()` 和 `hero2.getPet()`，证明本地双人允许两只宠物同时存在。
+- `PetInterface` 构造参数是具体 `User`。列表、选择、放生、出战和休息都只读写 `this.player.petsAry`；`sendHeroRefreshPet()` 通过比较 `hero.getPlayer() == this.player` 只重建对应英雄的宠物，随后广播全局 `CHANGECURRENTPET` 供两个 HUD 各自刷新头像。
+
+`User.findCurrentPet(includeExpired = false)` 从自身列表末尾向前查 `isFight == 1`；默认忽略寿命为 0 的宠物，道具传 `true` 时可返回寿命耗尽但仍标记出战的宠物。现代 P1/P2 roster 都应保留“每位玩家最多一只出战”的约束，但两位玩家之间互不排斥。
+
+### 面板入口与交互
+
+| 玩家 | 快捷键数组 | 背包 | 心法 | 宠物 |
+| --- | --- | --- | --- | --- |
+| P1 | `[C, V, B, N, Esc]` | `C` | `V` | `B` |
+| P2 | `[num /, num *, num -]` | 小键盘 `/` | 小键盘 `*` | 小键盘 `-`（keyCode `109`） |
+
+`KeyBoardControl` 根据 P1/P2 的英雄取得各自 `RoleInfo`，再对该 HUD 的 `btn_cw` 派发鼠标点击。`RoleInfo.cwClick()` 创建 `new PetInterface(this.hero.getPlayer())`，所以 P2 小键盘 `-` 打开的就是 P2 `User` 面板。快捷键分支位于 `isStop` 和舞台焦点检查之前（只先过滤 `TextField`），因此同一快捷键在面板暂停游戏后可再次触发全局 `closePetInterface` 关闭。
+
+宠物列表内部没有键盘选择逻辑：每页 5 只、最多 2 页，宠物行通过鼠标 `CLICK -> plClick()` 选择；出战、休息、放生、洗练和进化也都是面板按钮。方向键属于 P2 移动，不是 P1 宠物面板键。现代测试场景当前把 P2 心法面板错误绑定到 `NUMPAD_SUBTRACT`，并用方向键操作唯一的 P1 宠物面板；P2 切片必须把心法恢复为小键盘 `*`、把小键盘 `-` 留给 P2 宠物面板，并以指针 UI 或不抢占另一玩家战斗键的等价交互替代方向键方案。
+
+原版同一时刻只展示一个暂停式宠物面板：任一 `RoleInfo.cwClick()` 在 `gc.isStopGame` 为真时只广播关闭事件，不会再打开第二个面板。现代实现可维护 `activePetPanelSlot: p1 | p2 | null`，不需要叠放两个面板。
+
+### 出战、普通经验与任务经验
+
+- `fightClick()` 只把当前 `User.findCurrentPet()` 设为休息，再把所选宠物设为出战；`restClick()` 只清当前所选宠物。P1/P2 各自可同时拥有一只出战宠物。
+- `BaseMonster.reduceHp()` 普通死亡路径不硬编码 P1/P2，而是读取当时的 `curAttackTarget`：若目标是某个 `BaseHero` 且该英雄有宠物实体，该英雄和该宠物各得 `0.6 * monster.exp`；无宠物则该英雄得完整经验；目标本身是 `BasePet` 时，该宠物得完整经验。因此路由天然沿 P2 英雄/P2 宠物工作，但源码依据是怪物当前攻击目标，不是明确的最后伤害来源。
+- `TaskInterface` 的 `exp` 奖励是确认的原版 bug：先按 P1 当前宠物/英雄发一次；随后 P2 分支仍错误调用 `player1.findCurrentPet()`。P1 有出战宠物时，同一 P1 宠物会吃到两次奖励且 P2 什么也得不到；P1 无宠物时，P1/P2 英雄各得一次，即使 P2 有宠物也不会给 P2 宠物。该旁路不是普通战斗经验规则，现代 P2 宠物切片应按每位玩家自己的 roster 修正归属，并在文档中明确这是有意修 bug，而不是把 P1 宠物共享给 P2。
+
+### 道具归属
+
+- `RoleInfo.showBackPack()` 对 P2 调用 `BackPack.setpack(2)`；背包保存 `packNum = 2`、`hero = gc.hero2`、`player = hero2.getPlayer()`。
+- 每个 `PackThings.setObj(item, who)` 保存 `who`，所有宠物道具通过 `gc["player" + who]` 和 `gc["hero" + who]` 路由。P2 使用 `djyys/cwjnxld/cwzzxld/wphtd/nianqld/nianjhd/wphhd/wpcsd` 时只读取或修改 P2 当前宠物；需要重建实体时通过玩家对象相等判断调用 `hero2.changePet()`。
+- 因此现代实现不能让 P2 的宠物道具从 P1 roster 取目标。P2 背包能力尚未实现时，应先保持入口不可用或拆成后续切片，不能静默作用于 P1。
+
+### 宣花葫芦捕捉归属
+
+- P2 装备 `xhhl` 后，`BaseHero.initMagicWeapon()` 创建 `MagicBottle(hero2)`；小键盘 `7` 由 P2 法宝输入触发。
+- 捕捉扣除 `sourceRole.getPlayer()` 的 5000 灵魂，并调用同一个玩家的 `catchNewPet()`。因此 P2 捕捉必然进入 `player2.petsAry`，不会进入 P1 列表。
+- `MagicBottle.step()` 只要求 `gc.isSingleGame()`；本地双人仍处于 `nodeFloor == 0`，所以 P2 捕捉可用。联机房间不走该捕捉分支，继续后置。
+
+### P2 存档与重建顺序
+
+- `MemoryClass.setStorage()` 保存顶层 `playerNum`；P1/P2 角色存在时分别写 `player1_obj = player1.getSaveObj()`、`player2_obj = player2.getSaveObj()`。
+- 每个 `User.getSaveObj()` 都把自身 `petsAry` 编为独立 `petSave`，单只宠物仍使用同一 26 字段格式，包含 `isFight` 和技能串。
+- 读取时先分别调用 `player1.setSaveObj(player1_obj)`、`player2.setSaveObj(player2_obj)`，各自 `savePetSaveString()` 重建自己的 `PetInfo` 列表；之后 `Config.createHero()` 注入对应 `User`，`hero.start() -> initPet()` 根据各自 `isFight` 创建实体。
+- 原版 `getPetSaveString()` 正序写出，但 `savePetSaveString()` 从分割数组末尾向前 `push()`，所以列表顺序每次读档会反转；出战标记仍跟随宠物字段。现代版应保持稳定列表顺序，不复刻该 UI 排序 bug。
+- 当前现代 `SaveSystemV1` 只有 `player1.pets/selectedPetIndex`，尚未保存 P2。P2 实现必须升级 schema 或提供兼容迁移：旧 v1 存档读取为 P2 空 roster，新版本分别保存两位玩家的宠物列表、选中索引和单只出战约束；冷却/Buff 仍不持久化。
+
+### 现代任务拆分建议
+
+首个切片只建立 P2 所有权骨架：两套 roster、两套 runtime、各自跟随主人、P1 `B`/P2 小键盘 `-` 打开带 owner 标识的单实例面板，并修正 P2 心法键冲突。面板选择/出战必须作用于打开面板的玩家；系统测试证明 P1/P2 可同时出战且互不改写。
+
+后续再分别接入：
+
+1. P2 宠物技能、受击触发、主人 buff 和普通击杀经验的 owner 路由。
+2. P2 背包宠物道具、宣花葫芦捕捉和版本化双玩家存档。
+3. 任务奖励经验按玩家独立修正；等现代任务系统存在时接入，不复制原版双发给 P1 宠物的 bug。
+
 ## 掉落边界
 
 `TASK-SETTINGS-017` 已确认 `Monster2001` 中的 `cwzb/p_cykljl` 不是可用的宠物入包链路：
@@ -673,6 +877,78 @@
 现代实现不应新增 `DropBigType = "cwzb"` 来伪装宠物掉落。宠物消耗品可作为普通道具进入背包；宠物本体获得应走独立 `PetInfo`/宠物仓库入口。
 
 ## 最小现代模型建议
+
+**注意**：AS3 数值基数 `hy.first = 2×atk`、`sxhz.first = 4×atk`、`hsqj.first = 6×atk` 等来自 `PetInfo.getPetHarmObj()`，均已确认。凤凰 `phoenix1..4`、兔 `rabbit1..4`、鼠 `mouse1..4` 的专属技能链见下方新增章节。
+
+## 凤凰 `phoenix1..4` 专属技能链（`TASK-SETTINGS-033` 部分逆向）
+
+`BaseHero.addPetByPi()` 按 `phoenix1..4` 分别创建 `PetPhoenix1..4`。`PetInfo` 中文名：`phoenix1 = 雀蛋`、`phoenix2 = 炎皇雀`、`phoenix3 = 朱雀将军`、`phoenix4 = 朱雀女皇`。`PetInfo.rePetSkill()` 候选池：`phoenix1: np`、`phoenix2: np/bshn`、`phoenix3: np/bshn/dhly`、`phoenix4: np/bshn/dhly/zqaoyi`。
+
+技能中文名来自 `PetInfo.getIntroByName()`：`np = 涅槃`（HP ≤ 20% 化成朱雀丹满血复活）、`bshn = 不死火鸟`（前方伤害）、`dhly = 地火燎原`（周围大伤害）、`zqaoyi = 朱雀奥义`。
+
+AS3 数据来自 `PetPhoenix1..4.as`（主参考包 172845）：
+
+| 类 | 技能 | 条件 | 动作/伤害或状态 |
+| --- | --- | --- | --- |
+| `PetPhoenix1..4` | skill1 `np` | 已学 `np`、MP `>= 20`、HP ≤ 20%、不在 `hit2` 中 | `hit2`，扣 20 MP，持续约 120 帧（AS3 30fps 等价 ~4s）；期间免疫受击（`setAction("hurt")` 被拒绝）、受到伤害降至 1/3；结束时 `setHp(getSHp())` 满血复活并生成 `FollowBaseObjectBullet("PetPhoenix1Bullet2_2")`；`hit2` 直接伤害 = 0 |
+| `PetPhoenix2..4` | skill2 `bshn` | 已学 `bshn`、MP `>= 20`、目标距离 `≤400` | `hit3`，扣 20 MP，`SpecialEffectBullet("PetPhoenix2Bullet3")`，魔法命中，击退 `[10,-5]`、间隔 5；按 `3.6 × pet.atk + fsnl` 接入 `sxkb` |
+| `PetPhoenix3..4` | skill3 `dhly` | 已学 `dhly`、MP `>= 20`、存在目标 | `hit4`，扣 20 MP，`SpecialEffectBullet`（待确认 projectile 名），魔法，按 `7.4 × pet.atk + fsnl` 接入 `sxkb` |
+| `PetPhoenix4` | skill4 `zqaoyi` | 已学 `zqaoyi`、MP `>= 30`、存在目标 | 扣 30 MP，`hit5`；朱雀奥义：启动时若已学 `np` 给 `hit3/4/5` 附加 `PETMONKEY_FIRE` 灼烧效果；奥义本体直接伤害保持 0（`getPetHarmObj("zqaoyi").first = 0`） |
+
+CD 参数（`skillCDN = [初始帧, 间隔帧]`，`gc.frameClips = 30`）：
+
+| 形态 | CD1 `np` | CD2 `bshn` | CD3 `dhly` | CD4 `zqaoyi` |
+| --- | --- | --- | --- | --- |
+| phoenix1 | `[60, 90]` ≈ 2s/3s | — | — | — |
+| phoenix2 | `[60, 90]` ≈ 2s/3s | `[90, 150]` ≈ 3s/5s | — | — |
+| phoenix3 | `[60, 90]` ≈ 2s/3s | `[90, 150]` ≈ 3s/5s | `[120, 240]` ≈ 4s/8s | — |
+| phoenix4 | `[60, 90]` ≈ 2s/3s | `[90, 150]` ≈ 3s/5s | `[120, 240]` ≈ 4s/8s | `[450, 720]` ≈ 15s/24s |
+
+资源键：本体 `PetPhoenixBmd1..4`；弹体 `PetPhoenix1Bullet1`、`PetPhoenix1Bullet2_1`、`PetPhoenix1Bullet2_2`、`PetPhoenix2Bullet3`。
+
+凤凰现代最小切片建议：
+
+| 优先级 | 切片 | 理由与边界 |
+| --- | --- | --- |
+| 1 | `phoenix1/np` | 特殊触发技能（HP ≤ 20% 自动涅槃），不同于其他宠物的主动/被动模式 |
+| 2 | `phoenix2/bshn` | 主动伤害，模式与 `tigress1/hy` 类似 |
+| 3 | `phoenix3/dhly` | 范围大伤害 |
+| 4 | `phoenix4/zqaoyi` | 朱雀奥义组合 |
+
+## 兔 `rabbit1..4` 专属技能链（`TASK-SETTINGS-033` 部分逆向）
+
+`BaseHero.addPetByPi()` 按 `rabbit1..4` 创建 `PetRabbit1..4`。`PetInfo` 中文名：`rabbit1 = 月兔`、`rabbit2 = 疾风兔`、`rabbit3 = 寒冰玉兔`、`rabbit4 = 冰霜月神`。`PetInfo.rePetSkill()` 候选池：`rabbit1: yg`、`rabbit2: yg/jf`、`rabbit3: yg/jf/bs`、`rabbit4: yg/jf/bs/ysaoyi`。
+
+技能中文名：`yg = 月光`（攻击概率落月光）、`jf = 疾风`（提高普攻频率和闪避）、`bs = 冰霜`（空中狙击附带冰冻）、`ysaoyi = 月神奥义`（制造明月增加月光触发+持续回复玉兔和主人生命）。
+
+| 类 | 技能 | 条件 | 动作/伤害 |
+| --- | --- | --- | --- |
+| `PetRabbit1` | skill1 `yg` | 已学 `yg` | 被动：普攻 `EnemyMoveBullet("PetPetRabbitBullet1")` 命中时概率触发 `SpecialEffectBullet("Monster130Bullet2")` 额外月光打击；按 `3.6 × pet.atk`，MP 消耗 = 0 |
+| `PetRabbit2..4` | skill1 `jf` | 已学 `jf`、MP `>= 20` | 自身 buff：`SpecialEffectBullet("PetPetRabbitBulletBuff")` 提升普攻频率和闪避；`getPetHarmObj("jf").first = 0`（无直接伤害） |
+| `PetRabbit3..4` | skill2 `bs` | 已学 `bs`、MP `>= 20`、存在目标 | `SpecialEffectBullet("PetPetRabbitBullet4")` + 冰冻效果；按 `8 × pet.atk + fsnl` |
+| `PetRabbit4` | skill3 `ysaoyi` | 已学 `ysaoyi`、MP 足够 | 月神奥义：创建明月领域，增加月光触发概率，持续回复玉兔和主人生命；本体伤害 = 0 |
+
+CD：`skillCD1 = [60, 198]` ≈ 2s/6.6s，`skillCD2 = [120, 243]` ≈ 4s/8.1s，`skillCD3 = [300, 360]` ≈ 10s/12s。
+
+资源键：本体 `PetPetRabbitBmd1..4`；弹体 `PetPetRabbitBullet1`、`PetPetRabbitBulletBuff`、`PetPetRabbitBullet4`、`Monster130Bullet2`。
+
+## 鼠 `mouse1..4` 专属技能链（`TASK-SETTINGS-033` 部分逆向）
+
+`BaseHero.addPetByPi()` 按 `mouse1..4` 创建 `PetMouse1..4`。`PetInfo` 中文名：`mouse1 = 子鼠元帅`、`mouse2 = ?`、`mouse3 = ?`、`mouse4 = ?`（待确认）。`PetInfo.rePetSkill()` 候选池：`mouse1..3: sc`、`mouse4: sc/hxfb/zsaoyi`。
+
+`PetMouse2` 和 `PetMouse3` 是 `PetMouse1` 的空子类（无新增行为）。`PetMouse4` 继承 `PetMouse1` 并扩展 `hxfb` 和 `zsaoyi`。
+
+技能中文名：`sc = 鼠窜`（冲撞撕咬）、`hxfb = 回旋飞镖`（三叉飞镖回旋）、`zsaoyi = 紫鼠奥义`。
+
+| 类 | 技能 | 条件 | 动作/伤害 |
+| --- | --- | --- | --- |
+| `PetMouse1..4` | skill1 `sc` | 已学 `sc`、MP `>= 15`、存在目标 | 扣 15 MP；`SpecialEffectBullet("PetMouse1Bullet1")` + `SpecialEffectBullet("PetMouse1Bullet2")`（命中时概率重新触发 `sc`）；按 `1.3 × 2.2 × pet.atk ≈ 2.86×atk + fsnl`，接入 `sxkb` |
+| `PetMouse4` | skill2 `hxfb` | 已学 `hxfb`、MP `>= 20`、存在目标 | 扣 20 MP；三枚 `PetMouse4Bullet3("PetMouse1Bullet3")` 飞镖，按 `0.69 × 5 × pet.atk ≈ 3.45×atk + fsnl` |
+| `PetMouse4` | skill3 `zsaoyi` | 已学 `zsaoyi`、MP `>= 30`、存在目标 | 扣 30 MP；紫鼠奥义：启动后 `_aoyiStep` 计数器递增，第 4 步免蓝释放 `sc`，第 6+ 步免蓝释放 `hxfb`，步 > 7 后重置；本体伤害 = 0 |
+
+CD（mouse4）：`skillCD1 = [120, 180]` ≈ 4s/6s，`skillCD2 = [120, 210]` ≈ 4s/7s，`skillCD3 = [240, 480]` ≈ 8s/16s。mouse1 的 CD1 = `[120, 300]` ≈ 4s/10s。
+
+资源键：本体 `PetMouseBmd1..4`（待确认）；弹体 `PetMouse1Bullet1`、`PetMouse1Bullet2`、`PetMouse1Bullet3`（`PetMouse4Bullet3` 类）。
 
 首个可玩宠物切片已完成出战和跟随。后续捕捉切片可继续复用这个保守模型：
 

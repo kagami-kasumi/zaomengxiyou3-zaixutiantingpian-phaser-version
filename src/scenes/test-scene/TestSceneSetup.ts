@@ -19,12 +19,12 @@ import {
   getSkillTreeForHero,
   getTotalLearnedSkillCount,
   MAX_TREE_LEVEL,
+  InventoryOwnerKeyCodes,
+  PetUiKeyCodes,
   SKILL_LEARN_LIMIT,
   SkillSlotKeyLabels,
-  syncMagicWeaponFromLoadout,
   TREE_UPGRADE_COSTS,
   type CapturablePetTarget,
-  type EquipmentInstance,
   type HeroId,
   type HeroSkillLearningState,
   type PlayerSlot,
@@ -53,11 +53,6 @@ type InventoryPanelView = {
   text: Phaser.GameObjects.Text;
 };
 
-type PetPanelView = {
-  container: Phaser.GameObjects.Container;
-  bg: Phaser.GameObjects.Graphics;
-  text: Phaser.GameObjects.Text;
-};
 export function createStage(this: any): void {
     const { worldWidth, worldHeight } = defaultClimbTuning;
     this.add.rectangle(
@@ -212,22 +207,6 @@ export function createPlayerView(this: any,
     return { slot, sprite, label, combat, normalAttack, skill, baseStats, progression };
   }
 
-export function equipDefaultMagicWeapon(this: any): void {
-    const definition = this.equipmentRegistry.xhhl;
-    if (!definition) {
-      return;
-    }
-
-    const equipped: EquipmentInstance = {
-      kind: 'equipment',
-      instanceId: 'seed-equipped-xhhl',
-      definition,
-      quantity: 1,
-    };
-    this.equipmentLoadout.magicWeapon = equipped;
-    syncMagicWeaponFromLoadout(this.magicWeapon, this.equipmentLoadout);
-  }
-
 export function createHeroDebugKeys(this: any): void {
     const keyboard = this.input.keyboard;
     if (!keyboard) {
@@ -259,7 +238,7 @@ export function createSkillUIKeys(this: any): void {
     }
 
     this.p1SkillPanelKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
-    this.p2SkillPanelKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SUBTRACT);
+    this.p2SkillPanelKey = keyboard.addKey(PetUiKeyCodes.p2SkillPanel);
     this.p1LoadoutCycleKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
     this.p2LoadoutCycleKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ADD);
     this.panelTabKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
@@ -283,7 +262,8 @@ export function createInventoryUIKeys(this: any): void {
       return;
     }
 
-    this.inventoryToggleKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+    this.inventoryToggleKey = keyboard.addKey(InventoryOwnerKeyCodes.p1Panel);
+    this.p2InventoryToggleKey = keyboard.addKey(InventoryOwnerKeyCodes.p2Panel);
     this.inventoryTabKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
     this.inventoryUpKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     this.inventoryDownKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -293,18 +273,6 @@ export function createInventoryUIKeys(this: any): void {
     this.inventoryBackspaceKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
     this.inventoryDeleteKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DELETE);
     this.inventoryMagicWeaponUpgradeKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
-  }
-
-export function createPetUIKeys(this: any): void {
-    const keyboard = this.input.keyboard;
-    if (!keyboard) {
-      return;
-    }
-
-    this.petPanelToggleKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
-    this.petPanelUpKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    this.petPanelDownKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    this.petPanelConfirmKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
   }
 
 export function createDebugKeys(this: any): void {
@@ -332,28 +300,6 @@ export function createInventoryPanel(this: any): InventoryPanelView {
       fontFamily: 'Courier New, monospace',
       fontSize: '12px',
       lineSpacing: 3,
-    });
-    container.add(text);
-
-    return { container, bg, text };
-  }
-
-export function createPetPanel(this: any): PetPanelView {
-    const container = this.add.container(0, 0);
-    container.setVisible(false);
-
-    const bg = this.add.graphics();
-    bg.fillStyle(0x101724, 0.96);
-    bg.fillRoundedRect(600, 54, 316, 330, 8);
-    bg.lineStyle(1, 0xf2c14e, 0.85);
-    bg.strokeRoundedRect(600, 54, 316, 330, 8);
-    container.add(bg);
-
-    const text = this.add.text(616, 68, '', {
-      color: '#dfe8f5',
-      fontFamily: 'Courier New, monospace',
-      fontSize: '12px',
-      lineSpacing: 4,
     });
     container.add(text);
 

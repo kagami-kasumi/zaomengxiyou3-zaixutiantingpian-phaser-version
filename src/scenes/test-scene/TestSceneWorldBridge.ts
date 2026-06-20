@@ -7,6 +7,7 @@ import {
   applyMonster30Hit,
   applyMonster30MagicSnowIce,
   applyMonster30MagicZlHummerStun,
+  applyMonster30PetBurn,
   createDamageEvent,
   createMonster30,
   defaultClimbTuning,
@@ -21,7 +22,8 @@ import {
   isBossZoneTriggered,
   isHeroCombatDead,
   isHeroInvulnerable,
-  markActivePetSkillTriggered,
+  claimMonsterExperienceForCurrentTarget,
+  markOwnedPetSkillTriggered,
   markBossTriggered,
   markStopPointWaveSpawned,
   maybeSpawnMedicineDrop,
@@ -85,18 +87,16 @@ type CapturablePetTargetView = {
   feedback: Phaser.GameObjects.Text;
 };
 
-type MagicBottleEffectView = {
-  root: Phaser.GameObjects.Container;
-  body: Phaser.GameObjects.Ellipse;
-  glow: Phaser.GameObjects.Ellipse;
-  label: Phaser.GameObjects.Text;
-};
 export function updateMonster30s(this: any, delta: number): void {
     const targets = this.getMonsterTargets();
     const surviving: Monster30Model[] = [];
 
     for (const monster of this.monster30s) {
       updateMonster30(monster, targets, delta);
+      if (monster.hp <= 0) {
+        const award = claimMonsterExperienceForCurrentTarget(monster);
+        if (award) this.awardMonsterExperience(award.ownerSlot, award.experience);
+      }
       if (monster.state !== 'removed') {
         surviving.push(monster);
       } else {
@@ -122,14 +122,15 @@ export function applySingleMonster30Attack(this: any, monster: Monster30Model, t
     const result = applyMonster30AttackToPlayers({
       monster,
       players: this.getPlayers(),
-      petRoster: this.petRoster,
+      petRosters: this.playerPetRosters,
       hitRegistry: this.hitRegistry,
       renderedMonsterAttackIds: this.renderedMonsterAttackIds,
       time,
     });
-    if (result.damageEvents.some((event) => event.targetId === 'p1')) {
-      markActivePetSkillTriggered(this.petRoster);
-      this.tryPetQlfjCounterAttack(monster, time);
+    for (const slot of ['p1', 'p2'] as const) {
+      if (!result.damageEvents.some((event) => event.targetId === slot)) continue;
+      markOwnedPetSkillTriggered(this.playerPetRosters, slot);
+      this.tryPetQlfjCounterAttack(monster, time, slot);
     }
     this.applyCombatBridgeResult(
       result,
@@ -137,10 +138,11 @@ export function applySingleMonster30Attack(this: any, monster: Monster30Model, t
       0xff6b6b,
     );
   }
-export function tryPetQlfjCounterAttack(this: any, monster: Monster30Model, time: number): void {
+export function tryPetQlfjCounterAttack(this: any, monster: Monster30Model, time: number, slot: 'p1' | 'p2' = 'p1'): void {
+    const roster = this.playerPetRosters[slot];
     const result = requestPetQlfjCounterAttack({
-      roster: this.petRoster,
-      runtime: this.petRuntime,
+      roster,
+      runtime: slot === 'p1' ? this.petRuntime : this.p2PetRuntime,
       targets: [{
         id: monster.id,
         x: monster.x,
@@ -171,6 +173,10 @@ export function tryPetQlfjCounterAttack(this: any, monster: Monster30Model, time
         time,
         0xffd166,
       ));
+      if (monster.hp <= 0) {
+        const award = claimMonsterExperienceForCurrentTarget(monster, slot);
+        if (award) this.awardMonsterExperience(award.ownerSlot, award.experience);
+      }
     }
   }
 
@@ -260,46 +266,6 @@ export function syncCapturablePetTargetView(this: any,
     view.body.setScale(1 + Math.sin(this.time.now * 0.005) * 0.03);
     view.label.setText(`${target.monsterId} Lv.${target.level}`);
     view.feedback.setText(target.feedback);
-  }
-
-export function updateMagicBottleEffectView(this: any): void {
-    const effect = this.magicBottle.effect;
-    if (!effect) {
-      if (this.magicBottleEffectView) {
-        this.magicBottleEffectView.root.destroy(true);
-        this.magicBottleEffectView = undefined;
-      }
-      return;
-    }
-
-    if (!this.magicBottleEffectView) {
-      this.magicBottleEffectView = this.createMagicBottleEffectView();
-    }
-
-    const view = this.magicBottleEffectView;
-    const progress = Math.min(effect.ageMs / 2_000, 1);
-    view.root.setPosition(effect.x, effect.y);
-    view.root.setScale(effect.facingX, 1);
-    view.root.setAlpha(0.9 - progress * 0.45);
-    view.body.setSize(effect.width, effect.height);
-    view.glow.setScale(1 + Math.sin(effect.ageMs * 0.018) * 0.08);
-  }
-
-export function createMagicBottleEffectView(this: any): MagicBottleEffectView {
-    const root = this.add.container(0, 0);
-    const body = this.add.ellipse(0, 0, 112, 86, 0x7ee7ff, 0.18);
-    const glow = this.add.ellipse(0, 0, 58, 44, 0xf2c14e, 0.32);
-    const label = this.add.text(-58, -66, 'MagicBottleEffect3', {
-      color: '#dff7ef',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '12px',
-    });
-
-    body.setStrokeStyle(2, 0x7ee7ff, 0.95);
-    glow.setStrokeStyle(1, 0xf2c14e, 0.75);
-    root.add([body, glow, label]);
-    root.setDepth(63);
-    return { root, body, glow, label };
   }
 
 export function updateVerticalClimbLogic(this: any,
@@ -659,16 +625,25 @@ export function applyProjectileHits(this: any, time: number): void {
               totalMs: projectile.magicIceMs,
             });
           }
-          if (isPlayerSlot(projectile.sourceId)) {
+          if (projectile.petBurnMs && projectile.petBurnDamage !== undefined) {
+            applyMonster30PetBurn(monster, {
+              sourceName: projectile.runtimeName,
+              totalMs: projectile.petBurnMs,
+              damagePerSecond: projectile.petBurnDamage,
+            });
+          }
+          const playerProjectileOwner = isPlayerSlot(projectile.sourceId)
+            ? projectile.sourceId
+            : undefined;
+          if (playerProjectileOwner) {
             this.monster30AuraTargets.set(monster.id, projectile.sourceId);
-            if (
-              monster.hp <= 0 &&
-              !monster.experienceAwardedTo &&
-              monster.experience > 0
-            ) {
-              monster.experienceAwardedTo = projectile.sourceId;
-              this.awardMonsterExperience(projectile.sourceId, monster.experience);
-            }
+          }
+          if (monster.hp <= 0) {
+            const award = claimMonsterExperienceForCurrentTarget(
+              monster,
+              playerProjectileOwner,
+            );
+            if (award) this.awardMonsterExperience(award.ownerSlot, award.experience);
           }
           this.lastDamageEvent = damageEvent;
           recordProjectileHit(projectile);

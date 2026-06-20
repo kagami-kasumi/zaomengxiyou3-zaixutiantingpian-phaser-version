@@ -65,21 +65,14 @@ import {
 } from './test-scene/TestSceneSystems';
 import {
   calculateEffectiveStats,
-  createEmptyEquipmentLoadout,
   createSeedEquipmentRegistry,
   HeroNamesById,
   type EquipmentDefinition,
   type EquipmentLoadout,
   type HeroBaseStats,
 } from './test-scene/TestSceneSystems';
-import {
-  createSeedInventoryStore,
-  type InventoryStore,
-} from './test-scene/TestSceneSystems';
-import {
-  createInventoryUIState,
-  type InventoryUIState,
-} from './test-scene/TestSceneSystems';
+import { type InventoryStore } from './test-scene/TestSceneSystems';
+import { type InventoryUIState } from './test-scene/TestSceneSystems';
 import {
   createDropSystem,
   getWorldDrops,
@@ -87,20 +80,22 @@ import {
   type DropSystemModel,
 } from './test-scene/TestSceneSystems';
 import {
-  awardMonsterExperienceWithCurrentPet,
-  createMagicBottleCaptureModel,
-  createSeedPetRoster,
+  awardMonsterExperienceByTarget,
+  createPetPanelSession,
+  createPlayerPetRosters,
   getActivePet,
   type CapturablePetTarget,
   type MagicBottleCaptureModel,
   type MonsterExperienceShareResult,
   type PetRoster,
+  type PetPanelSession,
+  type PlayerPetRosters,
   type PetRuntimeModel,
 } from './test-scene/TestSceneSystems';
+import { formatMagicWeaponState, type MagicWeaponModel } from './test-scene/TestSceneSystems';
 import {
-  createMagicWeaponModel,
-  formatMagicWeaponState,
-  type MagicWeaponModel,
+  createPlayerInventoryRuntimes,
+  type PlayerInventoryRuntimes,
 } from './test-scene/TestSceneSystems';
 import {
   addHeroExperience,
@@ -155,6 +150,8 @@ import {
 import {
   handleInventoryUIKeys as handleInventoryUIKeysImpl,
   handlePetUIKeys as handlePetUIKeysImpl,
+  selectPetFromPanel as selectPetFromPanelImpl,
+  togglePetFromPanel as togglePetFromPanelImpl,
   handleSkillUIForPlayer as handleSkillUIForPlayerImpl,
   handleSkillUIKeys as handleSkillUIKeysImpl,
   tryUseSelectedPetConsumable as tryUseSelectedPetConsumableImpl,
@@ -162,6 +159,12 @@ import {
   updatePetPanel as updatePetPanelImpl,
   upgradeCurrentMagicWeapon as upgradeCurrentMagicWeaponImpl,
 } from './test-scene/TestSceneUIHandlers';
+import {
+  createPetPanel as createPetPanelImpl,
+  createPetUIKeys as createPetUIKeysImpl,
+  type PetPanelView,
+} from './test-scene/TestScenePetPanelBridge';
+import { updateP2PetSystem as updateP2PetSystemImpl } from './test-scene/TestSceneP2PetBridge';
 import {
   activateBossFight as activateBossFightImpl,
   applyBossAttack as applyBossAttackImpl,
@@ -176,18 +179,26 @@ import {
 import {
   createFallbackMagicWeaponTarget as createFallbackMagicWeaponTargetImpl,
   createMagicWeaponEnemyTargets as createMagicWeaponEnemyTargetsImpl,
-  createPetSkillTargets as createPetSkillTargetsImpl,
-  destroyPetView as destroyPetViewImpl,
   getActiveMagicWeaponPets as getActiveMagicWeaponPetsImpl,
   getActiveMovementPlatforms as getActiveMovementPlatformsImpl,
   getOrCreateMagicWeaponPlatformView as getOrCreateMagicWeaponPlatformViewImpl,
   syncMagicWeaponPlatformView as syncMagicWeaponPlatformViewImpl,
   syncMagicWeaponPlatformViews as syncMagicWeaponPlatformViewsImpl,
-  syncPetView as syncPetViewImpl,
-  updateMagicBottleCapture as updateMagicBottleCaptureImpl,
-  updateMagicWeapon as updateMagicWeaponImpl,
   updatePetSystem as updatePetSystemImpl,
 } from './test-scene/TestScenePetMagicBridge';
+import {
+  updateMagicBottleCapture as updateMagicBottleCaptureImpl,
+  updateMagicWeapon as updateMagicWeaponImpl,
+} from './test-scene/TestSceneMagicOwnershipBridge';
+import {
+  createPetSkillTargets as createPetSkillTargetsImpl,
+  destroyPetView as destroyPetViewImpl,
+  syncPetView as syncPetViewImpl,
+} from './test-scene/TestScenePetViewBridge';
+import {
+  initializeSceneSave as initializeSceneSaveImpl,
+  updateSceneSave as updateSceneSaveImpl,
+} from './test-scene/TestSceneSaveBridge';
 import {
   buildSkillPanelLines as buildSkillPanelLinesImpl,
   createCapturablePetTargets as createCapturablePetTargetsImpl,
@@ -197,15 +208,12 @@ import {
   createHeroDebugKeys as createHeroDebugKeysImpl,
   createInventoryPanel as createInventoryPanelImpl,
   createInventoryUIKeys as createInventoryUIKeysImpl,
-  createPetPanel as createPetPanelImpl,
-  createPetUIKeys as createPetUIKeysImpl,
   createPlayerMarkers as createPlayerMarkersImpl,
   createPlayerView as createPlayerViewImpl,
   createSkillBar as createSkillBarImpl,
   createSkillPanel as createSkillPanelImpl,
   createSkillUIKeys as createSkillUIKeysImpl,
   createStage as createStageImpl,
-  equipDefaultMagicWeapon as equipDefaultMagicWeaponImpl,
   updateSkillBar as updateSkillBarImpl,
   updateSkillBars as updateSkillBarsImpl,
   updateSkillPanel as updateSkillPanelImpl,
@@ -221,7 +229,6 @@ import {
   createAuraTargetSnapshots as createAuraTargetSnapshotsImpl,
   createCapturablePetTargetView as createCapturablePetTargetViewImpl,
   createCurrentDropContext as createCurrentDropContextImpl,
-  createMagicBottleEffectView as createMagicBottleEffectViewImpl,
   destroyMonsterView as destroyMonsterViewImpl,
   finalizeCameraPosition as finalizeCameraPositionImpl,
   findDropSettleY as findDropSettleYImpl,
@@ -248,12 +255,16 @@ import {
   updateCapturablePetTargetViews as updateCapturablePetTargetViewsImpl,
   updateCloudVisuals as updateCloudVisualsImpl,
   updateDropViews as updateDropViewsImpl,
-  updateMagicBottleEffectView as updateMagicBottleEffectViewImpl,
   updateMonster30s as updateMonster30sImpl,
   updatePlayerCombatVisual as updatePlayerCombatVisualImpl,
   updateProjectileEffectViews as updateProjectileEffectViewsImpl,
   updateVerticalClimbLogic as updateVerticalClimbLogicImpl,
 } from './test-scene/TestSceneWorldBridge';
+import {
+  createMagicBottleEffectView as createMagicBottleEffectViewImpl,
+  updateMagicBottleEffectViews as updateMagicBottleEffectViewImpl,
+  type MagicBottleEffectView,
+} from './test-scene/TestSceneMagicBottleViewBridge';
 
 type PlayerView = {
   slot: PlayerSlot;
@@ -289,12 +300,6 @@ type InventoryPanelView = {
   text: Phaser.GameObjects.Text;
 };
 
-type PetPanelView = {
-  container: Phaser.GameObjects.Container;
-  bg: Phaser.GameObjects.Graphics;
-  text: Phaser.GameObjects.Text;
-};
-
 type CapturablePetTargetView = {
   root: Phaser.GameObjects.Container;
   body: Phaser.GameObjects.Ellipse;
@@ -303,12 +308,6 @@ type CapturablePetTargetView = {
   feedback: Phaser.GameObjects.Text;
 };
 
-type MagicBottleEffectView = {
-  root: Phaser.GameObjects.Container;
-  body: Phaser.GameObjects.Ellipse;
-  glow: Phaser.GameObjects.Ellipse;
-  label: Phaser.GameObjects.Text;
-};
 
 type MagicWeaponPlatformView = {
   root: Phaser.GameObjects.Container;
@@ -354,6 +353,7 @@ export class TestScene extends Phaser.Scene {
   public panelPassiveKey?: Phaser.Input.Keyboard.Key;
   public panelSkillSelectKeys?: Phaser.Input.Keyboard.Key[];
   public inventoryToggleKey?: Phaser.Input.Keyboard.Key;
+  public p2InventoryToggleKey?: Phaser.Input.Keyboard.Key;
   public inventoryTabKey?: Phaser.Input.Keyboard.Key;
   public inventoryUpKey?: Phaser.Input.Keyboard.Key;
   public inventoryDownKey?: Phaser.Input.Keyboard.Key;
@@ -364,9 +364,7 @@ export class TestScene extends Phaser.Scene {
   public inventoryDeleteKey?: Phaser.Input.Keyboard.Key;
   public inventoryMagicWeaponUpgradeKey?: Phaser.Input.Keyboard.Key;
   public petPanelToggleKey?: Phaser.Input.Keyboard.Key;
-  public petPanelUpKey?: Phaser.Input.Keyboard.Key;
-  public petPanelDownKey?: Phaser.Input.Keyboard.Key;
-  public petPanelConfirmKey?: Phaser.Input.Keyboard.Key;
+  public p2PetPanelToggleKey?: Phaser.Input.Keyboard.Key;
   public debugKeys?: TestSceneDebugKeys;
   private p1SkillUI: SkillUIState = createSkillUIState();
   private p2SkillUI: SkillUIState = createSkillUIState();
@@ -384,21 +382,26 @@ export class TestScene extends Phaser.Scene {
   public arenaWasActive = false;
   public bossSpawnedOnce = false;
   private equipmentRegistry: Record<string, EquipmentDefinition> = createSeedEquipmentRegistry();
-  public inventoryStore: InventoryStore = createSeedInventoryStore(this.equipmentRegistry);
-  private equipmentLoadout: EquipmentLoadout = createEmptyEquipmentLoadout();
-  private emptyEquipmentLoadout: EquipmentLoadout = createEmptyEquipmentLoadout();
-  private inventoryUI: InventoryUIState = createInventoryUIState();
+  public playerInventoryRuntimes: PlayerInventoryRuntimes = createPlayerInventoryRuntimes(this.equipmentRegistry);
+  public inventoryOwner: PlayerSlot = 'p1';
+  public inventoryStore: InventoryStore = this.playerInventoryRuntimes.p1.store;
+  private inventoryUI: InventoryUIState = this.playerInventoryRuntimes.p1.ui;
   private inventoryPanel?: InventoryPanelView;
-  private magicWeapon: MagicWeaponModel = createMagicWeaponModel();
-  private magicWeaponSoul = 5_000;
-  private petRoster: PetRoster = createSeedPetRoster();
-  private magicBottle: MagicBottleCaptureModel = createMagicBottleCaptureModel();
+  private magicWeapon: MagicWeaponModel = this.playerInventoryRuntimes.p1.magicWeapon;
+  private magicWeaponSoul = this.playerInventoryRuntimes.p1.magicWeaponSoul;
+  private playerPetRosters: PlayerPetRosters = createPlayerPetRosters();
+  private petRoster: PetRoster = this.playerPetRosters.p1;
+  public p2PetRoster: PetRoster = this.playerPetRosters.p2;
+  private magicBottle: MagicBottleCaptureModel = this.playerInventoryRuntimes.p1.magicBottle;
   private capturablePetTargets: CapturablePetTarget[] = [];
   public capturablePetTargetViews = new Map<string, CapturablePetTargetView>();
-  public magicBottleEffectView?: MagicBottleEffectView;
+  public magicBottleEffectViews = new Map<PlayerSlot, MagicBottleEffectView>();
   private petPanelOpen = false;
+  public petPanelSession: PetPanelSession = createPetPanelSession();
   private petRuntime?: PetRuntimeModel;
+  public p2PetRuntime?: PetRuntimeModel;
   public petView?: PetView;
+  public p2PetView?: PetView;
   private petPanel?: PetPanelView;
   public magicWeaponPlatformViews = new Map<string, MagicWeaponPlatformView>();
   private updatePipeline?: TestSceneUpdatePipeline;
@@ -437,8 +440,8 @@ export class TestScene extends Phaser.Scene {
     this.createStage();
     this.createClimbingPlatforms();
     this.createClouds();
-    this.equipDefaultMagicWeapon();
     this.playerViews = this.createPlayerMarkers();
+    this.initializeSceneSave();
     this.capturablePetTargets = this.createCapturablePetTargets();
 
     this.movementPlatforms = [
@@ -579,7 +582,10 @@ export class TestScene extends Phaser.Scene {
       updateHeroMovement: (input, time, delta) => this.updateHeroMovement(input, time, delta),
       updateHeroCombatStates: (time, delta) => this.updateHeroCombatStates(time, delta),
       updateHeroNormalAttacks: (input, time) => this.updateHeroNormalAttacks(input, time),
-      updatePetSystem: (delta) => this.updatePetSystem(delta),
+      updatePetSystem: (delta) => {
+        this.updatePetSystem(delta);
+        this.updateP2PetSystem(delta);
+      },
       updateMagicWeapon: (input, delta) => this.updateMagicWeapon(input, delta),
       updateMagicBottleCapture: (input, delta) => this.updateMagicBottleCapture(input, delta),
       updateBossHitByPlayers: (time) => this.updateBossHitByPlayers(time),
@@ -608,7 +614,9 @@ export class TestScene extends Phaser.Scene {
       updateAttackFlashes: (time) => this.updateAttackFlashes(time),
       handleInventoryUIKeys: () => this.handleInventoryUIKeys(),
       handlePetUIKeys: () => this.handlePetUIKeys(),
-      canHandleSkillUI: () => !this.inventoryUI.isOpen && !this.petPanelOpen,
+      canHandleSkillUI: () => !this.playerInventoryRuntimes.p1.ui.isOpen
+        && !this.playerInventoryRuntimes.p2.ui.isOpen
+        && !this.petPanelOpen,
       handleSkillUIKeys: () => this.handleSkillUIKeys(),
       updateSkillBars: () => this.updateSkillBars(),
       updateSkillPanels: () => this.updateSkillPanels(),
@@ -617,6 +625,7 @@ export class TestScene extends Phaser.Scene {
       updateCloudVisuals: () => this.updateCloudVisuals(),
       updateInventoryPanel: () => this.updateInventoryPanel(),
       updatePetPanel: () => this.updatePetPanel(),
+      updateSaveSystem: (delta) => this.updateSceneSave(delta),
       updateStatusText: (input) => this.updateStatusText(input),
       rememberInput: (input) => {
         this.lastInput = input;
@@ -625,12 +634,13 @@ export class TestScene extends Phaser.Scene {
   }
 
   private createStage = createStageImpl;
+  private initializeSceneSave = initializeSceneSaveImpl;
+  private updateSceneSave = updateSceneSaveImpl;
   private createPlayerMarkers = createPlayerMarkersImpl;
   public createCapturablePetTargets = createCapturablePetTargetsImpl;
   private createClimbingPlatforms = createClimbingPlatformsImpl;
   private createClouds = createCloudsImpl;
   public createPlayerView = createPlayerViewImpl;
-  private equipDefaultMagicWeapon = equipDefaultMagicWeaponImpl;
   private createHeroDebugKeys = createHeroDebugKeysImpl;
   private createSkillUIKeys = createSkillUIKeysImpl;
   private createInventoryUIKeys = createInventoryUIKeysImpl;
@@ -650,6 +660,8 @@ export class TestScene extends Phaser.Scene {
   private updateInventoryPanel = updateInventoryPanelImpl;
   public upgradeCurrentMagicWeapon = upgradeCurrentMagicWeaponImpl;
   private handlePetUIKeys = handlePetUIKeysImpl;
+  public selectPetFromPanel = selectPetFromPanelImpl;
+  public togglePetFromPanel = togglePetFromPanelImpl;
   private updatePetPanel = updatePetPanelImpl;
   private handleSkillUIKeys = handleSkillUIKeysImpl;
   public handleSkillUIForPlayer = handleSkillUIForPlayerImpl;
@@ -771,6 +783,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   private updatePetSystem = updatePetSystemImpl;
+  private updateP2PetSystem = updateP2PetSystemImpl;
   private updateMagicWeapon = updateMagicWeaponImpl;
   private updateMagicBottleCapture = updateMagicBottleCaptureImpl;
   private getActiveMovementPlatforms = getActiveMovementPlatformsImpl;
@@ -970,7 +983,7 @@ export class TestScene extends Phaser.Scene {
     ]);
   }
 
-  private getInventoryPlayer(): PlayerView | undefined {
+  public getInventoryPlayer(): PlayerView | undefined {
     return this.getPlayer('p1');
   }
 
@@ -1006,8 +1019,8 @@ export class TestScene extends Phaser.Scene {
     return this.gameContext.capturablePetTargets();
   }
 
-  public getInventoryHeroName(): string {
-    const player = this.getInventoryPlayer();
+  public getInventoryHeroName(slot: PlayerSlot = 'p1'): string {
+    const player = this.getPlayer(slot);
     if (!player) {
       return HeroNamesById[2];
     }
@@ -1015,8 +1028,8 @@ export class TestScene extends Phaser.Scene {
     return HeroNamesById[player.normalAttack.heroId] ?? `R${player.normalAttack.heroId}`;
   }
 
-  public syncInventoryHeroStats(): void {
-    const player = this.getInventoryPlayer();
+  public syncInventoryHeroStats(slot: PlayerSlot = 'p1'): void {
+    const player = this.getPlayer(slot);
     if (!player) {
       return;
     }
@@ -1064,12 +1077,11 @@ export class TestScene extends Phaser.Scene {
       return undefined;
     }
 
-    const share = slot === 'p1'
-      ? awardMonsterExperienceWithCurrentPet(this.petRoster, experience)
-      : {
-          heroExperience: Math.max(0, Math.floor(experience)),
-          petExperience: 0,
-        };
+    const share = awardMonsterExperienceByTarget(
+      this.playerPetRosters,
+      { kind: 'hero', ownerSlot: slot },
+      experience,
+    );
     const result = addHeroExperience(player.progression, share.heroExperience);
     if (result.levelsGained > 0) {
       player.baseStats = result.baseStatsAfter;
@@ -1079,9 +1091,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   private getEquipmentLoadoutForPlayer(player: PlayerView): EquipmentLoadout {
-    return player.slot === 'p1'
-      ? this.equipmentLoadout
-      : this.emptyEquipmentLoadout;
+    return this.playerInventoryRuntimes[player.slot].loadout;
   }
 
   private refreshPlayerHeroView(player: PlayerView): void {

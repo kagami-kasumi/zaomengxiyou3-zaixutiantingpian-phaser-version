@@ -42,6 +42,7 @@ export type TestSceneUpdateHooks = {
   updateCloudVisuals(): void;
   updateInventoryPanel(): void;
   updatePetPanel(): void;
+  updateSaveSystem(delta: number): void;
   updateStatusText(input: InputState): void;
   rememberInput(input: InputState): void;
 };
@@ -91,6 +92,7 @@ export function createTestSceneUpdatePipeline(
       hooks.updateCloudVisuals();
       hooks.updateInventoryPanel();
       hooks.updatePetPanel();
+      hooks.updateSaveSystem(delta);
       hooks.updateStatusText(input);
       hooks.rememberInput(input);
     },

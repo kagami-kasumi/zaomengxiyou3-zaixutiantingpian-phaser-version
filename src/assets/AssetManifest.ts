@@ -78,6 +78,13 @@ export const PetSkillEffectKeys = {
   dragon3Ltwj: 'pet-skill.dragon3.ltwj',
   dragon4Qlaoyi: 'pet-skill.dragon4.qlaoyi',
   turtle1Sld: 'pet-skill.turtle1.sld',
+  turtle3Sybh: 'pet-skill.turtle3.sybh',
+  turtle4Xwaoyi: 'pet-skill.turtle4.xwaoyi',
+  ufo1Pms: 'pet-skill.ufo1.pms',
+  ufo3Kmsk: 'pet-skill.ufo3.kmsk',
+  tigressHy: 'pet-skill.tigress.hy',
+  tigressSxhz: 'pet-skill.tigress.sxhz',
+  tigressHsqj: 'pet-skill.tigress.hsqj',
 } as const;
 
 export const scaffoldAssets = {
@@ -229,8 +236,16 @@ export const sourceAssetFamilies = {
       'PetDragonBullet4',
       'PetTurtleBmd1',
       'PetTurtle1Bullet2',
+      'PetTurtleBmd3',
+      'PetTurtle3Bullet3',
+      'PetTurtleBmd4',
+      'PetTurtle4Hit5',
+      'PetKabuBmd1',
+      'PetKabu1Bullet2',
+      'PetKabuBmd3',
+      'PetKabu3Bullet4',
     ],
-    notes: 'Pet monkey xj/lj/lyq/jgaoyi, horse1/sp, horse2/bd, horse3/bz, horse4/tmaoyi, dragon1/fs, dragon2/sdcc, dragon3/ltwj, dragon4/qlaoyi, and turtle1/sld projectile families; represented by modern placeholder effects for VS-016 through VS-022 and VS-033 through VS-035.',
+    notes: 'Pet monkey xj/lj/lyq/jgaoyi, horse1/sp, horse2/bd, horse3/bz, horse4/tmaoyi, dragon1/fs, dragon2/sdcc, dragon3/ltwj, dragon4/qlaoyi, turtle1/sld, turtle3/sybh, turtle4/xwaoyi, and ufo1/pms, ufo3/kmsk projectile families; represented by modern placeholder effects for VS-016 through VS-022, VS-033 through VS-036.',
   },
   stage11: {
     status: 'missing-original',

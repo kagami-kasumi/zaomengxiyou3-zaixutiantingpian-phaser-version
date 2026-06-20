@@ -8,7 +8,6 @@ import {
   applyMonster30MagicPearlStun,
   applyMonster30MagicSnowIce,
   applyMonster30MagicZlHummerStun,
-  calculateEffectiveStats,
   clearMonster30MagicBaguaStun,
   clearMonster30MagicFlagDebuff,
   clearMonster30MagicFlowerDebuff,
@@ -21,8 +20,6 @@ import {
   getActivePet,
   isBossDead,
   isHeroCombatDead,
-  requestMagicBottleCapture,
-  requestMagicWeaponTrigger,
   requestPetDragon1FsSkill,
   requestPetDragon2SdccSkill,
   requestPetDragon3LtwjSkill,
@@ -40,23 +37,70 @@ import {
   requestPetMonkey4JgaoyiSkill,
   requestPetTurtle1SldSkill,
   requestPetTurtle2TxljSkill,
-  resolveMagicBottleCaptureHit,
-  syncMagicWeaponFromLoadout,
+  requestPetTurtle3SybhSkill,
+  requestPetTurtle4XwaoyiSkill,
+  requestPetUfo1PmsSkill,
+  requestPetUfo2SsSkill,
+  requestPetUfo3KmskSkill,
+  completePetUfo3KmskRising,
   syncPetRuntimeWithRoster,
-  updateMagicBottleCapture as updateMagicBottleCaptureModel,
-  updateMagicWeapon as updateMagicWeaponModel,
   updatePetAutoBuffs,
   updatePetRuntime,
   updatePetSkillState,
-  type InputState,
   type MagicWeaponEnemyTarget,
   type MagicWeaponPlatform,
   type MovementPlatform,
   type PetSkillTarget,
+  type PetRoster,
+  type PetRuntimeModel,
+  type PlayerSlot,
+  type ProjectileSystemModel,
 } from './TestSceneSystems';
-import { createPetView } from './TestSceneViews';
+import { updateAdvancedPetSkillChains } from './TestSceneAdvancedPetSkillBridge';
 type MagicWeaponPlatformView = { root: Phaser.GameObjects.Container; body: Phaser.GameObjects.Rectangle; glow: Phaser.GameObjects.Rectangle; label: Phaser.GameObjects.Text };
 export function updatePetSystem(this: any, delta: number): void {
+  const owner = this.getInventoryPlayer();
+  this.petRuntime = updateOwnedPetSystem({
+    ownerSlot: 'p1',
+    owner,
+    roster: this.petRoster,
+    runtime: this.petRuntime,
+    targets: this.createPetSkillTargets(),
+    projectiles: this.projectileSystem,
+    deltaMs: delta,
+    syncView: (pet) => this.syncPetView(pet),
+    destroyView: () => this.destroyPetView(),
+  });
+}
+
+export type OwnedPetSystemInput = {
+  ownerSlot: PlayerSlot;
+  owner: any;
+  roster: PetRoster;
+  runtime: PetRuntimeModel | undefined;
+  targets: PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+  deltaMs: number;
+  syncView(pet: NonNullable<ReturnType<typeof getActivePet>>): void;
+  destroyView(): void;
+};
+
+export function updateOwnedPetSystem(input: OwnedPetSystemInput): PetRuntimeModel | undefined {
+  const adapter = {
+    ownerSlot: input.ownerSlot,
+    getInventoryPlayer: () => input.owner,
+    petRoster: input.roster,
+    petRuntime: input.runtime,
+    projectileSystem: input.projectiles,
+    createPetSkillTargets: () => input.targets,
+    syncPetView: input.syncView,
+    destroyPetView: input.destroyView,
+  };
+  updatePetSystemForOwner.call(adapter, input.deltaMs);
+  return adapter.petRuntime;
+}
+
+function updatePetSystemForOwner(this: any, delta: number): void {
     const owner = this.getInventoryPlayer();
     if (!owner?.movement || isHeroCombatDead(owner.combat)) {
       this.petRuntime = undefined;
@@ -110,6 +154,10 @@ export function updatePetSystem(this: any, delta: number): void {
     owner.baseStats.power = petAutoBuffOwnerStats.power;
     owner.baseStats.defense = petAutoBuffOwnerStats.defense;
     updatePetSkillState(this.petRoster, delta);
+    if (updateAdvancedPetSkillChains(this, activePet, petAutoBuffOwnerStats, delta)) {
+      owner.combat.hp = petAutoBuffOwnerStats.hp;
+      return;
+    }
     if (
       activePet.skillState?.monkey1Xj.releaseReady &&
       activePet.skillState.monkey1Xj.cooldownMs <= 0
@@ -339,8 +387,44 @@ export function updatePetSystem(this: any, delta: number): void {
         return;
       }
     }
+    // ─── turtle chain ───
     if (
       activePet.species === 'turtle' &&
+      activePet.form === 4 &&
+      (activePet.skillState?.turtle4Xwaoyi.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
+    ) {
+      const result = requestPetTurtle4XwaoyiSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+        ownerStats: petAutoBuffOwnerStats,
+      });
+      if (result.ok) {
+        owner.combat.hp = petAutoBuffOwnerStats.hp;
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'turtle' &&
+      activePet.form === 3 &&
+      (activePet.skillState?.turtle3Sybh.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
+    ) {
+      const result = requestPetTurtle3SybhSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'turtle' &&
+      activePet.form !== 3 &&
       activePet.skills.includes('sld') &&
       (activePet.skillState?.turtle1Sld.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
     ) {
@@ -372,117 +456,78 @@ export function updatePetSystem(this: any, delta: number): void {
         return;
       }
     }
+    // ─── UFO chain ───
+    if (
+      activePet.species === 'ufo' &&
+      activePet.form >= 1 &&
+      (activePet.skillState?.ufo1Pms.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
+    ) {
+      const result = requestPetUfo1PmsSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'ufo' &&
+      activePet.form >= 2 &&
+      (activePet.skillState?.ufo2Ss.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
+    ) {
+      const result = requestPetUfo2SsSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+      });
+      if (result.ok && this.petRuntime) {
+        this.petRuntime.x = result.teleportX ?? this.petRuntime.x;
+        this.petRuntime.y = result.teleportY ?? this.petRuntime.y;
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    // ufo3/kmsk: check rising completion first (must happen before new skill trigger)
+    if (
+      activePet.species === 'ufo' &&
+      activePet.form >= 3 &&
+      activePet.skillState?.ufo3Kmsk.risingMs !== undefined &&
+      activePet.skillState.ufo3Kmsk.risingMs <= 0 &&
+      activePet.skillState.ufo3Kmsk.risingTotalMs > 0
+    ) {
+      const result = completePetUfo3KmskRising({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
+    if (
+      activePet.species === 'ufo' &&
+      activePet.form >= 3 &&
+      (activePet.skillState?.ufo3Kmsk.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0 &&
+      (activePet.skillState?.ufo3Kmsk.risingMs ?? 0) <= 0
+    ) {
+      const result = requestPetUfo3KmskSkill({
+        roster: this.petRoster,
+        runtime: this.petRuntime,
+        targets: this.createPetSkillTargets(),
+        projectiles: this.projectileSystem,
+      });
+      if (result.ok) {
+        this.syncPetView(activePet);
+        return;
+      }
+    }
     this.syncPetView(activePet);
   }
-
-export function updateMagicWeapon(this: any, input: InputState, delta: number): void {
-    const owner = this.getInventoryPlayer();
-    syncMagicWeaponFromLoadout(this.magicWeapon, this.equipmentLoadout);
-
-    if (!owner || isHeroCombatDead(owner.combat)) {
-      updateMagicWeaponModel(
-        this.magicWeapon,
-        owner
-          ? {
-            combat: owner.combat,
-            skill: owner.skill,
-            effectiveStats: calculateEffectiveStats(owner.baseStats, this.equipmentLoadout),
-            movement: owner.movement,
-          }
-          : this.createFallbackMagicWeaponTarget(),
-        delta,
-        this.projectileSystem,
-        [],
-        undefined,
-        [],
-      );
-      this.syncMagicWeaponPlatformViews();
-      return;
-    }
-
-    requestMagicWeaponTrigger({
-      model: this.magicWeapon,
-      target: {
-        combat: owner.combat,
-        skill: owner.skill,
-        effectiveStats: calculateEffectiveStats(owner.baseStats, this.equipmentLoadout),
-        movement: owner.movement,
-      },
-      source: owner.movement
-        ? {
-          sourceId: owner.slot,
-          x: owner.movement.x,
-          y: owner.movement.y,
-          facingX: owner.movement.facingX,
-          cameraX: this.cameras.main.scrollX,
-          cameraY: this.cameras.main.scrollY,
-        }
-        : undefined,
-      input: input.p1,
-      previousInput: this.lastInput?.p1,
-      friendlyPets: this.getActiveMagicWeaponPets(),
-      enemyTargets: this.createMagicWeaponEnemyTargets(),
-    });
-
-    updateMagicWeaponModel(
-      this.magicWeapon,
-      {
-        combat: owner.combat,
-        skill: owner.skill,
-        effectiveStats: calculateEffectiveStats(owner.baseStats, this.equipmentLoadout),
-        movement: owner.movement,
-      },
-      delta,
-      this.projectileSystem,
-      this.createMagicWeaponEnemyTargets(),
-      owner.movement
-        ? {
-          sourceId: owner.slot,
-          x: owner.movement.x,
-          y: owner.movement.y,
-          facingX: owner.movement.facingX,
-          cameraX: this.cameras.main.scrollX,
-          cameraY: this.cameras.main.scrollY,
-        }
-        : undefined,
-      this.getActiveMagicWeaponPets(),
-    );
-    this.syncMagicWeaponPlatformViews();
-  }
-
-export function updateMagicBottleCapture(this: any, input: InputState, delta: number): void {
-    const owner = this.getInventoryPlayer();
-    if (!owner?.movement || isHeroCombatDead(owner.combat)) {
-      return;
-    }
-
-    if (this.magicWeapon.current?.fillName !== 'xhhl') {
-      this.magicBottle.effect = undefined;
-      if (this.magicBottle.lastResult.startsWith('宣花葫芦')) {
-        this.magicBottle.lastResult = '宣花葫芦未装备';
-      }
-      return;
-    }
-
-    requestMagicBottleCapture({
-      model: this.magicBottle,
-      owner: {
-        x: owner.movement.x,
-        y: owner.movement.y,
-        facingX: owner.movement.facingX,
-      },
-      inputMagicWeapon: input.p1.magicWeapon,
-      previousInputMagicWeapon: this.lastInput?.p1.magicWeapon ?? false,
-    });
-
-    resolveMagicBottleCaptureHit({
-      model: this.magicBottle,
-      roster: this.petRoster,
-      targets: this.capturablePetTargets,
-    });
-    updateMagicBottleCaptureModel(this.magicBottle, delta);
-  }
-
 export function getActiveMovementPlatforms(this: any): MovementPlatform[] {
     const magicPlatforms = this.magicWeapon.platforms
       .filter((platform: any) => platform.active)
@@ -559,48 +604,6 @@ export function createFallbackMagicWeaponTarget(this: any) {
       skill: createHeroSkillModel(),
     };
   }
-
-export function syncPetView(this: any, activePet: NonNullable<ReturnType<typeof getActivePet>>): void {
-    if (!this.petRuntime) {
-      this.destroyPetView();
-      return;
-    }
-
-    if (!this.petView) {
-      this.petView = createPetView(
-        this,
-        activePet,
-        this.petRuntime?.x ?? 0,
-        this.petRuntime?.y ?? 0,
-      );
-    }
-
-    this.petView.root.setPosition(this.petRuntime.x, this.petRuntime.y);
-    this.petView.root.setScale(this.petRuntime.facingX < 0 ? -1 : 1, 1);
-    this.petView.body.setFillStyle(this.petRuntime.state === 'warp' ? 0xf2c14e : 0x7ad7a8, 0.9);
-    this.petView.ear.setFillStyle(0xf3f6ff, this.petRuntime.state === 'follow' ? 0.7 : 0.45);
-    this.petView.label.setText(`${activePet.displayName} F${activePet.form} ${this.petRuntime.state}`);
-  }
-
-export function destroyPetView(this: any): void {
-    if (!this.petView) {
-      return;
-    }
-
-    this.petView.root.destroy(true);
-    this.petView = undefined;
-  }
-
-
-export function createPetSkillTargets(this: any): PetSkillTarget[] {
-    return this.monster30s.map((monster: any) => ({
-      id: monster.id,
-      x: monster.x,
-      y: monster.y,
-      isAlive: monster.state !== 'dead' && monster.state !== 'removed',
-    }));
-  }
-
 export function createMagicWeaponEnemyTargets(this: any): MagicWeaponEnemyTarget[] {
     const targets: MagicWeaponEnemyTarget[] = this.monster30s.map((monster: any) => ({
       id: monster.id,
@@ -677,8 +680,3 @@ export function getActiveMagicWeaponPets(this: any): NonNullable<ReturnType<type
     const activePet = getActivePet(this.petRoster);
     return activePet ? [activePet] : [];
   }
-
-
-
-
-

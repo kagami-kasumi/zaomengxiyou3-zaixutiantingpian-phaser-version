@@ -41,6 +41,7 @@
 | 宠物模型 | `PetState` | Model | Combat / Progression | 单只宠物的可持久化运行数据，包含名称、等级、HP/MP、寿命、出战状态和技能名 | `PetInfo`, `PetData` |
 | 宠物消耗品 | `PetConsumable` | Item Effect / Type | Progression | 道具背包中可对当前出战宠物生效的普通道具效果，例如寿命丹、还魂丹、经验石 | `PetItem`, `CompanionConsumable`, `FamiliarItem` |
 | 宠物系统 | `PetSystem` | System | Combat / Progression | 管理宠物列表、单只出战、跟随实体运行状态和首批宠物 UI 数据 | `CompanionSystem`, `FamiliarSystem` |
+| 宠物成长系统 | `PetGrowthSystem` | System | Progression | 负责宠物属性洗练、还童和形态进化等可测试成长规则；道具扣除仍由背包系统负责 | `PetTrainingSystem`, `PetEvolutionSystem` |
 | 基础对象 | `GameObjectModel` | Model | Runtime / Combat | 现代逻辑对象模型；不要直接照搬 AS3 `BaseObject` | `BaseObject`, `EntityBase` |
 | 技能 | `Skill` | Entity / Config | Combat | 主动技能或技能配置 | `Ability`, `Spell` |
 | 技能绑定 | `SkillBinding` | Value Object / Config | Combat | 单个技能槽中绑定的技能名、等级等最小释放配置 | `AbilityBinding`, `SkillSlotBinding` |

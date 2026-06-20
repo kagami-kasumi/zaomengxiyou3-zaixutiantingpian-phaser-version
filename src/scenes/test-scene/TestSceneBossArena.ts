@@ -1,9 +1,9 @@
 ﻿import Phaser from 'phaser';
 import {
   activateBossArena,
+  applyOwnedPetDamageRedirect,
   applyHeroDamage,
   applyMonster3Hit,
-  applyPetTurtleTxljOwnerDamage,
   checkBossArenaTrigger,
   createDamageEvent,
   getActiveHeroHitbox,
@@ -149,9 +149,11 @@ export function applyBossAttack(this: any, time: number): void {
         targetId: player.slot,
         attackId: activeAttack.attackId,
         actionName: activeAttack.actionName,
-        amount: player.slot === 'p1'
-          ? applyPetTurtleTxljOwnerDamage(this.petRoster, activeAttack.damage).ownerDamage
-          : activeAttack.damage,
+        amount: applyOwnedPetDamageRedirect(
+          this.playerPetRosters,
+          player.slot,
+          activeAttack.damage,
+        ),
         attackKind: activeAttack.attackKind,
         knockbackX: activeAttack.facingX * activeAttack.knockbackX,
         knockbackY: activeAttack.knockbackY,

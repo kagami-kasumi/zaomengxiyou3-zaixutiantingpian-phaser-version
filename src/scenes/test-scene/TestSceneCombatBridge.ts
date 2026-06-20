@@ -23,8 +23,9 @@ import {
   type Monster30Model,
 } from '../../systems/Monster30System';
 import {
-  applyPetTurtleTxljOwnerDamage,
-  type PetRoster,
+  applyOwnedPetDamageRedirect,
+  claimMonsterExperienceForCurrentTarget,
+  type PlayerPetRosters,
 } from '../../systems/PetSystem';
 
 export type CombatBridgePlayer = {
@@ -126,11 +127,12 @@ export function applyHeroNormalAttackToMonster30s(params: {
       !monster.experienceAwardedTo &&
       monster.experience > 0
     ) {
-      monster.experienceAwardedTo = player.slot;
+      const award = claimMonsterExperienceForCurrentTarget(monster, player.slot);
+      if (!award) continue;
       result.monsterExperienceAwards.push({
         monster,
-        slot: player.slot,
-        experience: monster.experience,
+        slot: award.ownerSlot,
+        experience: award.experience,
       });
     }
   }
@@ -141,7 +143,7 @@ export function applyHeroNormalAttackToMonster30s(params: {
 export function applyMonster30AttackToPlayers(params: {
   monster: Monster30Model;
   players: readonly CombatBridgePlayer[];
-  petRoster?: PetRoster;
+  petRosters?: PlayerPetRosters;
   hitRegistry: HitRegistry;
   renderedMonsterAttackIds: Set<string>;
   time: number;
@@ -186,8 +188,8 @@ export function applyMonster30AttackToPlayers(params: {
       targetId: player.slot,
       attackId: activeAttack.attackId,
       actionName: activeAttack.actionName,
-      amount: player.slot === 'p1' && params.petRoster
-        ? applyPetTurtleTxljOwnerDamage(params.petRoster, activeAttack.damage).ownerDamage
+      amount: params.petRosters
+        ? applyOwnedPetDamageRedirect(params.petRosters, player.slot, activeAttack.damage)
         : activeAttack.damage,
       attackKind: activeAttack.attackKind,
       knockbackX: activeAttack.facingX * activeAttack.knockbackX,

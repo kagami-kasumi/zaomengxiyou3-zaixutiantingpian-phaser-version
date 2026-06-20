@@ -48,6 +48,42 @@ export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
     state.turtle1Sld.cooldownMs = Math.max(0, state.turtle1Sld.cooldownMs - Math.max(0, deltaMs));
     state.turtle2Txlj.cooldownMs = Math.max(0, state.turtle2Txlj.cooldownMs - Math.max(0, deltaMs));
     state.turtle2Txlj.linkRemainingMs = Math.max(0, state.turtle2Txlj.linkRemainingMs - Math.max(0, deltaMs));
+    state.turtle3Sybh.cooldownMs = Math.max(0, state.turtle3Sybh.cooldownMs - Math.max(0, deltaMs));
+    state.turtle4Xwaoyi.cooldownMs = Math.max(0, state.turtle4Xwaoyi.cooldownMs - Math.max(0, deltaMs));
+    state.turtle4Xwaoyi.ultimateRemainingMs = Math.max(0, state.turtle4Xwaoyi.ultimateRemainingMs - Math.max(0, deltaMs));
+    state.turtle4Xwaoyi.sldFreeCastTimersMs = state.turtle4Xwaoyi.sldFreeCastTimersMs
+      .map((timerMs) => Math.max(0, timerMs - Math.max(0, deltaMs)));
+    state.ufo1Pms.cooldownMs = Math.max(0, state.ufo1Pms.cooldownMs - Math.max(0, deltaMs));
+    state.ufo2Ss.cooldownMs = Math.max(0, state.ufo2Ss.cooldownMs - Math.max(0, deltaMs));
+    state.ufo3Kmsk.cooldownMs = Math.max(0, state.ufo3Kmsk.cooldownMs - Math.max(0, deltaMs));
+    if (state.ufo3Kmsk.risingMs > 0) {
+      state.ufo3Kmsk.risingMs = Math.max(0, state.ufo3Kmsk.risingMs - Math.max(0, deltaMs));
+    }
+    state.tiger1Hy.cooldownMs = Math.max(0, state.tiger1Hy.cooldownMs - Math.max(0, deltaMs));
+    state.tiger2Sxhz.cooldownMs = Math.max(0, state.tiger2Sxhz.cooldownMs - Math.max(0, deltaMs));
+    state.tiger3Hsqj.cooldownMs = Math.max(0, state.tiger3Hsqj.cooldownMs - Math.max(0, deltaMs));
+    state.tiger4Bhaoyi.cooldownMs = Math.max(0, state.tiger4Bhaoyi.cooldownMs - Math.max(0, deltaMs));
+    state.phoenix1Np.cooldownMs = Math.max(0, state.phoenix1Np.cooldownMs - Math.max(0, deltaMs));
+    const phoenixNpBefore = state.phoenix1Np.transformationRemainingMs;
+    state.phoenix1Np.transformationRemainingMs = Math.max(0, phoenixNpBefore - Math.max(0, deltaMs));
+    if (phoenixNpBefore > 0 && state.phoenix1Np.transformationRemainingMs === 0) {
+      if (state.phoenix1Np.pendingFullHeal && pet.hp > 0) {
+        pet.hp = pet.maxHp;
+      }
+      state.phoenix1Np.pendingFullHeal = false;
+      state.phoenix1Np.damageTakenMultiplier = 1;
+      state.phoenix1Np.hurtActionImmune = false;
+    }
+    state.phoenix2Bshn.cooldownMs = Math.max(0, state.phoenix2Bshn.cooldownMs - Math.max(0, deltaMs));
+    state.phoenix3Dhly.cooldownMs = Math.max(0, state.phoenix3Dhly.cooldownMs - Math.max(0, deltaMs));
+    state.phoenix4Zqaoyi.cooldownMs = Math.max(0, state.phoenix4Zqaoyi.cooldownMs - Math.max(0, deltaMs));
+    state.rabbit1Yg.cooldownMs = Math.max(0, state.rabbit1Yg.cooldownMs - Math.max(0, deltaMs));
+    state.rabbit2Jf.cooldownMs = Math.max(0, state.rabbit2Jf.cooldownMs - Math.max(0, deltaMs));
+    state.rabbit3Bs.cooldownMs = Math.max(0, state.rabbit3Bs.cooldownMs - Math.max(0, deltaMs));
+    state.rabbit4Ysaoyi.cooldownMs = Math.max(0, state.rabbit4Ysaoyi.cooldownMs - Math.max(0, deltaMs));
+    state.mouse1Sc.cooldownMs = Math.max(0, state.mouse1Sc.cooldownMs - Math.max(0, deltaMs));
+    state.mouse4Hxfb.cooldownMs = Math.max(0, state.mouse4Hxfb.cooldownMs - Math.max(0, deltaMs));
+    state.mouse4Zsaoyi.cooldownMs = Math.max(0, state.mouse4Zsaoyi.cooldownMs - Math.max(0, deltaMs));
   }
 }
 
