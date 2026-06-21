@@ -4662,3 +4662,27 @@
 - `npm run test:systems` 通过。
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
+### TASK-SETTINGS-036
+
+完成时间：
+- 2026-06-21
+
+完成内容：
+- 细读 `Role2.as`、`Role2Shadow.as`、`BaseHero.as`、`KeyBoardControl.as` 和既有角色/输入/projectile 索引，补齐唐僧两棵心法树 10 项技能的主动、被动和输入分类。
+- 确认普通五槽主动技为 `sgq/myhc/jgz/tjgl/jhsj/xbz/shy/smb`；`blb` 的槽位函数为空，真实入口是 `hit1` 内持续按普攻的蓄力分支；`sjt` 是缩短蓄力阈值并提升全伤害的被动，不进入 `showSkill()`。
+- 记录 `xbz` 固定范围魔法、`myhc` 群体持续回血、`jgz` 拉拽/浮空、`tjgl` 群疗/宠物治疗/护盾、`jhsj` 双窗口多段、`shy` 8 秒分身/召回传送及四技能协同的动作帧、距离、公式和状态门禁。
+- 确认 Role2 除 `smb` 二段和 `shy` 创建/召回外没有统一 CD 或额外方向组合主动技，其他技能均靠 MP、攻击/受击状态和动作时长门禁。
+- 当前资源路径未命中剩余 `Role2Bullet*`、`ROLE2_SHALLDOW` 或对应音效；行为事实足够使用占位 key 实现，真视觉/音频保持为资源缺口。
+- 新增 `VS-037`，拆出 `TASK-SLICE-084..089`；首个 Ready 项为依赖最少、单对话可验收的 `xbz -> hit3`。
+
+更新文件：
+- `docs/reverse-engineering/roles-index.md`
+- `docs/reverse-engineering/skills-input-index.md`
+- `docs/reverse-engineering/projectiles-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:workflow` 通过。

@@ -301,6 +301,20 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 | `shy` | `doHit10()` | 非 `BaseBullet`，创建 `Role2Shadow` | `Role2Shadow` | 影子/分身对象 | 不走常规 projectile 表 | 不属于本轮 projectile 首选 |
 | `blb` | `skill_blb()` | 无 | 无 | 空函数 | 无 | 无实现价值 |
 
+### Role2 剩余资源与实现分批
+
+当前 `resources/` 路径检索没有命中 `Role2Bullet2/3/6/7/8/9`、`ROLE2_SHALLDOW` 或对应 `Role2_hit*` 音效。AS3 已给出构造名、坐标、生命周期和结算参数，足够先以占位资源实现；真素材仍属于明确资源缺口，不从现有图片猜造。
+
+| 批次 | 技能 | 建议占位 key | 实现依赖与边界 |
+| --- | --- | --- | --- |
+| 1 | `xbz -> hit3` | `skill-projectile.role2.xbz.hit3` | 复用固定范围 projectile、魔法伤害和失重动作；不等待分身 |
+| 2 | `blb/sjt` | `skill-passive.role2.blb.hit2` | 需要普攻持续输入、蓄力计数和动态 MP；`sjt` 作为被动阈值/伤害修正 |
+| 3 | `myhc -> hit6` | `skill-effect.role2.myhc.hit6` | 需要多玩家半径查询和持续回血状态；effect 不直接伤害 |
+| 4 | `tjgl -> hit8` | `skill-effect.role2.tjgl.hit8` | 需要玩家/宠物群体治疗及英雄护盾 |
+| 5 | `jgz -> hit7` | `skill-effect.role2.jgz.hit7` | 需要敌方范围查询、位移控制、失重和免疫名单 |
+| 6 | `jhsj -> hit9` | `skill-projectile.role2.jhsj.hit9_1/2` | 需要长动作内两个生成窗口与多段命中 |
+| 7 | `shy -> hit10` | `skill-summon.role2.shy.shadow` | 依赖前述 `xbz/myhc/tjgl/jhsj`，再接 8 秒分身同步与传送 |
+
 ### 其他角色高价值 projectile 线索
 
 这批映射来自 `Role1.as` 至 `Role5.as` 的 `new *Bullet(...)` 调用扫描，目的是给后续选择“第二个 projectile 切片”时不用重新全量扫目录。
