@@ -266,6 +266,7 @@ import {
   updateMagicBottleEffectViews as updateMagicBottleEffectViewImpl,
   type MagicBottleEffectView,
 } from './test-scene/TestSceneMagicBottleViewBridge';
+import { getTestScenePlayerCount } from './test-scene/TestSceneConfig';
 
 type PlayerView = {
   slot: PlayerSlot;
@@ -318,6 +319,7 @@ type MagicWeaponPlatformView = {
 };
 
 export class TestScene extends Phaser.Scene {
+  private readonly playerCount = getTestScenePlayerCount();
   private inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
   private playerViews: PlayerView[] = [];
@@ -441,7 +443,7 @@ export class TestScene extends Phaser.Scene {
     this.createStage();
     this.createClimbingPlatforms();
     this.createClouds();
-    this.playerViews = this.createPlayerMarkers();
+    this.playerViews = this.createPlayerMarkers(this.playerCount);
     this.initializeSceneSave();
     this.capturablePetTargets = this.createCapturablePetTargets();
 
@@ -531,13 +533,15 @@ export class TestScene extends Phaser.Scene {
     this.createPetUIKeys();
     this.createDebugKeys();
     this.p1SkillBar = this.createSkillBar('p1', 44, 540);
-    this.p2SkillBar = this.createSkillBar('p2', 488, 540);
     this.p1SkillBar.container.setScrollFactor(0).setDepth(80);
-    this.p2SkillBar.container.setScrollFactor(0).setDepth(80);
     this.p1SkillPanel = this.createSkillPanel('p1');
-    this.p2SkillPanel = this.createSkillPanel('p2');
     this.p1SkillPanel.container.setScrollFactor(0).setDepth(85);
-    this.p2SkillPanel.container.setScrollFactor(0).setDepth(85);
+    if (this.playerCount === 2) {
+      this.p2SkillBar = this.createSkillBar('p2', 488, 540);
+      this.p2SkillBar.container.setScrollFactor(0).setDepth(80);
+      this.p2SkillPanel = this.createSkillPanel('p2');
+      this.p2SkillPanel.container.setScrollFactor(0).setDepth(85);
+    }
     this.inventoryPanel = this.createInventoryPanel();
     this.inventoryPanel.container.setScrollFactor(0).setDepth(95);
     this.petPanel = this.createPetPanel();
@@ -585,7 +589,9 @@ export class TestScene extends Phaser.Scene {
       updateHeroNormalAttacks: (input, time) => this.updateHeroNormalAttacks(input, time),
       updatePetSystem: (delta) => {
         this.updatePetSystem(delta);
-        this.updateP2PetSystem(delta);
+        if (this.playerCount === 2) {
+          this.updateP2PetSystem(delta);
+        }
       },
       updateMagicWeapon: (input, delta) => this.updateMagicWeapon(input, delta),
       updateMagicBottleCapture: (input, delta) => this.updateMagicBottleCapture(input, delta),
@@ -944,9 +950,9 @@ export class TestScene extends Phaser.Scene {
     const p2 = this.getPlayer('p2');
 
     this.statusText.setText([
-      `Vertical Climb | monsters:${monster30s.length} alive:${activeMonsters.length}`,
+      `Vertical Climb | ${this.playerCount === 1 ? 'single player' : 'two players'} | monsters:${monster30s.length} alive:${activeMonsters.length}`,
       formatPlayerInput('P1', input.p1),
-      formatPlayerInput('P2', input.p2),
+      ...(this.playerCount === 2 ? [formatPlayerInput('P2', input.p2)] : []),
       '',
       `camera:${Math.round(climb.cameraY)} target:${Math.round(climb.targetCameraY)}`,
       `stopPts:${climb.stopPoints.filter((s) => s.cleared).length}/${climb.stopPoints.length}`,
@@ -956,25 +962,25 @@ export class TestScene extends Phaser.Scene {
       `arena:${formatBossArenaState(this.getBossArena())}`,
       ...activeMonsters.map((m) => `  m30:${m.state} hp:${m.hp}/${m.maxHp} target:${m.targetSlot ?? '-'}${formatMonsterMagicFlowerDebuff(m)}${formatMonsterMagicFlagDebuff(m)}${formatMonsterMagicPearlEffects(m)}`),
       `hero p1:${formatHeroMovementState(p1?.movement)}`,
-      `hero p2:${formatHeroMovementState(p2?.movement)}`,
+      ...(this.playerCount === 2 ? [`hero p2:${formatHeroMovementState(p2?.movement)}`] : []),
       `combat p1:${formatHeroCombatState(p1?.combat)}`,
-      `combat p2:${formatHeroCombatState(p2?.combat)}`,
+      ...(this.playerCount === 2 ? [`combat p2:${formatHeroCombatState(p2?.combat)}`] : []),
       `progress p1:${formatHeroProgressionState(
         p1,
         p1 ? calculateEffectiveStats(p1.baseStats, this.getEquipmentLoadoutForPlayer(p1)) : undefined,
       )}`,
-      `progress p2:${formatHeroProgressionState(
+      ...(this.playerCount === 2 ? [`progress p2:${formatHeroProgressionState(
         p2,
         p2 ? calculateEffectiveStats(p2.baseStats, this.getEquipmentLoadoutForPlayer(p2)) : undefined,
-      )}`,
+      )}`] : []),
       `normal p1:${formatHeroNormalAttackState(p1?.normalAttack)}`,
-      `normal p2:${formatHeroNormalAttackState(p2?.normalAttack)}`,
+      ...(this.playerCount === 2 ? [`normal p2:${formatHeroNormalAttackState(p2?.normalAttack)}`] : []),
       `skill p1:${formatHeroSkillState(p1?.skill)}`,
-      `skill p2:${formatHeroSkillState(p2?.skill)}`,
+      ...(this.playerCount === 2 ? [`skill p2:${formatHeroSkillState(p2?.skill)}`] : []),
       `projectiles:${formatProjectileState(getActiveProjectiles(this.getProjectileSystem()))}`,
       `skill cast:${formatSkillEvent(this.lastSkillEvent)}`,
       `skill ui p1:${formatSkillUIState(this.p1SkillUI)}`,
-      `skill ui p2:${formatSkillUIState(this.p2SkillUI)}`,
+      ...(this.playerCount === 2 ? [`skill ui p2:${formatSkillUIState(this.p2SkillUI)}`] : []),
       `inventory:${formatInventoryUIState(this.inventoryUI)}`,
       `pet:${formatPetState(this.getPetRoster(), this.petRuntime, this.petPanelOpen)}`,
       `magic weapon:${formatMagicWeaponState(this.magicWeapon)}`,

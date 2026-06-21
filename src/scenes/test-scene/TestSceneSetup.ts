@@ -78,23 +78,28 @@ export function createStage(this: any): void {
     }
   }
 
-export function createPlayerMarkers(this: any): any[] {
+export function createPlayerMarkers(this: any, playerCount: 1 | 2): any[] {
     const groundY = defaultClimbTuning.worldHeight - 45;
     const p1 = this.createPlayerView(
       'p1',
       2,
-      defaultClimbTuning.worldWidth * 0.34,
+      defaultClimbTuning.worldWidth * (playerCount === 1 ? 0.5 : 0.34),
       groundY,
     );
+    p1.movement = createHeroMovement(p1.sprite.x, p1.sprite.y);
+    p1.movement.currentPlatformId = 'climb-ground';
+
+    if (playerCount === 1) {
+      return [p1];
+    }
+
     const p2 = this.createPlayerView(
       'p2',
       3,
       defaultClimbTuning.worldWidth * 0.58,
       groundY,
     );
-    p1.movement = createHeroMovement(p1.sprite.x, p1.sprite.y);
     p2.movement = createHeroMovement(p2.sprite.x, p2.sprite.y);
-    p1.movement.currentPlatformId = 'climb-ground';
     p2.movement.currentPlatformId = 'climb-ground';
 
     return [p1, p2];

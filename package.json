@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
+    "dev:single": "vite --host 127.0.0.1 --open /",
+    "dev:two": "vite --host 127.0.0.1 --open /?players=2",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test:systems": "node tools/run-system-tests.mjs",
