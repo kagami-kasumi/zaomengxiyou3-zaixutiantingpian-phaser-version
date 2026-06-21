@@ -50,7 +50,7 @@
 | VS-034 宠物青龙专属技能链最小闭环 | 已完成 | 复现第二条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts` | `TASK-SLICE-062` 已完成 `dragon1/fs`：P1 可切换出战 `dragon1`，已学 `fs`，满足 MP 和约 10 秒 CD 门禁后即使无目标也能释放 10 秒分身占位反馈，扣 20 MP，生成 `PetDragon1Clone` / `hit2` 占位 projectile，直接伤害保持 0。`TASK-SLICE-063` 已完成 `dragon2/sdcc`：P1 可切换出战 `dragon2`，已学 `fs/sdcc`，满足 MP、约 3.6 秒 CD、目标和距离 `<= 300` 门禁后扣 20 MP，生成 `PetDragon2Bullet2` / `hit2` 占位 projectile，按 `((0.03 * pet.maxHp) + 3 * pet.atk) * 1.05 + skillDamageBonus` 接入 `sxkb` 暴击，记录 `int(maxHp * 0.018 + atk * 0.18 + level * 2)` 命中治疗。`TASK-SLICE-064` 已完成 `dragon3/ltwj`：P1 可切换出战 `dragon3`，已学 `fs/sdcc/ltwj`，满足 MP、约 5 秒 CD、目标和距离 `<= 500` 门禁后扣 20 MP，生成 4 段 `PetDragon3Bullet3` / `hit3` 占位 projectile，按 `((0.024 * pet.maxHp) + 3.6 * 2 * pet.atk) * 1.05 + skillDamageBonus` 接入 `sxkb` 暴击，记录 `int(maxHp * 0.028 + atk * 0.09 + level * 2)` 命中治疗。`TASK-SLICE-065` 已完成 `dragon4/qlaoyi`：P1 可切换出战 `dragon4`，已学 `fs/sdcc/ltwj/qlaoyi`，满足 MP `>= 30`、约 24 秒 CD、目标和距离 `<= 200` 门禁后扣 30 MP，生成 `PetDragonBullet4` / `hit4` 奥义占位 projectile，直接伤害保持 0，并按已学 `fs/sdcc/ltwj` 记录 `fs-clone`、`sdcc-charge`、`ltwj-multi` 组合反馈；状态栏展示 `D1 FS`、`D2 SDCC`、`D3 LTWJ`、`D4 QLAOYI` CD/治疗/组合反馈 |
 | VS-035 宠物玄龟专属技能链最小闭环 | 已完成 | 复现第三条非猴子宠物专属技能链的最小可玩技能 | M-042、M-032、`pets-index.md` | `PetTurtleSkillSystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScenePetMagicBridge.ts`、`system-tests.ts` | `TASK-SETTINGS-031` 已扒清 `turtle1..4` 的 `sld/txlj/sybh/xwaoyi` 链路。`TASK-SLICE-066` 已完成 `turtle1/sld`，`TASK-SLICE-067` 已完成 `turtle2/txlj`，`TASK-SLICE-068` 已完成 `turtle3/sybh`。`TASK-SLICE-069` 已完成 `turtle4/xwaoyi`：P1 可切换出战 `turtle4`，已学 `sld/txlj/sybh/xwaoyi`，满足已学习、MP `>= 30`、目标和约 18 秒 CD 门禁后扣 30 MP，记录 5 秒奥义状态，生成 `PetTurtle4Hit5` / `hit5` 占位反馈；按已学前置记录 3 次免蓝 `sld` 反馈、刷新 `txlj` 链接，并生成持续 5 秒的 `PetTurtle3Bullet3` 范围反馈。真实资源、完整移动锁定和伤害校准后置。 |
 | VS-036 全宠物专属技能链最小闭环 | 已完成 | 复现全部已逆向宠物物种（UFO/虎/凤凰/兔/鼠）专属技能链 | M-042、M-032、`pets-index.md` | `PetUfoSkillSystem.ts`、`PetTigerSkillSystem.ts`、`PetPhoenixSkillSystem.ts`、`PetRabbitSkillSystem.ts`、`PetMouseSkillSystem.ts`、`PetSkillPrioritySystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`TestSceneAdvancedPetSkillBridge.ts`、`system-tests.ts` | 全部 9 物种专属技能链已具备可验证闭环；`TASK-SLICE-078` 补齐涅槃持续状态、凤凰灼烧、兔系触发/疾风/月神治疗、三枚回旋飞镖、白虎/紫鼠分段奥义及 `skill1 -> skill4` 调度 |
-| VS-037 Role2 完整战斗扩展 | 进行中 | 在既有 `sgq/smb` 基础上补齐唐僧剩余主动、被动、支援、控制与分身链 | M-019、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `TASK-SLICE-084..089` | 逆向已完成；先执行 `TASK-SLICE-084 xbz -> hit3`，再按被动、支援、控制、多段、分身依赖顺序推进 |
+| VS-037 Role2 完整战斗扩展 | 已完成 | 在既有 `sgq/smb` 基础上补齐唐僧剩余主动、被动、支援、控制与分身链 | M-019、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role2PassiveSkillSystem.ts`、`Role2XbzSkillSystem.ts`、`Role2SupportSkillSystem.ts`、`Role2ControlSkillSystem.ts`、`Role2JhsjSkillSystem.ts`、`Role2ShadowSkillSystem.ts`、独立测试 | `TASK-SLICE-084..089` 全部完成：正式输入/MP/动作门禁、蓄力被动、原版等级公式、治疗/护盾、拉拽/增幅、双窗口多段、8 秒分身/召回与四技能同步均可测 |
 
 ## 第一批推荐执行顺序
 
@@ -490,7 +490,7 @@
 
 推荐任务：
 
-- 宠物系统闭环完成；五角色完整战斗扩展已完成 Role2 全技能逆向，先执行 `TASK-SLICE-084`。
+- 宠物系统和 Role2 完整战斗扩展均已完成；下一步执行 `TASK-SETTINGS-037`，完整逆向 Role1 悟空技能链。
 
 ### VS-013 法宝最小可玩切片
 

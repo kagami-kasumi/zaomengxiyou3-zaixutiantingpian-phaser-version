@@ -3,7 +3,7 @@ import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem
 
 export type HeroCombatState = 'ready' | 'hurt' | 'dead';
 
-export type HeroMagicShieldKind = 'magicUmbrellaDefend' | 'magicUmbrellaDefend2';
+export type HeroMagicShieldKind = 'magicUmbrellaDefend' | 'magicUmbrellaDefend2' | 'role2Tjgl';
 
 export type HeroMagicShield = {
   kind: HeroMagicShieldKind;

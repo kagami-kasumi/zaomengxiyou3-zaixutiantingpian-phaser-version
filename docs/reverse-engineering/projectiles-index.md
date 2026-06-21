@@ -291,14 +291,14 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 | 技能代号 | 动作/方法 | bullet 类 | 资源名 | 运动/作用类型 | 攻击参数线索 | 首批实现价值 |
 | --- | --- | --- | --- | --- | --- | --- |
 | `sgq` | `hit5` / `doHit5()` | `SpecialEffectBullet` | `Role2Bullet5` | 固定位置持续伤害特效，生成于角色前方约 175、上方约 110 | `magic`、`attackInterval = 16`、`hitMaxCount = 999`、击退 `[5,-2]` | 已用占位完成 `VS-008`；真资源仍缺 |
-| `xbz` | `hit3` / `doHit3()`、`doHit3_2()` | `SpecialEffectBullet` | `Role2Bullet3` | 固定/局部范围魔法特效；释放时角色 `setStatic()`、`setLostGraity()`，受击不打断特效 | `hit3/hit3_2` 均为 `magic`，`attackInterval = 250`，击退 `[4,-4]` | 适合作为第二个“固定范围伤害技能”占位切片，运动复杂度低 |
+| `xbz` | `hit3` / `doHit3()`、`doHit3_2()` | `SpecialEffectBullet` | `Role2Bullet3` | 固定/局部范围魔法特效；释放时角色 `setStatic()`、`setLostGraity()`，受击不打断特效 | `hit3/hit3_2` 均为 `magic`，`attackInterval = 250`，击退 `[4,-4]` | 本体与分身弱化段均已占位实现 |
 | `smb` | `hit4_1` / `doHit4_1()` | `EnemyMoveBullet` | `Role2Bullet4_1`，实例名被改为 `Role1Bullet4_1` | 水平移动弹体；朝左速度 `-10`，朝右 `10`，距离 `9999`，先 `setDisable()` | `hit4` 为 `magic`，`hitMaxCount = 100`，击退 `[0,-3]` | 适合作为第一个“移动 projectile”切片；需同时处理异常实例名 |
 | `smb` | `hit4_2` / `doHit4_2()` | `SpecialEffectBullet` | `Role2Bullet4_2` | 二段触发，围绕运行时名 `Role1Bullet4_1` 的位置记录生成：`y - 320`，朝左时 `x + 50`，朝右时 `x - 50`；结束后恢复重力并震屏 | 同用 `hit4` 参数 | 已由 `TASK-SLICE-007` 用占位资源实现 |
-| `myhc` | `hit6` / `doHit6()` | `SpecialEffectBullet` | `Role2Bullet6` | 角色层级后的支援特效，`setDisable()`，延迟给附近玩家回血 | `hit6` 表内为 `magic`，但实际主要是治疗 | 不适合作为伤害 projectile 首批；适合后续治疗/队友目标规则 |
-| `jgz` | `hit7` / `doHit7()` | `SpecialEffectBullet` | `Role2Bullet7` | `setDisable()` 的控制特效；对半径约 240 内目标做拉拽/浮空 Tween | `hit7` 为 `magic`，`attackInterval = 4`，击退 `[15,0]` | 控制逻辑复杂，后置到状态/位移控制任务 |
-| `tjgl` / `shy` | `hit8`、`hit8_2` / `doHit8*()` | `SpecialEffectBullet` | `Role2Bullet8` | 治疗/护盾特效，`setDisable()`，在玩家/宠物半径约 150 内生效 | `hit8/hit8_2` 表内为 `magic`，但实际主要是治疗/护盾 | 后置到治疗、护盾和宠物/队友目标规则 |
-| `jhsj` | `hit9` 系列 / `doHit9_1*()`、`doHit9_2*()` | `SpecialEffectBullet` | `Role2Bullet9_1`、`Role2Bullet9_2` | 多段特效，释放时角色静止/失重，部分子段插入角色层级前 | `hit9_1/2` 与 `_2` 变体均为 `magic`，含 `attackInterval = 5/999` | 动作链较长，后置到多段技能 |
-| `shy` | `doHit10()` | 非 `BaseBullet`，创建 `Role2Shadow` | `Role2Shadow` | 影子/分身对象 | 不走常规 projectile 表 | 不属于本轮 projectile 首选 |
+| `myhc` | `hit6` / `doHit6()` | `SpecialEffectBullet` | `Role2Bullet6` | 角色层级后的支援特效，`setDisable()`，延迟给附近玩家回血 | `hit6` 表内为 `magic`，但实际主要是治疗 | 已实现本体/分身半径持续回血 |
+| `jgz` | `hit7` / `doHit7()` | `SpecialEffectBullet` | `Role2Bullet7` | `setDisable()` 的控制特效；对半径约 240 内目标做拉拽/浮空 Tween | `hit7` 为 `magic`，`attackInterval = 4`，击退 `[15,0]` | 已实现目标筛选、拉拽恢复和下一击增幅 |
+| `tjgl` / `shy` | `hit8`、`hit8_2` / `doHit8*()` | `SpecialEffectBullet` | `Role2Bullet8` | 治疗/护盾特效，`setDisable()`，在玩家/宠物半径约 150 内生效 | `hit8/hit8_2` 表内为 `magic`，但实际主要是治疗/护盾 | 已实现本体群疗/自身盾与分身 0.55 系数群疗 |
+| `jhsj` | `hit9` 系列 / `doHit9_1*()`、`doHit9_2*()` | `SpecialEffectBullet` | `Role2Bullet9_1`、`Role2Bullet9_2` | 多段特效，释放时角色静止/失重，部分子段插入角色层级前 | `hit9_1/2` 与 `_2` 变体均为 `magic`，含 `attackInterval = 5/999` | 已实现第 45/55 帧等价窗口和分身弱化双段 |
+| `shy` | `doHit10()` | 非 `BaseBullet`，创建 `Role2Shadow` | `Role2Shadow` | 影子/分身对象 | 不走常规 projectile 表 | 已实现 8 秒生命周期、召回传送和四技能同步 |
 | `blb` | `skill_blb()` | 无 | 无 | 空函数 | 无 | 无实现价值 |
 
 ### Role2 剩余资源与实现分批
@@ -307,13 +307,13 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 
 | 批次 | 技能 | 建议占位 key | 实现依赖与边界 |
 | --- | --- | --- | --- |
-| 1 | `xbz -> hit3` | `skill-projectile.role2.xbz.hit3` | 复用固定范围 projectile、魔法伤害和失重动作；不等待分身 |
-| 2 | `blb/sjt` | `skill-passive.role2.blb.hit2` | 需要普攻持续输入、蓄力计数和动态 MP；`sjt` 作为被动阈值/伤害修正 |
-| 3 | `myhc -> hit6` | `skill-effect.role2.myhc.hit6` | 需要多玩家半径查询和持续回血状态；effect 不直接伤害 |
-| 4 | `tjgl -> hit8` | `skill-effect.role2.tjgl.hit8` | 需要玩家/宠物群体治疗及英雄护盾 |
-| 5 | `jgz -> hit7` | `skill-effect.role2.jgz.hit7` | 需要敌方范围查询、位移控制、失重和免疫名单 |
-| 6 | `jhsj -> hit9` | `skill-projectile.role2.jhsj.hit9_1/2` | 需要长动作内两个生成窗口与多段命中 |
-| 7 | `shy -> hit10` | `skill-summon.role2.shy.shadow` | 依赖前述 `xbz/myhc/tjgl/jhsj`，再接 8 秒分身同步与传送 |
+| 1 | `xbz -> hit3` | `skill-projectile.role2.xbz.hit3` | 已由 `TASK-SLICE-084` 完成正式槽位、MP 门禁、原版等级伤害公式、受击不中断和固定范围 projectile；分身变体仍后置 |
+| 2 | `blb/sjt` | `normal-attack-effect.hero2.hit2` | `TASK-SLICE-085` 已完成持续普攻蓄力、动态 MP、48/12 阈值和全伤害修正 |
+| 3 | `myhc -> hit6` | `skill-effect.role2.myhc.hit6` | `TASK-SLICE-086` 已完成双玩家/宠物半径持续回血与分身同步 |
+| 4 | `tjgl -> hit8` | `skill-effect.role2.tjgl.hit8` | `TASK-SLICE-086` 已完成群疗、GXP、7 秒护盾和分身 0.55 系数治疗 |
+| 5 | `jgz -> hit7` | `skill-effect.role2.jgz.hit7` | `TASK-SLICE-087` 已完成拉拽/失重/免疫/恢复和一次性伤害增幅 |
+| 6 | `jhsj -> hit9` | `skill-projectile.role2.jhsj.hit9_1/2` | `TASK-SLICE-088` 已完成双窗口、多段参数、移动锁定和恢复 |
+| 7 | `shy -> hit10` | `skill-summon.role2.shy.shadow` | `TASK-SLICE-089` 已完成 8 秒分身、召回传送、双玩家隔离和四技能同步 |
 
 ### 其他角色高价值 projectile 线索
 

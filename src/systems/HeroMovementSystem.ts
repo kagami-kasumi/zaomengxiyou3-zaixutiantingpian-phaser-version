@@ -33,6 +33,8 @@ export type HeroMovementModel = {
   runningDirection: AxisDirection;
   ignoredPlatformId?: string;
   dropThroughUntilMs: number;
+  skillMovementLockedUntilMs: number;
+  skillGravitySuspendedUntilMs: number;
 };
 
 export const HeroMovementTuning = {
@@ -62,6 +64,8 @@ export function createHeroMovement(
     state: 'wait',
     runningDirection: 0,
     dropThroughUntilMs: 0,
+    skillMovementLockedUntilMs: 0,
+    skillGravitySuspendedUntilMs: 0,
   };
 }
 
@@ -74,6 +78,12 @@ export function updateHeroMovement(
   timeMs: number,
   deltaMs: number,
 ): void {
+  if (timeMs < hero.skillMovementLockedUntilMs) {
+    hero.velocityX = 0;
+    if (timeMs < hero.skillGravitySuspendedUntilMs) hero.velocityY = 0;
+    hero.state = 'wait';
+    return;
+  }
   updateRunIntent(hero, input, previousInput, timeMs);
   applyJumpIntent(hero, input, previousInput, platforms, timeMs);
 
@@ -92,6 +102,23 @@ export function updateHeroMovement(
 
   landOnPlatformIfNeeded(hero, platforms, previousBottomY, timeMs);
   updateMovementState(hero, input);
+}
+
+export function lockHeroMovementForSkill(
+  hero: HeroMovementModel,
+  timeMs: number,
+  durationMs: number,
+  suspendGravity: boolean,
+): void {
+  hero.velocityX = 0;
+  hero.skillMovementLockedUntilMs = Math.max(hero.skillMovementLockedUntilMs, timeMs + durationMs);
+  if (suspendGravity) {
+    hero.velocityY = 0;
+    hero.skillGravitySuspendedUntilMs = Math.max(
+      hero.skillGravitySuspendedUntilMs,
+      timeMs + durationMs,
+    );
+  }
 }
 
 function keepHeroInsideBounds(hero: HeroMovementModel, bounds: HeroMovementBounds): void {

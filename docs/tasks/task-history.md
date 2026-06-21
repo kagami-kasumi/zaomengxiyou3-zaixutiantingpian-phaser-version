@@ -13,6 +13,12 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-089 | 切片 | Role2 `shy` 分身协同与召回 | M-019、M-025、M-034、VS-037 | `Role2ShadowSkillSystem.ts`、Role2 运行时/场景桥接、四技能协同、双玩家隔离测试、状态文档 |
+| TASK-SLICE-088 | 切片 | Role2 `jhsj -> hit9` 双窗口多段 | M-019、M-025、M-034、VS-037 | `Role2JhsjSkillSystem.ts`、两类占位 projectile、移动/重力锁、系统测试、状态文档 |
+| TASK-SLICE-087 | 切片 | Role2 `jgz -> hit7` 拉拽与增伤 | M-019、M-025、M-034、VS-037 | `Role2ControlSkillSystem.ts`、拉拽/浮空/恢复、一次性增伤、系统测试、状态文档 |
+| TASK-SLICE-086 | 切片 | Role2 `myhc/tjgl` 治疗与护盾 | M-019、M-025、M-034、VS-037 | `Role2SupportSkillSystem.ts`、玩家/宠物治疗、GXP、护盾、系统测试、状态文档 |
+| TASK-SLICE-085 | 切片 | Role2 `blb/sjt` 蓄力与被动 | M-019、M-024、M-025、VS-037 | `Role2PassiveSkillSystem.ts`、普攻蓄力接线、全伤害倍率、系统测试、状态文档 |
+| TASK-SLICE-084 | 切片 | Role2 `xbz -> hit3` 固定范围魔法 | M-019、M-025、VS-037 | `Role2XbzSkillSystem.ts`、技能槽/MP/伤害接线、占位 projectile、`role2-xbz-tests.ts`、状态文档 |
 | TASK-SLICE-083 | 切片 | 双玩家宠物存档 V2 与 V1 迁移 | M-042、M-044、VS-011、VS-012 | `SaveSystem.ts` V2、V1 迁移、双 roster 恢复、`dual-player-pet-save-tests.ts`、状态文档 |
 | TASK-SLICE-082 | 切片 | P2 宠物道具与宣花葫芦捕捉所有权 | M-016、M-037、M-042、M-043、VS-012 | `PlayerInventoryOwnershipSystem.ts`、owner 背包/捕捉桥接、双捕捉特效、`pet-item-ownership-tests.ts`、状态文档 |
 | TASK-SLICE-081 | 切片 | P2 宠物战斗与普通击杀经验归属 | M-032、M-040、M-042、VS-012 | `PetBattleOwnershipSystem.ts`、共享 owner 调度、战斗/世界桥接、`pet-battle-ownership-tests.ts`、状态文档 |
@@ -167,6 +173,35 @@
 
 - `npm run test:systems` 通过。
 - `npm run build` 通过。
+- `npm run check:workflow` 通过。
+
+### TASK-SLICE-084
+
+完成时间：
+- 2026-06-21
+
+完成内容：
+- 新增 `Role2XbzSkillSystem.ts`，按 `Role2.getRealPower("hit3")` 的固定伤害数组、等级倍率、`6201/6550` 角色修正和最终 `1.178` 系数计算本体 `xbz` 伤害。
+- 将测试 Role2 第三普通技能槽绑定为 `xbz`；释放使用 `consumeMP[level-1] * 0.65 * 35173 / 25958`，保留受击、普攻/技能进行中、MP 和 active projectile 门禁。
+- 新增 `Role2Bullet3` 固定范围占位 projectile：角色位置 `y + 50`、`magic`、命中间隔 250、击退 `[4,-4]`、最大命中 999；对应原版 `setHurtCanCutDownEffect(false)`，来源受击时效果不销毁。
+- `AssetManifest.ts` 登记稳定 key `skill-projectile.role2.xbz.hit3` 及 `Role2Bullet3/Role2_hit3` 真资源缺口；测试场景复用现有 projectile 可视化和命中链。
+- 新增独立 `role2-xbz-tests.ts`，覆盖槽位/MP、受击与重入门禁、生成位置、攻击参数、等级伤害、Monster30 扣血、受击不中断和生命周期。
+- 将超长 `ProjectileSystem.ts` 的 tuning 参数联合类型收口为结构化 `ProjectileTuning`，新技能规则保持在独立模块；总测试文件仅注册独立测试入口。
+
+更新文件：
+- `src/systems/Role2XbzSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests/role2-xbz-tests.ts`
+- `tools/system-tests.ts`
+- Role2 逆向索引和四份正式任务状态文档
+
+验证：
+- `npm run check:structure` 通过（仅既有超长文件 warning；本任务功能已独立拆分）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
 
 ### TASK-SLICE-066
@@ -3495,6 +3530,26 @@
 
 - `npm run check:workflow` 通过。
 
+### TASK-SLICE-085
+
+完成时间：2026-06-21。完成 `blb/sjt` 的蓄力、动态 MP、48/12 阈值、全伤害倍率、学习同步与边界测试。
+
+### TASK-SLICE-086
+
+完成时间：2026-06-21。完成 `myhc/tjgl` 的玩家/宠物治疗、GXP、7 秒护盾、分身协同与边界测试。
+
+### TASK-SLICE-087
+
+完成时间：2026-06-21。完成 `jgz` 的目标过滤、拉拽/浮空/恢复和下一次伤害一次性增幅测试。
+
+### TASK-SLICE-088
+
+完成时间：2026-06-21。完成 `jhsj` 第 45/55 帧双段、两类 projectile、移动/重力锁与分身变体测试。
+
+### TASK-SLICE-089
+
+完成时间：2026-06-21。完成 `shy` 8 秒分身、召回传送、四技能协同、双玩家隔离和生命周期测试。
+
 ## 执行记录
 
 ### TASK-SLICE-009
@@ -4685,4 +4740,125 @@
 - `docs/tasks/task-history.md`
 
 验证：
+- `npm run check:workflow` 通过。
+
+#### TASK-SLICE-085
+
+完成时间：
+- 2026-06-21
+
+完成内容：
+- 新增 `Role2PassiveSkillSystem.ts`，复现 `blb` 动态 MP、默认 48 帧蓄力阈值、学习 `sjt` 后 12 帧阈值，以及提前松键、未学习、MP 不足和攻击重入边界。
+- 把 `hit1` 长按转换 `hit2` 接入普通攻击系统；`sjt` 等级倍率 `1.1 + 0.005 * (level - 1)` 接入 Role2 普攻和主动技能伤害。
+- 从双玩家技能学习状态同步 `blb/sjt` 等级；若被动被错误绑定到主动槽，释放入口会明确返回被动提示而不扣 MP。
+- 新增独立系统测试覆盖阈值切换、动态消耗、提前释放、学习门禁、MP 门禁和重入。
+
+更新文件：
+- `src/systems/Role2PassiveSkillSystem.ts`
+- `src/systems/HeroNormalAttackSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/scenes/test-scene/TestSceneRole2SkillBridge.ts`
+- `tools/system-tests/role2-passive-tests.ts`
+
+验证：
+- `npm run check:structure` 通过。
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+
+#### TASK-SLICE-086
+
+完成时间：
+- 2026-06-21
+
+完成内容：
+- 新增 `Role2SupportSkillSystem.ts`，实现 `myhc` 半径 100、持续 4 秒的周期治疗，并覆盖无目标边界。
+- 实现 `tjgl` 半径 150 的玩家/宠物治疗、GXP 1.5 倍治疗、7 秒 `role2Tjgl` 护盾，以及护盾吸收和到期清理。
+- 将支援技能接入正式技能槽、MP 门禁、动作锁和双玩家/宠物目标收集；分身存在时同步 `myhc/tjgl` 支援段，其中分身 `tjgl` 使用 0.55 系数。
+- 新增系统测试覆盖治疗范围、周期、宠物目标、GXP、护盾吸收/过期、无目标和分身协同。
+
+更新文件：
+- `src/systems/Role2SupportSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/scenes/test-scene/TestSceneRole2SkillBridge.ts`
+- `tools/system-tests/role2-complete-skill-tests.ts`
+
+验证：
+- `npm run check:structure` 通过。
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+
+#### TASK-SLICE-087
+
+完成时间：
+- 2026-06-21
+
+完成内容：
+- 新增 `Role2ControlSkillSystem.ts`，实现 `jgz` 前方效果中心、240 半径选敌、0.625 秒拉拽浮空和 0.625 秒恢复阶段。
+- 明确过滤范围外、死亡和免疫目标；控制期间锁定目标重力，结束后恢复。
+- 实现等级倍率 `1.006 + 0.02 * (level - 1)` 的下一次伤害一次性增幅，并接入普通攻击及 Role2 主动技能的实际伤害链。
+- 新增系统测试覆盖目标过滤、拉拽/恢复、实际 `xbz` 增伤和只消费一次。
+
+更新文件：
+- `src/systems/Role2ControlSkillSystem.ts`
+- `src/systems/HeroNormalAttackSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/HeroMovementSystem.ts`
+- `src/scenes/test-scene/TestSceneRole2SkillBridge.ts`
+- `tools/system-tests/role2-complete-skill-tests.ts`
+
+验证：
+- `npm run check:structure` 通过。
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+
+#### TASK-SLICE-088
+
+完成时间：
+- 2026-06-21
+
+完成内容：
+- 新增 `Role2JhsjSkillSystem.ts`，按 60 FPS 等价时间在第 45 帧生成 `hit9_2`、第 55 帧生成 `hit9_1`，保留两类攻击间隔、位置和伤害公式。
+- 通过 Role2 运行时调度两段占位 projectile，并在施法窗口锁定水平移动、暂停重力，动作结束后自动恢复。
+- 分身存在时同步两段 0.35 倍变体，并保持本体、分身来源和生命周期可区分。
+- 新增系统测试覆盖双窗口时序、位置、攻击间隔、伤害、移动/重力锁及恢复。
+
+更新文件：
+- `src/systems/Role2JhsjSkillSystem.ts`
+- `src/systems/Role2SkillRuntimeSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/HeroMovementSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/scenes/test-scene/TestSceneRole2SkillBridge.ts`
+- `tools/system-tests/role2-complete-skill-tests.ts`
+
+验证：
+- `npm run check:structure` 通过。
+- `npm run test:systems` 通过。
+- `npm run build` 通过。
+
+#### TASK-SLICE-089
+
+完成时间：
+- 2026-06-21
+
+完成内容：
+- 新增 `Role2ShadowSkillSystem.ts`，实现首次释放扣 MP 并创建 8 秒分身、再次释放传送到分身并销毁且不重复扣 MP、自然到期清理。
+- 新增 `Role2SkillRuntimeSystem.ts` 和 `TestSceneRole2SkillBridge.ts`，集中管理分身、支援效果、控制效果和延迟 projectile，并按玩家模型隔离 P1/P2 状态。
+- 为分身使用稳定独立 source id，接入 projectile 来源快照，完成 `xbz/myhc/tjgl/jhsj` 四项协同；分身源销毁后对应效果按生命周期收束。
+- 新增系统测试覆盖创建、召回、MP、传送、到期、四技能协同和双玩家所有权隔离。
+
+更新文件：
+- `src/systems/Role2ShadowSkillSystem.ts`
+- `src/systems/Role2SkillRuntimeSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/scenes/test-scene/TestSceneRole2SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneUpdatePipeline.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests/role2-complete-skill-tests.ts`
+
+验证：
+- `npm run check:structure` 通过。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。

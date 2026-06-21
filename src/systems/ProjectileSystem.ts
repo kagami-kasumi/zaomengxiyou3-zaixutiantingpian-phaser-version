@@ -3,7 +3,6 @@ import {
   PetSkillEffectKeys,
   SkillProjectileEffectKeys,
 } from '../assets/AssetManifest';
-import type { PetUfo1PmsProjectileTuning, PetUfo3KmskProjectileTuning } from './PetUfoProjectileSystem';
 import type { AttackKind } from './CombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
 
@@ -70,10 +69,45 @@ export type ProjectileSystemModel = {
   sourceAttackSerialBySource: Record<string, number>;
 };
 
+export type ProjectileTuning = {
+  actionName: string;
+  assetKey: string;
+  sourceSymbol: string;
+  runtimeName: string;
+  offsetX: number;
+  offsetY: number;
+  speedX: number;
+  speedY: number;
+  distance: number | undefined;
+  width: number;
+  height: number;
+  lifetimeMs: number;
+  damage: number;
+  attackKind: AttackKind;
+  knockbackX: number;
+  knockbackY: number;
+  hitIntervalFrames: number;
+  maxHits: number;
+};
+
 export type ProjectileVariant =
   | 'role2-sgq-hit5'
   | 'role2-smb-hit4-1'
   | 'role2-smb-hit4-2'
+  | 'role2-xbz-hit3'
+  | 'role2-myhc'
+  | 'role2-shadow-myhc'
+  | 'role2-jgz'
+  | 'role2-tjgl'
+  | 'role2-shadow-tjgl'
+  | 'role2-jhsj-cast'
+  | 'role2-jhsj-hit9-1'
+  | 'role2-jhsj-hit9-2'
+  | 'role2-shadow-jhsj-hit9-1-2'
+  | 'role2-shadow-jhsj-hit9-2-2'
+  | 'role2-shy-shadow'
+  | 'role2-shy-recall'
+  | 'role2-shadow-xbz-hit3-2'
   | 'magic-weapon-sword2'
   | 'magic-weapon-qpj-active'
   | 'magic-weapon-qpj-auto'
@@ -1328,39 +1362,7 @@ export function spawnProjectileFromTuning(
   spawnPoint: ProjectileSpawnPoint,
   variant: ProjectileVariant,
   attackSlug: string,
-  tuning:
-    | typeof Role2SgqProjectileTuning
-    | typeof Role2SmbFirstStageProjectileTuning
-    | typeof Role2SmbSecondStageProjectileTuning
-    | typeof MagicSword2ProjectileTuning
-    | typeof MagicQpjActiveProjectileTuning
-    | typeof MagicQpjAutoProjectileTuning
-    | typeof MagicPearlBulletTunings.bullet1
-    | typeof MagicPearlBulletTunings.bullet2
-    | typeof MagicPearlBulletTunings.bullet3
-    | typeof MagicZlHummerProjectileTuning
-    | typeof MagicSnowProjectileTuning
-    | typeof PetMonkey1XjProjectileTuning
-    | typeof PetMonkey2LjProjectileTuning
-    | typeof PetMonkey2XjProjectileTuning
-    | typeof PetMonkey3LyqProjectileTuning
-    | typeof PetMonkey3XjProjectileTuning
-    | typeof PetMonkey3LjProjectileTuning
-    | typeof PetMonkey4JgaoyiProjectileTuning
-    | typeof PetHorse1SpProjectileTuning
-    | typeof PetHorse2BdProjectileTuning
-    | typeof PetHorse3BzProjectileTuning
-    | typeof PetHorse4TmaoyiProjectileTuning
-    | typeof PetHorse4TmaoyiExplodeProjectileTuning
-    | typeof PetDragon1FsProjectileTuning
-    | typeof PetDragon2SdccProjectileTuning
-    | typeof PetDragon3LtwjProjectileTuning
-    | typeof PetDragon4QlaoyiProjectileTuning
-    | typeof PetTurtle1SldProjectileTuning
-    | typeof PetTurtle3SybhProjectileTuning
-    | typeof PetTurtle4XwaoyiProjectileTuning
-    | typeof PetUfo1PmsProjectileTuning
-    | typeof PetUfo3KmskProjectileTuning,
+  tuning: ProjectileTuning,
 ): ProjectileModel {
   const id = system.projectileSerial + 1;
   system.projectileSerial = id;

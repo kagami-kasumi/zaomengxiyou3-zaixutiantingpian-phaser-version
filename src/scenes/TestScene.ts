@@ -45,8 +45,8 @@ import {
   type ProjectileSystemModel,
 } from './test-scene/TestSceneSystems';
 import {
-  requestRole2SkillFromInput,
   resetHeroSkill,
+  takeRole2NormalAttackExtraMultiplier,
   type HeroSkillCastEvent,
   type HeroSkillModel,
 } from './test-scene/TestSceneSystems';
@@ -63,6 +63,7 @@ import {
   type BossArenaModel,
   type VerticalClimbState,
 } from './test-scene/TestSceneSystems';
+import { updateRole2SkillBridge } from './test-scene/TestSceneRole2SkillBridge';
 import {
   calculateEffectiveStats,
   createSeedEquipmentRegistry,
@@ -589,7 +590,7 @@ export class TestScene extends Phaser.Scene {
       updateMagicWeapon: (input, delta) => this.updateMagicWeapon(input, delta),
       updateMagicBottleCapture: (input, delta) => this.updateMagicBottleCapture(input, delta),
       updateBossHitByPlayers: (time) => this.updateBossHitByPlayers(time),
-      updateHeroSkillProjectiles: (input) => this.updateHeroSkillProjectiles(input),
+      updateHeroSkillProjectiles: (input, time, delta) => this.updateHeroSkillProjectiles(input, time, delta),
       updateProjectileSystem: (time, delta) => this.updateProjectileSystem(time, delta),
       updateMonster30s: (delta) => this.updateMonster30s(delta),
       handleMedicineDebugKeys: () => this.handleMedicineDebugKeys(),
@@ -805,6 +806,12 @@ export class TestScene extends Phaser.Scene {
         this.lastInput?.[player.slot],
         player.movement,
         time,
+        player.normalAttack.heroId === 2 ? {
+          ...player.skill.learnedRole2Skills,
+          sourcePower: player.baseStats.power,
+          resource: player.skill,
+          extraDamageMultiplier: () => takeRole2NormalAttackExtraMultiplier(player.skill),
+        } : undefined,
       );
 
       if (attackEvent) {
@@ -821,31 +828,27 @@ export class TestScene extends Phaser.Scene {
     }
   }
 
-  private updateHeroSkillProjectiles(input: InputState): void {
-    for (const player of this.playerViews) {
-      const movement = player.movement;
-      if (!movement || player.normalAttack.heroId !== 2) {
-        continue;
-      }
-
-      const skillEvent = requestRole2SkillFromInput({
-        skill: player.skill,
-        input: input[player.slot],
-        previousInput: this.lastInput?.[player.slot],
-        movement,
-        combat: player.combat,
-        normalAttack: player.normalAttack,
-        projectiles: this.projectileSystem,
-      });
-
-      if (skillEvent) {
-        this.lastSkillEvent = skillEvent;
-        const hasProjectileView = this.projectileEffectViews.some(
-          (view) => view.projectileId === skillEvent.projectile.id,
-        );
-        if (!hasProjectileView) {
-          this.projectileEffectViews.push(createProjectileEffectView(this, skillEvent.projectile));
-        }
+  private updateHeroSkillProjectiles(input: InputState, time: number, delta: number): void {
+    const result = updateRole2SkillBridge({
+      players: this.playerViews,
+      input,
+      previousInput: this.lastInput,
+      projectiles: this.projectileSystem,
+      monsters: this.monster30s,
+      petRosters: this.playerPetRosters,
+      petRuntimes: { p1: this.petRuntime, p2: this.p2PetRuntime },
+      skillLearning: { p1: this.p1SkillLearning, p2: this.p2SkillLearning },
+      deltaMs: delta,
+      timeMs: time,
+    });
+    const projectiles = [
+      ...result.castEvents.map((event) => event.projectile),
+      ...result.spawnedProjectiles,
+    ];
+    this.lastSkillEvent = result.castEvents.at(-1) ?? this.lastSkillEvent;
+    for (const projectile of projectiles) {
+      if (!this.projectileEffectViews.some((view) => view.projectileId === projectile.id)) {
+        this.projectileEffectViews.push(createProjectileEffectView(this, projectile));
       }
     }
   }
@@ -861,13 +864,18 @@ export class TestScene extends Phaser.Scene {
       id: player.slot,
       state: player.combat.state,
     }));
+    const shadowSnapshots = this.playerViews.flatMap((player) => {
+      const shadow = player.skill.role2Runtime.shadow;
+      return shadow ? [{ id: shadow.id, state: 'ready' as const }] : [];
+    });
     const activePet = getActivePet(this.petRoster);
     if (!activePet) {
-      return playerSnapshots;
+      return [...playerSnapshots, ...shadowSnapshots];
     }
 
     return [
       ...playerSnapshots,
+      ...shadowSnapshots,
       {
         id: activePet.id,
         state: activePet.hp <= 0 ? 'dead' as const : 'ready' as const,

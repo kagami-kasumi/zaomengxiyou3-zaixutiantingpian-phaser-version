@@ -460,12 +460,14 @@ consumeMP[levelIndex] * 1.2 * 35173 / 25958
 | `tjgl` | 普通五槽绑定 | `* 1.0 * 35173 / 25958`；特殊技能，最高 9 级 | MP 足够，非攻击、非受击；靠 `hit8` 动作阻止重入 | 半径 150 治疗玩家/宠物，自身获得 7 秒护盾 |
 | `jhsj` | 普通五槽绑定 | `* 1.1 * 35173 / 25958` | MP 足够，非攻击、非受击；靠 `hit9` 动作阻止重入 | 第 45/55 帧两类多段特效；分身同步弱化段 |
 | `blb` | 学习树被动 + 普攻持续按住 | `hit2` 使用独立动态 MP 公式；普通技能最高 18 级 | `showSkill()` 中函数为空；只在 `hit1` 首段检测 `keyarray[1]` 并累积蓄力 | 达阈值后普攻结算改为 `hit2` |
-| `xbz` | 普通五槽绑定 | `* 0.65 * 35173 / 25958` | MP 足够，非攻击、非受击；靠 `hit3` 动作阻止重入 | 自身位置固定范围魔法；分身同步 0.35 倍段 |
+| `xbz` | 普通五槽绑定 | `* 0.65 * 35173 / 25958` | MP 足够，非攻击、非受击；靠 `hit3` 动作阻止重入 | `TASK-SLICE-084` 已实现本体固定范围魔法；分身同步 0.35 倍段后置 |
 | `shy` | 普通五槽绑定 | `* 0.55 * 35173 / 25958` | MP 足够，非攻击、非受击；创建/召回本身不进入普通攻击动作 | 首次创建 8 秒分身并扣 MP；再次传送到分身、销毁且不扣 MP |
 | `sjt` | 学习树被动 | 无主动消耗；普通技能最高 18 级 | 不进入 `showSkill()`；`step()` 持续根据是否已学习调整阈值 | `blb`/`sgq` 蓄力阈值 48→12，Role2 全伤害乘等级系数 |
 | `smb` | 普通五槽绑定 | `* 1.2 * 35173 / 25958` | 第一段要求站立且扣 MP；仅 `hit4_1` + 第一段 projectile 存活时允许同键二段 | 水平移动弹体后接上方爆发；已实现 |
 
 除 `smb` 的显式二段和 `shy` 的创建/召回外，Role2 没有独立统一 CD，也没有额外组合键主动技。`myKeyDown()` 只处理普攻、跳跃、下落和传送门；所谓 Role2 组合输入仅指 `blb` 在 `hit1` 内持续按普攻的蓄力分支。
+
+现代复现状态（2026-06-21）：`TASK-SLICE-084..089` 已完成 Role2 的 8 项主动技能、`blb/sjt` 两项被动、正式槽位/MP/动作门禁、分身协同和双玩家隔离。核心实现分布于 `Role2XbzSkillSystem.ts`、`Role2PassiveSkillSystem.ts`、`Role2SupportSkillSystem.ts`、`Role2ControlSkillSystem.ts`、`Role2JhsjSkillSystem.ts`、`Role2ShadowSkillSystem.ts` 与 `Role2SkillRuntimeSystem.ts`，回归由 `role2-xbz-tests.ts`、`role2-passive-tests.ts` 和 `role2-complete-skill-tests.ts` 覆盖。
 
 ---
 

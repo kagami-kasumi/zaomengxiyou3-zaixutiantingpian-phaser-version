@@ -4,6 +4,9 @@ import { runPetOwnershipSystemTests } from './system-tests/pet-ownership-tests';
 import { runPetGrowthSystemTests } from './system-tests/pet-growth-tests';
 import { runPetItemOwnershipTests } from './system-tests/pet-item-ownership-tests';
 import { runDualPlayerPetSaveTests } from './system-tests/dual-player-pet-save-tests';
+import { runRole2XbzSystemTests } from './system-tests/role2-xbz-tests';
+import { runRole2PassiveSystemTests } from './system-tests/role2-passive-tests';
+import { runRole2CompleteSkillTests } from './system-tests/role2-complete-skill-tests';
 import {
   createDamageEvent,
   createHitRegistry,
@@ -172,6 +175,9 @@ import {
 import { createSkillLearningState } from '../src/systems/SkillUISystem';
 
 testMonster30StableIds();
+runRole2XbzSystemTests();
+runRole2PassiveSystemTests();
+runRole2CompleteSkillTests();
 testProgressionMonster30AwardAndPlayerIsolation();
 testProgressionSingleLevelRefreshesRole2Stats();
 testProgressionOverflowMultipleLevels();

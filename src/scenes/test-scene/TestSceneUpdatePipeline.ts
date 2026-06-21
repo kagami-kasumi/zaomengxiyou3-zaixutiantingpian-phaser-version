@@ -13,7 +13,7 @@ export type TestSceneUpdateHooks = {
   updateMagicWeapon(input: InputState, delta: number): void;
   updateMagicBottleCapture(input: InputState, delta: number): void;
   updateBossHitByPlayers(time: number): void;
-  updateHeroSkillProjectiles(input: InputState): void;
+  updateHeroSkillProjectiles(input: InputState, time: number, delta: number): void;
   updateProjectileSystem(time: number, delta: number): void;
   updateMonster30s(delta: number): void;
   handleMedicineDebugKeys(): void;
@@ -60,7 +60,7 @@ export function createTestSceneUpdatePipeline(
       hooks.updateMagicWeapon(input, delta);
       hooks.updateMagicBottleCapture(input, delta);
       hooks.updateBossHitByPlayers(time);
-      hooks.updateHeroSkillProjectiles(input);
+      hooks.updateHeroSkillProjectiles(input, time, delta);
       hooks.updateProjectileSystem(time, delta);
 
       hooks.updateMonster30s(delta);

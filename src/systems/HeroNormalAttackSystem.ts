@@ -2,6 +2,10 @@ import { HeroNormalAttackEffectKeys } from '../assets/AssetManifest';
 import type { AttackKind } from './CombatSystem';
 import type { PlayerInputState } from './InputSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
+import {
+  updateRole2ChargedAttack,
+  type Role2ChargeResource,
+} from './Role2PassiveSkillSystem';
 
 export type HeroId = 1 | 2 | 3 | 4 | 5;
 export type HeroWeaponMode = 'shovel' | 'arrow' | 'spear' | 'sword';
@@ -46,6 +50,16 @@ export type ActiveHeroNormalAttack = {
   hitboxHeight: number;
   damage: number;
   attackKind: AttackKind;
+  role2ChargePrepared?: boolean;
+  role2ExtraDamageMultiplier?: number;
+};
+
+export type Role2NormalAttackOptions = {
+  blbLevel: number;
+  sjtLevel: number;
+  sourcePower: number;
+  resource: Role2ChargeResource;
+  extraDamageMultiplier?: number | (() => number);
 };
 
 type AttackStep = {
@@ -117,7 +131,20 @@ export function updateHeroNormalAttack(
   previousInput: PlayerInputState | undefined,
   movement: HeroMovementModel,
   timeMs: number,
+  role2Options?: Role2NormalAttackOptions,
 ): HeroNormalAttackEvent | undefined {
+  const activeBeforeExpire = model.activeAttack;
+  if (activeBeforeExpire && role2Options) {
+    const chargeResult = updateRole2ChargedAttack({
+      attack: activeBeforeExpire,
+      attackHeld: input.attack,
+      timeMs,
+      ...role2Options,
+    });
+    if (chargeResult === 'converted-hit2') {
+      return { attack: activeBeforeExpire, hitbox: createHitboxFromAttack(activeBeforeExpire, movement) };
+    }
+  }
   expireActiveAttack(model, timeMs);
 
   const justPressedAttack = input.attack && !(previousInput?.attack ?? false);
@@ -150,6 +177,15 @@ export function updateHeroNormalAttack(
   model.activeAttack = attack;
   model.lastAttackAtMs = timeMs;
   model.cooldownUntilMs = timeMs + step.cooldownMs;
+
+  if (role2Options) {
+    updateRole2ChargedAttack({
+      attack,
+      attackHeld: input.attack,
+      timeMs,
+      ...role2Options,
+    });
+  }
 
   return {
     attack,
