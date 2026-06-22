@@ -62,6 +62,9 @@ export type HeroCombatModel = {
   magicBuff?: HeroMagicBuff;
   magicFlowerBuff?: HeroMagicFlowerBuff;
   magicFlagGuard?: HeroMagicFlagGuard;
+  role3DefenseBonus?: number;
+  role3DamageReduction?: number;
+  role3KnockbackImmune?: boolean;
 };
 
 export const HeroCombatTuning = {
@@ -96,6 +99,9 @@ export function resetHeroCombat(hero: HeroCombatModel): void {
   hero.magicBuff = undefined;
   hero.magicFlowerBuff = undefined;
   hero.magicFlagGuard = undefined;
+  hero.role3DefenseBonus = undefined;
+  hero.role3DamageReduction = undefined;
+  hero.role3KnockbackImmune = undefined;
 }
 
 export function isHeroCombatDead(hero: HeroCombatModel): boolean {
@@ -119,7 +125,11 @@ export function applyHeroDamage(
     return false;
   }
 
-  const remainingDamage = absorbHeroDamageWithMagicShield(hero, event.amount);
+  const role3Reduction = Math.min(1, Math.max(0, hero.role3DamageReduction ?? 0));
+  const remainingDamage = absorbHeroDamageWithMagicShield(
+    hero,
+    event.amount * (1 - role3Reduction),
+  );
   hero.hp = Math.max(0, hero.hp - remainingDamage);
   hero.lastDamageEvent = event;
 
@@ -135,7 +145,9 @@ export function applyHeroDamage(
     hero.state = 'hurt';
     hero.hurtUntilMs = timeMs + HeroCombatTuning.hurtDurationMs;
     hero.invulnerableUntilMs = timeMs + HeroCombatTuning.invulnerableDurationMs;
-    hero.knockbackVelocityX = event.knockbackX * HeroCombatTuning.knockbackPixelsPerSecond;
+    hero.knockbackVelocityX = hero.role3KnockbackImmune
+      ? 0
+      : event.knockbackX * HeroCombatTuning.knockbackPixelsPerSecond;
   }
   return true;
 }

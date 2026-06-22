@@ -46,6 +46,7 @@ import {
 } from './test-scene/TestSceneSystems';
 import {
   resetHeroSkill,
+  createTestRole3SkillLoadout,
   takeRole2NormalAttackExtraMultiplier,
   type HeroSkillCastEvent,
   type HeroSkillModel,
@@ -63,7 +64,10 @@ import {
   type BossArenaModel,
   type VerticalClimbState,
 } from './test-scene/TestSceneSystems';
+import { consumeRole3NextDamageMultiplier } from '../systems/Role3ControlSkillSystem';
+import { isRole3SspComboRequested } from '../systems/Role3ImpactSkillSystem';
 import { updateRole2SkillBridge } from './test-scene/TestSceneRole2SkillBridge';
+import { updateRole3SkillBridge } from './test-scene/TestSceneRole3SkillBridge';
 import {
   calculateEffectiveStats,
   createSeedEquipmentRegistry,
@@ -706,6 +710,7 @@ export class TestScene extends Phaser.Scene {
           player.baseStats = getHeroBaseStats(heroId, player.progression.level);
           resetHeroCombat(player.combat);
           resetHeroSkill(player.skill);
+          if (heroId === 3) player.skill.loadout = createTestRole3SkillLoadout();
           this.syncPlayerEffectiveStats(player, { refill: true });
           this.refreshPlayerHeroView(player);
         }
@@ -806,6 +811,15 @@ export class TestScene extends Phaser.Scene {
         continue;
       }
 
+      if (isRole3SspComboRequested({
+        heroId: player.normalAttack.heroId,
+        skill: player.skill,
+        input: input[player.slot],
+        previousInput: this.lastInput?.[player.slot],
+      })) {
+        continue;
+      }
+
       const attackEvent = updateHeroNormalAttack(
         player.normalAttack,
         input[player.slot],
@@ -818,6 +832,9 @@ export class TestScene extends Phaser.Scene {
           resource: player.skill,
           extraDamageMultiplier: () => takeRole2NormalAttackExtraMultiplier(player.skill),
         } : undefined,
+        player.normalAttack.heroId === 3
+          ? () => consumeRole3NextDamageMultiplier(player.skill.role3Runtime)
+          : undefined,
       );
 
       if (attackEvent) {
@@ -847,11 +864,21 @@ export class TestScene extends Phaser.Scene {
       deltaMs: delta,
       timeMs: time,
     });
+    const role3Events = updateRole3SkillBridge({
+      players: this.playerViews,
+      input,
+      previousInput: this.lastInput,
+      projectiles: this.projectileSystem,
+      monsters: this.monster30s,
+      skillLearning: { p1: this.p1SkillLearning, p2: this.p2SkillLearning },
+      deltaMs: delta,
+    });
     const projectiles = [
       ...result.castEvents.map((event) => event.projectile),
+      ...role3Events.map((event) => event.projectile),
       ...result.spawnedProjectiles,
     ];
-    this.lastSkillEvent = result.castEvents.at(-1) ?? this.lastSkillEvent;
+    this.lastSkillEvent = role3Events.at(-1) ?? result.castEvents.at(-1) ?? this.lastSkillEvent;
     for (const projectile of projectiles) {
       if (!this.projectileEffectViews.some((view) => view.projectileId === projectile.id)) {
         this.projectileEffectViews.push(createProjectileEffectView(this, projectile));

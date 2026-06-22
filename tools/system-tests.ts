@@ -7,6 +7,7 @@ import { runDualPlayerPetSaveTests } from './system-tests/dual-player-pet-save-t
 import { runRole2XbzSystemTests } from './system-tests/role2-xbz-tests';
 import { runRole2PassiveSystemTests } from './system-tests/role2-passive-tests';
 import { runRole2CompleteSkillTests } from './system-tests/role2-complete-skill-tests';
+import { runRole3DefenseSkillTests } from './system-tests/role3-defense-skill-tests';
 import {
   createDamageEvent,
   createHitRegistry,
@@ -178,6 +179,7 @@ testMonster30StableIds();
 runRole2XbzSystemTests();
 runRole2PassiveSystemTests();
 runRole2CompleteSkillTests();
+runRole3DefenseSkillTests();
 testProgressionMonster30AwardAndPlayerIsolation();
 testProgressionSingleLevelRefreshesRole2Stats();
 testProgressionOverflowMultipleLevels();

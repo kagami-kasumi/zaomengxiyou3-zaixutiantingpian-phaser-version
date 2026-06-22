@@ -331,6 +331,25 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 | Role5 | `sword_lxuanj1/2`、`swordskill5_2`、`sword_jrjljq`、`Role5Bullet10_3` | `EnemyMoveBullet` | 多个剑/枪形态移动弹体 | 适合白龙专题，不建议抢在 Role2 第二技能前 |
 | Role5 | `sword_mlsz1..5`、`fhf*ly*_spear`、`zxcly*_spear` | `SpecialEffectBullet` | 多段阵列或枪形态范围特效 | 真资源和形态状态依赖重，后置 |
 
+### Role3 技能 projectile 完整映射
+
+| 技能 | 动作/资源 | 类型 | 生成与生命周期 | 结算边界 |
+| --- | --- | --- | --- | --- |
+| `dj` | `hit4` / `Role3Bullet4` | `FollowBaseObjectBullet` | 第 24 帧，前方约 35、上方 55 | 物理，击退 `[7,-3]`，2 段口径 |
+| `sd` | `hit5` / `Role3Bullet5` | `FollowBaseObjectBullet`（disable） | 停留帧，前方约 70、上方 110 | 无伤害；循环添加三档 10 秒盾态 |
+| `zznh` | `hit6` / `Role3Bullet6` | `FollowBaseObjectBullet`（disable） | 第 6 帧，前方约 120、上方 115 | 无直接伤害；全场合法目标 1.8 秒拉拽并强化下一击 |
+| `syzq` | `hit7_1/2` / `Role3Bullet7_1/2` | `FollowBaseObjectBullet` + `EnemyMoveBullet` | 前段固定；后段水平 `±12`、2.5 秒、距离 999 | 前段 0 伤害，后段物理 11 段口径、击退 `[15,-2]` |
+| `ssp` / 组合键 | `hit8_1/2` / `Role3Bullet8_1/2` | `FollowBaseObjectBullet` + `SpecialEffectBullet` | 同帧生成，分别位于角色前方/身后附近 | 前段 0 伤害，后段魔法 4 段口径、击退 `[10,-4]` |
+| `jsp` | `hit9` / `Role3Bullet9` | `SpecialEffectBullet` | 前方约 195、上方 160 | 物理 3 段口径；释放时 10% 概率附加 2 秒眩晕 |
+| `dgq` | `hit10` / `Role3Bullet10` | `FollowBaseObjectBullet` | 前方约 55、上方 25；角色同步 `±15` 突进 | 魔法 5 段口径、击退 `[15,-2]` |
+| `xgq` | `hit11Frame2` / `Role3Bullet11` | `FollowBaseObjectBullet` | 隐藏角色的第二动作段，前方约 135、上方 90 | 魔法 4 段口径、击退 `[0,0]` |
+| `tmc` | `hit12_1` / `Role3Bullet12_1` | `FollowBaseObjectBullet`（disable） | 首段角色原点，作为二段视觉前置 | 本体不单独作为最终伤害段 |
+| `tmc` 二段 | `hit12` / `Role3Bullet12_2` | 10 个 `StabBullet` | 半径 100 环形起点，0.3 秒刺向随机合法目标 | 物理 10 段口径；可继承 `zznh` 强化，最终倍率需避免原版特殊路径双算 |
+
+当前 `extracted_flash/resources` 未提供可直接确认的 Role3 技能真素材；现代实现使用稳定占位 key，资源缺口不阻塞行为、数值和生命周期复现。
+
+`TASK-SLICE-090..094` 已将上表全部 Role3 projectile/特效接入现代系统：`Role3Bullet4..11`、`Role3Bullet12_1` 和十枚环形 `Role3Bullet12_2` 均有稳定占位 key、原版攻击种类/段数/击退/生命周期与独立测试；真素材缺口保持不变。
+
 `TASK-SLICE-006` 已复现 `Role2.smb -> hit4_1` 的 `EnemyMoveBullet("Role2Bullet4_1")` 占位移动 projectile。`TASK-SLICE-007` 已继续实现 `hit4_2`：读取第一段运行时名 `Role1Bullet4_1` 的当前位置记录，在其上方约 320 像素、横向按朝向反向约 50 像素生成 `Role2Bullet4_2` 二段特效。
 
 ## 现代实现状态

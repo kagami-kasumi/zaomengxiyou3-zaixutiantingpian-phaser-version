@@ -132,6 +132,7 @@ export function updateHeroNormalAttack(
   movement: HeroMovementModel,
   timeMs: number,
   role2Options?: Role2NormalAttackOptions,
+  extraDamageMultiplier?: number | (() => number),
 ): HeroNormalAttackEvent | undefined {
   const activeBeforeExpire = model.activeAttack;
   if (activeBeforeExpire && role2Options) {
@@ -169,7 +170,9 @@ export function updateHeroNormalAttack(
     hitboxOffsetY: step.hitboxOffsetY,
     hitboxWidth: step.hitboxWidth,
     hitboxHeight: step.hitboxHeight,
-    damage: step.damage,
+    damage: step.damage * (typeof extraDamageMultiplier === 'function'
+      ? extraDamageMultiplier()
+      : extraDamageMultiplier ?? 1),
     attackKind: step.attackKind,
   };
 

@@ -37,6 +37,10 @@ import {
 import { startRole2Jhsj } from './Role2JhsjSkillSystem';
 import { castRole2Shy } from './Role2ShadowSkillSystem';
 import { getRole2SjtDamageMultiplier } from './Role2PassiveSkillSystem';
+import {
+  createRole3SkillRuntime,
+  type Role3SkillRuntimeModel,
+} from './Role3DefenseSkillSystem';
 
 export type SkillName = AllSkillName;
 
@@ -56,8 +60,8 @@ export type HeroSkillLoadout = {
 };
 
 export type HeroSkillActionName =
-  | 'hit3' | 'hit4_1' | 'hit4_2' | 'hit5'
-  | 'hit6' | 'hit7' | 'hit8' | 'hit9' | 'hit10';
+  | 'hit3' | 'hit4' | 'hit4_1' | 'hit4_2' | 'hit5'
+  | 'hit6' | 'hit7' | 'hit8' | 'hit9' | 'hit10' | 'hit11' | 'hit12';
 
 export type ActiveHeroSkillAction = {
   skillName: SkillName;
@@ -79,6 +83,7 @@ export type HeroSkillModel = {
     shyLevel: number;
   };
   role2Runtime: Role2SkillRuntimeModel;
+  role3Runtime: Role3SkillRuntimeModel;
   isGxp: boolean;
 };
 
@@ -122,6 +127,18 @@ export function createTestRole2SkillLoadout(): HeroSkillLoadout {
   };
 }
 
+export function createTestRole3SkillLoadout(): HeroSkillLoadout {
+  return {
+    slots: [
+      { skillName: 'dj', level: 1 },
+      { skillName: 'sd', level: 1 },
+      { skillName: 'zznh', level: 1 },
+      { skillName: 'syzq', level: 1 },
+      { skillName: 'ssp', level: 1 },
+    ],
+  };
+}
+
 export function createHeroSkillModel(
   loadout: HeroSkillLoadout = createTestRole2SkillLoadout(),
   maxMp: number = Role2SkillTuning.maxMp,
@@ -133,6 +150,7 @@ export function createHeroSkillModel(
     lastResult: 'ready',
     learnedRole2Skills: { blbLevel: 0, sjtLevel: 0, shyLevel: 0 },
     role2Runtime: createRole2SkillRuntime(),
+    role3Runtime: createRole3SkillRuntime(),
     isGxp: false,
   };
 }
@@ -142,6 +160,7 @@ export function resetHeroSkill(model: HeroSkillModel): void {
   model.activeAction = undefined;
   model.lastResult = 'ready';
   model.role2Runtime = createRole2SkillRuntime();
+  model.role3Runtime = createRole3SkillRuntime();
 }
 
 export function getSkillMpCost(binding: SkillBinding): number {

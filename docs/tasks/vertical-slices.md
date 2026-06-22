@@ -52,6 +52,8 @@
 | VS-036 全宠物专属技能链最小闭环 | 已完成 | 复现全部已逆向宠物物种（UFO/虎/凤凰/兔/鼠）专属技能链 | M-042、M-032、`pets-index.md` | `PetUfoSkillSystem.ts`、`PetTigerSkillSystem.ts`、`PetPhoenixSkillSystem.ts`、`PetRabbitSkillSystem.ts`、`PetMouseSkillSystem.ts`、`PetSkillPrioritySystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`TestSceneAdvancedPetSkillBridge.ts`、`system-tests.ts` | 全部 9 物种专属技能链已具备可验证闭环；`TASK-SLICE-078` 补齐涅槃持续状态、凤凰灼烧、兔系触发/疾风/月神治疗、三枚回旋飞镖、白虎/紫鼠分段奥义及 `skill1 -> skill4` 调度 |
 | VS-037 Role2 完整战斗扩展 | 已完成 | 在既有 `sgq/smb` 基础上补齐唐僧剩余主动、被动、支援、控制与分身链 | M-019、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role2PassiveSkillSystem.ts`、`Role2XbzSkillSystem.ts`、`Role2SupportSkillSystem.ts`、`Role2ControlSkillSystem.ts`、`Role2JhsjSkillSystem.ts`、`Role2ShadowSkillSystem.ts`、独立测试 | `TASK-SLICE-084..089` 全部完成：正式输入/MP/动作门禁、蓄力被动、原版等级公式、治疗/护盾、拉拽/增幅、双窗口多段、8 秒分身/召回与四技能同步均可测 |
 
+| VS-038 Role3 完整战斗扩展 | 已完成 | 补齐八戒九项主动、`rj` 被动、组合 `hit8`、三档盾、拉拽强化、位移和 `tmc` 二段追踪阵列 | M-020、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role3DefenseSkillSystem.ts`、`Role3ControlSkillSystem.ts`、`Role3ImpactSkillSystem.ts`、`Role3MobilitySkillSystem.ts`、`Role3UltimateSkillSystem.ts`、`TestSceneRole3SkillBridge.ts`、独立测试 | `TASK-SLICE-090..094` 全部完成：九项主动、`rj` 被动、组合入口、盾/拉拽/强化/眩晕/位移/隐藏/二段追踪阵列均可测 |
+
 ## 第一批推荐执行顺序
 
 1. 全部已逆向宠物物种技能链均已完成实现。推荐转向存档或法宝深度逆向。

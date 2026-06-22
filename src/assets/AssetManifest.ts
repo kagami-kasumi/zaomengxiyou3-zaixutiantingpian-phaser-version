@@ -53,6 +53,19 @@ export const SkillProjectileEffectKeys = {
   role2JhsjHit9_1: 'skill-projectile.role2.jhsj.hit9_1',
   role2JhsjHit9_2: 'skill-projectile.role2.jhsj.hit9_2',
   role2ShyShadow: 'skill-summon.role2.shy.shadow',
+  role3DjHit4: 'skill-projectile.role3.dj.hit4',
+  role3SdHit5: 'skill-effect.role3.sd.hit5',
+  role3ZznhHit6: 'skill-effect.role3.zznh.hit6',
+  role3SyzqHit7_1: 'skill-effect.role3.syzq.hit7_1',
+  role3SyzqHit7_2: 'skill-projectile.role3.syzq.hit7_2',
+  role3SspHit8_1: 'skill-effect.role3.ssp.hit8_1',
+  role3SspHit8_2: 'skill-effect.role3.ssp.hit8_2',
+  role3JspHit9: 'skill-effect.role3.jsp.hit9',
+  role3DgqHit10: 'skill-projectile.role3.dgq.hit10',
+  role3XgqHit11Cast: 'skill-effect.role3.xgq.hit11-cast',
+  role3XgqHit11: 'skill-projectile.role3.xgq.hit11',
+  role3TmcHit12_1: 'skill-effect.role3.tmc.hit12_1',
+  role3TmcHit12_2: 'skill-projectile.role3.tmc.hit12_2',
 } as const;
 
 export const MagicWeaponEffectKeys = {
@@ -191,6 +204,11 @@ export const sourceAssetFamilies = {
       'Role2_hit10',
     ],
     notes: 'Role2 skill projectile/effect family; absent from current symbol and image exports, expected in TangSeng or SpecialUI/TangSeng resource packages.',
+  },
+  role3SkillProjectiles: {
+    status: 'missing-original',
+    sourceSymbols: ['Role3Bullet4', 'Role3_hit4', 'Role3Bullet5', 'Role3_hit5', 'Role3Bullet5Buff', 'Role3Bullet6', 'Role3_hit6', 'Role3Bullet7_1', 'Role3Bullet7_2', 'Role3_hit7', 'Role3Bullet8_1', 'Role3Bullet8_2', 'Role3_hit8', 'Role3Bullet9', 'Role3_hit9', 'Role3Bullet10', 'Role3_hit10', 'Role3Bullet11', 'Role3_hit11', 'Role3Bullet12_1', 'Role3Bullet12_2', 'Role3_hit12_1', 'Role3_hit12_2'],
+    notes: 'Role3 skill effects are absent from current exports and use stable placeholders.',
   },
   magicWeaponProjectiles: {
     status: 'missing-original',

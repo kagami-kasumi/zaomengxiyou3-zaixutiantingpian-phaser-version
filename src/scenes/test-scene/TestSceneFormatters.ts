@@ -190,11 +190,14 @@ export function formatHeroCombatState(combat: HeroCombatModel | undefined): stri
   const flag = combat.magicFlagGuard
     ? ` | flag:${formatSeconds(combat.magicFlagGuard.remainingMs)}s debuff:${formatSeconds(combat.magicFlagGuard.debuffMs)}s`
     : '';
+  const role3 = combat.role3DefenseBonus || combat.role3DamageReduction
+    ? ` | r3-def:+${combat.role3DefenseBonus ?? 0} reduce:${Math.round((combat.role3DamageReduction ?? 0) * 100)}%`
+    : '';
   return [
     combat.state,
     `hp:${combat.hp}/${combat.maxHp}`,
     `last:${combat.lastDamageEvent?.amount ?? 0}`,
-  ].join(' | ') + shield + invincible + buff + flower + flag;
+  ].join(' | ') + shield + invincible + buff + flower + flag + role3;
 }
 
 export function formatHeroProgressionState(

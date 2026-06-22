@@ -66,6 +66,8 @@ import {
 } from './TestSceneDebugKeys';
 import { isPlayerSlot } from './TestSceneFormatters';
 import { toPhaserRect } from './TestSceneGeometry';
+import { tryRole3RjHealOnHit } from '../../systems/Role3DefenseSkillSystem';
+import { isRole3XgqHidden } from '../../systems/Role3MobilitySkillSystem';
 import {
   createAttackFlash,
   createDropView,
@@ -570,15 +572,16 @@ export function applyCombatBridgeResult(this: any,
     }
   }
 export function applyHeroAttackHit(this: any, player: any, time: number): void {
-    this.applyCombatBridgeResult(
-      applyHeroNormalAttackToMonster30s({
+    const result = applyHeroNormalAttackToMonster30s({
         player,
         monsters: this.getMonster30s(),
         hitRegistry: this.hitRegistry,
         time,
-      }),
-      time,
-    );
+      });
+    for (const event of result.damageEvents) {
+      if (event.sourceId === player.slot) tryRole3HealForPlayer(player);
+    }
+    this.applyCombatBridgeResult(result, time);
   }
 export function applyProjectileHits(this: any, time: number): void {
     for (const monster of this.monster30s) {
@@ -637,6 +640,7 @@ export function applyProjectileHits(this: any, time: number): void {
             : undefined;
           if (playerProjectileOwner) {
             this.monster30AuraTargets.set(monster.id, projectile.sourceId);
+            tryRole3HealForPlayer(this.getPlayer(playerProjectileOwner));
           }
           if (monster.hp <= 0) {
             const award = claimMonsterExperienceForCurrentTarget(
@@ -680,6 +684,9 @@ export function applyProjectileHits(this: any, time: number): void {
         });
 
         if (applyMonster3Hit(this.bossArena.boss, damageEvent.amount)) {
+          if (isPlayerSlot(projectile.sourceId)) {
+            tryRole3HealForPlayer(this.getPlayer(projectile.sourceId));
+          }
           this.lastDamageEvent = damageEvent;
           recordProjectileHit(projectile);
           this.attackFlashes.push(createAttackFlash(this, attackBounds, time, 0x7ee7ff));
@@ -691,6 +698,11 @@ export function updatePlayerCombatVisual(this: any, player: any, time: number): 
     if (isHeroCombatDead(player.combat)) {
       player.sprite.setAlpha(0.42);
       player.sprite.setTint(0x697386);
+      return;
+    }
+
+    if (isRole3XgqHidden(player.skill.role3Runtime)) {
+      player.sprite.setAlpha(0);
       return;
     }
 
@@ -898,6 +910,15 @@ function getHeroTint(heroId: number): number {
     default:
       return 0xf3f6ff;
   }
+}
+
+function tryRole3HealForPlayer(player: any): void {
+  if (!player || player.normalAttack.heroId !== 3) return;
+  tryRole3RjHealOnHit({
+    runtime: player.skill.role3Runtime,
+    combat: player.combat,
+    sourcePower: player.baseStats.power,
+  });
 }
 
 function getMonsterColor(state: Monster30Model['state']): number {

@@ -175,6 +175,35 @@
 - `npm run build` 通过。
 - `npm run check:workflow` 通过。
 
+#### TASK-SETTINGS-038
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 完整逆向 Role3 八戒九项主动技能、`rj` 被动、普攻+上组合入口、MP 公式、动作/重入门禁、三档盾、拉拽强化和 `tmc` 二段追踪阵列。
+- 证实 `rj` 通过 `BaseRoleProperies` 自动增加防御，并在 `BaseHero` 命中链中提供概率回血；不是废弃技能。
+- 补齐 `Role3Bullet4..12_2` 的类型、时序、位置、生命周期、伤害段数和控制/支援边界。
+- 将后续实现拆为 `TASK-SLICE-090..094`，对应 `VS-038`。
+
+更新文件：
+- `docs/reverse-engineering/roles-index.md`
+- `docs/reverse-engineering/skills-input-index.md`
+- `docs/reverse-engineering/projectiles-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:workflow` 通过。
+
+边界：
+- 未修改 `extracted_flash/`；真实 Role3 视觉/音频资源仍按资源缺口处理。
+
+推荐任务：
+- `TASK-SLICE-090`：Role3 `dj/sd/rj` 基础攻防闭环。
+
 ### TASK-SLICE-084
 
 完成时间：
@@ -4764,6 +4793,154 @@
 - `npm run check:structure` 通过。
 - `npm run test:systems` 通过。
 - `npm run build` 通过。
+
+#### TASK-SLICE-094
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role3UltimateSkillSystem.ts`，实现 `tmc` 首段 `Role3Bullet12_1` 护体、原版 MP 公式、盾等级减伤和免击退。
+- 同槽位窗口内第二次释放不重复扣 MP，生成 10 枚半径 100 环形 `Role3Bullet12_2`，0.3 秒等价飞向随机存活目标；无目标时使用原版下方回退点。
+- 实现每枚独立伤害、目标记录、三次重入拒绝、动作/护体清理，以及 `zznh` 待消费强化与每枚 `hurtAdd 0.3` 协同。
+- 完成 Role3 总验收：九项主动、`rj` 被动和普攻+上组合入口全部具备正式输入、MP/动作门禁、数值、生命周期、双玩家隔离与系统测试。
+
+更新文件：
+- `src/systems/Role3UltimateSkillSystem.ts`
+- `src/systems/Role3DefenseSkillSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole3SkillBridge.ts`
+- `tools/system-tests/role3-defense-skill-tests.ts`
+- Role3 逆向索引、机制表、切片表、任务看板和任务历史。
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run check:workflow` 通过。
+
+边界：
+- 真实 Role3 视觉/音频资源仍缺；现代版使用已登记的稳定占位 key。
+
+推荐任务：
+- `TASK-SETTINGS-037`：Role1 悟空完整技能链逆向。
+
+#### TASK-SLICE-093
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role3MobilitySkillSystem.ts`，实现 `dgq` 的每帧 15 等价水平突进、五段魔法伤害和动作结束静止。
+- 实现 `xgq` 起手占位、角色隐藏、300ms 后 `Role3Bullet11` 四段伤害和 900ms 后恢复显示。
+- 两项技能接入原版 MP/等级伤害公式、一次性强化、正式输入、双玩家隔离和资源缺口登记。
+
+更新文件：
+- `src/systems/Role3MobilitySkillSystem.ts`
+- `src/systems/Role3DefenseSkillSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole3SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneWorldBridge.ts`
+- `tools/system-tests/role3-defense-skill-tests.ts`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-094`。
+
+#### TASK-SLICE-092
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role3ImpactSkillSystem.ts`，实现 `ssp` 的 `hit8_1` 无伤起手与 `hit8_2` 四段魔法伤害，槽位释放要求落地。
+- 实现已学习 `ssp` 后的普攻+上组合入口，固定扣 20 MP、共享 `hit8` 表现且不吞普通槽位动态 MP。
+- 实现 `jsp` 三段物理伤害和每次释放 10% 概率附加 2 秒眩晕，可注入随机源测试。
+- 两项技能均接入一次性强化、正式输入、双玩家隔离、占位资源和场景反馈。
+
+更新文件：
+- `src/systems/Role3ImpactSkillSystem.ts`
+- `src/systems/Role3DefenseSkillSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole3SkillBridge.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests/role3-defense-skill-tests.ts`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-093`。
+
+#### TASK-SLICE-091
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role3ControlSkillSystem.ts`，实现 `zznh` 全目标过滤、1.8 秒拉拽/失重恢复和 `1.1 + 0.005 * (level - 1)` 下一击一次性强化。
+- 实现 `syzq` 的 `Role3Bullet7_1` 无伤起手和 `Role3Bullet7_2` 水平 `±12`、距离 999、2.5 秒生命周期、11 段口径物理 projectile。
+- 一次性强化已接入 Role3 普攻、`dj` 和 `syzq`，消费后恢复 1；双玩家运行时隔离。
+- 扩展 Role3 场景桥接、占位资源登记和系统测试。
+
+更新文件：
+- `src/systems/Role3ControlSkillSystem.ts`
+- `src/systems/Role3DefenseSkillSystem.ts`
+- `src/systems/HeroNormalAttackSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole3SkillBridge.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests/role3-defense-skill-tests.ts`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-092`。
+
+#### TASK-SLICE-090
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role3DefenseSkillSystem.ts`，实现 `dj` 原版 MP/等级伤害公式与 `Role3Bullet4` 占位 projectile。
+- 实现 `sd` 三档循环盾态、每档 10 秒、等级上限 8% 减伤和盾态免击退；`Role3Bullet5` 作为无伤害占位效果。
+- 实现 `rj` 等级防御表和每次有效命中按 `0.1 + level * 0.005` 概率回复 `power * 0.2` HP。
+- 接入正式技能输入、Role3 默认测试槽位、P1/P2 隔离、状态栏反馈、怪物/首领/普攻命中回血和资源缺口登记。
+
+更新文件：
+- `src/systems/Role3DefenseSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole3SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneWorldBridge.ts`
+- `src/scenes/test-scene/TestSceneFormatters.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests/role3-defense-skill-tests.ts`
+- `tools/system-tests.ts`
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+边界：
+- 真 Role3 技能视觉/音频未在当前导出资源中确认，继续使用稳定占位 key。
+
+推荐任务：
+- `TASK-SLICE-091`。
 
 #### TASK-SLICE-086
 
