@@ -32,7 +32,6 @@ import {
 } from './test-scene/TestSceneSystems';
 import {
   setHeroId,
-  setHeroWeaponMode,
   updateHeroNormalAttack,
   type HeroId,
   type HeroNormalAttackModel,
@@ -46,7 +45,9 @@ import {
 } from './test-scene/TestSceneSystems';
 import {
   resetHeroSkill,
+  createTestRole1SkillLoadout,
   createTestRole3SkillLoadout,
+  createTestRole4SkillLoadout,
   takeRole2NormalAttackExtraMultiplier,
   type HeroSkillCastEvent,
   type HeroSkillModel,
@@ -66,8 +67,10 @@ import {
 } from './test-scene/TestSceneSystems';
 import { consumeRole3NextDamageMultiplier } from '../systems/Role3ControlSkillSystem';
 import { isRole3SspComboRequested } from '../systems/Role3ImpactSkillSystem';
-import { updateRole2SkillBridge } from './test-scene/TestSceneRole2SkillBridge';
-import { updateRole3SkillBridge } from './test-scene/TestSceneRole3SkillBridge';
+import { isRole1SlzComboRequested } from '../systems/Role1BasicSkillSystem';
+import { updateHeroSkillProjectiles as updateHeroSkillProjectilesImpl } from './test-scene/TestSceneHeroSkillPipeline';
+import { toggleTestHeroWeaponMode } from './test-scene/TestSceneHeroWeaponBridge';
+import { updateRole4DollCombat as updateRole4DollCombatImpl } from './test-scene/TestSceneRole4DollCombatBridge';
 import {
   calculateEffectiveStats,
   createSeedEquipmentRegistry,
@@ -115,7 +118,6 @@ import {
   createAttackEffectView,
   createAttackFlash,
   createBossView,
-  createProjectileEffectView,
   createTransferDoorView,
   drawBossArenaStage,
   type AttackEffectView,
@@ -336,7 +338,7 @@ export class TestScene extends Phaser.Scene {
   private attackFlashes: AttackFlash[] = [];
   private attackEffectViews: AttackEffectView[] = [];
   private projectileSystem: ProjectileSystemModel = createProjectileSystem();
-  private projectileEffectViews: ProjectileEffectView[] = [];
+  public projectileEffectViews: ProjectileEffectView[] = [];
   private dropSystem: DropSystemModel = createDropSystem();
   public dropViews = new Map<string, DropView>();
   public monster30AuraTargets = new Map<string, PlayerSlot>();
@@ -602,6 +604,7 @@ export class TestScene extends Phaser.Scene {
       updateBossHitByPlayers: (time) => this.updateBossHitByPlayers(time),
       updateHeroSkillProjectiles: (input, time, delta) => this.updateHeroSkillProjectiles(input, time, delta),
       updateProjectileSystem: (time, delta) => this.updateProjectileSystem(time, delta),
+      updateRole4DollCombat: (time) => this.updateRole4DollCombat(time),
       updateMonster30s: (delta) => this.updateMonster30s(delta),
       handleMedicineDebugKeys: () => this.handleMedicineDebugKeys(),
       handleAuraDebugKeys: () => this.handleAuraDebugKeys(),
@@ -710,7 +713,9 @@ export class TestScene extends Phaser.Scene {
           player.baseStats = getHeroBaseStats(heroId, player.progression.level);
           resetHeroCombat(player.combat);
           resetHeroSkill(player.skill);
+          if (heroId === 1) player.skill.loadout = createTestRole1SkillLoadout();
           if (heroId === 3) player.skill.loadout = createTestRole3SkillLoadout();
+          if (heroId === 4) player.skill.loadout = createTestRole4SkillLoadout();
           this.syncPlayerEffectiveStats(player, { refill: true });
           this.refreshPlayerHeroView(player);
         }
@@ -722,23 +727,9 @@ export class TestScene extends Phaser.Scene {
     slot: PlayerSlot,
     key: Phaser.Input.Keyboard.Key | undefined,
   ): void {
-    if (!key || !Phaser.Input.Keyboard.JustDown(key)) {
-      return;
-    }
-
-    const player = this.playerViews.find((view) => view.slot === slot);
-    if (!player) {
-      return;
-    }
-
-    const model = player.normalAttack;
-    if (model.heroId === 4) {
-      setHeroWeaponMode(model, model.weaponMode === 'arrow' ? 'shovel' : 'arrow');
-    } else if (model.heroId === 5) {
-      setHeroWeaponMode(model, model.weaponMode === 'sword' ? 'spear' : 'sword');
-    }
-
-    this.refreshPlayerHeroView(player);
+    const model = toggleTestHeroWeaponMode({ players: this.playerViews, slot, key });
+    const player = model ? this.playerViews.find((view) => view.slot === slot) : undefined;
+    if (player) this.refreshPlayerHeroView(player);
   }
 
   public getMonsterTargets(): readonly { slot: PlayerSlot; x: number; y: number }[] {
@@ -819,6 +810,14 @@ export class TestScene extends Phaser.Scene {
       })) {
         continue;
       }
+      if (isRole1SlzComboRequested({
+        heroId: player.normalAttack.heroId,
+        skill: player.skill,
+        input: input[player.slot],
+        previousInput: this.lastInput?.[player.slot],
+      })) {
+        continue;
+      }
 
       const attackEvent = updateHeroNormalAttack(
         player.normalAttack,
@@ -851,40 +850,8 @@ export class TestScene extends Phaser.Scene {
     }
   }
 
-  private updateHeroSkillProjectiles(input: InputState, time: number, delta: number): void {
-    const result = updateRole2SkillBridge({
-      players: this.playerViews,
-      input,
-      previousInput: this.lastInput,
-      projectiles: this.projectileSystem,
-      monsters: this.monster30s,
-      petRosters: this.playerPetRosters,
-      petRuntimes: { p1: this.petRuntime, p2: this.p2PetRuntime },
-      skillLearning: { p1: this.p1SkillLearning, p2: this.p2SkillLearning },
-      deltaMs: delta,
-      timeMs: time,
-    });
-    const role3Events = updateRole3SkillBridge({
-      players: this.playerViews,
-      input,
-      previousInput: this.lastInput,
-      projectiles: this.projectileSystem,
-      monsters: this.monster30s,
-      skillLearning: { p1: this.p1SkillLearning, p2: this.p2SkillLearning },
-      deltaMs: delta,
-    });
-    const projectiles = [
-      ...result.castEvents.map((event) => event.projectile),
-      ...role3Events.map((event) => event.projectile),
-      ...result.spawnedProjectiles,
-    ];
-    this.lastSkillEvent = role3Events.at(-1) ?? result.castEvents.at(-1) ?? this.lastSkillEvent;
-    for (const projectile of projectiles) {
-      if (!this.projectileEffectViews.some((view) => view.projectileId === projectile.id)) {
-        this.projectileEffectViews.push(createProjectileEffectView(this, projectile));
-      }
-    }
-  }
+  private updateHeroSkillProjectiles = updateHeroSkillProjectilesImpl;
+  private updateRole4DollCombat = updateRole4DollCombatImpl;
 
   private updateProjectileSystem(time: number, delta: number): void {
     updateProjectiles(this.projectileSystem, this.createProjectileSourceSnapshots(), delta);

@@ -43,6 +43,7 @@ export const HeroNormalAttackEffectKeys = {
 } as const;
 
 export const SkillProjectileEffectKeys = {
+  role1SlzHit6: 'skill-projectile.role1.slz.hit6',
   role2SgqHit5: 'skill-projectile.role2.sgq.hit5',
   role2SmbHit4_1: 'skill-projectile.role2.smb.hit4_1',
   role2SmbHit4_2: 'skill-projectile.role2.smb.hit4_2',
@@ -66,6 +67,28 @@ export const SkillProjectileEffectKeys = {
   role3XgqHit11: 'skill-projectile.role3.xgq.hit11',
   role3TmcHit12_1: 'skill-effect.role3.tmc.hit12_1',
   role3TmcHit12_2: 'skill-projectile.role3.tmc.hit12_2',
+  role4ZqShovelHit4: 'skill-projectile.role4.zq.shovel.hit4',
+  role4ZqArrowHit4: 'skill-projectile.role4.zq.arrow.hit4',
+  role4JdzHit7_1: 'skill-effect.role4.jdz.hit7_1',
+  role4JdzHit7_2: 'skill-projectile.role4.jdz.hit7_2',
+  role4WdwwHit5: 'skill-effect.role4.wdww.hit5',
+  role4WdwwDoll: 'skill-summon.role4.wdww.doll',
+  role4MbyjHit6: 'skill-projectile.role4.mbyj.hit6',
+  role4QljShovelHit8: 'skill-projectile.role4.qlj.shovel.hit8',
+  role4QljArrowHit8_1: 'skill-effect.role4.qlj.arrow.hit8-1',
+  role4QljArrowHit8_2: 'skill-projectile.role4.qlj.arrow.hit8-2',
+  role4TkjShovelHit9_1: 'skill-effect.role4.tkj.shovel.hit9-1',
+  role4TkjShovelHit9_2: 'skill-projectile.role4.tkj.shovel.hit9-2',
+  role4TkjArrowHit9_1: 'skill-effect.role4.tkj.arrow.hit9-1',
+  role4TkjArrowHit9_2: 'skill-projectile.role4.tkj.arrow.hit9-2',
+  role4DzjShovelHit10: 'skill-projectile.role4.dzj.shovel.hit10',
+  role4DzjArrowHit10_1: 'skill-effect.role4.dzj.arrow.hit10-1',
+  role4DzjArrowHit10_2: 'skill-projectile.role4.dzj.arrow.hit10-2',
+  role4LybjMarker: 'skill-effect.role4.lybj.marker',
+  role4MmwShovelHit12: 'skill-projectile.role4.mmw.shovel.hit12',
+  role4MmwArrowHit12_1: 'skill-effect.role4.mmw.arrow.hit12-1',
+  role4MmwArrowHit12_2: 'skill-projectile.role4.mmw.arrow.hit12-2',
+  role4MmwArrowHit12_3: 'skill-projectile.role4.mmw.arrow.hit12-3',
 } as const;
 
 export const MagicWeaponEffectKeys = {
@@ -205,10 +228,20 @@ export const sourceAssetFamilies = {
     ],
     notes: 'Role2 skill projectile/effect family; absent from current symbol and image exports, expected in TangSeng or SpecialUI/TangSeng resource packages.',
   },
+  role1SkillProjectiles: {
+    status: 'missing-original',
+    sourceSymbols: ['Role1Bullet6', 'Role1_hit6'],
+    notes: 'Role1 skill effects are absent from current exports and use stable placeholders.',
+  },
   role3SkillProjectiles: {
     status: 'missing-original',
     sourceSymbols: ['Role3Bullet4', 'Role3_hit4', 'Role3Bullet5', 'Role3_hit5', 'Role3Bullet5Buff', 'Role3Bullet6', 'Role3_hit6', 'Role3Bullet7_1', 'Role3Bullet7_2', 'Role3_hit7', 'Role3Bullet8_1', 'Role3Bullet8_2', 'Role3_hit8', 'Role3Bullet9', 'Role3_hit9', 'Role3Bullet10', 'Role3_hit10', 'Role3Bullet11', 'Role3_hit11', 'Role3Bullet12_1', 'Role3Bullet12_2', 'Role3_hit12_1', 'Role3_hit12_2'],
     notes: 'Role3 skill effects are absent from current exports and use stable placeholders.',
+  },
+  role4FinisherProjectiles: {
+    status: 'missing-original',
+    sourceSymbols: ['Role4Bullet11', 'Role4Bullet12', 'Role4BulletArrow12_1', 'Role4BulletArrow12_2', 'Role4BulletArrow12_3'],
+    notes: 'Role4 lybj/mmw marker and finisher effects are absent from current exports and use stable placeholders.',
   },
   magicWeaponProjectiles: {
     status: 'missing-original',

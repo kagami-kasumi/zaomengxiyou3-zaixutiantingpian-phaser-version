@@ -67,7 +67,12 @@ import {
 import { isPlayerSlot } from './TestSceneFormatters';
 import { toPhaserRect } from './TestSceneGeometry';
 import { tryRole3RjHealOnHit } from '../../systems/Role3DefenseSkillSystem';
+import { tryRole1SxLifeSteal } from '../../systems/Role1BasicSkillSystem';
 import { isRole3XgqHidden } from '../../systems/Role3MobilitySkillSystem';
+import {
+  applyRole4PoisonProjectileHit,
+  type Role4PoisonTarget,
+} from '../../systems/Role4PoisonSkillSystem';
 import {
   createAttackFlash,
   createDropView,
@@ -579,7 +584,10 @@ export function applyHeroAttackHit(this: any, player: any, time: number): void {
         time,
       });
     for (const event of result.damageEvents) {
-      if (event.sourceId === player.slot) tryRole3HealForPlayer(player);
+      if (event.sourceId === player.slot) {
+        tryRole1LifeStealForPlayer(player, event.amount, event.attackKind);
+        tryRole3HealForPlayer(player);
+      }
     }
     this.applyCombatBridgeResult(result, time);
   }
@@ -591,6 +599,7 @@ export function applyProjectileHits(this: any, time: number): void {
 
       const monsterBounds = getMonster30Bounds(monster);
       for (const projectile of getActiveProjectiles(this.projectileSystem)) {
+        if (projectile.visualOnly || projectile.elapsedMs < (projectile.activeAfterMs ?? 0)) continue;
         const hitbox = getProjectileHitbox(projectile);
         const attackBounds = toPhaserRect(hitbox);
 
@@ -603,12 +612,13 @@ export function applyProjectileHits(this: any, time: number): void {
           continue;
         }
 
+        const effectiveDamage = Math.min(projectile.damage, monster.hp);
         const damageEvent = createDamageEvent({
           sourceId: projectile.sourceId,
           targetId: monster.id,
           attackId,
           actionName: projectile.actionName,
-          amount: projectile.damage,
+          amount: effectiveDamage,
           attackKind: projectile.attackKind,
           knockbackX: projectile.facingX * projectile.knockbackX,
           knockbackY: projectile.knockbackY,
@@ -639,7 +649,31 @@ export function applyProjectileHits(this: any, time: number): void {
             ? projectile.sourceId
             : undefined;
           if (playerProjectileOwner) {
+            const owner = this.getPlayer(playerProjectileOwner);
+            const poisonTarget: Role4PoisonTarget = {
+              id: monster.id,
+              isAlive: monster.state !== 'dead' && monster.state !== 'removed',
+              applyDamage: (amount: number) => {
+                const applied = Math.min(Math.max(0, amount), monster.hp);
+                monster.targetSlot = playerProjectileOwner;
+                applyMonster30Hit(monster, applied);
+                poisonTarget.isAlive = monster.state !== 'dead' && monster.state !== 'removed';
+                return applied;
+              },
+            };
+            applyRole4PoisonProjectileHit({
+              runtime: owner.skill.role4Runtime,
+              projectile,
+              target: poisonTarget,
+              hero: owner.combat,
+              sourcePower: owner.baseStats.power,
+            });
             this.monster30AuraTargets.set(monster.id, projectile.sourceId);
+            tryRole1LifeStealForPlayer(
+              this.getPlayer(playerProjectileOwner),
+              damageEvent.amount,
+              damageEvent.attackKind,
+            );
             tryRole3HealForPlayer(this.getPlayer(playerProjectileOwner));
           }
           if (monster.hp <= 0) {
@@ -659,6 +693,7 @@ export function applyProjectileHits(this: any, time: number): void {
     if (this.bossArena.state === 'active' && this.bossArena.boss) {
       const bossBounds = this.getBossBounds();
       for (const projectile of getActiveProjectiles(this.projectileSystem)) {
+        if (projectile.visualOnly || projectile.elapsedMs < (projectile.activeAfterMs ?? 0)) continue;
         const hitbox = getProjectileHitbox(projectile);
         const attackBounds = toPhaserRect(hitbox);
 
@@ -671,12 +706,13 @@ export function applyProjectileHits(this: any, time: number): void {
           continue;
         }
 
+        const effectiveDamage = Math.min(projectile.damage, this.bossArena.boss.hp);
         const damageEvent = createDamageEvent({
           sourceId: projectile.sourceId,
           targetId: 'monster3',
           attackId,
           actionName: projectile.actionName,
-          amount: projectile.damage,
+          amount: effectiveDamage,
           attackKind: projectile.attackKind,
           knockbackX: projectile.facingX * projectile.knockbackX,
           knockbackY: projectile.knockbackY,
@@ -685,6 +721,11 @@ export function applyProjectileHits(this: any, time: number): void {
 
         if (applyMonster3Hit(this.bossArena.boss, damageEvent.amount)) {
           if (isPlayerSlot(projectile.sourceId)) {
+            tryRole1LifeStealForPlayer(
+              this.getPlayer(projectile.sourceId),
+              damageEvent.amount,
+              damageEvent.attackKind,
+            );
             tryRole3HealForPlayer(this.getPlayer(projectile.sourceId));
           }
           this.lastDamageEvent = damageEvent;
@@ -918,6 +959,20 @@ function tryRole3HealForPlayer(player: any): void {
     runtime: player.skill.role3Runtime,
     combat: player.combat,
     sourcePower: player.baseStats.power,
+  });
+}
+
+function tryRole1LifeStealForPlayer(
+  player: any,
+  actualDamage: number,
+  attackKind: 'physics' | 'magic',
+): void {
+  if (!player || player.normalAttack.heroId !== 1) return;
+  tryRole1SxLifeSteal({
+    runtime: player.skill.role1Runtime,
+    combat: player.combat,
+    actualDamage,
+    attackKind,
   });
 }
 

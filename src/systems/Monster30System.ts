@@ -33,6 +33,7 @@ export type Monster30Model = {
   magicSnowIce?: MonsterMagicSnowIce;
   magicPearlStun?: MonsterMagicPearlStun;
   magicPearlPoison?: MonsterMagicPearlPoison;
+  role4MbyjStun?: MonsterRole4MbyjStun;
   petBurn?: MonsterPetBurn;
 };
 
@@ -101,6 +102,13 @@ export type MonsterPetBurn = {
   remainingMs: number;
   tickCarryMs: number;
   lastTickDamage: number;
+};
+
+export type MonsterRole4MbyjStun = {
+  kind: 'role4MbyjStun';
+  sourceName: 'mbyj';
+  totalMs: number;
+  remainingMs: number;
 };
 
 export type Monster30ActiveAttack = {
@@ -192,6 +200,7 @@ export function updateMonster30(
     clearMonster30MagicSnowIce(monster);
     clearMonster30MagicPearlStun(monster);
     clearMonster30MagicPearlPoison(monster);
+    clearMonster30Role4MbyjStun(monster);
     clearMonster30PetBurn(monster);
     monster.activeAttack = undefined;
     monster.stateTimerMs -= deltaMs;
@@ -227,7 +236,10 @@ export function updateMonster30(
     monster.activeAttack = undefined;
   }
 
-  if (monster.magicBaguaStun || monster.magicZlHummerStun || monster.magicSnowIce || monster.magicPearlStun) {
+  if (
+    monster.magicBaguaStun || monster.magicZlHummerStun || monster.magicSnowIce ||
+    monster.magicPearlStun || monster.role4MbyjStun
+  ) {
     monster.state = 'wait';
     monster.activeAttack = undefined;
     return;
@@ -452,6 +464,29 @@ export function clearMonster30MagicPearlStun(monster: Monster30Model): void {
   monster.magicPearlStun = undefined;
 }
 
+export function applyMonster30Role4MbyjStun(
+  monster: Monster30Model,
+  durationMs: number,
+): void {
+  if (monster.state === 'dead' || monster.state === 'removed') return;
+  const duration = Math.max(0, durationMs);
+  monster.role4MbyjStun = {
+    kind: 'role4MbyjStun',
+    sourceName: 'mbyj',
+    totalMs: duration,
+    remainingMs: duration,
+  };
+  monster.activeAttack = undefined;
+  if (monster.state === 'hit1') {
+    monster.state = 'wait';
+    monster.stateTimerMs = 0;
+  }
+}
+
+export function clearMonster30Role4MbyjStun(monster: Monster30Model): void {
+  monster.role4MbyjStun = undefined;
+}
+
 export function applyMonster30MagicPearlPoison(
   monster: Monster30Model,
   params: {
@@ -626,6 +661,12 @@ function updateMonster30MagicPearlEffects(monster: Monster30Model, deltaMs: numb
     if (stun.remainingMs <= 0) {
       monster.magicPearlStun = undefined;
     }
+  }
+
+  const role4Stun = monster.role4MbyjStun;
+  if (role4Stun && monster.state !== 'dead' && monster.state !== 'removed') {
+    role4Stun.remainingMs -= Math.max(0, Math.min(deltaMs, role4Stun.remainingMs));
+    if (role4Stun.remainingMs <= 0) monster.role4MbyjStun = undefined;
   }
 
   const poison = monster.magicPearlPoison;

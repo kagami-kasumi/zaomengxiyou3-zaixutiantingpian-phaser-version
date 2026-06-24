@@ -108,12 +108,13 @@ export function applyHeroNormalAttackToMonster30s(params: {
       continue;
     }
 
+    const effectiveDamage = Math.min(activeAttack.damage, monster.hp);
     const damageEvent = createDamageEvent({
       sourceId: player.slot,
       targetId: monster.id,
       attackId,
       actionName: activeAttack.actionName,
-      amount: activeAttack.damage,
+      amount: effectiveDamage,
       attackKind: activeAttack.attackKind,
       knockbackX: activeAttack.facingX * 4,
       knockbackY: -2,

@@ -381,6 +381,26 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 
 ## 未决问题
 
+### Role4 完整 projectile 映射（TASK-SETTINGS-039 / TASK-SLICE-100..104）
+
+Role4 的铲/弓两形态共用动作名但使用不同对象族：铲形以 `Role4Bullet1..12` 为主，弓形以 `Role4BulletArrow1/2/4/8_1/8_2/9_1/9_2/10_1/10_2/12_1/12_2/12_3` 为主；`hit6` 链式状态弹、`hit7` 三枚毒 projectile、`hit11` 标记和 `hit12` 十枚环阵的完整时序与生命周期见 `role4-combat-index.md`。`TASK-SLICE-100..104` 已用 `Role4PoisonSkillSystem.ts`、`Role4VoodooDollSystem.ts`、`Role4PoisonChainSystem.ts`、`Role4MobilitySkillSystem.ts`、`Role4FinisherSkillSystem.ts` 复现这些对象的现代行为；当前提取资源仍未检出这些符号名，现代实现继续使用稳定占位 key。
+
+### Role1 技能 projectile 完整映射（TASK-SETTINGS-037）
+
+| 技能 | 对象 / 类型 | 生成位置与时序 | 结算与生命周期 |
+| --- | --- | --- | --- |
+| `slz` | `Role1Bullet6` / `FollowBaseObjectBullet` | `hit6` 第 2 计数，角色前方约 30、`y+40` | `hit6`，物理，击退 `[5,-20]`，单段口径；跟随角色动作。 |
+| `hytj` | `Role1Bullet7` / `FollowBaseObjectBullet` | `hit7` 第 15 计数，前方约 175、`y-30` | `hit7`，魔法，`attackInterval=4`，四段口径，击退 `[15,0]`。 |
+| `lyfb` | `Role1Bullet8_1` / 跟随 + `Role1Bullet8_2` / `EnemyMoveBullet` | `hit8` 第 2 计数，角色附近；移动段速度 `±15`、距离 600 | 跟随段物理 `[8,-2]`，移动段魔法 `[6,-5]`，均按 12 段口径；移动段 `destroyWhenLastFrame=false`。分身派生动作名 `hit8_1/hit8_2_1`，同对象名、伤害乘 0.3125。 |
+| `lys` | `Role1Bullet9` / `FollowBaseObjectBullet` | `hit9` 第 10 计数，前方约 120、`y-50`；上键协同时改到 `x+60` 并旋转 90° | `hit9`，物理，击退 `[0,-2]`；销毁回调恢复角色重力。 |
+| `hmz` | `Role1Bullet10_2`、`Role1Bullet10_4_tmp` / `SpecialEffectBullet` | `hit10` 第 99 计数先在前方 150、`y-35` 生成连斩；销毁后在角色 `y+40` 生成落地段 | `hit10_2` 物理、`attackInterval=3`、击退 `[1,0]`；`hit10_4` 物理单段、击退 `[13,-15]`。`Role1Bullet10_3` 仅有网络回放 helper，无本地生成入口，现代实现不应擅自补入主链。 |
+| `jdy` | `Role1Bullet11_1/11_2` / `FollowBaseObjectBullet` | 首段在前方 50、`y-50`；二段销毁首段后在角色 `y-50` 重建 | 两段均为魔法、`attackInterval=5`、13 段口径；首段击退 `[20,0]`，二段 `[0,-25]`；动作结束统一销毁。 |
+| `hyjj` | `Role1Bullet12` / `SpecialEffectBullet`；`Role1Bullet12_1_1/_1_2` 为纯视觉 MC | 第 1 计数按 `huoyan` 索引选择面向侧目标，目标点立即生成并每 1.2 秒重复，共 4 次；第 17 计数生成本体视觉 | `hit12`，魔法，`attackInterval=5`，15 段口径、击退 `[0,0]`；延迟链与本体动作解耦。 |
+| `qsez` | `Role1Bullet13` / `SpecialEffectBullet` | 冲刺碰撞目标后在目标位置生成 | `hit13`，物理单段、击退 `[0,0]`；命中回调生成 3 秒 `Role1Shadow`：非 boss 1~2 个、boss 4~5 个。 |
+| `zz` | `Role1Bullet14_1/14_2` / `SpecialEffectBullet` | 本体第 2/16 计数，分别在角色上方与前方 145、`y-60` | 主动作 `hit14` 为物理单段、击退 `[20,0]`；分身同步时第二段使用 `hit14_1` 的 0.437 派生伤害，分身动作后销毁。 |
+
+Role1 技能真素材未在当前 `extracted_flash/resources` 中形成可直接使用的完整导出；现代任务应沿用稳定占位 key，不伪造原版视觉。`Role1Shadow` 资源名为 `ROLE1_SHALLDOW`（源码拼写），持续 `gc.frameClips * 3`，自身不移动，只响应 `lyfb/zz` 两类同步动作。
+
 - `Role2Bullet5` 真资源已确认不在当前主包/备用包导出的 `symbols.csv` 或图片目录中；下一步不是继续翻同一批目录，而是补 `TangSeng` / `SpecialUI/TangSeng` 等角色资源包导出。
 - `hit5CurrentCount` 与 `sjt` 对 `hit5NeedCount` 的联动只记录到入口；首个切片不复现蓄力条数值。
 - 像素级 `HitTest.complexHitTestObject()` 暂不复刻；现代侧先用稳定矩形/圆形 hitbox，后续有真素材后再校准。

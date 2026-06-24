@@ -15,6 +15,7 @@ export type TestSceneUpdateHooks = {
   updateBossHitByPlayers(time: number): void;
   updateHeroSkillProjectiles(input: InputState, time: number, delta: number): void;
   updateProjectileSystem(time: number, delta: number): void;
+  updateRole4DollCombat(time: number): void;
   updateMonster30s(delta: number): void;
   handleMedicineDebugKeys(): void;
   handleAuraDebugKeys(): void;
@@ -62,6 +63,7 @@ export function createTestSceneUpdatePipeline(
       hooks.updateBossHitByPlayers(time);
       hooks.updateHeroSkillProjectiles(input, time, delta);
       hooks.updateProjectileSystem(time, delta);
+      hooks.updateRole4DollCombat(time);
 
       hooks.updateMonster30s(delta);
       hooks.handleMedicineDebugKeys();

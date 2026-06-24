@@ -3,7 +3,11 @@ import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem
 
 export type HeroCombatState = 'ready' | 'hurt' | 'dead';
 
-export type HeroMagicShieldKind = 'magicUmbrellaDefend' | 'magicUmbrellaDefend2' | 'role2Tjgl';
+export type HeroMagicShieldKind =
+  | 'magicUmbrellaDefend'
+  | 'magicUmbrellaDefend2'
+  | 'role2Tjgl'
+  | 'role4Mds';
 
 export type HeroMagicShield = {
   kind: HeroMagicShieldKind;
@@ -65,6 +69,7 @@ export type HeroCombatModel = {
   role3DefenseBonus?: number;
   role3DamageReduction?: number;
   role3KnockbackImmune?: boolean;
+  role4Hit12KnockbackImmune?: boolean;
 };
 
 export const HeroCombatTuning = {
@@ -102,6 +107,7 @@ export function resetHeroCombat(hero: HeroCombatModel): void {
   hero.role3DefenseBonus = undefined;
   hero.role3DamageReduction = undefined;
   hero.role3KnockbackImmune = undefined;
+  hero.role4Hit12KnockbackImmune = undefined;
 }
 
 export function isHeroCombatDead(hero: HeroCombatModel): boolean {
@@ -141,11 +147,16 @@ export function applyHeroDamage(
     return true;
   }
 
+  if (hero.role4Hit12KnockbackImmune) {
+    hero.knockbackVelocityX = 0;
+    return true;
+  }
+
   if (remainingDamage > 0) {
     hero.state = 'hurt';
     hero.hurtUntilMs = timeMs + HeroCombatTuning.hurtDurationMs;
     hero.invulnerableUntilMs = timeMs + HeroCombatTuning.invulnerableDurationMs;
-    hero.knockbackVelocityX = hero.role3KnockbackImmune
+    hero.knockbackVelocityX = hero.role3KnockbackImmune || hero.role4Hit12KnockbackImmune
       ? 0
       : event.knockbackX * HeroCombatTuning.knockbackPixelsPerSecond;
   }

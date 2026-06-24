@@ -41,6 +41,30 @@ import {
   createRole3SkillRuntime,
   type Role3SkillRuntimeModel,
 } from './Role3DefenseSkillSystem';
+import {
+  createRole1SkillRuntime,
+  type Role1SkillRuntimeModel,
+} from './Role1BasicSkillSystem';
+import {
+  createRole4PoisonSkillRuntime,
+  type Role4PoisonSkillRuntime,
+} from './Role4PoisonSkillSystem';
+import {
+  createRole4VoodooDollRuntime,
+  type Role4VoodooDollRuntime,
+} from './Role4VoodooDollSystem';
+import {
+  createRole4PoisonChainRuntime,
+  type Role4PoisonChainRuntime,
+} from './Role4PoisonChainSystem';
+import {
+  createRole4MobilitySkillRuntime,
+  type Role4MobilitySkillRuntime,
+} from './Role4MobilitySkillSystem';
+import {
+  createRole4FinisherSkillRuntime,
+  type Role4FinisherSkillRuntime,
+} from './Role4FinisherSkillSystem';
 
 export type SkillName = AllSkillName;
 
@@ -83,7 +107,13 @@ export type HeroSkillModel = {
     shyLevel: number;
   };
   role2Runtime: Role2SkillRuntimeModel;
+  role1Runtime: Role1SkillRuntimeModel;
   role3Runtime: Role3SkillRuntimeModel;
+  role4Runtime: Role4PoisonSkillRuntime;
+  role4VoodooRuntime: Role4VoodooDollRuntime;
+  role4PoisonChainRuntime: Role4PoisonChainRuntime;
+  role4MobilityRuntime: Role4MobilitySkillRuntime;
+  role4FinisherRuntime: Role4FinisherSkillRuntime;
   isGxp: boolean;
 };
 
@@ -127,6 +157,18 @@ export function createTestRole2SkillLoadout(): HeroSkillLoadout {
   };
 }
 
+export function createTestRole1SkillLoadout(): HeroSkillLoadout {
+  return {
+    slots: [
+      { skillName: 'slz', level: 1 },
+      null,
+      null,
+      null,
+      null,
+    ],
+  };
+}
+
 export function createTestRole3SkillLoadout(): HeroSkillLoadout {
   return {
     slots: [
@@ -135,6 +177,18 @@ export function createTestRole3SkillLoadout(): HeroSkillLoadout {
       { skillName: 'zznh', level: 1 },
       { skillName: 'syzq', level: 1 },
       { skillName: 'ssp', level: 1 },
+    ],
+  };
+}
+
+export function createTestRole4SkillLoadout(): HeroSkillLoadout {
+  return {
+    slots: [
+      { skillName: 'qlj', level: 1 },
+      { skillName: 'tkj', level: 1 },
+      { skillName: 'dzj', level: 1 },
+      { skillName: 'mbyj', level: 1 },
+      { skillName: 'wdww', level: 1 },
     ],
   };
 }
@@ -150,7 +204,13 @@ export function createHeroSkillModel(
     lastResult: 'ready',
     learnedRole2Skills: { blbLevel: 0, sjtLevel: 0, shyLevel: 0 },
     role2Runtime: createRole2SkillRuntime(),
+    role1Runtime: createRole1SkillRuntime(),
     role3Runtime: createRole3SkillRuntime(),
+    role4Runtime: createRole4PoisonSkillRuntime(),
+    role4VoodooRuntime: createRole4VoodooDollRuntime(),
+    role4PoisonChainRuntime: createRole4PoisonChainRuntime(),
+    role4MobilityRuntime: createRole4MobilitySkillRuntime(),
+    role4FinisherRuntime: createRole4FinisherSkillRuntime(),
     isGxp: false,
   };
 }
@@ -160,7 +220,13 @@ export function resetHeroSkill(model: HeroSkillModel): void {
   model.activeAction = undefined;
   model.lastResult = 'ready';
   model.role2Runtime = createRole2SkillRuntime();
+  model.role1Runtime = createRole1SkillRuntime();
   model.role3Runtime = createRole3SkillRuntime();
+  model.role4Runtime = createRole4PoisonSkillRuntime();
+  model.role4VoodooRuntime = createRole4VoodooDollRuntime();
+  model.role4PoisonChainRuntime = createRole4PoisonChainRuntime();
+  model.role4MobilityRuntime = createRole4MobilitySkillRuntime();
+  model.role4FinisherRuntime = createRole4FinisherSkillRuntime();
 }
 
 export function getSkillMpCost(binding: SkillBinding): number {

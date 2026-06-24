@@ -53,10 +53,12 @@
 | VS-037 Role2 完整战斗扩展 | 已完成 | 在既有 `sgq/smb` 基础上补齐唐僧剩余主动、被动、支援、控制与分身链 | M-019、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role2PassiveSkillSystem.ts`、`Role2XbzSkillSystem.ts`、`Role2SupportSkillSystem.ts`、`Role2ControlSkillSystem.ts`、`Role2JhsjSkillSystem.ts`、`Role2ShadowSkillSystem.ts`、独立测试 | `TASK-SLICE-084..089` 全部完成：正式输入/MP/动作门禁、蓄力被动、原版等级公式、治疗/护盾、拉拽/增幅、双窗口多段、8 秒分身/召回与四技能同步均可测 |
 
 | VS-038 Role3 完整战斗扩展 | 已完成 | 补齐八戒九项主动、`rj` 被动、组合 `hit8`、三档盾、拉拽强化、位移和 `tmc` 二段追踪阵列 | M-020、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role3DefenseSkillSystem.ts`、`Role3ControlSkillSystem.ts`、`Role3ImpactSkillSystem.ts`、`Role3MobilitySkillSystem.ts`、`Role3UltimateSkillSystem.ts`、`TestSceneRole3SkillBridge.ts`、独立测试 | `TASK-SLICE-090..094` 全部完成：九项主动、`rj` 被动、组合入口、盾/拉拽/强化/眩晕/位移/隐藏/二段追踪阵列均可测 |
+| VS-039 Role1 完整战斗扩展 | 可开始 | 补齐悟空九项主动、`sx` 被动、`slz/hytj/lys` 组合协同、`jdy` 二段、分身与终结技能 | M-018、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role1BasicSkillSystem.ts`、`TestSceneRole1SkillBridge.ts`、`TASK-SLICE-096..099` 后续子系统和独立测试 | `TASK-SLICE-095` 已完成 `slz/sx`、组合入口、物理吸血和双玩家隔离；下一步 `TASK-SLICE-096` |
+| VS-040 Role4 完整战斗扩展 | 已完成 | 在既有铲/弓普攻基础上补齐沙僧九主动、`mds` 被动、毒层/毒爆、巫毒娃娃、链式控制、位移、标记传送与终结技 | M-021、M-024、M-025、M-034、`role4-combat-index.md` | `Role4PoisonSkillSystem.ts`、`Role4VoodooDollSystem.ts`、`Role4PoisonChainSystem.ts`、`Role4MobilitySkillSystem.ts`、`Role4FinisherSkillSystem.ts`、Role4 场景桥接和独立测试 | `TASK-SLICE-100..104` 全部完成：毒系、娃娃、毒链、双形态位移、标记传送与终结技均可测；真实素材仍按全局资源任务补齐 |
 
 ## 第一批推荐执行顺序
 
-1. 全部已逆向宠物物种技能链均已完成实现。推荐转向存档或法宝深度逆向。
+1. `TASK-SLICE-095` 已完成；推荐执行 `TASK-SLICE-096`，实现 Role1 `lys/hytj` 位移协同。
 
 ## 切片详情
 
@@ -492,7 +494,7 @@
 
 推荐任务：
 
-- 宠物系统和 Role2 完整战斗扩展均已完成；下一步执行 `TASK-SETTINGS-037`，完整逆向 Role1 悟空技能链。
+- Role1 `slz/sx` 基础切片已完成；下一步执行 `TASK-SLICE-096`，实现 `lys/hytj` 位移协同。
 
 ### VS-013 法宝最小可玩切片
 

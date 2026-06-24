@@ -13,6 +13,11 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-103 | 切片 | Role4 `qlj/tkj/dzj` 双形态位移攻击 | VS-040、M-021、M-025、M-034 | `Role4MobilitySkillSystem.ts`、九类占位 projectile、位移/重力接线、独立测试 |
+| TASK-SLICE-102 | 切片 | Role4 `mbyj` 八跳毒链控制 | VS-040、M-021、M-025、M-034 | `Role4PoisonChainSystem.ts`、Role4 眩晕/毒层接线、状态 projectile、独立测试 |
+| TASK-SLICE-101 | 切片 | Role4 `wdww` 巫毒娃娃伤害转移 | VS-040、M-021、M-025 | `Role4VoodooDollSystem.ts`、娃娃伤害桥接、占位 projectile、独立测试 |
+| TASK-SLICE-100 | 切片 | Role4 `zq/jdz/mds` 毒系基础闭环 | VS-040、M-021、M-025、M-034 | `Role4PoisonSkillSystem.ts`、Role4 场景桥接、占位 projectile、独立测试 |
+| TASK-SETTINGS-039 | 逆向 | Role4 沙僧完整战斗逆向 | M-021、M-024、M-025、M-034 | `role4-combat-index.md`、角色/输入/projectile/机制索引 |
 | TASK-SLICE-089 | 切片 | Role2 `shy` 分身协同与召回 | M-019、M-025、M-034、VS-037 | `Role2ShadowSkillSystem.ts`、Role2 运行时/场景桥接、四技能协同、双玩家隔离测试、状态文档 |
 | TASK-SLICE-088 | 切片 | Role2 `jhsj -> hit9` 双窗口多段 | M-019、M-025、M-034、VS-037 | `Role2JhsjSkillSystem.ts`、两类占位 projectile、移动/重力锁、系统测试、状态文档 |
 | TASK-SLICE-087 | 切片 | Role2 `jgz -> hit7` 拉拽与增伤 | M-019、M-025、M-034、VS-037 | `Role2ControlSkillSystem.ts`、拉拽/浮空/恢复、一次性增伤、系统测试、状态文档 |
@@ -232,6 +237,33 @@
 - `npm run test:systems` 通过。
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
+
+#### TASK-SETTINGS-037
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 完整逆向 Role1 悟空技能树，确认十项技能为九主动、一被动；`sx` 由 `BaseRoleProperies.role1_sx` 自动提供吸血与暴击，不是废弃/缺失主动技。
+- 补齐 `slz/zz/qsez/hmz/lys/hytj/lyfb/jdy/hyjj` 的正式输入、MP 与等级、动作窗口、伤害口径、击退、重入和恢复边界。
+- 补齐 `Role1Bullet6..14`、`Role1Shadow`、移动/跟随/特效 projectile、`jdy` 二段、`qsez -> shadow -> lyfb/zz` 协同及 `hyjj` 延迟爆破链。
+- 证据化记录 `hmz` 边界：本地可达链为 `hit10_2 -> hit10_4`；`hit10_3` 仅见网络回放 helper，`hmzCharge` 增量路径受前置保护判断阻断，不把不可靠分支写成现代需求。
+- 新增 `VS-039`，拆出 `TASK-SLICE-095..099`；首个 Ready 项为 `TASK-SLICE-095`。
+
+更新文件：
+- `docs/reverse-engineering/roles-index.md`
+- `docs/reverse-engineering/skills-input-index.md`
+- `docs/reverse-engineering/projectiles-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-095`。
 
 ### TASK-SLICE-066
 
@@ -3579,6 +3611,136 @@
 
 完成时间：2026-06-21。完成 `shy` 8 秒分身、召回传送、四技能协同、双玩家隔离和生命周期测试。
 
+### TASK-SETTINGS-039
+
+任务类型：
+- `TASK-SETTINGS`
+
+目标机制/切片：
+- `M-021`、`M-024`、`M-025`、`M-034`。
+
+输入资料：
+- `Role4.as`、`MonsterRole4Hit5.as`、`BaseAddEffect.as` 及现有角色/输入/projectile 索引。
+
+输出产物：
+- `role4-combat-index.md` 及角色、输入、projectile、机制状态更新。
+
+完成定义：
+- 补清铲/弓形态、普攻、全部十项技能、MP、动作、projectile、状态联动、恢复与资源缺口。
+
+验收标准：
+- 可独立回答每项技能如何触发、生效、结算和清理；关键拒绝边界有 AS3 证据；工作流检查通过。
+
+禁止范围：
+- 不修改提取结果，不写现代游戏代码，不猜补不可达分支或缺失素材。
+
+推荐后续任务：
+- 当前仍执行 `TASK-SLICE-096`；Role1 队列完成后生成 Role4 武器形态与普攻切片。
+
+### TASK-SLICE-103
+
+任务类型：
+- `TASK-SLICE`
+
+目标机制/切片：
+- `VS-040`、`M-021`、`M-025`、`M-034`。
+
+输入资料：
+- `role4-combat-index.md`、`Role4` 的 `hit8..10` 证据。
+
+输出产物：
+- `qlj/tkj/dzj` 双形态技能、位移/重力、projectile 和独立测试。
+
+完成定义：
+- 保留 `qlj` 动态 MP 加固定 15 双扣，以及三技能铲/弓不同 projectile、段数、击退、跃进/上跳/突进和恢复。
+
+验收标准：
+- 两形态、MP、伤害/段数、位移/重力、清理和 P1/P2 隔离有自动测试；完整检查通过。
+
+禁止范围：
+- 不修正原版双扣，不实现标记/终结技。
+
+推荐后续任务：
+- `TASK-SLICE-104`。
+
+### TASK-SLICE-102
+
+任务类型：
+- `TASK-SLICE`
+
+目标机制/切片：
+- `VS-040`、`M-021`、`M-025`、`M-034`。
+
+输入资料：
+- `role4-combat-index.md`、`Role4.doHit6/reHit6()`。
+
+输出产物：
+- `mbyj` 链式目标、状态 projectile、眩晕/毒层接线和独立测试。
+
+完成定义：
+- 完成面向侧 500 范围首目标、最多 8 跳、每跳重新找 500 范围其他目标、78% 眩晕、7 秒毒层和无直接伤害。
+
+验收标准：
+- 顺序、距离、次数、重复目标拒绝、概率边界、无目标淡出与 P1/P2 隔离有自动测试；完整检查通过。
+
+禁止范围：
+- 不实现其他 Role4 技能，不把 `runAttack()` 死代码做成入口。
+
+推荐后续任务：
+- `TASK-SLICE-103`。
+
+### TASK-SLICE-101
+
+任务类型：
+- `TASK-SLICE`
+
+目标机制/切片：
+- `VS-040`、`M-021`、`M-025`。
+
+输入资料：
+- `role4-combat-index.md`、`Role4.doHit5_*()`、`MonsterRole4Hit5.as`、现有伤害桥接。
+
+输出产物：
+- 巫毒娃娃运行时、目标选择/替换/10 秒生命周期、伤害转移、独立测试。
+
+完成定义：
+- 复现 `wdww` 正式 MP、面向侧最近目标、等级生命倍率、继承防御、攻击娃娃向绑定目标转伤和死亡/到期清理。
+
+验收标准：
+- 无目标、替换、等级边界、转伤倍率、目标死亡、P1/P2 隔离有自动测试；完整检查通过。
+
+禁止范围：
+- 不实现其他 Role4 技能，不泛化完整召唤物 ECS。
+
+推荐后续任务：
+- `TASK-SLICE-102`。
+
+### TASK-SLICE-100
+
+任务类型：
+- `TASK-SLICE`
+
+目标机制/切片：
+- `VS-040`、`M-021`、`M-025`、`M-034`。
+
+输入资料：
+- `role4-combat-index.md`、`Role4.as` 的 `zq/jdz` 与 `BaseAddEffect.as` 的 `mds` 证据。
+
+输出产物：
+- Role4 毒系运行时、projectile、场景桥接、占位资源与独立测试。
+
+完成定义：
+- 完成 `zq` 铲弓差异、`jdz` 三 projectile、正式 MP/等级/地面门禁，以及毒层超过 2 后的 `mds` 毒爆、自疗、护盾和 3 秒视觉状态。
+
+验收标准：
+- 铲/弓、MP、伤害、门禁、毒层、毒爆、治疗/护盾/视觉状态和 P1/P2 隔离有自动测试；全部检查通过。
+
+禁止范围：
+- 不修改提取结果，不实现其他 Role4 技能，不伪造真素材。
+
+推荐后续任务：
+- `TASK-SLICE-101`。
+
 ## 执行记录
 
 ### TASK-SLICE-009
@@ -4824,7 +4986,7 @@
 - 真实 Role3 视觉/音频资源仍缺；现代版使用已登记的稳定占位 key。
 
 推荐任务：
-- `TASK-SETTINGS-037`：Role1 悟空完整技能链逆向。
+- `TASK-SLICE-095`：Role1 `slz/sx` 与组合输入基础。
 
 #### TASK-SLICE-093
 
@@ -5039,3 +5201,230 @@
 - `npm run test:systems` 通过。
 - `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
 - `npm run check:workflow` 通过。
+
+#### TASK-SLICE-095
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role1BasicSkillSystem.ts`，复现 `slz` 正式槽位与普攻+上组合入口、原版 MP/等级伤害公式、`hit6` 动作锁、`Role1Bullet6` 占位 projectile、物理伤害和 `[5,-20]` 击退。
+- 复现 `sx` 1..9 级被动：学习/卸下时同步 `0.8 + (level-1)/10` 吸血率与 `3 + round(level)` 暴击加成；物理命中按目标实际有效伤害回血，魔法伤害不触发。
+- 新增 Role1 场景桥接、Role1 调试 loadout、组合键对普攻的优先级处理、P1/P2 隔离及稳定占位资源登记。
+- 新增独立 `role1-basic-skill-tests.ts`，覆盖槽位、组合、MP、动作锁、伤害、击退、被动增减、物理吸血、魔法拒绝和双玩家隔离。
+
+更新文件：
+- `src/systems/Role1BasicSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole1SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneWorldBridge.ts`
+- `src/scenes/test-scene/TestSceneCombatBridge.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests/role1-basic-skill-tests.ts`
+- `tools/system-tests.ts`
+- Role1 机制表、切片表、任务看板和任务历史。
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-096`。
+#### TASK-SETTINGS-039
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 完整逆向 Role4 沙僧的铲/弓双形态、两套普攻表现、九主动与 `mds` 被动毒爆。
+- 补齐正式槽位、MP 公式、形态差异、动作/位移、projectile、毒层、巫毒娃娃、链式控制、标记传送、终结技和恢复/清理边界。
+- 证实私有 `runAttack()` 没有调用点，拒绝把不可达的 20 MP `hit6` 写成跑动普攻；证实 `qlj` 动态 MP 外还固定多扣 15。
+- 新增独立 `role4-combat-index.md`，并同步角色、输入、projectile 与机制索引。
+
+更新文件：
+- `docs/reverse-engineering/role4-combat-index.md`
+- `docs/reverse-engineering/roles-index.md`
+- `docs/reverse-engineering/skills-input-index.md`
+- `docs/reverse-engineering/projectiles-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- 当前仍按看板执行 `TASK-SLICE-096`；Role1 队列完成后，按 `role4-combat-index.md` 生成 Role4 武器形态与普攻切片。
+
+#### TASK-SLICE-100
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role4PoisonSkillSystem.ts`，完成 `zq` 铲/弓两形态 MP、等级伤害、段数和 projectile，以及 `jdz` 地面门禁、前置视觉和三枚各 20 段口径 projectile。
+- 完成 5 秒毒层刷新与 tick、`mds` 学习门禁、毒层超过 2 后的毒爆伤害、自疗、6.6 秒护盾和 3 秒 `SPEEDUP` 视觉状态；明确不伪造移动加速数值。
+- 新增 Role4 运行时、测试 loadout、场景技能桥接和 projectile 命中接线；P1/P2 各自维护毒层来源状态。
+- 为满足结构硬门禁，抽出 `TestSceneHeroWeaponBridge.ts` 和 `TestSceneHeroSkillPipeline.ts`，使 `TestScene.ts` 回到硬上限以下。
+- 新增 `role4-poison-skill-tests.ts`，覆盖双形态、MP/等级、地面门禁、三 projectile、毒层刷新/到期、毒爆、治疗/护盾/视觉状态和双玩家隔离。
+
+更新文件：
+- `src/systems/Role4PoisonSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole4SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneHeroSkillPipeline.ts`
+- `src/scenes/test-scene/TestSceneHeroWeaponBridge.ts`
+- `src/scenes/test-scene/TestSceneWorldBridge.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests/role4-poison-skill-tests.ts`
+- `tools/system-tests.ts`
+- Role4 机制表、切片表、任务看板和任务历史。
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-101`。
+
+#### TASK-SLICE-101
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role4VoodooDollSystem.ts`，完成 `wdww` 正式 MP、面向侧最近目标、等级生命倍率、继承物防/魔防、替换旧娃娃和 10 秒生命周期。
+- 新增娃娃专属战斗桥接，使另一名玩家与怪物可以攻击娃娃，并按源码等级倍率将伤害转移给绑定目标；目标死亡、娃娃死亡或到期均会清理运行时。
+- 增加施法前置视觉与娃娃占位 projectile，并通过 `visualOnly` 元数据阻止视觉体误伤怪物；Role4 场景桥接同时补齐一次技能生成多个 projectile 的视图创建。
+- 为满足结构硬门禁，将 projectile 类型抽到 `ProjectileTypes.ts`，使 `ProjectileSystem.ts` 回到硬上限以下。
+- 新增 `role4-voodoo-doll-tests.ts`，覆盖面向选敌、无目标门禁、正式 MP、属性继承、替换/跟随/到期、转伤倍率、死亡清理、动作门禁与 P1/P2 隔离。
+
+更新文件：
+- `src/systems/Role4VoodooDollSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileSystem.ts`
+- `src/systems/ProjectileTypes.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole4SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneRole4DollCombatBridge.ts`
+- `src/scenes/test-scene/TestSceneUpdatePipeline.ts`
+- `src/scenes/test-scene/TestSceneWorldBridge.ts`
+- `src/scenes/TestScene.ts`
+- `tools/system-tests/role4-voodoo-doll-tests.ts`
+- `tools/system-tests.ts`
+- Role4 机制表、切片表、任务看板和任务历史。
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-102`。
+
+#### TASK-SLICE-102
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role4PoisonChainSystem.ts`，完成 `mbyj` 正式 MP、动作门禁、面向侧 500 范围数组顺序首目标、源码移动时长和最多八次落点。
+- 每次落点叠加 7 秒 Role4 毒层，并以包含边界的 78% 概率施加 0.42 秒专属眩晕；链本身保持零直接伤害。
+- 后续选敌按源码只排除刚命中的目标，不伪造全链去重，因此保留 A→B→A 回跳；目标移动超过 66 落点容差时立即清理。
+- 新增 `Role4Bullet6` 占位 projectile 与无目标 1 秒淡出生命周期，并接入 Role4 场景桥接、Monster30 眩晕状态和 P1/P2 独立运行时。
+- 新增 `role4-poison-chain-tests.ts`，覆盖数组顺序、面向/距离、八跳与隔跳返回、正式 MP、概率边界、7 秒毒层、零伤害、落点失效、无目标淡出及双玩家隔离。
+
+更新文件：
+- `src/systems/Role4PoisonChainSystem.ts`
+- `src/systems/Role4PoisonSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/Monster30System.ts`
+- `src/systems/ProjectileTypes.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole4SkillBridge.ts`
+- `tools/system-tests/role4-poison-chain-tests.ts`
+- `tools/system-tests.ts`
+- Role4 逆向索引、机制表、切片表、任务看板和任务历史。
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-103`。
+
+#### TASK-SLICE-103
+
+完成时间：
+- 2026-06-22
+
+完成内容：
+- 新增 `Role4MobilitySkillSystem.ts`，完成 `qlj/tkj/dzj` 正式等级 MP、统一动作门禁、铲/弓六种分支和 P1/P2 独立运行时。
+- 保留 `qlj` 只检查动态费用、随后额外扣 15 MP 并由底层口径钳到 0 的原版双扣；没有把怪癖“修正”为总费用预检。
+- 按源码帧表复现 `qlj` 弓形短促反向跃进、`tkj` 铲形后段/弓形前段上升、`dzj` 铲形前段突进，以及动作结束后的速度和重力恢复。
+- 新增九类 Role4 占位 projectile，锁定两形态伤害段数 `1/1、1/5、5/1`、击退、跟随/定点差异和延迟结算；通用 `activeAfterMs` 防止视觉出现后过早命中怪物、Boss 或巫毒娃娃。
+- 新增 `role4-mobility-skill-tests.ts`，以三技能乘两形态矩阵覆盖 MP、伤害/段数、projectile、跟随、位移阶段、恢复、动作门禁和双玩家隔离。
+
+更新文件：
+- `src/systems/Role4MobilitySkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileTypes.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole4SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneHeroSkillPipeline.ts`
+- `src/scenes/test-scene/TestSceneWorldBridge.ts`
+- `src/scenes/test-scene/TestSceneRole4DollCombatBridge.ts`
+- `tools/system-tests/role4-mobility-skill-tests.ts`
+- `tools/system-tests.ts`
+- Role4 机制表、切片表、任务看板和任务历史。
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-104`。
+
+#### TASK-SLICE-104
+
+完成时间：
+- 2026-06-23
+
+完成内容：
+- 新增 `Role4FinisherSkillSystem.ts`，完成 `lybj` 首次最大 MP 1.5% 放置 10 秒标记、二次消耗首次费用 10% 并传送、离屏销毁不传送与超时清理。
+- 完成 `mmw` 铲形 3.4 秒 `Role4Bullet12` 前方多段终结技，以及弓形 `Role4BulletArrow12_1/2/3` 前置、跟随伤害和三波各 10 枚环阵 projectile。
+- 接入 Role4 场景桥接、HeroSkill runtime、Projectile variant、AssetManifest 占位 key；保留真素材缺失事实，不伪造原版资源。
+- 在 `HeroCombatSystem` 增加 Role4 `hit12` 专属抗硬直/抗击退口径：技能期间受伤仍扣 HP，但不进入受击硬直、不设置受击无敌窗、不产生击退。
+- 新增 `role4-finisher-skill-tests.ts`，覆盖标记生命周期、MP、传送/离屏拒绝、两终结形态、30 枚环阵、免击退不免伤和 P1/P2 隔离。
+
+更新文件：
+- `src/systems/Role4FinisherSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/HeroCombatSystem.ts`
+- `src/systems/ProjectileTypes.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole4SkillBridge.ts`
+- `tools/system-tests/role4-finisher-skill-tests.ts`
+- `tools/system-tests.ts`
+- Role4 机制表、切片表、任务看板和任务历史。
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- 恢复 `TASK-SLICE-096`，或按机制表生成 Role5 逆向任务。

@@ -8,6 +8,12 @@ import { runRole2XbzSystemTests } from './system-tests/role2-xbz-tests';
 import { runRole2PassiveSystemTests } from './system-tests/role2-passive-tests';
 import { runRole2CompleteSkillTests } from './system-tests/role2-complete-skill-tests';
 import { runRole3DefenseSkillTests } from './system-tests/role3-defense-skill-tests';
+import { runRole1BasicSkillTests } from './system-tests/role1-basic-skill-tests';
+import { runRole4PoisonSkillTests } from './system-tests/role4-poison-skill-tests';
+import { runRole4VoodooDollTests } from './system-tests/role4-voodoo-doll-tests';
+import { runRole4PoisonChainTests } from './system-tests/role4-poison-chain-tests';
+import { runRole4MobilitySkillTests } from './system-tests/role4-mobility-skill-tests';
+import { runRole4FinisherSkillTests } from './system-tests/role4-finisher-skill-tests';
 import {
   createDamageEvent,
   createHitRegistry,
@@ -180,6 +186,12 @@ runRole2XbzSystemTests();
 runRole2PassiveSystemTests();
 runRole2CompleteSkillTests();
 runRole3DefenseSkillTests();
+runRole1BasicSkillTests();
+runRole4PoisonSkillTests();
+runRole4VoodooDollTests();
+runRole4PoisonChainTests();
+runRole4MobilitySkillTests();
+runRole4FinisherSkillTests();
 testProgressionMonster30AwardAndPlayerIsolation();
 testProgressionSingleLevelRefreshesRole2Stats();
 testProgressionOverflowMultipleLevels();
