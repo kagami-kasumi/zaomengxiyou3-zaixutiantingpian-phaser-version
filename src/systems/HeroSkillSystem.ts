@@ -73,6 +73,10 @@ import {
   createRole4FinisherSkillRuntime,
   type Role4FinisherSkillRuntime,
 } from './Role4FinisherSkillSystem';
+import {
+  createRole5SkillRuntime,
+  type Role5SkillRuntime,
+} from './Role5SkillSystem';
 
 export type SkillName = AllSkillName;
 
@@ -94,7 +98,8 @@ export type HeroSkillLoadout = {
 export type HeroSkillActionName =
   | 'hit3' | 'hit4' | 'hit4_1' | 'hit4_2' | 'hit5'
   | 'hit6' | 'hit7' | 'hit8' | 'hit9' | 'hit10' | 'hit11' | 'hit11_1' | 'hit11_2' | 'hit12'
-  | 'hit13' | 'hit14';
+  | 'hit13' | 'hit14' | 'hit24_1' | 'hit26' | 'hit27_1' | 'hit27_2' | 'hit27_3' | 'hit28'
+  | 'hit29' | 'hit30';
 
 export type ActiveHeroSkillAction = {
   skillName: SkillName;
@@ -125,6 +130,7 @@ export type HeroSkillModel = {
   role4PoisonChainRuntime: Role4PoisonChainRuntime;
   role4MobilityRuntime: Role4MobilitySkillRuntime;
   role4FinisherRuntime: Role4FinisherSkillRuntime;
+  role5Runtime: Role5SkillRuntime;
   isGxp: boolean;
 };
 
@@ -205,6 +211,18 @@ export function createTestRole4SkillLoadout(): HeroSkillLoadout {
   };
 }
 
+export function createTestRole5SkillLoadout(): HeroSkillLoadout {
+  return {
+    slots: [
+      { skillName: 'xlc', level: 1 },
+      { skillName: 'lxuanj', level: 1 },
+      { skillName: 'xkjz', level: 1 },
+      { skillName: 'yyb', level: 1 },
+      { skillName: 'tlj', level: 1 },
+    ],
+  };
+}
+
 export function createHeroSkillModel(
   loadout: HeroSkillLoadout = createTestRole2SkillLoadout(),
   maxMp: number = Role2SkillTuning.maxMp,
@@ -225,6 +243,7 @@ export function createHeroSkillModel(
     role4PoisonChainRuntime: createRole4PoisonChainRuntime(),
     role4MobilityRuntime: createRole4MobilitySkillRuntime(),
     role4FinisherRuntime: createRole4FinisherSkillRuntime(),
+    role5Runtime: createRole5SkillRuntime(),
     isGxp: false,
   };
 }
@@ -243,6 +262,7 @@ export function resetHeroSkill(model: HeroSkillModel): void {
   model.role4PoisonChainRuntime = createRole4PoisonChainRuntime();
   model.role4MobilityRuntime = createRole4MobilitySkillRuntime();
   model.role4FinisherRuntime = createRole4FinisherSkillRuntime();
+  model.role5Runtime = createRole5SkillRuntime();
 }
 
 export function getSkillMpCost(binding: SkillBinding): number {

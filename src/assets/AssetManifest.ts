@@ -102,6 +102,23 @@ export const SkillProjectileEffectKeys = {
   role4MmwArrowHit12_1: 'skill-effect.role4.mmw.arrow.hit12-1',
   role4MmwArrowHit12_2: 'skill-projectile.role4.mmw.arrow.hit12-2',
   role4MmwArrowHit12_3: 'skill-projectile.role4.mmw.arrow.hit12-3',
+  role5XlcHit6: 'skill-projectile.role5.xlc.hit6',
+  role5LxuanjHit7_1: 'skill-projectile.role5.lxuanj.hit7_1',
+  role5LxuanjHit8: 'skill-projectile.role5.lxuanj.hit8',
+  role5YybHit9: 'skill-effect.role5.yyb.hit9',
+  role5XkjzHit10: 'skill-projectile.role5.xkjz.hit10',
+  role5TljHit11: 'skill-effect.role5.tlj.hit11',
+  role5PkzHit24_1: 'skill-projectile.role5.pkz.hit24_1',
+  role5PkzHit24_1Enhanced: 'skill-projectile.role5.pkz.hit24_1.enhanced',
+  role5PkzHit24_2: 'skill-projectile.role5.pkz.hit24_2',
+  role5PkzHit24_3: 'skill-projectile.role5.pkz.hit24_3',
+  role5LxjHit26: 'skill-effect.role5.lxj.hit26',
+  role5MlszHit29: 'skill-projectile.role5.mlsz.hit29',
+  role5MlszHit29Enhanced: 'skill-projectile.role5.mlsz.hit29.enhanced',
+  role5LyshCompanion: 'skill-effect.role5.lysh.companion',
+  role5LyshShot: 'skill-projectile.role5.lysh.shot',
+  role5JrjlCompanion: 'skill-effect.role5.jrjl.companion',
+  role5JrjlShot: 'skill-projectile.role5.jrjl.shot',
 } as const;
 
 export const MagicWeaponEffectKeys = {

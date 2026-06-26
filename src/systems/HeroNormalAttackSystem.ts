@@ -23,6 +23,10 @@ export type HeroNormalAttackModel = {
   lastAttackAtMs: number;
   cooldownUntilMs: number;
   weaponMode: HeroWeaponMode;
+  role5EnergyHits: number;
+  role5EnergyThreshold?: number;
+  role5HitAddRemainingMs: number;
+  role5LastTeleport?: Role5MarkedTeleportResult;
   activeAttack?: ActiveHeroNormalAttack;
   attackSerial: number;
 };
@@ -54,6 +58,22 @@ export type ActiveHeroNormalAttack = {
   role2ExtraDamageMultiplier?: number;
 };
 
+export type Role5MarkedTarget = {
+  id: string;
+  x: number;
+  y: number;
+  hp: number;
+  maxHp: number;
+  role5Skill5RemainingMs?: number;
+};
+
+export type Role5MarkedTeleportResult = {
+  targetId: string;
+  x: number;
+  y: number;
+  switchedToSpear: boolean;
+};
+
 export type Role2NormalAttackOptions = {
   blbLevel: number;
   sjtLevel: number;
@@ -82,6 +102,12 @@ type AttackStep = {
 const comboResetMs = 1500;
 const role5ComboResetMs = 1200;
 
+export const Role5NormalAttackTuning = {
+  hitAddDurationMs: 2_400,
+  unresolvedEnergyThreshold: undefined as number | undefined,
+  teleportMaxY: 450,
+} as const;
+
 export const HeroDisplayNames: Record<HeroId, string> = {
   1: '孙悟空',
   2: '唐僧',
@@ -99,6 +125,9 @@ export function createHeroNormalAttack(
     lastAttackAtMs: Number.NEGATIVE_INFINITY,
     cooldownUntilMs: 0,
     weaponMode: getDefaultWeaponMode(heroId),
+    role5EnergyHits: 0,
+    role5EnergyThreshold: Role5NormalAttackTuning.unresolvedEnergyThreshold,
+    role5HitAddRemainingMs: 0,
     attackSerial: 0,
   };
 }
@@ -112,6 +141,10 @@ export function setHeroId(
   model.lastAttackAtMs = Number.NEGATIVE_INFINITY;
   model.cooldownUntilMs = 0;
   model.weaponMode = getDefaultWeaponMode(heroId);
+  model.role5EnergyHits = 0;
+  model.role5EnergyThreshold = Role5NormalAttackTuning.unresolvedEnergyThreshold;
+  model.role5HitAddRemainingMs = 0;
+  model.role5LastTeleport = undefined;
   model.activeAttack = undefined;
 }
 
@@ -123,6 +156,71 @@ export function setHeroWeaponMode(
   model.comboIndex = 0;
   model.lastAttackAtMs = Number.NEGATIVE_INFINITY;
   model.activeAttack = undefined;
+  if (model.heroId === 5 && weaponMode === 'spear') {
+    model.role5LastTeleport = undefined;
+  }
+}
+
+export function setRole5EnergyThreshold(
+  model: HeroNormalAttackModel,
+  threshold: number | undefined,
+): void {
+  model.role5EnergyThreshold = threshold === undefined
+    ? undefined
+    : Math.max(1, Math.floor(threshold));
+  model.role5EnergyHits = 0;
+  model.role5HitAddRemainingMs = 0;
+}
+
+export function updateRole5NormalAttackState(
+  model: HeroNormalAttackModel,
+  deltaMs: number,
+): void {
+  if (model.role5HitAddRemainingMs > 0) {
+    model.role5HitAddRemainingMs = Math.max(0, model.role5HitAddRemainingMs - deltaMs);
+  }
+}
+
+export function requestRole5MarkedTeleport(
+  model: HeroNormalAttackModel,
+  movement: HeroMovementModel,
+  targets: readonly Role5MarkedTarget[],
+): Role5MarkedTeleportResult | undefined {
+  if (model.heroId !== 5) {
+    return undefined;
+  }
+
+  const target = targets
+    .filter((candidate) =>
+      (candidate.role5Skill5RemainingMs ?? 0) > 0 &&
+      candidate.maxHp > 0 &&
+      candidate.hp > 0)
+    .sort((a, b) => (a.hp / a.maxHp) - (b.hp / b.maxHp))[0];
+  if (!target) {
+    model.role5LastTeleport = undefined;
+    return undefined;
+  }
+
+  const switchedToSpear = model.weaponMode === 'sword';
+  if (switchedToSpear) {
+    setHeroWeaponMode(model, 'spear');
+  }
+
+  movement.x = target.x;
+  movement.y = Math.min(target.y, Role5NormalAttackTuning.teleportMaxY);
+  for (const candidate of targets) {
+    if ((candidate.role5Skill5RemainingMs ?? 0) > 0) {
+      candidate.role5Skill5RemainingMs = 0;
+    }
+  }
+
+  model.role5LastTeleport = {
+    targetId: target.id,
+    x: movement.x,
+    y: movement.y,
+    switchedToSpear,
+  };
+  return model.role5LastTeleport;
 }
 
 export function updateHeroNormalAttack(
@@ -181,6 +279,10 @@ export function updateHeroNormalAttack(
   model.lastAttackAtMs = timeMs;
   model.cooldownUntilMs = timeMs + step.cooldownMs;
 
+  if (model.heroId === 5 && model.weaponMode === 'spear') {
+    addRole5Energy(model);
+  }
+
   if (role2Options) {
     updateRole2ChargedAttack({
       attack,
@@ -194,6 +296,18 @@ export function updateHeroNormalAttack(
     attack,
     hitbox: createHitboxFromAttack(attack, movement),
   };
+}
+
+function addRole5Energy(model: HeroNormalAttackModel): void {
+  if (model.role5EnergyThreshold === undefined) {
+    return;
+  }
+
+  model.role5EnergyHits += 1;
+  if (model.role5EnergyHits > model.role5EnergyThreshold) {
+    model.role5EnergyHits = 0;
+    model.role5HitAddRemainingMs = Role5NormalAttackTuning.hitAddDurationMs;
+  }
 }
 
 export function getActiveHeroHitbox(
@@ -400,7 +514,7 @@ function getDefaultWeaponMode(heroId: HeroId): HeroWeaponMode {
     case 4:
       return 'shovel';
     case 5:
-      return 'spear';
+      return 'sword';
     default:
       return 'shovel';
   }

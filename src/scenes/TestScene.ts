@@ -33,6 +33,7 @@ import {
 import {
   setHeroId,
   updateHeroNormalAttack,
+  updateRole5NormalAttackState,
   type HeroId,
   type HeroNormalAttackModel,
 } from './test-scene/TestSceneSystems';
@@ -48,6 +49,7 @@ import {
   createTestRole1SkillLoadout,
   createTestRole3SkillLoadout,
   createTestRole4SkillLoadout,
+  createTestRole5SkillLoadout,
   takeRole2NormalAttackExtraMultiplier,
   type HeroSkillCastEvent,
   type HeroSkillModel,
@@ -68,6 +70,7 @@ import {
 import { consumeRole3NextDamageMultiplier } from '../systems/Role3ControlSkillSystem';
 import { isRole3SspComboRequested } from '../systems/Role3ImpactSkillSystem';
 import { isRole1HytjRunAttackRequested, isRole1SlzComboRequested } from '../systems/Role1BasicSkillSystem';
+import { isRole5YybComboRequested, triggerRole5JrjlArrow } from '../systems/Role5SkillSystem';
 import { updateHeroSkillProjectiles as updateHeroSkillProjectilesImpl } from './test-scene/TestSceneHeroSkillPipeline';
 import { toggleTestHeroWeaponMode } from './test-scene/TestSceneHeroWeaponBridge';
 import { updateRole4DollCombat as updateRole4DollCombatImpl } from './test-scene/TestSceneRole4DollCombatBridge';
@@ -716,6 +719,7 @@ export class TestScene extends Phaser.Scene {
           if (heroId === 1) player.skill.loadout = createTestRole1SkillLoadout();
           if (heroId === 3) player.skill.loadout = createTestRole3SkillLoadout();
           if (heroId === 4) player.skill.loadout = createTestRole4SkillLoadout();
+          if (heroId === 5) player.skill.loadout = createTestRole5SkillLoadout();
           this.syncPlayerEffectiveStats(player, { refill: true });
           this.refreshPlayerHeroView(player);
         }
@@ -827,6 +831,14 @@ export class TestScene extends Phaser.Scene {
       })) {
         continue;
       }
+      if (isRole5YybComboRequested({
+        heroId: player.normalAttack.heroId,
+        skill: player.skill,
+        input: input[player.slot],
+        previousInput: this.lastInput?.[player.slot],
+      })) {
+        continue;
+      }
 
       const attackEvent = updateHeroNormalAttack(
         player.normalAttack,
@@ -853,8 +865,22 @@ export class TestScene extends Phaser.Scene {
           getHeroTint(attackEvent.attack.heroId),
         ));
         this.attackFlashes.push(createAttackFlash(this, toPhaserRect(attackEvent.hitbox), time));
+        if (player.normalAttack.heroId === 5) {
+          triggerRole5JrjlArrow({
+            runtime: player.skill.role5Runtime,
+            projectiles: this.projectileSystem,
+            point: {
+              sourceId: player.combat.id,
+              x: player.movement.x,
+              y: player.movement.y,
+              facingX: player.movement.facingX,
+            },
+            sourcePower: player.baseStats.power,
+          });
+        }
       }
 
+      updateRole5NormalAttackState(player.normalAttack, this.game.loop.delta);
       this.applyHeroAttackHit(player, time);
     }
   }

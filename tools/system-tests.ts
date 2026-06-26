@@ -15,6 +15,8 @@ import { runRole4VoodooDollTests } from './system-tests/role4-voodoo-doll-tests'
 import { runRole4PoisonChainTests } from './system-tests/role4-poison-chain-tests';
 import { runRole4MobilitySkillTests } from './system-tests/role4-mobility-skill-tests';
 import { runRole4FinisherSkillTests } from './system-tests/role4-finisher-skill-tests';
+import { runRole5NormalAttackTests } from './system-tests/role5-normal-attack-tests';
+import { runRole5SpearSkillTests } from './system-tests/role5-spear-skill-tests';
 import {
   createDamageEvent,
   createHitRegistry,
@@ -194,6 +196,8 @@ runRole4VoodooDollTests();
 runRole4PoisonChainTests();
 runRole4MobilitySkillTests();
 runRole4FinisherSkillTests();
+runRole5NormalAttackTests();
+runRole5SpearSkillTests();
 testProgressionMonster30AwardAndPlayerIsolation();
 testProgressionSingleLevelRefreshesRole2Stats();
 testProgressionOverflowMultipleLevels();

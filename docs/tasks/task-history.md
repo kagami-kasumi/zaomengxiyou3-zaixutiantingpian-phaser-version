@@ -13,6 +13,10 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-109 | 切片 | Role5 随身箭对象与协同 | VS-041、M-022、M-025、M-034 | `Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、占位 projectile、独立测试 |
+| TASK-SLICE-108 | 切片 | Role5 剑系链式与龙魂剑状态 | VS-041、M-022、M-025、M-034 | `pkz/lxj/mlsz` 剑系 projectile、龙魂剑状态增伤、强化资源 key、`dolxjfeijian()` 空函数边界测试 |
+| TASK-SLICE-107 | 切片 | Role5 状态技能与标记瞬移扩展 | VS-041、M-022、M-024、M-025、M-034 | `yyb/tlj` 状态、`0101` 组合入口、状态计时、标记瞬移测试 |
+| TASK-SLICE-106 | 切片 | Role5 枪系三项主动技能 | VS-041、M-022、M-025、M-034 | `xlc/lxuanj/xkjz` 正式槽位、MP/动作门禁、位移/定点/移动 projectile、独立测试 |
 | TASK-SLICE-099 | 切片 | Role1 `hmz/hyjj` 终结技能 | VS-039、M-018、M-025、M-034 | `Role1FinisherSkillSystem.ts`、Role1 场景桥接、占位 projectile、独立测试、状态文档 |
 | TASK-SLICE-103 | 切片 | Role4 `qlj/tkj/dzj` 双形态位移攻击 | VS-040、M-021、M-025、M-034 | `Role4MobilitySkillSystem.ts`、九类占位 projectile、位移/重力接线、独立测试 |
 | TASK-SLICE-102 | 切片 | Role4 `mbyj` 八跳毒链控制 | VS-040、M-021、M-025、M-034 | `Role4PoisonChainSystem.ts`、Role4 眩晕/毒层接线、状态 projectile、独立测试 |
@@ -147,6 +151,55 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-109
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 补齐 `lysh/BLMSkill5` 四枚随身箭和 `jrjl/JRJL` 三枚随身箭的现代等价。
+- `lysh` 支持创建、充能、发射、射空后重建；`jrjl` 支持创建、充能，并由普攻/技能触发单枚发射。
+- Role5 技能数值、调参和类型拆分为 `Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`。
+
+验证：
+- `npm run check:structure`、`npm run test:systems`、`npm run build` 通过；`npm run check:workflow` 本轮收尾验证。
+
+### TASK-SLICE-108
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 补齐 `pkz/lxj/mlsz` 剑系技能、三段链、龙魂剑状态和五段阵列。
+- 接入龙魂剑强化资源 key 与伤害倍率；`dolxjfeijian()` 保持空函数边界，不猜造飞剑。
+
+验证：
+- `npm run test:systems`、`npm run build` 通过。
+
+### TASK-SLICE-107
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 补齐 `yyb/tlj` 状态技能、`0101` 普攻+上入口和状态计时。
+- 沿用 `TASK-SLICE-105` 的标记瞬移纯逻辑，覆盖清标记与目标选择测试。
+
+验证：
+- `npm run test:systems`、`npm run build` 通过。
+
+### TASK-SLICE-106
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 补齐 `xlc/lxuanj/xkjz` 枪系主动技能的正式槽位、MP/动作门禁、projectile、伤害口径和 runtime 隔离。
+- 新增 Role5 技能系统、调参/数学/类型拆分、场景桥接和独立系统测试。
+
+验证：
+- `npm run check:structure`、`npm run test:systems`、`npm run build` 通过。
 
 ### TASK-SLICE-099
 
@@ -5568,3 +5621,147 @@
 
 推荐任务：
 - `TASK-SLICE-099`。
+
+#### TASK-SETTINGS-040
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 新增 `docs/reverse-engineering/role5-combat-index.md`，系统整理 `Role5.as` 的枪/剑形态、速度差异、普攻、跑攻、空中普攻、能量 `ROLE5HITADD`、`0101 -> yyb`、十项正式技能、标记瞬移、龙魂剑状态和随身箭对象。
+- 补读并记录 `BLMSkill5.as` 四枚随身箭和 `JRJL.as` 三枚随身箭：充能、跟随、发射、重建和与普攻/技能触发的协同。
+- 明确不确定边界：`AllConsts.ROLE5MAXENERGY` 常量定义未在当前 AS3 文本中检出；`dolxjfeijian()` 是空函数；`skill_xlj()` 不在 `Config.allSklName` 和 `showSkill()` 内，按不可达遗留函数处理。
+- 更新 `roles-index.md`、`skills-input-index.md`、`projectiles-index.md`、`mechanics-index.md` 和 `vertical-slices.md`，把 Role5 从“待完整逆向”推进到“已扒、待实现”。
+- 拆出 `TASK-SLICE-105..109`：形态/普攻能量首切片、枪系主动、状态/标记、剑系链式、随身箭对象。
+
+更新文件：
+- `docs/reverse-engineering/role5-combat-index.md`
+- `docs/reverse-engineering/roles-index.md`
+- `docs/reverse-engineering/skills-input-index.md`
+- `docs/reverse-engineering/projectiles-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-106..109` 已在本轮后续完成；Role5 完整战斗扩展已收束。
+
+### TASK-SLICE-106
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 新增 Role5 专用技能系统与场景桥接，接入 `xlc/lxuanj/xkjz` 的正式槽位、MP 门禁、动作锁和 P1/P2 runtime 隔离。
+- `xlc` 复现前冲与 `sword_xlc` 物理 projectile；`lxuanj` 复现 `sword_lxuanj1` 移动 projectile；`xkjz` 复现面向目标定点落剑与无目标前方 fallback。
+- 新增 Role5 技能资源 key、projectile variant 与系统测试，覆盖 MP、伤害、位移、目标选择、动作门禁和玩家隔离。
+
+更新文件：
+- `src/systems/Role5SkillSystem.ts`
+- `src/systems/Role5SkillTuning.ts`
+- `src/systems/Role5SkillMath.ts`
+- `src/systems/Role5SkillTypes.ts`
+- `src/scenes/test-scene/TestSceneRole5SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneHeroSkillPipeline.ts`
+- `src/assets/AssetManifest.ts`
+- `src/systems/ProjectileTypes.ts`
+- `tools/system-tests/role5-spear-skill-tests.ts`
+- `tools/system-tests.ts`
+
+验证：
+- `npm run check:structure` 通过（仅既有 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-107`。
+
+### TASK-SLICE-107
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 补齐 `yyb/tlj` 状态技能：按原 MP 表系数扣蓝，生成占位状态特效，记录 `ROLE5SKILL4/ROLE5TLJ` 等价持续时间。
+- 接入 Role5 `0101` 入口：普攻+上触发 `yyb`，并在普通攻击前拦截，避免组合键同时打出普攻。
+- 保留 `TASK-SLICE-105` 已实现的 `ROLE5SKILL5` 标记瞬移纯逻辑，并用状态/瞬移测试覆盖清标记与目标选择。
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-108`。
+
+### TASK-SLICE-108
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 补齐 `pkz/lxj/mlsz` 剑系技能：`pkz` 三段 `swordskill2_*`，`lxj` 龙魂剑状态与 `swordskill4` 视觉，`mlsz` 五段 `sword_mlsz1..5` 阵列。
+- 龙魂剑状态影响剑系 projectile 的强化资源 key 和伤害倍率；学习 `jrjl` 的倍率入口保留在伤害 helper 中。
+- 明确 `dolxjfeijian()` 在当前 AS3 中为空函数，现代实现只记录触发机会，不猜造额外飞剑 projectile。
+
+验证：
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-109`。
+
+### TASK-SLICE-109
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 补齐 `lysh/BLMSkill5` 四枚随身箭：首次释放创建并扣 MP，充能后再次释放发射四枚 `swordskill5_2`，射空后可再次扣 MP 重建。
+- 补齐 `jrjl/JRJL` 三枚随身箭：释放 `jrjl` 创建 `sword_jrjlsf`，充能后由普攻或技能触发单枚 `sword_jrjljq`，速度 60、距离 2000。
+- 将 Role5 数值、调参和类型拆到 `Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`，使主系统保持结构阈值内。
+
+验证：
+- `npm run check:structure` 通过（仅既有 warning：`DropSystem.ts`、`EquipmentSystem.ts`、`HeroSkillSystem.ts`、`MagicWeaponSystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`TestScene.ts`、`TestSceneWorldBridge.ts`、`tools/system-tests.ts`）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- Role5 完整战斗扩展已完成；后续建议转向真实资源补齐、主流程/存档集成或从 `TASK_OUTLINE.md` 选择新的系统缺口。
+
+#### TASK-SLICE-105
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 扩展 `HeroNormalAttackSystem.ts`：Role5 默认形态从枪修正为 AS3 默认剑形态；保留已有枪/剑地面四段普攻、空中普攻和跑动普攻占位映射。
+- 新增 Role5 首切片运行时状态：枪形态能量计数、`ROLE5HITADD` 剩余时间、显式 `setRole5EnergyThreshold()` 配置入口、`updateRole5NormalAttackState()` 计时入口。
+- 按 `Role5.as` 的 `IsSignedMonInView()` / `doNormalhitEscape()` 复现标记瞬移纯逻辑：选择 `ROLE5SKILL5` 剩余时间大于 0 且 HP 比例最低的目标，剑形态先切枪，移动到目标坐标并把 `y` 钳到 450，同时清除所有目标标记。
+- `AllConsts.ROLE5MAXENERGY` 常量定义未在当前 AS3 文本中检出，现代实现没有猜数值；默认保持未解析，测试和后续场景可显式配置阈值。
+- `TestSceneFormatters.ts` 增加 Role5 普攻状态展示：形态、能量阈值状态、`hitAdd` 剩余时间和最近标记瞬移目标。
+- 新增 `role5-normal-attack-tests.ts`，覆盖默认剑形态、枪/剑普攻族、空中/跑动普攻、能量阈值与 `hitAdd` 计时、标记瞬移切枪和清标记。
+
+更新文件：
+- `src/systems/HeroNormalAttackSystem.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneFormatters.ts`
+- `tools/system-tests/role5-normal-attack-tests.ts`
+- `tools/system-tests.ts`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过（仅既有 warning：`DropSystem.ts`、`EquipmentSystem.ts`、`MagicWeaponSystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`TestScene.ts`、`TestSceneWorldBridge.ts`、`tools/system-tests.ts`）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-106..109` 已在本轮后续完成；Role5 完整战斗扩展已收束。

@@ -4,6 +4,7 @@ import { updateRole1SkillBridge } from './TestSceneRole1SkillBridge';
 import { updateRole2SkillBridge } from './TestSceneRole2SkillBridge';
 import { updateRole3SkillBridge } from './TestSceneRole3SkillBridge';
 import { updateRole4SkillBridge } from './TestSceneRole4SkillBridge';
+import { updateRole5SkillBridge } from './TestSceneRole5SkillBridge';
 
 export function updateHeroSkillProjectiles(
   this: any,
@@ -72,14 +73,25 @@ export function updateHeroSkillProjectiles(
     deltaMs: delta,
     timeMs: time,
   });
+  const role5Result = updateRole5SkillBridge({
+    players: this.playerViews,
+    input,
+    previousInput: this.lastInput,
+    projectiles: this.projectileSystem,
+    monsters: this.monster30s,
+    deltaMs: delta,
+    timeMs: time,
+  });
   const projectiles = [
     ...role1Events.flatMap((event) => event.spawnedProjectiles ?? [event.projectile]),
     ...role2Result.castEvents.map((event) => event.projectile),
     ...role3Events.map((event) => event.projectile),
     ...role4Result.spawnedProjectiles,
+    ...role5Result.spawnedProjectiles,
     ...role2Result.spawnedProjectiles,
   ];
-  this.lastSkillEvent = role4Result.castEvents.at(-1)
+  this.lastSkillEvent = role5Result.castEvents.at(-1)
+    ?? role4Result.castEvents.at(-1)
     ?? role3Events.at(-1)
     ?? role2Result.castEvents.at(-1)
     ?? role1Events.at(-1)

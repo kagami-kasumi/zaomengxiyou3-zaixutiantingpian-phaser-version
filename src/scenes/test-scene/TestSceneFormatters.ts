@@ -131,12 +131,27 @@ export function formatHeroNormalAttackState(model: HeroNormalAttackModel | undef
     return 'missing';
   }
 
-  return [
+  const parts = [
     `R${model.heroId} ${HeroDisplayNames[model.heroId]}`,
     model.weaponMode,
     model.activeAttack?.actionName ?? 'ready',
     model.activeAttack?.sourceSymbol ?? model.activeAttack?.effectKey ?? 'none',
-  ].join(' | ');
+  ];
+
+  if (model.heroId === 5) {
+    const energy = model.role5EnergyThreshold === undefined
+      ? 'energy:unresolved'
+      : `energy:${model.role5EnergyHits}/${model.role5EnergyThreshold}`;
+    parts.push(energy);
+    if (model.role5HitAddRemainingMs > 0) {
+      parts.push(`hitAdd:${Math.ceil(model.role5HitAddRemainingMs)}ms`);
+    }
+    if (model.role5LastTeleport) {
+      parts.push(`escape:${model.role5LastTeleport.targetId}`);
+    }
+  }
+
+  return parts.join(' | ');
 }
 
 export function formatHeroSkillState(skill: HeroSkillModel | undefined): string {

@@ -331,6 +331,18 @@ assetKey = "skill-projectile.role2.sgq.hit5"
 | Role5 | `sword_lxuanj1/2`、`swordskill5_2`、`sword_jrjljq`、`Role5Bullet10_3` | `EnemyMoveBullet` | 多个剑/枪形态移动弹体 | 适合白龙专题，不建议抢在 Role2 第二技能前 |
 | Role5 | `sword_mlsz1..5`、`fhf*ly*_spear`、`zxcly*_spear` | `SpecialEffectBullet` | 多段阵列或枪形态范围特效 | 真资源和形态状态依赖重，后置 |
 
+### Role5 技能 projectile 与特殊对象完整映射
+
+Role5 完整表见 `role5-combat-index.md`。当前确认的实现拆分如下：
+
+| 切片 | 对象族 | 类型 | 实现边界 |
+| --- | --- | --- | --- |
+| `TASK-SLICE-105` | `swordhit1..5`、`Role5runattack`、`swordhit6(_1)`、`Role5escapeEffect`、`Role5cloneEf2` | 跟随/移动/特效 | 普攻、跑攻、空中普攻、枪形态能量和标记瞬移首切片；枪形态 `doSingleHit(...)` helper 在反编译稿中仍缺定义，现代先用等价占位 hitbox。 |
+| `TASK-SLICE-106` | `sword_xlc`、`sword_lxuanj1/2`、`sword_xkjz` | 跟随、移动、定点特效 | 枪系主动技能，含突进、高速移动弹和面向侧目标定点。 |
+| `TASK-SLICE-107` | `Role5Bullet9`、`Role5Bullet10_*`、`Role5lmjly*` | 状态视觉/链式特效 | `yyb/tlj` 状态与 `ROLE5SKILL5` 标记瞬移扩展；需保留 `ROLE5MAXENERGY` 常量缺口。 |
+| `TASK-SLICE-108` | `swordskill2_*`、`swordqhskill2_1`、`swordskill4`、`sword_mlsz1..5`、`*_1` | 链式跟随/特效 | `pkz/lxj/mlsz` 剑系链式和龙魂剑强化资源；`dolxjfeijian()` 为空函数，不猜造飞剑。 |
+| `TASK-SLICE-109` | `swordskill5_3`、`swordskill5_2`、`swordskill5_1`、`sword_jrjlsxj`、`sword_jrjljq` | 随身 MC / 移动弹 / 禁碰撞视觉 | `BLMSkill5` 四箭和 `JRJL` 三箭的充能、跟随、发射、重建和协同。 |
+
 ### Role3 技能 projectile 完整映射
 
 | 技能 | 动作/资源 | 类型 | 生成与生命周期 | 结算边界 |
