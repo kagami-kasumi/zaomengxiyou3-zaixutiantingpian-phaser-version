@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-099 | 切片 | Role1 `hmz/hyjj` 终结技能 | VS-039、M-018、M-025、M-034 | `Role1FinisherSkillSystem.ts`、Role1 场景桥接、占位 projectile、独立测试、状态文档 |
 | TASK-SLICE-103 | 切片 | Role4 `qlj/tkj/dzj` 双形态位移攻击 | VS-040、M-021、M-025、M-034 | `Role4MobilitySkillSystem.ts`、九类占位 projectile、位移/重力接线、独立测试 |
 | TASK-SLICE-102 | 切片 | Role4 `mbyj` 八跳毒链控制 | VS-040、M-021、M-025、M-034 | `Role4PoisonChainSystem.ts`、Role4 眩晕/毒层接线、状态 projectile、独立测试 |
 | TASK-SLICE-101 | 切片 | Role4 `wdww` 巫毒娃娃伤害转移 | VS-040、M-021、M-025 | `Role4VoodooDollSystem.ts`、娃娃伤害桥接、占位 projectile、独立测试 |
@@ -146,6 +147,41 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-099
+
+完成时间：
+- 2026-06-26
+
+完成内容：
+- 新增 `Role1FinisherSkillSystem.ts`，完成 Role1 `hmz/hyjj` 终结技能 runtime、正式槽位、MP 消耗、动作门禁、移动/重力锁、projectile 生成和伤害计算。
+- `hmz` 按证据实现 `hit10_2 -> hit10_4` 两段链，覆盖击退、命中间隔和重力恢复；不猜补 `hit10_3/hmzCharge`。
+- `hyjj` 按证据实现地面门禁、面向侧目标轮询、4 次 1.2 秒爆破和施法视觉反馈。
+- 接入 HeroSkill runtime、Role1 场景桥接、AssetManifest、ProjectileTypes 和独立系统测试。
+- 更新任务看板、纵向切片与机制索引，将 Role1 收束到已完成状态，并推荐后续转向 Role5。
+
+更新文件：
+- `src/systems/Role1FinisherSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileTypes.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneRole1SkillBridge.ts`
+- `tools/system-tests.ts`
+- `tools/system-tests/role1-finisher-skill-tests.ts`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+- `git diff --check` 通过。
+
+推荐任务：
+- `TASK-SETTINGS-040`。
 
 ### TASK-SLICE-067
 
@@ -5428,3 +5464,107 @@
 
 推荐任务：
 - 恢复 `TASK-SLICE-096`，或按机制表生成 Role5 逆向任务。
+
+#### TASK-SLICE-096
+
+完成时间：
+- 2026-06-24
+
+完成内容：
+- 扩展 `Role1BasicSkillSystem.ts`，完成 `lys` 正式槽位释放、MP `* 0.45`、`hit9` 伤害公式、36ms `lastlys` 门禁、横冲位移、上键腾空形态、重力/移动锁与 `Role1Bullet9` 占位 projectile。
+- 完成 `hytj` 正式槽位与跑动普攻入口：MP `* 0.6`、`hit7` 魔法四 hit projectile、冲刺移动、动作门禁和 MP 不足时不截获普通攻击的回退边界。
+- 扩展 Role1 runtime 学习同步，纳入 `lys/hytj` 等级、移动状态与 P1/P2 独立隔离；测试场景 Role1 调试 loadout 现在含 `slz/lys/hytj`。
+- 新增 `Role1Bullet7` / `Role1Bullet9` projectile variant 和 AssetManifest 缺失真素材登记；继续使用稳定占位视觉，不伪造原版素材。
+- 扩展 `role1-basic-skill-tests.ts`，覆盖 `lys` 上键腾空、36ms 门禁、重力锁、`hytj` 槽位/跑动普攻、MP 不足回退、伤害/击退/段数和双玩家隔离。
+
+更新文件：
+- `src/systems/Role1BasicSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileTypes.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneRole1SkillBridge.ts`
+- `src/scenes/test-scene/TestSceneHeroSkillPipeline.ts`
+- `tools/system-tests/role1-basic-skill-tests.ts`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-097`。
+
+#### TASK-SLICE-097
+
+完成时间：
+- 2026-06-24
+
+完成内容：
+- 扩展 `Role1BasicSkillSystem.ts`，完成 `lyfb` 正式槽位、MP `* 0.65`、`hit8`/`hit8_2` 双 projectile、12 段伤害口径、物理/魔法两类击退和移动弹体距离 600。
+- 新增 `Role1SkillProjectileFactory.ts`，抽出 `Role1Bullet8_1/8_2` projectile 工厂，并提供 `hit8_1/hit8_2_1` 的 0.3125 倍分身派生接口，供后续 `qsez/zz` 分身协同复用。
+- 完成 `jdy` 首段 `hit11_1`：正式槽位、MP `* 1.0`、13 段魔法口径、水平冲刺和 `Role1Bullet11_1` 占位 projectile。
+- 完成 `jdy` 同键二段 `hit11_2`：在首段窗口内允许越过普通动作门禁，二段免 MP，标记首段 projectile 过期，生成 `Role1Bullet11_2`，触发上挑/重力锁并在 runtime 中清理阶段状态。
+- 扩展 Role1 调试 loadout、技能学习同步、projectile variant、AssetManifest 缺失真素材登记和场景多 projectile 视图桥接。
+- 扩展 `role1-basic-skill-tests.ts`，覆盖 `lyfb` 双弹体、分身派生、`jdy` 二段免蓝、首段替换、上挑移动、伤害/击退/段数和 P1/P2 隔离延续。
+
+更新文件：
+- `src/systems/Role1BasicSkillSystem.ts`
+- `src/systems/Role1SkillProjectileFactory.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileTypes.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneHeroSkillPipeline.ts`
+- `src/scenes/test-scene/TestSceneRole1SkillBridge.ts`
+- `tools/system-tests/role1-basic-skill-tests.ts`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning；`Role1BasicSkillSystem.ts` 已拆回 warning 阈值以下）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-098`。
+
+#### TASK-SLICE-098
+
+完成时间：
+- 2026-06-24
+
+完成内容：
+- 新增 `Role1ShadowSkillSystem.ts`，用可测试数据模型复现 `Role1Shadow`：3 秒生命周期、来源玩家隔离、面向、位置和 `qsez` 派生等级。
+- 完成 `qsez` 正式槽位：MP `* 0.6`、`hit13` 冲刺碰撞目标判定、1.25 秒动作/恢复锁、`Role1Bullet13` 单段物理伤害，以及命中目标后分身生成。
+- 按 `BaseMonster.as` 证据复现分身数量：非 boss 1 个并 50% 额外 1 个，boss 固定 4 个并 50% 额外 1 个；随机源可注入并有边界测试。
+- 完成 `zz` 正式槽位：MP `* 0.75`、本体 `Role1Bullet14_1/14_2` 两窗口物理伤害、现存分身同步 `hit2` 生成两段 projectile，并在同步后销毁分身。
+- 区分 `zz` 本体与分身伤害口径：本体按 `hit14` 主伤，分身第二段按 `hit14_1` 的 `qsez` 等级 0.437 派生伤害。
+- 接入 HeroSkill runtime、Role1 场景桥接、qsez 目标收集、AssetManifest 缺失真素材登记和 projectile variants。
+- 扩展 `role1-basic-skill-tests.ts`，覆盖非 boss/boss 目标分类、随机边界、分身 3 秒过期、`zz` 两窗口、分身同步清理、伤害口径和 P1/P2 runtime 隔离。
+
+更新文件：
+- `src/systems/Role1ShadowSkillSystem.ts`
+- `src/systems/HeroSkillSystem.ts`
+- `src/systems/ProjectileTypes.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneHeroSkillPipeline.ts`
+- `src/scenes/test-scene/TestSceneRole1SkillBridge.ts`
+- `tools/system-tests/role1-basic-skill-tests.ts`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过（仅既有大文件 warning）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+
+推荐任务：
+- `TASK-SLICE-099`。

@@ -17,8 +17,29 @@ export function updateHeroSkillProjectiles(
     input,
     previousInput: this.lastInput,
     projectiles: this.projectileSystem,
+    targets: [
+      ...this.monster30s
+        .filter((monster: any) => monster.state !== 'dead' && monster.state !== 'removed')
+        .map((monster: any) => ({
+          id: monster.id,
+          x: monster.x,
+          y: monster.y,
+          isBoss: false,
+          isAlive: true,
+        })),
+      ...(this.bossArena.boss && this.bossArena.boss.state !== 'dead' && this.bossArena.boss.state !== 'removed'
+        ? [{
+          id: 'Monster3',
+          x: this.bossArena.boss.x,
+          y: this.bossArena.boss.y,
+          isBoss: true,
+          isAlive: true,
+        }]
+        : []),
+    ],
     skillLearning,
     deltaMs: delta,
+    timeMs: time,
   });
   const role2Result = updateRole2SkillBridge({
     players: this.playerViews,
@@ -52,7 +73,7 @@ export function updateHeroSkillProjectiles(
     timeMs: time,
   });
   const projectiles = [
-    ...role1Events.map((event) => event.projectile),
+    ...role1Events.flatMap((event) => event.spawnedProjectiles ?? [event.projectile]),
     ...role2Result.castEvents.map((event) => event.projectile),
     ...role3Events.map((event) => event.projectile),
     ...role4Result.spawnedProjectiles,

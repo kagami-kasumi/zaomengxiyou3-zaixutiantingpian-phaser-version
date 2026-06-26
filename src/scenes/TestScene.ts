@@ -67,7 +67,7 @@ import {
 } from './test-scene/TestSceneSystems';
 import { consumeRole3NextDamageMultiplier } from '../systems/Role3ControlSkillSystem';
 import { isRole3SspComboRequested } from '../systems/Role3ImpactSkillSystem';
-import { isRole1SlzComboRequested } from '../systems/Role1BasicSkillSystem';
+import { isRole1HytjRunAttackRequested, isRole1SlzComboRequested } from '../systems/Role1BasicSkillSystem';
 import { updateHeroSkillProjectiles as updateHeroSkillProjectilesImpl } from './test-scene/TestSceneHeroSkillPipeline';
 import { toggleTestHeroWeaponMode } from './test-scene/TestSceneHeroWeaponBridge';
 import { updateRole4DollCombat as updateRole4DollCombatImpl } from './test-scene/TestSceneRole4DollCombatBridge';
@@ -815,6 +815,15 @@ export class TestScene extends Phaser.Scene {
         skill: player.skill,
         input: input[player.slot],
         previousInput: this.lastInput?.[player.slot],
+      })) {
+        continue;
+      }
+      if (isRole1HytjRunAttackRequested({
+        heroId: player.normalAttack.heroId,
+        skill: player.skill,
+        input: input[player.slot],
+        previousInput: this.lastInput?.[player.slot],
+        movement: player.movement,
       })) {
         continue;
       }

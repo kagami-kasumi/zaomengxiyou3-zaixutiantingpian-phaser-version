@@ -46,6 +46,14 @@ import {
   type Role1SkillRuntimeModel,
 } from './Role1BasicSkillSystem';
 import {
+  createRole1ShadowSkillRuntime,
+  type Role1ShadowSkillRuntime,
+} from './Role1ShadowSkillSystem';
+import {
+  createRole1FinisherSkillRuntime,
+  type Role1FinisherSkillRuntime,
+} from './Role1FinisherSkillSystem';
+import {
   createRole4PoisonSkillRuntime,
   type Role4PoisonSkillRuntime,
 } from './Role4PoisonSkillSystem';
@@ -85,7 +93,8 @@ export type HeroSkillLoadout = {
 
 export type HeroSkillActionName =
   | 'hit3' | 'hit4' | 'hit4_1' | 'hit4_2' | 'hit5'
-  | 'hit6' | 'hit7' | 'hit8' | 'hit9' | 'hit10' | 'hit11' | 'hit12';
+  | 'hit6' | 'hit7' | 'hit8' | 'hit9' | 'hit10' | 'hit11' | 'hit11_1' | 'hit11_2' | 'hit12'
+  | 'hit13' | 'hit14';
 
 export type ActiveHeroSkillAction = {
   skillName: SkillName;
@@ -108,6 +117,8 @@ export type HeroSkillModel = {
   };
   role2Runtime: Role2SkillRuntimeModel;
   role1Runtime: Role1SkillRuntimeModel;
+  role1ShadowRuntime: Role1ShadowSkillRuntime;
+  role1FinisherRuntime: Role1FinisherSkillRuntime;
   role3Runtime: Role3SkillRuntimeModel;
   role4Runtime: Role4PoisonSkillRuntime;
   role4VoodooRuntime: Role4VoodooDollRuntime;
@@ -122,6 +133,7 @@ export type HeroSkillCastEvent = {
   slotIndex: number;
   actionName: HeroSkillActionName;
   projectile: ProjectileModel;
+  spawnedProjectiles?: readonly ProjectileModel[];
   mpBefore: number;
   mpAfter: number;
   mpCost: number;
@@ -161,10 +173,10 @@ export function createTestRole1SkillLoadout(): HeroSkillLoadout {
   return {
     slots: [
       { skillName: 'slz', level: 1 },
-      null,
-      null,
-      null,
-      null,
+      { skillName: 'lys', level: 1 },
+      { skillName: 'hytj', level: 1 },
+      { skillName: 'qsez', level: 1 },
+      { skillName: 'zz', level: 1 },
     ],
   };
 }
@@ -205,6 +217,8 @@ export function createHeroSkillModel(
     learnedRole2Skills: { blbLevel: 0, sjtLevel: 0, shyLevel: 0 },
     role2Runtime: createRole2SkillRuntime(),
     role1Runtime: createRole1SkillRuntime(),
+    role1ShadowRuntime: createRole1ShadowSkillRuntime(),
+    role1FinisherRuntime: createRole1FinisherSkillRuntime(),
     role3Runtime: createRole3SkillRuntime(),
     role4Runtime: createRole4PoisonSkillRuntime(),
     role4VoodooRuntime: createRole4VoodooDollRuntime(),
@@ -221,6 +235,8 @@ export function resetHeroSkill(model: HeroSkillModel): void {
   model.lastResult = 'ready';
   model.role2Runtime = createRole2SkillRuntime();
   model.role1Runtime = createRole1SkillRuntime();
+  model.role1ShadowRuntime = createRole1ShadowSkillRuntime();
+  model.role1FinisherRuntime = createRole1FinisherSkillRuntime();
   model.role3Runtime = createRole3SkillRuntime();
   model.role4Runtime = createRole4PoisonSkillRuntime();
   model.role4VoodooRuntime = createRole4VoodooDollRuntime();

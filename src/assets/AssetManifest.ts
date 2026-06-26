@@ -44,6 +44,19 @@ export const HeroNormalAttackEffectKeys = {
 
 export const SkillProjectileEffectKeys = {
   role1SlzHit6: 'skill-projectile.role1.slz.hit6',
+  role1HytjHit7: 'skill-projectile.role1.hytj.hit7',
+  role1LyfbHit8: 'skill-projectile.role1.lyfb.hit8',
+  role1LyfbHit8_2: 'skill-projectile.role1.lyfb.hit8_2',
+  role1LysHit9: 'skill-projectile.role1.lys.hit9',
+  role1JdyHit11_1: 'skill-projectile.role1.jdy.hit11_1',
+  role1JdyHit11_2: 'skill-projectile.role1.jdy.hit11_2',
+  role1QsezHit13: 'skill-projectile.role1.qsez.hit13',
+  role1ZzHit14_1: 'skill-projectile.role1.zz.hit14_1',
+  role1ZzHit14_2: 'skill-projectile.role1.zz.hit14_2',
+  role1HmzHit10_2: 'skill-projectile.role1.hmz.hit10_2',
+  role1HmzHit10_4: 'skill-projectile.role1.hmz.hit10_4',
+  role1HyjjHit12: 'skill-projectile.role1.hyjj.hit12',
+  role1HyjjHit12_1: 'skill-effect.role1.hyjj.hit12_1',
   role2SgqHit5: 'skill-projectile.role2.sgq.hit5',
   role2SmbHit4_1: 'skill-projectile.role2.smb.hit4_1',
   role2SmbHit4_2: 'skill-projectile.role2.smb.hit4_2',
@@ -230,7 +243,7 @@ export const sourceAssetFamilies = {
   },
   role1SkillProjectiles: {
     status: 'missing-original',
-    sourceSymbols: ['Role1Bullet6', 'Role1_hit6'],
+    sourceSymbols: ['Role1Bullet6', 'Role1_hit6', 'Role1Bullet7', 'Role1_hit7', 'Role1Bullet8_1', 'Role1Bullet8_2', 'Role1_hit8', 'Role1Bullet9', 'Role1_hit9', 'Role1Bullet10_2', 'Role1Bullet10_4_tmp', 'Role1_hit10_2', 'Role1_hit10_4', 'Role1Bullet11_1', 'Role1Bullet11_2', 'Role1_hit11', 'Role1Bullet12', 'Role1Bullet12_1_1', 'Role1Bullet12_1_2', 'Role1_hit12_1', 'Role1_hit12_2', 'Role1Bullet13', 'Role1_hit13', 'Role1Bullet14_1', 'Role1Bullet14_2', 'Role1_hit14', 'ROLE1_SHALLDOW'],
     notes: 'Role1 skill effects are absent from current exports and use stable placeholders.',
   },
   role3SkillProjectiles: {
