@@ -1,4 +1,4 @@
-# 怪物系统索引
+﻿# 怪物系统索引
 
 本文是 `TASK-SETTINGS-004A` 的产物，先记录 `BaseMonster` 基类和怪物运行链路。范围不包含具体怪物候选排序，也不细扒某一个怪物；后续由 `TASK-SETTINGS-004B/004C` 扩展。
 
@@ -16,13 +16,13 @@
 
 主要文件：
 
-- `extracted_flash/scripts/172845/scripts/base/BaseMonster.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseObject.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseBullet.as`
-- `extracted_flash/scripts/172845/scripts/my/MainGame.as`
-- `extracted_flash/scripts/172845/scripts/World/PhysicsWorld.as`
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster1.as`
-- `extracted_flash/scripts/172845/scripts/export/monster/`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseObject.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/MainGame.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster1.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/`
 
 ## 创建和世界循环
 
@@ -426,12 +426,12 @@ HP 和等级不是普通字段，而是拆成两段保存：
 
 主要文件：
 
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster30.as`
-- `extracted_flash/scripts/172845/scripts/export/level/StageListener11.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseMonster.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseObject.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseBullet.as`
-- `extracted_flash/scripts/172845/scripts/export/bullet/SpecialEffectBullet.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster30.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/level/StageListener11.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseObject.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/bullet/SpecialEffectBullet.as`
 
 资源和符号线索：
 
@@ -605,3 +605,5 @@ HP 和等级不是普通字段，而是拆成两段保存：
 
 - `Monster30` 更适合作为“第一主线关相关”的首个怪物。
 - `Monster7` 更适合作为“第一个地面普通小怪”的备选。
+
+

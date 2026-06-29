@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
+import { findJustPressedSkillSlot as findSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
@@ -17,20 +20,12 @@ import type {
   Role3SkillRuntimeModel,
 } from './Role3DefenseSkillSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const skillFixedDamage = [
   481, 1333, 2687, 3547, 4456, 6218, 7341, 9622, 12266,
   15279, 17075, 20724, 24783, 29287, 34223, 39640, 42814, 49006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 
 export const Role3ControlTuning = {
   mpScale: 22998 / 25958,
@@ -72,7 +67,7 @@ export function getRole3ControlMpCost(binding: SkillBinding): number {
   const factor = binding.skillName === 'zznh'
     ? Role3ControlTuning.zznhMpFactor
     : Role3ControlTuning.syzqMpFactor;
-  return Math.floor(consumeMpByLevel[index] * factor * Role3ControlTuning.mpScale);
+  return Math.floor(SkillMpByLevel[index] * factor * Role3ControlTuning.mpScale);
 }
 
 export function getRole3ZznhDamageMultiplier(level: number): number {
@@ -87,8 +82,8 @@ export function consumeRole3NextDamageMultiplier(runtime: Role3SkillRuntimeModel
 
 export function calculateRole3SyzqDamage(level: number, sourcePower: number): number {
   const index = clampLevel(level) - 1;
-  const fixed = skillFixedDamage[index] * fixedDamageCount[index] * 1.05;
-  const power = (skillFactorBase + skillFactorPerLevel * index)
+  const fixed = skillFixedDamage[index] * SkillFixedDamageCount[index] * 1.05;
+  const power = (SkillFactorBase + SkillFactorPerLevel * index)
     * 6201 / 6782 * Math.max(0, sourcePower);
   return Math.floor(0.8 * (fixed + power) / 11) * 1.165;
 }
@@ -194,11 +189,7 @@ function castSyzq(
   return moving;
 }
 
-function findSlot(input: PlayerInputState, previous: PlayerInputState | undefined): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slot) => pressed && !(previous?.skillSlots[slot] ?? false));
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number): number {
-  return Math.min(18, Math.max(1, Math.floor(level)));
-}
+
+
+

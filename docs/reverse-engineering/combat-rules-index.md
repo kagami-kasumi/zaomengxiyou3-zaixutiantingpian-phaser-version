@@ -1,4 +1,4 @@
-# 基础互伤规则索引
+﻿# 基础互伤规则索引
 
 本文记录 `TASK-SETTINGS-007` 的逆向结果，目标是支撑 `VS-006 基础伤害闭环`：在已完成的五角色普攻切片和 `Monster30` 受击死亡切片之上，实现“玩家能伤怪、怪能伤玩家、受击/死亡可观察”的第一版闭环。
 
@@ -6,12 +6,12 @@
 
 ## 证据入口
 
-- `extracted_flash/scripts/172845/scripts/base/BaseBullet.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseObject.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseHero.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseMonster.as`
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster30.as`
-- `extracted_flash/scripts/172845/scripts/export/hero/Role1.as` 至 `Role5.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseObject.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster30.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
 - `docs/reverse-engineering/roles-index.md`
 - `docs/reverse-engineering/monsters-index.md`
 - `docs/reverse-engineering/attack-effects-index.md`
@@ -257,3 +257,5 @@ attackBackInfoDict["hit1"] = {
 - 玩家属性、装备、暴击、吸血和防御的完整公式依赖装备/成长系统，当前只记录接口和第一版取舍。
 - `Role5` 枪形态普攻 `doSingleHit(...)` 仍是反编译缺口；这不阻塞 `VS-006`，因为现代侧已有占位攻击窗口。
 - 复活装备、死亡 UI、失败流程不属于 `VS-006`，后续关卡或存档/UI 阶段再处理。
+
+

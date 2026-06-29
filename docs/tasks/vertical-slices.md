@@ -1,4 +1,4 @@
-# 纵向切片复现表
+﻿# 纵向切片复现表
 
 本文记录准备复现哪些可玩切片、每个切片依赖哪些已扒机制、实现到什么程度。具体任务状态以 `docs/tasks/task-board.md` 为准。
 
@@ -53,9 +53,9 @@
 | VS-037 Role2 完整战斗扩展 | 已完成 | 在既有 `sgq/smb` 基础上补齐唐僧剩余主动、被动、支援、控制与分身链 | M-019、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role2PassiveSkillSystem.ts`、`Role2XbzSkillSystem.ts`、`Role2SupportSkillSystem.ts`、`Role2ControlSkillSystem.ts`、`Role2JhsjSkillSystem.ts`、`Role2ShadowSkillSystem.ts`、独立测试 | `TASK-SLICE-084..089` 全部完成：正式输入/MP/动作门禁、蓄力被动、原版等级公式、治疗/护盾、拉拽/增幅、双窗口多段、8 秒分身/召回与四技能同步均可测 |
 
 | VS-038 Role3 完整战斗扩展 | 已完成 | 补齐八戒九项主动、`rj` 被动、组合 `hit8`、三档盾、拉拽强化、位移和 `tmc` 二段追踪阵列 | M-020、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role3DefenseSkillSystem.ts`、`Role3ControlSkillSystem.ts`、`Role3ImpactSkillSystem.ts`、`Role3MobilitySkillSystem.ts`、`Role3UltimateSkillSystem.ts`、`TestSceneRole3SkillBridge.ts`、独立测试 | `TASK-SLICE-090..094` 全部完成：九项主动、`rj` 被动、组合入口、盾/拉拽/强化/眩晕/位移/隐藏/二段追踪阵列均可测 |
-| VS-039 Role1 完整战斗扩展 | 已完成 | 补齐悟空九项主动、`sx` 被动、`slz/hytj/lys` 组合协同、`jdy` 二段、分身与终结技能 | M-018、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role1BasicSkillSystem.ts`、`Role1SkillProjectileFactory.ts`、`Role1ShadowSkillSystem.ts`、`Role1FinisherSkillSystem.ts`、`TestSceneRole1SkillBridge.ts`、独立测试 | `TASK-SLICE-095..099` 全部完成：`slz/sx`、`lys/hytj`、`lyfb/jdy`、`qsez/zz`、`hmz/hyjj` 均已接入正式槽位、MP/动作门禁、projectile、伤害/击退口径和 P1/P2 隔离；`hmz` 按证据实现 `hit10_2 -> hit10_4`，拒绝猜补 `hit10_3/hmzCharge`，`hyjj` 已实现面向侧目标轮询与 4 次 1.2 秒爆破 |
-| VS-040 Role4 完整战斗扩展 | 已完成 | 在既有铲/弓普攻基础上补齐沙僧九主动、`mds` 被动、毒层/毒爆、巫毒娃娃、链式控制、位移、标记传送与终结技 | M-021、M-024、M-025、M-034、`role4-combat-index.md` | `Role4PoisonSkillSystem.ts`、`Role4VoodooDollSystem.ts`、`Role4PoisonChainSystem.ts`、`Role4MobilitySkillSystem.ts`、`Role4FinisherSkillSystem.ts`、Role4 场景桥接和独立测试 | `TASK-SLICE-100..104` 全部完成：毒系、娃娃、毒链、双形态位移、标记传送与终结技均可测；真实素材仍按全局资源任务补齐 |
-| VS-041 Role5 白龙完整战斗扩展 | 已完成 | 按 `role5-combat-index.md` 拆分实现枪/剑形态、普攻能量、枪系主动、状态/标记、剑系链式和随身箭对象 | M-022、M-024、M-025、M-034、`role5-combat-index.md` | `HeroNormalAttackSystem.ts`、`Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、独立测试 | `TASK-SLICE-105..109` 全部完成：默认剑形态、枪/剑普攻族、能量与标记瞬移纯逻辑、`xlc/lxuanj/xkjz` 枪系主动、`yyb/tlj` 状态与 `0101` 入口、`pkz/lxj/mlsz` 剑系链式和龙魂剑强化、`lysh/BLMSkill5` 与 `jrjl/JRJL` 随身箭对象均可测；真实素材仍按全局资源任务补齐 |
+| VS-039 Role1 完整战斗扩展 | 已完成 | 补齐悟空九项主动、`sx` 被动、`slz/hytj/lys` 组合协同、`jdy` 二段、分身与终结技能 | M-018、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role1BasicSkillSystem.ts`、`Role1SkillProjectileFactory.ts`、`Role1ShadowSkillSystem.ts`、`Role1FinisherSkillSystem.ts`、`TestSceneRole1SkillBridge.ts`、独立测试 | `TASK-SLICE-095..099` 全部完成；`TASK-ASSET-001` 已确认 Role1 普攻和技能真素材当前不可直接接入，详见 `combat-assets-gap-plan.md` |
+| VS-040 Role4 完整战斗扩展 | 已完成 | 在既有铲/弓普攻基础上补齐沙僧九主动、`mds` 被动、毒层/毒爆、巫毒娃娃、链式控制、位移、标记传送与终结技 | M-021、M-024、M-025、M-034、`role4-combat-index.md` | `Role4PoisonSkillSystem.ts`、`Role4VoodooDollSystem.ts`、`Role4PoisonChainSystem.ts`、`Role4MobilitySkillSystem.ts`、`Role4FinisherSkillSystem.ts`、Role4 场景桥接和独立测试 | `TASK-SLICE-100..104` 全部完成；`TASK-ASSET-001` 已确认 Role4 铲/弓普攻和九主动真素材当前不可直接接入，详见 `combat-assets-gap-plan.md` |
+| VS-041 Role5 白龙完整战斗扩展 | 已完成 | 按 `role5-combat-index.md` 拆分实现枪/剑形态、普攻能量、枪系主动、状态/标记、剑系链式和随身箭对象 | M-022、M-024、M-025、M-034、`role5-combat-index.md` | `HeroNormalAttackSystem.ts`、`Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、独立测试 | `TASK-SLICE-105..109` 全部完成；`TASK-ASSET-001` 已确认 Role5 枪/剑本体动作、剑系附属对象和技能真素材当前不可直接接入，枪形态 `doSingleHit(...)` 仍需 P-code 或更完整导出 |
 
 ## 第一批推荐执行顺序
 
@@ -264,7 +264,7 @@
 - `1-1` 流程是纵向爬升、周期性刷 `Monster30`、到顶部触发 `Monster3` boss，boss 死亡后显示传送门。
 - 通关入口是角色 `0001` 交互分支：传送门可见且碰撞成立后派发 `LevelVictor` 并调用 `MainGame.levelClear()`。
 - `TASK-SETTINGS-012` 已细扒 `Monster3` 全数据（HP 926、hit1/hit2 攻击帧、技能 CD、boss 死亡 → 传送门 visible）、确认 boss 区触发参数和传送门机制。
-- 资源缺口已确认：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前 `extracted_flash/resources` 导出中。
+- 资源缺口已确认：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前 `extracted_flash/resources_by_swf` 导出中。
 
 依赖：
 
@@ -581,3 +581,4 @@
 - 补实际验收结果。
 
 如果实现中发现机制没扒清楚，不硬写；把切片状态退回 `待机制`，并新增对应 `TASK-SETTINGS-*`。
+

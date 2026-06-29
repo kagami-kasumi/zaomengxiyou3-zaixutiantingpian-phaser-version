@@ -1,4 +1,4 @@
-# 游戏任务历史
+﻿# 游戏任务历史
 
 本文记录已完成的游戏复现任务和执行记录。新对话默认不读取本文。
 
@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ASSET-001 | 资源/逆向 | 五角色战斗真实资源缺口盘点与接入计划 | M-035、M-047、VS-039、VS-040、VS-041 | `combat-assets-gap-plan.md`、`assets-index.md`、`task-board.md`、`mechanics-index.md`、`vertical-slices.md` |
 | TASK-SLICE-109 | 切片 | Role5 随身箭对象与协同 | VS-041、M-022、M-025、M-034 | `Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、占位 projectile、独立测试 |
 | TASK-SLICE-108 | 切片 | Role5 剑系链式与龙魂剑状态 | VS-041、M-022、M-025、M-034 | `pkz/lxj/mlsz` 剑系 projectile、龙魂剑状态增伤、强化资源 key、`dolxjfeijian()` 空函数边界测试 |
 | TASK-SLICE-107 | 切片 | Role5 状态技能与标记瞬移扩展 | VS-041、M-022、M-024、M-025、M-034 | `yyb/tlj` 状态、`0101` 组合入口、状态计时、标记瞬移测试 |
@@ -151,6 +152,23 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-ASSET-001
+
+完成时间：
+- 2026-06-29
+
+完成内容：
+- 新增 `docs/reverse-engineering/combat-assets-gap-plan.md`，按现代占位 key 对齐 Role1、Role4、Role5 的 AS3 源符号、当前资源可用性和补提取方向。
+- 复核 `extracted_flash/resources_by_swf`：Role1/4/5 战斗资源抽样符号在当前导出中均未命中，现阶段没有可直接替换占位的真素材。
+- 更新 `assets-index.md`、`mechanics-index.md` 和 `vertical-slices.md`，把资源缺口状态从“仍需后补”收束为可执行清单。
+- 从任务板移出 `TASK-ASSET-001`，新增阻塞态 `TASK-ASSET-002`，等待用户补提供或补提取角色战斗资源包后再接入最小资源族。
+
+验证：
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- 用户手工提供 `WuKong` / `Role1Effect`、`ShaShen` 或 `bailongSword` 等资源包后，执行 `TASK-ASSET-002`；没有素材前当前无 Ready 任务。
 
 ### TASK-SLICE-109
 
@@ -2105,7 +2123,7 @@
 
 - 逐个确认五个角色普攻动作 `hit*` 是否生成普攻特效、残影、弹体或额外显示对象。
 - 建立五角色普攻动作到特效资源、类名和 `BitmapDataPool` 名称的映射。
-- 检查现有 `extracted_flash/resources` 是否已有可用 CG/位图资源；若缺失，列出明确缺口和需要用户手工补提取的资源名或符号名。
+- 检查现有 `extracted_flash/resources_by_swf` 是否已有可用 CG/位图资源；若缺失，列出明确缺口和需要用户手工补提取的资源名或符号名。
 - 明确 `TASK-SLICE-001` 实现时角色普攻特效的临时占位策略。
 
 已完成产物：
@@ -3018,7 +3036,7 @@
 
 完成内容：
 
-- 系统扫描 `extracted_flash/scripts/172845/scripts/export/monster/Monster*.as`，范围共 146 个文件。
+- 系统扫描 `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster*.as`，范围共 146 个文件。
 - 在 `docs/reverse-engineering/drops-index.md` 中新增“全 `Monster*.as` 掉落表扫描”章节；除已覆盖的 `Monster3..30` 外，补齐 118 条怪物/辅助对象扫描结果。
 - 记录每个新增怪物构造函数中的 `protectedParamsObject.probability`、`fallList`、`isBoss` 和明显条件分支；同时标注继承 `BaseMonster` 默认 `probability = 0.15` 的情况。
 - 明确 `fallList` 空、无有效候选、`probability = 0/-1` 时不产生装备/道具掉落；死亡仍可能走药品和 aura 逻辑。
@@ -3875,7 +3893,7 @@
 - 确认 `destroy()` override：如果 `isBoss == true`，遍历 `gc.pWorld.getTransferDoorArray()` 全部设为 `visible = true`。
 - 细读 `StageListener11.as` 全源码，记录 boss 区触发条件：任一玩家 `y <= -1900` → 其他玩家/宠物传送 `y = -1950` → 镜头 tween 到 `y = 2370`（2s）→ `callBoss()` 生成 Monster3 在 `(750, -2050)`。
 - 确认传送门机制：`PhysicsWorld.addSubObj()` 读取 SWF 场景中 `isTransferDoor` 子节点，非 `curStage == 0` 时初始隐藏，boss 死亡后显示。
-- 检索 `extracted_flash/resources` 全部 76 个 SWF 导出目录：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前导出中；`assets-index.md` 新增 VS-007 资源缺口确认表。
+- 检索 `extracted_flash/resources_by_swf` 全部 76 个 SWF 导出目录：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前导出中；`assets-index.md` 新增 VS-007 资源缺口确认表。
 - `levels-index.md` 新增「Monster3 详细数据」和「VS-007 实现数据汇总」两个完整章节，标记资源缺口和最小实现策略（手工坐标 + 占位图形）。
 - 更新 `M-026`（关卡类命名）、`M-027`（地图标记）、`M-028`（第一个关卡）的下一步为已确认状态；VS-007 从「待机制」更新为「可开始」。
 
@@ -5765,3 +5783,5 @@
 
 推荐任务：
 - `TASK-SLICE-106..109` 已在本轮后续完成；Role5 完整战斗扩展已收束。
+
+

@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
+import { findJustPressedSkillSlot as findSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
@@ -13,20 +16,12 @@ import {
 } from './ProjectileSystem';
 import { consumeRole3NextDamageMultiplier } from './Role3ControlSkillSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const skillFixedDamage = [
   481, 1333, 2687, 3547, 4456, 6218, 7341, 9622, 12266,
   15279, 17075, 20724, 24783, 29287, 34223, 39640, 42814, 49006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 const frameMs = 1000 / 60;
 
 export type Role3UltimateTarget = {
@@ -67,13 +62,13 @@ const stabTuning = {
 
 export function getRole3TmcMpCost(binding: SkillBinding): number {
   const index = clampLevel(binding.level) - 1;
-  return Math.floor(consumeMpByLevel[index] * Role3UltimateTuning.mpFactor * Role3UltimateTuning.mpScale);
+  return Math.floor(SkillMpByLevel[index] * Role3UltimateTuning.mpFactor * Role3UltimateTuning.mpScale);
 }
 
 export function calculateRole3TmcDamage(level: number, power: number): number {
   const index = clampLevel(level) - 1;
-  const fixed = skillFixedDamage[index] * fixedDamageCount[index] * 1.075;
-  const powerPart = (skillFactorBase + skillFactorPerLevel * index) * 6201 / 6782 * Math.max(0, power);
+  const fixed = skillFixedDamage[index] * SkillFixedDamageCount[index] * 1.075;
+  const powerPart = (SkillFactorBase + SkillFactorPerLevel * index) * 6201 / 6782 * Math.max(0, power);
   return Math.floor(1.22 * (fixed + powerPart) / 10) * 1.165;
 }
 
@@ -184,11 +179,7 @@ function spawnStabRing(
   return projectiles;
 }
 
-function findSlot(input: PlayerInputState, previous: PlayerInputState | undefined): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slot) => pressed && !(previous?.skillSlots[slot] ?? false));
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number): number {
-  return Math.min(18, Math.max(1, Math.floor(level)));
-}
+
+
+

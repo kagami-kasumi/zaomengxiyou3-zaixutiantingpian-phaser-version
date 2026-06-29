@@ -1,10 +1,10 @@
-# 操作设定索引
+﻿# 操作设定索引
 
 本文记录原版键盘控制的第一轮逆向结果。结论来自：
 
-- `extracted_flash/scripts/172845/scripts/my/KeyBoardControl.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseHero.as`
-- `extracted_flash/scripts/172845/scripts/export/hero/Role1.as` 至 `Role5.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
 
 ## 总结论
 
@@ -164,3 +164,5 @@ type PlayerInputState = {
 - 每个角色五个技能槽默认绑定哪些技能。
 - `GameInfo` 上按钮和快捷键的 UI 映射细节。
 - 小键盘在浏览器中 NumLock、不同键盘布局下的兼容策略。
+
+

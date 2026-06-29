@@ -2,6 +2,34 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-06-29
+
+### 增加问题治理协议
+
+变更内容：
+
+- 新增 `docs/workflow/problem-governance.md`，定义系统性工程问题的适用范围、问题定义、证据、解决方案、测试方案、测试结果和关闭标准。
+- 登记首个问题治理记录 `PG-001`：技能系统共享规则重复与 `HeroSkillModel` runtime 耦合。
+- 在 `AGENTS.md`、`CLAUDE.md`、`docs/workflow/README.md`、`docs/workflow/document-map.md` 和 `docs/workflow/agent-protocol.md` 中登记问题治理入口。
+- 将 `problem-governance.md` 接入 `tools/validate-workflow.mjs` 的必备文件和内容校验，避免问题治理协议从脚手架中漂移。
+- 在 `面试.md` 中补充问题治理作为 Harness Engineering 的可讲述实践。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/governance-log.md`
+- `tools/validate-workflow.mjs`
+- `面试.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ## 2026-06-14
 
 ### 增加工程评审协议

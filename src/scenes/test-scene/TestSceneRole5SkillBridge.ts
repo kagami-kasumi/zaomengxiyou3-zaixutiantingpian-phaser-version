@@ -47,10 +47,8 @@ export function updateRole5SkillBridge(params: {
       runtime: player.skill.role5Runtime,
       movement: player.movement,
       deltaMs: params.deltaMs,
+      skill: player.skill,
     });
-    if (!player.skill.role5Runtime.active && isRole5ActiveAction(player.skill)) {
-      player.skill.activeAction = undefined;
-    }
     const projectileCountBeforeCast = params.projectiles.projectiles.length;
     const cast = requestRole5SpearSkillFromInput({
       skill: player.skill,
@@ -97,6 +95,7 @@ export function updateRole5SkillBridge(params: {
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
       sourcePower: player.baseStats.power,
+      jrjlLevel: player.skill.role5Runtime.jrjlLevel,
       timeMs: params.timeMs,
     });
     if (swordCast) {
@@ -139,19 +138,6 @@ export function updateRole5SkillBridge(params: {
     }
   }
   return result;
-}
-
-function isRole5ActiveAction(skill: HeroSkillModel): boolean {
-  return skill.activeAction?.skillName === 'xlc' ||
-    skill.activeAction?.skillName === 'lxuanj' ||
-    skill.activeAction?.skillName === 'xkjz' ||
-    skill.activeAction?.skillName === 'yyb' ||
-    skill.activeAction?.skillName === 'tlj' ||
-    skill.activeAction?.skillName === 'pkz' ||
-    skill.activeAction?.skillName === 'lxj' ||
-    skill.activeAction?.skillName === 'mlsz' ||
-    skill.activeAction?.skillName === 'lysh' ||
-    skill.activeAction?.skillName === 'jrjl';
 }
 
 function createTarget(monster: Monster30Model): Role5SkillTarget {

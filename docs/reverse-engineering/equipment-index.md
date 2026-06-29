@@ -1,4 +1,4 @@
-# 装备/背包系统索引
+﻿# 装备/背包系统索引
 
 本文记录 `TASK-SETTINGS-013` 对装备和背包系统的首轮逆向结果。范围只覆盖足够支撑现代最小背包/装备切片的事实：装备类型、属性字段、槽位、穿戴/卸下、背包分类、容量、存取、物品使用与存档字段。合成、掉落、强化、法宝细节和完整道具效果只记录入口，不在本任务展开。
 
@@ -6,19 +6,19 @@
 
 主要 AS3 证据：
 
-- `extracted_flash/scripts/172845/scripts/my/AllEquipment.as`
-- `extracted_flash/scripts/172845/scripts/my/MyEquipObj.as`
-- `extracted_flash/scripts/172845/scripts/user/User.as`
-- `extracted_flash/scripts/172845/scripts/export/pack/BackPack.as`
-- `extracted_flash/scripts/172845/scripts/export/pack/BackPackElement.as`
-- `extracted_flash/scripts/172845/scripts/export/pack/PackThings.as`
-- `extracted_flash/scripts/172845/scripts/config/Config.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseRoleProperies.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/MyEquipObj.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/user/User.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pack/BackPack.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pack/BackPackElement.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pack/PackThings.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/config/Config.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as`
 
 资料缺口：
 
 - 1.0 资料表位于 `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`，拆分 CSV 位于 `docs/reverse-engineering/reference/equipment-spreadsheet/`，使用规则见 `docs/reverse-engineering/reference/equipment-spreadsheet.md`。其中 `equipment-attributes.csv` 可作为装备名、属性字段和强化字段的辅助索引，`gem-attributes.csv` 可作为宝石数值候选索引；1.1 装备静态数据仍以 `AllEquipment.as` 的 `new MyEquipObj(...)` 初始化为准。
-- `User.as` 实际路径是 `extracted_flash/scripts/172845/scripts/user/User.as`，不是看板中旧写法 `my/User.as`。
+- `User.as` 实际路径是 `extracted_flash/resources_by_swf/[172845].swf/scripts/user/User.as`，不是看板中旧写法 `my/User.as`。
 
 ## 核心对象
 
@@ -227,3 +227,5 @@ fashionTime? (仅 zbsz/zbcb)
 - `M-039 合成`：需要细读 `export/strength/Making.as`、`Fusion.as`、`Strength.as`、`Resolution.as`，并用 `docs/reverse-engineering/reference/equipment-spreadsheet/crafting-recipes.csv` 辅助定位和校验配方。
 - `M-043 法宝`：需要细读 `export/magicWeapon/` 与 `SutraInterface.as`。
 - `M-044 存档`：装备字段已确认，但现代读写格式还未实现。
+
+

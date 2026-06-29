@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel, clampSkillLevelOrZero as clampLevelOrZero } from './SkillMathUtils';
+import { findJustPressedSkillSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel, Role1DamageFinalMultiplier } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import {
@@ -15,10 +18,7 @@ import {
   type ProjectileTuning,
 } from './ProjectileSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const hmzLianZhan = [
   34, 95, 192, 253, 318, 444, 524, 687, 876,
   1091, 1219, 1480, 1770, 2092, 2444, 2831, 3058, 3500,
@@ -31,12 +31,7 @@ const fixedDamage = [
   34, 95, 192, 253, 318, 444, 524, 687, 876,
   1091, 1219, 1480, 1770, 2092, 2444, 2831, 3058, 3500,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 const hmzLianZhanFactorBase = 0.3407;
 const hmzLianZhanFactorPerLevel = 0.0135 * 10;
 const hmzZaDiFactorBase = 2.075;
@@ -91,8 +86,8 @@ const hmzLianZhanProjectileTuning = {
 const hmzZaDiProjectileTuning = {
   actionName: 'hit10_4',
   assetKey: SkillProjectileEffectKeys.role1HmzHit10_4,
-  sourceSymbol: 'Role1Bullet10_4_tmp',
-  runtimeName: 'Role1Bullet10_4_tmp',
+  sourceSymbol: 'Role1Bullet10_4',
+  runtimeName: 'Role1Bullet10_4',
   offsetX: 0,
   offsetY: 40,
   speedX: 0,
@@ -177,37 +172,37 @@ export function updateRole1FinisherRuntime(
 
 export function getRole1HmzMpCost(binding: SkillBinding): number {
   const levelIndex = clampLevel(binding.level) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1FinisherSkillTuning.hmzMpFactor);
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1FinisherSkillTuning.hmzMpFactor);
 }
 
 export function getRole1HyjjMpCost(binding: SkillBinding): number {
   const levelIndex = clampLevel(binding.level) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1FinisherSkillTuning.hyjjMpFactor);
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1FinisherSkillTuning.hyjjMpFactor);
 }
 
 export function calculateRole1HmzLianZhanDamage(skillLevel: number, sourcePower: number): number {
   const levelIndex = clampLevel(skillLevel) - 1;
-  const fixedPart = hmzLianZhan[levelIndex] * fixedDamageCount[levelIndex] * 1.1;
+  const fixedPart = hmzLianZhan[levelIndex] * SkillFixedDamageCount[levelIndex] * 1.1;
   const powerPart = (hmzLianZhanFactorBase + hmzLianZhanFactorPerLevel * levelIndex)
     * Math.max(0, sourcePower);
-  return 1.1 * (fixedPart + powerPart) * 1.27;
+  return 1.1 * (fixedPart + powerPart) * Role1DamageFinalMultiplier;
 }
 
 export function calculateRole1HmzZaDiDamage(skillLevel: number, sourcePower: number): number {
   const levelIndex = clampLevel(skillLevel) - 1;
-  const fixedPart = hmzZaDi[levelIndex] * fixedDamageCount[levelIndex] * 1.05;
+  const fixedPart = hmzZaDi[levelIndex] * SkillFixedDamageCount[levelIndex] * 1.05;
   const powerPart = (hmzZaDiFactorBase + hmzZaDiFactorPerLevel * levelIndex)
     * Math.max(0, sourcePower);
-  return 1.1 * (fixedPart + powerPart) * 1.27;
+  return 1.1 * (fixedPart + powerPart) * Role1DamageFinalMultiplier;
 }
 
 export function calculateRole1HyjjDamage(skillLevel: number, sourcePower: number): number {
   const levelIndex = clampLevel(skillLevel) - 1;
   const skillFixedDamage = fixedDamage[levelIndex] * 8 + hmzZaDi[levelIndex];
-  const fixedPart = skillFixedDamage * fixedDamageCount[levelIndex];
-  const powerPart = (skillFactorBase + skillFactorPerLevel * levelIndex)
+  const fixedPart = skillFixedDamage * SkillFixedDamageCount[levelIndex];
+  const powerPart = (SkillFactorBase + SkillFactorPerLevel * levelIndex)
     * Math.max(0, sourcePower);
-  return 0.9 * (fixedPart + powerPart) / 15 * 1.27;
+  return 0.9 * (fixedPart + powerPart) / 15 * Role1DamageFinalMultiplier;
 }
 
 export function requestRole1FinisherSkillFromInput(params: {
@@ -396,21 +391,9 @@ function createSpawnPoint(
   };
 }
 
-function findJustPressedSkillSlot(
-  input: PlayerInputState,
-  previousInput: PlayerInputState | undefined,
-): number | undefined {
-  for (let index = 0; index < input.skillSlots.length; index++) {
-    if (input.skillSlots[index] && !(previousInput?.skillSlots[index] ?? false)) return index;
-  }
-  return undefined;
-}
 
-function clampLevel(level: number): number {
-  return Math.min(Math.max(Math.floor(level), 1), consumeMpByLevel.length);
-}
 
-function clampLevelOrZero(level: number): number {
-  if (level <= 0) return 0;
-  return clampLevel(level);
-}
+
+
+
+

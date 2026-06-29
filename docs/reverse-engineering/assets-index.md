@@ -1,22 +1,22 @@
-# 资源索引与加载策略
+﻿# 资源索引与加载策略
 
 本文记录 `TASK-ARCH-002` 的资源事实：当前导出目录里已经有什么、Flash 运行时按什么名字取资源、首批现代复现应怎样组织 manifest，以及哪些素材仍然只是“代码可见、文件未到手”。
 
 ## 证据入口
 
-- `extracted_flash/resources`
-- `extracted_flash/scripts/172845/scripts/loader/AssetsLoader.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseBitmapDataPool.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseGameSence.as`
-- `extracted_flash/scripts/172845/scripts/World/PhysicsWorld.as`
-- `extracted_flash/scripts/172845/scripts/my/MainGame.as`
+- `extracted_flash/resources_by_swf`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/loader/AssetsLoader.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataPool.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseGameSence.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/MainGame.as`
 - `docs/reverse-engineering/roles-index.md`
 - `docs/reverse-engineering/attack-effects-index.md`
 - `src/assets/AssetManifest.ts`
 
 ## 当前导出状态
 
-当前 `extracted_flash/resources` 是“可核对资料”，还不是能直接拷进现代工程的完整素材库：
+当前 `extracted_flash/resources_by_swf` 是“可核对资料”，还不是能直接拷进现代工程的完整素材库：
 
 | 范围 | 当前观察 | 结论 |
 | --- | --- | --- |
@@ -87,7 +87,7 @@
 
 - 主包 `[172845].swf` 的 `symbols.csv` 只列出 `export.bullet.ThroughWallBullet` 这个 bullet 类符号，没有 `Role2Bullet5`、`Role2Bullet*` 或 `Role2_hit5`。
 - 主包 `[172845].swf/images/` 与备用包 `[25034429].swf/images/` 只有数字名、UI 和零散对象图，未出现 `Role2Bullet5`、`Role2_hit5`、`TangSeng`、`ROLE2` 或 `Role2Bullet*` 路径。
-- 全 `extracted_flash/resources` 路径/文本检索未命中 `Role2Bullet5`、`Role2_hit5`、`Role2Bullet*`。
+- 全 `extracted_flash/resources_by_swf` 路径/文本检索未命中 `Role2Bullet5`、`Role2_hit5`、`Role2Bullet*`。
 - `AssetsLoader.getRoleNameByID(2)` 说明 Role2 资源运行时从 `TangSeng` 或 `SpecialUI/TangSeng` 角色包加载；这类源 SWF 当前没有以原始包名出现在导出资源目录里。
 
 当前技能 projectile 资源状态：
@@ -175,7 +175,7 @@
 
 ## VS-007 关卡资源缺口确认
 
-本节由 `TASK-SETTINGS-012` 补充。已确认以下 VS-007 所需资源不在当前 `extracted_flash/resources` 导出中：
+本节由 `TASK-SETTINGS-012` 补充。已确认以下 VS-007 所需资源不在当前 `extracted_flash/resources_by_swf` 导出中：
 
 | 目标 | AS3 运行时名 | 当前状态 | 补提取方向 |
 | --- | --- | --- | --- |
@@ -187,7 +187,7 @@
 | 传送门视觉 | SWF 场景 `isTransferDoor` 标记子节点 | `missing-original` | 需 `sl11` 场景 SWF 才能定位 |
 
 已检索范围：
-- `extracted_flash/resources` 全部 76 个 SWF 导出目录的 `symbolClass/symbols.csv`
+- `extracted_flash/resources_by_swf` 全部 76 个 SWF 导出目录的 `symbolClass/symbols.csv`
 - 全目录文件名/路径文本搜索 `sl11`、`bg11`、`floorBg`、`StageListener`、`Monster3`
 - 全部 `.swf` 和图像文件
 
@@ -198,3 +198,17 @@
 - 技能 projectile 真素材接入前，不要继续重复检索当前 `[172845].swf`/`[25034429].swf` 导出目录；应补 `TangSeng` / `SpecialUI/TangSeng` 等角色包。
 - 真素材接入时，不要先搬全量资源；按 `hero-role2`、`combat-normal-attacks`、`skill-projectiles-role2`、`monster30`、`stage-1-1` 五个窄 bundle 分批补。
 - 若用户愿意继续补提取，优先从原版角色包、`Role1Effect`、首关地图包和 `Monster30` 所在包入手，而不是再次扫主包。
+
+## TASK-ASSET-001 五角色战斗资源缺口盘点
+
+本节由 `TASK-ASSET-001` 补充。详细清单见 `docs/reverse-engineering/combat-assets-gap-plan.md`。
+
+已按现代侧实际占位 key 复核 Role1、Role4、Role5 战斗资源族：
+
+- Role1：普攻 `Role1Bullet1/3/4/5`，技能 `Role1Bullet6/7/8_1/8_2/9/10_2/10_4/11_1/11_2/12/12_1_1/13/14_1/14_2`，以及 `ROLE1_SHALLDOW`。
+- Role4：普攻 `Role4Bullet1/2/3`、`Role4BulletArrow1/2`，技能 `Role4Bullet4/5/6/7_1/7_2/8/9_1/9_2/10/11/12`、`Role4BulletArrow4/8_1/8_2/9_1/9_2/10_1/10_2/12_1/12_2/12_3`，以及 `Role4Hit5`。
+- Role5：枪/剑本体动作 `attack*_spear/sword`、`jumpattack_*`、`runattack_*`，普攻附属 `Role5runattack`、`swordhit1..6` 与长剑态 `_1` 变体，技能 `sword_xlc`、`sword_lxuanj1/2`、`sword_xkjz`、`Role5Bullet9`、`role5_tlj`、`swordskill2_*`、`swordqhskill2_1`、`swordskill4`、`sword_mlsz1..5`、`swordskill5_2/3`、`sword_jrjlsf`、`sword_jrjljq`。
+
+检索结论：这些资源名在当前 `extracted_flash/resources_by_swf` 中均不可直接接入；白龙枪形态 `doSingleHit(...)` 附属对象仍是反编译缺口。后续需要用户手工补提供或补提取 `WuKong` / `Role1Effect`、`ShaShen`、`bailongSword` 或对应 `SpecialUI/*` 资源包，再拆一个最小真资源接入切片。
+
+

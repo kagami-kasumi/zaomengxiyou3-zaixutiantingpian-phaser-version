@@ -9,6 +9,7 @@ import { runRole2PassiveSystemTests } from './system-tests/role2-passive-tests';
 import { runRole2CompleteSkillTests } from './system-tests/role2-complete-skill-tests';
 import { runRole3DefenseSkillTests } from './system-tests/role3-defense-skill-tests';
 import { runRole1BasicSkillTests } from './system-tests/role1-basic-skill-tests';
+import { runRole1ShadowSkillTests } from './system-tests/role1-shadow-skill-tests';
 import { runRole1FinisherSkillTests } from './system-tests/role1-finisher-skill-tests';
 import { runRole4PoisonSkillTests } from './system-tests/role4-poison-skill-tests';
 import { runRole4VoodooDollTests } from './system-tests/role4-voodoo-doll-tests';
@@ -17,6 +18,7 @@ import { runRole4MobilitySkillTests } from './system-tests/role4-mobility-skill-
 import { runRole4FinisherSkillTests } from './system-tests/role4-finisher-skill-tests';
 import { runRole5NormalAttackTests } from './system-tests/role5-normal-attack-tests';
 import { runRole5SpearSkillTests } from './system-tests/role5-spear-skill-tests';
+import { runHeroSkillLoadoutTests } from './system-tests/hero-skill-loadout-tests';
 import {
   createDamageEvent,
   createHitRegistry,
@@ -190,6 +192,7 @@ runRole2PassiveSystemTests();
 runRole2CompleteSkillTests();
 runRole3DefenseSkillTests();
 runRole1BasicSkillTests();
+runRole1ShadowSkillTests();
 runRole1FinisherSkillTests();
 runRole4PoisonSkillTests();
 runRole4VoodooDollTests();
@@ -198,6 +201,7 @@ runRole4MobilitySkillTests();
 runRole4FinisherSkillTests();
 runRole5NormalAttackTests();
 runRole5SpearSkillTests();
+runHeroSkillLoadoutTests();
 testProgressionMonster30AwardAndPlayerIsolation();
 testProgressionSingleLevelRefreshesRole2Stats();
 testProgressionOverflowMultipleLevels();

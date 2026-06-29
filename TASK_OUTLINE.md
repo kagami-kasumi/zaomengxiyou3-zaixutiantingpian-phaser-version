@@ -28,15 +28,15 @@
 
 主参考：
 
-- `extracted_flash/scripts/172845/scripts`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts`
 
 备用参考：
 
-- `extracted_flash/scripts/25034429/scripts`
+- `extracted_flash/resources_by_swf/[25034429].swf/scripts`
 
 资源和数据：
 
-- `extracted_flash/resources`
+- `extracted_flash/resources_by_swf`
 - `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`
 - `docs/reverse-engineering/reference/equipment-spreadsheet/`
 - `docs/reverse-engineering/reference/equipment-spreadsheet.md`

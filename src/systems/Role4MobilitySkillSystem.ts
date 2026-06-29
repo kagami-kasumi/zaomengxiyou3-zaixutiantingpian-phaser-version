@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
+import { findJustPressedSkillSlot as findSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import {
@@ -15,10 +18,7 @@ import {
   type ProjectileTuning,
 } from './ProjectileSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const hmzLianZhan = [
   34, 95, 192, 253, 318, 444, 524, 687, 876,
   1091, 1219, 1480, 1770, 2092, 2444, 2831, 3058, 3500,
@@ -27,12 +27,7 @@ const hmzZaDi = [
   209, 573, 1151, 1523, 1912, 2666, 3149, 4126, 5258,
   6551, 7323, 8884, 10623, 12551, 14671, 16992, 18350, 21006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 
 export type Role4MobilitySkillName = 'qlj' | 'tkj' | 'dzj';
 export type Role4MobilityWeaponMode = 'shovel' | 'arrow';
@@ -87,7 +82,7 @@ export function getRole4MobilityMpCost(binding: SkillBinding): number {
   if (!isRole4MobilitySkillName(binding.skillName)) return 0;
   const index = clampLevel(binding.level) - 1;
   const dynamic = Math.floor(
-    consumeMpByLevel[index] * Role4MobilitySkillTuning.mpFactors[binding.skillName] *
+    SkillMpByLevel[index] * Role4MobilitySkillTuning.mpFactors[binding.skillName] *
       Role4MobilitySkillTuning.mpScale,
   );
   return dynamic + (binding.skillName === 'qlj' ? Role4MobilitySkillTuning.qljExtraMp : 0);
@@ -309,29 +304,21 @@ function phaseDuration(fromMs: number, toMs: number, startMs: number, endMs: num
 function getDynamicMpCost(binding: SkillBinding): number {
   if (!isRole4MobilitySkillName(binding.skillName)) return 0;
   const index = clampLevel(binding.level) - 1;
-  return Math.floor(consumeMpByLevel[index] *
+  return Math.floor(SkillMpByLevel[index] *
     Role4MobilitySkillTuning.mpFactors[binding.skillName] * Role4MobilitySkillTuning.mpScale);
 }
 
 function calculateSkillBase(level: number, sourcePower: number): number {
   const index = clampLevel(level) - 1;
-  return (hmzLianZhan[index] * 8 + hmzZaDi[index]) * fixedDamageCount[index] +
-    (skillFactorBase + skillFactorPerLevel * index) * 6201 / 5658 * Math.max(0, sourcePower);
+  return (hmzLianZhan[index] * 8 + hmzZaDi[index]) * SkillFixedDamageCount[index] +
+    (SkillFactorBase + SkillFactorPerLevel * index) * 6201 / 5658 * Math.max(0, sourcePower);
 }
 
 function isRole4MobilitySkillName(skillName: string): skillName is Role4MobilitySkillName {
   return skillName === 'qlj' || skillName === 'tkj' || skillName === 'dzj';
 }
 
-function findSlot(input: PlayerInputState, previous: PlayerInputState | undefined): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slot) =>
-    pressed && !(previous?.skillSlots[slot] ?? false));
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number): number {
-  return Math.min(Math.max(Math.floor(level), 1), consumeMpByLevel.length);
-}
 
 const base = {
   speedX: 0, speedY: 0, distance: undefined, damage: 0, attackKind: 'magic',
@@ -394,3 +381,6 @@ const dzjArrowDamageTuning = {
   offsetY: -80, width: 260, height: 180, lifetimeMs: 1_000, knockbackX: 10,
   knockbackY: -2, maxHits: 1,
 } as const satisfies ProjectileTuning;
+
+
+

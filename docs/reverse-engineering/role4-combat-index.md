@@ -1,6 +1,6 @@
-# Role4 沙僧完整战斗逆向
+﻿# Role4 沙僧完整战斗逆向
 
-本文记录 `export.hero.Role4` 的本地可达战斗行为，供后续现代实现拆分使用。主证据为 `extracted_flash/scripts/172845/scripts/export/hero/Role4.as`；巫毒娃娃另查 `export/monster/MonsterRole4Hit5.as`，猛毒素联动另查 `base/BaseAddEffect.as`。
+本文记录 `export.hero.Role4` 的本地可达战斗行为，供后续现代实现拆分使用。主证据为 `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role4.as`；巫毒娃娃另查 `export/monster/MonsterRole4Hit5.as`，猛毒素联动另查 `base/BaseAddEffect.as`。
 
 ## 1. 武器形态与基础输入
 
@@ -69,3 +69,5 @@ MP 基础表为 `[66,160,208,276,364,493,703,759,801,921,1085,1133,1318,1771,188
 每个切片都应覆盖铲/弓差异、P1/P2 隔离、MP 实际扣除、动作恢复、projectile 清理和无目标边界。像素级碰撞与真实素材继续后置。
 
 现代实现状态：`TASK-SLICE-100..104` 已完成上述五段拆分。对应系统为 `Role4PoisonSkillSystem.ts`、`Role4VoodooDollSystem.ts`、`Role4PoisonChainSystem.ts`、`Role4MobilitySkillSystem.ts`、`Role4FinisherSkillSystem.ts`，并接入 Role4 场景桥接和独立 system tests；真实角色/技能素材仍按全局资源任务后置。
+
+

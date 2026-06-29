@@ -1,15 +1,11 @@
+﻿import { SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { HeroNormalAttackEffectKeys } from '../assets/AssetManifest';
 
 const skillFixedDamage = [
   481, 1333, 2687, 3547, 4456, 6218, 7341, 9622, 12266,
   15279, 17075, 20724, 24783, 29287, 34223, 39640, 42814, 49006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 const frameMs = 1000 / 60;
 
 export type Role2ChargeAttack = {
@@ -34,6 +30,16 @@ export type Role2ChargeAttack = {
 export type Role2ChargeResource = {
   mp: number;
   lastResult: string;
+};
+
+export type Role2ChargedAttackUpdateState =
+  | 'charging'
+  | 'released-hit1'
+  | 'converted-hit2';
+
+export type Role2ChargedAttackUpdate<TAttack extends Role2ChargeAttack = Role2ChargeAttack> = {
+  state: Role2ChargedAttackUpdateState;
+  attack: TAttack;
 };
 
 export const Role2PassiveTuning = {
@@ -67,16 +73,16 @@ export function calculateRole2BlbDamage(
   damageMultiplier = 1,
 ): number {
   const levelIndex = Math.min(18, Math.max(1, Math.floor(blbLevel))) - 1;
-  const fixedPart = skillFixedDamage[levelIndex] * fixedDamageCount[levelIndex];
+  const fixedPart = skillFixedDamage[levelIndex] * SkillFixedDamageCount[levelIndex];
   const powerPart = (
-    skillFactorBase + skillFactorPerLevel * levelIndex
+    SkillFactorBase + SkillFactorPerLevel * levelIndex
   ) * 6201 / 6550 * Math.max(0, sourcePower);
   const baseDamage = Math.floor(0.6 * (fixedPart + powerPart) / 7);
   return baseDamage * 1.178 * damageMultiplier;
 }
 
-export function updateRole2ChargedAttack(params: {
-  attack: Role2ChargeAttack | undefined;
+export function updateRole2ChargedAttack<TAttack extends Role2ChargeAttack>(params: {
+  attack: TAttack | undefined;
   attackHeld: boolean;
   timeMs: number;
   blbLevel: number;
@@ -84,18 +90,25 @@ export function updateRole2ChargedAttack(params: {
   sourcePower: number;
   resource: Role2ChargeResource;
   extraDamageMultiplier?: number | (() => number);
-}): 'charging' | 'released-hit1' | 'converted-hit2' | undefined {
+}): Role2ChargedAttackUpdate<TAttack> | undefined {
   const { attack } = params;
   if (!attack || attack.heroId !== 2 || attack.actionName !== 'hit1') {
     return undefined;
   }
 
-  if (!attack.role2ChargePrepared) {
-    attack.role2ChargePrepared = true;
-    attack.role2ExtraDamageMultiplier = typeof params.extraDamageMultiplier === 'function'
+  let nextAttack: TAttack = { ...attack };
+
+  if (!nextAttack.role2ChargePrepared) {
+    const role2ExtraDamageMultiplier = typeof params.extraDamageMultiplier === 'function'
       ? params.extraDamageMultiplier()
       : params.extraDamageMultiplier ?? 1;
-    attack.damage *= getRole2SjtDamageMultiplier(params.sjtLevel) * attack.role2ExtraDamageMultiplier;
+    nextAttack = {
+      ...nextAttack,
+      role2ChargePrepared: true,
+      role2ExtraDamageMultiplier,
+      damage: nextAttack.damage * getRole2SjtDamageMultiplier(params.sjtLevel) *
+        role2ExtraDamageMultiplier,
+    };
   }
 
   if (params.blbLevel <= 0) return undefined;
@@ -112,39 +125,49 @@ export function updateRole2ChargedAttack(params: {
   const thresholdMs = chargeFrames * frameMs;
 
   if (!params.attackHeld) {
-    attack.startedAtMs = params.timeMs;
-    attack.hitboxActiveFromMs = params.timeMs + Role2PassiveTuning.releaseHitboxStartMs;
-    attack.hitboxActiveUntilMs = params.timeMs + Role2PassiveTuning.releaseHitboxEndMs;
-    attack.endsAtMs = params.timeMs + Role2PassiveTuning.releaseDurationMs;
+    nextAttack = {
+      ...nextAttack,
+      startedAtMs: params.timeMs,
+      hitboxActiveFromMs: params.timeMs + Role2PassiveTuning.releaseHitboxStartMs,
+      hitboxActiveUntilMs: params.timeMs + Role2PassiveTuning.releaseHitboxEndMs,
+      endsAtMs: params.timeMs + Role2PassiveTuning.releaseDurationMs,
+    };
     params.resource.lastResult = 'blb released early: hit1';
-    return 'released-hit1';
+    return { state: 'released-hit1', attack: nextAttack };
   }
 
-  attack.hitboxActiveFromMs = attack.startedAtMs + thresholdMs;
-  attack.hitboxActiveUntilMs = attack.startedAtMs + thresholdMs + Role2PassiveTuning.releaseHitboxEndMs;
-  attack.endsAtMs = attack.startedAtMs + thresholdMs + Role2PassiveTuning.releaseDurationMs;
+  nextAttack = {
+    ...nextAttack,
+    hitboxActiveFromMs: nextAttack.startedAtMs + thresholdMs,
+    hitboxActiveUntilMs: nextAttack.startedAtMs + thresholdMs + Role2PassiveTuning.releaseHitboxEndMs,
+    endsAtMs: nextAttack.startedAtMs + thresholdMs + Role2PassiveTuning.releaseDurationMs,
+  };
 
-  if (params.timeMs - attack.startedAtMs < thresholdMs) {
+  if (params.timeMs - nextAttack.startedAtMs < thresholdMs) {
     params.resource.lastResult = `blb charging ${chargeFrames}`;
-    return 'charging';
+    return { state: 'charging', attack: nextAttack };
   }
 
-  attack.actionName = 'hit2';
-  attack.effectKey = HeroNormalAttackEffectKeys.role2Hit2;
-  attack.sourceSymbol = 'Role2Bullet2';
-  attack.startedAtMs = params.timeMs;
-  attack.hitboxActiveFromMs = params.timeMs;
-  attack.hitboxActiveUntilMs = params.timeMs + Role2PassiveTuning.releaseHitboxEndMs;
-  attack.endsAtMs = params.timeMs + Role2PassiveTuning.releaseDurationMs;
-  attack.hitboxWidth = Role2PassiveTuning.hit2Width;
-  attack.hitboxHeight = Role2PassiveTuning.hit2Height;
-  attack.damage = calculateRole2BlbDamage(
-    params.blbLevel,
-    params.sourcePower,
-    getRole2SjtDamageMultiplier(params.sjtLevel) * (attack.role2ExtraDamageMultiplier ?? 1),
-  );
-  attack.attackKind = 'magic';
+  nextAttack = {
+    ...nextAttack,
+    actionName: 'hit2',
+    effectKey: HeroNormalAttackEffectKeys.role2Hit2,
+    sourceSymbol: 'Role2Bullet2',
+    startedAtMs: params.timeMs,
+    hitboxActiveFromMs: params.timeMs,
+    hitboxActiveUntilMs: params.timeMs + Role2PassiveTuning.releaseHitboxEndMs,
+    endsAtMs: params.timeMs + Role2PassiveTuning.releaseDurationMs,
+    hitboxWidth: Role2PassiveTuning.hit2Width,
+    hitboxHeight: Role2PassiveTuning.hit2Height,
+    damage: calculateRole2BlbDamage(
+      params.blbLevel,
+      params.sourcePower,
+      getRole2SjtDamageMultiplier(params.sjtLevel) * (nextAttack.role2ExtraDamageMultiplier ?? 1),
+    ),
+    attackKind: 'magic',
+  };
   params.resource.mp -= mpCost;
   params.resource.lastResult = `blb hit2 mp ${params.resource.mp}`;
-  return 'converted-hit2';
+  return { state: 'converted-hit2', attack: nextAttack };
 }
+

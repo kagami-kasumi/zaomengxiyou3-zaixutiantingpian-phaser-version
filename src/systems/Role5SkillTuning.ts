@@ -1,10 +1,13 @@
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { ProjectileModel, ProjectileTuning } from './ProjectileSystem';
+import {
+  SkillFixedDamageCount,
+  SkillFactorBase,
+  SkillFactorPerLevel,
+  SkillMpByLevel,
+} from './SkillTuning';
 
-export const role5ConsumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+export const role5ConsumeMpByLevel = SkillMpByLevel;
 
 export const role5HmzLianZhan = [
   34, 95, 192, 253, 318, 444, 524, 687, 876,
@@ -16,13 +19,10 @@ export const role5HmzZaDi = [
   6551, 7323, 8884, 10623, 12551, 14671, 16992, 18350, 21006,
 ] as const;
 
-export const role5FixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
+export const role5FixedDamageCount = SkillFixedDamageCount;
 
-export const role5SkillFactorBase = 0.3407 * 8 + 2.075;
-export const role5SkillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+export const role5SkillFactorBase = SkillFactorBase;
+export const role5SkillFactorPerLevel = SkillFactorPerLevel;
 
 export const Role5SkillTuning = {
   consumeMpByLevel: role5ConsumeMpByLevel,

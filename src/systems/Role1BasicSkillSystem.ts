@@ -1,7 +1,10 @@
+﻿import { clampSkillLevel as clampLevel, clampSkillLevelOrZero as clampLevelOrZero } from './SkillMathUtils';
+import { findJustPressedSkillSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel, Role1DamageFinalMultiplier } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { AttackKind } from './CombatSystem';
 import type { HeroCombatModel } from './HeroCombatSystem';
-import type { HeroMovementModel } from './HeroMovementSystem';
+import { lockHeroMovementForSkill, type HeroMovementModel } from './HeroMovementSystem';
 import type { HeroNormalAttackModel } from './HeroNormalAttackSystem';
 import type { HeroSkillCastEvent, HeroSkillModel, SkillBinding } from './HeroSkillSystem';
 import type { PlayerInputState } from './InputSystem';
@@ -13,10 +16,7 @@ import {
 } from './ProjectileSystem';
 import { spawnRole1LyfbProjectiles } from './Role1SkillProjectileFactory';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const hmzLianZhan = [
   34, 95, 192, 253, 318, 444, 524, 687, 876,
   1091, 1219, 1480, 1770, 2092, 2444, 2831, 3058, 3500,
@@ -25,12 +25,7 @@ const hmzZaDi = [
   209, 573, 1151, 1523, 1912, 2666, 3149, 4126, 5258,
   6551, 7323, 8884, 10623, 12551, 14671, 16992, 18350, 21006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 
 export type Role1SkillRuntimeModel = {
   actionRemainingMs: number;
@@ -175,7 +170,7 @@ type Role1MobilityState = {
   kind: 'lys' | 'hytj' | 'jdy1' | 'jdy2';
   remainingMs: number;
   directionX: -1 | 1;
-  upward: boolean;
+  direction: 'horizontal' | 'upward';
 };
 
 type Role1JdyStageState = {
@@ -226,22 +221,23 @@ export function updateRole1BasicRuntime(
     movement.grounded = false;
     movement.state = 'jump2';
   } else {
-    movement.velocityX = active.upward
+    const upward = active.direction === 'upward';
+    movement.velocityX = upward
       ? 0
       : active.directionX * Role1BasicSkillTuning.lysHorizontalSpeed;
-    movement.velocityY = active.upward
+    movement.velocityY = upward
       ? Role1BasicSkillTuning.lysUpwardSpeed
       : 0;
     movement.x += movement.velocityX * stepSeconds;
     movement.y += movement.velocityY * stepSeconds;
     movement.grounded = false;
-    movement.state = active.upward ? 'jump2' : 'run';
+    movement.state = upward ? 'jump2' : 'run';
   }
   active.remainingMs -= stepMs;
   if (active.remainingMs <= 0) {
     runtime.activeMobility = undefined;
     movement.velocityX = 0;
-    if (!active.upward) movement.velocityY = 0;
+    if (active.direction !== 'upward') movement.velocityY = 0;
   }
   if (runtime.actionRemainingMs <= 0 && runtime.jdyStage) {
     runtime.jdyStage = undefined;
@@ -274,28 +270,28 @@ export function syncRole1LearnedSkills(
 }
 
 export function getRole1SlzMpCost(binding: SkillBinding): number {
-  const levelIndex = clampLevel(binding.level, consumeMpByLevel.length) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1BasicSkillTuning.slzMpFactor);
+  const levelIndex = clampLevel(binding.level, SkillMpByLevel.length) - 1;
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1BasicSkillTuning.slzMpFactor);
 }
 
 export function getRole1LysMpCost(binding: SkillBinding): number {
-  const levelIndex = clampLevel(binding.level, consumeMpByLevel.length) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1BasicSkillTuning.lysMpFactor);
+  const levelIndex = clampLevel(binding.level, SkillMpByLevel.length) - 1;
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1BasicSkillTuning.lysMpFactor);
 }
 
 export function getRole1HytjMpCost(binding: SkillBinding): number {
-  const levelIndex = clampLevel(binding.level, consumeMpByLevel.length) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1BasicSkillTuning.hytjMpFactor);
+  const levelIndex = clampLevel(binding.level, SkillMpByLevel.length) - 1;
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1BasicSkillTuning.hytjMpFactor);
 }
 
 export function getRole1LyfbMpCost(binding: SkillBinding): number {
-  const levelIndex = clampLevel(binding.level, consumeMpByLevel.length) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1BasicSkillTuning.lyfbMpFactor);
+  const levelIndex = clampLevel(binding.level, SkillMpByLevel.length) - 1;
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1BasicSkillTuning.lyfbMpFactor);
 }
 
 export function getRole1JdyMpCost(binding: SkillBinding): number {
-  const levelIndex = clampLevel(binding.level, consumeMpByLevel.length) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1BasicSkillTuning.jdyMpFactor);
+  const levelIndex = clampLevel(binding.level, SkillMpByLevel.length) - 1;
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1BasicSkillTuning.jdyMpFactor);
 }
 
 export function calculateRole1SlzDamage(skillLevel: number, sourcePower: number): number {
@@ -326,10 +322,10 @@ function calculateRole1SkillDamage(
 ): number {
   const levelIndex = clampLevel(skillLevel, hmzLianZhan.length) - 1;
   const skillFixedDamage = hmzLianZhan[levelIndex] * 8 + hmzZaDi[levelIndex];
-  const fixedPart = skillFixedDamage * fixedDamageCount[levelIndex];
-  const powerPart = (skillFactorBase + skillFactorPerLevel * levelIndex)
+  const fixedPart = skillFixedDamage * SkillFixedDamageCount[levelIndex];
+  const powerPart = (SkillFactorBase + SkillFactorPerLevel * levelIndex)
     * Math.max(0, sourcePower);
-  return Math.floor(multiplier * (fixedPart + powerPart) / divisor) * 1.27;
+  return Math.floor(multiplier * (fixedPart + powerPart) / divisor) * Role1DamageFinalMultiplier;
 }
 
 export function isRole1SlzComboRequested(params: {
@@ -395,16 +391,17 @@ export function requestRole1BasicSkillFromInput(params: {
     && skillName !== 'lyfb'
     && skillName !== 'jdy'
   ) return undefined;
-  if (skillName === 'jdy' && params.skill.role1Runtime.jdyStage) {
-    return castJdyStage2(params, params.skill.role1Runtime.jdyStage.level, slotIndex ?? -1);
-  }
+  const jdyStageReady = skillName === 'jdy' && params.skill.role1Runtime.jdyStage !== undefined;
   if (
     params.combat.state !== 'ready'
     || params.normalAttack.activeAttack
-    || params.skill.role1Runtime.actionRemainingMs > 0
+    || (params.skill.role1Runtime.actionRemainingMs > 0 && !jdyStageReady)
   ) {
     params.skill.lastResult = `role1 ${skillName}: attacking`;
     return undefined;
+  }
+  if (jdyStageReady && params.skill.role1Runtime.jdyStage) {
+    return castJdyStage2(params, params.skill.role1Runtime.jdyStage.level, slotIndex ?? -1);
   }
   const level = getRuntimeOrBindingLevel(params.skill, skillName, binding);
   if (skillName === 'lys' && params.timeMs - params.skill.role1Runtime.lastLysCastAtMs < Role1BasicSkillTuning.lysGateMs) {
@@ -497,9 +494,9 @@ function castHytj(
     kind: 'hytj',
     remainingMs: Role1BasicSkillTuning.hytjActionMs,
     directionX: params.movement.facingX,
-    upward: false,
+    direction: 'horizontal',
   };
-  lockRole1Movement(params.movement, params.timeMs, Role1BasicSkillTuning.hytjActionMs);
+  lockHeroMovementForSkill(params.movement, params.timeMs, Role1BasicSkillTuning.hytjActionMs, false);
   const projectile = spawnRole1Projectile(
     params.projectiles,
     params.combat,
@@ -545,9 +542,9 @@ function castLys(
     kind: 'lys',
     remainingMs: Role1BasicSkillTuning.lysActionMs,
     directionX: params.movement.facingX,
-    upward,
+    direction: upward ? 'upward' : 'horizontal',
   };
-  lockRole1Movement(params.movement, params.timeMs, Role1BasicSkillTuning.lysActionMs, true);
+  lockHeroMovementForSkill(params.movement, params.timeMs, Role1BasicSkillTuning.lysActionMs, true);
   const projectile = spawnRole1Projectile(
     params.projectiles,
     params.combat,
@@ -571,7 +568,7 @@ function castLys(
     mpBefore,
     mpAfter: params.skill.mp,
     mpCost,
-    reentered: upward,
+    reentered: false,
   };
 }
 
@@ -630,9 +627,9 @@ function castJdyStage1(
     kind: 'jdy1',
     remainingMs: Role1BasicSkillTuning.jdyStageActionMs,
     directionX: params.movement.facingX,
-    upward: false,
+    direction: 'horizontal',
   };
-  lockRole1Movement(params.movement, params.timeMs, Role1BasicSkillTuning.jdyStageActionMs);
+  lockHeroMovementForSkill(params.movement, params.timeMs, Role1BasicSkillTuning.jdyStageActionMs, false);
   const projectile = spawnRole1Projectile(
     params.projectiles,
     params.combat,
@@ -680,9 +677,9 @@ function castJdyStage2(
     kind: 'jdy2',
     remainingMs: Role1BasicSkillTuning.jdyStageActionMs,
     directionX: params.movement.facingX,
-    upward: true,
+    direction: 'upward',
   };
-  lockRole1Movement(params.movement, params.timeMs, Role1BasicSkillTuning.jdyStageActionMs, true);
+  lockHeroMovementForSkill(params.movement, params.timeMs, Role1BasicSkillTuning.jdyStageActionMs, true);
   const projectile = spawnRole1Projectile(
     params.projectiles,
     params.combat,
@@ -702,6 +699,7 @@ function castJdyStage2(
     projectile,
     mpBefore: params.skill.mp,
     mpAfter: params.skill.mp,
+    // The second stage reuses the MP paid by hit11_1.
     mpCost: 0,
     reentered: true,
   };
@@ -727,18 +725,6 @@ function spawnRole1Projectile(
     facingX: movement.facingX,
   };
   return spawnProjectileFromTuning(projectiles, spawnPoint, variant, attackSlug, tuning);
-}
-
-function lockRole1Movement(
-  movement: HeroMovementModel,
-  timeMs: number,
-  durationMs: number,
-  suspendGravity = false,
-): void {
-  movement.skillMovementLockedUntilMs = Math.max(movement.skillMovementLockedUntilMs, timeMs + durationMs);
-  if (suspendGravity) {
-    movement.skillGravitySuspendedUntilMs = Math.max(movement.skillGravitySuspendedUntilMs, timeMs + durationMs);
-  }
 }
 
 function getRuntimeOrBindingLevel(
@@ -778,20 +764,9 @@ export function tryRole1SxLifeSteal(params: {
   return params.combat.hp - hpBefore;
 }
 
-function findJustPressedSkillSlot(
-  input: PlayerInputState,
-  previousInput: PlayerInputState | undefined,
-): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slotIndex) =>
-    pressed && !(previousInput?.skillSlots[slotIndex] ?? false)
-  );
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number, max: number): number {
-  return Math.min(max, Math.max(1, Math.floor(level)));
-}
 
-function clampLevelOrZero(level: number, max: number): number {
-  return level > 0 ? clampLevel(level, max) : 0;
-}
+
+
+
+

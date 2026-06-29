@@ -1,4 +1,5 @@
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
+import { distance2d } from './SkillMathUtils';
 import {
   applyHeroMagicShield,
   type HeroCombatModel,
@@ -104,7 +105,7 @@ export function applyRole2Myhc(params: {
   const healPerTick = calculateRole2MyhcHealPerTick(params.level, params.casterMaxHp);
   let affected = 0;
   for (const target of params.targets) {
-    if (!target.isAlive || distance(target.x, target.y, params.centerX, params.centerY) >= Role2SupportTuning.myhcRadius) continue;
+    if (!target.isAlive || distance2d(target.x, target.y, params.centerX, params.centerY) >= Role2SupportTuning.myhcRadius) continue;
     params.runtime.healingOverTime.push({
       targetId: target.id,
       remainingMs: Role2SupportTuning.myhcDurationMs,
@@ -129,7 +130,7 @@ export function applyRole2Tjgl(params: {
 }): number {
   let affected = 0;
   for (const target of params.targets) {
-    if (!target.isAlive || distance(target.x, target.y, params.centerX, params.centerY) > Role2SupportTuning.tjglRadius) continue;
+    if (!target.isAlive || distance2d(target.x, target.y, params.centerX, params.centerY) >= Role2SupportTuning.tjglRadius) continue;
     target.heal(calculateRole2TjglHeal(
       params.level,
       target.maxHp,
@@ -166,8 +167,4 @@ export function updateRole2HealingOverTime(runtime: Role2SkillRuntimeModel, delt
 
 function normalizeSupportLevel(level: number, max: number): number {
   return Math.min(max, Math.max(1, Math.floor(level)));
-}
-
-function distance(ax: number, ay: number, bx: number, by: number): number {
-  return Math.hypot(ax - bx, ay - by);
 }

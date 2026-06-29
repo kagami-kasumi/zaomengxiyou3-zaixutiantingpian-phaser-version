@@ -49,7 +49,7 @@ function testHmzLocalChainAndEvidenceBoundary(): void {
   assert.equal(lianZhan.hitIntervalFrames, 3);
   assert.equal(lianZhan.x, fixture.movement.x - 150);
   assert.equal(lianZhan.damage, calculateRole1HmzLianZhanDamage(4, fixture.sourcePower));
-  assert.equal(zaDi.sourceSymbol, 'Role1Bullet10_4_tmp');
+  assert.equal(zaDi.sourceSymbol, 'Role1Bullet10_4');
   assert.equal(zaDi.actionName, 'hit10_4');
   assert.equal(zaDi.attackKind, 'physics');
   assert.equal(zaDi.knockbackX, 13);

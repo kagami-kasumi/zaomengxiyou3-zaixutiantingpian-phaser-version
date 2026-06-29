@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
+import { findJustPressedSkillSlot as findSlot } from './SkillInputUtils';
+import { SkillMpByLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
@@ -11,10 +14,7 @@ import {
   type ProjectileTuning,
 } from './ProjectileSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 
 export const Role4VoodooDollTuning = {
   mpScale: 26483 / 25958,
@@ -77,7 +77,7 @@ export function createRole4VoodooDollRuntime(): Role4VoodooDollRuntime {
 export function getRole4WdwwMpCost(binding: SkillBinding): number {
   const index = clampLevel(binding.level) - 1;
   return Math.floor(
-    consumeMpByLevel[index] * Role4VoodooDollTuning.mpFactor * Role4VoodooDollTuning.mpScale,
+    SkillMpByLevel[index] * Role4VoodooDollTuning.mpFactor * Role4VoodooDollTuning.mpScale,
   );
 }
 
@@ -151,13 +151,14 @@ export function requestRole4WdwwFromInput(params: {
   const runtime = params.skill.role4VoodooRuntime;
   runtime.dollSerial += 1;
   const maxHp = getRole4VoodooDollMaxHp(target.maxHp, binding.level);
+  const dollY = getRole4VoodooDollInitialY(params.movement.y);
   runtime.doll = {
     id: `${params.combat.id}-role4-doll-${runtime.dollSerial}`,
     sourceId: params.combat.id,
     targetId: target.id,
     level: clampLevel(binding.level),
     x: params.movement.x,
-    y: params.movement.y - 20,
+    y: dollY,
     hp: maxHp,
     maxHp,
     defense: target.defense,
@@ -176,6 +177,10 @@ export function requestRole4WdwwFromInput(params: {
     mpCost,
     reentered: false,
   };
+}
+
+function getRole4VoodooDollInitialY(sourceY: number): number {
+  return sourceY + dollVisualTuning.offsetY;
 }
 
 export function selectRole4WdwwTarget(
@@ -284,12 +289,7 @@ const dollVisualTuning = {
   maxHits: 999,
 } as const satisfies ProjectileTuning;
 
-function findSlot(input: PlayerInputState, previous: PlayerInputState | undefined): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slot) =>
-    pressed && !(previous?.skillSlots[slot] ?? false));
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number): number {
-  return Math.min(18, Math.max(1, Math.floor(level)));
-}
+
+
+

@@ -1,3 +1,4 @@
+﻿import { SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import {
   spawnProjectileFromTuning,
@@ -11,14 +12,6 @@ const skillFixedDamage = [
   481, 1333, 2687, 3547, 4456, 6218, 7341, 9622, 12266,
   15279, 17075, 20724, 24783, 29287, 34223, 39640, 42814, 49006,
 ] as const;
-
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-
-const role2SkillFactorBase = 0.3407 * 8 + 2.075;
-const role2SkillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
 
 export const Role2XbzTuning = {
   mpFactor: 0.65,
@@ -44,9 +37,9 @@ export const Role2XbzTuning = {
 
 export function calculateRole2XbzDamage(skillLevel: number, sourcePower: number): number {
   const levelIndex = Math.min(18, Math.max(1, Math.floor(skillLevel))) - 1;
-  const fixedPart = skillFixedDamage[levelIndex] * fixedDamageCount[levelIndex];
+  const fixedPart = skillFixedDamage[levelIndex] * SkillFixedDamageCount[levelIndex];
   const powerPart = (
-    role2SkillFactorBase + role2SkillFactorPerLevel * levelIndex
+    SkillFactorBase + SkillFactorPerLevel * levelIndex
   ) * 6201 / 6550 * Math.max(0, sourcePower);
   const damageBeforeRoleScale = Math.floor(0.7 * (fixedPart + powerPart) / 5);
   return damageBeforeRoleScale * 1.178;
@@ -91,3 +84,4 @@ export function spawnRole2ShadowXbzProjectile(
   system.projectiles.push(projectile);
   return projectile;
 }
+

@@ -69,6 +69,14 @@ function testDjCastDamageMpAndGates(): void {
   assert.equal(event.projectile.attackKind, 'physics');
   assert.equal(event.projectile.damage, calculateRole3DjDamage(3, fixture.sourcePower));
   assert.equal(event.projectile.knockbackX, 7);
+
+  const boosted = createFixture(loadout('dj', 3));
+  boosted.skill.role3Runtime.nextDamageMultiplier = 1.25;
+  const boostedEvent = cast(boosted, 0);
+  assert.ok(boostedEvent);
+  assert.equal(boostedEvent.projectile.damage, calculateRole3DjDamage(3, boosted.sourcePower) * 1.25);
+  assert.equal(boosted.skill.role3Runtime.nextDamageMultiplier, 1);
+
   assert.equal(cast(fixture, 0), undefined);
   fixture.skill.role3Runtime.actionRemainingMs = 0;
   fixture.skill.mp = mpCost - 1;
@@ -105,17 +113,35 @@ function testRjDefenseAndHitHealing(): void {
   syncRole3DefenseState(fixture.skill.role3Runtime, fixture.combat, 6);
   assert.equal(fixture.skill.role3Runtime.defenseBonus, 300);
   assert.equal(fixture.combat.role3DefenseBonus, 300);
+  applyHeroDamage(fixture.combat, createDamageEvent({
+    sourceId: 'monster', targetId: 'p1', attackId: 'rj-defense', actionName: 'hit1',
+    amount: 350, attackKind: 'physics', knockbackX: 5, knockbackY: -2, occurredAtMs: 0,
+  }), 0);
+  assert.equal(fixture.combat.hp, 0);
+
+  const tank = createFixture(loadout('dj', 1));
+  tank.combat.hp = 500;
+  syncRole3DefenseState(tank.skill.role3Runtime, tank.combat, 6);
+  applyHeroDamage(tank.combat, createDamageEvent({
+    sourceId: 'monster', targetId: 'p1', attackId: 'rj-defense-survive', actionName: 'hit1',
+    amount: 350, attackKind: 'physics', knockbackX: 5, knockbackY: -2, occurredAtMs: 0,
+  }), 0);
+  assert.equal(tank.combat.hp, 450);
+
+  const healer = createFixture(loadout('dj', 1));
+  healer.combat.hp = 20;
+  syncRole3DefenseState(healer.skill.role3Runtime, healer.combat, 6);
   const healed = tryRole3RjHealOnHit({
-    runtime: fixture.skill.role3Runtime,
-    combat: fixture.combat,
+    runtime: healer.skill.role3Runtime,
+    combat: healer.combat,
     sourcePower: 80,
     random: () => 0.12,
   });
   assert.equal(healed, 16);
-  assert.equal(fixture.combat.hp, 36);
+  assert.equal(healer.combat.hp, 36);
   assert.equal(tryRole3RjHealOnHit({
-    runtime: fixture.skill.role3Runtime,
-    combat: fixture.combat,
+    runtime: healer.skill.role3Runtime,
+    combat: healer.combat,
     sourcePower: 80,
     random: () => 0.99,
   }), 0);

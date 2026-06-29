@@ -1,3 +1,4 @@
+﻿import { findJustPressedSkillSlot } from './SkillInputUtils';
 import {
   findRole2SmbFirstStageProjectile,
   hasActiveProjectileForSource,
@@ -13,7 +14,9 @@ import type { HeroMovementModel } from './HeroMovementSystem';
 import { lockHeroMovementForSkill } from './HeroMovementSystem';
 import type { HeroNormalAttackModel } from './HeroNormalAttackSystem';
 import type { PlayerInputState } from './InputSystem';
+import { SkillMpByLevel } from './SkillTuning';
 import type { AllSkillName } from './SkillUISystem';
+import { installHeroSkillRuntimeAccessors } from './HeroSkillRuntimeAccessors';
 import {
   spawnRole2ShadowXbzProjectile,
   spawnRole2XbzProjectile,
@@ -30,53 +33,20 @@ import {
   spawnRole2JgzEffect,
   type Role2ControlTarget,
 } from './Role2ControlSkillSystem';
-import {
-  createRole2SkillRuntime,
-  type Role2SkillRuntimeModel,
-} from './Role2SkillRuntimeSystem';
+import type { Role2SkillRuntimeModel } from './Role2SkillRuntimeSystem';
 import { startRole2Jhsj } from './Role2JhsjSkillSystem';
 import { castRole2Shy } from './Role2ShadowSkillSystem';
 import { getRole2SjtDamageMultiplier } from './Role2PassiveSkillSystem';
-import {
-  createRole3SkillRuntime,
-  type Role3SkillRuntimeModel,
-} from './Role3DefenseSkillSystem';
-import {
-  createRole1SkillRuntime,
-  type Role1SkillRuntimeModel,
-} from './Role1BasicSkillSystem';
-import {
-  createRole1ShadowSkillRuntime,
-  type Role1ShadowSkillRuntime,
-} from './Role1ShadowSkillSystem';
-import {
-  createRole1FinisherSkillRuntime,
-  type Role1FinisherSkillRuntime,
-} from './Role1FinisherSkillSystem';
-import {
-  createRole4PoisonSkillRuntime,
-  type Role4PoisonSkillRuntime,
-} from './Role4PoisonSkillSystem';
-import {
-  createRole4VoodooDollRuntime,
-  type Role4VoodooDollRuntime,
-} from './Role4VoodooDollSystem';
-import {
-  createRole4PoisonChainRuntime,
-  type Role4PoisonChainRuntime,
-} from './Role4PoisonChainSystem';
-import {
-  createRole4MobilitySkillRuntime,
-  type Role4MobilitySkillRuntime,
-} from './Role4MobilitySkillSystem';
-import {
-  createRole4FinisherSkillRuntime,
-  type Role4FinisherSkillRuntime,
-} from './Role4FinisherSkillSystem';
-import {
-  createRole5SkillRuntime,
-  type Role5SkillRuntime,
-} from './Role5SkillSystem';
+import type { Role3SkillRuntimeModel } from './Role3DefenseSkillSystem';
+import type { Role1SkillRuntimeModel } from './Role1BasicSkillSystem';
+import type { Role1ShadowSkillRuntime } from './Role1ShadowSkillSystem';
+import type { Role1FinisherSkillRuntime } from './Role1FinisherSkillSystem';
+import type { Role4PoisonSkillRuntime } from './Role4PoisonSkillSystem';
+import type { Role4VoodooDollRuntime } from './Role4VoodooDollSystem';
+import type { Role4PoisonChainRuntime } from './Role4PoisonChainSystem';
+import type { Role4MobilitySkillRuntime } from './Role4MobilitySkillSystem';
+import type { Role4FinisherSkillRuntime } from './Role4FinisherSkillSystem';
+import type { Role5SkillRuntime } from './Role5SkillSystem';
 
 export type SkillName = AllSkillName;
 
@@ -109,6 +79,30 @@ export type ActiveHeroSkillAction = {
   damageMultiplier?: number;
 };
 
+export type HeroRoleSkillRuntimes = {
+  1?: {
+    basic: Role1SkillRuntimeModel;
+    shadow: Role1ShadowSkillRuntime;
+    finisher: Role1FinisherSkillRuntime;
+  };
+  2?: {
+    main: Role2SkillRuntimeModel;
+  };
+  3?: {
+    main: Role3SkillRuntimeModel;
+  };
+  4?: {
+    poison: Role4PoisonSkillRuntime;
+    voodoo: Role4VoodooDollRuntime;
+    chain: Role4PoisonChainRuntime;
+    mobility: Role4MobilitySkillRuntime;
+    finisher: Role4FinisherSkillRuntime;
+  };
+  5?: {
+    main: Role5SkillRuntime;
+  };
+};
+
 export type HeroSkillModel = {
   mp: number;
   maxMp: number;
@@ -120,6 +114,7 @@ export type HeroSkillModel = {
     sjtLevel: number;
     shyLevel: number;
   };
+  roleRuntimes: HeroRoleSkillRuntimes;
   role2Runtime: Role2SkillRuntimeModel;
   role1Runtime: Role1SkillRuntimeModel;
   role1ShadowRuntime: Role1ShadowSkillRuntime;
@@ -148,10 +143,7 @@ export type HeroSkillCastEvent = {
 
 export const Role2SkillTuning = {
   maxMp: 160,
-  consumeMpByLevel: [
-    66, 160, 208, 276, 364, 493, 703, 759, 801,
-    921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-  ],
+  consumeMpByLevel: SkillMpByLevel,
   role2MpScale: 35173 / 25958,
   sgqFactor: 0.55,
   smbFactor: 1.2,
@@ -163,62 +155,70 @@ export const Role2SkillTuning = {
   shyFactor: 0.55,
 } as const;
 
+const testRoleSkillLoadoutPresets = {
+  1: [
+    ['slz', 'zz', 'sx', 'qsez', 'hmz'],
+    ['lys', 'hytj', 'lyfb', 'jdy', 'hyjj'],
+  ],
+  2: [
+    ['sgq', 'myhc', 'jgz', 'tjgl', 'jhsj'],
+    ['blb', 'xbz', 'shy', 'sjt', 'smb'],
+  ],
+  3: [
+    ['dj', 'sd', 'rj', 'zznh', 'syzq'],
+    ['ssp', 'jsp', 'dgq', 'xgq', 'tmc'],
+  ],
+  4: [
+    ['zq', 'mbyj', 'wdww', 'jdz', 'mds'],
+    ['qlj', 'tkj', 'dzj', 'lybj', 'mmw'],
+  ],
+  5: [
+    ['xlc', 'yyb', 'pkz', 'tlj', 'lysh'],
+    ['lxj', 'lxuanj', 'xkjz', 'jrjl', 'mlsz'],
+  ],
+} as const satisfies Record<1 | 2 | 3 | 4 | 5, readonly (readonly AllSkillName[])[]>;
+
+export function getTestHeroSkillLoadoutPresetCount(heroId: 1 | 2 | 3 | 4 | 5): number {
+  return testRoleSkillLoadoutPresets[heroId].length;
+}
+
+export function getTestHeroSkillLoadoutPreset(
+  heroId: 1 | 2 | 3 | 4 | 5,
+  presetIndex: number,
+): HeroSkillLoadout {
+  const presets = testRoleSkillLoadoutPresets[heroId];
+  const normalizedIndex = ((Math.floor(presetIndex) % presets.length) + presets.length) % presets.length;
+  return createLoadoutFromSkillNames(presets[normalizedIndex]);
+}
+
 export function createTestRole2SkillLoadout(): HeroSkillLoadout {
-  return {
-    slots: [
-      { skillName: 'sgq', level: 1 },
-      { skillName: 'smb', level: 1 },
-      { skillName: 'xbz', level: 1 },
-      null,
-      null,
-    ],
-  };
+  return getTestHeroSkillLoadoutPreset(2, 0);
 }
 
 export function createTestRole1SkillLoadout(): HeroSkillLoadout {
-  return {
-    slots: [
-      { skillName: 'slz', level: 1 },
-      { skillName: 'lys', level: 1 },
-      { skillName: 'hytj', level: 1 },
-      { skillName: 'qsez', level: 1 },
-      { skillName: 'zz', level: 1 },
-    ],
-  };
+  return getTestHeroSkillLoadoutPreset(1, 0);
 }
 
 export function createTestRole3SkillLoadout(): HeroSkillLoadout {
-  return {
-    slots: [
-      { skillName: 'dj', level: 1 },
-      { skillName: 'sd', level: 1 },
-      { skillName: 'zznh', level: 1 },
-      { skillName: 'syzq', level: 1 },
-      { skillName: 'ssp', level: 1 },
-    ],
-  };
+  return getTestHeroSkillLoadoutPreset(3, 0);
 }
 
 export function createTestRole4SkillLoadout(): HeroSkillLoadout {
-  return {
-    slots: [
-      { skillName: 'qlj', level: 1 },
-      { skillName: 'tkj', level: 1 },
-      { skillName: 'dzj', level: 1 },
-      { skillName: 'mbyj', level: 1 },
-      { skillName: 'wdww', level: 1 },
-    ],
-  };
+  return getTestHeroSkillLoadoutPreset(4, 0);
 }
 
 export function createTestRole5SkillLoadout(): HeroSkillLoadout {
+  return getTestHeroSkillLoadoutPreset(5, 0);
+}
+
+function createLoadoutFromSkillNames(skillNames: readonly AllSkillName[]): HeroSkillLoadout {
   return {
     slots: [
-      { skillName: 'xlc', level: 1 },
-      { skillName: 'lxuanj', level: 1 },
-      { skillName: 'xkjz', level: 1 },
-      { skillName: 'yyb', level: 1 },
-      { skillName: 'tlj', level: 1 },
+      skillNames[0] ? { skillName: skillNames[0], level: 1 } : null,
+      skillNames[1] ? { skillName: skillNames[1], level: 1 } : null,
+      skillNames[2] ? { skillName: skillNames[2], level: 1 } : null,
+      skillNames[3] ? { skillName: skillNames[3], level: 1 } : null,
+      skillNames[4] ? { skillName: skillNames[4], level: 1 } : null,
     ],
   };
 }
@@ -227,42 +227,24 @@ export function createHeroSkillModel(
   loadout: HeroSkillLoadout = createTestRole2SkillLoadout(),
   maxMp: number = Role2SkillTuning.maxMp,
 ): HeroSkillModel {
-  return {
+  const model = {
     mp: maxMp,
     maxMp,
     loadout,
     lastResult: 'ready',
     learnedRole2Skills: { blbLevel: 0, sjtLevel: 0, shyLevel: 0 },
-    role2Runtime: createRole2SkillRuntime(),
-    role1Runtime: createRole1SkillRuntime(),
-    role1ShadowRuntime: createRole1ShadowSkillRuntime(),
-    role1FinisherRuntime: createRole1FinisherSkillRuntime(),
-    role3Runtime: createRole3SkillRuntime(),
-    role4Runtime: createRole4PoisonSkillRuntime(),
-    role4VoodooRuntime: createRole4VoodooDollRuntime(),
-    role4PoisonChainRuntime: createRole4PoisonChainRuntime(),
-    role4MobilityRuntime: createRole4MobilitySkillRuntime(),
-    role4FinisherRuntime: createRole4FinisherSkillRuntime(),
-    role5Runtime: createRole5SkillRuntime(),
+    roleRuntimes: {},
     isGxp: false,
-  };
+  } as HeroSkillModel;
+  installHeroSkillRuntimeAccessors(model);
+  return model;
 }
 
 export function resetHeroSkill(model: HeroSkillModel): void {
   model.mp = model.maxMp;
   model.activeAction = undefined;
   model.lastResult = 'ready';
-  model.role2Runtime = createRole2SkillRuntime();
-  model.role1Runtime = createRole1SkillRuntime();
-  model.role1ShadowRuntime = createRole1ShadowSkillRuntime();
-  model.role1FinisherRuntime = createRole1FinisherSkillRuntime();
-  model.role3Runtime = createRole3SkillRuntime();
-  model.role4Runtime = createRole4PoisonSkillRuntime();
-  model.role4VoodooRuntime = createRole4VoodooDollRuntime();
-  model.role4PoisonChainRuntime = createRole4PoisonChainRuntime();
-  model.role4MobilityRuntime = createRole4MobilitySkillRuntime();
-  model.role4FinisherRuntime = createRole4FinisherSkillRuntime();
-  model.role5Runtime = createRole5SkillRuntime();
+  model.roleRuntimes = {};
 }
 
 export function getSkillMpCost(binding: SkillBinding): number {
@@ -414,6 +396,7 @@ function tryCastRole2SmbSecondStage(
     return undefined;
   }
 
+  // Modern boundary: the second SMB stage follows the first-stage projectile and does not re-check grounded.
   const mpBefore = params.skill.mp;
   const projectile = spawnRole2SmbSecondStageProjectile(
     params.projectiles,
@@ -785,17 +768,5 @@ function syncActiveSkillAction(
   }
 }
 
-function findJustPressedSkillSlot(
-  input: PlayerInputState,
-  previousInput: PlayerInputState | undefined,
-): number | undefined {
-  for (let slot = 0; slot < input.skillSlots.length; slot += 1) {
-    const isPressed = input.skillSlots[slot] ?? false;
-    const wasPressed = previousInput?.skillSlots[slot] ?? false;
-    if (isPressed && !wasPressed) {
-      return slot;
-    }
-  }
 
-  return undefined;
-}
+

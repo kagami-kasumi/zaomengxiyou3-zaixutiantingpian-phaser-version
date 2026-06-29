@@ -1,4 +1,4 @@
-# 掉落/拾取系统索引
+﻿# 掉落/拾取系统索引
 
 本文记录 `TASK-SETTINGS-014`、`TASK-SETTINGS-015` 和 `TASK-SETTINGS-016` 对怪物掉落和拾取系统的逆向结果。范围覆盖 `VS-009` 已实现的最小装备/道具掉落，也补齐药品、aura、强化石、`Monster3` 至 `Monster30` 掉落表边界，以及主参考包中其他 `Monster*.as` 的掉落表扫描。不展开合成、商城、法宝、存档或完整装备属性实现。
 
@@ -6,21 +6,21 @@
 
 主要 AS3 证据：
 
-- `extracted_flash/scripts/172845/scripts/base/BaseMonster.as`
-- `extracted_flash/scripts/172845/scripts/my/FallEquipObj.as`
-- `extracted_flash/scripts/172845/scripts/config/Config.as`
-- `extracted_flash/scripts/172845/scripts/user/User.as`
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster3.as`
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster7.as`
-- `extracted_flash/scripts/172845/scripts/export/cure/SmallHP.as`
-- `extracted_flash/scripts/172845/scripts/export/cure/BigHP.as`
-- `extracted_flash/scripts/172845/scripts/export/cure/SmallMP.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseAura.as`
-- `extracted_flash/scripts/172845/scripts/export/aura/auraRed.as`
-- `extracted_flash/scripts/172845/scripts/export/aura/auraWhile.as`
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster3.as`
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster7.as` 至 `Monster30.as`
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster*.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/FallEquipObj.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/config/Config.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/user/User.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster3.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster7.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/cure/SmallHP.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/cure/BigHP.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/cure/SmallMP.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseAura.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/aura/auraRed.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/aura/auraWhile.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster3.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster7.as` 至 `Monster30.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster*.as`
 
 相关前置文档：
 
@@ -170,8 +170,8 @@ tdlzjzzs, shsjt, wpqhs1, tlzsp, llzsp, hlzsp, flzsp, slzsp
 
 `TASK-SETTINGS-017` 只确认到一个 `cwzb` 来源：
 
-- `extracted_flash/scripts/172845/scripts/export/monster/Monster2001.as`
-- `extracted_flash/scripts/25034429/scripts/export/monster/Monster2001.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster2001.as`
+- `extracted_flash/resources_by_swf/[25034429].swf/scripts/export/monster/Monster2001.as`
 
 两套源码中 `cwzb/p_cykljl/cykljl` 的全文检索结果一致：`p_cykljl` 只出现在 `Monster2001`，未在 `AllEquipment.as`、`Config.putQhsInBackPack()`、`User` 背包列表、`PetInfo` 或 `PetInterface` 中发现对应定义或处理分支。资源目录只额外发现 `score_cw_yuetu` 这类宠物积分/活动图标线索，未发现 `p_cykljl` 对应图标或 symbol。
 
@@ -534,3 +534,5 @@ tdlzjzzs, shsjt, wpqhs1, tlzsp, llzsp, hlzsp, flzsp, slzsp
 - `TASK-SETTINGS-016` 已系统扫描所有 `export/monster/Monster*.as` 的 `probability/fallList`；后续现代配置扩展可直接引用上表，但装备属性、中文名、合成/强化关系仍需后续任务确认。`cwzb` 已由 `TASK-SETTINGS-017` 确认为不可直接入包的 unsupported 遗留/断点配置。
 - 如果要校准原版装备/道具拾取距离，需要原版实测，因为 `FallEquipObj` 代码中未看到明确碰撞检查。
 - 药品、aura、强化石应拆成后续小任务，避免把掉落切片做成成长系统大杂烩。
+
+

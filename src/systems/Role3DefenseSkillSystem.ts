@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
+import { findJustPressedSkillSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
@@ -11,22 +14,15 @@ import {
   type ProjectileSystemModel,
   type ProjectileTuning,
 } from './ProjectileSystem';
+import { consumeRole3NextDamageMultiplier } from './Role3ControlSkillSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const skillFixedDamage = [
   481, 1333, 2687, 3547, 4456, 6218, 7341, 9622, 12266,
   15279, 17075, 20724, 24783, 29287, 34223, 39640, 42814, 49006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
+
 const rjDefenseByLevel = [10, 30, 50, 90, 180, 300, 350, 400, 420, 450] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
 
 export type Role3ShieldTier = 0 | 1 | 2 | 3;
 
@@ -155,17 +151,17 @@ export function createRole3SkillRuntime(): Role3SkillRuntimeModel {
 }
 
 export function getRole3SkillMpCost(binding: SkillBinding): number {
-  const levelIndex = clampLevel(binding.level, consumeMpByLevel.length) - 1;
+  const levelIndex = clampLevel(binding.level, SkillMpByLevel.length) - 1;
   const factor = binding.skillName === 'dj'
     ? Role3DefenseTuning.djMpFactor
     : Role3DefenseTuning.sdMpFactor;
-  return Math.floor(consumeMpByLevel[levelIndex] * factor * Role3DefenseTuning.mpScale);
+  return Math.floor(SkillMpByLevel[levelIndex] * factor * Role3DefenseTuning.mpScale);
 }
 
 export function calculateRole3DjDamage(skillLevel: number, sourcePower: number): number {
   const levelIndex = clampLevel(skillLevel, skillFixedDamage.length) - 1;
-  const fixedPart = skillFixedDamage[levelIndex] * fixedDamageCount[levelIndex] * 1.1;
-  const powerPart = (skillFactorBase + skillFactorPerLevel * levelIndex)
+  const fixedPart = skillFixedDamage[levelIndex] * SkillFixedDamageCount[levelIndex] * 1.1;
+  const powerPart = (SkillFactorBase + SkillFactorPerLevel * levelIndex)
     * 6201 / 6782 * Math.max(0, sourcePower);
   return Math.floor(0.6 * (fixedPart + powerPart) / 2) * 1.165;
 }
@@ -254,6 +250,9 @@ export function requestRole3DefenseSkillFromInput(params: {
   const projectile = binding.skillName === 'dj'
     ? spawnRole3Dj(params.projectiles, spawnPoint, binding.level, params.sourcePower)
     : spawnRole3Sd(params.projectiles, spawnPoint, params.skill.role3Runtime, binding.level);
+  if (binding.skillName === 'dj') {
+    projectile.damage *= consumeRole3NextDamageMultiplier(runtime);
+  }
   runtime.actionRemainingMs = binding.skillName === 'dj'
     ? Role3DefenseTuning.djActionMs
     : Role3DefenseTuning.sdActionMs;
@@ -301,16 +300,7 @@ function spawnRole3Sd(
   return projectile;
 }
 
-function findJustPressedSkillSlot(
-  input: PlayerInputState,
-  previousInput: PlayerInputState | undefined,
-): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, index) =>
-    pressed && !(previousInput?.skillSlots[index] ?? false)
-  );
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number, max: number): number {
-  return Math.min(max, Math.max(1, Math.floor(level)));
-}
+
+
+

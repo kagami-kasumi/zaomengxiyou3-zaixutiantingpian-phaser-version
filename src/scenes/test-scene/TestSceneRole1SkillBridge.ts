@@ -87,6 +87,7 @@ export function updateRole1SkillBridge(params: {
       projectiles: params.projectiles,
       sourcePower: player.baseStats.power,
       targets: params.targets,
+      timeMs: params.timeMs,
     });
     if (shadowEvent) events.push(shadowEvent);
     const finisherEvent = requestRole1FinisherSkillFromInput({

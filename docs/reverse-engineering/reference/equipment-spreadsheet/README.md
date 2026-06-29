@@ -1,4 +1,4 @@
-# 1.0 装备资料表拆分索引
+﻿# 1.0 装备资料表拆分索引
 
 本目录从 `../再续1.0装备属性合成掉落表.xlsx` 拆分而来，供 agent 按任务读取小文件。
 
@@ -14,7 +14,9 @@
 ## 读取规则
 
 - 这些 CSV 是 1.0 资料拆分件，只能作为 1.1 AS3 逆向的辅助索引和交叉校验资料。
-- 最终事实以 `extracted_flash/scripts/172845/scripts` 中的 AS3 为准。
+- 最终事实以 `extracted_flash/resources_by_swf/[172845].swf/scripts` 中的 AS3 为准。
 - `equipment-attributes.csv` 第一行保留原 sheet 注释，第二行才是字段头。
 - PowerShell 读取时使用 `Get-Content -Encoding UTF8 -LiteralPath ...`。
 - 优先用 `rg -n "关键词" docs/reverse-engineering/reference/equipment-spreadsheet/*.csv` 定位，再读取小范围上下文。
+
+

@@ -1,4 +1,5 @@
-﻿import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
+﻿import { findJustPressedSkillSlot as findSlot } from './SkillInputUtils';
+import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import {
   lockHeroMovementForSkill,
@@ -82,6 +83,23 @@ export {
   type Role5SwordSkillName,
 } from './Role5SkillTypes';
 
+const role5SpearActionTuning = {
+  xlc: { actionName: 'hit6', durationMs: Role5SkillTuning.xlcDurationMs },
+  lxuanj: { actionName: 'hit7', durationMs: Role5SkillTuning.lxuanjDurationMs },
+  xkjz: { actionName: 'hit10', durationMs: Role5SkillTuning.xkjzDurationMs },
+} as const satisfies Record<Role5SpearSkillName, { actionName: string; durationMs: number }>;
+
+type Role5CastGateParams = {
+  skill: HeroSkillModel;
+  combat: HeroCombatModel;
+  normalAttack: HeroNormalAttackModel;
+};
+
+type Role5PreparedCast = {
+  mpBefore: number;
+  mpCost: number;
+};
+
 export function isRole5YybComboRequested(params: {
   heroId: number;
   skill: HeroSkillModel;
@@ -112,24 +130,8 @@ export function requestRole5SpearSkillFromInput(params: {
   const binding = params.skill.loadout.slots[slotIndex];
   if (!binding || !isRole5SpearSkillName(binding.skillName)) return undefined;
 
-  if (
-    params.combat.state !== 'ready' ||
-    params.normalAttack.activeAttack ||
-    params.skill.activeAction ||
-    params.skill.role5Runtime.active
-  ) {
-    params.skill.lastResult = `role5 ${binding.skillName}: attacking`;
-    return undefined;
-  }
-
-  const mpCost = getRole5SpearSkillMpCost(binding);
-  if (params.skill.mp < mpCost) {
-    params.skill.lastResult = `${binding.skillName} mp ${params.skill.mp}/${mpCost}`;
-    return undefined;
-  }
-
-  const mpBefore = params.skill.mp;
-  params.skill.mp = Math.max(0, params.skill.mp - mpCost);
+  const prepared = prepareRole5Cast(params, binding, getRole5SpearSkillMpCost(binding));
+  if (!prepared) return undefined;
   const damage = calculateRole5SpearSkillDamage(binding.skillName, binding.level, params.sourcePower);
   const projectile = spawnRole5SpearSkillProjectile({
     skillName: binding.skillName,
@@ -138,16 +140,9 @@ export function requestRole5SpearSkillFromInput(params: {
     damage,
     targets: params.targets ?? [],
   });
-  const actionName = binding.skillName === 'xlc'
-    ? 'hit6'
-    : binding.skillName === 'lxuanj'
-      ? 'hit7'
-      : 'hit10';
-  const durationMs = binding.skillName === 'xlc'
-    ? Role5SkillTuning.xlcDurationMs
-    : binding.skillName === 'lxuanj'
-      ? Role5SkillTuning.lxuanjDurationMs
-      : Role5SkillTuning.xkjzDurationMs;
+  const action = role5SpearActionTuning[binding.skillName];
+  const actionName = action.actionName;
+  const durationMs = action.durationMs;
   params.skill.role5Runtime.active = {
     skillName: binding.skillName,
     elapsedMs: 0,
@@ -170,9 +165,9 @@ export function requestRole5SpearSkillFromInput(params: {
     slotIndex,
     actionName,
     projectile,
-    mpBefore,
+    mpBefore: prepared.mpBefore,
     mpAfter: params.skill.mp,
-    mpCost,
+    mpCost: prepared.mpCost,
     reentered: false,
   };
 }
@@ -201,24 +196,8 @@ export function requestRole5StatusSkillFromInput(params: {
   if (!binding || !isRole5StatusSkillName(binding.skillName)) return undefined;
   const castSlotIndex = yybCombo ? -1 : slotIndex!;
 
-  if (
-    params.combat.state !== 'ready' ||
-    params.normalAttack.activeAttack ||
-    params.skill.activeAction ||
-    params.skill.role5Runtime.active
-  ) {
-    params.skill.lastResult = `role5 ${binding.skillName}: attacking`;
-    return undefined;
-  }
-
-  const mpCost = getRole5StatusSkillMpCost(binding);
-  if (params.skill.mp < mpCost) {
-    params.skill.lastResult = `${binding.skillName} mp ${params.skill.mp}/${mpCost}`;
-    return undefined;
-  }
-
-  const mpBefore = params.skill.mp;
-  params.skill.mp = Math.max(0, params.skill.mp - mpCost);
+  const prepared = prepareRole5Cast(params, binding, getRole5StatusSkillMpCost(binding));
+  if (!prepared) return undefined;
   const projectile = spawnRole5StatusSkillProjectile({
     skillName: binding.skillName,
     system: params.projectiles,
@@ -253,9 +232,9 @@ export function requestRole5StatusSkillFromInput(params: {
     slotIndex: castSlotIndex,
     actionName,
     projectile,
-    mpBefore,
+    mpBefore: prepared.mpBefore,
     mpAfter: params.skill.mp,
-    mpCost,
+    mpCost: prepared.mpCost,
     reentered: false,
   };
 }
@@ -278,24 +257,8 @@ export function requestRole5SwordSkillFromInput(params: {
   const binding = params.skill.loadout.slots[slotIndex];
   if (!binding || !isRole5SwordSkillName(binding.skillName)) return undefined;
 
-  if (
-    params.combat.state !== 'ready' ||
-    params.normalAttack.activeAttack ||
-    params.skill.activeAction ||
-    params.skill.role5Runtime.active
-  ) {
-    params.skill.lastResult = `role5 ${binding.skillName}: attacking`;
-    return undefined;
-  }
-
-  const mpCost = getRole5SwordSkillMpCost(binding);
-  if (params.skill.mp < mpCost) {
-    params.skill.lastResult = `${binding.skillName} mp ${params.skill.mp}/${mpCost}`;
-    return undefined;
-  }
-
-  const mpBefore = params.skill.mp;
-  params.skill.mp = Math.max(0, params.skill.mp - mpCost);
+  const prepared = prepareRole5Cast(params, binding, getRole5SwordSkillMpCost(binding));
+  if (!prepared) return undefined;
   const spawned = spawnRole5SwordSkillProjectiles({
     skillName: binding.skillName,
     system: params.projectiles,
@@ -342,9 +305,9 @@ export function requestRole5SwordSkillFromInput(params: {
     actionName,
     projectile: primary,
     spawnedProjectiles: spawned,
-    mpBefore,
+    mpBefore: prepared.mpBefore,
     mpAfter: params.skill.mp,
-    mpCost,
+    mpCost: prepared.mpCost,
     reentered: false,
   };
 }
@@ -366,28 +329,14 @@ export function requestRole5CompanionSkillFromInput(params: {
   const binding = params.skill.loadout.slots[slotIndex];
   if (!binding || !isRole5CompanionSkillName(binding.skillName)) return undefined;
 
-  if (
-    params.combat.state !== 'ready' ||
-    params.normalAttack.activeAttack ||
-    params.skill.activeAction ||
-    params.skill.role5Runtime.active
-  ) {
-    params.skill.lastResult = `role5 ${binding.skillName}: attacking`;
-    return undefined;
-  }
+  if (isRole5SkillBusy(params, binding.skillName)) return undefined;
 
   if (binding.skillName === 'lysh' && params.skill.role5Runtime.lyshArrows.created) {
     return shootRole5LyshArrows(params, binding, slotIndex);
   }
 
-  const mpCost = getRole5CompanionSkillMpCost(binding);
-  if (params.skill.mp < mpCost) {
-    params.skill.lastResult = `${binding.skillName} mp ${params.skill.mp}/${mpCost}`;
-    return undefined;
-  }
-
-  const mpBefore = params.skill.mp;
-  params.skill.mp = Math.max(0, params.skill.mp - mpCost);
+  const prepared = prepareRole5Cast(params, binding, getRole5CompanionSkillMpCost(binding), true);
+  if (!prepared) return undefined;
   const projectile = binding.skillName === 'lysh'
     ? createRole5LyshCompanion(params.projectiles, spawnPoint(params))
     : createRole5JrjlCompanion(params.projectiles, spawnPoint(params));
@@ -420,11 +369,45 @@ export function requestRole5CompanionSkillFromInput(params: {
     slotIndex,
     actionName,
     projectile,
-    mpBefore,
+    mpBefore: prepared.mpBefore,
     mpAfter: params.skill.mp,
-    mpCost,
+    mpCost: prepared.mpCost,
     reentered: false,
   };
+}
+
+function prepareRole5Cast(
+  params: Role5CastGateParams,
+  binding: SkillBinding,
+  mpCost: number,
+  busyAlreadyChecked = false,
+): Role5PreparedCast | undefined {
+  if (!busyAlreadyChecked && isRole5SkillBusy(params, binding.skillName)) {
+    return undefined;
+  }
+  if (params.skill.mp < mpCost) {
+    params.skill.lastResult = `${binding.skillName} mp ${params.skill.mp}/${mpCost}`;
+    return undefined;
+  }
+  const mpBefore = params.skill.mp;
+  params.skill.mp = Math.max(0, params.skill.mp - mpCost);
+  return { mpBefore, mpCost };
+}
+
+function isRole5SkillBusy(
+  params: Role5CastGateParams,
+  skillName: SkillBinding['skillName'],
+): boolean {
+  if (
+    params.combat.state !== 'ready' ||
+    params.normalAttack.activeAttack ||
+    params.skill.activeAction ||
+    params.skill.role5Runtime.active
+  ) {
+    params.skill.lastResult = `role5 ${skillName}: attacking`;
+    return true;
+  }
+  return false;
 }
 
 export function triggerRole5JrjlArrow(params: {
@@ -448,6 +431,7 @@ export function updateRole5SkillRuntime(params: {
   runtime: Role5SkillRuntime;
   movement: HeroMovementModel;
   deltaMs: number;
+  skill?: HeroSkillModel;
 }): void {
   params.runtime.yybRemainingMs = Math.max(0, params.runtime.yybRemainingMs - Math.max(0, params.deltaMs));
   params.runtime.tljRemainingMs = Math.max(0, params.runtime.tljRemainingMs - Math.max(0, params.deltaMs));
@@ -472,6 +456,22 @@ export function updateRole5SkillRuntime(params: {
   if (action.elapsedMs < action.durationMs) return;
   params.movement.velocityX = 0;
   params.runtime.active = undefined;
+  if (params.skill && isRole5ActiveAction(params.skill)) {
+    params.skill.activeAction = undefined;
+  }
+}
+
+function isRole5ActiveAction(skill: HeroSkillModel): boolean {
+  return skill.activeAction?.skillName === 'xlc' ||
+    skill.activeAction?.skillName === 'lxuanj' ||
+    skill.activeAction?.skillName === 'xkjz' ||
+    skill.activeAction?.skillName === 'yyb' ||
+    skill.activeAction?.skillName === 'tlj' ||
+    skill.activeAction?.skillName === 'pkz' ||
+    skill.activeAction?.skillName === 'lxj' ||
+    skill.activeAction?.skillName === 'mlsz' ||
+    skill.activeAction?.skillName === 'lysh' ||
+    skill.activeAction?.skillName === 'jrjl';
 }
 
 function spawnRole5StatusSkillProjectile(params: {
@@ -501,13 +501,14 @@ function spawnRole5SwordSkillProjectiles(params: {
   }
   if (params.skillName === 'pkz') {
     const enhanced = params.runtime.loongSwordRemainingMs > 0;
-    const damage = calculateRole5SwordSkillDamage(
+    const damage = calculateRole5SwordSkillProjectileDamage(
       'pkz',
       params.level,
       params.sourcePower,
       params.runtime,
       params.jrjlLevel,
-    ) / role5PkzTunings.length;
+      role5PkzTunings.length,
+    );
     return role5PkzTunings.map((tuning, index) => {
       const variant = enhanced && index === 0 ? 'role5-pkz-hit24-1-enhanced' : tuning.variant;
       const projectile = spawnOneSwordProjectile(params.system, params.point, variant, {
@@ -523,13 +524,14 @@ function spawnRole5SwordSkillProjectiles(params: {
   }
 
   const enhanced = params.runtime.loongSwordRemainingMs > 0;
-  const damage = calculateRole5SwordSkillDamage(
+  const damage = calculateRole5SwordSkillProjectileDamage(
     'mlsz',
     params.level,
     params.sourcePower,
     params.runtime,
     params.jrjlLevel,
-  ) / role5MlszTunings.length;
+    role5MlszTunings.length,
+  );
   return role5MlszTunings.map((tuning, index) => {
     const variant = enhanced ? tuning.enhancedVariant : tuning.variant;
     const projectile = spawnOneSwordProjectile(params.system, params.point, variant, {
@@ -542,6 +544,18 @@ function spawnRole5SwordSkillProjectiles(params: {
     projectile.destroyWhenSourceHurt = false;
     return projectile;
   });
+}
+
+function calculateRole5SwordSkillProjectileDamage(
+  skillName: Exclude<Role5SwordSkillName, 'lxj'>,
+  level: number,
+  sourcePower: number,
+  runtime: Role5SkillRuntime,
+  jrjlLevel: number,
+  projectileCount: number,
+): number {
+  return calculateRole5SwordSkillDamage(skillName, level, sourcePower, runtime, jrjlLevel) /
+    Math.max(1, projectileCount);
 }
 
 function spawnOneSwordProjectile(
@@ -728,15 +742,10 @@ function spawnPoint(params: {
   };
 }
 
-function findSlot(
-  input: PlayerInputState,
-  previousInput: PlayerInputState | undefined,
-): number | undefined {
-  return input.skillSlots.findIndex((pressed, index) =>
-    pressed && !(previousInput?.skillSlots[index] ?? false));
-}
 
 function findBinding(skill: HeroSkillModel, skillName: Role5SkillName): SkillBinding | undefined {
   return skill.loadout.slots.find((binding) => binding?.skillName === skillName) ?? undefined;
 }
+
+
 

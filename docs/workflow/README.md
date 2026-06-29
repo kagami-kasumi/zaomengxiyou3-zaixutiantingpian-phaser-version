@@ -28,6 +28,7 @@
 | `task-generation.md` | 从机制缺口、切片缺口或工程基础缺口生成标准游戏任务 |
 | `code-quality-gates.md` | AI 修改代码时必须遵守的验证、边界和测试要求 |
 | `review-protocol.md` | 工程评审的统一流程、严重程度、输出格式和整改落点 |
+| `problem-governance.md` | 系统性工程问题的定义、证据、方案、验证和关闭标准 |
 | `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
 | `governance-log.md` | 工作流、任务体系、文档职责和质量门禁的维护历史 |
 | `../domain/glossary.md` | 轻量 DDD 统一语言表 |
@@ -46,7 +47,8 @@
 - **正式游戏 task**：补读 `agent-protocol.md`、`task-board.md`、`mechanics-index.md`、`vertical-slices.md`。
 - **代码实现**：在正式 task 基础上补读 `docs/architecture/src-boundaries.md` 和目标源码。
 - **工程评审**：补读 `review-protocol.md`；涉及代码质量再读 `code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md`。
-- **玩法逆向**：在正式 task 基础上补读 `extracted_flash/README_extract.md` 和对应 AS3 路径。
+- **问题治理**：补读 `problem-governance.md`；若问题来自评审，再读 `review-protocol.md`，若涉及代码质量，再读 `code-quality-gates.md`。
+- **玩法逆向**：在正式 task 基础上补读 `extracted_flash/README_extract.md` 和 `extracted_flash/resources_by_swf/[172845].swf/scripts` 下的对应 AS3 路径；疑点再看 `[25034429].swf/scripts`。
 - **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
 - **历史追溯**：只有需要追溯或修改已完成任务时才读 `task-history.md`。
 

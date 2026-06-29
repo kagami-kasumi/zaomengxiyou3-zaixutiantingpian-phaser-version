@@ -1,16 +1,16 @@
-# 角色移动索引
+﻿# 角色移动索引
 
 本文记录 `TASK-SETTINGS-006` 范围内已经足够支撑首个移动切片的事实：方向输入、跑步判定、跳跃/双跳、`S+K` 下落平台，以及首批实现时应保留和暂缓的边界。
 
 ## 证据入口
 
-- `extracted_flash/scripts/172845/scripts/base/BaseHero.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseObject.as`
-- `extracted_flash/scripts/172845/scripts/World/PhysicsWorld.as`
-- `extracted_flash/scripts/172845/scripts/export/hero/Role1.as` 至 `Role5.as`
-- `extracted_flash/scripts/172845/scripts/export/ThroughWall.as`
-- `extracted_flash/scripts/172845/scripts/export/ThroughUpButDownWall.as`
-- `extracted_flash/scripts/172845/scripts/export/FallDownWhenStandingWall.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseObject.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/ThroughWall.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/ThroughUpButDownWall.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/FallDownWhenStandingWall.as`
 - `docs/reverse-engineering/roles-index.md`
 
 ## 输入与动作入口
@@ -161,3 +161,5 @@
 - 不要复刻 `doubleCount` 这个裸状态名；现代侧更适合记录最近一次方向按下时间和当前方向键边沿。
 - 输入层保留结构化 `PlayerInputState`，角色控制器再把它解释成 `walk/run/jump/drop-through` intent。
 - 角色状态机至少显式区分 `grounded`、`airborne`、`jumpCount` 和 `dropThroughRequested`，这样后续接普攻、受击和平台逻辑时不会再把 Flash 的字符串状态重新长回来。
+
+

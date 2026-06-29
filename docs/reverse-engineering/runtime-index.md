@@ -1,4 +1,4 @@
-# TASK-001：AS3 入口和运行时索引
+﻿# TASK-001：AS3 入口和运行时索引
 
 本文只记录源码索引和迁移建议，不包含现代游戏代码实现。
 
@@ -8,18 +8,18 @@
 
 主参考源码：
 
-- `extracted_flash/scripts/172845/scripts/GMain.as`
-- `extracted_flash/scripts/172845/scripts/config/Config.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseObject.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/GMain.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/config/Config.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseObject.as`
 
 为理解入口链路，额外只读：
 
-- `extracted_flash/scripts/172845/scripts/my/MainGame.as`
-- `extracted_flash/scripts/172845/scripts/World/PhysicsWorld.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseGameSence.as`
-- `extracted_flash/scripts/172845/scripts/my/KeyBoardControl.as`
-- `extracted_flash/scripts/172845/scripts/my/ViewControllor.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseHero.as` 的方法索引
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/MainGame.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseGameSence.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/ViewControllor.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as` 的方法索引
 
 备用包状态：
 
@@ -531,3 +531,5 @@ CleanupSystem removes dead or expired entities
 
 - 细化 `StageListener` 和 `pWorldStart()` 链路。
 - 或细化 `BaseHero + Role1` 的移动、普攻、动作状态和输入映射。
+
+

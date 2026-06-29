@@ -72,6 +72,7 @@ export function updateRole4SkillBridge(params: {
   };
   for (const player of params.players) {
     if (!player.movement || player.normalAttack.heroId !== 4) continue;
+    const movement = player.movement;
     const runtime = player.skill.role4Runtime;
     runtime.mdsLevel = findSkillInState(params.skillLearning[player.slot], 'mds')?.level ?? 0;
     runtime.mbyjLevel = findSkillInState(params.skillLearning[player.slot], 'mbyj')?.level ?? 1;
@@ -94,13 +95,13 @@ export function updateRole4SkillBridge(params: {
     result.chainHitEvents.push(...chainEvents.map((event) => ({ ...event, slot: player.slot })));
     updateRole4MobilitySkill({
       runtime: player.skill.role4MobilityRuntime,
-      movement: player.movement,
+      movement,
       projectiles: params.projectiles,
       deltaMs: params.deltaMs,
     });
     updateRole4FinisherSkill({
       runtime: player.skill.role4FinisherRuntime,
-      movement: player.movement,
+      movement,
       combat: player.combat,
       projectiles: params.projectiles,
       deltaMs: params.deltaMs,
@@ -113,63 +114,66 @@ export function updateRole4SkillBridge(params: {
     });
     result.poisonDamageEvents.push(...poisonEvents.map((event) => ({ ...event, slot: player.slot })));
     const projectileCountBeforeCast = params.projectiles.projectiles.length;
-    const cast = requestRole4PoisonSkillFromInput({
-      skill: player.skill,
-      input: params.input[player.slot],
-      previousInput: params.previousInput?.[player.slot],
-      movement: player.movement,
-      combat: player.combat,
-      normalAttack: player.normalAttack,
-      projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
-    });
-    if (cast) result.castEvents.push(cast);
-    const wdwwCast = requestRole4WdwwFromInput({
-      skill: player.skill,
-      input: params.input[player.slot],
-      previousInput: params.previousInput?.[player.slot],
-      movement: player.movement,
-      combat: player.combat,
-      normalAttack: player.normalAttack,
-      projectiles: params.projectiles,
-      targets: voodooTargets,
-    });
-    if (wdwwCast) result.castEvents.push(wdwwCast);
-    const mbyjCast = requestRole4MbyjFromInput({
-      skill: player.skill,
-      input: params.input[player.slot],
-      previousInput: params.previousInput?.[player.slot],
-      movement: player.movement,
-      combat: player.combat,
-      normalAttack: player.normalAttack,
-      projectiles: params.projectiles,
-      targets: chainTargets,
-    });
-    if (mbyjCast) result.castEvents.push(mbyjCast);
-    const mobilityCast = requestRole4MobilitySkillFromInput({
-      skill: player.skill,
-      input: params.input[player.slot],
-      previousInput: params.previousInput?.[player.slot],
-      movement: player.movement,
-      combat: player.combat,
-      normalAttack: player.normalAttack,
-      projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
-      timeMs: params.timeMs,
-    });
-    if (mobilityCast) result.castEvents.push(mobilityCast);
-    const finisherCast = requestRole4FinisherSkillFromInput({
-      skill: player.skill,
-      input: params.input[player.slot],
-      previousInput: params.previousInput?.[player.slot],
-      movement: player.movement,
-      combat: player.combat,
-      normalAttack: player.normalAttack,
-      projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
-      timeMs: params.timeMs,
-    });
-    if (finisherCast) result.castEvents.push(finisherCast);
+    const castAttempts: Array<() => HeroSkillCastEvent | undefined> = [
+      () => requestRole4PoisonSkillFromInput({
+        skill: player.skill,
+        input: params.input[player.slot],
+        previousInput: params.previousInput?.[player.slot],
+        movement,
+        combat: player.combat,
+        normalAttack: player.normalAttack,
+        projectiles: params.projectiles,
+        sourcePower: player.baseStats.power,
+      }),
+      () => requestRole4WdwwFromInput({
+        skill: player.skill,
+        input: params.input[player.slot],
+        previousInput: params.previousInput?.[player.slot],
+        movement,
+        combat: player.combat,
+        normalAttack: player.normalAttack,
+        projectiles: params.projectiles,
+        targets: voodooTargets,
+      }),
+      () => requestRole4MbyjFromInput({
+        skill: player.skill,
+        input: params.input[player.slot],
+        previousInput: params.previousInput?.[player.slot],
+        movement,
+        combat: player.combat,
+        normalAttack: player.normalAttack,
+        projectiles: params.projectiles,
+        targets: chainTargets,
+      }),
+      () => requestRole4MobilitySkillFromInput({
+        skill: player.skill,
+        input: params.input[player.slot],
+        previousInput: params.previousInput?.[player.slot],
+        movement,
+        combat: player.combat,
+        normalAttack: player.normalAttack,
+        projectiles: params.projectiles,
+        sourcePower: player.baseStats.power,
+        timeMs: params.timeMs,
+      }),
+      () => requestRole4FinisherSkillFromInput({
+        skill: player.skill,
+        input: params.input[player.slot],
+        previousInput: params.previousInput?.[player.slot],
+        movement,
+        combat: player.combat,
+        normalAttack: player.normalAttack,
+        projectiles: params.projectiles,
+        sourcePower: player.baseStats.power,
+        timeMs: params.timeMs,
+      }),
+    ];
+    for (const attempt of castAttempts) {
+      const cast = attempt();
+      if (!cast) continue;
+      result.castEvents.push(cast);
+      break;
+    }
     result.spawnedProjectiles.push(
       ...params.projectiles.projectiles.slice(projectileCountBeforeCast),
     );
@@ -188,12 +192,13 @@ function createChainTarget(
     y: monster.y,
     isAlive: monster.state !== 'dead' && monster.state !== 'removed',
     applyPoison: (durationMs) => {
+      const chainPoisonLevel = player.skill.role4Runtime.mbyjLevel;
       applyRole4PoisonStack({
         runtime: player.skill.role4Runtime,
         target: poisonTarget,
         hero: player.combat,
         sourcePower: player.baseStats.power,
-        level: player.skill.role4Runtime.mbyjLevel,
+        level: chainPoisonLevel,
         durationMs,
       });
     },

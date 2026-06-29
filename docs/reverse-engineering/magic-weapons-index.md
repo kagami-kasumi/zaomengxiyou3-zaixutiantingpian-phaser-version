@@ -1,4 +1,4 @@
-# 法宝系统索引
+﻿# 法宝系统索引
 
 本文记录法宝系统的 AS3 逆向结果。`TASK-SETTINGS-019` 已先覆盖宣花葫芦捕捉链路；`TASK-SETTINGS-020` 扩展到完整法宝基础表、触发边界、首批技能效果和强化 UI。
 
@@ -6,15 +6,15 @@
 
 主要 AS3 证据：
 
-- `extracted_flash/scripts/172845/scripts/base/BaseMagicWeapon.as`
-- `extracted_flash/scripts/172845/scripts/base/BaseHero.as`
-- `extracted_flash/scripts/172845/scripts/export/magicWeapon/`
-- `extracted_flash/scripts/172845/scripts/export/strength/SutraInterface.as`
-- `extracted_flash/scripts/172845/scripts/my/AllEquipment.as`
-- `extracted_flash/scripts/172845/scripts/my/MyEquipObj.as`
-- `extracted_flash/scripts/172845/scripts/export/pack/BackPack.as`
-- `extracted_flash/scripts/172845/scripts/export/RoleInfo.as`
-- `extracted_flash/scripts/172845/scripts/my/KeyBoardControl.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseMagicWeapon.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/magicWeapon/`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/strength/SutraInterface.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/MyEquipObj.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pack/BackPack.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as`
+- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
 
 相关前置文档：
 
@@ -364,3 +364,5 @@ time = gc.frameClips * 5
 - 完整 `SutraInterface` 视觉布局、材料阶段、10 级以后特殊材料、五行重置和真实灵魂存档。
 - 真实法宝资源接入。
 - P2/联机法宝同步。
+
+

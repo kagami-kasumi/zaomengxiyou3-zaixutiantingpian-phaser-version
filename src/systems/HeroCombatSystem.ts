@@ -132,9 +132,10 @@ export function applyHeroDamage(
   }
 
   const role3Reduction = Math.min(1, Math.max(0, hero.role3DamageReduction ?? 0));
+  const role3DefenseBonus = Math.max(0, hero.role3DefenseBonus ?? 0);
   const remainingDamage = absorbHeroDamageWithMagicShield(
     hero,
-    event.amount * (1 - role3Reduction),
+    Math.max(0, event.amount * (1 - role3Reduction) - role3DefenseBonus),
   );
   hero.hp = Math.max(0, hero.hp - remainingDamage);
   hero.lastDamageEvent = event;

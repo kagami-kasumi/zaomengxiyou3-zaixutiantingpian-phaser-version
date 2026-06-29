@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
+import { findJustPressedSkillSlot as findSlot } from './SkillInputUtils';
+import { SkillMpByLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
@@ -11,10 +14,7 @@ import {
   type ProjectileTuning,
 } from './ProjectileSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 
 export const Role4PoisonChainTuning = {
   mpScale: 26483 / 25958,
@@ -75,7 +75,7 @@ export function createRole4PoisonChainRuntime(): Role4PoisonChainRuntime {
 export function getRole4MbyjMpCost(binding: SkillBinding): number {
   const index = clampLevel(binding.level) - 1;
   return Math.floor(
-    consumeMpByLevel[index] * Role4PoisonChainTuning.mpFactor * Role4PoisonChainTuning.mpScale,
+    SkillMpByLevel[index] * Role4PoisonChainTuning.mpFactor * Role4PoisonChainTuning.mpScale,
   );
 }
 
@@ -289,15 +289,7 @@ function distance(x1: number, y1: number, x2: number, y2: number): number {
   return Math.hypot(x2 - x1, y2 - y1);
 }
 
-function findSlot(input: PlayerInputState, previous: PlayerInputState | undefined): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slot) =>
-    pressed && !(previous?.skillSlots[slot] ?? false));
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number): number {
-  return Math.min(Math.max(Math.floor(level), 1), consumeMpByLevel.length);
-}
 
 const chainProjectileTuning = {
   actionName: 'hit6', assetKey: SkillProjectileEffectKeys.role4MbyjHit6,
@@ -306,3 +298,6 @@ const chainProjectileTuning = {
   height: 66, lifetimeMs: 60_000, damage: 0, attackKind: 'magic', knockbackX: 0,
   knockbackY: 0, hitIntervalFrames: 999, maxHits: 1,
 } as const satisfies ProjectileTuning;
+
+
+

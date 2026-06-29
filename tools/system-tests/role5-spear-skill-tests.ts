@@ -33,6 +33,7 @@ export function runRole5SpearSkillTests(): void {
   testYybSlotAndComboStatus();
   testTljStatusAndGates();
   testPkzChainAndLoongSwordEnhancement();
+  testPkzLoongSwordUsesJrjlMultiplier();
   testLxjStateAndMlszFiveStageArray();
   testLyshCompanionCreateShootAndRebuild();
   testJrjlCompanionTriggerAndIsolation();
@@ -58,8 +59,10 @@ function testXlcMpDamageProjectileAndDash(): void {
     runtime: value.skill.role5Runtime,
     movement: value.movement,
     deltaMs: Role5SkillTuning.xlcDurationMs,
+    skill: value.skill,
   });
   assert.equal(value.skill.role5Runtime.active, undefined);
+  assert.equal(value.skill.activeAction, undefined);
 }
 
 function testLxuanjProjectileMovement(): void {
@@ -187,6 +190,24 @@ function testPkzChainAndLoongSwordEnhancement(): void {
   assert.equal(
     enhancedEvent.projectile.damage,
     calculateRole5SwordSkillDamage('pkz', 1, enhanced.power, enhanced.skill.role5Runtime) / 3,
+  );
+}
+
+function testPkzLoongSwordUsesJrjlMultiplier(): void {
+  const value = fixture('p1', 'pkz');
+  value.skill.role5Runtime.loongSwordRemainingMs = 5_000;
+  value.skill.role5Runtime.loongSwordLevel = 2;
+  value.skill.role5Runtime.jrjlLevel = 4;
+  const event = castSword(value, input('p1', 0), input('p1'), 11_500)!;
+  assert.equal(
+    event.projectile.damage,
+    calculateRole5SwordSkillDamage(
+      'pkz',
+      1,
+      value.power,
+      value.skill.role5Runtime,
+      value.skill.role5Runtime.jrjlLevel,
+    ) / 3,
   );
 }
 
@@ -368,6 +389,7 @@ function castSword(
     normalAttack: value.normalAttack,
     projectiles: value.projectiles,
     sourcePower: value.power,
+    jrjlLevel: value.skill.role5Runtime.jrjlLevel,
     timeMs,
   });
 }

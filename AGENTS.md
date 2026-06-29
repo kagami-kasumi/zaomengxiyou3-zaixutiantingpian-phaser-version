@@ -41,6 +41,12 @@
 
 规则：按 `docs/workflow/review-protocol.md` 输出可比较、可执行的评审结论；评审本身不等于完成整改，若结论需要新增游戏复现工作，再按任务生成规则进入 task-board。
 
+### 问题治理
+
+适用：用户或评审提出系统性工程问题，例如跨文件重复、模块耦合、边界漂移、测试盲区、数据源分裂或生命周期规则不统一。
+
+规则：按 `docs/workflow/problem-governance.md` 先确认问题定义、证据、解决方案、测试方案、测试结果和关闭标准；局部小修不升级为问题治理，只有会持续伤害系统演进能力的结构性缺口才进入该流程。
+
 ### 正式游戏 task
 
 适用：用户指定 task id、要求执行 task、玩法逆向、修改 `src/` 实现玩法、生成/拆分/重排游戏任务、完成一个可交接切片。
@@ -64,6 +70,7 @@
 | 玩法逆向：阅读 AS3、建立索引 | 上一行 + `extracted_flash/README_extract.md` + 对应 AS3 路径 |
 | 代码实现：修改 `src/` | 游戏任务执行必读集 + `docs/architecture/src-boundaries.md` + 对应 `src/` 文件 |
 | 工程评审：评审代码、阶段成果或评审文档 | `docs/workflow/review-protocol.md`，涉及代码质量再读 `docs/workflow/code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md` |
+| 问题治理：确认或治理系统性工程问题 | `docs/workflow/problem-governance.md`；若问题来自评审，再读 `docs/workflow/review-protocol.md`；若涉及代码质量，再读 `docs/workflow/code-quality-gates.md` |
 | 新增核心领域命名、系统、实体、类型或数据模型 | `docs/domain/glossary.md`、`docs/domain/ubiquitous-language-process.md` |
 | 新增/拆分/重排游戏任务 | `docs/workflow/task-generation.md`、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | AI 工作流、任务体系、文档职责或脚手架维护 | `docs/workflow/README.md`、`docs/workflow/document-map.md`、`docs/workflow/governance-log.md` |

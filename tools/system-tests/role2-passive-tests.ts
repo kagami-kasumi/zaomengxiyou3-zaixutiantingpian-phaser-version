@@ -9,6 +9,8 @@ import {
   getRole2BlbMpCost,
   getRole2SjtDamageMultiplier,
   Role2PassiveTuning,
+  updateRole2ChargedAttack,
+  type Role2ChargeAttack,
 } from '../../src/systems/Role2PassiveSkillSystem';
 import type { PlayerInputState } from '../../src/systems/InputSystem';
 
@@ -16,6 +18,7 @@ export function runRole2PassiveSystemTests(): void {
   testBlbRequiresLearningMpAndHold();
   testSjtShortensChargeAndBoostsDamage();
   testBlbEarlyReleaseAndReentry();
+  testChargedAttackUpdateReturnsNewAttack();
 }
 
 function testBlbRequiresLearningMpAndHold(): void {
@@ -96,6 +99,57 @@ function testBlbEarlyReleaseAndReentry(): void {
     updateHeroNormalAttack(model, input(true), input(false), movement, 110, options),
     undefined,
   );
+}
+
+function testChargedAttackUpdateReturnsNewAttack(): void {
+  const resource = { mp: 100, lastResult: '' };
+  const attack = createRole2Hit1Attack();
+  const charging = updateRole2ChargedAttack({
+    attack,
+    attackHeld: true,
+    timeMs: 100,
+    blbLevel: 1,
+    sjtLevel: 0,
+    sourcePower: 12,
+    resource,
+  });
+  assert.ok(charging);
+  assert.notEqual(charging.attack, attack);
+  assert.equal(attack.hitboxActiveFromMs, 40);
+  assert.equal(charging.attack.actionName, 'hit1');
+
+  const converted = updateRole2ChargedAttack({
+    attack,
+    attackHeld: true,
+    timeMs: Role2PassiveTuning.normalChargeFrames * 1000 / 60,
+    blbLevel: 1,
+    sjtLevel: 0,
+    sourcePower: 12,
+    resource,
+  });
+  assert.ok(converted);
+  assert.notEqual(converted.attack, attack);
+  assert.equal(attack.actionName, 'hit1');
+  assert.equal(converted.attack.actionName, 'hit2');
+}
+
+function createRole2Hit1Attack(): Role2ChargeAttack {
+  return {
+    heroId: 2,
+    actionName: 'hit1',
+    effectKey: 'role2-hit1',
+    sourceSymbol: 'Role2Bullet1',
+    startedAtMs: 0,
+    hitboxActiveFromMs: 40,
+    hitboxActiveUntilMs: 120,
+    endsAtMs: 220,
+    damage: 10,
+    attackKind: 'physics',
+    hitboxOffsetX: 40,
+    hitboxOffsetY: 0,
+    hitboxWidth: 100,
+    hitboxHeight: 80,
+  };
 }
 
 function input(attack: boolean): PlayerInputState {

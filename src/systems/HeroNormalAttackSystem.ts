@@ -240,8 +240,11 @@ export function updateHeroNormalAttack(
       timeMs,
       ...role2Options,
     });
-    if (chargeResult === 'converted-hit2') {
-      return { attack: activeBeforeExpire, hitbox: createHitboxFromAttack(activeBeforeExpire, movement) };
+    if (chargeResult) {
+      model.activeAttack = chargeResult.attack;
+    }
+    if (chargeResult?.state === 'converted-hit2') {
+      return { attack: chargeResult.attack, hitbox: createHitboxFromAttack(chargeResult.attack, movement) };
     }
   }
   expireActiveAttack(model, timeMs);
@@ -284,17 +287,20 @@ export function updateHeroNormalAttack(
   }
 
   if (role2Options) {
-    updateRole2ChargedAttack({
+    const chargeResult = updateRole2ChargedAttack({
       attack,
       attackHeld: input.attack,
       timeMs,
       ...role2Options,
     });
+    if (chargeResult) {
+      model.activeAttack = chargeResult.attack;
+    }
   }
 
   return {
-    attack,
-    hitbox: createHitboxFromAttack(attack, movement),
+    attack: model.activeAttack ?? attack,
+    hitbox: createHitboxFromAttack(model.activeAttack ?? attack, movement),
   };
 }
 

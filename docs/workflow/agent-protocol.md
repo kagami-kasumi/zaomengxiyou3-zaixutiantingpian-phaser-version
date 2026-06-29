@@ -84,6 +84,14 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 
 收束回复应包含：已完成或暂停的 task id（如有）、更新文件、剩余风险、推荐下一个 task id（如有）、Git 建议、对话管理建议、建议的新对话开场 prompt（仅正式 task 需要）。
 
+## 问题治理规则
+
+当用户要求确认或治理系统性工程问题时，必须先读 `docs/workflow/problem-governance.md`。
+
+问题治理不等于普通 bugfix。只有跨文件重复、模块耦合、边界漂移、测试盲区、数据源分裂、生命周期规则不统一等会持续伤害系统演进能力的结构性缺口，才进入问题治理流程。
+
+治理前应先明确问题定义和证据；治理后必须给出解决方案、测试方案、测试结果和关闭标准。若问题来自工程评审，再结合 `docs/workflow/review-protocol.md`；若问题应沉淀为质量门禁，再更新 `docs/workflow/code-quality-gates.md` 或校验脚本，并记录到 `docs/workflow/governance-log.md`。
+
 ## 任务生成规则
 
 当用户要求新增游戏任务、拆分游戏任务、重排游戏任务或从机制生成任务时，必须先读 `docs/workflow/task-generation.md`。

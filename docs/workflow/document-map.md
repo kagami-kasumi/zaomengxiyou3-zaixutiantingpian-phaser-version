@@ -60,6 +60,9 @@
 - `docs/workflow/review-protocol.md`
   - 工程评审协议。
   - 规定评审适用范围、必读资料、流程、严重程度、输出格式、评分维度和整改落点。
+- `docs/workflow/problem-governance.md`
+  - 问题治理协议。
+  - 规定系统性工程问题的定义、证据、解决方案、测试方案、测试结果和关闭标准。
 - `docs/workflow/governance-log.md`
   - 工作流脚手架维护日志。
   - 记录任务体系、文档职责、AI 交接协议和代码质量门禁等变化。
@@ -72,6 +75,12 @@
 - `extracted_flash/README_extract.md`
   - 提取结果说明。
   - 只读参考。
+- `extracted_flash/resources_by_swf/`
+  - 二次抽取后的逐 SWF 核心资源目录。
+  - AS3、图片、shape、SymbolClass 和声音容器均从对应 `[...].swf/` 子目录读取。
+- `extracted_flash/reports/EXTRACTION_REPORT.md`
+  - `再续天庭1.1.exe` 二次抽取与校验报告。
+  - 记录资源可用性、坏图、声音导出结论和后续资源边界。
 - `docs/reverse-engineering/reference/equipment-spreadsheet.md`
   - 1.0 装备属性、合成、宝石和掉落工作簿的使用说明。
   - 规定该工作簿只能作为 1.1 AS3 逆向的辅助索引和交叉校验资料。

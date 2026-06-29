@@ -1,17 +1,27 @@
-import { resolveHitOnce } from '../../systems/CombatSystem';
+import { resolveHitOnce, type HitRegistry } from '../../systems/CombatSystem';
 import { getActiveHeroHitbox } from '../../systems/HeroNormalAttackSystem';
-import { getMonster30AttackHitbox } from '../../systems/Monster30System';
+import { getMonster30AttackHitbox, type Monster30Model } from '../../systems/Monster30System';
 import {
   getActiveProjectiles,
   getProjectileAttackId,
   getProjectileHitbox,
+  type ProjectileSystemModel,
   recordProjectileHit,
 } from '../../systems/ProjectileSystem';
 import { damageRole4VoodooDoll } from '../../systems/Role4VoodooDollSystem';
-import { createVoodooTarget } from './TestSceneRole4SkillBridge';
+import { createVoodooTarget, type Role4BridgePlayer } from './TestSceneRole4SkillBridge';
 
-export function updateRole4DollCombat(this: any, time: number): void {
-  for (const owner of this.playerViews) {
+export type Role4DollCombatContext = {
+  playerViews: readonly Role4BridgePlayer[];
+  monster30s: readonly Monster30Model[];
+  projectileSystem: ProjectileSystemModel;
+  hitRegistry: HitRegistry;
+};
+
+export function updateRole4DollCombat(
+  params: Role4DollCombatContext & { time: number },
+): void {
+  for (const owner of params.playerViews) {
     const doll = owner.skill.role4VoodooRuntime.doll;
     if (!doll) continue;
     const dollBounds = {
@@ -20,48 +30,48 @@ export function updateRole4DollCombat(this: any, time: number): void {
       width: 76,
       height: 86,
     };
-    const targets = this.monster30s.map((monster: any) =>
+    const targets = params.monster30s.map((monster) =>
       createVoodooTarget(monster, owner.slot));
-    for (const attacker of this.playerViews) {
+    for (const attacker of params.playerViews) {
       if (attacker.combat.id === doll.sourceId || !attacker.movement) continue;
       const attack = attacker.normalAttack.activeAttack;
-      const hitbox = getActiveHeroHitbox(attacker.normalAttack, attacker.movement, time);
+      const hitbox = getActiveHeroHitbox(attacker.normalAttack, attacker.movement, params.time);
       if (!attack || !hitbox || !overlaps(hitbox, dollBounds)) continue;
       const attackId = `${attacker.slot}-normal-${attack.id}`;
-      if (!resolveHitOnce(this.hitRegistry, attackId, doll.id)) continue;
+      if (!resolveHitOnce(params.hitRegistry, attackId, doll.id)) continue;
       damageRole4VoodooDoll({
         runtime: owner.skill.role4VoodooRuntime,
-        projectiles: this.projectileSystem,
+        projectiles: params.projectileSystem,
         targets,
         damage: attack.damage,
       });
     }
     if (!owner.skill.role4VoodooRuntime.doll) continue;
-    for (const projectile of getActiveProjectiles(this.projectileSystem)) {
+    for (const projectile of getActiveProjectiles(params.projectileSystem)) {
       if (
         projectile.visualOnly || projectile.elapsedMs < (projectile.activeAfterMs ?? 0) ||
         projectile.sourceId === doll.sourceId
       ) continue;
       if (!overlaps(getProjectileHitbox(projectile), dollBounds)) continue;
       const attackId = getProjectileAttackId(projectile);
-      if (!resolveHitOnce(this.hitRegistry, attackId, doll.id)) continue;
+      if (!resolveHitOnce(params.hitRegistry, attackId, doll.id)) continue;
       const event = damageRole4VoodooDoll({
         runtime: owner.skill.role4VoodooRuntime,
-        projectiles: this.projectileSystem,
+        projectiles: params.projectileSystem,
         targets,
         damage: projectile.damage,
       });
       if (event) recordProjectileHit(projectile);
     }
     if (!owner.skill.role4VoodooRuntime.doll) continue;
-    for (const monster of this.monster30s) {
+    for (const monster of params.monster30s) {
       const attack = monster.activeAttack;
       const hitbox = getMonster30AttackHitbox(monster);
       if (!attack || !hitbox || !overlaps(hitbox, dollBounds)) continue;
-      if (!resolveHitOnce(this.hitRegistry, attack.attackId, doll.id)) continue;
+      if (!resolveHitOnce(params.hitRegistry, attack.attackId, doll.id)) continue;
       damageRole4VoodooDoll({
         runtime: owner.skill.role4VoodooRuntime,
-        projectiles: this.projectileSystem,
+        projectiles: params.projectileSystem,
         targets,
         damage: attack.damage,
       });

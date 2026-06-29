@@ -16,6 +16,7 @@ const files = {
   documentMap: 'docs/workflow/document-map.md',
   codeQualityGates: 'docs/workflow/code-quality-gates.md',
   reviewProtocol: 'docs/workflow/review-protocol.md',
+  problemGovernance: 'docs/workflow/problem-governance.md',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
   glossary: 'docs/domain/glossary.md',
   languageProcess: 'docs/domain/ubiquitous-language-process.md',
@@ -438,6 +439,36 @@ function checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, doc
   }
 }
 
+function checkProblemGovernance(problemGovernance, agents, claude, workflowReadme, documentMap, agentProtocol) {
+  for (const requiredText of [
+    '适用范围',
+    '问题定义',
+    '证据',
+    '解决方案',
+    '测试方案',
+    '测试结果',
+    '关闭标准',
+    '治理流程',
+    '模板',
+  ]) {
+    if (!problemGovernance.includes(requiredText)) {
+      error(`problem-governance.md must mention: ${requiredText}`);
+    }
+  }
+
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+    ['docs/workflow/agent-protocol.md', agentProtocol],
+  ]) {
+    if (!text.includes('problem-governance.md')) {
+      error(`${name} must reference docs/workflow/problem-governance.md.`);
+    }
+  }
+}
+
 function checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanics, inputSystem) {
   if (tsconfig.includes('"noUnusedParameters": true')) {
     if (!srcBoundaries.includes('_time') || !srcBoundaries.includes('noUnusedParameters')) {
@@ -500,6 +531,7 @@ const documentMap = read(files.documentMap);
 const packageJsonText = read(files.packageJson);
 const codeQualityGates = read(files.codeQualityGates);
 const reviewProtocol = read(files.reviewProtocol);
+const problemGovernance = read(files.problemGovernance);
 const tsconfig = read(files.tsconfig);
 const srcBoundaries = read(files.srcBoundaries);
 const inputSystem = read(files.inputSystem);
@@ -521,13 +553,22 @@ checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
 checkUtf8ReadingRules(agents, claude, workflowReadme);
 checkWorkflowSeparation(mechanicsText);
-checkGovernanceLog([files.taskGeneration, files.workflowReadme, files.documentMap, files.codeQualityGates, files.reviewProtocol], governanceLog);
+const agentProtocol = read(files.agentProtocol);
+checkGovernanceLog([
+  files.taskGeneration,
+  files.workflowReadme,
+  files.documentMap,
+  files.codeQualityGates,
+  files.reviewProtocol,
+  files.problemGovernance,
+  files.agentProtocol,
+], governanceLog);
 checkCodeQualityGates(packageJsonText, codeQualityGates, claude);
 checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, documentMap);
+checkProblemGovernance(problemGovernance, agents, claude, workflowReadme, documentMap, agentProtocol);
 checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanicsText, inputSystem);
 checkDomainLanguage(glossary, languageProcess, [inputSystem]);
 
-const agentProtocol = read(files.agentProtocol);
 if (agentProtocol && !agentProtocol.includes('check:structure')) {
   error('agent-protocol.md must include structural gate rules (check:structure before adding to existing files).');
 }

@@ -13,7 +13,6 @@ import {
   type Role3PullTarget,
 } from '../../systems/Role3DefenseSkillSystem';
 import {
-  consumeRole3NextDamageMultiplier,
   requestRole3ControlSkillFromInput,
   updateRole3PullEffects,
 } from '../../systems/Role3ControlSkillSystem';
@@ -67,9 +66,6 @@ export function updateRole3SkillBridge(params: {
       sourcePower: player.baseStats.power,
     });
     if (event) {
-      if (event.skillName === 'dj') {
-        event.projectile.damage *= consumeRole3NextDamageMultiplier(runtime);
-      }
       events.push(event);
     }
     const controlEvent = requestRole3ControlSkillFromInput({

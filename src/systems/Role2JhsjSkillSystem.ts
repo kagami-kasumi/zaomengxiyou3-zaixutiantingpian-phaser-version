@@ -1,3 +1,4 @@
+﻿import { SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import {
   spawnProjectileFromTuning,
@@ -16,12 +17,7 @@ const skillFixedDamage = [
   481, 1333, 2687, 3547, 4456, 6218, 7341, 9622, 12266,
   15279, 17075, 20724, 24783, 29287, 34223, 39640, 42814, 49006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 
 const hit9Tunings = {
   cast: {
@@ -61,9 +57,9 @@ export function calculateRole2JhsjDamage(
 ): number {
   const baseIndex = Math.min(18, Math.max(1, Math.floor(level))) - 1;
   const levelIndex = Math.min(17, baseIndex + (useNextLevelIndex ? 1 : 0));
-  const fixedPart = skillFixedDamage[levelIndex] * fixedDamageCount[levelIndex];
+  const fixedPart = skillFixedDamage[levelIndex] * SkillFixedDamageCount[levelIndex];
   const powerPart = (
-    skillFactorBase + skillFactorPerLevel * levelIndex
+    SkillFactorBase + SkillFactorPerLevel * levelIndex
   ) * 6201 / 6550 * Math.max(0, sourcePower);
   return Math.floor(coefficient * (fixedPart + powerPart) / 10) * 1.178 * damageMultiplier;
 }
@@ -93,6 +89,7 @@ export function startRole2Jhsj(params: {
     damageMultiplier: params.damageMultiplier,
     spawnedHit9_2: false,
     spawnedHit9_1: false,
+    // Modern boundary: JHSJ uses the shadow position captured at cast time; recall does not retarget this pending chain.
     shadow: params.runtime.shadow ? {
       x: params.runtime.shadow.x,
       y: params.runtime.shadow.y,
@@ -155,3 +152,4 @@ function spawnJhsjStage(
   system.projectiles.push(projectile);
   return projectile;
 }
+

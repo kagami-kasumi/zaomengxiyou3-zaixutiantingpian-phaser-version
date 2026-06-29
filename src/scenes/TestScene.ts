@@ -46,10 +46,8 @@ import {
 } from './test-scene/TestSceneSystems';
 import {
   resetHeroSkill,
-  createTestRole1SkillLoadout,
-  createTestRole3SkillLoadout,
-  createTestRole4SkillLoadout,
-  createTestRole5SkillLoadout,
+  getTestHeroSkillLoadoutPreset,
+  getTestHeroSkillLoadoutPresetCount,
   takeRole2NormalAttackExtraMultiplier,
   type HeroSkillCastEvent,
   type HeroSkillModel,
@@ -351,6 +349,10 @@ export class TestScene extends Phaser.Scene {
   public renderedMonsterAttackIds = new Set<string>();
   private p1HeroSelectKeys?: HeroSelectionKeys;
   private p2HeroSelectKeys?: HeroSelectionKeys;
+  private heroLoadoutPresetIndexes: Record<PlayerSlot, Partial<Record<HeroId, number>>> = {
+    p1: {},
+    p2: {},
+  };
   private p1WeaponToggleKey?: Phaser.Input.Keyboard.Key;
   private p2WeaponToggleKey?: Phaser.Input.Keyboard.Key;
   public p1SkillPanelKey?: Phaser.Input.Keyboard.Key;
@@ -711,15 +713,20 @@ export class TestScene extends Phaser.Scene {
       if (Phaser.Input.Keyboard.JustDown(keys[heroId])) {
         const player = this.playerViews.find((view) => view.slot === slot);
         if (player) {
+          const previousHeroId = player.normalAttack.heroId;
+          const presetCount = getTestHeroSkillLoadoutPresetCount(heroId);
+          const previousPresetIndex = this.heroLoadoutPresetIndexes[slot][heroId] ?? 0;
+          const presetIndex = previousHeroId === heroId
+            ? (previousPresetIndex + 1) % presetCount
+            : 0;
+          this.heroLoadoutPresetIndexes[slot][heroId] = presetIndex;
           setHeroId(player.normalAttack, heroId);
           setHeroProgressionHero(player.progression, heroId);
           player.baseStats = getHeroBaseStats(heroId, player.progression.level);
           resetHeroCombat(player.combat);
           resetHeroSkill(player.skill);
-          if (heroId === 1) player.skill.loadout = createTestRole1SkillLoadout();
-          if (heroId === 3) player.skill.loadout = createTestRole3SkillLoadout();
-          if (heroId === 4) player.skill.loadout = createTestRole4SkillLoadout();
-          if (heroId === 5) player.skill.loadout = createTestRole5SkillLoadout();
+          player.skill.loadout = getTestHeroSkillLoadoutPreset(heroId, presetIndex);
+          player.skill.lastResult = `role${heroId} loadout ${presetIndex + 1}/${presetCount}`;
           this.syncPlayerEffectiveStats(player, { refill: true });
           this.refreshPlayerHeroView(player);
         }
@@ -886,7 +893,15 @@ export class TestScene extends Phaser.Scene {
   }
 
   private updateHeroSkillProjectiles = updateHeroSkillProjectilesImpl;
-  private updateRole4DollCombat = updateRole4DollCombatImpl;
+  private updateRole4DollCombat(time: number): void {
+    updateRole4DollCombatImpl({
+      playerViews: this.playerViews,
+      monster30s: this.monster30s,
+      projectileSystem: this.projectileSystem,
+      hitRegistry: this.hitRegistry,
+      time,
+    });
+  }
 
   private updateProjectileSystem(time: number, delta: number): void {
     updateProjectiles(this.projectileSystem, this.createProjectileSourceSnapshots(), delta);

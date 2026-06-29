@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
+import { findJustPressedSkillSlot as findSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import {
@@ -15,10 +18,7 @@ import {
   type ProjectileTuning,
 } from './ProjectileSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const hmzLianZhan = [
   34, 95, 192, 253, 318, 444, 524, 687, 876,
   1091, 1219, 1480, 1770, 2092, 2444, 2831, 3058, 3500,
@@ -27,12 +27,7 @@ const hmzZaDi = [
   209, 573, 1151, 1523, 1912, 2666, 3149, 4126, 5258,
   6551, 7323, 8884, 10623, 12551, 14671, 16992, 18350, 21006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 
 export type Role4FinisherSkillName = 'lybj' | 'mmw';
 export type Role4FinisherWeaponMode = 'shovel' | 'arrow';
@@ -103,7 +98,7 @@ export function getRole4FinisherMpCost(
   if (binding.skillName !== 'mmw') return 0;
   const index = clampLevel(binding.level) - 1;
   const factor = weaponMode === 'arrow' ? 1.1 : 0.64;
-  return Math.floor(consumeMpByLevel[index] * factor * Role4FinisherSkillTuning.mpScale);
+  return Math.floor(SkillMpByLevel[index] * factor * Role4FinisherSkillTuning.mpScale);
 }
 
 export function calculateRole4MmwDamage(
@@ -190,13 +185,14 @@ function requestLybj(params: {
       params.movement.velocityX = 0;
       params.movement.velocityY = 0;
     }
-    expireMarker(params.skill.role4FinisherRuntime, params.projectiles);
+    const reentryProjectile = expireMarker(params.skill.role4FinisherRuntime, params.projectiles) ??
+      createVirtualEventProjectile(params.projectiles, params.combat.id, 'role4-lybj-reentry');
     params.skill.lastResult = marker ? `lybj-reentry mp ${params.skill.mp}` : `lybj mp ${params.skill.mp}`;
     return {
       skillName: 'lybj',
       slotIndex: params.slotIndex,
       actionName: 'hit11',
-      projectile: createVirtualEventProjectile(params.projectiles, params.combat.id, 'role4-lybj-reentry'),
+      projectile: reentryProjectile,
       mpBefore,
       mpAfter: params.skill.mp,
       mpCost,
@@ -504,8 +500,8 @@ function createVirtualEventProjectile(
     'role4-lybj-marker',
     attackSlug,
     { ...base, actionName: 'hit11', assetKey: SkillProjectileEffectKeys.role4LybjMarker,
-      sourceSymbol: 'Role4Bullet11', runtimeName: 'Role4Bullet11', width: 0, height: 0,
-      lifetimeMs: 0, maxHits: 0 },
+      sourceSymbol: 'Role4Bullet11', runtimeName: 'Role4Bullet11', width: 1, height: 1,
+      lifetimeMs: 1, maxHits: 0 },
   );
 }
 
@@ -514,12 +510,16 @@ function isMarkerOnScreen(marker: Role4FinisherMarker): boolean {
     marker.x <= Role4FinisherSkillTuning.markerScreenMaxX;
 }
 
-function expireMarker(runtime: Role4FinisherSkillRuntime, projectiles: ProjectileSystemModel): void {
+function expireMarker(
+  runtime: Role4FinisherSkillRuntime,
+  projectiles: ProjectileSystemModel,
+): ProjectileModel | undefined {
   const marker = runtime.marker;
-  if (!marker) return;
+  if (!marker) return undefined;
   const projectile = projectiles.projectiles.find((item) => item.id === marker.projectileId);
   if (projectile) projectile.isExpired = true;
   runtime.marker = undefined;
+  return projectile;
 }
 
 function phaseDuration(fromMs: number, toMs: number, startMs: number, endMs: number): number {
@@ -528,23 +528,15 @@ function phaseDuration(fromMs: number, toMs: number, startMs: number, endMs: num
 
 function calculateSkillBase(level: number, sourcePower: number): number {
   const index = clampLevel(level) - 1;
-  return (hmzLianZhan[index] * 8 + hmzZaDi[index]) * fixedDamageCount[index] +
-    (skillFactorBase + skillFactorPerLevel * index) * 6201 / 5658 * Math.max(0, sourcePower);
+  return (hmzLianZhan[index] * 8 + hmzZaDi[index]) * SkillFixedDamageCount[index] +
+    (SkillFactorBase + SkillFactorPerLevel * index) * 6201 / 5658 * Math.max(0, sourcePower);
 }
 
-function findSlot(input: PlayerInputState, previous: PlayerInputState | undefined): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slot) =>
-    pressed && !(previous?.skillSlots[slot] ?? false));
-  return index >= 0 ? index : undefined;
-}
 
 function isRole4FinisherSkillName(skillName: string): skillName is Role4FinisherSkillName {
   return skillName === 'lybj' || skillName === 'mmw';
 }
 
-function clampLevel(level: number): number {
-  return Math.min(Math.max(Math.floor(level), 1), consumeMpByLevel.length);
-}
 
 const base = {
   speedX: 0, speedY: 0, distance: undefined, damage: 0, attackKind: 'magic',
@@ -572,3 +564,6 @@ const mmwArrowRingTuning = {
   sourceSymbol: 'Role4BulletArrow12_3', runtimeName: 'Role4BulletArrow12_3', offsetX: 0,
   offsetY: 0, width: 54, height: 54, lifetimeMs: 800, hitIntervalFrames: 10, maxHits: 999,
 } as const satisfies ProjectileTuning;
+
+
+

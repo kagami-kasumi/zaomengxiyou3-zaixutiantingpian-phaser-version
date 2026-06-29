@@ -1,3 +1,6 @@
+﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
+import { findJustPressedSkillSlot as findSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import { applyHeroMagicShield, type HeroCombatModel } from './HeroCombatSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
@@ -12,10 +15,7 @@ import {
   type ProjectileTuning,
 } from './ProjectileSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const hmzLianZhan = [
   34, 95, 192, 253, 318, 444, 524, 687, 876, 1091, 1219, 1480, 1770,
   2092, 2444, 2831, 3058, 3500,
@@ -24,13 +24,6 @@ const hmzZaDi = [
   209, 573, 1151, 1523, 1912, 2666, 3149, 4126, 5258, 6551, 7323, 8884,
   10623, 12551, 14671, 16992, 18350, 21006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5, 2.5, 2.8, 2.8, 2.8, 3.05, 3.05,
-  3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
-
 export const Role4PoisonTuning = {
   mpScale: 26483 / 25958,
   zqMpFactor: 0.5,
@@ -88,7 +81,7 @@ export function getRole4PoisonMpCost(binding: SkillBinding): number {
   const factor = binding.skillName === 'zq'
     ? Role4PoisonTuning.zqMpFactor
     : Role4PoisonTuning.jdzMpFactor;
-  return Math.floor(consumeMpByLevel[index] * factor * Role4PoisonTuning.mpScale);
+  return Math.floor(SkillMpByLevel[index] * factor * Role4PoisonTuning.mpScale);
 }
 
 export function calculateRole4ZqDamage(
@@ -115,8 +108,8 @@ export function calculateRole4MdsBombDamage(params: {
 }): number {
   const index = clampLevel(params.mbyjLevel) - 1;
   const mdsIndex = clampLevel(params.mdsLevel) - 1;
-  const fixed = getSkillFixedDamage(index) * fixedDamageCount[index] * 1.05;
-  const power = (skillFactorBase + skillFactorPerLevel * index) * 6201 / 5658 *
+  const fixed = getSkillFixedDamage(index) * SkillFixedDamageCount[index] * 1.05;
+  const power = (SkillFactorBase + SkillFactorPerLevel * index) * 6201 / 5658 *
     Math.max(0, params.sourcePower);
   return 0.525 * (fixed + power) * 0.86 *
     (0.6 + 121 / 3655 * mdsIndex) * 1.525;
@@ -370,20 +363,15 @@ const jdzDamageTuning = {
 
 function calculateSkillBase(level: number, sourcePower: number): number {
   const index = clampLevel(level) - 1;
-  return getSkillFixedDamage(index) * fixedDamageCount[index] +
-    (skillFactorBase + skillFactorPerLevel * index) * 6201 / 5658 * Math.max(0, sourcePower);
+  return getSkillFixedDamage(index) * SkillFixedDamageCount[index] +
+    (SkillFactorBase + SkillFactorPerLevel * index) * 6201 / 5658 * Math.max(0, sourcePower);
 }
 
 function getSkillFixedDamage(index: number): number {
   return hmzLianZhan[index] * 8 + hmzZaDi[index];
 }
 
-function findSlot(input: PlayerInputState, previous: PlayerInputState | undefined): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slot) =>
-    pressed && !(previous?.skillSlots[slot] ?? false));
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number): number {
-  return Math.min(18, Math.max(1, Math.floor(level)));
-}
+
+
+

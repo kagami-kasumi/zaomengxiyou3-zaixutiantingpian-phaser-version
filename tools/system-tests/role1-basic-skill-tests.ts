@@ -34,6 +34,7 @@ import {
   getRole1QsezMpCost,
   getRole1ZzMpCost,
   requestRole1ShadowSkillFromInput,
+  Role1ShadowSkillTuning,
   spawnRole1ShadowsFromQsezHit,
   updateRole1ShadowRuntime,
 } from '../../src/systems/Role1ShadowSkillSystem';
@@ -265,6 +266,7 @@ function testQsezTargetClassificationAndShadowLifetime(): void {
   assert.equal(event.projectile.sourceSymbol, 'Role1Bullet13');
   assert.equal(event.projectile.damage, calculateRole1QsezDamage(7, fixture.sourcePower));
   assert.equal(event.mpCost, getRole1QsezMpCost({ skillName: 'qsez', level: 7 }));
+  assert.equal(fixture.movement.skillMovementLockedUntilMs, Role1ShadowSkillTuning.qsezActionMs);
   assert.equal(fixture.skill.role1ShadowRuntime.shadows.length, 1);
   updateRole1ShadowRuntime(fixture.skill.role1ShadowRuntime, 2_999);
   assert.equal(fixture.skill.role1ShadowRuntime.shadows.length, 1);

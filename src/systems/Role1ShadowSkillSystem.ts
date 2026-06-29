@@ -1,6 +1,9 @@
+﻿import { clampSkillLevel as clampLevel, clampSkillLevelOrZero as clampLevelOrZero } from './SkillMathUtils';
+import { findJustPressedSkillSlot } from './SkillInputUtils';
+import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel, Role1DamageFinalMultiplier } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
-import type { HeroMovementModel } from './HeroMovementSystem';
+import { lockHeroMovementForSkill, type HeroMovementModel } from './HeroMovementSystem';
 import type { HeroNormalAttackModel } from './HeroNormalAttackSystem';
 import type { HeroSkillCastEvent, HeroSkillModel, SkillBinding } from './HeroSkillSystem';
 import type { PlayerInputState } from './InputSystem';
@@ -12,10 +15,7 @@ import {
   type ProjectileVariant,
 } from './ProjectileSystem';
 
-const consumeMpByLevel = [
-  66, 160, 208, 276, 364, 493, 703, 759, 801,
-  921, 1085, 1133, 1318, 1771, 1884, 1954, 2320, 2667,
-] as const;
+
 const fixedDamage = [
   34, 95, 192, 253, 318, 444, 524, 687, 876,
   1091, 1219, 1480, 1770, 2092, 2444, 2831, 3058, 3500,
@@ -24,12 +24,7 @@ const extraFixedDamage = [
   209, 573, 1151, 1523, 1912, 2666, 3149, 4126, 5258,
   6551, 7323, 8884, 10623, 12551, 14671, 16992, 18350, 21006,
 ] as const;
-const fixedDamageCount = [
-  1, 1, 1, 1, 2, 2, 2, 2.5, 2.5,
-  2.5, 2.8, 2.8, 2.8, 3.05, 3.05, 3.05, 3.25, 3.25,
-] as const;
-const skillFactorBase = 0.3407 * 8 + 2.075;
-const skillFactorPerLevel = 0.0135 * 10 * 8 + 0.075 * 10;
+
 
 export type Role1ShadowSkillRuntime = {
   qsezLevel: number;
@@ -152,13 +147,13 @@ export function updateRole1ShadowRuntime(
 }
 
 export function getRole1QsezMpCost(binding: SkillBinding): number {
-  const levelIndex = clampLevel(binding.level, consumeMpByLevel.length) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1ShadowSkillTuning.qsezMpFactor);
+  const levelIndex = clampLevel(binding.level, SkillMpByLevel.length) - 1;
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1ShadowSkillTuning.qsezMpFactor);
 }
 
 export function getRole1ZzMpCost(binding: SkillBinding): number {
-  const levelIndex = clampLevel(binding.level, consumeMpByLevel.length) - 1;
-  return Math.floor(consumeMpByLevel[levelIndex] * Role1ShadowSkillTuning.zzMpFactor);
+  const levelIndex = clampLevel(binding.level, SkillMpByLevel.length) - 1;
+  return Math.floor(SkillMpByLevel[levelIndex] * Role1ShadowSkillTuning.zzMpFactor);
 }
 
 export function calculateRole1QsezDamage(skillLevel: number, sourcePower: number): number {
@@ -184,6 +179,7 @@ export function requestRole1ShadowSkillFromInput(params: {
   projectiles: ProjectileSystemModel;
   sourcePower: number;
   targets: readonly Role1ShadowTarget[];
+  timeMs?: number;
   random?: () => number;
 }): HeroSkillCastEvent | undefined {
   if (params.normalAttack.heroId !== 1) return undefined;
@@ -219,6 +215,7 @@ function castQsez(
   params.skill.mp -= mpCost;
   params.skill.role1ShadowRuntime.actionRemainingMs = Role1ShadowSkillTuning.qsezActionMs;
   params.skill.role1Runtime.actionRemainingMs = Role1ShadowSkillTuning.qsezActionMs;
+  lockHeroMovementForSkill(params.movement, params.timeMs ?? 0, Role1ShadowSkillTuning.qsezActionMs, false);
   params.movement.velocityX = params.movement.facingX * Role1ShadowSkillTuning.qsezDashSpeed;
   const target = findRole1QsezTarget(params.movement, params.targets);
   const projectile = spawnRole1ShadowProjectile(
@@ -393,25 +390,14 @@ function calculateRole1ShadowSkillDamage(
   divisor: number,
 ): number {
   const levelIndex = clampLevel(skillLevel, fixedDamage.length) - 1;
-  const fixedPart = (fixedDamage[levelIndex] * 8 + extraFixedDamage[levelIndex]) * fixedDamageCount[levelIndex];
-  const powerPart = (skillFactorBase + skillFactorPerLevel * levelIndex) * Math.max(0, sourcePower);
-  return Math.floor(multiplier * (fixedPart + powerPart) / divisor) * 1.27;
+  const fixedPart = (fixedDamage[levelIndex] * 8 + extraFixedDamage[levelIndex]) * SkillFixedDamageCount[levelIndex];
+  const powerPart = (SkillFactorBase + SkillFactorPerLevel * levelIndex) * Math.max(0, sourcePower);
+  return Math.floor(multiplier * (fixedPart + powerPart) / divisor) * Role1DamageFinalMultiplier;
 }
 
-function findJustPressedSkillSlot(
-  input: PlayerInputState,
-  previousInput: PlayerInputState | undefined,
-): number | undefined {
-  const index = input.skillSlots.findIndex((pressed, slotIndex) =>
-    pressed && !(previousInput?.skillSlots[slotIndex] ?? false)
-  );
-  return index >= 0 ? index : undefined;
-}
 
-function clampLevel(level: number, max: number): number {
-  return Math.min(max, Math.max(1, Math.floor(level)));
-}
 
-function clampLevelOrZero(level: number, max: number): number {
-  return level > 0 ? clampLevel(level, max) : 0;
-}
+
+
+
+
