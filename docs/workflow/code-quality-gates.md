@@ -46,6 +46,16 @@ Enforced by `npm run check:structure` (`tools/check-structure.mjs`). Agents must
 - A "structural fingerprint" normalizes identifiers, string literals, and numeric constants — identical logic with different variable names still counts.
 - Resolution: extract a shared helper function or parameterize the repeated pattern.
 
+### Shared definition ownership
+
+Before defining shared data tables, formulas, or pure helper functions, agents must search for an existing owner module.
+
+- Shared definitions include cross-role or cross-system data tables, damage formulas, MP tables, level clamps, skill-slot input helpers, distance helpers, and any business rule that already has a modern definition elsewhere.
+- If an owner already exists, reuse or extend it instead of copying the definition into the current file.
+- If no owner exists but two or more consumers are expected, create an owner module first and import from it.
+- Keep single-skill or single-role definitions local only when they are genuinely local; names or comments should make that locality clear.
+- Review must reject new duplicate definitions of shared rules. Passing `npm run test:systems` is not enough for this class of issue; use targeted `rg` searches or review evidence.
+
 ### Scene import coupling
 
 - A scene importing more than 10 system files triggers a warning (God-object risk).

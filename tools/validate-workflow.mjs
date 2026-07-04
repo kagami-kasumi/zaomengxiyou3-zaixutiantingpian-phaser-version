@@ -393,6 +393,7 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
     'npm run check:all',
     'Structural Gates',
     'File size limits',
+    'Shared definition ownership',
   ]) {
     if (!codeQualityGates.includes(requiredText)) {
       error(`code-quality-gates.md must mention: ${requiredText}`);

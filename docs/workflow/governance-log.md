@@ -2,6 +2,30 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-04
+
+### 修正 PG-001 的问题定义和验证方式
+
+变更内容：
+
+- 将 `PG-001` 的问题本体从“数值校准需要跨文件同步”修正为“共享技能规则重复定义”。
+- 明确“数值校准容易遗漏”只是重复定义带来的影响，不是问题本体。
+- 将解决方案从单次代码抽取调整为 harness 生成约束：共享定义所有权约束。
+- 在 `docs/workflow/code-quality-gates.md` 中新增 Shared definition ownership 门禁，要求 AI 生成共享表、公式或 helper 前先搜索 owner，已有 owner 必须复用。
+- 将 PG-001 的测试结果改为长期可行性验证：后续至少 3 次相关代码生成任务不新增重复定义，才说明方案初步可行。
+- 将 Shared definition ownership 接入 `tools/validate-workflow.mjs`，避免该门禁从脚手架中漂移。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/governance-log.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ## 2026-06-29
 
 ### 增加问题治理协议
