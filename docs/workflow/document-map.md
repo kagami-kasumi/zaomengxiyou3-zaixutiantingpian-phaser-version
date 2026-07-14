@@ -26,6 +26,9 @@
 - `docs/reverse-engineering/*.md`
   - 逆向笔记。
   - 记录 AS3 证据、行为事实和现代实现建议。
+- `docs/reverse-engineering/asset-annotation-and-splitting-plan.md`
+  - 资源标注与帧拆分工程审阅入口。
+  - 规定标注优先级、拆分必要性判定和“不默认拆几十万帧”的资源工作流。
 - `docs/architecture/src-boundaries.md`
   - 现代代码模块边界。
   - 维护 `src/` 目录职责、输入系统约束和 TypeScript/Phaser 参数约定。

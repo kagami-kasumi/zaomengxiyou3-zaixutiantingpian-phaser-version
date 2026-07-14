@@ -4,6 +4,25 @@
 
 ## 2026-07-04
 
+### 增加资源标注与帧拆分审阅入口
+
+变更内容：
+
+- 新增 `docs/reverse-engineering/asset-annotation-and-splitting-plan.md`，作为后续标注工程和拆分必要性评估的重开对话入口。
+- 明确资源工作后续不再围绕同一 EXE 重复抽取，而是转入标注、归类、缺口登记和必要时选择性拆分。
+- 明确拆分工程默认不处理几十万帧；只有 Phaser 参数化重建无法达到接近原版视觉，且目标能限定到单个符号或动作族时，才进入选择性拆分。
+- 在 `docs/workflow/document-map.md` 登记该文档职责，便于新 agent 冷启动时定位。
+
+影响范围：
+
+- `docs/reverse-engineering/asset-annotation-and-splitting-plan.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ### 修正 PG-001 的问题定义和验证方式
 
 变更内容：
