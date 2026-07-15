@@ -20,7 +20,7 @@
 
 - 不照搬原版 `GMain`、`Config`、`BaseObject` 的大类结构。
 - AS3 只作为行为参考，现代代码优先使用清晰的 scene/system/data 分层。
-- 资源通过 manifest 管理，不直接修改或复制 `extracted_flash/`。
+- 资源通过 manifest 管理，不直接修改或复制 `local-resources/regima/legacy-extraction/`。
 - 当前 SVG 是临时占位资源，后续 TASK-003 再索引原版导出资源。
 
 ## 验证方式

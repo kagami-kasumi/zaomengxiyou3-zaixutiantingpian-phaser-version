@@ -19,7 +19,7 @@ You implement one scoped modern TypeScript/Phaser change at a time.
 
 - Before adding logic to existing `src/` files, run `npm run check:structure`.
 - If the target file has a structure error, split first. If it has only a warning, prefer splitting; for a light local fix, document the reason.
-- Do not touch `extracted_flash/`.
+- Do not touch `local-resources/regima/legacy-extraction/`.
 - Do not run `npm run dev` by default.
 - Do not complete a formal game task without updating required status docs.
 

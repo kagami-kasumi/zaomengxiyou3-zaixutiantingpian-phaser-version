@@ -1,22 +1,22 @@
-﻿# 正式技能输入索引
+# 正式技能输入索引
 
 本文记录正式技能输入、绑定、学习、升级、拖拽、被动技能、UI 快捷键和存档字段的完整逆向结果。覆盖 `M-016`、`M-041`、`M-044`、`VS-008` 的实现边界。
 
 ## 证据入口
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/user/User.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/config/Config.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/GameInfo.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/shop/BuySkill.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/shop/SkillControl.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/shop/SkillSetControl.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/shop/PassiveSkillControl.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/storage/MemoryClass.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/saveInterface/SaveInter.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/user/User.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/config/Config.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/GameInfo.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/shop/BuySkill.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/shop/SkillControl.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/shop/SkillSetControl.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/shop/PassiveSkillControl.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/storage/MemoryClass.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/saveInterface/SaveInter.as`
 
 ## 结论
 

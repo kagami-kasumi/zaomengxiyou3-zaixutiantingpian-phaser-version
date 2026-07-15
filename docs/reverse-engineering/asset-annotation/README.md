@@ -1,6 +1,6 @@
 # 资源标注工程
 
-本目录把旧 AS3 证据、EVB 新恢复源 SWF 和现代工程 stableKey 串成可以查询、导出和接入的资产台账。它不重新抽取资源，不修改 `extracted_flash/`，也不要求人工给所有文件逐个命名。
+本目录把旧 AS3 证据、EVB 新恢复源 SWF 和现代工程 stableKey 串成可以查询、导出和接入的资产台账。它不重新抽取资源，不修改 `local-resources/regima/legacy-extraction/`，也不要求人工给所有文件逐个命名。
 
 ## 先看结论
 
@@ -27,10 +27,11 @@ normal-attack-effect.hero1.hit1
 
 ## 当前阶段
 
-`TASK-ASSET-003` 已恢复项目外 EVB 资源语料库：
+`TASK-ASSET-003` 已恢复 RegiMA 资源语料库，并统一放入 Git 忽略的项目内本地根：
 
-- 原始解包目录：`D:\flash-unpacked`
-- 174 个可解析 SWF：`D:\flash-restored-swfs`
+- 原始解包目录：`local-resources/regima/source/unpacked/`
+- 174 个可解析 SWF：`local-resources/regima/source/restored-swfs/`
+- 清单与审计：`local-resources/regima/manifests/`
 - 提取与验证报告：[`../evb-extraction-report.md`](../evb-extraction-report.md)
 
 因此默认问题已从“源包在哪里”改为“目标符号在哪个源包、应如何选择性导出和接入”。只有经过检索仍确认源包不存在时，才允许使用 `missing-original / request-source`。
@@ -44,10 +45,10 @@ normal-attack-effect.hero1.hit1
 | 判断文件是否存在、路径是否有效、证据是否相互冲突 | 独立完成 | 不需要参与 |
 | 从截图判断两个候选是否为同一动作 | 先整理候选和差异 | 在证据不足时做最终判断 |
 | 判断“现代效果是否像原版” | 提供对照项和可观察差异 | 提供原版录屏/截图并验收 |
-| 调用本机已安装的 FFDec CLI 做只读检查或选择性导出 | 从已授权的项目外恢复目录执行，输出到新的项目外批次目录 | 不需要参与命令执行 |
+| 调用本机已安装的 FFDec CLI 做只读检查或选择性导出 | 从 `local-resources/regima/source/restored-swfs/` 执行，输出到 `local-resources/regima/task-outputs/<batch>/` | 不需要参与命令执行 |
 | 安装 FFDec，或执行 CLI 无法完成的 GUI 视觉操作 | 写清最小操作目标后停止 | 手工安装/操作并把结果放回约定的新资料目录 |
 | 决定是否值得逐帧近似 | 提交成本、替代方案和建议 | 对高感知对象作产品取舍 |
-| 修改 `extracted_flash/` 原始提取结果 | 禁止 | 只有明确发起重新提取任务时才允许 |
+| 修改 `local-resources/regima/legacy-extraction/` 原始提取结果 | 禁止 | 只有明确发起重新提取任务时才允许 |
 
 人工通常只会在一个批次的两个位置介入：证据无法消歧时，以及视觉验收时。如果 Agent 能从仓库证据确认，人工只需要看批次结论。
 
@@ -104,7 +105,7 @@ asset-annotation/
 
 ```text
 请按 docs/reverse-engineering/asset-annotation/README.md 启动一个资源标注批次。
-本轮只处理 <资源族>。先从 D:\flash-restored-swfs 定位精确源包和符号，再做项目外选择性导出；只有遇到必须由我判断的歧义或视觉验收时再列出人工动作。
+本轮只处理 <资源族>。先从 local-resources/regima/source/restored-swfs/ 定位精确源包和符号，再选择性导出到 local-resources/regima/task-outputs/<batch>/；只有遇到必须由我判断的歧义或视觉验收时再列出人工动作。
 不要重新提取 EVB，不要全量导出或拆全量帧。
 ```
 

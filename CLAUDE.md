@@ -31,7 +31,7 @@ npm run check:workflow
 
 | Agent | 何时使用 | 写入权限边界 |
 | --- | --- | --- |
-| `reverse-engineering-researcher` | 需要 AS3/提取资料证据、机制事实确认、逆向索引前置调研 | 只读；不改 `extracted_flash/` 或项目文件 |
+| `reverse-engineering-researcher` | 需要 AS3/提取资料证据、机制事实确认、逆向索引前置调研 | 只读；不改 `local-resources/regima/legacy-extraction/` 或项目文件 |
 | `modern-implementation-engineer` | 机制事实已明确，需要实现一个现代 TypeScript/Phaser 任务或纵向切片 | 可改当前任务所需 `src/`、测试和状态文档 |
 | `engineering-reviewer` | 评审实现结果、阶段成果或 `docs/评审/` 文档 | 默认只读；按 `review-protocol.md` 输出发现 |
 | `workflow-steward` | 维护 AGENTS/CLAUDE、workflow 文档、任务规则、校验脚本或治理规则 | 可改脚手架文件；不把治理任务写入游戏看板 |
@@ -47,10 +47,11 @@ npm run check:workflow
 5. 不要因为只完成少量工作、仍在同一 task 的验证/修 bug/补文档阶段，就建议新开对话。
 6. 正式游戏 task 或 `/goal` 收尾时，必须明确给出继续/compact/新开对话判断，以及 commit / push 建议；Git 操作只有用户明确要求时才执行。
 7. 正式游戏 task 完成后必须更新相关文档并按项目规则归档。
-8. 不修改 `extracted_flash/`。
-9. AS3 源码是行为参考，不是架构模板。保留可观察行为，用现代方式重写。
-10. 执行工程评审时遵循 `docs/workflow/review-protocol.md`，输出可比较、可执行的结论。
-11. 治理系统性工程问题时遵循 `docs/workflow/problem-governance.md`，先确认问题定义、证据、方案、测试和关闭标准。
+8. 不修改 `local-resources/regima/legacy-extraction/`。
+9. 视觉资源优先从 Git 忽略的 `local-resources/regima/source/restored-swfs/` 定位；旧 `local-resources/regima/legacy-extraction/` 不能作为视觉资源缺失的最终依据。
+10. AS3 源码是行为参考，不是架构模板。保留可观察行为，用现代方式重写。
+11. 执行工程评审时遵循 `docs/workflow/review-protocol.md`，输出可比较、可执行的结论。
+12. 治理系统性工程问题时遵循 `docs/workflow/problem-governance.md`，先确认问题定义、证据、方案、测试和关闭标准。
 
 ## 读取约束
 

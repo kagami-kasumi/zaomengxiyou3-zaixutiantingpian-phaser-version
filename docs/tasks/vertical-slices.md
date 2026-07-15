@@ -1,4 +1,4 @@
-﻿# 纵向切片复现表
+# 纵向切片复现表
 
 本文记录准备复现哪些可玩切片、每个切片依赖哪些已扒机制、实现到什么程度。具体任务状态以 `docs/tasks/task-board.md` 为准。
 
@@ -56,7 +56,8 @@
 | VS-039 Role1 完整战斗扩展 | 已完成 | 补齐悟空九项主动、`sx` 被动、`slz/hytj/lys` 组合协同、`jdy` 二段、分身与终结技能 | M-018、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role1BasicSkillSystem.ts`、`Role1SkillProjectileFactory.ts`、`Role1ShadowSkillSystem.ts`、`Role1FinisherSkillSystem.ts`、`TestSceneRole1SkillBridge.ts`、Role1 普攻真资源、独立测试 | `TASK-SLICE-095..099` 全部完成；`TASK-ASSET-002` 已接入 `Role1Bullet1/3/4/5`，技能真素材仍后置 |
 | VS-040 Role4 完整战斗扩展 | 已完成 | 在既有铲/弓普攻基础上补齐沙僧九主动、`mds` 被动、毒层/毒爆、巫毒娃娃、链式控制、位移、标记传送与终结技 | M-021、M-024、M-025、M-034、`role4-combat-index.md` | `Role4PoisonSkillSystem.ts`、`Role4VoodooDollSystem.ts`、`Role4PoisonChainSystem.ts`、`Role4MobilitySkillSystem.ts`、`Role4FinisherSkillSystem.ts`、Role4 场景桥接和独立测试 | `TASK-SLICE-100..104` 全部完成；`TASK-ASSET-001` 已确认 Role4 铲/弓普攻和九主动真素材当前不可直接接入，详见 `combat-assets-gap-plan.md` |
 | VS-041 Role5 白龙完整战斗扩展 | 已完成 | 按 `role5-combat-index.md` 拆分实现枪/剑形态、普攻能量、枪系主动、状态/标记、剑系链式和随身箭对象 | M-022、M-024、M-025、M-034、`role5-combat-index.md` | `HeroNormalAttackSystem.ts`、`Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、独立测试 | `TASK-SLICE-105..109` 全部完成；`TASK-ASSET-001` 已确认 Role5 枪/剑本体动作、剑系附属对象和技能真素材当前不可直接接入，枪形态 `doSingleHit(...)` 仍需 P-code 或更完整导出 |
-| VS-042 合成最小闭环 | 已完成 | 三材料无序合成，验证灵魂门禁、原子库存事务和装备属性继承 | M-039、M-036、M-037、`crafting-index.md` | `CraftingRecipeRegistry.ts`、`CraftingSystem.ts`、`PlayerInventoryOwnershipSystem.ts`、`TestSceneUIHandlers.ts`、`crafting-tests.ts` | 67 个 `direct_static`、41 个 `get_sutra_value`、3 个 `get_sun_sutra_value` 与 1 个 `get_mingding_huayan` 唯一配方均已注册；默认和特殊继承均复用装备实例原子事务；P1/P2 独立三槽会话支持背包材料移入、单槽/关闭退回、实时无序预览、成功清空和失败保留；1000 灵魂、容量预检、失败无副作用保持不变，完整视觉后置 |
+| VS-042 合成最小闭环 | 已完成 | 三材料无序合成，验证灵魂门禁、原子库存事务和装备属性继承 | M-039、M-036、M-037、`crafting-index.md` | `CraftingRecipeRegistry.ts`、`CraftingSystem.ts`、`PlayerInventoryOwnershipSystem.ts`、`TestSceneUIHandlers.ts`、`crafting-tests.ts` | 67 个 `direct_static`、41 个 `get_sutra_value`、3 个 `get_sun_sutra_value` 与 1 个 `get_mingding_huayan` 唯一配方均已注册；默认和特殊继承均复用装备实例原子事务；P1/P2 独立三槽会话支持背包材料移入、单槽/关闭退回、实时无序预览、成功清空和失败保留；1000 灵魂、容量预检、失败无副作用保持不变；视觉证据已由 `crafting-ui-index.md` 补清 |
+| VS-043 炼丹炉视觉最小闭环 | 可开始 | 用 RegiMA 真资源呈现 1000×600 炼丹炉并复用既有合成交互 | M-039、M-035、M-037、VS-042、`crafting-ui-index.md` | 选择性派生资源、stableKey/manifest、独立炼丹炉视图、合成交互接线与专项测试 | `tlzsp × 3 -> wptlz` 在真实容器/槽位/图标中完成 P1/P2 选择、预览、1000 灵魂门禁、成功回包、失败保留、移除和关闭退回；基准画布对照 character 119/169 人工验收 |
 
 ## 第一批推荐执行顺序
 
@@ -265,7 +266,7 @@
 - `1-1` 流程是纵向爬升、周期性刷 `Monster30`、到顶部触发 `Monster3` boss，boss 死亡后显示传送门。
 - 通关入口是角色 `0001` 交互分支：传送门可见且碰撞成立后派发 `LevelVictor` 并调用 `MainGame.levelClear()`。
 - `TASK-SETTINGS-012` 已细扒 `Monster3` 全数据（HP 926、hit1/hit2 攻击帧、技能 CD、boss 死亡 → 传送门 visible）、确认 boss 区触发参数和传送门机制。
-- 资源缺口已确认：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前 `extracted_flash/resources_by_swf` 导出中。
+- 资源缺口已确认：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前 `local-resources/regima/legacy-extraction/resources_by_swf` 导出中。
 
 依赖：
 

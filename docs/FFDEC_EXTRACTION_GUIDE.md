@@ -5,18 +5,18 @@
 AI 必须遵守：
 
 - 不要在本项目路径内运行 FFDec。
-- 不要修改、删除或重新生成 `extracted_flash/` 中现有提取结果，除非用户明确要求。
+- 不要修改、删除或重新生成 `local-resources/regima/legacy-extraction/` 中现有提取结果，除非用户明确要求。
 - 如果发现关键源码或资源缺失，先说明缺失内容，不要自行重提取。
 
 ## 当前已完成状态
 
 已有提取结果见：
 
-- `extracted_flash/README_extract.md`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts`
-- `extracted_flash/resources_by_swf/[25034429].swf/scripts`
-- `extracted_flash/resources_by_swf`
-- `extracted_flash/reports/EXTRACTION_REPORT.md`
+- `local-resources/regima/legacy-extraction/README_extract.md`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[25034429].swf/scripts`
+- `local-resources/regima/legacy-extraction/resources_by_swf`
+- `local-resources/regima/legacy-extraction/reports/EXTRACTION_REPORT.md`
 
 当前主参考包是 `[172845].swf`。备用参考包是 `[25034429].swf`。
 
@@ -28,7 +28,7 @@ AI 必须遵守：
 
 1. 先在文档中列出缺失的源码、资源或符号映射。
 2. 由用户决定是否提供额外资料。
-3. 新资料进入项目后，只补充确认需要的文件，不直接覆盖现有 `extracted_flash/`。
-4. 补充完成后，更新 `extracted_flash/README_extract.md` 和 `extracted_flash/reports/EXTRACTION_REPORT.md` 说明新增内容、时间和差异。
+3. 新资料进入项目后，只补充确认需要的文件，不直接覆盖现有 `local-resources/regima/legacy-extraction/`。
+4. 补充完成后，更新 `local-resources/regima/legacy-extraction/README_extract.md` 和 `local-resources/regima/legacy-extraction/reports/EXTRACTION_REPORT.md` 说明新增内容、时间和差异。
 
 AI 如果参与后续整理，只能在用户明确授权后处理用户放入项目的新文件。

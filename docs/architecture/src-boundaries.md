@@ -26,7 +26,7 @@
 
 - `src/assets/`
   - 现代资源 manifest 和资源键。
-  - 不直接复制或重生成 `extracted_flash/` 原始提取结果。
+  - 不直接复制或重生成 `local-resources/regima/legacy-extraction/` 原始提取结果。
 
 ## `TestScene` / sandbox 增长约束
 

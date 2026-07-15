@@ -5,11 +5,12 @@
 ## 必须遵守
 
 1. 需要安装复杂软件时，直接结束任务，让用户手工完成。复杂软件指需要从 GitHub 下载的软件；普通 `npm` 命令可以运行。
-2. 不要修改、删除或重新生成 `extracted_flash/` 中的原始提取结果，除非用户明确要求重新提取。
-3. 现代实现只追求外观、玩法、数值、手感和流程尽量接近原版；AS3 源码是行为参考，不是现代架构模板。
-4. 不要一次性重构大量系统。每次任务选择一个清晰子系统或一个可玩的纵向切片。
-5. 默认不启动 `npm run dev`；修改代码后优先运行可自动结束的检查命令。
-6. 在现有文件中新增逻辑前，先运行 `npm run check:structure`；若目标文件触发 error，必须先拆分。若目标文件仅触发 warning，优先拆分；轻量小修可写明理由后局部修改。无关文件的 warning 不阻塞当前任务。
+2. 不要修改、删除或重新生成 `local-resources/regima/legacy-extraction/` 中的原始提取结果，除非用户明确要求重新提取。
+3. RegiMA 恢复语料库位于 Git 忽略的 `local-resources/regima/`。视觉资源、SymbolClass、MovieClip 和原始命名 SWF 必须优先从 `local-resources/regima/source/restored-swfs/` 窄查；`local-resources/regima/legacy-extraction/` 只作为旧 AS3、旧提取结果和历史对照，不能再作为视觉资源是否缺失的最终依据。
+4. 现代实现只追求外观、玩法、数值、手感和流程尽量接近原版；AS3 源码是行为参考，不是现代架构模板。
+5. 不要一次性重构大量系统。每次任务选择一个清晰子系统或一个可玩的纵向切片。
+6. 默认不启动 `npm run dev`；修改代码后优先运行可自动结束的检查命令。
+7. 在现有文件中新增逻辑前，先运行 `npm run check:structure`；若目标文件触发 error，必须先拆分。若目标文件仅触发 warning，优先拆分；轻量小修可写明理由后局部修改。无关文件的 warning 不阻塞当前任务。
 
 ## 读取与编码约束
 
@@ -67,7 +68,8 @@
 | --- | --- |
 | 轻量请求：解释、typo、注释、单个常量、明显配置、小范围排错 | 无。只在改动涉及具体系统时再读相关文件。 |
 | 游戏任务执行：用户指定或要求执行 task | `docs/workflow/agent-protocol.md`、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
-| 玩法逆向：阅读 AS3、建立索引 | 上一行 + `extracted_flash/README_extract.md` + 对应 AS3 路径 |
+| 玩法逆向：只读 AS3、建立行为索引 | 上一行 + `local-resources/regima/legacy-extraction/README_extract.md` + 对应 AS3 路径；视觉结论不得仅依据旧提取集 |
+| 视觉资源逆向：symbol、位图、时间轴、资源族 | 游戏任务执行必读集 + `docs/reverse-engineering/evb-extraction-report.md` + `docs/reverse-engineering/asset-annotation/workflow.md` + `local-resources/regima/source/restored-swfs/` 中的目标源包；旧 `local-resources/regima/legacy-extraction/` 仅作交叉对照 |
 | 代码实现：修改 `src/` | 游戏任务执行必读集 + `docs/architecture/src-boundaries.md` + 对应 `src/` 文件 |
 | 工程评审：评审代码、阶段成果或评审文档 | `docs/workflow/review-protocol.md`，涉及代码质量再读 `docs/workflow/code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md` |
 | 问题治理：确认或治理系统性工程问题 | `docs/workflow/problem-governance.md`；若问题来自评审，再读 `docs/workflow/review-protocol.md`；若涉及代码质量，再读 `docs/workflow/code-quality-gates.md` |

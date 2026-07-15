@@ -45,14 +45,14 @@ Agent 可以：
 - 整理符号、帧数、时间轴和现有导出证据。
 - 比较参数化方案与帧动画方案的成本和缺口。
 - 给出 FFDec 中需要定位的精确 SWF、符号和动作范围。
-- 在 FFDec CLI 已安装且用户明确授权时，从项目外目录执行只读检查或选择性导出，并把结果写入新的项目外目录。
+- 在 FFDec CLI 已安装且用户明确授权时，从 `local-resources/regima/source/restored-swfs/` 执行只读检查或选择性导出，并把结果写入新的 `local-resources/regima/task-outputs/<batch>/`。
 - 接收用户导出的最小文件族后继续整理 atlas/manifest 建议。
 
 人工需要：
 
 - 提供原版画面或判断视觉差距是否值得成本。
 - 当 FFDec 尚未安装、CLI 无法完成或必须通过 GUI 视觉选择时，手工安装/操作工具。
-- 只导出 Agent 指定的单个符号或动作族，并把结果放在新目录；不要覆盖 `extracted_flash/`。
+- 只导出 Agent 指定的单个符号或动作族，并把结果放在新目录；不要覆盖 `local-resources/regima/legacy-extraction/`。
 
 ## 从轻到重的方案
 

@@ -22,7 +22,7 @@
 - 区分“AS3 已确认事实”“现代实现建议”和“评审者推测”，不要把推测写成原版事实。
 - 不要求一次性大重构；所有整改建议应能拆成小 task 或局部改动。
 - 评审必须给出可执行结论。只说“代码复杂”“建议优化”不合格。
-- 评审不得直接修改 `extracted_flash/`，也不得要求重新生成原始提取结果。
+- 评审不得直接修改 `local-resources/regima/legacy-extraction/`，也不得要求重新生成原始提取结果。
 - 对 `src/` 膨胀、重复和 scene 耦合问题，结合 `docs/workflow/code-quality-gates.md` 和 `npm run check:structure` 判断。
 
 ## 必读资料

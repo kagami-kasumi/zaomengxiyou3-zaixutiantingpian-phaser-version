@@ -1,6 +1,6 @@
-﻿# 等级/经验机制索引
+# 等级/经验机制索引
 
-本文记录玩家等级、经验、升级曲线、属性成长、经验来源和存档字段。来源为主参考包 `extracted_flash/resources_by_swf/[172845].swf/scripts`。现代实现只复现可观察行为，不照搬 AS3 的加密拆字段写法。
+本文记录玩家等级、经验、升级曲线、属性成长、经验来源和存档字段。来源为主参考包 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts`。现代实现只复现可观察行为，不照搬 AS3 的加密拆字段写法。
 
 ## 结论
 

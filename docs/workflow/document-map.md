@@ -78,14 +78,18 @@
 
 - `docs/reverse-engineering/evb-extraction-report.md`
   - EVB 原始目录恢复、176-byte SWF 还原、哈希清单和 FFDec 验证报告。
-  - 项目外恢复目录只作为只读来源；现代工程按资源族选择性导出和接入。
-- `extracted_flash/README_extract.md`
+  - RegiMA 恢复目录位于 Git 忽略的 `local-resources/regima/`；现代工程按资源族选择性导出和接入。
+- `local-resources/regima/`
+  - 本机 RegiMA 资源根，整目录由 `.gitignore` 排除。
+  - `source/unpacked/` 保存 EVB 原始文件系统，`local-resources/regima/source/restored-swfs/` 保存可解析的原始命名 SWF，`manifests/` 保存哈希与审计清单，`validation/` 和 `task-outputs/` 保存本地派生产物。
+  - 视觉资源任务优先读取这里；不得把整个目录提交或批量复制到 `public/assets`。
+- `local-resources/regima/legacy-extraction/README_extract.md`
   - 提取结果说明。
-  - 只读参考。
-- `extracted_flash/resources_by_swf/`
+  - 只读旧提取参考；行为脚本仍可使用，但不能作为视觉源包是否缺失的最终依据。
+- `local-resources/regima/legacy-extraction/resources_by_swf/`
   - 二次抽取后的逐 SWF 核心资源目录。
   - AS3、图片、shape、SymbolClass 和声音容器均从对应 `[...].swf/` 子目录读取。
-- `extracted_flash/reports/EXTRACTION_REPORT.md`
+- `local-resources/regima/legacy-extraction/reports/EXTRACTION_REPORT.md`
   - `再续天庭1.1.exe` 二次抽取与校验报告。
   - 记录资源可用性、坏图、声音导出结论和后续资源边界。
 - `docs/reverse-engineering/reference/equipment-spreadsheet.md`

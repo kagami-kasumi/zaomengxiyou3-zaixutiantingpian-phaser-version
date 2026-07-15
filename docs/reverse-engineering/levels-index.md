@@ -1,4 +1,4 @@
-﻿# 关卡流程索引
+# 关卡流程索引
 
 本文是 `TASK-SETTINGS-003` 的产物，记录第一个主线关卡、场景加载、地图标记、刷怪和通关入口。范围只覆盖能支撑最小战斗/关卡闭环的首批事实，不完整扒所有地图。
 
@@ -13,18 +13,18 @@
 
 主要文件：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/config/Config.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/MainGame.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseGameSence.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseLevelListenering.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/level/StageListener01.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/level/StageListener11.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster3.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/MonsterAppearPoint.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/StopPoint.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/config/Config.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/MainGame.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseGameSence.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseLevelListenering.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/level/StageListener01.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/level/StageListener11.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster3.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/MonsterAppearPoint.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/StopPoint.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
 
 ## 场景加载链路
 
@@ -169,9 +169,9 @@
 
 ### AS3 证据
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster3.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/level/StageListener11.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster3.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/level/StageListener11.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
 
 ### 基础数值
 
@@ -273,7 +273,7 @@ boss 模式下 `probability = 1` 且 `fallList` 包含 10 件普通装备（`ptd
 
 ### 资源缺口
 
-传送门和墙体坐标嵌在 SWF 时间轴/场景对象中，当前 `extracted_flash/resources_by_swf` 没有 `sl11`/`bg11`/`floorBg1` 的导出：
+传送门和墙体坐标嵌在 SWF 时间轴/场景对象中，当前 `local-resources/regima/legacy-extraction/resources_by_swf` 没有 `sl11`/`bg11`/`floorBg1` 的导出：
 
 - `sl11` 场景 SWF：包含背景 `bgContainer`、墙体标记（`isWall`/`isThroughWall` 等）、传送门标记（`isTransferDoor`）和碰撞标记
 - `bg11` 背景资源：关卡背景图

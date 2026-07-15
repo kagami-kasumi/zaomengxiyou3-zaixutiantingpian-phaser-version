@@ -13,8 +13,8 @@
 ## 输入和证据
 
 - 现代 stableKey 入口：`src/assets/AssetManifest.ts`。
-- AS3：`extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 的 `doHit1/doHit3/doHit4/doHit5`。
-- 符号映射：`extracted_flash/resources_by_swf/[172845].swf/symbolClass/symbols.csv`，未包含本批四个名称。
+- AS3：`local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 的 `doHit1/doHit3/doHit4/doHit5`。
+- 符号映射：`local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/symbolClass/symbols.csv`，未包含本批四个名称。
 - 既有逆向结论：`docs/reverse-engineering/attack-effects-index.md`。
 - 既有缺口结论：`docs/reverse-engineering/combat-assets-gap-plan.md`。
 - 人工证据：无。
@@ -33,7 +33,7 @@
 
 当前无人工消歧或视觉验收动作。
 
-Agent 可从 `D:\flash-restored-swfs\assets\WuKong.swf`、`Role1Effect.swf` 等候选包开始窄查；只有 CLI 无法消歧或需要视觉验收时才请求人工。
+Agent 可从 `local-resources/regima/source/restored-swfs/assets/WuKong.swf`、`Role1Effect.swf` 等候选包开始窄查；只有 CLI 无法消歧或需要视觉验收时才请求人工。
 
 ## 去向
 

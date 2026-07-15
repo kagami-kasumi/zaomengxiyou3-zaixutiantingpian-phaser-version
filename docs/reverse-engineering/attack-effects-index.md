@@ -1,17 +1,17 @@
-﻿# 角色普攻特效资源索引
+# 角色普攻特效资源索引
 
 本文只回答 `normalHit()` 直接带出的普攻表现问题：每段普攻会不会额外生成命中对象、这些对象叫什么、角色本体动画还依赖哪些资源、当前导出结果能不能直接拿来用。技能特效不在本文范围内。
 
 ## 证据入口
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataPool.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/bullet/SpecialEffectBullet.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/bullet/FollowBaseObjectBullet.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/bullet/EnemyMoveBullet.as`
-- `extracted_flash/resources_by_swf/[172845].swf/symbolClass/symbols.csv`
-- `extracted_flash/resources_by_swf/[172845].swf/images/`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataPool.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/bullet/SpecialEffectBullet.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/bullet/FollowBaseObjectBullet.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/bullet/EnemyMoveBullet.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/symbolClass/symbols.csv`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/images/`
 
 `BaseBullet` 构造函数直接用 `AUtils.getNewObj(resourceName)` 取显示对象；`BaseBitmapDataPool` 则负责把角色 MovieClip 或 BitmapData 缓存成位图帧数组。因此，普攻的“可见资源”分成两类：
 
@@ -50,9 +50,9 @@
 
 当前主包导出结果还不足以直接复现这些普攻资源：
 
-- `extracted_flash/resources_by_swf/[172845].swf/symbolClass/symbols.csv` 只有 88 条映射，未出现 `Role1Bullet1`、`Role2Bullet1`、`Role3Bullet1`、`Role4Bullet1`、`Role4BulletArrow1`、`attack1_spear`、`attack1_sword` 等任一普攻关键名。
-- `extracted_flash/resources_by_swf/[172845].swf/images/` 当前只有 69 个已导出图片文件，名称主要是数字和少量 `qpjy/fbqpj` 相关文件，未见上述普攻资源名。
-- 在 `extracted_flash/resources_by_swf` 全目录按这些符号名检索，也未找到匹配项。
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/symbolClass/symbols.csv` 只有 88 条映射，未出现 `Role1Bullet1`、`Role2Bullet1`、`Role3Bullet1`、`Role4Bullet1`、`Role4BulletArrow1`、`attack1_spear`、`attack1_sword` 等任一普攻关键名。
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/images/` 当前只有 69 个已导出图片文件，名称主要是数字和少量 `qpjy/fbqpj` 相关文件，未见上述普攻资源名。
+- 在 `local-resources/regima/legacy-extraction/resources_by_swf` 全目录按这些符号名检索，也未找到匹配项。
 
 因此，现阶段能确认“代码需要什么”，但还不能从当前已导出的主包图片中直接拿到它们。
 

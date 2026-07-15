@@ -6,11 +6,11 @@
 
 主要 AS3 证据：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/strength/StrengthEquipment.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/strength/Fusion.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pack/PackThings.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/GMain.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/StrengthEquipment.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/Fusion.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pack/PackThings.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/GMain.as`
 
 辅助资料 `docs/reverse-engineering/reference/equipment-spreadsheet/crafting-recipes.csv` 来自 1.0，只作为中文配方索引。1.1 的权威配方表是 `AllEquipment.mixProduce()` 中以 `fillName` 表示的分支；现代实现不能直接消费 CSV。
 

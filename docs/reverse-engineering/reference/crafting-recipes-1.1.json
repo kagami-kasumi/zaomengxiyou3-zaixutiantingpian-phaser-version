@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "gameVersion": "1.1",
-  "authority": "extracted_flash/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as#mixProduce",
+  "authority": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as#mixProduce",
   "semantics": {
     "materials": "unordered multiset of exactly three fillName values",
     "productionBehaviorSource": "export/strength/Fusion.as#doFusion"

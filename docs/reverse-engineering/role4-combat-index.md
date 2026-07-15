@@ -1,6 +1,6 @@
-﻿# Role4 沙僧完整战斗逆向
+# Role4 沙僧完整战斗逆向
 
-本文记录 `export.hero.Role4` 的本地可达战斗行为，供后续现代实现拆分使用。主证据为 `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role4.as`；巫毒娃娃另查 `export/monster/MonsterRole4Hit5.as`，猛毒素联动另查 `base/BaseAddEffect.as`。
+本文记录 `export.hero.Role4` 的本地可达战斗行为，供后续现代实现拆分使用。主证据为 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role4.as`；巫毒娃娃另查 `export/monster/MonsterRole4Hit5.as`，猛毒素联动另查 `base/BaseAddEffect.as`。
 
 ## 1. 武器形态与基础输入
 

@@ -42,7 +42,7 @@ stableKey,as3Name,sourceKind,sourcePath,sourcePackage,symbolId,scope,usage,statu
 - `ready`：现代工程可直接使用的真素材已存在。
 - `source-corpus-ready`：EVB 源 SWF 语料库已恢复，但本条目的精确源包/符号尚未定位。
 - `export-ready`：精确源 SWF 和符号已确认，可以做选择性导出。
-- `derived-ready`：项目外派生图片、SVG、序列或 atlas 已生成并验收，尚未注册到现代工程。
+- `derived-ready`：`local-resources/regima/task-outputs/` 中的派生图片、SVG、序列或 atlas 已生成并验收，尚未注册到现代工程。
 - `placeholder`：有可运行的现代占位，但不代表原版素材。
 - `missing-original`：查过恢复语料库后仍确认源文件不存在，或 EVB 提取确有缺失；不能再用来表示“尚未导出”。
 - `needs-annotation`：文件存在，但含义或映射尚未确认。
@@ -69,7 +69,7 @@ nextAction = locate-symbol
 
 ```csv
 stableKey,as3Name,sourceKind,sourcePath,sourcePackage,symbolId,scope,usage,status,confidence,nextAction,note
-normal-attack-effect.hero1.hit1,Role1Bullet1,script-reference,extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as,,,effect,Role1 第一段普攻附属对象,source-corpus-ready,confirmed,locate-symbol,EVB 语料库已恢复；下一步定位精确包和 MovieClip
+normal-attack-effect.hero1.hit1,Role1Bullet1,script-reference,local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as,,,effect,Role1 第一段普攻附属对象,source-corpus-ready,confirmed,locate-symbol,EVB 语料库已恢复；下一步定位精确包和 MovieClip
 ```
 
 示例表达的是“语义映射已标注，源语料库已取得，符号级定位尚未完成”，不是缺少来源。

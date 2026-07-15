@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, statSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 
 const root = process.cwd();
@@ -29,7 +30,7 @@ const files = {
   packageJson: 'package.json',
   tsconfig: 'tsconfig.json',
   inputSystem: 'src/systems/InputSystem.ts',
-  extractionReadme: 'extracted_flash/README_extract.md',
+  extractionReadme: 'local-resources/regima/legacy-extraction/README_extract.md',
 };
 
 const errors = [];
@@ -350,6 +351,54 @@ function checkUtf8ReadingRules(agents, claude, workflowReadme) {
   }
 }
 
+function checkRegimaRouting(agents, outline, board, workflowReadme, documentMap) {
+  const visualRoot = 'local-resources/regima/source/restored-swfs/';
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['TASK_OUTLINE.md', outline],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+  ]) {
+    if (!text.includes(visualRoot)) {
+      error(`${name} must route visual resource research through ${visualRoot}.`);
+    }
+  }
+
+  const unfinishedTasks = taskBlocks(section(board, '任务完成定义'));
+  const craftingVisualTasks = unfinishedTasks.filter((task) =>
+    task.text.includes('crafting-ui-index.md'),
+  );
+  for (const task of craftingVisualTasks) {
+    if (!task.text.includes(visualRoot)) {
+      error(`${task.id} must use ${visualRoot} as its visual source entry.`);
+    }
+  }
+
+  const craftingUiResearchTask = unfinishedTasks
+    .find((task) => task.id === 'TASK-SETTINGS-044')?.text ?? '';
+  if (craftingUiResearchTask && !craftingUiResearchTask.includes('只作旧提取交叉对照')) {
+    error('TASK-SETTINGS-044 must mark local-resources/regima/legacy-extraction visual exports as legacy cross-check evidence.');
+  }
+}
+
+function checkRetiredLegacyRootName() {
+  const retiredName = ['extracted', 'flash'].join('_');
+  try {
+    const matches = execFileSync('git', ['grep', '-n', '-I', '-e', retiredName], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    }).trim();
+    if (matches) {
+      error(`Retired legacy root name is still referenced by tracked files:\n${matches}`);
+    }
+  } catch (caught) {
+    if (caught?.status !== 1) {
+      error(`Unable to verify retired legacy root references: ${caught?.message ?? caught}`);
+    }
+  }
+}
+
 function checkWorkflowSeparation(mechanics) {
   if (/任务生成规范|task-generation|工作流脚手架/.test(mechanics)) {
     error('mechanics-index.md should not contain workflow scaffolding entries.');
@@ -518,6 +567,7 @@ function checkDomainLanguage(glossary, languageProcess, srcTexts) {
 }
 
 assertRequiredFiles();
+checkRetiredLegacyRootName();
 
 const agents = read(files.agents);
 const claude = read('CLAUDE.md');
@@ -553,6 +603,7 @@ checkRefs(taskRows, mechanics, verticalSlices);
 checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
 checkUtf8ReadingRules(agents, claude, workflowReadme);
+checkRegimaRouting(agents, outline, board, workflowReadme, documentMap);
 checkWorkflowSeparation(mechanicsText);
 const agentProtocol = read(files.agentProtocol);
 checkGovernanceLog([

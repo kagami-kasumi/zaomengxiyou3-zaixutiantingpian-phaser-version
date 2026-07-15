@@ -1,11 +1,10 @@
 node_modules/
 dist/
 .tmp/
+local-resources/
 
-# Local reverse-engineering extracts. Keep them outside Git unless the repo
-# later introduces a curated, documented extract package.
-extracted_flash/
-extracted_flash_full_1_1/
+# Local reverse-engineering corpora. They may live inside the workspace for
+# stable discovery, but remain outside Git unless curated explicitly.
 再续天庭1.1.exe
 
 *.log

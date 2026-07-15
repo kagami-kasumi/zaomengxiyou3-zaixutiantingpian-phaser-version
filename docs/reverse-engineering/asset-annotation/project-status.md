@@ -14,7 +14,7 @@
 | 已实现宠物技能效果 key | 24 | 语义映射已确认，待定位源符号；6 条保留现代占位名差异 | `pet-skill-effects.md` |
 | `Monster30` | 2 | 映射确认，待在恢复语料库定位本体和攻击符号 | `monster30.md` |
 | Stage 1-1 | 4 | 3 项待从 `levels/level11.swf` 定位；listener 是行为证据 | `stage11.md` |
-| 已实现 UI 图片 | 0 | 现代 UI 尚无图片 key；源 UI 包已恢复，可启动按界面的源资源盘点 | `modern-ui-assets.md` |
+| 已实现 UI 图片 | 0 | 现代 UI 尚无图片 key；炼丹炉已完成首个界面的源包/symbol/stableKey 映射，待 `TASK-SLICE-117` 选择性派生 | `modern-ui-assets.md`、`../crafting-ui-index.md` |
 
 总计 154 条标注：4 条 `ready`、148 条 `source-corpus-ready`、1 条 `needs-annotation`、1 条 `rejected`；153 条 `confirmed`、1 条 `unknown`。当前没有 `export-ready`、`derived-ready` 或 `needs-splitting` 条目。
 
@@ -22,7 +22,7 @@
 
 当前没有必须立即执行的人工标注或视觉消歧。
 
-原版角色包、怪物包、UI 包和 `levels/level11` 等源 SWF 已恢复到 `D:\flash-restored-swfs`，证据见 [`../evb-extraction-report.md`](../evb-extraction-report.md)。下一阶段调用 FFDec CLI 先定位精确符号，再只导出将要接入的窄资源族。
+原版角色包、怪物包、UI 包和 `levels/level11` 等源 SWF 已恢复到 `local-resources/regima/source/restored-swfs/`，证据见 [`../evb-extraction-report.md`](../evb-extraction-report.md)。下一阶段调用 FFDec CLI 先定位精确符号，再只导出将要接入的窄资源族。
 
 Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整 P-code、角色资源包或运行画面才能确认。它已按 `unknown` 保留，不阻塞本轮标注数据关闭。
 
@@ -32,7 +32,7 @@ Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整
 
 - 新增现代 stableKey 时，必须同步新增标注或明确不属于原版资源。
 - 定位到源包/符号后更新原 CSV 行为 `export-ready` 并填写 `sourcePackage`；不要新增重复 stableKey。
-- UI 先以一个完整界面建立 stableKey 和源包映射，不做“全部 UI”总批次。
+- 炼丹炉已完成第一个完整界面的 stableKey 和源包映射；下一步只选择性派生该资源族，不做“全部 UI”总批次。
 - 真素材转换、复制到 `public/assets`、manifest 注册和场景验收属于后续正式游戏 task。
 - 只有拿到源 MovieClip 且轻量重建明显不足时，才进入拆分必要性评估。
 

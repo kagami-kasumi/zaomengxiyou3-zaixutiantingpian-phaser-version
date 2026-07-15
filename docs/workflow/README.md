@@ -48,7 +48,8 @@
 - **代码实现**：在正式 task 基础上补读 `docs/architecture/src-boundaries.md` 和目标源码。
 - **工程评审**：补读 `review-protocol.md`；涉及代码质量再读 `code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md`。
 - **问题治理**：补读 `problem-governance.md`；若问题来自评审，再读 `review-protocol.md`，若涉及代码质量，再读 `code-quality-gates.md`。
-- **玩法逆向**：在正式 task 基础上补读 `extracted_flash/README_extract.md` 和 `extracted_flash/resources_by_swf/[172845].swf/scripts` 下的对应 AS3 路径；疑点再看 `[25034429].swf/scripts`。
+- **行为逆向**：在正式 task 基础上补读 `local-resources/regima/legacy-extraction/README_extract.md` 和 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts` 下的对应 AS3 路径；疑点再看 `[25034429].swf/scripts`。
+- **视觉资源逆向**：补读 `docs/reverse-engineering/evb-extraction-report.md` 和 `docs/reverse-engineering/asset-annotation/workflow.md`，优先在 `local-resources/regima/source/restored-swfs/` 窄查；旧 `local-resources/regima/legacy-extraction/` 只作交叉对照。
 - **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
 - **历史追溯**：只有需要追溯或修改已完成任务时才读 `task-history.md`。
 

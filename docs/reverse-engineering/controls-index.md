@@ -1,10 +1,10 @@
-﻿# 操作设定索引
+# 操作设定索引
 
 本文记录原版键盘控制的第一轮逆向结果。结论来自：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
 
 ## 总结论
 

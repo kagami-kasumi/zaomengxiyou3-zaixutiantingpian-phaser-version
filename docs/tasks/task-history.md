@@ -1,4 +1,4 @@
-﻿# 游戏任务历史
+# 游戏任务历史
 
 本文记录已完成的游戏复现任务和执行记录。新对话默认不读取本文。
 
@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-044 | 逆向 | 建立炼丹炉视觉资源与交互索引 | M-039、VS-042 | `crafting-ui-index.md`、RegiMA 源包/symbol/布局映射、交互状态证据、`VS-043` 与 `TASK-SLICE-117` |
 | TASK-SLICE-116 | 切片 | 接入合成材料暂存交互 | M-039、M-037、VS-042 | 双玩家三槽 `CraftingSession`、实例/堆叠移入与退回、实时预览、成功/失败生命周期、最小 UI 与独立测试 |
 | TASK-SLICE-115 | 切片 | 接入特殊合成属性继承配方 | M-039、VS-042 | 四条权威特殊配方、10 属性纯函数、百分数转换、上限/吸血特例、原子事务与双玩家测试、状态文档 |
 | TASK-SETTINGS-043 | 逆向 | 补清特殊合成属性继承分类 | M-039、VS-042 | 四条权威特殊配方映射、10 属性公式、倍率/截断/上限/产物特例、现代字段与测试边界、`TASK-SLICE-115` |
@@ -162,6 +163,33 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-044
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- 以 RegiMA 恢复 SWF 为视觉权威源，定位 `backpack1.swf` character 119 `StrengthEquipment`、169 `Fusion`，`OtherMat1.swf` 五个两帧角色选择器与帮助面板，以及 `EIcon1.swf` 的 `tlzsp`/`wptlz` 首配方图标。
+- 记录三个源包 SHA-256、SymbolClass、帧数、容器与合成页 `PlaceObject2` 坐标、运行时偏移和 1000×600 现代布局边界。
+- 为打开、玩家选择/切换、材料放入/移除、预览成功/失败、无配方、灵魂不足、合成成功、产物回包和关闭退回逐项补齐 AS3 行号证据。
+- 明确原版名称反查串号、无配方仍显示固定消耗/成功率、瞬时产物槽和未绑定帮助入口等缺陷，不让现代视觉层复刻错误数据边界。
+- 证明完整视觉源可用，新增 `VS-043`，并生成窄范围真资源视觉任务 `TASK-SLICE-117`。
+
+更新文件：
+- `docs/reverse-engineering/crafting-ui-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- 三个视觉源包的 SHA-256、SymbolClass、帧数和布局矩阵均通过只读 SWF dump/解析复核。
+- `npm run check:workflow` 通过。
+
+边界与后续：
+- 本任务没有导出图片、重生成资源、修改源 SWF 或编写现代 UI。
+- 推荐 `TASK-SLICE-117` 选择性派生必要素材并接入炼丹炉视觉最小闭环。
 
 ### TASK-SLICE-116
 
@@ -379,11 +407,11 @@
 
 ### TASK-ASSET-002
 
-- 完成内容：从 `D:\flash-restored-swfs\assets\WuKong.swf` 定位并选择性导出 `Role1Bullet1/3/4/5`，Character ID 为 181/222/199/190，共 27 帧透明 PNG。
+- 完成内容：从现 `local-resources/regima/source/restored-swfs/assets/WuKong.swf`（执行时位于 `D:\flash-restored-swfs`）定位并选择性导出 `Role1Bullet1/3/4/5`，Character ID 为 181/222/199/190，共 27 帧透明 PNG。
 - 代码产物：`AssetManifest.ts` 注册四组 ready 序列，`BootScene.ts` 预加载真资源，`TestSceneViews.ts` 和世界桥接按既有攻击持续窗口播放并跟随/镜像；未修改攻击数值、命中框、时序或流程。
 - 文档产物：更新 Role1 普攻标注 CSV/批次、资源工程状态、机制表、切片表和看板。
 - 验证：`npm run check:structure`、`npm run build`、`npm run test:systems`、`npm run check:annotations`、`npm run check:workflow` 通过；构建保留既有 chunk 超过 500 kB 警告。
-- 边界：只接入 Role1 四个普攻附属对象；没有修改 `extracted_flash/`，没有扩展到技能、其他角色或玩法规则。
+- 边界：只接入 Role1 四个普攻附属对象；没有修改 `local-resources/regima/legacy-extraction/`，没有扩展到技能、其他角色或玩法规则。
 - 推荐后续：`TASK-SETTINGS-041` 合成机制逆向；若继续资源线，再单独生成 Role4 普攻真资源切片。
 
 ### TASK-ASSET-003
@@ -415,7 +443,7 @@
 
 完成内容：
 - 新增 `docs/reverse-engineering/combat-assets-gap-plan.md`，按现代占位 key 对齐 Role1、Role4、Role5 的 AS3 源符号、当前资源可用性和补提取方向。
-- 复核 `extracted_flash/resources_by_swf`：Role1/4/5 战斗资源抽样符号在当前导出中均未命中，现阶段没有可直接替换占位的真素材。
+- 复核 `local-resources/regima/legacy-extraction/resources_by_swf`：Role1/4/5 战斗资源抽样符号在当前导出中均未命中，现阶段没有可直接替换占位的真素材。
 - 更新 `assets-index.md`、`mechanics-index.md` 和 `vertical-slices.md`，把资源缺口状态从“仍需后补”收束为可执行清单。
 - 从任务板移出 `TASK-ASSET-001`，新增阻塞态 `TASK-ASSET-002`，等待用户补提供或补提取角色战斗资源包后再接入最小资源族。
 
@@ -566,7 +594,7 @@
 - `npm run check:workflow` 通过。
 
 边界：
-- 未修改 `extracted_flash/`；真实 Role3 视觉/音频资源仍按资源缺口处理。
+- 未修改 `local-resources/regima/legacy-extraction/`；真实 Role3 视觉/音频资源仍按资源缺口处理。
 
 推荐任务：
 - `TASK-SLICE-090`：Role3 `dj/sd/rj` 基础攻防闭环。
@@ -2378,7 +2406,7 @@
 
 - 逐个确认五个角色普攻动作 `hit*` 是否生成普攻特效、残影、弹体或额外显示对象。
 - 建立五角色普攻动作到特效资源、类名和 `BitmapDataPool` 名称的映射。
-- 检查现有 `extracted_flash/resources_by_swf` 是否已有可用 CG/位图资源；若缺失，列出明确缺口和需要用户手工补提取的资源名或符号名。
+- 检查现有 `local-resources/regima/legacy-extraction/resources_by_swf` 是否已有可用 CG/位图资源；若缺失，列出明确缺口和需要用户手工补提取的资源名或符号名。
 - 明确 `TASK-SLICE-001` 实现时角色普攻特效的临时占位策略。
 
 已完成产物：
@@ -2696,7 +2724,7 @@
 完成定义：
 
 - 确认 `1-1` boss 区（Monster3）的 SWF 时间轴对象位置、传送门显示条件和碰撞区域。
-- 确认地图背景资源在 `extracted_flash/` 中的实际路径或标记为缺口。
+- 确认地图背景资源在 `local-resources/regima/legacy-extraction/` 中的实际路径或标记为缺口。
 - 标记 `1-1` 实现的最小数据需求（出生点、平台标记、刷怪触发、通关条件）。
 
 已完成产物：
@@ -3291,7 +3319,7 @@
 
 完成内容：
 
-- 系统扫描 `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster*.as`，范围共 146 个文件。
+- 系统扫描 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster*.as`，范围共 146 个文件。
 - 在 `docs/reverse-engineering/drops-index.md` 中新增“全 `Monster*.as` 掉落表扫描”章节；除已覆盖的 `Monster3..30` 外，补齐 118 条怪物/辅助对象扫描结果。
 - 记录每个新增怪物构造函数中的 `protectedParamsObject.probability`、`fallList`、`isBoss` 和明显条件分支；同时标注继承 `BaseMonster` 默认 `probability = 0.15` 的情况。
 - 明确 `fallList` 空、无有效候选、`probability = 0/-1` 时不产生装备/道具掉落；死亡仍可能走药品和 aura 逻辑。
@@ -4149,7 +4177,7 @@
 - 确认 `destroy()` override：如果 `isBoss == true`，遍历 `gc.pWorld.getTransferDoorArray()` 全部设为 `visible = true`。
 - 细读 `StageListener11.as` 全源码，记录 boss 区触发条件：任一玩家 `y <= -1900` → 其他玩家/宠物传送 `y = -1950` → 镜头 tween 到 `y = 2370`（2s）→ `callBoss()` 生成 Monster3 在 `(750, -2050)`。
 - 确认传送门机制：`PhysicsWorld.addSubObj()` 读取 SWF 场景中 `isTransferDoor` 子节点，非 `curStage == 0` 时初始隐藏，boss 死亡后显示。
-- 检索 `extracted_flash/resources_by_swf` 全部 76 个 SWF 导出目录：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前导出中；`assets-index.md` 新增 VS-007 资源缺口确认表。
+- 检索 `local-resources/regima/legacy-extraction/resources_by_swf` 全部 76 个 SWF 导出目录：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前导出中；`assets-index.md` 新增 VS-007 资源缺口确认表。
 - `levels-index.md` 新增「Monster3 详细数据」和「VS-007 实现数据汇总」两个完整章节，标记资源缺口和最小实现策略（手工坐标 + 占位图形）。
 - 更新 `M-026`（关卡类命名）、`M-027`（地图标记）、`M-028`（第一个关卡）的下一步为已确认状态；VS-007 从「待机制」更新为「可开始」。
 
@@ -5045,7 +5073,7 @@
 完成内容：
 - 扩展 `src/systems/PetSystem.ts`，让种子 `monkey3` 持有已学 `lj`，新增 `monkey3Lj` 受击触发/冷却状态、20 MP 门禁、500ms 冷却、触发重置和 `4.2 * pet.atk` 伤害结算。
 - `markActivePetSkillTriggered()` 现在会按当前出战宠物形态把等价受击触发写入 `monkey1Xj`、`monkey2Xj` 或 `monkey3Lj`，保持已有 `monkey1/xj`、`monkey2/xj` 行为不回退。
-- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-lj` / `PetMonkey3Bullet3_2` / `hit4` 占位 projectile，并登记 `PetMonkey3Bullet3_1/_2` 资源缺口，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-lj` / `PetMonkey3Bullet3_2` / `hit4` 占位 projectile，并登记 `PetMonkey3Bullet3_1/_2` 资源缺口，不补提取、不修改 `local-resources/regima/legacy-extraction/`。
 - 扩展 `src/scenes/TestScene.ts`，当前出战宠物为 `monkey3` 时保持 `lyq -> xj -> lj` 的技能尝试顺序；`lj` 只在受击触发标记为 ready 且前置技能未成功释放时尝试。
 - 扩展 `tools/system-tests.ts`，覆盖 `monkey3/lj` 未学习、触发未就绪、MP 不足、无目标、冷却、扣 MP、触发重置、projectile 生成和 `Monster30` 伤害。
 - 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-021` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-047`。
@@ -5074,7 +5102,7 @@
 完成内容：
 - 扩展 `src/systems/PetSystem.ts`，让种子 `monkey3` 持有已学 `xj`，新增 `monkey3Xj` 冷却状态、20 MP 门禁、500ms 冷却和 `2.6 * pet.atk` 伤害结算。
 - `monkey3/xj` 不要求受击触发或距离门禁；满足已学习、MP、冷却和目标存在时释放，并记录最近释放反馈。
-- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-xj` 占位 projectile；按 AS3 `PetMonkey3.doHit3()` 事实复用 `PetMonkey1Bullet2` / `hit3` 映射，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-xj` 占位 projectile；按 AS3 `PetMonkey3.doHit3()` 事实复用 `PetMonkey1Bullet2` / `hit3` 映射，不补提取、不修改 `local-resources/regima/legacy-extraction/`。
 - 扩展 `src/scenes/TestScene.ts`，当前出战宠物为 `monkey3` 时保持 `lyq -> xj` 的技能尝试顺序；`lyq` 成功释放则本帧不再释放 `xj`，`lyq` 未成功时可尝试 `xj`。
 - 扩展 `tools/system-tests.ts`，覆盖 `monkey3/xj` 未学习、MP 不足、无目标、冷却、扣 MP、projectile 生成和 `Monster30` 伤害。
 - 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-020` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-046`。
@@ -5104,7 +5132,7 @@
 - 扩展 `src/systems/PetSystem.ts`，在测试种子宠物列表中新增可切换出战的 `monkey3`，并让其持有已学 `lyq`。
 - 为 `monkey3/lyq` 增加最小主动技能状态：已学习、MP `>= 20`、500ms 冷却、存在存活 `Monster30` 目标且宠物到目标距离 `<= 400` 时释放。
 - 释放 `lyq` 时扣 20 MP、进入冷却、记录最近释放反馈，并按 `6.8 * pet.atk` 派生伤害。
-- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-lyq` / `PetMonkey3Bullet2` / `hit2` 占位 projectile 和资源缺口登记，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey3-lyq` / `PetMonkey3Bullet2` / `hit2` 占位 projectile 和资源缺口登记，不补提取、不修改 `local-resources/regima/legacy-extraction/`。
 - 扩展 `src/scenes/TestScene.ts`，当前出战宠物为 `monkey3` 且冷却就绪时自动尝试 `lyq` 目标选择；状态栏和宠物面板显示 `lyq` 冷却和最近释放结果。
 - 扩展 `tools/system-tests.ts`，覆盖 `monkey3/lyq` 未学习、MP 不足、无目标、距离门禁、冷却、扣 MP、projectile 生成和 `Monster30` 伤害。
 - 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-019` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-045`。
@@ -5133,7 +5161,7 @@
 完成内容：
 - 扩展 `src/systems/PetSystem.ts`，让种子 `monkey2` 持有已学 `xj`，新增 `monkey2Xj` 受击触发/冷却状态、20 MP 门禁、500ms 冷却、触发重置和 `2.6 * pet.atk` 伤害结算。
 - `markActivePetSkillTriggered()` 现在会按当前出战宠物形态把等价受击触发写入 `monkey1Xj` 或 `monkey2Xj`，保持 `monkey1/xj` 行为不回退。
-- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey2-xj` / `PetMonkey2Bullet3` / `hit3` 占位 projectile 和资源缺口登记，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey2-xj` / `PetMonkey2Bullet3` / `hit3` 占位 projectile 和资源缺口登记，不补提取、不修改 `local-resources/regima/legacy-extraction/`。
 - 扩展 `src/scenes/TestScene.ts`，P1 被 `Monster30` 命中时可触发二阶猴 `xj`；二阶猴自动技能顺序保持 `lj` 优先，`lj` 未成功释放时再尝试受击触发的 `xj`。状态栏和宠物面板显示 `monkey2/xj` 触发、冷却和最近释放结果。
 - 扩展 `tools/system-tests.ts`，覆盖 `monkey2/xj` 未学习、触发未就绪、MP 不足、无目标、冷却、扣 MP、触发重置、projectile 生成和 `Monster30` 伤害。
 - 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-018` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-044`。
@@ -5163,7 +5191,7 @@
 - 扩展 `src/systems/PetSystem.ts`，在测试种子宠物列表中新增可切换出战的 `monkey2`，并让其持有已学 `lj`；宠物面板可通过选择/出战切换到 `monkey2`。
 - 为 `monkey2/lj` 增加最小主动技能状态：已学习、MP `>= 20`、冷却就绪且存在存活 `Monster30` 目标时释放；`lj` 不要求受击触发标记。
 - 释放 `lj` 时扣 20 MP、进入 500ms 冷却、记录最近释放反馈，并按 `4.2 * pet.atk` 派生伤害。
-- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey2-lj` / `PetMonkey2Bullet2` 占位 projectile 和资源缺口登记，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey2-lj` / `PetMonkey2Bullet2` 占位 projectile 和资源缺口登记，不补提取、不修改 `local-resources/regima/legacy-extraction/`。
 - 扩展 `src/scenes/TestScene.ts`，当当前出战宠物为 `monkey2` 且冷却就绪时，自动尝试 `lj` 目标选择并生成可见 projectile；状态栏和宠物面板展示 `lj` 冷却与最近释放结果。
 - 扩展 `tools/system-tests.ts`，覆盖 `monkey2/lj` 未学习、MP 不足、冷却门禁、无目标、扣 MP、projectile 生成和 `Monster30` 伤害；同步调整种子宠物列表的单只出战测试。
 - 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-017` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-043`。
@@ -5192,7 +5220,7 @@
 完成内容：
 - 扩展 `src/systems/PetSystem.ts`，为 P1 出战 `monkey1` 增加最小宠物技能状态：测试种子已学 `xj`，包含受击等价触发标记、500ms 冷却、最近释放反馈和 `2.6 * pet.atk` 伤害派生。
 - `xj` 释放门禁覆盖已学习、MP `>= 20`、触发标记、冷却就绪和存在存活 `Monster30` 目标；释放成功扣 20 MP，重置触发标记并进入冷却。
-- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey1-xj` / `PetMonkey1Bullet2` 占位 projectile 和资源缺口登记，不补提取、不修改 `extracted_flash/`。
+- 扩展 `src/systems/ProjectileSystem.ts` 与 `src/assets/AssetManifest.ts`，新增 `pet-monkey1-xj` / `PetMonkey1Bullet2` 占位 projectile 和资源缺口登记，不补提取、不修改 `local-resources/regima/legacy-extraction/`。
 - 扩展 `src/scenes/TestScene.ts`，在 P1 被 `Monster30` 命中时给出战宠物设置等价触发标记；宠物系统更新时满足门禁会生成可见 projectile，并复用现有 projectile 命中链路对 `Monster30` 造成伤害。状态栏和宠物面板显示已学技能、MP、触发/冷却和最近释放结果。
 - 扩展 `tools/system-tests.ts`，覆盖未学习、触发未就绪、MP 不足、无目标、冷却门禁、扣 MP、触发重置、projectile 生成和 `Monster30` 伤害。
 - 更新 `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` 和 `docs/tasks/task-board.md`，将 `VS-016` 标记完成，并新增 Ready 后续任务 `TASK-SLICE-042`。
@@ -5225,7 +5253,7 @@
 - 确认 `ef_snow` 不是目标锁定 projectile：起点在当前镜头上方随机范围，角度 50 至 60 度，速度约 10 至 15，行进距离 1500 后销毁，未调用 `setMoveTarget()`。
 - 确认 `fabao-snow` 命中参数：`hitMaxCount = 999`、击退 `[2,-2]`、`attackInterval = 999`、`attackKind = magic`、`addEffect = PETHORSE_ICE` 且持续 3 秒。
 - 确认五角色伤害公式核心为当前 `zbfb` 等级派生的 `0.09 * Hurt * level`，并保留 Role2/Role3/Role4/Role5 的角色修正系数作为后续校准依据。
-- 确认当前 `resources/` 文件名和 SymbolClass 检索未命中 `LingBmd`、`LingPaiEffect`、`ef_snow` 或 `stlp` 真资源；后续实现使用占位 key，不重新生成 `extracted_flash/`。
+- 确认当前 `resources/` 文件名和 SymbolClass 检索未命中 `LingBmd`、`LingPaiEffect`、`ef_snow` 或 `stlp` 真资源；后续实现使用占位 key，不重新生成 `local-resources/regima/legacy-extraction/`。
 - 更新 `magic-weapons-index.md`，新增 `奢天化雪令 / Ling` 章节，写明装备入口、释放窗口、120 个随机落雪、命中参数、伤害公式、资源缺口和现代最小实现边界。
 - 更新 `projectiles-index.md`，补充 `ef_snow` 的 `EnemyMoveBullet` 映射、随机生成范围、非目标锁定结论、`fabao-snow` 参数和建议占位 key。
 - 更新 `mechanics-index.md` 的 `M-034/M-043` 下一步，明确逆向已足够支撑 `TASK-SLICE-035`。

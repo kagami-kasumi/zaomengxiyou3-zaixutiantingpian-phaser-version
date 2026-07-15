@@ -7,7 +7,7 @@
 1. `AGENTS.md`
 2. `TASK_OUTLINE.md`
 
-随后按 `AGENTS.md` 的“任务分级”和“冷启动阅读分流”读取最小必读集。只有正式游戏 task 才默认读取 `docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`；玩法逆向再读取 `extracted_flash/README_extract.md` 和对应 AS3 路径。
+随后按 `AGENTS.md` 的“任务分级”和“冷启动阅读分流”读取最小必读集。只有正式游戏 task 才默认读取 `docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`；行为逆向读取旧提取集中的 AS3，视觉资源逆向优先读取 RegiMA 恢复语料库。
 
 ## 0. 项目目标
 
@@ -17,7 +17,8 @@
 
 - 第一轮资料提取已经完成。
 - 不在本项目路径内重新提取 Flash 资料。
-- `extracted_flash/` 是只读参考资料，除非用户明确要求，不修改、不删除、不重生成。
+- `local-resources/regima/legacy-extraction/` 是只读参考资料，除非用户明确要求，不修改、不删除、不重生成。
+- `local-resources/regima/` 是 Git 忽略的本地 RegiMA 资源根；原始命名视觉源包以其中的 `source/restored-swfs/` 为准。
 - AS3 源码是行为参考，不是现代架构模板。
 - 现代版追求体验一致，不追求代码一致。
 - 原版支持本地双人，方向键属于玩家 2。正式输入设计不能把方向键分给玩家 1。
@@ -26,17 +27,24 @@
 
 ## 1. 资料入口
 
-主参考：
+行为与机制主参考：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts`
 
 备用参考：
 
-- `extracted_flash/resources_by_swf/[25034429].swf/scripts`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[25034429].swf/scripts`
 
-资源和数据：
+视觉资源主参考：
 
-- `extracted_flash/resources_by_swf`
+- `local-resources/regima/source/restored-swfs/`
+- `local-resources/regima/manifests/`
+- `docs/reverse-engineering/evb-extraction-report.md`
+- `docs/reverse-engineering/asset-annotation/workflow.md`
+
+旧提取对照和数据：
+
+- `local-resources/regima/legacy-extraction/resources_by_swf`
 - `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`
 - `docs/reverse-engineering/reference/equipment-spreadsheet/`
 - `docs/reverse-engineering/reference/equipment-spreadsheet.md`
@@ -44,8 +52,10 @@
 
 提取说明：
 
-- `extracted_flash/README_extract.md`
+- `local-resources/regima/legacy-extraction/README_extract.md`
 - `docs/FFDEC_EXTRACTION_GUIDE.md`
+
+视觉资源是否存在不能只依据 `local-resources/regima/legacy-extraction/resources_by_swf`；必须先在 RegiMA 恢复语料库中按目标资源名、源包、SymbolClass 或 MovieClip 做窄查。
 
 ## 2. 文档分工
 
@@ -90,7 +100,7 @@
 
 禁止事项：
 
-- 不改 `extracted_flash/` 原始提取结果。
+- 不改 `local-resources/regima/legacy-extraction/` 原始提取结果。
 - 不在本路径内重新提取 Flash 资料。
 - 不因为一个小任务顺手重构无关系统。
 - 不把 AS3 的类结构、内存管理方式或 Flash 时间轴写法当作必须继承的设计。
@@ -124,7 +134,7 @@
 目标：
 
 - 明确首轮资料提取已完成。
-- 明确 `extracted_flash/` 只读。
+- 明确 `local-resources/regima/legacy-extraction/` 只读。
 - 建立总任务书、FFDec 文档、机制表、切片表、任务看板。
 
 ### 阶段 1：游戏设定逆向

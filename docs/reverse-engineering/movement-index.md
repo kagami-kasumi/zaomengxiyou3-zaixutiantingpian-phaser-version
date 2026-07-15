@@ -1,16 +1,16 @@
-﻿# 角色移动索引
+# 角色移动索引
 
 本文记录 `TASK-SETTINGS-006` 范围内已经足够支撑首个移动切片的事实：方向输入、跑步判定、跳跃/双跳、`S+K` 下落平台，以及首批实现时应保留和暂缓的边界。
 
 ## 证据入口
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseObject.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/ThroughWall.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/ThroughUpButDownWall.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/FallDownWhenStandingWall.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as` 至 `Role5.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/ThroughWall.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/ThroughUpButDownWall.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/FallDownWhenStandingWall.as`
 - `docs/reverse-engineering/roles-index.md`
 
 ## 输入与动作入口

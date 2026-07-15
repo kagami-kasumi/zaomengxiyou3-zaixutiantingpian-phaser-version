@@ -1,4 +1,4 @@
-﻿# 宠物系统索引
+# 宠物系统索引
 
 本文记录 `TASK-SETTINGS-018` 和 `TASK-SETTINGS-019` 对原版宠物系统的基础逆向结果。范围覆盖宠物主数据、存档字段、出战切换、战斗实体创建、捕捉/获得入口、消耗品、UI 快捷键，以及与掉落系统的边界；不展开完整宠物数值平衡、全部宠物技能表现或真实资源接入。
 
@@ -6,23 +6,23 @@
 
 主要 AS3 证据：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/user/User.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BasePet.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pet/PetInterface.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pet/PetHeadSprite.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pack/PackThings.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/magicWeapon/MagicBottle.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseMagicWeapon.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/monster/Monster70.as` 至 `Monster78.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/huodong/ESShopThing.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/huodong/ChineseValentinesDay.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/huodong/kabu/ReceiveKaBuPacks.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/MapMenu.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/taskInterface/TaskInterface.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/user/User.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetInterface.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHeadSprite.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pack/PackThings.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/magicWeapon/MagicBottle.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMagicWeapon.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster70.as` 至 `Monster78.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/huodong/ESShopThing.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/huodong/ChineseValentinesDay.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/huodong/kabu/ReceiveKaBuPacks.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/MapMenu.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/taskInterface/TaskInterface.as`
 
 相关前置文档：
 
@@ -312,12 +312,12 @@
 
 证据：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as`
   - `getSkillSaveString()` 行 2233 附近。
   - `setSkillSaveString(value)` 行 2250 附近。
   - `getSaveString()` 行 2283 附近。
   - `setSaveString(value)` 行 2351 附近。
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/user/User.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/user/User.as`
   - `getPetSaveString()` 行 955 附近。
   - `savePetSaveString(value)` 行 972 附近。
 
@@ -339,15 +339,15 @@
 
 证据：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pet/PetInterface.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetInterface.as`
   - 字段 `skill1` 到 `skill8` 行 75 至 89 附近。
   - `reSkills()` 行 172 附近。
   - `setPetInfomation()` 行 359 附近。
   - `setPetAllSkill()` 行 364 附近。
   - `AfterSuperRevolution()` 行 592 附近。
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pack/PackThings.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pack/PackThings.as`
   - 背包道具 `cwjnxld` 分支行 712 附近。
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as`
   - `cwjnxld` 定义行 2700 附近。
 
 事实：
@@ -394,20 +394,20 @@
 
 证据：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as`
   - 基础候选池行 40 附近，包含 `tsml/zrsh/smzf/mfby/qlfj/sxkb/fsnl/smjc/mfjc/gjjc/fyjc`。
   - `getIntroByName()` 行 843 附近，给出中文说明和持续秒数展示。
   - `getPetHarmObj()` 行 1017 附近，给出被动、自动 buff 和部分主动技能数值公式；函数末尾统一把 `first` 乘以 `1.05`。
   - `deletePassiveWhenUpdata()` / `addPassiveAfterUpdata()` 行 1812 / 1851 附近，负责升级或重算属性前后移除和重加基础被动。
   - `findPetUsedMagic()` 行 1862 附近，给出 MP 消耗：基础被动和 `qlfj` 为 0，六个自动 buff 为 20。
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BasePet.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as`
   - `sxkbCount/fsnlCount/smjcCount/mfjcCount/gjjcCount/fyjcCount` 初值均为 300。
   - `checkBuffSkill()` 行 405 附近，每帧递减计数器并在计数归零、已学技能、MP 足够时自动加 buff。
   - `reduceHp()` 行 909 附近，`qlfj` 在受击路径中按概率触发 `normalHit()`。
   - `getCriteValue()` / `getMagicAddValue()` 行 819 / 847 附近，读取 `PET_SXKB` 和 `PET_FSNL` 的宠物自身 buff。
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as`
   - `addBuff()` / `removeBuff()` 行 365 / 440 附近，读取主人身上的 `PET_SMJC/MFJC/GJJC/FYJC` 并调整 HP/MP 上限、基础攻击或防御。
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as`
   - 行 88 至 98 定义六个宠物自动 buff 名；行 1454 附近负责 buff 结束时隐藏对应表现。
 
 基础属性被动不走 `BasePet.checkBuffSkill()`，而是在 `PetInfo` 刷新属性前后成对移除/重加。`deletePassiveWhenUpdata()` / `addPassiveAfterUpdata()` 负责升级、属性刷新和洗练重算前后的数值一致性：

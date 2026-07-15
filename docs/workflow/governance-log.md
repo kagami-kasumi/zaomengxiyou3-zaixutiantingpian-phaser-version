@@ -4,6 +4,28 @@
 
 ## 2026-07-15
 
+### 将 RegiMA 恢复语料库迁入项目本地资源根并强制视觉路由
+
+变更内容：
+
+- 将 D 盘根目录的 EVB 原始解包、174 个恢复 SWF、验证图片、清单审计和既有资源任务输出迁入 `local-resources/regima/`，并由 `.gitignore` 排除整个本地资源根。
+- 将项目根的旧提取目录整体迁入 `local-resources/regima/legacy-extraction/`，删除旧根入口，并机械更新全部 54 个受版本控制文件中的路径引用。
+- 明确行为证据继续读取只读 `local-resources/regima/legacy-extraction/` AS3；视觉资源、SymbolClass、MovieClip 和原始命名 SWF 必须优先检索 `local-resources/regima/source/restored-swfs/`。
+- 更新入口、资源标注文档和 `TASK-SETTINGS-044`，禁止仅依据旧数字包宣告视觉资源缺失。
+- 扩展工作流校验，防止 RegiMA 视觉路由从入口和任何引用 `crafting-ui-index.md` 的未完成任务中回退，并禁止任何受版本控制文件重新引用已退役的旧根名称；检查按任务语义而非固定任务号生效，归档/换号后仍保留门禁。
+
+影响范围：
+
+- `.gitignore`
+- `AGENTS.md`、`CLAUDE.md`、`TASK_OUTLINE.md`、`.claude/agents/reverse-engineering-researcher.md`
+- `docs/workflow/`、`docs/reverse-engineering/`、`docs/tasks/task-board.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `npm run check:structure` 通过，仅报告既有无关文件 warning。
+- `npm run check:workflow` 通过，包含 RegiMA 路由门禁与资源标注校验。
+
 ### 将资源标注工程升级为 EVB 源包到现代接入的分阶段台账
 
 变更内容：
@@ -11,7 +33,7 @@
 - 把旧的“缺来源登记”模型改为 `source-corpus-ready -> export-ready -> derived-ready -> ready` 获取链，分别对应待定位符号、可选择性导出、派生素材待接入和现代工程可用。
 - 为 CSV 新增 `sourcePackage` 字段，并新增 `locate-symbol`、`export-selectively` 去向；只有检索恢复语料库后仍确认缺文件时，才允许 `missing-original + request-source`。
 - 将现有 152 条 `missing-original` 机械迁移为 `source-corpus-ready + locate-symbol`，不凭文件名批量猜具体源包；保留 1 条 unknown 和 1 条非视觉资源 rejected。
-- 更新八个既有批次与项目状态，明确角色、技能、法宝、宠物、怪物、Stage 1-1 和 UI 的下一步均从 `D:\flash-restored-swfs` 做窄定位与选择性导出。
+- 更新八个既有批次与项目状态，明确角色、技能、法宝、宠物、怪物、Stage 1-1 和 UI 的下一步均从现 `local-resources/regima/source/restored-swfs/` 做窄定位与选择性导出。
 - UI 批次继续保持 0 个现代图片 key，但登记 `backpack1.swf`、`Common1.swf`、`EIcon*.swf`、`shop.swf` 等已恢复候选包；后续按单个完整界面建 stableKey，不做全量 UI 导出。
 - 扩展资源标注校验器，强制新状态与下一步配对，并要求 `export-ready` 必须填写 `sourcePackage`。
 
@@ -530,7 +552,7 @@
 - `docs/workflow/document-map.md`
 - `docs/tasks/task-board.md`
 - `docs/reverse-engineering/mechanics-index.md`
-- `extracted_flash/README_extract.md`
+- `local-resources/regima/legacy-extraction/README_extract.md`
 - `docs/workflow/governance-log.md`
 
 验证：

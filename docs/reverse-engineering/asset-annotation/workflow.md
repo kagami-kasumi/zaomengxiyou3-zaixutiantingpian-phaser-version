@@ -19,11 +19,11 @@ Agent 依次检查：
 
 1. 现代 manifest、代码或逆向文档中已经使用的 stableKey。
 2. 相关 AS3 中的资源名、创建位置、用途和动作关系。
-3. 旧 `extracted_flash/` 的 `symbolClass/symbols.csv`、图片、SVG shape 和报告。
+3. 旧 `local-resources/regima/legacy-extraction/` 的 `symbolClass/symbols.csv`、图片、SVG shape 和报告。
 4. `assets-index.md`、相关机制索引和已有缺口计划中是否已有结论。
-5. `D:\flash-restored-swfs` 中的原始命名 SWF；用 FFDec `-dumpSWF`、`-dumpAS3` 或 `-export symbolClass` 窄查目标名称。
+5. `local-resources/regima/source/restored-swfs/` 中的原始命名 SWF；用 FFDec `-dumpSWF`、`-dumpAS3` 或 `-export symbolClass` 窄查目标名称。视觉资源是否缺失以这一步为最终依据，不能停在旧 `local-resources/regima/legacy-extraction/`。
 
-`extracted_flash/` 和恢复 SWF 都按只读证据处理。关键词定位和 UTF-8 读取仍遵守 `AGENTS.md`；不得执行恢复目录中的 EXE/DLL。
+`local-resources/regima/legacy-extraction/` 和恢复 SWF 都按只读证据处理。关键词定位和 UTF-8 读取仍遵守 `AGENTS.md`；不得执行恢复目录中的 EXE/DLL。
 
 ## 2. 写候选标注
 
@@ -34,7 +34,7 @@ Agent 按 `annotation-schema.md` 新建或更新 `annotations/<scope>.csv`：
 - 无法判断：写 `unknown`，不得靠文件外观或命名猜测。
 - EVB 语料库已恢复但尚未定位精确包/符号：写 `source-corpus-ready + locate-symbol`。
 - 已定位源 SWF 和符号、尚未导出：写 `export-ready + export-selectively`。
-- 已得到项目外 PNG/SVG/atlas 等派生物、尚未接入：写 `derived-ready + integrate`。
+- 已在 `local-resources/regima/task-outputs/` 得到 PNG/SVG/atlas 等派生物、尚未接入：写 `derived-ready + integrate`。
 - 经过恢复语料库检索仍确认源文件不存在：才写 `missing-original + request-source`。
 
 同一资源不要因为存在多个证据路径而重复成多行；证据路径用 `;` 分隔。
@@ -56,9 +56,9 @@ Agent 按 `annotation-schema.md` 新建或更新 `annotations/<scope>.csv`：
 - 判断：候选 A/B、动作名称、是否接受近似方案。
 - 验收：接受、拒绝，并指出最明显差异。
 
-人工证据写入批次记录；若是本地文件，标注其路径，不复制到 `extracted_flash/`。
+人工证据写入批次记录；若是本地文件，标注其路径，不复制到 `local-resources/regima/legacy-extraction/`。
 
-如果本机已有 FFDec CLI，且用户已经明确授权本次补提取，Agent 可以从项目外工作目录调用 CLI。输入使用只读源文件，输出写入新的项目外目录；审阅完成后再决定哪些补充资料进入项目。不得直接覆盖或重新生成现有 `extracted_flash/`。
+如果本机已有 FFDec CLI，且用户已经明确授权本次选择性导出，Agent 可以从 `local-resources/regima/source/restored-swfs/` 调用 CLI。输入使用只读源文件，输出写入新的 `local-resources/regima/task-outputs/<batch>/`；审阅完成后再决定哪些派生资料进入现代资源目录。不得直接覆盖源语料库或重新生成现有 `local-resources/regima/legacy-extraction/`。
 
 ## 4. 给出唯一去向
 
@@ -66,7 +66,7 @@ Agent 按 `annotation-schema.md` 新建或更新 `annotations/<scope>.csv`：
 
 - `locate-symbol`：在恢复 SWF 中定位精确源包、SymbolClass/MovieClip 和 character id。
 - `export-selectively`：精确符号已确认，只导出当前资源族。
-- `integrate`：项目外派生素材已就绪，可生成后续资源接入 task。
+- `integrate`：本地 RegiMA 派生素材已就绪，可生成后续资源接入 task。
 - `use-placeholder`：玩法可继续，视觉缺口保留。
 - `request-source`：恢复语料库检索后仍确认缺原始资源，需要新的合法来源。
 - `review-candidate`：只差人工消歧。

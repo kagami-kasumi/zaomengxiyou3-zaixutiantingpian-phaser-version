@@ -1,4 +1,4 @@
-﻿# 法宝系统索引
+# 法宝系统索引
 
 本文记录法宝系统的 AS3 逆向结果。`TASK-SETTINGS-019` 已先覆盖宣花葫芦捕捉链路；`TASK-SETTINGS-020` 扩展到完整法宝基础表、触发边界、首批技能效果和强化 UI。
 
@@ -6,15 +6,15 @@
 
 主要 AS3 证据：
 
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseMagicWeapon.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/magicWeapon/`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/strength/SutraInterface.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/MyEquipObj.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/pack/BackPack.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as`
-- `extracted_flash/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMagicWeapon.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/magicWeapon/`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/SutraInterface.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/MyEquipObj.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pack/BackPack.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as`
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/KeyBoardControl.as`
 
 相关前置文档：
 
@@ -329,7 +329,7 @@ time = gc.frameClips * 5
 - `TASK-SLICE-035` 已实现 `stlp/Ling` 为镜头范围随机落雪 projectile：H 触发一次性生成 120 个 `fabao-snow` 等价实例，从当前相机上方随机起点斜向下移动，行进距离约 1500 后销毁。
 - 首切片保留 `magic`、击退 `[2,-2]`、`attackInterval = 999`、`hitMaxCount = 999` 和 3 秒冰冻最小状态。可以先把冰冻表达为 `Monster30 magicSnowIce` 状态，打断/暂停行为并到期清理；完整全怪物 AddEffect 泛化后置。
 - 伤害先沿用现代法宝 projectile 伤害模型，记录 `0.09 * Hurt * level` 及角色修正为校准依据；完整五角色 qixue/吸血和防御修正细节后置。
-- 真实 `LingBmd`、`LingPaiEffect`、`ef_snow` 或碰撞 box 在当前 `resources/` 文件名和 SymbolClass 检索中未命中；现代侧继续使用稳定占位 key，不重新生成 `extracted_flash/`。
+- 真实 `LingBmd`、`LingPaiEffect`、`ef_snow` 或碰撞 box 在当前 `resources/` 文件名和 SymbolClass 检索中未命中；现代侧继续使用稳定占位 key，不重新生成 `local-resources/regima/legacy-extraction/`。
 - 当前现代落雪切片不实现法宝强化 UI、材料消耗、五行重置、联机同步或其他法宝。
 
 ## 现代实现建议

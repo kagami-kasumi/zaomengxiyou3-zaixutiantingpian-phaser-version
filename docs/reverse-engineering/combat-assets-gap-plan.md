@@ -1,14 +1,14 @@
-﻿# 五角色战斗资源缺口与接入计划
+# 五角色战斗资源缺口与接入计划
 
-本文是 `TASK-ASSET-001` 的交付清单。范围只覆盖现代侧已经完成的 Role1、Role4、Role5 战斗占位资源，不修改 `extracted_flash/`。
+本文是 `TASK-ASSET-001` 的交付清单。范围只覆盖现代侧已经完成的 Role1、Role4、Role5 战斗占位资源，不修改 `local-resources/regima/legacy-extraction/`。
 
-> 2026-07-15 更新：`TASK-ASSET-003` 已从 EVB 容器恢复原始命名资源包，`D:\flash-restored-swfs\assets\WuKong.swf`、`ShaShen.swf`、`bailongSword.swf`、`Role1Effect.swf` 等现在可用于选择性 FFDec 导出。下文的 `missing-original` 是旧提取集/当前工作区状态，不再表示源包缺失。完整证据见 [`evb-extraction-report.md`](evb-extraction-report.md)。
+> 2026-07-15 更新：`TASK-ASSET-003` 已从 EVB 容器恢复原始命名资源包，`local-resources/regima/source/restored-swfs/assets/WuKong.swf`、`ShaShen.swf`、`bailongSword.swf`、`Role1Effect.swf` 等现在可用于选择性 FFDec 导出。下文的 `missing-original` 是旧提取集/现代接入状态，不再表示源包缺失。完整证据见 [`evb-extraction-report.md`](evb-extraction-report.md)。
 
 ## 检索结论
 
 本轮按现代代码实际引用的稳定 key 和 AS3 源符号做了窄检索：
 
-- 检索范围：`extracted_flash/resources_by_swf`
+- 检索范围：`local-resources/regima/legacy-extraction/resources_by_swf`
 - 检索方式：文件路径、导出图片名、`symbolClass/symbols.csv` 和资源文本命中
 - 抽样复核符号：`Role1Bullet1`、`Role1Bullet6`、`Role4Bullet4`、`Role4Bullet12`、`Role4BulletArrow12_3`、`attack1_spear`、`attack1_sword`、`Role5runattack`、`swordhit1`、`sword_xlc`、`Role5Bullet9`、`swordskill5_2`、`sword_jrjljq`
 
@@ -33,9 +33,9 @@
 
 > 2026-07-15：`TASK-ASSET-002` 已完成首个切片。`assets/WuKong.swf` 中的 `Role1Bullet1/3/4/5`（Character ID 181/222/199/190）已选择性导出并接入 `public/assets/combat/role1-normal-attack/`；下列 Role1 普攻缺口已关闭，其他资源族仍按原计划推进。
 
-旧 `extracted_flash/` 中没有可直接接入的 Role1/4/5 真素材；EVB 新提取已解除源包阻塞。推荐后续任务为：
+旧 `local-resources/regima/legacy-extraction/` 中没有可直接接入的 Role1/4/5 真素材；EVB 新提取已解除源包阻塞。推荐后续任务为：
 
-- `TASK-ASSET-002`：从 `D:\flash-restored-swfs` 选择性导出 `WuKong` / `Role1Effect`、`ShaShen` 或 `bailongSword` 的一个最小资源族并接入。
+- `TASK-ASSET-002`：从 `local-resources/regima/source/restored-swfs/` 选择性导出 `WuKong` / `Role1Effect`、`ShaShen` 或 `bailongSword` 的一个最小资源族并接入。
 - 优先级建议：先接 Role1 普攻 `Role1Bullet1/3/4/5` 或 Role4 普攻 `Role4Bullet1/2/3 + Role4BulletArrow1/2`，因为它们只替换现有普攻特效占位，不改变技能数值或战斗流程。
 - 如果补到的是 Role5 包，先接剑形态本体动作和 `swordhit1..6`；枪形态 `doSingleHit(...)` 仍需 P-code 或更完整导出证据。
 

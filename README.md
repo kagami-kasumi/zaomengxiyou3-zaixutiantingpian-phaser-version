@@ -53,7 +53,7 @@ npm run check:all
 | `docs/workflow/` | AI agent 协作脚手架、质量门禁和治理日志 |
 | `docs/domain/` | 轻量 DDD 统一语言和命名流程 |
 | `tools/` | 工作流校验和系统测试脚本 |
-| `extracted_flash/` | 本地 FFDec 提取资料，默认不提交 |
+| `local-resources/regima/legacy-extraction/` | 本地 FFDec 提取资料，默认不提交 |
 
 ## 协作方式
 
@@ -67,9 +67,9 @@ npm run check:all
 
 ## 提取资料边界
 
-`extracted_flash/` 是本地逆向参考资料，可能包含大量 SWF、反编译脚本、图片、声音和中间产物。当前仓库只提交现代重写代码、文档和必要脚手架。
+`local-resources/regima/legacy-extraction/` 是本地逆向参考资料，可能包含大量 SWF、反编译脚本、图片、声音和中间产物。当前仓库只提交现代重写代码、文档和必要脚手架。
 
-除非明确要重新提取或整理资源，不修改、不删除、不重新生成 `extracted_flash/` 中的原始提取结果。
+除非明确要重新提取或整理资源，不修改、不删除、不重新生成 `local-resources/regima/legacy-extraction/` 中的原始提取结果。
 
 ## 关键词
 

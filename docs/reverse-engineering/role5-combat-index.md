@@ -1,6 +1,6 @@
-﻿# Role5 白龙完整战斗逆向
+# Role5 白龙完整战斗逆向
 
-本文记录 `export.hero.Role5` 的本地可达战斗行为，供现代实现拆分使用。主证据为 `extracted_flash/resources_by_swf/[172845].swf/scripts/export/hero/Role5.as`；随身特殊对象另查 `export/hero/BLMSkill5.as`、`export/hero/JRJL.as`，状态视觉和清理入口查 `base/BaseAddEffect.as`。
+本文记录 `export.hero.Role5` 的本地可达战斗行为，供现代实现拆分使用。主证据为 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role5.as`；随身特殊对象另查 `export/hero/BLMSkill5.as`、`export/hero/JRJL.as`，状态视觉和清理入口查 `base/BaseAddEffect.as`。
 
 ## 1. 形态、输入和基础动作
 
