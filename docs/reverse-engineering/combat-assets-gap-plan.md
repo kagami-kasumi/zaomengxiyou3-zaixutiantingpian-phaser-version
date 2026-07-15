@@ -1,6 +1,8 @@
 ﻿# 五角色战斗资源缺口与接入计划
 
-本文是 `TASK-ASSET-001` 的交付清单。范围只覆盖现代侧已经完成的 Role1、Role4、Role5 战斗占位资源，不修改 `extracted_flash/`，也不重新提取素材。
+本文是 `TASK-ASSET-001` 的交付清单。范围只覆盖现代侧已经完成的 Role1、Role4、Role5 战斗占位资源，不修改 `extracted_flash/`。
+
+> 2026-07-15 更新：`TASK-ASSET-003` 已从 EVB 容器恢复原始命名资源包，`D:\flash-restored-swfs\assets\WuKong.swf`、`ShaShen.swf`、`bailongSword.swf`、`Role1Effect.swf` 等现在可用于选择性 FFDec 导出。下文的 `missing-original` 是旧提取集/当前工作区状态，不再表示源包缺失。完整证据见 [`evb-extraction-report.md`](evb-extraction-report.md)。
 
 ## 检索结论
 
@@ -29,11 +31,11 @@
 
 ## 最小后续切片
 
-由于当前导出资源中没有可直接接入的 Role1/4/5 真素材，本轮不能拆出可立即执行的代码接入切片。推荐后续任务为阻塞态资源任务：
+旧 `extracted_flash/` 中没有可直接接入的 Role1/4/5 真素材；EVB 新提取已解除源包阻塞。推荐后续任务为：
 
-- `TASK-ASSET-002`：用户补提供或补提取 `WuKong` / `Role1Effect`、`ShaShen`、`bailongSword` 等角色战斗资源包后，先只接入一个最小资源族。
+- `TASK-ASSET-002`：从 `D:\flash-restored-swfs` 选择性导出 `WuKong` / `Role1Effect`、`ShaShen` 或 `bailongSword` 的一个最小资源族并接入。
 - 优先级建议：先接 Role1 普攻 `Role1Bullet1/3/4/5` 或 Role4 普攻 `Role4Bullet1/2/3 + Role4BulletArrow1/2`，因为它们只替换现有普攻特效占位，不改变技能数值或战斗流程。
 - 如果补到的是 Role5 包，先接剑形态本体动作和 `swordhit1..6`；枪形态 `doSingleHit(...)` 仍需 P-code 或更完整导出证据。
 
-关闭标准：用户提供资源包后，新增一个具体 `TASK-ASSET-*` 或 `TASK-SLICE-*`，只替换一个角色的一组真资源，并用 `npm run build` 加最小场景观察验收。
+关闭标准：只替换一个角色的一组真资源，并用 `npm run build` 加最小场景观察验收。
 

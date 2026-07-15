@@ -16,6 +16,8 @@
 
 ## 当前导出状态
 
+> 2026-07-15 补充：本节描述的是只读旧提取集 `extracted_flash/`。`TASK-ASSET-003` 已在项目外恢复 EVB 原始目录和 174 个可解析 SWF，详见 [`evb-extraction-report.md`](evb-extraction-report.md)。角色、怪物和关卡源包已取得，但尚未转换为现代 atlas 或复制进 `public/assets`，因此 manifest 的 `missing-original` 状态要到具体接入任务完成后再改。
+
 当前 `extracted_flash/resources_by_swf` 是“可核对资料”，还不是能直接拷进现代工程的完整素材库：
 
 | 范围 | 当前观察 | 结论 |

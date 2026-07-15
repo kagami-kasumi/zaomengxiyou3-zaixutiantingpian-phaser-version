@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ASSET-003 | 资源/逆向 | EVB 原始资源提取与代表样本验证 | M-001、M-035、M-047、VS-039、VS-040、VS-041 | `evb-extraction-report.md`、项目外原始/还原目录、两份机器可读 manifest、资源状态文档 |
 | TASK-ASSET-001 | 资源/逆向 | 五角色战斗真实资源缺口盘点与接入计划 | M-035、M-047、VS-039、VS-040、VS-041 | `combat-assets-gap-plan.md`、`assets-index.md`、`task-board.md`、`mechanics-index.md`、`vertical-slices.md` |
 | TASK-SLICE-109 | 切片 | Role5 随身箭对象与协同 | VS-041、M-022、M-025、M-034 | `Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、占位 projectile、独立测试 |
 | TASK-SLICE-108 | 切片 | Role5 剑系链式与龙魂剑状态 | VS-041、M-022、M-025、M-034 | `pkz/lxj/mlsz` 剑系 projectile、龙魂剑状态增伤、强化资源 key、`dolxjfeijian()` 空函数边界测试 |
@@ -152,6 +153,28 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-ASSET-003
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- 核对 `evbunpack.exe` 0.2.6 与 GitHub 官方 Release 的大小和 SHA-256，并使用 `--ignore-pe` 在项目外恢复 EVB 虚拟文件系统。
+- 恢复 206 个原始文件、总计 473,460,042 bytes；生成逐文件 SHA-256 manifest。
+- 按 AS3 的 176-byte 重排规则审计 175 个 SWF，恢复 174 个标准 `FWS/CWS/ZWS`；`assets/231111.swf` 单独登记为 unresolved。
+- 使用 FFDec 26.0.0 验证 `WuKong.swf`、`levels/level11.swf`、`Monster1111.swf` 和 ZWS 样本，选择性导出图片并完成角色/关卡/怪物视觉抽检。
+- 第二次独立提取得到 206 个同路径、同长度、同 SHA-256 文件，确认提取可复现；重复副本随后清理。
+- 更新 M-001/M-035/M-047、资源缺口和标注状态说明，并将 `TASK-ASSET-002` 从 Blocked 改为 Ready。
+
+验证：
+- `evbunpack --ignore-pe` 两次退出码均为 0，逐文件哈希差异数为 0。
+- FFDec 四个代表样本 `-dumpSWF` 均退出码 0、stderr 为空。
+- `WuKong` / `level11` / `Monster1111` 分别导出 184 / 20 / 12 张可解码图片。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- 执行 `TASK-ASSET-002`，只选择 Role1 普攻或 Role4 普攻中的一个最小真资源族接入。
 
 ### TASK-ASSET-001
 

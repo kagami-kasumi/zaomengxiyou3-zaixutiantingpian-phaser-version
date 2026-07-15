@@ -26,9 +26,10 @@
 - `docs/reverse-engineering/*.md`
   - 逆向笔记。
   - 记录 AS3 证据、行为事实和现代实现建议。
-- `docs/reverse-engineering/asset-annotation-and-splitting-plan.md`
-  - 资源标注与帧拆分工程审阅入口。
-  - 规定标注优先级、拆分必要性判定和“不默认拆几十万帧”的资源工作流。
+- `docs/reverse-engineering/asset-annotation/`
+  - 资源标注工程目录。
+  - 维护 AS3/stableKey 到 EVB 源 SWF、选择性导出物和现代接入状态的分阶段台账，以及人工/Agent 边界、批次记录和拆分策略。
+  - `asset-annotation-and-splitting-plan.md` 仅作为旧链接的兼容入口。
 - `docs/architecture/src-boundaries.md`
   - 现代代码模块边界。
   - 维护 `src/` 目录职责、输入系统约束和 TypeScript/Phaser 参数约定。
@@ -75,6 +76,9 @@
 
 ## 资源和提取层
 
+- `docs/reverse-engineering/evb-extraction-report.md`
+  - EVB 原始目录恢复、176-byte SWF 还原、哈希清单和 FFDec 验证报告。
+  - 项目外恢复目录只作为只读来源；现代工程按资源族选择性导出和接入。
 - `extracted_flash/README_extract.md`
   - 提取结果说明。
   - 只读参考。

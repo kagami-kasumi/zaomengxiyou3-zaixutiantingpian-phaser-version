@@ -2,6 +2,77 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-15
+
+### 将资源标注工程升级为 EVB 源包到现代接入的分阶段台账
+
+变更内容：
+
+- 把旧的“缺来源登记”模型改为 `source-corpus-ready -> export-ready -> derived-ready -> ready` 获取链，分别对应待定位符号、可选择性导出、派生素材待接入和现代工程可用。
+- 为 CSV 新增 `sourcePackage` 字段，并新增 `locate-symbol`、`export-selectively` 去向；只有检索恢复语料库后仍确认缺文件时，才允许 `missing-original + request-source`。
+- 将现有 152 条 `missing-original` 机械迁移为 `source-corpus-ready + locate-symbol`，不凭文件名批量猜具体源包；保留 1 条 unknown 和 1 条非视觉资源 rejected。
+- 更新八个既有批次与项目状态，明确角色、技能、法宝、宠物、怪物、Stage 1-1 和 UI 的下一步均从 `D:\flash-restored-swfs` 做窄定位与选择性导出。
+- UI 批次继续保持 0 个现代图片 key，但登记 `backpack1.swf`、`Common1.swf`、`EIcon*.swf`、`shop.swf` 等已恢复候选包；后续按单个完整界面建 stableKey，不做全量 UI 导出。
+- 扩展资源标注校验器，强制新状态与下一步配对，并要求 `export-ready` 必须填写 `sourcePackage`。
+
+影响范围：
+
+- `docs/reverse-engineering/asset-annotation/`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+- `tools/validate-asset-annotations.mjs`
+
+验证：
+
+- `npm run check:annotations` 通过。
+- `npm run check:workflow` 通过。
+
+### 完成资源标注工程第一批并增加自动校验
+
+变更内容：
+
+- 恢复原审阅稿的完整第一批范围，完成五角色普攻/本体动作、已实现英雄技能、法宝、宠物效果、`Monster30`、Stage 1-1 和现代 UI 审计。
+- 交付 154 条标注和 8 份批次记录：152 条缺原素材、1 条待补证据、1 条确认为非视觉资产；当前没有拆分候选或必须立即执行的人工标注。
+- 新增 `project-status.md` 汇总覆盖、人工待办和后续边界，新增 `implementation-findings.md` 交接现代 sourceSymbol 与 AS3 不一致等代码侧发现。
+- 新增 `npm run check:annotations`，校验 manifest 131 个效果 key、固定范围、CSV 字段/枚举、证据路径、stableKey 唯一性和必需批次。
+- 将资源标注校验接入 `npm run check:workflow`。
+
+影响范围：
+
+- `docs/reverse-engineering/asset-annotation/`
+- `docs/workflow/README.md`
+- `docs/workflow/governance-log.md`
+- `tools/validate-asset-annotations.mjs`
+- `package.json`
+
+验证：
+
+- 已运行 `npm run check:all`，工作流校验、资源标注校验、结构检查、系统测试和生产构建均通过；结构检查仅报告既有无关文件 warning。
+
+## 2026-07-14
+
+### 将资源标注工程重构为独立目录
+
+变更内容：
+
+- 将单篇 `asset-annotation-and-splitting-plan.md` 重构为 `docs/reverse-engineering/asset-annotation/` 目录；原文件保留为兼容入口。
+- 在入口中明确“标注”的最小定义、实际产物，以及人工与 Agent 的责任边界；人工不再被隐含要求为全量数字资源命名。
+- 新增单资源族执行流程、CSV 字段/状态/可信度规范、批次模板和 annotations/batches 目录职责。
+- 将帧拆分降为标注后的例外决策，明确判定门、人工操作点和最小交付。
+- 明确已安装的 FFDec CLI 可由 Agent 在用户授权后从项目外目录调用；人工只负责安装、CLI 无法完成的 GUI 操作和视觉决策。
+- 更新文档职责地图，避免把缺口事实、标注执行记录和游戏接入 task 混为一体。
+
+影响范围：
+
+- `docs/reverse-engineering/asset-annotation-and-splitting-plan.md`
+- `docs/reverse-engineering/asset-annotation/`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过。
+
 ## 2026-07-04
 
 ### 增加资源标注与帧拆分审阅入口

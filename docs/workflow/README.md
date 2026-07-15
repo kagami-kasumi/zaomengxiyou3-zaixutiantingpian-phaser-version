@@ -72,6 +72,14 @@
 npm run check:workflow
 ```
 
+单独修改资源标注 CSV 或批次记录时可以先运行：
+
+```bash
+npm run check:annotations
+```
+
+`check:workflow` 已包含资源标注校验。
+
 修改 `src/` 后运行：
 
 ```bash

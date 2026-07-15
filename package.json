@@ -12,7 +12,8 @@
     "test:systems": "node tools/run-system-tests.mjs",
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",
-    "check:workflow": "node tools/validate-workflow.mjs",
+    "check:annotations": "node tools/validate-asset-annotations.mjs",
+    "check:workflow": "node tools/validate-workflow.mjs && node tools/validate-asset-annotations.mjs",
     "check:all": "npm run check:workflow && npm run check:structure && npm run check:code"
   },
   "dependencies": {
