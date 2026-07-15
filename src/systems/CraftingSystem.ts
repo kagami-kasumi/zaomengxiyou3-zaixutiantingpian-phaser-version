@@ -4,8 +4,12 @@ import {
   addStackByFillName,
   getInventoryCategoryForDefinition,
   InventoryCategories,
+  type InventoryCategory,
+  type InventoryEntry,
+  type InventoryItemStack,
   type InventoryStore,
 } from './InventorySystem';
+import type { PlayerSlot } from './InputSystem';
 import {
   CraftingItemNames,
   DirectStaticCraftingRecipes,
@@ -44,6 +48,22 @@ export type CraftingResult = {
   recipe?: CraftingRecipe;
 };
 
+export type StagedCraftingMaterial = {
+  entry: InventoryEntry;
+  sourceCategory: InventoryCategory;
+};
+
+export type CraftingSession = {
+  ownerSlot: PlayerSlot;
+  slots: [StagedCraftingMaterial?, StagedCraftingMaterial?, StagedCraftingMaterial?];
+  message: string;
+};
+
+export type CraftingSessionResult = {
+  ok: boolean;
+  message: string;
+};
+
 const DefaultSeedCraftingRecipe: CraftingRecipe = {
   materialFillNames: ['tlzsp', 'tlzsp', 'tlzsp'],
   productFillName: 'wptlz',
@@ -61,6 +81,124 @@ export const SeedCraftingRecipes: readonly CraftingRecipe[] = [
   ...SunSutraCraftingRecipes,
   ...MingDingHuaYanCraftingRecipes,
 ];
+
+export function createCraftingSession(ownerSlot: PlayerSlot): CraftingSession {
+  return { ownerSlot, slots: [], message: '选择背包材料，按 X 放入合成槽' };
+}
+
+export function stageCraftingMaterial(
+  session: CraftingSession,
+  store: InventoryStore,
+  entry: InventoryEntry | undefined,
+): CraftingSessionResult {
+  if (!entry) return sessionFailure(session, '请选择背包材料');
+  if (entry.definition.fillName.includes('jns')) {
+    return sessionFailure(session, '技能书不能作为合成材料');
+  }
+  if (session.slots.length >= 3) return sessionFailure(session, '合成槽已满');
+  if (entry.kind === 'equipment' && session.slots.some((slot) => slot?.entry === entry)) {
+    return sessionFailure(session, '同一装备实例不能重复放入');
+  }
+  const location = findInventoryEntry(store, entry);
+  if (!location) return sessionFailure(session, '材料不在当前玩家背包中');
+
+  let stagedEntry: InventoryEntry;
+  if (entry.kind === 'equipment') {
+    store.categories[location.category].splice(location.index, 1);
+    stagedEntry = entry;
+  } else {
+    stagedEntry = takeOneStackUnit(store, location.category, location.index, entry);
+  }
+  session.slots.push({ entry: stagedEntry, sourceCategory: location.category });
+  session.message = `已放入 ${entry.definition.name} (${session.slots.length}/3)`;
+  return { ok: true, message: session.message };
+}
+
+export function removeStagedCraftingMaterial(
+  session: CraftingSession,
+  store: InventoryStore,
+  slotIndex = session.slots.length - 1,
+): CraftingSessionResult {
+  const staged = session.slots[slotIndex];
+  if (!staged) return sessionFailure(session, '该合成槽为空');
+  returnStagedMaterial(store, staged);
+  session.slots.splice(slotIndex, 1);
+  session.message = `已退回 ${staged.entry.definition.name}`;
+  return { ok: true, message: session.message };
+}
+
+export function closeCraftingSession(
+  session: CraftingSession,
+  store: InventoryStore,
+): CraftingSessionResult {
+  for (const staged of session.slots) {
+    if (staged) returnStagedMaterial(store, staged);
+  }
+  const returned = session.slots.length;
+  session.slots.length = 0;
+  session.message = returned > 0 ? `已退回 ${returned} 个暂存材料` : '合成面板已关闭';
+  return { ok: true, message: session.message };
+}
+
+export function previewCraftingSession(
+  session: CraftingSession,
+  soul: number,
+  recipes: readonly CraftingRecipe[] = SeedCraftingRecipes,
+): CraftingPreview {
+  const materialFillNames = session.slots.map((slot) => slot?.entry.definition.fillName ?? '');
+  if (materialFillNames.length < 3) {
+    return {
+      materialQuantity: materialFillNames.length,
+      canCraft: false,
+      message: `材料槽 ${materialFillNames.length}/3`,
+    };
+  }
+  const recipe = matchCraftingRecipe(materialFillNames, recipes);
+  if (!recipe) {
+    return { materialQuantity: 3, canCraft: false, message: '没有匹配的合成配方' };
+  }
+  if (soul < recipe.soulCost) {
+    return {
+      recipe, materialQuantity: 3, canCraft: false,
+      message: `灵魂不足 ${soul}/${recipe.soulCost}`,
+    };
+  }
+  return { recipe, materialQuantity: 3, canCraft: true, message: `可合成 ${recipe.productName}` };
+}
+
+export function craftStagedSession(params: {
+  session: CraftingSession;
+  store: InventoryStore;
+  registry: Record<string, EquipmentDefinition>;
+  soul: number;
+  recipes?: readonly CraftingRecipe[];
+}): CraftingResult {
+  const materialFillNames = params.session.slots.map(
+    (slot) => slot?.entry.definition.fillName ?? '',
+  );
+  if (materialFillNames.length !== 3) {
+    return failure('需要三个暂存材料', params.soul);
+  }
+  for (const staged of params.session.slots) {
+    if (staged) restoreStagedForCraft(params.store, staged);
+  }
+  const result = craft({
+    store: params.store,
+    registry: params.registry,
+    soul: params.soul,
+    materialFillNames,
+    recipes: params.recipes,
+  });
+  if (result.ok) {
+    params.session.slots.length = 0;
+  } else {
+    for (const staged of params.session.slots) {
+      if (staged) withdrawRestoredMaterial(params.store, staged);
+    }
+  }
+  params.session.message = result.message;
+  return result;
+}
 
 export function createSeedCraftingItemDefinitions(
   existing: Readonly<Record<string, EquipmentDefinition>> = {},
@@ -256,6 +394,85 @@ export function inheritMingDingHuaYanStats(
 
 function failure(message: string, soul: number, recipe?: CraftingRecipe): CraftingResult {
   return { ok: false, message, soulBefore: soul, soulAfter: soul, recipe };
+}
+
+function sessionFailure(session: CraftingSession, message: string): CraftingSessionResult {
+  session.message = message;
+  return { ok: false, message };
+}
+
+function findInventoryEntry(
+  store: InventoryStore,
+  entry: InventoryEntry,
+): { category: InventoryCategory; index: number } | undefined {
+  for (const category of InventoryCategories) {
+    const index = store.categories[category].indexOf(entry);
+    if (index >= 0) return { category, index };
+  }
+  return undefined;
+}
+
+function takeOneStackUnit(
+  store: InventoryStore,
+  category: InventoryCategory,
+  index: number,
+  stack: InventoryItemStack,
+): InventoryItemStack {
+  stack.quantity -= 1;
+  if (stack.quantity === 0) store.categories[category].splice(index, 1);
+  return {
+    kind: 'stack',
+    stackId: `staged-${stack.stackId}`,
+    definition: stack.definition,
+    quantity: 1,
+  };
+}
+
+function returnStagedMaterial(store: InventoryStore, staged: StagedCraftingMaterial): void {
+  if (staged.entry.kind === 'equipment') {
+    if (!store.categories[staged.sourceCategory].includes(staged.entry)) {
+      store.categories[staged.sourceCategory].push(staged.entry);
+    }
+    return;
+  }
+  restoreStackUnit(store, staged.sourceCategory, staged.entry);
+}
+
+function restoreStagedForCraft(store: InventoryStore, staged: StagedCraftingMaterial): void {
+  if (staged.entry.kind === 'equipment') {
+    store.categories[staged.sourceCategory].unshift(staged.entry);
+    return;
+  }
+  restoreStackUnit(store, staged.sourceCategory, staged.entry);
+}
+
+function restoreStackUnit(
+  store: InventoryStore,
+  category: InventoryCategory,
+  staged: InventoryItemStack,
+): void {
+  const existing = store.categories[category].find(
+    (entry): entry is InventoryItemStack =>
+      entry.kind === 'stack' && entry.definition.fillName === staged.definition.fillName,
+  );
+  if (existing) existing.quantity += 1;
+  else store.categories[category].push({ ...staged, stackId: `stack-${staged.definition.fillName}` });
+}
+
+function withdrawRestoredMaterial(store: InventoryStore, staged: StagedCraftingMaterial): void {
+  if (staged.entry.kind === 'equipment') {
+    const index = store.categories[staged.sourceCategory].indexOf(staged.entry);
+    if (index >= 0) store.categories[staged.sourceCategory].splice(index, 1);
+    return;
+  }
+  const entries = store.categories[staged.sourceCategory];
+  const index = entries.findIndex((entry): entry is InventoryItemStack =>
+    entry.kind === 'stack' && entry.definition.fillName === staged.entry.definition.fillName
+  );
+  const stack = entries[index];
+  if (!stack || stack.kind !== 'stack') throw new Error('Restored crafting stack is missing');
+  stack.quantity -= 1;
+  if (stack.quantity === 0) entries.splice(index, 1);
 }
 
 function getMaterialQuantity(store: InventoryStore, fillName: string): number {

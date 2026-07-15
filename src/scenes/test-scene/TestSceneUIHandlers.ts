@@ -9,17 +9,21 @@ import {
   canUpgradePassiveSkill,
   canUpgradeSkill,
   canUpgradeTree,
-  craft,
+  craftStagedSession,
+  closeCraftingSession,
   closePetPanel,
   equipSelectedInventoryEntry,
   findSkillInState,
+  getSelectedInventoryEntry,
   getSkillTreeForHero,
   learnSkill,
   moveInventorySelection,
-  previewCrafting,
+  previewCraftingSession,
+  removeStagedCraftingMaterial,
   selectNextInventoryCategory,
   selectOwnedPet,
   setInventoryFocus,
+  stageCraftingMaterial,
   syncMagicWeaponFromLoadout,
   toggleInventoryForOwner,
   toggleOwnedPetActive,
@@ -41,6 +45,10 @@ export function handleInventoryUIKeys(this: any): void {
     const p2Pressed = this.p2InventoryToggleKey && Phaser.Input.Keyboard.JustDown(this.p2InventoryToggleKey);
     const requestedOwner: PlayerSlot | undefined = p1Pressed ? 'p1' : p2Pressed ? 'p2' : undefined;
     if (requestedOwner) {
+      const currentRuntime = getActiveInventoryRuntime(this);
+      if (currentRuntime.ui.isOpen) {
+        closeCraftingSession(currentRuntime.craftingSession, currentRuntime.store);
+      }
       const result = toggleInventoryForOwner(
         this.playerInventoryRuntimes,
         this.inventoryOwner,
@@ -119,12 +127,36 @@ export function handleInventoryUIKeys(this: any): void {
       this.upgradeCurrentMagicWeapon();
     }
 
+    if (
+      this.inventoryCraftStageKey &&
+      Phaser.Input.Keyboard.JustDown(this.inventoryCraftStageKey)
+    ) {
+      if (runtime.ui.focus !== 'inventory') {
+        runtime.ui.message = '请先选择背包材料';
+      } else {
+        const result = stageCraftingMaterial(
+          runtime.craftingSession,
+          runtime.store,
+          getSelectedInventoryEntry(runtime.ui, runtime.store),
+        );
+        runtime.ui.message = result.message;
+      }
+    }
+
+    if (
+      this.inventoryCraftRemoveKey &&
+      Phaser.Input.Keyboard.JustDown(this.inventoryCraftRemoveKey)
+    ) {
+      const result = removeStagedCraftingMaterial(runtime.craftingSession, runtime.store);
+      runtime.ui.message = result.message;
+    }
+
     if (this.inventoryCraftKey && Phaser.Input.Keyboard.JustDown(this.inventoryCraftKey)) {
-      const result = craft({
+      const result = craftStagedSession({
+        session: runtime.craftingSession,
         store: runtime.store,
         registry: this.equipmentRegistry,
         soul: runtime.magicWeaponSoul,
-        materialFillNames: ['tlzsp', 'tlzsp', 'tlzsp'],
       });
       runtime.magicWeaponSoul = result.soulAfter;
       runtime.ui.message = result.message;
@@ -166,11 +198,16 @@ export function updateInventoryPanel(this: any): void {
       ui: runtime.ui,
       magicWeaponSoul: runtime.magicWeaponSoul,
     });
-    const crafting = previewCrafting(runtime.store, runtime.magicWeaponSoul);
+    const crafting = previewCraftingSession(runtime.craftingSession, runtime.magicWeaponSoul);
+    const slots = runtime.craftingSession.slots.map(
+      (slot, index) => `${index + 1}:${slot?.entry.definition.name ?? '-'}`,
+    );
+    while (slots.length < 3) slots.push(`${slots.length + 1}:-`);
     lines.push(
       '',
-      `[合成 F] 土灵珠碎片 ${crafting.materialQuantity}/3 -> 土灵珠`,
-      `消耗 1000 灵魂 | ${crafting.message}`,
+      `Crafting ${runtime.ownerSlot.toUpperCase()} | ${slots.join(' | ')}`,
+      '[X 放入] [R 退回末槽] [F 确认] [C/Num/ 关闭并退回]',
+      `${crafting.recipe ? `产物:${crafting.recipe.productName}` : '产物:-'} | ${crafting.message}`,
     );
     this.inventoryPanel.text.setText(lines.join('\n'));
   }

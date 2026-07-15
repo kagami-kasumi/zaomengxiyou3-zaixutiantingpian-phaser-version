@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-116 | 切片 | 接入合成材料暂存交互 | M-039、M-037、VS-042 | 双玩家三槽 `CraftingSession`、实例/堆叠移入与退回、实时预览、成功/失败生命周期、最小 UI 与独立测试 |
 | TASK-SLICE-115 | 切片 | 接入特殊合成属性继承配方 | M-039、VS-042 | 四条权威特殊配方、10 属性纯函数、百分数转换、上限/吸血特例、原子事务与双玩家测试、状态文档 |
 | TASK-SETTINGS-043 | 逆向 | 补清特殊合成属性继承分类 | M-039、VS-042 | 四条权威特殊配方映射、10 属性公式、倍率/截断/上限/产物特例、现代字段与测试边界、`TASK-SLICE-115` |
 | TASK-SLICE-114 | 切片 | 扩展全部 `get_sutra_value` 属性继承配方 | M-039、VS-042 | 41 个权威唯一组合全量注册、共用四属性平均继承事务、重复/混合/乱序与分类隔离测试、状态文档 |
@@ -161,6 +162,41 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-116
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- 新增 owner 明确的 `CraftingSession`，P1/P2 runtime 各自持有固定三槽会话。
+- 背包装备以原实例移入槽位，堆叠物按单个单位拆出；同一装备实例不可重复，技能书被拒绝，槽位上限为 3。
+- 支持指定槽位/末槽退回和关闭全退；装备对象身份保持，堆叠按 `fillName` 无损合并。
+- 三槽实时按既有无序注册表预览产物、1000 灵魂门禁或失败原因；确认复用 `craft()`，成功清槽，失败重新暂存并保留灵魂和材料。
+- 测试场景背包面板新增 `X` 放入、`R` 退回、`F` 确认和关闭退回入口，并显示 owner、三个槽位和预览状态。
+- 测试覆盖槽位上限、装备对象唯一性、乱序预览、单槽/关闭退回、堆叠守恒、成功清空、失败保留、特殊装备继承合成和 P1/P2 隔离。
+
+更新文件：
+- `src/systems/CraftingSystem.ts`
+- `src/systems/PlayerInventoryOwnershipSystem.ts`
+- `src/scenes/test-scene/TestSceneSetup.ts`
+- `src/scenes/test-scene/TestSceneUIHandlers.ts`
+- `tools/crafting-tests.ts`
+- `docs/reverse-engineering/crafting-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过，仅有与本任务目标文件无关的既有 warning。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+边界与后续：
+- 未实现真实炼丹炉视觉、拖拽动画、时装时间戳或存档迁移。
+- 推荐 `TASK-SETTINGS-044` 先建立炼丹炉视觉资源与交互索引。
 
 ### TASK-SLICE-115
 

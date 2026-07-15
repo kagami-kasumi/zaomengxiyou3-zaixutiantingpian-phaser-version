@@ -1,11 +1,17 @@
 import assert from 'node:assert/strict';
 import {
   craft,
+  craftStagedSession,
+  closeCraftingSession,
+  createCraftingSession,
   createSeedCraftingItemDefinitions,
   inheritMingDingHuaYanStats,
   inheritSunSutraStats,
   matchCraftingRecipe,
   previewCrafting,
+  previewCraftingSession,
+  removeStagedCraftingMaterial,
+  stageCraftingMaterial,
   type CraftingRecipe,
 } from '../src/systems/CraftingSystem';
 import {
@@ -48,6 +54,11 @@ testSuccessfulAtomicTransaction();
 testFullInventoryPreflightIsAtomic();
 testPlayerInventoriesStayIsolated();
 testSpecialInheritancePlayerIsolation();
+testCraftingSessionSlotAndIdentityRules();
+testCraftingSessionPreviewAndReturn();
+testCraftingSessionSuccessAndFailureLifecycle();
+testCraftingSessionConsumesStagedEquipment();
+testCraftingSessionsStayPlayerIsolated();
 
 console.log('Crafting system tests passed.');
 
@@ -442,6 +453,147 @@ function testSpecialInheritancePlayerIsolation(): void {
   assert.ok(getInventoryEntries(runtimes.p2.store, 'equipment').some(
     (entry) => entry.kind === 'equipment' && entry.definition.fillName === '_dzj',
   ));
+}
+
+function testCraftingSessionSlotAndIdentityRules(): void {
+  const store = createInventoryStore();
+  const session = createCraftingSession('p1');
+  const definition = equipment('unique', '唯一装备', 'zbfj', createSeedEquipmentRegistry().kyl.stats);
+  const instance = addEquipmentDefinition(store, definition);
+  assert.ok(instance);
+  assert.equal(stageCraftingMaterial(session, store, instance).ok, true);
+  assert.equal(getInventoryEntries(store, 'equipment').includes(instance), false);
+  assert.equal(stageCraftingMaterial(session, store, instance).ok, false);
+  assert.equal(session.slots.length, 1);
+  assert.equal(removeStagedCraftingMaterial(session, store, 0).ok, true);
+  assert.equal(getInventoryEntries(store, 'equipment')[0], instance);
+
+  addStackByFillName(store, registry, 'tlzsp', 4);
+  const stack = getInventoryEntries(store, 'items').find(
+    (entry) => entry.kind === 'stack' && entry.definition.fillName === 'tlzsp',
+  );
+  assert.ok(stack?.kind === 'stack');
+  assert.equal(stageCraftingMaterial(session, store, stack).ok, true);
+  assert.equal(stageCraftingMaterial(session, store, stack).ok, true);
+  assert.equal(stageCraftingMaterial(session, store, stack).ok, true);
+  assert.equal(session.slots.length, 3);
+  assert.equal(stageCraftingMaterial(session, store, stack).ok, false);
+  assert.equal(stack.quantity, 1);
+}
+
+function testCraftingSessionPreviewAndReturn(): void {
+  const store = createInventoryStore();
+  const session = createCraftingSession('p1');
+  addStackByFillName(store, registry, 'tlzsp', 3);
+  const stack = getInventoryEntries(store, 'items')[0];
+  assert.ok(stack?.kind === 'stack');
+  stageCraftingMaterial(session, store, stack);
+  stageCraftingMaterial(session, store, stack);
+  stageCraftingMaterial(session, store, stack);
+  assert.equal(stackQuantity(store, 'tlzsp'), 0);
+  const preview = previewCraftingSession(session, 1_000);
+  assert.equal(preview.canCraft, true);
+  assert.equal(preview.recipe?.productFillName, 'wptlz');
+  assert.equal(previewCraftingSession(session, 999).canCraft, false);
+  assert.match(previewCraftingSession(session, 999).message, /灵魂不足/);
+
+  assert.equal(removeStagedCraftingMaterial(session, store, 1).ok, true);
+  assert.equal(stackQuantity(store, 'tlzsp'), 1);
+  assert.equal(previewCraftingSession(session, 1_000).materialQuantity, 2);
+  assert.equal(closeCraftingSession(session, store).ok, true);
+  assert.equal(session.slots.length, 0);
+  assert.equal(stackQuantity(store, 'tlzsp'), 3);
+
+  const invalidSession = createCraftingSession('p1');
+  addStackByFillName(store, registry, 'wptlz', 1);
+  const restoredPearls = getInventoryEntries(store, 'items').find(
+    (entry) => entry.kind === 'stack' && entry.definition.fillName === 'tlzsp',
+  );
+  const earthPearl = getInventoryEntries(store, 'items').find(
+    (entry) => entry.kind === 'stack' && entry.definition.fillName === 'wptlz',
+  );
+  assert.ok(restoredPearls?.kind === 'stack');
+  assert.ok(earthPearl?.kind === 'stack');
+  stageCraftingMaterial(invalidSession, store, earthPearl);
+  stageCraftingMaterial(invalidSession, store, restoredPearls);
+  stageCraftingMaterial(invalidSession, store, restoredPearls);
+  assert.match(previewCraftingSession(invalidSession, 1_000).message, /没有匹配/);
+}
+
+function testCraftingSessionSuccessAndFailureLifecycle(): void {
+  const successStore = createInventoryStore();
+  const successSession = createCraftingSession('p1');
+  addStackByFillName(successStore, registry, 'tlzsp', 3);
+  const successStack = getInventoryEntries(successStore, 'items')[0];
+  assert.ok(successStack?.kind === 'stack');
+  for (let i = 0; i < 3; i += 1) stageCraftingMaterial(successSession, successStore, successStack);
+  const success = craftStagedSession({
+    session: successSession, store: successStore, registry, soul: 1_000,
+  });
+  assert.equal(success.ok, true);
+  assert.equal(successSession.slots.length, 0);
+  assert.equal(stackQuantity(successStore, 'tlzsp'), 0);
+  assert.equal(stackQuantity(successStore, 'wptlz'), 1);
+
+  const failureStore = createInventoryStore();
+  const failureSession = createCraftingSession('p1');
+  addStackByFillName(failureStore, registry, 'tlzsp', 3);
+  const failureStack = getInventoryEntries(failureStore, 'items')[0];
+  assert.ok(failureStack?.kind === 'stack');
+  for (let i = 0; i < 3; i += 1) stageCraftingMaterial(failureSession, failureStore, failureStack);
+  const failure = craftStagedSession({
+    session: failureSession, store: failureStore, registry, soul: 999,
+  });
+  assert.equal(failure.ok, false);
+  assert.equal(failure.soulAfter, 999);
+  assert.equal(failureSession.slots.length, 3);
+  assert.equal(stackQuantity(failureStore, 'tlzsp'), 0);
+  closeCraftingSession(failureSession, failureStore);
+  assert.equal(stackQuantity(failureStore, 'tlzsp'), 3);
+  assert.equal(stackQuantity(failureStore, 'wptlz'), 0);
+}
+
+function testCraftingSessionConsumesStagedEquipment(): void {
+  const store = createInventoryStore();
+  const session = createCraftingSession('p1');
+  const specialRegistry = createSpecialTestRegistry();
+  for (const fillName of ['tdlzj', 'mgzh', 'tflj']) {
+    const instance = addEquipmentDefinition(store, specialRegistry[fillName]);
+    assert.ok(instance);
+    assert.equal(stageCraftingMaterial(session, store, instance).ok, true);
+  }
+  assert.equal(getInventoryEntries(store, 'equipment').length, 0);
+  assert.equal(previewCraftingSession(session, 1_000).recipe?.productFillName, '_dzj');
+  const result = craftStagedSession({ session, store, registry: specialRegistry, soul: 1_000 });
+  assert.equal(result.ok, true);
+  assert.equal(session.slots.length, 0);
+  const entries = getInventoryEntries(store, 'equipment');
+  assert.equal(entries.length, 1);
+  assert.equal(entries[0].definition.fillName, '_dzj');
+}
+
+function testCraftingSessionsStayPlayerIsolated(): void {
+  const runtimes = createPlayerInventoryRuntimes(registry);
+  const p1Stack = getInventoryEntries(runtimes.p1.store, 'items').find(
+    (entry) => entry.kind === 'stack' && entry.definition.fillName === 'tlzsp',
+  );
+  const p2Stack = getInventoryEntries(runtimes.p2.store, 'items').find(
+    (entry) => entry.kind === 'stack' && entry.definition.fillName === 'tlzsp',
+  );
+  assert.ok(p1Stack?.kind === 'stack');
+  assert.ok(p2Stack?.kind === 'stack');
+  stageCraftingMaterial(runtimes.p1.craftingSession, runtimes.p1.store, p1Stack);
+  stageCraftingMaterial(runtimes.p2.craftingSession, runtimes.p2.store, p2Stack);
+  stageCraftingMaterial(runtimes.p2.craftingSession, runtimes.p2.store, p2Stack);
+  assert.equal(runtimes.p1.craftingSession.ownerSlot, 'p1');
+  assert.equal(runtimes.p2.craftingSession.ownerSlot, 'p2');
+  assert.equal(runtimes.p1.craftingSession.slots.length, 1);
+  assert.equal(runtimes.p2.craftingSession.slots.length, 2);
+  assert.equal(stackQuantity(runtimes.p1.store, 'tlzsp'), 2);
+  assert.equal(stackQuantity(runtimes.p2.store, 'tlzsp'), 1);
+  closeCraftingSession(runtimes.p1.craftingSession, runtimes.p1.store);
+  assert.equal(stackQuantity(runtimes.p1.store, 'tlzsp'), 3);
+  assert.equal(stackQuantity(runtimes.p2.store, 'tlzsp'), 1);
 }
 
 function stackQuantity(store: ReturnType<typeof createInventoryStore>, fillName: string): number {

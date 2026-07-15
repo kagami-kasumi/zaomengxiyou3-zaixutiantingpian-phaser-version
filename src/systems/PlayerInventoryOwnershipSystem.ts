@@ -13,7 +13,11 @@ import { createMagicWeaponModel, syncMagicWeaponFromLoadout } from './MagicWeapo
 import { isPetConsumableFillName, usePetConsumable } from './PetConsumableSystem';
 import { createMagicBottleCaptureModel } from './PetMagicBottleSystem';
 import type { MagicBottleCaptureModel, PetRoster } from './PetTypes';
-import { createSeedCraftingItemDefinitions } from './CraftingSystem';
+import {
+  createCraftingSession,
+  createSeedCraftingItemDefinitions,
+  type CraftingSession,
+} from './CraftingSystem';
 
 export type PlayerInventoryRuntime = {
   ownerSlot: PlayerSlot;
@@ -23,6 +27,7 @@ export type PlayerInventoryRuntime = {
   magicWeapon: MagicWeaponModel;
   magicWeaponSoul: number;
   magicBottle: MagicBottleCaptureModel;
+  craftingSession: CraftingSession;
 };
 
 export type PlayerInventoryRuntimes = Record<PlayerSlot, PlayerInventoryRuntime>;
@@ -129,5 +134,6 @@ function createPlayerInventoryRuntime(
     magicWeapon,
     magicWeaponSoul: 5_000,
     magicBottle: createMagicBottleCaptureModel(),
+    craftingSession: createCraftingSession(ownerSlot),
   };
 }
