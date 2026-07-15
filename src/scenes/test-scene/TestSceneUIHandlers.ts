@@ -3,7 +3,6 @@
 import Phaser from 'phaser';
 import {
   assignSkillToSlot,
-  buildInventoryPanelLines,
   buildCompactPetPanelLines,
   canLearnSkill,
   canUpgradePassiveSkill,
@@ -18,7 +17,6 @@ import {
   getSkillTreeForHero,
   learnSkill,
   moveInventorySelection,
-  previewCraftingSession,
   removeStagedCraftingMaterial,
   selectNextInventoryCategory,
   selectOwnedPet,
@@ -40,6 +38,7 @@ import {
   type SkillUIState,
 } from './TestSceneSystems';
 import { setPetPanelOwnerLabel } from './TestScenePetPanelBridge';
+import { updateCraftingPanelView } from './TestSceneCraftingView';
 export function handleInventoryUIKeys(this: any): void {
     const p1Pressed = this.inventoryToggleKey && Phaser.Input.Keyboard.JustDown(this.inventoryToggleKey);
     const p2Pressed = this.p2InventoryToggleKey && Phaser.Input.Keyboard.JustDown(this.p2InventoryToggleKey);
@@ -180,36 +179,7 @@ export function updateInventoryPanel(this: any): void {
     if (!this.inventoryPanel) {
       return;
     }
-
-    const runtime = getActiveInventoryRuntime(this);
-    if (!runtime.ui.isOpen) {
-      this.inventoryPanel.container.setVisible(false);
-      return;
-    }
-
-    this.inventoryPanel.container.setVisible(true);
-    const player = this.getPlayers().find((candidate: any) => candidate.slot === runtime.ownerSlot);
-    const lines = buildInventoryPanelLines({
-      store: runtime.store,
-      loadout: runtime.loadout,
-      baseStats: player?.baseStats ?? { maxHp: 120, maxMp: 160, power: 0, defense: 0 },
-      playerLabel: player?.slot.toUpperCase() ?? 'P1',
-      heroName: this.getInventoryHeroName(runtime.ownerSlot),
-      ui: runtime.ui,
-      magicWeaponSoul: runtime.magicWeaponSoul,
-    });
-    const crafting = previewCraftingSession(runtime.craftingSession, runtime.magicWeaponSoul);
-    const slots = runtime.craftingSession.slots.map(
-      (slot, index) => `${index + 1}:${slot?.entry.definition.name ?? '-'}`,
-    );
-    while (slots.length < 3) slots.push(`${slots.length + 1}:-`);
-    lines.push(
-      '',
-      `Crafting ${runtime.ownerSlot.toUpperCase()} | ${slots.join(' | ')}`,
-      '[X 放入] [R 退回末槽] [F 确认] [C/Num/ 关闭并退回]',
-      `${crafting.recipe ? `产物:${crafting.recipe.productName}` : '产物:-'} | ${crafting.message}`,
-    );
-    this.inventoryPanel.text.setText(lines.join('\n'));
+    updateCraftingPanelView(this, this.inventoryPanel);
   }
 
 export function upgradeCurrentMagicWeapon(this: any): void {

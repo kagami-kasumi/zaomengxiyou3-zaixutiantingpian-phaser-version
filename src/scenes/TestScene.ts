@@ -214,7 +214,6 @@ import {
   createClouds as createCloudsImpl,
   createDebugKeys as createDebugKeysImpl,
   createHeroDebugKeys as createHeroDebugKeysImpl,
-  createInventoryPanel as createInventoryPanelImpl,
   createInventoryUIKeys as createInventoryUIKeysImpl,
   createPlayerMarkers as createPlayerMarkersImpl,
   createPlayerView as createPlayerViewImpl,
@@ -227,6 +226,10 @@ import {
   updateSkillPanel as updateSkillPanelImpl,
   updateSkillPanels as updateSkillPanelsImpl,
 } from './test-scene/TestSceneSetup';
+import {
+  createCraftingPanel as createInventoryPanelImpl,
+  type CraftingPanelView as InventoryPanelView,
+} from './test-scene/TestSceneCraftingView';
 import {
   applyAllMonster30Attacks as applyAllMonster30AttacksImpl,
   applyCombatBridgeResult as applyCombatBridgeResultImpl,
@@ -301,12 +304,6 @@ type SkillPanelView = {
   container: Phaser.GameObjects.Container;
   bg: Phaser.GameObjects.Graphics;
   texts: Phaser.GameObjects.Text[];
-};
-
-type InventoryPanelView = {
-  container: Phaser.GameObjects.Container;
-  bg: Phaser.GameObjects.Graphics;
-  text: Phaser.GameObjects.Text;
 };
 
 type CapturablePetTargetView = {

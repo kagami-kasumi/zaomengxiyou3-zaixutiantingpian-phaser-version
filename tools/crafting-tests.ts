@@ -33,6 +33,11 @@ import {
   getInventoryEntries,
 } from '../src/systems/InventorySystem';
 import { createPlayerInventoryRuntimes } from '../src/systems/PlayerInventoryOwnershipSystem';
+import { craftingAssets, CraftingAssetKeys } from '../src/assets/AssetManifest';
+import {
+  CraftingUILayout,
+  getCraftingCanvasTransform,
+} from '../src/scenes/test-scene/CraftingUILayout';
 
 const seedEquipment = createSeedEquipmentRegistry();
 const registry = Object.assign(seedEquipment, createSeedCraftingItemDefinitions(seedEquipment));
@@ -59,8 +64,38 @@ testCraftingSessionPreviewAndReturn();
 testCraftingSessionSuccessAndFailureLifecycle();
 testCraftingSessionConsumesStagedEquipment();
 testCraftingSessionsStayPlayerIsolated();
+testCraftingVisualAssetProvenance();
+testCraftingFixedLayoutAndScaling();
 
 console.log('Crafting system tests passed.');
+
+function testCraftingVisualAssetProvenance(): void {
+  assert.equal(craftingAssets.container.key, CraftingAssetKeys.container);
+  assert.equal(craftingAssets.container.sourcePackage, 'assets/backpack1.swf');
+  assert.equal(craftingAssets.container.sourceCharacterId, 119);
+  assert.equal(craftingAssets.fusionPanel.sourceCharacterId, 169);
+  assert.equal(craftingAssets.role1Unselected.sourceCharacterId, 218);
+  assert.equal(craftingAssets.role5Selected.sourceCharacterId, 871);
+  assert.equal(craftingAssets.tlzsp.sourcePackage, 'assets/EIcon1.swf');
+  assert.equal(craftingAssets.tlzsp.sourceCharacterId, 813);
+  assert.equal(craftingAssets.wptlz.sourceCharacterId, 807);
+  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 14);
+}
+
+function testCraftingFixedLayoutAndScaling(): void {
+  assert.deepEqual(CraftingUILayout.materialSlots, [
+    { x: 183.6, y: 222.4 },
+    { x: 281.45, y: 142.45 },
+    { x: 379.45, y: 222.4 },
+  ]);
+  assert.deepEqual(CraftingUILayout.fusionPanel, { x: 175.6, y: 128.45 });
+  assert.deepEqual(getCraftingCanvasTransform(1000, 600), { scale: 1, x: 0, y: 0 });
+  assert.deepEqual(getCraftingCanvasTransform(940, 590), { scale: 0.94, x: 0, y: 13 });
+  const wide = getCraftingCanvasTransform(2000, 1000);
+  assert.equal(wide.scale, 5 / 3);
+  assert.ok(Math.abs(wide.x - 500 / 3) < 1e-9);
+  assert.equal(wide.y, 0);
+}
 
 function testAuthorityRegistryCoverage(): void {
   assert.equal(DirectStaticRecipeSources.length, 67);

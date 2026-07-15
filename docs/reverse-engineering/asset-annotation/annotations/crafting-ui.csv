@@ -1,0 +1,15 @@
+stableKey,as3Name,sourceKind,sourcePath,sourcePackage,symbolId,scope,usage,status,confidence,nextAction,note
+crafting-ui.container,export.strength.StrengthEquipment,restored-swf,public/assets/ui/crafting/container.png;src/assets/AssetManifest.ts,assets/backpack1.swf,119,ui,炼丹炉完整容器,ready,confirmed,none,FFDec sprite frame 1 选择性派生为 940x594 透明 PNG
+crafting-ui.fusion-panel,export.strength.Fusion,restored-swf,public/assets/ui/crafting/fusion-panel.png;src/assets/AssetManifest.ts,assets/backpack1.swf,169,ui,三材料槽与合成按钮面板,ready,confirmed,none,FFDec sprite frame 1 选择性派生
+crafting-ui.selector.role1.unselected,export.shop.SelectWK,restored-swf,public/assets/ui/crafting/selectors/role1-unselected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,218,ui,悟空选择器未选态,ready,confirmed,none,frame 1
+crafting-ui.selector.role1.selected,export.shop.SelectWK,restored-swf,public/assets/ui/crafting/selectors/role1-selected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,218,ui,悟空选择器选中态,ready,confirmed,none,frame 2
+crafting-ui.selector.role2.unselected,export.shop.SelectTS,restored-swf,public/assets/ui/crafting/selectors/role2-unselected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,223,ui,唐僧选择器未选态,ready,confirmed,none,frame 1
+crafting-ui.selector.role2.selected,export.shop.SelectTS,restored-swf,public/assets/ui/crafting/selectors/role2-selected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,223,ui,唐僧选择器选中态,ready,confirmed,none,frame 2
+crafting-ui.selector.role3.unselected,export.shop.SelectBJ,restored-swf,public/assets/ui/crafting/selectors/role3-unselected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,233,ui,八戒选择器未选态,ready,confirmed,none,frame 1
+crafting-ui.selector.role3.selected,export.shop.SelectBJ,restored-swf,public/assets/ui/crafting/selectors/role3-selected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,233,ui,八戒选择器选中态,ready,confirmed,none,frame 2
+crafting-ui.selector.role4.unselected,export.shop.SelectSS,restored-swf,public/assets/ui/crafting/selectors/role4-unselected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,228,ui,沙僧选择器未选态,ready,confirmed,none,frame 1
+crafting-ui.selector.role4.selected,export.shop.SelectSS,restored-swf,public/assets/ui/crafting/selectors/role4-selected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,228,ui,沙僧选择器选中态,ready,confirmed,none,frame 2
+crafting-ui.selector.role5.unselected,export.shop.SelectBL,restored-swf,public/assets/ui/crafting/selectors/role5-unselected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,871,ui,白龙选择器未选态,ready,confirmed,none,frame 1
+crafting-ui.selector.role5.selected,export.shop.SelectBL,restored-swf,public/assets/ui/crafting/selectors/role5-selected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,871,ui,白龙选择器选中态,ready,confirmed,none,frame 2
+crafting-item.tlzsp,tlzsp,restored-swf,public/assets/ui/crafting/items/tlzsp.png;src/assets/AssetManifest.ts,assets/EIcon1.swf,813,ui,土灵珠碎片材料图标,ready,confirmed,none,50x50 PNG；未使用掉落态 character 787
+crafting-item.wptlz,wptlz,restored-swf,public/assets/ui/crafting/items/wptlz.png;src/assets/AssetManifest.ts,assets/EIcon1.swf,807,ui,土灵珠预览与产物图标,ready,confirmed,none,50x50 PNG

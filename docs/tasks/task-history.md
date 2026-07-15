@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-117 | 切片 | 接入炼丹炉最小视觉闭环 | M-039、M-035、M-037、VS-043 | 14 个选择性派生 PNG、stableKey/provenance manifest、固定布局、独立炼丹炉视图、鼠标/键盘交互、合成专项测试与资源标注 |
 | TASK-SETTINGS-044 | 逆向 | 建立炼丹炉视觉资源与交互索引 | M-039、VS-042 | `crafting-ui-index.md`、RegiMA 源包/symbol/布局映射、交互状态证据、`VS-043` 与 `TASK-SLICE-117` |
 | TASK-SLICE-116 | 切片 | 接入合成材料暂存交互 | M-039、M-037、VS-042 | 双玩家三槽 `CraftingSession`、实例/堆叠移入与退回、实时预览、成功/失败生命周期、最小 UI 与独立测试 |
 | TASK-SLICE-115 | 切片 | 接入特殊合成属性继承配方 | M-039、VS-042 | 四条权威特殊配方、10 属性纯函数、百分数转换、上限/吸血特例、原子事务与双玩家测试、状态文档 |
@@ -163,6 +164,43 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-117
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- 从只读 `backpack1.swf`、`OtherMat1.swf`、`EIcon1.swf` 仅选择性派生 character 119/169、五角色选择器两帧和 `tlzsp/wptlz` 图标，共 14 个 PNG；本地调查输出与现代资源目录分离。
+- `AssetManifest.ts` 为每个图片记录 stableKey、源包、symbol、character id；`BootScene` 统一加载炼丹炉资源族。
+- 新增 `CraftingUILayout.ts`，以 1000×600 为基准，保留 940×594 原始容器透明边缘并等比缩放居中；三槽、预览、产物、选择器、灵魂和按钮坐标来自逆向索引。
+- 新增独立 `TestSceneCraftingView.ts`，用真资源呈现炼丹炉；P1/P2 选择器、背包材料点击放入、指定槽点击退回、合成和关闭均调用现有 `CraftingSession`/库存事务，没有复制配方规则。
+- `tlzsp × 3 -> wptlz` 可观察真实材料/预览/产物图标、1000 灵魂门禁、成功清槽与回包；无配方、灵魂不足、失败保留、关闭退回与双玩家隔离继续由合成专项测试覆盖。
+- 新增炼丹炉资源标注 CSV 与批次记录，stableKey 可回溯到源包、character、派生目录与运行时文件。
+
+更新文件：
+- `public/assets/ui/crafting/`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/BootScene.ts`
+- `src/scenes/test-scene/CraftingUILayout.ts`
+- `src/scenes/test-scene/TestSceneCraftingView.ts`
+- `src/scenes/test-scene/TestSceneUIHandlers.ts`
+- `src/scenes/TestScene.ts`
+- `tools/crafting-tests.ts`
+- `docs/reverse-engineering/asset-annotation/annotations/crafting-ui.csv`
+- `docs/reverse-engineering/asset-annotation/batches/crafting-ui.md`
+- 状态文档
+
+验证：
+- `npm run check:structure` 通过；仅有与本任务目标文件无关的既有 warning。
+- `npm run test:systems` 通过，含合成专项测试。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:annotations` 与 `npm run check:workflow` 通过。
+- 人工检查派生 character 119/169、选择器两帧和物品图标：整体比例、按钮状态、透明边缘和尺寸正确。运行时截图因本次会话无可用浏览器后端未生成，已如实保留为验收限制。
+
+边界与后续：
+- 未接入帮助、强化、分解、制作、幻兵或全部配方图标；源 SWF、旧提取集和权威配方 JSON 均未修改。
+- 后续已生成 `TASK-SETTINGS-045`，只定位 `kyg + kyz + kys -> kyl` 四图标，为第二配方真图标切片建立证据；不做全量导出。
 
 ### TASK-SETTINGS-044
 

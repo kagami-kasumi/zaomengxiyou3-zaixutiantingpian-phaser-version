@@ -8,6 +8,14 @@ type LoadableAssetDefinition = {
   source: AssetSourceKind;
 };
 
+type ExtractedImageAssetDefinition = LoadableAssetDefinition & {
+  status: 'ready';
+  source: 'extracted-flash';
+  sourcePackage: string;
+  sourceSymbol: string;
+  sourceCharacterId: number;
+};
+
 type FrameSequenceAssetDefinition = {
   key: string;
   frameKeys: readonly string[];
@@ -26,6 +34,23 @@ type MissingSourceAssetFamily = {
 
 export const AssetKeys = {
   playerPlaceholder: 'player-placeholder',
+} as const;
+
+export const CraftingAssetKeys = {
+  container: 'crafting-ui.container',
+  fusionPanel: 'crafting-ui.fusion-panel',
+  role1Unselected: 'crafting-ui.selector.role1.unselected',
+  role1Selected: 'crafting-ui.selector.role1.selected',
+  role2Unselected: 'crafting-ui.selector.role2.unselected',
+  role2Selected: 'crafting-ui.selector.role2.selected',
+  role3Unselected: 'crafting-ui.selector.role3.unselected',
+  role3Selected: 'crafting-ui.selector.role3.selected',
+  role4Unselected: 'crafting-ui.selector.role4.unselected',
+  role4Selected: 'crafting-ui.selector.role4.selected',
+  role5Unselected: 'crafting-ui.selector.role5.unselected',
+  role5Selected: 'crafting-ui.selector.role5.selected',
+  tlzsp: 'crafting-item.tlzsp',
+  wptlz: 'crafting-item.wptlz',
 } as const;
 
 export const HeroNormalAttackEffectKeys = {
@@ -179,6 +204,41 @@ export const scaffoldAssets = {
     source: 'generated',
   },
 } as const satisfies Record<string, LoadableAssetDefinition>;
+
+function extractedCraftingImage(
+  key: string,
+  path: string,
+  sourcePackage: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return {
+    key,
+    path,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage,
+    sourceSymbol,
+    sourceCharacterId,
+  };
+}
+
+export const craftingAssets = {
+  container: extractedCraftingImage(CraftingAssetKeys.container, '/assets/ui/crafting/container.png', 'assets/backpack1.swf', 'export.strength.StrengthEquipment', 119),
+  fusionPanel: extractedCraftingImage(CraftingAssetKeys.fusionPanel, '/assets/ui/crafting/fusion-panel.png', 'assets/backpack1.swf', 'export.strength.Fusion', 169),
+  role1Unselected: extractedCraftingImage(CraftingAssetKeys.role1Unselected, '/assets/ui/crafting/selectors/role1-unselected.png', 'assets/OtherMat1.swf', 'export.shop.SelectWK frame 1', 218),
+  role1Selected: extractedCraftingImage(CraftingAssetKeys.role1Selected, '/assets/ui/crafting/selectors/role1-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectWK frame 2', 218),
+  role2Unselected: extractedCraftingImage(CraftingAssetKeys.role2Unselected, '/assets/ui/crafting/selectors/role2-unselected.png', 'assets/OtherMat1.swf', 'export.shop.SelectTS frame 1', 223),
+  role2Selected: extractedCraftingImage(CraftingAssetKeys.role2Selected, '/assets/ui/crafting/selectors/role2-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectTS frame 2', 223),
+  role3Unselected: extractedCraftingImage(CraftingAssetKeys.role3Unselected, '/assets/ui/crafting/selectors/role3-unselected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBJ frame 1', 233),
+  role3Selected: extractedCraftingImage(CraftingAssetKeys.role3Selected, '/assets/ui/crafting/selectors/role3-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBJ frame 2', 233),
+  role4Unselected: extractedCraftingImage(CraftingAssetKeys.role4Unselected, '/assets/ui/crafting/selectors/role4-unselected.png', 'assets/OtherMat1.swf', 'export.shop.SelectSS frame 1', 228),
+  role4Selected: extractedCraftingImage(CraftingAssetKeys.role4Selected, '/assets/ui/crafting/selectors/role4-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectSS frame 2', 228),
+  role5Unselected: extractedCraftingImage(CraftingAssetKeys.role5Unselected, '/assets/ui/crafting/selectors/role5-unselected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBL frame 1', 871),
+  role5Selected: extractedCraftingImage(CraftingAssetKeys.role5Selected, '/assets/ui/crafting/selectors/role5-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBL frame 2', 871),
+  tlzsp: extractedCraftingImage(CraftingAssetKeys.tlzsp, '/assets/ui/crafting/items/tlzsp.png', 'assets/EIcon1.swf', 'tlzsp', 813),
+  wptlz: extractedCraftingImage(CraftingAssetKeys.wptlz, '/assets/ui/crafting/items/wptlz.png', 'assets/EIcon1.swf', 'wptlz', 807),
+} as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
 function createRole1NormalAttackFrames(symbol: string, frameCount: number) {
   const folder = symbol.replace('Role1Bullet', 'role1-bullet');
@@ -391,4 +451,5 @@ export const sourceAssetFamilies = {
 export const assetBundles = {
   scaffold: [scaffoldAssets.playerPlaceholder],
   role1NormalAttacks: Object.values(role1NormalAttackAssets),
+  crafting: Object.values(craftingAssets),
 } as const;

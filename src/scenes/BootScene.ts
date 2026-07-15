@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { role1NormalAttackAssets, scaffoldAssets } from '../assets/AssetManifest';
+import { craftingAssets, role1NormalAttackAssets, scaffoldAssets } from '../assets/AssetManifest';
 
 export class BootScene extends Phaser.Scene {
   public constructor() {
@@ -16,6 +16,9 @@ export class BootScene extends Phaser.Scene {
       asset.frameKeys.forEach((frameKey, index) => {
         this.load.image(frameKey, asset.framePaths[index]);
       });
+    }
+    for (const asset of Object.values(craftingAssets)) {
+      this.load.image(asset.key, asset.path);
     }
   }
 
