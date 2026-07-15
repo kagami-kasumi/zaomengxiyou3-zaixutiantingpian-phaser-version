@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-114 | 切片 | 扩展全部 `get_sutra_value` 属性继承配方 | M-039、VS-042 | 41 个权威唯一组合全量注册、共用四属性平均继承事务、重复/混合/乱序与分类隔离测试、状态文档 |
 | TASK-SLICE-113 | 切片 | 接入最小 `get_sutra_value` 属性继承配方 | M-039、VS-042 | `kyg + kyz + kys -> kyl` 权威注册、装备实例事务、四属性平均继承、乱序/失败测试与状态文档 |
 | TASK-SLICE-111 | 切片 | 扩展 1.1 可直接生成配方注册表 | M-039、VS-042 | `CraftingRecipeRegistry.ts`、权威 JSON 直载与 `direct_static` 去重、混合/重复材料预览合成、`crafting-tests.ts`、状态文档 |
 | TASK-SETTINGS-042 | 逆向 | 1.1 合成配方权威数据清单 | M-039、VS-042 | `crafting-recipes-1.1.json`、122 个源码分支/121 个唯一输入、产物行为分类、`crafting-index.md` 与状态文档 |
@@ -158,6 +159,30 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-114
+
+状态：已完成。
+
+完成内容：
+
+- 从权威 JSON 接入全部 41 条 `productionBehavior = get_sutra_value` 记录；按无序材料多重集合校验后仍为 41 个唯一组合。
+- 全部配方共用 `TASK-SLICE-113` 已验证的装备实例消费、HP/MP/攻击/防御三材料平均继承、容量预检和原子事务。
+- 合成物品定义同步覆盖全部默认继承配方的材料与产物，不覆盖已有真实装备定义。
+- 测试覆盖权威数量、唯一性、三种不同材料的乱序匹配、三份重复材料、继承结果、材料不足失败无副作用，以及特殊继承/时装分类隔离。
+- 保留 67 个 `direct_static` 唯一配方和 `tlzsp x3 -> wptlz` 既有兼容入口。
+
+验证：
+
+- `npm run check:structure` 通过，仅有与目标文件无关的既有 warning。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+边界与后续：
+
+- 未接入 `direct_fashion_timestamp`、`get_sun_sutra_value` 或 `get_mingding_huayan`，也未实现新 UI、材料暂存会话或存档迁移。
+- 后续可评估特殊继承分类，并按任务生成规则创建独立切片。
 
 ### TASK-SLICE-113
 

@@ -36,25 +36,20 @@ export const DirectStaticCraftingRecipes: readonly CraftingRecipe[] = DirectStat
   }),
 );
 
-const MinimalSutraSourceBranch = 1;
+const sutraSources = recipeAuthority.recipes.filter(
+  (recipe) => recipe.productionBehavior === 'get_sutra_value',
+);
 
-export const MinimalSutraRecipeSources: readonly SutraRecipeSource[] = recipeAuthority.recipes
-  .filter((recipe) =>
-    recipe.productionBehavior === 'get_sutra_value' &&
-    recipe.sourceBranch === MinimalSutraSourceBranch
-  )
-  .map((recipe) => ({
+export const SutraRecipeSources: readonly SutraRecipeSource[] = deduplicateSources(
+  sutraSources.map((recipe) => ({
     sourceBranch: recipe.sourceBranch,
     materials: asMaterialTuple(recipe.materials, recipe.sourceBranch),
     productFillName: recipe.productFillName,
     productDisplayName: recipe.productDisplayName,
-  }));
+  })),
+);
 
-if (MinimalSutraRecipeSources.length !== 1) {
-  throw new Error('The authoritative registry is missing the minimal kyg/kyz/kys sutra recipe');
-}
-
-export const MinimalSutraCraftingRecipes: readonly CraftingRecipe[] = MinimalSutraRecipeSources.map(
+export const SutraCraftingRecipes: readonly CraftingRecipe[] = SutraRecipeSources.map(
   (source) => ({
     materialFillNames: source.materials,
     productFillName: source.productFillName,
@@ -64,7 +59,7 @@ export const MinimalSutraCraftingRecipes: readonly CraftingRecipe[] = MinimalSut
   }),
 );
 
-export const DirectStaticCraftingItemNames: ReadonlyMap<string, string> = buildItemNames();
+export const CraftingItemNames: ReadonlyMap<string, string> = buildItemNames();
 
 function deduplicateSources(
   sources: readonly DirectStaticRecipeSource[],
@@ -98,6 +93,10 @@ function materialMultisetKey(materials: readonly string[]): string {
 function buildItemNames(): Map<string, string> {
   const names = new Map<string, string>();
   for (const source of DirectStaticRecipeSources) {
+    for (const material of source.materials) names.set(material, names.get(material) ?? material);
+    names.set(source.productFillName, source.productDisplayName);
+  }
+  for (const source of SutraRecipeSources) {
     for (const material of source.materials) names.set(material, names.get(material) ?? material);
     names.set(source.productFillName, source.productDisplayName);
   }

@@ -7,9 +7,9 @@ import {
   type InventoryStore,
 } from './InventorySystem';
 import {
-  DirectStaticCraftingItemNames,
+  CraftingItemNames,
   DirectStaticCraftingRecipes,
-  MinimalSutraCraftingRecipes,
+  SutraCraftingRecipes,
 } from './CraftingRecipeRegistry';
 
 export type CraftingProductionBehavior = 'legacy_static' | 'direct_static' | 'get_sutra_value';
@@ -45,12 +45,12 @@ const DefaultSeedCraftingRecipe: CraftingRecipe = {
   productionBehavior: 'legacy_static',
 };
 
-// VS-042's inherited earth-pearl slice remains available alongside the newly
-// data-driven direct_static registry; its source behavior requires later inheritance work.
+// VS-042's original earth-pearl compatibility entry remains available alongside
+// the authoritative direct-static and inherited-attribute registries.
 export const SeedCraftingRecipes: readonly CraftingRecipe[] = [
   DefaultSeedCraftingRecipe,
   ...DirectStaticCraftingRecipes,
-  ...MinimalSutraCraftingRecipes,
+  ...SutraCraftingRecipes,
 ];
 
 export function createSeedCraftingItemDefinitions(
@@ -61,12 +61,9 @@ export function createSeedCraftingItemDefinitions(
     missPercent: 0, hpRegen: 0, mpRegen: 0, lifeStealPercent: 0,
     magicDefensePercent: 0, piercePercent: 0, shield: 0,
   };
-  const itemNames = new Map(DirectStaticCraftingItemNames);
+  const itemNames = new Map(CraftingItemNames);
   itemNames.set('tlzsp', '土灵珠碎片');
   itemNames.set('wptlz', '土灵珠');
-  itemNames.set('kyg', '枯叶弓');
-  itemNames.set('kyz', '枯叶杖');
-  itemNames.set('kys', '枯叶衫');
   const definitions: EquipmentDefinition[] = [...itemNames]
     .filter(([fillName]) => !existing[fillName])
     .map(([fillName, name]) => ({

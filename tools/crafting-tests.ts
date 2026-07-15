@@ -9,6 +9,8 @@ import {
 import {
   DirectStaticCraftingRecipes,
   DirectStaticRecipeSources,
+  SutraCraftingRecipes,
+  SutraRecipeSources,
 } from '../src/systems/CraftingRecipeRegistry';
 import { createSeedEquipmentRegistry } from '../src/systems/EquipmentSystem';
 import {
@@ -28,8 +30,9 @@ testUnorderedRecipeMatching();
 testMixedMaterialRecipeCrafting();
 testDuplicateMaterialQuantity();
 testMinimalSutraInheritance();
+testDuplicateSutraMaterialsAndAtomicFailure();
 testSutraRequiresEquipmentInstances();
-testNonDirectRecipeIsUnavailable();
+testSpecialInheritanceRecipesAreUnavailable();
 testFailuresHaveNoSideEffects();
 testSuccessfulAtomicTransaction();
 testFullInventoryPreflightIsAtomic();
@@ -40,6 +43,11 @@ console.log('Crafting system tests passed.');
 function testAuthorityRegistryCoverage(): void {
   assert.equal(DirectStaticRecipeSources.length, 67);
   assert.equal(DirectStaticCraftingRecipes.length, 67);
+  assert.equal(SutraRecipeSources.length, 41);
+  assert.equal(SutraCraftingRecipes.length, 41);
+  assert.equal(new Set(SutraRecipeSources.map((source) =>
+    [...source.materials].sort().join('\u0000')
+  )).size, 41);
   assert.equal(
     DirectStaticRecipeSources.filter((source) => source.sourceBranch === 86 || source.sourceBranch === 87).length,
     1,
@@ -47,6 +55,47 @@ function testAuthorityRegistryCoverage(): void {
   assert.equal(
     matchCraftingRecipe(['mdcqg', 'wpdh', 'wpbp'])?.productFillName,
     'cs_wq_llzzs',
+  );
+}
+
+function testDuplicateSutraMaterialsAndAtomicFailure(): void {
+  const store = createInventoryStore();
+  const sutraRegistry = createSutraTestRegistry();
+  sutraRegistry.rls = equipment('rls', '熔炼石', 'zbfj', {
+    ...sutraRegistry.kyl.stats, maxHp: 10, maxMp: 20, power: 30, defense: 40,
+  });
+  sutraRegistry.gjrls = equipment('gjrls', '高级熔炼石', 'zbfj', sutraRegistry.kyl.stats);
+  addEquipmentDefinition(store, sutraRegistry.rls);
+  addEquipmentDefinition(store, sutraRegistry.rls);
+
+  const recipe = matchCraftingRecipe(['rls', 'rls', 'rls']);
+  assert.equal(recipe?.productFillName, 'gjrls');
+  assert.equal(previewCrafting(store, 1_000, recipe).canCraft, false);
+  const failed = craft({
+    store, registry: sutraRegistry, soul: 1_000,
+    materialFillNames: ['rls', 'rls', 'rls'],
+  });
+  assert.equal(failed.ok, false);
+  assert.equal(failed.soulAfter, 1_000);
+  assert.equal(getInventoryEntries(store, 'equipment').length, 2);
+
+  addEquipmentDefinition(store, sutraRegistry.rls);
+  assert.equal(previewCrafting(store, 1_000, recipe).canCraft, true);
+  const result = craft({
+    store, registry: sutraRegistry, soul: 1_000,
+    materialFillNames: ['rls', 'rls', 'rls'],
+  });
+  assert.equal(result.ok, true);
+  const product = getInventoryEntries(store, 'equipment').find(
+    (entry) => entry.kind === 'equipment' && entry.definition.fillName === 'gjrls',
+  );
+  assert.ok(product?.kind === 'equipment');
+  assert.deepEqual(
+    {
+      maxHp: product.definition.stats.maxHp, maxMp: product.definition.stats.maxMp,
+      power: product.definition.stats.power, defense: product.definition.stats.defense,
+    },
+    { maxHp: 10, maxMp: 20, power: 30, defense: 40 },
   );
 }
 
@@ -146,9 +195,11 @@ function testDuplicateMaterialQuantity(): void {
   assert.match(preview.message, /材料不足/);
 }
 
-function testNonDirectRecipeIsUnavailable(): void {
-  assert.equal(matchCraftingRecipe(['xhz', 'xhc', 'xhp']), undefined);
-  assert.equal(matchCraftingRecipe(['_dzj', 'wpqhs1', 'wpqhs1']), undefined);
+function testSpecialInheritanceRecipesAreUnavailable(): void {
+  assert.equal(matchCraftingRecipe(['xhz', 'xhc', 'xhp'])?.productionBehavior, 'get_sutra_value');
+  assert.equal(matchCraftingRecipe(['mgzh', 'tflj', 'tdlzj']), undefined);
+  assert.equal(matchCraftingRecipe(['hy', 'wpxih', 'wpjt']), undefined);
+  assert.equal(matchCraftingRecipe(['ptnmwsz', 'ptnmwsz', 'ptnmwsz']), undefined);
 }
 
 function createSutraTestRegistry(): Record<string, ReturnType<typeof createSeedEquipmentRegistry>[string]> {
