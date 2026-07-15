@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ASSET-002 | 资源/实现 | 接入首个五角色真战斗资源族 | M-035、M-047、VS-039 | `Role1Bullet1/3/4/5` 共 27 帧 PNG、`AssetManifest.ts`、`BootScene.ts`、普攻视图逐帧播放、资源标注与状态文档 |
 | TASK-ASSET-003 | 资源/逆向 | EVB 原始资源提取与代表样本验证 | M-001、M-035、M-047、VS-039、VS-040、VS-041 | `evb-extraction-report.md`、项目外原始/还原目录、两份机器可读 manifest、资源状态文档 |
 | TASK-ASSET-001 | 资源/逆向 | 五角色战斗真实资源缺口盘点与接入计划 | M-035、M-047、VS-039、VS-040、VS-041 | `combat-assets-gap-plan.md`、`assets-index.md`、`task-board.md`、`mechanics-index.md`、`vertical-slices.md` |
 | TASK-SLICE-109 | 切片 | Role5 随身箭对象与协同 | VS-041、M-022、M-025、M-034 | `Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、占位 projectile、独立测试 |
@@ -153,6 +154,15 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-ASSET-002
+
+- 完成内容：从 `D:\flash-restored-swfs\assets\WuKong.swf` 定位并选择性导出 `Role1Bullet1/3/4/5`，Character ID 为 181/222/199/190，共 27 帧透明 PNG。
+- 代码产物：`AssetManifest.ts` 注册四组 ready 序列，`BootScene.ts` 预加载真资源，`TestSceneViews.ts` 和世界桥接按既有攻击持续窗口播放并跟随/镜像；未修改攻击数值、命中框、时序或流程。
+- 文档产物：更新 Role1 普攻标注 CSV/批次、资源工程状态、机制表、切片表和看板。
+- 验证：`npm run check:structure`、`npm run build`、`npm run test:systems`、`npm run check:annotations`、`npm run check:workflow` 通过；构建保留既有 chunk 超过 500 kB 警告。
+- 边界：只接入 Role1 四个普攻附属对象；没有修改 `extracted_flash/`，没有扩展到技能、其他角色或玩法规则。
+- 推荐后续：`TASK-SETTINGS-041` 合成机制逆向；若继续资源线，再单独生成 Role4 普攻真资源切片。
 
 ### TASK-ASSET-003
 

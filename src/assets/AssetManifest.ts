@@ -8,6 +8,16 @@ type LoadableAssetDefinition = {
   source: AssetSourceKind;
 };
 
+type FrameSequenceAssetDefinition = {
+  key: string;
+  frameKeys: readonly string[];
+  framePaths: readonly string[];
+  status: 'ready';
+  source: 'extracted-flash';
+  sourcePackage: string;
+  sourceSymbol: string;
+};
+
 type MissingSourceAssetFamily = {
   status: 'missing-original';
   sourceSymbols: readonly string[];
@@ -170,14 +180,36 @@ export const scaffoldAssets = {
   },
 } as const satisfies Record<string, LoadableAssetDefinition>;
 
+function createRole1NormalAttackFrames(symbol: string, frameCount: number) {
+  const folder = symbol.replace('Role1Bullet', 'role1-bullet');
+  return {
+    key: HeroNormalAttackEffectKeys[`role1Hit${symbol.slice(-1)}` as keyof Pick<
+      typeof HeroNormalAttackEffectKeys,
+      'role1Hit1' | 'role1Hit3' | 'role1Hit4' | 'role1Hit5'
+    >],
+    frameKeys: Array.from({ length: frameCount }, (_, index) => `${symbol}.frame${index + 1}`),
+    framePaths: Array.from(
+      { length: frameCount },
+      (_, index) => `/assets/combat/role1-normal-attack/${folder}/${index + 1}.png`,
+    ),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'WuKong.swf',
+    sourceSymbol: symbol,
+  } as const;
+}
+
+export const role1NormalAttackAssets = {
+  [HeroNormalAttackEffectKeys.role1Hit1]: createRole1NormalAttackFrames('Role1Bullet1', 8),
+  [HeroNormalAttackEffectKeys.role1Hit3]: createRole1NormalAttackFrames('Role1Bullet3', 11),
+  [HeroNormalAttackEffectKeys.role1Hit4]: createRole1NormalAttackFrames('Role1Bullet4', 4),
+  [HeroNormalAttackEffectKeys.role1Hit5]: createRole1NormalAttackFrames('Role1Bullet5', 4),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
 export const sourceAssetFamilies = {
-  role1To4NormalAttackEffects: {
+  role2To4NormalAttackEffects: {
     status: 'missing-original',
     sourceSymbols: [
-      'Role1Bullet1',
-      'Role1Bullet3',
-      'Role1Bullet4',
-      'Role1Bullet5',
       'Role2Bullet1',
       'Role2Bullet2',
       'Role3Bullet1',
@@ -189,7 +221,7 @@ export const sourceAssetFamilies = {
       'Role4BulletArrow1',
       'Role4BulletArrow2',
     ],
-    notes: 'Normal-attack attachments referenced by Role1 to Role4 but absent from current exports.',
+    notes: 'Normal-attack attachments referenced by Role2 to Role4 but not yet exported from the restored source packages.',
   },
   role5NormalAttackAnimations: {
     status: 'missing-original',
@@ -358,4 +390,5 @@ export const sourceAssetFamilies = {
 
 export const assetBundles = {
   scaffold: [scaffoldAssets.playerPlaceholder],
+  role1NormalAttacks: Object.values(role1NormalAttackAssets),
 } as const;

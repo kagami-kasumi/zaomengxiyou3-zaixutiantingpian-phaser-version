@@ -1,6 +1,7 @@
 ﻿// boundary: view factories create Phaser display objects only; they do not own
 // gameplay state transitions.
 import Phaser from 'phaser';
+import { role1NormalAttackAssets } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
 import type { PlayerSlot } from '../../systems/InputSystem';
@@ -61,8 +62,9 @@ export type AttackFlash = {
 export type AttackEffectView = {
   slot: PlayerSlot;
   attack: ActiveHeroNormalAttack;
-  shape: Phaser.GameObjects.Rectangle | Phaser.GameObjects.Ellipse;
+  shape: Phaser.GameObjects.Rectangle | Phaser.GameObjects.Ellipse | Phaser.GameObjects.Image;
   label: Phaser.GameObjects.Text;
+  frameKeys?: readonly string[];
 };
 
 export type ProjectileEffectView = {
@@ -269,7 +271,14 @@ export function createAttackEffectView(
   attack: ActiveHeroNormalAttack,
   effectColor: number,
 ): AttackEffectView {
-  const shape = attack.followsHero
+  const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets];
+  const shape = frameAsset
+    ? scene.add.image(
+      player.x + attack.facingX * 82,
+      player.y - 80,
+      frameAsset.frameKeys[0],
+    ).setFlipX(attack.facingX < 0)
+    : attack.followsHero
     ? scene.add.ellipse(player.x + attack.facingX * 82, player.y - 80, 86, 36, effectColor, 0.35)
     : scene.add.rectangle(player.x + attack.facingX * 105, player.y - 82, 102, 42, effectColor, 0.28);
   const label = scene.add.text(player.x + attack.facingX * 54, player.y - 128, attack.actionName, {
@@ -278,14 +287,28 @@ export function createAttackEffectView(
     fontSize: '13px',
   });
 
-  shape.setStrokeStyle(2, effectColor, 0.9);
+  if ('setStrokeStyle' in shape) {
+    shape.setStrokeStyle(2, effectColor, 0.9);
+  }
 
   return {
     slot: player.slot,
     attack,
     shape,
     label,
+    frameKeys: frameAsset?.frameKeys,
   };
+}
+
+export function syncAttackEffectFrame(effectView: AttackEffectView, time: number): void {
+  if (!effectView.frameKeys || !(effectView.shape instanceof Phaser.GameObjects.Image)) {
+    return;
+  }
+
+  const duration = effectView.attack.endsAtMs - effectView.attack.startedAtMs;
+  const progress = Math.min(Math.max((time - effectView.attack.startedAtMs) / duration, 0), 0.999);
+  const frameIndex = Math.floor(progress * effectView.frameKeys.length);
+  effectView.shape.setTexture(effectView.frameKeys[frameIndex]);
 }
 
 export function createProjectileEffectView(

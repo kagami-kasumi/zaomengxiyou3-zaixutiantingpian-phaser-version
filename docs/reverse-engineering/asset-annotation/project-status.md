@@ -2,13 +2,13 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。完成表示每个范围内条目都有可追溯状态和下一步，不表示素材已经接入 Phaser。当前 152 条视觉资源均处于 `source-corpus-ready`：源 SWF 语料库已经取得，下一步是定位精确包和符号，而不是再次请求来源。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象已完成首个真资源接入，其余资源继续按恢复语料库定位精确包和符号。
 
 ## 范围覆盖
 
 | 范围 | 标注数 | 结果 | 批次 |
 | --- | ---: | --- | --- |
-| 五角色普攻附属对象和本体动作 | 38 | 37 条待从恢复语料库定位符号；Role5 枪形态 1 条保持 unknown | `role1-normal-attack.md`、`hero-normal-attacks.md` |
+| 五角色普攻附属对象和本体动作 | 38 | Role1 4 条已接入；33 条待定位；Role5 枪形态 1 条保持 unknown | `role1-normal-attack.md`、`hero-normal-attacks.md` |
 | 已实现英雄技能效果 key | 76 | 语义映射已确认，待按角色包定位和选择性导出 | `hero-skill-effects.md` |
 | 已实现法宝效果 key | 10 | 语义映射已确认，待检查 `MagicWeapon*.swf` 等恢复包 | `magic-weapon-effects.md` |
 | 已实现宠物技能效果 key | 24 | 语义映射已确认，待定位源符号；6 条保留现代占位名差异 | `pet-skill-effects.md` |
@@ -16,7 +16,7 @@
 | Stage 1-1 | 4 | 3 项待从 `levels/level11.swf` 定位；listener 是行为证据 | `stage11.md` |
 | 已实现 UI 图片 | 0 | 现代 UI 尚无图片 key；源 UI 包已恢复，可启动按界面的源资源盘点 | `modern-ui-assets.md` |
 
-总计 154 条标注：152 条 `source-corpus-ready`、1 条 `needs-annotation`、1 条 `rejected`；153 条 `confirmed`、1 条 `unknown`。当前没有 `export-ready`、`derived-ready` 或 `needs-splitting` 条目。
+总计 154 条标注：4 条 `ready`、148 条 `source-corpus-ready`、1 条 `needs-annotation`、1 条 `rejected`；153 条 `confirmed`、1 条 `unknown`。当前没有 `export-ready`、`derived-ready` 或 `needs-splitting` 条目。
 
 ## 人工待办
 

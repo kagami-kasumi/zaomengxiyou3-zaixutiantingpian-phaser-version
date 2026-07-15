@@ -31,6 +31,8 @@
 
 ## 最小后续切片
 
+> 2026-07-15：`TASK-ASSET-002` 已完成首个切片。`assets/WuKong.swf` 中的 `Role1Bullet1/3/4/5`（Character ID 181/222/199/190）已选择性导出并接入 `public/assets/combat/role1-normal-attack/`；下列 Role1 普攻缺口已关闭，其他资源族仍按原计划推进。
+
 旧 `extracted_flash/` 中没有可直接接入的 Role1/4/5 真素材；EVB 新提取已解除源包阻塞。推荐后续任务为：
 
 - `TASK-ASSET-002`：从 `D:\flash-restored-swfs` 选择性导出 `WuKong` / `Role1Effect`、`ShaShen` 或 `bailongSword` 的一个最小资源族并接入。

@@ -80,6 +80,7 @@ import {
   createProjectileEffectView,
   destroyDropView,
   syncDropView,
+  syncAttackEffectFrame,
   type AttackEffectView,
   type AttackFlash,
   type MonsterView,
@@ -896,6 +897,8 @@ export function updateAttackEffectViews(this: any, time: number): void {
         continue;
       }
 
+      syncAttackEffectFrame(effectView, time);
+
       const player = this.playerViews.find((view: any) => view.slot === effectView.slot);
       if (player && player.movement && effectView.attack.followsHero) {
         const progress = (time - effectView.attack.startedAtMs) /
@@ -913,7 +916,7 @@ export function updateAttackEffectViews(this: any, time: number): void {
 
       const remainingRatio = (effectView.attack.endsAtMs - time) /
         (effectView.attack.endsAtMs - effectView.attack.startedAtMs);
-      effectView.shape.setAlpha(Math.max(0.1, remainingRatio * 0.5));
+      effectView.shape.setAlpha(effectView.frameKeys ? Math.max(0.2, remainingRatio) : Math.max(0.1, remainingRatio * 0.5));
       effectView.label.setAlpha(Math.max(0.15, remainingRatio));
       activeViews.push(effectView);
     }
