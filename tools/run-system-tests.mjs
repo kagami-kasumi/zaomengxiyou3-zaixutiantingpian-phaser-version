@@ -5,16 +5,18 @@ import * as esbuild from 'esbuild';
 
 const repoRoot = path.resolve(import.meta.dirname, '..');
 const outDir = path.join(repoRoot, '.tmp', 'system-tests');
-const bundledTest = path.join(outDir, 'system-tests.mjs');
+const bundledTests = ['system-tests', 'crafting-tests'];
 
 rmSync(outDir, { recursive: true, force: true });
 await esbuild.build({
-  entryPoints: [path.join(repoRoot, 'tools', 'system-tests.ts')],
+  entryPoints: bundledTests.map((name) => path.join(repoRoot, 'tools', `${name}.ts`)),
   bundle: true,
   platform: 'node',
   format: 'esm',
-  outfile: bundledTest,
+  outdir: outDir,
   logLevel: 'silent',
 });
 
-await import(pathToFileURL(bundledTest).href);
+for (const name of bundledTests) {
+  await import(pathToFileURL(path.join(outDir, `${name}.js`)).href);
+}

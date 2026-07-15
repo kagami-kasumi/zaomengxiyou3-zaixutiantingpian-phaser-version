@@ -1,0 +1,1479 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "1.1",
+  "authority": "extracted_flash/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as#mixProduce",
+  "semantics": {
+    "materials": "unordered multiset of exactly three fillName values",
+    "productionBehaviorSource": "export/strength/Fusion.as#doFusion"
+  },
+  "sourceTransNameBranchCount": 122,
+  "uniqueMaterialMultisetCount": 121,
+  "recipes": [
+    {
+      "sourceBranch": 1,
+      "sourceLine": 3510,
+      "materials": [
+        "kyg",
+        "kyz",
+        "kys"
+      ],
+      "productFillName": "kyl",
+      "productDisplayName": "枯叶灵",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 2,
+      "sourceLine": 3514,
+      "materials": [
+        "xhz",
+        "xhc",
+        "xhp"
+      ],
+      "productFillName": "xhhl",
+      "productDisplayName": "宣花葫芦",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 3,
+      "sourceLine": 3518,
+      "materials": [
+        "qybd",
+        "qyfp",
+        "qysz"
+      ],
+      "productFillName": "qyj",
+      "productDisplayName": "青云剑",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 4,
+      "sourceLine": 3522,
+      "materials": [
+        "hylk",
+        "hylc",
+        "hylz"
+      ],
+      "productFillName": "hyzzs",
+      "productDisplayName": "混元珍珠伞",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 5,
+      "sourceLine": 3526,
+      "materials": [
+        "zjksf",
+        "zjqj",
+        "zjbtg"
+      ],
+      "productFillName": "zjld",
+      "productDisplayName": "紫金铃铛",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 6,
+      "sourceLine": 3530,
+      "materials": [
+        "kyl",
+        "wplvdyl",
+        "gjrls"
+      ],
+      "productFillName": "syl",
+      "productDisplayName": "神叶灵",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 7,
+      "sourceLine": 3534,
+      "materials": [
+        "qyj",
+        "wplvdyl",
+        "gjyhs"
+      ],
+      "productFillName": "lxj",
+      "productDisplayName": "戮仙剑",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 8,
+      "sourceLine": 3538,
+      "materials": [
+        "hyzzs",
+        "wplvdyl",
+        "gjtss"
+      ],
+      "productFillName": "hywjs",
+      "productDisplayName": "混元无极伞",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 9,
+      "sourceLine": 3542,
+      "materials": [
+        "wpqhs1",
+        "wpqhs1",
+        "wpqhs1"
+      ],
+      "productFillName": "wpqhs2",
+      "productDisplayName": "2级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 10,
+      "sourceLine": 3546,
+      "materials": [
+        "wpqhs4",
+        "wpqhs4",
+        "wpqhs4"
+      ],
+      "productFillName": "wpqhs5",
+      "productDisplayName": "5级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 11,
+      "sourceLine": 3550,
+      "materials": [
+        "wpqhs2",
+        "wpqhs2",
+        "wpqhs2"
+      ],
+      "productFillName": "wpqhs3",
+      "productDisplayName": "3级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 12,
+      "sourceLine": 3550,
+      "materials": [
+        "scwpqhs2",
+        "scwpqhs2",
+        "scwpqhs2"
+      ],
+      "productFillName": "wpqhs3",
+      "productDisplayName": "3级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 13,
+      "sourceLine": 3550,
+      "materials": [
+        "wpqhs2",
+        "scwpqhs2",
+        "scwpqhs2"
+      ],
+      "productFillName": "wpqhs3",
+      "productDisplayName": "3级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 14,
+      "sourceLine": 3550,
+      "materials": [
+        "wpqhs2",
+        "wpqhs2",
+        "scwpqhs2"
+      ],
+      "productFillName": "wpqhs3",
+      "productDisplayName": "3级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 15,
+      "sourceLine": 3554,
+      "materials": [
+        "wpqhs3",
+        "wpqhs3",
+        "wpqhs3"
+      ],
+      "productFillName": "wpqhs4",
+      "productDisplayName": "4级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 16,
+      "sourceLine": 3554,
+      "materials": [
+        "scwpqhs3",
+        "scwpqhs3",
+        "scwpqhs3"
+      ],
+      "productFillName": "wpqhs4",
+      "productDisplayName": "4级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 17,
+      "sourceLine": 3554,
+      "materials": [
+        "wpqhs3",
+        "scwpqhs3",
+        "scwpqhs3"
+      ],
+      "productFillName": "wpqhs4",
+      "productDisplayName": "4级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 18,
+      "sourceLine": 3554,
+      "materials": [
+        "wpqhs3",
+        "wpqhs3",
+        "scwpqhs3"
+      ],
+      "productFillName": "wpqhs4",
+      "productDisplayName": "4级强化石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 19,
+      "sourceLine": 3558,
+      "materials": [
+        "sms1",
+        "sms1",
+        "sms1"
+      ],
+      "productFillName": "sms2",
+      "productDisplayName": "2级生命石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 20,
+      "sourceLine": 3562,
+      "materials": [
+        "sms2",
+        "sms2",
+        "sms2"
+      ],
+      "productFillName": "sms3",
+      "productDisplayName": "3级生命石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 21,
+      "sourceLine": 3562,
+      "materials": [
+        "scsms2",
+        "scsms2",
+        "scsms2"
+      ],
+      "productFillName": "sms3",
+      "productDisplayName": "3级生命石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 22,
+      "sourceLine": 3562,
+      "materials": [
+        "sms2",
+        "scsms2",
+        "scsms2"
+      ],
+      "productFillName": "sms3",
+      "productDisplayName": "3级生命石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 23,
+      "sourceLine": 3562,
+      "materials": [
+        "sms2",
+        "sms2",
+        "scsms2"
+      ],
+      "productFillName": "sms3",
+      "productDisplayName": "3级生命石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 24,
+      "sourceLine": 3566,
+      "materials": [
+        "mfs1",
+        "mfs1",
+        "mfs1"
+      ],
+      "productFillName": "mfs2",
+      "productDisplayName": "2级魔法石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 25,
+      "sourceLine": 3570,
+      "materials": [
+        "mfs2",
+        "mfs2",
+        "mfs2"
+      ],
+      "productFillName": "mfs3",
+      "productDisplayName": "3级魔法石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 26,
+      "sourceLine": 3570,
+      "materials": [
+        "scmfs2",
+        "scmfs2",
+        "scmfs2"
+      ],
+      "productFillName": "mfs3",
+      "productDisplayName": "3级魔法石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 27,
+      "sourceLine": 3570,
+      "materials": [
+        "mfs2",
+        "scmfs2",
+        "scmfs2"
+      ],
+      "productFillName": "mfs3",
+      "productDisplayName": "3级魔法石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 28,
+      "sourceLine": 3570,
+      "materials": [
+        "mfs2",
+        "mfs2",
+        "scmfs2"
+      ],
+      "productFillName": "mfs3",
+      "productDisplayName": "3级魔法石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 29,
+      "sourceLine": 3574,
+      "materials": [
+        "gjs1",
+        "gjs1",
+        "gjs1"
+      ],
+      "productFillName": "gjs2",
+      "productDisplayName": "2级攻击石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 30,
+      "sourceLine": 3578,
+      "materials": [
+        "gjs2",
+        "gjs2",
+        "gjs2"
+      ],
+      "productFillName": "gjs3",
+      "productDisplayName": "3级攻击石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 31,
+      "sourceLine": 3578,
+      "materials": [
+        "scgjs2",
+        "scgjs2",
+        "scgjs2"
+      ],
+      "productFillName": "gjs3",
+      "productDisplayName": "3级攻击石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 32,
+      "sourceLine": 3578,
+      "materials": [
+        "gjs2",
+        "scgjs2",
+        "scgjs2"
+      ],
+      "productFillName": "gjs3",
+      "productDisplayName": "3级攻击石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 33,
+      "sourceLine": 3578,
+      "materials": [
+        "gjs2",
+        "gjs2",
+        "scgjs2"
+      ],
+      "productFillName": "gjs3",
+      "productDisplayName": "3级攻击石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 34,
+      "sourceLine": 3582,
+      "materials": [
+        "fys1",
+        "fys1",
+        "fys1"
+      ],
+      "productFillName": "fys2",
+      "productDisplayName": "2级防御石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 35,
+      "sourceLine": 3586,
+      "materials": [
+        "fys2",
+        "fys2",
+        "fys2"
+      ],
+      "productFillName": "fys3",
+      "productDisplayName": "3级防御石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 36,
+      "sourceLine": 3586,
+      "materials": [
+        "scfys2",
+        "scfys2",
+        "scfys2"
+      ],
+      "productFillName": "fys3",
+      "productDisplayName": "3级防御石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 37,
+      "sourceLine": 3586,
+      "materials": [
+        "fys2",
+        "scfys2",
+        "scfys2"
+      ],
+      "productFillName": "fys3",
+      "productDisplayName": "3级防御石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 38,
+      "sourceLine": 3586,
+      "materials": [
+        "fys2",
+        "fys2",
+        "scfys2"
+      ],
+      "productFillName": "fys3",
+      "productDisplayName": "3级防御石",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 39,
+      "sourceLine": 3590,
+      "materials": [
+        "tlzsp",
+        "tlzsp",
+        "tlzsp"
+      ],
+      "productFillName": "wptlz",
+      "productDisplayName": "土灵珠",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 40,
+      "sourceLine": 3594,
+      "materials": [
+        "llzsp",
+        "llzsp",
+        "llzsp"
+      ],
+      "productFillName": "wpllz",
+      "productDisplayName": "雷灵珠",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 41,
+      "sourceLine": 3598,
+      "materials": [
+        "hlzsp",
+        "hlzsp",
+        "hlzsp"
+      ],
+      "productFillName": "wphlz",
+      "productDisplayName": "火灵珠",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 42,
+      "sourceLine": 3602,
+      "materials": [
+        "flzsp",
+        "flzsp",
+        "flzsp"
+      ],
+      "productFillName": "wpflz",
+      "productDisplayName": "风灵珠",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 43,
+      "sourceLine": 3606,
+      "materials": [
+        "slzsp",
+        "slzsp",
+        "slzsp"
+      ],
+      "productFillName": "wpslz",
+      "productDisplayName": "水灵珠",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 44,
+      "sourceLine": 3610,
+      "materials": [
+        "xley",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "yhs",
+      "productDisplayName": "玉衡石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 45,
+      "sourceLine": 3614,
+      "materials": [
+        "xlcz",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "yhs",
+      "productDisplayName": "玉衡石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 46,
+      "sourceLine": 3618,
+      "materials": [
+        "xlry",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "yhs",
+      "productDisplayName": "玉衡石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 47,
+      "sourceLine": 3622,
+      "materials": [
+        "xlny",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "yhs",
+      "productDisplayName": "玉衡石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 48,
+      "sourceLine": 3626,
+      "materials": [
+        "xlyj",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "yhs",
+      "productDisplayName": "玉衡石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 49,
+      "sourceLine": 3630,
+      "materials": [
+        "xlth",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "tss",
+      "productDisplayName": "天枢石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 50,
+      "sourceLine": 3634,
+      "materials": [
+        "xltq",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "tss",
+      "productDisplayName": "天枢石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 51,
+      "sourceLine": 3638,
+      "materials": [
+        "xltc",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "tss",
+      "productDisplayName": "天枢石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 52,
+      "sourceLine": 3642,
+      "materials": [
+        "xltz",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "tss",
+      "productDisplayName": "天枢石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 53,
+      "sourceLine": 3646,
+      "materials": [
+        "xlts",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "tss",
+      "productDisplayName": "天枢石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 54,
+      "sourceLine": 3650,
+      "materials": [
+        "ptnmwsz",
+        "ptnmwsz",
+        "ptnmwsz"
+      ],
+      "productFillName": "yxnmwsz",
+      "productDisplayName": "牛魔王装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 55,
+      "sourceLine": 3654,
+      "materials": [
+        "yxnmwsz",
+        "yxnmwsz",
+        "yxnmwsz"
+      ],
+      "productFillName": "jlnmwsz",
+      "productDisplayName": "牛魔王装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 56,
+      "sourceLine": 3658,
+      "materials": [
+        "jlnmwsz",
+        "jlnmwsz",
+        "jlnmwsz"
+      ],
+      "productFillName": "ssnmwsz",
+      "productDisplayName": "牛魔王装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 57,
+      "sourceLine": 3662,
+      "materials": [
+        "ptzlwsz",
+        "ptzlwsz",
+        "ptzlwsz"
+      ],
+      "productFillName": "yxzlwsz",
+      "productDisplayName": "转轮王装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 58,
+      "sourceLine": 3666,
+      "materials": [
+        "yxzlwsz",
+        "yxzlwsz",
+        "yxzlwsz"
+      ],
+      "productFillName": "jlzlwsz",
+      "productDisplayName": "转轮王装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 59,
+      "sourceLine": 3670,
+      "materials": [
+        "jlzlwsz",
+        "jlzlwsz",
+        "jlzlwsz"
+      ],
+      "productFillName": "sszlwsz",
+      "productDisplayName": "转轮王装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 60,
+      "sourceLine": 3674,
+      "materials": [
+        "ptsmsrsz",
+        "ptsmsrsz",
+        "ptsmsrsz"
+      ],
+      "productFillName": "yxsmsrsz",
+      "productDisplayName": "神秘商人装",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 61,
+      "sourceLine": 3678,
+      "materials": [
+        "yxsmsrsz",
+        "yxsmsrsz",
+        "yxsmsrsz"
+      ],
+      "productFillName": "jlsmsrsz",
+      "productDisplayName": "神秘商人装",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 62,
+      "sourceLine": 3682,
+      "materials": [
+        "jlsmsrsz",
+        "jlsmsrsz",
+        "jlsmsrsz"
+      ],
+      "productFillName": "sssmsrsz",
+      "productDisplayName": "神秘商人装",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 63,
+      "sourceLine": 3686,
+      "materials": [
+        "ptttzssz",
+        "ptttzssz",
+        "ptttzssz"
+      ],
+      "productFillName": "yxttzssz",
+      "productDisplayName": "天庭战神装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 64,
+      "sourceLine": 3690,
+      "materials": [
+        "yxttzssz",
+        "yxttzssz",
+        "yxttzssz"
+      ],
+      "productFillName": "jlttzssz",
+      "productDisplayName": "天庭战神装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 65,
+      "sourceLine": 3694,
+      "materials": [
+        "jlttzssz",
+        "jlttzssz",
+        "jlttzssz"
+      ],
+      "productFillName": "ssttzssz",
+      "productDisplayName": "天庭战神装",
+      "productionBehavior": "direct_fashion_timestamp"
+    },
+    {
+      "sourceBranch": 66,
+      "sourceLine": 3698,
+      "materials": [
+        "mgzh",
+        "tflj",
+        "tdlzj"
+      ],
+      "productFillName": "_dzj",
+      "productDisplayName": "地藏戒",
+      "productionBehavior": "get_sun_sutra_value"
+    },
+    {
+      "sourceBranch": 67,
+      "sourceLine": 3702,
+      "materials": [
+        "shsjt",
+        "_dzj",
+        "lly"
+      ],
+      "productFillName": "dzjj",
+      "productDisplayName": "地藏金戒",
+      "productionBehavior": "get_sun_sutra_value"
+    },
+    {
+      "sourceBranch": 68,
+      "sourceLine": 3706,
+      "materials": [
+        "bxhy",
+        "zhhz",
+        "phhl"
+      ],
+      "productFillName": "hy",
+      "productDisplayName": "花宴",
+      "productionBehavior": "get_sun_sutra_value"
+    },
+    {
+      "sourceBranch": 69,
+      "sourceLine": 3710,
+      "materials": [
+        "hy",
+        "wpxih",
+        "wpjt"
+      ],
+      "productFillName": "mdhy",
+      "productDisplayName": "命定花宴",
+      "productionBehavior": "get_mingding_huayan"
+    },
+    {
+      "sourceBranch": 70,
+      "sourceLine": 3714,
+      "materials": [
+        "wpyh",
+        "wpzh",
+        "wpjh"
+      ],
+      "productFillName": "wpxih",
+      "productDisplayName": "羲火",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 71,
+      "sourceLine": 3718,
+      "materials": [
+        "wpkt",
+        "wpyt",
+        "wpdt"
+      ],
+      "productFillName": "wpjt",
+      "productDisplayName": "钧铁",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 72,
+      "sourceLine": 3722,
+      "materials": [
+        "bxg",
+        "bxg",
+        "bxg"
+      ],
+      "productFillName": "hxg",
+      "productDisplayName": "含羞狗",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 73,
+      "sourceLine": 3726,
+      "materials": [
+        "hxg",
+        "bxg",
+        "yxqyzstx"
+      ],
+      "productFillName": "ssg",
+      "productDisplayName": "色色狗",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 74,
+      "sourceLine": 3730,
+      "materials": [
+        "ssg",
+        "bxg",
+        "jlqyzstx"
+      ],
+      "productFillName": "lsg",
+      "productDisplayName": "蓝瘦狗",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 75,
+      "sourceLine": 3734,
+      "materials": [
+        "lsg",
+        "bxg",
+        "ssqyzstx"
+      ],
+      "productFillName": "yng",
+      "productDisplayName": "怨念狗",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 76,
+      "sourceLine": 3738,
+      "materials": [
+        "yng",
+        "bxg",
+        "csqyzstx"
+      ],
+      "productFillName": "dgg",
+      "productDisplayName": "独孤狗",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 77,
+      "sourceLine": 3742,
+      "materials": [
+        "rls",
+        "rls",
+        "rls"
+      ],
+      "productFillName": "gjrls",
+      "productDisplayName": "高级熔炼石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 78,
+      "sourceLine": 3746,
+      "materials": [
+        "yhs",
+        "yhs",
+        "yhs"
+      ],
+      "productFillName": "gjyhs",
+      "productDisplayName": "高级玉衡石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 79,
+      "sourceLine": 3750,
+      "materials": [
+        "tss",
+        "tss",
+        "tss"
+      ],
+      "productFillName": "gjtss",
+      "productDisplayName": "高级天枢石",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 80,
+      "sourceLine": 3754,
+      "materials": [
+        "ttlpsp1",
+        "ttlpsp2",
+        "ttlpsp3"
+      ],
+      "productFillName": "ttlp",
+      "productDisplayName": "通天令牌",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 81,
+      "sourceLine": 3758,
+      "materials": [
+        "kly3",
+        "kly3",
+        "kly3"
+      ],
+      "productFillName": "kly4",
+      "productDisplayName": "4级昆仑玉",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 82,
+      "sourceLine": 3762,
+      "materials": [
+        "kly4",
+        "kly4",
+        "kly4"
+      ],
+      "productFillName": "kly5",
+      "productDisplayName": "5级昆仑玉",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 83,
+      "sourceLine": 3766,
+      "materials": [
+        "xhjxj",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_wq_glzzs",
+      "productDisplayName": "广力制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 84,
+      "sourceLine": 3770,
+      "materials": [
+        "xhmlp",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_fj_tlzzs",
+      "productDisplayName": "天龙制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 85,
+      "sourceLine": 3774,
+      "materials": [
+        "ryjgb",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_wq_qszzs",
+      "productDisplayName": "祁水制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 86,
+      "sourceLine": 3778,
+      "materials": [
+        "mdcqg",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_wq_llzzs",
+      "productDisplayName": "琉璃制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 87,
+      "sourceLine": 3782,
+      "materials": [
+        "mdcqg",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_wq_llzzs",
+      "productDisplayName": "琉璃制作书",
+      "productionBehavior": "direct_static",
+      "duplicateOfSourceBranch": 86
+    },
+    {
+      "sourceBranch": 88,
+      "sourceLine": 3786,
+      "materials": [
+        "mdflc",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_wq_llzzs",
+      "productDisplayName": "琉璃制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 89,
+      "sourceLine": 3790,
+      "materials": [
+        "lhz",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_wq_rczzs",
+      "productDisplayName": "若禅制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 90,
+      "sourceLine": 3794,
+      "materials": [
+        "jcdp",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_wq_ytzzs",
+      "productDisplayName": "夷图制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 91,
+      "sourceLine": 3798,
+      "materials": [
+        "dszk",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_fj_dzzzs",
+      "productDisplayName": "斗战制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 92,
+      "sourceLine": 3802,
+      "materials": [
+        "mdys",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_fj_jszzs",
+      "productDisplayName": "金身制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 93,
+      "sourceLine": 3806,
+      "materials": [
+        "jljs",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_fj_ztzzs",
+      "productDisplayName": "旃檀制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 94,
+      "sourceLine": 3810,
+      "materials": [
+        "tpzy",
+        "wpdh",
+        "wpbp"
+      ],
+      "productFillName": "cs_fj_jtzzs",
+      "productDisplayName": "净坛制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 95,
+      "sourceLine": 3814,
+      "materials": [
+        "lssp_1",
+        "lssp_2",
+        "lssp_3"
+      ],
+      "productFillName": "lxfs_1",
+      "productDisplayName": "流邪符石1",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 96,
+      "sourceLine": 3818,
+      "materials": [
+        "lssp_4",
+        "lssp_5",
+        "lssp_6"
+      ],
+      "productFillName": "lxfs_2",
+      "productDisplayName": "流邪符石2",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 97,
+      "sourceLine": 3822,
+      "materials": [
+        "lssp_7",
+        "lssp_8",
+        "lssp_9"
+      ],
+      "productFillName": "lxfs_3",
+      "productDisplayName": "流邪符石3",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 98,
+      "sourceLine": 3826,
+      "materials": [
+        "lxfs_1",
+        "lxfs_2",
+        "lxfs_3"
+      ],
+      "productFillName": "lxfb",
+      "productDisplayName": "流邪",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 99,
+      "sourceLine": 3830,
+      "materials": [
+        "lxfb",
+        "lxzhs",
+        "lxzhs"
+      ],
+      "productFillName": "sxfb",
+      "productDisplayName": "沙邪",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 100,
+      "sourceLine": 3834,
+      "materials": [
+        "sxfb",
+        "sxzhs",
+        "sxzhs"
+      ],
+      "productFillName": "yxfb",
+      "productDisplayName": "渊邪",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 101,
+      "sourceLine": 3838,
+      "materials": [
+        "wpfbyyin",
+        "wpfbyyan",
+        "wpfbtc"
+      ],
+      "productFillName": "tjbg",
+      "productDisplayName": "太极八卦",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 102,
+      "sourceLine": 3842,
+      "materials": [
+        "wpxih",
+        "wpjt",
+        "qpjy"
+      ],
+      "productFillName": "fbqpj",
+      "productDisplayName": "青萍剑",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 103,
+      "sourceLine": 3846,
+      "materials": [
+        "xlthzzs",
+        "wphlz",
+        "wphlz"
+      ],
+      "productFillName": "lyrzzs",
+      "productDisplayName": "烈焰刃制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 104,
+      "sourceLine": 3850,
+      "materials": [
+        "xleyzzs",
+        "wphlz",
+        "wphlz"
+      ],
+      "productFillName": "ylkjzzs",
+      "productDisplayName": "炎龙铠甲制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 105,
+      "sourceLine": 3854,
+      "materials": [
+        "cs_wq_qs",
+        "wpxty",
+        "wpycjh"
+      ],
+      "productFillName": "zxstgzzs",
+      "productDisplayName": "诛邪弑天棍制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 106,
+      "sourceLine": 3858,
+      "materials": [
+        "cs_fj_dz",
+        "wpzty",
+        "wpycjh"
+      ],
+      "productFillName": "zxstjzzs",
+      "productDisplayName": "诛邪弑天甲制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 107,
+      "sourceLine": 3862,
+      "materials": [
+        "cs_wq_rc",
+        "wpxty",
+        "wpycjh"
+      ],
+      "productFillName": "zxptzzzs",
+      "productDisplayName": "诛邪破天杖制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 108,
+      "sourceLine": 3866,
+      "materials": [
+        "cs_fj_zt",
+        "wpzty",
+        "wpycjh"
+      ],
+      "productFillName": "zxptyzzs",
+      "productDisplayName": "诛邪破天衣制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 109,
+      "sourceLine": 3870,
+      "materials": [
+        "cs_wq_yt",
+        "wpxty",
+        "wpycjh"
+      ],
+      "productFillName": "zxztpzzs",
+      "productDisplayName": "诛邪震天耙制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 110,
+      "sourceLine": 3874,
+      "materials": [
+        "cs_fj_jt",
+        "wpzty",
+        "wpycjh"
+      ],
+      "productFillName": "zxztkzzs",
+      "productDisplayName": "诛邪震天铠制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 111,
+      "sourceLine": 3878,
+      "materials": [
+        "cs_wq_ll",
+        "wpzty",
+        "wpycjh"
+      ],
+      "productFillName": "sqmdcqgzzs",
+      "productDisplayName": "神摩多苍穹弓制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 112,
+      "sourceLine": 3882,
+      "materials": [
+        "cs_wq_ll",
+        "wpxty",
+        "wpycjh"
+      ],
+      "productFillName": "zxqtczzs",
+      "productDisplayName": "诛邪擎天铲制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 113,
+      "sourceLine": 3886,
+      "materials": [
+        "cs_fj_js",
+        "wpzty",
+        "wpycjh"
+      ],
+      "productFillName": "zxqtszzs",
+      "productDisplayName": "诛邪擎天衫制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 114,
+      "sourceLine": 3890,
+      "materials": [
+        "cs_wq_gl",
+        "wpxty",
+        "wpycjh"
+      ],
+      "productFillName": "zxztjzzs",
+      "productDisplayName": "诛邪斩天剑制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 115,
+      "sourceLine": 3894,
+      "materials": [
+        "cs_fj_tl",
+        "wpzty",
+        "wpycjh"
+      ],
+      "productFillName": "zxttpzzs",
+      "productDisplayName": "诛邪托天袍制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 116,
+      "sourceLine": 3898,
+      "materials": [
+        "dgg",
+        "wpycjh",
+        "wpxty"
+      ],
+      "productFillName": "hsmwtx",
+      "productDisplayName": "混世魔王",
+      "productionBehavior": "get_sutra_value"
+    },
+    {
+      "sourceBranch": 117,
+      "sourceLine": 3902,
+      "materials": [
+        "xlczzzs",
+        "wpslz",
+        "wpslz"
+      ],
+      "productFillName": "hxkjzzs",
+      "productDisplayName": "黑犀铠甲制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 118,
+      "sourceLine": 3906,
+      "materials": [
+        "xltczzs",
+        "wpslz",
+        "wpslz"
+      ],
+      "productFillName": "lxqzzs",
+      "productDisplayName": "流星枪制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 119,
+      "sourceLine": 3910,
+      "materials": [
+        "xlryzzs",
+        "wptlz",
+        "wptlz"
+      ],
+      "productFillName": "xakjzzs",
+      "productDisplayName": "雪獒铠甲制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 120,
+      "sourceLine": 3914,
+      "materials": [
+        "xltzzzs",
+        "wptlz",
+        "wptlz"
+      ],
+      "productFillName": "zlfzzs",
+      "productDisplayName": "震雷斧制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 121,
+      "sourceLine": 3918,
+      "materials": [
+        "xlyjzzs",
+        "wpflz",
+        "wpflz"
+      ],
+      "productFillName": "fykjzzs",
+      "productDisplayName": "风鹰铠甲制作书",
+      "productionBehavior": "direct_static"
+    },
+    {
+      "sourceBranch": 122,
+      "sourceLine": 3922,
+      "materials": [
+        "xltszzs",
+        "wpflz",
+        "wpflz"
+      ],
+      "productFillName": "fljzzs",
+      "productDisplayName": "风轮剑制作书",
+      "productionBehavior": "direct_static"
+    }
+  ]
+}
+

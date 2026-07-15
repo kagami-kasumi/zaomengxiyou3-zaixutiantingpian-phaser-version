@@ -18,3 +18,4 @@ export * from '../../systems/SaveSystem';
 export * from '../../systems/MagicWeaponSystem';
 export * from '../../systems/ProgressionSystem';
 export * from '../../systems/PlayerInventoryOwnershipSystem';
+export * from '../../systems/CraftingSystem';

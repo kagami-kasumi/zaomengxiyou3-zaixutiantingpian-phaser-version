@@ -67,6 +67,8 @@
 | 装备实例 | `EquipmentInstance` | Entity | Progression | 背包中一件可穿戴装备的运行实例 | `GearInstance`, `EquipInstance` |
 | 装备栏 | `EquipmentLoadout` | Aggregate / Store | Progression | 当前已穿戴装备的槽位集合 | `GearLoadout`, `EquipSlots` |
 | 背包系统 | `InventorySystem` | System | Progression | 管理分类背包、堆叠物品、装备进出背包 | `BagSystem`, `BackpackSystem` |
+| 合成配方 | `CraftingRecipe` | Config | Progression | 以三个无序材料 `fillName` 映射固定产物和灵魂消耗 | `FusionRecipe`, `SynthesisRecipe` |
+| 合成系统 | `CraftingSystem` | System | Progression | 负责配方预览、门禁校验和材料/灵魂/产物的原子库存事务 | `FusionSystem`, `SynthesisSystem` |
 | 装备系统 | `EquipmentSystem` | System | Progression | 管理装备槽位、角色限制和属性汇总 | `GearSystem`, `EquipSystem` |
 | 装备 UI 系统 | `EquipmentUISystem` | System | Progression | 管理背包/装备面板状态、选择、穿脱命令和属性预览文本 | `InventoryUISystem`, `GearUISystem` |
 | 存档 | `SaveData` | Data | Save | 可序列化的游戏进度数据 | `GameSave`, `SaveState` |

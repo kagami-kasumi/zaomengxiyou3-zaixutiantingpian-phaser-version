@@ -278,6 +278,7 @@ export function createInventoryUIKeys(this: any): void {
     this.inventoryBackspaceKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
     this.inventoryDeleteKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DELETE);
     this.inventoryMagicWeaponUpgradeKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+    this.inventoryCraftKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
   }
 
 export function createDebugKeys(this: any): void {

@@ -13,6 +13,10 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-113 | 切片 | 接入最小 `get_sutra_value` 属性继承配方 | M-039、VS-042 | `kyg + kyz + kys -> kyl` 权威注册、装备实例事务、四属性平均继承、乱序/失败测试与状态文档 |
+| TASK-SLICE-111 | 切片 | 扩展 1.1 可直接生成配方注册表 | M-039、VS-042 | `CraftingRecipeRegistry.ts`、权威 JSON 直载与 `direct_static` 去重、混合/重复材料预览合成、`crafting-tests.ts`、状态文档 |
+| TASK-SETTINGS-042 | 逆向 | 1.1 合成配方权威数据清单 | M-039、VS-042 | `crafting-recipes-1.1.json`、122 个源码分支/121 个唯一输入、产物行为分类、`crafting-index.md` 与状态文档 |
+| TASK-SETTINGS-041 | 逆向 | 合成机制逆向 | M-039、VS-042 | `crafting-index.md`、合成 UI/配方/事务边界、首个实现切片与状态文档 |
 | TASK-ASSET-002 | 资源/实现 | 接入首个五角色真战斗资源族 | M-035、M-047、VS-039 | `Role1Bullet1/3/4/5` 共 27 帧 PNG、`AssetManifest.ts`、`BootScene.ts`、普攻视图逐帧播放、资源标注与状态文档 |
 | TASK-ASSET-003 | 资源/逆向 | EVB 原始资源提取与代表样本验证 | M-001、M-035、M-047、VS-039、VS-040、VS-041 | `evb-extraction-report.md`、项目外原始/还原目录、两份机器可读 manifest、资源状态文档 |
 | TASK-ASSET-001 | 资源/逆向 | 五角色战斗真实资源缺口盘点与接入计划 | M-035、M-047、VS-039、VS-040、VS-041 | `combat-assets-gap-plan.md`、`assets-index.md`、`task-board.md`、`mechanics-index.md`、`vertical-slices.md` |
@@ -154,6 +158,104 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-113
+
+状态：已完成。
+
+完成内容：
+
+- 从权威 JSON 接入源码分支 1：`kyg + kyz + kys -> kyl`，明确标记为 `get_sutra_value`，不混入静态配方分类。
+- 合成事务可选取并原子消费三个具体装备实例；产物以独立装备实例入包，不覆盖注册表静态定义。
+- 按 `AllEquipment.getSutraValue()` 复现 HP、MP、攻击、防御分别取三材料实例属性总和的三分之一并向零取整；头衔跳过覆盖的边界保留在实现中。
+- 预览和材料门禁同时识别装备实例数量；堆叠物不能冒充属性继承来源，失败不扣材料或灵魂。
+- 测试覆盖乱序材料、四属性继承、来源实例判定、失败无副作用，并确认未接入的默认/特殊继承配方仍不可用。
+
+验证：
+
+- `npm run check:structure` 通过，仅有与目标文件无关的既有 warning。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+边界与后续：
+
+- 未接入其余 `get_sutra_value`、`get_sun_sutra_value`、`get_mingding_huayan` 或时装时间戳。
+- 下一步执行 `TASK-SLICE-114`，按已验证规则扩展全部剩余 `get_sutra_value` 配方。
+
+### TASK-SLICE-111
+
+状态：已完成。
+
+完成内容：
+
+- 新增 `CraftingRecipeRegistry.ts`，构建时直接加载 1.1 权威 JSON，只筛选 `productionBehavior = direct_static`，把 68 个源码记录按无序材料多重集合去重为 67 个现代配方。
+- 注册表固定保留三个材料、产物名称和 1000 灵魂成本；分支 86/87 的重复输入只注册一次，并在发现同输入不同产物时主动报错。
+- `CraftingSystem.ts` 改为使用完整注册表，混合材料预览按每种材料数量检查；缺失的材料/产物获得最小定义，既有真实装备定义不会被覆盖。
+- 保留 `VS-042` 已交付的 `tlzsp x3 -> wptlz` 兼容配方；它不被伪装成 `direct_static`，后续高级属性继承仍需独立切片。
+- 测试覆盖 67 个唯一配方、源码重复去重、混合材料乱序、三份相同材料、完整合成事务、非 `direct_static` 拒绝和既有 P1/P2 隔离。
+
+验证：
+
+- `npm run check:structure` 通过，仅报告与本任务目标文件无关的既有 warning。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+边界与后续：
+
+- 未接入 `direct_fashion_timestamp`、`get_sutra_value`、`get_sun_sutra_value` 或 `get_mingding_huayan`，未新增 UI、材料暂存会话或属性继承。
+- 下一步按任务生成流程，为 `direct_fashion_timestamp` 或最小 `get_sutra_value` 分类建立独立切片。
+
+### TASK-SETTINGS-042
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- 新增 `docs/reverse-engineering/reference/crafting-recipes-1.1.json`，逐个保留 `AllEquipment.mixProduce()` 的 122 个 `transName()` 源码分支、三材料多重集合、产物 `fillName`/显示名和源码行号。
+- 确认 122 条记录对应 121 个唯一材料多重集合；唯一重复为源码分支 86/87，二者均是 `mdcqg + wpdh + wpbp -> cs_wq_llzzs`，不存在同一输入返回不同产物的冲突。
+- 按 `Fusion.doFusion()` 的实际优先级标注 68 条 `direct_static`、9 条 `direct_fashion_timestamp`、41 条 `get_sutra_value`、3 条 `get_sun_sutra_value` 和 1 条 `get_mingding_huayan`。
+- 更新 `crafting-index.md` 和 M-039，并生成只扩展 `direct_static` 注册表的 `TASK-SLICE-111`。
+
+更新文件：
+- `docs/reverse-engineering/reference/crafting-recipes-1.1.json`
+- `docs/reverse-engineering/crafting-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- Node 自动校验权威 JSON 与 `mixProduce()`：字段完整、每条恰好三个材料、源码分支数与记录数均为 122、121 个唯一输入、1 个同产物源码重复、0 个输入冲突。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-111`。
+
+### TASK-SETTINGS-041
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- 新增 `docs/reverse-engineering/crafting-index.md`，确认地图菜单到 `StrengthEquipment -> Fusion` 的入口、当前玩家选择、三材料槽暂存/退还和背包列表路由。
+- 确认 1.1 权威配方源为 `AllEquipment.mixProduce()`；三个材料按 `fillName` 多重集合无序匹配，重复材料需要实际数量，未匹配时无预览也无消耗。
+- 确认所有有效配方当前固定显示并执行 1000 灵魂、100% 成功；灵魂不足不扣材料，成功固定消耗三个单件材料并生成一个产物。
+- 记录普通静态产物、默认属性平均、地藏/花宴、神铸、命定花宴和时装期限的产物构造分流，首切片明确排除高级继承。
+- 新增 `VS-042`，并生成 `TASK-SLICE-110`：以 `tlzsp x3 -> wptlz` 验证无序配方、1000 灵魂门禁、原子库存事务和双玩家隔离。
+
+更新文件：
+- `docs/reverse-engineering/crafting-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-110`。
 
 ### TASK-ASSET-002
 
@@ -5700,6 +5802,26 @@
 
 推荐任务：
 - `TASK-SLICE-106..109` 已在本轮后续完成；Role5 完整战斗扩展已收束。
+
+### TASK-SLICE-110
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- 新增 Phaser 无关的 `CraftingSystem.ts`，登记首个无序三材料配方 `tlzsp x3 -> wptlz`，统一处理配方匹配、材料/灵魂/容量预检和原子库存事务。
+- P1/P2 种子背包各加入 3 个土灵珠碎片；C 或小键盘 `/` 打开对应玩家背包后，面板展示配方预览、材料数量、1000 灵魂成本与门禁结果，按 F 执行当前玩家合成。
+- 新增独立 `crafting-tests.ts` 并扩展系统测试运行器，覆盖无序匹配、重复数量、无配方、灵魂不足、背包容量不足、成功事务和双玩家隔离。
+- 更新统一语言、机制表和纵向切片状态；完整配方表、高级装备属性继承、材料暂存 UI、制作/强化/分解/五行重置、存档与真实炼丹炉美术保持后置。
+
+验证：
+- `npm run check:structure` 通过（仅既有 warning：`DropSystem.ts`、`EquipmentSystem.ts`、`MagicWeaponSystem.ts`、`PetSystem.ts`、`ProjectileSystem.ts`、`TestScene.ts`、`TestSceneWorldBridge.ts`、`tools/system-tests.ts`）。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- 按玩法优先级生成完整 1.1 配方数据化任务，或只生成一个高级产物属性继承切片。
 
 ### TASK-SLICE-106
 

@@ -13,6 +13,7 @@ import { createMagicWeaponModel, syncMagicWeaponFromLoadout } from './MagicWeapo
 import { isPetConsumableFillName, usePetConsumable } from './PetConsumableSystem';
 import { createMagicBottleCaptureModel } from './PetMagicBottleSystem';
 import type { MagicBottleCaptureModel, PetRoster } from './PetTypes';
+import { createSeedCraftingItemDefinitions } from './CraftingSystem';
 
 export type PlayerInventoryRuntime = {
   ownerSlot: PlayerSlot;
@@ -107,6 +108,7 @@ function createPlayerInventoryRuntime(
   ownerSlot: PlayerSlot,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): PlayerInventoryRuntime {
+  Object.assign(equipmentRegistry, createSeedCraftingItemDefinitions(equipmentRegistry));
   const loadout = createEmptyEquipmentLoadout();
   const xhhl = equipmentRegistry.xhhl;
   if (xhhl) {

@@ -106,6 +106,7 @@ export function createSeedInventoryStore(
   addStackByFillName(store, registry, 'nianqld', 1);
   addStackByFillName(store, registry, 'nianjhd', 1);
   addStackByFillName(store, registry, 'smbjns2', 2);
+  addStackByFillName(store, registry, 'tlzsp', 3);
   return store;
 }
 
@@ -134,11 +135,15 @@ export function addEquipmentByFillName(
     return undefined;
   }
 
-  const category = getInventoryCategoryForDefinition(definition);
-  if (store.categories[category].length >= store.capacityPerCategory) {
-    return undefined;
-  }
+  return addEquipmentDefinition(store, definition);
+}
 
+export function addEquipmentDefinition(
+  store: InventoryStore,
+  definition: EquipmentDefinition,
+): EquipmentInstance | undefined {
+  const category = getInventoryCategoryForDefinition(definition);
+  if (store.categories[category].length >= store.capacityPerCategory) return undefined;
   const instance = createEquipmentInstance(store, definition);
   store.categories[category].push(instance);
   return instance;

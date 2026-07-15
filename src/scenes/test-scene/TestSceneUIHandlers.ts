@@ -9,12 +9,14 @@ import {
   canUpgradePassiveSkill,
   canUpgradeSkill,
   canUpgradeTree,
+  craft,
   closePetPanel,
   equipSelectedInventoryEntry,
   findSkillInState,
   getSkillTreeForHero,
   learnSkill,
   moveInventorySelection,
+  previewCrafting,
   selectNextInventoryCategory,
   selectOwnedPet,
   setInventoryFocus,
@@ -116,6 +118,17 @@ export function handleInventoryUIKeys(this: any): void {
     ) {
       this.upgradeCurrentMagicWeapon();
     }
+
+    if (this.inventoryCraftKey && Phaser.Input.Keyboard.JustDown(this.inventoryCraftKey)) {
+      const result = craft({
+        store: runtime.store,
+        registry: this.equipmentRegistry,
+        soul: runtime.magicWeaponSoul,
+        materialFillNames: ['tlzsp', 'tlzsp', 'tlzsp'],
+      });
+      runtime.magicWeaponSoul = result.soulAfter;
+      runtime.ui.message = result.message;
+    }
   }
 
 export function tryUseSelectedPetConsumable(this: any): boolean {
@@ -153,6 +166,12 @@ export function updateInventoryPanel(this: any): void {
       ui: runtime.ui,
       magicWeaponSoul: runtime.magicWeaponSoul,
     });
+    const crafting = previewCrafting(runtime.store, runtime.magicWeaponSoul);
+    lines.push(
+      '',
+      `[合成 F] 土灵珠碎片 ${crafting.materialQuantity}/3 -> 土灵珠`,
+      `消耗 1000 灵魂 | ${crafting.message}`,
+    );
     this.inventoryPanel.text.setText(lines.join('\n'));
   }
 
