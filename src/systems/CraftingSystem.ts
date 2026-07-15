@@ -9,10 +9,17 @@ import {
 import {
   CraftingItemNames,
   DirectStaticCraftingRecipes,
+  MingDingHuaYanCraftingRecipes,
+  SunSutraCraftingRecipes,
   SutraCraftingRecipes,
 } from './CraftingRecipeRegistry';
 
-export type CraftingProductionBehavior = 'legacy_static' | 'direct_static' | 'get_sutra_value';
+export type CraftingProductionBehavior =
+  | 'legacy_static'
+  | 'direct_static'
+  | 'get_sutra_value'
+  | 'get_sun_sutra_value'
+  | 'get_mingding_huayan';
 
 export type CraftingRecipe = {
   materialFillNames: readonly [string, string, string];
@@ -51,6 +58,8 @@ export const SeedCraftingRecipes: readonly CraftingRecipe[] = [
   DefaultSeedCraftingRecipe,
   ...DirectStaticCraftingRecipes,
   ...SutraCraftingRecipes,
+  ...SunSutraCraftingRecipes,
+  ...MingDingHuaYanCraftingRecipes,
 ];
 
 export function createSeedCraftingItemDefinitions(
@@ -125,10 +134,11 @@ export function craft(params: {
   const product = params.registry[recipe.productFillName];
   if (!product) return failure('合成产物配置缺失', soulBefore, recipe);
   const requirements = buildRequirements(recipe.materialFillNames);
-  const sutraMaterials = recipe.productionBehavior === 'get_sutra_value'
+  const inheritsEquipmentStats = isInheritedEquipmentBehavior(recipe.productionBehavior);
+  const sutraMaterials = inheritsEquipmentStats
     ? findSutraMaterials(params.store, recipe.materialFillNames)
     : undefined;
-  if (recipe.productionBehavior === 'get_sutra_value' && !sutraMaterials) {
+  if (inheritsEquipmentStats && !sutraMaterials) {
     return failure('合成材料装备实例不足', soulBefore, recipe);
   }
   for (const [fillName, quantity] of requirements) {
@@ -147,7 +157,7 @@ export function craft(params: {
     for (const [fillName, quantity] of requirements) removeStackQuantity(params.store, fillName, quantity);
   }
   const added = sutraMaterials
-    ? addEquipmentDefinition(params.store, createSutraProduct(product, sutraMaterials))
+    ? addEquipmentDefinition(params.store, createInheritedProduct(product, sutraMaterials, recipe.productionBehavior))
     : addStackByFillName(params.store, params.registry, recipe.productFillName, 1);
   if (!added) throw new Error('Crafting preflight allowed a product that could not be added');
   return {
@@ -167,6 +177,80 @@ export function inheritSutraStats(
     maxMp: Math.trunc(materials.reduce((sum, item) => sum + item.definition.stats.maxMp, 0) / 3),
     power: Math.trunc(materials.reduce((sum, item) => sum + item.definition.stats.power, 0) / 3),
     defense: Math.trunc(materials.reduce((sum, item) => sum + item.definition.stats.defense, 0) / 3),
+  };
+}
+
+type SpecialInheritedStats = Pick<
+  EquipmentDefinition['stats'],
+  | 'maxHp' | 'maxMp' | 'power' | 'defense'
+  | 'critPercent' | 'missPercent' | 'hpRegen' | 'mpRegen'
+  | 'lifeStealPercent' | 'magicDefensePercent'
+>;
+
+export function inheritSunSutraStats(
+  materials: readonly EquipmentInstance[],
+  productFillName: string,
+): SpecialInheritedStats {
+  const positiveSum = (read: (stats: EquipmentDefinition['stats']) => number): number =>
+    materials.reduce((sum, item) => {
+      const value = read(item.definition.stats);
+      return value > 0 ? sum + value : sum;
+    }, 0);
+  const positiveFractionSum = (read: (stats: EquipmentDefinition['stats']) => number): number =>
+    positiveSum(read) / 100;
+  let lifeStealPercent = Math.trunc(positiveSum((stats) => stats.lifeStealPercent) / 1.5);
+  if (productFillName === 'dzjj') lifeStealPercent = 0;
+  if (productFillName === 'hy') lifeStealPercent = 18;
+  return {
+    maxHp: Math.trunc(positiveSum((stats) => stats.maxHp) / 1.5),
+    maxMp: Math.trunc(positiveSum((stats) => stats.maxMp) / 1.5),
+    power: Math.trunc(positiveSum((stats) => stats.power) / 1.5),
+    defense: Math.trunc(positiveSum((stats) => stats.defense) / 1.5),
+    critPercent: as3FractionToPercentPoints(roundTo2(positiveFractionSum((stats) => stats.critPercent) / 1.5)),
+    missPercent: as3FractionToPercentPoints(Math.min(
+      roundTo2(positiveFractionSum((stats) => stats.missPercent) / 1.5), 0.15,
+    )),
+    hpRegen: Math.trunc(positiveSum((stats) => stats.hpRegen) / 1.5),
+    mpRegen: Math.trunc(positiveSum((stats) => stats.mpRegen) / 1.5),
+    lifeStealPercent,
+    magicDefensePercent: as3FractionToPercentPoints(Math.min(
+      roundTo2(positiveFractionSum((stats) => stats.magicDefensePercent) / 1.5), 0.24,
+    )),
+  };
+}
+
+export function inheritMingDingHuaYanStats(
+  materials: readonly EquipmentInstance[],
+): SpecialInheritedStats {
+  const positiveScaledIntegerSum = (
+    read: (stats: EquipmentDefinition['stats']) => number,
+  ): number => materials.reduce((sum, item) => {
+    const value = read(item.definition.stats);
+    return value > 0 ? sum + Math.trunc(value * 1.5) : sum;
+  }, 0);
+  const positiveScaledFractionSum = (
+    read: (stats: EquipmentDefinition['stats']) => number,
+  ): number => materials.reduce((sum, item) => {
+    const value = read(item.definition.stats);
+    return value > 0 ? sum + (value / 100) * 1.5 : sum;
+  }, 0);
+  return {
+    maxHp: positiveScaledIntegerSum((stats) => stats.maxHp),
+    maxMp: positiveScaledIntegerSum((stats) => stats.maxMp),
+    power: positiveScaledIntegerSum((stats) => stats.power),
+    defense: positiveScaledIntegerSum((stats) => stats.defense),
+    critPercent: as3FractionToPercentPoints(roundTo2(
+      positiveScaledFractionSum((stats) => stats.critPercent),
+    )),
+    missPercent: as3FractionToPercentPoints(Math.min(
+      roundTo2(positiveScaledFractionSum((stats) => stats.missPercent)), 0.18,
+    )),
+    hpRegen: positiveScaledIntegerSum((stats) => stats.hpRegen),
+    mpRegen: positiveScaledIntegerSum((stats) => stats.mpRegen),
+    lifeStealPercent: positiveScaledIntegerSum((stats) => stats.lifeStealPercent),
+    magicDefensePercent: as3FractionToPercentPoints(Math.min(
+      roundTo2(positiveScaledFractionSum((stats) => stats.magicDefensePercent)), 0.24,
+    )),
   };
 }
 
@@ -227,18 +311,38 @@ function removeEquipmentInstance(store: InventoryStore, material: EquipmentInsta
   }
 }
 
-function createSutraProduct(
+function createInheritedProduct(
   product: EquipmentDefinition,
   materials: readonly EquipmentInstance[],
+  behavior: CraftingProductionBehavior,
 ): EquipmentDefinition {
   if (product.type === 'zbtx') return product;
+  const inheritedStats = behavior === 'get_sun_sutra_value'
+    ? inheritSunSutraStats(materials, product.fillName)
+    : behavior === 'get_mingding_huayan'
+      ? inheritMingDingHuaYanStats(materials)
+      : inheritSutraStats(materials);
   return {
     ...product,
     stats: {
       ...product.stats,
-      ...inheritSutraStats(materials),
+      ...inheritedStats,
     },
   };
+}
+
+function isInheritedEquipmentBehavior(behavior: CraftingProductionBehavior): boolean {
+  return behavior === 'get_sutra_value' ||
+    behavior === 'get_sun_sutra_value' ||
+    behavior === 'get_mingding_huayan';
+}
+
+function roundTo2(value: number): number {
+  return Number(value.toFixed(2));
+}
+
+function as3FractionToPercentPoints(value: number): number {
+  return value * 100;
 }
 
 function canAddProductAfterConsumption(

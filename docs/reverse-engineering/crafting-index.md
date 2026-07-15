@@ -146,3 +146,70 @@ tlzsp + tlzsp + tlzsp -> wptlz（土灵珠）
 `TASK-SLICE-114` 已把权威 JSON 中全部 41 条 `get_sutra_value` 记录按无序材料多重集合注册；清单内没有重复组合，因此现代唯一注册表也是 41 条。三同材料、两同一异和三种不同材料均复用首切片确认的装备实例选择、四属性平均继承与原子事务。
 
 `direct_fashion_timestamp`、`get_sun_sutra_value` 和 `get_mingding_huayan` 仍不进入默认继承注册表；这些分类的属性来源或时间语义不同，必须独立评估。
+
+## 特殊属性继承分类
+
+`TASK-SETTINGS-043` 确认权威 JSON 中四条特殊记录与 `Fusion.doFusion()` 的分支严格对应：分支 66～68 的 `_dzj/dzjj/hy` 调用 `getSunSutraValueEquip()`，分支 69 的 `mdhy` 调用 `getMingDingHuaYanEquip()`。分派证据见 `Fusion.as:493-520`；配方输入和产物见 `crafting-recipes-1.1.json` 的源码分支 66～69（原 `mixProduce()` 行 3698、3702、3706、3710）。这四条不能落入默认四属性三材料平均继承。
+
+| 分类 | 权威配方 | 产物 | 属性来源 |
+| --- | --- | --- | --- |
+| `get_sun_sutra_value` | `mgzh + tflj + tdlzj` | `_dzj` 地藏戒 | 三个具体装备实例的 10 项正属性 |
+| `get_sun_sutra_value` | `shsjt + _dzj + lly` | `dzjj` 地藏金戒 | 三个具体装备实例的 10 项正属性 |
+| `get_sun_sutra_value` | `bxhy + zhhz + phhl` | `hy` 花宴 | 三个具体装备实例的 10 项正属性 |
+| `get_mingding_huayan` | `hy + wpxih + wpjt` | `mdhy` 命定花宴 | 三个具体装备实例的 10 项正属性 |
+
+### `getSunSutraValueEquip()`
+
+完整循环和赋值见 `AllEquipment.as:4083-4174`。对每个材料、每项属性都先判断 `> 0`；零值和负值不参与。令 `S(x)` 为三个材料中正值之和：
+
+| AS3 字段 | 现代字段 | AS3 原始结果公式 |
+| --- | --- | --- |
+| `ehp` | `maxHp` | `trunc(S / 1.5)` |
+| `emp` | `maxMp` | `trunc(S / 1.5)` |
+| `eatt` | `power` | `trunc(S / 1.5)` |
+| `edef` | `defense` | `trunc(S / 1.5)` |
+| `ecrit` | `critPercent` | `round2(S / 1.5)`，无上限 |
+| `emiss` | `missPercent` | `min(round2(S / 1.5), 0.15)` |
+| `eahp` | `hpRegen` | `trunc(S / 1.5)` |
+| `eamp` | `mpRegen` | `trunc(S / 1.5)` |
+| `haveblood` | `lifeStealPercent` | 默认 `trunc(S / 1.5)`；`dzjj` 强制为 `0`，`hy` 强制为 `18` |
+| `magicdef` | `magicDefensePercent` | `min(round2(S / 1.5), 0.24)` |
+
+这里的 `trunc` 对应 AS3 `int()` 向零截断，`round2` 对应 `Number(value.toFixed(2))`。HP、MP、攻击、防御、回血、回蓝和吸血在最终除法后截断；暴击、闪避和魔抗只在最终除法后保留两位。闪避与魔抗使用 `>=` 判断封顶，等于上限也得到上限。产物由静态定义克隆后，上述 10 项全部被覆盖；`piercePercent`、`shield` 以及装备身份/类型等其他字段保持静态产物定义。
+
+### `getMingDingHuaYanEquip()`
+
+完整循环和赋值见 `AllEquipment.as:3997-4080`。同样只读取每个材料的正值，但倍率在逐材料累加时施加：
+
+| AS3 字段 | 现代字段 | AS3 原始结果公式 |
+| --- | --- | --- |
+| `ehp` | `maxHp` | `sum(trunc(x * 1.5))` |
+| `emp` | `maxMp` | `sum(trunc(x * 1.5))` |
+| `eatt` | `power` | `sum(trunc(x * 1.5))` |
+| `edef` | `defense` | `sum(trunc(x * 1.5))` |
+| `ecrit` | `critPercent` | `round2(sum(x * 1.5))`，无上限 |
+| `emiss` | `missPercent` | `min(round2(sum(x * 1.5)), 0.18)` |
+| `eahp` | `hpRegen` | `sum(trunc(x * 1.5))` |
+| `eamp` | `mpRegen` | `sum(trunc(x * 1.5))` |
+| `haveblood` | `lifeStealPercent` | `sum(trunc(x * 1.5))` |
+| `magicdef` | `magicDefensePercent` | `min(round2(sum(x * 1.5)), 0.24)` |
+
+整数类必须逐材料截断后再求和，不能简化为 `trunc(S * 1.5)`；例如三个 `1` 应得到 `3`，不是 `4`。浮点类先完整求和，最后统一保留两位。`mdhy` 没有产物名特例。
+
+### 现代实现与确定性测试边界
+
+现有 `EquipmentStats` 已承载全部 10 项：`maxHp/maxMp/power/defense/critPercent/missPercent/hpRegen/mpRegen/lifeStealPercent/magicDefensePercent`，无需增加字段。单位适配必须显式处理：AS3 的 `ecrit/emiss/magicdef` 使用 `0.15 = 15%` 一类小数比例，而现代 `*Percent` 字段使用百分数点，因此写入 `critPercent/missPercent/magicDefensePercent` 前乘 `100`；测试中的 Sun 闪避/魔抗封顶应分别断言 `15/24`，MingDing 应断言 `18/24`。`haveblood` 已是百分数点，`hy = 18` 直接写入 `lifeStealPercent`，不能再乘 `100`。`piercePercent` 和 `shield` 不参与特殊继承；实现时应从产物静态定义保留它们。四条配方仍复用现有装备实例选择、无序多重集合匹配、1000 灵魂、容量预检、失败无副作用和 P1/P2 隔离事务，只新增独立行为枚举和继承纯函数。
+
+最低测试矩阵：
+
+- 注册表恰有三条 `get_sun_sutra_value` 和一条 `get_mingding_huayan`，且不进入 `get_sutra_value` 注册表。
+- Sun 普通十属性、负值忽略、整数除 1.5 后截断、浮点最终两位、闪避 0.15 与魔抗 0.24 上限。
+- Sun 的 `_dzj` 默认吸血、`dzjj -> 0`、`hy -> 18` 三种产物分支。
+- MingDing 的整数逐材料乘 1.5 再截断、浮点最终两位、闪避 0.18 与魔抗 0.24 上限，无吸血特例。
+- 材料乱序结果一致；材料实例不足、灵魂不足或容量不足时 10 项属性、库存与灵魂均无部分提交；P1/P2 互不影响。
+
+## 现代特殊属性继承实现
+
+`TASK-SLICE-115` 已把权威 JSON 的三条 `get_sun_sutra_value` 和一条 `get_mingding_huayan` 接入独立注册表分类。`CraftingSystem` 将三种属性继承行为统一走具体装备实例选择与原子消费，再按行为分派到默认四属性平均、Sun 十属性或 MingDing 十属性纯函数。
+
+现代实现显式完成 AS3 小数比例与现代百分数点之间的转换，Sun 的 `dzjj/hy` 吸血覆盖发生在通用公式之后；产物的 `piercePercent/shield` 保留静态定义。测试已覆盖权威数量、分类隔离、四条乱序合成、正值过滤、整数截断顺序、浮点两位、两类上限、三种 Sun 吸血结果、材料实例不足失败无副作用和 P1/P2 隔离。

@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import {
   craft,
   createSeedCraftingItemDefinitions,
+  inheritMingDingHuaYanStats,
+  inheritSunSutraStats,
   matchCraftingRecipe,
   previewCrafting,
   type CraftingRecipe,
@@ -9,6 +11,10 @@ import {
 import {
   DirectStaticCraftingRecipes,
   DirectStaticRecipeSources,
+  MingDingHuaYanCraftingRecipes,
+  MingDingHuaYanRecipeSources,
+  SunSutraCraftingRecipes,
+  SunSutraRecipeSources,
   SutraCraftingRecipes,
   SutraRecipeSources,
 } from '../src/systems/CraftingRecipeRegistry';
@@ -32,11 +38,16 @@ testDuplicateMaterialQuantity();
 testMinimalSutraInheritance();
 testDuplicateSutraMaterialsAndAtomicFailure();
 testSutraRequiresEquipmentInstances();
-testSpecialInheritanceRecipesAreUnavailable();
+testSpecialInheritanceRegistryCoverage();
+testSunSutraInheritanceRules();
+testMingDingHuaYanInheritanceRules();
+testAllSpecialRecipesCraftEquipmentInstances();
+testSpecialInheritanceFailureIsAtomic();
 testFailuresHaveNoSideEffects();
 testSuccessfulAtomicTransaction();
 testFullInventoryPreflightIsAtomic();
 testPlayerInventoriesStayIsolated();
+testSpecialInheritancePlayerIsolation();
 
 console.log('Crafting system tests passed.');
 
@@ -45,6 +56,10 @@ function testAuthorityRegistryCoverage(): void {
   assert.equal(DirectStaticCraftingRecipes.length, 67);
   assert.equal(SutraRecipeSources.length, 41);
   assert.equal(SutraCraftingRecipes.length, 41);
+  assert.equal(SunSutraRecipeSources.length, 3);
+  assert.equal(SunSutraCraftingRecipes.length, 3);
+  assert.equal(MingDingHuaYanRecipeSources.length, 1);
+  assert.equal(MingDingHuaYanCraftingRecipes.length, 1);
   assert.equal(new Set(SutraRecipeSources.map((source) =>
     [...source.materials].sort().join('\u0000')
   )).size, 41);
@@ -195,11 +210,90 @@ function testDuplicateMaterialQuantity(): void {
   assert.match(preview.message, /材料不足/);
 }
 
-function testSpecialInheritanceRecipesAreUnavailable(): void {
+function testSpecialInheritanceRegistryCoverage(): void {
   assert.equal(matchCraftingRecipe(['xhz', 'xhc', 'xhp'])?.productionBehavior, 'get_sutra_value');
-  assert.equal(matchCraftingRecipe(['mgzh', 'tflj', 'tdlzj']), undefined);
-  assert.equal(matchCraftingRecipe(['hy', 'wpxih', 'wpjt']), undefined);
+  assert.equal(
+    matchCraftingRecipe(['tdlzj', 'mgzh', 'tflj'])?.productionBehavior,
+    'get_sun_sutra_value',
+  );
+  assert.equal(matchCraftingRecipe(['shsjt', '_dzj', 'lly'])?.productFillName, 'dzjj');
+  assert.equal(matchCraftingRecipe(['phhl', 'bxhy', 'zhhz'])?.productFillName, 'hy');
+  assert.equal(
+    matchCraftingRecipe(['wpjt', 'hy', 'wpxih'])?.productionBehavior,
+    'get_mingding_huayan',
+  );
+  assert.equal(SutraCraftingRecipes.some((recipe) => recipe.productFillName === '_dzj'), false);
+  assert.equal(SutraCraftingRecipes.some((recipe) => recipe.productFillName === 'mdhy'), false);
   assert.equal(matchCraftingRecipe(['ptnmwsz', 'ptnmwsz', 'ptnmwsz']), undefined);
+}
+
+function testSunSutraInheritanceRules(): void {
+  const materials = specialMaterialInstances();
+  const inherited = inheritSunSutraStats(materials, '_dzj');
+  assert.deepEqual(inherited, {
+    maxHp: 14, maxMp: 8, power: 4, defense: 6,
+    critPercent: 10, missPercent: 15, hpRegen: 4, mpRegen: 6,
+    lifeStealPercent: 8, magicDefensePercent: 24,
+  });
+  assert.equal(inheritSunSutraStats(materials, 'dzjj').lifeStealPercent, 0);
+  assert.equal(inheritSunSutraStats(materials, 'hy').lifeStealPercent, 18);
+}
+
+function testMingDingHuaYanInheritanceRules(): void {
+  const materials = specialMaterialInstances().map((item, index) => equipmentInstance(
+    equipment(`ming-${index}`, `命定材料${index}`, 'zbfj', {
+      ...item.definition.stats,
+      maxHp: 1, maxMp: index === 0 ? -3 : 1, power: 1, defense: 1,
+      hpRegen: 1, mpRegen: 1, lifeStealPercent: 1,
+    }),
+    `ming-${index}`,
+  ));
+  assert.deepEqual(inheritMingDingHuaYanStats(materials), {
+    maxHp: 3, maxMp: 2, power: 3, defense: 3,
+    critPercent: 23, missPercent: 18, hpRegen: 3, mpRegen: 3,
+    lifeStealPercent: 3, magicDefensePercent: 24,
+  });
+}
+
+function testAllSpecialRecipesCraftEquipmentInstances(): void {
+  for (const recipe of [...SunSutraCraftingRecipes, ...MingDingHuaYanCraftingRecipes]) {
+    const store = createInventoryStore();
+    const specialRegistry = createSpecialTestRegistry();
+    for (const fillName of recipe.materialFillNames) {
+      assert.ok(addEquipmentDefinition(store, specialRegistry[fillName]));
+    }
+    const result = craft({
+      store, registry: specialRegistry, soul: 1_000,
+      materialFillNames: [...recipe.materialFillNames].reverse(),
+    });
+    assert.equal(result.ok, true, recipe.productFillName);
+    assert.equal(result.soulAfter, 0);
+    const entries = getInventoryEntries(store, 'equipment');
+    assert.equal(entries.length, 1);
+    const product = entries[0];
+    assert.ok(product.kind === 'equipment');
+    assert.equal(product.definition.fillName, recipe.productFillName);
+    assert.equal(product.definition.stats.piercePercent, 7);
+    assert.equal(product.definition.stats.shield, 9);
+  }
+}
+
+function testSpecialInheritanceFailureIsAtomic(): void {
+  const store = createInventoryStore();
+  const specialRegistry = createSpecialTestRegistry();
+  addEquipmentDefinition(store, specialRegistry.mgzh);
+  addEquipmentDefinition(store, specialRegistry.tflj);
+  specialRegistry.tdlzj = { ...specialRegistry.tdlzj, type: 'zbwp' };
+  addStackByFillName(store, specialRegistry, 'tdlzj', 1);
+  const result = craft({
+    store, registry: specialRegistry, soul: 1_000,
+    materialFillNames: ['mgzh', 'tflj', 'tdlzj'],
+  });
+  assert.equal(result.ok, false);
+  assert.match(result.message, /装备实例不足/);
+  assert.equal(result.soulAfter, 1_000);
+  assert.equal(getInventoryEntries(store, 'equipment').length, 2);
+  assert.equal(stackQuantity(store, 'tdlzj'), 1);
 }
 
 function createSutraTestRegistry(): Record<string, ReturnType<typeof createSeedEquipmentRegistry>[string]> {
@@ -223,6 +317,48 @@ function equipment(
     showId: 1, name, fillName, type, user: '', quality: '优 秀', color: '0x00FF00',
     stats, description: '合成属性继承测试装备',
   };
+}
+
+function specialMaterialInstances(): ReturnType<typeof equipmentInstance>[] {
+  const empty = createSeedEquipmentRegistry().kyl.stats;
+  const stats = [
+    { maxHp: 10, maxMp: -5, power: 1, defense: 2, critPercent: 4, missPercent: 20,
+      hpRegen: 1, mpRegen: 2, lifeStealPercent: 3, magicDefensePercent: 30 },
+    { maxHp: 11, maxMp: 6, power: 2, defense: 3, critPercent: 5, missPercent: 10,
+      hpRegen: 2, mpRegen: 3, lifeStealPercent: 4, magicDefensePercent: 20 },
+    { maxHp: -100, maxMp: 7, power: 3, defense: 4, critPercent: 6, missPercent: 0,
+      hpRegen: 3, mpRegen: 4, lifeStealPercent: 5, magicDefensePercent: 10 },
+  ];
+  return stats.map((overrides, index) => equipmentInstance(
+    equipment(`special-${index}`, `特殊材料${index}`, 'zbfj', { ...empty, ...overrides }),
+    `special-${index}`,
+  ));
+}
+
+function equipmentInstance(
+  definition: ReturnType<typeof createSeedEquipmentRegistry>[string],
+  instanceId: string,
+) {
+  return { kind: 'equipment' as const, instanceId, definition, quantity: 1 as const };
+}
+
+function createSpecialTestRegistry(): Record<string, ReturnType<typeof createSeedEquipmentRegistry>[string]> {
+  const base = createSeedEquipmentRegistry();
+  const materialStats = specialMaterialInstances().map((item) => item.definition.stats);
+  const result: Record<string, ReturnType<typeof createSeedEquipmentRegistry>[string]> = { ...base };
+  const fillNames = new Set(
+    [...SunSutraCraftingRecipes, ...MingDingHuaYanCraftingRecipes]
+      .flatMap((recipe) => [...recipe.materialFillNames, recipe.productFillName]),
+  );
+  let index = 0;
+  for (const fillName of fillNames) {
+    const isProduct = [...SunSutraCraftingRecipes, ...MingDingHuaYanCraftingRecipes]
+      .some((recipe) => recipe.productFillName === fillName);
+    result[fillName] = equipment(fillName, fillName, 'zbfj', isProduct
+      ? { ...base.kyl.stats, piercePercent: 7, shield: 9 }
+      : { ...materialStats[index++ % materialStats.length] });
+  }
+  return result;
 }
 
 function testFailuresHaveNoSideEffects(): void {
@@ -285,6 +421,27 @@ function testPlayerInventoriesStayIsolated(): void {
   assert.equal(stackQuantity(runtimes.p2.store, 'tlzsp'), 0);
   assert.equal(stackQuantity(runtimes.p2.store, 'wptlz'), 1);
   assert.equal(runtimes.p2.magicWeaponSoul, 4_000);
+}
+
+function testSpecialInheritancePlayerIsolation(): void {
+  const specialRegistry = createSpecialTestRegistry();
+  const runtimes = createPlayerInventoryRuntimes(specialRegistry);
+  for (const fillName of ['mgzh', 'tflj', 'tdlzj']) {
+    addEquipmentDefinition(runtimes.p2.store, specialRegistry[fillName]);
+  }
+  const p1Before = getInventoryEntries(runtimes.p1.store, 'equipment').length;
+  const result = craft({
+    store: runtimes.p2.store, registry: specialRegistry, soul: runtimes.p2.magicWeaponSoul,
+    materialFillNames: ['tdlzj', 'mgzh', 'tflj'],
+  });
+  runtimes.p2.magicWeaponSoul = result.soulAfter;
+  assert.equal(result.ok, true);
+  assert.equal(getInventoryEntries(runtimes.p1.store, 'equipment').length, p1Before);
+  assert.equal(runtimes.p1.magicWeaponSoul, 5_000);
+  assert.equal(runtimes.p2.magicWeaponSoul, 4_000);
+  assert.ok(getInventoryEntries(runtimes.p2.store, 'equipment').some(
+    (entry) => entry.kind === 'equipment' && entry.definition.fillName === '_dzj',
+  ));
 }
 
 function stackQuantity(store: ReturnType<typeof createInventoryStore>, fillName: string): number {

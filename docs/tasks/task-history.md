@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-115 | 切片 | 接入特殊合成属性继承配方 | M-039、VS-042 | 四条权威特殊配方、10 属性纯函数、百分数转换、上限/吸血特例、原子事务与双玩家测试、状态文档 |
+| TASK-SETTINGS-043 | 逆向 | 补清特殊合成属性继承分类 | M-039、VS-042 | 四条权威特殊配方映射、10 属性公式、倍率/截断/上限/产物特例、现代字段与测试边界、`TASK-SLICE-115` |
 | TASK-SLICE-114 | 切片 | 扩展全部 `get_sutra_value` 属性继承配方 | M-039、VS-042 | 41 个权威唯一组合全量注册、共用四属性平均继承事务、重复/混合/乱序与分类隔离测试、状态文档 |
 | TASK-SLICE-113 | 切片 | 接入最小 `get_sutra_value` 属性继承配方 | M-039、VS-042 | `kyg + kyz + kys -> kyl` 权威注册、装备实例事务、四属性平均继承、乱序/失败测试与状态文档 |
 | TASK-SLICE-111 | 切片 | 扩展 1.1 可直接生成配方注册表 | M-039、VS-042 | `CraftingRecipeRegistry.ts`、权威 JSON 直载与 `direct_static` 去重、混合/重复材料预览合成、`crafting-tests.ts`、状态文档 |
@@ -159,6 +161,63 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SLICE-115
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- `CraftingRecipeRegistry.ts` 从权威 JSON 注册三条 `get_sun_sutra_value` 和一条 `get_mingding_huayan`，并保持与 41 条默认继承分类隔离。
+- `CraftingSystem.ts` 将全部继承分类统一接入装备实例选择、容量预检和原子事务，再按行为分派默认、Sun 或 MingDing 纯函数。
+- Sun 复现 10 属性正值求和、除 1.5 后截断/两位小数、闪避 15% 和魔抗 24% 上限，以及 `_dzj` 默认、`dzjj = 0`、`hy = 18` 三种吸血结果。
+- MingDing 复现整数逐材料乘 1.5 后截断、浮点最终两位、闪避 18% 和魔抗 24% 上限；AS3 小数比例写入现代百分数点字段时显式转换。
+- 产物覆盖 10 项继承属性，同时保留静态 `piercePercent/shield`；测试覆盖四条乱序配方、负值忽略、分类隔离、材料实例不足失败无副作用和 P1/P2 隔离。
+
+更新文件：
+- `src/systems/CraftingRecipeRegistry.ts`
+- `src/systems/CraftingSystem.ts`
+- `tools/crafting-tests.ts`
+- `docs/reverse-engineering/crafting-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过，仅有与本任务目标文件无关的既有 warning。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:workflow` 通过。
+
+边界与后续：
+- 未实现时装时间戳、材料暂存 UI、真实炼丹炉美术或存档迁移。
+- 推荐 `TASK-SLICE-116` 接入三槽材料暂存交互。
+
+### TASK-SETTINGS-043
+
+完成时间：
+- 2026-07-15
+
+完成内容：
+- 补清三条 `get_sun_sutra_value` 和一条 `get_mingding_huayan` 权威配方与 `Fusion.doFusion()` 分支的一一映射。
+- 记录 HP、MP、攻击、防御、暴击、闪避、回血、回蓝、吸血、魔抗共 10 项属性的正值来源、倍率和取整顺序。
+- 确认 Sun 闪避上限 0.15、魔抗上限 0.24、`dzjj` 吸血强制 0、`hy` 吸血强制 18；MingDing 闪避上限 0.18、魔抗上限 0.24。
+- 确认现有 `EquipmentStats` 已能承载全部继承字段，无需数据模型扩展；AS3 小数比例写入现代百分数点字段前需乘 100，`haveblood` 不转换；`piercePercent/shield` 保留静态产物值。
+- 生成 `TASK-SLICE-115`，以独立行为分类接入四条特殊配方及确定性测试。
+
+更新文件：
+- `docs/reverse-engineering/crafting-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- `TASK-SLICE-115`。
 
 ### TASK-SLICE-114
 
@@ -4009,6 +4068,7 @@
 - `TASK-SLICE-101`。
 
 ## 执行记录
+
 
 ### TASK-SLICE-009
 

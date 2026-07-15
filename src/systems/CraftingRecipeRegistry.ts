@@ -12,6 +12,7 @@ export type DirectStaticRecipeSource = {
 };
 
 export type SutraRecipeSource = DirectStaticRecipeSource;
+export type SpecialInheritanceRecipeSource = DirectStaticRecipeSource;
 
 const directStaticSources = recipeAuthority.recipes.filter(
   (recipe) => recipe.productionBehavior === 'direct_static',
@@ -59,6 +60,52 @@ export const SutraCraftingRecipes: readonly CraftingRecipe[] = SutraRecipeSource
   }),
 );
 
+const sunSutraSources = recipeAuthority.recipes.filter(
+  (recipe) => recipe.productionBehavior === 'get_sun_sutra_value',
+);
+
+export const SunSutraRecipeSources: readonly SpecialInheritanceRecipeSource[] = deduplicateSources(
+  sunSutraSources.map((recipe) => ({
+    sourceBranch: recipe.sourceBranch,
+    materials: asMaterialTuple(recipe.materials, recipe.sourceBranch),
+    productFillName: recipe.productFillName,
+    productDisplayName: recipe.productDisplayName,
+  })),
+);
+
+export const SunSutraCraftingRecipes: readonly CraftingRecipe[] = SunSutraRecipeSources.map(
+  (source) => ({
+    materialFillNames: source.materials,
+    productFillName: source.productFillName,
+    productName: source.productDisplayName,
+    soulCost: SOUL_COST,
+    productionBehavior: 'get_sun_sutra_value',
+  }),
+);
+
+const mingDingHuaYanSources = recipeAuthority.recipes.filter(
+  (recipe) => recipe.productionBehavior === 'get_mingding_huayan',
+);
+
+export const MingDingHuaYanRecipeSources: readonly SpecialInheritanceRecipeSource[] = deduplicateSources(
+  mingDingHuaYanSources.map((recipe) => ({
+    sourceBranch: recipe.sourceBranch,
+    materials: asMaterialTuple(recipe.materials, recipe.sourceBranch),
+    productFillName: recipe.productFillName,
+    productDisplayName: recipe.productDisplayName,
+  })),
+);
+
+export const MingDingHuaYanCraftingRecipes: readonly CraftingRecipe[] = MingDingHuaYanRecipeSources.map(
+  (source) => ({
+    materialFillNames: source.materials,
+    productFillName: source.productFillName,
+    productName: source.productDisplayName,
+    soulCost: SOUL_COST,
+    productionBehavior: 'get_mingding_huayan',
+  }),
+);
+
 export const CraftingItemNames: ReadonlyMap<string, string> = buildItemNames();
 
 function deduplicateSources(
@@ -97,6 +144,10 @@ function buildItemNames(): Map<string, string> {
     names.set(source.productFillName, source.productDisplayName);
   }
   for (const source of SutraRecipeSources) {
+    for (const material of source.materials) names.set(material, names.get(material) ?? material);
+    names.set(source.productFillName, source.productDisplayName);
+  }
+  for (const source of [...SunSutraRecipeSources, ...MingDingHuaYanRecipeSources]) {
     for (const material of source.materials) names.set(material, names.get(material) ?? material);
     names.set(source.productFillName, source.productDisplayName);
   }
