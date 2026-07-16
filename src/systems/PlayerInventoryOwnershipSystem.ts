@@ -128,7 +128,7 @@ function createPlayerInventoryRuntime(
   syncMagicWeaponFromLoadout(magicWeapon, loadout);
   return {
     ownerSlot,
-    store: createSeedInventoryStore(equipmentRegistry),
+    store: createSeedInventoryStore(equipmentRegistry, `${ownerSlot}-eq`),
     loadout,
     ui: createInventoryUIState(),
     magicWeapon,

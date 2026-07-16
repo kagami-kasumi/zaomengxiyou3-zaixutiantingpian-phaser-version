@@ -2,7 +2,7 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象和炼丹炉首个完整 UI 资源族已完成真资源接入，其余资源继续按恢复语料库定位精确包和符号。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象、炼丹炉完整 UI 以及土灵珠/枯叶灵两个配方图标族已完成真资源接入，其余资源继续按恢复语料库定位精确包和符号。
 
 ## 范围覆盖
 
@@ -14,9 +14,9 @@
 | 已实现宠物技能效果 key | 24 | 语义映射已确认，待定位源符号；6 条保留现代占位名差异 | `pet-skill-effects.md` |
 | `Monster30` | 2 | 映射确认，待在恢复语料库定位本体和攻击符号 | `monster30.md` |
 | Stage 1-1 | 4 | 3 项待从 `levels/level11.swf` 定位；listener 是行为证据 | `stage11.md` |
-| 已实现 UI 图片 | 14 | 炼丹炉容器、合成页、五角色选择器双帧和首配方两图标已选择性派生并接入 | `crafting-ui.md`、`../crafting-ui-index.md` |
+| UI 与配方图标 | 18 | 炼丹炉 18 条均已接入；包括 `tlzsp/wptlz` 与 `kyg/kyz/kys/kyl` 两个配方图标族 | `crafting-ui.md`、`crafting-kyl-icons.md`、`../crafting-ui-index.md` |
 
-总计 168 条标注：18 条 `ready`、148 条 `source-corpus-ready`、1 条 `needs-annotation`、1 条 `rejected`；167 条 `confirmed`、1 条 `unknown`。当前没有 `export-ready`、`derived-ready` 或 `needs-splitting` 条目。
+总计 172 条标注：22 条 `ready`、148 条 `source-corpus-ready`、1 条 `needs-annotation`、1 条 `rejected`；171 条 `confirmed`、1 条 `unknown`。当前没有 `export-ready`、`derived-ready` 或 `needs-splitting` 条目。
 
 ## 人工待办
 
@@ -32,8 +32,8 @@ Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整
 
 - 新增现代 stableKey 时，必须同步新增标注或明确不属于原版资源。
 - 定位到源包/符号后更新原 CSV 行为 `export-ready` 并填写 `sourcePackage`；不要新增重复 stableKey。
-- 炼丹炉已完成第一个完整界面的 stableKey、选择性派生和现代接入；后续若扩展图标，仍按具体配方窄查，不做“全部 UI”总批次。
-- 真素材转换、复制到 `public/assets`、manifest 注册和场景验收属于后续正式游戏 task。
+- 炼丹炉已完成完整界面和两个配方图标族的 stableKey、选择性派生与现代接入；当前没有未完成的炼丹炉资源 task。
+- 后续真素材转换、复制到 `public/assets`、manifest 注册和场景验收继续按窄资源族单独生成正式游戏 task。
 - 只有拿到源 MovieClip 且轻量重建明显不足时，才进入拆分必要性评估。
 
 ## 验证

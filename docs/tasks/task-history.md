@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-045 | 逆向 | 定位枯叶灵配方四图标资源 | M-035、VS-044 | EIcon1 character 332/342/323/809、50×50 tag/尺寸、掉落态排除、预览无别名结论、stableKey 与资源标注 |
 | TASK-SLICE-117 | 切片 | 接入炼丹炉最小视觉闭环 | M-039、M-035、M-037、VS-043 | 14 个选择性派生 PNG、stableKey/provenance manifest、固定布局、独立炼丹炉视图、鼠标/键盘交互、合成专项测试与资源标注 |
 | TASK-SETTINGS-044 | 逆向 | 建立炼丹炉视觉资源与交互索引 | M-039、VS-042 | `crafting-ui-index.md`、RegiMA 源包/symbol/布局映射、交互状态证据、`VS-043` 与 `TASK-SLICE-117` |
 | TASK-SLICE-116 | 切片 | 接入合成材料暂存交互 | M-039、M-037、VS-042 | 双玩家三槽 `CraftingSession`、实例/堆叠移入与退回、实时预览、成功/失败生命周期、最小 UI 与独立测试 |
@@ -164,6 +165,38 @@
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-045
+
+完成时间：
+- 2026-07-16
+
+完成内容：
+- 用 FFDec SymbolClass 元数据和 SWF tag dump 确认 `kyg/kyz/kys/kyl` 全部位于 `assets/EIcon1.swf`，character 分别为 332、342、323、809；`EIcon2.swf` 不含本批名称。
+- 只读解析 tag 尺寸：332/342/809 是 50×50 `DefineBitsLossless2`，323 是 50×50 `DefineBitsJPEG3`。
+- 区分材料直接图标与掉落态：`fall_kyg` 202、`fall_kyz` 214、`fall_kys` 196 不用于炼丹炉；`ShowObj` 默认按装备 `fillName` 加载直接图标。
+- `AllEquipment.mixProduce()` 明确三材料生成 `kyl/枯叶灵`；`Fusion.previewFun()` 对 `kyl` 没有别名分支，预览直接使用 character 809。
+- 分配 `crafting-item.kyg/kyz/kys/kyl` stableKey，四条标注均为 `export-ready + export-selectively`，无需人工消歧。
+- 将 `VS-044` 推进到可开始，并生成 `TASK-SLICE-118` 选择性接入任务。
+
+更新文件：
+- `docs/reverse-engineering/crafting-ui-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/crafting-ui.csv`
+- `docs/reverse-engineering/asset-annotation/batches/crafting-kyl-icons.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- FFDec `symbolClass`/`dumpSWF` 与 CSV 的源包、character 和 tag 一致。
+- `EIcon1.swf` SHA-256 为 `A205BD0D5FDB4F2734B0ED6BE018F3AC482ADE52C16A40E2D0C80D07BB2BB224`；排除的 `EIcon2.swf` 为 `FE67CF769954A146981B22F906A4A4FD1AE28CBE3581DC683B1B9D00753FE02D`。
+- `npm run check:annotations`、`npm run check:workflow` 通过。
+
+边界与后续：
+- 本任务没有导出图片，没有修改 `src/`、`public/assets`、恢复 SWF、旧提取集或权威配方 JSON。
+- 推荐 `TASK-SLICE-118` 只选择性派生 character 332/342/323/809 并接入第二配方真图标。
 
 ### TASK-SLICE-117
 
@@ -6125,5 +6158,42 @@
 
 推荐任务：
 - `TASK-SLICE-106..109` 已在本轮后续完成；Role5 完整战斗扩展已收束。
+
+### TASK-SLICE-118
+
+完成时间：
+- 2026-07-16
+
+完成内容：
+- 只从恢复源包 `assets/EIcon1.swf` 选择性派生 character 332、342、323、809，得到 `kyg/kyz/kys/kyl` 四张 50×50 PNG；没有导出 `fall_kyg/fall_kyz/fall_kys` 或修改源 SWF。
+- 在 `AssetManifest.ts` 注册四个可追溯 stableKey，并新增统一 `CraftingItemTextureKeys`，由 BootScene 既有 crafting bundle 自动加载。
+- 将 `kyg/kyz/kys` 注册为装备材料，P1/P2 种子背包各获得独立实例；背包实例 id 增加玩家前缀，避免跨玩家同号。
+- 炼丹炉视图改为显示当前背包分类并支持点击/Tab 切换；背包、三槽、预览和成功产物均按精确 fillName 映射真图标，未知项不再错误回退到土灵珠碎片。
+- `CraftingSession.lastProductFillName` 只记录本次成功产物，并在重新暂存、移除、关闭或失败时清除，保证 `kyl` 成功产物可见且首配方不回归。
+- 新增 provenance、纹理映射、P1/P2 独立装备实例、枯叶灵预览、灵魂不足失败保留、成功扣除 1000 灵魂/清槽/回包和首配方产物状态测试。
+- 四张 PNG 已逐张人工目检。浏览器控制后端可连接，但无法访问工作区本地 Vite 监听地址，故未生成运行时截图；该限制已记录到资源批次和纵向切片。
+
+更新文件：
+- `public/assets/ui/crafting/items/kyg.png`
+- `public/assets/ui/crafting/items/kyz.png`
+- `public/assets/ui/crafting/items/kys.png`
+- `public/assets/ui/crafting/items/kyl.png`
+- `src/assets/AssetManifest.ts`
+- `src/systems/CraftingSystem.ts`
+- `src/systems/InventorySystem.ts`
+- `src/systems/PlayerInventoryOwnershipSystem.ts`
+- `src/scenes/test-scene/TestSceneCraftingView.ts`
+- `tools/crafting-tests.ts`
+- 对应炼丹炉资源索引、标注、批次、机制表、纵向切片和任务文档
+
+验证：
+- `npm run check:structure` 通过（仅既有 warning）。
+- `npm run test:systems` 通过，含合成专项测试。
+- `npm run build` 通过；Vite 仍提示既有 chunk 超过 500 kB。
+- `npm run check:annotations` 通过。
+- `npm run check:workflow` 通过。
+
+推荐任务：
+- 炼丹炉条线已全部收束；下一任务切换为 `TASK-SETTINGS-046`，定位 Stage 1-1 三个场景真资源符号。
 
 

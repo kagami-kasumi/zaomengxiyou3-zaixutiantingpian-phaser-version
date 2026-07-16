@@ -33,7 +33,11 @@ import {
   getInventoryEntries,
 } from '../src/systems/InventorySystem';
 import { createPlayerInventoryRuntimes } from '../src/systems/PlayerInventoryOwnershipSystem';
-import { craftingAssets, CraftingAssetKeys } from '../src/assets/AssetManifest';
+import {
+  craftingAssets,
+  CraftingAssetKeys,
+  CraftingItemTextureKeys,
+} from '../src/assets/AssetManifest';
 import {
   CraftingUILayout,
   getCraftingCanvasTransform,
@@ -64,6 +68,7 @@ testCraftingSessionPreviewAndReturn();
 testCraftingSessionSuccessAndFailureLifecycle();
 testCraftingSessionConsumesStagedEquipment();
 testCraftingSessionsStayPlayerIsolated();
+testKylSeedCraftingAndPlayerIsolation();
 testCraftingVisualAssetProvenance();
 testCraftingFixedLayoutAndScaling();
 
@@ -79,7 +84,24 @@ function testCraftingVisualAssetProvenance(): void {
   assert.equal(craftingAssets.tlzsp.sourcePackage, 'assets/EIcon1.swf');
   assert.equal(craftingAssets.tlzsp.sourceCharacterId, 813);
   assert.equal(craftingAssets.wptlz.sourceCharacterId, 807);
-  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 14);
+  assert.equal(craftingAssets.kyg.sourceCharacterId, 332);
+  assert.equal(craftingAssets.kyz.sourceCharacterId, 342);
+  assert.equal(craftingAssets.kys.sourceCharacterId, 323);
+  assert.equal(craftingAssets.kyl.sourceCharacterId, 809);
+  assert.deepEqual(
+    [craftingAssets.kyg, craftingAssets.kyz, craftingAssets.kys, craftingAssets.kyl]
+      .map((asset) => asset.sourcePackage),
+    Array(4).fill('assets/EIcon1.swf'),
+  );
+  assert.deepEqual(CraftingItemTextureKeys, {
+    tlzsp: CraftingAssetKeys.tlzsp,
+    wptlz: CraftingAssetKeys.wptlz,
+    kyg: CraftingAssetKeys.kyg,
+    kyz: CraftingAssetKeys.kyz,
+    kys: CraftingAssetKeys.kys,
+    kyl: CraftingAssetKeys.kyl,
+  });
+  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 18);
 }
 
 function testCraftingFixedLayoutAndScaling(): void {
@@ -567,6 +589,7 @@ function testCraftingSessionSuccessAndFailureLifecycle(): void {
   });
   assert.equal(success.ok, true);
   assert.equal(successSession.slots.length, 0);
+  assert.equal(successSession.lastProductFillName, 'wptlz');
   assert.equal(stackQuantity(successStore, 'tlzsp'), 0);
   assert.equal(stackQuantity(successStore, 'wptlz'), 1);
 
@@ -582,8 +605,10 @@ function testCraftingSessionSuccessAndFailureLifecycle(): void {
   assert.equal(failure.ok, false);
   assert.equal(failure.soulAfter, 999);
   assert.equal(failureSession.slots.length, 3);
+  assert.equal(failureSession.lastProductFillName, undefined);
   assert.equal(stackQuantity(failureStore, 'tlzsp'), 0);
   closeCraftingSession(failureSession, failureStore);
+  assert.equal(failureSession.lastProductFillName, undefined);
   assert.equal(stackQuantity(failureStore, 'tlzsp'), 3);
   assert.equal(stackQuantity(failureStore, 'wptlz'), 0);
 }
@@ -629,6 +654,63 @@ function testCraftingSessionsStayPlayerIsolated(): void {
   closeCraftingSession(runtimes.p1.craftingSession, runtimes.p1.store);
   assert.equal(stackQuantity(runtimes.p1.store, 'tlzsp'), 3);
   assert.equal(stackQuantity(runtimes.p2.store, 'tlzsp'), 1);
+}
+
+function testKylSeedCraftingAndPlayerIsolation(): void {
+  const kylRegistry = createSeedEquipmentRegistry();
+  Object.assign(kylRegistry, createSeedCraftingItemDefinitions(kylRegistry));
+  const runtimes = createPlayerInventoryRuntimes(kylRegistry);
+  const materialNames = ['kyg', 'kyz', 'kys'] as const;
+
+  const p1Materials = materialNames.map((fillName) => getInventoryEntries(
+    runtimes.p1.store, 'equipment',
+  ).find((entry) => entry.definition.fillName === fillName));
+  const p2Materials = materialNames.map((fillName) => getInventoryEntries(
+    runtimes.p2.store, 'equipment',
+  ).find((entry) => entry.definition.fillName === fillName));
+  p1Materials.forEach((entry) => assert.equal(entry?.kind, 'equipment'));
+  p2Materials.forEach((entry) => assert.equal(entry?.kind, 'equipment'));
+  p1Materials.forEach((entry, index) => {
+    assert.notEqual(entry?.instanceId, p2Materials[index]?.instanceId);
+  });
+
+  p2Materials.forEach((entry) => {
+    assert.ok(entry?.kind === 'equipment');
+    assert.equal(stageCraftingMaterial(
+      runtimes.p2.craftingSession, runtimes.p2.store, entry,
+    ).ok, true);
+  });
+  assert.equal(previewCraftingSession(
+    runtimes.p2.craftingSession, runtimes.p2.magicWeaponSoul,
+  ).recipe?.productFillName, 'kyl');
+
+  const failure = craftStagedSession({
+    session: runtimes.p2.craftingSession,
+    store: runtimes.p2.store,
+    registry: kylRegistry,
+    soul: 999,
+  });
+  assert.equal(failure.ok, false);
+  assert.equal(runtimes.p2.craftingSession.slots.length, 3);
+  assert.equal(getInventoryEntries(runtimes.p1.store, 'equipment').filter(
+    (entry) => materialNames.includes(entry.definition.fillName as typeof materialNames[number]),
+  ).length, 3);
+
+  const success = craftStagedSession({
+    session: runtimes.p2.craftingSession,
+    store: runtimes.p2.store,
+    registry: kylRegistry,
+    soul: runtimes.p2.magicWeaponSoul,
+  });
+  assert.equal(success.ok, true);
+  runtimes.p2.magicWeaponSoul = success.soulAfter;
+  assert.equal(runtimes.p2.magicWeaponSoul, 4_000);
+  assert.equal(runtimes.p1.magicWeaponSoul, 5_000);
+  assert.equal(runtimes.p2.craftingSession.lastProductFillName, 'kyl');
+  assert.equal(runtimes.p2.craftingSession.slots.length, 0);
+  assert.equal(getInventoryEntries(runtimes.p2.store, 'equipment').some(
+    (entry) => entry.definition.fillName === 'kyl',
+  ), true);
 }
 
 function stackQuantity(store: ReturnType<typeof createInventoryStore>, fillName: string): number {

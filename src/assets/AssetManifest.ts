@@ -51,6 +51,19 @@ export const CraftingAssetKeys = {
   role5Selected: 'crafting-ui.selector.role5.selected',
   tlzsp: 'crafting-item.tlzsp',
   wptlz: 'crafting-item.wptlz',
+  kyg: 'crafting-item.kyg',
+  kyz: 'crafting-item.kyz',
+  kys: 'crafting-item.kys',
+  kyl: 'crafting-item.kyl',
+} as const;
+
+export const CraftingItemTextureKeys = {
+  tlzsp: CraftingAssetKeys.tlzsp,
+  wptlz: CraftingAssetKeys.wptlz,
+  kyg: CraftingAssetKeys.kyg,
+  kyz: CraftingAssetKeys.kyz,
+  kys: CraftingAssetKeys.kys,
+  kyl: CraftingAssetKeys.kyl,
 } as const;
 
 export const HeroNormalAttackEffectKeys = {
@@ -238,6 +251,10 @@ export const craftingAssets = {
   role5Selected: extractedCraftingImage(CraftingAssetKeys.role5Selected, '/assets/ui/crafting/selectors/role5-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBL frame 2', 871),
   tlzsp: extractedCraftingImage(CraftingAssetKeys.tlzsp, '/assets/ui/crafting/items/tlzsp.png', 'assets/EIcon1.swf', 'tlzsp', 813),
   wptlz: extractedCraftingImage(CraftingAssetKeys.wptlz, '/assets/ui/crafting/items/wptlz.png', 'assets/EIcon1.swf', 'wptlz', 807),
+  kyg: extractedCraftingImage(CraftingAssetKeys.kyg, '/assets/ui/crafting/items/kyg.png', 'assets/EIcon1.swf', 'kyg', 332),
+  kyz: extractedCraftingImage(CraftingAssetKeys.kyz, '/assets/ui/crafting/items/kyz.png', 'assets/EIcon1.swf', 'kyz', 342),
+  kys: extractedCraftingImage(CraftingAssetKeys.kys, '/assets/ui/crafting/items/kys.png', 'assets/EIcon1.swf', 'kys', 323),
+  kyl: extractedCraftingImage(CraftingAssetKeys.kyl, '/assets/ui/crafting/items/kyl.png', 'assets/EIcon1.swf', 'kyl', 809),
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
 function createRole1NormalAttackFrames(symbol: string, frameCount: number) {

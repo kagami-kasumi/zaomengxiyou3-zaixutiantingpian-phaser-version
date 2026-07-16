@@ -23,6 +23,7 @@ export type InventoryEntry = EquipmentInstance | InventoryItemStack;
 export type InventoryStore = {
   capacityPerCategory: number;
   nextEquipmentInstanceId: number;
+  equipmentInstanceIdPrefix: string;
   categories: Record<InventoryCategory, InventoryEntry[]>;
 };
 
@@ -56,10 +57,12 @@ export const InventoryCategories: readonly InventoryCategory[] = [
 
 export function createInventoryStore(
   capacityPerCategory = 125,
+  equipmentInstanceIdPrefix = 'eq',
 ): InventoryStore {
   return {
     capacityPerCategory,
     nextEquipmentInstanceId: 1,
+    equipmentInstanceIdPrefix,
     categories: {
       equipment: [],
       items: [],
@@ -71,12 +74,16 @@ export function createInventoryStore(
 
 export function createSeedInventoryStore(
   registry: Record<string, EquipmentDefinition>,
+  equipmentInstanceIdPrefix = 'eq',
 ): InventoryStore {
-  const store = createInventoryStore();
+  const store = createInventoryStore(125, equipmentInstanceIdPrefix);
   addEquipmentByFillName(store, registry, 'ptdcz');
   addEquipmentByFillName(store, registry, 'ptdjs');
   addEquipmentByFillName(store, registry, 'mysz');
   addEquipmentByFillName(store, registry, 'xhz');
+  addEquipmentByFillName(store, registry, 'kyg');
+  addEquipmentByFillName(store, registry, 'kyz');
+  addEquipmentByFillName(store, registry, 'kys');
   addEquipmentByFillName(store, registry, 'kyl');
   addEquipmentByFillName(store, registry, 'syl');
   addEquipmentByFillName(store, registry, 'lxj');
@@ -334,7 +341,7 @@ function createEquipmentInstance(
 ): EquipmentInstance {
   const instance: EquipmentInstance = {
     kind: 'equipment',
-    instanceId: `eq-${store.nextEquipmentInstanceId}`,
+    instanceId: `${store.equipmentInstanceIdPrefix}-${store.nextEquipmentInstanceId}`,
     definition,
     quantity: 1,
   };

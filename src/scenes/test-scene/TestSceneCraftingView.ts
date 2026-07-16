@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
-import { CraftingAssetKeys } from '../../assets/AssetManifest';
+import {
+  CraftingAssetKeys,
+  CraftingItemTextureKeys,
+} from '../../assets/AssetManifest';
 import {
   craftStagedSession,
   closeCraftingSession,
@@ -8,7 +11,13 @@ import {
   stageCraftingMaterial,
 } from '../../systems/CraftingSystem';
 import type { PlayerSlot } from '../../systems/InputSystem';
-import { getInventoryEntries, type InventoryEntry } from '../../systems/InventorySystem';
+import {
+  getInventoryEntries,
+  InventoryCategoryLabels,
+  type InventoryCategory,
+  type InventoryEntry,
+} from '../../systems/InventorySystem';
+import { selectNextInventoryCategory } from '../../systems/EquipmentUISystem';
 import { CraftingUILayout, getCraftingCanvasTransform } from './CraftingUILayout';
 
 type CraftingInventoryCell = {
@@ -24,6 +33,7 @@ export type CraftingPanelView = {
   previewIcon: Phaser.GameObjects.Image;
   productIcon: Phaser.GameObjects.Image;
   inventoryCells: CraftingInventoryCell[];
+  categoryText: Phaser.GameObjects.Text;
   soulText: Phaser.GameObjects.Text;
   previewText: Phaser.GameObjects.Text;
   messageText: Phaser.GameObjects.Text;
@@ -116,7 +126,12 @@ export function createCraftingPanel(this: any): CraftingPanelView {
     color: '#ffe29a', fontFamily: 'Arial, sans-serif', fontSize: '16px',
     backgroundColor: '#160b05cc', padding: { x: 8, y: 4 },
   }).setOrigin(0, 0);
-  source.add([soulCover, soulText, previewText, messageText]);
+  const categoryText = this.add.text(514, 101, '', {
+    color: '#ffe29a', fontFamily: 'Arial, sans-serif', fontSize: '16px',
+    backgroundColor: '#24130add', padding: { x: 8, y: 4 },
+  }).setOrigin(0, 0).setInteractive({ useHandCursor: true });
+  categoryText.on('pointerdown', () => cycleCraftingInventoryCategory(this));
+  source.add([soulCover, soulText, previewText, messageText, categoryText]);
 
   const inventoryCells = createInventoryCells(this, source);
   applyCraftingCanvasTransform(this, container);
@@ -124,7 +139,7 @@ export function createCraftingPanel(this: any): CraftingPanelView {
 
   return {
     container, selectors, materialIcons, previewIcon, productIcon,
-    inventoryCells, soulText, previewText, messageText,
+    inventoryCells, categoryText, soulText, previewText, messageText,
   };
 }
 
@@ -149,18 +164,28 @@ export function updateCraftingPanelView(scene: any, view: CraftingPanelView): vo
 
   view.materialIcons.forEach((icon, index) => {
     const fillName = runtime.craftingSession.slots[index]?.entry.definition.fillName;
-    icon.setVisible(Boolean(fillName));
-    if (fillName) icon.setTexture(getCraftingItemTexture(fillName));
+    const texture = getCraftingItemTexture(fillName);
+    icon.setVisible(Boolean(texture));
+    if (texture) icon.setTexture(texture);
   });
 
   const preview = previewCraftingSession(runtime.craftingSession, runtime.magicWeaponSoul);
-  view.previewIcon.setVisible(Boolean(preview.recipe));
-  if (preview.recipe) view.previewIcon.setTexture(getCraftingItemTexture(preview.recipe.productFillName));
-  view.productIcon.setVisible(runtime.craftingSession.message.startsWith('合成成功'));
+  const previewTexture = getCraftingItemTexture(preview.recipe?.productFillName);
+  view.previewIcon.setVisible(Boolean(previewTexture));
+  if (previewTexture) view.previewIcon.setTexture(previewTexture);
+  const productTexture = getCraftingItemTexture(runtime.craftingSession.lastProductFillName);
+  view.productIcon.setVisible(Boolean(productTexture));
+  if (productTexture) view.productIcon.setTexture(productTexture);
   view.soulText.setText(String(runtime.magicWeaponSoul));
   view.previewText.setText(preview.recipe ? `${preview.recipe.productName}  100%` : '无配方');
   view.messageText.setText(runtime.ui.message || runtime.craftingSession.message);
-  updateInventoryCells(runtime.store.categories.items, view.inventoryCells);
+  view.categoryText.setText(
+    `背包：${InventoryCategoryLabels[runtime.ui.activeCategory as InventoryCategory]}（点击/Tab切换）`,
+  );
+  updateInventoryCells(
+    runtime.store.categories[runtime.ui.activeCategory],
+    view.inventoryCells,
+  );
 }
 
 function createInventoryCells(scene: any, source: Phaser.GameObjects.Container): CraftingInventoryCell[] {
@@ -200,9 +225,9 @@ function updateInventoryCells(entries: readonly InventoryEntry[], cells: Craftin
     }
     const quantity = entry.kind === 'stack' ? `×${entry.quantity}` : '';
     cell.label.setText(`${entry.definition.name.slice(0, 4)}${quantity}`);
-    const hasTrueIcon = entry.definition.fillName === 'tlzsp' || entry.definition.fillName === 'wptlz';
-    cell.icon.setVisible(hasTrueIcon);
-    if (hasTrueIcon) cell.icon.setTexture(getCraftingItemTexture(entry.definition.fillName));
+    const texture = getCraftingItemTexture(entry.definition.fillName);
+    cell.icon.setVisible(Boolean(texture));
+    if (texture) cell.icon.setTexture(texture);
   });
 }
 
@@ -217,7 +242,7 @@ function selectCraftingOwner(scene: any, ownerSlot: PlayerSlot): void {
 
 function stageInventoryCell(scene: any, index: number): void {
   const runtime = scene.playerInventoryRuntimes[scene.inventoryOwner];
-  const entry = getInventoryEntries(runtime.store, 'items')[index];
+  const entry = getInventoryEntries(runtime.store, runtime.ui.activeCategory)[index];
   const result = stageCraftingMaterial(runtime.craftingSession, runtime.store, entry);
   runtime.ui.message = result.message;
 }
@@ -247,8 +272,14 @@ function closeCraftingPanel(scene: any): void {
   runtime.ui.isOpen = false;
 }
 
-function getCraftingItemTexture(fillName: string): string {
-  return fillName === 'wptlz' ? CraftingAssetKeys.wptlz : CraftingAssetKeys.tlzsp;
+function cycleCraftingInventoryCategory(scene: any): void {
+  const runtime = scene.playerInventoryRuntimes[scene.inventoryOwner];
+  selectNextInventoryCategory(runtime.ui, runtime.store, 1);
+}
+
+function getCraftingItemTexture(fillName: string | undefined): string | undefined {
+  if (!fillName) return undefined;
+  return CraftingItemTextureKeys[fillName as keyof typeof CraftingItemTextureKeys];
 }
 
 function applyCraftingCanvasTransform(scene: any, container: Phaser.GameObjects.Container): void {

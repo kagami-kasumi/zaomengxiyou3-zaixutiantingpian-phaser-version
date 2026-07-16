@@ -57,6 +57,7 @@ export type CraftingSession = {
   ownerSlot: PlayerSlot;
   slots: [StagedCraftingMaterial?, StagedCraftingMaterial?, StagedCraftingMaterial?];
   message: string;
+  lastProductFillName?: string;
 };
 
 export type CraftingSessionResult = {
@@ -110,6 +111,7 @@ export function stageCraftingMaterial(
     stagedEntry = takeOneStackUnit(store, location.category, location.index, entry);
   }
   session.slots.push({ entry: stagedEntry, sourceCategory: location.category });
+  session.lastProductFillName = undefined;
   session.message = `已放入 ${entry.definition.name} (${session.slots.length}/3)`;
   return { ok: true, message: session.message };
 }
@@ -123,6 +125,7 @@ export function removeStagedCraftingMaterial(
   if (!staged) return sessionFailure(session, '该合成槽为空');
   returnStagedMaterial(store, staged);
   session.slots.splice(slotIndex, 1);
+  session.lastProductFillName = undefined;
   session.message = `已退回 ${staged.entry.definition.name}`;
   return { ok: true, message: session.message };
 }
@@ -136,6 +139,7 @@ export function closeCraftingSession(
   }
   const returned = session.slots.length;
   session.slots.length = 0;
+  session.lastProductFillName = undefined;
   session.message = returned > 0 ? `已退回 ${returned} 个暂存材料` : '合成面板已关闭';
   return { ok: true, message: session.message };
 }
@@ -191,7 +195,9 @@ export function craftStagedSession(params: {
   });
   if (result.ok) {
     params.session.slots.length = 0;
+    params.session.lastProductFillName = result.recipe?.productFillName;
   } else {
+    params.session.lastProductFillName = undefined;
     for (const staged of params.session.slots) {
       if (staged) withdrawRestoredMaterial(params.store, staged);
     }
@@ -211,13 +217,39 @@ export function createSeedCraftingItemDefinitions(
   const itemNames = new Map(CraftingItemNames);
   itemNames.set('tlzsp', '土灵珠碎片');
   itemNames.set('wptlz', '土灵珠');
+  const craftingEquipmentOverrides: Partial<Record<string, Pick<
+    EquipmentDefinition,
+    'type' | 'user' | 'stats' | 'description'
+  >>> = {
+    kyg: {
+      type: 'zbwq', user: '沙僧',
+      stats: { ...emptyStats, power: 13 },
+      description: '枯叶灵配方测试材料：枯叶弓',
+    },
+    kyz: {
+      type: 'zbwq', user: '唐僧',
+      stats: { ...emptyStats, maxMp: 115, power: 16 },
+      description: '枯叶灵配方测试材料：枯叶杖',
+    },
+    kys: {
+      type: 'zbfj', user: '悟空',
+      stats: { ...emptyStats, maxHp: 125, maxMp: 65, defense: 15 },
+      description: '枯叶灵配方测试材料：枯叶衫',
+    },
+  };
   const definitions: EquipmentDefinition[] = [...itemNames]
     .filter(([fillName]) => !existing[fillName])
-    .map(([fillName, name]) => ({
-      showId: 1, name, fillName, type: 'zbwp', user: '',
-      quality: '普 通', color: '0xFFFFFF', stats: { ...emptyStats },
-      description: '1.1 合成注册表物品',
-    }));
+    .map(([fillName, name]) => {
+      const override = craftingEquipmentOverrides[fillName];
+      return {
+        showId: 1, name, fillName,
+        type: override?.type ?? 'zbwp',
+        user: override?.user ?? '',
+        quality: '普 通', color: '0xFFFFFF',
+        stats: override?.stats ?? { ...emptyStats },
+        description: override?.description ?? '1.1 合成注册表物品',
+      };
+    });
   return Object.fromEntries(definitions.map((definition) => [definition.fillName, definition]));
 }
 

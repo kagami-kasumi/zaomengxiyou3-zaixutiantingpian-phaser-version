@@ -13,3 +13,7 @@ crafting-ui.selector.role5.unselected,export.shop.SelectBL,restored-swf,public/a
 crafting-ui.selector.role5.selected,export.shop.SelectBL,restored-swf,public/assets/ui/crafting/selectors/role5-selected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,871,ui,白龙选择器选中态,ready,confirmed,none,frame 2
 crafting-item.tlzsp,tlzsp,restored-swf,public/assets/ui/crafting/items/tlzsp.png;src/assets/AssetManifest.ts,assets/EIcon1.swf,813,ui,土灵珠碎片材料图标,ready,confirmed,none,50x50 PNG；未使用掉落态 character 787
 crafting-item.wptlz,wptlz,restored-swf,public/assets/ui/crafting/items/wptlz.png;src/assets/AssetManifest.ts,assets/EIcon1.swf,807,ui,土灵珠预览与产物图标,ready,confirmed,none,50x50 PNG
+crafting-item.kyg,kyg,restored-swf,public/assets/ui/crafting/items/kyg.png;src/assets/AssetManifest.ts,assets/EIcon1.swf,332,ui,枯叶弓合成材料槽图标,ready,confirmed,none,50x50 PNG；不使用 fall_kyg character 202
+crafting-item.kyz,kyz,restored-swf,public/assets/ui/crafting/items/kyz.png;src/assets/AssetManifest.ts,assets/EIcon1.swf,342,ui,枯叶杖合成材料槽图标,ready,confirmed,none,50x50 PNG；不使用 fall_kyz character 214
+crafting-item.kys,kys,restored-swf,public/assets/ui/crafting/items/kys.png;src/assets/AssetManifest.ts,assets/EIcon1.swf,323,ui,枯叶衫合成材料槽图标,ready,confirmed,none,50x50 PNG；不使用 fall_kys character 196
+crafting-item.kyl,kyl,restored-swf,public/assets/ui/crafting/items/kyl.png;src/assets/AssetManifest.ts,assets/EIcon1.swf,809,ui,枯叶灵预览与成功产物图标,ready,confirmed,none,50x50 PNG；Fusion 默认分支直接使用 kyl
