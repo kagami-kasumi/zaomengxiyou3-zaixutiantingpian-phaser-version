@@ -9,6 +9,7 @@ const files = {
   outline: 'TASK_OUTLINE.md',
   board: 'docs/tasks/task-board.md',
   history: 'docs/tasks/task-history.md',
+  featureLines: 'docs/tasks/feature-lines.md',
   taskGeneration: 'docs/workflow/task-generation.md',
   verticalSlices: 'docs/tasks/vertical-slices.md',
   mechanics: 'docs/reverse-engineering/mechanics-index.md',
@@ -18,6 +19,8 @@ const files = {
   codeQualityGates: 'docs/workflow/code-quality-gates.md',
   reviewProtocol: 'docs/workflow/review-protocol.md',
   problemGovernance: 'docs/workflow/problem-governance.md',
+  problem001: 'docs/workflow/problems/PG-001-共享技能规则重复定义.md',
+  problem002: 'docs/workflow/problems/PG-002-功能条线提前关闭.md',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
   glossary: 'docs/domain/glossary.md',
   languageProcess: 'docs/domain/ubiquitous-language-process.md',
@@ -38,6 +41,7 @@ const warnings = [];
 
 const taskDefinitionFields = [
   '任务类型：',
+  '功能条线：',
   '目标机制/切片：',
   '输入资料：',
   '输出产物：',
@@ -132,6 +136,24 @@ function extractRefs(text, prefix) {
   return [...new Set(text.match(pattern) ?? [])];
 }
 
+function extractLineRefs(text) {
+  return [...new Set(text.match(/LINE-[A-Z0-9-]+/g) ?? [])];
+}
+
+function parseFeatureLineRows(markdown) {
+  const overview = section(markdown, '功能条线总览');
+  return tableRows(overview, /^\|\s*LINE-[A-Z0-9-]+\s*\|/).map((row) => ({
+    id: row[0],
+    status: row[1],
+    scope: row[2],
+    currentTask: row[3].replaceAll('`', '').trim(),
+    coverage: row[4].replaceAll('`', '').trim(),
+    blocker: row[5],
+    closureEvidence: row[6],
+    row,
+  }));
+}
+
 function parseMechanics(markdown) {
   const overview = section(markdown, '总览');
   const rows = tableRows(overview, /^\|\s*M-\d{3}\s*\|/);
@@ -148,11 +170,12 @@ function parseTaskRows(markdown) {
   return tableRows(taskSection, /^\|\s*TASK-/).map((row) => ({
     id: row[0],
     status: row[1],
-    type: row[2],
-    goal: row[3],
-    targetRefs: row[4],
-    output: row[5],
-    next: row[6],
+    featureLine: row[2],
+    type: row[3],
+    goal: row[4],
+    targetRefs: row[5],
+    output: row[6],
+    next: row[7],
     row,
   }));
 }
@@ -228,6 +251,9 @@ function checkBoardShape(board, taskRows, taskDefinitionIds, taskBlockList) {
       }
     }
     const row = taskRows.find((candidate) => candidate.id === block.id);
+    if (row && !extractLineRefs(block.text).includes(row.featureLine)) {
+      error(`${block.id} definition must reference its feature line: ${row.featureLine}`);
+    }
     if (row?.status === 'Blocked' && !block.text.includes('阻塞原因：')) {
       error(`${block.id} is Blocked but its definition is missing 阻塞原因：`);
     }
@@ -248,8 +274,8 @@ function checkRecommendations(board, taskRows) {
     const row = taskRows.find((candidate) => candidate.id === id);
     if (!row) {
       error(`Recommended task does not exist in task-board.md: ${id}`);
-    } else if (row.status !== 'Ready') {
-      error(`Recommended task is not Ready: ${id} is ${row.status}`);
+    } else if (row.status !== 'Ready' && row.status !== 'Blocked') {
+      error(`Recommended task is neither Ready nor Blocked: ${id} is ${row.status}`);
     }
   }
   for (const id of readyIds) {
@@ -259,6 +285,171 @@ function checkRecommendations(board, taskRows) {
   }
 
   return recommendedIds;
+}
+
+function featureLineInvariantErrors(featureLines, taskRows, recommendedIds) {
+  const invariantErrors = [];
+  const lineIds = featureLines.map((line) => line.id);
+  const activeLines = featureLines.filter((line) => line.status === 'Active');
+  const unfinishedLines = featureLines.filter((line) => line.status !== 'Done');
+  const activeLine = activeLines[0];
+
+  if (featureLines.length === 0) {
+    invariantErrors.push('feature-lines.md has no feature line rows.');
+    return invariantErrors;
+  }
+  for (const id of duplicateIds(lineIds)) {
+    invariantErrors.push(`feature-lines.md has duplicate line id: ${id}`);
+  }
+  for (const line of featureLines) {
+    if (!['Active', 'Planned', 'Done'].includes(line.status)) {
+      invariantErrors.push(`${line.id} has invalid feature line status: ${line.status}`);
+    }
+  }
+  if (unfinishedLines.length > 0 && activeLines.length !== 1) {
+    invariantErrors.push(`feature-lines.md must have exactly one Active line while unfinished lines exist; found ${activeLines.length}.`);
+  }
+
+  for (const task of taskRows) {
+    if (!lineIds.includes(task.featureLine)) {
+      invariantErrors.push(`${task.id} references missing feature line: ${task.featureLine || '(missing)'}`);
+    }
+    if ((task.status === 'Ready' || task.status === 'Blocked') && task.featureLine !== activeLine?.id) {
+      invariantErrors.push(`${task.id} is ${task.status} outside the Active feature line ${activeLine?.id ?? '(none)'}.`);
+    }
+  }
+
+  if (activeLine) {
+    const currentTask = taskRows.find((task) => task.id === activeLine.currentTask);
+    if (!currentTask) {
+      invariantErrors.push(`${activeLine.id} current task does not exist in task-board.md: ${activeLine.currentTask}`);
+    } else {
+      if (currentTask.featureLine !== activeLine.id) {
+        invariantErrors.push(`${activeLine.id} current task belongs to ${currentTask.featureLine}: ${currentTask.id}`);
+      }
+      if (currentTask.status !== 'Ready' && currentTask.status !== 'Blocked') {
+        invariantErrors.push(`${activeLine.id} current task must be Ready or Blocked: ${currentTask.id} is ${currentTask.status}`);
+      }
+    }
+    if (recommendedIds.length !== 1 || recommendedIds[0] !== activeLine.currentTask) {
+      invariantErrors.push(`${activeLine.id} current task must be the only current recommendation: ${activeLine.currentTask}`);
+    }
+    for (const recommendedId of recommendedIds) {
+      const recommendedTask = taskRows.find((task) => task.id === recommendedId);
+      if (recommendedTask && recommendedTask.featureLine !== activeLine.id) {
+        invariantErrors.push(`Recommended task ${recommendedId} is outside the Active feature line ${activeLine.id}.`);
+      }
+    }
+  }
+
+  for (const line of featureLines.filter((candidate) => candidate.status === 'Done')) {
+    const unfinishedTask = taskRows.find((task) => task.featureLine === line.id);
+    if (unfinishedTask) {
+      invariantErrors.push(`${line.id} is Done but still has unfinished task: ${unfinishedTask.id}`);
+    }
+    if (!line.coverage || /待建立/.test(line.coverage)) {
+      invariantErrors.push(`${line.id} is Done without a coverage ledger.`);
+    }
+    if (!line.closureEvidence || /未开始|待/.test(line.closureEvidence)) {
+      invariantErrors.push(`${line.id} is Done without concrete closure evidence.`);
+    }
+  }
+
+  const blockedCurrentTask = activeLine
+    ? taskRows.find((task) => task.id === activeLine.currentTask && task.status === 'Blocked')
+    : undefined;
+  if (blockedCurrentTask) {
+    const otherReadyTask = taskRows.find((task) => task.status === 'Ready');
+    if (otherReadyTask) {
+      invariantErrors.push(`${blockedCurrentTask.id} is the blocked Active task, but ${otherReadyTask.id} is Ready; resolve the same-line blocker instead of switching.`);
+    }
+  }
+
+  return invariantErrors;
+}
+
+function checkFeatureLineInvariantSamples() {
+  const active = {
+    id: 'LINE-A', status: 'Active', currentTask: 'TASK-SETTINGS-900', coverage: 'coverage-a.md', closureEvidence: '待关闭',
+  };
+  const planned = {
+    id: 'LINE-B', status: 'Planned', currentTask: 'TASK-SETTINGS-901', coverage: '待建立', closureEvidence: '未开始',
+  };
+  const activeTask = { id: 'TASK-SETTINGS-900', status: 'Ready', featureLine: 'LINE-A' };
+  const plannedTask = { id: 'TASK-SETTINGS-901', status: 'Planned', featureLine: 'LINE-B' };
+
+  const validErrors = featureLineInvariantErrors([active, planned], [activeTask, plannedTask], [activeTask.id]);
+  if (validErrors.length > 0) {
+    error(`Feature-line positive sample failed: ${validErrors.join(' | ')}`);
+  }
+
+  const samples = [
+    {
+      name: 'double Active',
+      lines: [active, { ...planned, status: 'Active' }],
+      tasks: [activeTask, plannedTask],
+      recommendations: [activeTask.id],
+      expected: 'exactly one Active',
+    },
+    {
+      name: 'Ready task outside Active line',
+      lines: [active, planned],
+      tasks: [activeTask, { ...plannedTask, status: 'Ready' }],
+      recommendations: [activeTask.id],
+      expected: 'outside the Active feature line',
+    },
+    {
+      name: 'cross-line recommendation',
+      lines: [active, planned],
+      tasks: [activeTask, plannedTask],
+      recommendations: [plannedTask.id],
+      expected: 'only current recommendation',
+    },
+    {
+      name: 'Done line with unfinished task',
+      lines: [active, { ...planned, status: 'Done', coverage: 'coverage-b.md', closureEvidence: 'verified' }],
+      tasks: [activeTask, plannedTask],
+      recommendations: [activeTask.id],
+      expected: 'Done but still has unfinished task',
+    },
+    {
+      name: 'blocked line switches to another Ready task',
+      lines: [active, planned],
+      tasks: [{ ...activeTask, status: 'Blocked' }, { ...plannedTask, status: 'Ready' }],
+      recommendations: [activeTask.id],
+      expected: 'resolve the same-line blocker',
+    },
+  ];
+
+  for (const sample of samples) {
+    const sampleErrors = featureLineInvariantErrors(sample.lines, sample.tasks, sample.recommendations);
+    if (!sampleErrors.some((message) => message.includes(sample.expected))) {
+      error(`Feature-line negative sample did not fail as expected (${sample.name}): ${sample.expected}`);
+    }
+  }
+}
+
+function checkFeatureLines(featureLinesText, featureLines, taskRows, recommendedIds) {
+  for (const message of featureLineInvariantErrors(featureLines, taskRows, recommendedIds)) {
+    error(message);
+  }
+
+  if (!featureLinesText.includes('WIP=1') || !featureLinesText.includes('阻塞')) {
+    error('feature-lines.md must document strict WIP=1 and same-line blocker handling.');
+  }
+
+  for (const line of featureLines.filter((candidate) => candidate.status === 'Active')) {
+    if (!line.coverage || /待建立/.test(line.coverage)) {
+      error(`${line.id} Active line must reference a coverage ledger.`);
+      continue;
+    }
+    const coveragePath = path.join('docs/tasks', line.coverage);
+    if (!existsSync(filePath(coveragePath))) {
+      error(`${line.id} coverage ledger does not exist: ${coveragePath}`);
+    }
+  }
+
+  checkFeatureLineInvariantSamples();
 }
 
 function checkHistory(history, boardIds) {
@@ -329,6 +520,28 @@ function checkStartupRules(agents, outline) {
   }
   if (!agents.includes('冷启动阅读分流')) {
     error('AGENTS.md should contain the cold-start reading decision table.');
+  }
+}
+
+function checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration) {
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['TASK_OUTLINE.md', outline],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+    ['docs/workflow/agent-protocol.md', agentProtocol],
+    ['docs/workflow/task-generation.md', taskGeneration],
+  ]) {
+    if (!text.includes('feature-lines.md')) {
+      error(`${name} must route formal game work through docs/tasks/feature-lines.md.`);
+    }
+  }
+  if (!agentProtocol.includes('WIP=1') || !agentProtocol.includes('阻塞')) {
+    error('agent-protocol.md must enforce strict feature-line WIP=1 and same-line blocker handling.');
+  }
+  if (!taskGeneration.includes('WIP=1') || !taskGeneration.includes('不得切线')) {
+    error('task-generation.md must enforce strict WIP=1 and prohibit cross-line task generation.');
   }
 }
 
@@ -489,7 +702,15 @@ function checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, doc
   }
 }
 
-function checkProblemGovernance(problemGovernance, agents, claude, workflowReadme, documentMap, agentProtocol) {
+function checkProblemGovernance(
+  problemGovernance,
+  problemRecords,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  agentProtocol,
+) {
   for (const requiredText of [
     '适用范围',
     '问题定义',
@@ -503,6 +724,27 @@ function checkProblemGovernance(problemGovernance, agents, claude, workflowReadm
   ]) {
     if (!problemGovernance.includes(requiredText)) {
       error(`problem-governance.md must mention: ${requiredText}`);
+    }
+  }
+
+  for (const { id, path: recordPath, text } of problemRecords) {
+    if (!problemGovernance.includes(recordPath.replace('docs/workflow/', ''))) {
+      error(`problem-governance.md must index ${recordPath}.`);
+    }
+    if (!text.includes(`# ${id} `)) {
+      error(`${recordPath} must start with its stable id ${id}.`);
+    }
+    for (const requiredHeading of [
+      '## 1. 问题定义',
+      '## 2. 证据',
+      '## 3. 解决方案',
+      '## 4. 测试方案',
+      '## 5. 测试结果',
+      '## 6. 关闭标准',
+    ]) {
+      if (!text.includes(requiredHeading)) {
+        error(`${recordPath} must include: ${requiredHeading}`);
+      }
     }
   }
 
@@ -574,6 +816,8 @@ const claude = read('CLAUDE.md');
 const outline = read(files.outline);
 const board = read(files.board);
 const history = read(files.history);
+const featureLinesText = read(files.featureLines);
+const taskGeneration = read(files.taskGeneration);
 const mechanicsText = read(files.mechanics);
 const verticalSlices = read(files.verticalSlices);
 const governanceLog = read(files.governanceLog);
@@ -583,6 +827,9 @@ const packageJsonText = read(files.packageJson);
 const codeQualityGates = read(files.codeQualityGates);
 const reviewProtocol = read(files.reviewProtocol);
 const problemGovernance = read(files.problemGovernance);
+const problem001 = read(files.problem001);
+const problem002 = read(files.problem002);
+const agentProtocol = read(files.agentProtocol);
 const tsconfig = read(files.tsconfig);
 const srcBoundaries = read(files.srcBoundaries);
 const inputSystem = read(files.inputSystem);
@@ -590,6 +837,7 @@ const glossary = read(files.glossary);
 const languageProcess = read(files.languageProcess);
 
 const taskRows = parseTaskRows(board);
+const featureLines = parseFeatureLineRows(featureLinesText);
 const boardIds = taskRows.map((row) => row.id);
 const boardDefinitionSection = section(board, '任务完成定义');
 const boardDefinitionIds = taskDefinitions(boardDefinitionSection);
@@ -598,26 +846,41 @@ const mechanics = parseMechanics(mechanicsText);
 
 checkBoardShape(board, taskRows, boardDefinitionIds, taskBlockList);
 const recommendedIds = checkRecommendations(board, taskRows);
+checkFeatureLines(featureLinesText, featureLines, taskRows, recommendedIds);
 const { historyRows, historyDefinitionIds } = checkHistory(history, boardIds);
 checkRefs(taskRows, mechanics, verticalSlices);
 checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
+checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration);
 checkUtf8ReadingRules(agents, claude, workflowReadme);
 checkRegimaRouting(agents, outline, board, workflowReadme, documentMap);
 checkWorkflowSeparation(mechanicsText);
-const agentProtocol = read(files.agentProtocol);
 checkGovernanceLog([
   files.taskGeneration,
+  files.featureLines,
   files.workflowReadme,
   files.documentMap,
   files.codeQualityGates,
   files.reviewProtocol,
   files.problemGovernance,
+  files.problem001,
+  files.problem002,
   files.agentProtocol,
 ], governanceLog);
 checkCodeQualityGates(packageJsonText, codeQualityGates, claude);
 checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, documentMap);
-checkProblemGovernance(problemGovernance, agents, claude, workflowReadme, documentMap, agentProtocol);
+checkProblemGovernance(
+  problemGovernance,
+  [
+    { id: 'PG-001', path: files.problem001, text: problem001 },
+    { id: 'PG-002', path: files.problem002, text: problem002 },
+  ],
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  agentProtocol,
+);
 checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanicsText, inputSystem);
 checkDomainLanguage(glossary, languageProcess, [inputSystem]);
 

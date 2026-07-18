@@ -1,13 +1,13 @@
 # 再续天庭现代化：AI 总任务书
 
-本文是项目的战略导航。它回答“目标是什么、路线是什么、文档如何分工、任务类型有哪些”。具体任务状态不在本文维护，请看 `docs/tasks/task-board.md`。
+本文是项目的战略导航。它回答“目标是什么、路线是什么、文档如何分工、任务类型有哪些”。完整系统范围和激活状态看 `docs/tasks/feature-lines.md`，具体 task 状态看 `docs/tasks/task-board.md`。
 
 新的 AI 接手时，默认先读：
 
 1. `AGENTS.md`
 2. `TASK_OUTLINE.md`
 
-随后按 `AGENTS.md` 的“任务分级”和“冷启动阅读分流”读取最小必读集。只有正式游戏 task 才默认读取 `docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`；行为逆向读取旧提取集中的 AS3，视觉资源逆向优先读取 RegiMA 恢复语料库。
+随后按 `AGENTS.md` 的“任务分级”和“冷启动阅读分流”读取最小必读集。只有正式游戏 task 才默认读取 `docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`；行为逆向读取旧提取集中的 AS3，视觉资源逆向优先读取 RegiMA 恢复语料库。
 
 ## 0. 项目目标
 
@@ -63,6 +63,8 @@
 
 - `TASK_OUTLINE.md`：战略导航。维护目标、原则、阶段路线和任务类型，不维护具体任务状态。
 - `docs/tasks/task-board.md`：未完成游戏任务看板。维护当前游戏复现任务、状态、产物、拆分和下一步。
+- `docs/tasks/feature-lines.md`：完整玩家系统台账。维护唯一 Active 功能线、用户确认范围、当前 task、阻塞和关闭证据。
+- `docs/tasks/feature-line-coverage/LINE-*.md`：单条功能线的权威内容全集、覆盖矩阵和关闭检查。
 - `docs/tasks/task-history.md`：已完成游戏任务历史。默认不读，除非需要追溯、修改已完成任务或处理历史依赖。
 - `docs/workflow/task-generation.md`：游戏任务生成规范。维护如何从机制、切片或工程缺口生成标准任务。
 - `docs/workflow/*.md`：AI 工作流脚手架。维护任务体系、文档职责和治理日志，不进入游戏任务看板。
@@ -76,8 +78,9 @@
 更新规则：
 
 - 改路线或任务类型：更新 `TASK_OUTLINE.md`。
-- 开始/拆分具体任务：更新 `task-board.md`。
-- 完成具体任务：从 `task-board.md` 移到 `task-history.md`。
+- 开始/拆分具体任务：先确认唯一 Active 功能线，再更新 `task-board.md` 和对应覆盖台账。
+- 完成具体 task：从 `task-board.md` 移到 `task-history.md`，随后继续同线下一 task；不得据此自动关闭功能线。
+- 完成功能线：只有覆盖合同全部满足后更新 `feature-lines.md`，再激活下一条线。
 - 新增游戏任务或规范任务定义：遵循 `docs/workflow/task-generation.md`。
 - 维护 AI 工作流脚手架：更新 `docs/workflow/governance-log.md`。
 - 扒出机制：更新 `mechanics-index.md` 的逆向状态。
@@ -85,7 +88,7 @@
 
 ## 3. 工作原则
 
-每次对话只处理一个清晰任务。`TASK_OUTLINE.md` 中的任务类型可以较大，实际执行任务以 `task-board.md` 为准。
+普通执行一次处理一个清晰 task；`/goal` 持有一个完整功能线并连续推进多个同线 task。`TASK_OUTLINE.md` 中的任务类型可以较大，实际调度以 `feature-lines.md` 和 `task-board.md` 为准。
 
 执行代码任务时：
 
@@ -112,7 +115,7 @@
 
 轻量请求不进入完整看板流程，不归档 task-history，也不要求完成后切换对话。正式游戏 task 才执行看板、机制表、切片表和历史归档流程。
 
-用户使用 `/goal` 时，AI 按任务文档自动推进到一个可交接点，任务文档的生成、维护和归档仍受 `docs/workflow/agent-protocol.md` 约束。收尾时 AI 必须明确给出下一步、Git 提交/上传建议和对话管理建议，但提交、上传和新开对话仍由用户最终确认。
+用户使用 `/goal` 时，AI 持有 `feature-lines.md` 中唯一 Active 功能线，完成一个 task 后自动继续同线下一 task，遇到阻塞只解决本线阻塞。只有完整功能线关闭或确需用户输入时才停；任务文档仍受 `docs/workflow/agent-protocol.md` 约束。
 
 同一个正式游戏 task 未完成时优先继续当前对话；上下文过长时优先 compact，并在 compact 后复查关键文档和当前改动文件。只有完成 task、切换明显不同机制/切片/子系统，或已读取大量 AS3/逆向/历史资料时，才在文档收尾后建议新开对话。
 
@@ -270,8 +273,9 @@
 
 ## 7. 当前下一步
 
-当前具体任务和推荐下一步只看：
+当前完整目标、具体 task 和推荐下一步依次看：
 
+- `docs/tasks/feature-lines.md`
 - `docs/tasks/task-board.md`
 
 默认不读取：
@@ -282,13 +286,13 @@
 
 ```text
 请按 AGENTS.md 的“正式游戏 task 工作流”执行一个 task。
-如果我没有指定 task id，请从 docs/tasks/task-board.md 的 Ready 任务中选择当前推荐项。
+如果我没有指定 task id，请从 docs/tasks/feature-lines.md 的唯一 Active 线选择 task-board 当前推荐项。
 ```
 
 自动推进推荐开场：
 
 ```text
-/goal 按任务文档执行当前推荐任务，直到可交接点；收尾时请给出 Git 和对话管理建议。
+/goal 按任务文档连续执行当前 Active 功能线，task 完成后继续同线下一 task，阻塞时不切线，直到完整关闭或确需我输入；收尾时请给出 Git 和对话管理建议。
 ```
 
 创建任务时推荐开场：

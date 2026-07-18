@@ -32,7 +32,7 @@ Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整
 
 - 新增现代 stableKey 时，必须同步新增标注或明确不属于原版资源。
 - 定位到源包/符号后更新原 CSV 行为 `export-ready` 并填写 `sourcePackage`；不要新增重复 stableKey。
-- 炼丹炉已完成完整界面和两个配方图标族的 stableKey、选择性派生与现代接入；当前没有未完成的炼丹炉资源 task。
+- 炼丹炉已完成完整界面和两个配方图标族的 stableKey、选择性派生与现代接入；其余权威配方涉及的真图标缺口由 `LINE-CRAFTING` 先做全集盘点，再按连续窄资源 task 接入。
 - 后续真素材转换、复制到 `public/assets`、manifest 注册和场景验收继续按窄资源族单独生成正式游戏 task。
 - 只有拿到源 MovieClip 且轻量重建明显不足时，才进入拆分必要性评估。
 

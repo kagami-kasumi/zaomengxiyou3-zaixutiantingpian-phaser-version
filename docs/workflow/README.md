@@ -29,6 +29,7 @@
 | `code-quality-gates.md` | AI 修改代码时必须遵守的验证、边界和测试要求 |
 | `review-protocol.md` | 工程评审的统一流程、严重程度、输出格式和整改落点 |
 | `problem-governance.md` | 系统性工程问题的定义、证据、方案、验证和关闭标准 |
+| `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案、测试结果和关闭状态 |
 | `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
 | `governance-log.md` | 工作流、任务体系、文档职责和质量门禁的维护历史 |
 | `../domain/glossary.md` | 轻量 DDD 统一语言表 |
@@ -44,7 +45,7 @@
 随后按任务类型补读最小集合：
 
 - **轻量请求**：只读直接相关文件。
-- **正式游戏 task**：补读 `agent-protocol.md`、`task-board.md`、`mechanics-index.md`、`vertical-slices.md`。
+- **正式游戏 task**：补读 `agent-protocol.md`、`feature-lines.md`、当前线覆盖台账、`task-board.md`、`mechanics-index.md`、`vertical-slices.md`。
 - **代码实现**：在正式 task 基础上补读 `docs/architecture/src-boundaries.md` 和目标源码。
 - **工程评审**：补读 `review-protocol.md`；涉及代码质量再读 `code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md`。
 - **问题治理**：补读 `problem-governance.md`；若问题来自评审，再读 `review-protocol.md`，若涉及代码质量，再读 `code-quality-gates.md`。
@@ -56,8 +57,10 @@
 ## 维护规则
 
 - 游戏逆向、实现、切片和现代架构任务写入 `docs/tasks/task-board.md`。
+- 完整玩家系统的范围、唯一 Active 状态和关闭证据写入 `docs/tasks/feature-lines.md` 及 `feature-line-coverage/`；严格单线 `WIP=1`。
 - 已完成游戏任务从 `task-board.md` 归档到 `docs/tasks/task-history.md`。
 - 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁只写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板。
+- 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议和问题索引。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。
 - 同一个正式游戏 task 未完成时默认继续当前对话；上下文过长时优先 compact，并在 compact 后复查关键文档和当前改动文件。

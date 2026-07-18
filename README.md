@@ -22,7 +22,7 @@
 - 关卡停止点、测试场景和系统级断言。
 - 任务看板、机制索引、纵向切片和工作流治理文档。
 
-更多实现状态见 `docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md` 和 `docs/tasks/vertical-slices.md`。
+更多实现状态见 `docs/tasks/feature-lines.md`、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md` 和 `docs/tasks/vertical-slices.md`。
 
 ## 快速开始
 
@@ -49,7 +49,7 @@ npm run check:all
 | `src/systems/` | 输入、战斗、技能、怪物、关卡等可测试规则 |
 | `src/assets/` | 现代工程资源清单与加载描述 |
 | `docs/reverse-engineering/` | AS3 逆向记录和机制索引 |
-| `docs/tasks/` | 游戏任务看板、历史和纵向切片 |
+| `docs/tasks/` | 功能条线、覆盖台账、游戏 task、历史和纵向切片 |
 | `docs/workflow/` | AI agent 协作脚手架、质量门禁和治理日志 |
 | `docs/domain/` | 轻量 DDD 统一语言和命名流程 |
 | `tools/` | 工作流校验和系统测试脚本 |
@@ -60,7 +60,7 @@ npm run check:all
 新接手时先读 `AGENTS.md` 和 `TASK_OUTLINE.md`，再按任务类型补读最小必读文档。
 
 - 轻量请求只读直接相关文件。
-- 正式游戏任务从 `docs/tasks/task-board.md` 选择或执行指定 task。
+- 正式游戏任务先确认 `docs/tasks/feature-lines.md` 的唯一 Active 条线，再从 `task-board.md` 执行同线 task。
 - 修改 `src/` 前参考 `docs/architecture/src-boundaries.md`。
 - 修改任务或工作流文档后运行 `npm run check:workflow`。
 - 修改代码后优先运行 `npm run test:systems` 和 `npm run build`。

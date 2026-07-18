@@ -2,6 +2,82 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-18
+
+### 落地严格单线功能条线任务系统
+
+变更内容：
+
+- 新增 `docs/tasks/feature-lines.md` 和 `feature-line-coverage/LINE-CRAFTING.md`，把完整玩家系统设为承诺单位，把 task 保留为小而可验收的执行单位。
+- 建立严格单线 `WIP=1`：`LINE-CRAFTING` 是唯一 Active，Stage 1-1 保持 Planned；task 完成后必须继续同线下一 task，阻塞时不得切线。
+- 重写任务生成规范并更新 Agent、Claude、总任务书、详细协议、README 和文档地图，让正式 task 与 `/goal` 先恢复功能线所有权。
+- 新增 `TASK-SETTINGS-047`，先盘点 112 个权威配方的物品定义、库存类别、入口、真图标、UI 和测试覆盖；保留 `TASK-SETTINGS-046` 但禁止在合成线关闭前执行。
+- 纠正 `TASK-SLICE-118`、`M-039` 和资源状态中的整线完成外推，保留 `VS-042..044` 的局部完成事实。
+- 扩展 `validate-workflow.mjs`，校验功能线字段、唯一 Active、跨线 Ready/Blocked、跨线推荐、当前 task、Done 关闭证据和覆盖台账；增加五类内置负向样例。
+- 将 PG-002 更新为“治理规则已落地，运行观察中”；待合成线完整运行和下一条线切换样本完成后再判断关闭。
+
+影响范围：
+
+- `AGENTS.md`、`CLAUDE.md`、`TASK_OUTLINE.md`、`README.md`
+- `docs/tasks/feature-lines.md`、`docs/tasks/feature-line-coverage/LINE-CRAFTING.md`
+- `docs/tasks/task-board.md`、`docs/tasks/task-history.md`
+- `docs/workflow/agent-protocol.md`、`docs/workflow/task-generation.md`
+- `docs/workflow/README.md`、`docs/workflow/document-map.md`
+- `docs/workflow/problem-governance.md`、`docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `npm run check:structure` 通过，仅报告 8 个既有无关 warning。
+- `npm run check:workflow` 通过；2 个未完成 task、唯一推荐 `TASK-SETTINGS-047`、150 个已完成 task 和 172 条资源标注均一致。
+- `npm run check:all` 通过；系统测试、合成专项测试和生产构建通过，保留既有 8 个结构 warning 与 Vite 大 chunk 提示。
+
+### 拆分问题治理记录并确认 PG-002 的单线方案
+
+变更内容：
+
+- 将 `PG-001`、`PG-002` 从总协议拆到 `docs/workflow/problems/` 下的独立问题文档；总协议只保留治理规则、问题索引和模板。
+- 根据用户确认修正 `PG-002` 方案：完整玩家系统是承诺单位，task 是内部执行单位；全项目严格保持单条功能线 `WIP=1`。
+- 明确同一功能线的 task 必须连续推进；遇到阻塞时生成并解决同线阻塞任务，不得切换到其他功能线。
+- 以炼丹炉为首个治理对象：只有真 UI、权威合成表全覆盖、正式可达流程和验证闭合后才能关闭，任一局部切片完成都不能结束条线。
+- 撤回本轮新增的“第二阶段”纪念文档及入口；等未来出现更大规模突破后再重新总结项目阶段。
+
+影响范围：
+
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-001-共享技能规则重复定义.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `npm run check:workflow` 通过；新增独立问题文档的结构与索引校验已生效，150 个已完成 task 和 172 条资源标注继续通过。
+
+## 2026-07-16
+
+### 登记纵向切片被越级解释为功能条线完成的问题
+
+变更内容：
+
+- 新增 `PG-002`，将问题定义为现有任务体系缺少功能条线层、覆盖台账和关闭门禁，而不是单句任务状态写错。
+- 记录炼丹炉案例证据：112 个唯一配方已注册，但只有土灵珠和枯叶灵两个配方族形成完整真图标/UI 闭环；已完成纵向切片不足以证明“合成所有物质”已经覆盖。
+- 提出 `LINE-*` 功能条线台账、条线级 `/goal` 持续推进语义、工作流负向校验和当前炼丹炉覆盖盘点方案。
+- 明确治理问题与游戏内容分别关闭：PG-002 负责修任务模型和防复发门禁，`LINE-CRAFTING` 后续负责追踪所有合成物质的实际完成度。
+- 本次只登记问题与方案，不修改游戏代码、不生成剩余炼丹炉实现 task，也不撤销已真实完成的 `VS-042..044`。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow` 通过；现有校验报告 1 个未完成 task、1 个定义、当前推荐 `TASK-SETTINGS-046`，资源标注 172 条全部通过。
+
 ## 2026-07-15
 
 ### 将 RegiMA 恢复语料库迁入项目本地资源根并强制视觉路由

@@ -19,6 +19,7 @@ npm run check:workflow
 | 必须 | [AGENTS.md](./AGENTS.md) | 每次对话 |
 | 必须 | [TASK_OUTLINE.md](./TASK_OUTLINE.md) | 每次对话 |
 | 按需 | [docs/tasks/task-board.md](./docs/tasks/task-board.md) | 执行正式游戏 task 时 |
+| 按需 | [docs/tasks/feature-lines.md](./docs/tasks/feature-lines.md) | 确认唯一 Active 功能线、连续 task 和关闭合同 |
 | 按需 | [docs/reverse-engineering/mechanics-index.md](./docs/reverse-engineering/mechanics-index.md) | 涉及玩法/机制时 |
 | 按需 | [docs/tasks/vertical-slices.md](./docs/tasks/vertical-slices.md) | 涉及实现时 |
 | 按需 | [docs/workflow/review-protocol.md](./docs/workflow/review-protocol.md) | 执行工程评审时 |
@@ -41,8 +42,8 @@ npm run check:workflow
 ## 核心约束
 
 1. 轻量请求不进入完整游戏 task 流程，不更新看板，不要求切换对话。
-2. 正式游戏 task 一次对话只做一个，除非用户明确要求合并处理。
-3. 用户使用 `/goal` 时，按任务文档自动推进到可交接点，不因普通阶段性进展要求用户手动“继续”。
+2. 普通正式游戏请求一次处理一个 task；task 必须属于 `feature-lines.md` 的唯一 Active 功能线。
+3. 用户使用 `/goal` 时，持有完整功能线并连续推进同线 task；严格 `WIP=1`，遇到阻塞不切线。
 4. 同一正式游戏 task 未完成时优先继续当前对话；上下文过长时优先 compact，compact 后复查关键文件。
 5. 不要因为只完成少量工作、仍在同一 task 的验证/修 bug/补文档阶段，就建议新开对话。
 6. 正式游戏 task 或 `/goal` 收尾时，必须明确给出继续/compact/新开对话判断，以及 commit / push 建议；Git 操作只有用户明确要求时才执行。

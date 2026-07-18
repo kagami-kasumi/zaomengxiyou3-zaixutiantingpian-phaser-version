@@ -5,16 +5,18 @@
 ## 正式游戏 task 工作流
 
 本项目依靠文档维护跨对话记忆。只有正式游戏 task 才执行完整看板流程。
+功能线调度严格保持 `WIP=1`：当前完整系统关闭前不得切线，遇到阻塞只生成和处理同线解除任务。
 
-1. 先读 `AGENTS.md`、`TASK_OUTLINE.md`，再按冷启动阅读分流读取该 task 的必读文档。
-2. 如果用户指定了 task id，只执行该 task。
-3. 如果用户要求执行 task 但没有指定 task id，从 `docs/tasks/task-board.md` 中选择一个 `Ready` 任务；优先选择看板“当前推荐”中的任务。
+1. 先读 `AGENTS.md`、`TASK_OUTLINE.md`、`docs/tasks/feature-lines.md`，确认唯一 `Active` 功能线，再按冷启动阅读分流读取该 task 的必读文档。
+2. 如果用户指定了 task id，先确认它属于当前 `Active` 功能线；非激活线 task 不得直接执行，必须继续当前线，或由用户明确决定放弃/重定向当前完整目标并同步台账。
+3. 如果用户要求执行 task 但没有指定 task id，只能选择看板“当前推荐”的同线 `Ready` task；不得从其他功能线的 `Planned` task 中挑选。
 4. 开始执行前，确认该 task 有独立的“完成定义”。如果没有，先按 `docs/workflow/task-generation.md` 在 `task-board.md` 为它补齐完成定义，再执行。
 5. 如果任务实际过大，不硬做完；按 `docs/workflow/task-generation.md` 把原任务标为 `Split`，拆出更小子任务，只完成其中一个可验收子任务。
-6. 任务结束时必须更新 `task-board.md` 的状态和推荐后续任务。
+6. 任务结束时必须更新功能线覆盖台账、`task-board.md` 的状态和同线推荐后续任务；条线未关闭时禁止推荐其他系统。
 7. 如果任务完成，把该任务从 `task-board.md` 移到 `docs/tasks/task-history.md`，并在历史中记录完成内容、产物和必要验证。
 8. 逆向任务还必须同步更新 `docs/reverse-engineering/mechanics-index.md`。
 9. 实现任务还必须同步更新 `docs/tasks/vertical-slices.md`，并更新 `mechanics-index.md` 的复现状态。
+10. task 完成只代表工作单元归档；只有 `feature-lines.md` 的完整关闭合同满足后，才能关闭功能线并切换到下一条线。
 
 每个 task 的完成定义必须写在 `task-board.md`，并尽量包含：要解决的问题、必读资料、输出产物、验收标准、禁止范围和推荐后续任务。
 
@@ -24,20 +26,22 @@
 
 触发 `/goal` 时：
 
-1. 如果用户指定了 task id，只执行该 task。
-2. 如果用户没有指定 task id，从 `task-board.md` 的 `Ready` 任务中选择当前推荐任务。
-3. 如果当前没有可执行任务，但用户要求生成任务，先按 `docs/workflow/task-generation.md` 生成或拆分标准 task。
-4. 执行过程中自动持续推进，不因普通阶段性进展要求用户输入“继续”。
-5. 到达完成定义、验证失败且无法自行修复、任务过大需要拆分、遇到权限/资料缺口，或需要用户确认 Git / 对话边界时，才停下来交接。
+1. 先读取 `feature-lines.md`，恢复唯一 `Active` 功能线和系统级 goal。
+2. 如果用户指定了同线 task id，先执行该 task；如果指定非激活线 task，停止切线并说明当前完整目标。
+3. 如果用户没有指定 task id，从 `task-board.md` 选择当前推荐的同线 task。
+4. 如果当前没有可执行 task，先从当前线覆盖缺口或阻塞生成同线 task；不得切换到另一条线寻找 Ready 工作。
+5. 一个 task 完成后自动归档并继续同线下一 task，不因局部完成要求用户输入“继续”，也不结束系统级 goal。
+6. 遇到阻塞时先生成并解决同线解除阻塞 task；只有确实需要用户权限、材料或裁决时才停下来请求输入，等待期间不推进其他功能线。
+7. 只有当前功能线完整关闭，或用户明确决定放弃/重定向该线，系统级 `/goal` 才结束或切线。
 
-`/goal` 的默认粒度是一个明确可交接产物，而不是整个大型阶段。AI 发现任务过大时，不硬做完，应拆成较小 task 或只完成一个可验收子任务，并更新文档状态。
+`/goal` 的承诺粒度是当前完整功能线，执行粒度仍是小而可验收的 task。AI 不把整条线硬塞进一个巨大 task，而是在同一 goal 内连续拆分、执行、验证和归档，直到完整关闭合同满足。
 
 `/goal` 收尾必须输出：
 
-- 已完成、暂停或拆分的 task id。
+- 当前功能线、已完成/暂停/拆分的 task id，以及功能线是否仍为 `Active`。
 - 本次更新的代码和文档。
 - 已运行的验证命令和结果。
-- 下一步推荐任务。
+- 下一步同线推荐 task；功能线未关闭时不得推荐其他系统。
 - 对话管理判断：继续当前对话、优先 compact，或建议新开对话。
 - Git 管理判断：是否建议 commit、建议 commit message；是否建议 push。
 
@@ -96,13 +100,14 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 
 当用户要求新增游戏任务、拆分游戏任务、重排游戏任务或从机制生成任务时，必须先读 `docs/workflow/task-generation.md`。
 
-新任务必须来自以下来源之一：
+新任务必须首先属于当前唯一 `Active` 功能线，并来自以下来源之一：
 
+- `feature-line-coverage/LINE-*.md` 中的覆盖缺口或当前阻塞。
 - `mechanics-index.md` 中的机制缺口。
 - `vertical-slices.md` 中的切片缺口。
 - 现代工程基础设施缺口。
 
-新任务必须写入 `task-board.md`，并包含目标机制/切片、输入资料、输出产物、完成定义、验收标准、禁止范围、状态更新和推荐后续任务。已完成任务应归档到 `docs/tasks/task-history.md`。
+新任务必须写入 `task-board.md`，并包含功能条线、目标机制/切片、输入资料、输出产物、完成定义、验收标准、禁止范围、状态更新和同线推荐后续任务。已完成 task 应归档到 `docs/tasks/task-history.md`，但不得因此关闭功能线或切线。
 
 ## 统一语言规则
 
