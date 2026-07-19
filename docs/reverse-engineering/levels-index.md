@@ -271,13 +271,21 @@ boss 模式下 `probability = 1` 且 `fallList` 包含 10 件普通装备（`ptd
 | 通关条件 | 玩家 `colipse` 碰撞可见传送门 + 按上键 | `BaseHero.checkTransferDoor()` |
 | 通关流程 | `gc.isLevelClear = true` → 销毁键盘 → 派发 `LevelVictor` → `MainGame.levelClear()` | `levels-index.md` |
 
-### 资源缺口
+### Stage 1-1 真资源定位
 
-传送门和墙体坐标嵌在 SWF 时间轴/场景对象中，当前 `local-resources/regima/legacy-extraction/resources_by_swf` 没有 `sl11`/`bg11`/`floorBg1` 的导出：
+`TASK-SETTINGS-046` 从 RegiMA 恢复源包闭合了旧提取集没有提供的三个符号。旧 `local-resources/regima/legacy-extraction/resources_by_swf` 仍只作 AS3 历史对照：
 
-- `sl11` 场景 SWF：包含背景 `bgContainer`、墙体标记（`isWall`/`isThroughWall` 等）、传送门标记（`isTransferDoor`）和碰撞标记
-- `bg11` 背景资源：关卡背景图
-- `floorBg1` 地板背景：`MainGame.createFloorBg()` 加载，类为 `export.FloorBg`
+| 资源 | 精确源包 / character | tag 与时间轴 | 尺寸/边界 | 结构结论 |
+| --- | --- | --- | --- | --- |
+| `export.gameSence.sl11` | `assets/levels/level11.swf` / 46 | `DefineSprite` tag 39，1 帧，帧标签 `1-1` | 1297.2×2970.45；坐标边界约 `x=-200..1097.2`、`y=-2379.4..591.05` | 空 `bgContainer`、1 个静态前景 shape、3 个 `ObsWall`、15 个 `ThroughWall`、1 个 `ThroughUpButDownWall`、1 个 `FallDownWhenStandingWall`、1 个 transfer door |
+| `bg11` | `assets/1.swf` / 141 | `DefineSprite` tag 39，1 帧；内含 character 140 `DefineShape` → character 139 `DefineBitsJPEG2` | 1132×3051；坐标边界 `x=-59..1073`、`y=-2370..681` | 不嵌在 `sl11`；`BaseGameSence` 运行时实例化并以 `x=-20` 加入 `bgContainer` |
+| `floorBg1` | `assets/1.swf` / 1 | `DefineBitsJPEG2` tag 21；无 MovieClip 时间轴 | 1440×690 | `MainGame.createFloorBg()` 包成 Bitmap，并在创建 `sl11` 之前加到根节点 |
+
+`sl11` 自身只有 1 帧，但 transfer door 外层 character 45 内含 character 41（20 帧）和 character 44（19 帧）的动画子时间轴及 `isTransferDoor` 标记。三项资源均可按 character 选择性派生；场景实现必须保留“根节点地面 → 场景布局 → `bgContainer` 动态背景”的组合边界，不能把它们误记为 `level11.swf` 内的单一平面图。
+
+- `sl11` 场景布局：包含 `bgContainer`、墙体标记、传送门标记和碰撞标记
+- `bg11` 背景资源：位于 Stage 1 公共资源包 `assets/1.swf`
+- `floorBg1` 地板背景：同样位于 `assets/1.swf`，由 `MainGame.createFloorBg()` 加载，容器类为 `export.FloorBg`
 - `Monster3` 位图资源：不在当前导出中
 - `Monster3Bullet1`/`Monster3Bullet2`：不在当前导出中
 

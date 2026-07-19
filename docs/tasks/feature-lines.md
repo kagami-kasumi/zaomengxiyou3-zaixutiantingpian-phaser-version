@@ -22,13 +22,13 @@
 | Line | 状态 | 用户确认范围 | 当前 task | 覆盖台账 | 当前阻塞 | 关闭证据 |
 | --- | --- | --- | --- | --- | --- | --- |
 | LINE-CRAFTING | Done | 玩家可从正式流程使用带真 UI、覆盖 1.1 权威合成表全部 112 个唯一配方的合成页 | — | `feature-line-coverage/LINE-CRAFTING.md` | 无 | 112 配方、201 定义、201/201 真图标、224 条 P1/P2 事务、正式入口与运行时真 UI 全部闭合 |
-| LINE-STAGE-1-1 | Active | Stage 1-1 真场景资源、关卡流程和玩家可见闭环；范围待资源逆向后细化 | TASK-SETTINGS-046 | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 初始覆盖台账已建立，待资源窄查 |
+| LINE-STAGE-1-1 | Active | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | TASK-SLICE-123 | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | `sl11/bg11/floorBg1` 精确符号已闭合，待选择性派生与接入 |
 
 ## 当前唯一激活条线
 
 `LINE-STAGE-1-1` 是当前唯一激活条线。`LINE-CRAFTING` 已于 `TASK-SLICE-122` 完成后关闭，后续合成增强必须建立新的明确范围，不能回写为本线未完成项。
 
-`TASK-SETTINGS-047..049`、`TASK-SLICE-119`、`TASK-SLICE-120A..120G`、`TASK-SLICE-121..122` 已连续归档；关闭证据详见 `feature-line-coverage/LINE-CRAFTING.md`。下一可执行项为 Stage 1-1 的 `TASK-SETTINGS-046`，本次 `/goal` 在合成线关闭处停止。
+`TASK-SETTINGS-046` 已归档：`sl11` 位于 `assets/levels/level11.swf` character 46，`bg11/floorBg1` 位于 `assets/1.swf` character 141/1，运行时组合边界已明确。下一可执行项为同线 `TASK-SLICE-123`。
 
 ## 关闭与切线
 

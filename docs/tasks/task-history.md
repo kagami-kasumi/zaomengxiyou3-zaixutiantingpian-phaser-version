@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-046 | 资源逆向 | 定位 Stage 1-1 三个场景真资源符号 | M-026、M-035、VS-007 | `sl11` character 46、`bg11` character 141、`floorBg1` character 1，tag/尺寸/时间轴、运行时组合边界、Stage 1-1 标注与覆盖台账 |
 | TASK-SETTINGS-045 | 逆向 | 定位枯叶灵配方四图标资源 | M-035、VS-044 | EIcon1 character 332/342/323/809、50×50 tag/尺寸、掉落态排除、预览无别名结论、stableKey 与资源标注 |
 | TASK-SLICE-117 | 切片 | 接入炼丹炉最小视觉闭环 | M-039、M-035、M-037、VS-043 | 14 个选择性派生 PNG、stableKey/provenance manifest、固定布局、独立炼丹炉视图、鼠标/键盘交互、合成专项测试与资源标注 |
 | TASK-SETTINGS-044 | 逆向 | 建立炼丹炉视觉资源与交互索引 | M-039、VS-042 | `crafting-ui-index.md`、RegiMA 源包/symbol/布局映射、交互状态证据、`VS-043` 与 `TASK-SLICE-117` |
@@ -178,6 +179,17 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-046
+
+- 完成日期：2026-07-19
+- 功能条线：`LINE-STAGE-1-1`（继续保持 `Active`）
+- 从 RegiMA 恢复源包确认 `export.gameSence.sl11` = `assets/levels/level11.swf` character 46，类型为单帧 `DefineSprite`，边界 1297.2×2970.45，含空 `bgContainer`、20 个墙体标记和 1 个 transfer door。
+- 确认 `bg11` 与 `floorBg1` 不在 `level11.swf`，而位于 Stage 1 公共包 `assets/1.swf`：前者为 character 141 单帧 `DefineSprite`（1132×3051），后者为 character 1 `DefineBitsJPEG2`（1440×690、无时间轴）。
+- 结合 `MainGame.createFloorBg()` 与 `BaseGameSence` 明确运行时组合顺序：根节点地面先创建，随后创建 `sl11`，最后把 `bg11` 以 `x=-20` 动态加入空 `bgContainer`；三者不是单包静态嵌套。
+- 只导出两个 SymbolClass CSV 和三个精确 character 的最小 SVG/JPEG 调查证据到 Git 忽略的 `local-resources/regima/task-outputs/task-settings-046-stage11/`；未批量导出或修改源 SWF。
+- 更新 `levels-index.md`、资源标注 CSV/批次/项目汇总、M-026/M-035、功能线与覆盖台账；生成同线 `TASK-SLICE-123` 作为下一 Ready 项。
+- 验证：`npm run check:annotations`、`npm run check:workflow`。
 
 ### TASK-SETTINGS-045
 
