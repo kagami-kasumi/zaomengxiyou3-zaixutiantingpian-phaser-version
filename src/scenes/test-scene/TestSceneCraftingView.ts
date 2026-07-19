@@ -5,7 +5,6 @@ import {
 } from '../../assets/AssetManifest';
 import {
   craftStagedSession,
-  closeCraftingSession,
   previewCraftingSession,
   removeStagedCraftingMaterial,
   stageCraftingMaterial,
@@ -19,6 +18,13 @@ import {
 } from '../../systems/InventorySystem';
 import { selectNextInventoryCategory } from '../../systems/EquipmentUISystem';
 import { CraftingUILayout, getCraftingCanvasTransform } from './CraftingUILayout';
+import {
+  closeCraftingToMap,
+  createCraftingEntryView,
+  openCraftingFromMap,
+  updateCraftingEntryView,
+  type CraftingEntryView,
+} from './TestSceneCraftingEntryBridge';
 
 type CraftingInventoryCell = {
   background: Phaser.GameObjects.Rectangle;
@@ -28,6 +34,7 @@ type CraftingInventoryCell = {
 
 export type CraftingPanelView = {
   container: Phaser.GameObjects.Container;
+  entryView: CraftingEntryView;
   selectors: Phaser.GameObjects.Image[];
   materialIcons: Phaser.GameObjects.Image[];
   previewIcon: Phaser.GameObjects.Image;
@@ -48,6 +55,7 @@ const HeroRoleByName: Record<string, 1 | 2 | 3 | 4 | 5> = {
 };
 
 export function createCraftingPanel(this: any): CraftingPanelView {
+  const entryView = createCraftingEntryView.call(this);
   const container = this.add.container(0, 0).setVisible(false);
   const source = this.add.container(CraftingUILayout.sourceOffset.x, CraftingUILayout.sourceOffset.y);
   container.add(source);
@@ -70,7 +78,7 @@ export function createCraftingPanel(this: any): CraftingPanelView {
   });
 
   const materialIcons = CraftingUILayout.materialSlots.map((position, index) => {
-    const icon = this.add.image(position.x, position.y, CraftingAssetKeys.tlzsp)
+    const icon = this.add.image(position.x, position.y, CraftingItemTextureKeys.tlzsp)
       .setOrigin(0, 0)
       .setVisible(false)
       .setInteractive({ useHandCursor: true });
@@ -82,12 +90,12 @@ export function createCraftingPanel(this: any): CraftingPanelView {
   const previewIcon = this.add.image(
     CraftingUILayout.preview.x,
     CraftingUILayout.preview.y,
-    CraftingAssetKeys.wptlz,
+    CraftingItemTextureKeys.wptlz,
   ).setOrigin(0, 0).setVisible(false);
   const productIcon = this.add.image(
     CraftingUILayout.product.x,
     CraftingUILayout.product.y,
-    CraftingAssetKeys.wptlz,
+    CraftingItemTextureKeys.wptlz,
   ).setOrigin(0, 0).setVisible(false);
   source.add([previewIcon, productIcon]);
 
@@ -138,12 +146,13 @@ export function createCraftingPanel(this: any): CraftingPanelView {
   this.scale.on('resize', () => applyCraftingCanvasTransform(this, container));
 
   return {
-    container, selectors, materialIcons, previewIcon, productIcon,
+    container, entryView, selectors, materialIcons, previewIcon, productIcon,
     inventoryCells, categoryText, soulText, previewText, messageText,
   };
 }
 
 export function updateCraftingPanelView(scene: any, view: CraftingPanelView): void {
+  updateCraftingEntryView(scene, view.entryView);
   const runtime = scene.playerInventoryRuntimes[scene.inventoryOwner];
   if (!runtime.ui.isOpen) {
     view.container.setVisible(false);
@@ -198,7 +207,7 @@ function createInventoryCells(scene: any, source: Phaser.GameObjects.Container):
       .setOrigin(0, 0)
       .setStrokeStyle(1, 0x8b5a2b)
       .setInteractive({ useHandCursor: true });
-    const icon = scene.add.image(x + 1, y + 1, CraftingAssetKeys.tlzsp)
+    const icon = scene.add.image(x + 1, y + 1, CraftingItemTextureKeys.tlzsp)
       .setOrigin(0, 0)
       .setVisible(false);
     const label = scene.add.text(x + 3, y + 34, '', {
@@ -232,12 +241,7 @@ function updateInventoryCells(entries: readonly InventoryEntry[], cells: Craftin
 }
 
 function selectCraftingOwner(scene: any, ownerSlot: PlayerSlot): void {
-  if (ownerSlot === 'p2' && scene.playerCount !== 2) return;
-  const current = scene.playerInventoryRuntimes[scene.inventoryOwner];
-  if (current.ownerSlot !== ownerSlot) closeCraftingSession(current.craftingSession, current.store);
-  scene.playerInventoryRuntimes.p1.ui.isOpen = ownerSlot === 'p1';
-  scene.playerInventoryRuntimes.p2.ui.isOpen = ownerSlot === 'p2';
-  scene.inventoryOwner = ownerSlot;
+  openCraftingFromMap(scene, ownerSlot);
 }
 
 function stageInventoryCell(scene: any, index: number): void {
@@ -266,10 +270,7 @@ function craftCurrentSession(scene: any): void {
 }
 
 function closeCraftingPanel(scene: any): void {
-  const runtime = scene.playerInventoryRuntimes[scene.inventoryOwner];
-  const result = closeCraftingSession(runtime.craftingSession, runtime.store);
-  runtime.ui.message = result.message;
-  runtime.ui.isOpen = false;
+  closeCraftingToMap(scene);
 }
 
 function cycleCraftingInventoryCategory(scene: any): void {

@@ -30,9 +30,14 @@ import {
   addEquipmentDefinition,
   createInventoryStore,
   createSeedInventoryStore,
+  getInventoryCategoryForDefinition,
   getInventoryEntries,
 } from '../src/systems/InventorySystem';
 import { createPlayerInventoryRuntimes } from '../src/systems/PlayerInventoryOwnershipSystem';
+import {
+  CraftingItemCatalogFillNames,
+  CraftingMaterialFillNames,
+} from '../src/systems/CraftingItemDefinitionRegistry';
 import {
   craftingAssets,
   CraftingAssetKeys,
@@ -42,11 +47,17 @@ import {
   CraftingUILayout,
   getCraftingCanvasTransform,
 } from '../src/scenes/test-scene/CraftingUILayout';
+import {
+  closeCraftingToMap,
+  isCraftingOpen,
+  openCraftingFromMap,
+} from '../src/scenes/test-scene/TestSceneCraftingEntryBridge';
 
 const seedEquipment = createSeedEquipmentRegistry();
 const registry = Object.assign(seedEquipment, createSeedCraftingItemDefinitions(seedEquipment));
 
 testAuthorityRegistryCoverage();
+testCraftingDefinitionRegistryCoverage();
 testUnorderedRecipeMatching();
 testMixedMaterialRecipeCrafting();
 testDuplicateMaterialQuantity();
@@ -71,6 +82,8 @@ testCraftingSessionsStayPlayerIsolated();
 testKylSeedCraftingAndPlayerIsolation();
 testCraftingVisualAssetProvenance();
 testCraftingFixedLayoutAndScaling();
+testFormalCraftingEntryLifecycle();
+testAllRecipeTransactionMatrix();
 
 console.log('Crafting system tests passed.');
 
@@ -93,15 +106,126 @@ function testCraftingVisualAssetProvenance(): void {
       .map((asset) => asset.sourcePackage),
     Array(4).fill('assets/EIcon1.swf'),
   );
-  assert.deepEqual(CraftingItemTextureKeys, {
-    tlzsp: CraftingAssetKeys.tlzsp,
-    wptlz: CraftingAssetKeys.wptlz,
-    kyg: CraftingAssetKeys.kyg,
-    kyz: CraftingAssetKeys.kyz,
-    kys: CraftingAssetKeys.kys,
-    kyl: CraftingAssetKeys.kyl,
-  });
-  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 18);
+  assert.equal(Object.keys(CraftingItemTextureKeys).length, 201);
+  for (const fillName of ['tlzsp', 'wptlz', 'kyg', 'kyz', 'kys', 'kyl']) {
+    assert.equal(CraftingItemTextureKeys[fillName], `crafting-item.${fillName}`);
+  }
+  const batch120AFillNames = [
+    'gjrls', 'gjtss', 'gjyhs', 'hylc', 'hylk', 'hylz', 'hywjs', 'hyzzs', 'lxj',
+    'qybd', 'qyfp', 'qyj', 'qysz', 'scwpqhs2', 'scwpqhs3', 'syl', 'wplvdyl',
+    'wpqhs1', 'wpqhs2', 'wpqhs3', 'wpqhs4', 'wpqhs5', 'xhc', 'xhhl', 'xhp',
+    'xhz', 'zjbtg', 'zjksf', 'zjld', 'zjqj',
+  ];
+  assert.equal(batch120AFillNames.length, 30);
+  for (const fillName of batch120AFillNames) {
+    assert.equal(CraftingItemTextureKeys[fillName], `crafting-item.${fillName}`);
+    assert.equal(craftingAssets[fillName].sourcePackage, 'assets/EIcon1.swf');
+  }
+  assert.equal(craftingAssets.hylk.sourceCharacterId, 299);
+  assert.equal(craftingAssets.wpqhs5.sourceCharacterId, 576);
+  assert.equal(craftingAssets.hywjs.sourceCharacterId, 821);
+  const batch120BFillNames = [
+    'fys1', 'fys2', 'fys3', 'gjs1', 'gjs2', 'gjs3', 'mfs1', 'mfs2', 'mfs3',
+    'scfys2', 'scgjs2', 'scmfs2', 'scsms2', 'sms1', 'sms2', 'sms3',
+  ];
+  assert.equal(batch120BFillNames.length, 16);
+  for (const fillName of batch120BFillNames) {
+    assert.equal(CraftingItemTextureKeys[fillName], `crafting-item.${fillName}`);
+    assert.equal(craftingAssets[fillName].sourcePackage, 'assets/EIcon1.swf');
+  }
+  assert.equal(craftingAssets.gjs3.sourceCharacterId, 231);
+  assert.equal(craftingAssets.sms1.sourceCharacterId, 244);
+  assert.equal(craftingAssets.scmfs2.sourceCharacterId, 306);
+  const batch120CFillNames = [
+    'flzsp', 'hlzsp', 'llzsp', 'rls', 'slzsp', 'tss', 'wpflz', 'wphlz', 'wpllz',
+    'wpslz', 'xley', 'xlny', 'xlry', 'xltc', 'xlth', 'xltq', 'xlts', 'xltz',
+    'xlcz', 'xlyj', 'yhs',
+  ];
+  assert.equal(batch120CFillNames.length, 21);
+  for (const fillName of batch120CFillNames) {
+    assert.equal(CraftingItemTextureKeys[fillName], `crafting-item.${fillName}`);
+    assert.equal(craftingAssets[fillName].sourcePackage, 'assets/EIcon1.swf');
+  }
+  assert.equal(craftingAssets.xltq.sourceCharacterId, 11);
+  assert.equal(craftingAssets.rls.sourceCharacterId, 551);
+  assert.equal(craftingAssets.xlny.sourceCharacterId, 899);
+  const batch120DFillNames = [
+    '_dzj', 'bxg', 'bxhy', 'csqyzstx', 'dgg', 'dzjj', 'hxg', 'hy', 'jlqyzstx',
+    'jlsmsrsz', 'lly', 'lsg', 'mdhy', 'mgzh', 'phhl', 'ptsmsrsz', 'shsjt',
+    'ssg', 'ssqyzstx', 'sssmsrsz', 'tdlzj', 'tflj', 'wpdt', 'wpjh', 'wpjt',
+    'wpkt', 'wpxih', 'wpyh', 'wpyt', 'wpzh', 'yng', 'yxsmsrsz', 'yxqyzstx', 'zhhz',
+  ];
+  assert.equal(batch120DFillNames.length, 34);
+  for (const fillName of batch120DFillNames) {
+    assert.equal(CraftingItemTextureKeys[fillName], `crafting-item.${fillName}`);
+    assert.equal(craftingAssets[fillName].sourcePackage, 'assets/EIcon1.swf');
+  }
+  assert.equal(craftingAssets.mdhy.sourceCharacterId, 7);
+  assert.equal(craftingAssets._dzj.sourceCharacterId, 386);
+  assert.equal(craftingAssets.wpxih.sourceCharacterId, 916);
+  const batch120EFillNames = [
+    'cs_fj_dzzzs', 'cs_fj_jszzs', 'cs_fj_jtzzs', 'cs_fj_tlzzs', 'cs_fj_ztzzs',
+    'cs_wq_glzzs', 'cs_wq_llzzs', 'cs_wq_qszzs', 'cs_wq_rczzs', 'cs_wq_ytzzs',
+    'dszk', 'jcdp', 'jljs', 'kly3', 'kly4', 'kly5', 'lhz', 'lxfb', 'lxfs_1',
+    'lxfs_2', 'lxfs_3', 'lssp_1', 'lssp_2', 'lssp_3', 'lssp_4', 'lssp_5',
+    'lssp_6', 'lssp_7', 'lssp_8', 'lssp_9', 'mdflc', 'mdys', 'ryjgb', 'tpzy',
+    'ttlp', 'ttlpsp1', 'ttlpsp2', 'ttlpsp3', 'wpbp', 'wpdh', 'xhjxj', 'xhmlp',
+  ];
+  assert.equal(batch120EFillNames.length, 42);
+  for (const fillName of batch120EFillNames) {
+    assert.equal(CraftingItemTextureKeys[fillName], `crafting-item.${fillName}`);
+    assert.equal(craftingAssets[fillName].sourcePackage, 'assets/EIcon1.swf');
+  }
+  assert.equal(craftingAssets.ttlpsp1.sourceCharacterId, 21);
+  assert.equal(craftingAssets.cs_wq_glzzs.sourceCharacterId, 163);
+  assert.equal(craftingAssets.cs_wq_qszzs.sourceCharacterId, 163);
+  assert.equal(craftingAssets.cs_fj_tlzzs.sourceCharacterId, 225);
+  assert.equal(craftingAssets.cs_fj_dzzzs.sourceCharacterId, 225);
+  assert.equal(craftingAssets.xhmlp.sourceCharacterId, 919);
+  const batch120FFillNames = [
+    'cs_fj_dz', 'cs_fj_js', 'cs_fj_jt', 'cs_fj_tl', 'cs_fj_zt', 'cs_wq_gl',
+    'cs_wq_ll', 'cs_wq_qs', 'cs_wq_rc', 'cs_wq_yt', 'fljzzs', 'fykjzzs',
+    'hsmwtx', 'hxkjzzs', 'lxqzzs', 'lxzhs', 'lyrzzs', 'sxfb', 'sqmdcqgzzs',
+    'sxzhs', 'tjbg', 'wpfbtc', 'wpfbyyan', 'wpfbyyin', 'xakjzzs', 'xlczzzs',
+    'xleyzzs', 'xlryzzs', 'xltczzs', 'xlthzzs', 'xltszzs', 'xltzzzs', 'xlyjzzs',
+    'yxfb', 'ylkjzzs', 'zlfzzs', 'zxptzzzs', 'zxptyzzs', 'zxqtczzs', 'zxqtszzs',
+    'zxstgzzs', 'zxstjzzs', 'zxttpzzs', 'zxztjzzs', 'zxztkzzs', 'zxztpzzs',
+  ];
+  assert.equal(batch120FFillNames.length, 46);
+  for (const fillName of batch120FFillNames) {
+    assert.equal(CraftingItemTextureKeys[fillName], `crafting-item.${fillName}`);
+    assert.equal(craftingAssets[fillName].sourcePackage, 'assets/EIcon1.swf');
+  }
+  assert.equal(craftingAssets.cs_fj_tl.sourceCharacterId, 19);
+  for (const fillName of ['sqmdcqgzzs', 'zxptzzzs', 'zxptyzzs', 'zxqtczzs', 'zxqtszzs', 'zxstgzzs', 'zxttpzzs', 'zxztjzzs', 'zxztkzzs', 'zxztpzzs']) {
+    assert.equal(craftingAssets[fillName].sourceCharacterId, 566);
+  }
+  assert.equal(craftingAssets.fljzzs.sourceCharacterId, 876);
+  assert.deepEqual(
+    ['qpjy', 'fbqpj'].map((fillName) => ({
+      fillName,
+      sourcePackage: craftingAssets[fillName].sourcePackage,
+      sourceCharacterId: craftingAssets[fillName].sourceCharacterId,
+    })),
+    [
+      { fillName: 'qpjy', sourcePackage: '1_MainLoad__main1.swf', sourceCharacterId: 2 },
+      { fillName: 'fbqpj', sourcePackage: '1_MainLoad__main1.swf', sourceCharacterId: 3 },
+    ],
+  );
+  assert.deepEqual(
+    ['wpxty', 'wpycjh', 'wpzty', 'mdcqg'].map((fillName) => ({
+      fillName,
+      sourcePackage: craftingAssets[fillName].sourcePackage,
+      sourceCharacterId: craftingAssets[fillName].sourceCharacterId,
+    })),
+    [
+      { fillName: 'wpxty', sourcePackage: 'assets/MagicWeapon2.swf', sourceCharacterId: 4 },
+      { fillName: 'wpycjh', sourcePackage: 'assets/MagicWeapon2.swf', sourceCharacterId: 6 },
+      { fillName: 'wpzty', sourcePackage: 'assets/MagicWeapon2.swf', sourceCharacterId: 17 },
+      { fillName: 'mdcqg', sourcePackage: 'assets/MagicWeapon2.swf', sourceCharacterId: 18 },
+    ],
+  );
+  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 213);
 }
 
 function testCraftingFixedLayoutAndScaling(): void {
@@ -117,6 +241,97 @@ function testCraftingFixedLayoutAndScaling(): void {
   assert.equal(wide.scale, 5 / 3);
   assert.ok(Math.abs(wide.x - 500 / 3) < 1e-9);
   assert.equal(wide.y, 0);
+}
+
+function testFormalCraftingEntryLifecycle(): void {
+  const playerInventoryRuntimes = createPlayerInventoryRuntimes(registry);
+  const scene = { playerCount: 2, playerInventoryRuntimes, inventoryOwner: 'p1' as const };
+  assert.equal(openCraftingFromMap(scene, 'p1'), true);
+  assert.equal(isCraftingOpen(scene), true);
+  const p1Entry = getInventoryEntries(playerInventoryRuntimes.p1.store, 'items')
+    .find((entry) => entry.definition.fillName === 'tlzsp');
+  assert.ok(p1Entry);
+  assert.equal(stageCraftingMaterial(
+    playerInventoryRuntimes.p1.craftingSession,
+    playerInventoryRuntimes.p1.store,
+    p1Entry,
+  ).ok, true);
+  assert.equal(openCraftingFromMap(scene, 'p2'), true);
+  assert.equal(scene.inventoryOwner, 'p2');
+  assert.equal(playerInventoryRuntimes.p1.craftingSession.slots.every((entry) => !entry), true);
+  assert.equal(playerInventoryRuntimes.p1.ui.isOpen, false);
+  assert.equal(playerInventoryRuntimes.p2.ui.isOpen, true);
+  const p2Entry = getInventoryEntries(playerInventoryRuntimes.p2.store, 'items')
+    .find((entry) => entry.definition.fillName === 'tlzsp');
+  assert.ok(p2Entry);
+  assert.equal(stageCraftingMaterial(
+    playerInventoryRuntimes.p2.craftingSession,
+    playerInventoryRuntimes.p2.store,
+    p2Entry,
+  ).ok, true);
+  closeCraftingToMap(scene);
+  assert.equal(isCraftingOpen(scene), false);
+  assert.equal(playerInventoryRuntimes.p2.craftingSession.slots.every((entry) => !entry), true);
+  assert.equal(openCraftingFromMap({ ...scene, playerCount: 1 }, 'p2'), false);
+}
+
+function testAllRecipeTransactionMatrix(): void {
+  const recipes = [
+    ...DirectStaticCraftingRecipes,
+    ...SutraCraftingRecipes,
+    ...SunSutraCraftingRecipes,
+    ...MingDingHuaYanCraftingRecipes,
+  ];
+  assert.equal(recipes.length, 112);
+  assert.deepEqual(
+    recipes.reduce<Record<string, number>>((counts, recipe) => {
+      counts[recipe.productionBehavior] = (counts[recipe.productionBehavior] ?? 0) + 1;
+      return counts;
+    }, {}),
+    { direct_static: 67, get_sutra_value: 41, get_sun_sutra_value: 3, get_mingding_huayan: 1 },
+  );
+
+  for (const recipe of recipes) {
+    for (const ownerSlot of ['p1', 'p2'] as const) {
+      const runtimes = createPlayerInventoryRuntimes(registry);
+      const runtime = runtimes[ownerSlot];
+      const otherRuntime = runtimes[ownerSlot === 'p1' ? 'p2' : 'p1'];
+      const productBefore = countInventoryFillName(runtime.store, recipe.productFillName);
+      const otherProductBefore = countInventoryFillName(otherRuntime.store, recipe.productFillName);
+      for (const fillName of recipe.materialFillNames) {
+        const definition = registry[fillName];
+        assert.ok(definition, `missing matrix definition ${fillName}`);
+        const category = getInventoryCategoryForDefinition(definition);
+        const entry = getInventoryEntries(runtime.store, category)
+          .find((candidate) => candidate.definition.fillName === fillName);
+        assert.ok(entry, `missing ${ownerSlot} matrix material ${fillName}`);
+        assert.equal(stageCraftingMaterial(runtime.craftingSession, runtime.store, entry).ok, true);
+      }
+      const soulBefore = runtime.magicWeaponSoul;
+      const result = craftStagedSession({
+        session: runtime.craftingSession,
+        store: runtime.store,
+        registry,
+        soul: soulBefore,
+      });
+      assert.equal(
+        result.ok,
+        true,
+        `${ownerSlot} ${recipe.materialFillNames.join('+')}=>${recipe.productFillName}: ${result.message}`,
+      );
+      assert.equal(result.soulAfter, soulBefore - 1000);
+      assert.equal(countInventoryFillName(runtime.store, recipe.productFillName), productBefore + 1);
+      assert.equal(countInventoryFillName(otherRuntime.store, recipe.productFillName), otherProductBefore);
+      assert.equal(runtime.craftingSession.slots.every((entry) => !entry), true);
+    }
+  }
+}
+
+function countInventoryFillName(store: ReturnType<typeof createInventoryStore>, fillName: string): number {
+  return Object.values(store.categories).flat().reduce((count, entry) => {
+    if (entry.definition.fillName !== fillName) return count;
+    return count + (entry.kind === 'stack' ? entry.quantity : 1);
+  }, 0);
 }
 
 function testAuthorityRegistryCoverage(): void {
@@ -139,6 +354,41 @@ function testAuthorityRegistryCoverage(): void {
     matchCraftingRecipe(['mdcqg', 'wpdh', 'wpbp'])?.productFillName,
     'cs_wq_llzzs',
   );
+}
+
+function testCraftingDefinitionRegistryCoverage(): void {
+  assert.equal(CraftingItemCatalogFillNames.length, 201);
+  assert.equal(new Set(CraftingItemCatalogFillNames).size, 201);
+  const categories = { equipment: 0, items: 0, fashion: 0, skillBooks: 0 };
+  for (const fillName of CraftingItemCatalogFillNames) {
+    const definition = registry[fillName];
+    assert.ok(definition, `missing crafting definition ${fillName}`);
+    assert.notEqual(definition.name, fillName, `provisional crafting name ${fillName}`);
+    assert.doesNotMatch(definition.description, /占位|配方测试材料|合成注册表物品/);
+    categories[getInventoryCategoryForDefinition(definition)] += 1;
+  }
+  assert.deepEqual(categories, { equipment: 82, items: 115, fashion: 4, skillBooks: 0 });
+  assert.deepEqual(
+    ['kyg', 'kyz', 'kys', 'kyl', 'tlzsp', 'wptlz'].map((fillName) => ({
+      fillName,
+      name: registry[fillName].name,
+      type: registry[fillName].type,
+    })),
+    [
+      { fillName: 'kyg', name: '枯叶弓', type: 'zbwq' },
+      { fillName: 'kyz', name: '枯叶杖', type: 'zbwq' },
+      { fillName: 'kys', name: '枯叶衫', type: 'zbfj' },
+      { fillName: 'kyl', name: '枯叶灵', type: 'zbfb' },
+      { fillName: 'tlzsp', name: '土灵珠碎片', type: 'zbwp' },
+      { fillName: 'wptlz', name: '土灵珠', type: 'zbwp' },
+    ],
+  );
+
+  const acceptance = createPlayerInventoryRuntimes(registry).p1.store;
+  for (const fillName of CraftingItemCatalogFillNames) {
+    const target = CraftingMaterialFillNames.has(fillName) ? 3 : 1;
+    assert.ok(inventoryQuantity(acceptance, fillName) >= target, `acceptance quantity ${fillName}`);
+  }
 }
 
 function testDuplicateSutraMaterialsAndAtomicFailure(): void {
@@ -236,8 +486,6 @@ function testSutraRequiresEquipmentInstances(): void {
   const sutraRegistry = createSutraTestRegistry();
   addEquipmentDefinition(store, sutraRegistry.kyg);
   addEquipmentDefinition(store, sutraRegistry.kyz);
-  const stackDefinition = { ...sutraRegistry.kys, type: 'zbwp' as const };
-  sutraRegistry.kys = stackDefinition;
   addStackByFillName(store, sutraRegistry, 'kys', 1);
   const result = craft({
     store,
@@ -248,8 +496,11 @@ function testSutraRequiresEquipmentInstances(): void {
   assert.equal(result.ok, false);
   assert.match(result.message, /装备实例不足/);
   assert.equal(result.soulAfter, 1_000);
-  assert.equal(getInventoryEntries(store, 'equipment').length, 2);
-  assert.equal(stackQuantity(store, 'kys'), 1);
+  assert.equal(getInventoryEntries(store, 'equipment').length, 3);
+  const invalidStack = getInventoryEntries(store, 'equipment').find(
+    (entry) => entry.kind === 'stack' && entry.definition.fillName === 'kys',
+  );
+  assert.equal(invalidStack?.kind === 'stack' ? invalidStack.quantity : 0, 1);
 }
 
 function testMixedMaterialRecipeCrafting(): void {
@@ -351,7 +602,6 @@ function testSpecialInheritanceFailureIsAtomic(): void {
   const specialRegistry = createSpecialTestRegistry();
   addEquipmentDefinition(store, specialRegistry.mgzh);
   addEquipmentDefinition(store, specialRegistry.tflj);
-  specialRegistry.tdlzj = { ...specialRegistry.tdlzj, type: 'zbwp' };
   addStackByFillName(store, specialRegistry, 'tdlzj', 1);
   const result = craft({
     store, registry: specialRegistry, soul: 1_000,
@@ -360,8 +610,11 @@ function testSpecialInheritanceFailureIsAtomic(): void {
   assert.equal(result.ok, false);
   assert.match(result.message, /装备实例不足/);
   assert.equal(result.soulAfter, 1_000);
-  assert.equal(getInventoryEntries(store, 'equipment').length, 2);
-  assert.equal(stackQuantity(store, 'tdlzj'), 1);
+  assert.equal(getInventoryEntries(store, 'equipment').length, 3);
+  const invalidStack = getInventoryEntries(store, 'equipment').find(
+    (entry) => entry.kind === 'stack' && entry.definition.fillName === 'tdlzj',
+  );
+  assert.equal(invalidStack?.kind === 'stack' ? invalidStack.quantity : 0, 1);
 }
 
 function createSutraTestRegistry(): Record<string, ReturnType<typeof createSeedEquipmentRegistry>[string]> {
@@ -478,16 +731,18 @@ function testFullInventoryPreflightIsAtomic(): void {
 
 function testPlayerInventoriesStayIsolated(): void {
   const runtimes = createPlayerInventoryRuntimes(registry);
+  const p1ProductBefore = stackQuantity(runtimes.p1.store, 'wptlz');
+  const p2ProductBefore = stackQuantity(runtimes.p2.store, 'wptlz');
   const result = craft({
     store: runtimes.p2.store, registry, soul: runtimes.p2.magicWeaponSoul,
     materialFillNames: ['tlzsp', 'tlzsp', 'tlzsp'],
   });
   runtimes.p2.magicWeaponSoul = result.soulAfter;
   assert.equal(stackQuantity(runtimes.p1.store, 'tlzsp'), 3);
-  assert.equal(stackQuantity(runtimes.p1.store, 'wptlz'), 0);
+  assert.equal(stackQuantity(runtimes.p1.store, 'wptlz'), p1ProductBefore);
   assert.equal(runtimes.p1.magicWeaponSoul, 5_000);
   assert.equal(stackQuantity(runtimes.p2.store, 'tlzsp'), 0);
-  assert.equal(stackQuantity(runtimes.p2.store, 'wptlz'), 1);
+  assert.equal(stackQuantity(runtimes.p2.store, 'wptlz'), p2ProductBefore + 1);
   assert.equal(runtimes.p2.magicWeaponSoul, 4_000);
 }
 
@@ -661,6 +916,9 @@ function testKylSeedCraftingAndPlayerIsolation(): void {
   Object.assign(kylRegistry, createSeedCraftingItemDefinitions(kylRegistry));
   const runtimes = createPlayerInventoryRuntimes(kylRegistry);
   const materialNames = ['kyg', 'kyz', 'kys'] as const;
+  const p1MaterialCountBefore = getInventoryEntries(runtimes.p1.store, 'equipment').filter(
+    (entry) => materialNames.includes(entry.definition.fillName as typeof materialNames[number]),
+  ).length;
 
   const p1Materials = materialNames.map((fillName) => getInventoryEntries(
     runtimes.p1.store, 'equipment',
@@ -694,7 +952,7 @@ function testKylSeedCraftingAndPlayerIsolation(): void {
   assert.equal(runtimes.p2.craftingSession.slots.length, 3);
   assert.equal(getInventoryEntries(runtimes.p1.store, 'equipment').filter(
     (entry) => materialNames.includes(entry.definition.fillName as typeof materialNames[number]),
-  ).length, 3);
+  ).length, p1MaterialCountBefore);
 
   const success = craftStagedSession({
     session: runtimes.p2.craftingSession,
@@ -715,6 +973,16 @@ function testKylSeedCraftingAndPlayerIsolation(): void {
 
 function stackQuantity(store: ReturnType<typeof createInventoryStore>, fillName: string): number {
   return stackQuantityInCategory(store, 'items', fillName);
+}
+
+function inventoryQuantity(
+  store: ReturnType<typeof createInventoryStore>,
+  fillName: string,
+): number {
+  return Object.values(store.categories).flat().reduce(
+    (total, entry) => total + (entry.definition.fillName === fillName ? entry.quantity : 0),
+    0,
+  );
 }
 
 function stackQuantityInCategory(

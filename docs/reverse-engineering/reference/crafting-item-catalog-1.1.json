@@ -1,0 +1,6080 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "1.1",
+  "scope": "112 unique modern-supported Fusion recipes (direct_fashion_timestamp excluded by recorded modern decision)",
+  "authorities": {
+    "recipes": "docs/reverse-engineering/reference/crafting-recipes-1.1.json",
+    "itemDefinitions": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as"
+  },
+  "counts": {
+    "recipes": 112,
+    "materialFillNames": 152,
+    "productFillNames": 85,
+    "uniqueFillNames": 201,
+    "authorityStatus": {
+      "confirmed": 201
+    },
+    "modernInventoryCategory": {
+      "equipment": 82,
+      "items": 115,
+      "fashion": 4
+    },
+    "productNameConflicts": 0
+  },
+  "typeMapping": {
+    "skillBooks": "fillName contains jns",
+    "fashion": [
+      "zbsz",
+      "zbcb"
+    ],
+    "equipment": [
+      "zbwq",
+      "zbfj",
+      "zbsp",
+      "zbfb",
+      "zbtx",
+      "empty"
+    ],
+    "items": [
+      "wpqhs",
+      "zbwp"
+    ]
+  },
+  "items": [
+    {
+      "fillName": "_dzj",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 4,
+      "name": "地藏戒",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "地藏戒"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "4",
+          "name": "地藏戒",
+          "type": "zbsp",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1251,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1251"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "bxg",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "不屑狗",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "不屑狗",
+          "type": "zbtx",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 1266,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1266"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "bxhy",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "不朽花翼",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "不朽花翼",
+          "type": "zbsp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1506,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1506"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_dz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 521,
+      "name": "斗战",
+      "originalType": "zbfj",
+      "user": "悟空",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "521",
+          "name": "斗战",
+          "type": "zbfj",
+          "user": "悟空",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1565,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1565"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_dzzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "斗战制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "斗战制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "斗战制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2785,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2785"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_js",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 521,
+      "name": "金身",
+      "originalType": "zbfj",
+      "user": "沙僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "521",
+          "name": "金身",
+          "type": "zbfj",
+          "user": "沙僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1539,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1539"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_jszzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "金身制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "金身制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "金身制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2775,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2775"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_jt",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 521,
+      "name": "净坛",
+      "originalType": "zbfj",
+      "user": "八戒",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "521",
+          "name": "净坛",
+          "type": "zbfj",
+          "user": "八戒",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1548,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1548"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_jtzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "净坛制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "净坛制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "净坛制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2790,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2790"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_tl",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 16,
+      "name": "天龙",
+      "originalType": "zbfj",
+      "user": "白龙",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "16",
+          "name": "天龙",
+          "type": "zbfj",
+          "user": "白龙",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1795,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1795"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_tlzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "天龙制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "天龙制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "天龙制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3130,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3130"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_zt",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 521,
+      "name": "旃檀",
+      "originalType": "zbfj",
+      "user": "唐僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "521",
+          "name": "旃檀",
+          "type": "zbfj",
+          "user": "唐僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1556,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1556"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_ztzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "旃檀制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "旃檀制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "旃檀制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2780,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2780"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_gl",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 16,
+      "name": "广力",
+      "originalType": "zbwq",
+      "user": "白龙",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "16",
+          "name": "广力",
+          "type": "zbwq",
+          "user": "白龙",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1804,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1804"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_glzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "广力制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "广力制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "广力制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3135,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3135"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_ll",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 520,
+      "name": "琉璃",
+      "originalType": "zbwq",
+      "user": "沙僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "520",
+          "name": "琉璃",
+          "type": "zbwq",
+          "user": "沙僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1574,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1574"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_llzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "琉璃制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "琉璃制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "琉璃制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2800,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2800"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_qs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 520,
+      "name": "祁水",
+      "originalType": "zbwq",
+      "user": "悟空",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "520",
+          "name": "祁水",
+          "type": "zbwq",
+          "user": "悟空",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1599,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1599"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_qszzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "祁水制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "祁水制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "祁水制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2795,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2795"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_rc",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 520,
+      "name": "若禅",
+      "originalType": "zbwq",
+      "user": "唐僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "520",
+          "name": "若禅",
+          "type": "zbwq",
+          "user": "唐僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1590,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1590"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_rczzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "若禅制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "若禅制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "若禅制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2810,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2810"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_yt",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 520,
+      "name": "夷图",
+      "originalType": "zbwq",
+      "user": "八戒",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "520",
+          "name": "夷图",
+          "type": "zbwq",
+          "user": "八戒",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1581,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1581"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_ytzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "夷图制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "夷图制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "夷图制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2805,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2805"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "csqyzstx",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "七曜战神",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "七曜战神",
+          "type": "zbtx",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1623,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1623"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "dgg",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "独孤狗",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "独孤狗"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "独孤狗",
+          "type": "zbtx",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 1286,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1286"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "dszk",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 11,
+      "name": "大圣战铠",
+      "originalType": "zbfj",
+      "user": "悟空",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "11",
+          "name": "大圣战铠",
+          "type": "zbfj",
+          "user": "悟空",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1377,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1377"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "dzjj",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 4,
+      "name": "地藏金戒",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "地藏金戒"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "4",
+          "name": "地藏金戒",
+          "type": "zbsp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1255,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1255"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fbqpj",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "青萍剑",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "青萍剑"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "青萍剑",
+          "type": "zbfb",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 2019,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2019"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fljzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "风轮剑制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "风轮剑制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "风轮剑制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 3005,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3005"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "flzsp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "风灵珠碎片",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "风灵珠碎片",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2350,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2350"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fykjzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "风鹰铠甲制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "风鹰铠甲制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "风鹰铠甲制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 3000,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3000"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fys1",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "1级防御石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "1级防御石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2130,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2130"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fys2",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级防御石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "2级防御石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级防御石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2265,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2265"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fys3",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "3级防御石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "3级防御石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "3级防御石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 2270,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2270"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjrls",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 9,
+      "name": "高级熔炼石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "高级熔炼石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "9",
+          "name": "高级熔炼石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2530,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2530"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjs1",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "1级攻击石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "1级攻击石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2115,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2115"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjs2",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级攻击石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "2级攻击石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级攻击石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2255,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2255"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjs3",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "3级攻击石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "3级攻击石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "3级攻击石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 2260,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2260"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjtss",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 9,
+      "name": "高级天枢石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "高级天枢石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "9",
+          "name": "高级天枢石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2540,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2540"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjyhs",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 9,
+      "name": "高级玉衡石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "高级玉衡石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "9",
+          "name": "高级玉衡石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2535,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2535"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hlzsp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "火灵珠碎片",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "火灵珠碎片",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2345,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2345"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hsmwtx",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "混世魔王",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "魔 王",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "混世魔王"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "混世魔王",
+          "type": "zbtx",
+          "user": "",
+          "quality": "魔 王",
+          "color": "0xFF0000",
+          "sourceLine": 1666,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1666"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hxg",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "含羞狗",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "含羞狗"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "含羞狗",
+          "type": "zbtx",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1270,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1270"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hxkjzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "黑犀铠甲制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "黑犀铠甲制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "黑犀铠甲制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 2980,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2980"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hy",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "花宴",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "花宴"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "花宴",
+          "type": "zbsp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1535,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1535"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hylc",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 3,
+      "name": "混元雷叉",
+      "originalType": "zbwq",
+      "user": "沙僧",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "3",
+          "name": "混元雷叉",
+          "type": "zbwq",
+          "user": "沙僧",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1053,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1053"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hylk",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 3,
+      "name": "混元龙铠",
+      "originalType": "zbfj",
+      "user": "八戒",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "3",
+          "name": "混元龙铠",
+          "type": "zbfj",
+          "user": "八戒",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1045,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1045"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hylz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 3,
+      "name": "混元灵杖",
+      "originalType": "zbwq",
+      "user": "唐僧",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "3",
+          "name": "混元灵杖",
+          "type": "zbwq",
+          "user": "唐僧",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1060,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1060"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hywjs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "混元无极伞",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "混元无极伞"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "混元无极伞",
+          "type": "zbfb",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 1970,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1970"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hyzzs",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "混元珍珠伞",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "混元珍珠伞"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "混元珍珠伞",
+          "type": "zbfb",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1954,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1954"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jcdp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 9,
+      "name": "九齿钉耙",
+      "originalType": "zbwq",
+      "user": "八戒",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "9",
+          "name": "九齿钉耙",
+          "type": "zbwq",
+          "user": "八戒",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1403,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1403"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jljs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 11,
+      "name": "锦襕袈裟",
+      "originalType": "zbfj",
+      "user": "唐僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "11",
+          "name": "锦襕袈裟",
+          "type": "zbfj",
+          "user": "唐僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1394,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1394"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jlqyzstx",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "七曜战神",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "七曜战神",
+          "type": "zbtx",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1615,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1615"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jlsmsrsz",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 8,
+      "name": "神秘商人装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "神秘商人装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "8",
+          "name": "神秘商人装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 3302,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3302"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kly3",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "3级昆仑玉",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "3级昆仑玉",
+          "type": "zbwp",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 2755,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2755"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kly4",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "4级昆仑玉",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "4级昆仑玉"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "4级昆仑玉",
+          "type": "zbwp",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 2745,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2745"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kly5",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "5级昆仑玉",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "5级昆仑玉"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "5级昆仑玉",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 2750,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2750"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kyg",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "枯叶弓",
+      "originalType": "zbwq",
+      "user": "沙僧",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "枯叶弓",
+          "type": "zbwq",
+          "user": "沙僧",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 963,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:963"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kyl",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "枯叶灵",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "枯叶灵"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "枯叶灵",
+          "type": "zbfb",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 1942,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1942"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kys",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 2,
+      "name": "枯叶衫",
+      "originalType": "zbfj",
+      "user": "悟空",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "2",
+          "name": "枯叶衫",
+          "type": "zbfj",
+          "user": "悟空",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 971,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:971"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kyz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 2,
+      "name": "枯叶杖",
+      "originalType": "zbwq",
+      "user": "唐僧",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "2",
+          "name": "枯叶杖",
+          "type": "zbwq",
+          "user": "唐僧",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 967,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:967"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lhz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 9,
+      "name": "轮回杖",
+      "originalType": "zbwq",
+      "user": "唐僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "9",
+          "name": "轮回杖",
+          "type": "zbwq",
+          "user": "唐僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1386,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1386"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lly",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "玲珑玉",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "玲珑玉",
+          "type": "zbsp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1242,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1242"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "llzsp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "雷灵珠碎片",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "雷灵珠碎片",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2340,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2340"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lsg",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "蓝瘦狗",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "蓝瘦狗"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "蓝瘦狗",
+          "type": "zbtx",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1278,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1278"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_1",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片1",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片1",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2825,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2825"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_2",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片2",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片2",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2830,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2830"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_3",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片3",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片3",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2835,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2835"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_4",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片4",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片4",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2840,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2840"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_5",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片5",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片5",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2845,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2845"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_6",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片6",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片6",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2850,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2850"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_7",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片7",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片7",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2855,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2855"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_8",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片8",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片8",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2860,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2860"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_9",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流石碎片9",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流石碎片9",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2865,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2865"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxfb",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流邪",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "流邪"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流邪",
+          "type": "zbfb",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1999,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1999"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxfs_1",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流邪符石1",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "流邪符石1"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流邪符石1",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2870,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2870"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxfs_2",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流邪符石2",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "流邪符石2"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流邪符石2",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2875,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2875"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxfs_3",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流邪符石3",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "流邪符石3"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流邪符石3",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2880,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2880"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxj",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "戮仙剑",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "戮仙剑"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "戮仙剑",
+          "type": "zbfb",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 1966,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1966"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxqzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "流星枪制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "流星枪制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "流星枪制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 2985,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2985"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxzhs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "流邪转换石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "流邪转换石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2820,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2820"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lyrzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "烈焰刃制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "烈焰刃制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "烈焰刃制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 2970,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2970"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mdcqg",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 998,
+      "name": "摩多苍穹弓",
+      "originalType": "zbwq",
+      "user": "沙僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "998",
+          "name": "摩多苍穹弓",
+          "type": "zbwq",
+          "user": "沙僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1452,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1452"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mdflc",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 10,
+      "name": "摩多分浪铲",
+      "originalType": "zbwq",
+      "user": "沙僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "10",
+          "name": "摩多分浪铲",
+          "type": "zbwq",
+          "user": "沙僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1422,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1422"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mdhy",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 111,
+      "name": "命定花宴",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "命定花宴"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "111",
+          "name": "命定花宴",
+          "type": "zbsp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 1926,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1926"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mdys",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 11,
+      "name": "摩多月衫",
+      "originalType": "zbfj",
+      "user": "沙僧",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "11",
+          "name": "摩多月衫",
+          "type": "zbfj",
+          "user": "沙僧",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1431,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1431"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mfs1",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "1级魔法石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "1级魔法石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2100,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2100"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mfs2",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级魔法石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "2级魔法石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级魔法石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2245,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2245"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mfs3",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "3级魔法石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "3级魔法石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "3级魔法石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 2250,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2250"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mgzh",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 4,
+      "name": "马官指环",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "4",
+          "name": "马官指环",
+          "type": "zbsp",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1169,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1169"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "phhl",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "破幻花链",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "破幻花链",
+          "type": "zbsp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1515,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1515"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ptsmsrsz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 8,
+      "name": "神秘商人装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "8",
+          "name": "神秘商人装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 3294,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3294"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qpjy",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "青萍精元",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "青萍精元",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3165,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3165"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qybd",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 3,
+      "name": "青云冰刀",
+      "originalType": "zbwq",
+      "user": "悟空",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "3",
+          "name": "青云冰刀",
+          "type": "zbwq",
+          "user": "悟空",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1022,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1022"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qyfp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 3,
+      "name": "青云法袍",
+      "originalType": "zbfj",
+      "user": "唐僧",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "3",
+          "name": "青云法袍",
+          "type": "zbfj",
+          "user": "唐僧",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1029,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1029"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qyj",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "青云剑",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "青云剑"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "青云剑",
+          "type": "zbfb",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1950,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1950"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qysz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "青云手镯",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "青云手镯",
+          "type": "zbsp",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1037,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1037"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "rls",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "熔炼石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "熔炼石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2405,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2405"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ryjgb",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 9,
+      "name": "擎天柱",
+      "originalType": "zbwq",
+      "user": "悟空",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "9",
+          "name": "擎天柱",
+          "type": "zbwq",
+          "user": "悟空",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1369,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1369"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scfys2",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级防御石（商城）",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级防御石（商城）",
+          "type": "zbwp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2135,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2135"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scgjs2",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级攻击石（商城）",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级攻击石（商城）",
+          "type": "zbwp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2120,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2120"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scmfs2",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级魔法石（商城）",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级魔法石（商城）",
+          "type": "zbwp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2105,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2105"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scsms2",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级生命石（商城）",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级生命石（商城）",
+          "type": "zbwp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2090,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2090"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scwpqhs2",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 2,
+      "name": "2级强化石（商城）",
+      "originalType": "wpqhs",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "2",
+          "name": "2级强化石（商城）",
+          "type": "wpqhs",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2065,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2065"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scwpqhs3",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 3,
+      "name": "3级强化石（商城）",
+      "originalType": "wpqhs",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "3",
+          "name": "3级强化石（商城）",
+          "type": "wpqhs",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 2070,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2070"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "shsjt",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "山河社稷图",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "山河社稷图",
+          "type": "zbsp",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1120,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1120"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "slzsp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "水灵珠碎片",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "水灵珠碎片",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2355,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2355"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sms1",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "1级生命石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "1级生命石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2085,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2085"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sms2",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级生命石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "2级生命石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级生命石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2235,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2235"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sms3",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "3级生命石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "3级生命石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "3级生命石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 2240,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2240"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sqmdcqgzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "神摩多苍穹弓制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "神摩多苍穹弓制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "神摩多苍穹弓制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3160,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3160"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ssg",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "色色狗",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "色色狗"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "色色狗",
+          "type": "zbtx",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1274,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1274"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ssqyzstx",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "七曜战神",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "七曜战神",
+          "type": "zbtx",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1619,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1619"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sssmsrsz",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 8,
+      "name": "神秘商人装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "神秘商人装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "8",
+          "name": "神秘商人装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 3306,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3306"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sxfb",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "沙邪",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "沙邪"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "沙邪",
+          "type": "zbfb",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2003,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2003"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sxzhs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "沙邪转换石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "沙邪转换石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2815,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2815"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "syl",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "神叶灵",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "神叶灵"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "神叶灵",
+          "type": "zbfb",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 1962,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1962"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tdlzj",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 4,
+      "name": "提多罗吒戒",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "4",
+          "name": "提多罗吒戒",
+          "type": "zbsp",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1176,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1176"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tflj",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 4,
+      "name": "通风灵戒",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "4",
+          "name": "通风灵戒",
+          "type": "zbsp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 1161,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1161"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tjbg",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "太极八卦",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "太极八卦"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "太极八卦",
+          "type": "zbfb",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1990,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1990"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tlzsp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "土灵珠碎片",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "土灵珠碎片",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2335,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2335"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tpzy",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 11,
+      "name": "天蓬战衣",
+      "originalType": "zbfj",
+      "user": "八戒",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "11",
+          "name": "天蓬战衣",
+          "type": "zbfj",
+          "user": "八戒",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1412,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1412"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tss",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "天枢石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "天枢石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "天枢石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2415,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2415"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ttlp",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "通天令牌",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "通天令牌"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "通天令牌",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2690,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2690"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ttlpsp1",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "通天令牌碎片一",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "通天令牌碎片一",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2675,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2675"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ttlpsp2",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "通天令牌碎片二",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "通天令牌碎片二",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2680,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2680"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ttlpsp3",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "通天令牌碎片三",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "通天令牌碎片三",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2685,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2685"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpbp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "兵魄",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "兵魄",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3035,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3035"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpdh",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "锻魂",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "锻魂",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3030,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3030"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpdt",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "鼎铁",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "鼎铁",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3070,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3070"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpfbtc",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "太初",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "太初",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2940,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2940"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpfbyyan",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "爻阳",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "爻阳",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2935,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2935"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpfbyyin",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "爻阴",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "爻阴",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2930,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2930"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpflz",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "风灵珠",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "风灵珠"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "风灵珠",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2325,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2325"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wphlz",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "火灵珠",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "火灵珠"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "火灵珠",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2320,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2320"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpjh",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "劫火",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "劫火",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3050,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3050"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpjt",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "钧铁",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "钧铁"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "钧铁",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3075,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3075"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpkt",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "坤铁",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "坤铁",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3060,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3060"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpllz",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "雷灵珠",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "雷灵珠"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "雷灵珠",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2315,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2315"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wplvdyl",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "龙女的眼泪",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "龙女的眼泪",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2495,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2495"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs1",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "1级强化石",
+      "originalType": "wpqhs",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "1级强化石",
+          "type": "wpqhs",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2060,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2060"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs2",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "2级强化石",
+      "originalType": "wpqhs",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "2级强化石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "2级强化石",
+          "type": "wpqhs",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 2225,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2225"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs3",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "3级强化石",
+      "originalType": "wpqhs",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "3级强化石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "3级强化石",
+          "type": "wpqhs",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 2230,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2230"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs4",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "4级强化石",
+      "originalType": "wpqhs",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "4级强化石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "4级强化石",
+          "type": "wpqhs",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 2290,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2290"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs5",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "5级强化石",
+      "originalType": "wpqhs",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "5级强化石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "5级强化石",
+          "type": "wpqhs",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2435,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2435"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpslz",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "水灵珠",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "水灵珠"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "水灵珠",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2330,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2330"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wptlz",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "土灵珠",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "土灵珠"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "土灵珠",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2310,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2310"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpxih",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "羲火",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "羲火"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "羲火",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3055,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3055"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpxty",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "形天印",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "形天印",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 2710,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2710"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpycjh",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "原初精华",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "原初精华",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0x66ffff",
+          "sourceLine": 2715,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2715"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpyh",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "元火",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "元火",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3040,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3040"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpyt",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "幽铁",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "幽铁",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3065,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3065"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpzh",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 102,
+      "name": "烛火",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "102",
+          "name": "烛火",
+          "type": "zbwp",
+          "user": "",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 3045,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3045"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpzty",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "照天印",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "照天印",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 2705,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2705"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xakjzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "雪獒铠甲制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "雪獒铠甲制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "雪獒铠甲制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 2990,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2990"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhc",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 2,
+      "name": "宣花锤",
+      "originalType": "zbwq",
+      "user": "八戒",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "2",
+          "name": "宣花锤",
+          "type": "zbwq",
+          "user": "八戒",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 986,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:986"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhhl",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "宣花葫芦",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "宣花葫芦"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "宣花葫芦",
+          "type": "zbfb",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 1946,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1946"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhjxj",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 7,
+      "name": "血海绝心剑",
+      "originalType": "zbwq",
+      "user": "白龙",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "7",
+          "name": "血海绝心剑",
+          "type": "zbwq",
+          "user": "白龙",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1838,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1838"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhmlp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 7,
+      "name": "血海灭灵袍",
+      "originalType": "zbfj",
+      "user": "白龙",
+      "quality": "传 说",
+      "color": "0xFF9933",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "7",
+          "name": "血海灭灵袍",
+          "type": "zbfj",
+          "user": "白龙",
+          "quality": "传 说",
+          "color": "0xFF9933",
+          "sourceLine": 1829,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1829"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhp",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 2,
+      "name": "宣花袍",
+      "originalType": "zbfj",
+      "user": "沙僧",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "2",
+          "name": "宣花袍",
+          "type": "zbfj",
+          "user": "沙僧",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 990,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:990"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 2,
+      "name": "宣花坠",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "2",
+          "name": "宣花坠",
+          "type": "zbsp",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 979,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:979"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlcz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "残昼",
+      "originalType": "zbfj",
+      "user": "唐僧",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "残昼",
+          "type": "zbfj",
+          "user": "唐僧",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1193,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1193"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlczzzs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "残昼制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "残昼制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2365,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2365"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xley",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "厄夜",
+      "originalType": "zbfj",
+      "user": "悟空",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "厄夜",
+          "type": "zbfj",
+          "user": "悟空",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1185,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1185"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xleyzzs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "厄夜制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "厄夜制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2360,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2360"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlny",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "逆渊",
+      "originalType": "zbfj",
+      "user": "白龙",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "逆渊",
+          "type": "zbfj",
+          "user": "白龙",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1780,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1780"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlry",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "如狱",
+      "originalType": "zbfj",
+      "user": "八戒",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "如狱",
+          "type": "zbfj",
+          "user": "八戒",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1201,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1201"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlryzzs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "如狱制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "如狱制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2370,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2370"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltc",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "天残",
+      "originalType": "zbwq",
+      "user": "唐僧",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "天残",
+          "type": "zbwq",
+          "user": "唐僧",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1224,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1224"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltczzs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "天残制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "天残制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2385,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2385"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlth",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "天荒",
+      "originalType": "zbwq",
+      "user": "悟空",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "天荒",
+          "type": "zbwq",
+          "user": "悟空",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1217,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1217"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlthzzs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "天荒制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "天荒制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2380,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2380"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltq",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "天谴",
+      "originalType": "zbwq",
+      "user": "白龙",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "天谴",
+          "type": "zbwq",
+          "user": "白龙",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1788,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1788"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlts",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 6,
+      "name": "天殇",
+      "originalType": "zbwq",
+      "user": "沙僧",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "6",
+          "name": "天殇",
+          "type": "zbwq",
+          "user": "沙僧",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1235,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1235"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltszzs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "天殇制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "天殇制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2395,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2395"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "天罪",
+      "originalType": "zbwq",
+      "user": "八戒",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "天罪",
+          "type": "zbwq",
+          "user": "八戒",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1231,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1231"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltzzzs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "天罪制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "天罪制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2390,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2390"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlyj",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 5,
+      "name": "犹绝",
+      "originalType": "zbfj",
+      "user": "沙僧",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "5",
+          "name": "犹绝",
+          "type": "zbfj",
+          "user": "沙僧",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1210,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1210"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlyjzzs",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "犹绝制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "犹绝制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2375,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2375"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yhs",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 101,
+      "name": "玉衡石",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "玉衡石"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "101",
+          "name": "玉衡石",
+          "type": "zbwp",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 2410,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2410"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ylkjzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "炎龙铠甲制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "炎龙铠甲制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "炎龙铠甲制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 2975,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2975"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yng",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "怨念狗",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "怨念狗"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "怨念狗",
+          "type": "zbtx",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 1282,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1282"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yxfb",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "渊邪",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "渊邪"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "渊邪",
+          "type": "zbfb",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 2007,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2007"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yxqyzstx",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "七曜战神",
+      "originalType": "zbtx",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "七曜战神",
+          "type": "zbtx",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 1611,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1611"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yxsmsrsz",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 8,
+      "name": "神秘商人装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "神秘商人装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "8",
+          "name": "神秘商人装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 3298,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3298"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zhhz",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "镇魂花坠",
+      "originalType": "zbsp",
+      "user": "",
+      "quality": "邪 灵",
+      "color": "0x666666",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "镇魂花坠",
+          "type": "zbsp",
+          "user": "",
+          "quality": "邪 灵",
+          "color": "0x666666",
+          "sourceLine": 1525,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1525"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zjbtg",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 4,
+      "name": "紫金镔铁棍",
+      "originalType": "zbwq",
+      "user": "悟空",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "4",
+          "name": "紫金镔铁棍",
+          "type": "zbwq",
+          "user": "悟空",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1105,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1105"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zjksf",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 4,
+      "name": "紫金开山斧",
+      "originalType": "zbwq",
+      "user": "八戒",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "4",
+          "name": "紫金开山斧",
+          "type": "zbwq",
+          "user": "八戒",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1090,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1090"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zjld",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 1,
+      "name": "紫金铃铛",
+      "originalType": "zbfb",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [
+        "紫金铃铛"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "1",
+          "name": "紫金铃铛",
+          "type": "zbfb",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1958,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1958"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zjqj",
+      "roles": [
+        "material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 4,
+      "name": "紫金轻甲",
+      "originalType": "zbfj",
+      "user": "悟空",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "equipment",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "4",
+          "name": "紫金轻甲",
+          "type": "zbfj",
+          "user": "悟空",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 1097,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:1097"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zlfzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "震雷斧制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "魂 器",
+      "color": "0x66ffff",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "震雷斧制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "震雷斧制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "魂 器",
+          "color": "0x66ffff",
+          "sourceLine": 2995,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2995"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxptyzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪破天衣制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪破天衣制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪破天衣制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3080,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3080"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxptzzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪破天杖制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪破天杖制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪破天杖制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3085,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3085"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxqtczzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪擎天铲制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪擎天铲制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪擎天铲制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3105,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3105"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxqtszzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪擎天衫制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪擎天衫制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪擎天衫制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3100,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3100"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxstgzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪弑天棍制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪弑天棍制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪弑天棍制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 2960,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2960"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxstjzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪弑天甲制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪弑天甲制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪弑天甲制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 2965,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:2965"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxttpzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪托天袍制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪托天袍制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪托天袍制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3110,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3110"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxztjzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪斩天剑制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪斩天剑制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪斩天剑制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3115,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3115"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxztkzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪震天铠制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪震天铠制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪震天铠制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3090,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3090"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxztpzzs",
+      "roles": [
+        "product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 100,
+      "name": "诛邪震天耙制作书",
+      "originalType": "zbwp",
+      "user": "",
+      "quality": "神 器",
+      "color": "0xFF0000",
+      "modernInventoryCategory": "items",
+      "recipeProductDisplayNames": [
+        "诛邪震天耙制作书"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "100",
+          "name": "诛邪震天耙制作书",
+          "type": "zbwp",
+          "user": "",
+          "quality": "神 器",
+          "color": "0xFF0000",
+          "sourceLine": 3095,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3095"
+        }
+      ],
+      "nextAction": "none"
+    }
+  ]
+}

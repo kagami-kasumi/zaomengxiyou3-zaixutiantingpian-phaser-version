@@ -21,14 +21,14 @@
 
 | Line | 状态 | 用户确认范围 | 当前 task | 覆盖台账 | 当前阻塞 | 关闭证据 |
 | --- | --- | --- | --- | --- | --- | --- |
-| LINE-CRAFTING | Active | 玩家可从正式流程使用带真 UI、覆盖 1.1 权威合成表全部 112 个唯一配方的合成页 | TASK-SETTINGS-047 | `feature-line-coverage/LINE-CRAFTING.md` | 无 | 待全量覆盖、正式流程和验收闭合 |
-| LINE-STAGE-1-1 | Planned | Stage 1-1 真场景资源、关卡流程和玩家可见闭环；范围待激活前确认 | TASK-SETTINGS-046 | 待建立 | 等待 LINE-CRAFTING 关闭 | 未开始 |
+| LINE-CRAFTING | Done | 玩家可从正式流程使用带真 UI、覆盖 1.1 权威合成表全部 112 个唯一配方的合成页 | — | `feature-line-coverage/LINE-CRAFTING.md` | 无 | 112 配方、201 定义、201/201 真图标、224 条 P1/P2 事务、正式入口与运行时真 UI 全部闭合 |
+| LINE-STAGE-1-1 | Active | Stage 1-1 真场景资源、关卡流程和玩家可见闭环；范围待资源逆向后细化 | TASK-SETTINGS-046 | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 初始覆盖台账已建立，待资源窄查 |
 
 ## 当前唯一激活条线
 
-`LINE-CRAFTING` 是当前唯一激活条线。其 task 必须连续执行，不能因为某个配方族、资源批次或纵向切片完成而切换到 Stage 1-1。
+`LINE-STAGE-1-1` 是当前唯一激活条线。`LINE-CRAFTING` 已于 `TASK-SLICE-122` 完成后关闭，后续合成增强必须建立新的明确范围，不能回写为本线未完成项。
 
-首个 task `TASK-SETTINGS-047` 负责把 112 个权威配方转成可复查覆盖矩阵，并据差异生成同线后续 task。完成该 task 只更新条线进度，不结束 `/goal`，也不关闭 `LINE-CRAFTING`。
+`TASK-SETTINGS-047..049`、`TASK-SLICE-119`、`TASK-SLICE-120A..120G`、`TASK-SLICE-121..122` 已连续归档；关闭证据详见 `feature-line-coverage/LINE-CRAFTING.md`。下一可执行项为 Stage 1-1 的 `TASK-SETTINGS-046`，本次 `/goal` 在合成线关闭处停止。
 
 ## 关闭与切线
 

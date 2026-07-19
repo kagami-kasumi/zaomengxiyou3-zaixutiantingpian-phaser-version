@@ -13,6 +13,9 @@
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",
     "check:annotations": "node tools/validate-asset-annotations.mjs",
+    "audit:crafting-coverage": "node tools/run-crafting-coverage-audit.mjs",
+    "generate:crafting-item-catalog": "node tools/generate-crafting-item-catalog.mjs",
+    "generate:crafting-icon-catalog": "node tools/generate-crafting-icon-catalog.mjs",
     "check:workflow": "node tools/validate-workflow.mjs && node tools/validate-asset-annotations.mjs",
     "check:all": "npm run check:workflow && npm run check:structure && npm run check:code"
   },

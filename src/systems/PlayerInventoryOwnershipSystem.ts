@@ -3,7 +3,6 @@ import { createEmptyEquipmentLoadout } from './EquipmentSystem';
 import type { InventoryStore } from './InventorySystem';
 import {
   consumeStackByFillName,
-  createSeedInventoryStore,
 } from './InventorySystem';
 import type { PlayerSlot } from './InputSystem';
 import type { InventoryUIState } from './EquipmentUISystem';
@@ -18,6 +17,7 @@ import {
   createSeedCraftingItemDefinitions,
   type CraftingSession,
 } from './CraftingSystem';
+import { createCraftingAcceptanceInventoryStore } from './CraftingItemDefinitionRegistry';
 
 export type PlayerInventoryRuntime = {
   ownerSlot: PlayerSlot;
@@ -128,7 +128,7 @@ function createPlayerInventoryRuntime(
   syncMagicWeaponFromLoadout(magicWeapon, loadout);
   return {
     ownerSlot,
-    store: createSeedInventoryStore(equipmentRegistry, `${ownerSlot}-eq`),
+    store: createCraftingAcceptanceInventoryStore(equipmentRegistry, `${ownerSlot}-eq`),
     loadout,
     ui: createInventoryUIState(),
     magicWeapon,

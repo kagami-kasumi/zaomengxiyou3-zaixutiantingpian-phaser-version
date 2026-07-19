@@ -1,3 +1,5 @@
+import craftingIconCatalog from '../../docs/reverse-engineering/reference/crafting-icon-catalog-1.1.json';
+
 export type AssetStatus = 'ready' | 'placeholder' | 'missing-original';
 export type AssetSourceKind = 'generated' | 'extracted-flash';
 
@@ -36,7 +38,7 @@ export const AssetKeys = {
   playerPlaceholder: 'player-placeholder',
 } as const;
 
-export const CraftingAssetKeys = {
+const CraftingUIAssetKeys = {
   container: 'crafting-ui.container',
   fusionPanel: 'crafting-ui.fusion-panel',
   role1Unselected: 'crafting-ui.selector.role1.unselected',
@@ -49,21 +51,17 @@ export const CraftingAssetKeys = {
   role4Selected: 'crafting-ui.selector.role4.selected',
   role5Unselected: 'crafting-ui.selector.role5.unselected',
   role5Selected: 'crafting-ui.selector.role5.selected',
-  tlzsp: 'crafting-item.tlzsp',
-  wptlz: 'crafting-item.wptlz',
-  kyg: 'crafting-item.kyg',
-  kyz: 'crafting-item.kyz',
-  kys: 'crafting-item.kys',
-  kyl: 'crafting-item.kyl',
 } as const;
 
-export const CraftingItemTextureKeys = {
-  tlzsp: CraftingAssetKeys.tlzsp,
-  wptlz: CraftingAssetKeys.wptlz,
-  kyg: CraftingAssetKeys.kyg,
-  kyz: CraftingAssetKeys.kyz,
-  kys: CraftingAssetKeys.kys,
-  kyl: CraftingAssetKeys.kyl,
+const integratedCraftingIconItems = craftingIconCatalog.items.filter((item) => item.integrated);
+
+export const CraftingItemTextureKeys: Readonly<Record<string, string>> = Object.fromEntries(
+  integratedCraftingIconItems.map((item) => [item.fillName, item.stableKey]),
+);
+
+export const CraftingAssetKeys = {
+  ...CraftingUIAssetKeys,
+  ...CraftingItemTextureKeys,
 } as const;
 
 export const HeroNormalAttackEffectKeys = {
@@ -249,12 +247,19 @@ export const craftingAssets = {
   role4Selected: extractedCraftingImage(CraftingAssetKeys.role4Selected, '/assets/ui/crafting/selectors/role4-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectSS frame 2', 228),
   role5Unselected: extractedCraftingImage(CraftingAssetKeys.role5Unselected, '/assets/ui/crafting/selectors/role5-unselected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBL frame 1', 871),
   role5Selected: extractedCraftingImage(CraftingAssetKeys.role5Selected, '/assets/ui/crafting/selectors/role5-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBL frame 2', 871),
-  tlzsp: extractedCraftingImage(CraftingAssetKeys.tlzsp, '/assets/ui/crafting/items/tlzsp.png', 'assets/EIcon1.swf', 'tlzsp', 813),
-  wptlz: extractedCraftingImage(CraftingAssetKeys.wptlz, '/assets/ui/crafting/items/wptlz.png', 'assets/EIcon1.swf', 'wptlz', 807),
-  kyg: extractedCraftingImage(CraftingAssetKeys.kyg, '/assets/ui/crafting/items/kyg.png', 'assets/EIcon1.swf', 'kyg', 332),
-  kyz: extractedCraftingImage(CraftingAssetKeys.kyz, '/assets/ui/crafting/items/kyz.png', 'assets/EIcon1.swf', 'kyz', 342),
-  kys: extractedCraftingImage(CraftingAssetKeys.kys, '/assets/ui/crafting/items/kys.png', 'assets/EIcon1.swf', 'kys', 323),
-  kyl: extractedCraftingImage(CraftingAssetKeys.kyl, '/assets/ui/crafting/items/kyl.png', 'assets/EIcon1.swf', 'kyl', 809),
+  ...Object.fromEntries(integratedCraftingIconItems.map((item) => {
+    const source = item.requiredSymbols[0];
+    if (!source?.sourcePackage || !source.symbol || !source.characterId) {
+      throw new Error(`Integrated crafting icon provenance is incomplete: ${item.fillName}`);
+    }
+    return [item.fillName, extractedCraftingImage(
+      item.stableKey,
+      `/assets/ui/crafting/items/${item.fillName}.png`,
+      source.sourcePackage,
+      source.symbol,
+      source.characterId,
+    )];
+  })),
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
 function createRole1NormalAttackFrames(symbol: string, frameCount: number) {

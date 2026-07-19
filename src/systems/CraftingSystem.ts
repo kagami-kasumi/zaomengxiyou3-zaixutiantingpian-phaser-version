@@ -11,12 +11,12 @@ import {
 } from './InventorySystem';
 import type { PlayerSlot } from './InputSystem';
 import {
-  CraftingItemNames,
   DirectStaticCraftingRecipes,
   MingDingHuaYanCraftingRecipes,
   SunSutraCraftingRecipes,
   SutraCraftingRecipes,
 } from './CraftingRecipeRegistry';
+import { createCraftingItemDefinitionRegistry } from './CraftingItemDefinitionRegistry';
 
 export type CraftingProductionBehavior =
   | 'legacy_static'
@@ -209,48 +209,7 @@ export function craftStagedSession(params: {
 export function createSeedCraftingItemDefinitions(
   existing: Readonly<Record<string, EquipmentDefinition>> = {},
 ): Record<string, EquipmentDefinition> {
-  const emptyStats = {
-    maxHp: 0, maxMp: 0, power: 0, defense: 0, critPercent: 0,
-    missPercent: 0, hpRegen: 0, mpRegen: 0, lifeStealPercent: 0,
-    magicDefensePercent: 0, piercePercent: 0, shield: 0,
-  };
-  const itemNames = new Map(CraftingItemNames);
-  itemNames.set('tlzsp', '土灵珠碎片');
-  itemNames.set('wptlz', '土灵珠');
-  const craftingEquipmentOverrides: Partial<Record<string, Pick<
-    EquipmentDefinition,
-    'type' | 'user' | 'stats' | 'description'
-  >>> = {
-    kyg: {
-      type: 'zbwq', user: '沙僧',
-      stats: { ...emptyStats, power: 13 },
-      description: '枯叶灵配方测试材料：枯叶弓',
-    },
-    kyz: {
-      type: 'zbwq', user: '唐僧',
-      stats: { ...emptyStats, maxMp: 115, power: 16 },
-      description: '枯叶灵配方测试材料：枯叶杖',
-    },
-    kys: {
-      type: 'zbfj', user: '悟空',
-      stats: { ...emptyStats, maxHp: 125, maxMp: 65, defense: 15 },
-      description: '枯叶灵配方测试材料：枯叶衫',
-    },
-  };
-  const definitions: EquipmentDefinition[] = [...itemNames]
-    .filter(([fillName]) => !existing[fillName])
-    .map(([fillName, name]) => {
-      const override = craftingEquipmentOverrides[fillName];
-      return {
-        showId: 1, name, fillName,
-        type: override?.type ?? 'zbwp',
-        user: override?.user ?? '',
-        quality: '普 通', color: '0xFFFFFF',
-        stats: override?.stats ?? { ...emptyStats },
-        description: override?.description ?? '1.1 合成注册表物品',
-      };
-    });
-  return Object.fromEntries(definitions.map((definition) => [definition.fillName, definition]));
+  return createCraftingItemDefinitionRegistry(existing);
 }
 
 export function matchCraftingRecipe(
@@ -305,10 +264,10 @@ export function craft(params: {
   if (!product) return failure('合成产物配置缺失', soulBefore, recipe);
   const requirements = buildRequirements(recipe.materialFillNames);
   const inheritsEquipmentStats = isInheritedEquipmentBehavior(recipe.productionBehavior);
-  const sutraMaterials = inheritsEquipmentStats
-    ? findSutraMaterials(params.store, recipe.materialFillNames)
+  const inheritedMaterials = inheritsEquipmentStats
+    ? findInheritedMaterials(params.store, recipe.materialFillNames)
     : undefined;
-  if (inheritsEquipmentStats && !sutraMaterials) {
+  if (inheritsEquipmentStats && !inheritedMaterials) {
     return failure('合成材料装备实例不足', soulBefore, recipe);
   }
   for (const [fillName, quantity] of requirements) {
@@ -317,17 +276,29 @@ export function craft(params: {
     }
   }
   if (params.soul < recipe.soulCost) return failure('灵魂值不够', soulBefore, recipe);
-  if (!canAddProductAfterConsumption(params.store, product, requirements, sutraMaterials)) {
+  if (!canAddProductAfterConsumption(
+    params.store,
+    product,
+    requirements,
+    inheritedMaterials?.consumedEntries,
+  )) {
     return failure('背包空间不足', soulBefore, recipe);
   }
 
-  if (sutraMaterials) {
-    for (const material of sutraMaterials) removeEquipmentInstance(params.store, material);
+  if (inheritedMaterials) {
+    for (const material of inheritedMaterials.consumedEntries) {
+      if (material.kind === 'equipment') removeEquipmentInstance(params.store, material);
+      else removeStackQuantity(params.store, material.definition.fillName, 1);
+    }
   } else {
     for (const [fillName, quantity] of requirements) removeStackQuantity(params.store, fillName, quantity);
   }
-  const added = sutraMaterials
-    ? addEquipmentDefinition(params.store, createInheritedProduct(product, sutraMaterials, recipe.productionBehavior))
+  const added = inheritedMaterials
+    ? addEquipmentDefinition(params.store, createInheritedProduct(
+      product,
+      inheritedMaterials.statsMaterials,
+      recipe.productionBehavior,
+    ))
     : addStackByFillName(params.store, params.registry, recipe.productFillName, 1);
   if (!added) throw new Error('Crafting preflight allowed a product that could not be added');
   return {
@@ -532,22 +503,41 @@ function removeStackQuantity(store: InventoryStore, fillName: string, quantity: 
   }
 }
 
-function findSutraMaterials(
+type InheritedMaterialsSelection = {
+  statsMaterials: EquipmentInstance[];
+  consumedEntries: InventoryEntry[];
+};
+
+function findInheritedMaterials(
   store: InventoryStore,
   materialFillNames: readonly string[],
-): EquipmentInstance[] | undefined {
-  const selected: EquipmentInstance[] = [];
-  for (const fillName of materialFillNames) {
-    const found = InventoryCategories.flatMap((category) => store.categories[category]).find(
-      (entry): entry is EquipmentInstance =>
-        entry.kind === 'equipment' &&
-        entry.definition.fillName === fillName &&
-        !selected.includes(entry),
-    );
+): InheritedMaterialsSelection | undefined {
+  const statsMaterials: EquipmentInstance[] = [];
+  const consumedEntries: InventoryEntry[] = [];
+  const stackUseCount = new Map<InventoryItemStack, number>();
+  for (const [index, fillName] of materialFillNames.entries()) {
+    const found = InventoryCategories.flatMap((category) => store.categories[category]).find((entry) => {
+      if (entry.definition.fillName !== fillName) return false;
+      if (entry.kind === 'equipment') return !consumedEntries.includes(entry);
+      const category = getInventoryCategoryForDefinition(entry.definition);
+      if (category !== 'items' && category !== 'skillBooks') return false;
+      return (stackUseCount.get(entry) ?? 0) < entry.quantity;
+    });
     if (!found) return undefined;
-    selected.push(found);
+    consumedEntries.push(found);
+    if (found.kind === 'equipment') {
+      statsMaterials.push(found);
+    } else {
+      stackUseCount.set(found, (stackUseCount.get(found) ?? 0) + 1);
+      statsMaterials.push({
+        kind: 'equipment',
+        instanceId: `crafting-stack-${fillName}-${index}`,
+        definition: found.definition,
+        quantity: 1,
+      });
+    }
   }
-  return selected;
+  return { statsMaterials, consumedEntries };
 }
 
 function removeEquipmentInstance(store: InventoryStore, material: EquipmentInstance): void {
@@ -598,7 +588,7 @@ function canAddProductAfterConsumption(
   store: InventoryStore,
   product: EquipmentDefinition,
   requirements: ReadonlyMap<string, number>,
-  consumedEquipment: readonly EquipmentInstance[] | undefined,
+  consumedEntries: readonly InventoryEntry[] | undefined,
 ): boolean {
   const category = getInventoryCategoryForDefinition(product);
   const entries = store.categories[category];
@@ -609,7 +599,9 @@ function canAddProductAfterConsumption(
     entry.kind === 'stack' &&
     (requirements.get(entry.definition.fillName) ?? 0) === entry.quantity
   ).length;
-  const removedEquipment = consumedEquipment?.filter((entry) => entries.includes(entry)).length ?? 0;
+  const removedEquipment = new Set(
+    consumedEntries?.filter((entry) => entry.kind === 'equipment' && entries.includes(entry)) ?? [],
+  ).size;
   return entries.length - removedStacks - removedEquipment < store.capacityPerCategory;
 }
 

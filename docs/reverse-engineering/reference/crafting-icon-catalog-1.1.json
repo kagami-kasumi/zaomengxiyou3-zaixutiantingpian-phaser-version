@@ -1,0 +1,5132 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "1.1",
+  "scope": "201 crafting material/product fillName values",
+  "authorities": {
+    "itemCatalog": "docs/reverse-engineering/reference/crafting-item-catalog-1.1.json",
+    "previewAliases": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/Fusion.as:229-301",
+    "symbolClass": [
+      "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv",
+      "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon2-symbols/symbols.csv"
+    ]
+  },
+  "counts": {
+    "items": 201,
+    "integrated": 201,
+    "remaining": 0,
+    "previewAliases": 17,
+    "status": {
+      "ready": 201
+    },
+    "requiredSymbolPackages": {
+      "assets/EIcon1.swf": 231,
+      "1_MainLoad__main1.swf": 2,
+      "assets/MagicWeapon2.swf": 4
+    },
+    "remainingBatches": {}
+  },
+  "previewAliases": {
+    "zylhys": {
+      "symbol": "lhys",
+      "sourceLine": 231
+    },
+    "zxptzzzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 235
+    },
+    "zxptyzzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 239
+    },
+    "zxztkzzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 243
+    },
+    "zxztpzzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 247
+    },
+    "zxqtczzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 251
+    },
+    "zxqtszzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 255
+    },
+    "zxztjzzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 259
+    },
+    "zxttpzzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 263
+    },
+    "sqmdcqgzzs": {
+      "symbol": "zxstgzzs",
+      "sourceLine": 267
+    },
+    "sqmdcqg": {
+      "symbol": "sqcqg",
+      "sourceLine": 271
+    },
+    "cs_wq_glzzs": {
+      "symbol": "cs_wq_qszzs",
+      "sourceLine": 275
+    },
+    "cs_fj_tlzzs": {
+      "symbol": "cs_fj_dzzzs",
+      "sourceLine": 279
+    },
+    "xlnyzzs": {
+      "symbol": "xlthzzs",
+      "sourceLine": 283
+    },
+    "xltqzzs": {
+      "symbol": "xlthzzs",
+      "sourceLine": 287
+    },
+    "_cljzzs": {
+      "symbol": "qlgzzs",
+      "sourceLine": 291
+    },
+    "clpzzs": {
+      "symbol": "qljzzs",
+      "sourceLine": 295
+    }
+  },
+  "items": [
+    {
+      "fillName": "_dzj",
+      "name": "地藏戒",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item._dzj",
+      "integrated": true,
+      "firstRecipeBranch": 66,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "_dzj",
+          "status": "located",
+          "characterId": 386,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "_dzj",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 386,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "bxg",
+      "name": "不屑狗",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.bxg",
+      "integrated": true,
+      "firstRecipeBranch": 72,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "bxg",
+          "status": "located",
+          "characterId": 345,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "bxhy",
+      "name": "不朽花翼",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.bxhy",
+      "integrated": true,
+      "firstRecipeBranch": 68,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "bxhy",
+          "status": "located",
+          "characterId": 355,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_dz",
+      "name": "斗战",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_fj_dz",
+      "integrated": true,
+      "firstRecipeBranch": 106,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_fj_dz",
+          "status": "located",
+          "characterId": 183,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_dzzzs",
+      "name": "斗战制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_fj_dzzzs",
+      "integrated": true,
+      "firstRecipeBranch": 91,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_fj_dzzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 225,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_js",
+      "name": "金身",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_fj_js",
+      "integrated": true,
+      "firstRecipeBranch": 113,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_fj_js",
+          "status": "located",
+          "characterId": 216,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_jszzs",
+      "name": "金身制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_fj_jszzs",
+      "integrated": true,
+      "firstRecipeBranch": 92,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_fj_jszzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 212,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_jt",
+      "name": "净坛",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_fj_jt",
+      "integrated": true,
+      "firstRecipeBranch": 110,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_fj_jt",
+          "status": "located",
+          "characterId": 205,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_jtzzs",
+      "name": "净坛制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_fj_jtzzs",
+      "integrated": true,
+      "firstRecipeBranch": 94,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_fj_jtzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 188,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_tl",
+      "name": "天龙",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_fj_tl",
+      "integrated": true,
+      "firstRecipeBranch": 115,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_fj_tl",
+          "status": "located",
+          "characterId": 19,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_tlzzs",
+      "name": "天龙制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_fj_tlzzs",
+      "integrated": true,
+      "firstRecipeBranch": 84,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_fj_dzzzs",
+          "aliasSourceLine": 279,
+          "status": "located",
+          "characterId": 225,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_zt",
+      "name": "旃檀",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_fj_zt",
+      "integrated": true,
+      "firstRecipeBranch": 108,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_fj_zt",
+          "status": "located",
+          "characterId": 194,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_fj_ztzzs",
+      "name": "旃檀制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_fj_ztzzs",
+      "integrated": true,
+      "firstRecipeBranch": 93,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_fj_ztzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 200,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_gl",
+      "name": "广力",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_wq_gl",
+      "integrated": true,
+      "firstRecipeBranch": 114,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_wq_gl",
+          "status": "located",
+          "characterId": 20,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_glzzs",
+      "name": "广力制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_wq_glzzs",
+      "integrated": true,
+      "firstRecipeBranch": 83,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_wq_qszzs",
+          "aliasSourceLine": 275,
+          "status": "located",
+          "characterId": 163,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_ll",
+      "name": "琉璃",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_wq_ll",
+      "integrated": true,
+      "firstRecipeBranch": 111,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_wq_ll",
+          "status": "located",
+          "characterId": 293,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_llzzs",
+      "name": "琉璃制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_wq_llzzs",
+      "integrated": true,
+      "firstRecipeBranch": 86,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_wq_llzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 175,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_qs",
+      "name": "祁水",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_wq_qs",
+      "integrated": true,
+      "firstRecipeBranch": 105,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_wq_qs",
+          "status": "located",
+          "characterId": 238,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_qszzs",
+      "name": "祁水制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_wq_qszzs",
+      "integrated": true,
+      "firstRecipeBranch": 85,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_wq_qszzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 163,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_rc",
+      "name": "若禅",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_wq_rc",
+      "integrated": true,
+      "firstRecipeBranch": 107,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_wq_rc",
+          "status": "located",
+          "characterId": 249,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_rczzs",
+      "name": "若禅制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_wq_rczzs",
+      "integrated": true,
+      "firstRecipeBranch": 89,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_wq_rczzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 151,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_yt",
+      "name": "夷图",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.cs_wq_yt",
+      "integrated": true,
+      "firstRecipeBranch": 109,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "cs_wq_yt",
+          "status": "located",
+          "characterId": 260,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "cs_wq_ytzzs",
+      "name": "夷图制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.cs_wq_ytzzs",
+      "integrated": true,
+      "firstRecipeBranch": 90,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "cs_wq_ytzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 138,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "csqyzstx",
+      "name": "七曜战神",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.csqyzstx",
+      "integrated": true,
+      "firstRecipeBranch": 76,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "csqyzstx",
+          "status": "located",
+          "characterId": 347,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "dgg",
+      "name": "独孤狗",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.dgg",
+      "integrated": true,
+      "firstRecipeBranch": 76,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "dgg",
+          "status": "located",
+          "characterId": 83,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "dgg",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 83,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "dszk",
+      "name": "大圣战铠",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.dszk",
+      "integrated": true,
+      "firstRecipeBranch": 91,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "dszk",
+          "status": "located",
+          "characterId": 776,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "dzjj",
+      "name": "地藏金戒",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.dzjj",
+      "integrated": true,
+      "firstRecipeBranch": 67,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "dzjj",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 399,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fbqpj",
+      "name": "青萍剑",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.fbqpj",
+      "integrated": true,
+      "firstRecipeBranch": 102,
+      "batchId": "crafting-icons-special-sources",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "fbqpj",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 3,
+          "sourcePackage": "1_MainLoad__main1.swf",
+          "evidencePath": "local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fljzzs",
+      "name": "风轮剑制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.fljzzs",
+      "integrated": true,
+      "firstRecipeBranch": 122,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "fljzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 876,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "flzsp",
+      "name": "风灵珠碎片",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.flzsp",
+      "integrated": true,
+      "firstRecipeBranch": 42,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "flzsp",
+          "status": "located",
+          "characterId": 812,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fykjzzs",
+      "name": "风鹰铠甲制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.fykjzzs",
+      "integrated": true,
+      "firstRecipeBranch": 121,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "fykjzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 865,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fys1",
+      "name": "1级防御石",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.fys1",
+      "integrated": true,
+      "firstRecipeBranch": 34,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "fys1",
+          "status": "located",
+          "characterId": 240,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fys2",
+      "name": "2级防御石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.fys2",
+      "integrated": true,
+      "firstRecipeBranch": 34,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "fys2",
+          "status": "located",
+          "characterId": 239,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "fys2",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 239,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "fys3",
+      "name": "3级防御石",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.fys3",
+      "integrated": true,
+      "firstRecipeBranch": 35,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "fys3",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 237,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjrls",
+      "name": "高级熔炼石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.gjrls",
+      "integrated": true,
+      "firstRecipeBranch": 6,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "gjrls",
+          "status": "located",
+          "characterId": 449,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "gjrls",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 449,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjs1",
+      "name": "1级攻击石",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.gjs1",
+      "integrated": true,
+      "firstRecipeBranch": 29,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "gjs1",
+          "status": "located",
+          "characterId": 233,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjs2",
+      "name": "2级攻击石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.gjs2",
+      "integrated": true,
+      "firstRecipeBranch": 29,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "gjs2",
+          "status": "located",
+          "characterId": 232,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "gjs2",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 232,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjs3",
+      "name": "3级攻击石",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.gjs3",
+      "integrated": true,
+      "firstRecipeBranch": 30,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "gjs3",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 231,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjtss",
+      "name": "高级天枢石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.gjtss",
+      "integrated": true,
+      "firstRecipeBranch": 8,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "gjtss",
+          "status": "located",
+          "characterId": 453,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "gjtss",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 453,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "gjyhs",
+      "name": "高级玉衡石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.gjyhs",
+      "integrated": true,
+      "firstRecipeBranch": 7,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "gjyhs",
+          "status": "located",
+          "characterId": 462,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "gjyhs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 462,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hlzsp",
+      "name": "火灵珠碎片",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.hlzsp",
+      "integrated": true,
+      "firstRecipeBranch": 41,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "hlzsp",
+          "status": "located",
+          "characterId": 810,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hsmwtx",
+      "name": "混世魔王",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.hsmwtx",
+      "integrated": true,
+      "firstRecipeBranch": 116,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "hsmwtx",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 610,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hxg",
+      "name": "含羞狗",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.hxg",
+      "integrated": true,
+      "firstRecipeBranch": 72,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "hxg",
+          "status": "located",
+          "characterId": 406,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "hxg",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 406,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hxkjzzs",
+      "name": "黑犀铠甲制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.hxkjzzs",
+      "integrated": true,
+      "firstRecipeBranch": 117,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "hxkjzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 732,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hy",
+      "name": "花宴",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.hy",
+      "integrated": true,
+      "firstRecipeBranch": 68,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "hy",
+          "status": "located",
+          "characterId": 831,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "hy",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 831,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hylc",
+      "name": "混元雷叉",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.hylc",
+      "integrated": true,
+      "firstRecipeBranch": 4,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "hylc",
+          "status": "located",
+          "characterId": 328,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hylk",
+      "name": "混元龙铠",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.hylk",
+      "integrated": true,
+      "firstRecipeBranch": 4,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "hylk",
+          "status": "located",
+          "characterId": 299,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hylz",
+      "name": "混元灵杖",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.hylz",
+      "integrated": true,
+      "firstRecipeBranch": 4,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "hylz",
+          "status": "located",
+          "characterId": 341,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hywjs",
+      "name": "混元无极伞",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.hywjs",
+      "integrated": true,
+      "firstRecipeBranch": 8,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "hywjs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 821,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "hyzzs",
+      "name": "混元珍珠伞",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.hyzzs",
+      "integrated": true,
+      "firstRecipeBranch": 4,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "hyzzs",
+          "status": "located",
+          "characterId": 16,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "hyzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 16,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jcdp",
+      "name": "九齿钉耙",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.jcdp",
+      "integrated": true,
+      "firstRecipeBranch": 90,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "jcdp",
+          "status": "located",
+          "characterId": 491,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jljs",
+      "name": "锦襕袈裟",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.jljs",
+      "integrated": true,
+      "firstRecipeBranch": 93,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "jljs",
+          "status": "located",
+          "characterId": 775,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jlqyzstx",
+      "name": "七曜战神",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.jlqyzstx",
+      "integrated": true,
+      "firstRecipeBranch": 74,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "jlqyzstx",
+          "status": "located",
+          "characterId": 187,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jlsmsrsz",
+      "name": "神秘商人装",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.jlsmsrsz",
+      "integrated": true,
+      "firstRecipeBranch": 61,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "jlsmsrsz",
+          "status": "located",
+          "characterId": 615,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "jlsmsrsz",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 615,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kly3",
+      "name": "3级昆仑玉",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.kly3",
+      "integrated": true,
+      "firstRecipeBranch": 81,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "kly3",
+          "status": "located",
+          "characterId": 309,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kly4",
+      "name": "4级昆仑玉",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.kly4",
+      "integrated": true,
+      "firstRecipeBranch": 81,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "kly4",
+          "status": "located",
+          "characterId": 297,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "kly4",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 297,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kly5",
+      "name": "5级昆仑玉",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.kly5",
+      "integrated": true,
+      "firstRecipeBranch": 82,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "kly5",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 285,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kyg",
+      "name": "枯叶弓",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.kyg",
+      "integrated": true,
+      "firstRecipeBranch": 1,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "kyg",
+          "status": "located",
+          "characterId": 332,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kyl",
+      "name": "枯叶灵",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.kyl",
+      "integrated": true,
+      "firstRecipeBranch": 1,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "kyl",
+          "status": "located",
+          "characterId": 809,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "kyl",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 809,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kys",
+      "name": "枯叶衫",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.kys",
+      "integrated": true,
+      "firstRecipeBranch": 1,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "kys",
+          "status": "located",
+          "characterId": 323,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "kyz",
+      "name": "枯叶杖",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.kyz",
+      "integrated": true,
+      "firstRecipeBranch": 1,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "kyz",
+          "status": "located",
+          "characterId": 342,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lhz",
+      "name": "轮回杖",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lhz",
+      "integrated": true,
+      "firstRecipeBranch": 89,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lhz",
+          "status": "located",
+          "characterId": 544,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lly",
+      "name": "玲珑玉",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lly",
+      "integrated": true,
+      "firstRecipeBranch": 67,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lly",
+          "status": "located",
+          "characterId": 815,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "llzsp",
+      "name": "雷灵珠碎片",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.llzsp",
+      "integrated": true,
+      "firstRecipeBranch": 40,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "llzsp",
+          "status": "located",
+          "characterId": 808,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lsg",
+      "name": "蓝瘦狗",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.lsg",
+      "integrated": true,
+      "firstRecipeBranch": 74,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lsg",
+          "status": "located",
+          "characterId": 191,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "lsg",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 191,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_1",
+      "name": "流石碎片1",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_1",
+      "integrated": true,
+      "firstRecipeBranch": 95,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_1",
+          "status": "located",
+          "characterId": 668,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_2",
+      "name": "流石碎片2",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_2",
+      "integrated": true,
+      "firstRecipeBranch": 95,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_2",
+          "status": "located",
+          "characterId": 667,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_3",
+      "name": "流石碎片3",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_3",
+      "integrated": true,
+      "firstRecipeBranch": 95,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_3",
+          "status": "located",
+          "characterId": 664,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_4",
+      "name": "流石碎片4",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_4",
+      "integrated": true,
+      "firstRecipeBranch": 96,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_4",
+          "status": "located",
+          "characterId": 663,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_5",
+      "name": "流石碎片5",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_5",
+      "integrated": true,
+      "firstRecipeBranch": 96,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_5",
+          "status": "located",
+          "characterId": 662,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_6",
+      "name": "流石碎片6",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_6",
+      "integrated": true,
+      "firstRecipeBranch": 96,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_6",
+          "status": "located",
+          "characterId": 661,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_7",
+      "name": "流石碎片7",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_7",
+      "integrated": true,
+      "firstRecipeBranch": 97,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_7",
+          "status": "located",
+          "characterId": 660,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_8",
+      "name": "流石碎片8",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_8",
+      "integrated": true,
+      "firstRecipeBranch": 97,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_8",
+          "status": "located",
+          "characterId": 659,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lssp_9",
+      "name": "流石碎片9",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lssp_9",
+      "integrated": true,
+      "firstRecipeBranch": 97,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lssp_9",
+          "status": "located",
+          "characterId": 656,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxfb",
+      "name": "流邪",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.lxfb",
+      "integrated": true,
+      "firstRecipeBranch": 98,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lxfb",
+          "status": "located",
+          "characterId": 673,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "lxfb",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 673,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxfs_1",
+      "name": "流邪符石1",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.lxfs_1",
+      "integrated": true,
+      "firstRecipeBranch": 95,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lxfs_1",
+          "status": "located",
+          "characterId": 653,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "lxfs_1",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 653,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxfs_2",
+      "name": "流邪符石2",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.lxfs_2",
+      "integrated": true,
+      "firstRecipeBranch": 96,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lxfs_2",
+          "status": "located",
+          "characterId": 652,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "lxfs_2",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 652,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxfs_3",
+      "name": "流邪符石3",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.lxfs_3",
+      "integrated": true,
+      "firstRecipeBranch": 97,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lxfs_3",
+          "status": "located",
+          "characterId": 651,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "lxfs_3",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 651,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxj",
+      "name": "戮仙剑",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.lxj",
+      "integrated": true,
+      "firstRecipeBranch": 7,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "lxj",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 418,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxqzzs",
+      "name": "流星枪制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.lxqzzs",
+      "integrated": true,
+      "firstRecipeBranch": 118,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "lxqzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 743,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lxzhs",
+      "name": "流邪转换石",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.lxzhs",
+      "integrated": true,
+      "firstRecipeBranch": 99,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "lxzhs",
+          "status": "located",
+          "characterId": 164,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "lyrzzs",
+      "name": "烈焰刃制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.lyrzzs",
+      "integrated": true,
+      "firstRecipeBranch": 103,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "lyrzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 588,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mdcqg",
+      "name": "摩多苍穹弓",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.mdcqg",
+      "integrated": true,
+      "firstRecipeBranch": 86,
+      "batchId": "crafting-icons-special-sources",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "mdcqg",
+          "status": "located",
+          "characterId": 18,
+          "sourcePackage": "assets/MagicWeapon2.swf",
+          "evidencePath": "local-resources/regima/source/restored-swfs/assets/MagicWeapon2.swf"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mdflc",
+      "name": "摩多分浪铲",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.mdflc",
+      "integrated": true,
+      "firstRecipeBranch": 88,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "mdflc",
+          "status": "located",
+          "characterId": 518,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mdhy",
+      "name": "命定花宴",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.mdhy",
+      "integrated": true,
+      "firstRecipeBranch": 69,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "mdhy",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 7,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mdys",
+      "name": "摩多月衫",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.mdys",
+      "integrated": true,
+      "firstRecipeBranch": 92,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "mdys",
+          "status": "located",
+          "characterId": 528,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mfs1",
+      "name": "1级魔法石",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.mfs1",
+      "integrated": true,
+      "firstRecipeBranch": 24,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "mfs1",
+          "status": "located",
+          "characterId": 254,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mfs2",
+      "name": "2级魔法石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.mfs2",
+      "integrated": true,
+      "firstRecipeBranch": 24,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "mfs2",
+          "status": "located",
+          "characterId": 253,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "mfs2",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 253,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mfs3",
+      "name": "3级魔法石",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.mfs3",
+      "integrated": true,
+      "firstRecipeBranch": 25,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "mfs3",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 250,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "mgzh",
+      "name": "马官指环",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.mgzh",
+      "integrated": true,
+      "firstRecipeBranch": 66,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "mgzh",
+          "status": "located",
+          "characterId": 283,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "phhl",
+      "name": "破幻花链",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.phhl",
+      "integrated": true,
+      "firstRecipeBranch": 68,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "phhl",
+          "status": "located",
+          "characterId": 620,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ptsmsrsz",
+      "name": "神秘商人装",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.ptsmsrsz",
+      "integrated": true,
+      "firstRecipeBranch": 60,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "ptsmsrsz",
+          "status": "located",
+          "characterId": 619,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qpjy",
+      "name": "青萍精元",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.qpjy",
+      "integrated": true,
+      "firstRecipeBranch": 102,
+      "batchId": "crafting-icons-special-sources",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "qpjy",
+          "status": "located",
+          "characterId": 2,
+          "sourcePackage": "1_MainLoad__main1.swf",
+          "evidencePath": "local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qybd",
+      "name": "青云冰刀",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.qybd",
+      "integrated": true,
+      "firstRecipeBranch": 3,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "qybd",
+          "status": "located",
+          "characterId": 349,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qyfp",
+      "name": "青云法袍",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.qyfp",
+      "integrated": true,
+      "firstRecipeBranch": 3,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "qyfp",
+          "status": "located",
+          "characterId": 311,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qyj",
+      "name": "青云剑",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.qyj",
+      "integrated": true,
+      "firstRecipeBranch": 3,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "qyj",
+          "status": "located",
+          "characterId": 564,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "qyj",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 564,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "qysz",
+      "name": "青云手镯",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.qysz",
+      "integrated": true,
+      "firstRecipeBranch": 3,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "qysz",
+          "status": "located",
+          "characterId": 287,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "rls",
+      "name": "熔炼石",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.rls",
+      "integrated": true,
+      "firstRecipeBranch": 44,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "rls",
+          "status": "located",
+          "characterId": 551,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ryjgb",
+      "name": "擎天柱",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.ryjgb",
+      "integrated": true,
+      "firstRecipeBranch": 85,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "ryjgb",
+          "status": "located",
+          "characterId": 800,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scfys2",
+      "name": "2级防御石（商城）",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.scfys2",
+      "integrated": true,
+      "firstRecipeBranch": 36,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "scfys2",
+          "status": "located",
+          "characterId": 246,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scgjs2",
+      "name": "2级攻击石（商城）",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.scgjs2",
+      "integrated": true,
+      "firstRecipeBranch": 31,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "scgjs2",
+          "status": "located",
+          "characterId": 301,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scmfs2",
+      "name": "2级魔法石（商城）",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.scmfs2",
+      "integrated": true,
+      "firstRecipeBranch": 26,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "scmfs2",
+          "status": "located",
+          "characterId": 306,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scsms2",
+      "name": "2级生命石（商城）",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.scsms2",
+      "integrated": true,
+      "firstRecipeBranch": 21,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "scsms2",
+          "status": "located",
+          "characterId": 247,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scwpqhs2",
+      "name": "2级强化石（商城）",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.scwpqhs2",
+      "integrated": true,
+      "firstRecipeBranch": 12,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "scwpqhs2",
+          "status": "located",
+          "characterId": 270,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "scwpqhs3",
+      "name": "3级强化石（商城）",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.scwpqhs3",
+      "integrated": true,
+      "firstRecipeBranch": 16,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "scwpqhs3",
+          "status": "located",
+          "characterId": 316,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "shsjt",
+      "name": "山河社稷图",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.shsjt",
+      "integrated": true,
+      "firstRecipeBranch": 67,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "shsjt",
+          "status": "located",
+          "characterId": 286,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "slzsp",
+      "name": "水灵珠碎片",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.slzsp",
+      "integrated": true,
+      "firstRecipeBranch": 43,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "slzsp",
+          "status": "located",
+          "characterId": 814,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sms1",
+      "name": "1级生命石",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.sms1",
+      "integrated": true,
+      "firstRecipeBranch": 19,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "sms1",
+          "status": "located",
+          "characterId": 244,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sms2",
+      "name": "2级生命石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.sms2",
+      "integrated": true,
+      "firstRecipeBranch": 19,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "sms2",
+          "status": "located",
+          "characterId": 243,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "sms2",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 243,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sms3",
+      "name": "3级生命石",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.sms3",
+      "integrated": true,
+      "firstRecipeBranch": 20,
+      "batchId": "crafting-icons-b019-038",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "sms3",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 241,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sqmdcqgzzs",
+      "name": "神摩多苍穹弓制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.sqmdcqgzzs",
+      "integrated": true,
+      "firstRecipeBranch": 111,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 267,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ssg",
+      "name": "色色狗",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.ssg",
+      "integrated": true,
+      "firstRecipeBranch": 73,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "ssg",
+          "status": "located",
+          "characterId": 553,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "ssg",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 553,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ssqyzstx",
+      "name": "七曜战神",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.ssqyzstx",
+      "integrated": true,
+      "firstRecipeBranch": 75,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "ssqyzstx",
+          "status": "located",
+          "characterId": 670,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sssmsrsz",
+      "name": "神秘商人装",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.sssmsrsz",
+      "integrated": true,
+      "firstRecipeBranch": 62,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "sssmsrsz",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 614,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sxfb",
+      "name": "沙邪",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.sxfb",
+      "integrated": true,
+      "firstRecipeBranch": 99,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "sxfb",
+          "status": "located",
+          "characterId": 434,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "sxfb",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 434,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sxzhs",
+      "name": "沙邪转换石",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.sxzhs",
+      "integrated": true,
+      "firstRecipeBranch": 100,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "sxzhs",
+          "status": "located",
+          "characterId": 137,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "syl",
+      "name": "神叶灵",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.syl",
+      "integrated": true,
+      "firstRecipeBranch": 6,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "syl",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 466,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tdlzj",
+      "name": "提多罗吒戒",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.tdlzj",
+      "integrated": true,
+      "firstRecipeBranch": 66,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "tdlzj",
+          "status": "located",
+          "characterId": 279,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tflj",
+      "name": "通风灵戒",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.tflj",
+      "integrated": true,
+      "firstRecipeBranch": 66,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "tflj",
+          "status": "located",
+          "characterId": 284,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tjbg",
+      "name": "太极八卦",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.tjbg",
+      "integrated": true,
+      "firstRecipeBranch": 101,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "tjbg",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 313,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tlzsp",
+      "name": "土灵珠碎片",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.tlzsp",
+      "integrated": true,
+      "firstRecipeBranch": 39,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "tlzsp",
+          "status": "located",
+          "characterId": 813,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tpzy",
+      "name": "天蓬战衣",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.tpzy",
+      "integrated": true,
+      "firstRecipeBranch": 94,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "tpzy",
+          "status": "located",
+          "characterId": 774,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "tss",
+      "name": "天枢石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.tss",
+      "integrated": true,
+      "firstRecipeBranch": 49,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "tss",
+          "status": "located",
+          "characterId": 549,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "tss",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 549,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ttlp",
+      "name": "通天令牌",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.ttlp",
+      "integrated": true,
+      "firstRecipeBranch": 80,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "ttlp",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 23,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ttlpsp1",
+      "name": "通天令牌碎片一",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.ttlpsp1",
+      "integrated": true,
+      "firstRecipeBranch": 80,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "ttlpsp1",
+          "status": "located",
+          "characterId": 21,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ttlpsp2",
+      "name": "通天令牌碎片二",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.ttlpsp2",
+      "integrated": true,
+      "firstRecipeBranch": 80,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "ttlpsp2",
+          "status": "located",
+          "characterId": 874,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ttlpsp3",
+      "name": "通天令牌碎片三",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.ttlpsp3",
+      "integrated": true,
+      "firstRecipeBranch": 80,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "ttlpsp3",
+          "status": "located",
+          "characterId": 873,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpbp",
+      "name": "兵魄",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpbp",
+      "integrated": true,
+      "firstRecipeBranch": 83,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpbp",
+          "status": "located",
+          "characterId": 903,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpdh",
+      "name": "锻魂",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpdh",
+      "integrated": true,
+      "firstRecipeBranch": 83,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpdh",
+          "status": "located",
+          "characterId": 902,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpdt",
+      "name": "鼎铁",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpdt",
+      "integrated": true,
+      "firstRecipeBranch": 71,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpdt",
+          "status": "located",
+          "characterId": 908,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpfbtc",
+      "name": "太初",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpfbtc",
+      "integrated": true,
+      "firstRecipeBranch": 101,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpfbtc",
+          "status": "located",
+          "characterId": 727,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpfbyyan",
+      "name": "爻阳",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpfbyyan",
+      "integrated": true,
+      "firstRecipeBranch": 101,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpfbyyan",
+          "status": "located",
+          "characterId": 730,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpfbyyin",
+      "name": "爻阴",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpfbyyin",
+      "integrated": true,
+      "firstRecipeBranch": 101,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpfbyyin",
+          "status": "located",
+          "characterId": 729,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpflz",
+      "name": "风灵珠",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wpflz",
+      "integrated": true,
+      "firstRecipeBranch": 42,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpflz",
+          "status": "located",
+          "characterId": 805,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wpflz",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 805,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wphlz",
+      "name": "火灵珠",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wphlz",
+      "integrated": true,
+      "firstRecipeBranch": 41,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wphlz",
+          "status": "located",
+          "characterId": 799,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wphlz",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 799,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpjh",
+      "name": "劫火",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpjh",
+      "integrated": true,
+      "firstRecipeBranch": 70,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpjh",
+          "status": "located",
+          "characterId": 911,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpjt",
+      "name": "钧铁",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wpjt",
+      "integrated": true,
+      "firstRecipeBranch": 69,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpjt",
+          "status": "located",
+          "characterId": 913,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wpjt",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 913,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpkt",
+      "name": "坤铁",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpkt",
+      "integrated": true,
+      "firstRecipeBranch": 71,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpkt",
+          "status": "located",
+          "characterId": 904,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpllz",
+      "name": "雷灵珠",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.wpllz",
+      "integrated": true,
+      "firstRecipeBranch": 40,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "wpllz",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 797,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wplvdyl",
+      "name": "龙女的眼泪",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wplvdyl",
+      "integrated": true,
+      "firstRecipeBranch": 6,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wplvdyl",
+          "status": "located",
+          "characterId": 527,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs1",
+      "name": "1级强化石",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpqhs1",
+      "integrated": true,
+      "firstRecipeBranch": 9,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpqhs1",
+          "status": "located",
+          "characterId": 259,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs2",
+      "name": "2级强化石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wpqhs2",
+      "integrated": true,
+      "firstRecipeBranch": 9,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpqhs2",
+          "status": "located",
+          "characterId": 258,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wpqhs2",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 258,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs3",
+      "name": "3级强化石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wpqhs3",
+      "integrated": true,
+      "firstRecipeBranch": 11,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpqhs3",
+          "status": "located",
+          "characterId": 257,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wpqhs3",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 257,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs4",
+      "name": "4级强化石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wpqhs4",
+      "integrated": true,
+      "firstRecipeBranch": 10,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpqhs4",
+          "status": "located",
+          "characterId": 256,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wpqhs4",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 256,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpqhs5",
+      "name": "5级强化石",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.wpqhs5",
+      "integrated": true,
+      "firstRecipeBranch": 10,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "wpqhs5",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 576,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpslz",
+      "name": "水灵珠",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wpslz",
+      "integrated": true,
+      "firstRecipeBranch": 43,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpslz",
+          "status": "located",
+          "characterId": 798,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wpslz",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 798,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wptlz",
+      "name": "土灵珠",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wptlz",
+      "integrated": true,
+      "firstRecipeBranch": 39,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wptlz",
+          "status": "located",
+          "characterId": 807,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wptlz",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 807,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpxih",
+      "name": "羲火",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.wpxih",
+      "integrated": true,
+      "firstRecipeBranch": 69,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpxih",
+          "status": "located",
+          "characterId": 916,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "wpxih",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 916,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpxty",
+      "name": "形天印",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpxty",
+      "integrated": true,
+      "firstRecipeBranch": 105,
+      "batchId": "crafting-icons-special-sources",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpxty",
+          "status": "located",
+          "characterId": 4,
+          "sourcePackage": "assets/MagicWeapon2.swf",
+          "evidencePath": "local-resources/regima/source/restored-swfs/assets/MagicWeapon2.swf"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpycjh",
+      "name": "原初精华",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpycjh",
+      "integrated": true,
+      "firstRecipeBranch": 105,
+      "batchId": "crafting-icons-special-sources",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpycjh",
+          "status": "located",
+          "characterId": 6,
+          "sourcePackage": "assets/MagicWeapon2.swf",
+          "evidencePath": "local-resources/regima/source/restored-swfs/assets/MagicWeapon2.swf"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpyh",
+      "name": "元火",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpyh",
+      "integrated": true,
+      "firstRecipeBranch": 70,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpyh",
+          "status": "located",
+          "characterId": 907,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpyt",
+      "name": "幽铁",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpyt",
+      "integrated": true,
+      "firstRecipeBranch": 71,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpyt",
+          "status": "located",
+          "characterId": 906,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpzh",
+      "name": "烛火",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpzh",
+      "integrated": true,
+      "firstRecipeBranch": 70,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpzh",
+          "status": "located",
+          "characterId": 905,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "wpzty",
+      "name": "照天印",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.wpzty",
+      "integrated": true,
+      "firstRecipeBranch": 106,
+      "batchId": "crafting-icons-special-sources",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "wpzty",
+          "status": "located",
+          "characterId": 17,
+          "sourcePackage": "assets/MagicWeapon2.swf",
+          "evidencePath": "local-resources/regima/source/restored-swfs/assets/MagicWeapon2.swf"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xakjzzs",
+      "name": "雪獒铠甲制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.xakjzzs",
+      "integrated": true,
+      "firstRecipeBranch": 119,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "xakjzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 843,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhc",
+      "name": "宣花锤",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xhc",
+      "integrated": true,
+      "firstRecipeBranch": 2,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xhc",
+          "status": "located",
+          "characterId": 338,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhhl",
+      "name": "宣花葫芦",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.xhhl",
+      "integrated": true,
+      "firstRecipeBranch": 2,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "xhhl",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 229,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhjxj",
+      "name": "血海绝心剑",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xhjxj",
+      "integrated": true,
+      "firstRecipeBranch": 83,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xhjxj",
+          "status": "located",
+          "characterId": 910,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhmlp",
+      "name": "血海灭灵袍",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xhmlp",
+      "integrated": true,
+      "firstRecipeBranch": 84,
+      "batchId": "crafting-icons-b079-098",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xhmlp",
+          "status": "located",
+          "characterId": 919,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhp",
+      "name": "宣花袍",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xhp",
+      "integrated": true,
+      "firstRecipeBranch": 2,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xhp",
+          "status": "located",
+          "characterId": 291,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xhz",
+      "name": "宣花坠",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xhz",
+      "integrated": true,
+      "firstRecipeBranch": 2,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xhz",
+          "status": "located",
+          "characterId": 288,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlcz",
+      "name": "残昼",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlcz",
+      "integrated": true,
+      "firstRecipeBranch": 45,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlcz",
+          "status": "located",
+          "characterId": 546,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlczzzs",
+      "name": "残昼制作书",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlczzzs",
+      "integrated": true,
+      "firstRecipeBranch": 117,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlczzzs",
+          "status": "located",
+          "characterId": 747,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xley",
+      "name": "厄夜",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xley",
+      "integrated": true,
+      "firstRecipeBranch": 44,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xley",
+          "status": "located",
+          "characterId": 547,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xleyzzs",
+      "name": "厄夜制作书",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xleyzzs",
+      "integrated": true,
+      "firstRecipeBranch": 104,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xleyzzs",
+          "status": "located",
+          "characterId": 790,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlny",
+      "name": "逆渊",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlny",
+      "integrated": true,
+      "firstRecipeBranch": 47,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlny",
+          "status": "located",
+          "characterId": 899,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlry",
+      "name": "如狱",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlry",
+      "integrated": true,
+      "firstRecipeBranch": 46,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlry",
+          "status": "located",
+          "characterId": 543,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlryzzs",
+      "name": "如狱制作书",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlryzzs",
+      "integrated": true,
+      "firstRecipeBranch": 119,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlryzzs",
+          "status": "located",
+          "characterId": 742,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltc",
+      "name": "天残",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xltc",
+      "integrated": true,
+      "firstRecipeBranch": 51,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xltc",
+          "status": "located",
+          "characterId": 539,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltczzs",
+      "name": "天残制作书",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xltczzs",
+      "integrated": true,
+      "firstRecipeBranch": 118,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xltczzs",
+          "status": "located",
+          "characterId": 745,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlth",
+      "name": "天荒",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlth",
+      "integrated": true,
+      "firstRecipeBranch": 49,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlth",
+          "status": "located",
+          "characterId": 541,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlthzzs",
+      "name": "天荒制作书",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlthzzs",
+      "integrated": true,
+      "firstRecipeBranch": 103,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlthzzs",
+          "status": "located",
+          "characterId": 736,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltq",
+      "name": "天谴",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xltq",
+      "integrated": true,
+      "firstRecipeBranch": 50,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xltq",
+          "status": "located",
+          "characterId": 11,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlts",
+      "name": "天殇",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlts",
+      "integrated": true,
+      "firstRecipeBranch": 53,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlts",
+          "status": "located",
+          "characterId": 536,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltszzs",
+      "name": "天殇制作书",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xltszzs",
+      "integrated": true,
+      "firstRecipeBranch": 122,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xltszzs",
+          "status": "located",
+          "characterId": 739,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltz",
+      "name": "天罪",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xltz",
+      "integrated": true,
+      "firstRecipeBranch": 52,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xltz",
+          "status": "located",
+          "characterId": 538,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xltzzzs",
+      "name": "天罪制作书",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xltzzzs",
+      "integrated": true,
+      "firstRecipeBranch": 120,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xltzzzs",
+          "status": "located",
+          "characterId": 741,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlyj",
+      "name": "犹绝",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlyj",
+      "integrated": true,
+      "firstRecipeBranch": 48,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlyj",
+          "status": "located",
+          "characterId": 542,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "xlyjzzs",
+      "name": "犹绝制作书",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.xlyjzzs",
+      "integrated": true,
+      "firstRecipeBranch": 121,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "xlyjzzs",
+          "status": "located",
+          "characterId": 746,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yhs",
+      "name": "玉衡石",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.yhs",
+      "integrated": true,
+      "firstRecipeBranch": 44,
+      "batchId": "crafting-icons-b039-058",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "yhs",
+          "status": "located",
+          "characterId": 548,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "yhs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 548,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ylkjzzs",
+      "name": "炎龙铠甲制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.ylkjzzs",
+      "integrated": true,
+      "firstRecipeBranch": 104,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "ylkjzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 599,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yng",
+      "name": "怨念狗",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.yng",
+      "integrated": true,
+      "firstRecipeBranch": 75,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "yng",
+          "status": "located",
+          "characterId": 394,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "yng",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 394,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yxfb",
+      "name": "渊邪",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.yxfb",
+      "integrated": true,
+      "firstRecipeBranch": 100,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "yxfb",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 420,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yxqyzstx",
+      "name": "七曜战神",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.yxqyzstx",
+      "integrated": true,
+      "firstRecipeBranch": 73,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "yxqyzstx",
+          "status": "located",
+          "characterId": 380,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yxsmsrsz",
+      "name": "神秘商人装",
+      "roles": [
+        "material",
+        "product"
+      ],
+      "stableKey": "crafting-item.yxsmsrsz",
+      "integrated": true,
+      "firstRecipeBranch": 60,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "yxsmsrsz",
+          "status": "located",
+          "characterId": 616,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        },
+        {
+          "usage": "product-preview",
+          "symbol": "yxsmsrsz",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 616,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zhhz",
+      "name": "镇魂花坠",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.zhhz",
+      "integrated": true,
+      "firstRecipeBranch": 68,
+      "batchId": "crafting-icons-b059-078",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "zhhz",
+          "status": "located",
+          "characterId": 684,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zjbtg",
+      "name": "紫金镔铁棍",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.zjbtg",
+      "integrated": true,
+      "firstRecipeBranch": 5,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "zjbtg",
+          "status": "located",
+          "characterId": 348,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zjksf",
+      "name": "紫金开山斧",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.zjksf",
+      "integrated": true,
+      "firstRecipeBranch": 5,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "zjksf",
+          "status": "located",
+          "characterId": 336,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zjld",
+      "name": "紫金铃铛",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zjld",
+      "integrated": true,
+      "firstRecipeBranch": 5,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zjld",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 8,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zjqj",
+      "name": "紫金轻甲",
+      "roles": [
+        "material"
+      ],
+      "stableKey": "crafting-item.zjqj",
+      "integrated": true,
+      "firstRecipeBranch": 5,
+      "batchId": "crafting-icons-b001-018",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "material",
+          "symbol": "zjqj",
+          "status": "located",
+          "characterId": 318,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zlfzzs",
+      "name": "震雷斧制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zlfzzs",
+      "integrated": true,
+      "firstRecipeBranch": 120,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zlfzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 854,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxptyzzs",
+      "name": "诛邪破天衣制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxptyzzs",
+      "integrated": true,
+      "firstRecipeBranch": 108,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 239,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxptzzzs",
+      "name": "诛邪破天杖制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxptzzzs",
+      "integrated": true,
+      "firstRecipeBranch": 107,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 235,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxqtczzs",
+      "name": "诛邪擎天铲制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxqtczzs",
+      "integrated": true,
+      "firstRecipeBranch": 112,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 251,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxqtszzs",
+      "name": "诛邪擎天衫制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxqtszzs",
+      "integrated": true,
+      "firstRecipeBranch": 113,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 255,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxstgzzs",
+      "name": "诛邪弑天棍制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxstgzzs",
+      "integrated": true,
+      "firstRecipeBranch": 105,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxstjzzs",
+      "name": "诛邪弑天甲制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxstjzzs",
+      "integrated": true,
+      "firstRecipeBranch": 106,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstjzzs",
+          "aliasSourceLine": null,
+          "status": "located",
+          "characterId": 577,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxttpzzs",
+      "name": "诛邪托天袍制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxttpzzs",
+      "integrated": true,
+      "firstRecipeBranch": 115,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 263,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxztjzzs",
+      "name": "诛邪斩天剑制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxztjzzs",
+      "integrated": true,
+      "firstRecipeBranch": 114,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 259,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxztkzzs",
+      "name": "诛邪震天铠制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxztkzzs",
+      "integrated": true,
+      "firstRecipeBranch": 110,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 243,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "zxztpzzs",
+      "name": "诛邪震天耙制作书",
+      "roles": [
+        "product"
+      ],
+      "stableKey": "crafting-item.zxztpzzs",
+      "integrated": true,
+      "firstRecipeBranch": 109,
+      "batchId": "crafting-icons-b099-122",
+      "status": "ready",
+      "requiredSymbols": [
+        {
+          "usage": "product-preview",
+          "symbol": "zxstgzzs",
+          "aliasSourceLine": 247,
+          "status": "located",
+          "characterId": 566,
+          "sourcePackage": "assets/EIcon1.swf",
+          "evidencePath": "local-resources/regima/task-outputs/task-settings-049-crafting-icons/eicon1-symbols/symbols.csv"
+        }
+      ],
+      "nextAction": "none"
+    }
+  ]
+}

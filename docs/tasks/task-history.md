@@ -163,6 +163,19 @@
 | TASK-SETTINGS-031 | 逆向 | 宠物玄龟专属技能链边界逆向 | M-042、M-032、VS-035 | `pets-index.md`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-066 | 切片 | 宠物 `turtle1/sld` 水疗盾技能最小闭环 | M-042、M-032、VS-035 | `PetSystem.ts`、`ProjectileSystem.ts`、`AssetManifest.ts`、`TestScene.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
 | TASK-SLICE-067 | 切片 | 宠物 `turtle2/txlj` 同心链接最小闭环 | M-042、M-032、M-033、VS-035 | `PetSystem.ts`、`TestScene.ts`、`TestSceneCombatBridge.ts`、`system-tests.ts`、`mechanics-index.md`、`vertical-slices.md`、`task-board.md`、`task-history.md` |
+| TASK-SETTINGS-047 | 审计 | 建立 LINE-CRAFTING 112 配方完整覆盖矩阵 | M-039、VS-042、VS-043、VS-044 | 可重复覆盖审计、112 行矩阵、201 fillName 缺口与连续 task 拆分 |
+| TASK-SETTINGS-048 | 逆向 | 恢复 201 个合成物品权威定义与类别 | M-039、VS-042 | `crafting-item-catalog-1.1.json`、201/201 AS3 定义、现代类别映射 |
+| TASK-SLICE-119 | 切片 | 接入 201 个合成物品定义与双玩家验收库存 | M-039、VS-042 | 独立 definition registry、201 个正式定义、P1/P2 全量验收库存与测试 |
+| TASK-SETTINGS-049 | 资源逆向 | 定位 201 个合成真图标并拆分窄批次 | M-035、M-039、VS-043、VS-044 | 图标权威目录、17 条预览别名、195 条标注、7 个窄资源批次 |
+| TASK-SLICE-120A | 资源接入 | 接入分支 1-18 的 30 个真图标 | M-039、VS-043、VS-044 | 30 个 EIcon1 PNG、manifest/视图接入、标注、专项测试与目检 |
+| TASK-SLICE-120B | 资源接入 | 接入分支 19-38 的 16 个宝石真图标 | M-039、VS-043、VS-044 | 16 个 EIcon1 PNG、manifest/视图接入、标注、专项测试与目检 |
+| TASK-SLICE-120C | 资源接入 | 接入分支 39-58 的 21 个灵珠/升级材料真图标 | M-039、VS-043、VS-044 | 21 个 EIcon1 PNG、manifest/视图接入、标注、专项测试与目检 |
+| TASK-SLICE-120D | 资源接入 | 接入分支 59-78 的 34 个高级装备/制作材料真图标 | M-039、VS-043、VS-044 | 34 个 EIcon1 PNG、manifest/视图接入、标注、专项测试与目检 |
+| TASK-SLICE-120E | 资源接入 | 接入分支 79-98 的 42 个时装/制作书/流邪链图标 | M-039、VS-043、VS-044 | 42 个 stableKey、40 个 EIcon1 PNG、共享 character 证据、专项测试与目检 |
+| TASK-SLICE-120F | 资源接入 | 接入分支 99-122 的 46 个后期法宝/制作书图标 | M-039、VS-043、VS-044 | 46 个 stableKey、37 个 EIcon1 PNG、character 566 共享证据、专项测试与目检 |
+| TASK-SLICE-120G | 资源接入 | 接入 6 个主包/MagicWeapon2 跨包图标 | M-039、VS-043、VS-044 | 6 个 50×50 PNG、精确跨包 provenance、201/201 图标合同关闭证据 |
+| TASK-SLICE-121 | 正式流程 | 从地图菜单进入、操作并退出炼丹炉 | M-039、VS-043 | 可点击地图菜单入口、P1/P2 切换、关闭退还生命周期与专项测试 |
+| TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
 
@@ -4202,6 +4215,191 @@
 推荐后续任务：
 - `TASK-SLICE-101`。
 
+### TASK-SETTINGS-047
+
+任务类型：
+- `TASK-SETTINGS`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 机械核对 112 个权威配方与现代 registry，建立逐配方定义、库存、图标、UI 和测试覆盖矩阵，并将全集缺口拆为连续同线 task。
+
+验收结果：
+- 权威/现代配方集合差异为 0；152 个材料、85 个产物、201 个唯一 fillName 已量化，审计和 workflow 通过。
+
+### TASK-SETTINGS-048
+
+任务类型：
+- `TASK-SETTINGS`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 从 1.1 `AllEquipment.as` 恢复全部合成 fillName 的权威名称、类型和现代库存类别，不用 1.0 数据猜补。
+
+验收结果：
+- 201/201 项均有唯一直接定义，冲突和 unresolved 为 0；目录生成与 workflow 通过。
+
+### TASK-SLICE-119
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 接入独立合成物品 registry，清零临时/缺失定义，并为 P1/P2 提供覆盖全部材料的独立验收库存。
+
+验收结果：
+- named 201、placeholder 0、missing 0、acceptance 201；系统测试、构建、覆盖审计和 workflow 通过。
+
+### TASK-SETTINGS-049
+
+任务类型：
+- `TASK-SETTINGS`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 在恢复 SWF 中精确定位 201 个合成图标、预览别名与跨包例外，并把未接资源拆成窄批次。
+
+验收结果：
+- 6 ready、195 export-ready、17 条别名、7 个批次；ambiguous/unresolved/missing-original 均为 0，标注和 workflow 通过。
+
+### TASK-SLICE-120A
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 只选择性导出、接入并目检 `crafting-icons-b001-018` 的 30 个 EIcon1 真图标。
+
+验收结果：
+- 批次 30/30 ready，累计 36/201；专项测试、系统测试、构建、标注、覆盖审计、结构和 workflow 门禁通过。
+
+### TASK-SLICE-120B
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 只选择性导出、接入并目检 `crafting-icons-b019-038` 的 16 个宝石真图标。
+
+验收结果：
+- 批次 16/16 ready，累计 52/201；专项测试、系统测试、构建、标注、覆盖审计和 workflow 门禁通过。
+
+### TASK-SLICE-120C
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 只选择性导出、接入并目检 `crafting-icons-b039-058` 中尚未接入的 21 个灵珠、碎片、升级材料和装备真图标；复用既有 `tlzsp/wptlz`。
+
+验收结果：
+- 新增 21/21 ready，累计 73/201；全部 PNG 为 50×50，联系表目检通过；专项测试、系统测试、构建、标注与覆盖审计通过。
+
+### TASK-SLICE-120D
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 只选择性导出、接入并目检 `crafting-icons-b059-078` 的 34 个高级装备、特殊继承和制作材料真图标。
+
+验收结果：
+- 批次 34/34 ready，累计 107/201；源图原尺寸与联系表目检通过；专项测试、系统测试、构建、标注与覆盖审计通过。
+
+### TASK-SLICE-120E
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 选择性导出、接入并目检 `crafting-icons-b079-098` 的 42 个时装、制作书和流邪链 stableKey，保留两组共享 character 事实。
+
+验收结果：
+- 42/42 ready，累计 149/201；40 张唯一 PNG 目检通过，共享 163/225 有专项测试；系统测试、构建、标注与覆盖审计通过。
+
+### TASK-SLICE-120F
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 选择性导出、接入并目检 `crafting-icons-b099-122` 的 46 个后期法宝与制作书 stableKey，保留 10 项共享 character 566 的事实。
+
+验收结果：
+- 46/46 ready，累计 195/201；37 张唯一 50×50 PNG 目检通过，共享 566 有专项测试；系统测试、构建、标注与覆盖审计通过。
+
+### TASK-SLICE-120G
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 只选择性导出、接入并目检主包 `qpjy/fbqpj` 与 MagicWeapon2 `wpxty/wpycjh/wpzty/mdcqg` 六个跨包真图标。
+
+验收结果：
+- 6/6 ready，图标合同 201/201、remaining 0；6 张 50×50 PNG 目检和跨包 provenance 测试通过；系统测试、构建、结构、标注与覆盖审计通过。
+
+### TASK-SLICE-121
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 玩家无需调试键即可从可点击地图菜单进入炼丹炉，选择 P1/P2、操作并安全退出；切换和关闭按合同退还材料。
+
+验收结果：
+- 新增独立 `TestSceneCraftingEntryBridge.ts`，地图菜单按钮进入时关闭冲突面板；P1→P2 切换退还旧 owner 暂存，关闭退还所有暂存并恢复菜单；单人 P2 门禁、系统测试和构建通过。
+
+### TASK-SLICE-122
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CRAFTING`
+
+完成定义：
+- 对 112 个权威唯一配方在 P1/P2 独立验收库存上逐项执行真实事务，补齐失败/隔离/入口生命周期与运行时真 UI 证据；仅在关闭合同全部满足时关闭功能线。
+
+验收结果：
+- 112×P1/P2 共 224 条合成事务全部通过；矩阵覆盖 67 个静态、41 个默认继承、3 个日经特殊继承和 1 个冥鼎花焰特殊继承配方。
+- 发现并修复默认继承配方中“一个装备实例 + 两个 `zbwp` 堆叠材料”的事务缺口：装备/时装仍强制实例，普通物品/技能书允许合法堆叠并以零属性虚拟实例参与继承计算，消费保持原子性。
+- 地图菜单入口、P1/P2 切换、关闭退还、单人 P2 门禁自动验证通过；运行时入口与面板截图留档，资源正常加载且控制台无 error/warn。
+- `LINE-CRAFTING` 关闭合同全部勾选，功能线标记 `Done`；下一条线仅做元数据激活，本次 `/goal` 不执行 Stage 1-1。
+
 ## 执行记录
 
 
@@ -6195,5 +6393,217 @@
 
 推荐任务：
 - 2026-07-18 治理纠正：本 task 只完成第二个真图标配方族，不能据此宣告炼丹炉整条线收束。当前由 `LINE-CRAFTING` 持续追踪 112 个权威配方、真图标、正式流程和验证覆盖；Stage 1-1 在该线关闭前保持 `Planned`。
+
+### TASK-SETTINGS-047
+
+完成时间：
+- 2026-07-18
+
+完成内容：
+- 新增可重复执行的 `tools/crafting-coverage-audit.ts` 与运行器，机械核对 1.1 权威 JSON、现代 recipe registry、物品定义、库存类别、测试种子、真图标映射和专项测试证据。
+- 在 `LINE-CRAFTING.md` 写入 112 个唯一配方逐项矩阵，分类计数严格为 67 个 `direct_static`、41 个 `get_sutra_value`、3 个 `get_sun_sutra_value` 和 1 个 `get_mingding_huayan`；权威集合与现代 registry 双向差异为 0。
+- 确认 112 配方涉及 152 个材料 fillName、85 个产物 fillName、合并后 201 个唯一 fillName；当前只有 15 个命名定义、53 个占位定义、133 个缺失定义，14 个测试种子入口、6 个已接真图标。
+- 将定义/类别、现代接入、图标定位与窄批次接入、正式流程和关闭验收拆成 `TASK-SETTINGS-048`、`TASK-SLICE-119`、`TASK-SETTINGS-049`、`TASK-SLICE-120..122`；只把同线 `TASK-SETTINGS-048` 标为 Ready。
+- 保留 `VS-042..044` 和 `TASK-SLICE-118` 的局部完成事实；`LINE-CRAFTING` 继续保持唯一 Active，未切换到 Stage 1-1。
+
+更新文件：
+- `tools/crafting-coverage-audit.ts`
+- `tools/run-crafting-coverage-audit.mjs`
+- `package.json`
+- `docs/tasks/feature-line-coverage/LINE-CRAFTING.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/task-board.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过（仅既有 warning；本 task 未向 warning 文件新增逻辑）。
+- `npm run audit:crafting-coverage -- --write-doc` 通过并生成 112 行矩阵。
+- `npm run check:workflow` 待本 task 文档收尾后运行。
+
+推荐任务：
+- `TASK-SETTINGS-048`：恢复 201 个合成 fillName 的权威物品定义与库存类别；必须继续 `LINE-CRAFTING`。
+
+### TASK-SETTINGS-048
+
+完成时间：
+- 2026-07-18
+
+完成内容：
+- 新增 `tools/generate-crafting-item-catalog.mjs`，只读解析 1.1 `AllEquipment.as` 中 `new MyEquipObj(...)` 的名称、fillName、类型和精确行号，并与 112 配方材料/产物并集做机械校验。
+- 生成 `docs/reverse-engineering/reference/crafting-item-catalog-1.1.json`，覆盖全部 201 个唯一 fillName；201 项均有唯一直接 AS3 定义，冲突和 unresolved 均为 0。
+- 确认原版类型分布为 `zbwq 24`、`zbfj 20`、`zbsp 14`、`zbfb 13`、`zbtx 11`、`zbsz 4`、`zbwp 108`、`wpqhs 7`；现代库存类别为 82 equipment、115 items、4 fashion。
+- 权威配方 JSON 的产物中文名与静态目录逐项核对，冲突数为 0；未使用 1.0 辅助表补造 1.1 结论。
+- `LINE-CRAFTING` 继续保持 Active，并把当前推荐推进到同线 `TASK-SLICE-119`；现代 133 个缺失定义和 53 个占位定义仍待该实现 task 消除。
+
+更新文件：
+- `tools/generate-crafting-item-catalog.mjs`
+- `docs/reverse-engineering/reference/crafting-item-catalog-1.1.json`
+- `package.json`
+- `docs/tasks/feature-line-coverage/LINE-CRAFTING.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/task-board.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run generate:crafting-item-catalog` 通过：112 recipes、201 unique fillNames、confirmed 201、product name conflicts 0。
+- `npm run check:workflow` 待本 task 文档收尾后运行。
+
+推荐任务：
+- `TASK-SLICE-119`：接入独立现代合成物品 definition registry 与全量测试/验收库存入口。
+
+### TASK-SLICE-119
+
+完成时间：
+- 2026-07-18
+
+完成内容：
+- 新增独立 `CraftingItemDefinitionRegistry.ts`，消费 1.1 权威目录生成 201 个合成材料/产物定义，避免继续向结构 warning 的 `EquipmentSystem.ts` 堆积内容数据。
+- 权威 `showId/name/type/user/quality/color` 替换临时身份与分类；既有已校准 stats、description 和 magicWeapon 数据继续保留。现代覆盖达到 named 201、placeholder 0、missing 0，类别为 82 equipment、115 items、4 fashion。
+- `createSeedCraftingItemDefinitions()` 改为兼容包装，现有调用点无需迁移即可获得权威目录；原来只覆盖枯叶灵材料的硬编码 override 已删除。
+- 新增 P1/P2 独立合成验收库存：每个材料 fillName 至少准备 3 件/3 份，其余产物至少 1 件/1 份，重复材料配方可直接验收；文档和代码均明确该库存不是正式掉落/商店来源。
+- 扩展合成专项测试，覆盖 201 fillName 唯一性、临时定义清零、类别计数、代表名称/类型、全量验收库存和双玩家隔离；更新覆盖矩阵为当前事实。
+- 更新统一语言、机制表和 VS-042；`LINE-CRAFTING` 继续保持 Active，当前推荐推进到 `TASK-SETTINGS-049`。
+
+更新文件：
+- `src/systems/CraftingItemDefinitionRegistry.ts`
+- `src/systems/CraftingSystem.ts`
+- `src/systems/PlayerInventoryOwnershipSystem.ts`
+- `tools/crafting-tests.ts`
+- `tools/crafting-coverage-audit.ts`
+- `tools/generate-crafting-item-catalog.mjs`
+- `docs/reverse-engineering/reference/crafting-item-catalog-1.1.json`
+- `docs/domain/glossary.md`
+- `docs/tasks/feature-line-coverage/LINE-CRAFTING.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过（仅 8 个既有 warning；本 task 未修改 warning 文件）。
+- `npm run test:systems` 通过：System tests 与 Crafting system tests。
+- `npm run build` 通过；Vite 仍只有既有的 chunk 大小 warning。
+- `npm run audit:crafting-coverage -- --write-doc` 通过：definitions named 201、acceptance 201、icons 6。
+- `npm run check:workflow` 待本 task 文档收尾后运行。
+
+推荐任务：
+- `TASK-SETTINGS-049`：在恢复 SWF 中定位剩余 195 个合成图标与预览别名并拆分窄资源批次。
+
+### TASK-SETTINGS-049
+
+完成时间：
+- 2026-07-18
+
+完成内容：
+- 从恢复语料库只读导出 `EIcon1/EIcon2/main1` SymbolClass 元数据，并新增轻量 SWF SymbolClass tag 扫描器，对全部恢复 SWF 做集合定位；没有修改源包或全量导出图片。
+- 新增 `crafting-icon-catalog-1.1.json`，覆盖 201 个合成 fillName、材料/产物用途、stableKey、源包、symbol、character id 和预览别名。既有 6 项 ready，其余 195 项全部 export-ready；ambiguous/unresolved/missing-original 均为 0。
+- 机械恢复 `Fusion.as:229-301` 的 17 条预览别名；材料槽直接 symbol 与产物预览 alias 分开记录。
+- 确认跨包例外：主包 `fbqpj/qpjy` character 3/2；`MagicWeapon2.swf` 的 `mdcqg/wpxty/wpycjh/wpzty` character 18/4/6/17；其余用途以 EIcon1 为主。
+- 新增 195 条 `crafting-items-remaining.csv` 标注并通过校验；按首次配方分支与跨包例外拆成 7 个窄批次（30/16/21/34/42/46/6），生成同线 `TASK-SLICE-120A..120G`，只推荐 A。
+- `LINE-CRAFTING` 继续保持 Active，未导出/接入任何本 task 范围外资源，也未切换 Stage 1-1。
+
+更新文件：
+- `tools/generate-crafting-icon-catalog.mjs`
+- `docs/reverse-engineering/reference/crafting-icon-catalog-1.1.json`
+- `docs/reverse-engineering/asset-annotation/annotations/crafting-items-remaining.csv`
+- `docs/reverse-engineering/asset-annotation/batches/crafting-items-remaining.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/reverse-engineering/crafting-ui-index.md`
+- `docs/tasks/feature-line-coverage/LINE-CRAFTING.md`
+- `docs/tasks/feature-lines.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+- `package.json`
+
+验证：
+- `npm run generate:crafting-icon-catalog` 通过：201 items、6 ready、195 export-ready、17 aliases、7 batches。
+- `npm run check:annotations` 通过：367 annotations、195 export-ready、366 confirmed。
+- `npm run check:workflow` 待本 task 文档收尾后运行。
+
+推荐任务：
+- `TASK-SLICE-120A`：只接入 `crafting-icons-b001-018` 的 30 个剩余真图标。
+
+### TASK-SLICE-120A
+
+完成时间：
+- 2026-07-18
+
+完成内容：
+- 从恢复语料库 `assets/EIcon1.swf` 按目录中的精确 character id 选择性导出 `crafting-icons-b001-018` 的 30 个 PNG；没有全量导出 EIcon，也没有处理其他批次。24 张为 50×50，6 张为 51×51，透明原尺寸保持不变。
+- 将 30 个真图标接入 `public/assets/ui/crafting/items/`；`AssetManifest.ts` 从权威图标目录机械生成已接图标 texture key 和 extracted-image provenance，`TestSceneCraftingView` 统一从 `CraftingItemTextureKeys` 查询。
+- 更新图标目录生成器，使 `integrated` 由现代 public 文件存在性机械判定；标注 CSV 原有 195 行保持稳定，已接 30 行转为 `ready` 并记录 public 路径和 manifest 证据。
+- 扩展专项测试，严格验证当前 36 个图标集合、首批 30 个 fillName、EIcon1 源包和代表 character 299/576/821；覆盖审计更新为 icons 36。
+- 生成 30 图联系表并逐张目检，未发现明显错位、重复或损坏。当前累计 36/201 ready，剩余 165 export-ready；`LINE-CRAFTING` 继续 Active，当前推荐推进到 `TASK-SLICE-120B`。
+
+更新文件：
+- `public/assets/ui/crafting/items/` 下 30 个 PNG
+- `src/assets/AssetManifest.ts`
+- `src/scenes/test-scene/TestSceneCraftingView.ts`
+- `tools/generate-crafting-icon-catalog.mjs`
+- `tools/crafting-tests.ts`
+- `docs/reverse-engineering/reference/crafting-icon-catalog-1.1.json`
+- `docs/reverse-engineering/asset-annotation/annotations/crafting-items-remaining.csv`
+- `docs/reverse-engineering/asset-annotation/batches/crafting-items-remaining.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/reverse-engineering/crafting-ui-index.md`
+- `docs/tasks/feature-line-coverage/LINE-CRAFTING.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 通过（仅既有 warning）。
+- `npm run test:systems` 通过：System tests 与 Crafting system tests。
+- `npm run build` 通过；Vite 仍只有既有 chunk 大小 warning。
+- `npm run check:annotations` 通过：367 annotations、52 ready、165 export-ready、366 confirmed。
+- `npm run audit:crafting-coverage -- --write-doc` 通过：icons 36。
+- `npm run check:workflow` 待本 task 文档收尾后运行。
+
+推荐任务：
+- `TASK-SLICE-120B`：只接入 `crafting-icons-b019-038` 的 16 个生命/魔法/攻击/防御石真图标。
+
+### TASK-SLICE-120B
+
+完成时间：
+- 2026-07-18
+
+完成内容：
+- 从恢复语料库 `assets/EIcon1.swf` 按精确 character id 选择性导出 `crafting-icons-b019-038` 的 16 张 50×50 透明 PNG；没有全量导出 EIcon，也没有处理其他批次。
+- 接入生命/魔法/攻击/防御石及商城变体共 16 个真图标；目录生成器按 public 文件存在性将对应稳定标注行更新为 ready，并保留源包、symbol 和 character provenance。
+- 联系表逐张目检通过，四类宝石的等级和色彩与命名一致，商城变体复用对应二级石视觉符合恢复源包事实；未发现错位、损坏或非预期重复。
+- 扩展专项测试，严格验证本批 16 个 fillName、EIcon1 源包、代表 character 231/244/306，以及当前 52 个纹理 key/64 个 crafting asset key 唯一性。
+- 当前累计 52/201 ready、149 export-ready；`LINE-CRAFTING` 继续 Active，当前推荐推进到 `TASK-SLICE-120C`。
+
+更新文件：
+- `public/assets/ui/crafting/items/` 下 16 个 PNG
+- `tools/crafting-tests.ts`
+- `docs/reverse-engineering/reference/crafting-icon-catalog-1.1.json`
+- `docs/reverse-engineering/asset-annotation/annotations/crafting-items-remaining.csv`
+- `docs/reverse-engineering/asset-annotation/batches/crafting-items-remaining.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/reverse-engineering/crafting-ui-index.md`
+- `docs/tasks/feature-line-coverage/LINE-CRAFTING.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- `npm run check:structure` 在实现前通过（仅 8 个既有 warning；本 task 未修改 warning 文件）。
+- `npm run test:systems` 通过：System tests 与 Crafting system tests。
+- `npm run build` 通过；Vite 仍只有既有 chunk 大小 warning。
+- `npm run check:annotations` 通过：367 annotations、68 ready、149 export-ready、366 confirmed。
+- `npm run audit:crafting-coverage -- --write-doc` 通过：icons 52。
+- `npm run check:workflow` 待本 task 文档收尾后运行。
+
+推荐任务：
+- `TASK-SLICE-120C`：只接入 `crafting-icons-b039-058` 的 21 个灵珠碎片、灵珠和首批升级材料真图标。
 
 
