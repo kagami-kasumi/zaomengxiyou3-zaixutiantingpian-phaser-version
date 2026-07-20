@@ -20,7 +20,7 @@
 | VS-004 五角色普攻与特效切片 | 已完成 | 五个角色的普攻连段、攻击窗口和普攻特效一起完成 | VS-002、VS-003、M-023、M-047、M-035 | `HeroNormalAttackSystem.ts`、`TestScene.ts`、`AssetManifest.ts` | 五个角色 J 普攻都有动作、冷却、攻击窗口和可见占位特效 |
 | VS-005 第一个怪物受击死亡 | 已完成 | 加入一个简单怪物，能受击、扣血、死亡并移除 | M-030 已扒；M-031 已确认 `Monster30`；M-032 已有首切片受击依据 | `Monster30System.ts`、`TestScene.ts` | 玩家能打死一只 `Monster30` 等价怪物 |
 | VS-006 基础伤害闭环 | 已完成 | 玩家与怪物互相造成伤害 | VS-004、VS-005、M-032、M-033、`combat-rules-index.md` | `CombatSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`TestScene.ts` | 玩家和怪物血量都可变化 |
-| VS-007 第一个关卡闭环 | 已完成 | 完整纵向爬升关（云层、周期刷怪、停点、boss 战斗、通关） | M-014、M-026、M-027、M-028、M-030、M-031 | `Monster3System.ts`、`LevelSystem.ts`、`TestScene.ts` | 纵向爬升（镜头跟随、云层视差）→ 周期刷怪（每 6s 2/4 只 Monster30）→ 停点系统（4 停点、清波解锁）→ boss 区触发 → Monster3 战斗 → 击杀 → 传送门出现 → 按上通关全部完成 |
+| VS-007 第一个关卡闭环 | 已完成 | 真场景纵向关卡 + 正式进入/失败/胜利持久化 | M-014、M-026、M-027、M-028、M-030、M-031、M-044 | `Monster3System.ts`、`LevelSystem.ts`、`Stage11FlowSystem.ts`、`Stage11EntryScene.ts`、Stage11 bridges | 关卡内、真资源、正式入口、1P/2P 全灭、结果导航、V3 解锁存档和浏览器验收全部完成 |
 | VS-008 一个技能/子弹 | 已完成 | 第一个角色释放一个技能或子弹 | M-025、M-034、M-015、M-041、`projectiles-index.md`、`skills-input-index.md` | `ProjectileSystem.ts`、`HeroSkillSystem.ts`、`SkillUISystem.ts`、`TestScene.ts`、`AssetManifest.ts`、`skills-input-index.md` | 已完成 projectile + 正式槽位 + MP 门禁 + 二段重入 + 五槽技能栏 + 可配置 loadout + 完整心法树面板 + 技能学习/升级 + 键盘绑定 + 被动技能五槽 UI；下一步扩展其他角色技能 projectile 或转向装备/背包系统 |
 | VS-009 掉落和拾取 | 已完成 | 怪物死亡掉落物品并可拾取 | M-036、M-037、M-038、`drops-index.md` | `DropSystem.ts`、`InventorySystem.ts`、`EquipmentSystem.ts`、`TestScene.ts` | 已完成装备/道具拾取、药品即时恢复、红/白 aura 收集反馈、`wpqhs1` 强化石入包，以及全 `Monster*.as` 扫描中已确认 `dj/zb` 的现代配置化掉落表和测试入口 |
 | VS-010 背包最小 UI | 已完成 | 打开背包并显示分类物品，支持首批装备穿脱 | M-036、M-037、`equipment-index.md` | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts` | `C` 打开背包；可切换装备/道具/时装/技能书分类；可穿戴/卸下种子装备并更新槽位与属性预览 |
@@ -259,7 +259,7 @@
 
 ### VS-007 第一个关卡闭环
 
-状态：已完成（含 TASK-SLICE-012 纵向爬升扩展）。
+状态：已完成（TASK-SLICE-124 正式流程、持久化和浏览器验收完成，LINE-STAGE-1-1 已关闭）。
 
 当前进展：
 
@@ -267,13 +267,14 @@
 - `1-1` 流程是纵向爬升、周期性刷 `Monster30`、到顶部触发 `Monster3` boss，boss 死亡后显示传送门。
 - 通关入口是角色 `0001` 交互分支：传送门可见且碰撞成立后派发 `LevelVictor` 并调用 `MainGame.levelClear()`。
 - `TASK-SETTINGS-012` 已细扒 `Monster3` 全数据（HP 926、hit1/hit2 攻击帧、技能 CD、boss 死亡 → 传送门 visible）、确认 boss 区触发参数和传送门机制。
-- 资源缺口已确认：`sl11`/`bg11`/`floorBg1`/`Monster3` 位图和子弹资源均不在当前 `local-resources/regima/legacy-extraction/resources_by_swf` 导出中。
+- `TASK-SLICE-123` 已从恢复源包选择性接入 `sl11` 前景、`bg11` 与 `floorBg1`，并把 20 墙标记/1 门数据化；Monster3/Monster30 真素材仍明确不在本切片范围。
+- `TASK-SETTINGS-050` 已闭合 `SelectPLace → startFighting → GameStart` 入口、单人死亡后 2.5 秒全灭检查、双人本地调用缺失、`LevelVictor → GameWin → levelClear → destroyGame → saveGame` 胜利顺序，以及重玩/返回目标；下一切片只补正式流程，不扩张到 1-2 内容或全局菜单。
 
 依赖：
 
 - M-014、M-026、M-027、M-028 已确认并已全部复现。
 - M-030 怪物基础已确认；M-031 `Monster30` 已在 `VS-005` 中实现。
-- 资源/地图采用手工参数（地面 y、平台坐标、传送门位置、占位图形），不等待真实 SWF 时间轴数据。
+- 地面、背景、前景、平台矩阵和传送门位置已由真实 SWF 数据替换；怪物本体与弹体仍使用现有占位表现。
 
 实际结果（TASK-SLICE-011 基础闭环）：
 

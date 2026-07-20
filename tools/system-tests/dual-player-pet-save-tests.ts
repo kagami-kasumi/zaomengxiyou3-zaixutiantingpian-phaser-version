@@ -54,7 +54,7 @@ function testV1MigrationPreservesP1AndCreatesEmptyP2(): void {
   };
   const migrated = parseGameSave(JSON.stringify(legacy));
   assert.ok(migrated);
-  assert.equal(migrated.version, 2);
+  assert.equal(migrated.version, 3);
   const restored = restoreGameState(migrated, createSeedEquipmentRegistry());
   assert.equal(restored.petRoster.pets[0].level, 19);
   assert.equal(restored.player2PetRoster.pets.length, 0);

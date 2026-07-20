@@ -274,26 +274,3 @@ export function updateBossArenaVisuals(this: any): void {
     );
   }
 
-export function showClearOverlay(this: any): void {
-    if (this.clearOverlay) {
-      return;
-    }
-
-    const bg = this.add.rectangle(470, 295, 940, 590, 0x000000, 0.7);
-    const title = this.add.text(470, 240, 'LEVEL CLEAR', {
-      color: '#f2c14e',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '42px',
-    }).setOrigin(0.5, 0.5);
-    const sub = this.add.text(470, 310, '1-1 巫鹰 defeated', {
-      color: '#f3f6ff',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '18px',
-    }).setOrigin(0.5, 0.5);
-
-    this.clearOverlay = this.add.container(0, 0, [bg, title, sub]);
-    this.clearOverlay.setDepth(100);
-  }
-
-
-

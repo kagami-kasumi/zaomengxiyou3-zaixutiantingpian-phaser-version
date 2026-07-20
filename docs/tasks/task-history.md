@@ -13,6 +13,9 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-124 | 正式流程 | 接入 Stage 1-1 玩家可见进入、全员失败与通关持久化闭环 | M-026、M-028、M-044、VS-007 | 入口页、1P/2P 全灭状态机、结果导航、V3 关卡进度存档、专项测试与浏览器验收 |
+| TASK-SETTINGS-050 | 流程逆向 | 闭合 Stage 1-1 正式进入、失败与通关持久化流程 | M-026、M-028、M-044、VS-007 | 入口/全灭/胜利事件顺序、双人失败源码缺口、现代差异矩阵与 TASK-SLICE-124 |
+| TASK-SLICE-123 | 资源接入 | 选择性派生并接入 Stage 1-1 真场景资源与布局 | M-026、M-027、M-035、VS-007 | character 46/141/1 三项 PNG、稳定 key/provenance、20 墙体/1 门显式布局、原层级场景桥接与专项测试 |
 | TASK-SETTINGS-046 | 资源逆向 | 定位 Stage 1-1 三个场景真资源符号 | M-026、M-035、VS-007 | `sl11` character 46、`bg11` character 141、`floorBg1` character 1，tag/尺寸/时间轴、运行时组合边界、Stage 1-1 标注与覆盖台账 |
 | TASK-SETTINGS-045 | 逆向 | 定位枯叶灵配方四图标资源 | M-035、VS-044 | EIcon1 character 332/342/323/809、50×50 tag/尺寸、掉落态排除、预览无别名结论、stableKey 与资源标注 |
 | TASK-SLICE-117 | 切片 | 接入炼丹炉最小视觉闭环 | M-039、M-035、M-037、VS-043 | 14 个选择性派生 PNG、stableKey/provenance manifest、固定布局、独立炼丹炉视图、鼠标/键盘交互、合成专项测试与资源标注 |
@@ -179,6 +182,45 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-124
+
+- 完成日期：2026-07-19
+- 功能条线：`LINE-STAGE-1-1`（本 task 完成后关闭为 `Done`）
+- 新增 `Stage11EntryScene`，应用启动后先显示 Stage 1-1 玩家可见入口，可用鼠标或数字键选择 1P/2P；URL 参数仅保留为兼容回退，不再是唯一入口。
+- 新增独立 `Stage11FlowSystem`：统一全部已配置玩家的存活检查，首次全灭进入 2.5 秒延迟，恢复存活会取消等待，最终失败与胜利均为一次性状态；现代侧明确补正恢复源码缺少双人调用点的问题。
+- 新增 `TestSceneStage11FlowBridge`：失败/胜利时冻结主更新，结果页提供重玩与返回入口；重玩在 `POST_RENDER` 后移除并重建全新 `TestScene`，避免复用已清关/死亡的场景实例。
+- 运行时验收发现结果页只在父 Container 设置 `scrollFactor(0)` 时，滚动相机下子按钮不可点击；已把背景、文字和交互子对象全部固定到屏幕坐标，复验重玩/返回通过。
+- `SaveSystem` 升级到 V3，新增 `LevelUnlockProgress`；V1/V2 安全迁移为默认仅解锁 1-1。首次胜利幂等解锁 1-2 并显式保存，自动存档继续携带该进度，失败不推进。
+- `stage11-flow-tests.ts` 覆盖单人延迟失败、双人仍有存活者不失败/全灭失败、等待取消、胜利幂等、传送门可见/位置/按上/一次性 cleared、V3 往返和 V1/V2 迁移，并纳入 `test:systems`。
+- 浏览器运行时验收通过：启动入口、单人进入、双人进入、1P/2P 全灭结果、重玩全新实例、失败返回、胜利结果、胜利返回、刷新后仍显示“1-2 已解锁”均可见且控制台无应用 error/warn。胜利 UI/存档使用临时 F8 调用同一结果函数验收，验收后已删除；最终版本复验 F8 不再触发通关。
+- 本 task 未实现 1-2/1-3 内容，未接入 Monster3/Monster30/弹体真素材，未建立全局菜单或存档槽 UI，未修改恢复/旧提取资源。
+- 验证：`npm run test:stage11-flow`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`git diff --check`；浏览器验收见本条运行时记录。
+
+### TASK-SETTINGS-050
+
+- 完成日期：2026-07-19
+- 功能条线：`LINE-STAGE-1-1`（继续保持 `Active`）
+- 确认正式入口顺序为已解锁 `s1_1` 点击写入 `curStage/curLevel`、同步派发 `selectStageOver`、清地图、按关卡名加载资源、创建地面/`sl11` 并初始化玩家与世界。
+- 确认单人死亡后延迟 2.5 秒，以存活玩家数组为空判失败；失败先清战斗运行时再创建 `GameFail`，可保持 1-1 坐标重玩或返回关卡地图，且不推进进度/显式保存。
+- 记录恢复源码的双人失败缺口：本地双人 `heroDead()` 没有调用 `checkGameOver()`；下一实现明确按原版全队死亡谓词补正为全部已配置玩家统一检查，不伪称源码原样行为。
+- 确认胜利顺序为门交互锁输入与 1 秒淡出、同步 `LevelVictor` 先创建/取数 `GameWin`、随后 `levelClear()` 解锁 1-2、销毁游戏并显式保存；结果页下一关进入 1-2，返回则去关卡地图。
+- 在 `levels-index.md` 建立入口、玩家控制、失败、场景清理、进度、存档和返回目标差异矩阵；现代单线以 1-1 入口壳替代全局地图，不加载尚未实现的 1-2。
+- 生成唯一同线任务 `TASK-SLICE-124`；未修改 `src/`、`public/assets` 或任何恢复/旧提取资源。
+- 验证：`npm run check:workflow`。
+
+### TASK-SLICE-123
+
+- 完成日期：2026-07-19
+- 功能条线：`LINE-STAGE-1-1`（继续保持 `Active`）
+- 只从恢复源包精确派生 `level11.swf` character 46 的 character 18 前景、`assets/1.swf` character 141 背景和 character 1 地面，生成 1298×2756、1132×3051、1440×690 三张 PNG；未整包导出、未改源 SWF 或旧提取集。
+- `AssetManifest.ts` 注册 `stage.stage1-1.layout`、`stage.stage1-1.background`、`stage.stage1.floor`，保留 sourcePackage、character、tag、源尺寸和栅格尺寸；`BootScene` 完成预加载。
+- `Stage11Layout.ts` 保存 3 个 `ObsWall`、15 个 `ThroughWall`、1 个 `ThroughUpButDownWall`、1 个 `FallDownWhenStandingWall` 的原始矩阵和 character，以及 character 45 门边界；18 个水平标记派生为移动平台，两个竖向墙保留为布局证据。
+- 新增独立 `TestSceneStage11Bridge.ts`，按固定根层 `floorBg1`、`bgContainer` 内 `bg11`、sl11 前景的层级接入；移除旧手绘场景、手绘平台、假云层和硬编码平台表，现有 boss/门流程改用原版坐标映射。
+- `TestScene.ts` 从 1197 行降至约 1100 行，新增职责放入独立桥接层，未继续堆叠结构 warning 文件。
+- 专项测试核对三张 PNG、manifest provenance、3/15/1/1 marker、character 45 门、18 个水平碰撞平台和渲染边界，并纳入 `npm run test:systems`。
+- 资源标注三项更新为 `ready + confirmed + none`；下一同线任务为 `TASK-SETTINGS-050`。
+- 验证：`npm run check:structure`（修改前通过，无 error）、`npm run test:stage11`、`npm run test:systems`、`npm run build`；收尾另跑 annotations/workflow。
 
 ### TASK-SETTINGS-046
 

@@ -2,7 +2,10 @@
 // own runtime combat, drop, pet, or magic weapon rules.
 import Phaser from 'phaser';
 import { AssetKeys } from '../../assets/AssetManifest';
-import { GameSettings } from '../../core/GameSettings';
+import {
+  STAGE11_GROUND_PLATFORM_ID,
+  STAGE11_GROUND_TOP_Y,
+} from '../../systems/Stage11Layout';
 import {
   canLearnSkill,
   canUpgradeSkill,
@@ -53,33 +56,8 @@ type InventoryPanelView = {
   text: Phaser.GameObjects.Text;
 };
 
-export function createStage(this: any): void {
-    const { worldWidth, worldHeight } = defaultClimbTuning;
-    this.add.rectangle(
-      worldWidth / 2,
-      worldHeight / 2,
-      worldWidth,
-      worldHeight,
-      0x101724,
-    );
-
-    this.add.rectangle(worldWidth / 2, worldHeight, worldWidth, 70, 0x24354c);
-    this.add.rectangle(worldWidth / 2, worldHeight - 15, worldWidth, 8, 0xe2b84d);
-
-    for (let i = 0; i < 9; i += 1) {
-      this.add.rectangle(
-        72 + i * 104,
-        worldHeight - 20,
-        54,
-        14,
-        0x182233,
-        0.65,
-      );
-    }
-  }
-
 export function createPlayerMarkers(this: any, playerCount: 1 | 2): any[] {
-    const groundY = defaultClimbTuning.worldHeight - 45;
+    const groundY = STAGE11_GROUND_TOP_Y;
     const p1 = this.createPlayerView(
       'p1',
       2,
@@ -87,7 +65,7 @@ export function createPlayerMarkers(this: any, playerCount: 1 | 2): any[] {
       groundY,
     );
     p1.movement = createHeroMovement(p1.sprite.x, p1.sprite.y);
-    p1.movement.currentPlatformId = 'climb-ground';
+    p1.movement.currentPlatformId = STAGE11_GROUND_PLATFORM_ID;
 
     if (playerCount === 1) {
       return [p1];
@@ -100,13 +78,13 @@ export function createPlayerMarkers(this: any, playerCount: 1 | 2): any[] {
       groundY,
     );
     p2.movement = createHeroMovement(p2.sprite.x, p2.sprite.y);
-    p2.movement.currentPlatformId = 'climb-ground';
+    p2.movement.currentPlatformId = STAGE11_GROUND_PLATFORM_ID;
 
     return [p1, p2];
   }
 
 export function createCapturablePetTargets(this: any): CapturablePetTarget[] {
-    const groundY = defaultClimbTuning.worldHeight - 45;
+    const groundY = STAGE11_GROUND_TOP_Y;
     return [
       {
         id: 'catch-monster72',
@@ -120,68 +98,6 @@ export function createCapturablePetTargets(this: any): CapturablePetTarget[] {
         feedback: 'Monster72 monkey1 40%',
       },
     ];
-  }
-
-export function createClimbingPlatforms(this: any): void {
-    const { worldWidth, worldHeight } = defaultClimbTuning;
-
-    this.add.rectangle(
-      worldWidth / 2,
-      worldHeight - 45,
-      worldWidth - 60,
-      8,
-      0xe2b84d,
-    );
-
-    const climbHeights = [2300, 2000, 1700, 1400, 1100, 800, 500];
-    for (const y of climbHeights) {
-      const w = 220 + Math.abs(Math.sin(y * 0.003)) * 260;
-      const x = worldWidth / 2 + Math.sin(y * 0.0017) * 100;
-      this.add.rectangle(x, y, w, 8, 0x72d2b1, 0.7);
-    }
-
-    const { height } = GameSettings;
-    this.add.rectangle(
-      worldWidth / 2,
-      worldHeight - height + 420,
-      worldWidth,
-      3,
-      0x597a9e,
-      0.5,
-    );
-    this.add.text(worldWidth / 2, worldHeight - height + 400, '↓↓ BOSS ARENA ABOVE ↓↓', {
-      color: '#597a9e',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '13px',
-    }).setOrigin(0.5, 0.5);
-
-    for (const sp of defaultClimbTuning.stopPoints) {
-      this.add.rectangle(worldWidth - 20, sp.y, 40, 3, 0xf2c14e, 0.4);
-      this.add.text(worldWidth - 80, sp.y - 10, `STOP ${sp.y}`, {
-        color: '#f2c14e',
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '10px',
-      }).setOrigin(1, 0.5);
-    }
-  }
-
-export function createClouds(this: any): void {
-    const { worldWidth, cloudLayers } = defaultClimbTuning;
-    const cloudColors = [0x597a9e, 0x4a6d8c, 0x3d5e7a];
-
-    for (let layer = 0; layer < cloudLayers.length; layer += 1) {
-      const { count } = cloudLayers[layer];
-      const color = cloudColors[layer];
-
-      for (let i = 0; i < count; i += 1) {
-        const x = (worldWidth / (count + 1)) * (i + 1) + Math.sin(i * 3.7) * 60;
-        const y = 100 + i * 400 + layer * 130;
-        const w = 80 + Math.sin(i * 2.3) * 40;
-        const cloud = this.add.ellipse(x, y, w, 16 + layer * 5, color, 0.18 + layer * 0.08);
-        this.cloudSprites.push(cloud);
-        this.cloudBaseY.push(y);
-      }
-    }
   }
 
 export function createPlayerView(this: any,

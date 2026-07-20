@@ -109,7 +109,7 @@
 
 失败入口：
 
-- 本任务未系统细扒死亡/失败 UI。当前只确认了通关入口；失败逻辑需要在战斗/生命系统任务中继续追踪。
+- `TASK-SETTINGS-050` 已补齐死亡、全员失败、重开和返回目标；详见下方“Stage 1-1 正式流程合同”。
 
 ## 第一个主线关卡：Stage 1-1
 
@@ -135,6 +135,50 @@
 6. `Monster3` 在 `curStage == 1 && curLevel == 1` 时 `isBoss = true`，HP/SHp 为 `926`。
 7. boss 死亡后，`Monster3.destroy()` 把所有 transfer door 设为 `visible = true`。
 8. 玩家站到可见传送门并按上，走通用 `LevelVictor + MainGame.levelClear()`。
+
+### Stage 1-1 正式流程合同（TASK-SETTINGS-050）
+
+本节只描述从关卡选择到退出结果页的状态迁移。AS3 证据来自 `[172845].swf/scripts` 下的 `config/Config.as`、`export/SelectPLace.as`、`GMain.as`、`my/MainGame.as`、`base/BaseHero.as`、`export/hero/Role1.as`（Role2—Role5 同构）、`export/win/GameWin.as`、`export/lose/GameFail.as` 与 `storage/MemoryClass.as`。
+
+#### 正式进入
+
+1. 新档初始化 `curBigStage/curBigLevel/curStage/curLevel = 1/1/1/1`。
+2. `SelectPLace.added()` 只给已解锁关卡按钮注册点击；当前最高可玩按钮停在 frame 2。点击 `s1_1` 后，`onSelected()` 从按钮名写入 `curStage = 1`、`curLevel = 1`，派发同步事件 `selectStageOver` 并移除选择页。
+3. `GMain.selectStageOver()` 调用 `switchSence("startFighting")`；该分支先 `clearStageMap()`，再 `startGame(curStage, curLevel)`。
+4. `MainGame.GameStart()` 按当前关卡调用 `Assetsloader.loadByName("1", "1", newGame)`；`newGame()` 重置暂停/计时状态，依次创建根层地面、`sl11` 场景并完成玩家/世界初始化。正式控制只在该初始化结束后进入战斗循环。
+
+#### 全员死亡与失败
+
+1. `BaseHero` 在复活道具门禁均失败后先标记死亡并 `destroy()`，清除角色显示、输入/重力、效果、子弹、法宝和宠物，再派发 `heroDead(this)`。
+2. `GMain.heroDead()` 先在死亡点创建 `PlayerDeadMc`。仅 `gc.isSingleGame()` 为真时，它才延迟 2.5 秒调用 `MainGame.checkGameOver()`。
+3. `checkGameOver()` 以 `gc.getPlayerArray().length == 0` 作为全队死亡谓词；命中后先 `destroyGame()`，再派发 `GameOver`。`destroyGame()` 清除帧循环、世界/背景/键盘/镜头、玩家与宠物引用和 tween。
+4. `GMain.gameOver()` 切换到 `gameOver`，播放失败音效并创建 `GameFail`。Stage 1-1 的“重玩”按钮可见：点击后派发 `ReStart`，重新走 `startFighting`，保留当前 `curStage/curLevel = 1/1`；“返回”按 `whichlastworld` 回对应关卡地图。失败不推进关卡，也没有显式存档副作用。
+
+恢复源码存在一个必须保留的证据缺口：`checkGameOver()` 只有上述单人延迟调用点，双人本地模式的 `heroDead()` 没有直接触发它。因此“任一角色死亡后，延迟检查全部已配置玩家是否死亡，并且整局只触发一次失败”是现代实现对原版全队死亡谓词的明确修复，不伪称为源码原样行为。
+
+#### 胜利、进度、存档与结果导航
+
+1. 玩家碰到已显示的传送门并按上后，角色先把 `isLevelClear` 置真、销毁键盘控制，再用 1 秒 tween 淡出 `gameInfo` 与 `gameSence`。
+2. tween 完成回调先同步派发 `LevelVictor`，`GMain.levelVictor()` 创建仍位于主场景的 `GameWin`；随后同一回调才调用 `MainGame.levelClear()`。因此结果页先读取仍存活的英雄/计时/连击并计算评分，之后战斗场景才销毁。
+3. `levelClear()` 对非联机主机路径推进最高解锁进度：仅当前关卡等于最高解锁关卡时推进。首次完成 1-1 会把 `curBigLevel` 从 1 增到 2；当前游玩坐标仍保持 `curStage/curLevel = 1/1`。
+4. 接着播放胜利音效、调用 `destroyGame()` 清理战斗运行时；若 `saveId >= 0`，最后调用 `memory.saveGame(saveId, true)`。`MemoryClass.setStorage()` 把 `curBigStage/curBigLevel` 与玩家数据写入存档对象，再压缩、加密并写入对应槽位。
+5. 1-1 结果页的“下一关”把 `curLevel` 改为 2，再派发 `selectStageOver` 进入 1-2；“返回”按 `whichlastworld` 回关卡地图。两者均在移除结果页前清空最大连击。现代 Stage 1-1 单线不实现 1-2 内容，下一关导航必须明确为暂不可进入，不能伪造 1-2。
+
+#### 原版与现代实现差异矩阵（TASK-SETTINGS-050 基线）
+
+| 维度 | 原版合同 | TASK-SETTINGS-050 时的现代实现 | TASK-SLICE-124 门禁 |
+| --- | --- | --- | --- |
+| 正式入口 | 已解锁的 `s1_1` → `selectStageOver` → 清地图 → 加载 1-1 → 初始化控制 | `BootScene` 直接启动 `TestScene`，没有玩家可见的 1-1 入口 | 增加只服务本线的 1-1 入口页；不是全局菜单重构 |
+| 玩家控制 | 关卡资源与玩家/世界初始化完成后进入战斗；门触发立刻销毁键盘控制 | debug 场景按 URL/默认配置进入，通关覆盖层出现后未形成正式输入门禁 | 入口选择 1P/2P；失败/胜利态冻结关卡控制和重复迁移 |
+| 失败判定 | 单人死亡后延迟 2.5 秒，以存活玩家数组为空判失败；双人调用缺失是源码缺口 | 没有全员失败页、重玩或返回流程 | 对全部已配置玩家统一执行一次延迟全灭检查，补正双人缺口 |
+| 场景清理 | 失败先销毁战斗再建失败页；胜利先建结果页取数，再推进进度并销毁战斗 | `LEVEL CLEAR` 仅覆盖显示，既有运行时对象没有完整退出边界 | 结果快照先于清理；随后停止更新/输入，并通过场景切换完成清理 |
+| 关卡进度 | 首次完成 1-1 解锁最高关卡 1-2；失败不推进 | 无关卡最高进度状态 | 存储 `unlockedStage/unlockedLevel`，胜利幂等解锁 1-2；不加载 1-2 |
+| 存档 | 胜利清理后显式保存当前槽；失败无保存 | V2 自动存档只含玩家/宠物，没有关卡进度或胜利提交 | 升级存档结构并迁移 V1/V2；胜利显式提交进度，失败不提交 |
+| 返回目标 | 失败/胜利返回对应关卡地图；胜利可下一关 | 无正式返回目标 | 返回本线 1-1 入口页；标明它是关卡地图的最小替代壳 |
+
+`TASK-SLICE-124` 的最小闭环据此固定为：1-1 玩家可见入口、1P/2P 全灭失败、可重玩/返回、门胜利结果、1-2 解锁进度与显式持久化、场景清理和专项测试。它不得扩张到其他关卡、Monster3/Monster30 真素材或全局菜单体系。
+
+实现状态（2026-07-19）：`TASK-SLICE-124` 已完成并归档。入口点击、1P/2P 进入、单人/双人全灭、失败重玩/返回、胜利结果/返回和刷新后 1-2 解锁显示均通过浏览器验收；结果页按钮的滚动相机命中问题也已修复。
 
 为什么它适合作为第一个现代关卡依据：
 
@@ -289,13 +333,11 @@ boss 模式下 `probability = 1` 且 `fallList` 包含 10 件普通装备（`ptd
 - `Monster3` 位图资源：不在当前导出中
 - `Monster3Bullet1`/`Monster3Bullet2`：不在当前导出中
 
-**VS-007 最小实现策略**：
+**VS-007 当前实现策略**：
 
-- 不等待真实 SWF 场景数据，用手工参数定义 boss 区：地面 y、平台位置、传送门位置
-- 传送门使用占位矩形 + 碰撞检测，手工设定坐标（例如 boss 区上方中央）
-- Boss 用占位图形（复用 Monster30 的占位策略），行为按本文 Monster3 数据复现
-- 背景和地板用纯色矩形占位
-- 不实现完整纵向爬升、云层、周期刷怪；只做 boss 区窄切片
+- `TASK-SLICE-123` 已从精确 character 选择性派生真地面、背景和 character 18 前景；20 个墙标记矩阵与 character 45 门独立数据化。
+- 传送门仍用现代占位视图表达动画，但碰撞边界和位置取自 character 45；Boss/Monster30 本体仍使用占位图形，行为按本文数据复现。
+- 纵向爬升、周期刷怪、boss 触发和按上传送门通关均已实现；正式进入、失败和胜利持久化差异由 `TASK-SETTINGS-050` 继续闭合。
 
 ### 建议最小实现范围
 
@@ -308,9 +350,7 @@ boss 模式下 `probability = 1` 且 `fallList` 包含 10 件普通装备（`ptd
 
 ## 后续建议
 
-- 下一任务可执行 `VS-007` 第一个关卡闭环切片实现（boss 区 + Monster3 + 传送门通关）。
-- 实现时使用占位图形和手工坐标，不等待真实资源导出。
-- Monster3 行为已充分记录，可直接按本文数据创建 `Monster3System.ts`。
-- 传送门和平台坐标需要实现任务中手工设定，本文标记为资源缺口而非数据缺口。
+- `TASK-SETTINGS-050` 精查正式进入、全员失败、胜利进度推进、存档和场景清理顺序，再生成同线实现切片。
+- Monster3/Monster30 真素材保持独立资源范围，不与关卡流程证据混做。
 
 

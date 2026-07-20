@@ -14,81 +14,77 @@ AI 工作流、任务体系和文档职责维护记录到 `docs/workflow/governa
 
 ## 当前推荐
 
-当前唯一激活功能线是 `LINE-STAGE-1-1`，严格单线 `WIP=1`。上一项资源逆向已闭合 `sl11/bg11/floorBg1` 的恢复源包、character、tag、尺寸、时间轴和运行时组合关系。当前推荐 `TASK-SLICE-123`。
+Stage 1-1 功能线已完整关闭。按项目“内容扩展”路线，调度已顺延到新的唯一 `Active` 功能线 `LINE-STAGE-1-2`；当前推荐先执行只读 `TASK-SETTINGS-051`，闭合 Stage 1-2 真场景、特殊入口和关卡流程证据，再生成实现切片。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-123 | Ready | LINE-STAGE-1-1 | 资源接入 | 选择性派生并接入 Stage 1-1 真场景资源与布局数据 | M-026、M-027、M-035、VS-007 | 真背景/地面/前景、布局 provenance、manifest 与可验证场景组合 | 按 character 46/141/1 选择性派生并接入 |
+| TASK-SETTINGS-051 | Ready | LINE-STAGE-1-2 | 资源/流程逆向 | 闭合 Stage 1-2 真场景资源、地图标记和完整关卡流程 | M-026、M-027、M-030、M-035 | 资源/流程证据、覆盖矩阵与同线实现切片 | 窄查恢复源包和 StageListener12/相关 AS3 |
 
 ## 任务完成定义
 
-### TASK-SLICE-123
+### TASK-SETTINGS-051
 
 任务类型：
 
-- `TASK-SLICE`
+- `TASK-SETTINGS`
 
 功能条线：
 
-- `LINE-STAGE-1-1`（当前唯一 `Active`）
+- `LINE-STAGE-1-2`（当前唯一 `Active`）
 
 目标机制/切片：
 
 - `M-026`
 - `M-027`
+- `M-030`
 - `M-035`
-- `VS-007`
 
 输入资料：
 
-- `docs/architecture/src-boundaries.md`
-- `docs/reverse-engineering/levels-index.md`
-- `docs/reverse-engineering/asset-annotation/batches/stage11.md`
-- `docs/reverse-engineering/asset-annotation/annotations/stage11.csv`
-- `local-resources/regima/source/restored-swfs/assets/levels/level11.swf`
-- `local-resources/regima/source/restored-swfs/assets/1.swf`
-- `local-resources/regima/task-outputs/task-settings-046-stage11/`
-- `src/assets/AssetManifest.ts`、`src/systems/LevelSystem.ts` 与 Stage 1-1 场景桥接文件
+- `docs/tasks/feature-lines.md` 与 `docs/tasks/feature-line-coverage/LINE-STAGE-1-2.md`
+- `docs/reverse-engineering/levels-index.md`、`mechanics-index.md`、`assets-index.md`
+- `docs/reverse-engineering/evb-extraction-report.md` 与资源标注 workflow
+- `local-resources/regima/source/restored-swfs/` 中 Stage 1-2 相关源包
+- `local-resources/regima/legacy-extraction/` 中 `StageListener12.as`、`sl12`/`bg12` 创建链和 `fbEnter` 相关 AS3 窄范围证据
 
 输出产物：
 
-- 只从 `level11.swf` character 46 与 `assets/1.swf` character 141/1 选择性派生 Stage 1-1 所需的前景、背景、地面和布局数据；保留可复核的 sourcePackage、character、tag 与转换记录。
-- 将真资源复制/转换到现代资源目录，注册稳定 key 和 provenance，并更新预加载与场景组合，使地面、布局和动态背景保持原版运行时层级边界。
-- 把 `sl11` 的 20 个墙体标记和 1 个 transfer door 转为显式布局数据；不得把调试标记烘焙进玩家可见背景。
-- 提供自动结束的资源合同或场景专项测试，证明尺寸、关键 marker 数量、manifest 路径和场景实例化成立。
+- 定位 `sl12`、`bg12`、Stage 1 公共地面及 1-2 专属交互的精确源包、SymbolClass、character、tag、时间轴、尺寸和组合层级。
+- 数据化墙体、门、刷怪/停点/出生点等地图标记全集，明确 `fbEnter` 五次命中入口的对象、门禁和退出目标。
+- 闭合普通通关、全灭失败、特殊入口和返回流程；复用 Stage 1-1 正式流程系统的边界与必须新增部分形成差异矩阵。
+- 更新资源标注/覆盖台账，只生成一个同线最小实现切片。
 
 完成定义：
 
-- Stage 1-1 真背景、地面和前景均由精确 character 选择性派生，现代 manifest 具备稳定 key、尺寸和来源追溯。
-- 现代布局数据覆盖 `sl11` 的 3 个 `ObsWall`、15 个 `ThroughWall`、1 个 `ThroughUpButDownWall`、1 个 `FallDownWhenStandingWall` 和 1 个 transfer door。
-- 现代场景可加载三项真资源并按“根节点地面 → 场景布局 → `bgContainer` 背景”的原版组合边界呈现；现有 VS-007 玩法闭环不得退化。
+- 视觉结论以恢复源包为准，旧提取集只作为 AS3/历史交叉对照；未知资源不得伪称缺失。
+- Stage 1-2 的真资源、完整地图标记、普通推进、boss/门（若存在）、`fbEnter` 特殊入口和失败/返回路径都有可追溯证据。
+- 差异矩阵明确可复用的 `Stage11FlowSystem`/V3 存档边界与 Stage 1-2 专属状态，下一实现 task 不靠猜测。
 
 验收标准：
 
-- 修改现有代码前先运行 `npm run check:structure`，目标文件不得触发 error；warning 目标优先拆分。
-- 资源/布局专项测试通过。
-- `npm run test:systems` 通过。
-- `npm run build` 通过。
-- `npm run check:annotations` 通过。
-- `npm run check:workflow` 通过。
+- PowerShell 中文/AS3 读取使用 UTF-8 和窄查规则。
+- `npm run check:annotations`、`npm run check:workflow` 通过。
+- 看板、功能线、覆盖台账、机制索引与关卡索引一致。
 
 禁止范围：
 
-- 不修改或重新生成恢复 SWF、旧提取结果，不整包导出两个 SWF。
-- 不顺带接入 Monster3、Monster30 或其弹体真素材；本 task 只处理 Stage 1-1 场景资源合同。
-- 不用单张截图替代布局 marker 数据，不把碰撞标记作为可见美术烘焙。
-- 不回开 `LINE-CRAFTING`，不切换功能线。
+- 不修改 `src/`、`public/assets`、恢复源包或旧提取结果。
+- 不扩张到 Stage 1-3、其他世界、怪物真素材接入或全局菜单重构。
+- 不回开已关闭的 `LINE-STAGE-1-1` / `LINE-CRAFTING`。
 
 状态更新：
 
 - `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-STAGE-1-2.md`
 - `docs/tasks/task-board.md`
 - `docs/tasks/task-history.md`
+- `docs/reverse-engineering/levels-index.md`
 - `docs/reverse-engineering/mechanics-index.md`
-- `docs/reverse-engineering/asset-annotation/` 对应批次与项目状态
+- `docs/tasks/vertical-slices.md`
+- Stage 1-2 资源标注文件
 
 推荐后续任务：
 
-- 完成后依据真场景运行时证据，生成同线 Stage 1-1 流程/敌人真资源校准 task；不得推荐其他系统。
+- 依据资源/流程差异矩阵生成一个同线 `TASK-SLICE-*` 最小实现切片。

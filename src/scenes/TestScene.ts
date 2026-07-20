@@ -4,6 +4,11 @@ import Phaser from 'phaser';
 import { createGameContext, findPlayerBySlot } from '../core/GameContext';
 import { GameSettings } from '../core/GameSettings';
 import {
+  createDefaultLevelUnlockProgress,
+  type LevelUnlockProgress,
+  type Stage11FlowModel,
+} from '../systems/Stage11FlowSystem';
+import {
   createHitRegistry,
   formatDamageEvent,
   type DamageEvent,
@@ -120,7 +125,6 @@ import {
   createAttackFlash,
   createBossView,
   createTransferDoorView,
-  drawBossArenaStage,
   type AttackEffectView,
   type AttackFlash,
   type BossView,
@@ -179,7 +183,6 @@ import {
   applyPlayerHitOnBoss as applyPlayerHitOnBossImpl,
   getBossBounds as getBossBoundsImpl,
   getMonster3Targets as getMonster3TargetsImpl,
-  showClearOverlay as showClearOverlayImpl,
   updateBossArena as updateBossArenaImpl,
   updateBossArenaVisuals as updateBossArenaVisualsImpl,
   updateBossHitByPlayers as updateBossHitByPlayersImpl,
@@ -205,13 +208,17 @@ import {
 } from './test-scene/TestScenePetViewBridge';
 import {
   initializeSceneSave as initializeSceneSaveImpl,
+  saveSceneNow as saveSceneNowImpl,
   updateSceneSave as updateSceneSaveImpl,
 } from './test-scene/TestSceneSaveBridge';
 import {
+  initializeStage11Flow as initializeStage11FlowImpl,
+  showStage11ClearOverlay as showClearOverlayImpl,
+  updateStage11Flow as updateStage11FlowImpl,
+} from './test-scene/TestSceneStage11FlowBridge';
+import {
   buildSkillPanelLines as buildSkillPanelLinesImpl,
   createCapturablePetTargets as createCapturablePetTargetsImpl,
-  createClimbingPlatforms as createClimbingPlatformsImpl,
-  createClouds as createCloudsImpl,
   createDebugKeys as createDebugKeysImpl,
   createHeroDebugKeys as createHeroDebugKeysImpl,
   createInventoryUIKeys as createInventoryUIKeysImpl,
@@ -220,12 +227,12 @@ import {
   createSkillBar as createSkillBarImpl,
   createSkillPanel as createSkillPanelImpl,
   createSkillUIKeys as createSkillUIKeysImpl,
-  createStage as createStageImpl,
   updateSkillBar as updateSkillBarImpl,
   updateSkillBars as updateSkillBarsImpl,
   updateSkillPanel as updateSkillPanelImpl,
   updateSkillPanels as updateSkillPanelsImpl,
 } from './test-scene/TestSceneSetup';
+import { createStage11World } from './test-scene/TestSceneStage11Bridge';
 import {
   createCraftingPanel as createInventoryPanelImpl,
   type CraftingPanelView as InventoryPanelView,
@@ -323,7 +330,9 @@ type MagicWeaponPlatformView = {
 };
 
 export class TestScene extends Phaser.Scene {
-  private readonly playerCount = getTestScenePlayerCount();
+  public playerCount: 1 | 2 = getTestScenePlayerCount();
+  public levelUnlockProgress: LevelUnlockProgress = createDefaultLevelUnlockProgress();
+  public stage11Flow?: Stage11FlowModel;
   private inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
   private playerViews: PlayerView[] = [];
@@ -436,6 +445,12 @@ export class TestScene extends Phaser.Scene {
     super('TestScene');
   }
 
+  public init(data?: { playerCount?: 1 | 2 }): void {
+    this.playerCount = data?.playerCount === 2 ? 2 : data?.playerCount === 1
+      ? 1
+      : getTestScenePlayerCount();
+  }
+
   public create(): void {
     this.cameras.main.setBounds(
       0,
@@ -446,94 +461,13 @@ export class TestScene extends Phaser.Scene {
     this.cameras.main.scrollY =
       defaultClimbTuning.worldHeight - GameSettings.height;
 
-    const { worldHeight } = defaultClimbTuning;
-
-    this.createStage();
-    this.createClimbingPlatforms();
-    this.createClouds();
+    const stage11World = createStage11World(this);
     this.playerViews = this.createPlayerMarkers(this.playerCount);
     this.initializeSceneSave();
+    this.initializeStage11Flow();
     this.capturablePetTargets = this.createCapturablePetTargets();
 
-    this.movementPlatforms = [
-      {
-        id: 'climb-ground',
-        kind: 'solid' as const,
-        left: 30,
-        right: defaultClimbTuning.worldWidth - 30,
-        top: worldHeight - 45,
-      },
-      {
-        id: 'platform-500',
-        kind: 'through' as const,
-        left: 230,
-        right: 670,
-        top: 500,
-      },
-      {
-        id: 'platform-800',
-        kind: 'through' as const,
-        left: 200,
-        right: 720,
-        top: 800,
-      },
-      {
-        id: 'platform-1100',
-        kind: 'through' as const,
-        left: 260,
-        right: 700,
-        top: 1100,
-      },
-      {
-        id: 'platform-1400',
-        kind: 'through' as const,
-        left: 180,
-        right: 740,
-        top: 1400,
-      },
-      {
-        id: 'platform-1700',
-        kind: 'through' as const,
-        left: 240,
-        right: 690,
-        top: 1700,
-      },
-      {
-        id: 'platform-2000',
-        kind: 'through' as const,
-        left: 210,
-        right: 710,
-        top: 2000,
-      },
-      {
-        id: 'platform-2300',
-        kind: 'through' as const,
-        left: 190,
-        right: 730,
-        top: 2300,
-      },
-      {
-        id: 'through-platform',
-        kind: 'through' as const,
-        left: 280,
-        right: 660,
-        top: 330,
-      },
-      {
-        id: 'arena-step1',
-        kind: 'solid' as const,
-        left: 200,
-        right: 740,
-        top: 280,
-      },
-      {
-        id: 'arena-floor',
-        kind: 'solid' as const,
-        left: 100,
-        right: 840,
-        top: 200,
-      },
-    ];
+    this.movementPlatforms = [...stage11World.movementPlatforms];
     this.inputSystem = createInputSystem(this);
     this.createHeroDebugKeys();
     this.createSkillUIKeys();
@@ -561,7 +495,6 @@ export class TestScene extends Phaser.Scene {
       fontFamily: 'Arial, sans-serif',
       fontSize: '18px',
     }).setOrigin(0.5, 0.5);
-    drawBossArenaStage(this);
     this.statusText = this.add.text(24, 22, '', {
       color: '#f3f6ff',
       fontFamily: 'Arial, sans-serif',
@@ -571,7 +504,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   public override update(time: number, delta: number): void {
-    if (!this.inputSystem || !this.statusText) {
+    if (!this.inputSystem || !this.statusText || !this.updateStage11Flow(delta)) {
       return;
     }
 
@@ -649,13 +582,13 @@ export class TestScene extends Phaser.Scene {
     });
   }
 
-  private createStage = createStageImpl;
   private initializeSceneSave = initializeSceneSaveImpl;
+  public saveSceneNow = saveSceneNowImpl;
   private updateSceneSave = updateSceneSaveImpl;
+  private initializeStage11Flow = initializeStage11FlowImpl;
+  private updateStage11Flow = updateStage11FlowImpl;
   private createPlayerMarkers = createPlayerMarkersImpl;
   public createCapturablePetTargets = createCapturablePetTargetsImpl;
-  private createClimbingPlatforms = createClimbingPlatformsImpl;
-  private createClouds = createCloudsImpl;
   public createPlayerView = createPlayerViewImpl;
   private createHeroDebugKeys = createHeroDebugKeysImpl;
   private createSkillUIKeys = createSkillUIKeysImpl;

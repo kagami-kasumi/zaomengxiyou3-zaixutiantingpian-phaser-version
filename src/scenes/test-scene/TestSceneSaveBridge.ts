@@ -66,6 +66,7 @@ export function initializeSceneSave(this: any): void {
   this.playerPetRosters.p1 = restored.petRoster;
   this.playerPetRosters.p2 = restored.player2PetRoster;
   this.p2PetRoster = restored.player2PetRoster;
+  this.levelUnlockProgress = restored.levelUnlockProgress;
   this.petRuntime = undefined;
   this.p2PetRuntime = undefined;
   this.destroyPetView();
@@ -101,6 +102,7 @@ export function saveSceneNow(this: any, storage: SaveStorage = getRequiredBrowse
       equipmentLoadout: this.playerInventoryRuntimes.p1.loadout,
       petRoster: this.petRoster,
       player2PetRoster: this.playerPetRosters.p2,
+      levelUnlockProgress: this.levelUnlockProgress,
     }));
     setSaveResult(this, 'SAVE autosaved');
   } catch {

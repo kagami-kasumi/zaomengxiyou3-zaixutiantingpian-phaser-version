@@ -5,7 +5,10 @@ import * as esbuild from 'esbuild';
 
 const repoRoot = path.resolve(import.meta.dirname, '..');
 const outDir = path.join(repoRoot, '.tmp', 'system-tests');
-const bundledTests = ['system-tests', 'crafting-tests'];
+const requestedTests = process.argv.slice(2);
+const bundledTests = requestedTests.length > 0
+  ? requestedTests
+  : ['system-tests', 'crafting-tests', 'stage11-resource-tests', 'stage11-flow-tests'];
 
 rmSync(outDir, { recursive: true, force: true });
 await esbuild.build({

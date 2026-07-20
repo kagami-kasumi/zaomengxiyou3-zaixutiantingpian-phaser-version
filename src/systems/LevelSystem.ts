@@ -1,5 +1,10 @@
 import type { Monster3Model } from './Monster3System';
 import { createMonster3, isMonster3Removed } from './Monster3System';
+import {
+  STAGE11_WORLD_HEIGHT,
+  STAGE11_WORLD_WIDTH,
+  stage11TransferDoor,
+} from './Stage11Layout';
 
 export type BossArenaState = 'inactive' | 'active' | 'cleared';
 
@@ -20,17 +25,18 @@ export type BossArenaModel = {
 };
 
 export function createBossArena(): BossArenaModel {
+  const door = stage11TransferDoor.bounds;
   return {
     state: 'inactive',
     door: {
-      x: 410,
-      y: 260,
-      width: 120,
-      height: 140,
+      x: door.left,
+      y: door.top,
+      width: door.right - door.left,
+      height: door.bottom - door.top,
       visible: false,
     },
-    triggerZone: { x: 0, y: 180, width: 940, height: 1 },
-    arenaBounds: { left: 0, right: 940, top: 40, bottom: 590 },
+    triggerZone: { x: 0, y: 470, width: STAGE11_WORLD_WIDTH, height: 1 },
+    arenaBounds: { left: 0, right: STAGE11_WORLD_WIDTH, top: 0, bottom: 590 },
   };
 }
 
@@ -48,7 +54,7 @@ export function checkBossArenaTrigger(
 
 export function activateBossArena(arena: BossArenaModel): Monster3Model {
   arena.state = 'active';
-  arena.boss = createMonster3(470, 120);
+  arena.boss = createMonster3(750, 320);
   return arena.boss;
 }
 
@@ -112,12 +118,12 @@ export type VerticalClimbTuning = {
 };
 
 export const defaultClimbTuning: VerticalClimbTuning = {
-  worldWidth: 940,
-  worldHeight: 2500,
+  worldWidth: STAGE11_WORLD_WIDTH,
+  worldHeight: STAGE11_WORLD_HEIGHT,
   spawnIntervalMs: 6000,
   singlePlayerSpawnCount: 2,
   duoPlayerSpawnCount: 4,
-  bossTriggerY: 180,
+  bossTriggerY: 470,
   stopPoints: [
     { y: 2000, cleared: false, waveSpawned: false, waveHadActiveMonsters: false },
     { y: 1500, cleared: false, waveSpawned: false, waveHadActiveMonsters: false },

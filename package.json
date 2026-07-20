@@ -10,6 +10,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test:systems": "node tools/run-system-tests.mjs",
+    "test:stage11": "node tools/run-system-tests.mjs stage11-resource-tests",
+    "test:stage11-flow": "node tools/run-system-tests.mjs stage11-flow-tests",
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",
     "check:annotations": "node tools/validate-asset-annotations.mjs",

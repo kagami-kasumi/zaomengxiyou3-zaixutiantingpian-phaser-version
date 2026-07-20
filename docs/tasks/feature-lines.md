@@ -22,13 +22,16 @@
 | Line | 状态 | 用户确认范围 | 当前 task | 覆盖台账 | 当前阻塞 | 关闭证据 |
 | --- | --- | --- | --- | --- | --- | --- |
 | LINE-CRAFTING | Done | 玩家可从正式流程使用带真 UI、覆盖 1.1 权威合成表全部 112 个唯一配方的合成页 | — | `feature-line-coverage/LINE-CRAFTING.md` | 无 | 112 配方、201 定义、201/201 真图标、224 条 P1/P2 事务、正式入口与运行时真 UI 全部闭合 |
-| LINE-STAGE-1-1 | Active | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | TASK-SLICE-123 | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | `sl11/bg11/floorBg1` 精确符号已闭合，待选择性派生与接入 |
+| LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
+| LINE-STAGE-1-2 | Active | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | TASK-SETTINGS-051 | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 待闭合真资源、地图标记、`fbEnter` 特殊入口与普通通关流程 |
 
 ## 当前唯一激活条线
 
-`LINE-STAGE-1-1` 是当前唯一激活条线。`LINE-CRAFTING` 已于 `TASK-SLICE-122` 完成后关闭，后续合成增强必须建立新的明确范围，不能回写为本线未完成项。
+`LINE-STAGE-1-2` 是当前唯一 `Active` 功能线。它依据项目内容扩展路线在 Stage 1-1 关闭后顺延；首个 task 只做恢复源包与 AS3 证据闭合，不预先猜测实现。
 
-`TASK-SETTINGS-046` 已归档：`sl11` 位于 `assets/levels/level11.swf` character 46，`bg11/floorBg1` 位于 `assets/1.swf` character 141/1，运行时组合边界已明确。下一可执行项为同线 `TASK-SLICE-123`。
+`TASK-SLICE-124` 已归档：玩家可见入口、统一 1P/2P 全灭门禁、失败/胜利结果导航、V3 关卡进度迁移和运行时验收全部完成。Stage 1-2/1-3、怪物真素材和全局菜单不属于本线确认范围，后续不得回写为 `LINE-STAGE-1-1` 未完成项。
+
+下一可执行项为 `TASK-SETTINGS-051`：定位 Stage 1-2 真场景资源、完整地图标记、普通关卡流程和 `fbEnter` 五次命中特殊入口，再据证据生成同线实现切片。
 
 ## 关闭与切线
 

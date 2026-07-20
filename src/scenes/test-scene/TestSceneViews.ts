@@ -8,6 +8,7 @@ import type { PlayerSlot } from '../../systems/InputSystem';
 import type { Monster30Model } from '../../systems/Monster30System';
 import type { PetState } from '../../systems/PetSystem';
 import type { ProjectileModel } from '../../systems/ProjectileSystem';
+import { stage11TransferDoor } from '../../systems/Stage11Layout';
 
 export type MonsterView = {
   root: Phaser.GameObjects.Container;
@@ -158,11 +159,16 @@ export function createBossView(scene: Phaser.Scene): BossView {
 }
 
 export function createTransferDoorView(scene: Phaser.Scene): TransferDoorView {
-  const frame = scene.add.rectangle(470, 270, 90, 110, 0x182233, 0.85);
+  const { left, right, top, bottom } = stage11TransferDoor.bounds;
+  const centerX = (left + right) / 2;
+  const centerY = (top + bottom) / 2;
+  const width = right - left;
+  const height = bottom - top;
+  const frame = scene.add.rectangle(centerX, centerY, width, height, 0x182233, 0.85);
   frame.setStrokeStyle(2, 0xf2c14e);
-  const glow = scene.add.rectangle(470, 270, 78, 98, 0xf2c14e, 0.1);
+  const glow = scene.add.rectangle(centerX, centerY, width - 12, height - 12, 0xf2c14e, 0.1);
   glow.setStrokeStyle(1, 0xf2c14e, 0.5);
-  const label = scene.add.text(470, 300, 'DOOR\n[↑]', {
+  const label = scene.add.text(centerX, centerY + 30, 'DOOR\n[↑]', {
     color: '#f2c14e',
     fontFamily: 'Arial, sans-serif',
     fontSize: '14px',

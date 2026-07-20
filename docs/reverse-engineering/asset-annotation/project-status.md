@@ -13,16 +13,16 @@
 | 已实现法宝效果 key | 10 | 语义映射已确认，待检查 `MagicWeapon*.swf` 等恢复包 | `magic-weapon-effects.md` |
 | 已实现宠物技能效果 key | 24 | 语义映射已确认，待定位源符号；6 条保留现代占位名差异 | `pet-skill-effects.md` |
 | `Monster30` | 2 | 映射确认，待在恢复语料库定位本体和攻击符号 | `monster30.md` |
-| Stage 1-1 | 4 | 3 项精确符号已定位并可选择性导出；listener 是行为证据 | `stage11.md` |
+| Stage 1-1 | 4 | 3 项精确符号已选择性派生并接入；listener 是行为证据 | `stage11.md` |
 | UI 与配方图标 | 213 | 炼丹炉 UI 与 201/201 个配方图标已接入；七个选择性导出批次全部闭合 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`../crafting-ui-index.md` |
 
-总计 367 条标注：217 条 `ready`、145 条 `source-corpus-ready`、3 条 `export-ready`、1 条 `needs-annotation`、1 条 `rejected`；366 条 `confirmed`、1 条 `unknown`。当前没有 `derived-ready` 或 `needs-splitting` 条目。
+总计 367 条标注：220 条 `ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、1 条 `rejected`；366 条 `confirmed`、1 条 `unknown`。当前没有 `derived-ready`、`export-ready` 或 `needs-splitting` 条目。
 
 ## 人工待办
 
 当前没有必须立即执行的人工标注或视觉消歧。
 
-原版角色包、怪物包、UI 包和关卡包等源 SWF 已恢复到 `local-resources/regima/source/restored-swfs/`，证据见 [`../evb-extraction-report.md`](../evb-extraction-report.md)。Stage 1-1 的 `sl11` 已定位到 `assets/levels/level11.swf` character 46，`bg11/floorBg1` 已定位到 `assets/1.swf` character 141/1；下一阶段只选择性派生和接入这三个精确资源。
+原版角色包、怪物包、UI 包和关卡包等源 SWF 已恢复到 `local-resources/regima/source/restored-swfs/`，证据见 [`../evb-extraction-report.md`](../evb-extraction-report.md)。Stage 1-1 的 `sl11` character 46、`bg11` character 141 和 `floorBg1` character 1 已完成精确选择性派生、manifest 注册、预加载、场景组合与布局数据化。
 
 Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整 P-code、角色资源包或运行画面才能确认。它已按 `unknown` 保留，不阻塞本轮标注数据关闭。
 

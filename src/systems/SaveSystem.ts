@@ -7,10 +7,16 @@ import { createPetSkillState } from './PetSkillStateSystem';
 import { PetTuning } from './PetTuning';
 import type { PetRoster, PetState } from './PetTypes';
 import type { PlayerSlot } from './InputSystem';
+import {
+  createDefaultLevelUnlockProgress,
+  sanitizeLevelUnlockProgress,
+  type LevelUnlockProgress,
+} from './Stage11FlowSystem';
 import { HERO_SKILL_TREES, type AllSkillName, type HeroSkillLearningState } from './SkillUISystem';
 
 export const GameSaveStorageKey = 'zaixu-tianding.save.v1';
-export const GameSaveVersion = 2 as const;
+export const GameSaveVersion = 3 as const;
+export const PreviousGameSaveVersion = 2 as const;
 export const LegacyGameSaveVersion = 1 as const;
 
 export type SaveStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
@@ -50,10 +56,18 @@ export type PlayerPetSaveV2 = {
 };
 
 export type GameSaveV2 = {
+  version: typeof PreviousGameSaveVersion;
+  savedAt: string;
+  player1: Player1SaveV1;
+  player2: PlayerPetSaveV2;
+};
+
+export type GameSaveV3 = {
   version: typeof GameSaveVersion;
   savedAt: string;
   player1: Player1SaveV1;
   player2: PlayerPetSaveV2;
+  levelUnlockProgress: LevelUnlockProgress;
 };
 
 export type CreateGameSaveInput = {
@@ -63,6 +77,7 @@ export type CreateGameSaveInput = {
   equipmentLoadout: EquipmentLoadout;
   petRoster: PetRoster;
   player2PetRoster?: PetRoster;
+  levelUnlockProgress?: LevelUnlockProgress;
   now?: Date;
 };
 
@@ -83,9 +98,10 @@ const KnownSkillNames = new Set<AllSkillName>(
 
 export type LoadedGameState = LoadedPlayer1State & {
   player2PetRoster: PetRoster;
+  levelUnlockProgress: LevelUnlockProgress;
 };
 
-export function createGameSave(input: CreateGameSaveInput): GameSaveV2 {
+export function createGameSave(input: CreateGameSaveInput): GameSaveV3 {
   return {
     version: GameSaveVersion,
     savedAt: (input.now ?? new Date()).toISOString(),
@@ -100,14 +116,15 @@ export function createGameSave(input: CreateGameSaveInput): GameSaveV2 {
       selectedPetIndex: input.petRoster.selectedIndex,
     },
     player2: encodePlayerPetRoster(input.player2PetRoster),
+    levelUnlockProgress: sanitizeLevelUnlockProgress(input.levelUnlockProgress),
   };
 }
 
-export function serializeGameSave(save: GameSaveV2): string {
+export function serializeGameSave(save: GameSaveV3): string {
   return JSON.stringify(save);
 }
 
-export function parseGameSave(raw: string): GameSaveV2 | undefined {
+export function parseGameSave(raw: string): GameSaveV3 | undefined {
   try {
     const value: unknown = JSON.parse(raw);
     if (!isRecord(value) || typeof value.savedAt !== 'string' || !isValidPlayer1Save(value.player1)) {
@@ -119,20 +136,34 @@ export function parseGameSave(raw: string): GameSaveV2 | undefined {
         savedAt: value.savedAt,
         player1: value.player1 as Player1SaveV1,
         player2: { pets: [], selectedPetIndex: 0 },
+        levelUnlockProgress: createDefaultLevelUnlockProgress(),
+      };
+    }
+    if (value.version === PreviousGameSaveVersion) {
+      if (!isValidPlayerPetSave(value.player2)) return undefined;
+      return {
+        version: GameSaveVersion,
+        savedAt: value.savedAt,
+        player1: value.player1 as Player1SaveV1,
+        player2: value.player2,
+        levelUnlockProgress: createDefaultLevelUnlockProgress(),
       };
     }
     if (value.version !== GameSaveVersion || !isValidPlayerPetSave(value.player2)) return undefined;
-    return value as unknown as GameSaveV2;
+    return {
+      ...(value as unknown as GameSaveV3),
+      levelUnlockProgress: sanitizeLevelUnlockProgress(value.levelUnlockProgress),
+    };
   } catch {
     return undefined;
   }
 }
 
-export function saveGame(storage: SaveStorage, save: GameSaveV2): void {
+export function saveGame(storage: SaveStorage, save: GameSaveV3): void {
   storage.setItem(GameSaveStorageKey, serializeGameSave(save));
 }
 
-export function loadGame(storage: SaveStorage): GameSaveV2 | undefined {
+export function loadGame(storage: SaveStorage): GameSaveV3 | undefined {
   const raw = storage.getItem(GameSaveStorageKey);
   return raw === null ? undefined : parseGameSave(raw);
 }
@@ -142,7 +173,7 @@ export function clearGameSave(storage: SaveStorage): void {
 }
 
 export function restorePlayer1State(
-  save: GameSaveV2,
+  save: GameSaveV3,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): LoadedPlayer1State {
   const source = save.player1;
@@ -166,7 +197,7 @@ export function restorePlayer1State(
 }
 
 export function restoreGameState(
-  save: GameSaveV2,
+  save: GameSaveV3,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): LoadedGameState {
   return {
@@ -176,6 +207,7 @@ export function restoreGameState(
       save.player2.selectedPetIndex,
       'p2',
     ),
+    levelUnlockProgress: sanitizeLevelUnlockProgress(save.levelUnlockProgress),
   };
 }
 

@@ -1,5 +1,10 @@
 import Phaser from 'phaser';
-import { craftingAssets, role1NormalAttackAssets, scaffoldAssets } from '../assets/AssetManifest';
+import {
+  craftingAssets,
+  role1NormalAttackAssets,
+  scaffoldAssets,
+  stage11Assets,
+} from '../assets/AssetManifest';
 
 export class BootScene extends Phaser.Scene {
   public constructor() {
@@ -20,9 +25,12 @@ export class BootScene extends Phaser.Scene {
     for (const asset of Object.values(craftingAssets)) {
       this.load.image(asset.key, asset.path);
     }
+    for (const asset of Object.values(stage11Assets)) {
+      this.load.image(asset.key, asset.path);
+    }
   }
 
   public create(): void {
-    this.scene.start('TestScene');
+    this.scene.start('Stage11EntryScene');
   }
 }

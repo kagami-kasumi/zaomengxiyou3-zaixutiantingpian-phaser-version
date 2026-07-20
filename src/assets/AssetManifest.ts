@@ -18,6 +18,14 @@ type ExtractedImageAssetDefinition = LoadableAssetDefinition & {
   sourceCharacterId: number;
 };
 
+type ExtractedStageImageAssetDefinition = ExtractedImageAssetDefinition & {
+  sourceTag: string;
+  derivedCharacterId?: number;
+  width: number;
+  height: number;
+  sourceBounds: Readonly<{ width: number; height: number }>;
+};
+
 type FrameSequenceAssetDefinition = {
   key: string;
   frameKeys: readonly string[];
@@ -36,6 +44,12 @@ type MissingSourceAssetFamily = {
 
 export const AssetKeys = {
   playerPlaceholder: 'player-placeholder',
+} as const;
+
+export const Stage11AssetKeys = {
+  floor: 'stage.stage1.floor',
+  background: 'stage.stage1-1.background',
+  foreground: 'stage.stage1-1.layout',
 } as const;
 
 const CraftingUIAssetKeys = {
@@ -215,6 +229,49 @@ export const scaffoldAssets = {
     source: 'generated',
   },
 } as const satisfies Record<string, LoadableAssetDefinition>;
+
+export const stage11Assets = {
+  floor: {
+    key: Stage11AssetKeys.floor,
+    path: '/assets/stage/stage1-1/floor.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'floorBg1',
+    sourceCharacterId: 1,
+    sourceTag: 'DefineBitsJPEG2 tag 21',
+    width: 1440,
+    height: 690,
+    sourceBounds: { width: 1440, height: 690 },
+  },
+  background: {
+    key: Stage11AssetKeys.background,
+    path: '/assets/stage/stage1-1/background.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'bg11',
+    sourceCharacterId: 141,
+    sourceTag: 'DefineSprite tag 39, frame 1; wraps character 140 / JPEG 139',
+    width: 1132,
+    height: 3051,
+    sourceBounds: { width: 1132, height: 3051 },
+  },
+  foreground: {
+    key: Stage11AssetKeys.foreground,
+    path: '/assets/stage/stage1-1/foreground.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level11.swf',
+    sourceSymbol: 'export.gameSence.sl11 frame 1 foreground child',
+    sourceCharacterId: 46,
+    derivedCharacterId: 18,
+    sourceTag: 'DefineSprite tag 39 / DefineShape2 tag 22',
+    width: 1298,
+    height: 2756,
+    sourceBounds: { width: 1297.2, height: 2755.55 },
+  },
+} as const satisfies Record<string, ExtractedStageImageAssetDefinition>;
 
 function extractedCraftingImage(
   key: string,
@@ -463,15 +520,11 @@ export const sourceAssetFamilies = {
     ],
     notes: 'Pet monkey xj/lj/lyq/jgaoyi, horse1/sp, horse2/bd, horse3/bz, horse4/tmaoyi, dragon1/fs, dragon2/sdcc, dragon3/ltwj, dragon4/qlaoyi, turtle1/sld, turtle3/sybh, turtle4/xwaoyi, and ufo1/pms, ufo3/kmsk projectile families; represented by modern placeholder effects for VS-016 through VS-022, VS-033 through VS-036.',
   },
-  stage11: {
-    status: 'missing-original',
-    sourceSymbols: ['export.gameSence.sl11', 'bg11', 'floorBg1', 'StageListener11'],
-    notes: 'First mainline scene family and level listener.',
-  },
 } as const satisfies Record<string, MissingSourceAssetFamily>;
 
 export const assetBundles = {
   scaffold: [scaffoldAssets.playerPlaceholder],
   role1NormalAttacks: Object.values(role1NormalAttackAssets),
   crafting: Object.values(craftingAssets),
+  stage11: Object.values(stage11Assets),
 } as const;

@@ -9,6 +9,7 @@ export * from '../../systems/HeroSkillSystem';
 export * from '../../systems/SkillUISystem';
 export * from '../../systems/Monster3System';
 export * from '../../systems/LevelSystem';
+export * from '../../systems/Stage11Layout';
 export * from '../../systems/EquipmentSystem';
 export * from '../../systems/InventorySystem';
 export * from '../../systems/EquipmentUISystem';
