@@ -203,9 +203,81 @@
 
 ### Stage 1-2 / 1-3
 
-- `StageListener12`、`StageListener13` 都注册若干怪物资源。
-- `StageListener12` 有 `fbEnter` 特殊入口：玩家弹体击中 `fbEnter.colipse` 累计五次后播放动画，玩家站入后调用 `MainGame.fbEnter()`。
-- 这两个关卡应在怪物基础索引之后再细扒，不纳入本任务范围。
+- `StageListener13` 仍待后续独立调查，不属于 `LINE-STAGE-1-2`。
+- `TASK-SETTINGS-051` 已闭合 Stage 1-2 的恢复源包、地图标记、普通推进、双 boss/门、失败/胜利与 `fbEnter` 特殊入口；下文为权威实现输入。
+
+#### Stage 1-2 真资源与组合层级
+
+| 资源 | 精确源包 / character | tag 与时间轴 | 尺寸/边界 | 组合结论 |
+| --- | --- | --- | --- | --- |
+| `export.gameSence.sl12` | `assets/levels/level12.swf` / 53 | `DefineSprite` tag 39，1 帧，帧标签 `1-2` | 5377.75×1000.35 | character 25 前景、空 `bgContainer`、`fbEnter`、3 个墙体、1 个单向坠落墙、5 个停点、13 个刷怪点和 character 52 门 |
+| 前景 | 同包 / 25 | `DefineShape2` tag 22，无时间轴 | 边界 `x=-200..5177.75`、`y=494..589.4` | 应从 `sl12` 的调试/碰撞标记中独立选择性派生 |
+| `bg12` | `assets/1.swf` / 135 | `DefineSprite` tag 39，1 帧；内含 character 134 `DefineShape2` tag 22 | 4889.65×595.8 | `BaseGameSence` 运行时以 `x=-20` 加入 `bgContainer`；`bgContainer` 自身位于 `x=60.75`，故背景场景坐标起点为 `x=40.75` |
+| `floorBg1` | `assets/1.swf` / 1 | `DefineBitsJPEG2` tag 21，无时间轴 | 1440×690 | 与 1-1 共用；`MainGame.createFloorBg()` 在创建 `sl12` 前加到根节点 |
+| `fbEnter` | `assets/levels/level12.swf` / 22 | `DefineSprite` tag 39，30 帧；内部 character 17 为 25 帧并在第 25 帧停止 | 第 1 帧导出边界 1536.8×184；实例原点 `(1760, 334.65)` | character 21 的 `colipse` 实例位于入口局部 `(339.55, 95.95)`；入口始终独立于普通传送门 |
+| 普通传送门 | 同包 / 52 | `DefineSprite` tag 39，1 帧；内含 character 48（20 帧）和 51（19 帧） | 185.8×165；实例原点 `(4611.65, 452.35)` | 含 `isTransferDoor` 标记；非 Stage 0 初始隐藏，双 boss 全灭后显示 |
+
+运行时层级与 1-1 相同：根节点 `floorBg1` → `sl12` → `sl12.bgContainer` 内动态 `bg12`。调查派生物位于 Git 忽略的 `local-resources/regima/task-outputs/task-settings-051-stage12/`，包含精确 SymbolClass、character 25 前景、30 帧 `fbEnter`、门的 20/19 帧子时间轴和背景 SVG；未修改恢复源包或旧提取集。
+
+#### 地图标记全集
+
+Flash 坐标均已除以 20 转为场景像素；墙体保留原始矩阵，避免用轴对齐近似覆盖旋转边界。
+
+| 类型 / character | 数量 | 原点或矩阵 |
+| --- | ---: | --- |
+| `ObsWall` / 10 | 3 | `(2419.35,511.05)` scale `(17.567429,0.3030243)`；`(4917.55,89)` scale `(0.3896942,15.1515045)`；`(-184.35,211.4)` matrix `[a=0,b=2.364746,c=-0.35295105,d=0]` |
+| `FallDownWhenStandingWall` / 9 | 1 | `(2415.35,-128.5)`，外层 scale `(17.333298,1)`；character 9 内部对 296×66 基形再应用 `(1.0135193,0.3030243)` |
+| `StopPoint` / 7 | 5 | `(1147.4,215.25)` idx 0；`(1809.7,208.55)` idx 1；`(2813.95,189.35)` idx 2；`(3790.2,258.35)` idx 3；`(4661.55,240.7)` idx 4 / `isBoss=true` |
+| `MonsterAppearPoint` / 5 | 13 | 见下表；所有实例 `interval=1`、`isRandom=false` |
+| 普通传送门 / 52 | 1 | `(4611.65,452.35)` |
+| `fbEnter` / 22 | 1 | `(1760,334.65)` |
+
+停点由 `PhysicsWorld.addSubObj()` 按 x 排序，`pWorldStart()` 再以排序结果覆盖 `idx`；这里的实例属性 idx 与排序结果一致。视角推进到当前首停点后触发其同 idx 刷怪点；该批刷完且全场怪物为 0 时移除停点，再推进下一批。
+
+| 实例 | 位置 | stop idx | delay | enemyType | totalNum |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `__id52_` | `(347.6,328.85)` | 0 | 2 | 8 | 4 |
+| `__id59_` | `(967.55,323.2)` | 0 | 2 | 8 | 4 |
+| `__id53_` | `(1266.7,328.85)` | 1 | 6 | 7 | 3 |
+| `__id54_` | `(1521.4,396)` | 1 | 2 | 8 | 5 |
+| `__id60_` | `(1783.5,333)` | 1 | 6 | 7 | 3 |
+| `__id55_` | `(1948.8,343.2)` | 2 | 2 | 7 | 6 |
+| `__id61_` | `(2661.45,343.2)` | 2 | 2 | 7 | 6 |
+| `__id56_` | `(2945.25,387.2)` | 3 | 2 | 7 | 3 |
+| `__id57_` | `(2888.95,387.2)` | 3 | 6 | 8 | 3 |
+| `__id58_` | `(3559.3,388)` | 3 | 2 | 7 | 4 |
+| `__id62_` | `(3635.4,388)` | 3 | 6 | 8 | 3 |
+| `__id51_` | `(4009.8,343.2)` | 4 | 2 | 4 | 1 |
+| `__id63_` | `(4606.85,351.2)` | 4 | 2 | 2 | 1 |
+
+五批数量依次为 8、11、12、13、2，总计 46 只。`StageListener12.waitForRegisterDataArray` 注册 `Monster8/7/4/2`；普通批使用 7/8，末批同时生成 `Monster4`（千里眼，1481 HP）与 `Monster2`（顺风耳，1500 HP）。两者在 1-2 均为 boss：任一死亡时会检查另一类型是否仍存活，只有二者均死亡才把全部普通传送门设为可见。
+
+#### 普通完成、失败与进度
+
+- 出生点沿用 `Config.createHero()`：已配置的 P1/P2 均位于 `(100,350)`；Stage 1-2 没有专属出生覆盖。
+- 玩家碰撞已显示的 character 52 门并按上，角色层锁定 `gc.isLevelClear`、销毁键盘并做 1 秒淡出；淡出完成同步派发 `LevelVictor` 后调用 `MainGame.levelClear()`。
+- 若 `curStage/curLevel == curBigStage/curBigLevel == 1/2`，`levelClear()` 把 `curBigLevel` 推进到 3，销毁关卡并显式保存。`GameWin` 的“下一关”把当前关卡改为 1-3 后派发 `selectStageOver`；“返回”按 `whichlastworld` 回对应关卡地图。
+- 失败谓词和 1-1 相同：玩家数组为空时 `checkGameOver()` 清战斗并派发 `GameOver`；失败页可保持 `1/2` 重玩，或回关卡地图，且不推进/保存解锁。恢复源码仍只有单人死亡路径延迟 2.5 秒调用该检查；现代侧应复用 `Stage11FlowSystem` 已补正的统一 1P/2P 全灭门禁。
+
+#### `fbEnter` 特殊入口
+
+1. `StageListener12.start()` 从 `gc.gameSence` 直属子项按实例名找到 character 22 `fbEnter`。
+2. 入口外层停在第 1 帧时，每位玩家的每个 `magicBulletArray` 弹体都会与局部 `colipse` 做复杂命中检测。一次成立使 `fbCount` 从 5 减 1、生成 `HeroBeHurt` 反馈，并用 `fbFatherCount = gc.frameClips * 1` 建立 1 秒防重复计数；弹体本身不会在这里被消费。
+3. 五次有效命中后从第 2 帧播放到总帧 30。只有外层到第 30 帧后才检查玩家碰撞。
+4. 任一玩家持续与入口 `colipse` 重叠 72 帧后调用 `MainGame.fbEnter()`；所有玩家均离开时 `stayCount` 重置为 72。双人不要求同时进入，同一共享计数可由任一/交替重叠玩家递减。
+5. `MainGame.fbEnter(0)` 先完整销毁 Stage 1-2，再把 `curStage/curLevel` 改为 `5/1`，派发 `ReStart` 重新走 `startFighting`。它不是普通通关，不推进 `curBigLevel`，也不显示 1-2 胜利页。
+6. Stage 5-1 由 `StageListener51` 驱动，没有返回 1-2 的专属脚本。其普通完成走通用 `LevelVictor` / `GameWin`，失败走 `GameFail`；二者的返回按钮均按 `whichlastworld` 回关卡地图。因此现代实现不得伪造“副本结束原地回 1-2”。
+
+#### 与 Stage 1-1 现代边界的差异
+
+| 边界 | 可复用 | Stage 1-2 必须新增 |
+| --- | --- | --- |
+| 正式入口/结果壳 | `Stage11EntryScene` 的 1P/2P 选择、结果导航形态 | 解锁后可选 1-2，并把当前 stage/level 写为 1/2 |
+| 失败 | `Stage11FlowSystem` 的统一全员失败、2.5 秒等待、重玩全新场景 | 配置为 1-2，失败不改变 `LevelUnlockProgress` |
+| 胜利/存档 | 一次性胜利状态、V3 幂等保存 | 普通门胜利解锁 1-3；特殊入口不得触发胜利或解锁 |
+| 场景资源 | 根地面 → 场景 → `bgContainer` 背景层级 | character 25/135/22/52 与 3+1 墙、5 停点、13 刷怪点数据 |
+| 关卡推进 | `LevelSystem` 的停点/门概念 | 横向五停点、46 怪、7/8 普通批与 4+2 双 boss 门禁 |
+| 特殊入口 | 无 | 五次带 1 秒防抖的弹体命中、30 帧动画、72 帧驻留、切至 5-1 |
 
 ## 1-1 Boss：Monster3 详细数据
 

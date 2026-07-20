@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-051 | 资源/流程逆向 | 闭合 Stage 1-2 真场景、地图标记、普通流程与特殊入口 | M-026、M-027、M-030、M-035、VS-045 | character 53/25/135/1/22/52 资源链、3+1 墙/5 停点/13 刷怪点、46 怪/双 boss 门禁、`fbEnter -> 5-1` 合同与 TASK-SLICE-125 |
 | TASK-SLICE-124 | 正式流程 | 接入 Stage 1-1 玩家可见进入、全员失败与通关持久化闭环 | M-026、M-028、M-044、VS-007 | 入口页、1P/2P 全灭状态机、结果导航、V3 关卡进度存档、专项测试与浏览器验收 |
 | TASK-SETTINGS-050 | 流程逆向 | 闭合 Stage 1-1 正式进入、失败与通关持久化流程 | M-026、M-028、M-044、VS-007 | 入口/全灭/胜利事件顺序、双人失败源码缺口、现代差异矩阵与 TASK-SLICE-124 |
 | TASK-SLICE-123 | 资源接入 | 选择性派生并接入 Stage 1-1 真场景资源与布局 | M-026、M-027、M-035、VS-007 | character 46/141/1 三项 PNG、稳定 key/provenance、20 墙体/1 门显式布局、原层级场景桥接与专项测试 |
@@ -182,6 +183,19 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-051
+
+- 完成日期：2026-07-20
+- 功能条线：`LINE-STAGE-1-2`（继续保持 `Active`）
+- 从 RegiMA 恢复源包确认 `sl12` = `assets/levels/level12.swf` character 53（单帧 `DefineSprite` tag 39），可见前景为 character 25 `DefineShape2` tag 22；`bg12` = `assets/1.swf` character 135（单帧 `DefineSprite` tag 39，包裹 character 134），Stage 1 公共地面继续复用 character 1 / `floorBg1`。
+- 确认 `fbEnter` = character 22（30 帧，局部 character 21 `colipse`），普通门 = character 52（外层 1 帧，子时间轴 character 48/51 为 20/19 帧）；调查派生物写入 Git 忽略的 `local-resources/regima/task-outputs/task-settings-051-stage12/`，未改恢复源包或旧提取集。
+- 从恢复 `sl12.as` 和时间轴闭合 3 个 `ObsWall`、1 个 `FallDownWhenStandingWall`、5 个 StopPoint、13 个 MonsterAppearPoint、普通门与特殊入口的全部坐标/矩阵/实例属性；五批分别 8/11/12/13/2 怪，总计 46。
+- 确认末批同时生成 Monster4（千里眼）与 Monster2（顺风耳），二者在 1-2 都是 boss；任一死亡都会检查另一类型，只有双 boss 全灭才显示普通门。按上普通门走通用胜利，若当前解锁为 1-2 则推进到 1-3并显式保存。
+- 确认 `fbEnter` 需要五次有效弹体命中，每次命中后 1 秒防重复计数；播放到外层第 30 帧后，任一玩家连续驻留 72 帧才切到 Stage 5-1。该路径先销毁 1-2，不触发胜利/解锁；Stage 5-1 完成或失败都走通用结果页返回地图，没有专属回 1-2 脚本。
+- 建立 Stage 1-1 现代入口/失败/V3 存档的复用差异矩阵，新增 `stage12.csv` 与标注批次，并生成唯一同线 `TASK-SLICE-125` / `VS-045` 作为真场景与布局基础接入任务。
+- 未修改 `src/`、`public/assets`、恢复源包或旧提取结果；未扩张到 Stage 1-3 内容、Stage 5-1 内容、怪物真素材或全局菜单。
+- 验证：`npm run check:annotations`、`npm run check:workflow`、`git diff --check`。
 
 ### TASK-SLICE-124
 

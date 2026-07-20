@@ -197,6 +197,19 @@
 
 结论：VS-007 实现不应等待真实关卡资源。首个关卡闭环切片应使用手工参数（地面 y、平台、传送门坐标、背景纯色占位）和占位图形推进。
 
+## Stage 1-2 恢复资源定位
+
+`TASK-SETTINGS-051` 已从 RegiMA 恢复语料库确认 Stage 1-2 不存在原始素材缺失：
+
+| stable key | 源包 / character | 类型与时间轴 | 当前状态 |
+| --- | --- | --- | --- |
+| `stage.stage1-2.layout` | `assets/levels/level12.swf` / 53；前景 25 | character 53 为 1 帧 `DefineSprite` tag 39；前景 25 为 `DefineShape2` tag 22 | 调查 SVG 已在 `task-settings-051-stage12/`，实现时选择性转换并接入 |
+| `stage.stage1-2.background` | `assets/1.swf` / 135 | 1 帧 `DefineSprite` tag 39，包裹 character 134 `DefineShape2` | 4889.65×595.8 调查 SVG 已就绪 |
+| `stage.stage1-2.fb-enter` | `assets/levels/level12.swf` / 22 | 30 帧 `DefineSprite` tag 39，含 `colipse` | 30 帧调查 SVG 已就绪 |
+| `stage.stage1-2.transfer-door` | 同包 / 52；子时间轴 48/51 | 外层 1 帧；子时间轴分别 20/19 帧 | 外层及两套子时间轴调查 SVG 已就绪 |
+
+Stage 1 公共 `stage.stage1.floor` 已由 Stage 1-1 任务接入，1-2 直接复用 character 1 / `floorBg1`，不得复制第二个 stable key。完整组合层级、坐标和标记见 `levels-index.md`；标注见 `asset-annotation/annotations/stage12.csv`。
+
 ## 后续建议
 
 - 技能 projectile 真素材接入前，不要继续重复检索当前 `[172845].swf`/`[25034429].swf` 导出目录；应补 `TangSeng` / `SpecialUI/TangSeng` 等角色包。
