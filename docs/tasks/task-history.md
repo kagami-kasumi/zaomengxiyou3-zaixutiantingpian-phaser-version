@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-125 | 场景/布局接入 | 接入 Stage 1-2 真场景、完整显式地图数据和已解锁入口 | M-026、M-027、M-035、VS-045 | 72 张 PNG、Stage 1-2 manifest/bundle、`Stage12Layout`/scene bridge、解锁 1P/2P 入口、专项测试与浏览器验收 |
 | TASK-SETTINGS-051 | 资源/流程逆向 | 闭合 Stage 1-2 真场景、地图标记、普通流程与特殊入口 | M-026、M-027、M-030、M-035、VS-045 | character 53/25/135/1/22/52 资源链、3+1 墙/5 停点/13 刷怪点、46 怪/双 boss 门禁、`fbEnter -> 5-1` 合同与 TASK-SLICE-125 |
 | TASK-SLICE-124 | 正式流程 | 接入 Stage 1-1 玩家可见进入、全员失败与通关持久化闭环 | M-026、M-028、M-044、VS-007 | 入口页、1P/2P 全灭状态机、结果导航、V3 关卡进度存档、专项测试与浏览器验收 |
 | TASK-SETTINGS-050 | 流程逆向 | 闭合 Stage 1-1 正式进入、失败与通关持久化流程 | M-026、M-028、M-044、VS-007 | 入口/全灭/胜利事件顺序、双人失败源码缺口、现代差异矩阵与 TASK-SLICE-124 |
@@ -183,6 +184,21 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-125
+
+- 完成日期：2026-07-20
+- 功能条线：`LINE-STAGE-1-2`（继续保持 `Active`）
+- 将 character 25 前景、135 背景、22 `fbEnter` 30 帧、52 普通门外层和 48/51 门子时间轴 20/19 帧转换为 72 张 PNG；复用既有 `floorBg1`，没有重复生成公共地面。
+- `AssetManifest.ts` 新增 Stage 1-2 stable keys、独立 bundle，以及源包、symbol、character、tag、源尺寸、帧数和现代栅格尺寸 provenance；`BootScene` 预加载所有静态图和序列帧。
+- 新增独立 `Stage12Layout.ts`，保存 3 个 `ObsWall`、1 个 `FallDownWhenStandingWall`（含内外矩阵）、5 停点、13 刷怪点、普通门、特殊入口/局部 `colipse` 和 P1/P2 `(100,350)` 出生点。
+- 新增 `Stage12WorldBridge` 与 `Stage12Scene`，保留根 `floorBg1` → `sl12` → `bgContainer`/`bg12` 组合边界；场景支持横向查看、Esc 返回和幂等清理。本 task 只展示入口/门首帧，没有实现后续交互状态机。
+- 扩展 `Stage11EntryScene` 为关卡选择页：1-2 未解锁时按钮禁用且方法内再次门禁；V3 进度已解锁时可分别选择 1P/2P 进入 `Stage12Scene`，1-1 原入口保持不变。
+- 新增 `stage12-resource-tests.ts` 与 `test:stage12`，并纳入 `test:systems`：覆盖 72 张 PNG、六项 character provenance、源/栅格尺寸、30/20/19 帧、3+1/5/13 数据、关键坐标、46 怪总量、解锁门禁、1P/2P 参数与幂等清理。
+- 浏览器验收通过：默认未解锁按钮不可用；临时 QA 解锁下双人入口显示 2P 并加载真背景/地面/前景，Esc 返回成功，控制台无 error/warn。临时 QA 分支已删除，本地服务已关闭。
+- 更新 Stage 1-2 资源标注为 4 条 `ready`，同步覆盖台账、M-026/M-027/M-035、VS-045，并生成同线 `TASK-SLICE-126` / `VS-046` 作为五停点普通关卡闭环。
+- 未实现波次、Monster7/8/4/2 行为、双 boss 显门、普通胜利/解锁 1-3 或 `fbEnter` 五击/驻留/切 5-1；未修改恢复源包或旧提取结果。
+- 验证：`npm run check:structure`、`npm run test:stage12`、`npm run test:systems`、`npm run build`、`npm run check:annotations`、`npm run check:workflow`、`git diff --check`；浏览器运行态见本条记录。
 
 ### TASK-SETTINGS-051
 

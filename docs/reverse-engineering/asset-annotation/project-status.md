@@ -2,7 +2,7 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象、炼丹炉完整 UI 以及 201/201 个权威合成图标已完成真资源接入；Stage 1-2 四项视觉资源已精确调查派生，等待同线接入。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象、炼丹炉完整 UI、201/201 个权威合成图标以及 Stage 1-2 四项视觉资源已完成真资源接入。
 
 ## 范围覆盖
 
@@ -14,16 +14,16 @@
 | 已实现宠物技能效果 key | 24 | 语义映射已确认，待定位源符号；6 条保留现代占位名差异 | `pet-skill-effects.md` |
 | `Monster30` | 2 | 映射确认，待在恢复语料库定位本体和攻击符号 | `monster30.md` |
 | Stage 1-1 | 4 | 3 项精确符号已选择性派生并接入；listener 是行为证据 | `stage11.md` |
-| Stage 1-2 | 5 | 4 项精确符号/时间轴已调查派生，等待接入；listener 是行为证据 | `stage12.md` |
+| Stage 1-2 | 5 | 4 项精确符号/时间轴已转换并接入；listener 是行为证据 | `stage12.md` |
 | UI 与配方图标 | 213 | 炼丹炉 UI 与 201/201 个配方图标已接入；七个选择性导出批次全部闭合 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`../crafting-ui-index.md` |
 
-总计 372 条标注：220 条 `ready`、145 条 `source-corpus-ready`、4 条 `derived-ready`、1 条 `needs-annotation`、2 条 `rejected`；371 条 `confirmed`、1 条 `unknown`。当前没有 `export-ready` 或 `needs-splitting` 条目。
+总计 372 条标注：224 条 `ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、2 条 `rejected`；371 条 `confirmed`、1 条 `unknown`。当前没有 `derived-ready`、`export-ready` 或 `needs-splitting` 条目。
 
 ## 人工待办
 
 当前没有必须立即执行的人工标注或视觉消歧。
 
-原版角色包、怪物包、UI 包和关卡包等源 SWF 已恢复到 `local-resources/regima/source/restored-swfs/`，证据见 [`../evb-extraction-report.md`](../evb-extraction-report.md)。Stage 1-1 的 `sl11` character 46、`bg11` character 141 和 `floorBg1` character 1 已完成现代接入；Stage 1-2 的 character 25 前景、135 背景、22 特殊入口和 52/48/51 普通门已在 `task-settings-051-stage12/` 选择性调查派生，待 `TASK-SLICE-125` 转换并注册。
+原版角色包、怪物包、UI 包和关卡包等源 SWF 已恢复到 `local-resources/regima/source/restored-swfs/`，证据见 [`../evb-extraction-report.md`](../evb-extraction-report.md)。Stage 1-1 的 `sl11` character 46、`bg11` character 141 和 `floorBg1` character 1 已完成现代接入；Stage 1-2 的 character 25 前景、135 背景、22 特殊入口和 52/48/51 普通门也已转换、注册并通过运行时验收。
 
 Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整 P-code、角色资源包或运行画面才能确认。它已按 `unknown` 保留，不阻塞本轮标注数据关闭。
 

@@ -1,6 +1,6 @@
 # 标注批次：stage12
 
-- 状态：调查派生物就绪，等待同线实现接入
+- 状态：现代资源与场景布局接入完成
 - 关闭日期：2026-07-20
 
 ## 范围和证据
@@ -20,9 +20,11 @@
 
 ## 去向
 
-- 4 条视觉记录均为 `derived-ready + confirmed + integrate`；监听器为 `rejected + confirmed + none`，表示它是行为证据而非视觉资产。
+- 4 条视觉记录均已转为 `ready + confirmed + none`；监听器为 `rejected + confirmed + none`，表示它是行为证据而非视觉资产。
+- `TASK-SLICE-125` 将前景/背景/特殊入口/普通门共 72 张 PNG 接入 `public/assets/stage/stage1-2/`，manifest 保留 character 25/135/22/52/48/51、tag、源尺寸、帧数和现代栅格尺寸；`floorBg1` 继续复用 Stage 1-1 资源。
+- `Stage12Layout.ts` 保存全部 3+1 墙、5 停点、13 刷怪点及两入口数据，`Stage12WorldBridge.ts` 保留根地面 → `sl12` → `bgContainer` 的组合边界。
 - 无推测、未知、缺源或人工消歧项。
-- 下一正式 task 为同线 `TASK-SLICE-125`：只接入真场景、显式地图数据和可进入的 Stage 1-2 布局基础，不在同一 task 内完成怪物行为、特殊入口逻辑或存档关闭。
+- 下一正式 task 为同线 `TASK-SLICE-126`：实现五停点 46 怪、双 boss 普通门门禁与普通完成/失败；特殊入口仍留给后续独立切片。
 
 ## 关闭检查
 

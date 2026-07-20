@@ -26,7 +26,7 @@ type ExtractedStageImageAssetDefinition = ExtractedImageAssetDefinition & {
   sourceBounds: Readonly<{ width: number; height: number }>;
 };
 
-type FrameSequenceAssetDefinition = {
+export type FrameSequenceAssetDefinition = {
   key: string;
   frameKeys: readonly string[];
   framePaths: readonly string[];
@@ -34,6 +34,19 @@ type FrameSequenceAssetDefinition = {
   source: 'extracted-flash';
   sourcePackage: string;
   sourceSymbol: string;
+};
+
+type ExtractedStageSequenceAssetDefinition = FrameSequenceAssetDefinition & {
+  sourceCharacterId: number;
+  sourceTag: string;
+  frameCount: number;
+  width: number;
+  height: number;
+  sourceBounds: Readonly<{ width: number; height: number }>;
+};
+
+type ExtractedStage12ImageAssetDefinition = ExtractedStageImageAssetDefinition & {
+  frameCount: 1;
 };
 
 type MissingSourceAssetFamily = {
@@ -50,6 +63,16 @@ export const Stage11AssetKeys = {
   floor: 'stage.stage1.floor',
   background: 'stage.stage1-1.background',
   foreground: 'stage.stage1-1.layout',
+} as const;
+
+export const Stage12AssetKeys = {
+  floor: Stage11AssetKeys.floor,
+  background: 'stage.stage1-2.background',
+  foreground: 'stage.stage1-2.layout',
+  fbEnter: 'stage.stage1-2.fb-enter',
+  transferDoor: 'stage.stage1-2.transfer-door',
+  transferDoorPrimary: 'stage.stage1-2.transfer-door.primary',
+  transferDoorAccent: 'stage.stage1-2.transfer-door.accent',
 } as const;
 
 const CraftingUIAssetKeys = {
@@ -272,6 +295,109 @@ export const stage11Assets = {
     sourceBounds: { width: 1297.2, height: 2755.55 },
   },
 } as const satisfies Record<string, ExtractedStageImageAssetDefinition>;
+
+const stageFrameKeys = (key: string, frameCount: number): readonly string[] =>
+  Array.from({ length: frameCount }, (_, index) => `${key}.frame-${String(index + 1).padStart(2, '0')}`);
+
+const stageFramePaths = (directory: string, frameCount: number): readonly string[] =>
+  Array.from({ length: frameCount }, (_, index) => `${directory}/frame-${String(index + 1).padStart(2, '0')}.png`);
+
+export const stage12Assets = {
+  background: {
+    key: Stage12AssetKeys.background,
+    path: '/assets/stage/stage1-2/background.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'bg12',
+    sourceCharacterId: 135,
+    sourceTag: 'DefineSprite tag 39, frame 1; wraps character 134 / DefineShape2 tag 22',
+    frameCount: 1,
+    width: 4890,
+    height: 596,
+    sourceBounds: { width: 4889.65, height: 595.8 },
+  },
+  foreground: {
+    key: Stage12AssetKeys.foreground,
+    path: '/assets/stage/stage1-2/foreground.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level12.swf',
+    sourceSymbol: 'export.gameSence.sl12 frame 1 foreground child',
+    sourceCharacterId: 25,
+    sourceTag: 'DefineShape2 tag 22',
+    frameCount: 1,
+    width: 5378,
+    height: 96,
+    sourceBounds: { width: 5377.75, height: 95.4 },
+  },
+  fbEnter: {
+    key: Stage12AssetKeys.fbEnter,
+    frameKeys: stageFrameKeys(Stage12AssetKeys.fbEnter, 30),
+    framePaths: stageFramePaths('/assets/stage/stage1-2/fb-enter', 30),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level12.swf',
+    sourceSymbol: 'fbEnter / Main_fla.Timeline_47',
+    sourceCharacterId: 22,
+    sourceTag: 'DefineSprite tag 39',
+    frameCount: 30,
+    width: 1537,
+    height: 184,
+    sourceBounds: { width: 1536.8, height: 184 },
+  },
+  transferDoor: {
+    key: Stage12AssetKeys.transferDoor,
+    path: '/assets/stage/stage1-2/transfer-door.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level12.swf',
+    sourceSymbol: 'ordinary transfer door / isTransferDoor',
+    sourceCharacterId: 52,
+    sourceTag: 'DefineSprite tag 39, frame 1',
+    frameCount: 1,
+    width: 186,
+    height: 165,
+    sourceBounds: { width: 185.8, height: 165 },
+  },
+  transferDoorPrimary: {
+    key: Stage12AssetKeys.transferDoorPrimary,
+    frameKeys: stageFrameKeys(Stage12AssetKeys.transferDoorPrimary, 20),
+    framePaths: stageFramePaths('/assets/stage/stage1-2/transfer-door-primary', 20),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level12.swf',
+    sourceSymbol: 'ordinary transfer door primary child',
+    sourceCharacterId: 48,
+    sourceTag: 'DefineSprite tag 39',
+    frameCount: 20,
+    width: 186,
+    height: 165,
+    sourceBounds: { width: 185.8, height: 165 },
+  },
+  transferDoorAccent: {
+    key: Stage12AssetKeys.transferDoorAccent,
+    frameKeys: stageFrameKeys(Stage12AssetKeys.transferDoorAccent, 19),
+    framePaths: stageFramePaths('/assets/stage/stage1-2/transfer-door-accent', 19),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level12.swf',
+    sourceSymbol: 'ordinary transfer door accent child',
+    sourceCharacterId: 51,
+    sourceTag: 'DefineSprite tag 39',
+    frameCount: 19,
+    width: 29,
+    height: 24,
+    sourceBounds: { width: 28.8, height: 23.2 },
+  },
+} as const satisfies {
+  background: ExtractedStage12ImageAssetDefinition;
+  foreground: ExtractedStage12ImageAssetDefinition;
+  fbEnter: ExtractedStageSequenceAssetDefinition;
+  transferDoor: ExtractedStage12ImageAssetDefinition;
+  transferDoorPrimary: ExtractedStageSequenceAssetDefinition;
+  transferDoorAccent: ExtractedStageSequenceAssetDefinition;
+};
 
 function extractedCraftingImage(
   key: string,
@@ -527,4 +653,5 @@ export const assetBundles = {
   role1NormalAttacks: Object.values(role1NormalAttackAssets),
   crafting: Object.values(craftingAssets),
   stage11: Object.values(stage11Assets),
+  stage12: [stage11Assets.floor, ...Object.values(stage12Assets)],
 } as const;

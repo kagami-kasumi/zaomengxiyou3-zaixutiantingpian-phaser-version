@@ -14,17 +14,17 @@ AI 工作流、任务体系和文档职责维护记录到 `docs/workflow/governa
 
 ## 当前推荐
 
-`LINE-STAGE-1-2` 是唯一 `Active` 功能线。资源/流程逆向已闭合恢复源包、完整地图标记、五停点 46 怪普通流程、双 boss 门禁和 `fbEnter -> Stage 5-1` 特殊入口证据；当前推荐执行最小场景/布局接入 `TASK-SLICE-125`。
+`TASK-SLICE-126` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-STAGE-1-2`，负责普通关卡闭环。前置任务已接入真场景、完整地图数据和已解锁入口。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-125 | Ready | LINE-STAGE-1-2 | 场景/布局接入 | 接入 Stage 1-2 真场景、完整显式地图数据和已解锁入口 | M-026、M-027、M-035、VS-045 | 真资源 bundle、Stage12Layout/scene bridge、入口路由与专项测试 | 先接布局基础，再生成五停点普通流程切片 |
+| TASK-SLICE-126 | Ready | LINE-STAGE-1-2 | 普通关卡闭环 | 实现五停点 46 怪、双 boss 普通门、失败/胜利与解锁 1-3 | M-026、M-027、M-030、M-044、VS-046 | Stage 1-2 flow/monster adapters、结果与存档接线、专项测试 | 普通路径闭合后生成 `fbEnter` 特殊入口切片 |
 
 ## 任务完成定义
 
-### TASK-SLICE-125
+### TASK-SLICE-126
 
 任务类型：
 
@@ -38,43 +38,44 @@ AI 工作流、任务体系和文档职责维护记录到 `docs/workflow/governa
 
 - `M-026`
 - `M-027`
-- `M-035`
-- `VS-045`
+- `M-030`
+- `M-044`
+- `VS-046`
 
 输入资料：
 
-- `docs/reverse-engineering/levels-index.md` 的 Stage 1-2 资源、矩阵和组合合同
-- `docs/reverse-engineering/asset-annotation/annotations/stage12.csv` 与 `batches/stage12.md`
-- `local-resources/regima/task-outputs/task-settings-051-stage12/` 的选择性调查派生物
-- `docs/architecture/src-boundaries.md`、现有 Stage 1-1 manifest/layout/bridge/entry 与专项测试
-- `docs/tasks/feature-line-coverage/LINE-STAGE-1-2.md`、`mechanics-index.md`、`vertical-slices.md`
+- `docs/reverse-engineering/levels-index.md` 的五停点、46 怪、双 boss、普通门完成/失败合同
+- `src/systems/Stage12Layout.ts`、`src/scenes/Stage12Scene.ts` 与 `src/scenes/stage12/Stage12WorldBridge.ts`
+- `src/systems/Stage11FlowSystem.ts`、`src/scenes/test-scene/TestSceneStage11FlowBridge.ts`、`src/systems/SaveSystem.ts` 的可复用合同
+- 恢复 `StageListener12.as`、`MonsterAppearPoint.as`、`Monster2.as`、`Monster4.as`，只按关键词窄读所需行为
+- `docs/architecture/src-boundaries.md`、当前线覆盖台账、`mechanics-index.md`、`vertical-slices.md`
 
 输出产物：
 
-- 从精确 character 选择性转换 Stage 1-2 character 25 前景、character 135 背景、character 22 `fbEnter` 与 character 52/48/51 普通门视觉；复用已接入的 `floorBg1`，不重复生成。
-- 在 manifest 中为 Stage 1-2 资源登记 stable key、源包、character、tag、源尺寸/帧数和现代栅格尺寸，并提供独立 bundle/预加载入口。
-- 新增独立 `Stage12Layout` 等价模块，保存 3 个 `ObsWall`、1 个 `FallDownWhenStandingWall`、5 停点、13 刷怪点、普通门和特殊入口的原始坐标/矩阵/属性；不把这些职责堆入现有结构 warning 文件。
-- 新增 Stage 1-2 场景桥接，按根地面 → `sl12` 前景/交互 → `bgContainer` 背景的原版组合边界渲染，并让已解锁 1-2 能从现有玩家可见入口进入。
-- 增加专项测试，核对资源存在/provenance/尺寸或帧数、标记计数与关键坐标、入口解锁门禁、1P/2P 选择和场景清理。
+- 新增独立 Stage 1-2 普通推进状态机，按停点 0..4 驱动 8/11/12/13/2 的刷怪批次；只有当前批生成完且全场怪物清空才移除停点并继续。
+- 为 Monster7/8 普通批和 Monster4/2 末批提供满足本关合同的现代 adapter；敌人类型、delay、interval、totalNum 必须直接消费 `Stage12Layout`，不得复制第二份波次表。
+- 末批同时生成 Monster4 与 Monster2，只有两个类型都死亡才显示/启用普通门；按上门触发一次性普通胜利。
+- 复用并配置统一 1P/2P 全灭 2.5 秒失败、重玩全新 Stage 1-2、返回入口和结果页边界；失败不得推进解锁。
+- 扩展 V3 关卡进度到 1-3，普通胜利幂等保存；增加推进、双 boss 门禁、1P/2P 失败、胜利/迁移/清理专项测试。
 
 完成定义：
 
-- 运行时可从现有入口选择已解锁的 1-2，并看到真地面、背景、前景、普通门和特殊入口；1-1 入口和运行时不回归。
-- 3+1 墙、5 停点、13 刷怪点及两类入口数据与 `levels-index.md` 完全一致；原始旋转/缩放矩阵保留，不以目测坐标替代。
-- 资源标注从 `derived-ready` 更新为 `ready`，manifest provenance 可由专项测试查询。
-- 本 task 结束只把 `VS-045` 标为已完成；功能线继续 `Active`，随后生成同线五停点普通流程切片。
+- Stage 1-2 运行时能按五个停点完成 46 怪普通路径；提前清怪、跨批或末批只死一个 boss 均不能显示门。
+- 1P/2P 全灭均在 2.5 秒后失败并可重玩/返回；普通门胜利只触发一次，保存解锁推进到 1-3，刷新后保持。
+- Stage 1-1 入口、V1/V2/V3 迁移及既有系统测试不回归。
+- 本 task 结束只把 `VS-046` 标为已完成；功能线继续 `Active`，随后生成同线 `fbEnter` 特殊入口切片。
 
 验收标准：
 
-- 修改现有代码前先运行 `npm run check:structure`，对命中 warning/error 的目标先按规则拆分。
-- Stage 1-2 专项测试、`npm run test:systems`、`npm run build`、`npm run check:annotations`、`npm run check:workflow` 通过。
-- 不默认启动开发服务器；运行时验收在自动检查完成后按风险决定是否使用浏览器。
+- 修改现有代码前先运行 `npm run check:structure`；不得向结构 warning 的 `TestScene.ts` 堆入 Stage 1-2 流程。
+- Stage 1-2 普通流程专项测试、`npm run test:systems`、`npm run build`、`npm run check:workflow` 通过。
+- 浏览器验收覆盖至少 1P/2P 进入、五批推进、双 boss 门、失败重玩/返回、普通胜利和刷新后 1-3 解锁。
 
 禁止范围：
 
-- 不修改恢复源包或旧提取结果；只从本任务精确 character 派生到 `public/assets`。
-- 不实现五停点刷怪状态机、Monster7/8/4/2 行为、双 boss 显门、普通胜利/解锁 1-3 或 `fbEnter` 五击/驻留/切 5-1 行为。
-- 不扩张到 Stage 1-3 内容、Stage 5-1 内容、怪物真素材或全局菜单重构。
+- 不修改恢复源包、旧提取结果或已接入 Stage 1-2 资源 provenance。
+- 不实现 `fbEnter` 五击、1 秒防重复、30 帧开放、72 帧驻留或切 Stage 5-1。
+- 不接入 Stage 1-3/Stage 5-1 内容、怪物真素材、与本关无关的完整怪物系统或全局菜单重构。
 - 不回开已关闭的 `LINE-STAGE-1-1` / `LINE-CRAFTING`。
 
 状态更新：
@@ -83,12 +84,10 @@ AI 工作流、任务体系和文档职责维护记录到 `docs/workflow/governa
 - `docs/tasks/feature-line-coverage/LINE-STAGE-1-2.md`
 - `docs/tasks/task-board.md`
 - `docs/tasks/task-history.md`
-- `docs/reverse-engineering/levels-index.md`
 - `docs/reverse-engineering/mechanics-index.md`
 - `docs/tasks/vertical-slices.md`
-- `docs/reverse-engineering/asset-annotation/annotations/stage12.csv` 与批次记录
-- `src/assets/AssetManifest.ts`、Stage 1-2 layout/bridge/entry 和专项测试
+- Stage 1-2 flow/monster/result/save bridges 与专项测试
 
 推荐后续任务：
 
-- 依据已接入布局生成一个同线 `TASK-SLICE-*`，实现五停点 46 怪、Monster4+Monster2 双 boss 显门与普通完成/失败流程；特殊入口继续保持后续独立切片。
+- 生成同线 `TASK-SLICE-*`，实现 `fbEnter` 五击防抖、30 帧开放、72 帧驻留和切 Stage 5-1 的特殊入口状态机；不得伪造专属返回 1-2。

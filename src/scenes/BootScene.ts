@@ -4,6 +4,7 @@ import {
   role1NormalAttackAssets,
   scaffoldAssets,
   stage11Assets,
+  stage12Assets,
 } from '../assets/AssetManifest';
 
 export class BootScene extends Phaser.Scene {
@@ -27,6 +28,15 @@ export class BootScene extends Phaser.Scene {
     }
     for (const asset of Object.values(stage11Assets)) {
       this.load.image(asset.key, asset.path);
+    }
+    for (const asset of Object.values(stage12Assets)) {
+      if ('framePaths' in asset) {
+        asset.frameKeys.forEach((frameKey, index) => {
+          this.load.image(frameKey, asset.framePaths[index]);
+        });
+      } else {
+        this.load.image(asset.key, asset.path);
+      }
     }
   }
 

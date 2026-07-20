@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { loadGame, type SaveStorage } from '../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../systems/Stage11FlowSystem';
+import { canEnterStage12 } from '../systems/Stage12EntrySystem';
 
 export class Stage11EntryScene extends Phaser.Scene {
   public constructor() {
@@ -14,33 +15,43 @@ export class Stage11EntryScene extends Phaser.Scene {
     this.add.text(470, 92, '再续天庭', {
       color: '#f2c14e', fontFamily: 'Arial, sans-serif', fontSize: '46px',
     }).setOrigin(0.5);
-    this.add.text(470, 150, '第一关 · Stage 1-1', {
+    this.add.text(470, 150, '第一关 · 关卡选择', {
       color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '26px',
     }).setOrigin(0.5);
-    this.add.text(470, 196, '纵向爬升 → 巫鹰 → 传送门', {
+    this.add.text(470, 196, '1-1 纵向爬升 · 1-2 横向场景切片', {
       color: '#9ed7b5', fontFamily: 'Arial, sans-serif', fontSize: '17px',
     }).setOrigin(0.5);
 
-    createEntryButton(this, 470, 286, '单人进入 1-1', () => this.startStage(1));
-    createEntryButton(this, 470, 354, '双人进入 1-1', () => this.startStage(2));
+    createEntryButton(this, 285, 286, '单人进入 1-1', () => this.startStage11(1));
+    createEntryButton(this, 655, 286, '双人进入 1-1', () => this.startStage11(2));
 
-    const nextStatus = progress.unlockedLevel >= 2
-      ? '1-2 已解锁 · 内容尚未接入'
+    const stage12Unlocked = canEnterStage12(progress);
+    const nextStatus = stage12Unlocked
+      ? '1-2 已解锁'
       : '完成 1-1 后解锁 1-2';
-    this.add.text(470, 432, nextStatus, {
-      color: progress.unlockedLevel >= 2 ? '#f2c14e' : '#8b98ad',
+    this.add.text(470, 358, nextStatus, {
+      color: stage12Unlocked ? '#f2c14e' : '#8b98ad',
       fontFamily: 'Arial, sans-serif', fontSize: '16px',
     }).setOrigin(0.5);
-    this.add.text(470, 510, '鼠标点击，或按 1 / 2 选择玩家数', {
+    createEntryButton(this, 285, 422, '单人进入 1-2', () => this.startStage12(1), stage12Unlocked);
+    createEntryButton(this, 655, 422, '双人进入 1-2', () => this.startStage12(2), stage12Unlocked);
+    this.add.text(470, 510, '按 1 / 2 进入 1-1；按 3 / 4 进入已解锁的 1-2', {
       color: '#8b98ad', fontFamily: 'Arial, sans-serif', fontSize: '14px',
     }).setOrigin(0.5);
 
-    this.input.keyboard?.on('keydown-ONE', () => this.startStage(1));
-    this.input.keyboard?.on('keydown-TWO', () => this.startStage(2));
+    this.input.keyboard?.on('keydown-ONE', () => this.startStage11(1));
+    this.input.keyboard?.on('keydown-TWO', () => this.startStage11(2));
+    this.input.keyboard?.on('keydown-THREE', () => this.startStage12(1));
+    this.input.keyboard?.on('keydown-FOUR', () => this.startStage12(2));
   }
 
-  private startStage(playerCount: 1 | 2): void {
+  private startStage11(playerCount: 1 | 2): void {
     this.scene.start('TestScene', { playerCount });
+  }
+
+  private startStage12(playerCount: 1 | 2): void {
+    if (!canEnterStage12(readUnlockProgress())) return;
+    this.scene.start('Stage12Scene', { playerCount });
   }
 }
 
@@ -50,16 +61,19 @@ function createEntryButton(
   y: number,
   label: string,
   onClick: () => void,
+  enabled = true,
 ): void {
   const background = scene.add.rectangle(x, y, 310, 52, 0x23314a)
-    .setStrokeStyle(2, 0xf2c14e)
-    .setInteractive({ useHandCursor: true });
+    .setStrokeStyle(2, enabled ? 0xf2c14e : 0x526078);
+  if (enabled) background.setInteractive({ useHandCursor: true });
   const text = scene.add.text(x, y, label, {
-    color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '20px',
+    color: enabled ? '#f3f6ff' : '#728099', fontFamily: 'Arial, sans-serif', fontSize: '20px',
   }).setOrigin(0.5);
-  background.on('pointerover', () => background.setFillStyle(0x344867));
-  background.on('pointerout', () => background.setFillStyle(0x23314a));
-  background.on('pointerdown', onClick);
+  if (enabled) {
+    background.on('pointerover', () => background.setFillStyle(0x344867));
+    background.on('pointerout', () => background.setFillStyle(0x23314a));
+    background.on('pointerdown', onClick);
+  }
   text.setDepth(background.depth + 1);
 }
 
