@@ -8,12 +8,18 @@ import {
   STAGE12_WORLD_WIDTH,
 } from '../systems/Stage12Layout';
 import { createStage12World, type Stage12WorldHandle } from './stage12/Stage12WorldBridge';
+import {
+  createStage12Gameplay,
+  type Stage12GameplayHandle,
+} from './stage12/Stage12GameplayBridge';
+import { showStage12Result } from './stage12/Stage12ResultBridge';
 
 export class Stage12Scene extends Phaser.Scene {
   private playerCount: Stage12PlayerCount = 1;
   private world?: Stage12WorldHandle;
+  private gameplay?: Stage12GameplayHandle;
   private playerViews: Phaser.GameObjects.Image[] = [];
-  private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+  private resultOverlay?: Phaser.GameObjects.Container;
 
   public constructor() {
     super('Stage12Scene');
@@ -35,21 +41,35 @@ export class Stage12Scene extends Phaser.Scene {
         .setDepth(20),
     );
 
-    this.add.text(18, 16, `Stage 1-2 · ${this.playerCount}P · ←/→ 查看场景 · Esc 返回`, {
+    this.add.text(18, 16, `Stage 1-2 · ${this.playerCount}P · P1 A/D/J/W · P2 ←/→/小键盘1/↑ · Esc 返回`, {
       color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '15px',
       backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
     }).setScrollFactor(0).setDepth(100);
 
-    this.cursors = this.input.keyboard?.createCursorKeys();
+    this.gameplay = createStage12Gameplay(
+      this,
+      this.playerCount,
+      this.playerViews,
+      this.world.transferDoor,
+      this.world.fbEnter,
+    );
     this.input.keyboard?.on('keydown-ESC', this.returnToEntry, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdownStage12, this);
   }
 
   public update(_time: number, delta: number): void {
-    const direction = Number(this.cursors?.right.isDown) - Number(this.cursors?.left.isDown);
-    if (direction !== 0) {
-      this.cameras.main.scrollX += direction * delta * 0.45;
+    const result = this.gameplay?.update(delta);
+    if (!result || !this.gameplay || this.resultOverlay) return;
+    if (result === 'fb-entered') {
+      this.scene.start('Stage51TransitionScene');
+      return;
     }
+    this.resultOverlay = showStage12Result(
+      this,
+      result,
+      this.playerCount,
+      this.gameplay.flow.unlockProgress,
+    );
   }
 
   private returnToEntry(): void {
@@ -60,8 +80,11 @@ export class Stage12Scene extends Phaser.Scene {
     this.input.keyboard?.off('keydown-ESC', this.returnToEntry, this);
     this.world?.destroy();
     this.world = undefined;
+    this.gameplay?.destroy();
+    this.gameplay = undefined;
+    this.resultOverlay?.destroy(true);
+    this.resultOverlay = undefined;
     for (const playerView of this.playerViews) playerView.destroy();
     this.playerViews = [];
-    this.cursors = undefined;
   }
 }

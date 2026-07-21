@@ -45,6 +45,12 @@ function testVictoryUnlockIsIdempotent(): void {
   assert.deepEqual(flow.unlockProgress, { unlockedStage: 1, unlockedLevel: 2 });
 }
 
+function testReplayingStage11DoesNotDowngradeStage13Unlock(): void {
+  const flow = createStage11Flow(1, { unlockedStage: 1, unlockedLevel: 3 });
+  assert.equal(completeStage11(flow), true);
+  assert.deepEqual(flow.unlockProgress, { unlockedStage: 1, unlockedLevel: 3 });
+}
+
 function testTransferDoorClearsOnlyOnce(): void {
   const arena = createBossArena();
   arena.state = 'active';
@@ -98,6 +104,7 @@ function createTestSave() {
 testSinglePlayerFailureDelayIsOneShot();
 testTwoPlayerFailureRequiresWholeParty();
 testVictoryUnlockIsIdempotent();
+testReplayingStage11DoesNotDowngradeStage13Unlock();
 testTransferDoorClearsOnlyOnce();
 testSaveV3RoundTripAndV1V2Migration();
 

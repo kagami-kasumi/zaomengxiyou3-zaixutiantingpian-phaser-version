@@ -2,6 +2,25 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-21
+
+### 将 Stage 1-2 专项测试纳入默认代码门禁
+
+变更内容：
+
+- 扩展 `tools/run-system-tests.mjs` 的默认测试清单，把 Stage 1-2 普通流程与 `fbEnter` 两组专项测试纳入 `npm run test:systems`，从而自动进入 `check:code` / `check:all`。
+- 保留 `test:stage12-flow` 和 `test:stage12-fb` 作为快速专项入口；没有修改工作流协议、任务状态校验规则或游戏任务定义。
+
+影响范围：
+
+- `tools/run-system-tests.mjs`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:all` 应同时输出 Stage 1-2 resource、flow 与 fbEnter 三组通过结果。
+- `npm run check:workflow` 应不再报告当日治理日志缺失。
+
 ## 2026-07-18
 
 ### 修正评审证据时效并复核 PG-001 方案

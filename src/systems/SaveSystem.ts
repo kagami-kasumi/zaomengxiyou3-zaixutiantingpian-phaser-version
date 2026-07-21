@@ -172,6 +172,21 @@ export function clearGameSave(storage: SaveStorage): void {
   storage.removeItem(GameSaveStorageKey);
 }
 
+export function saveLevelUnlockProgress(
+  storage: SaveStorage,
+  progress: LevelUnlockProgress,
+  now = new Date(),
+): boolean {
+  const save = loadGame(storage);
+  if (!save) return false;
+  saveGame(storage, {
+    ...save,
+    savedAt: now.toISOString(),
+    levelUnlockProgress: sanitizeLevelUnlockProgress(progress),
+  });
+  return true;
+}
+
 export function restorePlayer1State(
   save: GameSaveV3,
   equipmentRegistry: Record<string, EquipmentDefinition>,

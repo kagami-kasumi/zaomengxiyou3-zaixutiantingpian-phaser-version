@@ -13,6 +13,8 @@
     "test:stage11": "node tools/run-system-tests.mjs stage11-resource-tests",
     "test:stage11-flow": "node tools/run-system-tests.mjs stage11-flow-tests",
     "test:stage12": "node tools/run-system-tests.mjs stage12-resource-tests",
+    "test:stage12-flow": "node tools/run-system-tests.mjs stage12-flow-tests",
+    "test:stage12-fb": "node tools/run-system-tests.mjs stage12-fb-enter-tests",
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",
     "check:annotations": "node tools/validate-asset-annotations.mjs",

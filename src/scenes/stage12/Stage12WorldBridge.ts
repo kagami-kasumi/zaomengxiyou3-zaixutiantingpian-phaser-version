@@ -15,6 +15,8 @@ export type Stage12WorldHandle = Readonly<{
   floor: Phaser.GameObjects.Image;
   stageScene: Phaser.GameObjects.Container;
   bgContainer: Phaser.GameObjects.Container;
+  fbEnter: Phaser.GameObjects.Image;
+  transferDoor: Phaser.GameObjects.Image;
   destroyed: () => boolean;
   destroy: () => void;
 }>;
@@ -50,7 +52,7 @@ export function createStage12World(scene: Phaser.Scene): Stage12WorldHandle {
     stage12TransferDoor.x + stage12TransferDoor.sourceBounds.left,
     stage12TransferDoor.y + stage12TransferDoor.sourceBounds.top,
     Stage12AssetKeys.transferDoor,
-  ).setOrigin(0).setName('stage12-transfer-door');
+  ).setOrigin(0).setName('stage12-transfer-door').setVisible(false);
   stageScene.add([foreground, fbEnter, transferDoor]);
 
   registerInteractionMetadata(stageScene);
@@ -64,6 +66,8 @@ export function createStage12World(scene: Phaser.Scene): Stage12WorldHandle {
     floor,
     stageScene,
     bgContainer,
+    fbEnter,
+    transferDoor,
     destroyed: cleanup.destroyed,
     destroy: cleanup.destroy,
   };

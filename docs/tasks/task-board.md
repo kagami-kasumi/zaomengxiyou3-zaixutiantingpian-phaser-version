@@ -14,80 +14,75 @@ AI 工作流、任务体系和文档职责维护记录到 `docs/workflow/governa
 
 ## 当前推荐
 
-`TASK-SLICE-126` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-STAGE-1-2`，负责普通关卡闭环。前置任务已接入真场景、完整地图数据和已解锁入口。
+`TASK-SETTINGS-052` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-STAGE-1-3`。它只读闭合 Stage 1-3 的恢复源包与 AS3 事实，不提前实现未知内容。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-126 | Ready | LINE-STAGE-1-2 | 普通关卡闭环 | 实现五停点 46 怪、双 boss 普通门、失败/胜利与解锁 1-3 | M-026、M-027、M-030、M-044、VS-046 | Stage 1-2 flow/monster adapters、结果与存档接线、专项测试 | 普通路径闭合后生成 `fbEnter` 特殊入口切片 |
+| TASK-SETTINGS-052 | Ready | LINE-STAGE-1-3 | 资源/流程逆向 | 闭合 Stage 1-3 真场景、地图标记、怪物编排与正式结果边界 | M-026、M-027、M-030、M-035 | `stage13` 权威索引、覆盖台账更新与首个实现切片 | 依据事实生成同线资源/场景基础任务 |
 
 ## 任务完成定义
 
-### TASK-SLICE-126
+### TASK-SETTINGS-052
 
 任务类型：
 
-- `TASK-SLICE`
+- `TASK-SETTINGS`
 
 功能条线：
 
-- `LINE-STAGE-1-2`（当前唯一 `Active`）
+- `LINE-STAGE-1-3`（当前唯一 `Active`）
 
 目标机制/切片：
 
 - `M-026`
 - `M-027`
 - `M-030`
-- `M-044`
-- `VS-046`
+- `M-035`
 
 输入资料：
 
-- `docs/reverse-engineering/levels-index.md` 的五停点、46 怪、双 boss、普通门完成/失败合同
-- `src/systems/Stage12Layout.ts`、`src/scenes/Stage12Scene.ts` 与 `src/scenes/stage12/Stage12WorldBridge.ts`
-- `src/systems/Stage11FlowSystem.ts`、`src/scenes/test-scene/TestSceneStage11FlowBridge.ts`、`src/systems/SaveSystem.ts` 的可复用合同
-- 恢复 `StageListener12.as`、`MonsterAppearPoint.as`、`Monster2.as`、`Monster4.as`，只按关键词窄读所需行为
-- `docs/architecture/src-boundaries.md`、当前线覆盖台账、`mechanics-index.md`、`vertical-slices.md`
+- `local-resources/regima/source/restored-swfs/` 中按 level13/stage13/场景类名定位的目标源包
+- 恢复源包对应 SymbolClass、MovieClip、shape/bitmap 与实例属性；视觉结论不得只依据旧提取集
+- 旧提取集中的 `StageListener13.as`、对应场景类、MonsterAppearPoint/StopPoint 和本关怪物类，仅按稳定关键词窄读行为
+- `docs/reverse-engineering/levels-index.md`、`evb-extraction-report.md`、资源标注流程、当前线覆盖台账和任务生成规范
 
 输出产物：
 
-- 新增独立 Stage 1-2 普通推进状态机，按停点 0..4 驱动 8/11/12/13/2 的刷怪批次；只有当前批生成完且全场怪物清空才移除停点并继续。
-- 为 Monster7/8 普通批和 Monster4/2 末批提供满足本关合同的现代 adapter；敌人类型、delay、interval、totalNum 必须直接消费 `Stage12Layout`，不得复制第二份波次表。
-- 末批同时生成 Monster4 与 Monster2，只有两个类型都死亡才显示/启用普通门；按上门触发一次性普通胜利。
-- 复用并配置统一 1P/2P 全灭 2.5 秒失败、重玩全新 Stage 1-2、返回入口和结果页边界；失败不得推进解锁。
-- 扩展 V3 关卡进度到 1-3，普通胜利幂等保存；增加推进、双 boss 门禁、1P/2P 失败、胜利/迁移/清理专项测试。
+- 在 `levels-index.md` 新增 Stage 1-3 权威小节，记录源包、SymbolClass/character/tag、层级/尺寸、地图标记和运行时组合边界。
+- 闭合监听器注册对象、刷怪/停点/boss/门或专属交互、完成/失败、解锁推进和返回路径；明确源码缺口和现代补正规则。
+- 在恢复语料库做窄查并记录证据，不修改、删除或重新生成恢复源包和旧提取结果。
+- 同步 `mechanics-index.md`、本线覆盖台账和必要的资源标注；依据事实生成唯一同线最小实现 task/纵向切片。
 
 完成定义：
 
-- Stage 1-2 运行时能按五个停点完成 46 怪普通路径；提前清怪、跨批或末批只死一个 boss 均不能显示门。
-- 1P/2P 全灭均在 2.5 秒后失败并可重玩/返回；普通门胜利只触发一次，保存解锁推进到 1-3，刷新后保持。
-- Stage 1-1 入口、V1/V2/V3 迁移及既有系统测试不回归。
-- 本 task 结束只把 `VS-046` 标为已完成；功能线继续 `Active`，随后生成同线 `fbEnter` 特殊入口切片。
+- Stage 1-3 的真视觉资源身份和组合方式有恢复源包证据，不能再以“旧提取缺失”作为资源不存在结论。
+- 地图标记、敌人/波次、boss/门或专属机制，以及进入、失败、胜利、后续进度/返回边界均有可复查 AS3/资源证据或明确缺口。
+- 产出一个完成定义独立、禁止范围明确、能自动验证的同线实现 task；不得在本逆向任务内写 `src/` 或接入资源。
 
 验收标准：
 
-- 修改现有代码前先运行 `npm run check:structure`；不得向结构 warning 的 `TestScene.ts` 堆入 Stage 1-2 流程。
-- Stage 1-2 普通流程专项测试、`npm run test:systems`、`npm run build`、`npm run check:workflow` 通过。
-- 浏览器验收覆盖至少 1P/2P 进入、五批推进、双 boss 门、失败重玩/返回、普通胜利和刷新后 1-3 解锁。
+- 所有中文/Markdown 读取显式 UTF-8；大型资源/AS3 只做关键词和路径窄查。
+- `npm run check:annotations`（若更新标注）、`npm run check:workflow` 与 `git diff --check` 通过。
+- 覆盖台账中的未知项被证据或明确缺口替换，任务看板保持 `WIP=1`。
 
 禁止范围：
 
-- 不修改恢复源包、旧提取结果或已接入 Stage 1-2 资源 provenance。
-- 不实现 `fbEnter` 五击、1 秒防重复、30 帧开放、72 帧驻留或切 Stage 5-1。
-- 不接入 Stage 1-3/Stage 5-1 内容、怪物真素材、与本关无关的完整怪物系统或全局菜单重构。
-- 不回开已关闭的 `LINE-STAGE-1-1` / `LINE-CRAFTING`。
+- 不修改 `local-resources/regima/legacy-extraction/` 或恢复源包，不重新全量提取。
+- 不在事实未闭合前修改 `src/`、生成 Stage 1-3 视觉派生物或猜测复用 Stage 1-2 波次/布局。
+- 不推进 Stage 2、Stage 5-1 内容或其他功能线。
 
 状态更新：
 
 - `docs/tasks/feature-lines.md`
-- `docs/tasks/feature-line-coverage/LINE-STAGE-1-2.md`
+- `docs/tasks/feature-line-coverage/LINE-STAGE-1-3.md`
 - `docs/tasks/task-board.md`
-- `docs/tasks/task-history.md`
+- `docs/tasks/task-history.md`（完成时）
+- `docs/reverse-engineering/levels-index.md`
 - `docs/reverse-engineering/mechanics-index.md`
-- `docs/tasks/vertical-slices.md`
-- Stage 1-2 flow/monster/result/save bridges 与专项测试
+- `docs/tasks/vertical-slices.md`（生成实现切片时）
 
 推荐后续任务：
 
-- 生成同线 `TASK-SLICE-*`，实现 `fbEnter` 五击防抖、30 帧开放、72 帧驻留和切 Stage 5-1 的特殊入口状态机；不得伪造专属返回 1-2。
+- 依据逆向结果生成 `LINE-STAGE-1-3` 的首个真资源/场景基础任务，不得切线。

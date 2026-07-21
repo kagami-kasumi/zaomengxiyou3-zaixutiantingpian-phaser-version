@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-127 | 特殊入口闭环 | 实现 Stage 1-2 `fbEnter` 五击/开放/驻留与 5-1 过渡 | M-026、M-027、VS-047 | 独立入口状态机、可见弹体 bridge、30 真帧、5-1 过渡边界与专项测试 |
+| TASK-SLICE-126 | 普通关卡闭环 | 实现 Stage 1-2 五停点 46 怪、双 boss 门、失败/胜利与解锁 1-3 | M-026、M-027、M-030、M-044、VS-046 | 独立 flow、怪物 adapter、场景/结果桥接、V3 进度扩展、专项测试与运行时验收 |
 | TASK-SLICE-125 | 场景/布局接入 | 接入 Stage 1-2 真场景、完整显式地图数据和已解锁入口 | M-026、M-027、M-035、VS-045 | 72 张 PNG、Stage 1-2 manifest/bundle、`Stage12Layout`/scene bridge、解锁 1P/2P 入口、专项测试与浏览器验收 |
 | TASK-SETTINGS-051 | 资源/流程逆向 | 闭合 Stage 1-2 真场景、地图标记、普通流程与特殊入口 | M-026、M-027、M-030、M-035、VS-045 | character 53/25/135/1/22/52 资源链、3+1 墙/5 停点/13 刷怪点、46 怪/双 boss 门禁、`fbEnter -> 5-1` 合同与 TASK-SLICE-125 |
 | TASK-SLICE-124 | 正式流程 | 接入 Stage 1-1 玩家可见进入、全员失败与通关持久化闭环 | M-026、M-028、M-044、VS-007 | 入口页、1P/2P 全灭状态机、结果导航、V3 关卡进度存档、专项测试与浏览器验收 |
@@ -184,6 +186,31 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-127
+
+- 完成日期：2026-07-21
+- 功能条线：`LINE-STAGE-1-2`（本 task 完成后关闭为 `Done`）
+- 新增纯 `Stage12FbEnterSystem.ts`：五次有效命中、共享 1000ms 防重复、第五击从源第 2 帧播放到第 30 帧、末帧前驻留无效、任一/交替玩家共享连续 72 帧、全员离开重置和一次性过渡均为显式状态。
+- 新增 `Stage12FbEnterBridge.ts`：H/小键盘7 生成可见轻量法宝弹体，弹体飞行线段实际穿过 character 22 的局部 `colipse` 世界坐标后才登记命中；直接切换 manifest 的 30 张真序列帧，并显示命中/动画/驻留反馈。
+- `Stage12GameplayBridge` 只让存活玩家触发/驻留入口；特殊入口完成返回 `fb-entered`，`Stage12Scene` 在普通结果/保存分支之前清理并切往独立 `Stage51TransitionScene`。
+- `Stage51TransitionScene` 明确只代表原版 5-1 过渡边界，返回通用关卡地图，不伪造专属返回 1-2，也未接入 Stage 5-1 内容。
+- 新增 `stage12-fb-enter-tests.ts` / `test:stage12-fb`，覆盖五击、防重复、30 帧门禁、72 帧、离开重置、双玩家共享、一次性过渡，以及特殊分支不走胜利/存档和不返回 1-2。
+- 与 `TASK-SLICE-126` 一并完成 Stage 1-2 普通/特殊双路径覆盖，`VS-047` 标记已完成，覆盖台账全部勾选，`LINE-STAGE-1-2` 关闭为 `Done`。
+- 验证：`npm run check:all` 与 `git diff --check` 通过；默认 `test:systems` 已实际运行 Stage 1-2 resource、flow、fbEnter 三组专项测试。结构检查只保留 8 个未修改旧大文件的既有 warning，构建只保留既有 Vite chunk 大小提示。
+
+### TASK-SLICE-126
+
+- 完成日期：2026-07-20
+- 功能条线：`LINE-STAGE-1-2`（继续保持 `Active`）
+- 新增 `Stage12FlowSystem.ts`，直接消费 `Stage12Layout` 的 5 停点和 13 刷怪点，按 delay/interval/totalNum/enemyType 生成 8/11/12/13/2 共 46 怪；当前批未生成完、场上仍有怪或越级触发均不能推进。
+- Monster7/8 使用现代关卡 adapter，末批 Monster4/2 保留 1481/1500 HP 与双 boss 身份；只死一个 boss 不显门，双 boss 全灭才启用真普通门。
+- `Stage12GameplayBridge` 接入 P1 A/D/J/W 与 P2 方向键/小键盘输入、玩家 HP、敌人接触伤害、攻击、镜头跟随和停点边界；`Stage12ResultBridge` 接入统一 2.5 秒全灭失败、重玩/返回和一次性普通胜利。
+- `LevelUnlockProgress` 扩展到 1-3；`saveLevelUnlockProgress()` 在保留现有 V3 玩家数据的前提下幂等写入进度，重玩 1-1 不会把 1-3 降级回 1-2，V1/V2 迁移保持原默认。
+- 新增 `stage12-flow-tests.ts` / `test:stage12-flow`，覆盖五批数量、提前清怪/跨批、双 boss 门、1P/2P 全灭、一次性胜利、V3 保存保真。
+- 运行时从正式已解锁入口进入单人 1-2，真场景、控制提示、停点/场上怪/46 击败/HP 状态显示正常，移动生效，控制台无 error/warn。
+- 验证：`npm run check:structure`（仅 8 个无关既有 warning）、`npm run test:stage12-flow`、`npm run test:stage12`、`npm run test:stage11-flow`、`npm run build`；完整系统/工作流检查在功能线收尾统一执行。
+- 未实现 `fbEnter`；已生成唯一同线 `TASK-SLICE-127` / `VS-047`。
 
 ### TASK-SLICE-125
 

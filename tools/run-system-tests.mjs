@@ -8,7 +8,15 @@ const outDir = path.join(repoRoot, '.tmp', 'system-tests');
 const requestedTests = process.argv.slice(2);
 const bundledTests = requestedTests.length > 0
   ? requestedTests
-  : ['system-tests', 'crafting-tests', 'stage11-resource-tests', 'stage11-flow-tests', 'stage12-resource-tests'];
+  : [
+      'system-tests',
+      'crafting-tests',
+      'stage11-resource-tests',
+      'stage11-flow-tests',
+      'stage12-resource-tests',
+      'stage12-flow-tests',
+      'stage12-fb-enter-tests',
+    ];
 
 rmSync(outDir, { recursive: true, force: true });
 await esbuild.build({
