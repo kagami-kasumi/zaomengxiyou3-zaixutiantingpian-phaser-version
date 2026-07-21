@@ -31,7 +31,7 @@
   - 不记录 AI 工作流脚手架状态。
 - `docs/reverse-engineering/*.md`
   - 逆向笔记。
-  - 记录 AS3 证据、行为事实和现代实现建议。
+  - 按逆向证据协议记录 AS3/共享调用链、SWF 几何、行为合同、证据等级、未知项和现代实现建议。
 - `docs/reverse-engineering/asset-annotation/`
   - 资源标注工程目录。
   - 维护 AS3/stableKey 到 EVB 源 SWF、选择性导出物和现代接入状态的分阶段台账，以及人工/Agent 边界、批次记录和拆分策略。
@@ -73,6 +73,9 @@
 - `docs/workflow/problem-governance.md`
   - 问题治理协议。
   - 规定系统性工程问题的定义、治理流程、效果反馈闭环、记录结构和索引，不堆叠具体问题正文。
+- `docs/workflow/reverse-engineering-protocol.md`
+  - 玩法逆向证据协议。
+  - 规定局部证据、共享运行时、SWF 几何/坐标语义、可观察合同、现代映射和双重验证的六段证据链，以及证据分级和关闭用语门禁。
 - `docs/workflow/problems/PG-*.md`
   - 独立问题治理记录。
   - 一个问题一个文档，分别维护问题定义、证据、解决方案、测试方案、测试结果、关闭标准、适用触发和反馈样本。

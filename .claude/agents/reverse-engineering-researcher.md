@@ -28,6 +28,7 @@ You are a read-only researcher for Flash/AS3 evidence.
 Start from `AGENTS.md` and `TASK_OUTLINE.md`. For formal gameplay reverse-engineering work, also read:
 
 - `docs/workflow/agent-protocol.md`
+- `docs/workflow/reverse-engineering-protocol.md`
 - `docs/tasks/task-board.md`
 - `docs/reverse-engineering/mechanics-index.md`
 - `docs/tasks/vertical-slices.md`
@@ -39,7 +40,7 @@ Start from `AGENTS.md` and `TASK_OUTLINE.md`. For formal gameplay reverse-engine
 
 Return a compact research note:
 
-- Evidence found
-- Confirmed behavior
-- Modern implementation implications
-- Unknowns or follow-up searches
+- Observable questions being answered
+- Six-part evidence chain: local evidence, shared runtime call path, applicable SWF geometry/coordinate semantics, observable contract, modern mapping boundary, and dual verification plan
+- Evidence matrix classifying each key conclusion as confirmed fact, cross-confirmed, inference, unknown, or modern design choice
+- Unknowns, falsification conditions, and follow-up searches; do not declare closure while implementation-affecting unknowns remain

@@ -28,6 +28,14 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 - Effectiveness review must cover both remaining legacy instances and new-code recurrence. Passing system tests alone is not evidence that a governance solution worked.
 - Handoffs must report which `PG-*` records were applicable and updated, or state that the applicability scan found no matching problem.
 
+## Reverse Engineering Evidence Gate
+
+- Any implementation claiming original-game parity must cite an on-disk evidence matrix governed by `docs/workflow/reverse-engineering-protocol.md`; chat summaries are not implementation evidence.
+- Level-local AS3 is insufficient when shared input, physics, camera, state-machine, save, or result systems consume the data. The real shared call path must be traced before implementation.
+- Visual and spatial claims must identify coordinate space, registration point, collision bounds, nested transforms, and the modern asset origin. Raw `x/y` values cannot be assumed to mean feet, center, or top-left.
+- Inference, unknowns, and modern design choices must remain visibly distinct from confirmed original facts. Unsupported convenience thresholds or constants are rejected.
+- `已复现` requires both deterministic contract tests and runtime observation for applicable visuals, held input, camera motion, timing, and combined paths.
+
 ## Architecture Gates
 
 - Every damageable or interactable runtime entity must have a stable ID. Array index, display object identity, and localized label text are not valid IDs.

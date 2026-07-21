@@ -14,7 +14,7 @@
 5. 如果任务实际过大，不硬做完；按 `docs/workflow/task-generation.md` 把原任务标为 `Split`，拆出更小子任务，只完成其中一个可验收子任务。
 6. 任务结束时必须更新功能线覆盖台账、`task-board.md` 的状态和同线推荐后续任务；条线未关闭时禁止推荐其他系统。
 7. 如果任务完成，把该任务从 `task-board.md` 移到 `docs/tasks/task-history.md`，并在历史中记录完成内容、产物和必要验证。
-8. 逆向任务还必须同步更新 `docs/reverse-engineering/mechanics-index.md`。
+8. 逆向任务必须遵循 `docs/workflow/reverse-engineering-protocol.md`，留下局部证据、共享调用链、适用的 SWF 几何/坐标语义、可观察合同、证据分级和验证计划，并同步更新 `docs/reverse-engineering/mechanics-index.md`。
 9. 实现任务还必须同步更新 `docs/tasks/vertical-slices.md`，并更新 `mechanics-index.md` 的复现状态。
 10. task 完成只代表工作单元归档；只有 `feature-lines.md` 的完整关闭合同满足后，才能关闭功能线并切换到下一条线。
 
@@ -49,7 +49,8 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 
 ## 代码任务规则
 
-- 先定位对应 AS3 参考类，再实现现代版本。
+- 依据原版行为实现前，先读取 `docs/workflow/reverse-engineering-protocol.md` 和对应落盘证据矩阵；重新窄读其关键引用，不得只凭聊天或 compact 摘要实现。
+- 关键合同仍有影响验收的 `推断` 或 `未知` 时，先补逆向；禁止自行添加无 AS3、SWF 几何或运行观察支持的便利阈值。
 - 遵循 `docs/architecture/src-boundaries.md` 的模块边界和 TypeScript/Phaser 参数约定。
 - 遵循 `docs/domain/glossary.md` 的统一语言；新增核心领域命名前先按 `docs/domain/ubiquitous-language-process.md` 更新词汇表。
 - 记录关键映射关系，例如 AS3 类名对应的新 TypeScript 文件。
@@ -57,6 +58,14 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 - 能验证就运行验证，不能验证要说明原因。
 - 默认不启动 `npm run dev`；开发服务器由用户自行运行。修改代码后优先运行可自动结束的检查命令，如 `npm run build`、`npm run test:systems` 或更小范围检查。
 - **在现有文件中新增逻辑前**，先运行 `npm run check:structure`。如果目标文件出现在 warning 列表中，应先拆分再添加新功能。如果出现在 error 列表中，禁止在拆分前向该文件添加任何新逻辑。
+
+## 逆向任务规则
+
+- 先列出待证明的可观察问题，再从目标关卡/对象局部证据沿真实读写路径追踪输入、角色、物理、镜头、状态机、存档等共享运行时消费者。
+- 涉及视觉、位置、碰撞或镜头时，必须检查恢复 SWF 的时间轴、嵌套矩阵、注册点、碰撞盒和 local/world/screen 坐标转换；旧 AS3 提取集不能独立证明视觉结论。
+- 关键结论必须标记为 `确认事实`、`交叉确认`、`推断`、`未知` 或 `现代设计选择`，并写入对应逆向文档的证据矩阵。
+- 只有局部 AS3、资源数量或坐标快照不能证明调用链和玩家可见效果已闭合。影响实现的未知项未清零时，逆向 task 必须继续、拆分或阻塞。
+- 用户反馈与已闭合结论冲突时，立即把结论降级为待复核，重新追踪证据链并更新文档；不得先修改现代实现再反向合理化。
 
 ## Git 维护规则
 

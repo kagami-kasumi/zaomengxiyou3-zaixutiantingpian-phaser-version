@@ -4,6 +4,40 @@
 
 ## 2026-07-21
 
+### 重构玩法逆向为六段证据链
+
+变更内容：
+
+- 新增 `reverse-engineering-protocol.md`，把逆向固定为“局部证据 → 共享运行时调用链 → SWF 几何/坐标语义 → 可观察行为合同 → 现代实现映射 → 双重验证”。
+- 统一区分确认事实、交叉确认、推断、未知和现代设计选择；影响实现的推断/未知未清零时，禁止宣称“权威实现输入、已闭合、已复现”。
+- 视觉/空间结论必须记录 local/world/screen 坐标、注册点、碰撞盒、嵌套矩阵、推导公式和现代素材原点，防止把 MovieClip 注册坐标直接解释为脚底或中心。
+- 逆向产物必须落盘证据矩阵；实现任务在 compact、新对话或人员切换后必须重新窄读矩阵引用，不能只依赖聊天摘要。
+- 同步 AGENTS、CLAUDE、执行协议、任务生成、代码质量门禁、README、文档地图和逆向 researcher；`TASK-SETTINGS-*` 只完成文件定位或推断时不得越级解除实现阻塞。
+- 新增 `PG-005 逆向证据链不完整却宣布闭合`，以 Stage 1-2 的 K、地面坐标和停点屏幕触发作为治理前历史反例。
+- 工作流校验器新增逆向协议结构、入口路由和三类负向样例：缺共享运行时调用链、缺证据矩阵或缺推断分级时必须失败。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `.claude/agents/reverse-engineering-researcher.md`
+- `docs/workflow/README.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/reverse-engineering-protocol.md`
+- `docs/workflow/task-generation.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `npm run check:structure` 通过，仅保留 8 个未修改旧大文件的既有 warning。
+- `node --check tools/validate-workflow.mjs` 通过。
+- `npm run check:workflow` 通过：动态验证 PG-001—05；缺共享调用链、证据矩阵或推断分级的三个逆向协议负向样例均被拒绝；任务、历史与 372 条资源标注保持一致。
+
 ### 为问题治理增加效果反馈闭环
 
 变更内容：

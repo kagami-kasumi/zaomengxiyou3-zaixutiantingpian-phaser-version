@@ -19,6 +19,7 @@ const files = {
   codeQualityGates: 'docs/workflow/code-quality-gates.md',
   reviewProtocol: 'docs/workflow/review-protocol.md',
   problemGovernance: 'docs/workflow/problem-governance.md',
+  reverseEngineeringProtocol: 'docs/workflow/reverse-engineering-protocol.md',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
   glossary: 'docs/domain/glossary.md',
   languageProcess: 'docs/domain/ubiquitous-language-process.md',
@@ -813,6 +814,87 @@ function checkProblemGovernance(
   }
 }
 
+function reverseEngineeringProtocolErrors(text) {
+  const requiredText = [
+    '## 六段证据链',
+    '1. **关卡/对象局部证据**',
+    '2. **共享运行时调用链**',
+    '3. **SWF 几何与坐标语义**',
+    '4. **可观察行为合同**',
+    '5. **现代实现映射**',
+    '6. **双重验证**',
+    '## 证据分级',
+    '- `确认事实`：',
+    '- `交叉确认`：',
+    '- `推断`：',
+    '- `未知`：',
+    '- `现代设计选择`：',
+    '| 行为合同项 | 局部证据 | 共享调用链 | 几何/坐标证据 | 证据等级 | 未知与反证条件 | 验证方式 |',
+    'local/world/screen',
+    '## 上下文与交接规则',
+    '## 状态与关闭门禁',
+    '## 逆向完成检查',
+    '确定性测试',
+    '运行时',
+  ];
+  return requiredText.filter((required) => !text.includes(required));
+}
+
+function checkReverseEngineeringProtocol(
+  reverseEngineeringProtocol,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  agentProtocol,
+  taskGeneration,
+  codeQualityGates,
+  reverseEngineeringAgent,
+) {
+  for (const missingText of reverseEngineeringProtocolErrors(reverseEngineeringProtocol)) {
+    error(`reverse-engineering-protocol.md must include: ${missingText}`);
+  }
+
+  const negativeCases = [
+    reverseEngineeringProtocol.replace('2. **共享运行时调用链**', '2. **共享调用链已删除**'),
+    reverseEngineeringProtocol.replace(
+      '| 行为合同项 | 局部证据 | 共享调用链 | 几何/坐标证据 | 证据等级 | 未知与反证条件 | 验证方式 |',
+      '| 证据矩阵已删除 |',
+    ),
+    reverseEngineeringProtocol.replace('- `推断`：', '- `推断分类已删除`：'),
+  ];
+  negativeCases.forEach((negativeCase, index) => {
+    if (reverseEngineeringProtocolErrors(negativeCase).length === 0) {
+      error(`reverse-engineering protocol negative case ${index + 1} must fail validation.`);
+    }
+  });
+
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+    ['docs/workflow/agent-protocol.md', agentProtocol],
+    ['docs/workflow/task-generation.md', taskGeneration],
+    ['docs/workflow/code-quality-gates.md', codeQualityGates],
+    ['.claude/agents/reverse-engineering-researcher.md', reverseEngineeringAgent],
+  ]) {
+    if (!text.includes('reverse-engineering-protocol.md')) {
+      error(`${name} must reference docs/workflow/reverse-engineering-protocol.md.`);
+    }
+  }
+
+  if (!agentProtocol.includes('证据矩阵') || !taskGeneration.includes('双重验证')) {
+    error('Execution and task-generation protocols must enforce reverse-engineering evidence handoff and dual validation.');
+  }
+  if (!codeQualityGates.includes('Reverse Engineering Evidence Gate')) {
+    error('code-quality-gates.md must include the reverse-engineering evidence gate.');
+  }
+  if (!reverseEngineeringAgent.includes('Evidence matrix') || !reverseEngineeringAgent.includes('shared runtime call path')) {
+    error('reverse-engineering-researcher must output an evidence matrix and shared runtime call path.');
+  }
+}
+
 function checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanics, inputSystem) {
   if (tsconfig.includes('"noUnusedParameters": true')) {
     if (!srcBoundaries.includes('_time') || !srcBoundaries.includes('noUnusedParameters')) {
@@ -879,6 +961,7 @@ const packageJsonText = read(files.packageJson);
 const codeQualityGates = read(files.codeQualityGates);
 const reviewProtocol = read(files.reviewProtocol);
 const problemGovernance = read(files.problemGovernance);
+const reverseEngineeringProtocol = read(files.reverseEngineeringProtocol);
 const problemDirectory = 'docs/workflow/problems';
 const problemRecordPaths = readdirSync(filePath(problemDirectory))
   .filter((name) => /^PG-\d{3}-.+\.md$/.test(name))
@@ -890,6 +973,7 @@ const problemRecords = problemRecordPaths.map((recordPath) => ({
   text: read(recordPath),
 }));
 const agentProtocol = read(files.agentProtocol);
+const reverseEngineeringAgent = read(files.reverseEngineeringAgent);
 const tsconfig = read(files.tsconfig);
 const srcBoundaries = read(files.srcBoundaries);
 const inputSystem = read(files.inputSystem);
@@ -923,6 +1007,7 @@ checkGovernanceLog([
   files.codeQualityGates,
   files.reviewProtocol,
   files.problemGovernance,
+  files.reverseEngineeringProtocol,
   ...problemRecordPaths,
   files.agentProtocol,
 ], governanceLog);
@@ -936,6 +1021,17 @@ checkProblemGovernance(
   workflowReadme,
   documentMap,
   agentProtocol,
+);
+checkReverseEngineeringProtocol(
+  reverseEngineeringProtocol,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  agentProtocol,
+  taskGeneration,
+  codeQualityGates,
+  reverseEngineeringAgent,
 );
 checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanicsText, inputSystem);
 checkDomainLanguage(glossary, languageProcess, [inputSystem]);
