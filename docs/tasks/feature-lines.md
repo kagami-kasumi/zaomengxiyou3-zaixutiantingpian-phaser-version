@@ -25,11 +25,14 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-STAGE-2-1 | Active | 按关卡路线顺延：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
+| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-130 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 三关战斗 owner 分裂；1-2 多怪同帧接触爆发、1-3 接触伤害均缺少可读攻击窗口 | 待覆盖台账全部闭合 |
+| LINE-STAGE-2-1 | Planned | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 等待 `LINE-FORMAL-GAME-LOOP` 关闭；资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
 
 ## 当前功能线状态
 
-`LINE-STAGE-2-1` 是当前唯一 `Active` WIP，仅登记后续逆向入口；本次 `/goal` 已在 `LINE-STAGE-1-3` 关闭后停止，没有执行或伪造 Stage 2-1 内容。
+`LINE-FORMAL-GAME-LOOP` 是当前唯一 `Active` WIP。用户在已有 Stage 1-1/1-2/1-3 后明确要求把战斗可读性与数值、核心 HUD、启动存档、天庭地图和完整功能 UI 前置；Stage 2-1 因此保留为 `Planned`，不是被取消或视为阻塞时切线。
+
+本线按依赖顺序推进：战斗死亡原因/攻击可读性/数值合同 → 可稳定通关的战斗切片 → 核心战斗 HUD → 启动与存档槽 → 天庭地图/关卡解锁 → 背包、宠物等完整功能 UI。每一步仍拆为小 task；不得用某个最小 HUD 或存档切片越级关闭整线。
 
 `TASK-SLICE-124` 已归档：玩家可见入口、统一 1P/2P 全灭门禁、失败/胜利结果导航、V3 关卡进度迁移和运行时验收全部完成。Stage 1-2/1-3、怪物真素材和全局菜单不属于本线确认范围，后续不得回写为 `LINE-STAGE-1-1` 未完成项。
 
@@ -41,7 +44,7 @@
 
 `TASK-SLICE-129` 已归档：character 13/119/40 真场景、独立 Stage 1-3 模块、正式 1P/2P 入口、五停点、6/8 同屏上限、Monster5 显门、失败/胜利和 2-1 解锁存档闭环均已完成。
 
-下一可执行项为 `TASK-SETTINGS-053`：从恢复源包和共享 AS3 调用链闭合 Stage 2-1 的六段证据矩阵；证据闭合前不生成可玩实现事实。
+`TASK-SETTINGS-054` 已归档：六段证据矩阵确认原版怪物通过 `hit*` 动作帧创建攻击对象、共享攻防公式结算并提供受击表现/保护与随机续航；现代 1-1 使用共享 combat，而 1-2/1-3 使用私有心数和接触伤害，1-2 可被多怪同帧清空。当前可执行项为 `TASK-SLICE-130`，先统一战斗 owner、攻击窗口和死亡记录，再按确定性基线校准。Stage 2-1 的 `TASK-SETTINGS-053` 保持 `Planned`，仅在本线关闭后恢复。
 
 ## 关闭与切线
 

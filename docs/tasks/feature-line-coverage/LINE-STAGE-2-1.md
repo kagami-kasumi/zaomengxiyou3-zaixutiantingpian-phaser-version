@@ -1,6 +1,6 @@
 # LINE-STAGE-2-1 覆盖台账
 
-本文是 `LINE-STAGE-2-1` 的权威覆盖入口。该线只登记 Stage 1-3 关闭后的下一关路线；当前先执行 `TASK-SETTINGS-053`，禁止从 Stage 1 外推未知内容。
+本文是 `LINE-STAGE-2-1` 的权威覆盖入口。该线保留为 `Planned`：用户明确要求先闭合 `LINE-FORMAL-GAME-LOOP`，之后再恢复 `TASK-SETTINGS-053`；禁止从 Stage 1 外推未知内容。
 
 ## 当前范围
 
@@ -18,9 +18,9 @@
 | 正式流程与存档 | 仅知 Stage 1-3 胜利可解锁到 2-1；2-1 自身流程未知 | 未扒 | 进入、失败、胜利、下一解锁事件链 |
 | 运行时闭环 | 尚未实现 | 未接入 | 证据闭合后生成同线可玩 task |
 
-## 当前 task
+## 计划 task
 
-`TASK-SETTINGS-053`：闭合 Stage 2-1 六段证据链并生成最小可玩实现任务。
+`TASK-SETTINGS-053`（Planned）：在正式游戏主循环关闭后，闭合 Stage 2-1 六段证据链并生成最小可玩实现任务。
 
 ## 关闭检查
 

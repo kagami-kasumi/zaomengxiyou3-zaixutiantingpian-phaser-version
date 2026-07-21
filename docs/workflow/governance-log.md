@@ -4,6 +4,36 @@
 
 ## 2026-07-21
 
+### 将正式游戏主循环前置到更多关卡复现之前
+
+变更内容：
+
+- 根据用户在 Stage 1 三关后的试玩反馈，把“容易死亡、攻击/UI 不完整、缺少启动存档和天庭地图”确认为继续批量制作关卡前的主流程缺口。
+- 新增唯一 Active 功能线 `LINE-FORMAL-GAME-LOOP` 及覆盖台账；依赖顺序固定为战斗证据/校准、核心 HUD、启动存档、天庭地图、完整功能 UI。
+- 保留 `LINE-STAGE-2-1` 与 `TASK-SETTINGS-053`，从 Active/Ready 降为 Planned；这是用户明确重定向，不是遇到阻塞后绕过当前线，也没有删除 Stage 2-1 资料。
+- 新增 `M-048..052` 与 `VS-050..054`，并生成 `TASK-SETTINGS-054..058`、`TASK-SLICE-130..133`；只有 `TASK-SETTINGS-054` 为当前 Ready，其余同线工作保持 Planned。
+- 把“完整 UI”先定义为覆盖盘点和连续小 task，不生成一次性实现全部页面的巨型任务；最小测试面板不得作为整页关闭证据。
+- 更新阶段路线，在 Stage 1 三关后加入正式游戏主循环检查点，关闭后才恢复 Stage 2-1 内容扩展。
+
+影响范围：
+
+- `TASK_OUTLINE.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-FORMAL-GAME-LOOP.md`
+- `docs/tasks/feature-line-coverage/LINE-STAGE-2-1.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 已运行 `npm run check:workflow`，通过：10 个未完成 task/10 个完成定义、174 个已完成 task/174 个完成定义、唯一推荐 `TASK-SETTINGS-054` 和 376 条资源标注一致。
+- 已运行 `git diff --check`，通过；仅输出仓库既有 CRLF/LF 转换提示，无空白错误。
+
 ### 重构玩法逆向为六段证据链
 
 变更内容：
