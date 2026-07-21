@@ -4,6 +4,7 @@ import {
   type Stage12SpawnPoint,
 } from './Stage12Layout';
 import {
+  advanceLevelUnlockProgress,
   createDefaultLevelUnlockProgress,
   sanitizeLevelUnlockProgress,
   type LevelUnlockProgress,
@@ -158,7 +159,7 @@ export function tryCompleteStage12(
   }
   model.phase = 'cleared';
   model.failureDelayRemainingMs = 0;
-  model.unlockProgress = { unlockedStage: 1, unlockedLevel: 3 };
+  model.unlockProgress = advanceLevelUnlockProgress(model.unlockProgress, 1, 3);
   return true;
 }
 

@@ -75,6 +75,13 @@ export const Stage12AssetKeys = {
   transferDoorAccent: 'stage.stage1-2.transfer-door.accent',
 } as const;
 
+export const Stage13AssetKeys = {
+  floor: Stage11AssetKeys.floor,
+  background: 'stage.stage1-3.background',
+  foreground: 'stage.stage1-3.layout',
+  transferDoor: 'stage.stage1-3.transfer-door',
+} as const;
+
 const CraftingUIAssetKeys = {
   container: 'crafting-ui.container',
   fusionPanel: 'crafting-ui.fusion-panel',
@@ -399,6 +406,48 @@ export const stage12Assets = {
   transferDoorAccent: ExtractedStageSequenceAssetDefinition;
 };
 
+export const stage13Assets = {
+  background: {
+    key: Stage13AssetKeys.background,
+    path: '/assets/stage/stage1-3/background.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'bg13',
+    sourceCharacterId: 119,
+    sourceTag: 'DefineSprite frame 1; wraps character 118 / DefineShape2',
+    width: 4904,
+    height: 678,
+    sourceBounds: { width: 4903.15, height: 677.85 },
+  },
+  foreground: {
+    key: Stage13AssetKeys.foreground,
+    path: '/assets/stage/stage1-3/foreground.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level13.swf',
+    sourceSymbol: 'export.gameSence.sl13 frame 1 foreground child',
+    sourceCharacterId: 13,
+    sourceTag: 'DefineShape2',
+    width: 5660,
+    height: 95,
+    sourceBounds: { width: 5659.35, height: 95 },
+  },
+  transferDoor: {
+    key: Stage13AssetKeys.transferDoor,
+    path: '/assets/stage/stage1-3/transfer-door.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level13.swf',
+    sourceSymbol: 'ordinary transfer door / isTransferDoor',
+    sourceCharacterId: 40,
+    sourceTag: 'DefineSprite frame 1; child characters 36/39 (20/19 frames)',
+    width: 196,
+    height: 175,
+    sourceBounds: { width: 185.8, height: 165 },
+  },
+} as const satisfies Record<string, ExtractedStageImageAssetDefinition>;
+
 function extractedCraftingImage(
   key: string,
   path: string,
@@ -654,4 +703,5 @@ export const assetBundles = {
   crafting: Object.values(craftingAssets),
   stage11: Object.values(stage11Assets),
   stage12: [stage11Assets.floor, ...Object.values(stage12Assets)],
+  stage13: [stage11Assets.floor, ...Object.values(stage13Assets)],
 } as const;

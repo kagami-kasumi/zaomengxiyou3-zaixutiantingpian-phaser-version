@@ -2,29 +2,19 @@
 
 本文只记录未完成的游戏复现 task。完整系统范围和激活状态以 `docs/tasks/feature-lines.md` 为准；task 是功能条线内部执行单位，完成 task 不等于完成功能条线。
 
-AI 工作流、任务体系和文档职责维护记录到 `docs/workflow/governance-log.md`。已完成游戏 task 迁移到 `docs/tasks/task-history.md`；新对话默认不读历史，除非需要追溯或修改已完成事实。
-
-## 状态定义
-
-- `Ready`：属于唯一 `Active` 功能线，依赖满足，可以立即执行。
-- `Blocked`：属于唯一 `Active` 功能线，但当前有明确阻塞；下一步只能解除本线阻塞。
-- `Planned`：功能线尚未激活或当前不是同线下一步，不得执行。
-- `Split`：任务过大，已拆出同功能线子任务，不直接执行。
-- `Done`：task 完成定义已满足，应移入历史；所属功能线保持激活，除非其完整关闭合同也满足。
-
 ## 当前推荐
 
-`TASK-SETTINGS-052` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-STAGE-1-3`。它只读闭合 Stage 1-3 的恢复源包与 AS3 事实，不提前实现未知内容。
+`TASK-SETTINGS-053` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-STAGE-2-1`。本次只登记后续入口；Stage 2-1 必须从恢复源包和共享 AS3 证据开始，不从 Stage 1 猜测。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-052 | Ready | LINE-STAGE-1-3 | 资源/流程逆向 | 闭合 Stage 1-3 真场景、地图标记、怪物编排与正式结果边界 | M-026、M-027、M-030、M-035 | `stage13` 权威索引、覆盖台账更新与首个实现切片 | 依据事实生成同线资源/场景基础任务 |
+| TASK-SETTINGS-053 | Ready | LINE-STAGE-2-1 | 关卡逆向 | 闭合 Stage 2-1 真场景、地图标记、怪物/专属机制和结果流程 | M-026、M-027、M-030、M-035、M-044、VS-049 | 六段证据矩阵、资源标注、覆盖台账与最小可玩切片任务 | 证据闭合后生成同线实现 task |
 
 ## 任务完成定义
 
-### TASK-SETTINGS-052
+### TASK-SETTINGS-053
 
 任务类型：
 
@@ -32,7 +22,7 @@ AI 工作流、任务体系和文档职责维护记录到 `docs/workflow/governa
 
 功能条线：
 
-- `LINE-STAGE-1-3`（当前唯一 `Active`）
+- `LINE-STAGE-2-1`（当前唯一 `Active`）
 
 目标机制/切片：
 
@@ -40,49 +30,48 @@ AI 工作流、任务体系和文档职责维护记录到 `docs/workflow/governa
 - `M-027`
 - `M-030`
 - `M-035`
+- `M-044`
+- `VS-049`
 
 输入资料：
 
-- `local-resources/regima/source/restored-swfs/` 中按 level13/stage13/场景类名定位的目标源包
-- 恢复源包对应 SymbolClass、MovieClip、shape/bitmap 与实例属性；视觉结论不得只依据旧提取集
-- 旧提取集中的 `StageListener13.as`、对应场景类、MonsterAppearPoint/StopPoint 和本关怪物类，仅按稳定关键词窄读行为
-- `docs/reverse-engineering/levels-index.md`、`evb-extraction-report.md`、资源标注流程、当前线覆盖台账和任务生成规范
+- `local-resources/regima/source/restored-swfs/` 中与 Stage 2-1 对应的窄源包、SymbolClass 和 MovieClip。
+- 对应局部 AS3、共享关卡/物理/镜头/刷怪/结果调用链，以及 `docs/workflow/reverse-engineering-protocol.md`。
+- `docs/reverse-engineering/levels-index.md`、`mechanics-index.md` 和本线覆盖台账。
 
 输出产物：
 
-- 在 `levels-index.md` 新增 Stage 1-3 权威小节，记录源包、SymbolClass/character/tag、层级/尺寸、地图标记和运行时组合边界。
-- 闭合监听器注册对象、刷怪/停点/boss/门或专属交互、完成/失败、解锁推进和返回路径；明确源码缺口和现代补正规则。
-- 在恢复语料库做窄查并记录证据，不修改、删除或重新生成恢复源包和旧提取结果。
-- 同步 `mechanics-index.md`、本线覆盖台账和必要的资源标注；依据事实生成唯一同线最小实现 task/纵向切片。
+- 按六段证据链记录局部配置、共享消费者、SWF 几何/坐标、行为合同、现代映射和双重验证计划。
+- 定位真场景资源族并新增/更新资源标注；区分确认事实、推断、未知和现代设计选择。
+- 清零影响首切片的未知项后，生成一个同线最小可玩实现 task；若证据缺失则明确阻塞，不补成原版事实。
 
 完成定义：
 
-- Stage 1-3 的真视觉资源身份和组合方式有恢复源包证据，不能再以“旧提取缺失”作为资源不存在结论。
-- 地图标记、敌人/波次、boss/门或专属机制，以及进入、失败、胜利、后续进度/返回边界均有可复查 AS3/资源证据或明确缺口。
-- 产出一个完成定义独立、禁止范围明确、能自动验证的同线实现 task；不得在本逆向任务内写 `src/` 或接入资源。
+- Stage 2-1 的场景符号、地图标记、波次/怪物、专属机制、进入/失败/胜利/解锁边界均有可追溯证据或明确未知。
+- 视觉/空间结论包含矩阵、注册点、边界和坐标语义；行为结论追踪到共享运行时消费者。
+- 覆盖台账和 `VS-049` 可据此生成不扩张范围的可玩切片任务。
 
 验收标准：
 
-- 所有中文/Markdown 读取显式 UTF-8；大型资源/AS3 只做关键词和路径窄查。
-- `npm run check:annotations`（若更新标注）、`npm run check:workflow` 与 `git diff --check` 通过。
-- 覆盖台账中的未知项被证据或明确缺口替换，任务看板保持 `WIP=1`。
+- `npm run check:workflow`、`npm run check:annotations` 与 `git diff --check` 通过。
+- 六段证据矩阵满足逆向协议；影响实现的推断/未知未清零时不得标记闭合。
 
 禁止范围：
 
-- 不修改 `local-resources/regima/legacy-extraction/` 或恢复源包，不重新全量提取。
-- 不在事实未闭合前修改 `src/`、生成 Stage 1-3 视觉派生物或猜测复用 Stage 1-2 波次/布局。
-- 不推进 Stage 2、Stage 5-1 内容或其他功能线。
+- 不修改或重新生成恢复源包与 `local-resources/regima/legacy-extraction/` 原始提取结果。
+- 不提前修改 `src/`，不从 Stage 1 外推 Stage 2-1 的布局、波次、boss、视觉或流程。
+- 不推进其他功能线。
 
 状态更新：
 
 - `docs/tasks/feature-lines.md`
-- `docs/tasks/feature-line-coverage/LINE-STAGE-1-3.md`
+- `docs/tasks/feature-line-coverage/LINE-STAGE-2-1.md`
 - `docs/tasks/task-board.md`
 - `docs/tasks/task-history.md`（完成时）
 - `docs/reverse-engineering/levels-index.md`
 - `docs/reverse-engineering/mechanics-index.md`
-- `docs/tasks/vertical-slices.md`（生成实现切片时）
+- Stage 2-1 资源标注批次
 
 推荐后续任务：
 
-- 依据逆向结果生成 `LINE-STAGE-1-3` 的首个真资源/场景基础任务，不得切线。
+- 仅在证据闭合后生成 `LINE-STAGE-2-1` 的最小可玩实现 task。

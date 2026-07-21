@@ -62,6 +62,8 @@
 | VS-045 Stage 1-2 真场景与布局基础 | 已完成 | 接入真实横向场景、背景、公共地面、普通门、特殊入口和完整显式地图标记，并从现有入口进入已解锁 1-2 | M-026、M-027、M-035、`levels-index.md` | `AssetManifest.ts`、`Stage12Layout.ts`、`Stage12WorldBridge.ts`、`Stage12Scene.ts`、入口路由、`stage12-resource-tests.ts` | character 25/135/1/22/52/48/51 provenance 与 72 张 PNG 可核对；3+1 墙、5 停点、13 刷怪点、普通门和特殊入口数据完整；运行时 1P/2P 可进入和返回，波次/门禁/特殊入口行为由后续切片实现 |
 | VS-046 Stage 1-2 普通关卡闭环 | 已完成 | 实现五停点 46 怪、双 boss 普通门门禁、统一失败与普通胜利存档闭环 | M-026、M-027、M-030、M-044、VS-045、`levels-index.md` | `Stage12FlowSystem.ts`、`Stage12TraversalSystem.ts`、gameplay/result bridges、V3 进度扩展与 Stage 1-2 专项测试 | 五批按 8/11/12/13/2 推进；K 二段跳、角色/怪物底边对齐地面、角色到屏幕右端才触发并锁住当前波；Monster4+Monster2 全灭后门可用；1P/2P 全灭失败不解锁，普通胜利幂等解锁 1-3 |
 | VS-047 Stage 1-2 `fbEnter` 特殊入口 | 已完成 | 以真序列帧实现五击防抖、30 帧开放、72 帧共享驻留与切 5-1 | M-026、M-027、VS-045、`levels-index.md` | `Stage12FbEnterSystem.ts`、`Stage12FbEnterBridge.ts`、`Stage51TransitionScene.ts` 与专项测试 | 可见弹体穿过碰撞区才计数；五击且每击 1 秒防重复；末帧前驻留无效；任一/交替玩家连续 72 帧后一次性切 5-1；不触发普通胜利或改变解锁进度 |
+| VS-048 Stage 1-3 可玩关卡闭环 | 已完成 | 接入真场景、五停点 105 怪定义、Monster5 单 boss 门、统一失败与解锁 2-1 | M-026、M-027、M-030、M-035、M-044、`levels-index.md` | `Stage13Layout/Flow/Traversal`、独立 scene bridges、manifest、入口/结果、专项测试 | character 13/119/40 provenance 可核对；9/10/12/13/61 与 6/8 上限测试通过；Monster5 死亡时飞怪可存活且仍能进门；1P/2P 失败不解锁，胜利保存 2-1；浏览器验证正式入口、独立移动与失败返回，零 console error/warning |
+| VS-049 Stage 2-1 可玩关卡闭环 | 待机制 | 先闭合真场景、地图标记、怪物/专属机制和结果流程，再拆最小可玩切片 | M-026、M-027、M-030、M-035、M-044 | `TASK-SETTINGS-053` 六段证据矩阵；后续实现任务待生成 | 禁止从 Stage 1 外推布局、波次、boss 或视觉；恢复源包、共享调用链、SWF 几何和双重验证全部闭合后再进入实现 |
 
 ## 第一批推荐执行顺序
 

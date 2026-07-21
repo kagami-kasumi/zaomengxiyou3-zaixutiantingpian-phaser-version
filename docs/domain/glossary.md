@@ -57,6 +57,7 @@
 | 受击框 | `Hurtbox` | Value Object / Component | Combat | 被命中判定区域 | `BodyBox` |
 | 关卡 | `Level` | Entity / Config | Content | 一次可进入、刷怪、通关的流程 | `Stage`, `Mission` |
 | 关卡解锁进度 | `LevelUnlockProgress` | Value Object / Save Data | Content / Save | 当前已解锁的最高关卡坐标；与英雄等级成长分离 | `StageProgress`, `LevelProgress` |
+| 关卡英雄移动运行时 | `LevelHeroMovementRuntime` | Runtime Model / System | Combat / Runtime | 统一持有正式关卡内各玩家的移动模型、上一帧输入与移动调度；关卡只提供平台和动态边界 | `StagePlayerRuntime`, `PartyMovementRuntime` |
 | 关卡流程模型 | `Stage11FlowModel` | Model | Content / Runtime | Stage 1-1 正式进入后的进行中、失败延迟、失败和通关状态 | `StageFlowState`, `LevelState` |
 | 关卡流程系统 | `Stage11FlowSystem` | System | Content / Runtime | 管理 Stage 1-1 全队失败门禁、胜利幂等和解锁进度 | `StageFlowSystem`, `LevelStateSystem` |
 | 地图 | `MapData` | Config | Content | 地形、平台、出生点等数据 | `Map`, `TileMapData` |

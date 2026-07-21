@@ -24,11 +24,12 @@
 | LINE-CRAFTING | Done | 玩家可从正式流程使用带真 UI、覆盖 1.1 权威合成表全部 112 个唯一配方的合成页 | — | `feature-line-coverage/LINE-CRAFTING.md` | 无 | 112 配方、201 定义、201/201 真图标、224 条 P1/P2 事务、正式入口与运行时真 UI 全部闭合 |
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
-| LINE-STAGE-1-3 | Active | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | TASK-SETTINGS-052 | `feature-line-coverage/LINE-STAGE-1-3.md` | 资源与流程事实尚未逆向 | 待恢复源包/AS3 事实、实现与运行时证据闭合 |
+| LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
+| LINE-STAGE-2-1 | Active | 按关卡路线顺延：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
 
 ## 当前功能线状态
 
-`LINE-STAGE-1-3` 是当前唯一 `Active` 功能线。它在 Stage 1-2 关闭且普通胜利已解锁 1-3 后按同一内容扩展路线顺延；首个任务只做恢复源包和 AS3 事实闭合，不猜测实现。
+`LINE-STAGE-2-1` 是当前唯一 `Active` WIP，仅登记后续逆向入口；本次 `/goal` 已在 `LINE-STAGE-1-3` 关闭后停止，没有执行或伪造 Stage 2-1 内容。
 
 `TASK-SLICE-124` 已归档：玩家可见入口、统一 1P/2P 全灭门禁、失败/胜利结果导航、V3 关卡进度迁移和运行时验收全部完成。Stage 1-2/1-3、怪物真素材和全局菜单不属于本线确认范围，后续不得回写为 `LINE-STAGE-1-1` 未完成项。
 
@@ -38,7 +39,9 @@
 
 `TASK-SLICE-127` 已归档：可见法宝弹体实际穿过入口碰撞区后计数，五击共享 1 秒防重复，使用 30 张真帧开放，任一/交替玩家共享 72 帧驻留后一次性清理 1-2 并切至 5-1 过渡边界；不触发普通胜利或改写存档，且没有伪造专属返回 1-2。
 
-下一可执行项为 `TASK-SETTINGS-052`：只读逆向 Stage 1-3 的恢复源包、场景符号、地图标记、监听器、怪物编排和结果/存档边界，再据事实生成同线最小实现切片。
+`TASK-SLICE-129` 已归档：character 13/119/40 真场景、独立 Stage 1-3 模块、正式 1P/2P 入口、五停点、6/8 同屏上限、Monster5 显门、失败/胜利和 2-1 解锁存档闭环均已完成。
+
+下一可执行项为 `TASK-SETTINGS-053`：从恢复源包和共享 AS3 调用链闭合 Stage 2-1 的六段证据矩阵；证据闭合前不生成可玩实现事实。
 
 ## 关闭与切线
 

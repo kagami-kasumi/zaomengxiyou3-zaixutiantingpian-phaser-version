@@ -5,6 +5,7 @@ import {
   scaffoldAssets,
   stage11Assets,
   stage12Assets,
+  stage13Assets,
 } from '../assets/AssetManifest';
 
 export class BootScene extends Phaser.Scene {
@@ -37,6 +38,9 @@ export class BootScene extends Phaser.Scene {
       } else {
         this.load.image(asset.key, asset.path);
       }
+    }
+    for (const asset of Object.values(stage13Assets)) {
+      this.load.image(asset.key, asset.path);
     }
   }
 

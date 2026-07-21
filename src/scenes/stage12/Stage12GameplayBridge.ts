@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
-  createHeroMovement,
-  updateHeroMovement,
-  type HeroMovementModel,
-} from '../../systems/HeroMovementSystem';
+  createLevelHeroMovementRuntime,
+  updateLevelHeroMovementRuntime,
+  type LevelHeroMovementRuntime,
+} from '../../systems/LevelHeroMovementSystem';
 import {
   createStage12Flow,
   defeatStage12Enemy,
@@ -33,8 +33,6 @@ import { createStage12FbEnterBridge, type Stage12FbEnterHandle } from './Stage12
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
-  movement: HeroMovementModel;
-  previousInput?: PlayerInputState;
   hp: number;
   attackCooldownMs: number;
 };
@@ -67,11 +65,15 @@ export function createStage12Gameplay(
 ): Stage12GameplayHandle {
   const flow = createStage12Flow(playerCount, readUnlockProgress());
   const input = createInputSystem(scene);
-  const players: PlayerRuntime[] = playerViews.map((view) => {
-    const movement = createHeroMovement(view.x, STAGE12_GROUND_TOP_Y, view.displayWidth);
-    movement.currentPlatformId = STAGE12_GROUND_PLATFORM_ID;
-    return { view, movement, hp: 5, attackCooldownMs: 0 };
-  });
+  const players: PlayerRuntime[] = playerViews.map((view) => ({
+    view, hp: 5, attackCooldownMs: 0,
+  }));
+  const movementRuntime = createLevelHeroMovementRuntime(playerViews.map((view) => ({
+    x: view.x,
+    y: STAGE12_GROUND_TOP_Y,
+    width: view.displayWidth,
+    currentPlatformId: STAGE12_GROUND_PLATFORM_ID,
+  })));
   const enemies = new Map<string, EnemyRuntime>();
   const fbEnter: Stage12FbEnterHandle = createStage12FbEnterBridge(
     scene,
@@ -87,7 +89,15 @@ export function createStage12Gameplay(
   const update = (deltaMs: number): Stage12GameplayResult | undefined => {
     if (reportedResult) return undefined;
     const state = input.read();
-    updatePlayers(players, [state.p1, state.p2], flow, scene.cameras.main.scrollX, scene.time.now, deltaMs);
+    updatePlayers(
+      players,
+      movementRuntime,
+      [state.p1, state.p2],
+      flow,
+      scene.cameras.main.scrollX,
+      scene.time.now,
+      deltaMs,
+    );
     if (fbEnter.update(
       deltaMs,
       [state.p1, state.p2],
@@ -142,30 +152,32 @@ export function createStage12Gameplay(
 
 function updatePlayers(
   players: PlayerRuntime[],
+  movementRuntime: LevelHeroMovementRuntime,
   inputs: readonly PlayerInputState[],
   flow: Stage12FlowModel,
   cameraScrollX: number,
   timeMs: number,
   deltaMs: number,
 ): void {
-  players.forEach((player, index) => {
-    if (player.hp <= 0) return;
+  players.forEach((player) => {
     player.attackCooldownMs = Math.max(0, player.attackCooldownMs - deltaMs);
-    const input = inputs[index];
-    updateHeroMovement(
-      player.movement,
-      input,
-      player.previousInput,
-      stage12MovementPlatforms,
-      {
-        left: cameraScrollX + STAGE12_SCREEN_LEFT_X - player.movement.width / 2,
-        right: getStage12TravelRight(flow.nextStopPointIdx) + player.movement.width / 2,
+  });
+  updateLevelHeroMovementRuntime(
+    movementRuntime,
+    inputs,
+    players.map((player) => player.hp > 0),
+    (_index, movement) => ({
+      platforms: stage12MovementPlatforms,
+      bounds: {
+        left: cameraScrollX + STAGE12_SCREEN_LEFT_X - movement.width / 2,
+        right: getStage12TravelRight(flow.nextStopPointIdx) + movement.width / 2,
       },
-      timeMs,
-      deltaMs,
-    );
-    player.previousInput = input;
-    player.view.setPosition(player.movement.x, player.movement.y);
+    }),
+    timeMs,
+    deltaMs,
+  );
+  movementRuntime.members.forEach((member, index) => {
+    players[index]?.view.setPosition(member.movement.x, member.movement.y);
   });
 }
 

@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-129 | 可玩关卡切片 | 完成 Stage 1-3 真场景、五停点战斗、结果与存档闭环 | M-026、M-027、M-030、M-035、M-044、VS-048 | 3 项真 PNG/manifest、独立 Stage13 layout/flow/traversal/scene bridges、共享关卡移动 runtime、1P/2P 入口、2-1 解锁、专项测试与浏览器验收 |
+| TASK-SETTINGS-052 | 资源/流程逆向 | 闭合 Stage 1-3 真场景、地图标记、波次/boss 与结果边界 | M-026、M-027、M-030、M-035、VS-048 | character 41/13/119/40 资源链、3+1 墙/5 停点/14 刷怪点、105 怪定义/Monster5 门禁、六段证据矩阵与 TASK-SLICE-129 |
 | TASK-SLICE-128 | 运行时校正 | 修正 Stage 1-2 跳跃、地面基线和波次右端触发 | M-012、M-027、VS-046 | 通用移动接入、遍历系统、脚底/底边地面对齐、专项回归测试 |
 | TASK-SLICE-127 | 特殊入口闭环 | 实现 Stage 1-2 `fbEnter` 五击/开放/驻留与 5-1 过渡 | M-026、M-027、VS-047 | 独立入口状态机、可见弹体 bridge、30 真帧、5-1 过渡边界与专项测试 |
 | TASK-SLICE-126 | 普通关卡闭环 | 实现 Stage 1-2 五停点 46 怪、双 boss 门、失败/胜利与解锁 1-3 | M-026、M-027、M-030、M-044、VS-046 | 独立 flow、怪物 adapter、场景/结果桥接、V3 进度扩展、专项测试与运行时验收 |
@@ -187,6 +189,33 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-129
+
+- 完成日期：2026-07-21
+- 功能条线：`LINE-STAGE-1-3`（本 task 完成后关闭为 `Done`，下一线只登记不执行）
+- 选择性接入 character 13 前景、119 背景与 40 普通门真 PNG；manifest 记录源包、symbol、tag、源/栅格尺寸和 stable key，资源标注转为 ready。
+- 新增独立 `Stage13Layout/Flow/Traversal`、scene bridges 和正式 1P/2P 入口；显式消费 3+1 墙、5 停点、14 刷怪点、9/10/12/13/61 五波与 6/8 同屏上限。
+- Monster5 保留 2788 HP boss 合同并在死亡时立即显门；两路 Monster30 仍存活/生成时不阻塞进门。统一全灭 2.5 秒失败，普通胜利幂等推进 2-1 且重玩低关不降级。
+- 新建共享 `LevelHeroMovementRuntime`，迁移 Stage 1-2 并由 Stage 1-3 复用；关卡只提供平台/边界环境，浏览器验证 1P/2P 入口、双玩家独立移动、失败返回和真场景，console 零 error/warning。
+- 专项资源、流程和遍历测试及生产构建通过；覆盖台账、VS-048、机制表、资源批次和 PG-002—005 反馈均已闭环。
+
+推荐任务：
+- `TASK-SETTINGS-053`：逆向 Stage 2-1；本次不执行。
+
+### TASK-SETTINGS-052
+
+- 完成日期：2026-07-21
+- 功能条线：`LINE-STAGE-1-3`（继续保持 `Active`）
+- 从恢复 `assets/levels/level13.swf` 和 `assets/1.swf` 定位 `sl13` character 41、前景 character 13、`bg13` character 119、普通门 character 40；记录 SymbolClass、单帧/子时间轴、边界、注册点和 `floorBg1 -> sl13 -> bgContainer/bg13` 组合。
+- 选择性导出前只生成 Git 忽略的 SWF XML、SymbolClass 和源包自带脚本元数据，没有修改/重生成恢复源包或旧提取结果，也没有提前修改 `src/`。
+- 恢复 3+1 墙、5 停点、14 刷怪点和五批 9/10/12/13/61（总定义 105）；确认 `MonsterAppearPoint` 首只为 delay+interval、单/双人同屏上限 6/8。
+- 确认末批 Monster5 为 2788 HP 单 boss，死亡立即显门；两路各 30 个 Monster30 即使仍在生成/存活也不阻塞进门。普通胜利解锁并保存 2-1，失败不推进；Stage 2-1 内容明确排除。
+- `levels-index.md` 已留下六段证据矩阵，影响实现的未知项清零；新增 Stage 1-3 export-ready 标注批次和唯一同线 `TASK-SLICE-129` / `VS-048`。
+- 验证：`npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 在文档收尾后统一运行。
+
+推荐任务：
+- `TASK-SLICE-129`：选择性接入 Stage 1-3 真场景并完成正式 1P/2P 可玩闭环。
 
 ### TASK-SLICE-128
 
