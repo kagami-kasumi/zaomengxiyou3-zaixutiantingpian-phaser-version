@@ -51,6 +51,9 @@ export const stage12RenderBounds = {
 
 const obsSourceSize = { width: 296, height: 66 } as const;
 
+export const STAGE12_GROUND_PLATFORM_ID = 'stage12-obs-1';
+export const STAGE12_GROUND_TOP_Y = 511.05 - obsSourceSize.height * 0.3030243 / 2;
+
 export const stage12WallMarkers = [
   {
     id: 'stage12-obs-1', kind: 'ObsWall', sourceCharacterId: 10,
@@ -132,6 +135,6 @@ export const stage12FbEnter = {
 } as const;
 
 export const stage12HeroSpawns = [
-  { slot: 'p1', x: 100, y: 350 },
-  { slot: 'p2', x: 100, y: 350 },
+  { slot: 'p1', x: 100, y: STAGE12_GROUND_TOP_Y },
+  { slot: 'p2', x: 100, y: STAGE12_GROUND_TOP_Y },
 ] as const;

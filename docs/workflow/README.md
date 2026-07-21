@@ -28,8 +28,8 @@
 | `task-generation.md` | 从机制缺口、切片缺口或工程基础缺口生成标准游戏任务 |
 | `code-quality-gates.md` | AI 修改代码时必须遵守的验证、边界和测试要求 |
 | `review-protocol.md` | 工程评审的统一流程、严重程度、输出格式和整改落点 |
-| `problem-governance.md` | 系统性工程问题的定义、证据、方案、验证和关闭标准 |
-| `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案、测试结果和关闭状态 |
+| `problem-governance.md` | 系统性工程问题的定义、证据、方案、验证、效果反馈和关闭标准 |
+| `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案、测试结果、适用触发、反馈样本和关闭状态 |
 | `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
 | `governance-log.md` | 工作流、任务体系、文档职责和质量门禁的维护历史 |
 | `../domain/glossary.md` | 轻量 DDD 统一语言表 |
@@ -61,6 +61,7 @@
 - 已完成游戏任务从 `task-board.md` 归档到 `docs/tasks/task-history.md`。
 - 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁只写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板。
 - 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议和问题索引。
+- 代码、架构、游戏 task 或工作流变更收尾时，必须按未关闭或效果观察中问题的触发条件执行适用性扫描；命中时回写效果样本，发现复发或方案不充分时退回治理。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。
 - 同一个正式游戏 task 未完成时默认继续当前对话；上下文过长时优先 compact，并在 compact 后复查关键文档和当前改动文件。

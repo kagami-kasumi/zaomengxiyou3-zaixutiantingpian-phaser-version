@@ -4,6 +4,56 @@
 
 ## 2026-07-21
 
+### 为问题治理增加效果反馈闭环
+
+变更内容：
+
+- 新增 `PG-004 问题治理缺少效果反馈闭环`，把“方案存在”与“方案持续有效”拆成两个必须分别举证的状态。
+- 所有 `PG-*` 统一增加“适用触发与反馈记录”，同时检查旧有缺口的解决程度和新代码的防复发效果；反馈结论统一为通过、复发、方案不充分或不适用。
+- 代码、架构、游戏 task 和工作流变更收尾必须扫描未关闭或效果观察中的问题；命中时回写证据，复发或方案不足时退回治理，已关闭问题必须重开。
+- 回审 PG-001—03：PG-001 对本轮关卡代码明确记为不适用；PG-002 因 Stage 1-2 在核心交互错误下曾被关闭，退回“方案补强中”；PG-003 记录本次移动接入遗漏为治理前复发基线。
+- 工作流校验器改为动态发现全部 `PG-*.md`，校验问题索引、状态、第 7 节、触发条件和反馈表，并内置缺失第 7 节、触发条件或反馈表的负向样例。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `docs/workflow/README.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-001-共享技能规则重复定义.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-003-关卡角色移动接入边界不统一.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `node --check tools/validate-workflow.mjs` 通过。
+- `npm run check:workflow` 通过：动态验证 PG-001—04 及三类反馈契约负向样例；任务、历史和 372 条资源标注保持一致。
+
+### 登记关卡角色移动接入边界问题
+
+变更内容：
+
+- 新增 `PG-003 关卡角色移动接入边界不统一`，记录 Stage 1-2 遗漏 K 跳跃所暴露的系统性接线缺口。
+- 明确问题不是 `HeroMovementSystem` 底层算法重复，而是 scene/bridge 分别持有移动模型、上一帧输入、调度和视图同步边界。
+- 提出关卡无关的玩家队伍移动运行时 owner，关卡仅提供平台/边界环境，关卡流程只观察位置处理镜头、停点、出怪和通关。
+- 固定了现有两个消费者迁移、共享系统回归、运行时验收、窄搜索门禁和两个后续关卡样本等关闭标准。
+- 本次只登记问题治理记录，不修改 `src/`、不启动跨关卡重构，也不改变当前唯一 `Active` 功能线。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-003-关卡角色移动接入边界不统一.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow` 通过：1 个未完成 task、172 个已完成 task、唯一推荐 `TASK-SETTINGS-052` 和 372 条资源标注一致。
+
 ### 将 Stage 1-2 专项测试纳入默认代码门禁
 
 变更内容：

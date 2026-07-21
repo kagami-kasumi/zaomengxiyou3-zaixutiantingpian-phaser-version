@@ -15,6 +15,7 @@ const bundledTests = requestedTests.length > 0
       'stage11-flow-tests',
       'stage12-resource-tests',
       'stage12-flow-tests',
+      'stage12-traversal-tests',
       'stage12-fb-enter-tests',
     ];
 

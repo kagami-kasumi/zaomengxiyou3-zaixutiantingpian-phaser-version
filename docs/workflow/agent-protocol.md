@@ -96,6 +96,8 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 
 治理前应先明确问题定义和证据；治理后必须给出解决方案、测试方案、测试结果和关闭标准。若问题来自工程评审，再结合 `docs/workflow/review-protocol.md`；若问题应沉淀为质量门禁，再更新 `docs/workflow/code-quality-gates.md` 或校验脚本，并记录到 `docs/workflow/governance-log.md`。
 
+代码、架构、游戏 task 或工作流变更收尾前，必须执行问题适用性扫描：读取 `problem-governance.md` 的问题索引，用每个未关闭/效果观察中 `PG-*` 的“适用触发与反馈记录”扫描当前 diff。命中时运行指定检查并回写样本；结论为“复发”或“方案不充分”时，必须同步退回问题状态、更新方案或重开问题。交接时报告命中的 PG 与样本结论；无命中时明确说明已扫描。
+
 ## 任务生成规则
 
 当用户要求新增游戏任务、拆分游戏任务、重排游戏任务或从机制生成任务时，必须先读 `docs/workflow/task-generation.md`。

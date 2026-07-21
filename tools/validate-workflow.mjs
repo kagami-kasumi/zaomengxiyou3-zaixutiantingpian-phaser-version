@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 
@@ -19,8 +19,6 @@ const files = {
   codeQualityGates: 'docs/workflow/code-quality-gates.md',
   reviewProtocol: 'docs/workflow/review-protocol.md',
   problemGovernance: 'docs/workflow/problem-governance.md',
-  problem001: 'docs/workflow/problems/PG-001-共享技能规则重复定义.md',
-  problem002: 'docs/workflow/problems/PG-002-功能条线提前关闭.md',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
   glossary: 'docs/domain/glossary.md',
   languageProcess: 'docs/domain/ubiquitous-language-process.md',
@@ -656,6 +654,7 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
     'Structural Gates',
     'File size limits',
     'Shared definition ownership',
+    'Problem Governance Feedback Gate',
   ]) {
     if (!codeQualityGates.includes(requiredText)) {
       error(`code-quality-gates.md must mention: ${requiredText}`);
@@ -702,6 +701,16 @@ function checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, doc
   }
 }
 
+function problemFeedbackContractErrors(text) {
+  const requiredFeedbackText = [
+    '## 7. 适用触发与反馈记录',
+    '触发条件：',
+    '效果检查：',
+    '| 日期 | 任务/变更 | 适用性 | 证据 | 结论 | 后续动作 |',
+  ];
+  return requiredFeedbackText.filter((requiredText) => !text.includes(requiredText));
+}
+
 function checkProblemGovernance(
   problemGovernance,
   problemRecords,
@@ -719,11 +728,26 @@ function checkProblemGovernance(
     '测试方案',
     '测试结果',
     '关闭标准',
+    '效果反馈闭环',
+    '问题适用性扫描',
+    '适用触发与反馈记录',
     '治理流程',
     '模板',
   ]) {
     if (!problemGovernance.includes(requiredText)) {
       error(`problem-governance.md must mention: ${requiredText}`);
+    }
+  }
+
+  if (problemRecords.length === 0) {
+    error('docs/workflow/problems must contain at least one PG-*.md record.');
+  }
+
+  const indexedIds = extractRefs(section(problemGovernance, '问题索引'), 'PG');
+  const discoveredIds = problemRecords.map(({ id }) => id);
+  for (const indexedId of indexedIds) {
+    if (!discoveredIds.includes(indexedId)) {
+      error(`problem-governance.md indexes missing problem record: ${indexedId}`);
     }
   }
 
@@ -741,12 +765,37 @@ function checkProblemGovernance(
       '## 4. 测试方案',
       '## 5. 测试结果',
       '## 6. 关闭标准',
+      '## 7. 适用触发与反馈记录',
     ]) {
       if (!text.includes(requiredHeading)) {
         error(`${recordPath} must include: ${requiredHeading}`);
       }
     }
+    for (const missingFeedbackText of problemFeedbackContractErrors(text)) {
+      error(`${recordPath} must include feedback contract text: ${missingFeedbackText}`);
+    }
+
+    const status = text.match(/^\u72b6\u6001\uff1a(.+)\u3002$/m)?.[1];
+    const indexRow = section(problemGovernance, '问题索引')
+      .split(/\r?\n/)
+      .find((line) => line.startsWith(`| ${id} `));
+    const indexedStatus = indexRow?.split('|')[2]?.trim();
+    if (!status || indexedStatus !== status) {
+      error(`${recordPath} status must match problem-governance.md index (${indexedStatus ?? 'missing'}).`);
+    }
   }
+
+  const feedbackSample = problemRecords[0]?.text ?? '';
+  const negativeFeedbackCases = [
+    feedbackSample.replace(/\n## 7\. \u9002\u7528\u89e6\u53d1\u4e0e\u53cd\u9988\u8bb0\u5f55[\s\S]*$/, ''),
+    feedbackSample.replace('触发条件：', '触发已删除：'),
+    feedbackSample.replace('| 日期 | 任务/变更 | 适用性 | 证据 | 结论 | 后续动作 |', '| 反馈表已删除 |'),
+  ];
+  negativeFeedbackCases.forEach((negativeCase, index) => {
+    if (problemFeedbackContractErrors(negativeCase).length === 0) {
+      error(`problem feedback negative case ${index + 1} must fail validation.`);
+    }
+  });
 
   for (const [name, text] of [
     ['AGENTS.md', agents],
@@ -758,6 +807,9 @@ function checkProblemGovernance(
     if (!text.includes('problem-governance.md')) {
       error(`${name} must reference docs/workflow/problem-governance.md.`);
     }
+  }
+  if (!agents.includes('效果样本') || !agentProtocol.includes('问题适用性扫描')) {
+    error('Agent entry and protocol must enforce problem-governance feedback scanning.');
   }
 }
 
@@ -827,8 +879,16 @@ const packageJsonText = read(files.packageJson);
 const codeQualityGates = read(files.codeQualityGates);
 const reviewProtocol = read(files.reviewProtocol);
 const problemGovernance = read(files.problemGovernance);
-const problem001 = read(files.problem001);
-const problem002 = read(files.problem002);
+const problemDirectory = 'docs/workflow/problems';
+const problemRecordPaths = readdirSync(filePath(problemDirectory))
+  .filter((name) => /^PG-\d{3}-.+\.md$/.test(name))
+  .sort()
+  .map((name) => `${problemDirectory}/${name}`);
+const problemRecords = problemRecordPaths.map((recordPath) => ({
+  id: path.basename(recordPath).match(/^(PG-\d{3})-/)?.[1] ?? '',
+  path: recordPath,
+  text: read(recordPath),
+}));
 const agentProtocol = read(files.agentProtocol);
 const tsconfig = read(files.tsconfig);
 const srcBoundaries = read(files.srcBoundaries);
@@ -863,18 +923,14 @@ checkGovernanceLog([
   files.codeQualityGates,
   files.reviewProtocol,
   files.problemGovernance,
-  files.problem001,
-  files.problem002,
+  ...problemRecordPaths,
   files.agentProtocol,
 ], governanceLog);
 checkCodeQualityGates(packageJsonText, codeQualityGates, claude);
 checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, documentMap);
 checkProblemGovernance(
   problemGovernance,
-  [
-    { id: 'PG-001', path: files.problem001, text: problem001 },
-    { id: 'PG-002', path: files.problem002, text: problem002 },
-  ],
+  problemRecords,
   agents,
   claude,
   workflowReadme,

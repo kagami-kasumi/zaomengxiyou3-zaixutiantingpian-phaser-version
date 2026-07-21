@@ -20,6 +20,14 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 - player input mapping, skill slots, skill binding, MP gates, or combo state;
 - state machines where an empty frame, multiple entities, or repeated key press can alter the result.
 
+## Problem Governance Feedback Gate
+
+- Before handing off any code, architecture, game-task, or workflow change, inspect the current diff against every non-closed or effectiveness-observation `PG-*` record in `docs/workflow/problems/`.
+- Each `PG-*` owns explicit applicability triggers and a feedback table. When a change matches a trigger, run that problem's focused checks and append a `通过`, `复发`, `方案不充分`, or `不适用` sample.
+- A `复发` or `方案不充分` result must change the problem status and remediation plan; a closed problem must be reopened.
+- Effectiveness review must cover both remaining legacy instances and new-code recurrence. Passing system tests alone is not evidence that a governance solution worked.
+- Handoffs must report which `PG-*` records were applicable and updated, or state that the applicability scan found no matching problem.
+
 ## Architecture Gates
 
 - Every damageable or interactable runtime entity must have a stable ID. Array index, display object identity, and localized label text are not valid IDs.

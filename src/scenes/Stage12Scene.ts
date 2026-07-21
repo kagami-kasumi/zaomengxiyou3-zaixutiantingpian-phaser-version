@@ -37,6 +37,7 @@ export class Stage12Scene extends Phaser.Scene {
     this.playerViews = stage12HeroSpawns.slice(0, this.playerCount).map((spawn, index) =>
       this.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
         .setName(spawn.slot)
+        .setOrigin(0.5, 1)
         .setTint(index === 0 ? 0xffffff : 0x7ad7ff)
         .setDepth(20),
     );

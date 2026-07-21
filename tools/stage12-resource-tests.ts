@@ -13,6 +13,7 @@ import {
 } from '../src/systems/Stage12EntrySystem';
 import {
   stage12FbEnter,
+  STAGE12_GROUND_TOP_Y,
   stage12HeroSpawns,
   stage12RenderBounds,
   stage12SpawnPoints,
@@ -105,12 +106,14 @@ assert.deepEqual(
   { x: 1760, y: 334.65, collision: { sourceCharacterId: 21, name: 'colipse', x: 339.55, y: 95.95 } },
 );
 assert.deepEqual(stage12HeroSpawns, [
-  { slot: 'p1', x: 100, y: 350 },
-  { slot: 'p2', x: 100, y: 350 },
+  { slot: 'p1', x: 100, y: STAGE12_GROUND_TOP_Y },
+  { slot: 'p2', x: 100, y: STAGE12_GROUND_TOP_Y },
 ]);
 
-assert.equal(canEnterStage12({ unlockedStage: 1, unlockedLevel: 1 }), false);
+assert.equal(canEnterStage12({ unlockedStage: 1, unlockedLevel: 1 }), true);
 assert.equal(canEnterStage12({ unlockedStage: 1, unlockedLevel: 2 }), true);
+assert.equal(canEnterStage12({ unlockedStage: 1, unlockedLevel: 1 }, 'progression'), false);
+assert.equal(canEnterStage12({ unlockedStage: 1, unlockedLevel: 2 }, 'progression'), true);
 assert.equal(normalizeStage12PlayerCount(1), 1);
 assert.equal(normalizeStage12PlayerCount(2), 2);
 assert.equal(normalizeStage12PlayerCount(undefined), 1);

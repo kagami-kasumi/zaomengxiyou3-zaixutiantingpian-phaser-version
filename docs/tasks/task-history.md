@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-128 | 运行时校正 | 修正 Stage 1-2 跳跃、地面基线和波次右端触发 | M-012、M-027、VS-046 | 通用移动接入、遍历系统、脚底/底边地面对齐、专项回归测试 |
 | TASK-SLICE-127 | 特殊入口闭环 | 实现 Stage 1-2 `fbEnter` 五击/开放/驻留与 5-1 过渡 | M-026、M-027、VS-047 | 独立入口状态机、可见弹体 bridge、30 真帧、5-1 过渡边界与专项测试 |
 | TASK-SLICE-126 | 普通关卡闭环 | 实现 Stage 1-2 五停点 46 怪、双 boss 门、失败/胜利与解锁 1-3 | M-026、M-027、M-030、M-044、VS-046 | 独立 flow、怪物 adapter、场景/结果桥接、V3 进度扩展、专项测试与运行时验收 |
 | TASK-SLICE-125 | 场景/布局接入 | 接入 Stage 1-2 真场景、完整显式地图数据和已解锁入口 | M-026、M-027、M-035、VS-045 | 72 张 PNG、Stage 1-2 manifest/bundle、`Stage12Layout`/scene bridge、解锁 1P/2P 入口、专项测试与浏览器验收 |
@@ -186,6 +187,17 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-128
+
+- 完成日期：2026-07-21
+- 功能条线：`LINE-STAGE-1-2`（用户明确运行时反馈的已完成线校正；校正闭合后仍为 `Done`，唯一 `Active` 线继续是 `LINE-STAGE-1-3`）
+- 重新窄查 `KeyBoardControl.as`、`BaseHero.as`、Role1—Role5 `myKeyDown()`、`PhysicsWorld.as`、`StopPoint.as` 和 `ViewControllor.as`：P1 `[S,J,K,W]` 的 K 对应二段跳；英雄屏幕 x 限制为 `20..920`；当前停点进入屏幕右端 `900..980` 时 `touch()` 并锁住战斗推进。
+- `Stage12GameplayBridge` 不再只手工修改 x，改为复用 `HeroMovementSystem` 的重力、起跳、落地和二段跳；P1 K 和 P2 小键盘 2 都生效。
+- 从水平 `ObsWall` 矩阵推导地面顶 `y=501.0501981`；角色占位图改为脚底原点，怪物圆形占位以底边对齐同一条地面线，不再把原 MovieClip 的 `(100,350)` 注册点直接当占位图脚底。
+- 新增 `Stage12TraversalSystem.ts` ：镜头在角色到达屏幕约 2/3 后跟随，当前未触发停点是移动右边界；角色继续走到屏幕 `x=920` 时被挡住并触发该波，战斗期不能继续右移，清批后才开放下一停点。
+- 新增 `stage12-traversal-tests.ts` / `test:stage12-traversal`，并纳入默认系统测试，覆盖 K 起跳、地面线、首停点屏幕右端与不提前触发。
+- 运行时画面已确认角色脚底贴合前景地面；内置浏览器的瞬时按键不能稳定模拟 Phaser 的跨帧持续按下，因此 K/移动以纯系统回归测试与人工持键待复核为准。
 
 ### TASK-SLICE-127
 

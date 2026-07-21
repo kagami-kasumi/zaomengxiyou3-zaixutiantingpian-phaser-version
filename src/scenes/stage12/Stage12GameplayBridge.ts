@@ -1,6 +1,11 @@
 import Phaser from 'phaser';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
+  createHeroMovement,
+  updateHeroMovement,
+  type HeroMovementModel,
+} from '../../systems/HeroMovementSystem';
+import {
   createStage12Flow,
   defeatStage12Enemy,
   touchStage12StopPoint,
@@ -10,13 +15,26 @@ import {
   type Stage12Enemy,
   type Stage12FlowModel,
 } from '../../systems/Stage12FlowSystem';
-import { stage12StopPoints, stage12TransferDoor } from '../../systems/Stage12Layout';
+import {
+  STAGE12_GROUND_PLATFORM_ID,
+  STAGE12_GROUND_TOP_Y,
+  stage12TransferDoor,
+} from '../../systems/Stage12Layout';
+import {
+  getStage12CameraScrollX,
+  getStage12TravelRight,
+  hasReachedStage12StopPoint,
+  stage12MovementPlatforms,
+  STAGE12_SCREEN_LEFT_X,
+} from '../../systems/Stage12TraversalSystem';
 import { loadGame, type SaveStorage } from '../../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../../systems/Stage11FlowSystem';
 import { createStage12FbEnterBridge, type Stage12FbEnterHandle } from './Stage12FbEnterBridge';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
+  movement: HeroMovementModel;
+  previousInput?: PlayerInputState;
   hp: number;
   attackCooldownMs: number;
 };
@@ -37,7 +55,6 @@ export type Stage12GameplayHandle = Readonly<{
   destroy: () => void;
 }>;
 
-const playerMoveSpeed = 260;
 const playerAttackRange = 165;
 const playerAttackDamage = 500;
 
@@ -50,11 +67,11 @@ export function createStage12Gameplay(
 ): Stage12GameplayHandle {
   const flow = createStage12Flow(playerCount, readUnlockProgress());
   const input = createInputSystem(scene);
-  const players: PlayerRuntime[] = playerViews.map((view) => ({
-    view,
-    hp: 5,
-    attackCooldownMs: 0,
-  }));
+  const players: PlayerRuntime[] = playerViews.map((view) => {
+    const movement = createHeroMovement(view.x, STAGE12_GROUND_TOP_Y, view.displayWidth);
+    movement.currentPlatformId = STAGE12_GROUND_PLATFORM_ID;
+    return { view, movement, hp: 5, attackCooldownMs: 0 };
+  });
   const enemies = new Map<string, EnemyRuntime>();
   const fbEnter: Stage12FbEnterHandle = createStage12FbEnterBridge(
     scene,
@@ -70,7 +87,7 @@ export function createStage12Gameplay(
   const update = (deltaMs: number): Stage12GameplayResult | undefined => {
     if (reportedResult) return undefined;
     const state = input.read();
-    updatePlayers(players, [state.p1, state.p2], flow, deltaMs);
+    updatePlayers(players, [state.p1, state.p2], flow, scene.cameras.main.scrollX, scene.time.now, deltaMs);
     if (fbEnter.update(
       deltaMs,
       [state.p1, state.p2],
@@ -106,7 +123,7 @@ export function createStage12Gameplay(
       return reportedResult;
     }
 
-    followParty(scene, players);
+    followParty(scene, players, flow);
     updateStatus(status, flow, players);
     return undefined;
   };
@@ -127,19 +144,28 @@ function updatePlayers(
   players: PlayerRuntime[],
   inputs: readonly PlayerInputState[],
   flow: Stage12FlowModel,
+  cameraScrollX: number,
+  timeMs: number,
   deltaMs: number,
 ): void {
-  const stopLimit = flow.activeStopPointIdx === undefined
-    ? Number.POSITIVE_INFINITY
-    : stage12StopPoints[flow.activeStopPointIdx].x + 80;
   players.forEach((player, index) => {
     if (player.hp <= 0) return;
     player.attackCooldownMs = Math.max(0, player.attackCooldownMs - deltaMs);
-    player.view.x = Phaser.Math.Clamp(
-      player.view.x + inputs[index].moveX * playerMoveSpeed * deltaMs / 1_000,
-      20,
-      Math.min(5_050, stopLimit),
+    const input = inputs[index];
+    updateHeroMovement(
+      player.movement,
+      input,
+      player.previousInput,
+      stage12MovementPlatforms,
+      {
+        left: cameraScrollX + STAGE12_SCREEN_LEFT_X - player.movement.width / 2,
+        right: getStage12TravelRight(flow.nextStopPointIdx) + player.movement.width / 2,
+      },
+      timeMs,
+      deltaMs,
     );
+    player.previousInput = input;
+    player.view.setPosition(player.movement.x, player.movement.y);
   });
 }
 
@@ -147,7 +173,7 @@ function activateReachedStopPoint(flow: Stage12FlowModel, players: readonly Play
   const nextIdx = flow.nextStopPointIdx;
   if (nextIdx === undefined || flow.activeStopPointIdx !== undefined) return;
   const frontX = Math.max(...players.filter((player) => player.hp > 0).map((player) => player.view.x), 0);
-  if (frontX >= stage12StopPoints[nextIdx].x - 90) touchStage12StopPoint(flow, nextIdx);
+  if (hasReachedStage12StopPoint(frontX, nextIdx)) touchStage12StopPoint(flow, nextIdx);
 }
 
 function updateEnemyCombat(
@@ -194,9 +220,10 @@ function createEnemyView(scene: Phaser.Scene, enemy: Stage12Enemy): EnemyRuntime
     : enemy.enemyType === 4 ? 0xd86b63
       : enemy.enemyType === 7 ? 0x6cbf73 : 0x5ca8d8;
   const radius = enemy.isBoss ? 28 : 18;
-  const body = scene.add.circle(enemy.x, enemy.y, radius, color)
+  const groundCenterY = STAGE12_GROUND_TOP_Y - radius;
+  const body = scene.add.circle(enemy.x, groundCenterY, radius, color)
     .setStrokeStyle(2, 0x1a2130).setDepth(18);
-  const label = scene.add.text(enemy.x, enemy.y, `M${enemy.enemyType}`, {
+  const label = scene.add.text(enemy.x, groundCenterY, `M${enemy.enemyType}`, {
     color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: enemy.isBoss ? '14px' : '11px',
   }).setOrigin(0.5).setDepth(19);
   return { model: enemy, hp: enemy.maxHp, body, label, contactCooldownMs: 0 };
@@ -213,11 +240,15 @@ function nearestLivingPlayer(x: number, players: readonly PlayerRuntime[]): Play
     .sort((left, right) => Math.abs(left.view.x - x) - Math.abs(right.view.x - x))[0];
 }
 
-function followParty(scene: Phaser.Scene, players: readonly PlayerRuntime[]): void {
+function followParty(
+  scene: Phaser.Scene,
+  players: readonly PlayerRuntime[],
+  flow: Stage12FlowModel,
+): void {
   const living = players.filter((player) => player.hp > 0);
   if (living.length === 0) return;
-  const focusX = living.reduce((sum, player) => sum + player.view.x, 0) / living.length;
-  scene.cameras.main.scrollX = Phaser.Math.Clamp(focusX - 470, 0, 4_437.75);
+  const frontX = Math.max(...living.map((player) => player.view.x));
+  scene.cameras.main.scrollX = getStage12CameraScrollX(frontX, flow.nextStopPointIdx);
 }
 
 function updateStatus(

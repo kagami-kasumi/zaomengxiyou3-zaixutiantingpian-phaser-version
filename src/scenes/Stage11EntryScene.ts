@@ -27,7 +27,7 @@ export class Stage11EntryScene extends Phaser.Scene {
 
     const stage12Unlocked = canEnterStage12(progress);
     const nextStatus = stage12Unlocked
-      ? '1-2 已解锁'
+      ? '1-2 测试期开放 · 无需通关 1-1'
       : '完成 1-1 后解锁 1-2';
     this.add.text(470, 358, nextStatus, {
       color: stage12Unlocked ? '#f2c14e' : '#8b98ad',
@@ -35,7 +35,7 @@ export class Stage11EntryScene extends Phaser.Scene {
     }).setOrigin(0.5);
     createEntryButton(this, 285, 422, '单人进入 1-2', () => this.startStage12(1), stage12Unlocked);
     createEntryButton(this, 655, 422, '双人进入 1-2', () => this.startStage12(2), stage12Unlocked);
-    this.add.text(470, 510, '按 1 / 2 进入 1-1；按 3 / 4 进入已解锁的 1-2', {
+    this.add.text(470, 510, '按 1 / 2 进入 1-1；按 3 / 4 直接进入 1-2', {
       color: '#8b98ad', fontFamily: 'Arial, sans-serif', fontSize: '14px',
     }).setOrigin(0.5);
 
