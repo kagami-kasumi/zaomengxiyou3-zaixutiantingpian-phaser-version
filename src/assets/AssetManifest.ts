@@ -96,6 +96,11 @@ export const SaveSlotAssetKeys = {
 export const FullFeatureUiAssetKeys = {
   backpack: 'full-ui.backpack',
   backpackGrid: 'full-ui.backpack-grid',
+  skillHub: 'full-ui.skill-hub',
+  skillActive: 'full-ui.skill-active',
+  skillBind: 'full-ui.skill-bind',
+  skillPassive: 'full-ui.skill-passive',
+  petPage: 'full-ui.pet-page',
 } as const;
 
 export const HeavenMapAssetKeys = {
@@ -700,6 +705,41 @@ export const fullFeatureUiAssets = {
     'assets/backpack1.swf',
     'export.pack.BackPackElement',
     246,
+  ),
+  skillHub: extractedCraftingImage(
+    FullFeatureUiAssetKeys.skillHub,
+    '/assets/ui/feature/skills/skill-hub.svg',
+    'assets/OtherMat1.swf',
+    'export.shop.BuySkill',
+    250,
+  ),
+  skillActive: extractedCraftingImage(
+    FullFeatureUiAssetKeys.skillActive,
+    '/assets/ui/feature/skills/skill-active.svg',
+    'assets/OtherMat1.swf',
+    'export.shop.SkillControl',
+    868,
+  ),
+  skillBind: extractedCraftingImage(
+    FullFeatureUiAssetKeys.skillBind,
+    '/assets/ui/feature/skills/skill-bind.svg',
+    'assets/OtherMat1.swf',
+    'export.shop.SkillSetControl',
+    417,
+  ),
+  skillPassive: extractedCraftingImage(
+    FullFeatureUiAssetKeys.skillPassive,
+    '/assets/ui/feature/skills/skill-passive.svg',
+    'assets/OtherMat1.swf',
+    'export.shop.PassiveSkillControl',
+    213,
+  ),
+  petPage: extractedCraftingImage(
+    FullFeatureUiAssetKeys.petPage,
+    '/assets/ui/feature/pets/pet-page.svg',
+    'assets/pet1.swf',
+    'export.pet.PetInterface',
+    932,
   ),
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 

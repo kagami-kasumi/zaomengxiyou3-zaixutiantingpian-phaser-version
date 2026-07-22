@@ -237,6 +237,19 @@ export function consumeStackByFillName(
   return { ok: false, message: `${fillName} 不在背包中`, before: 0, after: 0 };
 }
 
+export function getStackQuantityByFillName(
+  store: InventoryStore,
+  fillName: string,
+): number {
+  for (const category of InventoryCategories) {
+    const stack = store.categories[category].find((entry): entry is InventoryItemStack =>
+      entry.kind === 'stack' && entry.definition.fillName === fillName
+    );
+    if (stack) return stack.quantity;
+  }
+  return 0;
+}
+
 export function addInventoryEntry(
   store: InventoryStore,
   entry: InventoryEntry,

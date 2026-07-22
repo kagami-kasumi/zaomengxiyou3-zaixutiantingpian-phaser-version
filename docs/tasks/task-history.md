@@ -13,6 +13,10 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-059 | 装备工坊逆向 | 闭合强化/分解/制作书三子页的权威行为与几何合同 | M-036、M-037、M-052、VS-054 | `equipment-workshop-index.md`、强化/分解公式、79 制作书 case、实例/返还/owner/save/几何矩阵 |
+| TASK-SLICE-137 | 正式功能 UI | 接入真宠物页、完整管理交互、双 owner runtime 与 V4 | M-016、M-042、M-052、VS-054 | `FormalPetPageSystem.ts`、真 932 页面、5×2/全属性/8 槽、出战/休息/放生/成长、运行时同步与专项验收 |
+| TASK-SLICE-136 | 正式功能 UI | 接入真技能总页、主动/绑定/被动子页、双 owner 与 HUD/V4 | M-016、M-041、M-052、VS-054 | `FormalSkillPageSystem.ts`、四页真资源、学习/升级/五槽绑定/被动、运行时同步与专项/浏览器验收 |
+| TASK-SLICE-135 | 正式功能 UI | 接入真背包/装备页、双玩家 owner、穿脱与 V4 重载 | M-016、M-036、M-037、M-052、VS-054 | `FormalInventoryPageSystem.ts`、`FeatureUiScene.ts` 真 304/246 页面、四分类/分页/格子、P1/P2 穿脱、安全反馈、专项与浏览器验收 |
 | TASK-ARCH-009 | 存档基础设施 | 升级 V4 双玩家功能存档并安全迁移 V1/V2/V3 | M-036、M-037、M-041、M-042、M-043、M-044、M-052、VS-054 | `SaveSystem.ts` V4、正式存取 bridge、双 owner/迁移/损坏专项测试 |
 | TASK-ARCH-008 | UI 基础设施 | 建立跨地图与 Stage 1 三关的 owner-aware 正式功能页 host | M-016、M-052、VS-054 | `FeatureUiHostSystem.ts`、`FeatureUiScene.ts`、统一入口 bridge、四 origin 接线、专项测试与浏览器验收 |
 | TASK-SETTINGS-058 | 完整 UI 覆盖盘点 | 建立背包、装备、技能、宠物和法宝页面全集并拆分连续任务 | M-016、M-036、M-037、M-041、M-042、M-043、M-052、VS-054 | `full-function-ui-index.md`、14 页覆盖矩阵、11 条真资源标注、`TASK-ARCH-008/009`、`TASK-SLICE-135..140`、`TASK-SETTINGS-059` |
@@ -4591,6 +4595,53 @@
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
 
+### TASK-SLICE-137
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SETTINGS-059`）
+- 新增 `FormalPetPageSystem`，从活动 V4 恢复 P1/P2 roster/inventory，完成每页 5、最多 10、选择位置即时保存，以及出战/休息和二次点击确认放生。
+- 页面复用 `PetRosterSystem`、`PetConsumableSystem` 与 `PetPanelSystem` 的权威领域规则，展示完整成长/战斗属性和固定 8 个技能显示槽；成长重洗 `cwzzxld`、技能重洗 `cwjnxld` 与三形态进化 `nianjhd` 同步消耗 owner 背包并保存。
+- 接入 `assets/pet1.swf` character 932 的 940×590 真页面，P1 `B` / P2 num `-` 路由、owner 切换、运行时 roster 替换/实体重建通知与当前槽重载闭合。
+- 浏览器本地重载被 Browser URL policy 拒绝；遵守限制，没有改用替代浏览器或绕过。P1/P2 owner、运行时和重载由确定性专项测试覆盖，此限制已同步到 FUI-08 与治理反馈。
+
+更新文件：
+- `src/systems/FormalPetPageSystem.ts`、`PetRosterSystem.ts`、`InventorySystem.ts`
+- `src/scenes/feature-ui/FormalPetPageView.ts`、`FormalPetRuntimeBridge.ts`、`FeatureUiScene.ts`
+- `src/assets/AssetManifest.ts`、`public/assets/ui/feature/pets/pet-page.svg`
+- `tools/formal-pet-tests.ts`、系统测试入口与 package script
+- FUI/机制/切片/功能线/任务/资源标注与 PG-001/002/004/005 文档
+
+验证：
+- `npm run test:formal-pets`、`npm run test:systems`、`npm run build`、`git diff --check` 通过。
+- `npm run check:structure` 只有任务开始前已有的 8 条 warning；本任务没有修改 warning 源文件。
+- 文档收尾后运行 `npm run check:workflow` 与 `npm run check:annotations`。
+
+推荐任务：
+- `TASK-SETTINGS-059`：按六段证据链闭合 Strength/Resolution/Making 的材料、概率、实例字段、失败/返还和保存语义。
+
+### TASK-SETTINGS-059
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SLICE-138`）
+- 新增 `equipment-workshop-index.md`，按六段证据链从 `Strength/Resolution/Making` 追到共享 `StrengthEquipment/PackThings/User/AllEquipment/MyEquipObj`，没有把局部 UI 或已派生资源冒充行为闭合。
+- 强化合同闭合：5 石级×7 目标等级概率、三槽累加/封顶、幸运符 `×1.25`、7 档灵魂、+3 起失败降级、神恩保底、准入/神器白名单、实例属性公式与原存档字段。
+- 分解合同闭合：武器/防具/饰品准入、固定 100 灵魂、品质/类型/角色基础材料、一级宝石后减随机链和神器 20.8%/20.4% 专属产物；优秀品质实际不产宝石按代码事实保留。
+- 制作合同闭合：79 个 switch case 中 78 个静态目录可达，`zxqtgzzs` 为无定义死分支；全部必需材料、品质灵魂、三可选宝石随机属性、产物 id、成功消费与关闭返还均落盘。
+- 记录 119 根内 character 198/177 偏移 `(175.6,128.45)`、152 偏移 `(175.6,110.45)`，以及全部可交互实例局部矩阵、67×66 槽位和 940×590 裁切语义。
+- 现代实现门禁明确要求装备实例增加 `strengthLevel` 与制作随机属性覆写，并做旧档默认迁移；影响实现的推断/未知为零。
+
+更新文件：
+- `docs/reverse-engineering/equipment-workshop-index.md`
+- `docs/reverse-engineering/full-function-ui-index.md`、`mechanics-index.md`
+- 完整 UI 资源标注说明、功能线/覆盖台账/切片/任务/历史和 PG-002/004/005
+
+验证：
+- 机械复核 `findNeedMaterialByName`：79 case、78 个静态定义、唯一缺失 `zxqtgzzs`。
+- `npm run check:workflow`、`npm run check:annotations`、`git diff --check` 在文档收尾后运行。
+
+推荐任务：
+- `TASK-SLICE-138`：依据本矩阵接入工坊四标签、双 owner 事务、实例存档与重载。
+
 ### TASK-SLICE-134
 
 - 完成日期：2026-07-22
@@ -4740,6 +4791,56 @@
 
 推荐任务：
 - `TASK-SLICE-135`：接入真背包/装备页、P1/P2 分类分页、穿脱、安全物品反馈与 V4 重载。
+
+### TASK-SLICE-135
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SLICE-136`）
+- 新增纯 `FormalInventoryPageSystem`，从活动槽恢复 V4 双玩家功能状态，页面命令只调用既有 `InventorySystem` 穿脱规则；成功事务立即写回当前槽，不持久化 UI 会话。
+- `FeatureUiScene` 接入 `BackPack` 304 与 `BackPackElement` 246 真资源，按 940×590 舞台裁切，动态生成四分类、每页 25 格、六装备槽、详情/反馈和 P1/P2 owner 切换。
+- 装备穿戴、槽位卸下、换页边界和 owner 切换保持选择安全；道具、时装、技能书等未闭合效果明确拒绝，不补造完整 1.1 物品行为。
+- 专项测试覆盖四分类、25 格分页、P1/P2 穿脱隔离、实际卸装、非装备安全反馈和 V4 重载；系统/build 通过。
+- 浏览器在正式启动槽 → 天庭地图打开 P1 真背包页，并进入双人 Stage 1-1 验证双方 runtime/HUD 与无控制台错误；浏览器控制面无法合成小键盘 `/`，P2 快捷键及 owner 页切换由专项/host 测试覆盖，不伪写成人工键位已证实。
+
+更新文件：
+- `src/systems/FormalInventoryPageSystem.ts`
+- `src/scenes/FeatureUiScene.ts`、`src/assets/AssetManifest.ts`、`src/scenes/BootScene.ts`
+- `public/assets/ui/full-function/` 下 304/246 真资源
+- `tools/formal-inventory-tests.ts`、系统 runner、`package.json`
+- 完整 UI 证据/资源标注、机制/切片、功能线/覆盖台账、任务与 PG 反馈文档
+
+验证：
+- `npm run check:structure` 前置通过，仅保留 8 个既有 warning；新页面规则位于独立 system，未继续膨胀告警文件。
+- `npm run test:formal-inventory`、`npm run test:systems`、`npm run build` 与 `git diff --check` 通过；Vite 只保留既有 chunk 大小 warning。
+- 940×590 P1 正式页面与双人 Stage 1-1 浏览器样本通过，console 无 warning/error；P2 物理快捷键限制如上公开。
+
+推荐任务：
+- `TASK-SLICE-136`：接入真技能总页、主动/被动/绑定子页、P1/P2 学习/升级/五槽绑定、HUD 刷新与保存。
+
+### TASK-SLICE-136
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SLICE-137`）
+- 新增纯 `FormalSkillPageSystem`，复用 `SkillUISystem` 的两树×五技能、树升级成本、学习上限、技能升级等级/灵魂门禁、P1/P2 五槽源顺序和被动上限；页面层没有复制或改写战斗数值。
+- `FormalSkillPageView` 接入 `BuySkill` 250、`SkillControl` 868、`SkillSetControl` 417、`PassiveSkillControl` 213 真资源，完成总页、主动双树、五槽绑定和被动子页。
+- 地图正式 host 允许管理两份持久化本地玩家数据；P1/P2 owner 操作即时写回 V4 当前槽。`FormalSkillRuntimeBridge` 同步 Stage 1-1 当前 runtime，并让 Stage 1-2/1-3 HUD 在保存事件或重载后读取最新 loadout。
+- 专项测试覆盖树升级/学习、锁定反馈、技能升级与已绑定等级同步、被动升级、P1/P2 隔离、五槽、V4 重载、四真资源和三关同步接线。
+- 浏览器确认正式地图 V 入口、940×590 真技能页、心法/五槽/被动子页可见且 console 无 warning/error；最后一次重载被 Browser URL policy 拒绝，未绕过策略，剩余双 owner/重载路径由确定性专项覆盖。
+
+更新文件：
+- `src/systems/FormalSkillPageSystem.ts`
+- `src/scenes/feature-ui/FormalSkillPageView.ts`、`FormalSkillRuntimeBridge.ts`、`FeatureUiScene.ts`
+- `HeavenMapScene.ts`、Stage 1-2/1-3 gameplay bridge
+- `src/assets/AssetManifest.ts`、`public/assets/ui/feature/skills/`
+- `tools/formal-skill-tests.ts`、系统 runner、`package.json`
+- 完整 UI 证据/资源标注、机制/切片、功能线/覆盖台账、任务与 PG 反馈文档
+
+验证：
+- `npm run test:formal-skills`、`npm run test:systems`、`npm run build` 与 `git diff --check` 通过；Vite 只保留既有 chunk 大小 warning。
+- `npm run check:structure` 不再为 `FeatureUiScene` 产生新增边界 warning；其余 8 个既有 warning 未扩大。
+
+推荐任务：
+- `TASK-SLICE-137`：接入真宠物页、5×2 分页、完整属性/8 技能、出战/休息/放生/成长与双 owner runtime/save。
 
 ### TASK-ARCH-008
 

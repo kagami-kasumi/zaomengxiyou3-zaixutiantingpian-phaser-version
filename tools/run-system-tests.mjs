@@ -27,6 +27,8 @@ const bundledTests = requestedTests.length > 0
       'feature-ui-host-tests',
       'feature-save-v4-tests',
       'formal-inventory-tests',
+      'formal-skill-tests',
+      'formal-pet-tests',
       'monster-runtime-tests',
     ];
 

@@ -4,6 +4,32 @@
 
 ## 2026-07-22
 
+### 新增 Goal 包层并限制单次 `/goal` 上下文预算
+
+变更内容：
+
+- 在功能线与 task 之间新增 `docs/tasks/goal-board.md`：功能线继续负责完整系统范围和单线 WIP，Goal 包专门负责一次 `/goal` 的停止与交接边界。
+- 规定 Goal 默认只绑定一个 task，只有共用同一产物/验证批次时才可书面说明后绑定最多两个；每个 Goal 最多承受一次 compact。
+- Goal 完成后激活同线下一 Goal，但必须停止当次 `/goal` 并交接；第一次 compact 后禁止扩展范围，估计需要第二次时必须回写安全检查点并拆分。
+- 将跨工坊容器、Fusion、强化、分解、制作书和 V4 迁移的 `TASK-SLICE-138` 标为 `Split`，拆成 `138A..138D`，并分别由 `GOAL-001..004` 承载。
+- 当前唯一可执行单元改为 `GOAL-001` / `TASK-SLICE-138A`；后续工坊子页、法宝、端到端闭环和 Stage 2-1 逆向各自占用独立 Goal。
+- 更新 Agent/Claude/总任务书、详细执行协议、任务生成规范、README、文档地图、功能线与覆盖/机制/切片/逆向索引。
+- 扩展 `tools/validate-workflow.mjs`，自动拒绝多 Active Goal、跨功能线 Goal、Active Goal 外可执行 task、task/Goal 映射不一致、超过两个 task 或未声明最多一次 compact 的 Goal。
+
+影响范围：
+
+- `AGENTS.md`、`CLAUDE.md`、`TASK_OUTLINE.md`
+- `docs/tasks/goal-board.md`、`feature-lines.md`、`task-board.md`、`vertical-slices.md`、`feature-line-coverage/LINE-FORMAL-GAME-LOOP.md`
+- `docs/workflow/README.md`、`document-map.md`、`agent-protocol.md`、`task-generation.md`、`governance-log.md`
+- `docs/reverse-engineering/equipment-workshop-index.md`、`full-function-ui-index.md`、`mechanics-index.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`、`PG-004-问题治理缺少效果反馈闭环.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- 已在修改前运行 `npm run check:structure`，仅报告既有 `src/`/测试大文件 warning，本次不修改这些目标。
+- `npm run check:workflow` 和 `git diff --check` 在本条记录落盘后运行。
+
 ### 归档 Stage 1 战斗校准切片并继续正式游戏循环
 
 变更内容：

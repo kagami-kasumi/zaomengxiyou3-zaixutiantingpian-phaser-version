@@ -56,6 +56,11 @@ import {
   createStage1CombatEnemyHudSnapshot,
   createStage1CombatPlayerHudSnapshot,
 } from '../../systems/Stage1CombatHudSystem';
+import {
+  FormalSkillsUpdatedEvent,
+  readFormalSkillRuntime,
+  type FormalSkillsUpdatedPayload,
+} from '../feature-ui/FormalSkillRuntimeBridge';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
@@ -92,6 +97,16 @@ export function createStage12Gameplay(
     view,
     combat: createStage1CombatPlayer(index === 0 ? 'p1' : 'p2'),
   }));
+  const restoredSkills = readFormalSkillRuntime(getBrowserStorage());
+  players.forEach((player, index) => {
+    const source = index === 0 ? restoredSkills?.player1 : restoredSkills?.player2;
+    if (source) player.combat.skill.loadout = source.skillLoadout;
+  });
+  const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
+    const player = players.find((candidate) => candidate.combat.slot === payload.owner);
+    if (player) player.combat.skill.loadout = payload.skillLoadout;
+  };
+  scene.events.on(FormalSkillsUpdatedEvent, syncSkills);
   const movementRuntime = createLevelHeroMovementRuntime(playerViews.map((view) => ({
     x: view.x,
     y: STAGE12_GROUND_TOP_Y,
@@ -185,6 +200,7 @@ export function createStage12Gameplay(
     flow,
     update,
     destroy: () => {
+      scene.events.off(FormalSkillsUpdatedEvent, syncSkills);
       status.destroy();
       fbEnter.destroy();
       rewards.destroy();

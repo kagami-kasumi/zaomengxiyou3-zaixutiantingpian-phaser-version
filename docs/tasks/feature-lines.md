@@ -1,12 +1,13 @@
 # 功能条线台账
 
-本文是完整玩家系统范围、激活状态和关闭证据的权威入口。功能条线是对用户作出的完整交付承诺；task 是条线内部的执行单位；纵向切片只提供阶段验证，不能单独证明条线完成。
+本文是完整玩家系统范围、激活状态和关闭证据的权威入口。功能条线是对用户作出的完整交付承诺；`goal-board.md` 的 Goal 是一次 `/goal` 的交接边界；task 是最小验收单位；纵向切片只提供阶段验证。Goal/task/切片都不能单独证明条线完成。
 
 ## 调度硬规则
 
 - 全项目严格保持单条功能线 `WIP=1`：只要存在未完成条线，就必须且只能有一条 `Active`。
 - `Active` 条线关闭前，所有 `Ready`、`Blocked` 和当前推荐 task 都必须属于该条线。
 - task 完成后立即归档，但条线保持 `Active`，下一 task 必须继续来自同一条线。
+- Goal 完成后结束当次 `/goal` 并激活同线下一 Goal；条线在多个 Goal 间保持 `Active`，不得因交接而切线。
 - 遇到阻塞时记录阻塞并生成同线解除阻塞 task；不得激活或推进其他条线。
 - 只有范围矩阵、正式流程、真资源和验证证据全部闭合后才能标记 `Done`。
 - `Planned` 条线可以保留候选 task，但这些 task 只能是 `Planned`，不能进入当前推荐。
@@ -25,7 +26,7 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-135 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 完整功能 UI 的逐页实现尚未完成 | 待覆盖台账全部闭合 |
+| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-138A | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 工坊与法宝正式页面尚未完成 | 待覆盖台账全部闭合 |
 | LINE-STAGE-2-1 | Planned | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 等待 `LINE-FORMAL-GAME-LOOP` 关闭；资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
 
 ## 当前功能线状态
@@ -67,6 +68,14 @@
 `TASK-ARCH-008` 已归档：新增共享 owner-aware `FeatureUiHostSystem`、正式 Phaser overlay 与统一入口 bridge，HeavenMap/Stage 1 三关复用同一单实例互斥、模态冻结、暂停/恢复和关闭合同；未实现页面明确显示待接入，不冒充完整 UI。功能线保持 Active，当前推进 `TASK-ARCH-009` 升级 V4 双玩家功能存档。
 
 `TASK-ARCH-009` 已归档：`SaveSystem` 升级为 V4 同构双玩家功能快照，保存双方成长、技能、库存/装备和宠物；V1/V2/V3 保留已有 P1 与宠物并为缺失域使用安全默认，正式当前槽和 1P 保留未上场 P2 数据均有专项回归。功能线保持 Active，当前推进 `TASK-SLICE-135` 真背包/装备页。
+
+`TASK-SLICE-135` 已归档：真 304/246 背包资源进入 940×590 正式页，四分类、25 格分页、装备槽、P1/P2 owner 穿脱、安全拒绝和 V4 当前槽重载闭合；专项、系统、build 与地图/双人 Stage 1-1 浏览器验收通过。功能线保持 Active，当前推进 `TASK-SLICE-136` 真技能页。
+
+`TASK-SLICE-136` 已归档：真 250/868/417/213 技能总页、主动双树、五槽绑定和被动页进入正式 host，复用权威树/学习/升级/绑定/灵魂门禁；地图管理双持久化 owner，三关在保存后同步 HUD 或从 V4 重载。功能线保持 Active，当前推进 `TASK-SLICE-137` 真宠物页。
+
+`TASK-SLICE-137` 已归档：真 `pet1.swf` 932 宠物页进入正式 host，完成每页 5/最多 10、完整属性、8 技能展示、出战/休息、二次确认放生、成长/技能重洗和三形态进化；P1/P2 当前槽、运行时重建和确定性专项均闭合。浏览器已受 URL 策略限制，未绕过；页面路由、双 owner 与重载由专项/系统/build 覆盖。功能线保持 Active，当前推进 `TASK-SETTINGS-059`。
+
+`TASK-SETTINGS-059` 已归档：`equipment-workshop-index.md` 从三子页追到 `AllEquipment/MyEquipObj/User/PackThings/StrengthEquipment`，闭合强化 5×7 概率、灵魂/降级/保底、实例存档，分解品质/类型/角色随机链，以及 79 个制作书 case（78 可达、1 死分支）、宝石实例加成、关闭返还与 198/177/152 几何。影响实现的未知为零。原 `TASK-SLICE-138` 因跨容器、三类事务和存档迁移过重，已拆成 `138A..138D` 和 `GOAL-001..004`；功能线保持 Active，当前只推进 `GOAL-001` / `TASK-SLICE-138A`。
 
 ## 关闭与切线
 

@@ -311,6 +311,19 @@ export function restSelectedPet(roster: PetRoster): boolean {
   return true;
 }
 
+export function releaseSelectedPet(roster: PetRoster): PetState | undefined {
+  const selected = getSelectedPet(roster);
+  if (!selected) {
+    roster.message = 'No pet selected';
+    return undefined;
+  }
+
+  roster.pets.splice(roster.selectedIndex, 1);
+  roster.selectedIndex = Math.max(0, Math.min(roster.selectedIndex, roster.pets.length - 1));
+  roster.message = `${selected.displayName} released`;
+  return selected;
+}
+
 export function toggleSelectedPetActive(roster: PetRoster): boolean {
   const selected = getSelectedPet(roster);
   if (!selected) {
@@ -406,5 +419,4 @@ function createPetStateFromDefinition(
     skillState: createPetSkillState(),
   };
 }
-
 

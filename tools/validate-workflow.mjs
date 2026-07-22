@@ -10,6 +10,7 @@ const files = {
   board: 'docs/tasks/task-board.md',
   history: 'docs/tasks/task-history.md',
   featureLines: 'docs/tasks/feature-lines.md',
+  goalBoard: 'docs/tasks/goal-board.md',
   taskGeneration: 'docs/workflow/task-generation.md',
   verticalSlices: 'docs/tasks/vertical-slices.md',
   mechanics: 'docs/reverse-engineering/mechanics-index.md',
@@ -41,6 +42,7 @@ const warnings = [];
 const taskDefinitionFields = [
   '任务类型：',
   '功能条线：',
+  'Goal 包：',
   '目标机制/切片：',
   '输入资料：',
   '输出产物：',
@@ -169,12 +171,27 @@ function parseTaskRows(markdown) {
   return tableRows(taskSection, /^\|\s*TASK-/).map((row) => ({
     id: row[0],
     status: row[1],
+    goalPackage: row[2].replaceAll('`', '').trim(),
+    featureLine: row[3],
+    type: row[4],
+    goal: row[5],
+    targetRefs: row[6],
+    output: row[7],
+    next: row[8],
+    row,
+  }));
+}
+
+function parseGoalRows(markdown) {
+  const overview = section(markdown, 'Goal 总览');
+  return tableRows(overview, /^\|\s*GOAL-\d{3}\s*\|/).map((row) => ({
+    id: row[0],
+    status: row[1],
     featureLine: row[2],
-    type: row[3],
-    goal: row[4],
-    targetRefs: row[5],
-    output: row[6],
-    next: row[7],
+    taskIds: [...new Set(row[3].match(/TASK-(?:[A-Z]+-)?\d+[A-Z]?/g) ?? [])],
+    deliveryBoundary: row[4],
+    compactBudget: row[5],
+    nextGoal: row[6],
     row,
   }));
 }
@@ -451,6 +468,131 @@ function checkFeatureLines(featureLinesText, featureLines, taskRows, recommended
   checkFeatureLineInvariantSamples();
 }
 
+function goalInvariantErrors(goalRows, featureLines, taskRows, recommendedIds) {
+  const invariantErrors = [];
+  const activeLine = featureLines.find((line) => line.status === 'Active');
+  const activeGoals = goalRows.filter((goal) => goal.status === 'Active');
+  const activeGoal = activeGoals[0];
+  const unfinishedLines = featureLines.filter((line) => line.status !== 'Done');
+  const goalIds = goalRows.map((goal) => goal.id);
+
+  if (goalRows.length === 0) {
+    invariantErrors.push('goal-board.md has no Goal rows.');
+    return invariantErrors;
+  }
+  for (const id of duplicateIds(goalIds)) {
+    invariantErrors.push(`goal-board.md has duplicate Goal id: ${id}`);
+  }
+  if (unfinishedLines.length > 0 && activeGoals.length !== 1) {
+    invariantErrors.push(`goal-board.md must have exactly one Active Goal while unfinished lines exist; found ${activeGoals.length}.`);
+  }
+  for (const goal of goalRows) {
+    if (!['Active', 'Planned', 'Blocked', 'Done'].includes(goal.status)) {
+      invariantErrors.push(`${goal.id} has invalid Goal status: ${goal.status}`);
+    }
+    if (goal.taskIds.length === 0 || goal.taskIds.length > 2) {
+      invariantErrors.push(`${goal.id} must bind one task by default and no more than two tasks; found ${goal.taskIds.length}.`);
+    }
+    if (!/最多\s*1\s*次/.test(goal.compactBudget)) {
+      invariantErrors.push(`${goal.id} must declare a compact budget of at most one.`);
+    }
+    for (const taskId of goal.taskIds) {
+      const task = taskRows.find((candidate) => candidate.id === taskId);
+      if (goal.status !== 'Done' && !task) {
+        invariantErrors.push(`${goal.id} binds missing unfinished task: ${taskId}`);
+      } else if (task && task.goalPackage !== goal.id) {
+        invariantErrors.push(`${goal.id} binds ${taskId}, but task-board maps it to ${task.goalPackage || '(missing)'}.`);
+      }
+    }
+  }
+  for (const task of taskRows) {
+    if (task.status === 'Split') {
+      if (task.goalPackage !== '—') {
+        invariantErrors.push(`${task.id} is Split and must not occupy a Goal package.`);
+      }
+      continue;
+    }
+    const goal = goalRows.find((candidate) => candidate.id === task.goalPackage);
+    if (!goal) {
+      invariantErrors.push(`${task.id} references missing Goal package: ${task.goalPackage || '(missing)'}.`);
+    } else if (!goal.taskIds.includes(task.id)) {
+      invariantErrors.push(`${task.id} is not listed in its Goal package ${goal.id}.`);
+    } else if (goal.featureLine !== task.featureLine) {
+      invariantErrors.push(`${task.id} and ${goal.id} must belong to the same feature line.`);
+    }
+  }
+  if (activeGoal) {
+    if (activeGoal.featureLine !== activeLine?.id) {
+      invariantErrors.push(`${activeGoal.id} is Active outside the Active feature line ${activeLine?.id ?? '(none)'}.`);
+    }
+    const executableTasks = taskRows.filter((task) => task.status === 'Ready' || task.status === 'Blocked');
+    for (const task of executableTasks) {
+      if (!activeGoal.taskIds.includes(task.id)) {
+        invariantErrors.push(`${task.id} is executable outside the Active Goal ${activeGoal.id}.`);
+      }
+    }
+    if (recommendedIds.length !== 1 || !activeGoal.taskIds.includes(recommendedIds[0])) {
+      invariantErrors.push(`${activeGoal.id} must contain the only current recommendation.`);
+    }
+  }
+  return invariantErrors;
+}
+
+function checkGoalInvariantSamples() {
+  const line = { id: 'LINE-A', status: 'Active' };
+  const task = { id: 'TASK-SLICE-900', status: 'Ready', featureLine: 'LINE-A', goalPackage: 'GOAL-900' };
+  const goal = {
+    id: 'GOAL-900', status: 'Active', featureLine: 'LINE-A', taskIds: [task.id], compactBudget: '最多 1 次',
+  };
+  if (goalInvariantErrors([goal], [line], [task], [task.id]).length > 0) {
+    error('Goal positive invariant sample failed.');
+  }
+  const samples = [
+    {
+      name: 'double Active Goal',
+      goals: [goal, { ...goal, id: 'GOAL-901' }],
+      tasks: [task],
+      expected: 'exactly one Active Goal',
+    },
+    {
+      name: 'Active Goal outside Active line',
+      goals: [{ ...goal, featureLine: 'LINE-B' }],
+      tasks: [task],
+      expected: 'outside the Active feature line',
+    },
+    {
+      name: 'executable task outside Active Goal',
+      goals: [goal, { ...goal, id: 'GOAL-901', status: 'Planned', taskIds: ['TASK-SLICE-901'] }],
+      tasks: [task, { id: 'TASK-SLICE-901', status: 'Ready', featureLine: 'LINE-A', goalPackage: 'GOAL-901' }],
+      expected: 'executable outside the Active Goal',
+    },
+    {
+      name: 'oversized Goal',
+      goals: [{ ...goal, taskIds: ['TASK-SLICE-900', 'TASK-SLICE-901', 'TASK-SLICE-902'] }],
+      tasks: [task],
+      expected: 'no more than two tasks',
+    },
+  ];
+  for (const sample of samples) {
+    const sampleErrors = goalInvariantErrors(sample.goals, [line], sample.tasks, [task.id]);
+    if (!sampleErrors.some((message) => message.includes(sample.expected))) {
+      error(`Goal negative sample did not fail as expected (${sample.name}): ${sample.expected}`);
+    }
+  }
+}
+
+function checkGoals(goalBoard, goalRows, featureLines, taskRows, recommendedIds) {
+  for (const message of goalInvariantErrors(goalRows, featureLines, taskRows, recommendedIds)) {
+    error(message);
+  }
+  for (const requiredText of ['最多一次上下文压缩', '不在同一次 `/goal` 中隐式续跑下一 Goal', '默认只绑定一个 task']) {
+    if (!goalBoard.includes(requiredText)) {
+      error(`goal-board.md must include Goal sizing rule: ${requiredText}`);
+    }
+  }
+  checkGoalInvariantSamples();
+}
+
 function checkHistory(history, boardIds) {
   const historyTaskSection = section(history, '已完成任务');
   const historyDefinitionsOnly = beforeSection(section(history, '已完成任务定义'), '执行记录');
@@ -522,7 +664,7 @@ function checkStartupRules(agents, outline) {
   }
 }
 
-function checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration) {
+function checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration, goalBoard) {
   for (const [name, text] of [
     ['AGENTS.md', agents],
     ['CLAUDE.md', claude],
@@ -531,6 +673,7 @@ function checkFeatureLineRouting(agents, claude, outline, workflowReadme, docume
     ['docs/workflow/document-map.md', documentMap],
     ['docs/workflow/agent-protocol.md', agentProtocol],
     ['docs/workflow/task-generation.md', taskGeneration],
+    ['docs/tasks/goal-board.md', goalBoard],
   ]) {
     if (!text.includes('feature-lines.md')) {
       error(`${name} must route formal game work through docs/tasks/feature-lines.md.`);
@@ -541,6 +684,19 @@ function checkFeatureLineRouting(agents, claude, outline, workflowReadme, docume
   }
   if (!taskGeneration.includes('WIP=1') || !taskGeneration.includes('不得切线')) {
     error('task-generation.md must enforce strict WIP=1 and prohibit cross-line task generation.');
+  }
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['TASK_OUTLINE.md', outline],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+    ['docs/workflow/agent-protocol.md', agentProtocol],
+    ['docs/workflow/task-generation.md', taskGeneration],
+  ]) {
+    if (!text.includes('goal-board.md')) {
+      error(`${name} must route /goal work through docs/tasks/goal-board.md.`);
+    }
   }
 }
 
@@ -951,6 +1107,7 @@ const outline = read(files.outline);
 const board = read(files.board);
 const history = read(files.history);
 const featureLinesText = read(files.featureLines);
+const goalBoard = read(files.goalBoard);
 const taskGeneration = read(files.taskGeneration);
 const mechanicsText = read(files.mechanics);
 const verticalSlices = read(files.verticalSlices);
@@ -982,6 +1139,7 @@ const languageProcess = read(files.languageProcess);
 
 const taskRows = parseTaskRows(board);
 const featureLines = parseFeatureLineRows(featureLinesText);
+const goalRows = parseGoalRows(goalBoard);
 const boardIds = taskRows.map((row) => row.id);
 const boardDefinitionSection = section(board, '任务完成定义');
 const boardDefinitionIds = taskDefinitions(boardDefinitionSection);
@@ -991,17 +1149,19 @@ const mechanics = parseMechanics(mechanicsText);
 checkBoardShape(board, taskRows, boardDefinitionIds, taskBlockList);
 const recommendedIds = checkRecommendations(board, taskRows);
 checkFeatureLines(featureLinesText, featureLines, taskRows, recommendedIds);
+checkGoals(goalBoard, goalRows, featureLines, taskRows, recommendedIds);
 const { historyRows, historyDefinitionIds } = checkHistory(history, boardIds);
 checkRefs(taskRows, mechanics, verticalSlices);
 checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
-checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration);
+checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration, goalBoard);
 checkUtf8ReadingRules(agents, claude, workflowReadme);
 checkRegimaRouting(agents, outline, board, workflowReadme, documentMap);
 checkWorkflowSeparation(mechanicsText);
 checkGovernanceLog([
   files.taskGeneration,
   files.featureLines,
+  files.goalBoard,
   files.workflowReadme,
   files.documentMap,
   files.codeQualityGates,
@@ -1059,3 +1219,4 @@ console.log('Workflow validation passed.');
 console.log(`- task-board: ${taskRows.length} unfinished tasks, ${boardDefinitionIds.length} definitions`);
 console.log(`- task-history: ${historyRows.length} completed tasks, ${historyDefinitionIds.length} definitions`);
 console.log(`- current recommendations: ${recommendedIds.join(', ')}`);
+console.log(`- goals: ${goalRows.length} tracked, active ${goalRows.find((goal) => goal.status === 'Active')?.id ?? 'none'}`);

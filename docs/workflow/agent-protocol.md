@@ -7,12 +7,12 @@
 本项目依靠文档维护跨对话记忆。只有正式游戏 task 才执行完整看板流程。
 功能线调度严格保持 `WIP=1`：当前完整系统关闭前不得切线，遇到阻塞只生成和处理同线解除任务。
 
-1. 先读 `AGENTS.md`、`TASK_OUTLINE.md`、`docs/tasks/feature-lines.md`，确认唯一 `Active` 功能线，再按冷启动阅读分流读取该 task 的必读文档。
-2. 如果用户指定了 task id，先确认它属于当前 `Active` 功能线；非激活线 task 不得直接执行，必须继续当前线，或由用户明确决定放弃/重定向当前完整目标并同步台账。
+1. 先读 `AGENTS.md`、`TASK_OUTLINE.md`、`docs/tasks/feature-lines.md` 和 `docs/tasks/goal-board.md`，确认唯一 `Active` 功能线与唯一 `Active` Goal，再按冷启动阅读分流读取该 task 的必读文档。
+2. 如果用户指定了 task id，先确认它属于当前 `Active` 功能线。若它不属于当前 `Active` Goal，必须先根据用户明确指令重排同线 Goal 台账，不得绕过 Goal 直接执行；非激活线 task 则必须继续当前线，或由用户明确放弃/重定向完整目标并同步台账。
 3. 如果用户要求执行 task 但没有指定 task id，只能选择看板“当前推荐”的同线 `Ready` task；不得从其他功能线的 `Planned` task 中挑选。
 4. 开始执行前，确认该 task 有独立的“完成定义”。如果没有，先按 `docs/workflow/task-generation.md` 在 `task-board.md` 为它补齐完成定义，再执行。
 5. 如果任务实际过大，不硬做完；按 `docs/workflow/task-generation.md` 把原任务标为 `Split`，拆出更小子任务，只完成其中一个可验收子任务。
-6. 任务结束时必须更新功能线覆盖台账、`task-board.md` 的状态和同线推荐后续任务；条线未关闭时禁止推荐其他系统。
+6. 任务结束时必须更新 Goal 状态、功能线覆盖台账、`task-board.md` 和同线推荐后续任务；条线未关闭时禁止推荐其他系统。
 7. 如果任务完成，把该任务从 `task-board.md` 移到 `docs/tasks/task-history.md`，并在历史中记录完成内容、产物和必要验证。
 8. 逆向任务必须遵循 `docs/workflow/reverse-engineering-protocol.md`，留下局部证据、共享调用链、适用的 SWF 几何/坐标语义、可观察合同、证据分级和验证计划，并同步更新 `docs/reverse-engineering/mechanics-index.md`。
 9. 实现任务还必须同步更新 `docs/tasks/vertical-slices.md`，并更新 `mechanics-index.md` 的复现状态。
@@ -22,26 +22,26 @@
 
 ## Goal 管理协议
 
-`/goal` 用于让 AI 按任务文档自动推进到一个可交接点，减少用户手动反复输入“继续”。任务文档的生成、维护和归档仍由本脚手架监督。
+`/goal` 用于执行 `goal-board.md` 中一个有界的 Goal 包，而不是在一次对话中一直跑到整条功能线关闭。功能线负责跨 Goal 持有完整范围；Goal 负责一次 `/goal` 的停止与交接边界；task 负责最小验收。
 
 触发 `/goal` 时：
 
-1. 先读取 `feature-lines.md`，恢复唯一 `Active` 功能线和系统级 goal。
-2. 如果用户指定了同线 task id，先执行该 task；如果指定非激活线 task，停止切线并说明当前完整目标。
-3. 如果用户没有指定 task id，从 `task-board.md` 选择当前推荐的同线 task。
-4. 如果当前没有可执行 task，先从当前线覆盖缺口或阻塞生成同线 task；不得切换到另一条线寻找 Ready 工作。
-5. 一个 task 完成后自动归档并继续同线下一 task，不因局部完成要求用户输入“继续”，也不结束系统级 goal。
-6. 遇到阻塞时先生成并解决同线解除阻塞 task；只有确实需要用户权限、材料或裁决时才停下来请求输入，等待期间不推进其他功能线。
-7. 只有当前功能线完整关闭，或用户明确决定放弃/重定向该线，系统级 `/goal` 才结束或切线。
+1. 先读取 `feature-lines.md` 和 `goal-board.md`，恢复唯一 `Active` 功能线、唯一 `Active` Goal 及其 compact 预算。
+2. 如果用户指定 Goal/task id，先确认它属于当前功能线。除非用户明确重排同线 Goal，否则只执行 `Active` Goal 绑定的 task；不得执行非激活线工作。
+3. 如果当前没有可执行 Goal，先从当前线覆盖缺口或阻塞生成一个同线、可交接的小 Goal，再生成或关联 task；不得切换到另一条线寻找 Ready 工作。
+4. Goal 默认只绑定一个 task；最多两个 task 的例外必须在 Goal 定义中记录“共用同一产物与验证批次”的具体理由。
+5. Goal 内 task 完成后归档。当 Goal 的绑定 task 全部完成时，将它标为 `Done`，激活同线下一 Goal，然后结束当次 `/goal` 并交接。禁止在同一次 `/goal` 中隐式执行下一 Goal。
+6. 每个 Goal 最多承受一次 compact。第一次 compact 后重读当前 Goal、task 定义、正在修改的文件和关键证据，只做当前范围的实现/验证/收尾。如果估计还需第二次 compact，立即在安全检查点停止，把剩余工作拆成同线下一 Goal 并回写交接状态。
+7. 遇到阻塞时只治理同线阻塞；只有确实需要用户权限、材料或裁决时才停下来请求输入，等待期间不推进其他功能线。
 
-`/goal` 的承诺粒度是当前完整功能线，执行粒度仍是小而可验收的 task。AI 不把整条线硬塞进一个巨大 task，而是在同一 goal 内连续拆分、执行、验证和归档，直到完整关闭合同满足。
+`/goal` 的承诺粒度是当前 Goal 包，不是完整功能线。完整功能线可跨多个 Goal 和多个对话持续 `Active`，从而保留目标所有权，又不把所有工作压进一次不受控的长对话。
 
 `/goal` 收尾必须输出：
 
-- 当前功能线、已完成/暂停/拆分的 task id，以及功能线是否仍为 `Active`。
+- 当前功能线、当前/下一 Goal、已完成/暂停/拆分的 task id，以及功能线是否仍为 `Active`。
 - 本次更新的代码和文档。
 - 已运行的验证命令和结果。
-- 下一步同线推荐 task；功能线未关闭时不得推荐其他系统。
+- 下一个同线 Goal 及其 task；功能线未关闭时不得推荐其他系统。
 - 对话管理判断：继续当前对话、优先 compact，或建议新开对话。
 - Git 管理判断：是否建议 commit、建议 commit message；是否建议 push。
 
@@ -83,7 +83,7 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 
 轻量请求完成后直接给结果，不需要建议新开对话。
 
-同一个正式游戏 task 尚未完成时，默认继续当前对话；如果上下文过长，优先依赖系统 compact 继续推进。compact 后应重新检查当前 task 的关键文档和正在修改的文件，不要只凭摘要继续。
+同一个正式游戏 task 尚未完成时，默认继续当前对话。Goal 允许最多一次 compact；compact 后应重新检查当前 Goal/task 的关键文档和正在修改的文件，不要只凭摘要继续。预计需要第二次 compact 时不再硬续，而是回写检查点并拆分下一 Goal。
 
 不要因为只完成了少量工作、刚做完一个小修、还在同一 task 的验证/修 bug/补文档阶段，就建议用户新开对话。
 

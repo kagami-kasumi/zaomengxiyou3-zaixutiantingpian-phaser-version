@@ -39,7 +39,8 @@ export class HeavenMapScene extends Phaser.Scene {
     }
 
     this.nodes = createHeavenMapSnapshot(save.levelUnlockProgress);
-    installFormalFeatureUiEntries(this, { originKind: 'map', playerCount: 1 });
+    // The map manages both persisted local-player owners even before a stage party size is chosen.
+    installFormalFeatureUiEntries(this, { originKind: 'map', playerCount: 2 });
     this.cameras.main.setBackgroundColor('#0b1526');
     this.add.image(0, 0, heavenMapAssets.world.key).setOrigin(0).setDepth(0);
     this.add.image(-1, 0, heavenMapAssets.menu.key).setOrigin(0).setDepth(20);
@@ -105,11 +106,11 @@ export class HeavenMapScene extends Phaser.Scene {
     saveZone.on('pointerdown', () => this.feedbackText?.setText('当前关卡进度已自动写回所选存档'));
     const workshopZone = this.add.zone(132, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     workshopZone.on('pointerdown', () => launchFormalFeatureUi(
-      this, 'workshop', 'p1', { originKind: 'map', playerCount: 1 },
+      this, 'workshop', 'p1', { originKind: 'map', playerCount: 2 },
     ));
     const skillsZone = this.add.zone(198, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     skillsZone.on('pointerdown', () => launchFormalFeatureUi(
-      this, 'skills', 'p1', { originKind: 'map', playerCount: 1 },
+      this, 'skills', 'p1', { originKind: 'map', playerCount: 2 },
     ));
     const backZone = this.add.zone(397, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     backZone.on('pointerdown', () => this.scene.start('SaveSlotScene'));

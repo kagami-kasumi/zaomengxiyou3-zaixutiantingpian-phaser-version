@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+// boundary: this overlay owns Phaser composition and host routing only;
+// inventory, skill, pet, persistence, and combat-HUD rules remain in systems/bridges.
 import { fullFeatureUiAssets } from '../assets/AssetManifest';
 import { EquipmentSlotOrder } from '../systems/EquipmentUISystem';
 import { EquipmentSlotLabels } from '../systems/EquipmentSystem';
@@ -20,6 +22,16 @@ import {
 } from '../systems/FormalInventoryPageSystem';
 import type { SaveStorage } from '../systems/SaveSystem';
 import {
+  createFormalSkillPage,
+  setFormalSkillOwner,
+  type FormalSkillPageModel,
+} from '../systems/FormalSkillPageSystem';
+import {
+  createFormalPetPage,
+  setFormalPetOwner,
+  type FormalPetPageModel,
+} from '../systems/FormalPetPageSystem';
+import {
   closeFeatureUi,
   FeatureUiPages,
   formatFeatureUiOwner,
@@ -34,6 +46,10 @@ import {
   P2_BACKPACK_KEY_CODE,
   P2_SKILLS_KEY_CODE,
 } from './feature-ui/FormalFeatureUiEntryBridge';
+import { createFormalSkillPageView } from './feature-ui/FormalSkillPageView';
+import { syncFormalSkillRuntime } from './feature-ui/FormalSkillRuntimeBridge';
+import { createFormalPetPageView } from './feature-ui/FormalPetPageView';
+import { syncFormalPetRuntime } from './feature-ui/FormalPetRuntimeBridge';
 
 const PageKeys: ReadonlyArray<{ keyCode: number; page: FeatureUiPage; owner: FeatureUiOwner }> = [
   { keyCode: Phaser.Input.Keyboard.KeyCodes.C, page: 'backpack', owner: 'p1' },
@@ -51,6 +67,10 @@ export class FeatureUiScene extends Phaser.Scene {
   private detailText?: Phaser.GameObjects.Text;
   private backpackLayer?: Phaser.GameObjects.Container;
   private inventoryModel?: FormalInventoryPageModel;
+  private skillLayer?: Phaser.GameObjects.Container;
+  private skillModel?: FormalSkillPageModel;
+  private petLayer?: Phaser.GameObjects.Container;
+  private petModel?: FormalPetPageModel;
   private storage?: SaveStorage;
   private finished = false;
 
@@ -110,11 +130,35 @@ export class FeatureUiScene extends Phaser.Scene {
   private renderSession(): void {
     if (!this.session) return;
     if (this.session.page === 'backpack') {
+      this.skillLayer?.destroy(true);
+      this.skillLayer = undefined;
+      this.petLayer?.destroy(true);
+      this.petLayer = undefined;
       this.renderBackpackPage();
+      return;
+    }
+    if (this.session.page === 'skills') {
+      this.backpackLayer?.destroy(true);
+      this.backpackLayer = undefined;
+      this.petLayer?.destroy(true);
+      this.petLayer = undefined;
+      this.renderSkillPage();
+      return;
+    }
+    if (this.session.page === 'pets') {
+      this.backpackLayer?.destroy(true);
+      this.backpackLayer = undefined;
+      this.skillLayer?.destroy(true);
+      this.skillLayer = undefined;
+      this.renderPetPage();
       return;
     }
     this.backpackLayer?.destroy(true);
     this.backpackLayer = undefined;
+    this.skillLayer?.destroy(true);
+    this.skillLayer = undefined;
+    this.petLayer?.destroy(true);
+    this.petLayer = undefined;
     this.titleText?.setText(`${formatFeatureUiOwner(this.session.owner)} · ${getFeatureUiPageLabel(this.session.page)}`);
     this.detailText?.setText([
       '共享入口、owner、互斥与返回协议已经生效。',
@@ -226,6 +270,66 @@ export class FeatureUiScene extends Phaser.Scene {
     this.backpackLayer = this.add.container(0, 0, objects).setDepth(20);
   }
 
+  private renderSkillPage(): void {
+    if (!this.session) return;
+    this.skillLayer?.destroy(true);
+    const owner = this.session.owner;
+    if (!this.skillModel && this.storage) {
+      this.skillModel = createFormalSkillPage(this.storage, owner);
+    }
+    if (this.skillModel && this.skillModel.owner !== owner) {
+      setFormalSkillOwner(this.skillModel, owner);
+    }
+    if (!this.skillModel || !this.storage) {
+      this.titleText?.setText(`${formatFeatureUiOwner(owner)} · 心法与技能`);
+      this.detailText?.setText('当前没有可读的活动存档，无法打开正式技能页。');
+      return;
+    }
+    this.skillLayer = createFormalSkillPageView(this, this.skillModel, this.storage, {
+      playerCount: this.session.playerCount,
+      onOwner: (nextOwner) => this.switchPage('skills', nextOwner),
+      onSaved: () => this.syncSkillRuntime(),
+      onClose: () => this.closeHost(),
+      onRerender: () => this.renderSkillPage(),
+    });
+  }
+
+  private syncSkillRuntime(): void {
+    if (!this.session || !this.skillModel) return;
+    const origin = this.scene.get(this.session.originSceneKey);
+    if (origin) syncFormalSkillRuntime(origin, this.skillModel);
+  }
+
+  private renderPetPage(): void {
+    if (!this.session) return;
+    this.petLayer?.destroy(true);
+    const owner = this.session.owner;
+    if (!this.petModel && this.storage) {
+      this.petModel = createFormalPetPage(this.storage, owner);
+    }
+    if (this.petModel && this.petModel.owner !== owner) {
+      setFormalPetOwner(this.petModel, owner);
+    }
+    if (!this.petModel || !this.storage) {
+      this.titleText?.setText(`${formatFeatureUiOwner(owner)} · 宠物`);
+      this.detailText?.setText('当前没有可读的活动存档，无法打开正式宠物页。');
+      return;
+    }
+    this.petLayer = createFormalPetPageView(this, this.petModel, this.storage, {
+      playerCount: this.session.playerCount,
+      onOwner: (nextOwner) => this.switchPage('pets', nextOwner),
+      onSaved: () => this.syncPetRuntime(),
+      onClose: () => this.closeHost(),
+      onRerender: () => this.renderPetPage(),
+    });
+  }
+
+  private syncPetRuntime(): void {
+    if (!this.session || !this.petModel) return;
+    const origin = this.scene.get(this.session.originSceneKey);
+    if (origin) syncFormalPetRuntime(origin, this.petModel);
+  }
+
   private closeHost(): void {
     if (this.finished) return;
     this.scene.stop();
@@ -239,6 +343,8 @@ export class FeatureUiScene extends Phaser.Scene {
     if (this.scene.isPaused(session.originSceneKey)) this.scene.resume(session.originSceneKey);
     this.session = undefined;
     this.inventoryModel = undefined;
+    this.skillModel = undefined;
+    this.petModel = undefined;
   }
 }
 

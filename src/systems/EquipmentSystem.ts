@@ -41,6 +41,7 @@ export type EquipmentDefinition = {
   quality: string;
   color: string;
   stats: EquipmentStats;
+  strengthGrowth?: Partial<EquipmentStats>;
   description: string;
   magicWeapon?: {
     level: number;
@@ -54,6 +55,8 @@ export type EquipmentInstance = {
   instanceId: string;
   definition: EquipmentDefinition;
   quantity: 1;
+  strengthLevel?: number;
+  baseStatsOverride?: Partial<EquipmentStats>;
 };
 
 export type EquipmentLoadout = Record<EquipmentSlot, EquipmentInstance | null>;
@@ -235,9 +238,33 @@ export function getEquippedItems(
 
 export function calculateEquipmentStats(loadout: EquipmentLoadout): EquipmentStats {
   return getEquippedItems(loadout).reduce(
-    (total, item) => addEquipmentStats(total, item.definition.stats),
+    (total, item) => addEquipmentStats(total, getEquipmentInstanceStats(item)),
     createEmptyEquipmentStats(),
   );
+}
+
+export function getEquipmentInstanceStats(instance: EquipmentInstance): EquipmentStats {
+  const base = createEmptyEquipmentStats({
+    ...instance.definition.stats,
+    ...instance.baseStatsOverride,
+  });
+  const level = Math.min(7, Math.max(0, Math.trunc(instance.strengthLevel ?? 0)));
+  if (level === 0 || !instance.definition.strengthGrowth) return base;
+  const growth = createEmptyEquipmentStats(instance.definition.strengthGrowth);
+  return {
+    maxHp: base.maxHp + growth.maxHp * level,
+    maxMp: base.maxMp + growth.maxMp * level,
+    power: base.power + growth.power * level,
+    defense: base.defense + growth.defense * level,
+    critPercent: base.critPercent + growth.critPercent * level,
+    missPercent: base.missPercent + growth.missPercent * level,
+    hpRegen: base.hpRegen + growth.hpRegen * level,
+    mpRegen: base.mpRegen + growth.mpRegen * level,
+    lifeStealPercent: base.lifeStealPercent + growth.lifeStealPercent * level,
+    magicDefensePercent: base.magicDefensePercent + growth.magicDefensePercent * level,
+    piercePercent: base.piercePercent + growth.piercePercent * level,
+    shield: base.shield + growth.shield * level,
+  };
 }
 
 export function calculateEffectiveStats(

@@ -15,6 +15,10 @@
 - `docs/tasks/feature-lines.md`
   - 完整玩家系统的范围、唯一 Active 条线、当前 task、阻塞和关闭证据的权威台账。
   - 严格单线 `WIP=1`；task/切片完成不能隐式关闭功能线。
+- `docs/tasks/goal-board.md`
+  - 一次 `/goal` 的执行边界与交接状态权威台账。
+  - 维护唯一 Active Goal、绑定 task、交付边界、最多一次 compact 的预算和同线下一 Goal。
+  - Goal 完成后停止当次 `/goal`；功能线仍可在多个 Goal 之间保持 Active。
 - `docs/tasks/feature-line-coverage/LINE-*.md`
   - 单条功能线的权威内容全集、覆盖矩阵、缺口和关闭检查。
   - 为连续 task 生成提供输入，不代替 task-board 的执行状态。
@@ -60,7 +64,7 @@
   - 不记录具体游戏任务状态。
 - `docs/workflow/task-generation.md`
   - 标准游戏任务生成规范。
-  - 说明如何从机制缺口、切片缺口或工程基础缺口生成任务。
+  - 说明如何从机制缺口、切片缺口或工程基础缺口生成 Goal 包与任务。
 - `docs/workflow/agent-protocol.md`
   - Agent 详细执行协议。
   - 维护正式游戏 task、`/goal` 管理、代码任务、Git、对话收束、任务生成和统一语言的细则，避免 `AGENTS.md` 过长。

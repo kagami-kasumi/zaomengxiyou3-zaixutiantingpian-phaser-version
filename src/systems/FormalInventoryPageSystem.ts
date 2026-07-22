@@ -116,7 +116,7 @@ export function equipFormalInventorySelection(
   );
   model.message = result.message;
   if (result.ok) persistFormalInventoryPage(model, storage);
-  clampSelection(model);
+  clampPageAndSelection(model);
   return result.ok;
 }
 
@@ -194,7 +194,8 @@ function persistFormalInventoryPage(model: FormalInventoryPageModel, storage: Sa
   model.sourceSave = save;
 }
 
-function clampSelection(model: FormalInventoryPageModel): void {
+function clampPageAndSelection(model: FormalInventoryPageModel): void {
+  model.pageIndex = Math.min(model.pageIndex, getFormalInventoryPageCount(model) - 1);
   const entries = getFormalInventoryPageEntries(model);
   model.selectedIndex = entries.length === 0
     ? 0

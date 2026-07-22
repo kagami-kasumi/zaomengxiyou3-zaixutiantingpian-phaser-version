@@ -3,13 +3,18 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fullFeatureUiAssets } from '../src/assets/AssetManifest';
 import {
+  changeFormalInventoryPage,
   createFormalInventoryPage,
   equipFormalInventorySelection,
+  getFormalInventoryPageCount,
   getFormalInventoryPageEntries,
+  selectFormalEquipmentSlot,
+  selectFormalInventoryCategory,
   selectFormalInventoryEntry,
   setFormalInventoryOwner,
   unequipFormalInventorySelection,
 } from '../src/systems/FormalInventoryPageSystem';
+import { InventoryCategories } from '../src/systems/InventorySystem';
 import { createSaveSlot, loadActiveGame } from '../src/systems/SaveSlotSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
 
@@ -48,7 +53,38 @@ function testOwnerEquipUnequipAndPersistence(): void {
   assert.ok(persisted);
   assert.equal(persisted.player1.equipment.accessory?.fillName, 'mysz');
   assert.equal(persisted.player2.equipment.accessory?.fillName, 'mysz');
-  assert.equal(unequipFormalInventorySelection(model, storage), false, 'weapon slot is selected by default and empty');
+
+  selectFormalEquipmentSlot(model, 2);
+  assert.equal(unequipFormalInventorySelection(model, storage), true);
+  const reloaded = createFormalInventoryPage(storage, 'p1');
+  assert.ok(reloaded);
+  assert.equal(reloaded.restored.player1.equipmentLoadout.accessory?.definition.fillName, 'mysz');
+  assert.equal(reloaded.restored.player2.equipmentLoadout.accessory, null);
+}
+
+function testCategoriesPagingAndSafeUnsupportedFeedback(): void {
+  const storage = createStorage();
+  assert.equal(createSaveSlot(storage, 0), true);
+  const model = createFormalInventoryPage(storage, 'p1');
+  assert.ok(model);
+
+  assert.equal(getFormalInventoryPageEntries(model).length, 25);
+  assert.ok(getFormalInventoryPageCount(model) >= 2);
+  changeFormalInventoryPage(model, 1);
+  assert.equal(model.pageIndex, 1);
+  assert.ok(getFormalInventoryPageEntries(model).length > 0);
+
+  for (const category of InventoryCategories) {
+    selectFormalInventoryCategory(model, category);
+    assert.equal(model.activeCategory, category);
+    assert.equal(model.pageIndex, 0);
+    assert.ok(getFormalInventoryPageEntries(model).length > 0, `${category} should expose seed content`);
+  }
+
+  selectFormalInventoryCategory(model, 'items');
+  selectFormalInventoryEntry(model, 0);
+  assert.equal(equipFormalInventorySelection(model, storage), false);
+  assert.equal(model.message, '该物品没有已支持的穿戴行为');
 }
 
 function testTrueAssetsAndSceneContract(): void {
@@ -66,5 +102,6 @@ function testTrueAssetsAndSceneContract(): void {
 }
 
 testOwnerEquipUnequipAndPersistence();
+testCategoriesPagingAndSafeUnsupportedFeedback();
 testTrueAssetsAndSceneContract();
 console.log('Formal backpack/equipment owner, persistence, and true asset tests passed.');

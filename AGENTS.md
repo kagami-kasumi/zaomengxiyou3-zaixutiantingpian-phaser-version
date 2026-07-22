@@ -52,9 +52,9 @@
 
 适用：用户指定 task id、要求执行 task、玩法逆向、修改 `src/` 实现玩法、生成/拆分/重排游戏任务、完成一个可交接切片。
 
-规则：按阅读分流补齐必读文档；普通执行一次只处理一个 task，`/goal` 则持有当前完整功能线并连续推进多个同线 task；任务完成必须留下可交接产物，并更新功能线、覆盖台账和 task 状态。详细流程见 `docs/workflow/agent-protocol.md`。
+规则：按阅读分流补齐必读文档；普通执行一次只处理一个 task，`/goal` 一次只处理 `docs/tasks/goal-board.md` 的唯一 `Active` Goal 包；Goal 默认只绑定一个 task，最多承受一次上下文压缩。功能线仍保持唯一 `Active` 并跨 Goal 连续；任务完成必须留下可交接产物，并更新 Goal、功能线、覆盖台账和 task 状态。详细流程见 `docs/workflow/agent-protocol.md`。
 
-用户使用 `/goal` 时，按 `feature-lines.md` 持有唯一 `Active` 功能线，task 完成后自动继续同线下一 task；遇到阻塞只治理本线阻塞，不切换系统。只有完整功能线关闭或确需用户输入时才停；收尾必须明确给出下一步、Git 提交/上传建议和对话管理建议。
+用户使用 `/goal` 时，先恢复唯一 `Active` 功能线，再只执行 `goal-board.md` 的唯一 `Active` Goal。Goal 完成后激活同线下一 Goal 并结束当次 `/goal`，不在同一次请求中连续跨 Goal；遇到阻塞仍只治理本线阻塞，不切换系统。第一次 compact 后禁止扩展范围，预计需要第二次时必须在安全检查点拆分并交接。收尾必须明确给出下一 Goal、Git 提交/上传建议和对话管理建议。
 
 ### 脚手架维护
 
@@ -67,7 +67,7 @@
 | 任务类型 | 额外必读文档 |
 | --- | --- |
 | 轻量请求：解释、typo、注释、单个常量、明显配置、小范围排错 | 无。只在改动涉及具体系统时再读相关文件。 |
-| 游戏任务执行：用户指定或要求执行 task | `docs/workflow/agent-protocol.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
+| 游戏任务执行：用户指定 task 或使用 `/goal` | `docs/workflow/agent-protocol.md`、`docs/tasks/feature-lines.md`、`docs/tasks/goal-board.md`、当前线覆盖台账、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | 玩法逆向：AS3、调用链、行为合同 | 游戏任务执行必读集 + `docs/workflow/reverse-engineering-protocol.md` + `local-resources/regima/legacy-extraction/README_extract.md` + 对应局部与共享 AS3 路径；视觉/空间结论还必须补 SWF 几何和坐标语义 |
 | 视觉资源逆向：symbol、位图、时间轴、资源族 | 游戏任务执行必读集 + `docs/reverse-engineering/evb-extraction-report.md` + `docs/reverse-engineering/asset-annotation/workflow.md` + `local-resources/regima/source/restored-swfs/` 中的目标源包；旧 `local-resources/regima/legacy-extraction/` 仅作交叉对照 |
 | 代码实现：修改 `src/` | 游戏任务执行必读集 + `docs/architecture/src-boundaries.md` + 对应 `src/` 文件 |

@@ -26,6 +26,8 @@
     "test:feature-ui-host": "node tools/run-system-tests.mjs feature-ui-host-tests",
     "test:feature-save-v4": "node tools/run-system-tests.mjs feature-save-v4-tests",
     "test:formal-inventory": "node tools/run-system-tests.mjs formal-inventory-tests",
+    "test:formal-skills": "node tools/run-system-tests.mjs formal-skill-tests",
+    "test:formal-pets": "node tools/run-system-tests.mjs formal-pet-tests",
     "test:monster-runtime": "node tools/run-system-tests.mjs monster-runtime-tests",
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",

@@ -1,17 +1,26 @@
 # 任务生成规范
 
-本文定义如何在完整功能条线内生成、拆分和连续调度游戏 task。功能条线状态以 `docs/tasks/feature-lines.md` 为准，未完成 task 在 `task-board.md`，完成历史在 `task-history.md`。
+本文定义如何在完整功能条线内生成、拆分和调度 Goal/task。功能条线状态以 `docs/tasks/feature-lines.md` 为准，单次 `/goal` 边界以 `docs/tasks/goal-board.md` 为准，未完成 task 在 `task-board.md`，完成历史在 `task-history.md`。
 
 ## 核心模型
 
-本项目使用四个不同层级：
+本项目使用五个不同层级：
 
 - **机制 `M-*`**：原版游戏事实单元。
 - **纵向切片 `VS-*`**：证明一段玩法或技术路径成立的验证样本。
 - **功能条线 `LINE-*`**：对用户作出的完整玩家系统交付承诺。
+- **Goal 包 `GOAL-*`**：一次 `/goal` 的有界执行与交接单元，最多承受一次 compact。
 - **task**：功能条线内部小而可验收的执行单位。
 
-切片完成不能推出功能条线完成。task 可以拆分和归档，但其所属 `LINE-*` 在完整关闭合同满足前必须保持目标所有权。
+切片、task 或 Goal 完成都不能推出功能条线完成。Goal 完成后当次 `/goal` 结束，但其所属 `LINE-*` 在完整关闭合同满足前继续保持目标所有权。
+
+## Goal 包标准
+
+- 只要存在未完成功能线，`goal-board.md` 必须且只能有一个 `Active` Goal，并且属于唯一 `Active` 功能线。
+- Goal 默认只绑定一个 task；最多两个的例外必须有共用产物和验证批次的书面理由。
+- Goal 必须有独立交付边界、验收证据、剩余风险和同线下一 Goal，并预计在零次或一次 compact 后完成。
+- 同时要求新资料族逆向、大范围实现和端到端验收的工作必须拆成多个 Goal。
+- Goal 完成后激活同线下一 Goal，但必须结束当次 `/goal`；禁止隐式续跑。
 
 ## 严格单线 WIP=1
 
@@ -55,6 +64,7 @@
 
 - `任务类型`：`TASK-SETTINGS`、`TASK-ARCH` 或 `TASK-SLICE`。
 - `功能条线`：唯一所属 `LINE-*` 及其状态。
+- `Goal 包`：所属 `GOAL-*` 及其状态；仅 `Split` 父 task 可记为无。
 - `目标机制/切片`：至少一个 `M-*` 或 `VS-*`。
 - `输入资料`、`输出产物`、`完成定义`、`验收标准`、`禁止范围`、`状态更新`、`推荐后续任务`。
 
@@ -79,13 +89,13 @@ task 的完成定义只判断该工作单元，不得包含未经覆盖证明的
 
 ## 连续任务生成流程
 
-1. 读取 `feature-lines.md`，确认唯一 `Active` 线及其覆盖台账。
-2. 读取 `task-board.md`，优先执行当前推荐的同线 task。
+1. 读取 `feature-lines.md` 和 `goal-board.md`，确认唯一 `Active` 线、唯一 `Active` Goal 及覆盖台账。
+2. 读取 `task-board.md`，只执行当前 `Active` Goal 绑定的推荐 task。
 3. 从覆盖差异、机制、切片或阻塞中选择同线最小可验收缺口。
 4. 生成 task，填写 `LINE-*`、`M-*` / `VS-*` 和完整定义。
 5. 同一时刻只保留一个当前推荐；其他同线未来项可 `Planned`。
-6. task 完成后移入历史，更新覆盖台账和功能线进度。
-7. 若条线未关闭，立即生成或选择同线下一 task，并保持条线 `Active`。
+6. task 完成后移入历史，更新覆盖台账、Goal 和功能线进度。
+7. Goal 绑定 task 全部完成后，将 Goal 标为 `Done` 并激活同线下一 Goal，然后停止当次 `/goal` 交接。
 8. 若遇阻塞，登记阻塞并生成同线解除任务，不得切线。
 9. 只有关闭合同全部满足时才把功能线标记 `Done`，随后激活下一条线。
 
@@ -124,6 +134,9 @@ task 的完成定义只判断该工作单元，不得包含未经覆盖证明的
 功能条线：
 - `LINE-*`（必须说明 Active / Planned）
 
+Goal 包：
+- `GOAL-*`（必须说明 Active / Planned）
+
 目标机制/切片：
 - `M-*` 或 `VS-*`
 
@@ -152,10 +165,11 @@ task 的完成定义只判断该工作单元，不得包含未经覆盖证明的
 ## 创建任务 Prompt 模板
 
 ```text
-请按 docs/workflow/task-generation.md 为当前唯一 Active 功能线生成连续 task。
+请按 docs/workflow/task-generation.md 为当前唯一 Active 功能线生成分段 Goal 和 task。
 
 要求：
 - 先读 docs/tasks/feature-lines.md 和当前线覆盖台账。
+- 读 docs/tasks/goal-board.md，每个 Goal 默认仅一 task，最多一次 compact。
 - task 必须关联当前 LINE-* 和至少一个 M-* / VS-*。
 - 只推荐同线下一 task；遇到阻塞就生成同线解除任务。
 - 不激活或推进其他功能线。

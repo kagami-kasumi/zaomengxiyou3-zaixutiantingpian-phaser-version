@@ -1,4 +1,4 @@
-import type { EquipmentDefinition, EquipmentInstance } from './EquipmentSystem';
+import { getEquipmentInstanceStats, type EquipmentDefinition, type EquipmentInstance } from './EquipmentSystem';
 import {
   addEquipmentDefinition,
   addStackByFillName,
@@ -314,10 +314,10 @@ export function inheritSutraStats(
   materials: readonly EquipmentInstance[],
 ): Pick<EquipmentDefinition['stats'], 'maxHp' | 'maxMp' | 'power' | 'defense'> {
   return {
-    maxHp: Math.trunc(materials.reduce((sum, item) => sum + item.definition.stats.maxHp, 0) / 3),
-    maxMp: Math.trunc(materials.reduce((sum, item) => sum + item.definition.stats.maxMp, 0) / 3),
-    power: Math.trunc(materials.reduce((sum, item) => sum + item.definition.stats.power, 0) / 3),
-    defense: Math.trunc(materials.reduce((sum, item) => sum + item.definition.stats.defense, 0) / 3),
+    maxHp: Math.trunc(materials.reduce((sum, item) => sum + getEquipmentInstanceStats(item).maxHp, 0) / 3),
+    maxMp: Math.trunc(materials.reduce((sum, item) => sum + getEquipmentInstanceStats(item).maxMp, 0) / 3),
+    power: Math.trunc(materials.reduce((sum, item) => sum + getEquipmentInstanceStats(item).power, 0) / 3),
+    defense: Math.trunc(materials.reduce((sum, item) => sum + getEquipmentInstanceStats(item).defense, 0) / 3),
   };
 }
 
@@ -334,7 +334,7 @@ export function inheritSunSutraStats(
 ): SpecialInheritedStats {
   const positiveSum = (read: (stats: EquipmentDefinition['stats']) => number): number =>
     materials.reduce((sum, item) => {
-      const value = read(item.definition.stats);
+      const value = read(getEquipmentInstanceStats(item));
       return value > 0 ? sum + value : sum;
     }, 0);
   const positiveFractionSum = (read: (stats: EquipmentDefinition['stats']) => number): number =>
@@ -366,13 +366,13 @@ export function inheritMingDingHuaYanStats(
   const positiveScaledIntegerSum = (
     read: (stats: EquipmentDefinition['stats']) => number,
   ): number => materials.reduce((sum, item) => {
-    const value = read(item.definition.stats);
+    const value = read(getEquipmentInstanceStats(item));
     return value > 0 ? sum + Math.trunc(value * 1.5) : sum;
   }, 0);
   const positiveScaledFractionSum = (
     read: (stats: EquipmentDefinition['stats']) => number,
   ): number => materials.reduce((sum, item) => {
-    const value = read(item.definition.stats);
+    const value = read(getEquipmentInstanceStats(item));
     return value > 0 ? sum + (value / 100) * 1.5 : sum;
   }, 0);
   return {

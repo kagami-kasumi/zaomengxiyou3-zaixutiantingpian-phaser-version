@@ -1,4 +1,4 @@
-import type { EquipmentDefinition, EquipmentInstance, EquipmentLoadout, EquipmentSlot } from './EquipmentSystem';
+import type { EquipmentDefinition, EquipmentInstance, EquipmentLoadout, EquipmentSlot, EquipmentStats } from './EquipmentSystem';
 import { createEmptyEquipmentLoadout } from './EquipmentSystem';
 import type { HeroSkillLoadout, SkillBinding } from './HeroSkillSystem';
 import type { InventoryCategory, InventoryEntry, InventoryStore } from './InventorySystem';
@@ -26,6 +26,8 @@ export type SaveStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 export type EquipmentSaveEntry = {
   fillName: string;
   instanceId: string;
+  strengthLevel?: number;
+  baseStatsOverride?: Partial<EquipmentStats>;
 };
 
 export type InventorySaveEntry = {
@@ -34,6 +36,8 @@ export type InventorySaveEntry = {
   instanceId?: string;
   stackId?: string;
   quantity: number;
+  strengthLevel?: number;
+  baseStatsOverride?: Partial<EquipmentStats>;
 };
 
 export type InventorySaveV4 = {
@@ -352,6 +356,8 @@ function encodeInventoryStore(store: InventoryStore): InventorySaveV4 {
       instanceId: entry.kind === 'equipment' ? entry.instanceId : undefined,
       stackId: entry.kind === 'stack' ? entry.stackId : undefined,
       quantity: entry.quantity,
+      strengthLevel: entry.kind === 'equipment' ? entry.strengthLevel : undefined,
+      baseStatsOverride: entry.kind === 'equipment' ? entry.baseStatsOverride : undefined,
     }));
   }
   return {
@@ -376,7 +382,13 @@ function decodeInventoryStore(
       const definition = Object.values(registry).find((candidate) => candidate.fillName === entry.fillName);
       if (!definition) continue;
       if (entry.kind === 'equipment') {
-        restored.push({ kind: 'equipment', instanceId: typeof entry.instanceId === 'string' ? entry.instanceId : `${ownerSlot}-loaded-${index}`, definition, quantity: 1 });
+        restored.push({
+          kind: 'equipment',
+          instanceId: typeof entry.instanceId === 'string' ? entry.instanceId : `${ownerSlot}-loaded-${index}`,
+          definition,
+          quantity: 1,
+          ...decodeEquipmentEnhancement(entry),
+        });
       }
       else if (entry.kind === 'stack') {
         restored.push({ kind: 'stack', stackId: typeof entry.stackId === 'string' ? entry.stackId : `${ownerSlot}-stack-${index}`, definition, quantity: clampInteger(entry.quantity, 1, 999_999) });
@@ -398,7 +410,12 @@ function encodeEquipmentLoadout(loadout: EquipmentLoadout): Record<EquipmentSlot
   const result = {} as Record<EquipmentSlot, EquipmentSaveEntry | null>;
   for (const slot of EquipmentSlots) {
     const item = loadout[slot];
-    result[slot] = item ? { fillName: item.definition.fillName, instanceId: item.instanceId } : null;
+    result[slot] = item ? {
+      fillName: item.definition.fillName,
+      instanceId: item.instanceId,
+      strengthLevel: item.strengthLevel,
+      baseStatsOverride: item.baseStatsOverride,
+    } : null;
   }
   return result;
 }
@@ -419,10 +436,40 @@ function decodeEquipmentLoadout(
       instanceId: typeof entry.instanceId === 'string' ? entry.instanceId : `loaded-${slot}-${entry.fillName}`,
       definition,
       quantity: 1,
+      ...decodeEquipmentEnhancement(entry),
     };
     loadout[slot] = instance;
   }
   return loadout;
+}
+
+function decodeEquipmentEnhancement(value: Record<string, unknown>): Pick<
+  EquipmentInstance,
+  'strengthLevel' | 'baseStatsOverride'
+> {
+  const strengthLevel = clampInteger(value.strengthLevel, 0, 7);
+  const baseStatsOverride = isRecord(value.baseStatsOverride)
+    ? sanitizeEquipmentStatsOverride(value.baseStatsOverride)
+    : undefined;
+  return {
+    strengthLevel: strengthLevel > 0 ? strengthLevel : undefined,
+    baseStatsOverride: baseStatsOverride && Object.keys(baseStatsOverride).length > 0
+      ? baseStatsOverride
+      : undefined,
+  };
+}
+
+function sanitizeEquipmentStatsOverride(value: Record<string, unknown>): Partial<EquipmentStats> {
+  const result: Partial<EquipmentStats> = {};
+  const keys: ReadonlyArray<keyof EquipmentStats> = [
+    'maxHp', 'maxMp', 'power', 'defense', 'critPercent', 'missPercent',
+    'hpRegen', 'mpRegen', 'lifeStealPercent', 'magicDefensePercent', 'piercePercent', 'shield',
+  ];
+  for (const key of keys) {
+    const candidate = value[key];
+    if (typeof candidate === 'number' && Number.isFinite(candidate)) result[key] = candidate;
+  }
+  return result;
 }
 
 function encodePet(pet: PetState): PetSaveV1 {
