@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-138D | 正式功能 UI | 接入 78 本可达制作书、材料/灵魂/三宝石事务与实例持久化 | M-036、M-039、M-052、VS-054 | `EquipmentMakingRegistry/System.ts`、152 真页面、死分支拒绝、实例覆写、P1/P2 V4 与专项/浏览器验收 |
 | TASK-SLICE-138C | 正式功能 UI | 接入真分解页、可注入随机与双 owner 原子事务 | M-036、M-052、VS-054 | `EquipmentResolutionSystem.ts`、177 真页面、品质/类型/五角色/神器产物、100 灵魂、P1/P2 保存与专项验收 |
 | TASK-SLICE-138B | 正式功能 UI | 接入装备实例强化字段、V4 原位迁移与真强化事务 | M-036、M-052、VS-054 | `EquipmentStrengtheningSystem.ts`、198 真页面、5×7 概率/灵魂/降级/保底、P1/P2 保存与专项/浏览器验收 |
 | TASK-SLICE-138A | 正式功能 UI | 接入真工坊容器/四标签并迁入完整 Fusion | M-037、M-039、M-052、VS-054 | `FormalWorkshopPageSystem.ts`、119/169 真页面、P1/P2 暂存/返还/保存、正式 host 与专项回归 |
@@ -4597,6 +4598,34 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-138D
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SLICE-139`）
+- Goal：`GOAL-004` 已完成；`GOAL-005` 已激活，本次按 Goal 边界停止。
+
+完成内容：
+- 新增表驱动 `EquipmentMakingRegistry`，覆盖 78 本可达制作书及最多两类必需材料；`zxqtgzzs` 因无静态定义继续保持不可达，没有补成现代配方。
+- 新增 owner-aware `EquipmentMakingSystem`：制作书与最多三颗宝石暂存，取消/切页/换 owner/关闭返还；提交前统一预检灵魂、材料、产物定义和容量，失败不半扣，成功原子消费并创建装备实例。
+- 完整接入生命/魔法/攻击/防御石、灵珠的原版随机边界和多槽累加；随机结果写入实例 `baseStatsOverride`，沿既有 V4 字段完成当前槽与 P1/P2 round-trip。
+- 补齐既有合成目录缺失的 40 个制作产物身份/类别/角色/品质；完整 1.1 基础数值全集仍保持公开缺口，没有用零值冒充原版完整装备表。
+- 将 152 真制作 SVG 接入 119 工坊，显示制作书、两类材料、三宝石、产物、灵魂与提交反馈；940×590 浏览器从现有存档经天庭地图打开 P1/P2 真页并关闭返回，控制台无 warning/error。
+
+更新文件：
+- `src/systems/EquipmentMakingRegistry.ts`、`EquipmentMakingSystem.ts`、`FormalWorkshopPageSystem.ts`
+- `src/scenes/feature-ui/FormalWorkshopPageView.ts`、`src/assets/AssetManifest.ts`、`public/assets/ui/crafting/equipment-making.svg`
+- `tools/formal-making-tests.ts`、`tools/run-system-tests.mjs`、`tools/crafting-tests.ts`、`package.json`
+- FUI/工坊证据、机制、切片、功能线、Goal、任务、历史、资源标注与 PG-002/004/005 反馈文档
+
+验证：
+- `npm run test:formal-making` 与 `npm run test:systems` 通过；全系统包含 registry/死分支、费用/材料、宝石边界、原子拒绝/提交、双 owner、V4 与真资源检查。
+- `npm run build` 通过；Vite 仅有既有 chunk 大小 warning。
+- `npm run check:structure` 只有任务开始前已有的 8 条 warning；本任务未向 warning 文件新增逻辑。
+- 文档收尾后运行 `npm run check:workflow`、`npm run check:annotations` 与 `git diff --check`。
+
+推荐任务：
+- `GOAL-005` / `TASK-SLICE-139`：只实现法宝真页面、装备门禁、强化/重置和保存；不得在同一 Goal 继续端到端旅程。
 
 ### TASK-SLICE-138C
 

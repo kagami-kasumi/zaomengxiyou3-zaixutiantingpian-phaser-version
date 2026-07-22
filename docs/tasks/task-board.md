@@ -4,20 +4,19 @@
 
 ## 当前推荐
 
-`TASK-SLICE-138D` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-004` 和功能线 `LINE-FORMAL-GAME-LOOP`。上一 Goal 已完成真分解页、100 灵魂、可注入随机产物和双 owner 原子事务；本 Goal 只接 78 本可达制作书、材料/宝石事务与产物实例持久化。
+`TASK-SLICE-139` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-005` 和功能线 `LINE-FORMAL-GAME-LOOP`。上一 Goal 已完成 78 本可达制作书、材料/灵魂/三宝石原子事务、实例属性覆写和双 owner V4 round-trip；本 Goal 只接法宝真页面、装备门禁、强化/重置和保存。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-138D | Ready | GOAL-004 | LINE-FORMAL-GAME-LOOP | 制作书 UI | 接入 78 本可达制作书、材料与宝石事务 | M-036、M-039、M-052、VS-054 | 真制作页、registry、产物实例和 V4 round-trip | `TASK-SLICE-139` |
-| TASK-SLICE-139 | Planned | GOAL-005 | LINE-FORMAL-GAME-LOOP | 法宝 UI | 接入真法宝页、装备门禁、强化/重置和保存 | M-016、M-036、M-043、M-052、VS-054 | 真页面、P1 owner、特殊分支、存档与浏览器验收 | `TASK-SLICE-140` |
+| TASK-SLICE-139 | Ready | GOAL-005 | LINE-FORMAL-GAME-LOOP | 法宝 UI | 接入真法宝页、装备门禁、强化/重置和保存 | M-016、M-036、M-043、M-052、VS-054 | 真页面、P1 owner、特殊分支、存档与浏览器验收 | `TASK-SLICE-140` |
 | TASK-SLICE-140 | Planned | GOAL-006 | LINE-FORMAL-GAME-LOOP | 端到端闭环 | 验收完整功能 UI 与正式主循环旅程 | M-005、M-016、M-044、M-050、M-051、M-052、VS-054 | 自动旅程、P1/P2 浏览器验收、覆盖台账与功能线关闭证据 | 关闭本线后恢复 `TASK-SETTINGS-053` |
 | TASK-SETTINGS-053 | Planned | GOAL-007 | LINE-STAGE-2-1 | 关卡逆向 | 正式游戏主循环关闭后，闭合 Stage 2-1 真场景、地图标记、怪物/专属机制和结果流程 | M-026、M-027、M-030、M-035、M-044、VS-049 | 六段证据矩阵、资源标注、覆盖台账与最小可玩切片任务 | 等待 `LINE-FORMAL-GAME-LOOP` 关闭后恢复 |
 
 ## 任务完成定义
 
-### TASK-SLICE-138D
+### TASK-SLICE-139
 
 任务类型：
 - `TASK-SLICE`
@@ -26,42 +25,7 @@
 - `LINE-FORMAL-GAME-LOOP`（Active，Ready）
 
 Goal 包：
-- `GOAL-004`（Active）
-
-目标机制/切片：
-- `M-036`、`M-039`、`M-052`、`VS-054`
-
-输入资料：
-- `equipment-workshop-index.md` 制作书 case/材料/宝石合同、FUI-14/152 真资源、工坊 host/V4。
-
-输出产物：
-- 78 本可达制作书 registry、真制作页、材料/灵魂/可选宝石事务与产物实例持久化。
-
-完成定义：
-- 78 本可达 case 全覆盖，1 个死分支保持不可达；可选宝石加成、取消/关闭返还和 V4 重载一致。
-
-验收标准：
-- registry 全覆盖、材料/宝石/产物实例专项、系统/build、浏览器和 `git diff --check`。
-
-禁止范围：
-- 不把死分支补成原版事实，不接入法宝页。
-
-状态更新：
-- Goal/功能线/覆盖台账、任务/历史、资源标注、`M-036/M-039/M-052`、`VS-054`。
-
-推荐后续任务：
-- `GOAL-005` / `TASK-SLICE-139`。
-
-### TASK-SLICE-139
-
-任务类型：
-- `TASK-SLICE`
-
-功能条线：
-- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
-
-Goal 包：
-- `GOAL-005`（Planned）
+- `GOAL-005`（Active）
 
 目标机制/切片：
 - `M-016`、`M-036`、`M-043`、`M-052`、`VS-054`

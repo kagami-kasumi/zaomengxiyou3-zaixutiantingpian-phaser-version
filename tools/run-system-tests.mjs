@@ -32,6 +32,7 @@ const bundledTests = requestedTests.length > 0
       'formal-workshop-host-tests',
       'formal-strengthening-tests',
       'formal-resolution-tests',
+      'formal-making-tests',
       'monster-runtime-tests',
     ];
 

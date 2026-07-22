@@ -68,7 +68,7 @@
 | VS-051 正式核心战斗 HUD | 已完成 | 在 Stage 1 三关显示双玩家 HP/MP/经验/等级、技能和重要敌人状态 | M-015、M-016、M-040、M-049、`combat-hud-index.md` | `TASK-SLICE-131` | 三关复用共享 snapshot/bridge；P1/P2 镜像与五槽键位不串号；成长奖励进入 `HeroProgressionModel`；Boss 即时/0.8s 追赶条、真资源和 destroy 生命周期均有专项/浏览器验证 |
 | VS-052 启动与存档槽闭环 | 已完成 | EXE 启动后可新建、读取、删除独立存档槽并安全处理迁移/损坏数据 | M-005、M-044、M-050 | `SaveSlotSystem.ts`、`SaveSlotScene.ts`、`SaveSystem.ts`、真启动/六槽/确认资源与专项测试 | 六槽隔离、当前槽、旧单槽导入、V1/V2 原位迁移、损坏拒读/显式删除、正式路由与 940×590 浏览器验收闭合；排除云存档/网络账户 |
 | VS-053 天庭地图选关闭环 | 已完成 | 从当前存档进入天庭地图，点击已解锁 Stage 1 节点，结算/退出后返回并保持进度 | M-005、M-027、M-044、M-051 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、三关结果/退出桥、`heaven-map-tests.ts` | 940×590 真地图/菜单、四类节点状态、现代 1P/2P 选择、Stage 1 三关往返和 Stage 2-1 拒绝边界均已接入；专项/系统/build 与初始档浏览器验收通过 |
-| VS-054 完整功能 UI 闭环 | 背包/装备/技能/宠物、工坊/Fusion、强化与分解已完成，制作和法宝待实现 | 背包、装备、宠物、心法/技能和法宝从正式导航可达，具备真 UI、双玩家和存档集成 | M-016、M-036、M-037、M-041、M-042、M-043、M-052 | `full-function-ui-index.md`、`equipment-workshop-index.md`、共享 host/V4、正式背包/技能/宠物/工坊/强化/分解页面、`TASK-SLICE-138D..140` | 119/169/198/177 真工坊、Fusion、强化/分解事务、双 owner 返还和保存已闭合；制作合同由下一单 task Goal 实现，最终以完整玩家旅程验收 |
+| VS-054 完整功能 UI 闭环 | 背包/装备/技能/宠物与工坊四事务已完成，法宝待实现 | 背包、装备、宠物、心法/技能和法宝从正式导航可达，具备真 UI、双玩家和存档集成 | M-016、M-036、M-037、M-041、M-042、M-043、M-052 | `full-function-ui-index.md`、`equipment-workshop-index.md`、共享 host/V4、正式背包/技能/宠物/工坊页面、`TASK-SLICE-139..140` | 119/169/198/177/152 真工坊、Fusion/强化/分解/78 本制作书事务、双 owner 返还和保存已闭合；法宝与最终完整玩家旅程仍待后续 Goal |
 
 ## 第一批推荐执行顺序
 

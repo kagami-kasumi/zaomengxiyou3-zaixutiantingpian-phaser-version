@@ -2,7 +2,6 @@ import {
   closeCraftingSession,
   craftStagedSession,
   createCraftingSession,
-  createSeedCraftingItemDefinitions,
   removeStagedCraftingMaterial,
   stageCraftingMaterial,
   type CraftingSession,
@@ -22,6 +21,14 @@ import {
   submitEquipmentResolution,
   type EquipmentResolutionSession,
 } from './EquipmentResolutionSystem';
+import { createEquipmentMakingDefinitionRegistry } from './EquipmentMakingRegistry';
+import {
+  closeEquipmentMakingSession,
+  createEquipmentMakingSession,
+  stageEquipmentMakingEntry,
+  submitEquipmentMaking,
+  type EquipmentMakingSession,
+} from './EquipmentMakingSystem';
 import { InventoryCategories, type InventoryEntry } from './InventorySystem';
 import type { PlayerSlot } from './InputSystem';
 import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
@@ -48,6 +55,7 @@ export type FormalWorkshopPageModel = {
   registry: Record<string, EquipmentDefinition>;
   strengtheningSessions: Record<PlayerSlot, EquipmentStrengtheningSession>;
   resolutionSessions: Record<PlayerSlot, EquipmentResolutionSession>;
+  makingSessions: Record<PlayerSlot, EquipmentMakingSession>;
   fusionSessions: Record<PlayerSlot, CraftingSession>;
 };
 
@@ -55,10 +63,7 @@ export function createFormalWorkshopPage(storage: SaveStorage, owner: PlayerSlot
   const sourceSave = loadActiveGame(storage);
   if (!sourceSave) return undefined;
   const equipmentRegistry = createSeedEquipmentRegistry();
-  const registry = {
-    ...equipmentRegistry,
-    ...createSeedCraftingItemDefinitions(equipmentRegistry),
-  };
+  const registry = createEquipmentMakingDefinitionRegistry(equipmentRegistry);
   return {
     owner,
     tab: 'strength',
@@ -75,6 +80,10 @@ export function createFormalWorkshopPage(storage: SaveStorage, owner: PlayerSlot
     resolutionSessions: {
       p1: createEquipmentResolutionSession('p1'),
       p2: createEquipmentResolutionSession('p2'),
+    },
+    makingSessions: {
+      p1: createEquipmentMakingSession('p1'),
+      p2: createEquipmentMakingSession('p2'),
     },
     fusionSessions: { p1: createCraftingSession('p1'), p2: createCraftingSession('p2') },
   };
@@ -97,6 +106,7 @@ export function setFormalWorkshopOwner(model: FormalWorkshopPageModel, owner: Pl
   closeCurrentStrengthening(model);
   closeCurrentFusion(model);
   closeCurrentResolution(model);
+  closeCurrentMaking(model);
   model.owner = owner;
   model.tab = 'strength';
   model.inventoryPage = 0;
@@ -108,6 +118,7 @@ export function setFormalWorkshopTab(model: FormalWorkshopPageModel, tab: Formal
   if (model.tab === 'strength' && tab !== 'strength') closeCurrentStrengthening(model);
   if (model.tab === 'fusion' && tab !== 'fusion') closeCurrentFusion(model);
   if (model.tab === 'resolution' && tab !== 'resolution') closeCurrentResolution(model);
+  if (model.tab === 'making' && tab !== 'making') closeCurrentMaking(model);
   model.tab = tab;
   model.inventoryPage = 0;
   model.message = tab === 'strength'
@@ -116,7 +127,7 @@ export function setFormalWorkshopTab(model: FormalWorkshopPageModel, tab: Formal
       ? model.fusionSessions[model.owner].message
       : tab === 'resolution'
         ? model.resolutionSessions[model.owner].message
-        : `${formatFormalWorkshopTab(tab)}事务将在对应后续切片接入；当前只展示正式标签且不会消费物品`;
+        : model.makingSessions[model.owner].message;
 }
 
 export function selectFormalWorkshopEntry(model: FormalWorkshopPageModel, index: number): void {
@@ -253,10 +264,50 @@ export function runFormalWorkshopResolution(
   return true;
 }
 
+export function stageFormalWorkshopMaking(model: FormalWorkshopPageModel): boolean {
+  if (model.tab !== 'making') return false;
+  const player = getFormalWorkshopPlayer(model);
+  const entry = getFormalWorkshopEntries(model)[model.selectedInventoryIndex];
+  const result = stageEquipmentMakingEntry(
+    model.makingSessions[model.owner],
+    player.inventoryStore,
+    entry?.kind === 'stack' ? entry : undefined,
+  );
+  model.message = model.makingSessions[model.owner].message;
+  return result;
+}
+
+export function withdrawFormalWorkshopMaking(model: FormalWorkshopPageModel): void {
+  if (model.tab !== 'making') return;
+  closeCurrentMaking(model);
+}
+
+export function runFormalWorkshopMaking(
+  model: FormalWorkshopPageModel,
+  storage: SaveStorage,
+  random: () => number = Math.random,
+): boolean {
+  if (model.tab !== 'making') return false;
+  const player = getFormalWorkshopPlayer(model);
+  const result = submitEquipmentMaking({
+    session: model.makingSessions[model.owner],
+    store: player.inventoryStore,
+    registry: model.registry,
+    soul: player.skillLearning.soulCount,
+    random,
+  });
+  model.message = result.message;
+  if (!result.ok) return false;
+  player.skillLearning.soulCount = result.soulAfter;
+  persistFormalWorkshopPage(model, storage);
+  return true;
+}
+
 export function closeFormalWorkshopPage(model: FormalWorkshopPageModel): void {
   closeCurrentStrengthening(model);
   closeCurrentFusion(model);
   closeCurrentResolution(model);
+  closeCurrentMaking(model);
 }
 
 export function formatFormalWorkshopTab(tab: FormalWorkshopTab): string {
@@ -286,6 +337,14 @@ function closeCurrentResolution(model: FormalWorkshopPageModel): void {
     player.equipmentLoadout,
   );
   model.message = model.resolutionSessions[model.owner].message;
+}
+
+function closeCurrentMaking(model: FormalWorkshopPageModel): void {
+  closeEquipmentMakingSession(
+    model.makingSessions[model.owner],
+    getFormalWorkshopPlayer(model).inventoryStore,
+  );
+  model.message = model.makingSessions[model.owner].message;
 }
 
 function persistFormalWorkshopPage(model: FormalWorkshopPageModel, storage: SaveStorage): void {

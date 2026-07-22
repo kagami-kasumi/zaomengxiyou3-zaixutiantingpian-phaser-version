@@ -26,7 +26,7 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-138D | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 工坊制作与法宝正式页面尚未完成 | 待覆盖台账全部闭合 |
+| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-139 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 法宝正式页面尚未完成 | 待覆盖台账全部闭合 |
 | LINE-STAGE-2-1 | Planned | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 等待 `LINE-FORMAL-GAME-LOOP` 关闭；资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
 
 ## 当前功能线状态
@@ -82,6 +82,8 @@
 `TASK-SLICE-138B` 已归档：装备实例可保存 `strengthLevel/baseStatsOverride` 并由 definition `strengthGrowth` 派生有效属性，V4 同版本旧字段缺失使用安全默认；真 198 强化页、背包分页、装备/三石/幸运/神恩暂存、5×7 概率、灵魂、成功升级、失败降级、保底、取消/切页/换人/关闭返还和 P1/P2 当前槽持久化均已闭合。浏览器完成真页面、不可强化装备与灵魂不足原子拒绝观察，确定性成功事务由专项覆盖；临时验收槽已删除且控制台无 error/warning。功能线保持 Active，当前推进 `GOAL-003` / `TASK-SLICE-138C`。
 
 `TASK-SLICE-138C` 已归档：真 177 分解页、武器/防具/饰品准入、固定 100 灵魂、品质/类型/五角色材料链、一级宝石后减概率和神器 20.8%/20.4% 分支已由独立 `EquipmentResolutionSystem` 闭合；随机源可注入，提交前容量预检保证装备销毁/灵魂/产物原子性，取消/切页/换人/关闭返还和 P1/P2 当前槽持久化均有专项覆盖。浏览器运行验收受 URL 策略限制且未绕过；专项、全系统、build 和真资源静态接线提供确定性替代证据。功能线保持 Active，当前推进 `GOAL-004` / `TASK-SLICE-138D`。
+
+`TASK-SLICE-138D` 已归档：78 本可达制作书由表驱动 registry 覆盖，`zxqtgzzs` 死分支保持不可达；制作书、最多两类必需材料、灵魂和三可选宝石由独立 `EquipmentMakingSystem` 原子结算，宝石随机加成写入产物实例 `baseStatsOverride` 并通过双 owner V4 round-trip。152 真制作页已接入 119 工坊；专项、全系统、build 与 940×590 地图入口/P1-P2/关闭返回浏览器验收通过且控制台无 warning/error。功能线保持 Active，当前推进 `GOAL-005` / `TASK-SLICE-139`。
 
 ## 关闭与切线
 

@@ -6,21 +6,25 @@ import {
   getFormalWorkshopEntries,
   getFormalWorkshopPlayer,
   runFormalWorkshopFusion,
+  runFormalWorkshopMaking,
   runFormalWorkshopResolution,
   runFormalWorkshopStrengthening,
   selectFormalWorkshopEntry,
   setFormalWorkshopTab,
   setFormalWorkshopInventoryPage,
   stageFormalWorkshopFusion,
+  stageFormalWorkshopMaking,
   stageFormalWorkshopResolution,
   stageFormalWorkshopStrengthening,
   withdrawFormalWorkshopFusion,
+  withdrawFormalWorkshopMaking,
   withdrawFormalWorkshopResolution,
   withdrawFormalWorkshopStrengthening,
   type FormalWorkshopPageModel,
   type FormalWorkshopTab,
 } from '../../systems/FormalWorkshopPageSystem';
 import { describeEquipmentStrengtheningSession, getEquipmentStrengthLevel } from '../../systems/EquipmentStrengtheningSystem';
+import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
 
 type Callbacks = {
@@ -38,6 +42,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
   if (model.tab === 'fusion') objects.push(scene.add.image(500, 305, craftingAssets.fusionPanel.key).setAlpha(0.78));
   if (model.tab === 'strength') objects.push(scene.add.image(360.6, 303.9, craftingAssets.strengthPanel.key).setAlpha(0.82));
   if (model.tab === 'resolution') objects.push(scene.add.image(357.1, 313.75, craftingAssets.resolutionPanel.key).setAlpha(0.82));
+  if (model.tab === 'making') objects.push(scene.add.image(357.1, 303.4, craftingAssets.makingPanel.key).setAlpha(0.82));
   objects.push(scene.add.rectangle(470, 295, 940, 590, 0x07101b, 0.38));
   objects.push(scene.add.text(470, 28, `${model.owner.toUpperCase()} 装备工坊 · ${formatFormalWorkshopTab(model.tab)}`, {
     color: '#fff0ad', fontFamily: 'Arial', fontSize: '24px', fontStyle: 'bold',
@@ -52,7 +57,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
   const pageCount = Math.max(1, Math.ceil(entries.length / FormalWorkshopPageSize));
   const pageStart = model.inventoryPage * FormalWorkshopPageSize;
   const visibleEntries = entries.slice(pageStart, pageStart + FormalWorkshopPageSize);
-  const inventoryOnRight = model.tab === 'strength' || model.tab === 'resolution';
+  const inventoryOnRight = model.tab === 'strength' || model.tab === 'resolution' || model.tab === 'making';
   const entryX = inventoryOnRight ? 810 : 126;
   const entryWidth = inventoryOnRight ? 230 : 196;
   const entryStep = inventoryOnRight ? 36 : 42;
@@ -114,10 +119,31 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
     objects.push(...button(scene, 360, 500, 110, 38, '撤回装备', () => { withdrawFormalWorkshopResolution(model); callbacks.onRerender(); }));
     objects.push(...button(scene, 480, 500, 110, 38, '提交分解', () => { runFormalWorkshopResolution(model, storage); callbacks.onRerender(); }));
   } else {
-    objects.push(scene.add.rectangle(530, 430, 520, 150, 0x101a28, 0.9).setStrokeStyle(1, 0xc9a84f));
-    objects.push(scene.add.text(530, 430, model.message, {
-      color: '#f4d58d', fontFamily: 'Arial', fontSize: '18px', align: 'center', wordWrap: { width: 460 },
+    const making = model.makingSessions[model.owner];
+    const recipe = getEquipmentMakingRecipe(making);
+    const productName = recipe ? model.registry[recipe.productFillName]?.name ?? recipe.productFillName : '空';
+    const requirements = recipe?.requiredMaterials.map((material) =>
+      `${model.registry[material.fillName]?.name ?? material.fillName}×${material.quantity}`
+    ).join(' / ') ?? '请先放入制作书';
+    const soulCost = making.book ? getEquipmentMakingSoulCost(making.book.definition.quality) : 0;
+    objects.push(scene.add.text(357, 160, making.book?.definition.name ?? '制作书', {
+      color: '#fff1ad', fontFamily: 'Arial', fontSize: '12px', align: 'center', wordWrap: { width: 62 },
     }).setOrigin(0.5));
+    const gemPositions = [[257, 310], [369, 310], [486, 311]] as const;
+    making.gems.forEach((gem, index) => {
+      const position = gemPositions[index];
+      if (!position) return;
+      objects.push(scene.add.text(position[0], position[1], gem.definition.name, {
+        color: '#fff1ad', fontFamily: 'Arial', fontSize: '11px', align: 'center', wordWrap: { width: 60 },
+      }).setOrigin(0.5));
+    });
+    objects.push(scene.add.rectangle(357, 435, 350, 112, 0x101a28, 0.9).setStrokeStyle(1, 0xc9a84f));
+    objects.push(scene.add.text(357, 418, `产物：${productName}\n材料：${requirements}\n灵魂：${player.skillLearning.soulCount} / ${soulCost}\n${model.message}`, {
+      color: '#f4d58d', fontFamily: 'Arial', fontSize: '13px', align: 'center', lineSpacing: 3, wordWrap: { width: 330 },
+    }).setOrigin(0.5));
+    objects.push(...button(scene, 240, 510, 110, 38, '放入所选', () => { stageFormalWorkshopMaking(model); callbacks.onRerender(); }));
+    objects.push(...button(scene, 360, 510, 110, 38, '全部撤回', () => { withdrawFormalWorkshopMaking(model); callbacks.onRerender(); }));
+    objects.push(...button(scene, 480, 510, 110, 38, '提交制作', () => { runFormalWorkshopMaking(model, storage); callbacks.onRerender(); }));
   }
   objects.push(...button(scene, 850, 545, 130, 40, '关闭返回', callbacks.onClose));
   return scene.add.container(0, 0, objects).setDepth(20);

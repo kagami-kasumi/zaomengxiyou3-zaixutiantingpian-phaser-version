@@ -252,6 +252,13 @@ effectiveField = persistedBaseField + strengthLevel * aStrengthen[field]
 
 原子性要求：验证 owner、槽位、数量、灵魂和目标后一次提交；失败不得产生半扣库存。强化随机失败仍是成功提交并消费材料。关闭/切页只返还尚未提交的暂存对象，不写随机结果。
 
+### TASK-SLICE-138D 现代实现
+
+- `EquipmentMakingRegistry.ts` 以 78 条表驱动配方覆盖全部可达制作书，并显式排除无静态定义的 `zxqtgzzs`；缺失于既有合成目录的 40 个制作产物只补 AllEquipment 已确认的身份/类别/角色/品质，基础数值全集缺口继续公开。
+- `EquipmentMakingSystem.ts` 独立持有 owner/session；制作书和三宝石暂存时从当前 owner 背包移出，取消、切页、换 owner 和关闭全部返还。提交前统一预检灵魂、两类必需材料、产物定义与背包容量，失败不产生半扣。
+- 成功提交消耗已暂存制作书/宝石、必需材料和灵魂，创建装备实例；宝石随机值按原公式累加到实例 `baseStatsOverride`，由既有 V4 可选字段原样 round-trip。
+- 152 真 SVG 已接入 119 工坊；专项覆盖 registry、死分支、费用、三宝石边界、原子拒绝/提交、双 owner 和 V4，940×590 浏览器覆盖地图入口、P1/P2、真页与关闭返回，控制台无 warning/error。
+
 ## 验收矩阵
 
 自动验证：
