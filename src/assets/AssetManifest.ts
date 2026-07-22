@@ -101,6 +101,7 @@ export const FullFeatureUiAssetKeys = {
   skillBind: 'full-ui.skill-bind',
   skillPassive: 'full-ui.skill-passive',
   petPage: 'full-ui.pet-page',
+  magicWeaponPage: 'full-ui.magic-weapon',
 } as const;
 
 export const HeavenMapAssetKeys = {
@@ -746,6 +747,13 @@ export const fullFeatureUiAssets = {
     'assets/pet1.swf',
     'export.pet.PetInterface',
     932,
+  ),
+  magicWeaponPage: extractedCraftingImage(
+    FullFeatureUiAssetKeys.magicWeaponPage,
+    '/assets/ui/feature/magic-weapon/magic-weapon-page.svg',
+    'assets/backpack1.swf',
+    'export.strength.SutraInterface',
+    596,
   ),
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 

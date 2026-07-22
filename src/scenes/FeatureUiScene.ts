@@ -57,6 +57,13 @@ import {
   type FormalWorkshopPageModel,
 } from '../systems/FormalWorkshopPageSystem';
 import { createFormalWorkshopPageView } from './feature-ui/FormalWorkshopPageView';
+import {
+  cancelFormalMagicWeaponAction,
+  createFormalMagicWeaponPage,
+  type FormalMagicWeaponPageModel,
+} from '../systems/FormalMagicWeaponPageSystem';
+import { createFormalMagicWeaponPageView } from './feature-ui/FormalMagicWeaponPageView';
+import { syncFormalMagicWeaponRuntime } from './feature-ui/FormalMagicWeaponRuntimeBridge';
 
 const PageKeys: ReadonlyArray<{ keyCode: number; page: FeatureUiPage; owner: FeatureUiOwner }> = [
   { keyCode: Phaser.Input.Keyboard.KeyCodes.C, page: 'backpack', owner: 'p1' },
@@ -80,6 +87,8 @@ export class FeatureUiScene extends Phaser.Scene {
   private petModel?: FormalPetPageModel;
   private workshopLayer?: Phaser.GameObjects.Container;
   private workshopModel?: FormalWorkshopPageModel;
+  private magicWeaponLayer?: Phaser.GameObjects.Container;
+  private magicWeaponModel?: FormalMagicWeaponPageModel;
   private storage?: SaveStorage;
   private finished = false;
 
@@ -138,6 +147,7 @@ export class FeatureUiScene extends Phaser.Scene {
 
   private renderSession(): void {
     if (!this.session) return;
+    if (this.session.page !== 'magic-weapon') this.destroyMagicWeaponLayer();
     if (this.session.page === 'backpack') {
       this.destroyWorkshopLayer();
       this.skillLayer?.destroy(true);
@@ -173,6 +183,17 @@ export class FeatureUiScene extends Phaser.Scene {
       this.petLayer?.destroy(true);
       this.petLayer = undefined;
       this.renderWorkshopPage();
+      return;
+    }
+    if (this.session.page === 'magic-weapon') {
+      this.destroyWorkshopLayer();
+      this.backpackLayer?.destroy(true);
+      this.backpackLayer = undefined;
+      this.skillLayer?.destroy(true);
+      this.skillLayer = undefined;
+      this.petLayer?.destroy(true);
+      this.petLayer = undefined;
+      this.renderMagicWeaponPage();
       return;
     }
     this.destroyWorkshopLayer();
@@ -378,6 +399,34 @@ export class FeatureUiScene extends Phaser.Scene {
     this.workshopLayer = undefined;
   }
 
+  private renderMagicWeaponPage(): void {
+    if (!this.session) return;
+    this.magicWeaponLayer?.destroy(true);
+    if (!this.magicWeaponModel && this.storage) this.magicWeaponModel = createFormalMagicWeaponPage(this.storage);
+    if (!this.magicWeaponModel || !this.storage) {
+      this.titleText?.setText('P1 · 法宝强化');
+      this.detailText?.setText('当前没有可读的活动存档，无法打开正式法宝页。');
+      return;
+    }
+    this.magicWeaponLayer = createFormalMagicWeaponPageView(this, this.magicWeaponModel, this.storage, {
+      onSaved: () => this.syncMagicWeaponRuntime(),
+      onClose: () => this.closeHost(),
+      onRerender: () => this.renderMagicWeaponPage(),
+    });
+  }
+
+  private syncMagicWeaponRuntime(): void {
+    if (!this.session || !this.magicWeaponModel) return;
+    const origin = this.scene.get(this.session.originSceneKey);
+    if (origin) syncFormalMagicWeaponRuntime(origin, this.magicWeaponModel);
+  }
+
+  private destroyMagicWeaponLayer(): void {
+    if (this.magicWeaponModel?.pending) cancelFormalMagicWeaponAction(this.magicWeaponModel);
+    this.magicWeaponLayer?.destroy(true);
+    this.magicWeaponLayer = undefined;
+  }
+
   private closeHost(): void {
     if (this.finished) return;
     this.scene.stop();
@@ -387,6 +436,7 @@ export class FeatureUiScene extends Phaser.Scene {
     if (this.finished) return;
     this.finished = true;
     if (this.workshopModel) closeFormalWorkshopPage(this.workshopModel);
+    this.destroyMagicWeaponLayer();
     const session = closeFeatureUi(formalFeatureUiHost) ?? this.session;
     if (!session) return;
     if (this.scene.isPaused(session.originSceneKey)) this.scene.resume(session.originSceneKey);
@@ -395,6 +445,7 @@ export class FeatureUiScene extends Phaser.Scene {
     this.skillModel = undefined;
     this.petModel = undefined;
     this.workshopModel = undefined;
+    this.magicWeaponModel = undefined;
   }
 }
 

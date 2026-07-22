@@ -26,13 +26,13 @@
 | GOAL-002 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-138B | 装备实例 schema/V4 迁移与强化事务 | 最多 1 次 | `GOAL-003` |
 | GOAL-003 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-138C | 分解事务、可注入随机与双 owner 库存一致性 | 最多 1 次 | `GOAL-004` |
 | GOAL-004 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-138D | 78 本可达制作书、可选宝石与产物实例持久化 | 最多 1 次 | `GOAL-005` |
-| GOAL-005 | Active | LINE-FORMAL-GAME-LOOP | TASK-SLICE-139 | 法宝真页面、装备门禁、强化/重置和保存 | 最多 1 次 | `GOAL-006` |
-| GOAL-006 | Planned | LINE-FORMAL-GAME-LOOP | TASK-SLICE-140 | 完整功能 UI 与正式主循环端到端验收 | 最多 1 次 | 关闭本线后激活 `GOAL-007` |
+| GOAL-005 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-139 | 法宝真页面、装备门禁、强化/重置和保存 | 最多 1 次 | `GOAL-006` |
+| GOAL-006 | Active | LINE-FORMAL-GAME-LOOP | TASK-SLICE-140 | 完整功能 UI 与正式主循环端到端验收 | 最多 1 次 | 关闭本线后激活 `GOAL-007` |
 | GOAL-007 | Planned | LINE-STAGE-2-1 | TASK-SETTINGS-053 | Stage 2-1 六段逆向证据与实现任务输入 | 最多 1 次 | 依据逆向结果生成同线 Goal |
 
 ## 当前 Goal 完成定义
 
-`GOAL-005` 仅包含 `TASK-SLICE-139`。完成条件是真法宝页、装备门禁、等级/五行/属性、强化与重置事务、P1 owner、V4 round-trip、自动验证、必要运行验收和状态文档全部收尾。完成后将 `GOAL-005` 标为 `Done`、`GOAL-006` 标为 `Active`，然后结束当次 `/goal` 并向用户交接；不直接执行 `TASK-SLICE-140`。
+`GOAL-006` 仅包含 `TASK-SLICE-140`。完成条件是完整功能 UI 与正式主循环端到端自动旅程、P1/P2 浏览器验收、覆盖台账与功能线关闭证据全部收尾。`GOAL-005` 已完成并按 Goal 边界停止；下一次 `/goal` 才执行 `TASK-SLICE-140`。
 
 ## Goal 生成检查
 

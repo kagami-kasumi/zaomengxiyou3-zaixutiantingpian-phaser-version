@@ -4,19 +4,18 @@
 
 ## 当前推荐
 
-`TASK-SLICE-139` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-005` 和功能线 `LINE-FORMAL-GAME-LOOP`。上一 Goal 已完成 78 本可达制作书、材料/灵魂/三宝石原子事务、实例属性覆写和双 owner V4 round-trip；本 Goal 只接法宝真页面、装备门禁、强化/重置和保存。
+`TASK-SLICE-140` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-006` 和功能线 `LINE-FORMAL-GAME-LOOP`。法宝真页面、装备门禁、完整材料分支、五行重置、P1 owner 与 V4 round-trip 已由上一 Goal 完成；本 Goal 只做完整功能 UI 与正式主循环端到端验收和功能线关闭证据。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-139 | Ready | GOAL-005 | LINE-FORMAL-GAME-LOOP | 法宝 UI | 接入真法宝页、装备门禁、强化/重置和保存 | M-016、M-036、M-043、M-052、VS-054 | 真页面、P1 owner、特殊分支、存档与浏览器验收 | `TASK-SLICE-140` |
-| TASK-SLICE-140 | Planned | GOAL-006 | LINE-FORMAL-GAME-LOOP | 端到端闭环 | 验收完整功能 UI 与正式主循环旅程 | M-005、M-016、M-044、M-050、M-051、M-052、VS-054 | 自动旅程、P1/P2 浏览器验收、覆盖台账与功能线关闭证据 | 关闭本线后恢复 `TASK-SETTINGS-053` |
+| TASK-SLICE-140 | Ready | GOAL-006 | LINE-FORMAL-GAME-LOOP | 端到端闭环 | 验收完整功能 UI 与正式主循环旅程 | M-005、M-016、M-044、M-050、M-051、M-052、VS-054 | 自动旅程、P1/P2 浏览器验收、覆盖台账与功能线关闭证据 | 关闭本线后恢复 `TASK-SETTINGS-053` |
 | TASK-SETTINGS-053 | Planned | GOAL-007 | LINE-STAGE-2-1 | 关卡逆向 | 正式游戏主循环关闭后，闭合 Stage 2-1 真场景、地图标记、怪物/专属机制和结果流程 | M-026、M-027、M-030、M-035、M-044、VS-049 | 六段证据矩阵、资源标注、覆盖台账与最小可玩切片任务 | 等待 `LINE-FORMAL-GAME-LOOP` 关闭后恢复 |
 
 ## 任务完成定义
 
-### TASK-SLICE-139
+### TASK-SLICE-140
 
 任务类型：
 - `TASK-SLICE`
@@ -25,42 +24,7 @@
 - `LINE-FORMAL-GAME-LOOP`（Active，Ready）
 
 Goal 包：
-- `GOAL-005`（Active）
-
-目标机制/切片：
-- `M-016`、`M-036`、`M-043`、`M-052`、`VS-054`
-
-输入资料：
-- `full-function-ui-index.md` FUI-09、`magic-weapons-index.md`、596 真资源、共享 host/V4。
-
-输出产物：
-- 真法宝页、装备门禁、等级/五行/属性、强化/重置/特殊分支、P1 owner 与保存。
-
-完成定义：
-- 正式入口、未装备拒绝、提交/取消、关闭重算和重载一致；P2 面板入口作为现代选择或明确排除。
-
-验收标准：
-- 法宝 UI/装备/保存专项、系统/build、浏览器和 `git diff --check`。
-
-禁止范围：
-- 不改法宝战斗技能，不伪造原版 P2 快捷键，不推进 Stage 2-1。
-
-状态更新：
-- 功能线/覆盖台账、任务/历史、资源标注、`M-043/M-052`、`VS-054`。
-
-推荐后续任务：
-- `TASK-SLICE-140`。
-
-### TASK-SLICE-140
-
-任务类型：
-- `TASK-SLICE`
-
-功能条线：
-- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
-
-Goal 包：
-- `GOAL-006`（Planned）
+- `GOAL-006`（Active）
 
 目标机制/切片：
 - `M-005`、`M-016`、`M-044`、`M-050`、`M-051`、`M-052`、`VS-054`

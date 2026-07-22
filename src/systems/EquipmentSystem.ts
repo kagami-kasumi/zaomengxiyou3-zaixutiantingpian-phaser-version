@@ -1185,7 +1185,7 @@ function createPlaceholderDropDefinitions(
   }));
 }
 
-function upgradeMagicWeaponInstance(
+export function upgradeMagicWeaponInstance(
   equipped: EquipmentInstance,
 ): EquipmentInstance {
   const { definition } = equipped;

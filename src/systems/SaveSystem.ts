@@ -28,6 +28,11 @@ export type EquipmentSaveEntry = {
   instanceId: string;
   strengthLevel?: number;
   baseStatsOverride?: Partial<EquipmentStats>;
+  magicWeapon?: {
+    level: number;
+    element: string;
+    growthRate?: number;
+  };
 };
 
 export type InventorySaveEntry = {
@@ -38,6 +43,7 @@ export type InventorySaveEntry = {
   quantity: number;
   strengthLevel?: number;
   baseStatsOverride?: Partial<EquipmentStats>;
+  magicWeapon?: EquipmentSaveEntry['magicWeapon'];
 };
 
 export type InventorySaveV4 = {
@@ -358,6 +364,7 @@ function encodeInventoryStore(store: InventoryStore): InventorySaveV4 {
       quantity: entry.quantity,
       strengthLevel: entry.kind === 'equipment' ? entry.strengthLevel : undefined,
       baseStatsOverride: entry.kind === 'equipment' ? entry.baseStatsOverride : undefined,
+      magicWeapon: entry.kind === 'equipment' ? encodeMagicWeaponState(entry.definition) : undefined,
     }));
   }
   return {
@@ -385,7 +392,7 @@ function decodeInventoryStore(
         restored.push({
           kind: 'equipment',
           instanceId: typeof entry.instanceId === 'string' ? entry.instanceId : `${ownerSlot}-loaded-${index}`,
-          definition,
+          definition: decodeMagicWeaponDefinition(definition, entry),
           quantity: 1,
           ...decodeEquipmentEnhancement(entry),
         });
@@ -415,6 +422,7 @@ function encodeEquipmentLoadout(loadout: EquipmentLoadout): Record<EquipmentSlot
       instanceId: item.instanceId,
       strengthLevel: item.strengthLevel,
       baseStatsOverride: item.baseStatsOverride,
+      magicWeapon: encodeMagicWeaponState(item.definition),
     } : null;
   }
   return result;
@@ -434,7 +442,7 @@ function decodeEquipmentLoadout(
     const instance: EquipmentInstance = {
       kind: 'equipment',
       instanceId: typeof entry.instanceId === 'string' ? entry.instanceId : `loaded-${slot}-${entry.fillName}`,
-      definition,
+      definition: decodeMagicWeaponDefinition(definition, entry),
       quantity: 1,
       ...decodeEquipmentEnhancement(entry),
     };
@@ -456,6 +464,38 @@ function decodeEquipmentEnhancement(value: Record<string, unknown>): Pick<
     baseStatsOverride: baseStatsOverride && Object.keys(baseStatsOverride).length > 0
       ? baseStatsOverride
       : undefined,
+  };
+}
+
+function encodeMagicWeaponState(
+  definition: EquipmentDefinition,
+): EquipmentSaveEntry['magicWeapon'] | undefined {
+  const state = definition.magicWeapon;
+  return state ? {
+    level: state.level,
+    element: state.element,
+    growthRate: state.growthRate,
+  } : undefined;
+}
+
+function decodeMagicWeaponDefinition(
+  definition: EquipmentDefinition,
+  value: Record<string, unknown>,
+): EquipmentDefinition {
+  if (!definition.magicWeapon || !isRecord(value.magicWeapon)) return definition;
+  const saved = value.magicWeapon;
+  const growthRate = typeof saved.growthRate === 'number' && Number.isFinite(saved.growthRate) && saved.growthRate > 0
+    ? saved.growthRate
+    : definition.magicWeapon.growthRate;
+  return {
+    ...definition,
+    magicWeapon: {
+      level: clampInteger(saved.level, 1, 15),
+      element: typeof saved.element === 'string' && saved.element.trim() !== ''
+        ? saved.element
+        : definition.magicWeapon.element,
+      ...(growthRate === undefined ? {} : { growthRate }),
+    },
   };
 }
 

@@ -332,6 +332,30 @@ time = gc.frameClips * 5
 - 真实 `LingBmd`、`LingPaiEffect`、`ef_snow` 或碰撞 box 在当前 `resources/` 文件名和 SymbolClass 检索中未命中；现代侧继续使用稳定占位 key，不重新生成 `local-resources/regima/legacy-extraction/`。
 - 当前现代落雪切片不实现法宝强化 UI、材料消耗、五行重置、联机同步或其他法宝。
 
+## TASK-SLICE-139 法宝页面证据矩阵
+
+| 证据段 | 原版证据 | 现代映射 | 结论等级 |
+| --- | --- | --- | --- |
+| 局部入口与门禁 | `RoleInfo.fbClick()` 与 `KeyBoardControl` 的 N 键均进入 `SutraInterface`；未装备 `zbfb` 时不建立有效强化目标 | `FeatureUiScene` 的 N/法宝入口统一打开正式页，`FormalMagicWeaponPageSystem` 再校验 P1 当前 `zbfb` | 已证实 |
+| 共享生命周期 | `RoleInfo` 关闭旧界面、加入当前界面并切换 `setCurrent`；界面期间暂停，退出后继续 | 复用共享 `FeatureUiScene` host、互斥页与暂停/恢复合同 | 已证实 |
+| 视觉与坐标 | restored SWF character 596 的舞台边界为约 `940.05×590` | `/assets/ui/feature/magic-weapon/magic-weapon-page.svg` 作为 940×590 正式底图，动态数值由 DOM overlay 表达 | 已证实；overlay 为现代等价实现 |
+| 强化分支 | `SutraInterface.as` 给出普通灵魂、10 级后 `wplvdyl`、`zsTimerup1/2`、`kly4/5`、`qpjy` 等分支和各法宝上限 | `FormalMagicWeaponPageSystem` 以单一规则 owner 返回需求，确认时原子扣除并升级；取消不消耗 | 已证实；原子确认模型为现代事务选择 |
+| 五行重置 | `SutraInterface` 消耗 3 个 `wpccfq`，按基础装备和当前等级重建；`AllEquipment.initRondomPro()` 以 count=5 从五行池无放回抽取，实际结果包含金木水火土全部五行 | 重置确认后消耗 3 个材料，保留等级、按基础值重新成长并写入五行全集 | 运行代码事实；函数名暗示的“随机意图”未知，不把它外推为随机结果 |
+| 保存与消费者 | `User/MemoryClass` 保存装备实例；战斗法宝按当前 `zbfb` 等级/五行消费 | V4 在装备实例上保存 `level/element/growthRate/baseStatsOverride`，runtime bridge 回写 P1 装备与有效属性 | 已证实 + 现代 schema 映射 |
+
+行为合同：
+
+- 页面只操作 P1；P2 不提供无证据快捷入口。未装备法宝时只显示门禁反馈，不创建虚拟目标。
+- 普通等级使用 `level²×1000` 灵魂；特殊材料分支、法宝等级上限和青萍剑阶段数量均按 `SutraInterface.as` 的可达分支实现。
+- 材料升级与五行重置先产生待确认事务；取消不改变库存、灵魂或装备，确认时一次性校验并提交。
+- 强化和重置都立即回写正式 runtime、重算有效属性并保存 V4；临时确认状态不入存档。
+
+验证矩阵：
+
+- 确定性专项覆盖未装备门禁、P1 owner、普通灵魂升级、所有特殊材料阶段、取消/确认原子性、五行重置和 V4 往返。
+- 系统测试与生产构建通过；940×590 运行样本验证地图 N 键进入 character 596 真页、1→2 强化、灵魂 5000→4000、属性刷新和关闭返回地图。
+- 浏览器工具的 URL 策略阻止重载，未绕过也未伪造重载运行样本；V4 重载由专项测试补证。
+
 ## 现代实现建议
 
 现代侧已经完成首个非葫芦治疗法宝切片：
@@ -355,14 +379,14 @@ time = gc.frameClips * 5
 - `TASK-SETTINGS-023` 已补清 `qljfb/MagicBigBottle` 青龙剑/墙船法宝：H 触发 `StageBoat` 临时 `ThroughWall`，加入 `pWorld.getWallArray()`，跟随来源角色并约 `20s` 后销毁；普通五行 `60` 帧回 `wait`，木五行 `40` 帧回 `wait`；它不走 projectile 伤害链。
 - `TASK-SLICE-036` 已新增 `qljfb` 青龙剑/MagicBigBottle 临时跟随平台法宝最小切片，范围包括 `zbfb` 装备种子、H 触发 `MagicBigSwordBmd` 等价反馈、`StageBoat` 等价动态平台数据、接入 `MovementPlatform` 站立/托举闭环、约 `20s` 平台生命周期、来源消失清理、普通/木五行动作窗口和状态栏/场景占位视图；`AssetManifest` 已登记 `MagicBigSwordBmd`、`MagicBigBottleData` 真资源缺口。
 - `TASK-SLICE-037` 已新增 `SutraInterface` 等价最小强化入口，范围包括当前 `zbfb` 面板状态、等级/五行/成长率/主要属性/灵魂消耗显示、`getNextGradeLHValue(level) = level * level * 1000` 的 1→2 级灵魂升级、升级后按 `MyEquipObj.getGrowthByName(fillName)` 的现代成长表刷新装备属性与 `magicWeapon.level`，并让 `MagicWeaponSystem` 同步读取新等级。测试场景中 C 打开背包面板，面板内 U 消耗测试灵魂升级当前法宝；灵魂不足和未装备法宝会拒绝并显示状态反馈。
-- 下一步不再继续扩展同一最小切片；当前看板推荐 `TASK-SETTINGS-024` 等级/经验基础逆向。
+- `TASK-SLICE-139` 已把原先测试场景中的最小法宝强化入口替换为正式 P1 页面，闭合装备门禁、等级/五行/成长率/属性显示、灵魂与特殊材料升级、五行重置、runtime 回写和 V4 往返。
+- 下一步不再扩展法宝页；当前唯一推荐为 `GOAL-006` / `TASK-SLICE-140` 正式游戏循环端到端验收。
 
 后置范围：
 
 - `stlp` 后置完整五角色 `getRealPower("fabao-snow")`、qixue/吸血、全怪物通用冰冻 AddEffect 泛化和真资源校准。
 - `xhmt` 后置完整五角色 `getRealPower("fabao-pearl")`、吸血/qixue、全怪物通用 AddEffect 泛化和真资源校准。
-- 完整 `SutraInterface` 视觉布局、材料阶段、10 级以后特殊材料、五行重置和真实灵魂存档。
-- 真实法宝资源接入。
+- 战斗内法宝本体、projectile、特效与碰撞的真实资源校准。
 - P2/联机法宝同步。
 
 

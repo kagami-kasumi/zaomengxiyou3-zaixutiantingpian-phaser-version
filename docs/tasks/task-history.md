@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-139 | 正式功能 UI | 接入 P1 真法宝页、升级/重置事务与 V4 实例持久化 | M-036、M-043、M-052、VS-054 | `FormalMagicWeaponPageSystem.ts`、596 真页面、灵魂/特殊材料分支、五行重置、runtime/V4 与专项/浏览器验收 |
 | TASK-SLICE-138D | 正式功能 UI | 接入 78 本可达制作书、材料/灵魂/三宝石事务与实例持久化 | M-036、M-039、M-052、VS-054 | `EquipmentMakingRegistry/System.ts`、152 真页面、死分支拒绝、实例覆写、P1/P2 V4 与专项/浏览器验收 |
 | TASK-SLICE-138C | 正式功能 UI | 接入真分解页、可注入随机与双 owner 原子事务 | M-036、M-052、VS-054 | `EquipmentResolutionSystem.ts`、177 真页面、品质/类型/五角色/神器产物、100 灵魂、P1/P2 保存与专项验收 |
 | TASK-SLICE-138B | 正式功能 UI | 接入装备实例强化字段、V4 原位迁移与真强化事务 | M-036、M-052、VS-054 | `EquipmentStrengtheningSystem.ts`、198 真页面、5×7 概率/灵魂/降级/保底、P1/P2 保存与专项/浏览器验收 |
@@ -4598,6 +4599,29 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-139
+
+- 完成日期：2026-07-22
+- Goal：`GOAL-005`（完成）；功能条线 `LINE-FORMAL-GAME-LOOP` 继续保持 `Active`，下一 Goal 为 `GOAL-006` / `TASK-SLICE-140`。
+- 新增 P1 正式法宝页面，复用 restored SWF character 596 底图，闭合未装备门禁、名称/等级/成长率/五行/属性、灵魂与材料需求、升级与重置确认、关闭返回。
+- 将 `SutraInterface.as` 的普通灵魂、10 级突破及各特殊法宝材料阶段集中到 `FormalMagicWeaponPageSystem`；取消无消耗，确认原子提交。
+- 五行重置按一手 `AllEquipment.initRondomPro()` 的实际可达结果实现为金木水火土全集：消耗 3 个 `wpccfq`，保留等级并从基础属性重新成长；函数名暗示的随机意图继续标记未知。
+- V4 装备实例新增可选 `magicWeapon` 状态并保存最终基础属性覆写；正式 runtime bridge 回写 P1 当前法宝、灵魂和有效属性。
+
+更新文件：
+- `src/systems/FormalMagicWeaponPageSystem.ts`、`SaveSystem.ts`、`EquipmentSystem.ts`
+- `src/scenes/feature-ui/FormalMagicWeaponPageView.ts`、`FormalMagicWeaponRuntimeBridge.ts`、`FeatureUiScene.ts`
+- `src/assets/AssetManifest.ts`、`public/assets/ui/feature/magic-weapon/magic-weapon-page.svg`
+- `tools/formal-magic-weapon-tests.ts`、系统测试入口及正式 UI/法宝证据、覆盖与任务文档
+
+验证：
+- `test:formal-magic-weapon` 覆盖门禁、owner、灵魂/特殊材料升级、确认原子性、重置和 V4 往返并通过。
+- `test:feature-save-v4`、`test:feature-ui-host`、`test:systems`、`check:structure` 与 `build` 通过；结构检查仅有 8 个既有 warning。
+- 940×590 浏览器样本验证 N 键进入真页、1→2 强化、灵魂/属性刷新和关闭返回；浏览器 URL 策略阻止重载，未绕过，重载合同由专项测试补证。
+
+推荐任务：
+- `TASK-SLICE-140`：执行正式启动、存档、天庭地图、三关、成长与完整功能页的端到端验收，并决定功能线是否达到关闭标准。
 
 ### TASK-SLICE-138D
 

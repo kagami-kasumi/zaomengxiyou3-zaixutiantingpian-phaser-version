@@ -32,6 +32,7 @@
     "test:formal-strengthening": "node tools/run-system-tests.mjs formal-strengthening-tests",
     "test:formal-resolution": "node tools/run-system-tests.mjs formal-resolution-tests",
     "test:formal-making": "node tools/run-system-tests.mjs formal-making-tests",
+    "test:formal-magic-weapon": "node tools/run-system-tests.mjs formal-magic-weapon-tests",
     "test:monster-runtime": "node tools/run-system-tests.mjs monster-runtime-tests",
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",
