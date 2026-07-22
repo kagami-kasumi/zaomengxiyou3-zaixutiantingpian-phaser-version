@@ -20,12 +20,12 @@
 | 4 | 核心战斗 HUD | Stage 1 三关已复用共享 snapshot/bridge；P1/P2 HP/MP/经验/等级/五槽技能状态、入口提示和 Boss 即时/0.8s 追赶条均接入；12 条真资源 ready | 已闭合 | `stage1-hud-tests.ts` 覆盖 owner/键位/比例/Boss 与三关 update/destroy 生命周期；1-1 单人、1-2 双人镜像、1-3 单人 940×590 浏览器验收通过 |
 | 5 | 启动与存档槽 | 真启动/六槽/确认资源已接入；六槽隔离、当前槽写回、V1/V2/旧单槽迁移、损坏拒读与显式删除均已闭合 | 已完成 | `SaveSlotSystem.ts`、`SaveSlotScene.ts`、专项/系统/build 与 940×590 浏览器验收 |
 | 6 | 天庭地图与关卡入口 | 第一世界真地图/菜单、集中节点状态、锁定/当前/已通关/2-1 未接入反馈、现代 1P/2P 选择和 Stage 1 三关返回均已接入 | 已完成 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、6 条 ready 真资源、三关正式返回桥、专项/系统/build 与浏览器验收 |
-| 7 | 完整功能 UI | 共享 host/V4、真背包/装备、技能四页与宠物页已完成；工坊三子页权威行为合同已闭合 | 背包/装备/技能/宠物已完成，工坊与法宝待实现 | `TASK-SLICE-138A..138D` → `TASK-SLICE-139`；分别由 `GOAL-001..005` 承载，每页真资源、双玩家和持久化验收 |
+| 7 | 完整功能 UI | 共享 host/V4、真背包/装备、技能四页、宠物页、工坊/Fusion、真强化与真分解页已完成；制作合同已闭合 | 工坊制作与法宝待实现 | `TASK-SLICE-138D` → `TASK-SLICE-139`；分别由 `GOAL-004..005` 承载，每页真资源、双玩家和持久化验收 |
 | 8 | 端到端主循环 | 当前各最小系统分散在测试/关卡入口中，尚无一次完整玩家旅程证明 | 待集成 | 所有前置项完成后执行端到端自动检查与人工试玩；不得用单页截图或单元测试替代 |
 
 ## 当前 task
 
-`TASK-SLICE-138` 已拆分：`138A` 只接工坊容器/四标签/Fusion，`138B` 接实例 schema/V4 与强化，`138C` 接分解，`138D` 接 78 本可达制作书。每个子 task 对应一个 Goal，不在同一次 `/goal` 跨段连续。
+`TASK-SLICE-138A` 已完成工坊容器/四标签/Fusion，`138B` 已完成实例 schema/V4 与强化，`138C` 已完成真分解页和双 owner 原子事务。当前 `138D` 只接 78 本可达制作书。每个子 task 对应一个 Goal，不在同一次 `/goal` 跨段连续。
 
 ## 调度顺序
 
@@ -35,7 +35,7 @@
 4. `TASK-SETTINGS-055`（已完成）→ `TASK-SLICE-131`（已完成）：核心战斗 HUD。
 5. `TASK-SETTINGS-056`（已完成）→ `TASK-SLICE-132`（已完成）：启动与存档槽。
 6. `TASK-SETTINGS-057`（已完成）→ `TASK-SLICE-133`（已完成）：天庭地图和关卡解锁。
-7. `TASK-SETTINGS-058`（已完成）→ `TASK-ARCH-008/009`（已完成）→ `TASK-SLICE-135/136/137`（已完成）→ `TASK-SETTINGS-059`（已完成）→ `TASK-SLICE-138A`（当前）→ `138B/138C/138D` → `TASK-SLICE-139`：完整功能 UI；每个 task 由独立 Goal 承载。
+7. `TASK-SETTINGS-058`（已完成）→ `TASK-ARCH-008/009`（已完成）→ `TASK-SLICE-135/136/137/138A/138B/138C`（已完成）→ `TASK-SETTINGS-059`（已完成）→ `TASK-SLICE-138D`（当前）→ `TASK-SLICE-139`：完整功能 UI；每个 task 由独立 Goal 承载。
 8. `TASK-SLICE-140`：完整主循环端到端旅程与功能线关闭门禁。
 
 ## 关闭检查

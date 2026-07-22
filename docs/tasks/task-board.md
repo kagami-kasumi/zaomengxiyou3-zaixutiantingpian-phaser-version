@@ -4,59 +4,20 @@
 
 ## 当前推荐
 
-`TASK-SLICE-138A` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-001` 和功能线 `LINE-FORMAL-GAME-LOOP`。原 TASK-SLICE-138 因同时包含容器、Fusion、强化、分解、制作书和存档迁移，已拆为 138A..138D；本次只接入工坊容器、四标签和 Fusion。
+`TASK-SLICE-138D` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-004` 和功能线 `LINE-FORMAL-GAME-LOOP`。上一 Goal 已完成真分解页、100 灵魂、可注入随机产物和双 owner 原子事务；本 Goal 只接 78 本可达制作书、材料/宝石事务与产物实例持久化。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-138 | Split | — | LINE-FORMAL-GAME-LOOP | 装备工坊 UI | 原四标签大任务，已拆为 138A..138D | M-036、M-037、M-039、M-052、VS-054 | 由四个子 task 分别交付 | `TASK-SLICE-138A` |
-| TASK-SLICE-138A | Ready | GOAL-001 | LINE-FORMAL-GAME-LOOP | 工坊 host | 接入真工坊容器/四标签并迁入现有 Fusion | M-037、M-039、M-052、VS-054 | 正式容器、双 owner、切页/关闭返还和 Fusion 回归 | `TASK-SLICE-138B` |
-| TASK-SLICE-138B | Planned | GOAL-002 | LINE-FORMAL-GAME-LOOP | 强化 UI | 升级装备实例 schema/V4 并接入强化事务 | M-036、M-052、VS-054 | 真强化页、概率/灵魂/降级/保底、旧档迁移 | `TASK-SLICE-138C` |
-| TASK-SLICE-138C | Planned | GOAL-003 | LINE-FORMAL-GAME-LOOP | 分解 UI | 接入分解事务与可注入随机产物 | M-036、M-052、VS-054 | 真分解页、销毁/产物原子事务和双 owner 验证 | `TASK-SLICE-138D` |
-| TASK-SLICE-138D | Planned | GOAL-004 | LINE-FORMAL-GAME-LOOP | 制作书 UI | 接入 78 本可达制作书、材料与宝石事务 | M-036、M-039、M-052、VS-054 | 真制作页、registry、产物实例和 V4 round-trip | `TASK-SLICE-139` |
+| TASK-SLICE-138D | Ready | GOAL-004 | LINE-FORMAL-GAME-LOOP | 制作书 UI | 接入 78 本可达制作书、材料与宝石事务 | M-036、M-039、M-052、VS-054 | 真制作页、registry、产物实例和 V4 round-trip | `TASK-SLICE-139` |
 | TASK-SLICE-139 | Planned | GOAL-005 | LINE-FORMAL-GAME-LOOP | 法宝 UI | 接入真法宝页、装备门禁、强化/重置和保存 | M-016、M-036、M-043、M-052、VS-054 | 真页面、P1 owner、特殊分支、存档与浏览器验收 | `TASK-SLICE-140` |
 | TASK-SLICE-140 | Planned | GOAL-006 | LINE-FORMAL-GAME-LOOP | 端到端闭环 | 验收完整功能 UI 与正式主循环旅程 | M-005、M-016、M-044、M-050、M-051、M-052、VS-054 | 自动旅程、P1/P2 浏览器验收、覆盖台账与功能线关闭证据 | 关闭本线后恢复 `TASK-SETTINGS-053` |
 | TASK-SETTINGS-053 | Planned | GOAL-007 | LINE-STAGE-2-1 | 关卡逆向 | 正式游戏主循环关闭后，闭合 Stage 2-1 真场景、地图标记、怪物/专属机制和结果流程 | M-026、M-027、M-030、M-035、M-044、VS-049 | 六段证据矩阵、资源标注、覆盖台账与最小可玩切片任务 | 等待 `LINE-FORMAL-GAME-LOOP` 关闭后恢复 |
 
 ## 任务完成定义
 
-### TASK-SLICE-138
-
-任务类型：
-- `TASK-SLICE`
-
-功能条线：
-- `LINE-FORMAL-GAME-LOOP`（Active，Split）
-
-Goal 包：
-- 无；本任务已标记 `Split`，由 `GOAL-001..004` 分别承载 `TASK-SLICE-138A..138D`。
-
-目标机制/切片：
-- `M-036`、`M-037`、`M-039`、`M-052`、`VS-054`
-
-输入资料：
-- `equipment-workshop-index.md` 权威行为合同、FUI-10..14 真资源、既有完整 Fusion 实现、共享 host/V4。
-
-输出产物：
-- 拆分记录与 `138A..138D` 四个可独立验收的子 task。
-
-完成定义：
-- 原范围已全部映射到子 task，本条不直接执行。
-
-验收标准：
-- `goal-board.md` 和看板能追溯四个子 task，且每个子 task 有独立产物与验收。
-
-禁止范围：
-- 不扩展未经证据闭合的材料规则，不推进法宝/Stage 2-1。
-
-状态更新：
-- 功能线/覆盖台账、任务/历史、资源标注、`M-036/M-037/M-039/M-052`、`VS-054`。
-
-推荐后续任务：
-- `TASK-SLICE-138A`。
-
-### TASK-SLICE-138A
+### TASK-SLICE-138D
 
 任务类型：
 - `TASK-SLICE`
@@ -65,112 +26,7 @@ Goal 包：
 - `LINE-FORMAL-GAME-LOOP`（Active，Ready）
 
 Goal 包：
-- `GOAL-001`（Active）；本 Goal 只包含本 task，完成后必须交接。
-
-目标机制/切片：
-- `M-037`、`M-039`、`M-052`、`VS-054`
-
-输入资料：
-- `equipment-workshop-index.md` 的共享容器/暂存返还合同、FUI-10/11 真资源、既有 Fusion 实现和共享 host/V4。
-
-输出产物：
-- 正式 119 工坊容器、四标签路由、Fusion 迁入、P1/P2 owner 与切页/关闭返还。未实现的三个标签明确显示待接入。
-
-完成定义：
-- 正式地图入口可达工坊，Fusion 不再依赖旧的独立入口；双 owner 不串号，切页/关闭必定返还暂存物。
-
-验收标准：
-- host/Fusion/owner/返还专项、系统测试、build、浏览器验收和 `git diff --check`。
-
-禁止范围：
-- 不实现强化、分解或制作书事务；不在同一次 `/goal` 内继续 `138B`。
-
-状态更新：
-- Goal/功能线/覆盖台账、任务/历史、资源标注、`M-037/M-039/M-052`、`VS-054`。
-
-推荐后续任务：
-- 完成后激活 `GOAL-002` / `TASK-SLICE-138B`，但结束当次 `/goal`。
-
-### TASK-SLICE-138B
-
-任务类型：
-- `TASK-SLICE`
-
-功能条线：
-- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
-
-Goal 包：
-- `GOAL-002`（Planned）
-
-目标机制/切片：
-- `M-036`、`M-052`、`VS-054`
-
-输入资料：
-- `equipment-workshop-index.md` 强化 5×7 合同、FUI-12/198 真资源、V4 与现有装备实例。
-
-输出产物：
-- 装备实例强化字段、V4 原位迁移、真强化页与概率/灵魂/降级/保底事务。
-
-完成定义：
-- 提交/失败/取消/关闭、实例属性和重载一致，旧档使用安全默认。
-
-验收标准：
-- 概率矩阵、事务、V4 round-trip/迁移、owner 专项、系统/build、浏览器和 `git diff --check`。
-
-禁止范围：
-- 不接入分解/制作书，不修改无关装备数值。
-
-状态更新：
-- Goal/功能线/覆盖台账、任务/历史、资源标注、`M-036/M-052`、`VS-054`。
-
-推荐后续任务：
-- `GOAL-003` / `TASK-SLICE-138C`。
-
-### TASK-SLICE-138C
-
-任务类型：
-- `TASK-SLICE`
-
-功能条线：
-- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
-
-Goal 包：
-- `GOAL-003`（Planned）
-
-目标机制/切片：
-- `M-036`、`M-052`、`VS-054`
-
-输入资料：
-- `equipment-workshop-index.md` 分解品质/类型/角色随机链、FUI-13/177 真资源、工坊 host/V4。
-
-输出产物：
-- 真分解页、可注入随机源、装备销毁/灵魂与最多六产物原子事务。
-
-完成定义：
-- 所有品质/类型/角色分支可确定性测试，取消/关闭不丢物，P1/P2 库存不串号。
-
-验收标准：
-- 分解分支/原子性/owner/保存专项、系统/build、浏览器和 `git diff --check`。
-
-禁止范围：
-- 不接入制作书或法宝页，不用非确定随机替代测试。
-
-状态更新：
-- Goal/功能线/覆盖台账、任务/历史、资源标注、`M-036/M-052`、`VS-054`。
-
-推荐后续任务：
-- `GOAL-004` / `TASK-SLICE-138D`。
-
-### TASK-SLICE-138D
-
-任务类型：
-- `TASK-SLICE`
-
-功能条线：
-- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
-
-Goal 包：
-- `GOAL-004`（Planned）
+- `GOAL-004`（Active）
 
 目标机制/切片：
 - `M-036`、`M-039`、`M-052`、`VS-054`

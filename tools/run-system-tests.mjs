@@ -29,6 +29,9 @@ const bundledTests = requestedTests.length > 0
       'formal-inventory-tests',
       'formal-skill-tests',
       'formal-pet-tests',
+      'formal-workshop-host-tests',
+      'formal-strengthening-tests',
+      'formal-resolution-tests',
       'monster-runtime-tests',
     ];
 

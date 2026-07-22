@@ -50,6 +50,13 @@ import { createFormalSkillPageView } from './feature-ui/FormalSkillPageView';
 import { syncFormalSkillRuntime } from './feature-ui/FormalSkillRuntimeBridge';
 import { createFormalPetPageView } from './feature-ui/FormalPetPageView';
 import { syncFormalPetRuntime } from './feature-ui/FormalPetRuntimeBridge';
+import {
+  closeFormalWorkshopPage,
+  createFormalWorkshopPage,
+  setFormalWorkshopOwner,
+  type FormalWorkshopPageModel,
+} from '../systems/FormalWorkshopPageSystem';
+import { createFormalWorkshopPageView } from './feature-ui/FormalWorkshopPageView';
 
 const PageKeys: ReadonlyArray<{ keyCode: number; page: FeatureUiPage; owner: FeatureUiOwner }> = [
   { keyCode: Phaser.Input.Keyboard.KeyCodes.C, page: 'backpack', owner: 'p1' },
@@ -71,6 +78,8 @@ export class FeatureUiScene extends Phaser.Scene {
   private skillModel?: FormalSkillPageModel;
   private petLayer?: Phaser.GameObjects.Container;
   private petModel?: FormalPetPageModel;
+  private workshopLayer?: Phaser.GameObjects.Container;
+  private workshopModel?: FormalWorkshopPageModel;
   private storage?: SaveStorage;
   private finished = false;
 
@@ -130,6 +139,7 @@ export class FeatureUiScene extends Phaser.Scene {
   private renderSession(): void {
     if (!this.session) return;
     if (this.session.page === 'backpack') {
+      this.destroyWorkshopLayer();
       this.skillLayer?.destroy(true);
       this.skillLayer = undefined;
       this.petLayer?.destroy(true);
@@ -138,6 +148,7 @@ export class FeatureUiScene extends Phaser.Scene {
       return;
     }
     if (this.session.page === 'skills') {
+      this.destroyWorkshopLayer();
       this.backpackLayer?.destroy(true);
       this.backpackLayer = undefined;
       this.petLayer?.destroy(true);
@@ -146,6 +157,7 @@ export class FeatureUiScene extends Phaser.Scene {
       return;
     }
     if (this.session.page === 'pets') {
+      this.destroyWorkshopLayer();
       this.backpackLayer?.destroy(true);
       this.backpackLayer = undefined;
       this.skillLayer?.destroy(true);
@@ -153,6 +165,17 @@ export class FeatureUiScene extends Phaser.Scene {
       this.renderPetPage();
       return;
     }
+    if (this.session.page === 'workshop') {
+      this.backpackLayer?.destroy(true);
+      this.backpackLayer = undefined;
+      this.skillLayer?.destroy(true);
+      this.skillLayer = undefined;
+      this.petLayer?.destroy(true);
+      this.petLayer = undefined;
+      this.renderWorkshopPage();
+      return;
+    }
+    this.destroyWorkshopLayer();
     this.backpackLayer?.destroy(true);
     this.backpackLayer = undefined;
     this.skillLayer?.destroy(true);
@@ -330,6 +353,31 @@ export class FeatureUiScene extends Phaser.Scene {
     if (origin) syncFormalPetRuntime(origin, this.petModel);
   }
 
+  private renderWorkshopPage(): void {
+    if (!this.session) return;
+    this.workshopLayer?.destroy(true);
+    const owner = this.session.owner;
+    if (!this.workshopModel && this.storage) this.workshopModel = createFormalWorkshopPage(this.storage, owner);
+    if (this.workshopModel && this.workshopModel.owner !== owner) setFormalWorkshopOwner(this.workshopModel, owner);
+    if (!this.workshopModel || !this.storage) {
+      this.titleText?.setText(`${formatFeatureUiOwner(owner)} · 装备工坊`);
+      this.detailText?.setText('当前没有可读的活动存档，无法打开正式装备工坊。');
+      return;
+    }
+    this.workshopLayer = createFormalWorkshopPageView(this, this.workshopModel, this.storage, {
+      playerCount: this.session.playerCount,
+      onOwner: (nextOwner) => this.switchPage('workshop', nextOwner),
+      onClose: () => this.closeHost(),
+      onRerender: () => this.renderWorkshopPage(),
+    });
+  }
+
+  private destroyWorkshopLayer(): void {
+    if (this.workshopModel) closeFormalWorkshopPage(this.workshopModel);
+    this.workshopLayer?.destroy(true);
+    this.workshopLayer = undefined;
+  }
+
   private closeHost(): void {
     if (this.finished) return;
     this.scene.stop();
@@ -338,6 +386,7 @@ export class FeatureUiScene extends Phaser.Scene {
   private finishSession(): void {
     if (this.finished) return;
     this.finished = true;
+    if (this.workshopModel) closeFormalWorkshopPage(this.workshopModel);
     const session = closeFeatureUi(formalFeatureUiHost) ?? this.session;
     if (!session) return;
     if (this.scene.isPaused(session.originSceneKey)) this.scene.resume(session.originSceneKey);
@@ -345,6 +394,7 @@ export class FeatureUiScene extends Phaser.Scene {
     this.inventoryModel = undefined;
     this.skillModel = undefined;
     this.petModel = undefined;
+    this.workshopModel = undefined;
   }
 }
 

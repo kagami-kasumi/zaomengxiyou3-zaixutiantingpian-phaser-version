@@ -26,7 +26,7 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-138A | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 工坊与法宝正式页面尚未完成 | 待覆盖台账全部闭合 |
+| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-138D | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 工坊制作与法宝正式页面尚未完成 | 待覆盖台账全部闭合 |
 | LINE-STAGE-2-1 | Planned | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 等待 `LINE-FORMAL-GAME-LOOP` 关闭；资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
 
 ## 当前功能线状态
@@ -76,6 +76,12 @@
 `TASK-SLICE-137` 已归档：真 `pet1.swf` 932 宠物页进入正式 host，完成每页 5/最多 10、完整属性、8 技能展示、出战/休息、二次确认放生、成长/技能重洗和三形态进化；P1/P2 当前槽、运行时重建和确定性专项均闭合。浏览器已受 URL 策略限制，未绕过；页面路由、双 owner 与重载由专项/系统/build 覆盖。功能线保持 Active，当前推进 `TASK-SETTINGS-059`。
 
 `TASK-SETTINGS-059` 已归档：`equipment-workshop-index.md` 从三子页追到 `AllEquipment/MyEquipObj/User/PackThings/StrengthEquipment`，闭合强化 5×7 概率、灵魂/降级/保底、实例存档，分解品质/类型/角色随机链，以及 79 个制作书 case（78 可达、1 死分支）、宝石实例加成、关闭返还与 198/177/152 几何。影响实现的未知为零。原 `TASK-SLICE-138` 因跨容器、三类事务和存档迁移过重，已拆成 `138A..138D` 和 `GOAL-001..004`；功能线保持 Active，当前只推进 `GOAL-001` / `TASK-SLICE-138A`。
+
+`TASK-SLICE-138A` 已归档：119 真工坊容器与 169 真 Fusion 已迁入正式功能页 host，四标签、P1/P2 owner、材料暂存/撤回、切页/换人/关闭返还和当前槽持久化均由独立系统 owner 闭合；强化、分解、制作明确保持待接入。浏览器仍受 URL 策略限制且未绕过，专项、全系统与 build 提供确定性替代证据。功能线保持 Active，当前推进 `GOAL-002` / `TASK-SLICE-138B`。
+
+`TASK-SLICE-138B` 已归档：装备实例可保存 `strengthLevel/baseStatsOverride` 并由 definition `strengthGrowth` 派生有效属性，V4 同版本旧字段缺失使用安全默认；真 198 强化页、背包分页、装备/三石/幸运/神恩暂存、5×7 概率、灵魂、成功升级、失败降级、保底、取消/切页/换人/关闭返还和 P1/P2 当前槽持久化均已闭合。浏览器完成真页面、不可强化装备与灵魂不足原子拒绝观察，确定性成功事务由专项覆盖；临时验收槽已删除且控制台无 error/warning。功能线保持 Active，当前推进 `GOAL-003` / `TASK-SLICE-138C`。
+
+`TASK-SLICE-138C` 已归档：真 177 分解页、武器/防具/饰品准入、固定 100 灵魂、品质/类型/五角色材料链、一级宝石后减概率和神器 20.8%/20.4% 分支已由独立 `EquipmentResolutionSystem` 闭合；随机源可注入，提交前容量预检保证装备销毁/灵魂/产物原子性，取消/切页/换人/关闭返还和 P1/P2 当前槽持久化均有专项覆盖。浏览器运行验收受 URL 策略限制且未绕过；专项、全系统、build 和真资源静态接线提供确定性替代证据。功能线保持 Active，当前推进 `GOAL-004` / `TASK-SLICE-138D`。
 
 ## 关闭与切线
 

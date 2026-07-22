@@ -45,6 +45,7 @@ export function createCraftingItemDefinitionRegistry(
         ? '1.1 AllEquipment.as 权威身份/类别；数值属性待后续内容校准'
         : previous?.description ?? '1.1 AllEquipment.as 权威身份/类别',
       ...(previous?.magicWeapon ? { magicWeapon: previous.magicWeapon } : {}),
+      ...(previous?.strengthGrowth ? { strengthGrowth: previous.strengthGrowth } : {}),
     };
     return [item.fillName, definition];
   }));

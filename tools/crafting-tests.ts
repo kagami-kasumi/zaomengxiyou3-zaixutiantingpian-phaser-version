@@ -225,7 +225,7 @@ function testCraftingVisualAssetProvenance(): void {
       { fillName: 'mdcqg', sourcePackage: 'assets/MagicWeapon2.swf', sourceCharacterId: 18 },
     ],
   );
-  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 213);
+  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 215);
 }
 
 function testCraftingFixedLayoutAndScaling(): void {

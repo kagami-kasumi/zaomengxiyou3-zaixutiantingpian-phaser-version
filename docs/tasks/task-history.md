@@ -13,6 +13,9 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-138C | 正式功能 UI | 接入真分解页、可注入随机与双 owner 原子事务 | M-036、M-052、VS-054 | `EquipmentResolutionSystem.ts`、177 真页面、品质/类型/五角色/神器产物、100 灵魂、P1/P2 保存与专项验收 |
+| TASK-SLICE-138B | 正式功能 UI | 接入装备实例强化字段、V4 原位迁移与真强化事务 | M-036、M-052、VS-054 | `EquipmentStrengtheningSystem.ts`、198 真页面、5×7 概率/灵魂/降级/保底、P1/P2 保存与专项/浏览器验收 |
+| TASK-SLICE-138A | 正式功能 UI | 接入真工坊容器/四标签并迁入完整 Fusion | M-037、M-039、M-052、VS-054 | `FormalWorkshopPageSystem.ts`、119/169 真页面、P1/P2 暂存/返还/保存、正式 host 与专项回归 |
 | TASK-SETTINGS-059 | 装备工坊逆向 | 闭合强化/分解/制作书三子页的权威行为与几何合同 | M-036、M-037、M-052、VS-054 | `equipment-workshop-index.md`、强化/分解公式、79 制作书 case、实例/返还/owner/save/几何矩阵 |
 | TASK-SLICE-137 | 正式功能 UI | 接入真宠物页、完整管理交互、双 owner runtime 与 V4 | M-016、M-042、M-052、VS-054 | `FormalPetPageSystem.ts`、真 932 页面、5×2/全属性/8 槽、出战/休息/放生/成长、运行时同步与专项验收 |
 | TASK-SLICE-136 | 正式功能 UI | 接入真技能总页、主动/绑定/被动子页、双 owner 与 HUD/V4 | M-016、M-041、M-052、VS-054 | `FormalSkillPageSystem.ts`、四页真资源、学习/升级/五槽绑定/被动、运行时同步与专项/浏览器验收 |
@@ -4594,6 +4597,88 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-138C
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SLICE-138D`）
+- Goal：`GOAL-003` 已完成；`GOAL-004` 已激活，本次按 Goal 边界停止。
+
+完成内容：
+- 新增 `EquipmentResolutionSystem`，以显式 owner/session 管理背包或装备栏目标；只准入 `zbwq/zbfj/zbsp`，固定消耗 100 灵魂，取消、切页、换 owner 和关闭按原来源返还。
+- 按权威 AS3 顺序复现普通/优秀/精良/史诗/邪灵/传说/神器品质、武器/防具/饰品、悟空/唐僧/八戒/沙僧/白龙材料分支、一级宝石后减概率、`sq` 神器原初精华与 20.8%/20.4% 专属产物；优秀品质的 0% 宝石缺陷保留。
+- 随机源可注入；提交前完成产物定义与背包容量预检，拒绝时目标、灵魂和产物均不变，成功时同一事务销毁装备、扣除灵魂并把聚合产物写入当前 owner 背包。
+- 177 真分解 SVG 接入 119 工坊，显示材料槽、六结果槽、100 灵魂、提交/撤回反馈；成功事务写回当前 V4 存档槽，P1/P2 库存、灵魂和结果不串号。
+- 浏览器运行验收受 Codex URL 策略限制并按安全要求停止，没有绕过；真资源/scene 接线、双 owner、保存、原子拒绝和全部随机分支由专项、全系统与 build 提供确定性替代证据。
+
+更新文件：
+- `src/systems/EquipmentResolutionSystem.ts`、`FormalWorkshopPageSystem.ts`
+- `src/scenes/feature-ui/FormalWorkshopPageView.ts`、`src/assets/AssetManifest.ts`、`public/assets/ui/crafting/equipment-resolution.svg`
+- `tools/formal-resolution-tests.ts`、`tools/crafting-tests.ts`、系统测试入口与 package script
+- FUI/机制/切片/功能线/Goal/任务/历史/资源标注、统一语言与 PG-002/004/005 反馈文档
+
+验证：
+- `npm run test:formal-resolution`、`npm run test:systems` 与 `npm run build` 通过。
+- `npm run check:structure` 只有任务开始前已有的 8 条 warning；本任务未向 warning 源文件新增逻辑。
+- 文档收尾后运行 `npm run check:workflow`、`npm run check:annotations` 与 `git diff --check`。
+
+推荐任务：
+- `GOAL-004` / `TASK-SLICE-138D`：只实现 78 本可达制作书、材料/灵魂/三可选宝石事务与产物实例持久化；不得在同一 Goal 继续法宝页。
+
+### TASK-SLICE-138B
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SLICE-138C`）
+- Goal：`GOAL-002` 已完成；`GOAL-003` 已激活，本次按 Goal 边界停止。
+
+完成内容：
+- 新增 `EquipmentStrengtheningSystem`，以显式 owner/session 管理背包或装备栏目标、三颗强化石、幸运符和神恩符暂存；取消、切页、换 owner 和关闭按原来源返还，提交后装备回背包。
+- 完整复现 5×7 单石概率、三石累加封顶、幸运符 1.25 倍、0..6 级灵魂费用、成功 +1、3..6 失败 -1、神恩保底、+7/头衔/神器白名单与安全拒绝；随机源可注入，验证失败不产生半扣库存。
+- 装备实例沿用 V4 可选 `strengthLevel/baseStatsOverride` 字段，旧 V4 缺字段安全恢复为 +0/无覆写；`strengthGrowth` 保留在 definition，唐僧普通禅杖/袈裟分别按原版 `att:3/def:4` 派生有效属性并完成 round-trip。
+- 198 真强化 SVG 接入 119 工坊，新增 10 项分页，使完整装备/材料库存均可达；P1/P2 事务只写各自库存、灵魂和当前活动存档槽。
+- 浏览器在正式 940×590 路径完成真页、不可强化法宝拒绝、三颗强化石 100% 预览、灵魂不足原子拒绝和 console 检查；为验收创建的存档 2 已在结束前删除。当前自然存档灵魂不足，确定性成功/失败/保底事务由专项测试覆盖，没有用调试资源改写正式存档。
+
+更新文件：
+- `src/systems/EquipmentStrengtheningSystem.ts`、`FormalWorkshopPageSystem.ts`、`EquipmentSystem.ts`、既有 `SaveSystem.ts` 实例/V4 接线与 `CraftingItemDefinitionRegistry.ts`
+- `src/scenes/feature-ui/FormalWorkshopPageView.ts`、`src/assets/AssetManifest.ts`、`public/assets/ui/crafting/equipment-strength.svg`
+- `tools/formal-strengthening-tests.ts`、系统测试入口与 package script
+- FUI/机制/切片/功能线/Goal/任务/历史/资源标注、统一语言与 PG-002/004/005 反馈文档
+
+验证：
+- `npm run test:formal-strengthening`、`npm run test:formal-workshop-host`、`npm run test:feature-save-v4` 与 `npm run build` 通过。
+- 全系统、工作流、结构和 diff 检查见本次收尾记录。
+
+推荐任务：
+- `GOAL-003` / `TASK-SLICE-138C`：只实现分解准入、100 灵魂、可注入随机产物和双 owner 原子事务；不得在同一 Goal 继续制作书。
+
+### TASK-SLICE-138A
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SLICE-138B`）
+- Goal：`GOAL-001` 已完成；`GOAL-002` 已激活，本次按 Goal 边界停止。
+
+完成内容：
+- 将 119 真工坊容器与 169 真 Fusion 页面接入 `FeatureUiScene` 的正式地图入口，四标签可切换；强化、分解和制作明确显示后续切片状态，不消费物品。
+- 新增 owner-aware `FormalWorkshopPageSystem`，P1/P2 分别持有 Fusion session；材料暂存、撤回、合成和灵魂结算复用既有 112 配方权威系统。
+- 切标签、换 owner、关闭页面和场景 shutdown 都会返还未提交材料；成功事务写回当前 V4 存档槽，P1/P2 库存和灵魂不串号。
+- 新增正式工坊专项测试，覆盖真资源 provenance、正式 host 接线、P1/P2 隔离、暂存返还和成功合成持久化。
+- 浏览器运行验收继续受 Codex URL 策略限制，未绕过；以专项、全系统、build 和静态接线检查作为确定性替代证据并公开保留限制。
+
+更新文件：
+- `src/systems/FormalWorkshopPageSystem.ts`
+- `src/scenes/feature-ui/FormalWorkshopPageView.ts`
+- `src/scenes/FeatureUiScene.ts`
+- `tools/formal-workshop-host-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- `docs/reverse-engineering/full-function-ui-index.md`、`mechanics-index.md`
+- `docs/tasks/goal-board.md`、`feature-lines.md`、本线覆盖台账、`vertical-slices.md`、`task-board.md`、`task-history.md`
+- PG-002/004/005 适用触发与反馈记录
+
+验证：
+- `npm run test:formal-workshop-host` 通过。
+- `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow` 与 `git diff --check` 见本次收尾记录。
+
+推荐任务：
+- `TASK-SLICE-138B`：只实现装备实例 schema/V4 兼容与强化事务；不得在同一 Goal 继续分解。
 
 ### TASK-SLICE-137
 

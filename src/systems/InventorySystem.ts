@@ -114,6 +114,9 @@ export function createSeedInventoryStore(
   addStackByFillName(store, registry, 'nianjhd', 1);
   addStackByFillName(store, registry, 'smbjns2', 2);
   addStackByFillName(store, registry, 'tlzsp', 3);
+  addStackByFillName(store, registry, 'wpqhs1', 3);
+  addStackByFillName(store, registry, 'wpxyf', 1);
+  addStackByFillName(store, registry, 'wpbdf', 1);
   return store;
 }
 
