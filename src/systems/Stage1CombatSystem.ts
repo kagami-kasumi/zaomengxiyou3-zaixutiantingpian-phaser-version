@@ -75,6 +75,11 @@ export type Stage1CombatPlayer = {
   previousInput?: PlayerInputState;
   damageLog: DamageEvent[];
   deathReason?: Stage1DeathReason;
+  mp: number;
+  maxMp: number;
+  soul: number;
+  warriorEnergy: number;
+  experience: number;
 };
 
 export type Stage1CombatEnemy = {
@@ -94,6 +99,7 @@ export type Stage1CombatEnemy = {
     attackKind: AttackKind;
     damage: number;
   }>;
+  lastHitBy?: PlayerSlot;
 };
 
 export type Stage1CombatAudit = {
@@ -148,6 +154,11 @@ export function createStage1CombatPlayer(slot: PlayerSlot): Stage1CombatPlayer {
     combat,
     normalAttack: createHeroNormalAttack(Stage1CombatTuning.defaultHeroId),
     damageLog: [],
+    mp: 50,
+    maxMp: 50,
+    soul: 0,
+    warriorEnergy: 0,
+    experience: 0,
   };
 }
 
@@ -305,6 +316,7 @@ export function resolveStage1HeroAttack(params: {
       occurredAtMs: params.timeMs,
     });
     enemyModel.hp = Math.max(0, enemyModel.hp - event.amount);
+    enemyModel.lastHitBy = params.player.slot;
     enemyModel.activeAttack = undefined;
     if (enemyModel.hp === 0) {
       enemyModel.phase = 'dead';

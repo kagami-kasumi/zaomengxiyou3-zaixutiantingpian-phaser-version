@@ -2,6 +2,7 @@ import type { AttackKind } from './CombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
 import type { PlayerSlot } from './InputSystem';
 import { getStage1EnemyConfig } from './Stage1CombatSystem';
+import { createMonsterPhysics, type MonsterPhysicsModel } from './MonsterPhysicsSystem';
 
 export type Monster3State = 'wait' | 'walk' | 'hurt' | 'hit1' | 'hit2' | 'dead' | 'removed';
 
@@ -24,6 +25,8 @@ export type Monster3Model = {
   attackSerial: number;
   activeAttack?: Monster3ActiveAttack;
   skill1CooldownMs: number;
+  physics: MonsterPhysicsModel;
+  lastHitBy?: PlayerSlot;
 };
 
 export type Monster3ActiveAttack = {
@@ -88,6 +91,7 @@ export function createMonster3(x: number, y: number): Monster3Model {
     attackDecisionTimerMs: 1000,
     attackSerial: 0,
     skill1CooldownMs: Monster3Tuning.hit2SkillCD1Ms,
+    physics: createMonsterPhysics({ y, height: 70 }),
   };
 }
 

@@ -11,6 +11,8 @@ export * from '../../systems/Monster3System';
 export * from '../../systems/LevelSystem';
 export * from '../../systems/Stage11Layout';
 export * from '../../systems/Stage1CombatSystem';
+export * from '../../systems/MonsterPhysicsSystem';
+export * from '../../systems/MonsterDefeatRewardSystem';
 export * from '../../systems/EquipmentSystem';
 export * from '../../systems/InventorySystem';
 export * from '../../systems/EquipmentUISystem';

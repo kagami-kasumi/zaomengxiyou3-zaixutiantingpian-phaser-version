@@ -62,6 +62,10 @@
 | 关卡流程系统 | `Stage11FlowSystem` | System | Content / Runtime | 管理 Stage 1-1 全队失败门禁、胜利幂等和解锁进度 | `StageFlowSystem`, `LevelStateSystem` |
 | 地图 | `MapData` | Config | Content | 地形、平台、出生点等数据 | `Map`, `TileMapData` |
 | 掉落 | `Drop` | Entity / Config | Progression | 怪物死亡产生的奖励项 | `Loot`, `RewardDrop` |
+| 生命恢复掉落 | `HealthPickup` | Entity | Progression | 落地后由玩家接触拾取并按最大生命比例恢复 HP | `HealthDrop`, `HpOrb` |
+| 魔法恢复掉落 | `ManaPickup` | Entity | Progression | 落地后由玩家接触拾取并按最大魔法比例恢复 MP | `ManaDrop`, `MpOrb` |
+| 灵魂掉落 | `SoulPickup` | Entity | Progression | 原版 `Aura`：短暂等待并上浮后自动追踪击杀归属英雄，收集时增加灵魂收益 | `AuraDrop`, `SoulOrb`, `RedBall`, `BlueBall` |
+| 经验奖励 | `ExperienceReward` | Value / Event | Progression | 怪物死亡时直接结算给击杀归属玩家/宠物，不生成地面拾取物 | `ExperienceDrop`, `ExpOrb` |
 | 英雄成长模型 | `HeroProgressionModel` | Model | Progression | 单个英雄等级、当前经验、本级升级所需经验和最近升级结果 | `HeroLevelState`, `ExperienceState`, `LevelProgress` |
 | 成长系统 | `ProgressionSystem` | System | Progression | 管理玩家英雄经验增加、升级曲线和五角色基础属性成长 | `LevelSystem`, `ExperienceSystem`, `GrowthSystem` |
 | 物品 | `Item` | Entity / Config | Progression | 背包中的基础物品概念 | `Goods`, `InventoryItem` |

@@ -226,6 +226,21 @@ tdlzjzzs, shsjt, wpqhs1, tlzsp, llzsp, hlzsp, flzsp, slzsp
 
 ## Aura 掉落与收集
 
+> 2026-07-22 命名与资源接入校正：现代领域不再使用“红球/蓝球”或颜色型掉落名。原版 `Aura` 统一归入 `SoulPickup` 资源族；其中 `auraRed` 的实际收益是 `User.lhValue`（灵魂），`auraWhile` 的实际收益是 `RoleInfo.wsValue`（战意），由 `RoleInfo.addWarriors()` 的参数 3/4 消费路径交叉确认。怪物 `protectedParamsObject.exp` 仍在死亡时直接结算为 `ExperienceReward`，没有地面拾取 UI。
+
+### TASK-SLICE-134 六段证据矩阵
+
+| 段 | 证据 | 结论 | 级别 |
+| --- | --- | --- | --- |
+| 局部对象 | `BaseMonster.dropAura()/addMedicine()` | 所有标准怪物死亡共用药品、装备与 Aura 入口，不是关卡规则 | 确认事实 |
+| 共享消费者 | `RoleInfo.addWarriors()`、`BaseRoleProperies`、`User.setLhValue()` | 生命/魔法接触恢复；`auraRed` 增加灵魂；`auraWhile` 增加战意；经验另行直结 | 交叉确认 |
+| 物理/寻路 | `BaseObject.step()`、`BaseAura.step()`、`Monster30.isFly/graity` | 怪物默认走地形重力，显式飞行例外；Aura 等待、上浮后加速追踪归属英雄 | 交叉确认 |
+| 视觉/符号 | 恢复 `OtherMat1.swf` character 426/428/430；`Common1.swf` character 102/106 | 生命、魔法、灵魂/战意真资源可直接接入 | 交叉确认 |
+| 现代映射 | `MonsterPhysicsSystem.ts`、`MonsterDefeatRewardSystem.ts`、`Stage1RewardBridge.ts` | 关卡只提供平台/玩家/死亡事件；概率、数量、归属与追踪由共享 owner 管理 | 现代设计选择 |
+| 验证/反证 | `tools/monster-runtime-tests.ts`；Stage 1 三关 bridge 搜索 | 默认落地、飞行豁免、幂等死亡奖励与三关接入可自动验证；若后续关卡复制概率或默认悬浮则反证 | 已验证合同 |
+
+坐标语义：恢复 sprite 以 FFDec 导出的透明 PNG 边界和中心注册视觉接入；现代 Phaser image 使用中心 origin。药品世界坐标是显示中心，落地表面由关卡 `MovementPlatform.top - 16` 适配；SoulPickup 使用怪物世界中心生成并追踪英雄上身锚点 `hero.y - 52`。这两个偏移是现代显示适配，不冒充原 MovieClip 注册点事实。
+
 `BaseMonster.dropAura()` 在药品和装备/道具掉落之后继续生成 aura。`gc.curStage == 98` 只跳过 `addMedicine()` 和 `fallEquip()`，不会跳过 aura。
 
 击杀者归属：

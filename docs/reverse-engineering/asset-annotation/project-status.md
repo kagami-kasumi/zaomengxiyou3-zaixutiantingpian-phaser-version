@@ -16,15 +16,17 @@
 | Stage 1-1 | 4 | 3 项精确符号已选择性派生并接入；listener 是行为证据 | `stage11.md` |
 | Stage 1-2 | 5 | 4 项精确符号/时间轴已转换并接入；listener 是行为证据 | `stage12.md` |
 | Stage 1-3 | 4 | 前景/布局、背景和普通门已转换接入；listener 是行为证据 | `stage13.md` |
-| UI 与配方图标 | 213 | 炼丹炉 UI 与 201/201 个配方图标已接入；七个选择性导出批次全部闭合 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`../crafting-ui-index.md` |
+| UI 与配方图标 | 225 | 炼丹炉 UI 与 201/201 个配方图标已接入；正式战斗 HUD 12 条精确资源为 export-ready | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`../crafting-ui-index.md`、`../combat-hud-index.md` |
 
-总计 376 条标注：227 条 `ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、3 条 `rejected`；375 条 `confirmed`、1 条 `unknown`。当前没有 `export-ready`、`derived-ready` 或 `needs-splitting` 条目。
+总计 393 条标注：232 条 `ready`、145 条 `source-corpus-ready`、12 条 `export-ready`、1 条 `needs-annotation`、3 条 `rejected`；392 条 `confirmed`、1 条 `unknown`。当前没有 `derived-ready` 或 `needs-splitting` 条目。
 
 ## 人工待办
 
 当前没有必须立即执行的人工标注或视觉消歧。
 
 原版角色包、怪物包、UI 包和关卡包等源 SWF 已恢复到 `local-resources/regima/source/restored-swfs/`，证据见 [`../evb-extraction-report.md`](../evb-extraction-report.md)。Stage 1-1 的 character 46/141/1、Stage 1-2 的 character 25/135/22/52/48/51，以及 Stage 1-3 的 character 13/119/40 均已转换、注册并通过运行时验收。
+
+正式战斗 HUD 已确认 `OtherMat1.swf` 的玩家面板/进度条/技能槽/入口按钮与 `bossblood.swf` 的 Boss 条，共 12 条等待 `TASK-SLICE-131` 选择性导出和正式关卡接入。
 
 Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整 P-code、角色资源包或运行画面才能确认。它已按 `unknown` 保留，不阻塞本轮标注数据关闭。
 

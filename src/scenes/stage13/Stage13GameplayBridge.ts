@@ -43,6 +43,12 @@ import {
   type Stage1CombatPlayer,
   type Stage1CombatRuntime,
 } from '../../systems/Stage1CombatSystem';
+import {
+  createMonsterPhysics,
+  updateMonsterPhysics,
+  type MonsterPhysicsModel,
+} from '../../systems/MonsterPhysicsSystem';
+import { createStage1RewardBridge, type Stage1RewardBridge } from '../stage1/Stage1RewardBridge';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
@@ -54,6 +60,7 @@ type MonsterRuntime = {
   combat: Stage1CombatEnemy;
   body: Phaser.GameObjects.Arc;
   label: Phaser.GameObjects.Text;
+  physics: MonsterPhysicsModel;
 };
 
 export type Stage13GameplayHandle = Readonly<{
@@ -82,6 +89,7 @@ export function createStage13Gameplay(
     currentPlatformId: STAGE13_GROUND_PLATFORM_ID,
   })));
   const monsters = new Map<string, MonsterRuntime>();
+  const rewards: Stage1RewardBridge = createStage1RewardBridge(scene, players, stage13MovementPlatforms);
   const status = scene.add.text(18, 51, '', {
     color: '#dce8ff', fontFamily: 'Arial, sans-serif', fontSize: '14px',
     backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
@@ -113,7 +121,9 @@ export function createStage13Gameplay(
       combatRuntime,
       scene.time.now,
       deltaMs,
+      rewards,
     );
+    rewards.update(deltaMs);
 
     const phase = updateStage13PartyFailure(
       flow,
@@ -137,7 +147,7 @@ export function createStage13Gameplay(
     }
 
     followParty(scene, players, flow);
-    updateStatus(status, flow, players);
+    updateStatus(status, flow, players, rewards.getSummary());
     return undefined;
   };
 
@@ -146,6 +156,7 @@ export function createStage13Gameplay(
     update,
     destroy: () => {
       status.destroy();
+      rewards.destroy();
       for (const monster of monsters.values()) destroyMonsterView(monster);
       monsters.clear();
     },
@@ -214,8 +225,11 @@ function updateMonsterCombat(
   runtime: Stage1CombatRuntime,
   timeMs: number,
   deltaMs: number,
+  rewards: Stage1RewardBridge,
 ): void {
   for (const monster of monsters.values()) {
+    updateMonsterPhysics(monster.physics, monster.combat.x, stage13MovementPlatforms, deltaMs);
+    monster.combat.y = monster.physics.y;
     updateStage1Enemy({
       enemy: monster.combat,
       targets: players.map((player) => ({
@@ -247,6 +261,7 @@ function updateMonsterCombat(
   for (const [id, monster] of monsters) {
     syncMonsterView(monster);
     if (monster.combat.phase !== 'dead') continue;
+    rewards.onMonsterDefeated(monster.combat);
     defeatStage13Enemy(flow, id);
     destroyMonsterView(monster);
     monsters.delete(id);
@@ -260,10 +275,14 @@ function createMonsterView(scene: Phaser.Scene, monster: Stage13Enemy): MonsterR
       : monster.enemyType === 3 ? 0x8f63d8
         : monster.enemyType === 7 ? 0x6cbf73 : 0x5ca8d8;
   const radius = monster.isBoss ? 36 : monster.isFlying ? 15 : 18;
-  const centerY = monster.isFlying ? monster.y : STAGE13_GROUND_TOP_Y - radius;
-  const body = scene.add.circle(monster.x, centerY, radius, color)
+  const physics = createMonsterPhysics({
+    y: monster.y,
+    height: radius * 2,
+    motionMode: monster.isFlying ? 'flying' : 'grounded',
+  });
+  const body = scene.add.circle(monster.x, physics.y, radius, color)
     .setStrokeStyle(2, 0x1a2130).setDepth(18);
-  const label = scene.add.text(monster.x, centerY, `M${monster.enemyType}`, {
+  const label = scene.add.text(monster.x, physics.y, `M${monster.enemyType}`, {
     color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: monster.isBoss ? '14px' : '11px',
   }).setOrigin(0.5).setDepth(19);
   return {
@@ -272,16 +291,19 @@ function createMonsterView(scene: Phaser.Scene, monster: Stage13Enemy): MonsterR
       id: monster.id,
       enemyType: monster.enemyType,
       x: monster.x,
-      y: centerY,
+      y: physics.y,
     }),
     body,
     label,
+    physics,
   };
 }
 
 function syncMonsterView(monster: MonsterRuntime): void {
   monster.body.x = monster.combat.x;
+  monster.body.y = monster.combat.y;
   monster.label.x = monster.combat.x;
+  monster.label.y = monster.combat.y;
   monster.label.setText(`M${monster.model.enemyType}${monster.combat.phase === 'windup' ? ' !' : monster.combat.phase === 'active' ? ' *' : ''}`);
   const color = monster.combat.phase === 'windup' ? 0xffd166
     : monster.combat.phase === 'active' ? 0xff5d5d
@@ -317,6 +339,7 @@ function updateStatus(
   status: Phaser.GameObjects.Text,
   flow: Stage13FlowModel,
   players: readonly PlayerRuntime[],
+  rewardSummary: string,
 ): void {
   const wave = flow.doorVisible
     ? '巨灵神已败：普通门开启，门前按上'
@@ -326,10 +349,10 @@ function updateStatus(
   const hp = players.map((player, index) => {
     const combat = player.combat.combat;
     const cause = player.combat.deathReason ? ` ${player.combat.deathReason}` : '';
-    return `P${index + 1} HP ${Math.ceil(combat.hp)}/${combat.maxHp}${cause}`;
+    return `P${index + 1} HP ${Math.ceil(combat.hp)}/${combat.maxHp} MP ${player.combat.mp}/${player.combat.maxMp}${cause}`;
   }).join(' · ');
   status.setText(
-    `${wave} · 场上 ${flow.aliveEnemies.size}/${flow.maxMonstersOnScreen} · 已生成 ${flow.generatedCount}/105 · 已击败 ${flow.defeatedCount} · ${hp}`,
+    `${wave} · 场上 ${flow.aliveEnemies.size}/${flow.maxMonstersOnScreen} · 已生成 ${flow.generatedCount}/105 · 已击败 ${flow.defeatedCount} · ${hp} · ${rewardSummary}`,
   );
 }
 

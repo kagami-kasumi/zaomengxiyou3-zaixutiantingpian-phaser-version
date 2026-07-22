@@ -82,6 +82,14 @@ export const Stage13AssetKeys = {
   transferDoor: 'stage.stage1-3.transfer-door',
 } as const;
 
+export const PickupAssetKeys = {
+  healthSmall: 'pickup.health.small',
+  healthBig: 'pickup.health.big',
+  manaSmall: 'pickup.mana.small',
+  soulPrimary: 'pickup.soul.primary',
+  soulBonus: 'pickup.soul.bonus',
+} as const;
+
 const CraftingUIAssetKeys = {
   container: 'crafting-ui.container',
   fusionPanel: 'crafting-ui.fusion-panel',
@@ -308,6 +316,57 @@ const stageFrameKeys = (key: string, frameCount: number): readonly string[] =>
 
 const stageFramePaths = (directory: string, frameCount: number): readonly string[] =>
   Array.from({ length: frameCount }, (_, index) => `${directory}/frame-${String(index + 1).padStart(2, '0')}.png`);
+
+const numberedFramePaths = (directory: string, frameCount: number): readonly string[] =>
+  Array.from({ length: frameCount }, (_, index) => `${directory}/${index + 1}.png`);
+
+export const pickupAssets = {
+  healthSmall: {
+    key: PickupAssetKeys.healthSmall,
+    path: '/assets/combat/pickups/health-small.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'export.cure.SmallHP',
+    sourceCharacterId: 428,
+  },
+  healthBig: {
+    key: PickupAssetKeys.healthBig,
+    path: '/assets/combat/pickups/health-big.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'export.cure.BigHP',
+    sourceCharacterId: 426,
+  },
+  manaSmall: {
+    key: PickupAssetKeys.manaSmall,
+    path: '/assets/combat/pickups/mana-small.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'export.cure.SmallMP',
+    sourceCharacterId: 430,
+  },
+  soulPrimary: {
+    key: PickupAssetKeys.soulPrimary,
+    frameKeys: stageFrameKeys(PickupAssetKeys.soulPrimary, 19),
+    framePaths: numberedFramePaths('/assets/combat/pickups/soul-primary', 19),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/Common1.swf',
+    sourceSymbol: 'export.aura.auraRed',
+  },
+  soulBonus: {
+    key: PickupAssetKeys.soulBonus,
+    frameKeys: stageFrameKeys(PickupAssetKeys.soulBonus, 19),
+    framePaths: numberedFramePaths('/assets/combat/pickups/soul-bonus', 19),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/Common1.swf',
+    sourceSymbol: 'export.aura.auraWhile',
+  },
+} as const;
 
 export const stage12Assets = {
   background: {

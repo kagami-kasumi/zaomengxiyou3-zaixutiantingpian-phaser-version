@@ -814,7 +814,7 @@ export function spawnAuraDrops(params: {
     }));
   }
 
-  params.model.lastMessage = `aura 红${redCount} 白${whiteCount}`;
+  params.model.lastMessage = `灵魂 ${redCount} · 战意 ${whiteCount}`;
   return drops;
 }
 
@@ -1054,6 +1054,7 @@ function updateAuraDrop(
   if (!target) {
     return;
   }
+  drop.targetId = target.id;
 
   const dx = target.x - drop.x;
   const dy = target.y - drop.y;
@@ -1075,8 +1076,8 @@ function updateAuraDrop(
 
 function collectAuraDrop(model: DropSystemModel, drop: AuraWorldDrop): AuraPickupResult {
   const message = drop.auraType === 'red'
-    ? `红 aura gxp +${drop.power}`
-    : `白 aura power +${drop.power}`;
+    ? `灵魂 +${drop.power}`
+    : `战意 +${drop.power}`;
 
   if (drop.auraType === 'red') {
     model.auraRedGxp += drop.power;

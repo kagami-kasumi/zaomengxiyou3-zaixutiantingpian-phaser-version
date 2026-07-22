@@ -1,4 +1,7 @@
 ﻿import Phaser from 'phaser';
+// boundary: this bridge adapts the Stage 1-1 boss view, combat events, arena flow,
+// and shared monster runtime; it does not own gravity, reward probabilities,
+// pickup seeking, damage formulas, or progression rules.
 import {
   activateBossArena,
   applyOwnedPetDamageRedirect,
@@ -17,6 +20,10 @@ import {
   resolveHitOnce,
   tryClearArena,
   updateMonster3,
+  updateMonsterPhysics,
+  createMonsterDefeatRewardRuntime,
+  settleMonsterDefeatRewards,
+  DropTuning,
   type InputState,
   type PlayerSlot,
 } from './TestSceneSystems';
@@ -49,6 +56,13 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
     }
 
     if (this.bossArena.state === 'active' && this.bossArena.boss) {
+      updateMonsterPhysics(
+        this.bossArena.boss.physics,
+        this.bossArena.boss.x,
+        this.movementPlatforms,
+        delta,
+      );
+      this.bossArena.boss.y = this.bossArena.boss.physics.y;
       updateMonster3(
         this.bossArena.boss,
         this.getMonster3Targets(),
@@ -62,6 +76,27 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
       this.applyBossAttack(time);
 
       if (isBossDead(this.bossArena.boss) && !this.bossArena.door.visible) {
+        const boss = this.bossArena.boss;
+        const owner = boss.lastHitBy ?? this.getInventoryPlayer()?.slot;
+        if (owner) {
+          this.monsterDefeatRewardRuntime ??= createMonsterDefeatRewardRuntime();
+          const spawnY = boss.y + DropTuning.spawnOffsetY;
+          const rewards = settleMonsterDefeatRewards({
+            runtime: this.monsterDefeatRewardRuntime,
+            dropSystem: this.dropSystem,
+            defeatId: 'stage11-monster3-boss',
+            enemyType: 3,
+            owner,
+            x: boss.x,
+            y: boss.y,
+            settleY: this.findDropSettleY(boss.x, spawnY),
+            configuredItem: {
+              monsterId: 'Monster3',
+              context: this.createCurrentDropContext(),
+            },
+          });
+          if (rewards) this.awardMonsterExperience(rewards.experience.owner, rewards.experience.amount);
+        }
         revealTransferDoor(this.bossArena);
         if (this.bossDoorView) {
           this.bossDoorView.frame.setVisible(true);
@@ -214,6 +249,7 @@ export function applyPlayerHitOnBoss(this: any, player: any, time: number): void
       occurredAtMs: time,
     });
     this.lastDamageEvent = damageEvent;
+    boss.lastHitBy = player.slot;
     applyMonster3Hit(boss, damageEvent.amount);
   }
 

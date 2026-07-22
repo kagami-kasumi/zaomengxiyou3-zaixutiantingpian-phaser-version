@@ -1,7 +1,7 @@
 ﻿// boundary: view factories create Phaser display objects only; they do not own
 // gameplay state transitions.
 import Phaser from 'phaser';
-import { role1NormalAttackAssets } from '../../assets/AssetManifest';
+import { PickupAssetKeys, pickupAssets, role1NormalAttackAssets } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
 import type { PlayerSlot } from '../../systems/InputSystem';
@@ -53,6 +53,7 @@ export type DropView = {
   shine: Phaser.GameObjects.Ellipse;
   label: Phaser.GameObjects.Text;
   feedback: Phaser.GameObjects.Text;
+  sprite?: Phaser.GameObjects.Image;
 };
 
 export type AttackFlash = {
@@ -214,6 +215,8 @@ export function createDropView(
   const shadow = scene.add.ellipse(0, 18, 44, 10, 0x000000, 0.22);
   const body = scene.add.ellipse(0, 0, 30, 24, color, 0.88);
   const shine = scene.add.ellipse(-6, -5, 9, 6, 0xf3f6ff, 0.46);
+  const pickupTexture = getPickupTexture(drop);
+  const sprite = pickupTexture ? scene.add.image(0, 0, pickupTexture) : undefined;
   const label = scene.add.text(-46, -40, labelText, {
     color: '#f3f6ff',
     fontFamily: 'Arial, sans-serif',
@@ -226,9 +229,15 @@ export function createDropView(
   });
 
   body.setStrokeStyle(2, color, 1);
-  root.add([shadow, body, shine, label, feedback]);
+  if (sprite) {
+    body.setVisible(false);
+    shine.setVisible(false);
+  }
+  root.add([shadow, body, shine]);
+  if (sprite) root.add(sprite);
+  root.add([label, feedback]);
   root.setDepth(44);
-  return { root, shadow, body, shine, label, feedback };
+  return { root, shadow, body, shine, label, feedback, sprite };
 }
 
 export function syncDropView(
@@ -243,8 +252,25 @@ export function syncDropView(
   view.body.setFillStyle(getDropColor(drop), drop.state === 'idle' ? 0.88 : 0.4);
   view.body.setScale(drop.state === 'idle' ? 1 + Math.sin(drop.ageMs * 0.006) * 0.05 : 1);
   view.shine.setVisible(drop.state === 'idle');
-  view.label.setText(labelText);
+  if (view.sprite) {
+    const texture = getPickupTexture(drop);
+    if (texture && view.sprite.texture.key !== texture) view.sprite.setTexture(texture);
+    view.sprite.setVisible(drop.state === 'idle');
+    view.body.setVisible(false);
+    view.shine.setVisible(false);
+  }
+  view.label.setText(view.sprite ? '' : labelText);
   view.feedback.setText(drop.state === 'picked' ? drop.feedback : '');
+}
+
+function getPickupTexture(drop: WorldDrop): string | undefined {
+  if (drop.kind === 'medicine') {
+    if (drop.fillName === 'BigHP') return PickupAssetKeys.healthBig;
+    return drop.fillName === 'SmallMP' ? PickupAssetKeys.manaSmall : PickupAssetKeys.healthSmall;
+  }
+  if (drop.kind !== 'aura') return undefined;
+  const asset = drop.auraType === 'red' ? pickupAssets.soulPrimary : pickupAssets.soulBonus;
+  return asset.frameKeys[Math.floor(drop.ageMs / 50) % asset.frameKeys.length];
 }
 
 export function destroyDropView(view: DropView): void {

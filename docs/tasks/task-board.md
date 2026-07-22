@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-055` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-FORMAL-GAME-LOOP`。Stage 1 三关战斗校准与 1-1 三次完整运行已闭合，当前继续逆向正式核心战斗 HUD，不切换到 Stage 2-1。
+`TASK-SLICE-131` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-FORMAL-GAME-LOOP`。正式战斗 HUD 的字段、940×590 布局、P1/P2 镜像/键位映射、恢复资源和 Boss 状态合同已由前一逆向任务闭合，当前进入 Stage 1 三关共享 HUD 实现。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-055 | Ready | LINE-FORMAL-GAME-LOOP | UI 逆向 | 闭合正式战斗 HUD 的字段、布局、资源、双玩家和更新语义 | M-015、M-016、M-040、M-049、VS-051 | 六段证据矩阵、资源标注、HUD 数据合同与实现任务输入 | `TASK-SLICE-131` |
-| TASK-SLICE-131 | Planned | LINE-FORMAL-GAME-LOOP | 可玩切片 | 在正式 Stage 1 关卡接入 P1/P2 核心战斗 HUD | M-015、M-016、M-040、M-049、VS-051 | HP/MP/经验/等级/技能/重要敌人状态 HUD 与验证 | `TASK-SETTINGS-056` |
+| TASK-SLICE-131 | Ready | LINE-FORMAL-GAME-LOOP | 可玩切片 | 在正式 Stage 1 关卡接入 P1/P2 核心战斗 HUD | M-015、M-016、M-040、M-049、VS-051 | HP/MP/经验/等级/技能/重要敌人状态 HUD 与验证 | `TASK-SETTINGS-056` |
 | TASK-SETTINGS-056 | Planned | LINE-FORMAL-GAME-LOOP | 主流程逆向 | 闭合 EXE 启动、存档槽新建/读取/删除、迁移和损坏反馈 | M-005、M-044、M-050、VS-052 | 六段证据矩阵、存档槽状态机、真资源标注与路由合同 | `TASK-SLICE-132` |
 | TASK-SLICE-132 | Planned | LINE-FORMAL-GAME-LOOP | 可玩切片 | 实现正式启动页与多存档槽并接入现有 V3 进度 | M-005、M-044、M-050、VS-052 | 启动/存档场景、迁移/损坏保护、自动与运行时验证 | `TASK-SETTINGS-057` |
 | TASK-SETTINGS-057 | Planned | LINE-FORMAL-GAME-LOOP | 主流程/视觉逆向 | 闭合天庭地图节点、解锁视觉、点击交互和关卡往返流程 | M-005、M-027、M-044、M-051、VS-053 | 六段证据矩阵、地图资源/坐标标注、节点与路由合同 | `TASK-SLICE-133` |
@@ -21,48 +20,6 @@
 
 ## 任务完成定义
 
-### TASK-SETTINGS-055
-
-任务类型：
-
-- `TASK-SETTINGS`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Active，Ready）
-
-目标机制/切片：
-
-- `M-015`、`M-016`、`M-040`、`M-049`、`VS-051`
-
-输入资料：
-
-- 原版关卡 HUD、角色信息、技能槽与敌人状态相关 AS3；恢复源包中的 HUD SymbolClass/MovieClip；现有技能、成长和双玩家状态模型。
-
-输出产物：
-
-- HP/MP/经验/等级、技能槽、法宝/宠物提示和重要敌人血条的字段、更新频率、布局/坐标、资源与双玩家合同。
-
-完成定义：
-
-- HUD 必要字段、P1/P2 所有权、显示/隐藏时机、资源与正式关卡接线点均有六段证据或明确现代选择。
-
-验收标准：
-
-- 逆向协议、资源标注、`npm run check:workflow`、`npm run check:annotations` 和 `git diff --check` 通过。
-
-禁止范围：
-
-- 不在逆向阶段修改 `src/`；不把背包/宠物完整页面混入核心 HUD 首切片。
-
-状态更新：
-
-- 功能线台账、覆盖台账、任务看板/历史、`mechanics-index.md` 与 HUD 逆向文档。
-
-推荐后续任务：
-
-- `TASK-SLICE-131`。
-
 ### TASK-SLICE-131
 
 任务类型：
@@ -71,7 +28,7 @@
 
 功能条线：
 
-- `LINE-FORMAL-GAME-LOOP`（Planned）
+- `LINE-FORMAL-GAME-LOOP`（Active，Ready）
 
 目标机制/切片：
 

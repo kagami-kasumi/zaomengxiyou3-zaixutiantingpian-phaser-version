@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import {
   craftingAssets,
+  pickupAssets,
   role1NormalAttackAssets,
   scaffoldAssets,
   stage11Assets,
@@ -26,6 +27,13 @@ export class BootScene extends Phaser.Scene {
     }
     for (const asset of Object.values(craftingAssets)) {
       this.load.image(asset.key, asset.path);
+    }
+    for (const asset of Object.values(pickupAssets)) {
+      if ('framePaths' in asset) {
+        asset.frameKeys.forEach((frameKey, index) => this.load.image(frameKey, asset.framePaths[index]));
+      } else {
+        this.load.image(asset.key, asset.path);
+      }
     }
     for (const asset of Object.values(stage11Assets)) {
       this.load.image(asset.key, asset.path);

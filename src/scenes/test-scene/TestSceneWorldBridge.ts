@@ -26,14 +26,14 @@ import {
   markOwnedPetSkillTriggered,
   markBossTriggered,
   markStopPointWaveSpawned,
-  maybeSpawnMedicineDrop,
   pickupMedicineDrop,
   pickupWorldDrop,
   recordProjectileHit,
   requestPetQlfjCounterAttack,
   resolveHitOnce,
   spawnAuraDrop,
-  spawnAuraDrops,
+  createMonsterDefeatRewardRuntime,
+  settleMonsterDefeatRewards,
   spawnConfiguredMonsterDrop,
   spawnMedicineDrop,
   spawnStrengthStoneDrop,
@@ -377,33 +377,23 @@ export function spawnMonster30Wave(this: any): number {
 export function spawnMonster30DropSlice(this: any, monster: Monster30Model): void {
     const auraTarget = this.monster30AuraTargets.get(monster.id) ??
       this.getInventoryPlayer()?.slot;
-    if (auraTarget) {
-      spawnAuraDrops({
-        model: this.dropSystem,
-        monsterX: monster.x,
-        monsterY: monster.y,
-        targetId: auraTarget,
-        gxp: 1,
-      });
-    }
     this.monster30AuraTargets.delete(monster.id);
-
-    const medicineSpawnY = monster.y + DropTuning.spawnOffsetY;
-    maybeSpawnMedicineDrop(
-      this.dropSystem,
-      monster.x,
-      monster.y,
-      this.findDropSettleY(monster.x, medicineSpawnY),
-    );
-
+    if (!auraTarget || !isPlayerSlot(auraTarget)) return;
+    this.monsterDefeatRewardRuntime ??= createMonsterDefeatRewardRuntime();
     const spawnY = monster.y + DropTuning.spawnOffsetY;
-    spawnConfiguredMonsterDrop({
-      model: this.dropSystem,
-      monsterId: 'Monster30',
-      context: this.createCurrentDropContext(),
+    settleMonsterDefeatRewards({
+      runtime: this.monsterDefeatRewardRuntime,
+      dropSystem: this.dropSystem,
+      defeatId: monster.id,
+      enemyType: 30,
+      owner: auraTarget,
       x: monster.x,
-      monsterY: monster.y,
+      y: monster.y,
       settleY: this.findDropSettleY(monster.x, spawnY),
+      configuredItem: {
+        monsterId: 'Monster30',
+        context: this.createCurrentDropContext(),
+      },
     });
   }
 
@@ -881,7 +871,7 @@ export function getDropLabel(this: any, drop: WorldDrop): string {
     }
 
     if (drop.kind === 'aura') {
-      return drop.auraType === 'red' ? `Red aura +${drop.power}` : `White aura +${drop.power}`;
+      return drop.auraType === 'red' ? `灵魂 +${drop.power}` : `战意 +${drop.power}`;
     }
 
     const name = this.equipmentRegistry[drop.fillName]?.name ?? drop.fillName;

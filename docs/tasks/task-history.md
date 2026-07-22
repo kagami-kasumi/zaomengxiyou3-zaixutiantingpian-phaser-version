@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-055 | UI 逆向 | 闭合正式战斗 HUD 的字段、布局、资源、双玩家和更新语义 | M-015、M-016、M-040、M-049、VS-051 | `combat-hud-index.md` 六段证据链、P1/P2 键位/镜像合同、HUD snapshot 输入、12 条 export-ready 真资源与 `TASK-SLICE-131` 实现边界 |
+| TASK-SLICE-134 | 可玩切片/架构修复 | 统一 Stage 1 三关怪物默认重力、飞行例外和死亡奖励运行时 | M-030、M-038、M-040、VS-009 | `MonsterPhysicsSystem.ts`、`MonsterDefeatRewardSystem.ts`、`Stage1RewardBridge.ts`、三关接入、5 个真资源与专项测试 |
 | TASK-SLICE-130 | 可玩战斗切片 | 统一 Stage 1 三关战斗 owner、攻击窗口、保护、死亡记录与可通关校准 | M-032、M-033、M-040、M-047、M-048、VS-050 | `Stage1CombatSystem.ts`、三关共享 combat bridge、确定性回归、1-2/1-3 代表失败分类与 1-1 三次完整通关证据 |
 | TASK-SETTINGS-054 | 战斗逆向/审计 | 闭合 Stage 1 三关死亡原因、攻击可读性、受击保护与续航合同 | M-032、M-033、M-040、M-047、M-048、VS-050 | `stage1-combat-calibration.md` 六段证据矩阵、三关模型分裂审计、死亡原因枚举、确定性/试玩基线与收缩后的 `TASK-SLICE-130` |
 | TASK-SLICE-129 | 可玩关卡切片 | 完成 Stage 1-3 真场景、五停点战斗、结果与存档闭环 | M-026、M-027、M-030、M-035、M-044、VS-048 | 3 项真 PNG/manifest、独立 Stage13 layout/flow/traversal/scene bridges、共享关卡移动 runtime、1P/2P 入口、2-1 解锁、专项测试与浏览器验收 |
@@ -4580,6 +4582,63 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-134
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 恢复为 `TASK-SETTINGS-055`）
+- 根据用户三关试玩反馈建立 `MonsterPhysicsSystem`：怪物默认 `grounded` 并受重力，只有显式 `flying` 才豁免；1-1 Monster3 Boss 不再固定悬空，1-2/1-3 地面怪复用同一 owner。
+- 建立 `MonsterDefeatRewardSystem` 与共享 `Stage1RewardBridge`；Stage 1 三关死亡统一结算生命/魔法拾取、灵魂等待/上浮/加速追踪、战意副收益与直接经验，并以 defeat id 保证一次死亡只结算一次。
+- 原版语义经 `RoleInfo.addWarriors()` 交叉确认：`auraRed` 增加灵魂，`auraWhile` 增加战意，经验由怪物 `exp` 在死亡时直接结算；现代领域名使用 `HealthPickup`、`ManaPickup`、`SoulPickup`、`ExperienceReward`，不使用颜色俗称。
+- 从恢复 `OtherMat1.swf` 选择性接入 `SmallHP/BigHP/SmallMP`，从 `Common1.swf` 接入 `auraRed/auraWhile` 19 帧序列；新增 5 条 confirmed/ready 标注，总标注增至 381。
+- `DropSystem.ts` 已超 warning 阈值，本轮仅做玩家可见消息与追踪目标 fallback 的窄修；新规则全部落在两个独立 owner，没有继续向该文件添加特性块。
+
+更新文件：
+- `src/systems/MonsterPhysicsSystem.ts`、`MonsterDefeatRewardSystem.ts`、`Stage1CombatSystem.ts`、`Monster3System.ts`、`DropSystem.ts`
+- `src/scenes/stage1/Stage1RewardBridge.ts`、Stage 1 三关 gameplay/TestScene bridges 与 `TestSceneViews.ts`
+- `src/assets/AssetManifest.ts`、`BootScene.ts`、`public/assets/combat/pickups/` 41 张 PNG
+- `tools/monster-runtime-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- `docs/reverse-engineering/drops-index.md`、拾取资源批次/标注/项目状态
+- `docs/domain/glossary.md`、功能线/覆盖台账/机制/切片/任务文档、`PG-006`
+
+验证：
+- `npm run test:monster-runtime` 通过：默认重力落地、飞行豁免、7 类 Stage 1 怪物奖励表、灵魂归属、死亡幂等、三关共享接线和真资源存在性。
+- `npm run test:systems` 通过，且全量入口已包含 monster runtime 专项。
+- `npm run build` 通过；仅保留既有 Vite chunk 大小 warning。
+- `npm run check:structure` 通过；只剩 8 个既有超长文件 warning，新增 bridge/system 未触发 warning。
+- `npm run check:workflow`、`git diff --check` 在文档收尾后复核。
+- 运行时视觉与手感由用户在 Stage 1 三关继续复验；PG-006 因尚缺后续新关卡样本保持“效果观察中”。
+
+推荐任务：
+- `TASK-SETTINGS-055`：继续闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-055
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SLICE-131`）
+- 新增 `combat-hud-index.md`，按六段证据链闭合固定 940×590 HUD 层、创建/换图/销毁生命周期、P1/P2 独立 owner、每帧更新和重要敌人状态。
+- 确认 HP/MP/经验三条 101 帧反向时间轴、等级/满级 `MAX` 文本、五槽 `slotIndex → key → position` 映射；特别记录现代槽索引 `Y/L/U/I/O` 不可直接当作屏幕 `Y/U/I/O/L` 顺序。
+- 闭合 P2 父级 `(920,0)` 水平镜像、局部槽位重排和文本二次反转；1P 只创建一份 HUD，2P 同时持有左右独立快照。
+- 闭合 Boss 条 `x=465`、`y=50+50*n`、即时 HP 比例和 0.8 秒线性追赶层；现代用稳定 `enemyId` 持有生命周期、显示名只负责呈现，明确标记为健壮性选择。
+- 从恢复 `OtherMat1.swf` 与 `bossblood.swf` 定位玩家面板、头像、HP/MP/EXP、槽框、战意、法宝/宠物入口和 Boss 条，共 12 条 `confirmed + export-ready + export-selectively` 标注；没有批量导出全部技能图标。
+- 审计正式 Stage 1 当前模型缺口：HP/MP 已共享，经验仍是裸数值且无等级，正式 runtime 尚未持有 `HeroSkillModel`；下一 task 必须接 `HeroProgressionModel`/五槽只读快照，HUD 不得自行结算升级或释放技能。
+- 宠物完整摘要皮肤 SymbolClass 保持未知并排除于首切片；本 task 未修改 `src/`，没有把完整背包/宠物/心法/法宝页面混入核心 HUD。
+
+更新文件：
+- `docs/reverse-engineering/combat-hud-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/combat-hud.csv`
+- `docs/reverse-engineering/asset-annotation/batches/combat-hud.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-lines.md`、本线覆盖台账、`vertical-slices.md`、`task-board.md`、`task-history.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+
+验证：
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 在文档收尾后复核。
+- FFDec 只读选择性调查成功：`RoleInfo` 574、`BossBlood` 110、主包 `GameInfo` 142 / `beattacktimes` 302；本地派生证据位于 Git 忽略的 `local-resources/regima/task-outputs/task-settings-055-hud/`。
+
+推荐任务：
+- `TASK-SLICE-131`：选择性接入真 HUD 资源，建立共享 Stage 1 HUD snapshot/bridge，并完成三关 1P/2P/Boss 自动与运行时验收。
 
 ## 执行记录
 

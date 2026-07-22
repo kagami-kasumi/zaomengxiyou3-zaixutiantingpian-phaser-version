@@ -25,7 +25,7 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SETTINGS-055 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | Stage 1 战斗切片已闭合；正式核心战斗 HUD 的字段、布局、资源与双玩家语义尚未逆向 | 待覆盖台账全部闭合 |
+| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-131 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | HUD 逆向已闭合；正式 Stage 1 尚未接入共享成长/技能快照、真 HUD 资源和 P1/P2/Boss 视图 | 待覆盖台账全部闭合 |
 | LINE-STAGE-2-1 | Planned | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 等待 `LINE-FORMAL-GAME-LOOP` 关闭；资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
 
 ## 当前功能线状态
@@ -45,6 +45,12 @@
 `TASK-SLICE-129` 已归档：character 13/119/40 真场景、独立 Stage 1-3 模块、正式 1P/2P 入口、五停点、6/8 同屏上限、Monster5 显门、失败/胜利和 2-1 解锁存档闭环均已完成。
 
 `TASK-SETTINGS-054` 与 `TASK-SLICE-130` 已归档。三关共用注册表/combat adapter、Role1 攻击窗口、3 秒保护、输入缓冲和死亡日志；1-2/1-3 的私有心数、固定 500 攻击和接触扣血已移除，1-1 三次完整无调试运行全部通关。功能线保持 Active，当前继续 `TASK-SETTINGS-055` 闭合正式核心战斗 HUD；Stage 2-1 的 `TASK-SETTINGS-053` 保持 `Planned`。
+
+2026-07-22 用户试玩发现 1-1 Boss 未落地、死亡奖励仅 1-1 接入，以及灵魂仍使用占位 UI。当前插入 `TASK-SLICE-134` 作为同线战斗回归修复：建立怪物默认重力/显式飞行例外、共享死亡奖励 owner，并在 Stage 1 三关接入生命、魔法、灵魂与直接经验结算；`TASK-SETTINGS-055` 暂回 `Planned`，修复完成后恢复。
+
+`TASK-SLICE-134` 已完成：1-1 Monster3 与 1-2/1-3 地面怪复用默认重力，Monster30 以显式 `flying` 豁免；三关死亡统一进入共享奖励 owner，正式生命/魔法/灵魂资源、灵魂追踪、战意副收益和直接经验均已接入。功能线保持 Active，当前恢复 `TASK-SETTINGS-055`。
+
+`TASK-SETTINGS-055` 已归档：`combat-hud-index.md` 闭合固定 HUD 层、P1/P2 独立 owner、五槽键位映射、HP/MP/经验/等级、法宝/宠物入口、Boss 即时/0.8 秒追赶条和生命周期六段证据；`OtherMat1` / `bossblood` 共 12 条真资源进入 `export-ready`。功能线保持 Active，当前推进 `TASK-SLICE-131`。
 
 ## 关闭与切线
 
