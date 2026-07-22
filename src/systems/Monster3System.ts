@@ -1,6 +1,7 @@
 import type { AttackKind } from './CombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
 import type { PlayerSlot } from './InputSystem';
+import { getStage1EnemyConfig } from './Stage1CombatSystem';
 
 export type Monster3State = 'wait' | 'walk' | 'hurt' | 'hit1' | 'hit2' | 'dead' | 'removed';
 
@@ -39,20 +40,22 @@ export type Monster3ActiveAttack = {
   facingX: -1 | 1;
 };
 
+const stage1Monster3Config = getStage1EnemyConfig(3);
+
 export const Monster3Tuning = {
-  maxHp: 926,
-  horizontalSpeed: 240,
-  attackRange: 150,
+  maxHp: stage1Monster3Config.maxHp,
+  horizontalSpeed: stage1Monster3Config.moveSpeed,
+  attackRange: stage1Monster3Config.attackRange,
   alertRange: 1000,
   hurtDurationMs: 250,
-  hit1DurationMs: 500,
-  hit1HitboxStartMs: 100,
-  hit1HitboxEndMs: 380,
+  hit1DurationMs: stage1Monster3Config.windupMs + stage1Monster3Config.activeMs + stage1Monster3Config.recoveryMs,
+  hit1HitboxStartMs: stage1Monster3Config.windupMs,
+  hit1HitboxEndMs: stage1Monster3Config.windupMs + stage1Monster3Config.activeMs,
   hit1HitboxOffsetX: 105,
   hit1HitboxOffsetY: -60,
   hit1HitboxWidth: 120,
   hit1HitboxHeight: 90,
-  hit1Damage: 40,
+  hit1Damage: stage1Monster3Config.attackDamage,
   hit1KnockbackX: 6,
   hit1KnockbackY: -5,
   hit2DurationMs: 800,

@@ -22,4 +22,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   scene: [BootScene, Stage11EntryScene, TestScene, Stage12Scene, Stage13Scene, Stage51TransitionScene],
 };
 
-new Phaser.Game(gameConfig);
+export const game = new Phaser.Game(gameConfig);
+if (import.meta.env.DEV) {
+  Reflect.set(document.getElementById('game')!, 'phaserGame', game);
+}

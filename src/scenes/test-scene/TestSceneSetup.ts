@@ -25,6 +25,7 @@ import {
   InventoryOwnerKeyCodes,
   PetUiKeyCodes,
   SKILL_LEARN_LIMIT,
+  Stage1CombatTuning,
   SkillSlotKeyLabels,
   TREE_UPGRADE_COSTS,
   type CapturablePetTarget,
@@ -60,7 +61,7 @@ export function createPlayerMarkers(this: any, playerCount: 1 | 2): any[] {
     const groundY = STAGE11_GROUND_TOP_Y;
     const p1 = this.createPlayerView(
       'p1',
-      2,
+      Stage1CombatTuning.defaultHeroId,
       defaultClimbTuning.worldWidth * (playerCount === 1 ? 0.5 : 0.34),
       groundY,
     );
@@ -122,6 +123,7 @@ export function createPlayerView(this: any,
     const combat = createHeroCombat(slot);
     combat.maxHp = baseStats.maxHp;
     combat.hp = combat.maxHp;
+    combat.damageProtectionMs = Stage1CombatTuning.playerProtectionMs;
     const skill = createHeroSkillModel(undefined, baseStats.maxMp);
     label.setText(formatHeroLabel(slot, normalAttack, combat));
 

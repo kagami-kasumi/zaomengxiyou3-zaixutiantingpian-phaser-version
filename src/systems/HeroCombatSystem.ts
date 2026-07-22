@@ -59,6 +59,7 @@ export type HeroCombatModel = {
   state: HeroCombatState;
   hurtUntilMs: number;
   invulnerableUntilMs: number;
+  damageProtectionMs?: number;
   knockbackVelocityX: number;
   lastDamageEvent?: DamageEvent;
   magicShield?: HeroMagicShield;
@@ -156,7 +157,9 @@ export function applyHeroDamage(
   if (remainingDamage > 0) {
     hero.state = 'hurt';
     hero.hurtUntilMs = timeMs + HeroCombatTuning.hurtDurationMs;
-    hero.invulnerableUntilMs = timeMs + HeroCombatTuning.invulnerableDurationMs;
+    hero.invulnerableUntilMs = timeMs + (
+      hero.damageProtectionMs ?? HeroCombatTuning.invulnerableDurationMs
+    );
     hero.knockbackVelocityX = hero.role3KnockbackImmune || hero.role4Hit12KnockbackImmune
       ? 0
       : event.knockbackX * HeroCombatTuning.knockbackPixelsPerSecond;

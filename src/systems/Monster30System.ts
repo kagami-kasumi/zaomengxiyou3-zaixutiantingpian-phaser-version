@@ -2,6 +2,7 @@ import type { AttackKind } from './CombatSystem';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
 import type { PlayerSlot } from './InputSystem';
+import { getStage1EnemyConfig } from './Stage1CombatSystem';
 
 export type Monster30State = 'wait' | 'walk' | 'hurt' | 'hit1' | 'dead' | 'removed';
 
@@ -125,10 +126,12 @@ export type Monster30ActiveAttack = {
   facingX: -1 | 1;
 };
 
+const stage1Monster30Config = getStage1EnemyConfig(30);
+
 export const Monster30Tuning = {
-  maxHp: 150,
-  horizontalSpeed: 420,
-  attackRange: 250,
+  maxHp: stage1Monster30Config.maxHp,
+  horizontalSpeed: stage1Monster30Config.moveSpeed,
+  attackRange: stage1Monster30Config.attackRange,
   alertRange: 1000,
   hoverOffsetY: 150,
   riseSpeed: 132,
@@ -136,15 +139,15 @@ export const Monster30Tuning = {
   attackDecisionIntervalMs: 1000,
   normalAttackRate: 0.5,
   hurtDurationMs: 250,
-  hit1DurationMs: 167,
-  hit1Damage: 15,
+  hit1DurationMs: stage1Monster30Config.windupMs + stage1Monster30Config.activeMs + stage1Monster30Config.recoveryMs,
+  hit1Damage: stage1Monster30Config.attackDamage,
   magicFlowerDamageMultiplier: 0.925,
   magicFlagDurationMs: 5_000,
   magicFlagHpDamageRatePerSecond: 0.02,
   magicFlagHitMultiplier: 0.5,
   magicPearlPoisonTickMs: 1_000,
-  hit1HitboxStartMs: 55,
-  hit1HitboxEndMs: 145,
+  hit1HitboxStartMs: stage1Monster30Config.windupMs,
+  hit1HitboxEndMs: stage1Monster30Config.windupMs + stage1Monster30Config.activeMs,
   hit1HitboxOffsetX: 52,
   hit1HitboxOffsetY: 28,
   hit1HitboxWidth: 188,

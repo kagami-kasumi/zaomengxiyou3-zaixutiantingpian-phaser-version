@@ -19,6 +19,7 @@
     "test:stage13": "node tools/run-system-tests.mjs stage13-resource-tests",
     "test:stage13-flow": "node tools/run-system-tests.mjs stage13-flow-tests",
     "test:stage13-traversal": "node tools/run-system-tests.mjs stage13-traversal-tests",
+    "test:stage1-combat": "node tools/run-system-tests.mjs stage1-combat-tests",
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",
     "check:annotations": "node tools/validate-asset-annotations.mjs",

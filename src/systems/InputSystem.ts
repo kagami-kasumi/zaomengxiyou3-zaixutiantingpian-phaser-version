@@ -98,13 +98,14 @@ export function createInputSystem(scene: Phaser.Scene): InputSystem {
     };
   }
 
-  const p1Keys = bindPlayerKeys(keyboard, InputBindings.p1);
-  const p2Keys = bindPlayerKeys(keyboard, InputBindings.p2);
+  const bufferedActionCodes = new Set<number>();
+  const p1Keys = bindPlayerKeys(keyboard, InputBindings.p1, bufferedActionCodes);
+  const p2Keys = bindPlayerKeys(keyboard, InputBindings.p2, bufferedActionCodes);
 
   return {
     read: () => ({
-      p1: readPlayerInput('p1', p1Keys),
-      p2: readPlayerInput('p2', p2Keys),
+      p1: readPlayerInput('p1', p1Keys, bufferedActionCodes),
+      p2: readPlayerInput('p2', p2Keys, bufferedActionCodes),
     }),
   };
 }
@@ -112,8 +113,9 @@ export function createInputSystem(scene: Phaser.Scene): InputSystem {
 function bindPlayerKeys(
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin,
   bindings: PlayerKeyBindings,
+  bufferedActionCodes: Set<number>,
 ): BoundPlayerKeys {
-  return {
+  const keys = {
     left: keyboard.addKey(bindings.left),
     right: keyboard.addKey(bindings.right),
     down: keyboard.addKey(bindings.down),
@@ -124,24 +126,50 @@ function bindPlayerKeys(
     special: keyboard.addKey(bindings.special),
     magicWeapon: keyboard.addKey(bindings.magicWeapon),
   };
+  for (const key of [
+    keys.left,
+    keys.right,
+    keys.down,
+    keys.up,
+    keys.attack,
+    keys.jump,
+    ...keys.skillSlots,
+    keys.special,
+    keys.magicWeapon,
+  ]) {
+    key.on('down', () => bufferedActionCodes.add(key.keyCode));
+  }
+  return keys;
 }
 
-function readPlayerInput(slot: PlayerSlot, keys: BoundPlayerKeys): PlayerInputState {
-  const leftDown = keys.left.isDown;
-  const rightDown = keys.right.isDown;
+function readPlayerInput(
+  slot: PlayerSlot,
+  keys: BoundPlayerKeys,
+  bufferedActionCodes: Set<number>,
+): PlayerInputState {
+  const leftDown = readBufferedAction(keys.left, bufferedActionCodes);
+  const rightDown = readBufferedAction(keys.right, bufferedActionCodes);
   const moveX = leftDown === rightDown ? 0 : leftDown ? -1 : 1;
 
   return {
     slot,
     moveX,
-    down: keys.down.isDown,
-    up: keys.up.isDown,
-    attack: keys.attack.isDown,
-    jump: keys.jump.isDown,
-    skillSlots: keys.skillSlots.map((key) => key.isDown),
-    special: keys.special.isDown,
-    magicWeapon: keys.magicWeapon.isDown,
+    down: readBufferedAction(keys.down, bufferedActionCodes),
+    up: readBufferedAction(keys.up, bufferedActionCodes),
+    attack: readBufferedAction(keys.attack, bufferedActionCodes),
+    jump: readBufferedAction(keys.jump, bufferedActionCodes),
+    skillSlots: keys.skillSlots.map((key) => readBufferedAction(key, bufferedActionCodes)),
+    special: readBufferedAction(keys.special, bufferedActionCodes),
+    magicWeapon: readBufferedAction(keys.magicWeapon, bufferedActionCodes),
   };
+}
+
+function readBufferedAction(
+  key: Phaser.Input.Keyboard.Key,
+  bufferedActionCodes: Set<number>,
+): boolean {
+  const wasPressed = bufferedActionCodes.delete(key.keyCode);
+  return key.isDown || wasPressed;
 }
 
 function createEmptyPlayerInput(slot: PlayerSlot): PlayerInputState {

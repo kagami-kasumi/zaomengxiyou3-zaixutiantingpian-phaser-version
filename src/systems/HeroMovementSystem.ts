@@ -40,7 +40,7 @@ export type HeroMovementModel = {
 export const HeroMovementTuning = {
   walkSpeed: 360,
   runSpeed: 600,
-  jumpVelocity: -1200,
+  jumpVelocity: -1300,
   gravity: 5400,
   doubleTapWindowMs: 500,
   dropThroughDurationMs: 180,

@@ -2,6 +2,26 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-22
+
+### 归档 Stage 1 战斗校准切片并继续正式游戏循环
+
+变更内容：
+
+- `TASK-SLICE-130` 在三关共享战斗回归、1-2/1-3 代表失败分类及 1-1 三次完整通关后归档，VS-050 与 M-048 同步更新。
+- `LINE-FORMAL-GAME-LOOP` 继续保持唯一 Active；仅把同线 `TASK-SETTINGS-055` 提升为唯一 Ready，没有提前关闭功能线或切到 Stage 2-1。
+- 回写 PG-002/003/004/005 最终效果样本；现代预警、可达性校正与自动审计 watchdog 均保持证据分级，其中 watchdog 不属于原版或现代游戏波次规则。
+
+影响范围：
+
+- `docs/tasks/feature-lines.md`、本线覆盖台账、`task-board.md`、`task-history.md`、`vertical-slices.md`
+- `docs/reverse-engineering/stage1-combat-calibration.md`、`mechanics-index.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md` 至 `PG-005-逆向证据链不完整却宣布闭合.md`
+
+验证：
+
+- `npm run test:systems`、`npm run check:structure` 与 `npm run build` 已通过；工作流和 diff 检查在本条记录落盘后重跑。
+
 ## 2026-07-21
 
 ### 将正式游戏主循环前置到更多关卡复现之前

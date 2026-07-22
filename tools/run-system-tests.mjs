@@ -20,6 +20,7 @@ const bundledTests = requestedTests.length > 0
       'stage13-resource-tests',
       'stage13-flow-tests',
       'stage13-traversal-tests',
+      'stage1-combat-tests',
     ];
 
 rmSync(outDir, { recursive: true, force: true });

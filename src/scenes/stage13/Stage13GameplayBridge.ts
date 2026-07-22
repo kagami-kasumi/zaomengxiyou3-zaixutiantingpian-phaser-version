@@ -1,3 +1,5 @@
+// boundary: Stage 1-3 bridge adapts Phaser views, input, flow, and shared combat;
+// it does not own combat stats, attack windows, damage, protection, or death rules.
 import Phaser from 'phaser';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
@@ -29,20 +31,29 @@ import {
   stage13MovementPlatforms,
   STAGE13_SCREEN_LEFT_X,
 } from '../../systems/Stage13TraversalSystem';
+import {
+  createStage1CombatEnemy,
+  createStage1CombatPlayer,
+  createStage1CombatRuntime,
+  resolveStage1EnemyAttack,
+  resolveStage1HeroAttack,
+  updateStage1CombatPlayer,
+  updateStage1Enemy,
+  type Stage1CombatEnemy,
+  type Stage1CombatPlayer,
+  type Stage1CombatRuntime,
+} from '../../systems/Stage1CombatSystem';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
-  hp: number;
-  attackCooldownMs: number;
-  damageCooldownMs: number;
+  combat: Stage1CombatPlayer;
 };
 
 type MonsterRuntime = {
   model: Stage13Enemy;
-  hp: number;
+  combat: Stage1CombatEnemy;
   body: Phaser.GameObjects.Arc;
   label: Phaser.GameObjects.Text;
-  contactCooldownMs: number;
 };
 
 export type Stage13GameplayHandle = Readonly<{
@@ -50,9 +61,6 @@ export type Stage13GameplayHandle = Readonly<{
   update: (deltaMs: number) => 'failed' | 'cleared' | undefined;
   destroy: () => void;
 }>;
-
-const playerAttackRange = 170;
-const playerAttackDamage = 500;
 
 export function createStage13Gameplay(
   scene: Phaser.Scene,
@@ -62,8 +70,10 @@ export function createStage13Gameplay(
 ): Stage13GameplayHandle {
   const flow = createStage13Flow(playerCount, readUnlockProgress());
   const input = createInputSystem(scene);
-  const players: PlayerRuntime[] = playerViews.map((view) => ({
-    view, hp: 8, attackCooldownMs: 0, damageCooldownMs: 0,
+  const combatRuntime = createStage1CombatRuntime();
+  const players: PlayerRuntime[] = playerViews.map((view, index) => ({
+    view,
+    combat: createStage1CombatPlayer(index === 0 ? 'p1' : 'p2'),
   }));
   const movementRuntime = createLevelHeroMovementRuntime(playerViews.map((view) => ({
     x: view.x,
@@ -94,11 +104,20 @@ export function createStage13Gameplay(
     for (const monster of updateStage13Spawners(flow, deltaMs)) {
       monsters.set(monster.id, createMonsterView(scene, monster));
     }
-    updateMonsterCombat(players, [state.p1, state.p2], monsters, flow, deltaMs);
+    updateMonsterCombat(
+      players,
+      [state.p1, state.p2],
+      movementRuntime,
+      monsters,
+      flow,
+      combatRuntime,
+      scene.time.now,
+      deltaMs,
+    );
 
     const phase = updateStage13PartyFailure(
       flow,
-      players.filter((player) => player.hp > 0).length,
+      players.filter((player) => player.combat.combat.state !== 'dead').length,
       deltaMs,
     );
     transferDoor.setVisible(flow.doorVisible);
@@ -108,7 +127,7 @@ export function createStage13Gameplay(
     }
 
     const doorUsed = players.some((player, index) => {
-      if (player.hp <= 0) return false;
+      if (player.combat.combat.state === 'dead') return false;
       const playerInput = index === 0 ? state.p1 : state.p2;
       return Math.abs(player.view.x - stage13TransferDoor.x) <= 125 && playerInput.up;
     });
@@ -142,14 +161,10 @@ function updatePlayers(
   timeMs: number,
   deltaMs: number,
 ): void {
-  players.forEach((player) => {
-    player.attackCooldownMs = Math.max(0, player.attackCooldownMs - deltaMs);
-    player.damageCooldownMs = Math.max(0, player.damageCooldownMs - deltaMs);
-  });
   updateLevelHeroMovementRuntime(
     movementRuntime,
     inputs,
-    players.map((player) => player.hp > 0),
+    players.map((player) => player.combat.combat.state !== 'dead'),
     (_index, movement) => ({
       platforms: stage13MovementPlatforms,
       bounds: {
@@ -161,6 +176,22 @@ function updatePlayers(
     deltaMs,
   );
   movementRuntime.members.forEach((member, index) => {
+    const player = players[index];
+    const input = inputs[index];
+    if (!player || !input || player.combat.combat.state === 'dead') return;
+    updateStage1CombatPlayer({
+      player: player.combat,
+      input,
+      movement: member.movement,
+      bounds: {
+        left: cameraScrollX + STAGE13_SCREEN_LEFT_X - member.movement.width / 2,
+        right: getStage13TravelRight(flow.nextStopPointIdx) + member.movement.width / 2,
+      },
+      timeMs,
+      deltaMs,
+    });
+  });
+  movementRuntime.members.forEach((member, index) => {
     players[index]?.view.setPosition(member.movement.x, member.movement.y);
   });
 }
@@ -168,48 +199,59 @@ function updatePlayers(
 function activateReachedStopPoint(flow: Stage13FlowModel, players: readonly PlayerRuntime[]): void {
   const nextIdx = flow.nextStopPointIdx;
   if (nextIdx === undefined || flow.activeStopPointIdx !== undefined) return;
-  const frontX = Math.max(...players.filter((player) => player.hp > 0).map((player) => player.view.x), 0);
+  const frontX = Math.max(...players
+    .filter((player) => player.combat.combat.state !== 'dead')
+    .map((player) => player.view.x), 0);
   if (hasReachedStage13StopPoint(frontX, nextIdx)) touchStage13StopPoint(flow, nextIdx);
 }
 
 function updateMonsterCombat(
   players: PlayerRuntime[],
   inputs: readonly PlayerInputState[],
+  movementRuntime: LevelHeroMovementRuntime,
   monsters: Map<string, MonsterRuntime>,
   flow: Stage13FlowModel,
+  runtime: Stage1CombatRuntime,
+  timeMs: number,
   deltaMs: number,
 ): void {
-  for (const [id, monster] of monsters) {
-    monster.contactCooldownMs = Math.max(0, monster.contactCooldownMs - deltaMs);
-    const target = nearestLivingPlayer(monster.body.x, players);
-    if (target) {
-      const distance = target.view.x - monster.body.x;
-      const speed = monster.model.isFlying ? 46 : monster.model.isBoss ? 28 : 34;
-      monster.body.x += Math.sign(distance) * Math.min(Math.abs(distance), speed * deltaMs / 1_000);
-      monster.label.x = monster.body.x;
-      if (Math.abs(distance) < 46 && monster.contactCooldownMs === 0 && target.damageCooldownMs === 0) {
-        target.hp = Math.max(0, target.hp - 1);
-        target.damageCooldownMs = 700;
-        target.view.setTint(target.hp === 0 ? 0x555555 : 0xffaaaa);
-        monster.contactCooldownMs = 900;
-      }
-    }
-
-    for (let index = 0; index < players.length; index += 1) {
-      const player = players[index];
-      if (player.hp <= 0 || !inputs[index]?.attack || player.attackCooldownMs > 0) continue;
-      if (Math.abs(player.view.x - monster.body.x) > playerAttackRange) continue;
-      player.attackCooldownMs = 240;
-      monster.hp -= playerAttackDamage;
-      monster.body.setFillStyle(monster.hp > 0 ? 0xffb067 : 0x666666);
-      if (monster.hp <= 0) {
-        defeatStage13Enemy(flow, id);
-        destroyMonsterView(monster);
-        monsters.delete(id);
-      }
-      break;
-    }
+  for (const monster of monsters.values()) {
+    updateStage1Enemy({
+      enemy: monster.combat,
+      targets: players.map((player) => ({
+        slot: player.combat.slot,
+        x: player.view.x,
+        alive: player.combat.combat.state !== 'dead',
+      })),
+      deltaMs,
+    });
+    syncMonsterView(monster);
+    resolveStage1EnemyAttack({
+      runtime,
+      enemy: monster.combat,
+      players: players.map((player) => ({ player: player.combat, x: player.view.x })),
+      timeMs,
+    });
   }
+  players.forEach((player, index) => {
+    const movement = movementRuntime.members[index]?.movement;
+    if (!movement || !inputs[index]) return;
+    resolveStage1HeroAttack({
+      runtime,
+      player: player.combat,
+      movement,
+      enemies: [...monsters.values()].map((monster) => monster.combat),
+      timeMs,
+    });
+  });
+  for (const [id, monster] of monsters) {
+    syncMonsterView(monster);
+    if (monster.combat.phase !== 'dead') continue;
+    defeatStage13Enemy(flow, id);
+    destroyMonsterView(monster);
+    monsters.delete(id);
+  }
+  players.forEach(syncPlayerFeedback);
 }
 
 function createMonsterView(scene: Phaser.Scene, monster: Stage13Enemy): MonsterRuntime {
@@ -224,7 +266,37 @@ function createMonsterView(scene: Phaser.Scene, monster: Stage13Enemy): MonsterR
   const label = scene.add.text(monster.x, centerY, `M${monster.enemyType}`, {
     color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: monster.isBoss ? '14px' : '11px',
   }).setOrigin(0.5).setDepth(19);
-  return { model: monster, hp: monster.maxHp, body, label, contactCooldownMs: 0 };
+  return {
+    model: monster,
+    combat: createStage1CombatEnemy({
+      id: monster.id,
+      enemyType: monster.enemyType,
+      x: monster.x,
+      y: centerY,
+    }),
+    body,
+    label,
+  };
+}
+
+function syncMonsterView(monster: MonsterRuntime): void {
+  monster.body.x = monster.combat.x;
+  monster.label.x = monster.combat.x;
+  monster.label.setText(`M${monster.model.enemyType}${monster.combat.phase === 'windup' ? ' !' : monster.combat.phase === 'active' ? ' *' : ''}`);
+  const color = monster.combat.phase === 'windup' ? 0xffd166
+    : monster.combat.phase === 'active' ? 0xff5d5d
+      : monster.combat.phase === 'hurt' ? 0xffffff : monster.model.enemyType === 5 ? 0xd86b63
+        : monster.model.enemyType === 30 ? 0xc58be2
+          : monster.model.enemyType === 3 ? 0x8f63d8
+            : monster.model.enemyType === 7 ? 0x6cbf73 : 0x5ca8d8;
+  monster.body.setFillStyle(color);
+}
+
+function syncPlayerFeedback(player: PlayerRuntime): void {
+  if (player.combat.combat.state === 'dead') player.view.setTint(0x555555);
+  else if (player.combat.combat.state === 'hurt') player.view.setTint(0xff8888);
+  else if (player.combat.normalAttack.activeAttack) player.view.setTint(0xffdf80);
+  else player.view.clearTint();
 }
 
 function destroyMonsterView(monster: MonsterRuntime): void {
@@ -232,14 +304,8 @@ function destroyMonsterView(monster: MonsterRuntime): void {
   monster.label.destroy();
 }
 
-function nearestLivingPlayer(x: number, players: readonly PlayerRuntime[]): PlayerRuntime | undefined {
-  return players
-    .filter((player) => player.hp > 0)
-    .sort((left, right) => Math.abs(left.view.x - x) - Math.abs(right.view.x - x))[0];
-}
-
 function followParty(scene: Phaser.Scene, players: readonly PlayerRuntime[], flow: Stage13FlowModel): void {
-  const living = players.filter((player) => player.hp > 0);
+  const living = players.filter((player) => player.combat.combat.state !== 'dead');
   if (living.length === 0) return;
   scene.cameras.main.scrollX = getStage13CameraScrollX(
     Math.max(...living.map((player) => player.view.x)),
@@ -257,7 +323,11 @@ function updateStatus(
     : flow.activeStopPointIdx === undefined
       ? `前往停点 ${Number(flow.nextStopPointIdx) + 1}/5`
       : `停点 ${flow.activeStopPointIdx + 1}/5`;
-  const hp = players.map((player, index) => `P${index + 1} HP ${player.hp}/8`).join(' · ');
+  const hp = players.map((player, index) => {
+    const combat = player.combat.combat;
+    const cause = player.combat.deathReason ? ` ${player.combat.deathReason}` : '';
+    return `P${index + 1} HP ${Math.ceil(combat.hp)}/${combat.maxHp}${cause}`;
+  }).join(' · ');
   status.setText(
     `${wave} · 场上 ${flow.aliveEnemies.size}/${flow.maxMonstersOnScreen} · 已生成 ${flow.generatedCount}/105 · 已击败 ${flow.defeatedCount} · ${hp}`,
   );

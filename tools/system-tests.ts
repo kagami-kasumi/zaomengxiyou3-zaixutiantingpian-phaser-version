@@ -26,6 +26,7 @@ import {
 } from '../src/systems/CombatSystem';
 import {
   createVerticalClimbState,
+  isBossZoneTriggered,
   updateVerticalClimbCamera,
   updateVerticalClimbSpawn,
 } from '../src/systems/LevelSystem';
@@ -210,6 +211,8 @@ testGameSaveRoundTripRestoresP1PetsSkillsAndEquipment();
 testGameSaveRejectsCorruptionAndSanitizesTransientPetState();
 testHitRegistryAllowsDistinctTargets();
 testStopPointRequiresSpawnedWaveBeforeClearing();
+testNonStopSpawnWaitsForAnEmptyField();
+testStage11BossWaitsForEveryStopPoint();
 testMonsterDropTableBranches();
 testExpandedMonsterDropTableBoundaries();
 testConfiguredDropSkipsNegativeAndEmptyTables();
@@ -587,6 +590,9 @@ function testStopPointRequiresSpawnedWaveBeforeClearing(): void {
   updateVerticalClimbCamera(state, 2000, 16, 600);
   assert.equal(state.activeStopIndex, 0);
 
+  updateVerticalClimbCamera(state, 2500, 16, 600);
+  assert.equal(state.activeStopIndex, 0);
+
   assert.equal(updateVerticalClimbSpawn(state, 16, 0, 1), true);
   assert.equal(state.stopPoints[0].waveSpawned, true);
   assert.equal(state.stopPoints[0].cleared, false);
@@ -598,6 +604,24 @@ function testStopPointRequiresSpawnedWaveBeforeClearing(): void {
   assert.equal(updateVerticalClimbSpawn(state, 16, 0, 1), false);
   assert.equal(state.stopPoints[0].cleared, true);
   assert.equal(state.activeStopIndex, -1);
+}
+
+function testNonStopSpawnWaitsForAnEmptyField(): void {
+  const state = createVerticalClimbState(600);
+
+  assert.equal(updateVerticalClimbSpawn(state, 16, 0, 1), true);
+  assert.equal(updateVerticalClimbSpawn(state, 15_000, 2, 1), false);
+  assert.equal(state.spawnTimerMs, 10_000);
+  assert.equal(updateVerticalClimbSpawn(state, 9_999, 0, 1), false);
+  assert.equal(updateVerticalClimbSpawn(state, 1, 0, 1), true);
+}
+
+function testStage11BossWaitsForEveryStopPoint(): void {
+  const state = createVerticalClimbState(600);
+  assert.equal(isBossZoneTriggered(state, 400), false);
+  for (const stopPoint of state.stopPoints) stopPoint.cleared = true;
+  assert.equal(isBossZoneTriggered(state, 471), false);
+  assert.equal(isBossZoneTriggered(state, 470), true);
 }
 
 function testMonsterDropTableBranches(): void {

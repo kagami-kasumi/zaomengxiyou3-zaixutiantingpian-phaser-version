@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-130 | 可玩战斗切片 | 统一 Stage 1 三关战斗 owner、攻击窗口、保护、死亡记录与可通关校准 | M-032、M-033、M-040、M-047、M-048、VS-050 | `Stage1CombatSystem.ts`、三关共享 combat bridge、确定性回归、1-2/1-3 代表失败分类与 1-1 三次完整通关证据 |
 | TASK-SETTINGS-054 | 战斗逆向/审计 | 闭合 Stage 1 三关死亡原因、攻击可读性、受击保护与续航合同 | M-032、M-033、M-040、M-047、M-048、VS-050 | `stage1-combat-calibration.md` 六段证据矩阵、三关模型分裂审计、死亡原因枚举、确定性/试玩基线与收缩后的 `TASK-SLICE-130` |
 | TASK-SLICE-129 | 可玩关卡切片 | 完成 Stage 1-3 真场景、五停点战斗、结果与存档闭环 | M-026、M-027、M-030、M-035、M-044、VS-048 | 3 项真 PNG/manifest、独立 Stage13 layout/flow/traversal/scene bridges、共享关卡移动 runtime、1P/2P 入口、2-1 解锁、专项测试与浏览器验收 |
 | TASK-SETTINGS-052 | 资源/流程逆向 | 闭合 Stage 1-3 真场景、地图标记、波次/boss 与结果边界 | M-026、M-027、M-030、M-035、VS-048 | character 41/13/119/40 资源链、3+1 墙/5 停点/14 刷怪点、105 怪定义/Monster5 门禁、六段证据矩阵与 TASK-SLICE-129 |
@@ -4567,6 +4568,19 @@
 - 地图菜单入口、P1/P2 切换、关闭退还、单人 P2 门禁自动验证通过；运行时入口与面板截图留档，资源正常加载且控制台无 error/warn。
 - `LINE-CRAFTING` 关闭合同全部勾选，功能线标记 `Done`；下一条线仅做元数据激活，本次 `/goal` 不执行 Stage 1-1。
 
+### TASK-SLICE-130
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`）
+- 新增 `Stage1CombatSystem` 集中 Stage 1 三关敌人配置、攻防、攻击阶段、去重与死亡分类，移除 1-2/1-3 私有心数、固定 500 攻击和直接接触伤害。
+- 统一 Role1 普攻窗口、80 HP/2 物防、3000ms 保护与输入缓冲；补齐 Stage 1-1 清场刷新、停点保持、四停点 boss 门禁、平台可达及传送门边界。
+- 1-2/1-3 代表失败分别稳定归类为 `attrition-no-sustain` / `boss-physical`；1-1 三次完整无调试运行全部通关。
+- 审计 watchdog 仅防脚本卡死，不属于原版或现代游戏波次规则。
+- 系统测试、结构检查、生产构建、浏览器三次完整验收通过；工作流与 diff 检查在文档归档后重跑。
+
+推荐任务：
+- `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
 ## 执行记录
 
 
@@ -6772,5 +6786,31 @@
 
 推荐任务：
 - `TASK-SLICE-120C`：只接入 `crafting-icons-b039-058` 的 21 个灵珠碎片、灵珠和首批升级材料真图标。
+
+### TASK-SLICE-130
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SETTINGS-055`）
+- 新增 `Stage1CombatSystem` 作为 enemy type 2/3/4/5/7/8/30 的集中配置、攻防公式、攻击阶段、命中去重和死亡分类 owner；Stage 1-1/1-2/1-3 统一消费共享模型。
+- 移除 Stage 1-2/1-3 私有心数、固定 500 玩家攻击和直接接触扣血，统一 Role1 普攻窗口、80 HP/2 物防、3000ms 保护、输入缓冲及 source/action/attack id 追踪。
+- 补齐 Stage 1-1 可通关运行边界：场上有怪时暂停非停点刷新、活动停点被击落后仍保持、四停点清完才触发巫鹰、二段跳覆盖最大平台落差，并修正巫鹰与传送门的可达碰撞边界。
+- 1-2 首停点稳定归类为 `attrition-no-sustain`，1-3 第一停点稳定归类为 `boss-physical`；均未再出现同帧爆发或无预警接触伤害。
+- Stage 1-1 默认 1P Role1、1 级、无调试能力三次完整运行全部通关，耗时 172.7s / 202.6s / 165.7s，超过至少 2/3 通关门槛。
+- 自动审计的 `watchdogMs` 只防止脚本卡死；原游戏没有单波超时，现代运行时也未新增波次计时或超时失败。
+
+更新文件：
+- `src/systems/Stage1CombatSystem.ts`、`HeroCombatSystem.ts`、`InputSystem.ts`、`LevelSystem.ts` 与 Stage 1 三关 systems/bridges
+- `tools/stage1-combat-tests.ts`、`tools/stage11-flow-tests.ts`、`tools/stage11-browser-audit.mjs` 与系统测试入口
+- `docs/reverse-engineering/stage1-combat-calibration.md`、`mechanics-index.md`
+- `docs/tasks/feature-lines.md`、本线覆盖台账、`vertical-slices.md`、`task-board.md`、`task-history.md`
+- PG-002/003/004/005 适用触发与反馈记录
+
+验证：
+- Stage 1 共享战斗与 Stage 1-1 flow/resource 专项测试通过。
+- 本地浏览器三次完整验收均进入 Stage 1-1 胜利页；结果 JSON 均为四停点清空、巫鹰 HP 0、传送门可见、arena `cleared`。
+- 最终 `test:systems`、`check:structure`、`build`、`check:workflow` 与 `git diff --check` 见本次任务收尾记录。
+
+推荐任务：
+- `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
 
 

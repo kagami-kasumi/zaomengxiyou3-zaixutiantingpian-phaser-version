@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-130` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-FORMAL-GAME-LOOP`。前置战斗审计已确认三关战斗模型分裂与 Stage 1-2 多怪同帧接触伤害是首要死亡根因；本切片先统一战斗 owner、攻击窗口和死亡记录，再依据确定性基线与试玩指标校准。
+`TASK-SETTINGS-055` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-FORMAL-GAME-LOOP`。Stage 1 三关战斗校准与 1-1 三次完整运行已闭合，当前继续逆向正式核心战斗 HUD，不切换到 Stage 2-1。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-130 | Ready | LINE-FORMAL-GAME-LOOP | 可玩切片 | 统一 Stage 1 三关战斗 owner，消除不可读接触爆发，并按确定性合同校准攻击、保护与续航 | M-032、M-033、M-040、M-047、M-048、VS-050 | 共享 combat adapter/配置、攻击与受击表现、自动回归、三关试玩证据 | `TASK-SETTINGS-055` |
-| TASK-SETTINGS-055 | Planned | LINE-FORMAL-GAME-LOOP | UI 逆向 | 闭合正式战斗 HUD 的字段、布局、资源、双玩家和更新语义 | M-015、M-016、M-040、M-049、VS-051 | 六段证据矩阵、资源标注、HUD 数据合同与实现任务输入 | `TASK-SLICE-131` |
+| TASK-SETTINGS-055 | Ready | LINE-FORMAL-GAME-LOOP | UI 逆向 | 闭合正式战斗 HUD 的字段、布局、资源、双玩家和更新语义 | M-015、M-016、M-040、M-049、VS-051 | 六段证据矩阵、资源标注、HUD 数据合同与实现任务输入 | `TASK-SLICE-131` |
 | TASK-SLICE-131 | Planned | LINE-FORMAL-GAME-LOOP | 可玩切片 | 在正式 Stage 1 关卡接入 P1/P2 核心战斗 HUD | M-015、M-016、M-040、M-049、VS-051 | HP/MP/经验/等级/技能/重要敌人状态 HUD 与验证 | `TASK-SETTINGS-056` |
 | TASK-SETTINGS-056 | Planned | LINE-FORMAL-GAME-LOOP | 主流程逆向 | 闭合 EXE 启动、存档槽新建/读取/删除、迁移和损坏反馈 | M-005、M-044、M-050、VS-052 | 六段证据矩阵、存档槽状态机、真资源标注与路由合同 | `TASK-SLICE-132` |
 | TASK-SLICE-132 | Planned | LINE-FORMAL-GAME-LOOP | 可玩切片 | 实现正式启动页与多存档槽并接入现有 V3 进度 | M-005、M-044、M-050、VS-052 | 启动/存档场景、迁移/损坏保护、自动与运行时验证 | `TASK-SETTINGS-057` |
@@ -22,54 +21,6 @@
 
 ## 任务完成定义
 
-### TASK-SLICE-130
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Active，Ready）
-
-目标机制/切片：
-
-- `M-032`、`M-033`、`M-040`、`M-047`、`M-048`、`VS-050`
-
-输入资料：
-
-- `docs/reverse-engineering/stage1-combat-calibration.md` 的六段证据矩阵、确定性基线和三关试玩合同。
-- 对应战斗系统、Stage 1 flow/gameplay bridges、角色/怪物资源 manifest 与测试。
-
-输出产物：
-
-- 共享 Stage 1 combat adapter 与集中配置；1-2/1-3 不再私有声明心数、固定 500 攻击或直接接触扣血。
-- 攻击前摇/生效/命中/受击可见反馈、必要的保护与范围语义接入，以及 Stage 1 三关专项回归与试玩记录。
-
-完成定义：
-
-- 默认 1P Role1、1 级、不使用调试能力的三次 Stage 1-1 完整流程至少两次通关；1-2/1-3 的失败原因和目标难度可记录、可复现。
-- 角色和怪物的主要攻击在伤害发生前后都有可识别反馈，数值修改有单一所有权和回归覆盖。
-- `burst-same-frame` 与 `untelegraphed-contact` 不再是 1-2/1-3 的合法伤害路径；每次伤害可追溯到 source/action/attack id。
-
-验收标准：
-
-- 开始修改前运行 `npm run check:structure`；完成后运行适用专项测试、`npm run test:systems`、`npm run build`、`npm run check:workflow` 和 `git diff --check`。
-- 人工试玩覆盖至少一次 1-1 完整流程和 1-2/1-3 代表遭遇；记录死亡来源而非只记录“通过/失败”。
-
-禁止范围：
-
-- 不制作完整 HUD、存档页、天庭地图或功能 UI，不扩展 Stage 2-1。
-- 不为追求“容易通关”移除怪物攻击、失败条件或原版核心战斗结构。
-
-状态更新：
-
-- `feature-lines.md`、本线覆盖台账、`task-board/history`、`vertical-slices.md`、`mechanics-index.md` 和相关逆向文档。
-
-推荐后续任务：
-
-- `TASK-SETTINGS-055`。
-
 ### TASK-SETTINGS-055
 
 任务类型：
@@ -78,7 +29,7 @@
 
 功能条线：
 
-- `LINE-FORMAL-GAME-LOOP`（Planned）
+- `LINE-FORMAL-GAME-LOOP`（Active，Ready）
 
 目标机制/切片：
 

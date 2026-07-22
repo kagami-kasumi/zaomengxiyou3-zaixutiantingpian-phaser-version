@@ -3,7 +3,10 @@ import { createEmptyEquipmentLoadout, createSeedEquipmentRegistry } from '../src
 import { createHeroSkillModel } from '../src/systems/HeroSkillSystem';
 import { createSeedPetRoster } from '../src/systems/PetSystem';
 import { createHeroProgression } from '../src/systems/ProgressionSystem';
-import { createBossArena, revealTransferDoor, tryClearArena } from '../src/systems/LevelSystem';
+import { createHeroMovement, updateHeroMovement } from '../src/systems/HeroMovementSystem';
+import type { PlayerInputState } from '../src/systems/InputSystem';
+import { createStage11MovementPlatforms } from '../src/systems/Stage11Layout';
+import { activateBossArena, createBossArena, revealTransferDoor, tryClearArena } from '../src/systems/LevelSystem';
 import {
   createGameSave,
   GameSaveVersion,
@@ -59,9 +62,50 @@ function testTransferDoorClearsOnlyOnce(): void {
   const doorCenterY = arena.door.y + arena.door.height / 2;
   assert.equal(tryClearArena(arena, doorCenterX, doorCenterY, false), false);
   assert.equal(tryClearArena(arena, doorCenterX - arena.door.width, doorCenterY, true), false);
+  assert.equal(tryClearArena(arena, doorCenterX, arena.door.y + arena.door.height + 0.5, true), true);
+  arena.state = 'active';
   assert.equal(tryClearArena(arena, doorCenterX, doorCenterY, true), true);
   assert.equal(arena.state, 'cleared');
   assert.equal(tryClearArena(arena, doorCenterX, doorCenterY, true), false);
+}
+
+function testBossSpawnOverlapsRole1GroundAttackHeight(): void {
+  const arena = createBossArena();
+  const boss = activateBossArena(arena);
+  const bossBottom = boss.y + 35;
+  const role1GroundAttackTop = 497.6 - 72 - 112 / 2;
+  assert.ok(bossBottom > role1GroundAttackTop);
+}
+
+function testStage11LargestPlatformStepHasReliableDoubleJumpMargin(): void {
+  const platforms = createStage11MovementPlatforms();
+  const source = platforms.find((platform) => platform.id === 'stage11-through-4');
+  assert.ok(source);
+  const hero = createHeroMovement(492, source.top);
+  hero.currentPlatformId = source.id;
+  let previousInput: PlayerInputState | undefined;
+
+  for (let frame = 0; frame < 80; frame += 1) {
+    const input = createMovementInput(frame < 20 ? -1 : 0, frame === 0 || frame === 14);
+    updateHeroMovement(hero, input, previousInput, platforms, { left: 0, right: 940, bottom: 2868.551 }, frame * 16, 16);
+    previousInput = input;
+  }
+
+  assert.equal(hero.currentPlatformId, 'stage11-through-5');
+}
+
+function createMovementInput(moveX: -1 | 0 | 1, jump: boolean): PlayerInputState {
+  return {
+    slot: 'p1',
+    moveX,
+    down: false,
+    up: false,
+    attack: false,
+    jump,
+    skillSlots: [false, false, false, false, false],
+    special: false,
+    magicWeapon: false,
+  };
 }
 
 function testSaveV3RoundTripAndV1V2Migration(): void {
@@ -106,6 +150,8 @@ testTwoPlayerFailureRequiresWholeParty();
 testVictoryUnlockIsIdempotent();
 testReplayingStage11DoesNotDowngradeStage13Unlock();
 testTransferDoorClearsOnlyOnce();
+testBossSpawnOverlapsRole1GroundAttackHeight();
+testStage11LargestPlatformStepHasReliableDoubleJumpMargin();
 testSaveV3RoundTripAndV1V2Migration();
 
 console.log('Stage 1-1 flow tests passed.');

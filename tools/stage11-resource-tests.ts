@@ -54,7 +54,7 @@ assert.ok(Math.abs(bossArena.door.width - 167) < 0.0001);
 assert.ok(Math.abs(bossArena.door.height - 163.45) < 0.0001);
 assert.equal(bossArena.door.visible, false);
 const boss = activateBossArena(bossArena);
-assert.deepEqual({ x: boss.x, y: boss.y }, { x: 750, y: 320 });
+assert.deepEqual({ x: boss.x, y: boss.y }, { x: 750, y: 350 });
 
 const platforms = createStage11MovementPlatforms();
 assert.equal(platforms.length, 18, '18 horizontal markers participate in vertical movement');

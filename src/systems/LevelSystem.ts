@@ -24,6 +24,8 @@ export type BossArenaModel = {
   arenaBounds: { left: number; right: number; top: number; bottom: number };
 };
 
+export const TransferDoorCollisionTolerance = 1;
+
 export function createBossArena(): BossArenaModel {
   const door = stage11TransferDoor.bounds;
   return {
@@ -54,7 +56,7 @@ export function checkBossArenaTrigger(
 
 export function activateBossArena(arena: BossArenaModel): Monster3Model {
   arena.state = 'active';
-  arena.boss = createMonster3(750, 320);
+  arena.boss = createMonster3(750, 350);
   return arena.boss;
 }
 
@@ -76,10 +78,10 @@ export function tryClearArena(
     return false;
   }
 
-  const inDoorX = playerX >= arena.door.x &&
-    playerX <= arena.door.x + arena.door.width;
-  const inDoorY = playerY >= arena.door.y &&
-    playerY <= arena.door.y + arena.door.height;
+  const inDoorX = playerX >= arena.door.x - TransferDoorCollisionTolerance &&
+    playerX <= arena.door.x + arena.door.width + TransferDoorCollisionTolerance;
+  const inDoorY = playerY >= arena.door.y - TransferDoorCollisionTolerance &&
+    playerY <= arena.door.y + arena.door.height + TransferDoorCollisionTolerance;
 
   if (inDoorX && inDoorY) {
     arena.state = 'cleared';
@@ -120,7 +122,7 @@ export type VerticalClimbTuning = {
 export const defaultClimbTuning: VerticalClimbTuning = {
   worldWidth: STAGE11_WORLD_WIDTH,
   worldHeight: STAGE11_WORLD_HEIGHT,
-  spawnIntervalMs: 6000,
+  spawnIntervalMs: 10_000,
   singlePlayerSpawnCount: 2,
   duoPlayerSpawnCount: 4,
   bossTriggerY: 470,
@@ -179,7 +181,10 @@ export function updateVerticalClimbCamera(
 
   const desiredCameraY = playerMinY - viewportHeight * 0.4;
 
-  const stopIdx = findActiveStopPoint(state, playerMinY);
+  const retainedStop = state.stopPoints[state.activeStopIndex];
+  const stopIdx = retainedStop && !retainedStop.cleared
+    ? state.activeStopIndex
+    : findActiveStopPoint(state, playerMinY);
   if (stopIdx >= 0) {
     const stopY = state.stopPoints[stopIdx].y;
     state.targetCameraY = Math.max(desiredCameraY, stopY - viewportHeight + 80);
@@ -245,6 +250,11 @@ export function updateVerticalClimbSpawn(
     return false;
   }
 
+  if (activeMonsterCount > 0) {
+    state.spawnTimerMs = defaultClimbTuning.spawnIntervalMs;
+    return false;
+  }
+
   state.spawnTimerMs -= deltaMs;
   if (state.spawnTimerMs > 0) {
     return false;
@@ -292,7 +302,8 @@ export function isBossZoneTriggered(
   if (state.bossTriggered) {
     return false;
   }
-  return playerMinY <= defaultClimbTuning.bossTriggerY;
+  return state.stopPoints.every((stopPoint) => stopPoint.cleared) &&
+    playerMinY <= defaultClimbTuning.bossTriggerY;
 }
 
 export function markBossTriggered(state: VerticalClimbState): void {

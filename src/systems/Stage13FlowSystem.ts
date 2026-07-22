@@ -9,6 +9,7 @@ import {
   sanitizeLevelUnlockProgress,
   type LevelUnlockProgress,
 } from './Stage11FlowSystem';
+import { getStage1EnemyConfig } from './Stage1CombatSystem';
 
 export type Stage13FlowPhase = 'playing' | 'failure-pending' | 'failed' | 'cleared';
 export type Stage13EnemyType = Stage13SpawnPoint['enemyType'];
@@ -49,14 +50,6 @@ export type Stage13FlowModel = {
 };
 
 export const Stage13FailureDelayMs = 2_500;
-
-const monsterMaxHp: Record<Stage13EnemyType, number> = {
-  3: 400,
-  5: 2_788,
-  7: 200,
-  8: 300,
-  30: 150,
-};
 
 export function createStage13Flow(
   playerCount: 1 | 2,
@@ -175,7 +168,7 @@ function createEnemy(model: Stage13FlowModel, point: Stage13SpawnPoint): Stage13
     stopPointIdx: point.stopPointIdx,
     x: point.x,
     y: point.y,
-    maxHp: monsterMaxHp[point.enemyType],
+    maxHp: getStage1EnemyConfig(point.enemyType).maxHp,
     isBoss: point.enemyType === 5,
     isFlying: point.enemyType === 30,
   };

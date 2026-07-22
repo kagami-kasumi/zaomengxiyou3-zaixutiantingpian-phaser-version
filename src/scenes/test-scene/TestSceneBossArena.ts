@@ -5,6 +5,8 @@ import {
   applyHeroDamage,
   applyMonster3Hit,
   checkBossArenaTrigger,
+  calculateStage1HeroDamage,
+  calculateStage1IncomingDamage,
   createDamageEvent,
   getActiveHeroHitbox,
   getMonster3AttackHitbox,
@@ -27,6 +29,12 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
     }
 
     if (this.bossArena.state === 'inactive') {
+      if (
+        this.verticalClimb &&
+        !this.verticalClimb.stopPoints.every((stopPoint: { cleared: boolean }) => stopPoint.cleared)
+      ) {
+        return;
+      }
       for (const player of this.playerViews) {
         if (!player.movement || isHeroCombatDead(player.combat)) {
           continue;
@@ -152,7 +160,11 @@ export function applyBossAttack(this: any, time: number): void {
         amount: applyOwnedPetDamageRedirect(
           this.playerPetRosters,
           player.slot,
-          activeAttack.damage,
+          calculateStage1IncomingDamage(
+            activeAttack.attackKind,
+            activeAttack.damage,
+            player.baseStats?.defense ?? 0,
+          ),
         ),
         attackKind: activeAttack.attackKind,
         knockbackX: activeAttack.facingX * activeAttack.knockbackX,
@@ -195,7 +207,7 @@ export function applyPlayerHitOnBoss(this: any, player: any, time: number): void
       targetId: 'monster3',
       attackId,
       actionName: activeAttack.actionName,
-      amount: activeAttack.damage,
+      amount: calculateStage1HeroDamage(3, activeAttack.attackKind, activeAttack.damage),
       attackKind: activeAttack.attackKind,
       knockbackX: activeAttack.facingX * 4,
       knockbackY: -2,

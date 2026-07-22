@@ -17,6 +17,10 @@ import {
 import type { HeroMovementModel } from '../../systems/HeroMovementSystem';
 import type { PlayerSlot } from '../../systems/InputSystem';
 import {
+  calculateStage1HeroDamage,
+  calculateStage1IncomingDamage,
+} from '../../systems/Stage1CombatSystem';
+import {
   applyMonster30MagicFlagCounterFromHero,
   applyMonster30Hit,
   getMonster30AttackHitbox,
@@ -33,6 +37,7 @@ export type CombatBridgePlayer = {
   movement?: HeroMovementModel;
   combat: HeroCombatModel;
   normalAttack: HeroNormalAttackModel;
+  baseStats?: { defense: number };
 };
 
 export type CombatBridgeResult = {
@@ -108,7 +113,10 @@ export function applyHeroNormalAttackToMonster30s(params: {
       continue;
     }
 
-    const effectiveDamage = Math.min(activeAttack.damage, monster.hp);
+    const effectiveDamage = Math.min(
+      calculateStage1HeroDamage(30, activeAttack.attackKind, activeAttack.damage),
+      monster.hp,
+    );
     const damageEvent = createDamageEvent({
       sourceId: player.slot,
       targetId: monster.id,
@@ -190,8 +198,20 @@ export function applyMonster30AttackToPlayers(params: {
       attackId: activeAttack.attackId,
       actionName: activeAttack.actionName,
       amount: params.petRosters
-        ? applyOwnedPetDamageRedirect(params.petRosters, player.slot, activeAttack.damage)
-        : activeAttack.damage,
+        ? applyOwnedPetDamageRedirect(
+          params.petRosters,
+          player.slot,
+          calculateStage1IncomingDamage(
+            activeAttack.attackKind,
+            activeAttack.damage,
+            player.baseStats?.defense ?? 0,
+          ),
+        )
+        : calculateStage1IncomingDamage(
+          activeAttack.attackKind,
+          activeAttack.damage,
+          player.baseStats?.defense ?? 0,
+        ),
       attackKind: activeAttack.attackKind,
       knockbackX: activeAttack.facingX * activeAttack.knockbackX,
       knockbackY: activeAttack.knockbackY,

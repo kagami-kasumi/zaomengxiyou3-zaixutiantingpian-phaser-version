@@ -158,3 +158,34 @@
 - `现代设计选择`：Stage 1-1 的 2/3 稳定通关门槛与 1-2/1-3 先消除不可读死亡的分阶段目标。
 
 这些未知不阻塞“统一现代战斗模型并建立可读反馈”，但会阻止使用“像素级原版范围”“原版逐次无敌时长”等结论。
+
+## 8. TASK-SLICE-130 实现与试玩记录（已完成）
+
+实现快照：
+
+- `Stage1CombatSystem.ts` 成为 enemy type 2/3/4/5/7/8/30 的 HP、物防、移动、主攻击威力和现代窗口单一 owner；Stage 1-1 的 `Monster30/Monster3` 与 1-2/1-3 flow/bridge 均消费该注册表。
+- 1-2/1-3 已移除 5/8 心、固定 500 玩家攻击、`contactCooldownMs` 和直接接触扣血；三关统一复用 Role1 普攻窗口、`HeroCombat`、`HitRegistry` 和 `DamageEvent`，Stage 1 保护窗口按已知 3 秒证据上限统一为 3000ms。
+- Stage 1-1 的玩家/Monster30/Monster3 伤害也统一消费共享物防公式；Monster30 现代可读前摇为 420ms，非停点周期刷新间隔从 6 秒校准为 10 秒，波次数量未变。
+- Stage 1-1 非停点刷新在场上仍有 Monster30 时暂停并重置 10 秒间隔，清场后才重新计时；活动停点不会因玩家被击落而丢失，四个停点全部清空后才开放巫鹰，巫鹰和传送门碰撞边界也按实际平台几何完成可达性校正。
+- Role1 二段跳初速度校准为 `-1300`，覆盖 Stage 1-1 最大连续平台落差；该项是现代运行时可达性修正，不冒充原版数值。
+- `InputSystem` 对动作键与方向键消费 `keydown` 缓冲，避免两帧之间的短按丢失；持键语义保持不变。
+- 怪物圆形占位在 windup 显示黄色 `!`、active 显示红色 `*`、受击显示白色；这是 `现代设计选择`，不表示怪物真素材或原版几何已恢复。
+
+确定性验证：
+
+- 六只 Monster30 同帧进入 active 时，只有一个 source 成功结算，`maxSourcesInSameFrame = 1`；保护结束后的下一独立 attack id 可再次结算。
+- 接触只会启动 windup，不直接扣血；Role1 `hit1` 在自身 active window 内按共享怪物物防结算，同一 attack/target 只命中一次。
+- 死亡日志保留最后 10 个 `time/source/action/attack id/amount` 事件；boss 物理致死可归类为 `boss-physical`。
+
+运行态样本（2026-07-21—2026-07-22，本地 1P Role1、1 级、无调试能力）：
+
+| 关卡/位置 | 峰值敌人 | 结果 | HP | 死亡主因 | 观察 |
+| --- | ---: | --- | --- | --- | --- |
+| Stage 1-2 首停点 | 8×M8 | 失败 | 80 → 0 | `attrition-no-sustain` | 多轮攻击累计致死；未再出现 `burst-same-frame`/`untelegraphed-contact`，失败页与状态栏显示死亡分类，console 无 warning/error |
+| Stage 1-1 完整流程 ×3 | 四停点 Monster30 + 巫鹰 | 3 次通关 | 250 / 250 / 265 | 无死亡 | 默认 1P Role1、1 级、无调试能力；三次均清空四停点、击败巫鹰并进入胜利页，耗时 172.7s / 202.6s / 165.7s；本地证据在 `.tmp/stage11-browser-audit/evidence/acceptance-1..3/` |
+| Stage 1-3 第一停点 | 6（M8/M7/M3） | 失败 | 80 → 0 | `boss-physical` | 停点 1/5、生成 6/105；死亡页与状态栏明确显示 `boss-physical`，接触本身不扣血，未出现 `burst-same-frame`/`untelegraphed-contact` |
+
+关闭结论：
+
+- Stage 1-1 三次完整流程全部通关，超过“至少两次”的门槛；`TASK-SLICE-130` 与 VS-050 可以归档，M-048 的本切片校准目标已完成。
+- 审计脚本中的 `watchdogMs` 仅用于在自动化卡死时终止本地审计，不属于游戏运行时、校准规则或原版机制。原游戏没有单波超时，本实现也没有新增波次计时或超时失败。
