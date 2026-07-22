@@ -28,7 +28,7 @@ export class Stage51TransitionScene extends Phaser.Scene {
     }).setOrigin(0.5);
     button.on('pointerover', () => button.setFillStyle(0x344867));
     button.on('pointerout', () => button.setFillStyle(0x23314a));
-    button.on('pointerdown', () => this.scene.start('Stage11EntryScene'));
-    this.input.keyboard?.once('keydown-ESC', () => this.scene.start('Stage11EntryScene'));
+    button.on('pointerdown', () => this.scene.start('HeavenMapScene'));
+    this.input.keyboard?.once('keydown-ESC', () => this.scene.start('HeavenMapScene'));
   }
 }

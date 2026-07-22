@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
 import { BootScene } from './scenes/BootScene';
+import { FeatureUiScene } from './scenes/FeatureUiScene';
+import { HeavenMapScene } from './scenes/HeavenMapScene';
+import { SaveSlotScene } from './scenes/SaveSlotScene';
 import { Stage11EntryScene } from './scenes/Stage11EntryScene';
 import { Stage12Scene } from './scenes/Stage12Scene';
 import { Stage13Scene } from './scenes/Stage13Scene';
@@ -19,7 +22,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, Stage11EntryScene, TestScene, Stage12Scene, Stage13Scene, Stage51TransitionScene],
+  scene: [BootScene, SaveSlotScene, HeavenMapScene, FeatureUiScene, Stage11EntryScene, TestScene, Stage12Scene, Stage13Scene, Stage51TransitionScene],
 };
 
 export const game = new Phaser.Game(gameConfig);

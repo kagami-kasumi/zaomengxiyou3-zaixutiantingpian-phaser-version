@@ -19,6 +19,7 @@ export * from '../../systems/EquipmentUISystem';
 export * from '../../systems/DropSystem';
 export * from '../../systems/PetSystem';
 export * from '../../systems/SaveSystem';
+export * from '../../systems/SaveSlotSystem';
 export * from '../../systems/MagicWeaponSystem';
 export * from '../../systems/ProgressionSystem';
 export * from '../../systems/PlayerInventoryOwnershipSystem';

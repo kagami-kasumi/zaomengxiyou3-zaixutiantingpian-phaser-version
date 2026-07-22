@@ -213,6 +213,7 @@ import {
 } from './test-scene/TestSceneSaveBridge';
 import {
   initializeStage11Flow as initializeStage11FlowImpl,
+  installStage11FeatureUiEntries as installStage11FeatureUiEntriesImpl,
   showStage11ClearOverlay as showClearOverlayImpl,
   updateStage11Flow as updateStage11FlowImpl,
 } from './test-scene/TestSceneStage11FlowBridge';
@@ -284,6 +285,10 @@ import {
   type MagicBottleEffectView,
 } from './test-scene/TestSceneMagicBottleViewBridge';
 import { getTestScenePlayerCount } from './test-scene/TestSceneConfig';
+import {
+  createTestSceneStage1HudBridge,
+} from './test-scene/TestSceneStage1HudBridge';
+import type { Stage1CombatHudBridge } from './stage1/Stage1CombatHudBridge';
 
 type PlayerView = {
   slot: PlayerSlot;
@@ -335,6 +340,7 @@ export class TestScene extends Phaser.Scene {
   public stage11Flow?: Stage11FlowModel;
   private inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
+  private stage1CombatHud?: Stage1CombatHudBridge;
   private playerViews: PlayerView[] = [];
   private monster30s: Monster30Model[] = [];
   public monsterViews = new Map<Monster30Model, MonsterView>();
@@ -474,13 +480,14 @@ export class TestScene extends Phaser.Scene {
     this.createInventoryUIKeys();
     this.createPetUIKeys();
     this.createDebugKeys();
+    this.installStage11FeatureUiEntries();
     this.p1SkillBar = this.createSkillBar('p1', 44, 540);
-    this.p1SkillBar.container.setScrollFactor(0).setDepth(80);
+    this.p1SkillBar.container.setScrollFactor(0).setDepth(80).setVisible(false);
     this.p1SkillPanel = this.createSkillPanel('p1');
     this.p1SkillPanel.container.setScrollFactor(0).setDepth(85);
     if (this.playerCount === 2) {
       this.p2SkillBar = this.createSkillBar('p2', 488, 540);
-      this.p2SkillBar.container.setScrollFactor(0).setDepth(80);
+      this.p2SkillBar.container.setScrollFactor(0).setDepth(80).setVisible(false);
       this.p2SkillPanel = this.createSkillPanel('p2');
       this.p2SkillPanel.container.setScrollFactor(0).setDepth(85);
     }
@@ -500,7 +507,12 @@ export class TestScene extends Phaser.Scene {
       fontFamily: 'Arial, sans-serif',
       fontSize: '16px',
       lineSpacing: 6,
-    }).setScrollFactor(0).setDepth(90);
+    }).setScrollFactor(0).setDepth(90).setVisible(false);
+    this.stage1CombatHud = createTestSceneStage1HudBridge(this);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.stage1CombatHud?.destroy();
+      this.stage1CombatHud = undefined;
+    });
   }
 
   public override update(time: number, delta: number): void {
@@ -512,6 +524,7 @@ export class TestScene extends Phaser.Scene {
     const previousCameraY = this.verticalClimb.cameraY;
 
     this.getUpdatePipeline().run(time, delta, input, previousCameraY);
+    this.stage1CombatHud?.update(delta);
   }
 
   private getUpdatePipeline(): TestSceneUpdatePipeline {
@@ -586,6 +599,7 @@ export class TestScene extends Phaser.Scene {
   public saveSceneNow = saveSceneNowImpl;
   private updateSceneSave = updateSceneSaveImpl;
   private initializeStage11Flow = initializeStage11FlowImpl;
+  private installStage11FeatureUiEntries = installStage11FeatureUiEntriesImpl;
   private updateStage11Flow = updateStage11FlowImpl;
   private createPlayerMarkers = createPlayerMarkersImpl;
   public createCapturablePetTargets = createCapturablePetTargetsImpl;

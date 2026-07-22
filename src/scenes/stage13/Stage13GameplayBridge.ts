@@ -7,7 +7,8 @@ import {
   updateLevelHeroMovementRuntime,
   type LevelHeroMovementRuntime,
 } from '../../systems/LevelHeroMovementSystem';
-import { loadGame, type SaveStorage } from '../../systems/SaveSystem';
+import { loadActiveGame } from '../../systems/SaveSlotSystem';
+import type { SaveStorage } from '../../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../../systems/Stage11FlowSystem';
 import {
   createStage13Flow,
@@ -49,6 +50,11 @@ import {
   type MonsterPhysicsModel,
 } from '../../systems/MonsterPhysicsSystem';
 import { createStage1RewardBridge, type Stage1RewardBridge } from '../stage1/Stage1RewardBridge';
+import { createStage1CombatHudBridge } from '../stage1/Stage1CombatHudBridge';
+import {
+  createStage1CombatEnemyHudSnapshot,
+  createStage1CombatPlayerHudSnapshot,
+} from '../../systems/Stage1CombatHudSystem';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
@@ -90,10 +96,16 @@ export function createStage13Gameplay(
   })));
   const monsters = new Map<string, MonsterRuntime>();
   const rewards: Stage1RewardBridge = createStage1RewardBridge(scene, players, stage13MovementPlatforms);
+  const hud = createStage1CombatHudBridge(
+    scene,
+    () => players.map((player) => createStage1CombatPlayerHudSnapshot(player.combat)),
+    () => [...monsters.values()].map((monster, index) =>
+      createStage1CombatEnemyHudSnapshot(monster.combat, index)),
+  );
   const status = scene.add.text(18, 51, '', {
     color: '#dce8ff', fontFamily: 'Arial, sans-serif', fontSize: '14px',
     backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
-  }).setScrollFactor(0).setDepth(100);
+  }).setScrollFactor(0).setDepth(100).setVisible(false);
   let reportedResult: 'failed' | 'cleared' | undefined;
 
   const update = (deltaMs: number): 'failed' | 'cleared' | undefined => {
@@ -124,6 +136,7 @@ export function createStage13Gameplay(
       rewards,
     );
     rewards.update(deltaMs);
+    hud.update(deltaMs);
 
     const phase = updateStage13PartyFailure(
       flow,
@@ -157,6 +170,7 @@ export function createStage13Gameplay(
     destroy: () => {
       status.destroy();
       rewards.destroy();
+      hud.destroy();
       for (const monster of monsters.values()) destroyMonsterView(monster);
       monsters.clear();
     },
@@ -359,7 +373,7 @@ function updateStatus(
 function readUnlockProgress() {
   const storage = getBrowserStorage();
   return storage
-    ? loadGame(storage)?.levelUnlockProgress ?? createDefaultLevelUnlockProgress()
+    ? loadActiveGame(storage)?.levelUnlockProgress ?? createDefaultLevelUnlockProgress()
     : createDefaultLevelUnlockProgress();
 }
 

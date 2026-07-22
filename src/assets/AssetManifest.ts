@@ -82,6 +82,31 @@ export const Stage13AssetKeys = {
   transferDoor: 'stage.stage1-3.transfer-door',
 } as const;
 
+export const CombatHudAssetKeys = {
+  roleInfo: 'combat-hud.role-info',
+  bossBlood: 'combat-hud.boss-blood',
+} as const;
+
+export const SaveSlotAssetKeys = {
+  startMenu: 'save-slots.start-menu',
+  slotPanel: 'save-slots.slot-panel',
+  confirmDialog: 'save-slots.confirm-dialog',
+} as const;
+
+export const FullFeatureUiAssetKeys = {
+  backpack: 'full-ui.backpack',
+  backpackGrid: 'full-ui.backpack-grid',
+} as const;
+
+export const HeavenMapAssetKeys = {
+  world: 'heaven-map.world',
+  menu: 'heaven-map.menu',
+  stage11: 'heaven-map.stage-1-1',
+  stage12: 'heaven-map.stage-1-2',
+  stage13: 'heaven-map.stage-1-3',
+  stage21: 'heaven-map.stage-2-1',
+} as const;
+
 export const PickupAssetKeys = {
   healthSmall: 'pickup.health.small',
   healthBig: 'pickup.health.big',
@@ -320,6 +345,114 @@ const stageFramePaths = (directory: string, frameCount: number): readonly string
 const numberedFramePaths = (directory: string, frameCount: number): readonly string[] =>
   Array.from({ length: frameCount }, (_, index) => `${directory}/${index + 1}.png`);
 
+export const combatHudAssets = {
+  roleInfo: {
+    key: CombatHudAssetKeys.roleInfo,
+    path: '/assets/ui/combat-hud/role-info.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'export.RoleInfo frame 1',
+    sourceCharacterId: 574,
+  },
+  bossBlood: {
+    key: CombatHudAssetKeys.bossBlood,
+    path: '/assets/ui/combat-hud/boss-blood.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/bossblood.swf',
+    sourceSymbol: 'BossBlood frame 1',
+    sourceCharacterId: 110,
+  },
+} as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
+export const saveSlotAssets = {
+  startMenu: {
+    key: SaveSlotAssetKeys.startMenu,
+    path: '/assets/ui/save-slots/start-menu.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'export.GameMenu frame 1',
+    sourceCharacterId: 1149,
+  },
+  slotPanel: {
+    key: SaveSlotAssetKeys.slotPanel,
+    path: '/assets/ui/save-slots/slot-panel.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/Common1.swf',
+    sourceSymbol: 'export.saveInterface.SaveInter frame 1',
+    sourceCharacterId: 69,
+  },
+  confirmDialog: {
+    key: SaveSlotAssetKeys.confirmDialog,
+    path: '/assets/ui/save-slots/confirm-dialog.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/Common1.swf',
+    sourceSymbol: 'IsCover frame 1',
+    sourceCharacterId: 18,
+  },
+} as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
+export const heavenMapAssets = {
+  world: {
+    key: HeavenMapAssetKeys.world,
+    path: '/assets/ui/heaven-map/world.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'export.SelectPLace frame 1; cropped to visible 940x590 stage',
+    sourceCharacterId: 1343,
+  },
+  menu: {
+    key: HeavenMapAssetKeys.menu,
+    path: '/assets/ui/heaven-map/menu.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'export.MapMenu frame 1; cropped to visible 940x590 stage',
+    sourceCharacterId: 963,
+  },
+  stage11: {
+    key: HeavenMapAssetKeys.stage11,
+    path: '/assets/ui/heaven-map/stage-1-1.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'OtherMat_fla.Timeline_188 frame 1 / instance s1_1',
+    sourceCharacterId: 1311,
+  },
+  stage12: {
+    key: HeavenMapAssetKeys.stage12,
+    path: '/assets/ui/heaven-map/stage-1-2.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'OtherMat_fla.Timeline_194 frame 1 / instance s1_2',
+    sourceCharacterId: 1297,
+  },
+  stage13: {
+    key: HeavenMapAssetKeys.stage13,
+    path: '/assets/ui/heaven-map/stage-1-3.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'OtherMat_fla.Timeline_191 frame 1 / instance s1_3',
+    sourceCharacterId: 1304,
+  },
+  stage21: {
+    key: HeavenMapAssetKeys.stage21,
+    path: '/assets/ui/heaven-map/stage-2-1.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'OtherMat_fla.Timeline_197 frame 1 / instance s2_1',
+    sourceCharacterId: 1290,
+  },
+} as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
 export const pickupAssets = {
   healthSmall: {
     key: PickupAssetKeys.healthSmall,
@@ -551,6 +684,23 @@ export const craftingAssets = {
       source.characterId,
     )];
   })),
+} as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
+export const fullFeatureUiAssets = {
+  backpack: extractedCraftingImage(
+    FullFeatureUiAssetKeys.backpack,
+    '/assets/ui/feature/backpack/backpack.svg',
+    'assets/backpack1.swf',
+    'export.pack.BackPack',
+    304,
+  ),
+  backpackGrid: extractedCraftingImage(
+    FullFeatureUiAssetKeys.backpackGrid,
+    '/assets/ui/feature/backpack/backpack-grid.svg',
+    'assets/backpack1.swf',
+    'export.pack.BackPackElement',
+    246,
+  ),
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
 function createRole1NormalAttackFrames(symbol: string, frameCount: number) {

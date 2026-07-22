@@ -72,7 +72,7 @@ function testSceneTransitionDoesNotUseVictoryOrSavePath(): void {
   assert.ok(transitionBranch.includes("this.scene.start('Stage51TransitionScene')"));
   assert.ok(!transitionBranch.includes('showStage12Result'));
   assert.ok(!transitionBranch.includes('saveLevelUnlockProgress'));
-  assert.ok(transitionSource.includes("this.scene.start('Stage11EntryScene')"));
+  assert.ok(transitionSource.includes("this.scene.start('HeavenMapScene')"));
   assert.ok(!transitionSource.includes("this.scene.start('Stage12Scene')"));
   assert.ok(bridgeSource.includes('createProjectile(scene, player.x, player.y)'));
   assert.ok(bridgeSource.includes('Math.min(previousX, projectile.view.x) <= collisionWorldX + 18'));

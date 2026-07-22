@@ -13,6 +13,14 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-009 | 存档基础设施 | 升级 V4 双玩家功能存档并安全迁移 V1/V2/V3 | M-036、M-037、M-041、M-042、M-043、M-044、M-052、VS-054 | `SaveSystem.ts` V4、正式存取 bridge、双 owner/迁移/损坏专项测试 |
+| TASK-ARCH-008 | UI 基础设施 | 建立跨地图与 Stage 1 三关的 owner-aware 正式功能页 host | M-016、M-052、VS-054 | `FeatureUiHostSystem.ts`、`FeatureUiScene.ts`、统一入口 bridge、四 origin 接线、专项测试与浏览器验收 |
+| TASK-SETTINGS-058 | 完整 UI 覆盖盘点 | 建立背包、装备、技能、宠物和法宝页面全集并拆分连续任务 | M-016、M-036、M-037、M-041、M-042、M-043、M-052、VS-054 | `full-function-ui-index.md`、14 页覆盖矩阵、11 条真资源标注、`TASK-ARCH-008/009`、`TASK-SLICE-135..140`、`TASK-SETTINGS-059` |
+| TASK-SLICE-133 | 可玩主流程切片 | 接入正式天庭地图、节点状态、三关往返与当前槽进度 | M-005、M-027、M-044、M-051、VS-053 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、6 条真资源、三关正式返回桥、专项测试与浏览器验收 |
+| TASK-SETTINGS-057 | 主流程/视觉逆向 | 闭合天庭地图节点、状态视觉、解锁、点击与关卡往返 | M-005、M-027、M-044、M-051、VS-053 | `heaven-map-index.md` 六段证据链、6 条真资源标注、Stage 1 三节点/Stage 2-1 边界坐标与 `TASK-SLICE-133` 实现合同 |
+| TASK-SLICE-132 | 可玩主流程切片 | 接入正式启动页与六存档槽，闭合隔离、迁移、删除和损坏保护 | M-005、M-044、M-050、VS-052 | `SaveSlotSystem.ts`、`SaveSlotScene.ts`、真 `GameMenu`/`SaveInter`/`IsCover`、正式存档消费者、专项测试与浏览器验收 |
+| TASK-SETTINGS-056 | 主流程逆向 | 闭合 EXE 启动、六槽读写/异常、现代删除/迁移与后续路由合同 | M-005、M-044、M-050、VS-052 | `save-slots-index.md` 六段证据链、正式状态机、3 条真资源标注与 `TASK-SLICE-132` 实现边界 |
+| TASK-SLICE-131 | 可玩 UI 切片 | 在正式 Stage 1 三关接入 P1/P2 核心战斗 HUD | M-015、M-016、M-040、M-049、VS-051 | `Stage1CombatHudSystem.ts`、共享 Phaser HUD bridge、正式成长/技能快照、`RoleInfo`/`BossBlood` 真资源、专项测试与三关浏览器验收 |
 | TASK-SETTINGS-055 | UI 逆向 | 闭合正式战斗 HUD 的字段、布局、资源、双玩家和更新语义 | M-015、M-016、M-040、M-049、VS-051 | `combat-hud-index.md` 六段证据链、P1/P2 键位/镜像合同、HUD snapshot 输入、12 条 export-ready 真资源与 `TASK-SLICE-131` 实现边界 |
 | TASK-SLICE-134 | 可玩切片/架构修复 | 统一 Stage 1 三关怪物默认重力、飞行例外和死亡奖励运行时 | M-030、M-038、M-040、VS-009 | `MonsterPhysicsSystem.ts`、`MonsterDefeatRewardSystem.ts`、`Stage1RewardBridge.ts`、三关接入、5 个真资源与专项测试 |
 | TASK-SLICE-130 | 可玩战斗切片 | 统一 Stage 1 三关战斗 owner、攻击窗口、保护、死亡记录与可通关校准 | M-032、M-033、M-040、M-047、M-048、VS-050 | `Stage1CombatSystem.ts`、三关共享 combat bridge、确定性回归、1-2/1-3 代表失败分类与 1-1 三次完整通关证据 |
@@ -4639,6 +4647,201 @@
 
 推荐任务：
 - `TASK-SLICE-131`：选择性接入真 HUD 资源，建立共享 Stage 1 HUD snapshot/bridge，并完成三关 1P/2P/Boss 自动与运行时验收。
+
+### TASK-SETTINGS-056
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SLICE-132`）
+- 从 `GMain`、`GameMenu`、`SaveInter`、`MemoryClass`、`User` 和 `MapMenu` 闭合原版启动主菜单、新游戏/继续、六槽读写/覆盖、存档字段、异常与地图路由调用链。
+- 明确原版新游戏不是启动即选槽，原版无已证实删档入口，损坏槽会被静默留成“空存档”；正式现代槽优先、显式删除和损坏反馈均登记为现代设计选择。
+- 新增 `save-slots-index.md` 六段证据矩阵、正式状态机与 `zaixu-tianding.save.slot.<0..5>` 映射，规定旧单槽 key 只在六槽全空时安全导入槽 0。
+- 从恢复源包选择性派生并目检 `OtherMat1.swf` character 1149 `GameMenu`、`Common1.swf` character 69 `SaveInter` 与 character 18 `IsCover`；3 条标注进入 `derived-ready`。
+- 后续地图暂路由现有 Stage 1 入口；完整天庭地图明确留给 `TASK-SETTINGS-057/TASK-SLICE-133`。
+
+更新文件：
+- `docs/reverse-engineering/save-slots-index.md`、`gameplay-index.md`、`mechanics-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/save-slots.csv`、`batches/save-slots.md`、`project-status.md`
+- `docs/tasks/feature-lines.md`、本线覆盖台账、`vertical-slices.md`、`task-board.md`、`task-history.md`
+- PG-002/004/005 适用触发与反馈记录
+
+验证：
+- `check:annotations`、`check:workflow` 与 `git diff --check` 通过（见本轮任务收尾命令）。
+- FFDec CLI 对三项精确 character 选择性导出成功；PNG 逐张目检确认六槽布局、覆盖框与启动菜单。
+
+推荐任务：
+- `TASK-SLICE-132`：接入真启动/存档 UI、多槽持久化、删除确认、迁移与损坏保护。
+
+### TASK-SETTINGS-057
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SLICE-133`）
+- 从 `SelectPLace`、`MapMenu`、`GMain`、`MainGame`、`GameWin`、`GameFail` 与 `MemoryClass` 闭合第一世界地图创建、节点事件、最高进度、通关推进、保存和结果返回调用链。
+- 确认原版锁定节点仍显示 frame 1 但不注册事件；最高进度节点使用 frame 2，悬停使用 frame 3；Stage 1 三节点原名为“九重天 / 天宫路 / 南天门”。
+- 从恢复 `assets/OtherMat1.swf` 精确定位并选择性派生 `SelectPLace` 1343、`MapMenu` 963、Stage 1 节点 1311/1297/1304 与 Stage 2-1 节点 1290；6 条标注进入 `derived-ready`。
+- 解码 PlaceObject2 MATRIX，得到 Stage 1 三节点注册点 `(703.45,524.95)`、`(596.5,541.95)`、`(525.45,458.45)`，以及 Stage 2-1 `(507.95,341.5)`；记录 frame 1 可见边界与 940×590 舞台裁切。
+- 明确 `s1_3` frame 3 含离台绝对子件，不能把异常大画布直接接入；正式实现使用真 base map 与现代可访问性高亮，不将其伪装成原版 hover 像素复刻。
+- 现代 V3 未持久化原版 `playNum`，地图节点后的 1P/2P 选择覆盖层登记为现代设计选择；Stage 2-1 仅显示“已解锁但内容未接入”，不进入伪关卡。
+
+更新文件：
+- `docs/reverse-engineering/heaven-map-index.md`、`gameplay-index.md`、`mechanics-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/heaven-map.csv`、`batches/heaven-map.md`、`project-status.md`
+- `docs/tasks/feature-lines.md`、本线覆盖台账、`vertical-slices.md`、`task-board.md`、`task-history.md`
+- PG-002/004/005 适用触发与反馈记录
+
+验证：
+- FFDec `-selectid` 对 6 个精确 character 的 SVG/PNG 选择性导出成功；地图、菜单和 12 个节点帧逐项目检。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 在文档收尾后复核。
+
+推荐任务：
+- `TASK-SLICE-133`：裁切并接入真天庭地图/菜单，建立节点状态 owner、1P/2P 选择、当前槽解锁和三关往返。
+
+### TASK-SLICE-133
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SETTINGS-058`）
+- 新增纯 `HeavenMapSystem`，集中拥有 Stage 1 三节点与 Stage 2-1 边界的坐标、命中区、标题、route 和 `locked/current/completed/unavailable` 状态；进度直接消费既有 `LevelUnlockProgress`，不复制解锁规则。
+- 新增正式 `HeavenMapScene`：加载当前存档，显示裁切后的真地图/菜单、状态高亮与反馈；已解锁 Stage 1 节点进入明确标注为现代设计的 1P/2P 选择层，Stage 2-1 只显示内容未接入，不启动伪关卡。
+- `SaveSlotScene` 读取/创建后正式进入地图；Stage 1-1/1-2/1-3 的失败、胜利、Escape 退出及 5-1 过渡统一返回地图，旧 `Stage11EntryScene` 仅保留兼容注册。
+- `OtherMat1.swf` 的地图/菜单与四节点共 6 条资源裁切/复制到 `public/assets/ui/heaven-map/` 并登记 manifest provenance；`s1_3` 离台 hover 子件没有进入现代相机。
+- 专项测试覆盖四档进度、节点几何/命中、锁定与 Stage 2-1 拒绝、资源注册、三关路由和 TestScene Escape 清理；系统/build 与 940×590 初始档、hover、1P 进入 1-1、Escape 返回地图浏览器样本通过，console 无 warning/error。
+
+更新文件：
+- `src/systems/HeavenMapSystem.ts`、`src/scenes/HeavenMapScene.ts`
+- `src/assets/AssetManifest.ts`、`src/scenes/BootScene.ts`、`src/main.ts`、`public/assets/ui/heaven-map/`
+- `SaveSlotScene.ts`、Stage 1 三关结果/退出桥、`Stage51TransitionScene.ts`
+- `tools/heaven-map-tests.ts`、`tools/save-slot-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- 地图证据/资源标注、机制/切片、功能线/覆盖台账、任务与 PG 反馈文档
+
+验证：
+- `npm run test:heaven-map`、`npm run test:systems`、`npm run build`、`npm run check:all` 与 `git diff --check` 在文档收尾后复核。
+- 浏览器确认真地图/菜单在 940×590 舞台内无裁切溢出，初始进度锁定反馈、人数选择、1-1 进入和 Escape 返回可用；其余进度档由确定性专项测试覆盖。
+
+推荐任务：
+- `TASK-SETTINGS-058`：盘点完整功能 UI，形成逐页权威覆盖矩阵并拆分同线连续小任务。
+
+### TASK-ARCH-009
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SLICE-135`）
+- `GameSaveVersion` 升级到 V4；`player1/player2` 同构保存成长、技能 loadout/学习、库存、装备 loadout 和宠物，背包实际内容首次进入正式存档。
+- 库存快照只保存 category、稳定 `fillName`、instance/stack id 和 quantity；registry 负责恢复 definition，未知定义与损坏 inventory 子域安全降级，不保存 UI、制作 session、冷却或临时 buff。
+- V1/V2/V3 迁移保留已有 P1 功能数据和双方宠物，缺失库存/P2 功能域填安全空默认；正式当前槽会原位写回 V4。
+- `TestSceneSaveBridge` 恢复双方 runtime；双人读取恢复 P2 成长/技能/装备，单人自动保存保留未上场 P2 快照，并同步 P1 旧 inventory 别名。
+
+更新文件：
+- `src/systems/SaveSystem.ts`、`SaveSlotSystem.ts`
+- `src/scenes/test-scene/TestSceneSaveBridge.ts`
+- `tools/feature-save-v4-tests.ts`、save/flow 兼容测试、系统 runner、`package.json`
+- 存档/UI 证据、机制、功能线/覆盖台账、任务与 PG 反馈文档
+
+验证：
+- `npm run test:feature-save-v4` 覆盖双方全域 round-trip、V1/V2/V3、损坏 inventory 与未知 definition。
+- `npm run test:systems`、`npm run build`、`npm run check:all` 与 `git diff --check` 通过；只保留既有 alias、结构和 chunk warning。
+
+推荐任务：
+- `TASK-SLICE-135`：接入真背包/装备页、P1/P2 分类分页、穿脱、安全物品反馈与 V4 重载。
+
+### TASK-ARCH-008
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-ARCH-009`）
+- 新增纯 `FeatureUiHostSystem`，统一 page、P1/P2 owner、origin、玩家数、单实例互斥、非法 owner 反馈、页签切换和关闭 session。
+- 新增 `FormalFeatureUiEntryBridge` 与 `FeatureUiScene`；HeavenMap、Stage 1-1/1-2/1-3 复用同一入口和 overlay，打开时暂停 origin、关闭时只恢复原 scene，避免 Escape 传播造成二次导航。
+- 正式入口覆盖 P1 `C/V/B/N` 和双人 P2 小键盘 `/ * -`；地图底部工坊/学习技能按钮也进入共享 host。未实现页面始终显示“待接入”，没有用现有测试面板冒充正式 UI。
+- `TestScene` 只增加薄桥接调用，功能逻辑留在新模块；这是对既有超限 scene 的窄生命周期接线，没有扩大其职责。
+
+更新文件：
+- `src/systems/FeatureUiHostSystem.ts`
+- `src/scenes/FeatureUiScene.ts`、`src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts`
+- `HeavenMapScene.ts`、Stage 1-1/1-2/1-3 scene/bridge、`main.ts`
+- `tools/feature-ui-host-tests.ts`、系统测试 runner、`package.json`
+- UI 证据、机制/切片、功能线/覆盖台账、任务与 PG 反馈文档
+
+验证：
+- `npm run check:structure` 前置通过，仅保留 8 个既有 warning；目标 scene 的接线为窄改动。
+- `npm run test:feature-ui-host`、`npm run test:systems`、`npm run build`、`npm run check:all` 与 `git diff --check` 通过；仅保留既有 alias、结构和 chunk warning。
+- 浏览器确认地图打开/切页/关闭后保持原地图、正式节点可进入 Stage 1-1，控制台无 warning/error；Canvas 自动化未稳定生成 TestScene 旧轮询键位所需的持续按键，因此关卡键位由确定性测试覆盖，没有伪写成浏览器已证实。
+
+推荐任务：
+- `TASK-ARCH-009`：升级 V4 双玩家功能存档，补齐库存和 P2 成长/技能/装备域及 V1/V2/V3 迁移。
+
+### TASK-SETTINGS-058
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-ARCH-008`）
+- 新增 `full-function-ui-index.md`，按六段证据链盘点共享 host、背包/装备、技能总页/主动/绑定/被动、宠物、法宝与装备工坊共 14 个页面/子页。
+- 逐页记录原版入口/退出、暂停/恢复、字段/交互、P1/P2 owner、存档字段、真资源、现代最小实现和关闭缺口；明确现有 `TestScene` 文本/测试面板不能代表正式 UI。
+- 确认原版 P1 `C/V/B/N` 与 P2 小键盘 `/ * -` owner 路由、页面单实例互斥、战斗暂停与地图返回；确认现代 V3 只有 P1 完整成长/技能/装备与 P1/P2 宠物，库存和 P2 功能域必须统一升级。
+- 从 restored `backpack1/OtherMat1/pet1.swf` 精确定位并选择性派生 304/246、250/868/417/213、932、596、198/177/152 共 11 条 UI 资源；记录 BackPack 2095.2×1070.7 离台边界和根页 940×590 语义。
+- 按正式导航依赖拆分 `TASK-ARCH-008/009`、`TASK-SLICE-135..140` 与 `TASK-SETTINGS-059`；Strength/Resolution/Making 行为只标记已定位并设置前置逆向门禁，没有补成原版事实。
+
+更新文件：
+- `docs/reverse-engineering/full-function-ui-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/full-function-ui.csv`
+- `docs/reverse-engineering/asset-annotation/batches/full-function-ui.md`、`project-status.md`
+- `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`
+- `docs/tasks/feature-lines.md`、本线覆盖台账、`task-board.md`、`task-history.md`
+- PG-002/004/005 适用触发与反馈记录
+
+验证：
+- FFDec `symbolClass` 与 `-selectid` 对 11 个精确 character 选择性导出成功；输出只进入 Git 忽略的 task-output。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 在文档收尾后复核。
+
+推荐任务：
+- `TASK-ARCH-008`：先建立跨 HeavenMap/Stage 1 三关的共享 owner-aware 功能页 host、暂停/恢复和互斥协议。
+
+### TASK-SLICE-132
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SETTINGS-057`）
+- 新增 `SaveSlotSystem` 作为六槽 owner：固定槽 0—5、当前槽 key、槽间独立读写、空/有效/损坏分类、显式删除和默认 V3 新建；所有正式 Stage 1 入口、结果与测试场景保存均改为当前槽。
+- V1/V2 在选择时原位规范化为 V3；旧单槽 key 只在六槽全空时导入槽 0，损坏旧数据保留并报告，不会被空槽新建静默覆盖。
+- 新增 `SaveSlotScene` 并由 Boot 直接进入：复用真 `GameMenu`、`SaveInter`、`IsCover`，动态呈现六槽摘要、损坏反馈和现代删除确认；空槽创建或有效槽读取后暂接现有 Stage 1 入口，等待天庭地图切片替换。
+- `SaveSystem` 保留旧默认 key API 兼容测试，同时允许显式 storage key；Stage 1 三关解锁进度写回当前槽。
+- 存档专项测试覆盖六槽、隔离、当前槽、损坏拒读/删除、V1/V2 迁移、旧单槽导入和资源/路由契约；全量系统测试与 build 通过。
+- 940×590 浏览器验收确认空槽创建、有效槽读取、损坏槽拒读、删除确认和删除后空槽恢复；自动刷新被浏览器 URL 安全策略阻止，持久化重新实例化由专项测试覆盖，未将其写成运行时刷新事实。
+
+更新文件：
+- `src/systems/SaveSlotSystem.ts`、`SaveSystem.ts`
+- `src/scenes/SaveSlotScene.ts`、`BootScene.ts`、`Stage11EntryScene.ts`、Stage 1 正式入口/结果存档桥
+- `src/assets/AssetManifest.ts`、`src/main.ts`、`public/assets/ui/save-slots/`
+- `tools/save-slot-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- 存档证据/资源标注、机制/切片、功能线/覆盖台账、任务与 PG 反馈文档
+
+验证：
+- `npm run test:save-slots`、`npm run test:systems` 和 `npm run build` 通过；Vite 仅保留既有 chunk 大小 warning。
+- `npm run check:structure` 在实现前通过（仅既有 warning）；最终 `check:all`、`check:annotations`、`check:workflow` 与 `git diff --check` 在文档收尾后复核。
+- 浏览器 940×590 视觉与交互样本通过；真资源未遮挡动态文本或六槽操作。
+
+推荐任务：
+- `TASK-SETTINGS-057`：闭合天庭地图节点、解锁视觉、点击交互和 Stage 1 往返流程的六段证据链。
+
+### TASK-SLICE-131
+
+- 完成日期：2026-07-22
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SETTINGS-056`）
+- 新增纯 `Stage1CombatHudSystem`：归一化 P1/P2 HP、MP、经验、等级、五槽技能状态和入口提示；显式执行 `Y/L/U/I/O → Y/U/I/O/L` 与 `8/3/4/5/6 → 8/4/5/6/3` 显示映射，异常最大值不会产生 `NaN`。
+- 新增共享 `Stage1CombatHudBridge`：三关复用同一 940×590 固定 Phaser 层，P2 真资源壳水平镜像；Boss 以稳定 `enemyId` 隔离、按 spawnOrder 堆叠，即时层同帧更新、追赶层 800ms 线性收敛，`destroy()` 清理全部视图与状态。
+- 正式 `Stage1CombatPlayer` 接入独立 `HeroProgressionModel` 和空五槽 `HeroSkillModel`；共享死亡奖励改由 `addHeroExperience()` 结算，HUD 只读，不自行升级或释放技能。
+- `TestScene` 的 1-1 丰富 runtime 通过独立薄适配接入；Stage 1-2/1-3 gameplay bridge 使用正式共享适配。旧大段调试状态文本和旧技能条在正式关卡隐藏，未把 HUD 规则继续堆进 scene。
+- 从前置只读派生证据选择性复制 `RoleInfo` 574 与 `BossBlood` 110 组合 SVG 到现代 public 目录并登记 manifest provenance；12 条 HUD 资源标注转为 `ready`，动态数字、键标和名称继续由运行时文本生成。
+- 940×590 浏览器验收覆盖 1-1 单人、1-2 双人镜像和 1-3 单人；页面重载后旧 HUD 无残留，控制台无 warning/error。三关源码契约测试同时确认各 lifecycle 都调用共享 HUD 的 update/destroy。首次双人验收发现 P2 壳越界，改为负水平缩放后复验通过。
+
+更新文件：
+- `src/systems/Stage1CombatHudSystem.ts`、`Stage1CombatSystem.ts`
+- `src/scenes/stage1/Stage1CombatHudBridge.ts`、`Stage1RewardBridge.ts`
+- `src/scenes/test-scene/TestSceneStage1HudBridge.ts`、`TestScene.ts`、Stage 1-2/1-3 gameplay bridges
+- `src/assets/AssetManifest.ts`、`BootScene.ts`、`public/assets/ui/combat-hud/`
+- `tools/stage1-hud-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- HUD 逆向/资源标注、机制/切片、功能线/覆盖台账、任务与 PG 反馈文档
+
+验证：
+- `npm run test:stage1-hud` 与全量 `npm run test:systems` 通过，覆盖双 owner、槽位重排、0/半/满/MAX、同名不同 id Boss、800ms 追赶和清理。
+- `npm run build`、`npm run check:structure`、`npm run check:workflow` 与 `git diff --check` 在文档收尾后复核；Vite 仅保留既有 chunk 大小 warning。
+- 本地浏览器三关视觉验收通过，固定 HUD 在 940×590 画布中可读；真 Boss 壳的运行接线由共享 bridge 与专项状态测试覆盖，完整 boss 流程仍由现有关卡回归保障。
+
+推荐任务：
+- `TASK-SETTINGS-056`：闭合 EXE 启动、存档槽新建/读取/删除、迁移、损坏反馈与后续地图路由合同。
 
 ## 执行记录
 

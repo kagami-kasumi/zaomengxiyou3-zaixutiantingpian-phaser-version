@@ -108,7 +108,7 @@ function createMovementInput(moveX: -1 | 0 | 1, jump: boolean): PlayerInputState
   };
 }
 
-function testSaveV3RoundTripAndV1V2Migration(): void {
+function testSaveV4RoundTripAndV1V2Migration(): void {
   const current = createTestSave();
   assert.equal(current.version, GameSaveVersion);
   assert.deepEqual(current.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 2 });
@@ -123,13 +123,13 @@ function testSaveV3RoundTripAndV1V2Migration(): void {
   delete v2.levelUnlockProgress;
   const migratedV2 = parseGameSave(JSON.stringify(v2));
   assert.ok(migratedV2);
-  assert.equal(migratedV2.version, 3);
+  assert.equal(migratedV2.version, GameSaveVersion);
   assert.deepEqual(migratedV2.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 1 });
 
   const v1 = { version: 1, savedAt: current.savedAt, player1: current.player1 };
   const migratedV1 = parseGameSave(JSON.stringify(v1));
   assert.ok(migratedV1);
-  assert.equal(migratedV1.version, 3);
+  assert.equal(migratedV1.version, GameSaveVersion);
   assert.deepEqual(migratedV1.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 1 });
 }
 
@@ -152,6 +152,6 @@ testReplayingStage11DoesNotDowngradeStage13Unlock();
 testTransferDoorClearsOnlyOnce();
 testBossSpawnOverlapsRole1GroundAttackHeight();
 testStage11LargestPlatformStepHasReliableDoubleJumpMargin();
-testSaveV3RoundTripAndV1V2Migration();
+testSaveV4RoundTripAndV1V2Migration();
 
 console.log('Stage 1-1 flow tests passed.');

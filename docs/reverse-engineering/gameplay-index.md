@@ -40,6 +40,13 @@
 9. `MainGame.GameStart()` 按 `curStage/curLevel` 加载资源并创建战斗场景。
 10. `PhysicsWorld` 和 `StageListener` 驱动关卡和战斗循环。
 
+### 第一世界天庭地图
+
+- `export.SelectPLace` 是第一世界 940×590 天庭地图，运行时叠加 `export.MapMenu`；详细资源、坐标和状态合同见 `heaven-map-index.md`。
+- 新档最高进度为 1-1。锁定节点仍可见但不注册事件；当前最高节点停在 frame 2，悬停进入 frame 3，点击从 `s<章>_<关>` 名称解析目标。
+- Stage 1 三节点原名为“九重天 / 天宫路 / 南天门”。只在通关当前最高节点时单调推进，依次解锁 1-2、1-3、2-1；失败不推进。
+- 胜利保存后、失败返回时均回同一世界地图。现代 Stage 2-1 内容尚未实现，只能显示已解锁边界和明确反馈，不能进入伪关卡。
+
 ## 单人/双人规则
 
 来自 `GameMenu.as` 和 `SelectRole.as`：
@@ -149,7 +156,7 @@
 - 技能：`Config.allSklName`、`needMMP`、`User.returnSkillNameBySkillKey()`。
 - 宠物：`BasePet`、`findCurrentPet()` 等。
 - 法宝：`export/magicWeapon/`。
-- 存档：`MemoryClass`、`SaveInter`、`User.saveObj`。
+- 存档：`save-slots-index.md` 已闭合 `MemoryClass`、`SaveInter`、`User.saveObj`、六槽与启动/地图路由合同。
 - 多人：`com.multi4399.Client` 相关逻辑，但现代版早期不迁移。
 
 ## 现代实现重排建议
@@ -174,4 +181,4 @@
 - 深挖 `StageListener01` 或第一个简单关卡，确认刷怪与通关。
 - 深挖 `BaseMonster` 和一个最简单 `Monster*`。
 - 深挖 `AllEquipment` 和装备表。
-- 深挖 `MemoryClass` 和 `gameData` 存档样本。
+- 存档行为链已转入 `save-slots-index.md`；原版 `.sav` 二进制样本仍只在需要验证加密/压缩兼容时再深挖，现代多槽不复刻该格式。

@@ -61,6 +61,7 @@
 | 关卡流程模型 | `Stage11FlowModel` | Model | Content / Runtime | Stage 1-1 正式进入后的进行中、失败延迟、失败和通关状态 | `StageFlowState`, `LevelState` |
 | 关卡流程系统 | `Stage11FlowSystem` | System | Content / Runtime | 管理 Stage 1-1 全队失败门禁、胜利幂等和解锁进度 | `StageFlowSystem`, `LevelStateSystem` |
 | 地图 | `MapData` | Config | Content | 地形、平台、出生点等数据 | `Map`, `TileMapData` |
+| 天庭选关地图 | `HeavenMap` | Aggregate / Config | Content | 当前存档下第一世界节点状态、命中区与关卡路由；不等于关卡内地形数据 | `WorldMap`, `StageMap`, `SelectPlace` |
 | 掉落 | `Drop` | Entity / Config | Progression | 怪物死亡产生的奖励项 | `Loot`, `RewardDrop` |
 | 生命恢复掉落 | `HealthPickup` | Entity | Progression | 落地后由玩家接触拾取并按最大生命比例恢复 HP | `HealthDrop`, `HpOrb` |
 | 魔法恢复掉落 | `ManaPickup` | Entity | Progression | 落地后由玩家接触拾取并按最大魔法比例恢复 MP | `ManaDrop`, `MpOrb` |
@@ -81,6 +82,7 @@
 | 装备系统 | `EquipmentSystem` | System | Progression | 管理装备槽位、角色限制和属性汇总 | `GearSystem`, `EquipSystem` |
 | 装备 UI 系统 | `EquipmentUISystem` | System | Progression | 管理背包/装备面板状态、选择、穿脱命令和属性预览文本 | `InventoryUISystem`, `GearUISystem` |
 | 存档 | `SaveData` | Data | Save | 可序列化的游戏进度数据 | `GameSave`, `SaveState` |
+| 存档槽 | `SaveSlot` | Value Object / Aggregate | Save | 六个独立持久化位置之一，包含稳定槽 id 与 empty/valid/corrupt 状态；不等于 P1/P2 玩家槽位 | `SaveFile`, `UserSlot`, `PlayerSlot` |
 
 ## AS3 名称映射原则
 

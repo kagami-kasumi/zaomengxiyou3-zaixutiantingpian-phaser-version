@@ -17,7 +17,11 @@ import {
   createMonsterDefeatRewardRuntime,
   settleMonsterDefeatRewards,
 } from '../../systems/MonsterDefeatRewardSystem';
-import type { Stage1CombatEnemy, Stage1CombatPlayer } from '../../systems/Stage1CombatSystem';
+import {
+  awardStage1CombatPlayerExperience,
+  type Stage1CombatEnemy,
+  type Stage1CombatPlayer,
+} from '../../systems/Stage1CombatSystem';
 
 export type Stage1RewardPlayer = Readonly<{
   view: Phaser.GameObjects.Image;
@@ -57,7 +61,7 @@ export function createStage1RewardBridge(
     });
     if (!result) return;
     const target = players.find((player) => player.combat.slot === result.experience.owner);
-    if (target) target.combat.experience += result.experience.amount;
+    if (target) awardStage1CombatPlayerExperience(target.combat, result.experience.amount);
   };
 
   const update = (deltaMs: number): void => {
@@ -78,7 +82,7 @@ export function createStage1RewardBridge(
       dropSystem.drops = [];
     },
     getSummary: () => players
-      .map((player) => `${player.combat.slot.toUpperCase()} 灵魂 ${player.combat.soul} 经验 ${player.combat.experience}`)
+      .map((player) => `${player.combat.slot.toUpperCase()} 灵魂 ${player.combat.soul} 经验 ${player.combat.progression.currentExp}`)
       .join(' · '),
   };
 }

@@ -1,8 +1,12 @@
 import Phaser from 'phaser';
 import {
+  combatHudAssets,
   craftingAssets,
+  fullFeatureUiAssets,
+  heavenMapAssets,
   pickupAssets,
   role1NormalAttackAssets,
+  saveSlotAssets,
   scaffoldAssets,
   stage11Assets,
   stage12Assets,
@@ -27,6 +31,18 @@ export class BootScene extends Phaser.Scene {
     }
     for (const asset of Object.values(craftingAssets)) {
       this.load.image(asset.key, asset.path);
+    }
+    for (const asset of Object.values(fullFeatureUiAssets)) {
+      this.load.svg(asset.key, asset.path);
+    }
+    for (const asset of Object.values(combatHudAssets)) {
+      this.load.svg(asset.key, asset.path);
+    }
+    for (const asset of Object.values(saveSlotAssets)) {
+      this.load.svg(asset.key, asset.path);
+    }
+    for (const asset of Object.values(heavenMapAssets)) {
+      this.load.svg(asset.key, asset.path);
     }
     for (const asset of Object.values(pickupAssets)) {
       if ('framePaths' in asset) {
@@ -53,6 +69,6 @@ export class BootScene extends Phaser.Scene {
   }
 
   public create(): void {
-    this.scene.start('Stage11EntryScene');
+    this.scene.start('SaveSlotScene');
   }
 }

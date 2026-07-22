@@ -29,7 +29,8 @@ import {
   stage12MovementPlatforms,
   STAGE12_SCREEN_LEFT_X,
 } from '../../systems/Stage12TraversalSystem';
-import { loadGame, type SaveStorage } from '../../systems/SaveSystem';
+import { loadActiveGame } from '../../systems/SaveSlotSystem';
+import type { SaveStorage } from '../../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../../systems/Stage11FlowSystem';
 import {
   createStage1CombatEnemy,
@@ -50,6 +51,11 @@ import {
   type MonsterPhysicsModel,
 } from '../../systems/MonsterPhysicsSystem';
 import { createStage1RewardBridge, type Stage1RewardBridge } from '../stage1/Stage1RewardBridge';
+import { createStage1CombatHudBridge } from '../stage1/Stage1CombatHudBridge';
+import {
+  createStage1CombatEnemyHudSnapshot,
+  createStage1CombatPlayerHudSnapshot,
+} from '../../systems/Stage1CombatHudSystem';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
@@ -99,10 +105,16 @@ export function createStage12Gameplay(
     playerViews,
   );
   const rewards: Stage1RewardBridge = createStage1RewardBridge(scene, players, stage12MovementPlatforms);
+  const hud = createStage1CombatHudBridge(
+    scene,
+    () => players.map((player) => createStage1CombatPlayerHudSnapshot(player.combat)),
+    () => [...enemies.values()].map((enemy, index) =>
+      createStage1CombatEnemyHudSnapshot(enemy.combat, index)),
+  );
   const status = scene.add.text(18, 51, '', {
     color: '#dce8ff', fontFamily: 'Arial, sans-serif', fontSize: '14px',
     backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
-  }).setScrollFactor(0).setDepth(100);
+  }).setScrollFactor(0).setDepth(100).setVisible(false);
   let reportedResult: Stage12GameplayResult | undefined;
 
   const update = (deltaMs: number): Stage12GameplayResult | undefined => {
@@ -141,6 +153,7 @@ export function createStage12Gameplay(
       rewards,
     );
     rewards.update(deltaMs);
+    hud.update(deltaMs);
 
     const phase = updateStage12PartyFailure(
       flow,
@@ -175,6 +188,7 @@ export function createStage12Gameplay(
       status.destroy();
       fbEnter.destroy();
       rewards.destroy();
+      hud.destroy();
       for (const enemy of enemies.values()) destroyEnemyView(enemy);
       enemies.clear();
     },
@@ -368,7 +382,7 @@ function updateStatus(
 function readUnlockProgress() {
   const storage = getBrowserStorage();
   return storage
-    ? loadGame(storage)?.levelUnlockProgress ?? createDefaultLevelUnlockProgress()
+    ? loadActiveGame(storage)?.levelUnlockProgress ?? createDefaultLevelUnlockProgress()
     : createDefaultLevelUnlockProgress();
 }
 

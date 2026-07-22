@@ -21,6 +21,12 @@ const bundledTests = requestedTests.length > 0
       'stage13-flow-tests',
       'stage13-traversal-tests',
       'stage1-combat-tests',
+      'stage1-hud-tests',
+      'save-slot-tests',
+      'heaven-map-tests',
+      'feature-ui-host-tests',
+      'feature-save-v4-tests',
+      'formal-inventory-tests',
       'monster-runtime-tests',
     ];
 

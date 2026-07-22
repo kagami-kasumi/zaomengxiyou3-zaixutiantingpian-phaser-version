@@ -127,7 +127,7 @@ isBoss
 | 技能 | `HeroSkillModel.loadout` 已存在，但正式 Stage 1 尚未持有 | 正式玩家 runtime 持有/暴露只读五槽状态；未绑定显示空槽，HUD 不负责释放技能 |
 | 玩家视图 | 三关 bridge 仍各自创建临时状态文本 | 新建共享 `Stage1CombatHudBridge` 或等价场景 helper；三关只传模型与敌人集合，不复制布局 |
 | Boss 状态 | `Stage1CombatEnemy` 已有 `id/hp/maxHp`，boss 标记来自集中 config | snapshot adapter 从共享 enemy config 读取 `isBoss` 和显示名；不在各关硬编码 Boss 条 |
-| 真资源 | 12 条资源标注均为 `export-ready` | 下一 task 只选择性导出并注册 HUD 壳、槽框、入口按钮和 Boss 条；运行时文本保持 Phaser 文本 |
+| 真资源 | 12 条资源标注均已转为 `ready` | `TASK-SLICE-131` 选择性接入 `RoleInfo` 574 与 `BossBlood` 110 组合 SVG；运行时文本保持 Phaser 文本 |
 | 生命周期 | Stage 1-1/1-2/1-3 各有 gameplay handle `destroy()` | HUD bridge 同 handle 创建、每帧更新、`destroy()` 释放；所有对象 `setScrollFactor(0)` |
 
 现代 HUD 只消费归一化快照。Phaser 显示对象留在 scene bridge，比例、顺序和 owner 映射可下沉为无 Phaser 的纯系统，以便确定性测试。
@@ -154,7 +154,7 @@ isBoss
 
 - 批次：`asset-annotation/batches/combat-hud.md`
 - 标注：`asset-annotation/annotations/combat-hud.csv`
-- 12 条均已定位精确源包和 character id，状态为 `export-ready + export-selectively`。
+- 12 条均已定位精确源包和 character id，并由 `TASK-SLICE-131` 通过两个保留内部子件的组合 SVG 接入，状态为 `ready + none`。
 - 技能图 `ss_<skillName>` 与键标 `Skill_<key>` 的符号目录已在 `OtherMat1.swf` 确认；首个正式 Stage 1 runtime 没有默认绑定，因此下一 task 先接空槽真框和运行时键标，不批量导出全部角色技能图标。出现实际绑定时按绑定集合窄导出，不能用一个巨型全量 UI 导出替代。
 - 数值、等级、键位和 Boss 名称是运行时数据，现代使用文本渲染；这不是缺失原素材。Boss 条底图、填充/追赶层和玩家 HUD 壳必须使用已定位真资源。
 

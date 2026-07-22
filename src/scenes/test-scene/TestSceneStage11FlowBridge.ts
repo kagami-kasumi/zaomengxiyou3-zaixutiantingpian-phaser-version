@@ -6,9 +6,19 @@ import {
   type Stage11FlowModel,
 } from '../../systems/Stage11FlowSystem';
 import { isHeroCombatDead } from './TestSceneSystems';
+import { installFormalFeatureUiEntries } from '../feature-ui/FormalFeatureUiEntryBridge';
 
 export function initializeStage11Flow(this: any): void {
   this.stage11Flow = createStage11Flow(this.playerCount, this.levelUnlockProgress);
+  const returnToMap = () => this.scene.start('HeavenMapScene');
+  this.input.keyboard?.on('keydown-ESC', returnToMap);
+  this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+    this.input.keyboard?.off('keydown-ESC', returnToMap);
+  });
+}
+
+export function installStage11FeatureUiEntries(this: any): void {
+  installFormalFeatureUiEntries(this, { originKind: 'combat', playerCount: this.playerCount });
 }
 
 export function updateStage11Flow(this: any, deltaMs: number): boolean {
@@ -64,8 +74,8 @@ function createResultOverlay(
   const retry = createResultButton(scene, 350, 382, '重玩 1-1', () => {
     restartFreshTestScene(scene);
   });
-  const back = createResultButton(scene, 590, 382, '返回关卡入口', () => {
-    scene.scene.start('Stage11EntryScene');
+  const back = createResultButton(scene, 590, 382, '返回天庭地图', () => {
+    scene.scene.start('HeavenMapScene');
   });
   const container = scene.add.container(0, 0, [background, title, subtitle, detail, ...retry, ...back]);
   container.setScrollFactor(0).setDepth(200);

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { installFormalFeatureUiEntries } from './feature-ui/FormalFeatureUiEntryBridge';
 import { AssetKeys } from '../assets/AssetManifest';
 import { normalizeStage13PlayerCount, type Stage13PlayerCount } from '../systems/Stage13EntrySystem';
 import {
@@ -28,6 +29,7 @@ export class Stage13Scene extends Phaser.Scene {
 
   public create(): void {
     this.shutdownStage13();
+    installFormalFeatureUiEntries(this, { originKind: 'combat', playerCount: this.playerCount });
     this.cameras.main.setBounds(STAGE13_WORLD_LEFT, 0, STAGE13_WORLD_WIDTH, STAGE13_WORLD_HEIGHT);
     this.cameras.main.scrollX = 0;
     this.world = createStage13World(this);
@@ -62,7 +64,7 @@ export class Stage13Scene extends Phaser.Scene {
   }
 
   private returnToEntry(): void {
-    this.scene.start('Stage11EntryScene');
+    this.scene.start('HeavenMapScene');
   }
 
   private shutdownStage13(): void {

@@ -65,10 +65,10 @@
 | VS-048 Stage 1-3 可玩关卡闭环 | 已完成 | 接入真场景、五停点 105 怪定义、Monster5 单 boss 门、统一失败与解锁 2-1 | M-026、M-027、M-030、M-035、M-044、`levels-index.md` | `Stage13Layout/Flow/Traversal`、独立 scene bridges、manifest、入口/结果、专项测试 | character 13/119/40 provenance 可核对；9/10/12/13/61 与 6/8 上限测试通过；Monster5 死亡时飞怪可存活且仍能进门；1P/2P 失败不解锁，胜利保存 2-1；浏览器验证正式入口、独立移动与失败返回，零 console error/warning |
 | VS-049 Stage 2-1 可玩关卡闭环 | 待机制 | 先闭合真场景、地图标记、怪物/专属机制和结果流程，再拆最小可玩切片 | M-026、M-027、M-030、M-035、M-044 | `TASK-SETTINGS-053` 六段证据矩阵；后续实现任务待生成 | 禁止从 Stage 1 外推布局、波次、boss 或视觉；恢复源包、共享调用链、SWF 几何和双重验证全部闭合后再进入实现 |
 | VS-050 Stage 1 战斗可读与可通关闭环 | 已完成 | 用现有三关证明主要攻击可读、死亡原因可解释、默认 Role1 无调试能力三次 1-1 至少两次通关 | M-032、M-033、M-040、M-047、M-048、`stage1-combat-calibration.md` | `Stage1CombatSystem.ts`、三关 bridge、`stage1-combat-tests.ts`、`stage11-browser-audit.mjs` | 三关共享 owner、窗口、3 秒保护、输入缓冲、追踪与占位反馈已接入；1-2/1-3 失败分类可复现，1-1 三次完整无调试运行全部通关 |
-| VS-051 正式核心战斗 HUD | 可开始 | 在 Stage 1 三关显示双玩家 HP/MP/经验/等级、技能和重要敌人状态 | M-015、M-016、M-040、M-049、`combat-hud-index.md` | `TASK-SLICE-131` | 六段 HUD 合同与 12 条 export-ready 真资源已闭合；实现须接正式成长/技能快照、三关共享 bridge、双玩家所有权和场景生命周期 |
-| VS-052 启动与存档槽闭环 | 待机制 | EXE 启动后可新建、读取、删除独立存档槽并安全处理迁移/损坏数据 | M-005、M-044、M-050 | `TASK-SETTINGS-056` → `TASK-SLICE-132` | 复用 V3 能力但不把单槽测试桥接当正式页面；排除云存档/网络账户 |
-| VS-053 天庭地图选关闭环 | 待机制 | 从当前存档进入天庭地图，点击已解锁 Stage 1 节点，结算/退出后返回并保持进度 | M-005、M-027、M-044、M-051 | `TASK-SETTINGS-057` → `TASK-SLICE-133` | 天庭地图需独立视觉/坐标/状态证据；不从关卡内地图标记或炼丹炉菜单外推 |
-| VS-054 完整功能 UI 闭环 | 待机制 | 背包、装备、宠物、心法/技能和法宝从正式导航可达，具备真 UI、双玩家和存档集成 | M-016、M-036、M-037、M-041、M-042、M-043、M-052 | `TASK-SETTINGS-058` 先建页面全集并拆分连续实现 task | 禁止用现有最小测试面板宣告完成；按页面/共享基础拆分，最终以完整玩家旅程验收 |
+| VS-051 正式核心战斗 HUD | 已完成 | 在 Stage 1 三关显示双玩家 HP/MP/经验/等级、技能和重要敌人状态 | M-015、M-016、M-040、M-049、`combat-hud-index.md` | `TASK-SLICE-131` | 三关复用共享 snapshot/bridge；P1/P2 镜像与五槽键位不串号；成长奖励进入 `HeroProgressionModel`；Boss 即时/0.8s 追赶条、真资源和 destroy 生命周期均有专项/浏览器验证 |
+| VS-052 启动与存档槽闭环 | 已完成 | EXE 启动后可新建、读取、删除独立存档槽并安全处理迁移/损坏数据 | M-005、M-044、M-050 | `SaveSlotSystem.ts`、`SaveSlotScene.ts`、`SaveSystem.ts`、真启动/六槽/确认资源与专项测试 | 六槽隔离、当前槽、旧单槽导入、V1/V2 原位迁移、损坏拒读/显式删除、正式路由与 940×590 浏览器验收闭合；排除云存档/网络账户 |
+| VS-053 天庭地图选关闭环 | 已完成 | 从当前存档进入天庭地图，点击已解锁 Stage 1 节点，结算/退出后返回并保持进度 | M-005、M-027、M-044、M-051 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、三关结果/退出桥、`heaven-map-tests.ts` | 940×590 真地图/菜单、四类节点状态、现代 1P/2P 选择、Stage 1 三关往返和 Stage 2-1 拒绝边界均已接入；专项/系统/build 与初始档浏览器验收通过 |
+| VS-054 完整功能 UI 闭环 | 共享基础已完成，页面待实现 | 背包、装备、宠物、心法/技能和法宝从正式导航可达，具备真 UI、双玩家和存档集成 | M-016、M-036、M-037、M-041、M-042、M-043、M-052 | `full-function-ui-index.md`、共享 `FeatureUiHost`、`TASK-ARCH-009`、`TASK-SLICE-135..140`、`TASK-SETTINGS-059` | HeavenMap/Stage 1 三关已共享 owner/互斥/暂停/恢复 host；14 个页面/子页、11 条真资源和存档缺口仍按连续任务闭合，最终以完整玩家旅程验收 |
 
 ## 第一批推荐执行顺序
 

@@ -4,275 +4,246 @@
 
 ## 当前推荐
 
-`TASK-SLICE-131` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-FORMAL-GAME-LOOP`。正式战斗 HUD 的字段、940×590 布局、P1/P2 镜像/键位映射、恢复资源和 Boss 状态合同已由前一逆向任务闭合，当前进入 Stage 1 三关共享 HUD 实现。
+`TASK-SLICE-135` 是唯一当前推荐，属于唯一 `Active` 功能线 `LINE-FORMAL-GAME-LOOP`。V4 已完整保存双方成长、技能、库存/装备和宠物；当前接入真背包/格子页与 P1/P2 正式交互。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-131 | Ready | LINE-FORMAL-GAME-LOOP | 可玩切片 | 在正式 Stage 1 关卡接入 P1/P2 核心战斗 HUD | M-015、M-016、M-040、M-049、VS-051 | HP/MP/经验/等级/技能/重要敌人状态 HUD 与验证 | `TASK-SETTINGS-056` |
-| TASK-SETTINGS-056 | Planned | LINE-FORMAL-GAME-LOOP | 主流程逆向 | 闭合 EXE 启动、存档槽新建/读取/删除、迁移和损坏反馈 | M-005、M-044、M-050、VS-052 | 六段证据矩阵、存档槽状态机、真资源标注与路由合同 | `TASK-SLICE-132` |
-| TASK-SLICE-132 | Planned | LINE-FORMAL-GAME-LOOP | 可玩切片 | 实现正式启动页与多存档槽并接入现有 V3 进度 | M-005、M-044、M-050、VS-052 | 启动/存档场景、迁移/损坏保护、自动与运行时验证 | `TASK-SETTINGS-057` |
-| TASK-SETTINGS-057 | Planned | LINE-FORMAL-GAME-LOOP | 主流程/视觉逆向 | 闭合天庭地图节点、解锁视觉、点击交互和关卡往返流程 | M-005、M-027、M-044、M-051、VS-053 | 六段证据矩阵、地图资源/坐标标注、节点与路由合同 | `TASK-SLICE-133` |
-| TASK-SLICE-133 | Planned | LINE-FORMAL-GAME-LOOP | 可玩切片 | 实现天庭地图到 Stage 1 三关的正式选关、结算返回与持久化 | M-005、M-027、M-044、M-051、VS-053 | 地图场景、锁定/解锁/通关状态、路由和端到端验证 | `TASK-SETTINGS-058` |
-| TASK-SETTINGS-058 | Planned | LINE-FORMAL-GAME-LOOP | UI 覆盖盘点 | 盘点背包、装备、宠物、心法/技能和法宝完整 UI，生成同线连续小任务 | M-016、M-036、M-037、M-041、M-042、M-043、M-052、VS-054 | 页面全集、资源/交互/双玩家/存档覆盖矩阵与后续 task 拆分 | 依据矩阵生成同线下一 task |
+| TASK-SLICE-135 | Ready | LINE-FORMAL-GAME-LOOP | 背包/装备 UI | 接入真背包/格子页、P1/P2 分类分页穿脱与保存 | M-016、M-036、M-037、M-052、VS-054 | 正式页面、真资源、owner 命令、存档与浏览器验收 | `TASK-SLICE-136` |
+| TASK-SLICE-136 | Planned | LINE-FORMAL-GAME-LOOP | 技能 UI | 接入真技能总页、主动/被动/绑定子页和双玩家保存 | M-016、M-041、M-052、VS-054 | 四页真资源、学习/升级/绑定、HUD 刷新、owner/存档验收 | `TASK-SLICE-137` |
+| TASK-SLICE-137 | Planned | LINE-FORMAL-GAME-LOOP | 宠物 UI | 接入真宠物页、完整管理交互、双玩家 runtime 与保存 | M-016、M-042、M-052、VS-054 | 分页/属性/技能/出战/成长页面与 P1/P2 验收 | `TASK-SETTINGS-059` |
+| TASK-SETTINGS-059 | Planned | LINE-FORMAL-GAME-LOOP | 装备工坊逆向 | 闭合强化/分解/制作书三子页的完整行为合同 | M-036、M-037、M-052、VS-054 | 六段证据矩阵、资源/交互/实例/返还/保存合同 | 生成同线工坊实现 task |
+| TASK-SLICE-138 | Planned | LINE-FORMAL-GAME-LOOP | 装备工坊 UI | 接入强化/分解/制作三页并把现有 Fusion 纳入正式 host | M-036、M-037、M-039、M-052、VS-054 | 四标签正式页面、双 owner 事务、保存与浏览器验收 | `TASK-SLICE-139` |
+| TASK-SLICE-139 | Planned | LINE-FORMAL-GAME-LOOP | 法宝 UI | 接入真法宝页、装备门禁、强化/重置和保存 | M-016、M-036、M-043、M-052、VS-054 | 真页面、P1 owner、特殊分支、存档与浏览器验收 | `TASK-SLICE-140` |
+| TASK-SLICE-140 | Planned | LINE-FORMAL-GAME-LOOP | 端到端闭环 | 验收完整功能 UI 与正式主循环旅程 | M-005、M-016、M-044、M-050、M-051、M-052、VS-054 | 自动旅程、P1/P2 浏览器验收、覆盖台账与功能线关闭证据 | 关闭本线后恢复 `TASK-SETTINGS-053` |
 | TASK-SETTINGS-053 | Planned | LINE-STAGE-2-1 | 关卡逆向 | 正式游戏主循环关闭后，闭合 Stage 2-1 真场景、地图标记、怪物/专属机制和结果流程 | M-026、M-027、M-030、M-035、M-044、VS-049 | 六段证据矩阵、资源标注、覆盖台账与最小可玩切片任务 | 等待 `LINE-FORMAL-GAME-LOOP` 关闭后恢复 |
 
 ## 任务完成定义
 
-### TASK-SLICE-131
+### TASK-SLICE-135
 
 任务类型：
-
 - `TASK-SLICE`
 
 功能条线：
-
 - `LINE-FORMAL-GAME-LOOP`（Active，Ready）
 
 目标机制/切片：
-
-- `M-015`、`M-016`、`M-040`、`M-049`、`VS-051`
-
-输入资料：
-
-- `TASK-SETTINGS-055` 的证据矩阵、资源标注与 HUD 数据合同；Stage 1 正式 scene/bridge 边界。
-
-输出产物：
-
-- 正式 P1/P2 战斗 HUD、共享数据适配层、资源接入和专项测试。
-
-完成定义：
-
-- Stage 1 三关中 HP/MP/经验/等级、技能状态与重要敌人状态实时可读；P1/P2 不串号，场景切换后无残留。
-
-验收标准：
-
-- `check:structure` 前置；专项测试、`test:systems`、`build`、`check:workflow`、运行时视觉验收和 `git diff --check` 通过。
-
-禁止范围：
-
-- 不扩成完整背包/宠物/心法页面，不实现启动存档或地图。
-
-状态更新：
-
-- 功能线台账、覆盖台账、任务看板/历史、`vertical-slices.md` 和 `mechanics-index.md`。
-
-推荐后续任务：
-
-- `TASK-SETTINGS-056`。
-
-### TASK-SETTINGS-056
-
-任务类型：
-
-- `TASK-SETTINGS`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Planned）
-
-目标机制/切片：
-
-- `M-005`、`M-044`、`M-050`、`VS-052`
+- `M-016`、`M-036`、`M-037`、`M-052`、`VS-054`
 
 输入资料：
-
-- `SaveInter.as`、`User.getSaveObj()`、`MemoryClass.setStorage()` 及共享启动/读档/删档调用链；恢复源包中的启动与存档 UI；现代 `SaveSystem` V3。
+- `full-function-ui-index.md` FUI-02/03、`equipment-index.md`、304/246 真资源、共享 host 与 V4 存档。
 
 输出产物：
-
-- 启动、空槽/有效槽/损坏槽、新建/读取/删除、版本迁移和后续地图路由的六段证据矩阵与状态机。
+- 940×590 真背包/装备页、四分类/分页/格子、属性/槽位、P1/P2 穿脱与安全物品反馈。
 
 完成定义：
-
-- EXE 启动后的页面顺序、存档槽字段/交互、异常边界和现代持久化映射均闭合或明确未知。
+- 地图和三关可达；owner、分类、分页、穿脱、关闭与重载一致；不支持的完整物品效果明确反馈。
 
 验收标准：
-
-- 逆向协议、资源标注、`check:workflow`、`check:annotations` 与 `git diff --check` 通过。
+- 背包/装备/owner/保存专项、系统/build、P1/P2 浏览器验收和 `git diff --check` 通过。
 
 禁止范围：
-
-- 不在逆向阶段修改 `src/`；不把浏览器 localStorage 细节冒充原版存储事实。
+- 不实现工坊剩余三页，不补造完整 1.1 物品表，不推进其他页面。
 
 状态更新：
-
-- 功能线台账、覆盖台账、任务看板/历史、主流程/存档逆向文档和 `mechanics-index.md`。
+- 功能线/覆盖台账、任务/历史、资源标注、`M-036/M-037/M-052`、`VS-054`。
 
 推荐后续任务：
+- `TASK-SLICE-136`。
 
-- `TASK-SLICE-132`。
-
-### TASK-SLICE-132
+### TASK-SLICE-136
 
 任务类型：
-
 - `TASK-SLICE`
 
 功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Planned）
-
-目标机制/切片：
-
-- `M-005`、`M-044`、`M-050`、`VS-052`
-
-输入资料：
-
-- `TASK-SETTINGS-056` 证据矩阵；`SaveSystem` V3、现有入口/结果路由和真 UI 资源。
-
-输出产物：
-
-- 正式启动/存档场景、多槽持久化、删除确认、迁移/损坏反馈与测试。
-
-完成定义：
-
-- 新建、读取、删除和重新启动恢复可用；选择的槽位隔离，旧版本可迁移，损坏数据不会导致黑屏或误覆盖。
-
-验收标准：
-
-- `check:structure` 前置；存档专项测试、`test:systems`、`build`、`check:workflow`、运行时验收和 `git diff --check` 通过。
-
-禁止范围：
-
-- 不实现云存档、网络账户、Steam 集成或 Stage 2-1。
-
-状态更新：
-
-- 功能线台账、覆盖台账、任务看板/历史、`vertical-slices.md` 和 `mechanics-index.md`。
-
-推荐后续任务：
-
-- `TASK-SETTINGS-057`。
-
-### TASK-SETTINGS-057
-
-任务类型：
-
-- `TASK-SETTINGS`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Planned）
+- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
 
 目标机制/切片：
-
-- `M-005`、`M-027`、`M-044`、`M-051`、`VS-053`
+- `M-016`、`M-041`、`M-052`、`VS-054`
 
 输入资料：
-
-- 原版天庭地图/关卡选择相关 AS3、共享主流程与存档消费者；恢复源包中的地图、节点和状态资源；现代 Stage 1 路由与 V3 解锁数据。
+- `full-function-ui-index.md` FUI-04..07、`skills-input-index.md`、250/868/417/213 真资源、共享 host/V4。
 
 输出产物：
-
-- 地图组合层级、节点坐标/注册点/命中区、锁定/解锁/通关视觉、点击进入和结算/退出返回的六段证据矩阵。
+- 真技能总页、主动/被动/绑定子页；学习/升级/五槽绑定、P1/P2 owner、HUD 刷新与保存。
 
 完成定义：
-
-- Stage 1 三节点的视觉、交互、解锁读取/写入和往返状态机足以无猜测进入实现；Stage 2-1 节点只按已证实边界呈现。
+- 两玩家可从正式入口独立操作并重载；五槽顺序和灵魂/等级门禁保持既有权威规则。
 
 验收标准：
-
-- 逆向协议、资源标注、`check:workflow`、`check:annotations` 和 `git diff --check` 通过。
+- 技能 UI/owner/保存专项、系统/build、P1/P2 浏览器验收和 `git diff --check`。
 
 禁止范围：
-
-- 不修改 `src/`；不从关卡内 `M-027` 外推天庭地图坐标，不提前复现 Stage 2-1 内容。
+- 不改变战斗技能数值，不新增统一 CD，不推进宠物/法宝页面。
 
 状态更新：
-
-- 功能线台账、覆盖台账、任务看板/历史、主流程/地图逆向文档和 `mechanics-index.md`。
+- 功能线/覆盖台账、任务/历史、资源标注、`M-041/M-052`、`VS-054`。
 
 推荐后续任务：
+- `TASK-SLICE-137`。
 
-- `TASK-SLICE-133`。
-
-### TASK-SLICE-133
+### TASK-SLICE-137
 
 任务类型：
-
 - `TASK-SLICE`
 
 功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Planned）
+- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
 
 目标机制/切片：
-
-- `M-005`、`M-027`、`M-044`、`M-051`、`VS-053`
+- `M-016`、`M-042`、`M-052`、`VS-054`
 
 输入资料：
-
-- `TASK-SETTINGS-057` 证据矩阵、真地图资源、存档槽选择和 Stage 1 入口/结果路由。
+- `full-function-ui-index.md` FUI-08、`pets-index.md`、932 真资源、共享 host/V4。
 
 输出产物：
-
-- 天庭地图场景、节点状态/点击交互、Stage 1 三关往返、进度持久化与端到端测试。
+- 真宠物页、5×2 分页、完整属性/8 技能、出战/休息/放生/成长操作与双 owner runtime/save。
 
 完成定义：
-
-- 读取存档后地图正确显示 1-1/1-2/1-3 状态；锁定节点不可进入，已解锁节点可点击进入，胜利/失败/退出返回后状态一致。
+- P1/P2 可各管理并同时出战一只宠物，页面操作只影响 owner，关闭/关卡/重载后状态一致。
 
 验收标准：
-
-- `check:structure` 前置；地图/路由专项测试、`test:systems`、`build`、`check:workflow`、运行时视觉验收和 `git diff --check` 通过。
+- 宠物 UI/owner/保存/runtime 专项、系统/build、P1/P2 浏览器验收和 `git diff --check`。
 
 禁止范围：
-
-- 不制作 Stage 2-1 内容，不把炼丹炉菜单等价为天庭关卡地图，不扩展完整功能 UI。
+- 不补真实宠物战斗素材，不实现网络/活动宠物入口。
 
 状态更新：
-
-- 功能线台账、覆盖台账、任务看板/历史、`vertical-slices.md` 和 `mechanics-index.md`。
+- 功能线/覆盖台账、任务/历史、资源标注、`M-042/M-052`、`VS-054`。
 
 推荐后续任务：
+- `TASK-SETTINGS-059`。
 
-- `TASK-SETTINGS-058`。
-
-### TASK-SETTINGS-058
+### TASK-SETTINGS-059
 
 任务类型：
-
 - `TASK-SETTINGS`
 
 功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Planned）
+- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
 
 目标机制/切片：
-
-- `M-016`、`M-036`、`M-037`、`M-041`、`M-042`、`M-043`、`M-052`、`VS-054`
+- `M-036`、`M-037`、`M-052`、`VS-054`
 
 输入资料：
-
-- 背包、装备、宠物、心法/技能和法宝相关逆向索引、AS3 与恢复源包；现有最小 UI/system 实现和存档边界。
+- `full-function-ui-index.md` FUI-10..14、`Strength/Resolution/Making/StrengthEquipment.as`、恢复 `backpack1.swf` 119/198/177/152。
 
 输出产物：
-
-- 页面全集与逐页覆盖矩阵：入口/退出、字段/交互、真资源、双玩家所有权、运行时状态、存档字段、已有实现和缺口。
-- 按页面或共享基础拆成同线小 task；每个实现 task 有独立完成定义，禁止生成一个“完成全部 UI”的巨型 task。
+- 强化/分解/制作书的六段证据矩阵：材料/概率、实例字段、失败/返还、owner、保存、几何与双重验证。
 
 完成定义：
-
-- 用户点名的背包、宠物等系统均进入权威覆盖矩阵；最小切片与完整页面承诺被明确区分。
-- 影响首批实现的证据缺口已清零或生成同线逆向子任务，后续顺序由正式导航依赖而非文件方便程度决定。
+- 影响实现的推断/未知清零；若证据不足则明确阻塞，不把资源定位冒充行为闭合。
 
 验收标准：
-
-- 六段证据矩阵和资源标注满足协议；`check:workflow`、`check:annotations` 与 `git diff --check` 通过。
+- `check:workflow`、`check:annotations`、`git diff --check`；矩阵满足逆向协议。
 
 禁止范围：
-
-- 本 task 不修改 `src/`、不一次性实现所有页面、不把占位测试面板标记为完整 UI、不推进 Stage 2-1。
+- 不修改 `src/`，不重复已关闭的 112 配方，不推进 Stage 2-1。
 
 状态更新：
-
-- 功能线台账、覆盖台账、任务看板/历史、相关 UI 逆向文档、`mechanics-index.md` 和 `vertical-slices.md`。
+- 功能线/覆盖台账、任务/历史、相关逆向/标注文档与 `M-052/VS-054`。
 
 推荐后续任务：
+- 依据证据生成/确认同线 `TASK-SLICE-138`。
 
-- 依据覆盖矩阵生成 `LINE-FORMAL-GAME-LOOP` 同线下一 task。
+### TASK-SLICE-138
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
+
+目标机制/切片：
+- `M-036`、`M-037`、`M-039`、`M-052`、`VS-054`
+
+输入资料：
+- `TASK-SETTINGS-059` 行为合同、FUI-10..14 真资源、既有完整 Fusion 实现、共享 host/V4。
+
+输出产物：
+- 正式工坊四标签、强化/分解/制作事务、Fusion 迁入 host、P1/P2 owner/save。
+
+完成定义：
+- 四标签从正式地图入口可达，事务关闭返还与重载一致；不重复或回归 112 配方。
+
+验收标准：
+- 工坊事务/owner/保存专项、crafting 全覆盖、系统/build、浏览器和 `git diff --check`。
+
+禁止范围：
+- 不扩展未经证据闭合的材料规则，不推进法宝/Stage 2-1。
+
+状态更新：
+- 功能线/覆盖台账、任务/历史、资源标注、`M-036/M-037/M-039/M-052`、`VS-054`。
+
+推荐后续任务：
+- `TASK-SLICE-139`。
+
+### TASK-SLICE-139
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
+
+目标机制/切片：
+- `M-016`、`M-036`、`M-043`、`M-052`、`VS-054`
+
+输入资料：
+- `full-function-ui-index.md` FUI-09、`magic-weapons-index.md`、596 真资源、共享 host/V4。
+
+输出产物：
+- 真法宝页、装备门禁、等级/五行/属性、强化/重置/特殊分支、P1 owner 与保存。
+
+完成定义：
+- 正式入口、未装备拒绝、提交/取消、关闭重算和重载一致；P2 面板入口作为现代选择或明确排除。
+
+验收标准：
+- 法宝 UI/装备/保存专项、系统/build、浏览器和 `git diff --check`。
+
+禁止范围：
+- 不改法宝战斗技能，不伪造原版 P2 快捷键，不推进 Stage 2-1。
+
+状态更新：
+- 功能线/覆盖台账、任务/历史、资源标注、`M-043/M-052`、`VS-054`。
+
+推荐后续任务：
+- `TASK-SLICE-140`。
+
+### TASK-SLICE-140
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-FORMAL-GAME-LOOP`（Active，Planned）
+
+目标机制/切片：
+- `M-005`、`M-016`、`M-044`、`M-050`、`M-051`、`M-052`、`VS-054`
+
+输入资料：
+- 本线完整覆盖台账、正式启动/存档/地图/关卡/功能页实现与所有专项测试。
+
+输出产物：
+- 启动读档、地图、P1/P2 功能页、关卡、结算、解锁、返回、重载的自动旅程与浏览器证据。
+
+完成定义：
+- 覆盖台账无未解释缺口、同线无未完成 task、完整玩家旅程通过后才允许关闭本线。
+
+验收标准：
+- `check:all`、端到端专项、940×590 人工/浏览器旅程、console 和 `git diff --check` 通过。
+
+禁止范围：
+- 不用单页截图替代旅程，不顺带实现 Stage 2-1，不在缺口存在时关闭本线。
+
+状态更新：
+- 功能线关闭证据、覆盖台账、任务/历史、`M-052`、`VS-054`；关闭后才恢复 `LINE-STAGE-2-1`。
+
+推荐后续任务：
+- 条线关闭后激活 `TASK-SETTINGS-053`。
 
 ### TASK-SETTINGS-053
 

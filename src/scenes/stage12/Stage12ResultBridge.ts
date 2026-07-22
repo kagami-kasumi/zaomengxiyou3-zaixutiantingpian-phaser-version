@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import { saveLevelUnlockProgress, type SaveStorage } from '../../systems/SaveSystem';
+import { saveActiveLevelUnlockProgress } from '../../systems/SaveSlotSystem';
+import type { SaveStorage } from '../../systems/SaveSystem';
 import type { LevelUnlockProgress } from '../../systems/Stage11FlowSystem';
 
 export function showStage12Result(
@@ -27,8 +28,8 @@ export function showStage12Result(
   const retry = createResultButton(scene, 350, 382, '重玩 1-2', () => {
     scene.scene.restart({ playerCount });
   });
-  const back = createResultButton(scene, 590, 382, '返回关卡入口', () => {
-    scene.scene.start('Stage11EntryScene');
+  const back = createResultButton(scene, 590, 382, '返回天庭地图', () => {
+    scene.scene.start('HeavenMapScene');
   });
   return scene.add.container(0, 0, [background, title, subtitle, detail, ...retry, ...back])
     .setScrollFactor(0).setDepth(200);
@@ -36,7 +37,7 @@ export function showStage12Result(
 
 function persistUnlock(progress: LevelUnlockProgress): boolean {
   const storage = getBrowserStorage();
-  return storage ? saveLevelUnlockProgress(storage, progress) : false;
+  return storage ? saveActiveLevelUnlockProgress(storage, progress) : false;
 }
 
 function createResultButton(

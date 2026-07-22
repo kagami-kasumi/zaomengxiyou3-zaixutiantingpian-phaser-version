@@ -3,11 +3,11 @@
 import {
   createGameSave,
   getHeroBaseStats,
-  loadGame,
+  loadActiveGame,
   resetHeroCombat,
   resetHeroSkill,
   restoreGameState,
-  saveGame,
+  saveActiveGame,
   setHeroId,
   syncMagicWeaponFromLoadout,
   type SaveStorage,
@@ -36,7 +36,7 @@ export function initializeSceneSave(this: any): void {
     setSaveResult(this, 'SAVE unavailable');
     return;
   }
-  const save = loadGame(storage);
+  const save = loadActiveGame(storage);
   if (!save) {
     setSaveResult(this, 'SAVE new game');
     return;
@@ -61,7 +61,12 @@ export function initializeSceneSave(this: any): void {
   resetHeroCombat(player.combat);
   resetHeroSkill(player.skill);
   this.p1SkillLearning = restored.skillLearning;
+  this.p2SkillLearning = restored.player2.skillLearning;
+  this.playerInventoryRuntimes.p1.store = restored.inventoryStore;
+  this.inventoryStore = restored.inventoryStore;
   this.playerInventoryRuntimes.p1.loadout = restored.equipmentLoadout;
+  this.playerInventoryRuntimes.p2.store = restored.player2.inventoryStore;
+  this.playerInventoryRuntimes.p2.loadout = restored.player2.equipmentLoadout;
   this.petRoster = restored.petRoster;
   this.playerPetRosters.p1 = restored.petRoster;
   this.playerPetRosters.p2 = restored.player2PetRoster;
@@ -78,6 +83,25 @@ export function initializeSceneSave(this: any): void {
     this.playerInventoryRuntimes.p1.loadout,
   );
   this.refreshPlayerHeroView(player);
+  const player2 = this.playerViews.find((view: any) => view.slot === 'p2');
+  if (player2) {
+    player2.progression = restored.player2.progression;
+    setHeroId(player2.normalAttack, restored.player2.progression.heroId);
+    player2.baseStats = getHeroBaseStats(
+      restored.player2.progression.heroId,
+      restored.player2.progression.level,
+    );
+    player2.skill.loadout = restored.player2.skillLoadout;
+    resetHeroCombat(player2.combat);
+    resetHeroSkill(player2.skill);
+    this.syncPlayerEffectiveStats(player2, { refill: true });
+    syncMagicWeaponFromLoadout(
+      this.playerInventoryRuntimes.p2.magicWeapon,
+      this.playerInventoryRuntimes.p2.loadout,
+    );
+    this.refreshPlayerHeroView(player2);
+  }
+  this.savedPlayer2FeatureState = restored.player2;
   setSaveResult(this, `SAVE loaded ${save.savedAt.slice(0, 10)}`);
 }
 
@@ -94,17 +118,25 @@ export function updateSceneSave(this: any, deltaMs: number): void {
 export function saveSceneNow(this: any, storage: SaveStorage = getRequiredBrowserStorage()): void {
   const player = this.playerViews.find((view: any) => view.slot === 'p1');
   if (!player) return;
+  const player2 = this.playerViews.find((view: any) => view.slot === 'p2');
+  const savedPlayer2 = this.savedPlayer2FeatureState;
   try {
-    saveGame(storage, createGameSave({
+    const saved = saveActiveGame(storage, createGameSave({
       progression: player.progression,
       skillLoadout: player.skill.loadout,
       skillLearning: this.p1SkillLearning,
+      inventoryStore: this.playerInventoryRuntimes.p1.store,
       equipmentLoadout: this.playerInventoryRuntimes.p1.loadout,
       petRoster: this.petRoster,
+      player2Progression: player2?.progression ?? savedPlayer2?.progression,
+      player2SkillLoadout: player2?.skill.loadout ?? savedPlayer2?.skillLoadout,
+      player2SkillLearning: this.p2SkillLearning,
+      player2InventoryStore: this.playerInventoryRuntimes.p2.store,
+      player2EquipmentLoadout: this.playerInventoryRuntimes.p2.loadout,
       player2PetRoster: this.playerPetRosters.p2,
       levelUnlockProgress: this.levelUnlockProgress,
     }));
-    setSaveResult(this, 'SAVE autosaved');
+    setSaveResult(this, saved ? 'SAVE autosaved' : 'SAVE slot unavailable');
   } catch {
     setSaveResult(this, 'SAVE write failed');
   }

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import { loadGame, type SaveStorage } from '../systems/SaveSystem';
+import { getActiveSaveSlotId, loadActiveGame } from '../systems/SaveSlotSystem';
+import type { SaveStorage } from '../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../systems/Stage11FlowSystem';
 import { canEnterStage12 } from '../systems/Stage12EntrySystem';
 import { canEnterStage13 } from '../systems/Stage13EntrySystem';
@@ -50,6 +51,12 @@ export class Stage11EntryScene extends Phaser.Scene {
     this.add.text(470, 510, '按 1/2 进入 1-1 · 3/4 进入 1-2 · 5/6 进入 1-3', {
       color: '#8b98ad', fontFamily: 'Arial, sans-serif', fontSize: '14px',
     }).setOrigin(0.5);
+    const activeSlotId = getActiveSlotId();
+    this.add.text(16, 16, activeSlotId === undefined ? '未选择存档' : `当前存档 ${activeSlotId + 1}`, {
+      color: '#f2c14e', fontFamily: 'Arial, sans-serif', fontSize: '15px',
+      backgroundColor: '#151c28', padding: { x: 7, y: 4 },
+    });
+    createEntryButton(this, 470, 556, '返回存档选择', () => this.scene.start('SaveSlotScene'));
 
     this.input.keyboard?.on('keydown-ONE', () => this.startStage11(1));
     this.input.keyboard?.on('keydown-TWO', () => this.startStage11(2));
@@ -99,8 +106,13 @@ function createEntryButton(
 function readUnlockProgress() {
   const storage = getBrowserStorage();
   return storage
-    ? loadGame(storage)?.levelUnlockProgress ?? createDefaultLevelUnlockProgress()
+    ? loadActiveGame(storage)?.levelUnlockProgress ?? createDefaultLevelUnlockProgress()
     : createDefaultLevelUnlockProgress();
+}
+
+function getActiveSlotId(): number | undefined {
+  const storage = getBrowserStorage();
+  return storage ? getActiveSaveSlotId(storage) : undefined;
 }
 
 function getBrowserStorage(): SaveStorage | undefined {

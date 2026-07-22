@@ -19,6 +19,13 @@ import {
   type HeroNormalAttackModel,
 } from './HeroNormalAttackSystem';
 import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem';
+import {
+  addHeroExperience,
+  createHeroProgression,
+  type HeroProgressionModel,
+  type HeroProgressionResult,
+} from './ProgressionSystem';
+import { createHeroSkillModel, type HeroSkillModel } from './HeroSkillSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
 
 export type Stage1EnemyType = 2 | 3 | 4 | 5 | 7 | 8 | 30;
@@ -46,6 +53,7 @@ export type Stage1EnemyConfig = Readonly<{
   activeMs: number;
   recoveryMs: number;
   isBoss: boolean;
+  displayName: string;
 }>;
 
 export const Stage1CombatTuning = {
@@ -59,13 +67,13 @@ export const Stage1CombatTuning = {
 } as const;
 
 const enemyConfigs: Record<Stage1EnemyType, Stage1EnemyConfig> = {
-  2: enemy(2, 1_500, 8, 28, 96, 'physics', 29, 'hit1', 360, 180, 620, true),
-  3: enemy(3, 926, 5, 240, 150, 'physics', 40, 'hit1', 300, 220, 600, true),
-  4: enemy(4, 1_481, 8, 27, 112, 'physics', 49, 'hit1', 420, 200, 680, true),
-  5: enemy(5, 2_788, 14, 26, 125, 'physics', 147, 'hit1', 520, 220, 760, true),
-  7: enemy(7, 200, 3, 35, 78, 'physics', 18, 'hit1', 300, 150, 520, false),
-  8: enemy(8, 300, 4, 33, 82, 'physics', 18, 'hit1', 320, 160, 540, false),
-  30: enemy(30, 150, 3, 420, 250, 'physics', 15, 'hit1', 420, 145, 480, false),
+  2: enemy(2, 1_500, 8, 28, 96, 'physics', 29, 'hit1', 360, 180, 620, true, '顺风耳'),
+  3: enemy(3, 926, 5, 240, 150, 'physics', 40, 'hit1', 300, 220, 600, true, '巫鹰'),
+  4: enemy(4, 1_481, 8, 27, 112, 'physics', 49, 'hit1', 420, 200, 680, true, '千里眼'),
+  5: enemy(5, 2_788, 14, 26, 125, 'physics', 147, 'hit1', 520, 220, 760, true, '巨灵神'),
+  7: enemy(7, 200, 3, 35, 78, 'physics', 18, 'hit1', 300, 150, 520, false, 'Monster7'),
+  8: enemy(8, 300, 4, 33, 82, 'physics', 18, 'hit1', 320, 160, 540, false, 'Monster8'),
+  30: enemy(30, 150, 3, 420, 250, 'physics', 15, 'hit1', 420, 145, 480, false, 'Monster30'),
 };
 
 export type Stage1CombatPlayer = {
@@ -79,7 +87,8 @@ export type Stage1CombatPlayer = {
   maxMp: number;
   soul: number;
   warriorEnergy: number;
-  experience: number;
+  progression: HeroProgressionModel;
+  skill: HeroSkillModel;
 };
 
 export type Stage1CombatEnemy = {
@@ -149,6 +158,7 @@ export function createStage1CombatPlayer(slot: PlayerSlot): Stage1CombatPlayer {
   combat.maxHp = Stage1CombatTuning.role1Level1MaxHp;
   combat.hp = combat.maxHp;
   combat.damageProtectionMs = Stage1CombatTuning.playerProtectionMs;
+  const progression = createHeroProgression(Stage1CombatTuning.defaultHeroId);
   return {
     slot,
     combat,
@@ -158,8 +168,24 @@ export function createStage1CombatPlayer(slot: PlayerSlot): Stage1CombatPlayer {
     maxMp: 50,
     soul: 0,
     warriorEnergy: 0,
-    experience: 0,
+    progression,
+    skill: createHeroSkillModel({ slots: [null, null, null, null, null] }, 50),
   };
+}
+
+export function awardStage1CombatPlayerExperience(
+  player: Stage1CombatPlayer,
+  amount: number,
+): HeroProgressionResult {
+  const result = addHeroExperience(player.progression, amount);
+  if (result.levelsGained <= 0) return result;
+  player.combat.maxHp = result.baseStatsAfter.maxHp;
+  player.combat.hp = player.combat.maxHp;
+  player.maxMp = result.baseStatsAfter.maxMp;
+  player.mp = player.maxMp;
+  player.skill.maxMp = player.maxMp;
+  player.skill.mp = player.maxMp;
+  return result;
 }
 
 export function createStage1CombatEnemy(params: {
@@ -374,9 +400,10 @@ function enemy(
   activeMs: number,
   recoveryMs: number,
   isBoss: boolean,
+  displayName: string,
 ): Stage1EnemyConfig {
   return {
     enemyType, maxHp, physicalDefense, moveSpeed, attackRange, attackKind,
-    attackDamage, actionName, windupMs, activeMs, recoveryMs, isBoss,
+    attackDamage, actionName, windupMs, activeMs, recoveryMs, isBoss, displayName,
   };
 }

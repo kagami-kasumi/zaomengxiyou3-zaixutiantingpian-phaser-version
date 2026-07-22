@@ -25,7 +25,7 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-131 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | HUD 逆向已闭合；正式 Stage 1 尚未接入共享成长/技能快照、真 HUD 资源和 P1/P2/Boss 视图 | 待覆盖台账全部闭合 |
+| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-135 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 完整功能 UI 的逐页实现尚未完成 | 待覆盖台账全部闭合 |
 | LINE-STAGE-2-1 | Planned | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 等待 `LINE-FORMAL-GAME-LOOP` 关闭；资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
 
 ## 当前功能线状态
@@ -51,6 +51,22 @@
 `TASK-SLICE-134` 已完成：1-1 Monster3 与 1-2/1-3 地面怪复用默认重力，Monster30 以显式 `flying` 豁免；三关死亡统一进入共享奖励 owner，正式生命/魔法/灵魂资源、灵魂追踪、战意副收益和直接经验均已接入。功能线保持 Active，当前恢复 `TASK-SETTINGS-055`。
 
 `TASK-SETTINGS-055` 已归档：`combat-hud-index.md` 闭合固定 HUD 层、P1/P2 独立 owner、五槽键位映射、HP/MP/经验/等级、法宝/宠物入口、Boss 即时/0.8 秒追赶条和生命周期六段证据；`OtherMat1` / `bossblood` 共 12 条真资源进入 `export-ready`。功能线保持 Active，当前推进 `TASK-SLICE-131`。
+
+`TASK-SLICE-131` 已归档：新增共享 `Stage1CombatHudSystem` / `Stage1CombatHudBridge`，正式经验奖励进入 `HeroProgressionModel`，三关接入 P1/P2 HP/MP/经验/等级/五槽状态、入口提示和重要敌人条；`RoleInfo` / `BossBlood` 真资源已接入并完成 940×590 的 1-1 单人、1-2 双人镜像、1-3 单人浏览器验收。功能线保持 Active，随后推进启动/存档逆向。
+
+`TASK-SETTINGS-056` 已归档：闭合原版 `GameMenu → 新游戏/继续 → SaveInter`、六槽读写/覆盖、V1 字段、损坏静默边界和地图分流；定位并选择性派生 `GameMenu` 1149、`SaveInter` 69、`IsCover` 18。原版没有已证实删档，正式槽优先/删除/损坏反馈均作为现代合同交给 `TASK-SLICE-132`。
+
+`TASK-SLICE-132` 已归档：真 `GameMenu` / `SaveInter` / `IsCover` 进入正式启动页，六槽独立持久化、当前槽写回、旧单槽导入、V1/V2 原位迁移、损坏拒读和显式删除已闭合；专项/系统/build 与 940×590 浏览器验收通过。功能线保持 Active，当前推进 `TASK-SETTINGS-057` 闭合天庭地图证据。
+
+`TASK-SETTINGS-057` 已归档：`heaven-map-index.md` 闭合第一世界真地图/共享菜单、Stage 1 三节点与 Stage 2-1 边界的注册点、可见边界、frame 1/2/3、单调解锁和结果往返；`OtherMat1.swf` 6 条精确资源已选择性派生。功能线保持 Active，当前推进 `TASK-SLICE-133`。
+
+`TASK-SLICE-133` 已归档：新增集中节点状态 owner 与正式天庭地图场景，接入 940×590 真地图/菜单、锁定/当前/已通关/2-1 未接入状态、现代 1P/2P 选择和 Stage 1 三关结果/退出返回；专项、系统、build 与浏览器初始档/1-1 往返验收通过。功能线保持 Active，当前推进 `TASK-SETTINGS-058`。
+
+`TASK-SETTINGS-058` 已归档：`full-function-ui-index.md` 建立 14 个页面/子页的入口/退出、字段/交互、P1/P2 owner、存档、真资源和现代缺口矩阵；从 restored SWF 选择性派生 11 条新 UI 资源，并按正式导航依赖拆成 `TASK-ARCH-008/009`、`TASK-SLICE-135..140` 与 `TASK-SETTINGS-059`。功能线保持 Active，当前推进 `TASK-ARCH-008`。
+
+`TASK-ARCH-008` 已归档：新增共享 owner-aware `FeatureUiHostSystem`、正式 Phaser overlay 与统一入口 bridge，HeavenMap/Stage 1 三关复用同一单实例互斥、模态冻结、暂停/恢复和关闭合同；未实现页面明确显示待接入，不冒充完整 UI。功能线保持 Active，当前推进 `TASK-ARCH-009` 升级 V4 双玩家功能存档。
+
+`TASK-ARCH-009` 已归档：`SaveSystem` 升级为 V4 同构双玩家功能快照，保存双方成长、技能、库存/装备和宠物；V1/V2/V3 保留已有 P1 与宠物并为缺失域使用安全默认，正式当前槽和 1P 保留未上场 P2 数据均有专项回归。功能线保持 Active，当前推进 `TASK-SLICE-135` 真背包/装备页。
 
 ## 关闭与切线
 
