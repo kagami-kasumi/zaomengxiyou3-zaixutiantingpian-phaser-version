@@ -44,6 +44,8 @@ const taskDefinitionFields = [
   '功能条线：',
   'Goal 包：',
   '目标机制/切片：',
+  '规模预算：',
+  '拆分触发：',
   '输入资料：',
   '输出产物：',
   '完成定义：',
@@ -116,6 +118,62 @@ function duplicateIds(ids) {
     seen.add(id);
   }
   return [...duplicates];
+}
+
+function taskSizeBudgetErrors(text, status = 'Ready') {
+  const budgetErrors = [];
+  const budgetStart = text.indexOf('规模预算：');
+  const splitStart = text.indexOf('拆分触发：');
+  const inputStart = text.indexOf('输入资料：');
+  const budgetSection = budgetStart >= 0 && splitStart > budgetStart
+    ? text.slice(budgetStart, splitStart)
+    : '';
+  const splitSection = splitStart >= 0 && inputStart > splitStart
+    ? text.slice(splitStart, inputStart)
+    : '';
+  const workPackages = Number(budgetSection.match(/主工作包：\s*(\d+)/)?.[1]);
+  const expectedCompacts = Number(budgetSection.match(/预计上下文压缩：\s*(\d+)/)?.[1]);
+  const acceptanceBatches = Number(budgetSection.match(/独立验收批次：\s*(\d+)/)?.[1]);
+
+  if (!Number.isInteger(workPackages) || (status === 'Split' ? workPackages !== 0 : workPackages < 1 || workPackages > 2)) {
+    budgetErrors.push(status === 'Split' ? 'Split task 主工作包 must be 0' : '主工作包 must be between 1 and 2');
+  }
+  if (expectedCompacts !== 0) {
+    budgetErrors.push('预计上下文压缩 must be 0');
+  }
+  if (!Number.isInteger(acceptanceBatches) || (status === 'Split' ? acceptanceBatches !== 0 : acceptanceBatches < 1 || acceptanceBatches > 2)) {
+    budgetErrors.push(status === 'Split' ? 'Split task 独立验收批次 must be 0' : '独立验收批次 must be between 1 and 2');
+  }
+  if (!/\n-\s+\S/.test(splitSection)) {
+    budgetErrors.push('拆分触发 must contain at least one actionable bullet');
+  }
+  return budgetErrors;
+}
+
+function checkTaskSizeBudgetSamples() {
+  const valid = `规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 新增资料族时拆分。
+
+输入资料：`;
+  if (taskSizeBudgetErrors(valid).length > 0) {
+    error('Task size budget positive sample failed.');
+  }
+  const negativeCases = [
+    valid.replace('主工作包：1', '主工作包：3'),
+    valid.replace('预计上下文压缩：0', '预计上下文压缩：1'),
+    valid.replace('独立验收批次：1', '独立验收批次：3'),
+    valid.replace('- 新增资料族时拆分。', ''),
+  ];
+  negativeCases.forEach((negativeCase, index) => {
+    if (taskSizeBudgetErrors(negativeCase).length === 0) {
+      error(`Task size budget negative case ${index + 1} must fail validation.`);
+    }
+  });
 }
 
 function compareIdSets(label, rowIds, definitionIds) {
@@ -273,7 +331,11 @@ function checkBoardShape(board, taskRows, taskDefinitionIds, taskBlockList) {
     if (row?.status === 'Blocked' && !block.text.includes('阻塞原因：')) {
       error(`${block.id} is Blocked but its definition is missing 阻塞原因：`);
     }
+    for (const budgetError of taskSizeBudgetErrors(block.text, row?.status)) {
+      error(`${block.id} has invalid size budget: ${budgetError}.`);
+    }
   }
+  checkTaskSizeBudgetSamples();
 }
 
 function checkRecommendations(board, taskRows) {
@@ -493,8 +555,11 @@ function goalInvariantErrors(goalRows, featureLines, taskRows, recommendedIds) {
     if (goal.taskIds.length === 0 || goal.taskIds.length > 2) {
       invariantErrors.push(`${goal.id} must bind one task by default and no more than two tasks; found ${goal.taskIds.length}.`);
     }
-    if (!/最多\s*1\s*次/.test(goal.compactBudget)) {
-      invariantErrors.push(`${goal.id} must declare a compact budget of at most one.`);
+    if (goal.status === 'Done' && !/(?:最多\s*1\s*次|预计\s*0\s*次)/.test(goal.compactBudget)) {
+      invariantErrors.push(`${goal.id} historical compact budget must be at most one or expected zero.`);
+    }
+    if (goal.status !== 'Done' && !/预计\s*0\s*次/.test(goal.compactBudget)) {
+      invariantErrors.push(`${goal.id} must declare an expected compact budget of zero.`);
     }
     for (const taskId of goal.taskIds) {
       const task = taskRows.find((candidate) => candidate.id === taskId);
@@ -542,7 +607,7 @@ function checkGoalInvariantSamples() {
   const line = { id: 'LINE-A', status: 'Active' };
   const task = { id: 'TASK-SLICE-900', status: 'Ready', featureLine: 'LINE-A', goalPackage: 'GOAL-900' };
   const goal = {
-    id: 'GOAL-900', status: 'Active', featureLine: 'LINE-A', taskIds: [task.id], compactBudget: '最多 1 次',
+    id: 'GOAL-900', status: 'Active', featureLine: 'LINE-A', taskIds: [task.id], compactBudget: '预计 0 次',
   };
   if (goalInvariantErrors([goal], [line], [task], [task.id]).length > 0) {
     error('Goal positive invariant sample failed.');
@@ -572,6 +637,12 @@ function checkGoalInvariantSamples() {
       tasks: [task],
       expected: 'no more than two tasks',
     },
+    {
+      name: 'legacy compact budget on new Goal',
+      goals: [{ ...goal, compactBudget: '最多 1 次' }],
+      tasks: [task],
+      expected: 'expected compact budget of zero',
+    },
   ];
   for (const sample of samples) {
     const sampleErrors = goalInvariantErrors(sample.goals, [line], sample.tasks, [task.id]);
@@ -585,7 +656,7 @@ function checkGoals(goalBoard, goalRows, featureLines, taskRows, recommendedIds)
   for (const message of goalInvariantErrors(goalRows, featureLines, taskRows, recommendedIds)) {
     error(message);
   }
-  for (const requiredText of ['最多一次上下文压缩', '不在同一次 `/goal` 中隐式续跑下一 Goal', '默认只绑定一个 task']) {
+  for (const requiredText of ['预计 0 次上下文压缩', '第一次 compact 即视为规模超限', '不在同一次 `/goal` 中隐式续跑下一 Goal', '默认只绑定一个 task', '规模预检']) {
     if (!goalBoard.includes(requiredText)) {
       error(`goal-board.md must include Goal sizing rule: ${requiredText}`);
     }

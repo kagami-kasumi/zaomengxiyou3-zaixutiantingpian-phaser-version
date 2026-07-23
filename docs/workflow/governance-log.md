@@ -4,6 +4,46 @@
 
 ## 2026-07-23
 
+### 建立 Goal 规模预算门禁并拆分 Stage 2-2 实现包
+
+变更内容：
+
+- 将用户指出的“Goal 形式单 task、实际包含过多工作包”登记为 `PG-008`；结论不是纯偶发，而是旧规则只限制 task 数和最多一次 compact、未限制 task 内部规模造成的可复发现象。
+- 新 Goal 改为预计 0 次上下文压缩；未完成 task 必须声明主工作包、预计 compact、独立验收批次和可执行拆分触发，工作包与验收批次均最多 2。
+- 第一次 compact 被定义为规模超限信号：只能收束当前检查、安全交接并拆分剩余范围，不再读取新资料族、派生资源或新增实现。
+- 校验器新增规模预算正/负样例，并拒绝新非 Done Goal 继续使用历史“最多 1 次”预算。
+- 原 `TASK-SLICE-150` 在实现前拆为 `150A..150D`，由 `GOAL-021..024` 依次关闭场景/机关、普通波次、Boss/结果和全程运行校准；功能线保持唯一 Active。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `.claude/agents/workflow-steward.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/task-generation.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/review-protocol.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-008-Goal包缺少可执行规模门禁.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-STAGE-2-2.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-history.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `node --check tools/validate-workflow.mjs` 通过。
+- `npm run check:workflow` 通过：5 个未完成 task / 5 个定义、24 个 Goal、唯一推荐 `TASK-SLICE-150A`、唯一 Active `GOAL-021`。
+- 规模预算正样例通过；缺少字段、主工作包超限、预计 compact 非 0、独立验收批次超限四类负向样例均被拒绝。
+- 仅保留既有 `PlayerSlot` 禁止别名 warning。
+
 ### 固化内置浏览器视觉验收入口
 
 变更内容：

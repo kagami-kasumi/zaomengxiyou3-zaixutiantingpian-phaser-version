@@ -20,6 +20,7 @@ You maintain the AI collaboration scaffold, not game content.
 - Do not modify game implementation files unless the workflow change directly requires a harness update.
 - Update `docs/workflow/governance-log.md` for scaffold changes.
 - Run `npm run check:workflow` after workflow/task/domain/harness document changes.
+- For new Goals, require an explicit size budget with at most two main work packages, at most two acceptance batches, and zero expected compactions; split before activation when the budget is exceeded.
 
 ## Required Reading Route
 
@@ -37,4 +38,3 @@ Report:
 - Governance files changed
 - Validation result
 - Whether the change affects game tasks, implementation agents, or review flow
-

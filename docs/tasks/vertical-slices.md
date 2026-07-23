@@ -70,7 +70,7 @@
 | VS-053 天庭地图选关闭环 | 已完成 | 从当前存档进入天庭地图，点击已解锁 Stage 1 节点，结算/退出后返回并保持进度 | M-005、M-027、M-044、M-051 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、三关结果/退出桥、`heaven-map-tests.ts`、`TASK-SLICE-147` | 940×590 真地图/菜单、四类节点、现代 1P/2P 和关卡往返闭合；scene 重入会清空临时 chooser，1-1 返回后再次选择 1-2 已复验 |
 | VS-054 完整功能 UI 闭环 | 已完成 | 背包、装备、宠物、心法/技能和法宝从正式导航可达，具备真 UI、双玩家边界和存档集成 | M-016、M-036、M-037、M-041、M-042、M-043、M-052 | 既有页面/host/V4/自动旅程；`TASK-SLICE-142` 原图工坊反馈整改 | 原始 119 容器直接承载四操作/翻页/提交/返回命中，四主体左框居中，P1/P2 炼丹炉风格；专项、全门禁与 940×590 逐页复验通过 |
 | VS-055 技能页面 UI 原生化闭环 | 已完成 | 技能总页、主动页、绑定页和被动页直接复用原图片中文字、按钮、状态、命中区和布局，不再覆盖现代外层 UI | M-016、M-041、M-052、PG-007 | `skill-ui-native-index.md`、`TASK-SLICE-143-visual-audit.md`、`FormalSkillPageView.ts`、原生资源生成器与专项测试 | 250/868/417/213、按钮三态、角色 selected、50×3 技能帧、五键槽、五被动行与动态字段均接入；P1/P2、成功/拒绝、绑定重载、V4、940×590 和零 console 闭合 |
-| VS-056 Stage 2-2 可玩关卡闭环 | Planned | 接入真场景、五停点 54 怪、9 个 130 帧火焰、Monster16 真 Boss/六攻击对象、统一失败与解锁 2-3 | M-026、M-027、M-030、M-035、M-044、`levels-index.md` | `TASK-SETTINGS-063` 已闭合六段证据；`GOAL-021` / `TASK-SLICE-150` 执行现代接入与运行校准 | 实现必须复用 Stage 2-1 的 Monster9/10/19 真资源；新增 14 条 derived-ready 资源，完成 1P/2P 五停点、火焰、Boss、门、失败/胜利/返回/重载与 2-3 存档 round-trip |
+| VS-056 Stage 2-2 可玩关卡闭环 | Planned | 接入真场景、五停点 54 怪、9 个 130 帧火焰、Monster16 真 Boss/六攻击对象、统一失败与解锁 2-3 | M-026、M-027、M-030、M-035、M-044、`levels-index.md` | `TASK-SETTINGS-063` 已闭合六段证据；`TASK-SLICE-150A..150D` 依次关闭场景机关、普通波次、Boss 结果和全程校准 | 实现必须复用 Stage 2-1 的 Monster9/10/19 真资源；新增 14 条 derived-ready 资源，四个预计 0 compact 的 Goal 连续完成 1P/2P 五停点、火焰、Boss、门、失败/胜利/返回/重载与 2-3 存档 round-trip |
 
 ## 第一批推荐执行顺序
 

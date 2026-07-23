@@ -60,7 +60,7 @@
 
 - 游戏逆向、实现、切片和现代架构任务写入 `docs/tasks/task-board.md`。
 - 完整玩家系统的范围、唯一 Active 状态和关闭证据写入 `docs/tasks/feature-lines.md` 及 `feature-line-coverage/`；严格单线 `WIP=1`。
-- 一次 `/goal` 的边界写入 `docs/tasks/goal-board.md`；严格单 Active Goal，默认一 Goal 一 task，最多一次 compact，完成后交接而不隐式跨 Goal。
+- 一次 `/goal` 的边界写入 `docs/tasks/goal-board.md`；严格单 Active Goal，新 Goal 默认一 Goal 一 task、预计 0 次 compact，并由 task 的规模预算与拆分触发约束，完成后交接而不隐式跨 Goal。
 - 已完成游戏任务从 `task-board.md` 归档到 `docs/tasks/task-history.md`。
 - 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁只写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板。
 - 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议和问题索引。
@@ -68,7 +68,7 @@
 - 代码、架构、游戏 task 或工作流变更收尾时，必须按未关闭或效果观察中问题的触发条件执行适用性扫描；命中时回写效果样本，发现复发或方案不充分时退回治理。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。
-- 同一个正式游戏 task 未完成时默认继续当前对话；Goal 内最多一次 compact，compact 后复查关键文档和当前改动文件。估计需要第二次时必须回写检查点并拆分 Goal。
+- 同一个正式游戏 task 未完成时默认继续当前对话；第一次 compact 即视为规模超限，只完成当前检查、复查关键文件、回写安全检查点并拆分剩余 Goal，不继续读取新资料或新增实现。
 - 只有完成 task、切换明显不同机制/切片/子系统，或已读取大量 AS3/逆向/历史资料时，才建议新开对话。
 - Codex 默认不自动提交或 push；只有用户明确要求时才执行 Git 提交和上传。
 - 提交前必须检查工作区，区分本次改动和已有未提交改动，不回滚用户改动。

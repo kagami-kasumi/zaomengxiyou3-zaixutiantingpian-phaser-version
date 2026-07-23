@@ -45,8 +45,8 @@ npm run check:workflow
 
 1. 轻量请求不进入完整游戏 task 流程，不更新看板，不要求切换对话。
 2. 普通正式游戏请求一次处理一个 task；task 必须属于 `feature-lines.md` 的唯一 Active 功能线。
-3. 用户使用 `/goal` 时，一次只执行唯一 `Active` Goal；Goal 默认绑定一个 task、最多一次 compact，完成后交接而不连续跨 Goal。功能线仍严格 `WIP=1`，遇到阻塞不切线。
-4. 同一正式游戏 task 未完成时优先继续当前对话；上下文过长时优先 compact，compact 后复查关键文件。
+3. 用户使用 `/goal` 时，一次只执行唯一 `Active` Goal；新 Goal 默认绑定一个 task、预计 0 次 compact，执行前核对规模预算和拆分触发，完成后交接而不连续跨 Goal。功能线仍严格 `WIP=1`，遇到阻塞不切线。
+4. 同一正式游戏 task 未完成时优先继续当前对话；若发生第一次 compact，只完成当前检查、回写安全检查点并拆分剩余工作，不再扩张范围。
 5. 不要因为只完成少量工作、仍在同一 task 的验证/修 bug/补文档阶段，就建议新开对话。
 6. 正式游戏 task 或 `/goal` 收尾时，必须明确给出继续/compact/新开对话判断，以及 commit / push 建议；Git 操作只有用户明确要求时才执行。
 7. 正式游戏 task 完成后必须更新相关文档并按项目规则归档。

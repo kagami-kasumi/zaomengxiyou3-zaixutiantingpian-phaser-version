@@ -13,7 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-063 | 关卡/玩法逆向 | 闭合 Stage 2-2 真场景、几何、波次、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-056 | `levels-index.md` Stage 2-2 权威输入、五停点 54 怪/9 火焰/Monster16 六攻击合同、14 条 derived-ready 标注与 `TASK-SLICE-150` 实现门禁 |
+| TASK-SETTINGS-063 | 关卡/玩法逆向 | 闭合 Stage 2-2 真场景、几何、波次、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-056 | `levels-index.md` Stage 2-2 权威输入、五停点 54 怪/9 火焰/Monster16 六攻击合同、14 条 derived-ready 标注；原实现包后经 PG-008 拆为 `TASK-SLICE-150A..150D` |
 | TASK-SLICE-143 | UI 原生化整改 | 移除技能四页现代覆盖层并接回原图片中文字、按钮、状态、动态槽位和布局 | M-016、M-041、M-052、VS-055 | 220 个原生 UI 资源、`FormalSkillPageView`/layout、绑定提交、P1/P2/V4 专项与 940×590 正式流程证据 |
 | TASK-SETTINGS-061 | UI 原生化逆向 | 闭合技能四页原生文字、按钮状态、命中区、布局和动态槽位 | M-016、M-041、M-052、VS-055 | `skill-ui-native-index.md`、250/868/417/213 完整显示列表、10 树/50 图标状态、绑定拖放/等价边界、被动 P-code 与 `TASK-SLICE-143` 实现门禁 |
 | TASK-SLICE-149 | 用户反馈小修 | 按原生关卡重做 Stage 1-1 最高层 Boss 镜头构图 | M-028、VS-007 | 原版 420/590 屏幕比例、2 秒镜头过渡、Boss 后持续收敛、专项/全系统/build 证据 |
@@ -4752,7 +4752,7 @@
 - 闭合 Monster16 的 24189 HP、8 动作/36 关键帧、六攻击对象/104 帧、三个技能 CD/距离/霸体、精确生成 tick/偏移/伤害/生命周期和死亡显门。
 - 确认正式结果链：失败不推进；门胜利把最高进度从 2/2 推进并保存到 2/3，`GameWin.nextClick()` 进入 2-3。
 - 新增 14 条 `derived-ready/confirmed/integrate` 资源标注与批次；首实现直接使用真场景、真火焰、既有 Monster9/10/19 真资源、Monster16 atlas 和六攻击对象，可见占位为零。
-- `GOAL-020` 完成并激活同线 `GOAL-021` / `TASK-SLICE-150`；本 Goal 未修改 `src/`、未全量导出恢复包、未修改 legacy extraction。
+- `GOAL-020` 完成时原激活同线 `GOAL-021` / `TASK-SLICE-150`；随后经 `PG-008` 规模预检拆为 `TASK-SLICE-150A..150D`，当前 `GOAL-021` 只绑定 `150A`。本 Goal 未修改 `src/`、未全量导出恢复包、未修改 legacy extraction。
 
 更新文件：
 - `docs/reverse-engineering/levels-index.md`
@@ -4770,11 +4770,11 @@
 
 验证：
 - `npm run check:annotations` 通过：445 条标注，其中 14 条 Stage 2-2 为 `derived-ready`，444 条 `confirmed`、1 条既有 `unknown`。
-- `npm run check:workflow` 通过：1 个未完成 task、唯一推荐 `TASK-SLICE-150`、唯一 Active `GOAL-021`；仅保留既有 `PlayerSlot` 命名 warning。
+- 当时 `npm run check:workflow` 通过：1 个未完成 task、唯一推荐 `TASK-SLICE-150`、唯一 Active `GOAL-021`；该结果是 PG-008 所记录的“形式合规但规模失范”基线，仅保留既有 `PlayerSlot` 命名 warning。
 - `git diff --check` 通过。
 
 推荐任务：
-- `TASK-SLICE-150`：按权威输入接入 Stage 2-2 真场景、五停点、54 怪、9 火焰、Monster16 真视觉/六攻击、结果与 2-3 保存，并完成 940×590 1P/2P 运行校准。
+- `TASK-SLICE-150A`：按权威输入先接入 Stage 2-2 真场景、布局、正式遍历和 9 个火焰机关；普通波次、Boss/结果和全程校准分别留给后续 `150B..150D`。
 
 ### TASK-SLICE-143
 
