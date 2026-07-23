@@ -45,6 +45,21 @@ type ExtractedStageSequenceAssetDefinition = FrameSequenceAssetDefinition & {
   sourceBounds: Readonly<{ width: number; height: number }>;
 };
 
+export type Stage21MonsterAtlasAssetDefinition = ExtractedImageAssetDefinition & {
+  cellWidth: number;
+  cellHeight: number;
+  columns: number;
+  rows: number;
+  reachableFrameCount: number;
+  registrationOffset: Readonly<{ x: number; y: number }>;
+};
+
+export type Stage21AttackAssetDefinition = FrameSequenceAssetDefinition & {
+  sourceCharacterId: number;
+  frameCount: number;
+  geometryPath: string;
+};
+
 type ExtractedStage12ImageAssetDefinition = ExtractedStageImageAssetDefinition & {
   frameCount: 1;
 };
@@ -89,6 +104,21 @@ export const Stage21AssetKeys = {
   foreground: 'stage.stage2-1.layout',
   transferDoor: 'stage.stage2-1.transfer-door',
   iceThorn: 'stage.stage2-1.ice-thorn',
+} as const;
+
+export const Stage21MonsterAssetKeys = {
+  monster6: 'monster.stage2-1.monster6.atlas',
+  monster9: 'monster.stage2-1.monster9.atlas',
+  monster10: 'monster.stage2-1.monster10.atlas',
+  monster19: 'monster.stage2-1.monster19.atlas',
+  monster6Hit1: 'projectile.stage2-1.monster6.hit1',
+  monster6Hit2Start: 'projectile.stage2-1.monster6.hit2-start',
+  monster6Hit2Rain: 'projectile.stage2-1.monster6.hit2-rain',
+  monster6Hit3: 'projectile.stage2-1.monster6.hit3',
+  monster9Hit1: 'projectile.stage2-1.monster9.hit1',
+  monster10Hit1: 'projectile.stage2-1.monster10.hit1',
+  monster19Hit1: 'projectile.stage2-1.monster19.hit1',
+  attackGeometry: 'stage2-1.monster-attack-geometry',
 } as const;
 
 export const CombatHudAssetKeys = {
@@ -741,6 +771,112 @@ export const stage21Assets = {
   },
 } as const;
 
+const stage21Attack = (
+  key: string,
+  directory: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+  frameCount: number,
+): Stage21AttackAssetDefinition => ({
+  key,
+  frameKeys: stageFrameKeys(key, frameCount),
+  framePaths: numberedFramePaths(`/assets/stage21/attacks/${directory}`, frameCount),
+  status: 'ready',
+  source: 'extracted-flash',
+  sourcePackage: 'assets/2.swf',
+  sourceSymbol,
+  sourceCharacterId,
+  frameCount,
+  geometryPath: '/assets/stage21/bullet-frame-geometry.csv',
+});
+
+export const stage21MonsterAtlases = {
+  monster6: {
+    key: Stage21MonsterAssetKeys.monster6,
+    path: '/assets/stage21/monsters/monster6.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/2.swf',
+    sourceSymbol: 'Monster6',
+    sourceCharacterId: 4,
+    cellWidth: 300,
+    cellHeight: 400,
+    columns: 7,
+    rows: 7,
+    reachableFrameCount: 32,
+    registrationOffset: { x: 0, y: -55 },
+  },
+  monster9: {
+    key: Stage21MonsterAssetKeys.monster9,
+    path: '/assets/stage21/monsters/monster9.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/2.swf',
+    sourceSymbol: 'Monster9',
+    sourceCharacterId: 2,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 6,
+    rows: 5,
+    reachableFrameCount: 20,
+    registrationOffset: { x: 9, y: -15 },
+  },
+  monster10: {
+    key: Stage21MonsterAssetKeys.monster10,
+    path: '/assets/stage21/monsters/monster10.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/2.swf',
+    sourceSymbol: 'Monster10',
+    sourceCharacterId: 1,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 6,
+    rows: 5,
+    reachableFrameCount: 20,
+    registrationOffset: { x: 22, y: -17 },
+  },
+  monster19: {
+    key: Stage21MonsterAssetKeys.monster19,
+    path: '/assets/stage21/monsters/monster19.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/2.swf',
+    sourceSymbol: 'Monster19',
+    sourceCharacterId: 5,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 6,
+    rows: 5,
+    reachableFrameCount: 22,
+    registrationOffset: { x: -35, y: -30 },
+  },
+} as const satisfies Record<string, Stage21MonsterAtlasAssetDefinition>;
+
+export const stage21AttackAssets = {
+  monster6Hit1: stage21Attack(
+    Stage21MonsterAssetKeys.monster6Hit1, 'monster6-hit1', 'Monster6Bullet1', 238, 5,
+  ),
+  monster6Hit2Start: stage21Attack(
+    Stage21MonsterAssetKeys.monster6Hit2Start, 'monster6-hit2-start', 'Monster6Bullet2_1', 271, 43,
+  ),
+  monster6Hit2Rain: stage21Attack(
+    Stage21MonsterAssetKeys.monster6Hit2Rain, 'monster6-hit2-rain', 'Monster6Bullet2_2', 261, 30,
+  ),
+  monster6Hit3: stage21Attack(
+    Stage21MonsterAssetKeys.monster6Hit3, 'monster6-hit3', 'Monster6Bullet3', 244, 21,
+  ),
+  monster9Hit1: stage21Attack(
+    Stage21MonsterAssetKeys.monster9Hit1, 'monster9-hit1', 'Monster9Bullet1', 19, 4,
+  ),
+  monster10Hit1: stage21Attack(
+    Stage21MonsterAssetKeys.monster10Hit1, 'monster10-hit1', 'Monster10Bullet1', 11, 4,
+  ),
+  monster19Hit1: stage21Attack(
+    Stage21MonsterAssetKeys.monster19Hit1, 'monster19-hit1', 'Monster19Bullet1', 15, 25,
+  ),
+} as const satisfies Record<string, Stage21AttackAssetDefinition>;
+
 function extractedCraftingImage(
   key: string,
   path: string,
@@ -1059,5 +1195,9 @@ export const assetBundles = {
   stage11: Object.values(stage11Assets),
   stage12: [stage11Assets.floor, ...Object.values(stage12Assets)],
   stage13: [stage11Assets.floor, ...Object.values(stage13Assets)],
-  stage21: Object.values(stage21Assets),
+  stage21: [
+    ...Object.values(stage21Assets),
+    ...Object.values(stage21MonsterAtlases),
+    ...Object.values(stage21AttackAssets),
+  ],
 } as const;

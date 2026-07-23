@@ -5,7 +5,7 @@
 - 资源族：Monster6/9/10/19 本体 atlas、七个直接攻击对象和命中可见结果。
 - 影响的现代切片/代码：`VS-049`、`Stage21GameplayBridge`、Stage 2-1 真视觉实现 Goal。
 - 本轮包含：源包/SymbolClass、atlas 行列、动作 tick、碰撞根、朝向、攻击点、逐帧边界、滤镜和选择性派生。
-- 本轮排除：Stage 2-2、其他怪物、现代代码接入、共享战斗重构和不存在于调用链的额外命中火花。
+- 本轮排除：Stage 2-2、其他怪物、共享战斗重构和不存在于调用链的额外命中火花。
 
 ## 输入和证据
 
@@ -26,11 +26,11 @@
 
 ## 人工动作
 
-无。下一实现 Goal 完成后需要用户进行 940×590 视觉复验，但不阻塞本批证据关闭。
+无。`TASK-SLICE-146` 已完成 940×590 1P/2P 逐状态视觉复验。
 
 ## 去向
 
-- 可直接接入：11 条 `derived-ready`。
+- 已接入：11 条 `ready`，位于 `public/assets/stage21/` 并由 `AssetManifest.ts` / `BootScene.ts` 加载。
 - 待定位符号：0。
 - 可选择性导出：0；已完成窄派生。
 - 继续使用占位：0。
@@ -41,9 +41,9 @@
 ## 关闭检查
 
 - [x] 每条记录都有 `status`、`confidence` 和 `nextAction`。
-- [x] `derived-ready` 均有精确 `sourcePackage`、character id 和本地派生路径。
+- [x] `ready` 均有精确 `sourcePackage`、character id、本地派生路径与现代 manifest 入口。
 - [x] 没有把“尚未接入”误写为 `missing-original`。
 - [x] 11 条 `confirmed` 均有恢复 SWF、SymbolClass、AS3 或时间轴证据。
 - [x] Monster10 hit2 明确记为不可达坏分支，没有猜成原版可见动作。
-- [x] 人工动作已压缩为实现后的 940×590 视觉复验。
-- [x] 需要后续正式游戏 task：`TASK-SLICE-146`。
+- [x] 940×590 1P/2P、四怪逐状态、最终门和零 console 复验已完成。
+- [x] 正式游戏 task `TASK-SLICE-146` 已归档。

@@ -23,22 +23,28 @@
 | Line | 状态 | 用户确认范围 | 当前 task | 覆盖台账 | 当前阻塞 | 关闭证据 |
 | --- | --- | --- | --- | --- | --- | --- |
 | LINE-CRAFTING | Done | 玩家可从正式流程使用带真 UI、覆盖 1.1 权威合成表全部 112 个唯一配方的合成页 | — | `feature-line-coverage/LINE-CRAFTING.md` | 无 | 112 配方、201 定义、201/201 真图标、224 条 P1/P2 事务、正式入口与运行时真 UI 全部闭合 |
-| LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
+| LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 原版 W 门与最高层立即出 Boss 已闭合；最高层镜头按原版 420/590 构图、2 秒过渡；Stage 1-1 专项、全系统、build 通过 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
 | LINE-FORMAL-GAME-LOOP | Done | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | — | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | 端到端旅程保持；工坊原 119 容器透明命中、四操作居中、原图返回和 P1/P2 样式经专项/全门禁/940×590 复验闭合 |
-| LINE-STAGE-2-1 | Active | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SLICE-146 | `feature-line-coverage/LINE-STAGE-2-1.md` | 940×590 行为/流程已闭合；四怪 94 个本体关键帧、七攻击对象 132 帧与注册点/触发合同已闭合 | 待真怪物/攻击对象接入、逐状态视觉复验与功能线关闭裁决 |
-| LINE-UI-NATIVE-SKILLS | Planned | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | TASK-SETTINGS-061 | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 等待用户批准是否暂停 Stage 2-1；四页原生按钮与动态槽位证据待复核 | 待四页证据、原生化实现、业务回归和 940×590 逐状态验收闭合 |
+| LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
+| LINE-UI-NATIVE-SKILLS | Active | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | TASK-SLICE-143 | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | `TASK-SETTINGS-061` 已闭合四页原生证据；待实现与正式流程验收 |
 
 ## 当前功能线状态
 
-`LINE-STAGE-2-1` 是唯一 `Active` WIP。`TASK-SLICE-145` 已在 940×590 下闭合地图 1P/2P 入口、双人独立移动、顶部/地面冰刺、五停点、失败/重载/返回、Boss 门、胜利和 2-2 当前槽保存；`TASK-SETTINGS-062` 又从权威 `assets/2.swf` 闭合四怪本体 atlas、七个攻击对象、碰撞根、脚底、朝向、触发 tick 和逐帧边界，影响实现的未知为零。当前进入 `GOAL-016` / `TASK-SLICE-146`，只接入真视觉、复验 940×590 逐状态并裁决本线关闭。
+`LINE-STAGE-2-1` 已关闭：`TASK-SLICE-145` 闭合行为/流程，`TASK-SETTINGS-062` 闭合真视觉证据，`TASK-SLICE-146` 接入 4 个 atlas、132 个攻击帧、100/130 碰撞高、左右镜像、精确触发 tick、死亡播完销毁并完成 940×590 1P/2P 逐状态与最终门复验；新标签页 console 无 warning/error。
 
-用户已要求把技能页面 UI 原生化重做登记进 task 系统。`LINE-UI-NATIVE-SKILLS` 已作为 `Planned` 功能线登记，先执行原生页面证据复核，再实施四页原生化；本次登记不自动暂停 Stage 2-1，也不把治理文档当成游戏实现。
+用户已要求把技能页面 UI 原生化重做登记进 task 系统。`TASK-SETTINGS-061` 已从恢复 `OtherMat1.swf` 闭合四页显示列表、原版视觉基准、按钮/命中区、动态槽位、现代例外和逐状态验收，影响实现的未知为零；`LINE-UI-NATIVE-SKILLS` 继续是唯一 `Active` 功能线，下一次 `/goal` 只执行 `GOAL-012` / `TASK-SLICE-143` 的原生化实现与正式流程验收。
 
 本线按依赖顺序推进：战斗死亡原因/攻击可读性/数值合同 → 可稳定通关的战斗切片 → 核心战斗 HUD → 启动与存档槽 → 天庭地图/关卡解锁 → 背包、宠物等完整功能 UI。每一步仍拆为小 task；不得用某个最小 HUD 或存档切片越级关闭整线。
 
 `TASK-SLICE-124` 已归档：玩家可见入口、统一 1P/2P 全灭门禁、失败/胜利结果导航、V3 关卡进度迁移和运行时验收全部完成。Stage 1-2/1-3、怪物真素材和全局菜单不属于本线确认范围，后续不得回写为 `LINE-STAGE-1-1` 未完成项。
+
+2026-07-23 用户试玩推翻既有关闭结论后，本线短暂重开并完成 `TASK-SLICE-147`：停点只约束波次/Boss 推进、不再锁死已上行玩家镜头；移除地面 Monster72 调试靶；确定性合同继续保证门内 P1 W/P2 ↑ 才显示通关结果；地图场景重入清空已销毁人数选择引用。专项、全系统、build 与 940×590 1-1 进入/返回/再选 1-2 通过，console 无 warning/error；本线重新关闭并恢复技能 UI 原生化线。
+
+同日二次反馈由 `TASK-SLICE-148` 关闭：不再逆向已有普通门，1-1 直接复用 Stage 1-3 已接入的原版 W 门并删除矩形/辉光/替代文字；Boss 触发只判断任一存活玩家是否到达最高层，不再读取停点清怪状态。专项、全系统与 build 通过，本线再次关闭并恢复技能 UI 原生化线。
+
+同日最高层镜头小修由 `TASK-SLICE-149` 关闭：恢复 `StageListener11` 的明确构图证据，玩家最终位于原版屏幕 `y=420/590`，镜头用 2 秒过渡到 Boss 构图；Boss 仍按前次反馈立即出现。
 
 `TASK-SLICE-125` 已归档：Stage 1-2 的 72 张真资源 PNG、manifest provenance、3+1 墙/5 停点/13 刷怪点布局、原组合层级、解锁门禁与 1P/2P 入口均已接入并通过运行时验收。
 

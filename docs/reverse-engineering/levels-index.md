@@ -129,12 +129,15 @@
 4. 当单人玩家或双人任一玩家 `y <= -1900` 时：
    - 所有玩家/宠物若还在 `y >= -1862`，被移到 `y = -1950`。
    - `gc.gameSence.y` tween 到 `2370`。
+   - 因而玩家最终屏幕坐标为 `-1950 + 2370 = 420`，即原版 590px 视口高度的约 71%；tween 时长为 2 秒。
    - 清理 `Role2` 影子和 `Role4` 标记。
    - 调用 `gc.vControllor.setStopStep()` 停止镜头推进。
 5. tween 完成后 `callBoss()` 生成 `Monster3`，坐标 `(750, -2050)`。
 6. `Monster3` 在 `curStage == 1 && curLevel == 1` 时 `isBoss = true`，HP/SHp 为 `926`。
 7. boss 死亡后，`Monster3.destroy()` 把所有 transfer door 设为 `visible = true`。
 8. 玩家站到可见传送门并按上，走通用 `LevelVictor + MainGame.levelClear()`。
+
+现代映射（`TASK-SLICE-149`）：到达现代 `bossTriggerY = 470` 时，相机目标按原版 `420 / 590` 屏幕比例计算为 `scrollY = 50`，并在 Boss 已立即触发后继续用 2 秒过渡收敛；普通爬升阶段仍保持角色位于屏幕高度 40% 的跟随构图。
 
 ### Stage 1-1 正式流程合同（TASK-SETTINGS-050）
 

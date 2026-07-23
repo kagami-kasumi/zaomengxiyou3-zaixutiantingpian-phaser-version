@@ -115,6 +115,8 @@ export type VerticalClimbTuning = {
   singlePlayerSpawnCount: number;
   duoPlayerSpawnCount: number;
   bossTriggerY: number;
+  bossCameraPlayerScreenRatio: number;
+  bossCameraTweenMs: number;
   stopPoints: StopPointDef[];
   cloudLayers: readonly { parallaxSpeed: number; count: number }[];
 };
@@ -126,6 +128,10 @@ export const defaultClimbTuning: VerticalClimbTuning = {
   singlePlayerSpawnCount: 2,
   duoPlayerSpawnCount: 4,
   bossTriggerY: 470,
+  // StageListener11 moves the player to y=-1950 while tweening gameSence.y
+  // to 2370, leaving the player at screen y=420 in the original 590px view.
+  bossCameraPlayerScreenRatio: 420 / 590,
+  bossCameraTweenMs: 2_000,
   stopPoints: [
     { y: 2000, cleared: false, waveSpawned: false, waveHadActiveMonsters: false },
     { y: 1500, cleared: false, waveSpawned: false, waveHadActiveMonsters: false },
@@ -147,6 +153,7 @@ export type VerticalClimbState = {
   activeStopIndex: number;
   bossTriggered: boolean;
   bossArenaActivated: boolean;
+  bossCameraTweenRemainingMs: number;
   cloudScrolls: number[];
 };
 
@@ -165,6 +172,7 @@ export function createVerticalClimbState(viewportHeight: number): VerticalClimbS
     activeStopIndex: -1,
     bossTriggered: false,
     bossArenaActivated: false,
+    bossCameraTweenRemainingMs: 0,
     cloudScrolls: defaultClimbTuning.cloudLayers.map(() => 0),
   };
 }
@@ -175,33 +183,41 @@ export function updateVerticalClimbCamera(
   deltaMs: number,
   viewportHeight: number,
 ): void {
-  if (state.bossTriggered) {
-    return;
-  }
+  if (!state.bossTriggered) {
+    const playerScreenRatio = playerMinY <= defaultClimbTuning.bossTriggerY
+      ? defaultClimbTuning.bossCameraPlayerScreenRatio
+      : 0.4;
+    const desiredCameraY = playerMinY - viewportHeight * playerScreenRatio;
 
-  const desiredCameraY = playerMinY - viewportHeight * 0.4;
-
-  const retainedStop = state.stopPoints[state.activeStopIndex];
-  const stopIdx = retainedStop && !retainedStop.cleared
-    ? state.activeStopIndex
-    : findActiveStopPoint(state, playerMinY);
-  if (stopIdx >= 0) {
-    const stopY = state.stopPoints[stopIdx].y;
-    state.targetCameraY = Math.max(desiredCameraY, stopY - viewportHeight + 80);
-    state.activeStopIndex = stopIdx;
-  } else {
-    state.activeStopIndex = -1;
-    state.targetCameraY = Math.max(
-      desiredCameraY,
-      defaultClimbTuning.bossTriggerY - viewportHeight + 80,
-    );
+    const retainedStop = state.stopPoints[state.activeStopIndex];
+    const stopIdx = retainedStop && !retainedStop.cleared
+      ? state.activeStopIndex
+      : findActiveStopPoint(state, playerMinY);
+    if (stopIdx >= 0) {
+      state.activeStopIndex = stopIdx;
+    } else {
+      state.activeStopIndex = -1;
+    }
+    // Stop points gate wave/boss progression, not visibility. A living player who
+    // climbs ahead must remain visible even while enemies from that stop survive.
+    state.targetCameraY = desiredCameraY;
   }
 
   const maxCameraY = defaultClimbTuning.worldHeight - viewportHeight;
   state.targetCameraY = Math.max(0, Math.min(state.targetCameraY, maxCameraY));
 
-  const lerpSpeed = 4.5;
-  state.cameraY += (state.targetCameraY - state.cameraY) * Math.min(lerpSpeed * (deltaMs / 1000), 1);
+  if (state.bossTriggered && state.bossCameraTweenRemainingMs > 0) {
+    const tweenStep = Math.min(deltaMs / state.bossCameraTweenRemainingMs, 1);
+    state.cameraY += (state.targetCameraY - state.cameraY) * tweenStep;
+    state.bossCameraTweenRemainingMs = Math.max(
+      state.bossCameraTweenRemainingMs - deltaMs,
+      0,
+    );
+  } else {
+    const lerpSpeed = 4.5;
+    state.cameraY += (state.targetCameraY - state.cameraY) *
+      Math.min(lerpSpeed * (deltaMs / 1000), 1);
+  }
   state.cameraY = Math.max(0, Math.min(state.cameraY, maxCameraY));
 }
 
@@ -302,13 +318,13 @@ export function isBossZoneTriggered(
   if (state.bossTriggered) {
     return false;
   }
-  return state.stopPoints.every((stopPoint) => stopPoint.cleared) &&
-    playerMinY <= defaultClimbTuning.bossTriggerY;
+  return playerMinY <= defaultClimbTuning.bossTriggerY;
 }
 
 export function markBossTriggered(state: VerticalClimbState): void {
   state.bossTriggered = true;
   state.bossArenaActivated = true;
+  state.bossCameraTweenRemainingMs = defaultClimbTuning.bossCameraTweenMs;
 }
 
 export function updateCloudScrolls(

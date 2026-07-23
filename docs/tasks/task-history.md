@@ -13,6 +13,11 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-061 | UI 原生化逆向 | 闭合技能四页原生文字、按钮状态、命中区、布局和动态槽位 | M-016、M-041、M-052、VS-055 | `skill-ui-native-index.md`、250/868/417/213 完整显示列表、10 树/50 图标状态、绑定拖放/等价边界、被动 P-code 与 `TASK-SLICE-143` 实现门禁 |
+| TASK-SLICE-149 | 用户反馈小修 | 按原生关卡重做 Stage 1-1 最高层 Boss 镜头构图 | M-028、VS-007 | 原版 420/590 屏幕比例、2 秒镜头过渡、Boss 后持续收敛、专项/全系统/build 证据 |
+| TASK-SLICE-148 | 用户反馈回归 | 1-1 复用其他关卡原版 W 门，并在玩家到达最高层时立即触发 Boss | M-028、M-035、M-048、VS-007、VS-050 | Stage13 门资源复用、旧矩形门删除、Boss/清怪门禁解耦、专项/全系统/build 证据 |
+| TASK-SLICE-147 | 用户反馈回归 | 修复 Stage 1-1 末段镜头、W/↑ 通关结果、遗留调试怪和返回地图后节点失效 | M-028、M-044、M-048、M-051、VS-007、VS-050、VS-053 | 停点/镜头职责分离、Monster72 调试靶删除、门/结果静态合同、地图重入状态清理、专项/全系统/build/940×590 往返证据 |
+| TASK-SLICE-146 | 真视觉接入/运行复验 | 接入 Stage 2-1 四怪本体 atlas 与七攻击对象并关闭功能线 | M-030、M-034、M-035、VS-049 | 4 atlas、132 攻击帧、专属视觉 owner、注册点/触发/lifecycle 专项、940×590 1P/2P 逐状态与最终门零 console 证据 |
 | TASK-SETTINGS-062 | 视觉资源逆向 | 闭合 Stage 2-1 Monster6/9/10/19 本体、攻击对象与命中可见结果 | M-030、M-035、VS-049 | `stage21-monster-visuals-index.md`、四怪 94 帧/七对象 132 帧几何、11 条 derived-ready 标注、`TASK-SLICE-146` 实现合同 |
 | TASK-SLICE-145 | 运行校准 | 完成 Stage 2-1 的 940×590 1P/2P、五停点、冰刺、Boss 门、结果/回载与视觉范围裁决 | M-026、M-027、M-030、M-035、M-044、VS-049 | DEV-only 地图/快速清怪验收入口、8 张运行证据、正式失败/胜利/2-2 保存复验与同线真视觉后续合同 |
 | TASK-SLICE-144 | 可玩关卡切片 | 接入 Stage 2-1 真场景、五停点、冰刺、Boss 门与 2-2 保存闭环 | M-026、M-027、M-030、M-035、M-044、VS-049 | 71 项真资源、Stage21 layout/traversal/flow/ice/scene/result、地图入口、共享战斗/奖励、V4 2-2、专项/全系统/build；浏览器 URL 策略限制公开 |
@@ -4595,6 +4600,130 @@
 - 地图菜单入口、P1/P2 切换、关闭退还、单人 P2 门禁自动验证通过；运行时入口与面板截图留档，资源正常加载且控制台无 error/warn。
 - `LINE-CRAFTING` 关闭合同全部勾选，功能线标记 `Done`；下一条线仅做元数据激活，本次 `/goal` 不执行 Stage 1-1。
 
+### TASK-SLICE-147
+
+- 完成日期：2026-07-23
+- 功能条线：`LINE-STAGE-1-1`（用户反馈重开后重新关闭；恢复 `LINE-UI-NATIVE-SKILLS`）
+- `LevelSystem.updateVerticalClimbCamera()` 不再用未清空停点夹住 camera target；停点继续负责波次和 Boss 门禁，已上行存活玩家始终驱动镜头。
+- 删除 TestScene 启动时固定创建的 `Monster72` 可捕捉调试靶；正式 1-1 地面只保留正常波次怪物。
+- Stage 1-1 专项新增门内 P1 W/P2 ↑、通关结果/重玩/返回接线和无 Monster72 的防回归合同；既有门资源与结果 UI 不新增现代覆盖层。
+- `HeavenMapScene.create()` 每次重入清空人数选择引用，避免 Phaser 销毁显示对象后旧引用仍让 `activateNode()` 提前返回。
+- 940×590 正式流程确认 1-1 初始地面无 Monster72，Escape 返回地图后点击已解锁 1-2 能重新打开 1P/2P 选择；console 无 warning/error。
+
+更新文件：
+
+- `src/systems/LevelSystem.ts`
+- `src/scenes/HeavenMapScene.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneSetup.ts`
+- `tools/stage11-flow-tests.ts`
+- `tools/heaven-map-tests.ts`
+- Stage 1-1 / Goal / task / mechanics / vertical-slice / PG 效果反馈文档
+
+验证：
+
+- `npm run check:structure` 通过，仅 8 个既有 warning；`TestScene.ts` 本次只删除遗留初始化和方法接线，没有新增逻辑。
+- `npm run test:stage11-flow`、`npm run test:heaven-map`、`npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仅既有 chunk 大小 warning。
+- 内置浏览器 940×590 正式 1-1 → 地图 → 1-2 选择链通过，console 无 warning/error。
+
+推荐任务：
+
+- 恢复 `GOAL-011` / `TASK-SETTINGS-061`。
+
+### TASK-SLICE-148
+
+- 完成日期：2026-07-23
+- Goal：`GOAL-018`（已完成）
+- 功能条线：`LINE-STAGE-1-1`（用户二次反馈重开后再次关闭；恢复 `LINE-UI-NATIVE-SKILLS`）
+- 按用户明确要求不再重复逆向普通门；`createTransferDoorView()` 直接复用 Stage 1-3 已接入并由 Boot 加载的 `Stage13AssetKeys.transferDoor` 原版 W 门，按 1-1 门 bounds 显示。
+- 删除 1-1 旧 frame/glow/DOOR 文本三项矩形占位显示对象；Boss 死亡后只显示原版门图片，门内 W/↑ 通关业务保持不变。
+- `isBossZoneTriggered()` 只判断任一存活玩家是否到达最高层阈值；不再检查四个停点是否 cleared，因此遗留小怪不会阻止 Boss 出现。
+- 新增专项回归：最高层阈值上下边界、活跃未清波次仍触发 Boss、view 必须消费原版门 key、旧 DOOR 文本与 `stopPoints.every` 不得回流。
+
+更新文件：
+
+- `src/systems/LevelSystem.ts`
+- `src/scenes/test-scene/TestSceneBossArena.ts`
+- `src/scenes/test-scene/TestSceneViews.ts`
+- `tools/system-tests.ts`
+- `tools/stage11-flow-tests.ts`
+- Stage 1-1 / Goal / task / mechanics / vertical-slice 覆盖文档
+
+验证：
+
+- 实现前 `npm run check:structure` 通过，仅 8 个既有 warning；本 task 未向超限文件新增逻辑。
+- `npm run test:stage11`、`npm run test:systems` 通过。
+- `npm run build` 通过；Vite 仅既有 chunk 大小 warning。
+- 原版门 PNG 直接目检确认包含原版 W 提示；没有重新导出、复制或生成门资源。
+
+推荐任务：
+
+- 恢复 `GOAL-011` / `TASK-SETTINGS-061`。
+
+### TASK-SETTINGS-061
+
+- 完成日期：2026-07-23
+- Goal：`GOAL-011`（已完成）
+- 功能条线：`LINE-UI-NATIVE-SKILLS`（继续保持 `Active`；下一 Goal 为 `GOAL-012` / `TASK-SLICE-143`）
+- 从恢复 `assets/OtherMat1.swf` character 250/868/417/213 闭合技能总页、主动页、绑定页和被动页完整显示列表；记录 root/child/depth、舞台矩阵、注册点、TextField、mask/filter 反证和动态 addChild。
+- 选择性派生 196 个 MovieClip 状态 SVG 与 7 个 Button2 combined SVG，覆盖五角色选择器两帧、主动 10 树×5 技能×3 状态、P1/P2 五键槽、五被动行和返回/标签/升级/设置/关闭按钮。
+- 从恢复包补导 `export.shop.PassiveSkill` AS3/P-code，确认 `pskillN -> frame N`、当前/下级字段、五种属性公式、5000 灵魂阶梯、等级门禁和 10 级隐藏，不再依赖缺失旧提取结果作推断。
+- 单独证明绑定页 source、五个 76×76 hit、拖放吸附/落空回退、替换顺序与 `x_btn` 关闭时提交；现代“选技能后点原槽”和键盘 Enter 只作为非可见输入等价，不增加可见按钮。
+- 逐项标记当前全屏暗层、900×548 外框、现代标题、P1/P2 与四 tab 通用按钮、主动/绑定/被动通用控件、永久摘要和“关闭返回”为替代覆盖层；本证据任务批准的新增可见现代例外为空。
+- 原版基准固定为 SHA-256 `97478E1E03A22C7D06197FFB75AB890D98B084377CBDCF394716CBAF27082126` 的 940×590 SWF 帧和本地选择性派生；影响 `TASK-SLICE-143` 的未知项为零。
+
+更新文件：
+
+- `docs/reverse-engineering/skill-ui-native-index.md`
+- `docs/reverse-engineering/full-function-ui-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-line-coverage/LINE-UI-NATIVE-SKILLS.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/problems/PG-007-UI原生化缺少统一门禁.md`
+
+验证：
+
+- FFDec 26.0.0 对恢复源包的选择性 SVG、AS3 和 P-code 导出成功；源包和 `legacy-extraction` 未修改。
+- `npm run check:workflow`、`npm run check:annotations` 与 `git diff --check` 见本 Goal 收尾记录。
+
+推荐任务：
+
+- `GOAL-012` / `TASK-SLICE-143`：严格消费 `skill-ui-native-index.md`，移除四页现代覆盖层，接回原生视觉/交互并完成 P1/P2、HUD、V4 与 940×590 逐状态正式验收。
+
+### TASK-SLICE-149
+
+- 完成日期：2026-07-23
+- Goal：`GOAL-019`（已完成）
+- 功能条线：`LINE-STAGE-1-1`（用户小修后保持关闭；恢复 `LINE-UI-NATIVE-SKILLS`）
+- 窄查原生 `StageListener11.step()`：到顶后玩家置于 `y=-1950`，`gameSence.y` 在 2 秒内 tween 到 `2370`，最终屏幕 y 为 `420`，即 590px 视口的约 71%。
+- `LevelSystem` 将 Boss 构图从普通爬升的屏幕 40% 改为原生 `420/590`；现代触发 y=470 时目标 `scrollY=50`。
+- Boss 仍按 `TASK-SLICE-148` 立即触发；触发后镜头不再停止更新，而是锁定目标并用原版 2 秒时长平滑收敛。
+- 新增专项验证目标坐标、1 秒中点、2 秒终点和 Boss 后目标不被玩家移动改写。
+
+更新文件：
+
+- `src/systems/LevelSystem.ts`
+- `src/scenes/test-scene/TestSceneWorldBridge.ts`
+- `tools/stage11-flow-tests.ts`
+- `docs/reverse-engineering/levels-index.md` 与 Stage 1-1 任务/覆盖文档
+
+验证：
+
+- 实现前 `npm run check:structure` 通过，仅 8 个既有 warning；对超限 WorldBridge 仅移动既有相机调用边界。
+- `npm run test:stage11-flow`、`npm run test:systems`、`npm run build` 通过；build 仅既有 chunk 大小 warning。
+
+推荐任务：
+
+- 恢复 `GOAL-011` / `TASK-SETTINGS-061`。
+
 ### TASK-SLICE-130
 
 - 完成日期：2026-07-22
@@ -4721,6 +4850,41 @@
 推荐任务：
 
 - `GOAL-015` / `TASK-SETTINGS-062`：闭合四怪动作、弹体与命中特效真视觉六段证据，再生成独立实现 Goal。
+
+### TASK-SLICE-146
+
+- 完成日期：2026-07-23
+- Goal：`GOAL-016`（已完成）
+- 功能条线：`LINE-STAGE-2-1`（关闭；下一条线为 `LINE-UI-NATIVE-SKILLS`）
+- 从 `TASK-SETTINGS-062` 的选择性派生目录接入 Monster6/9/10/19 四个 atlas 与七类攻击对象共 132 帧；manifest/loader 保留 `assets/2.swf`、character id、atlas cell、帧数和注册点 provenance。
+- 新增纯逻辑 `Stage21MonsterVisualSystem` 与 Phaser `Stage21MonsterVisualBridge`，按 30 fps hold tick 驱动 wait/walk/hurt/dead/hit1/hit2/hit3；Monster10 不生成不可达 hit2。
+- 普通怪/Monster6 分别使用 100/130 碰撞高，sprite 以碰撞中心为根并按原 offset 定 origin；攻击对象以 MovieClip 注册点定位和镜像，结束或场景销毁后清理。
+- 移除 Stage 2-1 怪物 Arc/Text、颜色状态映射和占位声明；死亡奖励继续由共享 bridge 幂等结算，view 等死亡动画完成后销毁。
+- 实机取证发现并修复 M6 第一段动画完成后 recovery 仍被锁定的问题；修正为只在攻击视觉未完成时锁定，随后 hit1/hit2/hit3 可连续循环。
+- 新增仅 DEV 且显式查询参数生效的无伤、快速清怪、定点怪物和受击/死亡 QA；生产读取始终返回空配置。
+- 940×590 覆盖 1P/2P、M9 常态/受击、M10 双人受击、M19 hit1、M6 hit2 雨阵/hit3/dead、左右镜像与最终门胜利；新标签页 console error/warn 为 0。
+- 11 条资源标注从 `derived-ready/integrate` 更新为 `ready/none`；`VS-049` 和 `LINE-STAGE-2-1` 关闭。
+
+更新文件：
+
+- `public/assets/stage21/` 下 4 个 atlas、132 个攻击 PNG 与几何 CSV
+- `src/assets/AssetManifest.ts`、`src/scenes/BootScene.ts`
+- `src/systems/Stage21MonsterVisualSystem.ts`、`Stage21EntrySystem.ts`
+- `src/scenes/stage21/Stage21MonsterVisualBridge.ts`、`Stage21GameplayBridge.ts`、`src/scenes/Stage21Scene.ts`
+- `tools/stage21-tests.ts`
+- `docs/tasks/evidence/TASK-SLICE-146-*`
+- Stage 2-1 标注/批次、机制/切片、Goal/功能线/覆盖/任务历史和 PG-002/003/004/005/006 效果记录
+
+验证：
+
+- `npm run check:structure` 实现前通过，仅既有无关 warning。
+- `npm run test:stage21`、`npm run test:systems`、`npm run build` 通过；build 只有既有 chunk 大小 warning。
+- `npm run check:annotations`、`npm run check:workflow`、`git diff --check` 在文档收尾后复跑。
+- 视觉基准、显示列表、现代例外与可见差异清单见 `docs/tasks/evidence/TASK-SLICE-146-visual-review.md`。
+
+推荐任务：
+
+- 下一次 `/goal` 执行 `GOAL-011` / `TASK-SETTINGS-061`，只闭合技能四页原生 UI 六段证据；本次不跨 Goal 继续。
 
 ### TASK-SETTINGS-053
 

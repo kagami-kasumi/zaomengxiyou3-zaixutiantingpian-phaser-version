@@ -36,12 +36,6 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
     }
 
     if (this.bossArena.state === 'inactive') {
-      if (
-        this.verticalClimb &&
-        !this.verticalClimb.stopPoints.every((stopPoint: { cleared: boolean }) => stopPoint.cleared)
-      ) {
-        return;
-      }
       for (const player of this.playerViews) {
         if (!player.movement || isHeroCombatDead(player.combat)) {
           continue;
@@ -99,9 +93,7 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
         }
         revealTransferDoor(this.bossArena);
         if (this.bossDoorView) {
-          this.bossDoorView.frame.setVisible(true);
-          this.bossDoorView.glow.setVisible(true);
-          this.bossDoorView.label.setVisible(true);
+          this.bossDoorView.door.setVisible(true);
         }
       }
 

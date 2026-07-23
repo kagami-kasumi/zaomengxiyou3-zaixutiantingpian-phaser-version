@@ -96,4 +96,4 @@ npm run check:all
 
 ## 技术栈
 
-Phaser 3 + TypeScript + Vite。`npm run dev` 由用户本地启动，Claude 默认不启动开发服务器。
+Phaser 3 + TypeScript + Vite。`npm run dev` 由用户本地启动，Claude 默认不启动开发服务器；自动视觉验收使用用户长期批准的 `npm run preview`（固定 `0.0.0.0:4174`），并可在验收后保持运行。

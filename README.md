@@ -40,6 +40,10 @@ npm run check:workflow
 npm run check:all
 ```
 
+自动视觉验收先执行 `npm run build`，再执行 `npm run preview`。预览固定监听
+`0.0.0.0:4174`，供隔离的内置浏览器访问；该监听会让同一局域网设备可能访问
+构建产物，服务默认可保持运行，需要时再手动停止。
+
 ## 仓库结构
 
 | 路径 | 说明 |

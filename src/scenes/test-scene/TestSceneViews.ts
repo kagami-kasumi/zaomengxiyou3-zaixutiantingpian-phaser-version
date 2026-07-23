@@ -1,7 +1,12 @@
 ﻿// boundary: view factories create Phaser display objects only; they do not own
 // gameplay state transitions.
 import Phaser from 'phaser';
-import { PickupAssetKeys, pickupAssets, role1NormalAttackAssets } from '../../assets/AssetManifest';
+import {
+  PickupAssetKeys,
+  pickupAssets,
+  role1NormalAttackAssets,
+  Stage13AssetKeys,
+} from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
 import type { PlayerSlot } from '../../systems/InputSystem';
@@ -33,9 +38,7 @@ export type BossView = {
 };
 
 export type TransferDoorView = {
-  frame: Phaser.GameObjects.Rectangle;
-  glow: Phaser.GameObjects.Rectangle;
-  label: Phaser.GameObjects.Text;
+  door: Phaser.GameObjects.Image;
 };
 
 export type PetView = {
@@ -165,22 +168,11 @@ export function createTransferDoorView(scene: Phaser.Scene): TransferDoorView {
   const centerY = (top + bottom) / 2;
   const width = right - left;
   const height = bottom - top;
-  const frame = scene.add.rectangle(centerX, centerY, width, height, 0x182233, 0.85);
-  frame.setStrokeStyle(2, 0xf2c14e);
-  const glow = scene.add.rectangle(centerX, centerY, width - 12, height - 12, 0xf2c14e, 0.1);
-  glow.setStrokeStyle(1, 0xf2c14e, 0.5);
-  const label = scene.add.text(centerX, centerY + 30, 'DOOR\n[↑]', {
-    color: '#f2c14e',
-    fontFamily: 'Arial, sans-serif',
-    fontSize: '14px',
-    align: 'center',
-  }).setOrigin(0.5, 0.5);
-
-  frame.setVisible(false);
-  glow.setVisible(false);
-  label.setVisible(false);
-
-  return { frame, glow, label };
+  const door = scene.add.image(centerX, centerY, Stage13AssetKeys.transferDoor)
+    .setName('stage11-transfer-door')
+    .setDisplaySize(width, height)
+    .setVisible(false);
+  return { door };
 }
 
 export function createPetView(

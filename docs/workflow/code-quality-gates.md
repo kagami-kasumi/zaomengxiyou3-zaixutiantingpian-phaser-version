@@ -9,7 +9,7 @@ This document records harness-level rules for AI agents that edit game code. It 
 - Mixed code and workflow edits should run `npm run check:all`.
 - Before adding new logic to any file, run `npm run check:structure`. If the target file appears in errors, splitting is mandatory before adding logic. If the target file appears only in warnings, split it first for feature work; for a small local fix, document the reason and keep the edit narrow. Warnings in unrelated files do not block the current task.
 - Visual testing is useful, but it is not enough for completion. A visual pass must be paired with a deterministic command whenever the changed behavior can be represented as a system invariant.
-- Do not start `npm run dev` by default. The user owns local visual inspection.
+- Do not start `npm run dev` by default. For automated visual inspection, build first and then use the user-approved `npm run preview` endpoint on `0.0.0.0:4174`. The preview may remain running between inspections and should only be stopped for a port conflict, an explicit user request, or another concrete need.
 
 ## System Test Triggers
 

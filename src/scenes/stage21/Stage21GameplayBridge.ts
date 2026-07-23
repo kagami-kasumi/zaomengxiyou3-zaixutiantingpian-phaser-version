@@ -37,6 +37,7 @@ import {
   updateStage21IceHazards,
   type Stage21IceHazardModel,
 } from '../../systems/Stage21IceHazardSystem';
+import type { Stage21QaOptions } from '../../systems/Stage21EntrySystem';
 import {
   createStage1CombatEnemy,
   createStage1CombatPlayer,
@@ -65,6 +66,18 @@ import {
   readFormalSkillRuntime,
   type FormalSkillsUpdatedPayload,
 } from '../feature-ui/FormalSkillRuntimeBridge';
+import {
+  createStage21MonsterView,
+  destroyStage21MonsterView,
+  readStage21AttackGeometry,
+  updateStage21MonsterView,
+  type AttackGeometryRegistry,
+  type Stage21MonsterView,
+} from './Stage21MonsterVisualBridge';
+import {
+  isStage21MonsterAttackAction,
+  Stage21MonsterVisualProvenance,
+} from '../../systems/Stage21MonsterVisualSystem';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
@@ -72,11 +85,10 @@ type PlayerRuntime = {
 };
 
 type MonsterRuntime = {
-  model: Stage21Enemy;
   combat: Stage1CombatEnemy;
-  body: Phaser.GameObjects.Arc;
-  label: Phaser.GameObjects.Text;
+  view: Stage21MonsterView;
   physics: MonsterPhysicsModel;
+  defeatReported: boolean;
 };
 
 export type Stage21GameplayHandle = Readonly<{
@@ -91,7 +103,7 @@ export function createStage21Gameplay(
   playerViews: readonly Phaser.GameObjects.Image[],
   transferDoor: Phaser.GameObjects.Image,
   iceViews: readonly Phaser.GameObjects.Image[],
-  qaFastClear = false,
+  qa: Stage21QaOptions = {},
 ): Stage21GameplayHandle {
   const flow = createStage21Flow(playerCount, readUnlockProgress());
   const input = createInputSystem(scene);
@@ -117,6 +129,27 @@ export function createStage21Gameplay(
     currentPlatformId: STAGE21_GROUND_PLATFORM_ID,
   })));
   const monsters = new Map<string, MonsterRuntime>();
+  const attackGeometry = readStage21AttackGeometry(scene);
+  if (qa.showcase && qa.holdEnemyType) {
+    const showcase = createMonsterView(scene, {
+      id: 'stage21-qa-showcase',
+      enemyType: qa.holdEnemyType,
+      spawnPointId: 'stage21-qa-showcase',
+      stopPointIdx: 0,
+      x: 410,
+      y: STAGE21_GROUND_TOP_Y - Stage21MonsterVisualProvenance[qa.holdEnemyType].height / 2,
+      maxHp: 1,
+      isBoss: qa.holdEnemyType === 6,
+      isFlying: false,
+    }, attackGeometry);
+    if (qa.forcedEnemyState) {
+      showcase.combat.phase = qa.forcedEnemyState;
+      showcase.combat.phaseRemainingMs = qa.forcedEnemyState === 'hurt'
+        ? Number.POSITIVE_INFINITY
+        : 0;
+    }
+    monsters.set(showcase.combat.id, showcase);
+  }
   const iceHazards = createStage21IceHazards();
   const rewards: Stage1RewardBridge = createStage1RewardBridge(scene, players, stage21MovementPlatforms);
   const hud = createStage1CombatHudBridge(
@@ -144,12 +177,20 @@ export function createStage21Gameplay(
       deltaMs,
     );
     activateReachedStopPoint(flow, players);
-    for (const monster of updateStage21Spawners(flow, qaFastClear ? Math.max(deltaMs, 2_000) : deltaMs)) {
-      monsters.set(monster.id, createMonsterView(scene, monster));
+    for (const monster of updateStage21Spawners(flow, qa.fastClear ? Math.max(deltaMs, 2_000) : deltaMs)) {
+      const runtime = createMonsterView(scene, monster, attackGeometry);
+      if (monster.enemyType === qa.holdEnemyType && qa.forcedEnemyState) {
+        runtime.combat.phase = qa.forcedEnemyState;
+        runtime.combat.phaseRemainingMs = qa.forcedEnemyState === 'hurt'
+          ? Number.POSITIVE_INFINITY
+          : 0;
+      }
+      monsters.set(monster.id, runtime);
     }
-    if (qaFastClear) clearStage21QaMonsters(flow, monsters);
-    updateIceHazards(players, movementRuntime, iceHazards, iceViews, deltaMs, qaFastClear);
+    if (qa.fastClear) clearStage21QaMonsters(flow, monsters, qa.holdEnemyType);
+    updateIceHazards(players, movementRuntime, iceHazards, iceViews, deltaMs, Boolean(qa.fastClear || qa.noDamage));
     updateMonsterCombat(
+      scene,
       players,
       [state.p1, state.p2],
       movementRuntime,
@@ -159,6 +200,8 @@ export function createStage21Gameplay(
       scene.time.now,
       deltaMs,
       rewards,
+      Boolean(qa.fastClear || qa.noDamage),
+      qa,
     );
     rewards.update(deltaMs);
     hud.update(deltaMs);
@@ -257,6 +300,7 @@ function activateReachedStopPoint(flow: Stage21FlowModel, players: readonly Play
 }
 
 function updateMonsterCombat(
+  scene: Phaser.Scene,
   players: PlayerRuntime[],
   inputs: readonly PlayerInputState[],
   movementRuntime: LevelHeroMovementRuntime,
@@ -266,26 +310,39 @@ function updateMonsterCombat(
   timeMs: number,
   deltaMs: number,
   rewards: Stage1RewardBridge,
+  ignoreEnemyDamage: boolean,
+  qa: Stage21QaOptions,
 ): void {
   for (const monster of monsters.values()) {
     updateMonsterPhysics(monster.physics, monster.combat.x, stage21MovementPlatforms, deltaMs);
     monster.combat.y = monster.physics.y;
-    updateStage1Enemy({
-      enemy: monster.combat,
-      targets: players.map((player) => ({
-        slot: player.combat.slot,
-        x: player.view.x,
-        alive: player.combat.combat.state !== 'dead',
-      })),
-      deltaMs,
-    });
-    syncMonsterView(monster);
-    resolveStage1EnemyAttack({
-      runtime,
-      enemy: monster.combat,
-      players: players.map((player) => ({ player: player.combat, x: player.view.x })),
-      timeMs,
-    });
+    const holdRecoveryForVisual = monster.combat.phase === 'recovery'
+      && isStage21MonsterAttackAction(monster.view.visual.action)
+      && !monster.view.visual.completed;
+    if (!holdRecoveryForVisual) {
+      updateStage1Enemy({
+        enemy: monster.combat,
+        targets: players.map((player) => ({
+          slot: player.combat.slot,
+          x: player.view.x,
+          alive: player.combat.combat.state !== 'dead',
+        })),
+        deltaMs,
+      });
+    }
+    const freezeForcedDeadFrame = monster.combat.enemyType === qa.holdEnemyType
+      && qa.forcedEnemyState === 'dead'
+      && monster.view.visual.action === 'dead'
+      && monster.view.visual.actionTick >= 4;
+    if (!freezeForcedDeadFrame) syncMonsterView(scene, monster, deltaMs);
+    if (!ignoreEnemyDamage) {
+      resolveStage1EnemyAttack({
+        runtime,
+        enemy: monster.combat,
+        players: players.map((player) => ({ player: player.combat, x: player.view.x })),
+        timeMs,
+      });
+    }
   }
   players.forEach((player, index) => {
     const movement = movementRuntime.members[index]?.movement;
@@ -299,57 +356,57 @@ function updateMonsterCombat(
     });
   });
   for (const [id, monster] of monsters) {
-    syncMonsterView(monster);
+    syncMonsterView(scene, monster, 0);
     if (monster.combat.phase !== 'dead') continue;
-    rewards.onMonsterDefeated(monster.combat);
-    defeatStage21Enemy(flow, id);
+    if (!monster.defeatReported) {
+      rewards.onMonsterDefeated(monster.combat);
+      defeatStage21Enemy(flow, id);
+      monster.defeatReported = true;
+    }
+    if (monster.combat.enemyType === qa.holdEnemyType && qa.forcedEnemyState === 'dead') continue;
+    if (!monster.view.visual.completed) continue;
     destroyMonsterView(monster);
     monsters.delete(id);
   }
   players.forEach(syncPlayerFeedback);
 }
 
-function createMonsterView(scene: Phaser.Scene, monster: Stage21Enemy): MonsterRuntime {
-  const color = monster.enemyType === 6 ? 0xd86b63
-    : monster.enemyType === 19 ? 0xc58be2
-      : monster.enemyType === 10 ? 0x6cbf73 : 0x5ca8d8;
-  const radius = monster.isBoss ? 36 : 18;
+function createMonsterView(
+  scene: Phaser.Scene,
+  monster: Stage21Enemy,
+  attackGeometry: AttackGeometryRegistry,
+): MonsterRuntime {
+  const provenance = Stage21MonsterVisualProvenance[monster.enemyType];
   const physics = createMonsterPhysics({
     y: monster.y,
-    height: radius * 2,
+    height: provenance.height,
     motionMode: 'grounded',
   });
-  const body = scene.add.circle(monster.x, physics.y, radius, color)
-    .setStrokeStyle(2, 0x1a2130).setDepth(18);
-  const label = scene.add.text(monster.x, physics.y, `M${monster.enemyType}`, {
-    color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: monster.isBoss ? '14px' : '11px',
-  }).setOrigin(0.5).setDepth(19);
   return {
-    model: monster,
     combat: createStage1CombatEnemy({
       id: monster.id,
       enemyType: monster.enemyType,
       x: monster.x,
       y: physics.y,
     }),
-    body,
-    label,
+    view: createStage21MonsterView(
+      scene,
+      monster.enemyType,
+      monster.x,
+      physics.y,
+      attackGeometry,
+    ),
     physics,
+    defeatReported: false,
   };
 }
 
-function syncMonsterView(monster: MonsterRuntime): void {
-  monster.body.x = monster.combat.x;
-  monster.body.y = monster.combat.y;
-  monster.label.x = monster.combat.x;
-  monster.label.y = monster.combat.y;
-  monster.label.setText(`M${monster.model.enemyType}${monster.combat.phase === 'windup' ? ' !' : monster.combat.phase === 'active' ? ' *' : ''}`);
-  const color = monster.combat.phase === 'windup' ? 0xffd166
-    : monster.combat.phase === 'active' ? 0xff5d5d
-      : monster.combat.phase === 'hurt' ? 0xffffff : monster.model.enemyType === 6 ? 0xd86b63
-        : monster.model.enemyType === 19 ? 0xc58be2
-          : monster.model.enemyType === 10 ? 0x6cbf73 : 0x5ca8d8;
-  monster.body.setFillStyle(color);
+function syncMonsterView(
+  scene: Phaser.Scene,
+  monster: MonsterRuntime,
+  deltaMs: number,
+): void {
+  updateStage21MonsterView(scene, monster.view, monster.combat, deltaMs);
 }
 
 function syncPlayerFeedback(player: PlayerRuntime): void {
@@ -360,8 +417,7 @@ function syncPlayerFeedback(player: PlayerRuntime): void {
 }
 
 function destroyMonsterView(monster: MonsterRuntime): void {
-  monster.body.destroy();
-  monster.label.destroy();
+  destroyStage21MonsterView(monster.view);
 }
 
 function followParty(scene: Phaser.Scene, players: readonly PlayerRuntime[], flow: Stage21FlowModel): void {
@@ -438,8 +494,10 @@ function updateIceHazards(
 function clearStage21QaMonsters(
   flow: Stage21FlowModel,
   monsters: Map<string, MonsterRuntime>,
+  holdEnemyType?: Stage21Enemy['enemyType'],
 ): void {
   for (const [id, monster] of monsters) {
+    if (monster.combat.enemyType === holdEnemyType) continue;
     defeatStage21Enemy(flow, id);
     destroyMonsterView(monster);
     monsters.delete(id);

@@ -8,7 +8,7 @@
     "dev:single": "vite --host 127.0.0.1 --open /",
     "dev:two": "vite --host 127.0.0.1 --open /?players=2",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1",
+    "preview": "vite preview",
     "test:systems": "node tools/run-system-tests.mjs",
     "test:stage11": "node tools/run-system-tests.mjs stage11-resource-tests",
     "test:stage11-flow": "node tools/run-system-tests.mjs stage11-flow-tests",

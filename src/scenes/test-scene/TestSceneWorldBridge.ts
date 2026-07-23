@@ -284,14 +284,14 @@ export function updateVerticalClimbLogic(this: any,
   ): void {
     const playerMinY = this.getPlayerMinY();
 
-    if (!this.verticalClimb.bossTriggered) {
-      updateVerticalClimbCamera(
-        this.verticalClimb,
-        playerMinY,
-        delta,
-        GameSettings.height,
-      );
+    updateVerticalClimbCamera(
+      this.verticalClimb,
+      playerMinY,
+      delta,
+      GameSettings.height,
+    );
 
+    if (!this.verticalClimb.bossTriggered) {
       const activeMonsterCount = this.monster30s.filter(
         (m: Monster30Model) => m.state !== 'dead' && m.state !== 'removed',
       ).length;

@@ -56,7 +56,7 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 - 记录关键映射关系，例如 AS3 类名对应的新 TypeScript 文件。
 - 实现任务开始前检查 `docs/tasks/vertical-slices.md` 中对应切片依赖是否满足；依赖机制未确认时，先做逆向任务。
 - 能验证就运行验证，不能验证要说明原因。
-- 默认不启动 `npm run dev`；开发服务器由用户自行运行。修改代码后优先运行可自动结束的检查命令，如 `npm run build`、`npm run test:systems` 或更小范围检查。
+- 默认不启动 `npm run dev`。修改代码后优先运行可自动结束的检查命令，如 `npm run build`、`npm run test:systems` 或更小范围检查；需要内置浏览器视觉验收时，在构建后直接启动用户长期批准的 `npm run preview`（固定 `0.0.0.0:4174`），服务可以保持运行，只有端口冲突、用户要求或确有必要时才停止。
 - **在现有文件中新增逻辑前**，先运行 `npm run check:structure`。如果目标文件出现在 warning 列表中，应先拆分再添加新功能。如果出现在 error 列表中，禁止在拆分前向该文件添加任何新逻辑。
 
 ## 逆向任务规则

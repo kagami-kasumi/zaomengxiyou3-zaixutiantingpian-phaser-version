@@ -20,7 +20,7 @@
 | VS-004 五角色普攻与特效切片 | 已完成 | 五个角色的普攻连段、攻击窗口和普攻特效一起完成 | VS-002、VS-003、M-023、M-047、M-035 | `HeroNormalAttackSystem.ts`、`TestScene.ts`、`AssetManifest.ts` | 五个角色 J 普攻都有动作、冷却、攻击窗口和可见占位特效 |
 | VS-005 第一个怪物受击死亡 | 已完成 | 加入一个简单怪物，能受击、扣血、死亡并移除 | M-030 已扒；M-031 已确认 `Monster30`；M-032 已有首切片受击依据 | `Monster30System.ts`、`TestScene.ts` | 玩家能打死一只 `Monster30` 等价怪物 |
 | VS-006 基础伤害闭环 | 已完成 | 玩家与怪物互相造成伤害 | VS-004、VS-005、M-032、M-033、`combat-rules-index.md` | `CombatSystem.ts`、`HeroCombatSystem.ts`、`Monster30System.ts`、`TestScene.ts` | 玩家和怪物血量都可变化 |
-| VS-007 第一个关卡闭环 | 已完成 | 真场景纵向关卡 + 正式进入/失败/胜利持久化 | M-014、M-026、M-027、M-028、M-030、M-031、M-044 | `Monster3System.ts`、`LevelSystem.ts`、`Stage11FlowSystem.ts`、`Stage11EntryScene.ts`、Stage11 bridges | 关卡内、真资源、正式入口、1P/2P 全灭、结果导航、V3 解锁存档和浏览器验收全部完成 |
+| VS-007 第一个关卡闭环 | 已完成 | 真场景纵向关卡 + 正式进入/失败/胜利持久化 | M-014、M-026、M-027、M-028、M-030、M-031、M-044 | `Monster3System.ts`、`LevelSystem.ts`、`Stage11FlowSystem.ts`、`Stage11EntryScene.ts`、Stage11 bridges | 真资源、正式流程与存档闭合；原版 W 门、最高层立即出 Boss、420/590 最终镜头构图和 2 秒过渡均已回归保护 |
 | VS-008 一个技能/子弹 | 已完成 | 第一个角色释放一个技能或子弹 | M-025、M-034、M-015、M-041、`projectiles-index.md`、`skills-input-index.md` | `ProjectileSystem.ts`、`HeroSkillSystem.ts`、`SkillUISystem.ts`、`TestScene.ts`、`AssetManifest.ts`、`skills-input-index.md` | 已完成 projectile + 正式槽位 + MP 门禁 + 二段重入 + 五槽技能栏 + 可配置 loadout + 完整心法树面板 + 技能学习/升级 + 键盘绑定 + 被动技能五槽 UI；下一步扩展其他角色技能 projectile 或转向装备/背包系统 |
 | VS-009 掉落和拾取 | 已完成 | 怪物死亡由共享 owner 结算奖励并完成地面拾取/自动追踪 | M-030、M-036、M-037、M-038、M-040、`drops-index.md` | `MonsterDefeatRewardSystem.ts`、`DropSystem.ts`、`Stage1RewardBridge.ts`、Stage 1 三关 bridges | 三关统一覆盖生命/魔法拾取、灵魂等待/上浮/追踪、战意副收益、直接经验、配置物品和正式资源；颜色不作为领域名，飞行/地面怪均复用死亡奖励 |
 | VS-010 背包最小 UI | 已完成 | 打开背包并显示分类物品，支持首批装备穿脱 | M-036、M-037、`equipment-index.md` | `InventorySystem.ts`、`EquipmentSystem.ts`、`EquipmentUISystem.ts`、`TestScene.ts` | `C` 打开背包；可切换装备/道具/时装/技能书分类；可穿戴/卸下种子装备并更新槽位与属性预览 |
@@ -63,13 +63,13 @@
 | VS-046 Stage 1-2 普通关卡闭环 | 已完成 | 实现五停点 46 怪、双 boss 普通门门禁、统一失败与普通胜利存档闭环 | M-026、M-027、M-030、M-044、VS-045、`levels-index.md` | `Stage12FlowSystem.ts`、`Stage12TraversalSystem.ts`、gameplay/result bridges、V3 进度扩展与 Stage 1-2 专项测试 | 五批按 8/11/12/13/2 推进；K 二段跳、角色/怪物底边对齐地面、角色到屏幕右端才触发并锁住当前波；Monster4+Monster2 全灭后门可用；1P/2P 全灭失败不解锁，普通胜利幂等解锁 1-3 |
 | VS-047 Stage 1-2 `fbEnter` 特殊入口 | 已完成 | 以真序列帧实现五击防抖、30 帧开放、72 帧共享驻留与切 5-1 | M-026、M-027、VS-045、`levels-index.md` | `Stage12FbEnterSystem.ts`、`Stage12FbEnterBridge.ts`、`Stage51TransitionScene.ts` 与专项测试 | 可见弹体穿过碰撞区才计数；五击且每击 1 秒防重复；末帧前驻留无效；任一/交替玩家连续 72 帧后一次性切 5-1；不触发普通胜利或改变解锁进度 |
 | VS-048 Stage 1-3 可玩关卡闭环 | 已完成 | 接入真场景、五停点 105 怪定义、Monster5 单 boss 门、统一失败与解锁 2-1 | M-026、M-027、M-030、M-035、M-044、`levels-index.md` | `Stage13Layout/Flow/Traversal`、独立 scene bridges、manifest、入口/结果、专项测试 | character 13/119/40 provenance 可核对；9/10/12/13/61 与 6/8 上限测试通过；Monster5 死亡时飞怪可存活且仍能进门；1P/2P 失败不解锁，胜利保存 2-1；浏览器验证正式入口、独立移动与失败返回，零 console error/warning |
-| VS-049 Stage 2-1 可玩关卡闭环 | 行为已运行验收 / 真怪物视觉证据已闭合、待接入 | 真场景、五停点 53 怪、38 冰刺、Monster6 门禁、统一失败与解锁 2-2 已接入 | M-026、M-027、M-030、M-035、M-044、`levels-index.md`、`stage21-monster-visuals-index.md` | `TASK-SLICE-144/145`：关卡与 940×590 行为闭环；`TASK-SETTINGS-062`：四怪 94 个本体关键帧、七攻击对象 132 帧、注册点/脚底/触发 tick 与 11 条 derived-ready 标注 | 场景和流程验证保持；下一步 `TASK-SLICE-146` 接入 Monster6/9/10/19 真视觉并做逐状态视觉复验，完成后再裁决功能线关闭 |
-| VS-050 Stage 1 战斗可读与可通关闭环 | 已完成 | 用现有三关证明主要攻击可读、死亡原因可解释、默认 Role1 无调试能力三次 1-1 至少两次通关 | M-032、M-033、M-040、M-047、M-048、`stage1-combat-calibration.md` | `Stage1CombatSystem.ts`、三关 bridge、`stage1-combat-tests.ts`、`stage11-browser-audit.mjs` | 三关共享 owner、窗口、3 秒保护、输入缓冲、追踪与占位反馈已接入；1-2/1-3 失败分类可复现，1-1 三次完整无调试运行全部通关 |
+| VS-049 Stage 2-1 可玩关卡闭环 | 已完成 | 真场景、五停点 53 怪、38 冰刺、Monster6 门禁、统一失败、解锁 2-2、四怪本体与七攻击对象真视觉已接入 | M-026、M-027、M-030、M-035、M-044、`levels-index.md`、`stage21-monster-visuals-index.md` | `TASK-SLICE-144/145`：关卡与 940×590 行为闭环；`TASK-SETTINGS-062`：四怪/七攻击证据；`TASK-SLICE-146`：94/132 帧接入、逐状态与最终门零 console 复验 | 本切片关闭；后续 Stage 2-2 需另开功能线与独立逆向任务 |
+| VS-050 Stage 1 战斗可读与可通关闭环 | 已完成 | 用现有三关证明主要攻击可读、死亡原因可解释、默认 Role1 无调试能力三次 1-1 至少两次通关 | M-032、M-033、M-040、M-047、M-048、`stage1-combat-calibration.md` | `Stage1CombatSystem.ts`、三关 bridge、`stage1-combat-tests.ts`、`stage11-browser-audit.mjs`、`TASK-SLICE-147`、`TASK-SLICE-148` | 三关共享战斗合同保持；1-1 镜头、调试靶、地图重入、原版 W 门和最高层立即出 Boss 两轮回归均已闭合 |
 | VS-051 正式核心战斗 HUD | 已完成 | 在 Stage 1 三关显示双玩家 HP/MP/经验/等级、技能和重要敌人状态 | M-015、M-016、M-040、M-049、`combat-hud-index.md` | `TASK-SLICE-131` | 三关复用共享 snapshot/bridge；P1/P2 镜像与五槽键位不串号；成长奖励进入 `HeroProgressionModel`；Boss 即时/0.8s 追赶条、真资源和 destroy 生命周期均有专项/浏览器验证 |
 | VS-052 启动与存档槽闭环 | 已完成 | EXE 启动后可新建、读取、删除独立存档槽并安全处理迁移/损坏数据 | M-005、M-044、M-050 | `SaveSlotSystem.ts`、`SaveSlotScene.ts`、`SaveSystem.ts`、真启动/六槽/确认资源与专项测试 | 六槽隔离、当前槽、旧单槽导入、V1/V2 原位迁移、损坏拒读/显式删除、正式路由与 940×590 浏览器验收闭合；排除云存档/网络账户 |
-| VS-053 天庭地图选关闭环 | 已完成 | 从当前存档进入天庭地图，点击已解锁 Stage 1 节点，结算/退出后返回并保持进度 | M-005、M-027、M-044、M-051 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、三关结果/退出桥、`heaven-map-tests.ts` | 940×590 真地图/菜单、四类节点状态、现代 1P/2P 选择、Stage 1 三关往返和 Stage 2-1 拒绝边界均已接入；专项/系统/build 与初始档浏览器验收通过 |
+| VS-053 天庭地图选关闭环 | 已完成 | 从当前存档进入天庭地图，点击已解锁 Stage 1 节点，结算/退出后返回并保持进度 | M-005、M-027、M-044、M-051 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、三关结果/退出桥、`heaven-map-tests.ts`、`TASK-SLICE-147` | 940×590 真地图/菜单、四类节点、现代 1P/2P 和关卡往返闭合；scene 重入会清空临时 chooser，1-1 返回后再次选择 1-2 已复验 |
 | VS-054 完整功能 UI 闭环 | 已完成 | 背包、装备、宠物、心法/技能和法宝从正式导航可达，具备真 UI、双玩家边界和存档集成 | M-016、M-036、M-037、M-041、M-042、M-043、M-052 | 既有页面/host/V4/自动旅程；`TASK-SLICE-142` 原图工坊反馈整改 | 原始 119 容器直接承载四操作/翻页/提交/返回命中，四主体左框居中，P1/P2 炼丹炉风格；专项、全门禁与 940×590 逐页复验通过 |
-| VS-055 技能页面 UI 原生化闭环 | Planned | 技能总页、主动页、绑定页和被动页直接复用原图片中文字、按钮、状态、命中区和布局，不再覆盖现代外层 UI | M-016、M-041、M-052、PG-007 | `LINE-UI-NATIVE-SKILLS` 覆盖台账、`TASK-SETTINGS-061`、`TASK-SLICE-143` | 先闭合 250/868/417/213 时间轴与动态槽位证据，再实现四页原生化；保留技能业务、P1/P2、HUD 与 V4，完成 940×590 逐状态正式流程验收 |
+| VS-055 技能页面 UI 原生化闭环 | Planned | 技能总页、主动页、绑定页和被动页直接复用原图片中文字、按钮、状态、命中区和布局，不再覆盖现代外层 UI | M-016、M-041、M-052、PG-007 | `skill-ui-native-index.md`、`LINE-UI-NATIVE-SKILLS` 覆盖台账、`TASK-SLICE-143` | 250/868/417/213 时间轴、动态槽位与现代覆盖层差异证据已闭合且实现未知为零；下一步按矩阵实现，保留技能业务、P1/P2、HUD 与 V4，并完成 940×590 逐状态正式流程验收 |
 
 ## 第一批推荐执行顺序
 
@@ -270,7 +270,7 @@
 
 ### VS-007 第一个关卡闭环
 
-状态：已完成（TASK-SLICE-124 正式流程、持久化和浏览器验收完成，LINE-STAGE-1-1 已关闭）。
+状态：已完成（`TASK-SLICE-124` 正式流程闭合；2026-07-23 用户反馈由 `TASK-SLICE-147/148/149` 修复复验后重新关闭）。
 
 当前进展：
 
@@ -299,7 +299,7 @@
 - `src/systems/LevelSystem.ts` 扩展 `VerticalClimbState` 模型：世界 940×2500、4 个停点（y=2000/1500/1000/500）、3 层云视差、周期刷怪定时器。
 - 纵向爬升：相机跟随玩家 Y（lerp 平滑），目标位置基于玩家最小 Y 计算。
 - 周期刷怪：单人每 6s 刷 2 只 `Monster30`、双人 4 只，生成在玩家附近（x ± 150，y - 100~300）。
-- 停点系统：玩家到达停点 Y → 相机锁止 → 刷怪暂停 → 清完当前波次 → 停点清除 → 相机解锁、刷怪恢复。
+- 停点系统：玩家到达停点 Y → 记录活动波次 → 清完当前波次后允许 Boss 推进；`TASK-SLICE-147` 根据用户反馈明确停点不再锁死已继续上行玩家的镜头可见性。
 - 云层视差：3 层云（parallaxSpeed 0.12/0.25/0.45），随相机滚动偏移。
 - 爬升区 7 个 through 平台 + 1 个底部 solid 地面。
 - boss 区触发：玩家 Y ≤ 180 → 关闭刷怪/相机跟踪 → 激活 Monster3 boss 战斗。

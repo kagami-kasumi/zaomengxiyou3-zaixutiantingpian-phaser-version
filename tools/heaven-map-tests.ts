@@ -74,6 +74,7 @@ const mainSource = readFileSync(path.join(repoRoot, 'src/main.ts'), 'utf8');
 assert.match(mainSource, /BootScene, SaveSlotScene, HeavenMapScene/);
 const mapSource = readFileSync(path.join(repoRoot, 'src/scenes/HeavenMapScene.ts'), 'utf8');
 assert.match(mapSource, /loadActiveGame\(this\.storage\)/);
+assert.match(mapSource, /this\.chooser = undefined/);
 assert.match(mapSource, /openPlayerCountChooser\(node\)/);
 assert.match(mapSource, /this\.scene\.start\(node\.routeKey, \{ playerCount \}\)/);
 assert.match(mapSource, /内容尚未复现/);

@@ -219,7 +219,6 @@ import {
 } from './test-scene/TestSceneStage11FlowBridge';
 import {
   buildSkillPanelLines as buildSkillPanelLinesImpl,
-  createCapturablePetTargets as createCapturablePetTargetsImpl,
   createDebugKeys as createDebugKeysImpl,
   createHeroDebugKeys as createHeroDebugKeysImpl,
   createInventoryUIKeys as createInventoryUIKeysImpl,
@@ -471,7 +470,7 @@ export class TestScene extends Phaser.Scene {
     this.playerViews = this.createPlayerMarkers(this.playerCount);
     this.initializeSceneSave();
     this.initializeStage11Flow();
-    this.capturablePetTargets = this.createCapturablePetTargets();
+    this.capturablePetTargets = [];
 
     this.movementPlatforms = [...stage11World.movementPlatforms];
     this.inputSystem = createInputSystem(this);
@@ -602,7 +601,6 @@ export class TestScene extends Phaser.Scene {
   private installStage11FeatureUiEntries = installStage11FeatureUiEntriesImpl;
   private updateStage11Flow = updateStage11FlowImpl;
   private createPlayerMarkers = createPlayerMarkersImpl;
-  public createCapturablePetTargets = createCapturablePetTargetsImpl;
   public createPlayerView = createPlayerViewImpl;
   private createHeroDebugKeys = createHeroDebugKeysImpl;
   private createSkillUIKeys = createSkillUIKeysImpl;

@@ -32,16 +32,21 @@
 | GOAL-008 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-140 | 完整功能 UI 与正式主循环端到端验收 | 最多 1 次 | `GOAL-009` |
 | GOAL-009 | Done | LINE-STAGE-2-1 | TASK-SETTINGS-053 | Stage 2-1 六段逆向证据与实现任务输入 | 最多 1 次 | `GOAL-013` |
 | GOAL-010 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-142 | 工坊原图按钮、左框居中、原生返回与 P1/P2 样式整改 | 最多 1 次 | `GOAL-009` |
-| GOAL-011 | Planned | LINE-UI-NATIVE-SKILLS | TASK-SETTINGS-061 | 技能四页原生文字、按钮状态、命中区与动态槽位六段证据 | 最多 1 次 | `GOAL-012` |
-| GOAL-012 | Planned | LINE-UI-NATIVE-SKILLS | TASK-SLICE-143 | 技能总页、主动页、绑定页、被动页 UI 原生化实现与正式流程验收 | 最多 1 次 | 关闭本线后按用户调度恢复内容线 |
+| GOAL-011 | Done | LINE-UI-NATIVE-SKILLS | TASK-SETTINGS-061 | 技能四页原生文字、按钮状态、命中区与动态槽位六段证据 | 最多 1 次 | `GOAL-012` |
+| GOAL-012 | Active | LINE-UI-NATIVE-SKILLS | TASK-SLICE-143 | 技能总页、主动页、绑定页、被动页 UI 原生化实现与正式流程验收 | 最多 1 次 | 关闭本线后按用户调度恢复内容线 |
 | GOAL-013 | Done | LINE-STAGE-2-1 | TASK-SLICE-144 | Stage 2-1 真场景、五停点 53 怪、38 冰刺、Boss 门与 2-2 保存可玩闭环 | 最多 1 次 | `GOAL-014` |
 | GOAL-014 | Done | LINE-STAGE-2-1 | TASK-SLICE-145 | 940×590 1P/2P 运行校准、用户复验与怪物视觉范围/功能线关闭裁决 | 最多 1 次 | `GOAL-015` |
 | GOAL-015 | Done | LINE-STAGE-2-1 | TASK-SETTINGS-062 | Monster6/9/10/19 动作、弹体与命中特效真视觉六段证据 | 最多 1 次 | `GOAL-016` |
-| GOAL-016 | Active | LINE-STAGE-2-1 | TASK-SLICE-146 | 接入四怪本体/七攻击对象真视觉并完成 940×590 逐状态复验 | 最多 1 次 | 完成后裁决 `LINE-STAGE-2-1` 关闭 |
+| GOAL-016 | Done | LINE-STAGE-2-1 | TASK-SLICE-146 | 接入四怪本体/七攻击对象真视觉并完成 940×590 逐状态复验 | 最多 1 次 | 已关闭 `LINE-STAGE-2-1`；下一线 `GOAL-011` |
+| GOAL-017 | Done | LINE-STAGE-1-1 | TASK-SLICE-147 | 修复末段镜头、W/↑ 通关结果、遗留调试怪和返回地图后节点失效四项回归 | 最多 1 次 | 已恢复 `GOAL-011` |
+| GOAL-018 | Done | LINE-STAGE-1-1 | TASK-SLICE-148 | 复用原版普通门并改为最高层立即触发 Boss | 最多 1 次 | 已恢复 `GOAL-011` |
+| GOAL-019 | Done | LINE-STAGE-1-1 | TASK-SLICE-149 | 按原生关卡重做最高层 Boss 镜头构图 | 最多 1 次 | 已恢复 `GOAL-011` |
 
-## 当前 Goal 完成定义
+## 最近完成 Goal
 
-`GOAL-016` 仅包含 `TASK-SLICE-146`：按 `stage21-monster-visuals-index.md` 和 11 条 `derived-ready` 标注，选择性接入 Monster6/9/10/19 本体 atlas 与七个攻击对象，保留 100/130 碰撞中心、脚底、左右镜像、攻击注册点和精确触发 tick；移除 Stage21 Arc/Text/占位声明，完成确定性回归与 940×590 1P/2P 逐状态视觉证据。本 Goal 不进入 Stage 2-2，不重构共享战斗；完成后才按覆盖台账裁决 `LINE-STAGE-2-1` 是否关闭。
+`GOAL-011` 仅包含 `TASK-SETTINGS-061`：从恢复 `OtherMat1.swf` character 250/868/417/213 及按钮、MovieClip、AS3/P-code 闭合四页完整显示列表、940×590 坐标、按钮/命中区、角色与技能状态帧、动态 TextField/addChild、绑定拖放和返回/owner/保存链。权威产物为 `docs/reverse-engineering/skill-ui-native-index.md`。
+
+完成结果：影响实现的未知为零；现有暗层、外框、现代标题、通用按钮和永久摘要均已逐项标为替代覆盖层，本证据 Goal 不批准新增可见现代例外。`LINE-UI-NATIVE-SKILLS` 继续保持 `Active`，同线下一 Goal `GOAL-012` / `TASK-SLICE-143` 已激活；本次 `/goal` 不继续实现。
 
 ## Goal 生成检查
 

@@ -11,7 +11,10 @@ import {
   stage11Assets,
   stage12Assets,
   stage13Assets,
+  stage21AttackAssets,
   stage21Assets,
+  stage21MonsterAtlases,
+  Stage21MonsterAssetKeys,
 } from '../assets/AssetManifest';
 
 export class BootScene extends Phaser.Scene {
@@ -76,6 +79,21 @@ export class BootScene extends Phaser.Scene {
         this.load.image(asset.key, asset.path);
       }
     }
+    for (const asset of Object.values(stage21MonsterAtlases)) {
+      this.load.spritesheet(asset.key, asset.path, {
+        frameWidth: asset.cellWidth,
+        frameHeight: asset.cellHeight,
+      });
+    }
+    for (const asset of Object.values(stage21AttackAssets)) {
+      asset.frameKeys.forEach((frameKey, index) => {
+        this.load.image(frameKey, asset.framePaths[index]);
+      });
+    }
+    this.load.text(
+      Stage21MonsterAssetKeys.attackGeometry,
+      '/assets/stage21/bullet-frame-geometry.csv',
+    );
   }
 
   public create(): void {

@@ -32,6 +32,10 @@ export class HeavenMapScene extends Phaser.Scene {
   }
 
   public create(): void {
+    // Phaser reuses the Scene instance after returning from a level. Display
+    // objects are destroyed on shutdown, but this reference otherwise remains
+    // truthy and blocks every later node activation.
+    this.chooser = undefined;
     this.storage = getBrowserStorage();
     const save = this.storage ? loadActiveGame(this.storage) : undefined;
     if (!save) {

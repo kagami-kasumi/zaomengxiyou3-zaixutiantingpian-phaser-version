@@ -4,6 +4,34 @@
 
 ## 2026-07-23
 
+### 固化内置浏览器视觉验收入口
+
+变更内容：
+
+- 将 Vite 生产预览固定为 `0.0.0.0:4174` 并启用 `strictPort`，避免隔离的内置浏览器无法访问 loopback-only 监听，也避免端口被占用时静默漂移。
+- 保留 `npm run dev` 的 loopback-only 默认值；自动视觉验收统一使用构建后的 `npm run preview`，不扩大开发服务器暴露面。
+- 将用户对该项目级监听的长期授权写入 Agent、Claude 和质量门禁入口；预览服务允许跨验收保持运行，只有端口冲突、用户要求或确有必要时才停止。
+- 在 README 明示局域网可访问构建产物的边界。
+
+影响范围：
+
+- `vite.config.ts`
+- `package.json`
+- `AGENTS.md`
+- `CLAUDE.md`
+- `README.md`
+- `docs/workflow/README.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow` 通过，仅保留既有 `PlayerSlot` 禁止别名 warning。
+- `npm run build` 通过，仅保留既有大 chunk warning。
+- 主机侧确认 `0.0.0.0:4174` 正在监听且 HTTP 返回 `200`；内置浏览器成功打开 `http://127.0.0.1:4174/`，识别到标题“再续天庭 现代化”和单个 Phaser canvas，console 无 warning/error。
+- 预览服务按用户授权保持运行。
+
 ### 落地 UI 显示列表与原版视觉基准治理门禁
 
 变更内容：

@@ -212,7 +212,7 @@ testGameSaveRejectsCorruptionAndSanitizesTransientPetState();
 testHitRegistryAllowsDistinctTargets();
 testStopPointRequiresSpawnedWaveBeforeClearing();
 testNonStopSpawnWaitsForAnEmptyField();
-testStage11BossWaitsForEveryStopPoint();
+testStage11BossTriggersAtHighestLayerWithLivingMonsters();
 testMonsterDropTableBranches();
 testExpandedMonsterDropTableBoundaries();
 testConfiguredDropSkipsNegativeAndEmptyTables();
@@ -616,12 +616,14 @@ function testNonStopSpawnWaitsForAnEmptyField(): void {
   assert.equal(updateVerticalClimbSpawn(state, 1, 0, 1), true);
 }
 
-function testStage11BossWaitsForEveryStopPoint(): void {
+function testStage11BossTriggersAtHighestLayerWithLivingMonsters(): void {
   const state = createVerticalClimbState(600);
-  assert.equal(isBossZoneTriggered(state, 400), false);
-  for (const stopPoint of state.stopPoints) stopPoint.cleared = true;
+  state.activeStopIndex = 3;
+  state.stopPoints[3].waveSpawned = true;
+  state.stopPoints[3].waveHadActiveMonsters = true;
   assert.equal(isBossZoneTriggered(state, 471), false);
   assert.equal(isBossZoneTriggered(state, 470), true);
+  assert.equal(state.stopPoints.every((stopPoint) => stopPoint.cleared), false);
 }
 
 function testMonsterDropTableBranches(): void {

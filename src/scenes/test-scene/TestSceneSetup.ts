@@ -28,7 +28,6 @@ import {
   Stage1CombatTuning,
   SkillSlotKeyLabels,
   TREE_UPGRADE_COSTS,
-  type CapturablePetTarget,
   type HeroId,
   type HeroSkillLearningState,
   type PlayerSlot,
@@ -82,23 +81,6 @@ export function createPlayerMarkers(this: any, playerCount: 1 | 2): any[] {
     p2.movement.currentPlatformId = STAGE11_GROUND_PLATFORM_ID;
 
     return [p1, p2];
-  }
-
-export function createCapturablePetTargets(this: any): CapturablePetTarget[] {
-    const groundY = STAGE11_GROUND_TOP_Y;
-    return [
-      {
-        id: 'catch-monster72',
-        monsterId: 'Monster72',
-        x: defaultClimbTuning.worldWidth * 0.34 + 108,
-        y: groundY - 34,
-        width: 72,
-        height: 68,
-        level: 6,
-        removed: false,
-        feedback: 'Monster72 monkey1 40%',
-      },
-    ];
   }
 
 export function createPlayerView(this: any,
