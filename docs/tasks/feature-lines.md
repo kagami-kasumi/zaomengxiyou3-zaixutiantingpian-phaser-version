@@ -29,7 +29,7 @@
 | LINE-FORMAL-GAME-LOOP | Done | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | — | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | 端到端旅程保持；工坊原 119 容器透明命中、四操作居中、原图返回和 P1/P2 样式经专项/全门禁/940×590 复验闭合 |
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
-| LINE-STAGE-2-2 | Active | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SLICE-150A | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 六段证据与 14 条真资源已闭合；实现按场景机关、普通波次、Boss 结果、全程校准四个 Goal 连续关闭 |
+| LINE-STAGE-2-2 | Active | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SLICE-150B | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | `150A` 已闭合真场景/三平台/9 火焰；继续按普通波次、Boss 结果、全程校准三个 Goal 连续关闭 |
 
 ## 当前功能线状态
 
@@ -37,7 +37,7 @@
 
 `LINE-UI-NATIVE-SKILLS` 已关闭：`TASK-SETTINGS-061` 闭合四页显示列表、原版视觉基准、按钮/命中区和动态槽位；`TASK-SLICE-143` 派生并接入 220 个原生 base/按钮/帧资源，移除替代覆盖层，完成学习、升级、绑定、被动、P1/P2、关闭、重载和 V4 回归。
 
-`GOAL-020` / `TASK-SETTINGS-063` 已闭合 Stage 2-2：`sl22`/character 64、两层场景、背景/地面、3+1 墙、3 平台、5 停点、25 刷怪点、五批 54 怪、9 个 130 帧火焰、Monster16 八动作/六攻击、Boss 显门和胜利保存 2-3 均达到确认或交叉确认；影响实现的原版未知为零。`PG-008` 规模预检将原 `TASK-SLICE-150` 拆为 `150A..150D`。当前激活 `GOAL-021` / `TASK-SLICE-150A`，下一次 `/goal` 只接入真场景、布局、遍历与 9 个火焰机关，不提前实现波次、Boss 或结果保存。
+`GOAL-020` / `TASK-SETTINGS-063` 已闭合 Stage 2-2 六段证据。`GOAL-021` / `TASK-SLICE-150A` 已接入 character 34/36/31/63、bg22/floorBg2、3+1 墙、3 个单向平台、5 停点数据、左右边界和 9 个 130 帧火焰；火焰按真纹理 alpha 在第 2..19 帧命中，2 秒 attack id、`[40,50)` 伤害、免疫与回环均有专项，940×590 三平台/三处火焰/边界和零 console 已闭合。当前激活 `GOAL-022` / `TASK-SLICE-150B`，下一次 `/goal` 只接入五停点、25 点、54 怪和 1P/2P 普通流程，不提前进入 Monster16 或结果保存。
 
 本线按依赖顺序推进：战斗死亡原因/攻击可读性/数值合同 → 可稳定通关的战斗切片 → 核心战斗 HUD → 启动与存档槽 → 天庭地图/关卡解锁 → 背包、宠物等完整功能 UI。每一步仍拆为小 task；不得用某个最小 HUD 或存档切片越级关闭整线。
 

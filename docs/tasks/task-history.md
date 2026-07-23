@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-150A | 场景/机关接入 | 接入 Stage 2-2 真场景、布局/遍历与 9 个火焰机关 | M-026、M-027、M-035、VS-056 | 7 条 ready 场景标注、134 个新增真 SVG、Stage22 layout/traversal/fire owners、DEV-only QA 场景、专项/全系统/build 与 9 张 940×590 零 console 证据 |
 | TASK-SETTINGS-063 | 关卡/玩法逆向 | 闭合 Stage 2-2 真场景、几何、波次、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-056 | `levels-index.md` Stage 2-2 权威输入、五停点 54 怪/9 火焰/Monster16 六攻击合同、14 条 derived-ready 标注；原实现包后经 PG-008 拆为 `TASK-SLICE-150A..150D` |
 | TASK-SLICE-143 | UI 原生化整改 | 移除技能四页现代覆盖层并接回原图片中文字、按钮、状态、动态槽位和布局 | M-016、M-041、M-052、VS-055 | 220 个原生 UI 资源、`FormalSkillPageView`/layout、绑定提交、P1/P2/V4 专项与 940×590 正式流程证据 |
 | TASK-SETTINGS-061 | UI 原生化逆向 | 闭合技能四页原生文字、按钮状态、命中区、布局和动态槽位 | M-016、M-041、M-052、VS-055 | `skill-ui-native-index.md`、250/868/417/213 完整显示列表、10 树/50 图标状态、绑定拖放/等价边界、被动 P-code 与 `TASK-SLICE-143` 实现门禁 |
@@ -225,6 +226,41 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-150A
+
+完成时间：2026-07-23
+
+功能条线 / Goal：
+
+- `GOAL-021` 完成并从执行看板移除；同线 `GOAL-022` / `TASK-SLICE-150B` 激活。
+- `LINE-STAGE-2-2` 保持唯一 `Active`，未因场景/机关局部完成而提前关闭。
+
+完成内容：
+
+- 从 `TASK-SETTINGS-063` 选择性派生物接入 bg22、character 34/36/63 与 FireThron 130 帧真 SVG；`floorBg2` 复用既有 Stage 2 owner。7 条场景/机关标注从 `derived-ready` 升级为 `ready`，Monster16/六攻击对象仍保持后续范围。
+- 新增 `Stage22Layout` / `Stage22TraversalSystem`，保留 3+1 墙、3 个 `ThroughWall`、5 个停点数据、地面顶 `501.0501981`、左右边界、门注册点和 9 个火焰世界坐标。
+- 新增独立 `Stage22FireHazardSystem`：200px 触发，30fps/130 帧回 frame 1 停止，只在第 2..19 帧读取当前真 SVG alpha 命中；每实例/玩家/2 秒 attack id 去重，`[40,50)` 伤害、方向 `±10` 击退和 `isYourFather` 免疫。
+- 新增本地显式 `?qaStage=2-2-layout` 验收入口与 `qaX/qaNoDamage/qaFireFrame` 控制；默认启动和远程生产主机不暴露空关卡，正式地图入口留给 `150B`。
+- 没有创建波次状态机、普通怪、Monster16、显门、结果或 2-3 存档占位；没有修改恢复源包或 legacy extraction。
+
+验证：
+
+- 实现前 `npm run check:structure` 通过，只有 8 个与本任务目标文件无关的既有 warning。
+- `npm run test:stage22` 覆盖资源 provenance/尺寸、3+1 墙、三平台、五停点数据、边界、DEV 门禁、火焰触发/alpha 拒绝整矩形/帧窗/去重/随机伤害/击退/免疫/回环。
+- `npm run test:systems`、`npm run build`、`npm run check:annotations`、`npm run check:workflow`、`git diff --check` 通过；build 仅有既有 chunk 大小 warning，structure/workflow 仅报告既有 warning。
+- 940×590 浏览器验收覆盖两层场景、左右边界、三平台二段跳落脚、第一/中/右代表火焰、真像素伤害与回环；最终 console warning/error 为 0。显示列表、原点/注册点和可见差异见 `TASK-SLICE-150A-visual-review.md`。
+
+问题治理：
+
+- PG-003：复用 `LevelHeroMovementRuntime`，Stage22 只提供平台/边界环境，没有新增底层 movement owner 或 bridge 私有 `previousInput`，通过。
+- PG-004：完成收尾适用性扫描并回写 PG-003/004/005/008，反馈闭环通过。
+- PG-005：实现前重读 Stage 2-2 六段矩阵；世界原点、导出画布原点、帧窗和 alpha 命中均由证据驱动，自动与 940×590 双重验证通过。
+- PG-008：两个主工作包、两个验收批次、0 compact 完成，没有扩张到 `150B/150C`；形成拆分后的首个实现 Goal 样本。
+
+推荐任务：
+
+- `GOAL-022` / `TASK-SLICE-150B`：只接入五停点、25 刷怪点、54 怪定义与 1P/2P 普通流程。
 
 ### TASK-SETTINGS-054
 

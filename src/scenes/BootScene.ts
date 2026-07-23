@@ -16,7 +16,12 @@ import {
   stage21Assets,
   stage21MonsterAtlases,
   Stage21MonsterAssetKeys,
+  stage22Assets,
 } from '../assets/AssetManifest';
+import {
+  isStage22LocalQaHost,
+  readStage22DevOptions,
+} from '../systems/Stage22EntrySystem';
 
 export class BootScene extends Phaser.Scene {
   public constructor() {
@@ -95,6 +100,19 @@ export class BootScene extends Phaser.Scene {
         this.load.image(frameKey, asset.framePaths[index]);
       });
     }
+    const stage22QaRuntime = import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname);
+    if (stage22QaRuntime) {
+      for (const [name, asset] of Object.entries(stage22Assets)) {
+        if (name === 'floor') continue;
+        if ('framePaths' in asset) {
+          asset.frameKeys.forEach((frameKey, index) => {
+            this.load.svg(frameKey, asset.framePaths[index]);
+          });
+        } else {
+          this.load.svg(asset.key, asset.path);
+        }
+      }
+    }
     this.load.text(
       Stage21MonsterAssetKeys.attackGeometry,
       '/assets/stage21/bullet-frame-geometry.csv',
@@ -102,6 +120,14 @@ export class BootScene extends Phaser.Scene {
   }
 
   public create(): void {
+    const stage22Dev = readStage22DevOptions(
+      window.location.search,
+      import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname),
+    );
+    if (stage22Dev.enabled) {
+      this.scene.start('Stage22DevScene', stage22Dev);
+      return;
+    }
     this.scene.start('SaveSlotScene');
   }
 }

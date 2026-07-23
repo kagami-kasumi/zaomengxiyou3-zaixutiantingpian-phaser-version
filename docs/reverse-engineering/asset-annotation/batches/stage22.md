@@ -16,7 +16,7 @@
 
 ## Agent 调查结论
 
-- 已确认：14 条 stable key；其中 7 条场景/机关、1 条 Boss atlas、6 条攻击对象。
+- 已确认：14 条 stable key；其中 7 条场景/机关已由 `TASK-SLICE-150A` 接入，1 条 Boss atlas 与 6 条攻击对象留给 `150C`。
 - 推测：0。
 - 未知：0 个影响首个实现的原版事实。
 - 对应标注表：`../annotations/stage22.csv`。
@@ -24,7 +24,7 @@
 
 ## 去向
 
-- 14 条均为 `derived-ready`；同线实现 Goal 选择性复制到 `public/assets/stage22/` 并注册 manifest。
+- 7 条场景/机关已为 `ready`；Boss atlas 与六攻击对象仍为 `derived-ready`，由 `150C` 选择性复制并注册。
 - Monster9/10/19 直接复用已接入的 Stage 2-1 真资源，禁止重复导出或复制。
 - 不保留 Monster16、六攻击对象、火焰或场景的现代可见占位。
 
@@ -36,3 +36,10 @@
 - [x] 36 个 Boss 关键帧、104 个攻击帧、130 帧火焰和 MovieClip 注册点已记录。
 - [x] 未把“尚未接入”误写为 `missing-original`。
 - [x] 940×590 1P/2P 运行验收已转入同线实现 Goal。
+
+## TASK-SLICE-150A 接入结果
+
+- `public/assets/stage22/` 接入背景、中景、前景、普通门与 FireThron 130 个真 SVG 帧；`floorBg2` 复用既有 Stage 2 共享 owner。
+- `Stage22Layout` / `Stage22TraversalSystem` 保留 3+1 墙、3 个单向平台、5 个停点、地面顶和左右边界；正式波次仍未暴露。
+- `Stage22FireHazardSystem` 只在第 2..19 帧调用当前真纹理 alpha 命中；第 20..130 帧为视觉播放，回到第 1 帧停止。
+- 940×590 证据覆盖三平台、左右边界和左/中/右代表火焰；console warning/error 为零。显示列表与差异记录见 `../../../tasks/evidence/TASK-SLICE-150A-visual-review.md`。

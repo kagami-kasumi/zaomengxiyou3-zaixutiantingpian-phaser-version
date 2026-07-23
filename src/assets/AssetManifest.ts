@@ -106,6 +106,15 @@ export const Stage21AssetKeys = {
   iceThorn: 'stage.stage2-1.ice-thorn',
 } as const;
 
+export const Stage22AssetKeys = {
+  floor: Stage21AssetKeys.floor,
+  background: 'stage.stage2-2.background',
+  midground: 'stage.stage2-2.midground',
+  foreground: 'stage.stage2-2.layout',
+  transferDoor: 'stage.stage2-2.transfer-door',
+  fireThorn: 'stage.stage2-2.fire-thorn',
+} as const;
+
 export const Stage21MonsterAssetKeys = {
   monster6: 'monster.stage2-1.monster6.atlas',
   monster9: 'monster.stage2-1.monster9.atlas',
@@ -401,8 +410,12 @@ const stageFrameKeys = (key: string, frameCount: number): readonly string[] =>
 const stageFramePaths = (directory: string, frameCount: number): readonly string[] =>
   Array.from({ length: frameCount }, (_, index) => `${directory}/frame-${String(index + 1).padStart(2, '0')}.png`);
 
-const numberedFramePaths = (directory: string, frameCount: number): readonly string[] =>
-  Array.from({ length: frameCount }, (_, index) => `${directory}/${index + 1}.png`);
+const numberedFramePaths = (
+  directory: string,
+  frameCount: number,
+  extension = 'png',
+): readonly string[] =>
+  Array.from({ length: frameCount }, (_, index) => `${directory}/${index + 1}.${extension}`);
 
 export const combatHudAssets = {
   roleInfo: {
@@ -779,6 +792,77 @@ export const stage21Assets = {
     width: 59,
     height: 588,
     sourceBounds: { width: 59, height: 588 },
+  },
+} as const;
+
+export const stage22Assets = {
+  floor: stage21Assets.floor,
+  background: {
+    key: Stage22AssetKeys.background,
+    path: '/assets/stage22/background.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/2.swf',
+    sourceSymbol: 'bg22',
+    sourceCharacterId: 279,
+    sourceTag: 'DefineSprite frame 1; wraps character 278',
+    width: 4700,
+    height: 590,
+    sourceBounds: { width: 4700, height: 590 },
+  },
+  midground: {
+    key: Stage22AssetKeys.midground,
+    path: '/assets/stage22/midground.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level22.swf',
+    sourceSymbol: 'export.gameSence.sl22 character 36',
+    sourceCharacterId: 36,
+    sourceTag: 'DefineShape2',
+    width: 1746,
+    height: 53,
+    sourceBounds: { width: 1745.1, height: 52.45 },
+  },
+  foreground: {
+    key: Stage22AssetKeys.foreground,
+    path: '/assets/stage22/foreground.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level22.swf',
+    sourceSymbol: 'export.gameSence.sl22 character 34',
+    sourceCharacterId: 34,
+    sourceTag: 'DefineShape2',
+    width: 4701,
+    height: 94,
+    sourceBounds: { width: 4701, height: 94 },
+  },
+  transferDoor: {
+    key: Stage22AssetKeys.transferDoor,
+    path: '/assets/stage22/transfer-door.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level22.swf',
+    sourceSymbol: 'ordinary transfer door / isTransferDoor',
+    sourceCharacterId: 63,
+    sourceTag: 'DefineSprite frame 1; child characters 59/62',
+    width: 186,
+    height: 165,
+    sourceBounds: { width: 185.8, height: 165 },
+  },
+  fireThorn: {
+    key: Stage22AssetKeys.fireThorn,
+    frameKeys: stageFrameKeys(Stage22AssetKeys.fireThorn, 130),
+    framePaths: numberedFramePaths('/assets/stage22/fire-thorn', 130, 'svg'),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level22.swf',
+    sourceSymbol: 'export.mapObject.FireThron',
+    sourceCharacterId: 31,
+    sourceTag: 'DefineSprite 130 frames at 30fps',
+    frameCount: 130,
+    width: 143,
+    height: 315,
+    sourceBounds: { width: 143, height: 314.35 },
   },
 } as const;
 
@@ -1261,4 +1345,5 @@ export const assetBundles = {
     ...Object.values(stage21MonsterAtlases),
     ...Object.values(stage21AttackAssets),
   ],
+  stage22: Object.values(stage22Assets),
 } as const;

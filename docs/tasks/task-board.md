@@ -4,15 +4,14 @@
 
 ## 当前推荐
 
-`TASK-SLICE-150A` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-021` 和 `LINE-STAGE-2-2`。本 Goal 只接入 Stage 2-2 真场景、layout/traversal 与 9 个火焰机关，不进入波次、Boss、结果保存或完整运行校准。
+`TASK-SLICE-150B` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-022` 和 `LINE-STAGE-2-2`。本 Goal 只接入 Stage 2-2 五停点、25 刷怪点、54 怪定义与 1P/2P 普通流程，不进入 Monster16、胜利保存或完整运行校准。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SLICE-150 | Split | — | LINE-STAGE-2-2 | 过大父任务 | 原计划一次完成 Stage 2-2 全部实现与校准 | M-026、M-027、M-030、M-035、M-044、VS-056 | 已按 PG-008 拆为 `150A..150D` | 依次执行同线四个子 task |
-| TASK-SLICE-150A | Ready | GOAL-021 | LINE-STAGE-2-2 | 场景/机关接入 | 接入真场景、layout/traversal 和 9 火焰 | M-026、M-027、M-035、VS-056 | 7 条场景资源、Stage22 layout/traversal/fire owners 与局部视觉验收 | TASK-SLICE-150B |
-| TASK-SLICE-150B | Planned | GOAL-022 | LINE-STAGE-2-2 | 普通流程接入 | 接入五停点、25 点、54 怪定义与 1P/2P 普通流程 | M-027、M-030、M-044、VS-056 | wave/flow、共享普通怪、6/8 上限、失败与正式入口 | TASK-SLICE-150C |
+| TASK-SLICE-150B | Ready | GOAL-022 | LINE-STAGE-2-2 | 普通流程接入 | 接入五停点、25 点、54 怪定义与 1P/2P 普通流程 | M-027、M-030、M-044、VS-056 | wave/flow、共享普通怪、6/8 上限、失败与正式入口 | TASK-SLICE-150C |
 | TASK-SLICE-150C | Planned | GOAL-023 | LINE-STAGE-2-2 | Boss/结果接入 | 接入 Monster16 真视觉/六攻击、显门、胜利和 2-3 保存 | M-030、M-035、M-044、VS-056 | Monster16 behavior/native visual、门/结果 bridge、V4 2-3 | TASK-SLICE-150D |
 | TASK-SLICE-150D | Planned | GOAL-024 | LINE-STAGE-2-2 | 运行校准 | 完成 940×590 1P/2P 全流程校准和关闭裁决 | M-026、M-027、M-030、M-035、M-044、VS-056 | 全旅程证据、重载/console、覆盖差异与关线裁决 | 关闭本线或生成同线最小后续 |
 
@@ -81,76 +80,6 @@ UI 原生化合同：
 推荐后续任务：
 
 - `TASK-SLICE-150A`。
-
-### TASK-SLICE-150A
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-STAGE-2-2`（Active）
-
-Goal 包：
-
-- `GOAL-021`（Active）
-
-目标机制/切片：
-
-- `M-026`、`M-027`、`M-035`、`VS-056`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若需要实现刷怪/Monster16/结果保存，或发现第二种未记录机关资料族，立即拆到后续 Goal，不扩张本 task。
-
-输入资料：
-
-- `levels-index.md` Stage 2-2 场景/墙/平台/火焰合同、`stage22.csv` 的 7 条场景资源、`src-boundaries.md`。
-- Stage 2-1 layout/traversal/ice owner 作为共享结构参考；修改既有 `src/` 前运行 `npm run check:structure`。
-
-输出产物：
-
-- 选择性接入 layout、midground、foreground、bg22、floorBg2、door 和 FireThron 资源，注册 manifest/provenance。
-- 新增 Stage22 layout/traversal/fire owner；地面顶、3+1 墙、3 平台、5 停点边界和 9 火焰坐标由权威数据驱动。
-- 建立不暴露正式空关卡的 DEV-only 场景视觉/遍历验收入口；正式地图入口留给 `150B`。
-
-完成定义：
-
-- 真场景层级、世界坐标、移动/平台和 9 火焰 idle/触发/伤害/循环可独立运行；没有怪物、Boss 或结果占位。
-- 本 task 不创建波次状态机，不改变 2-2/2-3 存档。
-
-验收标准：
-
-- Stage22 layout/fire 专项、`test:systems`、build、annotations、workflow 和 diff check 通过。
-- 940×590 验收真场景层级、三平台、左右边界与至少三处代表火焰的 idle/触发/循环；console 无 warning/error。
-
-UI 原生化合同：
-
-- 显示列表清单：character 64 根、32 背景容器、36 中景、34 前景/地面、31 火焰和 63 隐藏门；记录父子层级、原点、缩放与可见性。
-- 原版视觉基准：恢复 `level22.swf` / `assets/2.swf` 的选择性 SVG/PNG、XML 时间轴与 940×590 舞台。
-- 允许的现代视觉例外：仅 DEV-only、默认不可见的验收控制；玩家可见替代层为空。
-- 逐状态验收：场景静态、行走/跳跃/单向平台、火焰 idle/trigger/active/loop、销毁重建。
-- 差异证据：世界原点/注册点叠图、对象清单与 940×590 截图。
-
-禁止范围：
-
-- 不实现波次、普通怪、Monster16、显门、胜利或保存；不进入 Stage 2-3。
-- 不修改 legacy extraction，不全量导出，不复制 Stage 2-1 怪物资源。
-
-状态更新：
-
-- 更新 7 条场景标注、覆盖台账、M-026/027/035、Goal/task/history 和 PG-003/004/005/008 适用样本。
-
-推荐后续任务：
-
-- `TASK-SLICE-150B`。
 
 ### TASK-SLICE-150B
 

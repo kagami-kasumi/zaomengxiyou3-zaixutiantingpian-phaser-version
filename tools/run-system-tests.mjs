@@ -21,6 +21,7 @@ const bundledTests = requestedTests.length > 0
       'stage13-flow-tests',
       'stage13-traversal-tests',
       'stage21-tests',
+      'stage22-tests',
       'stage1-combat-tests',
       'stage1-hud-tests',
       'save-slot-tests',
