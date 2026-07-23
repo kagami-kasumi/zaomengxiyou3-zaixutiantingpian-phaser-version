@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-062 | 视觉资源逆向 | 闭合 Stage 2-1 Monster6/9/10/19 本体、攻击对象与命中可见结果 | M-030、M-035、VS-049 | `stage21-monster-visuals-index.md`、四怪 94 帧/七对象 132 帧几何、11 条 derived-ready 标注、`TASK-SLICE-146` 实现合同 |
 | TASK-SLICE-145 | 运行校准 | 完成 Stage 2-1 的 940×590 1P/2P、五停点、冰刺、Boss 门、结果/回载与视觉范围裁决 | M-026、M-027、M-030、M-035、M-044、VS-049 | DEV-only 地图/快速清怪验收入口、8 张运行证据、正式失败/胜利/2-2 保存复验与同线真视觉后续合同 |
 | TASK-SLICE-144 | 可玩关卡切片 | 接入 Stage 2-1 真场景、五停点、冰刺、Boss 门与 2-2 保存闭环 | M-026、M-027、M-030、M-035、M-044、VS-049 | 71 项真资源、Stage21 layout/traversal/flow/ice/scene/result、地图入口、共享战斗/奖励、V4 2-2、专项/全系统/build；浏览器 URL 策略限制公开 |
 | TASK-SETTINGS-053 | 关卡/玩法逆向 | 闭合 Stage 2-1 场景、停点、刷怪、冰刺、结果与进度六段证据链 | M-026、M-027、M-030、M-035、M-044、VS-049 | `levels-index.md` 权威实现输入、7 条资源标注、场景/波次/冰刺/结果矩阵与 `TASK-SLICE-144` 实现合同 |
@@ -4606,6 +4607,24 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-062
+
+- 完成日期：2026-07-23
+- 功能条线：`LINE-STAGE-2-1`（继续保持 `Active`，下一 task 为 `TASK-SLICE-146`）
+- 沿 `AssetsLoader -> AssetsUrl -> ApplicationDomain -> AUtils.getNewObj` 确认 Stage 2-1 权威怪物包为恢复 `assets/2.swf`；Stage 9 同名包只作交叉对照，不作为本关来源。
+- 闭合 Monster6/9/10/19 四个 DefineBitsJPEG3 atlas 的 SymbolClass、cell、offset、动作行、94 个可达关键帧、30 fps hold tick、碰撞中心、脚底和左右镜像；Monster10 hit2 被证实为不可达坏分支，不生成现代伪动作。
+- 闭合七个 `SpecialEffectBullet` 的 character id、132 帧、MovieClip 注册点、逐帧边界、零 padding 滤镜/颜色变换、生成 tick/数量/偏移、生命周期与命中间隔；直接调用链没有第二层独立命中火花。
+- 从 `StageCommon.swf` character 105/107 确认普通怪 100 高、Monster6 130 高的中心碰撞盒；`BaseObject.nearToWall()` 与现代 `MonsterPhysicsSystem` 都按 `platformTop - height/2` 落地。
+- 在 Git 忽略的 `local-resources/regima/task-outputs/task-settings-062-stage21-monsters/` 完成 4 个合并 RGBA atlas、七对象逐帧 PNG/SVG、94/132 行几何表和碰撞 SVG；未修改恢复源包或旧提取结果，未全量导出。
+- 新增 `stage21-monster-visuals-index.md` 六段证据矩阵、现代 owner、stable key、反证条件和自动+940×590 双重验证计划；影响实现的原版未知为零。
+- 新增 11 条 `derived-ready/confirmed/integrate` 标注与关闭批次，生成 `GOAL-016 / TASK-SLICE-146`；本 Goal 未越界修改 `src/` 或提前关闭功能线。
+
+验证：
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次 Goal 收尾记录。
+
+推荐任务：
+- `TASK-SLICE-146`：只接入四怪本体/七攻击对象真视觉，完成注册点/触发专项和 940×590 1P/2P 逐状态复验，再裁决 `LINE-STAGE-2-1` 关闭。
 
 ### TASK-SLICE-142
 

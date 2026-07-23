@@ -36,11 +36,12 @@
 | GOAL-012 | Planned | LINE-UI-NATIVE-SKILLS | TASK-SLICE-143 | 技能总页、主动页、绑定页、被动页 UI 原生化实现与正式流程验收 | 最多 1 次 | 关闭本线后按用户调度恢复内容线 |
 | GOAL-013 | Done | LINE-STAGE-2-1 | TASK-SLICE-144 | Stage 2-1 真场景、五停点 53 怪、38 冰刺、Boss 门与 2-2 保存可玩闭环 | 最多 1 次 | `GOAL-014` |
 | GOAL-014 | Done | LINE-STAGE-2-1 | TASK-SLICE-145 | 940×590 1P/2P 运行校准、用户复验与怪物视觉范围/功能线关闭裁决 | 最多 1 次 | `GOAL-015` |
-| GOAL-015 | Active | LINE-STAGE-2-1 | TASK-SETTINGS-062 | Monster6/9/10/19 动作、弹体与命中特效真视觉六段证据 | 最多 1 次 | 依据证据生成同线真视觉实现 Goal |
+| GOAL-015 | Done | LINE-STAGE-2-1 | TASK-SETTINGS-062 | Monster6/9/10/19 动作、弹体与命中特效真视觉六段证据 | 最多 1 次 | `GOAL-016` |
+| GOAL-016 | Active | LINE-STAGE-2-1 | TASK-SLICE-146 | 接入四怪本体/七攻击对象真视觉并完成 940×590 逐状态复验 | 最多 1 次 | 完成后裁决 `LINE-STAGE-2-1` 关闭 |
 
 ## 当前 Goal 完成定义
 
-`GOAL-015` 仅包含 `TASK-SETTINGS-062`：从 RegiMA 恢复源包和 Monster6/9/10/19 AS3 调用链闭合四类怪物的动作、朝向、注册点、帧序、攻击窗口、弹体和命中特效真视觉证据。占位未获用户排除批准，因此本 Goal 只产出可实现的六段证据矩阵、资源标注与选择性导出计划，不在同一 Goal 内实现，也不提前关闭功能线。
+`GOAL-016` 仅包含 `TASK-SLICE-146`：按 `stage21-monster-visuals-index.md` 和 11 条 `derived-ready` 标注，选择性接入 Monster6/9/10/19 本体 atlas 与七个攻击对象，保留 100/130 碰撞中心、脚底、左右镜像、攻击注册点和精确触发 tick；移除 Stage21 Arc/Text/占位声明，完成确定性回归与 940×590 1P/2P 逐状态视觉证据。本 Goal 不进入 Stage 2-2，不重构共享战斗；完成后才按覆盖台账裁决 `LINE-STAGE-2-1` 是否关闭。
 
 ## Goal 生成检查
 

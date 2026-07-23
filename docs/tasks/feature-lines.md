@@ -27,12 +27,12 @@
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
 | LINE-FORMAL-GAME-LOOP | Done | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | — | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | 端到端旅程保持；工坊原 119 容器透明命中、四操作居中、原图返回和 P1/P2 样式经专项/全门禁/940×590 复验闭合 |
-| LINE-STAGE-2-1 | Active | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-062 | `feature-line-coverage/LINE-STAGE-2-1.md` | 940×590 行为/流程验收已闭合；Monster6/9/10/19 与弹体占位未获用户排除批准 | 待真怪物/弹体资源六段证据、实现与视觉复验 |
+| LINE-STAGE-2-1 | Active | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SLICE-146 | `feature-line-coverage/LINE-STAGE-2-1.md` | 940×590 行为/流程已闭合；四怪 94 个本体关键帧、七攻击对象 132 帧与注册点/触发合同已闭合 | 待真怪物/攻击对象接入、逐状态视觉复验与功能线关闭裁决 |
 | LINE-UI-NATIVE-SKILLS | Planned | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | TASK-SETTINGS-061 | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 等待用户批准是否暂停 Stage 2-1；四页原生按钮与动态槽位证据待复核 | 待四页证据、原生化实现、业务回归和 940×590 逐状态验收闭合 |
 
 ## 当前功能线状态
 
-`LINE-STAGE-2-1` 是唯一 `Active` WIP。`TASK-SLICE-145` 已在 940×590 下闭合地图 1P/2P 入口、双人独立移动、顶部/地面冰刺、五停点、失败/重载/返回、Boss 门、胜利和 2-2 当前槽保存；未发现需要反改注册点或世界坐标的运行偏差。怪物/弹体占位未取得用户排除批准，因此本线不提前关闭，当前进入 `GOAL-015` / `TASK-SETTINGS-062`，先闭合 Monster6/9/10/19 与弹体真视觉资源证据，再生成同线实现 Goal。
+`LINE-STAGE-2-1` 是唯一 `Active` WIP。`TASK-SLICE-145` 已在 940×590 下闭合地图 1P/2P 入口、双人独立移动、顶部/地面冰刺、五停点、失败/重载/返回、Boss 门、胜利和 2-2 当前槽保存；`TASK-SETTINGS-062` 又从权威 `assets/2.swf` 闭合四怪本体 atlas、七个攻击对象、碰撞根、脚底、朝向、触发 tick 和逐帧边界，影响实现的未知为零。当前进入 `GOAL-016` / `TASK-SLICE-146`，只接入真视觉、复验 940×590 逐状态并裁决本线关闭。
 
 用户已要求把技能页面 UI 原生化重做登记进 task 系统。`LINE-UI-NATIVE-SKILLS` 已作为 `Planned` 功能线登记，先执行原生页面证据复核，再实施四页原生化；本次登记不自动暂停 Stage 2-1，也不把治理文档当成游戏实现。
 

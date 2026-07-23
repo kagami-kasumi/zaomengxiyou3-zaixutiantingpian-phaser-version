@@ -4,23 +4,23 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-062` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-015` 和 `LINE-STAGE-2-1`。Stage 2-1 行为与正式流程已在 940×590 下验收；当前只闭合 Monster6/9/10/19、弹体和命中特效真视觉证据，不扩张 Stage 2-2。
+`TASK-SLICE-146` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-016` 和 `LINE-STAGE-2-1`。四怪与七个攻击对象的真视觉证据已闭合；当前只按证据接入并完成 940×590 逐状态复验，不扩张 Stage 2-2。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-062 | Ready | GOAL-015 | LINE-STAGE-2-1 | 视觉资源逆向 | 闭合 Monster6/9/10/19 动作、弹体与命中特效的恢复源包、时间轴、几何和现代映射证据 | M-030、M-035、VS-049 | 四怪视觉六段矩阵、资源标注、选择性导出/实现计划 | 依据证据生成同线真视觉实现 Goal |
+| TASK-SLICE-146 | Ready | GOAL-016 | LINE-STAGE-2-1 | 真视觉接入/运行复验 | 接入 Monster6/9/10/19 本体 atlas 与七攻击对象，移除占位并完成逐状态视觉复验 | M-030、M-034、M-035、VS-049 | 11 条真资源、Stage21 视觉 owner、注册点/触发专项、940×590 1P/2P 证据 | 裁决并关闭 `LINE-STAGE-2-1` |
 | TASK-SETTINGS-061 | Planned | GOAL-011 | LINE-UI-NATIVE-SKILLS | UI 原生化逆向 | 闭合技能四页原生文字、按钮状态、命中区、布局和动态槽位 | M-016、M-041、M-052、VS-055 | 四页六段证据矩阵、资源/坐标合同、现代例外清单和实现门禁 | `TASK-SLICE-143` |
 | TASK-SLICE-143 | Planned | GOAL-012 | LINE-UI-NATIVE-SKILLS | UI 原生化整改 | 移除技能四页现代外层 UI，直接复用原图片中文字、按钮、状态和布局 | M-016、M-041、M-052、VS-055 | 四页原生化 view、业务回归、P1/P2/V4 与 940×590 逐状态证据 | 关闭本线并回写 PG-007 |
 
 ## 任务完成定义
 
-### TASK-SETTINGS-062
+### TASK-SLICE-146
 
 任务类型：
 
-- `TASK-SETTINGS`
+- `TASK-SLICE`
 
 功能条线：
 
@@ -28,53 +28,56 @@
 
 Goal 包：
 
-- `GOAL-015`（Active）
+- `GOAL-016`（Active）
 
 目标机制/切片：
 
-- `M-030`、`M-035`、`VS-049`
+- `M-030`、`M-034`、`M-035`、`VS-049`
 
 输入资料：
 
-- `docs/workflow/reverse-engineering-protocol.md`、`docs/reverse-engineering/levels-index.md`、`monsters-index.md`、`projectiles-index.md`、`attack-effects-index.md` 与 `evb-extraction-report.md`。
-- `local-resources/regima/source/restored-swfs/` 中按 `Monster6`、`Monster9`、`Monster10`、`Monster19`、对应 Bullet/Effect SymbolClass 和 MovieClip 做窄查的源包；视觉存在性不得由旧提取集单独裁决。
-- `local-resources/regima/legacy-extraction/README_extract.md` 与主包中的四怪、`BaseMonster`、`BaseBullet`、攻击触发和位图池 AS3 只读证据。
-- `TASK-SLICE-145` 的 940×590 占位运行证据与 `LINE-STAGE-2-1.md` 的视觉缺口。
+- `docs/reverse-engineering/stage21-monster-visuals-index.md` 的六段矩阵、现代映射和双重验证计划。
+- `docs/reverse-engineering/asset-annotation/annotations/stage21-monsters.csv` 与 `batches/stage21-monsters.md`。
+- `local-resources/regima/task-outputs/task-settings-062-stage21-monsters/` 中四个合并 RGBA atlas、七攻击对象逐帧序列、94/132 行几何表和碰撞盒 SVG。
+- `Stage21GameplayBridge.ts`、`Stage1CombatSystem.ts`、`MonsterPhysicsSystem.ts`、`AssetManifest.ts`、`BootScene.ts` 与 Stage 2-1 专项测试。
 
 输出产物：
 
-- 在 `monsters-index.md` 或同目录独立 Stage 2-1 视觉文档中记录四怪的 wait/walk/hit/hurt/death、朝向翻转、攻击帧、弹体/命中特效和玩家可见结果六段证据矩阵。
-- 精确记录恢复源 SWF、SymbolClass、character id、时间轴、嵌套矩阵、注册点、逐帧可见边界、滤镜 padding、脚底/攻击点 local→world 映射和弹体原点。
-- 更新资源标注/批次；给出只选择性导出目标资源族的 stable key、帧范围、缺失/复用结论和现代实现 owner，不在本 task 内接入代码。
-- 影响实现的未知与反证条件、确定性测试计划、940×590 动作/弹体逐状态视觉验证计划，以及同线实现 task/Goal 输入。
+- 只复制/转换本批 11 条 `derived-ready` 资源到 `public/assets/stage21/`，在 manifest/loader 保留源包、character id、atlas cell、帧数与注册点 provenance。
+- 新增 Stage 2-1 专属怪物/攻击视觉 owner：wait/walk/hurt/dead/hit、左右镜像、死亡播完销毁和场景清理；Monster6 覆盖 hit1/hit2/hit3 与三个落击。
+- 普通怪按 100 高、Monster6 按 130 高落地；渲染根使用碰撞中心，攻击 view 使用 MovieClip 注册点。
+- 移除 Arc/Text、颜色状态映射和“现代占位表现”声明，不叠加未经用户批准的现代圆、标签或额外命中火花。
+- 新增精确资源/动作/注册点/触发/lifecycle 测试，并保存 940×590 1P/2P 逐状态运行证据。
 
 完成定义：
 
-- 四怪全部可见动作和直接/间接弹体、命中特效逐项回答“源包/符号/帧序/注册点/世界映射/触发结果”，不能用类名或 AS3 位图池名代替恢复源证据。
-- 从局部怪物/弹体类追到共享 `BaseMonster`、`BaseBullet`、位图池、攻击窗口、物理世界与现代 Stage21 gameplay 消费者；每项标记确认事实、交叉确认、推断、未知或现代设计选择。
-- 影响下一实现的未知为零；若源包确实缺失，必须留下已穷尽的窄查集合、反证条件和经用户批准前仍不可替代的边界。
-- 完成资源标注、证据矩阵、选择性导出计划和双重验证计划后，生成单独的同线真视觉实现 Goal；不得在本 Goal 越界实现或关闭功能线。
+- 四怪 94 个可达本体关键帧和七对象 132 帧按原 tick/生命周期播放；Monster10 不生成不可达 hit2。
+- 左右朝向不跳根，普通怪/Monster6 脚底分别保持 `root+50/root+65`；攻击对象位置和翻转以注册点为原点。
+- Monster9/10/19 hit1 和 Monster6 hit1/hit2/hit3 在证据指定 tick、数量和偏移创建；攻击对象结束或场景销毁后无残留。
+- Stage 2-1 五停点、53 怪、6/8 上限、失败、冰刺、Monster6 显门、胜利与 2-2 当前槽保存全部不回归。
+- 940×590 1P/2P 逐状态证据无现代怪物可见替代层，console 无 warning/error；随后按覆盖台账裁决功能线关闭。
 
 验收标准：
 
-- 恢复源包、SymbolClass/character/time line 与 AS3 触发链的精确引用可复查；视觉/空间结论至少达到交叉确认。
-- 标注 CSV 无重复 stable key，`npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 通过。
-- 证据矩阵完整覆盖六段链、未知/反证条件和自动+940×590 运行验证；只定位文件或只导出帧图不能归档为“已闭合”。
+- 实现前先运行 `npm run check:structure`；目标文件触发 error 必须先拆分。
+- Stage 2-1 专项覆盖资源数量/尺寸、动作/tick、root/脚底、镜像、攻击生成和 destroy；`npm run test:stage21`、`npm run test:systems`、`npm run build` 通过。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 通过；11 条标注在实际接入后更新为 `ready`。
+- 940×590 运行覆盖 1P/2P、四怪左右向 wait/walk/hurt/dead/hit1、Monster6 hit2/hit3、镜头滚动与最终门流程，保存并排/叠图和可见差异清单。
 
 禁止范围：
 
-- 不进入 Stage 2-2，不修改恢复源包或旧提取结果，不重构 Stage21 gameplay 或共享怪物系统。
-- 不全量导出恢复 SWF；先完成 manifest/SymbolClass 窄查，再按精确 character/帧选择性派生。
-- 不从 Stage 1 怪物外推四怪的尺寸、注册点、动作帧或弹体视觉；不把现代圆形占位当作原版基准。
-- 不在逆向 Goal 同时实现资源接入，不用自动测试替代动作/弹体运行视觉验收。
+- 不进入 Stage 2-2，不修改恢复源包或旧提取结果，不全量导出 `assets/2.swf`。
+- 不重构共享战斗/奖励/存档，不顺手补其他怪物或全局 projectile 库。
+- 不新增现代可见标签、轮廓、圆、通用 hit spark；调试信息必须不可见或仅 DEV 显式开启。
+- 不用自动测试替代动作/弹体的 940×590 运行视觉验收。
 
 状态更新：
 
-- `docs/tasks/feature-lines.md`、`LINE-STAGE-2-1.md`、`goal-board.md`、`task-board/history`、`M-030/M-035`、`VS-049`、资源标注和 PG-002/004/005 效果样本。
+- `feature-lines.md`、`LINE-STAGE-2-1.md`、`goal-board.md`、`task-board/history`、`M-030/M-034/M-035`、`VS-049`、资源标注和 PG-002/004/005 效果样本。
 
 推荐后续任务：
 
-- 依据闭合证据生成同线 `TASK-SLICE-*`，只接入 Monster6/9/10/19 与其弹体/命中特效真视觉并做 940×590 逐状态复验。
+- 本 task 完成后先按完整关闭检查裁决并关闭 `LINE-STAGE-2-1`；只有关闭成功才由用户调度下一条线。
 
 ### TASK-SETTINGS-061
 
