@@ -144,7 +144,8 @@ function testFormalOwnersPersistenceAndTruePage(): void {
   assert.ok(existsSync(path.join(process.cwd(), 'public', craftingAssets.makingPanel.path)));
   const view = readFileSync(path.join(process.cwd(), 'src/scenes/feature-ui/FormalWorkshopPageView.ts'), 'utf8');
   assert.match(view, /craftingAssets\.makingPanel/);
-  assert.match(view, /提交制作/);
+  assert.match(view, /FormalWorkshopCommitHitAreas\.making/);
+  assert.match(view, /workshop-commit-making/);
 }
 
 function findStack(store: ReturnType<typeof createInventoryStore>, fillName: string) {

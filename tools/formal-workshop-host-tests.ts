@@ -14,7 +14,14 @@ import {
   setFormalWorkshopTab,
   stageFormalWorkshopFusion,
 } from '../src/systems/FormalWorkshopPageSystem';
-import { FormalWorkshopNativeTabLayout } from '../src/systems/FormalWorkshopNativeTabLayout';
+import {
+  FormalWorkshopCommitHitAreas,
+  FormalWorkshopNativeTabLayout,
+  FormalWorkshopOperationCenter,
+  FormalWorkshopPageHitAreas,
+  FormalWorkshopReturnHitArea,
+  FormalWorkshopStageHitAreas,
+} from '../src/systems/FormalWorkshopNativeTabLayout';
 import { getStackQuantityByFillName } from '../src/systems/InventorySystem';
 import { createDefaultGameSave, createSaveSlot, loadActiveGame } from '../src/systems/SaveSlotSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
@@ -89,7 +96,7 @@ function testExistingFusionPersistsThroughFormalHost(): void {
 
 function testTrueContainerFusionAndSceneWiring(): void {
   assert.equal(craftingAssets.container.sourceCharacterId, 119);
-  assert.equal(craftingAssets.container.path, '/assets/ui/crafting/container-native-background.png');
+  assert.equal(craftingAssets.container.path, '/assets/ui/crafting/container.png');
   assert.equal(craftingAssets.fusionPanel.sourceCharacterId, 169);
   assert.ok(existsSync(path.join(root, 'public', craftingAssets.container.path)));
   assert.ok(existsSync(path.join(root, 'public', craftingAssets.fusionPanel.path)));
@@ -99,15 +106,23 @@ function testTrueContainerFusionAndSceneWiring(): void {
   assert.match(scene, /closeFormalWorkshopPage/);
   const view = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalWorkshopPageView.ts'), 'utf8');
   assert.match(view, /FormalWorkshopNativeTabLayout/);
-  assert.match(view, /nativeTabButton/);
+  assert.match(view, /originalHitZone/);
+  assert.match(view, /FormalWorkshopReturnHitArea/);
+  assert.match(view, /ownerLabel\(scene, 303, 86, 'P1工坊'/);
+  assert.match(view, /ownerLabel\(scene, 424, 86, 'P2工坊'/);
+  assert.match(view, /fontSize: '26px'/);
   assert.match(view, /craftingAssets\.container/);
   assert.match(view, /craftingAssets\.fusionPanel/);
+  assert.doesNotMatch(view, /NativeTabTextures/);
+  assert.doesNotMatch(view, /nativeTabButton/);
+  assert.doesNotMatch(view, /关闭返回/);
+  assert.doesNotMatch(view, /scene\.add\.rectangle/);
   assert.doesNotMatch(view, /rectangle\(470, 295, 940, 590/);
   assert.doesNotMatch(view, /装备工坊 ·/);
   assert.doesNotMatch(view, /348 \+ index \* 128/);
 }
 
-function testNativeTabAssetsGeometryAndLabels(): void {
+function testOriginalArtworkHitGeometryAndLabels(): void {
   assert.deepEqual(FormalWorkshopNativeTabLayout.map(({ tab, label, sourceCharacterId }) => ({ tab, label, sourceCharacterId })), [
     { tab: 'strength', label: '强化', sourceCharacterId: 95 },
     { tab: 'fusion', label: '合成', sourceCharacterId: 99 },
@@ -115,13 +130,8 @@ function testNativeTabAssetsGeometryAndLabels(): void {
     { tab: 'making', label: '打造', sourceCharacterId: 113 },
   ]);
   assert.deepEqual(FormalWorkshopNativeTabLayout.map(({ tab }) => formatFormalWorkshopTab(tab)), ['强化', '合成', '分解', '打造']);
+  assert.deepEqual(FormalWorkshopOperationCenter, { x: 316, y: 310 });
 
-  const assets = [
-    [craftingAssets.nativeTabStrengthUp, craftingAssets.nativeTabStrengthOver, craftingAssets.nativeTabStrengthDown],
-    [craftingAssets.nativeTabFusionUp, craftingAssets.nativeTabFusionOver, craftingAssets.nativeTabFusionDown],
-    [craftingAssets.nativeTabResolutionUp, craftingAssets.nativeTabResolutionOver, craftingAssets.nativeTabResolutionDown],
-    [craftingAssets.nativeTabMakingUp, craftingAssets.nativeTabMakingOver, craftingAssets.nativeTabMakingDown],
-  ] as const;
   FormalWorkshopNativeTabLayout.forEach((layout, index) => {
     assert.ok(layout.x >= 0 && layout.y >= 0);
     assert.ok(layout.x + layout.width <= 940);
@@ -130,19 +140,28 @@ function testNativeTabAssetsGeometryAndLabels(): void {
       const previous = FormalWorkshopNativeTabLayout[index - 1];
       assert.ok(previous && previous.x + previous.width < layout.x, `${layout.label} hit area must not overlap its predecessor`);
     }
-    assets[index]?.forEach((asset) => {
-      assert.equal(asset.sourceCharacterId, layout.sourceCharacterId);
-      assert.ok(existsSync(path.join(root, 'public', asset.path)));
-    });
   });
+  for (const area of [
+    FormalWorkshopReturnHitArea,
+    ...Object.values(FormalWorkshopPageHitAreas),
+    ...Object.values(FormalWorkshopCommitHitAreas),
+    ...Object.values(FormalWorkshopStageHitAreas).flat(),
+  ]) {
+    assert.ok(area.x >= 0 && area.y >= 0);
+    assert.ok(area.x + area.width <= 940);
+    assert.ok(area.y + area.height <= 590);
+  }
+  assert.ok(FormalWorkshopReturnHitArea.x >= 840 && FormalWorkshopReturnHitArea.y < 20);
+  assert.equal(existsSync(path.join(root, 'public/assets/ui/crafting/container-native-background.png')), false);
+  assert.equal(existsSync(path.join(root, 'public/assets/ui/crafting/native-tabs')), false);
 
   const container = readFileSync(path.join(root, 'public', craftingAssets.container.path));
   assert.equal(container.readUInt32BE(16), 940);
-  assert.equal(container.readUInt32BE(20), 590);
+  assert.equal(container.readUInt32BE(20), 594);
 }
 
 testStageWithdrawTabCloseAndOwnerIsolation();
 testExistingFusionPersistsThroughFormalHost();
 testTrueContainerFusionAndSceneWiring();
-testNativeTabAssetsGeometryAndLabels();
-console.log('Formal workshop native tabs, host, Fusion, owner isolation, return protocol, save, and true asset tests passed.');
+testOriginalArtworkHitGeometryAndLabels();
+console.log('Formal workshop original artwork hit areas, centered operations, owner styling, host, transactions, and save tests passed.');

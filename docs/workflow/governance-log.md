@@ -4,6 +4,54 @@
 
 ## 2026-07-23
 
+### 登记技能页面 UI 原生化计划功能线
+
+变更内容：
+
+- 根据用户要求新增 Planned `LINE-UI-NATIVE-SKILLS`，覆盖技能总页 250、主动页 868、绑定页 417 和被动页 213。
+- 新增 `TASK-SETTINGS-061` / `GOAL-011` 先闭合原生文字、按钮状态、命中区和动态槽位证据；新增 `TASK-SLICE-143` / `GOAL-012` 再执行四页原生化实现。
+- 保留现有技能业务、P1/P2 owner、HUD 同步和 V4 存档，不把 UI 重做扩张成技能系统重写。
+- 当前 `LINE-STAGE-2-1` / `GOAL-009` 继续唯一 Active；技能线保持 Planned，等待用户单独批准调度。
+- 回写 PG-002/004/005/007 适用性样本，并将 `M-052` 降为部分复现、增加 `VS-055` 追踪新的视觉合同。
+
+影响范围：
+
+- `docs/tasks/feature-lines.md`、`goal-board.md`、`task-board.md`、`vertical-slices.md`
+- `docs/tasks/feature-line-coverage/LINE-UI-NATIVE-SKILLS.md`
+- `docs/reverse-engineering/full-function-ui-index.md`、`mechanics-index.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/problems/PG-007-UI原生化缺少统一门禁.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow` 与 `git diff --check` 在本条记录落盘后运行。
+
+### 登记 UI 原生化系统性问题
+
+变更内容：
+
+- 新增 `PG-007 UI 原生化缺少统一门禁`，把“原图中的文字/按钮直接承担视觉与交互，不在其上重造外层 UI”确立为统一问题定义。
+- 区分已完成页面的存量迁移和未实现页面的增量防复发，技能页作为下一候选整改样本，炼丹炉作为首个已验证参考。
+- 记录任务生成、逆向证据、代码质量、评审和工作流校验的拟治理落点；本次只登记问题，不修改游戏代码或当前 Stage 2-1 调度。
+- 明确 skill 不能代替仓库内门禁，待至少三个稳定样本后再评估跨项目抽取。
+- 回写 PG-002/004/005 适用性样本，记录既有真 UI 关闭合同不足、治理反馈执行和视觉证据门禁。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/problems/PG-007-UI原生化缺少统一门禁.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow` 与 `git diff --check` 在本条记录落盘后运行。
+
 ### 根据用户验收重排炼丹炉原生按钮整改 Goal
 
 变更内容：

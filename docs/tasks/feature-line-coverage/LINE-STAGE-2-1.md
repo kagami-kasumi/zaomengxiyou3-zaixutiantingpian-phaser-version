@@ -1,6 +1,6 @@
 # LINE-STAGE-2-1 覆盖台账
 
-本文是 `LINE-STAGE-2-1` 的权威覆盖入口。该线保留为 `Planned`：用户明确要求先闭合 `LINE-FORMAL-GAME-LOOP`，之后再恢复 `TASK-SETTINGS-053`；禁止从 Stage 1 外推未知内容。
+本文是 `LINE-STAGE-2-1` 的权威覆盖入口。工坊反馈整改已由 `TASK-SLICE-142` 闭合，`LINE-FORMAL-GAME-LOOP` 重新关闭；本线现为唯一 `Active`，仍禁止从 Stage 1 外推未知内容。
 
 ## 当前范围
 
@@ -20,7 +20,7 @@
 
 ## 计划 task
 
-`TASK-SETTINGS-053`（Planned）：在正式游戏主循环关闭后，闭合 Stage 2-1 六段证据链并生成最小可玩实现任务。
+`TASK-SETTINGS-053`（Ready）：闭合 Stage 2-1 六段证据链并生成最小可玩实现任务。
 
 ## 关闭检查
 

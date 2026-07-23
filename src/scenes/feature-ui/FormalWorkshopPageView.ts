@@ -15,14 +15,19 @@ import {
   stageFormalWorkshopMaking,
   stageFormalWorkshopResolution,
   stageFormalWorkshopStrengthening,
-  withdrawFormalWorkshopFusion,
-  withdrawFormalWorkshopMaking,
   withdrawFormalWorkshopResolution,
-  withdrawFormalWorkshopStrengthening,
   type FormalWorkshopPageModel,
   type FormalWorkshopTab,
 } from '../../systems/FormalWorkshopPageSystem';
-import { FormalWorkshopNativeTabLayout } from '../../systems/FormalWorkshopNativeTabLayout';
+import {
+  FormalWorkshopCommitHitAreas,
+  FormalWorkshopNativeTabLayout,
+  FormalWorkshopOperationCenter,
+  FormalWorkshopPageHitAreas,
+  FormalWorkshopReturnHitArea,
+  FormalWorkshopStageHitAreas,
+  type WorkshopHitArea,
+} from '../../systems/FormalWorkshopNativeTabLayout';
 import { describeEquipmentStrengtheningSession, getEquipmentStrengthLevel } from '../../systems/EquipmentStrengtheningSystem';
 import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
@@ -34,97 +39,84 @@ type Callbacks = {
   onRerender: () => void;
 };
 
-const NativeTabTextures: Readonly<Record<FormalWorkshopTab, { up: string; over: string; down: string }>> = {
-  strength: {
-    up: craftingAssets.nativeTabStrengthUp.key,
-    over: craftingAssets.nativeTabStrengthOver.key,
-    down: craftingAssets.nativeTabStrengthDown.key,
-  },
-  fusion: {
-    up: craftingAssets.nativeTabFusionUp.key,
-    over: craftingAssets.nativeTabFusionOver.key,
-    down: craftingAssets.nativeTabFusionDown.key,
-  },
-  resolution: {
-    up: craftingAssets.nativeTabResolutionUp.key,
-    over: craftingAssets.nativeTabResolutionOver.key,
-    down: craftingAssets.nativeTabResolutionDown.key,
-  },
-  making: {
-    up: craftingAssets.nativeTabMakingUp.key,
-    over: craftingAssets.nativeTabMakingOver.key,
-    down: craftingAssets.nativeTabMakingDown.key,
-  },
-};
-
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
   const objects: Phaser.GameObjects.GameObject[] = [];
   objects.push(scene.add.image(470, 295, craftingAssets.container.key).setDisplaySize(940, 590));
-  if (model.tab === 'fusion') objects.push(scene.add.image(500, 305, craftingAssets.fusionPanel.key));
-  if (model.tab === 'strength') objects.push(scene.add.image(360.6, 303.9, craftingAssets.strengthPanel.key));
-  if (model.tab === 'resolution') objects.push(scene.add.image(357.1, 313.75, craftingAssets.resolutionPanel.key));
-  if (model.tab === 'making') objects.push(scene.add.image(357.1, 303.4, craftingAssets.makingPanel.key));
-  objects.push(...button(scene, 74, 65, 92, 30, 'P1 工坊', () => callbacks.onOwner('p1'), model.owner === 'p1'));
+  if (model.tab === 'fusion') objects.push(scene.add.image(FormalWorkshopOperationCenter.x, FormalWorkshopOperationCenter.y, craftingAssets.fusionPanel.key));
+  if (model.tab === 'strength') objects.push(scene.add.image(FormalWorkshopOperationCenter.x, FormalWorkshopOperationCenter.y, craftingAssets.strengthPanel.key));
+  if (model.tab === 'resolution') objects.push(scene.add.image(FormalWorkshopOperationCenter.x, FormalWorkshopOperationCenter.y, craftingAssets.resolutionPanel.key));
+  if (model.tab === 'making') objects.push(scene.add.image(FormalWorkshopOperationCenter.x, FormalWorkshopOperationCenter.y, craftingAssets.makingPanel.key));
+  objects.push(ownerLabel(scene, 303, 86, 'P1工坊', () => callbacks.onOwner('p1'), model.owner === 'p1'));
   if (callbacks.playerCount === 2) {
-    objects.push(...button(scene, 174, 65, 92, 30, 'P2 工坊', () => callbacks.onOwner('p2'), model.owner === 'p2'));
+    objects.push(ownerLabel(scene, 424, 86, 'P2工坊', () => callbacks.onOwner('p2'), model.owner === 'p2'));
   }
-  FormalWorkshopNativeTabLayout.forEach((layout) => objects.push(nativeTabButton(scene, layout, model.tab, () => {
+  FormalWorkshopNativeTabLayout.forEach((layout) => objects.push(originalHitZone(scene, layout, () => {
     setFormalWorkshopTab(model, layout.tab);
     callbacks.onRerender();
-  })));
+  }, `workshop-tab-${layout.tab}`)));
+  objects.push(originalHitZone(scene, FormalWorkshopReturnHitArea, callbacks.onClose, 'workshop-return'));
 
   const entries = getFormalWorkshopEntries(model);
   const pageCount = Math.max(1, Math.ceil(entries.length / FormalWorkshopPageSize));
   const pageStart = model.inventoryPage * FormalWorkshopPageSize;
   const visibleEntries = entries.slice(pageStart, pageStart + FormalWorkshopPageSize);
-  const inventoryOnRight = model.tab === 'strength' || model.tab === 'resolution' || model.tab === 'making';
-  const entryX = inventoryOnRight ? 810 : 126;
-  const entryWidth = inventoryOnRight ? 230 : 196;
-  const entryStep = inventoryOnRight ? 36 : 42;
-  objects.push(scene.add.text(inventoryOnRight ? 695 : 28, 102, '当前玩家背包 / 装备栏', { color: '#ffe59a', fontSize: '16px', fontFamily: 'Arial' }));
-  visibleEntries.forEach((entry, index) => objects.push(...button(scene, entryX, 132 + index * entryStep, entryWidth, 30,
+  objects.push(scene.add.text(526, 108, '背包 / 装备栏（选中后点左侧槽位）', {
+    color: '#ffe59a', fontSize: '14px', fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
+  }));
+  objects.push(scene.add.text(792, 109, `第 ${model.inventoryPage + 1}/${pageCount} 页`, {
+    color: '#d9c18a', fontFamily: '"Microsoft YaHei", "SimHei", sans-serif', fontSize: '11px',
+  }).setOrigin(1, 0));
+  visibleEntries.forEach((entry, index) => objects.push(inventoryEntry(
+    scene,
+    526,
+    136 + index * 28,
     entry.kind === 'equipment'
       ? `${entry.definition.name} +${getEquipmentStrengthLevel(entry)}`
       : `${entry.definition.name} ×${entry.quantity}`,
     () => { selectFormalWorkshopEntry(model, pageStart + index); callbacks.onRerender(); },
     model.selectedInventoryIndex === pageStart + index,
   )));
-  objects.push(...button(scene, entryX - 62, 510, 95, 30, '上一页', () => {
+  objects.push(originalHitZone(scene, FormalWorkshopPageHitAreas.previous, () => {
     setFormalWorkshopInventoryPage(model, model.inventoryPage - 1); callbacks.onRerender();
-  }));
-  objects.push(scene.add.text(entryX, 510, `${model.inventoryPage + 1}/${pageCount}`, {
-    color: '#ffe59a', fontFamily: 'Arial', fontSize: '14px', align: 'center',
-  }).setOrigin(0.5));
-  objects.push(...button(scene, entryX + 62, 510, 95, 30, '下一页', () => {
+  }, 'workshop-page-previous'));
+  objects.push(originalHitZone(scene, FormalWorkshopPageHitAreas.next, () => {
     setFormalWorkshopInventoryPage(model, model.inventoryPage + 1); callbacks.onRerender();
-  }));
+  }, 'workshop-page-next'));
   const player = getFormalWorkshopPlayer(model);
   if (model.tab === 'strength') {
     const session = model.strengtheningSessions[model.owner];
-    objects.push(scene.add.rectangle(360, 395, 350, 155, 0x101a28, 0.9).setStrokeStyle(1, 0xc9a84f));
-    objects.push(scene.add.text(360, 382, `${describeEquipmentStrengtheningSession(session).join('\n')}\n${model.message}`, {
-      color: '#e7eef9', fontFamily: 'Arial', fontSize: '13px', align: 'center', lineSpacing: 3, wordWrap: { width: 330 },
-    }).setOrigin(0.5));
-    objects.push(...button(scene, 240, 500, 110, 38, '放入所选', () => { stageFormalWorkshopStrengthening(model); callbacks.onRerender(); }));
-    objects.push(...button(scene, 360, 500, 110, 38, '全部撤回', () => { withdrawFormalWorkshopStrengthening(model); callbacks.onRerender(); }));
-    objects.push(...button(scene, 480, 500, 110, 38, '提交强化', () => { runFormalWorkshopStrengthening(model, storage); callbacks.onRerender(); }));
+    const summary = describeEquipmentStrengtheningSession(session);
+    objects.push(statusText(scene, [
+      `${summary[0]}　${summary[2]}`,
+      summary[3] ?? '',
+      summary[4] ?? '',
+      model.message,
+    ].filter(Boolean).join('\n')));
+    objects.push(...stageZones(scene, 'strength', () => {
+      stageFormalWorkshopStrengthening(model); callbacks.onRerender();
+    }));
+    objects.push(originalHitZone(scene, FormalWorkshopCommitHitAreas.strength, () => {
+      runFormalWorkshopStrengthening(model, storage); callbacks.onRerender();
+    }, 'workshop-commit-strength'));
   } else if (model.tab === 'fusion') {
-    objects.push(scene.add.rectangle(530, 430, 520, 150, 0x101a28, 0.9).setStrokeStyle(1, 0xc9a84f));
     const fusion = model.fusionSessions[model.owner];
-    objects.push(scene.add.text(530, 390, `灵魂 ${player.skillLearning.soulCount}\n暂存：${fusion.slots.map((slot) => slot?.entry.definition.name).join(' / ') || '空'}\n${model.message}`, {
-      color: '#e7eef9', fontFamily: 'Arial', fontSize: '14px', align: 'center', lineSpacing: 5, wordWrap: { width: 480 },
-    }).setOrigin(0.5));
-    objects.push(...button(scene, 390, 480, 130, 38, '放入材料', () => { stageFormalWorkshopFusion(model); callbacks.onRerender(); }));
-    objects.push(...button(scene, 530, 480, 130, 38, '撤回材料', () => { withdrawFormalWorkshopFusion(model); callbacks.onRerender(); }));
-    objects.push(...button(scene, 670, 480, 130, 38, '提交 Fusion', () => { runFormalWorkshopFusion(model, storage); callbacks.onRerender(); }));
+    objects.push(statusText(scene, `灵魂 ${player.skillLearning.soulCount}\n暂存：${fusion.slots.map((slot) => slot?.entry.definition.name).join(' / ') || '空'}\n${model.message}`));
+    objects.push(...stageZones(scene, 'fusion', () => {
+      stageFormalWorkshopFusion(model); callbacks.onRerender();
+    }));
+    objects.push(originalHitZone(scene, FormalWorkshopCommitHitAreas.fusion, () => {
+      runFormalWorkshopFusion(model, storage); callbacks.onRerender();
+    }, 'workshop-commit-fusion'));
   } else if (model.tab === 'resolution') {
     const resolution = model.resolutionSessions[model.owner];
     const target = resolution.target;
     const results = resolution.results.map((fillName) => model.registry[fillName]?.name ?? fillName);
-    objects.push(scene.add.text(357, 171, target?.definition.name ?? '分解装备', {
-      color: '#fff1ad', fontFamily: 'Arial', fontSize: '13px', align: 'center', wordWrap: { width: 60 },
-    }).setOrigin(0.5));
-    const resultPositions = [[239, 290], [338, 290], [435, 290], [239, 369], [338, 369], [435, 369]] as const;
+    if (target) {
+      objects.push(scene.add.text(316, 167, target.definition.name, {
+        color: '#fff1ad', fontFamily: 'Arial', fontSize: '13px', align: 'center', wordWrap: { width: 60 },
+      }).setOrigin(0.5));
+    }
+    const resultPositions = [[198, 286], [297, 286], [394, 286], [198, 365], [297, 365], [394, 365]] as const;
     results.forEach((name, index) => {
       const position = resultPositions[index];
       if (!position) return;
@@ -132,12 +124,15 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
         color: '#fff1ad', fontFamily: 'Arial', fontSize: '12px', align: 'center', wordWrap: { width: 60 },
       }).setOrigin(0.5));
     });
-    objects.push(scene.add.text(357, 427, `灵魂 ${player.skillLearning.soulCount}　消耗 100\n${model.message}`, {
-      color: '#e7eef9', fontFamily: 'Arial', fontSize: '13px', align: 'center', lineSpacing: 3, wordWrap: { width: 340 },
-    }).setOrigin(0.5));
-    objects.push(...button(scene, 240, 500, 110, 38, '放入所选', () => { stageFormalWorkshopResolution(model); callbacks.onRerender(); }));
-    objects.push(...button(scene, 360, 500, 110, 38, '撤回装备', () => { withdrawFormalWorkshopResolution(model); callbacks.onRerender(); }));
-    objects.push(...button(scene, 480, 500, 110, 38, '提交分解', () => { runFormalWorkshopResolution(model, storage); callbacks.onRerender(); }));
+    objects.push(statusText(scene, `灵魂 ${player.skillLearning.soulCount}　消耗 100\n${model.message}`));
+    objects.push(...stageZones(scene, 'resolution', () => {
+      if (resolution.target) withdrawFormalWorkshopResolution(model);
+      else stageFormalWorkshopResolution(model);
+      callbacks.onRerender();
+    }));
+    objects.push(originalHitZone(scene, FormalWorkshopCommitHitAreas.resolution, () => {
+      runFormalWorkshopResolution(model, storage); callbacks.onRerender();
+    }, 'workshop-commit-resolution'));
   } else {
     const making = model.makingSessions[model.owner];
     const recipe = getEquipmentMakingRecipe(making);
@@ -146,10 +141,12 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
       `${model.registry[material.fillName]?.name ?? material.fillName}×${material.quantity}`
     ).join(' / ') ?? '请先放入制作书';
     const soulCost = making.book ? getEquipmentMakingSoulCost(making.book.definition.quality) : 0;
-    objects.push(scene.add.text(357, 160, making.book?.definition.name ?? '制作书', {
-      color: '#fff1ad', fontFamily: 'Arial', fontSize: '12px', align: 'center', wordWrap: { width: 62 },
-    }).setOrigin(0.5));
-    const gemPositions = [[257, 310], [369, 310], [486, 311]] as const;
+    if (making.book) {
+      objects.push(scene.add.text(316, 167, making.book.definition.name, {
+        color: '#fff1ad', fontFamily: 'Arial', fontSize: '12px', align: 'center', wordWrap: { width: 62 },
+      }).setOrigin(0.5));
+    }
+    const gemPositions = [[216, 317], [328, 317], [445, 318]] as const;
     making.gems.forEach((gem, index) => {
       const position = gemPositions[index];
       if (!position) return;
@@ -157,46 +154,79 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
         color: '#fff1ad', fontFamily: 'Arial', fontSize: '11px', align: 'center', wordWrap: { width: 60 },
       }).setOrigin(0.5));
     });
-    objects.push(scene.add.rectangle(357, 435, 350, 112, 0x101a28, 0.9).setStrokeStyle(1, 0xc9a84f));
-    objects.push(scene.add.text(357, 418, `产物：${productName}\n材料：${requirements}\n灵魂：${player.skillLearning.soulCount} / ${soulCost}\n${model.message}`, {
-      color: '#f4d58d', fontFamily: 'Arial', fontSize: '13px', align: 'center', lineSpacing: 3, wordWrap: { width: 330 },
-    }).setOrigin(0.5));
-    objects.push(...button(scene, 240, 510, 110, 38, '放入所选', () => { stageFormalWorkshopMaking(model); callbacks.onRerender(); }));
-    objects.push(...button(scene, 360, 510, 110, 38, '全部撤回', () => { withdrawFormalWorkshopMaking(model); callbacks.onRerender(); }));
-    objects.push(...button(scene, 480, 510, 110, 38, '提交制作', () => { runFormalWorkshopMaking(model, storage); callbacks.onRerender(); }));
+    objects.push(statusText(scene, `产物：${productName}\n材料：${requirements}\n灵魂：${player.skillLearning.soulCount} / ${soulCost}\n${model.message}`));
+    objects.push(...stageZones(scene, 'making', () => {
+      stageFormalWorkshopMaking(model); callbacks.onRerender();
+    }));
+    objects.push(originalHitZone(scene, FormalWorkshopCommitHitAreas.making, () => {
+      runFormalWorkshopMaking(model, storage); callbacks.onRerender();
+    }, 'workshop-commit-making'));
   }
-  objects.push(...button(scene, 850, 545, 130, 40, '关闭返回', callbacks.onClose));
   return scene.add.container(0, 0, objects).setDepth(20);
 }
 
-function nativeTabButton(
+function ownerLabel(
   scene: Phaser.Scene,
-  layout: (typeof FormalWorkshopNativeTabLayout)[number],
-  selectedTab: FormalWorkshopTab,
+  x: number,
+  y: number,
+  label: string,
   onClick: () => void,
-): Phaser.GameObjects.Image {
-  const textures = NativeTabTextures[layout.tab];
-  const selected = selectedTab === layout.tab;
-  const image = scene.add.image(layout.x, layout.y, selected ? textures.down : textures.up)
-    .setOrigin(0)
-    .setInteractive(new Phaser.Geom.Rectangle(0, 0, layout.width, layout.height), Phaser.Geom.Rectangle.Contains)
-    .setData('nativeWorkshopTab', layout.tab)
-    .setData('sourceCharacterId', layout.sourceCharacterId);
-  image.on('pointerover', () => {
-    if (!selected) image.setTexture(textures.over);
-  });
-  image.on('pointerout', () => image.setTexture(selected ? textures.down : textures.up));
-  image.on('pointerdown', () => {
-    image.setTexture(textures.down);
-    onClick();
-  });
-  return image;
+  selected: boolean,
+): Phaser.GameObjects.Text {
+  const restColor = selected ? '#ffd45c' : '#f8ead0';
+  const text = scene.add.text(x, y, label, {
+    color: restColor,
+    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
+    fontSize: '26px',
+    fontStyle: 'bold',
+    stroke: '#3d1908',
+    strokeThickness: 5,
+    shadow: { offsetX: 2, offsetY: 2, color: '#000000', blur: 2, stroke: true, fill: true },
+  }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+  text.on('pointerover', () => text.setColor('#ffb62e'));
+  text.on('pointerout', () => text.setColor(restColor));
+  text.on('pointerdown', onClick);
+  return text;
 }
 
-function button(scene: Phaser.Scene, x: number, y: number, width: number, height: number, label: string, onClick: () => void, selected = false): Phaser.GameObjects.GameObject[] {
-  const background = scene.add.rectangle(x, y, width, height, selected ? 0x765b27 : 0x24364d, 0.98)
-    .setStrokeStyle(selected ? 3 : 1, selected ? 0xffdc75 : 0xc9d6e8).setInteractive({ useHandCursor: true });
-  const text = scene.add.text(x, y, label, { color: '#fff', fontFamily: 'Arial', fontSize: '12px', align: 'center' }).setOrigin(0.5);
-  background.on('pointerdown', onClick);
-  return [background, text];
+function inventoryEntry(scene: Phaser.Scene, x: number, y: number, label: string, onClick: () => void, selected: boolean): Phaser.GameObjects.Text {
+  const restColor = selected ? '#ffd45c' : '#f4e4bd';
+  const text = scene.add.text(x, y, `${selected ? '▶ ' : '　'}${label}`, {
+    color: restColor,
+    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
+    fontSize: '13px',
+  }).setInteractive({ useHandCursor: true });
+  text.on('pointerover', () => text.setColor('#ffbd42'));
+  text.on('pointerout', () => text.setColor(restColor));
+  text.on('pointerdown', onClick);
+  return text;
+}
+
+function statusText(scene: Phaser.Scene, copy: string): Phaser.GameObjects.Text {
+  return scene.add.text(526, 408, copy, {
+    color: '#e9d8b0',
+    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
+    fontSize: '10px',
+    lineSpacing: 0,
+    wordWrap: { width: 276 },
+  });
+}
+
+function stageZones(scene: Phaser.Scene, tab: FormalWorkshopTab, onClick: () => void): Phaser.GameObjects.Zone[] {
+  return FormalWorkshopStageHitAreas[tab].map((area, index) =>
+    originalHitZone(scene, area, onClick, `workshop-stage-${tab}-${index}`));
+}
+
+function originalHitZone(
+  scene: Phaser.Scene,
+  area: WorkshopHitArea,
+  onClick: () => void,
+  id: string,
+): Phaser.GameObjects.Zone {
+  const zone = scene.add.zone(area.x, area.y, area.width, area.height)
+    .setOrigin(0)
+    .setInteractive({ useHandCursor: true })
+    .setData('originalArtworkHitArea', id);
+  zone.on('pointerdown', onClick);
+  return zone;
 }

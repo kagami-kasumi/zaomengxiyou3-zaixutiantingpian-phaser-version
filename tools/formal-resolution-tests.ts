@@ -166,7 +166,8 @@ function testFormalOwnerIsolationPersistenceAndTruePage(): void {
   assert.ok(existsSync(path.join(process.cwd(), 'public', craftingAssets.resolutionPanel.path)));
   const view = readFileSync(path.join(process.cwd(), 'src/scenes/feature-ui/FormalWorkshopPageView.ts'), 'utf8');
   assert.match(view, /craftingAssets\.resolutionPanel/);
-  assert.match(view, /提交分解/);
+  assert.match(view, /FormalWorkshopCommitHitAreas\.resolution/);
+  assert.match(view, /workshop-commit-resolution/);
 }
 
 function createStorage(): SaveStorage {

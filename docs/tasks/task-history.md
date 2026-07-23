@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-142 | 真 UI 反馈整改 | 让工坊原图直接承载操作/返回并重做四页布局与双 owner 入口 | M-016、M-052、VS-054 | 原 119 容器透明命中、四操作统一中心、P1/P2 炼丹炉风格、派生 UI 删除、专项/全门禁/940×590 逐页证据 |
+| TASK-SLICE-140 | 端到端闭环 | 验收完整功能 UI 与正式主循环玩家旅程并关闭功能线 | M-005、M-016、M-044、M-050、M-051、M-052、VS-054 | 独立自动旅程、全门禁、940×590 新建/读档/地图/P1-P2 功能页/2P 关卡/返回/重载证据与零 console warning/error |
 | TASK-SLICE-141 | 真 UI 整改 | 移除炼丹炉现代覆盖导航并接回原生四态中文按钮 | M-035、M-039、M-052、VS-054 | 119 无按钮背景、95/99/109/113 up/over/down 资产、原命中区接线、专项/构建/940×590 浏览器验收 |
 | TASK-SETTINGS-060 | UI 逆向复核 | 闭合炼丹炉四个原生中文页签按钮的四态、几何、命中区与切页合同 | M-035、M-039、M-052、VS-054 | `equipment-workshop-index.md` 六段证据矩阵、95/99/109/113 四态派生、940×590 坐标与 `TASK-SLICE-141` 实现门禁 |
 | TASK-SLICE-139 | 正式功能 UI | 接入 P1 真法宝页、升级/重置事务与 V4 实例持久化 | M-036、M-043、M-052、VS-054 | `FormalMagicWeaponPageSystem.ts`、596 真页面、灵魂/特殊材料分支、五行重置、runtime/V4 与专项/浏览器验收 |
@@ -4601,6 +4603,42 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-142
+
+- 完成日期：2026-07-23
+- Goal：`GOAL-010`（已完成）
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（重新关闭；下一条线为 `LINE-STAGE-2-1`）
+- 页面恢复使用原始 `public/assets/ui/crafting/container.png`；强化、合成、分解、打造、左右翻页、提交、槽位和右上角“返回”全部由原图上的透明命中区承载，不再绘制替代按钮或额外关闭控件。
+- 四个操作主体统一以 `(316, 310)` 为左框中心；P1/P2 工坊入口置于左上角，使用 26px 粗体描边文字匹配“炼丹炉”，无矩形底板。
+- 删除 `container-native-background.png`、12 个 `native-tabs/*.svg` 与 `generate-workshop-native-tabs.ps1`；这些文件可由 Git 恢复，原始 `container.png`、恢复 SWF 和 `legacy-extraction` 均未修改。
+- 工坊 host、强化、分解、制作专项通过；全量门禁、build、workflow 和 `git diff --check` 通过。
+- 940×590 浏览器逐页验证 P1 强化/合成/分解/打造、P2 切换及原图右上“返回”；控制台无 warning/error。
+- 证据：`docs/tasks/evidence/TASK-SLICE-142-*.png`。
+
+推荐任务：
+- `GOAL-009` / `TASK-SETTINGS-053`：闭合 Stage 2-1 六段逆向证据链，不预设实现范围。
+
+### TASK-SLICE-140
+
+- 完成日期：2026-07-23
+- Goal：`GOAL-008`（已完成）；`LINE-FORMAL-GAME-LOOP` 已关闭，下一 Goal 为 `GOAL-009` / `TASK-SETTINGS-053`。
+- 新增独立 `formal-game-loop-journey-tests.ts`，串联新建/读取存档槽、初始地图、P1/P2 五类正式功能页、Stage 1-1 结算解锁、返回地图和再次选槽重载。
+- 双 owner 功能数据与关卡进度在 V4 当前槽 round-trip 后保持隔离；旅程专项已纳入 `test:systems` 和 `check:all`。
+- 940×590 浏览器完成新建槽、P1/P2 工坊与技能页、2P 进入 Stage 1-1、Escape 返回地图、再次选择同槽重载；console 无 warning/error。
+
+更新文件：
+- `tools/formal-game-loop-journey-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- `docs/tasks/evidence/TASK-SLICE-140-*.png`
+- Goal、功能线、覆盖台账、机制、切片、任务历史和 PG 反馈文档。
+
+验证：
+- `npm run test:formal-game-loop`、`npm run check:all`、`git diff --check` 通过。
+- 自动旅程负责确定性结算/解锁/重载合同，浏览器旅程负责真实画布路由、双 owner 页面和 2P 关卡往返；没有用单页截图替代完整证据组合。
+- 既有 `PlayerSlot` 命名提示、8 个结构 warning 和 Vite chunk warning 保持公开，均非本次独立旅程测试引入。
+
+推荐任务：
+- `GOAL-009` / `TASK-SETTINGS-053`：只闭合 Stage 2-1 六段逆向证据并生成同线实现输入，不提前修改 `src/`。
 
 ### TASK-SLICE-141
 

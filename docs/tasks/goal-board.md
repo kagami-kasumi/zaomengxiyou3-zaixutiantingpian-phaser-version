@@ -29,12 +29,15 @@
 | GOAL-005 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-139 | 法宝真页面、装备门禁、强化/重置和保存 | 最多 1 次 | `GOAL-006` |
 | GOAL-006 | Done | LINE-FORMAL-GAME-LOOP | TASK-SETTINGS-060 | 闭合炼丹炉四个原生中文页签按钮的时间轴、几何、命中区与状态证据 | 最多 1 次 | `GOAL-007` |
 | GOAL-007 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-141 | 移除炼丹炉现代覆盖导航，按原生位置和原生按钮接回四页交互 | 最多 1 次 | `GOAL-008` |
-| GOAL-008 | Active | LINE-FORMAL-GAME-LOOP | TASK-SLICE-140 | 完整功能 UI 与正式主循环端到端验收 | 最多 1 次 | 关闭本线后激活 `GOAL-009` |
-| GOAL-009 | Planned | LINE-STAGE-2-1 | TASK-SETTINGS-053 | Stage 2-1 六段逆向证据与实现任务输入 | 最多 1 次 | 依据逆向结果生成同线 Goal |
+| GOAL-008 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-140 | 完整功能 UI 与正式主循环端到端验收 | 最多 1 次 | `GOAL-009` |
+| GOAL-009 | Active | LINE-STAGE-2-1 | TASK-SETTINGS-053 | Stage 2-1 六段逆向证据与实现任务输入 | 最多 1 次 | 依据逆向结果生成同线 Goal |
+| GOAL-010 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-142 | 工坊原图按钮、左框居中、原生返回与 P1/P2 样式整改 | 最多 1 次 | `GOAL-009` |
+| GOAL-011 | Planned | LINE-UI-NATIVE-SKILLS | TASK-SETTINGS-061 | 技能四页原生文字、按钮状态、命中区与动态槽位六段证据 | 最多 1 次 | `GOAL-012` |
+| GOAL-012 | Planned | LINE-UI-NATIVE-SKILLS | TASK-SLICE-143 | 技能总页、主动页、绑定页、被动页 UI 原生化实现与正式流程验收 | 最多 1 次 | 关闭本线后按用户调度恢复内容线 |
 
 ## 当前 Goal 完成定义
 
-`GOAL-008` 仅包含 `TASK-SLICE-140`。`GOAL-007` 已以无按钮的 119 背景、DefineButton2 95/99/109/113 原生 up/over/down 资产、精确命中区和 940×590 P2 打造页证据闭合工坊导航整改；四页事务、双 owner、返还与保存回归通过。本 Goal 只执行完整功能 UI 和正式主循环端到端旅程，不提前进入 Stage 2-1。
+`GOAL-009` 仅包含 `TASK-SETTINGS-053`：从恢复源包、局部与共享 AS3、SWF 几何和正式流程闭合 Stage 2-1 六段证据链；未知项必须公开，证据闭合后才生成同线最小可玩实现 Goal。`GOAL-010` 已完成并重新关闭正式主循环线。
 
 ## Goal 生成检查
 
