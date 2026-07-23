@@ -1,6 +1,6 @@
 # 装备工坊行为与几何索引
 
-本文是 `TASK-SETTINGS-059` 对炼丹炉 `Strength / Resolution / Making` 三个未实现子页的权威实现输入。既有 `Fusion` 合成页仍以 `crafting-index.md` 和 `crafting-ui-index.md` 为准，不在本文重复 112 个配方。
+本文是 `TASK-SETTINGS-059` 对炼丹炉 `Strength / Resolution / Making` 三个子页事务，以及 `TASK-SETTINGS-060` 对 character 119 四个原生中文页签按钮的权威实现输入。既有 `Fusion` 合成页仍以 `crafting-index.md` 和 `crafting-ui-index.md` 为准，不在本文重复 112 个配方。
 
 ## 待证明的可观察问题
 
@@ -10,6 +10,7 @@
 4. 制作书如何映射基础产物、必需材料、灵魂和最多三个可选宝石；成功、关闭和切页分别消费或返还什么？
 5. 三页在 119 容器中的局部坐标、运行时偏移、注册点和可见边界是什么？
 6. 现代 P1/P2 inventory owner、装备实例与 V4 存档需要扩展哪些字段？
+7. character 119 左下侧四个中文按钮是静态底图还是独立按钮；它们的状态、命中区和 940×590 坐标合同是什么？
 
 ## 资料与已读调用链
 
@@ -57,6 +58,10 @@
 | 制作灵魂与产物 | `needLHValueByQuality/achieveWhichProduce` | 产物 fillName = 书 fillName 去掉末尾 `zzs`；基础定义从 `AllEquipment` 取得 | 灵魂/名称文本和产物槽见几何表 | 确认事实 | `Math.random()` 加在整数后再转 `uint`，所以六种已处理品质费用实际固定；邪灵/魂器/神器默认 0 | 品质费用、产物 id、旧书缺失测试 |
 | 制作可选宝石 | `Making.randomGemAttributeByGemName` | 最多三个 `bs` 宝石；放槽即暂存，成功消费，关闭返还；属性直接写入产物实例 | 三宝石槽为 67×66 | 确认事实 | 当前现代实例只有 definition stats，必须保存每件产物的随机属性覆写 | 每个宝石边界随机、三槽累计、V4 重载测试 |
 | 双重验证 | 三子页与共享 119 调用链均已闭合 | 现代应由 inventory transaction owner 命令并写当前槽 | 真 SVG 可直接组合，不从离台全边界推断舞台 | 现代设计选择 | 本逆向 task 不修改运行时；实现完成前不得标“已复现” | 专项确定性测试 + 940×590 P1/P2 四标签/关闭/重载观察 |
+| 四个原生页签显示对象 | character 119 的 `strengthbtn/mixturebtn/resolutionbtn/makingbtn` 分别引用 DefineButton2 `95/99/109/113` | `GMain.showStrengthEquip -> mainSence.addChild`，119 根没有额外位移；`StrengthEquipment.added` 为四按钮绑定 CLICK | 119 单帧根内均为单位缩放/无旋转的 PlaceObject2 平移；精确矩阵与边界见下表 | 交叉确认 | 若后续源 SWF hash 或 character id 改变须重验；不能把已扁平化 `container.png` 当成独立按钮证据 | SWF dump + 四态 SVG/PNG 派生 + 940×590 运行观察 |
+| 页签四态与选中态 | 每个 DefineButton2 都有 up/over/down/hittest；up 为白字，over/down 为橙字，down 下沉 `1.05px` 或 `2px` | `strMethod/mixMethod/resMethod/makeMethod` 保存旧 `upState`，把当前 `upState` 替换为 `downState`，切走时恢复 | over 使用橙色 shape 并以负 Y 抵消其下沉；选中静止时显示未抵消的 down shape | 交叉确认 | 这不是 MovieClip 第 1/2 帧；若实现使用 `gotoAndStop` 或只改文字颜色即为反证 | 状态资源/矩阵测试 + hover/down/selected 浏览器观察 |
+| 标签顺序与页面路由 | 左到右为“强化 / 合成 / 分解 / 打造”，对应 `strMethod/mixMethod/resMethod/makeMethod` | 四方法先 `removeEquipCont()`，再创建 `Strength/Fusion/Resolution/Making`；切 owner 会自动派发强化 CLICK | 页签命中区互不重叠；制作页内容偏移 Y=110.45，其余为 128.45 | 交叉确认 | 用户口述枚举顺序不能覆盖 SWF 显示顺序；“制作”是现代旧文案，不是原按钮标签 | tab 枚举映射测试 + 四页切换/返还观察 |
+| 940×590 映射与裁切 | `backpack1.swf` header 为 940×590；119 导出的透明 PNG 因离台像素高 594，但舞台只显示到 Y=590 | `mainSence` 与 119 实例均未设置额外 x/y/scale | 四个 hit bounds 最大 Y=583.80，均完整处于舞台内；无需按 594 高图做比例缩放 | 交叉确认 | 若现代容器非原尺寸、居中缩放或以 594 为逻辑高度，坐标必须按实际容器变换重算 | 坐标断言 + 940×590 截图像素对齐 |
 
 影响实现的未知项为零。`zxqtgzzs` 被证实为不可达死分支，不是待猜的配方；帮助按钮和幻兵明确排除。
 
@@ -207,6 +212,55 @@ effectiveField = persistedBaseField + strengthLevel * aStrengthen[field]
 ## 几何与坐标语义
 
 所有子页坐标都是自身 MovieClip 局部左上注册空间；现代在 119 根内加运行时偏移，不把 SVG 导出边界当舞台坐标。119 最终显示仍裁为 940×590。
+
+### character 119 原生页签（`TASK-SETTINGS-060`）
+
+`backpack1.swf` 的 SWF header 明确为 `940×590`。`GMain` 创建未变换的 `mainSence`，`showStrengthEquip()` 直接把 119 加入该容器，因此下表的 119 根坐标就是原舞台坐标。character 119 自身只有 1 帧；四个页签不是时间轴 MovieClip，而是四个独立 `DefineButton2`。
+
+本次从只读恢复源选择性派生的交叉验证资料位于 Git 忽略的 `local-resources/regima/task-outputs/task-settings-060-native-tabs/`：`buttons-svg/` 保留 combined 四态结构，`buttons-state-svg/` 与 `buttons-state-png/` 分别保留 up/over/down/hittest 单态输出；没有修改恢复 SWF 或旧提取结果。
+
+#### 显示对象、注册点、矩阵与命中区
+
+| 原标签 | 现代枚举 | 实例 / Button character | Depth | 119 注册点 X/Y | hit local bounds | 940×590 hit bounds |
+| --- | --- | --- | ---: | --- | --- | --- |
+| 强化 | `strength` | `strengthbtn` / 95 | 5 | `71.55 / 555.80` | `[-7.20,-3.40]..[53.75,26.60]` | `[64.35,552.40]..[125.30,582.40]` |
+| 合成 | `fusion` | `mixturebtn` / 99 | 8 | `148.80 / 556.80` | `[-9.00,-4.00]..[56.00,27.00]` | `[139.80,552.80]..[204.80,583.80]` |
+| 分解 | `resolution` | `resolutionbtn` / 109 | 15 | `226.20 / 556.45` | `[-8.50,-5.50]..[56.50,26.50]` | `[217.70,550.95]..[282.70,582.95]` |
+| 打造 | `making` | `makingbtn` / 113 | 18 | `302.10 / 557.45` | `[-15.50,-10.50]..[64.50,22.50]` | `[286.60,546.95]..[366.60,579.95]` |
+
+四个 PlaceObject2 都只有平移，缩放为 1、无旋转/斜切。hit shape 是透明交互几何，不是文字的可见边界；相邻命中区水平间隔依次为 `14.50 / 12.90 / 3.90px`，没有重叠。所有命中区最大 Y 小于 590，character 119 派生 PNG 的 594px 全边界不能反向改写舞台高度。
+
+#### up / over / down / hittest 状态
+
+| Button | up shape | over/down shape | hittest shape | 可见矢量尺寸 | 状态内矩阵 |
+| --- | ---: | ---: | ---: | --- | --- |
+| 95 强化 | 92 | 93 | 94 | `43.60×21.20` | over `y=-2`；down `y=0` |
+| 99 合成 | 96 | 97 | 98 | `45.95×22.30` | over `y=-1.05`；down `y=0` |
+| 109 分解 | 106 | 107 | 108 | `42.50×20.70` | over `y=-2`；down `y=0` |
+| 113 打造 | 110 | 111 | 112 | `42.05×20.25` | over `y=-2`；down `y=0` |
+
+up shape 填充为白色 `#ffffff`；over/down 共用橙色 `#ff9900` shape。橙色 shape 自身已向下绘制，over 的负 Y 矩阵把它拉回 up 基线，down 保持下沉。选择页签时 AS3 并不跳帧，而是执行 `target.upState = target.downState`，所以“选中且未悬停”持续显示橙色下沉态；切换页签时再恢复上一个按钮保存的白色 upState。
+
+选择性 PNG 的不透明像素边界提供第二类几何证据；坐标以对应 hit canvas 左上角为原点：
+
+| 标签 | up/over alpha pixels | down alpha pixels | hit canvas |
+| --- | --- | --- | --- |
+| 强化 | `[7,3]..[50,24]` | `[7,5]..[50,26]` | `61×30` |
+| 合成 | `[9,4]..[54,26]` | `[9,5]..[54,27]` | `65×31` |
+| 分解 | `[8,5]..[50,26]` | `[8,7]..[50,28]` | `65×32` |
+| 打造 | `[15,10]..[57,30]` | `[15,12]..[57,32]` | `80×33` |
+
+#### 调用链与现代实现门禁
+
+- `StrengthEquipment.as:127-130` 将四个实例依次绑定到 `strMethod/mixMethod/resMethod/makeMethod`；`:265-359` 的四个方法均先移除 `playerControl`，再创建对应子页并执行同一选中态交换。
+- 首次进入和切 owner 时，`:133`、`:202-225` 派发 `strengthbtn` CLICK，因此默认页签/换 owner 后页签都是 `strength`。
+- 原标签与现代 `FormalWorkshopTab` 的精确映射是：`强化 -> strength`、`合成 -> fusion`、`分解 -> resolution`、`打造 -> making`。现代旧文案 `Fusion` / `制作` 必须分别还原为原生“合成”/“打造”。
+- 当前 `public/assets/ui/crafting/container.png` 是 character 119 帧 1 的扁平渲染，已包含四个 up-state 白字；但在源 SWF 显示列表中，按钮仍是独立 child，并非烘焙进背景位图。实现不能在这张扁平图上再盖现代矩形，也不能直接叠加透明状态图造成底层白字残留。
+- `TASK-SLICE-141` 必须选择性派生“隐藏四个按钮后的 119 背景”以及四按钮原生状态资产，或采用能等价保留独立 child 的组合导出；透明交互区只绑定事件，不绘制替代按钮。
+
+确定性测试计划：断言四个枚举映射、注册点、hit bounds、互不重叠、舞台内裁切、默认 strength、切换恢复上一 upState、selected 使用 downState，以及切页返还合同。940×590 运行观察计划：从正式地图打开 P1/P2 工坊，逐个观察白色 up、橙色 over、下沉 pressed、橙色 selected，确认四页路由、底层无白字重影、命中区边缘可点且空隙不误触，再验证换 owner 回强化、切页/关闭返还和 console。
+
+反证条件：源 SWF hash/character 映射变化；运行时 119 或其父容器出现非单位变换；派生背景仍含按钮文字；over/selected/pressed 视觉没有使用上述原生 shape 和矩阵；命中区按可见字形缩小、扩大后重叠，或按 594px 高度缩放。任一项出现时，本节坐标合同须退回待复核。当前影响 `TASK-SLICE-141` 的未知项为零。
 
 ### 强化 198（369.95×350.95，根偏移 175.6/128.45）
 

@@ -2,6 +2,29 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-23
+
+### 根据用户验收重排炼丹炉原生按钮整改 Goal
+
+变更内容：
+
+- 将炼丹炉现代顶层导航与暗色覆盖层从“完整功能 UI 已覆盖”退回待整改，保留 `LINE-FORMAL-GAME-LOOP` 为唯一 Active。
+- 新增 `TASK-SETTINGS-060` / `GOAL-006`，先按六段证据链闭合左下侧“强化 / 合成 / 打造 / 分解”原生按钮的时间轴、几何、命中区、帧状态和切页调用链。
+- 新增 `TASK-SLICE-141` / `GOAL-007`，要求移除现代替代导航、直接复用原生位置和原生按钮；原端到端 `TASK-SLICE-140` 后移至 `GOAL-008`，Stage 2-1 后移至 `GOAL-009`。
+- 回写 PG-002/004/005：记录用户反馈触发覆盖退回、问题治理扫描和逆向证据门禁。
+
+影响范围：
+
+- `docs/tasks/feature-lines.md`、`goal-board.md`、`task-board.md`、`vertical-slices.md`
+- `docs/tasks/feature-line-coverage/LINE-FORMAL-GAME-LOOP.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`、`PG-004-问题治理缺少效果反馈闭环.md`、`PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow` 与 `git diff --check` 在本条记录落盘后重跑。
+
 ## 2026-07-22
 
 ### 新增 Goal 包层并限制单次 `/goal` 上下文预算

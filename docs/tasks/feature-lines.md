@@ -26,7 +26,7 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 真场景/20 墙体/门、纵向关卡、1P/2P 入口、全灭失败、胜利结果、1-2 解锁存档和浏览器验收全部闭合 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-140 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 仅剩端到端正式主循环旅程与功能线关闭证据 | 待覆盖台账全部闭合 |
+| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | TASK-SLICE-141 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 炼丹炉须按已闭合的原生按钮合同移除现代覆盖导航，之后再做端到端旅程 | 待原生工坊 UI 整改与端到端证据闭合 |
 | LINE-STAGE-2-1 | Planned | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 等待 `LINE-FORMAL-GAME-LOOP` 关闭；资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
 
 ## 当前功能线状态
@@ -85,7 +85,9 @@
 
 `TASK-SLICE-138D` 已归档：78 本可达制作书由表驱动 registry 覆盖，`zxqtgzzs` 死分支保持不可达；制作书、最多两类必需材料、灵魂和三可选宝石由独立 `EquipmentMakingSystem` 原子结算，宝石随机加成写入产物实例 `baseStatsOverride` 并通过双 owner V4 round-trip。152 真制作页已接入 119 工坊；专项、全系统、build 与 940×590 地图入口/P1-P2/关闭返回浏览器验收通过且控制台无 warning/error。功能线保持 Active，当前推进 `GOAL-005` / `TASK-SLICE-139`。
 
-`TASK-SLICE-139` 已归档：596 真法宝页已接入正式 P1 `N`/共享导航，未装备拒绝，常规灵魂、龙女眼泪、烛时星魄、昆仑玉与青萍精元分支、提交/取消、3 个传承法器五行重置、属性重算和 V4 法宝等级/五行/成长属性 round-trip 已闭合；原版无 P2 面板快捷键，现代明确不伪造。专项、全系统、build 与地图入口/强化/关闭返回浏览器验收通过，浏览器重载受 URL 策略限制而由确定性专项补证。功能线保持 Active，当前推进 `GOAL-006` / `TASK-SLICE-140`。
+`TASK-SLICE-139` 已归档：596 真法宝页已接入正式 P1 `N`/共享导航，未装备拒绝，常规灵魂、龙女眼泪、烛时星魄、昆仑玉与青萍精元分支、提交/取消、3 个传承法器五行重置、属性重算和 V4 法宝等级/五行/成长属性 round-trip 已闭合；原版无 P2 面板快捷键，现代明确不伪造。专项、全系统、build 与地图入口/强化/关闭返回浏览器验收通过，浏览器重载受 URL 策略限制而由确定性专项补证。2026-07-23 用户验收明确要求炼丹炉不得在原容器上另覆现代 UI，必须直接复用左下侧原生位置和原生按钮；因此端到端关闭任务后移，并在同线插入按钮证据 Goal。
+
+`TASK-SETTINGS-060` 已归档：character 119 左下侧四个原生页签被确认是独立 DefineButton2 `95/99/109/113`，左到右原标签为“强化 / 合成 / 分解 / 打造”；白色 up、橙色 over/down、下沉矩阵、透明 hit bounds、940×590 映射和 `StrengthEquipment` 切页/选中调用链均已闭合，影响实现的未知为零。功能线保持 Active，当前推进 `GOAL-007` / `TASK-SLICE-141` 移除现代覆盖导航并接回原生按钮。
 
 ## 关闭与切线
 

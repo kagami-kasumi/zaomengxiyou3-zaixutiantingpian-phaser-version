@@ -27,12 +27,14 @@
 | GOAL-003 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-138C | 分解事务、可注入随机与双 owner 库存一致性 | 最多 1 次 | `GOAL-004` |
 | GOAL-004 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-138D | 78 本可达制作书、可选宝石与产物实例持久化 | 最多 1 次 | `GOAL-005` |
 | GOAL-005 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-139 | 法宝真页面、装备门禁、强化/重置和保存 | 最多 1 次 | `GOAL-006` |
-| GOAL-006 | Active | LINE-FORMAL-GAME-LOOP | TASK-SLICE-140 | 完整功能 UI 与正式主循环端到端验收 | 最多 1 次 | 关闭本线后激活 `GOAL-007` |
-| GOAL-007 | Planned | LINE-STAGE-2-1 | TASK-SETTINGS-053 | Stage 2-1 六段逆向证据与实现任务输入 | 最多 1 次 | 依据逆向结果生成同线 Goal |
+| GOAL-006 | Done | LINE-FORMAL-GAME-LOOP | TASK-SETTINGS-060 | 闭合炼丹炉四个原生中文页签按钮的时间轴、几何、命中区与状态证据 | 最多 1 次 | `GOAL-007` |
+| GOAL-007 | Active | LINE-FORMAL-GAME-LOOP | TASK-SLICE-141 | 移除炼丹炉现代覆盖导航，按原生位置和原生按钮接回四页交互 | 最多 1 次 | `GOAL-008` |
+| GOAL-008 | Planned | LINE-FORMAL-GAME-LOOP | TASK-SLICE-140 | 完整功能 UI 与正式主循环端到端验收 | 最多 1 次 | 关闭本线后激活 `GOAL-009` |
+| GOAL-009 | Planned | LINE-STAGE-2-1 | TASK-SETTINGS-053 | Stage 2-1 六段逆向证据与实现任务输入 | 最多 1 次 | 依据逆向结果生成同线 Goal |
 
 ## 当前 Goal 完成定义
 
-`GOAL-006` 仅包含 `TASK-SLICE-140`。完成条件是完整功能 UI 与正式主循环端到端自动旅程、P1/P2 浏览器验收、覆盖台账与功能线关闭证据全部收尾。`GOAL-005` 已完成并按 Goal 边界停止；下一次 `/goal` 才执行 `TASK-SLICE-140`。
+`GOAL-007` 仅包含 `TASK-SLICE-141`。`GOAL-006` 已证明左下侧四个原生按钮是 character 119 内独立的 DefineButton2，闭合了白色 up、橙色 over/down、透明 hit 区、940×590 坐标和切页调用链。本 Goal 移除顶部现代标题/四标签和暗色覆盖，按原生显示顺序“强化 / 合成 / 分解 / 打造”复用原生按钮与命中区；四页业务事务、双 owner、返还和存档不得回归。完成后由 `GOAL-008` 恢复端到端关闭验收。
 
 ## Goal 生成检查
 

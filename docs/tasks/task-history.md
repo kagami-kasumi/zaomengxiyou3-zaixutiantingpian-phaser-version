@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-060 | UI 逆向复核 | 闭合炼丹炉四个原生中文页签按钮的四态、几何、命中区与切页合同 | M-035、M-039、M-052、VS-054 | `equipment-workshop-index.md` 六段证据矩阵、95/99/109/113 四态派生、940×590 坐标与 `TASK-SLICE-141` 实现门禁 |
 | TASK-SLICE-139 | 正式功能 UI | 接入 P1 真法宝页、升级/重置事务与 V4 实例持久化 | M-036、M-043、M-052、VS-054 | `FormalMagicWeaponPageSystem.ts`、596 真页面、灵魂/特殊材料分支、五行重置、runtime/V4 与专项/浏览器验收 |
 | TASK-SLICE-138D | 正式功能 UI | 接入 78 本可达制作书、材料/灵魂/三宝石事务与实例持久化 | M-036、M-039、M-052、VS-054 | `EquipmentMakingRegistry/System.ts`、152 真页面、死分支拒绝、实例覆写、P1/P2 V4 与专项/浏览器验收 |
 | TASK-SLICE-138C | 正式功能 UI | 接入真分解页、可注入随机与双 owner 原子事务 | M-036、M-052、VS-054 | `EquipmentResolutionSystem.ts`、177 真页面、品质/类型/五角色/神器产物、100 灵魂、P1/P2 保存与专项验收 |
@@ -4599,6 +4600,39 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-060
+
+- 完成日期：2026-07-23
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-SLICE-141`）
+- 从恢复源 `assets/backpack1.swf` 直接复核 character 119，确认左下侧四个原生页签是独立 DefineButton2：`strengthbtn/95`、`mixturebtn/99`、`resolutionbtn/109`、`makingbtn/113`，而不是背景位图中不可分离的静态文字。
+- 闭合原版左到右标签与现代枚举映射：`强化 -> strength`、`合成 -> fusion`、`分解 -> resolution`、`打造 -> making`；现代旧文案 `Fusion` / `制作` 不能作为原生标签继续显示。
+- 记录 119 根内单位矩阵/注册点、四个透明 hit bounds、可见字形边界和 940×590 裁切；命中区互不重叠且全部位于舞台内，119 派生 PNG 的 594px 全边界不等于逻辑舞台高度。
+- 逐按钮选择性派生 up/over/down/hittest SVG/PNG，确认 up 白字、over/down 橙字，over 以 `-1.05px/-2px` 抵消绘制下沉，pressed/selected 保留下沉；选中态来自 `upState = downState`，不是 MovieClip 跳帧。
+- 追踪 `GMain.showStrengthEquip -> mainSence -> StrengthEquipment.added -> strMethod/mixMethod/resMethod/makeMethod -> removeEquipCont`，确认默认/换 owner 回强化、页面创建、旧页移除和选中态恢复合同。
+- 明确实现门禁：现有 `container.png` 是包含四个 up-state 白字的扁平帧，后续必须派生无按钮背景并独立组合原生状态，或采用等价的独立 child 组合；不得再覆盖现代矩形按钮，也不得透明叠图造成白字重影。
+
+更新文件：
+- `docs/reverse-engineering/equipment-workshop-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-line-coverage/LINE-FORMAL-GAME-LOOP.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+
+验证：
+- FFDec `-header` 确认源舞台为 940×590；`-dumpSWF` 交叉确认 119/95/99/109/113 的显示列表与按钮记录。
+- FFDec 对四按钮选择性导出 SVG/PNG 四态成功；alpha bounds 机械扫描确认透明命中画布和可见字形边界。
+- `StrengthEquipment.as` 与 `GMain.as` 的局部/共享调用链完成窄读；影响 `TASK-SLICE-141` 的未知项为零。
+- `npm run check:workflow` 与 `git diff --check` 见本次 Goal 收尾记录。
+
+推荐任务：
+- `TASK-SLICE-141`：移除炼丹炉现代覆盖导航，按已闭合的原生位置、四态和透明命中区接回四页交互。
 
 ### TASK-SLICE-139
 
