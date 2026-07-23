@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-145 | 运行校准 | 完成 Stage 2-1 的 940×590 1P/2P、五停点、冰刺、Boss 门、结果/回载与视觉范围裁决 | M-026、M-027、M-030、M-035、M-044、VS-049 | DEV-only 地图/快速清怪验收入口、8 张运行证据、正式失败/胜利/2-2 保存复验与同线真视觉后续合同 |
+| TASK-SLICE-144 | 可玩关卡切片 | 接入 Stage 2-1 真场景、五停点、冰刺、Boss 门与 2-2 保存闭环 | M-026、M-027、M-030、M-035、M-044、VS-049 | 71 项真资源、Stage21 layout/traversal/flow/ice/scene/result、地图入口、共享战斗/奖励、V4 2-2、专项/全系统/build；浏览器 URL 策略限制公开 |
 | TASK-SETTINGS-053 | 关卡/玩法逆向 | 闭合 Stage 2-1 场景、停点、刷怪、冰刺、结果与进度六段证据链 | M-026、M-027、M-030、M-035、M-044、VS-049 | `levels-index.md` 权威实现输入、7 条资源标注、场景/波次/冰刺/结果矩阵与 `TASK-SLICE-144` 实现合同 |
 | TASK-SLICE-142 | 真 UI 反馈整改 | 让工坊原图直接承载操作/返回并重做四页布局与双 owner 入口 | M-016、M-052、VS-054 | 原 119 容器透明命中、四操作统一中心、P1/P2 炼丹炉风格、派生 UI 删除、专项/全门禁/940×590 逐页证据 |
 | TASK-SLICE-140 | 端到端闭环 | 验收完整功能 UI 与正式主循环玩家旅程并关闭功能线 | M-005、M-016、M-044、M-050、M-051、M-052、VS-054 | 独立自动旅程、全门禁、940×590 新建/读档/地图/P1-P2 功能页/2P 关卡/返回/重载证据与零 console warning/error |
@@ -4619,6 +4621,87 @@
 
 推荐任务：
 - `GOAL-009` / `TASK-SETTINGS-053`：闭合 Stage 2-1 六段逆向证据链，不预设实现范围。
+
+### TASK-SLICE-144
+
+完成时间：2026-07-23
+
+功能条线 / Goal：
+
+- `LINE-STAGE-2-1` 保持唯一 `Active`。
+- `GOAL-013` 完成；同线 `GOAL-014` / `TASK-SLICE-145` 激活用于运行校准与关闭裁决。
+
+完成内容：
+
+- 新增独立 `Stage21Layout` / `Stage21TraversalSystem` / `Stage21FlowSystem` / `Stage21IceHazardSystem` / `Stage21EntrySystem`，接入 3+1 墙、4 单向平台、5 停点、25 刷怪点、五批 10/12/14/16/1 共 53 怪和 1P/2P 6/8 上限。
+- 接入 19/21 场景 SVG、282 背景、3 地面、48 门与 character 16 的 66 帧冰刺，共 71 个 public 文件；world bridge 保留背景局部 `x=-20`、容器 `(0.25,0)`、门注册点/滤镜 padding 和冰刺负缩放语义。
+- 独立冰刺 owner 覆盖 19 顶部 200px 触发、66 帧/30fps 循环、19 地面静态翻转、每实例/每玩家 2 秒 attack id、`[10,20)` 可注入伤害和方向 `±10` 击退。
+- 新增 `Stage21Scene`、world/gameplay/result bridges，地图 2-1 从 unavailable 转为正式 1P/2P 路由；Monster6 死亡立即显门，统一全灭失败，门胜利幂等推进并保存 2-2，返回天庭地图。
+- 复用共享 `LevelHeroMovementRuntime`、`MonsterPhysicsSystem`、`Stage1RewardBridge`、战斗 HUD 和 V4 当前槽；6/9/10/19 的权威 HP/防御/奖励进入共享配置。怪物/弹体动作继续用明确可见的现代占位，不冒充真视觉。
+
+验证：
+
+- `npm run check:structure`：通过，只有 8 个无关既有 warning。
+- `npm run test:stage21`、`npm run test:systems`：通过；专项覆盖资源尺寸/provenance、布局全集、单向平台、五批/上限、Boss 门、失败/2-2、冰刺触发/去重/随机/击退与地图路由。
+- `npm run build`、`npm run check:workflow`、`npm run check:annotations`、`git diff --check`：通过；workflow 仅报告共享旧文件触发的既有 `PlayerSlot`/`SaveSlot` 词汇 warning。
+- 浏览器技能按 940×590 尝试打开 `127.0.0.1` 本地预览，但内置浏览器返回连接拒绝并触发 URL 策略；未绕过、未伪造截图。运行观感、console 和正式流程重载由 `TASK-SLICE-145` 等待用户复验。
+
+剩余边界：
+
+- `LINE-STAGE-2-1` 不关闭：940×590 运行验收未完成，Monster6/9/10/19 与弹体真视觉是否作为本线排除仍需用户裁决。
+- 不进入 Stage 2-2，不修改恢复源包或旧提取结果。
+
+### TASK-SLICE-145
+
+完成时间：2026-07-23
+
+功能条线 / Goal：
+
+- `GOAL-014` 完成，`TASK-SLICE-145` 归档。
+- `LINE-STAGE-2-1` 继续保持唯一 `Active`；占位视觉未获用户排除批准，同线 `GOAL-015` / `TASK-SETTINGS-062` 激活。
+
+完成内容：
+
+- 恢复本地浏览器 940×590 访问，正式地图分别进入 1P/2P；验证 P1 `A/D`、P2 方向键独立移动、双 HUD 与 console 无 warning/error。
+- 普通运行触发顶部冰刺、首停点锁屏、M9 占位刷怪、全员失败；失败页重载 2-1 与 Esc/结果页返回地图均通过。
+- 新增仅 `import.meta.env.DEV` 生效的 `?qaStage=2-1` 地图验收入口，不改真实存档解锁门禁；`qaFastClear=1` 只跳过伤害和耗时清怪，保留真实停点、刷怪调度、镜头、冰刺动画、门和结果逻辑。
+- 通过开发验收入口逐段遍历五停点、顶部/地面冰刺和地图滚动；Boss 批次完成后真门出现，门前命中范围内按上进入胜利页并显示“已解锁并保存 2-2”，随后返回地图。
+- 未观察到注册点、背景滚动、平台脚底、冰刺坐标/击退、锁屏/刷怪或门命中的实现偏差，因此没有凭目测修改已确认世界坐标常量。
+- 怪物/弹体占位未取得用户作为本线排除项的批准；保守裁决为继续补真视觉，不提前关闭功能线。
+
+更新文件：
+
+- `src/systems/HeavenMapSystem.ts`
+- `src/scenes/HeavenMapScene.ts`
+- `src/scenes/Stage21Scene.ts`
+- `src/scenes/stage21/Stage21GameplayBridge.ts`
+- `tools/heaven-map-tests.ts`
+- `docs/tasks/evidence/TASK-SLICE-145-*.png`
+- `docs/reverse-engineering/levels-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-STAGE-2-1.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+- PG-002/003/004/005/006 效果记录
+
+验证：
+
+- `npm run check:structure` 通过，仅 8 个既有无关 warning。
+- `npm run test:stage21`、`npm run test:systems`、`npm run build`、`npm run check:workflow`、`npm run check:annotations` 通过；build 仅有既有 chunk 大小 warning，workflow 仅有既有 `PlayerSlot`/`SaveSlot` 命名 warning。
+- 940×590 运行证据覆盖 1P/2P、双人独立移动、两类冰刺、五停点、失败/重载、Boss 门、胜利/保存和返回；console 无 warning/error。
+- `git diff --check` 在文档收尾后复跑。
+
+剩余边界：
+
+- Monster6/9/10/19 的 wait/walk/hit/hurt/death、弹体和命中特效仍为现代占位，不宣称真视觉已复现。
+- 不进入 Stage 2-2，不修改恢复源包或旧提取结果。
+
+推荐任务：
+
+- `GOAL-015` / `TASK-SETTINGS-062`：闭合四怪动作、弹体与命中特效真视觉六段证据，再生成独立实现 Goal。
 
 ### TASK-SETTINGS-053
 

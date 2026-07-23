@@ -71,7 +71,9 @@ export function sanitizeLevelUnlockProgress(value: unknown): LevelUnlockProgress
   if (typeof value !== 'object' || value === null) return createDefaultLevelUnlockProgress();
   const stage = (value as { unlockedStage?: unknown }).unlockedStage;
   const level = (value as { unlockedLevel?: unknown }).unlockedLevel;
-  if (stage === 2) return { unlockedStage: 2, unlockedLevel: 1 };
+  if (stage === 2) {
+    return { unlockedStage: 2, unlockedLevel: level === 3 ? 3 : level === 2 ? 2 : 1 };
+  }
   return { unlockedStage: 1, unlockedLevel: level === 3 ? 3 : level === 2 ? 2 : 1 };
 }
 

@@ -3,6 +3,7 @@ import { heavenMapAssets } from '../assets/AssetManifest';
 import {
   createHeavenMapSnapshot,
   findHeavenMapNode,
+  resolveHeavenMapRuntimeProgress,
   type HeavenMapNodeId,
   type HeavenMapNodeSnapshot,
 } from '../systems/HeavenMapSystem';
@@ -38,7 +39,12 @@ export class HeavenMapScene extends Phaser.Scene {
       return;
     }
 
-    this.nodes = createHeavenMapSnapshot(save.levelUnlockProgress);
+    const runtimeProgress = resolveHeavenMapRuntimeProgress(
+      save.levelUnlockProgress,
+      window.location.search,
+      import.meta.env.DEV,
+    );
+    this.nodes = createHeavenMapSnapshot(runtimeProgress);
     // The map manages both persisted local-player owners even before a stage party size is chosen.
     installFormalFeatureUiEntries(this, { originKind: 'map', playerCount: 2 });
     this.cameras.main.setBackgroundColor('#0b1526');
@@ -53,7 +59,10 @@ export class HeavenMapScene extends Phaser.Scene {
       color: '#fff3bf', fontFamily: 'Arial, sans-serif', fontSize: '14px',
       backgroundColor: '#101724cc', padding: { x: 7, y: 4 },
     }).setOrigin(1, 0).setDepth(80);
-    this.feedbackText = this.add.text(470, 24, '选择已解锁的天庭节点', {
+    const qaStage = runtimeProgress.unlockedStage === 2 && save.levelUnlockProgress.unlockedStage !== 2
+      ? ' · DEV QA 2-1'
+      : '';
+    this.feedbackText = this.add.text(470, 24, `选择已解锁的天庭节点${qaStage}`, {
       color: '#fff3bf', fontFamily: 'Arial, sans-serif', fontSize: '16px',
       backgroundColor: '#101724dd', padding: { x: 10, y: 6 },
     }).setOrigin(0.5, 0).setDepth(80);
@@ -61,6 +70,7 @@ export class HeavenMapScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown-ONE', () => this.activateNode('1-1'));
     this.input.keyboard?.on('keydown-TWO', () => this.activateNode('1-2'));
     this.input.keyboard?.on('keydown-THREE', () => this.activateNode('1-3'));
+    this.input.keyboard?.on('keydown-FOUR', () => this.activateNode('2-1'));
     this.input.keyboard?.on('keydown-ESC', () => {
       if (this.chooser) this.closeChooser();
       else this.scene.start('SaveSlotScene');

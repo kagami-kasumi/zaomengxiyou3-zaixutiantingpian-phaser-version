@@ -6,6 +6,7 @@ import {
   createHeavenMapSnapshot,
   findHeavenMapNode,
   HeavenMapNodeDefinitions,
+  resolveHeavenMapRuntimeProgress,
 } from '../src/systems/HeavenMapSystem';
 
 const repoRoot = process.cwd();
@@ -29,13 +30,21 @@ const repoRoot = process.cwd();
 
 {
   const nodes = createHeavenMapSnapshot({ unlockedStage: 2, unlockedLevel: 1 });
-  assert.deepEqual(nodes.map((node) => node.status), ['completed', 'completed', 'completed', 'unavailable']);
-  assert.equal(findHeavenMapNode(nodes, '2-1')?.canActivate, false);
-  assert.equal(findHeavenMapNode(nodes, '2-1')?.routeKey, undefined);
+  assert.deepEqual(nodes.map((node) => node.status), ['completed', 'completed', 'completed', 'current']);
+  assert.equal(findHeavenMapNode(nodes, '2-1')?.canActivate, true);
+  assert.equal(findHeavenMapNode(nodes, '2-1')?.routeKey, 'Stage21Scene');
 }
 
 assert.deepEqual(HeavenMapNodeDefinitions.map((node) => node.id), ['1-1', '1-2', '1-3', '2-1']);
 assert.deepEqual(HeavenMapNodeDefinitions.map((node) => node.title), ['九重天', '天宫路', '南天门', '南天王殿']);
+assert.deepEqual(
+  resolveHeavenMapRuntimeProgress({ unlockedStage: 1, unlockedLevel: 1 }, '?qaStage=2-1', true),
+  { unlockedStage: 2, unlockedLevel: 1 },
+);
+assert.deepEqual(
+  resolveHeavenMapRuntimeProgress({ unlockedStage: 1, unlockedLevel: 2 }, '?qaStage=2-1', false),
+  { unlockedStage: 1, unlockedLevel: 2 },
+);
 assert.deepEqual(HeavenMapNodeDefinitions.map((node) => node.registration), [
   { x: 703.45, y: 524.95 },
   { x: 596.5, y: 541.95 },
@@ -73,9 +82,11 @@ const formalRouteFiles = [
   'src/scenes/SaveSlotScene.ts',
   'src/scenes/Stage12Scene.ts',
   'src/scenes/Stage13Scene.ts',
+  'src/scenes/Stage21Scene.ts',
   'src/scenes/Stage51TransitionScene.ts',
   'src/scenes/stage12/Stage12ResultBridge.ts',
   'src/scenes/stage13/Stage13ResultBridge.ts',
+  'src/scenes/stage21/Stage21ResultBridge.ts',
   'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
 ];
 for (const relativePath of formalRouteFiles) {

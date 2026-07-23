@@ -28,7 +28,9 @@ import {
 import { createHeroSkillModel, type HeroSkillModel } from './HeroSkillSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
 
-export type Stage1EnemyType = 2 | 3 | 4 | 5 | 7 | 8 | 30;
+// Shared placeholder-combat adapter. Stage 2-1 types use authoritative stats and
+// readable modern placeholder attacks while their original action/projectile art is deferred.
+export type Stage1EnemyType = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 19 | 30;
 export type Stage1EnemyAttackPhase = 'approach' | 'windup' | 'active' | 'recovery' | 'hurt' | 'dead';
 export type Stage1DeathReason =
   | 'burst-same-frame'
@@ -71,8 +73,12 @@ const enemyConfigs: Record<Stage1EnemyType, Stage1EnemyConfig> = {
   3: enemy(3, 926, 5, 240, 150, 'physics', 40, 'hit1', 300, 220, 600, true, '巫鹰'),
   4: enemy(4, 1_481, 8, 27, 112, 'physics', 49, 'hit1', 420, 200, 680, true, '千里眼'),
   5: enemy(5, 2_788, 14, 26, 125, 'physics', 147, 'hit1', 520, 220, 760, true, '巨灵神'),
+  6: enemy(6, 4_957, 19, 30, 157, 'physics', 157, 'hit1', 520, 220, 760, true, 'Monster6'),
   7: enemy(7, 200, 3, 35, 78, 'physics', 18, 'hit1', 300, 150, 520, false, 'Monster7'),
   8: enemy(8, 300, 4, 33, 82, 'physics', 18, 'hit1', 320, 160, 540, false, 'Monster8'),
+  9: enemy(9, 1_613, 27, 27, 200, 'physics', 90, 'hit1', 420, 200, 680, false, 'Monster9'),
+  10: enemy(10, 1_500, 27, 27, 200, 'physics', 90, 'hit1', 420, 200, 680, false, 'Monster10'),
+  19: enemy(19, 1_531, 27, 27, 200, 'magic', 36, 'hit1', 420, 200, 680, false, 'Monster19'),
   30: enemy(30, 150, 3, 420, 250, 'physics', 15, 'hit1', 420, 145, 480, false, 'Monster30'),
 };
 

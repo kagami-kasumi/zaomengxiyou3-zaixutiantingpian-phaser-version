@@ -82,6 +82,15 @@ export const Stage13AssetKeys = {
   transferDoor: 'stage.stage1-3.transfer-door',
 } as const;
 
+export const Stage21AssetKeys = {
+  floor: 'stage.stage2.floor',
+  background: 'stage.stage2-1.background',
+  midground: 'stage.stage2-1.midground',
+  foreground: 'stage.stage2-1.layout',
+  transferDoor: 'stage.stage2-1.transfer-door',
+  iceThorn: 'stage.stage2-1.ice-thorn',
+} as const;
+
 export const CombatHudAssetKeys = {
   roleInfo: 'combat-hud.role-info',
   bossBlood: 'combat-hud.boss-blood',
@@ -649,6 +658,89 @@ export const stage13Assets = {
   },
 } as const satisfies Record<string, ExtractedStageImageAssetDefinition>;
 
+export const stage21Assets = {
+  floor: {
+    key: Stage21AssetKeys.floor,
+    path: '/assets/stage/stage2-1/floor.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/2.swf',
+    sourceSymbol: 'floorBg2',
+    sourceCharacterId: 3,
+    sourceTag: 'DefineBitsLossless2',
+    width: 631,
+    height: 549,
+    sourceBounds: { width: 631, height: 549 },
+  },
+  background: {
+    key: Stage21AssetKeys.background,
+    path: '/assets/stage/stage2-1/background.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/2.swf',
+    sourceSymbol: 'bg21',
+    sourceCharacterId: 282,
+    sourceTag: 'DefineSprite frame 1; wraps character 281',
+    width: 4700,
+    height: 590,
+    sourceBounds: { width: 4700, height: 590 },
+  },
+  midground: {
+    key: Stage21AssetKeys.midground,
+    path: '/assets/stage/stage2-1/midground.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level21.swf',
+    sourceSymbol: 'export.gameSence.sl21 character 19',
+    sourceCharacterId: 19,
+    sourceTag: 'DefineShape2',
+    width: 2554,
+    height: 104,
+    sourceBounds: { width: 2553.6, height: 103.8 },
+  },
+  foreground: {
+    key: Stage21AssetKeys.foreground,
+    path: '/assets/stage/stage2-1/foreground.svg',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level21.swf',
+    sourceSymbol: 'export.gameSence.sl21 character 21',
+    sourceCharacterId: 21,
+    sourceTag: 'DefineShape2',
+    width: 4700,
+    height: 94,
+    sourceBounds: { width: 4700, height: 94 },
+  },
+  transferDoor: {
+    key: Stage21AssetKeys.transferDoor,
+    path: '/assets/stage/stage2-1/transfer-door.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level21.swf',
+    sourceSymbol: 'ordinary transfer door / isTransferDoor',
+    sourceCharacterId: 48,
+    sourceTag: 'DefineSprite frame 1',
+    width: 196,
+    height: 175,
+    sourceBounds: { width: 167, height: 163.45 },
+  },
+  iceThorn: {
+    key: Stage21AssetKeys.iceThorn,
+    frameKeys: stageFrameKeys(Stage21AssetKeys.iceThorn, 66),
+    framePaths: numberedFramePaths('/assets/stage/stage2-1/ice-thorn', 66),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level21.swf',
+    sourceSymbol: 'export.mapObject.IceThron',
+    sourceCharacterId: 16,
+    sourceTag: 'DefineSprite 66 frames at 30fps',
+    frameCount: 66,
+    width: 59,
+    height: 588,
+    sourceBounds: { width: 59, height: 588 },
+  },
+} as const;
+
 function extractedCraftingImage(
   key: string,
   path: string,
@@ -967,4 +1059,5 @@ export const assetBundles = {
   stage11: Object.values(stage11Assets),
   stage12: [stage11Assets.floor, ...Object.values(stage12Assets)],
   stage13: [stage11Assets.floor, ...Object.values(stage13Assets)],
+  stage21: Object.values(stage21Assets),
 } as const;

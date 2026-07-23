@@ -24,11 +24,11 @@
 ## 当前去向
 
 - `sl21` 根布局保持 `export-ready + export-selectively`：实现时不能把调试标记、碰撞对象和全部动态 child 扁平当作可见背景。
-- 两层场景形状、背景、根地面、普通门和冰刺均为 `derived-ready + integrate`。
+- 两层场景形状、背景、根地面、普通门和冰刺已由 `TASK-SLICE-144` 接入，状态为 `ready + none`。
 - Monster6/9/10/19 真动作与弹体不在本批次；首个可玩实现只可明确使用既有怪物占位表现，不能宣称怪物视觉已复现。
 
 ## 批次汇总
 
 - confirmed：7。
 - probable / unknown：0。
-- derived-ready：6；export-ready：1；missing-original：0；需人工消歧：0。
+- ready：6；export-ready：1；missing-original：0；需人工消歧：0。

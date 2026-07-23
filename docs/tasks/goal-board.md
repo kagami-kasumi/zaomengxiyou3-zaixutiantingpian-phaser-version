@@ -34,11 +34,13 @@
 | GOAL-010 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-142 | 工坊原图按钮、左框居中、原生返回与 P1/P2 样式整改 | 最多 1 次 | `GOAL-009` |
 | GOAL-011 | Planned | LINE-UI-NATIVE-SKILLS | TASK-SETTINGS-061 | 技能四页原生文字、按钮状态、命中区与动态槽位六段证据 | 最多 1 次 | `GOAL-012` |
 | GOAL-012 | Planned | LINE-UI-NATIVE-SKILLS | TASK-SLICE-143 | 技能总页、主动页、绑定页、被动页 UI 原生化实现与正式流程验收 | 最多 1 次 | 关闭本线后按用户调度恢复内容线 |
-| GOAL-013 | Active | LINE-STAGE-2-1 | TASK-SLICE-144 | Stage 2-1 真场景、五停点 53 怪、38 冰刺、Boss 门与 2-2 保存可玩闭环 | 最多 1 次 | 依据运行验收生成同线校准/关闭 Goal |
+| GOAL-013 | Done | LINE-STAGE-2-1 | TASK-SLICE-144 | Stage 2-1 真场景、五停点 53 怪、38 冰刺、Boss 门与 2-2 保存可玩闭环 | 最多 1 次 | `GOAL-014` |
+| GOAL-014 | Done | LINE-STAGE-2-1 | TASK-SLICE-145 | 940×590 1P/2P 运行校准、用户复验与怪物视觉范围/功能线关闭裁决 | 最多 1 次 | `GOAL-015` |
+| GOAL-015 | Active | LINE-STAGE-2-1 | TASK-SETTINGS-062 | Monster6/9/10/19 动作、弹体与命中特效真视觉六段证据 | 最多 1 次 | 依据证据生成同线真视觉实现 Goal |
 
 ## 当前 Goal 完成定义
 
-`GOAL-013` 仅包含 `TASK-SLICE-144`：按 `TASK-SETTINGS-053` 已闭合的 Stage 2-1 六段合同接入真场景、完整地图标记、五批 53 怪、38 冰刺、Monster6 门、统一失败/胜利和 2-2 当前槽保存；怪物/弹体真视觉保持明确占位，不在本 Goal 扩张为新资源族逆向。`GOAL-009` 已完成逆向并归档。
+`GOAL-015` 仅包含 `TASK-SETTINGS-062`：从 RegiMA 恢复源包和 Monster6/9/10/19 AS3 调用链闭合四类怪物的动作、朝向、注册点、帧序、攻击窗口、弹体和命中特效真视觉证据。占位未获用户排除批准，因此本 Goal 只产出可实现的六段证据矩阵、资源标注与选择性导出计划，不在同一 Goal 内实现，也不提前关闭功能线。
 
 ## Goal 生成检查
 

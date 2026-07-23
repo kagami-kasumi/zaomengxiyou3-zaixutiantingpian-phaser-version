@@ -5,7 +5,7 @@ import {
 
 export type HeavenMapNodeId = '1-1' | '1-2' | '1-3' | '2-1';
 export type HeavenMapNodeStatus = 'locked' | 'current' | 'completed' | 'unavailable';
-export type HeavenMapRouteKey = 'TestScene' | 'Stage12Scene' | 'Stage13Scene';
+export type HeavenMapRouteKey = 'TestScene' | 'Stage12Scene' | 'Stage13Scene' | 'Stage21Scene';
 
 export type HeavenMapHitArea = Readonly<{
   x: number;
@@ -54,6 +54,7 @@ export const HeavenMapNodeDefinitions: readonly HeavenMapNodeDefinition[] = [
     title: '南天王殿',
     registration: { x: 507.95, y: 341.5 },
     hitArea: { x: 443.95, y: 279.95, width: 139, height: 132 },
+    routeKey: 'Stage21Scene',
   },
 ] as const;
 
@@ -78,13 +79,24 @@ export function findHeavenMapNode(
   return nodes.find((node) => node.id === nodeId);
 }
 
+export function resolveHeavenMapRuntimeProgress(
+  progress: LevelUnlockProgress,
+  search: string,
+  isDevelopment: boolean,
+): LevelUnlockProgress {
+  if (!isDevelopment) return sanitizeLevelUnlockProgress(progress);
+  const qaStage = new URLSearchParams(search).get('qaStage');
+  return qaStage === '2-1'
+    ? { unlockedStage: 2, unlockedLevel: 1 }
+    : sanitizeLevelUnlockProgress(progress);
+}
+
 function getUnlockedNodeIndex(progress: LevelUnlockProgress): number {
   return progress.unlockedStage === 2 ? 3 : progress.unlockedLevel - 1;
 }
 
 function getNodeStatus(index: number, unlockedIndex: number): HeavenMapNodeStatus {
   if (index > unlockedIndex) return 'locked';
-  if (index === 3) return 'unavailable';
   if (index === unlockedIndex) return 'current';
   return 'completed';
 }
