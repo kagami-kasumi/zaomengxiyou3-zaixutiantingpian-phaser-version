@@ -4,23 +4,23 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-053` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-009` 和 `LINE-STAGE-2-1`。正式主循环反馈整改已归档；当前只逆向 Stage 2-1，不预设实现范围。
+`TASK-SLICE-144` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-013` 和 `LINE-STAGE-2-1`。Stage 2-1 六段逆向已归档；当前只按闭合合同完成首个可玩实现，不扩张怪物/弹体真视觉资源族。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-053 | Ready | GOAL-009 | LINE-STAGE-2-1 | 关卡逆向 | 闭合 Stage 2-1 真场景、地图标记、怪物/专属机制和结果流程 | M-026、M-027、M-030、M-035、M-044、VS-049 | 六段证据矩阵、资源标注、覆盖台账与最小可玩切片任务 | 完成逆向后按证据生成同线实现 Goal |
+| TASK-SLICE-144 | Ready | GOAL-013 | LINE-STAGE-2-1 | 关卡切片 | 按闭合证据实现 Stage 2-1 真场景、五停点、冰刺、Boss 门和结果存档 | M-026、M-027、M-030、M-035、M-044、VS-049 | Stage 2-1 layout/ice/traversal/flow、manifest、专项与运行时证据 | 依据运行验收生成同线校准/关闭任务 |
 | TASK-SETTINGS-061 | Planned | GOAL-011 | LINE-UI-NATIVE-SKILLS | UI 原生化逆向 | 闭合技能四页原生文字、按钮状态、命中区、布局和动态槽位 | M-016、M-041、M-052、VS-055 | 四页六段证据矩阵、资源/坐标合同、现代例外清单和实现门禁 | `TASK-SLICE-143` |
 | TASK-SLICE-143 | Planned | GOAL-012 | LINE-UI-NATIVE-SKILLS | UI 原生化整改 | 移除技能四页现代外层 UI，直接复用原图片中文字、按钮、状态和布局 | M-016、M-041、M-052、VS-055 | 四页原生化 view、业务回归、P1/P2/V4 与 940×590 逐状态证据 | 关闭本线并回写 PG-007 |
 
 ## 任务完成定义
 
-### TASK-SETTINGS-053
+### TASK-SLICE-144
 
 任务类型：
 
-- `TASK-SETTINGS`
+- `TASK-SLICE`
 
 功能条线：
 
@@ -28,7 +28,7 @@
 
 Goal 包：
 
-- `GOAL-009`（Active）
+- `GOAL-013`（Active）
 
 目标机制/切片：
 
@@ -36,39 +36,44 @@ Goal 包：
 
 输入资料：
 
-- `local-resources/regima/source/restored-swfs/` 中与 Stage 2-1 对应的窄源包、SymbolClass 和 MovieClip。
-- 对应局部 AS3、共享关卡/物理/镜头/刷怪/结果调用链，以及 `docs/workflow/reverse-engineering-protocol.md`。
-- `docs/reverse-engineering/levels-index.md`、`mechanics-index.md` 和本线覆盖台账。
+- `docs/reverse-engineering/levels-index.md` 的“Stage 2-1 权威实现输入”及其六段证据矩阵。
+- `docs/reverse-engineering/asset-annotation/annotations/stage21.csv`、`batches/stage21.md` 与 Git 忽略的 `local-resources/regima/task-outputs/task-settings-053-stage21/` 选择性派生物。
+- `docs/architecture/src-boundaries.md`、既有 Stage 1 三关 scene/layout/traversal/flow/combat owners、`HeavenMapSystem` 与 V4 保存桥。
 
 输出产物：
 
-- 按六段证据链记录局部配置、共享消费者、SWF 几何/坐标、行为合同、现代映射和双重验证计划。
-- 定位真场景资源族并新增/更新资源标注；区分确认事实、推断、未知和现代设计选择。
-- 清零影响首切片的未知项后，生成一个同线最小可玩实现 task；若证据缺失则明确阻塞，不补成原版事实。
+- Stage 2-1 的 manifest/provenance、布局/地图标记数据、独立冰刺危险 owner、五停点 traversal/flow、正式 scene bridge 与结果/存档接线。
+- 19/21 场景层、282 背景、3 根地面、48 门与 16 冰刺真资源接入；Monster6/9/10/19 与弹体视觉使用明确标注的既有占位表现。
+- Stage 2-1 专项测试、全系统/build 结果和 940×590 的 1P/2P、冰刺、五停点、失败/胜利/返回/重载运行证据。
 
 完成定义：
 
-- Stage 2-1 的场景符号、地图标记、波次/怪物、专属机制、进入/失败/胜利/解锁边界均有可追溯证据或明确未知。
-- 视觉/空间结论包含矩阵、注册点、边界和坐标语义；行为结论追踪到共享运行时消费者。
-- 覆盖台账和 `VS-049` 可据此生成不扩张范围的可玩切片任务。
+- 从已解锁天庭地图节点可选择 1P/2P 进入 2-1；真背景/场景/地面、3+1 墙、4 平台、5 停点、25 刷怪点、38 冰刺和门按权威坐标接入。
+- 五批严格为 10/12/14/16/1，总计 53；1P/2P 上限 6/8；Monster6 死亡立即显示门，其他波按刷完且全场怪物清空推进。
+- 顶部 19 冰刺按 200px 水平门槛播放 66 帧，地面 19 冰刺保持翻转静态；每实例/每玩家按 2 秒攻击 id 去重，伤害 `[10,20)` 和方向击退可确定性注入/验证。
+- 统一全灭失败不推进；门胜利幂等解锁并保存 2-2；返回地图和当前槽重载保持进度。
+- 真怪物/弹体视觉未接入时在代码、测试和运行证据中保持占位声明，不以本 task 越级关闭整条功能线。
 
 验收标准：
 
-- `npm run check:workflow`、`npm run check:annotations` 与 `git diff --check` 通过。
-- 六段证据矩阵满足逆向协议；影响实现的推断/未知未清零时不得标记闭合。
+- 实现前 `npm run check:structure`；新增 Stage 2-1 专项测试并纳入 `test:systems`。
+- `npm run test:systems`、`npm run build`、`npm run check:workflow`、`npm run check:annotations` 与 `git diff --check` 通过。
+- 940×590 浏览器至少覆盖：正式地图 1P/2P 入口、顶部/地面冰刺、五停点与 Boss 门、1P 或 2P 全灭失败、胜利解锁 2-2、返回地图与当前槽重载；console 无 warning/error。
+- 视觉核对保持 MovieClip 注册点与选择性派生纹理原点的映射，不能把整张 PNG/SVG 左上角直接当世界原点。
 
 禁止范围：
 
 - 不修改或重新生成恢复源包与 `local-resources/regima/legacy-extraction/` 原始提取结果。
-- 不提前修改 `src/`，不从 Stage 1 外推 Stage 2-1 的布局、波次、boss、视觉或流程。
+- 不进入 Stage 2-2，不逆向/接入 Monster6/9/10/19 与弹体的新真资源族，不重构无关 Stage 1 系统。
+- 不从 Stage 1 替换 Stage 2-1 的权威布局/波次/冰刺/门常量；共享 owner 复用必须由适配层保留关卡私有数据。
 
 状态更新：
 
-- `docs/tasks/feature-lines.md`、`docs/tasks/feature-line-coverage/LINE-STAGE-2-1.md`、`docs/tasks/task-board.md`、`docs/tasks/task-history.md`（完成时）。
+- `docs/tasks/feature-lines.md`、`docs/tasks/feature-line-coverage/LINE-STAGE-2-1.md`、`docs/tasks/goal-board.md`、`docs/tasks/vertical-slices.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/task-board.md`、`docs/tasks/task-history.md`（完成时）。
 
 推荐后续任务：
 
-- 完成证据矩阵时依据结果生成同线实现 task。
+- 依据运行验收生成 `LINE-STAGE-2-1` 的同线视觉校准、缺口修复或关闭任务。
 
 ### TASK-SETTINGS-061
 

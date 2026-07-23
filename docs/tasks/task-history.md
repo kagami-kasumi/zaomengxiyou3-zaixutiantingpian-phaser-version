@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-053 | 关卡/玩法逆向 | 闭合 Stage 2-1 场景、停点、刷怪、冰刺、结果与进度六段证据链 | M-026、M-027、M-030、M-035、M-044、VS-049 | `levels-index.md` 权威实现输入、7 条资源标注、场景/波次/冰刺/结果矩阵与 `TASK-SLICE-144` 实现合同 |
 | TASK-SLICE-142 | 真 UI 反馈整改 | 让工坊原图直接承载操作/返回并重做四页布局与双 owner 入口 | M-016、M-052、VS-054 | 原 119 容器透明命中、四操作统一中心、P1/P2 炼丹炉风格、派生 UI 删除、专项/全门禁/940×590 逐页证据 |
 | TASK-SLICE-140 | 端到端闭环 | 验收完整功能 UI 与正式主循环玩家旅程并关闭功能线 | M-005、M-016、M-044、M-050、M-051、M-052、VS-054 | 独立自动旅程、全门禁、940×590 新建/读档/地图/P1-P2 功能页/2P 关卡/返回/重载证据与零 console warning/error |
 | TASK-SLICE-141 | 真 UI 整改 | 移除炼丹炉现代覆盖导航并接回原生四态中文按钮 | M-035、M-039、M-052、VS-054 | 119 无按钮背景、95/99/109/113 up/over/down 资产、原命中区接线、专项/构建/940×590 浏览器验收 |
@@ -4618,6 +4619,38 @@
 
 推荐任务：
 - `GOAL-009` / `TASK-SETTINGS-053`：闭合 Stage 2-1 六段逆向证据链，不预设实现范围。
+
+### TASK-SETTINGS-053
+
+- 完成日期：2026-07-23
+- Goal：`GOAL-009`（已完成）
+- 功能条线：`LINE-STAGE-2-1`（继续保持 `Active`，下一 Goal 为 `GOAL-013` / `TASK-SLICE-144`）
+- 从恢复源 `assets/levels/level21.swf` 定位 character 49 `sl21`、19/21 场景层、48 普通门和 16 `IceThron`；从 `assets/2.swf` 定位 character 282 `bg21` 与 3 `floorBg2`。
+- 闭合 3 个 ObsWall、1 个坠落墙、4 个 ThroughWall、5 停点、25 刷怪点和五批 10/12/14/16/1 共 53 怪；Monster6 为末批唯一 boss，死亡直接显示门。
+- 闭合 38 个冰刺：19 个顶部刺按水平 200px 触发 66 帧时间轴，19 个翻转地面刺保持帧 1；每实例每 2 秒更新攻击 id，对每玩家去重并造成 `[10,20)` HP 与方向击退。
+- 追踪正式天庭地图进入、统一全灭失败、门胜利、2/1 → 2/2 单调解锁、当前槽保存和结果返回；影响首个可玩切片的未知项为零。
+- 新增 7 条 Stage 2-1 资源标注和批次记录；选择性派生场景 19/21 SVG、门、冰刺 66 帧、背景与地面到 Git 忽略调查目录，未修改恢复源包或旧提取结果。
+- 真 Monster6/9/10/19 动作和弹体视觉明确排除首切片；下一实现只能将其声明为占位，不能宣称怪物外观已复现。
+
+更新文件：
+- `docs/reverse-engineering/levels-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/stage21.csv`
+- `docs/reverse-engineering/asset-annotation/batches/stage21.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-line-coverage/LINE-STAGE-2-1.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- FFDec `swf2xml`、SymbolClass、脚本与选择性 sprite/shape/image 导出成功；源包只读。
+- `level21.xml` 与 `sl21.as` 交叉核对场景层级、全部矩阵/坐标和 25 个实例属性；`StageListener21` / `IceThron` / Monster6/9/10/19 与共享物理、镜头、结果链完成窄读。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本 Goal 收尾记录。
+
+推荐任务：
+- `GOAL-013` / `TASK-SLICE-144`：按已闭合合同实现 Stage 2-1 真场景、五停点 53 怪、38 冰刺、Boss 门和 2-2 保存可玩闭环。
 
 ### TASK-SLICE-140
 

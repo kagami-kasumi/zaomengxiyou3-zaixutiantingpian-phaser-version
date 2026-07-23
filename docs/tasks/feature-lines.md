@@ -27,12 +27,12 @@
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
 | LINE-FORMAL-GAME-LOOP | Done | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | — | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | 端到端旅程保持；工坊原 119 容器透明命中、四操作居中、原图返回和 P1/P2 样式经专项/全门禁/940×590 复验闭合 |
-| LINE-STAGE-2-1 | Active | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SETTINGS-053 | `feature-line-coverage/LINE-STAGE-2-1.md` | 资源、布局、行为与流程尚未逆向 | 待六段证据链、可玩切片和运行时验收闭合 |
+| LINE-STAGE-2-1 | Active | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | TASK-SLICE-144 | `feature-line-coverage/LINE-STAGE-2-1.md` | 真场景/流程待接入；怪物真视觉仍为公开后置项 | 待可玩切片、运行时验收和剩余视觉边界闭合 |
 | LINE-UI-NATIVE-SKILLS | Planned | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | TASK-SETTINGS-061 | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 等待用户批准是否暂停 Stage 2-1；四页原生按钮与动态槽位证据待复核 | 待四页证据、原生化实现、业务回归和 940×590 逐状态验收闭合 |
 
 ## 当前功能线状态
 
-`LINE-STAGE-2-1` 是唯一 `Active` WIP。`TASK-SLICE-142` 已按用户四项运行反馈整改并重新关闭 `LINE-FORMAL-GAME-LOOP`：原始 119 容器直接承载透明命中，四操作统一居左框中央，原图右上“返回”可点，P1/P2 使用左上炼丹炉风格文字。当前恢复 `GOAL-009` / `TASK-SETTINGS-053`，只做 Stage 2-1 六段逆向。
+`LINE-STAGE-2-1` 是唯一 `Active` WIP。`TASK-SETTINGS-053` 已闭合 `sl21`/`bg21`/`floorBg2`、完整墙/平台/停点/刷怪点、五批 53 怪、38 冰刺、Monster6 门禁与 2-2 结果存档六段证据；当前进入 `GOAL-013` / `TASK-SLICE-144`，只按该合同完成首个可玩实现。
 
 用户已要求把技能页面 UI 原生化重做登记进 task 系统。`LINE-UI-NATIVE-SKILLS` 已作为 `Planned` 功能线登记，先执行原生页面证据复核，再实施四页原生化；本次登记不自动暂停 Stage 2-1，也不把治理文档当成游戏实现。
 
@@ -99,6 +99,8 @@
 2026-07-23 用户复验指出工坊页面仍有四项视觉/交互偏差，证明本线关闭门禁对“原图直接承载交互”检查不足。现重新打开本线并激活 `GOAL-010` / `TASK-SLICE-142`；`GOAL-009` / Stage 2-1 暂回 Planned，整改闭合前不切线。
 
 `TASK-SLICE-142` 已归档：页面恢复原始 `container.png`，四页签、翻页、提交、槽位和右上“返回”均由原图透明命中区承载；四操作主体共享左框中心，P1/P2 使用左上 26px 粗体描边文字且无现代底板。派生无字背景、12 个页签 SVG 和生成脚本已删除，恢复 SWF/旧提取结果未动。专项、全门禁、build、workflow 与 940×590 P1/P2/四页/返回复验通过，console 无 warning/error。本线重新关闭，当前切回 `LINE-STAGE-2-1`。
+
+`TASK-SETTINGS-053` 已归档：恢复 `level21.swf` character 49/19/21/48/16 与 `assets/2.swf` character 282/3，闭合 3+1 墙、4 平台、5 停点、25 刷怪点、五批 10/12/14/16/1、Monster6 死亡显门、19+19 冰刺、统一失败和胜利保存 2-2；六段矩阵与 7 条资源标注无影响首切片的未知。功能线保持 Active，当前推进 `GOAL-013` / `TASK-SLICE-144`；怪物/弹体真视觉仍明确后置。
 
 ## 关闭与切线
 
