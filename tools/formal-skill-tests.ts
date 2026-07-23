@@ -4,9 +4,11 @@ import path from 'node:path';
 import { fullFeatureUiAssets } from '../src/assets/AssetManifest';
 import {
   bindFormalSkill,
+  commitFormalSkillBinding,
   createFormalSkillPage,
   getFormalSkillPlayer,
   learnFormalSkill,
+  openFormalSkillBinding,
   selectFormalSkill,
   selectFormalSkillSlot,
   selectFormalSkillTab,
@@ -49,10 +51,11 @@ function testTreeLearnUpgradeBindPassiveAndReload(): void {
   assert.equal(learnFormalSkill(model, storage), true);
   assert.equal(getFormalSkillPlayer(model).skillLearning.trees[0].learnedSkills[0]?.skillName, 'slz');
 
-  selectFormalSkillTab(model, 'binding');
-  selectFormalSkill(model, 0);
+  assert.equal(openFormalSkillBinding(model, 'slz'), true);
+  assert.equal(model.activeTab, 'binding');
   selectFormalSkillSlot(model, 2);
-  assert.equal(bindFormalSkill(model, storage), true);
+  assert.equal(commitFormalSkillBinding(model, storage), true);
+  assert.equal(model.activeTab, 'tree1');
   assert.equal(getFormalSkillPlayer(model).skillLoadout.slots[2]?.skillName, 'slz');
 
   selectFormalSkillTab(model, 'tree1');
@@ -99,11 +102,33 @@ function testTrueSkillAssets(): void {
     assert.ok(existsSync(path.join(root, 'public', asset.path)));
   }
   const scene = readFileSync(path.join(root, 'src/scenes/FeatureUiScene.ts'), 'utf8');
+  const view = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalSkillPageView.ts'), 'utf8');
   const map = readFileSync(path.join(root, 'src/scenes/HeavenMapScene.ts'), 'utf8');
   const stage12 = readFileSync(path.join(root, 'src/scenes/stage12/Stage12GameplayBridge.ts'), 'utf8');
   const stage13 = readFileSync(path.join(root, 'src/scenes/stage13/Stage13GameplayBridge.ts'), 'utf8');
   assert.match(scene, /createFormalSkillPageView/);
   assert.match(scene, /syncFormalSkillRuntime/);
+  assert.doesNotMatch(view, /add\.rectangle/);
+  assert.doesNotMatch(view, /正式心法与技能|绑定到选中槽|升级选中被动|关闭返回/);
+  assert.match(view, /getSkillNativeButtonAsset/);
+  assert.match(view, /getSkillNativeSpriteAsset/);
+  for (const characterId of [207, 240, 244, 248, 337, 580, 638]) {
+    for (const state of ['up', 'over', 'down']) {
+      assert.ok(existsSync(path.join(
+        root,
+        'public/assets/ui/feature/skills/native/buttons',
+        String(characterId),
+        `${state}.svg`,
+      )));
+    }
+  }
+  for (const frame of [1, 2, 3, 4, 5]) {
+    assert.ok(existsSync(path.join(
+      root,
+      'public/assets/ui/feature/skills/native/sprites/212',
+      `${frame}.svg`,
+    )));
+  }
   assert.match(map, /originKind: 'map', playerCount: 2/);
   assert.match(stage12, /FormalSkillsUpdatedEvent/);
   assert.match(stage13, /FormalSkillsUpdatedEvent/);

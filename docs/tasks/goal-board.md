@@ -33,7 +33,7 @@
 | GOAL-009 | Done | LINE-STAGE-2-1 | TASK-SETTINGS-053 | Stage 2-1 六段逆向证据与实现任务输入 | 最多 1 次 | `GOAL-013` |
 | GOAL-010 | Done | LINE-FORMAL-GAME-LOOP | TASK-SLICE-142 | 工坊原图按钮、左框居中、原生返回与 P1/P2 样式整改 | 最多 1 次 | `GOAL-009` |
 | GOAL-011 | Done | LINE-UI-NATIVE-SKILLS | TASK-SETTINGS-061 | 技能四页原生文字、按钮状态、命中区与动态槽位六段证据 | 最多 1 次 | `GOAL-012` |
-| GOAL-012 | Active | LINE-UI-NATIVE-SKILLS | TASK-SLICE-143 | 技能总页、主动页、绑定页、被动页 UI 原生化实现与正式流程验收 | 最多 1 次 | 关闭本线后按用户调度恢复内容线 |
+| GOAL-012 | Done | LINE-UI-NATIVE-SKILLS | TASK-SLICE-143 | 技能总页、主动页、绑定页、被动页 UI 原生化实现与正式流程验收 | 最多 1 次 | 本线已关闭；等待用户调度下一功能线 |
 | GOAL-013 | Done | LINE-STAGE-2-1 | TASK-SLICE-144 | Stage 2-1 真场景、五停点 53 怪、38 冰刺、Boss 门与 2-2 保存可玩闭环 | 最多 1 次 | `GOAL-014` |
 | GOAL-014 | Done | LINE-STAGE-2-1 | TASK-SLICE-145 | 940×590 1P/2P 运行校准、用户复验与怪物视觉范围/功能线关闭裁决 | 最多 1 次 | `GOAL-015` |
 | GOAL-015 | Done | LINE-STAGE-2-1 | TASK-SETTINGS-062 | Monster6/9/10/19 动作、弹体与命中特效真视觉六段证据 | 最多 1 次 | `GOAL-016` |
@@ -41,12 +41,14 @@
 | GOAL-017 | Done | LINE-STAGE-1-1 | TASK-SLICE-147 | 修复末段镜头、W/↑ 通关结果、遗留调试怪和返回地图后节点失效四项回归 | 最多 1 次 | 已恢复 `GOAL-011` |
 | GOAL-018 | Done | LINE-STAGE-1-1 | TASK-SLICE-148 | 复用原版普通门并改为最高层立即触发 Boss | 最多 1 次 | 已恢复 `GOAL-011` |
 | GOAL-019 | Done | LINE-STAGE-1-1 | TASK-SLICE-149 | 按原生关卡重做最高层 Boss 镜头构图 | 最多 1 次 | 已恢复 `GOAL-011` |
+| GOAL-020 | Done | LINE-STAGE-2-2 | TASK-SETTINGS-063 | Stage 2-2 场景、几何、流程、怪物/机关、结果与存档六段逆向 | 最多 1 次 | `GOAL-021` |
+| GOAL-021 | Active | LINE-STAGE-2-2 | TASK-SLICE-150 | Stage 2-2 真场景、五停点 54 怪、9 火焰、Monster16 真视觉、结果与 2-3 保存可玩闭环 | 最多 1 次 | 依据覆盖差异关闭本线或生成同线最小后续 |
 
 ## 最近完成 Goal
 
-`GOAL-011` 仅包含 `TASK-SETTINGS-061`：从恢复 `OtherMat1.swf` character 250/868/417/213 及按钮、MovieClip、AS3/P-code 闭合四页完整显示列表、940×590 坐标、按钮/命中区、角色与技能状态帧、动态 TextField/addChild、绑定拖放和返回/owner/保存链。权威产物为 `docs/reverse-engineering/skill-ui-native-index.md`。
+`GOAL-020` 仅包含 `TASK-SETTINGS-063`：已从 `level22.swf` / `assets/2.swf`、局部/共享 AS3、时间轴与几何闭合 Stage 2-2 六段证据。关卡为五停点 11/13/13/16/1 共 54 怪，含 9 个 130 帧火焰；Monster16 为 24189 HP Boss，拥有 8 动作、36 个本体关键帧和六攻击对象 104 帧，死亡显门。
 
-完成结果：影响实现的未知为零；现有暗层、外框、现代标题、通用按钮和永久摘要均已逐项标为替代覆盖层，本证据 Goal 不批准新增可见现代例外。`LINE-UI-NATIVE-SKILLS` 继续保持 `Active`，同线下一 Goal `GOAL-012` / `TASK-SLICE-143` 已激活；本次 `/goal` 不继续实现。
+完成结果：场景/背景/地面/门、墙/平台/停点/刷怪点、火焰、Boss、失败/胜利和 2-3 保存合同影响实现的未知为零；14 条真资源已选择性派生并标为 `derived-ready`。已激活同线 `GOAL-021` / `TASK-SLICE-150`；本次 `/goal` 不继续执行下一 Goal。
 
 ## Goal 生成检查
 

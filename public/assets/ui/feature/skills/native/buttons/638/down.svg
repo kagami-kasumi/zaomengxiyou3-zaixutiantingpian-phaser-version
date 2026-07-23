@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:ffdec="https://www.free-decompiler.com/flash" xmlns:xlink="http://www.w3.org/1999/xlink" ffdec:objectType="frame" height="25.0px" width="41.0px" xmlns="http://www.w3.org/2000/svg">
+  <g transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+    <g class="button" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+      <g class="button-frame button-frame-up" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+        <use ffdec:characterId="637" height="23.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, -2.0)" width="41.0" xlink:href="#shape0"/>
+      </g>
+      <g class="button-frame button-frame-over" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+        <use ffdec:characterId="637" height="23.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, -2.0)" width="41.0" xlink:href="#shape0"/>
+      </g>
+      <g class="button-frame button-frame-down" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+        <use ffdec:characterId="637" height="23.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="41.0" xlink:href="#shape0"/>
+      </g>
+      <g class="button-frame button-frame-hittest" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+        <use ffdec:characterId="637" height="23.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="41.0" xlink:href="#shape0"/>
+      </g>
+    </g>
+  </g>
+  <defs>
+    <style><![CDATA[
+    .button-frame {
+      pointer-events: none;
+    }
+
+    .button-frame-up,
+    .button-frame-over,
+    .button-frame-down {
+      opacity: 0;
+    }
+
+    .button .button-frame-up {
+      opacity: 1;
+    }
+
+    .button:hover .button-frame-up {
+      opacity: 0;
+    }
+    .button:hover .button-frame-over {
+      opacity: 1;
+    }
+
+    .button:active .button-frame-over {
+      opacity: 0;
+    }
+    .button:active .button-frame-down {
+      opacity: 1;
+    }
+
+    .button-frame-hittest {
+      opacity: 0;
+      pointer-events: all;
+      cursor: pointer;
+    }
+]]></style>
+    <g id="shape0">
+      <pattern height="23" id="PatternID_637_1" overflow="visible" patternTransform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 2.0)" patternUnits="userSpaceOnUse" viewBox="0 0 41 23" width="41">
+        <image height="23" style="image-rendering:optimizeSpeed; image-rendering:pixelated" width="41" xlink:href="data:image/PNG;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAAXCAYAAACWEGYrAAAEI0lEQVR42tVXXWgUVxS+2Wxm87PJ1t1ks0Ii0SQj0fwQ3UQiVahTqwgRp6JUGugSFBQxVrRW0EUMNJRuKVha6hYCJcV26EtL0RAQWggM+mQpISDSh7J98UkGn/r29Z47M9c7+5PdBB/swMfc851zz/3u3XvvnGXs//gkNPZJR4QtJyLsy3g9O6H6Ioz1xsLMKAZ1K87Txth4e5hdbtfY7HoQb2DTrYzpFQVycUudTQwqSHQLY8MdGrOLfSr4AJarjTFqrxVbC7x8wYdWiZzp7VHYDw4h/8WY2uGR7zPfTpVAT2l+3N14mB2kNnHZSzuQuzmyLsxM98l8fFXPBETGGNtFDmNsE/BiSsBeOig7qHwxCqvHRAz/JQr0k1E7lx2uGF8N1rcT/qQXSlbTXzEjvQnO3+8Cz98Tb71TQ+76oLTt+wckiCMoq+6K9OIphtrWnT0ylmxC4c9JYZNPjaE+3qSXSza6uifS/c1Y+c2A8/QoF9mA/NwI8Ow4ctcGAnuHOELx1qA437deLC54Kxlhv6oaNa76CTmy57Yhd1UXbxKX7msWb2f1MPDPJGbe7w6K5BwhM5mCsatN8tSmPOXg96nk9/PQhF/uR36NEGnujwN/HZIgm3j7xzFhF5b3CzsZYf/ySb2gtvOHEehjjLYKqNxGQDkoP52V4MnubcTi10MoPJgAVt+C+eYbIpA459E+GCPRkqti5mQK9sKohJ4MC+Qu9pSF9emAyE1jVIohUA7KH7iD1Tsyd74beLwX5t6YsPMfb4U9v7MqjOGWwASon7M8LnLVChp7zbtSnsyzm4GHu2FOuEte+HlI2NVA/QL71ePzV7qFby1YN3tErP2NXv5kl4g8nQR+H4S5x10Zvb0eK/N9cO4NIHOgTfA+/FiCsbMxKNLj7dtbq4Ly+7G1iczwA7TUD3OsSQ64eGuz4OzPuySnt4dQWOgRPPnVK0iI5DyB8lWDdbUzkL+6yKkY8MsWmLv5QbrRAXsuCT0RgvNDl+CtSwlhr9xOCZv49Jawf7d9JEVy33pBY9Um8lQU+CkF60JMvJ3v3I7G9gbRJk4F8V7iJcojRXp+c1SriuyxFhFrz8ZrFHmyCfg+LpGZcL/feqIOi5ejAZ91Lnii1WpJjasV9o1WX+QTqr4qizyuAfNRAetMBEZ/CPmpCJyvWiRf+Kw50M4e4V+nrpAUaw7XSz+1q4H6U+zKrWZh+0LpaxgUyYtU8Wk8zAe4E4E1HZZtH/aVBphDrpjMOD84c1rAT/HkV7mNwB/DK6rLFxlGb5182x+GYH0QkpyYZSN75rczab4NznLBs1zgoBuTfacOuaMbw8y+usorKct+7xpRrxO1yqFqnYcmqchVxb5KUH1Qdk8WF8Hqfx4qQEsqZfdJ0rVDZZVX9N7d6P+bmv/nvI7Pf5OReCXAi3zPAAAAAElFTkSuQmCC"/>
+      </pattern>
+      <path d="M41.0 25.0 L0.0 25.0 0.0 2.0 41.0 2.0 41.0 25.0" ffdec:fill-bitmapId="636" fill-rule="evenodd" style="fill:url(#PatternID_637_1)"/>
+    </g>
+  </defs>
+</svg>

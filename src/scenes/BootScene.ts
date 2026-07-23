@@ -8,6 +8,7 @@ import {
   role1NormalAttackAssets,
   saveSlotAssets,
   scaffoldAssets,
+  skillNativeUiAssets,
   stage11Assets,
   stage12Assets,
   stage13Assets,
@@ -37,6 +38,10 @@ export class BootScene extends Phaser.Scene {
       this.load.image(asset.key, asset.path);
     }
     for (const asset of Object.values(fullFeatureUiAssets)) {
+      if (asset.path.includes('/skills/native/base/')) this.load.image(asset.key, asset.path);
+      else this.load.svg(asset.key, asset.path);
+    }
+    for (const asset of skillNativeUiAssets) {
       this.load.svg(asset.key, asset.path);
     }
     for (const asset of Object.values(combatHudAssets)) {

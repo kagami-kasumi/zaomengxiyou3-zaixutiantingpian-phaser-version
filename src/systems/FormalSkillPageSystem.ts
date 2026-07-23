@@ -32,6 +32,7 @@ export type FormalSkillPageModel = {
   activeTab: SkillPanelTab;
   selectedSkillIndex: number;
   selectedSlotIndex: number;
+  bindingReturnTab: 'tree1' | 'tree2';
   message: string;
   sourceSave: GameSaveV4;
   restored: LoadedGameState;
@@ -48,6 +49,7 @@ export function createFormalSkillPage(
     activeTab: 'tree1',
     selectedSkillIndex: 0,
     selectedSlotIndex: 0,
+    bindingReturnTab: 'tree1',
     message: '选择心法或技能；所有成功操作会立即保存当前槽',
     sourceSave: save,
     restored: restoreGameState(save, createSeedEquipmentRegistry()),
@@ -75,6 +77,28 @@ export function selectFormalSkill(model: FormalSkillPageModel, index: number): v
 
 export function selectFormalSkillSlot(model: FormalSkillPageModel, index: number): void {
   model.selectedSlotIndex = Math.min(4, Math.max(0, index));
+}
+
+export function openFormalSkillBinding(model: FormalSkillPageModel, skillName: AllSkillName): boolean {
+  const learnedIndex = getFormalLearnedSkills(model).findIndex((entry) => entry.skillName === skillName);
+  if (learnedIndex < 0) return false;
+  if (model.activeTab === 'tree1' || model.activeTab === 'tree2') {
+    model.bindingReturnTab = model.activeTab;
+  }
+  model.activeTab = 'binding';
+  model.selectedSkillIndex = learnedIndex;
+  model.selectedSlotIndex = 0;
+  return true;
+}
+
+export function commitFormalSkillBinding(
+  model: FormalSkillPageModel,
+  storage: SaveStorage,
+): boolean {
+  const saved = bindFormalSkill(model, storage);
+  model.activeTab = model.bindingReturnTab;
+  model.selectedSkillIndex = 0;
+  return saved;
 }
 
 export function upgradeFormalSkillTree(model: FormalSkillPageModel, storage: SaveStorage): boolean {

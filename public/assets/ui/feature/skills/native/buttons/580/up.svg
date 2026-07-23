@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:ffdec="https://www.free-decompiler.com/flash" xmlns:xlink="http://www.w3.org/1999/xlink" ffdec:objectType="frame" height="28.0px" width="48.0px" xmlns="http://www.w3.org/2000/svg">
+  <g transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+    <g class="button" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+      <g class="button-frame button-frame-up" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+        <use ffdec:characterId="579" height="26.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, -2.0)" width="48.0" xlink:href="#shape0"/>
+      </g>
+      <g class="button-frame button-frame-over" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+        <use ffdec:characterId="579" height="26.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, -2.0)" width="48.0" xlink:href="#shape0"/>
+      </g>
+      <g class="button-frame button-frame-down" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+        <use ffdec:characterId="579" height="26.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="48.0" xlink:href="#shape0"/>
+      </g>
+      <g class="button-frame button-frame-hittest" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
+        <use ffdec:characterId="579" height="26.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="48.0" xlink:href="#shape0"/>
+      </g>
+    </g>
+  </g>
+  <defs>
+    <style><![CDATA[
+    .button-frame {
+      pointer-events: none;
+    }
+
+    .button-frame-up,
+    .button-frame-over,
+    .button-frame-down {
+      opacity: 0;
+    }
+
+    .button .button-frame-up {
+      opacity: 1;
+    }
+
+    .button:hover .button-frame-up {
+      opacity: 0;
+    }
+    .button:hover .button-frame-over {
+      opacity: 1;
+    }
+
+    .button:active .button-frame-over {
+      opacity: 0;
+    }
+    .button:active .button-frame-down {
+      opacity: 1;
+    }
+
+    .button-frame-hittest {
+      opacity: 0;
+      pointer-events: all;
+      cursor: pointer;
+    }
+]]></style>
+    <g id="shape0">
+      <pattern height="26" id="PatternID_579_1" overflow="visible" patternTransform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 2.0)" patternUnits="userSpaceOnUse" viewBox="0 0 48 26" width="48">
+        <image height="26" style="image-rendering:optimizeSpeed; image-rendering:pixelated" width="48" xlink:href="data:image/PNG;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAaCAYAAADxNd/XAAAE1ElEQVR42uVYTYgcRRTu05poNhlcE0xi4sjETTaBpbMhiSYGG9fVeBDHxA2R6DLmhxA2PwOroCbaIbjRk+MlQVekRRkJ5rBkZXFBpMPAwgjKJAqyeLBRPOTW4Glv5Xv1qrqqeqpmEpKbDR9VXe9736vXVV3V1Z73P7tWAfYDhgE9gH7AJKAhym7XIGAewEQ5CigJvW4YupuO7wDUAbdEcMQCYFG7RzQ7aPRb+HeKpngIHS/M9DDgAmAG8LcuUt7rseBJdV854LH4qsf8LVnbWw7dOcln/3isdp74xXWk1w2afrPT8DZtmRcf8Vj1iMeSeQj+FwHb0Jb+RvfTUxl/xqI9KXUkH0ts0zW7wd+cxRhyDi+SKq94LDwDnfoUAjTA+U8T6Q2VgGyLv8nEG5bpx23IkfzycyIBi74LwRNZjOF8Aof58O4D4h9upD/D0L8LnV+rRkfa4q+dCcxie7WiuNFH2uiCVrDTtOG9RHhK2fwB9whM8CBjQPzdDrTZppe0x19aE8D3gRV6IfmfiJf8QPeVl8nH32Tq1N429cNxZdParasMNwbbCSiMJfuVgHXBmRXLHwUW9vgLawJ8yZz+RPFQt/KSug9POHUMX619QfTXmsSCnn2wDZx/IWBdtF8QoMDCHk8ZCaB9RD59yckjvU52XQeh9yH5jtqi80YfWD6JwdwaTwkMgXOTgHXrFBL2+LLdXlytOHlITT0Oovx0u75E9WBmm/DyQ13eA0P6hkL0Djg1CFjXbRLSnnxrtvuPq05gPdgKwUcVv3ZKe1BbVbuMJf30dgRqazOBXyX+pB4Gwo/3DvHHxsbD663PyJbUYeos0zbH3aZvek3Z/Q3Q6TFlq+63j8BNHuASkL6/N5h+33wZw0PKFgzmVhph0+NjW7bbj1h9jb3gkm3+RqfB6RrB9X0ST5IdSxenuErpJJ8TFzEtpgqWaAsPKr0UNr3CA2aMVG2W/4qPSS+fxE2jc/Dms6tUOhNwc+blahWOEscGvwhJXaZ6eQc84S3Khn76fa1iLOUdvxpZ4X5wqhOi45njVxqvwRM4RxwsLfsAX0qDAbJL1F6HzsGu7z8Ko7NSxcG6rpnCaLUuttvFPuS86nze7QKnKQLWheOxtgQmiIOlJYGe/N6SR/VZ8k8+1FaljSq2RPiiMbLOayTbQN4DxxqhsDRz7m9LYJw4WFoSWJ4/R6BW+Dw83YsEGSd61Uys9aaKjyg+aEyf9a7Paf5FGj4DTh8Qon3OzCmBI8TD0pLAXLZUDpBWek5p6wgeEwkuUZo6WuNkE3q38gebbKgrsEyxs4QUpkVxhXX6qAReIy6WuQRofwH/5KTSlEA+6mMd7di5cI9qk/FbR8378kb7Ax3mcw9OR2xCobwhI89ZRowSOEBcLK0JLIfAJ4mTHIMXOICXF5bVaK+Kg22SI4F6hfsIMoYEaopYJf0YyfyHgDBOqGwyhss252b4Gv4C8aNh60rFp1Cxl7T1OV57ivziMsWScZMxI3YbPz1q7AXGxbd8v48CCtJih0M0fev3wMitodIy1dbr74E4X9dtqxHGRR2tbVEcRSezDbHXiDPb7Uw8fxt/AK7kOnLFwSvlTlGjud8rTUuS/Q5+x5VITqfSHfxy6RPvUN9d/nMa0v43eR0ehBHnP8HPAkp9GG5MAAAAAElFTkSuQmCC"/>
+      </pattern>
+      <path d="M48.0 28.0 L0.0 28.0 0.0 2.0 48.0 2.0 48.0 28.0" ffdec:fill-bitmapId="578" fill-rule="evenodd" style="fill:url(#PatternID_579_1)"/>
+    </g>
+  </defs>
+</svg>

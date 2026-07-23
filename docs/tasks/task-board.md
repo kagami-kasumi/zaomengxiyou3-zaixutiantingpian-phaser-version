@@ -4,17 +4,17 @@
 
 ## 当前推荐
 
-`TASK-SLICE-143` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-012` 和 `LINE-UI-NATIVE-SKILLS`。严格消费 `skill-ui-native-index.md`，移除技能四页现代覆盖层并完成原生化正式流程验收。
+`TASK-SLICE-150` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-021` 和 `LINE-STAGE-2-2`。严格消费已闭合的 Stage 2-2 权威合同，接入真场景、五停点、9 火焰、54 怪、Monster16 真视觉/六攻击对象、结果与 2-3 保存闭环。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-143 | Ready | GOAL-012 | LINE-UI-NATIVE-SKILLS | UI 原生化整改 | 移除技能四页现代外层 UI，直接复用原图片中文字、按钮、状态和布局 | M-016、M-041、M-052、VS-055 | 四页原生化 view、业务回归、P1/P2/V4 与 940×590 逐状态证据 | 关闭本线并回写 PG-007 |
+| TASK-SLICE-150 | Ready | GOAL-021 | LINE-STAGE-2-2 | 可玩关卡/真视觉接入 | 完成 Stage 2-2 1P/2P 正式可玩闭环与运行校准 | M-026、M-027、M-030、M-035、M-044、VS-056 | 14 条真资源、layout/traversal/fire/flow/Monster16 owners、2-3 存档、专项/全系统/build/940×590 证据 | 依据覆盖差异裁决本线关闭或生成同线最小后续 |
 
 ## 任务完成定义
 
-### TASK-SLICE-143
+### TASK-SLICE-150
 
 任务类型：
 
@@ -22,58 +22,61 @@
 
 功能条线：
 
-- `LINE-UI-NATIVE-SKILLS`（Active）
+- `LINE-STAGE-2-2`（Active）
 
 Goal 包：
 
-- `GOAL-012`（Active）
+- `GOAL-021`（Active）
 
 目标机制/切片：
 
-- `M-016`、`M-041`、`M-052`、`VS-055`
+- `M-026`、`M-027`、`M-030`、`M-035`、`M-044`、`VS-056`
 
 输入资料：
 
-- `docs/reverse-engineering/skill-ui-native-index.md` 闭合的四页 UI 原生化证据矩阵。
-- `FormalSkillPageView.ts`、`FormalSkillPageSystem.ts`、`FeatureUiScene.ts`、技能业务 systems、四页真资源及正式入口 bridge。
-
-UI 原生化合同：
-
-- 显示列表清单：实现必须逐项消费 `TASK-SETTINGS-061` 闭合的根/子 Symbol、depth、矩阵、文字字段、按钮状态、动态 child 和命中区映射。
-- 原版视觉基准：以证据 task 落盘的四页基准为唯一视觉比较源，不用现有现代页面截图反推原版。
-- 允许的现代视觉例外：默认空清单；任何新增可见文字、面板、矩形、暗层或通用按钮都必须先记录证据缺口、最小边界并取得用户批准。
-- 逐状态验收：normal/hover/pressed/selected、主动/被动/绑定、动态状态、P1/P2、关闭与重载。
-- 差异证据：940×590 同尺寸并排/半透明叠图、稳定区域像素或边缘差异、可见对象逐项差异和容差说明。
+- `docs/reverse-engineering/levels-index.md` 的“Stage 2-2 权威实现输入”、`docs/reverse-engineering/asset-annotation/annotations/stage22.csv` 与批次说明。
+- `local-resources/regima/task-outputs/task-settings-063-stage22/` 的选择性 SVG/PNG、Boss/攻击对象几何表；恢复 SWF 只作精确复核。
+- Stage 2-1 已完成的 layout/traversal/flow/combat/native-visual owners 与 Monster9/10/19 真资源，作为共享结构和复用边界。
+- `docs/architecture/src-boundaries.md`、`docs/workflow/code-quality-gates.md`；修改任何既有 `src/` 文件前先运行 `npm run check:structure`。
 
 输出产物：
 
-- 移除四页全屏暗层、外层现代面板、现代标题和通用替代按钮。
-- 直接复用原图片中的中文字、按钮、按钮状态和页面布局；透明命中区只绑定事件，不绘制替代视觉。
-- 将灵魂、等级、技能说明、学习/升级状态、已学列表和五槽等动态内容放入原版槽位；现代例外严格使用已批准清单。
-- 保持既有技能学习、升级、五槽绑定、被动、P1/P2、HUD 同步和 V4 保存系统 owner。
+- 将 Stage 2-2 的 14 条 `derived-ready` 真资源选择性接入 `public/assets/stage22/`、manifest 与加载场景；复用 Stage 2-1 的 Monster9/10/19，不复制同名资源。
+- 新增或扩展独立 Stage 2-2 layout、traversal、fire hazard、flow、Monster16 behavior/native visual 与 scene/result bridge，保持共享 owner 边界。
+- 实现五停点 11/13/13/16/1 共 54 怪、1P/2P 6/8 上限、9 火焰、Monster16 八动作/六攻击对象、死亡显门、失败/胜利/返回/重载和 2-3 当前槽保存。
+- 产出确定性专项、全系统/build 结果和 940×590 1P/2P 逐状态运行证据。
+
+UI 原生化合同：
+
+- 显示列表清单：按 level22 character 64 根、32 背景容器、36 中景、34 前景/地面、31 火焰、63 门、Monster16 atlas 与六攻击对象记录父子层级、世界原点、注册点、缩放与动态可见性；HUD 继续使用既有正式 owner。
+- 原版视觉基准：以恢复 `level22.swf` / `assets/2.swf` 的选择性 SVG/PNG、XML 时间轴和 940×590 主舞台为基准；逐停点、火焰触发、Boss 八动作、六攻击和门显示均需运行截图或逐状态观察。
+- 允许的现代视觉例外：空清单；未经用户批准不得叠加现代矩形、圆、标签、辉光、额外命中特效或其他可见替代层。仅 DEV-only、默认不可见的 QA 控制可按现有规则保留。
+- 逐状态验收：1P/2P 进入；五停点锁屏/放行；九火焰 idle/触发/命中/循环；Monster9/10/19 既有动作；Monster16 wait/walk/hurt/dead/hit1..4 左右向；六攻击生命周期；Boss 死亡显门；失败、胜利、返回、重载和 2-3 进度。
+- 差异证据：以世界原点/注册点叠图、对象差异清单和 940×590 截图记录偏差；允许的数值容差只用于浏览器缩放/抗锯齿说明，不得改写权威世界坐标。
 
 完成定义：
 
-- 250/868/417/213 四页均完成原生化，不再把真资源当背景后覆盖一套外层 UI。
-- 正式入口、P1/P2 owner、主动/被动切换、学习/升级、绑定、关闭、HUD 同步和保存/重载无回归。
-- PG-007 存量矩阵将技能页标为已原生化，并留下可供后续宠物/法宝任务复用的实现样本。
+- 正式地图可按存档门禁进入 Stage 2-2；1P/2P 可完整通过五停点、火焰和 Boss，按上进门胜利并幂等保存 2-3。
+- 失败不推进；返回地图、重载和再次进入不残留 scene、输入、怪物、攻击对象、火焰或 HUD 生命周期。
+- Monster16 八动作、六攻击对象、FireThron 130 帧和 14 条视觉资源直接消费真素材；无玩家可见占位。
+- 覆盖台账全部关闭项有自动与运行证据；若仍有缺口，只能生成同线最小后续 task，不得切线。
 
 验收标准：
 
-- 实现前运行 `npm run check:structure`；目标文件 warning/error 按门禁处理。
-- 原生资源/状态/命中区专项、技能专项、`npm run test:systems`、`npm run build`、`npm run check:workflow` 和 `git diff --check` 通过。
-- 从地图与 Stage 正式入口完成 P1/P2 四页 normal/hover/pressed/selected、成功/拒绝、关闭、HUD 同步与重载；940×590 截图齐全且 console 无 error/warning。
+- `npm run check:structure`、Stage 2-2 专项、`npm run test:systems`、`npm run build`、`npm run check:annotations`、`npm run check:workflow`、`git diff --check` 通过；既有 warning 必须区分于本 task 新增问题。
+- 确定性测试覆盖 5 停点/25 点/54 怪、6/8 上限、火焰触发/每玩家去重/伤害范围、Boss 数值/技能 tick/对象生命周期、显门、失败不保存和胜利 2-3 round-trip。
+- 内置浏览器 940×590 正式入口覆盖 1P/2P、五停点、至少每类火焰状态、Monster16 八动作/六攻击、失败、胜利、返回、重载；新鲜标签页 console 无 warning/error。
 
 禁止范围：
 
-- 不重写技能数值、MP、冷却、学习成本、等级上限、五槽顺序或存档 schema。
-- 不以现代文字、矩形、通用按钮覆盖原图片中文字；不顺带整改其他功能页或 Stage 2-1。
-- 不用单页静态截图替代正式流程、按钮状态和双 owner 运行验收。
+- 不进入 Stage 2-3、Stage 22-x、其他 UI 或全局怪物库；不借机大重构共享战斗。
+- 不修改 `local-resources/regima/legacy-extraction/`，不重新全量导出恢复包，不复制 Stage 2-1 的 Monster9/10/19 资源。
+- 不用现代可见层替代已存在的场景、火焰、Boss、攻击对象或门；不把 DEV QA 快捷能力暴露到正式入口。
 
 状态更新：
 
-- 更新本线覆盖台账、`M-052`、`VS-055`、Goal/task/history、PG-007 效果样本；关闭合同满足后才关闭 `LINE-UI-NATIVE-SKILLS`。
+- 更新 `LINE-STAGE-2-2` 覆盖台账、`VS-056`、M-026/027/030/035/044、资源标注、Goal/task/history 和适用 PG 反馈。
 
 推荐后续任务：
 
-- 关闭本线后按用户批准的调度恢复内容线；宠物/法宝原生化另行生成 Planned 功能线，不在本 task 顺带执行。
+- 若关闭检查全部满足，关闭 `LINE-STAGE-2-2` 并按项目路线激活下一功能线；若有缺口，只生成同线最小修复/运行校准 task。

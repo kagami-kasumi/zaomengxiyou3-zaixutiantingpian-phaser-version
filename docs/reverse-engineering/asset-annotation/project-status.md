@@ -2,7 +2,7 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象、炼丹炉完整 UI、201/201 个权威合成图标以及 Stage 1-1/1-2/1-3 真场景视觉资源已完成接入；Stage 2-1 的真场景与冰刺已接入，四怪本体和七个攻击对象已完成选择性派生与实现输入标注。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象、炼丹炉完整 UI、201/201 个权威合成图标以及 Stage 1-1/1-2/1-3 真场景视觉资源已完成接入；Stage 2-1 真场景与怪物真视觉已接入，Stage 2-2 的真场景、火焰、Monster16 与六攻击对象已完成选择性派生与实现输入标注。
 
 ## 范围覆盖
 
@@ -17,9 +17,10 @@
 | Stage 1-2 | 5 | 4 项精确符号/时间轴已转换并接入；listener 是行为证据 | `stage12.md` |
 | Stage 1-3 | 4 | 前景/布局、背景和普通门已转换接入；listener 是行为证据 | `stage13.md` |
 | Stage 2-1 | 18 | 根布局保持选择性导出；场景、背景、地面、普通门、66 帧冰刺、四怪本体 atlas 与七个攻击对象均已接入并完成运行复验 | `stage21.md`、`stage21-monsters.md` |
+| Stage 2-2 | 14 | 场景两层、背景、地面、普通门、130 帧火焰、Monster16 atlas 与六攻击对象均已选择性派生，等待同线实现接入 | `stage22.md` |
 | UI 与配方图标 | 245 | 炼丹炉 UI、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条与天庭地图 6 条均已接入；完整功能 UI 11 条已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`heaven-map.md`、`full-function-ui.md`、`../crafting-ui-index.md`、`../combat-hud-index.md`、`../save-slots-index.md`、`../heaven-map-index.md`、`../full-function-ui-index.md` |
 
-总计 431 条标注：281 条 `ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、3 条 `rejected`；430 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
+总计 445 条标注：281 条 `ready`、14 条 `derived-ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、3 条 `rejected`；444 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
 
 ## 人工待办
 

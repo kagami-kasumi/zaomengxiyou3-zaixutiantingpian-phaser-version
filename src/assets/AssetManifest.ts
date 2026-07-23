@@ -143,6 +143,17 @@ export const FullFeatureUiAssetKeys = {
   magicWeaponPage: 'full-ui.magic-weapon',
 } as const;
 
+export const SkillNativeUiButtonCharacters = [207, 240, 244, 248, 337, 580, 638] as const;
+export const SkillNativeUiSelectorCharacters = [218, 223, 228, 233, 871] as const;
+export const SkillNativeUiSlotCharacters = [393, 398, 403, 408, 413] as const;
+export const SkillNativeUiIconCharacters = [
+  615, 620, 625, 630, 635, 644, 649, 654, 659, 664,
+  671, 676, 681, 686, 691, 696, 702, 707, 712, 717,
+  722, 727, 732, 737, 742, 749, 754, 759, 764, 769,
+  774, 779, 784, 789, 794, 800, 805, 810, 815, 820,
+  826, 830, 835, 839, 842, 846, 850, 854, 859, 863,
+] as const;
+
 export const HeavenMapAssetKeys = {
   world: 'heaven-map.world',
   menu: 'heaven-map.menu',
@@ -943,14 +954,14 @@ export const fullFeatureUiAssets = {
   ),
   skillHub: extractedCraftingImage(
     FullFeatureUiAssetKeys.skillHub,
-    '/assets/ui/feature/skills/skill-hub.svg',
+    '/assets/ui/feature/skills/native/base/skill-hub.svg',
     'assets/OtherMat1.swf',
     'export.shop.BuySkill',
     250,
   ),
   skillActive: extractedCraftingImage(
     FullFeatureUiAssetKeys.skillActive,
-    '/assets/ui/feature/skills/skill-active.svg',
+    '/assets/ui/feature/skills/native/base/skill-active.svg',
     'assets/OtherMat1.swf',
     'export.shop.SkillControl',
     868,
@@ -964,7 +975,7 @@ export const fullFeatureUiAssets = {
   ),
   skillPassive: extractedCraftingImage(
     FullFeatureUiAssetKeys.skillPassive,
-    '/assets/ui/feature/skills/skill-passive.svg',
+    '/assets/ui/feature/skills/native/base/skill-passive.svg',
     'assets/OtherMat1.swf',
     'export.shop.PassiveSkillControl',
     213,
@@ -984,6 +995,56 @@ export const fullFeatureUiAssets = {
     596,
   ),
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
+function skillNativeSprite(characterId: number, frame: number): ExtractedImageAssetDefinition {
+  return extractedCraftingImage(
+    `full-ui.skill-native.sprite-${characterId}-${frame}`,
+    `/assets/ui/feature/skills/native/sprites/${characterId}/${frame}.svg`,
+    'assets/OtherMat1.swf',
+    `character ${characterId} frame ${frame}`,
+    characterId,
+  );
+}
+
+function skillNativeButton(
+  characterId: number,
+  state: 'up' | 'over' | 'down',
+): ExtractedImageAssetDefinition {
+  return extractedCraftingImage(
+    `full-ui.skill-native.button-${characterId}-${state}`,
+    `/assets/ui/feature/skills/native/buttons/${characterId}/${state}.svg`,
+    'assets/OtherMat1.swf',
+    `DefineButton2 ${characterId} ${state}`,
+    characterId,
+  );
+}
+
+export const skillNativeUiAssets = [
+  ...SkillNativeUiButtonCharacters.flatMap((characterId) =>
+    (['up', 'over', 'down'] as const).map((state) => skillNativeButton(characterId, state))),
+  ...SkillNativeUiSelectorCharacters.flatMap((characterId) =>
+    [1, 2].map((frame) => skillNativeSprite(characterId, frame))),
+  ...SkillNativeUiSlotCharacters.flatMap((characterId) =>
+    [1, 2].map((frame) => skillNativeSprite(characterId, frame))),
+  ...SkillNativeUiIconCharacters.flatMap((characterId) =>
+    [1, 2, 3].map((frame) => skillNativeSprite(characterId, frame))),
+  ...[1, 2, 3, 4, 5].map((frame) => skillNativeSprite(212, frame)),
+  ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((frame) => skillNativeSprite(865, frame)),
+] as const;
+
+export function getSkillNativeSpriteAsset(
+  characterId: number,
+  frame: number,
+): ExtractedImageAssetDefinition {
+  return skillNativeSprite(characterId, frame);
+}
+
+export function getSkillNativeButtonAsset(
+  characterId: number,
+  state: 'up' | 'over' | 'down',
+): ExtractedImageAssetDefinition {
+  return skillNativeButton(characterId, state);
+}
 
 function createRole1NormalAttackFrames(symbol: string, frameCount: number) {
   const folder = symbol.replace('Role1Bullet', 'role1-bullet');

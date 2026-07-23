@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-063 | 关卡/玩法逆向 | 闭合 Stage 2-2 真场景、几何、波次、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-056 | `levels-index.md` Stage 2-2 权威输入、五停点 54 怪/9 火焰/Monster16 六攻击合同、14 条 derived-ready 标注与 `TASK-SLICE-150` 实现门禁 |
+| TASK-SLICE-143 | UI 原生化整改 | 移除技能四页现代覆盖层并接回原图片中文字、按钮、状态、动态槽位和布局 | M-016、M-041、M-052、VS-055 | 220 个原生 UI 资源、`FormalSkillPageView`/layout、绑定提交、P1/P2/V4 专项与 940×590 正式流程证据 |
 | TASK-SETTINGS-061 | UI 原生化逆向 | 闭合技能四页原生文字、按钮状态、命中区、布局和动态槽位 | M-016、M-041、M-052、VS-055 | `skill-ui-native-index.md`、250/868/417/213 完整显示列表、10 树/50 图标状态、绑定拖放/等价边界、被动 P-code 与 `TASK-SLICE-143` 实现门禁 |
 | TASK-SLICE-149 | 用户反馈小修 | 按原生关卡重做 Stage 1-1 最高层 Boss 镜头构图 | M-028、VS-007 | 原版 420/590 屏幕比例、2 秒镜头过渡、Boss 后持续收敛、专项/全系统/build 证据 |
 | TASK-SLICE-148 | 用户反馈回归 | 1-1 复用其他关卡原版 W 门，并在玩家到达最高层时立即触发 Boss | M-028、M-035、M-048、VS-007、VS-050 | Stage13 门资源复用、旧矩形门删除、Boss/清怪门禁解耦、专项/全系统/build 证据 |
@@ -4736,6 +4738,73 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-063
+
+完成时间：
+- 2026-07-23
+
+完成内容：
+- 消歧 Stage 2-2 与 Stage 22-x：权威组合是 `levels/level22.swf -> export.gameSence.sl22 -> StageListener22`，而不是 `StageListener221/222/223`。
+- 选择性导出并解析 character 64 根时间轴：确认两可见场景层、背景/地面、3+1 墙、3 单向平台、5 停点、25 刷怪点、9 个 `FireThron` 与 character 63 普通门的世界坐标、矩阵、注册点和边界。
+- 闭合五批 `11/13/13/16/1` 共 54 怪、1P/2P 同屏 6/8、首只 `delay + interval`、停点锁屏/放行和末批 Monster16 唯一 Boss 门禁。
+- 闭合 130 帧火焰的 200 水平触发、当前像素复杂命中、60 tick 攻击 id、每玩家去重、`[40,50)` 伤害与 `±10` 击退；确认独立环境危险 owner 边界。
+- 闭合 Monster16 的 24189 HP、8 动作/36 关键帧、六攻击对象/104 帧、三个技能 CD/距离/霸体、精确生成 tick/偏移/伤害/生命周期和死亡显门。
+- 确认正式结果链：失败不推进；门胜利把最高进度从 2/2 推进并保存到 2/3，`GameWin.nextClick()` 进入 2-3。
+- 新增 14 条 `derived-ready/confirmed/integrate` 资源标注与批次；首实现直接使用真场景、真火焰、既有 Monster9/10/19 真资源、Monster16 atlas 和六攻击对象，可见占位为零。
+- `GOAL-020` 完成并激活同线 `GOAL-021` / `TASK-SLICE-150`；本 Goal 未修改 `src/`、未全量导出恢复包、未修改 legacy extraction。
+
+更新文件：
+- `docs/reverse-engineering/levels-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/stage22.csv`
+- `docs/reverse-engineering/asset-annotation/batches/stage22.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-STAGE-2-2.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+- `docs/tasks/vertical-slices.md`
+- Git 忽略的 `local-resources/regima/task-outputs/task-settings-063-stage22/`
+
+验证：
+- `npm run check:annotations` 通过：445 条标注，其中 14 条 Stage 2-2 为 `derived-ready`，444 条 `confirmed`、1 条既有 `unknown`。
+- `npm run check:workflow` 通过：1 个未完成 task、唯一推荐 `TASK-SLICE-150`、唯一 Active `GOAL-021`；仅保留既有 `PlayerSlot` 命名 warning。
+- `git diff --check` 通过。
+
+推荐任务：
+- `TASK-SLICE-150`：按权威输入接入 Stage 2-2 真场景、五停点、54 怪、9 火焰、Monster16 真视觉/六攻击、结果与 2-3 保存，并完成 940×590 1P/2P 运行校准。
+
+### TASK-SLICE-143
+
+- 完成日期：2026-07-23
+- 功能条线：`LINE-UI-NATIVE-SKILLS`（已关闭）
+- Goal：`GOAL-012`（Done）
+- 从 `OtherMat1.swf` 已闭合证据派生 250/868/417/213 的可加载原生资源族：清除动态占位 glyph 的 base、7 组 DefineButton2 up/over/down、5×2 角色 selector、10 棵主动树、50×3 技能状态、5×2 P1/P2 键槽和 5 个被动行。
+- `FormalSkillPageView` 删除全屏暗层、900×548 外框、现代标题、P1/P2 文字按钮、顶部四 tab、通用技能/被动/绑定按钮、永久摘要和现代关闭按钮；原图中文字、按钮状态、布局和透明命中区直接承担交互。
+- 主动页保留心法升级、技能学习/升级；设置按钮进入单技能 source 的五槽绑定页，点击/拖放选择槽位并由原 x_btn 提交；被动五行各自使用原 207 按钮。所有事务继续由 `FormalSkillPageSystem`、P1/P2 owner 和 V4 当前槽持有。
+- 动态灵魂、心法等级/成本、`LV.n`、被动当前/下级效果与成本进入原 TextField/addChild 矩形；批准的新增可见现代例外为空。
+- PG-007 获得首个完整技能存量迁移样本；问题仍保持运行观察中，等待至少一个其他页面整改和三个增量 UI task 样本。
+
+更新文件：
+- `src/scenes/feature-ui/FormalSkillPageView.ts`、`FormalSkillNativeLayout.ts`
+- `src/systems/FormalSkillPageSystem.ts`
+- `src/assets/AssetManifest.ts`、`src/scenes/BootScene.ts`
+- `tools/generate-skill-native-assets.mjs`、`tools/formal-skill-tests.ts`
+- `public/assets/ui/feature/skills/native/`
+- `docs/tasks/evidence/TASK-SLICE-143-*`
+- Goal/功能线/覆盖/机制/切片/PG-007/task 文档
+
+验证：
+- 实现前 `npm run check:structure` 通过，仅 8 个与本任务无关的既有 warning。
+- `npm run test:formal-skills` 与 `npm run test:systems` 通过。
+- `npm run build` 通过，仅既有 Vite chunk size warning。
+- 940×590 正式地图入口完成 P1/P2 默认态、心法升级、技能学习、绑定提交、关闭重开后的绑定重载、被动成功/拒绝；新鲜浏览器标签页 console 无 warning/error。
+- `npm run check:workflow` 与 `git diff --check` 见本次 Goal 最终收尾。
+
+推荐后续：
+- 当前所有已登记功能线均已关闭；等待用户决定恢复内容扩展或登记下一个 PG-007 存量 UI 整改线。
 
 ### TASK-SETTINGS-062
 
