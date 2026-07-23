@@ -17,7 +17,8 @@
   - 严格单线 `WIP=1`；task/切片完成不能隐式关闭功能线。
 - `docs/tasks/goal-board.md`
   - 一次 `/goal` 的执行边界与交接状态权威台账。
-  - 维护唯一 Active Goal、绑定 task、交付边界、预计 0 次 compact 的预算、规模预检和同线下一 Goal。
+  - 只维护未完成 Goal，以及唯一 Active Goal、绑定 task、交付边界、预计 0 次 compact 的预算和规模预检。
+  - Goal 完成后移出看板；完成事实随 task 归档到 `task-history.md`，不保留完成摘要或“下一 Goal”字段。
   - Goal 完成后停止当次 `/goal`；功能线仍可在多个 Goal 之间保持 Active。
 - `docs/tasks/feature-line-coverage/LINE-*.md`
   - 单条功能线的权威内容全集、覆盖矩阵、缺口和关闭检查。

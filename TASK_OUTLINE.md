@@ -64,7 +64,7 @@
 - `TASK_OUTLINE.md`：战略导航。维护目标、原则、阶段路线和任务类型，不维护具体任务状态。
 - `docs/tasks/task-board.md`：未完成游戏任务看板。维护当前游戏复现任务、状态、产物、拆分和下一步。
 - `docs/tasks/feature-lines.md`：完整玩家系统台账。维护唯一 Active 功能线、用户确认范围、当前 task、阻塞和关闭证据。
-- `docs/tasks/goal-board.md`：一次 `/goal` 的执行边界台账。维护唯一 Active Goal、绑定 task、交付边界、最多一次 compact 的预算和同线下一 Goal。
+- `docs/tasks/goal-board.md`：只保存未完成 Goal 的 `/goal` 执行边界台账。维护唯一 Active Goal、绑定 task、交付边界和 compact 预算；完成 Goal 随 task 历史追溯，不在看板保留完成摘要或后续指针。
 - `docs/tasks/feature-line-coverage/LINE-*.md`：单条功能线的权威内容全集、覆盖矩阵和关闭检查。
 - `docs/tasks/task-history.md`：已完成游戏任务历史。默认不读，除非需要追溯、修改已完成任务或处理历史依赖。
 - `docs/workflow/task-generation.md`：游戏任务生成规范。维护如何从机制、切片或工程缺口生成标准任务。
@@ -80,7 +80,7 @@
 
 - 改路线或任务类型：更新 `TASK_OUTLINE.md`。
 - 开始/拆分具体任务：先确认唯一 Active 功能线和 Active Goal，再更新 `goal-board.md`、`task-board.md` 和对应覆盖台账。
-- 完成具体 task：从 `task-board.md` 移到 `task-history.md`；完成 Goal 后激活同线下一 Goal 并停止当次 `/goal`；不得据此自动关闭功能线。
+- 完成具体 task：从 `task-board.md` 移到 `task-history.md`；完成 Goal 后从 `goal-board.md` 移除，功能线未关闭时激活或生成同线后续 Goal，并停止当次 `/goal`；不得据此自动关闭功能线。
 - 完成功能线：只有覆盖合同全部满足后更新 `feature-lines.md`，再激活下一条线。
 - 新增游戏任务或规范任务定义：遵循 `docs/workflow/task-generation.md`。
 - 维护 AI 工作流脚手架：更新 `docs/workflow/governance-log.md`。

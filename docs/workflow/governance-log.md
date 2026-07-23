@@ -4,6 +4,36 @@
 
 ## 2026-07-23
 
+### 将 Goal 看板收敛为仅保存未完成项
+
+变更内容：
+
+- `goal-board.md` 移除 `GOAL-001..020` 的 `Done` 行和“最近完成 Goal”摘要；完成事实继续由绑定 task 的 `task-history.md` 承担。
+- Goal 总览移除冗余的“下一 Goal”列，只保留 `Active`、`Planned`、`Blocked` 未完成状态；当前未完成 `GOAL-021..024` 保持原调度状态。
+- Goal 完成流程改为从看板直接移除；功能线未关闭时再激活或生成同线后续 Goal，并停止当次 `/goal`。
+- 校验器拒绝 `Done` Goal 留在执行看板，并继续强制所有未完成 Goal 使用预计 0 次 compact 的规模预算。
+- PG-008 增加本次适用反馈，确认历史旧预算不再稀释当前 Goal 规模门禁信号。
+
+影响范围：
+
+- `AGENTS.md`
+- `TASK_OUTLINE.md`
+- `docs/tasks/goal-board.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/task-generation.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/problems/PG-008-Goal包缺少可执行规模门禁.md`
+- `docs/workflow/governance-log.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `node --check tools/validate-workflow.mjs` 通过。
+- `npm run check:workflow` 通过：5 个未完成 task / 5 个定义、4 个未完成 Goal、唯一 Active `GOAL-021`。
+- 仅保留既有 `PlayerSlot` 禁止别名 warning。
+
 ### 建立 Goal 规模预算门禁并拆分 Stage 2-2 实现包
 
 变更内容：

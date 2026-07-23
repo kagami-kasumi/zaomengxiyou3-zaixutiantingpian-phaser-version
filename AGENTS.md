@@ -53,7 +53,7 @@
 
 适用：用户指定 task id、要求执行 task、玩法逆向、修改 `src/` 实现玩法、生成/拆分/重排游戏任务、完成一个可交接切片。
 
-规则：按阅读分流补齐必读文档；普通执行一次只处理一个 task，`/goal` 一次只处理 `docs/tasks/goal-board.md` 的唯一 `Active` Goal 包。新 Goal 默认只绑定一个 task、预计 0 次上下文压缩；执行前必须核对 task 的主工作包、验收批次和拆分触发，超限先拆分。功能线仍保持唯一 `Active` 并跨 Goal 连续；任务完成必须留下可交接产物，并更新 Goal、功能线、覆盖台账和 task 状态。详细流程见 `docs/workflow/agent-protocol.md`。
+规则：按阅读分流补齐必读文档；普通执行一次只处理一个 task，`/goal` 一次只处理 `docs/tasks/goal-board.md` 的唯一 `Active` Goal 包。新 Goal 默认只绑定一个 task、预计 0 次上下文压缩；执行前必须核对 task 的主工作包、验收批次和拆分触发，超限先拆分。功能线仍保持唯一 `Active` 并跨 Goal 连续；任务完成必须留下可交接产物，并更新功能线、覆盖台账和 task 状态；完成 Goal 从 `goal-board.md` 移除。详细流程见 `docs/workflow/agent-protocol.md`。
 
 用户使用 `/goal` 时，先恢复唯一 `Active` 功能线，再只执行 `goal-board.md` 的唯一 `Active` Goal。Goal 完成后激活同线下一 Goal 并结束当次 `/goal`，不在同一次请求中连续跨 Goal；遇到阻塞仍只治理本线阻塞，不切换系统。第一次 compact 即视为规模超限信号：只结束正在运行的检查、回写安全检查点、拆分剩余工作并交接，不再读取新资料族、派生新资源或新增实现。收尾必须明确给出下一 Goal、Git 提交/上传建议和对话管理建议。
 

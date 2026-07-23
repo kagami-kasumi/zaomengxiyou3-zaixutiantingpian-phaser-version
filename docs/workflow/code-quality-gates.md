@@ -33,7 +33,7 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 - Every unfinished task definition must declare `规模预算` and an actionable `拆分触发`; new Goals must expect 0 context compactions.
 - A Goal may contain at most two main work packages and two independently closable acceptance batches. A task that exceeds either cap must be split before activation.
 - The first compact during Goal execution is a size-overrun signal: finish only the current check, leave a safe handoff, split the remaining work, and do not open another resource family or implementation package.
-- `npm run check:workflow` validates these fields and rejects legacy “最多 1 次” budgets on new non-Done Goals.
+- `npm run check:workflow` validates these fields, rejects legacy “最多 1 次” budgets on unfinished Goals, and rejects completed Goals left on `goal-board.md`.
 
 ## Reverse Engineering Evidence Gate
 

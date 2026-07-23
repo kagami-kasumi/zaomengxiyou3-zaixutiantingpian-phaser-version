@@ -249,7 +249,6 @@ function parseGoalRows(markdown) {
     taskIds: [...new Set(row[3].match(/TASK-(?:[A-Z]+-)?\d+[A-Z]?/g) ?? [])],
     deliveryBoundary: row[4],
     compactBudget: row[5],
-    nextGoal: row[6],
     row,
   }));
 }
@@ -549,21 +548,20 @@ function goalInvariantErrors(goalRows, featureLines, taskRows, recommendedIds) {
     invariantErrors.push(`goal-board.md must have exactly one Active Goal while unfinished lines exist; found ${activeGoals.length}.`);
   }
   for (const goal of goalRows) {
-    if (!['Active', 'Planned', 'Blocked', 'Done'].includes(goal.status)) {
+    if (goal.status === 'Done') {
+      invariantErrors.push(`${goal.id} is Done but still appears in goal-board.md; completed Goals belong with task history.`);
+    } else if (!['Active', 'Planned', 'Blocked'].includes(goal.status)) {
       invariantErrors.push(`${goal.id} has invalid Goal status: ${goal.status}`);
     }
     if (goal.taskIds.length === 0 || goal.taskIds.length > 2) {
       invariantErrors.push(`${goal.id} must bind one task by default and no more than two tasks; found ${goal.taskIds.length}.`);
     }
-    if (goal.status === 'Done' && !/(?:最多\s*1\s*次|预计\s*0\s*次)/.test(goal.compactBudget)) {
-      invariantErrors.push(`${goal.id} historical compact budget must be at most one or expected zero.`);
-    }
-    if (goal.status !== 'Done' && !/预计\s*0\s*次/.test(goal.compactBudget)) {
+    if (!/预计\s*0\s*次/.test(goal.compactBudget)) {
       invariantErrors.push(`${goal.id} must declare an expected compact budget of zero.`);
     }
     for (const taskId of goal.taskIds) {
       const task = taskRows.find((candidate) => candidate.id === taskId);
-      if (goal.status !== 'Done' && !task) {
+      if (!task) {
         invariantErrors.push(`${goal.id} binds missing unfinished task: ${taskId}`);
       } else if (task && task.goalPackage !== goal.id) {
         invariantErrors.push(`${goal.id} binds ${taskId}, but task-board maps it to ${task.goalPackage || '(missing)'}.`);
@@ -643,6 +641,12 @@ function checkGoalInvariantSamples() {
       tasks: [task],
       expected: 'expected compact budget of zero',
     },
+    {
+      name: 'completed Goal retained on board',
+      goals: [{ ...goal, status: 'Done' }],
+      tasks: [task],
+      expected: 'completed Goals belong with task history',
+    },
   ];
   for (const sample of samples) {
     const sampleErrors = goalInvariantErrors(sample.goals, [line], sample.tasks, [task.id]);
@@ -656,7 +660,7 @@ function checkGoals(goalBoard, goalRows, featureLines, taskRows, recommendedIds)
   for (const message of goalInvariantErrors(goalRows, featureLines, taskRows, recommendedIds)) {
     error(message);
   }
-  for (const requiredText of ['预计 0 次上下文压缩', '第一次 compact 即视为规模超限', '不在同一次 `/goal` 中隐式续跑下一 Goal', '默认只绑定一个 task', '规模预检']) {
+  for (const requiredText of ['只保存未完成 Goal', '预计 0 次上下文压缩', '第一次 compact 即视为规模超限', '不在同一次 `/goal` 中隐式续跑下一 Goal', '默认只绑定一个 task', '规模预检']) {
     if (!goalBoard.includes(requiredText)) {
       error(`goal-board.md must include Goal sizing rule: ${requiredText}`);
     }

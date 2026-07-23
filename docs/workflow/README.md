@@ -25,7 +25,7 @@
 | 文档 | 职责 |
 | --- | --- |
 | `agent-protocol.md` | 正式游戏 task、`/goal`、代码任务、Git、对话收束和统一语言的详细协议 |
-| `../tasks/goal-board.md` | 一次 `/goal` 的 Active Goal、绑定 task、交付边界、compact 预算和同线下一 Goal |
+| `../tasks/goal-board.md` | 仅保存未完成 Goal，维护一次 `/goal` 的 Active Goal、绑定 task、交付边界和 compact 预算 |
 | `task-generation.md` | 从机制缺口、切片缺口或工程基础缺口生成标准游戏任务 |
 | `code-quality-gates.md` | AI 修改代码时必须遵守的验证、边界和测试要求 |
 | `review-protocol.md` | 工程评审的统一流程、严重程度、输出格式和整改落点 |
@@ -60,7 +60,7 @@
 
 - 游戏逆向、实现、切片和现代架构任务写入 `docs/tasks/task-board.md`。
 - 完整玩家系统的范围、唯一 Active 状态和关闭证据写入 `docs/tasks/feature-lines.md` 及 `feature-line-coverage/`；严格单线 `WIP=1`。
-- 一次 `/goal` 的边界写入 `docs/tasks/goal-board.md`；严格单 Active Goal，新 Goal 默认一 Goal 一 task、预计 0 次 compact，并由 task 的规模预算与拆分触发约束，完成后交接而不隐式跨 Goal。
+- 一次 `/goal` 的边界写入 `docs/tasks/goal-board.md`；严格单 Active Goal，新 Goal 默认一 Goal 一 task、预计 0 次 compact，并由 task 的规模预算与拆分触发约束。看板只保留未完成 Goal，完成后移除并交接，不保留完成摘要或冗余的后续指针。
 - 已完成游戏任务从 `task-board.md` 归档到 `docs/tasks/task-history.md`。
 - 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁只写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板。
 - 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议和问题索引。
