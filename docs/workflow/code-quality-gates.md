@@ -36,6 +36,14 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 - Inference, unknowns, and modern design choices must remain visibly distinct from confirmed original facts. Unsupported convenience thresholds or constants are rejected.
 - `已复现` requires both deterministic contract tests and runtime observation for applicable visuals, held input, camera motion, timing, and combined paths.
 
+## UI Native Fidelity Gate
+
+- UI/HUD/menu implementation must consume an on-disk **显示列表清单** and **原版视觉基准** governed by `reverse-engineering-protocol.md`.
+- A flattened page image is not a complete UI reconstruction. Nested children, depth, transforms, masks, filters, TextFields, dynamic `addChild` content, button states, and hit areas must be mapped or explicitly marked unknown.
+- New visible rectangles, panels, titles, labels, generic buttons, dim layers, or status copy are rejected when the original already provides that visual, unless the task's **允许的现代视觉例外** lists the exact element and user approval.
+- Visual completion requires same-size reference comparison, applicable normal/hover/pressed/selected and dynamic states, and a reviewable object-level difference list. Route tests, zero console errors, and business tests prove function but do not prove UI fidelity.
+- Static searches for `rectangle` or `text` are only risk locators; reviewers must distinguish original dynamic slots from unauthorized replacement visuals.
+
 ## Architecture Gates
 
 - Every damageable or interactable runtime entity must have a stable ID. Array index, display object identity, and localized label text are not valid IDs.

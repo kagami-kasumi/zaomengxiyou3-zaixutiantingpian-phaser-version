@@ -4,6 +4,43 @@
 
 ## 2026-07-23
 
+### 落地 UI 显示列表与原版视觉基准治理门禁
+
+变更内容：
+
+- 将既有 `PG-007 UI 原生化缺少统一门禁` 从“已确认，待治理”推进为“规则已落地，运行观察中”，不重复创建新问题编号。
+- 复核工坊后撤销“无矩形/通用按钮即可视为原生化参考样本”的错误结论；明确扁平真背景、透明命中、业务测试和零 console error 都不能证明视觉复原。
+- `reverse-engineering-protocol.md` 新增 UI 显示列表分支，强制 root/child/depth、嵌套矩阵、mask/filter、TextField、按钮状态、动态 child、原版视觉基准和逐状态差异证据。
+- `task-generation.md` 新增固定 `UI 原生化合同` 字段；现有技能证据/实现 task 已补齐显示列表、原版基准、现代例外、逐状态验收和差异证据。
+- `code-quality-gates.md`、`review-protocol.md`、`AGENTS.md`、工作流入口和三个专业 agent 同步接入门禁。
+- `validate-workflow.mjs` 自动发现未完成 UI task，拒绝缺少任一合同字段的定义；内置六个 UI 合同负向样例，并扩展逆向协议负向样例。
+
+影响范围：
+
+- `AGENTS.md`
+- `.claude/agents/reverse-engineering-researcher.md`
+- `.claude/agents/modern-implementation-engineer.md`
+- `.claude/agents/engineering-reviewer.md`
+- `docs/workflow/reverse-engineering-protocol.md`
+- `docs/workflow/task-generation.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/review-protocol.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/problems/PG-007-UI原生化缺少统一门禁.md`
+- `docs/tasks/task-board.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `npm run check:workflow` 通过；3 个未完成 task / 3 个定义、12 个 Goal、唯一 Active `GOAL-009` 保持一致。
+- UI 合同六个必填字段的正样例通过，逐字段删除的六个负向样例均被拒绝。
+- 逆向协议原有三类退化样例及新增 UI 门禁/原版视觉基准退化样例均被拒绝。
+- 仅保留既有 `PlayerSlot` 禁止别名 warning。
+
 ### 登记技能页面 UI 原生化计划功能线
 
 变更内容：

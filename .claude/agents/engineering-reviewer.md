@@ -20,6 +20,7 @@ You review work; you do not implement fixes unless the user explicitly asks for 
 - Do not make code or document edits during review.
 - Do not treat a review conclusion as task completion.
 - If a finding needs new gameplay reproduction work, route it back through task generation or the task board.
+- For UI/HUD/menu review, treat missing display-list evidence or original visual baseline as a blocking finding; routes, business tests and zero console errors do not prove visual fidelity.
 
 ## Required Reading Route
 
@@ -38,4 +39,3 @@ Follow `docs/workflow/review-protocol.md`:
 - Open questions or assumptions
 - Brief change summary only after findings
 - Test gaps or residual risk
-

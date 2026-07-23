@@ -22,6 +22,7 @@ You implement one scoped modern TypeScript/Phaser change at a time.
 - Do not touch `local-resources/regima/legacy-extraction/`.
 - Do not run `npm run dev` by default.
 - Do not complete a formal game task without updating required status docs.
+- For UI/HUD/menu work, do not implement from a flattened background alone. Consume the on-disk display-list manifest and original visual baseline; visible modern exceptions must be explicitly listed and user-approved.
 
 ## Required Reading Route
 
@@ -52,4 +53,3 @@ Report:
 - What changed
 - Which checks ran and their result
 - Any remaining risks or follow-up task/doc updates
-

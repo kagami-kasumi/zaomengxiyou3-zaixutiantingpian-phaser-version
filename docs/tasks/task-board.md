@@ -94,6 +94,14 @@ Goal 包：
 - 对应 `BuySkill`、`SkillControl`、`SkillSetControl`、`PassiveSkillControl`、`RoleInfo`、`KeyBoardControl`、`User` 局部与共享 AS3 调用链。
 - `docs/reverse-engineering/full-function-ui-index.md`、`skills-input-index.md`、`docs/workflow/reverse-engineering-protocol.md` 和 `PG-007`。
 
+UI 原生化合同：
+
+- 显示列表清单：四页逐项记录根/子 Symbol、depth、父子关系、注册点、嵌套矩阵、mask/filter、TextField、按钮四态、动态 child 和命中区。
+- 原版视觉基准：为四页默认态和适用交互态保存可追溯 Flash/SWF 基准，记录入口、舞台尺寸、帧和裁切；无法取得的状态必须记为阻塞或未知。
+- 允许的现代视觉例外：本证据 task 不批准任何新增可见替代层；只允许把证据无法决定的候选例外列出，交由用户裁决。
+- 逐状态验收：normal/hover/pressed/selected、分页/动态内容、P1/P2 和返回路径。
+- 差异证据：规划同尺寸并排/叠图、像素或边缘差异及可见对象差异清单，说明字体栅格化容差。
+
 输出产物：
 
 - 为四页分别记录根/子页时间轴、中文字、按钮实例与 up/over/down/selected、透明 hit bounds、注册点、嵌套矩阵、940×590 坐标、动态文本/图标/列表槽位和返回路径。
@@ -147,6 +155,14 @@ Goal 包：
 
 - `TASK-SETTINGS-061` 闭合的四页 UI 原生化证据矩阵。
 - `FormalSkillPageView.ts`、`FormalSkillPageSystem.ts`、`FeatureUiScene.ts`、技能业务 systems、四页真资源及正式入口 bridge。
+
+UI 原生化合同：
+
+- 显示列表清单：实现必须逐项消费 `TASK-SETTINGS-061` 闭合的根/子 Symbol、depth、矩阵、文字字段、按钮状态、动态 child 和命中区映射。
+- 原版视觉基准：以证据 task 落盘的四页基准为唯一视觉比较源，不用现有现代页面截图反推原版。
+- 允许的现代视觉例外：默认空清单；任何新增可见文字、面板、矩形、暗层或通用按钮都必须先记录证据缺口、最小边界并取得用户批准。
+- 逐状态验收：normal/hover/pressed/selected、主动/被动/绑定、动态状态、P1/P2、关闭与重载。
+- 差异证据：940×590 同尺寸并排/半透明叠图、稳定区域像素或边缘差异、可见对象逐项差异和容差说明。
 
 输出产物：
 

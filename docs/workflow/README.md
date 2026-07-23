@@ -64,7 +64,7 @@
 - 已完成游戏任务从 `task-board.md` 归档到 `docs/tasks/task-history.md`。
 - 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁只写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板。
 - 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议和问题索引。
-- 逆向结论必须按 `reverse-engineering-protocol.md` 落盘证据矩阵；缺少共享调用链、适用的 SWF 几何/坐标语义或双重验证时，不得宣称“权威实现输入、已闭合、已复现”。
+- 逆向结论必须按 `reverse-engineering-protocol.md` 落盘证据矩阵；缺少共享调用链、适用的 SWF 几何/坐标语义或双重验证时，不得宣称“权威实现输入、已闭合、已复现”。UI/HUD/菜单还必须有显示列表清单、原版视觉基准、允许的现代视觉例外和逐状态差异证据，整页真背景不等于 UI 原生化。
 - 代码、架构、游戏 task 或工作流变更收尾时，必须按未关闭或效果观察中问题的触发条件执行适用性扫描；命中时回写效果样本，发现复发或方案不充分时退回治理。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。

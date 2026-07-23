@@ -840,6 +840,7 @@ function checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, doc
     '严重程度',
     '评分维度',
     '整改落点',
+    'UI 原生化评审门禁',
   ]) {
     if (!reviewProtocol.includes(requiredText)) {
       error(`review-protocol.md must mention: ${requiredText}`);
@@ -854,6 +855,71 @@ function checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, doc
   ]) {
     if (!text.includes('review-protocol.md')) {
       error(`${name} must reference docs/workflow/review-protocol.md.`);
+    }
+  }
+}
+
+const uiNativeContractFields = [
+  'UI 原生化合同：',
+  '显示列表清单：',
+  '原版视觉基准：',
+  '允许的现代视觉例外：',
+  '逐状态验收：',
+  '差异证据：',
+];
+
+function uiNativeContractErrors(text) {
+  return uiNativeContractFields.filter((requiredText) => !text.includes(requiredText));
+}
+
+function checkUiNativeWorkflowGate(
+  taskGeneration,
+  taskRows,
+  taskBlockList,
+  codeQualityGates,
+  reverseEngineeringProtocol,
+  reverseEngineeringAgent,
+  implementationAgent,
+  reviewAgent,
+) {
+  for (const requiredText of [
+    '## UI 原生化 task 门禁',
+    ...uiNativeContractFields,
+  ]) {
+    if (!taskGeneration.includes(requiredText)) {
+      error(`task-generation.md must include UI native contract text: ${requiredText}`);
+    }
+  }
+
+  for (const row of taskRows) {
+    const summary = [row.type, row.goal, row.output].join(' ');
+    if (!/(?:UI|HUD|菜单|页面|按钮|overlay|原生化)/iu.test(summary)) continue;
+    const block = taskBlockList.find((candidate) => candidate.id === row.id)?.text ?? '';
+    for (const missingText of uiNativeContractErrors(block)) {
+      error(`${row.id} UI task is missing native-fidelity contract text: ${missingText}`);
+    }
+  }
+
+  const positiveSample = uiNativeContractFields.join('\n');
+  if (uiNativeContractErrors(positiveSample).length > 0) {
+    error('UI native contract positive sample failed.');
+  }
+  uiNativeContractFields.forEach((field, index) => {
+    const negativeSample = positiveSample.replace(field, `field-${index}-removed`);
+    if (uiNativeContractErrors(negativeSample).length === 0) {
+      error(`UI native contract negative sample ${index + 1} must fail validation.`);
+    }
+  });
+
+  for (const [name, text, requiredText] of [
+    ['docs/workflow/code-quality-gates.md', codeQualityGates, 'UI Native Fidelity Gate'],
+    ['docs/workflow/reverse-engineering-protocol.md', reverseEngineeringProtocol, 'UI 显示列表与视觉基准门禁'],
+    ['.claude/agents/reverse-engineering-researcher.md', reverseEngineeringAgent, 'display-list manifest'],
+    ['.claude/agents/modern-implementation-engineer.md', implementationAgent, 'display-list manifest'],
+    ['.claude/agents/engineering-reviewer.md', reviewAgent, 'display-list evidence'],
+  ]) {
+    if (!text.includes(requiredText)) {
+      error(`${name} must include UI native-fidelity gate text: ${requiredText}`);
     }
   }
 }
@@ -990,6 +1056,10 @@ function reverseEngineeringProtocolErrors(text) {
     '## 上下文与交接规则',
     '## 状态与关闭门禁',
     '## 逆向完成检查',
+    '## UI 显示列表与视觉基准门禁',
+    '显示列表清单',
+    '原版视觉基准',
+    '像素差异',
     '确定性测试',
     '运行时',
   ];
@@ -1018,6 +1088,8 @@ function checkReverseEngineeringProtocol(
       '| 证据矩阵已删除 |',
     ),
     reverseEngineeringProtocol.replace('- `推断`：', '- `推断分类已删除`：'),
+    reverseEngineeringProtocol.replace('## UI 显示列表与视觉基准门禁', '## UI 视觉门禁已删除'),
+    reverseEngineeringProtocol.replaceAll('原版视觉基准', '原版参考已删除'),
   ];
   negativeCases.forEach((negativeCase, index) => {
     if (reverseEngineeringProtocolErrors(negativeCase).length === 0) {
@@ -1131,6 +1203,8 @@ const problemRecords = problemRecordPaths.map((recordPath) => ({
 }));
 const agentProtocol = read(files.agentProtocol);
 const reverseEngineeringAgent = read(files.reverseEngineeringAgent);
+const implementationAgent = read(files.implementationAgent);
+const reviewAgent = read(files.reviewAgent);
 const tsconfig = read(files.tsconfig);
 const srcBoundaries = read(files.srcBoundaries);
 const inputSystem = read(files.inputSystem);
@@ -1173,6 +1247,16 @@ checkGovernanceLog([
 ], governanceLog);
 checkCodeQualityGates(packageJsonText, codeQualityGates, claude);
 checkReviewProtocol(reviewProtocol, agents, claude, workflowReadme, documentMap);
+checkUiNativeWorkflowGate(
+  taskGeneration,
+  taskRows,
+  taskBlockList,
+  codeQualityGates,
+  reverseEngineeringProtocol,
+  reverseEngineeringAgent,
+  implementationAgent,
+  reviewAgent,
+);
 checkProblemGovernance(
   problemGovernance,
   problemRecords,
