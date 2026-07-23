@@ -137,6 +137,18 @@ const CraftingUIAssetKeys = {
   role4Selected: 'crafting-ui.selector.role4.selected',
   role5Unselected: 'crafting-ui.selector.role5.unselected',
   role5Selected: 'crafting-ui.selector.role5.selected',
+  nativeTabStrengthUp: 'crafting-ui.native-tab.strength.up',
+  nativeTabStrengthOver: 'crafting-ui.native-tab.strength.over',
+  nativeTabStrengthDown: 'crafting-ui.native-tab.strength.down',
+  nativeTabFusionUp: 'crafting-ui.native-tab.fusion.up',
+  nativeTabFusionOver: 'crafting-ui.native-tab.fusion.over',
+  nativeTabFusionDown: 'crafting-ui.native-tab.fusion.down',
+  nativeTabResolutionUp: 'crafting-ui.native-tab.resolution.up',
+  nativeTabResolutionOver: 'crafting-ui.native-tab.resolution.over',
+  nativeTabResolutionDown: 'crafting-ui.native-tab.resolution.down',
+  nativeTabMakingUp: 'crafting-ui.native-tab.making.up',
+  nativeTabMakingOver: 'crafting-ui.native-tab.making.over',
+  nativeTabMakingDown: 'crafting-ui.native-tab.making.down',
 } as const;
 
 const integratedCraftingIconItems = craftingIconCatalog.items.filter((item) => item.integrated);
@@ -668,7 +680,7 @@ function extractedCraftingImage(
 }
 
 export const craftingAssets = {
-  container: extractedCraftingImage(CraftingAssetKeys.container, '/assets/ui/crafting/container.png', 'assets/backpack1.swf', 'export.strength.StrengthEquipment', 119),
+  container: extractedCraftingImage(CraftingAssetKeys.container, '/assets/ui/crafting/container-native-background.png', 'assets/backpack1.swf', 'export.strength.StrengthEquipment without native tab children', 119),
   fusionPanel: extractedCraftingImage(CraftingAssetKeys.fusionPanel, '/assets/ui/crafting/fusion-panel.png', 'assets/backpack1.swf', 'export.strength.Fusion', 169),
   strengthPanel: extractedCraftingImage(CraftingAssetKeys.strengthPanel, '/assets/ui/crafting/equipment-strength.svg', 'assets/backpack1.swf', 'export.strength.Strength', 198),
   resolutionPanel: extractedCraftingImage(CraftingAssetKeys.resolutionPanel, '/assets/ui/crafting/equipment-resolution.svg', 'assets/backpack1.swf', 'export.strength.Resolution', 177),
@@ -683,6 +695,18 @@ export const craftingAssets = {
   role4Selected: extractedCraftingImage(CraftingAssetKeys.role4Selected, '/assets/ui/crafting/selectors/role4-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectSS frame 2', 228),
   role5Unselected: extractedCraftingImage(CraftingAssetKeys.role5Unselected, '/assets/ui/crafting/selectors/role5-unselected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBL frame 1', 871),
   role5Selected: extractedCraftingImage(CraftingAssetKeys.role5Selected, '/assets/ui/crafting/selectors/role5-selected.png', 'assets/OtherMat1.swf', 'export.shop.SelectBL frame 2', 871),
+  nativeTabStrengthUp: extractedCraftingImage(CraftingAssetKeys.nativeTabStrengthUp, '/assets/ui/crafting/native-tabs/strength-up.svg', 'assets/backpack1.swf', 'strengthbtn upState', 95),
+  nativeTabStrengthOver: extractedCraftingImage(CraftingAssetKeys.nativeTabStrengthOver, '/assets/ui/crafting/native-tabs/strength-over.svg', 'assets/backpack1.swf', 'strengthbtn overState', 95),
+  nativeTabStrengthDown: extractedCraftingImage(CraftingAssetKeys.nativeTabStrengthDown, '/assets/ui/crafting/native-tabs/strength-down.svg', 'assets/backpack1.swf', 'strengthbtn downState', 95),
+  nativeTabFusionUp: extractedCraftingImage(CraftingAssetKeys.nativeTabFusionUp, '/assets/ui/crafting/native-tabs/fusion-up.svg', 'assets/backpack1.swf', 'mixturebtn upState', 99),
+  nativeTabFusionOver: extractedCraftingImage(CraftingAssetKeys.nativeTabFusionOver, '/assets/ui/crafting/native-tabs/fusion-over.svg', 'assets/backpack1.swf', 'mixturebtn overState', 99),
+  nativeTabFusionDown: extractedCraftingImage(CraftingAssetKeys.nativeTabFusionDown, '/assets/ui/crafting/native-tabs/fusion-down.svg', 'assets/backpack1.swf', 'mixturebtn downState', 99),
+  nativeTabResolutionUp: extractedCraftingImage(CraftingAssetKeys.nativeTabResolutionUp, '/assets/ui/crafting/native-tabs/resolution-up.svg', 'assets/backpack1.swf', 'resolutionbtn upState', 109),
+  nativeTabResolutionOver: extractedCraftingImage(CraftingAssetKeys.nativeTabResolutionOver, '/assets/ui/crafting/native-tabs/resolution-over.svg', 'assets/backpack1.swf', 'resolutionbtn overState', 109),
+  nativeTabResolutionDown: extractedCraftingImage(CraftingAssetKeys.nativeTabResolutionDown, '/assets/ui/crafting/native-tabs/resolution-down.svg', 'assets/backpack1.swf', 'resolutionbtn downState', 109),
+  nativeTabMakingUp: extractedCraftingImage(CraftingAssetKeys.nativeTabMakingUp, '/assets/ui/crafting/native-tabs/making-up.svg', 'assets/backpack1.swf', 'makingbtn upState', 113),
+  nativeTabMakingOver: extractedCraftingImage(CraftingAssetKeys.nativeTabMakingOver, '/assets/ui/crafting/native-tabs/making-over.svg', 'assets/backpack1.swf', 'makingbtn overState', 113),
+  nativeTabMakingDown: extractedCraftingImage(CraftingAssetKeys.nativeTabMakingDown, '/assets/ui/crafting/native-tabs/making-down.svg', 'assets/backpack1.swf', 'makingbtn downState', 113),
   ...Object.fromEntries(integratedCraftingIconItems.map((item) => {
     const source = item.requiredSymbols[0];
     if (!source?.sourcePackage || !source.symbol || !source.characterId) {

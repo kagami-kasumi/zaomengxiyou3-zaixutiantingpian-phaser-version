@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { craftingAssets } from '../../assets/AssetManifest';
 import {
-  formatFormalWorkshopTab,
   FormalWorkshopPageSize,
   getFormalWorkshopEntries,
   getFormalWorkshopPlayer,
@@ -23,6 +22,7 @@ import {
   type FormalWorkshopPageModel,
   type FormalWorkshopTab,
 } from '../../systems/FormalWorkshopPageSystem';
+import { FormalWorkshopNativeTabLayout } from '../../systems/FormalWorkshopNativeTabLayout';
 import { describeEquipmentStrengtheningSession, getEquipmentStrengthLevel } from '../../systems/EquipmentStrengtheningSystem';
 import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
@@ -34,24 +34,44 @@ type Callbacks = {
   onRerender: () => void;
 };
 
-const Tabs: readonly FormalWorkshopTab[] = ['strength', 'fusion', 'resolution', 'making'];
+const NativeTabTextures: Readonly<Record<FormalWorkshopTab, { up: string; over: string; down: string }>> = {
+  strength: {
+    up: craftingAssets.nativeTabStrengthUp.key,
+    over: craftingAssets.nativeTabStrengthOver.key,
+    down: craftingAssets.nativeTabStrengthDown.key,
+  },
+  fusion: {
+    up: craftingAssets.nativeTabFusionUp.key,
+    over: craftingAssets.nativeTabFusionOver.key,
+    down: craftingAssets.nativeTabFusionDown.key,
+  },
+  resolution: {
+    up: craftingAssets.nativeTabResolutionUp.key,
+    over: craftingAssets.nativeTabResolutionOver.key,
+    down: craftingAssets.nativeTabResolutionDown.key,
+  },
+  making: {
+    up: craftingAssets.nativeTabMakingUp.key,
+    over: craftingAssets.nativeTabMakingOver.key,
+    down: craftingAssets.nativeTabMakingDown.key,
+  },
+};
 
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
   const objects: Phaser.GameObjects.GameObject[] = [];
-  objects.push(scene.add.image(470, 295, craftingAssets.container.key).setDisplaySize(940, 590).setAlpha(0.82));
-  if (model.tab === 'fusion') objects.push(scene.add.image(500, 305, craftingAssets.fusionPanel.key).setAlpha(0.78));
-  if (model.tab === 'strength') objects.push(scene.add.image(360.6, 303.9, craftingAssets.strengthPanel.key).setAlpha(0.82));
-  if (model.tab === 'resolution') objects.push(scene.add.image(357.1, 313.75, craftingAssets.resolutionPanel.key).setAlpha(0.82));
-  if (model.tab === 'making') objects.push(scene.add.image(357.1, 303.4, craftingAssets.makingPanel.key).setAlpha(0.82));
-  objects.push(scene.add.rectangle(470, 295, 940, 590, 0x07101b, 0.38));
-  objects.push(scene.add.text(470, 28, `${model.owner.toUpperCase()} 装备工坊 · ${formatFormalWorkshopTab(model.tab)}`, {
-    color: '#fff0ad', fontFamily: 'Arial', fontSize: '24px', fontStyle: 'bold',
-  }).setOrigin(0.5));
-  objects.push(...button(scene, 74, 65, 92, 30, 'P1 工坊', () => callbacks.onOwner('p1')));
-  if (callbacks.playerCount === 2) objects.push(...button(scene, 174, 65, 92, 30, 'P2 工坊', () => callbacks.onOwner('p2')));
-  Tabs.forEach((tab, index) => objects.push(...button(scene, 348 + index * 128, 65, 118, 32, formatFormalWorkshopTab(tab), () => {
-    setFormalWorkshopTab(model, tab); callbacks.onRerender();
-  }, model.tab === tab)));
+  objects.push(scene.add.image(470, 295, craftingAssets.container.key).setDisplaySize(940, 590));
+  if (model.tab === 'fusion') objects.push(scene.add.image(500, 305, craftingAssets.fusionPanel.key));
+  if (model.tab === 'strength') objects.push(scene.add.image(360.6, 303.9, craftingAssets.strengthPanel.key));
+  if (model.tab === 'resolution') objects.push(scene.add.image(357.1, 313.75, craftingAssets.resolutionPanel.key));
+  if (model.tab === 'making') objects.push(scene.add.image(357.1, 303.4, craftingAssets.makingPanel.key));
+  objects.push(...button(scene, 74, 65, 92, 30, 'P1 工坊', () => callbacks.onOwner('p1'), model.owner === 'p1'));
+  if (callbacks.playerCount === 2) {
+    objects.push(...button(scene, 174, 65, 92, 30, 'P2 工坊', () => callbacks.onOwner('p2'), model.owner === 'p2'));
+  }
+  FormalWorkshopNativeTabLayout.forEach((layout) => objects.push(nativeTabButton(scene, layout, model.tab, () => {
+    setFormalWorkshopTab(model, layout.tab);
+    callbacks.onRerender();
+  })));
 
   const entries = getFormalWorkshopEntries(model);
   const pageCount = Math.max(1, Math.ceil(entries.length / FormalWorkshopPageSize));
@@ -147,6 +167,30 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
   }
   objects.push(...button(scene, 850, 545, 130, 40, '关闭返回', callbacks.onClose));
   return scene.add.container(0, 0, objects).setDepth(20);
+}
+
+function nativeTabButton(
+  scene: Phaser.Scene,
+  layout: (typeof FormalWorkshopNativeTabLayout)[number],
+  selectedTab: FormalWorkshopTab,
+  onClick: () => void,
+): Phaser.GameObjects.Image {
+  const textures = NativeTabTextures[layout.tab];
+  const selected = selectedTab === layout.tab;
+  const image = scene.add.image(layout.x, layout.y, selected ? textures.down : textures.up)
+    .setOrigin(0)
+    .setInteractive(new Phaser.Geom.Rectangle(0, 0, layout.width, layout.height), Phaser.Geom.Rectangle.Contains)
+    .setData('nativeWorkshopTab', layout.tab)
+    .setData('sourceCharacterId', layout.sourceCharacterId);
+  image.on('pointerover', () => {
+    if (!selected) image.setTexture(textures.over);
+  });
+  image.on('pointerout', () => image.setTexture(selected ? textures.down : textures.up));
+  image.on('pointerdown', () => {
+    image.setTexture(textures.down);
+    onClick();
+  });
+  return image;
 }
 
 function button(scene: Phaser.Scene, x: number, y: number, width: number, height: number, label: string, onClick: () => void, selected = false): Phaser.GameObjects.GameObject[] {

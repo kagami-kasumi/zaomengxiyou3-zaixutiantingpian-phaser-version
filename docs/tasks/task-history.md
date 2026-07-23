@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-141 | 真 UI 整改 | 移除炼丹炉现代覆盖导航并接回原生四态中文按钮 | M-035、M-039、M-052、VS-054 | 119 无按钮背景、95/99/109/113 up/over/down 资产、原命中区接线、专项/构建/940×590 浏览器验收 |
 | TASK-SETTINGS-060 | UI 逆向复核 | 闭合炼丹炉四个原生中文页签按钮的四态、几何、命中区与切页合同 | M-035、M-039、M-052、VS-054 | `equipment-workshop-index.md` 六段证据矩阵、95/99/109/113 四态派生、940×590 坐标与 `TASK-SLICE-141` 实现门禁 |
 | TASK-SLICE-139 | 正式功能 UI | 接入 P1 真法宝页、升级/重置事务与 V4 实例持久化 | M-036、M-043、M-052、VS-054 | `FormalMagicWeaponPageSystem.ts`、596 真页面、灵魂/特殊材料分支、五行重置、runtime/V4 与专项/浏览器验收 |
 | TASK-SLICE-138D | 正式功能 UI | 接入 78 本可达制作书、材料/灵魂/三宝石事务与实例持久化 | M-036、M-039、M-052、VS-054 | `EquipmentMakingRegistry/System.ts`、152 真页面、死分支拒绝、实例覆写、P1/P2 V4 与专项/浏览器验收 |
@@ -4600,6 +4601,29 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-141
+
+- 完成日期：2026-07-23
+- Goal：`GOAL-007`（已完成）；功能条线 `LINE-FORMAL-GAME-LOOP` 继续 `Active`，下一 Goal 为 `GOAL-008` / `TASK-SLICE-140`。
+- 以可重生脚本从 `TASK-SETTINGS-060` 资产派生 character 119 无按钮 940×590 背景，并引入 DefineButton2 95/99/109/113 各三个 up/over/down SVG；未修改恢复 SWF 或旧提取结果。
+- 在 119 根坐标中按原生命中区接回“强化 / 合成 / 分解 / 打造”：未选中白色 up，hover 橙色上浮基线，pressed/selected 橙色下沉，相邻 hit bounds 不重叠。
+- 删除工坊顶部现代标题、四个现代页签与 940×590 全屏暗罩，并保留 P1/P2 事务 owner 的明确选中反馈。
+- 原有强化、Fusion、分解、打造事务系统未重写；切页/换 owner 返还、V4 当前槽保存和关闭返回合同均保持。
+
+更新文件：
+- `src/assets/AssetManifest.ts`、`src/systems/FormalWorkshopNativeTabLayout.ts`、`src/systems/FormalWorkshopPageSystem.ts`
+- `src/scenes/feature-ui/FormalWorkshopPageView.ts`、`tools/formal-workshop-host-tests.ts`、`tools/generate-workshop-native-tabs.ps1`
+- `public/assets/ui/crafting/container-native-background.png`、`public/assets/ui/crafting/native-tabs/`
+- `docs/tasks/evidence/TASK-SLICE-141-native-workshop-p2-making-940x590.png` 及 Goal/功能线/覆盖/机制/切片/历史/PG 台账。
+
+验证：
+- `npm run test:formal-workshop-host`、`test:formal-strengthening`、`test:formal-resolution`、`test:formal-making` 与 `npm run build` 通过。
+- 940×590 Phaser 画布验收了 P1/P2 选中、白/橙 hover/selected、四页切换、空制作书原子拒绝、关闭回地图，console 无 warning/error。
+- 全量 `npm run check:all`、`git diff --check` 在文档收尾后复验。
+
+推荐任务：
+- `GOAL-008` / `TASK-SLICE-140`：只执行完整功能 UI 与正式主循环端到端旅程，不进入 Stage 2-1。
 
 ### TASK-SETTINGS-060
 

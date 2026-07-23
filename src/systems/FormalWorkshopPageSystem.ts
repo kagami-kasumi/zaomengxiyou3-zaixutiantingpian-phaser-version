@@ -311,7 +311,7 @@ export function closeFormalWorkshopPage(model: FormalWorkshopPageModel): void {
 }
 
 export function formatFormalWorkshopTab(tab: FormalWorkshopTab): string {
-  return ({ strength: '强化', fusion: 'Fusion', resolution: '分解', making: '制作' } as const)[tab];
+  return ({ strength: '强化', fusion: '合成', resolution: '分解', making: '打造' } as const)[tab];
 }
 
 function closeCurrentFusion(model: FormalWorkshopPageModel): void {
