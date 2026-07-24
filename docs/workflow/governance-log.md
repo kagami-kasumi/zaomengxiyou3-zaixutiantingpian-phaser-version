@@ -2,6 +2,30 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-24
+
+### 回写 GOAL-022 问题治理效果样本
+
+变更内容：
+
+- `TASK-SLICE-150B` 收尾按问题治理协议扫描未关闭/观察中问题，并向 PG-002/003/004/005/006/008 回写单线状态、共享移动/怪物 owner、六段证据消费、反馈执行与 0 compact 样本。
+- 本次只追加效果反馈，不改变治理问题状态、方案、关闭标准或工作流规则。
+
+影响范围：
+
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-003-关卡角色移动接入边界不统一.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/problems/PG-006-怪物物理与死亡奖励按关卡漂移.md`
+- `docs/workflow/problems/PG-008-Goal包缺少可执行规模门禁.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow` 通过；唯一 Active Goal 为 `GOAL-023`，唯一推荐 task 为 `TASK-SLICE-150C`。
+- 仅保留既有 `PlayerSlot` 禁止别名 warning。
+
 ## 2026-07-23
 
 ### 将 Goal 看板收敛为仅保存未完成项

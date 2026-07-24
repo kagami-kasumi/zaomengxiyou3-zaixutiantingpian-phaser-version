@@ -75,6 +75,7 @@ export class HeavenMapScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown-TWO', () => this.activateNode('1-2'));
     this.input.keyboard?.on('keydown-THREE', () => this.activateNode('1-3'));
     this.input.keyboard?.on('keydown-FOUR', () => this.activateNode('2-1'));
+    this.input.keyboard?.on('keydown-FIVE', () => this.activateNode('2-2'));
     this.input.keyboard?.on('keydown-ESC', () => {
       if (this.chooser) this.closeChooser();
       else this.scene.start('SaveSlotScene');

@@ -8,8 +8,20 @@ import {
 } from '../src/assets/AssetManifest';
 import {
   isStage22LocalQaHost,
+  normalizeStage22PlayerCount,
   readStage22DevOptions,
+  readStage22QaOptions,
 } from '../src/systems/Stage22EntrySystem';
+import {
+  createStage22Flow,
+  defeatStage22Enemy,
+  Stage22ConfiguredEnemyCount,
+  Stage22FailureDelayMs,
+  Stage22OrdinaryEnemyCount,
+  touchStage22StopPoint,
+  updateStage22PartyFailure,
+  updateStage22Spawners,
+} from '../src/systems/Stage22FlowSystem';
 import {
   createStage22FireHazards,
   Stage22FireTuning,
@@ -20,6 +32,7 @@ import {
   STAGE22_TRAVEL_LEFT,
   STAGE22_TRAVEL_RIGHT,
   stage22FireThorns,
+  stage22SpawnPoints,
   stage22StopPoints,
   stage22TransferDoor,
   stage22WallMarkers,
@@ -69,6 +82,18 @@ assert.deepEqual(
   ['ObsWall', 'ObsWall', 'ObsWall', 'FallDownWhenStandingWall', 'ThroughWall', 'ThroughWall', 'ThroughWall'],
 );
 assert.equal(stage22StopPoints.length, 5);
+assert.equal(stage22SpawnPoints.length, 25);
+assert.deepEqual(
+  stage22StopPoints.map((stop) =>
+    stage22SpawnPoints
+      .filter((spawn) => spawn.stopPointIdx === stop.idx)
+      .reduce((sum, spawn) => sum + spawn.totalNum, 0)),
+  [11, 13, 13, 16, 1],
+);
+assert.equal(
+  stage22SpawnPoints.reduce((sum, spawn) => sum + spawn.totalNum, 0),
+  Stage22ConfiguredEnemyCount,
+);
 assert.equal(stage22StopPoints[4]?.isBoss, true);
 assert.equal(stage22FireThorns.length, 9);
 assert.equal(STAGE22_GROUND_TOP_Y, 501.0501981);
@@ -120,6 +145,56 @@ assert.equal(
 assert.equal(isStage22LocalQaHost('127.0.0.1'), true);
 assert.equal(isStage22LocalQaHost('localhost'), true);
 assert.equal(isStage22LocalQaHost('example.com'), false);
+assert.equal(normalizeStage22PlayerCount(2), 2);
+assert.equal(normalizeStage22PlayerCount('2'), 1);
+assert.deepEqual(readStage22QaOptions('?qaFastClear=1&qaNoDamage=1&qaFailParty=1', true), {
+  fastClear: true,
+  noDamage: true,
+  failParty: true,
+});
+assert.deepEqual(readStage22QaOptions('?qaFastClear=1', false), {});
+
+const onePlayerCap = createStage22Flow(1);
+assert.equal(touchStage22StopPoint(onePlayerCap, 0), true);
+assert.equal(updateStage22Spawners(onePlayerCap, 2_999).length, 0);
+assert.equal(updateStage22Spawners(onePlayerCap, 4_001).length, 6);
+assert.equal(onePlayerCap.aliveEnemies.size, 6);
+assert.equal(updateStage22Spawners(onePlayerCap, 1_000).length, 0, '1P keeps ready spawners at cap');
+
+const twoPlayerCap = createStage22Flow(2);
+assert.equal(touchStage22StopPoint(twoPlayerCap, 0), true);
+assert.equal(updateStage22Spawners(twoPlayerCap, 7_000).length, 6);
+assert.equal(updateStage22Spawners(twoPlayerCap, 1_000).length, 2);
+assert.equal(twoPlayerCap.aliveEnemies.size, 8);
+
+const fullFlow = createStage22Flow(2);
+for (const stopIdx of [0, 1, 2, 3] as const) {
+  assert.equal(touchStage22StopPoint(fullFlow, stopIdx), true);
+  for (let guard = 0; guard < 20 && fullFlow.activeStopPointIdx !== undefined; guard += 1) {
+    updateStage22Spawners(fullFlow, 10_000);
+    for (const id of [...fullFlow.aliveEnemies.keys()]) {
+      assert.equal(defeatStage22Enemy(fullFlow, id), true);
+      assert.equal(defeatStage22Enemy(fullFlow, id), false, 'ordinary rewards stay idempotent');
+    }
+  }
+}
+assert.equal(fullFlow.generatedCount, Stage22OrdinaryEnemyCount);
+assert.equal(fullFlow.defeatedCount, Stage22OrdinaryEnemyCount);
+assert.equal(fullFlow.nextStopPointIdx, 4);
+assert.equal(touchStage22StopPoint(fullFlow, 4), true);
+assert.equal(updateStage22Spawners(fullFlow, 3_999).length, 0);
+assert.equal(fullFlow.phase, 'playing');
+assert.equal(updateStage22Spawners(fullFlow, 1).length, 0);
+assert.equal(fullFlow.phase, 'awaiting-boss');
+assert.equal(fullFlow.generatedCount, 53, '150B never creates a Monster16 placeholder');
+
+const failureFlow = createStage22Flow(1);
+assert.equal(updateStage22PartyFailure(failureFlow, 0, 0), 'failure-pending');
+assert.equal(failureFlow.failureDelayRemainingMs, Stage22FailureDelayMs);
+assert.equal(updateStage22PartyFailure(failureFlow, 1, 100), 'playing');
+assert.equal(updateStage22PartyFailure(failureFlow, 0, 0), 'failure-pending');
+assert.equal(updateStage22PartyFailure(failureFlow, 0, Stage22FailureDelayMs - 1), 'failure-pending');
+assert.equal(updateStage22PartyFailure(failureFlow, 0, 1), 'failed');
 
 const hazards = createStage22FireHazards();
 assert.equal(hazards.length, 9);
@@ -212,7 +287,7 @@ assert.ok(bootSource.includes('import.meta.env.DEV || isStage22LocalQaHost'));
 assert.ok(bootSource.includes("this.scene.start('Stage22DevScene', stage22Dev)"));
 assert.ok(bootSource.includes("this.scene.start('SaveSlotScene')"));
 const mapSource = readFileSync(path.join(repoRoot, 'src/systems/HeavenMapSystem.ts'), 'utf8');
-assert.equal(mapSource.includes('Stage22Scene'), false, '150A does not expose an empty formal route');
+assert.ok(mapSource.includes('Stage22Scene'), '150B exposes the formal Stage 2-2 route');
 const worldSource = readFileSync(
   path.join(repoRoot, 'src/scenes/stage22/Stage22WorldBridge.ts'),
   'utf8',
@@ -236,8 +311,20 @@ const gameplaySource = readFileSync(
   'utf8',
 );
 assert.ok(gameplaySource.includes('getPixelAlpha'));
-assert.equal(gameplaySource.includes('createStage22Flow'), false);
+assert.equal(gameplaySource.includes('createStage22Flow'), false, 'the layout-only DEV bridge remains isolated');
 assert.equal(gameplaySource.includes('Monster16'), false);
 assert.equal(gameplaySource.includes('SaveSystem'), false);
+const formalGameplaySource = readFileSync(
+  path.join(repoRoot, 'src/scenes/stage22/Stage22GameplayBridge.ts'),
+  'utf8',
+);
+assert.ok(formalGameplaySource.includes('createStage22Flow'));
+assert.ok(formalGameplaySource.includes('createStage21MonsterView'));
+assert.equal(formalGameplaySource.includes('Monster16'), false);
+assert.equal(formalGameplaySource.includes('saveActiveLevelUnlockProgress'), false);
+const formalSceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage22Scene.ts'), 'utf8');
+assert.ok(formalSceneSource.includes('showStage22Failure'));
+assert.ok(formalSceneSource.includes("this.scene.start('HeavenMapScene')"));
+assert.ok(formalSceneSource.includes('import.meta.env.DEV || isStage22LocalQaHost'));
 
-console.log('Stage 2-2 true scene, traversal, DEV entry, and fire hazard tests passed.');
+console.log('Stage 2-2 scene, 54-definition flow, ordinary combat route, and fire tests passed.');

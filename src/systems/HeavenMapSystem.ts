@@ -3,9 +3,14 @@ import {
   type LevelUnlockProgress,
 } from './Stage11FlowSystem';
 
-export type HeavenMapNodeId = '1-1' | '1-2' | '1-3' | '2-1';
+export type HeavenMapNodeId = '1-1' | '1-2' | '1-3' | '2-1' | '2-2';
 export type HeavenMapNodeStatus = 'locked' | 'current' | 'completed' | 'unavailable';
-export type HeavenMapRouteKey = 'TestScene' | 'Stage12Scene' | 'Stage13Scene' | 'Stage21Scene';
+export type HeavenMapRouteKey =
+  | 'TestScene'
+  | 'Stage12Scene'
+  | 'Stage13Scene'
+  | 'Stage21Scene'
+  | 'Stage22Scene';
 
 export type HeavenMapHitArea = Readonly<{
   x: number;
@@ -58,11 +63,25 @@ export const HeavenMapNodeDefinitions: readonly HeavenMapNodeDefinition[] = [
   },
 ] as const;
 
+export const HeavenMapStage22NodeDefinition: HeavenMapNodeDefinition = {
+  id: '2-2',
+  title: 'Stage 2-2',
+  // The current reconstruction has one authoritative Stage 2 map registration.
+  // Reuse it for the current sub-level instead of inventing a second visible map marker.
+  registration: { x: 507.95, y: 341.5 },
+  hitArea: { x: 443.95, y: 279.95, width: 139, height: 132 },
+  routeKey: 'Stage22Scene',
+};
+
 export function createHeavenMapSnapshot(
   progress: LevelUnlockProgress,
 ): readonly HeavenMapNodeSnapshot[] {
-  const unlockedIndex = getUnlockedNodeIndex(sanitizeLevelUnlockProgress(progress));
-  return HeavenMapNodeDefinitions.map((definition, index) => {
+  const sanitized = sanitizeLevelUnlockProgress(progress);
+  const definitions = sanitized.unlockedStage === 2 && sanitized.unlockedLevel >= 2
+    ? [...HeavenMapNodeDefinitions.slice(0, 3), HeavenMapStage22NodeDefinition]
+    : HeavenMapNodeDefinitions;
+  const unlockedIndex = getUnlockedNodeIndex(sanitized);
+  return definitions.map((definition, index) => {
     const status = getNodeStatus(index, unlockedIndex);
     return {
       ...definition,
@@ -86,9 +105,9 @@ export function resolveHeavenMapRuntimeProgress(
 ): LevelUnlockProgress {
   if (!isDevelopment) return sanitizeLevelUnlockProgress(progress);
   const qaStage = new URLSearchParams(search).get('qaStage');
-  return qaStage === '2-1'
-    ? { unlockedStage: 2, unlockedLevel: 1 }
-    : sanitizeLevelUnlockProgress(progress);
+  if (qaStage === '2-2') return { unlockedStage: 2, unlockedLevel: 2 };
+  if (qaStage === '2-1') return { unlockedStage: 2, unlockedLevel: 1 };
+  return sanitizeLevelUnlockProgress(progress);
 }
 
 function getUnlockedNodeIndex(progress: LevelUnlockProgress): number {

@@ -4,15 +4,14 @@
 
 ## 当前推荐
 
-`TASK-SLICE-150B` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-022` 和 `LINE-STAGE-2-2`。本 Goal 只接入 Stage 2-2 五停点、25 刷怪点、54 怪定义与 1P/2P 普通流程，不进入 Monster16、胜利保存或完整运行校准。
+`TASK-SLICE-150C` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-023` 和 `LINE-STAGE-2-2`。本 Goal 只接入 Monster16 真视觉/六攻击、显门、胜利和 2-3 保存；完整全流程校准仍留给 `150D`。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SLICE-150 | Split | — | LINE-STAGE-2-2 | 过大父任务 | 原计划一次完成 Stage 2-2 全部实现与校准 | M-026、M-027、M-030、M-035、M-044、VS-056 | 已按 PG-008 拆为 `150A..150D` | 依次执行同线四个子 task |
-| TASK-SLICE-150B | Ready | GOAL-022 | LINE-STAGE-2-2 | 普通流程接入 | 接入五停点、25 点、54 怪定义与 1P/2P 普通流程 | M-027、M-030、M-044、VS-056 | wave/flow、共享普通怪、6/8 上限、失败与正式入口 | TASK-SLICE-150C |
-| TASK-SLICE-150C | Planned | GOAL-023 | LINE-STAGE-2-2 | Boss/结果接入 | 接入 Monster16 真视觉/六攻击、显门、胜利和 2-3 保存 | M-030、M-035、M-044、VS-056 | Monster16 behavior/native visual、门/结果 bridge、V4 2-3 | TASK-SLICE-150D |
+| TASK-SLICE-150C | Ready | GOAL-023 | LINE-STAGE-2-2 | Boss/结果接入 | 接入 Monster16 真视觉/六攻击、显门、胜利和 2-3 保存 | M-030、M-035、M-044、VS-056 | Monster16 behavior/native visual、门/结果 bridge、V4 2-3 | TASK-SLICE-150D |
 | TASK-SLICE-150D | Planned | GOAL-024 | LINE-STAGE-2-2 | 运行校准 | 完成 940×590 1P/2P 全流程校准和关闭裁决 | M-026、M-027、M-030、M-035、M-044、VS-056 | 全旅程证据、重载/console、覆盖差异与关线裁决 | 关闭本线或生成同线最小后续 |
 
 ## 任务完成定义
@@ -81,74 +80,6 @@ UI 原生化合同：
 
 - `TASK-SLICE-150A`。
 
-### TASK-SLICE-150B
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-STAGE-2-2`（Active）
-
-Goal 包：
-
-- `GOAL-022`（Planned）
-
-目标机制/切片：
-
-- `M-027`、`M-030`、`M-044`、`VS-056`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若普通怪需要新增 Stage 2-1 之外的视觉/战斗 owner，或验收必须进入 Monster16 技能/胜利保存，立即留给 `150C`。
-
-输入资料：
-
-- Stage 2-2 五停点/25 点/54 怪合同；`150A` 的 layout/traversal/fire 产物。
-- Stage 2-1 flow/combat/reward/native visual owners 与 Monster9/10/19 真资源。
-
-输出产物：
-
-- 五停点 `11/13/13/16/1`、1P/2P 同屏 6/8、delay/interval、锁屏/放行和普通怪共享战斗/奖励。
-- 正式 2-2 地图入口、1P/2P 创建、普通流程失败/返回/重载；末批只建立 Boss 交接边界，不创建占位 Boss。
-
-完成定义：
-
-- 前四停点可用 Monster9/10/19 真视觉完整推进；第五停点稳定进入 `awaiting-boss` 交接态。
-- 全员失败不推进存档；场景重建不残留波次、输入、HUD 或奖励状态。
-
-验收标准：
-
-- 波次数量、6/8 上限、定时、奖励幂等、失败/重载专项与全系统/build 通过。
-- 940×590 覆盖 1P/2P、前四停点、火焰与普通怪组合、第五停点交接、失败返回；console 无 warning/error。
-
-UI 原生化合同：
-
-- 显示列表清单：复用 `150A` 场景层和既有正式 HUD；Monster9/10/19 只消费 Stage 2-1 真 atlas/攻击对象。
-- 原版视觉基准：Stage 2-2 世界坐标与 Stage 2-1 已关闭的三普通怪逐状态证据。
-- 允许的现代视觉例外：`awaiting-boss` 仅为内部状态，不显示现代占位；其他可见例外为空。
-- 逐状态验收：五停点 pending/active/cleared/awaiting-boss，1P/2P 普通怪动作、失败和重载。
-- 差异证据：刷怪坐标快照、对象差异清单和 940×590 各停点截图。
-
-禁止范围：
-
-- 不实现 Monster16、六攻击对象、显门、胜利或 2-3 保存；不复制普通怪资源。
-
-状态更新：
-
-- 更新覆盖台账、VS-056、M-027/030/044、Goal/task/history 和 PG-002/003/004/005/006/008 样本。
-
-推荐后续任务：
-
-- `TASK-SLICE-150C`。
-
 ### TASK-SLICE-150C
 
 任务类型：
@@ -161,7 +92,7 @@ UI 原生化合同：
 
 Goal 包：
 
-- `GOAL-023`（Planned）
+- `GOAL-023`（Active）
 
 目标机制/切片：
 

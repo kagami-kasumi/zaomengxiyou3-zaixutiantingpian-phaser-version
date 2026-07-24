@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-150B | 普通流程接入 | 接入 Stage 2-2 五停点、25 点、54 怪定义与 1P/2P 普通流程 | M-027、M-030、M-044、VS-056 | `Stage22FlowSystem`、正式地图/场景/失败入口、53 只 Monster9/10/19 共享战斗/奖励、6/8 上限、awaiting-boss 边界、专项/全系统/build 与 7 张 940×590 零 console 证据 |
 | TASK-SLICE-150A | 场景/机关接入 | 接入 Stage 2-2 真场景、布局/遍历与 9 个火焰机关 | M-026、M-027、M-035、VS-056 | 7 条 ready 场景标注、134 个新增真 SVG、Stage22 layout/traversal/fire owners、DEV-only QA 场景、专项/全系统/build 与 9 张 940×590 零 console 证据 |
 | TASK-SETTINGS-063 | 关卡/玩法逆向 | 闭合 Stage 2-2 真场景、几何、波次、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-056 | `levels-index.md` Stage 2-2 权威输入、五停点 54 怪/9 火焰/Monster16 六攻击合同、14 条 derived-ready 标注；原实现包后经 PG-008 拆为 `TASK-SLICE-150A..150D` |
 | TASK-SLICE-143 | UI 原生化整改 | 移除技能四页现代覆盖层并接回原图片中文字、按钮、状态、动态槽位和布局 | M-016、M-041、M-052、VS-055 | 220 个原生 UI 资源、`FormalSkillPageView`/layout、绑定提交、P1/P2/V4 专项与 940×590 正式流程证据 |
@@ -226,6 +227,43 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-150B
+
+完成时间：2026-07-24
+
+功能条线 / Goal：
+
+- `GOAL-022` 完成并从执行看板移除；同线 `GOAL-023` / `TASK-SLICE-150C` 激活。
+- `LINE-STAGE-2-2` 保持唯一 `Active`，未因普通波次完成而提前关闭。
+
+完成内容：
+
+- `Stage22Layout` 新增 25 个精确刷怪点，五批定义数为 `11/13/13/16/1`，总计 54；`Stage22FlowSystem` 实现原 `delay + interval` 首只时序、1 秒间隔、1P/2P 同屏 6/8 上限、ready 保留、停点清空放行和 2.5 秒全灭失败。
+- 前四停点生成 53 只 Monster9/10/19，正式 bridge 直接复用 Stage 2-1 的真 atlas/攻击对象、共享战斗、怪物物理、死亡奖励、HUD 与输入/移动 owner；奖励通过既有 `defeatReported` 和 flow 删除双层幂等。
+- 第 25 个 Monster16 定义仍保留原 `3 + 1` 秒时序；本 Goal 到点只进入不可见 `awaiting-boss` 交接态，不创建 Boss、门或任何现代占位。
+- 新增正式 `Stage22Scene`、失败结果和 HeavenMap 2-2 路由。现有权威 Stage 2 地图注册点按当前解锁小关切换到 2-2，没有虚构第二个可见地图节点；1P/2P、Escape 返回、失败重玩/返回和 scene 重入均销毁本场 flow/input/HUD/reward/view。
+- 本地 QA 仅对 localhost 开放快清、无伤和全灭注入；正式远程主机不接受这些参数。未实现 Monster16、六攻击、显门、胜利或 2-3 保存。
+
+验证：
+
+- 实现前 `npm run check:structure` 通过，只有 8 个与本任务目标文件无关的既有 warning。
+- `npm run test:stage22` 覆盖 25 点/54 定义、五批数量、首只时序、1P/2P 6/8 上限、ready 保留、前四批 53 次生成/幂等击败、第五停点 4 秒 `awaiting-boss`、失败取消/2.5 秒门禁与正式 route 静态边界。
+- `npm run test:heaven-map`、`npm run test:systems`、`npm run build` 通过；build 仅有既有 chunk 大小 warning。
+- 940×590 浏览器验收覆盖正式 2/2 存档地图入口、1P 初始、首停点 Monster9/10/19 真视觉、前四停点/火焰组合、第五停点无占位、2P 双 HUD、失败页与存档仍为 2/2；console warning/error 为 0。证据见 `TASK-SLICE-150B-visual-review.md`。
+
+问题治理：
+
+- PG-002：只归档 `150B`，功能线继续 Active 并仅激活同线 `150C`，通过。
+- PG-003：玩家继续只由 `LevelHeroMovementRuntime` 驱动，Stage22 bridge 只提供平台/停点边界，没有新增底层 movement owner 或私有输入缓存，通过。
+- PG-004：收尾扫描并回写 PG-002/003/004/005/006/008，反馈闭环通过。
+- PG-005：实现前重读 Stage 2-2 六段矩阵；25 点、时序、批次、坐标和 Monster9/10/19 视觉均直接消费已闭合证据，自动与运行双重验证通过。
+- PG-006：普通怪继续复用 `MonsterPhysicsSystem`、`Stage1RewardBridge` 和 `MonsterDefeatRewardSystem`；关卡 bridge 未复制重力、掉落概率、灵魂/经验或奖励归属，未复发。
+- PG-008：实际保持两个主工作包、两个验收批次、0 compact，未扩张到 Monster16/胜利保存；形成拆分后的第二个连续实现 Goal 样本。
+
+推荐任务：
+
+- `GOAL-023` / `TASK-SLICE-150C`：接入 Monster16 八动作/六攻击、显门、胜利和 2-3 保存；完整全流程校准仍留给 `150D`。
 
 ### TASK-SLICE-150A
 

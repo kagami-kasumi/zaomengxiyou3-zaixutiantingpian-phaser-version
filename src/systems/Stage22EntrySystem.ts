@@ -6,6 +6,27 @@ export type Stage22DevOptions = Readonly<{
   freezeFireFrame?: number;
 }>;
 
+export type Stage22PlayerCount = 1 | 2;
+export type Stage22QaOptions = Readonly<{
+  fastClear?: boolean;
+  noDamage?: boolean;
+  failParty?: boolean;
+}>;
+
+export function normalizeStage22PlayerCount(value: unknown): Stage22PlayerCount {
+  return value === 2 ? 2 : 1;
+}
+
+export function readStage22QaOptions(search: string, isDevelopment: boolean): Stage22QaOptions {
+  if (!isDevelopment) return {};
+  const params = new URLSearchParams(search);
+  return {
+    fastClear: params.get('qaFastClear') === '1',
+    noDamage: params.get('qaNoDamage') === '1',
+    failParty: params.get('qaFailParty') === '1',
+  };
+}
+
 export function isStage22LocalQaHost(hostname: string): boolean {
   return hostname === '127.0.0.1' || hostname === 'localhost';
 }

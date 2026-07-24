@@ -35,6 +35,17 @@ export type Stage22FireThorn = Readonly<{
   scaleX: 0.74472046;
 }>;
 
+export type Stage22SpawnPoint = Readonly<{
+  id: string;
+  x: number;
+  y: number;
+  stopPointIdx: 0 | 1 | 2 | 3 | 4;
+  delay: 2 | 3 | 6;
+  interval: 1;
+  enemyType: 9 | 10 | 16 | 19;
+  totalNum: number;
+}>;
+
 export const stage22RenderBounds = {
   floor: { left: 0, right: 631, top: 0, bottom: 549 },
   background: { left: -45, right: 4655, top: 0, bottom: 590 },
@@ -105,6 +116,34 @@ export const stage22StopPoints = [
   { id: 'stage22-stop-3', sourceCharacterId: 7, x: 3769.95, y: 189.65, idx: 3, betweenRandL: 1150, isBoss: false },
   { id: 'stage22-stop-4', sourceCharacterId: 7, x: 4581.7, y: 252.3, idx: 4, betweenRandL: 1150, isBoss: true },
 ] as const satisfies readonly Stage22StopPoint[];
+
+export const stage22SpawnPoints = [
+  { id: '__id137', x: 257.25, y: 222.25, stopPointIdx: 0, delay: 6, interval: 1, enemyType: 9, totalNum: 2 },
+  { id: '__id138', x: 1001.55, y: 387.6, stopPointIdx: 0, delay: 2, interval: 1, enemyType: 19, totalNum: 2 },
+  { id: '__id139', x: 829.8, y: 387.6, stopPointIdx: 0, delay: 2, interval: 1, enemyType: 10, totalNum: 1 },
+  { id: '__id140', x: 335.7, y: 222.25, stopPointIdx: 0, delay: 6, interval: 1, enemyType: 10, totalNum: 2 },
+  { id: '__id141', x: 1094.7, y: 217.05, stopPointIdx: 0, delay: 6, interval: 1, enemyType: 9, totalNum: 2 },
+  { id: '__id142', x: 1173.15, y: 217.05, stopPointIdx: 0, delay: 6, interval: 1, enemyType: 10, totalNum: 2 },
+  { id: '__id143', x: 1650, y: 387.6, stopPointIdx: 1, delay: 2, interval: 1, enemyType: 19, totalNum: 3 },
+  { id: '__id144', x: 1854.05, y: 231.05, stopPointIdx: 1, delay: 2, interval: 1, enemyType: 19, totalNum: 2 },
+  { id: '__id145', x: 1429.95, y: 217.05, stopPointIdx: 1, delay: 2, interval: 1, enemyType: 10, totalNum: 2 },
+  { id: '__id146', x: 1351.9, y: 199.05, stopPointIdx: 1, delay: 6, interval: 1, enemyType: 9, totalNum: 3 },
+  { id: '__id147', x: 1938.05, y: 199.05, stopPointIdx: 1, delay: 6, interval: 1, enemyType: 10, totalNum: 3 },
+  { id: '__id148', x: 2338.4, y: 357.1, stopPointIdx: 2, delay: 2, interval: 1, enemyType: 19, totalNum: 3 },
+  { id: '__id149', x: 2928.95, y: 346.9, stopPointIdx: 2, delay: 2, interval: 1, enemyType: 19, totalNum: 3 },
+  { id: '__id150', x: 2474.2, y: 357.1, stopPointIdx: 2, delay: 2, interval: 1, enemyType: 19, totalNum: 1 },
+  { id: '__id151', x: 2626.25, y: 357.1, stopPointIdx: 2, delay: 2, interval: 1, enemyType: 19, totalNum: 1 },
+  { id: '__id152', x: 2756.3, y: 357.1, stopPointIdx: 2, delay: 2, interval: 1, enemyType: 19, totalNum: 1 },
+  { id: '__id153', x: 2269.75, y: 217.05, stopPointIdx: 2, delay: 6, interval: 1, enemyType: 10, totalNum: 2 },
+  { id: '__id154', x: 2954.45, y: 217.05, stopPointIdx: 2, delay: 6, interval: 1, enemyType: 10, totalNum: 2 },
+  { id: '__id155', x: 3168.4, y: 387.6, stopPointIdx: 3, delay: 2, interval: 1, enemyType: 10, totalNum: 4 },
+  { id: '__id156', x: 3682.5, y: 387.6, stopPointIdx: 3, delay: 2, interval: 1, enemyType: 10, totalNum: 4 },
+  { id: '__id157', x: 3100.25, y: 294.25, stopPointIdx: 3, delay: 6, interval: 1, enemyType: 9, totalNum: 2 },
+  { id: '__id158', x: 3182.4, y: 285.1, stopPointIdx: 3, delay: 6, interval: 1, enemyType: 19, totalNum: 2 },
+  { id: '__id159', x: 3624.45, y: 299.3, stopPointIdx: 3, delay: 6, interval: 1, enemyType: 9, totalNum: 2 },
+  { id: '__id160', x: 3706.6, y: 290.15, stopPointIdx: 3, delay: 6, interval: 1, enemyType: 19, totalNum: 2 },
+  { id: '__id161', x: 4416.7, y: 357.1, stopPointIdx: 4, delay: 3, interval: 1, enemyType: 16, totalNum: 1 },
+] as const satisfies readonly Stage22SpawnPoint[];
 
 const fireCoordinates = [
   [450.75, 491.05],

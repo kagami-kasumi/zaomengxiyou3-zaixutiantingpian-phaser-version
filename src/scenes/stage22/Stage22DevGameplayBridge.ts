@@ -110,7 +110,7 @@ export function createStage22DevGameplay(
         hazards,
         targets,
         deltaMs,
-        (hazard, target) => hasVisibleFirePixel(scene, hazard, target),
+        (hazard, target) => hasVisibleStage22FirePixel(scene, hazard, target),
       );
       if (freezeFireFrame !== undefined) {
         hazards.forEach((hazard) => {
@@ -155,7 +155,7 @@ export function createStage22DevGameplay(
   };
 }
 
-function hasVisibleFirePixel(
+export function hasVisibleStage22FirePixel(
   scene: Phaser.Scene,
   hazard: Stage22FireHazardModel,
   target: Stage22FireTarget,
