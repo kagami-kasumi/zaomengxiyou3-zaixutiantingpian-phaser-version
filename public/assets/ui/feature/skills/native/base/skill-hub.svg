@@ -2,9 +2,6 @@
 <svg xmlns:ffdec="https://www.free-decompiler.com/flash" xmlns:xlink="http://www.w3.org/1999/xlink" ffdec:objectType="frame" height="590.0px" width="940.0px" xmlns="http://www.w3.org/2000/svg">
   <g transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
     <use ffdec:characterId="236" height="590.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="940.0" xlink:href="#shape0"/>
-    <use ffdec:characterId="240" height="31.0" id="btnback" transform="matrix(1.0, 0.0, 0.0, 1.0, 853.3, 23.35)" width="84.0" xlink:href="#button0"/>
-    <use ffdec:characterId="244" height="25.0" id="activebtn" transform="matrix(1.0, 0.0, 0.0, 1.0, 62.4, 555.95)" width="81.0" xlink:href="#button1"/>
-    <use ffdec:characterId="248" height="24.0" id="passivebtn" transform="matrix(1.0, 0.0, 0.0, 1.0, 163.25, 555.95)" width="79.0" xlink:href="#button2"/>
     
   </g>
   <defs>

@@ -179,6 +179,12 @@ function testTrueSkillAssets(): void {
   const scene = readFileSync(path.join(root, 'src/scenes/FeatureUiScene.ts'), 'utf8');
   const view = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalSkillPageView.ts'), 'utf8');
   const entry = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts'), 'utf8');
+  const activeBase = readFileSync(path.join(
+    root, 'public/assets/ui/feature/skills/native/base/skill-active.svg',
+  ), 'utf8');
+  const passiveBase = readFileSync(path.join(
+    root, 'public/assets/ui/feature/skills/native/base/skill-passive.svg',
+  ), 'utf8');
   const stage12 = readFileSync(path.join(root, 'src/scenes/stage12/Stage12GameplayBridge.ts'), 'utf8');
   const stage13 = readFileSync(path.join(root, 'src/scenes/stage13/Stage13GameplayBridge.ts'), 'utf8');
   assert.match(scene, /createFormalSkillPageView/);
@@ -187,6 +193,11 @@ function testTrueSkillAssets(): void {
   assert.doesNotMatch(view, /正式心法与技能|绑定到选中槽|升级选中被动|关闭返回/);
   assert.match(view, /getSkillNativeButtonAsset/);
   assert.match(view, /getSkillNativeSpriteAsset/);
+  assert.match(view, /P1技能|owner\.toUpperCase\(\)/);
+  assert.match(view, /treeNameText/);
+  assert.match(view, /soulValue/);
+  assert.doesNotMatch(activeBase, /id="(?:xf1mc|xf2mc|mainskillmc|xfname1|xfname2|upGradebtn)"/);
+  assert.doesNotMatch(passiveBase, /id="pskill[1-5]"/);
   for (const characterId of [207, 240, 244, 248, 337, 580, 638]) {
     for (const state of ['up', 'over', 'down']) {
       assert.ok(existsSync(path.join(

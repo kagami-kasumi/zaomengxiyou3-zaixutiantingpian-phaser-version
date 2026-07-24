@@ -3,18 +3,12 @@
   <g transform="matrix(1.0, 0.0, 0.0, 1.0, -34.0, -84.0)">
     <use ffdec:characterId="576" height="425.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="883.0" xlink:href="#shape0"/>
     <use ffdec:characterId="577" height="28.1" transform="matrix(1.0, 0.0, 0.0, 1.0, 837.0, 91.65)" width="87.05" xlink:href="#text0"/>
-    <use ffdec:characterId="580" height="28.0" id="upGradebtn" transform="matrix(1.0, 0.0, 0.0, 1.0, 136.95, 191.35)" width="48.0" xlink:href="#button0"/>
     <use ffdec:characterId="581" height="39.95" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="100.65" xlink:href="#shape2"/>
     
     
     <use ffdec:characterId="584" height="39.95" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="100.65" xlink:href="#shape3"/>
     
     
-    <use ffdec:characterId="597" height="65.0" id="xf1mc" transform="matrix(1.0, 0.0, 0.0, 1.0, 57.65, 151.0)" width="65.0" xlink:href="#sprite0"/>
-    <use ffdec:characterId="608" height="65.0" id="xf2mc" transform="matrix(1.0, 0.0, 0.0, 1.0, 57.65, 351.0)" width="65.0" xlink:href="#sprite1"/>
-    <use ffdec:characterId="865" ffdec:characterName="OtherMat_fla.Timeline_139" height="379.45" id="mainskillmc" transform="matrix(1.0, 0.0, 0.0, 1.0, 648.45, 317.2)" width="631.15" xlink:href="#sprite2"/>
-    <use ffdec:characterId="866" height="22.05" id="xfname1" transform="matrix(1.0, 0.0, 0.0, 1.0, 130.95, 161.2)" width="88.1" xlink:href="#text5"/>
-    <use ffdec:characterId="867" height="22.05" id="xfname2" transform="matrix(1.0, 0.0, 0.0, 1.0, 129.95, 361.2)" width="83.1" xlink:href="#text6"/>
   </g>
   <defs>
     <g id="shape0">

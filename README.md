@@ -69,11 +69,30 @@ npm run check:all
 - 修改任务或工作流文档后运行 `npm run check:workflow`。
 - 修改代码后优先运行 `npm run test:systems` 和 `npm run build`。
 
+外部贡献只接受“GitHub Fork → 修改 → 向官方上游提交 Pull Request”的方式。Fork
+只能用于准备贡献，不得作为独立下游项目继续开发、发布、部署或商用。提交前请阅读
+[`CONTRIBUTING.md`](CONTRIBUTING.md)。
+
 ## 提取资料边界
 
 `local-resources/regima/legacy-extraction/` 是本地逆向参考资料，可能包含大量 SWF、反编译脚本、图片、声音和中间产物。当前仓库只提交现代重写代码、文档和必要脚手架。
 
 除非明确要重新提取或整理资源，不修改、不删除、不重新生成 `local-resources/regima/legacy-extraction/` 中的原始提取结果。
+
+## 许可证与权利边界
+
+Copyright (c) 2026 kagami-kasumi. All rights reserved.
+
+本项目**源码可见，但不是开放源代码或自由软件**。仅允许个人非商业的本地评估、测试
+和游玩，以及为向官方上游贡献而进行的 GitHub Fork 和修改。未经事先书面许可，禁止：
+
+- 任何直接或间接商业使用；
+- 独立二次开发或维护脱离官方上游的下游项目；
+- 发布、分发、部署、托管、镜像、移植或再许可本项目及其修改版；
+- 删除版权、来源或许可证声明。
+
+完整授权条件以 [`LICENSE`](LICENSE) 为准，权利范围和第三方材料说明见
+[`NOTICE.md`](NOTICE.md)。本许可证不覆盖原 Flash 游戏及其他第三方权利人的材料。
 
 ## 关键词
 

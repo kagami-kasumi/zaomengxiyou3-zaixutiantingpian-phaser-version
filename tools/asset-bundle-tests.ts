@@ -19,6 +19,9 @@ const requiredBundles = [
   'shell',
   'heaven-map',
   'feature-ui',
+  'feature-ui-skills-common',
+  'feature-ui-skills-hero-1',
+  'feature-ui-skills-hero-5',
   'stage-11',
   'stage-12',
   'stage-13',
@@ -32,6 +35,14 @@ assert.equal(sceneAssetBundles.shell.dependencies.length, 0);
 assert.equal(sceneBundleBySceneKey.SaveSlotScene, 'shell');
 assert.equal(sceneBundleBySceneKey.HeavenMapScene, 'heaven-map');
 assert.equal(sceneBundleBySceneKey.FeatureUiScene, 'feature-ui');
+assert.equal(sceneAssetBundles['feature-ui'].assets.length, 0);
+assert.ok(sceneAssetBundles['feature-ui-skills-common'].assets.length < 80);
+assert.equal(sceneAssetBundles['feature-ui-skills-hero-1'].assets.length, 30);
+assert.equal(sceneAssetBundles['feature-ui-skills-hero-5'].assets.length, 30);
+assert.deepEqual(
+  sceneAssetBundles['feature-ui-skills-hero-1'].dependencies,
+  ['feature-ui-skills-common'],
+);
 assert.equal(sceneBundleBySceneKey.TestScene, 'stage-11');
 assert.equal(sceneBundleBySceneKey.Stage22DevScene, 'stage-22');
 assert.ok(runtimeAssetBundleOwners.size > 250);
@@ -141,7 +152,7 @@ assert.match(source('src/scenes/SaveSlotScene.ts'), /startSceneWithBundle\(this,
 assert.match(source('src/scenes/HeavenMapScene.ts'), /startSceneWithBundle\(this, node\.routeKey/);
 assert.match(
   source('src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts'),
-  /ensureSceneAssetBundle\(scene, 'feature-ui'/,
+  /getFeatureUiAssetBundleId\(page, heroId\)/,
 );
 
 console.log('Asset bundle catalog, coordinator, retry, route, and Boot boundary tests passed.');

@@ -4,6 +4,29 @@
 
 ## 2026-07-24
 
+### 登记灵魂货币所有权问题与 V6 迁移任务
+
+变更内容：
+
+- 新增 `PG-010`，确认 `player*.skillLearning.soulCount` 把玩家通用货币错误归属给技能学习子系统。
+- 重开 `LINE-FORMAL-GAME-LOOP`，新增连续的 `GOAL-035 / TASK-ARCH-013A` 与 `GOAL-036 / TASK-ARCH-013B`；Stage 2-3 暂回 Planned。
+- 第一次 compact 后只登记问题、拆分工作包和写入安全交接，没有新增实现。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-010-灵魂货币所有权错误.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-FORMAL-GAME-LOOP.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 待本次安全交接完成后运行 `npm run check:workflow` 与 `git diff --check`。
+- 下一 Goal 只执行玩家级所有权与 V6 迁移，不进入浏览器全旅程；跨功能闭环由再下一 Goal 独立验收。
+
 ### 登记启动资源加载问题与场景分包任务
 
 变更内容：

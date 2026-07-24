@@ -65,6 +65,7 @@ import {
 } from '../systems/FormalMagicWeaponPageSystem';
 import { createFormalMagicWeaponPageView } from './feature-ui/FormalMagicWeaponPageView';
 import { syncFormalMagicWeaponRuntime } from './feature-ui/FormalMagicWeaponRuntimeBridge';
+import { ensureFeatureUiPageAssets } from './feature-ui/FeatureUiPageAssetBridge';
 
 const PageKeys: ReadonlyArray<{ keyCode: number; page: FeatureUiPage; owner: FeatureUiOwner }> = [
   { keyCode: Phaser.Input.Keyboard.KeyCodes.C, page: 'backpack', owner: 'p1' },
@@ -136,12 +137,16 @@ export class FeatureUiScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.finishSession, this);
   }
 
-  private switchPage(page: FeatureUiPage, owner: FeatureUiOwner): void {
+  private async switchPage(page: FeatureUiPage, owner: FeatureUiOwner): Promise<void> {
     if (
       page === 'skills'
       && (!this.storage || getFormalSkillEntryPlayerCount(this.storage, owner) === undefined)
     ) {
       this.detailText?.setText('当前存档没有这位玩家，无法切换到对应技能页。');
+      return;
+    }
+    if (!await ensureFeatureUiPageAssets(this, page, owner, this.storage)) {
+      this.detailText?.setText('页面资源加载失败，请再次尝试。');
       return;
     }
     const session = switchFeatureUi(formalFeatureUiHost, page, owner);

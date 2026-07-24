@@ -1,0 +1,217 @@
+再续天庭现代化重写有限使用许可证
+ZAIXU TIANTING MODERN REWRITE LIMITED USE LICENSE
+版本 1.0，2026 年 7 月 24 日
+Version 1.0, 24 July 2026
+
+Copyright (c) 2026 kagami-kasumi. All rights reserved.
+
+重要提示
+
+本项目“源码可见”（source-available），但不是开放源代码（open source）或自由软件。
+除本许可证明确授予的有限权利外，著作权人保留全部权利。
+
+中文条款
+
+1. 定义
+
+“本项目”指本仓库中由著作权人原创并有权许可的源代码、构建脚本、文档和其他材料，
+以及它们的实质性部分。
+
+“官方上游仓库”指：
+https://github.com/kagami-kasumi/zaomengxiyou3-zaixutiantingpian-phaser-version
+
+“贡献”指以合入官方上游仓库为明确目的，通过 GitHub Pull Request 提交的修改。
+
+“商业用途”指直接或间接以商业利益、金钱收入或经营优势为目的或产生此类效果的使用，
+包括但不限于销售、收费服务、广告或赞助变现、付费访问、商业产品集成、受雇开发、
+为营利组织内部业务使用，以及以捐赠、会员或其他名义与本项目使用相挂钩的收费。
+
+2. 有限授权
+
+在遵守本许可证全部条款的前提下，著作权人授予你一项个人的、有限的、非独占的、
+不可转让且不可再许可的许可，仅允许你：
+
+a. 查看和研究本项目；
+b. 为个人、非商业的本地评估、测试和游玩而下载、构建并运行本项目；
+c. 使用 GitHub 的 Fork 功能创建本项目的派生仓库，并仅为准备和提交贡献而修改该 Fork；
+d. 通过 GitHub Pull Request 将贡献提交至官方上游仓库，供著作权人自行决定是否合入。
+
+此授权不因著作权人查看、评论、拒绝或合入某项贡献而扩大。
+
+3. 明确禁止
+
+未经著作权人事先书面许可，你不得：
+
+a. 将本项目或其修改版用于任何商业用途；
+b. 发布、分发、出售、出租、再许可或以其他方式向第三方提供本项目或其修改版，
+   但第 2(c) 项允许的 GitHub Fork 除外；
+c. 部署、托管或运营本项目或其修改版，使第三方可以访问、使用或游玩；
+d. 将本项目或其修改版作为独立项目、下游项目、镜像、移植版、整合包或其他脱离
+   官方上游仓库维护流程的二次开发继续开发或传播；
+e. 将本项目的代码、文档、原创素材或其实质性部分复制到其他项目，或通过改名、
+   重构、翻译、转译、拆分、合并、生成代码等方式规避本许可证；
+f. 删除、隐藏或篡改本许可证、版权声明、来源说明或其他权利通知；
+g. 声称本项目、其核心实现或源自本项目的内容由你独立原创；
+h. 使用“再续天庭”、项目名称、著作权人的名称、账号、标识或商标暗示认可、隶属或背书。
+
+为避免疑义：GitHub 平台条款可能允许 GitHub 用户在 GitHub 服务内查看和 Fork 公共仓库；
+该平台权限不会授予任何站外复制、独立二次开发、分发、部署或商业使用权。
+
+4. 贡献许可
+
+当你向官方上游仓库提交贡献时，你声明并保证该贡献是你的原创作品，或你已取得足够权利
+按本条授权；该贡献不侵犯第三方权利，且你已披露其中包含的第三方材料及其许可证。
+
+你同时授予著作权人一项永久的、不可撤销的、全球性的、免版税的、非独占的、可转让且
+可再许可的许可，允许著作权人以任何方式使用、复制、修改、制作衍生作品、公开展示、
+公开运行、分发、商业化及以任何条款重新许可该贡献。著作权人没有合入、发布或维护
+任何贡献的义务。
+
+5. 第三方材料与原游戏权利
+
+本许可证只覆盖著作权人有权许可的原创材料。本仓库可能包含或引用来自原 Flash 游戏、
+工具链、依赖项或其他来源的名称、角色、剧情、图像、音频、字体、数据、反编译资料及
+其他第三方材料。该等材料的权利归各自权利人所有，并受其各自条款和适用法律约束。
+
+本许可证不授予任何第三方材料、原游戏知识产权、专利、商标、人格权或形象权许可，
+也不表示著作权人拥有这些权利。你有责任在使用前另行取得所需权利。
+
+6. 终止
+
+一旦你违反本许可证，全部授权立即自动终止。终止后，你必须停止使用，并删除你控制的
+全部副本、修改版、构建产物和部署；GitHub 平台为执行其服务所保留的内容除外。
+许可证仅可由著作权人以明确书面方式恢复。第 3 至第 9 条在终止后继续有效。
+
+7. 无担保
+
+在适用法律允许的最大范围内，本项目按“现状”和“可用状态”提供，不附带任何明示或
+默示担保，包括但不限于适销性、特定用途适用性、不侵权、准确性、安全性或无错误担保。
+
+8. 责任限制
+
+在适用法律允许的最大范围内，著作权人不对因本项目或本许可证引起或与之相关的任何
+直接、间接、附带、特殊、惩罚性或后果性损害承担责任，不论责任理论为何，也不论是否
+已被告知损害可能发生。
+
+9. 适用法律、争议与可分割性
+
+本许可证适用中华人民共和国法律，但不适用其冲突法规则。因本许可证或本项目产生的
+争议，由著作权人住所地有管辖权的人民法院管辖。若任何条款被认定无效或不可执行，
+其余条款仍继续有效；无效条款应在法律允许的最大范围内按最接近原意的方式执行。
+
+如需本许可证未授予的任何权利，必须事先取得著作权人的单独书面许可。Issue、讨论、
+口头回复、代码合入或沉默均不构成额外授权。
+
+English Reference Translation
+
+The Chinese terms above are the governing terms. This English section is provided for reference
+only. If the two versions conflict, the Chinese version controls.
+
+1. Definitions
+
+"Project" means the source code, build scripts, documentation, and other materials in this
+repository that are original to and licensable by the Copyright Holder, including substantial
+portions of them.
+
+"Official Upstream Repository" means:
+https://github.com/kagami-kasumi/zaomengxiyou3-zaixutiantingpian-phaser-version
+
+"Contribution" means a modification submitted through a GitHub Pull Request for the express
+purpose of possible inclusion in the Official Upstream Repository.
+
+"Commercial Purpose" means use intended for, or resulting in, direct or indirect commercial
+benefit, monetary revenue, or business advantage. It includes sale, paid services, advertising
+or sponsorship monetization, paid access, commercial product integration, commissioned
+development, internal business use by a for-profit organization, and charges tied to use of the
+Project under the name of donations, memberships, or otherwise.
+
+2. Limited permission
+
+Subject to every term of this License, the Copyright Holder grants you a personal, limited,
+non-exclusive, non-transferable, and non-sublicensable license only to:
+
+a. view and study the Project;
+b. download, build, and run it locally for personal, non-commercial evaluation, testing, and play;
+c. create a derivative repository using GitHub's Fork feature and modify that Fork solely to
+   prepare and submit a Contribution; and
+d. submit that Contribution to the Official Upstream Repository through a GitHub Pull Request,
+   which the Copyright Holder may accept or reject at their sole discretion.
+
+Reviewing, commenting on, rejecting, or merging a Contribution does not enlarge this permission.
+
+3. Prohibited conduct
+
+Without the Copyright Holder's prior written permission, you may not:
+
+a. use the Project or a modified version for any Commercial Purpose;
+b. publish, distribute, sell, rent, sublicense, or otherwise provide the Project or a modified
+   version to any third party, except for a GitHub Fork allowed by Section 2(c);
+c. deploy, host, or operate the Project or a modified version for third-party access, use, or play;
+d. maintain or circulate it as an independent project, downstream project, mirror, port, bundle,
+   or other derivative development outside the Official Upstream Repository workflow;
+e. copy its code, documentation, original assets, or any substantial portion into another project,
+   or evade this License by renaming, refactoring, translating, transpiling, splitting, combining,
+   or generating code;
+f. remove, obscure, or alter this License, copyright notices, attribution, or rights notices;
+g. claim that the Project, its core implementation, or Project-derived material is your independent
+   original work; or
+h. use the Project name, "Zaixu Tianting," or the Copyright Holder's names, accounts, marks, or
+   branding to imply endorsement, affiliation, or sponsorship.
+
+For clarity, GitHub's platform terms may let GitHub users view and Fork public repositories within
+the GitHub service. Those platform permissions grant no right to copy outside GitHub, conduct
+independent derivative development, distribute, deploy, or use the Project commercially.
+
+4. Contribution license
+
+By submitting a Contribution, you represent that it is your original work or that you hold
+sufficient rights to grant this Section; it does not infringe third-party rights; and you have
+disclosed included third-party materials and their licenses.
+
+You grant the Copyright Holder a perpetual, irrevocable, worldwide, royalty-free, non-exclusive,
+transferable, and sublicensable license to use, reproduce, modify, create derivative works from,
+publicly display, publicly perform, distribute, commercialize, and relicense the Contribution
+under any terms. The Copyright Holder has no obligation to merge, publish, or maintain it.
+
+5. Third-party materials and original game rights
+
+This License covers only original material the Copyright Holder has the right to license. The
+repository may contain or reference names, characters, stories, images, audio, fonts, data,
+decompiled material, and other third-party material from the original Flash game, toolchains,
+dependencies, or other sources. Rights in that material remain with their respective owners and
+are governed by their own terms and applicable law.
+
+This License grants no rights in third-party material, original-game intellectual property,
+patents, trademarks, publicity rights, or personality rights, and does not claim that the
+Copyright Holder owns those rights. You must obtain any required rights separately.
+
+6. Termination
+
+All permissions terminate automatically and immediately upon breach. You must stop using and
+delete all copies, modifications, builds, and deployments under your control, except content
+retained by GitHub to operate its service. Permissions may be reinstated only by the Copyright
+Holder's express written statement. Sections 3 through 9 survive termination.
+
+7. Disclaimer
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE PROJECT IS PROVIDED "AS IS" AND "AS
+AVAILABLE," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, SECURITY, OR
+ERROR-FREE OPERATION.
+
+8. Limitation of liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, OR CONSEQUENTIAL DAMAGES ARISING
+FROM OR RELATED TO THE PROJECT OR THIS LICENSE, UNDER ANY THEORY OF LIABILITY, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGES.
+
+9. Governing law, disputes, and severability
+
+This License is governed by the laws of the People's Republic of China, excluding conflict-of-law
+rules. Disputes are subject to the competent People's Court at the Copyright Holder's domicile.
+If a provision is invalid or unenforceable, the remainder continues in effect, and that provision
+shall be enforced to the maximum lawful extent closest to its intended effect.
+
+Any right not granted here requires the Copyright Holder's prior separate written permission.
+Issues, discussions, oral replies, code merges, and silence do not grant additional rights.

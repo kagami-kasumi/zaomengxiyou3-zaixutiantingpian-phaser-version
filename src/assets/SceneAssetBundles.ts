@@ -2,13 +2,14 @@ import {
   combatHudAssets,
   craftingAssets,
   fullFeatureUiAssets,
+  getSkillNativeHeroUiAssets,
   heavenMapAssets,
   pickupAssets,
   role1NormalAttackAssets,
   savePartyAssets,
   saveSlotAssets,
   scaffoldAssets,
-  skillNativeUiAssets,
+  skillNativeUiCommonAssets,
   stage11Assets,
   stage12Assets,
   stage13Assets,
@@ -27,6 +28,16 @@ export type AssetBundleId =
   | 'save-party'
   | 'heaven-map'
   | 'feature-ui'
+  | 'feature-ui-backpack'
+  | 'feature-ui-skills-common'
+  | 'feature-ui-skills-hero-1'
+  | 'feature-ui-skills-hero-2'
+  | 'feature-ui-skills-hero-3'
+  | 'feature-ui-skills-hero-4'
+  | 'feature-ui-skills-hero-5'
+  | 'feature-ui-pets'
+  | 'feature-ui-workshop'
+  | 'feature-ui-magic-weapon'
   | 'combat-common'
   | 'stage-1-common'
   | 'stage-2-common'
@@ -86,11 +97,15 @@ const svgs = (asset: FrameSequenceAsset): readonly BundleAssetDefinition[] =>
 const shellAssets = Object.values(saveSlotAssets).map(svg);
 const savePartyBundleAssets = Object.values(savePartyAssets).map(image);
 const heavenMapBundleAssets = Object.values(heavenMapAssets).map(svg);
-const featureUiAssets = [
-  ...Object.values(craftingAssets).map(image),
-  ...Object.values(fullFeatureUiAssets).map((asset) =>
-    asset.path.includes('/skills/native/base/') ? image(asset) : svg(asset)),
-  ...skillNativeUiAssets.map(svg),
+const skillBaseAssets = [
+  fullFeatureUiAssets.skillHub,
+  fullFeatureUiAssets.skillActive,
+  fullFeatureUiAssets.skillBind,
+  fullFeatureUiAssets.skillPassive,
+].map((asset) => asset.path.includes('/skills/native/base/') ? image(asset) : svg(asset));
+const skillCommonAssets = [
+  ...skillBaseAssets,
+  ...skillNativeUiCommonAssets.map(svg),
 ];
 const combatCommonAssets = [
   ...Object.values(scaffoldAssets).map(svg),
@@ -157,7 +172,47 @@ export const sceneAssetBundles = {
   },
   'feature-ui': {
     dependencies: [],
-    assets: featureUiAssets,
+    assets: [],
+  },
+  'feature-ui-backpack': {
+    dependencies: ['feature-ui'],
+    assets: [svg(fullFeatureUiAssets.backpack), svg(fullFeatureUiAssets.backpackGrid)],
+  },
+  'feature-ui-skills-common': {
+    dependencies: ['feature-ui'],
+    assets: skillCommonAssets,
+  },
+  'feature-ui-skills-hero-1': {
+    dependencies: ['feature-ui-skills-common'],
+    assets: getSkillNativeHeroUiAssets(1).map(svg),
+  },
+  'feature-ui-skills-hero-2': {
+    dependencies: ['feature-ui-skills-common'],
+    assets: getSkillNativeHeroUiAssets(2).map(svg),
+  },
+  'feature-ui-skills-hero-3': {
+    dependencies: ['feature-ui-skills-common'],
+    assets: getSkillNativeHeroUiAssets(3).map(svg),
+  },
+  'feature-ui-skills-hero-4': {
+    dependencies: ['feature-ui-skills-common'],
+    assets: getSkillNativeHeroUiAssets(4).map(svg),
+  },
+  'feature-ui-skills-hero-5': {
+    dependencies: ['feature-ui-skills-common'],
+    assets: getSkillNativeHeroUiAssets(5).map(svg),
+  },
+  'feature-ui-pets': {
+    dependencies: ['feature-ui'],
+    assets: [svg(fullFeatureUiAssets.petPage)],
+  },
+  'feature-ui-workshop': {
+    dependencies: ['feature-ui'],
+    assets: Object.values(craftingAssets).map(image),
+  },
+  'feature-ui-magic-weapon': {
+    dependencies: ['feature-ui'],
+    assets: [svg(fullFeatureUiAssets.magicWeaponPage)],
   },
   'combat-common': {
     dependencies: [],
@@ -209,6 +264,22 @@ export function getSceneAssetBundleId(sceneKey: string): AssetBundleId | undefin
   return sceneBundleBySceneKey[sceneKey as keyof typeof sceneBundleBySceneKey];
 }
 
+export function getFeatureUiAssetBundleId(
+  page: 'backpack' | 'skills' | 'pets' | 'workshop' | 'magic-weapon',
+  heroId?: number,
+): AssetBundleId {
+  if (page === 'skills') {
+    if (!Number.isInteger(heroId) || heroId! < 1 || heroId! > 5) {
+      throw new RangeError('Skills bundle requires a hero id from 1 to 5.');
+    }
+    return `feature-ui-skills-hero-${heroId}` as AssetBundleId;
+  }
+  if (page === 'backpack') return 'feature-ui-backpack';
+  if (page === 'pets') return 'feature-ui-pets';
+  if (page === 'workshop') return 'feature-ui-workshop';
+  return 'feature-ui-magic-weapon';
+}
+
 export function validateSceneAssetBundles(
   catalog: Readonly<Record<string, SceneAssetBundleDefinition>> = sceneAssetBundles,
 ): ReadonlyMap<string, string> {
@@ -233,4 +304,3 @@ export function validateSceneAssetBundles(
 }
 
 export const runtimeAssetBundleOwners = validateSceneAssetBundles();
-

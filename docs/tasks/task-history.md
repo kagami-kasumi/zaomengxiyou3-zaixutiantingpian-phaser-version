@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-154 | 技能页反馈整改 | 消除整包等待、主动/被动重复文字和默认角色帧污染，补双 owner 与灵魂存档复验 | M-041、M-044、M-052、VS-054、VS-055 | 页级/角色级 bundle、250/868/213 动态 child 去重、五角色心法、炼丹炉风格 P1/P2、V5 灵魂与 3 张 940×590 证据 |
 | TASK-ARCH-012 | 场景资源分包 | Boot 只加载启动壳层，地图/功能 UI/关卡按稳定 bundle 首次进入加载 | M-035、VS-058、PG-009 | 唯一 bundle owner、幂等/并发/失败重试 coordinator、正式/DEV/QA 路由、Boot 负向门禁、788ms 首屏与 940×590 证据 |
 | TASK-SLICE-153 | 正式进关收敛 | 删除逐关人数选择并让正式地图/关卡/HUD/功能页/retry 统一消费活动槽队伍 | M-005、M-006、M-044、M-051、VS-053 | 共享 party runtime、五关 hero/owner 接线、DEV/QA 隔离、确定性回归与 3 张 940×590 证据 |
 | TASK-SLICE-152 | 技能 owner 收敛 | 技能页只显示当前存档活动 owner 的当前角色技能 | M-041、M-044、M-052、VS-055 | V5 party 驱动入口/selector/事务、五角色与 P1/P2 隔离专项、3 张 940×590 零 console 证据 |
@@ -4908,6 +4909,36 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-154
+
+- 完成日期：2026-07-24
+- Goal：`GOAL-034`（已完成）
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（重新关闭；恢复 `LINE-STAGE-2-3`）
+- 将单一 `feature-ui` 资源包拆为背包、宠物、工坊、法宝、技能公共资源和五个角色技能资源包；每个角色包只含自己的 30 个图标帧。
+- 从 250/868/213 扁平基底移除运行时会再次创建的按钮、默认悟空主动 child 和五个被动行；主动/被动动态对象只绘制一次。
+- 五角色继续读取既有 `HERO_SKILL_TREES`，运行画面确认唐僧为“愈系/水系”、白龙为“千刀万刃/龙魂的夜宴”。
+- 双人技能页新增用户批准的炼丹炉风格 `P1技能/P2技能`；切换 owner 同步角色、心法、图标与右下灵魂。
+- 灵魂不新增重复 schema：继续作为 V5 `player1/player2.skillLearning.soulCount` 独立持久化，并由技能、工坊与法宝共享消费。
+
+更新文件：
+
+- `src/assets/AssetManifest.ts`、`SceneAssetBundles.ts`
+- `src/scenes/feature-ui/FeatureUiPageAssetBridge.ts`、`FormalFeatureUiEntryBridge.ts`、`FormalSkillPageView.ts`
+- `public/assets/ui/feature/skills/native/base/skill-hub.svg`、`skill-active.svg`、`skill-passive.svg`
+- `tools/formal-skill-tests.ts`、`tools/asset-bundle-tests.ts`
+- `docs/tasks/evidence/TASK-SLICE-154-visual-audit.md` 与三张 940×590 截图
+- 主循环/技能覆盖、机制/切片、Goal/task/history 与 PG-007/009 反馈
+
+验证：
+
+- `npm run test:systems`、`npm run test:formal-skills`、`npm run test:asset-bundles`、`npm run test:formal-game-loop` 通过。
+- `npm run build`、`npm run check:structure`、`npm run check:workflow`、`git diff --check` 通过；build 仅保留既有大 chunk warning。
+- 940×590 正式地图验收白龙单人、唐僧/白龙双人 P1/P2 与被动页；首次进入/首次切角色约 1.0–1.2 秒，console warning/error 为 0。
+
+推荐任务：
+
+- `TASK-SETTINGS-064`：恢复 Stage 2-3 六段证据闭合，不写现代实现。
 
 ### TASK-ARCH-012
 

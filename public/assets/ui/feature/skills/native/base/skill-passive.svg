@@ -2,11 +2,6 @@
 <svg xmlns:ffdec="https://www.free-decompiler.com/flash" xmlns:xlink="http://www.w3.org/1999/xlink" ffdec:objectType="frame" height="429.0px" width="746.0px" xmlns="http://www.w3.org/2000/svg">
   <g transform="matrix(1.0, 0.0, 0.0, 1.0, -116.0, -83.0)">
     <use ffdec:characterId="198" height="429.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="746.0" xlink:href="#shape0"/>
-    <use ffdec:characterId="212" ffdec:characterName="export.shop.PassiveSkill" height="36.35" id="pskill1" transform="matrix(1.0, 0.0, 0.0, 1.0, 124.0, 144.95)" width="730.9" xlink:href="#sprite0"/>
-    <use ffdec:characterId="212" ffdec:characterName="export.shop.PassiveSkill" height="36.35" id="pskill2" transform="matrix(1.0, 0.0, 0.0, 1.0, 122.0, 221.95)" width="730.9" xlink:href="#sprite0"/>
-    <use ffdec:characterId="212" ffdec:characterName="export.shop.PassiveSkill" height="36.35" id="pskill3" transform="matrix(1.0, 0.0, 0.0, 1.0, 122.0, 304.95)" width="730.9" xlink:href="#sprite0"/>
-    <use ffdec:characterId="212" ffdec:characterName="export.shop.PassiveSkill" height="36.35" id="pskill4" transform="matrix(1.0, 0.0, 0.0, 1.0, 122.0, 381.95)" width="730.9" xlink:href="#sprite0"/>
-    <use ffdec:characterId="212" ffdec:characterName="export.shop.PassiveSkill" height="36.35" id="pskill5" transform="matrix(1.0, 0.0, 0.0, 1.0, 122.0, 460.95)" width="730.9" xlink:href="#sprite0"/>
   </g>
   <defs>
     <g id="shape0">

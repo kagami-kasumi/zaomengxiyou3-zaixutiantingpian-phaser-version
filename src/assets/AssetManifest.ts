@@ -1266,17 +1266,32 @@ function skillNativeButton(
   );
 }
 
-export const skillNativeUiAssets = [
+export const skillNativeUiCommonAssets = [
   ...SkillNativeUiButtonCharacters.flatMap((characterId) =>
     (['up', 'over', 'down'] as const).map((state) => skillNativeButton(characterId, state))),
   ...SkillNativeUiSelectorCharacters.flatMap((characterId) =>
     [1, 2].map((frame) => skillNativeSprite(characterId, frame))),
   ...SkillNativeUiSlotCharacters.flatMap((characterId) =>
     [1, 2].map((frame) => skillNativeSprite(characterId, frame))),
-  ...SkillNativeUiIconCharacters.flatMap((characterId) =>
-    [1, 2, 3].map((frame) => skillNativeSprite(characterId, frame))),
   ...[1, 2, 3, 4, 5].map((frame) => skillNativeSprite(212, frame)),
   ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((frame) => skillNativeSprite(865, frame)),
+] as const;
+
+export function getSkillNativeHeroUiAssets(
+  heroId: number,
+): readonly ExtractedImageAssetDefinition[] {
+  if (!Number.isInteger(heroId) || heroId < 1 || heroId > 5) {
+    throw new RangeError(`Unknown skill UI hero ${heroId}.`);
+  }
+  return SkillNativeUiIconCharacters
+    .slice((heroId - 1) * 10, heroId * 10)
+    .flatMap((characterId) =>
+      [1, 2, 3].map((frame) => skillNativeSprite(characterId, frame)));
+}
+
+export const skillNativeUiAssets = [
+  ...skillNativeUiCommonAssets,
+  ...[1, 2, 3, 4, 5].flatMap((heroId) => getSkillNativeHeroUiAssets(heroId)),
 ] as const;
 
 export function getSkillNativeSpriteAsset(

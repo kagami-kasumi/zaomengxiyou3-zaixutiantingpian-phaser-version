@@ -20,6 +20,10 @@
 
 `TASK-SETTINGS-065`、`TASK-ARCH-011`、`TASK-SLICE-151..153` 已闭合并归档：六段证据、V5 `PartyConfiguration`/旧档迁移、原子建槽、character 1149/901 原生流程、技能页活动 owner/当前角色过滤、地图直入和五个已接入正式关卡共享 party bootstrap 均已完成。当前只推进 `TASK-ARCH-012` 的场景资源分包。
 
+2026-07-24 二次用户反馈由 `TASK-SLICE-154` 闭合：功能 UI 和五角色技能图标已分包；主动/被动扁平基底与运行时动态 child 去重；五角色分别显示自身两套心法；双人页提供炼丹炉风格 `P1技能/P2技能`；右下灵魂由 V5 当前 owner 持久化。
+
+2026-07-24 三次用户反馈确认灵魂是玩家通用货币，不属于技能学习：V5 的 `player*.skillLearning.soulCount` 会迫使技能、炼丹炉、法宝和后续消费者跨边界读写技能状态。正式主循环据此再次重开，按 `TASK-ARCH-013A -> TASK-ARCH-013B` 将唯一 owner 提升为 `player.soulCount`、升级 V6、无损迁移 V1..V5，并闭合 P1/P2 跨功能消费与重载。
+
 ### 重开关闭检查
 
 - [x] 新建存档先确认 1P/2P 与活动 owner 当前角色，取消不写半成品槽。
@@ -30,6 +34,8 @@
 - [x] Boot 正式路径只加载启动壳层；地图、功能 UI 和各关卡按 bundle 首次进入加载，返回再进幂等。
 - [x] 冷刷新首屏性能、bundle 失败/重试、DEV/QA 直达和新增资源防回填门禁满足 `PG-009` / `TASK-ARCH-012`。
 - [x] UI 原生化、确定性测试、1P/2P 端到端运行和 console 证据闭合。
+- [ ] V6 与现代运行时只以 `player.soulCount` 为灵魂唯一 owner，V1..V5 无损迁移。
+- [ ] 技能、炼丹炉、法宝等已知消费者统一消费当前玩家字段，P1/P2 隔离并经重载验证。
 
 本文是 `LINE-FORMAL-GAME-LOOP` 的权威覆盖入口。该线由用户在 Stage 1 三关完成后明确前置，目标不是一次性美化全部页面，而是先建立可通关、可观察、可保存、可选关的正式玩家主循环，再逐步闭合完整功能 UI。
 
@@ -51,13 +57,13 @@
 | 4 | 核心战斗 HUD | Stage 1 三关已复用共享 snapshot/bridge；P1/P2 HP/MP/经验/等级/五槽技能状态、入口提示和 Boss 即时/0.8s 追赶条均接入；12 条真资源 ready | 已闭合 | `stage1-hud-tests.ts` 覆盖 owner/键位/比例/Boss 与三关 update/destroy 生命周期；1-1 单人、1-2 双人镜像、1-3 单人 940×590 浏览器验收通过 |
 | 5 | 启动与存档槽 | 真启动/六槽/确认资源已接入；六槽隔离、当前槽写回、V1/V2/旧单槽迁移、损坏拒读与显式删除均已闭合 | 已完成 | `SaveSlotSystem.ts`、`SaveSlotScene.ts`、专项/系统/build 与 940×590 浏览器验收 |
 | 6 | 天庭地图与关卡入口 | 第一世界真地图/菜单、集中节点状态、锁定/当前/已通关/未接入反馈和正式返回均已接入；节点按活动槽 party 直接进关，不再逐关选人数 | 已完成 | `FormalPartyRuntimeSystem.ts`、`HeavenMapScene.ts`、五关 scene/result bridges、专项/系统/build 与 `TASK-SLICE-153-visual-audit.md` |
-| 7 | 完整功能 UI | 共享 host/V4、真背包/装备、技能四页、宠物页、工坊四事务与真法宝页已完成；工坊使用原 119 扁平图，四操作/翻页/提交/返回由透明命中区承载，四主体左框居中，P1/P2 匹配炼丹炉标题 | 已闭合 | `TASK-SLICE-142` 专项、全门禁与 940×590 P1/P2/四页/返回复验；console 无 warning/error |
+| 7 | 完整功能 UI | 共享 host/V5、真背包/装备、技能四页、宠物页、工坊四事务与真法宝页已完成；技能页五角色心法/动态字段/P1-P2/灵魂及页级分包经用户反馈整改 | 已闭合 | `TASK-SLICE-142/154` 专项、全门禁与 940×590 P1/P2/主动/被动/返回复验；console 无 warning/error |
 | 8 | 端到端主循环 | 独立自动旅程已串联新建/读档、地图、P1/P2 五类功能页、1-1 结算解锁、返回和再次读档；940×590 浏览器完成新建槽、双 owner 功能页、2P 关卡往返和重载 | 已闭合 | `formal-game-loop-journey-tests.ts`、`check:all`、零 console warning/error 与 `docs/tasks/evidence/TASK-SLICE-140-*.png` |
-| 9 | 启动与场景资源加载 | `shell/save-party/heaven-map/feature-ui/combat-common/stage-*` 均有唯一 owner；Boot 只排队 shell，正式/DEV/QA 路由进入前幂等 ensure 目标 bundle | 已闭合 | `AssetBundleCoordinator`、`SceneAssetBundleBridge`、`asset-bundle-tests.ts` 与 `TASK-ARCH-012-visual-audit.md`；首屏 250→5 资源，三次中位数 788ms |
+| 9 | 启动与场景资源加载 | 场景 bundle 下继续拆出功能页和五角色技能 bundle；Boot 只排队 shell，正式/DEV/QA/功能子页进入前幂等 ensure 目标 bundle | 已闭合 | `TASK-ARCH-012`、`TASK-SLICE-154`；首屏 250→5，技能首次进入约 1.0–1.2 秒且不串载其他功能页/角色 |
 
 ## 关闭状态
 
-`TASK-ARCH-012` 已闭合并归档：资源 bundle owner、幂等/并发/失败重试、场景销毁边界、正式与 DEV/QA 路由、Boot 负向门禁和 940×590 性能证据均完成。本线重开关闭检查已全部满足，现关闭并恢复 `LINE-STAGE-2-3`。
+既有主循环、资源分包和技能视觉闭环继续作为回归基线；本线当前因 `PG-010` 重开。`GOAL-035 / TASK-ARCH-013A` 先治理玩家直属灵魂与 V6 迁移，随后 `GOAL-036 / TASK-ARCH-013B` 闭合全部已知消费者与正式旅程；完成前不恢复 `LINE-STAGE-2-3`。
 
 ## 调度顺序
 

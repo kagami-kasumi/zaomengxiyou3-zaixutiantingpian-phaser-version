@@ -69,7 +69,7 @@ export function createFormalSkillPageView(
   });
 
   const player = getFormalSkillPlayer(model);
-  objects.push(nativeText(scene, 805.95, 544, String(player.skillLearning.soulCount), 132, 23, 'right'));
+  objects.push(soulValue(scene, 805.95, 540, player.skillLearning.soulCount));
 
   if (model.activeTab === 'binding') {
     renderBinding(scene, model, storage, callbacks, objects);
@@ -98,6 +98,14 @@ function renderOwnerSelectors(
     ).setOrigin(0).setInteractive({ useHandCursor: true });
     selector.on('pointerup', () => callbacks.onOwner(owner));
     objects.push(selector);
+    objects.push(ownerLabel(
+      scene,
+      303 + index * 121,
+      35,
+      `${owner.toUpperCase()}技能`,
+      () => callbacks.onOwner(owner),
+      owner === model.owner,
+    ));
   });
 }
 
@@ -119,6 +127,15 @@ function renderActive(
     124.2,
     getSkillNativeSpriteAsset(865, frame).key,
   ).setOrigin(0));
+  HERO_SKILL_TREES[player.progression.heroId].forEach((config, index) => {
+    objects.push(treeNameText(
+      scene,
+      index === 0 ? 130.95 : 129.95,
+      index === 0 ? 161.2 : 361.2,
+      config.name,
+      index === treeIndex,
+    ));
+  });
 
   renderTreeSelector(scene, model, objects, 0, 57.65, 151, () => callbacks.onRerender());
   renderTreeSelector(scene, model, objects, 1, 57.65, 351, () => callbacks.onRerender());
@@ -343,6 +360,67 @@ function nativeText(
     align,
     fixedWidth: width,
     fixedHeight: height,
+  });
+}
+
+function treeNameText(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  value: string,
+  selected: boolean,
+): Phaser.GameObjects.Text {
+  return scene.add.text(x, y, value, {
+    color: selected ? '#ffd45c' : '#ffffff',
+    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
+    fontSize: '16px',
+    fixedWidth: 110,
+    fixedHeight: 24,
+    stroke: '#111827',
+    strokeThickness: 2,
+  });
+}
+
+function ownerLabel(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  label: string,
+  onClick: () => void,
+  selected: boolean,
+): Phaser.GameObjects.Text {
+  const restColor = selected ? '#ffd45c' : '#f8ead0';
+  const text = scene.add.text(x, y, label, {
+    color: restColor,
+    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
+    fontSize: '26px',
+    fontStyle: 'bold',
+    stroke: '#3d1908',
+    strokeThickness: 5,
+    shadow: { offsetX: 2, offsetY: 2, color: '#000000', blur: 2, stroke: true, fill: true },
+  }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+  text.on('pointerover', () => text.setColor('#ffb62e'));
+  text.on('pointerout', () => text.setColor(restColor));
+  text.on('pointerdown', onClick);
+  return text;
+}
+
+function soulValue(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  value: number,
+): Phaser.GameObjects.Text {
+  return scene.add.text(x, y, String(value), {
+    color: '#f8ead0',
+    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
+    fontSize: '22px',
+    fontStyle: 'bold',
+    fixedWidth: 132,
+    align: 'right',
+    stroke: '#3d1908',
+    strokeThickness: 4,
+    shadow: { offsetX: 2, offsetY: 2, color: '#000000', blur: 2, stroke: true, fill: true },
   });
 }
 

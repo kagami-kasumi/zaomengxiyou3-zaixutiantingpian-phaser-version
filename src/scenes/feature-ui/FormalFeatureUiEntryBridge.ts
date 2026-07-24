@@ -6,6 +6,7 @@ import {
   type FeatureUiOwner,
   type FeatureUiPage,
 } from '../../systems/FeatureUiHostSystem';
+import { getFeatureUiAssetBundleId } from '../../assets/SceneAssetBundles';
 import { getPartyHeroId, type PartyConfiguration } from '../../systems/PartyConfigurationSystem';
 import {
   ensureSceneAssetBundle,
@@ -54,9 +55,14 @@ export async function launchFormalFeatureUi(
   config: FeatureUiEntryConfig,
   feedback?: BundleLoadFeedback,
 ): Promise<boolean> {
-  if (getPartyHeroId(config.party, owner) === undefined) return false;
+  const heroId = getPartyHeroId(config.party, owner);
+  if (heroId === undefined) return false;
   try {
-    await ensureSceneAssetBundle(scene, 'feature-ui', feedback);
+    await ensureSceneAssetBundle(
+      scene,
+      getFeatureUiAssetBundleId(page, heroId),
+      feedback,
+    );
   } catch {
     return false;
   }
