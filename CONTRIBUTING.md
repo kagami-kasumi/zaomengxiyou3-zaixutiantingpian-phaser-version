@@ -1,9 +1,9 @@
 # 贡献指南
 
 感谢你愿意改进本项目。为避免出现独立下游、来源不清或贡献权利不完整的问题，本项目
-只接受通过 GitHub Fork 后向官方上游仓库提交的 Pull Request。
+只接受通过 GitHub Fork 后向本仓库提交的 Pull Request。
 
-官方上游仓库：
+本仓库：
 
 https://github.com/kagami-kasumi/zaomengxiyou3-zaixutiantingpian-phaser-version
 
@@ -14,7 +14,7 @@ https://github.com/kagami-kasumi/zaomengxiyou3-zaixutiantingpian-phaser-version
 3. 只为准备本次贡献而修改 Fork；不要将它作为独立下游项目维护、发布或部署。
 4. 一个 Pull Request 只处理一个清晰子系统或可玩的纵向切片，并说明变更、验证结果和
    第三方材料来源。
-5. 向官方上游仓库提交 Pull Request。是否合入、如何调整和何时发布由维护者决定。
+5. 向本仓库提交 Pull Request。是否合入、如何调整和何时发布由维护者决定。
 
 本项目不接受以其他仓库、压缩包、网盘、独立发行版或部署站点替代 Pull Request 的
 “贡献”。提交 Pull Request 不代表维护者承诺合入。

@@ -7,7 +7,7 @@ Copyright (c) 2026 kagami-kasumi. All rights reserved.
 本仓库采用自定义的《再续天庭现代化重写有限使用许可证》。项目源码可见，但不是
 开放源代码或自由软件。完整且唯一有效的授权条件见根目录 [`LICENSE`](LICENSE)。
 
-除许可证明确允许的个人非商业本地运行，以及为向官方上游提交 Pull Request 而进行的
+除许可证明确允许的个人非商业本地运行，以及为向本仓库提交 Pull Request 而进行的
 GitHub Fork 和修改外，著作权人未授予独立二次开发、分发、部署、托管、再许可或
 商业使用权。
 
@@ -24,7 +24,7 @@ GitHub Fork 和修改外，著作权人未授予独立二次开发、分发、�
 
 ## 联系与额外授权
 
-需要额外许可时，请通过官方上游仓库联系著作权人：
+需要额外许可时，请通过本仓库联系著作权人：
 
 https://github.com/kagami-kasumi/zaomengxiyou3-zaixutiantingpian-phaser-version
 

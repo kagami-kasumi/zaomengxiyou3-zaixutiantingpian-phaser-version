@@ -17,10 +17,10 @@ Copyright (c) 2026 kagami-kasumi. All rights reserved.
 “本项目”指本仓库中由著作权人原创并有权许可的源代码、构建脚本、文档和其他材料，
 以及它们的实质性部分。
 
-“官方上游仓库”指：
+“本仓库”指：
 https://github.com/kagami-kasumi/zaomengxiyou3-zaixutiantingpian-phaser-version
 
-“贡献”指以合入官方上游仓库为明确目的，通过 GitHub Pull Request 提交的修改。
+“贡献”指以合入本仓库为明确目的，通过 GitHub Pull Request 提交的修改。
 
 “商业用途”指直接或间接以商业利益、金钱收入或经营优势为目的或产生此类效果的使用，
 包括但不限于销售、收费服务、广告或赞助变现、付费访问、商业产品集成、受雇开发、
@@ -34,7 +34,7 @@ https://github.com/kagami-kasumi/zaomengxiyou3-zaixutiantingpian-phaser-version
 a. 查看和研究本项目；
 b. 为个人、非商业的本地评估、测试和游玩而下载、构建并运行本项目；
 c. 使用 GitHub 的 Fork 功能创建本项目的派生仓库，并仅为准备和提交贡献而修改该 Fork；
-d. 通过 GitHub Pull Request 将贡献提交至官方上游仓库，供著作权人自行决定是否合入。
+d. 通过 GitHub Pull Request 将贡献提交至本仓库，供著作权人自行决定是否合入。
 
 此授权不因著作权人查看、评论、拒绝或合入某项贡献而扩大。
 
@@ -47,7 +47,7 @@ b. 发布、分发、出售、出租、再许可或以其他方式向第三方�
    但第 2(c) 项允许的 GitHub Fork 除外；
 c. 部署、托管或运营本项目或其修改版，使第三方可以访问、使用或游玩；
 d. 将本项目或其修改版作为独立项目、下游项目、镜像、移植版、整合包或其他脱离
-   官方上游仓库维护流程的二次开发继续开发或传播；
+   本项目维护流程的二次开发继续开发或传播；
 e. 将本项目的代码、文档、原创素材或其实质性部分复制到其他项目，或通过改名、
    重构、翻译、转译、拆分、合并、生成代码等方式规避本许可证；
 f. 删除、隐藏或篡改本许可证、版权声明、来源说明或其他权利通知；
@@ -59,7 +59,7 @@ h. 使用“再续天庭”、项目名称、著作权人的名称、账号、�
 
 4. 贡献许可
 
-当你向官方上游仓库提交贡献时，你声明并保证该贡献是你的原创作品，或你已取得足够权利
+当你向本仓库提交贡献时，你声明并保证该贡献是你的原创作品，或你已取得足够权利
 按本条授权；该贡献不侵犯第三方权利，且你已披露其中包含的第三方材料及其许可证。
 
 你同时授予著作权人一项永久的、不可撤销的、全球性的、免版税的、非独占的、可转让且
@@ -113,11 +113,11 @@ only. If the two versions conflict, the Chinese version controls.
 repository that are original to and licensable by the Copyright Holder, including substantial
 portions of them.
 
-"Official Upstream Repository" means:
+"Repository" means:
 https://github.com/kagami-kasumi/zaomengxiyou3-zaixutiantingpian-phaser-version
 
 "Contribution" means a modification submitted through a GitHub Pull Request for the express
-purpose of possible inclusion in the Official Upstream Repository.
+purpose of possible inclusion in the Repository.
 
 "Commercial Purpose" means use intended for, or resulting in, direct or indirect commercial
 benefit, monetary revenue, or business advantage. It includes sale, paid services, advertising
@@ -134,7 +134,7 @@ a. view and study the Project;
 b. download, build, and run it locally for personal, non-commercial evaluation, testing, and play;
 c. create a derivative repository using GitHub's Fork feature and modify that Fork solely to
    prepare and submit a Contribution; and
-d. submit that Contribution to the Official Upstream Repository through a GitHub Pull Request,
+d. submit that Contribution to the Repository through a GitHub Pull Request,
    which the Copyright Holder may accept or reject at their sole discretion.
 
 Reviewing, commenting on, rejecting, or merging a Contribution does not enlarge this permission.
@@ -148,7 +148,7 @@ b. publish, distribute, sell, rent, sublicense, or otherwise provide the Project
    version to any third party, except for a GitHub Fork allowed by Section 2(c);
 c. deploy, host, or operate the Project or a modified version for third-party access, use, or play;
 d. maintain or circulate it as an independent project, downstream project, mirror, port, bundle,
-   or other derivative development outside the Official Upstream Repository workflow;
+   or other derivative development outside the Project's maintenance workflow;
 e. copy its code, documentation, original assets, or any substantial portion into another project,
    or evade this License by renaming, refactoring, translating, transpiling, splitting, combining,
    or generating code;

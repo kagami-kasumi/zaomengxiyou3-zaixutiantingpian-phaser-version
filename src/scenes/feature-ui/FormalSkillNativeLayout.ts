@@ -3,8 +3,8 @@ import type { AllSkillName } from '../../systems/SkillUISystem';
 export const SkillSelectorCharacterByHero: Readonly<Record<number, number>> = {
   1: 218,
   2: 223,
-  3: 228,
-  4: 233,
+  3: 233,
+  4: 228,
   5: 871,
 };
 
