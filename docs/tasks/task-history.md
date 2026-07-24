@@ -4922,6 +4922,7 @@
 - 新增余额不足、非法金额和消费失败不变性门禁；静态门禁禁止三类消费者出现直接 `soulCount` 写入或 `skillLearning.soulCount` 回流。
 - 正式自动旅程连续执行 P1 技能→工坊分解→法宝升级，再执行 P2 技能消费并重载，证明同一 owner 余额连续、另一 owner 隔离、业务状态与 V6 当前槽一致。
 - 940×590 浏览器复验单人槽技能/工坊动态状态/法宝均显示同一余额 14900；双人槽可分别切换 P1/P2 技能和工坊 owner；未消耗用户本地存档资源，console warning/error 为 0。
+- 用户后续复验发现工坊基底仍含写死的 `1234567890`，且 `FeatureUiScene` 跨页保留旧页面 model，存在可见余额不一致和旧快照回写风险。本次补充 `FormalSoulBalanceView`，让技能/工坊复用同一动态余额投影并只遮盖原图的动态数字槽；跨页进入时按当前 V6 存档重建目标页面 model。技能/工坊 940×590 证据均显示同一余额且 console warning/error 为 0。
 
 验证：
 - 实现前 `npm run check:structure` 通过，仅有 8 个既有 warning；本 task 未扩写 warning 文件。

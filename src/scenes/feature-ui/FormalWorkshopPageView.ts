@@ -31,6 +31,7 @@ import {
 import { describeEquipmentStrengtheningSession, getEquipmentStrengthLevel } from '../../systems/EquipmentStrengtheningSystem';
 import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
+import { createFormalSoulBalanceView } from './FormalSoulBalanceView';
 
 type Callbacks = {
   playerCount: 1 | 2;
@@ -83,6 +84,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
     setFormalWorkshopInventoryPage(model, model.inventoryPage + 1); callbacks.onRerender();
   }, 'workshop-page-next'));
   const player = getFormalWorkshopPlayer(model);
+  objects.push(createFormalSoulBalanceView(scene, player.soulCount));
   if (model.tab === 'strength') {
     const session = model.strengtheningSessions[model.owner];
     const summary = describeEquipmentStrengtheningSession(session);
@@ -100,7 +102,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
     }, 'workshop-commit-strength'));
   } else if (model.tab === 'fusion') {
     const fusion = model.fusionSessions[model.owner];
-    objects.push(statusText(scene, `灵魂 ${player.soulCount}\n暂存：${fusion.slots.map((slot) => slot?.entry.definition.name).join(' / ') || '空'}\n${model.message}`));
+    objects.push(statusText(scene, `暂存：${fusion.slots.map((slot) => slot?.entry.definition.name).join(' / ') || '空'}\n${model.message}`));
     objects.push(...stageZones(scene, 'fusion', () => {
       stageFormalWorkshopFusion(model); callbacks.onRerender();
     }));
@@ -124,7 +126,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
         color: '#fff1ad', fontFamily: 'Arial', fontSize: '12px', align: 'center', wordWrap: { width: 60 },
       }).setOrigin(0.5));
     });
-    objects.push(statusText(scene, `灵魂 ${player.soulCount}　消耗 100\n${model.message}`));
+    objects.push(statusText(scene, `分解消耗：100 灵魂\n${model.message}`));
     objects.push(...stageZones(scene, 'resolution', () => {
       if (resolution.target) withdrawFormalWorkshopResolution(model);
       else stageFormalWorkshopResolution(model);
@@ -154,7 +156,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
         color: '#fff1ad', fontFamily: 'Arial', fontSize: '11px', align: 'center', wordWrap: { width: 60 },
       }).setOrigin(0.5));
     });
-    objects.push(statusText(scene, `产物：${productName}\n材料：${requirements}\n灵魂：${player.soulCount} / ${soulCost}\n${model.message}`));
+    objects.push(statusText(scene, `产物：${productName}\n材料：${requirements}\n所需灵魂：${soulCost}\n${model.message}`));
     objects.push(...stageZones(scene, 'making', () => {
       stageFormalWorkshopMaking(model); callbacks.onRerender();
     }));

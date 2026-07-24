@@ -26,6 +26,7 @@ import {
   TREE_UPGRADE_COSTS,
 } from '../../systems/SkillUISystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
+import { createFormalSoulBalanceView } from './FormalSoulBalanceView';
 import {
   BindingSlotCharacters,
   BindingSlotPositions,
@@ -70,7 +71,7 @@ export function createFormalSkillPageView(
   });
 
   const player = getFormalSkillPlayer(model);
-  objects.push(soulValue(scene, 805.95, 540, player.soulCount));
+  objects.push(createFormalSoulBalanceView(scene, player.soulCount));
 
   if (model.activeTab === 'binding') {
     renderBinding(scene, model, storage, callbacks, objects);
@@ -415,25 +416,6 @@ function ownerLabel(
   text.on('pointerout', () => text.setColor(restColor));
   text.on('pointerdown', onClick);
   return text;
-}
-
-function soulValue(
-  scene: Phaser.Scene,
-  x: number,
-  y: number,
-  value: number,
-): Phaser.GameObjects.Text {
-  return scene.add.text(x, y, String(value), {
-    color: '#f8ead0',
-    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
-    fontSize: '22px',
-    fontStyle: 'bold',
-    fixedWidth: 132,
-    align: 'right',
-    stroke: '#3d1908',
-    strokeThickness: 4,
-    shadow: { offsetX: 2, offsetY: 2, color: '#000000', blur: 2, stroke: true, fill: true },
-  });
 }
 
 function runSaved(success: boolean, callbacks: FormalSkillPageCallbacks): void {

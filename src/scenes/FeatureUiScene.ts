@@ -154,8 +154,18 @@ export class FeatureUiScene extends Phaser.Scene {
       this.detailText?.setText('当前游戏没有第二位玩家，无法切换到 P2 页面。');
       return;
     }
+    this.refreshTargetPageModel(page);
     this.session = session;
     this.renderSession();
+  }
+
+  private refreshTargetPageModel(page: FeatureUiPage): void {
+    if (page === this.session?.page) return;
+    if (page === 'backpack') this.inventoryModel = undefined;
+    if (page === 'skills') this.skillModel = undefined;
+    if (page === 'pets') this.petModel = undefined;
+    if (page === 'workshop') this.workshopModel = undefined;
+    if (page === 'magic-weapon') this.magicWeaponModel = undefined;
   }
 
   private renderSession(): void {

@@ -65,6 +65,8 @@
 
 本线再次关闭。`GOAL-035 / TASK-ARCH-013A` 已闭合玩家直属灵魂、V6 与 V1..V5 无损迁移；`GOAL-036 / TASK-ARCH-013B` 新增玩家级 `PlayerSoulSystem`，让技能、工坊四事务和法宝统一检查/扣减当前 owner，并以负向门禁、P1/P2 隔离、跨功能连续消费、保存重载、全门禁和 940×590 正式功能页零 console 关闭 `PG-010`。当前恢复 `LINE-STAGE-2-3`。
 
+2026-07-24 回归补充：技能页与工坊页现统一使用 `FormalSoulBalanceView` 投影当前 `player.soulCount`；跨页进入目标功能时丢弃缓存 model 并从当前存档重建，避免旧余额显示或回写。工坊扁平基底中的占位数字仅在原动态数字槽内由运行时不透明文字底覆盖，原图标与底栏保持不变；双页 940×590 证据见 `FORMAL-SOUL-BALANCE-*.png`。
+
 ## 调度顺序
 
 1. `TASK-SETTINGS-054`：战斗证据与可重复基线（已完成）。

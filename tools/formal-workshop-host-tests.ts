@@ -126,6 +126,8 @@ function testTrueContainerFusionAndSceneWiring(): void {
   assert.match(view, /ownerLabel\(scene, 303, 86, 'P1工坊'/);
   assert.match(view, /ownerLabel\(scene, 424, 86, 'P2工坊'/);
   assert.match(view, /fontSize: '26px'/);
+  assert.match(view, /createFormalSoulBalanceView/);
+  assert.doesNotMatch(view, /`灵魂 \$\{player\.soulCount\}/);
   assert.match(view, /craftingAssets\.container/);
   assert.match(view, /craftingAssets\.fusionPanel/);
   assert.doesNotMatch(view, /NativeTabTextures/);
@@ -133,6 +135,17 @@ function testTrueContainerFusionAndSceneWiring(): void {
   assert.doesNotMatch(view, /关闭返回/);
   assert.doesNotMatch(view, /scene\.add\.rectangle/);
   assert.doesNotMatch(view, /rectangle\(470, 295, 940, 590/);
+  const soulView = readFileSync(path.join(
+    root,
+    'src/scenes/feature-ui/FormalSoulBalanceView.ts',
+  ), 'utf8');
+  assert.match(soulView, /backgroundColor: '#000000'/);
+  assert.match(soulView, /fixedWidth: 143/);
+  assert.match(soulView, /formalSoulBalance/);
+  assert.match(scene, /refreshTargetPageModel\(page\)/);
+  for (const model of ['inventoryModel', 'skillModel', 'petModel', 'workshopModel', 'magicWeaponModel']) {
+    assert.match(scene, new RegExp(`this\\.${model} = undefined`));
+  }
   assert.doesNotMatch(view, /装备工坊 ·/);
   assert.doesNotMatch(view, /348 \+ index \* 128/);
 }
