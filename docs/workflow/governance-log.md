@@ -4,6 +4,22 @@
 
 ## 2026-07-24
 
+### 回写 GOAL-023 问题治理效果样本
+
+变更内容：
+
+- `TASK-SLICE-150C` 收尾扫描未关闭/观察中问题，并向 PG-002/004/005/006/008 回写不提前关线、六段证据双重验证、共享怪物奖励 owner 和两个主工作包/0 compact 样本。
+- `GOAL-023` 完成后从执行看板移除，只激活同线 `GOAL-024` / `TASK-SLICE-150D`；`LINE-STAGE-2-2` 继续保持唯一 Active。
+- 本次只追加效果反馈，不改变治理问题状态、方案、关闭标准或工作流规则。
+
+相关文档：
+
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/problems/PG-006-怪物物理与死亡奖励按关卡漂移.md`
+- `docs/workflow/problems/PG-008-Goal包缺少可执行规模门禁.md`
+
 ### 回写 GOAL-022 问题治理效果样本
 
 变更内容：

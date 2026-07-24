@@ -8,6 +8,7 @@ import {
 } from '../systems/Stage22EntrySystem';
 import {
   stage22HeroSpawns,
+  stage22TransferDoor,
   STAGE22_WORLD_HEIGHT,
   STAGE22_WORLD_LEFT,
   STAGE22_WORLD_WIDTH,
@@ -17,7 +18,7 @@ import {
   createStage22Gameplay,
   type Stage22GameplayHandle,
 } from './stage22/Stage22GameplayBridge';
-import { showStage22Failure } from './stage22/Stage22ResultBridge';
+import { showStage22Result } from './stage22/Stage22ResultBridge';
 import { createStage22World, type Stage22WorldHandle } from './stage22/Stage22WorldBridge';
 
 export class Stage22Scene extends Phaser.Scene {
@@ -46,7 +47,7 @@ export class Stage22Scene extends Phaser.Scene {
     this.cameras.main.scrollX = 0;
     this.world = createStage22World(this);
     this.playerViews = stage22HeroSpawns.slice(0, this.playerCount).map((spawn, index) =>
-      this.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
+      this.add.image(qa.bossState === 'door' ? stage22TransferDoor.x : spawn.x, spawn.y, AssetKeys.playerPlaceholder)
         .setName(spawn.slot).setOrigin(0.5, 1)
         .setTint(index === 0 ? 0xffffff : 0x7ad7ff).setDepth(20),
     );
@@ -54,6 +55,7 @@ export class Stage22Scene extends Phaser.Scene {
       this,
       this.playerCount,
       this.playerViews,
+      this.world.transferDoor,
       this.world.fireViews,
       this.world.updateFireViews,
       qa,
@@ -63,8 +65,15 @@ export class Stage22Scene extends Phaser.Scene {
   }
 
   public update(_time: number, delta: number): void {
-    if (this.resultOverlay || this.gameplay?.update(delta) !== 'failed') return;
-    this.resultOverlay = showStage22Failure(this, this.playerCount);
+    if (this.resultOverlay || !this.gameplay) return;
+    const result = this.gameplay.update(delta);
+    if (!result) return;
+    this.resultOverlay = showStage22Result(
+      this,
+      result,
+      this.playerCount,
+      this.gameplay.flow.unlockProgress,
+    );
   }
 
   private returnToMap(): void {

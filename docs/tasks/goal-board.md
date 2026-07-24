@@ -23,8 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-023 | Active | LINE-STAGE-2-2 | TASK-SLICE-150C | Monster16 八动作/六攻击、显门、胜利和 2-3 保存 | 预计 0 次 |
-| GOAL-024 | Planned | LINE-STAGE-2-2 | TASK-SLICE-150D | 940×590 1P/2P 全流程校准、重载与功能线关闭裁决 | 预计 0 次 |
+| GOAL-024 | Active | LINE-STAGE-2-2 | TASK-SLICE-150D | 940×590 1P/2P 全流程校准、重载与功能线关闭裁决 | 预计 0 次 |
 
 ## Goal 生成检查
 

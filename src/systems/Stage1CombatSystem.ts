@@ -30,7 +30,7 @@ import type { PlayerInputState, PlayerSlot } from './InputSystem';
 
 // Shared placeholder-combat adapter. Stage 2-1 types use authoritative stats and
 // readable modern placeholder attacks while their original action/projectile art is deferred.
-export type Stage1EnemyType = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 19 | 30;
+export type Stage1EnemyType = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 16 | 19 | 30;
 export type Stage1EnemyAttackPhase = 'approach' | 'windup' | 'active' | 'recovery' | 'hurt' | 'dead';
 export type Stage1DeathReason =
   | 'burst-same-frame'
@@ -78,6 +78,7 @@ const enemyConfigs: Record<Stage1EnemyType, Stage1EnemyConfig> = {
   8: enemy(8, 300, 4, 33, 82, 'physics', 18, 'hit1', 320, 160, 540, false, 'Monster8'),
   9: enemy(9, 1_613, 27, 27, 200, 'physics', 90, 'hit1', 420, 200, 680, false, 'Monster9'),
   10: enemy(10, 1_500, 27, 27, 200, 'physics', 90, 'hit1', 420, 200, 680, false, 'Monster10'),
+  16: enemy(16, 24_189, 34, 5, 150, 'physics', 185, 'hit1', 420, 200, 680, true, 'Monster16'),
   19: enemy(19, 1_531, 27, 27, 200, 'magic', 36, 'hit1', 420, 200, 680, false, 'Monster19'),
   30: enemy(30, 150, 3, 420, 250, 'physics', 15, 'hit1', 420, 145, 480, false, 'Monster30'),
 };
@@ -113,6 +114,7 @@ export type Stage1CombatEnemy = {
     actionName: string;
     attackKind: AttackKind;
     damage: number;
+    attackRange: number;
   }>;
   lastHitBy?: PlayerSlot;
 };
@@ -268,14 +270,13 @@ export function updateStage1Enemy(params: {
   }
 
   const serial = model.attackSerial + 1;
+  const attack = getStage1EnemyAttack(model.enemyType, serial);
   model.attackSerial = serial;
   model.phase = 'windup';
   model.phaseRemainingMs = config.windupMs;
   model.activeAttack = {
-    attackId: `${model.id}-${config.actionName}-${serial}`,
-    actionName: config.actionName,
-    attackKind: config.attackKind,
-    damage: config.attackDamage,
+    attackId: `${model.id}-${attack.actionName}-${serial}`,
+    ...attack,
   };
 }
 
@@ -291,7 +292,7 @@ export function resolveStage1EnemyAttack(params: {
   const resolved: DamageEvent[] = [];
   for (const target of params.players) {
     if (target.player.combat.state === 'dead') continue;
-    if (Math.abs(target.x - enemy.x) > config.attackRange) continue;
+    if (Math.abs(target.x - enemy.x) > enemy.activeAttack.attackRange) continue;
     if (!resolveHitOnce(params.runtime.hitRegistry, enemy.activeAttack.attackId, target.player.slot)) continue;
     const amount = calculateStage1IncomingDamage(
       enemy.activeAttack.attackKind,
@@ -391,6 +392,31 @@ function nearestLivingTarget(
   return targets
     .filter((target) => target.alive)
     .sort((left, right) => Math.abs(left.x - x) - Math.abs(right.x - x))[0];
+}
+
+function getStage1EnemyAttack(
+  enemyType: Stage1EnemyType,
+  attackSerial: number,
+): Readonly<{
+  actionName: string;
+  attackKind: AttackKind;
+  damage: number;
+  attackRange: number;
+}> {
+  const config = getStage1EnemyConfig(enemyType);
+  if (enemyType !== 16) {
+    return {
+      actionName: config.actionName,
+      attackKind: config.attackKind,
+      damage: config.attackDamage,
+      attackRange: config.attackRange,
+    };
+  }
+  const action = ((attackSerial - 1) % 4 + 4) % 4;
+  if (action === 1) return { actionName: 'hit2', attackKind: 'magic', damage: 68, attackRange: 200 };
+  if (action === 2) return { actionName: 'hit3', attackKind: 'magic', damage: 47.6, attackRange: 800 };
+  if (action === 3) return { actionName: 'hit4', attackKind: 'magic', damage: 57.6, attackRange: 800 };
+  return { actionName: 'hit1', attackKind: 'physics', damage: 185, attackRange: 150 };
 }
 
 function enemy(

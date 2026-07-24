@@ -113,6 +113,14 @@ export const Stage22AssetKeys = {
   foreground: 'stage.stage2-2.layout',
   transferDoor: 'stage.stage2-2.transfer-door',
   fireThorn: 'stage.stage2-2.fire-thorn',
+  monster16: 'monster.stage2-2.monster16.atlas',
+  monster16Hit1: 'projectile.stage2-2.monster16.hit1',
+  monster16Hit2Start: 'projectile.stage2-2.monster16.hit2-start',
+  monster16Hit2Followup: 'projectile.stage2-2.monster16.hit2-followup',
+  monster16Hit3: 'projectile.stage2-2.monster16.hit3',
+  monster16Hit4Start: 'projectile.stage2-2.monster16.hit4-start',
+  monster16Hit4Followup: 'projectile.stage2-2.monster16.hit4-followup',
+  monster16AttackGeometry: 'stage2-2.monster16-attack-geometry',
 } as const;
 
 export const Stage21MonsterAssetKeys = {
@@ -864,6 +872,86 @@ export const stage22Assets = {
     height: 315,
     sourceBounds: { width: 143, height: 314.35 },
   },
+} as const;
+
+export const stage22Monster16Atlas: Stage21MonsterAtlasAssetDefinition = {
+  key: Stage22AssetKeys.monster16,
+  path: '/assets/stage22/monster16/monster16.png',
+  status: 'ready',
+  source: 'extracted-flash',
+  sourcePackage: 'assets/2.swf',
+  sourceSymbol: 'Monster16',
+  sourceCharacterId: 6,
+  cellWidth: 300,
+  cellHeight: 300,
+  columns: 6,
+  rows: 8,
+  reachableFrameCount: 36,
+  registrationOffset: { x: 0, y: -20 },
+};
+
+const stage22Monster16Attack = (
+  key: string,
+  directory: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+  frameCount: number,
+): Stage21AttackAssetDefinition => ({
+  key,
+  frameKeys: stageFrameKeys(key, frameCount),
+  framePaths: numberedFramePaths(`/assets/stage22/monster16/attacks/${directory}`, frameCount, 'svg'),
+  status: 'ready',
+  source: 'extracted-flash',
+  sourcePackage: 'assets/2.swf',
+  sourceSymbol,
+  sourceCharacterId,
+  frameCount,
+  geometryPath: '/assets/stage22/monster16/bullet-frame-geometry.csv',
+});
+
+export const stage22Monster16AttackAssets = {
+  monster16Hit1: stage22Monster16Attack(
+    Stage22AssetKeys.monster16Hit1,
+    'DefineSprite_235_Monster16Bullet1',
+    'Monster16Bullet1',
+    235,
+    20,
+  ),
+  monster16Hit2Start: stage22Monster16Attack(
+    Stage22AssetKeys.monster16Hit2Start,
+    'DefineSprite_229_Monster16Bullet2_1',
+    'Monster16Bullet2_1',
+    229,
+    4,
+  ),
+  monster16Hit2Followup: stage22Monster16Attack(
+    Stage22AssetKeys.monster16Hit2Followup,
+    'DefineSprite_225_Monster16Bullet2_2',
+    'Monster16Bullet2_2',
+    225,
+    29,
+  ),
+  monster16Hit3: stage22Monster16Attack(
+    Stage22AssetKeys.monster16Hit3,
+    'DefineSprite_191_Monster16Bullet3',
+    'Monster16Bullet3',
+    191,
+    15,
+  ),
+  monster16Hit4Start: stage22Monster16Attack(
+    Stage22AssetKeys.monster16Hit4Start,
+    'DefineSprite_160_Monster16Bullet4_1',
+    'Monster16Bullet4_1',
+    160,
+    16,
+  ),
+  monster16Hit4Followup: stage22Monster16Attack(
+    Stage22AssetKeys.monster16Hit4Followup,
+    'DefineSprite_143_Monster16Bullet4_2',
+    'Monster16Bullet4_2',
+    143,
+    20,
+  ),
 } as const;
 
 const stage21Attack = (

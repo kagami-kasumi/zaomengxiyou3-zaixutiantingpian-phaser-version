@@ -4,6 +4,8 @@ import path from 'node:path';
 import {
   assetBundles,
   stage22Assets,
+  stage22Monster16Atlas,
+  stage22Monster16AttackAssets,
   Stage22AssetKeys,
 } from '../src/assets/AssetManifest';
 import {
@@ -19,6 +21,7 @@ import {
   Stage22FailureDelayMs,
   Stage22OrdinaryEnemyCount,
   touchStage22StopPoint,
+  tryCompleteStage22,
   updateStage22PartyFailure,
   updateStage22Spawners,
 } from '../src/systems/Stage22FlowSystem';
@@ -44,6 +47,24 @@ import {
   stage22MovementPlatforms,
   STAGE22_SCREEN_RIGHT_X,
 } from '../src/systems/Stage22TraversalSystem';
+import {
+  createMonster16Visual,
+  getMonster16AtlasFrame,
+  Monster16VisualTickMs,
+  updateMonster16Visual,
+} from '../src/systems/Stage22Monster16VisualSystem';
+import {
+  createStage1CombatEnemy,
+  getStage1EnemyConfig,
+  updateStage1Enemy,
+} from '../src/systems/Stage1CombatSystem';
+import {
+  createDefaultGameSave,
+  createSaveSlot,
+  loadActiveGame,
+  saveActiveLevelUnlockProgress,
+} from '../src/systems/SaveSlotSystem';
+import type { SaveStorage } from '../src/systems/SaveSystem';
 
 const repoRoot = process.cwd();
 
@@ -68,6 +89,22 @@ assert.equal(stage22Assets.floor, assetBundles.stage21[0], 'floorBg2 reuses the 
 assert.equal(Stage22AssetKeys.floor, 'stage.stage2.floor');
 assert.equal(stage22Assets.fireThorn.frameKeys.length, 130);
 assert.equal(stage22Assets.fireThorn.framePaths.length, 130);
+assert.deepEqual(
+  {
+    characterId: stage22Monster16Atlas.sourceCharacterId,
+    columns: stage22Monster16Atlas.columns,
+    rows: stage22Monster16Atlas.rows,
+    reachable: stage22Monster16Atlas.reachableFrameCount,
+  },
+  { characterId: 6, columns: 6, rows: 8, reachable: 36 },
+);
+assert.deepEqual(
+  Object.values(stage22Monster16AttackAssets).map((asset) => [
+    asset.sourceCharacterId,
+    asset.frameCount,
+  ]),
+  [[235, 20], [229, 4], [225, 29], [191, 15], [160, 16], [143, 20]],
+);
 assert.deepEqual(readSvgDimensions('assets/stage22/background.svg'), { width: 4700, height: 590 });
 assert.deepEqual(readSvgDimensions('assets/stage22/midground.svg'), { width: 1745.1, height: 52.45 });
 assert.deepEqual(readSvgDimensions('assets/stage22/foreground.svg'), { width: 4701, height: 94 });
@@ -152,6 +189,14 @@ assert.deepEqual(readStage22QaOptions('?qaFastClear=1&qaNoDamage=1&qaFailParty=1
   noDamage: true,
   failParty: true,
 });
+assert.deepEqual(readStage22QaOptions('?qaBossState=hit4&qaBossTick=9', true), {
+  fastClear: false,
+  noDamage: false,
+  failParty: false,
+  bossState: 'hit4',
+  bossTick: 9,
+  bossFacing: -1,
+});
 assert.deepEqual(readStage22QaOptions('?qaFastClear=1', false), {});
 
 const onePlayerCap = createStage22Flow(1);
@@ -184,9 +229,104 @@ assert.equal(fullFlow.nextStopPointIdx, 4);
 assert.equal(touchStage22StopPoint(fullFlow, 4), true);
 assert.equal(updateStage22Spawners(fullFlow, 3_999).length, 0);
 assert.equal(fullFlow.phase, 'playing');
-assert.equal(updateStage22Spawners(fullFlow, 1).length, 0);
-assert.equal(fullFlow.phase, 'awaiting-boss');
-assert.equal(fullFlow.generatedCount, 53, '150B never creates a Monster16 placeholder');
+const bossSpawn = updateStage22Spawners(fullFlow, 1);
+assert.equal(bossSpawn.length, 1);
+assert.equal(bossSpawn[0]?.enemyType, 16);
+assert.equal(bossSpawn[0]?.maxHp, 24_189);
+assert.equal(fullFlow.phase, 'boss');
+assert.equal(fullFlow.generatedCount, Stage22ConfiguredEnemyCount);
+const bossId = bossSpawn[0]!.id;
+assert.equal(defeatStage22Enemy(fullFlow, bossId), true);
+assert.equal(defeatStage22Enemy(fullFlow, bossId), false, 'Monster16 reward and door stay idempotent');
+assert.equal(fullFlow.doorVisible, true);
+assert.equal(tryCompleteStage22(fullFlow, true, false), false);
+assert.equal(tryCompleteStage22(fullFlow, true, true), true);
+assert.deepEqual(fullFlow.unlockProgress, { unlockedStage: 2, unlockedLevel: 3 });
+assert.equal(tryCompleteStage22(fullFlow, true, true), false, '2-3 progress cannot advance twice');
+const saveValues = new Map<string, string>();
+const saveStorage: SaveStorage = {
+  getItem: (key) => saveValues.get(key) ?? null,
+  setItem: (key, value) => { saveValues.set(key, value); },
+  removeItem: (key) => { saveValues.delete(key); },
+};
+assert.equal(createSaveSlot(saveStorage, 0, createDefaultGameSave()), true);
+assert.equal(saveActiveLevelUnlockProgress(saveStorage, fullFlow.unlockProgress), true);
+assert.deepEqual(loadActiveGame(saveStorage)?.levelUnlockProgress, {
+  unlockedStage: 2,
+  unlockedLevel: 3,
+});
+assert.equal(
+  saveActiveLevelUnlockProgress(saveStorage, fullFlow.unlockProgress),
+  true,
+  're-saving the same 2-3 unlock remains an idempotent round-trip',
+);
+
+assert.deepEqual(getStage1EnemyConfig(16), {
+  enemyType: 16,
+  maxHp: 24_189,
+  physicalDefense: 34,
+  moveSpeed: 5,
+  attackRange: 150,
+  attackKind: 'physics',
+  attackDamage: 185,
+  actionName: 'hit1',
+  windupMs: 420,
+  activeMs: 200,
+  recoveryMs: 680,
+  isBoss: true,
+  displayName: 'Monster16',
+});
+const bossCombat = createStage1CombatEnemy({ id: 'boss-cycle', enemyType: 16, x: 0, y: 0 });
+for (const expected of [
+  ['hit1', 'physics', 185, 150],
+  ['hit2', 'magic', 68, 200],
+  ['hit3', 'magic', 47.6, 800],
+  ['hit4', 'magic', 57.6, 800],
+] as const) {
+  bossCombat.phase = 'approach';
+  updateStage1Enemy({
+    enemy: bossCombat,
+    targets: [{ slot: 'p1', x: 100, alive: true }],
+    deltaMs: 0,
+  });
+  assert.deepEqual(
+    [
+      bossCombat.activeAttack?.actionName,
+      bossCombat.activeAttack?.attackKind,
+      bossCombat.activeAttack?.damage,
+      bossCombat.activeAttack?.attackRange,
+    ],
+    expected,
+  );
+}
+
+const expectedMonster16Visuals = [
+  { action: 'hit1', ticks: 20, families: ['monster16Hit1'] },
+  { action: 'hit2', ticks: 36, families: ['monster16Hit2Start', 'monster16Hit2Followup'] },
+  { action: 'hit3', ticks: 30, families: ['monster16Hit3'] },
+  { action: 'hit4', ticks: 31, families: ['monster16Hit4Start', 'monster16Hit4Followup'] },
+] as const;
+expectedMonster16Visuals.forEach((expected, index) => {
+  const visual = createMonster16Visual();
+  const events = updateMonster16Visual(visual, {
+    phase: 'windup',
+    attackSerial: index + 1,
+    attackAction: expected.action,
+    facingX: -1,
+    moving: false,
+  }, expected.ticks * Monster16VisualTickMs + 0.001);
+  assert.deepEqual(events.map((event) => event.family), expected.families);
+  assert.equal(visual.action, 'wait');
+});
+const deadVisual = createMonster16Visual();
+updateMonster16Visual(deadVisual, {
+  phase: 'dead',
+  attackSerial: 0,
+  facingX: 1,
+  moving: false,
+}, 15 * Monster16VisualTickMs + 0.001);
+assert.equal(deadVisual.completed, true);
+assert.equal(getMonster16AtlasFrame(deadVisual), 3 * 6 + 4);
 
 const failureFlow = createStage22Flow(1);
 assert.equal(updateStage22PartyFailure(failureFlow, 0, 0), 'failure-pending');
@@ -320,10 +460,10 @@ const formalGameplaySource = readFileSync(
 );
 assert.ok(formalGameplaySource.includes('createStage22Flow'));
 assert.ok(formalGameplaySource.includes('createStage21MonsterView'));
-assert.equal(formalGameplaySource.includes('Monster16'), false);
-assert.equal(formalGameplaySource.includes('saveActiveLevelUnlockProgress'), false);
+assert.ok(formalGameplaySource.includes('createMonster16View'));
+assert.ok(formalGameplaySource.includes('tryCompleteStage22'));
 const formalSceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage22Scene.ts'), 'utf8');
-assert.ok(formalSceneSource.includes('showStage22Failure'));
+assert.ok(formalSceneSource.includes('showStage22Result'));
 assert.ok(formalSceneSource.includes("this.scene.start('HeavenMapScene')"));
 assert.ok(formalSceneSource.includes('import.meta.env.DEV || isStage22LocalQaHost'));
 

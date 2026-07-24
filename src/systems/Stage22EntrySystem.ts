@@ -11,6 +11,9 @@ export type Stage22QaOptions = Readonly<{
   fastClear?: boolean;
   noDamage?: boolean;
   failParty?: boolean;
+  bossState?: 'wait' | 'walk' | 'hurt' | 'dead' | 'hit1' | 'hit2' | 'hit3' | 'hit4' | 'door';
+  bossTick?: number;
+  bossFacing?: -1 | 1;
 }>;
 
 export function normalizeStage22PlayerCount(value: unknown): Stage22PlayerCount {
@@ -20,10 +23,30 @@ export function normalizeStage22PlayerCount(value: unknown): Stage22PlayerCount 
 export function readStage22QaOptions(search: string, isDevelopment: boolean): Stage22QaOptions {
   if (!isDevelopment) return {};
   const params = new URLSearchParams(search);
+  const requestedBossState = params.get('qaBossState');
+  const bossState = requestedBossState === 'wait'
+    || requestedBossState === 'walk'
+    || requestedBossState === 'hurt'
+    || requestedBossState === 'dead'
+    || requestedBossState === 'hit1'
+    || requestedBossState === 'hit2'
+    || requestedBossState === 'hit3'
+    || requestedBossState === 'hit4'
+    || requestedBossState === 'door'
+    ? requestedBossState
+    : undefined;
+  const bossTickParam = params.get('qaBossTick');
+  const requestedBossTick = Number(bossTickParam);
+  const bossTick = bossTickParam !== null && Number.isInteger(requestedBossTick)
+    && requestedBossTick >= 0 && requestedBossTick <= 36 ? requestedBossTick : undefined;
+  const bossFacing = params.get('qaBossFacing') === 'right' ? 1 as const : -1 as const;
   return {
     fastClear: params.get('qaFastClear') === '1',
     noDamage: params.get('qaNoDamage') === '1',
     failParty: params.get('qaFailParty') === '1',
+    ...(bossState ? { bossState } : {}),
+    ...(bossTick === undefined ? {} : { bossTick }),
+    ...(bossState && bossState !== 'door' ? { bossFacing } : {}),
   };
 }
 

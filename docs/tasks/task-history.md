@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-150C | Boss/结果接入 | 接入 Stage 2-2 Monster16、六攻击、显门、胜利和 2-3 保存 | M-030、M-035、M-044、VS-056 | Monster16 36 帧 atlas、六对象 104 帧、专属 visual owner、幂等奖励/门/结果/V4 2-3、专项/全系统/build 与 19 张 940×590 零 console 证据 |
 | TASK-SLICE-150B | 普通流程接入 | 接入 Stage 2-2 五停点、25 点、54 怪定义与 1P/2P 普通流程 | M-027、M-030、M-044、VS-056 | `Stage22FlowSystem`、正式地图/场景/失败入口、53 只 Monster9/10/19 共享战斗/奖励、6/8 上限、awaiting-boss 边界、专项/全系统/build 与 7 张 940×590 零 console 证据 |
 | TASK-SLICE-150A | 场景/机关接入 | 接入 Stage 2-2 真场景、布局/遍历与 9 个火焰机关 | M-026、M-027、M-035、VS-056 | 7 条 ready 场景标注、134 个新增真 SVG、Stage22 layout/traversal/fire owners、DEV-only QA 场景、专项/全系统/build 与 9 张 940×590 零 console 证据 |
 | TASK-SETTINGS-063 | 关卡/玩法逆向 | 闭合 Stage 2-2 真场景、几何、波次、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-056 | `levels-index.md` Stage 2-2 权威输入、五停点 54 怪/9 火焰/Monster16 六攻击合同、14 条 derived-ready 标注；原实现包后经 PG-008 拆为 `TASK-SLICE-150A..150D` |
@@ -227,6 +228,42 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-150C
+
+完成时间：2026-07-24
+
+功能条线 / Goal：
+
+- `GOAL-023` 完成并从执行看板移除；同线 `GOAL-024` / `TASK-SLICE-150D` 激活。
+- `LINE-STAGE-2-2` 保持唯一 `Active`；本 Goal 只闭合 Boss/结果局部，不提前执行或宣告全程校准。
+
+完成内容：
+
+- 从既有选择性派生物接入 Monster16 1800×2400 真 atlas、六攻击对象 104 个真 SVG 帧和注册点几何 CSV；7 条标注从 `derived-ready` 升级为 `ready`。
+- 新增独立 `Stage22Monster16VisualSystem` 与 Phaser bridge：消费 wait/walk/hurt/dead/hit1..4 共 36 个关键帧、30fps hold、六攻击生成 tick/注册点、左右镜像及 Bullet3 跟随 Boss/固定 7 秒生命周期。
+- 共享战斗只窄扩展 Monster16 类型、24189 HP、34 物防、四攻击伤害/范围循环；共享奖励增加 100 经验/50 灵魂，仍由 `Stage1RewardBridge`、`MonsterDefeatRewardSystem` 和 `defeatReported` 幂等结算。
+- `Stage22FlowSystem` 的第五停点正式生成 Boss；死亡幂等显门，玩家在 character 63 内按上进入胜利。结果页保存当前槽最高进度 2/3，失败不推进；专项内存存档 round-trip 和重复保存通过。
+- 新增 localhost-only Boss 状态/tick/facing 冻结入口，用于逐状态注册点验收；远程生产主机不可用。没有进入 Stage 2-3 场景，也没有代替 `150D` 做五停点全流程校准。
+
+验证：
+
+- 实现前 `npm run check:structure` 通过，只有 8 个与目标文件无关的既有 warning。
+- `npm run test:stage22` 与 `npm run test:systems` 通过，覆盖 Boss 数值、四动作/六事件、本体 36 帧、104 帧资源、幂等死亡/奖励/显门、胜利门禁和 2-3 保存 round-trip。
+- `npm run build` 通过；仅有既有 chunk 大小 warning。
+- 940×590 浏览器验收覆盖 Monster16 wait/walk/hurt/dead/hit1..4 双朝向、六攻击对象、显门和胜利页；19 张证据的 console warning/error 为 0。详见 `TASK-SLICE-150C-visual-review.md`。
+
+问题治理：
+
+- PG-002：只归档 `150C`，功能线保持 Active 并仅激活同线 `150D`，通过。
+- PG-004：收尾扫描并回写 PG-002/004/005/006/008，反馈闭环通过。
+- PG-005：实现前重读 Stage 2-2 六段矩阵；本体 hold、攻击 tick、注册点、门和 2-3 合同均由已闭合证据驱动，自动与 940×590 双重验证通过。
+- PG-006：Monster16 继续消费共享 `MonsterPhysicsSystem`、`Stage1RewardBridge` 和 `MonsterDefeatRewardSystem`；未复制关卡私有重力/奖励 owner，未复发。
+- PG-008：实际保持 Boss 视觉/行为与门/结果/存档两个主工作包、两个验收批次、0 compact；未扩张到 `150D` 全程校准，形成第三个连续拆分实现样本。
+
+推荐任务：
+
+- `GOAL-024` / `TASK-SLICE-150D`：只执行 940×590 1P/2P 五停点、机关、Boss、结果、返回、重载与功能线关闭裁决。
 
 ### TASK-SLICE-150B
 

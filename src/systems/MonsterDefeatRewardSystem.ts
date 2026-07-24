@@ -52,6 +52,7 @@ const rewardConfigs: Record<Stage1EnemyType, MonsterRewardConfig> = {
   8: { experience: 5, soulPower: 3 },
   9: { experience: 6, soulPower: 3 },
   10: { experience: 6, soulPower: 2 },
+  16: { experience: 100, soulPower: 50 },
   19: { experience: 28, soulPower: 14 },
   30: { experience: 4, soulPower: 1 },
 };
