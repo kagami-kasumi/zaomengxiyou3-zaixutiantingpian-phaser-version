@@ -12,7 +12,9 @@ import {
   findHeavenMapNode,
 } from '../src/systems/HeavenMapSystem';
 import {
+  createDefaultGameSave,
   createPartySaveSlot,
+  createSaveSlot,
   loadActiveGame,
   saveActiveGame,
   saveActiveLevelUnlockProgress,
@@ -23,6 +25,27 @@ import {
   resolveFormalPartyRuntime,
 } from '../src/systems/FormalPartyRuntimeSystem';
 import { createSeedEquipmentRegistry } from '../src/systems/EquipmentSystem';
+import {
+  createFormalSkillPage,
+  getFormalSkillPlayer,
+  setFormalSkillOwner,
+  upgradeFormalSkillTree,
+} from '../src/systems/FormalSkillPageSystem';
+import {
+  createFormalWorkshopPage,
+  getFormalWorkshopEntries,
+  getFormalWorkshopPlayer,
+  runFormalWorkshopResolution,
+  selectFormalWorkshopEntry,
+  setFormalWorkshopTab,
+  stageFormalWorkshopResolution,
+} from '../src/systems/FormalWorkshopPageSystem';
+import {
+  createFormalMagicWeaponPage,
+  getFormalMagicWeaponPanelState,
+  requestFormalMagicWeaponUpgrade,
+} from '../src/systems/FormalMagicWeaponPageSystem';
+import { createPartyConfiguration } from '../src/systems/PartyConfigurationSystem';
 import { restoreGameState, type SaveStorage } from '../src/systems/SaveSystem';
 import {
   completeStage11,
@@ -115,6 +138,68 @@ function assertEveryFeaturePageForBothOwners(playerCount: 1 | 2): void {
   assert.equal(restored.player1.soulCount, 111);
   assert.equal(restored.player2.soulCount, 222);
   assert.notStrictEqual(restored.player1, restored.player2);
+}
+
+{
+  const storage = createMemoryStorage();
+  const party = createPartyConfiguration(2, 1, 2);
+  assert.ok(party);
+  const save = createDefaultGameSave(new Date('2026-07-24T09:00:00.000Z'), party);
+  save.player1.level = 20;
+  save.player1.skillLearning.heroLevel = 20;
+  save.player1.soulCount = 4_000;
+  save.player2.level = 20;
+  save.player2.skillLearning.heroLevel = 20;
+  save.player2.soulCount = 2_000;
+  const registry = createSeedEquipmentRegistry();
+  assert.ok(registry.kyl?.magicWeapon);
+  save.player1.equipment.magicWeapon = {
+    fillName: 'kyl',
+    instanceId: 'journey-p1-kyl',
+    magicWeapon: { ...registry.kyl.magicWeapon, level: 1 },
+  };
+  save.player1.inventory.categories.equipment.unshift({
+    kind: 'equipment',
+    fillName: 'ptdcz',
+    instanceId: 'journey-p1-resolution-target',
+    quantity: 1,
+  });
+  assert.equal(createSaveSlot(storage, 0, save), true);
+
+  const skillPage = createFormalSkillPage(storage, 'p1');
+  assert.ok(skillPage);
+  assert.equal(upgradeFormalSkillTree(skillPage, storage), true);
+  assert.equal(getFormalSkillPlayer(skillPage).soulCount, 3_900);
+
+  const workshopPage = createFormalWorkshopPage(storage, 'p1');
+  assert.ok(workshopPage);
+  setFormalWorkshopTab(workshopPage, 'resolution');
+  const targetIndex = getFormalWorkshopEntries(workshopPage)
+    .findIndex((entry) => entry.definition.fillName === 'ptdcz');
+  assert.ok(targetIndex >= 0);
+  selectFormalWorkshopEntry(workshopPage, targetIndex);
+  assert.equal(stageFormalWorkshopResolution(workshopPage), true);
+  assert.equal(runFormalWorkshopResolution(workshopPage, storage, () => 0), true);
+  assert.equal(getFormalWorkshopPlayer(workshopPage).soulCount, 3_800);
+
+  const magicWeaponPage = createFormalMagicWeaponPage(storage);
+  assert.ok(magicWeaponPage);
+  assert.equal(requestFormalMagicWeaponUpgrade(magicWeaponPage, storage), 'upgraded');
+  assert.equal(getFormalMagicWeaponPanelState(magicWeaponPage).soul, 2_800);
+
+  const p2SkillPage = createFormalSkillPage(storage, 'p1');
+  assert.ok(p2SkillPage);
+  assert.equal(setFormalSkillOwner(p2SkillPage, 'p2'), true);
+  assert.equal(upgradeFormalSkillTree(p2SkillPage, storage), true);
+  assert.equal(getFormalSkillPlayer(p2SkillPage).soulCount, 1_900);
+
+  const reloaded = selectSaveSlot(storage, 0);
+  assert.ok(reloaded);
+  assert.equal(reloaded.player1.soulCount, 2_800);
+  assert.equal(reloaded.player2.soulCount, 1_900);
+  assert.equal(reloaded.player1.skillLearning.trees[0].treeLevel, 1);
+  assert.equal(reloaded.player2.skillLearning.trees[0].treeLevel, 1);
+  assert.equal(reloaded.player1.equipment.magicWeapon?.magicWeapon?.level, 2);
 }
 
 {

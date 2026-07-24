@@ -31,6 +31,7 @@ import {
 } from './EquipmentMakingSystem';
 import { InventoryCategories, type InventoryEntry } from './InventorySystem';
 import type { PlayerSlot } from './InputSystem';
+import { spendPlayerSouls } from './PlayerSoulSystem';
 import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
@@ -186,7 +187,7 @@ export function runFormalWorkshopStrengthening(
   });
   model.message = result.message;
   if (!result.ok) return false;
-  player.soulCount = result.soulAfter;
+  commitFormalWorkshopSoulSpend(player, result.soulBefore, result.soulAfter);
   persistFormalWorkshopPage(model, storage);
   return true;
 }
@@ -219,7 +220,7 @@ export function runFormalWorkshopFusion(model: FormalWorkshopPageModel, storage:
   });
   model.message = result.message;
   if (!result.ok) return false;
-  player.soulCount = result.soulAfter;
+  commitFormalWorkshopSoulSpend(player, result.soulBefore, result.soulAfter);
   persistFormalWorkshopPage(model, storage);
   return true;
 }
@@ -259,7 +260,7 @@ export function runFormalWorkshopResolution(
   });
   model.message = result.message;
   if (!result.ok) return false;
-  player.soulCount = result.soulAfter;
+  commitFormalWorkshopSoulSpend(player, result.soulBefore, result.soulAfter);
   persistFormalWorkshopPage(model, storage);
   return true;
 }
@@ -298,7 +299,7 @@ export function runFormalWorkshopMaking(
   });
   model.message = result.message;
   if (!result.ok) return false;
-  player.soulCount = result.soulAfter;
+  commitFormalWorkshopSoulSpend(player, result.soulBefore, result.soulAfter);
   persistFormalWorkshopPage(model, storage);
   return true;
 }
@@ -369,4 +370,15 @@ function persistFormalWorkshopPage(model: FormalWorkshopPageModel, storage: Save
   });
   saveActiveGame(storage, save);
   model.sourceSave = save;
+}
+
+function commitFormalWorkshopSoulSpend(
+  player: LoadedPlayer1State,
+  soulBefore: number,
+  soulAfter: number,
+): void {
+  const cost = soulBefore - soulAfter;
+  if (player.soulCount !== soulBefore || !spendPlayerSouls(player, cost).ok) {
+    throw new Error('Formal workshop soul transaction violated the player owner contract');
+  }
 }

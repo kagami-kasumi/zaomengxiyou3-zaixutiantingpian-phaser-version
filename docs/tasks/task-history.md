@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-013B | 跨功能事务闭环 | 收敛技能、炼丹炉、法宝等灵魂消费者并完成负向门禁与正式旅程 | M-016、M-041、M-044、VS-055、PG-010 | `PlayerSoulSystem`、三类正式消费者统一接线、余额不足/非法消费门禁、P1/P2 跨功能重载旅程与 940×590 零 console 证据 |
 | TASK-ARCH-013A | 玩家/存档架构 | 将灵魂提升为玩家直属属性并完成 V6 与 V1..V5 无损迁移 | M-044、VS-055、PG-010 | `player.soulCount` 唯一 owner、V6 codec、V1..V5 迁移、双 owner/损坏/双源拒读专项与现有功能保存回归 |
 | TASK-SLICE-154 | 技能页反馈整改 | 消除整包等待、主动/被动重复文字和默认角色帧污染，补双 owner 与灵魂存档复验 | M-041、M-044、M-052、VS-054、VS-055 | 页级/角色级 bundle、250/868/213 动态 child 去重、五角色心法、炼丹炉风格 P1/P2、V5 灵魂与 3 张 940×590 证据 |
 | TASK-ARCH-012 | 场景资源分包 | Boot 只加载启动壳层，地图/功能 UI/关卡按稳定 bundle 首次进入加载 | M-035、VS-058、PG-009 | 唯一 bundle owner、幂等/并发/失败重试 coordinator、正式/DEV/QA 路由、Boot 负向门禁、788ms 首屏与 940×590 证据 |
@@ -4911,6 +4912,33 @@
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
 
+### TASK-ARCH-013B
+
+- 完成日期：2026-07-24
+- Goal：`GOAL-036` 完成并从执行看板移除
+- 功能条线：`LINE-FORMAL-GAME-LOOP` 再次关闭；恢复 `LINE-STAGE-2-3 / GOAL-025 / TASK-SETTINGS-064`
+- 新增 `PlayerSoulSystem.ts`，集中玩家级余额合法性、可消费判断和原子扣减结果；`PlayerSoulOwner` 不再挂在成长系统。
+- 技能树、主动技能、被动技能、工坊强化/合成/分解/打造与法宝灵魂分支统一调用玩家级事务合同，不再各自直接赋值或递减 `soulCount`。
+- 新增余额不足、非法金额和消费失败不变性门禁；静态门禁禁止三类消费者出现直接 `soulCount` 写入或 `skillLearning.soulCount` 回流。
+- 正式自动旅程连续执行 P1 技能→工坊分解→法宝升级，再执行 P2 技能消费并重载，证明同一 owner 余额连续、另一 owner 隔离、业务状态与 V6 当前槽一致。
+- 940×590 浏览器复验单人槽技能/工坊动态状态/法宝均显示同一余额 14900；双人槽可分别切换 P1/P2 技能和工坊 owner；未消耗用户本地存档资源，console warning/error 为 0。
+
+验证：
+- 实现前 `npm run check:structure` 通过，仅有 8 个既有 warning；本 task 未扩写 warning 文件。
+- `npm run test:player-souls`、技能、工坊四事务、法宝与正式主循环专项通过。
+- `npm run check:all`、`git diff --check` 通过；全系统包含新增消费合同和跨功能旅程，build 仅有既有 chunk 大小 warning，workflow 仅有既有 `PlayerSlot` 别名 warning。
+- 现代 `src/`/业务测试搜索只在 `SaveSystem.ts` legacy validator 与 `soul-save-v6-tests.ts` 双源拒读样本保留 `skillLearning.soulCount`。
+
+问题治理：
+- PG-001：技能成本与升级规则仍由 `SkillUISystem` 唯一持有，货币合同下沉到独立玩家 owner，未复制技能规则；通过。
+- PG-002：只在 PG-010 两项关闭检查、自动/浏览器证据和所有门禁全部满足后关闭正式主循环；通过。
+- PG-004：收尾扫描 PG-001—010，命中 PG-001/002/004/008/010 并逐项回写；PG-003/005/006/007/009 未触发。
+- PG-008：实际保持两个主工作包、两个验收批次、0 compact，未读取新资料族、修改视觉/资源或进入 Stage 2-3；通过。
+- PG-010：V6 owner、旧档迁移、全部已知消费者、双 owner、跨功能重载与静态防回流全部闭合，状态改为已关闭。
+
+推荐任务：
+- `TASK-SETTINGS-064`：只逆向 Stage 2-3 真场景、专属流程、怪物/机关、结果与存档六段证据并拆分后续实现；本次 `/goal` 不进入该 Goal。
+
 ### TASK-ARCH-013A
 
 - 完成日期：2026-07-24
@@ -4970,6 +4998,7 @@
 - `npm run test:systems`、`npm run test:formal-skills`、`npm run test:asset-bundles`、`npm run test:formal-game-loop` 通过。
 - `npm run build`、`npm run check:structure`、`npm run check:workflow`、`git diff --check` 通过；build 仅保留既有大 chunk warning。
 - 940×590 正式地图验收白龙单人、唐僧/白龙双人 P1/P2 与被动页；首次进入/首次切角色约 1.0–1.2 秒，console warning/error 为 0。
+- 后续用户反馈发现 character 597/608 两个 65×65 心法选择器只剩透明命中区；已从只读 `OtherMat1.swf` 选择性导出各 5 帧并按角色接回原坐标。`test:asset-bundles`、build、diff check 与 940×590 悟空“斩 / 火”双图零 console 复验通过。
 
 推荐任务：
 

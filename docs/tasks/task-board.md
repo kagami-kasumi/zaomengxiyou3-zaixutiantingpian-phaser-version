@@ -4,79 +4,17 @@
 
 ## 当前推荐
 
-`TASK-ARCH-013B` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-036` 和 `LINE-FORMAL-GAME-LOOP`。下一次 `/goal` 只收敛技能、炼丹炉、法宝等已知灵魂消费者，建立负向门禁并完成正式跨功能旅程；不进入 Stage 2-3。
+`TASK-SETTINGS-064` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-025` 和 `LINE-STAGE-2-3`。下一次 `/goal` 只闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据并拆分后续实现；不写现代关卡代码。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-013B | Ready | GOAL-036 | LINE-FORMAL-GAME-LOOP | 跨功能事务闭环 | 收敛技能、炼丹炉、法宝等灵魂消费者并完成负向门禁与正式旅程 | M-016、M-041、M-044、VS-055、PG-010 | 统一消费合同、P1/P2 隔离、跨页重载回归与 940×590 证据 | 恢复 TASK-SETTINGS-064 |
-| TASK-SETTINGS-064 | Planned | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
+| TASK-SETTINGS-064 | Ready | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
 | TASK-ARCH-010A | Planned | GOAL-026 | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B |
 | TASK-ARCH-010B | Planned | GOAL-027 | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task |
 
 ## 任务完成定义
-
-### TASK-ARCH-013B
-
-任务类型：
-
-- `TASK-ARCH`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Active）
-
-Goal 包：
-
-- `GOAL-036`（Active）
-
-目标机制/切片：
-
-- `M-016`、`M-041`、`M-044`、`VS-055`、`PG-010`
-
-规模预算：
-
-- 主工作包：2（跨功能消费接线；全旅程与防复发）
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若发现新的灵魂消费者需要独立玩法逆向、数值裁决或新 UI，登记后另拆 task；本 Goal 只闭合仓库中已知消费者。
-
-输入资料：
-
-- `TASK-ARCH-013A` 的 V6/player owner、技能/工坊/法宝运行桥接和现有正式旅程测试。
-
-输出产物：
-
-- 技能、炼丹炉、法宝和已知消费者统一检查/扣减当前 `player.soulCount`。
-- 禁止 `skillLearning.soulCount` 回流的静态/运行负向门禁。
-- P1/P2 隔离、跨功能连续消费、保存重载与 940×590 正式功能页证据。
-
-完成定义：
-
-- 仓库现代运行代码和当前测试合同不再读取或写入 `skillLearning.soulCount`。
-- 同一玩家跨功能余额连续，另一玩家不受影响，重载后保持一致。
-- 全系统、build、workflow、diff check 与浏览器旅程通过后关闭 PG-010 存量问题。
-
-验收标准：
-
-- 相关专项、`npm run test:systems`、build、structure、workflow、diff check 通过。
-- 940×590 双人 P1/P2 在技能、炼丹炉、法宝代表消费与重载中零串号、零 console warning/error。
-
-禁止范围：
-
-- 不调整消费/掉落平衡，不重做页面视觉，不修改 legacy extraction。
-
-状态更新：
-
-- 更新 PG-010、正式主循环覆盖台账、Goal/task/history 和适用 PG 反馈；关闭后恢复 Stage 2-3。
-
-推荐后续任务：
-
-- `TASK-SETTINGS-064`
 
 ### TASK-SETTINGS-064
 
@@ -86,11 +24,11 @@ Goal 包：
 
 功能条线：
 
-- `LINE-STAGE-2-3`（Planned；等待正式主循环再次关闭）
+- `LINE-STAGE-2-3`（Active）
 
 Goal 包：
 
-- `GOAL-025`（Planned）
+- `GOAL-025`（Active）
 
 目标机制/切片：
 

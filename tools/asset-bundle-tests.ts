@@ -39,6 +39,16 @@ assert.equal(sceneAssetBundles['feature-ui'].assets.length, 0);
 assert.ok(sceneAssetBundles['feature-ui-skills-common'].assets.length < 80);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-1'].assets.length, 30);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-5'].assets.length, 30);
+for (const characterId of [597, 608]) {
+  for (let frame = 1; frame <= 5; frame += 1) {
+    assert.ok(
+      sceneAssetBundles['feature-ui-skills-common'].assets.some(
+        (asset) => asset.key === `full-ui.skill-native.sprite-${characterId}-${frame}`,
+      ),
+      `Missing heart-method selector ${characterId} frame ${frame}.`,
+    );
+  }
+}
 assert.deepEqual(
   sceneAssetBundles['feature-ui-skills-hero-1'].dependencies,
   ['feature-ui-skills-common'],

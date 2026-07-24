@@ -30,6 +30,7 @@ import {
   BindingSlotCharacters,
   BindingSlotPositions,
   BindingVisualToLoadoutIndex,
+  HeartMethodSelectorFrameByHero,
   PassiveRowPositions,
   SkillIconCharacterByName,
   SkillIconPositions,
@@ -122,10 +123,21 @@ function renderActive(
   const tree = HERO_SKILL_TREES[player.progression.heroId][treeIndex];
   const treeState = player.skillLearning.trees[treeIndex];
   const frame = SkillTreeFrameByHero[player.progression.heroId][treeIndex];
+  const selectorFrame = HeartMethodSelectorFrameByHero[player.progression.heroId];
   objects.push(scene.add.image(
     272.35,
     124.2,
     getSkillNativeSpriteAsset(865, frame).key,
+  ).setOrigin(0));
+  objects.push(scene.add.image(
+    57.65,
+    151,
+    getSkillNativeSpriteAsset(597, selectorFrame).key,
+  ).setOrigin(0));
+  objects.push(scene.add.image(
+    57.65,
+    351,
+    getSkillNativeSpriteAsset(608, selectorFrame).key,
   ).setOrigin(0));
   HERO_SKILL_TREES[player.progression.heroId].forEach((config, index) => {
     objects.push(treeNameText(

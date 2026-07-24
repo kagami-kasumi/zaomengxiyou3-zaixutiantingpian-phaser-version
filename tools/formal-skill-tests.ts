@@ -105,6 +105,16 @@ function testOwnerIsolationAndLockedFeedback(): void {
   });
 }
 
+function testInsufficientSoulRejectsWithoutMutation(): void {
+  const { storage, model } = createReadyModel();
+  const player = getFormalSkillPlayer(model);
+  player.soulCount = 99;
+  assert.equal(upgradeFormalSkillTree(model, storage), false);
+  assert.equal(player.soulCount, 99);
+  assert.equal(player.skillLearning.trees[0].treeLevel, 0);
+  assert.equal(loadActiveGame(storage)?.player1.soulCount, 20_000);
+}
+
 function testPartyDrivenOwnerAndHeroFiltering(): void {
   for (const heroId of [1, 2, 3, 4, 5] as const) {
     const { storage, model } = createReadyModel(createPartyConfiguration(1, heroId)!);
@@ -223,6 +233,7 @@ function testTrueSkillAssets(): void {
 
 testTreeLearnUpgradeBindPassiveAndReload();
 testOwnerIsolationAndLockedFeedback();
+testInsufficientSoulRejectsWithoutMutation();
 testPartyDrivenOwnerAndHeroFiltering();
 testHudSyncKeepsStableOwnerSlot();
 testTrueSkillAssets();

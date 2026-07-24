@@ -94,6 +94,21 @@ function testExistingFusionPersistsThroughFormalHost(): void {
   assert.equal(persisted.player2.soulCount, 0);
 }
 
+function testInsufficientSoulRejectsWithoutMutation(): void {
+  const { storage, model } = createReadyModel();
+  setFormalWorkshopTab(model, 'fusion');
+  const player = getFormalWorkshopPlayer(model);
+  player.soulCount = 999;
+  const productBefore = getStackQuantityByFillName(player.inventoryStore, 'wptlz');
+  for (let index = 0; index < 3; index += 1) {
+    selectFillName(model, 'tlzsp');
+    assert.equal(stageFormalWorkshopFusion(model), true);
+  }
+  assert.equal(runFormalWorkshopFusion(model, storage), false);
+  assert.equal(player.soulCount, 999);
+  assert.equal(getStackQuantityByFillName(player.inventoryStore, 'wptlz'), productBefore);
+}
+
 function testTrueContainerFusionAndSceneWiring(): void {
   assert.equal(craftingAssets.container.sourceCharacterId, 119);
   assert.equal(craftingAssets.container.path, '/assets/ui/crafting/container.png');
@@ -162,6 +177,7 @@ function testOriginalArtworkHitGeometryAndLabels(): void {
 
 testStageWithdrawTabCloseAndOwnerIsolation();
 testExistingFusionPersistsThroughFormalHost();
+testInsufficientSoulRejectsWithoutMutation();
 testTrueContainerFusionAndSceneWiring();
 testOriginalArtworkHitGeometryAndLabels();
 console.log('Formal workshop original artwork hit areas, centered operations, owner styling, host, transactions, and save tests passed.');

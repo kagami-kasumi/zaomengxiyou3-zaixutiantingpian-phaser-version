@@ -69,6 +69,14 @@ export const SkillTreeFrameByHero: Readonly<Record<number, readonly [number, num
   5: [9, 10],
 };
 
+export const HeartMethodSelectorFrameByHero: Readonly<Record<number, number>> = {
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+};
+
 export const SkillIconPositions = [
   { x: 375.5, y: 125.55 },
   { x: 375.5, y: 204.2 },

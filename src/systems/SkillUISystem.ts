@@ -1,5 +1,9 @@
 import type { HeroSkillLoadout, SkillBinding } from './HeroSkillSystem';
-import type { PlayerSoulOwner } from './ProgressionSystem';
+import {
+  canSpendPlayerSouls,
+  spendPlayerSouls,
+  type PlayerSoulOwner,
+} from './PlayerSoulSystem';
 
 // ============================================================
 // Types
@@ -101,7 +105,7 @@ export function canUpgradeTree(
     return 'Tree already max level';
   }
   const cost = TREE_UPGRADE_COSTS[tree.treeLevel];
-  if (soulOwner.soulCount < cost) {
+  if (!canSpendPlayerSouls(soulOwner, cost)) {
     return `Need ${cost} souls, have ${soulOwner.soulCount}`;
   }
   return true;
@@ -117,7 +121,7 @@ export function upgradeTree(
   }
   const tree = state.trees[treeIndex];
   const cost = TREE_UPGRADE_COSTS[tree.treeLevel];
-  soulOwner.soulCount -= cost;
+  if (!spendPlayerSouls(soulOwner, cost).ok) return false;
   tree.treeLevel += 1;
   return true;
 }
@@ -235,7 +239,7 @@ export function canUpgradeSkill(
   }
   const isSpecial = SPECIAL_SKILLS.includes(skillName);
   const cost = getSkillUpgradeCost(currentLevel, isSpecial);
-  if (soulOwner.soulCount < cost) {
+  if (!canSpendPlayerSouls(soulOwner, cost)) {
     return `Need ${cost} souls`;
   }
   return true;
@@ -261,7 +265,7 @@ export function upgradeSkill(
   }
   const isSpecial = SPECIAL_SKILLS.includes(skillName);
   const cost = getSkillUpgradeCost(entry.level, isSpecial);
-  soulOwner.soulCount -= cost;
+  if (!spendPlayerSouls(soulOwner, cost).ok) return false;
   entry.level += 1;
   return true;
 }
@@ -329,7 +333,7 @@ export function canUpgradePassiveSkill(
     return `Passive max level ${maxLevel}`;
   }
   const cost = (currentLevel + 1) * 5000;
-  if (soulOwner.soulCount < cost) {
+  if (!canSpendPlayerSouls(soulOwner, cost)) {
     return `Need ${cost} souls`;
   }
   return true;
@@ -345,7 +349,7 @@ export function upgradePassiveSkill(
   }
   const currentLevel = state.passiveSkills[slotIndex];
   const cost = (currentLevel + 1) * 5000;
-  soulOwner.soulCount -= cost;
+  if (!spendPlayerSouls(soulOwner, cost).ok) return false;
   state.passiveSkills[slotIndex] = currentLevel + 1;
   return true;
 }

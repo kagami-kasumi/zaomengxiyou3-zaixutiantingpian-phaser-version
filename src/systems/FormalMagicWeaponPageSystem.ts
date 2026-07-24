@@ -11,6 +11,7 @@ import {
   consumeStackByFillName,
   getStackQuantityByFillName,
 } from './InventorySystem';
+import { canSpendPlayerSouls, spendPlayerSouls } from './PlayerSoulSystem';
 import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
@@ -295,13 +296,15 @@ function commitElementReset(
 
 function hasCost(player: LoadedPlayer1State, cost: MagicWeaponUpgradeCost): boolean {
   return cost.kind === 'soul'
-    ? player.soulCount >= cost.quantity
+    ? canSpendPlayerSouls(player, cost.quantity)
     : getStackQuantityByFillName(player.inventoryStore, cost.fillName ?? '') >= cost.quantity;
 }
 
 function consumeCost(player: LoadedPlayer1State, cost: MagicWeaponUpgradeCost): void {
   if (cost.kind === 'soul') {
-    player.soulCount -= cost.quantity;
+    if (!spendPlayerSouls(player, cost.quantity).ok) {
+      throw new Error('Magic weapon soul transaction violated the player owner contract');
+    }
     return;
   }
   consumeStackByFillName(player.inventoryStore, cost.fillName ?? '', cost.quantity);

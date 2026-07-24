@@ -112,6 +112,17 @@ function testSoulUpgradeAndV4RoundTrip(): void {
   assert.equal(getFormalMagicWeaponPanelState(reloaded).stats.power, 4);
 }
 
+function testInsufficientSoulRejectsWithoutMutation(): void {
+  const { storage, model } = createReadyPage((save) => {
+    setEquippedMagicWeapon(save, 'kyl', 1);
+    save.player1.soulCount = 999;
+  });
+  assert.equal(requestFormalMagicWeaponUpgrade(model, storage), 'rejected');
+  assert.equal(getFormalMagicWeaponPanelState(model).level, 1);
+  assert.equal(getFormalMagicWeaponPanelState(model).soul, 999);
+  assert.equal(loadActiveGame(storage)?.player1.soulCount, 999);
+}
+
 function testAuthoritativeSpecialUpgradeBranches(): void {
   const zs5 = getMagicWeaponUpgradeRequirement(instanceAt('zsTimer', 5));
   assert.deepEqual(zs5.cost, { kind: 'material', fillName: 'zsTimerup2', name: '烛时星魄2', quantity: 2 });
@@ -183,6 +194,7 @@ function testTrueAssetAndSceneWiring(): void {
 
 testEquipmentGateAndP1OnlyContract();
 testSoulUpgradeAndV4RoundTrip();
+testInsufficientSoulRejectsWithoutMutation();
 testAuthoritativeSpecialUpgradeBranches();
 testMaterialConfirmCancelAndAtomicCommit();
 testElementResetKeepsLevelRebuildsStatsAndPersists();

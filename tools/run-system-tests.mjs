@@ -30,6 +30,7 @@ const bundledTests = requestedTests.length > 0
       'feature-save-v4-tests',
       'party-save-tests',
       'soul-save-v6-tests',
+      'player-soul-system-tests',
       'save-party-flow-tests',
       'formal-inventory-tests',
       'formal-skill-tests',
