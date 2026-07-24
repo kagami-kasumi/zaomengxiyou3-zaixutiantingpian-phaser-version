@@ -4,143 +4,78 @@
 
 ## 当前推荐
 
-`TASK-SLICE-150D` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-024` 和 `LINE-STAGE-2-2`。本 Goal 只执行 940×590 1P/2P 全流程校准、重载与功能线关闭裁决。
+`TASK-SETTINGS-064` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-025` 和 `LINE-STAGE-2-3`。下一次 `/goal` 只逆向 Stage 2-3 六段证据并据证据拆分后续实现，不写现代代码。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-150 | Split | — | LINE-STAGE-2-2 | 过大父任务 | 原计划一次完成 Stage 2-2 全部实现与校准 | M-026、M-027、M-030、M-035、M-044、VS-056 | 已按 PG-008 拆为 `150A..150D` | 依次执行同线四个子 task |
-| TASK-SLICE-150D | Ready | GOAL-024 | LINE-STAGE-2-2 | 运行校准 | 完成 940×590 1P/2P 全流程校准和关闭裁决 | M-026、M-027、M-030、M-035、M-044、VS-056 | 全旅程证据、重载/console、覆盖差异与关线裁决 | 关闭本线或生成同线最小后续 |
+| TASK-SETTINGS-064 | Ready | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
 
 ## 任务完成定义
 
-### TASK-SLICE-150
+### TASK-SETTINGS-064
 
 任务类型：
 
-- `TASK-SLICE`（Split 父任务，不直接执行）
+- `TASK-SETTINGS`
 
 功能条线：
 
-- `LINE-STAGE-2-2`（Active）
+- `LINE-STAGE-2-3`（Active）
 
 Goal 包：
 
-- `—`（Split 父任务不占 Goal）
+- `GOAL-025`（Active）
 
 目标机制/切片：
 
-- `M-026`、`M-027`、`M-030`、`M-035`、`M-044`、`VS-056`
+- `M-026`、`M-027`、`M-030`、`M-035`、`M-044`、`VS-057`
 
 规模预算：
 
-- 主工作包：0
-- 预计上下文压缩：0
-- 独立验收批次：0
-
-拆分触发：
-
-- 已触发：原定义同时包含资源/场景、波次/普通怪、Boss/结果和全流程验收四个独立工作包，现拆为 `150A..150D`。
-
-输入资料：
-
-- `PG-008` 与原 `TASK-SLICE-150` 定义。
-
-输出产物：
-
-- 四个同线串行子 task/Goal。
-
-完成定义：
-
-- 父任务只保留拆分追踪，不直接完成实现。
-
-验收标准：
-
-- 工作流校验确认父任务为 `Split`、不占 Goal，只有 `150A` Ready。
-
-UI 原生化合同：
-
-- 显示列表清单：由 `150A/150C/150D` 分别承接。
-- 原版视觉基准：由子 task 消费 `level22.swf` / `assets/2.swf`。
-- 允许的现代视觉例外：空清单。
-- 逐状态验收：由四个子 task 分段完成。
-- 差异证据：由 `150D` 汇总。
-
-禁止范围：
-
-- 不直接执行父任务，不把子 task 重新合并。
-
-状态更新：
-
-- 保持 `Split`，直到四个子 task 归档后随功能线历史统一收束。
-
-推荐后续任务：
-
-- `TASK-SLICE-150A`。
-
-### TASK-SLICE-150D
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-STAGE-2-2`（Active）
-
-Goal 包：
-
-- `GOAL-024`（Active）
-
-目标机制/切片：
-
-- `M-026`、`M-027`、`M-030`、`M-035`、`M-044`、`VS-056`
-
-规模预算：
-
-- 主工作包：1
+- 主工作包：2
 - 预计上下文压缩：0
 - 独立验收批次：2
 
 拆分触发：
 
-- 若校准发现需要新增资料族、重构 owner 或修复两个以上互不相关的根因，只记录反证并生成同线最小修复 Goal，不在验收 task 内扩张。
+- 若目标关卡还要求独立闭合两个以上未恢复资源族、跨入 `level231/232/233` 支线，或六段证据无法在一个关卡主包内清零影响实现的未知，立即拆成同线后续逆向 Goal；本 Goal 不写现代实现。
 
 输入资料：
 
-- `150A..150C` 全部产物、Stage 2-2 覆盖台账和六段证据矩阵。
+- `docs/workflow/reverse-engineering-protocol.md`、`docs/reverse-engineering/levels-index.md`、Stage 2-3 覆盖台账。
+- `local-resources/regima/source/restored-swfs/assets/levels/level23.swf` 及实际加载到的恢复源共享包；视觉资源存在性以恢复语料库为准。
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/level/StageListener23.as` 与沿调用链窄查到的共享 AS3；legacy extraction 只读。
 
 输出产物：
 
-- 自动全旅程与 940×590 1P/2P 五停点、火焰、Boss、结果、返回、重载和 2-3 保存证据。
-- 资源标注 `ready` 裁决、console/生命周期审计、覆盖差异和功能线关闭或后续修复结论。
+- 在 `levels-index.md` 建立 Stage 2-3 最小证据矩阵：局部类/实例、共享输入/物理/镜头/状态机/结果/存档、SWF 时间轴/注册点/碰撞盒/矩阵/坐标空间、可观察合同、现代 owner 建议和双重验证计划。
+- 在恢复源包中定位场景、机关、怪物、弹体、门与结果所需 SymbolClass/MovieClip，选择性派生到 Git 忽略 task output，并更新独立 asset annotation batch；未知、推断、现代设计选择和反证条件必须显式分级。
+- 根据证据把实现拆成一至多个同线 0-compact Goal/task；不得把新资料族逆向、多个 owner 实现和端到端校准重新合并。
 
 完成定义：
 
-- 只在全部关闭检查满足时关闭 `LINE-STAGE-2-2`；任何运行反证都退回同线任务，不以自动测试代替玩家可见证据。
+- 待证明问题逐项回答：目标关卡身份与进入路由、显示列表/布局、墙/平台/停点/刷怪点、专属机关、怪物与攻击对象、失败/胜利、下一关解锁与当前槽保存。
+- 六段证据矩阵完整，所有影响首个实现切片的未知为零；若不能清零则只归档已定位边界并生成同线补证 Goal，不使用“已扒/权威输入”。
+- 只产出逆向证据、资源标注和后续任务，不修改 `src/`，不进入 Stage 2-3 实现或 940×590 现代运行验收。
 
 验收标准：
 
-- Stage 2-2 专项、全系统、structure、build、annotations、workflow、diff check 全部通过。
-- 新鲜标签页完成 1P/2P 正式入口、五停点、九火焰代表状态、Monster16 八动作/六攻击、失败、胜利、返回和重载；console 无 warning/error。
-
-UI 原生化合同：
-
-- 显示列表清单：复核 `150A/150C` 全部静态与动态对象，确认无新增替代层。
-- 原版视觉基准：Stage 2-2 六段证据、选择性派生物和 940×590 原舞台。
-- 允许的现代视觉例外：仅已登记 DEV QA 控制且正式入口不可见；玩家可见例外为空。
-- 逐状态验收：覆盖整关所有关键状态与 1P/2P、返回、重载。
-- 差异证据：逐状态截图、对象差异清单、坐标/注册点容差说明和零 console 记录。
+- 恢复源 SWF 与 legacy AS3 交叉确认；视觉/空间结论包含注册点、嵌套矩阵、碰撞边界、坐标语义和现代素材原点。
+- 关键结论按确认事实/交叉确认/推断/未知/现代设计选择分级，并列出反证条件；高风险视觉/时序至少达到交叉确认。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 通过；新后续 Goal 满足规模预算门禁。
 
 禁止范围：
 
-- 不在验收 Goal 内顺手修多个独立系统；不进入 Stage 2-3 或其他功能线。
+- 不修改、删除或重新生成 `local-resources/regima/legacy-extraction/`。
+- 不因名称相近而把 `level231/232/233.swf` 或 Stage 23-x 支线自动并入主 Stage 2-3。
+- 不写现代关卡代码，不用 Stage 2-2 规则类推缺失常量，不把局部关卡类当作完整调用链。
 
 状态更新：
 
-- 更新覆盖台账、VS-056、机制、资源标注、Goal/task/history 与 PG-002/003/004/005/006/008；据证据关闭本线或生成同线最小后续。
+- 更新 `levels-index.md`、`mechanics-index.md`、`vertical-slices.md`、Stage 2-3 覆盖台账、资源标注、Goal/task/history 与适用 PG 反馈。
 
 推荐后续任务：
 
-- 覆盖全部闭合则关闭本线；否则只生成同线最小修复 Goal。
+- 依据闭合证据生成同线最小实现 Goal；若证据未闭合，生成同线最小补证 Goal。

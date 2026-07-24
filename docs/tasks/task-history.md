@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-150D | 运行校准/关线裁决 | 完成 Stage 2-2 的 940×590 1P/2P 全流程、返回重载与关闭裁决 | M-026、M-027、M-030、M-035、M-044、VS-056 | 五停点/9 火焰、Monster16 八动作/六攻击、失败/显门胜利/2-3 当前槽保存、返回重载、全门禁与零 console 证据；`LINE-STAGE-2-2` 关闭 |
+| TASK-SLICE-150 | 拆分父任务收束 | 汇总 `150A..150D` 四个同线子 task 并关闭父任务追踪 | M-026、M-027、M-030、M-035、M-044、VS-056 | 四个 0-compact Goal 全部独立归档，Stage 2-2 从六段证据到运行校准完整闭合 |
 | TASK-SLICE-150C | Boss/结果接入 | 接入 Stage 2-2 Monster16、六攻击、显门、胜利和 2-3 保存 | M-030、M-035、M-044、VS-056 | Monster16 36 帧 atlas、六对象 104 帧、专属 visual owner、幂等奖励/门/结果/V4 2-3、专项/全系统/build 与 19 张 940×590 零 console 证据 |
 | TASK-SLICE-150B | 普通流程接入 | 接入 Stage 2-2 五停点、25 点、54 怪定义与 1P/2P 普通流程 | M-027、M-030、M-044、VS-056 | `Stage22FlowSystem`、正式地图/场景/失败入口、53 只 Monster9/10/19 共享战斗/奖励、6/8 上限、awaiting-boss 边界、专项/全系统/build 与 7 张 940×590 零 console 证据 |
 | TASK-SLICE-150A | 场景/机关接入 | 接入 Stage 2-2 真场景、布局/遍历与 9 个火焰机关 | M-026、M-027、M-035、VS-056 | 7 条 ready 场景标注、134 个新增真 SVG、Stage22 layout/traversal/fire owners、DEV-only QA 场景、专项/全系统/build 与 9 张 940×590 零 console 证据 |
@@ -228,6 +230,57 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-150D
+
+完成时间：2026-07-24
+
+功能条线 / Goal：
+
+- `GOAL-024` 完成并从执行看板移除。
+- `LINE-STAGE-2-2` 的覆盖与关闭检查全部满足，状态改为 `Done`；内容路线顺延后只激活 `LINE-STAGE-2-3` / `GOAL-025` 的六段逆向交接，不在本次 `/goal` 执行。
+
+完成内容：
+
+- 940×590 新鲜标签页从正式存档 1 进入天庭地图，分别选择 1P/2P 进入 2-2；双玩家 HUD、正式入口和 scene 生命周期正常。
+- 以 localhost-only QA 入口复核五个精确停点 `1267.3/2147.55/3017.8/3769.95/4581.7`、9/9 火焰 frame 10、平台/前景/镜头和双玩家生成；正式入口不可见 QA 控件，未新增现代替代层。
+- 复核 Monster16 `wait/walk/hurt/dead/hit1..4` 八动作，以及 hit1、hit2 起手/后续、hit3、hit4 起手/后续六攻击对象；真 atlas、注册点、左右空间和 Boss HUD 无运行反证。
+- 双玩家全灭在 2.5 秒后显示失败，返回地图后进度不推进；Monster16 死亡显门后 P1 按 W 触发胜利，结果页显示“已解锁并保存 2-3”。
+- 胜利返回地图后整页重载，存档 1 时间戳更新并可再次读取；专项内存 round-trip 与浏览器当前槽持久化证据一致。
+- 14 条 Stage 2-2 场景/机关/Boss/攻击标注保持 `ready`；Monster9/10/19 继续复用 Stage 2-1 已闭合真视觉，不存在未解释占位或新增资源缺口。
+
+验证：
+
+- `npm run check:structure` 通过；仅有 8 个与本验收 Goal 无关的既有 warning。
+- `npm run test:stage22`、`npm run test:systems`、`npm run build`、`npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 通过。
+- build 仅有既有 Vite chunk 超过 500 kB warning；workflow 仅有既有 `PlayerSlot` 禁止别名 warning。
+- 940×590 浏览器覆盖正式 1P/2P、五停点、9 火焰、八动作/六攻击、失败/返回、显门/胜利/2-3 保存与整页重载；console warning/error 为 0。
+
+问题治理：
+
+- PG-002：不是按局部 task 推断关闭；只在覆盖台账全部勾选、同线子 task 与拆分父任务全部归档、正式流程/真视觉/自动与运行证据齐全后关闭，结论通过。
+- PG-003：五停点和双玩家移动继续消费统一 `LevelHeroMovementRuntime`；本 Goal 未增加或修改 movement owner，运行样本通过。
+- PG-004：按任务明确扫描并回写 PG-002/003/004/005/006/008，反馈闭环通过。
+- PG-005：最终裁决消费已落盘六段矩阵，自动合同与 940×590 玩家可见证据相互印证；没有把 QA 标签或自动测试单独当作原版事实。
+- PG-006：普通怪与 Monster16 运行中继续使用共享物理、死亡奖励和幂等上报；未出现关卡私有 owner 漂移。
+- PG-008：实际保持一个运行校准主工作包、两个验收批次、0 compact；四个连续拆分 Goal 全部按边界完成，纯校准样本通过。
+
+后续：
+
+- 下一 Goal 为 `GOAL-025` / `TASK-SETTINGS-064`：只逆向 Stage 2-3 六段证据并拆分后续实现；本次 `/goal` 不进入 Stage 2-3。
+
+### TASK-SLICE-150
+
+完成时间：2026-07-24
+
+完成内容：
+
+- 原过大父任务已按 `PG-008` 拆为 `TASK-SLICE-150A..150D`，分别由 `GOAL-021..024` 完成场景/机关、普通流程、Boss/结果和全程运行校准。
+- 四个子 task 全部归档且 `LINE-STAGE-2-2` 已关闭，父任务不再承担未完成追踪，随功能线统一收束。
+
+验证：
+
+- `npm run check:workflow` 确认 task board 与 goal board 均无未完成项，父任务不再以 `Split` 留在执行看板。
 
 ### TASK-SLICE-150C
 

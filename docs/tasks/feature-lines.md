@@ -29,7 +29,8 @@
 | LINE-FORMAL-GAME-LOOP | Done | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | — | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | 端到端旅程保持；工坊原 119 容器透明命中、四操作居中、原图返回和 P1/P2 样式经专项/全门禁/940×590 复验闭合 |
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
-| LINE-STAGE-2-2 | Active | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SLICE-150D | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | `150A/150B/150C` 已闭合场景、普通流程、Monster16 真视觉、显门与 2-3 保存；只余全程校准 Goal |
+| LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
+| LINE-STAGE-2-3 | Active | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064 | `feature-line-coverage/LINE-STAGE-2-3.md` | 无 | 当前只激活六段逆向 Goal；未读取目标资料、未生成实现结论 |
 
 ## 当前功能线状态
 
@@ -37,7 +38,9 @@
 
 `LINE-UI-NATIVE-SKILLS` 已关闭：`TASK-SETTINGS-061` 闭合四页显示列表、原版视觉基准、按钮/命中区和动态槽位；`TASK-SLICE-143` 派生并接入 220 个原生 base/按钮/帧资源，移除替代覆盖层，完成学习、升级、绑定、被动、P1/P2、关闭、重载和 V4 回归。
 
-`GOAL-020` / `TASK-SETTINGS-063` 已闭合 Stage 2-2 六段证据。`GOAL-021` / `TASK-SLICE-150A` 已接入真场景、遍历和 9 个 130 帧火焰。`GOAL-022` / `TASK-SLICE-150B` 已接入 25 刷怪点、五批 `11/13/13/16/1` 定义、前四批 53 只 Monster9/10/19、1P/2P 6/8 上限、正式地图入口、失败/返回/重入与第五停点 `awaiting-boss`；共享真怪视觉/战斗/物理/奖励/HUD 均复用，专项、全系统、build 和 940×590 1P/2P/失败零 console 已闭合。当前激活 `GOAL-023` / `TASK-SLICE-150C`，下一次 `/goal` 只接入 Monster16、六攻击、显门、胜利和 2-3 保存，完整全流程校准留给 `150D`。
+`LINE-STAGE-2-2` 已关闭：`GOAL-020` 闭合六段证据，`GOAL-021..023` 分别接入真场景/火焰、普通流程与 Monster16/结果，`GOAL-024` 完成 940×590 1P/2P 正式入口、五停点、9/9 火焰代表帧、Monster16 八动作/六攻击、失败、显门胜利、返回和当前槽重载。专项、全系统、structure、build、annotations、workflow、diff check 全部通过，浏览器 console warning/error 为 0。
+
+内容扩展按 2-2 胜利明确解锁的 2-3 顺延，现激活 `LINE-STAGE-2-3` / `GOAL-025` / `TASK-SETTINGS-064`。下一次 `/goal` 只闭合 `level23.swf`、`StageListener23` 与共享运行时的六段证据、未知项和后续实现拆分，不在同一 Goal 写现代代码。
 
 本线按依赖顺序推进：战斗死亡原因/攻击可读性/数值合同 → 可稳定通关的战斗切片 → 核心战斗 HUD → 启动与存档槽 → 天庭地图/关卡解锁 → 背包、宠物等完整功能 UI。每一步仍拆为小 task；不得用某个最小 HUD 或存档切片越级关闭整线。
 

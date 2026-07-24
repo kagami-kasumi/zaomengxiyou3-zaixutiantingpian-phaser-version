@@ -23,7 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-024 | Active | LINE-STAGE-2-2 | TASK-SLICE-150D | 940×590 1P/2P 全流程校准、重载与功能线关闭裁决 | 预计 0 次 |
+| GOAL-025 | Active | LINE-STAGE-2-3 | TASK-SETTINGS-064 | Stage 2-3 真场景、专属流程、怪物/机关、结果与存档六段证据 | 预计 0 次 |
 
 ## Goal 生成检查
 
