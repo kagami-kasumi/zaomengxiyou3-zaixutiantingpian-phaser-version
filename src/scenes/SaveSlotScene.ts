@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 import { saveSlotAssets } from '../assets/AssetManifest';
+import { createSavePartyCreationView } from './save-slot/SavePartyCreationView';
 import {
-  createSaveSlot,
+  createPartySaveSlot,
   deleteSaveSlot,
   getSaveSlotDisplayName,
   listSaveSlots,
@@ -11,6 +12,12 @@ import {
   type SaveSlotSnapshot,
 } from '../systems/SaveSlotSystem';
 import type { SaveStorage } from '../systems/SaveSystem';
+import {
+  chooseDraftHero,
+  chooseDraftPlayerCount,
+  createSaveProfileDraft,
+  type SaveProfileDraft,
+} from '../systems/SaveProfileDraftSystem';
 
 const SlotPositions = [
   { x: 338.5, y: 267 }, { x: 594.5, y: 267 },
@@ -24,6 +31,9 @@ export class SaveSlotScene extends Phaser.Scene {
   private storage?: SaveStorage;
   private slotLayer?: Phaser.GameObjects.Container;
   private dialogLayer?: Phaser.GameObjects.Container;
+  private createLayer?: Phaser.GameObjects.Container;
+  private createDraft?: SaveProfileDraft;
+  private createSubmitting = false;
   private feedbackText?: Phaser.GameObjects.Text;
 
   public constructor() {
@@ -97,24 +107,76 @@ export class SaveSlotScene extends Phaser.Scene {
   }
 
   private activateSlot(slotId: SaveSlotId): void {
-    if (!this.storage || this.dialogLayer) return;
+    if (!this.storage || this.dialogLayer || this.createLayer) return;
     const snapshot = this.slotSnapshots[slotId];
     if (snapshot.status === 'corrupt') {
       this.feedbackText?.setText(`存档 ${slotId + 1} 已损坏，无法读取；请先确认删除`);
       return;
     }
     if (snapshot.status === 'empty') {
-      if (!createSaveSlot(this.storage, slotId)) {
-        this.feedbackText?.setText(`存档 ${slotId + 1} 新建失败，请重新扫描`);
-        this.refreshSlots();
-        return;
-      }
+      this.openCreateFlow(slotId);
+      return;
     } else if (!selectSaveSlot(this.storage, slotId)) {
       this.feedbackText?.setText(`存档 ${slotId + 1} 读取失败，未修改原数据`);
       this.refreshSlots();
       return;
     }
     this.scene.start('HeavenMapScene');
+  }
+
+  private openCreateFlow(slotId: SaveSlotId): void {
+    this.createDraft = createSaveProfileDraft(slotId);
+    this.createSubmitting = false;
+    this.renderCreateFlow();
+  }
+
+  private renderCreateFlow(): void {
+    if (!this.createDraft) return;
+    this.createLayer?.destroy(true);
+    this.createLayer = createSavePartyCreationView(this, this.createDraft, {
+      onSelectPlayerCount: (playerCount) => {
+        if (!this.createDraft || this.createSubmitting) return;
+        this.createDraft = chooseDraftPlayerCount(this.createDraft, playerCount);
+        this.renderCreateFlow();
+      },
+      onSelectHero: (heroId) => this.selectCreateHero(heroId),
+      onCancel: () => this.closeCreateFlow(),
+    });
+  }
+
+  private selectCreateHero(heroId: 1 | 2 | 3 | 4 | 5): void {
+    if (!this.storage || !this.createDraft || this.createSubmitting) return;
+    const result = chooseDraftHero(this.createDraft, heroId);
+    if (result.status === 'rejected') return;
+    this.createDraft = result.draft;
+    if (result.status === 'awaiting-p2') {
+      this.renderCreateFlow();
+      return;
+    }
+    this.createSubmitting = true;
+    const party = result.party;
+    const created = createPartySaveSlot(
+      this.storage,
+      result.draft.slotId,
+      party.playerCount,
+      party.members.p1.heroId,
+      party.playerCount === 2 ? party.members.p2.heroId : undefined,
+    );
+    if (!created) {
+      const slotNumber = result.draft.slotId + 1;
+      this.closeCreateFlow();
+      this.refreshSlots();
+      this.feedbackText?.setText(`存档 ${slotNumber} 新建失败，原槽未修改`);
+      return;
+    }
+    this.scene.start('HeavenMapScene');
+  }
+
+  private closeCreateFlow(): void {
+    this.createLayer?.destroy(true);
+    this.createLayer = undefined;
+    this.createDraft = undefined;
+    this.createSubmitting = false;
   }
 
   private openDeleteConfirmation(slotId: SaveSlotId): void {
@@ -149,7 +211,10 @@ export class SaveSlotScene extends Phaser.Scene {
     keys.forEach((key, index) => {
       this.input.keyboard?.on(`keydown-${key}`, () => this.activateSlot(index as SaveSlotId));
     });
-    this.input.keyboard?.on('keydown-ESC', () => this.closeDialog());
+    this.input.keyboard?.on('keydown-ESC', () => {
+      if (this.createLayer) this.closeCreateFlow();
+      else this.closeDialog();
+    });
   }
 }
 
@@ -174,7 +239,7 @@ function getSlotDetail(snapshot: SaveSlotSnapshot): string {
   if (snapshot.status === 'corrupt' || !snapshot.save) return '读取被拒绝 · 可确认删除';
   const date = new Date(snapshot.save.savedAt);
   const savedAt = Number.isNaN(date.getTime()) ? '时间未知' : date.toLocaleString('zh-CN', { hour12: false });
-  return `${savedAt}${snapshot.sourceVersion !== 3 ? ` · V${snapshot.sourceVersion}→V3` : ''}`;
+  return `${snapshot.save.party.playerCount}P · ${savedAt}${snapshot.sourceVersion !== snapshot.save.version ? ` · V${snapshot.sourceVersion}→V${snapshot.save.version}` : ''}`;
 }
 
 function getBrowserStorage(): SaveStorage | undefined {

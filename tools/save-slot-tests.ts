@@ -132,7 +132,7 @@ assert.match(bootSource, /this\.scene\.start\('SaveSlotScene'\)/);
 const mainSource = readFileSync(path.join(repoRoot, 'src/main.ts'), 'utf8');
 assert.match(mainSource, /BootScene, SaveSlotScene, HeavenMapScene/);
 const sceneSource = readFileSync(path.join(repoRoot, 'src/scenes/SaveSlotScene.ts'), 'utf8');
-assert.match(sceneSource, /createSaveSlot\(this\.storage, slotId\)/);
+assert.match(sceneSource, /createPartySaveSlot\(/);
 assert.match(sceneSource, /openDeleteConfirmation\(snapshot\.id\)/);
 assert.match(sceneSource, /deleteSaveSlot\(this\.storage!, slotId\)/);
 assert.match(sceneSource, /status === 'corrupt'/);

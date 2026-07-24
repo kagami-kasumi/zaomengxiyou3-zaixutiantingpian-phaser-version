@@ -10,9 +10,14 @@ import {
   loadGame,
   parseGameSave,
   saveGame,
-  type GameSaveV4,
+  serializeGameSave,
+  type GameSaveV5,
   type SaveStorage,
 } from './SaveSystem';
+import {
+  createPartyConfiguration,
+  type PartyConfiguration,
+} from './PartyConfigurationSystem';
 import { createDefaultLevelUnlockProgress, sanitizeLevelUnlockProgress } from './Stage11FlowSystem';
 import { createSkillLearningState } from './SkillUISystem';
 
@@ -28,7 +33,7 @@ export type SaveSlotSnapshot = {
   displayNumber: number;
   storageKey: string;
   status: SaveSlotStatus;
-  save?: GameSaveV4;
+  save?: GameSaveV5;
   sourceVersion?: number;
 };
 
@@ -70,16 +75,23 @@ export function listSaveSlots(storage: SaveStorage): SaveSlotSnapshot[] {
   return Array.from({ length: SaveSlotCount }, (_, id) => inspectSaveSlot(storage, id as SaveSlotId));
 }
 
-export function createDefaultGameSave(now = new Date()): GameSaveV4 {
+export function createDefaultGameSave(
+  now = new Date(),
+  party: PartyConfiguration = createPartyConfiguration(1, 1)!,
+): GameSaveV5 {
   const rosters = createPlayerPetRosters();
   const inventories = createPlayerInventoryRuntimes(createSeedEquipmentRegistry());
   return createGameSave({
-    progression: createHeroProgression(1),
+    party,
+    progression: createHeroProgression(party.members.p1.heroId),
     skillLoadout: createHeroSkillModel().loadout,
     skillLearning: createSkillLearningState(1, 0),
     inventoryStore: inventories.p1.store,
     equipmentLoadout: inventories.p1.loadout,
     petRoster: rosters.p1,
+    player2Progression: createHeroProgression(
+      party.playerCount === 2 ? party.members.p2.heroId : 1,
+    ),
     player2InventoryStore: inventories.p2.store,
     player2EquipmentLoadout: inventories.p2.loadout,
     player2PetRoster: rosters.p2,
@@ -91,17 +103,45 @@ export function createDefaultGameSave(now = new Date()): GameSaveV4 {
 export function createSaveSlot(
   storage: SaveStorage,
   slotId: SaveSlotId,
-  save: GameSaveV4 = createDefaultGameSave(),
+  save: GameSaveV5 = createDefaultGameSave(),
 ): boolean {
   if (inspectSaveSlot(storage, slotId).status !== 'empty') return false;
-  saveGame(storage, save, getSaveSlotStorageKey(slotId));
-  return selectSaveSlot(storage, slotId) !== undefined;
+  const normalized = parseGameSave(serializeGameSave(save));
+  if (!normalized) return false;
+  const storageKey = getSaveSlotStorageKey(slotId);
+  const previousActiveSlot = storage.getItem(ActiveSaveSlotStorageKey);
+  try {
+    saveGame(storage, normalized, storageKey);
+    storage.setItem(ActiveSaveSlotStorageKey, String(slotId));
+    return true;
+  } catch {
+    try {
+      storage.removeItem(storageKey);
+      if (previousActiveSlot === null) storage.removeItem(ActiveSaveSlotStorageKey);
+      else storage.setItem(ActiveSaveSlotStorageKey, previousActiveSlot);
+    } catch {
+      // Storage has no transaction primitive; rollback is best effort after a write failure.
+    }
+    return false;
+  }
 }
 
-export function selectSaveSlot(storage: SaveStorage, slotId: SaveSlotId): GameSaveV4 | undefined {
+export function createPartySaveSlot(
+  storage: SaveStorage,
+  slotId: SaveSlotId,
+  playerCount: unknown,
+  p1HeroId: unknown,
+  p2HeroId?: unknown,
+  now = new Date(),
+): boolean {
+  const party = createPartyConfiguration(playerCount, p1HeroId, p2HeroId);
+  return party ? createSaveSlot(storage, slotId, createDefaultGameSave(now, party)) : false;
+}
+
+export function selectSaveSlot(storage: SaveStorage, slotId: SaveSlotId): GameSaveV5 | undefined {
   const snapshot = inspectSaveSlot(storage, slotId);
   if (snapshot.status !== 'valid' || !snapshot.save) return undefined;
-  // Parsing is also the V1/V2/V3 migration and V4 sanitization boundary. Persist normalized V4 in place.
+  // Parsing is the V1..V4 migration and V5 validation boundary. Persist normalized V5 in place.
   saveGame(storage, snapshot.save, snapshot.storageKey);
   storage.setItem(ActiveSaveSlotStorageKey, String(slotId));
   return snapshot.save;
@@ -121,12 +161,12 @@ export function getActiveSaveSlotId(storage: SaveStorage): SaveSlotId | undefine
   return isSaveSlotId(value) ? value : undefined;
 }
 
-export function loadActiveGame(storage: SaveStorage): GameSaveV4 | undefined {
+export function loadActiveGame(storage: SaveStorage): GameSaveV5 | undefined {
   const slotId = getActiveSaveSlotId(storage);
   return slotId === undefined ? undefined : loadGame(storage, getSaveSlotStorageKey(slotId));
 }
 
-export function saveActiveGame(storage: SaveStorage, save: GameSaveV4): boolean {
+export function saveActiveGame(storage: SaveStorage, save: GameSaveV5): boolean {
   const slotId = getActiveSaveSlotId(storage);
   if (slotId === undefined || inspectSaveSlot(storage, slotId).status !== 'valid') return false;
   saveGame(storage, save, getSaveSlotStorageKey(slotId));
@@ -135,7 +175,7 @@ export function saveActiveGame(storage: SaveStorage, save: GameSaveV4): boolean 
 
 export function saveActiveLevelUnlockProgress(
   storage: SaveStorage,
-  progress: GameSaveV4['levelUnlockProgress'],
+  progress: GameSaveV5['levelUnlockProgress'],
   now = new Date(),
 ): boolean {
   const save = loadActiveGame(storage);
@@ -145,6 +185,12 @@ export function saveActiveLevelUnlockProgress(
     savedAt: now.toISOString(),
     levelUnlockProgress: sanitizeLevelUnlockProgress(progress),
   });
+}
+
+export function getActivePartyConfiguration(
+  storage: SaveStorage,
+): PartyConfiguration | undefined {
+  return loadActiveGame(storage)?.party;
 }
 
 export function migrateLegacySingleSave(storage: SaveStorage): LegacySingleSaveMigrationResult {
@@ -163,8 +209,11 @@ export function getSaveSlotDisplayName(snapshot: SaveSlotSnapshot): string {
   if (snapshot.status === 'empty') return '空存档';
   if (snapshot.status === 'corrupt' || !snapshot.save) return '损坏存档';
   const heroNames = ['未知角色', '悟空', '唐僧', '八戒', '沙僧', '白龙'];
-  const heroName = heroNames[snapshot.save.player1.heroId] ?? heroNames[0];
-  return `${heroName} · ${snapshot.save.player1.level}级`;
+  const party = snapshot.save.party;
+  const p1Name = heroNames[party.members.p1.heroId] ?? heroNames[0];
+  if (party.playerCount === 1) return `1P ${p1Name} · ${snapshot.save.player1.level}级`;
+  const p2Name = heroNames[party.members.p2.heroId] ?? heroNames[0];
+  return `2P ${p1Name} / ${p2Name}`;
 }
 
 function readSerializedVersion(raw: string): number | undefined {

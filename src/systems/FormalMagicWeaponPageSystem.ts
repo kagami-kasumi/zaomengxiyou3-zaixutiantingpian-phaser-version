@@ -15,7 +15,7 @@ import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV4,
+  type GameSaveV5,
   type LoadedGameState,
   type LoadedPlayer1State,
   type SaveStorage,
@@ -50,7 +50,7 @@ export type MagicWeaponPendingAction = {
 
 export type FormalMagicWeaponPageModel = {
   owner: 'p1';
-  sourceSave: GameSaveV4;
+  sourceSave: GameSaveV5;
   restored: LoadedGameState;
   registry: Record<string, EquipmentDefinition>;
   pending?: MagicWeaponPendingAction;
@@ -365,6 +365,7 @@ function getEmptyPanelStats(): EquipmentStats {
 function persistFormalMagicWeaponPage(model: FormalMagicWeaponPageModel, storage: SaveStorage): void {
   const { player1, player2 } = model.restored;
   const save = createGameSave({
+    party: model.sourceSave.party,
     progression: player1.progression,
     skillLoadout: player1.skillLoadout,
     skillLearning: player1.skillLearning,

@@ -28,6 +28,8 @@ const bundledTests = requestedTests.length > 0
       'heaven-map-tests',
       'feature-ui-host-tests',
       'feature-save-v4-tests',
+      'party-save-tests',
+      'save-party-flow-tests',
       'formal-inventory-tests',
       'formal-skill-tests',
       'formal-pet-tests',

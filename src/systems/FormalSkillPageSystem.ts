@@ -3,7 +3,7 @@ import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV4,
+  type GameSaveV5,
   type LoadedGameState,
   type LoadedPlayer1State,
   type SaveStorage,
@@ -34,7 +34,7 @@ export type FormalSkillPageModel = {
   selectedSlotIndex: number;
   bindingReturnTab: 'tree1' | 'tree2';
   message: string;
-  sourceSave: GameSaveV4;
+  sourceSave: GameSaveV5;
   restored: LoadedGameState;
 };
 
@@ -256,6 +256,7 @@ function syncBindingLevel(player: LoadedPlayer1State, skillName: AllSkillName, l
 function persistFormalSkillPage(model: FormalSkillPageModel, storage: SaveStorage): void {
   const { player1, player2 } = model.restored;
   const save = createGameSave({
+    party: model.sourceSave.party,
     progression: player1.progression,
     skillLoadout: player1.skillLoadout,
     skillLearning: player1.skillLearning,

@@ -4,164 +4,19 @@
 
 ## 当前推荐
 
-`TASK-ARCH-011` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-029` 和已重开的 `LINE-FORMAL-GAME-LOOP`。下一次 `/goal` 只按 `save-party-flow-index.md` 落地新版存档队伍配置、旧档迁移和唯一运行时 owner，不提前实现选角 UI、技能过滤或地图直接进关；Stage 2-3 逆向继续后移。
+`TASK-SLICE-152` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-031` 和已重开的 `LINE-FORMAL-GAME-LOOP`。下一次 `/goal` 只把技能页 owner/角色可达性收敛到当前存档 `PartyConfiguration`，不提前实现地图直接进关或改动技能数值/树内容；Stage 2-3 逆向继续后移。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-011 | Ready | GOAL-029 | LINE-FORMAL-GAME-LOOP | 存档/运行时架构 | 新版存档持久化队伍人数与当前角色，建立唯一 `PartyConfiguration` owner | M-005、M-006、M-044、M-050、VS-052 | 新 schema、旧档迁移、读取查询与确定性测试 | TASK-SLICE-151 |
-| TASK-SLICE-151 | Planned | GOAL-030 | LINE-FORMAL-GAME-LOOP | 新建存档 UI | 空槽先选择 1P/2P 与各 owner 角色，再原子创建存档 | M-005、M-006、M-044、M-050、VS-052 | 真 UI、取消/确认事务、1P/2P 新档运行验收 | TASK-SLICE-152 |
-| TASK-SLICE-152 | Planned | GOAL-031 | LINE-FORMAL-GAME-LOOP | 技能 owner 收敛 | 技能页只显示当前存档 owner 的当前角色技能 | M-041、M-044、M-052、VS-055 | 存档驱动 owner/角色、P1/P2 边界与技能页回归 | TASK-SLICE-153 |
+| TASK-SLICE-152 | Ready | GOAL-031 | LINE-FORMAL-GAME-LOOP | 技能 owner 收敛 | 技能页只显示当前存档 owner 的当前角色技能 | M-041、M-044、M-052、VS-055 | 存档驱动 owner/角色、P1/P2 边界与技能页回归 | TASK-SLICE-153 |
 | TASK-SLICE-153 | Planned | GOAL-032 | LINE-FORMAL-GAME-LOOP | 正式进关收敛 | 删除地图逐关人数选择，所有正式关卡/重试/HUD/功能页消费存档队伍 | M-005、M-006、M-044、M-051、VS-053 | 直接进关、跨场景 owner 一致性与端到端回归 | TASK-SETTINGS-064 |
 | TASK-SETTINGS-064 | Planned | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
 | TASK-ARCH-010A | Planned | GOAL-026 | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B |
 | TASK-ARCH-010B | Planned | GOAL-027 | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task |
 
 ## 任务完成定义
-
-### TASK-ARCH-011
-
-任务类型：
-
-- `TASK-ARCH`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Active）
-
-Goal 包：
-
-- `GOAL-029`（Active）
-
-目标机制/切片：
-
-- `M-005`、`M-006`、`M-044`、`M-050`、`VS-052`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若 schema 升级同时要求改造三个以上功能页面消费者、旧档无法用单一确定策略迁移，或需要在本 task 实现新建存档视觉，立即把消费者/UI 留给后续 Goal，只完成 schema、迁移和查询合同。
-
-输入资料：
-
-- `TASK-SETTINGS-065` 的权威合同与 `save-party-flow-index.md`。
-- `SaveSystem.ts`、`SaveSlotSystem.ts`、`SaveSlotScene.ts`、现有 save/slot/system tests。
-- `docs/domain/glossary.md` 中 `PartyConfiguration` 统一语言。
-
-输出产物：
-
-- 新版 `GameSave` 显式持久化 `PartyConfiguration`：`playerCount` 与有效 owner 的当前 `heroId`；玩家成长、技能、装备、宠物和库存继续按 owner 保存。
-- 提供创建输入校验、读取查询、V4/旧单槽迁移和序列化 round-trip；迁移策略按 `TASK-SETTINGS-065` 结论实现并可测试。
-- 明确单人存档中 P2 非活动数据的保留/默认边界，非活动 owner 不得被正式运行时或功能页误用。
-- 建立正式流程读取队伍配置的唯一系统入口；本 task 不批量迁移地图、关卡和技能消费者。
-
-完成定义：
-
-- 新建与读取存档能稳定得到合法 1P/2P 队伍和各活动 owner 当前角色。
-- 非法人数、重复/非法角色值、缺失字段和损坏数据有确定的 sanitize/拒绝策略。
-- 旧存档迁移不丢失玩家成长、技能、库存、装备、宠物和关卡进度。
-- schema owner 不依赖 Phaser、Scene payload、URL 参数或显示对象。
-
-验收标准：
-
-- 修改前运行 `npm run check:structure`；目标文件触发 error 时先拆分。
-- 专项测试覆盖 1P、2P、五角色、旧 V1..V4、损坏/缺字段、round-trip、当前槽隔离和迁移幂等。
-- `npm run test:systems`、存档专项、`npm run build`、`npm run check:workflow` 和 `git diff --check` 通过。
-
-禁止范围：
-
-- 不实现新建存档选角 UI，不删除地图人数 chooser，不改技能页面。
-- 不通过清空旧 P2 数据简化迁移，不改变玩家输入键位。
-- 不引入账号、联网或云存档。
-
-状态更新：
-
-- 更新本线覆盖台账、`M-044/M-050`、`VS-052`、Goal/task/history 与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SLICE-151`：空槽新建时完成 1P/2P 与各 owner 角色选择真 UI。
-
-### TASK-SLICE-151
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Active 后续）
-
-Goal 包：
-
-- `GOAL-030`（Planned）
-
-目标机制/切片：
-
-- `M-005`、`M-006`、`M-044`、`M-050`、`VS-052`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若人数选择和角色选择属于两个独立资源族且各自需要完整运行校准，或 UI 实现还要求新增开场动画/剧情流程，立即把人数页与选角页拆成连续同线 Goal；不得用现代覆盖层合并。
-
-输入资料：
-
-- `TASK-SETTINGS-065` 的显示列表、视觉基准和现代流程合同。
-- `TASK-ARCH-011` 的 `PartyConfiguration` 创建与存档事务 API。
-- 当前真启动/六槽/确认资源与恢复语料中的人数、选角资源。
-
-输出产物：
-
-- 点击空槽后先进入新建存档流程，选择 1P/2P；1P 选择 P1 角色，2P 依次选择 P1/P2 角色。
-- 确认后一次性创建并选中完整存档；取消、返回、关闭或非法状态均不写入半成品槽。
-- 已有有效槽仍直接读取，损坏槽仍拒绝读取，删除仍二次确认。
-- 槽摘要显示已保存人数和活动角色，不依赖临时 scene 状态。
-
-完成定义：
-
-- 1P/2P 五角色组合均可生成合法存档；重新读取后人数和角色一致。
-- 新建流程完成前槽保持 empty；重复确认和快速点击幂等。
-- 视觉和交互复用原版已有资源，保留必要的现代存档安全反馈。
-
-UI 原生化合同：
-
-- 显示列表清单：消费 `TASK-SETTINGS-065` 的人数/角色/确认/取消根与子 Symbol、depth、矩阵、文字、按钮状态和命中区清单。
-- 原版视觉基准：使用该 task 固定的 940×590 1P、2P/P1、2P/P2、selected、确认和取消基准。
-- 允许的现代视觉例外：仅保留既有损坏存档、删除确认和存储不可用安全反馈；新建/选角主体无新增现代可见替代层。
-- 逐状态验收：空槽进入、1P、2P、五角色 normal/hover/pressed/selected、P1/P2 顺序、取消、确认、读取重载。
-- 差异证据：同尺寸并排/叠图、可见对象差异清单和容差解释；业务测试不替代视觉验收。
-
-验收标准：
-
-- 修改前运行 `npm run check:structure`。
-- 专项测试覆盖原子创建、取消不写、重复确认、1P/2P、五角色、读取、删除、损坏和当前槽。
-- `npm run test:systems`、`npm run build`、`npm run check:workflow`、`git diff --check` 与 940×590 逐状态运行验收通过，console 无 warning/error。
-
-禁止范围：
-
-- 不修改技能页、地图进关和正式关卡消费者。
-- 不用纯文字列表、矩形按钮或通用弹窗替代原版已有选角视觉。
-- 不实现联网匹配、中途增减玩家或角色转职。
-
-状态更新：
-
-- 更新本线覆盖台账、存档/UI 证据、`M-050`、`VS-052`、Goal/task/history 与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SLICE-152`：技能页面按当前存档活动 owner 和当前角色过滤。
 
 ### TASK-SLICE-152
 
@@ -171,11 +26,11 @@ UI 原生化合同：
 
 功能条线：
 
-- `LINE-FORMAL-GAME-LOOP`（Active 后续）
+- `LINE-FORMAL-GAME-LOOP`（Active）
 
 Goal 包：
 
-- `GOAL-031`（Planned）
+- `GOAL-031`（Active）
 
 目标机制/切片：
 

@@ -10,13 +10,20 @@ import { PetTuning } from './PetTuning';
 import type { PetRoster, PetState } from './PetTypes';
 import type { PlayerSlot } from './InputSystem';
 import {
+  createPartyConfiguration,
+  parsePartyConfiguration,
+  partyMatchesPlayerHeroes,
+  type PartyConfiguration,
+} from './PartyConfigurationSystem';
+import {
   sanitizeLevelUnlockProgress,
   type LevelUnlockProgress,
 } from './Stage11FlowSystem';
 import { HERO_SKILL_TREES, type AllSkillName, type HeroSkillLearningState } from './SkillUISystem';
 
 export const GameSaveStorageKey = 'zaixu-tianding.save.v1';
-export const GameSaveVersion = 4 as const;
+export const GameSaveVersion = 5 as const;
+export const FeatureGameSaveVersion = 4 as const;
 export const PreviousGameSaveVersion = 3 as const;
 export const PetOwnerGameSaveVersion = 2 as const;
 export const LegacyGameSaveVersion = 1 as const;
@@ -99,14 +106,20 @@ export type GameSaveV3 = {
 export type PlayerFeatureSaveV4 = Player1SaveV1 & { inventory: InventorySaveV4 };
 
 export type GameSaveV4 = {
-  version: typeof GameSaveVersion;
+  version: typeof FeatureGameSaveVersion;
   savedAt: string;
   player1: PlayerFeatureSaveV4;
   player2: PlayerFeatureSaveV4;
   levelUnlockProgress: LevelUnlockProgress;
 };
 
+export type GameSaveV5 = Omit<GameSaveV4, 'version'> & {
+  version: typeof GameSaveVersion;
+  party: PartyConfiguration;
+};
+
 export type CreateGameSaveInput = {
+  party?: PartyConfiguration;
   progression: HeroProgressionModel;
   skillLoadout: HeroSkillLoadout;
   skillLearning: HeroSkillLearningState;
@@ -140,34 +153,44 @@ const KnownSkillNames = new Set<AllSkillName>(
 );
 
 export type LoadedGameState = LoadedPlayer1State & {
+  party: PartyConfiguration;
   player1: LoadedPlayer1State;
   player2: LoadedPlayer1State;
   player2PetRoster: PetRoster;
   levelUnlockProgress: LevelUnlockProgress;
 };
 
-export function createGameSave(input: CreateGameSaveInput): GameSaveV4 {
+export function createGameSave(input: CreateGameSaveInput): GameSaveV5 {
+  const player1 = encodePlayerFeature(input);
+  const player2 = encodePlayerFeature({
+    progression: input.player2Progression,
+    skillLoadout: input.player2SkillLoadout,
+    skillLearning: input.player2SkillLearning,
+    inventoryStore: input.player2InventoryStore,
+    equipmentLoadout: input.player2EquipmentLoadout,
+    petRoster: input.player2PetRoster,
+  });
+  const party = input.party === undefined
+    ? createPartyConfiguration(1, player1.heroId)
+    : parsePartyConfiguration(input.party);
+  if (!party || !partyMatchesPlayerHeroes(party, player1.heroId, player2.heroId)) {
+    throw new RangeError('PartyConfiguration must be valid and match active player hero snapshots.');
+  }
   return {
     version: GameSaveVersion,
     savedAt: (input.now ?? new Date()).toISOString(),
-    player1: encodePlayerFeature(input),
-    player2: encodePlayerFeature({
-      progression: input.player2Progression,
-      skillLoadout: input.player2SkillLoadout,
-      skillLearning: input.player2SkillLearning,
-      inventoryStore: input.player2InventoryStore,
-      equipmentLoadout: input.player2EquipmentLoadout,
-      petRoster: input.player2PetRoster,
-    }),
+    party,
+    player1,
+    player2,
     levelUnlockProgress: sanitizeLevelUnlockProgress(input.levelUnlockProgress),
   };
 }
 
-export function serializeGameSave(save: GameSaveV4): string {
+export function serializeGameSave(save: GameSaveV5): string {
   return JSON.stringify(save);
 }
 
-export function parseGameSave(raw: string): GameSaveV4 | undefined {
+export function parseGameSave(raw: string): GameSaveV5 | undefined {
   try {
     const value: unknown = JSON.parse(raw);
     if (!isRecord(value) || typeof value.savedAt !== 'string' || !isValidPlayer1Save(value.player1)) {
@@ -184,9 +207,18 @@ export function parseGameSave(raw: string): GameSaveV4 | undefined {
       if (!isValidPlayerPetSave(value.player2)) return undefined;
       return migrateLegacySave(value.savedAt, value.player1 as Player1SaveV1, value.player2, value.levelUnlockProgress);
     }
+    if (value.version === FeatureGameSaveVersion) {
+      if (!isValidPlayer1Save(value.player2)) return undefined;
+      return migrateFeatureSave(value as unknown as GameSaveV4);
+    }
     if (value.version !== GameSaveVersion || !isValidPlayer1Save(value.player2)) return undefined;
+    const party = parsePartyConfiguration(value.party);
+    if (!party || !partyMatchesPlayerHeroes(party, value.player1.heroId, value.player2.heroId)) {
+      return undefined;
+    }
     return {
-      ...(value as unknown as GameSaveV4),
+      ...(value as unknown as GameSaveV5),
+      party,
       player1: sanitizePlayerFeatureSave(value.player1 as PlayerFeatureSaveV4),
       player2: sanitizePlayerFeatureSave(value.player2 as PlayerFeatureSaveV4),
       levelUnlockProgress: sanitizeLevelUnlockProgress(value.levelUnlockProgress),
@@ -198,7 +230,7 @@ export function parseGameSave(raw: string): GameSaveV4 | undefined {
 
 export function saveGame(
   storage: SaveStorage,
-  save: GameSaveV4,
+  save: GameSaveV5,
   storageKey = GameSaveStorageKey,
 ): void {
   storage.setItem(storageKey, serializeGameSave(save));
@@ -207,7 +239,7 @@ export function saveGame(
 export function loadGame(
   storage: SaveStorage,
   storageKey = GameSaveStorageKey,
-): GameSaveV4 | undefined {
+): GameSaveV5 | undefined {
   const raw = storage.getItem(storageKey);
   return raw === null ? undefined : parseGameSave(raw);
 }
@@ -232,14 +264,14 @@ export function saveLevelUnlockProgress(
 }
 
 export function restorePlayer1State(
-  save: GameSaveV4,
+  save: GameSaveV5,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): LoadedPlayer1State {
   return restorePlayerFeatureState(save.player1, equipmentRegistry, 'p1');
 }
 
 export function restorePlayer2State(
-  save: GameSaveV4,
+  save: GameSaveV5,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): LoadedPlayer1State {
   return restorePlayerFeatureState(save.player2, equipmentRegistry, 'p2');
@@ -271,13 +303,14 @@ function restorePlayerFeatureState(
 }
 
 export function restoreGameState(
-  save: GameSaveV4,
+  save: GameSaveV5,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): LoadedGameState {
   const player1 = restorePlayer1State(save, equipmentRegistry);
   const player2 = restorePlayer2State(save, equipmentRegistry);
   return {
     ...player1,
+    party: save.party,
     player1,
     player2,
     player2PetRoster: player2.petRoster,
@@ -331,17 +364,36 @@ function migrateLegacySave(
   player1: Player1SaveV1,
   player2?: PlayerPetSaveV2,
   levelUnlockProgress?: LevelUnlockProgress,
-): GameSaveV4 {
+): GameSaveV5 {
+  const migratedPlayer1: PlayerFeatureSaveV4 = {
+    ...player1,
+    heroId: clampInteger(player1.heroId, 1, 5),
+    inventory: createEmptyInventorySave(),
+  };
   return {
     version: GameSaveVersion,
     savedAt,
-    player1: { ...player1, inventory: createEmptyInventorySave() },
+    party: createPartyConfiguration(1, migratedPlayer1.heroId)!,
+    player1: migratedPlayer1,
     player2: {
       ...createDefaultPlayerFeatureSave(),
       pets: player2?.pets ?? [],
       selectedPetIndex: player2?.selectedPetIndex ?? 0,
     },
     levelUnlockProgress: sanitizeLevelUnlockProgress(levelUnlockProgress),
+  };
+}
+
+function migrateFeatureSave(save: GameSaveV4): GameSaveV5 {
+  const player1 = sanitizePlayerFeatureSave(save.player1);
+  const player2 = sanitizePlayerFeatureSave(save.player2);
+  return {
+    version: GameSaveVersion,
+    savedAt: save.savedAt,
+    party: createPartyConfiguration(1, player1.heroId)!,
+    player1,
+    player2,
+    levelUnlockProgress: sanitizeLevelUnlockProgress(save.levelUnlockProgress),
   };
 }
 
@@ -409,6 +461,7 @@ function decodeInventoryStore(
 function sanitizePlayerFeatureSave(value: PlayerFeatureSaveV4): PlayerFeatureSaveV4 {
   return {
     ...value,
+    heroId: clampInteger(value.heroId, 1, 5),
     inventory: isValidInventorySave(value.inventory) ? value.inventory : createEmptyInventorySave(),
   };
 }

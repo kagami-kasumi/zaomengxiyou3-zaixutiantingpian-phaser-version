@@ -6,6 +6,7 @@ import {
   heavenMapAssets,
   pickupAssets,
   role1NormalAttackAssets,
+  savePartyAssets,
   saveSlotAssets,
   scaffoldAssets,
   skillNativeUiAssets,
@@ -58,6 +59,9 @@ export class BootScene extends Phaser.Scene {
     }
     for (const asset of Object.values(saveSlotAssets)) {
       this.load.svg(asset.key, asset.path);
+    }
+    for (const asset of Object.values(savePartyAssets)) {
+      this.load.image(asset.key, asset.path);
     }
     for (const asset of Object.values(heavenMapAssets)) {
       this.load.svg(asset.key, asset.path);

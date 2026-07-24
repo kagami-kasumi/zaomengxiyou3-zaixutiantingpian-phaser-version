@@ -121,7 +121,9 @@ export function saveSceneNow(this: any, storage: SaveStorage = getRequiredBrowse
   const player2 = this.playerViews.find((view: any) => view.slot === 'p2');
   const savedPlayer2 = this.savedPlayer2FeatureState;
   try {
+    const activeParty = loadActiveGame(storage)?.party;
     const saved = saveActiveGame(storage, createGameSave({
+      party: activeParty,
       progression: player.progression,
       skillLoadout: player.skill.loadout,
       skillLearning: this.p1SkillLearning,

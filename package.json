@@ -27,6 +27,8 @@
     "test:heaven-map": "node tools/run-system-tests.mjs heaven-map-tests",
     "test:feature-ui-host": "node tools/run-system-tests.mjs feature-ui-host-tests",
     "test:feature-save-v4": "node tools/run-system-tests.mjs feature-save-v4-tests",
+    "test:party-save": "node tools/run-system-tests.mjs party-save-tests",
+    "test:save-party-flow": "node tools/run-system-tests.mjs save-party-flow-tests",
     "test:formal-inventory": "node tools/run-system-tests.mjs formal-inventory-tests",
     "test:formal-skills": "node tools/run-system-tests.mjs formal-skill-tests",
     "test:formal-pets": "node tools/run-system-tests.mjs formal-pet-tests",

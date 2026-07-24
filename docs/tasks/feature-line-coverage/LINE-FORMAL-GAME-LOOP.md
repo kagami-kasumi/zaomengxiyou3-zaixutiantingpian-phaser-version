@@ -18,12 +18,12 @@
 
 本线因此由 Done 重开为 Active，按 `TASK-SETTINGS-065 -> TASK-ARCH-011 -> TASK-SLICE-151 -> 152 -> 153` 连续推进；Stage 2-3 后移。
 
-`TASK-SETTINGS-065` 已闭合并归档：`save-party-flow-index.md` 已建立人数/选角/原子建档/地图/技能 owner 六段证据、character 1149/901 显示列表与 `PartyConfiguration`/旧档迁移合同。当前只推进 `TASK-ARCH-011` 的 schema、迁移和唯一运行时 owner。
+`TASK-SETTINGS-065`、`TASK-ARCH-011` 与 `TASK-SLICE-151` 已闭合并归档：六段证据、V5 `PartyConfiguration`/旧档迁移、原子建槽，以及 character 1149/901 的人数与 P1/P2 五角色原生流程均已完成。当前只推进 `TASK-SLICE-152` 的技能 owner/角色收敛。
 
 ### 重开关闭检查
 
-- [ ] 新建存档先确认 1P/2P 与活动 owner 当前角色，取消不写半成品槽。
-- [ ] 新版 schema 持久化 `PartyConfiguration`，旧 V4 安全迁移且不丢已有玩家数据。
+- [x] 新建存档先确认 1P/2P 与活动 owner 当前角色，取消不写半成品槽。
+- [x] 新版 schema 持久化 `PartyConfiguration`，旧 V4 安全迁移且不丢已有玩家数据。
 - [ ] 单人技能页只显示 P1 当前角色；双人 P1/P2 各自只显示自己的当前角色技能。
 - [ ] 地图点击关卡直接进入，不再出现逐关人数 chooser。
 - [ ] 正式地图、关卡、HUD、功能页、重试、返回和重载统一读取当前存档队伍。
@@ -54,7 +54,7 @@
 
 ## 当前 task
 
-`TASK-ARCH-011`：按 `save-party-flow-index.md` 落地新版 `PartyConfiguration`、V1..V4/旧单槽迁移、原子建档和正式运行时查询 owner；不提前实现选角 UI、技能过滤或地图直接进关。
+`TASK-SLICE-152`：让技能页只遍历当前存档活动 owner，并按每位 owner 的 party hero 展示/操作技能；不提前删除地图逐关 chooser 或修改技能数值/技能树。
 
 ## 调度顺序
 

@@ -149,6 +149,34 @@ export const SaveSlotAssetKeys = {
   confirmDialog: 'save-slots.confirm-dialog',
 } as const;
 
+export const SavePartyAssetKeys = {
+  numberUp: 'save-party.number.up',
+  numberOneOver: 'save-party.number.1p-over',
+  numberOneDown: 'save-party.number.1p-down',
+  numberTwoOver: 'save-party.number.2p-over',
+  numberTwoDown: 'save-party.number.2p-down',
+  numberBackOver: 'save-party.number.back-over',
+  numberBackDown: 'save-party.number.back-down',
+  roleUp: 'save-party.role.up',
+  markerP1: 'save-party.marker.p1',
+  markerP2: 'save-party.marker.p2',
+  role1Up: 'save-party.role1.up',
+  role1Over: 'save-party.role1.over',
+  role1Down: 'save-party.role1.down',
+  role2Up: 'save-party.role2.up',
+  role2Over: 'save-party.role2.over',
+  role2Down: 'save-party.role2.down',
+  role3Up: 'save-party.role3.up',
+  role3Over: 'save-party.role3.over',
+  role3Down: 'save-party.role3.down',
+  role4Up: 'save-party.role4.up',
+  role4Over: 'save-party.role4.over',
+  role4Down: 'save-party.role4.down',
+  role5Up: 'save-party.role5.up',
+  role5Over: 'save-party.role5.over',
+  role5Down: 'save-party.role5.down',
+} as const;
+
 export const FullFeatureUiAssetKeys = {
   backpack: 'full-ui.backpack',
   backpackGrid: 'full-ui.backpack-grid',
@@ -475,6 +503,53 @@ export const saveSlotAssets = {
     sourceCharacterId: 18,
   },
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
+const SavePartyAssetRoot = '/assets/ui/save-party';
+
+export const savePartyAssets = {
+  numberUp: savePartyAsset(SavePartyAssetKeys.numberUp, 'select-number-up.png', 'export.GameMenu number selector', 1149),
+  numberOneOver: savePartyAsset(SavePartyAssetKeys.numberOneOver, 'select-number-1p-over.png', 'simpleGame over', 1111),
+  numberOneDown: savePartyAsset(SavePartyAssetKeys.numberOneDown, 'select-number-1p-down.png', 'simpleGame down', 1111),
+  numberTwoOver: savePartyAsset(SavePartyAssetKeys.numberTwoOver, 'select-number-2p-over.png', 'doubleGame over', 1115),
+  numberTwoDown: savePartyAsset(SavePartyAssetKeys.numberTwoDown, 'select-number-2p-down.png', 'doubleGame down', 1115),
+  numberBackOver: savePartyAsset(SavePartyAssetKeys.numberBackOver, 'select-number-back-over.png', 'backbtn over', 1136),
+  numberBackDown: savePartyAsset(SavePartyAssetKeys.numberBackDown, 'select-number-back-down.png', 'backbtn down', 1136),
+  roleUp: savePartyAsset(SavePartyAssetKeys.roleUp, 'select-role-up.png', 'export.SelectRole up composition', 901),
+  markerP1: savePartyAsset(SavePartyAssetKeys.markerP1, 'marker-p1.png', 'SelectRole 1P marker image', 115),
+  markerP2: savePartyAsset(SavePartyAssetKeys.markerP2, 'marker-p2.png', 'SelectRole 2P marker image', 108),
+  role1Up: savePartyAsset(SavePartyAssetKeys.role1Up, 'role1-1_up.png', 'SelectRole btn1 up', 877),
+  role1Over: savePartyAsset(SavePartyAssetKeys.role1Over, 'role1-2_over.png', 'SelectRole btn1 over', 877),
+  role1Down: savePartyAsset(SavePartyAssetKeys.role1Down, 'role1-3_down.png', 'SelectRole btn1 down', 877),
+  role2Up: savePartyAsset(SavePartyAssetKeys.role2Up, 'role2-1_up.png', 'SelectRole btn2 up', 883),
+  role2Over: savePartyAsset(SavePartyAssetKeys.role2Over, 'role2-2_over.png', 'SelectRole btn2 over', 883),
+  role2Down: savePartyAsset(SavePartyAssetKeys.role2Down, 'role2-3_down.png', 'SelectRole btn2 down', 883),
+  role3Up: savePartyAsset(SavePartyAssetKeys.role3Up, 'role3-1_up.png', 'SelectRole btn3 up', 888),
+  role3Over: savePartyAsset(SavePartyAssetKeys.role3Over, 'role3-2_over.png', 'SelectRole btn3 over', 888),
+  role3Down: savePartyAsset(SavePartyAssetKeys.role3Down, 'role3-3_down.png', 'SelectRole btn3 down', 888),
+  role4Up: savePartyAsset(SavePartyAssetKeys.role4Up, 'role4-1_up.png', 'SelectRole btn4 up', 894),
+  role4Over: savePartyAsset(SavePartyAssetKeys.role4Over, 'role4-2_over.png', 'SelectRole btn4 over', 894),
+  role4Down: savePartyAsset(SavePartyAssetKeys.role4Down, 'role4-3_down.png', 'SelectRole btn4 down', 894),
+  role5Up: savePartyAsset(SavePartyAssetKeys.role5Up, 'role5-1_up.png', 'SelectRole btn5 up', 900),
+  role5Over: savePartyAsset(SavePartyAssetKeys.role5Over, 'role5-2_over.png', 'SelectRole btn5 over', 900),
+  role5Down: savePartyAsset(SavePartyAssetKeys.role5Down, 'role5-3_down.png', 'SelectRole btn5 down', 900),
+} as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
+function savePartyAsset(
+  key: string,
+  fileName: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return {
+    key,
+    path: `${SavePartyAssetRoot}/${fileName}`,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol,
+    sourceCharacterId,
+  };
+}
 
 export const heavenMapAssets = {
   world: {

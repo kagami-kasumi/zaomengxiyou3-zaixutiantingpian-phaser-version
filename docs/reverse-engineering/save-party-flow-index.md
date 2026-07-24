@@ -29,6 +29,13 @@
 
 影响后续四个实现 task 的未知项：**0**。
 
+实现状态（2026-07-24）：
+
+- `TASK-ARCH-011` 已完成 V5 `PartyConfiguration`、V1..V4/旧单槽迁移、严格校验、原子建槽与 active party 查询。
+- `TASK-SLICE-151` 已直接接入 character 1149/901、五角色三态和 P1/P2 marker；人数返回、角色 Escape、最终点击原子确认、1P/2P 读取摘要与零 console 均通过。
+- 自动状态与组合证据见 `tools/save-party-flow-tests.ts`，940×590 显示列表/逐状态/可见差异证据见 `docs/tasks/evidence/TASK-SLICE-151-visual-audit.md`。
+- 剩余实现边界仍只有 `TASK-SLICE-152` 的技能 owner 收敛和 `TASK-SLICE-153` 的直接进关/跨场景统一消费。
+
 ## 3. 原版流程合同
 
 ```text

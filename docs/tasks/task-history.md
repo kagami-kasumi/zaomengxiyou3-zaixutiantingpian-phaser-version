@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-151 | 新建存档原生 UI | 空槽确定 1P/2P 与 P1/P2 当前角色并原子创建完整存档 | M-005、M-006、M-044、M-050、VS-052 | character 1149/901 原生人数/五角色流程、内存 draft、25 条 ready 资源、组合/事务专项与 940×590 零 console 证据 |
+| TASK-ARCH-011 | 存档/运行时架构 | 持久化队伍人数与当前角色，迁移旧档并建立唯一 `PartyConfiguration` owner | M-005、M-006、M-044、M-050、VS-052 | V5 schema、`PartyConfigurationSystem.ts`、V1..V4/旧单槽迁移、原子建槽/active 查询、专项/全系统/build |
 | TASK-SETTINGS-065 | 正式身份/流程逆向 | 闭合新建存档人数、P1/P2 选角、技能 owner 与直接进关合同和真 UI 证据 | M-005、M-006、M-041、M-044、M-050、M-051、M-052、VS-052、VS-053、VS-055 | `save-party-flow-index.md`、character 1149/901 显示列表、`PartyConfiguration`/迁移/四 Goal 实现合同 |
 | TASK-SLICE-150D | 运行校准/关线裁决 | 完成 Stage 2-2 的 940×590 1P/2P 全流程、返回重载与关闭裁决 | M-026、M-027、M-030、M-035、M-044、VS-056 | 五停点/9 火焰、Monster16 八动作/六攻击、失败/显门胜利/2-3 当前槽保存、返回重载、全门禁与零 console 证据；`LINE-STAGE-2-2` 关闭 |
 | TASK-SLICE-150 | 拆分父任务收束 | 汇总 `150A..150D` 四个同线子 task 并关闭父任务追踪 | M-026、M-027、M-030、M-035、M-044、VS-056 | 四个 0-compact Goal 全部独立归档，Stage 2-2 从六段证据到运行校准完整闭合 |
@@ -4903,6 +4905,66 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-151
+
+- 完成日期：2026-07-24
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SLICE-152`）
+- 新增 `SaveProfileDraftSystem.ts` 管理纯内存人数/P1/P2 选角状态；1P 选完 P1、2P 选完不同角色的 P2 后才形成完整 draft，取消和非法转换不产生存储写入。
+- 新增 `SavePartyCreationView.ts`，直接消费 character 1149 人数页、character 901 根、五卡 up/over/down 与 P1/P2 marker 共 25 条 ready 资源；原命中区透明承载交互，没有现代标题、边框、文字列表、通用按钮或可见确认/取消替代层。
+- 空槽现在先进入人数/选角流程，最终角色点击调用 `createPartySaveSlot()` 一次性建 V5 槽并设为 active；创建 guard 阻止快速/重复确认，失败保持目标槽 empty。
+- 人数页原生返回和角色页 Escape 取消均不写槽；已有有效/损坏/删除路径保持原行为；槽摘要从已保存 party 显示 `1P 角色` 或 `2P 角色 / 角色`。
+- 专项覆盖五个 1P 角色、20 个有效 2P 有序组合、5 个重复角色拒绝、取消不写、重复最终确认、active slot、manifest/原生 PNG 和场景静态合同。
+- 940×590 浏览器覆盖人数 normal/hover、角色 normal/P1 hover、2P P1 selected/P2 hover、重复角色拒绝、Escape、最终确认、地图路由与新页面重载；代表双人摘要为“2P 唐僧 / 白龙”，console warning/error 为 0，任务创建的 3 号测试槽已删除。
+
+更新文件：
+- `src/systems/SaveProfileDraftSystem.ts`
+- `src/scenes/save-slot/SavePartyCreationView.ts`
+- `src/scenes/SaveSlotScene.ts`
+- `src/systems/SaveSlotSystem.ts`
+- `src/assets/AssetManifest.ts`
+- `src/scenes/BootScene.ts`
+- `public/assets/ui/save-party/` 下 25 个原生派生 PNG
+- `tools/save-party-flow-tests.ts` 与系统测试入口
+- `docs/reverse-engineering/asset-annotation/annotations/save-party.csv`
+- `docs/reverse-engineering/asset-annotation/batches/save-party.md`
+- `docs/tasks/evidence/TASK-SLICE-151-visual-audit.md` 与六张 940×590 截图
+- 存档队伍证据、机制、切片、功能线、Goal/task/history 与适用 PG 反馈
+
+验证：
+- `npm run test:save-party-flow`、`npm run test:save-slots` 通过。
+- `npm run test:systems`、`npm run check:structure`、`npm run build`、`npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次 Goal 最终收尾。
+- 940×590 逐状态与新页面重载通过；两个验收标签页 console warning/error 均为 0。
+
+推荐任务：
+- `TASK-SLICE-152`：技能页面只显示当前存档活动 owner 的当前角色技能。
+
+### TASK-ARCH-011
+
+- 完成日期：2026-07-24
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SLICE-151`）
+- 新增纯系统层 `PartyConfigurationSystem.ts`，定义合法 1P/2P 判别联合、五角色校验、双人不同角色门禁、活动 owner 枚举和 owner→hero 查询；不依赖 Phaser、Scene payload、URL 或显示对象。
+- `GameSaveVersion` 升级为 V5并显式持久化 `party`；创建时要求活动 member 与对应 player 快照 hero 一致，V5 缺字段、非法人数/角色、额外 member、重复角色或 party/player hero 不一致均拒读为 corrupt。
+- V1/V2/V3 沿既有域迁移，V4 与旧单槽补为 1P party；P1 hero 走安全清洗，P2 成长、技能、库存、装备和宠物全量保留但不活动；迁移后的 V5 round-trip 幂等。
+- `SaveSlotSystem` 新增 `createPartySaveSlot()` 和 `getActivePartyConfiguration()`；建槽先完整校验再写槽与 active key，写入失败执行回滚，不留下半成品槽。
+- 五个正式功能页保存路径与测试场景自动保存均保留当前 V5 party；没有提前改选角 UI、技能 owner 可达性或地图逐关人数 chooser。
+
+更新文件：
+- `src/systems/PartyConfigurationSystem.ts`
+- `src/systems/SaveSystem.ts`
+- `src/systems/SaveSlotSystem.ts`
+- 五个 `Formal*PageSystem.ts` 持久化适配与 `TestSceneSaveBridge.ts`
+- `tools/party-save-tests.ts`、系统测试入口与任务/覆盖/机制文档
+
+验证：
+- `npm run check:structure` 通过；8 个既有无关 warning，目标文件无 error/warning。
+- `npm run test:party-save`、`npm run test:feature-save-v4`、`npm run test:save-slots` 通过。
+- `npm run test:systems` 通过。
+- `npm run build` 通过；保留既有大 chunk warning。
+- `npm run check:workflow` 与 `git diff --check` 见本次 Goal 最终收尾。
+
+推荐任务：
+- `TASK-SLICE-151`：复用 character 1149/901，在空槽新建时完成 1P/2P 与各活动 owner 当前角色真 UI，并由最终角色点击调用 V5 原子建槽。
 
 ### TASK-SETTINGS-065
 
