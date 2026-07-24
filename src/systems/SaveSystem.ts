@@ -22,7 +22,8 @@ import {
 import { HERO_SKILL_TREES, type AllSkillName, type HeroSkillLearningState } from './SkillUISystem';
 
 export const GameSaveStorageKey = 'zaixu-tianding.save.v1';
-export const GameSaveVersion = 5 as const;
+export const GameSaveVersion = 6 as const;
+export const PartyGameSaveVersion = 5 as const;
 export const FeatureGameSaveVersion = 4 as const;
 export const PreviousGameSaveVersion = 3 as const;
 export const PetOwnerGameSaveVersion = 2 as const;
@@ -114,19 +115,34 @@ export type GameSaveV4 = {
 };
 
 export type GameSaveV5 = Omit<GameSaveV4, 'version'> & {
-  version: typeof GameSaveVersion;
+  version: typeof PartyGameSaveVersion;
   party: PartyConfiguration;
+};
+
+export type PlayerSkillLearningSaveV6 = Omit<Player1SaveV1['skillLearning'], 'soulCount'>;
+
+export type PlayerFeatureSaveV6 = Omit<PlayerFeatureSaveV4, 'skillLearning'> & {
+  soulCount: number;
+  skillLearning: PlayerSkillLearningSaveV6;
+};
+
+export type GameSaveV6 = Omit<GameSaveV5, 'version' | 'player1' | 'player2'> & {
+  version: typeof GameSaveVersion;
+  player1: PlayerFeatureSaveV6;
+  player2: PlayerFeatureSaveV6;
 };
 
 export type CreateGameSaveInput = {
   party?: PartyConfiguration;
   progression: HeroProgressionModel;
+  soulCount?: number;
   skillLoadout: HeroSkillLoadout;
   skillLearning: HeroSkillLearningState;
   equipmentLoadout: EquipmentLoadout;
   inventoryStore?: InventoryStore;
   petRoster: PetRoster;
   player2Progression?: HeroProgressionModel;
+  player2SoulCount?: number;
   player2SkillLoadout?: HeroSkillLoadout;
   player2SkillLearning?: HeroSkillLearningState;
   player2InventoryStore?: InventoryStore;
@@ -138,6 +154,7 @@ export type CreateGameSaveInput = {
 
 export type LoadedPlayer1State = {
   progression: HeroProgressionModel;
+  soulCount: number;
   skillLoadout: HeroSkillLoadout;
   skillLearning: HeroSkillLearningState;
   equipmentLoadout: EquipmentLoadout;
@@ -160,10 +177,11 @@ export type LoadedGameState = LoadedPlayer1State & {
   levelUnlockProgress: LevelUnlockProgress;
 };
 
-export function createGameSave(input: CreateGameSaveInput): GameSaveV5 {
+export function createGameSave(input: CreateGameSaveInput): GameSaveV6 {
   const player1 = encodePlayerFeature(input);
   const player2 = encodePlayerFeature({
     progression: input.player2Progression,
+    soulCount: input.player2SoulCount,
     skillLoadout: input.player2SkillLoadout,
     skillLearning: input.player2SkillLearning,
     inventoryStore: input.player2InventoryStore,
@@ -186,41 +204,52 @@ export function createGameSave(input: CreateGameSaveInput): GameSaveV5 {
   };
 }
 
-export function serializeGameSave(save: GameSaveV5): string {
+export function serializeGameSave(save: GameSaveV6): string {
   return JSON.stringify(save);
 }
 
-export function parseGameSave(raw: string): GameSaveV5 | undefined {
+export function parseGameSave(raw: string): GameSaveV6 | undefined {
   try {
     const value: unknown = JSON.parse(raw);
-    if (!isRecord(value) || typeof value.savedAt !== 'string' || !isValidPlayer1Save(value.player1)) {
+    if (!isRecord(value) || typeof value.savedAt !== 'string' || !isPlayerSaveBase(value.player1)) {
       return undefined;
     }
     if (value.version === LegacyGameSaveVersion) {
+      if (!isValidLegacyPlayerSave(value.player1)) return undefined;
       return migrateLegacySave(value.savedAt, value.player1 as Player1SaveV1);
     }
     if (value.version === PetOwnerGameSaveVersion) {
-      if (!isValidPlayerPetSave(value.player2)) return undefined;
+      if (!isValidLegacyPlayerSave(value.player1) || !isValidPlayerPetSave(value.player2)) return undefined;
       return migrateLegacySave(value.savedAt, value.player1 as Player1SaveV1, value.player2);
     }
     if (value.version === PreviousGameSaveVersion) {
-      if (!isValidPlayerPetSave(value.player2)) return undefined;
+      if (!isValidLegacyPlayerSave(value.player1) || !isValidPlayerPetSave(value.player2)) return undefined;
       return migrateLegacySave(value.savedAt, value.player1 as Player1SaveV1, value.player2, value.levelUnlockProgress);
     }
     if (value.version === FeatureGameSaveVersion) {
-      if (!isValidPlayer1Save(value.player2)) return undefined;
+      if (!isValidLegacyPlayerSave(value.player1) || !isValidLegacyPlayerSave(value.player2)) return undefined;
       return migrateFeatureSave(value as unknown as GameSaveV4);
     }
-    if (value.version !== GameSaveVersion || !isValidPlayer1Save(value.player2)) return undefined;
+    if (value.version === PartyGameSaveVersion) {
+      if (!isValidLegacyPlayerSave(value.player1) || !isValidLegacyPlayerSave(value.player2)) return undefined;
+      const party = parsePartyConfiguration(value.party);
+      if (!party || !partyMatchesPlayerHeroes(party, value.player1.heroId, value.player2.heroId)) {
+        return undefined;
+      }
+      return migratePartySave(value as unknown as GameSaveV5, party);
+    }
+    if (value.version !== GameSaveVersion ||
+      !isValidPlayerFeatureSaveV6(value.player1) ||
+      !isValidPlayerFeatureSaveV6(value.player2)) return undefined;
     const party = parsePartyConfiguration(value.party);
     if (!party || !partyMatchesPlayerHeroes(party, value.player1.heroId, value.player2.heroId)) {
       return undefined;
     }
     return {
-      ...(value as unknown as GameSaveV5),
+      ...(value as unknown as GameSaveV6),
       party,
-      player1: sanitizePlayerFeatureSave(value.player1 as PlayerFeatureSaveV4),
-      player2: sanitizePlayerFeatureSave(value.player2 as PlayerFeatureSaveV4),
+      player1: sanitizePlayerFeatureSaveV6(value.player1 as PlayerFeatureSaveV6),
+      player2: sanitizePlayerFeatureSaveV6(value.player2 as PlayerFeatureSaveV6),
       levelUnlockProgress: sanitizeLevelUnlockProgress(value.levelUnlockProgress),
     };
   } catch {
@@ -230,7 +259,7 @@ export function parseGameSave(raw: string): GameSaveV5 | undefined {
 
 export function saveGame(
   storage: SaveStorage,
-  save: GameSaveV5,
+  save: GameSaveV6,
   storageKey = GameSaveStorageKey,
 ): void {
   storage.setItem(storageKey, serializeGameSave(save));
@@ -239,7 +268,7 @@ export function saveGame(
 export function loadGame(
   storage: SaveStorage,
   storageKey = GameSaveStorageKey,
-): GameSaveV5 | undefined {
+): GameSaveV6 | undefined {
   const raw = storage.getItem(storageKey);
   return raw === null ? undefined : parseGameSave(raw);
 }
@@ -264,21 +293,21 @@ export function saveLevelUnlockProgress(
 }
 
 export function restorePlayer1State(
-  save: GameSaveV5,
+  save: GameSaveV6,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): LoadedPlayer1State {
   return restorePlayerFeatureState(save.player1, equipmentRegistry, 'p1');
 }
 
 export function restorePlayer2State(
-  save: GameSaveV5,
+  save: GameSaveV6,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): LoadedPlayer1State {
   return restorePlayerFeatureState(save.player2, equipmentRegistry, 'p2');
 }
 
 function restorePlayerFeatureState(
-  source: PlayerFeatureSaveV4,
+  source: PlayerFeatureSaveV6,
   equipmentRegistry: Record<string, EquipmentDefinition>,
   ownerSlot: PlayerSlot,
 ): LoadedPlayer1State {
@@ -294,6 +323,7 @@ function restorePlayerFeatureState(
       expToNext,
       lastResult: 'loaded',
     },
+    soulCount: source.soulCount,
     skillLoadout: decodeSkillLoadout(source.skillLoadout),
     skillLearning: decodeSkillLearning(source.skillLearning, level),
     equipmentLoadout: decodeEquipmentLoadout(source.equipment, equipmentRegistry),
@@ -303,7 +333,7 @@ function restorePlayerFeatureState(
 }
 
 export function restoreGameState(
-  save: GameSaveV5,
+  save: GameSaveV6,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): LoadedGameState {
   const player1 = restorePlayer1State(save, equipmentRegistry);
@@ -320,17 +350,19 @@ export function restoreGameState(
 
 function encodePlayerFeature(input: {
   progression?: HeroProgressionModel;
+  soulCount?: number;
   skillLoadout?: HeroSkillLoadout;
   skillLearning?: HeroSkillLearningState;
   inventoryStore?: InventoryStore;
   equipmentLoadout?: EquipmentLoadout;
   petRoster?: PetRoster;
-}): PlayerFeatureSaveV4 {
+}): PlayerFeatureSaveV6 {
   const defaults = createDefaultPlayerFeatureSave();
   return {
     heroId: input.progression?.heroId ?? defaults.heroId,
     level: input.progression?.level ?? defaults.level,
     currentExp: input.progression?.currentExp ?? defaults.currentExp,
+    soulCount: input.soulCount ?? defaults.soulCount,
     skillLoadout: input.skillLoadout?.slots.map((binding) => binding ? { ...binding } : null) ?? defaults.skillLoadout,
     skillLearning: input.skillLearning ? cloneSkillLearning(input.skillLearning) : defaults.skillLearning,
     inventory: input.inventoryStore ? encodeInventoryStore(input.inventoryStore) : defaults.inventory,
@@ -340,15 +372,15 @@ function encodePlayerFeature(input: {
   };
 }
 
-function createDefaultPlayerFeatureSave(): PlayerFeatureSaveV4 {
+function createDefaultPlayerFeatureSave(): PlayerFeatureSaveV6 {
   return {
     heroId: 1,
     level: 1,
     currentExp: 0,
+    soulCount: 0,
     skillLoadout: [null, null, null, null, null],
     skillLearning: {
       heroLevel: 1,
-      soulCount: 0,
       trees: [{ treeLevel: 0, learnedSkills: [] }, { treeLevel: 0, learnedSkills: [] }],
       passiveSkills: [0, 0, 0, 0, 0],
     },
@@ -364,12 +396,12 @@ function migrateLegacySave(
   player1: Player1SaveV1,
   player2?: PlayerPetSaveV2,
   levelUnlockProgress?: LevelUnlockProgress,
-): GameSaveV5 {
-  const migratedPlayer1: PlayerFeatureSaveV4 = {
+): GameSaveV6 {
+  const migratedPlayer1 = migrateLegacyPlayerFeature({
     ...player1,
     heroId: clampInteger(player1.heroId, 1, 5),
     inventory: createEmptyInventorySave(),
-  };
+  });
   return {
     version: GameSaveVersion,
     savedAt,
@@ -384,9 +416,9 @@ function migrateLegacySave(
   };
 }
 
-function migrateFeatureSave(save: GameSaveV4): GameSaveV5 {
-  const player1 = sanitizePlayerFeatureSave(save.player1);
-  const player2 = sanitizePlayerFeatureSave(save.player2);
+function migrateFeatureSave(save: GameSaveV4): GameSaveV6 {
+  const player1 = migrateLegacyPlayerFeature(save.player1);
+  const player2 = migrateLegacyPlayerFeature(save.player2);
   return {
     version: GameSaveVersion,
     savedAt: save.savedAt,
@@ -394,6 +426,27 @@ function migrateFeatureSave(save: GameSaveV4): GameSaveV5 {
     player1,
     player2,
     levelUnlockProgress: sanitizeLevelUnlockProgress(save.levelUnlockProgress),
+  };
+}
+
+function migratePartySave(save: GameSaveV5, party: PartyConfiguration): GameSaveV6 {
+  return {
+    version: GameSaveVersion,
+    savedAt: save.savedAt,
+    party,
+    player1: migrateLegacyPlayerFeature(save.player1),
+    player2: migrateLegacyPlayerFeature(save.player2),
+    levelUnlockProgress: sanitizeLevelUnlockProgress(save.levelUnlockProgress),
+  };
+}
+
+function migrateLegacyPlayerFeature(value: PlayerFeatureSaveV4): PlayerFeatureSaveV6 {
+  const legacy = sanitizePlayerFeatureSave(value);
+  const { soulCount, ...skillLearning } = legacy.skillLearning;
+  return {
+    ...legacy,
+    soulCount,
+    skillLearning,
   };
 }
 
@@ -459,6 +512,14 @@ function decodeInventoryStore(
 }
 
 function sanitizePlayerFeatureSave(value: PlayerFeatureSaveV4): PlayerFeatureSaveV4 {
+  return {
+    ...value,
+    heroId: clampInteger(value.heroId, 1, 5),
+    inventory: isValidInventorySave(value.inventory) ? value.inventory : createEmptyInventorySave(),
+  };
+}
+
+function sanitizePlayerFeatureSaveV6(value: PlayerFeatureSaveV6): PlayerFeatureSaveV6 {
   return {
     ...value,
     heroId: clampInteger(value.heroId, 1, 5),
@@ -634,9 +695,15 @@ function decodePetId(value: unknown, index: number, ownerSlot: PlayerSlot): stri
   return ownerSlot === 'p2' && !id.startsWith('p2-') ? `p2-${id}` : id;
 }
 
-function isValidPlayer1Save(value: unknown): value is Player1SaveV1 {
+function isPlayerSaveBase(value: unknown): value is Player1SaveV1 {
   return isRecord(value) && Array.isArray(value.pets) &&
     Array.isArray(value.skillLoadout) && isRecord(value.skillLearning);
+}
+
+function isValidLegacyPlayerSave(value: unknown): value is Player1SaveV1 {
+  return isPlayerSaveBase(value) &&
+    Number.isFinite(value.skillLearning.soulCount) &&
+    value.skillLearning.soulCount >= 0;
 }
 
 function isValidPlayerPetSave(value: unknown): value is PlayerPetSaveV2 {
@@ -657,10 +724,9 @@ function decodeSkillLoadout(saved: Player1SaveV1['skillLoadout']): HeroSkillLoad
   return { slots: slots as unknown as HeroSkillLoadout['slots'] };
 }
 
-function cloneSkillLearning(state: HeroSkillLearningState): Player1SaveV1['skillLearning'] {
+function cloneSkillLearning(state: HeroSkillLearningState): PlayerSkillLearningSaveV6 {
   return {
     heroLevel: state.heroLevel,
-    soulCount: state.soulCount,
     trees: state.trees.map((tree) => ({
       treeLevel: tree.treeLevel,
       learnedSkills: tree.learnedSkills.map((skill) => ({ ...skill })),
@@ -669,7 +735,10 @@ function cloneSkillLearning(state: HeroSkillLearningState): Player1SaveV1['skill
   };
 }
 
-function decodeSkillLearning(saved: Player1SaveV1['skillLearning'], heroLevel: number): HeroSkillLearningState {
+function decodeSkillLearning(
+  saved: PlayerSkillLearningSaveV6,
+  heroLevel: number,
+): HeroSkillLearningState {
   const trees = [0, 1].map((treeIndex) => {
     const tree = saved.trees?.[treeIndex];
     const learned = Array.isArray(tree?.learnedSkills) ? tree.learnedSkills : [];
@@ -683,10 +752,17 @@ function decodeSkillLearning(saved: Player1SaveV1['skillLearning'], heroLevel: n
   const passive = Array.from({ length: 5 }, (_, index) => clampInteger(saved.passiveSkills?.[index], 0, 5));
   return {
     heroLevel,
-    soulCount: nonNegativeNumber(saved.soulCount),
     trees: trees as HeroSkillLearningState['trees'],
     passiveSkills: passive as HeroSkillLearningState['passiveSkills'],
   };
+}
+
+function isValidPlayerFeatureSaveV6(value: unknown): value is PlayerFeatureSaveV6 {
+  const candidate = value as PlayerFeatureSaveV6;
+  return isPlayerSaveBase(value) &&
+    Number.isFinite(candidate.soulCount) &&
+    candidate.soulCount >= 0 &&
+    !Object.prototype.hasOwnProperty.call(candidate.skillLearning, 'soulCount');
 }
 
 function isKnownSkill(value: unknown): value is AllSkillName {

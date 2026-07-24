@@ -92,8 +92,8 @@ function testEquipmentGateAndP1OnlyContract(): void {
 function testSoulUpgradeAndV4RoundTrip(): void {
   const { storage, model } = createReadyPage((save) => {
     setEquippedMagicWeapon(save, 'kyl', 1);
-    save.player1.skillLearning.soulCount = 1_500;
-    save.player2.skillLearning.soulCount = 777;
+    save.player1.soulCount = 1_500;
+    save.player2.soulCount = 777;
   });
   assert.equal(requestFormalMagicWeaponUpgrade(model, storage), 'upgraded');
   const panel = getFormalMagicWeaponPanelState(model);
@@ -105,7 +105,7 @@ function testSoulUpgradeAndV4RoundTrip(): void {
   assert.ok(persisted);
   assert.equal(persisted.player1.equipment.magicWeapon?.magicWeapon?.level, 2);
   assert.equal(persisted.player1.equipment.magicWeapon?.baseStatsOverride?.power, 4);
-  assert.equal(persisted.player2.skillLearning.soulCount, 777);
+  assert.equal(persisted.player2.soulCount, 777);
   const reloaded = createFormalMagicWeaponPage(storage);
   assert.ok(reloaded);
   assert.equal(getFormalMagicWeaponPanelState(reloaded).level, 2);

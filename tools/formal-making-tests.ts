@@ -112,8 +112,8 @@ function testAtomicTransactionAndReturn(): void {
 function testFormalOwnersPersistenceAndTruePage(): void {
   const storage = createStorage();
   const save = createDefaultGameSave();
-  save.player1.skillLearning.soulCount = 1_000;
-  save.player2.skillLearning.soulCount = 1_000;
+  save.player1.soulCount = 1_000;
+  save.player2.soulCount = 1_000;
   save.player1.inventory.categories.items.unshift(
     { kind: 'stack', fillName: 'whgzzs', stackId: 'p1-whg-book', quantity: 1 },
     { kind: 'stack', fillName: 'wptm', stackId: 'p1-making-timber', quantity: 20 },
@@ -127,7 +127,7 @@ function testFormalOwnersPersistenceAndTruePage(): void {
   selectFillName(model, 'sms1');
   assert.equal(stageFormalWorkshopMaking(model), true);
   assert.equal(runFormalWorkshopMaking(model, storage, () => 0), true);
-  assert.equal(getFormalWorkshopPlayer(model).skillLearning.soulCount, 800);
+  assert.equal(getFormalWorkshopPlayer(model).soulCount, 800);
   assert.equal(JSON.stringify(loadActiveGame(storage)!.player2), p2Before);
 
   const reloaded = createFormalWorkshopPage(storage, 'p1')!;

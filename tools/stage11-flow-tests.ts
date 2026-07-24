@@ -206,14 +206,19 @@ function testSaveV4RoundTripAndV1V2Migration(): void {
     { unlockedStage: 1, unlockedLevel: 2 },
   );
 
-  const v2 = { ...current, version: 2 } as Record<string, unknown>;
+  const { soulCount, ...player1 } = current.player1;
+  const legacyPlayer1 = {
+    ...player1,
+    skillLearning: { ...current.player1.skillLearning, soulCount },
+  };
+  const v2 = { ...current, version: 2, player1: legacyPlayer1 } as Record<string, unknown>;
   delete v2.levelUnlockProgress;
   const migratedV2 = parseGameSave(JSON.stringify(v2));
   assert.ok(migratedV2);
   assert.equal(migratedV2.version, GameSaveVersion);
   assert.deepEqual(migratedV2.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 1 });
 
-  const v1 = { version: 1, savedAt: current.savedAt, player1: current.player1 };
+  const v1 = { version: 1, savedAt: current.savedAt, player1: legacyPlayer1 };
   const migratedV1 = parseGameSave(JSON.stringify(v1));
   assert.ok(migratedV1);
   assert.equal(migratedV1.version, GameSaveVersion);

@@ -4,21 +4,20 @@
 
 ## 当前推荐
 
-`TASK-ARCH-013A` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-035` 和 `LINE-FORMAL-GAME-LOOP`。下一次 `/goal` 只建立玩家直属灵魂 owner、V6 schema 和 V1..V5 无损迁移；跨功能全旅程由同线 `GOAL-036` 独立闭合，不进入 Stage 2-3。
+`TASK-ARCH-013B` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-036` 和 `LINE-FORMAL-GAME-LOOP`。下一次 `/goal` 只收敛技能、炼丹炉、法宝等已知灵魂消费者，建立负向门禁并完成正式跨功能旅程；不进入 Stage 2-3。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-013A | Ready | GOAL-035 | LINE-FORMAL-GAME-LOOP | 玩家/存档架构 | 将灵魂提升为玩家直属属性并完成 V6 与 V1..V5 无损迁移 | M-044、VS-055、PG-010 | `player.soulCount` 唯一 owner、V6 codec、旧档迁移与专项回归 | TASK-ARCH-013B |
-| TASK-ARCH-013B | Planned | GOAL-036 | LINE-FORMAL-GAME-LOOP | 跨功能事务闭环 | 收敛技能、炼丹炉、法宝等灵魂消费者并完成负向门禁与正式旅程 | M-016、M-041、M-044、VS-055、PG-010 | 统一消费合同、P1/P2 隔离、跨页重载回归与 940×590 证据 | 恢复 TASK-SETTINGS-064 |
+| TASK-ARCH-013B | Ready | GOAL-036 | LINE-FORMAL-GAME-LOOP | 跨功能事务闭环 | 收敛技能、炼丹炉、法宝等灵魂消费者并完成负向门禁与正式旅程 | M-016、M-041、M-044、VS-055、PG-010 | 统一消费合同、P1/P2 隔离、跨页重载回归与 940×590 证据 | 恢复 TASK-SETTINGS-064 |
 | TASK-SETTINGS-064 | Planned | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
 | TASK-ARCH-010A | Planned | GOAL-026 | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B |
 | TASK-ARCH-010B | Planned | GOAL-027 | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task |
 
 ## 任务完成定义
 
-### TASK-ARCH-013A
+### TASK-ARCH-013B
 
 任务类型：
 
@@ -30,71 +29,7 @@
 
 Goal 包：
 
-- `GOAL-035`（Active）
-
-目标机制/切片：
-
-- `M-044`、`VS-055`、`PG-010`
-
-规模预算：
-
-- 主工作包：2（玩家级灵魂合同；V6 codec 与旧档迁移）
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若必须同时重构玩家完整数据模型、改动灵魂数值规则或进入浏览器跨功能旅程，立即留给 `TASK-ARCH-013B`；本 Goal 不扩大到 UI/资源修改。
-
-输入资料：
-
-- `PG-010`、`SaveSystem.ts`、`SkillUISystem.ts`、当前玩家运行时与相关保存/技能专项。
-- V1..V5 schema 和现有 party/P1/P2 迁移合同。
-
-输出产物：
-
-- 当前现代玩家状态与 V6 存档直接声明 `soulCount`；技能学习状态不再拥有灵魂。
-- V1..V5 嵌套灵魂无损迁移到 V6 玩家直属字段，P1/P2 各自保持原值。
-- 使现有 TypeScript 运行消费者可编译地读取当前玩家 owner；不保留双写或镜像字段。
-
-完成定义：
-
-- V6 新档、保存、读取和旧档迁移均只输出 `player.soulCount`。
-- `HeroSkillLearningState` 不再声明灵魂；旧嵌套路径只允许存在于显式 legacy schema/迁移代码。
-- 保存、迁移、技能规则专项与 build 通过。
-
-验收标准：
-
-- 覆盖 V1..V5→V6、V6 round-trip、P1/P2 不同余额和损坏值拒读。
-- `npm run check:structure`、相关专项、build、workflow 与 `git diff --check` 通过。
-
-禁止范围：
-
-- 不改灵魂初始值、掉落值、消耗值或技能数值。
-- 不修改技能/炼丹炉/法宝视觉、bundle 或原始资源。
-- 不提前关闭正式主循环；跨功能门禁与浏览器旅程留给 `TASK-ARCH-013B`。
-
-状态更新：
-
-- 更新 PG-010、正式主循环台账、Goal/task/history 与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-ARCH-013B`
-
-### TASK-ARCH-013B
-
-任务类型：
-
-- `TASK-ARCH`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Planned，待 GOAL-035 完成后激活）
-
-Goal 包：
-
-- `GOAL-036`（Planned）
+- `GOAL-036`（Active）
 
 目标机制/切片：
 

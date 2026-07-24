@@ -278,6 +278,7 @@ export function handleSkillUIKeys(this: any): void {
     const activeSlot: PlayerSlot = p1Open ? 'p1' : 'p2';
     const activeUI = p1Open ? this.p1SkillUI : this.p2SkillUI;
     const activeLearning = p1Open ? this.p1SkillLearning : this.p2SkillLearning;
+    const activeSoulOwner = p1Open ? this.p1SoulOwner : this.p2SoulOwner;
     const activePlayer = this.playerViews.find((p: { slot: PlayerSlot }) => p.slot === activeSlot);
     activeUI.message = '';
 
@@ -304,10 +305,10 @@ export function handleSkillUIKeys(this: any): void {
 
     if (this.panelTreeUpgradeKey && Phaser.Input.Keyboard.JustDown(this.panelTreeUpgradeKey)) {
       const treeIdx = activeUI.activeTab === 'tree2' ? 1 : 0;
-      if (upgradeTree(activeLearning, treeIdx)) {
+      if (upgradeTree(activeLearning, activeSoulOwner, treeIdx)) {
         activeUI.message = `Tree ${treeIdx + 1} upgraded to Lv.${activeLearning.trees[treeIdx].treeLevel}`;
       } else {
-        activeUI.message = String(canUpgradeTree(activeLearning, treeIdx));
+        activeUI.message = String(canUpgradeTree(activeLearning, activeSoulOwner, treeIdx));
       }
     }
 
@@ -327,11 +328,11 @@ export function handleSkillUIKeys(this: any): void {
       const treeConfig = getSkillTreeForHero(heroId, treeIdx);
       if (treeConfig) {
         const skillName = treeConfig.skills[activeUI.selectedSkillIndex];
-        if (upgradeSkill(activeLearning, skillName)) {
+        if (upgradeSkill(activeLearning, activeSoulOwner, skillName)) {
           const entry = findSkillInState(activeLearning, skillName);
           activeUI.message = `${skillName} upgraded to Lv.${entry?.level}`;
         } else {
-          activeUI.message = String(canUpgradeSkill(activeLearning, skillName));
+          activeUI.message = String(canUpgradeSkill(activeLearning, activeSoulOwner, skillName));
         }
       }
     }
@@ -360,10 +361,10 @@ export function handleSkillUIKeys(this: any): void {
 
     if (this.panelPassiveKey && Phaser.Input.Keyboard.JustDown(this.panelPassiveKey)) {
       const slotIdx = activeUI.selectedSkillIndex;
-      if (upgradePassiveSkill(activeLearning, slotIdx)) {
+      if (upgradePassiveSkill(activeLearning, activeSoulOwner, slotIdx)) {
         activeUI.message = `Passive ${slotIdx + 1} upgraded to Lv.${activeLearning.passiveSkills[slotIdx]}`;
       } else {
-        activeUI.message = String(canUpgradePassiveSkill(activeLearning, slotIdx));
+        activeUI.message = String(canUpgradePassiveSkill(activeLearning, activeSoulOwner, slotIdx));
       }
     }
   }

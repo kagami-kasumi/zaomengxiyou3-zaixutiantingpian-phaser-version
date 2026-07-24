@@ -485,7 +485,7 @@ function testGameSaveRoundTripRestoresP1PetsSkillsAndEquipment(): void {
       null,
     ],
   });
-  const learning = createSkillLearningState(12, 12_345);
+  const learning = createSkillLearningState(12);
   learning.trees[0].treeLevel = 3;
   learning.trees[0].learnedSkills.push({ skillName: 'dj', level: 3 });
   learning.passiveSkills[0] = 2;
@@ -509,6 +509,7 @@ function testGameSaveRoundTripRestoresP1PetsSkillsAndEquipment(): void {
 
   const save = createGameSave({
     progression,
+    soulCount: 12_345,
     skillLoadout: skillModel.loadout,
     skillLearning: learning,
     equipmentLoadout,
@@ -530,7 +531,7 @@ function testGameSaveRoundTripRestoresP1PetsSkillsAndEquipment(): void {
   assert.equal(restored.progression.level, 12);
   assert.equal(restored.progression.currentExp, 345);
   assert.deepEqual(restored.skillLoadout.slots[0], { skillName: 'dj', level: 3 });
-  assert.equal(restored.skillLearning.soulCount, 12_345);
+  assert.equal(restored.soulCount, 12_345);
   assert.equal(restored.skillLearning.trees[0].learnedSkills[0]?.skillName, 'dj');
   assert.equal(restored.equipmentLoadout.magicWeapon?.definition.fillName, 'xhhl');
   assert.equal(restored.petRoster.pets.length, roster.pets.length);

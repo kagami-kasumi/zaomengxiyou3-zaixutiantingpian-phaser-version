@@ -23,8 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-035 | Active | LINE-FORMAL-GAME-LOOP | TASK-ARCH-013A | 玩家直属灵魂 owner、V6 schema 与 V1..V5 无损迁移 | 预计 0 次 |
-| GOAL-036 | Planned | LINE-FORMAL-GAME-LOOP | TASK-ARCH-013B | 技能/炼丹炉/法宝统一消费、负向门禁与正式旅程闭环 | 预计 0 次 |
+| GOAL-036 | Active | LINE-FORMAL-GAME-LOOP | TASK-ARCH-013B | 技能/炼丹炉/法宝统一消费、负向门禁与正式旅程闭环 | 预计 0 次 |
 | GOAL-025 | Planned | LINE-STAGE-2-3 | TASK-SETTINGS-064 | Stage 2-3 真场景、专属流程、怪物/机关、结果与存档六段证据 | 预计 0 次 |
 | GOAL-026 | Planned | LINE-MONSTER-ARCH | TASK-ARCH-010A | 组合式怪物合同、定义目录、Targeting/Brain 接缝与兼容 facade | 预计 0 次 |
 | GOAL-027 | Planned | LINE-MONSTER-ARCH | TASK-ARCH-010B | 最小怪物运行时注册表与普通怪+Boss 正式关卡试点 | 预计 0 次 |

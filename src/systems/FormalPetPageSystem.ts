@@ -16,7 +16,7 @@ import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV5,
+  type GameSaveV6,
   type LoadedGameState,
   type LoadedPlayer1State,
   type SaveStorage,
@@ -29,7 +29,7 @@ export type FormalPetPageModel = {
   pageIndex: number;
   releaseArmedPetId?: string;
   message: string;
-  sourceSave: GameSaveV5;
+  sourceSave: GameSaveV6;
   restored: LoadedGameState;
 };
 
@@ -209,12 +209,14 @@ function persistFormalPetPage(model: FormalPetPageModel, storage: SaveStorage): 
   const save = createGameSave({
     party: model.sourceSave.party,
     progression: player1.progression,
+    soulCount: player1.soulCount,
     skillLoadout: player1.skillLoadout,
     skillLearning: player1.skillLearning,
     inventoryStore: player1.inventoryStore,
     equipmentLoadout: player1.equipmentLoadout,
     petRoster: player1.petRoster,
     player2Progression: player2.progression,
+    player2SoulCount: player2.soulCount,
     player2SkillLoadout: player2.skillLoadout,
     player2SkillLearning: player2.skillLearning,
     player2InventoryStore: player2.inventoryStore,

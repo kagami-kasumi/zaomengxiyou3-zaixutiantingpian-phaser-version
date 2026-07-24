@@ -69,7 +69,7 @@ export function createFormalSkillPageView(
   });
 
   const player = getFormalSkillPlayer(model);
-  objects.push(soulValue(scene, 805.95, 540, player.skillLearning.soulCount));
+  objects.push(soulValue(scene, 805.95, 540, player.soulCount));
 
   if (model.activeTab === 'binding') {
     renderBinding(scene, model, storage, callbacks, objects);

@@ -29,6 +29,7 @@ const bundledTests = requestedTests.length > 0
       'feature-ui-host-tests',
       'feature-save-v4-tests',
       'party-save-tests',
+      'soul-save-v6-tests',
       'save-party-flow-tests',
       'formal-inventory-tests',
       'formal-skill-tests',

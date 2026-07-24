@@ -74,7 +74,19 @@ function createMemoryStorage(initial: Record<string, string> = {}): SaveStorage 
 
 for (const sourceVersion of [1, 2, 3] as const) {
   const save = createDefaultGameSave(new Date('2026-07-21T00:00:00.000Z'));
-  const legacy = { ...save, version: sourceVersion } as Record<string, unknown>;
+  const { soulCount, ...player1 } = save.player1;
+  const legacy = {
+    ...save,
+    version: sourceVersion,
+    player1: {
+      ...player1,
+      skillLearning: { ...save.player1.skillLearning, soulCount },
+    },
+    player2: {
+      pets: save.player2.pets,
+      selectedPetIndex: save.player2.selectedPetIndex,
+    },
+  } as Record<string, unknown>;
   if (sourceVersion === 1) {
     delete legacy.player2;
     delete legacy.levelUnlockProgress;

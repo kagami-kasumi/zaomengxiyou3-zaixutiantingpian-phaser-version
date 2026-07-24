@@ -68,6 +68,8 @@ export function initializeSceneSave(this: any): void {
   resetHeroSkill(player.skill);
   this.p1SkillLearning = restored.skillLearning;
   this.p2SkillLearning = restored.player2.skillLearning;
+  this.p1SoulOwner.soulCount = restored.soulCount;
+  this.p2SoulOwner.soulCount = restored.player2.soulCount;
   this.playerInventoryRuntimes.p1.store = restored.inventoryStore;
   this.inventoryStore = restored.inventoryStore;
   this.playerInventoryRuntimes.p1.loadout = restored.equipmentLoadout;
@@ -146,12 +148,14 @@ export function saveSceneNow(this: any, storage?: SaveStorage): void {
     const saved = saveActiveGame(activeStorage, createGameSave({
       party: activeParty,
       progression: player.progression,
+      soulCount: this.p1SoulOwner.soulCount,
       skillLoadout: player.skill.loadout,
       skillLearning: this.p1SkillLearning,
       inventoryStore: this.playerInventoryRuntimes.p1.store,
       equipmentLoadout: this.playerInventoryRuntimes.p1.loadout,
       petRoster: this.petRoster,
       player2Progression: player2?.progression ?? savedPlayer2?.progression,
+      player2SoulCount: this.p2SoulOwner.soulCount,
       player2SkillLoadout: player2?.skill.loadout ?? savedPlayer2?.skillLoadout,
       player2SkillLearning: this.p2SkillLearning,
       player2InventoryStore: this.playerInventoryRuntimes.p2.store,

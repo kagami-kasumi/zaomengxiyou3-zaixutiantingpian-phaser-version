@@ -28,8 +28,8 @@ function testV4RoundTripKeepsBothFeatureOwners(): void {
   const p2Skills = createHeroSkillModel().loadout;
   p1Skills.slots[0] = { skillName: 'slz', level: 2 };
   p2Skills.slots[0] = { skillName: 'sgq', level: 4 };
-  const p1Learning = createSkillLearningState(8, 123);
-  const p2Learning = createSkillLearningState(12, 456);
+  const p1Learning = createSkillLearningState(8);
+  const p2Learning = createSkillLearningState(12);
   p2Learning.trees[0].treeLevel = 1;
   p2Learning.trees[0].learnedSkills.push({ skillName: 'sgq', level: 4 });
   rosters.p1.pets[0].level = 3;
@@ -37,12 +37,14 @@ function testV4RoundTripKeepsBothFeatureOwners(): void {
 
   const save = createGameSave({
     progression: createHeroProgression(1, 8, 20),
+    soulCount: 123,
     skillLoadout: p1Skills,
     skillLearning: p1Learning,
     inventoryStore: p1Inventory,
     equipmentLoadout: p1Loadout,
     petRoster: rosters.p1,
     player2Progression: createHeroProgression(2, 12, 30),
+    player2SoulCount: 456,
     player2SkillLoadout: p2Skills,
     player2SkillLearning: p2Learning,
     player2InventoryStore: p2Inventory,
@@ -56,7 +58,7 @@ function testV4RoundTripKeepsBothFeatureOwners(): void {
   assert.equal(restored.player2.progression.heroId, 2);
   assert.equal(restored.player2.progression.level, 12);
   assert.deepEqual(restored.player2.skillLoadout.slots[0], { skillName: 'sgq', level: 4 });
-  assert.equal(restored.player2.skillLearning.soulCount, 456);
+  assert.equal(restored.player2.soulCount, 456);
   assert.equal(restored.player1.inventoryStore.categories.items[0]?.quantity, 7);
   assert.equal(restored.player2.equipmentLoadout.weapon?.definition.fillName, 'ptdcz');
   assert.equal(restored.player1.petRoster.pets[0].level, 3);
@@ -67,8 +69,9 @@ function testV4RoundTripKeepsBothFeatureOwners(): void {
 function testV1V2V3MigrationUsesSafeFeatureDefaults(): void {
   const current = createGameSave({
     progression: createHeroProgression(3, 17, 42),
+    soulCount: 99,
     skillLoadout: createHeroSkillModel().loadout,
-    skillLearning: createSkillLearningState(17, 99),
+    skillLearning: createSkillLearningState(17),
     equipmentLoadout: createEmptyEquipmentLoadout(),
     petRoster: createPlayerPetRosters().p1,
     player2PetRoster: createPlayerPetRosters().p2,
@@ -77,10 +80,14 @@ function testV1V2V3MigrationUsesSafeFeatureDefaults(): void {
     const legacy: any = {
       version,
       savedAt: current.savedAt,
-      player1: { ...current.player1 },
+      player1: {
+        ...current.player1,
+        skillLearning: { ...current.player1.skillLearning, soulCount: current.player1.soulCount },
+      },
       player2: { pets: current.player2.pets, selectedPetIndex: current.player2.selectedPetIndex },
       levelUnlockProgress: { unlockedStage: 1, unlockedLevel: 3 },
     };
+    delete legacy.player1.soulCount;
     delete legacy.player1.inventory;
     if (version === 1) delete legacy.player2;
     if (version < 3) delete legacy.levelUnlockProgress;
@@ -92,7 +99,7 @@ function testV1V2V3MigrationUsesSafeFeatureDefaults(): void {
     assert.equal(restored.player1.progression.level, 17);
     assert.equal(restored.player1.inventoryStore.categories.items.length, 0);
     assert.equal(restored.player2.progression.level, 1);
-    assert.equal(restored.player2.skillLearning.soulCount, 0);
+    assert.equal(restored.player2.soulCount, 0);
     assert.equal(restored.player2.inventoryStore.categories.equipment.length, 0);
     assert.equal(restored.player2.equipmentLoadout.weapon, null);
     assert.equal(restored.levelUnlockProgress.unlockedLevel, version === 3 ? 3 : 1);

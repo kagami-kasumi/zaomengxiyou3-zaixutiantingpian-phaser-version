@@ -140,8 +140,8 @@ function testAtomicCommitAndEquippedReturn(): void {
 function testFormalOwnerIsolationPersistenceAndTruePage(): void {
   const storage = createStorage();
   const save = createDefaultGameSave();
-  save.player1.skillLearning.soulCount = 1_000;
-  save.player2.skillLearning.soulCount = 1_000;
+  save.player1.soulCount = 1_000;
+  save.player2.soulCount = 1_000;
   save.player1.inventory.categories.equipment.unshift({
     kind: 'equipment', fillName: 'ptdcz', instanceId: 'p1-resolution-target', quantity: 1,
   });
@@ -152,7 +152,7 @@ function testFormalOwnerIsolationPersistenceAndTruePage(): void {
   selectFillName(model, 'ptdcz');
   assert.equal(stageFormalWorkshopResolution(model), true);
   assert.equal(runFormalWorkshopResolution(model, storage, () => 0), true);
-  assert.equal(getFormalWorkshopPlayer(model).skillLearning.soulCount, 900);
+  assert.equal(getFormalWorkshopPlayer(model).soulCount, 900);
   assert.equal(getStackQuantityByFillName(getFormalWorkshopPlayer(model).inventoryStore, 'wptm'), 1);
   const persisted = loadActiveGame(storage)!;
   assert.equal(persisted.player1.inventory.categories.equipment.some((entry) => entry.instanceId === 'p1-resolution-target'), false);

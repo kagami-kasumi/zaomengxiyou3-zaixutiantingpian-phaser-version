@@ -65,6 +65,7 @@ import {
   createSkillLearningState,
   createSkillUIState,
   type HeroSkillLearningState,
+  type PlayerSoulOwner,
   type SkillUIState,
 } from './test-scene/TestSceneSystems';
 import {
@@ -400,8 +401,10 @@ export class TestScene extends Phaser.Scene {
   private p2SkillUI: SkillUIState = createSkillUIState();
   private p1SkillBar?: SkillBarView;
   private p2SkillBar?: SkillBarView;
-  public p1SkillLearning: HeroSkillLearningState = createSkillLearningState(10, 5000);
-  public p2SkillLearning: HeroSkillLearningState = createSkillLearningState(10, 5000);
+  public p1SkillLearning: HeroSkillLearningState = createSkillLearningState(10);
+  public p2SkillLearning: HeroSkillLearningState = createSkillLearningState(10);
+  public p1SoulOwner: PlayerSoulOwner = { soulCount: 5000 };
+  public p2SoulOwner: PlayerSoulOwner = { soulCount: 5000 };
   private p1SkillPanel?: SkillPanelView;
   private p2SkillPanel?: SkillPanelView;
   private bossArena: BossArenaModel = createBossArena();

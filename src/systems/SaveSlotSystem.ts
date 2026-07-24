@@ -11,7 +11,7 @@ import {
   parseGameSave,
   saveGame,
   serializeGameSave,
-  type GameSaveV5,
+  type GameSaveV6,
   type SaveStorage,
 } from './SaveSystem';
 import {
@@ -33,7 +33,7 @@ export type SaveSlotSnapshot = {
   displayNumber: number;
   storageKey: string;
   status: SaveSlotStatus;
-  save?: GameSaveV5;
+  save?: GameSaveV6;
   sourceVersion?: number;
 };
 
@@ -78,14 +78,15 @@ export function listSaveSlots(storage: SaveStorage): SaveSlotSnapshot[] {
 export function createDefaultGameSave(
   now = new Date(),
   party: PartyConfiguration = createPartyConfiguration(1, 1)!,
-): GameSaveV5 {
+): GameSaveV6 {
   const rosters = createPlayerPetRosters();
   const inventories = createPlayerInventoryRuntimes(createSeedEquipmentRegistry());
   return createGameSave({
     party,
     progression: createHeroProgression(party.members.p1.heroId),
     skillLoadout: createHeroSkillModel().loadout,
-    skillLearning: createSkillLearningState(1, 0),
+    soulCount: 0,
+    skillLearning: createSkillLearningState(1),
     inventoryStore: inventories.p1.store,
     equipmentLoadout: inventories.p1.loadout,
     petRoster: rosters.p1,
@@ -103,7 +104,7 @@ export function createDefaultGameSave(
 export function createSaveSlot(
   storage: SaveStorage,
   slotId: SaveSlotId,
-  save: GameSaveV5 = createDefaultGameSave(),
+  save: GameSaveV6 = createDefaultGameSave(),
 ): boolean {
   if (inspectSaveSlot(storage, slotId).status !== 'empty') return false;
   const normalized = parseGameSave(serializeGameSave(save));
@@ -138,7 +139,7 @@ export function createPartySaveSlot(
   return party ? createSaveSlot(storage, slotId, createDefaultGameSave(now, party)) : false;
 }
 
-export function selectSaveSlot(storage: SaveStorage, slotId: SaveSlotId): GameSaveV5 | undefined {
+export function selectSaveSlot(storage: SaveStorage, slotId: SaveSlotId): GameSaveV6 | undefined {
   const snapshot = inspectSaveSlot(storage, slotId);
   if (snapshot.status !== 'valid' || !snapshot.save) return undefined;
   // Parsing is the V1..V4 migration and V5 validation boundary. Persist normalized V5 in place.
@@ -161,12 +162,12 @@ export function getActiveSaveSlotId(storage: SaveStorage): SaveSlotId | undefine
   return isSaveSlotId(value) ? value : undefined;
 }
 
-export function loadActiveGame(storage: SaveStorage): GameSaveV5 | undefined {
+export function loadActiveGame(storage: SaveStorage): GameSaveV6 | undefined {
   const slotId = getActiveSaveSlotId(storage);
   return slotId === undefined ? undefined : loadGame(storage, getSaveSlotStorageKey(slotId));
 }
 
-export function saveActiveGame(storage: SaveStorage, save: GameSaveV5): boolean {
+export function saveActiveGame(storage: SaveStorage, save: GameSaveV6): boolean {
   const slotId = getActiveSaveSlotId(storage);
   if (slotId === undefined || inspectSaveSlot(storage, slotId).status !== 'valid') return false;
   saveGame(storage, save, getSaveSlotStorageKey(slotId));
@@ -175,7 +176,7 @@ export function saveActiveGame(storage: SaveStorage, save: GameSaveV5): boolean 
 
 export function saveActiveLevelUnlockProgress(
   storage: SaveStorage,
-  progress: GameSaveV5['levelUnlockProgress'],
+  progress: GameSaveV6['levelUnlockProgress'],
   now = new Date(),
 ): boolean {
   const save = loadActiveGame(storage);

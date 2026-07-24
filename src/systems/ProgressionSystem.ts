@@ -9,6 +9,10 @@ export type HeroProgressionModel = {
   lastResult: string;
 };
 
+export type PlayerSoulOwner = {
+  soulCount: number;
+};
+
 export type HeroProgressionResult = {
   expBefore: number;
   expAfter: number;

@@ -141,8 +141,8 @@ function testRejectedTransactionKeepsStaging(): void {
 function testFormalOwnerTransactionAndPersistence(): void {
   const storage = createStorage();
   const save = createDefaultGameSave();
-  save.player1.skillLearning.soulCount = 1_000;
-  save.player2.skillLearning.soulCount = 1_000;
+  save.player1.soulCount = 1_000;
+  save.player2.soulCount = 1_000;
   save.player1.inventory.categories.equipment.unshift({
     kind: 'equipment', fillName: 'ptdcz', instanceId: 'p1-strength-target', quantity: 1,
   });
@@ -160,7 +160,7 @@ function testFormalOwnerTransactionAndPersistence(): void {
   selectModelEntry(model, 'wpqhs1');
   assert.equal(stageFormalWorkshopStrengthening(model), true);
   assert.equal(runFormalWorkshopStrengthening(model, storage, () => 0), true);
-  assert.equal(getFormalWorkshopPlayer(model).skillLearning.soulCount, 800);
+  assert.equal(getFormalWorkshopPlayer(model).soulCount, 800);
   const persisted = loadActiveGame(storage)!;
   const strengthened = persisted.player1.inventory.categories.equipment.find((entry) => entry.instanceId === 'p1-strength-target');
   assert.equal(strengthened?.strengthLevel, 1);

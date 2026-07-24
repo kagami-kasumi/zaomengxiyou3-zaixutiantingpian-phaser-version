@@ -45,7 +45,7 @@ function createReadyModel(party = createPartyConfiguration(1, 1)!) {
   for (const player of [save.player1, save.player2]) {
     player.level = 20;
     player.skillLearning.heroLevel = 20;
-    player.skillLearning.soulCount = 20_000;
+    player.soulCount = 20_000;
   }
   assert.equal(createSaveSlot(storage, 0, save), true);
   const model = createFormalSkillPage(storage, 'p1');

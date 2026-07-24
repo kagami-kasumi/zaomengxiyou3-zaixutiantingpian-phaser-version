@@ -100,7 +100,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
     }, 'workshop-commit-strength'));
   } else if (model.tab === 'fusion') {
     const fusion = model.fusionSessions[model.owner];
-    objects.push(statusText(scene, `灵魂 ${player.skillLearning.soulCount}\n暂存：${fusion.slots.map((slot) => slot?.entry.definition.name).join(' / ') || '空'}\n${model.message}`));
+    objects.push(statusText(scene, `灵魂 ${player.soulCount}\n暂存：${fusion.slots.map((slot) => slot?.entry.definition.name).join(' / ') || '空'}\n${model.message}`));
     objects.push(...stageZones(scene, 'fusion', () => {
       stageFormalWorkshopFusion(model); callbacks.onRerender();
     }));
@@ -124,7 +124,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
         color: '#fff1ad', fontFamily: 'Arial', fontSize: '12px', align: 'center', wordWrap: { width: 60 },
       }).setOrigin(0.5));
     });
-    objects.push(statusText(scene, `灵魂 ${player.skillLearning.soulCount}　消耗 100\n${model.message}`));
+    objects.push(statusText(scene, `灵魂 ${player.soulCount}　消耗 100\n${model.message}`));
     objects.push(...stageZones(scene, 'resolution', () => {
       if (resolution.target) withdrawFormalWorkshopResolution(model);
       else stageFormalWorkshopResolution(model);
@@ -154,7 +154,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
         color: '#fff1ad', fontFamily: 'Arial', fontSize: '11px', align: 'center', wordWrap: { width: 60 },
       }).setOrigin(0.5));
     });
-    objects.push(statusText(scene, `产物：${productName}\n材料：${requirements}\n灵魂：${player.skillLearning.soulCount} / ${soulCost}\n${model.message}`));
+    objects.push(statusText(scene, `产物：${productName}\n材料：${requirements}\n灵魂：${player.soulCount} / ${soulCost}\n${model.message}`));
     objects.push(...stageZones(scene, 'making', () => {
       stageFormalWorkshopMaking(model); callbacks.onRerender();
     }));

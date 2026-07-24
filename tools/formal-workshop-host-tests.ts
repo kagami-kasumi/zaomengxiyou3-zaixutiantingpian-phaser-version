@@ -40,7 +40,7 @@ function createStorage(): SaveStorage {
 function createReadyModel() {
   const storage = createStorage();
   const save = createDefaultGameSave();
-  save.player1.skillLearning.soulCount = 2_000;
+  save.player1.soulCount = 2_000;
   assert.equal(createSaveSlot(storage, 0, save), true);
   const model = createFormalWorkshopPage(storage, 'p1');
   assert.ok(model);
@@ -90,8 +90,8 @@ function testExistingFusionPersistsThroughFormalHost(): void {
   assert.equal(getStackQuantityByFillName(getFormalWorkshopPlayer(model).inventoryStore, 'wptlz'), productBefore + 1);
   const persisted = loadActiveGame(storage);
   assert.ok(persisted);
-  assert.equal(persisted.player1.skillLearning.soulCount, 1_000);
-  assert.equal(persisted.player2.skillLearning.soulCount, 0);
+  assert.equal(persisted.player1.soulCount, 1_000);
+  assert.equal(persisted.player2.soulCount, 0);
 }
 
 function testTrueContainerFusionAndSceneWiring(): void {

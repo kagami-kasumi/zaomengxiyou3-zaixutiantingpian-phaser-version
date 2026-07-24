@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-013A | 玩家/存档架构 | 将灵魂提升为玩家直属属性并完成 V6 与 V1..V5 无损迁移 | M-044、VS-055、PG-010 | `player.soulCount` 唯一 owner、V6 codec、V1..V5 迁移、双 owner/损坏/双源拒读专项与现有功能保存回归 |
 | TASK-SLICE-154 | 技能页反馈整改 | 消除整包等待、主动/被动重复文字和默认角色帧污染，补双 owner 与灵魂存档复验 | M-041、M-044、M-052、VS-054、VS-055 | 页级/角色级 bundle、250/868/213 动态 child 去重、五角色心法、炼丹炉风格 P1/P2、V5 灵魂与 3 张 940×590 证据 |
 | TASK-ARCH-012 | 场景资源分包 | Boot 只加载启动壳层，地图/功能 UI/关卡按稳定 bundle 首次进入加载 | M-035、VS-058、PG-009 | 唯一 bundle owner、幂等/并发/失败重试 coordinator、正式/DEV/QA 路由、Boot 负向门禁、788ms 首屏与 940×590 证据 |
 | TASK-SLICE-153 | 正式进关收敛 | 删除逐关人数选择并让正式地图/关卡/HUD/功能页/retry 统一消费活动槽队伍 | M-005、M-006、M-044、M-051、VS-053 | 共享 party runtime、五关 hero/owner 接线、DEV/QA 隔离、确定性回归与 3 张 940×590 证据 |
@@ -4909,6 +4910,40 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-ARCH-013A
+
+- 完成日期：2026-07-24
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（继续保持 `Active`，下一 task 为 `TASK-ARCH-013B`）
+- Goal：`GOAL-035` 完成并移除；激活同线 `GOAL-036`
+- 将当前存档升级为 V6；新增 `PlayerFeatureSaveV6` / `GameSaveV6`，玩家快照与 `LoadedPlayer1State` 直接持有 `soulCount`。
+- 从 `HeroSkillLearningState` 和 V6 `skillLearning` 删除灵魂字段；技能规则显式接收玩家级 owner，现代运行代码不保留双写或镜像字段。
+- V1..V5 继续作为显式 legacy schema 输入，将嵌套灵魂无损迁移到 V6 玩家直属字段；V6 拒绝负数、非有限数、非数字和直属/嵌套双源数据。
+- 正式技能、背包、宠物、工坊、法宝与 TestScene 的保存入口全部携带 P1/P2 玩家直属余额，避免任一功能保存时把另一 owner 或余额重置。
+- 新增 `soul-save-v6-tests.ts`，覆盖 V1..V5→V6、V6 round-trip、P1/P2 不同余额、损坏/双源拒读；既有技能与五类功能页专项继续通过。
+- 严格保持 Goal 边界：未建立跨功能统一扣费服务、未做 940×590 正式旅程、未修改灵魂数值规则、UI 视觉、bundle 或原始资源；这些由 `TASK-ARCH-013B` 独立闭合。
+
+更新文件：
+- `src/systems/SaveSystem.ts`、`SaveSlotSystem.ts`、`ProgressionSystem.ts`、`SkillUISystem.ts`
+- `src/systems/Formal*PageSystem.ts` 与对应动态数值/运行桥接
+- `src/scenes/TestScene.ts`、`src/scenes/test-scene/TestSceneSaveBridge.ts`、`TestSceneSetup.ts`、`TestSceneUIHandlers.ts`
+- `tools/soul-save-v6-tests.ts`、相关保存/功能专项、`tools/run-system-tests.mjs`
+- `package.json`
+- `docs/tasks/feature-lines.md`、本线覆盖台账、`goal-board.md`、`task-board.md`、`task-history.md`
+- `docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`
+- `PG-001/002/004/007/008/010` 效果反馈与问题索引
+
+验证：
+- `npm run check:structure` 通过（仅 8 个既有 warning；本 task 对 warning 文件只有 `system-tests.ts` 的窄断言路径迁移，没有新增测试逻辑）。
+- `npm run test:soul-save-v6` 通过。
+- 技能、背包、宠物、工坊四事务、法宝和正式主循环旅程专项通过。
+- `npm run test:systems` 通过，包含新增 V6 专项与全部既有系统/功能/关卡回归。
+- `npm run build` 通过；Vite 仅保留既有 chunk 大小 warning。
+- `npm run check:workflow` 通过：4 个未完成 task / 4 个定义、唯一推荐 `TASK-ARCH-013B`、唯一 Active `GOAL-036`；资源标注校验通过。
+- `git diff --check` 通过。
+
+推荐任务：
+- `TASK-ARCH-013B`：统一技能、炼丹炉、法宝等已知消费者的玩家级消费合同，补负向门禁、P1/P2 跨页重载与 940×590 正式旅程。
 
 ### TASK-SLICE-154
 

@@ -7,7 +7,7 @@ import {
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV5,
+  type GameSaveV6,
   type LoadedGameState,
   type LoadedPlayer1State,
   type SaveStorage,
@@ -38,7 +38,7 @@ export type FormalSkillPageModel = {
   selectedSlotIndex: number;
   bindingReturnTab: 'tree1' | 'tree2';
   message: string;
-  sourceSave: GameSaveV5;
+  sourceSave: GameSaveV6;
   restored: LoadedGameState;
 };
 
@@ -127,13 +127,14 @@ export function upgradeFormalSkillTree(model: FormalSkillPageModel, storage: Sav
     model.message = '请先选择一棵主动心法';
     return false;
   }
-  const state = getFormalSkillPlayer(model).skillLearning;
-  const check = canUpgradeTree(state, treeIndex);
+  const player = getFormalSkillPlayer(model);
+  const state = player.skillLearning;
+  const check = canUpgradeTree(state, player, treeIndex);
   if (check !== true) {
     model.message = formatSkillRuleFeedback(check);
     return false;
   }
-  upgradeTree(state, treeIndex);
+  upgradeTree(state, player, treeIndex);
   model.message = `${HERO_SKILL_TREES[getFormalSkillPlayer(model).progression.heroId][treeIndex].name} 已升至 ${state.trees[treeIndex].treeLevel} 级`;
   persistFormalSkillPage(model, storage);
   return true;
@@ -174,13 +175,14 @@ export function upgradeFormalSkill(model: FormalSkillPageModel, storage: SaveSto
     model.message = '当前没有可升级技能';
     return false;
   }
-  const state = getFormalSkillPlayer(model).skillLearning;
-  const check = canUpgradeSkill(state, skillName);
+  const player = getFormalSkillPlayer(model);
+  const state = player.skillLearning;
+  const check = canUpgradeSkill(state, player, skillName);
   if (check !== true) {
     model.message = formatSkillRuleFeedback(check);
     return false;
   }
-  upgradeSkill(state, skillName);
+  upgradeSkill(state, player, skillName);
   const level = findSkillInState(state, skillName)?.level ?? 1;
   syncBindingLevel(getFormalSkillPlayer(model), skillName, level);
   model.message = `${skillName} 已升至 Lv.${level}`;
@@ -208,13 +210,14 @@ export function bindFormalSkill(model: FormalSkillPageModel, storage: SaveStorag
 }
 
 export function upgradeFormalPassiveSkill(model: FormalSkillPageModel, storage: SaveStorage): boolean {
-  const state = getFormalSkillPlayer(model).skillLearning;
-  const check = canUpgradePassiveSkill(state, model.selectedSkillIndex);
+  const player = getFormalSkillPlayer(model);
+  const state = player.skillLearning;
+  const check = canUpgradePassiveSkill(state, player, model.selectedSkillIndex);
   if (check !== true) {
     model.message = formatSkillRuleFeedback(check);
     return false;
   }
-  upgradePassiveSkill(state, model.selectedSkillIndex);
+  upgradePassiveSkill(state, player, model.selectedSkillIndex);
   model.message = `被动 ${model.selectedSkillIndex + 1} 已升至 Lv.${state.passiveSkills[model.selectedSkillIndex]}`;
   persistFormalSkillPage(model, storage);
   return true;
@@ -252,7 +255,7 @@ export function formatFormalSkillSummary(model: FormalSkillPageModel): string[] 
   const skillName = getSelectedFormalSkillName(model);
   const level = skillName ? findSkillInState(learning, skillName)?.level : undefined;
   return [
-    `${model.owner.toUpperCase()} · 英雄 ${player.progression.heroId} · Lv.${player.progression.level} · 灵魂 ${learning.soulCount}`,
+    `${model.owner.toUpperCase()} · 英雄 ${player.progression.heroId} · Lv.${player.progression.level} · 灵魂 ${player.soulCount}`,
     skillName ? `${skillName} · ${level ? `Lv.${level}/${getSkillMaxLevel(skillName)}` : '未学习'}` : '当前未选择技能',
     `五槽：${player.skillLoadout.slots.map((binding, index) => `${SkillSlotKeyLabels[model.owner][index]}=${binding?.skillName ?? '空'}`).join('  ')}`,
     model.message,
@@ -283,12 +286,14 @@ function persistFormalSkillPage(model: FormalSkillPageModel, storage: SaveStorag
   const save = createGameSave({
     party: model.sourceSave.party,
     progression: player1.progression,
+    soulCount: player1.soulCount,
     skillLoadout: player1.skillLoadout,
     skillLearning: player1.skillLearning,
     inventoryStore: player1.inventoryStore,
     equipmentLoadout: player1.equipmentLoadout,
     petRoster: player1.petRoster,
     player2Progression: player2.progression,
+    player2SoulCount: player2.soulCount,
     player2SkillLoadout: player2.skillLoadout,
     player2SkillLearning: player2.skillLearning,
     player2InventoryStore: player2.inventoryStore,

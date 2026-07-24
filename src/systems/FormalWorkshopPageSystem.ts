@@ -35,7 +35,7 @@ import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV5,
+  type GameSaveV6,
   type LoadedGameState,
   type LoadedPlayer1State,
   type SaveStorage,
@@ -50,7 +50,7 @@ export type FormalWorkshopPageModel = {
   inventoryPage: number;
   selectedInventoryIndex: number;
   message: string;
-  sourceSave: GameSaveV5;
+  sourceSave: GameSaveV6;
   restored: LoadedGameState;
   registry: Record<string, EquipmentDefinition>;
   strengtheningSessions: Record<PlayerSlot, EquipmentStrengtheningSession>;
@@ -181,12 +181,12 @@ export function runFormalWorkshopStrengthening(
     session: model.strengtheningSessions[model.owner],
     store: player.inventoryStore,
     loadout: player.equipmentLoadout,
-    soul: player.skillLearning.soulCount,
+    soul: player.soulCount,
     random,
   });
   model.message = result.message;
   if (!result.ok) return false;
-  player.skillLearning.soulCount = result.soulAfter;
+  player.soulCount = result.soulAfter;
   persistFormalWorkshopPage(model, storage);
   return true;
 }
@@ -215,11 +215,11 @@ export function runFormalWorkshopFusion(model: FormalWorkshopPageModel, storage:
     session: model.fusionSessions[model.owner],
     store: player.inventoryStore,
     registry: model.registry,
-    soul: player.skillLearning.soulCount,
+    soul: player.soulCount,
   });
   model.message = result.message;
   if (!result.ok) return false;
-  player.skillLearning.soulCount = result.soulAfter;
+  player.soulCount = result.soulAfter;
   persistFormalWorkshopPage(model, storage);
   return true;
 }
@@ -254,12 +254,12 @@ export function runFormalWorkshopResolution(
     session: model.resolutionSessions[model.owner],
     store: player.inventoryStore,
     registry: model.registry,
-    soul: player.skillLearning.soulCount,
+    soul: player.soulCount,
     random,
   });
   model.message = result.message;
   if (!result.ok) return false;
-  player.skillLearning.soulCount = result.soulAfter;
+  player.soulCount = result.soulAfter;
   persistFormalWorkshopPage(model, storage);
   return true;
 }
@@ -293,12 +293,12 @@ export function runFormalWorkshopMaking(
     session: model.makingSessions[model.owner],
     store: player.inventoryStore,
     registry: model.registry,
-    soul: player.skillLearning.soulCount,
+    soul: player.soulCount,
     random,
   });
   model.message = result.message;
   if (!result.ok) return false;
-  player.skillLearning.soulCount = result.soulAfter;
+  player.soulCount = result.soulAfter;
   persistFormalWorkshopPage(model, storage);
   return true;
 }
@@ -352,12 +352,14 @@ function persistFormalWorkshopPage(model: FormalWorkshopPageModel, storage: Save
   const save = createGameSave({
     party: model.sourceSave.party,
     progression: player1.progression,
+    soulCount: player1.soulCount,
     skillLoadout: player1.skillLoadout,
     skillLearning: player1.skillLearning,
     inventoryStore: player1.inventoryStore,
     equipmentLoadout: player1.equipmentLoadout,
     petRoster: player1.petRoster,
     player2Progression: player2.progression,
+    player2SoulCount: player2.soulCount,
     player2SkillLoadout: player2.skillLoadout,
     player2SkillLearning: player2.skillLearning,
     player2InventoryStore: player2.inventoryStore,

@@ -85,8 +85,8 @@ function assertEveryFeaturePageForBothOwners(playerCount: 1 | 2): void {
 
   // 在同一正式槽位写入双方独立功能数据，随后进入并结算 Stage 1-1。
   const featureSave = structuredClone(initialSave);
-  featureSave.player1.skillLearning.soulCount = 111;
-  featureSave.player2.skillLearning.soulCount = 222;
+  featureSave.player1.soulCount = 111;
+  featureSave.player2.soulCount = 222;
   assert.equal(saveActiveGame(storage, featureSave), true);
 
   const stage11 = createStage11Flow(2, featureSave.levelUnlockProgress);
@@ -112,8 +112,8 @@ function assertEveryFeaturePageForBothOwners(playerCount: 1 | 2): void {
   assert.ok(reloadedSave);
   const restored = restoreGameState(reloadedSave, createSeedEquipmentRegistry());
   assert.deepEqual(restored.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 2 });
-  assert.equal(restored.player1.skillLearning.soulCount, 111);
-  assert.equal(restored.player2.skillLearning.soulCount, 222);
+  assert.equal(restored.player1.soulCount, 111);
+  assert.equal(restored.player2.soulCount, 222);
   assert.notStrictEqual(restored.player1, restored.player2);
 }
 

@@ -47,10 +47,14 @@ function testV1MigrationPreservesP1AndCreatesEmptyP2(): void {
   const rosters = createPlayerPetRosters();
   rosters.p1.pets[0].level = 19;
   const current = createTestSave(rosters.p1, rosters.p2);
+  const { soulCount, ...player1 } = current.player1;
   const legacy = {
     version: 1,
     savedAt: current.savedAt,
-    player1: current.player1,
+    player1: {
+      ...player1,
+      skillLearning: { ...current.player1.skillLearning, soulCount },
+    },
   };
   const migrated = parseGameSave(JSON.stringify(legacy));
   assert.ok(migrated);

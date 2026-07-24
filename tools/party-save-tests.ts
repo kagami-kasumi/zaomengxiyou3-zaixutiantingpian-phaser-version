@@ -72,7 +72,7 @@ assert.equal(parsePartyConfiguration({ playerCount: 1, members: { p1: { heroId: 
   current.player1.level = 17;
   current.player2.heroId = 4;
   current.player2.level = 23;
-  current.player2.skillLearning.soulCount = 9876;
+  current.player2.soulCount = 9876;
   current.player2.inventory.categories.items.push({
     kind: 'stack',
     fillName: 'sms1',
@@ -83,8 +83,18 @@ assert.equal(parsePartyConfiguration({ playerCount: 1, members: { p1: { heroId: 
     ...current,
     version: FeatureGameSaveVersion,
     party: undefined,
+    player1: {
+      ...current.player1,
+      skillLearning: { ...current.player1.skillLearning, soulCount: current.player1.soulCount },
+    },
+    player2: {
+      ...current.player2,
+      skillLearning: { ...current.player2.skillLearning, soulCount: current.player2.soulCount },
+    },
   };
   delete Reflect.get(legacyV4, 'party');
+  delete Reflect.get(legacyV4.player1, 'soulCount');
+  delete Reflect.get(legacyV4.player2, 'soulCount');
   const migrated = parseGameSave(JSON.stringify(legacyV4));
   assert.ok(migrated);
   assert.equal(migrated.party.playerCount, 1);
@@ -92,7 +102,7 @@ assert.equal(parsePartyConfiguration({ playerCount: 1, members: { p1: { heroId: 
   assert.equal(migrated.player1.level, 17);
   assert.equal(migrated.player2.heroId, 4);
   assert.equal(migrated.player2.level, 23);
-  assert.equal(migrated.player2.skillLearning.soulCount, 9876);
+  assert.equal(migrated.player2.soulCount, 9876);
   assert.equal(
     migrated.player2.inventory.categories.items.find((entry) => entry.stackId === 'legacy-p2-stack')?.quantity,
     9,

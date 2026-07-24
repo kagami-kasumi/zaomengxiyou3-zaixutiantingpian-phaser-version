@@ -15,7 +15,7 @@ import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV5,
+  type GameSaveV6,
   type LoadedGameState,
   type LoadedPlayer1State,
   type SaveStorage,
@@ -50,7 +50,7 @@ export type MagicWeaponPendingAction = {
 
 export type FormalMagicWeaponPageModel = {
   owner: 'p1';
-  sourceSave: GameSaveV5;
+  sourceSave: GameSaveV6;
   restored: LoadedGameState;
   registry: Record<string, EquipmentDefinition>;
   pending?: MagicWeaponPendingAction;
@@ -113,7 +113,7 @@ export function getFormalMagicWeaponPanelState(
       growthRate: 0,
       element: '-',
       stats: getEmptyPanelStats(),
-      soul: player.skillLearning.soulCount,
+      soul: player.soulCount,
       requirement: unavailableRequirement(0, 0, '未装备法宝'),
       resetMaterialCount: getStackQuantityByFillName(player.inventoryStore, 'wpccfq'),
       message: model.message,
@@ -128,7 +128,7 @@ export function getFormalMagicWeaponPanelState(
     growthRate: magic.growthRate ?? 1,
     element: magic.element,
     stats: getEquipmentInstanceStats(equipped),
-    soul: player.skillLearning.soulCount,
+    soul: player.soulCount,
     requirement: getMagicWeaponUpgradeRequirement(equipped),
     resetMaterialCount: getStackQuantityByFillName(player.inventoryStore, 'wpccfq'),
     message: model.message,
@@ -295,13 +295,13 @@ function commitElementReset(
 
 function hasCost(player: LoadedPlayer1State, cost: MagicWeaponUpgradeCost): boolean {
   return cost.kind === 'soul'
-    ? player.skillLearning.soulCount >= cost.quantity
+    ? player.soulCount >= cost.quantity
     : getStackQuantityByFillName(player.inventoryStore, cost.fillName ?? '') >= cost.quantity;
 }
 
 function consumeCost(player: LoadedPlayer1State, cost: MagicWeaponUpgradeCost): void {
   if (cost.kind === 'soul') {
-    player.skillLearning.soulCount -= cost.quantity;
+    player.soulCount -= cost.quantity;
     return;
   }
   consumeStackByFillName(player.inventoryStore, cost.fillName ?? '', cost.quantity);
@@ -367,12 +367,14 @@ function persistFormalMagicWeaponPage(model: FormalMagicWeaponPageModel, storage
   const save = createGameSave({
     party: model.sourceSave.party,
     progression: player1.progression,
+    soulCount: player1.soulCount,
     skillLoadout: player1.skillLoadout,
     skillLearning: player1.skillLearning,
     inventoryStore: player1.inventoryStore,
     equipmentLoadout: player1.equipmentLoadout,
     petRoster: player1.petRoster,
     player2Progression: player2.progression,
+    player2SoulCount: player2.soulCount,
     player2SkillLoadout: player2.skillLoadout,
     player2SkillLearning: player2.skillLearning,
     player2InventoryStore: player2.inventoryStore,

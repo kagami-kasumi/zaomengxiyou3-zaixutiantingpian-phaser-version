@@ -31,6 +31,7 @@ import {
   type HeroId,
   type HeroSkillLearningState,
   type PlayerSlot,
+  type PlayerSoulOwner,
   type SkillUIState,
 } from './TestSceneSystems';
 import { createTestSceneDebugKeys } from './TestSceneDebugKeys';
@@ -281,6 +282,7 @@ export function updateSkillPanel(this: any,
     player: any | undefined,
     ui: SkillUIState,
     learning: HeroSkillLearningState,
+    soulOwner: PlayerSoulOwner,
   ): void {
     if (!ui.skillPanelOpen) {
       panel.container.setVisible(false);
@@ -289,7 +291,7 @@ export function updateSkillPanel(this: any,
 
     panel.container.setVisible(true);
     const heroId = player?.normalAttack.heroId ?? 2;
-    const lines = this.buildSkillPanelLines(slot, heroId, ui, learning);
+    const lines = this.buildSkillPanelLines(slot, heroId, ui, learning, soulOwner);
     panel.texts[0].setText(lines.join('\n'));
   }
 
@@ -298,12 +300,13 @@ export function buildSkillPanelLines(this: any,
     heroId: number,
     ui: SkillUIState,
     learning: HeroSkillLearningState,
+    soulOwner: PlayerSoulOwner,
   ): string[] {
     const heroName = ['', '悟空', '唐僧', '八戒', '沙僧', '白龙'][heroId] ?? `R${heroId}`;
     const lines: string[] = [];
     const totalLearned = getTotalLearnedSkillCount(learning);
 
-    lines.push(`══ SKILLS: ${heroName} R${heroId} Lv.${learning.heroLevel} ══  Souls: ${learning.soulCount}`);
+    lines.push(`══ SKILLS: ${heroName} R${heroId} Lv.${learning.heroLevel} ══  Souls: ${soulOwner.soulCount}`);
     lines.push(`Learned: ${totalLearned}/${SKILL_LEARN_LIMIT}`);
     lines.push('');
 
@@ -314,7 +317,7 @@ export function buildSkillPanelLines(this: any,
 
       const isActive = (ui.activeTab === 'tree1' && t === 0) || (ui.activeTab === 'tree2' && t === 1);
       const prefix = isActive ? '▶' : ' ';
-      const canUpT = canUpgradeTree(learning, t);
+      const canUpT = canUpgradeTree(learning, soulOwner, t);
       const upCost = tree.treeLevel < MAX_TREE_LEVEL ? TREE_UPGRADE_COSTS[tree.treeLevel] : 0;
       const upInfo = tree.treeLevel >= MAX_TREE_LEVEL
         ? 'MAX'
@@ -332,7 +335,7 @@ export function buildSkillPanelLines(this: any,
 
         if (learned) {
           const maxLv = getSkillMaxLevel(skillName);
-          const canUp = canUpgradeSkill(learning, skillName);
+          const canUp = canUpgradeSkill(learning, soulOwner, skillName);
           const upStatus = canUp === true ? `[U]↑` : `[U]${canUp}`;
           lines.push(`  ${sel}${num}.✓ ${skillName.padEnd(5)} Lv.${String(learned.level).padStart(2)}/${String(maxLv).padStart(2)} ${upStatus}`);
         } else if (!unlocked) {
@@ -404,6 +407,7 @@ export function updateSkillPanels(this: any): void {
         this.getPlayer('p1'),
         this.p1SkillUI,
         this.p1SkillLearning,
+        this.p1SoulOwner,
       );
     }
 
@@ -414,6 +418,7 @@ export function updateSkillPanels(this: any): void {
         this.getPlayer('p2'),
         this.p2SkillUI,
         this.p2SkillLearning,
+        this.p2SoulOwner,
       );
     }
   }

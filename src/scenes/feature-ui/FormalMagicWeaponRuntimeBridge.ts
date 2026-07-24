@@ -25,7 +25,7 @@ export function syncFormalMagicWeaponRuntime(
   if (ownerRuntime) {
     ownerRuntime.store = playerState.inventoryStore;
     ownerRuntime.loadout = playerState.equipmentLoadout;
-    ownerRuntime.magicWeaponSoul = playerState.skillLearning.soulCount;
+    ownerRuntime.magicWeaponSoul = playerState.soulCount;
     syncMagicWeaponFromLoadout(ownerRuntime.magicWeapon, ownerRuntime.loadout);
     runtime.inventoryStore = playerState.inventoryStore;
   }
@@ -37,6 +37,6 @@ export function syncFormalMagicWeaponRuntime(
   origin.events.emit(FormalMagicWeaponUpdatedEvent, {
     owner: 'p1',
     equipmentLoadout: playerState.equipmentLoadout,
-    soul: playerState.skillLearning.soulCount,
+    soul: playerState.soulCount,
   });
 }

@@ -1,4 +1,5 @@
 import type { HeroSkillLoadout, SkillBinding } from './HeroSkillSystem';
+import type { PlayerSoulOwner } from './ProgressionSystem';
 
 // ============================================================
 // Types
@@ -65,7 +66,6 @@ export interface SkillTreeState {
 
 export interface HeroSkillLearningState {
   heroLevel: number;
-  soulCount: number;
   trees: [SkillTreeState, SkillTreeState];
   passiveSkills: [number, number, number, number, number];
 }
@@ -76,11 +76,9 @@ export interface HeroSkillLearningState {
 
 export function createSkillLearningState(
   heroLevel = 1,
-  initialSouls = 5000,
 ): HeroSkillLearningState {
   return {
     heroLevel,
-    soulCount: initialSouls,
     trees: [
       { treeLevel: 0, learnedSkills: [] },
       { treeLevel: 0, learnedSkills: [] },
@@ -95,6 +93,7 @@ export function createSkillLearningState(
 
 export function canUpgradeTree(
   state: HeroSkillLearningState,
+  soulOwner: PlayerSoulOwner,
   treeIndex: number,
 ): string | true {
   const tree = state.trees[treeIndex];
@@ -102,22 +101,23 @@ export function canUpgradeTree(
     return 'Tree already max level';
   }
   const cost = TREE_UPGRADE_COSTS[tree.treeLevel];
-  if (state.soulCount < cost) {
-    return `Need ${cost} souls, have ${state.soulCount}`;
+  if (soulOwner.soulCount < cost) {
+    return `Need ${cost} souls, have ${soulOwner.soulCount}`;
   }
   return true;
 }
 
 export function upgradeTree(
   state: HeroSkillLearningState,
+  soulOwner: PlayerSoulOwner,
   treeIndex: number,
 ): boolean {
-  if (canUpgradeTree(state, treeIndex) !== true) {
+  if (canUpgradeTree(state, soulOwner, treeIndex) !== true) {
     return false;
   }
   const tree = state.trees[treeIndex];
   const cost = TREE_UPGRADE_COSTS[tree.treeLevel];
-  state.soulCount -= cost;
+  soulOwner.soulCount -= cost;
   tree.treeLevel += 1;
   return true;
 }
@@ -217,6 +217,7 @@ export function findSkillInState(
 
 export function canUpgradeSkill(
   state: HeroSkillLearningState,
+  soulOwner: PlayerSoulOwner,
   skillName: AllSkillName,
 ): string | true {
   const found = findSkillInState(state, skillName);
@@ -234,7 +235,7 @@ export function canUpgradeSkill(
   }
   const isSpecial = SPECIAL_SKILLS.includes(skillName);
   const cost = getSkillUpgradeCost(currentLevel, isSpecial);
-  if (state.soulCount < cost) {
+  if (soulOwner.soulCount < cost) {
     return `Need ${cost} souls`;
   }
   return true;
@@ -242,9 +243,10 @@ export function canUpgradeSkill(
 
 export function upgradeSkill(
   state: HeroSkillLearningState,
+  soulOwner: PlayerSoulOwner,
   skillName: AllSkillName,
 ): boolean {
-  if (canUpgradeSkill(state, skillName) !== true) {
+  if (canUpgradeSkill(state, soulOwner, skillName) !== true) {
     return false;
   }
   const found = findSkillInState(state, skillName);
@@ -259,7 +261,7 @@ export function upgradeSkill(
   }
   const isSpecial = SPECIAL_SKILLS.includes(skillName);
   const cost = getSkillUpgradeCost(entry.level, isSpecial);
-  state.soulCount -= cost;
+  soulOwner.soulCount -= cost;
   entry.level += 1;
   return true;
 }
@@ -318,6 +320,7 @@ export function getPassiveSkillMaxLevel(heroLevel: number): number {
 
 export function canUpgradePassiveSkill(
   state: HeroSkillLearningState,
+  soulOwner: PlayerSoulOwner,
   slotIndex: number,
 ): string | true {
   const currentLevel = state.passiveSkills[slotIndex];
@@ -326,7 +329,7 @@ export function canUpgradePassiveSkill(
     return `Passive max level ${maxLevel}`;
   }
   const cost = (currentLevel + 1) * 5000;
-  if (state.soulCount < cost) {
+  if (soulOwner.soulCount < cost) {
     return `Need ${cost} souls`;
   }
   return true;
@@ -334,14 +337,15 @@ export function canUpgradePassiveSkill(
 
 export function upgradePassiveSkill(
   state: HeroSkillLearningState,
+  soulOwner: PlayerSoulOwner,
   slotIndex: number,
 ): boolean {
-  if (canUpgradePassiveSkill(state, slotIndex) !== true) {
+  if (canUpgradePassiveSkill(state, soulOwner, slotIndex) !== true) {
     return false;
   }
   const currentLevel = state.passiveSkills[slotIndex];
   const cost = (currentLevel + 1) * 5000;
-  state.soulCount -= cost;
+  soulOwner.soulCount -= cost;
   state.passiveSkills[slotIndex] = currentLevel + 1;
   return true;
 }
