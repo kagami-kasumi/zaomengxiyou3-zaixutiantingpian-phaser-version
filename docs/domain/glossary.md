@@ -24,6 +24,7 @@
 | --- | --- | --- | --- | --- | --- |
 | 玩家槽位 | `PlayerSlot` | Value Object / Type | Input | P1/P2 控制位，不等于角色实体 | `PlayerIndex`, `UserSlot` |
 | 玩家输入状态 | `PlayerInputState` | Type | Input | 单个玩家当前输入意图 | `PlayerInput`, `KeyState`, `ControlState` |
+| 存档队伍配置 | `PartyConfiguration` | Value Object / Save Data | Runtime / Save | 新建存档时确定的 1P/2P 与各活动 `PlayerSlot` 当前 `HeroId`；正式地图、关卡和功能页的唯一队伍事实源 | `PlayerCountConfig`, `TeamSetup`, `PartySetup` |
 | 输入快照 | `InputState` | Type | Input | 一帧内 P1/P2 两套玩家输入状态 | `InputSnapshot`, `ControlsState` |
 | 输入绑定 | `InputBindings` | Config / Type | Input | P1/P2 键位映射 | `KeyBindings`, `ControlBindings` |
 | 输入系统 | `InputSystem` | System | Input | 读取键盘并输出玩家输入 | `KeyboardSystem`, `ControlSystem` |

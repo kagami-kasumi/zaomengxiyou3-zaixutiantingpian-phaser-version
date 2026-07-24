@@ -26,11 +26,11 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 原版 W 门与最高层立即出 Boss 已闭合；最高层镜头按原版 420/590 构图、2 秒过渡；Stage 1-1 专项、全系统、build 通过 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-FORMAL-GAME-LOOP | Done | 在继续批量复现关卡前，用现有 Stage 1 三关闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI | — | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | 端到端旅程保持；工坊原 119 容器透明命中、四操作居中、原图返回和 P1/P2 样式经专项/全门禁/940×590 复验闭合 |
+| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI；新建存档固定队伍人数/角色并成为技能与进关唯一 owner | TASK-SETTINGS-065 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | 2026-07-24 用户反馈推翻旧队伍合同：V4 未存人数、地图逐关选 1P/2P、地图双 owner 硬编码；现已重开整改 |
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-STAGE-2-3 | Active | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064 | `feature-line-coverage/LINE-STAGE-2-3.md` | 无 | 当前只激活六段逆向 Goal；未读取目标资料、未生成实现结论 |
+| LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待存档队伍基础线关闭 | 六段逆向尚未开始；完成前置正式身份与进关 owner 后恢复 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 
 ## 当前功能线状态
@@ -41,7 +41,7 @@
 
 `LINE-STAGE-2-2` 已关闭：`GOAL-020` 闭合六段证据，`GOAL-021..023` 分别接入真场景/火焰、普通流程与 Monster16/结果，`GOAL-024` 完成 940×590 1P/2P 正式入口、五停点、9/9 火焰代表帧、Monster16 八动作/六攻击、失败、显门胜利、返回和当前槽重载。专项、全系统、structure、build、annotations、workflow、diff check 全部通过，浏览器 console warning/error 为 0。
 
-内容扩展按 2-2 胜利明确解锁的 2-3 顺延，现激活 `LINE-STAGE-2-3` / `GOAL-025` / `TASK-SETTINGS-064`。下一次 `/goal` 只闭合 `level23.swf`、`StageListener23` 与共享运行时的六段证据、未知项和后续实现拆分，不在同一 Goal 写现代代码。
+2026-07-24 用户反馈推翻 `LINE-FORMAL-GAME-LOOP` 的旧队伍关闭合同：关卡内容继续扩展前，必须先把玩家人数与当前角色固定到新建存档，并让技能页、地图、关卡、HUD、功能页和重试统一消费该存档队伍；地图不得逐关重复选择 1P/2P。现重开并激活 `LINE-FORMAL-GAME-LOOP` / `GOAL-028` / `TASK-SETTINGS-065`。`LINE-STAGE-2-3` / `GOAL-025` / `TASK-SETTINGS-064` 降为 Planned，正式主循环再次关闭后恢复，不丢弃原任务定义。
 
 本线按依赖顺序推进：战斗死亡原因/攻击可读性/数值合同 → 可稳定通关的战斗切片 → 核心战斗 HUD → 启动与存档槽 → 天庭地图/关卡解锁 → 背包、宠物等完整功能 UI。每一步仍拆为小 task；不得用某个最小 HUD 或存档切片越级关闭整线。
 

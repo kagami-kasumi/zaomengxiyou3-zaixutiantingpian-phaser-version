@@ -65,6 +65,8 @@
 - 正式输入必须支持 P1/P2 两套玩家输入。
 - 方向键归 P2，不得驱动 P1。
 - 当前 `InputSystem.ts` 仍是技术验证遗留，正式修正由 `TASK-ARCH-001` 完成。
+- 正式流程的活动 `PlayerSlot` 与当前 `HeroId` 必须来自当前存档的 `PartyConfiguration`；Scene payload、URL 参数和页面临时状态只能用于明确的 DEV/QA 路径。
+- 新建存档完成后不得在每次进关时重新选择 1P/2P；地图、关卡、HUD、功能页和重试必须消费同一个存档队伍查询。
 
 ## TypeScript 与 Phaser 约定
 
