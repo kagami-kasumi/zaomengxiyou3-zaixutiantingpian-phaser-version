@@ -45,6 +45,14 @@
 - `EntityManager` 的第一版目标应是稳定 ID、生命周期登记、按类型查询和安全移除；不要一次性引入组件系统、事件总线或复杂依赖注入。
 - 在引入 `EntityManager` 前，系统函数仍应保持明确输入/输出，并避免直接读取 Phaser 显示对象。
 
+## 怪物与关卡组织
+
+- 详细设计、面向对象原则和传统模式映射见 `docs/architecture/设计模式.md`。
+- 关卡 Layout/Flow 负责地形、出生计划、波次、遭遇门禁和通关条件；不实现怪物索敌、移动、攻击、动画或掉落算法。
+- `MonsterDefinitionCatalog` 保存跨关卡只读定义，`MonsterRuntimeRegistry` 保存单局可变怪物状态；二者不得混为同一个 Registry。
+- 怪物差异优先通过 `MonsterBrain`、物理 profile、能力集合、动画集合和奖励 profile 组合，不建立承载全部职责的万能 `BaseMonster`。
+- scene/gameplay bridge 可以持有 Phaser view 映射，但怪物生命、AI、死亡和奖励事实必须来自系统层稳定 ID。
+
 ## 逆向与实现边界
 
 - AS3 类名可以写入注释或映射文档，但不要照搬 AS3 类结构。

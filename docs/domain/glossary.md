@@ -37,6 +37,11 @@
 | 英雄普攻系统 | `HeroNormalAttackSystem` | System | Combat | 根据输入和英雄移动状态触发普攻动作、特效与命中框 | `RoleAttackSystem`, `NormalAttackSystem` |
 | 英雄战斗模型 | `HeroCombatModel` | Model | Combat | 单个英雄生命、受击、死亡、保护和最近伤害事件状态 | `PlayerCombatModel`, `HeroHealthState` |
 | 怪物 | `Monster` | Entity | Combat | 敌方单位 | `Enemy`, `Mob` |
+| 怪物定义 | `MonsterDefinition` | Config | Combat / Content | 某类怪物跨关卡共享的只读配置，引用数值、物理、行为、能力、动画和奖励 profile | `EnemyDefinition`, `MonsterConfig` |
+| 怪物定义目录 | `MonsterDefinitionCatalog` | Config / Registry | Combat / Content | 按怪物类型稳定 ID 查询唯一 `MonsterDefinition`；不保存单局可变状态 | `MonsterRegistry`, `EnemyCatalog` |
+| 怪物运行状态 | `MonsterRuntime` | Runtime Model | Combat | 一只具体怪物的稳定 ID、位置、生命、目标与生命周期状态；不包含 Phaser 显示对象 | `EnemyRuntime`, `MonsterInstance` |
+| 怪物行为策略 | `MonsterBrain` | Strategy / System Contract | Combat | 根据怪物与目标快照输出移动、攻击或技能意图；地面、飞行与 Boss 可替换实现 | `EnemyAI`, `MonsterController` |
+| 怪物运行时注册表 | `MonsterRuntimeRegistry` | Runtime Registry | Combat / Runtime | 存活怪物唯一登记点，负责稳定 ID、创建、查询、死亡登记与安全移除；第一版不是完整 ECS | `MonsterWorld`, `EnemyManager`, `MonsterManager` |
 | 宠物 | `Pet` | Entity | Combat / Progression | 玩家持有并可出战的伙伴实体；对应 AS3 `PetInfo`/`BasePet` 行为参考 | `Companion`, `Familiar` |
 | 宠物模型 | `PetState` | Model | Combat / Progression | 单只宠物的可持久化运行数据，包含名称、等级、HP/MP、寿命、出战状态和技能名 | `PetInfo`, `PetData` |
 | 宠物消耗品 | `PetConsumable` | Item Effect / Type | Progression | 道具背包中可对当前出战宠物生效的普通道具效果，例如寿命丹、还魂丹、经验石 | `PetItem`, `CompanionConsumable`, `FamiliarItem` |
