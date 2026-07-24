@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-065 | 正式身份/流程逆向 | 闭合新建存档人数、P1/P2 选角、技能 owner 与直接进关合同和真 UI 证据 | M-005、M-006、M-041、M-044、M-050、M-051、M-052、VS-052、VS-053、VS-055 | `save-party-flow-index.md`、character 1149/901 显示列表、`PartyConfiguration`/迁移/四 Goal 实现合同 |
 | TASK-SLICE-150D | 运行校准/关线裁决 | 完成 Stage 2-2 的 940×590 1P/2P 全流程、返回重载与关闭裁决 | M-026、M-027、M-030、M-035、M-044、VS-056 | 五停点/9 火焰、Monster16 八动作/六攻击、失败/显门胜利/2-3 当前槽保存、返回重载、全门禁与零 console 证据；`LINE-STAGE-2-2` 关闭 |
 | TASK-SLICE-150 | 拆分父任务收束 | 汇总 `150A..150D` 四个同线子 task 并关闭父任务追踪 | M-026、M-027、M-030、M-035、M-044、VS-056 | 四个 0-compact Goal 全部独立归档，Stage 2-2 从六段证据到运行校准完整闭合 |
 | TASK-SLICE-150C | Boss/结果接入 | 接入 Stage 2-2 Monster16、六攻击、显门、胜利和 2-3 保存 | M-030、M-035、M-044、VS-056 | Monster16 36 帧 atlas、六对象 104 帧、专属 visual owner、幂等奖励/门/结果/V4 2-3、专项/全系统/build 与 19 张 940×590 零 console 证据 |
@@ -4902,6 +4903,35 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-065
+
+- 完成日期：2026-07-24
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-ARCH-011`）
+- 新增 `save-party-flow-index.md`，闭合“空槽 → 人数 → P1/P2 选角 → 原子建档 → 地图 → 直接进关 → 技能 owner”的六段证据链；所有影响后续 schema 和新建存档 UI 的未知为 0。
+- 原版确认在 `GameMenu` 先写 `playNum`；单人只选 P1，双人按 P1→P2，P1 已选卡移除监听，因此两位玩家不能选择同一角色；最终角色点击就是确认，角色页没有独立确认/取消。
+- 原版 `MemoryClass` 同时保存 `playerNum` 与双方 `User.controlPlayer/roleid`；读档恢复后直接进入上次世界地图，地图节点不会逐关再次询问人数；技能页按活动 User 与当前角色创建 owner。
+- 从恢复 `OtherMat1.swf` 选择性闭合 character 1149 人数态、character 901 五角色页、角色卡 877/883/888/894/900、P1/P2 marker 115/108、四态、selected、命中列、动态文字和 940×590 裁切语义；character 895 为空按钮，不是第五张可见卡。
+- 现代合同确定为内存 draft + 最终角色点击原子写槽；取消不落盘；新版 `PartyConfiguration` 保存活动人数和 owner hero；旧 V1..V4/旧单槽统一迁移为 1P 并保留 P2 全量数据；正式地图/关卡/HUD/功能页/重试不得再消费临时 chooser、URL 或硬编码双 owner。
+- 未修改 `src/`、legacy extraction 或恢复源；选择性派生只写 Git 忽略的 `local-resources/regima/task-outputs/task-settings-065-save-party/`。
+
+更新文件：
+- `docs/reverse-engineering/save-party-flow-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/feature-line-coverage/LINE-FORMAL-GAME-LOOP.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+
+验证：
+- FFDec 26.0.0 对 character 901、五角色按钮和 1P/2P marker 的精确选择性导出成功；恢复 SWF SHA-256 与既有技能证据一致。
+- AS3 局部链、`GMain/Config/MemoryClass` 共享链、恢复 SWF 显示列表及当前现代消费者交叉确认。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次 Goal 收尾记录。
+
+推荐任务：
+- `TASK-ARCH-011`：按 `save-party-flow-index.md` 落地新版存档队伍配置、旧档迁移、原子建档 API 与唯一运行时查询 owner。
 
 ### TASK-SETTINGS-063
 

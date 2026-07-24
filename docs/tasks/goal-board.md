@@ -23,8 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-028 | Active | LINE-FORMAL-GAME-LOOP | TASK-SETTINGS-065 | 新建存档人数/选角、技能 owner 与直接进关证据合同 | 预计 0 次 |
-| GOAL-029 | Planned | LINE-FORMAL-GAME-LOOP | TASK-ARCH-011 | 新版存档队伍配置、旧档迁移与唯一运行时 owner | 预计 0 次 |
+| GOAL-029 | Active | LINE-FORMAL-GAME-LOOP | TASK-ARCH-011 | 新版存档队伍配置、旧档迁移与唯一运行时 owner | 预计 0 次 |
 | GOAL-030 | Planned | LINE-FORMAL-GAME-LOOP | TASK-SLICE-151 | 新建存档 1P/2P 与 P1/P2 当前角色真 UI | 预计 0 次 |
 | GOAL-031 | Planned | LINE-FORMAL-GAME-LOOP | TASK-SLICE-152 | 技能页面按当前存档 owner/角色过滤 | 预计 0 次 |
 | GOAL-032 | Planned | LINE-FORMAL-GAME-LOOP | TASK-SLICE-153 | 地图直接进关与正式场景统一消费存档队伍 | 预计 0 次 |

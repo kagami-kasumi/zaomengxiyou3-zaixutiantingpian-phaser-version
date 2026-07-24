@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-065` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-028` 和已重开的 `LINE-FORMAL-GAME-LOOP`。下一次 `/goal` 只闭合新建存档人数/选角、技能 owner 和直接进关的证据与 UI 合同，不写现代代码；Stage 2-3 逆向已按用户要求后移。
+`TASK-ARCH-011` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-029` 和已重开的 `LINE-FORMAL-GAME-LOOP`。下一次 `/goal` 只按 `save-party-flow-index.md` 落地新版存档队伍配置、旧档迁移和唯一运行时 owner，不提前实现选角 UI、技能过滤或地图直接进关；Stage 2-3 逆向继续后移。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-065 | Ready | GOAL-028 | LINE-FORMAL-GAME-LOOP | 正式身份/流程逆向 | 闭合新建存档人数、P1/P2 选角、技能 owner 与直接进关合同和真 UI 证据 | M-005、M-006、M-041、M-044、M-050、M-051、M-052、VS-052、VS-053、VS-055 | 行为/显示列表证据矩阵、存档 schema 决策、逐 Goal 实现拆分 | TASK-ARCH-011 |
-| TASK-ARCH-011 | Planned | GOAL-029 | LINE-FORMAL-GAME-LOOP | 存档/运行时架构 | 新版存档持久化队伍人数与当前角色，建立唯一 `PartyConfiguration` owner | M-005、M-006、M-044、M-050、VS-052 | 新 schema、旧档迁移、读取查询与确定性测试 | TASK-SLICE-151 |
+| TASK-ARCH-011 | Ready | GOAL-029 | LINE-FORMAL-GAME-LOOP | 存档/运行时架构 | 新版存档持久化队伍人数与当前角色，建立唯一 `PartyConfiguration` owner | M-005、M-006、M-044、M-050、VS-052 | 新 schema、旧档迁移、读取查询与确定性测试 | TASK-SLICE-151 |
 | TASK-SLICE-151 | Planned | GOAL-030 | LINE-FORMAL-GAME-LOOP | 新建存档 UI | 空槽先选择 1P/2P 与各 owner 角色，再原子创建存档 | M-005、M-006、M-044、M-050、VS-052 | 真 UI、取消/确认事务、1P/2P 新档运行验收 | TASK-SLICE-152 |
 | TASK-SLICE-152 | Planned | GOAL-031 | LINE-FORMAL-GAME-LOOP | 技能 owner 收敛 | 技能页只显示当前存档 owner 的当前角色技能 | M-041、M-044、M-052、VS-055 | 存档驱动 owner/角色、P1/P2 边界与技能页回归 | TASK-SLICE-153 |
 | TASK-SLICE-153 | Planned | GOAL-032 | LINE-FORMAL-GAME-LOOP | 正式进关收敛 | 删除地图逐关人数选择，所有正式关卡/重试/HUD/功能页消费存档队伍 | M-005、M-006、M-044、M-051、VS-053 | 直接进关、跨场景 owner 一致性与端到端回归 | TASK-SETTINGS-064 |
@@ -21,82 +20,6 @@
 
 ## 任务完成定义
 
-### TASK-SETTINGS-065
-
-任务类型：
-
-- `TASK-SETTINGS`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Active，因用户反馈重开）
-
-Goal 包：
-
-- `GOAL-028`（Active）
-
-目标机制/切片：
-
-- `M-005`、`M-006`、`M-041`、`M-044`、`M-050`、`M-051`、`M-052`、`VS-052`、`VS-053`、`VS-055`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若 `SelectRole` 视觉需要读取两个以上尚未恢复的独立 SWF 资源族、原版新游戏还包含必须先闭合的独立开场系统，或旧档迁移需要用户裁决多个不可兼容方案，立即把视觉补证或迁移裁决拆成同线下一 Goal；本 Goal 不写现代代码。
-
-输入资料：
-
-- `docs/workflow/reverse-engineering-protocol.md`、`gameplay-index.md`、`controls-index.md`、`save-slots-index.md`、`skill-ui-native-index.md`、`heaven-map-index.md`。
-- `GameMenu.as`、`SelectRole.as`、`GMain.SelectRoleOver()`、`User.getSaveObj()`、`MemoryClass` 的相关局部与共享调用链；legacy extraction 只读。
-- 恢复语料库中实际承载新游戏人数、角色选择和确认状态的原始 SWF/SymbolClass/MovieClip。
-- 用户 2026-07-24 现代流程决策：人数在新建存档时确认；关卡直接进入；技能只显示当前角色。
-
-输出产物：
-
-- 新增 `docs/reverse-engineering/save-party-flow-index.md`，建立“空槽 → 人数 → P1/P2 选角 → 原子建档 → 地图 → 直接进关 → 技能 owner”的六段证据矩阵。
-- 明确原版 `playNum`、P1/P2 `roleid`、读档/新游戏分支、取消/确认时机和保存字段；区分原版事实、用户现代决策、迁移选择和未知。
-- 建立新建存档/选角显示列表、原版视觉基准、按钮状态、命中区、坐标和允许的现代视觉例外。
-- 给出 `PartyConfiguration` schema、旧 V4 默认迁移、单人 P2 数据处理、正式/DEV 边界和后续四个 0-compact Goal 的权威输入。
-
-完成定义：
-
-- 能明确回答：人数何时确定、每位 owner 何时选角、取消是否写档、读取旧档如何确定人数、地图/技能/关卡从哪里读取当前角色与 owner。
-- 所有影响 `TASK-ARCH-011` 和新建存档 UI 的未知为零；不能清零时只记录已定位并生成同线补证 Goal。
-- 不修改 `src/`，不提前实现 schema、UI、技能过滤或直接进关。
-
-UI 原生化合同：
-
-- 显示列表清单：记录人数选择、P1/P2 角色选择、选中态、确认/取消、角色图像/文字、depth、父子关系、注册点、矩阵和命中区。
-- 原版视觉基准：从恢复源 SWF 建立 940×590 新游戏 1P、2P/P1、2P/P2、确认与取消状态基准；缺失时阻塞 UI 实现。
-- 允许的现代视觉例外：删除确认、损坏反馈等既有存档现代安全反馈不属于选角页；选角页新增例外默认为空，新增可见替代必须用户批准。
-- 逐状态验收：空槽、人数选择、五角色 normal/hover/pressed/selected、P1/P2 顺序、取消、确认、重载。
-- 差异证据：要求同尺寸并排/叠图和逐对象差异清单，不能以槽创建成功或零 console 代替视觉证据。
-
-验收标准：
-
-- 原版局部与共享调用链、恢复 SWF 显示列表和现有现代消费者交叉确认。
-- 关键事实按确认/交叉确认/推断/未知/现代选择分级，并列出反证条件。
-- `npm run check:annotations`、`npm run check:workflow` 和 `git diff --check` 通过。
-
-禁止范围：
-
-- 不修改 legacy extraction，不重新提取完整资源包。
-- 不用当前 `HeavenMapScene` 的现代 1P/2P chooser 反推原版新建存档视觉。
-- 不逆向 Stage 2-3，不改变技能数值、关卡规则或玩家键位。
-
-状态更新：
-
-- 更新本线覆盖台账、相关逆向索引、机制/切片、Goal/task/history 与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-ARCH-011`：落地新版存档队伍配置、旧档迁移和唯一运行时查询 owner。
-
 ### TASK-ARCH-011
 
 任务类型：
@@ -105,11 +28,11 @@ UI 原生化合同：
 
 功能条线：
 
-- `LINE-FORMAL-GAME-LOOP`（Active 后续）
+- `LINE-FORMAL-GAME-LOOP`（Active）
 
 Goal 包：
 
-- `GOAL-029`（Planned）
+- `GOAL-029`（Active）
 
 目标机制/切片：
 

@@ -7,6 +7,8 @@
 - 五槽绑定页 `export.shop.SkillSetControl` / character 417。
 - 被动技能页 `export.shop.PassiveSkillControl` / character 213。
 
+> 2026-07-24 owner 补充：本文四页几何与原生视觉合同继续有效；正式活动 owner 和每位当前角色必须改由 `save-party-flow-index.md` 的存档 `PartyConfiguration` 决定，不再由临时场景 `playerCount` 决定。
+
 目标是闭合原版显示列表、按钮状态、命中区、动态槽位、owner/返回和现代实现差异，不在本任务修改 `src/` 或重做技能业务。
 
 ## 1. 证据源与可信边界
