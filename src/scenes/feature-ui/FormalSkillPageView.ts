@@ -9,6 +9,7 @@ import {
 import {
   commitFormalSkillBinding,
   getFormalLearnedSkills,
+  getFormalSkillOwners,
   getFormalSkillPlayer,
   learnFormalSkill,
   openFormalSkillBinding,
@@ -39,7 +40,6 @@ import {
 } from './FormalSkillNativeLayout';
 
 type FormalSkillPageCallbacks = {
-  playerCount: 1 | 2;
   onOwner: (owner: 'p1' | 'p2') => void;
   onSaved: () => void;
   onClose: () => void;
@@ -87,7 +87,7 @@ function renderOwnerSelectors(
   callbacks: FormalSkillPageCallbacks,
   objects: Phaser.GameObjects.GameObject[],
 ): void {
-  const owners = callbacks.playerCount === 2 ? (['p1', 'p2'] as const) : (['p1'] as const);
+  const owners = getFormalSkillOwners(model);
   owners.forEach((owner, index) => {
     const player = owner === 'p1' ? model.restored.player1 : model.restored.player2;
     const characterId = SkillSelectorCharacterByHero[player.progression.heroId];

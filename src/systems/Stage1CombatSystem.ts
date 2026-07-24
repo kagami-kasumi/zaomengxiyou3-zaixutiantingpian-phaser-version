@@ -16,12 +16,14 @@ import {
   createHeroNormalAttack,
   getActiveHeroHitbox,
   updateHeroNormalAttack,
+  type HeroId,
   type HeroNormalAttackModel,
 } from './HeroNormalAttackSystem';
 import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem';
 import {
   addHeroExperience,
   createHeroProgression,
+  getHeroBaseStats,
   type HeroProgressionModel,
   type HeroProgressionResult,
 } from './ProgressionSystem';
@@ -161,23 +163,27 @@ export function createStage1CombatRuntime(): Stage1CombatRuntime {
   };
 }
 
-export function createStage1CombatPlayer(slot: PlayerSlot): Stage1CombatPlayer {
+export function createStage1CombatPlayer(
+  slot: PlayerSlot,
+  heroId: HeroId = Stage1CombatTuning.defaultHeroId,
+): Stage1CombatPlayer {
   const combat = createHeroCombat(slot);
-  combat.maxHp = Stage1CombatTuning.role1Level1MaxHp;
+  const baseStats = getHeroBaseStats(heroId, 1);
+  combat.maxHp = baseStats.maxHp;
   combat.hp = combat.maxHp;
   combat.damageProtectionMs = Stage1CombatTuning.playerProtectionMs;
-  const progression = createHeroProgression(Stage1CombatTuning.defaultHeroId);
+  const progression = createHeroProgression(heroId);
   return {
     slot,
     combat,
-    normalAttack: createHeroNormalAttack(Stage1CombatTuning.defaultHeroId),
+    normalAttack: createHeroNormalAttack(heroId),
     damageLog: [],
-    mp: 50,
-    maxMp: 50,
+    mp: baseStats.maxMp,
+    maxMp: baseStats.maxMp,
     soul: 0,
     warriorEnergy: 0,
     progression,
-    skill: createHeroSkillModel({ slots: [null, null, null, null, null] }, 50),
+    skill: createHeroSkillModel({ slots: [null, null, null, null, null] }, baseStats.maxMp),
   };
 }
 

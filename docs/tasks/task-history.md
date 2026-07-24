@@ -13,6 +13,9 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-012 | 场景资源分包 | Boot 只加载启动壳层，地图/功能 UI/关卡按稳定 bundle 首次进入加载 | M-035、VS-058、PG-009 | 唯一 bundle owner、幂等/并发/失败重试 coordinator、正式/DEV/QA 路由、Boot 负向门禁、788ms 首屏与 940×590 证据 |
+| TASK-SLICE-153 | 正式进关收敛 | 删除逐关人数选择并让正式地图/关卡/HUD/功能页/retry 统一消费活动槽队伍 | M-005、M-006、M-044、M-051、VS-053 | 共享 party runtime、五关 hero/owner 接线、DEV/QA 隔离、确定性回归与 3 张 940×590 证据 |
+| TASK-SLICE-152 | 技能 owner 收敛 | 技能页只显示当前存档活动 owner 的当前角色技能 | M-041、M-044、M-052、VS-055 | V5 party 驱动入口/selector/事务、五角色与 P1/P2 隔离专项、3 张 940×590 零 console 证据 |
 | TASK-SLICE-151 | 新建存档原生 UI | 空槽确定 1P/2P 与 P1/P2 当前角色并原子创建完整存档 | M-005、M-006、M-044、M-050、VS-052 | character 1149/901 原生人数/五角色流程、内存 draft、25 条 ready 资源、组合/事务专项与 940×590 零 console 证据 |
 | TASK-ARCH-011 | 存档/运行时架构 | 持久化队伍人数与当前角色，迁移旧档并建立唯一 `PartyConfiguration` owner | M-005、M-006、M-044、M-050、VS-052 | V5 schema、`PartyConfigurationSystem.ts`、V1..V4/旧单槽迁移、原子建槽/active 查询、专项/全系统/build |
 | TASK-SETTINGS-065 | 正式身份/流程逆向 | 闭合新建存档人数、P1/P2 选角、技能 owner 与直接进关合同和真 UI 证据 | M-005、M-006、M-041、M-044、M-050、M-051、M-052、VS-052、VS-053、VS-055 | `save-party-flow-index.md`、character 1149/901 显示列表、`PartyConfiguration`/迁移/四 Goal 实现合同 |
@@ -4905,6 +4908,97 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-ARCH-012
+
+- 完成日期：2026-07-24
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（关闭；下一条线为 `LINE-STAGE-2-3`）
+- 新增 `SceneAssetBundles.ts`，为 shell、选角、地图、功能 UI、公共战斗资源、Stage 1/2 共享地板与五个正式关卡建立稳定目录、依赖和唯一资源 owner。
+- 新增无 Phaser 业务规则的 `AssetBundleCoordinator`：支持依赖顺序、首次 ensure、并发同 promise 去重、已加载查询、失败状态和安全重试；无 owner 的 ready 运行资源会被拒绝。
+- 新增 `SceneAssetBundleBridge`，把 Phaser image/svg/spritesheet/text 加载、同 scene 串行、loaderror、shutdown 和正式 start/launch 路由接到 coordinator；场景销毁时拒绝悬空请求。
+- Boot 只预载三张 shell 图；存档新建、地图、功能 UI、Stage 1-1/1-2/1-3/2-1/2-2 与 Stage 2-2 DEV/QA 直达按目标 bundle 首次进入加载，返回再进幂等。
+- 负向门禁禁止 Boot 回填非 shell 资源、拒绝重复 owner/无 owner 资源，并覆盖依赖、并发、失败/重试、销毁监听和正式路由接线。
+- 940×590 冷刷新首屏从 250 个资源/248 张图收缩为 5 个资源/3 张图；三次为 1243/788/646ms，中位数 788ms。地图再进保持 11 个资源，Stage 1-1 与 Stage 2-2 DEV 直达均未串载其他场景族，console warning/error 为 0。
+- 未批量转码、重做 atlas、实现纹理淘汰，未修改玩法、战斗数值、关卡流程或可见 UI。
+
+更新文件：
+- `src/assets/SceneAssetBundles.ts`
+- `src/systems/AssetBundleCoordinator.ts`
+- `src/scenes/SceneAssetBundleBridge.ts`
+- `BootScene.ts`、`SaveSlotScene.ts`、地图/功能页入口与正式/DEV/QA 场景路由
+- `tools/asset-bundle-tests.ts`、相关静态路由测试与系统测试入口
+- `docs/tasks/evidence/TASK-ARCH-012-visual-audit.md`
+- `PG-009`、机制/切片、功能线、Goal/task/history 与适用 PG 反馈
+
+验证：
+- 实现前后 `npm run check:structure` 通过；最终仅 8 个既有无关大文件 warning，目标文件无 error/warning。
+- `npm run test:asset-bundles`、相关正式路由专项与 `npm run test:systems` 通过。
+- `npm run build` 通过；保留既有大 chunk warning。
+- `npm run check:workflow` 与 `git diff --check` 见本次 Goal 最终收尾。
+- 940×590 冷刷新、存档、地图首次/再次、技能页、Stage 1-1、Stage 2-2 DEV 直达与零 console 通过。
+- Goal 实际保持两个主工作包、两个验收批次、0 compact，没有触发转码或纹理淘汰拆分条件。
+
+推荐任务：
+- `TASK-SETTINGS-064`：只闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据，不写现代实现。
+
+### TASK-SLICE-152
+
+- 完成日期：2026-07-24
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-SLICE-153`）
+- `FormalSkillPageSystem` 以活动槽 V5 `PartyConfiguration` 作为 owner/hero 权威来源；创建 P2 模型、切换 owner 和取得事务 player 都会验证 owner 活动性及 party hero 一致性。
+- `FormalSkillPageView` 不再消费调用方 `playerCount`，直接枚举模型的活动 owner；五角色 selector、主动双树、技能三态、绑定五槽和被动页继续复用已闭合原生显示列表。
+- 正式入口对技能页单独从活动存档解析人数；地图硬编码 `playerCount: 2` 和战斗场景 payload 不能再越权开启单人 P2，页内快捷切换也执行同一存档门禁。
+- 技能保存和运行时 HUD 同步继续按稳定 `PlayerSlot` 路由；双人 P2 学习/绑定/升级不修改 P1。原版禁止的双人同角色继续由 V5 选角/解析边界拒绝，不为本 task 放宽。
+- 专项遍历五个单人 hero、双人异角色、非活动 P2 创建/切换/直接写入拒绝、保存重载、HUD 事件 owner 和原生资源静态合同。
+- 940×590 正式流程覆盖单人单 selector、P2 快捷键拒绝、双人唐僧/白龙 P1/P2 selected 与不同主动树；console warning/error 为 0，临时 3 号槽已删除。
+
+更新文件：
+- `src/systems/FormalSkillPageSystem.ts`
+- `src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts`
+- `src/scenes/feature-ui/FormalSkillPageView.ts`
+- `src/scenes/FeatureUiScene.ts`
+- `tools/formal-skill-tests.ts`
+- `docs/tasks/evidence/TASK-SLICE-152-visual-audit.md` 与三张 940×590 截图
+- 技能/存档机制、切片、功能线、Goal/task/history 与适用 PG 反馈
+
+验证：
+- `npm run test:formal-skills`、`npm run test:feature-ui-host`、`npm run test:party-save` 通过。
+- `npm run check:structure`、`npm run build` 通过；build 保留既有大 chunk warning。
+- `npm run test:systems`、`npm run check:workflow`、`git diff --check` 见本次 Goal 最终收尾。
+- 940×590 单/双人正式流程通过；浏览器 console warning/error 为 0。
+
+推荐任务：
+- `TASK-SLICE-153`：删除地图逐关人数 chooser，让正式场景消费者统一读取存档队伍。
+
+### TASK-SLICE-153
+
+- 完成日期：2026-07-24
+- 功能条线：`LINE-FORMAL-GAME-LOOP`（保持 `Active`，下一 task 为 `TASK-ARCH-012`）
+- 新增无 Phaser 的 `FormalPartyRuntimeSystem` 与场景桥：活动槽 `PartyConfiguration` 成为正式人数、slot 和 hero 的唯一事实源；只有明确 DEV/QA 才接受 `devParty`。
+- `HeavenMapScene` 删除逐关 1P/2P chooser、按钮、遮罩和生命周期状态；可用节点直接启动目标 scene，锁定/未接入反馈与原地图显示列表保持不变。
+- Stage 1-1/1-2/1-3/2-1/2-2、功能页入口、共享战斗 HUD 和结果重试统一消费 party。关卡玩家视图携带 hero，Stage 1 共享战斗 runtime 按该 hero 初始化成长、普攻和 HP/MP。
+- 正式失败重试不再回传临时人数，而是重新读取活动槽；DEV retry 保留隔离 party。TestScene DEV party 禁止读取/写回正式活动存档。
+- 专项覆盖五角色 1P、2P 异角色、重复角色拒绝、正式 payload 忽略、DEV 隔离、地图直入、结果 retry、返回/重载和所有已接入关卡静态合同。
+- 940×590 正式 1P 存档完成地图直入 Stage 2-2 且只有 P1 HUD；本地显式 QA 2P 显示 P1/P2 镜像 HUD。地图没有 chooser 或替代确认层。
+
+更新文件：
+- `src/systems/FormalPartyRuntimeSystem.ts`、`Stage1CombatSystem.ts`
+- `src/scenes/formal-party/FormalPartySceneBridge.ts`
+- `HeavenMapScene.ts`、五个正式关卡 scenes/gameplay/result bridges、`FormalFeatureUiEntryBridge.ts`、`BootScene.ts`、DEV `Stage11EntryScene.ts`
+- `tools/formal-party-runtime-tests.ts`、地图/正式旅程/资源/存档/技能回归与系统测试入口
+- `docs/tasks/evidence/TASK-SLICE-153-visual-audit.md` 与三张运行截图
+- 主循环/机制/切片/Goal/task/history 与适用 PG 反馈
+
+验证：
+- 实现前 `npm run check:structure` 通过，仅既有 warning。
+- `npm run test:formal-party`、`test:heaven-map`、`test:formal-game-loop`、`test:stage12`、`test:stage13`、`test:stage1-combat` 与 `npm run test:systems` 通过。
+- `npm run build` 通过，仅既有大 chunk warning。
+- `npm run check:workflow`、`git diff --check` 见本次 Goal 最终收尾。
+- 940×590 单人正式直入与双人显式 QA 运行通过；截图未见运行失败。
+- 本 Goal 实际发生 1 次 compact，超过“预计 0 次”规模门禁；结果虽已闭合，但 PG-008 记录为复发，下一 Goal 必须新开对话并严格按 0 compact 执行。
+
+推荐任务：
+- `TASK-ARCH-012`：只闭合启动壳层与场景资源 bundle 边界；完成后再恢复 Stage 2-3。
 
 ### TASK-SLICE-151
 

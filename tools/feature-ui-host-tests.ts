@@ -80,8 +80,8 @@ function testAllFormalOriginsUseTheSharedBridge(): void {
     assert.ok(source(path).includes('installFormalFeatureUiEntries'), path);
   }
   const map = source('src/scenes/HeavenMapScene.ts');
-  assert.ok(map.includes("this, 'workshop', 'p1'"));
-  assert.ok(map.includes("this, 'skills', 'p1'"));
+  assert.match(map, /this,\s*'workshop',\s*'p1'/);
+  assert.match(map, /this,\s*'skills',\s*'p1'/);
   assert.ok(source('src/main.ts').includes('FeatureUiScene'));
 }
 

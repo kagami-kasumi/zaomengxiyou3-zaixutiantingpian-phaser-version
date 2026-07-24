@@ -2,11 +2,13 @@ import Phaser from 'phaser';
 import { saveActiveLevelUnlockProgress } from '../../systems/SaveSlotSystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
 import type { LevelUnlockProgress } from '../../systems/Stage11FlowSystem';
+import type { FormalPartySceneData } from '../../systems/FormalPartyRuntimeSystem';
+import { startSceneWithBundle } from '../SceneAssetBundleBridge';
 
 export function showStage22Result(
   scene: Phaser.Scene,
   result: 'failed' | 'cleared',
-  playerCount: 1 | 2,
+  retryData: FormalPartySceneData | undefined,
   unlockProgress: LevelUnlockProgress,
 ): Phaser.GameObjects.Container {
   const isClear = result === 'cleared';
@@ -30,12 +32,18 @@ export function showStage22Result(
     fontFamily: 'Arial, sans-serif',
     fontSize: '16px',
   }).setOrigin(0.5).setScrollFactor(0);
-  const retry = createButton(scene, 260, 382, '重玩 2-2', () => scene.scene.restart({ playerCount }));
+  const retry = createButton(scene, 260, 382, '重玩 2-2', () => scene.scene.restart(retryData));
   const next = isClear
-    ? createButton(scene, 470, 382, '下一关 2-3', () => scene.scene.start('HeavenMapScene'))
+    ? createButton(
+      scene,
+      470,
+      382,
+      '下一关 2-3',
+      () => void startSceneWithBundle(scene, 'HeavenMapScene'),
+    )
     : [];
   const back = createButton(scene, isClear ? 680 : 590, 382, '返回天庭地图', () => {
-    scene.scene.start('HeavenMapScene');
+    void startSceneWithBundle(scene, 'HeavenMapScene');
   });
   return scene.add.container(0, 0, [background, title, subtitle, detail, ...retry, ...next, ...back])
     .setScrollFactor(0)

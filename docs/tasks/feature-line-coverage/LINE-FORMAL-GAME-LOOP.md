@@ -16,18 +16,20 @@
 - 地图点击关卡后直接按存档队伍进入，不再逐关选择人数。
 - 地图、关卡、HUD、功能页、失败重试、胜利返回和重载共享同一个 `PartyConfiguration` owner。
 
-本线因此由 Done 重开为 Active，按 `TASK-SETTINGS-065 -> TASK-ARCH-011 -> TASK-SLICE-151 -> 152 -> 153` 连续推进；Stage 2-3 后移。
+本线因此由 Done 重开为 Active，按 `TASK-SETTINGS-065 -> TASK-ARCH-011 -> TASK-SLICE-151 -> 152 -> 153 -> TASK-ARCH-012` 连续推进；Stage 2-3 后移。`TASK-ARCH-012` 由 2026-07-24 冷刷新反馈追加，用于在恢复内容扩展前闭合启动壳层与场景资源 bundle 边界。
 
-`TASK-SETTINGS-065`、`TASK-ARCH-011` 与 `TASK-SLICE-151` 已闭合并归档：六段证据、V5 `PartyConfiguration`/旧档迁移、原子建槽，以及 character 1149/901 的人数与 P1/P2 五角色原生流程均已完成。当前只推进 `TASK-SLICE-152` 的技能 owner/角色收敛。
+`TASK-SETTINGS-065`、`TASK-ARCH-011`、`TASK-SLICE-151..153` 已闭合并归档：六段证据、V5 `PartyConfiguration`/旧档迁移、原子建槽、character 1149/901 原生流程、技能页活动 owner/当前角色过滤、地图直入和五个已接入正式关卡共享 party bootstrap 均已完成。当前只推进 `TASK-ARCH-012` 的场景资源分包。
 
 ### 重开关闭检查
 
 - [x] 新建存档先确认 1P/2P 与活动 owner 当前角色，取消不写半成品槽。
 - [x] 新版 schema 持久化 `PartyConfiguration`，旧 V4 安全迁移且不丢已有玩家数据。
-- [ ] 单人技能页只显示 P1 当前角色；双人 P1/P2 各自只显示自己的当前角色技能。
-- [ ] 地图点击关卡直接进入，不再出现逐关人数 chooser。
-- [ ] 正式地图、关卡、HUD、功能页、重试、返回和重载统一读取当前存档队伍。
-- [ ] UI 原生化、确定性测试、1P/2P 端到端运行和 console 证据闭合。
+- [x] 单人技能页只显示 P1 当前角色；双人 P1/P2 各自只显示自己的当前角色技能。
+- [x] 地图点击关卡直接进入，不再出现逐关人数 chooser。
+- [x] 正式地图、关卡、HUD、功能页、重试、返回和重载统一读取当前存档队伍。
+- [x] Boot 正式路径只加载启动壳层；地图、功能 UI 和各关卡按 bundle 首次进入加载，返回再进幂等。
+- [x] 冷刷新首屏性能、bundle 失败/重试、DEV/QA 直达和新增资源防回填门禁满足 `PG-009` / `TASK-ARCH-012`。
+- [x] UI 原生化、确定性测试、1P/2P 端到端运行和 console 证据闭合。
 
 本文是 `LINE-FORMAL-GAME-LOOP` 的权威覆盖入口。该线由用户在 Stage 1 三关完成后明确前置，目标不是一次性美化全部页面，而是先建立可通关、可观察、可保存、可选关的正式玩家主循环，再逐步闭合完整功能 UI。
 
@@ -48,13 +50,14 @@
 | 3 | 可稳定通关的数值/续航 | 1 级 Role1 统一为 80 HP/2 物防/3000ms Stage 1 保护；Monster30 前摇 420ms、清场后周期刷新间隔 10 秒且波数不变；1-2 为 `attrition-no-sustain`、1-3 为 `boss-physical` | 已闭合 | 1-1 三次完整无调试运行全部通关，耗时 172.7s / 202.6s / 165.7s；审计 watchdog 仅防卡死，不是波次机制 |
 | 4 | 核心战斗 HUD | Stage 1 三关已复用共享 snapshot/bridge；P1/P2 HP/MP/经验/等级/五槽技能状态、入口提示和 Boss 即时/0.8s 追赶条均接入；12 条真资源 ready | 已闭合 | `stage1-hud-tests.ts` 覆盖 owner/键位/比例/Boss 与三关 update/destroy 生命周期；1-1 单人、1-2 双人镜像、1-3 单人 940×590 浏览器验收通过 |
 | 5 | 启动与存档槽 | 真启动/六槽/确认资源已接入；六槽隔离、当前槽写回、V1/V2/旧单槽迁移、损坏拒读与显式删除均已闭合 | 已完成 | `SaveSlotSystem.ts`、`SaveSlotScene.ts`、专项/系统/build 与 940×590 浏览器验收 |
-| 6 | 天庭地图与关卡入口 | 第一世界真地图/菜单、集中节点状态、锁定/当前/已通关/2-1 未接入反馈、现代 1P/2P 选择和 Stage 1 三关返回均已接入 | 已完成 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、6 条 ready 真资源、三关正式返回桥、专项/系统/build 与浏览器验收 |
+| 6 | 天庭地图与关卡入口 | 第一世界真地图/菜单、集中节点状态、锁定/当前/已通关/未接入反馈和正式返回均已接入；节点按活动槽 party 直接进关，不再逐关选人数 | 已完成 | `FormalPartyRuntimeSystem.ts`、`HeavenMapScene.ts`、五关 scene/result bridges、专项/系统/build 与 `TASK-SLICE-153-visual-audit.md` |
 | 7 | 完整功能 UI | 共享 host/V4、真背包/装备、技能四页、宠物页、工坊四事务与真法宝页已完成；工坊使用原 119 扁平图，四操作/翻页/提交/返回由透明命中区承载，四主体左框居中，P1/P2 匹配炼丹炉标题 | 已闭合 | `TASK-SLICE-142` 专项、全门禁与 940×590 P1/P2/四页/返回复验；console 无 warning/error |
 | 8 | 端到端主循环 | 独立自动旅程已串联新建/读档、地图、P1/P2 五类功能页、1-1 结算解锁、返回和再次读档；940×590 浏览器完成新建槽、双 owner 功能页、2P 关卡往返和重载 | 已闭合 | `formal-game-loop-journey-tests.ts`、`check:all`、零 console warning/error 与 `docs/tasks/evidence/TASK-SLICE-140-*.png` |
+| 9 | 启动与场景资源加载 | `shell/save-party/heaven-map/feature-ui/combat-common/stage-*` 均有唯一 owner；Boot 只排队 shell，正式/DEV/QA 路由进入前幂等 ensure 目标 bundle | 已闭合 | `AssetBundleCoordinator`、`SceneAssetBundleBridge`、`asset-bundle-tests.ts` 与 `TASK-ARCH-012-visual-audit.md`；首屏 250→5 资源，三次中位数 788ms |
 
-## 当前 task
+## 关闭状态
 
-`TASK-SLICE-152`：让技能页只遍历当前存档活动 owner，并按每位 owner 的 party hero 展示/操作技能；不提前删除地图逐关 chooser 或修改技能数值/技能树。
+`TASK-ARCH-012` 已闭合并归档：资源 bundle owner、幂等/并发/失败重试、场景销毁边界、正式与 DEV/QA 路由、Boot 负向门禁和 940×590 性能证据均完成。本线重开关闭检查已全部满足，现关闭并恢复 `LINE-STAGE-2-3`。
 
 ## 调度顺序
 

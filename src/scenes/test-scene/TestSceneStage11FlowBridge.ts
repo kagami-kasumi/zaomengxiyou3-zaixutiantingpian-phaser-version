@@ -7,10 +7,12 @@ import {
 } from '../../systems/Stage11FlowSystem';
 import { isHeroCombatDead } from './TestSceneSystems';
 import { installFormalFeatureUiEntries } from '../feature-ui/FormalFeatureUiEntryBridge';
+import { createFormalPartyRetryData } from '../../systems/FormalPartyRuntimeSystem';
+import { startSceneWithBundle } from '../SceneAssetBundleBridge';
 
 export function initializeStage11Flow(this: any): void {
   this.stage11Flow = createStage11Flow(this.playerCount, this.levelUnlockProgress);
-  const returnToMap = () => this.scene.start('HeavenMapScene');
+  const returnToMap = () => void startSceneWithBundle(this, 'HeavenMapScene');
   this.input.keyboard?.on('keydown-ESC', returnToMap);
   this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     this.input.keyboard?.off('keydown-ESC', returnToMap);
@@ -18,7 +20,11 @@ export function initializeStage11Flow(this: any): void {
 }
 
 export function installStage11FeatureUiEntries(this: any): void {
-  installFormalFeatureUiEntries(this, { originKind: 'combat', playerCount: this.playerCount });
+  if (!this.formalPartyRuntime) return;
+  installFormalFeatureUiEntries(this, {
+    originKind: 'combat',
+    party: this.formalPartyRuntime.party,
+  });
 }
 
 export function updateStage11Flow(this: any, deltaMs: number): boolean {
@@ -75,7 +81,7 @@ function createResultOverlay(
     restartFreshTestScene(scene);
   });
   const back = createResultButton(scene, 590, 382, '返回天庭地图', () => {
-    scene.scene.start('HeavenMapScene');
+    void startSceneWithBundle(scene, 'HeavenMapScene');
   });
   const container = scene.add.container(0, 0, [background, title, subtitle, detail, ...retry, ...back]);
   container.setScrollFactor(0).setDepth(200);
@@ -83,12 +89,12 @@ function createResultOverlay(
 }
 
 function restartFreshTestScene(scene: any): void {
-  const playerCount = scene.playerCount as 1 | 2;
+  const retryData = createFormalPartyRetryData(scene.formalPartyRuntime);
   const SceneConstructor = scene.constructor as new () => Phaser.Scene;
   scene.game.events.once(Phaser.Core.Events.POST_RENDER, () => {
     const manager = scene.scene.manager;
     manager.remove('TestScene');
-    manager.add('TestScene', new SceneConstructor(), true, { playerCount });
+    manager.add('TestScene', new SceneConstructor(), true, retryData);
   });
 }
 

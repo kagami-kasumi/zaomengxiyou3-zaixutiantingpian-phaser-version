@@ -135,7 +135,11 @@ assert.ok(bridgeSource.includes('root.add(stageScene)'));
 assert.ok(bridgeSource.includes('stageScene.add(bgContainer)'));
 
 const entrySource = readFileSync(path.join(repoRoot, 'src/scenes/Stage11EntryScene.ts'), 'utf8');
-assert.ok(entrySource.includes("this.scene.start('Stage12Scene', { playerCount })"));
+assert.match(
+  entrySource,
+  /startSceneWithBundle\(\s*this,\s*'Stage12Scene',\s*\{ devParty: createFormalDevParty\(playerCount\) \}/,
+);
+assert.ok(entrySource.includes('if (!import.meta.env.DEV)'));
 assert.ok(entrySource.includes('if (!canEnterStage12(readUnlockProgress())) return'));
 
 console.log('Stage 1-2 resource, layout, entry, and cleanup tests passed.');

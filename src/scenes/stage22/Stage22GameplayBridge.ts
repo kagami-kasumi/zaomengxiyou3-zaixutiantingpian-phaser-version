@@ -123,7 +123,10 @@ export function createStage22Gameplay(
   const combatRuntime = createStage1CombatRuntime();
   const players: PlayerRuntime[] = playerViews.map((view, index) => ({
     view,
-    combat: createStage1CombatPlayer(index === 0 ? 'p1' : 'p2'),
+    combat: createStage1CombatPlayer(
+      index === 0 ? 'p1' : 'p2',
+      view.getData('heroId'),
+    ),
   }));
   if (qa.failParty) {
     players.forEach((player) => {

@@ -2,10 +2,13 @@ import Phaser from 'phaser';
 import { installFormalFeatureUiEntries } from './feature-ui/FormalFeatureUiEntryBridge';
 import { AssetKeys } from '../assets/AssetManifest';
 import {
-  normalizeStage21PlayerCount,
   readStage21QaOptions,
-  type Stage21PlayerCount,
 } from '../systems/Stage21EntrySystem';
+import {
+  createFormalPartyRetryData,
+  type FormalPartyRuntime,
+  type FormalPartySceneData,
+} from '../systems/FormalPartyRuntimeSystem';
 import {
   stage21HeroSpawns,
   STAGE21_WORLD_HEIGHT,
@@ -18,9 +21,12 @@ import {
 } from './stage21/Stage21GameplayBridge';
 import { showStage21Result } from './stage21/Stage21ResultBridge';
 import { createStage21World, type Stage21WorldHandle } from './stage21/Stage21WorldBridge';
+import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
+import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 export class Stage21Scene extends Phaser.Scene {
-  private playerCount: Stage21PlayerCount = 1;
+  private partyRuntime?: FormalPartyRuntime;
+  private playerCount: 1 | 2 = 1;
   private world?: Stage21WorldHandle;
   private gameplay?: Stage21GameplayHandle;
   private playerViews: Phaser.GameObjects.Image[] = [];
@@ -30,20 +36,25 @@ export class Stage21Scene extends Phaser.Scene {
     super('Stage21Scene');
   }
 
-  public init(data?: { playerCount?: 1 | 2 }): void {
-    this.playerCount = normalizeStage21PlayerCount(data?.playerCount);
+  public init(data?: FormalPartySceneData): void {
+    this.partyRuntime = resolveFormalPartyScene(data, import.meta.env.DEV);
+    this.playerCount = this.partyRuntime?.playerCount ?? 1;
   }
 
   public create(): void {
     this.shutdownStage21();
+    if (!this.partyRuntime) {
+      this.scene.start('SaveSlotScene');
+      return;
+    }
     const qa = readStage21QaOptions(window.location.search, import.meta.env.DEV);
-    installFormalFeatureUiEntries(this, { originKind: 'combat', playerCount: this.playerCount });
+    installFormalFeatureUiEntries(this, { originKind: 'combat', party: this.partyRuntime.party });
     this.cameras.main.setBounds(STAGE21_WORLD_LEFT, 0, STAGE21_WORLD_WIDTH, STAGE21_WORLD_HEIGHT);
     this.cameras.main.scrollX = 0;
     this.world = createStage21World(this);
     this.playerViews = stage21HeroSpawns.slice(0, this.playerCount).map((spawn, index) =>
       this.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
-        .setName(spawn.slot).setOrigin(0.5, 1)
+        .setName(spawn.slot).setData('heroId', this.partyRuntime?.members[index]?.heroId).setOrigin(0.5, 1)
         .setTint(index === 0 ? 0xffffff : 0x7ad7ff).setDepth(20),
     );
     const qaLabel = qa.fastClear || qa.noDamage
@@ -71,13 +82,13 @@ export class Stage21Scene extends Phaser.Scene {
     this.resultOverlay = showStage21Result(
       this,
       result,
-      this.playerCount,
+      createFormalPartyRetryData(this.partyRuntime),
       this.gameplay.flow.unlockProgress,
     );
   }
 
   private returnToMap(): void {
-    this.scene.start('HeavenMapScene');
+    void startSceneWithBundle(this, 'HeavenMapScene');
   }
 
   private shutdownStage21(): void {

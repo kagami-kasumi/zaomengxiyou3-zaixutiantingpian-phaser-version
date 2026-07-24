@@ -18,6 +18,10 @@ import {
   createSaveProfileDraft,
   type SaveProfileDraft,
 } from '../systems/SaveProfileDraftSystem';
+import {
+  ensureSceneAssetBundle,
+  startSceneWithBundle,
+} from './SceneAssetBundleBridge';
 
 const SlotPositions = [
   { x: 338.5, y: 267 }, { x: 594.5, y: 267 },
@@ -25,15 +29,22 @@ const SlotPositions = [
   { x: 338.5, y: 424 }, { x: 594.5, y: 424 },
 ] as const;
 
+// boundary: owns save-slot selection and native party creation only; it does
+// not own bundle loading or cross-scene transition policy.
 export class SaveSlotScene extends Phaser.Scene {
   public slotSnapshots: SaveSlotSnapshot[] = [];
 
   private storage?: SaveStorage;
+  private menuLayer?: Phaser.GameObjects.Container;
+  private slotPanelImage?: Phaser.GameObjects.Image;
+  private slotCloseZone?: Phaser.GameObjects.Zone;
   private slotLayer?: Phaser.GameObjects.Container;
   private dialogLayer?: Phaser.GameObjects.Container;
   private createLayer?: Phaser.GameObjects.Container;
   private createDraft?: SaveProfileDraft;
+  private createAssetsLoading = false;
   private createSubmitting = false;
+  private slotPanelOpen = true;
   private feedbackText?: Phaser.GameObjects.Text;
 
   public constructor() {
@@ -43,7 +54,12 @@ export class SaveSlotScene extends Phaser.Scene {
   public create(): void {
     this.cameras.main.setBackgroundColor('#08090c');
     this.add.image(0, 0, saveSlotAssets.startMenu.key).setOrigin(0).setDisplaySize(940, 590);
-    this.add.image(0, 0, saveSlotAssets.slotPanel.key).setOrigin(0).setDisplaySize(940, 590);
+    this.createMainMenuInteractions();
+    this.slotPanelImage = this.add.image(0, 0, saveSlotAssets.slotPanel.key)
+      .setOrigin(0).setDisplaySize(940, 590).setDepth(10);
+    this.slotCloseZone = this.add.zone(718.45, 111.05, 40, 42)
+      .setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(40);
+    this.slotCloseZone.on('pointerdown', () => this.closeSlotPanel());
     this.feedbackText = this.add.text(470, 526, '', {
       color: '#f6d36d', fontFamily: 'Arial, sans-serif', fontSize: '16px',
       backgroundColor: '#151515', padding: { x: 10, y: 5 },
@@ -65,6 +81,41 @@ export class SaveSlotScene extends Phaser.Scene {
     }
     this.refreshSlots();
     this.bindKeyboardShortcuts();
+    this.setSlotPanelOpen(true);
+  }
+
+  private createMainMenuInteractions(): void {
+    const newGame = this.add.zone(751.15, 150.65, 188.85, 45.85)
+      .setOrigin(0).setInteractive({ useHandCursor: true });
+    const continueGame = this.add.zone(751.15, 198, 188.85, 45.95)
+      .setOrigin(0).setInteractive({ useHandCursor: true });
+    newGame.on('pointerdown', () => this.openSlotPanel());
+    continueGame.on('pointerdown', () => this.openSlotPanel());
+    this.menuLayer = this.add.container(0, 0, [newGame, continueGame]).setDepth(5);
+  }
+
+  private openSlotPanel(): void {
+    this.setSlotPanelOpen(true);
+    this.refreshSlots();
+  }
+
+  private closeSlotPanel(): void {
+    this.closeCreateFlow();
+    this.closeDialog();
+    this.slotLayer?.destroy(true);
+    this.slotLayer = undefined;
+    this.setSlotPanelOpen(false);
+  }
+
+  private setSlotPanelOpen(open: boolean): void {
+    this.slotPanelOpen = open;
+    this.menuLayer?.setVisible(!open);
+    this.slotPanelImage?.setVisible(open);
+    this.slotLayer?.setVisible(open);
+    this.feedbackText?.setVisible(open);
+    this.slotCloseZone?.setVisible(open);
+    if (open) this.slotCloseZone?.setInteractive({ useHandCursor: true });
+    else this.slotCloseZone?.disableInteractive();
   }
 
   private refreshSlots(): void {
@@ -121,10 +172,27 @@ export class SaveSlotScene extends Phaser.Scene {
       this.refreshSlots();
       return;
     }
-    this.scene.start('HeavenMapScene');
+    void this.openHeavenMap();
   }
 
   private openCreateFlow(slotId: SaveSlotId): void {
+    if (this.createAssetsLoading) return;
+    this.createAssetsLoading = true;
+    void ensureSceneAssetBundle(this, 'save-party', (status) => {
+      if (status === 'loading') this.feedbackText?.setText('正在载入新建存档界面…');
+      if (status === 'failed') this.feedbackText?.setText('新建存档界面载入失败，请重试');
+    })
+      .then(() => {
+        this.createAssetsLoading = false;
+        if (!this.scene.isActive() || !this.slotPanelOpen) return;
+        this.beginCreateFlow(slotId);
+      })
+      .catch(() => {
+        this.createAssetsLoading = false;
+      });
+  }
+
+  private beginCreateFlow(slotId: SaveSlotId): void {
     this.createDraft = createSaveProfileDraft(slotId);
     this.createSubmitting = false;
     this.renderCreateFlow();
@@ -169,7 +237,17 @@ export class SaveSlotScene extends Phaser.Scene {
       this.feedbackText?.setText(`存档 ${slotNumber} 新建失败，原槽未修改`);
       return;
     }
-    this.scene.start('HeavenMapScene');
+    this.closeCreateFlow();
+    this.refreshSlots();
+    void this.openHeavenMap();
+  }
+
+  private async openHeavenMap(): Promise<void> {
+    const started = await startSceneWithBundle(this, 'HeavenMapScene', undefined, (status) => {
+      if (status === 'loading') this.feedbackText?.setText('正在载入天庭地图…');
+      if (status === 'failed') this.feedbackText?.setText('天庭地图载入失败，请再次点击存档重试');
+    });
+    if (!started && this.scene.isActive()) this.createSubmitting = false;
   }
 
   private closeCreateFlow(): void {
@@ -209,11 +287,14 @@ export class SaveSlotScene extends Phaser.Scene {
   private bindKeyboardShortcuts(): void {
     const keys = ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX'] as const;
     keys.forEach((key, index) => {
-      this.input.keyboard?.on(`keydown-${key}`, () => this.activateSlot(index as SaveSlotId));
+      this.input.keyboard?.on(`keydown-${key}`, () => {
+        if (this.slotPanelOpen) this.activateSlot(index as SaveSlotId);
+      });
     });
     this.input.keyboard?.on('keydown-ESC', () => {
       if (this.createLayer) this.closeCreateFlow();
-      else this.closeDialog();
+      else if (this.dialogLayer) this.closeDialog();
+      else if (this.slotPanelOpen) this.closeSlotPanel();
     });
   }
 }

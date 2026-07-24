@@ -138,7 +138,10 @@ assert.match(sceneSource, /deleteSaveSlot\(this\.storage!, slotId\)/);
 assert.match(sceneSource, /status === 'corrupt'/);
 assert.match(sceneSource, /saveSlotAssets\.slotPanel\.key/);
 assert.match(sceneSource, /saveSlotAssets\.confirmDialog\.key/);
-assert.match(sceneSource, /this\.scene\.start\('HeavenMapScene'\)/);
+assert.match(sceneSource, /startSceneWithBundle\(this, 'HeavenMapScene'/);
+assert.match(sceneSource, /this\.slotCloseZone\.on\('pointerdown', \(\) => this\.closeSlotPanel\(\)\)/);
+assert.match(sceneSource, /newGame\.on\('pointerdown', \(\) => this\.openSlotPanel\(\)\)/);
+assert.match(sceneSource, /continueGame\.on\('pointerdown', \(\) => this\.openSlotPanel\(\)\)/);
 
 for (const relativePath of [
   'src/scenes/Stage11EntryScene.ts',
@@ -155,6 +158,6 @@ for (const relativePath of [
 }
 const saveBridgeSource = readFileSync(path.join(repoRoot, 'src/scenes/test-scene/TestSceneSaveBridge.ts'), 'utf8');
 assert.match(saveBridgeSource, /loadActiveGame\(storage\)/);
-assert.match(saveBridgeSource, /saveActiveGame\(storage/);
+assert.match(saveBridgeSource, /saveActiveGame\(activeStorage/);
 
 console.log('Save slot system tests passed.');

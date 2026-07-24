@@ -1,152 +1,57 @@
 import Phaser from 'phaser';
 import {
-  combatHudAssets,
-  craftingAssets,
-  fullFeatureUiAssets,
-  heavenMapAssets,
-  pickupAssets,
-  role1NormalAttackAssets,
-  savePartyAssets,
-  saveSlotAssets,
-  scaffoldAssets,
-  skillNativeUiAssets,
-  stage11Assets,
-  stage12Assets,
-  stage13Assets,
-  stage21AttackAssets,
-  stage21Assets,
-  stage21MonsterAtlases,
-  Stage21MonsterAssetKeys,
-  stage22Assets,
-  stage22Monster16Atlas,
-  stage22Monster16AttackAssets,
-  Stage22AssetKeys,
-} from '../assets/AssetManifest';
-import {
   isStage22LocalQaHost,
   readStage22DevOptions,
   readStage22QaOptions,
 } from '../systems/Stage22EntrySystem';
+import { createFormalDevParty } from '../systems/FormalPartyRuntimeSystem';
+import {
+  queueSceneAssetBundleForPreload,
+  startSceneWithBundle,
+  type BundleLoadFeedback,
+} from './SceneAssetBundleBridge';
 
 export class BootScene extends Phaser.Scene {
+  private loadingText?: Phaser.GameObjects.Text;
+  private loadingTrack?: Phaser.GameObjects.Rectangle;
+  private loadingBar?: Phaser.GameObjects.Rectangle;
+
   public constructor() {
     super('BootScene');
   }
 
   public preload(): void {
-    this.load.svg(
-      scaffoldAssets.playerPlaceholder.key,
-      scaffoldAssets.playerPlaceholder.path,
-      { width: 72, height: 96 },
-    );
-    for (const asset of Object.values(role1NormalAttackAssets)) {
-      asset.frameKeys.forEach((frameKey, index) => {
-        this.load.image(frameKey, asset.framePaths[index]);
-      });
-    }
-    for (const asset of Object.values(craftingAssets)) {
-      this.load.image(asset.key, asset.path);
-    }
-    for (const asset of Object.values(fullFeatureUiAssets)) {
-      if (asset.path.includes('/skills/native/base/')) this.load.image(asset.key, asset.path);
-      else this.load.svg(asset.key, asset.path);
-    }
-    for (const asset of skillNativeUiAssets) {
-      this.load.svg(asset.key, asset.path);
-    }
-    for (const asset of Object.values(combatHudAssets)) {
-      this.load.svg(asset.key, asset.path);
-    }
-    for (const asset of Object.values(saveSlotAssets)) {
-      this.load.svg(asset.key, asset.path);
-    }
-    for (const asset of Object.values(savePartyAssets)) {
-      this.load.image(asset.key, asset.path);
-    }
-    for (const asset of Object.values(heavenMapAssets)) {
-      this.load.svg(asset.key, asset.path);
-    }
-    for (const asset of Object.values(pickupAssets)) {
-      if ('framePaths' in asset) {
-        asset.frameKeys.forEach((frameKey, index) => this.load.image(frameKey, asset.framePaths[index]));
-      } else {
-        this.load.image(asset.key, asset.path);
-      }
-    }
-    for (const asset of Object.values(stage11Assets)) {
-      this.load.image(asset.key, asset.path);
-    }
-    for (const asset of Object.values(stage12Assets)) {
-      if ('framePaths' in asset) {
-        asset.frameKeys.forEach((frameKey, index) => {
-          this.load.image(frameKey, asset.framePaths[index]);
-        });
-      } else {
-        this.load.image(asset.key, asset.path);
-      }
-    }
-    for (const asset of Object.values(stage13Assets)) {
-      this.load.image(asset.key, asset.path);
-    }
-    for (const asset of Object.values(stage21Assets)) {
-      if ('framePaths' in asset) {
-        asset.frameKeys.forEach((frameKey, index) => {
-          this.load.image(frameKey, asset.framePaths[index]);
-        });
-      } else {
-        this.load.image(asset.key, asset.path);
-      }
-    }
-    for (const asset of Object.values(stage21MonsterAtlases)) {
-      this.load.spritesheet(asset.key, asset.path, {
-        frameWidth: asset.cellWidth,
-        frameHeight: asset.cellHeight,
-      });
-    }
-    for (const asset of Object.values(stage21AttackAssets)) {
-      asset.frameKeys.forEach((frameKey, index) => {
-        this.load.image(frameKey, asset.framePaths[index]);
-      });
-    }
-    const stage22QaRuntime = import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname);
-    if (stage22QaRuntime) {
-      for (const [name, asset] of Object.entries(stage22Assets)) {
-        if (name === 'floor') continue;
-        if ('framePaths' in asset) {
-          asset.frameKeys.forEach((frameKey, index) => {
-            this.load.svg(frameKey, asset.framePaths[index]);
-          });
-        } else {
-          this.load.svg(asset.key, asset.path);
-        }
-      }
-      this.load.spritesheet(stage22Monster16Atlas.key, stage22Monster16Atlas.path, {
-        frameWidth: stage22Monster16Atlas.cellWidth,
-        frameHeight: stage22Monster16Atlas.cellHeight,
-      });
-      for (const asset of Object.values(stage22Monster16AttackAssets)) {
-        asset.frameKeys.forEach((frameKey, index) => {
-          this.load.svg(frameKey, asset.framePaths[index]);
-        });
-      }
-      this.load.text(
-        Stage22AssetKeys.monster16AttackGeometry,
-        '/assets/stage22/monster16/bullet-frame-geometry.csv',
-      );
-    }
-    this.load.text(
-      Stage21MonsterAssetKeys.attackGeometry,
-      '/assets/stage21/bullet-frame-geometry.csv',
-    );
+    this.loadingText = this.add.text(470, 284, '资源载入中 0%', {
+      color: '#f3d27a',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '20px',
+    }).setOrigin(0.5);
+    this.loadingTrack = this.add.rectangle(470, 320, 300, 8, 0x273247);
+    this.loadingBar = this.add.rectangle(320, 320, 0, 8, 0xf3d27a).setOrigin(0, 0.5);
+    this.load.on(Phaser.Loader.Events.PROGRESS, (progress: number) => {
+      this.loadingText?.setText(`资源载入中 ${Math.round(progress * 100)}%`);
+      if (this.loadingBar) this.loadingBar.width = 300 * progress;
+    });
+    this.load.once(Phaser.Loader.Events.COMPLETE, () => {
+      this.loadingText?.setText('资源载入完成');
+      this.loadingTrack?.setVisible(false);
+      this.loadingBar?.setVisible(false);
+    });
+
+    queueSceneAssetBundleForPreload(this, 'shell');
   }
 
   public create(): void {
+    void this.routeFromBoot();
+  }
+
+  private async routeFromBoot(): Promise<void> {
     const stage22Dev = readStage22DevOptions(
       window.location.search,
       import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname),
     );
     if (stage22Dev.enabled) {
-      this.scene.start('Stage22DevScene', stage22Dev);
+      await this.startQaScene('Stage22DevScene', stage22Dev);
       return;
     }
     const stage22Qa = readStage22QaOptions(
@@ -154,11 +59,24 @@ export class BootScene extends Phaser.Scene {
       import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname),
     );
     if (stage22Qa.bossState) {
-      this.scene.start('Stage22Scene', {
-        playerCount: new URLSearchParams(window.location.search).get('players') === '2' ? 2 : 1,
+      await this.startQaScene('Stage22Scene', {
+        devParty: createFormalDevParty(
+          new URLSearchParams(window.location.search).get('players') === '2' ? 2 : 1,
+        ),
       });
       return;
     }
     this.scene.start('SaveSlotScene');
+  }
+
+  private async startQaScene(targetSceneKey: string, data: object): Promise<void> {
+    const feedback: BundleLoadFeedback = (status, bundleId) => {
+      if (status === 'loading') this.loadingText?.setText(`正在载入 ${bundleId}…`);
+      if (status === 'failed') this.loadingText?.setText('目标场景资源载入失败，点击重试');
+    };
+    const started = await startSceneWithBundle(this, targetSceneKey, data, feedback);
+    if (!started && this.scene.isActive()) {
+      this.input.once('pointerdown', () => void this.startQaScene(targetSceneKey, data));
+    }
   }
 }

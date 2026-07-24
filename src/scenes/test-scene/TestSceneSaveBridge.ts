@@ -9,6 +9,7 @@ import {
   restoreGameState,
   saveActiveGame,
   setHeroId,
+  setHeroProgressionHero,
   syncMagicWeaponFromLoadout,
   type SaveStorage,
 } from './TestSceneSystems';
@@ -30,6 +31,11 @@ export function initializeSceneSave(this: any): void {
     fontFamily: 'Arial, sans-serif',
     fontSize: '12px',
   }).setScrollFactor(0).setDepth(120);
+  applyFormalPartyHeroes(this);
+  if (this.formalPartyRuntime?.source === 'dev-override') {
+    setSaveResult(this, 'SAVE disabled for DEV party');
+    return;
+  }
 
   const storage = getBrowserStorage();
   if (!storage) {
@@ -105,7 +111,20 @@ export function initializeSceneSave(this: any): void {
   setSaveResult(this, `SAVE loaded ${save.savedAt.slice(0, 10)}`);
 }
 
+function applyFormalPartyHeroes(scene: any): void {
+  for (const member of scene.formalPartyRuntime?.members ?? []) {
+    const player = scene.playerViews.find((view: any) => view.slot === member.slot);
+    if (!player) continue;
+    setHeroProgressionHero(player.progression, member.heroId);
+    setHeroId(player.normalAttack, member.heroId);
+    player.baseStats = getHeroBaseStats(member.heroId, player.progression.level);
+    scene.syncPlayerEffectiveStats(player, { refill: true });
+    scene.refreshPlayerHeroView(player);
+  }
+}
+
 export function updateSceneSave(this: any, deltaMs: number): void {
+  if (this.formalPartyRuntime?.source === 'dev-override') return;
   const runtime = this.saveRuntime as SceneSaveRuntime | undefined;
   const storage = getBrowserStorage();
   if (!runtime || !storage) return;
@@ -115,14 +134,16 @@ export function updateSceneSave(this: any, deltaMs: number): void {
   saveSceneNow.call(this, storage);
 }
 
-export function saveSceneNow(this: any, storage: SaveStorage = getRequiredBrowserStorage()): void {
+export function saveSceneNow(this: any, storage?: SaveStorage): void {
+  if (this.formalPartyRuntime?.source === 'dev-override') return;
+  const activeStorage = storage ?? getRequiredBrowserStorage();
   const player = this.playerViews.find((view: any) => view.slot === 'p1');
   if (!player) return;
   const player2 = this.playerViews.find((view: any) => view.slot === 'p2');
   const savedPlayer2 = this.savedPlayer2FeatureState;
   try {
-    const activeParty = loadActiveGame(storage)?.party;
-    const saved = saveActiveGame(storage, createGameSave({
+    const activeParty = loadActiveGame(activeStorage)?.party;
+    const saved = saveActiveGame(activeStorage, createGameSave({
       party: activeParty,
       progression: player.progression,
       skillLoadout: player.skill.loadout,

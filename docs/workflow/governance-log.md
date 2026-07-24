@@ -4,6 +4,37 @@
 
 ## 2026-07-24
 
+### 登记启动资源加载问题与场景分包任务
+
+变更内容：
+
+- 新增 `PG-009`，把 Boot 全量预加载、场景 bundle owner 缺失、失败/重试边界和防回填测试缺口登记为结构性问题。
+- 新增同线 Planned `GOAL-033` / `TASK-ARCH-012`，排在 `TASK-SLICE-153` 后、Stage 2-3 前；当前唯一 Active Goal/Task 保持 `GOAL-031` / `TASK-SLICE-152`。
+- 新增 `VS-058`，并把 `M-035` 更新为整改中；正式主循环关闭合同增加启动壳层、按场景加载、冷刷新性能和 DEV/QA 直达验证。
+- 明确治理不更换 Phaser/TypeScript/Vite，不在同一 Goal 混入图片转码、atlas 重做或纹理淘汰。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-002-功能线唯一活跃项与切换规则.md`
+- `docs/workflow/problems/PG-004-问题治理触发与反馈闭环.md`
+- `docs/workflow/problems/PG-007-UI原生化验收合同缺失.md`
+- `docs/workflow/problems/PG-008-任务规模与Goal上下文预算失控.md`
+- `docs/workflow/problems/PG-009-启动资源加载边界缺失.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-FORMAL-GAME-LOOP.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 收尾扫描命中 `PG-002/004/007/008/009`，已分别回写不抢占 Active、治理七段式、UI 原生化合同、Goal 规模预算和初始治理样本。
+- `npm run check:workflow` 通过：6 个未完成 task/6 个完整定义、6 个 Goal、唯一 Active 为 `GOAL-031`，470 条资源注释校验通过。
+- `git diff --check` 通过。
+
 ### 回写 GOAL-023 问题治理效果样本
 
 变更内容：

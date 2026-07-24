@@ -110,7 +110,10 @@ export function createStage21Gameplay(
   const combatRuntime = createStage1CombatRuntime();
   const players: PlayerRuntime[] = playerViews.map((view, index) => ({
     view,
-    combat: createStage1CombatPlayer(index === 0 ? 'p1' : 'p2'),
+    combat: createStage1CombatPlayer(
+      index === 0 ? 'p1' : 'p2',
+      view.getData('heroId'),
+    ),
   }));
   const restoredSkills = readFormalSkillRuntime(getBrowserStorage());
   players.forEach((player, index) => {

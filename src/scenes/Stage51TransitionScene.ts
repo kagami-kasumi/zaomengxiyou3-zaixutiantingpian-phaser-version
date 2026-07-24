@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 export class Stage51TransitionScene extends Phaser.Scene {
   public constructor() {
@@ -28,7 +29,10 @@ export class Stage51TransitionScene extends Phaser.Scene {
     }).setOrigin(0.5);
     button.on('pointerover', () => button.setFillStyle(0x344867));
     button.on('pointerout', () => button.setFillStyle(0x23314a));
-    button.on('pointerdown', () => this.scene.start('HeavenMapScene'));
-    this.input.keyboard?.once('keydown-ESC', () => this.scene.start('HeavenMapScene'));
+    button.on('pointerdown', () => void startSceneWithBundle(this, 'HeavenMapScene'));
+    this.input.keyboard?.once(
+      'keydown-ESC',
+      () => void startSceneWithBundle(this, 'HeavenMapScene'),
+    );
   }
 }

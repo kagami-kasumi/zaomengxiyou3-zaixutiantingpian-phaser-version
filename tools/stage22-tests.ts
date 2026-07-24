@@ -424,7 +424,7 @@ assert.equal(fire.frame, 1, 'the 130-frame timeline loops back to stopped frame 
 
 const bootSource = readFileSync(path.join(repoRoot, 'src/scenes/BootScene.ts'), 'utf8');
 assert.ok(bootSource.includes('import.meta.env.DEV || isStage22LocalQaHost'));
-assert.ok(bootSource.includes("this.scene.start('Stage22DevScene', stage22Dev)"));
+assert.ok(bootSource.includes("this.startQaScene('Stage22DevScene', stage22Dev)"));
 assert.ok(bootSource.includes("this.scene.start('SaveSlotScene')"));
 const mapSource = readFileSync(path.join(repoRoot, 'src/systems/HeavenMapSystem.ts'), 'utf8');
 assert.ok(mapSource.includes('Stage22Scene'), '150B exposes the formal Stage 2-2 route');
@@ -464,7 +464,7 @@ assert.ok(formalGameplaySource.includes('createMonster16View'));
 assert.ok(formalGameplaySource.includes('tryCompleteStage22'));
 const formalSceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage22Scene.ts'), 'utf8');
 assert.ok(formalSceneSource.includes('showStage22Result'));
-assert.ok(formalSceneSource.includes("this.scene.start('HeavenMapScene')"));
+assert.ok(formalSceneSource.includes("startSceneWithBundle(this, 'HeavenMapScene')"));
 assert.ok(formalSceneSource.includes('import.meta.env.DEV || isStage22LocalQaHost'));
 
 console.log('Stage 2-2 scene, 54-definition flow, ordinary combat route, and fire tests passed.');

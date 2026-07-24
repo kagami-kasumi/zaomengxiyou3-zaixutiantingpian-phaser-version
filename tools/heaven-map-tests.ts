@@ -84,14 +84,15 @@ assert.match(worldSvg, /width="940px" viewBox="0 0 940 590"/);
 assert.match(menuSvg, /width="940px" viewBox="0 0 940 590"/);
 
 const bootSource = readFileSync(path.join(repoRoot, 'src/scenes/BootScene.ts'), 'utf8');
-assert.match(bootSource, /Object\.values\(heavenMapAssets\)/);
+assert.match(bootSource, /queueSceneAssetBundleForPreload\(this, 'shell'\)/);
 const mainSource = readFileSync(path.join(repoRoot, 'src/main.ts'), 'utf8');
 assert.match(mainSource, /BootScene, SaveSlotScene, HeavenMapScene/);
 const mapSource = readFileSync(path.join(repoRoot, 'src/scenes/HeavenMapScene.ts'), 'utf8');
 assert.match(mapSource, /loadActiveGame\(this\.storage\)/);
-assert.match(mapSource, /this\.chooser = undefined/);
-assert.match(mapSource, /openPlayerCountChooser\(node\)/);
-assert.match(mapSource, /this\.scene\.start\(node\.routeKey, \{ playerCount \}\)/);
+assert.match(mapSource, /this\.party = save\.party/);
+assert.match(mapSource, /startSceneWithBundle\(this, node\.routeKey/);
+assert.doesNotMatch(mapSource, /openPlayerCountChooser|chooser|单人进入|双人进入/);
+assert.doesNotMatch(mapSource, /node\.routeKey, \{ playerCount \}/);
 assert.match(mapSource, /内容尚未复现/);
 
 const formalRouteFiles = [

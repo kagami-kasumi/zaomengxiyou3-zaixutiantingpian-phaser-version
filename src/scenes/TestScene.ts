@@ -8,6 +8,10 @@ import {
   type LevelUnlockProgress,
   type Stage11FlowModel,
 } from '../systems/Stage11FlowSystem';
+import type {
+  FormalPartyRuntime,
+  FormalPartySceneData,
+} from '../systems/FormalPartyRuntimeSystem';
 import {
   createHitRegistry,
   formatDamageEvent,
@@ -283,7 +287,7 @@ import {
   updateMagicBottleEffectViews as updateMagicBottleEffectViewImpl,
   type MagicBottleEffectView,
 } from './test-scene/TestSceneMagicBottleViewBridge';
-import { getTestScenePlayerCount } from './test-scene/TestSceneConfig';
+import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
 import {
   createTestSceneStage1HudBridge,
 } from './test-scene/TestSceneStage1HudBridge';
@@ -334,7 +338,8 @@ type MagicWeaponPlatformView = {
 };
 
 export class TestScene extends Phaser.Scene {
-  public playerCount: 1 | 2 = getTestScenePlayerCount();
+  public formalPartyRuntime?: FormalPartyRuntime;
+  public playerCount: 1 | 2 = 1;
   public levelUnlockProgress: LevelUnlockProgress = createDefaultLevelUnlockProgress();
   public stage11Flow?: Stage11FlowModel;
   private inputSystem?: InputSystem;
@@ -450,13 +455,16 @@ export class TestScene extends Phaser.Scene {
     super('TestScene');
   }
 
-  public init(data?: { playerCount?: 1 | 2 }): void {
-    this.playerCount = data?.playerCount === 2 ? 2 : data?.playerCount === 1
-      ? 1
-      : getTestScenePlayerCount();
+  public init(data?: FormalPartySceneData): void {
+    this.formalPartyRuntime = resolveFormalPartyScene(data, import.meta.env.DEV);
+    this.playerCount = this.formalPartyRuntime?.playerCount ?? 1;
   }
 
   public create(): void {
+    if (!this.formalPartyRuntime) {
+      this.scene.start('SaveSlotScene');
+      return;
+    }
     this.cameras.main.setBounds(
       0,
       0,

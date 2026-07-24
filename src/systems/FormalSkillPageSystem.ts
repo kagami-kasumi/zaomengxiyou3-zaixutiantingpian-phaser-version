@@ -1,6 +1,10 @@
 import type { PlayerSlot } from './InputSystem';
 import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
+  getPartyHeroId,
+  getPartyPlayerSlots,
+} from './PartyConfigurationSystem';
+import {
   createGameSave,
   restoreGameState,
   type GameSaveV5,
@@ -43,7 +47,7 @@ export function createFormalSkillPage(
   owner: PlayerSlot,
 ): FormalSkillPageModel | undefined {
   const save = loadActiveGame(storage);
-  if (!save) return undefined;
+  if (!save || getPartyHeroId(save.party, owner) === undefined) return undefined;
   return {
     owner,
     activeTab: 'tree1',
@@ -56,12 +60,28 @@ export function createFormalSkillPage(
   };
 }
 
-export function setFormalSkillOwner(model: FormalSkillPageModel, owner: PlayerSlot): void {
+export function setFormalSkillOwner(model: FormalSkillPageModel, owner: PlayerSlot): boolean {
+  if (!getFormalSkillOwners(model).includes(owner)) return false;
   model.owner = owner;
   model.activeTab = 'tree1';
   model.selectedSkillIndex = 0;
   model.selectedSlotIndex = 0;
   model.message = `已切换 ${owner.toUpperCase()}`;
+  return true;
+}
+
+export function getFormalSkillOwners(model: FormalSkillPageModel): readonly PlayerSlot[] {
+  return getPartyPlayerSlots(model.sourceSave.party);
+}
+
+export function getFormalSkillEntryPlayerCount(
+  storage: SaveStorage,
+  owner: PlayerSlot,
+): 1 | 2 | undefined {
+  const save = loadActiveGame(storage);
+  return save && getPartyHeroId(save.party, owner) !== undefined
+    ? save.party.playerCount
+    : undefined;
 }
 
 export function selectFormalSkillTab(model: FormalSkillPageModel, tab: SkillPanelTab): void {
@@ -201,7 +221,12 @@ export function upgradeFormalPassiveSkill(model: FormalSkillPageModel, storage: 
 }
 
 export function getFormalSkillPlayer(model: FormalSkillPageModel): LoadedPlayer1State {
-  return model.owner === 'p1' ? model.restored.player1 : model.restored.player2;
+  const partyHeroId = getPartyHeroId(model.sourceSave.party, model.owner);
+  const player = model.owner === 'p1' ? model.restored.player1 : model.restored.player2;
+  if (partyHeroId === undefined || player.progression.heroId !== partyHeroId) {
+    throw new RangeError('Formal skill owner must be an active PartyConfiguration member.');
+  }
+  return player;
 }
 
 export function getFormalLearnedSkills(

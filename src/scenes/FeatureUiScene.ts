@@ -23,6 +23,7 @@ import {
 import type { SaveStorage } from '../systems/SaveSystem';
 import {
   createFormalSkillPage,
+  getFormalSkillEntryPlayerCount,
   setFormalSkillOwner,
   type FormalSkillPageModel,
 } from '../systems/FormalSkillPageSystem';
@@ -136,6 +137,13 @@ export class FeatureUiScene extends Phaser.Scene {
   }
 
   private switchPage(page: FeatureUiPage, owner: FeatureUiOwner): void {
+    if (
+      page === 'skills'
+      && (!this.storage || getFormalSkillEntryPlayerCount(this.storage, owner) === undefined)
+    ) {
+      this.detailText?.setText('当前存档没有这位玩家，无法切换到对应技能页。');
+      return;
+    }
     const session = switchFeatureUi(formalFeatureUiHost, page, owner);
     if (!session) {
       this.detailText?.setText('当前游戏没有第二位玩家，无法切换到 P2 页面。');
@@ -330,7 +338,6 @@ export class FeatureUiScene extends Phaser.Scene {
       return;
     }
     this.skillLayer = createFormalSkillPageView(this, this.skillModel, this.storage, {
-      playerCount: this.session.playerCount,
       onOwner: (nextOwner) => this.switchPage('skills', nextOwner),
       onSaved: () => this.syncSkillRuntime(),
       onClose: () => this.closeHost(),

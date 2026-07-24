@@ -1,7 +1,11 @@
 import Phaser from 'phaser';
 import { installFormalFeatureUiEntries } from './feature-ui/FormalFeatureUiEntryBridge';
 import { AssetKeys } from '../assets/AssetManifest';
-import { normalizeStage12PlayerCount, type Stage12PlayerCount } from '../systems/Stage12EntrySystem';
+import {
+  createFormalPartyRetryData,
+  type FormalPartyRuntime,
+  type FormalPartySceneData,
+} from '../systems/FormalPartyRuntimeSystem';
 import {
   stage12HeroSpawns,
   STAGE12_WORLD_HEIGHT,
@@ -14,9 +18,12 @@ import {
   type Stage12GameplayHandle,
 } from './stage12/Stage12GameplayBridge';
 import { showStage12Result } from './stage12/Stage12ResultBridge';
+import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
+import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 export class Stage12Scene extends Phaser.Scene {
-  private playerCount: Stage12PlayerCount = 1;
+  private partyRuntime?: FormalPartyRuntime;
+  private playerCount: 1 | 2 = 1;
   private world?: Stage12WorldHandle;
   private gameplay?: Stage12GameplayHandle;
   private playerViews: Phaser.GameObjects.Image[] = [];
@@ -26,19 +33,25 @@ export class Stage12Scene extends Phaser.Scene {
     super('Stage12Scene');
   }
 
-  public init(data?: { playerCount?: 1 | 2 }): void {
-    this.playerCount = normalizeStage12PlayerCount(data?.playerCount);
+  public init(data?: FormalPartySceneData): void {
+    this.partyRuntime = resolveFormalPartyScene(data, import.meta.env.DEV);
+    this.playerCount = this.partyRuntime?.playerCount ?? 1;
   }
 
   public create(): void {
     this.shutdownStage12();
-    installFormalFeatureUiEntries(this, { originKind: 'combat', playerCount: this.playerCount });
+    if (!this.partyRuntime) {
+      this.scene.start('SaveSlotScene');
+      return;
+    }
+    installFormalFeatureUiEntries(this, { originKind: 'combat', party: this.partyRuntime.party });
     this.cameras.main.setBounds(STAGE12_WORLD_LEFT, 0, STAGE12_WORLD_WIDTH, STAGE12_WORLD_HEIGHT);
     this.cameras.main.scrollX = 0;
     this.world = createStage12World(this);
     this.playerViews = stage12HeroSpawns.slice(0, this.playerCount).map((spawn, index) =>
       this.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
         .setName(spawn.slot)
+        .setData('heroId', this.partyRuntime?.members[index]?.heroId)
         .setOrigin(0.5, 1)
         .setTint(index === 0 ? 0xffffff : 0x7ad7ff)
         .setDepth(20),
@@ -70,13 +83,13 @@ export class Stage12Scene extends Phaser.Scene {
     this.resultOverlay = showStage12Result(
       this,
       result,
-      this.playerCount,
+      createFormalPartyRetryData(this.partyRuntime),
       this.gameplay.flow.unlockProgress,
     );
   }
 
   private returnToEntry(): void {
-    this.scene.start('HeavenMapScene');
+    void startSceneWithBundle(this, 'HeavenMapScene');
   }
 
   private shutdownStage12(): void {

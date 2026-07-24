@@ -4,6 +4,8 @@ import type { SaveStorage } from '../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../systems/Stage11FlowSystem';
 import { canEnterStage12 } from '../systems/Stage12EntrySystem';
 import { canEnterStage13 } from '../systems/Stage13EntrySystem';
+import { createFormalDevParty } from '../systems/FormalPartyRuntimeSystem';
+import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 export class Stage11EntryScene extends Phaser.Scene {
   public constructor() {
@@ -11,6 +13,10 @@ export class Stage11EntryScene extends Phaser.Scene {
   }
 
   public create(): void {
+    if (!import.meta.env.DEV) {
+      this.scene.start('SaveSlotScene');
+      return;
+    }
     const progress = readUnlockProgress();
     this.cameras.main.setBackgroundColor('#101724');
 
@@ -67,17 +73,29 @@ export class Stage11EntryScene extends Phaser.Scene {
   }
 
   private startStage11(playerCount: 1 | 2): void {
-    this.scene.start('TestScene', { playerCount });
+    void startSceneWithBundle(
+      this,
+      'TestScene',
+      { devParty: createFormalDevParty(playerCount) },
+    );
   }
 
   private startStage12(playerCount: 1 | 2): void {
     if (!canEnterStage12(readUnlockProgress())) return;
-    this.scene.start('Stage12Scene', { playerCount });
+    void startSceneWithBundle(
+      this,
+      'Stage12Scene',
+      { devParty: createFormalDevParty(playerCount) },
+    );
   }
 
   private startStage13(playerCount: 1 | 2): void {
     if (!canEnterStage13(readUnlockProgress())) return;
-    this.scene.start('Stage13Scene', { playerCount });
+    void startSceneWithBundle(
+      this,
+      'Stage13Scene',
+      { devParty: createFormalDevParty(playerCount) },
+    );
   }
 }
 

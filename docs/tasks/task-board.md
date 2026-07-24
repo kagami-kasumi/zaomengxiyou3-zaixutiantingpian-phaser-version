@@ -4,170 +4,17 @@
 
 ## 当前推荐
 
-`TASK-SLICE-152` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-031` 和已重开的 `LINE-FORMAL-GAME-LOOP`。下一次 `/goal` 只把技能页 owner/角色可达性收敛到当前存档 `PartyConfiguration`，不提前实现地图直接进关或改动技能数值/树内容；Stage 2-3 逆向继续后移。
+`TASK-SETTINGS-064` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-025` 和 `LINE-STAGE-2-3`。下一次 `/goal` 只闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据；不写现代实现，不进入怪物架构线。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-152 | Ready | GOAL-031 | LINE-FORMAL-GAME-LOOP | 技能 owner 收敛 | 技能页只显示当前存档 owner 的当前角色技能 | M-041、M-044、M-052、VS-055 | 存档驱动 owner/角色、P1/P2 边界与技能页回归 | TASK-SLICE-153 |
-| TASK-SLICE-153 | Planned | GOAL-032 | LINE-FORMAL-GAME-LOOP | 正式进关收敛 | 删除地图逐关人数选择，所有正式关卡/重试/HUD/功能页消费存档队伍 | M-005、M-006、M-044、M-051、VS-053 | 直接进关、跨场景 owner 一致性与端到端回归 | TASK-SETTINGS-064 |
-| TASK-SETTINGS-064 | Planned | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
+| TASK-SETTINGS-064 | Ready | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
 | TASK-ARCH-010A | Planned | GOAL-026 | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B |
 | TASK-ARCH-010B | Planned | GOAL-027 | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task |
 
 ## 任务完成定义
-
-### TASK-SLICE-152
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Active）
-
-Goal 包：
-
-- `GOAL-031`（Active）
-
-目标机制/切片：
-
-- `M-041`、`M-044`、`M-052`、`VS-055`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若技能页修改要求同时重做技能树业务规则、绑定协议或 HUD 技能同步 owner，立即把业务修正留给同线后续 Goal；本 task 只收敛存档队伍与当前角色可见性。
-
-输入资料：
-
-- `TASK-ARCH-011` 的 `PartyConfiguration` 查询。
-- `skill-ui-native-index.md`、`LINE-UI-NATIVE-SKILLS` 已闭合显示列表与 `TASK-SLICE-143` 视觉审计。
-- `FormalSkillPageSystem.ts`、`FormalSkillPageView.ts`、`FormalSkillRuntimeBridge.ts`、`FeatureUiHostSystem.ts`。
-
-输出产物：
-
-- 技能页面从当前存档读取活动 owner；单人只允许 P1，双人允许 P1/P2。
-- 每个 owner 的主动树、已学技能、绑定槽和被动只读取其存档当前 `heroId`，不得展示或操作其他角色技能。
-- 战斗快捷键打开对应 owner；地图入口默认 P1，双人可用原版角色选择器切换 owner；单人不渲染 P2。
-- 保存与 HUD 同步继续按稳定 `PlayerSlot` 路由，不能因两位玩家选择同一英雄而串号。
-
-完成定义：
-
-- 单人五角色分别只显示自己的两棵主动树、技能图标、绑定与被动。
-- 双人不同/相同角色组合均可切换 owner，数据彼此隔离；非活动 P2 无法通过事件或直接调用写入。
-- 页面不再依赖地图硬编码 `playerCount: 2` 或调用方任意传入人数决定 owner 集合。
-
-UI 原生化合同：
-
-- 显示列表清单：继续消费已闭合的 250/868/417/213、五角色选择器两帧、技能三态、P1/P2 键槽与动态字段清单。
-- 原版视觉基准：沿用 `TASK-SLICE-143-visual-audit.md`，新增五种单人当前角色和双人同/异角色 owner 切换状态。
-- 允许的现代视觉例外：无新增例外；单人隐藏非活动 owner，不新增“当前角色”现代标题或提示框。
-- 逐状态验收：五角色主动双树、学习/升级/绑定/被动、单人、双人同角色、双人异角色、P1/P2 selected、关闭与重载。
-- 差异证据：更新逐状态截图和对象差异清单，确认只变化 owner 可达性与对应角色内容。
-
-验收标准：
-
-- 修改前运行 `npm run check:structure`。
-- 技能专项覆盖五角色、1P/2P、同角色双 owner、非活动 owner 拒绝、保存重载和 HUD 同步。
-- `npm run test:systems`、技能/UI 专项、`npm run build`、`npm run check:workflow`、`git diff --check` 与 940×590 运行验收通过，console 无 warning/error。
-
-禁止范围：
-
-- 不改变技能数值、学习成本、等级上限、技能树内容、五槽顺序或快捷键。
-- 不重新制作已闭合真 UI，不新增现代可见 owner 按钮。
-- 不修改关卡内容或怪物系统。
-
-状态更新：
-
-- 更新本线与技能 UI 覆盖台账、`M-041/M-052`、`VS-055`、Goal/task/history 与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SLICE-153`：删除逐关人数 chooser，让地图、关卡、HUD、功能页和重试统一消费存档队伍。
-
-### TASK-SLICE-153
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-FORMAL-GAME-LOOP`（Active 后续）
-
-Goal 包：
-
-- `GOAL-032`（Planned）
-
-目标机制/切片：
-
-- `M-005`、`M-006`、`M-044`、`M-051`、`VS-053`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若正式消费者迁移需要同时重写两个以上关卡玩法 owner，或旧关卡无法通过统一启动参数适配，立即先建立共享 party bootstrap 并只迁移地图与一个代表关卡，其余关卡拆成同线后续 Goal。
-
-输入资料：
-
-- `TASK-ARCH-011` 的队伍查询、`TASK-SLICE-151` 新建存档流程和 `TASK-SLICE-152` owner 规则。
-- `HeavenMapScene.ts`、正式 Stage 1/2 scenes、result/retry bridges、HUD 与 FormalFeatureUiEntryBridge。
-- `heaven-map-index.md` 既有地图显示列表和原版视觉基准。
-
-输出产物：
-
-- 删除 `HeavenMapScene` 的逐关 1P/2P chooser；点击已解锁且可用节点后直接按当前存档队伍启动。
-- 建立共享正式 party bootstrap，使关卡、HUD、功能页、失败重试、胜利返回和重载从存档恢复相同人数与角色。
-- 地图不再硬编码双 owner；单人只注册 P1 功能入口，双人才注册 P2。
-- URL/scene payload 人数覆盖只保留在明确 DEV/QA 路径，正式路由忽略或拒绝。
-
-完成定义：
-
-- 同一存档从地图进入任一已接入关卡时，人数、P1/P2 角色、HUD、技能和功能页 owner 一致。
-- 失败重试、胜利返回、退出地图和整页重载不改变队伍配置。
-- 地图没有逐关人数选择可见对象、残留交互或 chooser 生命周期状态。
-- 已接入正式关卡的玩法、通关和存档进度无回归。
-
-UI 原生化合同：
-
-- 显示列表清单：消费现有天庭地图节点/菜单清单；删除的现代人数 chooser 单独列入差异，不改变原地图对象。
-- 原版视觉基准：沿用天庭地图 940×590 基准，补单人/双人存档点击节点直接进入的运行证据。
-- 允许的现代视觉例外：不新增替代确认层；保留既有锁定/未接入安全反馈和当前槽提示。
-- 逐状态验收：1P/2P 地图、可用/锁定/未接入节点、直接进入、失败重试、胜利返回、退出和重载。
-- 差异证据：证明 chooser 可见对象与交互均已移除，地图原资源、节点和菜单未被现代层替换。
-
-验收标准：
-
-- 修改前运行 `npm run check:structure`。
-- 确定性测试覆盖 1P/2P、五角色、同角色双人、直接进关、锁定/未接入、retry、return、reload 和 DEV 隔离。
-- 所有受影响关卡专项、`npm run test:systems`、`npm run build`、`npm run check:workflow`、`git diff --check` 与 940×590 端到端运行验收通过，console 无 warning/error。
-
-禁止范围：
-
-- 不逆向或实现 Stage 2-3，不修改关卡波次、Boss、机关、战斗数值或视觉资源。
-- 不允许正式场景继续把临时 `playerCount` 当权威事实源。
-- 不实现中途改变人数、换角色、联网或账号系统。
-
-状态更新：
-
-- 更新本线、正式主循环/地图覆盖台账、相关机制/切片、Goal/task/history 与适用 PG 反馈；关闭本线后恢复 `LINE-STAGE-2-3` / `GOAL-025`。
-
-推荐后续任务：
-
-- `TASK-SETTINGS-064`：恢复 Stage 2-3 六段逆向；怪物架构线继续保持 Planned，直到 Stage 2-3 功能线关闭或用户再次调整顺序。
 
 ### TASK-SETTINGS-064
 
@@ -177,11 +24,11 @@ UI 原生化合同：
 
 功能条线：
 
-- `LINE-STAGE-2-3`（Planned；等待重开的 `LINE-FORMAL-GAME-LOOP` 关闭）
+- `LINE-STAGE-2-3`（Active）
 
 Goal 包：
 
-- `GOAL-025`（Planned）
+- `GOAL-025`（Active）
 
 目标机制/切片：
 

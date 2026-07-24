@@ -26,11 +26,11 @@
 | LINE-STAGE-1-1 | Done | Stage 1-1 真场景资源、关卡流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-1.md` | 无 | 原版 W 门与最高层立即出 Boss 已闭合；最高层镜头按原版 420/590 构图、2 秒过渡；Stage 1-1 专项、全系统、build 通过 |
 | LINE-STAGE-1-2 | Done | 按内容扩展路线顺延：Stage 1-2 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-2.md` | 无 | 72 张真资源、3+1 墙/5 停点/13 刷怪点、五批 46 怪、双 boss 门、1P/2P 失败/普通胜利/V3 解锁与 `fbEnter -> 5-1` 全部闭合 |
 | LINE-STAGE-1-3 | Done | 按 Stage 1 内容扩展路线顺延：Stage 1-3 真场景资源、专属流程和玩家可见闭环 | — | `feature-line-coverage/LINE-STAGE-1-3.md` | 无 | character 13/119/40 真场景、3+1 墙/5 停点/14 刷怪点、五批 105 怪、Monster5 门、1P/2P 失败/胜利、2-1 解锁、专项测试和浏览器验收全部闭合 |
-| LINE-FORMAL-GAME-LOOP | Active | 在继续批量复现关卡前，闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI；新建存档固定队伍人数/角色并成为技能与进关唯一 owner | TASK-SLICE-152 | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | V5 party 与原生新建存档 1P/2P、P1/P2 选角已闭合；当前收敛技能页 owner/角色 |
+| LINE-FORMAL-GAME-LOOP | Done | 在继续批量复现关卡前，闭合可通关战斗、核心 HUD、启动存档、天庭地图与完整功能 UI；新建存档固定队伍人数/角色并成为技能与进关唯一 owner；启动壳层不再为未访问场景全量加载资源 | — | `feature-line-coverage/LINE-FORMAL-GAME-LOOP.md` | 无 | V5 party、原生建槽、技能 owner、地图直入、五关 party 消费与场景 bundle 全部闭合；首屏仅 5 资源、三次中位数 788ms |
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待存档队伍基础线关闭 | 六段逆向尚未开始；完成前置正式身份与进关 owner 后恢复 |
+| LINE-STAGE-2-3 | Active | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064 | `feature-line-coverage/LINE-STAGE-2-3.md` | 无 | 六段逆向尚未开始；当前只执行 `GOAL-025` 的证据闭合 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 
 ## 当前功能线状态
@@ -48,6 +48,14 @@
 `TASK-ARCH-011` 已归档：存档升级为 V5，`PartyConfigurationSystem` 成为无 Phaser 的队伍值对象/查询 owner；V1..V4 与旧单槽统一迁移为 1P 并保留 P2 数据，V5 对人数、角色、重复角色和 party/player hero 不一致严格拒读，原子建槽失败会回滚。功能线保持 Active，当前推进 `GOAL-030` / `TASK-SLICE-151`。
 
 `TASK-SLICE-151` 已归档：空槽现在先进入 character 1149 人数页，再进入 character 901 五角色页；1P 只选 P1，2P 按 P1→P2 且不能重复角色，最终点击一次性创建 V5 存档。人数返回/角色 Escape 不写半档，重复确认幂等，槽摘要重载保持人数与角色；25 条原生资源、专项/系统/build 与 940×590 逐状态零 console 证据闭合。功能线保持 Active，当前推进 `GOAL-031` / `TASK-SLICE-152`。
+
+`TASK-SLICE-152` 已归档：正式技能页入口、owner selector 和所有技能事务现在从活动槽 V5 `PartyConfiguration` 取得 owner/hero；单人 P2 在入口、切换和直接系统调用三层拒绝，双人 P1/P2 按稳定 slot 隔离保存与 HUD 同步。五角色、双人异角色、重复角色非法 V5、保存重载专项与 940×590 单/双人零 console 证据闭合，未改技能数值、树、快捷键或原生显示列表。功能线保持 Active，当前推进 `GOAL-032` / `TASK-SLICE-153`。
+
+`TASK-SLICE-153` 已归档：天庭地图删除现代逐关人数 chooser，已接入 Stage 1-1/1-2/1-3/2-1/2-2、HUD、功能页和重试统一经共享 party bootstrap 读取活动槽；关卡战斗 runtime 使用 party hero，正式路由不再接受 `playerCount` 权威覆盖，显式 DEV/QA 使用隔离 `devParty`。五角色、1P/2P、重复角色拒绝、直入/返回/重载与 940×590 单/双人证据闭合。功能线保持 Active，当前推进 `GOAL-033` / `TASK-ARCH-012`。
+
+2026-07-24 用户确认把冷刷新资源问题同时纳入问题治理和任务流程：新增 `PG-009` 与同线 Planned `GOAL-033` / `TASK-ARCH-012`。它在 `TASK-SLICE-153` 后治理 Boot 全量加载、场景 bundle owner、失败重试与防复发门禁；完成前不恢复 Stage 2-3。
+
+`TASK-ARCH-012` 已归档：Boot 仅排队 `shell`，地图、功能 UI、五个正式关卡和 Stage 2-2 DEV/QA 直达均经稳定 bundle 首次 ensure；并发、失败、重试、销毁和无 owner/Boot 回填负向门禁闭合。940×590 冷刷新首屏从 250 个资源降为 5 个，三次为 1243/788/646ms，地图再进资源总数保持 11，Stage 1-1/Stage 2-2 未串载其他场景族，console 为 0。本线全部关闭合同满足，现关闭并激活 `LINE-STAGE-2-3` / `GOAL-025` / `TASK-SETTINGS-064`。
 
 本线按依赖顺序推进：战斗死亡原因/攻击可读性/数值合同 → 可稳定通关的战斗切片 → 核心战斗 HUD → 启动与存档槽 → 天庭地图/关卡解锁 → 背包、宠物等完整功能 UI。每一步仍拆为小 task；不得用某个最小 HUD 或存档切片越级关闭整线。
 

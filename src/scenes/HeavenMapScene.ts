@@ -9,10 +9,12 @@ import {
 } from '../systems/HeavenMapSystem';
 import { getActiveSaveSlotId, loadActiveGame } from '../systems/SaveSlotSystem';
 import type { SaveStorage } from '../systems/SaveSystem';
+import type { PartyConfiguration } from '../systems/PartyConfigurationSystem';
 import {
   installFormalFeatureUiEntries,
   launchFormalFeatureUi,
 } from './feature-ui/FormalFeatureUiEntryBridge';
+import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 const STATUS_COLORS = {
   locked: 0x6c7480,
@@ -25,23 +27,20 @@ export class HeavenMapScene extends Phaser.Scene {
   private storage?: SaveStorage;
   private nodes: readonly HeavenMapNodeSnapshot[] = [];
   private feedbackText?: Phaser.GameObjects.Text;
-  private chooser?: Phaser.GameObjects.Container;
+  private party?: PartyConfiguration;
 
   public constructor() {
     super('HeavenMapScene');
   }
 
   public create(): void {
-    // Phaser reuses the Scene instance after returning from a level. Display
-    // objects are destroyed on shutdown, but this reference otherwise remains
-    // truthy and blocks every later node activation.
-    this.chooser = undefined;
     this.storage = getBrowserStorage();
     const save = this.storage ? loadActiveGame(this.storage) : undefined;
     if (!save) {
       this.scene.start('SaveSlotScene');
       return;
     }
+    this.party = save.party;
 
     const runtimeProgress = resolveHeavenMapRuntimeProgress(
       save.levelUnlockProgress,
@@ -49,8 +48,7 @@ export class HeavenMapScene extends Phaser.Scene {
       import.meta.env.DEV,
     );
     this.nodes = createHeavenMapSnapshot(runtimeProgress);
-    // The map manages both persisted local-player owners even before a stage party size is chosen.
-    installFormalFeatureUiEntries(this, { originKind: 'map', playerCount: 2 });
+    installFormalFeatureUiEntries(this, { originKind: 'map', party: save.party });
     this.cameras.main.setBackgroundColor('#0b1526');
     this.add.image(0, 0, heavenMapAssets.world.key).setOrigin(0).setDepth(0);
     this.add.image(-1, 0, heavenMapAssets.menu.key).setOrigin(0).setDepth(20);
@@ -76,10 +74,7 @@ export class HeavenMapScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown-THREE', () => this.activateNode('1-3'));
     this.input.keyboard?.on('keydown-FOUR', () => this.activateNode('2-1'));
     this.input.keyboard?.on('keydown-FIVE', () => this.activateNode('2-2'));
-    this.input.keyboard?.on('keydown-ESC', () => {
-      if (this.chooser) this.closeChooser();
-      else this.scene.start('SaveSlotScene');
-    });
+    this.input.keyboard?.on('keydown-ESC', () => this.scene.start('SaveSlotScene'));
   }
 
   private createNodeInteraction(node: HeavenMapNodeSnapshot): void {
@@ -120,19 +115,26 @@ export class HeavenMapScene extends Phaser.Scene {
     const saveZone = this.add.zone(0, 508, 62, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     saveZone.on('pointerdown', () => this.feedbackText?.setText('当前关卡进度已自动写回所选存档'));
     const workshopZone = this.add.zone(132, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
-    workshopZone.on('pointerdown', () => launchFormalFeatureUi(
-      this, 'workshop', 'p1', { originKind: 'map', playerCount: 2 },
+    workshopZone.on('pointerdown', () => void launchFormalFeatureUi(
+      this,
+      'workshop',
+      'p1',
+      { originKind: 'map', party: this.party! },
+      (status) => this.showBundleStatus(status, '功能页面'),
     ));
     const skillsZone = this.add.zone(198, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
-    skillsZone.on('pointerdown', () => launchFormalFeatureUi(
-      this, 'skills', 'p1', { originKind: 'map', playerCount: 2 },
+    skillsZone.on('pointerdown', () => void launchFormalFeatureUi(
+      this,
+      'skills',
+      'p1',
+      { originKind: 'map', party: this.party! },
+      (status) => this.showBundleStatus(status, '技能页面'),
     ));
     const backZone = this.add.zone(397, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     backZone.on('pointerdown', () => this.scene.start('SaveSlotScene'));
   }
 
   private activateNode(nodeId: HeavenMapNodeId): void {
-    if (this.chooser) return;
     const node = findHeavenMapNode(this.nodes, nodeId);
     if (!node) return;
     if (node.status === 'locked') {
@@ -143,49 +145,23 @@ export class HeavenMapScene extends Phaser.Scene {
       this.feedbackText?.setText(`${node.id} · ${node.title} 已解锁，关卡内容尚未复现`);
       return;
     }
-    this.openPlayerCountChooser(node);
+    void this.startNode(node);
   }
 
-  private openPlayerCountChooser(node: HeavenMapNodeSnapshot): void {
-    const blocker = this.add.rectangle(470, 295, 940, 590, 0x000000, 0.58).setInteractive();
-    const panel = this.add.rectangle(470, 296, 390, 190, 0x111a27, 0.98).setStrokeStyle(2, 0xf2c14e);
-    const title = this.add.text(470, 235, `${node.id} · ${node.title}`, {
-      color: '#fff3bf', fontFamily: 'Arial, sans-serif', fontSize: '23px', fontStyle: 'bold',
-    }).setOrigin(0.5);
-    const single = createChoiceButton(this, 385, 305, '1P', () => this.startNode(node, 1));
-    const double = createChoiceButton(this, 555, 305, '2P', () => this.startNode(node, 2));
-    const cancel = createChoiceButton(this, 470, 366, '取消', () => this.closeChooser(), 150);
-    this.chooser = this.add.container(0, 0, [blocker, panel, title, ...single, ...double, ...cancel]).setDepth(200);
-  }
-
-  private startNode(node: HeavenMapNodeSnapshot, playerCount: 1 | 2): void {
+  private async startNode(node: HeavenMapNodeSnapshot): Promise<void> {
     if (!node.routeKey) return;
-    this.scene.start(node.routeKey, { playerCount });
+    await startSceneWithBundle(this, node.routeKey, undefined, (status) => {
+      this.showBundleStatus(status, node.title);
+    });
   }
 
-  private closeChooser(): void {
-    this.chooser?.destroy(true);
-    this.chooser = undefined;
+  private showBundleStatus(
+    status: 'loading' | 'loaded' | 'failed',
+    targetLabel: string,
+  ): void {
+    if (status === 'loading') this.feedbackText?.setText(`正在载入${targetLabel}…`);
+    if (status === 'failed') this.feedbackText?.setText(`${targetLabel}载入失败，请再次点击重试`);
   }
-}
-
-function createChoiceButton(
-  scene: Phaser.Scene,
-  x: number,
-  y: number,
-  label: string,
-  onClick: () => void,
-  width = 130,
-): [Phaser.GameObjects.Rectangle, Phaser.GameObjects.Text] {
-  const background = scene.add.rectangle(x, y, width, 46, 0x263950)
-    .setStrokeStyle(2, 0xf2c14e).setInteractive({ useHandCursor: true });
-  const text = scene.add.text(x, y, label, {
-    color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: '18px',
-  }).setOrigin(0.5);
-  background.on('pointerover', () => background.setFillStyle(0x38536f));
-  background.on('pointerout', () => background.setFillStyle(0x263950));
-  background.on('pointerdown', onClick);
-  return [background, text];
 }
 
 function getBrowserStorage(): SaveStorage | undefined {

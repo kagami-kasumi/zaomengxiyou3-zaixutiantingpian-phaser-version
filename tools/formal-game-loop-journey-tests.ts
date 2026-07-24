@@ -12,12 +12,16 @@ import {
   findHeavenMapNode,
 } from '../src/systems/HeavenMapSystem';
 import {
-  createSaveSlot,
+  createPartySaveSlot,
   loadActiveGame,
   saveActiveGame,
   saveActiveLevelUnlockProgress,
   selectSaveSlot,
 } from '../src/systems/SaveSlotSystem';
+import {
+  createFormalPartyRetryData,
+  resolveFormalPartyRuntime,
+} from '../src/systems/FormalPartyRuntimeSystem';
 import { createSeedEquipmentRegistry } from '../src/systems/EquipmentSystem';
 import { restoreGameState, type SaveStorage } from '../src/systems/SaveSystem';
 import {
@@ -37,16 +41,17 @@ function createMemoryStorage(): SaveStorage & { values: Map<string, string> } {
   };
 }
 
-function assertEveryFeaturePageForBothOwners(): void {
+function assertEveryFeaturePageForBothOwners(playerCount: 1 | 2): void {
   const host = createFeatureUiHostModel();
-  for (const owner of ['p1', 'p2'] as const) {
+  const owners = playerCount === 2 ? ['p1', 'p2'] as const : ['p1'] as const;
+  for (const owner of owners) {
     for (const page of FeatureUiPages) {
       const result = openFeatureUi(host, {
         page,
         owner,
         originSceneKey: 'HeavenMapScene',
         originKind: 'map',
-        playerCount: 2,
+        playerCount,
       });
       assert.equal(result.status, 'opened', `${owner} should open ${page}`);
       assert.equal(host.active?.owner, owner);
@@ -61,7 +66,7 @@ function assertEveryFeaturePageForBothOwners(): void {
   const storage = createMemoryStorage();
 
   // 启动 → 新建并读取一个独立槽位。
-  assert.equal(createSaveSlot(storage, 0), true);
+  assert.equal(createPartySaveSlot(storage, 0, 2, 2, 5), true);
   const initialSave = loadActiveGame(storage);
   assert.ok(initialSave);
 
@@ -69,7 +74,14 @@ function assertEveryFeaturePageForBothOwners(): void {
   const initialMap = createHeavenMapSnapshot(initialSave.levelUnlockProgress);
   assert.equal(findHeavenMapNode(initialMap, '1-1')?.status, 'current');
   assert.equal(findHeavenMapNode(initialMap, '1-1')?.routeKey, 'TestScene');
-  assertEveryFeaturePageForBothOwners();
+  const formalParty = resolveFormalPartyRuntime(storage, undefined, false);
+  assert.equal(formalParty?.playerCount, 2);
+  assert.deepEqual(formalParty?.members, [
+    { slot: 'p1', heroId: 2 },
+    { slot: 'p2', heroId: 5 },
+  ]);
+  assert.equal(createFormalPartyRetryData(formalParty), undefined);
+  assertEveryFeaturePageForBothOwners(formalParty!.playerCount);
 
   // 在同一正式槽位写入双方独立功能数据，随后进入并结算 Stage 1-1。
   const featureSave = structuredClone(initialSave);
@@ -105,13 +117,33 @@ function assertEveryFeaturePageForBothOwners(): void {
   assert.notStrictEqual(restored.player1, restored.player2);
 }
 
+{
+  const storage = createMemoryStorage();
+  assert.equal(createPartySaveSlot(storage, 0, 1, 4), true);
+  const runtime = resolveFormalPartyRuntime(storage, undefined, false);
+  assert.deepEqual(runtime?.members, [{ slot: 'p1', heroId: 4 }]);
+  assertEveryFeaturePageForBothOwners(1);
+  const host = createFeatureUiHostModel();
+  assert.equal(openFeatureUi(host, {
+    page: 'skills',
+    owner: 'p2',
+    originSceneKey: 'HeavenMapScene',
+    originKind: 'map',
+    playerCount: runtime!.playerCount,
+  }).status, 'invalid-owner');
+}
+
 // 场景接线是同一旅程的浏览器边界：启动、地图、结算返回、再次读档都必须存在。
 const source = (relativePath: string): string =>
   readFileSync(path.join(repoRoot, relativePath), 'utf8');
 assert.match(source('src/scenes/BootScene.ts'), /scene\.start\('SaveSlotScene'\)/);
-assert.match(source('src/scenes/SaveSlotScene.ts'), /scene\.start\('HeavenMapScene'\)/);
-assert.match(source('src/scenes/HeavenMapScene.ts'), /scene\.start\(node\.routeKey, \{ playerCount \}\)/);
+assert.match(source('src/scenes/SaveSlotScene.ts'), /startSceneWithBundle\(this, 'HeavenMapScene'/);
+assert.match(source('src/scenes/HeavenMapScene.ts'), /startSceneWithBundle\(this, node\.routeKey/);
+assert.doesNotMatch(source('src/scenes/HeavenMapScene.ts'), /openPlayerCountChooser|node\.routeKey, \{ playerCount \}/);
 assert.match(source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'), /saveSceneNow\(\)/);
-assert.match(source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'), /scene\.start\('HeavenMapScene'\)/);
+assert.match(
+  source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'),
+  /startSceneWithBundle\(scene, 'HeavenMapScene'\)/,
+);
 
 console.log('Formal game-loop end-to-end journey tests passed.');

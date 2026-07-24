@@ -39,7 +39,9 @@ const bundledTests = requestedTests.length > 0
       'formal-making-tests',
       'formal-magic-weapon-tests',
       'formal-game-loop-journey-tests',
+      'formal-party-runtime-tests',
       'monster-runtime-tests',
+      'asset-bundle-tests',
     ];
 
 rmSync(outDir, { recursive: true, force: true });

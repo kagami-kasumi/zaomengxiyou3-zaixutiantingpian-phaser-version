@@ -83,7 +83,11 @@ assert.ok(worldBridge.includes("setName('sl13')"));
 assert.ok(worldBridge.includes("setName('bgContainer')"));
 assert.ok(worldBridge.includes('stage13TransferDoor.rasterPadding'));
 const entry = readFileSync(path.join(repoRoot, 'src/scenes/Stage11EntryScene.ts'), 'utf8');
-assert.ok(entry.includes("this.scene.start('Stage13Scene', { playerCount })"));
+assert.match(
+  entry,
+  /startSceneWithBundle\(\s*this,\s*'Stage13Scene',\s*\{ devParty: createFormalDevParty\(playerCount\) \}/,
+);
+assert.ok(entry.includes('if (!import.meta.env.DEV)'));
 assert.ok(entry.includes('if (!canEnterStage13(readUnlockProgress())) return'));
 
 console.log('Stage 1-3 resource, layout, and entry tests passed.');

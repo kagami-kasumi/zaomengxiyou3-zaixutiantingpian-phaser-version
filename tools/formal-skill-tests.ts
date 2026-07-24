@@ -6,7 +6,9 @@ import {
   bindFormalSkill,
   commitFormalSkillBinding,
   createFormalSkillPage,
+  getFormalSkillEntryPlayerCount,
   getFormalSkillPlayer,
+  getFormalSkillOwners,
   learnFormalSkill,
   openFormalSkillBinding,
   selectFormalSkill,
@@ -17,8 +19,14 @@ import {
   upgradeFormalSkill,
   upgradeFormalSkillTree,
 } from '../src/systems/FormalSkillPageSystem';
+import { createPartyConfiguration } from '../src/systems/PartyConfigurationSystem';
 import { createDefaultGameSave, createSaveSlot, loadActiveGame } from '../src/systems/SaveSlotSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
+import { HERO_SKILL_TREES } from '../src/systems/SkillUISystem';
+import {
+  FormalSkillsUpdatedEvent,
+  syncFormalSkillRuntime,
+} from '../src/scenes/feature-ui/FormalSkillRuntimeBridge';
 
 const root = process.cwd();
 
@@ -31,9 +39,9 @@ function createStorage(): SaveStorage {
   };
 }
 
-function createReadyModel() {
+function createReadyModel(party = createPartyConfiguration(1, 1)!) {
   const storage = createStorage();
-  const save = createDefaultGameSave();
+  const save = createDefaultGameSave(new Date('2026-07-24T00:00:00.000Z'), party);
   for (const player of [save.player1, save.player2]) {
     player.level = 20;
     player.skillLearning.heroLevel = 20;
@@ -75,9 +83,9 @@ function testTreeLearnUpgradeBindPassiveAndReload(): void {
 }
 
 function testOwnerIsolationAndLockedFeedback(): void {
-  const { storage, model } = createReadyModel();
+  const { storage, model } = createReadyModel(createPartyConfiguration(2, 1, 2)!);
   const p1BindingBefore = model.restored.player1.skillLoadout.slots[0];
-  setFormalSkillOwner(model, 'p2');
+  assert.equal(setFormalSkillOwner(model, 'p2'), true);
   assert.equal(upgradeFormalSkillTree(model, storage), true);
   selectFormalSkill(model, 4);
   assert.equal(learnFormalSkill(model, storage), false);
@@ -91,7 +99,74 @@ function testOwnerIsolationAndLockedFeedback(): void {
   const persisted = loadActiveGame(storage);
   assert.ok(persisted);
   assert.deepEqual(persisted.player1.skillLoadout[0], p1BindingBefore);
-  assert.deepEqual(persisted.player2.skillLoadout[0], { skillName: 'slz', level: 1 });
+  assert.deepEqual(persisted.player2.skillLoadout[0], {
+    skillName: HERO_SKILL_TREES[2][0].skills[0],
+    level: 1,
+  });
+}
+
+function testPartyDrivenOwnerAndHeroFiltering(): void {
+  for (const heroId of [1, 2, 3, 4, 5] as const) {
+    const { storage, model } = createReadyModel(createPartyConfiguration(1, heroId)!);
+    assert.deepEqual(getFormalSkillOwners(model), ['p1']);
+    assert.equal(getFormalSkillPlayer(model).progression.heroId, heroId);
+    assert.deepEqual(
+      HERO_SKILL_TREES[getFormalSkillPlayer(model).progression.heroId],
+      HERO_SKILL_TREES[heroId],
+    );
+    assert.equal(createFormalSkillPage(storage, 'p2'), undefined);
+    assert.equal(getFormalSkillEntryPlayerCount(storage, 'p1'), 1);
+    assert.equal(getFormalSkillEntryPlayerCount(storage, 'p2'), undefined);
+    assert.equal(setFormalSkillOwner(model, 'p2'), false);
+    assert.equal(model.owner, 'p1');
+
+    const before = loadActiveGame(storage);
+    model.owner = 'p2';
+    assert.throws(
+      () => upgradeFormalSkillTree(model, storage),
+      /active PartyConfiguration member/,
+    );
+    assert.deepEqual(loadActiveGame(storage), before, 'inactive P2 must not write through a direct call');
+  }
+
+  const { storage, model } = createReadyModel(createPartyConfiguration(2, 2, 5)!);
+  assert.deepEqual(getFormalSkillOwners(model), ['p1', 'p2']);
+  assert.equal(getFormalSkillEntryPlayerCount(storage, 'p2'), 2);
+  assert.equal(getFormalSkillPlayer(model).progression.heroId, 2);
+  assert.equal(setFormalSkillOwner(model, 'p2'), true);
+  assert.equal(getFormalSkillPlayer(model).progression.heroId, 5);
+  assert.equal(upgradeFormalSkillTree(model, storage), true);
+  assert.equal(loadActiveGame(storage)?.player1.skillLearning.trees[0].treeLevel, 0);
+  assert.equal(loadActiveGame(storage)?.player2.skillLearning.trees[0].treeLevel, 1);
+
+  assert.equal(
+    createPartyConfiguration(2, 3, 3),
+    undefined,
+    'the original party contract rejects same-hero co-op before the skill page',
+  );
+}
+
+function testHudSyncKeepsStableOwnerSlot(): void {
+  const { model } = createReadyModel(createPartyConfiguration(2, 1, 2)!);
+  assert.equal(setFormalSkillOwner(model, 'p2'), true);
+  const runtimePlayers = [
+    { slot: 'p1' as const, skill: { loadout: { marker: 'p1-before' } } },
+    { slot: 'p2' as const, skill: { loadout: { marker: 'p2-before' } } },
+  ];
+  const emitted: Array<{ event: string; payload: unknown }> = [];
+  const origin = {
+    getPlayers: () => runtimePlayers,
+    events: {
+      emit: (event: string, payload: unknown) => {
+        emitted.push({ event, payload });
+      },
+    },
+  };
+  syncFormalSkillRuntime(origin as never, model);
+  assert.deepEqual(runtimePlayers[0].skill.loadout, { marker: 'p1-before' });
+  assert.strictEqual(runtimePlayers[1].skill.loadout, model.restored.player2.skillLoadout);
+  assert.equal(emitted[0]?.event, FormalSkillsUpdatedEvent);
+  assert.equal((emitted[0]?.payload as { owner?: string }).owner, 'p2');
 }
 
 function testTrueSkillAssets(): void {
@@ -103,7 +178,7 @@ function testTrueSkillAssets(): void {
   }
   const scene = readFileSync(path.join(root, 'src/scenes/FeatureUiScene.ts'), 'utf8');
   const view = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalSkillPageView.ts'), 'utf8');
-  const map = readFileSync(path.join(root, 'src/scenes/HeavenMapScene.ts'), 'utf8');
+  const entry = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts'), 'utf8');
   const stage12 = readFileSync(path.join(root, 'src/scenes/stage12/Stage12GameplayBridge.ts'), 'utf8');
   const stage13 = readFileSync(path.join(root, 'src/scenes/stage13/Stage13GameplayBridge.ts'), 'utf8');
   assert.match(scene, /createFormalSkillPageView/);
@@ -129,12 +204,15 @@ function testTrueSkillAssets(): void {
       `${frame}.svg`,
     )));
   }
-  assert.match(map, /originKind: 'map', playerCount: 2/);
+  assert.match(entry, /getPartyHeroId\(config\.party, owner\)/);
+  assert.doesNotMatch(view, /callbacks\.playerCount/);
   assert.match(stage12, /FormalSkillsUpdatedEvent/);
   assert.match(stage13, /FormalSkillsUpdatedEvent/);
 }
 
 testTreeLearnUpgradeBindPassiveAndReload();
 testOwnerIsolationAndLockedFeedback();
+testPartyDrivenOwnerAndHeroFiltering();
+testHudSyncKeepsStableOwnerSlot();
 testTrueSkillAssets();
 console.log('Formal skill trees, binding, passive, owner, save, and true asset tests passed.');
