@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-070` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。用户已将完整背包资源基础提升为丹药前置；下一次 `/goal` 只盘清原版 1.1 可入包资源、真图标、分类、堆叠/实例、容量与存档证据，不修改现代实现。
+`TASK-SLICE-160` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。原版 1.1 的 431 项权威目录已经闭合；下一次 `/goal` 只把该目录接入正式背包、统一事务、双 owner 与 V6 存档，不提前进入丹药页面。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-070 | Ready | GOAL-049 | LINE-PRE-STAGE-2-3-COMPLETION | 背包资源全集证据 | 建立原版 1.1 可入包资源、真图标、分类和事务的权威目录 | M-035、M-036、M-037、M-044、M-052、VS-064 | 全集矩阵、资源 provenance、未知/反证与实现输入 | TASK-SLICE-160 |
-| TASK-SLICE-160 | Planned | GOAL-050 | LINE-PRE-STAGE-2-3-COMPLETION | 完整背包资源基础 | 将权威目录接入正式背包、双 owner 原子事务和 V6 存档 | M-035、M-036、M-037、M-044、M-052、VS-064 | 全量目录、真图标、正式页面、事务/重载与逐状态证据 | TASK-SLICE-155A |
+| TASK-SLICE-160 | Ready | GOAL-050 | LINE-PRE-STAGE-2-3-COMPLETION | 完整背包资源基础 | 将权威目录接入正式背包、双 owner 原子事务和 V6 存档 | M-035、M-036、M-037、M-044、M-052、VS-064 | 全量目录、真图标、正式页面、事务/重载与逐状态证据 | TASK-SLICE-155A |
 | TASK-SLICE-155A | Planned | GOAL-045 | LINE-PRE-STAGE-2-3-COMPLETION | 丹药页实现 | 接入原生丹药页、P1/P2 炼制/服用与本地存档 | M-037、M-044、M-052、VS-059、VS-064 | 可玩页面、自动门禁与 940×590 逐状态证据 | TASK-SLICE-155B |
 | TASK-SLICE-155B | Planned | GOAL-046 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页实现 | 接入原生商城与离线灵魂购买，不伪造在线服务 | M-044、M-046、M-052、VS-059 | 可玩页面、事务/重载门禁与逐状态证据 | TASK-SLICE-155C |
 | TASK-SLICE-155C | Planned | GOAL-047 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页实现 | 接入原生设置 overlay 与获批的现代持久化边界 | M-035、M-044、M-052、VS-059 | 可玩 overlay、会话/重载门禁与逐状态证据 | TASK-SLICE-155D |
@@ -30,80 +29,6 @@
 
 ## 任务完成定义
 
-### TASK-SETTINGS-070
-
-任务类型：
-
-- `TASK-SETTINGS`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
-
-Goal 包：
-
-- `GOAL-049`（Active）
-
-目标机制/切片：
-
-- `M-035`、`M-036`、`M-037`、`M-044`、`M-052`、`VS-064`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若权威全集必须新读超过两个尚未声明的 SWF 资源族、需要实际派生大批图标，或任一分类无法在本 Goal 内闭合身份/图标/分类三项证据，则在读取或派生前按“装备 / 道具 / 时装 / 技能书”拆成同线连续证据 Goal；本 Goal 不进入现代实现。
-
-输入资料：
-
-- `docs/workflow/reverse-engineering-protocol.md`、`equipment-index.md`、`crafting-index.md`、`immortality-ui-index.md`、`shop-ui-index.md`、`task-ui-index.md`。
-- `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`、`docs/reverse-engineering/reference/equipment-spreadsheet/`、`docs/reverse-engineering/reference/crafting-recipes-1.1.json`。
-- `local-resources/regima/source/restored-swfs/` 中按已确认物品、EIcon/backpack/OtherMat 资源名、SymbolClass 或 MovieClip 的窄查；`local-resources/regima/legacy-extraction/` 只读对应 `AllEquipment`、`BackPack`、`BackPackElement`、`PackThings`、`User`、`Config` 局部与共享消费者。
-
-输出产物：
-
-- 新建 `docs/reverse-engineering/inventory-resource-catalog.md`，记录原版 1.1 每个可入包条目的稳定身份、原名/fillName、显示名、四分类、实例或堆叠语义、容量影响、真图标 provenance、已知生产者/消费者、存档编码、证据分级和实现状态。
-- 给出全集差异：现有 `InventorySystem`、装备表、201 个 crafting 定义/图标、商城 49 商品、任务奖励与丹药材料/产物之间的重复、缺失、冲突和唯一 owner 建议。
-- 为 `TASK-SLICE-160` 留下机器可实现的目录字段合同、资源 bundle 边界、确定性事务测试矩阵和 940×590 运行验收清单。
-
-完成定义：
-
-- “全集”限定为原版 1.1 能进入背包四分类的条目；每一条都必须有权威身份、分类和存档/容量语义，真图标存在时必须落 provenance，不存在时必须以已窄查的缺失证据阻塞或列入待用户批准例外。
-- 局部物品声明必须追到背包、装备、合成、商城、任务、丹药、掉落和存档中的实际共享消费者；冲突项保留来源优先级和反证，不自行合并为原版事实。
-- 物品专属使用效果只登记“已实现 / 待实现 / 外部服务不可用”，不在本 task 逆向所有效果，也不把未实现用途伪造成可用。
-- 影响 `TASK-SLICE-160` 的身份、分类、图标选择、堆叠/实例、容量和存档字段未知清零；无法清零时继续拆证据 Goal，`TASK-SLICE-160` 保持 Planned。
-
-UI 原生化合同：
-
-- 显示列表清单：复核正式背包 304/246 根、四分类页签、分页、25 格、装备槽、动态图标/数量/选中框/提示字段、按钮状态和命中区，并把每种动态 child 对应到全集目录字段。
-- 原版视觉基准：使用原 SWF 940×590 背包入口，至少覆盖四分类、首/中/末页、空格/实例/堆叠、选中和详情状态；缺少可追溯基准时不得关闭视觉输入。
-- 允许的现代视觉例外：默认无；缺失图标只能列为证据缺口，不得自动生成替代图或文字块。
-- 逐状态验收：normal/hover/pressed/selected、分页边界、堆叠数量、装备实例、P1/P2、空/满包和关闭返回。
-- 差异证据：原版与现代现状的并排/叠图、动态对象清单和资源 provenance 差异；不得用页面可达或整页背景证明全集资源闭合。
-
-验收标准：
-
-- 按六段证据链检查局部声明、共享调用链、恢复 SWF 视觉/几何、现代映射、反证/未知和自动+运行双验证计划。
-- 目录中每个条目可追溯到至少一个权威行为/数据来源；图标为真资源或明确缺失，重复 stable key、跨分类冲突和无 owner 条目为零。
-- 运行 `npm run check:annotations`、`npm run check:workflow` 和 `npm run check:diff`；本证据 task 不以代码 build 或页面可达代替证据闭合。
-
-禁止范围：
-
-- 不修改 `src/`、存档 schema 或运行时背包；不派生未声明的大资源族；不实现丹药、商城、任务或各物品专属效果。
-- 不修改 `local-resources/regima/legacy-extraction/`，不以旧提取目录断言真图标缺失，不生成现代可见替代资源。
-
-状态更新：
-
-- 完成后归档本 task/Goal，更新 `M-037`、`VS-064`、本线覆盖和适用 PG 反馈；只在未知清零后激活 `GOAL-050 / TASK-SLICE-160`。
-
-推荐后续任务：
-
-- `TASK-SLICE-160`。
-
 ### TASK-SLICE-160
 
 任务类型：
@@ -112,11 +37,11 @@ UI 原生化合同：
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
 
 Goal 包：
 
-- `GOAL-050`（Planned）
+- `GOAL-050`（Active）
 
 目标机制/切片：
 

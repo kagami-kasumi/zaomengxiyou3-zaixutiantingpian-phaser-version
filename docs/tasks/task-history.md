@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-070 | 背包资源全集证据 | 闭合原版 1.1 四分类可入包资源、真图标、容量与存档语义权威目录 | M-035、M-036、M-037、M-044、M-052、VS-064 | `inventory-resource-catalog.md`、431 项机器目录、428 项精确图标 provenance、3 项原版缺陷、生产者/消费者与 `TASK-SLICE-160` 实现合同 |
 | TASK-SETTINGS-066D | 地图服务 UI 逆向 | 闭合任务页 43 日常、4 活动定义、进度/奖励/跨日保存与真 UI 状态 | M-044、M-046、M-052、VS-059 | `task-ui-index.md`、character 85 完整显示列表、13 条资源标注、活动空页反证、原版瑕疵与 `TASK-SLICE-155D` 实现合同 |
 | TASK-SETTINGS-066 | 拆分父任务收束 | 汇总地图四服务页公共入口与 `066A..D` 四个六段证据任务 | M-035、M-044、M-046、M-052、VS-059 | `map-service-ui-index.md`、四页权威索引、48 条 derived-ready 标注与 `155A..D` 逐页实现输入 |
 | TASK-SETTINGS-066C | 地图服务 UI 逆向 | 闭合设置 overlay 五行循环、会话 owner、非存档反证与真 UI 状态 | M-044、M-046、M-052、VS-059 | `settings-ui-index.md`、148/134/136..147 深层矩阵、2 条资源标注、独立全局持久化现代例外与 `TASK-SLICE-155C` 实现合同 |
@@ -244,6 +245,48 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-070
+
+完成时间：
+
+- 2026-07-25
+
+完成内容：
+
+- 从原版 1.1 `AllEquipment` 的 433 次注册出发，按运行时分组与反向查找优先级归并为 431 个有效稳定身份：装备 164、道具 235、时装 20、技能书 12。
+- 逐项记录 184 个实例与 247 个堆叠条目的分类、25 格分页、道具数量上限 99、容量占用、保存编码，以及合成、商城、任务、丹药、掉落、工坊和背包动作等生产者/消费者。
+- 在恢复 SWF 中精确定位 428 项真图标；保留 `wc` 重复定义、`fmtstx` 与 `scwpqhs5` 导出名不匹配三项原版缺陷，默认排除且未生成现代替代资源。
+- 生成可重复执行的机器目录和审计脚本；重复稳定 key、未解析分类与无 owner 条目均为 0。现有现代部分目录覆盖 201/431，其余 230 项交给 `TASK-SLICE-160` 接入。
+- 复核 backpack character 304/246/628 的根、四页签、分页、25 格、动态图标/数量和命中区，留下零新增现代可见例外与 940×590 逐状态实现验收合同。
+- 旧 1.0 工作簿只作只读辅助对照；因其关系结构异常且装备页与现有 CSV 存在 62 行差异，没有提升为 1.1 权威来源。
+
+更新文件：
+
+- `tools/generate-inventory-resource-catalog.mjs`
+- `docs/reverse-engineering/inventory-resource-catalog.md`
+- `docs/reverse-engineering/reference/inventory-resource-catalog-1.1.json`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-history.md`
+- PG-002/004/005/007/008 适用触发与反馈记录
+
+验证：
+
+- `node tools/generate-inventory-resource-catalog.mjs` 通过：433 次注册、431 个有效身份、428 项精确图标、3 项已知原版缺陷、0 重复稳定 key。
+- `npm run check:annotations` 通过：519 条标注、518 confirmed、1 unknown。
+- `npm run check:workflow` 通过：16 个未完成 task/定义、230 个已完成 task/定义、唯一推荐 `TASK-SLICE-160`、唯一 Active `GOAL-050`；仅保留既有 `PlayerSlot` 命名 warning。
+- `git diff --check` 通过；仓库没有 `check:diff` npm script。
+- 本证据 task 未修改 `src/`、存档 schema、运行时背包或恢复语料库，也未派生图标。
+- Goal 原预算 0 次 compact，实际在核心证据完成后发生 1 次；压缩后仅回写既有证据、运行既定校验和交接，按 PG-008 记为受控收尾。
+
+推荐任务：
+
+- `TASK-SLICE-160`：将 431 项权威目录接入正式背包、统一原子事务、P1/P2 owner 与 V6 往返。
 
 ### TASK-SLICE-150D
 
