@@ -4,13 +4,15 @@
 
 ## 当前推荐
 
-`TASK-SLICE-155A` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。地图四服务页六段证据已全部归档；下一次 `/goal` 只实现丹药页原生 UI、P1/P2 炼制/服用事务与本地存档，不进入商城、设置或任务页实现。
+`TASK-SETTINGS-070` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。用户已将完整背包资源基础提升为丹药前置；下一次 `/goal` 只盘清原版 1.1 可入包资源、真图标、分类、堆叠/实例、容量与存档证据，不修改现代实现。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-155A | Ready | GOAL-045 | LINE-PRE-STAGE-2-3-COMPLETION | 丹药页实现 | 接入原生丹药页、P1/P2 炼制/服用与本地存档 | M-044、M-052、VS-059 | 可玩页面、自动门禁与 940×590 逐状态证据 | TASK-SLICE-155B |
+| TASK-SETTINGS-070 | Ready | GOAL-049 | LINE-PRE-STAGE-2-3-COMPLETION | 背包资源全集证据 | 建立原版 1.1 可入包资源、真图标、分类和事务的权威目录 | M-035、M-036、M-037、M-044、M-052、VS-064 | 全集矩阵、资源 provenance、未知/反证与实现输入 | TASK-SLICE-160 |
+| TASK-SLICE-160 | Planned | GOAL-050 | LINE-PRE-STAGE-2-3-COMPLETION | 完整背包资源基础 | 将权威目录接入正式背包、双 owner 原子事务和 V6 存档 | M-035、M-036、M-037、M-044、M-052、VS-064 | 全量目录、真图标、正式页面、事务/重载与逐状态证据 | TASK-SLICE-155A |
+| TASK-SLICE-155A | Planned | GOAL-045 | LINE-PRE-STAGE-2-3-COMPLETION | 丹药页实现 | 接入原生丹药页、P1/P2 炼制/服用与本地存档 | M-037、M-044、M-052、VS-059、VS-064 | 可玩页面、自动门禁与 940×590 逐状态证据 | TASK-SLICE-155B |
 | TASK-SLICE-155B | Planned | GOAL-046 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页实现 | 接入原生商城与离线灵魂购买，不伪造在线服务 | M-044、M-046、M-052、VS-059 | 可玩页面、事务/重载门禁与逐状态证据 | TASK-SLICE-155C |
 | TASK-SLICE-155C | Planned | GOAL-047 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页实现 | 接入原生设置 overlay 与获批的现代持久化边界 | M-035、M-044、M-052、VS-059 | 可玩 overlay、会话/重载门禁与逐状态证据 | TASK-SLICE-155D |
 | TASK-SLICE-155D | Planned | GOAL-048 | LINE-PRE-STAGE-2-3-COMPLETION | 任务页实现 | 接入原生任务页、进度/奖励与跨日存档 | M-044、M-046、M-052、VS-059 | 可玩页面、领取/跨日门禁与逐状态证据 | TASK-SETTINGS-067 |
@@ -27,6 +29,153 @@
 | TASK-ARCH-010B | Planned | GOAL-027 | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task |
 
 ## 任务完成定义
+
+### TASK-SETTINGS-070
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
+
+Goal 包：
+
+- `GOAL-049`（Active）
+
+目标机制/切片：
+
+- `M-035`、`M-036`、`M-037`、`M-044`、`M-052`、`VS-064`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若权威全集必须新读超过两个尚未声明的 SWF 资源族、需要实际派生大批图标，或任一分类无法在本 Goal 内闭合身份/图标/分类三项证据，则在读取或派生前按“装备 / 道具 / 时装 / 技能书”拆成同线连续证据 Goal；本 Goal 不进入现代实现。
+
+输入资料：
+
+- `docs/workflow/reverse-engineering-protocol.md`、`equipment-index.md`、`crafting-index.md`、`immortality-ui-index.md`、`shop-ui-index.md`、`task-ui-index.md`。
+- `docs/reverse-engineering/reference/再续1.0装备属性合成掉落表.xlsx`、`docs/reverse-engineering/reference/equipment-spreadsheet/`、`docs/reverse-engineering/reference/crafting-recipes-1.1.json`。
+- `local-resources/regima/source/restored-swfs/` 中按已确认物品、EIcon/backpack/OtherMat 资源名、SymbolClass 或 MovieClip 的窄查；`local-resources/regima/legacy-extraction/` 只读对应 `AllEquipment`、`BackPack`、`BackPackElement`、`PackThings`、`User`、`Config` 局部与共享消费者。
+
+输出产物：
+
+- 新建 `docs/reverse-engineering/inventory-resource-catalog.md`，记录原版 1.1 每个可入包条目的稳定身份、原名/fillName、显示名、四分类、实例或堆叠语义、容量影响、真图标 provenance、已知生产者/消费者、存档编码、证据分级和实现状态。
+- 给出全集差异：现有 `InventorySystem`、装备表、201 个 crafting 定义/图标、商城 49 商品、任务奖励与丹药材料/产物之间的重复、缺失、冲突和唯一 owner 建议。
+- 为 `TASK-SLICE-160` 留下机器可实现的目录字段合同、资源 bundle 边界、确定性事务测试矩阵和 940×590 运行验收清单。
+
+完成定义：
+
+- “全集”限定为原版 1.1 能进入背包四分类的条目；每一条都必须有权威身份、分类和存档/容量语义，真图标存在时必须落 provenance，不存在时必须以已窄查的缺失证据阻塞或列入待用户批准例外。
+- 局部物品声明必须追到背包、装备、合成、商城、任务、丹药、掉落和存档中的实际共享消费者；冲突项保留来源优先级和反证，不自行合并为原版事实。
+- 物品专属使用效果只登记“已实现 / 待实现 / 外部服务不可用”，不在本 task 逆向所有效果，也不把未实现用途伪造成可用。
+- 影响 `TASK-SLICE-160` 的身份、分类、图标选择、堆叠/实例、容量和存档字段未知清零；无法清零时继续拆证据 Goal，`TASK-SLICE-160` 保持 Planned。
+
+UI 原生化合同：
+
+- 显示列表清单：复核正式背包 304/246 根、四分类页签、分页、25 格、装备槽、动态图标/数量/选中框/提示字段、按钮状态和命中区，并把每种动态 child 对应到全集目录字段。
+- 原版视觉基准：使用原 SWF 940×590 背包入口，至少覆盖四分类、首/中/末页、空格/实例/堆叠、选中和详情状态；缺少可追溯基准时不得关闭视觉输入。
+- 允许的现代视觉例外：默认无；缺失图标只能列为证据缺口，不得自动生成替代图或文字块。
+- 逐状态验收：normal/hover/pressed/selected、分页边界、堆叠数量、装备实例、P1/P2、空/满包和关闭返回。
+- 差异证据：原版与现代现状的并排/叠图、动态对象清单和资源 provenance 差异；不得用页面可达或整页背景证明全集资源闭合。
+
+验收标准：
+
+- 按六段证据链检查局部声明、共享调用链、恢复 SWF 视觉/几何、现代映射、反证/未知和自动+运行双验证计划。
+- 目录中每个条目可追溯到至少一个权威行为/数据来源；图标为真资源或明确缺失，重复 stable key、跨分类冲突和无 owner 条目为零。
+- 运行 `npm run check:annotations`、`npm run check:workflow` 和 `npm run check:diff`；本证据 task 不以代码 build 或页面可达代替证据闭合。
+
+禁止范围：
+
+- 不修改 `src/`、存档 schema 或运行时背包；不派生未声明的大资源族；不实现丹药、商城、任务或各物品专属效果。
+- 不修改 `local-resources/regima/legacy-extraction/`，不以旧提取目录断言真图标缺失，不生成现代可见替代资源。
+
+状态更新：
+
+- 完成后归档本 task/Goal，更新 `M-037`、`VS-064`、本线覆盖和适用 PG 反馈；只在未知清零后激活 `GOAL-050 / TASK-SLICE-160`。
+
+推荐后续任务：
+
+- `TASK-SLICE-160`。
+
+### TASK-SLICE-160
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-050`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-036`、`M-037`、`M-044`、`M-052`、`VS-064`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若目录接入同时要求存档版本升级、大批新资源派生和两个以上独立运行旅程，或现有目标文件触发 structure error，则先拆为“目录/事务基础”和“正式 UI/存档校准”两个同线 Goal；不得在本 Goal 内扩张。
+
+输入资料：
+
+- `TASK-SETTINGS-070` 产出的 `inventory-resource-catalog.md`、`equipment-index.md`、`crafting-index.md`、`full-function-ui-index.md` 与现有背包视觉基准。
+- `docs/architecture/src-boundaries.md`、现有 `InventorySystem.ts`、`EquipmentSystem.ts`、`PlayerInventoryOwnershipSystem.ts`、正式背包 system/view、`SaveSystem.ts`、`AssetManifest.ts` 和 bundle owner。
+
+输出产物：
+
+- 单一权威的可入包资源目录及真图标映射；现有装备、crafting、丹药材料/产物、商城和任务后续消费者通过目录或显式兼容适配器共享稳定身份。
+- 正式背包四分类/分页动态渲染、实例与堆叠的统一增加/扣除/容量检查、P1/P2 owner 隔离、失败原子不变和 V6 当前槽往返。
+- 全集目录、事务、存档、bundle、正式 UI 与 940×590 逐状态验收证据。
+
+完成定义：
+
+- `inventory-resource-catalog.md` 的每个条目都能被现代目录查询；有真图标的条目在正确分类和槽位渲染，无真图标条目只能按已批准例外处理，不能静默使用通用占位。
+- 实例装备和可堆叠道具使用同一容量/事务边界；增加、扣除、合并、用尽移除、满包拒绝及失败回滚均可确定性测试，P1/P2 不串号。
+- 保存/读取保持目录身份、数量和实例字段；旧档缺失新增目录元数据时安全迁移，损坏或未知条目按证据合同处理，不静默改成其他物品。
+- 丹药、商城、任务和掉落后续可复用同一目录/事务入口；本 task 只证明接口与代表性适配，不提前实现这些页面或所有物品用途。
+
+UI 原生化合同：
+
+- 显示列表清单：直接复用 304/246 根、四分类页签、分页、25 格、装备槽、动态真图标/数量/详情/选中态和原命中区。
+- 原版视觉基准：消费 `TASK-SETTINGS-070` 留下的 940×590 四分类与首/中/末页基准。
+- 允许的现代视觉例外：只允许 `inventory-resource-catalog.md` 中逐项获批的缺失资源处理；默认无通用占位、现代卡片、标题或按钮覆盖层。
+- 逐状态验收：normal/hover/pressed/selected、四分类分页、实例/堆叠、空/满包、P1/P2、保存重载和关闭返回。
+- 差异证据：逐状态并排/叠图、对象差异清单、像素/边缘差异与容差说明；页面可达、业务测试或零 console 不能单独关闭原生化。
+
+验收标准：
+
+- 修改现有文件前运行 `npm run check:structure`；实现后运行目录/库存/存档专项、`npm run test:systems`、`npm run build`、structure、annotations、workflow、diff check。
+- bundle 自动门禁证明资源只有唯一 owner、冷启动不回填全量背包图标、首次进入按需加载、返回再进幂等且无缺纹理。
+- 内置浏览器完成 940×590 四分类、分页、实例/堆叠、满包拒绝、P1/P2 和重载逐状态验收，console error/warning 为 0。
+
+禁止范围：
+
+- 不修改原版物品数值、分类或堆叠事实，不实现所有物品的专属使用效果，不进入丹药/商城/设置/任务页面实现。
+- 不重复创建第二套 inventory/save owner，不以一次性测试种子或现代占位图冒充全量资源接入。
+
+状态更新：
+
+- 完成后归档本 task/Goal，更新 `M-035/M-037/M-044/M-052`、`VS-064`、本线覆盖和适用 PG 反馈；激活 `GOAL-045 / TASK-SLICE-155A`，功能线继续保持 Active。
+
+推荐后续任务：
+
+- `TASK-SLICE-155A`。
 
 ### TASK-SETTINGS-067
 
@@ -274,7 +423,7 @@ UI 原生化合同：
 
 推荐后续任务：
 
-- 四个证据 task 完成后执行 `TASK-SLICE-155A`。
+- 四个服务页证据 task 已完成；等待 `TASK-SETTINGS-070 / TASK-SLICE-160` 背包前置闭合后执行 `TASK-SLICE-155A`。
 
 ### TASK-SLICE-155A
 
@@ -292,7 +441,7 @@ Goal 包：
 
 目标机制/切片：
 
-- `M-044`、`M-052`、`VS-059`
+- `M-037`、`M-044`、`M-052`、`VS-059`、`VS-064`
 
 规模预算：
 
@@ -302,11 +451,11 @@ Goal 包：
 
 拆分触发：
 
-- 若丹药事务需要新增独立 inventory/save 架构 owner，先拆架构 task，不在页面 Goal 内扩张。
+- 若实现仍需新增独立 inventory/save owner，或发现丹药材料/产物不在已闭合的权威目录中，退回 `TASK-SLICE-160` 的缺口治理并拆同线 task，不在页面 Goal 内扩张。
 
 输入资料：
 
-- `TASK-SETTINGS-066A`、`map-service-ui-index.md` 与 `map-service.immortality`。
+- `TASK-SETTINGS-066A`、已归档的 `TASK-SLICE-160`、`inventory-resource-catalog.md`、`map-service-ui-index.md` 与 `map-service.immortality`。
 
 输出产物：
 
@@ -314,7 +463,7 @@ Goal 包：
 
 完成定义：
 
-- 只消费已闭合的 `TASK-SETTINGS-066A` 证据和 `map-service.immortality` 资源，不在实现期补猜逆向事实。
+- 只消费已闭合的 `TASK-SETTINGS-066A` 页面证据、`TASK-SLICE-160` 统一物品目录/背包事务和 `map-service.immortality` 资源，不在实现期补猜逆向事实或另造页面私有库存。
 - 正式地图进入/返回、五类五阶、所有成功/拒绝态、P1/P2 隔离和重载保持通过。
 
 UI 原生化合同：

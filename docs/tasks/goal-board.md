@@ -23,7 +23,9 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-045 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155A | 丹药页原生 UI、P1/P2 事务和本地存档实现 | 预计 0 次 |
+| GOAL-049 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-070 | 原版 1.1 可入包资源全集、真图标与背包事务证据目录 | 预计 0 次 |
+| GOAL-050 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-160 | 全量资源目录接入正式背包、双 owner 事务与本地存档 | 预计 0 次 |
+| GOAL-045 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155A | 丹药页原生 UI、P1/P2 事务和本地存档实现 | 预计 0 次 |
 | GOAL-046 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155B | 商城原生 UI、离线灵魂购买和本地存档实现 | 预计 0 次 |
 | GOAL-047 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155C | 设置 overlay 原生 UI 与获批持久化边界实现 | 预计 0 次 |
 | GOAL-048 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155D | 任务页原生 UI、进度/奖励和跨日存档实现 | 预计 0 次 |
