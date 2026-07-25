@@ -84,7 +84,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
     setFormalWorkshopInventoryPage(model, model.inventoryPage + 1); callbacks.onRerender();
   }, 'workshop-page-next'));
   const player = getFormalWorkshopPlayer(model);
-  objects.push(createFormalSoulBalanceView(scene, player.soulCount));
+  objects.push(createFormalSoulBalanceView(scene, player.soulCount, 'workshop'));
   if (model.tab === 'strength') {
     const session = model.strengtheningSessions[model.owner];
     const summary = describeEquipmentStrengtheningSession(session);

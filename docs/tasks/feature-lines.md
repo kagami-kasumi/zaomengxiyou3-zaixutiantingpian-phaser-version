@@ -30,10 +30,13 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-STAGE-2-3 | Active | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064 | `feature-line-coverage/LINE-STAGE-2-3.md` | 无 | `GOAL-025` 已恢复为唯一 Active；六段逆向尚未开始 |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SETTINGS-066 | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 无；具体资源族与页面范围由四个证据 Goal 逐项清零 | 用户 2026-07-24 明确提升为 Stage 2-3 前置；`GOAL-037` 为唯一 Active |
+| LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `GOAL-025` 保留为 Planned；既有任务定义不丢失 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 
 ## 当前功能线状态
+
+2026-07-24 用户要求在 Stage 2-3 逆向前先完成两组正式导航、既有关卡怪物真动画、角色/技能动画与本地存档。复核确认：本地六槽 `localStorage`、V6 双 owner、背包/技能/法宝/宠物页面业务已存在，但天庭地图“丹药/商城/设置/任务”未进入 `full-function-ui-index.md` 的 14 页合同；关卡内五入口尚缺“与原版表现一致”的逐状态关闭证据；Stage 1-3 明记怪物为占位外观，Stage 1 其余怪物与五角色技能真动画也没有全集关闭证据。因此新增并激活 `LINE-PRE-STAGE-2-3-COMPLETION`，`LINE-STAGE-2-3 / GOAL-025 / TASK-SETTINGS-064` 暂回 Planned。存档不重复重做，只在最终正式旅程中验证浏览器本地持久化、损坏保护、P1/P2 隔离和跨页/跨关卡重载。
 
 `LINE-STAGE-2-1` 已关闭：`TASK-SLICE-145` 闭合行为/流程，`TASK-SETTINGS-062` 闭合真视觉证据，`TASK-SLICE-146` 接入 4 个 atlas、132 个攻击帧、100/130 碰撞高、左右镜像、精确触发 tick、死亡播完销毁并完成 940×590 1P/2P 逐状态与最终门复验；新标签页 console 无 warning/error。
 
@@ -68,6 +71,10 @@
 `TASK-ARCH-013B` 已归档：新增玩家级 `PlayerSoulSystem`，技能、工坊四事务与法宝统一通过同一检查/扣减合同；非法/余额不足不变性、P1/P2 隔离、技能→工坊→法宝→另一玩家技能→重载旅程、全系统/build/structure/workflow/diff check 与 940×590 单/双人正式功能页零 console 均通过。`PG-010` 关闭，正式主循环再次关闭；当前恢复 `LINE-STAGE-2-3 / GOAL-025 / TASK-SETTINGS-064`。
 
 2026-07-24 用户反馈技能页与炼丹炉右下角余额不一致：根因是工坊 PNG 保留扁平占位数字，且跨页 host 缓存目标页面旧 model。本次作为 `TASK-ARCH-013B` 窄回归修复，新增技能/工坊共享动态余额组件并在跨页进入时从当前 V6 存档重建 model；专项、正式跨功能旅程、build 与 940×590 双页零 console 通过。正式主循环不重开，`LINE-STAGE-2-3 / GOAL-025` 保持 Active。
+
+2026-07-24 用户继续指出首轮共享组件的黑底侵入技能页“灵魂”标签，且数字样式偏离原版。复核源 SWF 后确认技能 `txtlh` 为 `(805.95,544,135×31.7)`、工坊为 `(801.55,550.15,135×31.05)`，两者均为 `FZCuYuan-M03` 白色无描边 TextField。最终移除黑底/描边/阴影，从 character 119 派生无动态占位的原生工坊 SVG，并以同一组件按源槽位投影实时余额。此窄视觉回归已闭合，Stage 2-3 保持 Active。
+
+2026-07-24 用户再次指出字体、字号和位置仍未对齐；复验确认仅声明 `FZCuYuan-M03` 会回退到浏览器系统字体，Canvas 基线/字宽也不等于 Flash。共享余额现直接使用 DefineEditText 103 的嵌入 0–9 矢量轮廓及原版缩放、基线、advance 和右对齐，技能/工坊 940×590 证据已更新；Stage 2-3 继续保持 Active。
 
 2026-07-24 用户反馈指出五角色两棵心法的 10 张选择器图片全部缺失。复核确认 `TASK-SLICE-154` 只留下 character 597/608 的透明命中区；现已补齐各 5 帧真资源、角色映射、原坐标渲染、bundle 防复发门禁与 940×590 零 console 证据。该窄修复不改技能规则/存档/owner，不重开正式主循环，`LINE-STAGE-2-3 / GOAL-025 / TASK-SETTINGS-064` 继续保持 Active。
 

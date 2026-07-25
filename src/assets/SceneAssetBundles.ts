@@ -172,7 +172,7 @@ export const sceneAssetBundles = {
   },
   'feature-ui': {
     dependencies: [],
-    assets: [],
+    assets: [svg(fullFeatureUiAssets.soulDigits)],
   },
   'feature-ui-backpack': {
     dependencies: ['feature-ui'],

@@ -4,17 +4,582 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-064` 是唯一当前推荐，属于唯一 `Active` Goal `GOAL-025` 和 `LINE-STAGE-2-3`。下一次 `/goal` 只闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据并拆分后续实现；不写现代关卡代码。
+`TASK-SETTINGS-066` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。下一次 `/goal` 只闭合天庭地图“丹药 / 商城 / 设置 / 任务”四入口及其页面内容、真 UI、离线边界与存档影响的六段证据，并据此生成逐页 0-compact 实现 Goal；不写现代页面代码。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-064 | Ready | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
+| TASK-SETTINGS-066 | Ready | GOAL-037 | LINE-PRE-STAGE-2-3-COMPLETION | 地图服务 UI 逆向 | 闭合丹药、商城、设置、任务四入口与页面全集证据 | M-035、M-044、M-046、M-052、VS-059 | 四页证据矩阵、真资源标注、离线边界与逐页实现 Goal | 拆分 TASK-SLICE-155 |
+| TASK-SETTINGS-067 | Planned | GOAL-038 | LINE-PRE-STAGE-2-3-COMPLETION | 关卡功能入口逆向 | 闭合设置、技能、背包、法宝、宠物五入口的原版状态与共享 host 差异 | M-016、M-035、M-043、M-052、VS-060 | 显示列表、暂停/owner/返回合同与实现拆分 | 拆分 TASK-SLICE-156 |
+| TASK-SETTINGS-068 | Planned | GOAL-039 | LINE-PRE-STAGE-2-3-COMPLETION | 怪物视觉覆盖逆向 | 盘清所有已完成关卡实际小怪、动作和攻击对象真动画缺口 | M-030、M-034、M-035、VS-061 | 逐关逐怪全集矩阵、资源标注与逐关实现 Goal | 拆分 TASK-SLICE-157 |
+| TASK-SETTINGS-069 | Planned | GOAL-040 | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 逐角色逐技能全集矩阵、资源标注与逐角色实现 Goal | 拆分 TASK-SLICE-158 |
+| TASK-SLICE-155 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 地图四页实现父任务 | 按证据分别实现丹药、商城、设置、任务 | M-044、M-046、M-052、VS-059 | 由 TASK-SETTINGS-066 生成的逐页子 task | 全部子 task 完成后收束父任务 |
+| TASK-SLICE-156 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 关卡五入口实现父任务 | 复用既有功能页并补设置、原生按钮状态和正式关卡接线 | M-016、M-043、M-052、VS-060 | 由 TASK-SETTINGS-067 生成的共享接线/校准子 task | 全部子 task 完成后收束父任务 |
+| TASK-SLICE-157 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 既有关卡怪物动画父任务 | Stage 1-1/1-2/1-3 逐关接入全部怪物/攻击对象真动画，回归 Stage 2-1/2-2 | M-030、M-034、M-035、VS-061 | 由 TASK-SETTINGS-068 生成的逐关子 task | 全部子 task 完成后收束父任务 |
+| TASK-SLICE-158 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 五角色动画父任务 | 逐角色接入本体、战斗 UI、普攻、技能及附属对象真动画 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 由 TASK-SETTINGS-069 生成的逐角色子 task | 全部子 task 完成后收束父任务 |
+| TASK-SLICE-159 | Planned | GOAL-041 | LINE-PRE-STAGE-2-3-COMPLETION | 本地存档正式旅程 | 复用既有六槽 localStorage/V6，验证所有新增功能跨重启持久化并关闭前置线 | M-044、M-050、VS-052、VS-063 | 自动旅程、940×590 重启读取证据与关闭检查 | 恢复 GOAL-025 / TASK-SETTINGS-064 |
+| TASK-SETTINGS-064 | Planned | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
 | TASK-ARCH-010A | Planned | GOAL-026 | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B |
 | TASK-ARCH-010B | Planned | GOAL-027 | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task |
 
 ## 任务完成定义
+
+### TASK-SETTINGS-066
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
+
+Goal 包：
+
+- `GOAL-037`（Active）
+
+目标机制/切片：
+
+- `M-035`、`M-044`、`M-046`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若四页分属两个以上独立源包/事务 owner，先完成入口与页面身份矩阵，再把未闭合页面拆成同线 `TASK-SETTINGS-066A..D`；不得在一个 Goal 同时深扒四套业务。
+
+输入资料：
+
+- `docs/workflow/reverse-engineering-protocol.md`、`full-function-ui-index.md`、`runtime-index.md`、`save-slots-index.md`、恢复 SWF 中地图菜单与四页面目标源包。
+- 沿 `MapMenu`、丹药/商城/设置/任务入口实际调用链窄查的局部与共享 AS3；legacy extraction 只读。
+
+输出产物：
+
+- 建立四页权威覆盖索引：入口/退出、字段、内容全集、事务、离线边界、存档影响、P1/P2 owner、真资源和现代缺口。
+- 更新资源标注，并把 `TASK-SLICE-155` 按页面/owner 拆成 0-compact 子 Goal/task。
+
+完成定义：
+
+- 四个按钮的实际页面身份、显示列表、可操作内容、关闭路线和存档影响逐项回答；商城/任务若依赖停服服务，明确原版事实、离线可复现边界与禁止伪造项。
+- 影响首个逐页实现的未知为零；不能清零的页面生成独立补证 Goal，不越级设为可实现。
+
+UI 原生化合同：
+
+- 显示列表清单：逐页记录根/子 Symbol、depth、父子关系、注册点、嵌套矩阵、文字字段、按钮状态、动态 child 和命中区。
+- 原版视觉基准：每页至少记录 940×590 原 SWF 可达状态或可追溯渲染；缺失页面阻塞视觉闭合。
+- 允许的现代视觉例外：只允许用户批准的停服网络/支付离线替代；默认禁止新增可见现代覆盖层。
+- 逐状态验收：normal/hover/pressed/selected、分页/列表、动态余额/进度、进入/返回及适用的 P1/P2。
+- 差异证据：为后续逐页实现定义并排/叠图、对象差异清单和容差。
+
+验收标准：
+
+- 恢复源 SWF 与 AS3 调用链交叉确认；`npm run check:annotations`、`npm run check:workflow`、`git diff --check` 通过。
+
+禁止范围：
+
+- 不写页面实现，不把网络/支付/活动伪造成可用原版服务，不修改恢复源或 legacy extraction。
+
+状态更新：
+
+- 更新本线覆盖台账、`mechanics-index.md`、`vertical-slices.md`、资源标注、Goal/task/history 与适用 PG 反馈。
+
+推荐后续任务：
+
+- 执行 `TASK-SLICE-155` 拆出的第一个同线逐页实现 task。
+
+### TASK-SETTINGS-067
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-038`（Planned）
+
+目标机制/切片：
+
+- `M-016`、`M-035`、`M-043`、`M-052`、`VS-060`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若设置页需要独立源包/业务 owner，或五入口在 HUD 与键盘存在两套不同状态机，立即把设置页证据或 HUD 入口证据拆成同线下一 Goal。
+
+输入资料：
+
+- `reverse-engineering-protocol.md`、`combat-hud-index.md`、`full-function-ui-index.md`、`RoleInfo` / `GameInfo` / `KeyBoardControl` / 设置页实际调用链和恢复源 SWF。
+
+输出产物：
+
+- 五入口显示列表、命中区、按钮状态、owner、互斥、暂停/恢复、关闭返回和既有 `FeatureUiHost` 差异矩阵；拆分 `TASK-SLICE-156`。
+
+完成定义：
+
+- 证明哪些入口是原版 HUD 按钮、哪些只有快捷键、P2/法宝限制、设置页内容和战斗暂停语义；不得把“既有页面可达”写成“原版表现一致”。
+
+UI 原生化合同：
+
+- 显示列表清单：记录 HUD 根/按钮 depth、矩阵、文字/图标、三态/选中态、动态 child、命中区与页面根关系。
+- 原版视觉基准：单人/双人 HUD、五入口各一次进入/返回的 940×590 基准。
+- 允许的现代视觉例外：仅可访问性输入或原版无 P2 法宝入口等已批准边界；禁止现代按钮覆盖真按钮。
+- 逐状态验收：normal/hover/pressed/disabled、P1/P2、暂停、互斥、再次按键关闭、Escape/返回。
+- 差异证据：逐入口对象清单、叠图/并排证据和容差说明。
+
+验收标准：
+
+- 六段证据完整；`check:annotations`、`check:workflow`、`git diff --check` 通过。
+
+禁止范围：
+
+- 不重写已闭合的背包/技能/宠物/法宝业务，不在证据 Goal 写现代接线。
+
+状态更新：
+
+- 更新本线覆盖、M-016/M-052、VS-060、Goal/task/history 与适用 PG 反馈。
+
+推荐后续任务：
+
+- 执行 `TASK-SLICE-156` 拆出的第一个共享入口/设置实现 task。
+
+### TASK-SETTINGS-068
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-039`（Planned）
+
+目标机制/切片：
+
+- `M-030`、`M-034`、`M-035`、`VS-061`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若 Stage 1 三关合计需要两个以上尚未恢复的怪物资源族，按关卡拆为 `TASK-SETTINGS-068A..C`，当前 Goal 只交付全集差异矩阵。
+
+输入资料：
+
+- `reverse-engineering-protocol.md`、`monsters-index.md`、`levels-index.md`、五条已完成关卡覆盖台账、恢复源关卡/怪物/攻击对象 SWF 与对应局部 AS3。
+
+输出产物：
+
+- Stage 1-1/1-2/1-3/2-1/2-2 的实际怪物类型 × idle/run/attack/hit/death/专属动作 × 攻击对象 × 帧数/注册点/触发 tick 全集矩阵和资源标注；拆分 `TASK-SLICE-157`。
+
+完成定义：
+
+- Stage 2-1/2-2 已有证据只做回归核对；Stage 1 每种实际生成的小怪和 Boss 均有真资源存在性、动作映射、碰撞/原点和生命周期结论，缺资源明确阻塞而非继续用占位关闭。
+
+验收标准：
+
+- 恢复源与 AS3 交叉确认，高风险时序至少交叉确认；`check:annotations`、`check:workflow`、`git diff --check` 通过。
+
+禁止范围：
+
+- 不实现动画，不把代表性怪物推成关卡全集，不进入 Stage 2-3。
+
+状态更新：
+
+- 更新 M-030/M-034、VS-061、本线覆盖、资源标注、Goal/task/history 与适用 PG 反馈。
+
+推荐后续任务：
+
+- 执行 `TASK-SLICE-157` 拆出的 Stage 1-1 真动画实现 task。
+
+### TASK-SETTINGS-069
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-040`（Planned）
+
+目标机制/切片：
+
+- `M-018..M-025`、`M-034`、`M-035`、`M-047`、`M-049`、`VS-062`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若五角色资源不属于一个可机械枚举的目录族，立即按角色拆成 `TASK-SETTINGS-069A..E`；当前 Goal 只建立共享字段与覆盖模板。
+
+输入资料：
+
+- `reverse-engineering-protocol.md`、角色/技能/弹体/普攻资源索引、正式 HUD 索引、恢复角色与技能源 SWF、Role1..5 及实际附属对象 AS3。
+
+输出产物：
+
+- 五角色逐动作、逐技能、逐附属对象的 Symbol/帧/原点/朝向/触发/命中/消散矩阵；明确“角色上 UI”对应 HUD/头顶状态/技能槽的原版显示清单；拆分 `TASK-SLICE-158`。
+
+完成定义：
+
+- 行为已实现与视觉已完成分开记录；Role1 已接资源逐项复核，其余四角色不得凭逻辑测试宣称动画完成。
+
+UI 原生化合同：
+
+- 显示列表清单：角色战斗 UI/头顶动态层、HUD 槽与状态对象的父子、depth、矩阵、文字、按钮/动态图层和命中区。
+- 原版视觉基准：五角色单人，至少一个合法双人组合，普攻与每个已实现技能的关键状态帧。
+- 允许的现代视觉例外：空清单；证据缺失项保持阻塞，除非用户另行批准。
+- 逐状态验收：idle/run/jump/attack/hit/death、技能起手/持续/命中/结束、朝向、P1/P2 与 HUD 更新。
+- 差异证据：关键帧并排/叠图、对象/帧序/原点差异和容差。
+
+验收标准：
+
+- 恢复源与 AS3 交叉确认；`check:annotations`、`check:workflow`、`git diff --check` 通过。
+
+禁止范围：
+
+- 不一次实现五角色，不以占位 projectile 或状态文字替代真动画，不扩大到宠物动画。
+
+状态更新：
+
+- 更新角色机制、M-034/M-035/M-047/M-049、VS-062、本线覆盖、资源标注、Goal/task/history 与适用 PG 反馈。
+
+推荐后续任务：
+
+- 执行 `TASK-SLICE-158` 拆出的第一个逐角色实现 task。
+
+### TASK-SLICE-155
+
+任务类型：
+
+- `TASK-SLICE`（Split 父任务，不直接执行）
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
+
+Goal 包：
+
+- 无；子 task 由 `TASK-SETTINGS-066` 绑定独立 Goal。
+
+目标机制/切片：
+
+- `M-044`、`M-046`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：0；父任务只聚合子任务
+- 预计上下文压缩：0
+- 独立验收批次：0
+
+拆分触发：
+
+- 固定按证据中的页面资源族和事务 owner 拆分；禁止恢复为四页一次实现。
+
+输入资料：
+
+- `TASK-SETTINGS-066` 的四页证据矩阵及其资源标注。
+
+输出产物：
+
+- 丹药、商城、设置、任务逐页子 task/Goal 及全部完成后的父任务收束记录。
+
+完成定义：
+
+- 所有子 task 归档且 VS-059 覆盖矩阵无未解释缺口。
+
+UI 原生化合同：
+
+- 显示列表清单：由每个逐页子 task 继承对应证据清单。
+- 原版视觉基准：每个子 task 使用对应页面 940×590 基准。
+- 允许的现代视觉例外：只允许已批准的停服服务离线边界。
+- 逐状态验收：四页各自覆盖按钮态、动态内容、进入/返回。
+- 差异证据：逐页并排/叠图与对象差异清单。
+
+验收标准：
+
+- 子 task 各自通过业务、视觉与工作流门禁，父任务只核对全集。
+
+禁止范围：
+
+- 父任务不直接实现，不合并四页，不伪造在线服务。
+
+状态更新：
+
+- 子 task 全部完成后移入历史并更新 VS-059 与本线覆盖。
+
+推荐后续任务：
+
+- 由 `TASK-SETTINGS-066` 选择首个逐页子 task。
+
+### TASK-SLICE-156
+
+任务类型：
+
+- `TASK-SLICE`（Split 父任务，不直接执行）
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
+
+Goal 包：
+
+- 无；子 task 由 `TASK-SETTINGS-067` 绑定独立 Goal。
+
+目标机制/切片：
+
+- `M-016`、`M-043`、`M-052`、`VS-060`
+
+规模预算：
+
+- 主工作包：0；父任务只聚合子任务
+- 预计上下文压缩：0
+- 独立验收批次：0
+
+拆分触发：
+
+- 固定拆为共享入口/设置页接入与正式关卡逐状态校准，不恢复为跨 owner 大任务。
+
+输入资料：
+
+- `TASK-SETTINGS-067` 的五入口差异矩阵。
+
+输出产物：
+
+- 共享 host/设置页与运行校准子 task/Goal 及父任务收束记录。
+
+完成定义：
+
+- 所有子 task 归档，正式关卡五入口的 owner、暂停、互斥、返回和真视觉全闭合。
+
+UI 原生化合同：
+
+- 显示列表清单：子 task 继承 HUD 五入口及页面根清单。
+- 原版视觉基准：单/双人正式关卡五入口的 940×590 基准。
+- 允许的现代视觉例外：只保留已批准的输入可访问性与 P2 法宝边界。
+- 逐状态验收：normal/hover/pressed/disabled、P1/P2、暂停、互斥、关闭返回。
+- 差异证据：逐入口并排/叠图和对象差异清单。
+
+验收标准：
+
+- 子 task 各自通过专项、全系统、build、structure 与运行视觉门禁。
+
+禁止范围：
+
+- 不重写既有页面业务，不用现代覆盖按钮替代真 HUD。
+
+状态更新：
+
+- 子 task 全部完成后更新 VS-060、本线覆盖并归档父任务。
+
+推荐后续任务：
+
+- 由 `TASK-SETTINGS-067` 选择首个实现子 task。
+
+### TASK-SLICE-157
+
+任务类型：
+
+- `TASK-SLICE`（Split 父任务，不直接执行）
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
+
+Goal 包：
+
+- 无；子 task 由 `TASK-SETTINGS-068` 绑定独立 Goal。
+
+目标机制/切片：
+
+- `M-030`、`M-034`、`M-035`、`VS-061`
+
+规模预算：
+
+- 主工作包：0；父任务只聚合子任务
+- 预计上下文压缩：0
+- 独立验收批次：0
+
+拆分触发：
+
+- 固定至少按 Stage 1-1、1-2、1-3 拆分；任一关卡仍跨两个以上独立资源族时继续拆分。
+
+输入资料：
+
+- `TASK-SETTINGS-068` 的逐关逐怪真动画矩阵。
+
+输出产物：
+
+- 逐关资源接入/校准子 task 与 Stage 2-1/2-2 防回归批次。
+
+完成定义：
+
+- 全部子 task 归档，五个已完成关卡的实际怪物/攻击对象视觉全集无占位缺口。
+
+验收标准：
+
+- 逐关专项、全系统、build、annotations 与 940×590 逐状态证据通过。
+
+禁止范围：
+
+- 不进入 Stage 2-3，不以代表性怪物收束父任务。
+
+状态更新：
+
+- 更新 M-030/M-034、VS-061、本线覆盖并归档父任务。
+
+推荐后续任务：
+
+- 由 `TASK-SETTINGS-068` 选择 Stage 1-1 子 task。
+
+### TASK-SLICE-158
+
+任务类型：
+
+- `TASK-SLICE`（Split 父任务，不直接执行）
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
+
+Goal 包：
+
+- 无；子 task 由 `TASK-SETTINGS-069` 绑定独立 Goal。
+
+目标机制/切片：
+
+- `M-018..M-025`、`M-034`、`M-035`、`M-047`、`M-049`、`VS-062`
+
+规模预算：
+
+- 主工作包：0；父任务只聚合子任务
+- 预计上下文压缩：0
+- 独立验收批次：0
+
+拆分触发：
+
+- 固定按角色或独立资源族拆分；禁止恢复为五角色一次接入。
+
+输入资料：
+
+- `TASK-SETTINGS-069` 的逐角色逐技能资源与时序矩阵。
+
+输出产物：
+
+- 五角色实现/校准子 task、共享动画 owner 回归和父任务收束记录。
+
+完成定义：
+
+- 全部子 task 归档，五角色本体、战斗 UI、普攻、已实现技能及附属对象真动画全集无未解释缺口。
+
+UI 原生化合同：
+
+- 显示列表清单：子 task 继承对应角色战斗 UI、HUD 动态层与技能对象清单。
+- 原版视觉基准：五角色与合法双人组合的 940×590 动作/技能关键帧。
+- 允许的现代视觉例外：空清单，除非用户另行批准。
+- 逐状态验收：本体动作、技能全生命周期、朝向、P1/P2 与 HUD 状态。
+- 差异证据：逐角色关键帧并排/叠图和帧序/原点/对象差异。
+
+验收标准：
+
+- 子 task 各自通过专项、全系统、build、annotations 与逐技能运行视觉门禁。
+
+禁止范围：
+
+- 不用占位 projectile、状态文字或单帧代替动画，不扩到宠物视觉。
+
+状态更新：
+
+- 更新角色机制、VS-062、本线覆盖并归档父任务。
+
+推荐后续任务：
+
+- 由 `TASK-SETTINGS-069` 选择首个逐角色子 task。
+
+### TASK-SLICE-159
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-041`（Planned；必须在四个 Split 父任务及其全部子 task 归档后才可激活）
+
+目标机制/切片：
+
+- `M-044`、`M-050`、`VS-052`、`VS-063`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若新增页面确实需要 V7 schema，先拆独立迁移 Goal；本任务不得同时做 schema 迁移与完整浏览器旅程。
+
+输入资料：
+
+- `SaveSystem.ts`、六槽/party/功能存档测试、四个父任务的最终产物与本线覆盖台账。
+
+输出产物：
+
+- 自动正式旅程与 940×590 浏览器证据：新建/继续、四地图页、关卡五入口、P1/P2 事务、关卡进度、关闭应用后重开读取、损坏槽保护。
+
+完成定义：
+
+- 复用浏览器 `localStorage` 的六槽 V6；所有应持久字段跨重启保持，动画临时状态/冷却不入档；无新增重复存档 owner。
+- 本线关闭检查全部满足后关闭本线并恢复 `LINE-STAGE-2-3 / GOAL-025 / TASK-SETTINGS-064`。
+
+验收标准：
+
+- 专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 重启读取旅程通过，console 无 warning/error。
+
+禁止范围：
+
+- 不把云存档、文件导出或服务端账号系统加入“本地存档”范围，不进入 Stage 2-3 逆向。
+
+状态更新：
+
+- 更新 M-044/M-050、VS-063、本线/Stage 2-3 状态、Goal/task/history 与适用 PG 反馈。
+
+推荐后续任务：
+
+- 恢复 `TASK-SETTINGS-064`。
 
 ### TASK-SETTINGS-064
 
@@ -24,11 +589,11 @@
 
 功能条线：
 
-- `LINE-STAGE-2-3`（Active）
+- `LINE-STAGE-2-3`（Planned；等待前置体验补全线关闭）
 
 Goal 包：
 
-- `GOAL-025`（Active）
+- `GOAL-025`（Planned）
 
 目标机制/切片：
 

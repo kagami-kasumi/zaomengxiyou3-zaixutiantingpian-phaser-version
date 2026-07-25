@@ -18,9 +18,9 @@
 | Stage 1-3 | 4 | 前景/布局、背景和普通门已转换接入；listener 是行为证据 | `stage13.md` |
 | Stage 2-1 | 18 | 根布局保持选择性导出；场景、背景、地面、普通门、66 帧冰刺、四怪本体 atlas 与七个攻击对象均已接入并完成运行复验 | `stage21.md`、`stage21-monsters.md` |
 | Stage 2-2 | 14 | 场景两层、背景、地面、普通门、130 帧火焰、Monster16 atlas 与六攻击对象均已接入现代 manifest/场景 | `stage22.md` |
-| UI 与配方图标 | 270 | 炼丹炉 UI、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`../crafting-ui-index.md`、`../combat-hud-index.md`、`../save-slots-index.md`、`../save-party-flow-index.md`、`../heaven-map-index.md`、`../full-function-ui-index.md` |
+| UI 与配方图标 | 271 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`../crafting-ui-index.md`、`../combat-hud-index.md`、`../save-slots-index.md`、`../save-party-flow-index.md`、`../heaven-map-index.md`、`../full-function-ui-index.md` |
 
-总计 470 条标注：320 条 `ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、3 条 `rejected`；469 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
+总计 471 条标注：321 条 `ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、3 条 `rejected`；470 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
 
 ## 人工待办
 

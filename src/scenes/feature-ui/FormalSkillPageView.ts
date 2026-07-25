@@ -71,7 +71,7 @@ export function createFormalSkillPageView(
   });
 
   const player = getFormalSkillPlayer(model);
-  objects.push(createFormalSoulBalanceView(scene, player.soulCount));
+  objects.push(createFormalSoulBalanceView(scene, player.soulCount, 'skills'));
 
   if (model.activeTab === 'binding') {
     renderBinding(scene, model, storage, callbacks, objects);

@@ -205,7 +205,7 @@ function testTrueSkillAssets(): void {
   assert.match(view, /getSkillNativeSpriteAsset/);
   assert.match(view, /P1技能|owner\.toUpperCase\(\)/);
   assert.match(view, /treeNameText/);
-  assert.match(view, /createFormalSoulBalanceView/);
+  assert.match(view, /createFormalSoulBalanceView\(scene, player\.soulCount, 'skills'\)/);
   assert.doesNotMatch(activeBase, /id="(?:xf1mc|xf2mc|mainskillmc|xfname1|xfname2|upGradebtn)"/);
   assert.doesNotMatch(passiveBase, /id="pskill[1-5]"/);
   for (const characterId of [207, 240, 244, 248, 337, 580, 638]) {

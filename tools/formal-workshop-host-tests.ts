@@ -111,7 +111,7 @@ function testInsufficientSoulRejectsWithoutMutation(): void {
 
 function testTrueContainerFusionAndSceneWiring(): void {
   assert.equal(craftingAssets.container.sourceCharacterId, 119);
-  assert.equal(craftingAssets.container.path, '/assets/ui/crafting/container.png');
+  assert.equal(craftingAssets.container.path, '/assets/ui/crafting/container-native.svg');
   assert.equal(craftingAssets.fusionPanel.sourceCharacterId, 169);
   assert.ok(existsSync(path.join(root, 'public', craftingAssets.container.path)));
   assert.ok(existsSync(path.join(root, 'public', craftingAssets.fusionPanel.path)));
@@ -126,7 +126,7 @@ function testTrueContainerFusionAndSceneWiring(): void {
   assert.match(view, /ownerLabel\(scene, 303, 86, 'P1工坊'/);
   assert.match(view, /ownerLabel\(scene, 424, 86, 'P2工坊'/);
   assert.match(view, /fontSize: '26px'/);
-  assert.match(view, /createFormalSoulBalanceView/);
+  assert.match(view, /createFormalSoulBalanceView\(scene, player\.soulCount, 'workshop'\)/);
   assert.doesNotMatch(view, /`灵魂 \$\{player\.soulCount\}/);
   assert.match(view, /craftingAssets\.container/);
   assert.match(view, /craftingAssets\.fusionPanel/);
@@ -139,8 +139,19 @@ function testTrueContainerFusionAndSceneWiring(): void {
     root,
     'src/scenes/feature-ui/FormalSoulBalanceView.ts',
   ), 'utf8');
-  assert.match(soulView, /backgroundColor: '#000000'/);
-  assert.match(soulView, /fixedWidth: 143/);
+  assert.doesNotMatch(soulView, /backgroundColor/);
+  assert.doesNotMatch(soulView, /strokeThickness/);
+  assert.match(soulView, /skills: \{ x: 805\.95, y: 543\.95 \}/);
+  assert.match(soulView, /workshop: \{ x: 801\.55, y: 550\.15 \}/);
+  assert.match(soulView, /fullFeatureUiAssets\.soulDigits\.key/);
+  assert.match(soulView, /const FieldWidth = 135/);
+  assert.match(soulView, /const DigitCellWidth = 16/);
+  assert.match(soulView, /const DigitHeight = 31/);
+  assert.match(soulView, /const DigitAdvances = \[14\.25, 9\.2, 14\.25/);
+  assert.match(soulView, /const cropX = digit \* DigitCellWidth/);
+  assert.match(soulView, /scene\.add\.image\(cursorX - cropX, field\.y/);
+  assert.match(soulView, /\.setCrop\(cropX, 0, DigitCellWidth, DigitHeight\)/);
+  assert.doesNotMatch(soulView, /scene\.add\.text/);
   assert.match(soulView, /formalSoulBalance/);
   assert.match(scene, /refreshTargetPageModel\(page\)/);
   for (const model of ['inventoryModel', 'skillModel', 'petModel', 'workshopModel', 'magicWeaponModel']) {
@@ -183,9 +194,10 @@ function testOriginalArtworkHitGeometryAndLabels(): void {
   assert.equal(existsSync(path.join(root, 'public/assets/ui/crafting/container-native-background.png')), false);
   assert.equal(existsSync(path.join(root, 'public/assets/ui/crafting/native-tabs')), false);
 
-  const container = readFileSync(path.join(root, 'public', craftingAssets.container.path));
-  assert.equal(container.readUInt32BE(16), 940);
-  assert.equal(container.readUInt32BE(20), 594);
+  const container = readFileSync(path.join(root, 'public', craftingAssets.container.path), 'utf8');
+  assert.match(container, /width="940\.0px"/);
+  assert.match(container, /height="593\.45px"/);
+  assert.doesNotMatch(container, /id="txtlh"/);
 }
 
 testStageWithdrawTabCloseAndOwnerIsolation();

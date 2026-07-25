@@ -180,6 +180,7 @@ export const SavePartyAssetKeys = {
 export const FullFeatureUiAssetKeys = {
   backpack: 'full-ui.backpack',
   backpackGrid: 'full-ui.backpack-grid',
+  soulDigits: 'full-ui.soul-digits',
   skillHub: 'full-ui.skill-hub',
   skillActive: 'full-ui.skill-active',
   skillBind: 'full-ui.skill-bind',
@@ -1154,7 +1155,7 @@ function extractedCraftingImage(
 }
 
 export const craftingAssets = {
-  container: extractedCraftingImage(CraftingAssetKeys.container, '/assets/ui/crafting/container.png', 'assets/backpack1.swf', 'export.strength.StrengthEquipment frame 1 flattened with native tab labels', 119),
+  container: extractedCraftingImage(CraftingAssetKeys.container, '/assets/ui/crafting/container-native.svg', 'assets/backpack1.swf', 'export.strength.StrengthEquipment frame 1 with dynamic txtlh removed', 119),
   fusionPanel: extractedCraftingImage(CraftingAssetKeys.fusionPanel, '/assets/ui/crafting/fusion-panel.png', 'assets/backpack1.swf', 'export.strength.Fusion', 169),
   strengthPanel: extractedCraftingImage(CraftingAssetKeys.strengthPanel, '/assets/ui/crafting/equipment-strength.svg', 'assets/backpack1.swf', 'export.strength.Strength', 198),
   resolutionPanel: extractedCraftingImage(CraftingAssetKeys.resolutionPanel, '/assets/ui/crafting/equipment-resolution.svg', 'assets/backpack1.swf', 'export.strength.Resolution', 177),
@@ -1185,6 +1186,13 @@ export const craftingAssets = {
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
 export const fullFeatureUiAssets = {
+  soulDigits: extractedCraftingImage(
+    FullFeatureUiAssetKeys.soulDigits,
+    '/assets/ui/feature/shared/soul-digits.svg',
+    'assets/backpack1.swf',
+    'DefineEditText 103 embedded FZCuYuan-M03 glyphs 0-9',
+    103,
+  ),
   backpack: extractedCraftingImage(
     FullFeatureUiAssetKeys.backpack,
     '/assets/ui/feature/backpack/backpack.svg',

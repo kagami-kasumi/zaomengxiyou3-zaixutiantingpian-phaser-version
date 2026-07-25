@@ -23,7 +23,12 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-025 | Active | LINE-STAGE-2-3 | TASK-SETTINGS-064 | Stage 2-3 真场景、专属流程、怪物/机关、结果与存档六段证据 | 预计 0 次 |
+| GOAL-037 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-066 | 天庭地图“丹药/商城/设置/任务”四入口、页面内容与真 UI 六段证据 | 预计 0 次 |
+| GOAL-038 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-067 | 关卡内“设置/技能/背包/法宝/宠物”五入口、暂停/owner/逐状态证据 | 预计 0 次 |
+| GOAL-039 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-068 | 已完成关卡全部怪物真动画覆盖矩阵与逐关实现拆分 | 预计 0 次 |
+| GOAL-040 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-069 | 五角色本体、角色战斗 UI 与技能动画覆盖矩阵及逐角色拆分 | 预计 0 次 |
+| GOAL-041 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-159 | 本地六槽存档回归与完整正式旅程关闭验收 | 预计 0 次 |
+| GOAL-025 | Planned | LINE-STAGE-2-3 | TASK-SETTINGS-064 | 前置体验补全线关闭后，恢复 Stage 2-3 真场景、专属流程、怪物/机关、结果与存档六段证据 | 预计 0 次 |
 | GOAL-026 | Planned | LINE-MONSTER-ARCH | TASK-ARCH-010A | 组合式怪物合同、定义目录、Targeting/Brain 接缝与兼容 facade | 预计 0 次 |
 | GOAL-027 | Planned | LINE-MONSTER-ARCH | TASK-ARCH-010B | 最小怪物运行时注册表与普通怪+Boss 正式关卡试点 | 预计 0 次 |
 

@@ -51,6 +51,7 @@
     "generate:crafting-item-catalog": "node tools/generate-crafting-item-catalog.mjs",
     "generate:crafting-icon-catalog": "node tools/generate-crafting-icon-catalog.mjs",
     "generate:skill-native-assets": "node tools/generate-skill-native-assets.mjs",
+    "generate:formal-soul-ui": "node tools/generate-formal-soul-ui.mjs",
     "check:workflow": "node tools/validate-workflow.mjs && node tools/validate-asset-annotations.mjs",
     "check:all": "npm run check:workflow && npm run check:structure && npm run check:code"
   },

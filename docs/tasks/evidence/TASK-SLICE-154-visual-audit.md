@@ -79,11 +79,19 @@
 - 技能页独立绘制当前余额，两个页面没有共享可见组件；
 - `FeatureUiScene` 跨页继续保留目标页面旧 model，消费后返回页面存在显示旧余额及旧快照回写风险。
 
-本次新增 `FormalSoulBalanceView`，技能/工坊在相同坐标、字号、宽度和样式下显示当前 `player.soulCount`。不透明底色只覆盖原动态数字范围，保留原灵魂图标和底栏，属于用户批准的动态数值现代例外；未使用生成式图片或重绘原 PNG。跨页进入时目标 model 从当前 V6 存档重建，同页 P1/P2 切换仍保留页面交互状态。
+本次新增 `FormalSoulBalanceView` 并让跨页目标 model 从当前 V6 存档重建。首轮以不透明黑底覆盖工坊占位数字，但用户继续复验指出黑底侵入技能页“灵魂”标签且数值不像原版，因此该现代例外判断作废。
 
-自动专项覆盖组件复用、占位数字遮盖参数、跨页五类 model 重建与跨功能消费重载；940×590 运行证据：
+重新从恢复源调查确认：
 
-- `FORMAL-SOUL-BALANCE-skills-940x590.png`
-- `FORMAL-SOUL-BALANCE-workshop-940x590.png`
+- 技能 character 250 的 `txtlh` 为 character 249，舞台矩形 `(805.95,544,135×31.7)`；
+- 工坊 character 119 的 `txtlh` 为 character 103，考虑根 `x=-0.45` 后舞台矩形 `(801.55,550.15,135×31.05)`；
+- 两个字段都使用 `FZCuYuan-M03`、白色、无描边、右对齐数值，不含不透明底板。用户再次复验指出仅声明字体名仍会回退到浏览器系统字体，Canvas 字号和基线也不等于 Flash。
 
-两页均显示当前存档余额，工坊无残留占位数字，console warning/error 为 0。
+最终从只读 `assets/backpack1.swf` 选择性派生 character 119 SVG，只移除动态 `txtlh` 实例后接入 `container-native.svg`；技能基底此前已用同样规则移除 `txtlh`。共享组件不再使用浏览器文字，而是直接复用 DefineEditText 103 嵌入的 0–9 矢量轮廓，保留原版 `0.0244` 缩放、22px 基线、逐字 advance 与 135px 字段右对齐；两个页面只保留各自源实例坐标差异。
+
+自动专项覆盖共享组件、源几何/样式、工坊底图无 `txtlh`、跨页五类 model 重建与跨功能消费重载。940×590 运行证据：
+
+- `FORMAL-SOUL-BALANCE-skills-original-ui.png`
+- `FORMAL-SOUL-BALANCE-workshop-original-ui.png`
+
+两页均显示 14900；技能“灵魂”标签完整，工坊无 `1234567890` 残留，两页均无黑条，console warning/error 为 0。
