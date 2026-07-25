@@ -84,6 +84,10 @@
 
 2026-07-24 前置体验补全调整：用户将天庭地图“丹药/商城/设置/任务”、关卡内“设置/技能/背包/法宝/宠物”、已完成关卡全部小怪真动画和五角色战斗 UI/技能动画提升为 Stage 2-3 逆向前置。`M-016/M-052` 现有“可达/已有页面业务”不得作为原版逐状态关闭证据；`M-030/M-034/M-047` 的代表性或占位视觉不得作为全集关闭证据。`M-044/M-050` 的六槽 V6 `localStorage` 已满足“存到本地”的基础要求，不新增重复实现，只由 `VS-063` 在全部新功能完成后做跨重启正式旅程回归。调度见 `LINE-PRE-STAGE-2-3-COMPLETION` 与 `GOAL-037..041`。
 
+2026-07-25 地图四服务页检查点：`MapMenu/GMain` 与 restored SWF 交叉确认丹药 990（`OtherMat1`）、商城 721 和任务 85（`backpack1`）、设置 148（`StageCommon`）。商城在该单机版本以玩家灵魂结算并立即保存，不得因旧充值/点券静态文字伪造在线服务；设置字段原版为会话态，不在 `User.getSaveObj`。四页深证据按 `TASK-SETTINGS-066A..D` 继续，详见 `map-service-ui-index.md`，当前不提升 `M-044/M-046/M-052` 状态。
+
+2026-07-25 丹药页深证据：`TASK-SETTINGS-066A` 已闭合 character 990/969/1006、四按钮、五职业选择器、25 格顺序解锁、五类五阶加成、五配方、灵魂/材料/容量拒绝、原版刷新瑕疵、P1/P2 owner 和显式保存边界，详见 `immortality-ui-index.md`。这只清零 `TASK-SLICE-155A` 输入未知，不提前提升 `M-044/M-052` 或 `VS-059`。
+
 M-042 当前补充：`TASK-SETTINGS-031` 已补清玄龟 `turtle1..4` 的 `sld/txlj/sybh/xwaoyi` 专属技能链，事实已足够进入实现。`TASK-SLICE-066` 已完成 `turtle1/sld`：P1 可切换出战 `turtle1`，按已学、MP、目标、距离 `50..200` 和约 6 秒 CD 门禁释放 `PetTurtle1Bullet2`，按 `pet.atk + skillDamageBonus` 接入 `sxkb` 暴击造成伤害，并按本次实际伤害治疗宠物自身。`TASK-SLICE-067` 已完成 `turtle2/txlj`：P1 可切换出战 `turtle2`，按已学、MP、目标和约 20 秒 CD 门禁添加链接状态；链接期间主人受伤时宠物承受 5% 转嫁伤害、主人承受 95% 伤害，主人治疗和宠物治疗按 `1.05` 倍联动，`sld` 自疗可同步给主人最小治疗反馈。`TASK-SLICE-068` 已完成 `turtle3/sybh`：P1 可切换出战 `turtle3`，按已学、MP、目标和约 5.5 秒 CD 门禁释放 `PetTurtle3Bullet3` 范围 projectile，按 `5.4 * pet.atk + skillDamageBonus` 接入 `sxkb` 暴击造成范围伤害。`TASK-SLICE-069` 已完成 `turtle4/xwaoyi`：P1 可切换出战 `turtle4`，按已学、MP `>= 30`、目标和约 18 秒 CD 门禁释放 5 秒玄武奥义，占位记录免蓝 `sld`、刷新 `txlj` 和持续 `sybh` 范围反馈。下一步推荐 `TASK-SLICE-070` 实现 UFO/卡布首段 `ufo1/pms` 魔破杀最小闭环。
 
 M-042 UFO/卡布补充：`TASK-SETTINGS-032` 已补清 `ufo1..3` / `PetKabu1..3` 的 `pms/ss/kmsk` 专属技能链。`TASK-SLICE-070` 已完成 `ufo1/pms` 首段：P1 可切换出战 `ufo1`，已学 `pms`，消耗 20 MP，约 2 秒 CD，生成 `PetKabu1Bullet2` / `hit2` 占位 projectile，并按 `3.6 * pet.atk + skillDamageBonus` 接入 `sxkb` 暴击造成伤害；`ss` 消耗 20 MP，约 4 秒 CD，瞬移到随机目标背后并接普攻，直接技能伤害为 0；`kmsk` 消耗 20 MP，约 5 秒 CD，先上升再生成 `PetKabu3Bullet4` / `hit4`，按 `6 * atk` 派生伤害。下一步 `TASK-SLICE-071` 实现 `ufo2/ss` 瞬闪最小闭环。

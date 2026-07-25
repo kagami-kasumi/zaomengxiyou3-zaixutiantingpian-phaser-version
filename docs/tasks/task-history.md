@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-066A | 地图服务 UI 逆向 | 闭合丹药页完整显示列表、五类五阶、炼制/服用、owner 与存档证据 | M-044、M-052、VS-059 | `immortality-ui-index.md`、990/969/1006 深层矩阵、11 条资源标注、五配方/拒绝态与 `TASK-SLICE-155A` 实现合同 |
 | TASK-ARCH-013B | 跨功能事务闭环 | 收敛技能、炼丹炉、法宝等灵魂消费者并完成负向门禁与正式旅程 | M-016、M-041、M-044、VS-055、PG-010 | `PlayerSoulSystem`、三类正式消费者统一接线、余额不足/非法消费门禁、P1/P2 跨功能重载旅程与 940×590 零 console 证据 |
 | TASK-ARCH-013A | 玩家/存档架构 | 将灵魂提升为玩家直属属性并完成 V6 与 V1..V5 无损迁移 | M-044、VS-055、PG-010 | `player.soulCount` 唯一 owner、V6 codec、V1..V5 迁移、双 owner/损坏/双源拒读专项与现有功能保存回归 |
 | TASK-SLICE-154 | 技能页反馈整改 | 消除整包等待、主动/被动重复文字和默认角色帧污染，补双 owner 与灵魂存档复验 | M-041、M-044、M-052、VS-054、VS-055 | 页级/角色级 bundle、250/868/213 动态 child 去重、五角色心法、炼丹炉风格 P1/P2、V5 灵魂与 3 张 940×590 证据 |
@@ -4911,6 +4912,51 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-066A
+
+完成时间：
+
+- 2026-07-25
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SETTINGS-066B`）
+
+完成内容：
+
+- 从 `ImmortalityInterface / SingleImmortality / ExchangeImmortality` 追到 `User / Pill / BaseRoleProperies / AllEquipment / MemoryClass`，闭合丹药页页面、事务、属性消费者和保存调用链。
+- 记录 character 990 的全部静态/动态显示对象、25 格坐标/depth、五个数值字段、五个炼制按钮、四类按钮四状态/命中区，以及五职业 P1/P2 选择器的 normal/selected 帧。
+- 闭合五类五阶的 item key、逐阶解锁、属性加成、服用 1000 灵魂、五套炼制配方、材料/容量/灵魂拒绝、走火提示和变更顺序。
+- 明确原版两项边界：双人页面初始选中 P2；炼制成功后根页不会立即刷新服用按钮。现代 owner 改用稳定玩家槽位、事务立即写活动槽均登记为现代设计，不冒充原版事实。
+- 选择性派生丹药格、炼制弹窗、四按钮、五职业选择器，新增 11 条资源标注；恢复源和 legacy extraction 未修改。
+- `immortality-ui-index.md` 使影响 `TASK-SLICE-155A` 的原版事实未知为零；没有进入现代页面实现。
+
+更新文件：
+
+- `docs/reverse-engineering/immortality-ui-index.md`
+- `docs/reverse-engineering/map-service-ui-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/map-services.csv`
+- `docs/reverse-engineering/asset-annotation/batches/map-services.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-history.md`
+- PG-002/004/005/007/008 适用反馈记录
+
+验证：
+
+- restored SWF 与局部 AS3/共享调用链交叉确认；逐状态 SVG/PNG 位于 Git 忽略的 task-output。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 在本 task 收尾运行。
+- 本 Goal 实际发生 1 次 compact；compact 前证据和派生均已完成，之后只回写既有证据、归档和校验，没有读取新资料族、派生新资源或新增实现。
+
+推荐任务：
+
+- `TASK-SETTINGS-066B`：闭合商城 49 商品、权威价格、离线灵魂事务、分页/按钮态与真 UI 六段证据。
 
 ### TASK-ARCH-013B
 

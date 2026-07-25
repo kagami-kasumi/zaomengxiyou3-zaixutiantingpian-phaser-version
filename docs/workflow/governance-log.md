@@ -2,6 +2,48 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-25
+
+### 丹药页证据 Goal 归档
+
+变更内容：
+
+- `TASK-SETTINGS-066A / GOAL-037` 闭合丹药页六段证据并归档，功能线不关闭。
+- 新增 11 条丹药深层资源标注，更新 PG-002/004/005/007/008 实际效果样本。
+- 本 Goal 在证据和资源派生完成后发生一次 compact；随后只做既有证据回写、归档和校验，按规则停止扩张。
+- `GOAL-042 / TASK-SETTINGS-066B` 成为唯一 Active Goal / Ready task；本次不继续商城。
+
+验证：
+
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 在收尾运行。
+
+### 地图四服务页首次 compact 拆分检查点
+
+变更内容：
+
+- `TASK-SETTINGS-066` 在确认跨三恢复源包、四事务 owner 后触发既定拆分条件；父任务保持 `Split`。
+- 新增 `TASK-SETTINGS-066A..D / GOAL-037,042..044` 四个逐页证据包，以及 `TASK-SLICE-155A..D / GOAL-045..048` 四个逐页实现包。
+- 首次 compact 后停止读取新资料族、继续派生资源或进入实现，只回写公共证据、资源标注、任务调度和 PG-002/004/005/007/008 效果样本。
+
+影响范围：
+
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/reverse-engineering/map-service-ui-index.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/problems/PG-007-UI原生化缺少统一门禁.md`
+- `docs/workflow/problems/PG-008-Goal包缺少可执行规模门禁.md`
+
+验证：
+
+- `npm run check:annotations` 通过，共 475 条标注。
+- `npm run check:workflow` 与 `git diff --check` 在文档字段修正后复跑。
+- 下一 Goal 只执行 `TASK-SETTINGS-066A`，不跨到商城、设置、任务或现代实现。
+
 ## 2026-07-24
 
 ### 登记灵魂货币所有权问题与 V6 迁移任务

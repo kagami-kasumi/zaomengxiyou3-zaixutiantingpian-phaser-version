@@ -4,13 +4,20 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-066` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。下一次 `/goal` 只闭合天庭地图“丹药 / 商城 / 设置 / 任务”四入口及其页面内容、真 UI、离线边界与存档影响的六段证据，并据此生成逐页 0-compact 实现 Goal；不写现代页面代码。
+`TASK-SETTINGS-066B` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。丹药页六段证据已经归档；下一次 `/goal` 只闭合商城 49 商品、离线灵魂事务、分页/按钮态与真 UI 证据，不写现代页面代码。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-066 | Ready | GOAL-037 | LINE-PRE-STAGE-2-3-COMPLETION | 地图服务 UI 逆向 | 闭合丹药、商城、设置、任务四入口与页面全集证据 | M-035、M-044、M-046、M-052、VS-059 | 四页证据矩阵、真资源标注、离线边界与逐页实现 Goal | 拆分 TASK-SLICE-155 |
+| TASK-SETTINGS-066 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 地图服务 UI 逆向父任务 | 已闭合四入口/页面身份公共检查点；逐页深证据拆为 066A..D | M-035、M-044、M-046、M-052、VS-059 | `map-service-ui-index.md` 公共矩阵与四页资源标注 | 066A..D 全部完成后收束 |
+| TASK-SETTINGS-066B | Ready | GOAL-042 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页逆向 | 闭合 49 商品、权威价格、离线灵魂事务与真 UI 状态 | M-044、M-046、M-052、VS-059 | 商城页六段证据与 155B 实现输入 | TASK-SETTINGS-066C |
+| TASK-SETTINGS-066C | Planned | GOAL-043 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页逆向 | 闭合五行状态、overlay、会话边界与现代持久化裁决输入 | M-035、M-044、M-052、VS-059 | 设置页六段证据与 155C 实现输入 | TASK-SETTINGS-066D |
+| TASK-SETTINGS-066D | Planned | GOAL-044 | LINE-PRE-STAGE-2-3-COMPLETION | 任务页逆向 | 闭合 43 日常+4 活动、奖励/进度/跨日存档与真 UI 状态 | M-044、M-046、M-052、VS-059 | 任务页六段证据与 155D 实现输入 | TASK-SLICE-155A |
+| TASK-SLICE-155A | Planned | GOAL-045 | LINE-PRE-STAGE-2-3-COMPLETION | 丹药页实现 | 接入原生丹药页、P1/P2 炼制/服用与本地存档 | M-044、M-052、VS-059 | 可玩页面、自动门禁与 940×590 逐状态证据 | TASK-SLICE-155B |
+| TASK-SLICE-155B | Planned | GOAL-046 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页实现 | 接入原生商城与离线灵魂购买，不伪造在线服务 | M-044、M-046、M-052、VS-059 | 可玩页面、事务/重载门禁与逐状态证据 | TASK-SLICE-155C |
+| TASK-SLICE-155C | Planned | GOAL-047 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页实现 | 接入原生设置 overlay 与获批的现代持久化边界 | M-035、M-044、M-052、VS-059 | 可玩 overlay、会话/重载门禁与逐状态证据 | TASK-SLICE-155D |
+| TASK-SLICE-155D | Planned | GOAL-048 | LINE-PRE-STAGE-2-3-COMPLETION | 任务页实现 | 接入原生任务页、进度/奖励与跨日存档 | M-044、M-046、M-052、VS-059 | 可玩页面、领取/跨日门禁与逐状态证据 | TASK-SETTINGS-067 |
 | TASK-SETTINGS-067 | Planned | GOAL-038 | LINE-PRE-STAGE-2-3-COMPLETION | 关卡功能入口逆向 | 闭合设置、技能、背包、法宝、宠物五入口的原版状态与共享 host 差异 | M-016、M-035、M-043、M-052、VS-060 | 显示列表、暂停/owner/返回合同与实现拆分 | 拆分 TASK-SLICE-156 |
 | TASK-SETTINGS-068 | Planned | GOAL-039 | LINE-PRE-STAGE-2-3-COMPLETION | 怪物视觉覆盖逆向 | 盘清所有已完成关卡实际小怪、动作和攻击对象真动画缺口 | M-030、M-034、M-035、VS-061 | 逐关逐怪全集矩阵、资源标注与逐关实现 Goal | 拆分 TASK-SLICE-157 |
 | TASK-SETTINGS-069 | Planned | GOAL-040 | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 逐角色逐技能全集矩阵、资源标注与逐角色实现 Goal | 拆分 TASK-SLICE-158 |
@@ -37,7 +44,7 @@
 
 Goal 包：
 
-- `GOAL-037`（Active）
+- 无；已触发拆分。`066A` 已归档，当前 `GOAL-042` 绑定 `TASK-SETTINGS-066B`。
 
 目标机制/切片：
 
@@ -45,9 +52,9 @@ Goal 包：
 
 规模预算：
 
-- 主工作包：2
+- 主工作包：0；父任务只聚合子任务
 - 预计上下文压缩：0
-- 独立验收批次：2
+- 独立验收批次：0
 
 拆分触发：
 
@@ -90,7 +97,208 @@ UI 原生化合同：
 
 推荐后续任务：
 
-- 执行 `TASK-SLICE-155` 拆出的第一个同线逐页实现 task。
+- 继续执行 `TASK-SETTINGS-066B..D`，再执行 `TASK-SLICE-155A..D`。
+
+拆分检查点：
+
+- 三个恢复源包、四套事务 owner 已确认，触发拆分成立。
+- 公共入口/页面身份、根显示列表、normal 视觉基准与存档边界已写入 `docs/reverse-engineering/map-service-ui-index.md`。
+- 首次 compact 后未继续读取新资料族或进入实现；父任务保持 `Split`，不归档为完成。
+
+### TASK-SETTINGS-066B
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
+
+Goal 包：
+
+- `GOAL-042`（Active）
+
+目标机制/切片：
+
+- `M-044`、`M-046`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若权威价格注册表跨出一个独立资料族，拆为同线商品数据补证 task。
+
+输入资料：
+
+- `map-service-ui-index.md`、character 721、`Micropayment/ShopThing/SumInterface` 与必要的价格/背包/灵魂/保存调用链。
+
+输出产物：
+
+- 补齐 character 721 的五分类、九卡、分页、数量、确认、P1/P2、返回全部显示状态与命中区。
+- 列清 49 商品、权威价格、第三大关折扣例外、1..100 数量、拒绝态、灵魂事务与保存时机。
+
+完成定义：
+
+- 明确静态充值/网络/点券文字与实际单机灵魂购买的边界；不伪造在线服务；影响 `155B` 的未知为零。
+
+UI 原生化合同：
+
+- 显示列表清单：五分类、九卡、分页、数量/确认、P1/P2、余额、返回的子 Symbol、depth、文字、动态 child 与命中区。
+- 原版视觉基准：940×590 舞台裁切，并记录约 943.15 宽导出越界。
+- 允许的现代视觉例外：只允许用户批准的停服静态文字替换；不得新增在线能力。
+- 逐状态验收：分类 selected、卡片 hover/pressed、分页、数量/确认、P1/P2、余额与返回。
+- 差异证据：逐状态并排/叠图和对象差异清单。
+
+验收标准：
+
+- 恢复 SWF、局部 AS3 与权威价格表交叉确认；运行 annotations/workflow/diff check。
+
+禁止范围：
+
+- 不写页面实现，不伪造支付、网络账户、活动后端或原版未知价格。
+
+状态更新：
+
+- 完成后归档本 task/Goal，激活 `TASK-SETTINGS-066C` 并更新本线覆盖与适用 PG 反馈。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-066C`。
+
+### TASK-SETTINGS-066C
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-043`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-044`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若现代持久化需要新增 schema/owner，而非复用既有边界，拆为独立架构 task 并等待用户裁决。
+
+输入资料：
+
+- `map-service-ui-index.md`、character 148、`gameSetting`、`SoundManager` 与必要的存档反证。
+
+输出产物：
+
+- 补齐 character 148 五行文字/动态值/关闭按钮的层次、hover/pressed/循环状态、命中区与 overlay 生命周期。
+- 记录难度、BGM、技能音效、30/24/20 FPS 和“恢复默认”死控件事实。
+
+完成定义：
+
+- 明确原版不入档；现代跨重启持久化须作为用户裁决的现代例外，影响 `155C` 的未知为零。
+
+UI 原生化合同：
+
+- 显示列表清单：五行文字/动态值、关闭按钮、depth、状态、命中区与 overlay 生命周期。
+- 原版视觉基准：940×590 overlay 原 SWF 状态。
+- 允许的现代视觉例外：默认无；跨重启持久化须单独记录用户裁决。
+- 逐状态验收：五行 hover/pressed/value、关闭、重复打开与返回地图。
+- 差异证据：逐状态并排/叠图和对象差异清单。
+
+验收标准：
+
+- 恢复 SWF 与局部 AS3/保存对象交叉确认；运行 annotations/workflow/diff check。
+
+禁止范围：
+
+- 不写实现，不把建议的现代持久化冒充原版事实。
+
+状态更新：
+
+- 完成后归档本 task/Goal，激活 `TASK-SETTINGS-066D` 并更新本线覆盖与适用 PG 反馈。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-066D`。
+
+### TASK-SETTINGS-066D
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-044`（Planned）
+
+目标机制/切片：
+
+- `M-044`、`M-046`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若 47 项进度生产者跨两个以上独立系统，先输出权威任务数据表，再拆消费者补证。
+
+输入资料：
+
+- `map-service-ui-index.md`、character 85、`TaskInterface/TaskTile/AwardList/GameTask/Task` 与必要的进度/奖励/保存调用链。
+
+输出产物：
+
+- 补齐 character 85 页签、五 tile、描述/进度、四奖励格、领取、分页和关闭的全部状态与命中区。
+- 列清 43 日常+4 活动的目标/奖励、进度来源、领取成功/拒绝、双 owner、同日恢复与跨日重置。
+
+完成定义：
+
+- 明确停服活动可离线复现边界；影响 `155D` 的未知为零。
+
+UI 原生化合同：
+
+- 显示列表清单：页签、五 tile、字段、四奖励格、领取、分页、关闭的 Symbol/depth/状态/动态 child 与命中区。
+- 原版视觉基准：940×590 居中页面原 SWF 状态。
+- 允许的现代视觉例外：只允许用户批准的停服活动离线边界。
+- 逐状态验收：页签 selected、tile selected/complete、分页、领取、奖励变化、跨日/重载与关闭。
+- 差异证据：逐状态并排/叠图和对象差异清单。
+
+验收标准：
+
+- 恢复 SWF 与局部/共享 AS3 交叉确认；运行 annotations/workflow/diff check。
+
+禁止范围：
+
+- 不写实现，不补猜缺失活动服务或进度事实。
+
+状态更新：
+
+- 完成后归档本 task/Goal，激活 `TASK-SLICE-155A` 并更新本线覆盖与适用 PG 反馈。
+
+推荐后续任务：
+
+- `TASK-SLICE-155A`。
 
 ### TASK-SETTINGS-067
 
@@ -288,7 +496,7 @@ UI 原生化合同：
 
 Goal 包：
 
-- 无；子 task 由 `TASK-SETTINGS-066` 绑定独立 Goal。
+- 无；子 task 已绑定 `GOAL-045..048`。
 
 目标机制/切片：
 
@@ -306,7 +514,7 @@ Goal 包：
 
 输入资料：
 
-- `TASK-SETTINGS-066` 的四页证据矩阵及其资源标注。
+- `map-service-ui-index.md`、`TASK-SETTINGS-066A..D` 的逐页证据及资源标注。
 
 输出产物：
 
@@ -338,7 +546,267 @@ UI 原生化合同：
 
 推荐后续任务：
 
-- 由 `TASK-SETTINGS-066` 选择首个逐页子 task。
+- 四个证据 task 完成后执行 `TASK-SLICE-155A`。
+
+### TASK-SLICE-155A
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-045`（Planned）
+
+目标机制/切片：
+
+- `M-044`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若丹药事务需要新增独立 inventory/save 架构 owner，先拆架构 task，不在页面 Goal 内扩张。
+
+输入资料：
+
+- `TASK-SETTINGS-066A`、`map-service-ui-index.md` 与 `map-service.immortality`。
+
+输出产物：
+
+- 丹药页原生显示列表、P1/P2 选择、服用/炼制事务与现有 V6 本地存档接线。
+
+完成定义：
+
+- 只消费已闭合的 `TASK-SETTINGS-066A` 证据和 `map-service.immortality` 资源，不在实现期补猜逆向事实。
+- 正式地图进入/返回、五类五阶、所有成功/拒绝态、P1/P2 隔离和重载保持通过。
+
+UI 原生化合同：
+
+- 显示列表清单：直接组合原根、按钮、文字与动态 child。
+- 原版视觉基准：对应页面 940×590 原 SWF 逐状态基准。
+- 允许的现代视觉例外：默认无。
+- 逐状态验收：normal/hover/pressed/selected、炼制弹窗、余额、双 owner 与返回。
+- 差异证据：并排/叠图和对象差异清单。
+
+验收标准：
+
+- 专项、全系统、structure、build、annotations、workflow、diff check 与浏览器逐状态证据通过。
+
+禁止范围：
+
+- 不修改原配方/概率/数值，不重做存档 schema，不进入商城/设置/任务。
+
+状态更新：
+
+- 完成后归档本 task/Goal，激活 `TASK-SLICE-155B`，更新 VS-059、本线覆盖与适用 PG 反馈。
+
+推荐后续任务：
+
+- `TASK-SLICE-155B`。
+
+### TASK-SLICE-155B
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-046`（Planned）
+
+目标机制/切片：
+
+- `M-044`、`M-046`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若离线购买需要新增独立 commerce/save 架构 owner，先拆架构 task，不伪造网络服务。
+
+输入资料：
+
+- `TASK-SETTINGS-066B`、`map-service-ui-index.md` 与 `map-service.shop`。
+
+输出产物：
+
+- 商城原生显示列表、分类/分页/数量/确认、P1/P2 灵魂购买与 V6 本地保存。
+
+完成定义：
+
+- 只消费 `TASK-SETTINGS-066B` 的 49 商品/价格/状态证据和 `map-service.shop`。
+- 正式进入/返回、折扣、成功/拒绝、库存容量、双方隔离和重载保持通过；不伪造在线支付或后端。
+
+UI 原生化合同：
+
+- 显示列表清单：保留原分类、九卡、分页、余额、P1/P2 与返回对象。
+- 原版视觉基准：对应页面 940×590 原 SWF 逐状态基准。
+- 允许的现代视觉例外：停服静态文字只有用户批准后才能替换。
+- 逐状态验收：分类/卡片/分页/数量/确认/P1/P2/余额/返回。
+- 差异证据：并排/叠图和对象差异清单。
+
+验收标准：
+
+- 专项、全系统、structure、build、annotations、workflow、diff check 与逐状态证据通过。
+
+禁止范围：
+
+- 不新增人民币、点券、账户、网络或活动服务，不进入其他三页。
+
+状态更新：
+
+- 完成后归档本 task/Goal，激活 `TASK-SLICE-155C`，更新 VS-059、本线覆盖与适用 PG 反馈。
+
+推荐后续任务：
+
+- `TASK-SLICE-155C`。
+
+### TASK-SLICE-155C
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-047`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-044`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若获批的现代持久化需要新增 schema/迁移，拆为独立架构 Goal。
+
+输入资料：
+
+- `TASK-SETTINGS-066C`、`map-service-ui-index.md` 与 `map-service.settings`。
+
+输出产物：
+
+- 设置 overlay 的五行原生状态、关闭和会话行为；现代持久化仅按已记录的用户裁决接线。
+
+完成定义：
+
+- 只消费 `TASK-SETTINGS-066C` 和 `map-service.settings`，不把原版死控件擅自改成新事实。
+- 难度、BGM、技能音效、FPS、关闭/重复打开通过；若持久化获批，复用现有设置/槽边界并做跨重启验证。
+
+UI 原生化合同：
+
+- 显示列表清单：直接组合原五行、动态值和关闭按钮。
+- 原版视觉基准：对应 overlay 940×590 原 SWF 逐状态基准。
+- 允许的现代视觉例外：只有已记录的用户裁决。
+- 逐状态验收：五行 normal/hover/pressed/value、关闭、重复打开与返回。
+- 差异证据：并排/叠图和对象差异清单。
+
+验收标准：
+
+- 专项、全系统、structure、build、annotations、workflow、diff check 与逐状态证据通过。
+
+禁止范围：
+
+- 不重做 V6，不顺手改变音频/难度系统，不进入其他页面。
+
+状态更新：
+
+- 完成后归档本 task/Goal，激活 `TASK-SLICE-155D`，更新 VS-059、本线覆盖与适用 PG 反馈。
+
+推荐后续任务：
+
+- `TASK-SLICE-155D`。
+
+### TASK-SLICE-155D
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+
+Goal 包：
+
+- `GOAL-048`（Planned）
+
+目标机制/切片：
+
+- `M-044`、`M-046`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若 47 项进度生产者需要修改两个以上独立系统，拆为数据 owner 与消费者接线 Goal。
+
+输入资料：
+
+- `TASK-SETTINGS-066D`、`map-service-ui-index.md` 与 `map-service.tasks`。
+
+输出产物：
+
+- 任务页原生显示列表、47 项数据、进度/领取事务、同日/跨日与 V6 保存。
+
+完成定义：
+
+- 只消费 `TASK-SETTINGS-066D` 和 `map-service.tasks`；进度生产者只接已证实的正式事件。
+- 日常/活动、分页、selected/complete、领取成功/拒绝、奖励、双方数据、同日重载与跨日重置通过。
+
+UI 原生化合同：
+
+- 显示列表清单：直接组合原页签、tile、字段、奖励格、按钮和分页。
+- 原版视觉基准：对应页面 940×590 原 SWF 逐状态基准。
+- 允许的现代视觉例外：只允许用户批准的停服活动离线边界。
+- 逐状态验收：页签/tile/分页/领取/奖励变化/重载/关闭。
+- 差异证据：并排/叠图和对象差异清单。
+
+验收标准：
+
+- 专项、全系统、structure、build、annotations、workflow、diff check 与逐状态证据通过。
+
+禁止范围：
+
+- 不伪造停服活动、未知进度来源或在线服务，不进入下一功能组。
+
+状态更新：
+
+- 完成后归档本 task/Goal，检查 `TASK-SLICE-155` 收束条件并激活 `TASK-SETTINGS-067`。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-067`。
 
 ### TASK-SLICE-156
 

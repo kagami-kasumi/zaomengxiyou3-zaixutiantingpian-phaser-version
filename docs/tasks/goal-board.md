@@ -23,7 +23,13 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-037 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-066 | 天庭地图“丹药/商城/设置/任务”四入口、页面内容与真 UI 六段证据 | 预计 0 次 |
+| GOAL-042 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-066B | 商城 49 商品、离线灵魂事务、分页/按钮态与真 UI 六段证据 | 预计 0 次 |
+| GOAL-043 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-066C | 设置 overlay 五行状态、会话边界与真 UI 六段证据 | 预计 0 次 |
+| GOAL-044 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-066D | 任务 47 项内容、奖励/进度/跨日存档与真 UI 六段证据 | 预计 0 次 |
+| GOAL-045 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155A | 丹药页原生 UI、P1/P2 事务和本地存档实现 | 预计 0 次 |
+| GOAL-046 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155B | 商城原生 UI、离线灵魂购买和本地存档实现 | 预计 0 次 |
+| GOAL-047 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155C | 设置 overlay 原生 UI 与获批持久化边界实现 | 预计 0 次 |
+| GOAL-048 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155D | 任务页原生 UI、进度/奖励和跨日存档实现 | 预计 0 次 |
 | GOAL-038 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-067 | 关卡内“设置/技能/背包/法宝/宠物”五入口、暂停/owner/逐状态证据 | 预计 0 次 |
 | GOAL-039 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-068 | 已完成关卡全部怪物真动画覆盖矩阵与逐关实现拆分 | 预计 0 次 |
 | GOAL-040 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-069 | 五角色本体、角色战斗 UI 与技能动画覆盖矩阵及逐角色拆分 | 预计 0 次 |

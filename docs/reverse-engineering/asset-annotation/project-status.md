@@ -18,9 +18,9 @@
 | Stage 1-3 | 4 | 前景/布局、背景和普通门已转换接入；listener 是行为证据 | `stage13.md` |
 | Stage 2-1 | 18 | 根布局保持选择性导出；场景、背景、地面、普通门、66 帧冰刺、四怪本体 atlas 与七个攻击对象均已接入并完成运行复验 | `stage21.md`、`stage21-monsters.md` |
 | Stage 2-2 | 14 | 场景两层、背景、地面、普通门、130 帧火焰、Monster16 atlas 与六攻击对象均已接入现代 manifest/场景 | `stage22.md` |
-| UI 与配方图标 | 271 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`../crafting-ui-index.md`、`../combat-hud-index.md`、`../save-slots-index.md`、`../save-party-flow-index.md`、`../heaven-map-index.md`、`../full-function-ui-index.md` |
+| UI 与配方图标 | 286 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条、地图服务四页根 UI 与丹药页 11 条深层资源已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`../map-service-ui-index.md`、`../immortality-ui-index.md` |
 
-总计 471 条标注：321 条 `ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、3 条 `rejected`；470 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
+总计 486 条标注：321 条 `ready`、15 条 `derived-ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、3 条 `rejected`；485 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
 
 ## 人工待办
 
@@ -35,6 +35,8 @@
 天庭地图已把 `OtherMat1.swf` 的 `SelectPLace` 1343、`MapMenu` 963 与 Stage 1-1/1-2/1-3、Stage 2-1 四个三帧节点 1311/1297/1304/1290 裁切并接入 `public/assets/ui/heaven-map/`；6 条标注均为 `ready`。
 
 完整功能 UI 已从 `backpack1/OtherMat1/pet1.swf` 选择性派生 11 条组合 SVG；背包/格子、技能总页/主动/绑定/被动、宠物、装备强化与装备分解共 9 条已接入正式页并标为 `ready`，法宝和装备制作 2 条仍为 `derived-ready`。`BackPack` 离台边界与其余根页 940×590 语义已记录在 `full-function-ui-index.md`。
+
+地图服务 UI 已从 `OtherMat1/backpack1/StageCommon.swf` 选择性派生丹药 990、商城 721、设置 148、任务 85 四条根 SVG/PNG。丹药页另派生格子、炼制弹窗、四按钮和五职业 owner 选择器 11 条深层资源，并由 `immortality-ui-index.md` 闭合完整六段证据；商城、设置、任务仍只关闭根页面与 normal 基准。
 
 Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整 P-code、角色资源包或运行画面才能确认。它已按 `unknown` 保留，不阻塞本轮标注数据关闭。
 
