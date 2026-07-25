@@ -609,6 +609,100 @@ export const heavenMapAssets = {
   },
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
+const ImmortalityUiAssetRoot = '/assets/ui/map-services/immortality';
+
+function immortalityUiAsset(
+  key: string,
+  fileName: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return {
+    key,
+    path: `${ImmortalityUiAssetRoot}/${fileName}`,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol,
+    sourceCharacterId,
+  };
+}
+
+function immortalityButtonAssets(
+  name: string,
+  sourceCharacterId: number,
+): Record<'up' | 'over' | 'down', ExtractedImageAssetDefinition> {
+  return {
+    up: immortalityUiAsset(
+      `map-service.immortality.${name}.up`,
+      `${name}-up.png`,
+      `DefineButton2 ${sourceCharacterId} up`,
+      sourceCharacterId,
+    ),
+    over: immortalityUiAsset(
+      `map-service.immortality.${name}.over`,
+      `${name}-over.png`,
+      `DefineButton2 ${sourceCharacterId} over`,
+      sourceCharacterId,
+    ),
+    down: immortalityUiAsset(
+      `map-service.immortality.${name}.down`,
+      `${name}-down.png`,
+      `DefineButton2 ${sourceCharacterId} down`,
+      sourceCharacterId,
+    ),
+  };
+}
+
+function immortalityOwnerAssets(
+  heroId: number,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): Record<'normal' | 'selected', ExtractedImageAssetDefinition> {
+  return {
+    normal: immortalityUiAsset(
+      `map-service.immortality.owner-${heroId}.normal`,
+      `owner-${heroId}-normal.svg`,
+      `${sourceSymbol} frame 1`,
+      sourceCharacterId,
+    ),
+    selected: immortalityUiAsset(
+      `map-service.immortality.owner-${heroId}.selected`,
+      `owner-${heroId}-selected.svg`,
+      `${sourceSymbol} frame 2`,
+      sourceCharacterId,
+    ),
+  };
+}
+
+export const immortalityUiAssets = {
+  root: immortalityUiAsset(
+    'map-service.immortality.root',
+    'root-static.svg',
+    'export.immortality.ImmortalityInterface character 990; dynamic text/eat children removed',
+    990,
+  ),
+  exchange: immortalityUiAsset(
+    'map-service.immortality.exchange',
+    'exchange.svg',
+    'export.immortality.ExchangeImmortality character 1006',
+    1006,
+  ),
+  buttons: {
+    eat: immortalityButtonAssets('eat', 968),
+    back: immortalityButtonAssets('back', 973),
+    compound: immortalityButtonAssets('compound', 989),
+    close: immortalityButtonAssets('close', 997),
+  },
+  owners: {
+    1: immortalityOwnerAssets(1, 'export.shop.SelectWK', 218),
+    2: immortalityOwnerAssets(2, 'export.shop.SelectTS', 223),
+    3: immortalityOwnerAssets(3, 'export.shop.SelectBJ', 233),
+    4: immortalityOwnerAssets(4, 'export.shop.SelectSS', 228),
+    5: immortalityOwnerAssets(5, 'export.shop.SelectBL', 871),
+  },
+} as const;
+
 export const pickupAssets = {
   healthSmall: {
     key: PickupAssetKeys.healthSmall,

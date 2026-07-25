@@ -25,6 +25,12 @@ import {
 } from './Stage11FlowSystem';
 import { HERO_SKILL_TREES, type AllSkillName, type HeroSkillLearningState } from './SkillUISystem';
 import { isKnownInventoryResource } from './InventoryResourceCatalog';
+import {
+  cloneImmortalityFlags,
+  createEmptyImmortalityFlags,
+  sanitizeImmortalityFlags,
+  type ImmortalityFlags,
+} from './ImmortalitySystem';
 
 export const GameSaveStorageKey = 'zaixu-tianding.save.v1';
 export const GameSaveVersion = 6 as const;
@@ -129,6 +135,7 @@ export type PlayerSkillLearningSaveV6 = Omit<Player1SaveV1['skillLearning'], 'so
 export type PlayerFeatureSaveV6 = Omit<PlayerFeatureSaveV4, 'skillLearning'> & {
   soulCount: number;
   skillLearning: PlayerSkillLearningSaveV6;
+  immortalityFlags: ImmortalityFlags;
 };
 
 export type GameSaveV6 = Omit<GameSaveV5, 'version' | 'player1' | 'player2'> & {
@@ -145,12 +152,14 @@ export type CreateGameSaveInput = {
   skillLearning: HeroSkillLearningState;
   equipmentLoadout: EquipmentLoadout;
   inventoryStore?: InventoryStore;
+  immortalityFlags?: ImmortalityFlags;
   petRoster: PetRoster;
   player2Progression?: HeroProgressionModel;
   player2SoulCount?: number;
   player2SkillLoadout?: HeroSkillLoadout;
   player2SkillLearning?: HeroSkillLearningState;
   player2InventoryStore?: InventoryStore;
+  player2ImmortalityFlags?: ImmortalityFlags;
   player2EquipmentLoadout?: EquipmentLoadout;
   player2PetRoster?: PetRoster;
   levelUnlockProgress?: LevelUnlockProgress;
@@ -164,6 +173,7 @@ export type LoadedPlayer1State = {
   skillLearning: HeroSkillLearningState;
   equipmentLoadout: EquipmentLoadout;
   inventoryStore: InventoryStore;
+  immortalityFlags: ImmortalityFlags;
   petRoster: PetRoster;
 };
 
@@ -190,6 +200,7 @@ export function createGameSave(input: CreateGameSaveInput): GameSaveV6 {
     skillLoadout: input.player2SkillLoadout,
     skillLearning: input.player2SkillLearning,
     inventoryStore: input.player2InventoryStore,
+    immortalityFlags: input.player2ImmortalityFlags,
     equipmentLoadout: input.player2EquipmentLoadout,
     petRoster: input.player2PetRoster,
   });
@@ -339,6 +350,7 @@ function restorePlayerFeatureState(
     skillLearning: decodeSkillLearning(source.skillLearning, level),
     equipmentLoadout: decodeEquipmentLoadout(source.equipment, equipmentRegistry),
     inventoryStore: decodeInventoryStore(source.inventory, equipmentRegistry, ownerSlot),
+    immortalityFlags: cloneImmortalityFlags(source.immortalityFlags),
     petRoster: decodePetRoster(source.pets, source.selectedPetIndex, ownerSlot),
   };
 }
@@ -365,6 +377,7 @@ function encodePlayerFeature(input: {
   skillLoadout?: HeroSkillLoadout;
   skillLearning?: HeroSkillLearningState;
   inventoryStore?: InventoryStore;
+  immortalityFlags?: ImmortalityFlags;
   equipmentLoadout?: EquipmentLoadout;
   petRoster?: PetRoster;
 }): PlayerFeatureSaveV6 {
@@ -377,6 +390,9 @@ function encodePlayerFeature(input: {
     skillLoadout: input.skillLoadout?.slots.map((binding) => binding ? { ...binding } : null) ?? defaults.skillLoadout,
     skillLearning: input.skillLearning ? cloneSkillLearning(input.skillLearning) : defaults.skillLearning,
     inventory: input.inventoryStore ? encodeInventoryStore(input.inventoryStore) : defaults.inventory,
+    immortalityFlags: input.immortalityFlags
+      ? cloneImmortalityFlags(input.immortalityFlags)
+      : defaults.immortalityFlags,
     equipment: input.equipmentLoadout ? encodeEquipmentLoadout(input.equipmentLoadout) : defaults.equipment,
     pets: input.petRoster?.pets.map(encodePet) ?? defaults.pets,
     selectedPetIndex: input.petRoster?.selectedIndex ?? defaults.selectedPetIndex,
@@ -396,6 +412,7 @@ function createDefaultPlayerFeatureSave(): PlayerFeatureSaveV6 {
       passiveSkills: [0, 0, 0, 0, 0],
     },
     inventory: createEmptyInventorySave(),
+    immortalityFlags: createEmptyImmortalityFlags(),
     equipment: encodeEquipmentLoadout(createEmptyEquipmentLoadout()),
     pets: [],
     selectedPetIndex: 0,
@@ -458,6 +475,7 @@ function migrateLegacyPlayerFeature(value: PlayerFeatureSaveV4): PlayerFeatureSa
     ...legacy,
     soulCount,
     skillLearning,
+    immortalityFlags: createEmptyImmortalityFlags(),
   };
 }
 
@@ -540,6 +558,7 @@ function sanitizePlayerFeatureSaveV6(value: PlayerFeatureSaveV6): PlayerFeatureS
     ...value,
     heroId: clampInteger(value.heroId, 1, 5),
     inventory: isValidInventorySave(value.inventory) ? value.inventory : createEmptyInventorySave(),
+    immortalityFlags: sanitizeImmortalityFlags(value.immortalityFlags),
   };
 }
 

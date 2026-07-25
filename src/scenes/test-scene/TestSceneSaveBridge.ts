@@ -144,7 +144,8 @@ export function saveSceneNow(this: any, storage?: SaveStorage): void {
   const player2 = this.playerViews.find((view: any) => view.slot === 'p2');
   const savedPlayer2 = this.savedPlayer2FeatureState;
   try {
-    const activeParty = loadActiveGame(activeStorage)?.party;
+    const activeSave = loadActiveGame(activeStorage);
+    const activeParty = activeSave?.party;
     const saved = saveActiveGame(activeStorage, createGameSave({
       party: activeParty,
       progression: player.progression,
@@ -152,6 +153,7 @@ export function saveSceneNow(this: any, storage?: SaveStorage): void {
       skillLoadout: player.skill.loadout,
       skillLearning: this.p1SkillLearning,
       inventoryStore: this.playerInventoryRuntimes.p1.store,
+      immortalityFlags: activeSave?.player1.immortalityFlags,
       equipmentLoadout: this.playerInventoryRuntimes.p1.loadout,
       petRoster: this.petRoster,
       player2Progression: player2?.progression ?? savedPlayer2?.progression,
@@ -159,6 +161,7 @@ export function saveSceneNow(this: any, storage?: SaveStorage): void {
       player2SkillLoadout: player2?.skill.loadout ?? savedPlayer2?.skillLoadout,
       player2SkillLearning: this.p2SkillLearning,
       player2InventoryStore: this.playerInventoryRuntimes.p2.store,
+      player2ImmortalityFlags: activeSave?.player2.immortalityFlags,
       player2EquipmentLoadout: this.playerInventoryRuntimes.p2.loadout,
       player2PetRoster: this.playerPetRosters.p2,
       levelUnlockProgress: this.levelUnlockProgress,

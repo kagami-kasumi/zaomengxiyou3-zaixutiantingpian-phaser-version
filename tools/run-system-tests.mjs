@@ -26,6 +26,7 @@ const bundledTests = requestedTests.length > 0
       'stage1-hud-tests',
       'save-slot-tests',
       'heaven-map-tests',
+      'immortality-tests',
       'feature-ui-host-tests',
       'feature-save-v4-tests',
       'party-save-tests',

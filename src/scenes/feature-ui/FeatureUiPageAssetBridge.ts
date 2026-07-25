@@ -15,7 +15,13 @@ export async function ensureFeatureUiPageAssets(
   const activeSave = storage ? loadActiveGame(storage) : undefined;
   const heroId = activeSave ? getPartyHeroId(activeSave.party, owner) : undefined;
   try {
-    await ensureSceneAssetBundle(scene, getFeatureUiAssetBundleId(page, heroId));
+    const fontReady = page === 'skills' && typeof document !== 'undefined'
+      ? document.fonts.load('16px "FZCuYuan-M03"')
+      : Promise.resolve([]);
+    await Promise.all([
+      ensureSceneAssetBundle(scene, getFeatureUiAssetBundleId(page, heroId)),
+      fontReady,
+    ]);
     return scene.scene.isActive();
   } catch {
     return false;

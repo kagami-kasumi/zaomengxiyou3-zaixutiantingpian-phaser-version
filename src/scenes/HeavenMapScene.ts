@@ -114,6 +114,11 @@ export class HeavenMapScene extends Phaser.Scene {
   private createMenuInteractions(): void {
     const saveZone = this.add.zone(0, 508, 62, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     saveZone.on('pointerdown', () => this.feedbackText?.setText('当前关卡进度已自动写回所选存档'));
+    const immortalityZone = this.add.zone(-1, 438, 68, 72).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
+    immortalityZone.on('pointerdown', () => void this.startMapService(
+      'ImmortalityScene',
+      '丹药页面',
+    ));
     const workshopZone = this.add.zone(132, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     workshopZone.on('pointerdown', () => void launchFormalFeatureUi(
       this,
@@ -152,6 +157,12 @@ export class HeavenMapScene extends Phaser.Scene {
     if (!node.routeKey) return;
     await startSceneWithBundle(this, node.routeKey, undefined, (status) => {
       this.showBundleStatus(status, node.title);
+    });
+  }
+
+  private async startMapService(sceneKey: string, label: string): Promise<void> {
+    await startSceneWithBundle(this, sceneKey, undefined, (status) => {
+      this.showBundleStatus(status, label);
     });
   }
 

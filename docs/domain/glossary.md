@@ -85,6 +85,8 @@
 | 合成配方 | `CraftingRecipe` | Config | Progression | 以三个无序材料 `fillName` 映射固定产物和灵魂消耗 | `FusionRecipe`, `SynthesisRecipe` |
 | 合成物品定义目录 | `CraftingItemDefinitionRegistry` | Config / Registry | Progression | 由 1.1 权威物品目录生成合成材料与产物的 `EquipmentDefinition` 集合；不等于正式掉落来源 | `FusionItemRegistry`, `CraftingItemCatalog` |
 | 合成系统 | `CraftingSystem` | System | Progression | 负责配方预览、门禁校验和材料/灵魂/产物的原子库存事务 | `FusionSystem`, `SynthesisSystem` |
+| 丹药成长状态 | `ImmortalityFlags` | Value Object / Save Data | Progression / Save | 每名玩家五类五阶丹药的 5×5 二值服用状态；背包物品、灵魂和玩家槽位仍由既有 owner 持有 | `PillList`, `ImmortalityList`, `ElixirState` |
+| 丹药系统 | `ImmortalitySystem` | System | Progression | 负责顺序解锁、服用、炼制、加成汇总和背包/灵魂原子事务；不创建页面私有库存 | `PillSystem`, `ElixirSystem` |
 | 装备系统 | `EquipmentSystem` | System | Progression | 管理装备槽位、角色限制和属性汇总 | `GearSystem`, `EquipSystem` |
 | 装备强化系统 | `EquipmentStrengtheningSystem` | System | Progression | 管理强化目标与材料暂存、概率/灵魂门禁、成功升级、失败降级和取消返还 | `GearUpgradeSystem`, `StrengthSystem` |
 | 装备分解系统 | `EquipmentResolutionSystem` | System | Progression | 管理分解目标暂存、100 灵魂门禁、可注入随机产物、原子提交和取消返还 | `DisassemblySystem`, `DecomposeSystem` |

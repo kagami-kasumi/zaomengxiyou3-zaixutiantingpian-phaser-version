@@ -8,6 +8,7 @@ import {
 } from '../../assets/AssetManifest';
 import {
   commitFormalSkillBinding,
+  formatFormalPassiveEffect,
   getFormalLearnedSkills,
   getFormalSkillOwners,
   getFormalSkillPlayer,
@@ -313,8 +314,22 @@ function renderPassive(
     ).setOrigin(0));
     const nextLevel = level + 1;
     objects.push(nativeText(scene, position.x + 89, position.y + 2.1, String(level), 58, 30));
-    objects.push(nativeText(scene, position.x + 172, position.y + 4.1, passiveEffect(index, level), 167, 30));
-    objects.push(nativeText(scene, position.x + 355.95, position.y + 4.75, passiveEffect(index, nextLevel), 180, 30));
+    objects.push(nativeText(
+      scene,
+      position.x + 172,
+      position.y + 4.1,
+      formatFormalPassiveEffect(index, level),
+      167,
+      30,
+    ));
+    objects.push(nativeText(
+      scene,
+      position.x + 355.95,
+      position.y + 4.75,
+      formatFormalPassiveEffect(index, nextLevel),
+      180,
+      30,
+    ));
     objects.push(nativeText(scene, position.x + 652.95, position.y - 0.95, String(nextLevel * 5000), 80, 30));
     if (level >= 5) return;
     renderNativeButton(scene, objects, 207, position.x + 567.95, position.y - 3.6, 48, 28, () => {
@@ -322,14 +337,6 @@ function renderPassive(
       runSaved(upgradeFormalPassiveSkill(model, storage), callbacks);
     });
   });
-}
-
-function passiveEffect(index: number, level: number): string {
-  if (level <= 0) return '----';
-  if (index < 2) return String(level * 100);
-  if (index === 2) return `${level}%`;
-  if (index === 3) return String(Math.trunc(level * 3));
-  return String(level);
 }
 
 function renderNativeButton(
@@ -368,7 +375,7 @@ function nativeText(
 ): Phaser.GameObjects.Text {
   return scene.add.text(x, y, value, {
     color: '#ffffff',
-    fontFamily: '"Microsoft YaHei", sans-serif',
+    fontFamily: '"FZCuYuan-M03"',
     fontSize: '16px',
     align,
     fixedWidth: width,

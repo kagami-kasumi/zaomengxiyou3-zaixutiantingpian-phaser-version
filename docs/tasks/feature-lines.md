@@ -30,7 +30,7 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-155A | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 背包前置已闭合；当前只实现丹药页原生 UI、P1/P2 事务和 V6 接线 | `GOAL-045 / TASK-SLICE-155A` 为唯一 Active |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-155B | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 丹药页已闭合；当前只实现商城原生 UI、离线灵魂购买和本地存档接线 | `GOAL-046 / TASK-SLICE-155B` 为唯一 Active |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `GOAL-025` 保留为 Planned；既有任务定义不丢失 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 
@@ -49,6 +49,8 @@
 2026-07-25 `TASK-SETTINGS-070` 已归档：原版 433 次注册经真实反向查找优先级归并为 431 个有效稳定身份，覆盖装备 164、道具 235、时装 20、技能书 12，以及 184 个实例和 247 个堆叠条目；428 项精确真图标、`wc/fmtstx/scwpqhs5` 三项原版缺陷、容量/存档语义及各共享消费者均落入机器目录。现代覆盖仍为 201/431，功能线不关闭，当前推进 `GOAL-050 / TASK-SLICE-160`。
 
 2026-07-25 `TASK-SLICE-160` 已归档：431 项统一 definition registry、428 项真图标懒加载、3 项原版缺陷排除、四分类 5×25、实例/99 堆叠、满包原子事务、P1/P2 owner、V6 兼容/拒损与正式原生背包均闭合。功能线继续 Active，当前恢复 `GOAL-045 / TASK-SLICE-155A`。
+
+2026-07-25 `TASK-SLICE-155A` 已归档：character 990/969/1006、四类按钮状态、五 owner、25 格与真丹药图标按原显示列表接入；五类五阶服用、五配方炼制、灵魂/材料/容量拒绝、5% 炼制失败、P1/P2 隔离、V6 标志迁移和活动槽即时保存均通过专项与 940×590 逐状态验收。功能线继续 Active，当前激活 `GOAL-046 / TASK-SLICE-155B`。
 
 2026-07-25 `TASK-SETTINGS-066A` 已闭合丹药页完整显示列表、按钮状态、五类五阶、五配方、拒绝态、P1/P2 owner 和存档边界，详见 `immortality-ui-index.md`。功能线不关闭，转入 `GOAL-042 / TASK-SETTINGS-066B`。
 
@@ -93,6 +95,8 @@
 2026-07-24 用户再次指出字体、字号和位置仍未对齐；复验确认仅声明 `FZCuYuan-M03` 会回退到浏览器系统字体，Canvas 基线/字宽也不等于 Flash。共享余额现直接使用 DefineEditText 103 的嵌入 0–9 矢量轮廓及原版缩放、基线、advance 和右对齐，技能/工坊 940×590 证据已更新；Stage 2-3 继续保持 Active。
 
 2026-07-24 用户反馈指出五角色两棵心法的 10 张选择器图片全部缺失。复核确认 `TASK-SLICE-154` 只留下 character 597/608 的透明命中区；现已补齐各 5 帧真资源、角色映射、原坐标渲染、bundle 防复发门禁与 940×590 零 console 证据。该窄修复不改技能规则/存档/owner，不重开正式主循环，`LINE-STAGE-2-3 / GOAL-025 / TASK-SETTINGS-064` 继续保持 Active。
+
+2026-07-25 用户指出被动技能页表头为空且效果列只有裸数值。复核 character 213/212 与 `PassiveSkill.analy()` 后确认：原版黑色表头区确无文字，但当前/下级效果原本应显示完整属性说明。首轮补六列表头的现代例外被用户复验否决；最终恢复原版空表头、完整效果文案和 SWF 内嵌 `FZCuYuan-M03`，技能页进入前等待原字体加载。专项、build、workflow 与单人 940×590 零 console 通过；不改变技能规则、存档或当前 Active 功能线。
 
 本线按依赖顺序推进：战斗死亡原因/攻击可读性/数值合同 → 可稳定通关的战斗切片 → 核心战斗 HUD → 启动与存档槽 → 天庭地图/关卡解锁 → 背包、宠物等完整功能 UI。每一步仍拆为小 task；不得用某个最小 HUD 或存档切片越级关闭整线。
 

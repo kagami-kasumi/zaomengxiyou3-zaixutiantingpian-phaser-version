@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-155A | 丹药页实现 | 接入原生丹药页、P1/P2 五类五阶服用/炼制与 V6 本地存档 | M-037、M-044、M-052、VS-059、VS-064 | 990/969/1006 原生显示列表、五 owner、25 真图标、原子事务/拒绝态、5×5 标志迁移、共享懒加载 bundle 与 940×590 逐状态证据 |
 | TASK-SLICE-160 | 完整背包资源基础 | 将 431 项权威目录接入正式背包、双 owner 原子事务和 V6 存档 | M-035、M-036、M-037、M-044、M-052、VS-064 | 431 definition、428 真图标懒加载、3 缺陷排除、四分类 5×25、实例/99 堆叠、满包原子回滚、P1/P2/V6 与 940×590 原生 UI 证据 |
 | TASK-SETTINGS-070 | 背包资源全集证据 | 闭合原版 1.1 四分类可入包资源、真图标、容量与存档语义权威目录 | M-035、M-036、M-037、M-044、M-052、VS-064 | `inventory-resource-catalog.md`、431 项机器目录、428 项精确图标 provenance、3 项原版缺陷、生产者/消费者与 `TASK-SLICE-160` 实现合同 |
 | TASK-SETTINGS-066D | 地图服务 UI 逆向 | 闭合任务页 43 日常、4 活动定义、进度/奖励/跨日保存与真 UI 状态 | M-044、M-046、M-052、VS-059 | `task-ui-index.md`、character 85 完整显示列表、13 条资源标注、活动空页反证、原版瑕疵与 `TASK-SLICE-155D` 实现合同 |
@@ -4961,6 +4962,30 @@
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
 
+### TASK-SLICE-155A
+
+- 完成日期：2026-07-25
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-155B`）
+- 直接消费 `immortality-ui-index.md` 的六段矩阵和 `TASK-SLICE-160` 统一物品目录/事务，接入 character 990 根、969 单格、1006 炼制层、968/973/989/997 四态按钮和五职业 owner 两帧。
+- 实现五类五阶顺序服用、五种炼制配方、1000 灵魂消耗、5% 炼制失败，以及灵魂/材料/容量不足的原子拒绝；保留原版炼制后根页不自动刷新瑕疵。
+- 双人存档默认 P2，P1/P2 的灵魂、背包和 5×5 `immortalityFlags` 独立；V6 缺失/非法标志安全迁移，成功事务立即写回活动槽。
+- 天庭地图丹药入口与返回正式接线；25 个丹药图标由背包/丹药共享 bundle 唯一持有，Boot 不回填，最终冷进入约 1.35 秒且 console error/warning 为 0。
+- 940×590 证据覆盖 normal、hover/pressed、selected、炼制弹窗、材料拒绝、双 owner 与返回；稳定区域差异为 7.651%，未见整体位移、缩放错误、静态对象缺失或现代覆盖层。
+
+更新文件：
+- `src/systems/ImmortalitySystem.ts`、`FormalImmortalityPageSystem.ts`、`SaveSystem.ts` 及既有正式页面保存适配
+- `src/scenes/ImmortalityScene.ts`、`HeavenMapScene.ts`、`src/assets/AssetManifest.ts`、`SceneAssetBundles.ts`
+- `public/assets/ui/map-services/immortality/`、生成器、专项/资源门禁与视觉证据
+- 机制、切片、功能线、Goal、标注和 PG 台账
+
+验证：
+- `npm run test:immortality`、`npm run test:asset-bundles`、`npm run test:systems` 与 `npm run build` 通过；Vite 仅保留既有 chunk 大小 warning。
+- 940×590 正式浏览器验收与新会话冷进入通过，console error/warning 为 0。
+- 实际发生 1 次 compact；发生时实现、资源、浏览器证据、专项、全系统与 build 已完成，之后按 PG-008 只做受控收尾。
+
+推荐任务：
+- `GOAL-046 / TASK-SLICE-155B`：只消费既有商城证据，实现原生 UI、离线灵魂购买和本地存档接线。
+
 ### TASK-SLICE-160
 
 - 完成日期：2026-07-25
@@ -5274,6 +5299,7 @@
 - `npm run build`、`npm run check:structure`、`npm run check:workflow`、`git diff --check` 通过；build 仅保留既有大 chunk warning。
 - 940×590 正式地图验收白龙单人、唐僧/白龙双人 P1/P2 与被动页；首次进入/首次切角色约 1.0–1.2 秒，console warning/error 为 0。
 - 后续用户反馈发现 character 597/608 两个 65×65 心法选择器只剩透明命中区；已从只读 `OtherMat1.swf` 选择性导出各 5 帧并按角色接回原坐标。`test:asset-bundles`、build、diff check 与 940×590 悟空“斩 / 火”双图零 console 复验通过。
+- 2026-07-25 用户继续指出被动页空表头与效果裸数值。复核确认 character 213 原版表头区确为空，而 `PassiveSkill.analy()` 原本输出完整属性说明。首轮补六列表头的现代例外被用户否决；最终恢复空表头、完整效果文案和 SWF 内嵌 `FZCuYuan-M03`，技能页进入前等待原字体加载。专项、build、workflow、diff check 与单人 940×590 零 console 复验通过。
 
 推荐任务：
 

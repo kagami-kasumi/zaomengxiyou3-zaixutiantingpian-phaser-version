@@ -6,6 +6,7 @@ import {
   bindFormalSkill,
   commitFormalSkillBinding,
   createFormalSkillPage,
+  formatFormalPassiveEffect,
   getFormalSkillEntryPlayerCount,
   getFormalSkillPlayer,
   getFormalSkillOwners,
@@ -189,6 +190,11 @@ function testTrueSkillAssets(): void {
   const scene = readFileSync(path.join(root, 'src/scenes/FeatureUiScene.ts'), 'utf8');
   const view = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalSkillPageView.ts'), 'utf8');
   const entry = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts'), 'utf8');
+  const pageAssets = readFileSync(path.join(
+    root,
+    'src/scenes/feature-ui/FeatureUiPageAssetBridge.ts',
+  ), 'utf8');
+  const styles = readFileSync(path.join(root, 'src/styles.css'), 'utf8');
   const activeBase = readFileSync(path.join(
     root, 'public/assets/ui/feature/skills/native/base/skill-active.svg',
   ), 'utf8');
@@ -206,6 +212,14 @@ function testTrueSkillAssets(): void {
   assert.match(view, /P1技能|owner\.toUpperCase\(\)/);
   assert.match(view, /treeNameText/);
   assert.match(view, /createFormalSoulBalanceView\(scene, player\.soulCount, 'skills'\)/);
+  assert.match(view, /fontFamily: '"FZCuYuan-M03"'/);
+  assert.doesNotMatch(view, /PassiveTableHeaders|被动技能.*当前等级.*当前效果/);
+  assert.match(pageAssets, /document\.fonts\.load\('16px "FZCuYuan-M03"'\)/);
+  assert.match(styles, /@font-face[\s\S]*font-family: "FZCuYuan-M03"/);
+  assert.ok(existsSync(path.join(
+    root,
+    'public/assets/fonts/FZCuYuan-M03.ttf',
+  )));
   assert.doesNotMatch(activeBase, /id="(?:xf1mc|xf2mc|mainskillmc|xfname1|xfname2|upGradebtn)"/);
   assert.doesNotMatch(passiveBase, /id="pskill[1-5]"/);
   for (const characterId of [207, 240, 244, 248, 337, 580, 638]) {
@@ -219,16 +233,27 @@ function testTrueSkillAssets(): void {
     }
   }
   for (const frame of [1, 2, 3, 4, 5]) {
-    assert.ok(existsSync(path.join(
+    const passiveRowPath = path.join(
       root,
       'public/assets/ui/feature/skills/native/sprites/212',
       `${frame}.svg`,
-    )));
+    );
+    assert.ok(existsSync(passiveRowPath));
+    assert.doesNotMatch(readFileSync(passiveRowPath, 'utf8'), /id="btn"/);
   }
   assert.match(entry, /getPartyHeroId\(config\.party, owner\)/);
   assert.doesNotMatch(view, /callbacks\.playerCount/);
   assert.match(stage12, /FormalSkillsUpdatedEvent/);
   assert.match(stage13, /FormalSkillsUpdatedEvent/);
+}
+
+function testPassiveEffectDescriptions(): void {
+  assert.equal(formatFormalPassiveEffect(0, 1), '生命上限增加 100');
+  assert.equal(formatFormalPassiveEffect(1, 2), '魔法上限增加 200');
+  assert.equal(formatFormalPassiveEffect(2, 3), '暴击率增加 3 %');
+  assert.equal(formatFormalPassiveEffect(3, 4), '每秒回血增加 12');
+  assert.equal(formatFormalPassiveEffect(4, 5), '每秒回魔增加 5');
+  assert.equal(formatFormalPassiveEffect(0, 0), '----');
 }
 
 testTreeLearnUpgradeBindPassiveAndReload();
@@ -237,4 +262,5 @@ testInsufficientSoulRejectsWithoutMutation();
 testPartyDrivenOwnerAndHeroFiltering();
 testHudSyncKeepsStableOwnerSlot();
 testTrueSkillAssets();
+testPassiveEffectDescriptions();
 console.log('Formal skill trees, binding, passive, owner, save, and true asset tests passed.');

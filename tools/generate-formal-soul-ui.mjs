@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
@@ -29,6 +29,22 @@ const digitAtlasPath = path.join(
   'shared',
   'soul-digits.svg',
 );
+const fontSourcePath = path.join(
+  root,
+  'local-resources',
+  'regima',
+  'task-outputs',
+  'formal-soul-ui-original',
+  'font',
+  '25_FZCuYuan-M03.ttf',
+);
+const fontOutputPath = path.join(
+  root,
+  'public',
+  'assets',
+  'fonts',
+  'FZCuYuan-M03.ttf',
+);
 
 const source = readFileSync(sourcePath, 'utf8');
 const cleaned = source.replace(/^\s*<use[^>]*\sid="txtlh"[^>]*\/>\r?\n/m, '');
@@ -58,4 +74,6 @@ mkdirSync(path.dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, cleaned);
 mkdirSync(path.dirname(digitAtlasPath), { recursive: true });
 writeFileSync(digitAtlasPath, digitAtlas);
-console.log('Generated the original workshop root and shared FZCuYuan soul digit atlas.');
+mkdirSync(path.dirname(fontOutputPath), { recursive: true });
+copyFileSync(fontSourcePath, fontOutputPath);
+console.log('Generated the original workshop root, shared soul digits, and FZCuYuan font.');

@@ -64,7 +64,7 @@ for (const directory of readdirSync(spriteSource, { withFileTypes: true })) {
         targetPath,
         stripDynamicFields(
           readFileSync(sourcePath, 'utf8'),
-          ['wantlh', 'curslevel', 'attvalue', 'lastvalue'],
+          ['wantlh', 'curslevel', 'attvalue', 'lastvalue', 'btn'],
         ),
       );
     } else {

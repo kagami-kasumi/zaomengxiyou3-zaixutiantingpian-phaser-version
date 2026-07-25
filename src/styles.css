@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "FZCuYuan-M03";
+  src: url("/assets/fonts/FZCuYuan-M03.ttf") format("truetype");
+  font-display: block;
+}
+
 html,
 body {
   width: 100%;

@@ -4,6 +4,7 @@ import {
   fullFeatureUiAssets,
   getSkillNativeHeroUiAssets,
   heavenMapAssets,
+  immortalityUiAssets,
   pickupAssets,
   role1NormalAttackAssets,
   savePartyAssets,
@@ -29,6 +30,8 @@ export type AssetBundleId =
   | 'shell'
   | 'save-party'
   | 'heaven-map'
+  | 'inventory-items-immortality'
+  | 'map-service-immortality'
   | 'feature-ui'
   | 'feature-ui-backpack'
   | 'feature-ui-skills-common'
@@ -99,6 +102,20 @@ const svgs = (asset: FrameSequenceAsset): readonly BundleAssetDefinition[] =>
 const shellAssets = Object.values(saveSlotAssets).map(svg);
 const savePartyBundleAssets = Object.values(savePartyAssets).map(image);
 const heavenMapBundleAssets = Object.values(heavenMapAssets).map(svg);
+const immortalityPillFillNames = new Set(
+  ['wpsmd', 'wpmfd', 'wpbjd', 'wphxd', 'wphld']
+    .flatMap((prefix) => Array.from({ length: 5 }, (_, index) => `${prefix}${index + 1}`)),
+);
+const immortalityPillAssets = [...immortalityPillFillNames]
+  .map((fillName) => image(inventoryItemAssets[fillName]!));
+const immortalityBundleAssets = [
+  svg(immortalityUiAssets.root),
+  svg(immortalityUiAssets.exchange),
+  ...Object.values(immortalityUiAssets.buttons).flatMap((button) =>
+    Object.values(button).map(image)),
+  ...Object.values(immortalityUiAssets.owners).flatMap((owner) =>
+    Object.values(owner).map(svg)),
+];
 const skillBaseAssets = [
   fullFeatureUiAssets.skillHub,
   fullFeatureUiAssets.skillActive,
@@ -172,17 +189,27 @@ export const sceneAssetBundles = {
     dependencies: ['shell'],
     assets: heavenMapBundleAssets,
   },
+  'inventory-items-immortality': {
+    dependencies: [],
+    assets: immortalityPillAssets,
+  },
+  'map-service-immortality': {
+    dependencies: ['shell', 'inventory-items-immortality'],
+    assets: immortalityBundleAssets,
+  },
   'feature-ui': {
     dependencies: [],
     assets: [svg(fullFeatureUiAssets.soulDigits)],
   },
   'feature-ui-backpack': {
-    dependencies: ['feature-ui'],
+    dependencies: ['feature-ui', 'inventory-items-immortality'],
     assets: [
       svg(fullFeatureUiAssets.backpack),
       svg(fullFeatureUiAssets.backpackGrid),
       ...inventoryUiAssetList.map(image),
-      ...Object.values(inventoryItemAssets).map(image),
+      ...Object.entries(inventoryItemAssets)
+        .filter(([fillName]) => !immortalityPillFillNames.has(fillName))
+        .map(([, asset]) => image(asset)),
     ],
   },
   'feature-ui-skills-common': {
@@ -258,6 +285,7 @@ export const sceneAssetBundles = {
 export const sceneBundleBySceneKey = {
   SaveSlotScene: 'shell',
   HeavenMapScene: 'heaven-map',
+  ImmortalityScene: 'map-service-immortality',
   FeatureUiScene: 'feature-ui',
   TestScene: 'stage-11',
   Stage12Scene: 'stage-12',

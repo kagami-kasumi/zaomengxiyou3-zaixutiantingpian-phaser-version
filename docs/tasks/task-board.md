@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-155A` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。背包前置已闭合；下一次 `/goal` 只实现丹药页原生 UI、P1/P2 炼制/服用事务与 V6 接线。
+`TASK-SLICE-155B` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。丹药页已闭合；下一次 `/goal` 只实现商城原生 UI、离线灵魂购买与本地存档接线。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-155A | Ready | GOAL-045 | LINE-PRE-STAGE-2-3-COMPLETION | 丹药页实现 | 接入原生丹药页、P1/P2 炼制/服用与本地存档 | M-037、M-044、M-052、VS-059、VS-064 | 可玩页面、自动门禁与 940×590 逐状态证据 | TASK-SLICE-155B |
-| TASK-SLICE-155B | Planned | GOAL-046 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页实现 | 接入原生商城与离线灵魂购买，不伪造在线服务 | M-044、M-046、M-052、VS-059 | 可玩页面、事务/重载门禁与逐状态证据 | TASK-SLICE-155C |
+| TASK-SLICE-155B | Ready | GOAL-046 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页实现 | 接入原生商城与离线灵魂购买，不伪造在线服务 | M-044、M-046、M-052、VS-059 | 可玩页面、事务/重载门禁与逐状态证据 | TASK-SLICE-155C |
 | TASK-SLICE-155C | Planned | GOAL-047 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页实现 | 接入原生设置 overlay 与获批的现代持久化边界 | M-035、M-044、M-052、VS-059 | 可玩 overlay、会话/重载门禁与逐状态证据 | TASK-SLICE-155D |
 | TASK-SLICE-155D | Planned | GOAL-048 | LINE-PRE-STAGE-2-3-COMPLETION | 任务页实现 | 接入原生任务页、进度/奖励与跨日存档 | M-044、M-046、M-052、VS-059 | 可玩页面、领取/跨日门禁与逐状态证据 | TASK-SETTINGS-067 |
 | TASK-SETTINGS-067 | Planned | GOAL-038 | LINE-PRE-STAGE-2-3-COMPLETION | 关卡功能入口逆向 | 闭合设置、技能、背包、法宝、宠物五入口的原版状态与共享 host 差异 | M-016、M-035、M-043、M-052、VS-060 | 显示列表、暂停/owner/返回合同与实现拆分 | 拆分 TASK-SLICE-156 |
@@ -274,9 +273,9 @@ UI 原生化合同：
 
 推荐后续任务：
 
-- 四个服务页证据与 `TASK-SETTINGS-070 / TASK-SLICE-160` 背包前置均已闭合；当前执行 `TASK-SLICE-155A`。
+- 四个服务页证据、背包前置和丹药页实现均已闭合；当前执行 `TASK-SLICE-155B`。
 
-### TASK-SLICE-155A
+### TASK-SLICE-155B
 
 任务类型：
 
@@ -288,72 +287,7 @@ UI 原生化合同：
 
 Goal 包：
 
-- `GOAL-045`（Active）
-
-目标机制/切片：
-
-- `M-037`、`M-044`、`M-052`、`VS-059`、`VS-064`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若实现仍需新增独立 inventory/save owner，或发现丹药材料/产物不在已闭合的权威目录中，退回 `TASK-SLICE-160` 的缺口治理并拆同线 task，不在页面 Goal 内扩张。
-
-输入资料：
-
-- `TASK-SETTINGS-066A`、已归档的 `TASK-SLICE-160`、`inventory-resource-catalog.md`、`map-service-ui-index.md` 与 `map-service.immortality`。
-
-输出产物：
-
-- 丹药页原生显示列表、P1/P2 选择、服用/炼制事务与现有 V6 本地存档接线。
-
-完成定义：
-
-- 只消费已闭合的 `TASK-SETTINGS-066A` 页面证据、`TASK-SLICE-160` 统一物品目录/背包事务和 `map-service.immortality` 资源，不在实现期补猜逆向事实或另造页面私有库存。
-- 正式地图进入/返回、五类五阶、所有成功/拒绝态、P1/P2 隔离和重载保持通过。
-
-UI 原生化合同：
-
-- 显示列表清单：直接组合原根、按钮、文字与动态 child。
-- 原版视觉基准：对应页面 940×590 原 SWF 逐状态基准。
-- 允许的现代视觉例外：默认无。
-- 逐状态验收：normal/hover/pressed/selected、炼制弹窗、余额、双 owner 与返回。
-- 差异证据：并排/叠图和对象差异清单。
-
-验收标准：
-
-- 专项、全系统、structure、build、annotations、workflow、diff check 与浏览器逐状态证据通过。
-
-禁止范围：
-
-- 不修改原配方/概率/数值，不重做存档 schema，不进入商城/设置/任务。
-
-状态更新：
-
-- 完成后归档本 task/Goal，激活 `TASK-SLICE-155B`，更新 VS-059、本线覆盖与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SLICE-155B`。
-
-### TASK-SLICE-155B
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
-
-Goal 包：
-
-- `GOAL-046`（Planned）
+- `GOAL-046`（Active）
 
 目标机制/切片：
 

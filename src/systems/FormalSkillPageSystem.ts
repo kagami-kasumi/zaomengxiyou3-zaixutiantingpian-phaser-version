@@ -266,6 +266,16 @@ export function formatFormalSkillSummary(model: FormalSkillPageModel): string[] 
   ];
 }
 
+export function formatFormalPassiveEffect(slotIndex: number, level: number): string {
+  if (level <= 0) return '----';
+  if (slotIndex === 0) return `生命上限增加 ${level * 100}`;
+  if (slotIndex === 1) return `魔法上限增加 ${level * 100}`;
+  if (slotIndex === 2) return `暴击率增加 ${level} %`;
+  if (slotIndex === 3) return `每秒回血增加 ${Math.trunc(level * 3)}`;
+  if (slotIndex === 4) return `每秒回魔增加 ${Math.trunc(level)}`;
+  return '----';
+}
+
 function getActiveTreeIndex(model: FormalSkillPageModel): 0 | 1 | undefined {
   if (model.activeTab === 'tree1') return 0;
   if (model.activeTab === 'tree2') return 1;
@@ -294,6 +304,7 @@ function persistFormalSkillPage(model: FormalSkillPageModel, storage: SaveStorag
     skillLoadout: player1.skillLoadout,
     skillLearning: player1.skillLearning,
     inventoryStore: player1.inventoryStore,
+    immortalityFlags: player1.immortalityFlags,
     equipmentLoadout: player1.equipmentLoadout,
     petRoster: player1.petRoster,
     player2Progression: player2.progression,
@@ -301,6 +312,7 @@ function persistFormalSkillPage(model: FormalSkillPageModel, storage: SaveStorag
     player2SkillLoadout: player2.skillLoadout,
     player2SkillLearning: player2.skillLearning,
     player2InventoryStore: player2.inventoryStore,
+    player2ImmortalityFlags: player2.immortalityFlags,
     player2EquipmentLoadout: player2.equipmentLoadout,
     player2PetRoster: player2.petRoster,
     levelUnlockProgress: model.sourceSave.levelUnlockProgress,
