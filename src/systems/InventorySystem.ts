@@ -41,6 +41,21 @@ export type InventoryConsumeResult = {
   after: number;
 };
 
+export const InventoryStackQuantityLimit = 99;
+
+export type InventoryTransactionOperation =
+  | Readonly<{ kind: 'add-resource'; fillName: string; quantity: number }>
+  | Readonly<{ kind: 'add-instance'; definition: EquipmentDefinition }>
+  | Readonly<{ kind: 'add-stack'; definition: EquipmentDefinition; quantity: number }>
+  | Readonly<{ kind: 'consume-stack'; fillName: string; quantity: number }>
+  | Readonly<{ kind: 'remove-instance'; instanceId: string }>;
+
+export type InventoryTransactionResult = Readonly<{
+  ok: boolean;
+  message: string;
+  createdInstanceIds: readonly string[];
+}>;
+
 export const InventoryCategoryLabels: Record<InventoryCategory, string> = {
   equipment: '装备',
   items: '道具',
@@ -70,6 +85,35 @@ export function createInventoryStore(
       skillBooks: [],
     },
   };
+}
+
+export function applyInventoryTransaction(
+  store: InventoryStore,
+  registry: Readonly<Record<string, EquipmentDefinition>>,
+  operations: readonly InventoryTransactionOperation[],
+): InventoryTransactionResult {
+  const draft = cloneInventoryStore(store);
+  const createdInstanceIds: string[] = [];
+  for (const operation of operations) {
+    const error = applyInventoryOperation(draft, registry, operation, createdInstanceIds);
+    if (error) return { ok: false, message: error, createdInstanceIds: [] };
+  }
+  store.capacityPerCategory = draft.capacityPerCategory;
+  store.nextEquipmentInstanceId = draft.nextEquipmentInstanceId;
+  store.equipmentInstanceIdPrefix = draft.equipmentInstanceIdPrefix;
+  store.categories = reconcileInventoryDraft(store, draft);
+  return { ok: true, message: '背包事务完成', createdInstanceIds };
+}
+
+export function addInventoryResource(
+  store: InventoryStore,
+  registry: Readonly<Record<string, EquipmentDefinition>>,
+  fillName: string,
+  quantity = 1,
+): InventoryTransactionResult {
+  return applyInventoryTransaction(store, registry, [
+    { kind: 'add-resource', fillName, quantity },
+  ]);
 }
 
 export function createSeedInventoryStore(
@@ -152,11 +196,13 @@ export function addEquipmentDefinition(
   store: InventoryStore,
   definition: EquipmentDefinition,
 ): EquipmentInstance | undefined {
-  const category = getInventoryCategoryForDefinition(definition);
-  if (store.categories[category].length >= store.capacityPerCategory) return undefined;
-  const instance = createEquipmentInstance(store, definition);
-  store.categories[category].push(instance);
-  return instance;
+  const result = applyInventoryTransaction(
+    store,
+    { [definition.fillName]: definition },
+    [{ kind: 'add-instance', definition }],
+  );
+  if (!result.ok) return undefined;
+  return findEquipmentInstance(store, result.createdInstanceIds[0] ?? '');
 }
 
 export function addStackByFillName(
@@ -169,29 +215,11 @@ export function addStackByFillName(
   if (!definition || quantity <= 0) {
     return undefined;
   }
-
-  const category = getInventoryCategoryForDefinition(definition);
-  const existing = store.categories[category].find(
-    (entry): entry is InventoryItemStack =>
-      entry.kind === 'stack' && entry.definition.fillName === fillName,
-  );
-  if (existing) {
-    existing.quantity += quantity;
-    return existing;
-  }
-
-  if (store.categories[category].length >= store.capacityPerCategory) {
-    return undefined;
-  }
-
-  const stack: InventoryItemStack = {
-    kind: 'stack',
-    stackId: `stack-${fillName}`,
-    definition,
-    quantity,
-  };
-  store.categories[category].push(stack);
-  return stack;
+  const result = applyInventoryTransaction(store, registry, [
+    { kind: 'add-stack', definition, quantity },
+  ]);
+  if (!result.ok) return undefined;
+  return findInventoryStack(store, fillName);
 }
 
 export function consumeStackByFillName(
@@ -202,42 +230,21 @@ export function consumeStackByFillName(
   if (quantity <= 0) {
     return { ok: false, message: '消耗数量无效', before: 0, after: 0 };
   }
-
-  for (const category of InventoryCategories) {
-    const entries = store.categories[category];
-    const index = entries.findIndex((entry): entry is InventoryItemStack =>
-      entry.kind === 'stack' && entry.definition.fillName === fillName
-    );
-    if (index < 0) {
-      continue;
-    }
-
-    const stack = entries[index] as InventoryItemStack;
-    const before = stack.quantity;
-    if (before < quantity) {
-      return {
-        ok: false,
-        message: `${stack.definition.name} 数量不足`,
-        before,
-        after: before,
-      };
-    }
-
-    stack.quantity -= quantity;
-    const after = stack.quantity;
-    if (stack.quantity <= 0) {
-      entries.splice(index, 1);
-    }
-
-    return {
-      ok: true,
-      message: `消耗 ${stack.definition.name} x${quantity}`,
-      before,
-      after,
-    };
-  }
-
-  return { ok: false, message: `${fillName} 不在背包中`, before: 0, after: 0 };
+  const stack = findInventoryStack(store, fillName);
+  if (!stack) return { ok: false, message: `${fillName} 不在背包中`, before: 0, after: 0 };
+  const before = stack.quantity;
+  const result = applyInventoryTransaction(
+    store,
+    { [fillName]: stack.definition },
+    [{ kind: 'consume-stack', fillName, quantity }],
+  );
+  if (!result.ok) return { ok: false, message: result.message, before, after: before };
+  return {
+    ok: true,
+    message: `消耗 ${stack.definition.name} x${quantity}`,
+    before,
+    after: getStackQuantityByFillName(store, fillName),
+  };
 }
 
 export function getStackQuantityByFillName(
@@ -377,6 +384,154 @@ function findEquipmentInstance(
     if (found) {
       return found;
     }
+  }
+  return undefined;
+}
+
+function findInventoryStack(
+  store: InventoryStore,
+  fillName: string,
+): InventoryItemStack | undefined {
+  for (const category of InventoryCategories) {
+    const stack = store.categories[category].find(
+      (entry): entry is InventoryItemStack =>
+        entry.kind === 'stack' && entry.definition.fillName === fillName,
+    );
+    if (stack) return stack;
+  }
+  return undefined;
+}
+
+function cloneInventoryStore(store: InventoryStore): InventoryStore {
+  return {
+    capacityPerCategory: store.capacityPerCategory,
+    nextEquipmentInstanceId: store.nextEquipmentInstanceId,
+    equipmentInstanceIdPrefix: store.equipmentInstanceIdPrefix,
+    categories: Object.fromEntries(InventoryCategories.map((category) => [
+      category,
+      store.categories[category].map((entry) => entry.kind === 'stack' ? { ...entry } : entry),
+    ])) as InventoryStore['categories'],
+  };
+}
+
+function reconcileInventoryDraft(
+  original: InventoryStore,
+  draft: InventoryStore,
+): InventoryStore['categories'] {
+  return Object.fromEntries(InventoryCategories.map((category) => [
+    category,
+    draft.categories[category].map((entry) => {
+      if (entry.kind === 'equipment') return entry;
+      const existing = original.categories[category].find(
+        (candidate): candidate is InventoryItemStack =>
+          candidate.kind === 'stack' && candidate.stackId === entry.stackId,
+      );
+      if (!existing) return entry;
+      existing.quantity = entry.quantity;
+      return existing;
+    }),
+  ])) as InventoryStore['categories'];
+}
+
+function applyInventoryOperation(
+  store: InventoryStore,
+  registry: Readonly<Record<string, EquipmentDefinition>>,
+  operation: InventoryTransactionOperation,
+  createdInstanceIds: string[],
+): string | undefined {
+  if (operation.kind === 'add-resource') {
+    if (!Number.isInteger(operation.quantity) || operation.quantity <= 0) return '增加数量无效';
+    const definition = registry[operation.fillName];
+    if (!definition) return `${operation.fillName} 不在权威物品目录中`;
+    const category = getInventoryCategoryForDefinition(definition);
+    const isStack = category === 'items' || category === 'skillBooks';
+    return applyInventoryOperation(
+      store,
+      registry,
+      isStack
+        ? { kind: 'add-stack', definition, quantity: operation.quantity }
+        : { kind: 'add-instance', definition },
+      createdInstanceIds,
+    ) ?? (
+      !isStack && operation.quantity > 1
+        ? addRemainingInstances(store, registry, definition, operation.quantity - 1, createdInstanceIds)
+        : undefined
+    );
+  }
+  if (operation.kind === 'add-instance') {
+    const category = getInventoryCategoryForDefinition(operation.definition);
+    if (store.categories[category].length >= store.capacityPerCategory) {
+      return `${InventoryCategoryLabels[category]}容量不足`;
+    }
+    const instance = createEquipmentInstance(store, operation.definition);
+    store.categories[category].push(instance);
+    createdInstanceIds.push(instance.instanceId);
+    return undefined;
+  }
+  if (operation.kind === 'add-stack') {
+    if (!Number.isInteger(operation.quantity) || operation.quantity <= 0) return '增加数量无效';
+    const category = getInventoryCategoryForDefinition(operation.definition);
+    const existing = findInventoryStack(store, operation.definition.fillName);
+    if (existing) {
+      if (existing.quantity + operation.quantity > InventoryStackQuantityLimit) {
+        return `${operation.definition.name} 已达到堆叠上限`;
+      }
+      existing.quantity += operation.quantity;
+      return undefined;
+    }
+    if (store.categories[category].length >= store.capacityPerCategory) {
+      return `${InventoryCategoryLabels[category]}容量不足`;
+    }
+    if (operation.quantity > InventoryStackQuantityLimit) {
+      return `${operation.definition.name} 超过堆叠上限`;
+    }
+    store.categories[category].push({
+      kind: 'stack',
+      stackId: `stack-${operation.definition.fillName}`,
+      definition: operation.definition,
+      quantity: operation.quantity,
+    });
+    return undefined;
+  }
+  if (operation.kind === 'consume-stack') {
+    if (!Number.isInteger(operation.quantity) || operation.quantity <= 0) return '消耗数量无效';
+    const stack = findInventoryStack(store, operation.fillName);
+    if (!stack) return `${operation.fillName} 不在背包中`;
+    if (stack.quantity < operation.quantity) return `${stack.definition.name} 数量不足`;
+    stack.quantity -= operation.quantity;
+    if (stack.quantity === 0) {
+      const category = getInventoryCategoryForDefinition(stack.definition);
+      store.categories[category] = store.categories[category].filter((entry) => entry !== stack);
+    }
+    return undefined;
+  }
+  for (const category of InventoryCategories) {
+    const index = store.categories[category].findIndex(
+      (entry) => entry.kind === 'equipment' && entry.instanceId === operation.instanceId,
+    );
+    if (index >= 0) {
+      store.categories[category].splice(index, 1);
+      return undefined;
+    }
+  }
+  return `装备实例 ${operation.instanceId} 不在背包中`;
+}
+
+function addRemainingInstances(
+  store: InventoryStore,
+  registry: Readonly<Record<string, EquipmentDefinition>>,
+  definition: EquipmentDefinition,
+  quantity: number,
+  createdInstanceIds: string[],
+): string | undefined {
+  for (let index = 0; index < quantity; index += 1) {
+    const error = applyInventoryOperation(
+      store,
+      registry,
+      { kind: 'add-instance', definition },
+      createdInstanceIds,
+    );
+    if (error) return error;
   }
   return undefined;
 }

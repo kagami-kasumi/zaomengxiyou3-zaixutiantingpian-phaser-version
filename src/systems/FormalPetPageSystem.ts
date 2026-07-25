@@ -1,4 +1,5 @@
 import { createSeedEquipmentRegistry } from './EquipmentSystem';
+import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
 import { consumeStackByFillName, getStackQuantityByFillName } from './InventorySystem';
 import type { PlayerSlot } from './InputSystem';
 import { usePetConsumable } from './PetConsumableSystem';
@@ -44,7 +45,10 @@ export function createFormalPetPage(
     pageIndex: 0,
     message: '选择宠物；出战、休息、放生与培养操作会立即保存当前槽',
     sourceSave: save,
-    restored: restoreGameState(save, createSeedEquipmentRegistry()),
+    restored: restoreGameState(
+      save,
+      createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()),
+    ),
   };
   syncFormalPetPageToSelection(model);
   return model;

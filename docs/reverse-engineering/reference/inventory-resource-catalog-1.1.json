@@ -144,8 +144,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -226,8 +226,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -305,8 +305,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -386,8 +386,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -469,8 +469,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -540,8 +540,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -614,8 +614,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -685,8 +685,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -766,8 +766,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -840,8 +840,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -913,8 +913,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -984,8 +984,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1055,8 +1055,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1126,8 +1126,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1193,8 +1193,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1275,8 +1275,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1353,8 +1353,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1431,8 +1431,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1509,8 +1509,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1578,8 +1578,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1656,8 +1656,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1725,8 +1725,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1794,8 +1794,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1872,8 +1872,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -1950,8 +1950,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2019,8 +2019,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2088,8 +2088,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2166,8 +2166,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2244,8 +2244,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2313,8 +2313,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2391,8 +2391,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2469,8 +2469,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2547,8 +2547,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2616,8 +2616,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2694,8 +2694,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2763,8 +2763,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2837,8 +2837,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -2921,8 +2921,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3005,8 +3005,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3089,8 +3089,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3170,8 +3170,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3251,8 +3251,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3332,8 +3332,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3413,8 +3413,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3504,8 +3504,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3595,8 +3595,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3688,8 +3688,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3769,8 +3769,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3838,8 +3838,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3912,8 +3912,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -3983,8 +3983,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4057,8 +4057,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4140,8 +4140,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4226,8 +4226,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4293,8 +4293,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4362,8 +4362,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4442,8 +4442,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4509,8 +4509,8 @@
         "modernEligibility": "exclude-unless-user-approves-original-defect-repair"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "excluded-confirmed-original-defect",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "confirmed-with-recorded-original-defect"
@@ -4576,8 +4576,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4645,8 +4645,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4748,8 +4748,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4831,8 +4831,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4912,8 +4912,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -4991,8 +4991,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5094,8 +5094,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5177,8 +5177,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5262,8 +5262,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5341,8 +5341,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5420,8 +5420,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5491,8 +5491,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5562,8 +5562,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5636,8 +5636,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5716,8 +5716,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5783,8 +5783,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5852,8 +5852,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5923,8 +5923,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -5990,8 +5990,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6059,8 +6059,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6168,8 +6168,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6235,8 +6235,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6312,8 +6312,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6389,8 +6389,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6466,8 +6466,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6542,8 +6542,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6623,8 +6623,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6694,8 +6694,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6765,8 +6765,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6834,8 +6834,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6905,8 +6905,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -6972,8 +6972,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7039,8 +7039,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7118,8 +7118,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7185,8 +7185,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7260,8 +7260,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7327,8 +7327,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7396,8 +7396,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7467,8 +7467,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7546,8 +7546,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7620,8 +7620,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7709,8 +7709,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7783,8 +7783,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7865,8 +7865,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -7954,8 +7954,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8043,8 +8043,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8114,8 +8114,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8188,8 +8188,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8259,8 +8259,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8333,8 +8333,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8400,8 +8400,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8478,8 +8478,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8549,8 +8549,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8620,8 +8620,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8701,8 +8701,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8788,8 +8788,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8888,8 +8888,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -8984,8 +8984,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9061,8 +9061,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9132,8 +9132,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9213,8 +9213,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9284,8 +9284,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9361,8 +9361,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9438,8 +9438,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9509,8 +9509,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9580,8 +9580,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9649,8 +9649,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9720,8 +9720,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9794,8 +9794,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9865,8 +9865,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -9945,8 +9945,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10021,8 +10021,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10115,8 +10115,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10212,8 +10212,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10305,8 +10305,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10392,8 +10392,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10476,8 +10476,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10560,8 +10560,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10647,8 +10647,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10731,8 +10731,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10812,8 +10812,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10890,8 +10890,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -10972,8 +10972,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11047,8 +11047,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11122,8 +11122,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11197,8 +11197,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11301,8 +11301,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11368,8 +11368,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11437,8 +11437,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11514,8 +11514,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11581,8 +11581,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11650,8 +11650,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11717,8 +11717,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11788,8 +11788,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11855,8 +11855,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11924,8 +11924,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -11995,8 +11995,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12064,8 +12064,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12135,8 +12135,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12220,8 +12220,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12303,8 +12303,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12370,8 +12370,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12439,8 +12439,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12510,8 +12510,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12613,8 +12613,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12696,8 +12696,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12781,8 +12781,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12854,8 +12854,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12928,8 +12928,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -12999,8 +12999,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13070,8 +13070,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13137,8 +13137,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13237,8 +13237,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13308,8 +13308,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13397,8 +13397,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13470,8 +13470,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13541,8 +13541,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13608,8 +13608,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13687,8 +13687,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13754,8 +13754,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13833,8 +13833,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13904,8 +13904,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -13988,8 +13988,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14072,8 +14072,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14156,8 +14156,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14240,8 +14240,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14324,8 +14324,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14395,8 +14395,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14479,8 +14479,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14563,8 +14563,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14647,8 +14647,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14725,8 +14725,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14803,8 +14803,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14874,8 +14874,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -14945,8 +14945,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15012,8 +15012,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15105,8 +15105,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15194,8 +15194,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15271,8 +15271,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15358,8 +15358,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15439,8 +15439,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15516,8 +15516,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15593,8 +15593,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15674,8 +15674,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15751,8 +15751,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15839,8 +15839,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15908,8 +15908,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -15982,8 +15982,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16059,8 +16059,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16133,8 +16133,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16210,8 +16210,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16284,8 +16284,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16361,8 +16361,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16435,8 +16435,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16512,8 +16512,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16586,8 +16586,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16659,8 +16659,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16732,8 +16732,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16803,8 +16803,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -16870,8 +16870,8 @@
         "modernEligibility": "exclude-unless-user-approves-original-defect-repair"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "excluded-confirmed-original-defect",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "confirmed-with-recorded-original-defect"
@@ -16962,8 +16962,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17039,8 +17039,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17106,8 +17106,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17209,8 +17209,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17292,8 +17292,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17373,8 +17373,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17447,8 +17447,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17514,8 +17514,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17581,8 +17581,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17648,8 +17648,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17715,8 +17715,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17793,8 +17793,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17871,8 +17871,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -17938,8 +17938,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18005,8 +18005,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18072,8 +18072,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18139,8 +18139,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18210,8 +18210,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18299,8 +18299,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18373,8 +18373,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18453,8 +18453,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18542,8 +18542,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18631,8 +18631,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18712,8 +18712,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18794,8 +18794,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18871,8 +18871,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -18947,8 +18947,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19014,8 +19014,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19088,8 +19088,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19159,8 +19159,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19232,8 +19232,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19309,8 +19309,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19382,8 +19382,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19456,8 +19456,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19549,8 +19549,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19616,8 +19616,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19699,8 +19699,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19766,8 +19766,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19835,8 +19835,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19906,8 +19906,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -19992,8 +19992,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20075,8 +20075,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20149,8 +20149,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20223,8 +20223,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20297,8 +20297,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20374,8 +20374,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20458,8 +20458,8 @@
         "modernEligibility": "exclude-unless-user-approves-original-defect-repair"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "excluded-confirmed-original-defect",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "confirmed-with-recorded-original-defect"
@@ -20529,8 +20529,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20603,8 +20603,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20693,8 +20693,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20760,8 +20760,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20827,8 +20827,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20894,8 +20894,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -20961,8 +20961,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21028,8 +21028,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21102,8 +21102,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21182,8 +21182,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21287,8 +21287,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21368,8 +21368,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21456,8 +21456,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21530,8 +21530,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21604,8 +21604,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21681,8 +21681,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21758,8 +21758,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21835,8 +21835,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -21919,8 +21919,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22000,8 +22000,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22067,8 +22067,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22134,8 +22134,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22201,8 +22201,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22268,8 +22268,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22335,8 +22335,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22415,8 +22415,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22482,8 +22482,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22549,8 +22549,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22616,8 +22616,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22683,8 +22683,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22750,8 +22750,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22824,8 +22824,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22895,8 +22895,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -22969,8 +22969,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23057,8 +23057,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23139,8 +23139,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23217,8 +23217,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23312,8 +23312,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23392,8 +23392,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23459,8 +23459,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23526,8 +23526,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23593,8 +23593,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23660,8 +23660,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23727,8 +23727,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23836,8 +23836,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -23941,8 +23941,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24032,8 +24032,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24127,8 +24127,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24201,8 +24201,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24279,8 +24279,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24384,8 +24384,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24466,8 +24466,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24546,8 +24546,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24613,8 +24613,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24680,8 +24680,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24747,8 +24747,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24814,8 +24814,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24881,8 +24881,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -24961,8 +24961,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25066,8 +25066,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25140,8 +25140,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25211,8 +25211,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25293,8 +25293,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25398,8 +25398,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25482,8 +25482,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25553,8 +25553,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25649,8 +25649,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25735,8 +25735,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25809,8 +25809,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25883,8 +25883,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -25957,8 +25957,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26041,8 +26041,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26112,8 +26112,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26186,8 +26186,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26257,8 +26257,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26331,8 +26331,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26416,8 +26416,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26483,8 +26483,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26552,8 +26552,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26657,8 +26657,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26734,8 +26734,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26813,8 +26813,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26882,8 +26882,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -26956,8 +26956,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27025,8 +27025,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27099,8 +27099,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27180,8 +27180,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27257,8 +27257,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27334,8 +27334,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27403,8 +27403,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27477,8 +27477,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27546,8 +27546,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27620,8 +27620,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27689,8 +27689,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27771,8 +27771,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27840,8 +27840,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27914,8 +27914,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -27983,8 +27983,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28057,8 +28057,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28126,8 +28126,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28221,8 +28221,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28290,8 +28290,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28372,8 +28372,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28441,8 +28441,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28515,8 +28515,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28584,8 +28584,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28658,8 +28658,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28727,8 +28727,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28801,8 +28801,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28872,8 +28872,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -28946,8 +28946,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29017,8 +29017,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29091,8 +29091,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29177,8 +29177,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29244,8 +29244,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29323,8 +29323,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29390,8 +29390,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29457,8 +29457,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29526,8 +29526,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29605,8 +29605,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29690,8 +29690,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29761,8 +29761,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29832,8 +29832,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29903,8 +29903,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -29987,8 +29987,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30079,8 +30079,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30159,8 +30159,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30241,8 +30241,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30330,8 +30330,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30419,8 +30419,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30492,8 +30492,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30563,8 +30563,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30640,8 +30640,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30717,8 +30717,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30796,8 +30796,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30873,8 +30873,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -30944,8 +30944,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31011,8 +31011,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31080,8 +31080,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31157,8 +31157,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31238,8 +31238,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31316,8 +31316,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31400,8 +31400,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31477,8 +31477,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31555,8 +31555,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31626,8 +31626,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31704,8 +31704,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31775,8 +31775,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31853,8 +31853,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -31930,8 +31930,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32008,8 +32008,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32085,8 +32085,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32193,8 +32193,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32270,8 +32270,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32339,8 +32339,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32416,8 +32416,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32494,8 +32494,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32565,8 +32565,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32643,8 +32643,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32720,8 +32720,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32798,8 +32798,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32869,8 +32869,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -32947,8 +32947,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "implemented-partial-existing-registry",
-        "icon": "implemented",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -33022,8 +33022,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending-special-effects; generic equip flow exists"
       },
       "evidenceLevel": "cross-confirmed"
@@ -33116,8 +33116,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"
@@ -33205,8 +33205,8 @@
         "modernEligibility": "eligible"
       },
       "implementation": {
-        "definition": "pending-TASK-SLICE-160",
-        "icon": "pending-TASK-SLICE-160",
+        "definition": "implemented-authoritative-registry",
+        "icon": "implemented-inventory-bundle",
         "itemSpecificUseEffect": "pending unless covered by an existing dedicated system"
       },
       "evidenceLevel": "cross-confirmed"

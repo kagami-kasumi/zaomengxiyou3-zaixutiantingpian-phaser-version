@@ -7,6 +7,7 @@ import {
   type EquipmentInstance,
   type EquipmentStats,
 } from './EquipmentSystem';
+import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
 import {
   consumeStackByFillName,
   getStackQuantityByFillName,
@@ -79,7 +80,7 @@ export function createFormalMagicWeaponPage(
 ): FormalMagicWeaponPageModel | undefined {
   const sourceSave = loadActiveGame(storage);
   if (!sourceSave) return undefined;
-  const seedRegistry = createSeedEquipmentRegistry();
+  const seedRegistry = createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry());
   const registry = {
     ...seedRegistry,
     ...createCraftingItemDefinitionRegistry(seedRegistry),

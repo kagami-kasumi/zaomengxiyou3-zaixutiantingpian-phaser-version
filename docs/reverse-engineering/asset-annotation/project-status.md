@@ -2,7 +2,7 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象、炼丹炉完整 UI、201/201 个权威合成图标以及 Stage 1-1/1-2/1-3 真场景视觉资源已完成接入；Stage 2-1 真场景与怪物真视觉已接入，Stage 2-2 的真场景、火焰、Monster16 与六攻击对象已完成选择性派生与实现输入标注。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象、炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录以及 Stage 1-1/1-2/1-3 真场景视觉资源已完成接入；Stage 2-1 真场景与怪物真视觉已接入，Stage 2-2 的真场景、火焰、Monster16 与六攻击对象已完成选择性派生与实现输入标注。
 
 ## 范围覆盖
 
@@ -19,8 +19,9 @@
 | Stage 2-1 | 18 | 根布局保持选择性导出；场景、背景、地面、普通门、66 帧冰刺、四怪本体 atlas 与七个攻击对象均已接入并完成运行复验 | `stage21.md`、`stage21-monsters.md` |
 | Stage 2-2 | 14 | 场景两层、背景、地面、普通门、130 帧火焰、Monster16 atlas 与六攻击对象均已接入现代 manifest/场景 | `stage22.md` |
 | UI 与配方图标 | 319 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条、地图服务四页根 UI、丹药页 11 条、商城页 18 条、设置页 2 条和任务页 13 条深层资源已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`../map-service-ui-index.md`、`../immortality-ui-index.md`、`../shop-ui-index.md`、`../settings-ui-index.md`、`../task-ui-index.md` |
+| 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 
-总计 519 条标注：321 条 `ready`、48 条 `derived-ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `needs-annotation`、3 条 `rejected`；518 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
+总计 950 条标注：749 条 `ready`、48 条 `derived-ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；949 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
 
 ## 人工待办
 

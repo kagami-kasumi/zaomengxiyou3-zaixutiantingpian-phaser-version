@@ -315,34 +315,10 @@ function buildCatalogItem(fillName, candidates) {
           : "exclude-unless-user-approves-original-defect-repair",
     },
     implementation: {
-      definition:
-        existsSync(
-          path.join(
-            repoRoot,
-            "public",
-            "assets",
-            "ui",
-            "crafting",
-            "items",
-            `${fillName}.png`,
-          ),
-        ) || craftingItem
-          ? "implemented-partial-existing-registry"
-          : "pending-TASK-SLICE-160",
-      icon:
-        existsSync(
-          path.join(
-            repoRoot,
-            "public",
-            "assets",
-            "ui",
-            "crafting",
-            "items",
-            `${fillName}.png`,
-          ),
-        )
-          ? "implemented"
-          : "pending-TASK-SLICE-160",
+      definition: "implemented-authoritative-registry",
+      icon: chosenSymbol && fillName !== "wc"
+        ? "implemented-inventory-bundle"
+        : "excluded-confirmed-original-defect",
       itemSpecificUseEffect:
         category === "equipment" || category === "fashion"
           ? "pending-special-effects; generic equip flow exists"

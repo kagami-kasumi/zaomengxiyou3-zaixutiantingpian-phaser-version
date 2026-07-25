@@ -35,6 +35,7 @@ import {
 } from '../src/systems/InventorySystem';
 import { createPlayerInventoryRuntimes } from '../src/systems/PlayerInventoryOwnershipSystem';
 import {
+  createCraftingAcceptanceInventoryStore,
   CraftingItemCatalogFillNames,
   CraftingMaterialFillNames,
 } from '../src/systems/CraftingItemDefinitionRegistry';
@@ -294,6 +295,8 @@ function testAllRecipeTransactionMatrix(): void {
   for (const recipe of recipes) {
     for (const ownerSlot of ['p1', 'p2'] as const) {
       const runtimes = createPlayerInventoryRuntimes(registry);
+      runtimes.p1.store = createCraftingAcceptanceInventoryStore(registry, 'p1-matrix');
+      runtimes.p2.store = createCraftingAcceptanceInventoryStore(registry, 'p2-matrix');
       const runtime = runtimes[ownerSlot];
       const otherRuntime = runtimes[ownerSlot === 'p1' ? 'p2' : 'p1'];
       const productBefore = countInventoryFillName(runtime.store, recipe.productFillName);
@@ -384,7 +387,7 @@ function testCraftingDefinitionRegistryCoverage(): void {
     ],
   );
 
-  const acceptance = createPlayerInventoryRuntimes(registry).p1.store;
+  const acceptance = createCraftingAcceptanceInventoryStore(registry);
   for (const fillName of CraftingItemCatalogFillNames) {
     const target = CraftingMaterialFillNames.has(fillName) ? 3 : 1;
     assert.ok(inventoryQuantity(acceptance, fillName) >= target, `acceptance quantity ${fillName}`);

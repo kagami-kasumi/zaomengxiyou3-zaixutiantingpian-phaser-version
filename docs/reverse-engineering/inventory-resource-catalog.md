@@ -1,8 +1,8 @@
 # 原版 1.1 背包资源全集证据目录
 
-本文闭合 `TASK-SETTINGS-070 / GOAL-049` 的证据范围，为
-`TASK-SLICE-160` 提供可机器消费的身份、分类、数量、容量、存档、图标和
-owner 合同。逐条记录位于
+本文先闭合 `TASK-SETTINGS-070 / GOAL-049` 的证据范围，随后由
+`TASK-SLICE-160 / GOAL-050` 接入可机器消费的身份、分类、数量、容量、存档、
+图标和 owner 合同。逐条记录位于
 `reference/inventory-resource-catalog-1.1.json`；本文保存范围定义、六段证据链、
 显示列表复核、差异与验收输入。
 
@@ -15,8 +15,8 @@ owner 合同。逐条记录位于
 - 428 项图标已按原 `ShowObj` 请求名/别名与恢复 SWF SymbolClass 交叉定位。
   另有 2 项原查找名错误、1 项原资源缺失；三者均无外部 AS3 生产者，保持
   “目录缺陷、不可提升为可玩内容”，不生成替代图。
-- 201 项已被既有合成定义/图标目录覆盖；其余 230 项仍待
-  `TASK-SLICE-160` 接入统一现代目录。
+- 431 项均已接入统一现代 definition registry；428 项合格图标已接入背包
+  懒加载 bundle，三项原版缺陷按证据排除。
 - 物品专属使用效果不在本 task 逆向。机器目录逐项登记为“既有专属系统已覆盖”
   或“待实现/待专门复核”，不得因身份和图标已闭合而宣称用途已完成。
 
@@ -76,7 +76,7 @@ owner 合同。逐条记录位于
 | `icon` | 唯一 `inventory-item.<fillName>`、原请求名、别名、源包、character id、证据与接入资格 |
 | `implementation` | 现代 definition/icon 和专属用途的已实现/待实现边界 |
 
-`TASK-SLICE-160` 必须直接消费或由生成器转换该 JSON；不得再维护第二份手抄物品表。
+现代系统直接消费由生成器产出的该 JSON；不得再维护第二份手抄物品表。
 
 ## 分类、容量与存档合同
 
@@ -104,7 +104,7 @@ P1/P2 各自拥有四类列表和存档字段，禁止建立全局库存 owner�
 
 | 状态 | 数量 | 处置 |
 | --- | ---: | --- |
-| `located` | 428 | 可由 `TASK-SLICE-160` 选择性派生并接入 |
+| `located` | 428 | 已由 `TASK-SLICE-160` 选择性派生并接入 |
 | `known-broken-original-lookup` | 2 | `fmtstx` 有 EIcon1/424 `role_title_fmtstx`，`scwpqhs5` 有 EIcon1/576 `wpqhs5`；原 `ShowObj` 未加别名，且两项无外部生产者，默认排除 |
 | `missing-original` | 1 | `wc` 无 exact symbol；三条定义共享一个 id，反向查找最终只返回 wpEquip123“3级昆仑玉”，且无外部生产者，默认排除 |
 
@@ -121,7 +121,7 @@ P1/P2 各自拥有四类列表和存档字段，禁止建立全局库存 owner�
 | 丹药 | 25 个动态丹药 + 6 个材料/消费者命中，共 31 项 | 丹药页只拥有服用标志和配方，不拥有物品目录 |
 | 掉落/怪物 | 133 项有明确字符串消费者 | 掉落只引用目录，产出前统一容量预检 |
 | 工坊 | 87 项有强化/合成/分解/制作消费者 | 工坊 registry 不再复制显示名、分类或图标 |
-| 当前现代目录 | 201 项已有部分 definition 与图标，230 项待接 | `TASK-SLICE-160` 建立唯一全量 registry |
+| 当前现代目录 | 431 项 definition；428 项可用真图标、3 项缺陷排除 | `TASK-SLICE-160` 已建立唯一全量 registry |
 | 无外部字面生产者 | 41 项，其中包含 12 本废弃技能书和三项已确认目录缺陷 | 保留证据但不把“已注册”伪造成“原版可获得” |
 
 唯一 owner 建议属于现代设计选择：
@@ -166,9 +166,9 @@ InventoryItemDefinitionRegistry（431 项证据目录）
   `txtname` 覆盖显示；图标必须在数量文字下方。
 - 空格不创建物品 child；实例不显示数量，堆叠 1 也不显示数量。
 
-### 逐状态输入
+### 逐状态结果
 
-`TASK-SLICE-160` 的 940×590 验收必须覆盖：
+`TASK-SLICE-160` 的 940×590 验收与自动门禁覆盖：
 
 - 四分类 normal/hover/pressed/selected；
 - 首/中/末页及分页边界；
@@ -179,9 +179,8 @@ InventoryItemDefinitionRegistry（431 项证据目录）
 - 关闭返回、再进入和当前槽 V6 重载。
 
 原版视觉基准继续引用恢复 `backpack1.swf` 304/246 的 940×590 导出与
-`TASK-SLICE-135` 既有运行证据。实现后必须新增原版/现代并排或叠图，并列出
-每个动态 child 的“原资源复用 / 等价动态重建 / 用户批准例外 / 未完成”状态；
-页面可达、整页背景或零 console 不能替代该差异证据。
+`TASK-SLICE-135` 既有运行证据。现代对象差异、几何边缘、逐状态截图和运行
+限制记录于 `evidence/TASK-SLICE-160-visual-audit.md`。
 
 ## 六段证据矩阵
 
@@ -215,5 +214,6 @@ InventoryItemDefinitionRegistry（431 项证据目录）
 
 - 身份、分类、图标选择、堆叠/实例、容量和存档字段未知为零。
 - 三项原目录缺陷已由精确反证关闭，默认排除而非生成现代替代。
-- `TASK-SETTINGS-070` 可归档；下一同线 Goal 为
-  `GOAL-050 / TASK-SLICE-160`。
+- `TASK-SLICE-160` 已完成统一 registry、428 图标懒加载、原子事务、双
+  owner、V6 往返和正式原生背包；专属用途仍由后续玩法切片负责。
+- 下一同线 Goal 为 `GOAL-045 / TASK-SLICE-155A`。

@@ -20,6 +20,7 @@ import {
 } from './PartyConfigurationSystem';
 import { createDefaultLevelUnlockProgress, sanitizeLevelUnlockProgress } from './Stage11FlowSystem';
 import { createSkillLearningState } from './SkillUISystem';
+import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
 
 export const SaveSlotCount = 6 as const;
 export const SaveSlotStorageKeyPrefix = 'zaixu-tianding.save.slot.';
@@ -80,7 +81,9 @@ export function createDefaultGameSave(
   party: PartyConfiguration = createPartyConfiguration(1, 1)!,
 ): GameSaveV6 {
   const rosters = createPlayerPetRosters();
-  const inventories = createPlayerInventoryRuntimes(createSeedEquipmentRegistry());
+  const inventories = createPlayerInventoryRuntimes(
+    createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()),
+  );
   return createGameSave({
     party,
     progression: createHeroProgression(party.members.p1.heroId),

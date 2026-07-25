@@ -30,6 +30,7 @@ import {
   type SkillPanelTab,
 } from './SkillUISystem';
 import { createSeedEquipmentRegistry } from './EquipmentSystem';
+import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
 
 export type FormalSkillPageModel = {
   owner: PlayerSlot;
@@ -56,7 +57,10 @@ export function createFormalSkillPage(
     bindingReturnTab: 'tree1',
     message: '选择心法或技能；所有成功操作会立即保存当前槽',
     sourceSave: save,
-    restored: restoreGameState(save, createSeedEquipmentRegistry()),
+    restored: restoreGameState(
+      save,
+      createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()),
+    ),
   };
 }
 

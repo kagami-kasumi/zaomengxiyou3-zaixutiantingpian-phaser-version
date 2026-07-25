@@ -2,7 +2,11 @@ import type { EquipmentDefinition, EquipmentInstance, EquipmentLoadout, Equipmen
 import { createEmptyEquipmentLoadout } from './EquipmentSystem';
 import type { HeroSkillLoadout, SkillBinding } from './HeroSkillSystem';
 import type { InventoryCategory, InventoryEntry, InventoryStore } from './InventorySystem';
-import { createInventoryStore, InventoryCategories } from './InventorySystem';
+import {
+  createInventoryStore,
+  InventoryCategories,
+  InventoryStackQuantityLimit,
+} from './InventorySystem';
 import type { HeroProgressionModel } from './ProgressionSystem';
 import { getHeroExperienceToNextLevel, ProgressionTuning } from './ProgressionSystem';
 import { createPetSkillState } from './PetSkillStateSystem';
@@ -20,6 +24,7 @@ import {
   type LevelUnlockProgress,
 } from './Stage11FlowSystem';
 import { HERO_SKILL_TREES, type AllSkillName, type HeroSkillLearningState } from './SkillUISystem';
+import { isKnownInventoryResource } from './InventoryResourceCatalog';
 
 export const GameSaveStorageKey = 'zaixu-tianding.save.v1';
 export const GameSaveVersion = 6 as const;
@@ -228,10 +233,16 @@ export function parseGameSave(raw: string): GameSaveV6 | undefined {
     }
     if (value.version === FeatureGameSaveVersion) {
       if (!isValidLegacyPlayerSave(value.player1) || !isValidLegacyPlayerSave(value.player2)) return undefined;
+      if (hasUnknownPlayerItemIdentities(value.player1) || hasUnknownPlayerItemIdentities(value.player2)) {
+        return undefined;
+      }
       return migrateFeatureSave(value as unknown as GameSaveV4);
     }
     if (value.version === PartyGameSaveVersion) {
       if (!isValidLegacyPlayerSave(value.player1) || !isValidLegacyPlayerSave(value.player2)) return undefined;
+      if (hasUnknownPlayerItemIdentities(value.player1) || hasUnknownPlayerItemIdentities(value.player2)) {
+        return undefined;
+      }
       const party = parsePartyConfiguration(value.party);
       if (!party || !partyMatchesPlayerHeroes(party, value.player1.heroId, value.player2.heroId)) {
         return undefined;
@@ -503,7 +514,12 @@ function decodeInventoryStore(
         });
       }
       else if (entry.kind === 'stack') {
-        restored.push({ kind: 'stack', stackId: typeof entry.stackId === 'string' ? entry.stackId : `${ownerSlot}-stack-${index}`, definition, quantity: clampInteger(entry.quantity, 1, 999_999) });
+        restored.push({
+          kind: 'stack',
+          stackId: typeof entry.stackId === 'string' ? entry.stackId : `${ownerSlot}-stack-${index}`,
+          definition,
+          quantity: clampInteger(entry.quantity, 1, InventoryStackQuantityLimit),
+        });
       }
     }
     store.categories[category] = restored.slice(0, store.capacityPerCategory);
@@ -762,7 +778,28 @@ function isValidPlayerFeatureSaveV6(value: unknown): value is PlayerFeatureSaveV
   return isPlayerSaveBase(value) &&
     Number.isFinite(candidate.soulCount) &&
     candidate.soulCount >= 0 &&
-    !Object.prototype.hasOwnProperty.call(candidate.skillLearning, 'soulCount');
+    !Object.prototype.hasOwnProperty.call(candidate.skillLearning, 'soulCount') &&
+    !hasUnknownPlayerItemIdentities(candidate);
+}
+
+function hasUnknownPlayerItemIdentities(value: unknown): boolean {
+  if (!isRecord(value)) return false;
+  if (isRecord(value.equipment)) {
+    for (const entry of Object.values(value.equipment)) {
+      if (isRecord(entry) && typeof entry.fillName === 'string' &&
+        !isKnownInventoryResource(entry.fillName)) return true;
+    }
+  }
+  if (!isRecord(value.inventory) || !isRecord(value.inventory.categories)) return false;
+  for (const category of InventoryCategories) {
+    const entries = value.inventory.categories[category];
+    if (!Array.isArray(entries)) continue;
+    for (const entry of entries) {
+      if (isRecord(entry) && typeof entry.fillName === 'string' &&
+        !isKnownInventoryResource(entry.fillName)) return true;
+    }
+  }
+  return false;
 }
 
 function isKnownSkill(value: unknown): value is AllSkillName {

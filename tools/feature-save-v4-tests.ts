@@ -106,7 +106,7 @@ function testV1V2V3MigrationUsesSafeFeatureDefaults(): void {
   }
 }
 
-function testUnknownInventoryDefinitionsAreDropped(): void {
+function testUnknownInventoryDefinitionsAreRejectedAndDamagedSubdomainFallsBack(): void {
   const save = createGameSave({
     progression: createHeroProgression(1),
     skillLoadout: createHeroSkillModel().loadout,
@@ -117,13 +117,17 @@ function testUnknownInventoryDefinitionsAreDropped(): void {
   save.player1.inventory.categories.items.push({
     kind: 'stack', fillName: 'unknown-definition', stackId: 'bad', quantity: 10,
   });
+  assert.equal(parseGameSave(JSON.stringify(save)), undefined);
+
+  save.player1.inventory.categories.items = [];
   (save.player2 as any).inventory = { damaged: true };
-  const restored = restoreGameState(parseGameSave(JSON.stringify(save))!, registry);
-  assert.equal(restored.player1.inventoryStore.categories.items.length, 0);
+  const parsed = parseGameSave(JSON.stringify(save));
+  assert.ok(parsed);
+  const restored = restoreGameState(parsed, registry);
   assert.equal(restored.player2.inventoryStore.categories.items.length, 0);
 }
 
 testV4RoundTripKeepsBothFeatureOwners();
 testV1V2V3MigrationUsesSafeFeatureDefaults();
-testUnknownInventoryDefinitionsAreDropped();
+testUnknownInventoryDefinitionsAreRejectedAndDamagedSubdomainFallsBack();
 console.log('V4 dual-player feature save and migration tests passed.');

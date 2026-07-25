@@ -3,6 +3,7 @@ import {
   type InventoryUIState,
 } from './EquipmentUISystem';
 import { EquipmentSlotLabels, HeroNamesById, createSeedEquipmentRegistry, type EquipmentSlot } from './EquipmentSystem';
+import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
 import {
   equipInventoryItem,
   getInventoryEntries,
@@ -23,6 +24,7 @@ import {
 } from './SaveSystem';
 
 export const FormalInventoryPageSize = 25;
+export const FormalInventoryPageCount = 5;
 
 export type FormalInventoryPageModel = {
   owner: PlayerSlot;
@@ -30,9 +32,12 @@ export type FormalInventoryPageModel = {
   pageIndex: number;
   selectedIndex: number;
   selectedSlotIndex: number;
+  entrySelectionArmed: boolean;
+  slotSelectionArmed: boolean;
   message: string;
   sourceSave: GameSaveV6;
   restored: LoadedGameState;
+  registry: Record<string, ReturnType<typeof createSeedEquipmentRegistry>[string]>;
 };
 
 export function createFormalInventoryPage(
@@ -41,15 +46,19 @@ export function createFormalInventoryPage(
 ): FormalInventoryPageModel | undefined {
   const save = loadActiveGame(storage);
   if (!save) return undefined;
+  const registry = createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry());
   return {
     owner,
     activeCategory: 'equipment',
     pageIndex: 0,
     selectedIndex: 0,
     selectedSlotIndex: 0,
+    entrySelectionArmed: false,
+    slotSelectionArmed: false,
     message: '选择格子查看；装备可穿戴，槽位可卸下',
     sourceSave: save,
-    restored: restoreGameState(save, createSeedEquipmentRegistry()),
+    restored: restoreGameState(save, registry),
+    registry,
   };
 }
 
@@ -61,6 +70,8 @@ export function setFormalInventoryOwner(
   model.pageIndex = 0;
   model.selectedIndex = 0;
   model.selectedSlotIndex = 0;
+  model.entrySelectionArmed = false;
+  model.slotSelectionArmed = false;
   model.message = `已切换 ${owner.toUpperCase()}`;
 }
 
@@ -71,6 +82,7 @@ export function selectFormalInventoryCategory(
   model.activeCategory = category;
   model.pageIndex = 0;
   model.selectedIndex = 0;
+  model.entrySelectionArmed = false;
   model.message = InventoryCategoryLabels[category];
 }
 
@@ -81,6 +93,7 @@ export function changeFormalInventoryPage(
   const pageCount = getFormalInventoryPageCount(model);
   model.pageIndex = Math.min(pageCount - 1, Math.max(0, model.pageIndex + direction));
   model.selectedIndex = 0;
+  model.entrySelectionArmed = false;
 }
 
 export function selectFormalInventoryEntry(
@@ -89,6 +102,7 @@ export function selectFormalInventoryEntry(
 ): void {
   const entries = getFormalInventoryPageEntries(model);
   model.selectedIndex = Math.min(entries.length - 1, Math.max(0, pageEntryIndex));
+  model.entrySelectionArmed = true;
 }
 
 export function selectFormalEquipmentSlot(
@@ -96,6 +110,7 @@ export function selectFormalEquipmentSlot(
   slotIndex: number,
 ): void {
   model.selectedSlotIndex = Math.min(EquipmentSlotOrder.length - 1, Math.max(0, slotIndex));
+  model.slotSelectionArmed = true;
 }
 
 export function equipFormalInventorySelection(
@@ -106,6 +121,10 @@ export function equipFormalInventorySelection(
   const entry = getSelectedFormalInventoryEntry(model);
   if (!entry || entry.kind !== 'equipment') {
     model.message = '该物品没有已支持的穿戴行为';
+    return false;
+  }
+  if (entry.definition.description.includes('专属用途与数值效果尚未接入')) {
+    model.message = '该装备数值尚未校准，暂不可穿戴';
     return false;
   }
   const result = equipInventoryItem(
@@ -143,11 +162,8 @@ export function getFormalInventoryPageEntries(model: FormalInventoryPageModel): 
 }
 
 export function getFormalInventoryPageCount(model: FormalInventoryPageModel): number {
-  const count = getInventoryEntries(
-    getFormalInventoryPlayer(model).inventoryStore,
-    model.activeCategory,
-  ).length;
-  return Math.max(1, Math.ceil(count / FormalInventoryPageSize));
+  void model;
+  return FormalInventoryPageCount;
 }
 
 export function getSelectedFormalInventoryEntry(

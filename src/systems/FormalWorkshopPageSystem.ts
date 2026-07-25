@@ -7,6 +7,7 @@ import {
   type CraftingSession,
 } from './CraftingSystem';
 import { createSeedEquipmentRegistry, type EquipmentDefinition } from './EquipmentSystem';
+import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
 import {
   closeEquipmentStrengtheningSession,
   createEquipmentStrengtheningSession,
@@ -63,7 +64,7 @@ export type FormalWorkshopPageModel = {
 export function createFormalWorkshopPage(storage: SaveStorage, owner: PlayerSlot): FormalWorkshopPageModel | undefined {
   const sourceSave = loadActiveGame(storage);
   if (!sourceSave) return undefined;
-  const equipmentRegistry = createSeedEquipmentRegistry();
+  const equipmentRegistry = createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry());
   const registry = createEquipmentMakingDefinitionRegistry(equipmentRegistry);
   return {
     owner,

@@ -3,6 +3,7 @@ import { createEmptyEquipmentLoadout } from './EquipmentSystem';
 import type { InventoryStore } from './InventorySystem';
 import {
   consumeStackByFillName,
+  createSeedInventoryStore,
 } from './InventorySystem';
 import type { PlayerSlot } from './InputSystem';
 import type { InventoryUIState } from './EquipmentUISystem';
@@ -14,10 +15,9 @@ import { createMagicBottleCaptureModel } from './PetMagicBottleSystem';
 import type { MagicBottleCaptureModel, PetRoster } from './PetTypes';
 import {
   createCraftingSession,
-  createSeedCraftingItemDefinitions,
   type CraftingSession,
 } from './CraftingSystem';
-import { createCraftingAcceptanceInventoryStore } from './CraftingItemDefinitionRegistry';
+import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
 
 export type PlayerInventoryRuntime = {
   ownerSlot: PlayerSlot;
@@ -42,6 +42,7 @@ export const InventoryOwnerKeyCodes = {
 export function createPlayerInventoryRuntimes(
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): PlayerInventoryRuntimes {
+  Object.assign(equipmentRegistry, createInventoryItemDefinitionRegistry(equipmentRegistry));
   return {
     p1: createPlayerInventoryRuntime('p1', equipmentRegistry),
     p2: createPlayerInventoryRuntime('p2', equipmentRegistry),
@@ -113,7 +114,6 @@ function createPlayerInventoryRuntime(
   ownerSlot: PlayerSlot,
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): PlayerInventoryRuntime {
-  Object.assign(equipmentRegistry, createSeedCraftingItemDefinitions(equipmentRegistry));
   const loadout = createEmptyEquipmentLoadout();
   const xhhl = equipmentRegistry.xhhl;
   if (xhhl) {
@@ -128,7 +128,7 @@ function createPlayerInventoryRuntime(
   syncMagicWeaponFromLoadout(magicWeapon, loadout);
   return {
     ownerSlot,
-    store: createCraftingAcceptanceInventoryStore(equipmentRegistry, `${ownerSlot}-eq`),
+    store: createSeedInventoryStore(equipmentRegistry, `${ownerSlot}-eq`),
     loadout,
     ui: createInventoryUIState(),
     magicWeapon,

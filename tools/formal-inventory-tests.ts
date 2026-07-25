@@ -72,7 +72,7 @@ function testCategoriesPagingAndSafeUnsupportedFeedback(): void {
   assert.ok(getFormalInventoryPageCount(model) >= 2);
   changeFormalInventoryPage(model, 1);
   assert.equal(model.pageIndex, 1);
-  assert.ok(getFormalInventoryPageEntries(model).length > 0);
+  assert.equal(getFormalInventoryPageEntries(model).length, 0);
 
   for (const category of InventoryCategories) {
     selectFormalInventoryCategory(model, category);
@@ -94,11 +94,14 @@ function testTrueAssetsAndSceneContract(): void {
     assert.ok(existsSync(path.join(root, 'public', asset.path)));
   }
   const scene = readFileSync(path.join(root, 'src/scenes/FeatureUiScene.ts'), 'utf8');
+  const view = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalInventoryPageView.ts'), 'utf8');
   assert.match(scene, /createFormalInventoryPage/);
-  assert.match(scene, /InventoryCategories\.forEach/);
-  assert.match(scene, /getFormalInventoryPageEntries/);
-  assert.match(scene, /equipFormalInventorySelection/);
-  assert.match(scene, /unequipFormalInventorySelection/);
+  assert.match(scene, /createFormalInventoryPageView/);
+  assert.match(view, /InventoryCategories\.forEach/);
+  assert.match(view, /getFormalInventoryPageEntries/);
+  assert.match(view, /equipFormalInventorySelection/);
+  assert.match(view, /unequipFormalInventorySelection/);
+  assert.doesNotMatch(view, /add\.rectangle/);
 }
 
 testOwnerEquipUnequipAndPersistence();

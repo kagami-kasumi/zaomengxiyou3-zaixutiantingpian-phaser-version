@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-160 | 完整背包资源基础 | 将 431 项权威目录接入正式背包、双 owner 原子事务和 V6 存档 | M-035、M-036、M-037、M-044、M-052、VS-064 | 431 definition、428 真图标懒加载、3 缺陷排除、四分类 5×25、实例/99 堆叠、满包原子回滚、P1/P2/V6 与 940×590 原生 UI 证据 |
 | TASK-SETTINGS-070 | 背包资源全集证据 | 闭合原版 1.1 四分类可入包资源、真图标、容量与存档语义权威目录 | M-035、M-036、M-037、M-044、M-052、VS-064 | `inventory-resource-catalog.md`、431 项机器目录、428 项精确图标 provenance、3 项原版缺陷、生产者/消费者与 `TASK-SLICE-160` 实现合同 |
 | TASK-SETTINGS-066D | 地图服务 UI 逆向 | 闭合任务页 43 日常、4 活动定义、进度/奖励/跨日保存与真 UI 状态 | M-044、M-046、M-052、VS-059 | `task-ui-index.md`、character 85 完整显示列表、13 条资源标注、活动空页反证、原版瑕疵与 `TASK-SLICE-155D` 实现合同 |
 | TASK-SETTINGS-066 | 拆分父任务收束 | 汇总地图四服务页公共入口与 `066A..D` 四个六段证据任务 | M-035、M-044、M-046、M-052、VS-059 | `map-service-ui-index.md`、四页权威索引、48 条 derived-ready 标注与 `155A..D` 逐页实现输入 |
@@ -4959,6 +4960,33 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-160
+
+- 完成日期：2026-07-25
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-155A`）
+- 将 431 个权威稳定身份接入唯一 `InventoryResourceCatalog`：装备 164、道具 235、时装 20、技能书 12；428 项精确真图标进入懒加载 bundle，`fmtstx/scwpqhs5/wc` 三项原版缺陷保持排除。
+- 建立共享原子库存事务，统一实例/99 堆叠、每类 125 槽、增加/扣除/合并/用尽移除、满包拒绝和失败回滚；P1/P2 继续使用独立 owner。
+- V6 保存/读取保留目录身份、数量和装备实例字段，未知 id 拒读、损坏 inventory 子域安全回退，并以三个显式兼容 id 保持既有旧 V6 槽可读。
+- 正式背包直接组合 304/246/628、22 个原生按钮/格子状态和真图标；移除现代卡片/标题/按钮覆盖，完成 940×590 首/中/末页运行证据。
+- `feature-ui-backpack` 独占 452 项资源并按首次进入懒加载；Boot 仍只有 3 项 shell，返回再进幂等且 console error/warning 为 0。
+- 专属物品用途不在本切片，继续由丹药、商城、任务、掉落等后续玩法消费统一 registry/事务。
+
+更新文件：
+- `src/systems/InventoryResourceCatalog.ts`、`InventorySystem.ts`、`SaveSystem.ts`、`PlayerInventoryOwnershipSystem.ts` 与正式页面 consumers
+- `src/assets/InventoryItemAssets.ts`、`InventoryUiAssets.ts`、`SceneAssetBundles.ts`
+- `src/scenes/feature-ui/FormalInventoryPageView.ts`、`FeatureUiScene.ts`
+- `public/assets/ui/inventory/`、资源集成/专项测试和标注文档
+- `inventory-resource-catalog.md`、视觉审计、机制/切片/功能线/Goal/PG 台账
+
+验证：
+- `npm run test:inventory-catalog`、`npm run test:formal-inventory`、`npm run test:feature-save-v4`、`npm run test:asset-bundles`、`npm run test:formal-strengthening` 通过。
+- `npm run test:systems` 与 `npm run build` 通过；Vite 仅保留 chunk 大小 warning。
+- 940×590 正式浏览器验收覆盖装备、道具首/二/末页、关闭再入和既有 V6 槽，console error/warning 为 0；P2 与满包拒绝由自动门禁覆盖。
+- 实际发生 1 次 compact；发生时实现、资源、浏览器证据及全系统/build 已完成，之后按 PG-008 只做受控收尾和归档。
+
+推荐任务：
+- `TASK-SLICE-155A`：只实现丹药页原生 UI、P1/P2 炼制/服用事务和 V6 接线。
 
 ### TASK-SETTINGS-066D
 

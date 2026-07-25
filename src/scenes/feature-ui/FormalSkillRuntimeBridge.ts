@@ -6,6 +6,7 @@ import type { HeroSkillLearningState } from '../../systems/SkillUISystem';
 import { loadActiveGame } from '../../systems/SaveSlotSystem';
 import { restoreGameState, type LoadedGameState, type SaveStorage } from '../../systems/SaveSystem';
 import { createSeedEquipmentRegistry } from '../../systems/EquipmentSystem';
+import { createInventoryItemDefinitionRegistry } from '../../systems/InventoryResourceCatalog';
 
 type SkillRuntimePlayer = {
   slot: 'p1' | 'p2';
@@ -29,7 +30,9 @@ export type FormalSkillsUpdatedPayload = {
 export function readFormalSkillRuntime(storage: SaveStorage | undefined): LoadedGameState | undefined {
   if (!storage) return undefined;
   const save = loadActiveGame(storage);
-  return save ? restoreGameState(save, createSeedEquipmentRegistry()) : undefined;
+  return save
+    ? restoreGameState(save, createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()))
+    : undefined;
 }
 
 export function syncFormalSkillRuntime(

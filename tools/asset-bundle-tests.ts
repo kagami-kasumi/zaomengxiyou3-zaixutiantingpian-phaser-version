@@ -19,6 +19,7 @@ const requiredBundles = [
   'shell',
   'heaven-map',
   'feature-ui',
+  'feature-ui-backpack',
   'feature-ui-skills-common',
   'feature-ui-skills-hero-1',
   'feature-ui-skills-hero-5',
@@ -35,7 +36,13 @@ assert.equal(sceneAssetBundles.shell.dependencies.length, 0);
 assert.equal(sceneBundleBySceneKey.SaveSlotScene, 'shell');
 assert.equal(sceneBundleBySceneKey.HeavenMapScene, 'heaven-map');
 assert.equal(sceneBundleBySceneKey.FeatureUiScene, 'feature-ui');
-assert.equal(sceneAssetBundles['feature-ui'].assets.length, 0);
+assert.equal(sceneAssetBundles['feature-ui'].assets.length, 1);
+assert.equal(sceneAssetBundles['feature-ui-backpack'].assets.length, 452);
+assert.equal(
+  sceneAssetBundles.shell.assets.some((asset) => asset.key.startsWith('inventory-item.')),
+  false,
+);
+assert.equal(requireRuntimeAssetOwner('inventory-item.ptdcz'), 'feature-ui-backpack');
 assert.ok(sceneAssetBundles['feature-ui-skills-common'].assets.length < 80);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-1'].assets.length, 30);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-5'].assets.length, 30);

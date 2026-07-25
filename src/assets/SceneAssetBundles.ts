@@ -22,6 +22,8 @@ import {
   stage22Monster16AttackAssets,
   Stage22AssetKeys,
 } from './AssetManifest';
+import { inventoryItemAssets } from './InventoryItemAssets';
+import { inventoryUiAssetList } from './InventoryUiAssets';
 
 export type AssetBundleId =
   | 'shell'
@@ -176,7 +178,12 @@ export const sceneAssetBundles = {
   },
   'feature-ui-backpack': {
     dependencies: ['feature-ui'],
-    assets: [svg(fullFeatureUiAssets.backpack), svg(fullFeatureUiAssets.backpackGrid)],
+    assets: [
+      svg(fullFeatureUiAssets.backpack),
+      svg(fullFeatureUiAssets.backpackGrid),
+      ...inventoryUiAssetList.map(image),
+      ...Object.values(inventoryItemAssets).map(image),
+    ],
   },
   'feature-ui-skills-common': {
     dependencies: ['feature-ui'],

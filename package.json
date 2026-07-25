@@ -33,6 +33,7 @@
     "test:player-souls": "node tools/run-system-tests.mjs player-soul-system-tests",
     "test:save-party-flow": "node tools/run-system-tests.mjs save-party-flow-tests",
     "test:formal-inventory": "node tools/run-system-tests.mjs formal-inventory-tests",
+    "test:inventory-catalog": "node tools/run-system-tests.mjs inventory-resource-catalog-tests",
     "test:formal-skills": "node tools/run-system-tests.mjs formal-skill-tests",
     "test:formal-pets": "node tools/run-system-tests.mjs formal-pet-tests",
     "test:formal-workshop-host": "node tools/run-system-tests.mjs formal-workshop-host-tests",
