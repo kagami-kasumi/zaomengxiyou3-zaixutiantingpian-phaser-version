@@ -23,8 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-044 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-066D | 任务 47 项内容、奖励/进度/跨日存档与真 UI 六段证据 | 预计 0 次 |
-| GOAL-045 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155A | 丹药页原生 UI、P1/P2 事务和本地存档实现 | 预计 0 次 |
+| GOAL-045 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155A | 丹药页原生 UI、P1/P2 事务和本地存档实现 | 预计 0 次 |
 | GOAL-046 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155B | 商城原生 UI、离线灵魂购买和本地存档实现 | 预计 0 次 |
 | GOAL-047 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155C | 设置 overlay 原生 UI 与获批持久化边界实现 | 预计 0 次 |
 | GOAL-048 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155D | 任务页原生 UI、进度/奖励和跨日存档实现 | 预计 0 次 |

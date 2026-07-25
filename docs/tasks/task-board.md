@@ -4,15 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-066D` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。丹药、商城、设置页六段证据已经归档；下一次 `/goal` 只闭合任务页 43 日常+4 活动、奖励/进度/跨日存档与真 UI 证据，不写现代页面代码。
+`TASK-SLICE-155A` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。地图四服务页六段证据已全部归档；下一次 `/goal` 只实现丹药页原生 UI、P1/P2 炼制/服用事务与本地存档，不进入商城、设置或任务页实现。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-066 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 地图服务 UI 逆向父任务 | 已闭合四入口/页面身份公共检查点；逐页深证据拆为 066A..D | M-035、M-044、M-046、M-052、VS-059 | `map-service-ui-index.md` 公共矩阵与四页资源标注 | 066A..D 全部完成后收束 |
-| TASK-SETTINGS-066D | Ready | GOAL-044 | LINE-PRE-STAGE-2-3-COMPLETION | 任务页逆向 | 闭合 43 日常+4 活动、奖励/进度/跨日存档与真 UI 状态 | M-044、M-046、M-052、VS-059 | 任务页六段证据与 155D 实现输入 | TASK-SLICE-155A |
-| TASK-SLICE-155A | Planned | GOAL-045 | LINE-PRE-STAGE-2-3-COMPLETION | 丹药页实现 | 接入原生丹药页、P1/P2 炼制/服用与本地存档 | M-044、M-052、VS-059 | 可玩页面、自动门禁与 940×590 逐状态证据 | TASK-SLICE-155B |
+| TASK-SLICE-155A | Ready | GOAL-045 | LINE-PRE-STAGE-2-3-COMPLETION | 丹药页实现 | 接入原生丹药页、P1/P2 炼制/服用与本地存档 | M-044、M-052、VS-059 | 可玩页面、自动门禁与 940×590 逐状态证据 | TASK-SLICE-155B |
 | TASK-SLICE-155B | Planned | GOAL-046 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页实现 | 接入原生商城与离线灵魂购买，不伪造在线服务 | M-044、M-046、M-052、VS-059 | 可玩页面、事务/重载门禁与逐状态证据 | TASK-SLICE-155C |
 | TASK-SLICE-155C | Planned | GOAL-047 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页实现 | 接入原生设置 overlay 与获批的现代持久化边界 | M-035、M-044、M-052、VS-059 | 可玩 overlay、会话/重载门禁与逐状态证据 | TASK-SLICE-155D |
 | TASK-SLICE-155D | Planned | GOAL-048 | LINE-PRE-STAGE-2-3-COMPLETION | 任务页实现 | 接入原生任务页、进度/奖励与跨日存档 | M-044、M-046、M-052、VS-059 | 可玩页面、领取/跨日门禁与逐状态证据 | TASK-SETTINGS-067 |
@@ -29,144 +27,6 @@
 | TASK-ARCH-010B | Planned | GOAL-027 | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task |
 
 ## 任务完成定义
-
-### TASK-SETTINGS-066
-
-任务类型：
-
-- `TASK-SETTINGS`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
-
-Goal 包：
-
-- 无；已触发拆分。`066A/066B/066C` 已归档，当前 `GOAL-044` 绑定 `TASK-SETTINGS-066D`。
-
-目标机制/切片：
-
-- `M-035`、`M-044`、`M-046`、`M-052`、`VS-059`
-
-规模预算：
-
-- 主工作包：0；父任务只聚合子任务
-- 预计上下文压缩：0
-- 独立验收批次：0
-
-拆分触发：
-
-- 若四页分属两个以上独立源包/事务 owner，先完成入口与页面身份矩阵，再把未闭合页面拆成同线 `TASK-SETTINGS-066A..D`；不得在一个 Goal 同时深扒四套业务。
-
-输入资料：
-
-- `docs/workflow/reverse-engineering-protocol.md`、`full-function-ui-index.md`、`runtime-index.md`、`save-slots-index.md`、恢复 SWF 中地图菜单与四页面目标源包。
-- 沿 `MapMenu`、丹药/商城/设置/任务入口实际调用链窄查的局部与共享 AS3；legacy extraction 只读。
-
-输出产物：
-
-- 建立四页权威覆盖索引：入口/退出、字段、内容全集、事务、离线边界、存档影响、P1/P2 owner、真资源和现代缺口。
-- 更新资源标注，并把 `TASK-SLICE-155` 按页面/owner 拆成 0-compact 子 Goal/task。
-
-完成定义：
-
-- 四个按钮的实际页面身份、显示列表、可操作内容、关闭路线和存档影响逐项回答；商城/任务若依赖停服服务，明确原版事实、离线可复现边界与禁止伪造项。
-- 影响首个逐页实现的未知为零；不能清零的页面生成独立补证 Goal，不越级设为可实现。
-
-UI 原生化合同：
-
-- 显示列表清单：逐页记录根/子 Symbol、depth、父子关系、注册点、嵌套矩阵、文字字段、按钮状态、动态 child 和命中区。
-- 原版视觉基准：每页至少记录 940×590 原 SWF 可达状态或可追溯渲染；缺失页面阻塞视觉闭合。
-- 允许的现代视觉例外：只允许用户批准的停服网络/支付离线替代；默认禁止新增可见现代覆盖层。
-- 逐状态验收：normal/hover/pressed/selected、分页/列表、动态余额/进度、进入/返回及适用的 P1/P2。
-- 差异证据：为后续逐页实现定义并排/叠图、对象差异清单和容差。
-
-验收标准：
-
-- 恢复源 SWF 与 AS3 调用链交叉确认；`npm run check:annotations`、`npm run check:workflow`、`git diff --check` 通过。
-
-禁止范围：
-
-- 不写页面实现，不把网络/支付/活动伪造成可用原版服务，不修改恢复源或 legacy extraction。
-
-状态更新：
-
-- 更新本线覆盖台账、`mechanics-index.md`、`vertical-slices.md`、资源标注、Goal/task/history 与适用 PG 反馈。
-
-推荐后续任务：
-
-- 继续执行 `TASK-SETTINGS-066D`，再执行 `TASK-SLICE-155A..D`。
-
-拆分检查点：
-
-- 三个恢复源包、四套事务 owner 已确认，触发拆分成立。
-- 公共入口/页面身份、根显示列表、normal 视觉基准与存档边界已写入 `docs/reverse-engineering/map-service-ui-index.md`。
-- 首次 compact 后未继续读取新资料族或进入实现；父任务保持 `Split`，不归档为完成。
-
-### TASK-SETTINGS-066D
-
-任务类型：
-
-- `TASK-SETTINGS`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
-
-Goal 包：
-
-- `GOAL-044`（Active）
-
-目标机制/切片：
-
-- `M-044`、`M-046`、`M-052`、`VS-059`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若 47 项进度生产者跨两个以上独立系统，先输出权威任务数据表，再拆消费者补证。
-
-输入资料：
-
-- `map-service-ui-index.md`、character 85、`TaskInterface/TaskTile/AwardList/GameTask/Task` 与必要的进度/奖励/保存调用链。
-
-输出产物：
-
-- 补齐 character 85 页签、五 tile、描述/进度、四奖励格、领取、分页和关闭的全部状态与命中区。
-- 列清 43 日常+4 活动的目标/奖励、进度来源、领取成功/拒绝、双 owner、同日恢复与跨日重置。
-
-完成定义：
-
-- 明确停服活动可离线复现边界；影响 `155D` 的未知为零。
-
-UI 原生化合同：
-
-- 显示列表清单：页签、五 tile、字段、四奖励格、领取、分页、关闭的 Symbol/depth/状态/动态 child 与命中区。
-- 原版视觉基准：940×590 居中页面原 SWF 状态。
-- 允许的现代视觉例外：只允许用户批准的停服活动离线边界。
-- 逐状态验收：页签 selected、tile selected/complete、分页、领取、奖励变化、跨日/重载与关闭。
-- 差异证据：逐状态并排/叠图和对象差异清单。
-
-验收标准：
-
-- 恢复 SWF 与局部/共享 AS3 交叉确认；运行 annotations/workflow/diff check。
-
-禁止范围：
-
-- 不写实现，不补猜缺失活动服务或进度事实。
-
-状态更新：
-
-- 完成后归档本 task/Goal，激活 `TASK-SLICE-155A` 并更新本线覆盖与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SLICE-155A`。
 
 ### TASK-SETTINGS-067
 

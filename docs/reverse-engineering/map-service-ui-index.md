@@ -55,8 +55,9 @@
 - 五条任务 tile character 60，x 约 186，y 约 182.35/228.35/273.35/320.35/365.95。
 - 描述/进度字段 character 64/65；四个奖励格 character 73 形成 2×2；领取 character 54。
 - 上一页/下一页 character 78/83、页码 character 84、关闭 character 31。
+- `TASK-SETTINGS-066D` 已把 character 39/44/49/54/60/73、31/78/83、TextField、动态已领取/奖励图标、43 日常、4 个休眠活动、进度/奖励/双玩家/跨日存档和逐状态基准全部闭合，详见 [`task-ui-index.md`](task-ui-index.md)。
 
-除丹药页已由独立深证据闭合外，其余根导出只证明 normal 可达画面与静态/当前帧层次；商城、设置、任务的 `up/over/down/selected` 子定义、动态 child 与命中区仍由对应逐页证据 task 关闭。
+四个根导出最初只证明 normal 可达画面与静态/当前帧层次；现 `TASK-SETTINGS-066A/B/C/D` 已分别在逐页索引中闭合 `up/over/down/selected`、动态 child、命中区和业务 owner。
 
 ## 页面内容与事务合同
 
@@ -65,7 +66,7 @@
 | 丹药 | 五种效果、每种五阶；服用每颗消耗 1000 灵魂；每行有炼制弹窗与固定配方 | 当前 P1/P2 的背包、灵魂、`immortalitylist` | `immortalitylist`、背包与玩家灵魂进入存档 |
 | 商城 | 全部/宝石/道具/时装/宠物；49 件商品、每页 9 件；箭头数量 1..100，手输 0..99；第三大关起除 `zylhys` 外八折 | 当前 P1/P2 的背包与灵魂；成功后更新运行态并重建内存快照 | 原版不在确认时落盘，需返回地图显式保存；49 项与精确价格已由 `shop-ui-index.md` 闭合 |
 | 设置 | 难度普通/困难/地狱；BGM、技能音效开关；30/24/20 FPS；“默认音量”点击在该版本不修改状态 | 会话级 `gc.difficulity`、`SoundManager` 与 `stage.frameRate` | 原版 `User.getSaveObj` 未保存这些字段；现代持久化只能作为明确的现代选择 |
-| 任务 | 日常/活动两页签、每页五条、描述/进度、四奖励槽与领取 | `GameTask` / `Task` 进度和奖励事务 | `allTask`、`actTask` 入档；日常仅同日恢复，活动持续恢复；完整 47 项奖励表仍由逐页 task 闭合 |
+| 任务 | 日常/活动两页签、每页五条、描述/进度、四奖励槽与领取；43 日常可达，4 活动只构造未入数组 | 全局 `GameTask` / `Task` 共享进度；奖励作用于双方但保留 P2 经验与炎马仅 P1 的原缺陷 | `allTask`、`actTask` 入内存快照并在正式保存时落盘；日常仅同日恢复，活动设计为持续恢复但当前数组为空 |
 
 商城不是必须联网才能运行的页面：该版本确认按钮以玩家灵魂结算。“充值”、人民币/游币/点券和网络保存提示属于保留的旧静态表现，不得据此伪造在线支付、账户余额或后端服务。`TASK-SETTINGS-066B` 进一步确认购买成功只调用 `setStorage()` 重建内存快照，真正落盘仍需返回地图后显式保存；详见 `shop-ui-index.md`。
 
@@ -76,7 +77,7 @@
 | `TASK-SETTINGS-066A`（完成） | 丹药 `ImmortalityInterface` / `SingleImmortality` / `ExchangeImmortality` | 已在 `immortality-ui-index.md` 清零；等待 `TASK-SLICE-155A` 消费 |
 | `TASK-SETTINGS-066B`（完成） | 商城 `Micropayment` / `ShopThing` / `SumInterface` | 已在 `shop-ui-index.md` 清零；等待 `TASK-SLICE-155B` 消费 |
 | `TASK-SETTINGS-066C`（完成） | 设置 `gameSetting` | 已在 `settings-ui-index.md` 清零；等待 `TASK-SLICE-155C` 消费 |
-| `TASK-SETTINGS-066D` | 任务 `TaskInterface` / `TaskTile` / `AwardList` / `GameTask` | 43 日常+4 活动的目标/奖励全集、进度生产者、领取拒绝/完成态、跨日与双 owner 行为 |
+| `TASK-SETTINGS-066D`（完成） | 任务 `TaskInterface` / `TaskTile` / `AwardList` / `GameTask` | 已在 `task-ui-index.md` 清零；等待 `TASK-SLICE-155D` 消费 |
 
 每个证据 task 只允许读取自身页面族及必要共享 owner；完成后由对应 `TASK-SLICE-155A..D` 独立实现与验收，不在一个 Goal 横跨四页。
 
@@ -90,6 +91,6 @@
 
 ## 当前判定
 
-- 已确认：四入口实际调用链、四页面身份、三个恢复源包、四根 Symbol、normal 视觉基准、根层次/几何、主要内容与事务 owner、原版存档边界；丹药与商城完整六段证据已闭合。
-- 仍为未知：任务页的深层按钮/动态显示列表、完整奖励与进度生产者。
-- 结论：父任务继续保持 `Split`；`TASK-SETTINGS-066A/B/C` 已完成，功能线转入 `GOAL-044 / TASK-SETTINGS-066D`，不能把三页闭合当成四页完成。
+- 已确认：四入口实际调用链、四页面身份、四个恢复视觉源包、四根 Symbol、逐页完整显示列表/几何、主要内容与事务 owner、原版存档边界；四页完整六段证据均已闭合。
+- 任务页确认 43 日常可达；4 个活动定义只构造不入 `actTask`，103/104 也没有完成分支。当前版本活动页正常态是空页 `1/1`，不得伪造活动后端或奖励。
+- 结论：父任务继续保持 `Split`；`TASK-SETTINGS-066A/B/C/D` 全部完成，后续按 `TASK-SLICE-155A..D` 逐页实现，不把四页证据闭合等同于四页已复现。

@@ -14,17 +14,18 @@
 - `TASK-SETTINGS-066A` 又补齐丹药格、炼制弹窗、四个按钮和五职业 owner 选择器共 11 条深层资源；本批次现有 15 条 `derived-ready`。
 - `TASK-SETTINGS-066B` 补齐商城商品卡 717、确认弹窗 624 和 16 个按钮四态，共新增 18 条深层资源；本批次现有 33 条 `derived-ready`。
 - `TASK-SETTINGS-066C` 补齐设置五行动态值 wrapper 146 与关闭按钮 144，共新增 2 条深层资源；本批次现有 35 条 `derived-ready`。
-- 四页跨三包与四套事务 owner；丹药、商城、设置页深层显示列表已闭合，任务页 tile、奖励、分页与内容全集交给 `066D`。
+- `TASK-SETTINGS-066D` 补齐任务页两页签、领取、tile、奖励格、关闭、翻页、已领取图和四种共享奖励图标，共新增 13 条深层资源；本批次现有 48 条 `derived-ready`。
+- 四页跨三包与四套事务 owner；丹药、商城、设置、任务页深层显示列表现均已闭合。
 
 ## 去向
 
-- `TASK-SETTINGS-066A/B/C` 的丹药/商城/设置证据见 `../../immortality-ui-index.md`、`../../shop-ui-index.md` 与 `../../settings-ui-index.md`；`066D` 继续闭合任务页。
+- `TASK-SETTINGS-066A/B/C/D` 的逐页证据见 `../../immortality-ui-index.md`、`../../shop-ui-index.md`、`../../settings-ui-index.md` 与 `../../task-ui-index.md`。
 - `TASK-SLICE-155A..D` 在对应证据未知清零后选择性接入；不得把根 SVG 当作可交互整页截图。
 
 ## 关闭检查
 
-- [x] 35 条记录均有唯一 stableKey、精确源包、symbol id、状态与唯一后续去向。
+- [x] 48 条记录均有唯一 stableKey、精确源包、symbol id、状态与唯一后续去向。
 - [x] 视觉存在性以 restored SWF 为准，legacy extraction 仅作行为交叉确认。
 - [x] 原舞台、商城导出越界与 normal 基准已记录。
 - [x] 派生物只写入新 task-output，未修改恢复源与 legacy extraction。
-- [x] 丹药/商城/设置页在各自完整六段证据后标记深层显示列表闭合；任务页仍未越权关闭。
+- [x] 丹药/商城/设置/任务页均在各自完整六段证据后标记深层显示列表闭合。

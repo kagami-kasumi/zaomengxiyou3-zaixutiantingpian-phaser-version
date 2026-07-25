@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-066D | 地图服务 UI 逆向 | 闭合任务页 43 日常、4 活动定义、进度/奖励/跨日保存与真 UI 状态 | M-044、M-046、M-052、VS-059 | `task-ui-index.md`、character 85 完整显示列表、13 条资源标注、活动空页反证、原版瑕疵与 `TASK-SLICE-155D` 实现合同 |
+| TASK-SETTINGS-066 | 拆分父任务收束 | 汇总地图四服务页公共入口与 `066A..D` 四个六段证据任务 | M-035、M-044、M-046、M-052、VS-059 | `map-service-ui-index.md`、四页权威索引、48 条 derived-ready 标注与 `155A..D` 逐页实现输入 |
 | TASK-SETTINGS-066C | 地图服务 UI 逆向 | 闭合设置 overlay 五行循环、会话 owner、非存档反证与真 UI 状态 | M-044、M-046、M-052、VS-059 | `settings-ui-index.md`、148/134/136..147 深层矩阵、2 条资源标注、独立全局持久化现代例外与 `TASK-SLICE-155C` 实现合同 |
 | TASK-SETTINGS-066B | 地图服务 UI 逆向 | 闭合商城 49 商品、权威价格、离线灵魂事务、分页/按钮态与保存边界 | M-044、M-046、M-052、VS-059 | `shop-ui-index.md`、721/717/624 深层矩阵、18 条资源标注、49 商品/价格/折扣/拒绝态与 `TASK-SLICE-155B` 实现合同 |
 | TASK-SETTINGS-066A | 地图服务 UI 逆向 | 闭合丹药页完整显示列表、五类五阶、炼制/服用、owner 与存档证据 | M-044、M-052、VS-059 | `immortality-ui-index.md`、990/969/1006 深层矩阵、11 条资源标注、五配方/拒绝态与 `TASK-SLICE-155A` 实现合同 |
@@ -4914,6 +4916,66 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-066D
+
+完成时间：
+
+- 2026-07-25
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-155A`）
+
+完成内容：
+
+- 从主行为包 `[172845].swf` 的 `TaskInterface / TaskTile / AwardList / GameTask / Task` 追到怪物进度生产者、`User / MemoryClass / Config / GMain / MapMenu`，并以备份行为包 `[25034429].swf` 交叉确认任务注册边界。
+- `task-ui-index.md` 记录 character 85 在 940×590 舞台中的完整显示列表：双页签、五 tile、详情/进度、四奖励格、领取、分页、关闭、动态已领取图，以及 TextField、坐标、深度、状态、命中和尾页/空页瑕疵。
+- 列清 43 项日常任务的目标、需求量和候选奖励；列清活动 101..104，同时以两个行为包反证四项都未加入 `actTask`，所以当前版本活动页实际为空，不把停服内容伪造成可用活动。
+- 闭合普通/特殊怪物进度、地狱难度排除、全局共享任务 owner、候选奖励随机分配、P1/P2 与宠物分发、容量无预检、领取后内存快照及地图显式保存边界。
+- 闭合同日恢复、跨日重置、在线跨午夜不自动重置和同一任务串冗余写入双方 User 的事实，并记录多人 EXP 分支、非均匀随机、空活动页陈旧详情可领取等原版瑕疵。
+- 从恢复 `assets/backpack1.swf` 与 `assets/EIcon1.swf` 只读派生页签/按钮/列表/奖励格/已领取图和四类奖励图，新增 13 条资源标注；恢复源与 `legacy-extraction` 未修改。
+- `TASK-SETTINGS-066D` 使 `TASK-SLICE-155D` 输入未知为零；`066A..D` 全部归档后同步收束逆向父任务 `TASK-SETTINGS-066`。`VS-059` 仍为待机制，功能线不提前关闭。
+
+更新文件：
+
+- `docs/reverse-engineering/task-ui-index.md`
+- `docs/reverse-engineering/map-service-ui-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/map-services.csv`
+- `docs/reverse-engineering/asset-annotation/batches/map-services.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-history.md`
+- PG-002/004/005/007/008 适用反馈记录
+
+验证：
+
+- restored SWF、选择性派生、主/备份行为包与局部/共享 AS3 调用链交叉确认；逐状态 XML/SVG 位于 Git 忽略的 task-output。
+- `npm run check:annotations` 通过：519 条标注、48 条 `derived-ready`、518 条 `confirmed`。
+- `npm run check:workflow` 通过：15 个未完成 task/定义一致、229 个已完成 task/定义一致、唯一推荐 `TASK-SLICE-155A`、唯一 Active `GOAL-045`；仅保留既有 `PlayerSlot` 禁用别名 warning。
+- `git diff --check` 通过；仅提示三个既有 Markdown 工作副本的 CRLF/LF 转换，不含 whitespace error。
+- 本 Goal 保持两个主工作包和两个验收批次；实际发生 1 次 compact，超过预计 0 次。compact 前已完成全部一手读取和资源派生，之后仅回写文档、状态与治理样本并运行既定校验，没有读取新资料族、派生新资源或新增实现，按 PG-008 记为受控收尾。
+
+推荐任务：
+
+- `GOAL-045 / TASK-SLICE-155A`：只消费既有丹药页证据，实现原生 UI、P1/P2 炼制/服用事务和本地存档。
+
+### TASK-SETTINGS-066
+
+完成时间：
+
+- 2026-07-25
+
+收束说明：
+
+- 四入口公共身份、源包、根视觉与 owner 检查点由 `map-service-ui-index.md` 承载。
+- `TASK-SETTINGS-066A..D` 已分别闭合丹药、商城、设置、任务页六段证据，四个实现 task `TASK-SLICE-155A..D` 均具备未知为零的输入。
+- 父任务只做拆分聚合，没有把证据完成外推为 `VS-059` 或功能线完成；下一步仍从 `GOAL-045 / TASK-SLICE-155A` 开始逐页实现。
 
 ### TASK-SETTINGS-066C
 
