@@ -43,9 +43,10 @@
 ### 设置：character 148
 
 - 根背景 character 134，`depth 1`，940×590；页面作为透明舞台 overlay 使用。
-- 难度、背景音乐、技能音效、画面质量、恢复默认五行标签位于 y 约 196.8/244.3/290.1/339.05/387.65。
-- 四个动态值 character 146 位于 x 约 501.4、y 约 192.8/237.9/286.1/334.9；恢复默认值位于约 `(500.4,383.65)`。
+- 游戏难度、背景音效、技能音效、画面质量、默认音量五行标签位于 y 约 196.8/244.3/290.1/339.05/387.65。
+- 四个动态值 character 146 位于 x 约 501.4、y 约 192.8/237.9/286.1/334.9；默认音量占位值位于约 `(500.4,383.65)`。
 - 关闭 character 144，`depth 7`，约 `(590,131.95)`，40×42。
+- `TASK-SETTINGS-066C` 已把 character 134/136..147、五行 TextField/命中区、关闭四态、hover/pressed/循环、overlay 生命周期、会话 owner、原版非存档和现代全局持久化例外全部闭合，详见 [`settings-ui-index.md`](settings-ui-index.md)。
 
 ### 任务：character 85
 
@@ -63,7 +64,7 @@
 | --- | --- | --- | --- |
 | 丹药 | 五种效果、每种五阶；服用每颗消耗 1000 灵魂；每行有炼制弹窗与固定配方 | 当前 P1/P2 的背包、灵魂、`immortalitylist` | `immortalitylist`、背包与玩家灵魂进入存档 |
 | 商城 | 全部/宝石/道具/时装/宠物；49 件商品、每页 9 件；箭头数量 1..100，手输 0..99；第三大关起除 `zylhys` 外八折 | 当前 P1/P2 的背包与灵魂；成功后更新运行态并重建内存快照 | 原版不在确认时落盘，需返回地图显式保存；49 项与精确价格已由 `shop-ui-index.md` 闭合 |
-| 设置 | 难度普通/困难/地狱；BGM、技能音效开关；30/24/20 FPS；恢复默认点击在该版本不修改状态 | 会话级 `gc.difficulty`、`SoundManager` 与 `stage.frameRate` | 原版 `User.getSaveObj` 未保存这些字段；现代持久化只能作为明确的现代选择 |
+| 设置 | 难度普通/困难/地狱；BGM、技能音效开关；30/24/20 FPS；“默认音量”点击在该版本不修改状态 | 会话级 `gc.difficulity`、`SoundManager` 与 `stage.frameRate` | 原版 `User.getSaveObj` 未保存这些字段；现代持久化只能作为明确的现代选择 |
 | 任务 | 日常/活动两页签、每页五条、描述/进度、四奖励槽与领取 | `GameTask` / `Task` 进度和奖励事务 | `allTask`、`actTask` 入档；日常仅同日恢复，活动持续恢复；完整 47 项奖励表仍由逐页 task 闭合 |
 
 商城不是必须联网才能运行的页面：该版本确认按钮以玩家灵魂结算。“充值”、人民币/游币/点券和网络保存提示属于保留的旧静态表现，不得据此伪造在线支付、账户余额或后端服务。`TASK-SETTINGS-066B` 进一步确认购买成功只调用 `setStorage()` 重建内存快照，真正落盘仍需返回地图后显式保存；详见 `shop-ui-index.md`。
@@ -74,7 +75,7 @@
 | --- | --- | --- |
 | `TASK-SETTINGS-066A`（完成） | 丹药 `ImmortalityInterface` / `SingleImmortality` / `ExchangeImmortality` | 已在 `immortality-ui-index.md` 清零；等待 `TASK-SLICE-155A` 消费 |
 | `TASK-SETTINGS-066B`（完成） | 商城 `Micropayment` / `ShopThing` / `SumInterface` | 已在 `shop-ui-index.md` 清零；等待 `TASK-SLICE-155B` 消费 |
-| `TASK-SETTINGS-066C` | 设置 `gameSetting` | 五行 hover/pressed/循环状态、overlay 命中/关闭、session 与现代持久化裁决、恢复默认死控件处理 |
+| `TASK-SETTINGS-066C`（完成） | 设置 `gameSetting` | 已在 `settings-ui-index.md` 清零；等待 `TASK-SLICE-155C` 消费 |
 | `TASK-SETTINGS-066D` | 任务 `TaskInterface` / `TaskTile` / `AwardList` / `GameTask` | 43 日常+4 活动的目标/奖励全集、进度生产者、领取拒绝/完成态、跨日与双 owner 行为 |
 
 每个证据 task 只允许读取自身页面族及必要共享 owner；完成后由对应 `TASK-SLICE-155A..D` 独立实现与验收，不在一个 Goal 横跨四页。
@@ -83,12 +84,12 @@
 
 - 默认零新增可见现代覆盖层；禁止用现代面板、标题、通用按钮或整页截图代替原显示列表。
 - 商城停服支付/网络能力只能做离线边界处理，不得伪造原版在线事实；任何静态文案替换均需用户批准。
-- 设置是否跨重启持久化不是原版事实；如现代实现需要保存，必须单独标为现代例外并保持现有 V6/player owner 边界。
+- 设置是否跨重启持久化不是原版事实；用户确认的本线跨应用重启范围现明确作为现代例外，使用独立全局 localStorage owner，不写入 V6/player schema。
 - 后续实现必须按 940×590 对照 normal/hover/pressed/selected、分页/列表、动态余额/进度、进入/返回及适用的 P1/P2。
 - 组合 SVG/PNG 只作为视觉基准和静态子件来源；动态 TextField、按钮状态与运行时 child 必须按显示列表重建，避免扁平底图与运行 child 重复。
 
 ## 当前判定
 
 - 已确认：四入口实际调用链、四页面身份、三个恢复源包、四根 Symbol、normal 视觉基准、根层次/几何、主要内容与事务 owner、原版存档边界；丹药与商城完整六段证据已闭合。
-- 仍为未知：设置、任务两页的深层按钮/动态显示列表，以及任务完整奖励与进度生产者、设置现代持久化产品裁决。
-- 结论：父任务继续保持 `Split`；`TASK-SETTINGS-066A/B` 已完成，功能线转入 `GOAL-043 / TASK-SETTINGS-066C`，不能把两页闭合当成四页完成。
+- 仍为未知：任务页的深层按钮/动态显示列表、完整奖励与进度生产者。
+- 结论：父任务继续保持 `Split`；`TASK-SETTINGS-066A/B/C` 已完成，功能线转入 `GOAL-044 / TASK-SETTINGS-066D`，不能把三页闭合当成四页完成。

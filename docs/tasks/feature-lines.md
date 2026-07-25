@@ -30,7 +30,7 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SETTINGS-066C | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 设置 overlay 五行状态、会话边界与真 UI 六段证据由当前 Goal 清零 | 丹药、商城六段证据已归档；功能线保持唯一 Active，`GOAL-043` 为唯一 Active Goal |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SETTINGS-066D | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 任务页 43 日常+4 活动、奖励/进度/跨日存档与真 UI 六段证据由当前 Goal 清零 | 丹药、商城、设置六段证据已归档；功能线保持唯一 Active，`GOAL-044` 为唯一 Active Goal |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `GOAL-025` 保留为 Planned；既有任务定义不丢失 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 
@@ -39,6 +39,8 @@
 2026-07-24 用户要求在 Stage 2-3 逆向前先完成两组正式导航、既有关卡怪物真动画、角色/技能动画与本地存档。复核确认：本地六槽 `localStorage`、V6 双 owner、背包/技能/法宝/宠物页面业务已存在，但天庭地图“丹药/商城/设置/任务”未进入 `full-function-ui-index.md` 的 14 页合同；关卡内五入口尚缺“与原版表现一致”的逐状态关闭证据；Stage 1-3 明记怪物为占位外观，Stage 1 其余怪物与五角色技能真动画也没有全集关闭证据。因此新增并激活 `LINE-PRE-STAGE-2-3-COMPLETION`，`LINE-STAGE-2-3 / GOAL-025 / TASK-SETTINGS-064` 暂回 Planned。存档不重复重做，只在最终正式旅程中验证浏览器本地持久化、损坏保护、P1/P2 隔离和跨页/跨关卡重载。
 
 2026-07-25 `TASK-SETTINGS-066` 已确认四入口实际调用链、四页面身份、三个恢复源包、四根 Symbol 与主要事务/存档边界。因跨三源包和四套 owner 且首次 compact，按拆分门禁停止扩张：父任务改为 `Split`，证据拆为 `066A..D`，实现父任务拆为 `155A..D`，公共检查点见 `map-service-ui-index.md`；功能线不关闭，`GOAL-037 / TASK-SETTINGS-066A` 继续唯一 Active。
+
+`TASK-SETTINGS-066C` 已归档：character 148/134/136..147、关闭按钮四态、五行 hover/pressed/循环、全屏 overlay 生命周期、难度/声音/30-24-20 FPS 会话 owner、原版非存档反证和默认音量死控件均已闭合。用户确认的跨应用重启范围作为现代例外落到独立全局 localStorage，不修改 V6/player schema；功能线保持 Active，当前推进 `GOAL-044 / TASK-SETTINGS-066D`。
 
 2026-07-25 `TASK-SETTINGS-066A` 已闭合丹药页完整显示列表、按钮状态、五类五阶、五配方、拒绝态、P1/P2 owner 和存档边界，详见 `immortality-ui-index.md`。功能线不关闭，转入 `GOAL-042 / TASK-SETTINGS-066B`。
 

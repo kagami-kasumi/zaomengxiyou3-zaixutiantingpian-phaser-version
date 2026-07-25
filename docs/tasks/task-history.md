@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-066C | 地图服务 UI 逆向 | 闭合设置 overlay 五行循环、会话 owner、非存档反证与真 UI 状态 | M-044、M-046、M-052、VS-059 | `settings-ui-index.md`、148/134/136..147 深层矩阵、2 条资源标注、独立全局持久化现代例外与 `TASK-SLICE-155C` 实现合同 |
 | TASK-SETTINGS-066B | 地图服务 UI 逆向 | 闭合商城 49 商品、权威价格、离线灵魂事务、分页/按钮态与保存边界 | M-044、M-046、M-052、VS-059 | `shop-ui-index.md`、721/717/624 深层矩阵、18 条资源标注、49 商品/价格/折扣/拒绝态与 `TASK-SLICE-155B` 实现合同 |
 | TASK-SETTINGS-066A | 地图服务 UI 逆向 | 闭合丹药页完整显示列表、五类五阶、炼制/服用、owner 与存档证据 | M-044、M-052、VS-059 | `immortality-ui-index.md`、990/969/1006 深层矩阵、11 条资源标注、五配方/拒绝态与 `TASK-SLICE-155A` 实现合同 |
 | TASK-ARCH-013B | 跨功能事务闭环 | 收敛技能、炼丹炉、法宝等灵魂消费者并完成负向门禁与正式旅程 | M-016、M-041、M-044、VS-055、PG-010 | `PlayerSoulSystem`、三类正式消费者统一接线、余额不足/非法消费门禁、P1/P2 跨功能重载旅程与 940×590 零 console 证据 |
@@ -4913,6 +4914,54 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-066C
+
+完成时间：
+
+- 2026-07-25
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SETTINGS-066D`）
+
+完成内容：
+
+- 从 `gameSetting` 追到 `MapMenu / Config / SoundManager / BaseEffect` 与保存快照，闭合设置 overlay 的创建、直接挂载 stage、监听注册/移除、关闭销毁和会话 owner。
+- 记录 character 148 根页、134 全舞台阻挡面、136..139/147 五个静态标签、145/146 五个动态值 wrapper 与 character 144 关闭按钮的 depth、坐标、TextField、命中和四状态。
+- 闭合五行循环：难度普通/困难/地狱、背景音效开/关、技能音效开/关、画面质量 30/24/20 FPS；hover 仅把动态值由白色改为黄色，关闭按钮 down 下移 2px。
+- 确认“默认音量”点击不修改任何状态，属于原版死控件；原版设置字段不进入 `getSaveObj()`，返回主菜单还会把难度重置为普通。
+- 按当前功能线合同记录用户确认的现代例外：四项有效设置使用独立全局 `localStorage` key/codec 跨应用重启持久化，不修改 V6 玩家/存档 schema；“默认音量”默认继续保持死控件。
+- 从恢复 `assets/StageCommon.swf` 只读派生设置 XML 与关闭按钮组合 SVG，新增动态值和关闭按钮 2 条资源标注；恢复源与 legacy extraction 未修改。
+- `settings-ui-index.md` 完整记录六段证据、原版 940×590 基准、现代映射和零新增可见例外，使影响 `TASK-SLICE-155C` 的原版事实未知为零；没有进入现代页面实现或任务页逆向。
+
+更新文件：
+
+- `docs/reverse-engineering/settings-ui-index.md`
+- `docs/reverse-engineering/map-service-ui-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/map-services.csv`
+- `docs/reverse-engineering/asset-annotation/batches/map-services.md`
+- `docs/reverse-engineering/asset-annotation/project-status.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-history.md`
+- PG-002/004/005/007/008 适用反馈记录
+
+验证：
+
+- restored SWF、选择性 FFDec 派生与局部 AS3/共享调用链交叉确认；逐状态 SVG/XML 位于 Git 忽略的 task-output。
+- `npm run check:annotations` 通过：506 条标注、35 条 `derived-ready`、505 条 `confirmed`。
+- `npm run check:workflow` 通过：17 个未完成 task/定义一致、227 个已完成 task/定义一致、唯一推荐 `TASK-SETTINGS-066D`、唯一 Active `GOAL-044`；仅保留既有 `PlayerSlot` 禁用别名 warning。
+- `git diff --check` 通过；仅提示三个既有 Markdown 工作副本的 CRLF/LF 转换，不含 whitespace error。
+- 本 Goal 实际保持两个主工作包、两个验收批次和 0 次 compact；没有读取任务页资料族、派生其资源或新增实现。
+
+推荐任务：
+
+- `TASK-SETTINGS-066D`：闭合任务页 tile、奖励、分页、动态内容与真 UI 六段证据。
 
 ### TASK-SETTINGS-066B
 
