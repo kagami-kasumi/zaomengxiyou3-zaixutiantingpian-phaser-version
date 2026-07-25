@@ -947,6 +947,20 @@ function uiNativeContractErrors(text) {
   return uiNativeContractFields.filter((requiredText) => !text.includes(requiredText));
 }
 
+const uiComponentContractFields = [
+  '组件化合同：',
+  '组件家族：',
+  '权威 owner：',
+  '共享行为：',
+  '页面保留项：',
+  '消费者迁移矩阵：',
+  '防复发门禁：',
+];
+
+function uiComponentContractErrors(text) {
+  return uiComponentContractFields.filter((requiredText) => !text.includes(requiredText));
+}
+
 function checkUiNativeWorkflowGate(
   taskGeneration,
   taskRows,
@@ -960,6 +974,8 @@ function checkUiNativeWorkflowGate(
   for (const requiredText of [
     '## UI 原生化 task 门禁',
     ...uiNativeContractFields,
+    '## 共享 UI 组件化 task 门禁',
+    ...uiComponentContractFields,
   ]) {
     if (!taskGeneration.includes(requiredText)) {
       error(`task-generation.md must include UI native contract text: ${requiredText}`);
@@ -983,6 +999,27 @@ function checkUiNativeWorkflowGate(
     const negativeSample = positiveSample.replace(field, `field-${index}-removed`);
     if (uiNativeContractErrors(negativeSample).length === 0) {
       error(`UI native contract negative sample ${index + 1} must fail validation.`);
+    }
+  });
+
+  for (const row of taskRows) {
+    if (row.status === 'Split') continue;
+    const summary = [row.type, row.goal, row.output].join(' ');
+    if (!/(?:组件化|共享组件|组件家族)/u.test(summary)) continue;
+    const block = taskBlockList.find((candidate) => candidate.id === row.id)?.text ?? '';
+    for (const missingText of uiComponentContractErrors(block)) {
+      error(`${row.id} shared UI component task is missing component contract text: ${missingText}`);
+    }
+  }
+
+  const componentPositiveSample = uiComponentContractFields.join('\n');
+  if (uiComponentContractErrors(componentPositiveSample).length > 0) {
+    error('Shared UI component contract positive sample failed.');
+  }
+  uiComponentContractFields.forEach((field, index) => {
+    const negativeSample = componentPositiveSample.replace(field, `component-field-${index}-removed`);
+    if (uiComponentContractErrors(negativeSample).length === 0) {
+      error(`Shared UI component contract negative sample ${index + 1} must fail validation.`);
     }
   });
 

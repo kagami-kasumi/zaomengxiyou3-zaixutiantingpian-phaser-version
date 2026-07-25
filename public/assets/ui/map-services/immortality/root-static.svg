@@ -2,7 +2,6 @@
 <svg xmlns:ffdec="https://www.free-decompiler.com/flash" xmlns:xlink="http://www.w3.org/1999/xlink" ffdec:objectType="frame" height="590.0px" width="940.0px" xmlns="http://www.w3.org/2000/svg">
   <g transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)">
     <use ffdec:characterId="972" height="590.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="940.0" xlink:href="#shape0"/>
-    <use ffdec:characterId="973" height="31.0" id="btnback" transform="matrix(1.0, 0.0, 0.0, 1.0, 853.3, 23.35)" width="84.0" xlink:href="#button0"/>
     <use ffdec:characterId="975" height="390.05" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="836.0" xlink:href="#shape4"/>
     <use ffdec:characterId="969" ffdec:characterName="export.immortality.SingleImmortality" height="55.0" id="im1_1" transform="matrix(1.0, 0.0, 0.0, 1.0, 196.85, 150.85)" width="55.0" xlink:href="#sprite0"/>
     <use ffdec:characterId="969" ffdec:characterName="export.immortality.SingleImmortality" height="55.0" id="im2_1" transform="matrix(1.0, 0.0, 0.0, 1.0, 196.85, 218.35)" width="55.0" xlink:href="#sprite0"/>

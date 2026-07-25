@@ -180,6 +180,7 @@ export const SavePartyAssetKeys = {
 export const FullFeatureUiAssetKeys = {
   backpack: 'full-ui.backpack',
   backpackGrid: 'full-ui.backpack-grid',
+  soulBadge: 'full-ui.soul-badge',
   soulDigits: 'full-ui.soul-digits',
   skillHub: 'full-ui.skill-hub',
   skillActive: 'full-ui.skill-active',
@@ -700,6 +701,90 @@ export const immortalityUiAssets = {
     3: immortalityOwnerAssets(3, 'export.shop.SelectBJ', 233),
     4: immortalityOwnerAssets(4, 'export.shop.SelectSS', 228),
     5: immortalityOwnerAssets(5, 'export.shop.SelectBL', 871),
+  },
+} as const;
+
+const ShopUiAssetRoot = '/assets/ui/map-services/shop';
+
+function shopUiAsset(
+  key: string,
+  fileName: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return {
+    key,
+    path: `${ShopUiAssetRoot}/${fileName}`,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/backpack1.swf',
+    sourceSymbol,
+    sourceCharacterId,
+  };
+}
+
+function shopButtonAssets(
+  name: string,
+  sourceCharacterId: number,
+): Record<'up' | 'over' | 'down', ExtractedImageAssetDefinition> {
+  return {
+    up: shopUiAsset(
+      `map-service.shop.${name}.up`,
+      `${name}-up.png`,
+      `DefineButton2 ${sourceCharacterId} up`,
+      sourceCharacterId,
+    ),
+    over: shopUiAsset(
+      `map-service.shop.${name}.over`,
+      `${name}-over.png`,
+      `DefineButton2 ${sourceCharacterId} over`,
+      sourceCharacterId,
+    ),
+    down: shopUiAsset(
+      `map-service.shop.${name}.down`,
+      `${name}-down.png`,
+      `DefineButton2 ${sourceCharacterId} down`,
+      sourceCharacterId,
+    ),
+  };
+}
+
+export const shopUiAssets = {
+  root: shopUiAsset(
+    'map-service.shop.root',
+    'root-static.svg',
+    'export.microshop.Micropayment character 721; dynamic children removed',
+    721,
+  ),
+  card: shopUiAsset(
+    'map-service.shop.card',
+    'card-static.svg',
+    'export.microshop.ShopThing character 717; dynamic children removed',
+    717,
+  ),
+  confirm: shopUiAsset(
+    'map-service.shop.confirm',
+    'confirm-static.svg',
+    'export.microshop.SumInterface character 624; dynamic children removed',
+    624,
+  ),
+  buttons: {
+    categoryAll: shopButtonAssets('category-all', 658),
+    categoryGem: shopButtonAssets('category-gem', 643),
+    categoryItem: shopButtonAssets('category-item', 636),
+    categoryFashion: shopButtonAssets('category-fashion', 653),
+    categoryPet: shopButtonAssets('category-pet', 648),
+    charge: shopButtonAssets('charge', 668),
+    ownerP1: shopButtonAssets('owner-p1', 675),
+    ownerP2: shopButtonAssets('owner-p2', 680),
+    pagePrev: shopButtonAssets('page-prev', 685),
+    pageNext: shopButtonAssets('page-next', 690),
+    back: shopButtonAssets('back', 719),
+    buy: shopButtonAssets('buy', 703),
+    quantityUp: shopButtonAssets('quantity-up', 711),
+    quantityDown: shopButtonAssets('quantity-down', 716),
+    confirmOk: shopButtonAssets('confirm-ok', 617),
+    confirmCancel: shopButtonAssets('confirm-cancel', 622),
   },
 } as const;
 
@@ -1280,6 +1365,13 @@ export const craftingAssets = {
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
 export const fullFeatureUiAssets = {
+  soulBadge: extractedCraftingImage(
+    FullFeatureUiAssetKeys.soulBadge,
+    '/assets/ui/feature/shared/soul-badge.png',
+    'assets/OtherMat1.swf',
+    'export.shop.BuySkill character 250 / shape 236 PatternID_236_2',
+    236,
+  ),
   soulDigits: extractedCraftingImage(
     FullFeatureUiAssetKeys.soulDigits,
     '/assets/ui/feature/shared/soul-digits.svg',

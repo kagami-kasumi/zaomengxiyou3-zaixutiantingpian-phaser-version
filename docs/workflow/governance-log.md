@@ -4,6 +4,31 @@
 
 ## 2026-07-25
 
+### 登记共享 UI 组件化问题与分段任务
+
+变更内容：
+
+- 新增 `PG-011`，把商城灵魂余额黑框复发上升为共享 UI 组件 owner、页面保留项、资源 provenance、消费者迁移和防回填门禁缺失问题。
+- 新增 Planned `LINE-SHARED-UI-COMPONENTS`、Split 父任务 `TASK-ARCH-014`，并以 `GOAL-051..056 / TASK-ARCH-014A..F` 分别治理审计合同、灵魂余额、原生按钮/关闭、背包基础、正式背包试点和嵌入式消费者迁移。
+- `task-generation.md` 新增强制 `组件化合同`；`validate-workflow.mjs` 对组件化 task 执行七项固定文本及逐字段正/负样例校验。
+- 当前唯一 Active 线/Goal/task 保持 `LINE-PRE-STAGE-2-3-COMPLETION / GOAL-047 / TASK-SLICE-155C`，组件化任务全部为 Planned，不抢占当前 WIP。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-011-共享UI组件边界与迁移门禁缺失.md`
+- `docs/workflow/task-generation.md`
+- `tools/validate-workflow.mjs`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- 适用 PG-002/004/007/008/009/010 的效果样本
+
+验证：
+
+- 运行 `npm run check:workflow` 与 `git diff --check`。
+
 ### 丹药页证据 Goal 归档
 
 变更内容：

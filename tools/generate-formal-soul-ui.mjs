@@ -12,6 +12,17 @@ const sourcePath = path.join(
   'DefineSprite_119_export.strength.StrengthEquipment',
   '1.svg',
 );
+const skillSourcePath = path.join(
+  root,
+  'local-resources',
+  'regima',
+  'task-outputs',
+  'task-settings-058-ui',
+  'svg',
+  'skill-page',
+  'DefineSprite_250_export.shop.BuySkill',
+  '1.svg',
+);
 const outputPath = path.join(
   root,
   'public',
@@ -28,6 +39,15 @@ const digitAtlasPath = path.join(
   'feature',
   'shared',
   'soul-digits.svg',
+);
+const badgePath = path.join(
+  root,
+  'public',
+  'assets',
+  'ui',
+  'feature',
+  'shared',
+  'soul-badge.png',
 );
 const fontSourcePath = path.join(
   root,
@@ -47,6 +67,7 @@ const fontOutputPath = path.join(
 );
 
 const source = readFileSync(sourcePath, 'utf8');
+const skillSource = readFileSync(skillSourcePath, 'utf8');
 const cleaned = source.replace(/^\s*<use[^>]*\sid="txtlh"[^>]*\/>\r?\n/m, '');
 if (cleaned === source || cleaned.includes('id="txtlh"')) {
   throw new Error('Expected to remove the workshop txtlh instance from character 119.');
@@ -69,11 +90,18 @@ const digitAtlas = [
   '</svg>',
   '',
 ].join('\n');
+const badgeMatch = skillSource.match(
+  /id="PatternID_236_2"[\s\S]*?xlink:href="data:image\/PNG;base64,([^"]+)"/,
+);
+if (!badgeMatch?.[1]) {
+  throw new Error('Missing original transparent soul badge PatternID_236_2.');
+}
 
 mkdirSync(path.dirname(outputPath), { recursive: true });
 writeFileSync(outputPath, cleaned);
 mkdirSync(path.dirname(digitAtlasPath), { recursive: true });
 writeFileSync(digitAtlasPath, digitAtlas);
+writeFileSync(badgePath, Buffer.from(badgeMatch[1], 'base64'));
 mkdirSync(path.dirname(fontOutputPath), { recursive: true });
 copyFileSync(fontSourcePath, fontOutputPath);
-console.log('Generated the original workshop root, shared soul digits, and FZCuYuan font.');
+console.log('Generated the original workshop root, transparent soul badge, shared soul digits, and FZCuYuan font.');

@@ -27,6 +27,7 @@ const bundledTests = requestedTests.length > 0
       'save-slot-tests',
       'heaven-map-tests',
       'immortality-tests',
+      'formal-shop-tests',
       'feature-ui-host-tests',
       'feature-save-v4-tests',
       'party-save-tests',

@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-155B | 商城页实现 | 接入原生商城、P1/P2 离线灵魂购买与 V6 本地存档 | M-044、M-046、M-052、VS-059 | 721/717/624 原生显示列表、49 商品与 16 组按钮、分类/分页/数量/确认、原子事务、共享懒加载 bundle 与 940×590 逐状态证据 |
 | TASK-SLICE-155A | 丹药页实现 | 接入原生丹药页、P1/P2 五类五阶服用/炼制与 V6 本地存档 | M-037、M-044、M-052、VS-059、VS-064 | 990/969/1006 原生显示列表、五 owner、25 真图标、原子事务/拒绝态、5×5 标志迁移、共享懒加载 bundle 与 940×590 逐状态证据 |
 | TASK-SLICE-160 | 完整背包资源基础 | 将 431 项权威目录接入正式背包、双 owner 原子事务和 V6 存档 | M-035、M-036、M-037、M-044、M-052、VS-064 | 431 definition、428 真图标懒加载、3 缺陷排除、四分类 5×25、实例/99 堆叠、满包原子回滚、P1/P2/V6 与 940×590 原生 UI 证据 |
 | TASK-SETTINGS-070 | 背包资源全集证据 | 闭合原版 1.1 四分类可入包资源、真图标、容量与存档语义权威目录 | M-035、M-036、M-037、M-044、M-052、VS-064 | `inventory-resource-catalog.md`、431 项机器目录、428 项精确图标 provenance、3 项原版缺陷、生产者/消费者与 `TASK-SLICE-160` 实现合同 |
@@ -4961,6 +4962,45 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-155B
+
+- 完成日期：2026-07-25
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-155C`）
+- 新增原生商城场景与集中业务系统，直接消费 `TASK-SETTINGS-066B` 的 character 721/717/624、49 商品顺序/价格、16 组按钮状态、分页/数量/折扣/拒绝态、P1/P2 owner 和保存边界证据。
+- 商城固定九卡分页并支持全部/宝石/道具/时装/宠物分类；数量键盘输入覆盖 0..99、箭头覆盖 1..100，0 件不进入确认；Stage 3 后执行八折且保留 `zylhys` 例外。
+- 购买统一使用 `PlayerSoulSystem` 与背包事务；灵魂不足、堆叠/容量失败均原子拒绝，成功后刷新余额与库存，P1/P2 隔离。
+- 成功购买立即写入当前 V6 活跃槽位，是现代离线可靠性选择；原 Flash 的地图手动保存事实仍保留，不伪造在线支付、账户、点券、活动或后端服务。
+- 商城 49 图标由 `inventory-items-shop` 唯一持有，页面资源由 `map-service-shop` 持有；背包通过依赖复用而不重复声明，Boot 未回填。
+- 正式天庭地图入口/返回、单/双人 owner、拒绝/成功、重载保持和零 console 已在 940×590 内置浏览器逐状态验证；视觉并排、叠图、稳定区域差异与对象差异清单归档于 `docs/tasks/evidence/TASK-SLICE-155B/`。
+- 2026-07-25 用户反馈补充：商城右下角新增获批的共享灵魂余额组件，复用技能页/炼丹炉徽记与原字体数字，继续读取当前 P1/P2 owner 的同一 `soulCount`；原商城 character 721 底栏余额保留。专项、资源 bundle、build 与 940×590 单人/P2 切换观察通过。
+- 同日用户复验纠正首轮黑框：首轮错误从运行截图裁出徽记并携带黑色背景，现已删除该裁片，改为直接提取 character 250 / shape 236 的 82×82 RGBA `PatternID_236_2`，按原 `(732,504.95)` 坐标投影；生成脚本、RGBA 负向门禁、专项、build 与修复后 940×590 复验通过。
+- 实际保持两个主工作包、两个验收批次；首次 compact 发生在实现、资源、浏览器证据和专项测试完成之后，随后只做台账、治理反馈和既有检查收尾。
+
+更新文件：
+- `src/systems/FormalShopPageSystem.ts`
+- `src/scenes/ShopScene.ts`
+- `src/scenes/HeavenMapScene.ts`
+- `src/assets/AssetManifest.ts`
+- `src/assets/SceneAssetBundles.ts`
+- `src/main.ts`
+- `public/assets/ui/map-services/shop/`
+- `tools/formal-shop-tests.ts`
+- `tools/asset-bundle-tests.ts`
+- `tools/run-system-tests.mjs`
+- `package.json`
+- `docs/tasks/evidence/TASK-SLICE-155B/`
+- 功能线、Goal、任务、覆盖、机制与 PG 台账
+
+验证：
+- `npm run test:shop` 通过。
+- `npm run test:asset-bundles` 通过。
+- 940×590 正式入口、分类/按钮态、0/99/100、确认、灵魂拒绝、成功、P1/P2、重载与返回逐状态通过，console 无 warning/error。
+- 稳定区域 286,418 像素中 13,846 像素超过三通道绝对差总和 48（4.834%），平均每通道绝对差 3.566；无全局位移、缩放错误或静态层缺失。
+- 最终 `test:systems`、`check:structure`、`build`、`check:annotations`、`check:workflow` 与 `git diff --check` 见本次任务收尾记录。
+
+推荐任务：
+- `TASK-SLICE-155C`：实现设置 overlay 原生 UI 与已批准的现代持久化边界。
 
 ### TASK-SLICE-155A
 

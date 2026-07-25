@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-155B` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。丹药页已闭合；下一次 `/goal` 只实现商城原生 UI、离线灵魂购买与本地存档接线。
+`TASK-SLICE-155C` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。丹药与商城页已闭合；下一次 `/goal` 只实现设置 overlay 原生 UI 与获批的现代持久化边界。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-155B | Ready | GOAL-046 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页实现 | 接入原生商城与离线灵魂购买，不伪造在线服务 | M-044、M-046、M-052、VS-059 | 可玩页面、事务/重载门禁与逐状态证据 | TASK-SLICE-155C |
-| TASK-SLICE-155C | Planned | GOAL-047 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页实现 | 接入原生设置 overlay 与获批的现代持久化边界 | M-035、M-044、M-052、VS-059 | 可玩 overlay、会话/重载门禁与逐状态证据 | TASK-SLICE-155D |
+| TASK-SLICE-155C | Ready | GOAL-047 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页实现 | 接入原生设置 overlay 与获批的现代持久化边界 | M-035、M-044、M-052、VS-059 | 可玩 overlay、会话/重载门禁与逐状态证据 | TASK-SLICE-155D |
 | TASK-SLICE-155D | Planned | GOAL-048 | LINE-PRE-STAGE-2-3-COMPLETION | 任务页实现 | 接入原生任务页、进度/奖励与跨日存档 | M-044、M-046、M-052、VS-059 | 可玩页面、领取/跨日门禁与逐状态证据 | TASK-SETTINGS-067 |
 | TASK-SETTINGS-067 | Planned | GOAL-038 | LINE-PRE-STAGE-2-3-COMPLETION | 关卡功能入口逆向 | 闭合设置、技能、背包、法宝、宠物五入口的原版状态与共享 host 差异 | M-016、M-035、M-043、M-052、VS-060 | 显示列表、暂停/owner/返回合同与实现拆分 | 拆分 TASK-SLICE-156 |
 | TASK-SETTINGS-068 | Planned | GOAL-039 | LINE-PRE-STAGE-2-3-COMPLETION | 怪物视觉覆盖逆向 | 盘清所有已完成关卡实际小怪、动作和攻击对象真动画缺口 | M-030、M-034、M-035、VS-061 | 逐关逐怪全集矩阵、资源标注与逐关实现 Goal | 拆分 TASK-SLICE-157 |
@@ -24,6 +23,13 @@
 | TASK-SETTINGS-064 | Planned | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
 | TASK-ARCH-010A | Planned | GOAL-026 | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B |
 | TASK-ARCH-010B | Planned | GOAL-027 | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task |
+| TASK-ARCH-014 | Split | — | LINE-SHARED-UI-COMPONENTS | 共享 UI 组件化父任务 | 分组件族审计、建立、试点并迁移灵魂余额、原生按钮/关闭和背包/物品展示 | M-035、M-037、M-052、VS-059、VS-064 | TASK-ARCH-014A..F 的独立合同、实现、迁移与回归结果 | 全部子 task 完成后收束父任务与 PG-011 |
+| TASK-ARCH-014A | Planned | GOAL-051 | LINE-SHARED-UI-COMPONENTS | 共享 UI 组件化审计 | 冻结组件分层、消费者迁移矩阵、页面保留项、资源 provenance 与防复发门禁 | M-035、M-037、M-052、VS-059、VS-064 | 组件目录、owner/消费者矩阵、ADR/边界文档与静态校验 | TASK-ARCH-014B |
+| TASK-ARCH-014B | Planned | GOAL-052 | LINE-SHARED-UI-COMPONENTS | 灵魂余额组件化 | 收敛共享 SoulBalance 组件并迁移全部已知灵魂消费页面 | M-035、M-044、M-052、VS-059 | 唯一视图投影、透明资产/字形门禁、P1/P2 与跨页面回归 | TASK-ARCH-014C |
+| TASK-ARCH-014C | Planned | GOAL-053 | LINE-SHARED-UI-COMPONENTS | 原生按钮/关闭组件化 | 共享按钮状态、命中和关闭生命周期，同时保留页面原生皮肤与几何 | M-035、M-052、VS-059 | 组件合同、代表性 overlay/整页试点、Escape/销毁回归 | TASK-ARCH-014D |
+| TASK-ARCH-014D | Planned | GOAL-054 | LINE-SHARED-UI-COMPONENTS | 背包基础组件化 | 建立 item cell/grid/分页/selected/tooltip 的无页面业务基础组件 | M-035、M-037、M-052、VS-064 | 背包视图基础组件、只读 view-model 接缝与确定性测试 | TASK-ARCH-014E |
+| TASK-ARCH-014E | Planned | GOAL-055 | LINE-SHARED-UI-COMPONENTS | 正式背包组件迁移 | 以正式背包页试点基础组件，保持 431 身份、真图标、双 owner 与 V6 行为 | M-035、M-037、M-044、M-052、VS-064 | 正式背包迁移、逐状态视觉证据与全量目录/事务回归 | TASK-ARCH-014F |
+| TASK-ARCH-014F | Planned | GOAL-056 | LINE-SHARED-UI-COMPONENTS | 嵌入式物品组件迁移 | 按矩阵迁移炼丹炉、商城、任务奖励等消费者并闭合跨页面回归 | M-035、M-037、M-044、M-046、M-052、VS-059、VS-064 | 消费者迁移结果、静态防回填、正式旅程与 PG-011 关闭审计 | 收束 TASK-ARCH-014 与 LINE-SHARED-UI-COMPONENTS |
 
 ## 任务完成定义
 
@@ -273,9 +279,9 @@ UI 原生化合同：
 
 推荐后续任务：
 
-- 四个服务页证据、背包前置和丹药页实现均已闭合；当前执行 `TASK-SLICE-155B`。
+- 四个服务页证据、背包前置、丹药页和商城页实现均已闭合；当前执行 `TASK-SLICE-155C`。
 
-### TASK-SLICE-155B
+### TASK-SLICE-155C
 
 任务类型：
 
@@ -287,72 +293,7 @@ UI 原生化合同：
 
 Goal 包：
 
-- `GOAL-046`（Active）
-
-目标机制/切片：
-
-- `M-044`、`M-046`、`M-052`、`VS-059`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若离线购买需要新增独立 commerce/save 架构 owner，先拆架构 task，不伪造网络服务。
-
-输入资料：
-
-- `TASK-SETTINGS-066B`、`map-service-ui-index.md` 与 `map-service.shop`。
-
-输出产物：
-
-- 商城原生显示列表、分类/分页/数量/确认、P1/P2 灵魂购买与 V6 本地保存。
-
-完成定义：
-
-- 只消费 `TASK-SETTINGS-066B` 的 49 商品/价格/状态证据和 `map-service.shop`。
-- 正式进入/返回、折扣、成功/拒绝、库存容量、双方隔离和重载保持通过；不伪造在线支付或后端。
-
-UI 原生化合同：
-
-- 显示列表清单：保留原分类、九卡、分页、余额、P1/P2 与返回对象。
-- 原版视觉基准：对应页面 940×590 原 SWF 逐状态基准。
-- 允许的现代视觉例外：停服静态文字只有用户批准后才能替换。
-- 逐状态验收：分类/卡片/分页/数量/确认/P1/P2/余额/返回。
-- 差异证据：并排/叠图和对象差异清单。
-
-验收标准：
-
-- 专项、全系统、structure、build、annotations、workflow、diff check 与逐状态证据通过。
-
-禁止范围：
-
-- 不新增人民币、点券、账户、网络或活动服务，不进入其他三页。
-
-状态更新：
-
-- 完成后归档本 task/Goal，激活 `TASK-SLICE-155C`，更新 VS-059、本线覆盖与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SLICE-155C`。
-
-### TASK-SLICE-155C
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
-
-Goal 包：
-
-- `GOAL-047`（Planned）
+- `GOAL-047`（Active）
 
 目标机制/切片：
 
@@ -913,3 +854,537 @@ Goal 包：
 推荐后续任务：
 
 - 依据试点结果生成同线逐关卡迁移 task；每个 Goal 只迁移一个共享 owner 簇或一个可独立验收的关卡批次。
+
+### TASK-ARCH-014
+
+任务类型：
+
+- `TASK-ARCH`（Split 父任务，不直接执行）
+
+功能条线：
+
+- `LINE-SHARED-UI-COMPONENTS`（Planned）
+
+Goal 包：
+
+- 无；六个子 task 分别绑定 `GOAL-051..056`。
+
+目标机制/切片：
+
+- `M-035`、`M-037`、`M-052`、`VS-059`、`VS-064`
+
+规模预算：
+
+- 主工作包：0；父任务只聚合子任务
+- 预计上下文压缩：0
+- 独立验收批次：0
+
+拆分触发：
+
+- 已固定拆为审计合同、灵魂余额、按钮/关闭、背包基础、正式背包试点和嵌入式消费者迁移，不恢复为一次性全站重构。
+
+输入资料：
+
+- `PG-011`、本线覆盖台账及 `TASK-ARCH-014A..F` 的产物。
+
+输出产物：
+
+- 六个子 task 的组件合同、实现、迁移、逐页面回归与防复发结果全集。
+
+完成定义：
+
+- 只在六个子 task 全部归档、消费者矩阵无缺口且 PG-011 关闭标准满足后收束。
+
+UI 原生化合同：
+
+- 显示列表清单：由各子 task 按消费者页面分别继承。
+- 原版视觉基准：由各迁移页面使用自己的 940×590 基准。
+- 允许的现代视觉例外：只继承已批准项，父任务不新增例外。
+- 逐状态验收：由 B..F 分别覆盖余额、按钮、背包与嵌入式消费者状态。
+- 差异证据：逐页面并排/叠图和对象差异清单，不用组件截图代替。
+
+验收标准：
+
+- 子 task 各自通过专项、结构、构建、workflow、逐状态视觉与正式旅程门禁；父任务只核对全集。
+
+禁止范围：
+
+- 父任务不直接修改代码、不合并 Goal、不建立现代万能组件或统一皮肤。
+
+状态更新：
+
+- 子 task 全部完成后收束本任务、本线、覆盖台账和 PG-011。
+
+推荐后续任务：
+
+- 本父任务不直接执行；首次执行 `TASK-ARCH-014A`。
+
+### TASK-ARCH-014A
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-SHARED-UI-COMPONENTS`（Planned；不得抢占当前 Active 线）
+
+Goal 包：
+
+- `GOAL-051`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-037`、`M-052`、`VS-059`、`VS-064`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若审计发现第四个独立组件族、需要读取新的恢复源包，或任一候选同时跨三个以上业务 owner，立即只冻结已知三族合同，并将新增族/补证拆成同线下一 Goal。
+
+输入资料：
+
+- `PG-011`、本线覆盖台账、`task-generation.md`、`src-boundaries.md`、PG-007/009/010。
+- feature UI systems/views、asset manifest/bundles、灵魂与 inventory 相关专项；只读审计，不修改页面实现。
+
+输出产物：
+
+- 共享组件目录、命名/分层 ADR、owner/消费者/页面保留项/资源 provenance 矩阵。
+- 每个组件族的输入输出、生命周期、错误/空状态、bundle 归属、迁移顺序和防回填搜索。
+- 工作流/结构校验的组件合同门禁及正负样例；B..F 执行前置清单。
+
+完成定义：
+
+- 灵魂余额、原生按钮/关闭、背包基础三族的存量实现和已知消费者均有明确归属。
+- 共享行为与页面原生视觉的边界可执行；不存在“整页万能组件”或仅凭命名相似合并。
+- 审计本身不迁移 `src/` 消费者，不越级宣称组件化完成。
+
+UI 原生化合同：
+
+- 显示列表清单：矩阵逐消费者引用现有根/子 Symbol、按钮态、动态 child、命中区与页面证据。
+- 原版视觉基准：登记每个消费者已有 940×590 基准及缺口；缺基准项阻塞其后续迁移。
+- 允许的现代视觉例外：只记录已获批准项；组件化不新增可见例外。
+- 逐状态验收：为 B..F 定义 normal/hover/pressed/disabled/selected、分页、P1/P2、返回/重开的适用状态。
+- 差异证据：冻结逐消费者对象差异模板，不以共享组件截图代替页面差异证据。
+
+组件化合同：
+
+- 组件家族：SoulBalance、NativeButton/CloseLifecycle、Inventory item/grid/selection/tooltip。
+- 权威 owner：domain/system 持有业务事实，shared Phaser component 持有只读投影/交互生命周期，page composition 持有原生显示列表。
+- 共享行为：审计并冻结刷新、交互状态、选择/分页、关闭/销毁与资源使用合同。
+- 页面保留项：源 Symbol、皮肤、矩阵、坐标、命中区、页面字段和专属业务流程。
+- 消费者迁移矩阵：列出全部已知消费者、当前 owner、目标组件、迁移 Goal、阻塞与排除理由。
+- 防复发门禁：工作流字段校验、重复 owner 窄查、截图裁片/provenance 检查和结构边界测试。
+
+验收标准：
+
+- `npm run check:workflow`、组件合同正负样例、`git diff --check` 通过；审计搜索结果可复查。
+- 执行前先运行 `npm run check:structure`；若后续预定目标文件已有 error，必须在矩阵中登记先拆分。
+
+禁止范围：
+
+- 不修改 `src/` 页面实现，不派生视觉资源，不迁移消费者，不改变 UI、业务或存档。
+- 不建立 `GenericButton`、`GenericPanel` 或万能背包页。
+
+状态更新：
+
+- 更新本线覆盖、PG-011 测试结果/反馈、Goal/task/history 与涉及的 PG-007/008/009/010 样本。
+
+推荐后续任务：
+
+- `TASK-ARCH-014B`。
+
+### TASK-ARCH-014B
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-SHARED-UI-COMPONENTS`（Planned；须待本线获得 WIP 且 014A 归档）
+
+Goal 包：
+
+- `GOAL-052`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-044`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若 014A 矩阵确认五个以上结构不同的灵魂消费者、需要新增源包派生或修改 `PlayerSoulSystem`/存档 schema，立即把迁移按页面批次拆分；本 Goal 只建立组件与首批既有消费者。
+
+输入资料：
+
+- 014A 的 SoulBalance 合同/矩阵，PG-007/010/011，现有 `FormalSoulBalanceView`、技能/炼丹炉/商城 views、资源 provenance 与专项。
+
+输出产物：
+
+- 唯一 SoulBalance 视图投影与有类型配置；已知消费者不再私有绘制图标、数字轮廓或余额副本。
+- 独立透明图标、嵌入字形/Flash 度量、bundle owner 与 screenshot/stage-background 负向门禁。
+- P1/P2、余额刷新、消费后即时显示、切页/返回/重载和销毁回归。
+
+完成定义：
+
+- 全部纳入矩阵的灵魂消费页复用同一组件代码与权威视觉子件，同时保留页面位置和 owner 标签差异。
+- 组件只读取当前 player 的 `soulCount` 投影，不持有或扣减余额；消费继续经 `PlayerSoulSystem`。
+- 不再出现黑框、遮字、系统字体回退、旧页 model 或页面私有数字渲染。
+
+UI 原生化合同：
+
+- 显示列表清单：逐页核对灵魂图标、动态数字、owner 标签、父层级、矩阵和遮挡关系。
+- 原版视觉基准：技能/炼丹炉沿用原 SWF 基准；商城使用用户批准现代例外及无黑底复验基准。
+- 允许的现代视觉例外：商城新增同款组件是已批准例外；不得扩大到其他可见层。
+- 逐状态验收：P1/P2、0/多位数、消费前后、切页、返回、重复打开和重载。
+- 差异证据：逐页并排/叠图、组件边界 alpha 检查与可见对象差异清单。
+
+组件化合同：
+
+- 组件家族：SoulBalance。
+- 权威 owner：`PlayerSoulSystem`/V6 玩家直属字段为业务 owner；共享 view 只读投影。
+- 共享行为：透明图标、嵌入字形排版、余额刷新、容器生命周期与销毁。
+- 页面保留项：位置、层级、页面专属 owner 标签、源显示列表关系和允许例外。
+- 消费者迁移矩阵：以 014A 冻结矩阵为准，至少覆盖技能、炼丹炉、商城及当时已知消费者。
+- 防复发门禁：禁止页面私有灵魂视图、截图裁片、舞台底色、系统字体和 `skillLearning.soulCount` 回流。
+
+验收标准：
+
+- 先运行 `check:structure`；专项、`test:systems`、`build`、`check:workflow`、`git diff --check` 通过。
+- 940×590 逐页/P1/P2/消费/返回/重载复验，console 无 warning/error。
+
+禁止范围：
+
+- 不改变余额、价格、奖励、消费事务或 V6 schema；不迁移按钮/背包组件族。
+
+状态更新：
+
+- 更新本线覆盖、PG-007/010/011、Goal/task/history 与相关视觉审计。
+
+推荐后续任务：
+
+- `TASK-ARCH-014C`。
+
+### TASK-ARCH-014C
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-SHARED-UI-COMPONENTS`（Planned；须待 014B 归档）
+
+Goal 包：
+
+- `GOAL-053`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-052`、`VS-059`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若代表性 overlay 与整页页面存在两套不可兼容 host 生命周期，或迁移需覆盖三个以上额外页面，立即保留两个小组件/adapter，并将额外消费者拆成同线后续 Goal。
+
+输入资料：
+
+- 014A 按钮/关闭矩阵，设置 overlay、炼丹炉、商城、背包等原生按钮 helpers、`FeatureUiHost` 与页面关闭/销毁专项。
+
+输出产物：
+
+- 共享 NativeButton 状态/命中适配与 CloseLifecycle 的 Escape、回调解绑、重复打开和幂等销毁合同。
+- 一个 overlay 与一个整页页面试点；页面通过 skin/geometry adapter 提供原生帧、矩阵和命中区。
+- 组件状态、host 返回和销毁专项及重复 helper 防回填检查。
+
+完成定义：
+
+- 共享的是交互/生命周期，不是统一皮肤；试点页面可见外观与行为无回归。
+- 按钮回调不会因重复打开叠加，Escape/关闭只触发一次，销毁后没有悬挂对象或输入监听。
+- 未纳入本 Goal 的页面保留在矩阵，不被顺手批量迁移。
+
+UI 原生化合同：
+
+- 显示列表清单：试点逐按钮记录源 Symbol/帧、矩阵、命中区、depth 与关闭根关系。
+- 原版视觉基准：overlay 与整页各使用现有 940×590 normal/hover/pressed/关闭基准。
+- 允许的现代视觉例外：无新增可见例外；透明 hit area 仅在原证据支持时使用。
+- 逐状态验收：normal/hover/pressed/disabled、Escape、点击关闭、重复打开、返回和销毁。
+- 差异证据：逐试点按钮并排/叠图、命中范围和对象差异清单。
+
+组件化合同：
+
+- 组件家族：NativeButton / CloseLifecycle。
+- 权威 owner：组件拥有输入状态和监听生命周期；页面/host 拥有业务回调与路由。
+- 共享行为：状态切换、命中、单次激活、Escape、解绑、重复打开和幂等销毁。
+- 页面保留项：按钮皮肤/Symbol 帧、矩阵、坐标、命中几何、音效和返回语义。
+- 消费者迁移矩阵：本 Goal 只迁移 014A 选定的一 overlay + 一整页，其余明确排期或排除。
+- 防复发门禁：禁止新页面复制状态/关闭 helper；组件不得内置通用可见皮肤。
+
+验收标准：
+
+- 先运行 `check:structure`；组件/试点专项、`test:systems`、`build`、`check:workflow`、`git diff --check` 通过。
+- 940×590 两类试点逐状态及返回/重复打开复验，console 无 warning/error。
+
+禁止范围：
+
+- 不迁移全部页面，不改页面路由/业务动作，不建立现代通用按钮皮肤，不进入 inventory 组件。
+
+状态更新：
+
+- 更新本线覆盖、PG-007/011、Goal/task/history 与试点页面视觉审计。
+
+推荐后续任务：
+
+- `TASK-ARCH-014D`。
+
+### TASK-ARCH-014D
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-SHARED-UI-COMPONENTS`（Planned；须待 014C 归档）
+
+Goal 包：
+
+- `GOAL-054`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-037`、`M-052`、`VS-064`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若 item cell、grid/pagination 与 tooltip/selection 不能在两个工作包内形成稳定无页面合同，立即保留 item cell/grid 核心，把 tooltip/selection 拆为同线下一 Goal；不压缩为万能组件。
+
+输入资料：
+
+- 014A inventory 矩阵、431 项目录、`FormalInventoryPageView/System`、炼丹炉/商城/任务消费者及现有专项。
+
+输出产物：
+
+- 有类型的只读 item view-model、InventoryItemCell、Grid/Pagination、Selection/Tooltip 接缝和生命周期合同。
+- 空格、实例/堆叠数量、selected/disabled、页边界、稳定 ID、刷新与销毁的确定性测试。
+- 不连接正式页面的组件 harness；页面 skin/geometry 通过 adapter 注入。
+
+完成定义：
+
+- 基础组件不读取存档、不执行物品事务、不决定分类/筛选或页面动作。
+- 正式背包与嵌入式消费者所需的共同语义有显式交集；不同语义留给页面 adapter。
+- 本 Goal 只建立基础层和 harness，不迁移正式背包或其他消费者。
+
+UI 原生化合同：
+
+- 显示列表清单：以现有消费者矩阵定义 cell/icon/count/selected/tooltip/分页对象，不宣称单一显示列表。
+- 原版视觉基准：harness 只验证组件状态；各页面迁移仍绑定自己的 940×590 原版基准。
+- 允许的现代视觉例外：harness 可使用仅测试可见容器，不能进入 production 或正式截图。
+- 逐状态验收：empty/item、实例/堆叠、selected/disabled、首末页、刷新、清空和销毁。
+- 差异证据：本 Goal 提供组件对象/几何断言；页面像素差异留给 014E/F。
+
+组件化合同：
+
+- 组件家族：InventoryItemCell、InventoryGrid/Pagination、Selection/Tooltip 接缝。
+- 权威 owner：Inventory catalog/transaction 与页面 system 持有业务；组件只读 view-model。
+- 共享行为：稳定 item 投影、空/数量/选中状态、页边界、刷新与生命周期。
+- 页面保留项：格子皮肤、行列/间距、图标缩放、文字样式、tooltip 字段和点击业务。
+- 消费者迁移矩阵：合同覆盖 014A 证明的交集；迁移分别由 014E/F 执行。
+- 防复发门禁：组件禁止 import Save/transaction/page route；禁止 production 万能皮肤和页面业务分支。
+
+验收标准：
+
+- 先运行 `check:structure`；组件确定性专项、类型检查、`test:systems`、`build`、`check:workflow`、`git diff --check` 通过。
+
+禁止范围：
+
+- 不迁移正式页面，不改变 431 目录/事务/V6，不派生新可见资源，不实现物品专属使用效果。
+
+状态更新：
+
+- 更新本线覆盖、PG-011、Goal/task/history 与 `src-boundaries.md`。
+
+推荐后续任务：
+
+- `TASK-ARCH-014E`。
+
+### TASK-ARCH-014E
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-SHARED-UI-COMPONENTS`（Planned；须待 014D 归档）
+
+Goal 包：
+
+- `GOAL-055`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-037`、`M-044`、`M-052`、`VS-064`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若正式背包迁移需要修改 catalog/transaction/V6，或同时重做四分类之外的物品专属效果，立即停止并拆出同线阻塞治理；本 Goal 只做视图组件试点。
+
+输入资料：
+
+- 014D 基础组件、正式背包 304/246/628 显示列表、431 目录/428 真图标、`TASK-SLICE-160` 视觉审计和专项。
+
+输出产物：
+
+- `FormalInventoryPageView` 通过页面 adapter 组合共享基础组件，删除被替代的私有 grid/page/selection 生命周期实现。
+- 四分类、5×25、实例/99 堆叠、selected/tooltip、穿脱/使用入口、P1/P2 与 V6 回归。
+- 正式背包 940×590 逐状态差异证据和私有重复实现负向门禁。
+
+完成定义：
+
+- 玩家可见外观、布局、按钮状态、图标和业务与迁移前一致；组件替换不改变 inventory owner。
+- 431 身份、428 真图标、3 项原版缺陷排除、容量/原子事务和双 owner 全部保持。
+- 正式背包成为唯一试点，不在本 Goal 迁移炼丹炉、商城或任务奖励。
+
+UI 原生化合同：
+
+- 显示列表清单：直接继承 304/246/628、22 个原生控件、cell/icon/count/selected/tooltip 与分页层级。
+- 原版视觉基准：复用 `TASK-SLICE-160` 的 940×590 四分类/分页/选择基准并补迁移后同状态。
+- 允许的现代视觉例外：零新增；3 项缺陷继续按权威目录排除而非占位。
+- 逐状态验收：四分类、首/末页、empty/stack/instance、selected、tooltip、P1/P2、返回和重载。
+- 差异证据：迁移前后稳定区域叠图、对象差异清单及容差说明。
+
+组件化合同：
+
+- 组件家族：InventoryItemCell、InventoryGrid/Pagination、Selection/Tooltip。
+- 权威 owner：catalog/transaction/page system 保持业务 owner；shared view primitives 只读投影。
+- 共享行为：cell 刷新、数量/选中、分页、详情投影和销毁。
+- 页面保留项：304/246/628 原生皮肤、5×25 几何、四分类筛选、按钮/tooltip 字段和业务动作。
+- 消费者迁移矩阵：本 Goal 只关闭正式背包行，嵌入式消费者保持待 014F。
+- 防复发门禁：禁止正式背包重新声明私有 grid/page/selection owner；目录/事务/V6 不得迁入 view。
+
+验收标准：
+
+- 先运行 `check:structure`；背包专项、全量目录/事务/V6、`test:systems`、`build`、`check:workflow`、`git diff --check` 通过。
+- 940×590 P1/P2 四分类/分页/选择/返回/重载复验，console 无 warning/error。
+
+禁止范围：
+
+- 不改变目录、容量、事务、存档 schema、资源缺陷裁决或物品专属效果；不迁移其他页面。
+
+状态更新：
+
+- 更新本线覆盖、M-037/M-052、VS-064、PG-007/009/011、Goal/task/history。
+
+推荐后续任务：
+
+- `TASK-ARCH-014F`。
+
+### TASK-ARCH-014F
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-SHARED-UI-COMPONENTS`（Planned；须待 014E 归档）
+
+Goal 包：
+
+- `GOAL-056`（Planned）
+
+目标机制/切片：
+
+- `M-035`、`M-037`、`M-044`、`M-046`、`M-052`、`VS-059`、`VS-064`
+
+规模预算：
+
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+
+- 若 014A 冻结矩阵中需要迁移三个以上结构不同的页面族，或任一消费者需新增业务 producer/事务/存档字段，立即按页面族拆成同线 Goal；本 Goal 不以关闭整线为由突破预算。
+
+输入资料：
+
+- 014A 消费者矩阵、014D 基础组件、014E 试点结论，炼丹炉/商城/任务奖励等已证实消费者的显示列表、业务专项与视觉基准。
+
+输出产物：
+
+- 按冻结矩阵迁移等价的嵌入式 item/selection/pagination 消费者；不等价项保留页面 adapter 并记录理由。
+- 页面私有重复 owner、临时资源裁片和业务状态进入 view 的静态防回填。
+- 跨灵魂/背包/按钮组件的正式页面旅程、关闭审计和 PG-011 结果。
+
+完成定义：
+
+- 矩阵全部消费者已迁移或获得用户确认排除；页面业务、原生布局和资源无回归。
+- 组件创建/刷新/销毁在跨页、重复打开、P1/P2 和重载旅程中稳定，不串 page model 或 bundle。
+- 只有全部关闭检查满足时才收束 `TASK-ARCH-014`、本线和 PG-011。
+
+UI 原生化合同：
+
+- 显示列表清单：每个迁移消费者继续使用自己的 Symbol/depth/矩阵/字段/按钮/命中区清单。
+- 原版视觉基准：逐页面使用已闭合 940×590 原 SWF 或获批现代例外基准。
+- 允许的现代视觉例外：仅继承既有批准项，不因组件复用增加可见层。
+- 逐状态验收：按页面覆盖 item/empty/selected/disabled、分页/确认、P1/P2、返回、重复打开和重载。
+- 差异证据：逐页面并排/叠图、对象差异清单和跨页状态污染检查。
+
+组件化合同：
+
+- 组件家族：Inventory 嵌入式消费者，并回归 SoulBalance 与 NativeButton/CloseLifecycle。
+- 权威 owner：各业务 system/transaction 保持事实源；组件只读投影与交互适配。
+- 共享行为：经 014A/D 冻结的 item、选择/分页、按钮/关闭与余额显示合同。
+- 页面保留项：每页原生皮肤/几何、字段、筛选、确认/奖励/购买/炼制语义和 bundle。
+- 消费者迁移矩阵：逐行记录 migrated/excluded、证据、测试和剩余风险；无空白消费者。
+- 防复发门禁：静态重复搜索、组件 import 边界、provenance/alpha、页面专项和跨页正式旅程。
+
+验收标准：
+
+- 先运行 `check:structure`；各消费者专项、`test:systems`、`build`、`check:workflow`、`git diff --check` 通过。
+- 940×590 正式入口跨页面进入/交互/返回/重复打开/P1/P2/重载，console 无 warning/error。
+
+禁止范围：
+
+- 不新增或改变任务 producer、奖励、购买/炼制/背包事务、V6 schema、价格/数值或原版页面表现。
+- 不为赶关闭合并语义不同的消费者，不跨入 Stage 2-3 或怪物架构。
+
+状态更新：
+
+- 更新本线覆盖、相关机制/切片、PG-007/008/009/010/011、Goal/task/history；满足全部关闭条件后收束父任务和功能线。
+
+推荐后续任务：
+
+- 若矩阵无缺口则关闭 `TASK-ARCH-014`、`LINE-SHARED-UI-COMPONENTS` 与 PG-011；否则只生成同线最小补迁移 Goal。

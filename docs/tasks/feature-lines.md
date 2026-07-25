@@ -30,9 +30,10 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-155B | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 丹药页已闭合；当前只实现商城原生 UI、离线灵魂购买和本地存档接线 | `GOAL-046 / TASK-SLICE-155B` 为唯一 Active |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-155C | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 丹药与商城页已闭合；当前只实现设置 overlay 原生 UI 与获批的现代持久化边界 | `GOAL-047 / TASK-SLICE-155C` 为唯一 Active |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `GOAL-025` 保留为 Planned；既有任务定义不丢失 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
+| LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
 
 ## 当前功能线状态
 
@@ -51,6 +52,8 @@
 2026-07-25 `TASK-SLICE-160` 已归档：431 项统一 definition registry、428 项真图标懒加载、3 项原版缺陷排除、四分类 5×25、实例/99 堆叠、满包原子事务、P1/P2 owner、V6 兼容/拒损与正式原生背包均闭合。功能线继续 Active，当前恢复 `GOAL-045 / TASK-SLICE-155A`。
 
 2026-07-25 `TASK-SLICE-155A` 已归档：character 990/969/1006、四类按钮状态、五 owner、25 格与真丹药图标按原显示列表接入；五类五阶服用、五配方炼制、灵魂/材料/容量拒绝、5% 炼制失败、P1/P2 隔离、V6 标志迁移和活动槽即时保存均通过专项与 940×590 逐状态验收。功能线继续 Active，当前激活 `GOAL-046 / TASK-SLICE-155B`。
+
+2026-07-25 `TASK-SLICE-155B` 已归档：商城 character 721/717/624、16 组原按钮三态和 49 个真商品图标接入；分类、分页、0/99/100 数量、确认/取消、Stage 3 后八折例外、灵魂/容量原子拒绝、P1/P2 隔离、V6 活跃槽即时保存与正式往返通过专项和 940×590 逐状态验收。即时保存是现代离线可靠性选择，不改写原 Flash 手动保存事实。功能线继续 Active，当前激活 `GOAL-047 / TASK-SLICE-155C`。
 
 2026-07-25 `TASK-SETTINGS-066A` 已闭合丹药页完整显示列表、按钮状态、五类五阶、五配方、拒绝态、P1/P2 owner 和存档边界，详见 `immortality-ui-index.md`。功能线不关闭，转入 `GOAL-042 / TASK-SETTINGS-066B`。
 

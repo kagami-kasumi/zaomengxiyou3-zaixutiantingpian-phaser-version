@@ -23,8 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-046 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155B | 商城原生 UI、离线灵魂购买和本地存档实现 | 预计 0 次 |
-| GOAL-047 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155C | 设置 overlay 原生 UI 与获批持久化边界实现 | 预计 0 次 |
+| GOAL-047 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155C | 设置 overlay 原生 UI 与获批持久化边界实现 | 预计 0 次 |
 | GOAL-048 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155D | 任务页原生 UI、进度/奖励和跨日存档实现 | 预计 0 次 |
 | GOAL-038 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-067 | 关卡内“设置/技能/背包/法宝/宠物”五入口、暂停/owner/逐状态证据 | 预计 0 次 |
 | GOAL-039 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-068 | 已完成关卡全部怪物真动画覆盖矩阵与逐关实现拆分 | 预计 0 次 |
@@ -33,6 +32,12 @@
 | GOAL-025 | Planned | LINE-STAGE-2-3 | TASK-SETTINGS-064 | 前置体验补全线关闭后，恢复 Stage 2-3 真场景、专属流程、怪物/机关、结果与存档六段证据 | 预计 0 次 |
 | GOAL-026 | Planned | LINE-MONSTER-ARCH | TASK-ARCH-010A | 组合式怪物合同、定义目录、Targeting/Brain 接缝与兼容 facade | 预计 0 次 |
 | GOAL-027 | Planned | LINE-MONSTER-ARCH | TASK-ARCH-010B | 最小怪物运行时注册表与普通怪+Boss 正式关卡试点 | 预计 0 次 |
+| GOAL-051 | Planned | LINE-SHARED-UI-COMPONENTS | TASK-ARCH-014A | 共享 UI 候选审计、组件分层合同、消费者矩阵与自动门禁 | 预计 0 次 |
+| GOAL-052 | Planned | LINE-SHARED-UI-COMPONENTS | TASK-ARCH-014B | 灵魂余额组件收敛与全部已知消费者迁移 | 预计 0 次 |
+| GOAL-053 | Planned | LINE-SHARED-UI-COMPONENTS | TASK-ARCH-014C | 原生按钮/关闭生命周期组件与代表性页面试点 | 预计 0 次 |
+| GOAL-054 | Planned | LINE-SHARED-UI-COMPONENTS | TASK-ARCH-014D | 背包 item cell/grid/分页/selected/tooltip 基础组件 | 预计 0 次 |
+| GOAL-055 | Planned | LINE-SHARED-UI-COMPONENTS | TASK-ARCH-014E | 正式背包页迁移试点与 431 身份回归 | 预计 0 次 |
+| GOAL-056 | Planned | LINE-SHARED-UI-COMPONENTS | TASK-ARCH-014F | 嵌入式物品消费者迁移、跨页面旅程与整线关闭审计 | 预计 0 次 |
 
 ## Goal 生成检查
 

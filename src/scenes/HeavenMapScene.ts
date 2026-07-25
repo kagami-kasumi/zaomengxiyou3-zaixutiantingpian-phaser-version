@@ -119,6 +119,11 @@ export class HeavenMapScene extends Phaser.Scene {
       'ImmortalityScene',
       '丹药页面',
     ));
+    const shopZone = this.add.zone(66, 506, 67, 71).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
+    shopZone.on('pointerdown', () => void this.startMapService(
+      'ShopScene',
+      '商城页面',
+    ));
     const workshopZone = this.add.zone(132, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     workshopZone.on('pointerdown', () => void launchFormalFeatureUi(
       this,

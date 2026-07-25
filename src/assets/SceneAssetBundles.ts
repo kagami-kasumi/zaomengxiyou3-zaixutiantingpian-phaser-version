@@ -10,6 +10,7 @@ import {
   savePartyAssets,
   saveSlotAssets,
   scaffoldAssets,
+  shopUiAssets,
   skillNativeUiCommonAssets,
   stage11Assets,
   stage12Assets,
@@ -32,6 +33,8 @@ export type AssetBundleId =
   | 'heaven-map'
   | 'inventory-items-immortality'
   | 'map-service-immortality'
+  | 'inventory-items-shop'
+  | 'map-service-shop'
   | 'feature-ui'
   | 'feature-ui-backpack'
   | 'feature-ui-skills-common'
@@ -116,6 +119,22 @@ const immortalityBundleAssets = [
   ...Object.values(immortalityUiAssets.owners).flatMap((owner) =>
     Object.values(owner).map(svg)),
 ];
+const shopItemFillNames = [
+  'wpqhs1', 'wpqhs2', 'wpqhs3', 'wpqhs4', 'sms2', 'sms3', 'mfs2', 'mfs3',
+  'gjs2', 'gjs3', 'fys2', 'fys3', 'wphlz', 'wpslz', 'wptlz', 'wpllz', 'wpflz',
+  'wpxyf', 'wpbdf', 'wpcsd', 'wphhd', 'cwjnxld', 'cwzzxld', 'djyys', 'ptnmwsz',
+  'ptzlwsz', 'ptsmsrsz', 'ptttzssz', 'lzysz', 'hzysz', 'mrsz', 'bssz', 'jtl',
+  'zylhys', 'mpyj', 'css6', 'css12', 'css18', 'css24', 'css_2', 'css_3', 'css_4',
+  'wwdgl', 'yll', 'wplwl', 'wpbsz', 'ttlpsp1', 'ttlpsp2', 'ttlpsp3',
+] as const;
+const shopItemAssets = shopItemFillNames.map((fillName) => image(inventoryItemAssets[fillName]!));
+const shopBundleAssets = [
+  svg(shopUiAssets.root),
+  svg(shopUiAssets.card),
+  svg(shopUiAssets.confirm),
+  ...Object.values(shopUiAssets.buttons).flatMap((button) =>
+    Object.values(button).map(image)),
+];
 const skillBaseAssets = [
   fullFeatureUiAssets.skillHub,
   fullFeatureUiAssets.skillActive,
@@ -197,18 +216,31 @@ export const sceneAssetBundles = {
     dependencies: ['shell', 'inventory-items-immortality'],
     assets: immortalityBundleAssets,
   },
+  'inventory-items-shop': {
+    dependencies: [],
+    assets: shopItemAssets,
+  },
+  'map-service-shop': {
+    dependencies: ['shell', 'inventory-items-shop', 'feature-ui'],
+    assets: shopBundleAssets,
+  },
   'feature-ui': {
     dependencies: [],
-    assets: [svg(fullFeatureUiAssets.soulDigits)],
+    assets: [
+      image(fullFeatureUiAssets.soulBadge),
+      svg(fullFeatureUiAssets.soulDigits),
+    ],
   },
   'feature-ui-backpack': {
-    dependencies: ['feature-ui', 'inventory-items-immortality'],
+    dependencies: ['feature-ui', 'inventory-items-immortality', 'inventory-items-shop'],
     assets: [
       svg(fullFeatureUiAssets.backpack),
       svg(fullFeatureUiAssets.backpackGrid),
       ...inventoryUiAssetList.map(image),
       ...Object.entries(inventoryItemAssets)
-        .filter(([fillName]) => !immortalityPillFillNames.has(fillName))
+        .filter(([fillName]) =>
+          !immortalityPillFillNames.has(fillName)
+          && !shopItemFillNames.includes(fillName as typeof shopItemFillNames[number]))
         .map(([, asset]) => image(asset)),
     ],
   },
@@ -286,6 +318,7 @@ export const sceneBundleBySceneKey = {
   SaveSlotScene: 'shell',
   HeavenMapScene: 'heaven-map',
   ImmortalityScene: 'map-service-immortality',
+  ShopScene: 'map-service-shop',
   FeatureUiScene: 'feature-ui',
   TestScene: 'stage-11',
   Stage12Scene: 'stage-12',

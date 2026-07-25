@@ -20,6 +20,8 @@ const requiredBundles = [
   'heaven-map',
   'inventory-items-immortality',
   'map-service-immortality',
+  'inventory-items-shop',
+  'map-service-shop',
   'feature-ui',
   'feature-ui-backpack',
   'feature-ui-skills-common',
@@ -38,17 +40,23 @@ assert.equal(sceneAssetBundles.shell.dependencies.length, 0);
 assert.equal(sceneBundleBySceneKey.SaveSlotScene, 'shell');
 assert.equal(sceneBundleBySceneKey.HeavenMapScene, 'heaven-map');
 assert.equal(sceneBundleBySceneKey.ImmortalityScene, 'map-service-immortality');
+assert.equal(sceneBundleBySceneKey.ShopScene, 'map-service-shop');
 assert.equal(sceneBundleBySceneKey.FeatureUiScene, 'feature-ui');
-assert.equal(sceneAssetBundles['feature-ui'].assets.length, 1);
-assert.equal(sceneAssetBundles['feature-ui-backpack'].assets.length, 427);
+assert.equal(sceneAssetBundles['feature-ui'].assets.length, 2);
+assert.equal(sceneAssetBundles['feature-ui-backpack'].assets.length, 378);
 assert.equal(sceneAssetBundles['inventory-items-immortality'].assets.length, 25);
+assert.equal(sceneAssetBundles['inventory-items-shop'].assets.length, 49);
 assert.deepEqual(
   sceneAssetBundles['feature-ui-backpack'].dependencies,
-  ['feature-ui', 'inventory-items-immortality'],
+  ['feature-ui', 'inventory-items-immortality', 'inventory-items-shop'],
 );
 assert.deepEqual(
   sceneAssetBundles['map-service-immortality'].dependencies,
   ['shell', 'inventory-items-immortality'],
+);
+assert.deepEqual(
+  sceneAssetBundles['map-service-shop'].dependencies,
+  ['shell', 'inventory-items-shop', 'feature-ui'],
 );
 assert.equal(
   sceneAssetBundles.shell.assets.some((asset) => asset.key.startsWith('inventory-item.')),
@@ -56,6 +64,7 @@ assert.equal(
 );
 assert.equal(requireRuntimeAssetOwner('inventory-item.ptdcz'), 'feature-ui-backpack');
 assert.equal(requireRuntimeAssetOwner('inventory-item.wpsmd1'), 'inventory-items-immortality');
+assert.equal(requireRuntimeAssetOwner('inventory-item.wpqhs1'), 'inventory-items-shop');
 assert.ok(sceneAssetBundles['feature-ui-skills-common'].assets.length < 80);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-1'].assets.length, 30);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-5'].assets.length, 30);
