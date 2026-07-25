@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-066B | 地图服务 UI 逆向 | 闭合商城 49 商品、权威价格、离线灵魂事务、分页/按钮态与保存边界 | M-044、M-046、M-052、VS-059 | `shop-ui-index.md`、721/717/624 深层矩阵、18 条资源标注、49 商品/价格/折扣/拒绝态与 `TASK-SLICE-155B` 实现合同 |
 | TASK-SETTINGS-066A | 地图服务 UI 逆向 | 闭合丹药页完整显示列表、五类五阶、炼制/服用、owner 与存档证据 | M-044、M-052、VS-059 | `immortality-ui-index.md`、990/969/1006 深层矩阵、11 条资源标注、五配方/拒绝态与 `TASK-SLICE-155A` 实现合同 |
 | TASK-ARCH-013B | 跨功能事务闭环 | 收敛技能、炼丹炉、法宝等灵魂消费者并完成负向门禁与正式旅程 | M-016、M-041、M-044、VS-055、PG-010 | `PlayerSoulSystem`、三类正式消费者统一接线、余额不足/非法消费门禁、P1/P2 跨功能重载旅程与 940×590 零 console 证据 |
 | TASK-ARCH-013A | 玩家/存档架构 | 将灵魂提升为玩家直属属性并完成 V6 与 V1..V5 无损迁移 | M-044、VS-055、PG-010 | `player.soulCount` 唯一 owner、V6 codec、V1..V5 迁移、双 owner/损坏/双源拒读专项与现有功能保存回归 |
@@ -4912,6 +4913,51 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-066B
+
+完成时间：
+
+- 2026-07-25
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SETTINGS-066C`）
+
+完成内容：
+
+- 从 `Micropayment / ShopThing / SumInterface` 追到 `AllEquipment / Config / MemoryClass / MapMenu`，闭合商城页面、49 商品注册、价格、折扣、背包写入和保存调用链。
+- 记录 character 721 根页、717 九张动态商品卡和 624 确认弹窗的全部静态/动态显示对象、depth、坐标、TextField、命中区，以及 16 个按钮的四状态等价关系。
+- 闭合宝石 19、宠物 5、时装 8、物品 17 的原始顺序、分类页数、基础价格和第三大关起八折规则；`灵魂药水` 为唯一折扣例外。
+- 明确数量边界：箭头为 1..100，直接编辑为最多两位数字；0/空值不发起购买。余额不足和非正数量是实际事务拒绝，取消确认不变更业务状态。
+- 明确单机边界：充值按钮只提示“单机版请用灵魂购买”，购买消费当前 owner 灵魂并写其背包；`setStorage()` 只重建内存快照，必须返回地图手动 `saveGame()` 才落盘。
+- 选择性派生商城根、商品卡、确认弹窗、16 个按钮和六个文字字段，新增 18 条资源标注；恢复源和 legacy extraction 未修改。
+- `shop-ui-index.md` 完整记录六段证据、原版 940×590 基准、现代映射和零批准可见例外，使影响 `TASK-SLICE-155B` 的原版事实未知为零；没有进入现代页面实现。
+
+更新文件：
+
+- `docs/reverse-engineering/shop-ui-index.md`
+- `docs/reverse-engineering/map-service-ui-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/map-services.csv`
+- `docs/reverse-engineering/asset-annotation/batches/map-services.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-history.md`
+- PG-002/004/005/007/008 适用反馈记录
+
+验证：
+
+- restored SWF、选择性 FFDec 派生与局部 AS3/共享调用链交叉确认；逐状态 SVG/PNG 位于 Git 忽略的 task-output。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 在本 task 收尾运行。
+- 本 Goal 实际发生 1 次 compact，超过预计 0 次；compact 前已完成全部一手证据读取和商城资源派生，之后只用已收集证据写文档、归档并运行校验，没有读取设置/任务页资料族、派生其他页面资源或新增实现。
+
+推荐任务：
+
+- `TASK-SETTINGS-066C`：闭合设置 overlay 五行状态、会话边界与真 UI 六段证据。
 
 ### TASK-SETTINGS-066A
 

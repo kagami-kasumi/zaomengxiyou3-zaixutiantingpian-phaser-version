@@ -4,15 +4,14 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-066B` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。丹药页六段证据已经归档；下一次 `/goal` 只闭合商城 49 商品、离线灵魂事务、分页/按钮态与真 UI 证据，不写现代页面代码。
+`TASK-SETTINGS-066C` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。丹药、商城页六段证据已经归档；下一次 `/goal` 只闭合设置 overlay 五行状态、会话边界与真 UI 证据，不写现代页面代码。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SETTINGS-066 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 地图服务 UI 逆向父任务 | 已闭合四入口/页面身份公共检查点；逐页深证据拆为 066A..D | M-035、M-044、M-046、M-052、VS-059 | `map-service-ui-index.md` 公共矩阵与四页资源标注 | 066A..D 全部完成后收束 |
-| TASK-SETTINGS-066B | Ready | GOAL-042 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页逆向 | 闭合 49 商品、权威价格、离线灵魂事务与真 UI 状态 | M-044、M-046、M-052、VS-059 | 商城页六段证据与 155B 实现输入 | TASK-SETTINGS-066C |
-| TASK-SETTINGS-066C | Planned | GOAL-043 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页逆向 | 闭合五行状态、overlay、会话边界与现代持久化裁决输入 | M-035、M-044、M-052、VS-059 | 设置页六段证据与 155C 实现输入 | TASK-SETTINGS-066D |
+| TASK-SETTINGS-066C | Ready | GOAL-043 | LINE-PRE-STAGE-2-3-COMPLETION | 设置页逆向 | 闭合五行状态、overlay、会话边界与现代持久化裁决输入 | M-035、M-044、M-052、VS-059 | 设置页六段证据与 155C 实现输入 | TASK-SETTINGS-066D |
 | TASK-SETTINGS-066D | Planned | GOAL-044 | LINE-PRE-STAGE-2-3-COMPLETION | 任务页逆向 | 闭合 43 日常+4 活动、奖励/进度/跨日存档与真 UI 状态 | M-044、M-046、M-052、VS-059 | 任务页六段证据与 155D 实现输入 | TASK-SLICE-155A |
 | TASK-SLICE-155A | Planned | GOAL-045 | LINE-PRE-STAGE-2-3-COMPLETION | 丹药页实现 | 接入原生丹药页、P1/P2 炼制/服用与本地存档 | M-044、M-052、VS-059 | 可玩页面、自动门禁与 940×590 逐状态证据 | TASK-SLICE-155B |
 | TASK-SLICE-155B | Planned | GOAL-046 | LINE-PRE-STAGE-2-3-COMPLETION | 商城页实现 | 接入原生商城与离线灵魂购买，不伪造在线服务 | M-044、M-046、M-052、VS-059 | 可玩页面、事务/重载门禁与逐状态证据 | TASK-SLICE-155C |
@@ -44,7 +43,7 @@
 
 Goal 包：
 
-- 无；已触发拆分。`066A` 已归档，当前 `GOAL-042` 绑定 `TASK-SETTINGS-066B`。
+- 无；已触发拆分。`066A/066B` 已归档，当前 `GOAL-043` 绑定 `TASK-SETTINGS-066C`。
 
 目标机制/切片：
 
@@ -97,7 +96,7 @@ UI 原生化合同：
 
 推荐后续任务：
 
-- 继续执行 `TASK-SETTINGS-066B..D`，再执行 `TASK-SLICE-155A..D`。
+- 继续执行 `TASK-SETTINGS-066C..D`，再执行 `TASK-SLICE-155A..D`。
 
 拆分检查点：
 
@@ -105,7 +104,7 @@ UI 原生化合同：
 - 公共入口/页面身份、根显示列表、normal 视觉基准与存档边界已写入 `docs/reverse-engineering/map-service-ui-index.md`。
 - 首次 compact 后未继续读取新资料族或进入实现；父任务保持 `Split`，不归档为完成。
 
-### TASK-SETTINGS-066B
+### TASK-SETTINGS-066C
 
 任务类型：
 
@@ -117,72 +116,7 @@ UI 原生化合同：
 
 Goal 包：
 
-- `GOAL-042`（Active）
-
-目标机制/切片：
-
-- `M-044`、`M-046`、`M-052`、`VS-059`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若权威价格注册表跨出一个独立资料族，拆为同线商品数据补证 task。
-
-输入资料：
-
-- `map-service-ui-index.md`、character 721、`Micropayment/ShopThing/SumInterface` 与必要的价格/背包/灵魂/保存调用链。
-
-输出产物：
-
-- 补齐 character 721 的五分类、九卡、分页、数量、确认、P1/P2、返回全部显示状态与命中区。
-- 列清 49 商品、权威价格、第三大关折扣例外、1..100 数量、拒绝态、灵魂事务与保存时机。
-
-完成定义：
-
-- 明确静态充值/网络/点券文字与实际单机灵魂购买的边界；不伪造在线服务；影响 `155B` 的未知为零。
-
-UI 原生化合同：
-
-- 显示列表清单：五分类、九卡、分页、数量/确认、P1/P2、余额、返回的子 Symbol、depth、文字、动态 child 与命中区。
-- 原版视觉基准：940×590 舞台裁切，并记录约 943.15 宽导出越界。
-- 允许的现代视觉例外：只允许用户批准的停服静态文字替换；不得新增在线能力。
-- 逐状态验收：分类 selected、卡片 hover/pressed、分页、数量/确认、P1/P2、余额与返回。
-- 差异证据：逐状态并排/叠图和对象差异清单。
-
-验收标准：
-
-- 恢复 SWF、局部 AS3 与权威价格表交叉确认；运行 annotations/workflow/diff check。
-
-禁止范围：
-
-- 不写页面实现，不伪造支付、网络账户、活动后端或原版未知价格。
-
-状态更新：
-
-- 完成后归档本 task/Goal，激活 `TASK-SETTINGS-066C` 并更新本线覆盖与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SETTINGS-066C`。
-
-### TASK-SETTINGS-066C
-
-任务类型：
-
-- `TASK-SETTINGS`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
-
-Goal 包：
-
-- `GOAL-043`（Planned）
+- `GOAL-043`（Active）
 
 目标机制/切片：
 
