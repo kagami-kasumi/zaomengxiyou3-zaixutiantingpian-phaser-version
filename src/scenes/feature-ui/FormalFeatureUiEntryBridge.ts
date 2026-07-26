@@ -176,12 +176,13 @@ function createStageFeatureEntryButtons(
       .setDepth(114);
     button.setName(`stage-feature-entry-${owner}-${spec.entry}`);
     const hit = scene.add.zone(
-      x + scene.cameras.main.scrollX,
-      spec.y + scene.cameras.main.scrollY,
+      x,
+      spec.y,
       31,
       35,
     )
       .setDepth(115)
+      .setScrollFactor(0)
       .setInteractive({ useHandCursor: true });
     hit.setName(`stage-feature-entry-hit-${owner}-${spec.entry}`);
     hit.on('pointerover', () => button.setTexture(spec.assets.over.key));
@@ -191,18 +192,7 @@ function createStageFeatureEntryButtons(
       button.setTexture(spec.assets.over.key);
       void routeFeatureEntry(scene, spec.entry, owner, 'pointer', config);
     });
-    scene.events.on(Phaser.Scenes.Events.UPDATE, syncHitToCamera);
-    hit.once(Phaser.GameObjects.Events.DESTROY, () => {
-      scene.events.off(Phaser.Scenes.Events.UPDATE, syncHitToCamera);
-    });
     return [button, hit];
-
-    function syncHitToCamera(): void {
-      hit.setPosition(
-        x + scene.cameras.main.scrollX,
-        spec.y + scene.cameras.main.scrollY,
-      );
-    }
   });
 }
 

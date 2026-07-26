@@ -54,6 +54,7 @@ export type AssetBundleId =
   | 'combat-common'
   | 'stage-1-common'
   | 'stage-2-common'
+  | 'stage-2-monsters'
   | 'stage-11'
   | 'stage-12'
   | 'stage-13'
@@ -187,10 +188,7 @@ const stage11BundleAssets = Object.entries(stage11Assets)
 const stage12BundleAssets = Object.values(stage12Assets).flatMap((asset) =>
   'framePaths' in asset ? images(asset) : [image(asset)]);
 const stage13BundleAssets = Object.values(stage13Assets).map(image);
-const stage21BundleAssets = [
-  ...Object.entries(stage21Assets)
-    .filter(([name]) => name !== 'floor')
-    .flatMap(([, asset]) => 'framePaths' in asset ? images(asset) : [image(asset)]),
+const sharedStage2MonsterAssets = [
   ...Object.values(stage21MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
     key: asset.key,
@@ -204,6 +202,11 @@ const stage21BundleAssets = [
     key: Stage21MonsterAssetKeys.attackGeometry,
     path: '/assets/stage21/bullet-frame-geometry.csv',
   },
+];
+const stage21BundleAssets = [
+  ...Object.entries(stage21Assets)
+    .filter(([name]) => name !== 'floor')
+    .flatMap(([, asset]) => 'framePaths' in asset ? images(asset) : [image(asset)]),
 ];
 const stage22BundleAssets = [
   ...Object.entries(stage22Assets)
@@ -325,6 +328,10 @@ export const sceneAssetBundles = {
     dependencies: [],
     assets: [image(stage21Assets.floor)],
   },
+  'stage-2-monsters': {
+    dependencies: [],
+    assets: sharedStage2MonsterAssets,
+  },
   'stage-11': {
     dependencies: ['combat-common', 'stage-1-common'],
     assets: stage11BundleAssets,
@@ -338,11 +345,11 @@ export const sceneAssetBundles = {
     assets: stage13BundleAssets,
   },
   'stage-21': {
-    dependencies: ['combat-common', 'stage-2-common'],
+    dependencies: ['combat-common', 'stage-2-common', 'stage-2-monsters'],
     assets: stage21BundleAssets,
   },
   'stage-22': {
-    dependencies: ['combat-common', 'stage-2-common'],
+    dependencies: ['combat-common', 'stage-2-common', 'stage-2-monsters'],
     assets: stage22BundleAssets,
   },
 } as const satisfies Record<AssetBundleId, SceneAssetBundleDefinition>;

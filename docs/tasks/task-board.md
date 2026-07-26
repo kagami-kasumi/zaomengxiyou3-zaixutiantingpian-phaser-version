@@ -4,16 +4,14 @@
 
 ## 当前推荐
 
-`TASK-SLICE-156C` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。574/371/444、全局设置 owner、原版单页/同键/Escape/返回语义已完成；下一次 `/goal` 只做五个已完成关卡的 P1/P2、暂停、互斥、门禁和返回逐状态校准。
+`TASK-SETTINGS-068` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。关卡五入口与父任务 156 已收束；下一次 `/goal` 只盘清五个已完成关卡的实际怪物、动作和攻击对象真动画全集，并拆出逐关实现 Goal。
 
 ## 待完成任务
 
 | Task | 状态 | Goal | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-068 | Planned | GOAL-039 | LINE-PRE-STAGE-2-3-COMPLETION | 怪物视觉覆盖逆向 | 盘清所有已完成关卡实际小怪、动作和攻击对象真动画缺口 | M-030、M-034、M-035、VS-061 | 逐关逐怪全集矩阵、资源标注与逐关实现 Goal | 拆分 TASK-SLICE-157 |
+| TASK-SETTINGS-068 | Ready | GOAL-039 | LINE-PRE-STAGE-2-3-COMPLETION | 怪物视觉覆盖逆向 | 盘清所有已完成关卡实际小怪、动作和攻击对象真动画缺口 | M-030、M-034、M-035、VS-061 | 逐关逐怪全集矩阵、资源标注与逐关实现 Goal | 拆分 TASK-SLICE-157 |
 | TASK-SETTINGS-069 | Planned | GOAL-040 | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 逐角色逐技能全集矩阵、资源标注与逐角色实现 Goal | 拆分 TASK-SLICE-158 |
-| TASK-SLICE-156C | Ready | GOAL-059 | LINE-PRE-STAGE-2-3-COMPLETION | 关卡五入口运行校准 | 五个已完成关卡逐状态验证 P1/P2、门禁、暂停、互斥和返回 | M-016、M-043、M-052、VS-060 | 自动旅程、940×590 差异证据与父任务收束 | GOAL-039 / TASK-SETTINGS-068 |
-| TASK-SLICE-156 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 关卡五入口实现父任务 | 复用既有功能页并补设置、原生按钮状态和正式关卡接线 | M-016、M-043、M-052、VS-060 | 由 TASK-SETTINGS-067 生成的共享接线/校准子 task | 全部子 task 完成后收束父任务 |
 | TASK-SLICE-157 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 既有关卡怪物动画父任务 | Stage 1-1/1-2/1-3 逐关接入全部怪物/攻击对象真动画，回归 Stage 2-1/2-2 | M-030、M-034、M-035、VS-061 | 由 TASK-SETTINGS-068 生成的逐关子 task | 全部子 task 完成后收束父任务 |
 | TASK-SLICE-158 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 五角色动画父任务 | 逐角色接入本体、战斗 UI、普攻、技能及附属对象真动画 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 由 TASK-SETTINGS-069 生成的逐角色子 task | 全部子 task 完成后收束父任务 |
 | TASK-SLICE-159 | Planned | GOAL-041 | LINE-PRE-STAGE-2-3-COMPLETION | 本地存档正式旅程 | 复用既有六槽 localStorage/V6，验证所有新增功能跨重启持久化并关闭前置线 | M-044、M-050、VS-052、VS-063 | 自动旅程、940×590 重启读取证据与关闭检查 | 恢复 GOAL-025 / TASK-SETTINGS-064 |
@@ -38,11 +36,11 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
 
 Goal 包：
 
-- `GOAL-039`（Planned）
+- `GOAL-039`（Active）
 
 目标机制/切片：
 
@@ -149,136 +147,6 @@ UI 原生化合同：
 推荐后续任务：
 
 - 执行 `TASK-SLICE-158` 拆出的第一个逐角色实现 task。
-
-### TASK-SLICE-156C
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
-
-Goal 包：
-
-- `GOAL-059`（Planned）
-
-目标机制/切片：
-
-- `M-016`、`M-043`、`M-052`、`VS-060`
-
-规模预算：
-
-- 主工作包：1
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若任一关卡暴露新的页面业务/资源缺口而非共享接线或校准问题，立即为该缺口生成同线 Goal；本 task 不顺手修怪物或角色动画。
-
-输入资料：
-
-- `stage-feature-entry-index.md` 双重验证计划、`TASK-SLICE-156A/B` 产物与五个已完成正式关卡入口。
-
-输出产物：
-
-- Stage 1-1/1-2/1-3、Stage 2-1/2-2 的确定性旅程和 940×590 P1/P2 逐状态证据。
-- `TASK-SLICE-156` 父任务收束、VS-060 与本线覆盖更新。
-
-完成定义：
-
-- 五关全部证明五按钮可点击、原键位可用、P1/P2 owner/限制正确、暂停/恢复无串页、同页 toggle 与返回路由正确。
-- 原版没有的现代可见 host、跨页按钮、战斗 workshop、通用 Escape 和未批准 P2 owner 便利入口为零。
-
-UI 原生化合同：
-
-- 显示列表清单：继承 574/371/444 和四页面根清单，不新增显示对象。
-- 原版视觉基准：单/双人 574、五入口根、settings/help 与各按钮状态的 940×590 基准。
-- 允许的现代视觉例外：只保留已批准的全局设置持久化和不可见可访问性语义。
-- 逐状态验收：五关、五入口、P1/P2、normal/hover/pressed/门禁、暂停、同页关闭、返回。
-- 差异证据：逐关对象差异清单、代表性并排/叠图、稳定区域差异和 console 记录。
-
-验收标准：
-
-- 专项旅程、全系统、structure、build、annotations、workflow、diff check 与五关 940×590 零 console 通过。
-
-禁止范围：
-
-- 不读取或实现 GOAL-039 怪物视觉，不修改页面业务、数值、存档 schema、角色/技能动画。
-
-状态更新：
-
-- 完成 VS-060，更新 M-016/M-052、本线覆盖并归档 `TASK-SLICE-156A..C` 与父任务 156；随后激活 `GOAL-039 / TASK-SETTINGS-068`。
-
-推荐后续任务：
-
-- `TASK-SETTINGS-068`
-
-### TASK-SLICE-156
-
-任务类型：
-
-- `TASK-SLICE`（Split 父任务，不直接执行）
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
-
-Goal 包：
-
-- 无；子 task 由 `TASK-SETTINGS-067` 的证据矩阵绑定独立 Goal。
-
-目标机制/切片：
-
-- `M-016`、`M-043`、`M-052`、`VS-060`
-
-规模预算：
-
-- 主工作包：0；父任务只聚合子任务
-- 预计上下文压缩：0
-- 独立验收批次：0
-
-拆分触发：
-
-- 固定拆为 574 五真 HUD 入口、371/444 设置与会话语义、正式关卡逐状态校准，不恢复为跨 owner 大任务。
-
-输入资料：
-
-- `stage-feature-entry-index.md` 的五入口差异矩阵。
-
-输出产物：
-
-- `TASK-SLICE-156A..C` 与 `GOAL-057..059` 的独立实现/校准产物及父任务收束记录。
-
-完成定义：
-
-- 所有子 task 归档，正式关卡五入口的 owner、暂停、互斥、返回和真视觉全闭合。
-
-UI 原生化合同：
-
-- 显示列表清单：子 task 继承 HUD 五入口及页面根清单。
-- 原版视觉基准：单/双人正式关卡五入口的 940×590 基准。
-- 允许的现代视觉例外：只保留已批准的输入可访问性与 P2 法宝边界。
-- 逐状态验收：normal/hover/pressed/disabled、P1/P2、暂停、互斥、关闭返回。
-- 差异证据：逐入口并排/叠图和对象差异清单。
-
-验收标准：
-
-- 子 task 各自通过专项、全系统、build、structure 与运行视觉门禁。
-
-禁止范围：
-
-- 不重写既有页面业务，不用现代覆盖按钮替代真 HUD。
-
-状态更新：
-
-- 子 task 全部完成后更新 VS-060、本线覆盖并归档父任务。
-
-推荐后续任务：
-
-- 执行 `TASK-SLICE-156B`。
 
 ### TASK-SLICE-157
 

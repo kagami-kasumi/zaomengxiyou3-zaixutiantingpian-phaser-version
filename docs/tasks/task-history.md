@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-156 | 拆分父任务收束 | 汇总关卡五入口证据、HUD pointer、设置会话与五关校准并闭合 VS-060 | M-016、M-035、M-043、M-052、VS-060 | `156A..C` 三个 0-compact Goal 的 574/371/444、共享 router/session、五关旅程、940×590 与 Stage 2 bundle 回归全集 |
+| TASK-SLICE-156C | 关卡五入口运行校准 | 五个已完成关卡逐状态验证 P1/P2、门禁、暂停、互斥和返回 | M-016、M-043、M-052、VS-060 | 五关确定性旅程、固定 HUD hit、唯一 `stage-2-monsters` bundle、940×590 差异/console 证据与父任务收束 |
 | TASK-SLICE-156B | 关卡设置与会话语义 | 接入 371/444 并把关卡功能页收敛为原版单页/同键/Escape/返回语义 | M-016、M-035、M-052、VS-060 | 371/444 与 11 个按钮四态、`StageSettingsSystem/Scene`、全局声音 owner、x1/x2/x4、地图/主菜单路由、战斗原生页直出与专项/全门禁 |
 | TASK-SLICE-156A | 关卡 HUD 入口实现 | 接入 574 五真 pointer、P2 镜像与共享 key/pointer router/门禁 | M-016、M-035、M-052、VS-060 | 549/555/561/567/573 共 20 个真状态资源、418 hit、`StageFeatureEntryRouterSystem`、P1/P2 正式接线、专项与 940×590 双人证据 |
 | TASK-SETTINGS-067 | 关卡功能入口逆向 | 闭合五个关卡 HUD 功能入口、设置页、owner、门禁、暂停、互斥与返回语义 | M-016、M-035、M-052、VS-060 | `stage-feature-entry-index.md`、574/371/444 显示列表、16 条资源标注、P1/P2 与现代差异合同，以及 `156A..C` 三个 0-compact 实现/校准 Goal |
@@ -4968,6 +4970,54 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-156C
+
+完成时间：
+- 2026-07-26
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SETTINGS-068`）
+
+完成内容：
+- 将 `TestScene`、`Stage12Scene`、`Stage13Scene`、`Stage21Scene`、`Stage22Scene` 纳入同一入口旅程，逐关断言共享 bridge 唯一安装、正式队伍 owner、P1/P2 路由、死亡/特殊关卡/法宝门禁、单页 busy、同页关闭、Escape 仅设置和 origin 返回。
+- 把五个可见 HUD 按钮与透明命中区统一为固定屏幕坐标 `scrollFactor=0`，删除相机滚动手工叠加，避免关卡镜头移动后视觉与 pointer hit 漂移。
+- 正式地图进入 Stage 2-2 时发现其复用 Monster9/10/19 却未加载 Stage 2-1 攻击几何；将共享图集、攻击帧和几何收敛到唯一 `stage-2-monsters` bundle，供 Stage 2-1/2-2 共同依赖，关闭资源缺失及重复 owner 回归。
+- 940×590 正式存档覆盖 Stage 1-1/1-2/1-3/2-2 节点和 HUD，Stage 2-1 复用 `TASK-SLICE-145` 的 1P/2P 入口基准；可见对象差异、现代例外、console 与内置浏览器 canvas 输入限制落入 `TASK-SLICE-156C-stage-feature-entry-calibration.md`。
+- `TASK-SLICE-156A..C` 全部完成，父任务 `TASK-SLICE-156` 同步收束；`VS-060` 完成，`M-016` 提升为已复现，`M-052` 因更广功能线范围继续保持部分复现。
+
+更新文件：
+- `src/assets/SceneAssetBundles.ts`
+- `src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts`
+- `tools/stage-feature-entry-tests.ts`
+- `docs/tasks/evidence/TASK-SLICE-156C-*`
+- 机制、切片、功能线、Goal/task/history 与适用 PG 反馈文档
+
+验证：
+- `npm run test:stage-feature-entry`、`npm run test:stage21`、`npm run test:stage22`、资源 bundle 专项与 `npm run build` 通过。
+- 全系统、structure、annotations、workflow、diff check 在文档归档后复跑。
+- 940×590 正式 Stage 1-1/1-2/1-3/2-2 运行无最终新增 warning/error；Stage 2-1 复用已归档的正式 1P/2P 零 console 基准。
+
+推荐任务：
+- `TASK-SETTINGS-068`：建立五个已完成关卡全部实际怪物、动作和攻击对象的真动画覆盖矩阵，并按逐关验收边界拆分实现 Goal。
+
+### TASK-SLICE-156
+
+完成时间：
+- 2026-07-26
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`）
+
+完成内容：
+- 拆分子任务 `TASK-SLICE-156A..C` 已全部归档，574 五真 HUD pointer、371/444 设置与会话语义、正式五关校准三段产物共同满足父任务关闭合同。
+- `VS-060` 已完成；父任务从未完成看板移除，不据此关闭仍有怪物动画、角色动画和最终存档旅程缺口的功能线。
+
+验证：
+- 子任务各自专项、全系统、build、structure 与 940×590 证据见对应历史记录和 `TASK-SLICE-156C-stage-feature-entry-calibration.md`。
+
+推荐任务：
+- `TASK-SETTINGS-068`
 
 ### TASK-SLICE-156B
 
