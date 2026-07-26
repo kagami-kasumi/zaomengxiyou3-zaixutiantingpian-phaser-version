@@ -28,6 +28,8 @@
 | Boss 追赶层 | `hpMask.scaleX` 立即更新到 HP 比例，`effectMask` 用 0.8 秒线性 tween 追赶；死亡更新到 0，换图/显式清理时移除 | 确认事实 |
 | 真资源 | 玩家面板及子件位于恢复包 `assets/OtherMat1.swf`；Boss 条位于恢复包 `assets/bossblood.swf`。主包 `GameInfo` 只作组合/调用链交叉对照 | 交叉确认 |
 
+`TASK-SETTINGS-067` 已把 574 中原先只按“入口提示”记录的五个 HUD 按钮补为完整交互合同：设置/背包/技能/法宝/宠物分别为 character 549/555/561/567/573，均有 pointer 入口、真实状态和共享 hittest；P2 HUD 同样包含五按钮，但键盘只提供 `/ * -`，没有 P2 法宝/设置快捷键。depth、矩阵、门禁、暂停和返回见 `stage-feature-entry-index.md`。
+
 ## 3. 六段证据链
 
 ### 3.1 关卡/对象局部证据

@@ -14,7 +14,7 @@
 
 | 行为合同项 | 局部证据 | 共享调用链 | 几何/资源证据 | 证据等级 | 未知与反证条件 | 验证方式 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 功能页入口与互斥 | `RoleInfo.showBackPack/studySkill/cwClick/fbClick()`；`MapMenu.buySkill()` | `KeyBoardControl` 将 P1 `C/V/B/N`、P2 小键盘 `/ * -` 派发给对应 `RoleInfo`；页面通过全局 close event 互斥 | HUD 入口已由 `RoleInfo` 真资源接入；地图共享菜单为 `OtherMat1.swf` 963 | 交叉确认 | P2 原版无独立法宝面板快捷键；现代不得为方便伪造原版按键 | owner/互斥测试 + 三关/地图运行观察 |
+| 功能页入口与互斥 | `RoleInfo.showBackPack/setClick/studySkill/cwClick/fbClick()`；`MapMenu.buySkill()` | `KeyBoardControl` 将 P1 `C/V/B/N/Esc`、P2 小键盘 `/ * -` 派发给对应 `RoleInfo`；`isStopGame` 与页面专属 close event 形成单页门 | HUD 574 的 549/555/561/567/573 五按钮及 SetMenu 371/Help 444 已由 `stage-feature-entry-index.md` 闭合；地图共享菜单为 `OtherMat1.swf` 963 | 交叉确认 | P2 原版无独立法宝/设置快捷键；技能页无论由 P1 V 或 P2 `*` 打开都先选 P1，再允许页内切人 | owner/互斥测试 + 五关逐状态运行观察 |
 | 暂停与返回 | `BackPack`、`BuySkill`、`PetInterface`、`SutraInterface` 的 added/removed/close | 战斗态调用 `MainGame.stopGame/continueGame`；地图态技能页关闭派发 `SelectOver` | 页面均为 940×590 舞台覆盖层；局部子页嵌入根容器 | 交叉确认 | 地图中背包/宠物/法宝是否可直接打开未由原版 `MapMenu` 证实；现代可提供统一功能入口，但须标现代设计选择 | host 状态机测试 + 暂停/恢复/返回运行观察 |
 | 背包与装备 | `BackPack`、`BackPackElement`、`PackThings` | `User.zblist/djlist/szlist/jnslist/curarray`；`BaseRoleProperies.addEquip/removeEquip` | `backpack1.swf` 304/246；根导出被离台子件扩为 2095.2×1070.7，正式相机仍裁 940×590 | 交叉确认 | 完整 1.1 装备静态表和全部道具效果未闭合；首个正式页可使用已有 registry，但必须公开内容范围 | 分类/分页/穿脱/owner/保存测试 + 940×590 页面观察 |
 | 技能学习与绑定 | `BuySkill`、`SkillControl`、`SkillSetControl`、`PassiveSkillControl` | `User.isstudyskill/skillbykey/ispassiveskill/lhValue`；关闭后 `RoleInfo.refreshShowSkill` | `OtherMat1.swf` 250/868/417/213；根 940×590，子页 888.05×425 / 506×356 / 746×429 | 交叉确认 | 原版拖拽需转为指针/键盘可访问交互属于现代设计选择；不能改变五槽解析顺序 | 学习/升级/绑定/双玩家/保存测试 + 页面/拖拽等价观察 |
@@ -27,7 +27,7 @@
 
 | 页面 ID | 页面/子页 | 原版入口与退出 | 字段与关键交互 | 双玩家 owner | 存档字段 | 真资源 | 现代现状 | 关闭缺口 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| FUI-01 | 共享功能页 host | HUD 按钮/快捷键；地图技能入口；关闭回原场景 | 单实例、页面路由、暂停/恢复、owner、反馈、Escape/原快捷键关闭 | P1/P2 独立数据，同一时刻只显示一个页 | host 会话不持久化 | 复用 HUD/MapMenu 入口 | 无正式共享 host | 先建跨地图与 Stage 1 三关的统一 owner/暂停/返回协议 |
+| FUI-01 | 共享功能页 host | HUD 五真按钮/快捷键；地图技能入口；关闭回原场景 | 原版单页门、暂停/恢复、owner、同页快捷键关闭；Escape 只切设置 | P1/P2 独立数据；技能页原版默认 P1 后页内切人；设置为全局 owner | host 会话不持久化 | HUD 574、SetMenu 371、Help 444 与既有页面根 | 现代 host/键盘基础已实现，但关卡 pointer/settings 缺失，且仍有通用跨页按钮、Escape 通用关闭、暗层/标题/边框和战斗 workshop 入口 | 按 `stage-feature-entry-index.md` 拆 `TASK-SLICE-156A..C`，不得把“可达”继续写成原版表现一致 |
 | FUI-02 | 背包/角色总览 | P1 C、P2 num `/`；再次按或关闭按钮退出 | 角色名/等级/经验/战力/HP/MP/属性、6 装备槽、时装显示、出售白装 | `BackPack.setpack(1/2)` 绑定对应 hero/User | 装备、分类背包、时装显示、角色成长 | 304 | 真 940×590 页、正式入口、P1/P2 六槽穿脱与 V4 保存已完成 | 完整 1.1 物品/出售行为仍明确排除，不阻塞首个正式页 |
 | FUI-03 | 背包分类与物品详情 | FUI-02 内嵌 | 装备/道具/时装/技能书；5 页×25 格；选择、预览、穿脱、使用/丢弃/给予门禁 | 跟随 FUI-02 owner | `zblist/djlist/szlist/jnslist/curarray` | 246；物品图标 registry 部分已有 | 四分类、25 格分页、详情、穿脱、安全拒绝和库存持久化已完成 | 未支持物品效果继续显式反馈；不补造完整 1.1 表 |
 | FUI-04 | 技能总页 | P1 V、P2 num `*`、地图 `showBuySkill`；返回原场景 | 角色选择、主动/被动切换、灵魂显示 | 原版页可选 P1/P2；战斗快捷键默认打开对应 owner | 技能树、绑定、被动、灵魂 | 250 | 真总页、正式入口、地图双 owner 与 V4 保存已完成；236/240/244/248/249、选择器和动态子页证据已闭合，现代覆盖待移除 | 按 `skill-ui-native-index.md` 实现原生根页，不保留暗层/外框/标题/通用按钮 |
@@ -80,6 +80,7 @@ formal scene/map input
 - `PlayerFeatureState` 必须按 P1/P2 保存成长、技能、库存、装备和宠物。V1/V2/V3 迁移保持 P1 旧数据，P2 缺失域填安全默认值。
 - 页面只发 command；`InventorySystem`、`EquipmentSystem`、`SkillUISystem`、`PetSystem`、`MagicWeaponSystem` 继续拥有规则。
 - 原版只在地图直接开放技能/工坊；现代若从地图提供统一功能入口，属于明确的现代导航选择，不冒充原版按钮布局。
+- `TASK-SETTINGS-067` 纠正了战斗 host 的粒度：原版关卡没有可见的通用跨页导航，Escape 只切 `SetMenu`，其他页只能由同页快捷键或页面关闭按钮返回；现代共享 owner 可以保留，但关卡可见层和状态机必须按 `stage-feature-entry-index.md` 收敛。
 
 ## 连续任务拆分
 

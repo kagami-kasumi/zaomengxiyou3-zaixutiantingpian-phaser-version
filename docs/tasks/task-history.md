@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-067 | 关卡功能入口逆向 | 闭合五个关卡 HUD 功能入口、设置页、owner、门禁、暂停、互斥与返回语义 | M-016、M-035、M-052、VS-060 | `stage-feature-entry-index.md`、574/371/444 显示列表、16 条资源标注、P1/P2 与现代差异合同，以及 `156A..C` 三个 0-compact 实现/校准 Goal |
 | TASK-SLICE-155 | 拆分父任务收束 | 汇总丹药、商城、设置、任务四个地图服务页实现并闭合 VS-059 | M-044、M-046、M-052、VS-059 | `155A..D` 四个 0-compact Goal 的原生 UI、事务、存档、正式往返与逐状态证据全集 |
 | TASK-SLICE-155D | 任务页实现 | 接入原生任务页、43 日常、共享进度/奖励和跨日 V6 | M-044、M-046、M-052、VS-059 | character 85/44/49/54/60/73/31/78/83/9、四奖励图、party task owner、死亡 producer、领取事务、同日/跨日、专项与 940×590 证据 |
 | TASK-SLICE-155C | 设置页实现 | 接入原生设置 overlay 与获批的独立全局持久化边界 | M-035、M-044、M-052、VS-059 | character 148/134/136..147、五行/关闭逐状态、四项循环、死控件、全屏模态、独立 localStorage codec、损坏回退与 940×590 重载证据 |
@@ -4965,6 +4966,59 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-067
+
+完成时间：
+
+- 2026-07-26
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`）
+
+Goal：
+
+- `GOAL-038` 已完成并从未完成 Goal 看板移除。
+
+完成内容：
+
+- 从 `RoleInfo/GameInfo/KeyBoardControl` 追到 `BackPack/BuySkill/PetInterface/SutraInterface/SetMenu/Help`、`GMain`、`MainGame.stopGame/continueGame` 和 `Config.isSingleGame`，闭合五入口局部对象、共享调用链、owner、门禁、暂停、互斥和返回。
+- 从恢复 `assets/OtherMat1.swf` 精确定位 574 `RoleInfo`、371 `SetMenu`、444 `Help`，并对 13 个 DefineButton2 选择性派生 up/over/down/hittest；根、depth、twip 矩阵、P2 镜像、动态 child 和 940×590 基准落入 `stage-feature-entry-index.md`。
+- 确认五入口都是 HUD 真按钮；P1 快捷键为 `C/V/B/N/Esc`，P2 只有 num `/ * -`。P2 无法宝/设置快捷键，但 P2 HUD 仍有可点击的法宝/设置按钮。
+- 纠正两项旧结论：P2 `*` 不把技能页默认 owner 设为 P2，`BuySkill` 总是先选 P1 后允许页内切人；Escape 只切 `SetMenu`，不是通用页面关闭。
+- 确认关卡设置 371 与地图设置 148 不是同页：371 含继续、声音、返回地图、帮助、出怪速度、返回主菜单和关闭；444 两帧分别为操作指南和捕捉宠物。
+- 现代差异矩阵确认当前 host 缺五 HUD pointer/settings，却保留原版没有的通用暗层/标题/边框、跨页按钮、战斗 workshop、通用 Escape 关闭和 P2 技能直接 owner 便利。
+- `TASK-SLICE-156` 固定拆为 `156A` 五真 HUD pointer/router、`156B` 371/444 与原版单页会话、`156C` 五关运行校准；`GOAL-057` 成为唯一 Active。
+
+更新文件：
+
+- `docs/reverse-engineering/stage-feature-entry-index.md`
+- `docs/reverse-engineering/combat-hud-index.md`
+- `docs/reverse-engineering/full-function-ui-index.md`
+- `docs/reverse-engineering/mechanics-index.md`
+- `docs/reverse-engineering/asset-annotation/batches/stage-feature-entry.md`
+- `docs/reverse-engineering/asset-annotation/annotations/stage-feature-entry.csv`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/tasks/goal-board.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/vertical-slices.md`
+- `docs/tasks/task-history.md`
+- PG-005/007/008/011 适用触发与反馈记录
+
+本地只读派生：
+
+- `local-resources/regima/task-outputs/task-settings-067-stage-feature-entry/`：OtherMat1 XML、574/371/444 根帧、13 按钮四状态与窄 XML；目录受 Git 忽略，未修改恢复源或 legacy extraction。
+
+验证：
+
+- FFDec 26.0.0 对 371/574/444 与 13 个 DefineButton2 的选择性导出通过。
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次 Goal 收尾结果。
+
+推荐任务：
+
+- `TASK-SLICE-156A`：只接入 574 的五真 HUD pointer、P2 镜像和共享 pointer/key router，不进入 371 设置或五关校准。
 
 #### 2026-07-26：TASK-SLICE-155D / TASK-SLICE-155
 
