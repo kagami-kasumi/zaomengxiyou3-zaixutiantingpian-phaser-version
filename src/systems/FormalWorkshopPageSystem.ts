@@ -370,6 +370,7 @@ function persistFormalWorkshopPage(model: FormalWorkshopPageModel, storage: Save
     player2EquipmentLoadout: player2.equipmentLoadout,
     player2PetRoster: player2.petRoster,
     levelUnlockProgress: model.sourceSave.levelUnlockProgress,
+    partyTasks: model.sourceSave.partyTasks,
   });
   saveActiveGame(storage, save);
   model.sourceSave = save;

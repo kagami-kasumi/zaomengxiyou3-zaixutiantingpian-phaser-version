@@ -138,10 +138,21 @@ export type PlayerFeatureSaveV6 = Omit<PlayerFeatureSaveV4, 'skillLearning'> & {
   immortalityFlags: ImmortalityFlags;
 };
 
+export type PartyTaskSaveV6 = {
+  dateKey: string;
+  daily: Array<{
+    id: number;
+    progress: number[];
+    isComplete: boolean;
+    hasClaimed: boolean;
+  }>;
+};
+
 export type GameSaveV6 = Omit<GameSaveV5, 'version' | 'player1' | 'player2'> & {
   version: typeof GameSaveVersion;
   player1: PlayerFeatureSaveV6;
   player2: PlayerFeatureSaveV6;
+  partyTasks?: PartyTaskSaveV6;
 };
 
 export type CreateGameSaveInput = {
@@ -163,6 +174,7 @@ export type CreateGameSaveInput = {
   player2EquipmentLoadout?: EquipmentLoadout;
   player2PetRoster?: PetRoster;
   levelUnlockProgress?: LevelUnlockProgress;
+  partyTasks?: PartyTaskSaveV6;
   now?: Date;
 };
 
@@ -210,6 +222,7 @@ export function createGameSave(input: CreateGameSaveInput): GameSaveV6 {
   if (!party || !partyMatchesPlayerHeroes(party, player1.heroId, player2.heroId)) {
     throw new RangeError('PartyConfiguration must be valid and match active player hero snapshots.');
   }
+  const partyTasks = sanitizePartyTaskSave(input.partyTasks);
   return {
     version: GameSaveVersion,
     savedAt: (input.now ?? new Date()).toISOString(),
@@ -217,6 +230,7 @@ export function createGameSave(input: CreateGameSaveInput): GameSaveV6 {
     player1,
     player2,
     levelUnlockProgress: sanitizeLevelUnlockProgress(input.levelUnlockProgress),
+    ...(partyTasks ? { partyTasks } : {}),
   };
 }
 
@@ -267,12 +281,15 @@ export function parseGameSave(raw: string): GameSaveV6 | undefined {
     if (!party || !partyMatchesPlayerHeroes(party, value.player1.heroId, value.player2.heroId)) {
       return undefined;
     }
+    const partyTasks = sanitizePartyTaskSave(value.partyTasks);
+    const { partyTasks: _ignoredPartyTasks, ...saveBase } = value as unknown as GameSaveV6;
     return {
-      ...(value as unknown as GameSaveV6),
+      ...saveBase,
       party,
       player1: sanitizePlayerFeatureSaveV6(value.player1 as PlayerFeatureSaveV6),
       player2: sanitizePlayerFeatureSaveV6(value.player2 as PlayerFeatureSaveV6),
       levelUnlockProgress: sanitizeLevelUnlockProgress(value.levelUnlockProgress),
+      ...(partyTasks ? { partyTasks } : {}),
     };
   } catch {
     return undefined;
@@ -417,6 +434,23 @@ function createDefaultPlayerFeatureSave(): PlayerFeatureSaveV6 {
     pets: [],
     selectedPetIndex: 0,
   };
+}
+
+function sanitizePartyTaskSave(value: unknown): PartyTaskSaveV6 | undefined {
+  if (!isRecord(value) || typeof value.dateKey !== 'string' || !Array.isArray(value.daily)) {
+    return undefined;
+  }
+  const daily: PartyTaskSaveV6['daily'] = [];
+  for (const item of value.daily) {
+    if (!isRecord(item) || !Number.isInteger(item.id) || !Array.isArray(item.progress)) continue;
+    daily.push({
+      id: clampInteger(item.id, 1, 43),
+      progress: item.progress.map((count) => clampInteger(count, 0, 1_000_000)),
+      isComplete: item.isComplete === true,
+      hasClaimed: item.hasClaimed === true,
+    });
+  }
+  return { dateKey: value.dateKey, daily };
 }
 
 function migrateLegacySave(

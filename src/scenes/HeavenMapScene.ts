@@ -14,6 +14,7 @@ import {
   installFormalFeatureUiEntries,
   launchFormalFeatureUi,
 } from './feature-ui/FormalFeatureUiEntryBridge';
+import { FormalSettingsOverlay } from './heaven-map/FormalSettingsOverlay';
 import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 const STATUS_COLORS = {
@@ -28,6 +29,7 @@ export class HeavenMapScene extends Phaser.Scene {
   private nodes: readonly HeavenMapNodeSnapshot[] = [];
   private feedbackText?: Phaser.GameObjects.Text;
   private party?: PartyConfiguration;
+  private settingsOverlay?: FormalSettingsOverlay;
 
   public constructor() {
     super('HeavenMapScene');
@@ -48,6 +50,7 @@ export class HeavenMapScene extends Phaser.Scene {
       import.meta.env.DEV,
     );
     this.nodes = createHeavenMapSnapshot(runtimeProgress);
+    this.settingsOverlay = new FormalSettingsOverlay(this, this.storage);
     installFormalFeatureUiEntries(this, { originKind: 'map', party: save.party });
     this.cameras.main.setBackgroundColor('#0b1526');
     this.add.image(0, 0, heavenMapAssets.world.key).setOrigin(0).setDepth(0);
@@ -74,7 +77,11 @@ export class HeavenMapScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown-THREE', () => this.activateNode('1-3'));
     this.input.keyboard?.on('keydown-FOUR', () => this.activateNode('2-1'));
     this.input.keyboard?.on('keydown-FIVE', () => this.activateNode('2-2'));
-    this.input.keyboard?.on('keydown-ESC', () => this.scene.start('SaveSlotScene'));
+    this.input.keyboard?.on('keydown-ESC', () => {
+      if (this.settingsOverlay?.isOpen) this.settingsOverlay.close();
+      else this.scene.start('SaveSlotScene');
+    });
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.settingsOverlay?.destroy());
   }
 
   private createNodeInteraction(node: HeavenMapNodeSnapshot): void {
@@ -139,6 +146,13 @@ export class HeavenMapScene extends Phaser.Scene {
       'p1',
       { originKind: 'map', party: this.party! },
       (status) => this.showBundleStatus(status, '技能页面'),
+    ));
+    const settingsZone = this.add.zone(263.95, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
+    settingsZone.on('pointerdown', () => this.settingsOverlay?.open());
+    const taskZone = this.add.zone(330, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
+    taskZone.on('pointerdown', () => void this.startMapService(
+      'TaskScene',
+      '任务页面',
     ));
     const backZone = this.add.zone(397, 508, 66, 66).setOrigin(0).setInteractive({ useHandCursor: true }).setDepth(60);
     backZone.on('pointerdown', () => this.scene.start('SaveSlotScene'));

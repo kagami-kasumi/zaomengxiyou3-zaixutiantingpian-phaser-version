@@ -23,9 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-047 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155C | 设置 overlay 原生 UI 与获批持久化边界实现 | 预计 0 次 |
-| GOAL-048 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-155D | 任务页原生 UI、进度/奖励和跨日存档实现 | 预计 0 次 |
-| GOAL-038 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-067 | 关卡内“设置/技能/背包/法宝/宠物”五入口、暂停/owner/逐状态证据 | 预计 0 次 |
+| GOAL-038 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-067 | 关卡内“设置/技能/背包/法宝/宠物”五入口、暂停/owner/逐状态证据 | 预计 0 次 |
 | GOAL-039 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-068 | 已完成关卡全部怪物真动画覆盖矩阵与逐关实现拆分 | 预计 0 次 |
 | GOAL-040 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-069 | 五角色本体、角色战斗 UI 与技能动画覆盖矩阵及逐角色拆分 | 预计 0 次 |
 | GOAL-041 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-159 | 本地六槽存档回归与完整正式旅程关闭验收 | 预计 0 次 |

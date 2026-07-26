@@ -704,6 +704,126 @@ export const immortalityUiAssets = {
   },
 } as const;
 
+const SettingsUiAssetRoot = '/assets/ui/map-services/settings';
+
+function settingsUiAsset(
+  key: string,
+  fileName: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return {
+    key,
+    path: `${SettingsUiAssetRoot}/${fileName}`,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/StageCommon.swf',
+    sourceSymbol,
+    sourceCharacterId,
+  };
+}
+
+export const settingsUiAssets = {
+  root: settingsUiAsset(
+    'map-service.settings.root',
+    'root-static.svg',
+    'export.setmenu.gameSetting character 148; dynamic values and close button removed',
+    148,
+  ),
+  close: {
+    up: settingsUiAsset(
+      'map-service.settings.close.up',
+      'close-up.svg',
+      'DefineButton2 144 up',
+      144,
+    ),
+    over: settingsUiAsset(
+      'map-service.settings.close.over',
+      'close-over.svg',
+      'DefineButton2 144 over',
+      144,
+    ),
+    down: settingsUiAsset(
+      'map-service.settings.close.down',
+      'close-down.svg',
+      'DefineButton2 144 down',
+      144,
+    ),
+  },
+} as const;
+
+const TaskUiAssetRoot = '/assets/ui/map-services/tasks';
+
+function taskUiAsset(
+  key: string,
+  fileName: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return {
+    key,
+    path: `${TaskUiAssetRoot}/${fileName}`,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/backpack1.swf',
+    sourceSymbol,
+    sourceCharacterId,
+  };
+}
+
+function taskButtonAssets(name: string, sourceCharacterId: number) {
+  return {
+    up: taskUiAsset(`map-service.tasks.${name}.up`, `${name}-up.svg`, `DefineButton2 ${sourceCharacterId} up`, sourceCharacterId),
+    over: taskUiAsset(`map-service.tasks.${name}.over`, `${name}-over.svg`, `DefineButton2 ${sourceCharacterId} over`, sourceCharacterId),
+    down: taskUiAsset(`map-service.tasks.${name}.down`, `${name}-down.svg`, `DefineButton2 ${sourceCharacterId} down`, sourceCharacterId),
+  };
+}
+
+export const taskUiAssets = {
+  root: taskUiAsset('map-service.tasks.root', 'root.svg', 'export.taskInterface.TaskInterface character 85', 85),
+  daily: {
+    normal: taskUiAsset('map-service.tasks.daily.normal', 'daily-normal.svg', 'character 44 frame 1', 44),
+    selected: taskUiAsset('map-service.tasks.daily.selected', 'daily-selected.svg', 'character 44 frame 2', 44),
+  },
+  activity: {
+    normal: taskUiAsset('map-service.tasks.activity.normal', 'activity-normal.svg', 'character 49 frame 1', 49),
+    selected: taskUiAsset('map-service.tasks.activity.selected', 'activity-selected.svg', 'character 49 frame 2', 49),
+  },
+  claim: {
+    disabled: taskUiAsset('map-service.tasks.claim.disabled', 'claim-disabled.svg', 'character 54 frame 1', 54),
+    enabled: taskUiAsset('map-service.tasks.claim.enabled', 'claim-enabled.svg', 'character 54 frame 2', 54),
+  },
+  tile: {
+    normal: taskUiAsset('map-service.tasks.tile.normal', 'tile-normal.svg', 'character 60 frame 1', 60),
+    selected: taskUiAsset('map-service.tasks.tile.selected', 'tile-selected.svg', 'character 60 frame 2', 60),
+  },
+  awardCell: taskUiAsset('map-service.tasks.award-cell', 'award-cell.svg', 'character 73 frame 1', 73),
+  received: taskUiAsset('map-service.tasks.received', 'received.png', 'hasReceive character 9', 9),
+  buttons: {
+    close: taskButtonAssets('close', 31),
+    prev: taskButtonAssets('prev', 78),
+    next: taskButtonAssets('next', 83),
+  },
+  rewards: {
+    exp: {
+      ...taskUiAsset('map-service.tasks.reward.exp', 'reward-exp.png', 'rw_exp character 623', 623),
+      sourcePackage: 'assets/EIcon1.swf',
+    },
+    soul: {
+      ...taskUiAsset('map-service.tasks.reward.soul', 'reward-soul.png', 'rw_lh character 560', 560),
+      sourcePackage: 'assets/EIcon1.swf',
+    },
+    stone: {
+      ...taskUiAsset('map-service.tasks.reward.stone', 'reward-stone.png', 'rw_bs character 608', 608),
+      sourcePackage: 'assets/EIcon1.swf',
+    },
+    horse: {
+      ...taskUiAsset('map-service.tasks.reward.horse', 'reward-roomhorse.png', 'rw_roomhorse character 512', 512),
+      sourcePackage: 'assets/EIcon1.swf',
+    },
+  },
+} as const;
+
 const ShopUiAssetRoot = '/assets/ui/map-services/shop';
 
 function shopUiAsset(

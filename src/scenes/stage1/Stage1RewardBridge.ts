@@ -22,6 +22,13 @@ import {
   type Stage1CombatEnemy,
   type Stage1CombatPlayer,
 } from '../../systems/Stage1CombatSystem';
+import { getGlobalSettings } from '../../systems/GlobalSettingsSystem';
+import {
+  createPartyTaskModel,
+  encodePartyTaskModel,
+  recordTaskMonsterDefeat,
+} from '../../systems/PartyTaskSystem';
+import { loadActiveGame, saveActiveGame } from '../../systems/SaveSlotSystem';
 
 export type Stage1RewardPlayer = Readonly<{
   view: Phaser.GameObjects.Image;
@@ -44,8 +51,23 @@ export function createStage1RewardBridge(
   const rewardRuntime = createMonsterDefeatRewardRuntime();
   const views = new Map<string, Phaser.GameObjects.Image>();
   const creditedSoulIds = new Set<string>();
+  const taskStorage = getBrowserStorage();
+  const taskSave = taskStorage ? loadActiveGame(taskStorage) : undefined;
+  const taskModel = createPartyTaskModel(new Date(), taskSave?.partyTasks);
 
   const onMonsterDefeated = (enemy: Stage1CombatEnemy): void => {
+    const taskChanges = recordTaskMonsterDefeat(
+      taskModel,
+      `Monster${enemy.enemyType}`,
+      getGlobalSettings().difficulty,
+    );
+    if (taskChanges > 0 && taskStorage && taskSave) {
+      saveActiveGame(taskStorage, {
+        ...taskSave,
+        savedAt: new Date().toISOString(),
+        partyTasks: encodePartyTaskModel(taskModel),
+      });
+    }
     const owner = enemy.lastHitBy ?? players.find((player) => player.combat.combat.state !== 'dead')?.combat.slot;
     if (!owner) return;
     const spawnY = enemy.y + DropTuning.spawnOffsetY;
@@ -85,6 +107,14 @@ export function createStage1RewardBridge(
       .map((player) => `${player.combat.slot.toUpperCase()} 灵魂 ${player.combat.soul} 经验 ${player.combat.progression.currentExp}`)
       .join(' · '),
   };
+}
+
+function getBrowserStorage(): Storage | undefined {
+  try {
+    return typeof localStorage === 'undefined' ? undefined : localStorage;
+  } catch {
+    return undefined;
+  }
 }
 
 function collectMedicine(

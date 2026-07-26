@@ -13,6 +13,9 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-155 | 拆分父任务收束 | 汇总丹药、商城、设置、任务四个地图服务页实现并闭合 VS-059 | M-044、M-046、M-052、VS-059 | `155A..D` 四个 0-compact Goal 的原生 UI、事务、存档、正式往返与逐状态证据全集 |
+| TASK-SLICE-155D | 任务页实现 | 接入原生任务页、43 日常、共享进度/奖励和跨日 V6 | M-044、M-046、M-052、VS-059 | character 85/44/49/54/60/73/31/78/83/9、四奖励图、party task owner、死亡 producer、领取事务、同日/跨日、专项与 940×590 证据 |
+| TASK-SLICE-155C | 设置页实现 | 接入原生设置 overlay 与获批的独立全局持久化边界 | M-035、M-044、M-052、VS-059 | character 148/134/136..147、五行/关闭逐状态、四项循环、死控件、全屏模态、独立 localStorage codec、损坏回退与 940×590 重载证据 |
 | TASK-SLICE-155B | 商城页实现 | 接入原生商城、P1/P2 离线灵魂购买与 V6 本地存档 | M-044、M-046、M-052、VS-059 | 721/717/624 原生显示列表、49 商品与 16 组按钮、分类/分页/数量/确认、原子事务、共享懒加载 bundle 与 940×590 逐状态证据 |
 | TASK-SLICE-155A | 丹药页实现 | 接入原生丹药页、P1/P2 五类五阶服用/炼制与 V6 本地存档 | M-037、M-044、M-052、VS-059、VS-064 | 990/969/1006 原生显示列表、五 owner、25 真图标、原子事务/拒绝态、5×5 标志迁移、共享懒加载 bundle 与 940×590 逐状态证据 |
 | TASK-SLICE-160 | 完整背包资源基础 | 将 431 项权威目录接入正式背包、双 owner 原子事务和 V6 存档 | M-035、M-036、M-037、M-044、M-052、VS-064 | 431 definition、428 真图标懒加载、3 缺陷排除、四分类 5×25、实例/99 堆叠、满包原子回滚、P1/P2/V6 与 940×590 原生 UI 证据 |
@@ -4962,6 +4965,91 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+#### 2026-07-26：TASK-SLICE-155D / TASK-SLICE-155
+
+状态：
+
+- `TASK-SLICE-155D` 完成并归档；`GOAL-048` 从未完成 Goal 看板移除。
+- `TASK-SLICE-155A..D` 全部完成，拆分父任务 `TASK-SLICE-155` 同步收束归档。
+- `LINE-PRE-STAGE-2-3-COMPLETION` 继续保持 `Active`；唯一当前任务切到 `GOAL-038 / TASK-SETTINGS-067`。
+
+实现：
+
+- 新增 party/slot 级任务 owner，43 条日常与 4 个休眠活动定义只在当前 V6 槽保存一份；同日本地日历日恢复，跨日载入清零。
+- 已完成关卡共用 `Stage1RewardBridge` 只接一处正式死亡 producer；普通/困难推进、地狱不推进、计数封顶，未接入怪物保持零。
+- 领取复现原端点非均匀随机，物品/制作书/灵魂/经验/炎马按活动 party 路由；P2 经验修正原版误查 P1 宠物缺陷并列为现代差异。
+- character 85 地图模态、44/49 页签、60 tile、73 奖励格、54 领取、31/78/83 按钮、9 已领取图、四个共享奖励图标和权威背包物品图标进入正式 `TaskScene`；地图原显示列表继续作为底层 host。
+- 活动保持空 `1/1`，101..104 不进入可见列表；没有伪造在线服务、活动时间或未知 producer。
+- 任务进度/领取成功即时写当前槽，这是相对原版返回地图手动保存的离线可靠性差异。
+
+验证：
+
+- `formal-task-tests.ts` 固定 43 条顺序、producer/奖励快照、地狱门禁、封顶、分页、空活动、同日/跨日、领取/重复拒绝与当前槽往返。
+- `test:systems` 全部通过；`build`、`check:structure`、`check:annotations`、`check:workflow` 与 `git diff --check` 通过。
+- 940×590 浏览器完成地图入口、日常初始/selected、奖励图标、空活动、末页、关闭返回；console warning/error 为 0。
+- 证据：`docs/tasks/evidence/TASK-SLICE-155D-*.png` 与 `TASK-SLICE-155D-visual-audit.md`。
+
+切片与台账：
+
+- `VS-059` 提升为“已完成”；地图四服务页覆盖项关闭。
+- 任务页根与 13 条深层资源转为 `ready`；恢复 SWF 与 legacy extraction 未修改。
+- `M-044/M-046/M-052` 因更广系统范围继续保持原状态。
+
+推荐任务：
+
+- `TASK-SETTINGS-067`：只闭合关卡内“设置 / 技能 / 背包 / 法宝 / 宠物”五入口的显示列表、暂停/owner/返回合同与实现拆分。
+
+### TASK-SLICE-155D
+
+- 完成日期：2026-07-26
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`
+- 43 日常、4 个休眠活动、共享进度/奖励、正式死亡 producer、同日/跨日 V6 与 character 85 原生任务页全部完成。
+- 两个主工作包、两批验收、0 compact；专项、全系统、build、workflow、标注和 940×590 零 console 通过。
+
+### TASK-SLICE-155
+
+- 完成日期：2026-07-26
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`
+- `TASK-SLICE-155A..D` 全部归档，地图四服务页真 UI、离线边界、事务、存档和正式往返全集闭合，`VS-059` 完成。
+
+### TASK-SLICE-155C
+
+- 完成日期：2026-07-25
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-155D`）
+- 新增纯逻辑 `GlobalSettingsSystem`，以会话级全局 snapshot 持有难度、BGM、技能音效与 30/24/20 FPS；完整循环、编码、损坏回默认和存储不可用时的会话保持均有专项门禁。
+- 跨应用重启使用独立 `zaixu-global-settings-v1` localStorage key，是用户批准的现代例外；没有修改 V6、六槽或 P1/P2 player schema。
+- 设置直接作为 HeavenMap 上层 overlay 接入，复用 character 148/134 原面板、character 144 关闭三态和原 940×590 坐标；五个静态标签因 FFDEC SVG 嵌入中文字形在浏览器为空而按原 TextField 字体/字号/边界等价重建，动态值按 character 145/146 几何重建。
+- 五行 white/yellow hover、无额外 pressed、难度三态、两声音二态、画质三态、默认音量“示 例”死控件、原提示、关闭/重复打开均闭合；全屏透明 zone 拦截底层地图交互，Escape 只关闭当前 overlay。
+- 设置资源随 `heaven-map` bundle 唯一加载，未回填 Boot 或新增独立场景；页面打开即把持久化 FPS 应用于 Phaser loop，声音状态留给既有/后续音频消费者，不在本 task 扩张音频系统。
+- 940×590 正式入口、normal/hover/值循环、关闭 hover、关闭重开、浏览器重载保持和 console 0 通过；原版/现代并排与稳定面板区域 RGB MAE 3.4953 归档于 `docs/tasks/evidence/TASK-SLICE-155C-*.png` 和视觉审计。
+- Goal 实际保持两个主工作包、两个验收批次、0 compact；未读取任务页资料族、修改 V6、进入任务页或改变战斗难度/音频系统。
+
+更新文件：
+- `src/systems/GlobalSettingsSystem.ts`
+- `src/scenes/heaven-map/FormalSettingsOverlay.ts`
+- `src/scenes/HeavenMapScene.ts`
+- `src/assets/AssetManifest.ts`
+- `src/assets/SceneAssetBundles.ts`
+- `public/assets/ui/map-services/settings/`
+- `tools/generate-settings-native-assets.mjs`
+- `tools/formal-settings-tests.ts`
+- `tools/run-system-tests.mjs`
+- `package.json`
+- `docs/tasks/evidence/TASK-SLICE-155C-*`
+- 功能线、Goal、任务、覆盖、机制、切片与 PG 台账
+
+验证：
+- `npm run test:settings`、`npm run test:asset-bundles` 与 `npm run build` 通过。
+- 940×590 正式入口、五行 normal/hover/click、死控件、关闭/重开与浏览器重载通过，console 无 warning/error。
+- 最终 `npm run test:systems`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次任务收尾记录。
+
+问题治理反馈：
+- PG-002/004/005/007/008/009 命中并回写；PG-001/003/006/010/011 未触发。
+- 功能线与 VS-059 保持 Active，只激活同线 `GOAL-048 / TASK-SLICE-155D`；没有用第三个服务页完成提前关闭整线。
+
+推荐任务：
+- `TASK-SLICE-155D`：实现任务页原生 UI、进度/奖励和跨日存档。
 
 ### TASK-SLICE-155B
 

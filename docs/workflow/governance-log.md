@@ -2,6 +2,28 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-26
+
+### 任务页实现 Goal 归档与治理样本回写
+
+变更内容：
+
+- `TASK-SLICE-155D / GOAL-048` 闭合任务页原生 UI、party 任务 owner、正式死亡 producer、奖励与跨日 V6，拆分父任务 `TASK-SLICE-155` 同步收束。
+- 按问题治理关闭扫描向 PG-005/007/008/009 回写六段证据消费、UI host 视觉纠偏、0 compact 规模样本和资源 bundle owner 样本；没有改变治理规则本身。
+- 唯一 Active 调度切到同线 `GOAL-038 / TASK-SETTINGS-067`，本次 `/goal` 不继续下一包。
+
+影响范围：
+
+- `docs/workflow/problems/PG-005-逆向证据链不完整却宣布闭合.md`
+- `docs/workflow/problems/PG-007-UI原生化缺少统一门禁.md`
+- `docs/workflow/problems/PG-008-Goal包缺少可执行规模门禁.md`
+- `docs/workflow/problems/PG-009-启动资源加载边界缺失.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- 运行 `npm run check:workflow` 与 `git diff --check`。
+
 ## 2026-07-25
 
 ### 登记共享 UI 组件化问题与分段任务

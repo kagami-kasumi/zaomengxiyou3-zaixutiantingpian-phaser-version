@@ -22,6 +22,7 @@ const requiredBundles = [
   'map-service-immortality',
   'inventory-items-shop',
   'map-service-shop',
+  'map-service-tasks',
   'feature-ui',
   'feature-ui-backpack',
   'feature-ui-skills-common',
@@ -41,6 +42,7 @@ assert.equal(sceneBundleBySceneKey.SaveSlotScene, 'shell');
 assert.equal(sceneBundleBySceneKey.HeavenMapScene, 'heaven-map');
 assert.equal(sceneBundleBySceneKey.ImmortalityScene, 'map-service-immortality');
 assert.equal(sceneBundleBySceneKey.ShopScene, 'map-service-shop');
+assert.equal(sceneBundleBySceneKey.TaskScene, 'map-service-tasks');
 assert.equal(sceneBundleBySceneKey.FeatureUiScene, 'feature-ui');
 assert.equal(sceneAssetBundles['feature-ui'].assets.length, 2);
 assert.equal(sceneAssetBundles['feature-ui-backpack'].assets.length, 378);
@@ -57,6 +59,10 @@ assert.deepEqual(
 assert.deepEqual(
   sceneAssetBundles['map-service-shop'].dependencies,
   ['shell', 'inventory-items-shop', 'feature-ui'],
+);
+assert.deepEqual(
+  sceneAssetBundles['map-service-tasks'].dependencies,
+  ['shell', 'heaven-map', 'feature-ui-backpack'],
 );
 assert.equal(
   sceneAssetBundles.shell.assets.some((asset) => asset.key.startsWith('inventory-item.')),

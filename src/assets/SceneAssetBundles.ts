@@ -10,6 +10,8 @@ import {
   savePartyAssets,
   saveSlotAssets,
   scaffoldAssets,
+  settingsUiAssets,
+  taskUiAssets,
   shopUiAssets,
   skillNativeUiCommonAssets,
   stage11Assets,
@@ -35,6 +37,7 @@ export type AssetBundleId =
   | 'map-service-immortality'
   | 'inventory-items-shop'
   | 'map-service-shop'
+  | 'map-service-tasks'
   | 'feature-ui'
   | 'feature-ui-backpack'
   | 'feature-ui-skills-common'
@@ -104,7 +107,11 @@ const svgs = (asset: FrameSequenceAsset): readonly BundleAssetDefinition[] =>
 
 const shellAssets = Object.values(saveSlotAssets).map(svg);
 const savePartyBundleAssets = Object.values(savePartyAssets).map(image);
-const heavenMapBundleAssets = Object.values(heavenMapAssets).map(svg);
+const heavenMapBundleAssets = [
+  ...Object.values(heavenMapAssets).map(svg),
+  svg(settingsUiAssets.root),
+  ...Object.values(settingsUiAssets.close).map(svg),
+];
 const immortalityPillFillNames = new Set(
   ['wpsmd', 'wpmfd', 'wpbjd', 'wphxd', 'wphld']
     .flatMap((prefix) => Array.from({ length: 5 }, (_, index) => `${prefix}${index + 1}`)),
@@ -134,6 +141,17 @@ const shopBundleAssets = [
   svg(shopUiAssets.confirm),
   ...Object.values(shopUiAssets.buttons).flatMap((button) =>
     Object.values(button).map(image)),
+];
+const taskBundleAssets = [
+  svg(taskUiAssets.root),
+  ...Object.values(taskUiAssets.daily).map(svg),
+  ...Object.values(taskUiAssets.activity).map(svg),
+  ...Object.values(taskUiAssets.claim).map(svg),
+  ...Object.values(taskUiAssets.tile).map(svg),
+  svg(taskUiAssets.awardCell),
+  image(taskUiAssets.received),
+  ...Object.values(taskUiAssets.buttons).flatMap((button) => Object.values(button).map(svg)),
+  ...Object.values(taskUiAssets.rewards).map(image),
 ];
 const skillBaseAssets = [
   fullFeatureUiAssets.skillHub,
@@ -223,6 +241,10 @@ export const sceneAssetBundles = {
   'map-service-shop': {
     dependencies: ['shell', 'inventory-items-shop', 'feature-ui'],
     assets: shopBundleAssets,
+  },
+  'map-service-tasks': {
+    dependencies: ['shell', 'heaven-map', 'feature-ui-backpack'],
+    assets: taskBundleAssets,
   },
   'feature-ui': {
     dependencies: [],
@@ -319,6 +341,7 @@ export const sceneBundleBySceneKey = {
   HeavenMapScene: 'heaven-map',
   ImmortalityScene: 'map-service-immortality',
   ShopScene: 'map-service-shop',
+  TaskScene: 'map-service-tasks',
   FeatureUiScene: 'feature-ui',
   TestScene: 'stage-11',
   Stage12Scene: 'stage-12',

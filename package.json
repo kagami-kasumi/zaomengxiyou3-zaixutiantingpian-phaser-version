@@ -28,6 +28,8 @@
     "test:heaven-map": "node tools/run-system-tests.mjs heaven-map-tests",
     "test:immortality": "node tools/run-system-tests.mjs immortality-tests",
     "test:shop": "node tools/run-system-tests.mjs formal-shop-tests",
+    "test:settings": "node tools/run-system-tests.mjs formal-settings-tests",
+    "test:tasks": "node tools/run-system-tests.mjs formal-task-tests",
     "test:feature-ui-host": "node tools/run-system-tests.mjs feature-ui-host-tests",
     "test:feature-save-v4": "node tools/run-system-tests.mjs feature-save-v4-tests",
     "test:party-save": "node tools/run-system-tests.mjs party-save-tests",

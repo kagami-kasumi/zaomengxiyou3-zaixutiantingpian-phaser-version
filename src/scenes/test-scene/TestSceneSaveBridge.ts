@@ -165,6 +165,7 @@ export function saveSceneNow(this: any, storage?: SaveStorage): void {
       player2EquipmentLoadout: this.playerInventoryRuntimes.p2.loadout,
       player2PetRoster: this.playerPetRosters.p2,
       levelUnlockProgress: this.levelUnlockProgress,
+      partyTasks: activeSave?.partyTasks,
     }));
     setSaveResult(this, saved ? 'SAVE autosaved' : 'SAVE slot unavailable');
   } catch {

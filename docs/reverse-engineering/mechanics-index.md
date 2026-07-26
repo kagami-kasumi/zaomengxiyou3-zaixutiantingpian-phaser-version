@@ -96,7 +96,11 @@
 
 2026-07-25 设置页深证据：`TASK-SETTINGS-066C` 已闭合 character 148/134/136..147、关闭按钮四态、五行 white/yellow hover 与无独立 pressed、难度/声音/30-24-20 FPS 循环、全屏 overlay 生命周期、会话级全局 owner、原版非存档和默认音量死控件，详见 `settings-ui-index.md`。用户确认的跨应用重启范围只作为现代例外映射到独立全局 localStorage，不改 V6/player schema；这只清零 `TASK-SLICE-155C` 输入未知，不提前提升 `M-035/M-044/M-052` 或 `VS-059`。
 
+2026-07-25 设置页实现：`TASK-SLICE-155C` 已直接消费上述六段矩阵，接入 character 148 原面板、五个原标签/动态值命中区、144 关闭三态、全屏模态阻挡、四项循环与默认音量死控件；独立全局 localStorage codec 只实现用户批准的跨重启现代例外，损坏回默认且不触碰 V6/player schema。专项、全系统与 940×590 normal/hover/值循环/关闭重开/重载双重验证通过；`M-035/M-044/M-052` 仍为部分复现，`VS-059` 仍待任务页。
+
 2026-07-25 任务页深证据：`TASK-SETTINGS-066D` 已闭合 character 85 的双页签、五 tile、详情/进度、四奖励格、领取、分页、关闭与动态已领取图，列清 43 项日常和 4 项活动、生产者、随机奖励、共享 owner、同日恢复/跨日重置和显式保存边界，详见 `task-ui-index.md`。当前两个行为包都构造活动 101..104 却未 `push` 到 `actTask`，因此活动页实际为空；原版还保留空页陈旧详情可领取、尾页陈旧详情、多人 EXP 分发和非均匀随机等瑕疵。影响 `TASK-SLICE-155D` 的事实未知为零，但这不提前提升 `M-044/M-046/M-052` 或 `VS-059`。
+
+2026-07-26 任务页实现：`TASK-SLICE-155D` 已接入 character 85 原生显示列表、43 日常、4 个休眠活动定义、共享进度、正式怪物死亡 producer、非均匀奖励、双方 owner 与当前槽跨日 V6；活动页保持空 `1/1`，P2 经验串号按各自 owner 修正并显式记录为现代差异。专项、全系统、build、资源标注和 940×590 逐状态零 console 通过，`VS-059` 提升为已完成；`M-044/M-046/M-052` 因更广范围仍保持原状态。
 
 M-042 当前补充：`TASK-SETTINGS-031` 已补清玄龟 `turtle1..4` 的 `sld/txlj/sybh/xwaoyi` 专属技能链，事实已足够进入实现。`TASK-SLICE-066` 已完成 `turtle1/sld`：P1 可切换出战 `turtle1`，按已学、MP、目标、距离 `50..200` 和约 6 秒 CD 门禁释放 `PetTurtle1Bullet2`，按 `pet.atk + skillDamageBonus` 接入 `sxkb` 暴击造成伤害，并按本次实际伤害治疗宠物自身。`TASK-SLICE-067` 已完成 `turtle2/txlj`：P1 可切换出战 `turtle2`，按已学、MP、目标和约 20 秒 CD 门禁添加链接状态；链接期间主人受伤时宠物承受 5% 转嫁伤害、主人承受 95% 伤害，主人治疗和宠物治疗按 `1.05` 倍联动，`sld` 自疗可同步给主人最小治疗反馈。`TASK-SLICE-068` 已完成 `turtle3/sybh`：P1 可切换出战 `turtle3`，按已学、MP、目标和约 5.5 秒 CD 门禁释放 `PetTurtle3Bullet3` 范围 projectile，按 `5.4 * pet.atk + skillDamageBonus` 接入 `sxkb` 暴击造成范围伤害。`TASK-SLICE-069` 已完成 `turtle4/xwaoyi`：P1 可切换出战 `turtle4`，按已学、MP `>= 30`、目标和约 18 秒 CD 门禁释放 5 秒玄武奥义，占位记录免蓝 `sld`、刷新 `txlj` 和持续 `sybh` 范围反馈。下一步推荐 `TASK-SLICE-070` 实现 UFO/卡布首段 `ufo1/pms` 魔破杀最小闭环。
 

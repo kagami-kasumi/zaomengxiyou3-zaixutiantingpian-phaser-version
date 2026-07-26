@@ -21,7 +21,7 @@
 | UI 与配方图标 | 319 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条、地图服务四页根 UI、丹药页 11 条、商城页 18 条、设置页 2 条和任务页 13 条深层资源已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`../map-service-ui-index.md`、`../immortality-ui-index.md`、`../shop-ui-index.md`、`../settings-ui-index.md`、`../task-ui-index.md` |
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 
-总计 950 条标注：749 条 `ready`、48 条 `derived-ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；949 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
+总计 950 条标注：764 条 `ready`、33 条 `derived-ready`、1 条 `export-ready`、145 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；949 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
 
 ## 人工待办
 
@@ -37,7 +37,7 @@
 
 完整功能 UI 已从 `backpack1/OtherMat1/pet1.swf` 选择性派生 11 条组合 SVG；背包/格子、技能总页/主动/绑定/被动、宠物、装备强化与装备分解共 9 条已接入正式页并标为 `ready`，法宝和装备制作 2 条仍为 `derived-ready`。`BackPack` 离台边界与其余根页 940×590 语义已记录在 `full-function-ui-index.md`。
 
-地图服务 UI 已从 `OtherMat1/backpack1/StageCommon/EIcon1.swf` 选择性派生丹药 990、商城 721、设置 148、任务 85 四条根 SVG/PNG。丹药页另派生 11 条、商城页 18 条、设置页 2 条、任务页 13 条深层资源，并分别由 `immortality-ui-index.md`、`shop-ui-index.md`、`settings-ui-index.md`、`task-ui-index.md` 闭合完整六段证据。
+地图服务 UI 已从 `OtherMat1/backpack1/StageCommon/EIcon1.swf` 选择性派生丹药 990、商城 721、设置 148、任务 85 四条根 SVG/PNG。丹药页另派生 11 条、商城页 18 条、设置页 2 条、任务页 13 条深层资源，并分别由 `immortality-ui-index.md`、`shop-ui-index.md`、`settings-ui-index.md`、`task-ui-index.md` 闭合完整六段证据；设置页 3 条资源已由 `TASK-SLICE-155C` 接入，任务页根与 13 条深层资源已由 `TASK-SLICE-155D` 接入并转为 `ready`。
 
 Role5 枪形态 `doSingleHit(...)` 是唯一语义未闭合项，需要更完整 P-code、角色资源包或运行画面才能确认。它已按 `unknown` 保留，不阻塞本轮标注数据关闭。
 
