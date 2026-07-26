@@ -17,6 +17,9 @@ import {
   shopUiAssets,
   skillNativeUiCommonAssets,
   stage11Assets,
+  stage11MonsterAtlases,
+  stage11MonsterAttackAssets,
+  Stage11MonsterAssetKeys,
   stage12Assets,
   stage13Assets,
   stage21Assets,
@@ -185,6 +188,21 @@ const combatCommonAssets = [
 const stage11BundleAssets = Object.entries(stage11Assets)
   .filter(([name]) => name !== 'floor')
   .map(([, asset]) => image(asset));
+const stage11MonsterBundleAssets = [
+  ...Object.values(stage11MonsterAtlases).map((asset) => ({
+    kind: 'spritesheet' as const,
+    key: asset.key,
+    path: asset.path,
+    frameWidth: asset.cellWidth,
+    frameHeight: asset.cellHeight,
+  })),
+  ...Object.values(stage11MonsterAttackAssets).flatMap(images),
+  {
+    kind: 'text' as const,
+    key: Stage11MonsterAssetKeys.attackGeometry,
+    path: '/assets/stage1/monsters/attack-frame-geometry.csv',
+  },
+];
 const stage12BundleAssets = Object.values(stage12Assets).flatMap((asset) =>
   'framePaths' in asset ? images(asset) : [image(asset)]);
 const stage13BundleAssets = Object.values(stage13Assets).map(image);
@@ -334,7 +352,7 @@ export const sceneAssetBundles = {
   },
   'stage-11': {
     dependencies: ['combat-common', 'stage-1-common'],
-    assets: stage11BundleAssets,
+    assets: [...stage11BundleAssets, ...stage11MonsterBundleAssets],
   },
   'stage-12': {
     dependencies: ['combat-common', 'stage-1-common'],

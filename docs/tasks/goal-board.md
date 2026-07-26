@@ -23,8 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-060 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157A | Stage 1-1 Monster30/3 本体、动作、攻击对象真动画接入与逐状态验收 | 预计 0 次 |
-| GOAL-061 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157B | Stage 1-2 Monster7/8/4/2 本体、动作、攻击对象真动画接入与逐状态验收 | 预计 0 次 |
+| GOAL-061 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157B | Stage 1-2 Monster7/8/4/2 本体、动作、攻击对象真动画接入与逐状态验收 | 预计 0 次 |
 | GOAL-062 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157C | Stage 1-3 Monster5 新资源、共享怪物复用与 105 怪逐状态验收 | 预计 0 次 |
 | GOAL-063 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157D | 五关怪物资源 owner、Stage 2 防回归与父任务关闭验收 | 预计 0 次 |
 | GOAL-040 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-069 | 五角色本体、角色战斗 UI 与技能动画覆盖矩阵及逐角色拆分 | 预计 0 次 |

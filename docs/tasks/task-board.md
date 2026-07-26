@@ -4,7 +4,7 @@
 
 ## 当前推荐
 
-`TASK-SLICE-157A` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。怪物视觉证据任务已把 Stage 1 七个本体、16 个攻击对象和碰撞/时序全集闭合；下一次 `/goal` 只接入 Stage 1-1 的 Monster30、Monster3 与三个攻击对象。
+`TASK-SLICE-157B` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。Stage 1-1 的 Monster30/3 与三个攻击对象已完成真动画接入；下一次 `/goal` 只处理 Stage 1-2 的 Monster7/8/4/2 与八个攻击/效果对象。
 
 ## 待完成任务
 
@@ -12,8 +12,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SETTINGS-069 | Planned | GOAL-040 | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 逐角色逐技能全集矩阵、资源标注与逐角色实现 Goal | 拆分 TASK-SLICE-158 |
 | TASK-SLICE-157 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 既有关卡怪物动画父任务 | Stage 1-1/1-2/1-3 逐关接入全部怪物/攻击对象真动画，回归 Stage 2-1/2-2 | M-030、M-034、M-035、VS-061 | 由 TASK-SETTINGS-068 生成的逐关子 task | 全部子 task 完成后收束父任务 |
-| TASK-SLICE-157A | Ready | GOAL-060 | LINE-PRE-STAGE-2-3-COMPLETION | Stage 1-1 怪物真动画 | 接入 Monster30/3 全部可达动作与三个攻击对象 | M-030、M-034、M-035、VS-061 | atlas/对象资源、共享描述、关卡桥接与逐状态证据 | TASK-SLICE-157B |
-| TASK-SLICE-157B | Planned | GOAL-061 | LINE-PRE-STAGE-2-3-COMPLETION | Stage 1-2 怪物真动画 | 接入 Monster7/8/4/2 全部可达动作与八个攻击/效果对象 | M-030、M-034、M-035、VS-061 | 逐怪动画、双 Boss、对象生命周期与逐状态证据 | TASK-SLICE-157C |
+| TASK-SLICE-157B | Ready | GOAL-061 | LINE-PRE-STAGE-2-3-COMPLETION | Stage 1-2 怪物真动画 | 接入 Monster7/8/4/2 全部可达动作与八个攻击/效果对象 | M-030、M-034、M-035、VS-061 | 逐怪动画、双 Boss、对象生命周期与逐状态证据 | TASK-SLICE-157C |
 | TASK-SLICE-157C | Planned | GOAL-062 | LINE-PRE-STAGE-2-3-COMPLETION | Stage 1-3 怪物真动画 | 接入 Monster5 并复用 30/3/7/8，闭合 105 怪视觉 | M-030、M-034、M-035、VS-061 | Monster5/四对象、共享复用、门禁与逐状态证据 | TASK-SLICE-157D |
 | TASK-SLICE-157D | Planned | GOAL-063 | LINE-PRE-STAGE-2-3-COMPLETION | 五关怪物视觉回归 | 收敛五关资源 owner，回归 Stage 2-1/2-2 并关闭父任务 | M-030、M-034、M-035、VS-061 | 五关自动/运行证据、bundle 防回归与父任务归档 | TASK-SETTINGS-069 |
 | TASK-SLICE-158 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 五角色动画父任务 | 逐角色接入本体、战斗 UI、普攻、技能及附属对象真动画 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 由 TASK-SETTINGS-069 生成的逐角色子 task | 全部子 task 完成后收束父任务 |
@@ -151,69 +150,6 @@ Goal 包：
 
 - 当前执行 `TASK-SLICE-157A`；全部子 task 完成后收束父任务。
 
-### TASK-SLICE-157A
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
-
-Goal 包：
-
-- `GOAL-060`（Active）
-
-目标机制/切片：
-
-- `M-030`、`M-034`、`M-035`、`VS-061`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若接入 Monster30/3 需要修改共享战斗规则、引入第二个视觉 runtime owner 或独立重做关卡流程，立即拆为同线下一 Goal；本 task 只允许资源/动画描述与 Stage 1-1 视觉桥接。
-
-输入资料：
-
-- `reverse-engineering-protocol.md`、`stage1-monster-visuals-index.md`、`asset-annotation/annotations/stage1-monsters.csv`、`src-boundaries.md`、Stage 1-1 当前 flow/combat/scene/asset owner。
-
-输出产物：
-
-- Monster30/3 atlas、Monster30Bullet1、Monster3Bullet1/2 选择性现代资源；共享只读动画描述；Stage 1-1 视觉桥接、manifest/bundle provenance 与逐状态证据。
-
-完成定义：
-
-- Stage 1-1 实际 Monster30/3 的 wait/walk/hurt/dead/全部可达攻击、左右朝向、注册点、碰撞根、攻击对象触发与末帧销毁全部使用真资源；现代 Arc/Text/单帧怪物占位从正式路径移除。
-
-视觉验收合同：
-
-- 原版基准：恢复 `assets/1.swf` 的 40 个本体独立视觉帧、3 个对象 25 帧及本索引注册边界。
-- 允许的现代视觉例外：空清单。
-- 逐状态验收：Monster30 wait/walk/hurt/dead/hit1，Monster3 wait/walk/hurt/dead/hit1/hit2，左右朝向、生成/命中/销毁、最高层 Boss 与门。
-- 差异证据：940×590 关键帧、帧序/hold/原点/对象差异清单和零 console。
-
-验收标准：
-
-- 实现前 `check:structure`；逐怪/逐对象专项、Stage 1-1 流程与资源测试、全系统、build、annotations、workflow、diff check；940×590 单/双人逐状态运行证据。
-
-禁止范围：
-
-- 不修改伤害/AI/关卡门禁，不进入 Stage 1-2/1-3 或角色动画，不为此提前执行怪物架构线。
-
-状态更新：
-
-- 更新 M-030/M-034、VS-061、本线覆盖、标注状态、Goal/task/history 与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SLICE-157B`。
-
 ### TASK-SLICE-157B
 
 任务类型：
@@ -226,7 +162,7 @@ Goal 包：
 
 Goal 包：
 
-- `GOAL-061`（Planned）
+- `GOAL-061`（Active）
 
 目标机制/切片：
 

@@ -45,7 +45,7 @@ type ExtractedStageSequenceAssetDefinition = FrameSequenceAssetDefinition & {
   sourceBounds: Readonly<{ width: number; height: number }>;
 };
 
-export type Stage21MonsterAtlasAssetDefinition = ExtractedImageAssetDefinition & {
+export type MonsterAtlasAssetDefinition = ExtractedImageAssetDefinition & {
   cellWidth: number;
   cellHeight: number;
   columns: number;
@@ -54,11 +54,14 @@ export type Stage21MonsterAtlasAssetDefinition = ExtractedImageAssetDefinition &
   registrationOffset: Readonly<{ x: number; y: number }>;
 };
 
-export type Stage21AttackAssetDefinition = FrameSequenceAssetDefinition & {
+export type MonsterAttackAssetDefinition = FrameSequenceAssetDefinition & {
   sourceCharacterId: number;
   frameCount: number;
   geometryPath: string;
 };
+
+export type Stage21MonsterAtlasAssetDefinition = MonsterAtlasAssetDefinition;
+export type Stage21AttackAssetDefinition = MonsterAttackAssetDefinition;
 
 type ExtractedStage12ImageAssetDefinition = ExtractedStageImageAssetDefinition & {
   frameCount: 1;
@@ -78,6 +81,15 @@ export const Stage11AssetKeys = {
   floor: 'stage.stage1.floor',
   background: 'stage.stage1-1.background',
   foreground: 'stage.stage1-1.layout',
+} as const;
+
+export const Stage11MonsterAssetKeys = {
+  monster30: 'monster.stage1.monster30.atlas',
+  monster3: 'monster.stage1.monster3.atlas',
+  monster30Hit1: 'projectile.stage1.monster30.hit1',
+  monster3Hit1: 'projectile.stage1.monster3.hit1',
+  monster3Hit2: 'projectile.stage1.monster3.hit2',
+  attackGeometry: 'stage1.monster-attack-geometry',
 } as const;
 
 export const Stage12AssetKeys = {
@@ -1504,6 +1516,86 @@ const stage21Attack = (
   geometryPath: '/assets/stage21/bullet-frame-geometry.csv',
 });
 
+const stage11MonsterAttack = (
+  key: string,
+  directory: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+  frameCount: number,
+): MonsterAttackAssetDefinition => ({
+  key,
+  frameKeys: stageFrameKeys(key, frameCount),
+  framePaths: numberedFramePaths(
+    `/assets/stage1/monsters/attacks/${directory}`,
+    frameCount,
+    'svg',
+  ),
+  status: 'ready',
+  source: 'extracted-flash',
+  sourcePackage: 'assets/1.swf',
+  sourceSymbol,
+  sourceCharacterId,
+  frameCount,
+  geometryPath: '/assets/stage1/monsters/attack-frame-geometry.csv',
+});
+
+export const stage11MonsterAtlases = {
+  monster30: {
+    key: Stage11MonsterAssetKeys.monster30,
+    path: '/assets/stage1/monsters/monster30.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'Monster30',
+    sourceCharacterId: 8,
+    cellWidth: 150,
+    cellHeight: 150,
+    columns: 6,
+    rows: 4,
+    reachableFrameCount: 13,
+    registrationOffset: { x: 5, y: -2 },
+  },
+  monster3: {
+    key: Stage11MonsterAssetKeys.monster3,
+    path: '/assets/stage1/monsters/monster3.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'Monster3',
+    sourceCharacterId: 4,
+    cellWidth: 180,
+    cellHeight: 180,
+    columns: 6,
+    rows: 6,
+    reachableFrameCount: 27,
+    registrationOffset: { x: 20, y: -5 },
+  },
+} as const satisfies Record<string, MonsterAtlasAssetDefinition>;
+
+export const stage11MonsterAttackAssets = {
+  monster30Hit1: stage11MonsterAttack(
+    Stage11MonsterAssetKeys.monster30Hit1,
+    'monster30-hit1',
+    'Monster30Bullet1',
+    21,
+    10,
+  ),
+  monster3Hit1: stage11MonsterAttack(
+    Stage11MonsterAssetKeys.monster3Hit1,
+    'monster3-hit1',
+    'Monster3Bullet1',
+    70,
+    5,
+  ),
+  monster3Hit2: stage11MonsterAttack(
+    Stage11MonsterAssetKeys.monster3Hit2,
+    'monster3-hit2',
+    'Monster3Bullet2',
+    74,
+    10,
+  ),
+} as const satisfies Record<string, MonsterAttackAssetDefinition>;
+
 export const stage21MonsterAtlases = {
   monster6: {
     key: Stage21MonsterAssetKeys.monster6,
@@ -1860,11 +1952,6 @@ export const sourceAssetFamilies = {
     ],
     notes: 'Sword-mode mappings are known; spear-mode helper symbols remain unresolved.',
   },
-  monster30: {
-    status: 'missing-original',
-    sourceSymbols: ['Monster30', 'Monster30Bullet1'],
-    notes: 'First monster body and attack effect.',
-  },
   role2SkillProjectiles: {
     status: 'missing-original',
     sourceSymbols: [
@@ -1987,7 +2074,11 @@ export const assetBundles = {
   scaffold: [scaffoldAssets.playerPlaceholder],
   role1NormalAttacks: Object.values(role1NormalAttackAssets),
   crafting: Object.values(craftingAssets),
-  stage11: Object.values(stage11Assets),
+  stage11: [
+    ...Object.values(stage11Assets),
+    ...Object.values(stage11MonsterAtlases),
+    ...Object.values(stage11MonsterAttackAssets),
+  ],
   stage12: [stage11Assets.floor, ...Object.values(stage12Assets)],
   stage13: [stage11Assets.floor, ...Object.values(stage13Assets)],
   stage21: [

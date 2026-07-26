@@ -14,28 +14,15 @@ import type { Monster30Model } from '../../systems/Monster30System';
 import type { PetState } from '../../systems/PetSystem';
 import type { ProjectileModel } from '../../systems/ProjectileSystem';
 import { stage11TransferDoor } from '../../systems/Stage11Layout';
+import {
+  createStage11MonsterView,
+  setStage11MonsterViewVisible,
+  type Stage11AttackGeometryRegistry,
+  type Stage11MonsterView,
+} from '../stage11/Stage11MonsterVisualBridge';
 
-export type MonsterView = {
-  root: Phaser.GameObjects.Container;
-  body: Phaser.GameObjects.Ellipse;
-  wingLeft: Phaser.GameObjects.Ellipse;
-  wingRight: Phaser.GameObjects.Ellipse;
-  eye: Phaser.GameObjects.Ellipse;
-  hpTrack: Phaser.GameObjects.Rectangle;
-  hpFill: Phaser.GameObjects.Rectangle;
-  label: Phaser.GameObjects.Text;
-  stateText: Phaser.GameObjects.Text;
-};
-
-export type BossView = {
-  body: Phaser.GameObjects.Ellipse;
-  crown: Phaser.GameObjects.Ellipse;
-  eye: Phaser.GameObjects.Ellipse;
-  hpTrack: Phaser.GameObjects.Rectangle;
-  hpFill: Phaser.GameObjects.Rectangle;
-  label: Phaser.GameObjects.Text;
-  stateText: Phaser.GameObjects.Text;
-};
+export type MonsterView = Stage11MonsterView;
+export type BossView = Stage11MonsterView;
 
 export type TransferDoorView = {
   door: Phaser.GameObjects.Image;
@@ -98,68 +85,18 @@ export function drawBossArenaStage(scene: Phaser.Scene): void {
 export function createMonsterView(
   scene: Phaser.Scene,
   monster: Monster30Model,
+  geometry: Stage11AttackGeometryRegistry,
 ): MonsterView {
-  const root = scene.add.container(monster.x, monster.y);
-  const wingLeft = scene.add.ellipse(-28, 2, 34, 18, 0x445d7e);
-  const wingRight = scene.add.ellipse(28, 2, 34, 18, 0x445d7e);
-  const body = scene.add.ellipse(0, 0, 72, 56, 0x7b4e79);
-  const eye = scene.add.ellipse(14, -8, 12, 12, 0xf5d27a);
-  const hpTrack = scene.add.rectangle(0, -48, 82, 8, 0x182233);
-  const hpFill = scene.add.rectangle(-41, -48, 82, 8, 0xe3646d);
-  hpFill.setOrigin(0, 0.5);
-  const label = scene.add.text(-42, -78, 'Monster30', {
-    color: '#f3f6ff',
-    fontFamily: 'Arial, sans-serif',
-    fontSize: '14px',
-  });
-  const stateText = scene.add.text(-42, -62, '', {
-    color: '#c8d3e2',
-    fontFamily: 'Arial, sans-serif',
-    fontSize: '13px',
-  });
-
-  root.add([wingLeft, wingRight, body, eye, hpTrack, hpFill, label, stateText]);
-
-  return {
-    root,
-    body,
-    wingLeft,
-    wingRight,
-    eye,
-    hpTrack,
-    hpFill,
-    label,
-    stateText,
-  };
+  return createStage11MonsterView(scene, 30, monster.x, monster.y, geometry);
 }
 
-export function createBossView(scene: Phaser.Scene): BossView {
-  const body = scene.add.ellipse(470, 120, 90, 70, 0x8b2252);
-  const crown = scene.add.ellipse(470, 72, 48, 32, 0xd4a574);
-  const eye = scene.add.ellipse(482, 108, 14, 14, 0xf5d27a);
-  const hpTrack = scene.add.rectangle(470, 48, 96, 8, 0x182233);
-  const hpFill = scene.add.rectangle(422, 48, 96, 8, 0xe3646d);
-  hpFill.setOrigin(0, 0.5);
-  const label = scene.add.text(410, 18, 'Monster3 巫鹰', {
-    color: '#f3f6ff',
-    fontFamily: 'Arial, sans-serif',
-    fontSize: '14px',
-  });
-  const stateText = scene.add.text(410, 34, '', {
-    color: '#c8d3e2',
-    fontFamily: 'Arial, sans-serif',
-    fontSize: '13px',
-  });
-
-  body.setVisible(false);
-  crown.setVisible(false);
-  eye.setVisible(false);
-  hpTrack.setVisible(false);
-  hpFill.setVisible(false);
-  label.setVisible(false);
-  stateText.setVisible(false);
-
-  return { body, crown, eye, hpTrack, hpFill, label, stateText };
+export function createBossView(
+  scene: Phaser.Scene,
+  geometry: Stage11AttackGeometryRegistry,
+): BossView {
+  const view = createStage11MonsterView(scene, 3, 470, 120, geometry);
+  setStage11MonsterViewVisible(view, false);
+  return view;
 }
 
 export function createTransferDoorView(scene: Phaser.Scene): TransferDoorView {

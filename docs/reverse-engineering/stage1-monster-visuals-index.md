@@ -19,7 +19,7 @@
 
 | 关卡 | 实际怪物 | 生成与门禁 | 真视觉状态 |
 | --- | --- | --- | --- |
-| Stage 1-1 | Monster30、Monster3 | StageListener11 每 6 秒按 1P/2P 生成 2/4 个 Monster30；最高层 2 秒镜头过渡后生成 Monster3 | 本索引已定位，现代仍为占位 |
+| Stage 1-1 | Monster30、Monster3 | StageListener11 每 6 秒按 1P/2P 生成 2/4 个 Monster30；最高层 2 秒镜头过渡后生成 Monster3 | `TASK-SLICE-157A` 已接入并逐状态验收 |
 | Stage 1-2 | Monster7、Monster8、Monster4、Monster2 | 五批 8/11/12/13/2，共 46；末批 Monster4+Monster2 双 Boss，二者均死亡才显门 | 本索引已定位，现代仍为占位 |
 | Stage 1-3 | Monster8、Monster7、Monster3、Monster5、Monster30 | 五批 9/10/12/13/61，共 105；Monster5 死亡立即显门，60 个 Monster30 不阻塞门 | 本索引已定位，现代仍为占位 |
 | Stage 2-1 | Monster6、Monster9、Monster10、Monster19 | 五批 53，Monster6 显门 | 已接入并逐状态验收 |
@@ -97,6 +97,30 @@ Monster5 `hit3` 的 `frameCount=16`，但 `frameStopCount` 和 atlas 只有 4 �
 - Stage 2-1：`stage21-monster-visuals-index.md` 与 `asset-annotation/annotations/stage21-monsters.csv` 仍记录 Monster6/9/10/19 的 94 个本体关键帧、7 个攻击对象 132 帧、碰撞根、触发、镜像和运行证据，11 条 stable key 均为 `ready`。
 - Stage 2-2：`asset-annotation/annotations/stage22.csv` 仍记录 Monster16 的 36 个本体关键帧与 6 个攻击对象 104 帧，Monster9/10/19 复用 Stage 2-1 owner；14 条场景/机关/Boss stable key 均为 `ready`。
 - 本 task 没有重新导出、复制或注册 Stage 2 资源，也没有修改其现代 bundle owner。
+
+## Stage 1-1 现代映射与差异证据
+
+`TASK-SLICE-157A` 只接入 Stage 1-1，不进入后续关卡或共享怪物架构：
+
+- `Stage11MonsterVisualSystem.ts` 是 Monster30/3 的共享只读动画描述，逐动作直接消费本索引的 atlas row、视觉帧、30 fps hold、BBDC offset、碰撞根与触发 tick；玩法状态、伤害、AI、物理和奖励仍由既有 owner 持有。
+- `Stage11MonsterVisualBridge.ts` 以 Flash 注册根创建 sprite，并按对象逐帧几何保持 MovieClip 原点和左右镜像；Monster30 hit1 的透明本体帧由 `Monster30Bullet1` 承担全部可见攻击。
+- `stage-11` 是当前五项资源的唯一 bundle owner：Monster30/3 atlas、三个攻击对象序列和共享几何 CSV 没有回填 Boot、Stage 1-2/1-3 或 Stage 2 bundle。
+- 现代 Arc/Text/单帧怪物占位和怪物矩形攻击提示已从 Stage 1-1 正式路径移除；允许的现代视觉例外仍为空。
+- 死亡规则没有被延长；视觉桥在玩法对象进入 `removed` 后单独保留死亡序列至原版末帧，再销毁显示对象。攻击对象同样在各自第 5/10 帧后销毁。
+
+逐状态差异清单：
+
+| 项目 | 原版基准 | 现代结果 | 差异 |
+| --- | --- | --- | --- |
+| Monster30 wait/walk/hurt/dead/hit1 | 13 个独立视觉帧；wait/walk 共行；hit1 本体透明 | 13/13 atlas 帧、原 hold 与透明攻击本体 | 无 |
+| Monster3 wait/walk/hurt/dead/hit1/hit2 | 27 个独立视觉帧 | 27/27 atlas 帧、原 hold 与精确动作行 | 无 |
+| 左右朝向与注册点 | BBDC offset `(5,-2)` / `(20,-5)`，右向绕注册根镜像 | 原点公式与 `flipX` 围绕同一注册根 | 无 |
+| 三个攻击对象 | tick 1/7/6，世界生成点，5/10/10 帧末帧销毁 | 确定性测试与 940×590 运行均匹配 | 无 |
+| 碰撞根 | Monster30 为缩放后 ObjectBaseSprite7；Monster3 为 ObjectBaseSprite | 描述层保留精确边界；玩法碰撞 owner 未改 | 无 |
+| 单/双人 | 底层 2/4 Monster30，同一资源族复用 | 940×590 单人 2 怪、双人 4 怪真动画可见 | 无 |
+| Boss/门 | 最高层 Monster3 与既有真门 | 自动流程/门禁回归通过；Boss 使用相同真视觉桥 | 无 |
+
+运行验收使用 940×590 内置浏览器正式存档入口，捕获 Monster30 wait/walk/hit1 对象序列、死亡末帧、左右朝向和双人四怪同屏；console warning/error 为 0。Monster3 全动作、最高层与门由相同描述/桥接合同、Stage 1-1 flow 专项及确定性逐 tick 门禁覆盖；本任务未重新跑完整三分钟通关录像，残余风险仅为后续 `157D` 的五关共享 owner 总回归。
 
 ## 六段证据矩阵
 

@@ -15,7 +15,6 @@ import {
   getMonster3AttackHitbox,
   isBossDead,
   isHeroCombatDead,
-  isMonster3Removed,
   revealTransferDoor,
   resolveHitOnce,
   tryClearArena,
@@ -29,7 +28,10 @@ import {
 } from './TestSceneSystems';
 import { getPlayerBounds } from './TestSceneCombatBridge';
 import { toPhaserRect } from './TestSceneGeometry';
-import { createAttackFlash } from './TestSceneViews';
+import {
+  setStage11MonsterViewVisible,
+  updateStage11MonsterView,
+} from '../stage11/Stage11MonsterVisualBridge';
 export function updateBossArena(this: any, input: InputState, time: number, delta: number): void {
     if (this.bossArena.state === 'cleared') {
       return;
@@ -125,13 +127,7 @@ export function activateBossFight(this: any): void {
     this.bossSpawnedOnce = true;
 
     if (this.bossView) {
-      this.bossView.body.setVisible(true);
-      this.bossView.crown.setVisible(true);
-      this.bossView.eye.setVisible(true);
-      this.bossView.hpTrack.setVisible(true);
-      this.bossView.hpFill.setVisible(true);
-      this.bossView.label.setVisible(true);
-      this.bossView.stateText.setVisible(true);
+      setStage11MonsterViewVisible(this.bossView, true);
     }
   }
 
@@ -162,7 +158,8 @@ export function applyBossAttack(this: any, time: number): void {
 
     if (!this.renderedMonsterAttackIds.has(activeAttack.attackId)) {
       this.renderedMonsterAttackIds.add(activeAttack.attackId);
-      this.attackFlashes.push(createAttackFlash(this, toPhaserRect(hitbox), time, 0xff4444));
+      // The authoritative Monster3 attack object is rendered by the Stage 1-1
+      // visual bridge; keep the hitbox for gameplay without a rectangle overlay.
     }
 
     const attackBounds = toPhaserRect(hitbox);
@@ -267,7 +264,7 @@ export function updateBossHitByPlayers(this: any, time: number): void {
     }
   }
 
-export function updateBossArenaVisuals(this: any): void {
+export function updateBossArenaVisuals(this: any, deltaMs: number): void {
     const bossArena = this.getBossArena();
     const boss = bossArena.boss;
     if (!boss || !this.bossView || !this.bossArenaLabel) {
@@ -281,9 +278,8 @@ export function updateBossArenaVisuals(this: any): void {
 
     if (bossArena.state === 'cleared') {
       this.bossArenaLabel.setText('CLEARED');
-      this.bossView.body.setAlpha(0.3);
-      this.bossView.crown.setAlpha(0.3);
-      this.bossView.eye.setVisible(false);
+      const completed = updateStage11MonsterView(this, this.bossView, boss, deltaMs);
+      if (completed) setStage11MonsterViewVisible(this.bossView, false);
       return;
     }
 
@@ -291,23 +287,7 @@ export function updateBossArenaVisuals(this: any): void {
       return;
     }
 
-    const hpRatio = boss.maxHp === 0 ? 0 : boss.hp / boss.maxHp;
-    this.bossView.body.setPosition(boss.x, boss.y);
-    this.bossView.crown.setPosition(boss.x, boss.y - 36);
-    this.bossView.eye.setPosition(boss.x + 12, boss.y - 12);
-    this.bossView.hpTrack.setPosition(boss.x - 48, boss.y - 55);
-    this.bossView.hpFill.setPosition(boss.x - 48, boss.y - 55);
-    this.bossView.label.setPosition(boss.x - 58, boss.y - 80);
-    this.bossView.stateText.setPosition(boss.x - 58, boss.y - 64);
-    this.bossView.hpFill.width = 96 * hpRatio;
-    this.bossView.body.setScale(boss.facingX < 0 ? -1 : 1, 1);
-    this.bossView.stateText.setText(`state:${boss.state} | hp:${boss.hp}/${boss.maxHp}`);
-    this.bossView.body.setFillStyle(
-      boss.state === 'hurt' ? 0xc96a6a :
-      boss.state === 'dead' ? 0x606b7b :
-      0x8b2252,
-    );
-    this.bossView.eye.setVisible(boss.state !== 'dead' && !isMonster3Removed(boss));
+    updateStage11MonsterView(this, this.bossView, boss, deltaMs);
     this.bossArenaLabel.setText(
       boss.state === 'dead' ? 'BOSS DEFEATED — enter the door' :
       'BOSS FIGHT',

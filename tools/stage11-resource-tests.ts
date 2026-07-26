@@ -1,7 +1,14 @@
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import { stage11Assets, Stage11AssetKeys } from '../src/assets/AssetManifest';
+import {
+  stage11Assets,
+  stage11MonsterAtlases,
+  stage11MonsterAttackAssets,
+  Stage11AssetKeys,
+  Stage11MonsterAssetKeys,
+} from '../src/assets/AssetManifest';
+import { sceneAssetBundles } from '../src/assets/SceneAssetBundles';
 import { activateBossArena, createBossArena } from '../src/systems/LevelSystem';
 import {
   createStage11MovementPlatforms,
@@ -15,6 +22,17 @@ import {
   STAGE11_WORLD_WIDTH,
   type Stage11WallKind,
 } from '../src/systems/Stage11Layout';
+import {
+  createStage11MonsterVisual,
+  getStage11MonsterActionDefinition,
+  getStage11MonsterAtlasFrame,
+  getStage11MonsterSpriteOrigin,
+  Stage11MonsterVisualProvenance,
+  Stage11VisualTickMs,
+  updateStage11MonsterVisual,
+  type Stage11MonsterAction,
+  type Stage11MonsterType,
+} from '../src/systems/Stage11MonsterVisualSystem';
 
 const repoRoot = process.cwd();
 const assetDirectory = path.join(repoRoot, 'public', 'assets', 'stage', 'stage1-1');
@@ -94,4 +112,146 @@ assert.deepEqual(
   [Stage11AssetKeys.floor, Stage11AssetKeys.background, Stage11AssetKeys.foreground],
 );
 
-console.log('Stage 1-1 resource and layout tests passed.');
+const monsterDirectory = path.join(repoRoot, 'public', 'assets', 'stage1', 'monsters');
+assert.deepEqual(pngDimensions(path.join(monsterDirectory, 'monster30.png')), {
+  width: 900,
+  height: 600,
+});
+assert.deepEqual(pngDimensions(path.join(monsterDirectory, 'monster3.png')), {
+  width: 1080,
+  height: 1080,
+});
+assert.deepEqual(
+  Object.values(stage11MonsterAtlases).map((asset) => asset.reachableFrameCount),
+  [13, 27],
+);
+assert.deepEqual(
+  Object.values(stage11MonsterAttackAssets).map((asset) => asset.frameCount),
+  [10, 5, 10],
+);
+for (const asset of Object.values(stage11MonsterAttackAssets)) {
+  for (const framePath of asset.framePaths) {
+    assert.ok(readFileSync(path.join(repoRoot, 'public', framePath), 'utf8').includes('<svg'));
+  }
+}
+
+const stage11BundleKeys = new Set(
+  sceneAssetBundles['stage-11'].assets.map((asset) => asset.key),
+);
+const expectedStage11BundleKeys = [
+  stage11MonsterAtlases.monster30.key,
+  stage11MonsterAtlases.monster3.key,
+  ...Object.values(stage11MonsterAttackAssets).flatMap((asset) => asset.frameKeys),
+  Stage11MonsterAssetKeys.attackGeometry,
+];
+for (const key of expectedStage11BundleKeys) {
+  assert.ok(stage11BundleKeys.has(key), `stage-11 bundle must own ${key}`);
+}
+
+const actionsByMonster: Readonly<Record<Stage11MonsterType, readonly Stage11MonsterAction[]>> = {
+  3: ['wait', 'walk', 'hurt', 'dead', 'hit1', 'hit2'],
+  30: ['wait', 'walk', 'hurt', 'dead', 'hit1'],
+};
+const reachableFrames: Readonly<Record<Stage11MonsterType, number>> = { 3: 27, 30: 13 };
+for (const enemyType of [3, 30] as const) {
+  const provenance = Stage11MonsterVisualProvenance[enemyType];
+  const origin = getStage11MonsterSpriteOrigin(enemyType);
+  assert.ok(Math.abs(
+    -origin.x * provenance.cellWidth
+      - (-provenance.cellWidth / 2 - provenance.offsetX),
+  ) < 0.000_001);
+  assert.ok(Math.abs(
+    -origin.y * provenance.cellHeight
+      - (-provenance.cellHeight / 2 + provenance.offsetY),
+  ) < 0.000_001);
+  const atlasFrames = new Set<number>();
+  for (const action of actionsByMonster[enemyType]) {
+    const definition = getStage11MonsterActionDefinition(enemyType, action);
+    for (let frame = 0; frame < definition.holdTicks.length; frame += 1) {
+      atlasFrames.add(definition.row * provenance.columns + frame);
+    }
+  }
+  assert.equal(atlasFrames.size, reachableFrames[enemyType]);
+}
+assert.deepEqual(
+  actionsByMonster[3].map((action) =>
+    getStage11MonsterActionDefinition(3, action).holdTicks.reduce(
+      (sum, ticks) => sum + ticks,
+      0,
+    )),
+  [15, 16, 15, 15, 15, 31],
+);
+assert.deepEqual(
+  actionsByMonster[30].map((action) =>
+    getStage11MonsterActionDefinition(30, action).holdTicks.reduce(
+      (sum, ticks) => sum + ticks,
+      0,
+    )),
+  [12, 12, 15, 14, 10],
+);
+
+function tickAttack(
+  enemyType: Stage11MonsterType,
+  state: 'hit1' | 'hit2',
+  ticks: number,
+  facingX: -1 | 1,
+) {
+  const model = createStage11MonsterVisual(enemyType);
+  return {
+    model,
+    events: updateStage11MonsterVisual(model, {
+      state,
+      attackSerial: 1,
+      facingX,
+    }, Stage11VisualTickMs * ticks),
+  };
+}
+
+assert.deepEqual(tickAttack(30, 'hit1', 1, -1).events, [{
+  family: 'monster30Hit1',
+  offsetX: 0,
+  offsetY: 0,
+  facingX: -1,
+}]);
+const monster3Hit1 = tickAttack(3, 'hit1', 7, -1);
+assert.deepEqual(monster3Hit1.events, [{
+  family: 'monster3Hit1',
+  offsetX: -105,
+  offsetY: -60,
+  facingX: -1,
+}]);
+assert.equal(getStage11MonsterAtlasFrame(monster3Hit1.model), 28);
+assert.deepEqual(tickAttack(3, 'hit2', 6, 1).events, [{
+  family: 'monster3Hit2',
+  offsetX: 155,
+  offsetY: -30,
+  facingX: 1,
+}]);
+
+const monster30Dead = createStage11MonsterVisual(30);
+updateStage11MonsterVisual(monster30Dead, {
+  state: 'removed',
+  attackSerial: 0,
+  facingX: -1,
+}, Stage11VisualTickMs * 13);
+assert.equal(monster30Dead.completed, false);
+updateStage11MonsterVisual(monster30Dead, {
+  state: 'removed',
+  attackSerial: 0,
+  facingX: -1,
+}, Stage11VisualTickMs);
+assert.equal(monster30Dead.completed, true);
+
+const viewsSource = readFileSync(
+  path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneViews.ts'),
+  'utf8',
+);
+assert.ok(!viewsSource.includes("scene.add.text(-42, -78, 'Monster30'"));
+assert.ok(!viewsSource.includes('scene.add.ellipse(0, 0, 72, 56'));
+const bossSource = readFileSync(
+  path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneBossArena.ts'),
+  'utf8',
+);
+assert.ok(!bossSource.includes('createAttackFlash(this, toPhaserRect(hitbox)'));
+
+console.log('Stage 1-1 true monster visuals, attacks, resource, and layout tests passed.');

@@ -86,6 +86,10 @@ import {
   type MonsterView,
   type ProjectileEffectView,
 } from './TestSceneViews';
+import {
+  destroyStage11MonsterView,
+  updateStage11MonsterView,
+} from '../stage11/Stage11MonsterVisualBridge';
 
 type CapturablePetTargetView = {
   root: Phaser.GameObjects.Container;
@@ -112,13 +116,6 @@ export function updateMonster30s(this: any, delta: number): void {
       }
     }
 
-    for (const [monster, view] of this.monsterViews) {
-      if (monster.state === 'removed') {
-        this.destroyMonsterView(view);
-        this.monsterViews.delete(monster);
-      }
-    }
-
     this.monster30s = surviving;
   }
 export function applyAllMonster30Attacks(this: any, time: number): void {
@@ -141,7 +138,7 @@ export function applySingleMonster30Attack(this: any, monster: Monster30Model, t
       this.tryPetQlfjCounterAttack(monster, time, slot);
     }
     this.applyCombatBridgeResult(
-      result,
+      { ...result, flashBounds: [] },
       time,
       0xff6b6b,
     );
@@ -188,38 +185,39 @@ export function tryPetQlfjCounterAttack(this: any, monster: Monster30Model, time
     }
   }
 
-export function updateAllMonsterViews(this: any): void {
+export function updateAllMonsterViews(this: any, deltaMs: number): void {
+    if (!this.stage11AttackGeometry) {
+      throw new Error('Stage 1-1 attack geometry is unavailable');
+    }
     for (const monster of this.monster30s) {
       let view = this.monsterViews.get(monster);
       if (!view) {
-        view = createMonsterView(this, monster);
+        view = createMonsterView(this, monster, this.stage11AttackGeometry);
         this.monsterViews.set(monster, view);
       }
-      this.syncMonsterView(monster, view);
+      this.syncMonsterView(monster, view, deltaMs);
     }
 
     for (const [monster, view] of this.monsterViews) {
       if (!this.monster30s.includes(monster)) {
-        this.destroyMonsterView(view);
-        this.monsterViews.delete(monster);
+        const completed = this.syncMonsterView(monster, view, deltaMs);
+        if (completed) {
+          this.destroyMonsterView(view);
+          this.monsterViews.delete(monster);
+        }
       }
     }
   }
-export function syncMonsterView(this: any, monster: Monster30Model, view: MonsterView): void {
-    const hpRatio = monster.maxHp === 0 ? 0 : monster.hp / monster.maxHp;
-    view.root.setPosition(monster.x, monster.y);
-    view.root.setVisible(monster.state !== 'removed');
-    view.root.setAlpha(monster.state === 'dead' ? 0.45 : 1);
-    view.root.setScale(monster.facingX < 0 ? -1 : 1, 1);
-    view.hpFill.width = 82 * hpRatio;
-    view.stateText.setText(`${monster.state} | hp:${monster.hp}/${monster.maxHp}`);
-    view.body.setFillStyle(getMonsterColor(monster.state));
-    view.wingLeft.setAlpha(monster.state === 'hit1' ? 0.95 : 0.7);
-    view.wingRight.setAlpha(monster.state === 'hit1' ? 0.95 : 0.7);
-    view.eye.setVisible(monster.state !== 'dead' && monster.state !== 'removed');
+export function syncMonsterView(
+  this: any,
+  monster: Monster30Model,
+  view: MonsterView,
+  deltaMs: number,
+): boolean {
+    return updateStage11MonsterView(this, view, monster, deltaMs);
   }
 export function destroyMonsterView(this: any, view: MonsterView): void {
-    view.root.destroy();
+    destroyStage11MonsterView(view);
   }
 
 export function updateCapturablePetTargetViews(this: any): void {
@@ -968,20 +966,5 @@ function tryRole1LifeStealForPlayer(
     attackKind,
   });
 }
-
-function getMonsterColor(state: Monster30Model['state']): number {
-  switch (state) {
-    case 'hurt':
-      return 0xc96a6a;
-    case 'hit1':
-      return 0x9d6b9b;
-    case 'dead':
-      return 0x606b7b;
-    default:
-      return 0x7b4e79;
-  }
-}
-
-
 
 

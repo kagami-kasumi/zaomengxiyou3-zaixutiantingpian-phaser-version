@@ -24,7 +24,7 @@ export type TestSceneUpdateHooks = {
   updateWorldDrops(delta: number): void;
   handleDropPickup(): void;
   applyAllMonster30Attacks(time: number): void;
-  updateAllMonsterViews(): void;
+  updateAllMonsterViews(delta: number): void;
   updateCapturablePetTargetViews(): void;
   updateMagicBottleEffectView(): void;
   updateDropViews(): void;
@@ -39,7 +39,7 @@ export type TestSceneUpdateHooks = {
   updateSkillBars(): void;
   updateSkillPanels(): void;
   updateBossArena(input: InputState, time: number, delta: number): void;
-  updateBossArenaVisuals(): void;
+  updateBossArenaVisuals(delta: number): void;
   updateCloudVisuals(): void;
   updateInventoryPanel(): void;
   updatePetPanel(): void;
@@ -73,7 +73,7 @@ export function createTestSceneUpdatePipeline(
       hooks.updateWorldDrops(delta);
       hooks.handleDropPickup();
       hooks.applyAllMonster30Attacks(time);
-      hooks.updateAllMonsterViews();
+      hooks.updateAllMonsterViews(delta);
       hooks.updateCapturablePetTargetViews();
       hooks.updateMagicBottleEffectView();
       hooks.updateDropViews();
@@ -90,7 +90,7 @@ export function createTestSceneUpdatePipeline(
       hooks.updateSkillBars();
       hooks.updateSkillPanels();
       hooks.updateBossArena(input, time, delta);
-      hooks.updateBossArenaVisuals();
+      hooks.updateBossArenaVisuals(delta);
       hooks.updateCloudVisuals();
       hooks.updateInventoryPanel();
       hooks.updatePetPanel();

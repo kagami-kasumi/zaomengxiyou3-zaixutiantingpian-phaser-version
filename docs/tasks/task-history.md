@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-157A | Stage 1-1 怪物真动画 | 接入 Monster30/3 全动作、三攻击对象、镜像/触发/死亡生命周期并保持战斗语义不变 | M-030、M-034、M-035、VS-061 | 2 本体 atlas、3 对象/25 帧、共享只读视觉描述、Stage 1-1 bridge、唯一 bundle owner、专项/全系统与 940×590 单双人证据 |
 | TASK-SETTINGS-068 | 怪物视觉覆盖逆向 | 盘清五个已完成关卡全部实际怪物、动作、攻击对象与实现缺口 | M-030、M-034、M-035、VS-061 | `stage1-monster-visuals-index.md`、7 本体/167 独立视觉帧、16 对象/171 帧、3 碰撞根、26 条标注与 `157A..D / GOAL-060..063` |
 | TASK-SLICE-156 | 拆分父任务收束 | 汇总关卡五入口证据、HUD pointer、设置会话与五关校准并闭合 VS-060 | M-016、M-035、M-043、M-052、VS-060 | `156A..C` 三个 0-compact Goal 的 574/371/444、共享 router/session、五关旅程、940×590 与 Stage 2 bundle 回归全集 |
 | TASK-SLICE-156C | 关卡五入口运行校准 | 五个已完成关卡逐状态验证 P1/P2、门禁、暂停、互斥和返回 | M-016、M-043、M-052、VS-060 | 五关确定性旅程、固定 HUD hit、唯一 `stage-2-monsters` bundle、940×590 差异/console 证据与父任务收束 |
@@ -4971,6 +4972,38 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-157A
+
+- 完成日期：2026-07-26
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 Active；下一 task 为 `TASK-SLICE-157B`）
+- Stage 1-1 的 Monster30/3 已从占位 ellipse/Text 切换为原版 atlas 全动作；共享只读描述固定动作行、30 FPS hold tick、BBDC offset/注册根、左右镜像、攻击触发 tick 与死亡末帧生命周期。
+- 接入 Monster30 hit1、Monster3 hit1/hit2 共 3 个原版攻击对象、25 帧 SVG 与逐帧几何；对象按原注册边界镜像并在末帧销毁，Monster30 死亡视图在 gameplay entity 移除后仍播放到完成。
+- `stage-11` 是两张 atlas、三组攻击帧与几何 CSV 的唯一 bundle owner；Boot、地图和 Stage 2 bundle 未回填。旧的 Monster30 缺失原图占位族已移除。
+- 未修改 `MonsterPhysicsSystem`、攻击判定、AI、奖励概率或死亡上报 owner；现代 rectangle attack flash 已只对这两类真视觉替换，不改变 gameplay 事件。
+- 确定性专项覆盖资源尺寸/数量、动作 hold、origin、触发、镜像、死亡末帧和无占位门禁；Stage 1-1 flow、Stage 1 combat、bundle 与全系统测试通过。
+- 940×590 正式单人路径观察 Monster30 wait/walk/hit1、死亡末帧与掉落；双人路径同时观察四只真 Monster30 和双 HUD，console error/warning 为 0。Monster3 全动作和三对象由确定性 tick/flow 覆盖；本 Goal 未重新等待约三分钟完成一次 Boss 运行旅程，该运行风险留给 `157D` 五关共享回归。
+- 本次实际发生 1 次 compact，超过预计 0 次；compact 前已完成实现、资源、浏览器样本和全系统测试，compact 后只回写既定文档/治理反馈并执行最终检查，没有读取新资料族、派生资源或新增实现，按 PG-008 记为受控收尾。
+- `VS-061` 仅提升为“部分完成”；功能线未关闭，`GOAL-061 / TASK-SLICE-157B` 已成为唯一 Active Goal。
+
+更新文件：
+- `public/assets/stage1/monsters/` 的 Monster30/3 atlas、三组攻击对象与几何 CSV
+- `src/systems/Stage11MonsterVisualSystem.ts`
+- `src/scenes/stage11/Stage11MonsterVisualBridge.ts`
+- `src/assets/AssetManifest.ts`、`src/assets/SceneAssetBundles.ts`
+- `src/scenes/TestScene.ts`、`src/scenes/test-scene/TestSceneViews.ts`、`TestSceneWorldBridge.ts`、`TestSceneBossArena.ts`、`TestSceneUpdatePipeline.ts`
+- `tools/stage11-resource-tests.ts`
+- Stage 1 怪物视觉索引、资源标注、机制/切片、Goal/task、功能线/覆盖台账与 PG-002/004/005/006/008/009 效果记录
+
+验证：
+- `npm run test:stage11`
+- `npm run test:stage11-flow`
+- `npm run test:stage1-combat`
+- `npm run test:asset-bundles`
+- `npm run test:systems`
+- `npm run check:annotations`
+- `npm run build`
+- 940×590 正式单人/双人运行与零 console error/warning
 
 ### TASK-SETTINGS-068
 

@@ -293,6 +293,10 @@ import {
   createTestSceneStage1HudBridge,
 } from './test-scene/TestSceneStage1HudBridge';
 import type { Stage1CombatHudBridge } from './stage1/Stage1CombatHudBridge';
+import {
+  readStage11AttackGeometry,
+  type Stage11AttackGeometryRegistry,
+} from './stage11/Stage11MonsterVisualBridge';
 
 type PlayerView = {
   slot: PlayerSlot;
@@ -349,6 +353,7 @@ export class TestScene extends Phaser.Scene {
   private playerViews: PlayerView[] = [];
   private monster30s: Monster30Model[] = [];
   public monsterViews = new Map<Monster30Model, MonsterView>();
+  public stage11AttackGeometry?: Stage11AttackGeometryRegistry;
   private lastInput?: InputState;
   private verticalClimb: VerticalClimbState = createVerticalClimbState(GameSettings.height);
   public cloudSprites: Phaser.GameObjects.Ellipse[] = [];
@@ -505,7 +510,8 @@ export class TestScene extends Phaser.Scene {
     this.inventoryPanel.container.setScrollFactor(0).setDepth(95);
     this.petPanel = this.createPetPanel();
     this.petPanel.container.setScrollFactor(0).setDepth(96);
-    this.bossView = createBossView(this);
+    this.stage11AttackGeometry = readStage11AttackGeometry(this);
+    this.bossView = createBossView(this, this.stage11AttackGeometry);
     this.bossDoorView = createTransferDoorView(this);
     this.bossArenaLabel = this.add.text(470, 50, '', {
       color: '#f2c14e',
@@ -575,7 +581,7 @@ export class TestScene extends Phaser.Scene {
       ),
       handleDropPickup: () => this.handleDropPickup(),
       applyAllMonster30Attacks: (time) => this.applyAllMonster30Attacks(time),
-      updateAllMonsterViews: () => this.updateAllMonsterViews(),
+      updateAllMonsterViews: (delta) => this.updateAllMonsterViews(delta),
       updateCapturablePetTargetViews: () => this.updateCapturablePetTargetViews(),
       updateMagicBottleEffectView: () => this.updateMagicBottleEffectView(),
       updateDropViews: () => this.updateDropViews(),
@@ -593,7 +599,7 @@ export class TestScene extends Phaser.Scene {
       updateSkillBars: () => this.updateSkillBars(),
       updateSkillPanels: () => this.updateSkillPanels(),
       updateBossArena: (input, time, delta) => this.updateBossArena(input, time, delta),
-      updateBossArenaVisuals: () => this.updateBossArenaVisuals(),
+      updateBossArenaVisuals: (delta) => this.updateBossArenaVisuals(delta),
       updateCloudVisuals: () => this.updateCloudVisuals(),
       updateInventoryPanel: () => this.updateInventoryPanel(),
       updatePetPanel: () => this.updatePetPanel(),
