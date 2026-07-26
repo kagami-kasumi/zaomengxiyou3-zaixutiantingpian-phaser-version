@@ -12,6 +12,8 @@
 - HP 归零时 `BaseMonster.reduceHp()` 切到 `dead` 动作并发经验。真正掉落和销毁通常不是基类立即执行，而是具体 `Monster*` 的 `scriptFrameOverFunc()` 在 `dead` 动画结束时调用 `dropAura()` 和 `destroy()`。
 - 掉落入口分三层：`dropAura()` 先调用药品和装备掉落，再生成红/白 aura；`fallEquip()` 按 `fallList` 和 `probability` 掉装备/道具；`fallStone()` 是强化石掉落入口，但不是所有死亡流程都调用。
 
+`TASK-SETTINGS-068` 已补齐 Stage 1-1/1-2/1-3 的视觉全集，权威细节见 `stage1-monster-visuals-index.md`：Monster2/3/4/5/7/8/30 的 7 个本体 atlas 共 167 个独立视觉帧、16 个攻击/效果对象共 171 帧、3 套碰撞根、动作 hold tick、触发 tick、注册点、镜像和生命周期均已从恢复 `assets/1.swf` / `StageCommon.swf` 与 AS3 调用链交叉确认。Stage 2-1/2-2 既有 94/132 与 36/104 帧关闭证据保持不变。
+
 ## AS3 证据
 
 主要文件：

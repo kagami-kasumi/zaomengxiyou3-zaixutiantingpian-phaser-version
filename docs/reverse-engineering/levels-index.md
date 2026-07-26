@@ -8,6 +8,7 @@
 - `StageListener01` 对应 `curStage = 0`、`curLevel = 1` 的任务/PK 门场景和 `klsmode` 特殊刷怪，不是默认第一主线战斗关。
 - `1-1` 是纵向爬升关：过程中按玩家位置周期性刷 `Monster30`；到达 `y <= -1900` 后镜头锁定并进入 boss 区；`callBoss()` 生成 `Monster3`；`Monster3` 在 `1-1` 中作为 boss 死亡后显示传送门。
 - 现代最小关卡切片建议以 `1-1 / StageListener11` 为第一个关卡依据，但实现时先取“`1-1` boss 区域 + `Monster3` + 可见传送门/通关”的窄切片；完整纵向爬升和随机飞行怪可后续扩展。
+- Stage 1-1/1-2/1-3 的全部实际怪物、动作、攻击对象、注册点、触发 tick、碰撞和生命周期已由 `TASK-SETTINGS-068` 汇总到 `stage1-monster-visuals-index.md`；关卡刷怪点与 Listener 预注册数组不一致时，以实际 `enemyType -> createMonster` 链为准。
 
 ## AS3 证据
 

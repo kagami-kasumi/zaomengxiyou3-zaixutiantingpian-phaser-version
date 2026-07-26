@@ -128,3 +128,4 @@ PG-008 只有同时满足以下条件才可关闭：
 | 2026-07-26 | `GOAL-057 / TASK-SLICE-156A` HUD pointer 实现样本 | 适用 | 实际保持两个主工作包（20 个原生按钮状态/manifest；共享 pointer/key router/门禁）、两个验收批次（专项/全门禁与 940×590）、0 compact；未进入 371/444、页面业务或五关校准 | 通过 | Goal 按声明边界独立完成；移除 GOAL-057、激活同线 GOAL-058 后停止 |
 | 2026-07-26 | `GOAL-058 / TASK-SLICE-156B` 设置/会话实现样本 | 适用 | 实际保持两个主工作包（371/444/11 按钮与 manifest；设置 owner/scene 与 combat 单页 host）、两批验收（专项/全门禁与浏览器入口尝试）、0 compact；未进入五关校准 | 通过 | Goal 按声明边界完成；移除 GOAL-058、只激活同线 GOAL-059 后停止 |
 | 2026-07-26 | `GOAL-059 / TASK-SLICE-156C` 纯校准样本 | 适用 | 实际保持一个五关共享校准主工作包、两个验收批次（确定性旅程/Stage 2 bundle 回归与 940×590 运行），0 compact；只修校准暴露的 HUD 命中和共享资源 owner，未进入怪物资源逆向或角色动画 | 通过 | Goal 按边界完成；移除 GOAL-059、收束父任务 156、只激活同线 GOAL-039 后停止 |
+| 2026-07-26 | `GOAL-039 / TASK-SETTINGS-068` 怪物视觉逆向样本 | 适用 | 实际保持两个主工作包（三关实际生成/AS3共享链；单一 assets/1.swf + StageCommon 几何族）、两批验收（Stage 1 全集/Stage 2 回归与 annotations/workflow），0 compact；没有修改现代实现或进入角色资料 | 通过 | Goal 按边界完成；固定拆为 157A..D 四个 0 compact Goal，只激活 GOAL-060 后停止 |

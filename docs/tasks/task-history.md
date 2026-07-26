@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-068 | 怪物视觉覆盖逆向 | 盘清五个已完成关卡全部实际怪物、动作、攻击对象与实现缺口 | M-030、M-034、M-035、VS-061 | `stage1-monster-visuals-index.md`、7 本体/167 独立视觉帧、16 对象/171 帧、3 碰撞根、26 条标注与 `157A..D / GOAL-060..063` |
 | TASK-SLICE-156 | 拆分父任务收束 | 汇总关卡五入口证据、HUD pointer、设置会话与五关校准并闭合 VS-060 | M-016、M-035、M-043、M-052、VS-060 | `156A..C` 三个 0-compact Goal 的 574/371/444、共享 router/session、五关旅程、940×590 与 Stage 2 bundle 回归全集 |
 | TASK-SLICE-156C | 关卡五入口运行校准 | 五个已完成关卡逐状态验证 P1/P2、门禁、暂停、互斥和返回 | M-016、M-043、M-052、VS-060 | 五关确定性旅程、固定 HUD hit、唯一 `stage-2-monsters` bundle、940×590 差异/console 证据与父任务收束 |
 | TASK-SLICE-156B | 关卡设置与会话语义 | 接入 371/444 并把关卡功能页收敛为原版单页/同键/Escape/返回语义 | M-016、M-035、M-052、VS-060 | 371/444 与 11 个按钮四态、`StageSettingsSystem/Scene`、全局声音 owner、x1/x2/x4、地图/主菜单路由、战斗原生页直出与专项/全门禁 |
@@ -4970,6 +4971,33 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SETTINGS-068
+
+- 完成日期：2026-07-26
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 Active；下一 task 为 `TASK-SLICE-157A`）
+- 五关实际生成全集闭合：Stage 1-1 为 Monster30/3，1-2 为 7/8/4/2，1-3 为 8/7/3/5/30；Stage 2-1/2-2 既有 Monster6/9/10/19/16 证据只做回归。
+- 从恢复 `assets/1.swf` 精确定位 7 个本体 atlas 与 16 个攻击/效果对象，从 `StageCommon.swf` 定位 3 套碰撞根；选择性派生、SymbolClass、scripts、XML 和逐帧几何均位于 Git 忽略的 `local-resources/regima/task-outputs/task-settings-068-stage1-monsters/`，源 SWF 与 legacy extraction 未修改。
+- `stage1-monster-visuals-index.md` 记录 167 个独立本体视觉帧、171 个对象时间轴帧、BBDC cell/offset/hold、1-based 触发 tick、生成点、注册边界、镜像、复杂命中和末帧生命周期；Monster5 hit3/Monster8 hit2 循环复用、Monster7 hit2 不可达、Monster30 hit1 本体透明和 Monster2Bullet2 frame14 自移除均有交叉证据。
+- 新增 24 条 Stage 1 标注，并将 Monster30 既有 2 条原位升级；26 条均为 `derived-ready + integrate`，影响实现的推测/未知为 0。
+- `TASK-SLICE-157` 固定拆为 `157A` Stage 1-1、`157B` Stage 1-2、`157C` Stage 1-3、`157D` 五关共享 owner/Stage 2 防回归；生成 `GOAL-060..063`，只激活 `GOAL-060`。
+- 本 task 未修改现代实现、未接入动画、未进入角色/技能资料或 Stage 2-3；VS-061 只提升为“证据已闭合，待实现”，功能线未提前关闭。
+
+更新文件：
+- `docs/reverse-engineering/stage1-monster-visuals-index.md`
+- `docs/reverse-engineering/monsters-index.md`、`levels-index.md`、`mechanics-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/stage1-monsters.csv`、`monster30.csv`
+- `docs/reverse-engineering/asset-annotation/batches/stage1-monsters.md`、`project-status.md`
+- `docs/tasks/goal-board.md`、`task-board.md`、`feature-lines.md`、当前线覆盖台账、`vertical-slices.md`、`task-history.md`
+- PG-002/004/005/006/008/009 效果反馈记录
+
+验证：
+- `npm run check:annotations` 通过：993 条标注，796 ready、46 derived-ready、992 confirmed。
+- `npm run check:workflow` 通过：18 个未完成 task/定义、242 个历史 task/定义、唯一推荐 `TASK-SLICE-157A`、唯一 Active `GOAL-060`；仅保留既有 `PlayerSlot` 命名 warning。
+- `git diff --check` 通过；仅输出既有 CRLF/LF 转换提示，无 whitespace error。
+
+推荐任务：
+- `TASK-SLICE-157A`：只接入 Stage 1-1 Monster30/3 与三个攻击对象真动画。
 
 ### TASK-SLICE-156C
 

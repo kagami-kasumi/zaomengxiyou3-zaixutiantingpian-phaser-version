@@ -23,7 +23,10 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-039 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-068 | 已完成关卡全部怪物真动画覆盖矩阵与逐关实现拆分 | 预计 0 次 |
+| GOAL-060 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157A | Stage 1-1 Monster30/3 本体、动作、攻击对象真动画接入与逐状态验收 | 预计 0 次 |
+| GOAL-061 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157B | Stage 1-2 Monster7/8/4/2 本体、动作、攻击对象真动画接入与逐状态验收 | 预计 0 次 |
+| GOAL-062 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157C | Stage 1-3 Monster5 新资源、共享怪物复用与 105 怪逐状态验收 | 预计 0 次 |
+| GOAL-063 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-157D | 五关怪物资源 owner、Stage 2 防回归与父任务关闭验收 | 预计 0 次 |
 | GOAL-040 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-069 | 五角色本体、角色战斗 UI 与技能动画覆盖矩阵及逐角色拆分 | 预计 0 次 |
 | GOAL-041 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-159 | 本地六槽存档回归与完整正式旅程关闭验收 | 预计 0 次 |
 | GOAL-025 | Planned | LINE-STAGE-2-3 | TASK-SETTINGS-064 | 前置体验补全线关闭后，恢复 Stage 2-3 真场景、专属流程、怪物/机关、结果与存档六段证据 | 预计 0 次 |
