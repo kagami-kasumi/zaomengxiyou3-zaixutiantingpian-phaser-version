@@ -40,11 +40,6 @@ type FeatureUiKeyBinding = {
   handler: (event: KeyboardEvent) => void;
 };
 
-type FeatureUiPointerBinding = {
-  event: string;
-  handler: (pointer: Phaser.Input.Pointer) => void;
-};
-
 type EntryButtonSpec = Readonly<{
   entry: StageFeatureEntry;
   x: number;
@@ -68,8 +63,7 @@ export function installFormalFeatureUiEntries(
 ): void {
   const keyboard = scene.input.keyboard;
   const bindings: FeatureUiKeyBinding[] = [];
-  const pointerBindings: FeatureUiPointerBinding[] = [];
-  const buttons: Phaser.GameObjects.Image[] = [];
+  const buttons: Phaser.GameObjects.GameObject[] = [];
   if (keyboard) {
     bindFeatureKey(scene, keyboard, bindings, Phaser.Input.Keyboard.KeyCodes.ESC, 'settings', 'p1', config);
     bindFeatureKey(scene, keyboard, bindings, Phaser.Input.Keyboard.KeyCodes.C, 'backpack', 'p1', config);
@@ -83,14 +77,13 @@ export function installFormalFeatureUiEntries(
     }
   }
   if (config.originKind === 'combat') {
-    buttons.push(...createStageFeatureEntryButtons(scene, 'p1', config, pointerBindings));
+    buttons.push(...createStageFeatureEntryButtons(scene, 'p1', config));
     if (config.party.playerCount === 2) {
-      buttons.push(...createStageFeatureEntryButtons(scene, 'p2', config, pointerBindings));
+      buttons.push(...createStageFeatureEntryButtons(scene, 'p2', config));
     }
   }
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     for (const binding of bindings) binding.keyboard.off('keydown', binding.handler);
-    for (const binding of pointerBindings) scene.input.off(binding.event, binding.handler);
     for (const button of buttons) button.destroy();
     ownerAliveByScene.delete(scene);
   });
@@ -140,6 +133,18 @@ export async function launchFormalFeatureUi(
   return true;
 }
 
+export function launchStageSettings(
+  scene: Phaser.Scene,
+  config: FeatureUiEntryConfig,
+): boolean {
+  if (config.originKind !== 'combat') return false;
+  if (formalFeatureUiHost.active || scene.scene.isActive('StageSettingsScene')) return false;
+  scene.scene.launch('StageSettingsScene', { originSceneKey: scene.scene.key });
+  scene.scene.bringToTop('StageSettingsScene');
+  scene.scene.pause(scene.scene.key);
+  return true;
+}
+
 function bindFeatureKey(
   scene: Phaser.Scene,
   keyboard: Phaser.Input.Keyboard.KeyboardPlugin,
@@ -162,53 +167,43 @@ function createStageFeatureEntryButtons(
   scene: Phaser.Scene,
   owner: FeatureUiOwner,
   config: FeatureUiEntryConfig,
-  pointerBindings: FeatureUiPointerBinding[],
-): Phaser.GameObjects.Image[] {
-  const views = EntryButtonSpecs.map((spec) => {
+): Phaser.GameObjects.GameObject[] {
+  return EntryButtonSpecs.flatMap((spec) => {
     const x = owner === 'p1' ? spec.x : 920 - spec.x;
     const button = scene.add.image(x, spec.y, spec.assets.up.key)
       .setOrigin(0.5)
       .setScrollFactor(0)
       .setDepth(114);
     button.setName(`stage-feature-entry-${owner}-${spec.entry}`);
-    return { spec, x, button };
-  });
-  bindPointer(Phaser.Input.Events.POINTER_MOVE, (pointer) => {
-    for (const view of views) {
-      view.button.setTexture(
-        isStageFeatureHit(pointer, view.x, view.spec.y)
-          ? view.spec.assets.over.key
-          : view.spec.assets.up.key,
+    const hit = scene.add.zone(
+      x + scene.cameras.main.scrollX,
+      spec.y + scene.cameras.main.scrollY,
+      31,
+      35,
+    )
+      .setDepth(115)
+      .setInteractive({ useHandCursor: true });
+    hit.setName(`stage-feature-entry-hit-${owner}-${spec.entry}`);
+    hit.on('pointerover', () => button.setTexture(spec.assets.over.key));
+    hit.on('pointerout', () => button.setTexture(spec.assets.up.key));
+    hit.on('pointerdown', () => button.setTexture(spec.assets.down.key));
+    hit.on('pointerup', () => {
+      button.setTexture(spec.assets.over.key);
+      void routeFeatureEntry(scene, spec.entry, owner, 'pointer', config);
+    });
+    scene.events.on(Phaser.Scenes.Events.UPDATE, syncHitToCamera);
+    hit.once(Phaser.GameObjects.Events.DESTROY, () => {
+      scene.events.off(Phaser.Scenes.Events.UPDATE, syncHitToCamera);
+    });
+    return [button, hit];
+
+    function syncHitToCamera(): void {
+      hit.setPosition(
+        x + scene.cameras.main.scrollX,
+        spec.y + scene.cameras.main.scrollY,
       );
     }
   });
-  bindPointer(Phaser.Input.Events.POINTER_DOWN, (pointer) => {
-    for (const view of views) {
-      if (isStageFeatureHit(pointer, view.x, view.spec.y)) {
-        view.button.setTexture(view.spec.assets.down.key);
-        void routeFeatureEntry(scene, view.spec.entry, owner, 'pointer', config);
-      }
-    }
-  });
-  bindPointer(Phaser.Input.Events.POINTER_UP, (pointer) => {
-    for (const view of views) {
-      if (!isStageFeatureHit(pointer, view.x, view.spec.y)) continue;
-      view.button.setTexture(view.spec.assets.over.key);
-    }
-  });
-  return views.map((view) => view.button);
-
-  function bindPointer(
-    event: string,
-    handler: (pointer: Phaser.Input.Pointer) => void,
-  ): void {
-    scene.input.on(event, handler);
-    pointerBindings.push({ event, handler });
-  }
-}
-
-function isStageFeatureHit(pointer: Phaser.Input.Pointer, x: number, y: number): boolean {
-  return Math.abs(pointer.x - x) <= 15.5 && Math.abs(pointer.y - y) <= 17.5;
 }
 
 async function routeFeatureEntry(
@@ -234,6 +229,7 @@ async function routeFeatureEntry(
   }
   if (route.status === 'settings-pending') {
     scene.events.emit(StageFeatureSettingsRequestedEvent, route);
+    launchStageSettings(scene, config);
     return;
   }
   await launchFormalFeatureUi(scene, route.page, route.owner, config);

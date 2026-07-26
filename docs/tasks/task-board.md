@@ -4,7 +4,7 @@
 
 ## 当前推荐
 
-`TASK-SLICE-156B` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。574 五真 HUD pointer、P2 镜像、共享 key/pointer router 与门禁接缝已完成；下一次 `/goal` 只接入 371/444 设置与原版单页会话语义，不进入五关运行校准。
+`TASK-SLICE-156C` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。574/371/444、全局设置 owner、原版单页/同键/Escape/返回语义已完成；下一次 `/goal` 只做五个已完成关卡的 P1/P2、暂停、互斥、门禁和返回逐状态校准。
 
 ## 待完成任务
 
@@ -12,8 +12,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SETTINGS-068 | Planned | GOAL-039 | LINE-PRE-STAGE-2-3-COMPLETION | 怪物视觉覆盖逆向 | 盘清所有已完成关卡实际小怪、动作和攻击对象真动画缺口 | M-030、M-034、M-035、VS-061 | 逐关逐怪全集矩阵、资源标注与逐关实现 Goal | 拆分 TASK-SLICE-157 |
 | TASK-SETTINGS-069 | Planned | GOAL-040 | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 逐角色逐技能全集矩阵、资源标注与逐角色实现 Goal | 拆分 TASK-SLICE-158 |
-| TASK-SLICE-156B | Ready | GOAL-058 | LINE-PRE-STAGE-2-3-COMPLETION | 关卡设置与会话语义 | 接入 371/444，并把关卡 host 收敛为原版单页、同键关闭、Escape 仅设置 | M-016、M-035、M-052、VS-060 | 全局 settings owner、帮助两帧、返回路由与移除现代可见跨页 host | TASK-SLICE-156C |
-| TASK-SLICE-156C | Planned | GOAL-059 | LINE-PRE-STAGE-2-3-COMPLETION | 关卡五入口运行校准 | 五个已完成关卡逐状态验证 P1/P2、门禁、暂停、互斥和返回 | M-016、M-043、M-052、VS-060 | 自动旅程、940×590 差异证据与父任务收束 | GOAL-039 / TASK-SETTINGS-068 |
+| TASK-SLICE-156C | Ready | GOAL-059 | LINE-PRE-STAGE-2-3-COMPLETION | 关卡五入口运行校准 | 五个已完成关卡逐状态验证 P1/P2、门禁、暂停、互斥和返回 | M-016、M-043、M-052、VS-060 | 自动旅程、940×590 差异证据与父任务收束 | GOAL-039 / TASK-SETTINGS-068 |
 | TASK-SLICE-156 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 关卡五入口实现父任务 | 复用既有功能页并补设置、原生按钮状态和正式关卡接线 | M-016、M-043、M-052、VS-060 | 由 TASK-SETTINGS-067 生成的共享接线/校准子 task | 全部子 task 完成后收束父任务 |
 | TASK-SLICE-157 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 既有关卡怪物动画父任务 | Stage 1-1/1-2/1-3 逐关接入全部怪物/攻击对象真动画，回归 Stage 2-1/2-2 | M-030、M-034、M-035、VS-061 | 由 TASK-SETTINGS-068 生成的逐关子 task | 全部子 task 完成后收束父任务 |
 | TASK-SLICE-158 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 五角色动画父任务 | 逐角色接入本体、战斗 UI、普攻、技能及附属对象真动画 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 由 TASK-SETTINGS-069 生成的逐角色子 task | 全部子 task 完成后收束父任务 |
@@ -150,73 +149,6 @@ UI 原生化合同：
 推荐后续任务：
 
 - 执行 `TASK-SLICE-158` 拆出的第一个逐角色实现 task。
-
-### TASK-SLICE-156B
-
-任务类型：
-
-- `TASK-SLICE`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active）
-
-Goal 包：
-
-- `GOAL-058`（Active）
-
-目标机制/切片：
-
-- `M-016`、`M-035`、`M-052`、`VS-060`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若 Help 444 之外出现新的帮助资料族，或返回地图/主菜单需要重写现有场景路由而非薄适配，立即把帮助或退出路由拆成同线下一 Goal；不进入五关全旅程。
-
-输入资料：
-
-- `stage-feature-entry-index.md` 的 371/444 显示列表、全局设置 owner、暂停/互斥/返回合同和现代 host 差异。
-- `TASK-SLICE-155C` 的已批准全局设置持久化 owner；`FeatureUiHostSystem.ts`、`FeatureUiScene.ts` 和正式 scene router。
-
-输出产物：
-
-- 371 原生 SetMenu、444 两帧 Help、声音互斥、x1/x2/x4、继续/地图/主菜单路由。
-- 原版单页会话语义：同页快捷键关闭、其他快捷键不切页、Escape 只切 settings；关卡可见层移除通用暗层/标题/边框/跨页/workshop 导航。
-
-完成定义：
-
-- settings 在本地 1P/2P 都以全局 owner 打开并暂停，关闭只恢复 origin；返回地图/主菜单销毁战斗并走正式路由。
-- 背包/技能/宠物/法宝继续显示各自原生根，不经过可见通用 host；P2 技能默认选择按原版恢复为 P1 后页内切人。
-
-UI 原生化合同：
-
-- 显示列表清单：371 的 332、337/342/347/351/355/359/362/366/370 与 444 两帧/三按钮全部按 depth、矩阵和状态消费。
-- 原版视觉基准：371 normal、13 按钮四状态、444 frame 1/2 的 940×590 派生基准。
-- 允许的现代视觉例外：复用用户已批准的跨应用全局设置持久化；不可新增可见现代 host、通用关闭或 P2 快捷键。
-- 逐状态验收：声音开/关、x1/x2/x4、帮助两帧、继续/×、同键、Escape、返回地图、返回主菜单、1P/2P。
-- 差异证据：371/444 并排/叠图、稳定区域像素或边缘差异、对象差异清单和容差解释。
-
-验收标准：
-
-- host/settings 专项、全系统、structure、build、annotations、workflow、diff check 通过；940×590 settings/help/关闭返回零 console。
-
-禁止范围：
-
-- 不修改 V6/player schema，不重写四页面业务，不加入战斗 workshop，不执行五关全旅程。
-
-状态更新：
-
-- 更新 M-016/M-052、VS-060、本线覆盖、资源标注、Goal/task/history 与适用 PG 反馈。
-
-推荐后续任务：
-
-- `TASK-SLICE-156C`
 
 ### TASK-SLICE-156C
 

@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-156B | 关卡设置与会话语义 | 接入 371/444 并把关卡功能页收敛为原版单页/同键/Escape/返回语义 | M-016、M-035、M-052、VS-060 | 371/444 与 11 个按钮四态、`StageSettingsSystem/Scene`、全局声音 owner、x1/x2/x4、地图/主菜单路由、战斗原生页直出与专项/全门禁 |
 | TASK-SLICE-156A | 关卡 HUD 入口实现 | 接入 574 五真 pointer、P2 镜像与共享 key/pointer router/门禁 | M-016、M-035、M-052、VS-060 | 549/555/561/567/573 共 20 个真状态资源、418 hit、`StageFeatureEntryRouterSystem`、P1/P2 正式接线、专项与 940×590 双人证据 |
 | TASK-SETTINGS-067 | 关卡功能入口逆向 | 闭合五个关卡 HUD 功能入口、设置页、owner、门禁、暂停、互斥与返回语义 | M-016、M-035、M-052、VS-060 | `stage-feature-entry-index.md`、574/371/444 显示列表、16 条资源标注、P1/P2 与现代差异合同，以及 `156A..C` 三个 0-compact 实现/校准 Goal |
 | TASK-SLICE-155 | 拆分父任务收束 | 汇总丹药、商城、设置、任务四个地图服务页实现并闭合 VS-059 | M-044、M-046、M-052、VS-059 | `155A..D` 四个 0-compact Goal 的原生 UI、事务、存档、正式往返与逐状态证据全集 |
@@ -4967,6 +4968,39 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-156B
+
+完成时间：
+- 2026-07-26
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-156C`）
+
+完成内容：
+- 从恢复 `assets/OtherMat1.swf` 选择性接入 371 设置根、444 两帧帮助、337/342/347/351/355/359/362/370 与帮助 436/440/441 的原按钮四态，以及 366 的 x1/x2/x4 三帧；资源均由 `combat-common` 唯一持有，Boot 未回填。
+- 新增 `StageSettingsSystem` / `StageSettingsScene`：设置使用全局 owner，声音与用户已批准的全局设置存储复用，出怪速度保持会话态 `1→2→4→1`；继续/×/Escape 只恢复 origin，返回地图或主菜单先销毁战斗再进入正式场景。
+- `FeatureUiScene` 在 combat origin 不再绘制现代暗层、标题、边框、跨页按钮、通用关闭或 workshop；只呈现当前原生页面，同页 P1/P2 原快捷键关闭，其他页快捷键与 Escape 不切页。地图 origin 的既有 host 行为保持不变。
+- P2 技能入口继续由 router 固定默认 P1，页面内部仍允许切换双方；P2 无法宝/设置快捷键保持原版边界。
+- 内置浏览器可进入正式 1-1/1-2 并确认 574 HUD 和关卡画面，但自动化对战斗 canvas 的键盘/底部 pointer 事件未触发，故本 task 没有伪造 settings 运行截图；五关逐状态、暂停/返回与 console 关闭证据明确留给已激活的 `TASK-SLICE-156C`。
+
+更新文件：
+- `public/assets/ui/stage-settings/`
+- `src/assets/AssetManifest.ts`、`src/assets/SceneAssetBundles.ts`
+- `src/systems/GlobalSettingsSystem.ts`、`src/systems/StageSettingsSystem.ts`
+- `src/scenes/StageSettingsScene.ts`、`src/scenes/FeatureUiScene.ts`
+- `src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts`、`src/main.ts`
+- `tools/stage-feature-entry-tests.ts`
+- 机制、切片、功能线、Goal/task/history、资源标注及适用 PG 反馈文档
+
+验证：
+- `npm run test:stage-feature-entry`、`npm run test:feature-ui-host`、`npm run test:systems` 通过。
+- `npm run check:all` 通过；structure 仅保留 9 个无关既有 warning，workflow 仅保留既有 `PlayerSlot` 命名 warning，Vite 仅保留既有 chunk warning。
+- `npm run check:annotations` 通过：969 条标注、968 confirmed；`git diff --check` 通过。
+- 940×590 内置浏览器进入正式 1-1/1-2 成功；战斗 canvas 输入自动化限制已公开，运行逐状态关闭证据由下一校准 Goal 统一补齐。
+
+推荐任务：
+- `TASK-SLICE-156C`：只做五个已完成关卡的 P1/P2、门禁、暂停、互斥、同键/Escape 与返回逐状态校准，并收束父任务。
 
 ### TASK-SLICE-156A
 

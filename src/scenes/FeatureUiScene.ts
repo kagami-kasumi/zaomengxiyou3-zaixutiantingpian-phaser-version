@@ -95,8 +95,25 @@ export class FeatureUiScene extends Phaser.Scene {
       this.scene.stop();
       return;
     }
-    this.cameras.main.setBackgroundColor('rgba(4, 8, 16, 0.72)');
     this.storage = getBrowserStorage();
+    if (this.session.originKind === 'map') this.createMapHostChrome();
+    this.renderSession();
+
+    if (this.session.originKind === 'map') {
+      for (const binding of PageKeys) {
+        this.input.keyboard?.addKey(binding.keyCode).on('down', () => this.switchPage(binding.page, binding.owner));
+      }
+      this.input.keyboard?.on('keydown-ESC', this.closeHost, this);
+    } else {
+      for (const binding of PageKeys.filter((binding) => binding.page === this.session?.page)) {
+        this.input.keyboard?.addKey(binding.keyCode).on('down', this.closeHost, this);
+      }
+    }
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.finishSession, this);
+  }
+
+  private createMapHostChrome(): void {
+    this.cameras.main.setBackgroundColor('rgba(4, 8, 16, 0.72)');
     this.add.rectangle(470, 295, 940, 590, 0x030711, 0.78).setInteractive();
     this.add.rectangle(470, 294, 660, 410, 0x111a27, 0.98).setStrokeStyle(3, 0xf2c14e);
     this.add.text(470, 126, '正式功能页面主机', {
@@ -109,19 +126,11 @@ export class FeatureUiScene extends Phaser.Scene {
       color: '#b9c9df', fontFamily: 'Arial, sans-serif', fontSize: '17px', align: 'center',
       wordWrap: { width: 570 }, lineSpacing: 8,
     }).setOrigin(0.5, 0);
-
     FeatureUiPages.forEach((page, index) => {
       const x = 220 + index * 125;
       createPageButton(this, x, 388, getFeatureUiPageLabel(page), () => this.switchPage(page, 'p1'));
     });
     createCloseButton(this, 470, 457, () => this.closeHost());
-    this.renderSession();
-
-    for (const binding of PageKeys) {
-      this.input.keyboard?.addKey(binding.keyCode).on('down', () => this.switchPage(binding.page, binding.owner));
-    }
-    this.input.keyboard?.on('keydown-ESC', this.closeHost, this);
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.finishSession, this);
   }
 
   private async switchPage(page: FeatureUiPage, owner: FeatureUiOwner): Promise<void> {

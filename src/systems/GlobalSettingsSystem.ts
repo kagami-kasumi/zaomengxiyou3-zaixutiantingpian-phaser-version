@@ -63,6 +63,19 @@ export function cycleGlobalSetting(
   return sessionSettings;
 }
 
+export function setGlobalSoundEnabled(
+  enabled: boolean,
+  storage?: GlobalSettingsStorage,
+): GlobalSettingsSnapshot {
+  sessionSettings = {
+    ...sessionSettings,
+    bgmEnabled: enabled,
+    skillSoundEnabled: enabled,
+  };
+  persistGlobalSettings(storage);
+  return sessionSettings;
+}
+
 export function activateGlobalSettingsForTests(
   snapshot: GlobalSettingsSnapshot = DefaultGlobalSettings,
 ): void {

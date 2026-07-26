@@ -2,8 +2,22 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
+  stageSettingsAssets,
   stageFeatureEntryButtonAssets,
 } from '../src/assets/AssetManifest';
+import {
+  activateGlobalSettingsForTests,
+  DefaultGlobalSettings,
+} from '../src/systems/GlobalSettingsSystem';
+import {
+  closeStageHelp,
+  createStageSettingsModel,
+  cycleStageSpawnSpeed,
+  isStageSoundEnabled,
+  openStageHelp,
+  showStageHelpFrame,
+  toggleStageSound,
+} from '../src/systems/StageSettingsSystem';
 import {
   routeStageFeatureEntry,
 } from '../src/systems/StageFeatureEntryRouterSystem';
@@ -22,6 +36,34 @@ for (const [entry, states] of Object.entries(stageFeatureEntryButtonAssets)) {
     assert.ok(existsSync(path.join(root, 'public', asset.path)), `${entry}:${asset.path}`);
   }
 }
+
+for (const asset of [
+  stageSettingsAssets.root,
+  ...stageSettingsAssets.helpFrames,
+  ...stageSettingsAssets.spawnSpeedFrames,
+  ...Object.values(stageSettingsAssets.buttons).flatMap((states) => Object.values(states)),
+  ...Object.values(stageSettingsAssets.helpButtons).flatMap((states) => Object.values(states)),
+]) {
+  assert.equal(asset.status, 'ready');
+  assert.equal(asset.sourcePackage, 'assets/OtherMat1.swf');
+  assert.ok(existsSync(path.join(root, 'public', asset.path)), asset.path);
+}
+
+activateGlobalSettingsForTests(DefaultGlobalSettings);
+const settingsModel = createStageSettingsModel();
+assert.equal(isStageSoundEnabled(), true);
+assert.equal(toggleStageSound(), false);
+assert.equal(isStageSoundEnabled(), false);
+assert.deepEqual(
+  [cycleStageSpawnSpeed(settingsModel), cycleStageSpawnSpeed(settingsModel), cycleStageSpawnSpeed(settingsModel)],
+  [2, 4, 1],
+);
+openStageHelp(settingsModel);
+assert.equal(settingsModel.page, 'help-action');
+showStageHelpFrame(settingsModel, 'pet');
+assert.equal(settingsModel.page, 'help-pet');
+closeStageHelp(settingsModel);
+assert.equal(settingsModel.page, 'settings');
 
 const ready = {
   playerCount: 2 as const,
@@ -112,6 +154,7 @@ for (const contract of [
   'routeStageFeatureEntry(',
   'setStageFeatureEntryOwnerAlive',
   'StageFeatureSettingsRequestedEvent',
+  'launchStageSettings(scene, config)',
 ]) {
   assert.ok(bridge.includes(contract), contract);
 }
@@ -129,5 +172,23 @@ assert.doesNotMatch(
   source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'),
   /keydown-ESC/,
 );
+
+const settingsScene = source('src/scenes/StageSettingsScene.ts');
+for (const contract of [
+  'stageSettingsAssets.root.key',
+  'stageSettingsAssets.helpFrames',
+  'toggleStageSound',
+  'cycleStageSpawnSpeed',
+  "this.routeAway('HeavenMapScene')",
+  "this.routeAway('SaveSlotScene')",
+  "this.input.keyboard?.on('keydown-ESC'",
+]) {
+  assert.ok(settingsScene.includes(contract), contract);
+}
+
+const featureScene = source('src/scenes/FeatureUiScene.ts');
+assert.ok(featureScene.includes("this.session.originKind === 'map'"));
+assert.ok(featureScene.includes("binding.page === this.session?.page"));
+assert.ok(source('src/main.ts').includes('StageSettingsScene'));
 
 console.log('stage-feature-entry-tests: ok');

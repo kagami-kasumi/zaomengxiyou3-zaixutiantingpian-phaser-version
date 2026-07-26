@@ -523,6 +523,115 @@ export const stageFeatureEntryButtonAssets = {
   pets: stageFeatureEntryButton(StageFeatureEntryAssetKeys.pets, 'pets', 573),
 } as const;
 
+const StageSettingsAssetRoot = '/assets/ui/stage-settings';
+
+function stageSettingsAsset(
+  key: string,
+  path: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return {
+    key,
+    path: `${StageSettingsAssetRoot}/${path}`,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol,
+    sourceCharacterId,
+  };
+}
+
+function stageSettingsButton(name: string, sourceCharacterId: number) {
+  const state = (stateName: 'up' | 'over' | 'down' | 'hit') =>
+    stageSettingsAsset(
+      `stage-settings.${name}.${stateName}`,
+      `buttons/${name}-${stateName}.png`,
+      `DefineButton2 ${sourceCharacterId} ${stateName}`,
+      sourceCharacterId,
+    );
+  return {
+    up: state('up'),
+    over: state('over'),
+    down: state('down'),
+    hit: state('hit'),
+  };
+}
+
+function stageHelpButton(name: string, sourceCharacterId: number) {
+  const state = (stateName: 'up' | 'over' | 'down' | 'hit') =>
+    stageSettingsAsset(
+      `stage-settings.help.${name}.${stateName}`,
+      `help-buttons/${name}-${stateName}.png`,
+      `export.Help DefineButton2 ${sourceCharacterId} ${stateName}`,
+      sourceCharacterId,
+    );
+  return {
+    up: state('up'),
+    over: state('over'),
+    down: state('down'),
+    hit: state('hit'),
+  };
+}
+
+export const stageSettingsAssets = {
+  root: stageSettingsAsset(
+    'stage-settings.root',
+    'root.png',
+    'export.setmenu.SetMenu character 371 frame 1',
+    371,
+  ),
+  helpFrames: [
+    stageSettingsAsset(
+      'stage-settings.help.frame-1',
+      'help-1.png',
+      'export.Help character 444 frame 1',
+      444,
+    ),
+    stageSettingsAsset(
+      'stage-settings.help.frame-2',
+      'help-2.png',
+      'export.Help character 444 frame 2',
+      444,
+    ),
+  ],
+  spawnSpeedFrames: [
+    stageSettingsAsset(
+      'stage-settings.spawn-speed.1',
+      'spawn-speed-1.png',
+      'character 366 frame 1 (x1)',
+      366,
+    ),
+    stageSettingsAsset(
+      'stage-settings.spawn-speed.2',
+      'spawn-speed-2.png',
+      'character 366 frame 2 (x2)',
+      366,
+    ),
+    stageSettingsAsset(
+      'stage-settings.spawn-speed.4',
+      'spawn-speed-4.png',
+      'character 366 frame 3 (x4)',
+      366,
+    ),
+  ],
+  buttons: {
+    close: stageSettingsButton('close', 337),
+    continue: stageSettingsButton('continue', 342),
+    map: stageSettingsButton('map', 347),
+    help: stageSettingsButton('help', 351),
+    menu: stageSettingsButton('menu', 355),
+    soundOpen: stageSettingsButton('sound-open', 359),
+    soundClose: stageSettingsButton('sound-close', 362),
+    spawnSpeed: stageSettingsButton('spawn-speed', 370),
+  },
+  helpButtons: {
+    action: stageHelpButton('action', 436),
+    pet: stageHelpButton('pet', 440),
+    back: stageHelpButton('back', 441),
+  },
+} as const;
+
 export const saveSlotAssets = {
   startMenu: {
     key: SaveSlotAssetKeys.startMenu,

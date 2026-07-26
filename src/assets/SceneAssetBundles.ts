@@ -12,6 +12,7 @@ import {
   scaffoldAssets,
   settingsUiAssets,
   stageFeatureEntryButtonAssets,
+  stageSettingsAssets,
   taskUiAssets,
   shopUiAssets,
   skillNativeUiCommonAssets,
@@ -169,6 +170,13 @@ const combatCommonAssets = [
   ...Object.values(role1NormalAttackAssets).flatMap(images),
   ...Object.values(combatHudAssets).map(svg),
   ...Object.values(stageFeatureEntryButtonAssets).flatMap((states) =>
+    Object.values(states).map(image)),
+  image(stageSettingsAssets.root),
+  ...stageSettingsAssets.helpFrames.map(image),
+  ...stageSettingsAssets.spawnSpeedFrames.map(image),
+  ...Object.values(stageSettingsAssets.buttons).flatMap((states) =>
+    Object.values(states).map(image)),
+  ...Object.values(stageSettingsAssets.helpButtons).flatMap((states) =>
     Object.values(states).map(image)),
   ...Object.values(pickupAssets).flatMap((asset) =>
     'framePaths' in asset ? images(asset) : [image(asset)]),
