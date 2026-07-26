@@ -8,6 +8,7 @@ import {
   type CombatHudEnemySnapshot,
   type CombatHudPlayerSnapshot,
 } from '../../systems/Stage1CombatHudSystem';
+import { setStageFeatureEntryOwnerAlive } from '../feature-ui/FormalFeatureUiEntryBridge';
 
 export type Stage1CombatHudBridge = Readonly<{
   update: (deltaMs: number) => void;
@@ -52,6 +53,7 @@ export function createStage1CombatHudBridge(
     const players = getPlayers();
     const activeSlots = new Set(players.map((player) => player.slot));
     for (const player of players) {
+      setStageFeatureEntryOwnerAlive(scene, player.slot, player.hp > 0);
       const view = playerViews.get(player.slot) ?? createPlayerHudView(scene, player.slot);
       playerViews.set(player.slot, view);
       updatePlayerHudView(view, player);

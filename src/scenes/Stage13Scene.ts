@@ -16,7 +16,6 @@ import { createStage13Gameplay, type Stage13GameplayHandle } from './stage13/Sta
 import { showStage13Result } from './stage13/Stage13ResultBridge';
 import { createStage13World, type Stage13WorldHandle } from './stage13/Stage13WorldBridge';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
-import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 export class Stage13Scene extends Phaser.Scene {
   private partyRuntime?: FormalPartyRuntime;
@@ -50,7 +49,7 @@ export class Stage13Scene extends Phaser.Scene {
         .setName(spawn.slot).setData('heroId', this.partyRuntime?.members[index]?.heroId).setOrigin(0.5, 1)
         .setTint(index === 0 ? 0xffffff : 0x7ad7ff).setDepth(20),
     );
-    this.add.text(18, 16, `Stage 1-3 · ${this.playerCount}P · P1 A/D/J/K · P2 ←/→/小键盘1/小键盘2 · Esc 返回`, {
+    this.add.text(18, 16, `Stage 1-3 · ${this.playerCount}P · P1 A/D/J/K · P2 ←/→/小键盘1/小键盘2 · Esc 设置`, {
       color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '15px',
       backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
     }).setScrollFactor(0).setDepth(100);
@@ -60,7 +59,6 @@ export class Stage13Scene extends Phaser.Scene {
       this.playerViews,
       this.world.transferDoor,
     );
-    this.input.keyboard?.on('keydown-ESC', this.returnToEntry, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdownStage13, this);
   }
 
@@ -75,12 +73,7 @@ export class Stage13Scene extends Phaser.Scene {
     );
   }
 
-  private returnToEntry(): void {
-    void startSceneWithBundle(this, 'HeavenMapScene');
-  }
-
   private shutdownStage13(): void {
-    this.input.keyboard?.off('keydown-ESC', this.returnToEntry, this);
     this.world?.destroy();
     this.world = undefined;
     this.gameplay?.destroy();

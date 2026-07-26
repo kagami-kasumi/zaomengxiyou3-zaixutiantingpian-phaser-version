@@ -23,8 +23,7 @@
 
 | Goal | 状态 | 功能条线 | 绑定 task | 交付边界 | 压缩预算 |
 | --- | --- | --- | --- | --- | --- |
-| GOAL-057 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-156A | 574 五真 HUD pointer、P2 镜像、共享键盘/pointer router 与门禁接缝 | 预计 0 次 |
-| GOAL-058 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-156B | 371/444 关卡设置、全局 owner、原版单页/同键/Escape/返回语义 | 预计 0 次 |
+| GOAL-058 | Active | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-156B | 371/444 关卡设置、全局 owner、原版单页/同键/Escape/返回语义 | 预计 0 次 |
 | GOAL-059 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SLICE-156C | 五个已完成关卡的 P1/P2、暂停/互斥/门禁/返回逐状态校准 | 预计 0 次 |
 | GOAL-039 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-068 | 已完成关卡全部怪物真动画覆盖矩阵与逐关实现拆分 | 预计 0 次 |
 | GOAL-040 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | TASK-SETTINGS-069 | 五角色本体、角色战斗 UI 与技能动画覆盖矩阵及逐角色拆分 | 预计 0 次 |

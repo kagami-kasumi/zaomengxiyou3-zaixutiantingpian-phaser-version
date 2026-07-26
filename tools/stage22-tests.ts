@@ -464,7 +464,8 @@ assert.ok(formalGameplaySource.includes('createMonster16View'));
 assert.ok(formalGameplaySource.includes('tryCompleteStage22'));
 const formalSceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage22Scene.ts'), 'utf8');
 assert.ok(formalSceneSource.includes('showStage22Result'));
-assert.ok(formalSceneSource.includes("startSceneWithBundle(this, 'HeavenMapScene')"));
+assert.ok(formalSceneSource.includes('installFormalFeatureUiEntries'));
+assert.equal(formalSceneSource.includes('keydown-ESC'), false);
 assert.ok(formalSceneSource.includes('import.meta.env.DEV || isStage22LocalQaHost'));
 
 console.log('Stage 2-2 scene, 54-definition flow, ordinary combat route, and fire tests passed.');

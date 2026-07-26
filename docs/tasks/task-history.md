@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-156A | 关卡 HUD 入口实现 | 接入 574 五真 pointer、P2 镜像与共享 key/pointer router/门禁 | M-016、M-035、M-052、VS-060 | 549/555/561/567/573 共 20 个真状态资源、418 hit、`StageFeatureEntryRouterSystem`、P1/P2 正式接线、专项与 940×590 双人证据 |
 | TASK-SETTINGS-067 | 关卡功能入口逆向 | 闭合五个关卡 HUD 功能入口、设置页、owner、门禁、暂停、互斥与返回语义 | M-016、M-035、M-052、VS-060 | `stage-feature-entry-index.md`、574/371/444 显示列表、16 条资源标注、P1/P2 与现代差异合同，以及 `156A..C` 三个 0-compact 实现/校准 Goal |
 | TASK-SLICE-155 | 拆分父任务收束 | 汇总丹药、商城、设置、任务四个地图服务页实现并闭合 VS-059 | M-044、M-046、M-052、VS-059 | `155A..D` 四个 0-compact Goal 的原生 UI、事务、存档、正式往返与逐状态证据全集 |
 | TASK-SLICE-155D | 任务页实现 | 接入原生任务页、43 日常、共享进度/奖励和跨日 V6 | M-044、M-046、M-052、VS-059 | character 85/44/49/54/60/73/31/78/83/9、四奖励图、party task owner、死亡 producer、领取事务、同日/跨日、专项与 940×590 证据 |
@@ -4966,6 +4967,40 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-156A
+
+完成时间：
+- 2026-07-26
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-156B`）
+
+完成内容：
+- 从恢复语料库 `assets/OtherMat1.swf` 的 character 549/555/561/567/573 选择性接入设置、背包、技能、法宝、宠物五入口 up/over/down/hit 共 20 个真 PNG；共享 418 hit 的 31×35 几何与 P2 `920-x` 镜像进入正式关卡 HUD。
+- 新增纯 `StageFeatureEntryRouterSystem`，键盘和 pointer 共用同一入口合同；保持 P1 `C/V/B/N/Esc`、P2 `/ * -`，P2 无设置/法宝快捷键且 P2 `*` 默认 P1 技能页。
+- 集中接入 P1/P2 可用性、死亡、特殊关卡、宠物死亡非对称和未装备法宝门禁；HUD 快照持续同步存活状态，法宝门禁读取当前活动槽。
+- Escape 和设置 pointer 只派发 `settings-pending` 受控事件，五个正式关卡不再直接用 Escape 返回地图；371/444、同键关闭和返回路由明确留给 `TASK-SLICE-156B`。
+- 940×590 双人 Stage 1-1 验收覆盖 P1/P2 normal/hover、P2 pointer 打开原生背包、关闭恢复原关卡和 console 0；证据为 `docs/tasks/evidence/TASK-SLICE-156A-*.png`。
+
+更新文件：
+- `public/assets/ui/combat-hud/feature-entry/`
+- `src/assets/AssetManifest.ts`、`src/assets/SceneAssetBundles.ts`
+- `src/systems/StageFeatureEntryRouterSystem.ts`
+- `src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts`
+- `src/scenes/stage1/Stage1CombatHudBridge.ts` 与五个正式关卡入口
+- `tools/stage-feature-entry-tests.ts`、相关关卡/地图回归测试与系统测试入口
+- 机制、切片、功能线、Goal/task、资源标注及 PG-002/004/005/007/008/009/011 反馈文档
+
+验证：
+- `npm run test:stage-feature-entry`、`npm run test:systems` 通过。
+- `npm run build` 通过；仅保留既有 Vite chunk warning。
+- `npm run check:structure` 通过；仅无关既有 warning。
+- `npm run check:annotations`、`npm run check:workflow`、`git diff --check` 在文档收尾后复跑。
+- 940×590 双人 Stage 1-1 pointer/页面返回验收通过，console 无 warning/error。
+
+推荐任务：
+- `TASK-SLICE-156B`：只接入 371/444 关卡设置、全局 owner 与原版单页/同键/Escape/返回语义。
 
 ### TASK-SETTINGS-067
 

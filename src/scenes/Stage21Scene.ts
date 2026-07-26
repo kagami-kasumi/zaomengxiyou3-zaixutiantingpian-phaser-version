@@ -22,7 +22,6 @@ import {
 import { showStage21Result } from './stage21/Stage21ResultBridge';
 import { createStage21World, type Stage21WorldHandle } from './stage21/Stage21WorldBridge';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
-import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 export class Stage21Scene extends Phaser.Scene {
   private partyRuntime?: FormalPartyRuntime;
@@ -60,7 +59,7 @@ export class Stage21Scene extends Phaser.Scene {
     const qaLabel = qa.fastClear || qa.noDamage
       ? ` · DEV QA${qa.noDamage ? ' 无伤' : ''}${qa.fastClear ? ' 自动清怪' : ''}${qa.showcase ? ' 展示' : ''}${qa.holdEnemyType ? ` 保留 M${qa.holdEnemyType}` : ''}${qa.forcedEnemyState ? ` 强制${qa.forcedEnemyState}` : ''}`
       : '';
-    this.add.text(18, 16, `Stage 2-1 · ${this.playerCount}P${qaLabel} · P1 A/D/J/K · P2 ←/→/小键盘1/小键盘2 · Esc 返回`, {
+    this.add.text(18, 16, `Stage 2-1 · ${this.playerCount}P${qaLabel} · P1 A/D/J/K · P2 ←/→/小键盘1/小键盘2 · Esc 设置`, {
       color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '15px',
       backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
     }).setScrollFactor(0).setDepth(100);
@@ -72,7 +71,6 @@ export class Stage21Scene extends Phaser.Scene {
       this.world.iceViews,
       qa,
     );
-    this.input.keyboard?.on('keydown-ESC', this.returnToMap, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdownStage21, this);
   }
 
@@ -87,12 +85,7 @@ export class Stage21Scene extends Phaser.Scene {
     );
   }
 
-  private returnToMap(): void {
-    void startSceneWithBundle(this, 'HeavenMapScene');
-  }
-
   private shutdownStage21(): void {
-    this.input.keyboard?.off('keydown-ESC', this.returnToMap, this);
     this.world?.destroy();
     this.world = undefined;
     this.gameplay?.destroy();

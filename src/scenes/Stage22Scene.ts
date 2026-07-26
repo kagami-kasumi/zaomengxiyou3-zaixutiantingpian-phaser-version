@@ -24,7 +24,6 @@ import {
 import { showStage22Result } from './stage22/Stage22ResultBridge';
 import { createStage22World, type Stage22WorldHandle } from './stage22/Stage22WorldBridge';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
-import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 export class Stage22Scene extends Phaser.Scene {
   private partyRuntime?: FormalPartyRuntime;
@@ -72,7 +71,6 @@ export class Stage22Scene extends Phaser.Scene {
       this.world.updateFireViews,
       qa,
     );
-    this.input.keyboard?.on('keydown-ESC', this.returnToMap, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdownStage22, this);
   }
 
@@ -88,12 +86,7 @@ export class Stage22Scene extends Phaser.Scene {
     );
   }
 
-  private returnToMap(): void {
-    void startSceneWithBundle(this, 'HeavenMapScene');
-  }
-
   private shutdownStage22(): void {
-    this.input.keyboard?.off('keydown-ESC', this.returnToMap, this);
     this.gameplay?.destroy();
     this.gameplay = undefined;
     this.world?.destroy();

@@ -24,6 +24,7 @@ const bundledTests = requestedTests.length > 0
       'stage22-tests',
       'stage1-combat-tests',
       'stage1-hud-tests',
+      'stage-feature-entry-tests',
       'save-slot-tests',
       'heaven-map-tests',
       'immortality-tests',

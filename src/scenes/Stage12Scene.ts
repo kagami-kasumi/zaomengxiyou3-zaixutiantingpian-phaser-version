@@ -19,7 +19,6 @@ import {
 } from './stage12/Stage12GameplayBridge';
 import { showStage12Result } from './stage12/Stage12ResultBridge';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
-import { startSceneWithBundle } from './SceneAssetBundleBridge';
 
 export class Stage12Scene extends Phaser.Scene {
   private partyRuntime?: FormalPartyRuntime;
@@ -57,7 +56,7 @@ export class Stage12Scene extends Phaser.Scene {
         .setDepth(20),
     );
 
-    this.add.text(18, 16, `Stage 1-2 · ${this.playerCount}P · P1 A/D/J/W · P2 ←/→/小键盘1/↑ · Esc 返回`, {
+    this.add.text(18, 16, `Stage 1-2 · ${this.playerCount}P · P1 A/D/J/W · P2 ←/→/小键盘1/↑ · Esc 设置`, {
       color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '15px',
       backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
     }).setScrollFactor(0).setDepth(100);
@@ -69,7 +68,6 @@ export class Stage12Scene extends Phaser.Scene {
       this.world.transferDoor,
       this.world.fbEnter,
     );
-    this.input.keyboard?.on('keydown-ESC', this.returnToEntry, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdownStage12, this);
   }
 
@@ -88,12 +86,7 @@ export class Stage12Scene extends Phaser.Scene {
     );
   }
 
-  private returnToEntry(): void {
-    void startSceneWithBundle(this, 'HeavenMapScene');
-  }
-
   private shutdownStage12(): void {
-    this.input.keyboard?.off('keydown-ESC', this.returnToEntry, this);
     this.world?.destroy();
     this.world = undefined;
     this.gameplay?.destroy();

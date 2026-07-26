@@ -143,6 +143,14 @@ export const CombatHudAssetKeys = {
   bossBlood: 'combat-hud.boss-blood',
 } as const;
 
+export const StageFeatureEntryAssetKeys = {
+  settings: 'stage-feature-entry.settings',
+  backpack: 'stage-feature-entry.backpack',
+  skills: 'stage-feature-entry.skills',
+  magicWeapon: 'stage-feature-entry.magic-weapon',
+  pets: 'stage-feature-entry.pets',
+} as const;
+
 export const SaveSlotAssetKeys = {
   startMenu: 'save-slots.start-menu',
   slotPanel: 'save-slots.slot-panel',
@@ -475,6 +483,45 @@ export const combatHudAssets = {
     sourceCharacterId: 110,
   },
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
+const stageFeatureEntryButton = (
+  key: string,
+  directory: string,
+  sourceCharacterId: number,
+): Readonly<{
+  up: ExtractedImageAssetDefinition;
+  over: ExtractedImageAssetDefinition;
+  down: ExtractedImageAssetDefinition;
+  hit: ExtractedImageAssetDefinition;
+}> => {
+  const state = (name: 'up' | 'over' | 'down' | 'hit'): ExtractedImageAssetDefinition => ({
+    key: `${key}.${name}`,
+    path: `/assets/ui/combat-hud/feature-entry/${directory}/${name}.png`,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: `export.RoleInfo ${directory} button ${name}`,
+    sourceCharacterId,
+  });
+  return {
+    up: state('up'),
+    over: state('over'),
+    down: state('down'),
+    hit: state('hit'),
+  };
+};
+
+export const stageFeatureEntryButtonAssets = {
+  settings: stageFeatureEntryButton(StageFeatureEntryAssetKeys.settings, 'settings', 549),
+  backpack: stageFeatureEntryButton(StageFeatureEntryAssetKeys.backpack, 'backpack', 555),
+  skills: stageFeatureEntryButton(StageFeatureEntryAssetKeys.skills, 'skills', 561),
+  magicWeapon: stageFeatureEntryButton(
+    StageFeatureEntryAssetKeys.magicWeapon,
+    'magic-weapon',
+    567,
+  ),
+  pets: stageFeatureEntryButton(StageFeatureEntryAssetKeys.pets, 'pets', 573),
+} as const;
 
 export const saveSlotAssets = {
   startMenu: {

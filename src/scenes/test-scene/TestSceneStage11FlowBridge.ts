@@ -12,11 +12,6 @@ import { startSceneWithBundle } from '../SceneAssetBundleBridge';
 
 export function initializeStage11Flow(this: any): void {
   this.stage11Flow = createStage11Flow(this.playerCount, this.levelUnlockProgress);
-  const returnToMap = () => void startSceneWithBundle(this, 'HeavenMapScene');
-  this.input.keyboard?.on('keydown-ESC', returnToMap);
-  this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-    this.input.keyboard?.off('keydown-ESC', returnToMap);
-  });
 }
 
 export function installStage11FeatureUiEntries(this: any): void {
