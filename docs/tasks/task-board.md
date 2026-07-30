@@ -4,7 +4,7 @@
 
 ## 当前推荐
 
-`TASK-SLICE-157B` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。Stage 1-1 的 Monster30/3 与三个攻击对象已完成真动画接入；下一次 `/goal` 只处理 Stage 1-2 的 Monster7/8/4/2 与八个攻击/效果对象。
+`TASK-SLICE-157B` 是唯一当前推荐，属于唯一 Active Goal 和唯一 Active 功能线。通用关卡生命周期协议已经归档，现恢复 Stage 1-2 怪物真动画工作。
 
 ## 待完成任务
 
@@ -14,8 +14,7 @@
 | TASK-SLICE-157 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 既有关卡怪物动画父任务 | Stage 1-1/1-2/1-3 逐关接入全部怪物/攻击对象真动画，回归 Stage 2-1/2-2 | M-030、M-034、M-035、VS-061 | 由 TASK-SETTINGS-068 生成的逐关子 task | 全部子 task 完成后收束父任务 |
 | TASK-SLICE-157B | Ready | GOAL-061 | LINE-PRE-STAGE-2-3-COMPLETION | Stage 1-2 怪物真动画 | 接入 Monster7/8/4/2 全部可达动作与八个攻击/效果对象 | M-030、M-034、M-035、VS-061 | 逐怪动画、双 Boss、对象生命周期与逐状态证据 | TASK-SLICE-157C |
 | TASK-SLICE-157C | Planned | GOAL-062 | LINE-PRE-STAGE-2-3-COMPLETION | Stage 1-3 怪物真动画 | 接入 Monster5 并复用 30/3/7/8，闭合 105 怪视觉 | M-030、M-034、M-035、VS-061 | Monster5/四对象、共享复用、门禁与逐状态证据 | TASK-SLICE-157D |
-| TASK-SLICE-157D | Planned | GOAL-063 | LINE-PRE-STAGE-2-3-COMPLETION | 五关怪物视觉回归 | 收敛五关资源 owner，回归 Stage 2-1/2-2 并关闭父任务 | M-030、M-034、M-035、VS-061 | 五关自动/运行证据、bundle 防回归与父任务归档 | TASK-ARCH-015 |
-| TASK-ARCH-015 | Planned | GOAL-064 | LINE-PRE-STAGE-2-3-COMPLETION | 通用关卡生命周期协议 | 建立全部后续关卡复用的通关、判负、解锁与结果协议，以五关迁移恢复 Stage 1-1 光门 + W | M-014、M-026、M-028、VS-007、VS-050、PG-012 | 通用纯逻辑 owner、扩展合同、五关迁移、第一关修复与新关卡门禁 | TASK-SETTINGS-069 |
+| TASK-SLICE-157D | Planned | GOAL-063 | LINE-PRE-STAGE-2-3-COMPLETION | 五关怪物视觉回归 | 收敛五关资源 owner，回归 Stage 2-1/2-2 并关闭父任务 | M-030、M-034、M-035、VS-061 | 五关自动/运行证据、bundle 防回归与父任务归档 | TASK-SETTINGS-069 |
 | TASK-SLICE-158 | Split | — | LINE-PRE-STAGE-2-3-COMPLETION | 五角色动画父任务 | 逐角色接入本体、战斗 UI、普攻、技能及附属对象真动画 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 由 TASK-SETTINGS-069 生成的逐角色子 task | 全部子 task 完成后收束父任务 |
 | TASK-SLICE-159 | Planned | GOAL-041 | LINE-PRE-STAGE-2-3-COMPLETION | 本地存档正式旅程 | 复用既有六槽 localStorage/V6，验证所有新增功能跨重启持久化并关闭前置线 | M-044、M-050、VS-052、VS-063 | 自动旅程、940×590 重启读取证据与关闭检查 | 恢复 GOAL-025 / TASK-SETTINGS-064 |
 | TASK-SETTINGS-064 | Planned | GOAL-025 | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 Goal | 依据证据生成同线最小实现 Goal |
@@ -334,70 +333,7 @@ Goal 包：
 
 状态更新：
 
-- 归档 TASK-SLICE-157A..D 与父任务 157，更新 M-030/M-034/M-035、VS-061、本线覆盖、Goal/task/history 和适用 PG；随后只激活 `GOAL-064 / TASK-ARCH-015`。
-
-推荐后续任务：
-
-- `TASK-ARCH-015`。
-
-### TASK-ARCH-015
-
-任务类型：
-
-- `TASK-ARCH`
-
-功能条线：
-
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active；前序完成后）
-
-Goal 包：
-
-- `GOAL-064`（Planned）
-
-目标机制/切片：
-
-- `M-014`、`M-026`、`M-028`、`VS-007`、`VS-050`、`PG-012`
-
-规模预算：
-
-- 主工作包：2
-- 预计上下文压缩：0
-- 独立验收批次：2
-
-拆分触发：
-
-- 若通用生命周期/结果协议与五关迁移不能在同一套合同下独立验收，立即拆为 `TASK-ARCH-015A`（通用合同、扩展点与 Stage 1-1/1-2 试点）和 `TASK-ARCH-015B`（其余三关迁移、五关旅程与新关卡门禁）；不得用一个万能 Scene 基类包揽关卡内容、Phaser view 和存档。
-
-输入资料：
-
-- `levels-index.md`、`Stage11FlowSystem.ts`、`LevelSystem.ts`、`Stage12/13/21/22FlowSystem.ts`、五关 gameplay/result bridges、输入/进度存档专项测试、2026-07-26 用户试玩反馈。
-
-输出产物：
-
-- 一个可测试、可扩展并作为后续关卡默认入口的通用关卡生命周期/结果协议，统一 `playing / failure-pending / failed / cleared` 终态、全员判负、出口可用、玩家交互、幂等通关、解锁目标和结果触发。
-- 显式扩展合同：普通光门 + 上键是默认完成策略；特殊入口、特殊胜利条件或无门关卡通过策略/配置接入，不得复制整套 Flow。各关只提供布局、出口区域、解锁目标、专属遭遇和经证据确认的例外。
-- Stage 1-1 移除与其他关漂移的私有通关路径，恢复 Boss 死亡显光门、玩家进入光门后按 P1 `W` / P2 对应上键通关；五个已完成关卡迁移到同一协议。
-- 共享协议与五关集成测试，覆盖门隐藏、门外按上、门内未按上、门内按上、双人任一存活玩家、重复触发、失败后不可通关、正确解锁目标和结果/存档只提交一次；增加静态或架构测试，阻止后续 `Stage*FlowSystem` 重新定义同义终态/失败/解锁提交。
-
-完成定义：
-
-- 五关不再各自定义同义的 `tryCompleteStageXX`、失败倒计时和解锁提交规则；Scene/bridge 只适配 Phaser 坐标、玩家输入和结果 view。
-- 后续新增关卡必须消费该协议；专属流程只能实现窄策略或配置，并附原版证据与例外测试，不能另起一套完整关卡生命周期。
-- Stage 1-1 的通关判定与其他关共享同一语义，门区域差异通过显式配置表达，不再由独有的精确 Y 坐标或 sprite 原点偶然决定玩家是否能通关。
-- 不以继承式万能“关卡大类”承载怪物、波次、镜头、UI、资源或存档；通用生命周期作为稳定骨架，关卡差异使用纯逻辑策略与组合配置。
-
-验收标准：
-
-- 实现前运行 `npm run check:structure`；专项测试、五关正式旅程、`npm run test:systems`、`npm run build`、`npm run check:workflow`、`git diff --check` 通过。
-- 940×590 人工复验至少覆盖 Stage 1-1 单人光门 + W、Stage 1-1 双人任一玩家入门、一个横向关卡通关和失败后不可通关，console 无 warning/error。
-
-禁止范围：
-
-- 不修改怪物数值、波次数量、Boss 生成、场景布局或已确认的解锁顺序；不进入 Stage 2-3；不借机重构全部关卡 Scene、怪物系统或完整 ECS。
-
-状态更新：
-
-- 更新 M-014/M-026/M-028、VS-007/VS-050、本线覆盖、架构边界/门禁、Goal/task/history 与 `PG-012` 方案/测试/效果记录；通过后只激活 `GOAL-040 / TASK-SETTINGS-069`。
+- 归档 TASK-SLICE-157A..D 与父任务 157，更新 M-030/M-034/M-035、VS-061、本线覆盖、Goal/task/history 和适用 PG；通用生命周期已先行归档，随后只激活 `GOAL-040 / TASK-SETTINGS-069`。
 
 推荐后续任务：
 

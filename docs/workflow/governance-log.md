@@ -2,6 +2,28 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-30
+
+### 通用关卡生命周期治理落地
+
+变更内容：
+
+- `TASK-ARCH-015 / GOAL-064` 将五关重复的通关、判负、解锁和结果终态收敛到公共 `LevelLifecycle`，并建立后续关卡默认消费与窄策略扩展门禁。
+- `PG-012` 从“已确认，待治理”进入“方案已落地，效果观察中”；关闭仍等待首个未来关卡接入样本，不以五关存量迁移提前宣告根治。
+- 归档本 Goal，并恢复同线 `GOAL-061 / TASK-SLICE-157B` 为唯一 Active 工作包。
+
+影响范围：
+
+- `docs/architecture/src-boundaries.md`
+- `docs/domain/glossary.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-012-关卡结果协议按关卡漂移.md`
+- Goal/task/feature-line/coverage/mechanics/vertical-slice/history 文档
+
+验证：
+
+- `npm run check:workflow` 与 `git diff --check`。
+
 ## 2026-07-26
 
 ### 任务页实现 Goal 归档与治理样本回写

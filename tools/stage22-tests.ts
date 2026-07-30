@@ -21,10 +21,9 @@ import {
   Stage22FailureDelayMs,
   Stage22OrdinaryEnemyCount,
   touchStage22StopPoint,
-  tryCompleteStage22,
-  updateStage22PartyFailure,
   updateStage22Spawners,
 } from '../src/systems/Stage22FlowSystem';
+import { createTestLevelCompletionAttempt } from './level-lifecycle-test-helpers';
 import {
   createStage22FireHazards,
   Stage22FireTuning,
@@ -233,16 +232,16 @@ const bossSpawn = updateStage22Spawners(fullFlow, 1);
 assert.equal(bossSpawn.length, 1);
 assert.equal(bossSpawn[0]?.enemyType, 16);
 assert.equal(bossSpawn[0]?.maxHp, 24_189);
-assert.equal(fullFlow.phase, 'boss');
+assert.equal(fullFlow.encounterPhase, 'boss');
 assert.equal(fullFlow.generatedCount, Stage22ConfiguredEnemyCount);
 const bossId = bossSpawn[0]!.id;
 assert.equal(defeatStage22Enemy(fullFlow, bossId), true);
 assert.equal(defeatStage22Enemy(fullFlow, bossId), false, 'Monster16 reward and door stay idempotent');
 assert.equal(fullFlow.doorVisible, true);
-assert.equal(tryCompleteStage22(fullFlow, true, false), false);
-assert.equal(tryCompleteStage22(fullFlow, true, true), true);
+assert.equal(fullFlow.tryComplete(createTestLevelCompletionAttempt({ upPressed: false })), false);
+assert.equal(fullFlow.tryComplete(createTestLevelCompletionAttempt()), true);
 assert.deepEqual(fullFlow.unlockProgress, { unlockedStage: 2, unlockedLevel: 3 });
-assert.equal(tryCompleteStage22(fullFlow, true, true), false, '2-3 progress cannot advance twice');
+assert.equal(fullFlow.tryComplete(createTestLevelCompletionAttempt()), false, '2-3 progress cannot advance twice');
 const saveValues = new Map<string, string>();
 const saveStorage: SaveStorage = {
   getItem: (key) => saveValues.get(key) ?? null,
@@ -329,12 +328,12 @@ assert.equal(deadVisual.completed, true);
 assert.equal(getMonster16AtlasFrame(deadVisual), 3 * 6 + 4);
 
 const failureFlow = createStage22Flow(1);
-assert.equal(updateStage22PartyFailure(failureFlow, 0, 0), 'failure-pending');
+assert.equal(failureFlow.updatePartyFailure(0, 0), 'failure-pending');
 assert.equal(failureFlow.failureDelayRemainingMs, Stage22FailureDelayMs);
-assert.equal(updateStage22PartyFailure(failureFlow, 1, 100), 'playing');
-assert.equal(updateStage22PartyFailure(failureFlow, 0, 0), 'failure-pending');
-assert.equal(updateStage22PartyFailure(failureFlow, 0, Stage22FailureDelayMs - 1), 'failure-pending');
-assert.equal(updateStage22PartyFailure(failureFlow, 0, 1), 'failed');
+assert.equal(failureFlow.updatePartyFailure(1, 100), 'playing');
+assert.equal(failureFlow.updatePartyFailure(0, 0), 'failure-pending');
+assert.equal(failureFlow.updatePartyFailure(0, Stage22FailureDelayMs - 1), 'failure-pending');
+assert.equal(failureFlow.updatePartyFailure(0, 1), 'failed');
 
 const hazards = createStage22FireHazards();
 assert.equal(hazards.length, 9);
@@ -461,7 +460,7 @@ const formalGameplaySource = readFileSync(
 assert.ok(formalGameplaySource.includes('createStage22Flow'));
 assert.ok(formalGameplaySource.includes('createStage21MonsterView'));
 assert.ok(formalGameplaySource.includes('createMonster16View'));
-assert.ok(formalGameplaySource.includes('tryCompleteStage22'));
+assert.ok(formalGameplaySource.includes('flow.tryComplete(createLevelCompletionAttempt'));
 const formalSceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage22Scene.ts'), 'utf8');
 assert.ok(formalSceneSource.includes('showStage22Result'));
 assert.ok(formalSceneSource.includes('installFormalFeatureUiEntries'));

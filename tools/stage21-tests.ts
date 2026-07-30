@@ -18,11 +18,10 @@ import {
   defeatStage21Enemy,
   Stage21FailureDelayMs,
   touchStage21StopPoint,
-  tryCompleteStage21,
-  updateStage21PartyFailure,
   updateStage21Spawners,
   type Stage21FlowModel,
 } from '../src/systems/Stage21FlowSystem';
+import { createTestLevelCompletionAttempt } from './level-lifecycle-test-helpers';
 import {
   createStage21IceHazards,
   Stage21IceTuning,
@@ -336,9 +335,9 @@ assert.equal(bossSpawn[0]?.maxHp, 4_957);
 assert.equal(defeatStage21Enemy(single, bossSpawn[0]!.id), true);
 assert.equal(single.doorVisible, true);
 assert.equal(single.generatedCount, 53);
-assert.equal(tryCompleteStage21(single, true, true), true);
+assert.equal(single.tryComplete(createTestLevelCompletionAttempt()), true);
 assert.deepEqual(single.unlockProgress, { unlockedStage: 2, unlockedLevel: 2 });
-assert.equal(tryCompleteStage21(single, true, true), false);
+assert.equal(single.tryComplete(createTestLevelCompletionAttempt()), false);
 
 const capped = createStage21Flow(2);
 assert.equal(touchStage21StopPoint(capped, 0), true);
@@ -347,8 +346,8 @@ assert.equal(capped.aliveEnemies.size, 8);
 assert.equal(updateStage21Spawners(capped, 10_000).length, 0);
 
 const failure = createStage21Flow(2, { unlockedStage: 2, unlockedLevel: 1 });
-assert.equal(updateStage21PartyFailure(failure, 0, 16), 'failure-pending');
-assert.equal(updateStage21PartyFailure(failure, 0, Stage21FailureDelayMs), 'failed');
+assert.equal(failure.updatePartyFailure(0, 16), 'failure-pending');
+assert.equal(failure.updatePartyFailure(0, Stage21FailureDelayMs), 'failed');
 assert.deepEqual(failure.unlockProgress, { unlockedStage: 2, unlockedLevel: 1 });
 
 const hazards = createStage21IceHazards();

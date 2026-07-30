@@ -1,8 +1,6 @@
 import Phaser from 'phaser';
 import {
-  completeStage11,
   createStage11Flow,
-  updateStage11PartyFailure,
   type Stage11FlowModel,
 } from '../../systems/Stage11FlowSystem';
 import { isHeroCombatDead } from './TestSceneSystems';
@@ -28,14 +26,14 @@ export function updateStage11Flow(this: any, deltaMs: number): boolean {
   const alivePlayerCount = this.playerViews.filter(
     (player: any) => !isHeroCombatDead(player.combat),
   ).length;
-  const phase = updateStage11PartyFailure(flow, alivePlayerCount, deltaMs);
+  const phase = flow.updatePartyFailure(alivePlayerCount, deltaMs);
   if (phase === 'failed') showFailureOverlay.call(this);
   return phase === 'playing' || phase === 'failure-pending';
 }
 
 export function showStage11ClearOverlay(this: any): void {
   const flow = this.stage11Flow as Stage11FlowModel | undefined;
-  if (!flow || !completeStage11(flow)) return;
+  if (!flow || flow.phase !== 'cleared' || this.clearOverlay) return;
 
   this.levelUnlockProgress = { ...flow.unlockProgress };
   this.saveSceneNow();

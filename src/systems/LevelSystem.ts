@@ -24,8 +24,6 @@ export type BossArenaModel = {
   arenaBounds: { left: number; right: number; top: number; bottom: number };
 };
 
-export const TransferDoorCollisionTolerance = 1;
-
 export function createBossArena(): BossArenaModel {
   const door = stage11TransferDoor.bounds;
   return {
@@ -58,37 +56,6 @@ export function activateBossArena(arena: BossArenaModel): Monster3Model {
   arena.state = 'active';
   arena.boss = createMonster3(750, 350);
   return arena.boss;
-}
-
-export function tryClearArena(
-  arena: BossArenaModel,
-  playerX: number,
-  playerY: number,
-  upPressed: boolean,
-): boolean {
-  if (arena.state !== 'active') {
-    return false;
-  }
-
-  if (!arena.door.visible) {
-    return false;
-  }
-
-  if (!upPressed) {
-    return false;
-  }
-
-  const inDoorX = playerX >= arena.door.x - TransferDoorCollisionTolerance &&
-    playerX <= arena.door.x + arena.door.width + TransferDoorCollisionTolerance;
-  const inDoorY = playerY >= arena.door.y - TransferDoorCollisionTolerance &&
-    playerY <= arena.door.y + arena.door.height + TransferDoorCollisionTolerance;
-
-  if (inDoorX && inDoorY) {
-    arena.state = 'cleared';
-    return true;
-  }
-
-  return false;
 }
 
 export function revealTransferDoor(arena: BossArenaModel): void {

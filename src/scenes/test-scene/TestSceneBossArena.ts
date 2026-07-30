@@ -17,7 +17,6 @@ import {
   isHeroCombatDead,
   revealTransferDoor,
   resolveHitOnce,
-  tryClearArena,
   updateMonster3,
   updateMonsterPhysics,
   createMonsterDefeatRewardRuntime,
@@ -26,6 +25,8 @@ import {
   type InputState,
   type PlayerSlot,
 } from './TestSceneSystems';
+import { createLevelCompletionAttempt } from '../LevelLifecycleBridge';
+import type { Stage11FlowModel } from '../../systems/Stage11FlowSystem';
 import { getPlayerBounds } from './TestSceneCombatBridge';
 import { toPhaserRect } from './TestSceneGeometry';
 import {
@@ -99,20 +100,19 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
         }
       }
 
-      for (const player of this.playerViews) {
-        if (!player.movement || isHeroCombatDead(player.combat)) {
-          continue;
-        }
-
-        if (tryClearArena(
-          this.bossArena,
-          player.sprite.x,
-          player.sprite.y,
-          input[player.slot as PlayerSlot].up,
-        )) {
-          this.showClearOverlay();
-          return;
-        }
+      const flow = this.stage11Flow as Stage11FlowModel | undefined;
+      if (flow && this.bossDoorView?.door && flow.tryComplete(createLevelCompletionAttempt(
+        this.bossArena.door.visible,
+        this.bossDoorView.door,
+        this.playerViews.map((player: any) => ({
+          view: player.sprite,
+          upPressed: input[player.slot as PlayerSlot].up,
+          eligible: Boolean(player.movement) && !isHeroCombatDead(player.combat),
+        })),
+      ))) {
+        this.bossArena.state = 'cleared';
+        this.showClearOverlay();
+        return;
       }
     }
   }

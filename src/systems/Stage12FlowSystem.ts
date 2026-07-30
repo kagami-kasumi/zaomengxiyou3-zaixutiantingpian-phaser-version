@@ -4,14 +4,14 @@ import {
   type Stage12SpawnPoint,
 } from './Stage12Layout';
 import {
-  advanceLevelUnlockProgress,
+  DefaultLevelFailureDelayMs,
+  LevelLifecycle,
   createDefaultLevelUnlockProgress,
-  sanitizeLevelUnlockProgress,
   type LevelUnlockProgress,
-} from './Stage11FlowSystem';
+} from './LevelLifecycleSystem';
 import { getStage1EnemyConfig } from './Stage1CombatSystem';
 
-export type Stage12FlowPhase = 'playing' | 'failure-pending' | 'failed' | 'cleared';
+export type Stage12FlowPhase = import('./LevelLifecycleSystem').LevelLifecyclePhase;
 
 export type Stage12EnemyType = Stage12SpawnPoint['enemyType'];
 
@@ -32,39 +32,31 @@ type Stage12Spawner = {
   nextSpawnMs: number;
 };
 
-export type Stage12FlowModel = {
-  phase: Stage12FlowPhase;
-  playerCount: 1 | 2;
-  failureDelayRemainingMs: number;
-  nextStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
-  activeStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
-  activeSpawners: Stage12Spawner[];
-  aliveEnemies: Map<string, Stage12Enemy>;
-  defeatedCount: number;
-  doorVisible: boolean;
-  unlockProgress: LevelUnlockProgress;
-  nextEnemyId: number;
-};
+export class Stage12FlowModel extends LevelLifecycle {
+  public nextStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined = 0;
+  public activeStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
+  public activeSpawners: Stage12Spawner[] = [];
+  public aliveEnemies = new Map<string, Stage12Enemy>();
+  public defeatedCount = 0;
+  public doorVisible = false;
+  public nextEnemyId = 1;
 
-export const Stage12FailureDelayMs = 2_500;
+  public constructor(playerCount: 1 | 2, unlockProgress: LevelUnlockProgress) {
+    super({
+      playerCount,
+      unlockProgress,
+      unlockTarget: { unlockedStage: 1, unlockedLevel: 3 },
+    });
+  }
+}
+
+export const Stage12FailureDelayMs = DefaultLevelFailureDelayMs;
 
 export function createStage12Flow(
   playerCount: 1 | 2,
   unlockProgress = createDefaultLevelUnlockProgress(),
 ): Stage12FlowModel {
-  return {
-    phase: 'playing',
-    playerCount,
-    failureDelayRemainingMs: 0,
-    nextStopPointIdx: 0,
-    activeStopPointIdx: undefined,
-    activeSpawners: [],
-    aliveEnemies: new Map(),
-    defeatedCount: 0,
-    doorVisible: false,
-    unlockProgress: sanitizeLevelUnlockProgress(unlockProgress),
-    nextEnemyId: 1,
-  };
+  return new Stage12FlowModel(playerCount, unlockProgress);
 }
 
 export function touchStage12StopPoint(
@@ -114,46 +106,6 @@ export function defeatStage12Enemy(model: Stage12FlowModel, enemyId: string): bo
   if (!model.aliveEnemies.delete(enemyId)) return false;
   model.defeatedCount += 1;
   finishActiveStopPointIfCleared(model);
-  return true;
-}
-
-export function updateStage12PartyFailure(
-  model: Stage12FlowModel,
-  alivePlayerCount: number,
-  deltaMs: number,
-): Stage12FlowPhase {
-  if (model.phase === 'failed' || model.phase === 'cleared') return model.phase;
-  if (alivePlayerCount > 0) {
-    if (model.phase === 'failure-pending') {
-      model.phase = 'playing';
-      model.failureDelayRemainingMs = 0;
-    }
-    return model.phase;
-  }
-  if (model.phase === 'playing') {
-    model.phase = 'failure-pending';
-    model.failureDelayRemainingMs = Stage12FailureDelayMs;
-    return model.phase;
-  }
-  model.failureDelayRemainingMs = Math.max(
-    0,
-    model.failureDelayRemainingMs - Math.max(0, deltaMs),
-  );
-  if (model.failureDelayRemainingMs === 0) model.phase = 'failed';
-  return model.phase;
-}
-
-export function tryCompleteStage12(
-  model: Stage12FlowModel,
-  playerInsideDoor: boolean,
-  upPressed: boolean,
-): boolean {
-  if (model.phase !== 'playing' || !model.doorVisible || !playerInsideDoor || !upPressed) {
-    return false;
-  }
-  model.phase = 'cleared';
-  model.failureDelayRemainingMs = 0;
-  model.unlockProgress = advanceLevelUnlockProgress(model.unlockProgress, 1, 3);
   return true;
 }
 

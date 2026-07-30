@@ -4,14 +4,14 @@ import {
   type Stage13SpawnPoint,
 } from './Stage13Layout';
 import {
-  advanceLevelUnlockProgress,
+  DefaultLevelFailureDelayMs,
+  LevelLifecycle,
   createDefaultLevelUnlockProgress,
-  sanitizeLevelUnlockProgress,
   type LevelUnlockProgress,
-} from './Stage11FlowSystem';
+} from './LevelLifecycleSystem';
 import { getStage1EnemyConfig } from './Stage1CombatSystem';
 
-export type Stage13FlowPhase = 'playing' | 'failure-pending' | 'failed' | 'cleared';
+export type Stage13FlowPhase = import('./LevelLifecycleSystem').LevelLifecyclePhase;
 export type Stage13EnemyType = Stage13SpawnPoint['enemyType'];
 
 export type Stage13Enemy = Readonly<{
@@ -33,43 +33,34 @@ type Stage13Spawner = {
   ready: boolean;
 };
 
-export type Stage13FlowModel = {
-  phase: Stage13FlowPhase;
-  playerCount: 1 | 2;
-  maxMonstersOnScreen: 6 | 8;
-  failureDelayRemainingMs: number;
-  nextStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
-  activeStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
-  activeSpawners: Stage13Spawner[];
-  aliveEnemies: Map<string, Stage13Enemy>;
-  defeatedCount: number;
-  generatedCount: number;
-  doorVisible: boolean;
-  unlockProgress: LevelUnlockProgress;
-  nextEnemyId: number;
-};
+export class Stage13FlowModel extends LevelLifecycle {
+  public readonly maxMonstersOnScreen: 6 | 8;
+  public nextStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined = 0;
+  public activeStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
+  public activeSpawners: Stage13Spawner[] = [];
+  public aliveEnemies = new Map<string, Stage13Enemy>();
+  public defeatedCount = 0;
+  public generatedCount = 0;
+  public doorVisible = false;
+  public nextEnemyId = 1;
 
-export const Stage13FailureDelayMs = 2_500;
+  public constructor(playerCount: 1 | 2, unlockProgress: LevelUnlockProgress) {
+    super({
+      playerCount,
+      unlockProgress,
+      unlockTarget: { unlockedStage: 2, unlockedLevel: 1 },
+    });
+    this.maxMonstersOnScreen = playerCount === 1 ? 6 : 8;
+  }
+}
+
+export const Stage13FailureDelayMs = DefaultLevelFailureDelayMs;
 
 export function createStage13Flow(
   playerCount: 1 | 2,
   unlockProgress = createDefaultLevelUnlockProgress(),
 ): Stage13FlowModel {
-  return {
-    phase: 'playing',
-    playerCount,
-    maxMonstersOnScreen: playerCount === 1 ? 6 : 8,
-    failureDelayRemainingMs: 0,
-    nextStopPointIdx: 0,
-    activeStopPointIdx: undefined,
-    activeSpawners: [],
-    aliveEnemies: new Map(),
-    defeatedCount: 0,
-    generatedCount: 0,
-    doorVisible: false,
-    unlockProgress: sanitizeLevelUnlockProgress(unlockProgress),
-    nextEnemyId: 1,
-  };
+  return new Stage13FlowModel(playerCount, unlockProgress);
 }
 
 export function touchStage13StopPoint(model: Stage13FlowModel, stopPointIdx: number): boolean {
@@ -122,41 +113,6 @@ export function defeatStage13Enemy(model: Stage13FlowModel, enemyId: string): bo
   model.defeatedCount += 1;
   if (enemy.enemyType === 5) model.doorVisible = true;
   finishActiveStopPointIfCleared(model);
-  return true;
-}
-
-export function updateStage13PartyFailure(
-  model: Stage13FlowModel,
-  alivePlayerCount: number,
-  deltaMs: number,
-): Stage13FlowPhase {
-  if (model.phase === 'failed' || model.phase === 'cleared') return model.phase;
-  if (alivePlayerCount > 0) {
-    if (model.phase === 'failure-pending') {
-      model.phase = 'playing';
-      model.failureDelayRemainingMs = 0;
-    }
-    return model.phase;
-  }
-  if (model.phase === 'playing') {
-    model.phase = 'failure-pending';
-    model.failureDelayRemainingMs = Stage13FailureDelayMs;
-    return model.phase;
-  }
-  model.failureDelayRemainingMs = Math.max(0, model.failureDelayRemainingMs - Math.max(0, deltaMs));
-  if (model.failureDelayRemainingMs === 0) model.phase = 'failed';
-  return model.phase;
-}
-
-export function tryCompleteStage13(
-  model: Stage13FlowModel,
-  playerInsideDoor: boolean,
-  upPressed: boolean,
-): boolean {
-  if (model.phase !== 'playing' || !model.doorVisible || !playerInsideDoor || !upPressed) return false;
-  model.phase = 'cleared';
-  model.failureDelayRemainingMs = 0;
-  model.unlockProgress = advanceLevelUnlockProgress(model.unlockProgress, 2, 1);
   return true;
 }
 

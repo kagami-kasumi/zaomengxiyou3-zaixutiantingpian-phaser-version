@@ -33,8 +33,6 @@ import {
   createStage22Flow,
   defeatStage22Enemy,
   touchStage22StopPoint,
-  tryCompleteStage22,
-  updateStage22PartyFailure,
   updateStage22Spawners,
   type Stage22Enemy,
   type Stage22FlowModel,
@@ -42,8 +40,8 @@ import {
 import {
   STAGE22_GROUND_PLATFORM_ID,
   STAGE22_GROUND_TOP_Y,
-  stage22TransferDoor,
 } from '../../systems/Stage22Layout';
+import { createLevelCompletionAttempt } from '../LevelLifecycleBridge';
 import {
   getStage22CameraScrollX,
   getStage22TravelRight,
@@ -227,8 +225,7 @@ export function createStage22Gameplay(
       );
       rewards.update(deltaMs);
       hud.update(deltaMs);
-      if (updateStage22PartyFailure(
-        flow,
+      if (flow.updatePartyFailure(
         players.filter((player) => player.combat.combat.state !== 'dead').length,
         deltaMs,
       ) === 'failed') {
@@ -236,13 +233,15 @@ export function createStage22Gameplay(
         return 'failed';
       }
       transferDoor.setVisible(flow.doorVisible);
-      const doorUsed = players.some((player, index) => {
-        const playerInput = inputs[index];
-        return player.combat.combat.state !== 'dead'
-          && Boolean(playerInput?.up)
-          && Math.abs(player.view.x - stage22TransferDoor.x) <= 125;
-      });
-      if (tryCompleteStage22(flow, doorUsed, doorUsed)) {
+      if (flow.tryComplete(createLevelCompletionAttempt(
+        flow.doorVisible,
+        transferDoor,
+        players.map((player, index) => ({
+          view: player.view,
+          upPressed: Boolean(inputs[index]?.up),
+          eligible: player.combat.combat.state !== 'dead',
+        })),
+      ))) {
         reportedResult = 'cleared';
         return 'cleared';
       }

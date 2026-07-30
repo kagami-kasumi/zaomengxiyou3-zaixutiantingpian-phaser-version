@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-015 | 通用关卡生命周期协议 | 为全部后续关卡建立通关、判负、解锁与结果默认骨架并迁移五关 | M-014、M-026、M-028、VS-007、VS-050、PG-012 | `LevelLifecycle`、Phaser bounds adapter、五关 Flow/bridge 迁移、窄策略合同、专项/静态门禁与 940×590 横向关卡证据 |
 | TASK-SLICE-157A | Stage 1-1 怪物真动画 | 接入 Monster30/3 全动作、三攻击对象、镜像/触发/死亡生命周期并保持战斗语义不变 | M-030、M-034、M-035、VS-061 | 2 本体 atlas、3 对象/25 帧、共享只读视觉描述、Stage 1-1 bridge、唯一 bundle owner、专项/全系统与 940×590 单双人证据 |
 | TASK-SETTINGS-068 | 怪物视觉覆盖逆向 | 盘清五个已完成关卡全部实际怪物、动作、攻击对象与实现缺口 | M-030、M-034、M-035、VS-061 | `stage1-monster-visuals-index.md`、7 本体/167 独立视觉帧、16 对象/171 帧、3 碰撞根、26 条标注与 `157A..D / GOAL-060..063` |
 | TASK-SLICE-156 | 拆分父任务收束 | 汇总关卡五入口证据、HUD pointer、设置会话与五关校准并闭合 VS-060 | M-016、M-035、M-043、M-052、VS-060 | `156A..C` 三个 0-compact Goal 的 574/371/444、共享 router/session、五关旅程、940×590 与 Stage 2 bundle 回归全集 |
@@ -6653,6 +6654,37 @@ Goal：
 
 推荐任务：
 - `TASK-SETTINGS-056`：闭合 EXE 启动、存档槽新建/读取/删除、迁移、损坏反馈与后续地图路由合同。
+
+### TASK-ARCH-015
+
+- 完成日期：2026-07-30
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-157B`）
+- 新增纯逻辑 `LevelLifecycle` 类，统一 `playing / failure-pending / failed / cleared`、2.5 秒全员判负、幂等完成、解锁目标和可注入完成策略；它只承载稳定生命周期骨架，不承载怪物、波次、镜头、UI、资源或存档。
+- 新增 Phaser 边界 adapter，将真实传送门和玩家 `getBounds()`、存活资格与对应上键转换为公共协议输入；默认策略要求出口可用、存活玩家、bounds 重叠和上键同时满足，不再依赖 sprite 原点或逐关 X/Y 阈值。
+- Stage 1-1/1-2/1-3/2-1/2-2 五个 Flow 首批迁移完成；删除逐关 `tryCompleteStageXX()`、`updateStageXXPartyFailure()` 和私有解锁提交。Stage 2-2 的 Boss 内容阶段独立为 `encounterPhase`，不再污染公共生命周期 phase。
+- Stage 1-1 删除 `LevelSystem.tryClearArena()` 私有完成路径，Boss arena 通过共享 Flow/bridge 完成光门 + P1 W / P2 上键；结果 overlay 只消费公共 `cleared` 终态。
+- 新增共享生命周期专项和静态架构门禁，覆盖失败/恢复、门隐藏、门外、未按上、死亡玩家、双人任一玩家、面积重叠、重复触发、失败互斥、解锁幂等、自定义策略以及未来关卡禁止复制同义 Flow。
+- 940×590 运行验收横向 Stage 2-2：角色在出口处等待不会自动结算，按 W 后进入“关卡胜利”并解锁 2-3；console 无 warning/error。Stage 1-1 单/双人交互分支由同一公共策略专项与 Stage11 bridge 集成测试覆盖。
+
+更新文件：
+
+- `src/systems/LevelLifecycleSystem.ts` 与五关 Flow systems
+- `src/scenes/LevelLifecycleBridge.ts` 与五关 gameplay/result bridges
+- `src/systems/LevelSystem.ts`、`src/scenes/test-scene/TestSceneBossArena.ts`
+- `tools/level-lifecycle-test-helpers.ts`、`tools/level-lifecycle-tests.ts` 与五关/正式旅程测试
+- `docs/architecture/src-boundaries.md`、`docs/domain/glossary.md`
+- M-014/M-026/M-028、VS-007/VS-050、本线覆盖、Goal/task/history 与 PG-012
+
+验证：
+
+- 实现前 `npm run check:structure` 通过，仅 9 个既有 warning。
+- 生命周期专项、五关 flow 与正式主循环旅程测试通过。
+- 完整 `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow` 与 `git diff --check` 通过；Vite 仅有既有 chunk 大小 warning。
+- 940×590 Stage 2-2 光门 + W 运行复验与 console 检查通过。
+
+推荐任务：
+
+- `TASK-SLICE-157B`：恢复 Stage 1-2 Monster7/8/4/2 真动画接入。
 
 ## 执行记录
 

@@ -10,6 +10,7 @@ const bundledTests = requestedTests.length > 0
   ? requestedTests
   : [
       'system-tests',
+      'level-lifecycle-tests',
       'crafting-tests',
       'stage11-resource-tests',
       'stage11-flow-tests',

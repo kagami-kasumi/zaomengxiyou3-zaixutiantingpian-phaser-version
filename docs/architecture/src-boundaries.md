@@ -49,6 +49,9 @@
 
 - 详细设计、面向对象原则和传统模式映射见 `docs/architecture/设计模式.md`。
 - 关卡 Layout/Flow 负责地形、出生计划、波次、遭遇门禁和通关条件；不实现怪物索敌、移动、攻击、动画或掉落算法。
+- `LevelLifecycle` 是全部关卡的通用生命周期/结果基类：唯一持有 `playing / failure-pending / failed / cleared`、全员判负、默认出口重叠 + 上键、幂等解锁。`Stage*FlowModel` 只增加单关内容状态；Boss、波次或机关子状态不得混入通用终态。
+- 普通关卡使用默认出口策略；特殊入口、特殊胜利或无门关卡只能注入有证据、可独立测试的窄 `LevelCompletionStrategy`。不得新增同义 `tryCompleteStageXX`、关卡私有失败倒计时或 bridge 内直接解锁提交。
+- `LevelLifecycleBridge` 只把 Phaser 显示对象边界、玩家有效性和上键输入适配成系统输入；通关规则不得回填 scene/gameplay bridge。
 - `MonsterDefinitionCatalog` 保存跨关卡只读定义，`MonsterRuntimeRegistry` 保存单局可变怪物状态；二者不得混为同一个 Registry。
 - 怪物差异优先通过 `MonsterBrain`、物理 profile、能力集合、动画集合和奖励 profile 组合，不建立承载全部职责的万能 `BaseMonster`。
 - scene/gameplay bridge 可以持有 Phaser view 映射，但怪物生命、AI、死亡和奖励事实必须来自系统层稳定 ID。

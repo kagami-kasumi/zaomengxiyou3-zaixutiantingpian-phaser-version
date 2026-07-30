@@ -11,8 +11,6 @@ import {
   createStage12Flow,
   defeatStage12Enemy,
   touchStage12StopPoint,
-  tryCompleteStage12,
-  updateStage12PartyFailure,
   updateStage12Spawners,
   type Stage12Enemy,
   type Stage12FlowModel,
@@ -20,8 +18,8 @@ import {
 import {
   STAGE12_GROUND_PLATFORM_ID,
   STAGE12_GROUND_TOP_Y,
-  stage12TransferDoor,
 } from '../../systems/Stage12Layout';
+import { createLevelCompletionAttempt } from '../LevelLifecycleBridge';
 import {
   getStage12CameraScrollX,
   getStage12TravelRight,
@@ -173,8 +171,7 @@ export function createStage12Gameplay(
     rewards.update(deltaMs);
     hud.update(deltaMs);
 
-    const phase = updateStage12PartyFailure(
-      flow,
+    const phase = flow.updatePartyFailure(
       players.filter((player) => player.combat.combat.state !== 'dead').length,
       deltaMs,
     );
@@ -184,12 +181,15 @@ export function createStage12Gameplay(
       return reportedResult;
     }
 
-    const doorUsed = players.some((player, index) => {
-      if (player.combat.combat.state === 'dead') return false;
-      const playerInput = index === 0 ? state.p1 : state.p2;
-      return Math.abs(player.view.x - stage12TransferDoor.x) <= 125 && playerInput.up;
-    });
-    if (tryCompleteStage12(flow, doorUsed, doorUsed)) {
+    if (flow.tryComplete(createLevelCompletionAttempt(
+      flow.doorVisible,
+      transferDoor,
+      players.map((player, index) => ({
+        view: player.view,
+        upPressed: (index === 0 ? state.p1 : state.p2).up,
+        eligible: player.combat.combat.state !== 'dead',
+      })),
+    ))) {
       reportedResult = 'cleared';
       return reportedResult;
     }

@@ -14,8 +14,6 @@ import {
   createStage21Flow,
   defeatStage21Enemy,
   touchStage21StopPoint,
-  tryCompleteStage21,
-  updateStage21PartyFailure,
   updateStage21Spawners,
   type Stage21Enemy,
   type Stage21FlowModel,
@@ -23,8 +21,8 @@ import {
 import {
   STAGE21_GROUND_PLATFORM_ID,
   STAGE21_GROUND_TOP_Y,
-  stage21TransferDoor,
 } from '../../systems/Stage21Layout';
+import { createLevelCompletionAttempt } from '../LevelLifecycleBridge';
 import {
   getStage21CameraScrollX,
   getStage21TravelRight,
@@ -209,8 +207,7 @@ export function createStage21Gameplay(
     rewards.update(deltaMs);
     hud.update(deltaMs);
 
-    const phase = updateStage21PartyFailure(
-      flow,
+    const phase = flow.updatePartyFailure(
       players.filter((player) => player.combat.combat.state !== 'dead').length,
       deltaMs,
     );
@@ -220,12 +217,15 @@ export function createStage21Gameplay(
       return reportedResult;
     }
 
-    const doorUsed = players.some((player, index) => {
-      if (player.combat.combat.state === 'dead') return false;
-      const playerInput = index === 0 ? state.p1 : state.p2;
-      return Math.abs(player.view.x - stage21TransferDoor.x) <= 125 && playerInput.up;
-    });
-    if (tryCompleteStage21(flow, doorUsed, doorUsed)) {
+    if (flow.tryComplete(createLevelCompletionAttempt(
+      flow.doorVisible,
+      transferDoor,
+      players.map((player, index) => ({
+        view: player.view,
+        upPressed: (index === 0 ? state.p1 : state.p2).up,
+        eligible: player.combat.combat.state !== 'dead',
+      })),
+    ))) {
       reportedResult = 'cleared';
       return reportedResult;
     }

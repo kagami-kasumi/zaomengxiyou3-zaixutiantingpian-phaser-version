@@ -1,17 +1,18 @@
 import { getStage1EnemyConfig } from './Stage1CombatSystem';
 import {
-  advanceLevelUnlockProgress,
+  DefaultLevelFailureDelayMs,
+  LevelLifecycle,
   createDefaultLevelUnlockProgress,
-  sanitizeLevelUnlockProgress,
   type LevelUnlockProgress,
-} from './Stage11FlowSystem';
+} from './LevelLifecycleSystem';
 import {
   stage22SpawnPoints,
   stage22StopPoints,
   type Stage22SpawnPoint,
 } from './Stage22Layout';
 
-export type Stage22FlowPhase = 'playing' | 'boss' | 'failure-pending' | 'failed' | 'cleared';
+export type Stage22FlowPhase = import('./LevelLifecycleSystem').LevelLifecyclePhase;
+export type Stage22EncounterPhase = 'waves' | 'boss';
 
 export type Stage22Enemy = Readonly<{
   id: string;
@@ -32,23 +33,29 @@ type Stage22Spawner = {
   ready: boolean;
 };
 
-export type Stage22FlowModel = {
-  phase: Stage22FlowPhase;
-  playerCount: 1 | 2;
-  maxMonstersOnScreen: 6 | 8;
-  failureDelayRemainingMs: number;
-  nextStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
-  activeStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
-  activeSpawners: Stage22Spawner[];
-  aliveEnemies: Map<string, Stage22Enemy>;
-  defeatedCount: number;
-  generatedCount: number;
-  doorVisible: boolean;
-  unlockProgress: LevelUnlockProgress;
-  nextEnemyId: number;
-};
+export class Stage22FlowModel extends LevelLifecycle {
+  public readonly maxMonstersOnScreen: 6 | 8;
+  public encounterPhase: Stage22EncounterPhase = 'waves';
+  public nextStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined = 0;
+  public activeStopPointIdx: 0 | 1 | 2 | 3 | 4 | undefined;
+  public activeSpawners: Stage22Spawner[] = [];
+  public aliveEnemies = new Map<string, Stage22Enemy>();
+  public defeatedCount = 0;
+  public generatedCount = 0;
+  public doorVisible = false;
+  public nextEnemyId = 1;
 
-export const Stage22FailureDelayMs = 2_500;
+  public constructor(playerCount: 1 | 2, unlockProgress: LevelUnlockProgress) {
+    super({
+      playerCount,
+      unlockProgress,
+      unlockTarget: { unlockedStage: 2, unlockedLevel: 3 },
+    });
+    this.maxMonstersOnScreen = playerCount === 1 ? 6 : 8;
+  }
+}
+
+export const Stage22FailureDelayMs = DefaultLevelFailureDelayMs;
 export const Stage22ConfiguredEnemyCount = 54;
 export const Stage22OrdinaryEnemyCount = 53;
 
@@ -56,21 +63,7 @@ export function createStage22Flow(
   playerCount: 1 | 2,
   unlockProgress = createDefaultLevelUnlockProgress(),
 ): Stage22FlowModel {
-  return {
-    phase: 'playing',
-    playerCount,
-    maxMonstersOnScreen: playerCount === 1 ? 6 : 8,
-    failureDelayRemainingMs: 0,
-    nextStopPointIdx: 0,
-    activeStopPointIdx: undefined,
-    activeSpawners: [],
-    aliveEnemies: new Map(),
-    defeatedCount: 0,
-    generatedCount: 0,
-    doorVisible: false,
-    unlockProgress: sanitizeLevelUnlockProgress(unlockProgress),
-    nextEnemyId: 1,
-  };
+  return new Stage22FlowModel(playerCount, unlockProgress);
 }
 
 export function touchStage22StopPoint(model: Stage22FlowModel, stopPointIdx: number): boolean {
@@ -91,7 +84,7 @@ export function touchStage22StopPoint(model: Stage22FlowModel, stopPointIdx: num
 }
 
 export function updateStage22Spawners(model: Stage22FlowModel, deltaMs: number): readonly Stage22Enemy[] {
-  if (model.phase !== 'playing' || model.activeStopPointIdx === undefined) return [];
+  if (model.phase !== 'playing' || model.encounterPhase === 'boss' || model.activeStopPointIdx === undefined) return [];
   const elapsedMs = Math.max(0, deltaMs);
   for (const spawner of model.activeSpawners) {
     if (spawner.remaining === 0 || spawner.ready) continue;
@@ -109,7 +102,7 @@ export function updateStage22Spawners(model: Stage22FlowModel, deltaMs: number):
     spawner.remaining -= 1;
     spawner.ready = false;
     spawner.nextSpawnMs = spawner.point.interval * 1_000;
-    if (enemy.isBoss) model.phase = 'boss';
+    if (enemy.isBoss) model.encounterPhase = 'boss';
   }
   finishActiveStopPointIfCleared(model);
   return spawned;
@@ -122,47 +115,12 @@ export function defeatStage22Enemy(model: Stage22FlowModel, enemyId: string): bo
   model.defeatedCount += 1;
   if (enemy.isBoss) {
     model.doorVisible = true;
-    model.phase = 'playing';
+    model.encounterPhase = 'waves';
     model.activeSpawners = [];
     model.activeStopPointIdx = undefined;
     model.nextStopPointIdx = undefined;
   }
   finishActiveStopPointIfCleared(model);
-  return true;
-}
-
-export function updateStage22PartyFailure(
-  model: Stage22FlowModel,
-  alivePlayerCount: number,
-  deltaMs: number,
-): Stage22FlowPhase {
-  if (model.phase === 'failed' || model.phase === 'cleared') return model.phase;
-  if (alivePlayerCount > 0) {
-    if (model.phase === 'failure-pending') {
-      model.phase = 'playing';
-      model.failureDelayRemainingMs = 0;
-    }
-    return model.phase;
-  }
-  if (model.phase !== 'failure-pending') {
-    model.phase = 'failure-pending';
-    model.failureDelayRemainingMs = Stage22FailureDelayMs;
-    return model.phase;
-  }
-  model.failureDelayRemainingMs = Math.max(0, model.failureDelayRemainingMs - Math.max(0, deltaMs));
-  if (model.failureDelayRemainingMs === 0) model.phase = 'failed';
-  return model.phase;
-}
-
-export function tryCompleteStage22(
-  model: Stage22FlowModel,
-  playerInsideDoor: boolean,
-  upPressed: boolean,
-): boolean {
-  if (model.phase !== 'playing' || !model.doorVisible || !playerInsideDoor || !upPressed) return false;
-  model.phase = 'cleared';
-  model.failureDelayRemainingMs = 0;
-  model.unlockProgress = advanceLevelUnlockProgress(model.unlockProgress, 2, 3);
   return true;
 }
 

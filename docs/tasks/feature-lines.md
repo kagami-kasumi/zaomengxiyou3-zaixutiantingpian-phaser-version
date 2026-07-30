@@ -30,7 +30,7 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-157B | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | Stage 1-1 真怪物已闭合；当前只接入 Stage 1-2 Monster7/8/4/2 与攻击对象 | `GOAL-061 / TASK-SLICE-157B` 为唯一 Active |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期协议、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-157B | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 通用关卡生命周期已归档，恢复 Stage 1-2 Monster7/8/4/2 真动画接入 | `GOAL-061 / TASK-SLICE-157B` 为唯一 Active |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `GOAL-025` 保留为 Planned；既有任务定义不丢失 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
@@ -190,6 +190,10 @@
 2026-07-26 `TASK-SLICE-157A` 已归档：Stage 1-1 的 Monster30/3 共 40 个本体独立视觉帧、Monster30Bullet1 与 Monster3Bullet1/2 共 25 帧已接入唯一 `stage-11` bundle；共享只读描述保留原版 hold tick、BBDC offset、注册根、左右镜像、触发 tick 和末帧生命周期。正式路径已移除两怪 Arc/Text/单帧占位及矩形攻击提示，死亡动画在玩法对象移除后仍播放至原末帧；没有修改伤害、AI、门禁、物理或奖励 owner。专项、全系统、build、annotations、bundle 与 940×590 单/双人运行零 console 通过。功能线继续 Active，只激活 `GOAL-061 / TASK-SLICE-157B`。
 
 2026-07-26 用户复验确认 Stage 1-1 再次不能稳定通过“光门 + W”通关，并要求关卡公共行为统一。代码复核发现 1-1 使用独有的 X/Y 精确门矩形与两级完成状态，其余四关分别复制 X 距离、失败倒计时、`tryCompleteStageXX()` 和解锁提交，登记 `PG-012` 与同线 `GOAL-064 / TASK-ARCH-015`。用户进一步确认目标不是只统一现有五关，而是建立全部后续关卡默认复用的生命周期/结果协议；五关仅作为首批迁移与验收样本，特殊关卡通过有证据的窄策略扩展，不得另起整套 Flow。当前 `GOAL-061` 仍为唯一 Active；新 Goal 排在 `157B..D` 怪物视觉链关闭后、角色视觉逆向前。
+
+2026-07-30 用户明确要求立即完成 `TASK-ARCH-015` 的代码实现。该任务与原 `GOAL-061` 同属当前功能线，现将 `GOAL-064 / TASK-ARCH-015` 重排为唯一 Active，`GOAL-061 / TASK-SLICE-157B` 暂回 Planned；本次只治理通用关卡生命周期/结果协议及五关迁移，不夹带怪物视觉实现。
+
+2026-07-30 `TASK-ARCH-015` 已归档：新增纯逻辑 `LevelLifecycle` 作为所有后续关卡默认的通关、全员判负、幂等解锁和终态 owner，普通出口默认采用真实 bounds 重叠 + 对应上键，特殊关卡只能注入窄完成策略。Stage 1-1/1-2/1-3/2-1/2-2 首批迁移完成，原五套 `tryCompleteStageXX`/失败倒计时/解锁提交被删除；专项、全系统、build、structure、workflow、diff check 和 Stage 2-2 940×590 光门 + W 运行验收通过。功能线继续 Active，恢复 `GOAL-061 / TASK-SLICE-157B`。
 
 ## 关闭与切线
 

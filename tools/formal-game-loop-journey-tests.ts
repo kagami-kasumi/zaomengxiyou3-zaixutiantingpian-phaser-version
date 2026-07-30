@@ -47,10 +47,8 @@ import {
 } from '../src/systems/FormalMagicWeaponPageSystem';
 import { createPartyConfiguration } from '../src/systems/PartyConfigurationSystem';
 import { restoreGameState, type SaveStorage } from '../src/systems/SaveSystem';
-import {
-  completeStage11,
-  createStage11Flow,
-} from '../src/systems/Stage11FlowSystem';
+import { createStage11Flow } from '../src/systems/Stage11FlowSystem';
+import { createTestLevelCompletionAttempt } from './level-lifecycle-test-helpers';
 
 const repoRoot = process.cwd();
 
@@ -113,7 +111,7 @@ function assertEveryFeaturePageForBothOwners(playerCount: 1 | 2): void {
   assert.equal(saveActiveGame(storage, featureSave), true);
 
   const stage11 = createStage11Flow(2, featureSave.levelUnlockProgress);
-  assert.equal(completeStage11(stage11), true);
+  assert.equal(stage11.tryComplete(createTestLevelCompletionAttempt()), true);
   assert.deepEqual(stage11.unlockProgress, { unlockedStage: 1, unlockedLevel: 2 });
   assert.equal(
     saveActiveLevelUnlockProgress(

@@ -17,10 +17,9 @@ import {
   defeatStage12Enemy,
   Stage12FailureDelayMs,
   touchStage12StopPoint,
-  tryCompleteStage12,
-  updateStage12PartyFailure,
   updateStage12Spawners,
 } from '../src/systems/Stage12FlowSystem';
+import { createTestLevelCompletionAttempt } from './level-lifecycle-test-helpers';
 
 const expectedWaveCounts = [8, 11, 12, 13, 2] as const;
 
@@ -48,11 +47,11 @@ function testFiveStopPointsAndBossDoorGate(): void {
     }
   }
   assert.equal(flow.defeatedCount, 46);
-  assert.equal(tryCompleteStage12(flow, true, false), false);
-  assert.equal(tryCompleteStage12(flow, false, true), false);
-  assert.equal(tryCompleteStage12(flow, true, true), true);
+  assert.equal(flow.tryComplete(createTestLevelCompletionAttempt({ upPressed: false })), false);
+  assert.equal(flow.tryComplete(createTestLevelCompletionAttempt({ inside: false })), false);
+  assert.equal(flow.tryComplete(createTestLevelCompletionAttempt()), true);
   assert.deepEqual(flow.unlockProgress, { unlockedStage: 1, unlockedLevel: 3 });
-  assert.equal(tryCompleteStage12(flow, true, true), false, 'victory must be idempotent');
+  assert.equal(flow.tryComplete(createTestLevelCompletionAttempt()), false, 'victory must be idempotent');
 }
 
 function testWaveCannotFinishBeforeGenerationAndClear(): void {
@@ -72,17 +71,17 @@ function testWaveCannotFinishBeforeGenerationAndClear(): void {
 
 function testOneAndTwoPlayerFailure(): void {
   const single = createStage12Flow(1);
-  assert.equal(updateStage12PartyFailure(single, 0, 16), 'failure-pending');
-  assert.equal(updateStage12PartyFailure(single, 0, Stage12FailureDelayMs - 1), 'failure-pending');
-  assert.equal(updateStage12PartyFailure(single, 0, 1), 'failed');
+  assert.equal(single.updatePartyFailure(0, 16), 'failure-pending');
+  assert.equal(single.updatePartyFailure(0, Stage12FailureDelayMs - 1), 'failure-pending');
+  assert.equal(single.updatePartyFailure(0, 1), 'failed');
   assert.deepEqual(single.unlockProgress, { unlockedStage: 1, unlockedLevel: 1 });
 
   const double = createStage12Flow(2);
-  assert.equal(updateStage12PartyFailure(double, 1, 10_000), 'playing');
-  assert.equal(updateStage12PartyFailure(double, 0, 16), 'failure-pending');
-  assert.equal(updateStage12PartyFailure(double, 1, 500), 'playing');
-  assert.equal(updateStage12PartyFailure(double, 0, 16), 'failure-pending');
-  assert.equal(updateStage12PartyFailure(double, 0, Stage12FailureDelayMs), 'failed');
+  assert.equal(double.updatePartyFailure(1, 10_000), 'playing');
+  assert.equal(double.updatePartyFailure(0, 16), 'failure-pending');
+  assert.equal(double.updatePartyFailure(1, 500), 'playing');
+  assert.equal(double.updatePartyFailure(0, 16), 'failure-pending');
+  assert.equal(double.updatePartyFailure(0, Stage12FailureDelayMs), 'failed');
 }
 
 function testV3UnlockPersistencePreservesSave(): void {
