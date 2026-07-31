@@ -62,6 +62,11 @@
 | 命中框 | `Hitbox` | Value Object / Component | Combat | 攻击判定区域 | `AttackBox` |
 | 受击框 | `Hurtbox` | Value Object / Component | Combat | 被命中判定区域 | `BodyBox` |
 | 关卡 | `Level` | Entity / Config | Content | 一次可进入、刷怪、通关的流程 | `Stage`, `Mission` |
+| 可玩关卡运行时 | `PlayableLevelRuntime` | Runtime Facade | Content / Runtime | 统一正式关卡的队伍/玩家、镜头/HUD、调度、失败、出口、结果、保存、路由和幂等销毁；组合定义、遭遇和窄 adapter，不是万能基类 | `BaseLevel`, `StageRuntime`, `LevelSceneRuntime` |
+| 关卡定义 | `LevelDefinition` | Config | Content | 只读声明关卡 id、bundle、世界边界、出生点、门视觉引用、解锁与路由；不保存 Phaser 对象或单局状态 | `StageDefinition`, `LevelConfig` |
+| 关卡世界适配器 | `LevelWorldAdapter` | Adapter | Content / Runtime | 跨越 Phaser 世界显示对象边界，创建地形/门视图并暴露明确快照；不实现战斗或遭遇规则 | `StageWorldBridge`, `LevelWorldBridge` |
+| 关卡遭遇 | `LevelEncounter` | Runtime Contract | Content / Runtime | 编排停点、波次、Boss、机关与特殊入口并输出事件；不持有英雄/怪物内部算法 | `StageFlowSystem`, `LevelFlow`, `EncounterManager` |
+| 传送门视觉定义 | `TransferDoorVisualDefinition` | Config | Content | 只读表达门皮肤、帧、原点与 SWF provenance；显隐、碰撞、上键和完成提交属于公共运行时 | `StageDoorConfig`, `TransferDoorDefinition` |
 | 关卡解锁进度 | `LevelUnlockProgress` | Value Object / Save Data | Content / Save | 当前已解锁的最高关卡坐标；与英雄等级成长分离 | `StageProgress`, `LevelProgress` |
 | 关卡英雄移动运行时 | `LevelHeroMovementRuntime` | Runtime Model / System | Combat / Runtime | 统一持有正式关卡内各玩家的移动模型、上一帧输入与移动调度；关卡只提供平台和动态边界 | `StagePlayerRuntime`, `PartyMovementRuntime` |
 | 关卡生命周期 | `LevelLifecycle` | Runtime Class / System | Content / Runtime | 全部关卡默认复用的进行中、失败延迟、失败、通关、出口交互与幂等解锁 owner；特殊关卡只注入窄完成策略 | `StageLifecycle`, `StageFlowSystem`, `LevelStateSystem` |

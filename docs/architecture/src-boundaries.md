@@ -48,6 +48,7 @@
 ## 怪物与关卡组织
 
 - 详细设计、面向对象原则和传统模式映射见 `docs/architecture/设计模式.md`。
+- 可玩关卡共同运行职责、五关消费者迁移矩阵和静态防回填规则见 `docs/architecture/playable-level-runtime.md`。`PlayableLevelRuntime` 是共同初始化/调度/结果/销毁 owner，`LevelDefinition`、`LevelEncounter` 与窄 `LevelWorldAdapter` 只表达内容差异。
 - 关卡 Layout/Flow 负责地形、出生计划、波次、遭遇门禁和通关条件；不实现怪物索敌、移动、攻击、动画或掉落算法。
 - `LevelLifecycle` 是全部关卡的通用生命周期/结果基类：唯一持有 `playing / failure-pending / failed / cleared`、全员判负、默认出口重叠 + 上键、幂等解锁。`Stage*FlowModel` 只增加单关内容状态；Boss、波次或机关子状态不得混入通用终态。
 - 普通关卡使用默认出口策略；特殊入口、特殊胜利或无门关卡只能注入有证据、可独立测试的窄 `LevelCompletionStrategy`。不得新增同义 `tryCompleteStageXX`、关卡私有失败倒计时或 bridge 内直接解锁提交。

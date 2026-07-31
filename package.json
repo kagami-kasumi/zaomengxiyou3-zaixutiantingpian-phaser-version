@@ -61,7 +61,8 @@
     "generate:crafting-icon-catalog": "node tools/generate-crafting-icon-catalog.mjs",
     "generate:skill-native-assets": "node tools/generate-skill-native-assets.mjs",
     "generate:formal-soul-ui": "node tools/generate-formal-soul-ui.mjs",
-    "check:workflow": "node tools/validate-workflow.mjs && node tools/validate-asset-annotations.mjs",
+    "check:level-architecture": "node tools/check-playable-level-architecture.mjs",
+    "check:workflow": "node tools/validate-workflow.mjs && node tools/validate-asset-annotations.mjs && npm run check:level-architecture",
     "check:all": "npm run check:workflow && npm run check:structure && npm run check:code"
   },
   "dependencies": {

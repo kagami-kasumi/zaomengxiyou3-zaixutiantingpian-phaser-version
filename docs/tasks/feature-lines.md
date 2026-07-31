@@ -30,7 +30,7 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-ARCH-016A | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 用户复验再次命中门视觉/资源 owner 缺口；当前优先完成完整关卡框架，角色视觉暂停等待恢复 | `TASK-ARCH-016A` 为唯一 Ready；`016B..D` 与角色视觉链仍为同线 Planned |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-ARCH-016B | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 016A 已冻结合同和门禁；当前按合同试点迁移 Stage 1-2/1-3，角色视觉继续暂停 | `TASK-ARCH-016B` 为唯一 Ready；`016C..D` 与角色视觉链仍为同线 Planned |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `TASK-SETTINGS-064` 保留为 Planned；既有独立任务定义不丢失 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
@@ -212,6 +212,8 @@
 2026-07-31 `TASK-SETTINGS-069A` 已归档：确认 `assets/WuKong.swf` 为本体/装备/影分身及主要攻击对象 owner，`Role1Effect.swf` 持有 `lyfb` 两对象，`SpecialUI/WuKong.swf` 只是字节相同副本；本体 24 层、影分身、四普攻与全部已实现技能的 Symbol/id、帧序、hold、注册点 bounds、触发和销毁合同均已落盘。首次 compact 后只用已收集证据收尾，未派生新资源或进入实现；功能线继续 Active，唯一 Ready 切换为 `TASK-SLICE-158A`。
 
 2026-07-31 用户要求同时保留 Stage 1-1 光门缺失纹理的临时兼容修复，并将完整关卡类化提前到当前线最前；若最终框架覆盖临时路径，则由 `016D` 删除兼容借用。现将 `TASK-SLICE-158A` 退回 Planned，`TASK-ARCH-016A` 改为唯一 Ready，按 `016A → 016B → 016C → 016D → 158A` 串行；角色视觉证据不丢失，框架闭合后从 Role1 实现恢复。
+
+2026-07-31 `TASK-ARCH-016A` 已归档：`playable-level-runtime.md` 冻结 `PlayableLevelRuntime / LevelDefinition / LevelWorldAdapter / LevelEncounter / TransferDoorVisualDefinition` 边界、五关逐职责 owner/消费者/显示列表/逐状态矩阵、016B→C→D 迁移顺序和 1-1 character 45/41/44 兼容删除条件。新增增量静态门禁并接入 `check:workflow`：当前遗留只允许显式清单，禁止新建同义 Scene/World/Gameplay/Flow/Result 骨架；本 task 未修改运行时代码，PG-013 仍为待治理。功能线继续 Active，只激活 `TASK-ARCH-016B`。
 
 ## 关闭与切线
 

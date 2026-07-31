@@ -9090,3 +9090,29 @@ Goal：
 
 推荐任务：
 - `TASK-SLICE-158A`：只接入 Role1 本体/装备、HUD 映射、普攻、全部已实现技能、影分身与附属对象真视觉。
+
+### TASK-ARCH-016A
+
+- 完成日期：2026-07-31
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-ARCH-016B`）
+- 建立 `docs/architecture/playable-level-runtime.md`，冻结 `PlayableLevelRuntime`、`LevelDefinition`、`LevelWorldAdapter`、`LevelEncounter`、`TransferDoorVisualDefinition` 五个合同及其禁止边界。
+- 完成 Stage 1-1/1-2/1-3/2-1/2-2 的逐职责消费者矩阵、权威 owner、页面/关卡保留项、显示列表/矩阵/动态 child/门 provenance、逐状态迁移基线和 B→C→D 顺序。
+- 明确 Stage 1-1 临时兼容只到 016D：接入 level11 character 45/41/44 后删除 `Stage13AssetKeys.transferDoor` 引用及 `stage-1-common` 门纹理依赖。
+- 新增 `check:level-architecture`：以显式遗留 allowlist 阻止新增同义 Scene/World/Gameplay/Flow/Result 骨架，要求未来正式 Scene 消费公共 Runtime，并用正反样本自测；门禁接入 `check:workflow`。
+- 更新 `src-boundaries` 和统一语言；本 task 未修改运行时代码、视觉资源、关卡内容或存档 schema，PG-013 保持“已确认，待治理”。
+
+更新文件：
+- `docs/architecture/playable-level-runtime.md`
+- `docs/architecture/src-boundaries.md`
+- `docs/domain/glossary.md`
+- `tools/check-playable-level-architecture.mjs`
+- `package.json`
+- PG-013、机制/切片、功能线覆盖、看板/历史
+
+验证：
+- `npm run check:structure` 通过（仅 9 个既有 warning；未修改这些 warning 文件）。
+- `npm run check:level-architecture` 通过（合同、自测与增量防回填）。
+- `npm run check:workflow` 与 `git diff --check` 通过。
+
+推荐任务：
+- `TASK-ARCH-016B`：建立公共 Runtime 与 `TransferDoorView`，迁移 Stage 1-2/1-3，并按 ADR 收缩遗留 allowlist。
