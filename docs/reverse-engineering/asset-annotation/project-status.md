@@ -2,14 +2,14 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象、炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录以及 Stage 1-1/1-2/1-3 真场景视觉资源已完成接入；Stage 1 七个实际怪物本体、16 个攻击/效果对象和 3 个碰撞根已完成选择性派生与实现输入标注，其中 Stage 1-1/1-2 六怪与 12 对象已接入；Stage 2-1/2-2 怪物真视觉已接入。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1 四组普攻附属对象已接入，本体/装备、影分身和全部已实现技能对象已完成精确来源与实现输入标注；炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录以及 Stage 1-1/1-2/1-3 真场景视觉资源已完成接入；Stage 1/2 怪物真视觉已接入。
 
 ## 范围覆盖
 
 | 范围 | 标注数 | 结果 | 批次 |
 | --- | ---: | --- | --- |
-| 五角色普攻附属对象和本体动作 | 38 | Role1 4 条已接入；33 条待定位；Role5 枪形态 1 条保持 unknown | `role1-normal-attack.md`、`hero-normal-attacks.md` |
-| 已实现英雄技能效果 key | 76 | 语义映射已确认，待按角色包定位和选择性导出 | `hero-skill-effects.md` |
+| 五角色普攻附属对象和本体动作 | 39 | Role1 四普攻已接；本体/装备与新增影分身精确来源已确认并待接入；Role2..5 仍待定位，Role5 枪形态 1 条保持 unknown | `role1-normal-attack.md`、`hero-normal-attacks.md`、`role1-combat-visuals.md` |
+| 已实现英雄技能效果 key | 76 | Role1 14 个 key 的精确包/Symbol/时间轴已确认并待接入；Role2..5 仍待按角色包定位 | `hero-skill-effects.md`、`role1-combat-visuals.md` |
 | 已实现法宝效果 key | 10 | 语义映射已确认，待检查 `MagicWeapon*.swf` 等恢复包 | `magic-weapon-effects.md` |
 | 已实现宠物技能效果 key | 24 | 语义映射已确认，待定位源符号；6 条保留现代占位名差异 | `pet-skill-effects.md` |
 | Stage 1 怪物视觉 | 26 | 7 本体 atlas、16 攻击/效果对象、3 碰撞根均已选择性派生；`157A/B` 已接入 18 条，余 8 条由 Stage 1-3 与最终 owner 回归处理 | `stage1-monsters.md`、`monster30.md`、`../stage1-monster-visuals-index.md` |
@@ -21,7 +21,7 @@
 | UI 与配方图标 | 335 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条、地图服务四页根 UI、丹药页 11 条、商城页 18 条、设置页 2 条、任务页 13 条以及关卡五入口/设置/帮助 16 条深层资源已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`../map-service-ui-index.md`、`../immortality-ui-index.md`、`../shop-ui-index.md`、`../settings-ui-index.md`、`../task-ui-index.md`、`../stage-feature-entry-index.md` |
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 
-总计 998 条标注：819 条 `ready`、28 条 `derived-ready`、1 条 `export-ready`、143 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；997 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
+总计 999 条标注：824 条 `ready`、39 条 `derived-ready`、1 条 `export-ready`、128 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；998 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
 
 ## 人工待办
 

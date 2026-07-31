@@ -27,7 +27,7 @@
 | 已完成关卡怪物动画 | `TASK-SETTINGS-068`、`TASK-SLICE-157A..D` 与父任务 157 已闭合：Stage 1 七本体/167 帧、16 对象/171 帧统一由 `stage-1-monsters` 持有；Stage 2-1 94/132、Stage 2-2 36/104 无回归；五关重入与 Arc/Text 防回填门禁通过 | 已满足；既有逐状态图与 157D 的 940×590 Stage 2-2 单/双人零 console 证据共同承载 | 已完成 |
 | 通用关卡生命周期/结果协议 | `TASK-ARCH-015` 已统一逻辑终态；`TASK-SLICE-161` 已接入 330/313 原版 GameWin/GameFail、三个按钮三态、四个成绩字段与唯一 `LevelResultView`，五关私有黑框/ResultBridge 全部删除 | 已满足；后续关卡必须同时消费公共生命周期与公共结果 presenter，特殊差异只通过窄配置/回调扩展 | 已完成；后续怪物视觉 Goal 继续消费公共 owner |
 | 通用可玩关卡运行框架 | 五关只共享局部生命周期/结果/移动/战斗 owner；四个正式 Scene/World/Gameplay 骨架仍重复，1-1 寄居 TestScene 且借用 1-3 门静态图；PG-013 已确认 | 冻结五关共性/差异，以组合式 Runtime/Definition/Encounter/adapter 分批迁移；门视觉行为共享而皮肤可替换，关卡不承载实体内部规则 | `TASK-ARCH-016A..D` Planned；排在怪物视觉链后、角色视觉逆向前 |
-| 五角色 UI 与技能动画 | 五角色技能行为已实现，Role1 部分普攻真资源已接入；`hero-combat-visuals-index.md` 已冻结共享矩阵/显示列表/六段证据门禁，并确认资源跨本体/特效/SpecialUI/武器包 | `069A..E` 逐角色闭合本体动作、战斗 UI、普攻、主动技能、影分身/附属对象、命中/消散矩阵；`158A..E` 再逐角色实现 | `TASK-SETTINGS-069` 与 `TASK-SLICE-158` 均为 Split；当前 `069A` |
+| 五角色 UI 与技能动画 | 五角色技能行为已实现；`hero-combat-visuals-index.md` 已冻结共享门禁，`role1-combat-visuals-index.md` 已闭合悟空本体/装备/影分身/普攻/技能及 HUD 映射，影响 158A 的未知为零 | `069B..E` 继续逐角色闭合证据；`158A..E` 逐角色实现，禁止以逻辑完成替代视觉完成 | `TASK-SETTINGS-069` 与 `TASK-SLICE-158` 均为 Split；当前 `158A` |
 | 本地存档 | 六槽、V1..V6 迁移、P1/P2、当前槽与 `localStorage` 已实现 | 不新增重复 owner；在所有新页面/动画接入后证明设置/任务/商城/丹药的持久字段边界、功能事务、关卡进度和双方数据重启后保持 | `TASK-SLICE-159`；必须排在证据生成的全部实现 task 之后 |
 
 ## 父任务拆分
@@ -39,7 +39,7 @@
 - `TASK-SLICE-158`：五角色 UI/技能动画父任务，保持 `Split`；至少按角色或互不共享的资源族拆分，禁止一次接入五角色。
 - `TASK-SETTINGS-069`：五角色视觉逆向父任务已触发 Split；共享模板落入 `hero-combat-visuals-index.md`，调查固定拆为 `069A..E`，实现固定拆为 `158A..E`，按 Role1→Role5 串行。
 - `TASK-ARCH-016`：通用可玩关卡框架父任务，保持 `Split`；`016A` 审计/合同，`016B` Stage 1-2/1-3 试点，`016C` Stage 2 迁移，`016D` Stage 1-1/TestScene 与未来模板闭合。
-- 背包前置、地图四服务页、关卡五入口、怪物视觉证据与五关真怪物、通用关卡生命周期与公共原版结果页均已归档；当前唯一 Ready 为 `TASK-SETTINGS-069A`。
+- 背包前置、地图四服务页、关卡五入口、怪物视觉证据与五关真怪物、通用关卡生命周期、公共原版结果页及 Role1 视觉证据均已归档；当前唯一 Ready 为 `TASK-SLICE-158A`。
 
 ## 关闭检查
 

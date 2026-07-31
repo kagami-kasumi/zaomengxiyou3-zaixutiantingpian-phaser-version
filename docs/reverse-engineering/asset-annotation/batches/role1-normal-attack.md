@@ -8,7 +8,7 @@
 - 资源族：`Role1Bullet1/3/4/5`。
 - 影响的现代切片/代码：Role1 普攻视觉附属对象；stableKey 已在 `src/assets/AssetManifest.ts` 登记。
 - 本轮包含：AS3 动作映射、现代 stableKey、现有导出可用性和唯一下一步。
-- 本轮排除：Role1 本体动作、技能 `Role1Bullet6+`、音效、真素材接入和帧拆分。
+- 本批原始范围排除 Role1 本体动作与技能；这些项目现已由 `role1-combat-visuals.md` / `role1-combat-visuals-index.md` 独立闭合，不反向扩大本批。
 
 ## 输入和证据
 
@@ -33,7 +33,7 @@
 
 当前无人工消歧或视觉验收动作。
 
-Agent 可从 `local-resources/regima/source/restored-swfs/assets/WuKong.swf`、`Role1Effect.swf` 等候选包开始窄查；只有 CLI 无法消歧或需要视觉验收时才请求人工。
+069A 已从 `local-resources/regima/source/restored-swfs/assets/WuKong.swf` 复核四组对象的创建 tick、帧数与 bounds；当前无需人工消歧。
 
 ## 去向
 

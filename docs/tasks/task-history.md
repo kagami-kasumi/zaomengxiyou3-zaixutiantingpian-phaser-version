@@ -9067,3 +9067,26 @@ Goal：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
 
 
+### TASK-SETTINGS-069A
+
+- 完成日期：2026-07-31
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 Active，下一 task 为 `TASK-SLICE-158A`）
+- 确认 `assets/WuKong.swf` 持有 Role1 14 本体、10 装备、影分身、普攻与主要技能对象；`assets/Role1Effect.swf` 只补 `lyfb` 两对象，`SpecialUI/WuKong.swf` 是本体包字节相同副本。
+- 建立 `role1-combat-visuals-index.md`：闭合 200×200 cell 动作行、hold tick、方向 origin、死亡立即移除、本体/装备 depth、名字、影分身三秒生命周期，以及全部已实现技能的 Symbol/id/帧数/bounds/触发/销毁矩阵。
+- 原位更新 Role1 普攻、技能和本体/影分身标注；四普攻保持 ready，其余精确资源为 derived-ready/integrate。行为仍为已复现，真视觉接入仍待 158A。
+- 冻结 940×590 Role1 P1 单人及 Role1 P2 合法双人、左右方向、动作/技能全生命周期与 HUD 镜像的并排/叠图计划；允许的现代可见例外为空。
+- 实际发生一次 compact；此前证据与资源派生已完成，之后仅闭合既有导出的 `hyjj` 末帧自移除事实、回写文档和运行既定检查，未扩展其他角色或实现。
+
+更新文件：
+- `docs/reverse-engineering/role1-combat-visuals-index.md`
+- `docs/reverse-engineering/asset-annotation/annotations/role1-normal-attack.csv`
+- `docs/reverse-engineering/asset-annotation/annotations/hero-skill-effects.csv`
+- `docs/reverse-engineering/asset-annotation/annotations/hero-normal-attacks-remaining.csv`
+- `docs/reverse-engineering/asset-annotation/batches/role1-combat-visuals.md`
+- 机制、切片、功能线覆盖、看板/历史与 PG-005/007/008 反馈
+
+验证：
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次任务最终检查。
+
+推荐任务：
+- `TASK-SLICE-158A`：只接入 Role1 本体/装备、HUD 映射、普攻、全部已实现技能、影分身与附属对象真视觉。

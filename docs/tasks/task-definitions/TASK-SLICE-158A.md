@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Ready）
 
 目标机制/切片：
 
@@ -24,7 +24,7 @@
 
 输入资料：
 
-- `TASK-SETTINGS-069A` 的 Role1 矩阵、恢复包选择性导出、现有 Role1 资源/manifest/动画桥。
+- `role1-combat-visuals-index.md` 的 Role1 矩阵、恢复包选择性导出、现有 Role1 资源/manifest/动画桥。
 
 输出产物：
 
@@ -59,4 +59,3 @@ UI 原生化合同：
 推荐后续任务：
 
 - `TASK-SETTINGS-069B`。
-
