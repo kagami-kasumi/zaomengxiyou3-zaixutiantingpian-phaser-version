@@ -30,6 +30,7 @@ Start from `AGENTS.md` and `TASK_OUTLINE.md`. For formal gameplay reverse-engine
 - `docs/workflow/agent-protocol.md`
 - `docs/workflow/reverse-engineering-protocol.md`
 - `docs/tasks/task-board.md`
+- the current `docs/tasks/task-definitions/TASK-*.md`
 - `docs/reverse-engineering/mechanics-index.md`
 - `docs/tasks/vertical-slices.md`
 - `local-resources/regima/legacy-extraction/README_extract.md`

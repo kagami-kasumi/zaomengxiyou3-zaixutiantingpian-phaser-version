@@ -1,6 +1,6 @@
 # 功能条线台账
 
-本文是完整玩家系统范围、激活状态和关闭证据的权威入口。功能条线是对用户作出的完整交付承诺；`goal-board.md` 的 Goal 是一次 `/goal` 的交接边界；task 是最小验收单位；纵向切片只提供阶段验证。Goal/task/切片都不能单独证明条线完成。
+本文是完整玩家系统范围、激活状态和关闭证据的权威入口。功能条线是对用户作出的完整交付承诺；task 是一次 `/goal` 的交接边界和最小验收单位；纵向切片只提供阶段验证。task/切片都不能单独证明条线完成。
 
 ## 调度硬规则
 
@@ -30,8 +30,8 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期协议、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-157C | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | Stage 1-1/1-2 真怪物已闭合，继续 Stage 1-3 Monster5 与共享怪物复用 | `GOAL-062 / TASK-SLICE-157C` 为唯一 Active |
-| LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `GOAL-025` 保留为 Planned；既有任务定义不丢失 |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-157C | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | Stage 1-1/1-2 真怪物已闭合，继续 Stage 1-3 Monster5 与共享怪物复用 | `TASK-SLICE-157C` 为唯一 Ready；`TASK-ARCH-016A..D` 已登记为同线 Planned |
+| LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `TASK-SETTINGS-064` 保留为 Planned；既有独立任务定义不丢失 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
 
@@ -199,7 +199,9 @@
 
 2026-07-30 `TASK-SLICE-161` 已归档：恢复 `OtherMat1.swf` character 330/313 的原版 GameWin/GameFail 根视觉、三个按钮三态与四个动态成绩字段，建立唯一 `LevelResultView` 并迁移 Stage 1-1/1-2/1-3/2-1/2-2；删除四个逐关 ResultBridge 及 1-1 私有黑框。专项、全系统、build、structure、annotations、workflow、diff check 与 940×590 成功/失败页零 console 通过。功能线继续 Active，恢复 `GOAL-061 / TASK-SLICE-157B`。
 
-2026-07-31 `TASK-SLICE-157B` 已归档：Stage 1-2 Monster2/4/7/8 的 96 个本体独立视觉帧与九个攻击/效果对象 122 帧已接入 `stage-12` bundle，正式路径移除 Arc/Text 占位；Monster7 hit2 保持不可达，Monster8 hit2 复用四帧完成八 tick，Monster4 hit2 开场对象保持 disabled，Monster2 hit2 在 frame14 自移除。共享物理、战斗、奖励、门禁、`LevelLifecycle` 与 `LevelResultView` owner 未改；专项、全系统、build、structure、annotations、workflow、diff check 与 940×590 单/双人正式路径零 console 通过。功能线继续 Active，只激活 `GOAL-062 / TASK-SLICE-157C`。
+2026-07-31 `TASK-SLICE-157B` 已归档：Stage 1-2 Monster2/4/7/8 的 96 个本体独立视觉帧与九个攻击/效果对象 122 帧已接入 `stage-12` bundle，正式路径移除 Arc/Text 占位；Monster7 hit2 保持不可达，Monster8 hit2 复用四帧完成八 tick，Monster4 hit2 开场对象保持 disabled，Monster2 hit2 在 frame14 自移除。共享物理、战斗、奖励、门禁、`LevelLifecycle` 与 `LevelResultView` owner 未改；专项、全系统、build、structure、annotations、workflow、diff check 与 940×590 单/双人正式路径零 console 通过。功能线继续 Active，只激活 `TASK-SLICE-157C`。
+
+2026-07-31 用户进一步确认“关卡类化”不能停在光门、生命周期或结果页局部抽取，而应治理所有关卡共同运行职责按关复制，并禁止关卡承载英雄/怪物动画、AI、伤害、物理和奖励内部规则。登记 `PG-013` 与同线 Split 父任务 `TASK-ARCH-016`，拆为 `TASK-ARCH-016A..D`：先审计合同，再以 Stage 1-2/1-3 试点、迁移 Stage 2，最后迁移 Stage 1-1/TestScene 并建立未来关卡模板。当前 `TASK-SLICE-157C` 保持唯一 Ready，不抢占 WIP。
 
 ## 关闭与切线
 

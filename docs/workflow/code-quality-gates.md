@@ -28,12 +28,12 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 - Effectiveness review must cover both remaining legacy instances and new-code recurrence. Passing system tests alone is not evidence that a governance solution worked.
 - Handoffs must report which `PG-*` records were applicable and updated, or state that the applicability scan found no matching problem.
 
-## Goal Size Budget Gate
+## Task Size Budget Gate
 
-- Every unfinished task definition must declare `规模预算` and an actionable `拆分触发`; new Goals must expect 0 context compactions.
-- A Goal may contain at most two main work packages and two independently closable acceptance batches. A task that exceeds either cap must be split before activation.
-- The first compact during Goal execution is a size-overrun signal: finish only the current check, leave a safe handoff, split the remaining work, and do not open another resource family or implementation package.
-- `npm run check:workflow` validates these fields, rejects legacy “最多 1 次” budgets on unfinished Goals, and rejects completed Goals left on `goal-board.md`.
+- Every unfinished task definition must declare `规模预算` and an actionable `拆分触发`; new tasks must expect 0 context compactions.
+- A task may contain at most two main work packages and two independently closable acceptance batches. A task that exceeds either cap must be split before activation.
+- The first compact during task execution is a size-overrun signal: finish only the current check, leave a safe handoff, split the remaining work, and do not open another resource family or implementation package.
+- `npm run check:workflow` validates these fields, rejects embedded definitions in the lightweight board, and rejects missing, orphaned, or mislinked task-definition files.
 
 ## Reverse Engineering Evidence Gate
 

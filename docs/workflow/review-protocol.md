@@ -39,7 +39,7 @@
 - 入口规则：`AGENTS.md`、`TASK_OUTLINE.md`。
 - 代码质量：`docs/workflow/code-quality-gates.md`。
 - 涉及 `src/` 边界：`docs/architecture/src-boundaries.md`。
-- 涉及具体 task：`docs/workflow/agent-protocol.md`、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`。
+- 涉及具体 task：`docs/workflow/agent-protocol.md`、`docs/tasks/task-board.md`、对应 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`。
 - 涉及已有评审：对应 `docs/评审/*.md`。
 - 涉及历史决策：只有需要追溯时读取 `docs/tasks/task-history.md`。
 
@@ -144,7 +144,7 @@
 ## 整改落点
 
 - 小问题：评审中直接列为“可直接修复”。
-- 明确游戏复现工作：进入 `docs/tasks/task-board.md`，按 `docs/workflow/task-generation.md` 生成或拆分 task。
+- 明确游戏复现工作：在 `docs/tasks/task-board.md` 建立索引、在 `docs/tasks/task-definitions/` 建立完整合同，并按 `docs/workflow/task-generation.md` 生成或拆分 task。
 - 代码质量门禁或协作流程问题：进入 `docs/workflow/`，并更新 `docs/workflow/governance-log.md`。
 - 已完成 task 的事实修正：按历史追溯规则读取并更新 `docs/tasks/task-history.md`。
 

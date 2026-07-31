@@ -53,9 +53,9 @@
 
 适用：用户指定 task id、要求执行 task、玩法逆向、修改 `src/` 实现玩法、生成/拆分/重排游戏任务、完成一个可交接切片。
 
-规则：按阅读分流补齐必读文档；普通执行一次只处理一个 task，`/goal` 一次只处理 `docs/tasks/goal-board.md` 的唯一 `Active` Goal 包。新 Goal 默认只绑定一个 task、预计 0 次上下文压缩；执行前必须核对 task 的主工作包、验收批次和拆分触发，超限先拆分。功能线仍保持唯一 `Active` 并跨 Goal 连续；任务完成必须留下可交接产物，并更新功能线、覆盖台账和 task 状态；完成 Goal 从 `goal-board.md` 移除。详细流程见 `docs/workflow/agent-protocol.md`。
+规则：按阅读分流补齐必读文档；普通执行和 `/goal` 一次都只处理 `docs/tasks/task-board.md` 中唯一 `Ready` task。执行时只读取该 task 在 `docs/tasks/task-definitions/` 下的独立定义，不全文读取其他未完成 task。新 task 默认预计 0 次上下文压缩；执行前必须核对主工作包、验收批次和拆分触发，超限先拆分。功能线仍保持唯一 `Active` 并跨 task 连续；任务完成必须留下可交接产物，并更新功能线、覆盖台账和 task 状态。详细流程见 `docs/workflow/agent-protocol.md`。
 
-用户使用 `/goal` 时，先恢复唯一 `Active` 功能线，再只执行 `goal-board.md` 的唯一 `Active` Goal。Goal 完成后激活同线下一 Goal 并结束当次 `/goal`，不在同一次请求中连续跨 Goal；遇到阻塞仍只治理本线阻塞，不切换系统。第一次 compact 即视为规模超限信号：只结束正在运行的检查、回写安全检查点、拆分剩余工作并交接，不再读取新资料族、派生新资源或新增实现。收尾必须明确给出下一 Goal、Git 提交/上传建议和对话管理建议。
+用户使用 `/goal` 时，先恢复唯一 `Active` 功能线，再只执行唯一 `Ready` task。task 完成后激活同线下一 task 并结束当次 `/goal`，不在同一次请求中连续跨 task；遇到阻塞仍只治理本线阻塞，不切换系统。第一次 compact 即视为规模超限信号：只结束正在运行的检查、回写安全检查点、拆分剩余工作并交接，不再读取新资料族、派生新资源或新增实现。收尾必须明确给出下一 task、Git 提交/上传建议和对话管理建议。
 
 ### 脚手架维护
 
@@ -68,14 +68,14 @@
 | 任务类型 | 额外必读文档 |
 | --- | --- |
 | 轻量请求：解释、typo、注释、单个常量、明显配置、小范围排错 | 无。只在改动涉及具体系统时再读相关文件。 |
-| 游戏任务执行：用户指定 task 或使用 `/goal` | `docs/workflow/agent-protocol.md`、`docs/tasks/feature-lines.md`、`docs/tasks/goal-board.md`、当前线覆盖台账、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
+| 游戏任务执行：用户指定 task 或使用 `/goal` | `docs/workflow/agent-protocol.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、当前 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | 玩法逆向：AS3、调用链、行为合同 | 游戏任务执行必读集 + `docs/workflow/reverse-engineering-protocol.md` + `local-resources/regima/legacy-extraction/README_extract.md` + 对应局部与共享 AS3 路径；视觉/空间结论还必须补 SWF 几何和坐标语义 |
 | 视觉资源逆向：symbol、位图、时间轴、资源族 | 游戏任务执行必读集 + `docs/reverse-engineering/evb-extraction-report.md` + `docs/reverse-engineering/asset-annotation/workflow.md` + `local-resources/regima/source/restored-swfs/` 中的目标源包；旧 `local-resources/regima/legacy-extraction/` 仅作交叉对照 |
 | 代码实现：修改 `src/` | 游戏任务执行必读集 + `docs/architecture/src-boundaries.md` + 对应 `src/` 文件 |
 | 工程评审：评审代码、阶段成果或评审文档 | `docs/workflow/review-protocol.md`，涉及代码质量再读 `docs/workflow/code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md` |
 | 问题治理：确认或治理系统性工程问题 | `docs/workflow/problem-governance.md`；若问题来自评审，再读 `docs/workflow/review-protocol.md`；若涉及代码质量，再读 `docs/workflow/code-quality-gates.md` |
 | 新增核心领域命名、系统、实体、类型或数据模型 | `docs/domain/glossary.md`、`docs/domain/ubiquitous-language-process.md` |
-| 新增/拆分/重排游戏任务 | `docs/workflow/task-generation.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
+| 新增/拆分/重排游戏任务 | `docs/workflow/task-generation.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、涉及的 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | AI 工作流、任务体系、文档职责或脚手架维护 | `docs/workflow/README.md`、`docs/workflow/document-map.md`、`docs/workflow/governance-log.md` |
 | 追溯历史、修改已完成任务、处理历史依赖 | `docs/tasks/task-history.md` |
 

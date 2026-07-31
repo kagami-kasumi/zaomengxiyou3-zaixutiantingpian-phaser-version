@@ -30,6 +30,7 @@ Start from `AGENTS.md` and `TASK_OUTLINE.md`. For code implementation, also read
 
 - `docs/workflow/agent-protocol.md`
 - `docs/tasks/task-board.md`
+- the current `docs/tasks/task-definitions/TASK-*.md`
 - `docs/reverse-engineering/mechanics-index.md`
 - `docs/tasks/vertical-slices.md`
 - `docs/architecture/src-boundaries.md`

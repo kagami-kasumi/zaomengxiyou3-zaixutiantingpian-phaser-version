@@ -9,17 +9,15 @@
   - 维护目标、路线、阶段和任务类型。
   - 不维护具体任务状态。
 - `docs/tasks/task-board.md`
-  - 游戏任务看板。
-  - 只维护未完成的游戏逆向、现代架构、纵向切片、资源和实现 task；每个 task 必须属于一个功能条线。
+  - 未完成游戏任务的轻量状态索引。
+  - 只维护 task id、状态、功能条线、摘要、下一步和独立定义链接；每个 task 必须属于一个功能条线。
   - 不记录 AI 工作流治理任务。
+- `docs/tasks/task-definitions/TASK-*.md`
+  - 单个未完成 task 的完整执行合同。
+  - 维护输入、输出、完成定义、规模预算、拆分触发、验收和禁止范围；执行时只读取当前 task 文件。
 - `docs/tasks/feature-lines.md`
   - 完整玩家系统的范围、唯一 Active 条线、当前 task、阻塞和关闭证据的权威台账。
   - 严格单线 `WIP=1`；task/切片完成不能隐式关闭功能线。
-- `docs/tasks/goal-board.md`
-  - 一次 `/goal` 的执行边界与交接状态权威台账。
-  - 只维护未完成 Goal，以及唯一 Active Goal、绑定 task、交付边界、预计 0 次 compact 的预算和规模预检。
-  - Goal 完成后移出看板；完成事实随 task 归档到 `task-history.md`，不保留完成摘要或“下一 Goal”字段。
-  - Goal 完成后停止当次 `/goal`；功能线仍可在多个 Goal 之间保持 Active。
 - `docs/tasks/feature-line-coverage/LINE-*.md`
   - 单条功能线的权威内容全集、覆盖矩阵、缺口和关闭检查。
   - 为连续 task 生成提供输入，不代替 task-board 的执行状态。
@@ -65,10 +63,10 @@
   - 不记录具体游戏任务状态。
 - `docs/workflow/task-generation.md`
   - 标准游戏任务生成规范。
-  - 说明如何从机制缺口、切片缺口或工程基础缺口生成 Goal 包与任务。
+  - 说明如何从机制缺口、切片缺口或工程基础缺口生成、拆分和调度任务。
 - `docs/workflow/agent-protocol.md`
   - Agent 详细执行协议。
-  - 维护正式游戏 task、`/goal` 管理、代码任务、Git、对话收束、任务生成和统一语言的细则，避免 `AGENTS.md` 过长。
+  - 维护正式游戏 task、`/goal` 的 Ready-task 语义、代码任务、Git、对话收束、任务生成和统一语言的细则，避免 `AGENTS.md` 过长。
 - `docs/workflow/code-quality-gates.md`
   - AI 代码质量门禁。
   - 规定自动验证、系统测试触发条件、结构性门禁（文件大小上限、代码重复、scene 耦合度）、场景层边界和 Git 工作要求。

@@ -5,7 +5,7 @@
 - 用户确认目标：把灵魂余额、背包/物品展示、原生按钮与关闭生命周期纳入正式组件化治理，并按多个 TASK 分批完成。
 - 本线治理共享边界、试点迁移、已知消费者迁移和防复发门禁，不改变原版页面可见外观、业务规则或存档事实。
 - 组件化只共享稳定行为、只读投影与生命周期；每个页面继续持有自己的原生 Symbol、皮肤、矩阵、坐标、命中区和专属流程。
-- 本线当前为 `Planned`。唯一 Active 仍是 `LINE-PRE-STAGE-2-3-COMPLETION / GOAL-047`，不得提前执行本线代码迁移。
+- 本线当前为 `Planned`。唯一 Active 仍是 `LINE-PRE-STAGE-2-3-COMPLETION`，不得提前执行本线代码迁移。
 
 ## 权威输入
 
@@ -41,12 +41,12 @@
 
 ## 调度
 
-1. `GOAL-051 / TASK-ARCH-014A`：审计存量候选和消费者，冻结组件分层、命名、页面保留项、provenance、迁移矩阵与静态门禁。
-2. `GOAL-052 / TASK-ARCH-014B`：收敛 SoulBalance 组件族并迁移全部已知灵魂消费者。
-3. `GOAL-053 / TASK-ARCH-014C`：建立 NativeButton/CloseLifecycle 组件族，在代表性 overlay 与整页页面试点。
-4. `GOAL-054 / TASK-ARCH-014D`：建立 inventory item cell/grid/pagination/selection/tooltip 的最小基础组件。
-5. `GOAL-055 / TASK-ARCH-014E`：迁移正式背包页，回归 431 身份、428 真图标、P1/P2 与 V6。
-6. `GOAL-056 / TASK-ARCH-014F`：按冻结矩阵迁移嵌入式消费者，完成跨页面旅程、防回填和整线关闭审计。
+1. `TASK-ARCH-014A`：审计存量候选和消费者，冻结组件分层、命名、页面保留项、provenance、迁移矩阵与静态门禁。
+2. `TASK-ARCH-014B`：收敛 SoulBalance 组件族并迁移全部已知灵魂消费者。
+3. `TASK-ARCH-014C`：建立 NativeButton/CloseLifecycle 组件族，在代表性 overlay 与整页页面试点。
+4. `TASK-ARCH-014D`：建立 inventory item cell/grid/pagination/selection/tooltip 的最小基础组件。
+5. `TASK-ARCH-014E`：迁移正式背包页，回归 431 身份、428 真图标、P1/P2 与 V6。
+6. `TASK-ARCH-014F`：按冻结矩阵迁移嵌入式消费者，完成跨页面旅程、防回填和整线关闭审计。
 
 ## 明确排除
 

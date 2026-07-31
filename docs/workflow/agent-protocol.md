@@ -7,41 +7,40 @@
 本项目依靠文档维护跨对话记忆。只有正式游戏 task 才执行完整看板流程。
 功能线调度严格保持 `WIP=1`：当前完整系统关闭前不得切线，遇到阻塞只生成和处理同线解除任务。
 
-1. 先读 `AGENTS.md`、`TASK_OUTLINE.md`、`docs/tasks/feature-lines.md` 和 `docs/tasks/goal-board.md`，确认唯一 `Active` 功能线与唯一 `Active` Goal，再按冷启动阅读分流读取该 task 的必读文档。
-2. 如果用户指定了 task id，先确认它属于当前 `Active` 功能线。若它不属于当前 `Active` Goal，必须先根据用户明确指令重排同线 Goal 台账，不得绕过 Goal 直接执行；非激活线 task 则必须继续当前线，或由用户明确放弃/重定向完整目标并同步台账。
+1. 先读 `AGENTS.md`、`TASK_OUTLINE.md`、`docs/tasks/feature-lines.md` 和轻量 `docs/tasks/task-board.md`，确认唯一 `Active` 功能线与唯一 `Ready` task，再只读取当前 `docs/tasks/task-definitions/TASK-*.md` 和冷启动分流要求的资料。
+2. 如果用户指定了 task id，先确认它属于当前 `Active` 功能线。若它不是唯一 `Ready` task，必须先根据用户明确指令重排同线 task 状态；不得绕过单线 WIP 执行其他 task。非激活线 task 必须继续等待，或由用户明确放弃/重定向完整目标并同步台账。
 3. 如果用户要求执行 task 但没有指定 task id，只能选择看板“当前推荐”的同线 `Ready` task；不得从其他功能线的 `Planned` task 中挑选。
-4. 开始执行前，确认该 task 有独立的“完成定义”。如果没有，先按 `docs/workflow/task-generation.md` 在 `task-board.md` 为它补齐完成定义，再执行。
+4. 开始执行前，确认该 task 在 `task-definitions/` 中有独立的“完成定义”。如果没有，先按 `docs/workflow/task-generation.md` 补齐独立定义和索引链接，再执行。
 5. 如果任务实际过大，不硬做完；按 `docs/workflow/task-generation.md` 把原任务标为 `Split`，拆出更小子任务，只完成其中一个可验收子任务。
-6. 任务结束时必须更新 Goal 状态、功能线覆盖台账、`task-board.md` 和同线推荐后续任务；条线未关闭时禁止推荐其他系统。
-7. 如果任务完成，把该任务从 `task-board.md` 移到 `docs/tasks/task-history.md`，并在历史中记录完成内容、产物和必要验证。
+6. 任务结束时必须更新功能线覆盖台账、`task-board.md`、当前独立定义和同线推荐后续任务；条线未关闭时禁止推荐其他系统。
+7. 如果任务完成，把该任务从 `task-board.md` 和 `task-definitions/` 移到 `docs/tasks/task-history.md`，并在历史中记录完成内容、产物和必要验证。
 8. 逆向任务必须遵循 `docs/workflow/reverse-engineering-protocol.md`，留下局部证据、共享调用链、适用的 SWF 几何/坐标语义、可观察合同、证据分级和验证计划，并同步更新 `docs/reverse-engineering/mechanics-index.md`。
 9. 实现任务还必须同步更新 `docs/tasks/vertical-slices.md`，并更新 `mechanics-index.md` 的复现状态。
 10. task 完成只代表工作单元归档；只有 `feature-lines.md` 的完整关闭合同满足后，才能关闭功能线并切换到下一条线。
 
-每个 task 的完成定义必须写在 `task-board.md`，并尽量包含：要解决的问题、必读资料、输出产物、验收标准、禁止范围和推荐后续任务。
+每个 task 的完成定义必须写在独立的 `task-definitions/TASK-*.md`，并包含：要解决的问题、必读资料、输出产物、验收标准、禁止范围和推荐后续任务。`task-board.md` 只保留轻量索引。
 
-## Goal 管理协议
+## `/goal` 执行协议
 
-`/goal` 用于执行 `goal-board.md` 中一个有界的 Goal 包，而不是在一次对话中一直跑到整条功能线关闭。功能线负责跨 Goal 持有完整范围；Goal 负责一次 `/goal` 的停止与交接边界；task 负责最小验收。
+`/goal` 是“执行唯一 Ready task”的命令语义，不再对应独立 `GOAL-*` 实体。功能线负责跨 task 持有完整范围；task 同时负责一次 `/goal` 的停止、交接和最小验收边界。
 
 触发 `/goal` 时：
 
-1. 先读取 `feature-lines.md` 和 `goal-board.md`，恢复唯一 `Active` 功能线、唯一 `Active` Goal 及其 compact 预算。
-2. 如果用户指定 Goal/task id，先确认它属于当前功能线。除非用户明确重排同线 Goal，否则只执行 `Active` Goal 绑定的 task；不得执行非激活线工作。
-3. 如果当前没有可执行 Goal，先从当前线覆盖缺口或阻塞生成一个同线、可交接的小 Goal，再生成或关联 task；不得切换到另一条线寻找 Ready 工作。
-4. Goal 默认只绑定一个 task；最多两个 task 的例外必须在 Goal 定义中记录“共用同一产物与验证批次”的具体理由。
-5. Goal 内 task 完成后归档。当 Goal 的绑定 task 全部完成时，将该 Goal 从 `goal-board.md` 移除；功能线未关闭时激活或生成同线后续 Goal，然后结束当次 `/goal` 并交接。禁止在同一次 `/goal` 中隐式执行后续 Goal。
-6. 新 Goal 必须预计 0 次 compact。执行前核对 task 的 `主工作包`、`预计上下文压缩`、`独立验收批次` 和 `拆分触发`；实际范围超出声明时，本次只重排任务并交接。第一次 compact 后只允许结束正在运行的检查、重读当前状态、回写安全检查点并把剩余工作拆成同线下一 Goal，不再读取新资料族、派生新资源或新增实现。
-7. 遇到阻塞时只治理同线阻塞；只有确实需要用户权限、材料或裁决时才停下来请求输入，等待期间不推进其他功能线。
+1. 先读取 `feature-lines.md` 和轻量 `task-board.md`，恢复唯一 `Active` 功能线与唯一 `Ready` task，再读取该 task 的独立定义及 compact 预算。
+2. 如果用户指定 task id，先确认它属于当前功能线。除非用户明确重排同线 task，否则只执行唯一 Ready task；不得执行非激活线工作。
+3. 如果当前没有可执行 task，先从当前线覆盖缺口或阻塞生成一个同线、可交接的小 task；不得切换到另一条线寻找 Ready 工作。
+4. 每次 `/goal` 只执行一个 task。task 完成后归档；功能线未关闭时激活或生成同线后续 task，然后结束当次 `/goal` 并交接。禁止在同一次 `/goal` 中隐式执行后续 task。
+5. 新 task 必须预计 0 次 compact。执行前核对 `主工作包`、`预计上下文压缩`、`独立验收批次` 和 `拆分触发`；实际范围超出声明时，本次只重排任务并交接。第一次 compact 后只允许结束正在运行的检查、重读当前状态、回写安全检查点并把剩余工作拆成同线下一 task，不再读取新资料族、派生新资源或新增实现。
+6. 遇到阻塞时只治理同线阻塞；只有确实需要用户权限、材料或裁决时才停下来请求输入，等待期间不推进其他功能线。
 
-`/goal` 的承诺粒度是当前 Goal 包，不是完整功能线。完整功能线可跨多个 Goal 和多个对话持续 `Active`，从而保留目标所有权，又不把所有工作压进一次不受控的长对话。
+`/goal` 的承诺粒度是当前 Ready task，不是完整功能线。完整功能线可跨多个 task 和多个对话持续 `Active`，从而保留目标所有权，又不把所有工作压进一次不受控的长对话。
 
 `/goal` 收尾必须输出：
 
-- 当前功能线、当前/下一 Goal、已完成/暂停/拆分的 task id，以及功能线是否仍为 `Active`。
+- 当前功能线、当前/下一 task、已完成/暂停/拆分的 task id，以及功能线是否仍为 `Active`。
 - 本次更新的代码和文档。
 - 已运行的验证命令和结果。
-- 下一个同线 Goal 及其 task；功能线未关闭时不得推荐其他系统。
+- 下一个同线 task；功能线未关闭时不得推荐其他系统。
 - 对话管理判断：继续当前对话、优先 compact，或建议新开对话。
 - Git 管理判断：是否建议 commit、建议 commit message；是否建议 push。
 
@@ -83,7 +82,7 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 
 轻量请求完成后直接给结果，不需要建议新开对话。
 
-同一个正式游戏 task 尚未完成时，默认继续当前对话。Goal 默认应在不 compact 的情况下完成；若第一次 compact 已发生，应重新检查当前 Goal/task 的关键文档和正在修改的文件，只完成当前检查、回写检查点并拆分下一 Goal，不凭摘要继续扩张当前任务。
+同一个正式游戏 task 尚未完成时，默认继续当前对话。task 默认应在不 compact 的情况下完成；若第一次 compact 已发生，应重新检查当前 task 的关键文档和正在修改的文件，只完成当前检查、回写检查点并拆分下一 task，不凭摘要继续扩张当前任务。
 
 不要因为只完成了少量工作、刚做完一个小修、还在同一 task 的验证/修 bug/补文档阶段，就建议用户新开对话。
 
@@ -118,7 +117,7 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 - `vertical-slices.md` 中的切片缺口。
 - 现代工程基础设施缺口。
 
-新任务必须写入 `task-board.md`，并包含功能条线、目标机制/切片、输入资料、输出产物、完成定义、验收标准、禁止范围、状态更新和同线推荐后续任务。已完成 task 应归档到 `docs/tasks/task-history.md`，但不得因此关闭功能线或切线。
+新任务必须在 `task-board.md` 建立索引行，并在 `task-definitions/TASK-*.md` 写入功能条线、目标机制/切片、输入资料、输出产物、完成定义、验收标准、禁止范围、状态更新和同线推荐后续任务。已完成 task 应从索引和独立定义归档到 `docs/tasks/task-history.md`，但不得因此关闭功能线或切线。
 
 ## 统一语言规则
 

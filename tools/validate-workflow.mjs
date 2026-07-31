@@ -10,7 +10,6 @@ const files = {
   board: 'docs/tasks/task-board.md',
   history: 'docs/tasks/task-history.md',
   featureLines: 'docs/tasks/feature-lines.md',
-  goalBoard: 'docs/tasks/goal-board.md',
   taskGeneration: 'docs/workflow/task-generation.md',
   verticalSlices: 'docs/tasks/vertical-slices.md',
   mechanics: 'docs/reverse-engineering/mechanics-index.md',
@@ -42,7 +41,6 @@ const warnings = [];
 const taskDefinitionFields = [
   '任务类型：',
   '功能条线：',
-  'Goal 包：',
   '目标机制/切片：',
   '规模预算：',
   '拆分触发：',
@@ -229,26 +227,13 @@ function parseTaskRows(markdown) {
   return tableRows(taskSection, /^\|\s*TASK-/).map((row) => ({
     id: row[0],
     status: row[1],
-    goalPackage: row[2].replaceAll('`', '').trim(),
-    featureLine: row[3],
-    type: row[4],
-    goal: row[5],
-    targetRefs: row[6],
-    output: row[7],
-    next: row[8],
-    row,
-  }));
-}
-
-function parseGoalRows(markdown) {
-  const overview = section(markdown, 'Goal 总览');
-  return tableRows(overview, /^\|\s*GOAL-\d{3}\s*\|/).map((row) => ({
-    id: row[0],
-    status: row[1],
     featureLine: row[2],
-    taskIds: [...new Set(row[3].match(/TASK-(?:[A-Z]+-)?\d+[A-Z]?/g) ?? [])],
-    deliveryBoundary: row[4],
-    compactBudget: row[5],
+    type: row[3],
+    goal: row[4],
+    targetRefs: row[5],
+    output: row[6],
+    next: row[7],
+    definitionPath: row[8].match(/\(([^)]+)\)/)?.[1] ?? '',
     row,
   }));
 }
@@ -279,6 +264,12 @@ function assertRequiredFiles() {
   if (existsSync(filePath('docs/tasks/task-generation.md'))) {
     error('Old task generation path still exists: docs/tasks/task-generation.md');
   }
+  if (!existsSync(filePath('docs/tasks/task-definitions'))) {
+    error('Missing required task definition directory: docs/tasks/task-definitions');
+  }
+  if (existsSync(filePath('docs/tasks/goal-board.md'))) {
+    error('Retired Goal board still exists: docs/tasks/goal-board.md');
+  }
 }
 
 function checkBoardShape(board, taskRows, taskDefinitionIds, taskBlockList) {
@@ -296,11 +287,14 @@ function checkBoardShape(board, taskRows, taskDefinitionIds, taskBlockList) {
   if (board.includes('## 已完成任务') || board.includes('## 执行记录')) {
     error('task-board.md should not contain completed-task sections or execution history.');
   }
+  if (board.includes('## 任务完成定义') || /^###\s+TASK-/m.test(board)) {
+    error('task-board.md must remain a thin index; full definitions belong in task-definitions/TASK-*.md.');
+  }
 
-  compareIdSets('task-board.md', rowIds, taskDefinitionIds);
+  compareIdSets('task-board/task-definitions', rowIds, taskDefinitionIds);
 
   for (const id of duplicateIds(rowIds)) error(`task-board.md has duplicate task row: ${id}`);
-  for (const id of duplicateIds(taskDefinitionIds)) error(`task-board.md has duplicate task definition: ${id}`);
+  for (const id of duplicateIds(taskDefinitionIds)) error(`task-definitions has duplicate task definition: ${id}`);
 
   for (const row of taskRows) {
     if (row.status === 'Done') {
@@ -315,9 +309,15 @@ function checkBoardShape(board, taskRows, taskDefinitionIds, taskBlockList) {
     if (row.status === 'Blocked' && !/阻塞[:：]/.test(row.next)) {
       error(`${row.id} is Blocked but its table next-step cell does not include an explicit 阻塞 reason.`);
     }
+    if (row.definitionPath !== `task-definitions/${row.id}.md`) {
+      error(`${row.id} must link to task-definitions/${row.id}.md from task-board.md.`);
+    }
   }
 
   for (const block of taskBlockList) {
+    if (!block.text.startsWith(`# ${block.id}\n`)) {
+      error(`${block.path} must start with a level-one ${block.id} heading.`);
+    }
     for (const field of taskDefinitionFields) {
       if (!block.text.includes(field)) {
         error(`${block.id} definition is missing required field: ${field}`);
@@ -529,145 +529,6 @@ function checkFeatureLines(featureLinesText, featureLines, taskRows, recommended
   checkFeatureLineInvariantSamples();
 }
 
-function goalInvariantErrors(goalRows, featureLines, taskRows, recommendedIds) {
-  const invariantErrors = [];
-  const activeLine = featureLines.find((line) => line.status === 'Active');
-  const activeGoals = goalRows.filter((goal) => goal.status === 'Active');
-  const activeGoal = activeGoals[0];
-  const unfinishedLines = featureLines.filter((line) => line.status !== 'Done');
-  const goalIds = goalRows.map((goal) => goal.id);
-
-  if (goalRows.length === 0) {
-    invariantErrors.push('goal-board.md has no Goal rows.');
-    return invariantErrors;
-  }
-  for (const id of duplicateIds(goalIds)) {
-    invariantErrors.push(`goal-board.md has duplicate Goal id: ${id}`);
-  }
-  if (unfinishedLines.length > 0 && activeGoals.length !== 1) {
-    invariantErrors.push(`goal-board.md must have exactly one Active Goal while unfinished lines exist; found ${activeGoals.length}.`);
-  }
-  for (const goal of goalRows) {
-    if (goal.status === 'Done') {
-      invariantErrors.push(`${goal.id} is Done but still appears in goal-board.md; completed Goals belong with task history.`);
-    } else if (!['Active', 'Planned', 'Blocked'].includes(goal.status)) {
-      invariantErrors.push(`${goal.id} has invalid Goal status: ${goal.status}`);
-    }
-    if (goal.taskIds.length === 0 || goal.taskIds.length > 2) {
-      invariantErrors.push(`${goal.id} must bind one task by default and no more than two tasks; found ${goal.taskIds.length}.`);
-    }
-    if (!/预计\s*0\s*次/.test(goal.compactBudget)) {
-      invariantErrors.push(`${goal.id} must declare an expected compact budget of zero.`);
-    }
-    for (const taskId of goal.taskIds) {
-      const task = taskRows.find((candidate) => candidate.id === taskId);
-      if (!task) {
-        invariantErrors.push(`${goal.id} binds missing unfinished task: ${taskId}`);
-      } else if (task && task.goalPackage !== goal.id) {
-        invariantErrors.push(`${goal.id} binds ${taskId}, but task-board maps it to ${task.goalPackage || '(missing)'}.`);
-      }
-    }
-  }
-  for (const task of taskRows) {
-    if (task.status === 'Split') {
-      if (task.goalPackage !== '—') {
-        invariantErrors.push(`${task.id} is Split and must not occupy a Goal package.`);
-      }
-      continue;
-    }
-    const goal = goalRows.find((candidate) => candidate.id === task.goalPackage);
-    if (!goal) {
-      invariantErrors.push(`${task.id} references missing Goal package: ${task.goalPackage || '(missing)'}.`);
-    } else if (!goal.taskIds.includes(task.id)) {
-      invariantErrors.push(`${task.id} is not listed in its Goal package ${goal.id}.`);
-    } else if (goal.featureLine !== task.featureLine) {
-      invariantErrors.push(`${task.id} and ${goal.id} must belong to the same feature line.`);
-    }
-  }
-  if (activeGoal) {
-    if (activeGoal.featureLine !== activeLine?.id) {
-      invariantErrors.push(`${activeGoal.id} is Active outside the Active feature line ${activeLine?.id ?? '(none)'}.`);
-    }
-    const executableTasks = taskRows.filter((task) => task.status === 'Ready' || task.status === 'Blocked');
-    for (const task of executableTasks) {
-      if (!activeGoal.taskIds.includes(task.id)) {
-        invariantErrors.push(`${task.id} is executable outside the Active Goal ${activeGoal.id}.`);
-      }
-    }
-    if (recommendedIds.length !== 1 || !activeGoal.taskIds.includes(recommendedIds[0])) {
-      invariantErrors.push(`${activeGoal.id} must contain the only current recommendation.`);
-    }
-  }
-  return invariantErrors;
-}
-
-function checkGoalInvariantSamples() {
-  const line = { id: 'LINE-A', status: 'Active' };
-  const task = { id: 'TASK-SLICE-900', status: 'Ready', featureLine: 'LINE-A', goalPackage: 'GOAL-900' };
-  const goal = {
-    id: 'GOAL-900', status: 'Active', featureLine: 'LINE-A', taskIds: [task.id], compactBudget: '预计 0 次',
-  };
-  if (goalInvariantErrors([goal], [line], [task], [task.id]).length > 0) {
-    error('Goal positive invariant sample failed.');
-  }
-  const samples = [
-    {
-      name: 'double Active Goal',
-      goals: [goal, { ...goal, id: 'GOAL-901' }],
-      tasks: [task],
-      expected: 'exactly one Active Goal',
-    },
-    {
-      name: 'Active Goal outside Active line',
-      goals: [{ ...goal, featureLine: 'LINE-B' }],
-      tasks: [task],
-      expected: 'outside the Active feature line',
-    },
-    {
-      name: 'executable task outside Active Goal',
-      goals: [goal, { ...goal, id: 'GOAL-901', status: 'Planned', taskIds: ['TASK-SLICE-901'] }],
-      tasks: [task, { id: 'TASK-SLICE-901', status: 'Ready', featureLine: 'LINE-A', goalPackage: 'GOAL-901' }],
-      expected: 'executable outside the Active Goal',
-    },
-    {
-      name: 'oversized Goal',
-      goals: [{ ...goal, taskIds: ['TASK-SLICE-900', 'TASK-SLICE-901', 'TASK-SLICE-902'] }],
-      tasks: [task],
-      expected: 'no more than two tasks',
-    },
-    {
-      name: 'legacy compact budget on new Goal',
-      goals: [{ ...goal, compactBudget: '最多 1 次' }],
-      tasks: [task],
-      expected: 'expected compact budget of zero',
-    },
-    {
-      name: 'completed Goal retained on board',
-      goals: [{ ...goal, status: 'Done' }],
-      tasks: [task],
-      expected: 'completed Goals belong with task history',
-    },
-  ];
-  for (const sample of samples) {
-    const sampleErrors = goalInvariantErrors(sample.goals, [line], sample.tasks, [task.id]);
-    if (!sampleErrors.some((message) => message.includes(sample.expected))) {
-      error(`Goal negative sample did not fail as expected (${sample.name}): ${sample.expected}`);
-    }
-  }
-}
-
-function checkGoals(goalBoard, goalRows, featureLines, taskRows, recommendedIds) {
-  for (const message of goalInvariantErrors(goalRows, featureLines, taskRows, recommendedIds)) {
-    error(message);
-  }
-  for (const requiredText of ['只保存未完成 Goal', '预计 0 次上下文压缩', '第一次 compact 即视为规模超限', '不在同一次 `/goal` 中隐式续跑下一 Goal', '默认只绑定一个 task', '规模预检']) {
-    if (!goalBoard.includes(requiredText)) {
-      error(`goal-board.md must include Goal sizing rule: ${requiredText}`);
-    }
-  }
-  checkGoalInvariantSamples();
-}
-
 function checkHistory(history, boardIds) {
   const historyTaskSection = section(history, '已完成任务');
   const historyDefinitionsOnly = beforeSection(section(history, '已完成任务定义'), '执行记录');
@@ -739,7 +600,7 @@ function checkStartupRules(agents, outline) {
   }
 }
 
-function checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration, goalBoard) {
+function checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration) {
   for (const [name, text] of [
     ['AGENTS.md', agents],
     ['CLAUDE.md', claude],
@@ -748,7 +609,6 @@ function checkFeatureLineRouting(agents, claude, outline, workflowReadme, docume
     ['docs/workflow/document-map.md', documentMap],
     ['docs/workflow/agent-protocol.md', agentProtocol],
     ['docs/workflow/task-generation.md', taskGeneration],
-    ['docs/tasks/goal-board.md', goalBoard],
   ]) {
     if (!text.includes('feature-lines.md')) {
       error(`${name} must route formal game work through docs/tasks/feature-lines.md.`);
@@ -769,8 +629,8 @@ function checkFeatureLineRouting(agents, claude, outline, workflowReadme, docume
     ['docs/workflow/agent-protocol.md', agentProtocol],
     ['docs/workflow/task-generation.md', taskGeneration],
   ]) {
-    if (!text.includes('goal-board.md')) {
-      error(`${name} must route /goal work through docs/tasks/goal-board.md.`);
+    if (!text.includes('/goal') || !text.includes('Ready')) {
+      error(`${name} must route /goal work through the unique Ready task.`);
     }
   }
 }
@@ -794,7 +654,7 @@ function checkUtf8ReadingRules(agents, claude, workflowReadme) {
   }
 }
 
-function checkRegimaRouting(agents, outline, board, workflowReadme, documentMap) {
+function checkRegimaRouting(agents, outline, taskBlockList, workflowReadme, documentMap) {
   const visualRoot = 'local-resources/regima/source/restored-swfs/';
   for (const [name, text] of [
     ['AGENTS.md', agents],
@@ -807,8 +667,7 @@ function checkRegimaRouting(agents, outline, board, workflowReadme, documentMap)
     }
   }
 
-  const unfinishedTasks = taskBlocks(section(board, '任务完成定义'));
-  const craftingVisualTasks = unfinishedTasks.filter((task) =>
+  const craftingVisualTasks = taskBlockList.filter((task) =>
     task.text.includes('crafting-ui-index.md'),
   );
   for (const task of craftingVisualTasks) {
@@ -817,7 +676,7 @@ function checkRegimaRouting(agents, outline, board, workflowReadme, documentMap)
     }
   }
 
-  const craftingUiResearchTask = unfinishedTasks
+  const craftingUiResearchTask = taskBlockList
     .find((task) => task.id === 'TASK-SETTINGS-044')?.text ?? '';
   if (craftingUiResearchTask && !craftingUiResearchTask.includes('只作旧提取交叉对照')) {
     error('TASK-SETTINGS-044 must mark local-resources/regima/legacy-extraction visual exports as legacy cross-check evidence.');
@@ -1291,7 +1150,6 @@ const outline = read(files.outline);
 const board = read(files.board);
 const history = read(files.history);
 const featureLinesText = read(files.featureLines);
-const goalBoard = read(files.goalBoard);
 const taskGeneration = read(files.taskGeneration);
 const mechanicsText = read(files.mechanics);
 const verticalSlices = read(files.verticalSlices);
@@ -1325,29 +1183,36 @@ const languageProcess = read(files.languageProcess);
 
 const taskRows = parseTaskRows(board);
 const featureLines = parseFeatureLineRows(featureLinesText);
-const goalRows = parseGoalRows(goalBoard);
 const boardIds = taskRows.map((row) => row.id);
-const boardDefinitionSection = section(board, '任务完成定义');
-const boardDefinitionIds = taskDefinitions(boardDefinitionSection);
-const taskBlockList = taskBlocks(boardDefinitionSection);
+const taskDefinitionDirectory = 'docs/tasks/task-definitions';
+const taskDefinitionPaths = existsSync(filePath(taskDefinitionDirectory))
+  ? readdirSync(filePath(taskDefinitionDirectory))
+    .filter((name) => /^TASK-(?:[A-Z]+-)?\d+[A-Z]?\.md$/.test(name))
+    .sort()
+    .map((name) => `${taskDefinitionDirectory}/${name}`)
+  : [];
+const taskBlockList = taskDefinitionPaths.map((definitionPath) => ({
+  id: path.basename(definitionPath, '.md'),
+  path: definitionPath,
+  text: read(definitionPath),
+}));
+const boardDefinitionIds = taskBlockList.map((block) => block.id);
 const mechanics = parseMechanics(mechanicsText);
 
 checkBoardShape(board, taskRows, boardDefinitionIds, taskBlockList);
 const recommendedIds = checkRecommendations(board, taskRows);
 checkFeatureLines(featureLinesText, featureLines, taskRows, recommendedIds);
-checkGoals(goalBoard, goalRows, featureLines, taskRows, recommendedIds);
 const { historyRows, historyDefinitionIds } = checkHistory(history, boardIds);
 checkRefs(taskRows, mechanics, verticalSlices);
 checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
-checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration, goalBoard);
+checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration);
 checkUtf8ReadingRules(agents, claude, workflowReadme);
-checkRegimaRouting(agents, outline, board, workflowReadme, documentMap);
+checkRegimaRouting(agents, outline, taskBlockList, workflowReadme, documentMap);
 checkWorkflowSeparation(mechanicsText);
 checkGovernanceLog([
   files.taskGeneration,
   files.featureLines,
-  files.goalBoard,
   files.workflowReadme,
   files.documentMap,
   files.codeQualityGates,
@@ -1415,4 +1280,3 @@ console.log('Workflow validation passed.');
 console.log(`- task-board: ${taskRows.length} unfinished tasks, ${boardDefinitionIds.length} definitions`);
 console.log(`- task-history: ${historyRows.length} completed tasks, ${historyDefinitionIds.length} definitions`);
 console.log(`- current recommendations: ${recommendedIds.join(', ')}`);
-console.log(`- goals: ${goalRows.length} tracked, active ${goalRows.find((goal) => goal.status === 'Active')?.id ?? 'none'}`);

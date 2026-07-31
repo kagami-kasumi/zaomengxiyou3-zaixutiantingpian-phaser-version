@@ -20,7 +20,7 @@
 
 ## 调度
 
-1. `GOAL-025` / `TASK-SETTINGS-064`：Planned；等待 `LINE-PRE-STAGE-2-3-COMPLETION` 关闭后恢复，只闭合六段证据、资源标注、未知/反证和后续实现拆分。
+1. `TASK-SETTINGS-064`：Planned；等待 `LINE-PRE-STAGE-2-3-COMPLETION` 关闭后恢复，只闭合六段证据、资源标注、未知/反证和后续实现拆分。
 
 ## 关闭检查
 

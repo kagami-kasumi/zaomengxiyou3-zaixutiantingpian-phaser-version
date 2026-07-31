@@ -4,6 +4,48 @@
 
 ## 2026-07-31
 
+### 移除 Goal 持久化层并拆分 Task 定义
+
+变更内容：
+
+- 用户确认 Goal 与 Task 在“一 Goal 一 Task、同启同停”的现行规则下重复维护；保留 Task 为唯一执行实体，`/goal` 改为执行唯一 Ready task 的命令语义。
+- 删除 `docs/tasks/goal-board.md` 和 `GOAL-*` 的现行映射；功能线继续持有长期完整交付承诺，task 同时承担一次执行包、交接边界和最小验收。
+- 将 21 个未完成 task 的完整合同从 1497 行 `task-board.md` 无损迁移到 `docs/tasks/task-definitions/TASK-*.md`；看板只保留轻量状态索引和定义链接，正式执行只读取当前 task 文件。
+- 更新 Agent/Claude/总任务书、工作流 README/文档地图/执行协议/任务生成规范/代码质量门禁与 Claude subagent 路由。
+- 重写 `tools/validate-workflow.mjs`：继续强制唯一 Active 功能线、唯一 Ready/推荐 task、同线阻塞和规模预算，并新增轻量看板、独立定义存在性、孤儿/缺失/错链与旧 Goal 看板退役门禁。
+- 将 `PG-008` 重命名为“Task 缺少可执行规模门禁”，并向 PG-002/008 回写本次治理反馈；历史记录中的旧 `GOAL-*` id 保留为当时事实。
+
+影响范围：
+
+- `AGENTS.md`、`CLAUDE.md`、`TASK_OUTLINE.md`、`.claude/agents/`
+- `docs/tasks/task-board.md`、`docs/tasks/task-definitions/`、`docs/tasks/goal-board.md`
+- `docs/tasks/feature-lines.md`、当前/计划功能线覆盖台账、`vertical-slices.md`
+- `docs/workflow/` 入口、协议、门禁、问题索引与 PG-002/008
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- 迁移前 `npm run check:workflow` 通过：21 个未完成 task/21 个定义、17 个 Goal、唯一推荐 `TASK-SLICE-157C`。
+- 迁移后运行 `node --check tools/validate-workflow.mjs`、`npm run check:workflow`、`git diff --check`，并核对 21 个索引行与 21 个独立定义一一对应。
+
+### 关卡运行框架复制问题登记
+
+变更内容：
+
+- 用户确认“关卡类化”应治理全部关卡共同职责，而非只抽取光门；现代五关 Scene/World/Gameplay 骨架重复、Stage 1-1 寄居 TestScene、资源 provenance 与行为 owner 混淆被登记为 `PG-013`。
+- 在当前前置体验补全线新增 Split 父任务 `TASK-ARCH-016`，拆成 `TASK-ARCH-016A..D` 的合同审计、横向试点、Stage 2 迁移和 1-1/TestScene 收束。
+- 严格保持 `TASK-SLICE-157C` 为唯一 Ready；新治理 task 全部为 Planned，不抢占当前 WIP。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-013-关卡运行框架按关卡复制.md`
+- task/feature-line/coverage/mechanics/vertical-slice 文档
+
+验证：
+
+- `npm run check:workflow` 与 `git diff --check`。
+
 ### Stage 1-2 怪物视觉 Goal 治理反馈
 
 变更内容：
