@@ -98,9 +98,10 @@ assert.match(mapSource, /内容尚未复现/);
 const formalRouteFiles = [
   'src/scenes/SaveSlotScene.ts',
   'src/scenes/Stage51TransitionScene.ts',
-  'src/scenes/stage12/Stage12ResultBridge.ts',
-  'src/scenes/stage13/Stage13ResultBridge.ts',
-  'src/scenes/stage21/Stage21ResultBridge.ts',
+  'src/scenes/Stage12Scene.ts',
+  'src/scenes/Stage13Scene.ts',
+  'src/scenes/Stage21Scene.ts',
+  'src/scenes/Stage22Scene.ts',
   'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
 ];
 for (const relativePath of formalRouteFiles) {

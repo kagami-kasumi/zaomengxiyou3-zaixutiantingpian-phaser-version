@@ -13,7 +13,12 @@ import {
   STAGE13_WORLD_WIDTH,
 } from '../systems/Stage13Layout';
 import { createStage13Gameplay, type Stage13GameplayHandle } from './stage13/Stage13GameplayBridge';
-import { showStage13Result } from './stage13/Stage13ResultBridge';
+import {
+  createLevelResultStats,
+  markLevelResultStarted,
+  showLevelResult,
+} from './LevelResultView';
+import { startSceneWithBundle } from './SceneAssetBundleBridge';
 import { createStage13World, type Stage13WorldHandle } from './stage13/Stage13WorldBridge';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
 
@@ -41,6 +46,7 @@ export class Stage13Scene extends Phaser.Scene {
       return;
     }
     installFormalFeatureUiEntries(this, { originKind: 'combat', party: this.partyRuntime.party });
+    markLevelResultStarted(this);
     this.cameras.main.setBounds(STAGE13_WORLD_LEFT, 0, STAGE13_WORLD_WIDTH, STAGE13_WORLD_HEIGHT);
     this.cameras.main.scrollX = 0;
     this.world = createStage13World(this);
@@ -65,12 +71,15 @@ export class Stage13Scene extends Phaser.Scene {
   public update(_time: number, delta: number): void {
     const result = this.gameplay?.update(delta);
     if (!result || !this.gameplay || this.resultOverlay) return;
-    this.resultOverlay = showStage13Result(
-      this,
+    const retryData = createFormalPartyRetryData(this.partyRuntime);
+    this.resultOverlay = showLevelResult(this, {
       result,
-      createFormalPartyRetryData(this.partyRuntime),
-      this.gameplay.flow.unlockProgress,
-    );
+      stats: createLevelResultStats(this),
+      unlockProgress: this.gameplay.flow.unlockProgress,
+      onRetry: () => this.scene.restart(retryData),
+      onNext: () => void startSceneWithBundle(this, 'Stage21Scene', retryData),
+      onBack: () => void startSceneWithBundle(this, 'HeavenMapScene'),
+    });
   }
 
   private shutdownStage13(): void {

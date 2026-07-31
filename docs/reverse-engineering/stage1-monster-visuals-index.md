@@ -122,6 +122,40 @@ Monster5 `hit3` 的 `frameCount=16`，但 `frameStopCount` 和 atlas 只有 4 �
 
 运行验收使用 940×590 内置浏览器正式存档入口，捕获 Monster30 wait/walk/hit1 对象序列、死亡末帧、左右朝向和双人四怪同屏；console warning/error 为 0。Monster3 全动作、最高层与门由相同描述/桥接合同、Stage 1-1 flow 专项及确定性逐 tick 门禁覆盖；本任务未重新跑完整三分钟通关录像，残余风险仅为后续 `157D` 的五关共享 owner 总回归。
 
+## Stage 1-2 现代映射与差异证据
+
+`TASK-SLICE-157B` 接入 Stage 1-2 的 Monster2/4/7/8，不进入 Stage 1-3 或怪物架构重构：
+
+- `Stage12MonsterVisualSystem.ts` 保存四怪共享只读动画描述：96 个本体独立视觉帧、原 BBDC hold tick、注册 offset、左右镜像与攻击触发。Monster7 始终只选 hit1；Monster8 hit2 按原合同以四个视觉帧循环两次完成八 tick。
+- `Stage12MonsterVisualBridge.ts` 复用 Stage 1 逐帧几何 CSV，以 MovieClip 注册点创建九个攻击/效果对象并在各自末帧销毁；Monster4 hit2 开场对象显式标记 `disabled`，Monster2 hit2 在第 14 帧销毁。
+- `Stage12GameplayBridge.ts` 只把现有共享 combat phase/attackSerial/朝向投影到视觉；`MonsterPhysicsSystem`、攻击伤害、奖励、双 Boss 门禁、`LevelLifecycle` 与 `LevelResultView` 仍由原 owner 持有。死亡奖励/flow 以 `defeatReported` 幂等提交，view 单独保留到死亡末帧。
+- `stage-12` 是四 atlas、九对象 122 帧和本关几何 key 的唯一 bundle owner；Boot、地图、Stage 1-1/1-3 与 Stage 2 bundle 未回填。Arc/Text 怪物占位已从 Stage 1-2 正式路径删除。
+- 原任务定义中的“8 个攻击/效果对象”与权威明细不一致；按局部 AS3、SymbolClass 和逐帧几何复核，实际为 Monster2 三个、Monster4 三个、Monster7 一个、Monster8 两个，共 **9 个 / 122 帧**。本实现与标注以九个为准，不删除源对象来迎合旧计数。
+- 允许的现代视觉例外为空；既有玩家占位和现代共享战斗数值不属于本视觉 task 的新增例外。
+
+逐状态差异清单：
+
+| 项目 | 原版基准 | 现代结果 | 差异 |
+| --- | --- | --- | --- |
+| Monster2 wait/walk/hurt/dead/hit1/hit2 | 25 个独立视觉帧；动作 15/16/15/17/35/20 tick | 25/25 atlas 帧、原 hold 与动作行 | 无 |
+| Monster4 wait/walk/hurt/dead/hit1/hit2 | 26 个独立视觉帧；动作 15/16/15/16/21/60 tick | 26/26 atlas 帧、原 hold 与动作行 | 无 |
+| Monster7 wait/walk/hurt/dead/hit1 | 20 个独立视觉帧；hit2 不可达 | 20/20 atlas 帧；攻击选择不生成 hit2 | 无 |
+| Monster8 wait/walk/hurt/dead/hit1/hit2 | 25 个独立视觉帧；hit2 为 4 帧×2 | 25/25 atlas 帧；frame order `0..3` 重复两轮 | 无 |
+| 左右朝向与注册点 | offset `(-20,-10)` / `(0,-10)` / `(3,0)` / `(14,7)` | 原点公式与 `flipX` 围绕同一注册根 | 无 |
+| Monster2 三对象 | tick 5/20/7；14/20/14 帧；Bullet2 frame14 自移除 | 逐 tick、生成点、逐帧 origin 与末帧销毁通过 | 无 |
+| Monster4 三对象 | tick 14/7/29；13/35/20 帧；开场对象 disabled | disabled 数据与后续伤害对象分离，均按原时间轴销毁 | 无 |
+| Monster7/8 三对象 | tick 5/9/1；1/1/4 帧 | 单帧对象一 tick 销毁，四帧对象完整播放 | 无 |
+| 五批/双 Boss/门 | 46 怪；末批 Monster4+2 均死才显门 | 既有 flow/boss gate 专项保持通过，视觉 layer 不接管门禁 | 无 |
+| 单/双人运行 | 同资源族按生成数复用 | 940×590 正式存档单/双人首批 Monster8、双 HUD、公共失败页可见 | 无 |
+
+940×590 现代关键帧保存在：
+
+- `local-resources/regima/task-outputs/task-slice-157b-stage12-monsters/modern/stage12-1p-monster8-wave.png`
+- `local-resources/regima/task-outputs/task-slice-157b-stage12-monsters/modern/stage12-2p-monster8-wave.png`
+- `local-resources/regima/task-outputs/task-slice-157b-stage12-monsters/modern/stage12-game-fail.png`
+
+运行态当前构建 console warning/error 为 0。浏览器关键帧直接覆盖单/双人正式入口、首批真怪与公共失败页；四怪全动作、九对象、死亡末帧、双 Boss 门禁与显门由 `stage12-monster-visual-tests.ts`、Stage 1-2 flow 和全系统确定性测试逐 tick 覆盖。完整五停点长程运行与最终跨关 owner 重入仍由 `TASK-SLICE-157D` 总回归。
+
 ## 六段证据矩阵
 
 | 行为合同项 | 局部证据 | 共享调用链 | 几何/坐标证据 | 证据等级 | 未知与反证条件 | 验证方式 |

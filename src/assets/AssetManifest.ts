@@ -77,6 +77,20 @@ export const AssetKeys = {
   playerPlaceholder: 'player-placeholder',
 } as const;
 
+export const LevelResultAssetKeys = {
+  win: 'level-result.game-win',
+  fail: 'level-result.game-fail',
+  nextUp: 'level-result.next.up',
+  nextOver: 'level-result.next.over',
+  nextDown: 'level-result.next.down',
+  retryUp: 'level-result.retry.up',
+  retryOver: 'level-result.retry.over',
+  retryDown: 'level-result.retry.down',
+  backUp: 'level-result.back.up',
+  backOver: 'level-result.back.over',
+  backDown: 'level-result.back.down',
+} as const;
+
 export const Stage11AssetKeys = {
   floor: 'stage.stage1.floor',
   background: 'stage.stage1-1.background',
@@ -90,6 +104,23 @@ export const Stage11MonsterAssetKeys = {
   monster3Hit1: 'projectile.stage1.monster3.hit1',
   monster3Hit2: 'projectile.stage1.monster3.hit2',
   attackGeometry: 'stage1.monster-attack-geometry',
+} as const;
+
+export const Stage12MonsterAssetKeys = {
+  monster2: 'monster.stage1.monster2.atlas',
+  monster4: 'monster.stage1.monster4.atlas',
+  monster7: 'monster.stage1.monster7.atlas',
+  monster8: 'monster.stage1.monster8.atlas',
+  monster2Hit1Start: 'projectile.stage1.monster2.hit1-start',
+  monster2Hit1End: 'projectile.stage1.monster2.hit1-followup',
+  monster2Hit2: 'effect.stage1.monster2.hit2',
+  monster4Hit1: 'projectile.stage1.monster4.hit1',
+  monster4Hit2Start: 'effect.stage1.monster4.hit2-start',
+  monster4Hit2End: 'projectile.stage1.monster4.hit2-followup',
+  monster7Hit1: 'projectile.stage1.monster7.hit1',
+  monster8Hit1: 'projectile.stage1.monster8.hit1',
+  monster8Hit2: 'projectile.stage1.monster8.hit2',
+  attackGeometry: 'stage12.monster-attack-geometry',
 } as const;
 
 export const Stage12AssetKeys = {
@@ -117,6 +148,35 @@ export const Stage21AssetKeys = {
   transferDoor: 'stage.stage2-1.transfer-door',
   iceThorn: 'stage.stage2-1.ice-thorn',
 } as const;
+
+const levelResultImage = (
+  key: string,
+  filename: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition => ({
+  key,
+  path: `/assets/ui/level-results/${filename}`,
+  status: 'ready',
+  source: 'extracted-flash',
+  sourcePackage: 'assets/OtherMat1.swf',
+  sourceSymbol,
+  sourceCharacterId,
+});
+
+export const levelResultAssets = {
+  win: levelResultImage(LevelResultAssetKeys.win, 'game-win.png', 'export.win.GameWin/base', 320),
+  fail: levelResultImage(LevelResultAssetKeys.fail, 'game-fail.png', 'export.lose.GameFail/base', 302),
+  nextUp: levelResultImage(LevelResultAssetKeys.nextUp, 'next-up.png', 'GameWin.nextStageButton/up', 329),
+  nextOver: levelResultImage(LevelResultAssetKeys.nextOver, 'next-over.png', 'GameWin.nextStageButton/over', 329),
+  nextDown: levelResultImage(LevelResultAssetKeys.nextDown, 'next-down.png', 'GameWin.nextStageButton/down', 329),
+  retryUp: levelResultImage(LevelResultAssetKeys.retryUp, 'retry-up.png', 'GameFail.rePlayButton/up', 307),
+  retryOver: levelResultImage(LevelResultAssetKeys.retryOver, 'retry-over.png', 'GameFail.rePlayButton/over', 307),
+  retryDown: levelResultImage(LevelResultAssetKeys.retryDown, 'retry-down.png', 'GameFail.rePlayButton/down', 307),
+  backUp: levelResultImage(LevelResultAssetKeys.backUp, 'back-up.png', 'GameWin.backTochooseButton/up', 312),
+  backOver: levelResultImage(LevelResultAssetKeys.backOver, 'back-over.png', 'GameWin.backTochooseButton/over', 312),
+  backDown: levelResultImage(LevelResultAssetKeys.backDown, 'back-down.png', 'GameWin.backTochooseButton/down', 312),
+} as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
 export const Stage22AssetKeys = {
   floor: Stage21AssetKeys.floor,
@@ -1539,6 +1599,8 @@ const stage11MonsterAttack = (
   geometryPath: '/assets/stage1/monsters/attack-frame-geometry.csv',
 });
 
+const stage12MonsterAttack = stage11MonsterAttack;
+
 export const stage11MonsterAtlases = {
   monster30: {
     key: Stage11MonsterAssetKeys.monster30,
@@ -1593,6 +1655,135 @@ export const stage11MonsterAttackAssets = {
     'Monster3Bullet2',
     74,
     10,
+  ),
+} as const satisfies Record<string, MonsterAttackAssetDefinition>;
+
+export const stage12MonsterAtlases = {
+  monster2: {
+    key: Stage12MonsterAssetKeys.monster2,
+    path: '/assets/stage1/monsters/monster2.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'Monster2',
+    sourceCharacterId: 2,
+    cellWidth: 190,
+    cellHeight: 190,
+    columns: 6,
+    rows: 6,
+    reachableFrameCount: 25,
+    registrationOffset: { x: -20, y: -10 },
+  },
+  monster4: {
+    key: Stage12MonsterAssetKeys.monster4,
+    path: '/assets/stage1/monsters/monster4.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'Monster4',
+    sourceCharacterId: 3,
+    cellWidth: 190,
+    cellHeight: 190,
+    columns: 6,
+    rows: 6,
+    reachableFrameCount: 26,
+    registrationOffset: { x: 0, y: -10 },
+  },
+  monster7: {
+    key: Stage12MonsterAssetKeys.monster7,
+    path: '/assets/stage1/monsters/monster7.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'Monster7',
+    sourceCharacterId: 7,
+    cellWidth: 150,
+    cellHeight: 150,
+    columns: 6,
+    rows: 5,
+    reachableFrameCount: 20,
+    registrationOffset: { x: 3, y: 0 },
+  },
+  monster8: {
+    key: Stage12MonsterAssetKeys.monster8,
+    path: '/assets/stage1/monsters/monster8.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/1.swf',
+    sourceSymbol: 'Monster8',
+    sourceCharacterId: 6,
+    cellWidth: 150,
+    cellHeight: 150,
+    columns: 6,
+    rows: 6,
+    reachableFrameCount: 25,
+    registrationOffset: { x: 14, y: 7 },
+  },
+} as const satisfies Record<string, MonsterAtlasAssetDefinition>;
+
+export const stage12MonsterAttackAssets = {
+  monster2Hit1Start: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster2Hit1Start,
+    'monster2-hit1-1',
+    'Monster2Bullet1_1',
+    49,
+    14,
+  ),
+  monster2Hit1End: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster2Hit1End,
+    'monster2-hit1-2',
+    'Monster2Bullet1_2',
+    34,
+    20,
+  ),
+  monster2Hit2: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster2Hit2,
+    'monster2-hit2',
+    'Monster2Bullet2',
+    30,
+    14,
+  ),
+  monster4Hit1: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster4Hit1,
+    'monster4-hit1',
+    'Monster4Bullet1',
+    52,
+    13,
+  ),
+  monster4Hit2Start: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster4Hit2Start,
+    'monster4-hit2-1',
+    'Monster4Bullet2_1',
+    61,
+    35,
+  ),
+  monster4Hit2End: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster4Hit2End,
+    'monster4-hit2-2',
+    'Monster4Bullet2_2',
+    65,
+    20,
+  ),
+  monster7Hit1: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster7Hit1,
+    'monster7-hit1',
+    'Monster7Bullet1',
+    75,
+    1,
+  ),
+  monster8Hit1: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster8Hit1,
+    'monster8-hit1',
+    'Monster8Bullet1',
+    23,
+    1,
+  ),
+  monster8Hit2: stage12MonsterAttack(
+    Stage12MonsterAssetKeys.monster8Hit2,
+    'monster8-hit2',
+    'Monster8Bullet2',
+    28,
+    4,
   ),
 } as const satisfies Record<string, MonsterAttackAssetDefinition>;
 

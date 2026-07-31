@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-157B | Stage 1-2 怪物真动画 | 接入 Monster2/4/7/8 全动作、九攻击/效果对象、镜像/触发/死亡生命周期并保持战斗语义不变 | M-030、M-034、M-035、VS-061 | 4 本体 atlas、9 对象/122 帧、共享只读视觉描述、Stage 1-2 bridge、唯一 bundle owner、专项/全系统与 940×590 单双人证据 |
+| TASK-SLICE-161 | 公共原版关卡结果页 | 接入共享 GameWin/GameFail，删除五关现代黑框并统一按钮、保存和路由 | M-014、M-035、M-044、M-052、VS-007、VS-050、PG-012 | 330/313 原版根视觉、三按钮三态、四成绩字段、唯一 `LevelResultView`、五关迁移、防回填门禁与 940×590 成败页证据 |
 | TASK-ARCH-015 | 通用关卡生命周期协议 | 为全部后续关卡建立通关、判负、解锁与结果默认骨架并迁移五关 | M-014、M-026、M-028、VS-007、VS-050、PG-012 | `LevelLifecycle`、Phaser bounds adapter、五关 Flow/bridge 迁移、窄策略合同、专项/静态门禁与 940×590 横向关卡证据 |
 | TASK-SLICE-157A | Stage 1-1 怪物真动画 | 接入 Monster30/3 全动作、三攻击对象、镜像/触发/死亡生命周期并保持战斗语义不变 | M-030、M-034、M-035、VS-061 | 2 本体 atlas、3 对象/25 帧、共享只读视觉描述、Stage 1-1 bridge、唯一 bundle owner、专项/全系统与 940×590 单双人证据 |
 | TASK-SETTINGS-068 | 怪物视觉覆盖逆向 | 盘清五个已完成关卡全部实际怪物、动作、攻击对象与实现缺口 | M-030、M-034、M-035、VS-061 | `stage1-monster-visuals-index.md`、7 本体/167 独立视觉帧、16 对象/171 帧、3 碰撞根、26 条标注与 `157A..D / GOAL-060..063` |
@@ -4974,6 +4976,43 @@
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
 
+### TASK-SLICE-157B
+
+- 完成日期：2026-07-31
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 Active；下一 task 为 `TASK-SLICE-157C`）
+- Stage 1-2 的 Monster2/4/7/8 已从 Arc/Text 占位切换为原版 atlas 全动作；共享只读描述固定 96 个本体独立视觉帧、30 FPS hold tick、BBDC offset/注册根、左右镜像、攻击触发与死亡末帧。
+- 权威对象明细纠正任务定义的“8 个”为九个：Monster2 三个、Monster4 三个、Monster7 一个、Monster8 两个，共 122 帧。九对象均按逐帧几何保持 MovieClip 原点并在末帧销毁；Monster4 hit2 开场对象保持 disabled，Monster2 hit2 frame14 自移除。
+- Monster7 hit2 不可达分支未伪造；Monster8 hit2 以四个视觉帧循环两次完成八 tick。现有 attackSerial 只选择有原证据的动作。
+- `stage-12` 是四 atlas、九对象与本关几何 key 的唯一 bundle owner；Boot、地图、Stage 1-1/1-3 和 Stage 2 bundle 未回填。13 条 Stage 1 标注从 derived-ready 升级为 ready。
+- `Stage12GameplayBridge` 只投影现有共享 combat 状态；物理、伤害、奖励、双 Boss 门禁、`LevelLifecycle` 与 `LevelResultView` owner 未改。奖励/flow 以 `defeatReported` 幂等提交，显示对象单独保留到死亡末帧。
+- 确定性专项覆盖四 atlas 尺寸、96 本体帧、九对象 122 帧、动作 hold/origin/触发/镜像/disabled/自移除、死亡末帧、唯一 bundle owner 和无 Arc/Text；Stage 1-2 资源/flow、Stage 1 combat、全系统、build、structure、annotations、workflow 与 diff check 通过。
+- 940×590 正式存档单/双人路径均观察首批 Monster8 真动画，双人 HUD/波次成立，公共失败页正常；当前构建 console warning/error 为 0。关键帧保存在 Git 忽略的 `local-resources/regima/task-outputs/task-slice-157b-stage12-monsters/modern/`。
+- 本次实际保持两个主工作包、两批验收和 0 次 compact，没有进入 Stage 1-3、角色动画、战斗数值或怪物架构。`VS-061` 保持部分完成，`GOAL-062 / TASK-SLICE-157C` 已成为唯一 Active。
+
+更新文件：
+- `public/assets/stage1/monsters/` 的 Monster2/4/7/8 atlas 与九组攻击/效果对象
+- `src/systems/Stage12MonsterVisualSystem.ts`
+- `src/scenes/stage12/Stage12MonsterVisualBridge.ts`、`Stage12GameplayBridge.ts`
+- `src/assets/AssetManifest.ts`、`src/assets/SceneAssetBundles.ts`
+- `tools/stage12-monster-visual-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- Stage 1 怪物视觉索引/标注、机制/切片、Goal/task、功能线/覆盖台账与 PG-002/004/005/006/008/009/012 效果记录
+
+验证：
+- `npm run test:stage12-monsters`
+- `npm run test:stage12`
+- `npm run test:stage12-flow`
+- `npm run test:stage1-combat`
+- `npm run test:systems`
+- `npm run check:structure`
+- `npm run check:annotations`
+- `npm run build`
+- `npm run check:workflow`
+- `git diff --check`
+- 940×590 正式单人/双人 Stage 1-2 与零 console error/warning
+
+推荐任务：
+- `TASK-SLICE-157C`：只接入 Stage 1-3 Monster5 新资源并复用 Monster30/3/7/8，闭合 105 怪逐状态视觉。
+
 ### TASK-SLICE-157A
 
 - 完成日期：2026-07-26
@@ -6681,6 +6720,33 @@ Goal：
 - 生命周期专项、五关 flow 与正式主循环旅程测试通过。
 - 完整 `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow` 与 `git diff --check` 通过；Vite 仅有既有 chunk 大小 warning。
 - 940×590 Stage 2-2 光门 + W 运行复验与 console 检查通过。
+
+推荐任务：
+
+- `TASK-SLICE-157B`：恢复 Stage 1-2 Monster7/8/4/2 真动画接入。
+
+### TASK-SLICE-161
+
+- 完成日期：2026-07-30
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 `Active`，下一 task 为 `TASK-SLICE-157B`）
+- 从恢复 `assets/OtherMat1.swf` 的 character 330/313 建立原版 GameWin/GameFail 显示列表，接入 302/320 根视觉、307/312/329 三按钮 up/over/down 与 321..324 四个动态成绩字段。
+- 新增唯一 `LevelResultView` presenter，统一胜利/失败、当前槽解锁保存、下一关、重试和返回地图；Stage 1-1/1-2/1-3/2-1/2-2 全部消费同一实现。
+- 删除 Stage 1-2/1-3/2-1/2-2 四个私有 `Stage*ResultBridge`，并移除 Stage 1-1 `createResultOverlay/createResultButton` 的全屏黑色 Rectangle/Text。
+- 最高连击与总积分因现代尚无原版 producer 明确显示 0；动态字段使用同包 FZCuYuan-M03 浏览器字体；Stage 2-2 下一关在 2-3 未实现前返回已解锁地图，均保留为显式现代例外。
+- 新增资源/显示列表/按钮/路由专项与静态门禁，阻止后续新增逐关 ResultBridge 或现代黑框结果页。
+
+更新文件：
+
+- `src/scenes/LevelResultView.ts`、五关 Scene/Stage11 flow bridge
+- `src/assets/AssetManifest.ts`、`SceneAssetBundles.ts`、`public/assets/ui/level-results/`
+- `tools/level-result-tests.ts` 与五关/正式旅程测试
+- `docs/reverse-engineering/level-result-ui-index.md`、资源标注、架构/领域、机制/切片、功能线/覆盖与 PG-012
+
+验证：
+
+- 结果页专项、五关生命周期/流程、正式旅程与存档专项通过。
+- 完整 `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 通过；Vite 仅保留既有 chunk 大小 warning。
+- 940×590 Stage 2-2 实际触发胜利与失败页，均显示原版 GameWin/GameFail；按钮 hover 有真状态，console 无 warning/error。Stage 1-1 成败分支由同一 presenter 消费与专项静态门禁证明不再进入私有黑框。
 
 推荐任务：
 

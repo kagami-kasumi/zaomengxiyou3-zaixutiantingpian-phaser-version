@@ -162,12 +162,10 @@ for (const relativePath of [
 ]) {
   assert.match(readFileSync(path.join(repoRoot, relativePath), 'utf8'), /loadActiveGame\(storage\)/);
 }
-for (const relativePath of [
-  'src/scenes/stage12/Stage12ResultBridge.ts',
-  'src/scenes/stage13/Stage13ResultBridge.ts',
-]) {
-  assert.match(readFileSync(path.join(repoRoot, relativePath), 'utf8'), /saveActiveLevelUnlockProgress\(storage, progress\)/);
-}
+assert.match(
+  readFileSync(path.join(repoRoot, 'src/scenes/LevelResultView.ts'), 'utf8'),
+  /saveActiveLevelUnlockProgress\(storage, progress\)/,
+);
 const saveBridgeSource = readFileSync(path.join(repoRoot, 'src/scenes/test-scene/TestSceneSaveBridge.ts'), 'utf8');
 assert.match(saveBridgeSource, /loadActiveGame\(storage\)/);
 assert.match(saveBridgeSource, /saveActiveGame\(activeStorage/);

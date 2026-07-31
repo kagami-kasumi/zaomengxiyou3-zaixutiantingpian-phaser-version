@@ -16,7 +16,7 @@
 
 ## 调查结论
 
-- 已确认：26 条 stable key；其中 24 条新增于 `stage1-monsters.csv`，Monster30 既有 2 条在 `monster30.csv` 原位升级；覆盖 7 个本体 atlas、16 个攻击/效果对象、3 个碰撞根。
+- 已确认：26 条 stable key；其中 24 条位于 `stage1-monsters.csv`，Monster30 既有 2 条在 `monster30.csv` 原位升级；覆盖 7 个本体 atlas、16 个攻击/效果对象、3 个碰撞根。
 - 本体：167 个独立视觉帧；Monster5 hit3 与 Monster8 hit2 分别循环复用 4 帧。
 - 攻击对象：16 个对象共 171 帧；触发 tick、生成点、注册边界、命中与生命周期闭合。
 - 推测：0。
@@ -25,8 +25,8 @@
 
 ## 去向
 
-- 26 条均为 `derived-ready + integrate`。
-- Stage 1 三关分别由 `157A..C` 接入，`157D` 做五关共享 owner 与 Stage 2 防回归。
+- `157A/B` 已将 Stage 1-1/1-2 的 18 条升级为 `ready + none`；Stage 1-2 的权威对象数为九个而非旧任务文案的八个。
+- 余 8 条保持 `derived-ready + integrate`，由 `157C` 接入 Monster5 新资源、`157D` 审计三个碰撞根/五关共享 owner 与 Stage 2 防回归。
 - 不继续使用 Arc/Text、单帧或代表性怪物作为关闭证据。
 
 ## 关闭检查

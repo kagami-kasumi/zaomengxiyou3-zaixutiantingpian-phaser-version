@@ -52,6 +52,7 @@
 - `LevelLifecycle` 是全部关卡的通用生命周期/结果基类：唯一持有 `playing / failure-pending / failed / cleared`、全员判负、默认出口重叠 + 上键、幂等解锁。`Stage*FlowModel` 只增加单关内容状态；Boss、波次或机关子状态不得混入通用终态。
 - 普通关卡使用默认出口策略；特殊入口、特殊胜利或无门关卡只能注入有证据、可独立测试的窄 `LevelCompletionStrategy`。不得新增同义 `tryCompleteStageXX`、关卡私有失败倒计时或 bridge 内直接解锁提交。
 - `LevelLifecycleBridge` 只把 Phaser 显示对象边界、玩家有效性和上键输入适配成系统输入；通关规则不得回填 scene/gameplay bridge。
+- `LevelResultView` 是全部关卡唯一的结果展示 presenter：只消费生命周期终态、成绩快照和路由回调，统一投影原版 `GameWin` / `GameFail` 及按钮状态。关卡不得新增私有 `Stage*ResultBridge`，也不得用全屏现代 `Rectangle/Text` 回填结果页。
 - `MonsterDefinitionCatalog` 保存跨关卡只读定义，`MonsterRuntimeRegistry` 保存单局可变怪物状态；二者不得混为同一个 Registry。
 - 怪物差异优先通过 `MonsterBrain`、物理 profile、能力集合、动画集合和奖励 profile 组合，不建立承载全部职责的万能 `BaseMonster`。
 - scene/gameplay bridge 可以持有 Phaser view 映射，但怪物生命、AI、死亡和奖励事实必须来自系统层稳定 ID。

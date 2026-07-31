@@ -166,9 +166,9 @@ function testFormalStage11DoorAndResultContractRemainsConnected(): void {
   assert.doesNotMatch(bossBridge, /stopPoints\.every/);
   assert.match(viewsSource, /createTransferDoorView[\s\S]*Stage13AssetKeys\.transferDoor/);
   assert.doesNotMatch(viewsSource, /'DOOR\\n\[↑\]'/);
-  assert.match(resultBridge, /title: '关卡胜利'/);
-  assert.match(resultBridge, /'重玩 1-1'/);
-  assert.match(resultBridge, /'返回天庭地图'/);
+  assert.match(resultBridge, /showLevelResult\(this, \{[\s\S]*result: 'cleared'/);
+  assert.match(resultBridge, /'Stage12Scene'/);
+  assert.match(resultBridge, /'HeavenMapScene'/);
   assert.doesNotMatch(sceneSource, /catch-monster72|Monster72 monkey1/);
 }
 

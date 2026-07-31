@@ -2,7 +2,44 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-07-31
+
+### Stage 1-2 怪物视觉 Goal 治理反馈
+
+变更内容：
+
+- `TASK-SLICE-157B / GOAL-061` 收尾扫描 PG-001—012，命中 PG-002/004/005/006/008/009/012；分别回写不提前关线、六段证据消费、共享物理/奖励边界、0 compact、唯一 bundle owner 与公共生命周期/结果 owner 未漂移样本。
+- 本次没有修改问题定义、治理方案或通用协议；各问题保持原状态。功能线继续 Active，只激活同线 `GOAL-062 / TASK-SLICE-157C`。
+
+影响范围：
+
+- `docs/workflow/problems/PG-002/004/005/006/008/009/012-*.md`
+- Goal/task/feature-line/coverage/mechanics/vertical-slice/history 文档
+
+验证：
+
+- `npm run check:workflow` 与 `git diff --check`。
+
 ## 2026-07-30
+
+### 公共原版关卡结果页补治
+
+变更内容：
+
+- 用户复验发现 `TASK-ARCH-015` 只统一逻辑终态，Stage 1-1 与其余四关仍保留私有现代黑框结果页；该反馈命中 `PG-012`，说明首轮方案遗漏结果视图 owner。
+- `TASK-SLICE-161 / GOAL-065` 从 `OtherMat1.swf` character 330/313 恢复原版 `GameWin/GameFail`，建立唯一 `LevelResultView` 并迁移五关，删除四个私有 ResultBridge 与 Stage 1-1 黑框实现。
+- 新门禁同时约束后续关卡消费公共生命周期和公共结果 presenter；`PG-012` 继续效果观察，不因存量补治提前关闭。
+
+影响范围：
+
+- `docs/architecture/src-boundaries.md`
+- `docs/domain/glossary.md`
+- `docs/workflow/problems/PG-012-关卡结果协议按关卡漂移.md`
+- Goal/task/feature-line/coverage/mechanics/vertical-slice/history 文档
+
+验证：
+
+- 原版显示列表/资源/按钮专项、五关迁移门禁、全系统、build、structure、annotations、workflow、diff check 与 940×590 成功/失败页。
 
 ### 通用关卡生命周期治理落地
 

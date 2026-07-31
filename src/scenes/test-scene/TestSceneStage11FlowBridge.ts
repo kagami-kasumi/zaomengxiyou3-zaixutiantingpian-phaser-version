@@ -7,9 +7,15 @@ import { isHeroCombatDead } from './TestSceneSystems';
 import { installFormalFeatureUiEntries } from '../feature-ui/FormalFeatureUiEntryBridge';
 import { createFormalPartyRetryData } from '../../systems/FormalPartyRuntimeSystem';
 import { startSceneWithBundle } from '../SceneAssetBundleBridge';
+import {
+  createLevelResultStats,
+  markLevelResultStarted,
+  showLevelResult,
+} from '../LevelResultView';
 
 export function initializeStage11Flow(this: any): void {
   this.stage11Flow = createStage11Flow(this.playerCount, this.levelUnlockProgress);
+  markLevelResultStarted(this);
 }
 
 export function installStage11FeatureUiEntries(this: any): void {
@@ -37,48 +43,24 @@ export function showStage11ClearOverlay(this: any): void {
 
   this.levelUnlockProgress = { ...flow.unlockProgress };
   this.saveSceneNow();
-  this.clearOverlay = createResultOverlay(this, {
-    title: '关卡胜利',
-    subtitle: 'Stage 1-1 · 巫鹰已击败',
-    detail: '已解锁 1-2（内容尚未接入）',
-    accent: 0xf2c14e,
+  const retryData = createFormalPartyRetryData(this.formalPartyRuntime);
+  this.clearOverlay = showLevelResult(this, {
+    result: 'cleared',
+    stats: createLevelResultStats(this),
+    onRetry: () => restartFreshTestScene(this),
+    onNext: () => void startSceneWithBundle(this, 'Stage12Scene', retryData),
+    onBack: () => void startSceneWithBundle(this, 'HeavenMapScene'),
   });
 }
 
 function showFailureOverlay(this: any): void {
   if (this.clearOverlay) return;
-  this.clearOverlay = createResultOverlay(this, {
-    title: '全员战败',
-    subtitle: 'Stage 1-1',
-    detail: '2.5 秒全灭检查已完成',
-    accent: 0xc96a6a,
+  this.clearOverlay = showLevelResult(this, {
+    result: 'failed',
+    stats: createLevelResultStats(this, 0),
+    onRetry: () => restartFreshTestScene(this),
+    onBack: () => void startSceneWithBundle(this, 'HeavenMapScene'),
   });
-}
-
-function createResultOverlay(
-  scene: any,
-  copy: { title: string; subtitle: string; detail: string; accent: number },
-): Phaser.GameObjects.Container {
-  const background = scene.add.rectangle(470, 295, 940, 590, 0x000000, 0.82).setScrollFactor(0);
-  const title = scene.add.text(470, 176, copy.title, {
-    color: `#${copy.accent.toString(16).padStart(6, '0')}`,
-    fontFamily: 'Arial, sans-serif', fontSize: '42px',
-  }).setOrigin(0.5).setScrollFactor(0);
-  const subtitle = scene.add.text(470, 244, copy.subtitle, {
-    color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '22px',
-  }).setOrigin(0.5).setScrollFactor(0);
-  const detail = scene.add.text(470, 286, copy.detail, {
-    color: '#9ed7b5', fontFamily: 'Arial, sans-serif', fontSize: '16px',
-  }).setOrigin(0.5).setScrollFactor(0);
-  const retry = createResultButton(scene, 350, 382, '重玩 1-1', () => {
-    restartFreshTestScene(scene);
-  });
-  const back = createResultButton(scene, 590, 382, '返回天庭地图', () => {
-    void startSceneWithBundle(scene, 'HeavenMapScene');
-  });
-  const container = scene.add.container(0, 0, [background, title, subtitle, detail, ...retry, ...back]);
-  container.setScrollFactor(0).setDepth(200);
-  return container;
 }
 
 function restartFreshTestScene(scene: any): void {
@@ -89,24 +71,4 @@ function restartFreshTestScene(scene: any): void {
     manager.remove('TestScene');
     manager.add('TestScene', new SceneConstructor(), true, retryData);
   });
-}
-
-function createResultButton(
-  scene: Phaser.Scene,
-  x: number,
-  y: number,
-  label: string,
-  onClick: () => void,
-): [Phaser.GameObjects.Rectangle, Phaser.GameObjects.Text] {
-  const background = scene.add.rectangle(x, y, 200, 50, 0x23314a)
-    .setStrokeStyle(2, 0xf2c14e)
-    .setScrollFactor(0)
-    .setInteractive({ useHandCursor: true });
-  const text = scene.add.text(x, y, label, {
-    color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '17px',
-  }).setOrigin(0.5).setScrollFactor(0);
-  background.on('pointerover', () => background.setFillStyle(0x344867));
-  background.on('pointerout', () => background.setFillStyle(0x23314a));
-  background.on('pointerdown', onClick);
-  return [background, text];
 }

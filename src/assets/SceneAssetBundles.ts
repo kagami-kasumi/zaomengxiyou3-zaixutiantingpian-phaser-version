@@ -5,6 +5,7 @@ import {
   getSkillNativeHeroUiAssets,
   heavenMapAssets,
   immortalityUiAssets,
+  levelResultAssets,
   pickupAssets,
   role1NormalAttackAssets,
   savePartyAssets,
@@ -19,7 +20,10 @@ import {
   stage11Assets,
   stage11MonsterAtlases,
   stage11MonsterAttackAssets,
+  stage12MonsterAtlases,
+  stage12MonsterAttackAssets,
   Stage11MonsterAssetKeys,
+  Stage12MonsterAssetKeys,
   stage12Assets,
   stage13Assets,
   stage21Assets,
@@ -171,6 +175,7 @@ const skillCommonAssets = [
 ];
 const combatCommonAssets = [
   ...Object.values(scaffoldAssets).map(svg),
+  ...Object.values(levelResultAssets).map(image),
   ...Object.values(role1NormalAttackAssets).flatMap(images),
   ...Object.values(combatHudAssets).map(svg),
   ...Object.values(stageFeatureEntryButtonAssets).flatMap((states) =>
@@ -205,6 +210,21 @@ const stage11MonsterBundleAssets = [
 ];
 const stage12BundleAssets = Object.values(stage12Assets).flatMap((asset) =>
   'framePaths' in asset ? images(asset) : [image(asset)]);
+const stage12MonsterBundleAssets = [
+  ...Object.values(stage12MonsterAtlases).map((asset) => ({
+    kind: 'spritesheet' as const,
+    key: asset.key,
+    path: asset.path,
+    frameWidth: asset.cellWidth,
+    frameHeight: asset.cellHeight,
+  })),
+  ...Object.values(stage12MonsterAttackAssets).flatMap(images),
+  {
+    kind: 'text' as const,
+    key: Stage12MonsterAssetKeys.attackGeometry,
+    path: '/assets/stage1/monsters/attack-frame-geometry.csv',
+  },
+];
 const stage13BundleAssets = Object.values(stage13Assets).map(image);
 const sharedStage2MonsterAssets = [
   ...Object.values(stage21MonsterAtlases).map((asset) => ({
@@ -356,7 +376,7 @@ export const sceneAssetBundles = {
   },
   'stage-12': {
     dependencies: ['combat-common', 'stage-1-common'],
-    assets: stage12BundleAssets,
+    assets: [...stage12BundleAssets, ...stage12MonsterBundleAssets],
   },
   'stage-13': {
     dependencies: ['combat-common', 'stage-1-common'],

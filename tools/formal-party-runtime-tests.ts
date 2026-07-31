@@ -85,12 +85,12 @@ for (const relativePath of [
   assert.doesNotMatch(source(relativePath), /data\?\.playerCount/);
 }
 for (const relativePath of [
-  'src/scenes/stage12/Stage12ResultBridge.ts',
-  'src/scenes/stage13/Stage13ResultBridge.ts',
-  'src/scenes/stage21/Stage21ResultBridge.ts',
-  'src/scenes/stage22/Stage22ResultBridge.ts',
+  'src/scenes/Stage12Scene.ts',
+  'src/scenes/Stage13Scene.ts',
+  'src/scenes/Stage21Scene.ts',
+  'src/scenes/Stage22Scene.ts',
 ]) {
-  assert.match(source(relativePath), /scene\.scene\.restart\(retryData\)/);
+  assert.match(source(relativePath), /this\.scene\.restart\(retryData\)/);
   assert.doesNotMatch(source(relativePath), /restart\(\{ playerCount \}\)/);
 }
 assert.match(source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'), /createFormalPartyRetryData/);

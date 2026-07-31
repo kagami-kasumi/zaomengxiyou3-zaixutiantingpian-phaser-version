@@ -65,6 +65,7 @@
 | 关卡解锁进度 | `LevelUnlockProgress` | Value Object / Save Data | Content / Save | 当前已解锁的最高关卡坐标；与英雄等级成长分离 | `StageProgress`, `LevelProgress` |
 | 关卡英雄移动运行时 | `LevelHeroMovementRuntime` | Runtime Model / System | Combat / Runtime | 统一持有正式关卡内各玩家的移动模型、上一帧输入与移动调度；关卡只提供平台和动态边界 | `StagePlayerRuntime`, `PartyMovementRuntime` |
 | 关卡生命周期 | `LevelLifecycle` | Runtime Class / System | Content / Runtime | 全部关卡默认复用的进行中、失败延迟、失败、通关、出口交互与幂等解锁 owner；特殊关卡只注入窄完成策略 | `StageLifecycle`, `StageFlowSystem`, `LevelStateSystem` |
+| 关卡结果视图 | `LevelResultView` | Presenter / Scene View | Content / UI | 全部关卡共用的原版 `GameWin` / `GameFail` 投影，统一成绩字段、按钮状态与下一关/重试/返回回调；不持有关卡内容流程 | `StageResultBridge`, `ResultOverlay`, `LevelResultScreen` |
 | 关卡内容流程模型 | `Stage*FlowModel` | Model | Content / Runtime | 单关地形推进、停点、波次、Boss/机关等内容状态；继承通用 `LevelLifecycle`，不得重新定义终态、失败倒计时或解锁提交 | `LevelState`, `StageLifecycle` |
 | 地图 | `MapData` | Config | Content | 地形、平台、出生点等数据 | `Map`, `TileMapData` |
 | 天庭选关地图 | `HeavenMap` | Aggregate / Config | Content | 当前存档下第一世界节点状态、命中区与关卡路由；不等于关卡内地形数据 | `WorldMap`, `StageMap`, `SelectPlace` |

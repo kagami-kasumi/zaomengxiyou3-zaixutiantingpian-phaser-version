@@ -59,6 +59,14 @@ import {
   readFormalSkillRuntime,
   type FormalSkillsUpdatedPayload,
 } from '../feature-ui/FormalSkillRuntimeBridge';
+import {
+  createStage12MonsterView,
+  destroyStage12MonsterView,
+  readStage12AttackGeometry,
+  updateStage12MonsterView,
+  type Stage12AttackGeometryRegistry,
+  type Stage12MonsterView,
+} from './Stage12MonsterVisualBridge';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
@@ -68,9 +76,9 @@ type PlayerRuntime = {
 type EnemyRuntime = {
   model: Stage12Enemy;
   combat: Stage1CombatEnemy;
-  body: Phaser.GameObjects.Arc;
-  label: Phaser.GameObjects.Text;
+  view: Stage12MonsterView;
   physics: MonsterPhysicsModel;
+  defeatReported: boolean;
 };
 
 export type Stage12GameplayResult = 'failed' | 'cleared' | 'fb-entered';
@@ -115,6 +123,7 @@ export function createStage12Gameplay(
     currentPlatformId: STAGE12_GROUND_PLATFORM_ID,
   })));
   const enemies = new Map<string, EnemyRuntime>();
+  const monsterGeometry = readStage12AttackGeometry(scene);
   const fbEnter: Stage12FbEnterHandle = createStage12FbEnterBridge(
     scene,
     fbEnterImage,
@@ -155,9 +164,10 @@ export function createStage12Gameplay(
     }
     activateReachedStopPoint(flow, players);
     for (const enemy of updateStage12Spawners(flow, deltaMs)) {
-      enemies.set(enemy.id, createEnemyView(scene, enemy));
+      enemies.set(enemy.id, createEnemyView(scene, enemy, monsterGeometry));
     }
     updateEnemyCombat(
+      scene,
       players,
       [state.p1, state.p2],
       movementRuntime,
@@ -268,6 +278,7 @@ function activateReachedStopPoint(flow: Stage12FlowModel, players: readonly Play
 }
 
 function updateEnemyCombat(
+  scene: Phaser.Scene,
   players: PlayerRuntime[],
   inputs: readonly PlayerInputState[],
   movementRuntime: LevelHeroMovementRuntime,
@@ -290,7 +301,7 @@ function updateEnemyCombat(
       })),
       deltaMs,
     });
-    syncEnemyView(enemy);
+    syncEnemyView(scene, enemy, deltaMs);
     resolveStage1EnemyAttack({
       runtime,
       enemy: enemy.combat,
@@ -310,27 +321,26 @@ function updateEnemyCombat(
     });
   });
   for (const [id, enemy] of enemies) {
-    syncEnemyView(enemy);
+    const visualComplete = syncEnemyView(scene, enemy, 0);
     if (enemy.combat.phase !== 'dead') continue;
-    rewards.onMonsterDefeated(enemy.combat);
-    defeatStage12Enemy(flow, id);
+    if (!enemy.defeatReported) {
+      rewards.onMonsterDefeated(enemy.combat);
+      defeatStage12Enemy(flow, id);
+      enemy.defeatReported = true;
+    }
+    if (!visualComplete) continue;
     destroyEnemyView(enemy);
     enemies.delete(id);
   }
   players.forEach(syncPlayerFeedback);
 }
 
-function createEnemyView(scene: Phaser.Scene, enemy: Stage12Enemy): EnemyRuntime {
-  const color = enemy.enemyType === 2 ? 0x8f63d8
-    : enemy.enemyType === 4 ? 0xd86b63
-      : enemy.enemyType === 7 ? 0x6cbf73 : 0x5ca8d8;
-  const radius = enemy.isBoss ? 28 : 18;
-  const physics = createMonsterPhysics({ y: enemy.y, height: radius * 2 });
-  const body = scene.add.circle(enemy.x, physics.y, radius, color)
-    .setStrokeStyle(2, 0x1a2130).setDepth(18);
-  const label = scene.add.text(enemy.x, physics.y, `M${enemy.enemyType}`, {
-    color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: enemy.isBoss ? '14px' : '11px',
-  }).setOrigin(0.5).setDepth(19);
+function createEnemyView(
+  scene: Phaser.Scene,
+  enemy: Stage12Enemy,
+  geometry: Stage12AttackGeometryRegistry,
+): EnemyRuntime {
+  const physics = createMonsterPhysics({ y: enemy.y, height: 100 });
   return {
     model: enemy,
     combat: createStage1CombatEnemy({
@@ -339,23 +349,18 @@ function createEnemyView(scene: Phaser.Scene, enemy: Stage12Enemy): EnemyRuntime
       x: enemy.x,
       y: physics.y,
     }),
-    body,
-    label,
+    view: createStage12MonsterView(scene, enemy.enemyType, enemy.x, physics.y, geometry),
     physics,
+    defeatReported: false,
   };
 }
 
-function syncEnemyView(enemy: EnemyRuntime): void {
-  enemy.body.x = enemy.combat.x;
-  enemy.body.y = enemy.combat.y;
-  enemy.label.x = enemy.combat.x;
-  enemy.label.y = enemy.combat.y;
-  enemy.label.setText(`M${enemy.model.enemyType}${enemy.combat.phase === 'windup' ? ' !' : enemy.combat.phase === 'active' ? ' *' : ''}`);
-  const color = enemy.combat.phase === 'windup' ? 0xffd166
-    : enemy.combat.phase === 'active' ? 0xff5d5d
-      : enemy.combat.phase === 'hurt' ? 0xffffff : enemy.model.enemyType === 2 ? 0x8f63d8
-        : enemy.model.enemyType === 4 ? 0xd86b63 : enemy.model.enemyType === 7 ? 0x6cbf73 : 0x5ca8d8;
-  enemy.body.setFillStyle(color);
+function syncEnemyView(
+  scene: Phaser.Scene,
+  enemy: EnemyRuntime,
+  deltaMs: number,
+): boolean {
+  return updateStage12MonsterView(scene, enemy.view, enemy.combat, deltaMs);
 }
 
 function syncPlayerFeedback(player: PlayerRuntime): void {
@@ -366,8 +371,7 @@ function syncPlayerFeedback(player: PlayerRuntime): void {
 }
 
 function destroyEnemyView(enemy: EnemyRuntime): void {
-  enemy.body.destroy();
-  enemy.label.destroy();
+  destroyStage12MonsterView(enemy.view);
 }
 
 function followParty(

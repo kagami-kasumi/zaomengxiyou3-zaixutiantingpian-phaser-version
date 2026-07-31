@@ -11,10 +11,12 @@ const bundledTests = requestedTests.length > 0
   : [
       'system-tests',
       'level-lifecycle-tests',
+      'level-result-tests',
       'crafting-tests',
       'stage11-resource-tests',
       'stage11-flow-tests',
       'stage12-resource-tests',
+      'stage12-monster-visual-tests',
       'stage12-flow-tests',
       'stage12-traversal-tests',
       'stage12-fb-enter-tests',

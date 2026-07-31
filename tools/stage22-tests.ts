@@ -462,7 +462,7 @@ assert.ok(formalGameplaySource.includes('createStage21MonsterView'));
 assert.ok(formalGameplaySource.includes('createMonster16View'));
 assert.ok(formalGameplaySource.includes('flow.tryComplete(createLevelCompletionAttempt'));
 const formalSceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage22Scene.ts'), 'utf8');
-assert.ok(formalSceneSource.includes('showStage22Result'));
+assert.ok(formalSceneSource.includes('showLevelResult'));
 assert.ok(formalSceneSource.includes('installFormalFeatureUiEntries'));
 assert.equal(formalSceneSource.includes('keydown-ESC'), false);
 assert.ok(formalSceneSource.includes('import.meta.env.DEV || isStage22LocalQaHost'));

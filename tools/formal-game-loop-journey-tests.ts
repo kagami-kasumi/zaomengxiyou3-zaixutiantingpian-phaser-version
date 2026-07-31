@@ -226,7 +226,7 @@ assert.doesNotMatch(source('src/scenes/HeavenMapScene.ts'), /openPlayerCountChoo
 assert.match(source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'), /saveSceneNow\(\)/);
 assert.match(
   source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'),
-  /startSceneWithBundle\(scene, 'HeavenMapScene'\)/,
+  /startSceneWithBundle\(this, 'HeavenMapScene'\)/,
 );
 
 console.log('Formal game-loop end-to-end journey tests passed.');
