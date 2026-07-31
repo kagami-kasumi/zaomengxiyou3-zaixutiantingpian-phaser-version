@@ -95,6 +95,7 @@ assert.ok(runtimeAssetBundleOwners.size > 250);
 assert.equal(requireRuntimeAssetOwner('save-slots.start-menu'), 'shell');
 assert.equal(requireRuntimeAssetOwner('monster.stage1.monster30.atlas'), 'stage-1-monsters');
 assert.equal(requireRuntimeAssetOwner('monster.stage1.monster5.atlas'), 'stage-1-monsters');
+assert.equal(requireRuntimeAssetOwner('stage.stage1-3.transfer-door'), 'stage-1-common');
 assert.equal(requireRuntimeAssetOwner('monster.stage2-1.monster6.atlas'), 'stage-2-monsters');
 assert.equal(requireRuntimeAssetOwner('monster.stage2-2.monster16.atlas'), 'stage-22');
 assert.throws(
@@ -132,6 +133,23 @@ assert.throws(
   assert.equal(coordinator.isLoaded('stage-12'), true);
   await coordinator.ensure('stage-12', adapter);
   assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-1-monsters', 'stage-12']);
+}
+
+{
+  const coordinator = new AssetBundleCoordinator();
+  const loadedKeys = new Set<string>();
+  const adapter: AssetBundleLoadAdapter = {
+    has: (asset) => loadedKeys.has(asset.key),
+    load: async (_bundleId, assets) => {
+      for (const asset of assets) loadedKeys.add(asset.key);
+    },
+  };
+  await coordinator.ensure('stage-11', adapter);
+  assert.equal(
+    loadedKeys.has('stage.stage1-3.transfer-door'),
+    true,
+    'Stage 1-1 must resolve the transfer-door texture instead of Phaser missing texture',
+  );
 }
 
 {
@@ -195,6 +213,12 @@ assert.doesNotMatch(
 );
 assert.doesNotMatch(bootSource, /Object\.values\(/);
 const bridgeSource = source('src/scenes/SceneAssetBundleBridge.ts');
+const stage11ViewsSource = source('src/scenes/test-scene/TestSceneViews.ts');
+assert.match(stage11ViewsSource, /Stage13AssetKeys\.transferDoor/);
+assert.ok(
+  sceneAssetBundles['stage-11'].dependencies.includes('stage-1-common'),
+  'Stage 1-1 must load the shared owner of its transfer-door texture',
+);
 assert.match(bridgeSource, /Phaser\.Scenes\.Events\.SHUTDOWN/);
 assert.match(bridgeSource, /FILE_LOAD_ERROR/);
 assert.match(source('src/scenes/SaveSlotScene.ts'), /ensureSceneAssetBundle\(this, 'save-party'/);

@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Ready）
 
 
 目标机制/切片：
@@ -25,12 +25,13 @@
 
 输入资料：
 
-- PG-013 证据、五关 Scene/World/Gameplay/Flow/Layout、公共生命周期/结果/移动/战斗/奖励/HUD、原版公共门登记/碰撞与各关差异。
+- PG-013 证据、五关 Scene/World/Gameplay/Flow/Layout、公共生命周期/结果/移动/战斗/奖励/HUD、原版公共门登记/碰撞与各关差异，以及 Stage 1-1 借用 Stage 1-3 门静态图并由 `stage-1-common` 临时补齐依赖的兼容路径。
 
 输出产物：
 
 - `PlayableLevelRuntime`、`LevelDefinition`、`LevelWorldAdapter`、`LevelEncounter`、`TransferDoorVisualDefinition` 的 ADR/边界合同。
 - 五关逐职责消费者矩阵、权威 owner、页面/关卡保留项、迁移顺序、兼容 facade 和静态防回填检查。
+- 临时兼容删除条件：016D 接入 Stage 1-1 character 45/41/44 后删除跨关 `Stage13AssetKeys.transferDoor` 引用及其公共 bundle 兼容。
 
 完成定义：
 

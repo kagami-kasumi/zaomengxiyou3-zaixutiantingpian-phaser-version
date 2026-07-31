@@ -31,11 +31,13 @@
 
 - Stage 1-1 Definition/Encounter/窄 TestScene adapter、自己的真门视觉定义、五关消费者矩阵闭合。
 - 后续关卡模板、静态防回填、完整五关旅程和 PG-013 效果观察入口。
+- 删除 Stage 1-1 对 `Stage13AssetKeys.transferDoor` 的跨关借用，以及为该借用设置的 `stage-1-common` 临时资源兼容。
 
 完成定义：
 
 - 1-1 共同职责进入公共 Runtime；TestScene 不再作为正式关卡共同生命周期 owner。
 - 1-1 门使用自身 character 45 动画定义，门行为仍与全部关卡共享；英雄/怪物动画与算法不进入关卡。
+- 运行时代码、bundle 和自动测试中不再把 Stage 1-3 门 key 当作 Stage 1-1 门；临时兼容完全删除。
 - 五关全部迁移且没有私有共同 Runtime；新增关卡模板默认要求 LevelDefinition/Encounter/adapter。
 
 UI 原生化合同：
@@ -69,4 +71,4 @@ UI 原生化合同：
 
 推荐后续任务：
 
-- `TASK-SETTINGS-069`。
+- `TASK-SLICE-158A`。
