@@ -58,6 +58,14 @@ import {
   readFormalSkillRuntime,
   type FormalSkillsUpdatedPayload,
 } from '../feature-ui/FormalSkillRuntimeBridge';
+import {
+  createStage13MonsterView,
+  destroyStage13MonsterView,
+  readStage13MonsterGeometry,
+  updateStage13MonsterView,
+  type Stage13MonsterGeometryRegistry,
+  type Stage13MonsterView,
+} from './Stage13MonsterVisualBridge';
 
 type PlayerRuntime = {
   view: Phaser.GameObjects.Image;
@@ -65,11 +73,10 @@ type PlayerRuntime = {
 };
 
 type MonsterRuntime = {
-  model: Stage13Enemy;
   combat: Stage1CombatEnemy;
-  body: Phaser.GameObjects.Arc;
-  label: Phaser.GameObjects.Text;
+  view: Stage13MonsterView;
   physics: MonsterPhysicsModel;
+  defeatReported: boolean;
 };
 
 export type Stage13GameplayHandle = Readonly<{
@@ -111,6 +118,7 @@ export function createStage13Gameplay(
     currentPlatformId: STAGE13_GROUND_PLATFORM_ID,
   })));
   const monsters = new Map<string, MonsterRuntime>();
+  const monsterGeometry = readStage13MonsterGeometry(scene);
   const rewards: Stage1RewardBridge = createStage1RewardBridge(scene, players, stage13MovementPlatforms);
   const hud = createStage1CombatHudBridge(
     scene,
@@ -138,9 +146,10 @@ export function createStage13Gameplay(
     );
     activateReachedStopPoint(flow, players);
     for (const monster of updateStage13Spawners(flow, deltaMs)) {
-      monsters.set(monster.id, createMonsterView(scene, monster));
+      monsters.set(monster.id, createMonsterView(scene, monster, monsterGeometry));
     }
     updateMonsterCombat(
+      scene,
       players,
       [state.p1, state.p2],
       movementRuntime,
@@ -250,6 +259,7 @@ function activateReachedStopPoint(flow: Stage13FlowModel, players: readonly Play
 }
 
 function updateMonsterCombat(
+  scene: Phaser.Scene,
   players: PlayerRuntime[],
   inputs: readonly PlayerInputState[],
   movementRuntime: LevelHeroMovementRuntime,
@@ -272,7 +282,7 @@ function updateMonsterCombat(
       })),
       deltaMs,
     });
-    syncMonsterView(monster);
+    syncMonsterView(scene, monster, deltaMs);
     resolveStage1EnemyAttack({
       runtime,
       enemy: monster.combat,
@@ -292,59 +302,49 @@ function updateMonsterCombat(
     });
   });
   for (const [id, monster] of monsters) {
-    syncMonsterView(monster);
+    const visualComplete = syncMonsterView(scene, monster, 0);
     if (monster.combat.phase !== 'dead') continue;
-    rewards.onMonsterDefeated(monster.combat);
-    defeatStage13Enemy(flow, id);
+    if (!monster.defeatReported) {
+      rewards.onMonsterDefeated(monster.combat);
+      defeatStage13Enemy(flow, id);
+      monster.defeatReported = true;
+    }
+    if (!visualComplete) continue;
     destroyMonsterView(monster);
     monsters.delete(id);
   }
   players.forEach(syncPlayerFeedback);
 }
 
-function createMonsterView(scene: Phaser.Scene, monster: Stage13Enemy): MonsterRuntime {
-  const color = monster.enemyType === 5 ? 0xd86b63
-    : monster.enemyType === 30 ? 0xc58be2
-      : monster.enemyType === 3 ? 0x8f63d8
-        : monster.enemyType === 7 ? 0x6cbf73 : 0x5ca8d8;
-  const radius = monster.isBoss ? 36 : monster.isFlying ? 15 : 18;
+function createMonsterView(
+  scene: Phaser.Scene,
+  monster: Stage13Enemy,
+  geometry: Stage13MonsterGeometryRegistry,
+): MonsterRuntime {
   const physics = createMonsterPhysics({
     y: monster.y,
-    height: radius * 2,
+    height: monster.isBoss ? 130 : monster.isFlying ? 42 : 100,
     motionMode: monster.isFlying ? 'flying' : 'grounded',
   });
-  const body = scene.add.circle(monster.x, physics.y, radius, color)
-    .setStrokeStyle(2, 0x1a2130).setDepth(18);
-  const label = scene.add.text(monster.x, physics.y, `M${monster.enemyType}`, {
-    color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: monster.isBoss ? '14px' : '11px',
-  }).setOrigin(0.5).setDepth(19);
   return {
-    model: monster,
     combat: createStage1CombatEnemy({
       id: monster.id,
       enemyType: monster.enemyType,
       x: monster.x,
       y: physics.y,
     }),
-    body,
-    label,
+    view: createStage13MonsterView(scene, monster.enemyType, monster.x, physics.y, geometry),
     physics,
+    defeatReported: false,
   };
 }
 
-function syncMonsterView(monster: MonsterRuntime): void {
-  monster.body.x = monster.combat.x;
-  monster.body.y = monster.combat.y;
-  monster.label.x = monster.combat.x;
-  monster.label.y = monster.combat.y;
-  monster.label.setText(`M${monster.model.enemyType}${monster.combat.phase === 'windup' ? ' !' : monster.combat.phase === 'active' ? ' *' : ''}`);
-  const color = monster.combat.phase === 'windup' ? 0xffd166
-    : monster.combat.phase === 'active' ? 0xff5d5d
-      : monster.combat.phase === 'hurt' ? 0xffffff : monster.model.enemyType === 5 ? 0xd86b63
-        : monster.model.enemyType === 30 ? 0xc58be2
-          : monster.model.enemyType === 3 ? 0x8f63d8
-            : monster.model.enemyType === 7 ? 0x6cbf73 : 0x5ca8d8;
-  monster.body.setFillStyle(color);
+function syncMonsterView(
+  scene: Phaser.Scene,
+  monster: MonsterRuntime,
+  deltaMs: number,
+): boolean {
+  return updateStage13MonsterView(scene, monster.view, monster.combat, deltaMs);
 }
 
 function syncPlayerFeedback(player: PlayerRuntime): void {
@@ -355,8 +355,7 @@ function syncPlayerFeedback(player: PlayerRuntime): void {
 }
 
 function destroyMonsterView(monster: MonsterRuntime): void {
-  monster.body.destroy();
-  monster.label.destroy();
+  destroyStage13MonsterView(monster.view);
 }
 
 function followParty(scene: Phaser.Scene, players: readonly PlayerRuntime[], flow: Stage13FlowModel): void {

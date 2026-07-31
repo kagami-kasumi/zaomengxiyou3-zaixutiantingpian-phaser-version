@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-157C | Stage 1-3 怪物真动画 | 接入 Monster5 全动作/四攻击对象并复用 Monster30/3/7/8 真视觉，保持 105 怪与 Boss 门语义 | M-030、M-034、M-035、VS-061 | Monster5 31 本体帧、4 对象/24 帧、共享 identity bridge、Stage 1-3 bundle、专项/全系统与 940×590 证据 |
 | TASK-SLICE-157B | Stage 1-2 怪物真动画 | 接入 Monster2/4/7/8 全动作、九攻击/效果对象、镜像/触发/死亡生命周期并保持战斗语义不变 | M-030、M-034、M-035、VS-061 | 4 本体 atlas、9 对象/122 帧、共享只读视觉描述、Stage 1-2 bridge、唯一 bundle owner、专项/全系统与 940×590 单双人证据 |
 | TASK-SLICE-161 | 公共原版关卡结果页 | 接入共享 GameWin/GameFail，删除五关现代黑框并统一按钮、保存和路由 | M-014、M-035、M-044、M-052、VS-007、VS-050、PG-012 | 330/313 原版根视觉、三按钮三态、四成绩字段、唯一 `LevelResultView`、五关迁移、防回填门禁与 940×590 成败页证据 |
 | TASK-ARCH-015 | 通用关卡生命周期协议 | 为全部后续关卡建立通关、判负、解锁与结果默认骨架并迁移五关 | M-014、M-026、M-028、VS-007、VS-050、PG-012 | `LevelLifecycle`、Phaser bounds adapter、五关 Flow/bridge 迁移、窄策略合同、专项/静态门禁与 940×590 横向关卡证据 |
@@ -4975,6 +4976,42 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-157C
+
+- 完成日期：2026-07-31
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 Active；下一 task 为 `TASK-SLICE-157D`）
+- Stage 1-3 的 Monster5 已从 Arc/Text 占位切换为原版 2100×2450 atlas：wait/walk/hurt/dead/hit1/hit2/hit3 共 31 个独立视觉帧，保持 30 FPS hold、BBDC `(30,-55)` offset、ObjectBaseSprite2 根与左右镜像。
+- Monster5 hit1、hit2 起手/后续和 hit3 四个攻击对象共 24 帧按逐帧几何接入；触发 tick 7/5/15/1、世界偏移和末帧销毁保持原合同，hit3 以四个视觉帧循环四次完成 16 tick。
+- Stage 1-3 的 Monster30/3 直接复用 157A 的 atlas/描述/对象 identity，Monster7/8 直接复用 157B identity；`Stage13MonsterVisualBridge` 只负责按类型投影视觉，没有复制 atlas key 或动画事实。
+- `stage-13` 只新增 Monster5 atlas、四对象和独立几何 cache key；共享 Monster30/3/7/8 通过现有 `stage-11` / `stage-12` 唯一 owner 依赖消费，Boot、地图和 Stage 2 bundle 未回填。五条 Monster5 标注升级为 ready。
+- `Stage13GameplayBridge` 继续消费 `MonsterPhysicsSystem`、`Stage1RewardBridge`、`LevelLifecycle` 与 `LevelResultView`；`defeatReported` 仅幂等提交既有 flow/reward 并保留死亡 view 到末帧。Monster5 死亡立即显门、剩余 Monster30 不阻塞胜利的合同未改。
+- 专项覆盖 atlas/对象数量、七动作 hold、4×4 hit3、注册根、左右生成点、对象触发、死亡 24 tick、共享 stable key、唯一 bundle owner和无 Arc/Text；Stage 1-3 flow、bundle、全系统、build、structure、annotations、workflow 与 diff check 通过。
+- 940×590 正式存档路径观察到单人首批 Monster7/8 真动画、双人 HUD/入口和公共失败页，console warning/error 为 0；Monster5 atlas 做本地视觉抽检，其全动作/对象/Boss 门由确定性逐 tick 与 flow 证据覆盖。完整五关长程、重入和 Stage 2 防回归明确留给 `TASK-SLICE-157D`。
+- 本次保持两个主工作包、两批验收和 0 次 compact，没有进入 Stage 2 回归、角色动画、战斗数值或通用关卡框架迁移。`VS-061` 保持部分完成，`TASK-SLICE-157D` 已成为唯一 Ready。
+
+更新文件：
+- `public/assets/stage1/monsters/monster5.png` 与四组 Monster5 攻击对象
+- `src/systems/Stage13Monster5VisualSystem.ts`
+- `src/scenes/stage13/Stage13Monster5VisualBridge.ts`、`Stage13MonsterVisualBridge.ts`、`Stage13GameplayBridge.ts`
+- `src/assets/AssetManifest.ts`、`src/assets/SceneAssetBundles.ts`
+- `tools/stage13-monster-visual-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- Stage 1 怪物视觉索引/标注、机制/切片、task、功能线/覆盖台账与适用 PG 效果记录
+
+验证：
+- `npm run test:stage13-monsters`
+- `npm run test:stage13-flow`
+- `npm run test:asset-bundles`
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:structure`
+- `npm run check:annotations`
+- `npm run check:workflow`
+- `git diff --check`
+- 940×590 正式单/双人 Stage 1-3、公共失败页与零 console error/warning
+
+推荐任务：
+- `TASK-SLICE-157D`：只做五关资源 owner、Stage 2-1/2-2 防回归、重入与父任务 157 关闭验收。
 
 ### TASK-SLICE-157B
 

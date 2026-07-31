@@ -4,7 +4,7 @@
 
 ## 当前推荐
 
-`TASK-SLICE-157C` 是唯一当前推荐，属于唯一 Active 功能线。Stage 1-2 Monster7/8/4/2 与九个攻击/效果对象已闭合，当前继续 Stage 1-3 Monster5 新资源与共享怪物复用。
+`TASK-SLICE-157D` 是唯一当前推荐，属于唯一 Active 功能线。Stage 1 三关全部实际怪物与攻击对象已接入真视觉，当前只做五关资源 owner、Stage 2 防回归和父任务关闭验收。
 
 ## 待完成任务
 
@@ -12,8 +12,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SETTINGS-069 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 逐角色逐技能全集矩阵、资源标注与逐角色实现 task | 拆分 TASK-SLICE-158 | [定义](task-definitions/TASK-SETTINGS-069.md) |
 | TASK-SLICE-157 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 既有关卡怪物动画父任务 | Stage 1-1/1-2/1-3 逐关接入全部怪物/攻击对象真动画，回归 Stage 2-1/2-2 | M-030、M-034、M-035、VS-061 | 由 TASK-SETTINGS-068 生成的逐关子 task | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SLICE-157.md) |
-| TASK-SLICE-157C | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Stage 1-3 怪物真动画 | 接入 Monster5 并复用 30/3/7/8，闭合 105 怪视觉 | M-030、M-034、M-035、VS-061 | Monster5/四对象、共享复用、门禁与逐状态证据 | TASK-SLICE-157D | [定义](task-definitions/TASK-SLICE-157C.md) |
-| TASK-SLICE-157D | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 五关怪物视觉回归 | 收敛五关资源 owner，回归 Stage 2-1/2-2 并关闭父任务 | M-030、M-034、M-035、VS-061 | 五关自动/运行证据、bundle 防回归与父任务归档 | TASK-SETTINGS-069 | [定义](task-definitions/TASK-SLICE-157D.md) |
+| TASK-SLICE-157D | Ready | LINE-PRE-STAGE-2-3-COMPLETION | 五关怪物视觉回归 | 收敛五关资源 owner，回归 Stage 2-1/2-2 并关闭父任务 | M-030、M-034、M-035、VS-061 | 五关自动/运行证据、bundle 防回归与父任务归档 | TASK-SETTINGS-069 | [定义](task-definitions/TASK-SLICE-157D.md) |
 | TASK-ARCH-016 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 通用可玩关卡框架父任务 | 将五关共同运行职责收敛到组合式框架，关卡只声明定义、遭遇和窄差异 | M-014、M-026、M-027、M-029、M-035、M-044、VS-065、PG-013 | `016A..D` 的合同、试点、逐批迁移、门禁与未来关卡模板 | 全部子 task 完成后收束父任务并将 PG-013 转效果观察 | [定义](task-definitions/TASK-ARCH-016.md) |
 | TASK-ARCH-016A | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 关卡框架审计与合同 | 冻结五关共性/差异、owner、公共 Runtime/Definition/Encounter/adapter 合同和迁移矩阵 | M-014、M-026、M-027、M-029、VS-065、PG-013 | ADR/边界、消费者矩阵、门视觉定义合同、静态门禁与分批迁移计划 | TASK-ARCH-016B | [定义](task-definitions/TASK-ARCH-016A.md) |
 | TASK-ARCH-016B | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 公共框架横向试点 | 建立公共 Runtime 与 TransferDoorView，并迁移 Stage 1-2/1-3 | M-014、M-026、M-027、M-029、M-035、M-044、VS-065、PG-013 | 公共运行骨架、门视觉定义/组件、双关迁移、兼容 adapter 与逐状态证据 | TASK-ARCH-016C | [定义](task-definitions/TASK-ARCH-016B.md) |

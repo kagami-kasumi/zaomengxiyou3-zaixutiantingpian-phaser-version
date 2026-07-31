@@ -21,7 +21,7 @@
 | --- | --- | --- | --- |
 | Stage 1-1 | Monster30、Monster3 | StageListener11 每 6 秒按 1P/2P 生成 2/4 个 Monster30；最高层 2 秒镜头过渡后生成 Monster3 | `TASK-SLICE-157A` 已接入并逐状态验收 |
 | Stage 1-2 | Monster7、Monster8、Monster4、Monster2 | 五批 8/11/12/13/2，共 46；末批 Monster4+Monster2 双 Boss，二者均死亡才显门 | 本索引已定位，现代仍为占位 |
-| Stage 1-3 | Monster8、Monster7、Monster3、Monster5、Monster30 | 五批 9/10/12/13/61，共 105；Monster5 死亡立即显门，60 个 Monster30 不阻塞门 | 本索引已定位，现代仍为占位 |
+| Stage 1-3 | Monster8、Monster7、Monster3、Monster5、Monster30 | 五批 9/10/12/13/61，共 105；Monster5 死亡立即显门，60 个 Monster30 不阻塞门 | `TASK-SLICE-157C` 已接入并完成自动/运行分级验收 |
 | Stage 2-1 | Monster6、Monster9、Monster10、Monster19 | 五批 53，Monster6 显门 | 已接入并逐状态验收 |
 | Stage 2-2 | Monster9、Monster10、Monster19、Monster16 | 五批 54，Monster16 显门 | 已接入并逐状态验收 |
 
@@ -155,6 +155,31 @@ Monster5 `hit3` 的 `frameCount=16`，但 `frameStopCount` 和 atlas 只有 4 �
 - `local-resources/regima/task-outputs/task-slice-157b-stage12-monsters/modern/stage12-game-fail.png`
 
 运行态当前构建 console warning/error 为 0。浏览器关键帧直接覆盖单/双人正式入口、首批真怪与公共失败页；四怪全动作、九对象、死亡末帧、双 Boss 门禁与显门由 `stage12-monster-visual-tests.ts`、Stage 1-2 flow 和全系统确定性测试逐 tick 覆盖。完整五停点长程运行与最终跨关 owner 重入仍由 `TASK-SLICE-157D` 总回归。
+
+## Stage 1-3 现代映射与差异证据
+
+`TASK-SLICE-157C` 接入 Stage 1-3 的 Monster5，并复用 Stage 1-1/1-2 已接入的 Monster30/3/7/8：
+
+- `Stage13Monster5VisualSystem.ts` 保存 Monster5 七动作的 31 个独立视觉帧、原 BBDC hold tick、`(30,-55)` 注册 offset、ObjectBaseSprite2 碰撞根和左右镜像；hit3 用四张视觉帧按 `0..3` 重复四轮完成 16 tick。
+- `Stage13Monster5VisualBridge.ts` 从共享几何 CSV 读取 Monster5 四对象 24 帧，以 MovieClip 注册点创建逐帧视图并在末帧销毁；触发 tick、世界偏移和镜像均直接消费本索引合同。
+- `Stage13MonsterVisualBridge.ts` 按类型组合既有 157A/157B view：Monster30/3 复用 `Stage11MonsterVisualSystem/Bridge`，Monster7/8 复用 `Stage12MonsterVisualSystem/Bridge`，没有复制 atlas stable key、动作表或攻击对象定义。
+- `Stage13GameplayBridge.ts` 只将共享 combat phase/attackSerial/朝向投影视觉；物理、伤害、奖励、105 怪 flow、Boss 门、`LevelLifecycle` 与 `LevelResultView` owner 未改。`defeatReported` 先幂等提交玩法死亡，再让 view 保留到原死亡末帧。
+- `stage-13` 唯一持有 Monster5 atlas、四对象与本关几何 cache key；共享四怪继续由既有 `stage-11` / `stage-12` 唯一 owner 提供。此过渡依赖由 `TASK-SLICE-157D` 做五关统一 owner/重入审计，不在 157C 提前重构。
+- 允许的现代视觉例外为空；既有玩家占位和共享战斗数值不属于本视觉 task 的新增例外。
+
+逐状态差异清单：
+
+| 项目 | 原版基准 | 现代结果 | 差异 |
+| --- | --- | --- | --- |
+| Monster5 wait/walk/hurt/dead/hit1/hit2/hit3 | 31 个独立视觉帧；动作 15/16/15/24/15/27/16 tick | 31/31 atlas 帧、原 hold 与七动作行 | 无 |
+| Monster5 hit3 | 4 张视觉帧×4 循环，共 16 tick | frame order `0..3` 重复四轮 | 无 |
+| 左右朝向与注册点 | BBDC offset `(30,-55)`；ObjectBaseSprite2 根 | 原点公式与 `flipX` 围绕同一注册根 | 无 |
+| 四攻击对象 | tick 7/5/15/1；4/10/6/4 帧；末帧销毁 | 逐 tick、左右生成点、逐帧 origin 与销毁专项通过 | 无 |
+| Monster30/3/7/8 复用 | 与 Stage 1-1/1-2 相同 atlas、动作和对象 identity | 直接组合既有 stable key/visual bridge | 无 |
+| 五批/门 | 9/10/12/13/61，共 105；Monster5 死亡即显门，60 个 Monster30 不阻塞胜利 | Stage 1-3 flow 专项保持该合同；视觉层不接管门禁 | 无 |
+| 单/双人运行 | 同资源族按生成数复用 | 940×590 正式单人首批真怪、双人 HUD/入口和公共失败页可见 | 无新增视觉差异；完整长程留给 157D |
+
+当前构建的 940×590 正式路径 console warning/error 为 0。浏览器直接覆盖单人首批 Monster7/8 真动画、双人正式入口/HUD 与公共失败页；Monster5 atlas 已本地视觉抽检，其七动作、四对象、死亡末帧和 Boss 显门由 `stage13-monster-visual-tests.ts`、Stage 1-3 flow 与全系统逐 tick 覆盖。五关完整长程、重入和 Stage 2 防回归仍由 `TASK-SLICE-157D` 总验收，不把本轮未观察的 Boss 长程补写成浏览器事实。
 
 ## 六段证据矩阵
 

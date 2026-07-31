@@ -26,6 +26,9 @@ import {
   Stage12MonsterAssetKeys,
   stage12Assets,
   stage13Assets,
+  stage13Monster5Atlas,
+  stage13Monster5AttackAssets,
+  Stage13MonsterAssetKeys,
   stage21Assets,
   stage21AttackAssets,
   stage21MonsterAtlases,
@@ -225,7 +228,22 @@ const stage12MonsterBundleAssets = [
     path: '/assets/stage1/monsters/attack-frame-geometry.csv',
   },
 ];
-const stage13BundleAssets = Object.values(stage13Assets).map(image);
+const stage13BundleAssets = [
+  ...Object.values(stage13Assets).map(image),
+  {
+    kind: 'spritesheet' as const,
+    key: stage13Monster5Atlas.key,
+    path: stage13Monster5Atlas.path,
+    frameWidth: stage13Monster5Atlas.cellWidth,
+    frameHeight: stage13Monster5Atlas.cellHeight,
+  },
+  ...Object.values(stage13Monster5AttackAssets).flatMap(images),
+  {
+    kind: 'text' as const,
+    key: Stage13MonsterAssetKeys.attackGeometry,
+    path: '/assets/stage1/monsters/attack-frame-geometry.csv',
+  },
+];
 const sharedStage2MonsterAssets = [
   ...Object.values(stage21MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
@@ -379,7 +397,7 @@ export const sceneAssetBundles = {
     assets: [...stage12BundleAssets, ...stage12MonsterBundleAssets],
   },
   'stage-13': {
-    dependencies: ['combat-common', 'stage-1-common'],
+    dependencies: ['combat-common', 'stage-1-common', 'stage-11', 'stage-12'],
     assets: stage13BundleAssets,
   },
   'stage-21': {

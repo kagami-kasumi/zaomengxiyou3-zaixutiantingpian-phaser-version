@@ -140,6 +140,15 @@ export const Stage13AssetKeys = {
   transferDoor: 'stage.stage1-3.transfer-door',
 } as const;
 
+export const Stage13MonsterAssetKeys = {
+  monster5: 'monster.stage1.monster5.atlas',
+  monster5Hit1: 'projectile.stage1.monster5.hit1',
+  monster5Hit2Start: 'projectile.stage1.monster5.hit2-start',
+  monster5Hit2End: 'projectile.stage1.monster5.hit2-followup',
+  monster5Hit3: 'projectile.stage1.monster5.hit3',
+  attackGeometry: 'stage13.monster5-attack-geometry',
+} as const;
+
 export const Stage21AssetKeys = {
   floor: 'stage.stage2.floor',
   background: 'stage.stage2-1.background',
@@ -1787,6 +1796,53 @@ export const stage12MonsterAttackAssets = {
   ),
 } as const satisfies Record<string, MonsterAttackAssetDefinition>;
 
+export const stage13Monster5Atlas = {
+  key: Stage13MonsterAssetKeys.monster5,
+  path: '/assets/stage1/monsters/monster5.png',
+  status: 'ready',
+  source: 'extracted-flash',
+  sourcePackage: 'assets/1.swf',
+  sourceSymbol: 'Monster5',
+  sourceCharacterId: 5,
+  cellWidth: 350,
+  cellHeight: 350,
+  columns: 6,
+  rows: 7,
+  reachableFrameCount: 31,
+  registrationOffset: { x: 30, y: -55 },
+} as const satisfies MonsterAtlasAssetDefinition;
+
+export const stage13Monster5AttackAssets = {
+  monster5Hit1: stage11MonsterAttack(
+    Stage13MonsterAssetKeys.monster5Hit1,
+    'monster5-hit1',
+    'Monster5Bullet1',
+    105,
+    4,
+  ),
+  monster5Hit2Start: stage11MonsterAttack(
+    Stage13MonsterAssetKeys.monster5Hit2Start,
+    'monster5-hit2-1',
+    'Monster5Bullet2_1',
+    102,
+    10,
+  ),
+  monster5Hit2End: stage11MonsterAttack(
+    Stage13MonsterAssetKeys.monster5Hit2End,
+    'monster5-hit2-2',
+    'Monster5Bullet2_2',
+    93,
+    6,
+  ),
+  monster5Hit3: stage11MonsterAttack(
+    Stage13MonsterAssetKeys.monster5Hit3,
+    'monster5-hit3',
+    'Monster5Bullet3',
+    80,
+    4,
+  ),
+} as const satisfies Record<string, MonsterAttackAssetDefinition>;
+
 export const stage21MonsterAtlases = {
   monster6: {
     key: Stage21MonsterAssetKeys.monster6,
@@ -2271,7 +2327,12 @@ export const assetBundles = {
     ...Object.values(stage11MonsterAttackAssets),
   ],
   stage12: [stage11Assets.floor, ...Object.values(stage12Assets)],
-  stage13: [stage11Assets.floor, ...Object.values(stage13Assets)],
+  stage13: [
+    stage11Assets.floor,
+    ...Object.values(stage13Assets),
+    stage13Monster5Atlas,
+    ...Object.values(stage13Monster5AttackAssets),
+  ],
   stage21: [
     ...Object.values(stage21Assets),
     ...Object.values(stage21MonsterAtlases),

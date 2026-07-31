@@ -21,6 +21,7 @@ const bundledTests = requestedTests.length > 0
       'stage12-traversal-tests',
       'stage12-fb-enter-tests',
       'stage13-resource-tests',
+      'stage13-monster-visual-tests',
       'stage13-flow-tests',
       'stage13-traversal-tests',
       'stage21-tests',
