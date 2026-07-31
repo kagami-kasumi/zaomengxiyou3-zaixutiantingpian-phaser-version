@@ -63,6 +63,7 @@ export type AssetBundleId =
   | 'feature-ui-magic-weapon'
   | 'combat-common'
   | 'stage-1-common'
+  | 'stage-1-monsters'
   | 'stage-2-common'
   | 'stage-2-monsters'
   | 'stage-11'
@@ -196,7 +197,7 @@ const combatCommonAssets = [
 const stage11BundleAssets = Object.entries(stage11Assets)
   .filter(([name]) => name !== 'floor')
   .map(([, asset]) => image(asset));
-const stage11MonsterBundleAssets = [
+const stage1MonsterBundleAssets = [
   ...Object.values(stage11MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
     key: asset.key,
@@ -210,10 +211,6 @@ const stage11MonsterBundleAssets = [
     key: Stage11MonsterAssetKeys.attackGeometry,
     path: '/assets/stage1/monsters/attack-frame-geometry.csv',
   },
-];
-const stage12BundleAssets = Object.values(stage12Assets).flatMap((asset) =>
-  'framePaths' in asset ? images(asset) : [image(asset)]);
-const stage12MonsterBundleAssets = [
   ...Object.values(stage12MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
     key: asset.key,
@@ -227,9 +224,6 @@ const stage12MonsterBundleAssets = [
     key: Stage12MonsterAssetKeys.attackGeometry,
     path: '/assets/stage1/monsters/attack-frame-geometry.csv',
   },
-];
-const stage13BundleAssets = [
-  ...Object.values(stage13Assets).map(image),
   {
     kind: 'spritesheet' as const,
     key: stage13Monster5Atlas.key,
@@ -244,6 +238,9 @@ const stage13BundleAssets = [
     path: '/assets/stage1/monsters/attack-frame-geometry.csv',
   },
 ];
+const stage12BundleAssets = Object.values(stage12Assets).flatMap((asset) =>
+  'framePaths' in asset ? images(asset) : [image(asset)]);
+const stage13BundleAssets = Object.values(stage13Assets).map(image);
 const sharedStage2MonsterAssets = [
   ...Object.values(stage21MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
@@ -380,6 +377,10 @@ export const sceneAssetBundles = {
     dependencies: [],
     assets: [image(stage11Assets.floor)],
   },
+  'stage-1-monsters': {
+    dependencies: [],
+    assets: stage1MonsterBundleAssets,
+  },
   'stage-2-common': {
     dependencies: [],
     assets: [image(stage21Assets.floor)],
@@ -389,15 +390,15 @@ export const sceneAssetBundles = {
     assets: sharedStage2MonsterAssets,
   },
   'stage-11': {
-    dependencies: ['combat-common', 'stage-1-common'],
-    assets: [...stage11BundleAssets, ...stage11MonsterBundleAssets],
+    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters'],
+    assets: stage11BundleAssets,
   },
   'stage-12': {
-    dependencies: ['combat-common', 'stage-1-common'],
-    assets: [...stage12BundleAssets, ...stage12MonsterBundleAssets],
+    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters'],
+    assets: stage12BundleAssets,
   },
   'stage-13': {
-    dependencies: ['combat-common', 'stage-1-common', 'stage-11', 'stage-12'],
+    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters'],
     assets: stage13BundleAssets,
   },
   'stage-21': {

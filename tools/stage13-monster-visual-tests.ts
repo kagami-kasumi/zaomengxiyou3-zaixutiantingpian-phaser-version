@@ -48,18 +48,18 @@ for (const asset of Object.values(stage13Monster5AttackAssets)) {
   }
 }
 
-const stage13Keys = new Set(sceneAssetBundles['stage-13'].assets.map((asset) => asset.key));
+const stage13Keys = new Set(sceneAssetBundles['stage-1-monsters'].assets.map((asset) => asset.key));
 for (const key of [
   stage13Monster5Atlas.key,
   ...Object.values(stage13Monster5AttackAssets).flatMap((asset) => asset.frameKeys),
   Stage13MonsterAssetKeys.attackGeometry,
 ]) {
-  assert.ok(stage13Keys.has(key), `stage-13 bundle must own ${key}`);
+  assert.ok(stage13Keys.has(key), `stage-1-monsters bundle must own ${key}`);
 }
 assert.deepEqual(
   sceneAssetBundles['stage-13'].dependencies,
-  ['combat-common', 'stage-1-common', 'stage-11', 'stage-12'],
-  'Stage 1-3 reuses the exact Stage 1-1/1-2 monster identities until TASK-SLICE-157D centralizes them',
+  ['combat-common', 'stage-1-common', 'stage-1-monsters'],
+  'Stage 1-3 reuses the exact Stage 1-1/1-2 monster identities through the shared owner',
 );
 assert.equal(stage11MonsterAtlases.monster3.key, 'monster.stage1.monster3.atlas');
 assert.equal(stage11MonsterAtlases.monster30.key, 'monster.stage1.monster30.atlas');

@@ -29,6 +29,7 @@ const requiredBundles = [
   'feature-ui-skills-hero-1',
   'feature-ui-skills-hero-5',
   'stage-11',
+  'stage-1-monsters',
   'stage-12',
   'stage-13',
   'stage-21',
@@ -92,6 +93,10 @@ assert.equal(sceneBundleBySceneKey.TestScene, 'stage-11');
 assert.equal(sceneBundleBySceneKey.Stage22DevScene, 'stage-22');
 assert.ok(runtimeAssetBundleOwners.size > 250);
 assert.equal(requireRuntimeAssetOwner('save-slots.start-menu'), 'shell');
+assert.equal(requireRuntimeAssetOwner('monster.stage1.monster30.atlas'), 'stage-1-monsters');
+assert.equal(requireRuntimeAssetOwner('monster.stage1.monster5.atlas'), 'stage-1-monsters');
+assert.equal(requireRuntimeAssetOwner('monster.stage2-1.monster6.atlas'), 'stage-2-monsters');
+assert.equal(requireRuntimeAssetOwner('monster.stage2-2.monster16.atlas'), 'stage-22');
 assert.throws(
   () => requireRuntimeAssetOwner('ready-but-unowned'),
   /has no bundle owner/,
@@ -123,10 +128,10 @@ assert.throws(
     },
   };
   await coordinator.ensure('stage-12', adapter);
-  assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-12']);
+  assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-1-monsters', 'stage-12']);
   assert.equal(coordinator.isLoaded('stage-12'), true);
   await coordinator.ensure('stage-12', adapter);
-  assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-12']);
+  assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-1-monsters', 'stage-12']);
 }
 
 {

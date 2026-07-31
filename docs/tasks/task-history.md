@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-157 | 拆分父任务收束 | 汇总五个已完成关卡的怪物真动画、共享 owner 与 Stage 2 防回归并闭合 VS-061 | M-030、M-034、M-035、VS-061 | `157A..D` 的 Stage 1 `167/171`、Stage 2-1 `94/132`、Stage 2-2 `36/104`、五关重入与逐状态证据全集 |
+| TASK-SLICE-157D | 五关怪物视觉回归 | 收敛五关怪物资源 owner，回归 Stage 2-1/2-2 并关闭父任务 | M-030、M-034、M-035、VS-061 | `stage-1-monsters`、五关帧数/owner/重入/Arc-Text 专项、Stage 2 专项与 940×590 单双人证据 |
 | TASK-SLICE-157C | Stage 1-3 怪物真动画 | 接入 Monster5 全动作/四攻击对象并复用 Monster30/3/7/8 真视觉，保持 105 怪与 Boss 门语义 | M-030、M-034、M-035、VS-061 | Monster5 31 本体帧、4 对象/24 帧、共享 identity bridge、Stage 1-3 bundle、专项/全系统与 940×590 证据 |
 | TASK-SLICE-157B | Stage 1-2 怪物真动画 | 接入 Monster2/4/7/8 全动作、九攻击/效果对象、镜像/触发/死亡生命周期并保持战斗语义不变 | M-030、M-034、M-035、VS-061 | 4 本体 atlas、9 对象/122 帧、共享只读视觉描述、Stage 1-2 bridge、唯一 bundle owner、专项/全系统与 940×590 单双人证据 |
 | TASK-SLICE-161 | 公共原版关卡结果页 | 接入共享 GameWin/GameFail，删除五关现代黑框并统一按钮、保存和路由 | M-014、M-035、M-044、M-052、VS-007、VS-050、PG-012 | 330/313 原版根视觉、三按钮三态、四成绩字段、唯一 `LevelResultView`、五关迁移、防回填门禁与 940×590 成败页证据 |
@@ -4976,6 +4978,49 @@
 
 推荐任务：
 - `TASK-SETTINGS-055`：闭合正式核心战斗 HUD 的字段、布局、资源、双玩家和更新语义。
+
+### TASK-SLICE-157D
+
+- 完成日期：2026-07-31
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 Active；下一 task 为 `TASK-SETTINGS-069`）
+- 新增 `stage-1-monsters` bundle 作为七种 Stage 1 怪物、16 个攻击对象和三套几何的唯一资源 owner；`stage-11/12/13` 只持有关卡自身资源并共同依赖该 owner，Stage 1-3 不再通过整包 `stage-11/12` 复用怪物。
+- 新增 `five-stage-monster-visual-regression-tests.ts`，确定性锁定 Stage 1 `167/171`、Stage 2-1 `94/132`、Stage 2-2 `36/104` 帧合同，逐 stable key 核对 `stage-1-monsters` / `stage-2-monsters` / `stage-22` owner，并验证五关首次进入与重入只加载一次共享 bundle。
+- 专项静态门禁覆盖六个怪物 visual bridge，禁止 `.add.arc()` / `.add.text()` 占位回填；原有逐关视觉测试改为断言共享 owner。Stage 2-1/2-2 专项、全系统、build、structure、annotations、workflow 和 diff check 全部通过。
+- 940×590 浏览器复验 Stage 2-2 单人布局/火焰 frame 65 与双人 Monster16 hit4/right，console warning/error 为 0；证据见 `docs/tasks/evidence/TASK-SLICE-157D-visual-review.md`。Stage 1 A..C 与 Stage 2-1/2-2 的既有逐状态证据继续作为原版视觉基准，本回归不以入口背景代替怪物状态证据。
+- PG-009 命中：Boot 未改且仍仅 shell；新增共享 bundle 各 stable key 只有一个 owner，五关重入幂等，未复发。PG-012/013 未命中：未修改关卡终态、Scene/World/Gameplay 骨架或实体内部规则。
+- `VS-061` 提升为已完成，`TASK-SLICE-157A..D` 与父任务 157 全部归档；功能线仍未关闭，未进入五角色动画或通用关卡框架实施。
+
+更新文件：
+- `src/assets/SceneAssetBundles.ts`
+- 五关怪物/bundle 专项、`tools/run-system-tests.mjs`、`package.json`
+- `docs/tasks/evidence/TASK-SLICE-157D-*`
+- 机制/切片、task、功能线/覆盖台账、task history 与 PG-009 效果记录
+
+验证：
+- `npm run test:five-stage-monsters`
+- `npm run test:stage11`、`npm run test:stage12-monsters`、`npm run test:stage13-monsters`
+- `npm run test:stage21`、`npm run test:stage22`、`npm run test:asset-bundles`
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:structure`
+- `npm run check:annotations`
+- `npm run check:workflow`
+- `git diff --check`
+- 940×590 Stage 2-2 单/双人、重入与零 console warning/error
+
+推荐任务：
+- `TASK-SETTINGS-069`：只逆向五角色本体、战斗 UI、普攻、技能与附属对象的真动画全集，不在同一次 `/goal` 开始实现。
+
+### TASK-SLICE-157
+
+- 完成日期：2026-07-31
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续保持 Active）
+- 父任务固定拆分的 `TASK-SLICE-157A..D` 已全部归档：A/B/C 分别接入 Stage 1-1/1-2/1-3 全部实际怪物与攻击对象，D 统一共享 bundle owner并回归 Stage 2-1/2-2。
+- 汇总合同为 Stage 1 七怪 167 本体帧/16 对象 171 帧、Stage 2-1 94/132、Stage 2-2 36/104；五关首次/重入、无 Arc/Text 回填、单/双人和零 console 证据闭合。
+- 父任务只做子任务聚合，没有新增实现；`VS-061` 已完成，但功能线继续 Active。
+
+推荐任务：
+- `TASK-SETTINGS-069`。
 
 ### TASK-SLICE-157C
 

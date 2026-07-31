@@ -69,14 +69,14 @@ for (const asset of Object.values(stage12MonsterAttackAssets)) {
 }
 
 const stage12BundleKeys = new Set(
-  sceneAssetBundles['stage-12'].assets.map((asset) => asset.key),
+  sceneAssetBundles['stage-1-monsters'].assets.map((asset) => asset.key),
 );
 for (const key of [
   ...Object.values(stage12MonsterAtlases).map((asset) => asset.key),
   ...Object.values(stage12MonsterAttackAssets).flatMap((asset) => asset.frameKeys),
   Stage12MonsterAssetKeys.attackGeometry,
 ]) {
-  assert.ok(stage12BundleKeys.has(key), `stage-12 bundle must own ${key}`);
+  assert.ok(stage12BundleKeys.has(key), `stage-1-monsters bundle must own ${key}`);
 }
 
 const actionsByMonster: Readonly<

@@ -136,7 +136,7 @@ for (const asset of Object.values(stage11MonsterAttackAssets)) {
 }
 
 const stage11BundleKeys = new Set(
-  sceneAssetBundles['stage-11'].assets.map((asset) => asset.key),
+  sceneAssetBundles['stage-1-monsters'].assets.map((asset) => asset.key),
 );
 const expectedStage11BundleKeys = [
   stage11MonsterAtlases.monster30.key,
@@ -145,7 +145,7 @@ const expectedStage11BundleKeys = [
   Stage11MonsterAssetKeys.attackGeometry,
 ];
 for (const key of expectedStage11BundleKeys) {
-  assert.ok(stage11BundleKeys.has(key), `stage-11 bundle must own ${key}`);
+  assert.ok(stage11BundleKeys.has(key), `stage-1-monsters bundle must own ${key}`);
 }
 
 const actionsByMonster: Readonly<Record<Stage11MonsterType, readonly Stage11MonsterAction[]>> = {
