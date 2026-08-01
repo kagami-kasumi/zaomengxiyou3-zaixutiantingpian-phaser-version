@@ -95,7 +95,7 @@ function testCompletedLevelsCannotReintroducePrivateLifecycleOwners(): void {
   assert.doesNotMatch(flowSources, /failureDelayRemainingMs\s*=/);
   assert.equal((flowSources.match(/extends LevelLifecycle/g) ?? []).length, 5);
   const directAttempts = (bridgeSources.match(/createLevelCompletionAttempt/g) ?? []).length;
-  const transferDoorAttempts = (bridgeSources.match(/transferDoor\.createCompletionAttempt/g) ?? []).length;
+  const transferDoorAttempts = (bridgeSources.match(/\.createCompletionAttempt/g) ?? []).length;
   assert.equal(directAttempts + transferDoorAttempts >= 5, true);
 }
 

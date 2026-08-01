@@ -102,7 +102,7 @@ const formalRouteFiles = [
   'src/systems/Stage13LevelDefinition.ts',
   'src/systems/Stage21LevelDefinition.ts',
   'src/systems/Stage22LevelDefinition.ts',
-  'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
+  'src/systems/Stage11LevelDefinition.ts',
 ];
 for (const relativePath of formalRouteFiles) {
   const source = readFileSync(path.join(repoRoot, relativePath), 'utf8');
@@ -128,11 +128,4 @@ for (const stage of ['12', '13', '21', '22']) {
     /createPlayableLevelRuntime/,
   );
 }
-const stage11FlowSource = readFileSync(
-  path.join(repoRoot, 'src/scenes/test-scene/TestSceneStage11FlowBridge.ts'),
-  'utf8',
-);
-assert.match(stage11FlowSource, /installFormalFeatureUiEntries/);
-assert.doesNotMatch(stage11FlowSource, /keydown-ESC/);
-
 console.log('Heaven map state, resource, and formal route tests passed.');

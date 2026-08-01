@@ -94,23 +94,34 @@ assert.deepEqual(stage11RenderBounds.floor, { left: 0, right: 1440, top: 0, bott
 assert.deepEqual(stage11RenderBounds.background, { left: -79, right: 1053, top: 0, bottom: 3051 });
 assert.deepEqual(stage11RenderBounds.foreground, { left: -200, right: 1097.2, top: 205.5, bottom: 2961.05 });
 
-const expectedFiles = ['background.png', 'floor.png', 'foreground.png'];
+const expectedFiles = ['background.png', 'floor.png', 'foreground.png', 'transfer-door'];
 assert.deepEqual(readdirSync(assetDirectory).sort(), expectedFiles);
 for (const [name, asset] of Object.entries(stage11Assets)) {
   assert.equal(asset.status, 'ready');
   assert.equal(asset.source, 'extracted-flash');
   assert.ok(asset.sourcePackage.endsWith('.swf'));
   assert.ok(asset.sourceTag.length > 0);
-  assert.deepEqual(
-    pngDimensions(path.join(repoRoot, 'public', asset.path)),
-    { width: asset.width, height: asset.height },
-    `${name} raster dimensions must match the manifest`,
-  );
+  const paths = 'framePaths' in asset ? asset.framePaths : [asset.path];
+  for (const assetPath of paths) {
+    assert.deepEqual(
+      pngDimensions(path.join(repoRoot, 'public', assetPath)),
+      { width: asset.width, height: asset.height },
+      `${name} raster dimensions must match the manifest`,
+    );
+  }
 }
 assert.deepEqual(
   Object.values(stage11Assets).map((asset) => asset.key),
-  [Stage11AssetKeys.floor, Stage11AssetKeys.background, Stage11AssetKeys.foreground],
+  [
+    Stage11AssetKeys.floor,
+    Stage11AssetKeys.background,
+    Stage11AssetKeys.foreground,
+    Stage11AssetKeys.transferDoor,
+  ],
 );
+assert.deepEqual(stage11Assets.transferDoor.frameCount, 20);
+assert.match(stage11Assets.transferDoor.sourceSymbol, /character 45/);
+assert.match(stage11Assets.transferDoor.sourceTag, /41 \(20 frames\).*44 \(19 frames\)/);
 
 const monsterDirectory = path.join(repoRoot, 'public', 'assets', 'stage1', 'monsters');
 assert.deepEqual(pngDimensions(path.join(monsterDirectory, 'monster30.png')), {

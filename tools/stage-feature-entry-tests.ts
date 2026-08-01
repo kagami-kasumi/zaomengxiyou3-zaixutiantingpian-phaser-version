@@ -76,7 +76,6 @@ const ready = {
   magicWeaponEquipped: true,
 };
 const formalStageScenePaths = [
-  'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
   'src/scenes/PlayableLevelRuntime.ts',
 ] as const;
 

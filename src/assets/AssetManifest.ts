@@ -95,6 +95,7 @@ export const Stage11AssetKeys = {
   floor: 'stage.stage1.floor',
   background: 'stage.stage1-1.background',
   foreground: 'stage.stage1-1.layout',
+  transferDoor: 'stage.stage1-1.transfer-door',
 } as const;
 
 export const Stage11MonsterAssetKeys = {
@@ -488,6 +489,12 @@ export const scaffoldAssets = {
   },
 } as const satisfies Record<string, LoadableAssetDefinition>;
 
+const stageFrameKeys = (key: string, frameCount: number): readonly string[] =>
+  Array.from({ length: frameCount }, (_, index) => `${key}.frame-${String(index + 1).padStart(2, '0')}`);
+
+const stageFramePaths = (directory: string, frameCount: number): readonly string[] =>
+  Array.from({ length: frameCount }, (_, index) => `${directory}/frame-${String(index + 1).padStart(2, '0')}.png`);
+
 export const stage11Assets = {
   floor: {
     key: Stage11AssetKeys.floor,
@@ -529,13 +536,22 @@ export const stage11Assets = {
     height: 2756,
     sourceBounds: { width: 1297.2, height: 2755.55 },
   },
-} as const satisfies Record<string, ExtractedStageImageAssetDefinition>;
-
-const stageFrameKeys = (key: string, frameCount: number): readonly string[] =>
-  Array.from({ length: frameCount }, (_, index) => `${key}.frame-${String(index + 1).padStart(2, '0')}`);
-
-const stageFramePaths = (directory: string, frameCount: number): readonly string[] =>
-  Array.from({ length: frameCount }, (_, index) => `${directory}/frame-${String(index + 1).padStart(2, '0')}.png`);
+  transferDoor: {
+    key: Stage11AssetKeys.transferDoor,
+    frameKeys: stageFrameKeys(Stage11AssetKeys.transferDoor, 20),
+    framePaths: stageFramePaths('/assets/stage/stage1-1/transfer-door', 20),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/levels/level11.swf',
+    sourceSymbol: 'character 45 / isTransferDoor; animated children 41/44',
+    sourceCharacterId: 45,
+    sourceTag: 'DefineSprite tag 39; child 41 (20 frames) and child 44 (19 frames)',
+    frameCount: 20,
+    width: 196,
+    height: 175,
+    sourceBounds: { width: 195.75, height: 174.45 },
+  },
+} as const satisfies Record<string, ExtractedStageImageAssetDefinition | ExtractedStageSequenceAssetDefinition>;
 
 const numberedFramePaths = (
   directory: string,

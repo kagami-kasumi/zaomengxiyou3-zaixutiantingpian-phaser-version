@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-016 | 拆分父任务收束 | 汇总五关公共可玩关卡 Runtime、Definition、门组件与防回填模板 | M-014、M-026、M-027、M-029、M-035、M-044、VS-065、PG-013 | `016A..D` 的合同、五关迁移、自有门视觉、静态门禁、未来模板与效果观察入口 |
+| TASK-ARCH-016D | Stage 1-1 与框架闭合 | 将 1-1/TestScene 接入公共 Runtime，恢复自身 character 45/41/44 门并闭合五关框架 | M-014、M-026、M-028、M-029、M-035、M-044、VS-007、VS-050、VS-065、PG-013 | Stage11 Definition/Runtime adapter、20 帧真门、临时借用删除、未来模板、专项/全门禁与 940×590 1P/2P/下一关零 console 证据 |
 | TASK-SLICE-157 | 拆分父任务收束 | 汇总五个已完成关卡的怪物真动画、共享 owner 与 Stage 2 防回归并闭合 VS-061 | M-030、M-034、M-035、VS-061 | `157A..D` 的 Stage 1 `167/171`、Stage 2-1 `94/132`、Stage 2-2 `36/104`、五关重入与逐状态证据全集 |
 | TASK-SLICE-157D | 五关怪物视觉回归 | 收敛五关怪物资源 owner，回归 Stage 2-1/2-2 并关闭父任务 | M-030、M-034、M-035、VS-061 | `stage-1-monsters`、五关帧数/owner/重入/Arc-Text 专项、Stage 2 专项与 940×590 单双人证据 |
 | TASK-SLICE-157C | Stage 1-3 怪物真动画 | 接入 Monster5 全动作/四攻击对象并复用 Monster30/3/7/8 真视觉，保持 105 怪与 Boss 门语义 | M-030、M-034、M-035、VS-061 | Monster5 31 本体帧、4 对象/24 帧、共享 identity bridge、Stage 1-3 bundle、专项/全系统与 940×590 证据 |
@@ -6833,6 +6835,28 @@ Goal：
 推荐任务：
 
 - `TASK-SLICE-157B`：恢复 Stage 1-2 Monster7/8/4/2 真动画接入。
+
+### TASK-ARCH-016D
+
+完成日期：2026-08-01
+
+完成内容：
+- Stage 1-1 新增只读 Definition 与窄 Runtime adapter，共同镜头、队伍/玩家、功能入口、结果、保存路由和销毁进入 `PlayableLevelRuntime`。
+- level11 character 45→41/44 组合为 20 帧真门，由 `stage-11` 唯一持有；删除 Stage 1-3 门借用与 `stage-1-common` 临时兼容。
+- 新增未来关卡模板、TestScene 防回填门禁和 localhost 显式门 QA；纵向爬升/Boss/技能宠物 sandbox 保留为窄遭遇差异。
+
+验证：
+- Stage 1-1 resource/flow、五关生命周期/结果/Runtime/bundle、全系统、build、structure、annotations、workflow、diff check 通过。
+- 940×590 1P W、2P 上键、原版成功页、下一关 Stage 1-2 与横向 Stage 2-2 均零 console。
+
+### TASK-ARCH-016
+
+完成日期：2026-08-01
+
+完成内容：
+- Split 父任务随 `016A..D` 全部归档而收束。
+- 组合式公共 Runtime、只读 Definition、窄 Encounter/World adapter、共享 TransferDoorView、五关迁移、静态防回填和未来关卡模板全部落地。
+- PG-013 转“方案落地，效果观察中”，首个后续新关卡直接消费 Runtime 后再关闭。
 
 ## 执行记录
 

@@ -25,7 +25,6 @@ import {
   type InputState,
   type PlayerSlot,
 } from './TestSceneSystems';
-import { createLevelCompletionAttempt } from '../LevelLifecycleBridge';
 import type { Stage11FlowModel } from '../../systems/Stage11FlowSystem';
 import { getPlayerBounds } from './TestSceneCombatBridge';
 import { toPhaserRect } from './TestSceneGeometry';
@@ -96,22 +95,19 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
         }
         revealTransferDoor(this.bossArena);
         if (this.bossDoorView) {
-          this.bossDoorView.door.setVisible(true);
+          this.bossDoorView.setAvailable(true);
         }
       }
 
       const flow = this.stage11Flow as Stage11FlowModel | undefined;
-      if (flow && this.bossDoorView?.door && flow.tryComplete(createLevelCompletionAttempt(
-        this.bossArena.door.visible,
-        this.bossDoorView.door,
+      if (flow && this.bossDoorView && flow.tryComplete(this.bossDoorView.createCompletionAttempt(
         this.playerViews.map((player: any) => ({
           view: player.sprite,
-          upPressed: input[player.slot as PlayerSlot].up,
+          input: input[player.slot as PlayerSlot],
           eligible: Boolean(player.movement) && !isHeroCombatDead(player.combat),
         })),
       ))) {
         this.bossArena.state = 'cleared';
-        this.showClearOverlay();
         return;
       }
     }

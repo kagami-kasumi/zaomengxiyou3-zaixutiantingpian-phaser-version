@@ -91,7 +91,7 @@ for (const relativePath of ['src/scenes/PlayableLevelRuntime.ts']) {
 for (const stage of ['12', '13', '21', '22']) {
   assert.match(source(`src/scenes/Stage${stage}Scene.ts`), /createPlayableLevelRuntime/);
 }
-assert.match(source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'), /createFormalPartyRetryData/);
+assert.match(source('src/scenes/PlayableLevelRuntime.ts'), /createFormalPartyRetryData/);
 assert.match(source('src/scenes/test-scene/TestSceneSaveBridge.ts'), /SAVE disabled for DEV party/);
 assert.match(source('src/scenes/Stage11EntryScene.ts'), /if \(!import\.meta\.env\.DEV\)/);
 

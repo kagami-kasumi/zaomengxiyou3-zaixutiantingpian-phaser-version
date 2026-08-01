@@ -35,6 +35,12 @@ export type PlayableLevelRuntime = Readonly<{
 
 type RuntimeFactories<W extends PlayableLevelWorldAdapter> = Readonly<{
   createWorld: (scene: Phaser.Scene) => W;
+  createPlayerViews?: (
+    scene: Phaser.Scene,
+    partyRuntime: FormalPartyRuntime,
+    definition: PlayableLevelDefinition,
+  ) => Phaser.GameObjects.Image[];
+  configureCamera?: (scene: Phaser.Scene, definition: PlayableLevelDefinition) => void;
   createEncounter: (
     scene: Phaser.Scene,
     playerCount: 1 | 2,
@@ -77,20 +83,21 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
 
   return {
     create: () => {
-      installFormalFeatureUiEntries(scene, { originKind: 'combat', party: partyRuntime.party });
       markLevelResultStarted(scene);
       const bounds = definition.worldBounds;
       scene.cameras.main.setBounds(bounds.left, bounds.top, bounds.width, bounds.height);
       scene.cameras.main.scrollX = bounds.left < 0 ? 0 : bounds.left;
+      factories.configureCamera?.(scene, definition);
       world = factories.createWorld(scene);
-      playerViews = definition.heroSpawns.slice(0, playerCount).map((spawn, index) =>
-        scene.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
-          .setName(spawn.slot)
-          .setData('heroId', partyRuntime.members[index]?.heroId)
-          .setOrigin(0.5, 1)
-          .setTint(index === 0 ? 0xffffff : 0x7ad7ff)
-          .setDepth(20),
-      );
+      playerViews = factories.createPlayerViews?.(scene, partyRuntime, definition)
+        ?? definition.heroSpawns.slice(0, playerCount).map((spawn, index) =>
+          scene.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
+            .setName(spawn.slot)
+            .setData('heroId', partyRuntime.members[index]?.heroId)
+            .setOrigin(0.5, 1)
+            .setTint(index === 0 ? 0xffffff : 0x7ad7ff)
+            .setDepth(20),
+        );
       const titleText = factories.title?.(playerCount);
       if (titleText) {
         title = scene.add.text(18, 16, titleText, {
@@ -99,6 +106,7 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
         }).setScrollFactor(0).setDepth(100);
       }
       encounter = factories.createEncounter(scene, playerCount, playerViews, world);
+      installFormalFeatureUiEntries(scene, { originKind: 'combat', party: partyRuntime.party });
     },
     update: (deltaMs) => {
       if (!encounter || resultOverlay) return;

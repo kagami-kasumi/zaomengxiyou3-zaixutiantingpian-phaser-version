@@ -4,14 +4,14 @@
 
 ## 当前推荐
 
-`TASK-ARCH-016D` 是唯一当前推荐，属于唯一 Active 功能线；下一步将 Stage 1-1/TestScene 接入公共 Runtime、自有 character 45/41/44 真门，并闭合五关框架与未来模板。
+`TASK-SLICE-158A` 是唯一当前推荐，属于唯一 Active 功能线；下一步接入悟空本体、战斗 UI、普攻、全部已实现技能与附属对象真动画。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SETTINGS-069 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向父任务 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 共享矩阵、显示列表门禁与 `069A..E` / `158A..E` 合同 | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SETTINGS-069.md) |
-| TASK-SLICE-158A | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role1 真动画 | 接入悟空本体、战斗 UI、普攻、全部已实现技能和附属对象真动画 | M-018、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role1 真资源、逐状态与差异证据 | TASK-SETTINGS-069B | [定义](task-definitions/TASK-SLICE-158A.md) |
+| TASK-SLICE-158A | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Role1 真动画 | 接入悟空本体、战斗 UI、普攻、全部已实现技能和附属对象真动画 | M-018、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role1 真资源、逐状态与差异证据 | TASK-SETTINGS-069B | [定义](task-definitions/TASK-SLICE-158A.md) |
 | TASK-SETTINGS-069B | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role2 视觉逆向 | 闭合唐僧本体、战斗 UI、普攻、技能、Shadow 与附属对象证据 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role2 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158B | [定义](task-definitions/TASK-SETTINGS-069B.md) |
 | TASK-SLICE-158B | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role2 真动画 | 接入唐僧本体、战斗 UI、普攻、全部已实现技能、Shadow 与附属对象真动画 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role2 真资源、逐状态与差异证据 | TASK-SETTINGS-069C | [定义](task-definitions/TASK-SLICE-158B.md) |
 | TASK-SETTINGS-069C | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role3 视觉逆向 | 闭合八戒本体、战斗 UI、普攻、技能与附属对象证据 | M-020、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role3 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158C | [定义](task-definitions/TASK-SETTINGS-069C.md) |
@@ -20,8 +20,6 @@
 | TASK-SLICE-158D | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role4 真动画 | 接入沙僧铲/弓双形态本体、UI、普攻、技能与附属对象真动画 | M-021、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role4 真资源、逐状态与差异证据 | TASK-SETTINGS-069E | [定义](task-definitions/TASK-SLICE-158D.md) |
 | TASK-SETTINGS-069E | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role5 视觉逆向 | 闭合白龙枪/剑双形态本体、UI、普攻、技能与附属对象证据 | M-022..M-025、M-034、M-035、M-047、M-049、VS-062 | Role5 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158E | [定义](task-definitions/TASK-SETTINGS-069E.md) |
 | TASK-SLICE-158E | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role5 真动画 | 接入白龙枪/剑双形态本体、UI、普攻、技能与附属对象真动画 | M-022..M-025、M-034、M-035、M-047、M-049、VS-062 | Role5 真资源、逐状态、差异证据与父任务收束 | TASK-SLICE-159 | [定义](task-definitions/TASK-SLICE-158E.md) |
-| TASK-ARCH-016 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 通用可玩关卡框架父任务 | 将五关共同运行职责收敛到组合式框架，关卡只声明定义、遭遇和窄差异 | M-014、M-026、M-027、M-029、M-035、M-044、VS-065、PG-013 | `016A..D` 的合同、试点、逐批迁移、门禁与未来关卡模板 | 全部子 task 完成后收束父任务并将 PG-013 转效果观察 | [定义](task-definitions/TASK-ARCH-016.md) |
-| TASK-ARCH-016D | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Stage 1-1 与框架闭合 | 将 Stage 1-1 从 TestScene 私有骨架迁入公共 Runtime，完成五关门禁和未来关卡模板 | M-014、M-026、M-028、M-029、M-035、M-044、VS-007、VS-050、VS-065、PG-013 | 1-1 定义/遭遇/真门视觉、五关回归、未来模板与 PG-013 观察入口 | TASK-SLICE-158A | [定义](task-definitions/TASK-ARCH-016D.md) |
 | TASK-SLICE-158 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 五角色动画父任务 | 逐角色接入本体、战斗 UI、普攻、技能及附属对象真动画 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 由 TASK-SETTINGS-069 生成的逐角色子 task | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SLICE-158.md) |
 | TASK-SLICE-159 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 本地存档正式旅程 | 复用既有六槽 localStorage/V6，验证所有新增功能跨重启持久化并关闭前置线 | M-044、M-050、VS-052、VS-063 | 自动旅程、940×590 重启读取证据与关闭检查 | 恢复 TASK-SETTINGS-064 | [定义](task-definitions/TASK-SLICE-159.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 依据证据生成同线最小实现 task | [定义](task-definitions/TASK-SETTINGS-064.md) |

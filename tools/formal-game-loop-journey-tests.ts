@@ -223,10 +223,10 @@ assert.match(source('src/scenes/BootScene.ts'), /scene\.start\('SaveSlotScene'\)
 assert.match(source('src/scenes/SaveSlotScene.ts'), /startSceneWithBundle\(this, 'HeavenMapScene'/);
 assert.match(source('src/scenes/HeavenMapScene.ts'), /startSceneWithBundle\(this, node\.routeKey/);
 assert.doesNotMatch(source('src/scenes/HeavenMapScene.ts'), /openPlayerCountChooser|node\.routeKey, \{ playerCount \}/);
-assert.match(source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'), /saveSceneNow\(\)/);
+assert.match(source('src/scenes/test-scene/TestSceneStage11RuntimeAdapter.ts'), /saveSceneNow\(\)/);
 assert.match(
-  source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'),
-  /startSceneWithBundle\(this, 'HeavenMapScene'\)/,
+  source('src/scenes/PlayableLevelRuntime.ts'),
+  /startSceneWithBundle\(scene, definition\.routes\.back\)/,
 );
 
 console.log('Formal game-loop end-to-end journey tests passed.');

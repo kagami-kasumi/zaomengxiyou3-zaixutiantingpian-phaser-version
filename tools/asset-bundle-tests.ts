@@ -95,7 +95,8 @@ assert.ok(runtimeAssetBundleOwners.size > 250);
 assert.equal(requireRuntimeAssetOwner('save-slots.start-menu'), 'shell');
 assert.equal(requireRuntimeAssetOwner('monster.stage1.monster30.atlas'), 'stage-1-monsters');
 assert.equal(requireRuntimeAssetOwner('monster.stage1.monster5.atlas'), 'stage-1-monsters');
-assert.equal(requireRuntimeAssetOwner('stage.stage1-3.transfer-door'), 'stage-1-common');
+assert.equal(requireRuntimeAssetOwner('stage.stage1-1.transfer-door.frame-01'), 'stage-11');
+assert.equal(requireRuntimeAssetOwner('stage.stage1-3.transfer-door'), 'stage-13');
 assert.equal(requireRuntimeAssetOwner('monster.stage2-1.monster6.atlas'), 'stage-2-monsters');
 assert.equal(requireRuntimeAssetOwner('monster.stage2-2.monster16.atlas'), 'stage-22');
 assert.throws(
@@ -146,9 +147,9 @@ assert.throws(
   };
   await coordinator.ensure('stage-11', adapter);
   assert.equal(
-    loadedKeys.has('stage.stage1-3.transfer-door'),
+    loadedKeys.has('stage.stage1-1.transfer-door.frame-01'),
     true,
-    'Stage 1-1 must resolve the transfer-door texture instead of Phaser missing texture',
+    'Stage 1-1 must load its own character 45/41/44 transfer-door frames',
   );
 }
 
@@ -213,11 +214,12 @@ assert.doesNotMatch(
 );
 assert.doesNotMatch(bootSource, /Object\.values\(/);
 const bridgeSource = source('src/scenes/SceneAssetBundleBridge.ts');
-const stage11ViewsSource = source('src/scenes/test-scene/TestSceneViews.ts');
-assert.match(stage11ViewsSource, /Stage13AssetKeys\.transferDoor/);
+const stage11WorldSource = source('src/scenes/test-scene/TestSceneStage11Bridge.ts');
+assert.match(stage11WorldSource, /sourceCharacterIds: \[45, 41, 44\]/);
+assert.doesNotMatch(stage11WorldSource, /Stage13AssetKeys\.transferDoor/);
 assert.ok(
   sceneAssetBundles['stage-11'].dependencies.includes('stage-1-common'),
-  'Stage 1-1 must load the shared owner of its transfer-door texture',
+  'Stage 1-1 must still load the shared Stage 1 floor owner',
 );
 assert.match(bridgeSource, /Phaser\.Scenes\.Events\.SHUTDOWN/);
 assert.match(bridgeSource, /FILE_LOAD_ERROR/);

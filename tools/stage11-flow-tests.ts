@@ -148,27 +148,25 @@ function testFormalStage11DoorAndResultContractRemainsConnected(): void {
     path.join(process.cwd(), 'src/scenes/test-scene/TestSceneBossArena.ts'),
     'utf8',
   );
-  const viewsSource = readFileSync(
-    path.join(process.cwd(), 'src/scenes/test-scene/TestSceneViews.ts'),
+  const runtimeAdapter = readFileSync(
+    path.join(process.cwd(), 'src/scenes/test-scene/TestSceneStage11RuntimeAdapter.ts'),
     'utf8',
   );
-  const resultBridge = readFileSync(
-    path.join(process.cwd(), 'src/scenes/test-scene/TestSceneStage11FlowBridge.ts'),
-    'utf8',
-  );
+  const runtimeSource = readFileSync(
+    path.join(process.cwd(), 'src/scenes/PlayableLevelRuntime.ts'), 'utf8');
   const sceneSource = readFileSync(
     path.join(process.cwd(), 'src/scenes/TestScene.ts'),
     'utf8',
   );
 
-  assert.match(bossBridge, /input\[player\.slot as PlayerSlot\]\.up/);
-  assert.match(bossBridge, /this\.showClearOverlay\(\)/);
+  assert.match(bossBridge, /createCompletionAttempt/);
+  assert.match(bossBridge, /input: input\[player\.slot as PlayerSlot\]/);
+  assert.doesNotMatch(bossBridge, /showClearOverlay/);
   assert.doesNotMatch(bossBridge, /stopPoints\.every/);
-  assert.match(viewsSource, /createTransferDoorView[\s\S]*Stage13AssetKeys\.transferDoor/);
-  assert.doesNotMatch(viewsSource, /'DOOR\\n\[↑\]'/);
-  assert.match(resultBridge, /showLevelResult\(this, \{[\s\S]*result: 'cleared'/);
-  assert.match(resultBridge, /'Stage12Scene'/);
-  assert.match(resultBridge, /'HeavenMapScene'/);
+  assert.match(runtimeAdapter, /createPlayableLevelRuntime/);
+  assert.match(runtimeAdapter, /world\.transferDoor/);
+  assert.match(runtimeSource, /showLevelResult\(scene, \{/);
+  assert.doesNotMatch(sceneSource, /Stage13AssetKeys\.transferDoor/);
   assert.doesNotMatch(sceneSource, /catch-monster72|Monster72 monkey1/);
 }
 

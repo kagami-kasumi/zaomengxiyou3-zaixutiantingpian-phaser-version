@@ -37,9 +37,14 @@ for (const relativePath of [
   assert.match(source, /hud\.destroy\(\)/);
 }
 const stage11Source = readFileSync(path.join(repoRoot, 'src/scenes/TestScene.ts'), 'utf8');
-assert.match(stage11Source, /createTestSceneStage1HudBridge\(this\)/);
-assert.match(stage11Source, /stage1CombatHud\?\.update\(delta\)/);
-assert.match(stage11Source, /stage1CombatHud\?\.destroy\(\)/);
+const stage11RuntimeAdapterSource = readFileSync(
+  path.join(repoRoot, 'src/scenes/test-scene/TestSceneStage11RuntimeAdapter.ts'),
+  'utf8',
+);
+assert.match(stage11Source, /createTestSceneStage11Runtime\(this, this\.formalPartyRuntime\)/);
+assert.match(stage11RuntimeAdapterSource, /createTestSceneStage1HudBridge\(scene\)/);
+assert.match(stage11RuntimeAdapterSource, /stage1CombatHud\?\.update\(deltaMs\)/);
+assert.match(stage11RuntimeAdapterSource, /stage1CombatHud\?\.destroy\(\)/);
 
 {
   const snapshot = createCombatHudPlayerSnapshot({

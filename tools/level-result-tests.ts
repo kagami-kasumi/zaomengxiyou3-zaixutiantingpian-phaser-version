@@ -28,18 +28,17 @@ function testNativeResultAssetsMatchTheRecoveredDisplayList(): void {
 
 function testAllCompletedLevelsUseOneNativeResultPresenter(): void {
   const consumers = [
-    'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
     'src/scenes/PlayableLevelRuntime.ts',
     'src/scenes/Stage21Scene.ts',
     'src/scenes/Stage22Scene.ts',
   ].map((file) => readFileSync(path.join(repoRoot, file), 'utf8'));
   assert.equal(
     consumers.reduce((count, source) => count + (source.match(/showLevelResult\(/g) ?? []).length, 0),
-    3,
+    1,
   );
   assert.equal(
     consumers.reduce((count, source) => count + (source.match(/markLevelResultStarted\(/g) ?? []).length, 0),
-    2,
+    1,
   );
   assert.doesNotMatch(consumers.join('\n'), /add\.rectangle\(|createResultButton|关卡胜利|全员战败/);
 
@@ -55,6 +54,9 @@ function testAllCompletedLevelsUseOneNativeResultPresenter(): void {
     assert.match(scene, /createPlayableLevelRuntime\(/);
     assert.doesNotMatch(scene, /showLevelResult\(|markLevelResultStarted\(/);
   }
+  const stage11Scene = readFileSync(path.join(repoRoot, 'src/scenes/TestScene.ts'), 'utf8');
+  assert.match(stage11Scene, /createTestSceneStage11Runtime/);
+  assert.doesNotMatch(stage11Scene, /showLevelResult\(|markLevelResultStarted\(/);
 }
 
 function testPresenterUsesRecoveredRootsStatesAndGeometry(): void {

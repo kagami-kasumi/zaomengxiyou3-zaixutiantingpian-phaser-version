@@ -74,7 +74,6 @@ function testAllFormalOriginsUseTheSharedBridge(): void {
   for (const path of [
     'src/scenes/HeavenMapScene.ts',
     'src/scenes/PlayableLevelRuntime.ts',
-    'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
   ]) {
     assert.ok(source(path).includes('installFormalFeatureUiEntries'), path);
   }

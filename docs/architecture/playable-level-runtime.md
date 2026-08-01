@@ -1,6 +1,6 @@
 # 可玩关卡运行框架 ADR
 
-状态：Accepted（`016A` 冻结合同；`016B/C` 已迁移四个横向正式关卡；`016D` 继续迁移 Stage 1-1/TestScene）
+状态：Accepted（`016A..D` 已完成五关迁移；等待首个后续新关卡提供 PG-013 关闭样本）
 
 ## 1. 决策
 
@@ -86,7 +86,7 @@ type TransferDoorVisualDefinition = Readonly<{
 
 | 关卡 | 当前 Scene/World/Gameplay/Flow | 必须保留的内容差异 | 迁移 task | 兼容 facade 与删除条件 | 回归入口 |
 | --- | --- | --- | --- | --- | --- |
-| Stage 1-1 | `TestScene`、`TestSceneStage11Bridge`、`TestSceneStage11FlowBridge`、`TestSceneUpdatePipeline`、`Stage11FlowSystem` | 940×2970.45 纵向世界、四停点、巫鹰 Boss、纵向镜头、Boss 死亡显门、P1 W/P2 上键 | `016D` | 迁移前保留 TestScene bridges；接入 level11 character 45/41/44 后删除 `Stage13AssetKeys.transferDoor` 与 `stage-1-common` 门纹理兼容 | stage11 flow/resource、正式旅程、940×590 进入/战斗/Boss/门/结果 |
+| Stage 1-1 | `TestScene` + `PlayableLevelRuntime`；`TestSceneStage11RuntimeAdapter`、世界/遭遇 bridge 为窄 adapter | 940×2970.45 纵向世界、四停点、巫鹰 Boss、纵向镜头、Boss 死亡显门、P1 W/P2 上键 | `016D`（已迁移） | level11 character 45/41/44 为本关 20 帧门；`Stage13AssetKeys.transferDoor` 与 `stage-1-common` 门兼容已删除 | stage11 flow/resource、正式旅程、localhost `qaStage=1-1-door` 单/双人门/结果 |
 | Stage 1-2 | `Stage12Scene`、`Stage12WorldBridge`、`Stage12GameplayBridge`、`Stage12FlowSystem` | 五停点、双 Boss、普通门、`fbEnter` 特殊入口及 5-1 路由 | `016B` | 先由 Stage12 adapter 包装既有 world/gameplay；等专项与旅程通过后删除 Scene 公共骨架和私有门/结果 owner | stage12 flow/traversal/fb/resource、单/双人结果 |
 | Stage 1-3 | `Stage13Scene`、`Stage13WorldBridge`、`Stage13GameplayBridge`、`Stage13FlowSystem` | 五停点、最大同屏 6/8、Monster5 Boss、普通门皮肤 | `016B` | 与 1-2 共用 Runtime/TransferDoorView；通过后删除 Scene 公共骨架，保留 encounter/visual adapter | stage13 flow/traversal/resource、单/双人结果 |
 | Stage 2-1 | `Stage21Scene` + 公共 Runtime；`Stage21WorldBridge`、`Stage21GameplayBridge`、`Stage21FlowSystem` 为内容 adapter | 五停点、冰刺/中景、Monster6 Boss、localhost 显式 QA 路径 | `016C`（已迁移） | 冰刺视图和 QA 注入保留在 adapter；公共初始化/门/结果/销毁已迁出 | stage21、怪物视觉、正式旅程、940×590 |
@@ -132,7 +132,7 @@ type TransferDoorVisualDefinition = Readonly<{
 - 当前五关遗留文件只能出现在脚本的显式 allowlist；016B..D 每迁移一批必须收缩 allowlist，不能新增例外。
 - ADR 必须持续包含五个合同、五关矩阵、Stage 1-1 临时兼容删除条件和逐状态基线。
 
-该门禁只阻止增量回填，不声称当前遗留已经治理。`PG-013` 只有在 016D 完成五关迁移后进入效果观察，并在首个后续新关卡直接消费公共 Runtime 后才满足关闭样本。
+该门禁已覆盖五个迁移关卡，并要求 `TestScene` 委托 `TestSceneStage11RuntimeAdapter`。`PG-013` 已进入效果观察；只有首个后续新关卡直接消费公共 Runtime 后才满足关闭样本。后续关卡从 `playable-level-template.md` 起步。
 
 ## 7. 证据索引
 

@@ -196,7 +196,7 @@ const combatCommonAssets = [
 ];
 const stage11BundleAssets = Object.entries(stage11Assets)
   .filter(([name]) => name !== 'floor')
-  .map(([, asset]) => image(asset));
+  .flatMap(([, asset]) => 'framePaths' in asset ? images(asset) : [image(asset)]);
 const stage1MonsterBundleAssets = [
   ...Object.values(stage11MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
@@ -240,9 +240,7 @@ const stage1MonsterBundleAssets = [
 ];
 const stage12BundleAssets = Object.values(stage12Assets).flatMap((asset) =>
   'framePaths' in asset ? images(asset) : [image(asset)]);
-const stage13BundleAssets = Object.entries(stage13Assets)
-  .filter(([name]) => name !== 'transferDoor')
-  .map(([, asset]) => image(asset));
+const stage13BundleAssets = Object.values(stage13Assets).map(image);
 const sharedStage2MonsterAssets = [
   ...Object.values(stage21MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
@@ -377,10 +375,7 @@ export const sceneAssetBundles = {
   },
   'stage-1-common': {
     dependencies: [],
-    assets: [
-      image(stage11Assets.floor),
-      image(stage13Assets.transferDoor),
-    ],
+    assets: [image(stage11Assets.floor)],
   },
   'stage-1-monsters': {
     dependencies: [],

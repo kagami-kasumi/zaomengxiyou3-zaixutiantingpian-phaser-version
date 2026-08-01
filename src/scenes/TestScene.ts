@@ -25,7 +25,6 @@ import {
   type HeroCombatModel,
 } from './test-scene/TestSceneSystems';
 import {
-  createInputSystem,
   type InputState,
   type InputSystem,
   type PlayerSlot,
@@ -128,8 +127,6 @@ import {
 import {
   createAttackEffectView,
   createAttackFlash,
-  createBossView,
-  createTransferDoorView,
   type AttackEffectView,
   type AttackFlash,
   type BossView,
@@ -137,8 +134,8 @@ import {
   type MonsterView,
   type PetView,
   type ProjectileEffectView,
-  type TransferDoorView,
 } from './test-scene/TestSceneViews';
+import type { TransferDoorView } from './TransferDoorView';
 import {
   createTestSceneUpdatePipeline,
   type TestSceneUpdatePipeline,
@@ -217,12 +214,6 @@ import {
   updateSceneSave as updateSceneSaveImpl,
 } from './test-scene/TestSceneSaveBridge';
 import {
-  initializeStage11Flow as initializeStage11FlowImpl,
-  installStage11FeatureUiEntries as installStage11FeatureUiEntriesImpl,
-  showStage11ClearOverlay as showClearOverlayImpl,
-  updateStage11Flow as updateStage11FlowImpl,
-} from './test-scene/TestSceneStage11FlowBridge';
-import {
   buildSkillPanelLines as buildSkillPanelLinesImpl,
   createDebugKeys as createDebugKeysImpl,
   createHeroDebugKeys as createHeroDebugKeysImpl,
@@ -237,7 +228,7 @@ import {
   updateSkillPanel as updateSkillPanelImpl,
   updateSkillPanels as updateSkillPanelsImpl,
 } from './test-scene/TestSceneSetup';
-import { createStage11World } from './test-scene/TestSceneStage11Bridge';
+import { createTestSceneStage11Runtime } from './test-scene/TestSceneStage11RuntimeAdapter';
 import {
   createCraftingPanel as createInventoryPanelImpl,
   type CraftingPanelView as InventoryPanelView,
@@ -289,12 +280,9 @@ import {
   type MagicBottleEffectView,
 } from './test-scene/TestSceneMagicBottleViewBridge';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
-import {
-  createTestSceneStage1HudBridge,
-} from './test-scene/TestSceneStage1HudBridge';
 import type { Stage1CombatHudBridge } from './stage1/Stage1CombatHudBridge';
+import type { PlayableLevelRuntime } from './PlayableLevelRuntime';
 import {
-  readStage11AttackGeometry,
   type Stage11AttackGeometryRegistry,
 } from './stage11/Stage11MonsterVisualBridge';
 
@@ -344,12 +332,13 @@ type MagicWeaponPlatformView = {
 
 export class TestScene extends Phaser.Scene {
   public formalPartyRuntime?: FormalPartyRuntime;
+  private runtime?: PlayableLevelRuntime;
   public playerCount: 1 | 2 = 1;
   public levelUnlockProgress: LevelUnlockProgress = createDefaultLevelUnlockProgress();
   public stage11Flow?: Stage11FlowModel;
-  private inputSystem?: InputSystem;
+  public inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
-  private stage1CombatHud?: Stage1CombatHudBridge;
+  public stage1CombatHud?: Stage1CombatHudBridge;
   private playerViews: PlayerView[] = [];
   private monster30s: Monster30Model[] = [];
   public monsterViews = new Map<Monster30Model, MonsterView>();
@@ -404,19 +393,18 @@ export class TestScene extends Phaser.Scene {
   public debugKeys?: TestSceneDebugKeys;
   private p1SkillUI: SkillUIState = createSkillUIState();
   private p2SkillUI: SkillUIState = createSkillUIState();
-  private p1SkillBar?: SkillBarView;
-  private p2SkillBar?: SkillBarView;
+  public p1SkillBar?: SkillBarView;
+  public p2SkillBar?: SkillBarView;
   public p1SkillLearning: HeroSkillLearningState = createSkillLearningState(10);
   public p2SkillLearning: HeroSkillLearningState = createSkillLearningState(10);
   public p1SoulOwner: PlayerSoulOwner = { soulCount: 5000 };
   public p2SoulOwner: PlayerSoulOwner = { soulCount: 5000 };
-  private p1SkillPanel?: SkillPanelView;
-  private p2SkillPanel?: SkillPanelView;
+  public p1SkillPanel?: SkillPanelView;
+  public p2SkillPanel?: SkillPanelView;
   private bossArena: BossArenaModel = createBossArena();
   public bossView?: BossView;
   public bossDoorView?: TransferDoorView;
   public bossArenaLabel?: Phaser.GameObjects.Text;
-  public clearOverlay?: Phaser.GameObjects.Container;
   public arenaWasActive = false;
   public bossSpawnedOnce = false;
   private equipmentRegistry: Record<string, EquipmentDefinition> = createSeedEquipmentRegistry();
@@ -424,7 +412,7 @@ export class TestScene extends Phaser.Scene {
   public inventoryOwner: PlayerSlot = 'p1';
   public inventoryStore: InventoryStore = this.playerInventoryRuntimes.p1.store;
   private inventoryUI: InventoryUIState = this.playerInventoryRuntimes.p1.ui;
-  private inventoryPanel?: InventoryPanelView;
+  public inventoryPanel?: InventoryPanelView;
   private magicWeapon: MagicWeaponModel = this.playerInventoryRuntimes.p1.magicWeapon;
   private magicWeaponSoul = this.playerInventoryRuntimes.p1.magicWeaponSoul;
   private playerPetRosters: PlayerPetRosters = createPlayerPetRosters();
@@ -440,7 +428,7 @@ export class TestScene extends Phaser.Scene {
   public p2PetRuntime?: PetRuntimeModel;
   public petView?: PetView;
   public p2PetView?: PetView;
-  private petPanel?: PetPanelView;
+  public petPanel?: PetPanelView;
   public magicWeaponPlatformViews = new Map<string, MagicWeaponPlatformView>();
   private updatePipeline?: TestSceneUpdatePipeline;
   public movementPlatforms: MovementPlatform[] = [];
@@ -469,81 +457,24 @@ export class TestScene extends Phaser.Scene {
   }
 
   public create(): void {
+    this.shutdownStage11();
     if (!this.formalPartyRuntime) {
       this.scene.start('SaveSlotScene');
       return;
     }
-    this.cameras.main.setBounds(
-      0,
-      0,
-      defaultClimbTuning.worldWidth,
-      defaultClimbTuning.worldHeight,
-    );
-    this.cameras.main.scrollY =
-      defaultClimbTuning.worldHeight - GameSettings.height;
-
-    const stage11World = createStage11World(this);
-    this.playerViews = this.createPlayerMarkers(this.playerCount);
-    this.initializeSceneSave();
-    this.initializeStage11Flow();
-    this.capturablePetTargets = [];
-
-    this.movementPlatforms = [...stage11World.movementPlatforms];
-    this.inputSystem = createInputSystem(this);
-    this.createHeroDebugKeys();
-    this.createSkillUIKeys();
-    this.createInventoryUIKeys();
-    this.createPetUIKeys();
-    this.createDebugKeys();
-    this.installStage11FeatureUiEntries();
-    this.p1SkillBar = this.createSkillBar('p1', 44, 540);
-    this.p1SkillBar.container.setScrollFactor(0).setDepth(80).setVisible(false);
-    this.p1SkillPanel = this.createSkillPanel('p1');
-    this.p1SkillPanel.container.setScrollFactor(0).setDepth(85);
-    if (this.playerCount === 2) {
-      this.p2SkillBar = this.createSkillBar('p2', 488, 540);
-      this.p2SkillBar.container.setScrollFactor(0).setDepth(80).setVisible(false);
-      this.p2SkillPanel = this.createSkillPanel('p2');
-      this.p2SkillPanel.container.setScrollFactor(0).setDepth(85);
-    }
-    this.inventoryPanel = this.createInventoryPanel();
-    this.inventoryPanel.container.setScrollFactor(0).setDepth(95);
-    this.petPanel = this.createPetPanel();
-    this.petPanel.container.setScrollFactor(0).setDepth(96);
-    this.stage11AttackGeometry = readStage11AttackGeometry(this);
-    this.bossView = createBossView(this, this.stage11AttackGeometry);
-    this.bossDoorView = createTransferDoorView(this);
-    this.bossArenaLabel = this.add.text(470, 50, '', {
-      color: '#f2c14e',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '18px',
-    }).setOrigin(0.5, 0.5);
-    this.statusText = this.add.text(24, 22, '', {
-      color: '#f3f6ff',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '16px',
-      lineSpacing: 6,
-    }).setScrollFactor(0).setDepth(90).setVisible(false);
-    this.stage1CombatHud = createTestSceneStage1HudBridge(this);
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      this.stage1CombatHud?.destroy();
-      this.stage1CombatHud = undefined;
-    });
+    this.runtime = createTestSceneStage11Runtime(this, this.formalPartyRuntime);
+    this.runtime.create();
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdownStage11, this);
   }
 
-  public override update(time: number, delta: number): void {
-    if (!this.inputSystem || !this.statusText || !this.updateStage11Flow(delta)) {
-      return;
-    }
+  public override update(_time: number, delta: number): void { this.runtime?.update(delta); }
 
-    const input = this.inputSystem.read();
-    const previousCameraY = this.verticalClimb.cameraY;
-
-    this.getUpdatePipeline().run(time, delta, input, previousCameraY);
-    this.stage1CombatHud?.update(delta);
+  private shutdownStage11(): void {
+    this.runtime?.destroy();
+    this.runtime = undefined;
   }
 
-  private getUpdatePipeline(): TestSceneUpdatePipeline {
+  public getUpdatePipeline(): TestSceneUpdatePipeline {
     if (!this.updatePipeline) {
       this.updatePipeline = this.createUpdatePipeline();
     }
@@ -611,23 +542,20 @@ export class TestScene extends Phaser.Scene {
     });
   }
 
-  private initializeSceneSave = initializeSceneSaveImpl;
+  public initializeSceneSave = initializeSceneSaveImpl;
   public saveSceneNow = saveSceneNowImpl;
   private updateSceneSave = updateSceneSaveImpl;
-  private initializeStage11Flow = initializeStage11FlowImpl;
-  private installStage11FeatureUiEntries = installStage11FeatureUiEntriesImpl;
-  private updateStage11Flow = updateStage11FlowImpl;
-  private createPlayerMarkers = createPlayerMarkersImpl;
+  public createPlayerMarkers = createPlayerMarkersImpl;
   public createPlayerView = createPlayerViewImpl;
-  private createHeroDebugKeys = createHeroDebugKeysImpl;
-  private createSkillUIKeys = createSkillUIKeysImpl;
-  private createInventoryUIKeys = createInventoryUIKeysImpl;
-  private createPetUIKeys = createPetUIKeysImpl;
-  private createDebugKeys = createDebugKeysImpl;
-  private createInventoryPanel = createInventoryPanelImpl;
-  private createPetPanel = createPetPanelImpl;
-  private createSkillBar = createSkillBarImpl;
-  private createSkillPanel = createSkillPanelImpl;
+  public createHeroDebugKeys = createHeroDebugKeysImpl;
+  public createSkillUIKeys = createSkillUIKeysImpl;
+  public createInventoryUIKeys = createInventoryUIKeysImpl;
+  public createPetUIKeys = createPetUIKeysImpl;
+  public createDebugKeys = createDebugKeysImpl;
+  public createInventoryPanel = createInventoryPanelImpl;
+  public createPetPanel = createPetPanelImpl;
+  public createSkillBar = createSkillBarImpl;
+  public createSkillPanel = createSkillPanelImpl;
   public updateSkillPanel = updateSkillPanelImpl;
   public buildSkillPanelLines = buildSkillPanelLinesImpl;
   private updateSkillBars = updateSkillBarsImpl;
@@ -651,7 +579,6 @@ export class TestScene extends Phaser.Scene {
   public getBossBounds = getBossBoundsImpl;
   private updateBossHitByPlayers = updateBossHitByPlayersImpl;
   private updateBossArenaVisuals = updateBossArenaVisualsImpl;
-  public showClearOverlay = showClearOverlayImpl;
   private updateHeroDebugSelection(): void {
     this.updateHeroSelectKeys('p1', this.p1HeroSelectKeys);
     this.updateHeroSelectKeys('p2', this.p2HeroSelectKeys);

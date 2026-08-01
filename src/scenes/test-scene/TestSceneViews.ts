@@ -5,7 +5,6 @@ import {
   PickupAssetKeys,
   pickupAssets,
   role1NormalAttackAssets,
-  Stage13AssetKeys,
 } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
@@ -13,7 +12,6 @@ import type { PlayerSlot } from '../../systems/InputSystem';
 import type { Monster30Model } from '../../systems/Monster30System';
 import type { PetState } from '../../systems/PetSystem';
 import type { ProjectileModel } from '../../systems/ProjectileSystem';
-import { stage11TransferDoor } from '../../systems/Stage11Layout';
 import {
   createStage11MonsterView,
   setStage11MonsterViewVisible,
@@ -23,10 +21,6 @@ import {
 
 export type MonsterView = Stage11MonsterView;
 export type BossView = Stage11MonsterView;
-
-export type TransferDoorView = {
-  door: Phaser.GameObjects.Image;
-};
 
 export type PetView = {
   root: Phaser.GameObjects.Container;
@@ -97,19 +91,6 @@ export function createBossView(
   const view = createStage11MonsterView(scene, 3, 470, 120, geometry);
   setStage11MonsterViewVisible(view, false);
   return view;
-}
-
-export function createTransferDoorView(scene: Phaser.Scene): TransferDoorView {
-  const { left, right, top, bottom } = stage11TransferDoor.bounds;
-  const centerX = (left + right) / 2;
-  const centerY = (top + bottom) / 2;
-  const width = right - left;
-  const height = bottom - top;
-  const door = scene.add.image(centerX, centerY, Stage13AssetKeys.transferDoor)
-    .setName('stage11-transfer-door')
-    .setDisplaySize(width, height)
-    .setVisible(false);
-  return { door };
 }
 
 export function createPetView(

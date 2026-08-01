@@ -21,7 +21,7 @@
 | UI 与配方图标 | 335 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条、地图服务四页根 UI、丹药页 11 条、商城页 18 条、设置页 2 条、任务页 13 条以及关卡五入口/设置/帮助 16 条深层资源已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`../map-service-ui-index.md`、`../immortality-ui-index.md`、`../shop-ui-index.md`、`../settings-ui-index.md`、`../task-ui-index.md`、`../stage-feature-entry-index.md` |
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 
-总计 999 条标注：824 条 `ready`、39 条 `derived-ready`、1 条 `export-ready`、128 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；998 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
+总计 1000 条标注：825 条 `ready`、39 条 `derived-ready`、1 条 `export-ready`、128 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；999 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
 
 ## 人工待办
 

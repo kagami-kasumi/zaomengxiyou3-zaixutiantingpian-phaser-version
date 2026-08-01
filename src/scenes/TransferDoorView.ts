@@ -11,6 +11,8 @@ export type TransferDoorVisualDefinition = Readonly<{
   sourceCharacterIds: readonly number[];
   origin: Readonly<{ x: number; y: number }>;
   frames?: readonly string[];
+  animationFrames?: readonly string[];
+  frameRate?: number;
 }>;
 
 export type TransferDoorPlayer = Readonly<{
@@ -33,10 +35,22 @@ export function createTransferDoorView(
   x: number,
   y: number,
 ): TransferDoorView {
-  const image = scene.add.image(x, y, definition.textureKey)
+  const image = scene.add.sprite(x, y, definition.textureKey)
     .setOrigin(definition.origin.x, definition.origin.y)
     .setName(definition.id)
     .setVisible(false);
+  if (definition.animationFrames?.length) {
+    const animationKey = `${definition.id}.active`;
+    if (!scene.anims.exists(animationKey)) {
+      scene.anims.create({
+        key: animationKey,
+        frames: definition.animationFrames.map((key) => ({ key })),
+        frameRate: definition.frameRate ?? 20,
+        repeat: -1,
+      });
+    }
+    image.play(animationKey);
+  }
   let available = false;
   let destroyed = false;
   return {

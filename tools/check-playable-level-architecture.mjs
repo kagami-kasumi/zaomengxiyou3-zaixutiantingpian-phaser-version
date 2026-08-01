@@ -111,12 +111,28 @@ function assertContractDocument() {
   }
 }
 
+function assertStage11Migration() {
+  const scenePath = 'src/scenes/TestScene.ts';
+  const sceneSource = readFileSync(path.join(root, scenePath), 'utf8');
+  if (!sceneSource.includes('createTestSceneStage11Runtime')) {
+    errors.push(`${scenePath} must delegate formal Stage 1-1 lifecycle to PlayableLevelRuntime`);
+  }
+  for (const forbidden of ['showLevelResult(', 'installFormalFeatureUiEntries(', 'Stage13AssetKeys.transferDoor']) {
+    if (sceneSource.includes(forbidden)) errors.push(`${scenePath} retains private/common Stage 1-1 owner: ${forbidden}`);
+  }
+  const templatePath = 'docs/architecture/playable-level-template.md';
+  if (!existsSync(path.join(root, templatePath))) {
+    errors.push(`missing future playable-level template: ${templatePath}`);
+  }
+}
+
 for (const legacy of [...legacyScenes, ...legacyWorldBridges, ...legacyGameplayBridges, ...legacyFlowSystems]) {
   if (!existsSync(path.join(root, legacy))) errors.push(`legacy exception must be removed from the checker after migration: ${legacy}`);
 }
 
 assertSelfTests();
 assertContractDocument();
+assertStage11Migration();
 
 for (const relative of [...walk('src/scenes'), ...walk('src/systems')].filter((file) => file.endsWith('.ts'))) {
   const source = readFileSync(path.join(root, relative), 'utf8');
