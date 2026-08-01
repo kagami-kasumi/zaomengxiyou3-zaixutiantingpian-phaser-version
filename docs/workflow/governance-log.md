@@ -4,6 +4,59 @@
 
 ## 2026-08-01
 
+### 建立问题出清归档与换案复盘机制
+
+变更内容：
+
+- 将问题治理状态机补齐为待治理、治理中、效果观察中、复盘中、已关闭待归档和已归档，允许独立问题保留同阶段细分说明。
+- 建立证据驱动的出清门禁：关闭标准、可定位证据、持久防线、必要增量样本和精确重开信号齐备后转归档。
+- 将问题索引拆为“活跃问题索引”和“问题归档索引”；日常收尾只扫活跃索引，归档项只在用户/reviewer 报告复发、门禁/回归失败、新设计推翻旧决策或直接引用 PG id 时定向唤回。
+- 新增方案复盘流程：“复发/方案不充分”必须转“复盘中”，保留原方案版本，重建事实，比较补强与替换方案，并为新版本重建验证合同。
+- 将已关闭且具备迁移、唯一 owner、静态门禁、系统回归和多个后续样本的 PG-010 转为首个“已归档”样本，保留原文档路径与全部历史证据。
+- 更新 Agent/Claude 入口、执行协议、工作流 README、文档地图和自动校验，防止归档问题回流日常扫描。收尾扫描命中 PG-004/008/014，分别回写反馈机制、扫描规模和上下文子路由样本。
+
+影响范围：
+
+- `AGENTS.md`、`CLAUDE.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-008-Task缺少可执行规模门禁.md`
+- `docs/workflow/problems/PG-010-灵魂货币所有权错误.md`
+- `docs/workflow/problems/PG-014-Agent上下文读取路由重复与过量.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `node --check tools/validate-workflow.mjs`
+- `npm run check:workflow`
+- `git diff --check`
+
+### 登记 PG-014 并前置上下文读取路由治理
+
+变更内容：
+
+- 将用户观察到的重复 `Get-Content`、已注入 `AGENTS.md` 后再次全文读取、轻量请求无条件读取 `TASK_OUTLINE.md` 登记为 `PG-014`，状态为“已确认，待治理”。
+- `PG-014` 写入完整七段治理合同，方案覆盖先分类后读取、自动注入不重读、输出相关性与重复读取纪律、TypeScript LSP 优先/`rg` 降级、自动门禁和三类真实效果样本。
+- 在问题索引最前列将 `PG-014` 标为当前优先治理项；依据脚手架边界不把它加入游戏 `task-board.md`，不改变当前功能线或唯一 Ready task。
+- 收尾扫描命中 `PG-004`、`PG-008` 与新建 `PG-014`，分别回写问题反馈闭环、上下文规模边界和初始登记样本；其余问题未命中本次纯工作流登记。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-008-Task缺少可执行规模门禁.md`
+- `docs/workflow/problems/PG-014-Agent上下文读取路由重复与过量.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow`
+- `git diff --check`
+
 ### Stage 2 公共关卡 Runtime 迁移反馈
 
 变更内容：

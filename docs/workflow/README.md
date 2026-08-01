@@ -30,9 +30,9 @@
 | `task-generation.md` | 从机制缺口、切片缺口或工程基础缺口生成标准游戏任务 |
 | `code-quality-gates.md` | AI 修改代码时必须遵守的验证、边界和测试要求 |
 | `review-protocol.md` | 工程评审的统一流程、严重程度、输出格式和整改落点 |
-| `problem-governance.md` | 系统性工程问题的定义、证据、方案、验证、效果反馈和关闭标准 |
+| `problem-governance.md` | 系统性工程问题的定义、验证、效果反馈、复盘换案、关闭出清与活跃/归档索引 |
 | `reverse-engineering-protocol.md` | 玩法逆向的六段证据链、证据分级、坐标语义、上下文交接和关闭门禁 |
-| `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案、测试结果、适用触发、反馈样本和关闭状态 |
+| `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案版本、测试结果、反馈/复盘样本和归档信息 |
 | `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
 | `governance-log.md` | 工作流、任务体系、文档职责和质量门禁的维护历史 |
 | `../domain/glossary.md` | 轻量 DDD 统一语言表 |
@@ -64,9 +64,9 @@
 - `/goal` 是执行命令，不是持久化实体；它只执行唯一 Ready task，并由该 task 的规模预算与拆分触发约束本次边界。
 - 已完成游戏任务从 `task-board.md` 和 `task-definitions/` 归档到 `docs/tasks/task-history.md`。
 - 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁只写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板。
-- 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议和问题索引。
+- 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议、活跃问题索引和问题归档索引。
 - 逆向结论必须按 `reverse-engineering-protocol.md` 落盘证据矩阵；缺少共享调用链、适用的 SWF 几何/坐标语义或双重验证时，不得宣称“权威实现输入、已闭合、已复现”。UI/HUD/菜单还必须有显示列表清单、原版视觉基准、允许的现代视觉例外和逐状态差异证据，整页真背景不等于 UI 原生化。
-- 代码、架构、游戏 task 或工作流变更收尾时，必须按未关闭或效果观察中问题的触发条件执行适用性扫描；命中时回写效果样本，发现复发或方案不充分时退回治理。
+- 代码、架构、游戏 task 或工作流变更收尾时，只按活跃问题索引执行适用性扫描；归档问题仅在硬信号下定向重开。命中时回写效果样本；复发或方案不充分时转入复盘并评估方案新版本，满足出清门禁后归档。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。
 - 同一个正式游戏 task 未完成时默认继续当前对话；第一次 compact 即视为规模超限，只完成当前检查、复查关键文件、回写安全检查点并拆分剩余 task，不继续读取新资料或新增实现。

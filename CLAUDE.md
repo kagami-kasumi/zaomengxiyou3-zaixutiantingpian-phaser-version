@@ -54,7 +54,7 @@ npm run check:workflow
 9. 视觉资源优先从 Git 忽略的 `local-resources/regima/source/restored-swfs/` 定位；旧 `local-resources/regima/legacy-extraction/` 不能作为视觉资源缺失的最终依据。
 10. AS3 源码是行为参考，不是架构模板。逆向遵循 `docs/workflow/reverse-engineering-protocol.md`：从局部证据追踪共享运行时、SWF 几何和坐标语义，区分确认事实、推断、未知与现代设计选择，再用现代方式重写可观察行为。
 11. 执行工程评审时遵循 `docs/workflow/review-protocol.md`，输出可比较、可执行的结论。
-12. 治理系统性工程问题时遵循 `docs/workflow/problem-governance.md`，先确认问题定义、证据、方案、测试和关闭标准；代码、架构、游戏 task 或工作流变更收尾时执行问题适用性扫描，命中则回写效果样本，复发或方案不充分则退回治理。
+12. 治理系统性工程问题时遵循 `docs/workflow/problem-governance.md`，先确认问题定义、证据、方案、测试和关闭标准；收尾时只扫描活跃问题索引，归档问题仅在硬信号下定向重开。命中则回写效果样本；复发或方案不充分则转入复盘，保留旧方案并评估换案。
 
 ## 读取约束
 

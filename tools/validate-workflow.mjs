@@ -926,6 +926,11 @@ function checkProblemGovernance(
     '问题适用性扫描',
     '适用触发与反馈记录',
     '治理流程',
+    '状态机',
+    '关闭出清与归档',
+    '复盘与方案更换',
+    '活跃问题索引',
+    '问题归档索引',
     '模板',
   ]) {
     if (!problemGovernance.includes(requiredText)) {
@@ -937,7 +942,11 @@ function checkProblemGovernance(
     error('docs/workflow/problems must contain at least one PG-*.md record.');
   }
 
-  const indexedIds = extractRefs(section(problemGovernance, '问题索引'), 'PG');
+  const activeProblemIndex = section(problemGovernance, '活跃问题索引');
+  const archivedProblemIndex = section(problemGovernance, '问题归档索引');
+  const activeIds = extractRefs(activeProblemIndex, 'PG');
+  const archivedIds = extractRefs(archivedProblemIndex, 'PG');
+  const indexedIds = [...new Set([...activeIds, ...archivedIds])];
   const discoveredIds = problemRecords.map(({ id }) => id);
   for (const indexedId of indexedIds) {
     if (!discoveredIds.includes(indexedId)) {
@@ -946,7 +955,8 @@ function checkProblemGovernance(
   }
 
   for (const { id, path: recordPath, text } of problemRecords) {
-    if (!problemGovernance.includes(recordPath.replace('docs/workflow/', ''))) {
+    if (!activeProblemIndex.includes(recordPath.replace('docs/workflow/', ''))
+      && !archivedProblemIndex.includes(recordPath.replace('docs/workflow/', ''))) {
       error(`problem-governance.md must index ${recordPath}.`);
     }
     if (!text.includes(`# ${id} `)) {
@@ -970,12 +980,26 @@ function checkProblemGovernance(
     }
 
     const status = text.match(/^\u72b6\u6001\uff1a(.+)\u3002$/m)?.[1];
-    const indexRow = section(problemGovernance, '问题索引')
+    const activeIndexRow = activeProblemIndex
       .split(/\r?\n/)
       .find((line) => line.startsWith(`| ${id} `));
+    const archivedIndexRow = archivedProblemIndex
+      .split(/\r?\n/)
+      .find((line) => line.startsWith(`| ${id} `));
+    const indexRow = activeIndexRow ?? archivedIndexRow;
     const indexedStatus = indexRow?.split('|')[2]?.trim();
     if (!status || indexedStatus !== status) {
       error(`${recordPath} status must match problem-governance.md index (${indexedStatus ?? 'missing'}).`);
+    }
+    if (status === '已归档') {
+      if (activeIndexRow || !archivedIndexRow) {
+        error(`${recordPath} archived record must appear only in the archive index.`);
+      }
+      if (!text.includes('归档信息：')) {
+        error(`${recordPath} archived record must include 归档信息：.`);
+      }
+    } else if (!activeIndexRow) {
+      error(`${recordPath} non-archived record must appear in the active problem index.`);
     }
   }
 
@@ -1002,7 +1026,9 @@ function checkProblemGovernance(
       error(`${name} must reference docs/workflow/problem-governance.md.`);
     }
   }
-  if (!agents.includes('效果样本') || !agentProtocol.includes('问题适用性扫描')) {
+  if (!agents.includes('效果样本') || !agents.includes('活跃问题索引')
+    || !agentProtocol.includes('问题适用性扫描')
+    || !agentProtocol.includes('归档索引不参与常规扫描')) {
     error('Agent entry and protocol must enforce problem-governance feedback scanning.');
   }
 }
