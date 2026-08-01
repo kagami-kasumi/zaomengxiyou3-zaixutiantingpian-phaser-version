@@ -436,7 +436,7 @@ const expectedDisplayOrder = [
   "setName('sl22-foreground')",
   "setName(fire.id)",
   "setName('sl22-midground')",
-  "setName('stage22-transfer-door')",
+  "id: 'stage22-transfer-door'",
 ];
 for (let index = 1; index < expectedDisplayOrder.length; index += 1) {
   assert.ok(
@@ -460,10 +460,11 @@ const formalGameplaySource = readFileSync(
 assert.ok(formalGameplaySource.includes('createStage22Flow'));
 assert.ok(formalGameplaySource.includes('createStage21MonsterView'));
 assert.ok(formalGameplaySource.includes('createMonster16View'));
-assert.ok(formalGameplaySource.includes('flow.tryComplete(createLevelCompletionAttempt'));
+assert.ok(formalGameplaySource.includes('flow.tryComplete(transferDoor.createCompletionAttempt'));
 const formalSceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage22Scene.ts'), 'utf8');
-assert.ok(formalSceneSource.includes('showLevelResult'));
-assert.ok(formalSceneSource.includes('installFormalFeatureUiEntries'));
+assert.ok(formalSceneSource.includes('createPlayableLevelRuntime'));
+assert.equal(formalSceneSource.includes('showLevelResult'), false);
+assert.equal(formalSceneSource.includes('installFormalFeatureUiEntries'), false);
 assert.equal(formalSceneSource.includes('keydown-ESC'), false);
 assert.ok(formalSceneSource.includes('import.meta.env.DEV || isStage22LocalQaHost'));
 

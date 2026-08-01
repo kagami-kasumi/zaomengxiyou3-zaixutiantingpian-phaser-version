@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Ready）
 
 
 目标机制/切片：

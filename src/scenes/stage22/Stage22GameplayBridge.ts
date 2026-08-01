@@ -41,7 +41,7 @@ import {
   STAGE22_GROUND_PLATFORM_ID,
   STAGE22_GROUND_TOP_Y,
 } from '../../systems/Stage22Layout';
-import { createLevelCompletionAttempt } from '../LevelLifecycleBridge';
+import type { TransferDoorView } from '../TransferDoorView';
 import {
   getStage22CameraScrollX,
   getStage22TravelRight,
@@ -108,7 +108,7 @@ export function createStage22Gameplay(
   scene: Phaser.Scene,
   playerCount: 1 | 2,
   playerViews: readonly Phaser.GameObjects.Image[],
-  transferDoor: Phaser.GameObjects.Image,
+  transferDoor: TransferDoorView,
   fireViews: readonly Phaser.GameObjects.Image[],
   updateFireViews: (hazards: readonly Stage22FireHazardModel[]) => void,
   qa: Stage22QaOptions = {},
@@ -232,13 +232,11 @@ export function createStage22Gameplay(
         reportedResult = 'failed';
         return 'failed';
       }
-      transferDoor.setVisible(flow.doorVisible);
-      if (flow.tryComplete(createLevelCompletionAttempt(
-        flow.doorVisible,
-        transferDoor,
+      transferDoor.setAvailable(flow.doorVisible);
+      if (flow.tryComplete(transferDoor.createCompletionAttempt(
         players.map((player, index) => ({
           view: player.view,
-          upPressed: Boolean(inputs[index]?.up),
+          input: inputs[index] ?? inputs[0]!,
           eligible: player.combat.combat.state !== 'dead',
         })),
       ))) {

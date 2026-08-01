@@ -66,8 +66,8 @@ function testSceneTransitionDoesNotUseVictoryOrSavePath(): void {
     'utf8',
   );
   const transitionBranch = sceneSource.slice(
-    sceneSource.indexOf("if (result === 'fb-entered')"),
-    sceneSource.indexOf('this.resultOverlay = showStage12Result'),
+    sceneSource.indexOf("if (result !== 'fb-entered')"),
+    sceneSource.indexOf('return true;', sceneSource.indexOf("if (result !== 'fb-entered')")) + 12,
   );
   assert.ok(transitionBranch.includes("this.scene.start('Stage51TransitionScene')"));
   assert.ok(!transitionBranch.includes('showStage12Result'));

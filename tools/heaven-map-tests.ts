@@ -98,10 +98,10 @@ assert.match(mapSource, /内容尚未复现/);
 const formalRouteFiles = [
   'src/scenes/SaveSlotScene.ts',
   'src/scenes/Stage51TransitionScene.ts',
-  'src/scenes/Stage12Scene.ts',
-  'src/scenes/Stage13Scene.ts',
-  'src/scenes/Stage21Scene.ts',
-  'src/scenes/Stage22Scene.ts',
+  'src/systems/Stage12LevelDefinition.ts',
+  'src/systems/Stage13LevelDefinition.ts',
+  'src/systems/Stage21LevelDefinition.ts',
+  'src/systems/Stage22LevelDefinition.ts',
   'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
 ];
 for (const relativePath of formalRouteFiles) {
@@ -109,15 +109,24 @@ for (const relativePath of formalRouteFiles) {
   assert.match(source, /HeavenMapScene/);
   assert.doesNotMatch(source, /scene\.start\('Stage11EntryScene'\)/);
 }
+const playableRuntimeSource = readFileSync(
+  path.join(repoRoot, 'src/scenes/PlayableLevelRuntime.ts'),
+  'utf8',
+);
+assert.match(playableRuntimeSource, /definition\.routes\.back/);
+assert.doesNotMatch(playableRuntimeSource, /scene\.start\('Stage11EntryScene'\)/);
 for (const relativePath of [
-  'src/scenes/Stage12Scene.ts',
-  'src/scenes/Stage13Scene.ts',
-  'src/scenes/Stage21Scene.ts',
-  'src/scenes/Stage22Scene.ts',
+  'src/scenes/PlayableLevelRuntime.ts',
 ]) {
   const source = readFileSync(path.join(repoRoot, relativePath), 'utf8');
   assert.match(source, /installFormalFeatureUiEntries/);
   assert.doesNotMatch(source, /keydown-ESC/);
+}
+for (const stage of ['12', '13', '21', '22']) {
+  assert.match(
+    readFileSync(path.join(repoRoot, `src/scenes/Stage${stage}Scene.ts`), 'utf8'),
+    /createPlayableLevelRuntime/,
+  );
 }
 const stage11FlowSource = readFileSync(
   path.join(repoRoot, 'src/scenes/test-scene/TestSceneStage11FlowBridge.ts'),

@@ -46,9 +46,17 @@ export class BootScene extends Phaser.Scene {
   }
 
   private async routeFromBoot(): Promise<void> {
+    const allowLocalQa = import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname);
+    const params = new URLSearchParams(window.location.search);
+    if (allowLocalQa && params.get('qaStage') === '2-1') {
+      await this.startQaScene('Stage21Scene', {
+        devParty: createFormalDevParty(params.get('players') === '2' ? 2 : 1),
+      });
+      return;
+    }
     const stage22Dev = readStage22DevOptions(
       window.location.search,
-      import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname),
+      allowLocalQa,
     );
     if (stage22Dev.enabled) {
       await this.startQaScene('Stage22DevScene', stage22Dev);
@@ -56,7 +64,7 @@ export class BootScene extends Phaser.Scene {
     }
     const stage22Qa = readStage22QaOptions(
       window.location.search,
-      import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname),
+      allowLocalQa,
     );
     if (stage22Qa.bossState) {
       await this.startQaScene('Stage22Scene', {

@@ -22,7 +22,7 @@ import {
   STAGE13_GROUND_PLATFORM_ID,
   STAGE13_GROUND_TOP_Y,
 } from '../../systems/Stage13Layout';
-import { createLevelCompletionAttempt } from '../LevelLifecycleBridge';
+import type { TransferDoorView } from '../TransferDoorView';
 import {
   getStage13CameraScrollX,
   getStage13TravelRight,
@@ -89,7 +89,7 @@ export function createStage13Gameplay(
   scene: Phaser.Scene,
   playerCount: 1 | 2,
   playerViews: readonly Phaser.GameObjects.Image[],
-  transferDoor: Phaser.GameObjects.Image,
+  transferDoor: TransferDoorView,
 ): Stage13GameplayHandle {
   const flow = createStage13Flow(playerCount, readUnlockProgress());
   const input = createInputSystem(scene);
@@ -167,18 +167,16 @@ export function createStage13Gameplay(
       players.filter((player) => player.combat.combat.state !== 'dead').length,
       deltaMs,
     );
-    transferDoor.setVisible(flow.doorVisible);
+    transferDoor.setAvailable(flow.doorVisible);
     if (phase === 'failed') {
       reportedResult = 'failed';
       return reportedResult;
     }
 
-    if (flow.tryComplete(createLevelCompletionAttempt(
-      flow.doorVisible,
-      transferDoor,
+    if (flow.tryComplete(transferDoor.createCompletionAttempt(
       players.map((player, index) => ({
         view: player.view,
-        upPressed: (index === 0 ? state.p1 : state.p2).up,
+        input: index === 0 ? state.p1 : state.p2,
         eligible: player.combat.combat.state !== 'dead',
       })),
     ))) {

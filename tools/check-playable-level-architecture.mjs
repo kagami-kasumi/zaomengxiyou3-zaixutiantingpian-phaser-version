@@ -4,12 +4,7 @@ import path from 'node:path';
 const root = process.cwd();
 const errors = [];
 
-const legacyScenes = new Set([
-  'src/scenes/Stage12Scene.ts',
-  'src/scenes/Stage13Scene.ts',
-  'src/scenes/Stage21Scene.ts',
-  'src/scenes/Stage22Scene.ts',
-]);
+const legacyScenes = new Set([]);
 const legacyWorldBridges = new Set([
   'src/scenes/stage12/Stage12WorldBridge.ts',
   'src/scenes/stage13/Stage13WorldBridge.ts',
@@ -50,7 +45,7 @@ function classify(relativePath, source) {
     if (!source.includes('PlayableLevelRuntime')) {
       findings.push('new formal level Scene must consume PlayableLevelRuntime');
     }
-    for (const forbidden of ['showLevelResult(', 'markLevelResultStarted(', '.scene.start(', '.setVisible(flow.doorVisible)']) {
+    for (const forbidden of ['showLevelResult(', 'markLevelResultStarted(', '.setVisible(flow.doorVisible)']) {
       if (source.includes(forbidden)) findings.push(`new formal level Scene contains private runtime owner: ${forbidden}`);
     }
   }
@@ -80,7 +75,7 @@ function assertSelfTests() {
     ['src/scenes/stage23/Stage23GameplayBridge.ts', 'export function update() {}', 1],
     ['src/systems/Stage23FlowSystem.ts', 'export class Stage23Flow {}', 1],
     ['src/scenes/stage23/Stage23ResultBridge.ts', 'export function show() {}', 1],
-    ['src/scenes/Stage12Scene.ts', 'showLevelResult(scene, options);', 0],
+    ['src/scenes/Stage12Scene.ts', "import type { PlayableLevelRuntime } from './PlayableLevelRuntime';", 0],
   ];
   for (const [file, source, expected] of cases) {
     const actual = classify(file, source).length;

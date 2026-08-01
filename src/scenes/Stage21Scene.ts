@@ -1,48 +1,24 @@
 import Phaser from 'phaser';
-import { installFormalFeatureUiEntries } from './feature-ui/FormalFeatureUiEntryBridge';
-import { AssetKeys } from '../assets/AssetManifest';
-import {
-  readStage21QaOptions,
-} from '../systems/Stage21EntrySystem';
-import {
-  createFormalPartyRetryData,
-  type FormalPartyRuntime,
-  type FormalPartySceneData,
-} from '../systems/FormalPartyRuntimeSystem';
-import {
-  stage21HeroSpawns,
-  STAGE21_WORLD_HEIGHT,
-  STAGE21_WORLD_LEFT,
-  STAGE21_WORLD_WIDTH,
-} from '../systems/Stage21Layout';
-import {
-  createStage21Gameplay,
-  type Stage21GameplayHandle,
-} from './stage21/Stage21GameplayBridge';
-import {
-  createLevelResultStats,
-  markLevelResultStarted,
-  showLevelResult,
-} from './LevelResultView';
-import { startSceneWithBundle } from './SceneAssetBundleBridge';
-import { createStage21World, type Stage21WorldHandle } from './stage21/Stage21WorldBridge';
+import { readStage21QaOptions } from '../systems/Stage21EntrySystem';
+import { isStage22LocalQaHost } from '../systems/Stage22EntrySystem';
+import type { FormalPartyRuntime, FormalPartySceneData } from '../systems/FormalPartyRuntimeSystem';
+import { stage21LevelDefinition } from '../systems/Stage21LevelDefinition';
+import { createPlayableLevelRuntime, type PlayableLevelRuntime } from './PlayableLevelRuntime';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
+import { createStage21Gameplay } from './stage21/Stage21GameplayBridge';
+import { createStage21World } from './stage21/Stage21WorldBridge';
 
 export class Stage21Scene extends Phaser.Scene {
   private partyRuntime?: FormalPartyRuntime;
-  private playerCount: 1 | 2 = 1;
-  private world?: Stage21WorldHandle;
-  private gameplay?: Stage21GameplayHandle;
-  private playerViews: Phaser.GameObjects.Image[] = [];
-  private resultOverlay?: Phaser.GameObjects.Container;
+  private runtime?: PlayableLevelRuntime;
 
-  public constructor() {
-    super('Stage21Scene');
-  }
+  public constructor() { super(stage21LevelDefinition.sceneKey); }
 
   public init(data?: FormalPartySceneData): void {
-    this.partyRuntime = resolveFormalPartyScene(data, import.meta.env.DEV);
-    this.playerCount = this.partyRuntime?.playerCount ?? 1;
+    this.partyRuntime = resolveFormalPartyScene(
+      data,
+      import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname),
+    );
   }
 
   public create(): void {
@@ -51,57 +27,37 @@ export class Stage21Scene extends Phaser.Scene {
       this.scene.start('SaveSlotScene');
       return;
     }
-    const qa = readStage21QaOptions(window.location.search, import.meta.env.DEV);
-    installFormalFeatureUiEntries(this, { originKind: 'combat', party: this.partyRuntime.party });
-    markLevelResultStarted(this);
-    this.cameras.main.setBounds(STAGE21_WORLD_LEFT, 0, STAGE21_WORLD_WIDTH, STAGE21_WORLD_HEIGHT);
-    this.cameras.main.scrollX = 0;
-    this.world = createStage21World(this);
-    this.playerViews = stage21HeroSpawns.slice(0, this.playerCount).map((spawn, index) =>
-      this.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
-        .setName(spawn.slot).setData('heroId', this.partyRuntime?.members[index]?.heroId).setOrigin(0.5, 1)
-        .setTint(index === 0 ? 0xffffff : 0x7ad7ff).setDepth(20),
+    const qa = readStage21QaOptions(
+      window.location.search,
+      import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname),
     );
-    const qaLabel = qa.fastClear || qa.noDamage
-      ? ` · DEV QA${qa.noDamage ? ' 无伤' : ''}${qa.fastClear ? ' 自动清怪' : ''}${qa.showcase ? ' 展示' : ''}${qa.holdEnemyType ? ` 保留 M${qa.holdEnemyType}` : ''}${qa.forcedEnemyState ? ` 强制${qa.forcedEnemyState}` : ''}`
-      : '';
-    this.add.text(18, 16, `Stage 2-1 · ${this.playerCount}P${qaLabel} · P1 A/D/J/K · P2 ←/→/小键盘1/小键盘2 · Esc 设置`, {
-      color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '15px',
-      backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
-    }).setScrollFactor(0).setDepth(100);
-    this.gameplay = createStage21Gameplay(
-      this,
-      this.playerCount,
-      this.playerViews,
-      this.world.transferDoor,
-      this.world.iceViews,
-      qa,
-    );
+    this.runtime = createPlayableLevelRuntime(this, this.partyRuntime, stage21LevelDefinition, {
+      createWorld: createStage21World,
+      createEncounter: (scene, playerCount, players, world) => {
+        const gameplay = createStage21Gameplay(
+          scene, playerCount, players, world.transferDoor, world.iceViews, qa,
+        );
+        return {
+          update: gameplay.update,
+          destroy: gameplay.destroy,
+          unlockProgress: () => gameplay.flow.unlockProgress,
+        };
+      },
+      title: (count) => {
+        const qaLabel = qa.fastClear || qa.noDamage
+          ? ` · DEV QA${qa.noDamage ? ' 无伤' : ''}${qa.fastClear ? ' 自动清怪' : ''}${qa.showcase ? ' 展示' : ''}${qa.holdEnemyType ? ` 保留 M${qa.holdEnemyType}` : ''}${qa.forcedEnemyState ? ` 强制${qa.forcedEnemyState}` : ''}`
+          : '';
+        return `Stage 2-1 · ${count}P${qaLabel} · P1 A/D/J/K · P2 ←/→/小键盘1/小键盘2 · Esc 设置`;
+      },
+    });
+    this.runtime.create();
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdownStage21, this);
   }
 
-  public update(_time: number, delta: number): void {
-    const result = this.gameplay?.update(delta);
-    if (!result || !this.gameplay || this.resultOverlay) return;
-    const retryData = createFormalPartyRetryData(this.partyRuntime);
-    this.resultOverlay = showLevelResult(this, {
-      result,
-      stats: createLevelResultStats(this),
-      unlockProgress: this.gameplay.flow.unlockProgress,
-      onRetry: () => this.scene.restart(retryData),
-      onNext: () => void startSceneWithBundle(this, 'Stage22Scene', retryData),
-      onBack: () => void startSceneWithBundle(this, 'HeavenMapScene'),
-    });
-  }
+  public update(_time: number, delta: number): void { this.runtime?.update(delta); }
 
   private shutdownStage21(): void {
-    this.world?.destroy();
-    this.world = undefined;
-    this.gameplay?.destroy();
-    this.gameplay = undefined;
-    this.resultOverlay?.destroy(true);
-    this.resultOverlay = undefined;
-    for (const playerView of this.playerViews) playerView.destroy();
-    this.playerViews = [];
+    this.runtime?.destroy();
+    this.runtime = undefined;
   }
 }

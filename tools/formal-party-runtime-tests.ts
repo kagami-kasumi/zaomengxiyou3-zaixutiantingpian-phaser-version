@@ -81,17 +81,15 @@ for (const relativePath of [
   'src/scenes/Stage22Scene.ts',
 ]) {
   assert.match(source(relativePath), /resolveFormalPartyScene/);
-  if (relativePath !== 'src/scenes/TestScene.ts') assert.match(source(relativePath), /setData\('heroId'/);
   assert.doesNotMatch(source(relativePath), /data\?\.playerCount/);
 }
-for (const relativePath of [
-  'src/scenes/Stage12Scene.ts',
-  'src/scenes/Stage13Scene.ts',
-  'src/scenes/Stage21Scene.ts',
-  'src/scenes/Stage22Scene.ts',
-]) {
-  assert.match(source(relativePath), /this\.scene\.restart\(retryData\)/);
+assert.match(source('src/scenes/PlayableLevelRuntime.ts'), /setData\('heroId'/);
+for (const relativePath of ['src/scenes/PlayableLevelRuntime.ts']) {
+  assert.match(source(relativePath), /scene\.restart\(retryData\)/);
   assert.doesNotMatch(source(relativePath), /restart\(\{ playerCount \}\)/);
+}
+for (const stage of ['12', '13', '21', '22']) {
+  assert.match(source(`src/scenes/Stage${stage}Scene.ts`), /createPlayableLevelRuntime/);
 }
 assert.match(source('src/scenes/test-scene/TestSceneStage11FlowBridge.ts'), /createFormalPartyRetryData/);
 assert.match(source('src/scenes/test-scene/TestSceneSaveBridge.ts'), /SAVE disabled for DEV party/);

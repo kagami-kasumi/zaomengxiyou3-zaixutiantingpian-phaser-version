@@ -8,6 +8,7 @@ import {
   stage22WallMarkers,
 } from '../../systems/Stage22Layout';
 import type { Stage22FireHazardModel } from '../../systems/Stage22FireHazardSystem';
+import { createTransferDoorView, type TransferDoorView } from '../TransferDoorView';
 
 export type Stage22WorldHandle = Readonly<{
   root: Phaser.GameObjects.Container;
@@ -16,7 +17,7 @@ export type Stage22WorldHandle = Readonly<{
   bgContainer: Phaser.GameObjects.Container;
   foreground: Phaser.GameObjects.Image;
   midground: Phaser.GameObjects.Image;
-  transferDoor: Phaser.GameObjects.Image;
+  transferDoor: TransferDoorView;
   fireViews: readonly Phaser.GameObjects.Image[];
   updateFireViews: (hazards: readonly Stage22FireHazardModel[]) => void;
   destroy: () => void;
@@ -64,12 +65,18 @@ export function createStage22World(scene: Phaser.Scene): Stage22WorldHandle {
   ).setOrigin(0).setName('sl22-midground');
   stageScene.add(midground);
 
-  const transferDoor = scene.add.image(
+  const transferDoor = createTransferDoorView(scene, {
+    id: 'stage22-transfer-door',
+    textureKey: Stage22AssetKeys.transferDoor,
+    sourcePackage: stage22Assets.transferDoor.sourcePackage,
+    sourceSymbol: stage22Assets.transferDoor.sourceSymbol,
+    sourceCharacterIds: [63, 59, 62],
+    origin: { x: 0, y: 0 },
+  },
     stage22TransferDoor.x + stage22TransferDoor.sourceBounds.left,
     stage22TransferDoor.y + stage22TransferDoor.sourceBounds.top,
-    Stage22AssetKeys.transferDoor,
-  ).setOrigin(0).setName('stage22-transfer-door').setVisible(false);
-  stageScene.add(transferDoor);
+  );
+  stageScene.add(transferDoor.image);
 
   stageScene.setData('wallMarkers', stage22WallMarkers);
   stageScene.setData('stopPoints', stage22StopPoints);
@@ -96,6 +103,7 @@ export function createStage22World(scene: Phaser.Scene): Stage22WorldHandle {
     destroy: () => {
       if (destroyed) return;
       destroyed = true;
+      transferDoor.destroy();
       root.destroy(true);
       floor.destroy();
     },

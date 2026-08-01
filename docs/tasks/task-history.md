@@ -9116,3 +9116,49 @@ Goal：
 
 推荐任务：
 - `TASK-ARCH-016B`：建立公共 Runtime 与 `TransferDoorView`，迁移 Stage 1-2/1-3，并按 ADR 收缩遗留 allowlist。
+
+### TASK-ARCH-016B
+
+- 完成日期：2026-07-31
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-ARCH-016C`）
+- 新增公共 `PlayableLevelRuntime`、纯系统 Definition 校验与带源包/Symbol/character provenance 的 `TransferDoorView`。
+- Stage 1-2/1-3 Scene 改为消费同一 Runtime：共同队伍、玩家、镜头、功能 HUD、结果、解锁保存、重试/下一关/返回与幂等销毁只有一个 owner。
+- 两关门显隐与 completion attempt 统一由共享门组件适配；level12 character 52/48/51 与 level13 character 40/36/39 的不同皮肤和布局保持不变。
+- 波次、Boss、怪物视觉、移动和 1-2 `fbEnter -> Stage51TransitionScene` 仍在窄 adapter；未扩入 Stage 2、1-1、数值或存档 schema。
+
+更新文件：
+- 公共 Runtime/Definition/TransferDoorView、Stage 1-2/1-3 Scene 与兼容 adapters。
+- Runtime 定义测试、架构门禁、fbEnter 回归及 ADR/PG/机制/切片/功能线/看板文档。
+
+验证：
+- 两关 flow、traversal、fbEnter、资源/怪物、公共 Definition、全系统通过。
+- build、structure、workflow、diff check 通过；Vite 只有既有 chunk warning。
+- 940×590 从正式存档/天庭地图进入两关，层级/HUD/出生正常且 console 零 warning/error；门/失败/胜利/返回由专项和生命周期回归覆盖。
+
+推荐任务：
+- `TASK-ARCH-016C`：复用试点 Runtime/门组件迁移 Stage 2-1/2-2，保留冰刺、火焰、Monster16 与 QA 窄差异。
+
+### TASK-ARCH-016C
+
+- 完成日期：2026-08-01
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-ARCH-016D`）
+- Stage 2-1/2-2 新增只读 `LevelDefinition`，Scene 改为消费公共 `PlayableLevelRuntime`；共同队伍、玩家、镜头、功能 HUD、结果、解锁保存、路由和幂等销毁不再逐关持有。
+- 两关门改为带各自 level21/level22 provenance 的 `TransferDoorView`，显隐与 completion attempt 共用同一行为 owner。
+- 冰刺、火焰、Monster16、Boss 展示和 QA 注入保留在既有 World/Gameplay/Flow 窄 adapter；Stage 2-2 保持无标题可见层，QA 不成为正式 Runtime 分叉。
+- 新增仅 localhost 且显式 `qaStage=2-1` 的 Stage 2-1 preview 入口，用于可重复验收，不改变正式存档/地图路线。
+
+更新文件：
+- Stage 2 Definition、Scene、World/Gameplay adapters、Boot QA 路由与公共 Runtime 可选标题合同。
+- Runtime/Stage 2/架构静态测试，以及 ADR、PG、机制、切片、功能线、覆盖台账与看板文档。
+
+验证：
+- `npm run test:stage21`、`npm run test:stage22`、公共 Definition 测试与 `npm run test:systems` 通过。
+- `npm run check:structure`、`npm run check:level-architecture`、`npm run build` 通过；Vite 仅保留既有 chunk warning。
+- 940×590 Stage 2-1 双人 fast-clear/no-damage QA、Stage 2-2 正式存档入口与双人门 QA 均零 console warning/error；场景层级、HUD、出生、机关和门状态保持。
+
+问题治理反馈：
+- `PG-013`：通过 / 治理进行中；四个横向关卡已收敛，Stage 1-1/TestScene 留给 016D。
+- `PG-003`：通过 / 未复发；两关继续复用共享移动 runtime 与窄环境 provider。
+
+推荐任务：
+- `TASK-ARCH-016D`：迁移 Stage 1-1/TestScene、自有 character 45/41/44 真门并闭合五关框架与未来模板。

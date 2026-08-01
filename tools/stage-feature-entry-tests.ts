@@ -77,11 +77,12 @@ const ready = {
 };
 const formalStageScenePaths = [
   'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
-  'src/scenes/Stage12Scene.ts',
-  'src/scenes/Stage13Scene.ts',
-  'src/scenes/Stage21Scene.ts',
-  'src/scenes/Stage22Scene.ts',
+  'src/scenes/PlayableLevelRuntime.ts',
 ] as const;
+
+for (const stage of ['12', '13', '21', '22']) {
+  assert.match(source(`src/scenes/Stage${stage}Scene.ts`), /createPlayableLevelRuntime\(/);
+}
 
 assert.deepEqual(
   routeStageFeatureEntry(
@@ -182,7 +183,7 @@ for (const scenePath of formalStageScenePaths) {
     `${scenePath}: shared feature-entry installation`,
   );
   assert.match(scene, /originKind:\s*'combat'/, `${scenePath}: combat origin`);
-  assert.match(scene, /party:\s*this\.(?:formalPartyRuntime|partyRuntime)\.party/, `${scenePath}: formal party`);
+  assert.match(scene, /party:\s*(?:this\.)?(?:formalPartyRuntime|partyRuntime)\.party/, `${scenePath}: formal party`);
   assert.doesNotMatch(source(scenePath), /keydown-ESC/);
 }
 

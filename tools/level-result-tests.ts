@@ -29,18 +29,17 @@ function testNativeResultAssetsMatchTheRecoveredDisplayList(): void {
 function testAllCompletedLevelsUseOneNativeResultPresenter(): void {
   const consumers = [
     'src/scenes/test-scene/TestSceneStage11FlowBridge.ts',
-    'src/scenes/Stage12Scene.ts',
-    'src/scenes/Stage13Scene.ts',
+    'src/scenes/PlayableLevelRuntime.ts',
     'src/scenes/Stage21Scene.ts',
     'src/scenes/Stage22Scene.ts',
   ].map((file) => readFileSync(path.join(repoRoot, file), 'utf8'));
   assert.equal(
     consumers.reduce((count, source) => count + (source.match(/showLevelResult\(/g) ?? []).length, 0),
-    6,
+    3,
   );
   assert.equal(
     consumers.reduce((count, source) => count + (source.match(/markLevelResultStarted\(/g) ?? []).length, 0),
-    5,
+    2,
   );
   assert.doesNotMatch(consumers.join('\n'), /add\.rectangle\(|createResultButton|关卡胜利|全员战败/);
 
@@ -50,6 +49,11 @@ function testAllCompletedLevelsUseOneNativeResultPresenter(): void {
       false,
       `Stage ${stage} must not restore a private result bridge`,
     );
+  }
+  for (const stage of ['12', '13', '21', '22']) {
+    const scene = readFileSync(path.join(repoRoot, `src/scenes/Stage${stage}Scene.ts`), 'utf8');
+    assert.match(scene, /createPlayableLevelRuntime\(/);
+    assert.doesNotMatch(scene, /showLevelResult\(|markLevelResultStarted\(/);
   }
 }
 

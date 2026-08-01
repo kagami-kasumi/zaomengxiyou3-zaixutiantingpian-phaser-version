@@ -8,13 +8,14 @@ import {
   stage21TransferDoor,
   stage21WallMarkers,
 } from '../../systems/Stage21Layout';
+import { createTransferDoorView, type TransferDoorView } from '../TransferDoorView';
 
 export type Stage21WorldHandle = Readonly<{
   root: Phaser.GameObjects.Container;
   floor: Phaser.GameObjects.Image;
   stageScene: Phaser.GameObjects.Container;
   bgContainer: Phaser.GameObjects.Container;
-  transferDoor: Phaser.GameObjects.Image;
+  transferDoor: TransferDoorView;
   iceViews: readonly Phaser.GameObjects.Image[];
   destroy: () => void;
 }>;
@@ -52,12 +53,18 @@ export function createStage21World(scene: Phaser.Scene): Stage21WorldHandle {
     stageScene.add(image);
     return image;
   });
-  const transferDoor = scene.add.image(
+  const transferDoor = createTransferDoorView(scene, {
+    id: 'stage21-transfer-door',
+    textureKey: Stage21AssetKeys.transferDoor,
+    sourcePackage: stage21Assets.transferDoor.sourcePackage,
+    sourceSymbol: stage21Assets.transferDoor.sourceSymbol,
+    sourceCharacterIds: [48],
+    origin: { x: 0, y: 0 },
+  },
     stage21TransferDoor.x + stage21TransferDoor.sourceBounds.left - stage21TransferDoor.rasterPadding,
     stage21TransferDoor.y + stage21TransferDoor.sourceBounds.top - stage21TransferDoor.rasterPadding,
-    Stage21AssetKeys.transferDoor,
-  ).setOrigin(0).setName('stage21-transfer-door').setVisible(false);
-  stageScene.add(transferDoor);
+  );
+  stageScene.add(transferDoor.image);
 
   stageScene.setData('wallMarkers', stage21WallMarkers);
   stageScene.setData('stopPoints', stage21StopPoints);
@@ -76,6 +83,7 @@ export function createStage21World(scene: Phaser.Scene): Stage21WorldHandle {
     destroy: () => {
       if (destroyed) return;
       destroyed = true;
+      transferDoor.destroy();
       root.destroy(true);
       floor.destroy();
     },

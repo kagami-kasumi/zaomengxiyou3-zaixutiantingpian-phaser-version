@@ -408,6 +408,9 @@ const worldBridge = readFileSync(path.join(repoRoot, 'src/scenes/stage21/Stage21
 assert.ok(worldBridge.includes("setName('floorBg2')"));
 assert.ok(worldBridge.includes("setName('sl21')"));
 assert.ok(worldBridge.includes('stage21TransferDoor.rasterPadding'));
+const bootSource = readFileSync(path.join(repoRoot, 'src/scenes/BootScene.ts'), 'utf8');
+assert.ok(bootSource.includes("params.get('qaStage') === '2-1'"));
+assert.ok(bootSource.includes("this.startQaScene('Stage21Scene'"));
 const mapSystem = readFileSync(path.join(repoRoot, 'src/systems/HeavenMapSystem.ts'), 'utf8');
 assert.ok(mapSystem.includes("routeKey: 'Stage21Scene'"));
 const sceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage21Scene.ts'), 'utf8');

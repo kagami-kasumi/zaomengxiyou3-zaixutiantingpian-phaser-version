@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Stage13AssetKeys, stage11Assets } from '../../assets/AssetManifest';
+import { Stage13AssetKeys, stage11Assets, stage13Assets } from '../../assets/AssetManifest';
 import {
   stage13RenderBounds,
   stage13SpawnPoints,
@@ -7,13 +7,14 @@ import {
   stage13TransferDoor,
   stage13WallMarkers,
 } from '../../systems/Stage13Layout';
+import { createTransferDoorView, type TransferDoorView } from '../TransferDoorView';
 
 export type Stage13WorldHandle = Readonly<{
   root: Phaser.GameObjects.Container;
   floor: Phaser.GameObjects.Image;
   stageScene: Phaser.GameObjects.Container;
   bgContainer: Phaser.GameObjects.Container;
-  transferDoor: Phaser.GameObjects.Image;
+  transferDoor: TransferDoorView;
   destroy: () => void;
 }>;
 
@@ -35,12 +36,18 @@ export function createStage13World(scene: Phaser.Scene): Stage13WorldHandle {
 
   stageScene.add(scene.add.image(-30, 494, Stage13AssetKeys.foreground)
     .setOrigin(0).setName('sl13-foreground'));
-  const transferDoor = scene.add.image(
+  const transferDoor = createTransferDoorView(scene, {
+    id: 'stage13-transfer-door',
+    textureKey: Stage13AssetKeys.transferDoor,
+    sourcePackage: stage13Assets.transferDoor.sourcePackage,
+    sourceSymbol: stage13Assets.transferDoor.sourceSymbol,
+    sourceCharacterIds: [40, 36, 39],
+    origin: { x: 0, y: 0 },
+  },
     stage13TransferDoor.x + stage13TransferDoor.sourceBounds.left - stage13TransferDoor.rasterPadding,
     stage13TransferDoor.y + stage13TransferDoor.sourceBounds.top - stage13TransferDoor.rasterPadding,
-    Stage13AssetKeys.transferDoor,
-  ).setOrigin(0).setName('stage13-transfer-door').setVisible(false);
-  stageScene.add(transferDoor);
+  );
+  stageScene.add(transferDoor.image);
 
   stageScene.setData('wallMarkers', stage13WallMarkers);
   stageScene.setData('stopPoints', stage13StopPoints);
@@ -57,6 +64,7 @@ export function createStage13World(scene: Phaser.Scene): Stage13WorldHandle {
     destroy: () => {
       if (destroyed) return;
       destroyed = true;
+      transferDoor.destroy();
       root.destroy(true);
       floor.destroy();
     },

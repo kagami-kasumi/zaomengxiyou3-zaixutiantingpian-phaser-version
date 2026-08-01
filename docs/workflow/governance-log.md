@@ -2,6 +2,26 @@
 
 本文记录 AI 工作流、任务体系和文档脚手架的维护历史。它不是游戏任务看板。
 
+## 2026-08-01
+
+### Stage 2 公共关卡 Runtime 迁移反馈
+
+变更内容：
+
+- `TASK-ARCH-016C` 将 Stage 2-1/2-2 接入既有 `PlayableLevelRuntime`、Definition 与 `TransferDoorView`，并从架构门禁移除两关 Scene 遗留例外。
+- `PG-013` 回写四个横向关卡已收敛、Stage 1-1/TestScene 仍待 016D 的治理样本；`PG-003` 回写 Stage 2 继续复用共享移动 runtime、未复发的适用样本。
+- 本次没有修改问题治理协议或工作流规则；功能线继续 Active，唯一 Ready 切换为 `TASK-ARCH-016D`。
+
+影响范围：
+
+- `docs/workflow/problems/PG-003-关卡角色移动接入边界不统一.md`
+- `docs/workflow/problems/PG-013-关卡运行框架按关卡复制.md`
+- 当前 task、功能线、覆盖、机制、切片与历史文档
+
+验证：
+
+- `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`git diff --check` 与 940×590 Stage 2 正式/QA 代表旅程。
+
 ## 2026-07-31
 
 ### 移除 Goal 持久化层并拆分 Task 定义

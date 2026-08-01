@@ -9,6 +9,7 @@ import {
   stage12WallMarkers,
 } from '../../systems/Stage12Layout';
 import { createStage12Cleanup } from '../../systems/Stage12Lifecycle';
+import { createTransferDoorView, type TransferDoorView } from '../TransferDoorView';
 
 export type Stage12WorldHandle = Readonly<{
   root: Phaser.GameObjects.Container;
@@ -16,7 +17,7 @@ export type Stage12WorldHandle = Readonly<{
   stageScene: Phaser.GameObjects.Container;
   bgContainer: Phaser.GameObjects.Container;
   fbEnter: Phaser.GameObjects.Image;
-  transferDoor: Phaser.GameObjects.Image;
+  transferDoor: TransferDoorView;
   destroyed: () => boolean;
   destroy: () => void;
 }>;
@@ -48,16 +49,27 @@ export function createStage12World(scene: Phaser.Scene): Stage12WorldHandle {
     stage12FbEnter.y + stage12FbEnter.sourceBounds.top,
     stage12Assets.fbEnter.frameKeys[0],
   ).setOrigin(0).setName('fbEnter');
-  const transferDoor = scene.add.image(
+  const transferDoor = createTransferDoorView(scene, {
+    id: 'stage12-transfer-door',
+    textureKey: Stage12AssetKeys.transferDoor,
+    sourcePackage: stage12Assets.transferDoor.sourcePackage,
+    sourceSymbol: stage12Assets.transferDoor.sourceSymbol,
+    sourceCharacterIds: [52, 48, 51],
+    origin: { x: 0, y: 0 },
+    frames: [
+      ...stage12Assets.transferDoorPrimary.frameKeys,
+      ...stage12Assets.transferDoorAccent.frameKeys,
+    ],
+  },
     stage12TransferDoor.x + stage12TransferDoor.sourceBounds.left,
     stage12TransferDoor.y + stage12TransferDoor.sourceBounds.top,
-    Stage12AssetKeys.transferDoor,
-  ).setOrigin(0).setName('stage12-transfer-door').setVisible(false);
-  stageScene.add([foreground, fbEnter, transferDoor]);
+  );
+  stageScene.add([foreground, fbEnter, transferDoor.image]);
 
   registerInteractionMetadata(stageScene);
 
   const cleanup = createStage12Cleanup(() => {
+    transferDoor.destroy();
     root.destroy(true);
     floor.destroy();
   });

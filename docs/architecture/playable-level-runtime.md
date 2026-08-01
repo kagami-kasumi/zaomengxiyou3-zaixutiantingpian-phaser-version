@@ -1,6 +1,6 @@
 # 可玩关卡运行框架 ADR
 
-状态：Accepted（`TASK-ARCH-016A` 冻结合同；运行时代码由 `016B..D` 分批落地）
+状态：Accepted（`016A` 冻结合同；`016B/C` 已迁移四个横向正式关卡；`016D` 继续迁移 Stage 1-1/TestScene）
 
 ## 1. 决策
 
@@ -89,8 +89,8 @@ type TransferDoorVisualDefinition = Readonly<{
 | Stage 1-1 | `TestScene`、`TestSceneStage11Bridge`、`TestSceneStage11FlowBridge`、`TestSceneUpdatePipeline`、`Stage11FlowSystem` | 940×2970.45 纵向世界、四停点、巫鹰 Boss、纵向镜头、Boss 死亡显门、P1 W/P2 上键 | `016D` | 迁移前保留 TestScene bridges；接入 level11 character 45/41/44 后删除 `Stage13AssetKeys.transferDoor` 与 `stage-1-common` 门纹理兼容 | stage11 flow/resource、正式旅程、940×590 进入/战斗/Boss/门/结果 |
 | Stage 1-2 | `Stage12Scene`、`Stage12WorldBridge`、`Stage12GameplayBridge`、`Stage12FlowSystem` | 五停点、双 Boss、普通门、`fbEnter` 特殊入口及 5-1 路由 | `016B` | 先由 Stage12 adapter 包装既有 world/gameplay；等专项与旅程通过后删除 Scene 公共骨架和私有门/结果 owner | stage12 flow/traversal/fb/resource、单/双人结果 |
 | Stage 1-3 | `Stage13Scene`、`Stage13WorldBridge`、`Stage13GameplayBridge`、`Stage13FlowSystem` | 五停点、最大同屏 6/8、Monster5 Boss、普通门皮肤 | `016B` | 与 1-2 共用 Runtime/TransferDoorView；通过后删除 Scene 公共骨架，保留 encounter/visual adapter | stage13 flow/traversal/resource、单/双人结果 |
-| Stage 2-1 | `Stage21Scene`、`Stage21WorldBridge`、`Stage21GameplayBridge`、`Stage21FlowSystem` | 五停点、冰刺/中景、Monster6 Boss、DEV QA 仅开发路径 | `016C` | adapter 保留冰刺视图和 QA 注入；公共初始化/门/结果/销毁不得留在 adapter | stage21、怪物视觉、正式旅程、940×590 |
-| Stage 2-2 | `Stage22Scene`、`Stage22WorldBridge`、`Stage22GameplayBridge`、`Stage22FlowSystem` | 54 配置敌人、Monster16 Boss、火焰、Boss 阶段、DEV showcase | `016C` | adapter 保留火焰视图更新和 QA 注入；公共门/结果/保存/路由迁出 | stage22、五关怪物回归、正式旅程、940×590 |
+| Stage 2-1 | `Stage21Scene` + 公共 Runtime；`Stage21WorldBridge`、`Stage21GameplayBridge`、`Stage21FlowSystem` 为内容 adapter | 五停点、冰刺/中景、Monster6 Boss、localhost 显式 QA 路径 | `016C`（已迁移） | 冰刺视图和 QA 注入保留在 adapter；公共初始化/门/结果/销毁已迁出 | stage21、怪物视觉、正式旅程、940×590 |
+| Stage 2-2 | `Stage22Scene` + 公共 Runtime；`Stage22WorldBridge`、`Stage22GameplayBridge`、`Stage22FlowSystem` 为内容 adapter | 54 配置敌人、Monster16 Boss、火焰、Boss 阶段、DEV showcase | `016C`（已迁移） | 火焰视图更新和 QA 注入保留在 adapter；公共门/结果/保存/路由已迁出 | stage22、五关怪物回归、正式旅程、940×590 |
 
 迁移顺序固定为：016B 横向双关试点 → 016C Stage 2 → 016D Stage 1-1/TestScene 与未来模板。每批先建立公共 owner，再把消费者切到 facade，最后删除该批重复实现；不得一次性重写五关。
 
