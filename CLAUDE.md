@@ -16,8 +16,8 @@ npm run check:workflow
 
 | 优先级 | 文档 | 何时读 |
 | --- | --- | --- |
-| 必须 | [AGENTS.md](./AGENTS.md) | 每次对话 |
-| 必须 | [TASK_OUTLINE.md](./TASK_OUTLINE.md) | 每次对话 |
+| 条件必读 | [AGENTS.md](./AGENTS.md) | 项目指令未由客户端注入时读取；已注入则视为已读，不再 shell 全文读取 |
+| 按需 | [TASK_OUTLINE.md](./TASK_OUTLINE.md) | 正式游戏 task、`/goal`、游戏任务生成/重排或路线判断时 |
 | 按需 | [docs/tasks/task-board.md](./docs/tasks/task-board.md) | 执行正式游戏 task 时读取状态索引 |
 | 按需 | `docs/tasks/task-definitions/TASK-*.md` | 只读取当前 Ready task 的完整执行合同 |
 | 按需 | [docs/tasks/feature-lines.md](./docs/tasks/feature-lines.md) | 确认唯一 Active 功能线、连续 task 和关闭合同 |
@@ -60,6 +60,9 @@ npm run check:workflow
 
 - PowerShell 读取中文/Markdown 文档时使用 `Get-Content -Encoding UTF8 -LiteralPath ...`。
 - 优先 `rg -n` 或小范围片段读取；遇到乱码时不要继续推理，改用 UTF-8 重新读取。
+- 先判定任务类型再读取资料；轻量请求、局部评审/排错和脚手架局部讨论默认不读 `TASK_OUTLINE.md`。
+- 控制无关输出、重复输出和多个大型全文聚合，不以减少工具调用次数为目标；已读且未修改的文件不重复全文读取。
+- TypeScript 定义、引用、符号和诊断优先使用可用的 LSP，必要时降级为 `rg`；修改前仍须窄读目标实现与必要消费者。
 
 ## Code Quality Gates
 

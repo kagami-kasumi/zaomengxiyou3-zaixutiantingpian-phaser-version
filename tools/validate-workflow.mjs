@@ -6,6 +6,7 @@ const root = process.cwd();
 
 const files = {
   agents: 'AGENTS.md',
+  readme: 'README.md',
   outline: 'TASK_OUTLINE.md',
   board: 'docs/tasks/task-board.md',
   history: 'docs/tasks/task-history.md',
@@ -600,6 +601,59 @@ function checkStartupRules(agents, outline) {
   }
 }
 
+function readingRouteErrors({ agents, claude, outline, readme, workflowReadme, documentMap, agentProtocol }) {
+  const missing = [];
+  const required = [
+    ['AGENTS.md', agents, '若客户端已经注入 `AGENTS.md`，视为已读，不再通过 shell 全文读取'],
+    ['AGENTS.md', agents, '轻量请求、局部评审、局部排错和脚手架局部讨论默认不读'],
+    ['AGENTS.md', agents, '无关输出、重复输出和多个大型全文聚合'],
+    ['AGENTS.md', agents, 'LSP 可用时优先用 LSP 定位'],
+    ['CLAUDE.md', claude, '已注入则视为已读，不再 shell 全文读取'],
+    ['CLAUDE.md', claude, '脚手架局部讨论默认不读 `TASK_OUTLINE.md`'],
+    ['CLAUDE.md', claude, 'TypeScript 定义、引用、符号和诊断优先使用可用的 LSP'],
+    ['TASK_OUTLINE.md', outline, '轻量请求、局部评审/排错和脚手架局部讨论默认不读'],
+    ['README.md', readme, '客户端已注入 `AGENTS.md` 时不再 shell 全文读取'],
+    ['docs/workflow/README.md', workflowReadme, '禁止用一次聚合全文替代数次窄读'],
+    ['docs/workflow/README.md', workflowReadme, '结果不足或不可用时降级为 `rg`'],
+    ['docs/workflow/document-map.md', documentMap, '脚手架局部讨论默认不读'],
+    ['docs/workflow/agent-protocol.md', agentProtocol, '客户端已注入 `AGENTS.md` 时视为已读'],
+  ];
+  for (const [name, text, requiredText] of required) {
+    if (!text.includes(requiredText)) missing.push(`${name}: ${requiredText}`);
+  }
+
+  if (/TASK_OUTLINE\.md[^\n|]*\|\s*每次对话/u.test(claude)) {
+    missing.push('CLAUDE.md must not mark TASK_OUTLINE.md as 每次对话.');
+  }
+  if (/AGENTS\.md[^\n|]*\|\s*每次对话/u.test(claude)) {
+    missing.push('CLAUDE.md must not require a shell reread of injected AGENTS.md every conversation.');
+  }
+  const lightweightSection = section(agents, '任务分级').match(/### 轻量请求[\s\S]*?(?=\n### )/u)?.[0] ?? '';
+  if (lightweightSection.includes('TASK_OUTLINE.md')) {
+    missing.push('AGENTS.md lightweight-request rules must not require TASK_OUTLINE.md.');
+  }
+  return missing;
+}
+
+function checkReadingRoutes(routeDocs) {
+  for (const routeError of readingRouteErrors(routeDocs)) {
+    error(`Reading-route contract failed: ${routeError}`);
+  }
+
+  const negativeCases = [
+    { ...routeDocs, agents: routeDocs.agents.replace('若客户端已经注入 `AGENTS.md`，视为已读，不再通过 shell 全文读取', '客户端注入状态未知') },
+    { ...routeDocs, claude: routeDocs.claude.replace('| 按需 | [TASK_OUTLINE.md](./TASK_OUTLINE.md) | 正式游戏 task、`/goal`、游戏任务生成/重排或路线判断时 |', '| 必须 | [TASK_OUTLINE.md](./TASK_OUTLINE.md) | 每次对话 |') },
+    { ...routeDocs, agents: routeDocs.agents.replace('轻量请求、局部评审、局部排错和脚手架局部讨论默认不读', '轻量请求默认读取') },
+    { ...routeDocs, workflowReadme: routeDocs.workflowReadme.replace('禁止用一次聚合全文替代数次窄读', '允许聚合全文') },
+    { ...routeDocs, agents: routeDocs.agents.replace('LSP 可用时优先用 LSP 定位', '直接逐文件搜索') },
+  ];
+  negativeCases.forEach((negativeCase, index) => {
+    if (readingRouteErrors(negativeCase).length === 0) {
+      error(`Reading-route negative case ${index + 1} must fail validation.`);
+    }
+  });
+}
+
 function checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration) {
   for (const [name, text] of [
     ['AGENTS.md', agents],
@@ -1171,6 +1225,7 @@ assertRequiredFiles();
 checkRetiredLegacyRootName();
 
 const agents = read(files.agents);
+const readme = read(files.readme);
 const claude = read('CLAUDE.md');
 const outline = read(files.outline);
 const board = read(files.board);
@@ -1232,6 +1287,7 @@ const { historyRows, historyDefinitionIds } = checkHistory(history, boardIds);
 checkRefs(taskRows, mechanics, verticalSlices);
 checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
+checkReadingRoutes({ agents, claude, outline, readme, workflowReadme, documentMap, agentProtocol });
 checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration);
 checkUtf8ReadingRules(agents, claude, workflowReadme);
 checkRegimaRouting(agents, outline, taskBlockList, workflowReadme, documentMap);

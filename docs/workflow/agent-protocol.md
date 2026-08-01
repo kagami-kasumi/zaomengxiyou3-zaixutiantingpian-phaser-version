@@ -7,7 +7,7 @@
 本项目依靠文档维护跨对话记忆。只有正式游戏 task 才执行完整看板流程。
 功能线调度严格保持 `WIP=1`：当前完整系统关闭前不得切线，遇到阻塞只生成和处理同线解除任务。
 
-1. 先读 `AGENTS.md`、`TASK_OUTLINE.md`、`docs/tasks/feature-lines.md` 和轻量 `docs/tasks/task-board.md`，确认唯一 `Active` 功能线与唯一 `Ready` task，再只读取当前 `docs/tasks/task-definitions/TASK-*.md` 和冷启动分流要求的资料。
+1. 先使用当前已生效的项目指令判定任务类型；客户端已注入 `AGENTS.md` 时视为已读，不再 shell 全文读取。正式游戏 task 再读 `TASK_OUTLINE.md`、`docs/tasks/feature-lines.md` 和轻量 `docs/tasks/task-board.md`，确认唯一 `Active` 功能线与唯一 `Ready` task，随后只读取当前 `docs/tasks/task-definitions/TASK-*.md` 和冷启动分流要求的资料。
 2. 如果用户指定了 task id，先确认它属于当前 `Active` 功能线。若它不是唯一 `Ready` task，必须先根据用户明确指令重排同线 task 状态；不得绕过单线 WIP 执行其他 task。非激活线 task 必须继续等待，或由用户明确放弃/重定向完整目标并同步台账。
 3. 如果用户要求执行 task 但没有指定 task id，只能选择看板“当前推荐”的同线 `Ready` task；不得从其他功能线的 `Planned` task 中挑选。
 4. 开始执行前，确认该 task 在 `task-definitions/` 中有独立的“完成定义”。如果没有，先按 `docs/workflow/task-generation.md` 补齐独立定义和索引链接，再执行。

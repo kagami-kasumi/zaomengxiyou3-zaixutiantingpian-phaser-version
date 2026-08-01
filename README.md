@@ -61,7 +61,7 @@ npm run check:all
 
 ## 协作方式
 
-新接手时先读 `AGENTS.md` 和 `TASK_OUTLINE.md`，再按任务类型补读最小必读文档。
+新接手时先用已生效的项目指令判定任务类型；客户端已注入 `AGENTS.md` 时不再 shell 全文读取。`TASK_OUTLINE.md` 只在正式游戏 task、`/goal`、游戏任务生成/重排或路线判断时读取，再按任务类型补读最小必读文档。
 
 - 轻量请求只读直接相关文件。
 - 正式游戏任务先确认 `docs/tasks/feature-lines.md` 的唯一 Active 条线，再从 `task-board.md` 执行同线 task。

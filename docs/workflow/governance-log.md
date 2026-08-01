@@ -4,6 +4,29 @@
 
 ## 2026-08-01
 
+### 闭合并归档 PG-014 上下文读取路由治理
+
+变更内容：
+
+- 将 Agent/Claude、战略导航、根/工作流 README、文档地图和执行协议统一为“先判定任务类型；客户端注入的 `AGENTS.md` 视为已读；`TASK_OUTLINE.md` 仅供正式游戏 task、`/goal`、任务生成/重排和路线判断”。
+- 明确读取质量按无关输出、重复输出和大型全文聚合衡量，不以命令次数为目标；补充未变化文件不重复全文、compact/证据复核时窄读，以及 TypeScript LSP 优先、`rg` 降级且仍需精读实现的规则。
+- 在 `tools/validate-workflow.mjs` 增加读取路由合同和五类负向样例；完成轻量、TypeScript LSP、正式 `/goal` 三类真实样本。
+- PG-014 满足关闭标准并移入归档索引；从游戏 task-board 移除临时全局前置，唯一 Ready 仍为 `TASK-SETTINGS-069B`。
+
+影响范围：
+
+- `AGENTS.md`、`CLAUDE.md`、`TASK_OUTLINE.md`、`README.md`
+- `docs/workflow/README.md`、`docs/workflow/document-map.md`、`docs/workflow/agent-protocol.md`
+- `docs/workflow/problem-governance.md`、`docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`、`docs/workflow/problems/PG-008-Task缺少可执行规模门禁.md`、`docs/workflow/problems/PG-014-Agent上下文读取路由重复与过量.md`
+- `docs/tasks/task-board.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `node --check tools/validate-workflow.mjs`
+- `npm run check:workflow`
+- `git diff --check`
+
 ### 建立问题出清归档与换案复盘机制
 
 变更内容：
@@ -41,12 +64,13 @@
 
 - 将用户观察到的重复 `Get-Content`、已注入 `AGENTS.md` 后再次全文读取、轻量请求无条件读取 `TASK_OUTLINE.md` 登记为 `PG-014`，状态为“已确认，待治理”。
 - `PG-014` 写入完整七段治理合同，方案覆盖先分类后读取、自动注入不重读、输出相关性与重复读取纪律、TypeScript LSP 优先/`rg` 降级、自动门禁和三类真实效果样本。
-- 在问题索引最前列将 `PG-014` 标为当前优先治理项；依据脚手架边界不把它加入游戏 `task-board.md`，不改变当前功能线或唯一 Ready task。
+- 在问题索引最前列将 `PG-014` 标为当前优先治理项；用户复核指出这没有改变实际查看的任务顺序后，又在 `task-board.md` 游戏任务表格之前增加“全局执行前置治理”及五项清单。它不作为游戏 task/表格行，不改变当前功能线或唯一 Ready task，但整改完成前不开始 `TASK-SETTINGS-069B`。
 - 收尾扫描命中 `PG-004`、`PG-008` 与新建 `PG-014`，分别回写问题反馈闭环、上下文规模边界和初始登记样本；其余问题未命中本次纯工作流登记。
 
 影响范围：
 
 - `docs/workflow/problem-governance.md`
+- `docs/tasks/task-board.md`
 - `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
 - `docs/workflow/problems/PG-008-Task缺少可执行规模门禁.md`
 - `docs/workflow/problems/PG-014-Agent上下文读取路由重复与过量.md`

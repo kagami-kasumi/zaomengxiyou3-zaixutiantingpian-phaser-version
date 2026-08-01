@@ -18,6 +18,9 @@
 - 如果已经看到乱码输出，不能继续基于该输出总结或修改文档；应改用 UTF-8 重新读取。
 - 优先用 `rg -n` 定位关键词，再读取命中附近的小范围片段；大型 Markdown、AS3 和历史文档不做无差别全文读入。
 - 在 PowerShell 中执行 `rg` 时，中文、代码片段或含引号内容优先搜“短而窄”的固定字符串，例如 `rg -n -F -e '枯叶灵' path`，再按行号读取小范围上下文。不要手拼含转义双引号的 regex alternation，也不要把宽关键词和窄关键词混在多个 `-e` 中造成海量输出；多个 `-e` 只用于每个关键词都足够窄的情况。
+- 优化目标是降低无关输出、重复输出和多个大型全文聚合，而不是减少 `Get-Content` 或工具调用次数；禁止用一次聚合全文替代数次窄读。
+- 已读取且未修改的文件不重复全文读取；compact 后关键合同复核、实现证据精读或文件变化时允许重新窄读。
+- TypeScript 定义、引用、符号和诊断在 LSP 可用时优先定位，结果不足或不可用时降级为 `rg`；LSP 不代替修改前对目标实现和必要消费者的精确阅读。
 - 需要硬性约束时，把入口文档中的 UTF-8 读取要求接入 `tools/validate-workflow.mjs` 或本地 agent hook，确保约束被删除时能失败。
 
 ## 文档分工
@@ -40,15 +43,10 @@
 
 ## 冷启动路由
 
-新对话默认只读：
-
-1. `AGENTS.md`
-2. `TASK_OUTLINE.md`
-
-随后按任务类型补读最小集合：
+先用当前已生效的项目指令判定任务类型，再按任务类型补读最小集合。客户端已经注入 `AGENTS.md` 时视为已读，不再 shell 全文读取；未注入时才读取它。`TASK_OUTLINE.md` 只用于正式游戏 task、`/goal`、游戏任务生成/重排或路线判断。
 
 - **轻量请求**：只读直接相关文件。
-- **正式游戏 task**：补读 `agent-protocol.md`、`feature-lines.md`、当前线覆盖台账、`task-board.md`、当前 `task-definitions/TASK-*.md`、`mechanics-index.md`、`vertical-slices.md`。
+- **正式游戏 task**：补读 `TASK_OUTLINE.md`、`agent-protocol.md`、`feature-lines.md`、当前线覆盖台账、`task-board.md`、当前 `task-definitions/TASK-*.md`、`mechanics-index.md`、`vertical-slices.md`。
 - **代码实现**：在正式 task 基础上补读 `docs/architecture/src-boundaries.md` 和目标源码。
 - **工程评审**：补读 `review-protocol.md`；涉及代码质量再读 `code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md`。
 - **问题治理**：补读 `problem-governance.md`；若问题来自评审，再读 `review-protocol.md`，若涉及代码质量，再读 `code-quality-gates.md`。

@@ -19,15 +19,15 @@
 - 优先用 `rg -n`、`Select-Object -First/-Skip/-Last` 或精确路径读取相关片段；不要为了找一条记录全文读入大型 Markdown、AS3 或历史文档。
 - 在 PowerShell 中用 `rg` 搜中文、代码片段或含引号内容时，优先搜“短而窄”的稳定关键词，再按行号读取上下文；不要手拼包含转义双引号的正则串，不要把宽关键词和窄关键词塞进一个 `a|b|c` 或多个 `-e` 里导致海量输出。首选模板：`rg -n -F -e '枯叶灵' path`，命中后 `Get-Content -Encoding UTF8 -LiteralPath path | Select-Object -Skip <n> -First <m>`。多个 `-e` 只用于每个关键词都足够窄的情况。目标是让 `rg` 命令一次成功且输出很小。
 - `task-history.md`、大型 reverse-engineering 文档和 AS3 文件默认先关键词定位，再读取命中的小范围上下文。
+- 治理目标是减少无关输出、重复输出和多个大型全文聚合，不是减少命令次数；不要为了少调用工具而在一次命令中合并多个大型文件全文。
+- 当前对话中已经读取且未修改的文件不重复全文读取；compact 后复核关键合同、精确实现证据或文件发生变化时，只重新窄读需要的片段。
+- TypeScript 定义、引用、符号和诊断在 LSP 可用时优先用 LSP 定位，结果不足或 LSP 不可用时再用 `rg`；修改前仍须读取目标实现和必要消费者，LSP 不能代替精确源码阅读。
 
 ## 默认入口
 
-新对话默认先读：
+先使用当前已经生效的项目指令判定任务类型，再按下方分流读取最小必读集。若客户端已经注入 `AGENTS.md`，视为已读，不再通过 shell 全文读取；未注入时才读取本文件。
 
-1. `AGENTS.md`
-2. `TASK_OUTLINE.md`
-
-随后按任务类型读取最小必读集，不要无差别读取历史文档。
+`TASK_OUTLINE.md` 只在正式游戏 task、`/goal`、新增/拆分/重排游戏任务或项目路线判断时读取。轻量请求、局部评审、局部排错和脚手架局部讨论默认不读。
 
 ## 任务分级
 
@@ -68,14 +68,14 @@
 | 任务类型 | 额外必读文档 |
 | --- | --- |
 | 轻量请求：解释、typo、注释、单个常量、明显配置、小范围排错 | 无。只在改动涉及具体系统时再读相关文件。 |
-| 游戏任务执行：用户指定 task 或使用 `/goal` | `docs/workflow/agent-protocol.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、当前 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
+| 游戏任务执行：用户指定 task 或使用 `/goal` | `TASK_OUTLINE.md`、`docs/workflow/agent-protocol.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、当前 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | 玩法逆向：AS3、调用链、行为合同 | 游戏任务执行必读集 + `docs/workflow/reverse-engineering-protocol.md` + `local-resources/regima/legacy-extraction/README_extract.md` + 对应局部与共享 AS3 路径；视觉/空间结论还必须补 SWF 几何和坐标语义 |
 | 视觉资源逆向：symbol、位图、时间轴、资源族 | 游戏任务执行必读集 + `docs/reverse-engineering/evb-extraction-report.md` + `docs/reverse-engineering/asset-annotation/workflow.md` + `local-resources/regima/source/restored-swfs/` 中的目标源包；旧 `local-resources/regima/legacy-extraction/` 仅作交叉对照 |
 | 代码实现：修改 `src/` | 游戏任务执行必读集 + `docs/architecture/src-boundaries.md` + 对应 `src/` 文件 |
 | 工程评审：评审代码、阶段成果或评审文档 | `docs/workflow/review-protocol.md`，涉及代码质量再读 `docs/workflow/code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md` |
 | 问题治理：确认或治理系统性工程问题 | `docs/workflow/problem-governance.md`；若问题来自评审，再读 `docs/workflow/review-protocol.md`；若涉及代码质量，再读 `docs/workflow/code-quality-gates.md` |
 | 新增核心领域命名、系统、实体、类型或数据模型 | `docs/domain/glossary.md`、`docs/domain/ubiquitous-language-process.md` |
-| 新增/拆分/重排游戏任务 | `docs/workflow/task-generation.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、涉及的 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
+| 新增/拆分/重排游戏任务 | `TASK_OUTLINE.md`、`docs/workflow/task-generation.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、涉及的 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | AI 工作流、任务体系、文档职责或脚手架维护 | `docs/workflow/README.md`、`docs/workflow/document-map.md`、`docs/workflow/governance-log.md` |
 | 追溯历史、修改已完成任务、处理历史依赖 | `docs/tasks/task-history.md` |
 

@@ -2,12 +2,9 @@
 
 本文是项目的战略导航。它回答“目标是什么、路线是什么、文档如何分工、任务类型有哪些”。完整系统范围和激活状态看 `docs/tasks/feature-lines.md`，具体 task 状态看 `docs/tasks/task-board.md`。
 
-新的 AI 接手时，默认先读：
+新的 AI 接手时，先使用当前已生效的项目指令判定任务类型；客户端已经注入 `AGENTS.md` 时视为已读，不再 shell 全文读取。本战略导航只在正式游戏 task、`/goal`、游戏任务生成/重排或项目路线判断时读取，轻量请求、局部评审/排错和脚手架局部讨论默认不读。
 
-1. `AGENTS.md`
-2. `TASK_OUTLINE.md`
-
-随后按 `AGENTS.md` 的“任务分级”和“冷启动阅读分流”读取最小必读集。只有正式游戏 task 才默认读取 `docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、当前 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`；行为逆向读取旧提取集中的 AS3，视觉资源逆向优先读取 RegiMA 恢复语料库。
+读取本文件后，再按 `AGENTS.md` 的“任务分级”和“冷启动阅读分流”补齐最小必读集。只有正式游戏 task 才默认读取 `docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、当前 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md`；行为逆向读取旧提取集中的 AS3，视觉资源逆向优先读取 RegiMA 恢复语料库。
 
 ## 0. 项目目标
 
