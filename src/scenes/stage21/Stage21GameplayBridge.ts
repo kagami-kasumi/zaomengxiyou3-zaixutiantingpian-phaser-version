@@ -1,6 +1,7 @@
 // boundary: Stage 2-1 bridge adapts Phaser views, input, flow, hazards, and shared combat;
 // it does not own combat stats, attack windows, damage, protection, or death rules.
 import Phaser from 'phaser';
+import { getRole1CombatVisual, syncRole1CombatVisual } from '../Role1CombatVisualBridge';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
   createLevelHeroMovementRuntime,
@@ -287,7 +288,14 @@ function updatePlayers(
     });
   });
   movementRuntime.members.forEach((member, index) => {
-    players[index]?.view.setPosition(member.movement.x, member.movement.y);
+    const player = players[index];
+    player?.view.setPosition(member.movement.x, member.movement.y);
+    const visual = player && getRole1CombatVisual(player.view);
+    if (player && visual) syncRole1CombatVisual(visual, {
+      movement: member.movement,
+      combat: player.combat.combat,
+      normalAttack: player.combat.normalAttack,
+    }, timeMs);
   });
 }
 
@@ -411,6 +419,7 @@ function syncMonsterView(
 }
 
 function syncPlayerFeedback(player: PlayerRuntime): void {
+  if (getRole1CombatVisual(player.view)) return;
   if (player.combat.combat.state === 'dead') player.view.setTint(0x555555);
   else if (player.combat.combat.state === 'hurt') player.view.setTint(0xff8888);
   else if (player.combat.normalAttack.activeAttack) player.view.setTint(0xffdf80);

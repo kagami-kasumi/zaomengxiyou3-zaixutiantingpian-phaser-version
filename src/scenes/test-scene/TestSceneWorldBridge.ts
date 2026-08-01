@@ -90,6 +90,7 @@ import {
   destroyStage11MonsterView,
   updateStage11MonsterView,
 } from '../stage11/Stage11MonsterVisualBridge';
+import { getRole1CombatVisual, syncRole1CombatVisual } from '../Role1CombatVisualBridge';
 
 type CapturablePetTargetView = {
   root: Phaser.GameObjects.Container;
@@ -725,9 +726,18 @@ export function applyProjectileHits(this: any, time: number): void {
     }
   }
 export function updatePlayerCombatVisual(this: any, player: any, time: number): void {
+    const role1Visual = getRole1CombatVisual(player.sprite);
+    if (role1Visual) {
+      syncRole1CombatVisual(role1Visual, {
+        movement: player.movement,
+        combat: player.combat,
+        normalAttack: player.normalAttack,
+        skillAction: player.role1VisualAction,
+      }, time);
+    }
     if (isHeroCombatDead(player.combat)) {
-      player.sprite.setAlpha(0.42);
-      player.sprite.setTint(0x697386);
+      player.sprite.setAlpha(role1Visual ? 0 : 0.42);
+      if (!role1Visual) player.sprite.setTint(0x697386);
       return;
     }
 
@@ -736,7 +746,7 @@ export function updatePlayerCombatVisual(this: any, player: any, time: number): 
       return;
     }
 
-    player.sprite.setAlpha(isHeroInvulnerable(player.combat, time) ? 0.72 : 1);
+    player.sprite.setAlpha(role1Visual ? 0 : isHeroInvulnerable(player.combat, time) ? 0.72 : 1);
     player.sprite.setTint(
       player.combat.state === 'hurt'
         ? 0xff7f7f
@@ -762,21 +772,33 @@ export function updateProjectileEffectViews(this: any): void {
       const projectile = activeProjectiles.find((candidate) => candidate.id === view.projectileId);
       if (!projectile || !activeIds.has(view.projectileId)) {
         view.shape.destroy();
-        view.core.destroy();
-        view.label.destroy();
+        view.core?.destroy();
+        view.label?.destroy();
         continue;
       }
 
       const lifetimeRatio = Math.min(projectile.elapsedMs / projectile.lifetimeMs, 1);
+      if (view.frameKeys && view.shape instanceof Phaser.GameObjects.Image) {
+        const frameIndex = Math.min(
+          view.frameKeys.length - 1,
+          Math.floor(lifetimeRatio * view.frameKeys.length),
+        );
+        view.shape.setTexture(view.frameKeys[frameIndex]!)
+          .setPosition(projectile.x, projectile.y)
+          .setFlipX(projectile.facingX > 0)
+          .setAlpha(1);
+        activeViews.push(view);
+        continue;
+      }
       const pulse = 1 + (projectile.hitSerial % 2) * 0.08;
       view.shape.setPosition(projectile.x, projectile.y);
-      view.core.setPosition(projectile.x, projectile.y);
-      view.label.setPosition(projectile.x - 62, projectile.y - projectile.height / 2 - 18);
+      view.core?.setPosition(projectile.x, projectile.y);
+      view.label?.setPosition(projectile.x - 62, projectile.y - projectile.height / 2 - 18);
       view.shape.setScale(pulse, pulse);
-      view.core.setScale(1 + Math.sin(lifetimeRatio * Math.PI * 6) * 0.08);
+      view.core?.setScale(1 + Math.sin(lifetimeRatio * Math.PI * 6) * 0.08);
       view.shape.setAlpha(Math.max(0.08, 0.3 * (1 - lifetimeRatio)));
-      view.core.setAlpha(Math.max(0.1, 0.36 * (1 - lifetimeRatio * 0.5)));
-      view.label.setAlpha(Math.max(0.2, 1 - lifetimeRatio));
+      view.core?.setAlpha(Math.max(0.1, 0.36 * (1 - lifetimeRatio * 0.5)));
+      view.label?.setAlpha(Math.max(0.2, 1 - lifetimeRatio));
       activeViews.push(view);
     }
 

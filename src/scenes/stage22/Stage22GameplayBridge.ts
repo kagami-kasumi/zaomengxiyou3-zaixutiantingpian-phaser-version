@@ -1,6 +1,7 @@
 // boundary: Stage 2-2 formal bridge adapts Phaser views to the already-closed
 // shared movement, combat, reward, HUD, Monster9/10/19 visuals, flow, and fire owners.
 import Phaser from 'phaser';
+import { getRole1CombatVisual, syncRole1CombatVisual } from '../Role1CombatVisualBridge';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
   createLevelHeroMovementRuntime,
@@ -295,6 +296,12 @@ function updatePlayers(
       deltaMs,
     });
     player.view.setPosition(member.movement.x, member.movement.y);
+    const visual = getRole1CombatVisual(player.view);
+    if (visual) syncRole1CombatVisual(visual, {
+      movement: member.movement,
+      combat: player.combat.combat,
+      normalAttack: player.combat.normalAttack,
+    }, timeMs);
   });
 }
 
@@ -541,6 +548,16 @@ function isMonsterAttackVisual(monster: MonsterRuntime): boolean {
 }
 
 function syncPlayerFeedback(player: PlayerRuntime): void {
+  const role1Visual = getRole1CombatVisual(player.view);
+  if (role1Visual) {
+    if (player.combat.combat.state === 'dead') {
+      syncRole1CombatVisual(role1Visual, {
+        combat: player.combat.combat,
+        normalAttack: player.combat.normalAttack,
+      }, Number.MAX_SAFE_INTEGER);
+    }
+    return;
+  }
   if (player.combat.combat.state === 'dead') player.view.setTint(0x555555);
   else if (player.combat.combat.state === 'hurt') player.view.setTint(0xff8888);
   else if (player.combat.normalAttack.activeAttack) player.view.setTint(0xffdf80);

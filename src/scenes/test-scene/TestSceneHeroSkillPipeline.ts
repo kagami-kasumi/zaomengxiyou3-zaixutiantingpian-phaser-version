@@ -5,6 +5,7 @@ import { updateRole2SkillBridge } from './TestSceneRole2SkillBridge';
 import { updateRole3SkillBridge } from './TestSceneRole3SkillBridge';
 import { updateRole4SkillBridge } from './TestSceneRole4SkillBridge';
 import { updateRole5SkillBridge } from './TestSceneRole5SkillBridge';
+import { syncRole1ShadowVisuals } from './TestSceneRole1ShadowVisualBridge';
 
 export function updateHeroSkillProjectiles(
   this: any,
@@ -42,6 +43,21 @@ export function updateHeroSkillProjectiles(
     deltaMs: delta,
     timeMs: time,
   });
+  for (const event of role1Events) {
+    const sourceId = event.projectile.sourceId;
+    const player = this.playerViews.find((candidate: any) => candidate.slot === sourceId);
+    if (!player) continue;
+    const remainingMs = Math.max(
+      player.skill.role1Runtime.actionRemainingMs,
+      player.skill.role1ShadowRuntime.actionRemainingMs,
+      player.skill.role1FinisherRuntime.actionRemainingMs,
+    );
+    player.role1VisualAction = {
+      actionName: event.actionName,
+      startedAtMs: time,
+      endsAtMs: time + remainingMs,
+    };
+  }
   const role2Result = updateRole2SkillBridge({
     players: this.playerViews,
     input,
@@ -101,4 +117,5 @@ export function updateHeroSkillProjectiles(
       this.projectileEffectViews.push(createProjectileEffectView(this, projectile));
     }
   }
+  syncRole1ShadowVisuals(this);
 }

@@ -5,6 +5,7 @@ import {
   PickupAssetKeys,
   pickupAssets,
   role1NormalAttackAssets,
+  role1SkillVisualAssets,
 } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
@@ -55,9 +56,10 @@ export type AttackEffectView = {
 
 export type ProjectileEffectView = {
   projectileId: number;
-  shape: Phaser.GameObjects.Ellipse;
-  core: Phaser.GameObjects.Ellipse;
-  label: Phaser.GameObjects.Text;
+  shape: Phaser.GameObjects.Ellipse | Phaser.GameObjects.Image;
+  core?: Phaser.GameObjects.Ellipse;
+  label?: Phaser.GameObjects.Text;
+  frameKeys?: readonly string[];
 };
 
 export function drawBossArenaStage(scene: Phaser.Scene): void {
@@ -257,6 +259,19 @@ export function createProjectileEffectView(
   scene: Phaser.Scene,
   projectile: ProjectileModel,
 ): ProjectileEffectView {
+  const role1Asset = role1SkillVisualAssets[
+    projectile.assetKey as keyof typeof role1SkillVisualAssets
+  ];
+  if (role1Asset) {
+    const shape = scene.add.image(projectile.x, projectile.y, role1Asset.frameKeys[0]!)
+      .setFlipX(projectile.facingX > 0)
+      .setDepth(48);
+    return {
+      projectileId: projectile.id,
+      shape,
+      frameKeys: role1Asset.frameKeys,
+    };
+  }
   const isMovingProjectile = projectile.velocityX !== 0 || projectile.velocityY !== 0;
   const isSnow = projectile.variant === 'magic-weapon-snow';
   const color = isSnow ? 0xdff7ff : isMovingProjectile ? 0xf2c14e : 0x7ee7ff;

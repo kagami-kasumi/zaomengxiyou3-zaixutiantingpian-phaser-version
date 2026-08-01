@@ -280,6 +280,12 @@ import {
   type MagicBottleEffectView,
 } from './test-scene/TestSceneMagicBottleViewBridge';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
+import { isStage22LocalQaHost } from '../systems/Stage22EntrySystem';
+import {
+  createRole1CombatVisual,
+  destroyRole1CombatVisual,
+  getRole1CombatVisual,
+} from './Role1CombatVisualBridge';
 import type { Stage1CombatHudBridge } from './stage1/Stage1CombatHudBridge';
 import type { PlayableLevelRuntime } from './PlayableLevelRuntime';
 import {
@@ -452,7 +458,8 @@ export class TestScene extends Phaser.Scene {
   }
 
   public init(data?: FormalPartySceneData): void {
-    this.formalPartyRuntime = resolveFormalPartyScene(data, import.meta.env.DEV);
+    const allowLocalQa = import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname);
+    this.formalPartyRuntime = resolveFormalPartyScene(data, allowLocalQa);
     this.playerCount = this.formalPartyRuntime?.playerCount ?? 1;
   }
 
@@ -1039,6 +1046,11 @@ export class TestScene extends Phaser.Scene {
   }
 
   private refreshPlayerHeroView(player: PlayerView): void {
+    if (player.normalAttack.heroId === 1 && !getRole1CombatVisual(player.sprite)) {
+      createRole1CombatVisual(this, player.sprite, 1);
+    } else if (player.normalAttack.heroId !== 1) {
+      destroyRole1CombatVisual(player.sprite);
+    }
     player.sprite.setTint(getHeroTint(player.normalAttack.heroId));
     player.label.setText(formatHeroLabel(player.slot, player.normalAttack, player.combat));
   }

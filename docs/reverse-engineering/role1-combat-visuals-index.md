@@ -60,11 +60,13 @@ SWF 元数据分别为 24/30 fps，但宿主 `Config.frameClips=30`；现代验�
 
 角色显示根先添加 `body`，其后添加居中的 `nameTextField`，因此名字位于本体上层；基于 50×100 碰撞根，文字锚点为 `(-55,-80)`。HUD 独立于角色根：P1 位于 `(0,0)`，P2 根位于 `(920,0)` 且 `scaleX=-1`，内部文本反向抵消；头像使用 character 505 的 `悟空` 帧，五槽使用 character 510，五入口仍由 549/555/561/567/573 与共享命中区 418 承担。
 
-## 现代差异与 158A 验收输入
+## 现代映射与 158A 验收结果
 
-- 行为：Role1 技能系统与普攻窗口已实现；视觉：仅四组普攻对象已接真 PNG，本体仍是 placeholder，技能/分身仍是 ellipse/core/Text，死亡仍是 alpha/tint。`AssetManifest.ts` 的 Role1 skill `missing-original` 结论已过时，158A 必须修正。
-- stable key 必须新增/闭合 `hero-animation.hero1.body/equipment/shadow` 及上表技能对象；身体和装备共享相同 cell、hold 与 origin，不能各自漂移。
+- 行为数值与窗口保持不变；视觉已由 `Role1CombatVisualBridge`、`TestSceneRole1ShadowVisualBridge` 与 image projectile 分支接入。本体/装备/影分身和全部已实现技能对象均为真资源，Role1 `missing-original` 旧族已删除。
+- stable key 已闭合 `hero-animation.hero1.body/equipment/shadow` 及上表技能对象；身体和装备共享 cell、hold、坐标和 origin。
 - 原版基准沿用 940×590 HUD 真背景：分别用 Role1 P1 单人、Role1 P2 的合法非重复双人组合，覆盖 idle/run/jump/attack/hurt/remove、左右朝向、每技能起手/持续/命中/结束、HUD 头像/五槽更新。
 - 自动验证锁定 Symbol/id、帧数、hold、触发 tick、自移除与禁止 Arc/Text/单帧回填；视觉验证以同尺寸并排/叠图记录对象、注册点、裁切与 P1/P2 镜像差异。允许的现代可见例外为空。
+
+158A 实际验收记录见 `docs/tasks/evidence/TASK-SLICE-158A/visual-audit.md`。三张角色 atlas、14 个 stable key/249 帧、正式单人运行、合法双人 QA 路由、HUD 复用和零 console 均有可复查落点。
 
 六段证据已由 `Role1.as/Role1Shadow.as` 局部链、BaseBitmapData 共享链、恢复 SWF Symbol/时间轴/SVG 几何、上述可观察合同、现代 stable-key 差异和双重验证计划组成。影响 158A 的未知为零；其他角色不在本文结论范围内。

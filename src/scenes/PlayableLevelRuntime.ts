@@ -13,6 +13,7 @@ import { installFormalFeatureUiEntries } from './feature-ui/FormalFeatureUiEntry
 import { createLevelResultStats, markLevelResultStarted, showLevelResult } from './LevelResultView';
 import { startSceneWithBundle } from './SceneAssetBundleBridge';
 import type { TransferDoorView } from './TransferDoorView';
+import { createRole1CombatVisual } from './Role1CombatVisualBridge';
 
 export type PlayableLevelWorldAdapter = Readonly<{
   transferDoor: TransferDoorView;
@@ -90,14 +91,17 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
       factories.configureCamera?.(scene, definition);
       world = factories.createWorld(scene);
       playerViews = factories.createPlayerViews?.(scene, partyRuntime, definition)
-        ?? definition.heroSpawns.slice(0, playerCount).map((spawn, index) =>
-          scene.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
+        ?? definition.heroSpawns.slice(0, playerCount).map((spawn, index) => {
+          const heroId = partyRuntime.members[index]?.heroId;
+          const view = scene.add.image(spawn.x, spawn.y, AssetKeys.playerPlaceholder)
             .setName(spawn.slot)
-            .setData('heroId', partyRuntime.members[index]?.heroId)
+            .setData('heroId', heroId)
             .setOrigin(0.5, 1)
             .setTint(index === 0 ? 0xffffff : 0x7ad7ff)
-            .setDepth(20),
-        );
+            .setDepth(20);
+          createRole1CombatVisual(scene, view, heroId);
+          return view;
+        });
       const titleText = factories.title?.(playerCount);
       if (titleText) {
         title = scene.add.text(18, 16, titleText, {

@@ -36,6 +36,7 @@ import {
 } from './TestSceneSystems';
 import { createTestSceneDebugKeys } from './TestSceneDebugKeys';
 import { formatHeroLabel } from './TestSceneFormatters';
+import { createRole1CombatVisual } from '../Role1CombatVisualBridge';
 
 type SkillBarView = {
   container: Phaser.GameObjects.Container;
@@ -93,6 +94,7 @@ export function createPlayerView(this: any,
     const sprite = this.add.image(x, y, AssetKeys.playerPlaceholder);
     sprite.setOrigin(0.5, 1);
     sprite.setTint(getHeroTint(heroId));
+    createRole1CombatVisual(this, sprite, heroId);
 
     const label = this.add.text(x - 18, y + 14, slot.toUpperCase(), {
       color: '#f3f6ff',

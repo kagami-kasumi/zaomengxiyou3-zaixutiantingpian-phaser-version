@@ -361,6 +361,12 @@ export const HeroNormalAttackEffectKeys = {
   role5SwordRunHit: 'normal-attack-effect.hero5.sword.run-hit',
 } as const;
 
+export const Role1CombatAssetKeys = {
+  body: 'hero-animation.hero1.body',
+  equipment: 'hero-animation.hero1.equipment',
+  shadow: 'hero-animation.hero1.shadow',
+} as const;
+
 export const SkillProjectileEffectKeys = {
   role1SlzHit6: 'skill-projectile.role1.slz.hit6',
   role1HytjHit7: 'skill-projectile.role1.hytj.hit7',
@@ -2161,6 +2167,123 @@ export const role1NormalAttackAssets = {
   [HeroNormalAttackEffectKeys.role1Hit5]: createRole1NormalAttackFrames('Role1Bullet5', 4),
 } as const satisfies Record<string, FrameSequenceAssetDefinition>;
 
+export const role1CombatAtlases = {
+  body: {
+    key: Role1CombatAssetKeys.body,
+    path: '/assets/combat/role1/body/body.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/WuKong.swf',
+    sourceSymbol: 'ROLE1_0',
+    sourceCharacterId: 22,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 6,
+    rows: 14,
+    reachableFrameCount: 58,
+    registrationOffset: { x: 5, y: -15 },
+  },
+  equipment: {
+    key: Role1CombatAssetKeys.equipment,
+    path: '/assets/combat/role1/body/equipment.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/WuKong.swf',
+    sourceSymbol: 'ROLE1_EQUIP_0',
+    sourceCharacterId: 21,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 6,
+    rows: 14,
+    reachableFrameCount: 58,
+    registrationOffset: { x: 5, y: -15 },
+  },
+  shadow: {
+    key: Role1CombatAssetKeys.shadow,
+    path: '/assets/combat/role1/body/1_ROLE1_SHALLDOW.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/WuKong.swf',
+    sourceSymbol: 'ROLE1_SHALLDOW',
+    sourceCharacterId: 1,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 5,
+    rows: 3,
+    reachableFrameCount: 13,
+    registrationOffset: { x: 15, y: -5 },
+  },
+} as const satisfies Record<string, MonsterAtlasAssetDefinition>;
+
+function createRole1SkillFrames(
+  key: string,
+  characterId: number,
+  symbol: string,
+  frameCount: number,
+  sourcePackage = 'assets/WuKong.swf',
+) {
+  const folder = `DefineSprite_${characterId}_${symbol}`;
+  return {
+    key,
+    frameKeys: Array.from({ length: frameCount }, (_, index) => `${key}.frame${index + 1}`),
+    framePaths: Array.from(
+      { length: frameCount },
+      (_, index) => `/assets/combat/role1/skills/${folder}/${index + 1}.png`,
+    ),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage,
+    sourceSymbol: symbol,
+  } as const;
+}
+
+function createRole1CombinedSkillFrames(
+  key: string,
+  segments: readonly Readonly<{ characterId: number; symbol: string; frameCount: number }>[],
+) {
+  const frames = segments.flatMap((segment) => Array.from(
+    { length: segment.frameCount },
+    (_, index) => ({
+      key: `${key}.frame${index + 1 + segments
+        .slice(0, segments.indexOf(segment))
+        .reduce((sum, previous) => sum + previous.frameCount, 0)}`,
+      path: `/assets/combat/role1/skills/DefineSprite_${segment.characterId}_${segment.symbol}/${index + 1}.png`,
+    }),
+  ));
+  return {
+    key,
+    frameKeys: frames.map((frame) => frame.key),
+    framePaths: frames.map((frame) => frame.path),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/WuKong.swf',
+    sourceSymbol: segments.map((segment) => segment.symbol).join(' -> '),
+  } as const;
+}
+
+export const role1SkillVisualAssets = {
+  [SkillProjectileEffectKeys.role1SlzHit6]: createRole1SkillFrames(SkillProjectileEffectKeys.role1SlzHit6, 67, 'Role1Bullet6', 6),
+  [SkillProjectileEffectKeys.role1HytjHit7]: createRole1SkillFrames(SkillProjectileEffectKeys.role1HytjHit7, 289, 'Role1Bullet7', 15),
+  [SkillProjectileEffectKeys.role1LyfbHit8]: createRole1SkillFrames(SkillProjectileEffectKeys.role1LyfbHit8, 305, 'Role1Bullet8_1', 12, 'assets/Role1Effect.swf'),
+  [SkillProjectileEffectKeys.role1LyfbHit8_2]: createRole1SkillFrames(SkillProjectileEffectKeys.role1LyfbHit8_2, 252, 'Role1Bullet8_2', 13, 'assets/Role1Effect.swf'),
+  [SkillProjectileEffectKeys.role1LysHit9]: createRole1SkillFrames(SkillProjectileEffectKeys.role1LysHit9, 99, 'Role1Bullet9', 10),
+  [SkillProjectileEffectKeys.role1HmzHit10_2]: createRole1SkillFrames(SkillProjectileEffectKeys.role1HmzHit10_2, 149, 'Role1Bullet10_2', 25),
+  [SkillProjectileEffectKeys.role1HmzHit10_4]: createRole1SkillFrames(SkillProjectileEffectKeys.role1HmzHit10_4, 164, 'Role1Bullet10_4_tmp', 14),
+  [SkillProjectileEffectKeys.role1JdyHit11_1]: createRole1SkillFrames(SkillProjectileEffectKeys.role1JdyHit11_1, 311, 'Role1Bullet11_1', 35),
+  [SkillProjectileEffectKeys.role1JdyHit11_2]: createRole1SkillFrames(SkillProjectileEffectKeys.role1JdyHit11_2, 312, 'Role1Bullet11_2', 35),
+  [SkillProjectileEffectKeys.role1HyjjHit12]: createRole1SkillFrames(SkillProjectileEffectKeys.role1HyjjHit12, 42, 'Role1Bullet12', 15),
+  [SkillProjectileEffectKeys.role1HyjjHit12_1]: createRole1CombinedSkillFrames(
+    SkillProjectileEffectKeys.role1HyjjHit12_1,
+    [
+      { characterId: 348, symbol: 'Role1Bullet12_1_1', frameCount: 14 },
+      { characterId: 318, symbol: 'Role1Bullet12_1_2', frameCount: 17 },
+    ],
+  ),
+  [SkillProjectileEffectKeys.role1QsezHit13]: createRole1SkillFrames(SkillProjectileEffectKeys.role1QsezHit13, 53, 'Role1Bullet13', 16),
+  [SkillProjectileEffectKeys.role1ZzHit14_1]: createRole1SkillFrames(SkillProjectileEffectKeys.role1ZzHit14_1, 362, 'Role1Bullet14_1', 15),
+  [SkillProjectileEffectKeys.role1ZzHit14_2]: createRole1SkillFrames(SkillProjectileEffectKeys.role1ZzHit14_2, 373, 'Role1Bullet14_2', 7),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
 export const sourceAssetFamilies = {
   role2To4NormalAttackEffects: {
     status: 'missing-original',
@@ -2239,11 +2362,6 @@ export const sourceAssetFamilies = {
       'Role2_hit10',
     ],
     notes: 'Role2 skill projectile/effect family; absent from current symbol and image exports, expected in TangSeng or SpecialUI/TangSeng resource packages.',
-  },
-  role1SkillProjectiles: {
-    status: 'missing-original',
-    sourceSymbols: ['Role1Bullet6', 'Role1_hit6', 'Role1Bullet7', 'Role1_hit7', 'Role1Bullet8_1', 'Role1Bullet8_2', 'Role1_hit8', 'Role1Bullet9', 'Role1_hit9', 'Role1Bullet10_2', 'Role1Bullet10_4', 'Role1_hit10_2', 'Role1_hit10_4', 'Role1Bullet11_1', 'Role1Bullet11_2', 'Role1_hit11', 'Role1Bullet12', 'Role1Bullet12_1_1', 'Role1Bullet12_1_2', 'Role1_hit12_1', 'Role1_hit12_2', 'Role1Bullet13', 'Role1_hit13', 'Role1Bullet14_1', 'Role1Bullet14_2', 'Role1_hit14', 'ROLE1_SHALLDOW'],
-    notes: 'Role1 skill effects are absent from current exports and use stable placeholders.',
   },
   role3SkillProjectiles: {
     status: 'missing-original',

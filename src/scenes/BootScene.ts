@@ -48,6 +48,15 @@ export class BootScene extends Phaser.Scene {
   private async routeFromBoot(): Promise<void> {
     const allowLocalQa = import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname);
     const params = new URLSearchParams(window.location.search);
+    if (allowLocalQa && params.get('qaStage') === '1-1-role1') {
+      const twoPlayers = params.get('players') === '2';
+      await this.startQaScene('TestScene', {
+        devParty: twoPlayers
+          ? createFormalDevParty(2, 2, 1)
+          : createFormalDevParty(1, 1),
+      });
+      return;
+    }
     if (allowLocalQa && params.get('qaStage') === '2-1') {
       await this.startQaScene('Stage21Scene', {
         devParty: createFormalDevParty(params.get('players') === '2' ? 2 : 1),

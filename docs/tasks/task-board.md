@@ -4,15 +4,14 @@
 
 ## 当前推荐
 
-`TASK-SLICE-158A` 是唯一当前推荐，属于唯一 Active 功能线；下一步接入悟空本体、战斗 UI、普攻、全部已实现技能与附属对象真动画。
+`TASK-SETTINGS-069B` 是唯一当前推荐，属于唯一 Active 功能线；下一步闭合唐僧本体、战斗 UI、普攻、技能、Shadow 与附属对象视觉证据。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SETTINGS-069 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向父任务 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 共享矩阵、显示列表门禁与 `069A..E` / `158A..E` 合同 | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SETTINGS-069.md) |
-| TASK-SLICE-158A | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Role1 真动画 | 接入悟空本体、战斗 UI、普攻、全部已实现技能和附属对象真动画 | M-018、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role1 真资源、逐状态与差异证据 | TASK-SETTINGS-069B | [定义](task-definitions/TASK-SLICE-158A.md) |
-| TASK-SETTINGS-069B | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role2 视觉逆向 | 闭合唐僧本体、战斗 UI、普攻、技能、Shadow 与附属对象证据 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role2 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158B | [定义](task-definitions/TASK-SETTINGS-069B.md) |
+| TASK-SETTINGS-069B | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Role2 视觉逆向 | 闭合唐僧本体、战斗 UI、普攻、技能、Shadow 与附属对象证据 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role2 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158B | [定义](task-definitions/TASK-SETTINGS-069B.md) |
 | TASK-SLICE-158B | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role2 真动画 | 接入唐僧本体、战斗 UI、普攻、全部已实现技能、Shadow 与附属对象真动画 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role2 真资源、逐状态与差异证据 | TASK-SETTINGS-069C | [定义](task-definitions/TASK-SLICE-158B.md) |
 | TASK-SETTINGS-069C | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role3 视觉逆向 | 闭合八戒本体、战斗 UI、普攻、技能与附属对象证据 | M-020、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role3 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158C | [定义](task-definitions/TASK-SETTINGS-069C.md) |
 | TASK-SLICE-158C | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role3 真动画 | 接入八戒本体、战斗 UI、普攻、全部已实现技能与附属对象真动画 | M-020、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role3 真资源、逐状态与差异证据 | TASK-SETTINGS-069D | [定义](task-definitions/TASK-SLICE-158C.md) |

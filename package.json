@@ -27,6 +27,7 @@
     "test:stage22": "node tools/run-system-tests.mjs stage22-tests",
     "test:stage1-combat": "node tools/run-system-tests.mjs stage1-combat-tests",
     "test:stage1-hud": "node tools/run-system-tests.mjs stage1-hud-tests",
+    "test:role1-visuals": "node tools/run-system-tests.mjs role1-combat-visual-tests",
     "test:stage-feature-entry": "node tools/run-system-tests.mjs stage-feature-entry-tests",
     "test:save-slots": "node tools/run-system-tests.mjs save-slot-tests",
     "test:heaven-map": "node tools/run-system-tests.mjs heaven-map-tests",

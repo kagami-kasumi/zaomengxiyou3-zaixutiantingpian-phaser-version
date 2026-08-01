@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Ready）
 
 目标机制/切片：
 
@@ -57,4 +57,3 @@ UI 原生化合同：
 推荐后续任务：
 
 - `TASK-SLICE-158B`。
-
