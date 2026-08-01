@@ -27,7 +27,10 @@ export function createTestSceneStage11Runtime(
     },
     createWorld: createStage11World,
     createPlayerViews: () => {
-      scene.playerViews = scene.createPlayerMarkers(partyRuntime.playerCount);
+      scene.playerViews = scene.createPlayerMarkers(
+        partyRuntime.playerCount,
+        partyRuntime.members.map((member) => member.heroId),
+      );
       return scene.playerViews.map((player: any) => player.sprite);
     },
     createEncounter: (_runtimeScene, _playerCount, _playerViews, world) => {

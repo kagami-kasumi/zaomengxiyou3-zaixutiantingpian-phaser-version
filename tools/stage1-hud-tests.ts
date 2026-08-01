@@ -23,8 +23,12 @@ for (const asset of Object.values(combatHudAssets)) {
   assert.equal(asset.status, 'ready');
   assert.equal(asset.source, 'extracted-flash');
   assert.match(asset.sourcePackage, /\.swf$/);
-  const svg = readFileSync(path.join(repoRoot, 'public', asset.path), 'utf8');
-  assert.match(svg, /<svg\b/);
+  const assetFile = readFileSync(path.join(repoRoot, 'public', asset.path));
+  if (asset.path.endsWith('.svg')) {
+    assert.match(assetFile.toString('utf8'), /<svg\b/);
+  } else {
+    assert.deepEqual([...assetFile.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  }
 }
 
 for (const relativePath of [

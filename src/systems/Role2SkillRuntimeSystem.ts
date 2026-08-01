@@ -1,4 +1,5 @@
 import type { ProjectileModel } from './ProjectileSystem';
+import type { Role2ShadowAction } from './Role2CombatVisualSystem';
 
 export type Role2ShadowState = {
   id: string;
@@ -7,6 +8,8 @@ export type Role2ShadowState = {
   y: number;
   facingX: -1 | 1;
   remainingMs: number;
+  visualAction: Role2ShadowAction;
+  visualElapsedMs: number;
 };
 
 export type Role2HealingOverTime = {

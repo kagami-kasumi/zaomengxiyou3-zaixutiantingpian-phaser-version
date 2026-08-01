@@ -8,6 +8,7 @@ import {
 } from './ProjectileSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
 import type { Role2SkillRuntimeModel } from './Role2SkillRuntimeSystem';
+import { getRole2ShadowActionDurationMs } from './Role2CombatVisualSystem';
 
 const shadowTuning = {
   actionName: 'hit10', assetKey: SkillProjectileEffectKeys.role2ShyShadow,
@@ -68,6 +69,8 @@ export function castRole2Shy(params: {
     y: params.spawnPoint.y,
     facingX: params.spawnPoint.facingX,
     remainingMs: Role2ShadowTuning.lifetimeMs,
+    visualAction: 'walk',
+    visualElapsedMs: 0,
   };
   return { projectile, created: true };
 }
@@ -79,9 +82,21 @@ export function updateRole2Shadow(
 ): void {
   const shadow = runtime.shadow;
   if (!shadow) return;
+  shadow.visualElapsedMs += Math.max(0, deltaMs);
   shadow.remainingMs = Math.max(0, shadow.remainingMs - Math.max(0, deltaMs));
-  if (shadow.remainingMs > 0) return;
+  const actionComplete = shadow.visualAction !== 'walk'
+    && shadow.visualElapsedMs >= getRole2ShadowActionDurationMs(shadow.visualAction);
+  if (shadow.remainingMs > 0 && !actionComplete) return;
   const projectile = system.projectiles.find((candidate) => candidate.id === shadow.projectileId);
   if (projectile) projectile.isExpired = true;
   runtime.shadow = undefined;
+}
+
+export function setRole2ShadowVisualAction(
+  runtime: Role2SkillRuntimeModel,
+  action: NonNullable<Role2SkillRuntimeModel['shadow']>['visualAction'],
+): void {
+  if (!runtime.shadow) return;
+  runtime.shadow.visualAction = action;
+  runtime.shadow.visualElapsedMs = 0;
 }

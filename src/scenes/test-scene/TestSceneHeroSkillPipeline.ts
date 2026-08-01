@@ -6,6 +6,7 @@ import { updateRole3SkillBridge } from './TestSceneRole3SkillBridge';
 import { updateRole4SkillBridge } from './TestSceneRole4SkillBridge';
 import { updateRole5SkillBridge } from './TestSceneRole5SkillBridge';
 import { syncRole1ShadowVisuals } from './TestSceneRole1ShadowVisualBridge';
+import { Role2BodyAnimations } from '../../systems/Role2CombatVisualSystem';
 
 export function updateHeroSkillProjectiles(
   this: any,
@@ -70,6 +71,17 @@ export function updateHeroSkillProjectiles(
     deltaMs: delta,
     timeMs: time,
   });
+  for (const event of role2Result.castEvents) {
+    const player = this.playerViews.find((candidate: any) => candidate.slot === event.projectile.sourceId);
+    const sequence = Role2BodyAnimations[event.actionName];
+    if (!player || !sequence) continue;
+    const durationMs = sequence.holds.reduce((sum, hold) => sum + hold, 0) * (1000 / 30);
+    player.role2VisualAction = {
+      actionName: event.actionName,
+      startedAtMs: time,
+      endsAtMs: time + durationMs,
+    };
+  }
   const role3Events = updateRole3SkillBridge({
     players: this.playerViews,
     input,

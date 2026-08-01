@@ -14,6 +14,7 @@ import { createLevelResultStats, markLevelResultStarted, showLevelResult } from 
 import { startSceneWithBundle } from './SceneAssetBundleBridge';
 import type { TransferDoorView } from './TransferDoorView';
 import { createRole1CombatVisual } from './Role1CombatVisualBridge';
+import { createRole2CombatVisual } from './Role2CombatVisualBridge';
 
 export type PlayableLevelWorldAdapter = Readonly<{
   transferDoor: TransferDoorView;
@@ -100,6 +101,7 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
             .setTint(index === 0 ? 0xffffff : 0x7ad7ff)
             .setDepth(20);
           createRole1CombatVisual(scene, view, heroId);
+          createRole2CombatVisual(scene, view, heroId);
           return view;
         });
       const titleText = factories.title?.(playerCount);

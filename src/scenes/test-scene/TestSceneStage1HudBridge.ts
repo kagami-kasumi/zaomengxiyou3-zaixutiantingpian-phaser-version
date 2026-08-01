@@ -14,6 +14,7 @@ export function createTestSceneStage1HudBridge(scene: Phaser.Scene & any): Stage
     scene,
     () => scene.getPlayers().map((player: any) => createCombatHudPlayerSnapshot({
       slot: player.slot,
+      heroId: player.normalAttack.heroId,
       hp: player.combat.hp,
       maxHp: player.combat.maxHp,
       mp: player.skill.mp,

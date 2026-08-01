@@ -1,6 +1,7 @@
 import type { PlayerSlot } from './InputSystem';
 import { ProgressionTuning } from './ProgressionSystem';
 import type { HeroSkillModel } from './HeroSkillSystem';
+import type { HeroId } from './HeroNormalAttackSystem';
 import { getStage1EnemyConfig, type Stage1CombatEnemy, type Stage1CombatPlayer } from './Stage1CombatSystem';
 
 export type CombatHudSkillBinding = Readonly<{
@@ -11,6 +12,7 @@ export type CombatHudSkillBinding = Readonly<{
 
 export type CombatHudPlayerSource = Readonly<{
   slot: PlayerSlot;
+  heroId?: HeroId;
   hp: number;
   maxHp: number;
   mp: number;
@@ -33,6 +35,7 @@ export type CombatHudSkillSlot = Readonly<{
 
 export type CombatHudPlayerSnapshot = Readonly<{
   slot: PlayerSlot;
+  heroId?: HeroId;
   hp: number;
   maxHp: number;
   hpRatio: number;
@@ -86,6 +89,7 @@ export function createCombatHudPlayerSnapshot(
   const isMaxLevel = source.isMaxLevel;
   return {
     slot: source.slot,
+    heroId: source.heroId,
     hp: source.hp,
     maxHp: source.maxHp,
     hpRatio: safeRatio(source.hp, source.maxHp),
@@ -116,6 +120,7 @@ export function createStage1CombatPlayerHudSnapshot(
 ): CombatHudPlayerSnapshot {
   return createCombatHudPlayerSnapshot({
     slot: player.slot,
+    heroId: player.normalAttack.heroId,
     hp: player.combat.hp,
     maxHp: player.combat.maxHp,
     mp: player.mp,

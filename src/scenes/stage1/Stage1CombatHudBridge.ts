@@ -18,6 +18,7 @@ export type Stage1CombatHudBridge = Readonly<{
 
 type PlayerHudView = Readonly<{
   root: Phaser.GameObjects.Container;
+  portrait: Phaser.GameObjects.Image;
   gauges: Phaser.GameObjects.Graphics;
   hpText: Phaser.GameObjects.Text;
   mpText: Phaser.GameObjects.Text;
@@ -93,6 +94,11 @@ function createPlayerHudView(scene: Phaser.Scene, slot: 'p1' | 'p2'): PlayerHudV
     .setAlpha(0.92);
   if (slot === 'p2') shell.setScale(-1, 1);
   const gauges = scene.add.graphics();
+  const portrait = scene.add.image(
+    slot === 'p1' ? 53.75 : 886.25,
+    35.9,
+    CombatHudAssetKeys.role2Portrait,
+  ).setOrigin(0.5, 0.5).setFlipX(slot === 'p2').setVisible(false);
   const textOrigin = slot === 'p1' ? 0.5 : 0.5;
   const panelTextX = slot === 'p1' ? 151 : 769;
   const hpText = hudText(scene, panelTextX, 16, '');
@@ -102,8 +108,8 @@ function createPlayerHudView(scene: Phaser.Scene, slot: 'p1' | 'p2'): PlayerHudV
   const skillTexts = PLAYER_SKILL_X[slot].map((x) => hudText(scene, x, 520, '').setFontSize(11));
   const shortcutText = hudText(scene, slot === 'p1' ? 72 : 848, 472, '')
     .setFontSize(10).setOrigin(textOrigin, 0.5);
-  root.add([shell, gauges, hpText, mpText, expText, levelText, ...skillTexts, shortcutText]);
-  return { root, gauges, hpText, mpText, expText, levelText, skillTexts, shortcutText };
+  root.add([shell, portrait, gauges, hpText, mpText, expText, levelText, ...skillTexts, shortcutText]);
+  return { root, portrait, gauges, hpText, mpText, expText, levelText, skillTexts, shortcutText };
 }
 
 function updatePlayerHudView(view: PlayerHudView, player: CombatHudPlayerSnapshot): void {
@@ -116,6 +122,7 @@ function updatePlayerHudView(view: PlayerHudView, player: CombatHudPlayerSnapsho
   view.mpText.setText(player.mpText);
   view.expText.setText(player.expText);
   view.levelText.setText(`Lv.${player.level}`);
+  view.portrait.setVisible(player.heroId === 2);
   player.skillSlots.forEach((slot, index) => {
     const state = slot.binding?.usableState === 'active' ? ' ★'
       : slot.binding?.usableState === 'unavailable' ? ' ×' : '';

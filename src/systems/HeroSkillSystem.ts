@@ -35,7 +35,7 @@ import {
 } from './Role2ControlSkillSystem';
 import type { Role2SkillRuntimeModel } from './Role2SkillRuntimeSystem';
 import { startRole2Jhsj } from './Role2JhsjSkillSystem';
-import { castRole2Shy } from './Role2ShadowSkillSystem';
+import { castRole2Shy, setRole2ShadowVisualAction } from './Role2ShadowSkillSystem';
 import { getRole2SjtDamageMultiplier } from './Role2PassiveSkillSystem';
 import type { Role3SkillRuntimeModel } from './Role3DefenseSkillSystem';
 import type { Role1SkillRuntimeModel } from './Role1BasicSkillSystem';
@@ -496,6 +496,7 @@ function castRole2Xbz(
   projectile.damage *= damageMultiplier;
   const shadow = params.skill.role2Runtime.shadow;
   if (shadow) {
+    setRole2ShadowVisualAction(params.skill.role2Runtime, 'hit1');
     const shadowProjectile = spawnRole2ShadowXbzProjectile(
       params.projectiles,
       { sourceId: shadow.id, x: shadow.x, y: shadow.y, facingX: shadow.facingX },
@@ -544,6 +545,7 @@ function castRole2Myhc(
   });
   const shadow = params.skill.role2Runtime.shadow;
   if (shadow) {
+    setRole2ShadowVisualAction(params.skill.role2Runtime, 'hit2');
     const shadowProjectile = spawnRole2SupportEffect(
       params.projectiles,
       { sourceId: shadow.id, x: shadow.x, y: shadow.y, facingX: shadow.facingX },
@@ -601,6 +603,7 @@ function castRole2Tjgl(
   });
   const shadow = params.skill.role2Runtime.shadow;
   if (shadow) {
+    setRole2ShadowVisualAction(params.skill.role2Runtime, 'hit3');
     const shadowProjectile = spawnRole2SupportEffect(
       params.projectiles,
       { sourceId: shadow.id, x: shadow.x, y: shadow.y, facingX: shadow.facingX },
@@ -628,6 +631,7 @@ function castRole2Jhsj(
   mpCost: number,
 ): HeroSkillCastEvent {
   lockHeroMovementForSkill(params.movement, params.timeMs ?? 0, 1_100, true);
+  setRole2ShadowVisualAction(params.skill.role2Runtime, 'hit4');
   const projectile = startRole2Jhsj({
     runtime: params.skill.role2Runtime,
     system: params.projectiles,

@@ -183,17 +183,31 @@ function testShyCreateRecallExpiryAndXbzSync(): void {
   assert.ok(event);
   assert.equal(event.mpAfter, mpBefore - getSkillMpCost({ skillName: 'shy', level: 2 }));
   assert.ok(fixture.skill.role2Runtime.shadow);
+  assert.equal(fixture.skill.role2Runtime.shadow?.visualAction, 'walk');
   assert.equal(event.projectile.sourceId, 'p1-shadow');
 
   fixture.skill.loadout = loadout({ skillName: 'xbz', level: 2 });
   event = cast(fixture);
   assert.ok(event);
+  assert.equal(fixture.skill.role2Runtime.shadow?.visualAction, 'hit1');
+  assert.equal(fixture.skill.role2Runtime.shadow?.visualElapsedMs, 0);
   assert.equal(
     takeRole2RuntimeProjectiles(fixture.skill.role2Runtime).some((projectile) =>
       projectile.variant === 'role2-shadow-xbz-hit3-2'
     ),
     true,
   );
+
+  const actionEnding = createFixture({ skillName: 'shy', level: 2 });
+  assert.ok(cast(actionEnding));
+  actionEnding.skill.loadout = loadout({ skillName: 'xbz', level: 2 });
+  assert.ok(cast(actionEnding));
+  updateRole2Shadow(
+    actionEnding.skill.role2Runtime,
+    actionEnding.projectiles,
+    29 * (1000 / 30),
+  );
+  assert.equal(actionEnding.skill.role2Runtime.shadow, undefined);
 
   fixture.skill.activeAction = undefined;
   for (const projectile of fixture.projectiles.projectiles) {
@@ -224,6 +238,7 @@ function testShadowJhsjAndSupportSync(): void {
   let hp = 10;
   const target = supportTarget('between', 300, 200, 100, () => hp, (value) => { hp = value; });
   assert.ok(cast(fixture, [target]));
+  assert.equal(fixture.skill.role2Runtime.shadow?.visualAction, 'hit2');
   assert.equal(fixture.skill.role2Runtime.healingOverTime.length, 2);
   fixture.skill.activeAction = undefined;
   for (const projectile of fixture.projectiles.projectiles) {
@@ -233,6 +248,7 @@ function testShadowJhsjAndSupportSync(): void {
   hp = 10;
   fixture.skill.loadout = loadout({ skillName: 'tjgl', level: 2 });
   assert.ok(cast(fixture, [target]));
+  assert.equal(fixture.skill.role2Runtime.shadow?.visualAction, 'hit3');
   assert.equal(
     hp,
     10 + calculateRole2TjglHeal(2, 100, false) + calculateRole2TjglHeal(3, 100, false, 0.55),
@@ -244,6 +260,7 @@ function testShadowJhsjAndSupportSync(): void {
 
   fixture.skill.loadout = loadout({ skillName: 'jhsj', level: 2 });
   assert.ok(cast(fixture));
+  assert.equal(fixture.skill.role2Runtime.shadow?.visualAction, 'hit4');
   const spawned = updateRole2Jhsj(
     fixture.skill.role2Runtime,
     fixture.projectiles,

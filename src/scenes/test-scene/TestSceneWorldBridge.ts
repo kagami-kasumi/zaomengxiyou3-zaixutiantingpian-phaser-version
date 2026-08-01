@@ -91,6 +91,8 @@ import {
   updateStage11MonsterView,
 } from '../stage11/Stage11MonsterVisualBridge';
 import { getRole1CombatVisual, syncRole1CombatVisual } from '../Role1CombatVisualBridge';
+import { getRole2CombatVisual, syncRole2CombatVisual } from '../Role2CombatVisualBridge';
+import { projectRole2ShadowFrame } from '../../systems/Role2CombatVisualSystem';
 
 type CapturablePetTargetView = {
   root: Phaser.GameObjects.Container;
@@ -735,9 +737,18 @@ export function updatePlayerCombatVisual(this: any, player: any, time: number): 
         skillAction: player.role1VisualAction,
       }, time);
     }
+    const role2Visual = getRole2CombatVisual(player.sprite);
+    if (role2Visual) {
+      syncRole2CombatVisual(role2Visual, {
+        movement: player.movement,
+        combat: player.combat,
+        normalAttack: player.normalAttack,
+        skillAction: player.role2VisualAction,
+      }, time);
+    }
     if (isHeroCombatDead(player.combat)) {
-      player.sprite.setAlpha(role1Visual ? 0 : 0.42);
-      if (!role1Visual) player.sprite.setTint(0x697386);
+      player.sprite.setAlpha(role1Visual || role2Visual ? 0 : 0.42);
+      if (!role1Visual && !role2Visual) player.sprite.setTint(0x697386);
       return;
     }
 
@@ -746,7 +757,7 @@ export function updatePlayerCombatVisual(this: any, player: any, time: number): 
       return;
     }
 
-    player.sprite.setAlpha(role1Visual ? 0 : isHeroInvulnerable(player.combat, time) ? 0.72 : 1);
+    player.sprite.setAlpha(role1Visual || role2Visual ? 0 : isHeroInvulnerable(player.combat, time) ? 0.72 : 1);
     player.sprite.setTint(
       player.combat.state === 'hurt'
         ? 0xff7f7f
@@ -786,6 +797,22 @@ export function updateProjectileEffectViews(this: any): void {
         view.shape.setTexture(view.frameKeys[frameIndex]!)
           .setPosition(projectile.x, projectile.y)
           .setFlipX(projectile.facingX > 0)
+          .setAlpha(1);
+        activeViews.push(view);
+        continue;
+      }
+      if (view.role2Shadow && view.shape instanceof Phaser.GameObjects.Image) {
+        const shadow = this.getPlayers()
+          .map((player: any) => player.skill.role2Runtime.shadow)
+          .find((candidate: any) => candidate?.projectileId === projectile.id);
+        const frame = projectRole2ShadowFrame(
+          shadow?.visualAction ?? 'walk',
+          shadow?.visualElapsedMs ?? projectile.elapsedMs,
+        );
+        view.shape.setFrame(frame)
+          .setPosition(projectile.x + 15, projectile.y - 5)
+          .setFlipX(projectile.facingX > 0)
+          .setOrigin(projectile.facingX < 0 ? 0.575 : 0.425, 0.525)
           .setAlpha(1);
         activeViews.push(view);
         continue;

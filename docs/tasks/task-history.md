@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-162 | Role2 真动画验收收束 | 验收并归档已接入的唐僧本体、HUD、普攻、技能、Shadow 与附属对象 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 940×590 单/双人/P2 方向、零 console、PNG loader、待机/蓄力普攻/Shadow 五行动作修复、全门禁与 PG 收尾 |
+| TASK-SLICE-158B | Role2 真动画父任务收束 | 接入唐僧本体、战斗 UI、普攻、全部已实现技能、Shadow 与附属对象真动画 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 3 atlas、两普攻/48 帧、九技能/464 帧、HUD 肖像、Role2 视觉桥与 162 验收收束 |
 | TASK-SLICE-158A | Role1 真动画 | 接入悟空本体/装备、HUD、普攻、全部已实现技能、影分身与附属对象真视觉 | M-018、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 3 atlas、14 技能 stable key/249 帧、`Role1CombatVisualBridge`、唯一 `combat-common` owner、专项/全门禁与 940×590 证据 |
 | TASK-ARCH-016 | 拆分父任务收束 | 汇总五关公共可玩关卡 Runtime、Definition、门组件与防回填模板 | M-014、M-026、M-027、M-029、M-035、M-044、VS-065、PG-013 | `016A..D` 的合同、五关迁移、自有门视觉、静态门禁、未来模板与效果观察入口 |
 | TASK-ARCH-016D | Stage 1-1 与框架闭合 | 将 1-1/TestScene 接入公共 Runtime，恢复自身 character 45/41/44 门并闭合五关框架 | M-014、M-026、M-028、M-029、M-035、M-044、VS-007、VS-050、VS-065、PG-013 | Stage11 Definition/Runtime adapter、20 帧真门、临时借用删除、未来模板、专项/全门禁与 940×590 1P/2P/下一关零 console 证据 |
@@ -267,6 +269,148 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-162
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，本任务已完成；下一 task 为 `TASK-SETTINGS-069C`）
+
+目标机制/切片：
+
+- `M-019`、`M-023..M-025`、`M-034`、`M-035`、`M-047`、`M-049`、`VS-062`
+
+规模预算：
+
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+
+- 若验收暴露需要重新派生资源族、改玩法数值或进入 Role3 的问题，立即停止并把证据冲突退回对应 069 任务；本任务不继续扩张。
+
+输入资料：
+
+- `TASK-SLICE-158B` 工作树中的既有 Role2 真资源与运行时接入。
+- `docs/reverse-engineering/role2-combat-visuals-index.md` 的既有六段证据。
+
+输出产物：
+
+- 940×590 单人和合法双人最终验收、零 console 记录与差异结论。
+- 全量门禁结果、Role2 资源标注、机制/切片/覆盖台账回写及 158B/162 归档。
+
+完成定义：
+
+- 不新增资源族或玩法实现；仅修复验收直接暴露的 Role2 接入缺陷。
+- 单人/双人方向、HUD、本体、普攻、技能、Shadow 和生命周期证据闭合，正式路径无 Arc/Text/占位 projectile/单帧状态回填。
+- 专项、全系统、structure、build、annotations、workflow、diff 全部通过。
+
+验收标准：
+
+- 940×590 单人和合法双人 QA 路由、P2 方向镜像与零 console 通过。
+- `test:role2-visuals`、`test:stage1-hud`、`test:systems`、`check:structure`、`build`、`check:annotations`、`check:workflow` 与 `git diff --check` 通过。
+
+UI 原生化合同：
+
+- 显示列表清单：复核 069B 已冻结的本体/装备动态层、Shadow/攻击对象层、HUD 固定层及其 parent/depth/矩阵；未新增现代可见层。
+- 原版视觉基准：沿用 069B 的 940×590 单人/合法双人方向、动作与技能关键帧。
+- 允许的现代视觉例外：空清单。
+- 逐状态验收：本体 cell/hold、全部真资源映射、方向、P1/P2、HUD、销毁由自动与运行证据共同闭合；原版无 death 动画事实保留。
+- 差异证据：同尺寸单/双人截图、P2 方向、稳定资源几何、零 console 和逐对象映射清单。
+
+完成记录：
+
+- 浏览器首次发现 Role2 PNG HUD 头像误走 SVG loader；改为 image loader并加入专项防回归断言。
+- 最终动作审计补齐本体 `wait→wait2` 循环、蓄力普攻 `hit2` 本体行，以及 Shadow `walk/hit1/hit2/hit3/hit4` 五行 hold、四技能视觉切换与协同动作结束销毁；默认 walk 仍按 8s 超时，未改变技能数值、伤害窗口或伤害链。
+- 单人 Role2 与合法双人 P1 Role1/P2 Role2 在 940×590 下完成本体、唐僧姓名/ExceedPower 合同、HUD/头像、P2 方向镜像和零 console 验收；Role2 现代玩家调试标签已移除。
+- 浏览器控制面不能注入小键盘数字，未伪造 P2 手动技能事实；输入映射、全系统行为测试、11 stable key、512 effect 帧和运行资源包共同承载闭合证据。
+- PG-002/004/005/007/008/009/015 样本已回写；PG-015 满足真实抢占与空队列回退后归档。
+
+禁止范围：
+
+- 未进入 Role3，未改变技能数值、伤害窗口、存档 owner 或公共架构。
+- 未重新派生已经接入的 Role2 资源。
+
+状态更新：
+
+- M-019/M-034/M-047/M-049、VS-062、本线覆盖、Role2 标注、看板/历史与 PG 反馈已更新。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-069C`。
+
+### TASK-SLICE-158B
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，拆分父任务已由 `TASK-SLICE-162` 收束）
+
+目标机制/切片：
+
+- `M-019`、`M-023..M-025`、`M-034`、`M-035`、`M-047`、`M-049`、`VS-062`
+
+规模预算：
+
+- 主工作包：0
+- 预计上下文压缩：0
+- 独立验收批次：0
+
+拆分触发：
+
+- 首次上下文压缩后停止扩张，将剩余验收、标注和归档拆为 `TASK-SLICE-162`。
+
+输入资料：
+
+- `TASK-SETTINGS-069B` 的 Role2 矩阵、选择性导出、现有 Role2 systems/manifest/bridge。
+
+输出产物：
+
+- Role2 本体/装备、HUD 肖像、两普攻、九技能对象、Shadow、资源清单、场景桥和 QA 路由。
+- 防止 Arc/Text/占位 projectile/单帧状态回填的专项门禁。
+
+完成定义：
+
+- 资源与运行时接入由本父任务完成；单/双人最终验收和全门禁由 162 收束。
+- 不改变技能数值、伤害窗口或存档 owner。
+
+验收标准：
+
+- `test:role2-visuals`、`test:stage1-hud`、`build` 在拆分检查点通过；最终全量验收见 162。
+
+UI 原生化合同：
+
+- 显示列表清单：消费本体动态层、HUD 固定层和攻击对象 parent/depth/矩阵。
+- 原版视觉基准：069B 的 940×590 单人/合法双人关键帧。
+- 允许的现代视觉例外：空清单。
+- 逐状态验收：由 162 的自动与运行证据收束。
+- 差异证据：由 162 的单/双人截图、对象映射与零 console 收束。
+
+完成记录：
+
+- 接入 1200×2600 body/equipment atlas、800×1000 Shadow atlas、两普攻 48 帧、九技能对象 464 帧与 character 505 frame 2 HUD 头像。
+- 新增 Role2 纯动画描述与 Phaser 视觉桥，接入五个正式关卡公共 Runtime/TestScene 路径和 QA 路由。
+- 首次 compact 后按规模门禁停止，未进入 Role3；162 完成剩余验收并与本父任务共同归档。
+
+禁止范围：
+
+- 未使用占位 projectile、状态文字或单帧替代真动画；未扩其他角色或宠物视觉。
+
+状态更新：
+
+- 最终机制、切片、覆盖、标注、看板与历史更新由 162 一并完成。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-069C`。
 
 ### TASK-SLICE-158A
 

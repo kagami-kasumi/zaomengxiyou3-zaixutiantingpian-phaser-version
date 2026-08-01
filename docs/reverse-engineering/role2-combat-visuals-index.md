@@ -1,6 +1,6 @@
 # Role2 唐僧战斗视觉索引
 
-本文闭合 `TASK-SETTINGS-069B` 的逆向输入。范围只含 Role2 本体/装备、蓄力条、Shadow、普攻、全部已实现技能及既有战斗 HUD；行为完成与视觉完成分列，现代接入仍由 `TASK-SLICE-158B` 承担。
+本文先闭合 `TASK-SETTINGS-069B` 的逆向输入，并由 `TASK-SLICE-158B / TASK-SLICE-162` 闭合现代接入与验收。范围只含 Role2 本体/装备、蓄力条、Shadow、普攻、全部已实现技能及既有战斗 HUD；Role3..5 仍保持独立后续任务。
 
 ## 待证明问题与来源 owner
 
@@ -80,7 +80,7 @@ Shadow offset 为 `(15,-5)`，左右 origin 为 `(0.575,0.525)` / `(0.425,0.525)
 | --- | --- |
 | 角色根 | `body` 内为 body→equip；200×200 cell 按上述 origin 放置；无 mask/filter/alpha；水平朝向由镜像表/flip 承担 |
 | 头顶蓄力条 | `ExceedPower` 在角色根、body 之后创建；共享 50×100 碰撞根下为 `50×9`、局部 `(-25,-70)`；1px 红边、绿色填充，满时在 `0x112233/0xAABBCC` 间闪烁，alpha 0↔1 各 0.5s |
-| 名字 | 在蓄力条之后加入角色根，局部 `(-55,-80)`，居中 autoSize、cacheAsBitmap；因此在 body/equip/蓄力条上层 |
+| 名字 | `BaseHero.refreshAlliance()` 通过 `PlayerHonor.getHonorBitmap(roleName)` 生成：FZCuYuan-M03、16px、bold、红色、黑色 GlowFilter，水平按位图宽度居中；默认局部 `y=-90`，有时装时 `y=-120`，位于 body/equip/蓄力条上层 |
 | Shadow | 直接加入 `gc.gameSence`，不是角色 root child；方向独立，技能可在其位置生成对象并结束 Shadow 生命周期 |
 | HUD 固定层 | P1 `RoleInfo` 根 `(0,0)`；P2 根 `(920,0)` 且 `scaleX=-1`，动态文本反向抵消；character 505 以 `roleName="唐僧"` 选头像帧，HP/MP/EXP/等级及 character 510 五槽沿用既有 HUD 合同 |
 | HUD 输入/命中 | P1 `Y/U/I/O/L`，P2 `8/4/5/6/3`；五入口继续使用 549/555/561/567/573 与共享 418 hit；Role2 不新增角色专属按钮 |
@@ -98,4 +98,22 @@ Shadow offset 为 `(15,-5)`，左右 origin 为 `(0.575,0.525)` / `(0.425,0.525)
 | 头顶/HUD | `Role2` 构造器、`ExceedPower`、`RoleInfo` | hero properties、player skill slots、GameInfo lifecycle | 50×100 根、蓄力条/名字局部坐标、574/505/510 | 交叉确认 | 允许现代例外 0 | 显示列表门禁 + P1/P2 940×590 |
 | 现代映射 | 既有 Role2 systems/manifest stable key | `combat-common` 资源 bundle、动画/view bridge（158B） | 本文为唯一 origin/帧输入 | 现代设计选择 | 行为数值、伤害窗口、存档 owner禁止改动 | 专项、全系统、build、annotations/workflow |
 
-选择性派生物位于 `local-resources/regima/task-outputs/task-settings-069b-role2/`，仅作为 Git 忽略的证据输入。158B 应原位把 manifest 的旧 `missing-original` 改为真实资源定义，建立 Role2 本体/装备/Shadow atlas 与 11 个 stable key 的逐帧序列；行为现状仍是已复现、视觉现状仍是未接，直到自动与 940×590 双重验证通过。影响 158B 的未知为零，Role3..5 与宠物视觉不在本文结论范围内。
+选择性派生物位于 `local-resources/regima/task-outputs/task-settings-069b-role2/`，仅作为 Git 忽略的证据输入。现代 Git owner 已落到 `public/assets/combat/role2/`、`public/assets/ui/combat-hud/portraits/role2.png`、`AssetManifest` 与 `combat-common`；行为与真视觉现均已复现。影响本角色接入的未知为零，Role3..5 与宠物视觉不在本文结论范围内。
+
+## 158B / 162 现代映射与最终验收
+
+| 对象族 | 现代 owner | 验收结论 |
+| --- | --- | --- |
+| 本体 / 装备 / 头顶层 | `Role2CombatVisualSystem.ts`、`Role2CombatVisualBridge.ts`、`role2CombatAtlases` | 1200×2600、200×200 cell、13 行 hold（含 `wait→wait2` 循环与蓄力普攻 `hit2` 同行）、body→equip 层级、左右 origin、唐僧姓名与 50×9 红框/48×7 绿填充 ExceedPower 均按合同接入；现代调试标签对 Role2 隐藏，死亡立即移除且无 tint/alpha 占位 |
+| 两段普攻 | `role2NormalAttackAssets`、`TestSceneViews.createAttackEffectView` | 两个 stable key 共 48 帧由真 image 序列优先于 Arc/Text；方向镜像、帧推进和生命周期继续消费既有攻击模型 |
+| 九技能 / Shadow | `role2SkillVisualAssets`、`Role2CombatAssetKeys.shadow`、`Role2ShadowAnimations`、`TestSceneViews.createProjectileEffectView` | 九对象 464 帧与 800×1000 Shadow atlas 全部进入 `combat-common`；Shadow row0 循环及 `xbz/myhc/tjgl/jhsj` 对应 row1..4 的 hold/动作结束销毁均有确定性门禁，默认 walk 保持 8s 超时；`blb/sjt` 保持无独立可见对象，未知/现代例外均为 0 |
+| HUD | `combatHudAssets.role2Portrait`、`Stage1CombatHudSystem/Bridge` | character 505 frame 2 唐僧头像以 PNG image 加载；P1 正向、P2 镜像，五槽与 HP/MP/EXP owner 未改变 |
+
+940×590 运行验收：
+
+- 单人 `?qaStage=1-1-role2`：Role2 本体/装备、唐僧姓名层/头像、P1 HUD 与舞台层级正常，现代玩家调试标签不再覆盖角色，console warning/error 为 0。
+- 合法双人 `?qaStage=1-1-role2&players=2`：P1 Role1、P2 Role2 的本体、左右 HUD/头像和五槽均正常，console warning/error 为 0；P2 `ArrowLeft` 运行观察证明方向键归 P2，位置与真本体镜像同步。
+- 首次运行发现 PNG 头像被 `combat-common` 误排入 SVG loader；修正为 image loader 并加入专项防回归断言后，资源包完整加载。
+- 浏览器控制面无法注入小键盘数字；P2 普攻/技能并未伪记为手动按键。其闭合证据由 `InputSystem` 的 numpad 映射、全系统行为测试、11 stable key 的真资源优先分支、全部 512 个 effect frame 的 PNG/帧数校验与单/双人资源包实际加载共同承载。
+
+最终门禁：`test:role2-visuals`、`test:stage1-hud`、`test:systems`、`check:structure`、`build`、`check:annotations`、`check:workflow` 与 `git diff --check` 均通过；structure 仅保留未由本任务新增的既有 warning，Vite 仅保留既有 chunk 大小 warning。

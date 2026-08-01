@@ -6,6 +6,9 @@ import {
   pickupAssets,
   role1NormalAttackAssets,
   role1SkillVisualAssets,
+  Role2CombatAssetKeys,
+  role2NormalAttackAssets,
+  role2SkillVisualAssets,
 } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
@@ -60,6 +63,7 @@ export type ProjectileEffectView = {
   core?: Phaser.GameObjects.Ellipse;
   label?: Phaser.GameObjects.Text;
   frameKeys?: readonly string[];
+  role2Shadow?: boolean;
 };
 
 export function drawBossArenaStage(scene: Phaser.Scene): void {
@@ -215,7 +219,8 @@ export function createAttackEffectView(
   attack: ActiveHeroNormalAttack,
   effectColor: number,
 ): AttackEffectView {
-  const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets];
+  const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets]
+    ?? role2NormalAttackAssets[attack.effectKey as keyof typeof role2NormalAttackAssets];
   const shape = frameAsset
     ? scene.add.image(
       player.x + attack.facingX * 82,
@@ -225,7 +230,7 @@ export function createAttackEffectView(
     : attack.followsHero
     ? scene.add.ellipse(player.x + attack.facingX * 82, player.y - 80, 86, 36, effectColor, 0.35)
     : scene.add.rectangle(player.x + attack.facingX * 105, player.y - 82, 102, 42, effectColor, 0.28);
-  const label = scene.add.text(player.x + attack.facingX * 54, player.y - 128, attack.actionName, {
+  const label = scene.add.text(player.x + attack.facingX * 54, player.y - 128, frameAsset ? '' : attack.actionName, {
     color: '#f3f6ff',
     fontFamily: 'Arial, sans-serif',
     fontSize: '13px',
@@ -262,15 +267,26 @@ export function createProjectileEffectView(
   const role1Asset = role1SkillVisualAssets[
     projectile.assetKey as keyof typeof role1SkillVisualAssets
   ];
-  if (role1Asset) {
-    const shape = scene.add.image(projectile.x, projectile.y, role1Asset.frameKeys[0]!)
+  const role2Asset = role2SkillVisualAssets[
+    projectile.assetKey as keyof typeof role2SkillVisualAssets
+  ];
+  const frameAsset = role1Asset ?? role2Asset;
+  if (frameAsset) {
+    const shape = scene.add.image(projectile.x, projectile.y, frameAsset.frameKeys[0]!)
       .setFlipX(projectile.facingX > 0)
       .setDepth(48);
     return {
       projectileId: projectile.id,
       shape,
-      frameKeys: role1Asset.frameKeys,
+      frameKeys: frameAsset.frameKeys,
     };
+  }
+  if (projectile.assetKey === Role2CombatAssetKeys.shadow) {
+    const shape = scene.add.image(projectile.x + 15, projectile.y - 5, Role2CombatAssetKeys.shadow, 0)
+      .setOrigin(projectile.facingX < 0 ? 0.575 : 0.425, 0.525)
+      .setFlipX(projectile.facingX > 0)
+      .setDepth(47);
+    return { projectileId: projectile.id, shape, role2Shadow: true };
   }
   const isMovingProjectile = projectile.velocityX !== 0 || projectile.velocityY !== 0;
   const isSnow = projectile.variant === 'magic-weapon-snow';

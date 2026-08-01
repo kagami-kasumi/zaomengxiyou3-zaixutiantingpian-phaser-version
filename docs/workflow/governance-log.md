@@ -4,6 +4,25 @@
 
 ## 2026-08-01
 
+### PG-015 通过真实空队列回退并归档
+
+变更内容：
+
+- 治理队列为空后的真实 `/goal` 正常回退游戏唯一 Ready `TASK-SLICE-158B`；其 compact 拆分后续又正常选择唯一 Ready `TASK-SLICE-162`，没有污染游戏功能线或产生第二个 Ready owner。
+- PG-015 的真实治理抢占、真实空队列回退、自动正负门禁和七入口路由均满足关闭标准，状态转为已归档并移入问题归档索引。
+- 本次游戏 task 收尾扫描同步命中 PG-002/004/005/007/008/009；PG-009 捕获并修复 Role2 PNG HUD 头像误走 SVG loader 的真实复发样本。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-002/004/005/007/008/009/015`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow`
+- `git diff --check`
+
 ### PG-015 通过真实 `/goal` 抢占验收
 
 变更内容：

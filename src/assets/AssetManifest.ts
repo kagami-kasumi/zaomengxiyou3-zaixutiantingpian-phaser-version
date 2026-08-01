@@ -222,6 +222,7 @@ export const Stage21MonsterAssetKeys = {
 
 export const CombatHudAssetKeys = {
   roleInfo: 'combat-hud.role-info',
+  role2Portrait: 'combat-hud.role2-portrait',
   bossBlood: 'combat-hud.boss-blood',
 } as const;
 
@@ -365,6 +366,12 @@ export const Role1CombatAssetKeys = {
   body: 'hero-animation.hero1.body',
   equipment: 'hero-animation.hero1.equipment',
   shadow: 'hero-animation.hero1.shadow',
+} as const;
+
+export const Role2CombatAssetKeys = {
+  body: 'hero-animation.hero2.body',
+  equipment: 'hero-animation.hero2.equipment',
+  shadow: 'skill-summon.role2.shy.shadow',
 } as const;
 
 export const SkillProjectileEffectKeys = {
@@ -575,6 +582,15 @@ export const combatHudAssets = {
     sourcePackage: 'assets/OtherMat1.swf',
     sourceSymbol: 'export.RoleInfo frame 1',
     sourceCharacterId: 574,
+  },
+  role2Portrait: {
+    key: CombatHudAssetKeys.role2Portrait,
+    path: '/assets/ui/combat-hud/portraits/role2.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'OtherMat_fla._2233_62 frame 2',
+    sourceCharacterId: 505,
   },
   bossBlood: {
     key: CombatHudAssetKeys.bossBlood,
@@ -2284,12 +2300,100 @@ export const role1SkillVisualAssets = {
   [SkillProjectileEffectKeys.role1ZzHit14_2]: createRole1SkillFrames(SkillProjectileEffectKeys.role1ZzHit14_2, 373, 'Role1Bullet14_2', 7),
 } as const satisfies Record<string, FrameSequenceAssetDefinition>;
 
+function createRole2EffectFrames(
+  key: string,
+  characterId: number,
+  symbol: string,
+  frameCount: number,
+) {
+  const folder = `DefineSprite_${characterId}_${symbol}`;
+  return {
+    key,
+    frameKeys: Array.from({ length: frameCount }, (_, index) => `${key}.frame${index + 1}`),
+    framePaths: Array.from(
+      { length: frameCount },
+      (_, index) => `/assets/combat/role2/skills/${folder}/${index + 1}.png`,
+    ),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/TangSeng1.swf',
+    sourceSymbol: symbol,
+  } as const;
+}
+
+export const role2NormalAttackAssets = {
+  [HeroNormalAttackEffectKeys.role2Hit1]: createRole2EffectFrames(
+    HeroNormalAttackEffectKeys.role2Hit1, 274, 'Role2Bullet1', 24,
+  ),
+  [HeroNormalAttackEffectKeys.role2Hit2]: createRole2EffectFrames(
+    HeroNormalAttackEffectKeys.role2Hit2, 232, 'Role2Bullet2', 24,
+  ),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
+export const role2CombatAtlases = {
+  body: {
+    key: Role2CombatAssetKeys.body,
+    path: '/assets/combat/role2/body/body.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/TangSeng1.swf',
+    sourceSymbol: 'ROLE2_0',
+    sourceCharacterId: 5,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 6,
+    rows: 13,
+    reachableFrameCount: 50,
+    registrationOffset: { x: 15, y: 0 },
+  },
+  equipment: {
+    key: Role2CombatAssetKeys.equipment,
+    path: '/assets/combat/role2/body/equipment.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/TangSeng1.swf',
+    sourceSymbol: 'ROLE2_EQUIP_0',
+    sourceCharacterId: 6,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 6,
+    rows: 13,
+    reachableFrameCount: 50,
+    registrationOffset: { x: 15, y: 0 },
+  },
+  shadow: {
+    key: Role2CombatAssetKeys.shadow,
+    path: '/assets/combat/role2/body/13_ROLE2_SHALLDOW.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/TangSeng1.swf',
+    sourceSymbol: 'ROLE2_SHALLDOW',
+    sourceCharacterId: 13,
+    cellWidth: 200,
+    cellHeight: 200,
+    columns: 4,
+    rows: 5,
+    reachableFrameCount: 14,
+    registrationOffset: { x: 15, y: -5 },
+  },
+} as const satisfies Record<string, MonsterAtlasAssetDefinition>;
+
+export const role2SkillVisualAssets = {
+  [SkillProjectileEffectKeys.role2SgqHit5]: createRole2EffectFrames(SkillProjectileEffectKeys.role2SgqHit5, 96, 'Role2Bullet5', 180),
+  [SkillProjectileEffectKeys.role2SmbHit4_1]: createRole2EffectFrames(SkillProjectileEffectKeys.role2SmbHit4_1, 281, 'Role2Bullet4_1', 48),
+  [SkillProjectileEffectKeys.role2SmbHit4_2]: createRole2EffectFrames(SkillProjectileEffectKeys.role2SmbHit4_2, 325, 'Role2Bullet4_2', 21),
+  [SkillProjectileEffectKeys.role2XbzHit3]: createRole2EffectFrames(SkillProjectileEffectKeys.role2XbzHit3, 74, 'Role2Bullet3', 40),
+  [SkillProjectileEffectKeys.role2MyhcHit6]: createRole2EffectFrames(SkillProjectileEffectKeys.role2MyhcHit6, 123, 'Role2Bullet6', 26),
+  [SkillProjectileEffectKeys.role2JgzHit7]: createRole2EffectFrames(SkillProjectileEffectKeys.role2JgzHit7, 154, 'Role2Bullet7', 22),
+  [SkillProjectileEffectKeys.role2TjglHit8]: createRole2EffectFrames(SkillProjectileEffectKeys.role2TjglHit8, 346, 'Role2Bullet8', 25),
+  [SkillProjectileEffectKeys.role2JhsjHit9_1]: createRole2EffectFrames(SkillProjectileEffectKeys.role2JhsjHit9_1, 178, 'Role2Bullet9_1', 57),
+  [SkillProjectileEffectKeys.role2JhsjHit9_2]: createRole2EffectFrames(SkillProjectileEffectKeys.role2JhsjHit9_2, 159, 'Role2Bullet9_2', 45),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
 export const sourceAssetFamilies = {
-  role2To4NormalAttackEffects: {
+  role3To4NormalAttackEffects: {
     status: 'missing-original',
     sourceSymbols: [
-      'Role2Bullet1',
-      'Role2Bullet2',
       'Role3Bullet1',
       'Role3Bullet2',
       'Role3Bullet3',
@@ -2299,7 +2403,7 @@ export const sourceAssetFamilies = {
       'Role4BulletArrow1',
       'Role4BulletArrow2',
     ],
-    notes: 'Normal-attack attachments referenced by Role2 to Role4 but not yet exported from the restored source packages.',
+    notes: 'Normal-attack attachments referenced by Role3 and Role4 but not yet exported from the restored source packages.',
   },
   role5NormalAttackAnimations: {
     status: 'missing-original',
@@ -2337,31 +2441,6 @@ export const sourceAssetFamilies = {
       'swordhit6_1',
     ],
     notes: 'Sword-mode mappings are known; spear-mode helper symbols remain unresolved.',
-  },
-  role2SkillProjectiles: {
-    status: 'missing-original',
-    sourceSymbols: [
-      'Role2Bullet5',
-      'Role2_hit5',
-      'Role2Bullet4_1',
-      'Role1Bullet4_1',
-      'Role2Bullet4_2',
-      'Role2_hit4',
-      'Role2Bullet3',
-      'Role2_hit3',
-      'Role2Bullet6',
-      'Role2_hit6',
-      'Role2Bullet7',
-      'Role2_hit7',
-      'Role2Bullet8',
-      'Role2_hit8',
-      'Role2Bullet9_1',
-      'Role2Bullet9_2',
-      'Role2_hit9',
-      'ROLE2_SHALLDOW',
-      'Role2_hit10',
-    ],
-    notes: 'Role2 skill projectile/effect family; absent from current symbol and image exports, expected in TangSeng or SpecialUI/TangSeng resource packages.',
   },
   role3SkillProjectiles: {
     status: 'missing-original',

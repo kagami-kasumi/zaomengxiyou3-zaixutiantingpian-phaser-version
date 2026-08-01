@@ -37,6 +37,7 @@ import {
 import { createTestSceneDebugKeys } from './TestSceneDebugKeys';
 import { formatHeroLabel } from './TestSceneFormatters';
 import { createRole1CombatVisual } from '../Role1CombatVisualBridge';
+import { createRole2CombatVisual } from '../Role2CombatVisualBridge';
 
 type SkillBarView = {
   container: Phaser.GameObjects.Container;
@@ -58,11 +59,15 @@ type InventoryPanelView = {
   text: Phaser.GameObjects.Text;
 };
 
-export function createPlayerMarkers(this: any, playerCount: 1 | 2): any[] {
+export function createPlayerMarkers(
+  this: any,
+  playerCount: 1 | 2,
+  heroIds: readonly HeroId[] = [],
+): any[] {
     const groundY = STAGE11_GROUND_TOP_Y;
     const p1 = this.createPlayerView(
       'p1',
-      Stage1CombatTuning.defaultHeroId,
+      heroIds[0] ?? Stage1CombatTuning.defaultHeroId,
       defaultClimbTuning.worldWidth * (playerCount === 1 ? 0.5 : 0.34),
       groundY,
     );
@@ -75,7 +80,7 @@ export function createPlayerMarkers(this: any, playerCount: 1 | 2): any[] {
 
     const p2 = this.createPlayerView(
       'p2',
-      3,
+      heroIds[1] ?? 3,
       defaultClimbTuning.worldWidth * 0.58,
       groundY,
     );
@@ -95,6 +100,7 @@ export function createPlayerView(this: any,
     sprite.setOrigin(0.5, 1);
     sprite.setTint(getHeroTint(heroId));
     createRole1CombatVisual(this, sprite, heroId);
+    createRole2CombatVisual(this, sprite, heroId);
 
     const label = this.add.text(x - 18, y + 14, slot.toUpperCase(), {
       color: '#f3f6ff',

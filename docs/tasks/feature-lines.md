@@ -30,7 +30,7 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-158B | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | Role2 六段视觉证据已闭合；当前进入 Role2 真动画接入 | `TASK-SLICE-158B` 为唯一 Ready；随后 Role3..5 串行 |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SETTINGS-069C | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | Role1/Role2 真视觉均已闭合；当前进入 Role3 八戒视觉逆向 | `TASK-SETTINGS-069C` 为唯一 Ready；随后 158C/069D 串行 |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待前置体验补全线关闭 | `TASK-SETTINGS-064` 保留为 Planned；既有独立任务定义不丢失 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
@@ -224,6 +224,8 @@
 2026-08-01 `TASK-SLICE-158A` 已归档：Role1 本体/装备/影分身 3 atlas、四普攻与 14 个技能 stable key/249 帧接入 `combat-common`；五关公共 Runtime 与 TestScene 共用 `Role1CombatVisualBridge`，Role1 projectile 在通用 ellipse/core/Text 前进入真 image 分支，死亡按原版无 Symbol 的移除合同。专项、全系统、build、structure、annotations、workflow、diff check、正式 940×590 单人/QA 双人路由与零 console 通过；功能线继续 Active，唯一 Ready 切换为 `TASK-SETTINGS-069B`。
 
 2026-08-01 `TASK-SETTINGS-069B` 已归档：确认启动期 Role2 视觉唯一源为 `assets/TangSeng1.swf`，闭合 12 本体、8 装备、Shadow、两普攻与九个技能对象的 Symbol、帧数、几何、显示层级、触发和生命周期；`TangSeng.swf`/`SpecialUI/TangSeng.swf` 保留为动态换装路径而不与启动包混用。功能线继续 Active，唯一 Ready 切换为 `TASK-SLICE-158B`。
+2026-08-01 `TASK-SLICE-158B` 首次上下文压缩触发规模门禁：Role2 本体/装备、HUD 肖像、两普攻、九技能对象、Shadow、场景桥与 QA 路由已接入，`test:role2-visuals`、`test:stage1-hud` 和 `build` 通过；未完成的双人视觉验收、全量门禁、标注与归档收束拆为唯一 Ready `TASK-SLICE-162`，不提前进入 Role3。
+2026-08-01 `TASK-SLICE-158B / TASK-SLICE-162` 已归档：Role2 本体/装备、唐僧 HUD 头像、两普攻、九技能对象 464 帧与 Shadow atlas 全部由 `combat-common` 接入；修复 PNG 头像误走 SVG loader，并在最终动作审计补齐 `wait→wait2`、蓄力 `hit2` 与 Shadow 五行动作投影。专项/全系统/构建/工作流门禁及 940×590 单人、合法双人、P2 方向镜像零 console 通过。功能线继续 Active，唯一 Ready 切换为 `TASK-SETTINGS-069C`。
 
 ## 关闭与切线
 

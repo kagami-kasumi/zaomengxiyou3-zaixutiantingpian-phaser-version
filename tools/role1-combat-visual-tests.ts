@@ -55,8 +55,9 @@ const viewsSource = readFileSync(
   path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneViews.ts'),
   'utf8',
 );
-assert.match(viewsSource, /if \(role1Asset\)/, 'Role1 must branch to true frame images before generic projectile shapes');
-assert.match(viewsSource, /scene\.add\.image\(projectile\.x, projectile\.y, role1Asset\.frameKeys\[0\]!\)/);
+assert.match(viewsSource, /const frameAsset = role1Asset \?\? role2Asset/);
+assert.match(viewsSource, /if \(frameAsset\)/, 'true hero frames must branch before generic projectile shapes');
+assert.match(viewsSource, /scene\.add\.image\(projectile\.x, projectile\.y, frameAsset\.frameKeys\[0\]!\)/);
 const manifestSource = readFileSync(path.join(repoRoot, 'src', 'assets', 'AssetManifest.ts'), 'utf8');
 assert.doesNotMatch(manifestSource, /role1SkillProjectiles:\s*\{[\s\S]*?status:\s*'missing-original'/);
 const bootSource = readFileSync(path.join(repoRoot, 'src', 'scenes', 'BootScene.ts'), 'utf8');
