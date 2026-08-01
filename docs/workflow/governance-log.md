@@ -4,6 +4,29 @@
 
 ## 2026-08-01
 
+### PG-015 通过真实 `/goal` 抢占验收
+
+变更内容：
+
+- 在治理 `PG-015` 与游戏 `TASK-SLICE-158B` 同时 Ready 的真实状态下，本次 `/goal` 只执行 PG-015 验收，没有读取或实现游戏 task。
+- 验收通过后将 PG-015 从 `execution-queue.md` 移除，问题状态转为“已关闭待归档”；同一次 `/goal` 到此停止。
+- 收尾扫描命中 PG-004/008/015，分别回写反馈闭环、单执行项边界和真实抢占样本；PG-015 仍待下一次真实 `/goal` 的空队列回退样本，暂不归档。
+
+影响范围：
+
+- `docs/tasks/execution-queue.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-008-Task缺少可执行规模门禁.md`
+- `docs/workflow/problems/PG-015-全局治理任务无法抢占游戏调度.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `node --check tools/validate-workflow.mjs`
+- `npm run check:workflow`
+- `git diff --check`
+
 ### 建立全局执行队列并登记 PG-015
 
 变更内容：
