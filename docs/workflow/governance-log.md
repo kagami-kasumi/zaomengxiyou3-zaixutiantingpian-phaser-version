@@ -4,6 +4,32 @@
 
 ## 2026-08-01
 
+### 建立全局执行队列并登记 PG-015
+
+变更内容：
+
+- 用户执行 `/goal` 后仍进入 Role2 逆向，证明此前的问题索引/看板说明没有改变结构化调度；将其登记为独立的 `PG-015 全局治理任务无法抢占游戏调度`，不重开已完成读取路由整改的 PG-014。
+- 新增 `docs/tasks/execution-queue.md` 作为 `/goal` 第一调度入口：治理 Ready/Blocked 抢占游戏 Ready；队列无可执行项时才回退 Active 功能线与游戏看板。
+- Agent/Claude、战略导航、根/工作流 README、文档地图、游戏看板、任务生成规范和执行协议统一接入治理优先、完成即停止、显式重排先持久化的语义。
+- `tools/validate-workflow.mjs` 新增队列解析、PG 活跃/合同链接、优先级/状态/唯一可执行项门禁，以及一个治理抢占正向样例和七类负向样例；真实状态报告 PG-015 为全局执行项，同时保留 `TASK-SLICE-158B` 为游戏 Ready。
+- 收尾扫描命中 PG-004/008/015，分别回写问题反馈、新调度工作包边界和静态方案样本；PG-015 在下一次真实 `/goal` 抢占前保持活跃。
+
+影响范围：
+
+- `AGENTS.md`、`CLAUDE.md`、`TASK_OUTLINE.md`、`README.md`
+- `docs/tasks/execution-queue.md`、`docs/tasks/task-board.md`
+- `docs/workflow/README.md`、`docs/workflow/document-map.md`、`docs/workflow/agent-protocol.md`
+- `docs/workflow/task-generation.md`
+- `docs/workflow/problem-governance.md`、`docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`、`docs/workflow/problems/PG-008-Task缺少可执行规模门禁.md`、`docs/workflow/problems/PG-015-全局治理任务无法抢占游戏调度.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `npm run check:structure`
+- `node --check tools/validate-workflow.mjs`
+- `npm run check:workflow`
+- `git diff --check`
+
 ### 闭合并归档 PG-014 上下文读取路由治理
 
 变更内容：

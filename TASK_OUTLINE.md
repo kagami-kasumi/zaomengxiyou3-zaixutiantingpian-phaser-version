@@ -1,6 +1,6 @@
 # 再续天庭现代化：AI 总任务书
 
-本文是项目的战略导航。它回答“目标是什么、路线是什么、文档如何分工、任务类型有哪些”。完整系统范围和激活状态看 `docs/tasks/feature-lines.md`，具体 task 状态看 `docs/tasks/task-board.md`。
+本文是项目的战略导航。它回答“目标是什么、路线是什么、文档如何分工、任务类型有哪些”。全局执行顺序先看 `docs/tasks/execution-queue.md`；游戏完整范围和激活状态看 `docs/tasks/feature-lines.md`，具体游戏 task 状态看 `docs/tasks/task-board.md`。
 
 新的 AI 接手时，先使用当前已生效的项目指令判定任务类型；客户端已经注入 `AGENTS.md` 时视为已读，不再 shell 全文读取。本战略导航只在正式游戏 task、`/goal`、游戏任务生成/重排或项目路线判断时读取，轻量请求、局部评审/排错和脚手架局部讨论默认不读。
 
@@ -59,6 +59,7 @@
 这几个文档职责必须正交：
 
 - `TASK_OUTLINE.md`：战略导航。维护目标、原则、阶段路线和任务类型，不维护具体任务状态。
+- `docs/tasks/execution-queue.md`：`/goal` 的第一调度入口。只维护会抢占游戏工作的活跃治理执行项；无可执行治理项时才回退游戏 Ready task。
 - `docs/tasks/task-board.md`：未完成游戏任务的轻量索引。维护状态、功能线、摘要、下一步和独立定义链接，不保存全部任务正文。
 - `docs/tasks/task-definitions/TASK-*.md`：单个未完成 task 的完整执行合同。执行时只读取当前 task 文件。
 - `docs/tasks/feature-lines.md`：完整玩家系统台账。维护唯一 Active 功能线、用户确认范围、当前 task、阻塞和关闭证据。
@@ -86,7 +87,7 @@
 
 ## 3. 工作原则
 
-普通执行和 `/goal` 一次都只处理唯一 Ready task。task 默认预计 0 次上下文压缩；完整功能线在多个 task 之间继续持有范围和 `WIP=1`。实际调度以 `feature-lines.md` 和 `task-board.md` 为准，执行合同以当前独立 task 定义为准。
+普通执行和 `/goal` 一次都只处理一个全局执行项。实际调度先看 `execution-queue.md`：存在治理 `Ready`/`Blocked` 时只处理该 PG；队列无可执行治理项时才以 `feature-lines.md` 和 `task-board.md` 的唯一 Active/Ready 组合作为游戏执行项。游戏 task 默认预计 0 次上下文压缩；完整功能线在多个 task 之间继续持有范围和 `WIP=1`，执行合同以当前独立 task 定义为准。
 
 执行代码任务时：
 
@@ -113,7 +114,7 @@
 
 轻量请求不进入完整看板流程，不归档 task-history，也不要求完成后切换对话。正式游戏 task 才执行看板、机制表、切片表和历史归档流程。
 
-用户使用 `/goal` 时，AI 持有 `feature-lines.md` 中唯一 Active 功能线，但本次只执行 `task-board.md` 中唯一 Ready task。task 完成后激活同线下一 task 并交接，不在同一次 `/goal` 中继续跨 task。遇到阻塞只解决本线阻塞；第一次 compact 后只收尾当前范围，估计需要第二次时必须拆分与交接。
+用户使用 `/goal` 时，先读取 `execution-queue.md`。治理执行项存在时只处理该项，完成后移出队列、回写 PG/治理日志并停止；不得在同一次 `/goal` 继续游戏。队列为空时，AI 才持有 `feature-lines.md` 中唯一 Active 功能线并执行 `task-board.md` 中唯一 Ready 游戏 task。游戏 task 完成后激活同线下一 task并交接，不在同一次 `/goal` 中继续跨 task。遇到阻塞只解决当前调度范围内的阻塞；第一次 compact 后只收尾当前范围，估计需要第二次时必须拆分与交接。
 
 同一个正式游戏 task 未完成时优先继续当前对话；上下文过长时优先 compact，并在 compact 后复查关键文档和当前改动文件。只有完成 task、切换明显不同机制/切片/子系统，或已读取大量 AS3/逆向/历史资料时，才在文档收尾后建议新开对话。
 
@@ -286,6 +287,7 @@
 
 当前完整目标、具体 task 和推荐下一步依次看：
 
+- `docs/tasks/execution-queue.md`
 - `docs/tasks/feature-lines.md`
 - `docs/tasks/task-board.md`
 - `docs/tasks/task-definitions/` 中当前 Ready task 的独立定义
@@ -298,13 +300,13 @@
 
 ```text
 请按 AGENTS.md 的“正式游戏 task 工作流”执行一个 task。
-如果我没有指定 task id，请从 docs/tasks/feature-lines.md 的唯一 Active 线选择 task-board 当前推荐项。
+如果我没有指定 task id，请先执行 docs/tasks/execution-queue.md 的治理 Ready/Blocked；队列无可执行项时，再从 docs/tasks/feature-lines.md 的唯一 Active 线选择 task-board 当前推荐项。
 ```
 
 自动推进推荐开场：
 
 ```text
-/goal 只执行 docs/tasks/task-board.md 的唯一 Ready task，并只读取 docs/tasks/task-definitions/ 中对应定义；task 预计零次上下文压缩。完成后激活同线下一 task 并停止交接，不在本次连续跨 task；收尾时请给出下一 task、Git 和对话管理建议。
+/goal 先执行 docs/tasks/execution-queue.md 中唯一 Ready/Blocked 治理项；无可执行治理项时才执行 docs/tasks/task-board.md 的唯一 Ready 游戏 task，并只读取对应合同。一次只处理一个执行项，完成后停止交接；收尾时请给出下一执行项、Git 和对话管理建议。
 ```
 
 创建任务时推荐开场：

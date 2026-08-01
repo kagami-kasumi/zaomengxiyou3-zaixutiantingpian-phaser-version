@@ -2,6 +2,13 @@
 
 本文说明各类文档的边界，避免游戏复现任务和 AI 工作流脚手架混在一起。
 
+## 全局执行调度层
+
+- `docs/tasks/execution-queue.md`
+  - `/goal` 的第一调度入口。
+  - 只维护会抢占游戏工作的活跃治理执行项、优先级和 Ready/Blocked/Planned 状态，合同链接到对应 `PG-*`。
+  - 治理队列无可执行项时才回退游戏功能线与 `task-board.md`；不复制游戏 task 状态，不保存完成历史。
+
 ## 游戏复现层
 
 - `TASK_OUTLINE.md`

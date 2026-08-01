@@ -28,7 +28,8 @@
 | 文档 | 职责 |
 | --- | --- |
 | `agent-protocol.md` | 正式游戏 task、`/goal`、代码任务、Git、对话收束和统一语言的详细协议 |
-| `../tasks/task-board.md` | 未完成 task 的轻量状态索引；`/goal` 直接执行唯一 Ready task |
+| `../tasks/execution-queue.md` | `/goal` 第一调度入口；治理 Ready/Blocked 抢占游戏 Ready，无治理执行项时回退游戏看板 |
+| `../tasks/task-board.md` | 未完成游戏 task 的轻量状态索引；只在全局执行队列无可执行治理项时提供游戏 Ready |
 | `../tasks/task-definitions/TASK-*.md` | 单个未完成 task 的完整执行合同；执行时只读取当前文件 |
 | `task-generation.md` | 从机制缺口、切片缺口或工程基础缺口生成标准游戏任务 |
 | `code-quality-gates.md` | AI 修改代码时必须遵守的验证、边界和测试要求 |
@@ -46,7 +47,7 @@
 先用当前已生效的项目指令判定任务类型，再按任务类型补读最小集合。客户端已经注入 `AGENTS.md` 时视为已读，不再 shell 全文读取；未注入时才读取它。`TASK_OUTLINE.md` 只用于正式游戏 task、`/goal`、游戏任务生成/重排或路线判断。
 
 - **轻量请求**：只读直接相关文件。
-- **正式游戏 task**：补读 `TASK_OUTLINE.md`、`agent-protocol.md`、`feature-lines.md`、当前线覆盖台账、`task-board.md`、当前 `task-definitions/TASK-*.md`、`mechanics-index.md`、`vertical-slices.md`。
+- **正式游戏 task / `/goal`**：先读 `docs/tasks/execution-queue.md`；存在治理 Ready/Blocked 时只读其 PG 合同和脚手架资料，无可执行治理项时再补读 `TASK_OUTLINE.md`、`agent-protocol.md`、`feature-lines.md`、当前线覆盖台账、`task-board.md`、当前 `task-definitions/TASK-*.md`、`mechanics-index.md`、`vertical-slices.md`。
 - **代码实现**：在正式 task 基础上补读 `docs/architecture/src-boundaries.md` 和目标源码。
 - **工程评审**：补读 `review-protocol.md`；涉及代码质量再读 `code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md`。
 - **问题治理**：补读 `problem-governance.md`；若问题来自评审，再读 `review-protocol.md`，若涉及代码质量，再读 `code-quality-gates.md`。
@@ -58,10 +59,11 @@
 ## 维护规则
 
 - 游戏逆向、实现、切片和现代架构任务在 `docs/tasks/task-board.md` 维护轻量索引，完整合同分别写入 `docs/tasks/task-definitions/TASK-*.md`。
+- 会抢占游戏工作的脚手架治理项在 `docs/tasks/execution-queue.md` 维护优先级和 Ready/Blocked 状态，合同仍写在对应 `docs/workflow/problems/PG-*.md`；不得复制为游戏 task。
 - 完整玩家系统的范围、唯一 Active 状态和关闭证据写入 `docs/tasks/feature-lines.md` 及 `feature-line-coverage/`；严格单线 `WIP=1`。
-- `/goal` 是执行命令，不是持久化实体；它只执行唯一 Ready task，并由该 task 的规模预算与拆分触发约束本次边界。
+- `/goal` 是执行命令，不是持久化实体；它一次只执行一个全局执行项。治理队列优先，无治理执行项时才执行游戏唯一 Ready task，并由对应合同的规模与拆分触发约束本次边界。
 - 已完成游戏任务从 `task-board.md` 和 `task-definitions/` 归档到 `docs/tasks/task-history.md`。
-- 工作流、任务体系、文档职责、AI 交接协议和代码质量门禁只写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板。
+- 工作流合同、文档职责、AI 交接协议和代码质量门禁写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板；只有跨范围执行优先级与活跃治理指针写入 `docs/tasks/execution-queue.md`。
 - 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议、活跃问题索引和问题归档索引。
 - 逆向结论必须按 `reverse-engineering-protocol.md` 落盘证据矩阵；缺少共享调用链、适用的 SWF 几何/坐标语义或双重验证时，不得宣称“权威实现输入、已闭合、已复现”。UI/HUD/菜单还必须有显示列表清单、原版视觉基准、允许的现代视觉例外和逐状态差异证据，整页真背景不等于 UI 原生化。
 - 代码、架构、游戏 task 或工作流变更收尾时，只按活跃问题索引执行适用性扫描；归档问题仅在硬信号下定向重开。命中时回写效果样本；复发或方案不充分时转入复盘并评估方案新版本，满足出清门禁后归档。

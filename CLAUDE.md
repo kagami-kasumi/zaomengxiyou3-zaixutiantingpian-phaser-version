@@ -17,6 +17,7 @@ npm run check:workflow
 | 优先级 | 文档 | 何时读 |
 | --- | --- | --- |
 | 条件必读 | [AGENTS.md](./AGENTS.md) | 项目指令未由客户端注入时读取；已注入则视为已读，不再 shell 全文读取 |
+| 执行必读 | [docs/tasks/execution-queue.md](./docs/tasks/execution-queue.md) | `/goal` 或正式执行请求先检查全局治理项；无可执行治理项时才进入游戏看板 |
 | 按需 | [TASK_OUTLINE.md](./TASK_OUTLINE.md) | 正式游戏 task、`/goal`、游戏任务生成/重排或路线判断时 |
 | 按需 | [docs/tasks/task-board.md](./docs/tasks/task-board.md) | 执行正式游戏 task 时读取状态索引 |
 | 按需 | `docs/tasks/task-definitions/TASK-*.md` | 只读取当前 Ready task 的完整执行合同 |
@@ -45,7 +46,7 @@ npm run check:workflow
 
 1. 轻量请求不进入完整游戏 task 流程，不更新看板，不要求切换对话。
 2. 普通正式游戏请求一次处理一个 task；task 必须属于 `feature-lines.md` 的唯一 Active 功能线。
-3. 用户使用 `/goal` 时，一次只执行唯一 `Ready` task；只读取该 task 的独立定义，预计 0 次 compact，执行前核对规模预算和拆分触发，完成后交接而不连续跨 task。功能线仍严格 `WIP=1`，遇到阻塞不切线。
+3. 用户使用 `/goal` 时先读取 `execution-queue.md`；存在治理 `Ready`/`Blocked` 时只处理该项并停止，无可执行治理项时才执行游戏唯一 `Ready` task。游戏 task 只读取其独立定义，预计 0 次 compact，执行前核对规模预算和拆分触发，完成后交接而不连续跨 task。功能线仍严格 `WIP=1`，遇到阻塞不切线。
 4. 同一正式游戏 task 未完成时优先继续当前对话；若发生第一次 compact，只完成当前检查、回写安全检查点并拆分剩余工作，不再扩张范围。
 5. 不要因为只完成少量工作、仍在同一 task 的验证/修 bug/补文档阶段，就建议新开对话。
 6. 正式游戏 task 或 `/goal` 收尾时，必须明确给出继续/compact/新开对话判断，以及 commit / push 建议；Git 操作只有用户明确要求时才执行。

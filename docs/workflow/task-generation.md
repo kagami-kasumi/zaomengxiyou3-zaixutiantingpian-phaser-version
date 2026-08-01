@@ -1,6 +1,6 @@
 # 任务生成规范
 
-本文定义如何在完整功能条线内生成、拆分和调度 task。功能条线状态以 `docs/tasks/feature-lines.md` 为准，未完成 task 状态索引在 `task-board.md`，完整合同在 `task-definitions/TASK-*.md`，完成历史在 `task-history.md`。`/goal` 直接执行唯一 Ready task，不再维护独立 Goal 实体。
+本文定义如何在完整功能条线内生成、拆分和调度游戏 task。全局 `/goal` 先读取 `docs/tasks/execution-queue.md`，治理 Ready/Blocked 存在时不进入游戏任务生成；队列无可执行治理项时，功能条线状态以 `docs/tasks/feature-lines.md` 为准，未完成游戏 task 状态索引在 `task-board.md`，完整合同在 `task-definitions/TASK-*.md`，完成历史在 `task-history.md`。
 
 ## 核心模型
 

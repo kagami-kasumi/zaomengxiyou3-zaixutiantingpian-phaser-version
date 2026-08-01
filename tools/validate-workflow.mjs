@@ -8,6 +8,7 @@ const files = {
   agents: 'AGENTS.md',
   readme: 'README.md',
   outline: 'TASK_OUTLINE.md',
+  executionQueue: 'docs/tasks/execution-queue.md',
   board: 'docs/tasks/task-board.md',
   history: 'docs/tasks/task-history.md',
   featureLines: 'docs/tasks/feature-lines.md',
@@ -239,6 +240,131 @@ function parseTaskRows(markdown) {
   }));
 }
 
+function parseExecutionQueueRows(markdown) {
+  const queueSection = section(markdown, '活跃治理执行项');
+  return tableRows(queueSection, /^\|\s*[^|-]/)
+    .filter((row) => row[0] !== '优先级' && !/^:?-{3,}/.test(row[0]))
+    .map((row) => ({
+    priority: Number(row[0]),
+    id: row[1],
+    status: row[2],
+    type: row[3],
+    goal: row[4],
+    contractPath: row[5].match(/\(([^)]+)\)/)?.[1] ?? '',
+    next: row[6],
+      row,
+    }));
+}
+
+function globalExecutionQueueErrors(queueText, queueRows, problemRecords, recommendedIds) {
+  const queueErrors = [];
+  for (const requiredText of ['## 调度规则', '## 活跃治理执行项', '## 游戏回退']) {
+    if (!queueText.includes(requiredText)) {
+      queueErrors.push(`execution-queue.md must include: ${requiredText}`);
+    }
+  }
+
+  const allowedStatuses = new Set(['Ready', 'Blocked', 'Planned']);
+  const actionableRows = queueRows.filter((row) => row.status === 'Ready' || row.status === 'Blocked');
+  if (actionableRows.length > 1) {
+    queueErrors.push(`execution-queue.md must have at most one Ready/Blocked governance item; found ${actionableRows.length}`);
+  }
+
+  const priorities = queueRows.map((row) => row.priority);
+  if (duplicateIds(priorities).length > 0) {
+    queueErrors.push('execution-queue.md has duplicate priorities');
+  }
+  queueRows.forEach((row, index) => {
+    if (!Number.isInteger(row.priority) || row.priority !== index + 1) {
+      queueErrors.push(`execution-queue.md priorities must be consecutive from 1 in table order: ${row.priority}`);
+    }
+    if (!/^PG-\d{3}$/.test(row.id)) {
+      queueErrors.push(`execution-queue.md has invalid governance id: ${row.id || '(missing)'}`);
+    }
+    if (!allowedStatuses.has(row.status)) {
+      queueErrors.push(`execution-queue.md has invalid status for ${row.id}: ${row.status}`);
+    }
+    const record = problemRecords.find((candidate) => candidate.id === row.id);
+    if (!record) {
+      queueErrors.push(`execution-queue.md references missing problem record: ${row.id}`);
+      return;
+    }
+    const problemStatus = record.text.match(/^状态：(.+)。$/m)?.[1] ?? '';
+    if (problemStatus === '已归档') {
+      queueErrors.push(`execution-queue.md cannot schedule archived problem: ${row.id}`);
+    }
+    const expectedPath = `../workflow/${record.path.replace('docs/workflow/', '')}`;
+    if (row.contractPath !== expectedPath) {
+      queueErrors.push(`${row.id} must link to ${expectedPath} from execution-queue.md`);
+    }
+  });
+
+  if (actionableRows.length === 0 && recommendedIds.length !== 1) {
+    queueErrors.push('execution-queue.md game fallback requires exactly one recommended game task');
+  }
+
+  return {
+    errors: queueErrors,
+    currentExecution: actionableRows[0]
+      ? { id: actionableRows[0].id, scope: 'governance' }
+      : { id: recommendedIds[0] ?? '', scope: 'game' },
+  };
+}
+
+function checkGlobalExecutionQueueSamples() {
+  const activeProblem = {
+    id: 'PG-900',
+    path: 'docs/workflow/problems/PG-900-sample.md',
+    text: '# PG-900 Sample\n\n状态：治理中。',
+  };
+  const archivedProblem = {
+    id: 'PG-901',
+    path: 'docs/workflow/problems/PG-901-archived.md',
+    text: '# PG-901 Archived\n\n状态：已归档。',
+  };
+  const baseRow = {
+    priority: 1,
+    id: activeProblem.id,
+    status: 'Ready',
+    type: '治理',
+    goal: 'sample',
+    contractPath: '../workflow/problems/PG-900-sample.md',
+    next: 'fallback',
+  };
+  const sampleText = '## 调度规则\n\n## 活跃治理执行项\n\n## 游戏回退';
+  const positive = globalExecutionQueueErrors(sampleText, [baseRow], [activeProblem], ['TASK-SETTINGS-900']);
+  if (positive.errors.length > 0 || positive.currentExecution.id !== activeProblem.id || positive.currentExecution.scope !== 'governance') {
+    error(`Global execution queue positive sample failed: ${positive.errors.join(' | ')}`);
+  }
+  const fallback = globalExecutionQueueErrors(sampleText, [], [activeProblem], ['TASK-SETTINGS-900']);
+  if (fallback.errors.length > 0 || fallback.currentExecution.id !== 'TASK-SETTINGS-900' || fallback.currentExecution.scope !== 'game') {
+    error(`Global execution queue fallback sample failed: ${fallback.errors.join(' | ')}`);
+  }
+
+  const negativeCases = [
+    { name: 'two Ready items', rows: [baseRow, { ...baseRow, priority: 2, id: 'PG-902', contractPath: '../workflow/problems/PG-902-sample.md' }], records: [activeProblem, { id: 'PG-902', path: 'docs/workflow/problems/PG-902-sample.md', text: '状态：治理中。' }], expected: 'at most one Ready/Blocked' },
+    { name: 'Ready and Blocked', rows: [baseRow, { ...baseRow, priority: 2, status: 'Blocked' }], records: [activeProblem], expected: 'at most one Ready/Blocked' },
+    { name: 'duplicate priority', rows: [baseRow, { ...baseRow, status: 'Planned' }], records: [activeProblem], expected: 'duplicate priorities' },
+    { name: 'non-consecutive priority', rows: [{ ...baseRow, priority: 2 }], records: [activeProblem], expected: 'consecutive from 1' },
+    { name: 'archived problem', rows: [{ ...baseRow, id: archivedProblem.id, contractPath: '../workflow/problems/PG-901-archived.md' }], records: [archivedProblem], expected: 'cannot schedule archived problem' },
+    { name: 'missing problem', rows: [{ ...baseRow, id: 'PG-999', contractPath: '../workflow/problems/PG-999-missing.md' }], records: [activeProblem], expected: 'missing problem record' },
+    { name: 'invalid status', rows: [{ ...baseRow, status: 'Done' }], records: [activeProblem], expected: 'invalid status' },
+  ];
+  for (const sample of negativeCases) {
+    const sampleResult = globalExecutionQueueErrors(sampleText, sample.rows, sample.records, ['TASK-SETTINGS-900']);
+    if (!sampleResult.errors.some((message) => message.includes(sample.expected))) {
+      error(`Global execution queue negative sample did not fail (${sample.name}): ${sample.expected}`);
+    }
+  }
+}
+
+function checkGlobalExecutionQueue(queueText, queueRows, problemRecords, recommendedIds) {
+  const result = globalExecutionQueueErrors(queueText, queueRows, problemRecords, recommendedIds);
+  for (const message of result.errors) error(message);
+  checkGlobalExecutionQueueSamples();
+  return result.currentExecution;
+}
+
 function parseGlossary(markdown) {
   const tableSection = section(markdown, '统一语言表');
   return tableRows(tableSection, /^\|\s*[^|-]/)
@@ -281,6 +407,9 @@ function checkBoardShape(board, taskRows, taskDefinitionIds, taskBlockList) {
   }
   if (board.includes('TASK-DOCS-')) {
     error('task-board.md must not contain TASK-DOCS-* workflow tasks.');
+  }
+  if (!board.includes('execution-queue.md')) {
+    error('task-board.md must route /goal through execution-queue.md before the game Ready task.');
   }
   if (board.includes('docs/tasks/task-generation.md')) {
     error('task-board.md references old path docs/tasks/task-generation.md.');
@@ -687,6 +816,35 @@ function checkFeatureLineRouting(agents, claude, outline, workflowReadme, docume
       error(`${name} must route /goal work through the unique Ready task.`);
     }
   }
+}
+
+function globalExecutionRoutingErrors(routeDocs) {
+  const routingErrors = [];
+  for (const [name, text] of Object.entries(routeDocs)) {
+    if (!text.includes('execution-queue.md')) {
+      routingErrors.push(`${name} must route execution through docs/tasks/execution-queue.md.`);
+    }
+  }
+  if (!routeDocs.agents.includes('存在 `Ready` 或 `Blocked` 治理执行项时只处理该项')
+    || !routeDocs.agentProtocol.includes('禁止在同一次 `/goal` 继续游戏 task')
+    || !routeDocs.outline.includes('实际调度先看 `execution-queue.md`')) {
+    routingErrors.push('Global execution routing must make governance Ready/Blocked preempt game Ready and stop the turn.');
+  }
+  return routingErrors;
+}
+
+function checkGlobalExecutionRouting(routeDocs) {
+  for (const message of globalExecutionRoutingErrors(routeDocs)) error(message);
+  const negativeCases = [
+    { ...routeDocs, agents: routeDocs.agents.replaceAll('execution-queue.md', 'task-board.md') },
+    { ...routeDocs, agentProtocol: routeDocs.agentProtocol.replace('禁止在同一次 `/goal` 继续游戏 task', '可以继续游戏 task') },
+    { ...routeDocs, outline: routeDocs.outline.replace('实际调度先看 `execution-queue.md`', '实际调度先看 `task-board.md`') },
+  ];
+  negativeCases.forEach((negativeCase, index) => {
+    if (globalExecutionRoutingErrors(negativeCase).length === 0) {
+      error(`Global execution routing negative case ${index + 1} must fail validation.`);
+    }
+  });
 }
 
 function checkUtf8ReadingRules(agents, claude, workflowReadme) {
@@ -1228,6 +1386,7 @@ const agents = read(files.agents);
 const readme = read(files.readme);
 const claude = read('CLAUDE.md');
 const outline = read(files.outline);
+const executionQueue = read(files.executionQueue);
 const board = read(files.board);
 const history = read(files.history);
 const featureLinesText = read(files.featureLines);
@@ -1262,6 +1421,7 @@ const inputSystem = read(files.inputSystem);
 const glossary = read(files.glossary);
 const languageProcess = read(files.languageProcess);
 
+const executionQueueRows = parseExecutionQueueRows(executionQueue);
 const taskRows = parseTaskRows(board);
 const featureLines = parseFeatureLineRows(featureLinesText);
 const boardIds = taskRows.map((row) => row.id);
@@ -1283,16 +1443,24 @@ const mechanics = parseMechanics(mechanicsText);
 checkBoardShape(board, taskRows, boardDefinitionIds, taskBlockList);
 const recommendedIds = checkRecommendations(board, taskRows);
 checkFeatureLines(featureLinesText, featureLines, taskRows, recommendedIds);
+const currentExecution = checkGlobalExecutionQueue(
+  executionQueue,
+  executionQueueRows,
+  problemRecords,
+  recommendedIds,
+);
 const { historyRows, historyDefinitionIds } = checkHistory(history, boardIds);
 checkRefs(taskRows, mechanics, verticalSlices);
 checkReadyDependencies(taskRows, mechanics);
 checkStartupRules(agents, outline);
 checkReadingRoutes({ agents, claude, outline, readme, workflowReadme, documentMap, agentProtocol });
+checkGlobalExecutionRouting({ agents, claude, outline, readme, workflowReadme, documentMap, agentProtocol, taskGeneration });
 checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration);
 checkUtf8ReadingRules(agents, claude, workflowReadme);
 checkRegimaRouting(agents, outline, taskBlockList, workflowReadme, documentMap);
 checkWorkflowSeparation(mechanicsText);
 checkGovernanceLog([
+  files.executionQueue,
   files.taskGeneration,
   files.featureLines,
   files.workflowReadme,
@@ -1362,3 +1530,4 @@ console.log('Workflow validation passed.');
 console.log(`- task-board: ${taskRows.length} unfinished tasks, ${boardDefinitionIds.length} definitions`);
 console.log(`- task-history: ${historyRows.length} completed tasks, ${historyDefinitionIds.length} definitions`);
 console.log(`- current recommendations: ${recommendedIds.join(', ')}`);
+console.log(`- current execution: ${currentExecution.id} (${currentExecution.scope})`);
