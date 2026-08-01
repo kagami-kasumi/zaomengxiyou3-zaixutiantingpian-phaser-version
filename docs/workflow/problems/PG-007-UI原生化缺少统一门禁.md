@@ -182,3 +182,4 @@
 | 2026-07-31 | `TASK-SETTINGS-069A` Role1 显示列表门禁 | 适用 | 冻结本体/装备同 cell depth、名字上层、影分身矩阵、P1/P2 HUD 镜像、505 头像/510 五槽/五按钮 owner，并定义 940×590 单人及合法双人逐状态并排/叠图计划；现代例外为空 | 通过 | 真 HUD 背景或逻辑测试不能替代本体/技能逐对象验收；158A 必须删除 placeholder/Arc/Text 回填后才能关闭 Role1 视觉 |
 | 2026-07-31 | `TASK-ARCH-016A` 五关显示列表迁移合同 | 适用 | ADR 逐关冻结 floor/background/foreground/door/HUD/result 根、层级、矩阵、动态 child、命中区与 provenance；现存 placeholder/标题/QA/1-1 借门均未升级为获批例外，禁止新增现代门/暗层/结果页 | 通过 | 016B..D 必须沿用既有 940×590 基准逐状态验收；合同本身不替代运行视觉证据 |
 | 2026-08-01 | `TASK-SLICE-158A` Role1 显示列表实现 | 适用 | 身体/装备同帧双层、影分身、技能对象与既有 574/505/510 HUD 逐对象映射；Role1 projectile 在通用 Arc/Text 前返回真 image，死亡不再用灰色占位；现代可见例外为空 | 通过 | Role1 增量样本未复发；Role2..5 必须分别重复该门禁 |
+| 2026-08-01 | `TASK-SETTINGS-069B` Role2 显示列表门禁 | 适用 | 冻结装备在本体之上、ExceedPower/姓名层、Shadow、P1/P2 镜像与 574/505/510 HUD 映射；逐动作和 11 对象均有原包基准、坐标/层级/生命周期，现代可见例外为空 | 通过 | 158B 不得用 placeholder/Arc/Text 或换装包混合替代启动视觉；须完成单/双人逐状态运行差异证据 |

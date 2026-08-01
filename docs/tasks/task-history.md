@@ -9249,3 +9249,23 @@ Goal：
 
 推荐任务：
 - `TASK-ARCH-016D`：迁移 Stage 1-1/TestScene、自有 character 45/41/44 真门并闭合五关框架与未来模板。
+
+### TASK-SETTINGS-069B
+
+- 完成日期：2026-08-01
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-158B`）
+- 确认启动加载器直接载入 `assets/TangSeng1.swf`；`assets/TangSeng.swf` 与 `assets/SpecialUI/TangSeng.swf` 字节相同且属于动态换装路径，禁止与启动包混作同一视觉 owner。
+- 闭合 12 个 `ROLE2_*` 本体、8 个 `ROLE2_EQUIP_*` 装备、`ROLE2_SHALLDOW`、两普攻与九个已实现技能对象的 Symbol id、帧数、几何、层级、触发、生命周期和 stable key。
+- 闭合本体/装备 6×13 动作表、左右朝向原点、Shadow 五行动作/八秒生命周期、ExceedPower/姓名层与既有 574/505/510 HUD 的显示列表合同；现代可见例外为零。
+- `blb/sjt` 明确为无独立可见对象的控制技能；`Role2KK` 只有字段和清理反证，未补成当前已实现技能资源。
+
+更新文件：
+- `role2-combat-visuals-index.md`、Role2 专项标注批次、既有角色技能/普攻标注。
+- M-019/M-034/M-047、VS-062、功能线覆盖、看板/历史及 PG-005/007/008 反馈。
+
+验证：
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 通过。
+- 本 task 只产出权威实现输入，不宣称 Role2 真视觉已经接入；运行/逐状态双重验收留给 158B。
+
+推荐任务：
+- `TASK-SLICE-158B`：只消费 `TangSeng1.swf` 证据，接入 Role2 本体/装备、Shadow、普攻、已实现技能和附属 UI 真动画。
