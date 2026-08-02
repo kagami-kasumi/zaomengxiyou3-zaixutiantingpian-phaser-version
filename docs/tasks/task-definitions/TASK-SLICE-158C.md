@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Ready）
 
 目标机制/切片：
 
@@ -24,7 +24,7 @@
 
 输入资料：
 
-- `TASK-SETTINGS-069C` 的 Role3 矩阵、选择性导出、现有 Role3 系统/manifest/桥。
+- `role3-combat-visuals-index.md` 的 Role3 六段矩阵、`task-settings-069c-role3` 选择性导出、现有 Role3 系统/manifest/桥；`Role3_hit11` 只作为音效证据，不得生成独立 cast atlas。
 
 输出产物：
 
@@ -59,4 +59,3 @@ UI 原生化合同：
 推荐后续任务：
 
 - `TASK-SETTINGS-069D`。
-

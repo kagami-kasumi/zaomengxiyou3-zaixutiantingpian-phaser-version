@@ -9413,3 +9413,24 @@ Goal：
 
 推荐任务：
 - `TASK-SLICE-158B`：只消费 `TangSeng1.swf` 证据，接入 Role2 本体/装备、Shadow、普攻、已实现技能和附属 UI 真动画。
+
+### TASK-SETTINGS-069C
+
+- 完成日期：2026-08-02
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-158C`）
+- 确认 `assets/BaJie.swf` 与 `assets/SpecialUI/BaJie.swf` SHA-256 相同；普通包作为唯一派生 owner，SpecialUI 只保留加载兼容。
+- 闭合13个 `ROLE3_*` 本体、9个 `ROLE3_EQUIP_*` 装备、三普攻、九主动及盾 buff/拉拽/移动/追踪对象的 Symbol id、帧数、SVG 注册 bounds、创建 tick/点、方向、层级与生命周期。
+- 闭合6×14、300×200动作表、hold tick、左右 origin `(0.55/0.45,0.5)`、装备叠层、Role3根动态盾、574/505 frame3/510 HUD显示列表与940×590单/双人逐状态计划；现代可见例外为零。
+- 纠正 `skill-effect.role3.xgq.hit11-cast`：`Role3_hit11` 是音效名，原版起手视觉来自本体 cell，后续对象为 `Role3Bullet11`；158C应删除独立占位而非派生伪素材。
+
+更新文件：
+- `docs/reverse-engineering/role3-combat-visuals-index.md`
+- Role3专项标注批次、既有角色技能/普攻标注和标注状态台账
+- M-020/M-034/M-047、VS-062、功能线覆盖、看板/历史与PG反馈
+
+验证：
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次任务最终检查。
+- 本 task 只产出权威实现输入，不宣称 Role3 真视觉已经接入；运行/逐状态双重验收留给158C。
+
+推荐任务：
+- `TASK-SLICE-158C`：只消费069C证据，接入Role3本体/装备、HUD映射、普攻、九主动与盾/拉拽/移动/追踪对象真动画。

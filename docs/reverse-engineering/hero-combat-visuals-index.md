@@ -10,7 +10,7 @@
 | --- | --- | --- | --- |
 | Role1 悟空 | `assets/WuKong.swf`、`assets/Role1Effect.swf`、`assets/SpecialUI/WuKong.swf` | 三个独立包均存在；Role1 普攻已有部分现代接入 | 每个本体/装备/技能/附属对象的 Symbol、时间轴和包 owner |
 | Role2 唐僧 | `assets/TangSeng.swf`、`assets/TangSeng1.swf`、`assets/SpecialUI/TangSeng.swf` | 三个独立包均存在 | 两个本体候选包的职责、Shadow 与全部技能对象归属 |
-| Role3 八戒 | `assets/BaJie.swf`、`assets/SpecialUI/BaJie.swf` | 两个独立包均存在 | 本体、装备、盾/拉拽/追踪对象与 UI 的符号边界 |
+| Role3 八戒 | `assets/BaJie.swf`、`assets/SpecialUI/BaJie.swf` | 两包 SHA-256 相同；13 本体、9 装备、3 普攻与全部技能/附属对象已闭合 | 由 `role3-combat-visuals-index.md` 提供 158C 权威输入；禁止重复打包 SpecialUI 副本 |
 | Role4 沙僧 | `assets/ShaShen.swf`、`assets/SpecialUI/ShaShen.swf` | 两个独立包均存在 | 铲/弓双形态、装备层、攻击对象与 UI 的符号边界 |
 | Role5 白龙 | `assets/bailong.swf`、`assets/bailongSword.swf` | 枪/剑候选包分离存在 | 双形态本体、武器层、技能附属对象与战斗 UI 来源 |
 
@@ -69,4 +69,3 @@
 | 双重验证 | 确定性资源/时序测试计划 + 940×590 原版/现代逐状态并排或叠图计划 |
 
 逐角色子任务只有在影响实现的 `未知` 为零、现有标注行已原位更新、实现子任务合同可独立验收时才能归档。五个角色证据与 `158A..E` 实现全部完成前，`VS-062` 继续保持待机制，M-034/M-047 继续保持部分复现。
-
