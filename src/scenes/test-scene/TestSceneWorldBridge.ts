@@ -91,6 +91,7 @@ import {
 } from '../stage11/Stage11MonsterVisualBridge';
 import { projectRole2ShadowFrame } from '../../systems/Role2CombatVisualSystem';
 import { syncHeroCombatVisual } from '../HeroCombatVisualBridge';
+import { projectNormalAttackVisualPoint } from '../HeroCombatVisualCoordinates';
 
 type CapturablePetTargetView = {
   root: Phaser.GameObjects.Container;
@@ -925,21 +926,14 @@ export function updateAttackEffectViews(this: any, time: number): void {
 
       const player = this.playerViews.find((view: any) => view.slot === effectView.slot);
       if (player && player.movement && effectView.attack.followsHero) {
-        const progress = (time - effectView.attack.startedAtMs) /
-          (effectView.attack.endsAtMs - effectView.attack.startedAtMs);
-        const sweep = 28 * Math.min(Math.max(progress, 0), 1);
-        effectView.shape.setPosition(
-          player.sprite.x + effectView.attack.facingX * (78 + sweep),
-          player.sprite.y - 80,
+        const visualPoint = projectNormalAttackVisualPoint(
+          effectView.attack,
+          player.sprite.x,
+          player.sprite.y,
         );
-        effectView.secondaryShape?.setPosition(
-          player.sprite.x + effectView.attack.facingX * (78 + sweep),
-          player.sprite.y - 80,
-        );
-        effectView.label.setPosition(
-          player.sprite.x + effectView.attack.facingX * 54,
-          player.sprite.y - 128,
-        );
+        effectView.shape.setPosition(visualPoint.x, visualPoint.y);
+        effectView.secondaryShape?.setPosition(visualPoint.x, visualPoint.y);
+        effectView.label.setPosition(visualPoint.x, visualPoint.y - 48);
       }
 
       const remainingRatio = (effectView.attack.endsAtMs - time) /

@@ -134,7 +134,7 @@ Role4 没有独立死亡 Symbol；`BaseHero` 死亡路径移除角色显示对�
 ## TASK-SLICE-158D 现代接入与差异证据
 
 - `public/assets/combat/role4/` 保存50张完整本体/装备图表、875个技能/普攻SVG帧、6个娃娃有效cell与16帧共享 `SpeedUp`；HUD frame4落入 `public/assets/ui/combat-hud/portraits/role4.png`。资源目录和manifest完整保留18铲身、18弓身与14装备身份。
-- 当前玩法状态只公开铲/弓模式而未公开任意衣装/装备视觉id，因此 `combat-common` 只预载当前正式装束的铲身0、弓身0、装备0与装备4；其余46张仍由manifest完整编目，待未来换装状态提供明确id后按同一owner选择。这是数据模型映射边界，不是当前装束的可见替代。
+- 当前玩法状态只公开铲/弓模式而未公开任意衣装/装备视觉id，因此 `combat-hero-4` 入场包只预载当前正式装束的铲身0、弓身0、装备0、装备4、普攻和HUD；897帧技能对象由 `combat-hero-4-skills` 在关卡可见后后台加载。其余46张仍由manifest完整编目，待未来换装状态提供明确id后按同一owner选择。这是数据模型映射边界，不是当前装束的可见替代。
 - `Role4CombatVisualSystem/Bridge` 以30fps tick投影6×14 body cell，同步本体/装备、左右origin、动作hold和双形态；死亡直接移除，不使用灰色/tint占位。五普攻与全部已实现技能优先走真序列，MDS毒爆播放20帧，SpeedUp在角色根上层跟随并按16帧循环。
 - 940×590正式QA入口观察到Role4 P1本体/HUD正确显示且console为0；合法 `Role1 + Role4` 双人组合切到P2后，Role4弓形态、本体与P2 HUD正确显示且console为0。保存证据：`local-resources/regima/task-outputs/task-slice-158d-role4/qa/role4-p2-legal-party-arrow-940x590.png`。
 - 确定性门禁核对18+18+14图表、5普攻、22技能序列、MDS、娃娃与SpeedUp共897帧、全部runtime key、origin、hold、HUD与无`missing-original`/Arc/Text回填。用户批准的现代可见例外仍为0。

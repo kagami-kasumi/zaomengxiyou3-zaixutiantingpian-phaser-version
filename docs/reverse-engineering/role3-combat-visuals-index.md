@@ -92,7 +92,7 @@ Role3 没有独立 death Symbol；`BaseHero` 的死亡路径移除显示对象�
 
 ## 158C 现代接入与差异证据
 
-- 单一现代 owner：`combat-common` 只注册 `assets/BaJie.swf` 派生的 Role3 本体/装备、三普攻、12 组技能对象和盾序列；SpecialUI 字节副本没有重复打包，Boot 没有回填战斗资源。
+- 单一现代 owner：`combat-hero-3` 持有入场本体/装备/三普攻/HUD，`combat-hero-3-skills` 持有 12 组技能对象和盾序列；SpecialUI 字节副本没有重复打包，Boot 没有回填战斗资源。
 - 动画映射：`Role3CombatVisualSystem.ts` 保存 6×14 cell、wait/wait2、走跑跳、三普攻、九技能与 hurt hold；`Role3CombatVisualBridge.ts` 保存左右 origin `0.55/0.45`、装备上层、动态名字、盾根局部 `(-20,-80)`、xgq/终结二段隐藏和无 death 补造。
 - 对象映射：29 帧普攻、349 帧技能对象与 19 帧盾均以 SVG bounds 导出的 registration origin 放置；`Role3_hit11` 计时对象明确不创建 Phaser view；tmc 十枚对象保留 36° 环形 rotation。
 - HUD 映射：character 505 frame 3 作为 Role3 头像，由既有 574 HUD 的 P1/P2 镜像、五槽和动态字段 owner 消费，没有新增按钮或现代面板。

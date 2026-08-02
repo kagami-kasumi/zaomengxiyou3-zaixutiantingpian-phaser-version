@@ -1,10 +1,15 @@
 import Phaser from 'phaser';
+import { getHeroCombatAssetBundleIds } from '../assets/SceneAssetBundles';
 import {
   isStage22LocalQaHost,
   readStage22DevOptions,
   readStage22QaOptions,
 } from '../systems/Stage22EntrySystem';
-import { createFormalDevParty } from '../systems/FormalPartyRuntimeSystem';
+import {
+  createFormalDevParty,
+  createFormalPartyRuntime,
+  type FormalPartySceneData,
+} from '../systems/FormalPartyRuntimeSystem';
 import {
   queueSceneAssetBundleForPreload,
   startSceneWithBundle,
@@ -127,7 +132,19 @@ export class BootScene extends Phaser.Scene {
       if (status === 'loading') this.loadingText?.setText(`正在载入 ${bundleId}…`);
       if (status === 'failed') this.loadingText?.setText('目标场景资源载入失败，点击重试');
     };
-    const started = await startSceneWithBundle(this, targetSceneKey, data, feedback);
+    const devParty = (data as FormalPartySceneData).devParty;
+    const heroBundles = devParty
+      ? getHeroCombatAssetBundleIds(
+        createFormalPartyRuntime(devParty, 'dev-override').members.map((member) => member.heroId),
+      )
+      : [];
+    const started = await startSceneWithBundle(
+      this,
+      targetSceneKey,
+      data,
+      feedback,
+      heroBundles,
+    );
     if (!started && this.scene.isActive()) {
       this.input.once('pointerdown', () => void this.startQaScene(targetSceneKey, data));
     }

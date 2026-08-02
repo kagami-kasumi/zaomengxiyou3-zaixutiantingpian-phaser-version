@@ -58,8 +58,9 @@ export async function startSceneWithBundle(
   targetSceneKey: string,
   data?: object,
   feedback?: BundleLoadFeedback,
+  additionalBundleIds: readonly AssetBundleId[] = [],
 ): Promise<boolean> {
-  return transitionWithBundle(scene, targetSceneKey, feedback, () => {
+  return transitionWithBundle(scene, targetSceneKey, feedback, additionalBundleIds, () => {
     scene.scene.start(targetSceneKey, data);
   });
 }
@@ -69,8 +70,9 @@ export async function launchSceneWithBundle(
   targetSceneKey: string,
   data?: object,
   feedback?: BundleLoadFeedback,
+  additionalBundleIds: readonly AssetBundleId[] = [],
 ): Promise<boolean> {
-  return transitionWithBundle(scene, targetSceneKey, feedback, () => {
+  return transitionWithBundle(scene, targetSceneKey, feedback, additionalBundleIds, () => {
     scene.scene.launch(targetSceneKey, data);
   });
 }
@@ -79,6 +81,7 @@ async function transitionWithBundle(
   scene: Phaser.Scene,
   targetSceneKey: string,
   feedback: BundleLoadFeedback | undefined,
+  additionalBundleIds: readonly AssetBundleId[],
   transition: () => void,
 ): Promise<boolean> {
   let transitions = pendingTransitions.get(scene);
@@ -91,6 +94,9 @@ async function transitionWithBundle(
   try {
     const bundleId = getSceneAssetBundleId(targetSceneKey);
     if (bundleId) await ensureSceneAssetBundle(scene, bundleId, feedback);
+    for (const additionalBundleId of additionalBundleIds) {
+      await ensureSceneAssetBundle(scene, additionalBundleId, feedback);
+    }
     if (!scene.scene.isActive(scene.scene.key)) return false;
     transition();
     return true;

@@ -15,6 +15,7 @@ import {
   Role3BodyAnimations,
   type Role3BodyAction,
 } from '../systems/Role3CombatVisualSystem';
+import { projectHeroVisualRootY } from './HeroCombatVisualCoordinates';
 
 export type Role3CombatVisual = {
   anchor: Phaser.GameObjects.Image;
@@ -40,21 +41,22 @@ export function createRole3CombatVisual(
 ): Role3CombatVisual | undefined {
   if (heroId !== 3) return undefined;
   anchor.setVisible(false);
-  const body = scene.add.sprite(anchor.x, anchor.y, Role3CombatAssetKeys.body, 0)
+  const rootY = projectHeroVisualRootY(anchor.y);
+  const body = scene.add.sprite(anchor.x, rootY, Role3CombatAssetKeys.body, 0)
     .setOrigin(0.55, 0.5)
     .setDepth(anchor.depth);
-  const equipment = scene.add.sprite(anchor.x, anchor.y, Role3CombatAssetKeys.equipment, 0)
+  const equipment = scene.add.sprite(anchor.x, rootY, Role3CombatAssetKeys.equipment, 0)
     .setOrigin(0.55, 0.5)
     .setDepth(anchor.depth + 0.01);
   const shieldBuff = scene.add.image(
     anchor.x - 20,
-    anchor.y - 80,
+    rootY - 80,
     role3ShieldBuffAsset.frameKeys[0]!,
   ).setOrigin(
     role3ShieldBuffAsset.registrationOrigin.x,
     role3ShieldBuffAsset.registrationOrigin.y,
   ).setDepth(anchor.depth + 0.02).setVisible(false);
-  const name = scene.add.text(anchor.x - 30, anchor.y - 90, anchor.name || '八戒', {
+  const name = scene.add.text(anchor.x - 30, rootY - 90, anchor.name || '八戒', {
     color: '#ff0000',
     fontFamily: '"FZCuYuan-M03", sans-serif',
     fontSize: '16px',
@@ -104,7 +106,7 @@ export function syncRole3CombatVisual(
   const frame = readRole3HeldFrame(sequence, Math.max(0, timeMs - startedAtMs));
   const facingX = input.movement?.facingX ?? input.normalAttack.activeAttack?.facingX ?? 1;
   const x = input.movement?.x ?? visual.anchor.x;
-  const y = input.movement?.y ?? visual.anchor.y;
+  const y = projectHeroVisualRootY(input.movement?.y ?? visual.anchor.y);
   const hidden = isRole3XgqHidden(input.runtime) || input.runtime.ultimate?.stage === 'released';
   const visible = input.combat.state !== 'dead' && !hidden;
   const originX = facingX > 0 ? 0.55 : 0.45;

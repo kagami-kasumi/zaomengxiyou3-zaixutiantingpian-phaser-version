@@ -45,7 +45,10 @@ const expectedKeys = Object.values(SkillProjectileEffectKeys).filter((key) => ke
 for (const key of expectedKeys) {
   assert.ok(key in role1SkillVisualAssets, `${key} must not fall back to Arc/Text placeholders`);
 }
-const combatBundleKeys = new Set(sceneAssetBundles['combat-common'].assets.map((asset) => asset.key));
+const combatBundleKeys = new Set([
+  ...sceneAssetBundles['combat-hero-1'].assets,
+  ...sceneAssetBundles['combat-hero-1-skills'].assets,
+].map((asset) => asset.key));
 for (const atlas of Object.values(role1CombatAtlases)) assert.ok(combatBundleKeys.has(atlas.key));
 for (const asset of Object.values(role1SkillVisualAssets)) {
   for (const frameKey of asset.frameKeys) assert.ok(combatBundleKeys.has(frameKey));
@@ -55,6 +58,16 @@ const viewsSource = readFileSync(
   path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneViews.ts'),
   'utf8',
 );
+const role1BridgeSource = readFileSync(
+  path.join(repoRoot, 'src', 'scenes', 'Role1CombatVisualBridge.ts'),
+  'utf8',
+);
+assert.doesNotMatch(
+  role1BridgeSource,
+  /setAlpha\(visual\.anchor\.alpha\)/,
+  'hidden placeholder alpha must not make the native Role1 body disappear after one frame',
+);
+assert.match(role1BridgeSource, /setAlpha\(visible \? 1 : 0\)/);
 assert.match(viewsSource, /const frameAsset = role1Asset \?\? role2Asset/);
 assert.match(viewsSource, /if \(frameAsset\)/, 'true hero frames must branch before generic projectile shapes');
 assert.match(viewsSource, /scene\.add\.image\(projectile\.x, projectile\.y, frameAsset\.frameKeys\[0\]!\)/);

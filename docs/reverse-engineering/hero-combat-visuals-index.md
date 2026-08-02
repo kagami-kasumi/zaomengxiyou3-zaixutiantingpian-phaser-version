@@ -69,3 +69,16 @@
 | 双重验证 | 确定性资源/时序测试计划 + 940×590 原版/现代逐状态并排或叠图计划 |
 
 逐角色子任务只有在影响实现的 `未知` 为零、现有标注行已原位更新、实现子任务合同可独立验收时才能归档。五个角色证据与 `158A..E` 实现全部完成前，`VS-062` 继续保持待机制，M-034/M-047 继续保持部分复现。
+
+## 2026-08-02 正式旅程反馈复核
+
+用户在五角色接入后报告三个运行反证：首次进入关卡超过一分钟、人物中心落在地面、普攻对象与人物分离且偶发不可见。既有“逐角色视觉已复现”结论对资源时机和现代坐标桥接降级为待复核；原始 Symbol、帧序和 AS3 行为证据不受影响。
+
+| 行为合同项 | 局部证据 | 共享调用链 | 几何/坐标证据 | 证据等级 | 反证与修正 | 验证 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 人物落地 | 五角色 `BaseBitmapDataClip` + 现代 `HeroMovementModel` | `LevelHeroMovementSystem -> movement.y -> HeroCombatVisualBridge` | 原版角色 world 根是 `50×100 ObjectBaseSprite`；现代 `movement.y` 是平台顶/脚底，显示根必须为 `footY - 50`，再叠加各角色既有 BBDC offset/origin | 交叉确认 | 旧桥接把脚底直接当原版根，导致人物中心落地；现由 `projectHeroVisualRootY` 统一投影 | 纯坐标测试 + 940×590 落地画面 |
+| 普攻挂点 | Role1..5 逐角色文档的普攻创建点 | `HeroNormalAttackSystem -> TestSceneViews -> updateAttackEffectViews` | 每段使用原版相对角色根的 forward/y；Follow 更新必须复用相同点，禁止统一 `前方82/y-80` 或每帧 sweep 覆盖 | 交叉确认 | 旧通用值会让大画布跳离人物或移出视野；Role1/2 另补 union bounds 推导的 registration origin | 逐段坐标测试 + 实际按键帧 + 零缺纹理日志 |
+| 入场资源边界 | `SceneAssetBundles`、五角色现代 manifest | `startSceneWithBundle -> AssetBundleCoordinator -> PlayableLevelRuntime` | 不适用原版坐标；这是现代性能 owner | 现代设计选择 | 旧 `combat-common` 强制载入五人约三千文件；V2 按活动角色加载本体/装备/HUD/普攻，技能视觉在关卡可见后由角色技能子包后台加载 | bundle owner/依赖测试 + 冷入口计时 + console |
+| Role1 偶发消失 | `Role1CombatVisualBridge` | 公共 `updatePlayerCombatVisual` 隐藏 placeholder anchor 后，Role1 下一帧再次同步 | 真 body/equipment 与 placeholder 只是 sibling bridge，不共享可见 alpha | 确认事实 | 旧实现复制 `visual.anchor.alpha`，首帧后必变为0；真层现按角色存活状态保持 alpha=1 | 专项负向断言 + 双人连续帧观察 |
+
+本轮 940×590 `Role4` 冷入口在同机 preview 上由约 `41.8s` 降至约 `6.5s`；人物脚底与平台顶重合，普攻对象保持在武器/人物附近，console warning/error 为 0。技能大序列继续保持唯一 owner，不回填 Boot；后台加载失败只在场景仍活动时报告，正常离场取消不制造错误日志。

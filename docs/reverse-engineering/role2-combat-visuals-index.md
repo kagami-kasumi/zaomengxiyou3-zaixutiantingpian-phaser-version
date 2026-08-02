@@ -96,9 +96,9 @@ Shadow offset 为 `(15,-5)`，左右 origin 为 `(0.575,0.525)` / `(0.425,0.525)
 | 普攻/技能 | `enterFrameFunc/doHit*/showSkill` | `BaseBullet/SpecialEffectBullet/EnemyMoveBullet` | 11 Symbol/id/帧/bounds/世界生成点 | 交叉确认 | 影响实现未知 0 | 触发 tick、销毁、禁止占位 + 逐技能叠图 |
 | Shadow | `Role2Shadow.as`、`Role2.doHit10` | game scene、主角色 step/destroy | 800×1000、4×5、offset/origin | 交叉确认 | `waik` 仅为源码拼写事实，不影响可见 row0 | 8s/协同/传送/销毁测试 + 运行观察 |
 | 头顶/HUD | `Role2` 构造器、`ExceedPower`、`RoleInfo` | hero properties、player skill slots、GameInfo lifecycle | 50×100 根、蓄力条/名字局部坐标、574/505/510 | 交叉确认 | 允许现代例外 0 | 显示列表门禁 + P1/P2 940×590 |
-| 现代映射 | 既有 Role2 systems/manifest stable key | `combat-common` 资源 bundle、动画/view bridge（158B） | 本文为唯一 origin/帧输入 | 现代设计选择 | 行为数值、伤害窗口、存档 owner禁止改动 | 专项、全系统、build、annotations/workflow |
+| 现代映射 | 既有 Role2 systems/manifest stable key | `combat-hero-2` 入场包、`combat-hero-2-skills` 后台技能包与动画/view bridge | 本文为唯一 origin/帧输入 | 现代设计选择 | 行为数值、伤害窗口、存档 owner禁止改动 | 专项、全系统、build、annotations/workflow |
 
-选择性派生物位于 `local-resources/regima/task-outputs/task-settings-069b-role2/`，仅作为 Git 忽略的证据输入。现代 Git owner 已落到 `public/assets/combat/role2/`、`public/assets/ui/combat-hud/portraits/role2.png`、`AssetManifest` 与 `combat-common`；行为与真视觉现均已复现。影响本角色接入的未知为零，Role3..5 与宠物视觉不在本文结论范围内。
+选择性派生物位于 `local-resources/regima/task-outputs/task-settings-069b-role2/`，仅作为 Git 忽略的证据输入。现代 Git owner 已落到 `public/assets/combat/role2/`、`public/assets/ui/combat-hud/portraits/role2.png`、`AssetManifest` 与 Role2 两级 bundle；行为与真视觉现均已复现。影响本角色接入的未知为零，Role3..5 与宠物视觉不在本文结论范围内。
 
 ## 158B / 162 现代映射与最终验收
 
@@ -106,7 +106,7 @@ Shadow offset 为 `(15,-5)`，左右 origin 为 `(0.575,0.525)` / `(0.425,0.525)
 | --- | --- | --- |
 | 本体 / 装备 / 头顶层 | `Role2CombatVisualSystem.ts`、`Role2CombatVisualBridge.ts`、`role2CombatAtlases` | 1200×2600、200×200 cell、13 行 hold（含 `wait→wait2` 循环与蓄力普攻 `hit2` 同行）、body→equip 层级、左右 origin、唐僧姓名与 50×9 红框/48×7 绿填充 ExceedPower 均按合同接入；现代调试标签对 Role2 隐藏，死亡立即移除且无 tint/alpha 占位 |
 | 两段普攻 | `role2NormalAttackAssets`、`TestSceneViews.createAttackEffectView` | 两个 stable key 共 48 帧由真 image 序列优先于 Arc/Text；方向镜像、帧推进和生命周期继续消费既有攻击模型 |
-| 九技能 / Shadow | `role2SkillVisualAssets`、`Role2CombatAssetKeys.shadow`、`Role2ShadowAnimations`、`TestSceneViews.createProjectileEffectView` | 九对象 464 帧与 800×1000 Shadow atlas 全部进入 `combat-common`；Shadow row0 循环及 `xbz/myhc/tjgl/jhsj` 对应 row1..4 的 hold/动作结束销毁均有确定性门禁，默认 walk 保持 8s 超时；`blb/sjt` 保持无独立可见对象，未知/现代例外均为 0 |
+| 九技能 / Shadow | `role2SkillVisualAssets`、`Role2CombatAssetKeys.shadow`、`Role2ShadowAnimations`、`TestSceneViews.createProjectileEffectView` | 九对象 464 帧与 800×1000 Shadow atlas 由 `combat-hero-2-skills` 唯一持有并在关卡可见后后台加载；Shadow row0 循环及 `xbz/myhc/tjgl/jhsj` 对应 row1..4 的 hold/动作结束销毁均有确定性门禁，默认 walk 保持 8s 超时；`blb/sjt` 保持无独立可见对象，未知/现代例外均为 0 |
 | HUD | `combatHudAssets.role2Portrait`、`Stage1CombatHudSystem/Bridge` | character 505 frame 2 唐僧头像以 PNG image 加载；P1 正向、P2 镜像，五槽与 HP/MP/EXP owner 未改变 |
 
 940×590 运行验收：

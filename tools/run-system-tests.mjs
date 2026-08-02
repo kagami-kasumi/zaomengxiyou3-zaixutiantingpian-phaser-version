@@ -31,6 +31,7 @@ const bundledTests = requestedTests.length > 0
       'stage1-hud-tests',
       'role1-combat-visual-tests',
       'role2-combat-visual-tests',
+      'hero-combat-visual-coordinate-tests',
       'stage-feature-entry-tests',
       'save-slot-tests',
       'heaven-map-tests',

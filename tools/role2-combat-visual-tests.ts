@@ -53,8 +53,11 @@ for (const key of Object.values(SkillProjectileEffectKeys).filter((candidate) =>
   assert.ok(key in role2SkillVisualAssets, `${key} must not fall back to Arc/Text placeholders`);
 }
 
-const combatBundleKeys = new Set(sceneAssetBundles['combat-common'].assets.map((asset) => asset.key));
-const role2PortraitBundleAsset = sceneAssetBundles['combat-common'].assets
+const combatBundleKeys = new Set([
+  ...sceneAssetBundles['combat-hero-2'].assets,
+  ...sceneAssetBundles['combat-hero-2-skills'].assets,
+].map((asset) => asset.key));
+const role2PortraitBundleAsset = sceneAssetBundles['combat-hero-2'].assets
   .find((asset) => asset.key === CombatHudAssetKeys.role2Portrait);
 assert.equal(role2PortraitBundleAsset?.kind, 'image', 'Role2 PNG portrait must use the image loader');
 for (const atlas of Object.values(role2CombatAtlases)) assert.ok(combatBundleKeys.has(atlas.key));
@@ -101,7 +104,7 @@ const visualBridgeSource = readFileSync(
   'utf8',
 );
 assert.match(visualBridgeSource, /rectangle\(anchor\.x, anchor\.y - 70, 50, 9/);
-assert.match(visualBridgeSource, /text\(anchor\.x, anchor\.y - 90, '唐僧'/);
+assert.match(visualBridgeSource, /text\(anchor\.x, rootY - 90, '唐僧'/);
 assert.match(visualBridgeSource, /fontFamily: '\"FZCuYuan-M03\", sans-serif'/);
 assert.match(visualBridgeSource, /strokeThickness: 5/);
 assert.match(visualBridgeSource, /setDisplaySize\(48 \* state\.progress, 7\)/);

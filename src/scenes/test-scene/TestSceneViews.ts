@@ -1,6 +1,7 @@
 ﻿// boundary: view factories create Phaser display objects only; they do not own
 // gameplay state transitions.
 import Phaser from 'phaser';
+import { projectNormalAttackVisualPoint } from '../HeroCombatVisualCoordinates';
 import {
   PickupAssetKeys,
   pickupAssets,
@@ -231,6 +232,7 @@ export function createAttackEffectView(
   effectColor: number,
   role5SwordEnhanced = false,
 ): AttackEffectView {
+  const visualPoint = projectNormalAttackVisualPoint(attack, player.x, player.y);
   const role5Asset = getRole5NormalAttackVisualAsset(attack.effectKey, role5SwordEnhanced);
   const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets]
     ?? role2NormalAttackAssets[attack.effectKey as keyof typeof role2NormalAttackAssets]
@@ -240,26 +242,36 @@ export function createAttackEffectView(
   const role3Asset = role3NormalAttackAssets[
     attack.effectKey as keyof typeof role3NormalAttackAssets
   ];
+  const role1Asset = role1NormalAttackAssets[
+    attack.effectKey as keyof typeof role1NormalAttackAssets
+  ];
+  const role2Asset = role2NormalAttackAssets[
+    attack.effectKey as keyof typeof role2NormalAttackAssets
+  ];
   const role4Asset = role4NormalAttackAssets[
     attack.effectKey as keyof typeof role4NormalAttackAssets
   ];
   const suppressMissingRole5RunEffect = attack.effectKey === HeroNormalAttackEffectKeys.role5SpearRunMissing;
   const shape = frameAsset
     ? scene.add.image(
-      player.x + attack.facingX * 82,
-      player.y - 80,
+      visualPoint.x,
+      visualPoint.y,
       frameAsset.frameKeys[0],
     ).setFlipX(attack.facingX < 0)
       .setOrigin(
-        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x ?? role5Asset?.registrationOrigin.x ?? 0.5,
-        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y ?? role5Asset?.registrationOrigin.y ?? 0.5,
+        role1Asset?.registrationOrigin.x ?? role2Asset?.registrationOrigin.x
+          ?? role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x
+          ?? role5Asset?.registrationOrigin.x ?? 0.5,
+        role1Asset?.registrationOrigin.y ?? role2Asset?.registrationOrigin.y
+          ?? role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y
+          ?? role5Asset?.registrationOrigin.y ?? 0.5,
       )
     : suppressMissingRole5RunEffect
     ? scene.add.ellipse(player.x, player.y, 1, 1, 0xffffff, 0)
     : attack.followsHero
-    ? scene.add.ellipse(player.x + attack.facingX * 82, player.y - 80, 86, 36, effectColor, 0.35)
-    : scene.add.rectangle(player.x + attack.facingX * 105, player.y - 82, 102, 42, effectColor, 0.28);
-  const label = scene.add.text(player.x + attack.facingX * 54, player.y - 128, frameAsset || suppressMissingRole5RunEffect ? '' : attack.actionName, {
+    ? scene.add.ellipse(visualPoint.x, visualPoint.y, 86, 36, effectColor, 0.35)
+    : scene.add.rectangle(visualPoint.x, visualPoint.y, 102, 42, effectColor, 0.28);
+  const label = scene.add.text(visualPoint.x, visualPoint.y - 48, frameAsset || suppressMissingRole5RunEffect ? '' : attack.actionName, {
     color: '#f3f6ff',
     fontFamily: 'Arial, sans-serif',
     fontSize: '13px',
@@ -273,7 +285,7 @@ export function createAttackEffectView(
     ? role5NormalAttackAssets[HeroNormalAttackEffectKeys.role5SwordHit4]
     : undefined;
   const secondaryShape = role5BaseAsset
-    ? scene.add.image(player.x + attack.facingX * 82, player.y - 80, role5BaseAsset.frameKeys[0]!)
+    ? scene.add.image(visualPoint.x, visualPoint.y, role5BaseAsset.frameKeys[0]!)
       .setFlipX(attack.facingX < 0)
       .setOrigin(role5BaseAsset.registrationOrigin.x, role5BaseAsset.registrationOrigin.y)
     : undefined;

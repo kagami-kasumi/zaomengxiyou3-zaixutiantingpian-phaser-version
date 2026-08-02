@@ -14,6 +14,7 @@ import {
   Role5SwordBodyAnimations,
   role5ActionUsesSword,
 } from '../systems/Role5CombatVisualSystem';
+import { projectHeroVisualRootY } from './HeroCombatVisualCoordinates';
 
 type SequenceImage = {
   image: Phaser.GameObjects.Image;
@@ -52,11 +53,12 @@ export function createRole5CombatVisual(
 ): Role5CombatVisual | undefined {
   if (heroId !== 5) return undefined;
   anchor.setVisible(false);
-  const body = scene.add.sprite(anchor.x, anchor.y, role5SpearBodyFamilyAssets.body0.key, 0)
+  const rootY = projectHeroVisualRootY(anchor.y);
+  const body = scene.add.sprite(anchor.x, rootY, role5SpearBodyFamilyAssets.body0.key, 0)
     .setDepth(anchor.depth);
-  const equipment = scene.add.sprite(anchor.x, anchor.y, role5SpearBodyFamilyAssets.equipment0.key, 0)
+  const equipment = scene.add.sprite(anchor.x, rootY, role5SpearBodyFamilyAssets.equipment0.key, 0)
     .setDepth(anchor.depth + 0.01);
-  const name = scene.add.text(anchor.x - 30, anchor.y - 90, anchor.name || '白龙', {
+  const name = scene.add.text(anchor.x - 30, rootY - 90, anchor.name || '白龙', {
     color: '#ff0000',
     fontFamily: '"FZCuYuan-M03", sans-serif',
     fontSize: '16px',
@@ -67,7 +69,7 @@ export function createRole5CombatVisual(
   const sequence = (key: keyof typeof role5SkillVisualAssets, depth: number): SequenceImage => {
     const asset = role5SkillVisualAssets[key];
     return {
-      image: scene.add.image(anchor.x, anchor.y, asset.frameKeys[0]!)
+      image: scene.add.image(anchor.x, rootY, asset.frameKeys[0]!)
         .setOrigin(asset.registrationOrigin.x, asset.registrationOrigin.y)
         .setVisible(false)
         .setDepth(depth),
@@ -129,7 +131,7 @@ export function syncRole5CombatVisual(
   const usesSword = role5ActionUsesSword(action, input.normalAttack.weaponMode);
   const facingX = input.movement?.facingX ?? input.normalAttack.activeAttack?.facingX ?? 1;
   const x = input.movement?.x ?? visual.anchor.x;
-  const y = input.movement?.y ?? visual.anchor.y;
+  const y = projectHeroVisualRootY(input.movement?.y ?? visual.anchor.y);
   const visible = input.combat.state !== 'dead';
   if (usesSword) {
     const sequence = Role5SwordBodyAnimations[action] ?? Role5SwordBodyAnimations.wait!;
@@ -217,8 +219,8 @@ function syncTeleportLayers(
   }
   const elapsed = timeMs - visual.teleportStartedAtMs;
   const active = Boolean(teleport) && elapsed < 500;
-  syncSequence(visual.escapeBefore, elapsed, teleport?.fromX ?? 0, (teleport?.fromY ?? 0) + 58, facingX, heroVisible && active);
-  syncSequence(visual.escapeAfter, elapsed, teleport?.x ?? 0, teleport?.y ?? 0, facingX, heroVisible && active);
+  syncSequence(visual.escapeBefore, elapsed, teleport?.fromX ?? 0, projectHeroVisualRootY(teleport?.fromY ?? 0) + 58, facingX, heroVisible && active);
+  syncSequence(visual.escapeAfter, elapsed, teleport?.x ?? 0, projectHeroVisualRootY(teleport?.y ?? 0), facingX, heroVisible && active);
 }
 
 function syncSequence(

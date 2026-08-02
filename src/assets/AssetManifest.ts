@@ -34,6 +34,7 @@ export type FrameSequenceAssetDefinition = {
   source: 'extracted-flash';
   sourcePackage: string;
   sourceSymbol: string;
+  registrationOrigin?: Readonly<{ x: number; y: number }>;
 };
 
 type ExtractedStageSequenceAssetDefinition = FrameSequenceAssetDefinition & {
@@ -2225,7 +2226,11 @@ export function getSkillNativeButtonAsset(
   return skillNativeButton(characterId, state);
 }
 
-function createRole1NormalAttackFrames(symbol: string, frameCount: number) {
+function createRole1NormalAttackFrames(
+  symbol: string,
+  frameCount: number,
+  registrationOrigin: Readonly<{ x: number; y: number }>,
+) {
   const folder = symbol.replace('Role1Bullet', 'role1-bullet');
   return {
     key: HeroNormalAttackEffectKeys[`role1Hit${symbol.slice(-1)}` as keyof Pick<
@@ -2241,14 +2246,15 @@ function createRole1NormalAttackFrames(symbol: string, frameCount: number) {
     source: 'extracted-flash',
     sourcePackage: 'WuKong.swf',
     sourceSymbol: symbol,
+    registrationOrigin,
   } as const;
 }
 
 export const role1NormalAttackAssets = {
-  [HeroNormalAttackEffectKeys.role1Hit1]: createRole1NormalAttackFrames('Role1Bullet1', 8),
-  [HeroNormalAttackEffectKeys.role1Hit3]: createRole1NormalAttackFrames('Role1Bullet3', 11),
-  [HeroNormalAttackEffectKeys.role1Hit4]: createRole1NormalAttackFrames('Role1Bullet4', 4),
-  [HeroNormalAttackEffectKeys.role1Hit5]: createRole1NormalAttackFrames('Role1Bullet5', 4),
+  [HeroNormalAttackEffectKeys.role1Hit1]: createRole1NormalAttackFrames('Role1Bullet1', 8, { x: 40 / 207, y: 25 / 89 }),
+  [HeroNormalAttackEffectKeys.role1Hit3]: createRole1NormalAttackFrames('Role1Bullet3', 11, { x: 208.45 / 380, y: 53.25 / 295 }),
+  [HeroNormalAttackEffectKeys.role1Hit4]: createRole1NormalAttackFrames('Role1Bullet4', 4, { x: 15.95 / 379, y: 18.65 / 83 }),
+  [HeroNormalAttackEffectKeys.role1Hit5]: createRole1NormalAttackFrames('Role1Bullet5', 4, { x: 70.5 / 390, y: 6.95 / 73 }),
 } as const satisfies Record<string, FrameSequenceAssetDefinition>;
 
 export const role1CombatAtlases = {
@@ -2390,12 +2396,14 @@ function createRole2EffectFrames(
 }
 
 export const role2NormalAttackAssets = {
-  [HeroNormalAttackEffectKeys.role2Hit1]: createRole2EffectFrames(
-    HeroNormalAttackEffectKeys.role2Hit1, 274, 'Role2Bullet1', 24,
-  ),
-  [HeroNormalAttackEffectKeys.role2Hit2]: createRole2EffectFrames(
-    HeroNormalAttackEffectKeys.role2Hit2, 232, 'Role2Bullet2', 24,
-  ),
+  [HeroNormalAttackEffectKeys.role2Hit1]: {
+    ...createRole2EffectFrames(HeroNormalAttackEffectKeys.role2Hit1, 274, 'Role2Bullet1', 24),
+    registrationOrigin: { x: 493 / 592, y: 94.95 / 180 },
+  },
+  [HeroNormalAttackEffectKeys.role2Hit2]: {
+    ...createRole2EffectFrames(HeroNormalAttackEffectKeys.role2Hit2, 232, 'Role2Bullet2', 24),
+    registrationOrigin: { x: 1289 / 1414, y: 130 / 259 },
+  },
 } as const satisfies Record<string, FrameSequenceAssetDefinition>;
 
 export const role2CombatAtlases = {

@@ -10,6 +10,7 @@ import {
   Role2BodyAnimations,
   type Role2BodyAction,
 } from '../systems/Role2CombatVisualSystem';
+import { projectHeroVisualRootY } from './HeroCombatVisualCoordinates';
 
 export type Role2CombatVisual = Readonly<{
   anchor: Phaser.GameObjects.Image;
@@ -34,10 +35,11 @@ export function createRole2CombatVisual(
 ): Role2CombatVisual | undefined {
   if (heroId !== 2) return undefined;
   anchor.setVisible(false);
-  const body = scene.add.sprite(anchor.x + 15, anchor.y, Role2CombatAssetKeys.body, 0)
+  const rootY = projectHeroVisualRootY(anchor.y);
+  const body = scene.add.sprite(anchor.x + 15, rootY, Role2CombatAssetKeys.body, 0)
     .setOrigin(0.425, 0.5)
     .setDepth(anchor.depth);
-  const equipment = scene.add.sprite(anchor.x + 15, anchor.y, Role2CombatAssetKeys.equipment, 0)
+  const equipment = scene.add.sprite(anchor.x + 15, rootY, Role2CombatAssetKeys.equipment, 0)
     .setOrigin(0.425, 0.5)
     .setDepth(anchor.depth + 0.01);
   const chargeFrame = scene.add.rectangle(anchor.x, anchor.y - 70, 50, 9, 0x000000, 0)
@@ -48,7 +50,7 @@ export function createRole2CombatVisual(
     .setOrigin(0, 0.5)
     .setDepth(anchor.depth + 0.021)
     .setVisible(false);
-  const name = scene.add.text(anchor.x, anchor.y - 90, '唐僧', {
+  const name = scene.add.text(anchor.x, rootY - 90, '唐僧', {
     color: '#ff0000',
     fontFamily: '"FZCuYuan-M03", sans-serif',
     fontSize: '16px',
@@ -101,7 +103,7 @@ export function syncRole2CombatVisual(
   const facingX = input.movement?.facingX ?? input.normalAttack.activeAttack?.facingX ?? 1;
   const originX = facingX < 0 ? 0.575 : 0.425;
   const x = (input.movement?.x ?? visual.anchor.x) + 15;
-  const y = input.movement?.y ?? visual.anchor.y;
+  const y = projectHeroVisualRootY(input.movement?.y ?? visual.anchor.y);
   const visible = input.combat.state !== 'dead';
   for (const layer of [visual.body, visual.equipment]) {
     layer.setPosition(x, y)

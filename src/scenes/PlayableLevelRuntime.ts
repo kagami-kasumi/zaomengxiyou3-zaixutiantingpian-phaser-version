@@ -1,5 +1,9 @@
 import Phaser from 'phaser';
 import { AssetKeys } from '../assets/AssetManifest';
+import {
+  getHeroCombatAssetBundleIds,
+  getHeroCombatSkillAssetBundleIds,
+} from '../assets/SceneAssetBundles';
 import type { LevelUnlockProgress } from '../systems/LevelLifecycleSystem';
 import {
   createFormalPartyRetryData,
@@ -11,7 +15,7 @@ import {
 } from '../systems/PlayableLevelDefinition';
 import { installFormalFeatureUiEntries } from './feature-ui/FormalFeatureUiEntryBridge';
 import { createLevelResultStats, markLevelResultStarted, showLevelResult } from './LevelResultView';
-import { startSceneWithBundle } from './SceneAssetBundleBridge';
+import { ensureSceneAssetBundle, startSceneWithBundle } from './SceneAssetBundleBridge';
 import type { TransferDoorView } from './TransferDoorView';
 import { createHeroCombatVisual } from './HeroCombatVisualBridge';
 
@@ -111,6 +115,16 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
       }
       encounter = factories.createEncounter(scene, playerCount, playerViews, world);
       installFormalFeatureUiEntries(scene, { originKind: 'combat', party: partyRuntime.party });
+      const heroIds = partyRuntime.members.map((member) => member.heroId);
+      void Promise.all(
+        getHeroCombatSkillAssetBundleIds(heroIds).map(
+          (bundleId) => ensureSceneAssetBundle(scene, bundleId),
+        ),
+      ).catch((error: unknown) => {
+        if (scene.scene.isActive(scene.scene.key)) {
+          console.error('Unable to load background hero skill visuals.', error);
+        }
+      });
     },
     update: (deltaMs) => {
       if (!encounter || resultOverlay) return;
@@ -126,7 +140,13 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
         stats: createLevelResultStats(scene),
         unlockProgress: encounter.unlockProgress(),
         onRetry: () => scene.scene.restart(retryData),
-        onNext: () => void startSceneWithBundle(scene, definition.routes.next, retryData),
+        onNext: () => void startSceneWithBundle(
+          scene,
+          definition.routes.next,
+          retryData,
+          undefined,
+          getHeroCombatAssetBundleIds(partyRuntime.members.map((member) => member.heroId)),
+        ),
         onBack: () => void startSceneWithBundle(scene, definition.routes.back),
       });
     },

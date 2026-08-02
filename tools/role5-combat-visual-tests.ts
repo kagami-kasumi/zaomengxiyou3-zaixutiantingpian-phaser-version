@@ -87,7 +87,10 @@ for (const key of [
   SkillProjectileEffectKeys.role5JrjlShot,
 ]) assert.ok(getRole5SkillVisualAsset(key, ''), `${key} must not use a placeholder projectile`);
 
-const combatBundleKeys = new Set(sceneAssetBundles['combat-common'].assets.map((asset) => asset.key));
+const combatBundleKeys = new Set([
+  ...sceneAssetBundles['combat-hero-5'].assets,
+  ...sceneAssetBundles['combat-hero-5-skills'].assets,
+].map((asset) => asset.key));
 for (const asset of [role5SpearBodyFamilyAssets.body0, role5SpearBodyFamilyAssets.equipment0]) {
   assert.ok(combatBundleKeys.has(asset.key));
 }
@@ -95,7 +98,7 @@ for (const asset of [...Object.values(role5NormalAttackAssets), ...Object.values
   for (const key of asset.frameKeys) assert.ok(combatBundleKeys.has(key));
 }
 assert.equal(
-  sceneAssetBundles['combat-common'].assets.find((asset) => asset.key === CombatHudAssetKeys.role5Portrait)?.kind,
+  sceneAssetBundles['combat-hero-5'].assets.find((asset) => asset.key === CombatHudAssetKeys.role5Portrait)?.kind,
   'image',
 );
 

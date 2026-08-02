@@ -28,6 +28,10 @@ const requiredBundles = [
   'feature-ui-skills-common',
   'feature-ui-skills-hero-1',
   'feature-ui-skills-hero-5',
+  'combat-hero-1',
+  'combat-hero-5',
+  'combat-hero-1-skills',
+  'combat-hero-5-skills',
   'stage-11',
   'stage-1-monsters',
   'stage-12',
@@ -131,9 +135,21 @@ assert.throws(
   };
   await coordinator.ensure('stage-12', adapter);
   assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-1-monsters', 'stage-12']);
+  await coordinator.ensure('combat-hero-2', adapter);
+  assert.equal(calls.at(-1), 'combat-hero-2');
+  assert.equal(loadedKeys.has('hero-animation.hero2.body'), true);
+  assert.equal(loadedKeys.has('skill-projectile.role2.sgq.hit5.frame1'), false);
+  await coordinator.ensure('combat-hero-2-skills', adapter);
+  assert.equal(loadedKeys.has('skill-projectile.role2.sgq.hit5.frame1'), true);
   assert.equal(coordinator.isLoaded('stage-12'), true);
   await coordinator.ensure('stage-12', adapter);
-  assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-1-monsters', 'stage-12']);
+  assert.deepEqual(
+    calls,
+    [
+      'combat-common', 'stage-1-common', 'stage-1-monsters', 'stage-12',
+      'combat-hero-2', 'combat-hero-2-skills',
+    ],
+  );
 }
 
 {

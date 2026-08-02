@@ -4,6 +4,7 @@ import type { HeroCombatModel } from '../systems/HeroCombatSystem';
 import type { HeroMovementModel, HeroMovementState } from '../systems/HeroMovementSystem';
 import type { HeroNormalAttackModel } from '../systems/HeroNormalAttackSystem';
 import type { HeroSkillActionName } from '../systems/HeroSkillSystem';
+import { projectHeroVisualRootY } from './HeroCombatVisualCoordinates';
 
 type Role1BodyAction = HeroMovementState | 'hurt' | HeroSkillActionName | string;
 
@@ -61,10 +62,11 @@ export function createRole1CombatVisual(
 ): Role1CombatVisual | undefined {
   if (heroId !== 1) return undefined;
   anchor.setVisible(false);
-  const body = scene.add.sprite(anchor.x + 5, anchor.y - 15, Role1CombatAssetKeys.body, 0)
+  const rootY = projectHeroVisualRootY(anchor.y);
+  const body = scene.add.sprite(anchor.x + 5, rootY - 15, Role1CombatAssetKeys.body, 0)
     .setOrigin(0.5, 0.575)
     .setDepth(anchor.depth);
-  const equipment = scene.add.sprite(anchor.x + 5, anchor.y - 15, Role1CombatAssetKeys.equipment, 0)
+  const equipment = scene.add.sprite(anchor.x + 5, rootY - 15, Role1CombatAssetKeys.equipment, 0)
     .setOrigin(0.5, 0.575)
     .setDepth(anchor.depth + 0.01);
   const visual = { anchor, body, equipment };
@@ -107,11 +109,12 @@ export function syncRole1CombatVisual(
   const originX = facingX < 0 ? 0.525 : 0.475;
   const originY = action === 'hit14' ? 0.65 : 0.575;
   const x = (input.movement?.x ?? visual.anchor.x) + 5;
-  const y = (input.movement?.y ?? visual.anchor.y) + (action === 'hit14' ? -30 : -15);
+  const y = projectHeroVisualRootY(input.movement?.y ?? visual.anchor.y)
+    + (action === 'hit14' ? -30 : -15);
   const visible = input.combat.state !== 'dead';
   for (const layer of [visual.body, visual.equipment]) {
     layer.setPosition(x, y).setFrame(frame).setFlipX(facingX > 0).setOrigin(originX, originY);
-    layer.setVisible(visible).setAlpha(visual.anchor.alpha);
+    layer.setVisible(visible).setAlpha(visible ? 1 : 0);
     if (input.combat.state === 'hurt') layer.setTint(0xffb5b5);
     else layer.clearTint();
   }

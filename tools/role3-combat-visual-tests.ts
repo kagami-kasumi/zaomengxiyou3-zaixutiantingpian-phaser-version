@@ -78,13 +78,16 @@ assert.equal(
   'Role3_hit11 is an audio key and must not gain a standalone visual',
 );
 
-const combatBundleKeys = new Set(sceneAssetBundles['combat-common'].assets.map((asset) => asset.key));
+const combatBundleKeys = new Set([
+  ...sceneAssetBundles['combat-hero-3'].assets,
+  ...sceneAssetBundles['combat-hero-3-skills'].assets,
+].map((asset) => asset.key));
 for (const atlas of Object.values(role3CombatAtlases)) assert.ok(combatBundleKeys.has(atlas.key));
 for (const asset of allRole3FrameAssets) {
   for (const frameKey of asset.frameKeys) assert.ok(combatBundleKeys.has(frameKey));
 }
 assert.equal(
-  sceneAssetBundles['combat-common'].assets.find((asset) => asset.key === CombatHudAssetKeys.role3Portrait)?.kind,
+  sceneAssetBundles['combat-hero-3'].assets.find((asset) => asset.key === CombatHudAssetKeys.role3Portrait)?.kind,
   'image',
 );
 

@@ -80,7 +80,10 @@ for (const key of Object.values(SkillProjectileEffectKeys).filter((value) => val
   assert.ok(key in role4SkillVisualAssets, `${key} must not use a placeholder projectile`);
 }
 
-const combatBundleKeys = new Set(sceneAssetBundles['combat-common'].assets.map((asset) => asset.key));
+const combatBundleKeys = new Set([
+  ...sceneAssetBundles['combat-hero-4'].assets,
+  ...sceneAssetBundles['combat-hero-4-skills'].assets,
+].map((asset) => asset.key));
   for (const asset of [
     role4BodyFamilyAssets.shovel0,
     role4BodyFamilyAssets.arrow0,
@@ -91,7 +94,7 @@ for (const asset of frameAssets) {
   for (const key of asset.frameKeys) assert.ok(combatBundleKeys.has(key));
 }
 assert.equal(
-  sceneAssetBundles['combat-common'].assets.find((asset) => asset.key === CombatHudAssetKeys.role4Portrait)?.kind,
+  sceneAssetBundles['combat-hero-4'].assets.find((asset) => asset.key === CombatHudAssetKeys.role4Portrait)?.kind,
   'image',
 );
 

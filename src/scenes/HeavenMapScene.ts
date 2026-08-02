@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { heavenMapAssets } from '../assets/AssetManifest';
+import { getHeroCombatAssetBundleIds } from '../assets/SceneAssetBundles';
 import {
   createHeavenMapSnapshot,
   findHeavenMapNode,
@@ -10,6 +11,7 @@ import {
 import { getActiveSaveSlotId, loadActiveGame } from '../systems/SaveSlotSystem';
 import type { SaveStorage } from '../systems/SaveSystem';
 import type { PartyConfiguration } from '../systems/PartyConfigurationSystem';
+import { createFormalPartyRuntime } from '../systems/FormalPartyRuntimeSystem';
 import {
   installFormalFeatureUiEntries,
   launchFormalFeatureUi,
@@ -174,9 +176,14 @@ export class HeavenMapScene extends Phaser.Scene {
 
   private async startNode(node: HeavenMapNodeSnapshot): Promise<void> {
     if (!node.routeKey) return;
+    const heroBundles = this.party
+      ? getHeroCombatAssetBundleIds(
+        createFormalPartyRuntime(this.party).members.map((member) => member.heroId),
+      )
+      : [];
     await startSceneWithBundle(this, node.routeKey, undefined, (status) => {
       this.showBundleStatus(status, node.title);
-    });
+    }, heroBundles);
   }
 
   private async startMapService(sceneKey: string, label: string): Promise<void> {

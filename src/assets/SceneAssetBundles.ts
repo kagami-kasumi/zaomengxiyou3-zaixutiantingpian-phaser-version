@@ -80,6 +80,16 @@ export type AssetBundleId =
   | 'feature-ui-workshop'
   | 'feature-ui-magic-weapon'
   | 'combat-common'
+  | 'combat-hero-1'
+  | 'combat-hero-2'
+  | 'combat-hero-3'
+  | 'combat-hero-4'
+  | 'combat-hero-5'
+  | 'combat-hero-1-skills'
+  | 'combat-hero-2-skills'
+  | 'combat-hero-3-skills'
+  | 'combat-hero-4-skills'
+  | 'combat-hero-5-skills'
   | 'stage-1-common'
   | 'stage-1-monsters'
   | 'stage-2-common'
@@ -195,27 +205,48 @@ const skillCommonAssets = [
   ...skillBaseAssets,
   ...skillNativeUiCommonAssets.map(svg),
 ];
-const combatCommonAssets = [
-  ...Object.values(scaffoldAssets).map(svg),
-  ...Object.values(levelResultAssets).map(image),
+const role1CombatBundleAssets = [
   ...Object.values(role1NormalAttackAssets).flatMap(images),
-  ...Object.values(role1CombatAtlases).map((asset) => ({
+  ...[role1CombatAtlases.body, role1CombatAtlases.equipment].map((asset) => ({
     kind: 'spritesheet' as const,
     key: asset.key,
     path: asset.path,
     frameWidth: asset.cellWidth,
     frameHeight: asset.cellHeight,
   })),
+];
+const role1CombatSkillBundleAssets = [
+  {
+    kind: 'spritesheet' as const,
+    key: role1CombatAtlases.shadow.key,
+    path: role1CombatAtlases.shadow.path,
+    frameWidth: role1CombatAtlases.shadow.cellWidth,
+    frameHeight: role1CombatAtlases.shadow.cellHeight,
+  },
   ...Object.values(role1SkillVisualAssets).flatMap(images),
+];
+const role2CombatBundleAssets = [
   ...Object.values(role2NormalAttackAssets).flatMap(images),
-  ...Object.values(role2CombatAtlases).map((asset) => ({
+  ...[role2CombatAtlases.body, role2CombatAtlases.equipment].map((asset) => ({
     kind: 'spritesheet' as const,
     key: asset.key,
     path: asset.path,
     frameWidth: asset.cellWidth,
     frameHeight: asset.cellHeight,
   })),
+  image(combatHudAssets.role2Portrait),
+];
+const role2CombatSkillBundleAssets = [
+  {
+    kind: 'spritesheet' as const,
+    key: role2CombatAtlases.shadow.key,
+    path: role2CombatAtlases.shadow.path,
+    frameWidth: role2CombatAtlases.shadow.cellWidth,
+    frameHeight: role2CombatAtlases.shadow.cellHeight,
+  },
   ...Object.values(role2SkillVisualAssets).flatMap(images),
+];
+const role3CombatBundleAssets = [
   ...Object.values(role3NormalAttackAssets).flatMap(images),
   ...Object.values(role3CombatAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
@@ -224,8 +255,13 @@ const combatCommonAssets = [
     frameWidth: asset.cellWidth,
     frameHeight: asset.cellHeight,
   })),
+  image(combatHudAssets.role3Portrait),
+];
+const role3CombatSkillBundleAssets = [
   ...Object.values(role3SkillVisualAssets).flatMap(images),
   ...images(role3ShieldBuffAsset),
+];
+const role4CombatBundleAssets = [
   ...Object.values(role4NormalAttackAssets).flatMap(svgs),
   ...[
     role4BodyFamilyAssets.shovel0,
@@ -239,10 +275,15 @@ const combatCommonAssets = [
     frameWidth: asset.cellWidth,
     frameHeight: asset.cellHeight,
   })),
+  image(combatHudAssets.role4Portrait),
+];
+const role4CombatSkillBundleAssets = [
   ...Object.values(role4SkillVisualAssets).flatMap((asset) =>
     asset.framePaths[0]?.endsWith('.svg') ? svgs(asset) : images(asset)),
   ...svgs(role4MdsBombAsset),
   ...svgs(role4SpeedUpAsset),
+];
+const role5CombatBundleAssets = [
   ...Object.values(role5NormalAttackAssets).flatMap(svgs),
   ...[
     role5SpearBodyFamilyAssets.body0,
@@ -255,12 +296,13 @@ const combatCommonAssets = [
     frameHeight: asset.cellHeight,
   })),
   ...Object.values(role5SwordBodyAssets).flatMap(svgs),
-  ...Object.values(role5SkillVisualAssets).flatMap(svgs),
-  svg(combatHudAssets.roleInfo),
-  image(combatHudAssets.role2Portrait),
-  image(combatHudAssets.role3Portrait),
-  image(combatHudAssets.role4Portrait),
   image(combatHudAssets.role5Portrait),
+];
+const role5CombatSkillBundleAssets = Object.values(role5SkillVisualAssets).flatMap(svgs);
+const combatCommonAssets = [
+  ...Object.values(scaffoldAssets).map(svg),
+  ...Object.values(levelResultAssets).map(image),
+  svg(combatHudAssets.roleInfo),
   svg(combatHudAssets.bossBlood),
   ...Object.values(stageFeatureEntryButtonAssets).flatMap((states) =>
     Object.values(states).map(image)),
@@ -453,6 +495,46 @@ export const sceneAssetBundles = {
     dependencies: [],
     assets: combatCommonAssets,
   },
+  'combat-hero-1': {
+    dependencies: [],
+    assets: role1CombatBundleAssets,
+  },
+  'combat-hero-2': {
+    dependencies: [],
+    assets: role2CombatBundleAssets,
+  },
+  'combat-hero-3': {
+    dependencies: [],
+    assets: role3CombatBundleAssets,
+  },
+  'combat-hero-4': {
+    dependencies: [],
+    assets: role4CombatBundleAssets,
+  },
+  'combat-hero-5': {
+    dependencies: [],
+    assets: role5CombatBundleAssets,
+  },
+  'combat-hero-1-skills': {
+    dependencies: ['combat-hero-1'],
+    assets: role1CombatSkillBundleAssets,
+  },
+  'combat-hero-2-skills': {
+    dependencies: ['combat-hero-2'],
+    assets: role2CombatSkillBundleAssets,
+  },
+  'combat-hero-3-skills': {
+    dependencies: ['combat-hero-3'],
+    assets: role3CombatSkillBundleAssets,
+  },
+  'combat-hero-4-skills': {
+    dependencies: ['combat-hero-4'],
+    assets: role4CombatSkillBundleAssets,
+  },
+  'combat-hero-5-skills': {
+    dependencies: ['combat-hero-5'],
+    assets: role5CombatSkillBundleAssets,
+  },
   'stage-1-common': {
     dependencies: [],
     assets: [image(stage11Assets.floor)],
@@ -508,6 +590,21 @@ export const sceneBundleBySceneKey = {
 
 export function getSceneAssetBundleId(sceneKey: string): AssetBundleId | undefined {
   return sceneBundleBySceneKey[sceneKey as keyof typeof sceneBundleBySceneKey];
+}
+
+export function getHeroCombatAssetBundleIds(heroIds: readonly number[]): AssetBundleId[] {
+  return [...new Set(heroIds.map((heroId) => {
+    if (!Number.isInteger(heroId) || heroId < 1 || heroId > 5) {
+      throw new RangeError('Combat hero bundle requires hero ids from 1 to 5.');
+    }
+    return `combat-hero-${heroId}` as AssetBundleId;
+  }))];
+}
+
+export function getHeroCombatSkillAssetBundleIds(heroIds: readonly number[]): AssetBundleId[] {
+  return getHeroCombatAssetBundleIds(heroIds).map(
+    (bundleId) => `${bundleId}-skills` as AssetBundleId,
+  );
 }
 
 export function getFeatureUiAssetBundleId(

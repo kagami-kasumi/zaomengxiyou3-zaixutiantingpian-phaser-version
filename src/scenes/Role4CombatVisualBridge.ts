@@ -15,6 +15,7 @@ import {
   Role4BodyAnimations,
   type Role4BodyAction,
 } from '../systems/Role4CombatVisualSystem';
+import { projectHeroVisualRootY } from './HeroCombatVisualCoordinates';
 
 export type Role4CombatVisual = {
   anchor: Phaser.GameObjects.Image;
@@ -40,17 +41,18 @@ export function createRole4CombatVisual(
 ): Role4CombatVisual | undefined {
   if (heroId !== 4) return undefined;
   anchor.setVisible(false);
-  const body = scene.add.sprite(anchor.x, anchor.y, Role4CombatAssetKeys.shovelBody0, 0)
+  const rootY = projectHeroVisualRootY(anchor.y);
+  const body = scene.add.sprite(anchor.x, rootY, Role4CombatAssetKeys.shovelBody0, 0)
     .setOrigin(0.575, 0.565)
     .setDepth(anchor.depth);
-  const equipment = scene.add.sprite(anchor.x, anchor.y, Role4CombatAssetKeys.shovelEquipment0, 0)
+  const equipment = scene.add.sprite(anchor.x, rootY, Role4CombatAssetKeys.shovelEquipment0, 0)
     .setOrigin(0.575, 0.565)
     .setDepth(anchor.depth + 0.01);
-  const speedUp = scene.add.image(anchor.x, anchor.y + 25, role4SpeedUpAsset.frameKeys[0]!)
+  const speedUp = scene.add.image(anchor.x, rootY + 25, role4SpeedUpAsset.frameKeys[0]!)
     .setOrigin(role4SpeedUpAsset.registrationOrigin.x, role4SpeedUpAsset.registrationOrigin.y)
     .setDepth(anchor.depth + 0.02)
     .setVisible(false);
-  const name = scene.add.text(anchor.x - 30, anchor.y - 90, anchor.name || '沙僧', {
+  const name = scene.add.text(anchor.x - 30, rootY - 90, anchor.name || '沙僧', {
     color: '#ff0000',
     fontFamily: '"FZCuYuan-M03", sans-serif',
     fontSize: '16px',
@@ -99,7 +101,7 @@ export function syncRole4CombatVisual(
   const frame = readRole4HeldFrame(sequence, timeMs - startedAtMs);
   const facingX = input.movement?.facingX ?? input.normalAttack.activeAttack?.facingX ?? 1;
   const x = input.movement?.x ?? visual.anchor.x;
-  const y = input.movement?.y ?? visual.anchor.y;
+  const y = projectHeroVisualRootY(input.movement?.y ?? visual.anchor.y);
   const visible = input.combat.state !== 'dead';
   const originX = facingX > 0 ? 0.575 : 0.425;
   visual.body.setTexture(mode === 'arrow' ? Role4CombatAssetKeys.arrowBody0 : Role4CombatAssetKeys.shovelBody0);

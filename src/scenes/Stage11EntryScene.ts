@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { getHeroCombatAssetBundleIds } from '../assets/SceneAssetBundles';
 import { getActiveSaveSlotId, loadActiveGame } from '../systems/SaveSlotSystem';
 import type { SaveStorage } from '../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../systems/Stage11FlowSystem';
@@ -77,6 +78,8 @@ export class Stage11EntryScene extends Phaser.Scene {
       this,
       'TestScene',
       { devParty: createFormalDevParty(playerCount) },
+      undefined,
+      getHeroCombatAssetBundleIds(playerCount === 1 ? [1] : [1, 2]),
     );
   }
 
@@ -86,6 +89,8 @@ export class Stage11EntryScene extends Phaser.Scene {
       this,
       'Stage12Scene',
       { devParty: createFormalDevParty(playerCount) },
+      undefined,
+      getHeroCombatAssetBundleIds(playerCount === 1 ? [1] : [1, 2]),
     );
   }
 
@@ -95,6 +100,8 @@ export class Stage11EntryScene extends Phaser.Scene {
       this,
       'Stage13Scene',
       { devParty: createFormalDevParty(playerCount) },
+      undefined,
+      getHeroCombatAssetBundleIds(playerCount === 1 ? [1] : [1, 2]),
     );
   }
 }
