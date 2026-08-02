@@ -49,11 +49,11 @@ assert.match(heroPartySource, /attackVisuals\.destroy\(\)/, 'hero runtime must r
 
 for (const file of [
   'src/scenes/stage22/Stage22GameplayBridge.ts',
+  'src/scenes/stage22/Stage22DevGameplayBridge.ts',
 ]) {
   const source = readFileSync(path.join(process.cwd(), file), 'utf8');
-  assert.match(source, /createHeroNormalAttackVisualBridge\(scene\)/, `${file} must create attack visuals`);
-  assert.match(source, /attackVisuals\.update\(/, `${file} must sync attack visuals`);
-  assert.match(source, /attackVisuals\.destroy\(\)/, `${file} must release attack visuals`);
+  assert.match(source, /createHeroPartyRuntime\(scene/, `${file} must delegate hero visuals`);
+  assert.doesNotMatch(source, /createHeroNormalAttackVisualBridge\(scene\)/, `${file} must not own attack visuals`);
 }
 assert.deepEqual(
   projectNormalAttackVisualPoint(

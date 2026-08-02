@@ -35,12 +35,12 @@ const legacyEntityOwnerBudgets = new Map([
     ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1], ['updateStage1Enemy', 2],
   ])],
   ['src/scenes/stage22/Stage22GameplayBridge.ts', new Map([
-    ['type PlayerRuntime', 1], ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1],
-    ['updateLevelHeroMovementRuntime', 2], ['updateStage1CombatPlayer', 2], ['updateStage1Enemy', 2],
-    ['resolveStage1EnemyAttack', 2], ['resolveStage1HeroAttack', 2],
+    ['type PlayerRuntime', 0], ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1],
+    ['updateLevelHeroMovementRuntime', 0], ['updateStage1CombatPlayer', 0], ['updateStage1Enemy', 2],
+    ['resolveStage1EnemyAttack', 0], ['resolveStage1HeroAttack', 0],
   ])],
   ['src/scenes/stage22/Stage22DevGameplayBridge.ts', new Map([
-    ['updateLevelHeroMovementRuntime', 2],
+    ['updateLevelHeroMovementRuntime', 0],
   ])],
   ['src/scenes/TestScene.ts', new Map([
     ['private playerViews:', 1], ['private monster30s:', 1],
@@ -173,6 +173,8 @@ function assertHeroPartyMigrations() {
     'src/scenes/stage12/Stage12GameplayBridge.ts',
     'src/scenes/stage13/Stage13GameplayBridge.ts',
     'src/scenes/stage21/Stage21GameplayBridge.ts',
+    'src/scenes/stage22/Stage22GameplayBridge.ts',
+    'src/scenes/stage22/Stage22DevGameplayBridge.ts',
   ]) {
     const source = readFileSync(path.join(root, relative), 'utf8');
     if (!source.includes('createHeroPartyRuntime')) {

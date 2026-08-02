@@ -1,12 +1,8 @@
-// boundary: DEV-only Stage 2-2 bridge adapts input, shared movement, true fire pixels,
-// camera, and disposable QA feedback. It owns no wave, monster, result, or save state.
+// boundary: DEV-only Stage 2-2 bridge submits input/environment/fire hits to HeroPartyRuntime;
+// it keeps true fire-pixel sampling, camera, and disposable QA feedback only.
 import Phaser from 'phaser';
 import { stage22Assets } from '../../assets/AssetManifest';
 import { createInputSystem } from '../../systems/InputSystem';
-import {
-  createLevelHeroMovementRuntime,
-  updateLevelHeroMovementRuntime,
-} from '../../systems/LevelHeroMovementSystem';
 import {
   createStage22FireHazards,
   Stage22FireTuning,
@@ -16,6 +12,7 @@ import {
 } from '../../systems/Stage22FireHazardSystem';
 import {
   STAGE22_GROUND_PLATFORM_ID,
+  STAGE22_GROUND_TOP_Y,
   STAGE22_TRAVEL_LEFT,
   STAGE22_TRAVEL_RIGHT,
 } from '../../systems/Stage22Layout';
@@ -23,13 +20,7 @@ import {
   getStage22CameraScrollX,
   stage22MovementPlatforms,
 } from '../../systems/Stage22TraversalSystem';
-
-type DevPlayer = {
-  slot: 'p1' | 'p2';
-  view: Phaser.GameObjects.Image;
-  hp: number;
-  alive: boolean;
-};
+import { createHeroPartyRuntime } from '../HeroPartyRuntimeBridge';
 
 export type Stage22DevGameplayHandle = Readonly<{
   hazards: readonly Stage22FireHazardModel[];
@@ -45,18 +36,10 @@ export function createStage22DevGameplay(
   freezeFireFrame?: number,
 ): Stage22DevGameplayHandle {
   const input = createInputSystem(scene);
-  const players: DevPlayer[] = playerViews.map((view, index) => ({
-    slot: index === 0 ? 'p1' : 'p2',
-    view,
-    hp: 500,
-    alive: true,
-  }));
-  const movement = createLevelHeroMovementRuntime(playerViews.map((view) => ({
-    x: view.x,
-    y: view.y,
-    width: view.displayWidth,
-    currentPlatformId: STAGE22_GROUND_PLATFORM_ID,
-  })));
+  const heroes = createHeroPartyRuntime(scene, playerViews, {
+    groundY: STAGE22_GROUND_TOP_Y,
+    groundPlatformId: STAGE22_GROUND_PLATFORM_ID,
+  });
   const hazards = createStage22FireHazards();
   if (freezeFireFrame !== undefined) {
     hazards.forEach((hazard) => { hazard.frame = freezeFireFrame; });
@@ -75,37 +58,27 @@ export function createStage22DevGameplay(
     update: (deltaMs) => {
       const state = input.read();
       const inputs = [state.p1, state.p2];
-      updateLevelHeroMovementRuntime(
-        movement,
+      heroes.update({
         inputs,
-        players.map((player) => player.alive),
-        () => ({
+        timeMs: scene.time.now,
+        deltaMs,
+        environmentFor: () => ({
           platforms: stage22MovementPlatforms,
           bounds: { left: STAGE22_TRAVEL_LEFT, right: STAGE22_TRAVEL_RIGHT },
         }),
-        scene.time.now,
-        deltaMs,
-      );
-      movement.members.forEach((member, index) => {
-        const player = players[index];
-        if (!player) return;
-        player.view.setPosition(member.movement.x, member.movement.y);
-        player.view.clearTint();
       });
 
-      const targets: Stage22FireTarget[] = players.map((player, index) => {
-        const member = movement.members[index]!;
-        return {
-          slot: player.slot,
-          x: member.movement.x,
-          y: member.movement.y,
-          width: player.view.displayWidth,
-          height: player.view.displayHeight,
-          facingX: member.movement.facingX,
-          alive: player.alive,
-          isYourFather: false,
-        };
-      });
+      const snapshots = heroes.snapshots();
+      const targets: Stage22FireTarget[] = snapshots.map((hero) => ({
+        slot: hero.slot,
+        x: hero.x,
+        y: hero.y,
+        width: hero.view.displayWidth,
+        height: hero.view.displayHeight,
+        facingX: hero.facingX,
+        alive: hero.alive,
+        isYourFather: false,
+      }));
       const hits = updateStage22FireHazards(
         hazards,
         targets,
@@ -118,40 +91,44 @@ export function createStage22DevGameplay(
           hazard.frameElapsedMs = 0;
         });
       }
-      for (const hit of hits) {
-        if (noDamage) continue;
-        const index = hit.target === 'p1' ? 0 : 1;
-        const player = players[index];
-        const member = movement.members[index];
-        if (!player || !member) continue;
-        player.hp = Math.max(0, player.hp - hit.damage);
-        player.alive = player.hp > 0;
-        member.movement.x = Phaser.Math.Clamp(
-          member.movement.x + hit.knockbackX,
-          STAGE22_TRAVEL_LEFT + member.movement.width / 2,
-          STAGE22_TRAVEL_RIGHT - member.movement.width / 2,
-        );
-        player.view.setPosition(member.movement.x, member.movement.y)
-          .setTint(player.alive ? 0xff7777 : 0x555555);
+      if (!noDamage) {
+        heroes.applyEnvironmentHits(hits.map((hit) => {
+          const hero = snapshots.find((candidate) => candidate.slot === hit.target);
+          const halfWidth = (hero?.width ?? 0) / 2;
+          return {
+            target: hit.target,
+            damage: hit.damage,
+            knockbackX: hit.knockbackX,
+            bounds: {
+              left: STAGE22_TRAVEL_LEFT + halfWidth,
+              right: STAGE22_TRAVEL_RIGHT - halfWidth,
+            },
+            deathReason: 'movement-trap',
+          };
+        }));
       }
       updateFireViews(hazards);
-      const living = players.filter((player) => player.alive);
+      const settledSnapshots = heroes.snapshots();
+      const living = settledSnapshots.filter((hero) => hero.alive);
       if (living.length > 0) {
         scene.cameras.main.scrollX = getStage22CameraScrollX(
-          Math.max(...living.map((player) => player.view.x)),
+          Math.max(...living.map((hero) => hero.x)),
           undefined,
         );
       }
       const nearest = hazards.reduce((best, hazard) =>
-        Math.abs(hazard.source.x - players[0]!.view.x)
-          < Math.abs(best.source.x - players[0]!.view.x) ? hazard : best, hazards[0]!);
+        Math.abs(hazard.source.x - settledSnapshots[0]!.x)
+          < Math.abs(best.source.x - settledSnapshots[0]!.x) ? hazard : best, hazards[0]!);
       status.setText(
-        `${players.map((player) => `${player.slot.toUpperCase()} HP ${Math.ceil(player.hp)}`).join(' · ')}`
+        `${settledSnapshots.map((hero) => `${hero.slot.toUpperCase()} HP ${Math.ceil(hero.hp)}`).join(' · ')}`
         + ` · nearest ${nearest.source.id} frame ${nearest.frame}/130`
         + ` · fires ${hazards.filter((hazard) => hazard.frame !== 1).length}/9`,
       );
     },
-    destroy: () => status.destroy(),
+    destroy: () => {
+      status.destroy();
+      heroes.destroy();
+    },
   };
 }
 

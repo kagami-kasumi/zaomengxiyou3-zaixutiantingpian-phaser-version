@@ -2,6 +2,37 @@
 
 ## 2026-08-02
 
+### PG-013 V2E HeroPartyRuntime Stage 2-2 正式与 DEV 迁移
+
+变更内容：
+
+- Stage 2-2 正式删除私有 `PlayerRuntime`、movement/combat runtime、英雄 update/resolve、技能事件订阅与普攻视觉生命周期；DEV 同批删除 `DevPlayer` 与直接移动调度，统一消费共享 `HeroPartyRuntime`。
+- 正式与 DEV 只提交输入、平台/边界和火焰环境命中；Monster9/10/19、Monster16、怪物 Map/AI/物理/奖励、54 配置敌人、Boss 阶段、火焰视图/真像素采样与 DEV showcase 保持不变。
+- `check:level-architecture` 将 Stage 2-2 正式与 DEV Hero owner token 预算归零，并把正向委托/负向回填检查扩展到全部四个横向正式关卡及 Stage 2-2 DEV；PG-013 下一批切换为 V2F Stage 1-1/TestScene。
+
+影响范围：
+
+- `src/scenes/stage22/Stage22GameplayBridge.ts`
+- `src/scenes/stage22/Stage22DevGameplayBridge.ts`
+- `tools/check-playable-level-architecture.mjs`
+- `tools/hero-combat-visual-coordinate-tests.ts`
+- `tools/stage22-tests.ts`
+- `docs/architecture/playable-level-runtime.md`
+- `docs/tasks/execution-queue.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-003-关卡角色移动接入边界不统一.md`
+- `docs/workflow/problems/PG-006-怪物物理与死亡奖励按关卡漂移.md`
+- `docs/workflow/problems/PG-013-关卡运行框架按关卡复制.md`
+
+验证：
+
+- `npm run test:hero-party-runtime`、`npm run test:stage22`
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:all`
+- 940×590 Stage 2-2 正式 1P/2P 与 DEV 1P/2P 火焰运行验收、console 零 warning/error
+- `git diff --check`
+
 ### PG-013 V2D HeroPartyRuntime Stage 2-1 迁移
 
 变更内容：

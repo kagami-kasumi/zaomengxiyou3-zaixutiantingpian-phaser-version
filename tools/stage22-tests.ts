@@ -453,6 +453,7 @@ assert.ok(gameplaySource.includes('getPixelAlpha'));
 assert.equal(gameplaySource.includes('createStage22Flow'), false, 'the layout-only DEV bridge remains isolated');
 assert.equal(gameplaySource.includes('Monster16'), false);
 assert.equal(gameplaySource.includes('SaveSystem'), false);
+assert.ok(gameplaySource.includes('createHeroPartyRuntime'), 'DEV delegates its hero lifecycle');
 const formalGameplaySource = readFileSync(
   path.join(repoRoot, 'src/scenes/stage22/Stage22GameplayBridge.ts'),
   'utf8',
@@ -460,6 +461,7 @@ const formalGameplaySource = readFileSync(
 assert.ok(formalGameplaySource.includes('createStage22Flow'));
 assert.ok(formalGameplaySource.includes('createStage21MonsterView'));
 assert.ok(formalGameplaySource.includes('createMonster16View'));
+assert.ok(formalGameplaySource.includes('createHeroPartyRuntime'), 'formal Stage 2-2 delegates its hero lifecycle');
 assert.ok(formalGameplaySource.includes('flow.tryComplete(transferDoor.createCompletionAttempt'));
 const formalSceneSource = readFileSync(path.join(repoRoot, 'src/scenes/Stage22Scene.ts'), 'utf8');
 assert.ok(formalSceneSource.includes('createPlayableLevelRuntime'));

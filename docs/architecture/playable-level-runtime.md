@@ -1,6 +1,6 @@
 # 可玩关卡运行框架 ADR
 
-状态：Accepted V2D（Scene 外壳决策继续有效；`HeroPartyRuntime` 已迁移 Stage 1-2/1-3/2-1，Stage 2-2 正式与 DEV 为下一批）
+状态：Accepted V2E（Scene 外壳决策继续有效；`HeroPartyRuntime` 已迁移 Stage 1-2/1-3/2-1/2-2 正式与 DEV，Stage 1-1/TestScene 为下一批）
 
 ## 1. 决策
 
@@ -8,7 +8,7 @@
 
 本决策不建立万能 `BaseLevel`，不把 Phaser 显示对象传入纯系统，也不把原 SWF 的打包位置解释为现代行为 owner。英雄/怪物的动画、AI、物理、伤害、奖励和掉落仍由实体系统持有；关卡只能引用稳定类型、视觉 id、出生计划和遭遇事件。
 
-2026-08-02 复盘说明：上述实体 owner 是目标合同，不是全部关卡的当前实现事实。V2B/V2C/V2D 已把 Stage 1-2/1-3/2-1 英雄生命周期迁入共享 `HeroPartyRuntime`；Stage 2-2/TestScene 仍拥有玩家 runtime，四个正式关卡及 TestScene 的怪物 owner 也未迁移。`Stage22DevGameplayBridge` 仍保留直接英雄移动调度。在 V2 全部迁移前不得继续把其余 GameplayBridge 称为已经闭合的窄 adapter。
+2026-08-02 复盘说明：上述实体 owner 是目标合同，不是全部关卡的当前实现事实。V2B/V2C/V2D/V2E 已把 Stage 1-2/1-3/2-1/2-2 正式与 DEV 的英雄生命周期迁入共享 `HeroPartyRuntime`；Stage 1-1/TestScene 仍拥有玩家 runtime，四个正式关卡及 TestScene 的怪物 owner 也未迁移。在 V2 全部迁移前不得继续把其余 GameplayBridge 称为已经闭合的窄 adapter。
 
 原版共同门行为有直接证据：`PhysicsWorld.addSubObj()` 将带 `isTransferDoor` 子对象的对象统一加入 `transferDoorArray`，`BaseHero.checkTransferDoor()` 统一检查可见门与英雄碰撞。各关 SWF 内嵌不同门 Symbol 只证明视觉 provenance，不证明行为需要逐关 owner。
 
@@ -140,9 +140,9 @@ V1 迁移顺序为：016B 横向双关试点 → 016C Stage 2 → 016D Stage 1-1
 | Stage 1-2 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2B 已迁移）；GameplayBridge 只提交输入/平台/边界与怪物目标 | `EnemyRuntime`、`enemies Map`、`updateEnemyCombat` | 五停点、双 Boss、`fbEnter` 与 5-1 特殊路由 | 平台/边界快照、怪物目标；当前经显式兼容 facade 与遗留 Monster owner 交换攻击/奖励模型 | Hero 试点完成；后续独立 Monster 试点仍用本关并删除兼容 facade |
 | Stage 1-3 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2C 已迁移）；GameplayBridge 只提交输入/平台/边界与怪物目标 | `MonsterRuntime`、`monsters Map`、`updateMonsterCombat` | 五停点、Monster5 Boss、普通门皮肤 | 同上 | Hero 迁移完成；Monster 试点通过后另批迁移 |
 | Stage 2-1 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2D 已迁移）；GameplayBridge 只提交输入/平台/边界、冰刺环境命中与怪物目标 | `MonsterRuntime`、`monsters Map`、`updateMonsterCombat` | 五停点、冰刺/中景、Monster6 Boss、显式 QA 注入 | 冰刺命中经窄环境事件进入 Hero runtime；怪物仍经兼容 facade 交换攻击/奖励模型 | Hero 迁移完成；Monster 试点通过后另批迁移 |
-| Stage 2-2 | `Stage22GameplayBridge.PlayerRuntime`、`movement`、`updatePlayers`；`Stage22DevGameplayBridge` 另有直接移动调度 | `MonsterRuntime`、`monsters Map`、`updateMonsterCombat` | 火焰、Monster16 Boss 阶段与 DEV showcase | 火焰命中作为特殊环境事件；showcase 仅为 adapter 输入 | 与 Stage 2-1 同批前再次核对规模；正式与 DEV 消费者必须同批收缩，不得和新 owner 创建同批 |
+| Stage 2-2 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2E 已迁移）；正式与 DEV bridge 只提交输入/平台/边界、火焰环境命中与怪物目标 | `MonsterRuntime`、`monsters Map`、`updateMonsterCombat` | 火焰、Monster16 Boss 阶段与 DEV showcase | 火焰命中经窄环境事件进入 Hero runtime；showcase 仅为 adapter 输入 | Hero 迁移完成；Monster 试点通过后另批迁移 |
 
-V2 的固定顺序是：V2B 建立 `HeroPartyRuntime` 并只迁移 Stage 1-2（已完成）→ V2C Stage 1-3（已完成）→ V2D Stage 2-1（已完成）→ V2E Stage 2-2 正式与 DEV（下一批）→ V2F Stage 1-1/TestScene → 单独建立 `MonsterRuntimeRegistry` 并只迁移 Stage 1-2 → 按试点证据生成 Monster 其余消费者批次。每批最多一个实体 owner，不能在同一批同时创建或迁移 Hero 与 Monster runtime。
+V2 的固定顺序是：V2B 建立 `HeroPartyRuntime` 并只迁移 Stage 1-2（已完成）→ V2C Stage 1-3（已完成）→ V2D Stage 2-1（已完成）→ V2E Stage 2-2 正式与 DEV（已完成）→ V2F Stage 1-1/TestScene（下一批）→ 单独建立 `MonsterRuntimeRegistry` 并只迁移 Stage 1-2 → 按试点证据生成 Monster 其余消费者批次。每批最多一个实体 owner，不能在同一批同时创建或迁移 Hero 与 Monster runtime。
 
 V2B 为保持遗留 Monster 帧顺序，把 Hero 帧拆成 `update`（移动/动作/视觉）、`resolveEnemyAttack` 和 `resolveAttacks` 三个显式阶段；这只是 Monster owner 尚未迁移期间的兼容调度。Hero 状态始终只存于共享 runtime，关卡只能读取只读快照；Stage 1-2 的 HUD/奖励继续通过窄 facade 消费既有模型。Monster registry 接入后应把敌我攻击交换收敛为目标快照/事件，并删除可变模型 facade。
 
@@ -186,7 +186,7 @@ V2B 为保持遗留 Monster 帧顺序，把 Hero 帧拆成 `update`（移动/动
 - 当前五关遗留文件只能出现在脚本的显式 allowlist；016B..D 每迁移一批必须收缩 allowlist，不能新增例外。
 - ADR 必须持续包含五个合同、五关矩阵、Stage 1-1 临时兼容删除条件和逐状态基线。
 - ADR 还必须包含 `HeroPartyRuntime`、`MonsterRuntimeRegistry`、五关实体消费者矩阵与单-owner迁移顺序。
-- Stage 1-2/1-3/2-1 的 Hero owner token 预算已归零，并强制包含 `createHeroPartyRuntime` 委托；`Stage22GameplayBridge`、`Stage22DevGameplayBridge` 与 `TestScene` 剩余实体 owner 继续采用按 token 数量冻结的显式预算。允许值只能随迁移缩减。任何新正式关卡/adapter 声明 `PlayerRuntime`、`EnemyRuntime/MonsterRuntime`、实体 `Map`，或直接调用英雄/怪物内部 update/resolve 都失败。
+- Stage 1-2/1-3/2-1/2-2 正式与 DEV 的 Hero owner token 预算已归零，并强制包含 `createHeroPartyRuntime` 委托；`TestScene` 剩余实体 owner 继续采用按 token 数量冻结的显式预算。允许值只能随迁移缩减。任何新正式关卡/adapter 声明 `PlayerRuntime`、`EnemyRuntime/MonsterRuntime`、实体 `Map`，或直接调用英雄/怪物内部 update/resolve 都失败。
 
 该门禁已覆盖五个 Scene 外壳和 V2A 实体 owner 存量预算，并要求 `TestScene` 委托 `TestSceneStage11RuntimeAdapter`。PG-013 仍在复盘中；只有 Hero/Monster 两类 owner、五关迁移、TestScene 兼容与后续新关卡样本全部闭合后才可进入关闭判断。后续关卡从 `playable-level-template.md` 起步。
 
@@ -195,6 +195,6 @@ V2B 为保持遗留 Monster 帧顺序，把 Hero 帧拆成 `update`（移动/动
 - 原版共同门登记/碰撞：`World/PhysicsWorld.as::addSubObj`、`base/BaseHero.as::checkTransferDoor`。
 - 现代关卡证据：五关 `Stage*Layout`、四个正式 Scene/World/Gameplay/Flow，以及 Stage 1-1 TestScene bridges。
 - 公共 owner：`LevelLifecycleSystem.ts`、`LevelLifecycleBridge.ts`、`LevelResultView.ts`、`LevelHeroMovementSystem.ts`、`FormalPartyRuntimeSystem.ts`。
-- V2B/V2C/V2D Hero owner：`HeroPartyRuntimeSystem.ts`、`HeroPartyRuntimeBridge.ts`、`hero-party-runtime-tests.ts`；Stage 1-2/1-3/2-1 只在 GameplayBridge 提交环境并消费快照/事件。
+- V2B/V2C/V2D/V2E Hero owner：`HeroPartyRuntimeSystem.ts`、`HeroPartyRuntimeBridge.ts`、`hero-party-runtime-tests.ts`；Stage 1-2/1-3/2-1/2-2 正式与 DEV 只在 GameplayBridge 提交环境并消费快照/事件。
 - 视觉 provenance：`AssetManifest.ts` 与各关已有视觉/资源专项测试；Stage 1-1 真门目标为 level11 character 45/41/44。
 - 问题与迁移治理：`PG-013`、`LINE-PRE-STAGE-2-3-COMPLETION`、`TASK-ARCH-016A..D`。
