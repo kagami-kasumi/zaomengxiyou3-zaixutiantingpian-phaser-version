@@ -2,6 +2,39 @@
 
 ## 2026-08-02
 
+### PG-013 V2B HeroPartyRuntime Stage 1-2 试点
+
+变更内容：
+
+- 新增关卡无关 `HeroPartyRuntimeSystem` 与 Phaser `HeroPartyRuntimeBridge`，统一持有活动英雄移动、战斗、普攻、技能状态、本体/攻击对象视觉更新和幂等销毁。
+- Stage 1-2 删除私有 `PlayerRuntime`、movement runtime、英雄 update/resolve 与普攻视觉生命周期；GameplayBridge 只提交输入、平台/边界和怪物目标，怪物 Map/AI/物理/奖励、五停点、双 Boss 与 `fbEnter` 保持不变。
+- 保留旧帧顺序并以显式兼容 facade 接续尚未迁移的 Monster owner；纯系统专项覆盖单/双成员、移动、技能 loadout、敌我攻击与重复销毁。
+- `check:level-architecture` 将 Stage 1-2 Hero owner token 预算归零，要求显式委托 HeroPartyRuntime；旧视觉测试改为验证共享 Runtime 唯一创建/更新/销毁普攻对象。
+- 依据试点规模把其余 Hero 消费者拆为 V2C Stage 1-3、V2D Stage 2-1、V2E Stage 2-2 正式+DEV、V2F Stage 1-1/TestScene；下一次 `/goal` 只执行 V2C，不进入 Monster owner 或游戏 `TASK-SLICE-159`。
+
+影响范围：
+
+- `src/systems/HeroPartyRuntimeSystem.ts`
+- `src/scenes/HeroPartyRuntimeBridge.ts`
+- `src/scenes/stage12/Stage12GameplayBridge.ts`
+- `tools/hero-party-runtime-tests.ts`
+- `tools/check-playable-level-architecture.mjs`
+- `tools/hero-combat-visual-coordinate-tests.ts`
+- `docs/architecture/playable-level-runtime.md`
+- `docs/tasks/execution-queue.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-003/004/006/008/012/013`
+
+验证：
+
+- `npm run test:hero-party-runtime`
+- `npm run test:stage12-flow`、`npm run test:stage12-traversal`、`npm run test:stage12-fb`
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:all`
+- 940×590 Stage 1-2 正式 1P/2P 进入、P1 移动/普攻对象、P2 独立移动与零 console；P2 普攻由双成员纯 Runtime 专项补齐
+- `git diff --check`
+
 ### PG-013 V2A 实体运行时边界复盘与合同冻结
 
 变更内容：

@@ -1,17 +1,7 @@
-// boundary: Stage 1-2 bridge adapts Phaser views, input, flow, and shared combat;
-// it does not own combat stats, attack windows, damage, protection, or death rules.
+// boundary: Stage 1-2 submits level input/environment/monster targets to HeroPartyRuntime;
+// it keeps encounter waves and the not-yet-migrated monster runtime only.
 import Phaser from 'phaser';
-import { hasHeroCombatVisual, syncHeroCombatVisual } from '../HeroCombatVisualBridge';
-import {
-  createHeroNormalAttackVisualBridge,
-  projectHeroNormalAttackVisualPlayer,
-} from '../HeroNormalAttackVisualBridge';
-import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
-import {
-  createLevelHeroMovementRuntime,
-  updateLevelHeroMovementRuntime,
-  type LevelHeroMovementRuntime,
-} from '../../systems/LevelHeroMovementSystem';
+import { createInputSystem } from '../../systems/InputSystem';
 import {
   createStage12Flow,
   defeatStage12Enemy,
@@ -37,15 +27,8 @@ import type { SaveStorage } from '../../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../../systems/Stage11FlowSystem';
 import {
   createStage1CombatEnemy,
-  createStage1CombatPlayer,
-  createStage1CombatRuntime,
-  resolveStage1EnemyAttack,
-  resolveStage1HeroAttack,
-  updateStage1CombatPlayer,
   updateStage1Enemy,
   type Stage1CombatEnemy,
-  type Stage1CombatPlayer,
-  type Stage1CombatRuntime,
 } from '../../systems/Stage1CombatSystem';
 import { createStage12FbEnterBridge, type Stage12FbEnterHandle } from './Stage12FbEnterBridge';
 import {
@@ -55,15 +38,8 @@ import {
 } from '../../systems/MonsterPhysicsSystem';
 import { createStage1RewardBridge, type Stage1RewardBridge } from '../stage1/Stage1RewardBridge';
 import { createStage1CombatHudBridge } from '../stage1/Stage1CombatHudBridge';
-import {
-  createStage1CombatEnemyHudSnapshot,
-  createStage1CombatPlayerHudSnapshot,
-} from '../../systems/Stage1CombatHudSystem';
-import {
-  FormalSkillsUpdatedEvent,
-  readFormalSkillRuntime,
-  type FormalSkillsUpdatedPayload,
-} from '../feature-ui/FormalSkillRuntimeBridge';
+import { createStage1CombatEnemyHudSnapshot } from '../../systems/Stage1CombatHudSystem';
+import { createHeroPartyRuntime, type HeroPartyRuntime } from '../HeroPartyRuntimeBridge';
 import {
   createStage12MonsterView,
   destroyStage12MonsterView,
@@ -73,11 +49,6 @@ import {
   type Stage12MonsterView,
 } from './Stage12MonsterVisualBridge';
 
-type PlayerRuntime = {
-  view: Phaser.GameObjects.Image;
-  combat: Stage1CombatPlayer;
-};
-
 type EnemyRuntime = {
   model: Stage12Enemy;
   combat: Stage1CombatEnemy;
@@ -85,6 +56,8 @@ type EnemyRuntime = {
   physics: MonsterPhysicsModel;
   defeatReported: boolean;
 };
+
+type HeroSnapshots = ReturnType<HeroPartyRuntime['snapshots']>;
 
 export type Stage12GameplayResult = 'failed' | 'cleared' | 'fb-entered';
 
@@ -103,31 +76,10 @@ export function createStage12Gameplay(
 ): Stage12GameplayHandle {
   const flow = createStage12Flow(playerCount, readUnlockProgress());
   const input = createInputSystem(scene);
-  const combatRuntime = createStage1CombatRuntime();
-  const players: PlayerRuntime[] = playerViews.map((view, index) => ({
-    view,
-    combat: createStage1CombatPlayer(
-      index === 0 ? 'p1' : 'p2',
-      view.getData('heroId'),
-    ),
-  }));
-  const attackVisuals = createHeroNormalAttackVisualBridge(scene);
-  const restoredSkills = readFormalSkillRuntime(getBrowserStorage());
-  players.forEach((player, index) => {
-    const source = index === 0 ? restoredSkills?.player1 : restoredSkills?.player2;
-    if (source) player.combat.skill.loadout = source.skillLoadout;
+  const heroes = createHeroPartyRuntime(scene, playerViews, {
+    groundY: STAGE12_GROUND_TOP_Y,
+    groundPlatformId: STAGE12_GROUND_PLATFORM_ID,
   });
-  const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
-    const player = players.find((candidate) => candidate.combat.slot === payload.owner);
-    if (player) player.combat.skill.loadout = payload.skillLoadout;
-  };
-  scene.events.on(FormalSkillsUpdatedEvent, syncSkills);
-  const movementRuntime = createLevelHeroMovementRuntime(playerViews.map((view) => ({
-    x: view.x,
-    y: STAGE12_GROUND_TOP_Y,
-    width: view.displayWidth,
-    currentPlatformId: STAGE12_GROUND_PLATFORM_ID,
-  })));
   const enemies = new Map<string, EnemyRuntime>();
   const monsterGeometry = readStage12AttackGeometry(scene);
   const fbEnter: Stage12FbEnterHandle = createStage12FbEnterBridge(
@@ -135,10 +87,14 @@ export function createStage12Gameplay(
     fbEnterImage,
     playerViews,
   );
-  const rewards: Stage1RewardBridge = createStage1RewardBridge(scene, players, stage12MovementPlatforms);
+  const rewards: Stage1RewardBridge = createStage1RewardBridge(
+    scene,
+    heroes.rewardPlayers(),
+    stage12MovementPlatforms,
+  );
   const hud = createStage1CombatHudBridge(
     scene,
-    () => players.map((player) => createStage1CombatPlayerHudSnapshot(player.combat)),
+    heroes.hudSnapshots,
     () => [...enemies.values()].map((enemy, index) =>
       createStage1CombatEnemyHudSnapshot(enemy.combat, index)),
   );
@@ -151,46 +107,38 @@ export function createStage12Gameplay(
   const update = (deltaMs: number): Stage12GameplayResult | undefined => {
     if (reportedResult) return undefined;
     const state = input.read();
-    updatePlayers(
-      players,
-      movementRuntime,
-      [state.p1, state.p2],
-      flow,
-      scene.cameras.main.scrollX,
-      scene.time.now,
+    heroes.update({
+      inputs: [state.p1, state.p2],
+      timeMs: scene.time.now,
       deltaMs,
-    );
-    attackVisuals.update(players.map((player) =>
-      projectHeroNormalAttackVisualPlayer(player.view, player.combat)), scene.time.now);
+      environmentFor: (_index, movement) => ({
+        platforms: stage12MovementPlatforms,
+        bounds: {
+          left: scene.cameras.main.scrollX + STAGE12_SCREEN_LEFT_X - movement.width / 2,
+          right: getStage12TravelRight(flow.nextStopPointIdx) + movement.width / 2,
+        },
+      }),
+    });
+    const heroSnapshots = heroes.snapshots();
     if (fbEnter.update(
       deltaMs,
       [state.p1, state.p2],
-      players.map((player) => player.combat.combat.state !== 'dead'),
+      heroSnapshots.map((hero) => hero.alive),
     )) {
       reportedResult = 'fb-entered';
       return reportedResult;
     }
-    activateReachedStopPoint(flow, players);
+    activateReachedStopPoint(flow, heroSnapshots);
     for (const enemy of updateStage12Spawners(flow, deltaMs)) {
       enemies.set(enemy.id, createEnemyView(scene, enemy, monsterGeometry));
     }
-    updateEnemyCombat(
-      scene,
-      players,
-      [state.p1, state.p2],
-      movementRuntime,
-      enemies,
-      flow,
-      combatRuntime,
-      scene.time.now,
-      deltaMs,
-      rewards,
-    );
+    updateEnemyCombat(scene, heroes, enemies, flow, scene.time.now, deltaMs, rewards);
     rewards.update(deltaMs);
     hud.update(deltaMs);
+    const settledHeroSnapshots = heroes.snapshots();
 
     const phase = flow.updatePartyFailure(
-      players.filter((player) => player.combat.combat.state !== 'dead').length,
+      settledHeroSnapshots.filter((hero) => hero.alive).length,
       deltaMs,
     );
     transferDoor.setAvailable(flow.doorVisible);
@@ -200,18 +148,18 @@ export function createStage12Gameplay(
     }
 
     if (flow.tryComplete(transferDoor.createCompletionAttempt(
-      players.map((player, index) => ({
-        view: player.view,
+      settledHeroSnapshots.map((hero, index) => ({
+        view: hero.view,
         input: index === 0 ? state.p1 : state.p2,
-        eligible: player.combat.combat.state !== 'dead',
+        eligible: hero.alive,
       })),
     ))) {
       reportedResult = 'cleared';
       return reportedResult;
     }
 
-    followParty(scene, players, flow);
-    updateStatus(status, flow, players, rewards.getSummary());
+    followParty(scene, settledHeroSnapshots, flow);
+    updateStatus(status, flow, settledHeroSnapshots, rewards.getSummary());
     return undefined;
   };
 
@@ -219,86 +167,29 @@ export function createStage12Gameplay(
     flow,
     update,
     destroy: () => {
-      scene.events.off(FormalSkillsUpdatedEvent, syncSkills);
       status.destroy();
       fbEnter.destroy();
       rewards.destroy();
       hud.destroy();
-      attackVisuals.destroy();
+      heroes.destroy();
       for (const enemy of enemies.values()) destroyEnemyView(enemy);
       enemies.clear();
     },
   };
 }
 
-function updatePlayers(
-  players: PlayerRuntime[],
-  movementRuntime: LevelHeroMovementRuntime,
-  inputs: readonly PlayerInputState[],
-  flow: Stage12FlowModel,
-  cameraScrollX: number,
-  timeMs: number,
-  deltaMs: number,
-): void {
-  updateLevelHeroMovementRuntime(
-    movementRuntime,
-    inputs,
-    players.map((player) => player.combat.combat.state !== 'dead'),
-    (_index, movement) => ({
-      platforms: stage12MovementPlatforms,
-      bounds: {
-        left: cameraScrollX + STAGE12_SCREEN_LEFT_X - movement.width / 2,
-        right: getStage12TravelRight(flow.nextStopPointIdx) + movement.width / 2,
-      },
-    }),
-    timeMs,
-    deltaMs,
-  );
-  movementRuntime.members.forEach((member, index) => {
-    const player = players[index];
-    const input = inputs[index];
-    if (!player || !input || player.combat.combat.state === 'dead') return;
-    updateStage1CombatPlayer({
-      player: player.combat,
-      input,
-      movement: member.movement,
-      bounds: {
-        left: cameraScrollX + STAGE12_SCREEN_LEFT_X - member.movement.width / 2,
-        right: getStage12TravelRight(flow.nextStopPointIdx) + member.movement.width / 2,
-      },
-      timeMs,
-      deltaMs,
-    });
-  });
-  movementRuntime.members.forEach((member, index) => {
-    const player = players[index];
-    player?.view.setPosition(member.movement.x, member.movement.y);
-    if (player) syncHeroCombatVisual(player.view, {
-      movement: member.movement,
-      combat: player.combat.combat,
-      normalAttack: player.combat.normalAttack,
-      skill: player.combat.skill,
-    }, timeMs);
-  });
-}
-
-function activateReachedStopPoint(flow: Stage12FlowModel, players: readonly PlayerRuntime[]): void {
+function activateReachedStopPoint(flow: Stage12FlowModel, heroes: HeroSnapshots): void {
   const nextIdx = flow.nextStopPointIdx;
   if (nextIdx === undefined || flow.activeStopPointIdx !== undefined) return;
-  const frontX = Math.max(...players
-    .filter((player) => player.combat.combat.state !== 'dead')
-    .map((player) => player.view.x), 0);
+  const frontX = Math.max(...heroes.filter((hero) => hero.alive).map((hero) => hero.x), 0);
   if (hasReachedStage12StopPoint(frontX, nextIdx)) touchStage12StopPoint(flow, nextIdx);
 }
 
 function updateEnemyCombat(
   scene: Phaser.Scene,
-  players: PlayerRuntime[],
-  inputs: readonly PlayerInputState[],
-  movementRuntime: LevelHeroMovementRuntime,
+  heroes: HeroPartyRuntime,
   enemies: Map<string, EnemyRuntime>,
   flow: Stage12FlowModel,
-  runtime: Stage1CombatRuntime,
   timeMs: number,
   deltaMs: number,
   rewards: Stage1RewardBridge,
@@ -308,32 +199,13 @@ function updateEnemyCombat(
     enemy.combat.y = enemy.physics.y;
     updateStage1Enemy({
       enemy: enemy.combat,
-      targets: players.map((player) => ({
-        slot: player.combat.slot,
-        x: player.view.x,
-        alive: player.combat.combat.state !== 'dead',
-      })),
+      targets: heroes.snapshots(),
       deltaMs,
     });
     syncEnemyView(scene, enemy, deltaMs);
-    resolveStage1EnemyAttack({
-      runtime,
-      enemy: enemy.combat,
-      players: players.map((player) => ({ player: player.combat, x: player.view.x })),
-      timeMs,
-    });
+    heroes.resolveEnemyAttack(enemy.combat, timeMs);
   }
-  players.forEach((player, index) => {
-    const movement = movementRuntime.members[index]?.movement;
-    if (!movement || !inputs[index]) return;
-    resolveStage1HeroAttack({
-      runtime,
-      player: player.combat,
-      movement,
-      enemies: [...enemies.values()].map((enemy) => enemy.combat),
-      timeMs,
-    });
-  });
+  heroes.resolveAttacks([...enemies.values()].map((enemy) => enemy.combat), timeMs);
   for (const [id, enemy] of enemies) {
     const visualComplete = syncEnemyView(scene, enemy, 0);
     if (enemy.combat.phase !== 'dead') continue;
@@ -346,7 +218,6 @@ function updateEnemyCombat(
     destroyEnemyView(enemy);
     enemies.delete(id);
   }
-  players.forEach(syncPlayerFeedback);
 }
 
 function createEnemyView(
@@ -369,50 +240,33 @@ function createEnemyView(
   };
 }
 
-function syncEnemyView(
-  scene: Phaser.Scene,
-  enemy: EnemyRuntime,
-  deltaMs: number,
-): boolean {
+function syncEnemyView(scene: Phaser.Scene, enemy: EnemyRuntime, deltaMs: number): boolean {
   return updateStage12MonsterView(scene, enemy.view, enemy.combat, deltaMs);
-}
-
-function syncPlayerFeedback(player: PlayerRuntime): void {
-  if (hasHeroCombatVisual(player.view)) return;
-  if (player.combat.combat.state === 'dead') player.view.setTint(0x555555);
-  else if (player.combat.combat.state === 'hurt') player.view.setTint(0xff8888);
-  else if (player.combat.normalAttack.activeAttack) player.view.setTint(0xffdf80);
-  else player.view.clearTint();
 }
 
 function destroyEnemyView(enemy: EnemyRuntime): void {
   destroyStage12MonsterView(enemy.view);
 }
 
-function followParty(
-  scene: Phaser.Scene,
-  players: readonly PlayerRuntime[],
-  flow: Stage12FlowModel,
-): void {
-  const living = players.filter((player) => player.combat.combat.state !== 'dead');
+function followParty(scene: Phaser.Scene, heroes: HeroSnapshots, flow: Stage12FlowModel): void {
+  const living = heroes.filter((hero) => hero.alive);
   if (living.length === 0) return;
-  const frontX = Math.max(...living.map((player) => player.view.x));
+  const frontX = Math.max(...living.map((hero) => hero.x));
   scene.cameras.main.scrollX = getStage12CameraScrollX(frontX, flow.nextStopPointIdx);
 }
 
 function updateStatus(
   status: Phaser.GameObjects.Text,
   flow: Stage12FlowModel,
-  players: readonly PlayerRuntime[],
+  heroes: HeroSnapshots,
   rewardSummary: string,
 ): void {
   const wave = flow.activeStopPointIdx === undefined
     ? flow.doorVisible ? '普通门已开启：到门前按上' : `前往停点 ${Number(flow.nextStopPointIdx) + 1}/5`
     : `停点 ${flow.activeStopPointIdx + 1}/5`;
-  const hp = players.map((player, index) => {
-    const combat = player.combat.combat;
-    const cause = player.combat.deathReason ? ` ${player.combat.deathReason}` : '';
-    return `P${index + 1} HP ${Math.ceil(combat.hp)}/${combat.maxHp} MP ${player.combat.mp}/${player.combat.maxMp}${cause}`;
+  const hp = heroes.map((hero, index) => {
+    const cause = hero.deathReason ? ` ${hero.deathReason}` : '';
+    return `P${index + 1} HP ${Math.ceil(hero.hp)}/${hero.maxHp} MP ${hero.mp}/${hero.maxMp}${cause}`;
   }).join(' · ');
   status.setText(`${wave} · 场上 ${flow.aliveEnemies.size} · 已击败 ${flow.defeatedCount}/46 · ${hp} · ${rewardSummary}`);
 }

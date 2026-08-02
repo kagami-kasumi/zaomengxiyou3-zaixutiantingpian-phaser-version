@@ -55,6 +55,7 @@ const bundledTests = requestedTests.length > 0
       'formal-magic-weapon-tests',
       'formal-game-loop-journey-tests',
       'formal-party-runtime-tests',
+      'hero-party-runtime-tests',
       'monster-runtime-tests',
       'asset-bundle-tests',
     ];

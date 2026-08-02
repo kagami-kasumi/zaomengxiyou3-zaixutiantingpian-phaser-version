@@ -24,8 +24,20 @@ assert.equal(shouldFlipNormalAttackVisual({ heroId: 1, facingX: -1 }), true);
 assert.equal(projectNormalAttackOriginX(493 / 592, false), 493 / 592);
 assert.ok(Math.abs(projectNormalAttackOriginX(493 / 592, true) - 99 / 592) < Number.EPSILON);
 
+const stage12Source = readFileSync(
+  path.join(process.cwd(), 'src/scenes/stage12/Stage12GameplayBridge.ts'),
+  'utf8',
+);
+assert.match(stage12Source, /createHeroPartyRuntime\(scene/, 'Stage 1-2 must delegate hero visuals');
+const heroPartySource = readFileSync(
+  path.join(process.cwd(), 'src/scenes/HeroPartyRuntimeBridge.ts'),
+  'utf8',
+);
+assert.match(heroPartySource, /createHeroNormalAttackVisualBridge\(scene\)/, 'hero runtime must create attack visuals');
+assert.match(heroPartySource, /attackVisuals\.update\(/, 'hero runtime must sync attack visuals');
+assert.match(heroPartySource, /attackVisuals\.destroy\(\)/, 'hero runtime must release attack visuals');
+
 for (const file of [
-  'src/scenes/stage12/Stage12GameplayBridge.ts',
   'src/scenes/stage13/Stage13GameplayBridge.ts',
   'src/scenes/stage21/Stage21GameplayBridge.ts',
   'src/scenes/stage22/Stage22GameplayBridge.ts',

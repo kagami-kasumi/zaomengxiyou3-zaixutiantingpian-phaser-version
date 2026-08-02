@@ -16,9 +16,9 @@
 
 | 优先级 | 执行项 | 状态 | 类型 | 目标 | 合同 | 完成后 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | PG-013 | Ready | 架构治理实现（V2B） | 建立关卡无关 `HeroPartyRuntime`，只迁移 Stage 1-2 的英雄创建、移动、战斗、普攻、技能与视觉生命周期；怪物 owner 与关卡内容保持不变 | [合同](../workflow/problems/PG-013-关卡运行框架按关卡复制.md) | 依据试点证据生成其余 Hero 消费者迁移批次；结束本次治理，不继续游戏 task |
+| 1 | PG-013 | Ready | 架构治理实现（V2C） | 复用 V2B 已建立的 `HeroPartyRuntime`，只迁移 Stage 1-3 的英雄移动、战斗、普攻、技能与视觉生命周期；怪物 owner 与关卡内容保持不变 | [合同](../workflow/problems/PG-013-关卡运行框架按关卡复制.md) | 收缩 Stage 1-3 Hero owner 静态预算；结束本次治理，不继续游戏 task |
 
-PG-013 V2A 已完成；当前由 V2B 抢占游戏 Ready task。V2B 完成前 `/goal` 不回退 `TASK-SLICE-159`。
+PG-013 V2A/V2B 已完成。试点证据将剩余 Hero 消费者拆为：V2C Stage 1-3（当前 Ready）→ V2D Stage 2-1（Planned）→ V2E Stage 2-2 正式与 DEV（Planned）→ V2F Stage 1-1/TestScene 兼容面（Planned）。只有四批 Hero 迁移全部完成后才进入独立 Monster owner 试点；队列清空前 `/goal` 不回退 `TASK-SLICE-159`。
 
 ## 游戏回退
 

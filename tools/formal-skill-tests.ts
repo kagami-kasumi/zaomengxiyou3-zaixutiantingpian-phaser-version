@@ -202,6 +202,7 @@ function testTrueSkillAssets(): void {
     root, 'public/assets/ui/feature/skills/native/base/skill-passive.svg',
   ), 'utf8');
   const stage12 = readFileSync(path.join(root, 'src/scenes/stage12/Stage12GameplayBridge.ts'), 'utf8');
+  const heroParty = readFileSync(path.join(root, 'src/scenes/HeroPartyRuntimeBridge.ts'), 'utf8');
   const stage13 = readFileSync(path.join(root, 'src/scenes/stage13/Stage13GameplayBridge.ts'), 'utf8');
   assert.match(scene, /createFormalSkillPageView/);
   assert.match(scene, /syncFormalSkillRuntime/);
@@ -243,7 +244,8 @@ function testTrueSkillAssets(): void {
   }
   assert.match(entry, /getPartyHeroId\(config\.party, owner\)/);
   assert.doesNotMatch(view, /callbacks\.playerCount/);
-  assert.match(stage12, /FormalSkillsUpdatedEvent/);
+  assert.match(stage12, /createHeroPartyRuntime/);
+  assert.match(heroParty, /FormalSkillsUpdatedEvent/);
   assert.match(stage13, /FormalSkillsUpdatedEvent/);
 }
 
