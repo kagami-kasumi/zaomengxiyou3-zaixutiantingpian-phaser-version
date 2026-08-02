@@ -7,6 +7,7 @@ import {
   projectHeroNormalAttackVisualPlayer,
 } from './HeroNormalAttackVisualBridge';
 import {
+  applyHeroPartyEnvironmentHits,
   createHeroPartyRuntimeModel,
   destroyHeroPartyRuntime,
   resolveHeroPartyAttacks,
@@ -15,6 +16,7 @@ import {
   snapshotHeroParty,
   updateHeroPartyRuntime,
   type HeroPartyFrame,
+  type HeroPartyEnvironmentHit,
   type HeroRuntimeSnapshot,
 } from '../systems/HeroPartyRuntimeSystem';
 import type { Stage1CombatEnemy } from '../systems/Stage1CombatSystem';
@@ -31,6 +33,7 @@ export type HeroPartyViewSnapshot = HeroRuntimeSnapshot & Readonly<{
 
 export type HeroPartyRuntime = Readonly<{
   update: (frame: HeroPartyFrame) => void;
+  applyEnvironmentHits: (hits: readonly HeroPartyEnvironmentHit[]) => void;
   resolveAttacks: (monsterTargets: readonly Stage1CombatEnemy[], timeMs: number) => void;
   resolveEnemyAttack: (enemy: Stage1CombatEnemy, timeMs: number) => void;
   snapshots: () => readonly HeroPartyViewSnapshot[];
@@ -91,6 +94,15 @@ export function createHeroPartyRuntime(
       });
       attackVisuals.update(model.members.map((member, index) =>
         projectHeroNormalAttackVisualPlayer(views[index]!, member.combat)), frame.timeMs);
+    },
+    applyEnvironmentHits: (hits) => {
+      applyHeroPartyEnvironmentHits(model, hits);
+      model.members.forEach((member, index) => {
+        const view = views[index];
+        if (!view) return;
+        view.setPosition(member.movement.x, member.movement.y);
+        syncFallbackFeedback(view, member.combat);
+      });
     },
     resolveAttacks: (monsterTargets, timeMs) => resolveHeroPartyAttacks(model, monsterTargets, timeMs),
     resolveEnemyAttack: (enemy, timeMs) => {

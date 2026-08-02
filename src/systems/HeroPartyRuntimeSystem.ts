@@ -16,6 +16,7 @@ import {
   type Stage1CombatEnemy,
   type Stage1CombatPlayer,
   type Stage1CombatRuntime,
+  type Stage1DeathReason,
 } from './Stage1CombatSystem';
 
 export type HeroPartyMemberDefinition = Readonly<{
@@ -44,12 +45,22 @@ export type HeroRuntimeSnapshot = Readonly<{
   slot: PlayerSlot;
   x: number;
   y: number;
+  width: number;
+  facingX: -1 | 1;
   alive: boolean;
   hp: number;
   maxHp: number;
   mp: number;
   maxMp: number;
   deathReason?: string;
+}>;
+
+export type HeroPartyEnvironmentHit = Readonly<{
+  target: PlayerSlot;
+  damage: number;
+  knockbackX: number;
+  bounds: HeroMovementBounds;
+  deathReason: Stage1DeathReason;
 }>;
 
 export type HeroPartyRuntimeModel = {
@@ -142,6 +153,28 @@ export function resolveHeroPartyEnemyAttack(
   });
 }
 
+export function applyHeroPartyEnvironmentHits(
+  runtime: HeroPartyRuntimeModel,
+  hits: readonly HeroPartyEnvironmentHit[],
+): void {
+  if (runtime.destroyed) return;
+  for (const hit of hits) {
+    const member = runtime.members.find((candidate) => candidate.combat.slot === hit.target);
+    if (!member || member.combat.combat.state === 'dead') continue;
+    member.combat.combat.hp = Math.max(0, member.combat.combat.hp - hit.damage);
+    member.movement.x = Math.min(
+      Math.max(member.movement.x + hit.knockbackX, hit.bounds.left),
+      hit.bounds.right,
+    );
+    if (member.combat.combat.hp === 0) {
+      member.combat.combat.state = 'dead';
+      member.combat.deathReason = hit.deathReason;
+    } else {
+      member.combat.combat.state = 'hurt';
+    }
+  }
+}
+
 export function setHeroPartySkillLoadout(
   runtime: HeroPartyRuntimeModel,
   slot: PlayerSlot,
@@ -156,6 +189,8 @@ export function snapshotHeroParty(runtime: HeroPartyRuntimeModel): readonly Hero
     slot: member.combat.slot,
     x: member.movement.x,
     y: member.movement.y,
+    width: member.movement.width,
+    facingX: member.movement.facingX,
     alive: member.combat.combat.state !== 'dead',
     hp: member.combat.combat.hp,
     maxHp: member.combat.combat.maxHp,

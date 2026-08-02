@@ -204,6 +204,7 @@ function testTrueSkillAssets(): void {
   const stage12 = readFileSync(path.join(root, 'src/scenes/stage12/Stage12GameplayBridge.ts'), 'utf8');
   const heroParty = readFileSync(path.join(root, 'src/scenes/HeroPartyRuntimeBridge.ts'), 'utf8');
   const stage13 = readFileSync(path.join(root, 'src/scenes/stage13/Stage13GameplayBridge.ts'), 'utf8');
+  const stage21 = readFileSync(path.join(root, 'src/scenes/stage21/Stage21GameplayBridge.ts'), 'utf8');
   assert.match(scene, /createFormalSkillPageView/);
   assert.match(scene, /syncFormalSkillRuntime/);
   assert.doesNotMatch(view, /add\.rectangle/);
@@ -248,6 +249,8 @@ function testTrueSkillAssets(): void {
   assert.match(heroParty, /FormalSkillsUpdatedEvent/);
   assert.match(stage13, /createHeroPartyRuntime/);
   assert.doesNotMatch(stage13, /FormalSkillsUpdatedEvent/);
+  assert.match(stage21, /createHeroPartyRuntime/);
+  assert.doesNotMatch(stage21, /FormalSkillsUpdatedEvent/);
 }
 
 function testPassiveEffectDescriptions(): void {

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import type { PlayerInputState, PlayerSlot } from '../src/systems/InputSystem';
 import {
+  applyHeroPartyEnvironmentHits,
   createHeroPartyRuntimeModel,
   destroyHeroPartyRuntime,
   resolveHeroPartyAttacks,
@@ -88,6 +89,35 @@ function testEnemyDamageAndIdempotentDestroy(): void {
   assert.deepEqual(snapshotHeroParty(runtime), [], 'destroyed runtime ignores later frames');
 }
 
+function testEnvironmentHitOwnsDamageKnockbackAndDeath(): void {
+  const runtime = createRuntime();
+  applyHeroPartyEnvironmentHits(runtime, [{
+    target: 'p1',
+    damage: 10,
+    knockbackX: -50,
+    bounds: { left: 80, right: 200 },
+    deathReason: 'movement-trap',
+  }]);
+  const hurt = snapshotHeroParty(runtime)[0]!;
+  assert.equal(hurt.hp, hurt.maxHp - 10);
+  assert.equal(hurt.x, 80, 'environment knockback clamps inside the supplied level bounds');
+  assert.equal(runtime.members[0]!.combat.combat.state, 'hurt');
+
+  applyHeroPartyEnvironmentHits(runtime, [{
+    target: 'p1',
+    damage: hurt.maxHp,
+    knockbackX: 200,
+    bounds: { left: 80, right: 200 },
+    deathReason: 'movement-trap',
+  }]);
+  const dead = snapshotHeroParty(runtime)[0]!;
+  assert.equal(dead.hp, 0);
+  assert.equal(dead.x, 200);
+  assert.equal(dead.deathReason, 'movement-trap');
+  assert.equal(dead.alive, false);
+}
+
 testPartyOwnsMovementCombatAndSkills();
 testEnemyDamageAndIdempotentDestroy();
+testEnvironmentHitOwnsDamageKnockbackAndDeath();
 console.log('Hero party runtime movement, combat, skills, snapshots, and destroy tests passed.');

@@ -2,6 +2,38 @@
 
 ## 2026-08-02
 
+### PG-013 V2D HeroPartyRuntime Stage 2-1 迁移
+
+变更内容：
+
+- Stage 2-1 删除私有 `PlayerRuntime`、movement/combat runtime、英雄 update/resolve、技能事件订阅与普攻视觉生命周期，改为消费共享 `HeroPartyRuntime`。
+- GameplayBridge 只提交输入、平台/边界、冰刺环境命中和怪物目标；Monster6、怪物 Map/AI/物理/奖励、五停点、冰刺视图与显式 QA 保持不变。
+- 共享 Runtime 新增窄环境命中入口，纯系统专项覆盖伤害、击退边界与 `movement-trap` 死亡。
+- `check:level-architecture` 将 Stage 2-1 Hero owner token 预算归零，并把正向委托/负向回填检查扩展到 Stage 1-2/1-3/2-1；PG-013 下一批切换为 V2E Stage 2-2 正式与 DEV。
+
+影响范围：
+
+- `src/systems/HeroPartyRuntimeSystem.ts`
+- `src/scenes/HeroPartyRuntimeBridge.ts`
+- `src/scenes/stage21/Stage21GameplayBridge.ts`
+- `tools/hero-party-runtime-tests.ts`
+- `tools/check-playable-level-architecture.mjs`
+- `tools/hero-combat-visual-coordinate-tests.ts`
+- `tools/formal-skill-tests.ts`
+- `docs/architecture/playable-level-runtime.md`
+- `docs/tasks/execution-queue.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-013-关卡运行框架按关卡复制.md`
+
+验证：
+
+- `npm run test:hero-party-runtime`、`npm run test:stage21`
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:all`
+- 940×590 Stage 2-1 正式 1P/2P 与显式 QA 运行验收、console 零 warning/error
+- `git diff --check`
+
 ### PG-013 V2C HeroPartyRuntime Stage 1-3 迁移
 
 变更内容：

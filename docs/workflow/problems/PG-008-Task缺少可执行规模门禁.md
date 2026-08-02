@@ -92,6 +92,7 @@ PG-008 只有同时满足以下条件才可关闭：
 
 | 日期 | 任务/变更 | 适用性 | 证据 | 结论 | 后续动作 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-02 | `PG-013 V2D` 单 owner 有界迁移 | 适用 | 本次只迁移 Stage 2-1 的 Hero owner，一个既有共享 owner、一个正式消费者与一组环境事件/静态门禁/专项；0 compact，未修改 Monster Map/AI/物理/奖励、Stage 2-2 或游戏 Ready task | 通过 | 本次完成即停止；下一 `/goal` 只执行不可分的 V2E Stage 2-2 正式与 DEV 双消费者 |
 | 2026-08-02 | `PG-013 V2C` 单 owner 有界迁移 | 适用 | 本次只迁移 Stage 1-3 的 Hero owner，一个既有共享 owner、一个正式消费者与一组静态门禁/专项；0 compact，未修改 Monster Map/AI/物理/奖励、其他关卡或游戏 Ready task；自动与 940×590 验收后即停止 | 通过 | 下一 `/goal` 只执行 V2D Stage 2-1；V2E 才同批处理不可分的 Stage 2-2 正式与 DEV 消费者 |
 | 2026-08-02 | `PG-013 V2B` 单 owner 有界试点 | 适用 | 本次只建立 HeroPartyRuntime 并迁移 Stage 1-2，一个实体 owner、一个正式消费者、两层实现与一组专项；0 compact，未修改 Monster Map/AI/物理/奖励或进入其余四关。试点后把剩余 Hero 消费者拆为四个串行批次 | 通过 | 本次完成即停止；下一 `/goal` 只执行 V2C Stage 1-3，V2E 才把 Stage 2-2 正式与 DEV 作为不可分双消费者同批处理 |
 | 2026-08-02 | `TASK-SLICE-158C` 有界执行 | 适用 | 实际保持两个工作包（资源/动画owner；正式与QA接入）和两批验收，单一BaJie资源族机械接入，0 compact，未读取或实现Role4/5 | 通过 | 完成归档后停止；下一次独立/goal只执行069D |

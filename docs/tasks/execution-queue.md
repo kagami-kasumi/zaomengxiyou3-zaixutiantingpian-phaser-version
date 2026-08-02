@@ -16,9 +16,9 @@
 
 | 优先级 | 执行项 | 状态 | 类型 | 目标 | 合同 | 完成后 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | PG-013 | Ready | 架构治理实现（V2D） | 复用已建立的 `HeroPartyRuntime`，只迁移 Stage 2-1 的英雄移动、战斗、普攻、技能与视觉生命周期；怪物 owner、冰刺与关卡内容保持不变 | [合同](../workflow/problems/PG-013-关卡运行框架按关卡复制.md) | 收缩 Stage 2-1 Hero owner 静态预算；结束本次治理，不继续游戏 task |
+| 1 | PG-013 | Ready | 架构治理实现（V2E） | 复用已建立的 `HeroPartyRuntime`，同批迁移 Stage 2-2 正式与 DEV 的英雄移动、战斗、普攻、技能与视觉生命周期；怪物 owner、火焰、Boss 阶段与关卡内容保持不变 | [合同](../workflow/problems/PG-013-关卡运行框架按关卡复制.md) | 收缩 Stage 2-2 正式与 DEV Hero owner 静态预算；结束本次治理，不继续游戏 task |
 
-PG-013 V2A/V2B/V2C 已完成。试点证据将剩余 Hero 消费者拆为：V2D Stage 2-1（当前 Ready）→ V2E Stage 2-2 正式与 DEV（Planned）→ V2F Stage 1-1/TestScene 兼容面（Planned）。只有四批 Hero 迁移全部完成后才进入独立 Monster owner 试点；队列清空前 `/goal` 不回退 `TASK-SLICE-159`。
+PG-013 V2A/V2B/V2C/V2D 已完成。试点证据将剩余 Hero 消费者拆为：V2E Stage 2-2 正式与 DEV（当前 Ready，必须同批避免双 owner）→ V2F Stage 1-1/TestScene 兼容面（Planned）。只有四批 Hero 迁移全部完成后才进入独立 Monster owner 试点；队列清空前 `/goal` 不回退 `TASK-SLICE-159`。
 
 ## 游戏回退
 
