@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Ready）
 
 目标机制/切片：
 
@@ -24,7 +24,7 @@
 
 输入资料：
 
-- `TASK-SETTINGS-069D` 的 Role4 双形态矩阵、选择性导出、现有 Role4 系统/manifest/桥。
+- `role4-combat-visuals-index.md`、Role4 专项标注批次，以及069D闭合的18铲身、18弓身、14装备、29个技能/附属对象、897帧可见资源、共享 `SpeedUp`、HUD frame4 和现有 Role4 系统/manifest/桥。
 
 输出产物：
 
@@ -59,4 +59,3 @@ UI 原生化合同：
 推荐后续任务：
 
 - `TASK-SETTINGS-069E`。
-

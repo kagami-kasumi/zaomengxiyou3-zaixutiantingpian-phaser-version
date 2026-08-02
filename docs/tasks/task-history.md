@@ -9479,3 +9479,24 @@ Goal：
 
 推荐任务：
 - `TASK-SLICE-158C`：只消费069C证据，接入Role3本体/装备、HUD映射、普攻、九主动与盾/拉拽/移动/追踪对象真动画。
+
+### TASK-SETTINGS-069D
+
+- 完成日期：2026-08-02
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-158D`）
+- 确认 `assets/ShaShen.swf` 与 `assets/SpecialUI/ShaShen.swf` SHA-256 相同，普通包为主 owner；跨 `20120117/20120119/20120203/20120808/MagicWeapon2` 恢复包补齐服装与装备族。
+- 闭合18套铲身、18套弓身、14套装备，统一1200×2800、6×14、200×200动作表、装备上层合成、左右 origin `(0.575/0.425,0.565)`、动作帧/hold tick与原版受击hold差异。
+- 闭合五普攻、全部已实现技能与附属对象共29行的Symbol id、帧数、注册bounds、创建点、方向、层级与生命周期；Role4专项可见资源合计897帧/格，包含 `StageCommon.swf` character 38的16帧共享 `SpeedUp`。
+- 闭合574/505 frame4/510 HUD显示列表、P1/P2镜像、940×590逐状态计划；未知0，现代可见例外0。
+
+更新文件：
+- `docs/reverse-engineering/role4-combat-visuals-index.md`
+- Role4专项标注批次、既有角色技能/普攻标注和标注状态台账
+- M-021/M-034/M-047/M-049、VS-062、功能线覆盖、看板/历史与PG反馈
+
+验证：
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次任务最终检查。
+- 本 task 只产出权威实现输入，不宣称 Role4 真视觉已经接入；选择性派生、运行与逐状态验收留给158D。
+
+推荐任务：
+- `TASK-SLICE-158D`：只消费069D证据，接入Role4铲/弓本体、装备、HUD、普攻、全部已实现技能与附属对象真动画。

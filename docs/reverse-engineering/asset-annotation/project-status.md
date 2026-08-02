@@ -2,14 +2,14 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1/Role2 战斗视觉已接入；Role3 本体/装备、三普攻、九主动及盾/拉拽/追踪对象已完成精确来源与实现输入标注；炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录以及 Stage 1/2 怪物真视觉已完成接入。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1/Role2/Role3 战斗视觉已接入；Role4 铲/弓本体、装备、五个普攻对象、全部已实现技能及附属对象已完成精确来源与实现输入标注；炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录以及 Stage 1/2 怪物真视觉已完成接入。
 
 ## 范围覆盖
 
 | 范围 | 标注数 | 结果 | 批次 |
 | --- | ---: | --- | --- |
-| 五角色普攻附属对象和本体动作 | 39 | Role1/Role2 已接；Role3 13本体/9装备与三普攻已选择性派生并待158C；Role4/5待定位，Role5枪形态1条保持unknown | `role1-normal-attack.md`、`hero-normal-attacks.md`、`role1..3-combat-visuals.md` |
-| 已实现英雄技能效果 key | 76 | Role1/Role2 已接；Role3 12个可见对象 key 已选择性派生，`xgq` cast反证为本体动作+音效而无独立Symbol；Role4/5待定位 | `hero-skill-effects.md`、`role1..3-combat-visuals.md` |
+| 五角色普攻附属对象和本体动作 | 39 | Role1/Role2/Role3 已接；Role4 的18铲身、18弓身、14装备与五普攻对象已定位并待158D；Role5枪形态1条保持unknown | `role1-normal-attack.md`、`hero-normal-attacks.md`、`role1..4-combat-visuals.md` |
+| 已实现英雄技能效果 key | 78 | Role1/Role2/Role3 已接；Role4 既有22 key及补录的`Role4MDS`/共享`SpeedUp`均已定位并待158D；Role5待定位 | `hero-skill-effects.md`、`role1..4-combat-visuals.md` |
 | 已实现法宝效果 key | 10 | 语义映射已确认，待检查 `MagicWeapon*.swf` 等恢复包 | `magic-weapon-effects.md` |
 | 已实现宠物技能效果 key | 24 | 语义映射已确认，待定位源符号；6 条保留现代占位名差异 | `pet-skill-effects.md` |
 | Stage 1 怪物视觉 | 26 | 7 本体 atlas、16 攻击/效果对象、3 碰撞根均已选择性派生；`157A/B` 已接入 18 条，余 8 条由 Stage 1-3 与最终 owner 回归处理 | `stage1-monsters.md`、`monster30.md`、`../stage1-monster-visuals-index.md` |
@@ -21,7 +21,7 @@
 | UI 与配方图标 | 335 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条、地图服务四页根 UI、丹药页 11 条、商城页 18 条、设置页 2 条、任务页 13 条以及关卡五入口/设置/帮助 16 条深层资源已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`../map-service-ui-index.md`、`../immortality-ui-index.md`、`../shop-ui-index.md`、`../settings-ui-index.md`、`../task-ui-index.md`、`../stage-feature-entry-index.md` |
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 
-总计 1000 条标注：855 条 `ready`、39 条 `derived-ready`、1 条 `export-ready`、98 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；999 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
+总计 1002 条标注：870 条 `ready`、55 条 `derived-ready`、1 条 `export-ready`、69 条 `source-corpus-ready`、1 条 `missing-original`、1 条 `needs-annotation`、5 条 `rejected`；1001 条 `confirmed`、1 条 `unknown`。当前没有 `needs-splitting` 条目。
 
 ## 人工待办
 
