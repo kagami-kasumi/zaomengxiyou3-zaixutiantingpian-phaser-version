@@ -4,16 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-158E` 是唯一当前推荐，属于唯一 Active 功能线；下一步只消费069E证据接入 Role5 白龙枪/剑双形态真视觉，不提前进入旅程回归。
+`TASK-SLICE-159` 是唯一当前推荐，属于唯一 Active 功能线；五角色真视觉与069/158父任务已经闭合，下一步只执行本地存档正式旅程回归。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-069 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向父任务 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 共享矩阵、显示列表门禁与 `069A..E` / `158A..E` 合同 | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SETTINGS-069.md) |
-| TASK-SLICE-158E | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Role5 真动画 | 接入白龙枪/剑双形态本体、UI、普攻、技能与附属对象真动画 | M-022..M-025、M-034、M-035、M-047、M-049、VS-062 | Role5 真资源、逐状态、差异证据与父任务收束 | TASK-SLICE-159 | [定义](task-definitions/TASK-SLICE-158E.md) |
-| TASK-SLICE-158 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 五角色动画父任务 | 逐角色接入本体、战斗 UI、普攻、技能及附属对象真动画 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 由 TASK-SETTINGS-069 生成的逐角色子 task | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SLICE-158.md) |
-| TASK-SLICE-159 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 本地存档正式旅程 | 复用既有六槽 localStorage/V6，验证所有新增功能跨重启持久化并关闭前置线 | M-044、M-050、VS-052、VS-063 | 自动旅程、940×590 重启读取证据与关闭检查 | 恢复 TASK-SETTINGS-064 | [定义](task-definitions/TASK-SLICE-159.md) |
+| TASK-SLICE-159 | Ready | LINE-PRE-STAGE-2-3-COMPLETION | 本地存档正式旅程 | 复用既有六槽 localStorage/V6，验证所有新增功能跨重启持久化并关闭前置线 | M-044、M-050、VS-052、VS-063 | 自动旅程、940×590 重启读取证据与关闭检查 | 恢复 TASK-SETTINGS-064 | [定义](task-definitions/TASK-SLICE-159.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 依据证据生成同线最小实现 task | [定义](task-definitions/TASK-SETTINGS-064.md) |
 | TASK-ARCH-010A | Planned | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B | [定义](task-definitions/TASK-ARCH-010A.md) |
 | TASK-ARCH-010B | Planned | LINE-MONSTER-ARCH | 怪物生命周期治理 | 建立唯一怪物运行时注册表并在普通怪+Boss 正式关卡试点 | M-030、VS-007、VS-056 | 注册表、Flow/bridge 所有权收敛、试点关卡回归与后续迁移清单 | 依据试点生成同线逐关卡迁移 task | [定义](task-definitions/TASK-ARCH-010B.md) |

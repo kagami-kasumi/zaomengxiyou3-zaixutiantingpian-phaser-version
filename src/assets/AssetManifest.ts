@@ -225,6 +225,7 @@ export const CombatHudAssetKeys = {
   role2Portrait: 'combat-hud.role2-portrait',
   role3Portrait: 'combat-hud.role3-portrait',
   role4Portrait: 'combat-hud.role4-portrait',
+  role5Portrait: 'combat-hud.role5-portrait',
   bossBlood: 'combat-hud.boss-blood',
 } as const;
 
@@ -355,13 +356,24 @@ export const HeroNormalAttackEffectKeys = {
   role4ShovelHit3: 'normal-attack-effect.hero4.shovel.hit3',
   role4ArrowHit1: 'normal-attack-effect.hero4.arrow.hit1',
   role4ArrowHit3: 'normal-attack-effect.hero4.arrow.hit3',
-  role5SpearUnknown: 'normal-attack-effect.hero5.spear.unresolved',
+  role5SpearHit1: 'normal-attack-effect.hero5.spear.hit1',
+  role5SpearHit2: 'normal-attack-effect.hero5.spear.hit2',
+  role5SpearHit3: 'normal-attack-effect.hero5.spear.hit3',
+  role5SpearHit4: 'normal-attack-effect.hero5.spear.hit4',
+  role5SpearHit5: 'normal-attack-effect.hero5.spear.hit5',
+  role5SpearRunMissing: 'normal-attack-effect.hero5.spear.unresolved',
   role5SwordHit1: 'normal-attack-effect.hero5.sword.hit1',
+  role5SwordHit1Enhanced: 'normal-attack-effect.hero5.sword.hit1.enhanced',
   role5SwordHit2: 'normal-attack-effect.hero5.sword.hit2',
+  role5SwordHit2Enhanced: 'normal-attack-effect.hero5.sword.hit2.enhanced',
   role5SwordHit3: 'normal-attack-effect.hero5.sword.hit3',
+  role5SwordHit3Enhanced: 'normal-attack-effect.hero5.sword.hit3.enhanced',
   role5SwordHit4: 'normal-attack-effect.hero5.sword.hit4',
+  role5SwordHit4Enhanced: 'normal-attack-effect.hero5.sword.hit4.enhanced',
   role5SwordHit5: 'normal-attack-effect.hero5.sword.hit5',
+  role5SwordHit5Enhanced: 'normal-attack-effect.hero5.sword.hit5.enhanced',
   role5SwordRunHit: 'normal-attack-effect.hero5.sword.run-hit',
+  role5SwordRunHitEnhanced: 'normal-attack-effect.hero5.sword.run-hit.enhanced',
 } as const;
 
 export const Role1CombatAssetKeys = {
@@ -389,6 +401,18 @@ export const Role4CombatAssetKeys = {
   arrowEquipment4: 'hero-animation.hero4.equipment.4',
   mdsBomb: 'skill-effect.role4.mds.bomb',
   speedUp: 'skill-buff.role4.mds.speedup',
+} as const;
+
+export const Role5CombatAssetKeys = {
+  spearBody0: 'hero-animation.hero5.spear.body.0',
+  spearEquipment0: 'hero-animation.hero5.spear.equipment.0',
+  yybStatus: 'skill-buff.role5.yyb.status',
+  tljStatus: 'skill-effect.role5.tlj.status',
+  jrjlCast: 'skill-effect.role5.jrjl.cast',
+  jrjlStatus: 'skill-buff.role5.jrjl.status',
+  lyshRelease: 'skill-effect.role5.lysh.release',
+  escapeBefore: 'normal-attack-effect.hero5.escape.before',
+  escapeAfter: 'normal-attack-effect.hero5.escape.after',
 } as const;
 
 export const SkillProjectileEffectKeys = {
@@ -625,6 +649,15 @@ export const combatHudAssets = {
     source: 'extracted-flash',
     sourcePackage: 'assets/OtherMat1.swf',
     sourceSymbol: 'OtherMat_fla._2233_62 frame 4',
+    sourceCharacterId: 505,
+  },
+  role5Portrait: {
+    key: CombatHudAssetKeys.role5Portrait,
+    path: '/assets/ui/combat-hud/portraits/role5.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'OtherMat_fla._2233_62 frame 5',
     sourceCharacterId: 505,
   },
   bossBlood: {
@@ -2703,44 +2736,216 @@ export const role4SpeedUpAsset = createRole4EffectFrames(
   'status', 'assets/StageCommon.swf',
 );
 
+type Role5SpearSheetAssetDefinition = LoadableAssetDefinition & Readonly<{
+  form: 'body' | 'equipment';
+  appearanceId: number;
+  sourcePackage: 'assets/bailong.swf';
+  sourceSymbol: string;
+  cellWidth: 350;
+  cellHeight: 350;
+  columns: 8;
+  rows: 17;
+}>;
+
+const role5SpearSheet = (
+  form: Role5SpearSheetAssetDefinition['form'],
+  appearanceId: number,
+  fileName: string,
+): Role5SpearSheetAssetDefinition => ({
+  key: `hero-animation.hero5.spear.${form}.${appearanceId}`,
+  path: `/assets/combat/role5/body/spear/${fileName}`,
+  status: 'ready',
+  source: 'extracted-flash',
+  form,
+  appearanceId,
+  sourcePackage: 'assets/bailong.swf',
+  sourceSymbol: form === 'body' ? `ROLE5_${appearanceId}` : `ROLE5_EQUIP_${appearanceId}`,
+  cellWidth: 350,
+  cellHeight: 350,
+  columns: 8,
+  rows: 17,
+});
+
+export const role5SpearBodyFamilyAssets = {
+  body0: role5SpearSheet('body', 0, '25_ROLE5_0.png'),
+  body1: role5SpearSheet('body', 1, '24_ROLE5_1.png'),
+  body2: role5SpearSheet('body', 2, '21_ROLE5_2.png'),
+  body3: role5SpearSheet('body', 3, '20_ROLE5_3.png'),
+  body4: role5SpearSheet('body', 4, '19_ROLE5_4.png'),
+  body5: role5SpearSheet('body', 5, '18_ROLE5_5.png'),
+  body6: role5SpearSheet('body', 6, '17_ROLE5_6.png'),
+  body7: role5SpearSheet('body', 7, '16_ROLE5_7.png'),
+  body11: role5SpearSheet('body', 11, '23_ROLE5_11.png'),
+  body12: role5SpearSheet('body', 12, '6_ROLE5_12.png'),
+  body14: role5SpearSheet('body', 14, '2_ROLE5_14.png'),
+  body15: role5SpearSheet('body', 15, '4_ROLE5_15.png'),
+  body16: role5SpearSheet('body', 16, '22_ROLE5_16.png'),
+  equipment0: role5SpearSheet('equipment', 0, '15_ROLE5_EQUIP_0.png'),
+  equipment1: role5SpearSheet('equipment', 1, '14_ROLE5_EQUIP_1.png'),
+  equipment2: role5SpearSheet('equipment', 2, '12_ROLE5_EQUIP_2.png'),
+  equipment3: role5SpearSheet('equipment', 3, '11_ROLE5_EQUIP_3.png'),
+  equipment4: role5SpearSheet('equipment', 4, '10_ROLE5_EQUIP_4.png'),
+  equipment5: role5SpearSheet('equipment', 5, '9_ROLE5_EQUIP_5.png'),
+  equipment9: role5SpearSheet('equipment', 9, '8_ROLE5_EQUIP_9.png'),
+  equipment12: role5SpearSheet('equipment', 12, '7_ROLE5_EQUIP_12.png'),
+  equipment13: role5SpearSheet('equipment', 13, '1_ROLE5_EQUIP_13.png'),
+  equipment14: role5SpearSheet('equipment', 14, '3_ROLE5_EQUIP_14.png'),
+  equipment15: role5SpearSheet('equipment', 15, '5_ROLE5_EQUIP_15.png'),
+  equipment16: role5SpearSheet('equipment', 16, '13_ROLE5_EQUIP_16.png'),
+} as const satisfies Record<string, Role5SpearSheetAssetDefinition>;
+
+const role5Origin = (bounds: readonly [number, number, number, number]) => ({
+  x: -bounds[0] / (bounds[2] - bounds[0]),
+  y: -bounds[1] / (bounds[3] - bounds[1]),
+});
+
+function createRole5Frames(
+  key: string,
+  characterId: number,
+  symbol: string,
+  frameCount: number,
+  bounds: readonly [number, number, number, number],
+  family: 'spear' | 'sword' = 'sword',
+) {
+  const directory = `DefineSprite_${characterId}_${symbol}`;
+  return {
+    key,
+    frameKeys: Array.from({ length: frameCount }, (_, index) => `${key}.frame${index + 1}`),
+    framePaths: Array.from(
+      { length: frameCount },
+      (_, index) => `/assets/combat/role5/effects/${family}/${directory}/${index + 1}.svg`,
+    ),
+    registrationOrigin: role5Origin(bounds),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: family === 'spear' ? 'assets/bailong.swf' : 'assets/bailongSword.swf',
+    sourceSymbol: symbol,
+  } as const;
+}
+
+function createRole5SwordBodyFrames(key: string, characterId: number, symbol: string, frameCount: number) {
+  const directory = characterId === 273 ? 'DefineSprite_273' : `DefineSprite_${characterId}_${symbol}`;
+  return {
+    key,
+    frameKeys: Array.from({ length: frameCount }, (_, index) => `${key}.frame${index + 1}`),
+    framePaths: Array.from(
+      { length: frameCount },
+      (_, index) => `/assets/combat/role5/body/sword/${directory}/${index + 1}.svg`,
+    ),
+    registrationOrigin: { x: 158 / 290, y: 142 / 290 },
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/bailongSword.swf',
+    sourceSymbol: symbol,
+  } as const;
+}
+
+export const role5SwordBodyAssets = {
+  idle: createRole5SwordBodyFrames('hero-animation.hero5.sword.idle', 296, 'jidle', 6),
+  walk: createRole5SwordBodyFrames('hero-animation.hero5.sword.walk', 318, 'jwalk', 4),
+  run: createRole5SwordBodyFrames('hero-animation.hero5.sword.run', 289, 'jrunNormal', 4),
+  jump1: createRole5SwordBodyFrames('hero-animation.hero5.sword.jump1', 287, 'jjumpNormal', 1),
+  jump2: createRole5SwordBodyFrames('hero-animation.hero5.sword.jump2', 285, 'jjumpTwo', 4),
+  jump3: createRole5SwordBodyFrames('hero-animation.hero5.sword.jump3', 283, 'jjumpDown', 1),
+  attack1: createRole5SwordBodyFrames('hero-animation.hero5.sword.attack1', 316, 'jattack1', 4),
+  attack2: createRole5SwordBodyFrames('hero-animation.hero5.sword.attack2', 312, 'jattack2', 5),
+  attack3: createRole5SwordBodyFrames('hero-animation.hero5.sword.attack3', 308, 'jattack3', 4),
+  attack4: createRole5SwordBodyFrames('hero-animation.hero5.sword.attack4', 304, 'jattack4', 4),
+  jumpAttack: createRole5SwordBodyFrames('hero-animation.hero5.sword.jump-attack', 281, 'jjumpattack', 3),
+  runAttack: createRole5SwordBodyFrames('hero-animation.hero5.sword.run-attack', 270, 'jrunattack', 4),
+  hurt: createRole5SwordBodyFrames('hero-animation.hero5.sword.hurt', 300, 'jhurtStand', 1),
+  skill1: createRole5SwordBodyFrames('hero-animation.hero5.sword.skill1', 294, 'jskill1', 6),
+  skill2: createRole5SwordBodyFrames('hero-animation.hero5.sword.skill2', 321, 'jskill2', 6),
+  skill4: createRole5SwordBodyFrames('hero-animation.hero5.sword.skill4', 275, 'jskill4', 3),
+  skill5_1: createRole5SwordBodyFrames('hero-animation.hero5.sword.skill5-1', 266, 'jskill5_1', 3),
+  skill5_2: createRole5SwordBodyFrames('hero-animation.hero5.sword.skill5-2', 264, 'jskill5_2', 3),
+  tlj: createRole5SwordBodyFrames('hero-animation.hero5.sword.tlj', 336, 'jtlj', 3),
+  mlsz: createRole5SwordBodyFrames('hero-animation.hero5.sword.mlsz', 273, 'mlsz-inner', 7),
+} as const;
+
+export const role5NormalAttackAssets = {
+  [HeroNormalAttackEffectKeys.role5SpearHit1]: createRole5Frames(HeroNormalAttackEffectKeys.role5SpearHit1, 76, 'Role5Bullet1', 8, [-102.55, -214.55, 153.3, 55.15], 'spear'),
+  [HeroNormalAttackEffectKeys.role5SpearHit2]: createRole5Frames(HeroNormalAttackEffectKeys.role5SpearHit2, 87, 'Role5Bullet2', 10, [-105.75, -59.5, 153.15, 19.5], 'spear'),
+  [HeroNormalAttackEffectKeys.role5SpearHit3]: createRole5Frames(HeroNormalAttackEffectKeys.role5SpearHit3, 96, 'Role5Bullet3', 8, [2.2, -180.9, 199.65, 27.1], 'spear'),
+  [HeroNormalAttackEffectKeys.role5SpearHit4]: createRole5Frames(HeroNormalAttackEffectKeys.role5SpearHit4, 113, 'Role5Bullet4', 16, [-164.95, -83.8, 188.85, 9.2], 'spear'),
+  [HeroNormalAttackEffectKeys.role5SpearHit5]: createRole5Frames(HeroNormalAttackEffectKeys.role5SpearHit5, 175, 'Role5Bullet5', 8, [-141, -190.7, 174, 61.25], 'spear'),
+  [HeroNormalAttackEffectKeys.role5SwordHit1]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit1, 807, 'swordhit1', 10, [-88.8, -219.25, 148, 44.75]),
+  [HeroNormalAttackEffectKeys.role5SwordHit1Enhanced]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit1Enhanced, 467, 'swordhit1_1', 15, [-106, -177, 171, 60]),
+  [HeroNormalAttackEffectKeys.role5SwordHit2]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit2, 802, 'swordhit2', 9, [-63, -188.65, 205, 30.35]),
+  [HeroNormalAttackEffectKeys.role5SwordHit2Enhanced]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit2Enhanced, 444, 'swordhit2_1', 15, [-75.05, -158, 196.95, 68]),
+  [HeroNormalAttackEffectKeys.role5SwordHit3]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit3, 793, 'swordhit3', 9, [-194, -117.75, 172, 35.25]),
+  [HeroNormalAttackEffectKeys.role5SwordHit3Enhanced]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit3Enhanced, 421, 'swordhit3_1', 15, [-120, -158, 201, 62]),
+  [HeroNormalAttackEffectKeys.role5SwordHit4]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit4, 786, 'swordhit4', 19, [-256, -98.95, 183, 23.05]),
+  [HeroNormalAttackEffectKeys.role5SwordHit4Enhanced]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit4Enhanced, 398, 'swordhit4_1', 19, [-271.85, -102.25, 174.15, 41.75]),
+  [HeroNormalAttackEffectKeys.role5SwordHit5]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit5, 556, 'swordhit5', 15, [-128, -136.25, 153, 51]),
+  [HeroNormalAttackEffectKeys.role5SwordHit5Enhanced]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordHit5Enhanced, 369, 'swordhit5_1', 15, [-184.6, -199.1, 209.4, 93.9]),
+  [HeroNormalAttackEffectKeys.role5SwordRunHit]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordRunHit, 563, 'swordhit6', 15, [-163, -56.65, 198, 1.35]),
+  [HeroNormalAttackEffectKeys.role5SwordRunHitEnhanced]: createRole5Frames(HeroNormalAttackEffectKeys.role5SwordRunHitEnhanced, 378, 'swordhit6_1', 20, [-229, -97.1, 221, 49.9]),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
+const role5EnhancedNormalAttackKeyByBase = {
+  [HeroNormalAttackEffectKeys.role5SwordHit1]: HeroNormalAttackEffectKeys.role5SwordHit1Enhanced,
+  [HeroNormalAttackEffectKeys.role5SwordHit2]: HeroNormalAttackEffectKeys.role5SwordHit2Enhanced,
+  [HeroNormalAttackEffectKeys.role5SwordHit3]: HeroNormalAttackEffectKeys.role5SwordHit3Enhanced,
+  [HeroNormalAttackEffectKeys.role5SwordHit4]: HeroNormalAttackEffectKeys.role5SwordHit4Enhanced,
+  [HeroNormalAttackEffectKeys.role5SwordHit5]: HeroNormalAttackEffectKeys.role5SwordHit5Enhanced,
+  [HeroNormalAttackEffectKeys.role5SwordRunHit]: HeroNormalAttackEffectKeys.role5SwordRunHitEnhanced,
+} as const;
+
+export function getRole5NormalAttackVisualAsset(effectKey: string, enhanced: boolean) {
+  const key = enhanced
+    ? role5EnhancedNormalAttackKeyByBase[effectKey as keyof typeof role5EnhancedNormalAttackKeyByBase] ?? effectKey
+    : effectKey;
+  return role5NormalAttackAssets[key as keyof typeof role5NormalAttackAssets];
+}
+
+export const role5SkillVisualAssets = {
+  [SkillProjectileEffectKeys.role5XlcHit6]: createRole5Frames(SkillProjectileEffectKeys.role5XlcHit6, 544, 'sword_xlc', 16, [-179, -70, 170, 13]),
+  [SkillProjectileEffectKeys.role5LxuanjHit7_1]: createRole5Frames(SkillProjectileEffectKeys.role5LxuanjHit7_1, 359, 'sword_lxuanj1', 10, [0, 0, 205, 205]),
+  [SkillProjectileEffectKeys.role5LxuanjHit8]: createRole5Frames(SkillProjectileEffectKeys.role5LxuanjHit8, 360, 'sword_lxuanj2', 10, [0, 0, 205, 205]),
+  [SkillProjectileEffectKeys.role5YybHit9]: createRole5Frames(SkillProjectileEffectKeys.role5YybHit9, 166, 'Role5Bullet9', 16, [-55.05, -133.85, 60.95, 30.95], 'spear'),
+  [SkillProjectileEffectKeys.role5XkjzHit10]: createRole5Frames(SkillProjectileEffectKeys.role5XkjzHit10, 777, 'sword_xkjz', 57, [0, 0, 407, 562]),
+  [SkillProjectileEffectKeys.role5TljHit11]: createRole5Frames(SkillProjectileEffectKeys.role5TljHit11, 888, 'sword_tlj1', 38, [-112, -76, 95, 82]),
+  [SkillProjectileEffectKeys.role5PkzHit24_1]: createRole5Frames(SkillProjectileEffectKeys.role5PkzHit24_1, 854, 'swordskill2_1', 15, [-84, -180.7, 185.1, 91.9]),
+  [SkillProjectileEffectKeys.role5PkzHit24_1Enhanced]: createRole5Frames(SkillProjectileEffectKeys.role5PkzHit24_1Enhanced, 835, 'swordqhskill2_1', 15, [-324.4, -195, 182.95, 91.9]),
+  [SkillProjectileEffectKeys.role5PkzHit24_2]: createRole5Frames(SkillProjectileEffectKeys.role5PkzHit24_2, 853, 'swordskill2_2', 9, [-101, -232, 50, 18]),
+  [SkillProjectileEffectKeys.role5PkzHit24_3]: createRole5Frames(SkillProjectileEffectKeys.role5PkzHit24_3, 846, 'swordskill2_3', 15, [-292.5, -169.5, 90.55, 65.5]),
+  [SkillProjectileEffectKeys.role5LxjHit26]: createRole5Frames(SkillProjectileEffectKeys.role5LxjHit26, 480, 'swordskill4', 20, [-71.2, -220.55, 61.8, -21.55]),
+  [SkillProjectileEffectKeys.role5LyshCompanion]: createRole5Frames(SkillProjectileEffectKeys.role5LyshCompanion, 493, 'swordskill5_3', 6, [-50.5, -162.55, 46.5, 53.45]),
+  [SkillProjectileEffectKeys.role5LyshShot]: createRole5Frames(SkillProjectileEffectKeys.role5LyshShot, 511, 'swordskill5_2', 12, [-50, -80, 110, 80]),
+  [SkillProjectileEffectKeys.role5JrjlCompanion]: createRole5Frames(SkillProjectileEffectKeys.role5JrjlCompanion, 602, 'sword_jrjlsxj', 6, [-169, 12, -12, 61]),
+  [SkillProjectileEffectKeys.role5JrjlShot]: createRole5Frames(SkillProjectileEffectKeys.role5JrjlShot, 41, 'sword_jrjljq', 20, [-171, -20, 140, 89]),
+  [Role5CombatAssetKeys.yybStatus]: createRole5Frames(Role5CombatAssetKeys.yybStatus, 36, 'Role5Skill4Effect', 15, [-41.5, -138.25, 46.5, 17.25], 'spear'),
+  [Role5CombatAssetKeys.tljStatus]: createRole5Frames(Role5CombatAssetKeys.tljStatus, 871, 'sword_tlj2', 38, [-112, -76, 95, 82]),
+  [Role5CombatAssetKeys.jrjlCast]: createRole5Frames(Role5CombatAssetKeys.jrjlCast, 589, 'sword_jrjlsf', 10, [-88, -88, 93, 89]),
+  [Role5CombatAssetKeys.jrjlStatus]: createRole5Frames(Role5CombatAssetKeys.jrjlStatus, 621, 'jrjlbuff', 27, [-108, -100, 80, 92]),
+  [Role5CombatAssetKeys.lyshRelease]: createRole5Frames(Role5CombatAssetKeys.lyshRelease, 504, 'swordskill5_1', 15, [-80, -100, 100, 100]),
+  [Role5CombatAssetKeys.escapeBefore]: createRole5Frames(Role5CombatAssetKeys.escapeBefore, 263, 'Role5cloneEf2', 27, [-328.55, -231.85, 125.5, 40.15], 'spear'),
+  [Role5CombatAssetKeys.escapeAfter]: createRole5Frames(Role5CombatAssetKeys.escapeAfter, 271, 'Role5escapeEffect', 10, [-112.15, -110.8, 113.85, 108.2], 'spear'),
+  'role5.mlsz.1': createRole5Frames('role5.mlsz.1', 698, 'sword_mlsz1', 11, [-170, -210, 170, 130]),
+  'role5.mlsz.2': createRole5Frames('role5.mlsz.2', 685, 'sword_mlsz2', 11, [-170, -210, 170, 130]),
+  'role5.mlsz.3': createRole5Frames('role5.mlsz.3', 672, 'sword_mlsz3', 9, [-170, -210, 170, 130]),
+  'role5.mlsz.4': createRole5Frames('role5.mlsz.4', 661, 'sword_mlsz4', 11, [-170, -210, 170, 130]),
+  'role5.mlsz.5': createRole5Frames('role5.mlsz.5', 648, 'sword_mlsz5', 9, [-170, -210, 170, 130]),
+  'role5.mlsz.1.enhanced': createRole5Frames('role5.mlsz.1.enhanced', 827, 'sword_mlsz1_1', 15, [-775, -210, 170, 130]),
+  'role5.mlsz.2.enhanced': createRole5Frames('role5.mlsz.2.enhanced', 825, 'sword_mlsz2_1', 15, [-775, -210, 170, 130]),
+  'role5.mlsz.3.enhanced': createRole5Frames('role5.mlsz.3.enhanced', 823, 'sword_mlsz3_1', 15, [-775, -210, 170, 130]),
+  'role5.mlsz.4.enhanced': createRole5Frames('role5.mlsz.4.enhanced', 821, 'sword_mlsz4_1', 15, [-775, -210, 170, 130]),
+  'role5.mlsz.5.enhanced': createRole5Frames('role5.mlsz.5.enhanced', 819, 'sword_mlsz5_1', 15, [-775, -210, 170, 130]),
+} as const;
+
+export function getRole5SkillVisualAsset(assetKey: string, sourceSymbol: string) {
+  if (assetKey === SkillProjectileEffectKeys.role5MlszHit29 ||
+      assetKey === SkillProjectileEffectKeys.role5MlszHit29Enhanced) {
+    const match = /sword_mlsz([1-5])(_1)?/.exec(sourceSymbol);
+    if (match) return role5SkillVisualAssets[
+      `role5.mlsz.${match[1]}${match[2] ? '.enhanced' : ''}` as keyof typeof role5SkillVisualAssets
+    ];
+  }
+  return role5SkillVisualAssets[assetKey as keyof typeof role5SkillVisualAssets];
+}
+
 export const sourceAssetFamilies = {
-  role5NormalAttackAnimations: {
-    status: 'missing-original',
-    sourceSymbols: [
-      'attack1_spear',
-      'attack2_spear',
-      'attack3_spear',
-      'attack4_spear',
-      'jumpattack_spear',
-      'runattack_spear',
-      'attack1_sword',
-      'attack2_sword',
-      'attack3_sword',
-      'attack4_sword',
-      'jumpattack_sword',
-      'runattack_sword',
-    ],
-    notes: 'Role5 body animation resources loaded through the separate ZM4 resource path.',
-  },
-  role5NormalAttackEffects: {
-    status: 'missing-original',
-    sourceSymbols: [
-      'Role5runattack',
-      'swordhit1',
-      'swordhit2',
-      'swordhit3',
-      'swordhit4',
-      'swordhit5',
-      'swordhit6',
-      'swordhit1_1',
-      'swordhit2_1',
-      'swordhit3_1',
-      'swordhit4_1',
-      'swordhit5_1',
-      'swordhit6_1',
-    ],
-    notes: 'Sword-mode mappings are known; spear-mode helper symbols remain unresolved.',
-  },
   magicWeaponProjectiles: {
     status: 'missing-original',
     sourceSymbols: [

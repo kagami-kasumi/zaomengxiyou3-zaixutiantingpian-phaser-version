@@ -148,8 +148,8 @@ export const role5YybTuning: ProjectileTuning = {
 export const role5TljTuning: ProjectileTuning = {
   actionName: 'hit11',
   assetKey: SkillProjectileEffectKeys.role5TljHit11,
-  sourceSymbol: 'role5_tlj',
-  runtimeName: 'role5_tlj',
+  sourceSymbol: 'sword_tlj1',
+  runtimeName: 'sword_tlj1',
   offsetX: 90,
   offsetY: -30,
   speedX: 0,
@@ -248,8 +248,8 @@ export const role5LyshShotTuning: ProjectileTuning = {
 export const role5JrjlCompanionTuning: ProjectileTuning = {
   actionName: 'hit28',
   assetKey: SkillProjectileEffectKeys.role5JrjlCompanion,
-  sourceSymbol: 'sword_jrjlsf',
-  runtimeName: 'sword_jrjlsf',
+  sourceSymbol: 'sword_jrjlsxj',
+  runtimeName: 'sword_jrjlsxj',
   offsetX: 0,
   offsetY: -110,
   speedX: 0,

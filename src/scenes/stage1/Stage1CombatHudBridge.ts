@@ -128,6 +128,8 @@ function updatePlayerHudView(view: PlayerHudView, player: CombatHudPlayerSnapsho
       ? CombatHudAssetKeys.role3Portrait
       : player.heroId === 4
         ? CombatHudAssetKeys.role4Portrait
+        : player.heroId === 5
+          ? CombatHudAssetKeys.role5Portrait
       : undefined;
   if (portraitKey) view.portrait.setTexture(portraitKey).setVisible(true);
   else view.portrait.setVisible(false);

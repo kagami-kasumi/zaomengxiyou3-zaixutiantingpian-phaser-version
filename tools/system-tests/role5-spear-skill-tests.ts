@@ -151,7 +151,7 @@ function testTljStatusAndGates(): void {
   const value = fixture('p1', 'tlj');
   const event = castStatus(value, input('p1', 0), input('p1'), 8_000)!;
   assert.equal(event.actionName, 'hit11');
-  assert.equal(event.projectile.sourceSymbol, 'role5_tlj');
+  assert.equal(event.projectile.sourceSymbol, 'sword_tlj1');
   assert.equal(event.projectile.visualOnly, true);
   assert.equal(value.skill.role5Runtime.tljRemainingMs, getRole5YybStatusDurationMs(1));
   assert.equal(castStatus(value, input('p1', 0), input('p1'), 8_010), undefined);
@@ -286,7 +286,7 @@ function testJrjlCompanionTriggerAndIsolation(): void {
   const value = fixture('p1', 'jrjl');
   const create = castCompanion(value, input('p1', 0), input('p1'), 17_000)!;
   assert.equal(create.actionName, 'hit28');
-  assert.equal(create.projectile.sourceSymbol, 'sword_jrjlsf');
+  assert.equal(create.projectile.sourceSymbol, 'sword_jrjlsxj');
   assert.equal(value.skill.role5Runtime.jrjlArrows.created, true);
   assert.equal(value.skill.role5Runtime.jrjlLevel, 1);
 

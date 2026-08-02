@@ -69,6 +69,8 @@ export type Role5MarkedTarget = {
 
 export type Role5MarkedTeleportResult = {
   targetId: string;
+  fromX: number;
+  fromY: number;
   x: number;
   y: number;
   switchedToSpear: boolean;
@@ -206,6 +208,8 @@ export function requestRole5MarkedTeleport(
     setHeroWeaponMode(model, 'spear');
   }
 
+  const fromX = movement.x;
+  const fromY = movement.y;
   movement.x = target.x;
   movement.y = Math.min(target.y, Role5NormalAttackTuning.teleportMaxY);
   for (const candidate of targets) {
@@ -216,6 +220,8 @@ export function requestRole5MarkedTeleport(
 
   model.role5LastTeleport = {
     targetId: target.id,
+    fromX,
+    fromY,
     x: movement.x,
     y: movement.y,
     switchedToSpear,
@@ -435,14 +441,14 @@ function chooseRole5AttackStep(
     model.comboIndex = 0;
     return swordMode
       ? createStep('hit22', HeroNormalAttackEffectKeys.role5SwordHit5, 'swordhit5', true, 210, 45, 160, 210, 205, 118, 35)
-      : createStep('hit5', HeroNormalAttackEffectKeys.role5SpearUnknown, 'doSingleHit unresolved', true, 210, 45, 160, 210, 205, 118, 35);
+      : createStep('hit5', HeroNormalAttackEffectKeys.role5SpearHit5, 'Role5Bullet5', true, 210, 45, 160, 210, 205, 118, 35);
   }
 
   if (movement.runningDirection !== 0) {
     model.comboIndex = 0;
     return swordMode
       ? createStep('hit114_1', HeroNormalAttackEffectKeys.role5SwordRunHit, 'swordhit6', true, 210, 45, 160, 210, 240, 112, 36)
-      : createStep('hit114', HeroNormalAttackEffectKeys.role5SpearUnknown, 'Role5runattack', false, 210, 45, 160, 210, 235, 112, 36);
+      : createStep('hit114', HeroNormalAttackEffectKeys.role5SpearRunMissing, 'Role5runattack', false, 210, 45, 160, 210, 235, 112, 36);
   }
 
   if (swordMode) {
@@ -455,10 +461,10 @@ function chooseRole5AttackStep(
   }
 
   return nextComboStep(model, [
-    createStep('hit1', HeroNormalAttackEffectKeys.role5SpearUnknown, 'doSingleHit unresolved', true, 190, 40, 150, 190, 190, 112, 32),
-    createStep('hit2', HeroNormalAttackEffectKeys.role5SpearUnknown, 'doSingleHit unresolved', true, 190, 40, 150, 190, 198, 114, 33),
-    createStep('hit3', HeroNormalAttackEffectKeys.role5SpearUnknown, 'doSingleHit unresolved', true, 190, 40, 150, 190, 208, 116, 34),
-    createStep('hit4', HeroNormalAttackEffectKeys.role5SpearUnknown, 'doSingleHit unresolved', true, 190, 40, 150, 190, 220, 118, 35),
+    createStep('hit1', HeroNormalAttackEffectKeys.role5SpearHit1, 'Role5Bullet1', true, 190, 40, 150, 190, 190, 112, 32),
+    createStep('hit2', HeroNormalAttackEffectKeys.role5SpearHit2, 'Role5Bullet2', true, 190, 40, 150, 190, 198, 114, 33),
+    createStep('hit3', HeroNormalAttackEffectKeys.role5SpearHit3, 'Role5Bullet3', true, 190, 40, 150, 190, 208, 116, 34),
+    createStep('hit4', HeroNormalAttackEffectKeys.role5SpearHit4, 'Role5Bullet4', true, 190, 40, 150, 190, 220, 118, 35),
   ]);
 }
 

@@ -13,6 +13,10 @@ import {
   role3SkillVisualAssets,
   role4NormalAttackAssets,
   role4SkillVisualAssets,
+  getRole5SkillVisualAsset,
+  getRole5NormalAttackVisualAsset,
+  HeroNormalAttackEffectKeys,
+  role5NormalAttackAssets,
   SkillProjectileEffectKeys,
 } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
@@ -60,6 +64,8 @@ export type AttackEffectView = {
   shape: Phaser.GameObjects.Rectangle | Phaser.GameObjects.Ellipse | Phaser.GameObjects.Image;
   label: Phaser.GameObjects.Text;
   frameKeys?: readonly string[];
+  secondaryShape?: Phaser.GameObjects.Image;
+  secondaryFrameKeys?: readonly string[];
 };
 
 export type ProjectileEffectView = {
@@ -223,17 +229,21 @@ export function createAttackEffectView(
   },
   attack: ActiveHeroNormalAttack,
   effectColor: number,
+  role5SwordEnhanced = false,
 ): AttackEffectView {
+  const role5Asset = getRole5NormalAttackVisualAsset(attack.effectKey, role5SwordEnhanced);
   const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets]
     ?? role2NormalAttackAssets[attack.effectKey as keyof typeof role2NormalAttackAssets]
     ?? role3NormalAttackAssets[attack.effectKey as keyof typeof role3NormalAttackAssets]
-    ?? role4NormalAttackAssets[attack.effectKey as keyof typeof role4NormalAttackAssets];
+    ?? role4NormalAttackAssets[attack.effectKey as keyof typeof role4NormalAttackAssets]
+    ?? role5Asset;
   const role3Asset = role3NormalAttackAssets[
     attack.effectKey as keyof typeof role3NormalAttackAssets
   ];
   const role4Asset = role4NormalAttackAssets[
     attack.effectKey as keyof typeof role4NormalAttackAssets
   ];
+  const suppressMissingRole5RunEffect = attack.effectKey === HeroNormalAttackEffectKeys.role5SpearRunMissing;
   const shape = frameAsset
     ? scene.add.image(
       player.x + attack.facingX * 82,
@@ -241,13 +251,15 @@ export function createAttackEffectView(
       frameAsset.frameKeys[0],
     ).setFlipX(attack.facingX < 0)
       .setOrigin(
-        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x ?? 0.5,
-        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y ?? 0.5,
+        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x ?? role5Asset?.registrationOrigin.x ?? 0.5,
+        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y ?? role5Asset?.registrationOrigin.y ?? 0.5,
       )
+    : suppressMissingRole5RunEffect
+    ? scene.add.ellipse(player.x, player.y, 1, 1, 0xffffff, 0)
     : attack.followsHero
     ? scene.add.ellipse(player.x + attack.facingX * 82, player.y - 80, 86, 36, effectColor, 0.35)
     : scene.add.rectangle(player.x + attack.facingX * 105, player.y - 82, 102, 42, effectColor, 0.28);
-  const label = scene.add.text(player.x + attack.facingX * 54, player.y - 128, frameAsset ? '' : attack.actionName, {
+  const label = scene.add.text(player.x + attack.facingX * 54, player.y - 128, frameAsset || suppressMissingRole5RunEffect ? '' : attack.actionName, {
     color: '#f3f6ff',
     fontFamily: 'Arial, sans-serif',
     fontSize: '13px',
@@ -257,12 +269,23 @@ export function createAttackEffectView(
     shape.setStrokeStyle(2, effectColor, 0.9);
   }
 
+  const role5BaseAsset = role5SwordEnhanced && attack.effectKey === HeroNormalAttackEffectKeys.role5SwordHit4
+    ? role5NormalAttackAssets[HeroNormalAttackEffectKeys.role5SwordHit4]
+    : undefined;
+  const secondaryShape = role5BaseAsset
+    ? scene.add.image(player.x + attack.facingX * 82, player.y - 80, role5BaseAsset.frameKeys[0]!)
+      .setFlipX(attack.facingX < 0)
+      .setOrigin(role5BaseAsset.registrationOrigin.x, role5BaseAsset.registrationOrigin.y)
+    : undefined;
+
   return {
     slot: player.slot,
     attack,
     shape,
     label,
     frameKeys: frameAsset?.frameKeys,
+    secondaryShape,
+    secondaryFrameKeys: role5BaseAsset?.frameKeys,
   };
 }
 
@@ -275,6 +298,10 @@ export function syncAttackEffectFrame(effectView: AttackEffectView, time: number
   const progress = Math.min(Math.max((time - effectView.attack.startedAtMs) / duration, 0), 0.999);
   const frameIndex = Math.floor(progress * effectView.frameKeys.length);
   effectView.shape.setTexture(effectView.frameKeys[frameIndex]);
+  if (effectView.secondaryShape && effectView.secondaryFrameKeys) {
+    const secondaryIndex = Math.floor(progress * effectView.secondaryFrameKeys.length);
+    effectView.secondaryShape.setTexture(effectView.secondaryFrameKeys[secondaryIndex]);
+  }
 }
 
 export function createProjectileEffectView(
@@ -282,6 +309,9 @@ export function createProjectileEffectView(
   projectile: ProjectileModel,
 ): ProjectileEffectView | undefined {
   if (projectile.assetKey === SkillProjectileEffectKeys.role3XgqHit11Cast) return undefined;
+  if (projectile.assetKey === SkillProjectileEffectKeys.role5LyshCompanion ||
+      projectile.assetKey === SkillProjectileEffectKeys.role5JrjlCompanion ||
+      projectile.assetKey === SkillProjectileEffectKeys.role5TljHit11) return undefined;
   const role1Asset = role1SkillVisualAssets[
     projectile.assetKey as keyof typeof role1SkillVisualAssets
   ];
@@ -294,13 +324,14 @@ export function createProjectileEffectView(
   const role4Asset = role4SkillVisualAssets[
     projectile.assetKey as keyof typeof role4SkillVisualAssets
   ];
-  const frameAsset = role1Asset ?? role2Asset ?? role3Asset ?? role4Asset;
+  const role5Asset = getRole5SkillVisualAsset(projectile.assetKey, projectile.sourceSymbol);
+  const frameAsset = role1Asset ?? role2Asset ?? role3Asset ?? role4Asset ?? role5Asset;
   if (frameAsset) {
     const shape = scene.add.image(projectile.x, projectile.y, frameAsset.frameKeys[0]!)
       .setFlipX(projectile.facingX > 0)
       .setOrigin(
-        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x ?? 0.5,
-        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y ?? 0.5,
+        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x ?? role5Asset?.registrationOrigin.x ?? 0.5,
+        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y ?? role5Asset?.registrationOrigin.y ?? 0.5,
       )
       .setRotation(projectile.rotation ?? 0)
       .setDepth(48);

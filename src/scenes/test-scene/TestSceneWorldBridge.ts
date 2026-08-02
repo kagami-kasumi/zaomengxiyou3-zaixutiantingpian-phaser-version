@@ -916,6 +916,7 @@ export function updateAttackEffectViews(this: any, time: number): void {
     for (const effectView of this.attackEffectViews) {
       if (time >= effectView.attack.endsAtMs) {
         effectView.shape.destroy();
+        effectView.secondaryShape?.destroy();
         effectView.label.destroy();
         continue;
       }
@@ -931,6 +932,10 @@ export function updateAttackEffectViews(this: any, time: number): void {
           player.sprite.x + effectView.attack.facingX * (78 + sweep),
           player.sprite.y - 80,
         );
+        effectView.secondaryShape?.setPosition(
+          player.sprite.x + effectView.attack.facingX * (78 + sweep),
+          player.sprite.y - 80,
+        );
         effectView.label.setPosition(
           player.sprite.x + effectView.attack.facingX * 54,
           player.sprite.y - 128,
@@ -940,6 +945,7 @@ export function updateAttackEffectViews(this: any, time: number): void {
       const remainingRatio = (effectView.attack.endsAtMs - time) /
         (effectView.attack.endsAtMs - effectView.attack.startedAtMs);
       effectView.shape.setAlpha(effectView.frameKeys ? Math.max(0.2, remainingRatio) : Math.max(0.1, remainingRatio * 0.5));
+      effectView.secondaryShape?.setAlpha(Math.max(0.2, remainingRatio));
       effectView.label.setAlpha(Math.max(0.15, remainingRatio));
       activeViews.push(effectView);
     }

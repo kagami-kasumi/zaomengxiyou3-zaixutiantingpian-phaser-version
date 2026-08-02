@@ -774,6 +774,7 @@ export class TestScene extends Phaser.Scene {
           { slot: player.slot, x: player.sprite.x, y: player.sprite.y },
           attackEvent.attack,
           getHeroTint(attackEvent.attack.heroId),
+          player.normalAttack.heroId === 5 && player.skill.role5Runtime.loongSwordRemainingMs > 0,
         ));
         this.attackFlashes.push(createAttackFlash(this, toPhaserRect(attackEvent.hitbox), time));
         if (player.normalAttack.heroId === 5) {

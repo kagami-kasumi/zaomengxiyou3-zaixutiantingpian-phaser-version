@@ -2,7 +2,7 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1..Role4 战斗视觉已接入；Role5 枪/剑本体、装备、普攻、全部已实现技能及附属对象已完成精确来源与实现输入标注；炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录以及 Stage 1/2 怪物真视觉已完成接入。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1..Role5 战斗视觉均已接入；Role5 枪/剑本体、装备、普攻、强化分支、全部已实现技能及附属对象已有精确来源与运行去向标注；炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录以及 Stage 1/2 怪物真视觉已完成接入。
 
 ## 范围覆盖
 
@@ -21,7 +21,7 @@
 | UI 与配方图标 | 335 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条与新建存档人数/选角 25 条均已接入；完整功能 UI 11 条、地图服务四页根 UI、丹药页 11 条、商城页 18 条、设置页 2 条、任务页 13 条以及关卡五入口/设置/帮助 16 条深层资源已选择性派生 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`../map-service-ui-index.md`、`../immortality-ui-index.md`、`../shop-ui-index.md`、`../settings-ui-index.md`、`../task-ui-index.md`、`../stage-feature-entry-index.md` |
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 
-总计 1013 条标注：901 条 `ready`、70 条 `derived-ready`、1 条 `export-ready`、34 条 `source-corpus-ready`、2 条 `missing-original`、5 条 `rejected`；1013 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
+总计 1019 条标注：953 条 `ready`、24 条 `derived-ready`、1 条 `export-ready`、34 条 `source-corpus-ready`、2 条 `missing-original`、5 条 `rejected`；1019 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
 
 ## 人工待办
 

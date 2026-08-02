@@ -23,6 +23,11 @@ import {
   getRole4CombatVisual,
   syncRole4CombatVisual,
 } from './Role4CombatVisualBridge';
+import {
+  createRole5CombatVisual,
+  getRole5CombatVisual,
+  syncRole5CombatVisual,
+} from './Role5CombatVisualBridge';
 
 type TimedVisualAction = Readonly<{
   actionName: HeroSkillActionName;
@@ -50,6 +55,7 @@ export function createHeroCombatVisual(
   createRole2CombatVisual(scene, anchor, heroId);
   createRole3CombatVisual(scene, anchor, heroId);
   createRole4CombatVisual(scene, anchor, heroId);
+  createRole5CombatVisual(scene, anchor, heroId);
 }
 
 export function hasHeroCombatVisual(anchor: Phaser.GameObjects.Image): boolean {
@@ -57,7 +63,8 @@ export function hasHeroCombatVisual(anchor: Phaser.GameObjects.Image): boolean {
     getRole1CombatVisual(anchor)
     || getRole2CombatVisual(anchor)
     || getRole3CombatVisual(anchor)
-    || getRole4CombatVisual(anchor),
+    || getRole4CombatVisual(anchor)
+    || getRole5CombatVisual(anchor),
   );
 }
 
@@ -92,6 +99,11 @@ export function syncHeroCombatVisual(
       runtime: input.skill.role4Runtime,
       skillAction: input.role4SkillAction,
     }, timeMs);
+    return true;
+  }
+  const role5 = getRole5CombatVisual(anchor);
+  if (role5) {
+    syncRole5CombatVisual(role5, input, timeMs);
     return true;
   }
   return false;

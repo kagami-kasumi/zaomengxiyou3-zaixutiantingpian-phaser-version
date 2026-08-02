@@ -118,3 +118,13 @@
 - 可见差异清单：可恢复的本体、换装、普攻、技能、状态、随身箭、阵列、瞬移与HUD头像均为“原资源复用”；合成、hold、镜像、Follow/移动、多实例为“等价时间轴重建”；`Role5runattack` 为“原代码引用但恢复语料库无定义，禁止猜造”；用户批准的现代可见例外为0。
 
 影响 `TASK-SLICE-158E` 的可实现资源身份未知为 0；明确反证项不得转化为占位或虚构原版事实。
+
+## TASK-SLICE-158E 现代接入结论
+
+- `public/assets/combat/role5/` 现承载25张枪形本体/装备表、归一化290×290剑形动作和枪/剑普攻、技能、状态、随身箭、阵列与瞬移逐帧资源；派生脚本为 `tools/integrate-role5-combat-assets.mjs`。
+- `Role5CombatVisualSystem` 保留枪/剑动作格、hold、方向origin和死亡移除；`Role5CombatVisualBridge` 独立持有body/equipment/name、角色根状态、四箭/三箭、五阵列、cast与瞬移显示层，没有tint、状态文字或单帧死亡替代。
+- `HeroNormalAttackSystem` 已将枪五段拆为 `Role5Bullet1..5`，剑普攻与龙魂剑强化使用各自真序列；`Role5runattack` 继续解析为空视图，正式路径不显示Arc/Text或相似素材。
+- `SceneAssetBundles` 是Role5资源唯一加载owner，HUD使用character 505 frame5头像；`?qaStage=1-1-role5` 与合法Role1+Role5双人入口用于940×590检查。
+- 首次冷加载资源族为860文件、约58.5 MiB；专项证明stable key、帧序列与bundle归属，浏览器验收记录该冷加载成本供PG-009继续观察，不把它改写成资源缺失或隐藏占位。
+
+现代可见例外仍为0；158E完成后，Role5与VS-062不再存在未解释视觉缺口。

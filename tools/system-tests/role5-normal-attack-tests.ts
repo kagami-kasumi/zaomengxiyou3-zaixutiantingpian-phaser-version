@@ -31,7 +31,7 @@ function testSwordAndSpearNormalAttackFamilies(): void {
   setHeroWeaponMode(model, 'spear');
   event = attack(model, movement, 1_000);
   assert.equal(event?.attack.actionName, 'hit1');
-  assert.equal(event?.attack.sourceSymbol, 'doSingleHit unresolved');
+  assert.equal(event?.attack.sourceSymbol, 'Role5Bullet1');
 
   movement.grounded = false;
   event = attack(model, movement, 1_250);
@@ -83,6 +83,8 @@ function testRole5MarkedTeleportSwitchesSwordToSpearAndClearsMarks(): void {
   const teleport = requestRole5MarkedTeleport(model, movement, targets);
   assert.deepEqual(teleport, {
     targetId: 'low-ratio',
+    fromX: 100,
+    fromY: 100,
     x: 260,
     y: 450,
     switchedToSpear: true,

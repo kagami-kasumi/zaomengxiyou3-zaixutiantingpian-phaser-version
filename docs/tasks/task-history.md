@@ -9537,3 +9537,25 @@ Goal：
 
 推荐任务：
 - `TASK-SLICE-158E`：只消费069E证据，接入Role5枪/剑双形态本体/装备、HUD、普攻、全部已实现技能与附属对象真动画。
+
+### TASK-SLICE-158E
+
+- 完成日期：2026-08-02
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-159`）
+- 完整编目并接入13张枪形本体、12张装备表、归一化剑形动作与290×290方向origin；`Role5CombatVisualSystem/Bridge`持有枪/剑动作、hold、形态切换、状态层、姓名与死亡移除。
+- 将枪普攻拆为真实 `Role5Bullet1..5`，接入剑普攻及龙魂剑强化、全部已实现技能、四箭/三箭、五阵列、状态与瞬移对象；`Role5runattack` 保持恢复全集反证，正式路径不显示Arc/Text或相似资源。
+- 接入character 505 frame5 HUD头像与 `?qaStage=1-1-role5` 单人/Role1+Role5合法双人入口；860文件、约58.5 MiB冷加载资源由 `combat-common` 唯一bundle owner持有，冷加载成本回写PG-009继续观察。
+- Role5专项、全系统、structure、build、annotations、workflow、diff check与940×590运行验收通过；现代可见例外为0。
+- `TASK-SETTINGS-069`与`TASK-SLICE-158`随五个角色证据/实现子任务全部完成而一并归档，`VS-062`关闭。
+
+更新文件：
+- Role5资源派生脚本与 `public/assets/combat/role5/`、HUD头像
+- Role5 visual system/bridge、manifest/bundle、普攻/技能映射、场景/HUD/QA入口与专项测试
+- Role5视觉索引/标注、机制/切片、功能线覆盖、看板/历史与PG反馈
+
+验证：
+- `npm run test:role5-visuals`、`npm run test:systems`、`npm run check:structure`、`npm run build`、`npm run check:annotations`、`npm run check:workflow` 与 `git diff --check`。
+- 940×590单人和合法双人组合确认原舞台、Role5真body/HUD/方向与完整场景生命周期；console无warning/error。首次冷加载较慢，作为PG-009效果样本保留。
+
+推荐任务：
+- `TASK-SLICE-159`：复用既有六槽V6 localStorage，完成跨页面、跨关卡、重启读取与P1/P2本地存档正式旅程。
