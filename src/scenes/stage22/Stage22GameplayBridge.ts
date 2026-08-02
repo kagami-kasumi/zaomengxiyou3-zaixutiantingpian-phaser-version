@@ -1,8 +1,7 @@
 // boundary: Stage 2-2 formal bridge adapts Phaser views to the already-closed
 // shared movement, combat, reward, HUD, Monster9/10/19 visuals, flow, and fire owners.
 import Phaser from 'phaser';
-import { getRole1CombatVisual, syncRole1CombatVisual } from '../Role1CombatVisualBridge';
-import { getRole2CombatVisual, syncRole2CombatVisual } from '../Role2CombatVisualBridge';
+import { hasHeroCombatVisual, syncHeroCombatVisual } from '../HeroCombatVisualBridge';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
   createLevelHeroMovementRuntime,
@@ -297,17 +296,11 @@ function updatePlayers(
       deltaMs,
     });
     player.view.setPosition(member.movement.x, member.movement.y);
-    const visual = getRole1CombatVisual(player.view);
-    if (visual) syncRole1CombatVisual(visual, {
+    syncHeroCombatVisual(player.view, {
       movement: member.movement,
       combat: player.combat.combat,
       normalAttack: player.combat.normalAttack,
-    }, timeMs);
-    const role2Visual = getRole2CombatVisual(player.view);
-    if (role2Visual) syncRole2CombatVisual(role2Visual, {
-      movement: member.movement,
-      combat: player.combat.combat,
-      normalAttack: player.combat.normalAttack,
+      skill: player.combat.skill,
     }, timeMs);
   });
 }
@@ -555,22 +548,12 @@ function isMonsterAttackVisual(monster: MonsterRuntime): boolean {
 }
 
 function syncPlayerFeedback(player: PlayerRuntime): void {
-  const role1Visual = getRole1CombatVisual(player.view);
-  if (role1Visual) {
+  if (hasHeroCombatVisual(player.view)) {
     if (player.combat.combat.state === 'dead') {
-      syncRole1CombatVisual(role1Visual, {
+      syncHeroCombatVisual(player.view, {
         combat: player.combat.combat,
         normalAttack: player.combat.normalAttack,
-      }, Number.MAX_SAFE_INTEGER);
-    }
-    return;
-  }
-  const role2Visual = getRole2CombatVisual(player.view);
-  if (role2Visual) {
-    if (player.combat.combat.state === 'dead') {
-      syncRole2CombatVisual(role2Visual, {
-        combat: player.combat.combat,
-        normalAttack: player.combat.normalAttack,
+        skill: player.combat.skill,
       }, Number.MAX_SAFE_INTEGER);
     }
     return;

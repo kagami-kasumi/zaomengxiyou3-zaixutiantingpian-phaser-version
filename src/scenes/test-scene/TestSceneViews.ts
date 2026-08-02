@@ -9,6 +9,9 @@ import {
   Role2CombatAssetKeys,
   role2NormalAttackAssets,
   role2SkillVisualAssets,
+  role3NormalAttackAssets,
+  role3SkillVisualAssets,
+  SkillProjectileEffectKeys,
 } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
@@ -220,13 +223,21 @@ export function createAttackEffectView(
   effectColor: number,
 ): AttackEffectView {
   const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets]
-    ?? role2NormalAttackAssets[attack.effectKey as keyof typeof role2NormalAttackAssets];
+    ?? role2NormalAttackAssets[attack.effectKey as keyof typeof role2NormalAttackAssets]
+    ?? role3NormalAttackAssets[attack.effectKey as keyof typeof role3NormalAttackAssets];
+  const role3Asset = role3NormalAttackAssets[
+    attack.effectKey as keyof typeof role3NormalAttackAssets
+  ];
   const shape = frameAsset
     ? scene.add.image(
       player.x + attack.facingX * 82,
       player.y - 80,
       frameAsset.frameKeys[0],
     ).setFlipX(attack.facingX < 0)
+      .setOrigin(
+        role3Asset?.registrationOrigin.x ?? 0.5,
+        role3Asset?.registrationOrigin.y ?? 0.5,
+      )
     : attack.followsHero
     ? scene.add.ellipse(player.x + attack.facingX * 82, player.y - 80, 86, 36, effectColor, 0.35)
     : scene.add.rectangle(player.x + attack.facingX * 105, player.y - 82, 102, 42, effectColor, 0.28);
@@ -263,17 +274,26 @@ export function syncAttackEffectFrame(effectView: AttackEffectView, time: number
 export function createProjectileEffectView(
   scene: Phaser.Scene,
   projectile: ProjectileModel,
-): ProjectileEffectView {
+): ProjectileEffectView | undefined {
+  if (projectile.assetKey === SkillProjectileEffectKeys.role3XgqHit11Cast) return undefined;
   const role1Asset = role1SkillVisualAssets[
     projectile.assetKey as keyof typeof role1SkillVisualAssets
   ];
   const role2Asset = role2SkillVisualAssets[
     projectile.assetKey as keyof typeof role2SkillVisualAssets
   ];
-  const frameAsset = role1Asset ?? role2Asset;
+  const role3Asset = role3SkillVisualAssets[
+    projectile.assetKey as keyof typeof role3SkillVisualAssets
+  ];
+  const frameAsset = role1Asset ?? role2Asset ?? role3Asset;
   if (frameAsset) {
     const shape = scene.add.image(projectile.x, projectile.y, frameAsset.frameKeys[0]!)
       .setFlipX(projectile.facingX > 0)
+      .setOrigin(
+        role3Asset?.registrationOrigin.x ?? 0.5,
+        role3Asset?.registrationOrigin.y ?? 0.5,
+      )
+      .setRotation(projectile.rotation ?? 0)
       .setDepth(48);
     return {
       projectileId: projectile.id,

@@ -122,7 +122,13 @@ function updatePlayerHudView(view: PlayerHudView, player: CombatHudPlayerSnapsho
   view.mpText.setText(player.mpText);
   view.expText.setText(player.expText);
   view.levelText.setText(`Lv.${player.level}`);
-  view.portrait.setVisible(player.heroId === 2);
+  const portraitKey = player.heroId === 2
+    ? CombatHudAssetKeys.role2Portrait
+    : player.heroId === 3
+      ? CombatHudAssetKeys.role3Portrait
+      : undefined;
+  if (portraitKey) view.portrait.setTexture(portraitKey).setVisible(true);
+  else view.portrait.setVisible(false);
   player.skillSlots.forEach((slot, index) => {
     const state = slot.binding?.usableState === 'active' ? ' ★'
       : slot.binding?.usableState === 'unavailable' ? ' ×' : '';

@@ -20,6 +20,7 @@ import {
   getPassiveSkillMaxLevel,
   getSkillMaxLevel,
   getSkillTreeForHero,
+  getTestHeroSkillLoadoutPreset,
   getTotalLearnedSkillCount,
   MAX_TREE_LEVEL,
   InventoryOwnerKeyCodes,
@@ -36,8 +37,7 @@ import {
 } from './TestSceneSystems';
 import { createTestSceneDebugKeys } from './TestSceneDebugKeys';
 import { formatHeroLabel } from './TestSceneFormatters';
-import { createRole1CombatVisual } from '../Role1CombatVisualBridge';
-import { createRole2CombatVisual } from '../Role2CombatVisualBridge';
+import { createHeroCombatVisual } from '../HeroCombatVisualBridge';
 
 type SkillBarView = {
   container: Phaser.GameObjects.Container;
@@ -99,8 +99,7 @@ export function createPlayerView(this: any,
     const sprite = this.add.image(x, y, AssetKeys.playerPlaceholder);
     sprite.setOrigin(0.5, 1);
     sprite.setTint(getHeroTint(heroId));
-    createRole1CombatVisual(this, sprite, heroId);
-    createRole2CombatVisual(this, sprite, heroId);
+    createHeroCombatVisual(this, sprite, heroId);
 
     const label = this.add.text(x - 18, y + 14, slot.toUpperCase(), {
       color: '#f3f6ff',
@@ -115,7 +114,7 @@ export function createPlayerView(this: any,
     combat.maxHp = baseStats.maxHp;
     combat.hp = combat.maxHp;
     combat.damageProtectionMs = Stage1CombatTuning.playerProtectionMs;
-    const skill = createHeroSkillModel(undefined, baseStats.maxMp);
+    const skill = createHeroSkillModel(getTestHeroSkillLoadoutPreset(heroId, 0), baseStats.maxMp);
     label.setText(formatHeroLabel(slot, normalAttack, combat));
 
     return { slot, sprite, label, combat, normalAttack, skill, baseStats, progression };

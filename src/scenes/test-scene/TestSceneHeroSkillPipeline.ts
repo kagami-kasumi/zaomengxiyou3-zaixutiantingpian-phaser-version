@@ -7,6 +7,7 @@ import { updateRole4SkillBridge } from './TestSceneRole4SkillBridge';
 import { updateRole5SkillBridge } from './TestSceneRole5SkillBridge';
 import { syncRole1ShadowVisuals } from './TestSceneRole1ShadowVisualBridge';
 import { Role2BodyAnimations } from '../../systems/Role2CombatVisualSystem';
+import { getRole3BodyActionDurationMs } from '../../systems/Role3CombatVisualSystem';
 
 export function updateHeroSkillProjectiles(
   this: any,
@@ -91,6 +92,16 @@ export function updateHeroSkillProjectiles(
     skillLearning,
     deltaMs: delta,
   });
+  for (const event of role3Events) {
+    const player = this.playerViews.find((candidate: any) => candidate.slot === event.projectile.sourceId);
+    const durationMs = getRole3BodyActionDurationMs(event.actionName);
+    if (!player || durationMs <= 0) continue;
+    player.role3VisualAction = {
+      actionName: event.actionName,
+      startedAtMs: time,
+      endsAtMs: time + durationMs,
+    };
+  }
   const role4Result = updateRole4SkillBridge({
     players: this.playerViews,
     input,
@@ -126,7 +137,8 @@ export function updateHeroSkillProjectiles(
     ?? this.lastSkillEvent;
   for (const projectile of projectiles) {
     if (!this.projectileEffectViews.some((view: any) => view.projectileId === projectile.id)) {
-      this.projectileEffectViews.push(createProjectileEffectView(this, projectile));
+      const view = createProjectileEffectView(this, projectile);
+      if (view) this.projectileEffectViews.push(view);
     }
   }
   syncRole1ShadowVisuals(this);

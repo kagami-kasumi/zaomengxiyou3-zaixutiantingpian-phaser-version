@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-158C | Role3 真动画 | 接入八戒本体、战斗 UI、普攻、全部已实现技能与附属对象真动画 | M-020、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 2 atlas、三普攻29帧、12技能对象349帧、19帧盾、HUD frame3、统一角色视觉桥、专项/全门禁与940×590单/双人证据 |
 | TASK-SLICE-162 | Role2 真动画验收收束 | 验收并归档已接入的唐僧本体、HUD、普攻、技能、Shadow 与附属对象 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 940×590 单/双人/P2 方向、零 console、PNG loader、待机/蓄力普攻/Shadow 五行动作修复、全门禁与 PG 收尾 |
 | TASK-SLICE-158B | Role2 真动画父任务收束 | 接入唐僧本体、战斗 UI、普攻、全部已实现技能、Shadow 与附属对象真动画 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 3 atlas、两普攻/48 帧、九技能/464 帧、HUD 肖像、Role2 视觉桥与 162 验收收束 |
 | TASK-SLICE-158A | Role1 真动画 | 接入悟空本体/装备、HUD、普攻、全部已实现技能、影分身与附属对象真视觉 | M-018、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 3 atlas、14 技能 stable key/249 帧、`Role1CombatVisualBridge`、唯一 `combat-common` owner、专项/全门禁与 940×590 证据 |
@@ -343,6 +344,50 @@ UI 原生化合同：
 推荐后续任务：
 
 - `TASK-SETTINGS-069C`。
+
+### TASK-SLICE-158C
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-069D`）
+
+目标机制/切片：
+
+- `M-020`、`M-023..M-025`、`M-034`、`M-035`、`M-047`、`M-049`、`VS-062`
+
+完成记录：
+
+- 从 069C 的唯一 `assets/BaJie.swf` 派生 owner 接入 1800×2800 本体/装备图表、三普攻29帧、12技能对象349帧、19帧盾与 character 505 frame 3 HUD 头像；SpecialUI 字节副本未重复打包。
+- 新增 Role3 纯动画描述、角色视觉桥与共享 `HeroCombatVisualBridge`；正式五关公共 Runtime/TestScene、单人 QA 和合法 P1 Role1 + P2 Role3 QA 均消费同一 owner。
+- 按 SVG bounds 保存各对象 registration origin；盾随角色根循环，xgq/终结二段隐藏本体，tmc 十枚对象保留36°环形旋转；`Role3_hit11` 按音效反证跳过独立 Phaser view。
+- Role3 QA 初始化为当前英雄技能栏，避免默认 Role2 loadout；HUD 继续复用既有574固定层、P1/P2镜像与五槽，只切换Role3头像。
+- `role3-combat-visual-tests` 固化资源数量/尺寸/注册点、动作hold、无death补造、无Arc/Text/占位 projectile、bundle owner、正式关卡桥、HUD和QA路由门禁。
+
+视觉验收：
+
+- 940×590 P1 Role3、普攻关键帧、合法双人Role3 P2和P2方向截图保存于Git忽略的 `local-resources/regima/task-outputs/task-slice-158c-role3/qa/`；浏览器 warning/error 为0。
+- 可见对象差异清单为原资源复用或等价时间轴重建；Role3范围内现代可见例外0、未完成项0。
+
+验证：
+
+- `npm run test:role3-visuals`、`npm run test:systems`、`npm run check:structure`、`npm run build`、`npm run check:annotations`、`npm run check:workflow`、`git diff --check` 通过。
+- 构建仅保留既有大 chunk warning；结构检查仅保留无关既有 warning。
+
+禁止范围：
+
+- 未改变技能数值、伤害窗口、存档 owner；未进入 Role4/Role5 或宠物视觉，未修改旧提取集。
+
+状态更新：
+
+- M-020/M-034/M-035/M-047/M-049、VS-062、本线覆盖、Role3标注、看板/历史与PG反馈已更新；功能线继续Active。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-069D`。
 
 ### TASK-SLICE-158B
 

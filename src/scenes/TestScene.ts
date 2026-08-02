@@ -291,6 +291,11 @@ import {
   destroyRole2CombatVisual,
   getRole2CombatVisual,
 } from './Role2CombatVisualBridge';
+import {
+  createRole3CombatVisual,
+  destroyRole3CombatVisual,
+  getRole3CombatVisual,
+} from './Role3CombatVisualBridge';
 import type { Stage1CombatHudBridge } from './stage1/Stage1CombatHudBridge';
 import type { PlayableLevelRuntime } from './PlayableLevelRuntime';
 import {
@@ -690,7 +695,7 @@ export class TestScene extends Phaser.Scene {
       player.sprite.setPosition(player.movement.x, player.movement.y);
       player.label.setPosition(player.sprite.x - 58, player.sprite.y + 14);
       player.label.setText(formatHeroLabel(player.slot, player.normalAttack, player.combat));
-      player.label.setVisible(player.normalAttack.heroId !== 2);
+      player.label.setVisible(player.normalAttack.heroId !== 2 && player.normalAttack.heroId !== 3);
       this.updatePlayerCombatVisual(player, time);
     }
   }
@@ -1062,9 +1067,14 @@ export class TestScene extends Phaser.Scene {
     } else if (player.normalAttack.heroId !== 2) {
       destroyRole2CombatVisual(player.sprite);
     }
+    if (player.normalAttack.heroId === 3 && !getRole3CombatVisual(player.sprite)) {
+      createRole3CombatVisual(this, player.sprite, 3);
+    } else if (player.normalAttack.heroId !== 3) {
+      destroyRole3CombatVisual(player.sprite);
+    }
     player.sprite.setTint(getHeroTint(player.normalAttack.heroId));
     player.label.setText(formatHeroLabel(player.slot, player.normalAttack, player.combat));
-    player.label.setVisible(player.normalAttack.heroId !== 2);
+    player.label.setVisible(player.normalAttack.heroId !== 2 && player.normalAttack.heroId !== 3);
   }
 }
 

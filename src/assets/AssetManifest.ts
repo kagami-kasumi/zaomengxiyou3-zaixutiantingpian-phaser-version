@@ -223,6 +223,7 @@ export const Stage21MonsterAssetKeys = {
 export const CombatHudAssetKeys = {
   roleInfo: 'combat-hud.role-info',
   role2Portrait: 'combat-hud.role2-portrait',
+  role3Portrait: 'combat-hud.role3-portrait',
   bossBlood: 'combat-hud.boss-blood',
 } as const;
 
@@ -372,6 +373,12 @@ export const Role2CombatAssetKeys = {
   body: 'hero-animation.hero2.body',
   equipment: 'hero-animation.hero2.equipment',
   shadow: 'skill-summon.role2.shy.shadow',
+} as const;
+
+export const Role3CombatAssetKeys = {
+  body: 'hero-animation.hero3.body',
+  equipment: 'hero-animation.hero3.equipment',
+  shieldBuff: 'skill-buff.role3.sd.shield',
 } as const;
 
 export const SkillProjectileEffectKeys = {
@@ -590,6 +597,15 @@ export const combatHudAssets = {
     source: 'extracted-flash',
     sourcePackage: 'assets/OtherMat1.swf',
     sourceSymbol: 'OtherMat_fla._2233_62 frame 2',
+    sourceCharacterId: 505,
+  },
+  role3Portrait: {
+    key: CombatHudAssetKeys.role3Portrait,
+    path: '/assets/ui/combat-hud/portraits/role3.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'OtherMat_fla._2233_62 frame 3',
     sourceCharacterId: 505,
   },
   bossBlood: {
@@ -2390,13 +2406,121 @@ export const role2SkillVisualAssets = {
   [SkillProjectileEffectKeys.role2JhsjHit9_2]: createRole2EffectFrames(SkillProjectileEffectKeys.role2JhsjHit9_2, 159, 'Role2Bullet9_2', 45),
 } as const satisfies Record<string, FrameSequenceAssetDefinition>;
 
+function createRole3EffectFrames(
+  key: string,
+  characterId: number,
+  symbol: string,
+  frameCount: number,
+  registrationOrigin: Readonly<{ x: number; y: number }>,
+) {
+  const folder = `DefineSprite_${characterId}_${symbol}`;
+  return {
+    key,
+    frameKeys: Array.from({ length: frameCount }, (_, index) => `${key}.frame${index + 1}`),
+    framePaths: Array.from(
+      { length: frameCount },
+      (_, index) => `/assets/combat/role3/skills/${folder}/${index + 1}.png`,
+    ),
+    registrationOrigin,
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/BaJie.swf',
+    sourceSymbol: symbol,
+  } as const;
+}
+
+export const role3CombatAtlases = {
+  body: {
+    key: Role3CombatAssetKeys.body,
+    path: '/assets/combat/role3/body/body.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/BaJie.swf',
+    sourceSymbol: 'ROLE3_0',
+    sourceCharacterId: 20,
+    cellWidth: 300,
+    cellHeight: 200,
+    columns: 6,
+    rows: 14,
+    reachableFrameCount: 58,
+    registrationOffset: { x: -15, y: 0 },
+  },
+  equipment: {
+    key: Role3CombatAssetKeys.equipment,
+    path: '/assets/combat/role3/body/equipment.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/BaJie.swf',
+    sourceSymbol: 'ROLE3_EQUIP_0',
+    sourceCharacterId: 15,
+    cellWidth: 300,
+    cellHeight: 200,
+    columns: 6,
+    rows: 14,
+    reachableFrameCount: 58,
+    registrationOffset: { x: -15, y: 0 },
+  },
+} as const satisfies Record<string, MonsterAtlasAssetDefinition>;
+
+export const role3NormalAttackAssets = {
+  [HeroNormalAttackEffectKeys.role3Hit1]: createRole3EffectFrames(
+    HeroNormalAttackEffectKeys.role3Hit1, 45, 'Role3Bullet1', 11, { x: 24.7 / 232.6, y: 25.05 / 176.1 },
+  ),
+  [HeroNormalAttackEffectKeys.role3Hit2]: createRole3EffectFrames(
+    HeroNormalAttackEffectKeys.role3Hit2, 81, 'Role3Bullet2', 13, { x: 253 / 948, y: 132 / 353 },
+  ),
+  [HeroNormalAttackEffectKeys.role3Hit3]: createRole3EffectFrames(
+    HeroNormalAttackEffectKeys.role3Hit3, 54, 'Role3Bullet3', 5, { x: 36 / 295.8, y: -4 / 253.7 },
+  ),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
+export const role3ShieldBuffAsset = createRole3EffectFrames(
+  Role3CombatAssetKeys.shieldBuff, 256, 'Role3Bullet5Buff', 19, { x: 53 / 152, y: 9 / 175 },
+);
+
+export const role3SkillVisualAssets = {
+  [SkillProjectileEffectKeys.role3DjHit4]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3DjHit4, 288, 'Role3Bullet4', 30, { x: 90.7 / 190, y: -12.9 / 73 },
+  ),
+  [SkillProjectileEffectKeys.role3SdHit5]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3SdHit5, 281, 'Role3Bullet5', 12, { x: 77.1 / 309, y: 11.05 / 206 },
+  ),
+  [SkillProjectileEffectKeys.role3ZznhHit6]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3ZznhHit6, 340, 'Role3Bullet6', 15, { x: -5 / 182, y: -6 / 186 },
+  ),
+  [SkillProjectileEffectKeys.role3SyzqHit7_1]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3SyzqHit7_1, 203, 'Role3Bullet7_1', 11, { x: 61 / 250, y: 35 / 300 },
+  ),
+  [SkillProjectileEffectKeys.role3SyzqHit7_2]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3SyzqHit7_2, 169, 'Role3Bullet7_2', 12, { x: 42 / 350, y: 79.35 / 321 },
+  ),
+  [SkillProjectileEffectKeys.role3SspHit8_1]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3SspHit8_1, 144, 'Role3Bullet8_1', 4, { x: 7.25 / 76, y: 0 },
+  ),
+  [SkillProjectileEffectKeys.role3SspHit8_2]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3SspHit8_2, 134, 'Role3Bullet8_2', 30, { x: 618.7 / 880, y: 16.2 / 162 },
+  ),
+  [SkillProjectileEffectKeys.role3JspHit9]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3JspHit9, 238, 'Role3Bullet9', 17, { x: 49.7 / 398, y: 38.6 / 275 },
+  ),
+  [SkillProjectileEffectKeys.role3DgqHit10]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3DgqHit10, 309, 'Role3Bullet10', 30, { x: 25 / 200, y: 19 / 120 },
+  ),
+  [SkillProjectileEffectKeys.role3XgqHit11]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3XgqHit11, 93, 'Role3Bullet11', 27, { x: 90.2 / 672, y: 180.95 / 326 },
+  ),
+  [SkillProjectileEffectKeys.role3TmcHit12_1]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3TmcHit12_1, 108, 'Role3Bullet12_1', 160, { x: 99 / 183, y: 111.1 / 180 },
+  ),
+  [SkillProjectileEffectKeys.role3TmcHit12_2]: createRole3EffectFrames(
+    SkillProjectileEffectKeys.role3TmcHit12_2, 125, 'Role3Bullet12_2', 1, { x: 35 / 71, y: 36.55 / 71 },
+  ),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
 export const sourceAssetFamilies = {
-  role3To4NormalAttackEffects: {
+  role4NormalAttackEffects: {
     status: 'missing-original',
     sourceSymbols: [
-      'Role3Bullet1',
-      'Role3Bullet2',
-      'Role3Bullet3',
       'Role4Bullet1',
       'Role4Bullet2',
       'Role4Bullet3',
@@ -2441,11 +2565,6 @@ export const sourceAssetFamilies = {
       'swordhit6_1',
     ],
     notes: 'Sword-mode mappings are known; spear-mode helper symbols remain unresolved.',
-  },
-  role3SkillProjectiles: {
-    status: 'missing-original',
-    sourceSymbols: ['Role3Bullet4', 'Role3_hit4', 'Role3Bullet5', 'Role3_hit5', 'Role3Bullet5Buff', 'Role3Bullet6', 'Role3_hit6', 'Role3Bullet7_1', 'Role3Bullet7_2', 'Role3_hit7', 'Role3Bullet8_1', 'Role3Bullet8_2', 'Role3_hit8', 'Role3Bullet9', 'Role3_hit9', 'Role3Bullet10', 'Role3_hit10', 'Role3Bullet11', 'Role3_hit11', 'Role3Bullet12_1', 'Role3Bullet12_2', 'Role3_hit12_1', 'Role3_hit12_2'],
-    notes: 'Role3 skill effects are absent from current exports and use stable placeholders.',
   },
   role4FinisherProjectiles: {
     status: 'missing-original',

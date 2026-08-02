@@ -106,7 +106,10 @@ assert.match(visualBridgeSource, /fontFamily: '\"FZCuYuan-M03\", sans-serif'/);
 assert.match(visualBridgeSource, /strokeThickness: 5/);
 assert.match(visualBridgeSource, /setDisplaySize\(48 \* state\.progress, 7\)/);
 const testSceneSource = readFileSync(path.join(repoRoot, 'src', 'scenes', 'TestScene.ts'), 'utf8');
-assert.match(testSceneSource, /player\.label\.setVisible\(player\.normalAttack\.heroId !== 2\)/);
+assert.match(
+  testSceneSource,
+  /player\.label\.setVisible\(player\.normalAttack\.heroId !== 2 && player\.normalAttack\.heroId !== 3\)/,
+);
 const bootSource = readFileSync(path.join(repoRoot, 'src', 'scenes', 'BootScene.ts'), 'utf8');
 assert.match(bootSource, /qaStage'\) === '1-1-role2'/);
 assert.match(bootSource, /createFormalDevParty\(2, 1, 2\)/, 'legal 2P QA must place Role2 in P2');

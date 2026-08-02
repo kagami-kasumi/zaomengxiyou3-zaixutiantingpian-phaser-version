@@ -13,8 +13,7 @@ import { installFormalFeatureUiEntries } from './feature-ui/FormalFeatureUiEntry
 import { createLevelResultStats, markLevelResultStarted, showLevelResult } from './LevelResultView';
 import { startSceneWithBundle } from './SceneAssetBundleBridge';
 import type { TransferDoorView } from './TransferDoorView';
-import { createRole1CombatVisual } from './Role1CombatVisualBridge';
-import { createRole2CombatVisual } from './Role2CombatVisualBridge';
+import { createHeroCombatVisual } from './HeroCombatVisualBridge';
 
 export type PlayableLevelWorldAdapter = Readonly<{
   transferDoor: TransferDoorView;
@@ -100,8 +99,7 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
             .setOrigin(0.5, 1)
             .setTint(index === 0 ? 0xffffff : 0x7ad7ff)
             .setDepth(20);
-          createRole1CombatVisual(scene, view, heroId);
-          createRole2CombatVisual(scene, view, heroId);
+          createHeroCombatVisual(scene, view, heroId);
           return view;
         });
       const titleText = factories.title?.(playerCount);

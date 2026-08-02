@@ -171,6 +171,7 @@ function spawnStabRing(
     projectile.y = point.y - Math.cos(angle) * Role3UltimateTuning.ringRadius;
     projectile.velocityX = (target.x - projectile.x) / travelFrames;
     projectile.velocityY = (target.y - projectile.y) / travelFrames;
+    projectile.rotation = angle;
     projectile.trackingTargetId = target.id;
     projectile.damage = damage;
     system.projectiles.push(projectile);

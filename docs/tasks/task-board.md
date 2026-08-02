@@ -4,15 +4,14 @@
 
 ## 当前推荐
 
-`TASK-SLICE-158C` 是唯一当前推荐，属于唯一 Active 功能线；下一步只消费已闭合证据，接入 Role3 八戒本体、战斗 UI、普攻、技能与附属对象真动画。
+`TASK-SETTINGS-069D` 是唯一当前推荐，属于唯一 Active 功能线；下一步闭合 Role4 沙僧铲/弓双形态的本体、UI、普攻、技能与附属对象视觉证据。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SETTINGS-069 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向父任务 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 共享矩阵、显示列表门禁与 `069A..E` / `158A..E` 合同 | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SETTINGS-069.md) |
-| TASK-SLICE-158C | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Role3 真动画 | 接入八戒本体、战斗 UI、普攻、全部已实现技能与附属对象真动画 | M-020、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role3 真资源、逐状态与差异证据 | TASK-SETTINGS-069D | [定义](task-definitions/TASK-SLICE-158C.md) |
-| TASK-SETTINGS-069D | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role4 视觉逆向 | 闭合沙僧铲/弓双形态本体、UI、普攻、技能与附属对象证据 | M-021、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role4 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158D | [定义](task-definitions/TASK-SETTINGS-069D.md) |
+| TASK-SETTINGS-069D | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Role4 视觉逆向 | 闭合沙僧铲/弓双形态本体、UI、普攻、技能与附属对象证据 | M-021、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role4 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158D | [定义](task-definitions/TASK-SETTINGS-069D.md) |
 | TASK-SLICE-158D | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role4 真动画 | 接入沙僧铲/弓双形态本体、UI、普攻、技能与附属对象真动画 | M-021、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | Role4 真资源、逐状态与差异证据 | TASK-SETTINGS-069E | [定义](task-definitions/TASK-SLICE-158D.md) |
 | TASK-SETTINGS-069E | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role5 视觉逆向 | 闭合白龙枪/剑双形态本体、UI、普攻、技能与附属对象证据 | M-022..M-025、M-034、M-035、M-047、M-049、VS-062 | Role5 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158E | [定义](task-definitions/TASK-SETTINGS-069E.md) |
 | TASK-SLICE-158E | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role5 真动画 | 接入白龙枪/剑双形态本体、UI、普攻、技能与附属对象真动画 | M-022..M-025、M-034、M-035、M-047、M-049、VS-062 | Role5 真资源、逐状态、差异证据与父任务收束 | TASK-SLICE-159 | [定义](task-definitions/TASK-SLICE-158E.md) |

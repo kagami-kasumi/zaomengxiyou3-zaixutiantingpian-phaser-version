@@ -29,6 +29,7 @@ export type ProjectileModel = {
   facingX: -1 | 1;
   velocityX: number;
   velocityY: number;
+  rotation?: number;
   remainingDistance: number | undefined;
   width: number;
   height: number;

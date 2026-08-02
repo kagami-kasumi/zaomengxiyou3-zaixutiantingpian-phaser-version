@@ -90,3 +90,11 @@ Role3 没有独立 death Symbol；`BaseHero` 的死亡路径移除显示对象�
 
 同尺寸原版帧与现代帧应并排或半透明叠图，并记录 cell、注册点、裁切、depth、镜像和抗锯齿差异。可见对象差异清单只允许“原资源复用/等价时间轴重建/未完成”；允许的现代可见例外为空。
 
+## 158C 现代接入与差异证据
+
+- 单一现代 owner：`combat-common` 只注册 `assets/BaJie.swf` 派生的 Role3 本体/装备、三普攻、12 组技能对象和盾序列；SpecialUI 字节副本没有重复打包，Boot 没有回填战斗资源。
+- 动画映射：`Role3CombatVisualSystem.ts` 保存 6×14 cell、wait/wait2、走跑跳、三普攻、九技能与 hurt hold；`Role3CombatVisualBridge.ts` 保存左右 origin `0.55/0.45`、装备上层、动态名字、盾根局部 `(-20,-80)`、xgq/终结二段隐藏和无 death 补造。
+- 对象映射：29 帧普攻、349 帧技能对象与 19 帧盾均以 SVG bounds 导出的 registration origin 放置；`Role3_hit11` 计时对象明确不创建 Phaser view；tmc 十枚对象保留 36° 环形 rotation。
+- HUD 映射：character 505 frame 3 作为 Role3 头像，由既有 574 HUD 的 P1/P2 镜像、五槽和动态字段 owner 消费，没有新增按钮或现代面板。
+- 940×590 现代证据：`local-resources/regima/task-outputs/task-slice-158c-role3/qa/` 保存 P1、普攻、合法 P1 Role1 + P2 Role3、P2 方向四张截图；原版基准继续由本索引引用的源图表、逐帧 PNG/SVG 和 574/505/510 显示列表承载。
+- 可见差异清单：本体/装备、普攻、技能对象、盾和 HUD 头像均为“原资源复用”；hold、镜像、隐藏和十枚追踪为“等价时间轴重建”；用户批准的现代可见例外为 0，Role3 范围内未完成项为 0。浏览器 console warning/error 为 0。

@@ -68,7 +68,6 @@ import { isPlayerSlot } from './TestSceneFormatters';
 import { toPhaserRect } from './TestSceneGeometry';
 import { tryRole3RjHealOnHit } from '../../systems/Role3DefenseSkillSystem';
 import { tryRole1SxLifeSteal } from '../../systems/Role1BasicSkillSystem';
-import { isRole3XgqHidden } from '../../systems/Role3MobilitySkillSystem';
 import {
   applyRole4PoisonProjectileHit,
   type Role4PoisonTarget,
@@ -90,9 +89,8 @@ import {
   destroyStage11MonsterView,
   updateStage11MonsterView,
 } from '../stage11/Stage11MonsterVisualBridge';
-import { getRole1CombatVisual, syncRole1CombatVisual } from '../Role1CombatVisualBridge';
-import { getRole2CombatVisual, syncRole2CombatVisual } from '../Role2CombatVisualBridge';
 import { projectRole2ShadowFrame } from '../../systems/Role2CombatVisualSystem';
+import { syncHeroCombatVisual } from '../HeroCombatVisualBridge';
 
 type CapturablePetTargetView = {
   root: Phaser.GameObjects.Container;
@@ -728,36 +726,21 @@ export function applyProjectileHits(this: any, time: number): void {
     }
   }
 export function updatePlayerCombatVisual(this: any, player: any, time: number): void {
-    const role1Visual = getRole1CombatVisual(player.sprite);
-    if (role1Visual) {
-      syncRole1CombatVisual(role1Visual, {
-        movement: player.movement,
-        combat: player.combat,
-        normalAttack: player.normalAttack,
-        skillAction: player.role1VisualAction,
-      }, time);
-    }
-    const role2Visual = getRole2CombatVisual(player.sprite);
-    if (role2Visual) {
-      syncRole2CombatVisual(role2Visual, {
-        movement: player.movement,
-        combat: player.combat,
-        normalAttack: player.normalAttack,
-        skillAction: player.role2VisualAction,
-      }, time);
-    }
+    const hasNativeVisual = syncHeroCombatVisual(player.sprite, {
+      movement: player.movement,
+      combat: player.combat,
+      normalAttack: player.normalAttack,
+      skill: player.skill,
+      role1SkillAction: player.role1VisualAction,
+      role2SkillAction: player.role2VisualAction,
+      role3SkillAction: player.role3VisualAction,
+    }, time);
     if (isHeroCombatDead(player.combat)) {
-      player.sprite.setAlpha(role1Visual || role2Visual ? 0 : 0.42);
-      if (!role1Visual && !role2Visual) player.sprite.setTint(0x697386);
+      player.sprite.setAlpha(hasNativeVisual ? 0 : 0.42);
+      if (!hasNativeVisual) player.sprite.setTint(0x697386);
       return;
     }
-
-    if (isRole3XgqHidden(player.skill.role3Runtime)) {
-      player.sprite.setAlpha(0);
-      return;
-    }
-
-    player.sprite.setAlpha(role1Visual || role2Visual ? 0 : isHeroInvulnerable(player.combat, time) ? 0.72 : 1);
+    player.sprite.setAlpha(hasNativeVisual ? 0 : isHeroInvulnerable(player.combat, time) ? 0.72 : 1);
     player.sprite.setTint(
       player.combat.state === 'hurt'
         ? 0xff7f7f
@@ -775,7 +758,8 @@ export function updateProjectileEffectViews(this: any): void {
         view.projectileId === projectile.id
       );
       if (!hasView) {
-        this.projectileEffectViews.push(createProjectileEffectView(this, projectile));
+        const view = createProjectileEffectView(this, projectile);
+        if (view) this.projectileEffectViews.push(view);
       }
     }
 
@@ -797,6 +781,7 @@ export function updateProjectileEffectViews(this: any): void {
         view.shape.setTexture(view.frameKeys[frameIndex]!)
           .setPosition(projectile.x, projectile.y)
           .setFlipX(projectile.facingX > 0)
+          .setRotation(projectile.rotation ?? 0)
           .setAlpha(1);
         activeViews.push(view);
         continue;
