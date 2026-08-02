@@ -29,6 +29,11 @@ const stage12Source = readFileSync(
   'utf8',
 );
 assert.match(stage12Source, /createHeroPartyRuntime\(scene/, 'Stage 1-2 must delegate hero visuals');
+const stage13Source = readFileSync(
+  path.join(process.cwd(), 'src/scenes/stage13/Stage13GameplayBridge.ts'),
+  'utf8',
+);
+assert.match(stage13Source, /createHeroPartyRuntime\(scene/, 'Stage 1-3 must delegate hero visuals');
 const heroPartySource = readFileSync(
   path.join(process.cwd(), 'src/scenes/HeroPartyRuntimeBridge.ts'),
   'utf8',
@@ -38,7 +43,6 @@ assert.match(heroPartySource, /attackVisuals\.update\(/, 'hero runtime must sync
 assert.match(heroPartySource, /attackVisuals\.destroy\(\)/, 'hero runtime must release attack visuals');
 
 for (const file of [
-  'src/scenes/stage13/Stage13GameplayBridge.ts',
   'src/scenes/stage21/Stage21GameplayBridge.ts',
   'src/scenes/stage22/Stage22GameplayBridge.ts',
 ]) {

@@ -29,9 +29,7 @@ const legacyEntityOwnerBudgets = new Map([
     ['type EnemyRuntime', 1], ['new Map<string, EnemyRuntime>', 1], ['updateStage1Enemy', 2],
   ])],
   ['src/scenes/stage13/Stage13GameplayBridge.ts', new Map([
-    ['type PlayerRuntime', 1], ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1],
-    ['updateLevelHeroMovementRuntime', 2], ['updateStage1CombatPlayer', 2], ['updateStage1Enemy', 2],
-    ['resolveStage1EnemyAttack', 2], ['resolveStage1HeroAttack', 2],
+    ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1], ['updateStage1Enemy', 2],
   ])],
   ['src/scenes/stage21/Stage21GameplayBridge.ts', new Map([
     ['type PlayerRuntime', 1], ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1],
@@ -172,21 +170,25 @@ function assertStage11Migration() {
   }
 }
 
-function assertStage12HeroPartyPilot() {
-  const relative = 'src/scenes/stage12/Stage12GameplayBridge.ts';
-  const source = readFileSync(path.join(root, relative), 'utf8');
-  if (!source.includes('createHeroPartyRuntime')) {
-    errors.push(`${relative} must delegate hero lifecycle to HeroPartyRuntime`);
-  }
-  for (const forbidden of [
-    'type PlayerRuntime',
-    'createStage1CombatPlayer',
-    'createLevelHeroMovementRuntime',
-    'updateStage1CombatPlayer',
-    'resolveStage1HeroAttack',
-    'resolveStage1EnemyAttack',
+function assertHeroPartyMigrations() {
+  for (const relative of [
+    'src/scenes/stage12/Stage12GameplayBridge.ts',
+    'src/scenes/stage13/Stage13GameplayBridge.ts',
   ]) {
-    if (source.includes(forbidden)) errors.push(`${relative} retains migrated hero owner: ${forbidden}`);
+    const source = readFileSync(path.join(root, relative), 'utf8');
+    if (!source.includes('createHeroPartyRuntime')) {
+      errors.push(`${relative} must delegate hero lifecycle to HeroPartyRuntime`);
+    }
+    for (const forbidden of [
+      'type PlayerRuntime',
+      'createStage1CombatPlayer',
+      'createLevelHeroMovementRuntime',
+      'updateStage1CombatPlayer',
+      'resolveStage1HeroAttack',
+      'resolveStage1EnemyAttack',
+    ]) {
+      if (source.includes(forbidden)) errors.push(`${relative} retains migrated hero owner: ${forbidden}`);
+    }
   }
 }
 
@@ -197,7 +199,7 @@ for (const legacy of [...legacyScenes, ...legacyWorldBridges, ...legacyGameplayB
 assertSelfTests();
 assertContractDocument();
 assertStage11Migration();
-assertStage12HeroPartyPilot();
+assertHeroPartyMigrations();
 
 for (const relative of [...walk('src/scenes'), ...walk('src/systems')].filter((file) => file.endsWith('.ts'))) {
   const source = readFileSync(path.join(root, relative), 'utf8');

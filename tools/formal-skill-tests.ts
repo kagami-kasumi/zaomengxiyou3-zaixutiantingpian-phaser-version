@@ -246,7 +246,8 @@ function testTrueSkillAssets(): void {
   assert.doesNotMatch(view, /callbacks\.playerCount/);
   assert.match(stage12, /createHeroPartyRuntime/);
   assert.match(heroParty, /FormalSkillsUpdatedEvent/);
-  assert.match(stage13, /FormalSkillsUpdatedEvent/);
+  assert.match(stage13, /createHeroPartyRuntime/);
+  assert.doesNotMatch(stage13, /FormalSkillsUpdatedEvent/);
 }
 
 function testPassiveEffectDescriptions(): void {

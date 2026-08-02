@@ -2,6 +2,34 @@
 
 ## 2026-08-02
 
+### PG-013 V2C HeroPartyRuntime Stage 1-3 迁移
+
+变更内容：
+
+- Stage 1-3 删除私有 `PlayerRuntime`、movement/combat runtime、英雄 update/resolve、技能事件订阅与普攻视觉生命周期，改为消费共享 `HeroPartyRuntime`。
+- GameplayBridge 只提交输入、平台/边界和怪物目标；Monster5、怪物 Map/AI/物理/奖励、五停点、6/8 同屏上限与普通门流程保持不变。
+- `check:level-architecture` 将 Stage 1-3 Hero owner token 预算归零，并把正向委托/负向回填检查扩展到 Stage 1-2/1-3。
+- 旧技能与攻击视觉测试改为验证共享 Runtime 是唯一 owner；PG-013 下一执行批次切换为 V2D Stage 2-1，不进入 Monster owner 或游戏 `TASK-SLICE-159`。
+
+影响范围：
+
+- `src/scenes/stage13/Stage13GameplayBridge.ts`
+- `tools/check-playable-level-architecture.mjs`
+- `tools/formal-skill-tests.ts`
+- `tools/hero-combat-visual-coordinate-tests.ts`
+- `docs/architecture/playable-level-runtime.md`
+- `docs/tasks/execution-queue.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-003/004/006/008/012/013`
+
+验证：
+
+- `npm run test:hero-party-runtime` 与 Stage 1-3 flow/traversal/resource/monster-visual 专项
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:all`
+- 940×590 Stage 1-3 正式 1P/2P 进入、移动/普攻对象与零 console
+
 ### PG-013 V2B HeroPartyRuntime Stage 1-2 试点
 
 变更内容：
