@@ -37,6 +37,7 @@
 | 英雄普攻模型 | `HeroNormalAttackModel` | Model | Combat | 单个英雄普攻连段、冷却、当前动作和武器形态的运行状态 | `RoleAttackModel`, `AttackState` |
 | 英雄普攻系统 | `HeroNormalAttackSystem` | System | Combat | 根据输入和英雄移动状态触发普攻动作、特效与命中框 | `RoleAttackSystem`, `NormalAttackSystem` |
 | 英雄战斗模型 | `HeroCombatModel` | Model | Combat | 单个英雄生命、受击、死亡、保护和最近伤害事件状态 | `PlayerCombatModel`, `HeroHealthState` |
+| 英雄队伍运行时 | `HeroPartyRuntime` | Runtime / Orchestrator | Combat / Runtime | 单局活动英雄的唯一运行时 owner，按 `PlayerSlot` 持有移动、战斗、普攻、技能与角色视觉生命周期；只消费关卡环境快照，不拥有地形、波次或机关规则 | `PlayerRuntime`, `PartyCombatRuntime`, `LevelHeroRuntime` |
 | 怪物 | `Monster` | Entity | Combat | 敌方单位 | `Enemy`, `Mob` |
 | 怪物定义 | `MonsterDefinition` | Config | Combat / Content | 某类怪物跨关卡共享的只读配置，引用数值、物理、行为、能力、动画和奖励 profile | `EnemyDefinition`, `MonsterConfig` |
 | 怪物定义目录 | `MonsterDefinitionCatalog` | Config / Registry | Combat / Content | 按怪物类型稳定 ID 查询唯一 `MonsterDefinition`；不保存单局可变状态 | `MonsterRegistry`, `EnemyCatalog` |

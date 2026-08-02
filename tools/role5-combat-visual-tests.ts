@@ -123,7 +123,11 @@ assert.match(bridgeSource, /runtime\.jrjlArrows\.created/);
 assert.match(bridgeSource, /input\.combat\.state !== 'dead'/);
 assert.doesNotMatch(bridgeSource, /setTint\(/);
 const viewsSource = readFileSync(path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneViews.ts'), 'utf8');
-assert.match(viewsSource, /suppressMissingRole5RunEffect/);
+const attackVisualSource = readFileSync(
+  path.join(repoRoot, 'src', 'scenes', 'HeroNormalAttackVisualBridge.ts'),
+  'utf8',
+);
+assert.match(attackVisualSource, /suppressMissingRole5RunEffect/);
 assert.match(viewsSource, /getRole5SkillVisualAsset/);
 const hudSource = readFileSync(path.join(repoRoot, 'src', 'scenes', 'stage1', 'Stage1CombatHudBridge.ts'), 'utf8');
 assert.match(hudSource, /player\.heroId === 5/);

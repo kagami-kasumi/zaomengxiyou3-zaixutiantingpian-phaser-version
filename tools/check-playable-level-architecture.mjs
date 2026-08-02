@@ -24,6 +24,38 @@ const legacyFlowSystems = new Set([
   'src/systems/Stage21FlowSystem.ts',
   'src/systems/Stage22FlowSystem.ts',
 ]);
+const legacyEntityOwnerBudgets = new Map([
+  ['src/scenes/stage12/Stage12GameplayBridge.ts', new Map([
+    ['type PlayerRuntime', 1], ['type EnemyRuntime', 1], ['new Map<string, EnemyRuntime>', 1],
+    ['updateLevelHeroMovementRuntime', 2], ['updateStage1CombatPlayer', 2], ['updateStage1Enemy', 2],
+    ['resolveStage1EnemyAttack', 2], ['resolveStage1HeroAttack', 2],
+  ])],
+  ['src/scenes/stage13/Stage13GameplayBridge.ts', new Map([
+    ['type PlayerRuntime', 1], ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1],
+    ['updateLevelHeroMovementRuntime', 2], ['updateStage1CombatPlayer', 2], ['updateStage1Enemy', 2],
+    ['resolveStage1EnemyAttack', 2], ['resolveStage1HeroAttack', 2],
+  ])],
+  ['src/scenes/stage21/Stage21GameplayBridge.ts', new Map([
+    ['type PlayerRuntime', 1], ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1],
+    ['updateLevelHeroMovementRuntime', 2], ['updateStage1CombatPlayer', 2], ['updateStage1Enemy', 2],
+    ['resolveStage1EnemyAttack', 2], ['resolveStage1HeroAttack', 2],
+  ])],
+  ['src/scenes/stage22/Stage22GameplayBridge.ts', new Map([
+    ['type PlayerRuntime', 1], ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1],
+    ['updateLevelHeroMovementRuntime', 2], ['updateStage1CombatPlayer', 2], ['updateStage1Enemy', 2],
+    ['resolveStage1EnemyAttack', 2], ['resolveStage1HeroAttack', 2],
+  ])],
+  ['src/scenes/stage22/Stage22DevGameplayBridge.ts', new Map([
+    ['updateLevelHeroMovementRuntime', 2],
+  ])],
+  ['src/scenes/TestScene.ts', new Map([
+    ['private playerViews:', 1], ['private monster30s:', 1],
+  ])],
+]);
+
+const entityOwnerTokens = [...new Set(
+  [...legacyEntityOwnerBudgets.values()].flatMap((budget) => [...budget.keys()]),
+)];
 
 function normalize(file) {
   return file.split(path.sep).join('/');
@@ -64,6 +96,17 @@ function classify(relativePath, source) {
   if (/tryCompleteStage\d+/u.test(source)) {
     findings.push('private tryCompleteStage* lifecycle owner is forbidden');
   }
+  const isLevelRuntimeFile = /^src\/scenes\/(?:stage\d+\/|TestScene|test-scene\/TestScene)/u.test(relativePath);
+  if (isLevelRuntimeFile) {
+    const budget = legacyEntityOwnerBudgets.get(relativePath);
+    for (const token of entityOwnerTokens) {
+      const count = source.split(token).length - 1;
+      const allowed = budget?.get(token) ?? 0;
+      if (count > allowed) {
+        findings.push(`level adapter exceeds frozen entity-owner budget for ${token}: ${count} > ${allowed}`);
+      }
+    }
+  }
   return findings;
 }
 
@@ -75,6 +118,7 @@ function assertSelfTests() {
     ['src/scenes/stage23/Stage23GameplayBridge.ts', 'export function update() {}', 1],
     ['src/systems/Stage23FlowSystem.ts', 'export class Stage23Flow {}', 1],
     ['src/scenes/stage23/Stage23ResultBridge.ts', 'export function show() {}', 1],
+    ['src/scenes/stage23/Stage23EncounterAdapter.ts', 'type PlayerRuntime = {};', 1],
     ['src/scenes/Stage12Scene.ts', "import type { PlayableLevelRuntime } from './PlayableLevelRuntime';", 0],
   ];
   for (const [file, source, expected] of cases) {
@@ -97,6 +141,8 @@ function assertContractDocument() {
     'LevelWorldAdapter',
     'LevelEncounter',
     'TransferDoorVisualDefinition',
+    'HeroPartyRuntime',
+    'MonsterRuntimeRegistry',
     'Stage 1-1',
     'Stage 1-2',
     'Stage 1-3',
@@ -105,6 +151,8 @@ function assertContractDocument() {
     'character 45/41/44',
     '逐状态基线',
     '迁移顺序',
+    'V2A 实体运行时消费者矩阵',
+    '每批最多一个实体 owner',
   ];
   for (const token of required) {
     if (!source.includes(token)) errors.push(`${relative} missing required contract token: ${token}`);

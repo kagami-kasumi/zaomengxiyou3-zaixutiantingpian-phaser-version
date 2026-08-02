@@ -91,7 +91,9 @@ export type AssetBundleId =
   | 'combat-hero-4-skills'
   | 'combat-hero-5-skills'
   | 'stage-1-common'
-  | 'stage-1-monsters'
+  | 'stage-1-monsters-11'
+  | 'stage-1-monsters-12'
+  | 'stage-1-monsters-13'
   | 'stage-2-common'
   | 'stage-2-monsters'
   | 'stage-11'
@@ -319,7 +321,7 @@ const combatCommonAssets = [
 const stage11BundleAssets = Object.entries(stage11Assets)
   .filter(([name]) => name !== 'floor')
   .flatMap(([, asset]) => 'framePaths' in asset ? images(asset) : [image(asset)]);
-const stage1MonsterBundleAssets = [
+const stage11MonsterBundleAssets = [
   ...Object.values(stage11MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
     key: asset.key,
@@ -333,6 +335,8 @@ const stage1MonsterBundleAssets = [
     key: Stage11MonsterAssetKeys.attackGeometry,
     path: '/assets/stage1/monsters/attack-frame-geometry.csv',
   },
+];
+const stage12MonsterBundleAssets = [
   ...Object.values(stage12MonsterAtlases).map((asset) => ({
     kind: 'spritesheet' as const,
     key: asset.key,
@@ -346,6 +350,8 @@ const stage1MonsterBundleAssets = [
     key: Stage12MonsterAssetKeys.attackGeometry,
     path: '/assets/stage1/monsters/attack-frame-geometry.csv',
   },
+];
+const stage13MonsterBundleAssets = [
   {
     kind: 'spritesheet' as const,
     key: stage13Monster5Atlas.key,
@@ -539,9 +545,17 @@ export const sceneAssetBundles = {
     dependencies: [],
     assets: [image(stage11Assets.floor)],
   },
-  'stage-1-monsters': {
+  'stage-1-monsters-11': {
     dependencies: [],
-    assets: stage1MonsterBundleAssets,
+    assets: stage11MonsterBundleAssets,
+  },
+  'stage-1-monsters-12': {
+    dependencies: [],
+    assets: stage12MonsterBundleAssets,
+  },
+  'stage-1-monsters-13': {
+    dependencies: [],
+    assets: stage13MonsterBundleAssets,
   },
   'stage-2-common': {
     dependencies: [],
@@ -552,15 +566,21 @@ export const sceneAssetBundles = {
     assets: sharedStage2MonsterAssets,
   },
   'stage-11': {
-    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters'],
+    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters-11'],
     assets: stage11BundleAssets,
   },
   'stage-12': {
-    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters'],
+    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters-12'],
     assets: stage12BundleAssets,
   },
   'stage-13': {
-    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters'],
+    dependencies: [
+      'combat-common',
+      'stage-1-common',
+      'stage-1-monsters-11',
+      'stage-1-monsters-12',
+      'stage-1-monsters-13',
+    ],
     assets: stage13BundleAssets,
   },
   'stage-21': {

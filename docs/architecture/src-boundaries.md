@@ -55,8 +55,9 @@
 - `LevelLifecycleBridge` 只把 Phaser 显示对象边界、玩家有效性和上键输入适配成系统输入；通关规则不得回填 scene/gameplay bridge。
 - `LevelResultView` 是全部关卡唯一的结果展示 presenter：只消费生命周期终态、成绩快照和路由回调，统一投影原版 `GameWin` / `GameFail` 及按钮状态。关卡不得新增私有 `Stage*ResultBridge`，也不得用全屏现代 `Rectangle/Text` 回填结果页。
 - `MonsterDefinitionCatalog` 保存跨关卡只读定义，`MonsterRuntimeRegistry` 保存单局可变怪物状态；二者不得混为同一个 Registry。
+- `HeroPartyRuntime` 是单局活动英雄的唯一运行时 owner：按 `PlayerSlot` 持有移动、战斗、普攻、技能和角色视觉生命周期。关卡只提交平台、移动边界与特殊环境快照，不声明 `PlayerRuntime`，不直接调用角色内部 update/resolve。
 - 怪物差异优先通过 `MonsterBrain`、物理 profile、能力集合、动画集合和奖励 profile 组合，不建立承载全部职责的万能 `BaseMonster`。
-- scene/gameplay bridge 可以持有 Phaser view 映射，但怪物生命、AI、死亡和奖励事实必须来自系统层稳定 ID。
+- `MonsterRuntimeRegistry` 只持有稳定 ID 与纯运行状态；Phaser view 映射由关卡无关的实体视图 adapter 持有。关卡遭遇只发 spawn 命令并消费 spawned/defeated/cleared 事件，不声明怪物 runtime 类型或 `Map`，不直接调用怪物内部 update/resolve。
 
 ## 逆向与实现边界
 

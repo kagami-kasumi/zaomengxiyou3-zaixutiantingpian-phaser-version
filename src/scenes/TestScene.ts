@@ -125,9 +125,7 @@ import {
   type TestSceneDebugKeys,
 } from './test-scene/TestSceneDebugKeys';
 import {
-  createAttackEffectView,
   createAttackFlash,
-  type AttackEffectView,
   type AttackFlash,
   type BossView,
   type DropView,
@@ -135,6 +133,10 @@ import {
   type PetView,
   type ProjectileEffectView,
 } from './test-scene/TestSceneViews';
+import {
+  createAttackEffectView,
+  type AttackEffectView,
+} from './HeroNormalAttackVisualBridge';
 import type { TransferDoorView } from './TransferDoorView';
 import {
   createTestSceneUpdatePipeline,

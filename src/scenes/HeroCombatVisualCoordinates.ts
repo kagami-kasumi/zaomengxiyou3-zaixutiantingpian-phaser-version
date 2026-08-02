@@ -48,3 +48,15 @@ export function projectNormalAttackVisualPoint(
     y: projectHeroVisualRootY(footY) + offset.y,
   };
 }
+
+export function shouldFlipNormalAttackVisual(
+  attack: Pick<ActiveHeroNormalAttack, 'heroId' | 'facingX'>,
+): boolean {
+  // TangSeng's exported bullet faces left at rest, matching the body export.
+  // Other recovered normal-attack families retain their existing orientation contract.
+  return attack.heroId === 2 ? attack.facingX > 0 : attack.facingX < 0;
+}
+
+export function projectNormalAttackOriginX(originX: number, flipX: boolean): number {
+  return flipX ? 1 - originX : originX;
+}

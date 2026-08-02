@@ -33,7 +33,9 @@ const requiredBundles = [
   'combat-hero-1-skills',
   'combat-hero-5-skills',
   'stage-11',
-  'stage-1-monsters',
+  'stage-1-monsters-11',
+  'stage-1-monsters-12',
+  'stage-1-monsters-13',
   'stage-12',
   'stage-13',
   'stage-21',
@@ -97,8 +99,8 @@ assert.equal(sceneBundleBySceneKey.TestScene, 'stage-11');
 assert.equal(sceneBundleBySceneKey.Stage22DevScene, 'stage-22');
 assert.ok(runtimeAssetBundleOwners.size > 250);
 assert.equal(requireRuntimeAssetOwner('save-slots.start-menu'), 'shell');
-assert.equal(requireRuntimeAssetOwner('monster.stage1.monster30.atlas'), 'stage-1-monsters');
-assert.equal(requireRuntimeAssetOwner('monster.stage1.monster5.atlas'), 'stage-1-monsters');
+assert.equal(requireRuntimeAssetOwner('monster.stage1.monster30.atlas'), 'stage-1-monsters-11');
+assert.equal(requireRuntimeAssetOwner('monster.stage1.monster5.atlas'), 'stage-1-monsters-13');
 assert.equal(requireRuntimeAssetOwner('stage.stage1-1.transfer-door.frame-01'), 'stage-11');
 assert.equal(requireRuntimeAssetOwner('stage.stage1-3.transfer-door'), 'stage-13');
 assert.equal(requireRuntimeAssetOwner('monster.stage2-1.monster6.atlas'), 'stage-2-monsters');
@@ -134,7 +136,7 @@ assert.throws(
     },
   };
   await coordinator.ensure('stage-12', adapter);
-  assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-1-monsters', 'stage-12']);
+  assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'stage-1-monsters-12', 'stage-12']);
   await coordinator.ensure('combat-hero-2', adapter);
   assert.equal(calls.at(-1), 'combat-hero-2');
   assert.equal(loadedKeys.has('hero-animation.hero2.body'), true);
@@ -146,7 +148,7 @@ assert.throws(
   assert.deepEqual(
     calls,
     [
-      'combat-common', 'stage-1-common', 'stage-1-monsters', 'stage-12',
+      'combat-common', 'stage-1-common', 'stage-1-monsters-12', 'stage-12',
       'combat-hero-2', 'combat-hero-2-skills',
     ],
   );

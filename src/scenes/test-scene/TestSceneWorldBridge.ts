@@ -79,8 +79,6 @@ import {
   createProjectileEffectView,
   destroyDropView,
   syncDropView,
-  syncAttackEffectFrame,
-  type AttackEffectView,
   type AttackFlash,
   type MonsterView,
   type ProjectileEffectView,
@@ -91,6 +89,10 @@ import {
 } from '../stage11/Stage11MonsterVisualBridge';
 import { projectRole2ShadowFrame } from '../../systems/Role2CombatVisualSystem';
 import { syncHeroCombatVisual } from '../HeroCombatVisualBridge';
+import {
+  syncAttackEffectFrame,
+  type AttackEffectView,
+} from '../HeroNormalAttackVisualBridge';
 import { projectNormalAttackVisualPoint } from '../HeroCombatVisualCoordinates';
 
 type CapturablePetTargetView = {

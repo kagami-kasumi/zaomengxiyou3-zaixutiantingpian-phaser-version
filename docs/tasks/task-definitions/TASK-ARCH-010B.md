@@ -25,22 +25,23 @@
 
 输入资料：
 
-- `TASK-ARCH-010A` 的通用合同与兼容 facade。
+- `TASK-ARCH-010A` 的通用定义/Brain 合同与兼容 facade。
+- `PG-013 V2` 已建立并完成五关迁移的 `MonsterRuntimeRegistry`；本 task 消费该 owner，不再创建第二个注册表或重新迁移关卡生命周期。
 - `docs/architecture/设计模式.md`、`docs/architecture/src-boundaries.md`、`LINE-MONSTER-ARCH` 覆盖台账。
 - 一个同时具有普通怪和 Boss、已具备确定性测试与运行验收入口的正式关卡；默认候选为 Stage 2-2，执行前按当前工作树复核。
 
 输出产物：
 
-- 最小 `MonsterRuntimeRegistry`：稳定 ID、创建/查询/按遭遇筛选、幂等死亡登记和安全移除。
-- 试点关卡以注册表作为怪物运行状态唯一 owner；Flow 只保留生成计划、遭遇进度和通关所需计数/ID，不复制完整怪物状态。
+- 将 `TASK-ARCH-010A` 的 `MonsterDefinitionCatalog`、`MonsterBrain` 与 Targeting 接缝接入既有 `MonsterRuntimeRegistry`，不改变 Registry 的稳定 ID、创建/查询、死亡登记和安全移除合同。
+- 选择一个已迁移关卡验证定义/Brain 接缝；Flow 继续只保留生成计划、遭遇进度和通关所需计数/ID，不复制完整怪物状态。
 - scene bridge 继续拥有 Phaser view 适配，但不作为生命、AI、死亡或奖励事实源。
 - 形成逐关卡迁移清单、风险和拆分建议，不在本 task 批量迁移其他正式关卡。
 
 完成定义：
 
-- 试点关卡怪物生成、更新、死亡、奖励、Boss 显门和销毁都由同一稳定 ID 串联。
+- 试点关卡怪物生成、更新、死亡、奖励、Boss 显门和销毁继续由 PG-013 的同一稳定 ID 串联，且定义/Brain 不建立第二份运行状态。
 - 重复死亡/移除安全幂等，Flow 与 bridge 不再各持一份完整怪物运行状态。
-- 注册表保持轻量，不扩张为完整 ECS；系统仍通过明确输入/输出测试。
+- 注册表保持轻量，不扩张为完整 ECS；本 task 不重新实现 Registry，系统仍通过明确输入/输出测试。
 - 普通怪与 Boss 的 1P/2P 可玩行为、真视觉和通关结果无回归。
 
 验收标准：
@@ -54,7 +55,7 @@
 
 - 不把掉落、宠物、投射物和场景物件同时纳入注册表。
 - 不改变原版已确认流程、数值、视觉资源、动画时序或攻击几何。
-- 不在试点未闭合前删除其他关卡的兼容路径。
+- 不创建第二个 `MonsterRuntimeRegistry`，不重新迁移 PG-013 已闭合的关卡生命周期或 TestScene 兼容路径。
 
 状态更新：
 

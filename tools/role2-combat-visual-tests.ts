@@ -94,8 +94,13 @@ assert.equal(projectRole2ChargeBarState({
   endsAtMs: 500,
 }, 100, true).visible, false);
 
+const attackVisualSource = readFileSync(
+  path.join(repoRoot, 'src', 'scenes', 'HeroNormalAttackVisualBridge.ts'),
+  'utf8',
+);
+assert.match(attackVisualSource, /role2NormalAttackAssets\[attack\.effectKey/);
+assert.match(attackVisualSource, /shouldFlipNormalAttackVisual\(attack\)/);
 const viewsSource = readFileSync(path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneViews.ts'), 'utf8');
-assert.match(viewsSource, /const frameAsset = role1Asset \?\? role2Asset/);
 assert.match(viewsSource, /projectile\.assetKey === Role2CombatAssetKeys\.shadow/);
 const manifestSource = readFileSync(path.join(repoRoot, 'src', 'assets', 'AssetManifest.ts'), 'utf8');
 assert.doesNotMatch(manifestSource, /role2SkillProjectiles:\s*\{[\s\S]*?status:\s*'missing-original'/);

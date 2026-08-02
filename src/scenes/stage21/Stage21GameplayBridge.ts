@@ -2,6 +2,10 @@
 // it does not own combat stats, attack windows, damage, protection, or death rules.
 import Phaser from 'phaser';
 import { hasHeroCombatVisual, syncHeroCombatVisual } from '../HeroCombatVisualBridge';
+import {
+  createHeroNormalAttackVisualBridge,
+  projectHeroNormalAttackVisualPlayer,
+} from '../HeroNormalAttackVisualBridge';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
   createLevelHeroMovementRuntime,
@@ -114,6 +118,7 @@ export function createStage21Gameplay(
       view.getData('heroId'),
     ),
   }));
+  const attackVisuals = createHeroNormalAttackVisualBridge(scene);
   const restoredSkills = readFormalSkillRuntime(getBrowserStorage());
   players.forEach((player, index) => {
     const source = index === 0 ? restoredSkills?.player1 : restoredSkills?.player2;
@@ -178,6 +183,8 @@ export function createStage21Gameplay(
       scene.time.now,
       deltaMs,
     );
+    attackVisuals.update(players.map((player) =>
+      projectHeroNormalAttackVisualPlayer(player.view, player.combat)), scene.time.now);
     activateReachedStopPoint(flow, players);
     for (const monster of updateStage21Spawners(flow, qa.fastClear ? Math.max(deltaMs, 2_000) : deltaMs)) {
       const runtime = createMonsterView(scene, monster, attackGeometry);
@@ -242,6 +249,7 @@ export function createStage21Gameplay(
       status.destroy();
       rewards.destroy();
       hud.destroy();
+      attackVisuals.destroy();
       for (const monster of monsters.values()) destroyMonsterView(monster);
       monsters.clear();
     },

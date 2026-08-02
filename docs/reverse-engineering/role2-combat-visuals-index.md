@@ -105,7 +105,7 @@ Shadow offset 为 `(15,-5)`，左右 origin 为 `(0.575,0.525)` / `(0.425,0.525)
 | 对象族 | 现代 owner | 验收结论 |
 | --- | --- | --- |
 | 本体 / 装备 / 头顶层 | `Role2CombatVisualSystem.ts`、`Role2CombatVisualBridge.ts`、`role2CombatAtlases` | 1200×2600、200×200 cell、13 行 hold（含 `wait→wait2` 循环与蓄力普攻 `hit2` 同行）、body→equip 层级、左右 origin、唐僧姓名与 50×9 红框/48×7 绿填充 ExceedPower 均按合同接入；现代调试标签对 Role2 隐藏，死亡立即移除且无 tint/alpha 占位 |
-| 两段普攻 | `role2NormalAttackAssets`、`TestSceneViews.createAttackEffectView` | 两个 stable key 共 48 帧由真 image 序列优先于 Arc/Text；方向镜像、帧推进和生命周期继续消费既有攻击模型 |
+| 两段普攻 | `role2NormalAttackAssets`、`HeroNormalAttackVisualBridge.createAttackEffectView` | 两个 stable key 共 48 帧由真 image 序列优先于 Arc/Text；恢复帧默认向左，角色朝右时同时翻转纹理并镜像非对称 registration origin；TestScene 与四个后续正式关卡共用帧推进/跟随/销毁生命周期 |
 | 九技能 / Shadow | `role2SkillVisualAssets`、`Role2CombatAssetKeys.shadow`、`Role2ShadowAnimations`、`TestSceneViews.createProjectileEffectView` | 九对象 464 帧与 800×1000 Shadow atlas 由 `combat-hero-2-skills` 唯一持有并在关卡可见后后台加载；Shadow row0 循环及 `xbz/myhc/tjgl/jhsj` 对应 row1..4 的 hold/动作结束销毁均有确定性门禁，默认 walk 保持 8s 超时；`blb/sjt` 保持无独立可见对象，未知/现代例外均为 0 |
 | HUD | `combatHudAssets.role2Portrait`、`Stage1CombatHudSystem/Bridge` | character 505 frame 2 唐僧头像以 PNG image 加载；P1 正向、P2 镜像，五槽与 HP/MP/EXP owner 未改变 |
 
@@ -115,5 +115,6 @@ Shadow offset 为 `(15,-5)`，左右 origin 为 `(0.575,0.525)` / `(0.425,0.525)
 - 合法双人 `?qaStage=1-1-role2&players=2`：P1 Role1、P2 Role2 的本体、左右 HUD/头像和五槽均正常，console warning/error 为 0；P2 `ArrowLeft` 运行观察证明方向键归 P2，位置与真本体镜像同步。
 - 首次运行发现 PNG 头像被 `combat-common` 误排入 SVG loader；修正为 image loader 并加入专项防回归断言后，资源包完整加载。
 - 浏览器控制面无法注入小键盘数字；P2 普攻/技能并未伪记为手动按键。其闭合证据由 `InputSystem` 的 numpad 映射、全系统行为测试、11 stable key 的真资源优先分支、全部 512 个 effect frame 的 PNG/帧数校验与单/双人资源包实际加载共同承载。
+- 159 后续反馈复核：Role2 左右方向均在 940×590 实际按键中显示于人物对应前方；`Stage12/13/21/22GameplayBridge` 均创建、更新并销毁共享普通攻击视觉桥，防止“下一关”后只有本体动画、没有攻击对象。
 
 最终门禁：`test:role2-visuals`、`test:stage1-hud`、`test:systems`、`check:structure`、`build`、`check:annotations`、`check:workflow` 与 `git diff --check` 均通过；structure 仅保留未由本任务新增的既有 warning，Vite 仅保留既有 chunk 大小 warning。

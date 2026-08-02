@@ -1,28 +1,18 @@
 ﻿// boundary: view factories create Phaser display objects only; they do not own
 // gameplay state transitions.
 import Phaser from 'phaser';
-import { projectNormalAttackVisualPoint } from '../HeroCombatVisualCoordinates';
 import {
   PickupAssetKeys,
   pickupAssets,
-  role1NormalAttackAssets,
   role1SkillVisualAssets,
   Role2CombatAssetKeys,
-  role2NormalAttackAssets,
   role2SkillVisualAssets,
-  role3NormalAttackAssets,
   role3SkillVisualAssets,
-  role4NormalAttackAssets,
   role4SkillVisualAssets,
   getRole5SkillVisualAsset,
-  getRole5NormalAttackVisualAsset,
-  HeroNormalAttackEffectKeys,
-  role5NormalAttackAssets,
   SkillProjectileEffectKeys,
 } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
-import type { ActiveHeroNormalAttack } from '../../systems/HeroNormalAttackSystem';
-import type { PlayerSlot } from '../../systems/InputSystem';
 import type { Monster30Model } from '../../systems/Monster30System';
 import type { PetState } from '../../systems/PetSystem';
 import type { ProjectileModel } from '../../systems/ProjectileSystem';
@@ -57,16 +47,6 @@ export type DropView = {
 export type AttackFlash = {
   shape: Phaser.GameObjects.Rectangle;
   expiresAt: number;
-};
-
-export type AttackEffectView = {
-  slot: PlayerSlot;
-  attack: ActiveHeroNormalAttack;
-  shape: Phaser.GameObjects.Rectangle | Phaser.GameObjects.Ellipse | Phaser.GameObjects.Image;
-  label: Phaser.GameObjects.Text;
-  frameKeys?: readonly string[];
-  secondaryShape?: Phaser.GameObjects.Image;
-  secondaryFrameKeys?: readonly string[];
 };
 
 export type ProjectileEffectView = {
@@ -219,101 +199,6 @@ export function getDropColor(drop: WorldDrop): number {
   }
 
   return drop.bigType === 'zb' ? 0xf2c14e : 0x72d2b1;
-}
-
-export function createAttackEffectView(
-  scene: Phaser.Scene,
-  player: {
-    slot: PlayerSlot;
-    x: number;
-    y: number;
-  },
-  attack: ActiveHeroNormalAttack,
-  effectColor: number,
-  role5SwordEnhanced = false,
-): AttackEffectView {
-  const visualPoint = projectNormalAttackVisualPoint(attack, player.x, player.y);
-  const role5Asset = getRole5NormalAttackVisualAsset(attack.effectKey, role5SwordEnhanced);
-  const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets]
-    ?? role2NormalAttackAssets[attack.effectKey as keyof typeof role2NormalAttackAssets]
-    ?? role3NormalAttackAssets[attack.effectKey as keyof typeof role3NormalAttackAssets]
-    ?? role4NormalAttackAssets[attack.effectKey as keyof typeof role4NormalAttackAssets]
-    ?? role5Asset;
-  const role3Asset = role3NormalAttackAssets[
-    attack.effectKey as keyof typeof role3NormalAttackAssets
-  ];
-  const role1Asset = role1NormalAttackAssets[
-    attack.effectKey as keyof typeof role1NormalAttackAssets
-  ];
-  const role2Asset = role2NormalAttackAssets[
-    attack.effectKey as keyof typeof role2NormalAttackAssets
-  ];
-  const role4Asset = role4NormalAttackAssets[
-    attack.effectKey as keyof typeof role4NormalAttackAssets
-  ];
-  const suppressMissingRole5RunEffect = attack.effectKey === HeroNormalAttackEffectKeys.role5SpearRunMissing;
-  const shape = frameAsset
-    ? scene.add.image(
-      visualPoint.x,
-      visualPoint.y,
-      frameAsset.frameKeys[0],
-    ).setFlipX(attack.facingX < 0)
-      .setOrigin(
-        role1Asset?.registrationOrigin.x ?? role2Asset?.registrationOrigin.x
-          ?? role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x
-          ?? role5Asset?.registrationOrigin.x ?? 0.5,
-        role1Asset?.registrationOrigin.y ?? role2Asset?.registrationOrigin.y
-          ?? role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y
-          ?? role5Asset?.registrationOrigin.y ?? 0.5,
-      )
-    : suppressMissingRole5RunEffect
-    ? scene.add.ellipse(player.x, player.y, 1, 1, 0xffffff, 0)
-    : attack.followsHero
-    ? scene.add.ellipse(visualPoint.x, visualPoint.y, 86, 36, effectColor, 0.35)
-    : scene.add.rectangle(visualPoint.x, visualPoint.y, 102, 42, effectColor, 0.28);
-  const label = scene.add.text(visualPoint.x, visualPoint.y - 48, frameAsset || suppressMissingRole5RunEffect ? '' : attack.actionName, {
-    color: '#f3f6ff',
-    fontFamily: 'Arial, sans-serif',
-    fontSize: '13px',
-  });
-
-  if ('setStrokeStyle' in shape) {
-    shape.setStrokeStyle(2, effectColor, 0.9);
-  }
-
-  const role5BaseAsset = role5SwordEnhanced && attack.effectKey === HeroNormalAttackEffectKeys.role5SwordHit4
-    ? role5NormalAttackAssets[HeroNormalAttackEffectKeys.role5SwordHit4]
-    : undefined;
-  const secondaryShape = role5BaseAsset
-    ? scene.add.image(visualPoint.x, visualPoint.y, role5BaseAsset.frameKeys[0]!)
-      .setFlipX(attack.facingX < 0)
-      .setOrigin(role5BaseAsset.registrationOrigin.x, role5BaseAsset.registrationOrigin.y)
-    : undefined;
-
-  return {
-    slot: player.slot,
-    attack,
-    shape,
-    label,
-    frameKeys: frameAsset?.frameKeys,
-    secondaryShape,
-    secondaryFrameKeys: role5BaseAsset?.frameKeys,
-  };
-}
-
-export function syncAttackEffectFrame(effectView: AttackEffectView, time: number): void {
-  if (!effectView.frameKeys || !(effectView.shape instanceof Phaser.GameObjects.Image)) {
-    return;
-  }
-
-  const duration = effectView.attack.endsAtMs - effectView.attack.startedAtMs;
-  const progress = Math.min(Math.max((time - effectView.attack.startedAtMs) / duration, 0), 0.999);
-  const frameIndex = Math.floor(progress * effectView.frameKeys.length);
-  effectView.shape.setTexture(effectView.frameKeys[frameIndex]);
-  if (effectView.secondaryShape && effectView.secondaryFrameKeys) {
-    const secondaryIndex = Math.floor(progress * effectView.secondaryFrameKeys.length);
-    effectView.secondaryShape.setTexture(effectView.secondaryFrameKeys[secondaryIndex]);
-  }
 }
 
 export function createProjectileEffectView(

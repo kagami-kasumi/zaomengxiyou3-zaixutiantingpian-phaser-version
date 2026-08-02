@@ -111,7 +111,11 @@ const manifestSource = readFileSync(path.join(repoRoot, 'src', 'assets', 'AssetM
 assert.doesNotMatch(manifestSource, /role4NormalAttackEffects:\s*\{[\s\S]*?status:\s*'missing-original'/);
 assert.doesNotMatch(manifestSource, /role4FinisherProjectiles:\s*\{[\s\S]*?status:\s*'missing-original'/);
 const viewsSource = readFileSync(path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneViews.ts'), 'utf8');
-assert.match(viewsSource, /role4NormalAttackAssets/);
+const attackVisualSource = readFileSync(
+  path.join(repoRoot, 'src', 'scenes', 'HeroNormalAttackVisualBridge.ts'),
+  'utf8',
+);
+assert.match(attackVisualSource, /role4NormalAttackAssets/);
 assert.match(viewsSource, /role4SkillVisualAssets/);
 const pipelineSource = readFileSync(
   path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneHeroSkillPipeline.ts'),

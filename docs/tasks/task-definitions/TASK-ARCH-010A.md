@@ -61,4 +61,4 @@
 
 推荐后续任务：
 
-- `TASK-ARCH-010B`：建立最小 `MonsterRuntimeRegistry`，在一个普通怪 + Boss 正式关卡试点唯一生命周期 owner。
+- `TASK-ARCH-010B`：把本 task 的 DefinitionCatalog、Brain 与 Targeting 接缝接入 PG-013 已建立的唯一 `MonsterRuntimeRegistry`，在一个普通怪 + Boss 正式关卡验证，不重建生命周期 owner。

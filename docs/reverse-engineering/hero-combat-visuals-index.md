@@ -82,3 +82,13 @@
 | Role1 偶发消失 | `Role1CombatVisualBridge` | 公共 `updatePlayerCombatVisual` 隐藏 placeholder anchor 后，Role1 下一帧再次同步 | 真 body/equipment 与 placeholder 只是 sibling bridge，不共享可见 alpha | 确认事实 | 旧实现复制 `visual.anchor.alpha`，首帧后必变为0；真层现按角色存活状态保持 alpha=1 | 专项负向断言 + 双人连续帧观察 |
 
 本轮 940×590 `Role4` 冷入口在同机 preview 上由约 `41.8s` 降至约 `6.5s`；人物脚底与平台顶重合，普攻对象保持在武器/人物附近，console warning/error 为 0。技能大序列继续保持唯一 owner，不回填 Boot；后台加载失败只在场景仍活动时报告，正常离场取消不制造错误日志。
+
+### 2026-08-02 后续关卡与 Role2 再复核
+
+用户继续报告 Role2 远程普攻固定向左、Stage 1-1 通过“下一关”进入 Stage 1-2 后 Role2/Role3 普攻对象消失，以及入场等待仍长。本轮确认：
+
+- `Role2Bullet1/2` 的恢复帧 union bounds 分别以 `x=-493` / `x=-1289` 为主体，静态资源默认向左；现代必须在角色朝右时翻转纹理，并把非对称 registration origin 同步投影为 `1-originX`，否则虽然纹理翻转，整张大画布仍留在角色左侧。
+- `Stage12/13/21/22GameplayBridge` 旧实现只消费 `syncHeroCombatVisual`，未创建普通攻击附属对象；这不是资源缓存丢失，而是正式后续关卡缺少 view lifecycle。现由共享 `HeroNormalAttackVisualBridge` 按 `activeAttack.id` 创建、逐帧同步、跟随与销毁，TestScene 与四个后续正式关卡消费同一资产/坐标合同。
+- `stage-1-monsters` 旧共享包使 Stage 1-1 提前加载 Stage 1-2 的 Monster2/4/7/8（其中 Monster4 hit2 序列约 38MiB）和 Stage 1-3 boss。现代 owner 现按 `stage-1-monsters-11/-12/-13` 拆分；Stage 1-1 只依赖 `-11`，Stage 1-2 只依赖 `-12`，Stage 1-3 因确实复用前两关怪物才依赖三包。
+
+940×590 复核中，Role2 左向/右向远程对象均位于人物对应前方，Role3 冷入口可见且普攻对象正常，两个入口 console warning/error 为 0。后续关卡普通攻击生命周期另由四桥接负向门禁锁定；完整“打通后点击下一关”仍属于 159 的正式存档旅程验收。

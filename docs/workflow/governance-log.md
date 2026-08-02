@@ -2,6 +2,40 @@
 
 ## 2026-08-02
 
+### PG-013 V2A 实体运行时边界复盘与合同冻结
+
+变更内容：
+
+- 用户再次指出人物动作和怪物运行不应由关卡承载；四个 GameplayBridge 的静态审计确认它们仍分别拥有玩家 combat model、怪物 Map、实体 update/resolve、物理、奖励与视觉帧循环。
+- 将 PG-013 从“效果观察中”退回“复盘中”，保留 V1 已统一的 Scene/门/结果/保存/路由，新增 V2 的 `HeroPartyRuntime` / `MonsterRuntimeRegistry` 目标边界。
+- `playable-level-runtime.md` 新增 `HeroPartyRuntime` / `MonsterRuntimeRegistry` 接口、五关逐 owner 消费者矩阵、环境快照/spawn 命令/实体事件边界和单-owner迁移顺序；V1 的 Scene/门/结果/保存/路由成果继续保留。
+- `check:level-architecture` 冻结四个正式 GameplayBridge、Stage 2-2 DEV 移动调度与 TestScene 的实体 owner token 预算，并以负向自测禁止新关卡/adapter 回填同义 runtime、实体 Map 或直接 update/resolve。
+- 统一语言和 `src-boundaries.md` 补充 Hero/Monster runtime owner；未来 `LINE-MONSTER-ARCH` 只处理 Definition/Brain 与既有 Registry 集成，不再建立第二套生命周期 owner。
+- V2A 完成后，全局执行队列只激活 V2B：建立 `HeroPartyRuntime` 并迁移 Stage 1-2；本轮不改玩法实现，也不继续 `TASK-SLICE-159`。
+
+影响范围：
+
+- `docs/tasks/execution-queue.md`
+- `docs/architecture/playable-level-runtime.md`
+- `docs/architecture/src-boundaries.md`
+- `docs/domain/glossary.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-002-功能条线提前关闭.md`
+- `docs/workflow/problems/PG-003-关卡角色移动接入边界不统一.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/problems/PG-009-启动资源加载边界缺失.md`
+- `docs/workflow/problems/PG-013-关卡运行框架按关卡复制.md`
+- `docs/workflow/governance-log.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-definitions/TASK-ARCH-010B.md`
+- `docs/tasks/feature-line-coverage/LINE-MONSTER-ARCH.md`
+- `tools/check-playable-level-architecture.mjs`
+
+验证：
+
+- `npm run check:workflow`
+- `git diff --check`
+
 ### TASK-SETTINGS-069C 增量治理反馈
 
 变更内容：

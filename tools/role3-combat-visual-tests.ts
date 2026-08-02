@@ -107,7 +107,11 @@ const viewsSource = readFileSync(
   path.join(repoRoot, 'src', 'scenes', 'test-scene', 'TestSceneViews.ts'),
   'utf8',
 );
-assert.match(viewsSource, /role3NormalAttackAssets/);
+const attackVisualSource = readFileSync(
+  path.join(repoRoot, 'src', 'scenes', 'HeroNormalAttackVisualBridge.ts'),
+  'utf8',
+);
+assert.match(attackVisualSource, /role3NormalAttackAssets/);
 assert.match(viewsSource, /role3SkillVisualAssets/);
 assert.match(viewsSource, /role3XgqHit11Cast\) return undefined/);
 const manifestSource = readFileSync(path.join(repoRoot, 'src', 'assets', 'AssetManifest.ts'), 'utf8');

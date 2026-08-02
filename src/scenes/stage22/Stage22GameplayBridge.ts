@@ -2,6 +2,10 @@
 // shared movement, combat, reward, HUD, Monster9/10/19 visuals, flow, and fire owners.
 import Phaser from 'phaser';
 import { hasHeroCombatVisual, syncHeroCombatVisual } from '../HeroCombatVisualBridge';
+import {
+  createHeroNormalAttackVisualBridge,
+  projectHeroNormalAttackVisualPlayer,
+} from '../HeroNormalAttackVisualBridge';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
   createLevelHeroMovementRuntime,
@@ -127,6 +131,7 @@ export function createStage22Gameplay(
       view.getData('heroId'),
     ),
   }));
+  const attackVisuals = createHeroNormalAttackVisualBridge(scene);
   if (qa.failParty) {
     players.forEach((player) => {
       player.combat.combat.hp = 0;
@@ -195,6 +200,8 @@ export function createStage22Gameplay(
       const state = input.read();
       const inputs = [state.p1, state.p2];
       updatePlayers(players, movement, inputs, flow, scene.cameras.main.scrollX, scene.time.now, deltaMs);
+      attackVisuals.update(players.map((player) =>
+        projectHeroNormalAttackVisualPlayer(player.view, player.combat)), scene.time.now);
       activateReachedStopPoint(flow, players);
       for (const enemy of updateStage22Spawners(flow, qa.fastClear ? Math.max(deltaMs, 2_000) : deltaMs)) {
         monsters.set(enemy.id, createMonsterView(scene, enemy, attackGeometry, monster16Geometry));
@@ -251,6 +258,7 @@ export function createStage22Gameplay(
       scene.events.off(FormalSkillsUpdatedEvent, syncSkills);
       rewards.destroy();
       hud.destroy();
+      attackVisuals.destroy();
       for (const monster of monsters.values()) destroyMonster(monster);
       monsters.clear();
     },

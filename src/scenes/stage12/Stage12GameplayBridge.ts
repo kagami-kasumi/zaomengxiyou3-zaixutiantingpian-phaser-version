@@ -2,6 +2,10 @@
 // it does not own combat stats, attack windows, damage, protection, or death rules.
 import Phaser from 'phaser';
 import { hasHeroCombatVisual, syncHeroCombatVisual } from '../HeroCombatVisualBridge';
+import {
+  createHeroNormalAttackVisualBridge,
+  projectHeroNormalAttackVisualPlayer,
+} from '../HeroNormalAttackVisualBridge';
 import { createInputSystem, type PlayerInputState } from '../../systems/InputSystem';
 import {
   createLevelHeroMovementRuntime,
@@ -107,6 +111,7 @@ export function createStage12Gameplay(
       view.getData('heroId'),
     ),
   }));
+  const attackVisuals = createHeroNormalAttackVisualBridge(scene);
   const restoredSkills = readFormalSkillRuntime(getBrowserStorage());
   players.forEach((player, index) => {
     const source = index === 0 ? restoredSkills?.player1 : restoredSkills?.player2;
@@ -155,6 +160,8 @@ export function createStage12Gameplay(
       scene.time.now,
       deltaMs,
     );
+    attackVisuals.update(players.map((player) =>
+      projectHeroNormalAttackVisualPlayer(player.view, player.combat)), scene.time.now);
     if (fbEnter.update(
       deltaMs,
       [state.p1, state.p2],
@@ -217,6 +224,7 @@ export function createStage12Gameplay(
       fbEnter.destroy();
       rewards.destroy();
       hud.destroy();
+      attackVisuals.destroy();
       for (const enemy of enemies.values()) destroyEnemyView(enemy);
       enemies.clear();
     },

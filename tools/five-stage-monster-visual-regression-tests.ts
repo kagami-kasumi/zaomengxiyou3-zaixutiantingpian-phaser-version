@@ -35,12 +35,21 @@ const stage1Attacks = [
 ];
 assert.equal(sum(stage1Atlases, (asset) => asset.reachableFrameCount), 167);
 assert.equal(sum(stage1Attacks, (asset) => asset.frameCount), 171);
-for (const asset of stage1Atlases) {
-  assert.equal(requireRuntimeAssetOwner(asset.key), 'stage-1-monsters');
+for (const asset of Object.values(stage11MonsterAtlases)) {
+  assert.equal(requireRuntimeAssetOwner(asset.key), 'stage-1-monsters-11');
 }
-for (const asset of stage1Attacks) {
+for (const asset of Object.values(stage12MonsterAtlases)) {
+  assert.equal(requireRuntimeAssetOwner(asset.key), 'stage-1-monsters-12');
+}
+assert.equal(requireRuntimeAssetOwner(stage13Monster5Atlas.key), 'stage-1-monsters-13');
+for (const [index, asset] of stage1Attacks.entries()) {
+  const owner = index < Object.values(stage11MonsterAttackAssets).length
+    ? 'stage-1-monsters-11'
+    : index < Object.values(stage11MonsterAttackAssets).length + Object.values(stage12MonsterAttackAssets).length
+      ? 'stage-1-monsters-12'
+      : 'stage-1-monsters-13';
   for (const key of asset.frameKeys) {
-    assert.equal(requireRuntimeAssetOwner(key), 'stage-1-monsters');
+    assert.equal(requireRuntimeAssetOwner(key), owner);
   }
 }
 
@@ -66,11 +75,11 @@ for (const asset of Object.values(stage22Monster16AttackAssets)) {
 }
 
 assert.deepEqual(sceneAssetBundles['stage-11'].dependencies,
-  ['combat-common', 'stage-1-common', 'stage-1-monsters']);
+  ['combat-common', 'stage-1-common', 'stage-1-monsters-11']);
 assert.deepEqual(sceneAssetBundles['stage-12'].dependencies,
-  ['combat-common', 'stage-1-common', 'stage-1-monsters']);
+  ['combat-common', 'stage-1-common', 'stage-1-monsters-12']);
 assert.deepEqual(sceneAssetBundles['stage-13'].dependencies,
-  ['combat-common', 'stage-1-common', 'stage-1-monsters']);
+  ['combat-common', 'stage-1-common', 'stage-1-monsters-11', 'stage-1-monsters-12', 'stage-1-monsters-13']);
 assert.deepEqual(sceneAssetBundles['stage-21'].dependencies,
   ['combat-common', 'stage-2-common', 'stage-2-monsters']);
 assert.deepEqual(sceneAssetBundles['stage-22'].dependencies,
@@ -93,7 +102,9 @@ assert.deepEqual(sceneAssetBundles['stage-22'].dependencies,
     assert.equal(coordinator.isLoaded(bundleId), true);
     assert.equal(loadCounts.get(bundleId), 1, `${bundleId} must load only once across re-entry`);
   }
-  assert.equal(loadCounts.get('stage-1-monsters'), 1);
+  assert.equal(loadCounts.get('stage-1-monsters-11'), 1);
+  assert.equal(loadCounts.get('stage-1-monsters-12'), 1);
+  assert.equal(loadCounts.get('stage-1-monsters-13'), 1);
   assert.equal(loadCounts.get('stage-2-monsters'), 1);
 }
 
