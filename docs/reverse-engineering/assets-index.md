@@ -224,7 +224,7 @@ Stage 1 公共 `stage.stage1.floor` 已由 Stage 1-1 任务接入，1-2 直接�
 
 - Role1：普攻 `Role1Bullet1/3/4/5`，技能 `Role1Bullet6/7/8_1/8_2/9/10_2/10_4/11_1/11_2/12/12_1_1/13/14_1/14_2`，以及 `ROLE1_SHALLDOW`。
 - Role4：普攻 `Role4Bullet1/2/3`、`Role4BulletArrow1/2`，技能 `Role4Bullet4/5/6/7_1/7_2/8/9_1/9_2/10/11/12`、`Role4BulletArrow4/8_1/8_2/9_1/9_2/10_1/10_2/12_1/12_2/12_3`，以及 `Role4Hit5`。
-- Role5：枪/剑本体动作 `attack*_spear/sword`、`jumpattack_*`、`runattack_*`，普攻附属 `Role5runattack`、`swordhit1..6` 与长剑态 `_1` 变体，技能 `sword_xlc`、`sword_lxuanj1/2`、`sword_xkjz`、`Role5Bullet9`、`role5_tlj`、`swordskill2_*`、`swordqhskill2_1`、`swordskill4`、`sword_mlsz1..5`、`swordskill5_2/3`、`sword_jrjlsf`、`sword_jrjljq`。
+- Role5：`TASK-SETTINGS-069E` 已从 `assets/bailong.swf` 与 `assets/bailongSword.swf` 闭合枪/剑本体、装备、`Role5Bullet1..5`、`swordhit*` 及全部已实现技能/状态对象；精确 Symbol、帧序、几何与生命周期见 `role5-combat-visuals-index.md`。`Role5runattack` 在恢复包 SymbolClass 全集未命中，保留 corpus-negative，不伪造。
 
 检索结论：这些资源名在当前 `local-resources/regima/legacy-extraction/resources_by_swf` 中均不可直接接入；白龙枪形态 `doSingleHit(...)` 附属对象仍是反编译缺口。后续需要用户手工补提供或补提取 `WuKong` / `Role1Effect`、`ShaShen`、`bailongSword` 或对应 `SpecialUI/*` 资源包，再拆一个最小真资源接入切片。
 

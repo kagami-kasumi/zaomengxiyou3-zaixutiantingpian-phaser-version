@@ -255,7 +255,7 @@ attackBackInfoDict["hit1"] = {
 
 - `M-034 子弹/技能飞行物` 已在后续 `projectiles-index.md` 补到部分已扒；`VS-006` 当时只需要 `Monster30Bullet1` 和普攻占位窗口，不扩成完整 `ProjectileSystem`。
 - 玩家属性、装备、暴击、吸血和防御的完整公式依赖装备/成长系统，当前只记录接口和第一版取舍。
-- `Role5` 枪形态普攻 `doSingleHit(...)` 仍是反编译缺口；这不阻塞 `VS-006`，因为现代侧已有占位攻击窗口。
+- `Role5` 枪形态 `doSingleHit(...,1..5,...)` 已由069E的 P-code 参数、`getRealPower()` 与恢复包对象闭合为 `Role5Bullet1..5`；仅枪跑攻 `Role5runattack` 保留恢复包全集反证。玩法窗口不受影响，真视觉由158E消费。
 - 复活装备、死亡 UI、失败流程不属于 `VS-006`，后续关卡或存档/UI 阶段再处理。
 
 

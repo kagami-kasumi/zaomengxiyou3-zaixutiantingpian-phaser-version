@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Active，当前为 Ready）
 
 目标机制/切片：
 
@@ -24,7 +24,7 @@
 
 输入资料：
 
-- `TASK-SETTINGS-069E` 的 Role5 双形态矩阵、选择性导出、现有 Role5 系统/manifest/桥。
+- `role5-combat-visuals-index.md`、069E标注批次与选择性导出，以及现有 Role5 系统/manifest/桥；`Role5runattack` 的 corpus-negative 不得被猜造为原版对象。
 
 输出产物：
 

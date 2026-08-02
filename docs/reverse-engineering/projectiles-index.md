@@ -337,7 +337,7 @@ Role5 完整表见 `role5-combat-index.md`。当前确认的实现拆分如下�
 
 | 切片 | 对象族 | 类型 | 实现边界 |
 | --- | --- | --- | --- |
-| `TASK-SLICE-105` | `swordhit1..5`、`Role5runattack`、`swordhit6(_1)`、`Role5escapeEffect`、`Role5cloneEf2` | 跟随/移动/特效 | 普攻、跑攻、空中普攻、枪形态能量和标记瞬移首切片；枪形态 `doSingleHit(...)` helper 在反编译稿中仍缺定义，现代先用等价占位 hitbox。 |
+| `TASK-SLICE-105` | `Role5Bullet1..5`、`swordhit1..5`、`Role5runattack`、`swordhit6(_1)`、`Role5escapeEffect`、`Role5cloneEf2` | 跟随/移动/特效 | 普攻、跑攻、空中普攻、枪形态能量和标记瞬移首切片；069E 已确认枪普攻五对象，`Role5runattack` 仅保留恢复包全集反证。 |
 | `TASK-SLICE-106` | `sword_xlc`、`sword_lxuanj1/2`、`sword_xkjz` | 跟随、移动、定点特效 | 枪系主动技能，含突进、高速移动弹和面向侧目标定点。 |
 | `TASK-SLICE-107` | `Role5Bullet9`、`Role5Bullet10_*`、`Role5lmjly*` | 状态视觉/链式特效 | `yyb/tlj` 状态与 `ROLE5SKILL5` 标记瞬移扩展；需保留 `ROLE5MAXENERGY` 常量缺口。 |
 | `TASK-SLICE-108` | `swordskill2_*`、`swordqhskill2_1`、`swordskill4`、`sword_mlsz1..5`、`*_1` | 链式跟随/特效 | `pkz/lxj/mlsz` 剑系链式和龙魂剑强化资源；`dolxjfeijian()` 为空函数，不猜造飞剑。 |

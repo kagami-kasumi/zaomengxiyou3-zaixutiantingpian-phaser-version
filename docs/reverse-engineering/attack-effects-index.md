@@ -36,7 +36,7 @@
 | Role4 沙僧，铲形态 | `hit3` | `FollowBaseObjectBullet` | `Role4Bullet3` | 铲系第三段 |
 | Role4 沙僧，弓形态 | `hit1`、`hit2` | `SpecialEffectBullet` | `Role4BulletArrow1` | 两段复用同一箭系附属对象 |
 | Role4 沙僧，弓形态 | `hit3` | `SpecialEffectBullet` | `Role4BulletArrow2` | 箭系第三段 |
-| Role5 白龙，枪形态 | `hit1` 至 `hit4`、`hit5`、`hit114` | 本体动作资源；另有未恢复 helper | `attack1_spear` 至 `attack4_spear`、`jumpattack_spear`、`runattack_spear`；`hit114` 另建 `Role5runattack` | `Role5.as` 明确调用 `doSingleHit(...)`，但当前 AS3 反编译稿未恢复该 helper 定义，枪系额外命中对象名仍是缺口 |
+| Role5 白龙，枪形态 | `hit1` 至 `hit4`、`hit5`、`hit114` | 本体动作资源 + `Role5Bullet1..5` | `attack1_spear` 至 `attack4_spear`、`jumpattack_spear`、`runattack_spear`；`doSingleHit(...,1..5,...)` 依次映射 `Role5Bullet1..5`；`Role5runattack` 在恢复包全集中无定义 | P-code 参数与 `getRealPower()` 的五个同名对象交叉确认；跑攻对象保留明确 corpus-negative，不猜造 |
 | Role5 白龙，剑形态 | `hit18` 至 `hit21`、`hit22`、`hit114_1` | 本体动作资源 + `FollowBaseObjectBullet`/`EnemyMoveBullet` | `attack1_sword` 至 `attack4_sword`、`jumpattack_sword`、`runattack_sword`；`swordhit1` 至 `swordhit5`、长剑态 `swordhit1_1` 至 `swordhit5_1`、跑攻 `swordhit6`/`swordhit6_1` | 剑系映射完整，长剑 buff 下前三段会改走飞行弹体分支 |
 
 补充观察：
@@ -67,7 +67,7 @@
 | Role3 | `Role3Bullet1`、`Role3Bullet2`、`Role3Bullet3` |
 | Role4 | `Role4Bullet1`、`Role4Bullet2`、`Role4Bullet3`、`Role4BulletArrow1`、`Role4BulletArrow2` |
 | Role5 本体动作 | `attack1_spear`、`attack2_spear`、`attack3_spear`、`attack4_spear`、`jumpattack_spear`、`runattack_spear`、`attack1_sword`、`attack2_sword`、`attack3_sword`、`attack4_sword`、`jumpattack_sword`、`runattack_sword` |
-| Role5 附属对象 | `Role5runattack`、`swordhit1` 至 `swordhit6`、`swordhit1_1` 至 `swordhit6_1`；枪形态 `doSingleHit(...)` 的实际资源名还需从 P-code、原 SWF 或重新提取结果继续确认 |
+| Role5 附属对象 | `Role5Bullet1` 至 `Role5Bullet5`、`swordhit1` 至 `swordhit6`、`swordhit1_1` 至 `swordhit6_1`；`Role5runattack` 为恢复包全集显式未命中 |
 
 ## `TASK-SLICE-001` 临时占位策略
 
@@ -75,12 +75,12 @@
 
 1. `Role1` 至 `Role4` 的附属对象先统一用可见的短寿命斩击/光效占位，保留每个 `hit*` 的独立 key、生成时机、朝向和跟随类型。
 2. `Role4` 至少保留铲形态与弓形态两套占位资源 key，避免后续真实资源接入时把两种武器表现又混回一套。
-3. `Role5` 先把本体动作 key 直接按 `attack*/jumpattack/runattack` 分开建表；剑形态附属 bullet 再单独占位；枪形态的 `doSingleHit(...)` 先以“未知命中附属对象”占位，不凭空命名。
+3. `Role5` 本体动作按 `attack*/jumpattack/runattack` 分表；枪形态 `doSingleHit(...)` 消费已确认的 `Role5Bullet1..5`，剑形态消费 `swordhit*`；只对全集未命中的 `Role5runattack` 保留反证边界。
 4. 所有占位都要走现代资源 manifest 的稳定 key，后续只替换贴图/动画源，不改普攻状态机和命中时序。
 
 ## 仍未完全闭合的点
 
-- `Role5.doSingleHit(...)` 在当前 `Role5.as` 反编译结果中只见调用、未见定义；这很像 FFDec 反编译缺口。若后续要把白龙枪形态也做到资源级准确，需要继续看 P-code、备用 SWF 或重新提取素材。
+- `Role5.doSingleHit(...)` 的 helper 源码仍未反编译，但 P-code 的参数 `1..5` 与恢复包内 `Role5Bullet1..5`、`getRealPower()` 同名分支已形成闭环；完整矩阵见 `role5-combat-visuals-index.md`。`Role5runattack` 则在恢复包 SymbolClass 全集明确未命中，现代实现不得臆造原版对象。
 - 当前主包导出图片不足以判断这些符号到底在同包时间轴里、外部资源包里，还是只是 FFDec 当前导出参数漏掉；这部分应由后续 `TASK-ARCH-002` 的真实资源索引继续接手。
 
 

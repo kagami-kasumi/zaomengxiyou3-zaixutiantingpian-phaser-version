@@ -9516,3 +9516,24 @@ Goal：
 
 推荐任务：
 - `TASK-SETTINGS-069E`：只调查Role5白龙枪/剑双形态本体、UI、普攻、技能与附属对象，闭合权威实现输入。
+
+### TASK-SETTINGS-069E
+
+- 完成日期：2026-08-02
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-158E`）
+- 核验 `assets/bailong.swf` 与 `assets/bailongSword.swf`，闭合25张2800×5950枪/剑本体及装备表、290×290动作cell、左右origin、动作帧/hold与双层合成合同。
+- 闭合枪/剑普攻、全部已实现技能、状态、标记与随身箭/阵列对象的Symbol、帧数、几何、创建点、方向、层级和生命周期；选择性证据共1572帧。
+- 通过Role5 P-code参数、恢复包 `Role5Bullet1..5` 与 `getRealPower()` 同名分支交叉确认枪普攻 `doSingleHit(...,1..5,...)` 身份；`Role5runattack` 在恢复包SymbolClass全集未命中，明确保留反证而非猜造。
+- 闭合574/505 frame5/510 HUD、P1/P2镜像、940×590逐状态差异计划；现代可见例外为空。
+
+更新文件：
+- `docs/reverse-engineering/role5-combat-visuals-index.md`
+- Role5专项标注批次、既有角色技能/普攻标注和相关逆向索引
+- M-022/M-034/M-047、VS-062、功能线覆盖、看板/历史与PG反馈
+
+验证：
+- `npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次任务最终检查。
+- 本 task 只产出权威实现输入，不宣称 Role5 真视觉已经接入；首次compact后只同步既有证据和状态，没有派生新资源、修改现代实现或进入下一切片。
+
+推荐任务：
+- `TASK-SLICE-158E`：只消费069E证据，接入Role5枪/剑双形态本体/装备、HUD、普攻、全部已实现技能与附属对象真动画。

@@ -121,7 +121,7 @@ keyarray[3] = 上/进门/交互
 
 - `Role1` 至 `Role4` 的普攻都不是单纯身体动画，都会在命中帧额外创建 bullet/effect 对象。
 - `Role4` 的铲形态和弓形态虽然共用 `hit1/hit2/hit3` 动作名，但普攻附属对象不同，后续实现不能合并资源 key。
-- `Role5` 的普攻既依赖独立 ZM4 本体动作资源，也会补附属对象；剑形态映射完整，枪形态 `doSingleHit(...)` 在当前反编译稿中仍缺 helper 定义。
+- `Role5` 的普攻依赖独立 ZM4 本体动作与附属对象；069E 已由 P-code、`getRealPower()` 和恢复包确认枪形态 `doSingleHit(...,1..5,...) -> Role5Bullet1..5`，剑形态映射亦完整。枪跑攻 `Role5runattack` 为恢复包全集反证。
 - 当前 `[172845].swf` 的 `symbols.csv` 与 `images/` 导出结果没有给出这些普攻资源，现代实现需要先按文档 key 做占位，再由资源任务补真素材。
 
 ## 技能槽与技能效果索引
@@ -309,7 +309,7 @@ Role1 普攻与技能协同的最终结论：地面五段 `hit1..5`、空中固�
 - `Role5` 的 P2 创建路径需要确认 `AUtils.getNewObj("export.hero.Role5")` 在运行时是否与 P1 的 `new Role5()` 等价。
 - `0101` 技能入口已记录：Role1 `slz`、Role3 `hit8`、Role5 `yyb`。Role5 完整伤害帧和对象表现见 `role5-combat-index.md`。
 - 普攻连段、动作切换和第一切片候选已完成索引；具体伤害帧、碰撞框、攻击窗口仍需战斗/动作帧任务继续确认。
-- 五个角色普攻都应有特效；`attack-effects-index.md` 已确认前四名角色和白龙剑形态的映射，且确认当前 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf` 导出结果不足以直接提供这些素材。`M-047` 仍保留为部分已扒，因为白龙枪形态 `doSingleHit(...)` 还缺反编译证据。
+- 五个角色普攻视觉身份均已调查；Role5 的权威矩阵见 `role5-combat-visuals-index.md`，枪形态五个 `doSingleHit` 对象已闭合，只有 `Role5runattack` 保留原包全集未命中反证。`M-047` 的证据侧已闭合，现代接入仍由158E完成。
 - `User.skillbykey` 的购买/绑定入口已定位到 `SkillControl`/`SkillSetControl`，但默认存档绑定和完整技能 UI 不是本任务范围。
 
 ## 后续建议

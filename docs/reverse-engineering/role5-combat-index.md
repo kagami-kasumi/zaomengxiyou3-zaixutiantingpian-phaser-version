@@ -51,7 +51,8 @@ Role5 没有 Role2/3/4 的角色总系数，直接乘技能自身系数。除 `l
 | 对象/资源 | 创建入口 | 类型 | 结算/生命周期 |
 | --- | --- | --- | --- |
 | `swordhit1..5` / `swordhit*_1` | 剑普攻、空中、龙魂剑强化 | `FollowBaseObjectBullet`，强化 1..3 另有 `EnemyMoveBullet` 追加段 | 普攻物理伤害。龙魂剑状态下 1..3 段额外生成 `swordhitN_1` 移动剑气，速度 `8`、加速度 `2.4`、距离 700。 |
-| `Role5runattack` / `swordhit6(_1)` | 跑动普攻 | `FollowBaseObjectBullet` | 枪跑攻用 `hit114`，剑跑攻用 `hit115`/`hit115_1`。 |
+| `Role5Bullet1..5` | 枪形地面四段与空中普攻 | `doSingleHit(...)` helper | P-code 参数 `1..5` 与 `getRealPower()` 同名分支、恢复包对象交叉确认。 |
+| `Role5runattack` / `swordhit6(_1)` | 跑动普攻 | `FollowBaseObjectBullet` | 枪跑攻用 `hit114`，但 `Role5runattack` 在恢复包 SymbolClass 全集未命中；剑跑攻用 `hit115`/`hit115_1`。 |
 | `sword_xlc` | `xlc/hit6` | `FollowBaseObjectBullet` | 物理单段，击退 `[-1,-1]`；释放时角色高速前冲。 |
 | `sword_lxuanj1` / `sword_lxuanj2` | `lxuanj/hit7`、`hit8` | `EnemyMoveBullet` | 速度 `36`、距离 999；`hit7_1` 和 `hit8` 都按 5 段口径结算。 |
 | `sword_xkjz` | `xkjz/hit10` | `SpecialEffectBullet` | `hit10` 物理，`attackInterval = 9`，7 段口径。 |
@@ -85,6 +86,8 @@ Role5 没有 Role2/3/4 的角色总系数，直接乘技能自身系数。除 `l
 3. `yyb/tlj` 状态技能和 `ROLE5SKILL5` 标记瞬移闭环，明确 `ROLE5MAXENERGY` 数值缺口。
 4. `pkz/lxj/mlsz` 剑系链式与龙魂剑状态，包含强化资源、五段阵列和 `dolxjfeijian()` 空函数边界。
 5. `lysh/jrjl` 两套随身箭对象，覆盖充能、发射、重建、与普攻/技能触发的协同。
+
+视觉实现合同已由 `role5-combat-visuals-index.md` 闭合：`bailong.swf` 与 `bailongSword.swf` 提供双形态本体、装备、普攻、技能、状态对象及 HUD frame5 的逐项身份。该结论只关闭 `TASK-SLICE-158E` 的权威输入，不表示现代真视觉已经接入；`Role5runattack` 继续按原包全集反证处理。
 
 每个切片都应覆盖正式五槽输入、P1/P2 隔离、MP 扣除、动作门禁、projectile 清理、受击/击退边界和真实资源缺口。Role5 真素材未在当前资源索引中形成可直接接入的完整导出，现代实现继续使用稳定占位 key。
 

@@ -4,15 +4,14 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-069E` 是唯一当前推荐，属于唯一 Active 功能线；下一步只调查 Role5 白龙枪/剑双形态视觉证据，不提前进入现代接入。
+`TASK-SLICE-158E` 是唯一当前推荐，属于唯一 Active 功能线；下一步只消费069E证据接入 Role5 白龙枪/剑双形态真视觉，不提前进入旅程回归。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-SETTINGS-069 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 角色/技能视觉逆向父任务 | 盘清五角色本体、战斗 UI、普攻、技能与附属对象真动画缺口 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 共享矩阵、显示列表门禁与 `069A..E` / `158A..E` 合同 | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SETTINGS-069.md) |
-| TASK-SETTINGS-069E | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Role5 视觉逆向 | 闭合白龙枪/剑双形态本体、UI、普攻、技能与附属对象证据 | M-022..M-025、M-034、M-035、M-047、M-049、VS-062 | Role5 全集矩阵、显示列表、标注与实现输入 | TASK-SLICE-158E | [定义](task-definitions/TASK-SETTINGS-069E.md) |
-| TASK-SLICE-158E | Planned | LINE-PRE-STAGE-2-3-COMPLETION | Role5 真动画 | 接入白龙枪/剑双形态本体、UI、普攻、技能与附属对象真动画 | M-022..M-025、M-034、M-035、M-047、M-049、VS-062 | Role5 真资源、逐状态、差异证据与父任务收束 | TASK-SLICE-159 | [定义](task-definitions/TASK-SLICE-158E.md) |
+| TASK-SLICE-158E | Ready | LINE-PRE-STAGE-2-3-COMPLETION | Role5 真动画 | 接入白龙枪/剑双形态本体、UI、普攻、技能与附属对象真动画 | M-022..M-025、M-034、M-035、M-047、M-049、VS-062 | Role5 真资源、逐状态、差异证据与父任务收束 | TASK-SLICE-159 | [定义](task-definitions/TASK-SLICE-158E.md) |
 | TASK-SLICE-158 | Split | LINE-PRE-STAGE-2-3-COMPLETION | 五角色动画父任务 | 逐角色接入本体、战斗 UI、普攻、技能及附属对象真动画 | M-018..M-025、M-034、M-035、M-047、M-049、VS-062 | 由 TASK-SETTINGS-069 生成的逐角色子 task | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SLICE-158.md) |
 | TASK-SLICE-159 | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 本地存档正式旅程 | 复用既有六槽 localStorage/V6，验证所有新增功能跨重启持久化并关闭前置线 | M-044、M-050、VS-052、VS-063 | 自动旅程、940×590 重启读取证据与关闭检查 | 恢复 TASK-SETTINGS-064 | [定义](task-definitions/TASK-SLICE-159.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 依据证据生成同线最小实现 task | [定义](task-definitions/TASK-SETTINGS-064.md) |

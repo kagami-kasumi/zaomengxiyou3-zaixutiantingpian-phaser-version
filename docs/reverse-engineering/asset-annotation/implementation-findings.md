@@ -20,7 +20,7 @@
 | --- | --- | --- |
 | `skill-projectile.role5.lxuanj.hit8` | `AssetManifest.ts` 已定义，AS3 已确认 `sword_lxuanj2`，但现代系统没有实际引用 | 后续实现反向段时复用现有 key；当前不删除。 |
 | `stage.stage1-1.listener` | `sourceAssetFamilies.stage11` 把 `StageListener11` 与视觉资源并列 | 它是已有 AS3 行为证据，不是缺失视觉资产；后续可从素材 family 元数据中移出。 |
-| `normal-attack-effect.hero5.spear.unresolved` | 一个 stableKey 同时承接跑攻 `Role5runattack` 和未恢复的 `doSingleHit(...)` | 取得更完整 P-code/角色包后拆分；当前维持 `unknown`，禁止猜造。 |
+| `normal-attack-effect.hero5.spear.unresolved` | 069E 已用 P-code 与恢复包确认 `doSingleHit(...,1..5,...) -> Role5Bullet1..5`；原 stableKey 现只代表全集未命中的 `Role5runattack` | 五个枪普攻对象已拆为独立 `derived-ready` 行；跑攻保持 `corpus-negative`，禁止猜造。 |
 
 ## 整改边界
 

@@ -55,7 +55,7 @@
 | VS-038 Role3 完整战斗扩展 | 已完成 | 补齐八戒九项主动、`rj` 被动、组合 `hit8`、三档盾、拉拽强化、位移和 `tmc` 二段追踪阵列 | M-020、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role3DefenseSkillSystem.ts`、`Role3ControlSkillSystem.ts`、`Role3ImpactSkillSystem.ts`、`Role3MobilitySkillSystem.ts`、`Role3UltimateSkillSystem.ts`、`TestSceneRole3SkillBridge.ts`、独立测试 | `TASK-SLICE-090..094` 全部完成：九项主动、`rj` 被动、组合入口、盾/拉拽/强化/眩晕/位移/隐藏/二段追踪阵列均可测 |
 | VS-039 Role1 完整战斗扩展 | 已完成 | 补齐悟空九项主动、`sx` 被动、`slz/hytj/lys` 组合协同、`jdy` 二段、分身与终结技能 | M-018、M-024、M-025、M-034、`roles-index.md`、`skills-input-index.md`、`projectiles-index.md` | `Role1BasicSkillSystem.ts`、`Role1SkillProjectileFactory.ts`、`Role1ShadowSkillSystem.ts`、`Role1FinisherSkillSystem.ts`、`TestSceneRole1SkillBridge.ts`、Role1 普攻真资源、独立测试 | `TASK-SLICE-095..099` 全部完成；`TASK-ASSET-002` 已接入 `Role1Bullet1/3/4/5`，技能真素材仍后置 |
 | VS-040 Role4 完整战斗扩展 | 已完成 | 在既有铲/弓普攻基础上补齐沙僧九主动、`mds` 被动、毒层/毒爆、巫毒娃娃、链式控制、位移、标记传送与终结技 | M-021、M-024、M-025、M-034、`role4-combat-index.md` | `Role4PoisonSkillSystem.ts`、`Role4VoodooDollSystem.ts`、`Role4PoisonChainSystem.ts`、`Role4MobilitySkillSystem.ts`、`Role4FinisherSkillSystem.ts`、Role4 场景桥接和独立测试 | `TASK-SLICE-100..104` 全部完成；`TASK-ASSET-001` 已确认 Role4 铲/弓普攻和九主动真素材当前不可直接接入，详见 `combat-assets-gap-plan.md` |
-| VS-041 Role5 白龙完整战斗扩展 | 已完成 | 按 `role5-combat-index.md` 拆分实现枪/剑形态、普攻能量、枪系主动、状态/标记、剑系链式和随身箭对象 | M-022、M-024、M-025、M-034、`role5-combat-index.md` | `HeroNormalAttackSystem.ts`、`Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、独立测试 | `TASK-SLICE-105..109` 全部完成；`TASK-ASSET-001` 已确认 Role5 枪/剑本体动作、剑系附属对象和技能真素材当前不可直接接入，枪形态 `doSingleHit(...)` 仍需 P-code 或更完整导出 |
+| VS-041 Role5 白龙完整战斗扩展 | 已完成 | 按 `role5-combat-index.md` 拆分实现枪/剑形态、普攻能量、枪系主动、状态/标记、剑系链式和随身箭对象 | M-022、M-024、M-025、M-034、`role5-combat-index.md` | `HeroNormalAttackSystem.ts`、`Role5SkillSystem.ts`、`Role5SkillTuning.ts`、`Role5SkillMath.ts`、`Role5SkillTypes.ts`、Role5 场景桥接、独立测试 | `TASK-SLICE-105..109` 全部完成；069E已从恢复包和P-code闭合真视觉输入，枪形态 `doSingleHit` 为 `Role5Bullet1..5`，接入留给158E |
 | VS-042 合成最小闭环 | 已完成 | 三材料无序合成，验证灵魂门禁、原子库存事务和装备属性继承 | M-039、M-036、M-037、`crafting-index.md` | `CraftingRecipeRegistry.ts`、`CraftingItemDefinitionRegistry.ts`、`CraftingSystem.ts`、`PlayerInventoryOwnershipSystem.ts`、`TestSceneUIHandlers.ts`、`crafting-tests.ts` | 67 个 `direct_static`、41 个 `get_sutra_value`、3 个 `get_sun_sutra_value` 与 1 个 `get_mingding_huayan` 唯一配方均已注册；201 个权威定义和 P1/P2 验收库存完整接入；默认继承兼容装备实例与合法 `zbwp` 堆叠材料；112×P1/P2 共 224 条实际事务、灵魂/容量/失败无副作用和双玩家隔离全部通过 |
 | VS-043 炼丹炉视觉最小闭环 | 已完成 | 用 RegiMA 真资源呈现 1000×600 炼丹炉并复用既有合成交互 | M-039、M-035、M-037、VS-042、`crafting-ui-index.md` | `public/assets/ui/crafting/`、`AssetManifest.ts`、`CraftingUILayout.ts`、`TestSceneCraftingEntryBridge.ts`、`TestSceneCraftingView.ts`、`crafting-tests.ts` | character 119/169、五角色双帧选择器与 201/201 个权威合成图标已选择性派生；地图菜单点击可进入，P1/P2 切换与关闭退还均自动验证；全部 stableKey 已目检；运行时入口和完整面板截图已留档且无控制台错误 |
 | VS-044 炼丹炉第二配方真图标 | 已完成 | 扩展 `kyg + kyz + kys -> kyl` 四图标并复用已完成视觉/事务管线 | M-035、M-039、VS-043 | `public/assets/ui/crafting/items/`、`AssetManifest.ts`、`CraftingSystem.ts`、`InventorySystem.ts`、`PlayerInventoryOwnershipSystem.ts`、`TestSceneCraftingView.ts`、`crafting-tests.ts` | EIcon1 character 332/342/323/809 已选择性派生并可追溯；同一目录驱动管线已扩展到全部 201 个图标；P1/P2 全配方事务矩阵确认首配方、默认继承和特殊继承均不回归 |
@@ -76,7 +76,7 @@
 | VS-059 天庭地图四服务页闭环 | 已完成 | 完成丹药、商城、设置、任务四入口的原版内容、真 UI、离线边界、正式往返与存档影响 | M-035、M-044、M-046、M-052、VS-064 | 四页六段证据、背包前置与 `TASK-SLICE-155A..D` 全部归档；任务页 43 日常/空活动/共享奖励/跨日 V6 与逐状态证据闭合 | 四页原生 UI、离线/全局持久化边界、正式往返、专项/全系统/build/940×590 零 console 全部通过 |
 | VS-060 关卡内五功能入口闭环 | 已完成 | 设置、技能、背包、法宝、宠物在正式关卡内按原版状态可点击并正确暂停/返回 | M-016、M-035、M-043、M-052 | `TASK-SLICE-156A..C` 已闭合 574/371/444、共享 router、全局设置 owner、原版单页会话语义、五关确定性旅程与 940×590 证据 | 固定 HUD 命中、P1/P2 owner/门禁、暂停、同键、Escape 和返回已闭合；战斗现代可见跨页 host 为零 |
 | VS-061 已完成关卡怪物真动画闭环 | 已完成 | Stage 1-1/1-2/1-3 全部实际怪物及攻击对象真动画闭合，Stage 2-1/2-2 防回归 | M-030、M-034、M-035、`stage1-monster-visuals-index.md` | `TASK-SETTINGS-068` 与 `TASK-SLICE-157A..D`：Stage 1 七本体/167 帧、16 对象/171 帧，Stage 2-1 94/132、Stage 2-2 36/104；`stage-1-monsters`/`stage-2-monsters` 共享 owner、五关重入和 Arc/Text 防回填专项 | 父任务 157 已关闭；五角色技能/弹体真视觉继续由 VS-062 独立推进，不回填怪物占位 |
-| VS-062 五角色战斗 UI 与技能真动画闭环 | 进行中 | 五角色本体、战斗 UI、普攻、全部已实现技能及附属对象逐状态真动画闭合 | M-018..M-025、M-034、M-035、M-047、M-049 | Role1 的069A/158A、Role2的069B/158B/162、Role3的069C/158C与Role4的069D/158D已闭合；Role4含18铲身、18弓身、14装备、29对象/897帧、SpeedUp与HUD frame4 | Role1..Role4完成；Role5仍由069E/158E串行闭合，不提前关闭五角色父切片 |
+| VS-062 五角色战斗 UI 与技能真动画闭环 | 进行中 | 五角色本体、战斗 UI、普攻、全部已实现技能及附属对象逐状态真动画闭合 | M-018..M-025、M-034、M-035、M-047、M-049 | Role1 的069A/158A、Role2的069B/158B/162、Role3的069C/158C与Role4的069D/158D已闭合；Role5的069E已闭合25张本体/装备表、双形态对象与1572帧选择性证据 | Role1..Role4完成；Role5权威输入完成，当前只剩158E现代接入，不提前关闭父切片 |
 | VS-063 前置体验本地存档正式旅程 | 可开始但后置 | 复用六槽 V6 `localStorage`，验证新增页面事务、双方数据和关卡进度跨应用重启保持 | M-044、M-050、VS-052、VS-059..VS-062 | `TASK-SLICE-159` | 存档基础已实现，不重复造 schema；必须等待四个实现父任务及全部子 task 归档后执行 |
 | VS-064 完整背包资源基础闭环 | 已完成 | 原版 1.1 可入包资源全集使用统一身份、真图标、四分类、堆叠/实例、容量、P1/P2 owner 与 V6 往返，并能被丹药/商城/任务/掉落复用 | M-035、M-036、M-037、M-044、M-052 | `GOAL-049/050` 已闭合 431 项权威目录、428 真图标、统一事务、双 owner、V6 与正式原生背包 | 3 项原版图标缺陷按目录排除且未使用占位；物品专属使用效果继续由对应玩法切片显式实现 |
 | VS-065 通用可玩关卡运行框架 | 已完成 | 五个现有关卡与全部后续关卡复用共同 Runtime，关卡只声明定义、遭遇和有证据的窄 adapter | M-014、M-026、M-027、M-029、M-035、M-044、PG-013 | 016A..D 已建立 Runtime/Definition/TransferDoorView、迁移五关、接入 1-1 自有 45/41/44 门并落盘未来模板 | 五关专项、全系统、构建、静态门禁与 940×590 1P/2P 门结果/下一关/横向代表零 console；PG-013 等首个新关卡观察样本 |
@@ -192,7 +192,7 @@
 
 - VS-003。
 - M-023 普攻总规则已扒。
-- M-047 已建普攻特效映射，但当前主包导出没有足够真实资源；白龙枪形态 `doSingleHit(...)` 仍是反编译缺口。
+- M-047 的五角色普攻资源证据已闭合；069E确认白龙枪形态 `doSingleHit(...,1..5,...) -> Role5Bullet1..5`，仅 `Role5runattack` 为恢复包全集未命中反证。
 - M-035 已建立资源索引与 manifest 骨架；当前导出仍缺真素材，但 `assets-index.md` 已给出稳定 key、bundle 方向和可接受的占位策略。
 
 范围：
@@ -212,7 +212,7 @@
 - 新增 `src/systems/HeroNormalAttackSystem.ts`，以现代模型实现五角色 J 普攻：悟空五段、唐僧固定 `hit1`、八戒三段、沙僧铲/弓形态三段、白龙枪/剑形态四段以及跑动/空中普攻入口。
 - `src/assets/AssetManifest.ts` 新增五角色普攻占位特效稳定 key；真实素材仍按 `attack-effects-index.md` 与 `assets-index.md` 的缺口后补。
 - `src/scenes/TestScene.ts` 接入调试切换入口，P1/P2 可切到 Role1 至 Role5，普攻会显示动作名、占位特效和攻击窗口，并可继续命中现有 `Monster30` 调试怪。
-- 白龙枪形态保留 `doSingleHit(...)` 未恢复的资源缺口，以 `normal-attack-effect.hero5.spear.unresolved` 作为现代占位 key，不伪造原始资源名。
+- 白龙枪形态五个 `doSingleHit` 对象已拆为 `Role5Bullet1..5`；原 `normal-attack-effect.hero5.spear.unresolved` 只保留 `Role5runattack` 的 corpus-negative，不伪造原始资源名。
 
 验证：
 

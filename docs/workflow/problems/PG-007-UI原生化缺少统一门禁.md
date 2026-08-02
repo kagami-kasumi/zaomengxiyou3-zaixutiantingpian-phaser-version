@@ -188,3 +188,4 @@
 | 2026-08-02 | `TASK-SETTINGS-069C` Role3 显示列表门禁 | 适用 | 冻结body→equip合成顺序、300×200 cell左右origin、姓名/三档盾根动态层、16对象场景层及574/505 frame3/510 HUD镜像；逐状态原包基准和差异计划齐全，现代例外为空 | 通过 | 158C不得用placeholder/Arc/Text、独立xgq cast图或SpecialUI重复包替代；须完成单/双人全生命周期运行差异证据 |
 | 2026-08-02 | `TASK-SETTINGS-069D` Role4 显示列表门禁 | 适用 | 冻结铲/弓body→equip同cell合成、200×200左右origin、角色根SpeedUp/标记、29对象场景层及574/505 frame4/510 HUD镜像；逐状态原包基准、几何差异计划与现代例外空清单齐全 | 通过 | 158D不得用missing-original、placeholder/Arc/Text、单帧或SpecialUI重复包回填；须完成单/双人全生命周期运行差异证据 |
 | 2026-08-02 | `TASK-SLICE-158D` Role4显示列表实现 | 适用 | body→equip同cell双层、沙僧姓名、SpeedUp、五普攻、全部已实现技能对象与character 505 frame4头像接入；真序列在Arc/Text前解析，死亡无tint占位，940×590单人及合法双人P2零console | 通过 | Role4增量样本未复发，现代可见例外仍为空；Role5须重复门禁 |
+| 2026-08-02 | `TASK-SETTINGS-069E` Role5显示列表门禁 | 适用 | 冻结枪/剑body→equip合成、290×290左右origin、角色根状态/随身箭层、技能对象场景层及574/505 frame5/510 HUD镜像；逐状态原包基准、生命周期和差异计划齐全，现代可见例外为空 | 通过 | 158E不得用placeholder/Arc/Text、单帧或虚构`Role5runattack`回填；须完成单/双人全生命周期运行差异证据 |
