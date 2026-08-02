@@ -11,6 +11,8 @@ import {
   role2SkillVisualAssets,
   role3NormalAttackAssets,
   role3SkillVisualAssets,
+  role4NormalAttackAssets,
+  role4SkillVisualAssets,
   SkillProjectileEffectKeys,
 } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
@@ -224,9 +226,13 @@ export function createAttackEffectView(
 ): AttackEffectView {
   const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets]
     ?? role2NormalAttackAssets[attack.effectKey as keyof typeof role2NormalAttackAssets]
-    ?? role3NormalAttackAssets[attack.effectKey as keyof typeof role3NormalAttackAssets];
+    ?? role3NormalAttackAssets[attack.effectKey as keyof typeof role3NormalAttackAssets]
+    ?? role4NormalAttackAssets[attack.effectKey as keyof typeof role4NormalAttackAssets];
   const role3Asset = role3NormalAttackAssets[
     attack.effectKey as keyof typeof role3NormalAttackAssets
+  ];
+  const role4Asset = role4NormalAttackAssets[
+    attack.effectKey as keyof typeof role4NormalAttackAssets
   ];
   const shape = frameAsset
     ? scene.add.image(
@@ -235,8 +241,8 @@ export function createAttackEffectView(
       frameAsset.frameKeys[0],
     ).setFlipX(attack.facingX < 0)
       .setOrigin(
-        role3Asset?.registrationOrigin.x ?? 0.5,
-        role3Asset?.registrationOrigin.y ?? 0.5,
+        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x ?? 0.5,
+        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y ?? 0.5,
       )
     : attack.followsHero
     ? scene.add.ellipse(player.x + attack.facingX * 82, player.y - 80, 86, 36, effectColor, 0.35)
@@ -285,13 +291,16 @@ export function createProjectileEffectView(
   const role3Asset = role3SkillVisualAssets[
     projectile.assetKey as keyof typeof role3SkillVisualAssets
   ];
-  const frameAsset = role1Asset ?? role2Asset ?? role3Asset;
+  const role4Asset = role4SkillVisualAssets[
+    projectile.assetKey as keyof typeof role4SkillVisualAssets
+  ];
+  const frameAsset = role1Asset ?? role2Asset ?? role3Asset ?? role4Asset;
   if (frameAsset) {
     const shape = scene.add.image(projectile.x, projectile.y, frameAsset.frameKeys[0]!)
       .setFlipX(projectile.facingX > 0)
       .setOrigin(
-        role3Asset?.registrationOrigin.x ?? 0.5,
-        role3Asset?.registrationOrigin.y ?? 0.5,
+        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x ?? 0.5,
+        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y ?? 0.5,
       )
       .setRotation(projectile.rotation ?? 0)
       .setDepth(48);

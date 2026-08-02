@@ -75,6 +75,15 @@ export class BootScene extends Phaser.Scene {
       });
       return;
     }
+    if (allowLocalQa && params.get('qaStage') === '1-1-role4') {
+      const twoPlayers = params.get('players') === '2';
+      await this.startQaScene('TestScene', {
+        devParty: twoPlayers
+          ? createFormalDevParty(2, 1, 4)
+          : createFormalDevParty(1, 4),
+      });
+      return;
+    }
     if (allowLocalQa && params.get('qaStage') === '2-1') {
       await this.startQaScene('Stage21Scene', {
         devParty: createFormalDevParty(params.get('players') === '2' ? 2 : 1),

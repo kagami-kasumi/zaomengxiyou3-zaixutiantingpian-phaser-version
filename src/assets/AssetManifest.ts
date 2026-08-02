@@ -224,6 +224,7 @@ export const CombatHudAssetKeys = {
   roleInfo: 'combat-hud.role-info',
   role2Portrait: 'combat-hud.role2-portrait',
   role3Portrait: 'combat-hud.role3-portrait',
+  role4Portrait: 'combat-hud.role4-portrait',
   bossBlood: 'combat-hud.boss-blood',
 } as const;
 
@@ -379,6 +380,15 @@ export const Role3CombatAssetKeys = {
   body: 'hero-animation.hero3.body',
   equipment: 'hero-animation.hero3.equipment',
   shieldBuff: 'skill-buff.role3.sd.shield',
+} as const;
+
+export const Role4CombatAssetKeys = {
+  shovelBody0: 'hero-animation.hero4.shovel.body.0',
+  arrowBody0: 'hero-animation.hero4.arrow.body.0',
+  shovelEquipment0: 'hero-animation.hero4.equipment.0',
+  arrowEquipment4: 'hero-animation.hero4.equipment.4',
+  mdsBomb: 'skill-effect.role4.mds.bomb',
+  speedUp: 'skill-buff.role4.mds.speedup',
 } as const;
 
 export const SkillProjectileEffectKeys = {
@@ -606,6 +616,15 @@ export const combatHudAssets = {
     source: 'extracted-flash',
     sourcePackage: 'assets/OtherMat1.swf',
     sourceSymbol: 'OtherMat_fla._2233_62 frame 3',
+    sourceCharacterId: 505,
+  },
+  role4Portrait: {
+    key: CombatHudAssetKeys.role4Portrait,
+    path: '/assets/ui/combat-hud/portraits/role4.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/OtherMat1.swf',
+    sourceSymbol: 'OtherMat_fla._2233_62 frame 4',
     sourceCharacterId: 505,
   },
   bossBlood: {
@@ -2517,18 +2536,174 @@ export const role3SkillVisualAssets = {
   ),
 } as const satisfies Record<string, FrameSequenceAssetDefinition>;
 
+type Role4BodyFamilyAssetDefinition = LoadableAssetDefinition & Readonly<{
+  form: 'shovel' | 'arrow' | 'equipment';
+  appearanceId: number;
+  sourcePackage: string;
+  sourceSymbol: string;
+  cellWidth: 200;
+  cellHeight: 200;
+  columns: 6;
+  rows: 14;
+}>;
+
+const role4Sheet = (
+  form: Role4BodyFamilyAssetDefinition['form'],
+  appearanceId: number,
+  fileName: string,
+  sourcePackage = 'assets/ShaShen.swf',
+): Role4BodyFamilyAssetDefinition => ({
+  key: `hero-animation.hero4.${form === 'equipment' ? 'equipment' : `${form}.body`}.${appearanceId}`,
+  path: `/assets/combat/role4/body/${sourcePackage === 'assets/ShaShen.swf' ? 'main' : 'extra'}/${fileName}`,
+  status: 'ready',
+  source: 'extracted-flash',
+  form,
+  appearanceId,
+  sourcePackage,
+  sourceSymbol: `ROLE4_${form === 'equipment' ? 'EQUIP' : form.toUpperCase()}_${appearanceId}`,
+  cellWidth: 200,
+  cellHeight: 200,
+  columns: 6,
+  rows: 14,
+});
+
+export const role4BodyFamilyAssets = {
+  shovel0: role4Sheet('shovel', 0, '36_ROLE4_SHOVEL_0.png'),
+  shovel1: role4Sheet('shovel', 1, '38_ROLE4_SHOVEL_1.png'),
+  shovel2: role4Sheet('shovel', 2, '32_ROLE4_SHOVEL_2.png'),
+  shovel3: role4Sheet('shovel', 3, '26_ROLE4_SHOVEL_3.png'),
+  shovel4: role4Sheet('shovel', 4, '24_ROLE4_SHOVEL_4.png'),
+  shovel5: role4Sheet('shovel', 5, '8_ROLE4_SHOVEL_5.png', 'assets/20120119.swf'),
+  shovel6: role4Sheet('shovel', 6, '3_ROLE4_SHOVEL_6.png', 'assets/20120117.swf'),
+  shovel7: role4Sheet('shovel', 7, '12_ROLE4_SHOVEL_7.png', 'assets/20120119.swf'),
+  shovel8: role4Sheet('shovel', 8, '4_ROLE4_SHOVEL_8.png', 'assets/20120203.swf'),
+  shovel9: role4Sheet('shovel', 9, '28_ROLE4_SHOVEL_9.png'),
+  shovel10: role4Sheet('shovel', 10, '9_ROLE4_SHOVEL_10.png', 'assets/20120808.swf'),
+  shovel11: role4Sheet('shovel', 11, '6_ROLE4_SHOVEL_11.png'),
+  shovel112: role4Sheet('shovel', 112, '17_ROLE4_SHOVEL_112.png'),
+  shovel113: role4Sheet('shovel', 113, '15_ROLE4_SHOVEL_113.png'),
+  shovel114: role4Sheet('shovel', 114, '13_ROLE4_SHOVEL_114.png'),
+  shovel115: role4Sheet('shovel', 115, '19_ROLE4_SHOVEL_115.png'),
+  shovel222: role4Sheet('shovel', 222, '11_ROLE4_SHOVEL_222.png'),
+  shovel6666: role4Sheet('shovel', 6666, '2_ROLE4_SHOVEL_6666.png'),
+  arrow0: role4Sheet('arrow', 0, '37_ROLE4_ARROW_0.png'),
+  arrow1: role4Sheet('arrow', 1, '4_ROLE4_ARROW_1.png'),
+  arrow2: role4Sheet('arrow', 2, '33_ROLE4_ARROW_2.png'),
+  arrow3: role4Sheet('arrow', 3, '27_ROLE4_ARROW_3.png'),
+  arrow4: role4Sheet('arrow', 4, '25_ROLE4_ARROW_4.png'),
+  arrow5: role4Sheet('arrow', 5, '14_ROLE4_ARROW_5.png', 'assets/20120119.swf'),
+  arrow6: role4Sheet('arrow', 6, '4_ROLE4_ARROW_6.png', 'assets/20120117.swf'),
+  arrow7: role4Sheet('arrow', 7, '13_ROLE4_ARROW_7.png', 'assets/20120119.swf'),
+  arrow8: role4Sheet('arrow', 8, '3_ROLE4_ARROW_8.png', 'assets/20120203.swf'),
+  arrow9: role4Sheet('arrow', 9, '21_ROLE4_ARROW_9.png'),
+  arrow10: role4Sheet('arrow', 10, '8_ROLE4_ARROW_10.png', 'assets/20120808.swf'),
+  arrow11: role4Sheet('arrow', 11, '7_ROLE4_ARROW_11.png'),
+  arrow112: role4Sheet('arrow', 112, '16_ROLE4_ARROW_112.png'),
+  arrow113: role4Sheet('arrow', 113, '14_ROLE4_ARROW_113.png'),
+  arrow114: role4Sheet('arrow', 114, '12_ROLE4_ARROW_114.png'),
+  arrow115: role4Sheet('arrow', 115, '18_ROLE4_ARROW_115.png'),
+  arrow222: role4Sheet('arrow', 222, '10_ROLE4_ARROW_222.png'),
+  arrow6666: role4Sheet('arrow', 6666, '3_ROLE4_ARROW_6666.png'),
+  equipment0: role4Sheet('equipment', 0, '31_ROLE4_EQUIP_0.png'),
+  equipment1: role4Sheet('equipment', 1, '23_ROLE4_EQUIP_1.png'),
+  equipment2: role4Sheet('equipment', 2, '29_ROLE4_EQUIP_2.png'),
+  equipment3: role4Sheet('equipment', 3, '30_ROLE4_EQUIP_3.png'),
+  equipment4: role4Sheet('equipment', 4, '22_ROLE4_EQUIP_4.png'),
+  equipment5: role4Sheet('equipment', 5, '34_ROLE4_EQUIP_5.png'),
+  equipment6: role4Sheet('equipment', 6, '6_ROLE4_EQUIP_6.png', 'assets/20120119.swf'),
+  equipment9: role4Sheet('equipment', 9, '20_ROLE4_EQUIP_9.png'),
+  equipment10: role4Sheet('equipment', 10, '5_ROLE4_EQUIP_10.png'),
+  equipment11: role4Sheet('equipment', 11, '39_ROLE4_EQUIP_11.png'),
+  equipment222: role4Sheet('equipment', 222, '9_ROLE4_EQUIP_222.png'),
+  equipment998: role4Sheet('equipment', 998, '19_ROLE4_EQUIP_998.png', 'assets/MagicWeapon2.swf'),
+  equipment999: role4Sheet('equipment', 999, '8_ROLE4_EQUIP_999.png'),
+  equipment6666: role4Sheet('equipment', 6666, '1_ROLE4_EQUIP_6666.png'),
+} as const satisfies Record<string, Role4BodyFamilyAssetDefinition>;
+
+const role4Origin = (bounds: readonly [number, number, number, number]) => ({
+  x: -bounds[0] / (bounds[2] - bounds[0]),
+  y: -bounds[1] / (bounds[3] - bounds[1]),
+});
+
+function createRole4EffectFrames(
+  key: string,
+  characterId: number,
+  symbol: string,
+  frameCount: number,
+  bounds: readonly [number, number, number, number],
+  folder = 'skills',
+  sourcePackage = 'assets/ShaShen.swf',
+) {
+  const directory = `DefineSprite_${characterId}_${symbol}`;
+  return {
+    key,
+    frameKeys: Array.from({ length: frameCount }, (_, index) => `${key}.frame${index + 1}`),
+    framePaths: Array.from(
+      { length: frameCount },
+      (_, index) => `/assets/combat/role4/${folder}/${directory}/${index + 1}.svg`,
+    ),
+    registrationOrigin: role4Origin(bounds),
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage,
+    sourceSymbol: symbol,
+  } as const;
+}
+
+export const role4NormalAttackAssets = {
+  [HeroNormalAttackEffectKeys.role4ShovelHit1]: createRole4EffectFrames(HeroNormalAttackEffectKeys.role4ShovelHit1, 256, 'Role4Bullet1', 7, [-104, -51, 108, 44.7]),
+  [HeroNormalAttackEffectKeys.role4ShovelHit2]: createRole4EffectFrames(HeroNormalAttackEffectKeys.role4ShovelHit2, 286, 'Role4Bullet2', 11, [-143, -103, 71, 81]),
+  [HeroNormalAttackEffectKeys.role4ShovelHit3]: createRole4EffectFrames(HeroNormalAttackEffectKeys.role4ShovelHit3, 265, 'Role4Bullet3', 4, [-113, -46, 114.85, 52.8]),
+  [HeroNormalAttackEffectKeys.role4ArrowHit1]: createRole4EffectFrames(HeroNormalAttackEffectKeys.role4ArrowHit1, 68, 'Role4BulletArrow1', 12, [-374.4, -44, 159, 64]),
+  [HeroNormalAttackEffectKeys.role4ArrowHit3]: createRole4EffectFrames(HeroNormalAttackEffectKeys.role4ArrowHit3, 71, 'Role4BulletArrow2', 15, [-366.1, -150.65, 169.8, 134.9]),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
+const role4DollAsset = {
+  key: SkillProjectileEffectKeys.role4WdwwDoll,
+  frameKeys: Array.from({ length: 6 }, (_, index) => `${SkillProjectileEffectKeys.role4WdwwDoll}.frame${index + 1}`),
+  framePaths: Array.from({ length: 6 }, (_, index) => `/assets/combat/role4/summons/${index + 1}.png`),
+  registrationOrigin: { x: 0.5, y: 0.5 },
+  status: 'ready',
+  source: 'extracted-flash',
+  sourcePackage: 'assets/ShaShen.swf',
+  sourceSymbol: 'Role4Hit5',
+} as const;
+
+export const role4SkillVisualAssets = {
+  [SkillProjectileEffectKeys.role4ZqShovelHit4]: createRole4EffectFrames(SkillProjectileEffectKeys.role4ZqShovelHit4, 328, 'Role4Bullet4', 20, [13, 10.9, 252.95, 170.85]),
+  [SkillProjectileEffectKeys.role4ZqArrowHit4]: createRole4EffectFrames(SkillProjectileEffectKeys.role4ZqArrowHit4, 75, 'Role4BulletArrow4', 13, [-543.5, -30.85, 43.9, 34.65]),
+  [SkillProjectileEffectKeys.role4JdzHit7_1]: createRole4EffectFrames(SkillProjectileEffectKeys.role4JdzHit7_1, 418, 'Role4Bullet7_1', 238, [-41.55, 71.6, 244.8, 126.9]),
+  [SkillProjectileEffectKeys.role4JdzHit7_2]: createRole4EffectFrames(SkillProjectileEffectKeys.role4JdzHit7_2, 423, 'Role4Bullet7_2', 230, [-768, -384, 960, 576]),
+  [SkillProjectileEffectKeys.role4WdwwHit5]: createRole4EffectFrames(SkillProjectileEffectKeys.role4WdwwHit5, 332, 'Role4Bullet5', 15, [-648.4, -874.7, 950.95, 1101.75]),
+  [SkillProjectileEffectKeys.role4WdwwDoll]: role4DollAsset,
+  [SkillProjectileEffectKeys.role4MbyjHit6]: createRole4EffectFrames(SkillProjectileEffectKeys.role4MbyjHit6, 411, 'Role4Bullet6', 1, [-28, -29, 69.2, 72.3]),
+  [SkillProjectileEffectKeys.role4QljShovelHit8]: createRole4EffectFrames(SkillProjectileEffectKeys.role4QljShovelHit8, 373, 'Role4Bullet8', 5, [-69.05, -8.7, 135.9, 88.05]),
+  [SkillProjectileEffectKeys.role4QljArrowHit8_1]: createRole4EffectFrames(SkillProjectileEffectKeys.role4QljArrowHit8_1, 157, 'Role4BulletArrow8_1', 9, [0, 0, 124.2, 128.1]),
+  [SkillProjectileEffectKeys.role4QljArrowHit8_2]: createRole4EffectFrames(SkillProjectileEffectKeys.role4QljArrowHit8_2, 153, 'Role4BulletArrow8_2', 17, [-91.4, -22.05, 59.3, 102.25]),
+  [SkillProjectileEffectKeys.role4TkjShovelHit9_1]: createRole4EffectFrames(SkillProjectileEffectKeys.role4TkjShovelHit9_1, 366, 'Role4Bullet9_1', 9, [-52.55, -22.8, 67.2, 57.85]),
+  [SkillProjectileEffectKeys.role4TkjShovelHit9_2]: createRole4EffectFrames(SkillProjectileEffectKeys.role4TkjShovelHit9_2, 347, 'Role4Bullet9_2', 7, [-48, -143.2, 61.35, 127.6]),
+  [SkillProjectileEffectKeys.role4TkjArrowHit9_1]: createRole4EffectFrames(SkillProjectileEffectKeys.role4TkjArrowHit9_1, 137, 'Role4BulletArrow9_1', 20, [-1.65, -1.7, 149.25, 157.4]),
+  [SkillProjectileEffectKeys.role4TkjArrowHit9_2]: createRole4EffectFrames(SkillProjectileEffectKeys.role4TkjArrowHit9_2, 123, 'Role4BulletArrow9_2', 18, [-99.95, -125.55, 214, 436.7]),
+  [SkillProjectileEffectKeys.role4DzjShovelHit10]: createRole4EffectFrames(SkillProjectileEffectKeys.role4DzjShovelHit10, 479, 'Role4Bullet10', 37, [-130.65, -35.3, 222.5, 139.4]),
+  [SkillProjectileEffectKeys.role4DzjArrowHit10_1]: createRole4EffectFrames(SkillProjectileEffectKeys.role4DzjArrowHit10_1, 241, 'Role4BulletArrow10_1', 13, [-145.1, -73, 29.3, 79]),
+  [SkillProjectileEffectKeys.role4DzjArrowHit10_2]: createRole4EffectFrames(SkillProjectileEffectKeys.role4DzjArrowHit10_2, 214, 'Role4BulletArrow10_2', 12, [-84.75, 15.35, 190.95, 128.35]),
+  [SkillProjectileEffectKeys.role4LybjMarker]: createRole4EffectFrames(SkillProjectileEffectKeys.role4LybjMarker, 414, 'Role4Bullet11', 1, [-48.05, -21.85, 49.6, 22.45]),
+  [SkillProjectileEffectKeys.role4MmwShovelHit12]: createRole4EffectFrames(SkillProjectileEffectKeys.role4MmwShovelHit12, 443, 'Role4Bullet12', 91, [-507.45, -59.5, 501.55, 71]),
+  [SkillProjectileEffectKeys.role4MmwArrowHit12_1]: createRole4EffectFrames(SkillProjectileEffectKeys.role4MmwArrowHit12_1, 201, 'Role4BulletArrow12_1', 20, [-52, -17, 188, 201]),
+  [SkillProjectileEffectKeys.role4MmwArrowHit12_2]: createRole4EffectFrames(SkillProjectileEffectKeys.role4MmwArrowHit12_2, 171, 'Role4BulletArrow12_2', 20, [-86.95, -64.9, 63.55, 81.45]),
+  [SkillProjectileEffectKeys.role4MmwArrowHit12_3]: createRole4EffectFrames(SkillProjectileEffectKeys.role4MmwArrowHit12_3, 176, 'Role4BulletArrow12_3', 10, [-362.45, -47.65, 167.45, 285.4]),
+} as const satisfies Record<string, FrameSequenceAssetDefinition>;
+
+export const role4MdsBombAsset = createRole4EffectFrames(
+  Role4CombatAssetKeys.mdsBomb, 409, 'Role4MDS', 20, [-48, -89, 67.2, 38.4],
+);
+
+export const role4SpeedUpAsset = createRole4EffectFrames(
+  Role4CombatAssetKeys.speedUp, 38, 'SpeedUp', 16, [-46.4, -48.5, 66.6, 32.85],
+  'status', 'assets/StageCommon.swf',
+);
+
 export const sourceAssetFamilies = {
-  role4NormalAttackEffects: {
-    status: 'missing-original',
-    sourceSymbols: [
-      'Role4Bullet1',
-      'Role4Bullet2',
-      'Role4Bullet3',
-      'Role4BulletArrow1',
-      'Role4BulletArrow2',
-    ],
-    notes: 'Normal-attack attachments referenced by Role3 and Role4 but not yet exported from the restored source packages.',
-  },
   role5NormalAttackAnimations: {
     status: 'missing-original',
     sourceSymbols: [
@@ -2565,11 +2740,6 @@ export const sourceAssetFamilies = {
       'swordhit6_1',
     ],
     notes: 'Sword-mode mappings are known; spear-mode helper symbols remain unresolved.',
-  },
-  role4FinisherProjectiles: {
-    status: 'missing-original',
-    sourceSymbols: ['Role4Bullet11', 'Role4Bullet12', 'Role4BulletArrow12_1', 'Role4BulletArrow12_2', 'Role4BulletArrow12_3'],
-    notes: 'Role4 lybj/mmw marker and finisher effects are absent from current exports and use stable placeholders.',
   },
   magicWeaponProjectiles: {
     status: 'missing-original',

@@ -9500,3 +9500,19 @@ Goal：
 
 推荐任务：
 - `TASK-SLICE-158D`：只消费069D证据，接入Role4铲/弓本体、装备、HUD、普攻、全部已实现技能与附属对象真动画。
+
+### TASK-SLICE-158D
+
+- 完成日期：2026-08-02
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-069E`）
+- 将18铲身、18弓身、14装备图表完整编目并把当前正式铲/弓装束接入共享 `HeroCombatVisualBridge`；本体/装备同cell、左右origin、动作hold、形态切换、死亡移除及姓名“沙僧”均按069D合同实现。
+- 接入五普攻、22技能对象、20帧MDS毒爆、6帧娃娃与16帧SpeedUp，共897帧真资源；Role4 stable key在通用Arc/Text占位前解析，移除陈旧 `missing-original`。
+- 接入character 505 frame4 HUD头像，增加 `?qaStage=1-1-role4` 单人与合法Role1+Role4双人入口；940×590 P1现场观察和P2截图均为真实body/HUD且console为0。
+- 当前玩法模型只公开武器模式，因此正式bundle预载当前铲/弓body与对应装备四张表；其余换装表保留完整manifest身份，未伪造未公开的换装状态。现代可见例外为0。
+
+验证：
+- `npm run test:role4-visuals`、`npm run test:systems`、`npm run check:structure`、`npm run build`、`npm run check:annotations`、`npm run check:workflow` 与 `git diff --check` 见本次任务最终检查。
+- 任务在实现和运行验收完成后发生首次compact；其后只做既有证据、状态和门禁收口，没有新增实现或进入Role5。
+
+推荐任务：
+- `TASK-SETTINGS-069E`：只调查Role5白龙枪/剑双形态本体、UI、普攻、技能与附属对象，闭合权威实现输入。

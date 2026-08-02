@@ -8,6 +8,8 @@ import { updateRole5SkillBridge } from './TestSceneRole5SkillBridge';
 import { syncRole1ShadowVisuals } from './TestSceneRole1ShadowVisualBridge';
 import { Role2BodyAnimations } from '../../systems/Role2CombatVisualSystem';
 import { getRole3BodyActionDurationMs } from '../../systems/Role3CombatVisualSystem';
+import { getRole4BodyActionDurationMs } from '../../systems/Role4CombatVisualSystem';
+import { role4MdsBombAsset } from '../../assets/AssetManifest';
 
 export function updateHeroSkillProjectiles(
   this: any,
@@ -112,6 +114,45 @@ export function updateHeroSkillProjectiles(
     deltaMs: delta,
     timeMs: time,
   });
+  for (const event of role4Result.castEvents) {
+    const player = this.playerViews.find((candidate: any) => candidate.slot === event.projectile.sourceId);
+    if (!player) continue;
+    const durationMs = getRole4BodyActionDurationMs(event.actionName, player.normalAttack.weaponMode);
+    if (durationMs <= 0) continue;
+    player.role4VisualAction = {
+      actionName: event.actionName,
+      startedAtMs: time,
+      endsAtMs: time + durationMs,
+    };
+  }
+  for (const event of role4Result.poisonDamageEvents) {
+    if (event.source !== 'poison-bomb') continue;
+    const target = this.monster30s.find((monster: any) => monster.id === event.targetId);
+    if (!target) continue;
+    const view = this.add.image(
+      target.x,
+      target.y,
+      role4MdsBombAsset.frameKeys[0],
+    ).setOrigin(
+      role4MdsBombAsset.registrationOrigin.x,
+      role4MdsBombAsset.registrationOrigin.y,
+    ).setDepth(49);
+    let frame = 0;
+    this.time.addEvent({
+      delay: 1000 / 24,
+      repeat: role4MdsBombAsset.frameKeys.length - 2,
+      callback: () => {
+        frame += 1;
+        if (!view.active || target.state === 'dead' || target.state === 'removed') {
+          view.destroy();
+          return;
+        }
+        view.setPosition(target.x, target.y)
+          .setTexture(role4MdsBombAsset.frameKeys[frame]!);
+        if (frame === role4MdsBombAsset.frameKeys.length - 1) view.destroy();
+      },
+    });
+  }
   const role5Result = updateRole5SkillBridge({
     players: this.playerViews,
     input,

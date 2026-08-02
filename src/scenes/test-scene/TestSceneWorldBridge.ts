@@ -734,6 +734,7 @@ export function updatePlayerCombatVisual(this: any, player: any, time: number): 
       role1SkillAction: player.role1VisualAction,
       role2SkillAction: player.role2VisualAction,
       role3SkillAction: player.role3VisualAction,
+      role4SkillAction: player.role4VisualAction,
     }, time);
     if (isHeroCombatDead(player.combat)) {
       player.sprite.setAlpha(hasNativeVisual ? 0 : 0.42);

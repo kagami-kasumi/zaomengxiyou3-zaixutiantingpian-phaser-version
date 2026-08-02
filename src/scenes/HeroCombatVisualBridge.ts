@@ -18,6 +18,11 @@ import {
   getRole3CombatVisual,
   syncRole3CombatVisual,
 } from './Role3CombatVisualBridge';
+import {
+  createRole4CombatVisual,
+  getRole4CombatVisual,
+  syncRole4CombatVisual,
+} from './Role4CombatVisualBridge';
 
 type TimedVisualAction = Readonly<{
   actionName: HeroSkillActionName;
@@ -33,6 +38,7 @@ export type HeroCombatVisualInput = Readonly<{
   role1SkillAction?: TimedVisualAction;
   role2SkillAction?: TimedVisualAction;
   role3SkillAction?: TimedVisualAction;
+  role4SkillAction?: TimedVisualAction;
 }>;
 
 export function createHeroCombatVisual(
@@ -43,13 +49,15 @@ export function createHeroCombatVisual(
   createRole1CombatVisual(scene, anchor, heroId);
   createRole2CombatVisual(scene, anchor, heroId);
   createRole3CombatVisual(scene, anchor, heroId);
+  createRole4CombatVisual(scene, anchor, heroId);
 }
 
 export function hasHeroCombatVisual(anchor: Phaser.GameObjects.Image): boolean {
   return Boolean(
     getRole1CombatVisual(anchor)
     || getRole2CombatVisual(anchor)
-    || getRole3CombatVisual(anchor),
+    || getRole3CombatVisual(anchor)
+    || getRole4CombatVisual(anchor),
   );
 }
 
@@ -74,6 +82,15 @@ export function syncHeroCombatVisual(
       ...input,
       runtime: input.skill.role3Runtime,
       skillAction: input.role3SkillAction,
+    }, timeMs);
+    return true;
+  }
+  const role4 = getRole4CombatVisual(anchor);
+  if (role4) {
+    syncRole4CombatVisual(role4, {
+      ...input,
+      runtime: input.skill.role4Runtime,
+      skillAction: input.role4SkillAction,
     }, timeMs);
     return true;
   }
