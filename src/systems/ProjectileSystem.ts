@@ -1277,20 +1277,22 @@ function updateProjectilePosition(projectile: ProjectileModel, deltaMs: number):
     return;
   }
 
-  const frameScale = deltaMs / frameMs;
-  const moveX = projectile.velocityX * frameScale;
-  const moveY = projectile.velocityY * frameScale;
+  let remainingFrameScale = Math.max(0, deltaMs / frameMs);
+  while (remainingFrameScale > 0 && !projectile.isExpired) {
+    const frameScale = Math.min(1, remainingFrameScale);
+    projectile.x += projectile.velocityX * frameScale;
+    projectile.y += projectile.velocityY * frameScale;
+    projectile.velocityX += (projectile.accelerationX ?? 0) * frameScale;
+    projectile.velocityY += (projectile.accelerationY ?? 0) * frameScale;
 
-  projectile.x += moveX;
-  projectile.y += moveY;
-
-  if (projectile.remainingDistance === undefined) {
-    return;
-  }
-
-  projectile.remainingDistance -= Math.sqrt(moveX * moveX + moveY * moveY);
-  if (projectile.remainingDistance <= 0) {
-    projectile.isExpired = true;
+    if (projectile.remainingDistance !== undefined) {
+      projectile.remainingDistance -= Math.hypot(
+        projectile.velocityX,
+        projectile.velocityY,
+      ) * frameScale;
+      if (projectile.remainingDistance <= 0) projectile.isExpired = true;
+    }
+    remainingFrameScale -= frameScale;
   }
 }
 

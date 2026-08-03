@@ -92,6 +92,8 @@ PG-008 只有同时满足以下条件才可关闭：
 
 | 日期 | 任务/变更 | 适用性 | 证据 | 结论 | 后续动作 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-02 | `TASK-SLICE-163` 固定world effect与移动projectile拆分 | 适用 | 163保持两个工作包（五角色分类证据；Role2/Role4固定world实现）和两批验收、0 compact；发现Role5 `EnemyMoveBullet` 第二运行owner后立即拆164，未在同task扩写ProjectileSystem | 通过 | 本次归档即停止；下一task只执行164，完成后才恢复PG-013 V2G |
+| 2026-08-02 | `PG-013 V2F` 单 owner 有界迁移 | 适用 | 本次只迁移 Stage 1-1/TestScene 的 Hero owner，复用一个既有 Runtime、新增一个兼容桥和一组静态/专项/运行验收；0 compact，未迁移 Monster、Boss、掉落、宠物、纵向平台或游戏 Ready task | 通过 | 本次完成即停止；下一 `/goal` 只执行 V2G Monster Stage 1-2 单-owner试点 |
 | 2026-08-02 | `PG-013 V2D` 单 owner 有界迁移 | 适用 | 本次只迁移 Stage 2-1 的 Hero owner，一个既有共享 owner、一个正式消费者与一组环境事件/静态门禁/专项；0 compact，未修改 Monster Map/AI/物理/奖励、Stage 2-2 或游戏 Ready task | 通过 | 本次完成即停止；下一 `/goal` 只执行不可分的 V2E Stage 2-2 正式与 DEV 双消费者 |
 | 2026-08-02 | `PG-013 V2C` 单 owner 有界迁移 | 适用 | 本次只迁移 Stage 1-3 的 Hero owner，一个既有共享 owner、一个正式消费者与一组静态门禁/专项；0 compact，未修改 Monster Map/AI/物理/奖励、其他关卡或游戏 Ready task；自动与 940×590 验收后即停止 | 通过 | 下一 `/goal` 只执行 V2D Stage 2-1；V2E 才同批处理不可分的 Stage 2-2 正式与 DEV 消费者 |
 | 2026-08-02 | `PG-013 V2B` 单 owner 有界试点 | 适用 | 本次只建立 HeroPartyRuntime 并迁移 Stage 1-2，一个实体 owner、一个正式消费者、两层实现与一组专项；0 compact，未修改 Monster Map/AI/物理/奖励或进入其余四关。试点后把剩余 Hero 消费者拆为四个串行批次 | 通过 | 本次完成即停止；下一 `/goal` 只执行 V2C Stage 1-3，V2E 才把 Stage 2-2 正式与 DEV 作为不可分双消费者同批处理 |

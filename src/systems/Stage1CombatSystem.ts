@@ -16,6 +16,7 @@ import {
   createHeroNormalAttack,
   getActiveHeroHitbox,
   updateHeroNormalAttack,
+  type HeroNormalAttackEvent,
   type HeroId,
   type HeroNormalAttackModel,
 } from './HeroNormalAttackSystem';
@@ -29,6 +30,7 @@ import {
 } from './ProgressionSystem';
 import { createHeroSkillModel, type HeroSkillModel } from './HeroSkillSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
+import { getWorldNormalAttackGeometry } from './HeroNormalAttackGeometry';
 
 // Shared placeholder-combat adapter. Stage 2-1 types use authoritative stats and
 // readable modern placeholder attacks while their original action/projectile art is deferred.
@@ -227,9 +229,9 @@ export function updateStage1CombatPlayer(params: {
   bounds: HeroMovementBounds;
   timeMs: number;
   deltaMs: number;
-}): void {
+}): HeroNormalAttackEvent | undefined {
   updateHeroCombat(params.player.combat, params.movement, params.bounds, params.timeMs, params.deltaMs);
-  updateHeroNormalAttack(
+  const event = updateHeroNormalAttack(
     params.player.normalAttack,
     params.input,
     params.player.previousInput,
@@ -237,6 +239,7 @@ export function updateStage1CombatPlayer(params: {
     params.timeMs,
   );
   params.player.previousInput = { ...params.input, skillSlots: [...params.input.skillSlots] };
+  return event;
 }
 
 export function updateStage1Enemy(params: {
@@ -331,11 +334,17 @@ export function resolveStage1HeroAttack(params: {
   timeMs: number;
 }): readonly DamageEvent[] {
   const attack = params.player.normalAttack.activeAttack;
-  if (!attack || !getActiveHeroHitbox(params.player.normalAttack, params.movement, params.timeMs)) return [];
+  const hitbox = getActiveHeroHitbox(params.player.normalAttack, params.movement, params.timeMs);
+  if (!attack || !hitbox) return [];
+  const usesWorldEffect = Boolean(getWorldNormalAttackGeometry(attack.effectKey));
   const resolved: DamageEvent[] = [];
   for (const enemyModel of params.enemies) {
     if (enemyModel.phase === 'dead') continue;
-    if (Math.abs(enemyModel.x - params.movement.x) > Stage1CombatTuning.heroAttackRange) continue;
+    if (usesWorldEffect) {
+      if (enemyModel.x < hitbox.x || enemyModel.x > hitbox.x + hitbox.width) continue;
+    } else if (Math.abs(enemyModel.x - params.movement.x) > Stage1CombatTuning.heroAttackRange) {
+      continue;
+    }
     const attackId = `${params.player.slot}-normal-${attack.id}`;
     if (!resolveHitOnce(params.runtime.hitRegistry, attackId, enemyModel.id)) continue;
     const amount = calculateStage1HeroDamage(

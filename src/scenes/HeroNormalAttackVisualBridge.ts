@@ -16,6 +16,7 @@ import type {
   HeroNormalAttackModel,
 } from '../systems/HeroNormalAttackSystem';
 import type { PlayerSlot } from '../systems/InputSystem';
+import { isRole5LoongSwordProjectileAttack } from '../systems/Role5NormalAttackProjectileSystem';
 import type { Stage1CombatPlayer } from '../systems/Stage1CombatSystem';
 import {
   projectNormalAttackVisualPoint,
@@ -77,6 +78,7 @@ export function createHeroNormalAttackVisualBridge(
         const attack = player.normalAttack.activeAttack;
         if (!attack || lastAttackIds.get(player.slot) === attack.id) continue;
         lastAttackIds.set(player.slot, attack.id);
+        if (isRole5LoongSwordProjectileAttack(attack, player.role5SwordEnhanced ?? false)) continue;
         views.push(createAttackEffectView(
           scene,
           player,
@@ -102,7 +104,11 @@ export function createAttackEffectView(
   effectColor: number,
   role5SwordEnhanced = false,
 ): AttackEffectView {
-  const visualPoint = projectNormalAttackVisualPoint(attack, player.x, player.y);
+  const visualPoint = projectNormalAttackVisualPoint(
+    attack,
+    attack.followsHero ? player.x : attack.spawnX,
+    attack.followsHero ? player.y : attack.spawnY,
+  );
   const role5Asset = getRole5NormalAttackVisualAsset(attack.effectKey, role5SwordEnhanced);
   const frameAsset = role1NormalAttackAssets[attack.effectKey as keyof typeof role1NormalAttackAssets]
     ?? role2NormalAttackAssets[attack.effectKey as keyof typeof role2NormalAttackAssets]

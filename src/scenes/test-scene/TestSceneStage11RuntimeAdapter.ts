@@ -13,6 +13,7 @@ import { initializeStage11Flow, updateStage11Flow } from './TestSceneStage11Flow
 import { createBossView } from './TestSceneViews';
 import { createInputSystem } from './TestSceneSystems';
 import { readStage11AttackGeometry } from '../stage11/Stage11MonsterVisualBridge';
+import { createTestSceneHeroPartyRuntime } from './TestSceneHeroPartyRuntimeBridge';
 
 // Stage 1-1 keeps its combat/pet/skill sandbox as a narrow encounter adapter.
 // Common camera, party views, feature entries, result, routing and destruction
@@ -27,11 +28,12 @@ export function createTestSceneStage11Runtime(
     },
     createWorld: createStage11World,
     createPlayerViews: () => {
-      scene.playerViews = scene.createPlayerMarkers(
+      scene.heroPartyRuntime = createTestSceneHeroPartyRuntime(
+        scene,
         partyRuntime.playerCount,
         partyRuntime.members.map((member) => member.heroId),
       );
-      return scene.playerViews.map((player: any) => player.sprite);
+      return scene.heroPartyRuntime.players().map((player: any) => player.sprite);
     },
     createEncounter: (_runtimeScene, _playerCount, _playerViews, world) => {
       initializeEncounter(scene, world);
@@ -59,6 +61,8 @@ export function createTestSceneStage11Runtime(
         destroy: () => {
           scene.stage1CombatHud?.destroy();
           scene.stage1CombatHud = undefined;
+          scene.heroPartyRuntime?.destroy();
+          scene.heroPartyRuntime = undefined;
         },
       };
     },

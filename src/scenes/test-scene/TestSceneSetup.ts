@@ -3,30 +3,21 @@
 import Phaser from 'phaser';
 import { AssetKeys } from '../../assets/AssetManifest';
 import {
-  STAGE11_GROUND_PLATFORM_ID,
   STAGE11_GROUND_TOP_Y,
 } from '../../systems/Stage11Layout';
 import {
   canLearnSkill,
   canUpgradeSkill,
   canUpgradeTree,
-  createHeroCombat,
-  createHeroMovement,
-  createHeroNormalAttack,
-  createHeroProgression,
-  createHeroSkillModel,
   defaultClimbTuning,
-  getHeroBaseStats,
   getPassiveSkillMaxLevel,
   getSkillMaxLevel,
   getSkillTreeForHero,
-  getTestHeroSkillLoadoutPreset,
   getTotalLearnedSkillCount,
   MAX_TREE_LEVEL,
   InventoryOwnerKeyCodes,
   PetUiKeyCodes,
   SKILL_LEARN_LIMIT,
-  Stage1CombatTuning,
   SkillSlotKeyLabels,
   TREE_UPGRADE_COSTS,
   type HeroId,
@@ -36,7 +27,6 @@ import {
   type SkillUIState,
 } from './TestSceneSystems';
 import { createTestSceneDebugKeys } from './TestSceneDebugKeys';
-import { formatHeroLabel } from './TestSceneFormatters';
 import { createHeroCombatVisual } from '../HeroCombatVisualBridge';
 
 type SkillBarView = {
@@ -59,43 +49,47 @@ type InventoryPanelView = {
   text: Phaser.GameObjects.Text;
 };
 
-export function createPlayerMarkers(
+export type TestScenePlayerMarkerView = Readonly<{
+  slot: PlayerSlot;
+  sprite: Phaser.GameObjects.Image;
+  label: Phaser.GameObjects.Text;
+}>;
+
+export function createPlayerMarkerViews(
   this: any,
   playerCount: 1 | 2,
   heroIds: readonly HeroId[] = [],
-): any[] {
+): TestScenePlayerMarkerView[] {
     const groundY = STAGE11_GROUND_TOP_Y;
-    const p1 = this.createPlayerView(
+    const p1 = createPlayerMarkerView.call(
+      this,
       'p1',
-      heroIds[0] ?? Stage1CombatTuning.defaultHeroId,
+      heroIds[0] ?? 1,
       defaultClimbTuning.worldWidth * (playerCount === 1 ? 0.5 : 0.34),
       groundY,
     );
-    p1.movement = createHeroMovement(p1.sprite.x, p1.sprite.y);
-    p1.movement.currentPlatformId = STAGE11_GROUND_PLATFORM_ID;
 
     if (playerCount === 1) {
       return [p1];
     }
 
-    const p2 = this.createPlayerView(
+    const p2 = createPlayerMarkerView.call(
+      this,
       'p2',
       heroIds[1] ?? 3,
       defaultClimbTuning.worldWidth * 0.58,
       groundY,
     );
-    p2.movement = createHeroMovement(p2.sprite.x, p2.sprite.y);
-    p2.movement.currentPlatformId = STAGE11_GROUND_PLATFORM_ID;
 
     return [p1, p2];
   }
 
-export function createPlayerView(this: any,
+function createPlayerMarkerView(this: any,
     slot: PlayerSlot,
     heroId: HeroId,
     x: number,
     y: number,
-  ): any {
+  ): TestScenePlayerMarkerView {
     const sprite = this.add.image(x, y, AssetKeys.playerPlaceholder);
     sprite.setOrigin(0.5, 1);
     sprite.setTint(getHeroTint(heroId));
@@ -107,17 +101,9 @@ export function createPlayerView(this: any,
       fontSize: '15px',
     });
 
-    const normalAttack = createHeroNormalAttack(heroId);
-    const progression = createHeroProgression(heroId);
-    const baseStats = getHeroBaseStats(heroId, progression.level);
-    const combat = createHeroCombat(slot);
-    combat.maxHp = baseStats.maxHp;
-    combat.hp = combat.maxHp;
-    combat.damageProtectionMs = Stage1CombatTuning.playerProtectionMs;
-    const skill = createHeroSkillModel(getTestHeroSkillLoadoutPreset(heroId, 0), baseStats.maxMp);
-    label.setText(formatHeroLabel(slot, normalAttack, combat));
-
-    return { slot, sprite, label, combat, normalAttack, skill, baseStats, progression };
+    sprite.setData('heroId', heroId);
+    label.setText(slot.toUpperCase());
+    return { slot, sprite, label };
   }
 
 export function createHeroDebugKeys(this: any): void {

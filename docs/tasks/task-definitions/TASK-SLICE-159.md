@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-PRE-STAGE-2-3-COMPLETION`（Planned）
+- `LINE-PRE-STAGE-2-3-COMPLETION`（Ready；当前由执行队列 `PG-013 V2G` 抢占）
 
 
 目标机制/切片：

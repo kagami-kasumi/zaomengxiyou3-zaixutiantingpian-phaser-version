@@ -128,6 +128,8 @@ projectileId + ":" + sourceAttackId + ":" + hitSerial + ":" + targetId
 | `Monster186Bullet` | `EnemyMoveBullet` 特化 | 后置 |
 | `ThroughWallBullet` | 继承 `ThroughWall`，不是 `BaseBullet`；可和 `SpecialEffectBullet.setFollowObj()` 组合 | 不进首个伤害切片 |
 
+`TASK-SLICE-164` 为共享 `ProjectileSystem` 补入可选加速度字段与逐帧子步，未新增第二运行owner。Role5龙魂剑 `hit18_1..20_1` 以 `swordhit1_1..3_1` 真资源消费速度±8、加速度±2.4和700距离；正式HeroPartyRuntime与TestScene共用生成、更新和逐目标去重合同，专项覆盖三段、双向、结束位置、近远反向、一次命中及P1/P2隔离。
+
 ## 首个技能候选：`Role2.sgq -> hit5`
 
 ### 技能入口

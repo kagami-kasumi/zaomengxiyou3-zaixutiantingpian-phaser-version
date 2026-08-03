@@ -8,6 +8,8 @@ import {
   resolveHeroPartyEnemyAttack,
   setHeroPartySkillLoadout,
   snapshotHeroParty,
+  updateHeroPartyCombatStates,
+  updateHeroPartyMovement,
   updateHeroPartyRuntime,
 } from '../src/systems/HeroPartyRuntimeSystem';
 import {
@@ -117,7 +119,31 @@ function testEnvironmentHitOwnsDamageKnockbackAndDeath(): void {
   assert.equal(dead.alive, false);
 }
 
+function testCompatibilityFramesKeepTheSharedOwner(): void {
+  const runtime = createRuntime();
+  const frame = {
+    inputs: [input('p1', { moveX: 1 }), input('p2')],
+    timeMs: 1_000,
+    deltaMs: 100,
+    environmentFor: () => ({
+      platforms: [{ id: 'ground', left: -500, right: 1_500, top: 500 }],
+      bounds: { left: -500, right: 1_500, bottom: 500 },
+    }),
+  };
+  updateHeroPartyMovement(runtime, frame);
+  assert.ok(runtime.members[0]!.movement.x > 100, 'compatibility movement advances the shared member');
+  runtime.members[0]!.combat.combat.state = 'hurt';
+  runtime.members[0]!.combat.combat.stateRemainingMs = 1;
+  updateHeroPartyCombatStates(runtime, {
+    timeMs: frame.timeMs,
+    deltaMs: frame.deltaMs,
+    environmentFor: frame.environmentFor,
+  });
+  assert.equal(runtime.members[0]!.combat.combat.state, 'ready');
+}
+
 testPartyOwnsMovementCombatAndSkills();
 testEnemyDamageAndIdempotentDestroy();
 testEnvironmentHitOwnsDamageKnockbackAndDeath();
+testCompatibilityFramesKeepTheSharedOwner();
 console.log('Hero party runtime movement, combat, skills, snapshots, and destroy tests passed.');

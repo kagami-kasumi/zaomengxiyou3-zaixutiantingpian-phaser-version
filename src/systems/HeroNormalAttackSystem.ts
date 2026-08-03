@@ -1,6 +1,10 @@
 import { HeroNormalAttackEffectKeys } from '../assets/AssetManifest';
 import type { AttackKind } from './CombatSystem';
 import type { PlayerInputState } from './InputSystem';
+import {
+  assertDetachedNormalAttackGeometry,
+  projectWorldNormalAttackHitbox,
+} from './HeroNormalAttackGeometry';
 import type { HeroMovementModel } from './HeroMovementSystem';
 import {
   updateRole2ChargedAttack,
@@ -48,6 +52,8 @@ export type ActiveHeroNormalAttack = {
   hitboxActiveUntilMs: number;
   endsAtMs: number;
   facingX: -1 | 1;
+  spawnX: number;
+  spawnY: number;
   hitboxOffsetX: number;
   hitboxOffsetY: number;
   hitboxWidth: number;
@@ -247,10 +253,13 @@ export function updateHeroNormalAttack(
       ...role2Options,
     });
     if (chargeResult) {
-      model.activeAttack = chargeResult.attack;
+      model.activeAttack = chargeResult.state === 'charging'
+        ? chargeResult.attack
+        : { ...chargeResult.attack, spawnX: movement.x, spawnY: movement.y };
     }
     if (chargeResult?.state === 'converted-hit2') {
-      return { attack: chargeResult.attack, hitbox: createHitboxFromAttack(chargeResult.attack, movement) };
+      const convertedAttack = model.activeAttack ?? chargeResult.attack;
+      return { attack: convertedAttack, hitbox: createHitboxFromAttack(convertedAttack, movement) };
     }
   }
   expireActiveAttack(model, timeMs);
@@ -273,6 +282,8 @@ export function updateHeroNormalAttack(
     hitboxActiveUntilMs: timeMs + step.hitboxEndMs,
     endsAtMs: timeMs + step.durationMs,
     facingX: movement.facingX,
+    spawnX: movement.x,
+    spawnY: movement.y,
     hitboxOffsetX: step.hitboxOffsetX,
     hitboxOffsetY: step.hitboxOffsetY,
     hitboxWidth: step.hitboxWidth,
@@ -488,6 +499,7 @@ function createStep(
   damage: number,
   attackKind: AttackKind = 'physics',
 ): AttackStep {
+  if (!followsHero) assertDetachedNormalAttackGeometry(effectKey);
   return {
     actionName,
     effectKey,
@@ -510,6 +522,9 @@ function createHitboxFromAttack(
   attack: ActiveHeroNormalAttack,
   movement: HeroMovementModel,
 ): Hitbox {
+  const worldEffectHitbox = projectWorldNormalAttackHitbox(attack);
+  if (worldEffectHitbox) return worldEffectHitbox;
+
   const centerX = movement.x + attack.facingX * attack.hitboxOffsetX + attack.facingX * attack.hitboxWidth / 2;
   const centerY = movement.y + attack.hitboxOffsetY;
 

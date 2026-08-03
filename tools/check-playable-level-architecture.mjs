@@ -43,7 +43,7 @@ const legacyEntityOwnerBudgets = new Map([
     ['updateLevelHeroMovementRuntime', 0],
   ])],
   ['src/scenes/TestScene.ts', new Map([
-    ['private playerViews:', 1], ['private monster30s:', 1],
+    ['private playerViews:', 0], ['private monster30s:', 1],
   ])],
 ]);
 
@@ -158,6 +158,28 @@ function assertStage11Migration() {
   const sceneSource = readFileSync(path.join(root, scenePath), 'utf8');
   if (!sceneSource.includes('createTestSceneStage11Runtime')) {
     errors.push(`${scenePath} must delegate formal Stage 1-1 lifecycle to PlayableLevelRuntime`);
+  }
+  for (const required of [
+    'heroPartyRuntime?.updateMovement',
+    'heroPartyRuntime?.updateCombatStates',
+    'heroPartyRuntime?.updateNormalAttacks',
+  ]) {
+    if (!sceneSource.includes(required)) errors.push(`${scenePath} must delegate hero frames through ${required}`);
+  }
+  const adapterPath = 'src/scenes/test-scene/TestSceneStage11RuntimeAdapter.ts';
+  const adapterSource = readFileSync(path.join(root, adapterPath), 'utf8');
+  if (!adapterSource.includes('createTestSceneHeroPartyRuntime')) {
+    errors.push(`${adapterPath} must create the Stage 1-1 HeroPartyRuntime compatibility bridge`);
+  }
+  const setupPath = 'src/scenes/test-scene/TestSceneSetup.ts';
+  const setupSource = readFileSync(path.join(root, setupPath), 'utf8');
+  for (const forbidden of [
+    'createHeroMovement(',
+    'createHeroCombat(',
+    'createHeroNormalAttack(',
+    'createHeroSkillModel(',
+  ]) {
+    if (setupSource.includes(forbidden)) errors.push(`${setupPath} recreates migrated hero state: ${forbidden}`);
   }
   for (const forbidden of ['showLevelResult(', 'installFormalFeatureUiEntries(', 'Stage13AssetKeys.transferDoor']) {
     if (sceneSource.includes(forbidden)) errors.push(`${scenePath} retains private/common Stage 1-1 owner: ${forbidden}`);

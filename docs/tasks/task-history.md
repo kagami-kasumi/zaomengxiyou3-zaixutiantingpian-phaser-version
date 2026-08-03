@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-164 | 移动型远程普攻修复 | 复现Role5龙魂剑J前三段EnemyMoveBullet的速度、加速度、700距离与实际轨迹命中 | M-022、M-023、M-034、M-047、VS-004、VS-062 | `Role5NormalAttackProjectileSystem`、共享Projectile/HeroPartyRuntime、正式/TestScene真视觉、三段/方向/逐帧/距离/命中/P1-P2专项与940×590零console |
+| TASK-SLICE-163 | 固定世界型远程普攻修复 | 纠正Role2与Role4弓形J只有远程视觉、实际仍按角色近战范围结算的问题 | M-019、M-021、M-023、M-034、M-047、VS-004、VS-062 | 六段远程J矩阵、`HeroNormalAttackGeometry`、释放点冻结、正式Runtime/TestScene统一命中、未来detached门禁、专项/全系统/build与940×590零console |
 | TASK-SLICE-158C | Role3 真动画 | 接入八戒本体、战斗 UI、普攻、全部已实现技能与附属对象真动画 | M-020、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 2 atlas、三普攻29帧、12技能对象349帧、19帧盾、HUD frame3、统一角色视觉桥、专项/全门禁与940×590单/双人证据 |
 | TASK-SLICE-162 | Role2 真动画验收收束 | 验收并归档已接入的唐僧本体、HUD、普攻、技能、Shadow 与附属对象 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 940×590 单/双人/P2 方向、零 console、PNG loader、待机/蓄力普攻/Shadow 五行动作修复、全门禁与 PG 收尾 |
 | TASK-SLICE-158B | Role2 真动画父任务收束 | 接入唐僧本体、战斗 UI、普攻、全部已实现技能、Shadow 与附属对象真动画 | M-019、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 3 atlas、两普攻/48 帧、九技能/464 帧、HUD 肖像、Role2 视觉桥与 162 验收收束 |
@@ -344,6 +346,24 @@ UI 原生化合同：
 推荐后续任务：
 
 - `TASK-SETTINGS-069C`。
+
+### TASK-SLICE-164
+
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 Active；游戏下一task为159 Planned，当前由PG-013 V2G抢占）。
+- 目标：把龙魂剑状态下 `hit18..20 -> doLoongHit123()` 恢复为三个 `swordhit1_1..3_1` 移动剑气，不再沿用角色近战矩形；普通剑态、第四段、空中与跑攻保持原合同。
+- 证据：`Role5.as` 给出三段创建点前方54.8/50.2/43.5、`y+51.6/37.35/52.7`、速度±8、加速度±2.4、距离700；`EnemyMoveBullet.step` 交叉确认每帧先移动、后加速、再按更新后速度扣距离，三段动作分别为 `hit18_1..20_1`。
+- 实现：新增纯系统 `Role5NormalAttackProjectileSystem`，复用唯一 `ProjectileSystem` owner；通用 projectile 支持逐帧加速度。共享 `HeroPartyRuntime` 与 TestScene 都调用同一生成函数，增强前三段禁用近战命中并按实际轨迹逐目标去重结算；正式视觉桥与 TestScene 复用既有真资源序列。
+- 验证：专项覆盖三段、左右、首帧8→10.4、700距离/21帧结束、近/远/反向/范围外、重复重叠只命中一次、状态结束、普通/第四段负向和P1/P2隔离；`npm run test:remote-normal-attacks`、`npm run test:hero-party-runtime`、`npm run test:systems`、`npm run build`通过。940×590单/双人Role5入口可见龙魂剑与增强普攻对象，console warning/error为0。
+- 调度：恢复 `PG-013 V2G` 为执行队列唯一 Ready；治理项移除后再激活 `TASK-SLICE-159`。
+
+### TASK-SLICE-163
+
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 Active；下一task为164）
+- 目标：依据用户运行反证重新审计五角色J，把Role2 `Role2Bullet1/2` 与Role4弓形 `Role4BulletArrow1/2` 从角色近战矩形恢复为固定世界对象命中。
+- 实现：新增纯逻辑 `HeroNormalAttackGeometry`，以恢复Symbol bounds、创建点和朝向投影命中区；攻击创建时冻结释放点，视觉和伤害共用；正式Stage1消费者对world effect按命中区结算，Follow近战继续保留旧范围。
+- 防线：所有新 `followsHero=false` 普攻必须登记world geometry或显式corpus-negative，否则创建step立即失败；专项覆盖左右、远端、范围外、释放后移动、Role4弓/铲差异和命中一次。
+- 拆分：复核发现Role5龙魂剑hit18..20使用速度8、加速度2.4、距离700的`EnemyMoveBullet`，与固定world effect不是同一owner，按拆分触发生成`TASK-SLICE-164`并置于PG-013 V2G之前。
+- 验证：`npm run test:remote-normal-attacks`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`git diff --check`通过；940×590 Role2正式入口可见固定远程命中框与真Bullet，console warning/error为0。LSP服务在诊断阶段连接关闭，TypeScript错误门禁由`tsc --noEmit`构建补证。
 
 ### TASK-SLICE-158C
 

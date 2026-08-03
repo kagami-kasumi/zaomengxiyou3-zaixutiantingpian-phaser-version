@@ -10,6 +10,7 @@ import {
   role3SkillVisualAssets,
   role4SkillVisualAssets,
   getRole5SkillVisualAsset,
+  role5NormalAttackAssets,
   SkillProjectileEffectKeys,
 } from '../../assets/AssetManifest';
 import type { WorldDrop } from '../../systems/DropSystem';
@@ -222,13 +223,19 @@ export function createProjectileEffectView(
     projectile.assetKey as keyof typeof role4SkillVisualAssets
   ];
   const role5Asset = getRole5SkillVisualAsset(projectile.assetKey, projectile.sourceSymbol);
-  const frameAsset = role1Asset ?? role2Asset ?? role3Asset ?? role4Asset ?? role5Asset;
+  const role5NormalAttackAsset = role5NormalAttackAssets[
+    projectile.assetKey as keyof typeof role5NormalAttackAssets
+  ];
+  const frameAsset = role1Asset ?? role2Asset ?? role3Asset ?? role4Asset
+    ?? role5Asset ?? role5NormalAttackAsset;
   if (frameAsset) {
     const shape = scene.add.image(projectile.x, projectile.y, frameAsset.frameKeys[0]!)
       .setFlipX(projectile.facingX > 0)
       .setOrigin(
-        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x ?? role5Asset?.registrationOrigin.x ?? 0.5,
-        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y ?? role5Asset?.registrationOrigin.y ?? 0.5,
+        role3Asset?.registrationOrigin.x ?? role4Asset?.registrationOrigin.x
+          ?? role5Asset?.registrationOrigin.x ?? role5NormalAttackAsset?.registrationOrigin.x ?? 0.5,
+        role3Asset?.registrationOrigin.y ?? role4Asset?.registrationOrigin.y
+          ?? role5Asset?.registrationOrigin.y ?? role5NormalAttackAsset?.registrationOrigin.y ?? 0.5,
       )
       .setRotation(projectile.rotation ?? 0)
       .setDepth(48);

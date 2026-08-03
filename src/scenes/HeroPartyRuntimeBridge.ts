@@ -1,6 +1,8 @@
 // boundary: this bridge owns active hero movement/combat and hero visual updates;
 // levels provide only input, environment snapshots, and monster target models.
 import Phaser from 'phaser';
+import type { HeroSkillLoadout } from '../systems/HeroSkillSystem';
+import { createRole5NormalAttackProjectileVisualBridge } from './Role5NormalAttackProjectileVisualBridge';
 import { hasHeroCombatVisual, syncHeroCombatVisual } from './HeroCombatVisualBridge';
 import {
   createHeroNormalAttackVisualBridge,
@@ -14,6 +16,8 @@ import {
   resolveHeroPartyEnemyAttack,
   setHeroPartySkillLoadout,
   snapshotHeroParty,
+  updateHeroPartyCombatStates,
+  updateHeroPartyMovement,
   updateHeroPartyRuntime,
   type HeroPartyFrame,
   type HeroPartyEnvironmentHit,
@@ -33,6 +37,9 @@ export type HeroPartyViewSnapshot = HeroRuntimeSnapshot & Readonly<{
 
 export type HeroPartyRuntime = Readonly<{
   update: (frame: HeroPartyFrame) => void;
+  updateMovement: (frame: HeroPartyFrame) => void;
+  updateCombatStates: (frame: Omit<HeroPartyFrame, 'inputs'>) => void;
+  syncVisuals: (timeMs: number) => void;
   applyEnvironmentHits: (hits: readonly HeroPartyEnvironmentHit[]) => void;
   resolveAttacks: (monsterTargets: readonly Stage1CombatEnemy[], timeMs: number) => void;
   resolveEnemyAttack: (enemy: Stage1CombatEnemy, timeMs: number) => void;
@@ -42,6 +49,7 @@ export type HeroPartyRuntime = Readonly<{
     view: Phaser.GameObjects.Image;
     combat: ReturnType<typeof createHeroPartyRuntimeModel>['members'][number]['combat'];
   }>[];
+  compatibilityMembers: () => ReturnType<typeof createHeroPartyRuntimeModel>['members'];
   destroy: () => void;
 }>;
 
@@ -51,6 +59,11 @@ export function createHeroPartyRuntime(
   options: Readonly<{
     groundY: number;
     groundPlatformId?: string;
+    memberWidth?: number;
+    skillLoadoutFor?: (
+      heroId: number,
+      index: number,
+    ) => HeroSkillLoadout | undefined;
   }>,
 ): HeroPartyRuntime {
   const restoredSkills = readFormalSkillRuntime(getBrowserStorage());
@@ -59,11 +72,13 @@ export function createHeroPartyRuntime(
     heroId: view.getData('heroId'),
     x: view.x,
     y: options.groundY,
-    width: view.displayWidth,
+    width: options.memberWidth ?? view.displayWidth,
     currentPlatformId: options.groundPlatformId,
-    skillLoadout: index === 0 ? restoredSkills?.player1.skillLoadout : restoredSkills?.player2?.skillLoadout,
+    skillLoadout: options.skillLoadoutFor?.(view.getData('heroId'), index)
+      ?? (index === 0 ? restoredSkills?.player1.skillLoadout : restoredSkills?.player2?.skillLoadout),
   })));
   const attackVisuals = createHeroNormalAttackVisualBridge(scene);
+  const normalAttackProjectileVisuals = createRole5NormalAttackProjectileVisualBridge(scene);
   let destroyed = false;
 
   const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
@@ -76,25 +91,33 @@ export function createHeroPartyRuntime(
     view: views[index]!,
   }));
 
+  const syncVisuals = (timeMs: number): void => {
+    model.members.forEach((member, index) => {
+      const view = views[index];
+      if (!view) return;
+      view.setPosition(member.movement.x, member.movement.y);
+      syncHeroCombatVisual(view, {
+        movement: member.movement,
+        combat: member.combat.combat,
+        normalAttack: member.combat.normalAttack,
+        skill: member.combat.skill,
+      }, timeMs);
+      syncFallbackFeedback(view, member.combat);
+    });
+    attackVisuals.update(model.members.map((member, index) =>
+      projectHeroNormalAttackVisualPlayer(views[index]!, member.combat)), timeMs);
+    normalAttackProjectileVisuals.update(model.projectiles.projectiles);
+  };
+
   return {
     update: (frame) => {
       if (destroyed) return;
       updateHeroPartyRuntime(model, frame);
-      model.members.forEach((member, index) => {
-        const view = views[index];
-        if (!view) return;
-        view.setPosition(member.movement.x, member.movement.y);
-        syncHeroCombatVisual(view, {
-          movement: member.movement,
-          combat: member.combat.combat,
-          normalAttack: member.combat.normalAttack,
-          skill: member.combat.skill,
-        }, frame.timeMs);
-        syncFallbackFeedback(view, member.combat);
-      });
-      attackVisuals.update(model.members.map((member, index) =>
-        projectHeroNormalAttackVisualPlayer(views[index]!, member.combat)), frame.timeMs);
+      syncVisuals(frame.timeMs);
     },
+    updateMovement: (frame) => updateHeroPartyMovement(model, frame),
+    updateCombatStates: (frame) => updateHeroPartyCombatStates(model, frame),
+    syncVisuals,
     applyEnvironmentHits: (hits) => {
       applyHeroPartyEnvironmentHits(model, hits);
       model.members.forEach((member, index) => {
@@ -119,11 +142,13 @@ export function createHeroPartyRuntime(
       view: views[index]!,
       combat: member.combat,
     })),
+    compatibilityMembers: () => model.members,
     destroy: () => {
       if (destroyed) return;
       destroyed = true;
       scene.events.off(FormalSkillsUpdatedEvent, syncSkills);
       attackVisuals.destroy();
+      normalAttackProjectileVisuals.destroy();
       destroyHeroPartyRuntime(model);
     },
   };

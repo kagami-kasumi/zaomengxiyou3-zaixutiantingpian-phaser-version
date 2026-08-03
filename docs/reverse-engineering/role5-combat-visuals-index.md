@@ -128,3 +128,5 @@
 - 首次冷加载资源族为860文件、约58.5 MiB；专项证明stable key、帧序列与bundle归属，浏览器验收记录该冷加载成本供PG-009继续观察，不把它改写成资源缺失或隐藏占位。
 
 现代可见例外仍为0；158E完成后，Role5与VS-062不再存在未解释视觉缺口。
+
+`TASK-SLICE-164` 已把 `swordhit1_1..3_1` 从角色Follow显示改为共享projectile轨迹显示：正式关卡由 `Role5NormalAttackProjectileVisualBridge` 消费同一模型，TestScene通用projectile view复用相同真帧序列与注册点。940×590单/双人Role5入口可见龙魂剑状态与增强普攻对象，console warning/error为0；没有新增现代可见例外。

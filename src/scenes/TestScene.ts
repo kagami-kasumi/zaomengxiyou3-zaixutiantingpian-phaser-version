@@ -21,8 +21,6 @@ import {
 import {
   isHeroCombatDead,
   resetHeroCombat,
-  updateHeroCombat,
-  type HeroCombatModel,
 } from './test-scene/TestSceneSystems';
 import {
   type InputState,
@@ -30,9 +28,7 @@ import {
   type PlayerSlot,
 } from './test-scene/TestSceneSystems';
 import {
-  updateHeroMovement,
   type HeroMovementBounds,
-  type HeroMovementModel,
   type MovementPlatform,
 } from './test-scene/TestSceneSystems';
 import {
@@ -40,10 +36,7 @@ import {
 } from './test-scene/TestSceneSystems';
 import {
   setHeroId,
-  updateHeroNormalAttack,
-  updateRole5NormalAttackState,
   type HeroId,
-  type HeroNormalAttackModel,
 } from './test-scene/TestSceneSystems';
 import {
   createProjectileSystem,
@@ -56,9 +49,7 @@ import {
   resetHeroSkill,
   getTestHeroSkillLoadoutPreset,
   getTestHeroSkillLoadoutPresetCount,
-  takeRole2NormalAttackExtraMultiplier,
   type HeroSkillCastEvent,
-  type HeroSkillModel,
 } from './test-scene/TestSceneSystems';
 import {
   createSkillLearningState,
@@ -74,10 +65,6 @@ import {
   type BossArenaModel,
   type VerticalClimbState,
 } from './test-scene/TestSceneSystems';
-import { consumeRole3NextDamageMultiplier } from '../systems/Role3ControlSkillSystem';
-import { isRole3SspComboRequested } from '../systems/Role3ImpactSkillSystem';
-import { isRole1HytjRunAttackRequested, isRole1SlzComboRequested } from '../systems/Role1BasicSkillSystem';
-import { isRole5YybComboRequested, triggerRole5JrjlArrow } from '../systems/Role5SkillSystem';
 import { updateHeroSkillProjectiles as updateHeroSkillProjectilesImpl } from './test-scene/TestSceneHeroSkillPipeline';
 import { toggleTestHeroWeaponMode } from './test-scene/TestSceneHeroWeaponBridge';
 import { updateRole4DollCombat as updateRole4DollCombatImpl } from './test-scene/TestSceneRole4DollCombatBridge';
@@ -87,7 +74,6 @@ import {
   HeroNamesById,
   type EquipmentDefinition,
   type EquipmentLoadout,
-  type HeroBaseStats,
 } from './test-scene/TestSceneSystems';
 import { type InventoryStore } from './test-scene/TestSceneSystems';
 import { type InventoryUIState } from './test-scene/TestSceneSystems';
@@ -119,13 +105,11 @@ import {
   addHeroExperience,
   getHeroBaseStats,
   setHeroProgressionHero,
-  type HeroProgressionModel,
 } from './test-scene/TestSceneSystems';
 import {
   type TestSceneDebugKeys,
 } from './test-scene/TestSceneDebugKeys';
 import {
-  createAttackFlash,
   type AttackFlash,
   type BossView,
   type DropView,
@@ -133,10 +117,7 @@ import {
   type PetView,
   type ProjectileEffectView,
 } from './test-scene/TestSceneViews';
-import {
-  createAttackEffectView,
-  type AttackEffectView,
-} from './HeroNormalAttackVisualBridge';
+import { type AttackEffectView } from './HeroNormalAttackVisualBridge';
 import type { TransferDoorView } from './TransferDoorView';
 import {
   createTestSceneUpdatePipeline,
@@ -220,8 +201,6 @@ import {
   createDebugKeys as createDebugKeysImpl,
   createHeroDebugKeys as createHeroDebugKeysImpl,
   createInventoryUIKeys as createInventoryUIKeysImpl,
-  createPlayerMarkers as createPlayerMarkersImpl,
-  createPlayerView as createPlayerViewImpl,
   createSkillBar as createSkillBarImpl,
   createSkillPanel as createSkillPanelImpl,
   createSkillUIKeys as createSkillUIKeysImpl,
@@ -231,6 +210,12 @@ import {
   updateSkillPanels as updateSkillPanelsImpl,
 } from './test-scene/TestSceneSetup';
 import { createTestSceneStage11Runtime } from './test-scene/TestSceneStage11RuntimeAdapter';
+import {
+  type TestSceneHeroPartyRuntime,
+  type TestScenePlayerView,
+} from './test-scene/TestSceneHeroPartyRuntimeBridge';
+
+type PlayerView = TestScenePlayerView;
 import {
   createCraftingPanel as createInventoryPanelImpl,
   type CraftingPanelView as InventoryPanelView,
@@ -304,18 +289,6 @@ import {
   type Stage11AttackGeometryRegistry,
 } from './stage11/Stage11MonsterVisualBridge';
 
-type PlayerView = {
-  slot: PlayerSlot;
-  sprite: Phaser.GameObjects.Image;
-  label: Phaser.GameObjects.Text;
-  movement?: HeroMovementModel;
-  combat: HeroCombatModel;
-  normalAttack: HeroNormalAttackModel;
-  skill: HeroSkillModel;
-  baseStats: HeroBaseStats;
-  progression: HeroProgressionModel;
-};
-
 type HeroSelectionKeys = Record<HeroId, Phaser.Input.Keyboard.Key>;
 
 type SkillBarView = {
@@ -357,7 +330,10 @@ export class TestScene extends Phaser.Scene {
   public inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
   public stage1CombatHud?: Stage1CombatHudBridge;
-  private playerViews: PlayerView[] = [];
+  private heroPartyRuntime?: TestSceneHeroPartyRuntime;
+  public get playerViews(): TestScenePlayerView[] {
+    return this.heroPartyRuntime?.players() ?? [];
+  }
   private monster30s: Monster30Model[] = [];
   public monsterViews = new Map<Monster30Model, MonsterView>();
   public stage11AttackGeometry?: Stage11AttackGeometryRegistry;
@@ -564,8 +540,6 @@ export class TestScene extends Phaser.Scene {
   public initializeSceneSave = initializeSceneSaveImpl;
   public saveSceneNow = saveSceneNowImpl;
   private updateSceneSave = updateSceneSaveImpl;
-  public createPlayerMarkers = createPlayerMarkersImpl;
-  public createPlayerView = createPlayerViewImpl;
   public createHeroDebugKeys = createHeroDebugKeysImpl;
   public createSkillUIKeys = createSkillUIKeysImpl;
   public createInventoryUIKeys = createInventoryUIKeysImpl;
@@ -660,41 +634,21 @@ export class TestScene extends Phaser.Scene {
 
   private updateHeroMovement(input: InputState, time: number, delta: number): void {
     const platforms = this.getActiveMovementPlatforms();
+    this.heroPartyRuntime?.updateMovement(input, time, delta, platforms, this.movementBounds);
     for (const player of this.playerViews) {
-      if (!player.movement) {
-        continue;
-      }
-
-      if (isHeroCombatDead(player.combat)) {
-        player.sprite.setPosition(player.movement.x, player.movement.y);
-        player.label.setPosition(player.sprite.x - 58, player.sprite.y + 14);
-        continue;
-      }
-
-      updateHeroMovement(
-        player.movement,
-        input[player.slot],
-        this.lastInput?.[player.slot],
-        platforms,
-        this.movementBounds,
-        time,
-        delta,
-      );
-
-      player.sprite.setPosition(player.movement.x, player.movement.y);
-      player.sprite.setFlipX(player.movement.facingX < 0);
       player.label.setPosition(player.sprite.x - 58, player.sprite.y + 14);
     }
   }
 
   private updateHeroCombatStates(time: number, delta: number): void {
+    this.heroPartyRuntime?.updateCombatStates(
+      time,
+      delta,
+      this.getActiveMovementPlatforms(),
+      this.movementBounds,
+    );
+    this.heroPartyRuntime?.syncVisuals(time);
     for (const player of this.playerViews) {
-      if (!player.movement) {
-        continue;
-      }
-
-      updateHeroCombat(player.combat, player.movement, this.movementBounds, time, delta);
-      player.sprite.setPosition(player.movement.x, player.movement.y);
       player.label.setPosition(player.sprite.x - 58, player.sprite.y + 14);
       player.label.setText(formatHeroLabel(player.slot, player.normalAttack, player.combat));
       player.label.setVisible(player.normalAttack.heroId !== 2 && player.normalAttack.heroId !== 3);
@@ -714,89 +668,12 @@ export class TestScene extends Phaser.Scene {
   public syncPetView = syncPetViewImpl;
   public destroyPetView = destroyPetViewImpl;
   private updateHeroNormalAttacks(input: InputState, time: number): void {
-    for (const player of this.playerViews) {
-      if (!player.movement || isHeroCombatDead(player.combat)) {
-        continue;
-      }
-
-      if (isRole3SspComboRequested({
-        heroId: player.normalAttack.heroId,
-        skill: player.skill,
-        input: input[player.slot],
-        previousInput: this.lastInput?.[player.slot],
-      })) {
-        continue;
-      }
-      if (isRole1SlzComboRequested({
-        heroId: player.normalAttack.heroId,
-        skill: player.skill,
-        input: input[player.slot],
-        previousInput: this.lastInput?.[player.slot],
-      })) {
-        continue;
-      }
-      if (isRole1HytjRunAttackRequested({
-        heroId: player.normalAttack.heroId,
-        skill: player.skill,
-        input: input[player.slot],
-        previousInput: this.lastInput?.[player.slot],
-        movement: player.movement,
-      })) {
-        continue;
-      }
-      if (isRole5YybComboRequested({
-        heroId: player.normalAttack.heroId,
-        skill: player.skill,
-        input: input[player.slot],
-        previousInput: this.lastInput?.[player.slot],
-      })) {
-        continue;
-      }
-
-      const attackEvent = updateHeroNormalAttack(
-        player.normalAttack,
-        input[player.slot],
-        this.lastInput?.[player.slot],
-        player.movement,
-        time,
-        player.normalAttack.heroId === 2 ? {
-          ...player.skill.learnedRole2Skills,
-          sourcePower: player.baseStats.power,
-          resource: player.skill,
-          extraDamageMultiplier: () => takeRole2NormalAttackExtraMultiplier(player.skill),
-        } : undefined,
-        player.normalAttack.heroId === 3
-          ? () => consumeRole3NextDamageMultiplier(player.skill.role3Runtime)
-          : undefined,
-      );
-
-      if (attackEvent) {
-        this.attackEffectViews.push(createAttackEffectView(
-          this,
-          { slot: player.slot, x: player.sprite.x, y: player.sprite.y },
-          attackEvent.attack,
-          getHeroTint(attackEvent.attack.heroId),
-          player.normalAttack.heroId === 5 && player.skill.role5Runtime.loongSwordRemainingMs > 0,
-        ));
-        this.attackFlashes.push(createAttackFlash(this, toPhaserRect(attackEvent.hitbox), time));
-        if (player.normalAttack.heroId === 5) {
-          triggerRole5JrjlArrow({
-            runtime: player.skill.role5Runtime,
-            projectiles: this.projectileSystem,
-            point: {
-              sourceId: player.combat.id,
-              x: player.movement.x,
-              y: player.movement.y,
-              facingX: player.movement.facingX,
-            },
-            sourcePower: player.baseStats.power,
-          });
-        }
-      }
-
-      updateRole5NormalAttackState(player.normalAttack, this.game.loop.delta);
-      this.applyHeroAttackHit(player, time);
-    }
+    this.heroPartyRuntime?.updateNormalAttacks(input, this.lastInput, time, {
+      attackEffectViews: this.attackEffectViews,
+      attackFlashes: this.attackFlashes,
+      projectileSystem: this.projectileSystem,
+      applyHeroAttackHit: (player, attackTime) => this.applyHeroAttackHit(player, attackTime),
+    });
   }
 
   private updateHeroSkillProjectiles = updateHeroSkillProjectilesImpl;
@@ -1095,28 +972,3 @@ function getHeroTint(heroId: HeroId): number {
       return 0x91f5d6;
   }
 }
-
-function toPhaserRect(hitbox: {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}): Phaser.Geom.Rectangle {
-  return new Phaser.Geom.Rectangle(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -68,6 +68,14 @@ Role5 没有 Role2/3/4 的角色总系数，直接乘技能自身系数。除 `l
 
 当前 `dolxjfeijian()` 是空函数。虽然 `lxj` 状态下许多动作有 25% 调用它，但没有可观察 projectile 证据，现代实现不应猜造“飞剑追加弹体”；只能在 UI/反馈层记录触发机会或暂留缺口。
 
+### TASK-SLICE-164 移动普攻实现矩阵
+
+| 行为合同项 | 局部证据 | 共享调用链 | 几何/坐标证据 | 证据等级 | 未知与反证条件 | 验证方式 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 龙魂剑前三段生成 | `Role5.as hit18..20 -> doLoongHit123` | `HeroNormalAttackSystem -> Role5NormalAttackProjectileSystem -> ProjectileSystem`；正式关卡由HeroPartyRuntime消费，TestScene调用同一生成函数 | 现代foot/root映射后创建点为前方54.8/50.2/43.5，foot y偏移1.6/-12.65/2.7；真资源注册点沿用Role5视觉索引 | 交叉确认 | 普通剑态与hit21继续Follow；若未来证据改变hero root映射需重跑坐标专项 | 三段身份、普通/第四段负向、正式Runtime调度、940×590观察 |
+| EnemyMove逐帧轨迹 | `setSpeed(±8,0)`、`setAddSpeed(±2.4,0)`、`setDistance(700)`；`EnemyMoveBullet.step`先移动再加速并扣距离 | `ProjectileSystem.updateProjectiles`按60fps子步执行相同顺序 | 首帧位移8、速度变10.4、剩余689.6；第21帧销毁，显示原点累计移动672 | 交叉确认 | 大delta拆成不超过1帧子步；不引入第二projectile owner | 左右、逐帧速度/加速度、700距离与结束位置 |
+| 轨迹命中与owner | `BaseBullet.setAction(hit18_1..20_1)`，三段attackInterval=999/hitMaxCount=999 | 共享HitRegistry按projectile attack id逐目标去重，正式/TestScene沿实际projectile hitbox结算 | 反向与范围外不命中；近/远目标仅在剑气经过时命中 | 交叉确认 | 原版像素级复杂碰撞仍沿项目矩形等价边界；不影响移动轨迹与远端命中结论 | 近/远/反向/范围外、重复重叠一次、P1/P2隔离 |
+
 ## 5. 伤害和状态边界
 
 - `getRealPower()` 末尾统一乘 `1.21`。若处于 GXP，另乘 `1.3`。

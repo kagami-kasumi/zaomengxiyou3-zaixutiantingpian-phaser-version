@@ -7,6 +7,13 @@ import {
 } from './LevelHeroMovementSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
 import type { HeroId } from './HeroNormalAttackSystem';
+import { updateHeroCombat } from './HeroCombatSystem';
+import { createProjectileSystem, updateProjectiles } from './ProjectileSystem';
+import {
+  isRole5LoongSwordProjectileAttack,
+  resolveRole5LoongSwordProjectileHits,
+  spawnRole5LoongSwordProjectile,
+} from './Role5NormalAttackProjectileSystem';
 import {
   createStage1CombatPlayer,
   createStage1CombatRuntime,
@@ -70,6 +77,7 @@ export type HeroPartyRuntimeModel = {
   }>>;
   movement: LevelHeroMovementRuntime;
   combat: Stage1CombatRuntime;
+  projectiles: ReturnType<typeof createProjectileSystem>;
   destroyed: boolean;
 };
 
@@ -87,10 +95,61 @@ export function createHeroPartyRuntimeModel(
     if (definition.skillLoadout) combat.skill.loadout = definition.skillLoadout;
     return { combat, movement: movement.members[index]!.movement };
   });
-  return { members, movement, combat: createStage1CombatRuntime(), destroyed: false };
+  return {
+    members,
+    movement,
+    combat: createStage1CombatRuntime(),
+    projectiles: createProjectileSystem(),
+    destroyed: false,
+  };
 }
 
 export function updateHeroPartyRuntime(
+  runtime: HeroPartyRuntimeModel,
+  frame: HeroPartyFrame,
+): void {
+  if (runtime.destroyed) return;
+  updateHeroPartyMovement(runtime, frame);
+  const enabled = runtime.members.map((member) => member.combat.combat.state !== 'dead');
+  runtime.members.forEach((member, index) => {
+    const input = frame.inputs[index];
+    if (!input || !enabled[index]) return;
+    const environment = frame.environmentFor(index, member.movement);
+    const attackEvent = updateStage1CombatPlayer({
+      player: member.combat,
+      input,
+      movement: member.movement,
+      bounds: environment.bounds,
+      timeMs: frame.timeMs,
+      deltaMs: frame.deltaMs,
+    });
+    if (attackEvent) {
+      spawnRole5LoongSwordProjectile(
+        runtime.projectiles,
+        {
+          sourceId: member.combat.combat.id,
+          x: member.movement.x,
+          y: member.movement.y,
+          facingX: member.movement.facingX,
+        },
+        attackEvent.attack,
+        member.combat.skill.role5Runtime.loongSwordRemainingMs > 0,
+      );
+    }
+  });
+  updateProjectiles(
+    runtime.projectiles,
+    runtime.members.map((member) => ({
+      id: member.combat.combat.id,
+      state: member.combat.combat.state === 'dead'
+        ? 'dead'
+        : member.combat.combat.state === 'hurt' ? 'hurt' : 'ready',
+    })),
+    frame.deltaMs,
+  );
+}
+
+export function updateHeroPartyMovement(
   runtime: HeroPartyRuntimeModel,
   frame: HeroPartyFrame,
 ): void {
@@ -104,18 +163,23 @@ export function updateHeroPartyRuntime(
     frame.timeMs,
     frame.deltaMs,
   );
+}
+
+export function updateHeroPartyCombatStates(
+  runtime: HeroPartyRuntimeModel,
+  frame: Omit<HeroPartyFrame, 'inputs'>,
+): void {
+  if (runtime.destroyed) return;
   runtime.members.forEach((member, index) => {
-    const input = frame.inputs[index];
-    if (!input || !enabled[index]) return;
+    if (member.combat.combat.state === 'dead') return;
     const environment = frame.environmentFor(index, member.movement);
-    updateStage1CombatPlayer({
-      player: member.combat,
-      input,
-      movement: member.movement,
-      bounds: environment.bounds,
-      timeMs: frame.timeMs,
-      deltaMs: frame.deltaMs,
-    });
+    updateHeroCombat(
+      member.combat.combat,
+      member.movement,
+      environment.bounds,
+      frame.timeMs,
+      frame.deltaMs,
+    );
   });
 }
 
@@ -126,6 +190,9 @@ export function resolveHeroPartyAttacks(
 ): void {
   if (runtime.destroyed) return;
   runtime.members.forEach((member) => {
+    const attack = member.combat.normalAttack.activeAttack;
+    const enhanced = member.combat.skill.role5Runtime.loongSwordRemainingMs > 0;
+    if (attack && isRole5LoongSwordProjectileAttack(attack, enhanced)) return;
     resolveStage1HeroAttack({
       runtime: runtime.combat,
       player: member.combat,
@@ -133,6 +200,12 @@ export function resolveHeroPartyAttacks(
       enemies: monsterTargets,
       timeMs,
     });
+  });
+  resolveRole5LoongSwordProjectileHits({
+    projectiles: runtime.projectiles,
+    combat: runtime.combat,
+    enemies: monsterTargets,
+    timeMs,
   });
 }
 
@@ -205,4 +278,5 @@ export function destroyHeroPartyRuntime(runtime: HeroPartyRuntimeModel): void {
   runtime.destroyed = true;
   runtime.members.length = 0;
   runtime.movement.members.length = 0;
+  runtime.projectiles.projectiles.length = 0;
 }

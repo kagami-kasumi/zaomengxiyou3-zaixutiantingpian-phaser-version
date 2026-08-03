@@ -29,6 +29,8 @@ export type ProjectileModel = {
   facingX: -1 | 1;
   velocityX: number;
   velocityY: number;
+  accelerationX?: number;
+  accelerationY?: number;
   rotation?: number;
   remainingDistance: number | undefined;
   width: number;
@@ -189,6 +191,9 @@ export type ProjectileVariant =
   | 'role5-lysh-shot'
   | 'role5-jrjl-companion'
   | 'role5-jrjl-shot'
+  | 'role5-loong-sword-hit1'
+  | 'role5-loong-sword-hit2'
+  | 'role5-loong-sword-hit3'
   | 'magic-weapon-sword2'
   | 'magic-weapon-qpj-active'
   | 'magic-weapon-qpj-auto'

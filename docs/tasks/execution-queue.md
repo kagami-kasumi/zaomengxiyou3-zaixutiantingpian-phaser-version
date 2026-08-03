@@ -16,9 +16,9 @@
 
 | 优先级 | 执行项 | 状态 | 类型 | 目标 | 合同 | 完成后 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | PG-013 | Ready | 架构治理实现（V2F） | 复用已建立的 `HeroPartyRuntime`，迁移 Stage 1-1/TestScene 兼容面的英雄移动、战斗、普攻、技能与视觉生命周期；怪物、Boss、掉落、宠物、纵向平台、sandbox 与 QA 兼容保持不变 | [合同](../workflow/problems/PG-013-关卡运行框架按关卡复制.md) | 收缩 TestScene Hero owner 静态预算；结束本次治理，不继续 Monster 试点或游戏 task |
+| 1 | PG-013 | Ready | 架构治理实现（V2G） | 建立唯一 `MonsterRuntimeRegistry` 并只迁移 Stage 1-2 怪物 owner；遭遇只提交 spawn 命令并消费实体事件，HeroPartyRuntime、五停点、双 Boss、`fbEnter`、奖励数值和视觉保持不变 | [合同](../workflow/problems/PG-013-关卡运行框架按关卡复制.md) | V2G 完成后移除本项；下一次 `/goal` 不跨入游戏 task |
 
-PG-013 V2A/V2B/V2C/V2D/V2E 已完成。剩余 Hero 消费者仅 V2F Stage 1-1/TestScene 兼容面（当前 Ready）。V2F 完成后才生成并激活独立 Monster Stage 1-2 试点；同一次 `/goal` 不继续下一批，队列清空前不回退 `TASK-SLICE-159`。
+PG-013 V2A..V2F 已完成，五关 Hero 消费者已全部归入共享 Runtime。`TASK-SLICE-163/164` 已分别闭合固定 world effect 与 Role5 龙魂剑移动 projectile，故 V2G 恢复为唯一 `Ready`；本项完成前不进入 `TASK-SLICE-159`。
 
 ## 游戏回退
 

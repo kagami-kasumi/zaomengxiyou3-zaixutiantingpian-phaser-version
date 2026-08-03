@@ -1,6 +1,85 @@
 # 工作流治理日志
 
+## 2026-08-03
+
+### TASK-SLICE-164 完成并恢复 PG-013 V2G
+
+变更内容：
+
+- Role5 龙魂剑 `hit18..20` 已恢复为共享 `ProjectileSystem` 中的移动剑气：速度±8、加速度±2.4、距离700、三段真资源、实际轨迹命中与逐目标去重均闭合。
+- 正式关卡复用 `HeroPartyRuntime`，TestScene调用同一生成函数；未新增Stage Scene/Gameplay owner，PG-013触发扫描为“边界未复发”。
+- `TASK-SLICE-164` 归档，`PG-013 V2G` 恢复为执行队列唯一Ready；治理项完成前不激活 `TASK-SLICE-159`。
+
+验证：
+
+- `npm run test:remote-normal-attacks`
+- `npm run test:hero-party-runtime`
+- `npm run test:systems`
+- `npm run build`
+- 940×590 Role5单/双人入口、龙魂剑与增强普攻对象、零console观察
+
 ## 2026-08-02
+
+### 远程 J 修复抢占 PG-013 V2G
+
+变更内容：
+
+- 用户明确要求把远程 J 行为修复置于 `PG-013 V2G` 之前；V2G 从 `Ready` 暂退 `Planned`，既有 V2A..V2F 产物和未提交改动均保留。
+- 当前 Active 线新增并激活 `TASK-SLICE-163`，`TASK-SLICE-159` 暂回 `Planned`；复核发现 Role5 龙魂剑移动 projectile 命中163拆分触发，故新增同线164。163→164完成后先恢复V2G，治理队列清空后才回到本地存档旅程。
+- 用户运行反证使 Role2/远程 J 的行为关闭结论降级为待复核；真视觉闭合不能替代世界命中、方向、距离和命中生命周期验证。
+
+影响范围：
+
+- `docs/tasks/execution-queue.md`
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-definitions/TASK-SLICE-159.md`
+- `docs/tasks/task-definitions/TASK-SLICE-163.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/workflow/problems/PG-013-关卡运行框架按关卡复制.md`
+
+验证：
+
+- `TASK-SLICE-163` 已完成Role2/Role4弓形固定world effect命中修复；没有新增Stage Scene/Gameplay owner，PG-013方案未复发。
+- `npm run test:remote-normal-attacks`
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:structure`
+- `npm run check:workflow`
+- `git diff --check`
+- 940×590 Role2正式入口固定远程命中框/真Bullet与零console观察
+
+### PG-013 V2F HeroPartyRuntime Stage 1-1/TestScene 兼容面迁移
+
+变更内容：
+
+- 新增 `TestSceneHeroPartyRuntimeBridge`，复用共享 `HeroPartyRuntime` 作为 Stage 1-1 英雄移动、战斗、普攻、技能模型与共享视觉生命周期的唯一 owner；分阶段帧入口保持原 sandbox 调度顺序。
+- `TestScene` 删除私有 `playerViews` owner，改为兼容 getter 并只委托移动、战斗状态和普攻帧；`TestSceneSetup` 只创建 Phaser marker/label，不再创建英雄运行模型。
+- 怪物、Boss、掉落、宠物、纵向平台、技能扩展、sandbox 与 QA 兼容保持原边界；静态门禁把 TestScene Hero owner 预算归零，并激活 V2G 独立 Monster Stage 1-2 试点。
+
+影响范围：
+
+- `src/systems/HeroPartyRuntimeSystem.ts`
+- `src/scenes/HeroPartyRuntimeBridge.ts`
+- `src/scenes/TestScene.ts`
+- `src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts`
+- `src/scenes/test-scene/TestSceneSetup.ts`
+- `src/scenes/test-scene/TestSceneStage11RuntimeAdapter.ts`
+- `tools/hero-party-runtime-tests.ts`
+- `tools/check-playable-level-architecture.mjs`
+- `docs/architecture/playable-level-runtime.md`
+- `docs/tasks/execution-queue.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problems/PG-013-关卡运行框架按关卡复制.md`
+
+验证：
+
+- `npm run test:hero-party-runtime`
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:all`
+- 940×590 Stage 1-1 Role1 单人、Role1+Role2 双人运行验收，console 零 warning/error
+- `git diff --check`
 
 ### PG-013 V2E HeroPartyRuntime Stage 2-2 正式与 DEV 迁移
 

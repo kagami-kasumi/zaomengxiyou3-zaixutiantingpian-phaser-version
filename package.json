@@ -26,6 +26,7 @@
     "test:stage21": "node tools/run-system-tests.mjs stage21-tests",
     "test:stage22": "node tools/run-system-tests.mjs stage22-tests",
     "test:stage1-combat": "node tools/run-system-tests.mjs stage1-combat-tests",
+    "test:remote-normal-attacks": "node tools/run-system-tests.mjs remote-normal-attack-tests",
     "test:stage1-hud": "node tools/run-system-tests.mjs stage1-hud-tests",
     "test:role1-visuals": "node tools/run-system-tests.mjs role1-combat-visual-tests",
     "test:role2-visuals": "node tools/run-system-tests.mjs role2-combat-visual-tests",
