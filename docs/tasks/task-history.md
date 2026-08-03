@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-159 | 本地存档正式旅程 | 复用六槽 V6，闭合全部前置功能的跨页面、跨关卡、重启与损坏保护 | M-044、M-050、VS-052、VS-063 | 独立自动旅程、四地图服务/五战斗入口、P1/P2事务、1-2解锁、设置独立owner、临时状态排除、940×590唐僧/白龙重载及零console |
 | TASK-SLICE-164 | 移动型远程普攻修复 | 复现Role5龙魂剑J前三段EnemyMoveBullet的速度、加速度、700距离与实际轨迹命中 | M-022、M-023、M-034、M-047、VS-004、VS-062 | `Role5NormalAttackProjectileSystem`、共享Projectile/HeroPartyRuntime、正式/TestScene真视觉、三段/方向/逐帧/距离/命中/P1-P2专项与940×590零console |
 | TASK-SLICE-163 | 固定世界型远程普攻修复 | 纠正Role2与Role4弓形J只有远程视觉、实际仍按角色近战范围结算的问题 | M-019、M-021、M-023、M-034、M-047、VS-004、VS-062 | 六段远程J矩阵、`HeroNormalAttackGeometry`、释放点冻结、正式Runtime/TestScene统一命中、未来detached门禁、专项/全系统/build与940×590零console |
 | TASK-SLICE-158C | Role3 真动画 | 接入八戒本体、战斗 UI、普攻、全部已实现技能与附属对象真动画 | M-020、M-023..M-025、M-034、M-035、M-047、M-049、VS-062 | 2 atlas、三普攻29帧、12技能对象349帧、19帧盾、HUD frame3、统一角色视觉桥、专项/全门禁与940×590单/双人证据 |
@@ -7130,6 +7131,14 @@ Goal：
 - 组合式公共 Runtime、只读 Definition、窄 Encounter/World adapter、共享 TransferDoorView、五关迁移、静态防回填和未来关卡模板全部落地。
 - PG-013 转“方案落地，效果观察中”，首个后续新关卡直接消费 Runtime 后再关闭。
 
+### TASK-SLICE-159
+
+- 完成日期：2026-08-03
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（Done；恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`）
+- 输出：独立 V6 正式重启旅程、四地图服务/五战斗入口、P1/P2 事务、Stage 1-1→1-2 解锁、设置独立 owner、临时状态排除、损坏槽保护，以及 940×590 唐僧/白龙零 console 证据。
+- 验收：专项/全系统、structure、build、annotations、workflow、diff check 与浏览器临时槽清理通过。
+- 推荐后续：`TASK-SETTINGS-064`。
+
 ## 执行记录
 
 
@@ -9579,3 +9588,24 @@ Goal：
 
 推荐任务：
 - `TASK-SLICE-159`：复用既有六槽V6 localStorage，完成跨页面、跨关卡、重启读取与P1/P2本地存档正式旅程。
+### TASK-SLICE-159
+
+- 完成日期：2026-08-03
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（关闭；恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`）
+- 新增独立 `pre-stage23-save-journey-tests.ts`，串联六槽 V6、新 storage 实例重启、丹药 P1 服用/P2 炼制、商城 P1/P2 购买、双方技能、共享任务、关卡五入口、Stage 1-1→1-2 解锁和损坏槽保护。
+- 明确设置继续由独立全局 localStorage owner 持久化；V6 不包含动画、普攻阶段或冷却等单局临时字段，没有新增 V7 或重复存档 owner。
+- 940×590 从隔离 localhost origin 新建槽 6（P1 唐僧/P2 白龙），重载后读回双人槽与“困难”设置，进入丹药/商城/任务、Stage 1-1 和 P2 背包；console warning/error 为 0，临时槽最终经二次确认删除。
+- 角色按活动队伍加载、Stage 1 怪物按关拆包、脚底/root、普攻挂点/注册点/方向与“下一关”共享视觉生命周期由既有专项和本次全系统回归共同承载。
+
+更新文件：
+- `tools/pre-stage23-save-journey-tests.ts`、`tools/run-system-tests.mjs`、`package.json`
+- `docs/tasks/evidence/TASK-SLICE-159/` 七张截图与 `visual-audit.md`
+- M-044、VS-063、前置/Stage 2-3 功能线与覆盖台账、看板/历史及 PG-002/004/007/008/009 反馈
+
+验证：
+- `npm run test:pre-stage23-save`、`npm run test:formal-game-loop`、`npm run test:systems`。
+- `npm run check:structure`、`npm run build`、`npm run check:annotations`、`npm run check:workflow`、`git diff --check`。
+- 940×590 浏览器正式重启旅程与临时槽清理，console warning/error 为 0。
+
+推荐任务：
+- `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。

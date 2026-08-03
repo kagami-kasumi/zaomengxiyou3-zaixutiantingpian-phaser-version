@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-STAGE-2-3`（Planned；等待前置体验补全线关闭）
+- `LINE-STAGE-2-3`（Active；本 task 为唯一 Ready）
 
 
 目标机制/切片：
