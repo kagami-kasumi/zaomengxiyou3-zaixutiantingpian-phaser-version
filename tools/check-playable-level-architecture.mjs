@@ -26,7 +26,7 @@ const legacyFlowSystems = new Set([
 ]);
 const legacyEntityOwnerBudgets = new Map([
   ['src/scenes/stage12/Stage12GameplayBridge.ts', new Map([
-    ['type EnemyRuntime', 1], ['new Map<string, EnemyRuntime>', 1], ['updateStage1Enemy', 2],
+    ['type EnemyRuntime', 0], ['new Map<string, EnemyRuntime>', 0], ['updateStage1Enemy', 0],
   ])],
   ['src/scenes/stage13/Stage13GameplayBridge.ts', new Map([
     ['type MonsterRuntime', 1], ['new Map<string, MonsterRuntime>', 1], ['updateStage1Enemy', 2],
@@ -215,6 +215,24 @@ function assertHeroPartyMigrations() {
   }
 }
 
+function assertStage12MonsterMigration() {
+  const relative = 'src/scenes/stage12/Stage12GameplayBridge.ts';
+  const source = readFileSync(path.join(root, relative), 'utf8');
+  if (!source.includes('createMonsterRuntimeRegistry')) {
+    errors.push(`${relative} must delegate monster lifecycle to MonsterRuntimeRegistry`);
+  }
+  for (const forbidden of [
+    'type EnemyRuntime',
+    'new Map<string, EnemyRuntime>',
+    'createStage1CombatEnemy',
+    'createMonsterPhysics',
+    'updateMonsterPhysics',
+    'updateStage1Enemy',
+  ]) {
+    if (source.includes(forbidden)) errors.push(`${relative} retains migrated monster owner: ${forbidden}`);
+  }
+}
+
 for (const legacy of [...legacyScenes, ...legacyWorldBridges, ...legacyGameplayBridges, ...legacyFlowSystems]) {
   if (!existsSync(path.join(root, legacy))) errors.push(`legacy exception must be removed from the checker after migration: ${legacy}`);
 }
@@ -223,6 +241,7 @@ assertSelfTests();
 assertContractDocument();
 assertStage11Migration();
 assertHeroPartyMigrations();
+assertStage12MonsterMigration();
 
 for (const relative of [...walk('src/scenes'), ...walk('src/systems')].filter((file) => file.endsWith('.ts'))) {
   const source = readFileSync(path.join(root, relative), 'utf8');

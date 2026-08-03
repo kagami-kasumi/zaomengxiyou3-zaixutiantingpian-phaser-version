@@ -1,6 +1,6 @@
 # 可玩关卡运行框架 ADR
 
-状态：Accepted V2F（Scene 外壳决策继续有效；五关 Hero 消费者已全部迁移，独立 Monster Stage 1-2 试点为下一批）
+状态：Accepted V2G（Scene 外壳决策继续有效；五关 Hero 消费者与 Stage 1-2 Monster 试点已迁移）
 
 ## 1. 决策
 
@@ -137,14 +137,14 @@ V1 迁移顺序为：016B 横向双关试点 → 016C Stage 2 → 016D Stage 1-1
 | 关卡 | 当前英雄 owner | 当前怪物 owner | 关卡必须保留 | 目标交换边界 | 迁移批次 |
 | --- | --- | --- | --- | --- | --- |
 | Stage 1-1 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge` + `TestSceneHeroPartyRuntimeBridge`（V2F 已迁移）；TestScene 只经 getter/兼容调用面消费共享成员 | `TestScene.monster30s`、`TestSceneWorldBridge` 与 Boss/掉落/宠物兼容 bridges | 纵向平台/镜头、四停点、巫鹰 Boss 组合和 sandbox/QA adapter | 环境快照 → Hero；spawn 命令 → Monster；稳定 id 快照/事件回 Encounter | Hero 迁移完成；Monster 正式试点后再迁移兼容面 |
-| Stage 1-2 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2B 已迁移）；GameplayBridge 只提交输入/平台/边界与怪物目标 | `EnemyRuntime`、`enemies Map`、`updateEnemyCombat` | 五停点、双 Boss、`fbEnter` 与 5-1 特殊路由 | 平台/边界快照、怪物目标；当前经显式兼容 facade 与遗留 Monster owner 交换攻击/奖励模型 | Hero 试点完成；后续独立 Monster 试点仍用本关并删除兼容 facade |
+| Stage 1-2 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2B 已迁移）；GameplayBridge 只提交输入/平台/边界 | `MonsterRuntimeRegistrySystem` + `MonsterRuntimeRegistryBridge`（V2G 已迁移）；稳定 id 持有战斗/物理/死亡状态，视图 adapter 按 id 投影 | 五停点、双 Boss、`fbEnter` 与 5-1 特殊路由 | Encounter 只提交 spawn 命令并消费 defeated 事件；HUD 只读快照，奖励仍为窄事件 consumer | Hero/Monster 试点完成；静态预算归零 |
 | Stage 1-3 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2C 已迁移）；GameplayBridge 只提交输入/平台/边界与怪物目标 | `MonsterRuntime`、`monsters Map`、`updateMonsterCombat` | 五停点、Monster5 Boss、普通门皮肤 | 同上 | Hero 迁移完成；Monster 试点通过后另批迁移 |
 | Stage 2-1 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2D 已迁移）；GameplayBridge 只提交输入/平台/边界、冰刺环境命中与怪物目标 | `MonsterRuntime`、`monsters Map`、`updateMonsterCombat` | 五停点、冰刺/中景、Monster6 Boss、显式 QA 注入 | 冰刺命中经窄环境事件进入 Hero runtime；怪物仍经兼容 facade 交换攻击/奖励模型 | Hero 迁移完成；Monster 试点通过后另批迁移 |
 | Stage 2-2 | `HeroPartyRuntimeSystem` + `HeroPartyRuntimeBridge`（V2E 已迁移）；正式与 DEV bridge 只提交输入/平台/边界、火焰环境命中与怪物目标 | `MonsterRuntime`、`monsters Map`、`updateMonsterCombat` | 火焰、Monster16 Boss 阶段与 DEV showcase | 火焰命中经窄环境事件进入 Hero runtime；showcase 仅为 adapter 输入 | Hero 迁移完成；Monster 试点通过后另批迁移 |
 
-V2 的固定顺序是：V2B 建立 `HeroPartyRuntime` 并只迁移 Stage 1-2（已完成）→ V2C Stage 1-3（已完成）→ V2D Stage 2-1（已完成）→ V2E Stage 2-2 正式与 DEV（已完成）→ V2F Stage 1-1/TestScene（已完成）→ V2G 单独建立 `MonsterRuntimeRegistry` 并只迁移 Stage 1-2（下一批）→ 按试点证据生成 Monster 其余消费者批次。每批最多一个实体 owner，不能在同一批同时创建或迁移 Hero 与 Monster runtime。
+V2 的固定顺序是：V2B 建立 `HeroPartyRuntime` 并只迁移 Stage 1-2（已完成）→ V2C Stage 1-3（已完成）→ V2D Stage 2-1（已完成）→ V2E Stage 2-2 正式与 DEV（已完成）→ V2F Stage 1-1/TestScene（已完成）→ V2G 单独建立 `MonsterRuntimeRegistry` 并只迁移 Stage 1-2（已完成）→ 后续 Monster 消费者按 V2H Stage 1-3、V2I Stage 2-1、V2J Stage 2-2 正式与 DEV、V2K Stage 1-1/TestScene 的同规模批次推进。每批最多一个实体 owner，不能在同一批同时创建或迁移 Hero 与 Monster runtime。
 
-V2B 为保持遗留 Monster 帧顺序，把 Hero 帧拆成 `update`（移动/动作/视觉）、`resolveEnemyAttack` 和 `resolveAttacks` 三个显式阶段；这只是 Monster owner 尚未迁移期间的兼容调度。Hero 状态始终只存于共享 runtime，关卡只能读取只读快照；Stage 1-2 的 HUD/奖励继续通过窄 facade 消费既有模型。Monster registry 接入后应把敌我攻击交换收敛为目标快照/事件，并删除可变模型 facade。
+V2G 的共享 bridge 保持原帧顺序：Monster 物理/AI → 视觉 → 敌攻 Hero → Hero 攻 Monster → 死亡事件/奖励/Encounter → 死亡视觉移除。Stage 1-2 GameplayBridge 不再接触可变 Monster 模型；HUD 消费只读快照，Encounter 消费 defeated 事件。Hero 与 Monster 两个共享 owner 间的可变战斗模型交换封装在共享实体 bridge 内，不再暴露给关卡 adapter。
 
 `LINE-MONSTER-ARCH / TASK-ARCH-010A` 后续仍负责 `MonsterDefinitionCatalog`、`MonsterBrain` 和无关卡命名的定义/行为策略；它不再创建第二个生命周期注册表。`TASK-ARCH-010B` 只把这些定义/Brain 接缝接入 PG-013 已建立的 Registry，不重复创建 Registry 或重新迁移关卡生命周期。
 

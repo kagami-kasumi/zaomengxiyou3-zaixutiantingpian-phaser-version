@@ -12,6 +12,16 @@ import {
   createMonsterPhysics,
   updateMonsterPhysics,
 } from '../src/systems/MonsterPhysicsSystem';
+import {
+  collectDefeatEvents,
+  createMonsterRuntimeRegistryModel,
+  destroyMonsterRuntimeRegistry,
+  getMonsterCombatTargets,
+  removeMonster,
+  snapshotMonsterRuntimeRegistry,
+  spawnMonsters,
+  updateMonsterRuntimeRegistry,
+} from '../src/systems/MonsterRuntimeRegistrySystem';
 
 const ground: MovementPlatform = {
   id: 'test-ground',
@@ -71,6 +81,49 @@ function testSharedDefeatRewardAndIdempotence(): void {
   }), undefined, 'one monster death must settle only once');
 }
 
+function testRegistryOwnsStableRuntimeAndEvents(): void {
+  const registry = createMonsterRuntimeRegistryModel();
+  const spawned = spawnMonsters(registry, [{
+    encounterId: 'pilot-wave',
+    spawnId: 'pilot-monster-1',
+    monsterDefinitionId: 7,
+    x: 300,
+    y: 420,
+  }]);
+  assert.equal(spawned.length, 1);
+  assert.equal(spawned[0]?.type, 'spawned');
+  assert.equal(spawnMonsters(registry, [{
+    encounterId: 'pilot-wave',
+    spawnId: 'pilot-monster-1',
+    monsterDefinitionId: 7,
+    x: 999,
+    y: 999,
+  }]).length, 0, 'stable spawn id prevents duplicate runtime state');
+
+  updateMonsterRuntimeRegistry(registry, {
+    targets: [{ slot: 'p1', x: 700, alive: true }],
+    platforms: [ground],
+    deltaMs: 100,
+  });
+  const combat = getMonsterCombatTargets(registry)[0]!;
+  assert.ok(combat.x > 300, 'registry advances shared monster AI');
+  assert.ok(snapshotMonsterRuntimeRegistry(registry)[0]!.y > 420, 'registry advances shared monster physics');
+
+  combat.hp = 0;
+  combat.phase = 'dead';
+  assert.equal(collectDefeatEvents(registry)[0]?.type, 'defeated');
+  assert.equal(collectDefeatEvents(registry).length, 0, 'defeat event is idempotent');
+  assert.equal(removeMonster(registry, combat.id)[0]?.type, 'cleared');
+  assert.equal(removeMonster(registry, combat.id).length, 0, 'remove is idempotent');
+
+  destroyMonsterRuntimeRegistry(registry);
+  destroyMonsterRuntimeRegistry(registry);
+  assert.deepEqual(snapshotMonsterRuntimeRegistry(registry), []);
+  assert.equal(spawnMonsters(registry, [{
+    encounterId: 'late', spawnId: 'late', monsterDefinitionId: 8, x: 0, y: 0,
+  }]).length, 0, 'destroyed registry rejects later spawns');
+}
+
 function testRewardRegistry(): void {
   assert.deepEqual(getMonsterRewardConfig(2), { experience: 20, soulPower: 10 });
   assert.deepEqual(getMonsterRewardConfig(3), { experience: 7, soulPower: 4 });
@@ -111,6 +164,7 @@ function testIntegratedPickupAssetsExist(): void {
 
 testGroundedIsDefaultAndFlyingIsExplicit();
 testSharedDefeatRewardAndIdempotence();
+testRegistryOwnsStableRuntimeAndEvents();
 testRewardRegistry();
 testAllStage1ConsumersUseSharedOwners();
 testIntegratedPickupAssetsExist();

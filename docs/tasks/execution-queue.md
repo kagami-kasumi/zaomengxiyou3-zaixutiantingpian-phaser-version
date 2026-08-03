@@ -14,11 +14,7 @@
 
 ## 活跃治理执行项
 
-| 优先级 | 执行项 | 状态 | 类型 | 目标 | 合同 | 完成后 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | PG-013 | Ready | 架构治理实现（V2G） | 建立唯一 `MonsterRuntimeRegistry` 并只迁移 Stage 1-2 怪物 owner；遭遇只提交 spawn 命令并消费实体事件，HeroPartyRuntime、五停点、双 Boss、`fbEnter`、奖励数值和视觉保持不变 | [合同](../workflow/problems/PG-013-关卡运行框架按关卡复制.md) | V2G 完成后移除本项；下一次 `/goal` 不跨入游戏 task |
-
-PG-013 V2A..V2F 已完成，五关 Hero 消费者已全部归入共享 Runtime。`TASK-SLICE-163/164` 已分别闭合固定 world effect 与 Role5 龙魂剑移动 projectile，故 V2G 恢复为唯一 `Ready`；本项完成前不进入 `TASK-SLICE-159`。
+当前为空。PG-013 V2G 已完成并按合同移出；本次 `/goal` 到此结束，不继续执行游戏 task。下一次 `/goal` 按游戏回退规则选择唯一 Ready task。
 
 ## 游戏回退
 

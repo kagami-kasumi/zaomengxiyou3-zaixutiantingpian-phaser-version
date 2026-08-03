@@ -190,6 +190,7 @@ const gameplaySource = readFileSync(
 );
 assert.ok(!gameplaySource.includes('scene.add.circle'));
 assert.ok(!gameplaySource.includes('`M${enemy.enemyType}`'));
-assert.ok(gameplaySource.includes('defeatReported'));
+assert.ok(gameplaySource.includes('createMonsterRuntimeRegistry'));
+assert.ok(!gameplaySource.includes('defeatReported'));
 
 console.log('Stage 1-2 true monster visuals, nine attack objects, and lifecycle tests passed.');

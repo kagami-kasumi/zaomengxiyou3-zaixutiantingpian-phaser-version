@@ -1,5 +1,4 @@
-// boundary: Stage 1-2 submits level input/environment/monster targets to HeroPartyRuntime;
-// it keeps encounter waves and the not-yet-migrated monster runtime only.
+// boundary: Stage 1-2 owns encounter waves only; shared entity runtimes own heroes and monsters.
 import Phaser from 'phaser';
 import { createInputSystem } from '../../systems/InputSystem';
 import {
@@ -7,7 +6,6 @@ import {
   defeatStage12Enemy,
   touchStage12StopPoint,
   updateStage12Spawners,
-  type Stage12Enemy,
   type Stage12FlowModel,
 } from '../../systems/Stage12FlowSystem';
 import {
@@ -25,37 +23,19 @@ import {
 import { loadActiveGame } from '../../systems/SaveSlotSystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
 import { createDefaultLevelUnlockProgress } from '../../systems/Stage11FlowSystem';
-import {
-  createStage1CombatEnemy,
-  updateStage1Enemy,
-  type Stage1CombatEnemy,
-} from '../../systems/Stage1CombatSystem';
+import { getStage1EnemyConfig } from '../../systems/Stage1CombatSystem';
 import { createStage12FbEnterBridge, type Stage12FbEnterHandle } from './Stage12FbEnterBridge';
-import {
-  createMonsterPhysics,
-  updateMonsterPhysics,
-  type MonsterPhysicsModel,
-} from '../../systems/MonsterPhysicsSystem';
 import { createStage1RewardBridge, type Stage1RewardBridge } from '../stage1/Stage1RewardBridge';
 import { createStage1CombatHudBridge } from '../stage1/Stage1CombatHudBridge';
-import { createStage1CombatEnemyHudSnapshot } from '../../systems/Stage1CombatHudSystem';
 import { createHeroPartyRuntime, type HeroPartyRuntime } from '../HeroPartyRuntimeBridge';
 import {
   createStage12MonsterView,
   destroyStage12MonsterView,
   readStage12AttackGeometry,
   updateStage12MonsterView,
-  type Stage12AttackGeometryRegistry,
   type Stage12MonsterView,
 } from './Stage12MonsterVisualBridge';
-
-type EnemyRuntime = {
-  model: Stage12Enemy;
-  combat: Stage1CombatEnemy;
-  view: Stage12MonsterView;
-  physics: MonsterPhysicsModel;
-  defeatReported: boolean;
-};
+import { createMonsterRuntimeRegistry } from '../MonsterRuntimeRegistryBridge';
 
 type HeroSnapshots = ReturnType<HeroPartyRuntime['snapshots']>;
 
@@ -80,7 +60,6 @@ export function createStage12Gameplay(
     groundY: STAGE12_GROUND_TOP_Y,
     groundPlatformId: STAGE12_GROUND_PLATFORM_ID,
   });
-  const enemies = new Map<string, EnemyRuntime>();
   const monsterGeometry = readStage12AttackGeometry(scene);
   const fbEnter: Stage12FbEnterHandle = createStage12FbEnterBridge(
     scene,
@@ -92,11 +71,39 @@ export function createStage12Gameplay(
     heroes.rewardPlayers(),
     stage12MovementPlatforms,
   );
+  const monsters = createMonsterRuntimeRegistry<Stage12MonsterView>({
+    scene,
+    platforms: stage12MovementPlatforms,
+    views: {
+      create: (owner, monster) => createStage12MonsterView(
+        owner,
+        monster.monsterDefinitionId as 2 | 4 | 7 | 8,
+        monster.x,
+        monster.y,
+        monsterGeometry,
+      ),
+      update: updateStage12MonsterView,
+      destroy: destroyStage12MonsterView,
+    },
+    onDefeated: (enemy) => {
+      rewards.onMonsterDefeated(enemy);
+      defeatStage12Enemy(flow, enemy.id);
+    },
+  });
   const hud = createStage1CombatHudBridge(
     scene,
     heroes.hudSnapshots,
-    () => [...enemies.values()].map((enemy, index) =>
-      createStage1CombatEnemyHudSnapshot(enemy.combat, index)),
+    () => monsters.snapshots().map((monster, spawnOrder) => {
+      const config = getStage1EnemyConfig(monster.monsterDefinitionId);
+      return {
+        enemyId: monster.id,
+        displayName: config.displayName,
+        hp: monster.hp,
+        maxHp: monster.maxHp,
+        spawnOrder,
+        isBoss: config.isBoss,
+      };
+    }),
   );
   const status = scene.add.text(18, 51, '', {
     color: '#dce8ff', fontFamily: 'Arial, sans-serif', fontSize: '14px',
@@ -129,10 +136,14 @@ export function createStage12Gameplay(
       return reportedResult;
     }
     activateReachedStopPoint(flow, heroSnapshots);
-    for (const enemy of updateStage12Spawners(flow, deltaMs)) {
-      enemies.set(enemy.id, createEnemyView(scene, enemy, monsterGeometry));
-    }
-    updateEnemyCombat(scene, heroes, enemies, flow, scene.time.now, deltaMs, rewards);
+    monsters.spawn(updateStage12Spawners(flow, deltaMs).map((enemy) => ({
+      encounterId: `stage-1-2-stop-${enemy.stopPointIdx}`,
+      spawnId: enemy.id,
+      monsterDefinitionId: enemy.enemyType,
+      x: enemy.x,
+      y: enemy.y,
+    })));
+    monsters.update(heroes, scene.time.now, deltaMs);
     rewards.update(deltaMs);
     hud.update(deltaMs);
     const settledHeroSnapshots = heroes.snapshots();
@@ -172,8 +183,7 @@ export function createStage12Gameplay(
       rewards.destroy();
       hud.destroy();
       heroes.destroy();
-      for (const enemy of enemies.values()) destroyEnemyView(enemy);
-      enemies.clear();
+      monsters.destroy();
     },
   };
 }
@@ -183,69 +193,6 @@ function activateReachedStopPoint(flow: Stage12FlowModel, heroes: HeroSnapshots)
   if (nextIdx === undefined || flow.activeStopPointIdx !== undefined) return;
   const frontX = Math.max(...heroes.filter((hero) => hero.alive).map((hero) => hero.x), 0);
   if (hasReachedStage12StopPoint(frontX, nextIdx)) touchStage12StopPoint(flow, nextIdx);
-}
-
-function updateEnemyCombat(
-  scene: Phaser.Scene,
-  heroes: HeroPartyRuntime,
-  enemies: Map<string, EnemyRuntime>,
-  flow: Stage12FlowModel,
-  timeMs: number,
-  deltaMs: number,
-  rewards: Stage1RewardBridge,
-): void {
-  for (const enemy of enemies.values()) {
-    updateMonsterPhysics(enemy.physics, enemy.combat.x, stage12MovementPlatforms, deltaMs);
-    enemy.combat.y = enemy.physics.y;
-    updateStage1Enemy({
-      enemy: enemy.combat,
-      targets: heroes.snapshots(),
-      deltaMs,
-    });
-    syncEnemyView(scene, enemy, deltaMs);
-    heroes.resolveEnemyAttack(enemy.combat, timeMs);
-  }
-  heroes.resolveAttacks([...enemies.values()].map((enemy) => enemy.combat), timeMs);
-  for (const [id, enemy] of enemies) {
-    const visualComplete = syncEnemyView(scene, enemy, 0);
-    if (enemy.combat.phase !== 'dead') continue;
-    if (!enemy.defeatReported) {
-      rewards.onMonsterDefeated(enemy.combat);
-      defeatStage12Enemy(flow, id);
-      enemy.defeatReported = true;
-    }
-    if (!visualComplete) continue;
-    destroyEnemyView(enemy);
-    enemies.delete(id);
-  }
-}
-
-function createEnemyView(
-  scene: Phaser.Scene,
-  enemy: Stage12Enemy,
-  geometry: Stage12AttackGeometryRegistry,
-): EnemyRuntime {
-  const physics = createMonsterPhysics({ y: enemy.y, height: 100 });
-  return {
-    model: enemy,
-    combat: createStage1CombatEnemy({
-      id: enemy.id,
-      enemyType: enemy.enemyType,
-      x: enemy.x,
-      y: physics.y,
-    }),
-    view: createStage12MonsterView(scene, enemy.enemyType, enemy.x, physics.y, geometry),
-    physics,
-    defeatReported: false,
-  };
-}
-
-function syncEnemyView(scene: Phaser.Scene, enemy: EnemyRuntime, deltaMs: number): boolean {
-  return updateStage12MonsterView(scene, enemy.view, enemy.combat, deltaMs);
-}
-
-function destroyEnemyView(enemy: EnemyRuntime): void {
-  destroyStage12MonsterView(enemy.view);
 }
 
 function followParty(scene: Phaser.Scene, heroes: HeroSnapshots, flow: Stage12FlowModel): void {

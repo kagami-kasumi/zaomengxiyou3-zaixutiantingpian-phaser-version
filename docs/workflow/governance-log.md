@@ -2,6 +2,25 @@
 
 ## 2026-08-03
 
+### PG-013 V2G 完成并移出全局执行队列
+
+变更内容：
+
+- 建立唯一纯 `MonsterRuntimeRegistrySystem` 与共享 Phaser bridge，Stage 1-2 怪物状态、AI、物理、战斗、死亡和视图映射不再由 GameplayBridge 私有持有。
+- Stage 1-2 Encounter 只提交 spawn 命令并消费 defeated 事件；五停点、双 Boss、`fbEnter`、奖励数值和既有视觉/帧顺序保持不变。
+- 架构门禁把 Stage 1-2 Monster owner 预算收缩为零，并增加正向委托与负向回填检查；后续消费者按 V2H..V2K 保持单 owner、单批次规模。
+- V2G 按合同从 `execution-queue.md` 移除；本次 `/goal` 不继续游戏 task。
+
+验证：
+
+- `npm run test:monster-runtime`
+- `npm run test:systems`
+- `npm run build`
+- `npm run check:structure`
+- `npm run check:workflow`
+- `git diff --check`
+- 940×590 Stage 1-2 首停点生成、Monster7 AI/攻击、失败流程与零 console 观察
+
 ### TASK-SLICE-164 完成并恢复 PG-013 V2G
 
 变更内容：
