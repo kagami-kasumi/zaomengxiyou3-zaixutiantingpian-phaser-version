@@ -9,7 +9,7 @@
 
 ## 权威设计输入
 
-- `docs/architecture/设计模式.md`
+- `docs/interview/设计模式.md`
 - `docs/architecture/src-boundaries.md`
 - `docs/domain/glossary.md`
 - `docs/reverse-engineering/monsters-index.md`

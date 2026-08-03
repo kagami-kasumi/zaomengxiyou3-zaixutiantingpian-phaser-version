@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { HeroNormalAttackEffectKeys } from '../src/assets/AssetManifest';
 import {
+  projectHeroCombatVisualRootPoint,
   projectHeroVisualRootY,
   projectNormalAttackOriginX,
   projectNormalAttackVisualPoint,
@@ -10,13 +11,16 @@ import {
 } from '../src/scenes/HeroCombatVisualCoordinates';
 
 assert.equal(projectHeroVisualRootY(590), 540, 'platform y must remain the hero foot point');
+assert.deepEqual(projectHeroCombatVisualRootPoint(1, 300, 590), { x: 305, y: 525 });
+assert.deepEqual(projectHeroCombatVisualRootPoint(2, 300, 590), { x: 315, y: 540 });
+assert.deepEqual(projectHeroCombatVisualRootPoint(3, 300, 590), { x: 300, y: 540 });
 assert.deepEqual(
   projectNormalAttackVisualPoint(
-    { effectKey: HeroNormalAttackEffectKeys.role1Hit1, facingX: 1 },
+    { heroId: 1, effectKey: HeroNormalAttackEffectKeys.role1Hit1, facingX: 1 },
     300,
     590,
   ),
-  { x: 420, y: 545 },
+  { x: 425, y: 530 },
 );
 assert.equal(shouldFlipNormalAttackVisual({ heroId: 2, facingX: -1 }), false);
 assert.equal(shouldFlipNormalAttackVisual({ heroId: 2, facingX: 1 }), true);
@@ -57,7 +61,7 @@ for (const file of [
 }
 assert.deepEqual(
   projectNormalAttackVisualPoint(
-    { effectKey: HeroNormalAttackEffectKeys.role3Hit3, facingX: -1 },
+    { heroId: 3, effectKey: HeroNormalAttackEffectKeys.role3Hit3, facingX: -1 },
     300,
     590,
   ),
@@ -65,7 +69,7 @@ assert.deepEqual(
 );
 assert.deepEqual(
   projectNormalAttackVisualPoint(
-    { effectKey: HeroNormalAttackEffectKeys.role5SwordHit4, facingX: 1 },
+    { heroId: 5, effectKey: HeroNormalAttackEffectKeys.role5SwordHit4, facingX: 1 },
     300,
     590,
   ),

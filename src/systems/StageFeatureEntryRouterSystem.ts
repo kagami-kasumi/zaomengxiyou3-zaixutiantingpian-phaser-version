@@ -11,6 +11,39 @@ export const StageFeatureEntries = [
 export type StageFeatureEntry = typeof StageFeatureEntries[number];
 export type StageFeatureEntrySource = 'keyboard' | 'pointer';
 
+export const StageFeatureEntryPointerPositions = [
+  { entry: 'settings', x: 63.65, y: 563.15 },
+  { entry: 'backpack', x: 32.9, y: 540.5 },
+  { entry: 'skills', x: 28.5, y: 504.85 },
+  { entry: 'magic-weapon', x: 55.15, y: 475.4 },
+  { entry: 'pets', x: 91.35, y: 472.65 },
+] as const satisfies readonly Readonly<{
+  entry: StageFeatureEntry;
+  x: number;
+  y: number;
+}>[];
+
+export type StageFeaturePointerTarget = Readonly<{
+  entry: StageFeatureEntry;
+  owner: FeatureUiOwner;
+}>;
+
+export function findStageFeaturePointerTarget(
+  point: Readonly<{ x: number; y: number }>,
+  playerCount: 1 | 2,
+): StageFeaturePointerTarget | undefined {
+  const owners: readonly FeatureUiOwner[] = playerCount === 2 ? ['p1', 'p2'] : ['p1'];
+  for (const owner of owners) {
+    for (const position of StageFeatureEntryPointerPositions) {
+      const x = owner === 'p1' ? position.x : 920 - position.x;
+      if (Math.abs(point.x - x) <= 15.5 && Math.abs(point.y - position.y) <= 17.5) {
+        return { entry: position.entry, owner };
+      }
+    }
+  }
+  return undefined;
+}
+
 export type StageFeatureEntryRequest = Readonly<{
   entry: StageFeatureEntry;
   owner: FeatureUiOwner;
@@ -93,4 +126,3 @@ export function routeStageFeatureEntry(
     request,
   };
 }
-

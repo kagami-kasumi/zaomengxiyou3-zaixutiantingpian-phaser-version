@@ -9609,3 +9609,18 @@ Goal：
 
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
+
+### TASK-SLICE-165A
+
+- 完成日期：2026-08-03
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-165B`）
+- 为五角色建立显式本体战斗视觉根：Role1 `(5,-15)`、Role2 `(15,0)`、Role3..5 `(0,0)`；普攻对象先继承角色根，再叠加既有局部前向/y offset，碰撞、伤害、时序和资源未改。
+- 574 五个 P1/P2 HUD 原生按钮与 418 命中区统一走场景级 pointer 路由；坐标解析下沉到纯系统，五入口、P2 镜像、对象名、命中范围和 listener 销毁有确定性回归。
+- 运行验收发现并修复设置入口竞态：`StageSettingsScene` 曾在 origin pause 前启动并自停，留下透明冻结；现先暂停 origin 再 launch 设置 overlay，并加顺序防回归。
+- 940×590 `?qaStage=1-1-role1` 真实点击设置、背包、技能、法宝、宠物，均可见并用原关闭控件返回同一关卡；Role1 本体/普攻锚点运行复验通过，console warning/error 为 0。
+
+验证：
+- `npm run test:role1-visuals`、角色坐标专项、`npm run test:stage-feature-entry`、`npm run test:systems`、`npm run build`、`npm run check:workflow`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-165B`：只复核正式背包动态显示列表、原版基准与当前差异，不提前实现 165C/165D。

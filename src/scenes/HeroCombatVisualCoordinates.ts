@@ -8,6 +8,26 @@ export function projectHeroVisualRootY(footY: number): number {
   return footY - HeroVisualRootHeight / 2;
 }
 
+const heroCombatVisualRootOffsets: Readonly<Record<number, VisualOffset>> = {
+  1: { forward: 5, y: -15 },
+  2: { forward: 15, y: 0 },
+  3: { forward: 0, y: 0 },
+  4: { forward: 0, y: 0 },
+  5: { forward: 0, y: 0 },
+};
+
+export function projectHeroCombatVisualRootPoint(
+  heroId: number,
+  footX: number,
+  footY: number,
+): Readonly<{ x: number; y: number }> {
+  const offset = heroCombatVisualRootOffsets[heroId] ?? { forward: 0, y: 0 };
+  return {
+    x: footX + offset.forward,
+    y: projectHeroVisualRootY(footY) + offset.y,
+  };
+}
+
 type VisualOffset = Readonly<{ forward: number; y: number }>;
 
 const normalAttackVisualOffsets: Readonly<Record<string, VisualOffset>> = {
@@ -39,14 +59,15 @@ const normalAttackVisualOffsets: Readonly<Record<string, VisualOffset>> = {
 };
 
 export function projectNormalAttackVisualPoint(
-  attack: Pick<ActiveHeroNormalAttack, 'effectKey' | 'facingX'>,
+  attack: Pick<ActiveHeroNormalAttack, 'heroId' | 'effectKey' | 'facingX'>,
   footX: number,
   footY: number,
 ): Readonly<{ x: number; y: number }> {
   const offset = normalAttackVisualOffsets[attack.effectKey] ?? { forward: 0, y: 0 };
+  const root = projectHeroCombatVisualRootPoint(attack.heroId, footX, footY);
   return {
-    x: footX + attack.facingX * offset.forward,
-    y: projectHeroVisualRootY(footY) + offset.y,
+    x: root.x + attack.facingX * offset.forward,
+    y: root.y + offset.y,
   };
 }
 

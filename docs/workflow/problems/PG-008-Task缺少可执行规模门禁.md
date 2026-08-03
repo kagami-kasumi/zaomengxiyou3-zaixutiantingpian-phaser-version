@@ -92,6 +92,7 @@ PG-008 只有同时满足以下条件才可关闭：
 
 | 日期 | 任务/变更 | 适用性 | 证据 | 结论 | 后续动作 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-03 | `TASK-SLICE-165A` 安全检查点续跑 | 适用 | 原 task 在首次 compact 后停止读取新资料族/新增实现并落盘安全检查点；本次只补五 pointer 运行证据、修复同范围设置启动竞态、完成既定回归与归档，没有进入背包或派生资源 | 通过 | 165B 作为独立 1 工作包/1 验收批次执行，不把 165C/165D 合入 |
 | 2026-08-03 | `TASK-SLICE-159` 纯旅程校准 | 适用 | 保持两个工作包（独立自动旅程；940×590浏览器重启旅程）和两批验收，0 compact；未升级schema、读取新资源族、派生视觉或进入Stage 2-3 | 通过 | 归档后即停止；下一次`/goal`只执行064逆向 |
 | 2026-08-02 | `TASK-SLICE-163` 固定world effect与移动projectile拆分 | 适用 | 163保持两个工作包（五角色分类证据；Role2/Role4固定world实现）和两批验收、0 compact；发现Role5 `EnemyMoveBullet` 第二运行owner后立即拆164，未在同task扩写ProjectileSystem | 通过 | 本次归档即停止；下一task只执行164，完成后才恢复PG-013 V2G |
 | 2026-08-02 | `PG-013 V2F` 单 owner 有界迁移 | 适用 | 本次只迁移 Stage 1-1/TestScene 的 Hero owner，复用一个既有 Runtime、新增一个兼容桥和一组静态/专项/运行验收；0 compact，未迁移 Monster、Boss、掉落、宠物、纵向平台或游戏 Ready task | 通过 | 本次完成即停止；下一 `/goal` 只执行 V2G Monster Stage 1-2 单-owner试点 |

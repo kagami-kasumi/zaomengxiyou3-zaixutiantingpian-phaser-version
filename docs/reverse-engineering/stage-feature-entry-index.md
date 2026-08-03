@@ -195,3 +195,8 @@ KeyBoardControl keydown 或 RoleInfo HUD pointer
 - Help 444 已闭合两帧根与三个按钮；不要求在本 task 逆向其画面中每一段静态美术的内部 shape，因为现代实现应选择性复用整帧并保留三按钮独立命中。
 - 影响本地正式关卡实现的 owner、暂停、门禁、互斥、返回和 Symbol 未知为零；运行像素差异属于后续实现/校准 task 的双重验证，不反向冒充本逆向已复现。
 
+## 6. 2026-08-03 pointer 运行校准
+
+`TASK-SLICE-165A` 保留 574 的 549/555/561/567/573 独立皮肤、418 固定命中区、P1/P2 镜像和原门禁，只把五个可见按钮与透明命中区统一接到场景级 pointer-up 路由。确定性测试逐项锁定 P1 五坐标、P2 `920 - x` 镜像、对象名、命中范围和关闭时 listener 清理。
+
+940×590 `?qaStage=1-1-role1` 运行验收真实点击设置、背包、技能、法宝、宠物五个 P1 HUD 按钮；四功能页和 371 设置均可见，原关闭控件返回同一关卡，console warning/error 为 0。运行中额外发现设置入口先 `launch` 再暂停 origin 会让 `StageSettingsScene.create()` 的会话检查自停并留下透明冻结；现代映射现改为先暂停 origin 再 launch，顺序防回归已加入专项测试。允许的现代视觉例外仍为空。

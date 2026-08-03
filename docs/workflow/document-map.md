@@ -129,3 +129,13 @@
 - `docs/FFDEC_EXTRACTION_GUIDE.md`
   - FFDec 提取资料维护说明。
   - 记录现有提取结果的维护边界。
+
+## 项目讲解层
+
+- `docs/interview/README.md`
+  - 面试、答辩和项目讲解材料的统一入口。
+  - 组织 Harness、游戏现代化、设计模式和逆向技术的推荐讲述顺序；不复制项目状态。
+- `docs/interview/面试.md`、`游戏-面试.md`
+  - 分别维护可迁移的 Harness Engineering 讲法与游戏项目讲法。
+- `docs/interview/设计模式.md`、`逆向技术讲解.md`
+  - 提供架构和逆向两个可深挖专题；事实与完成状态仍以架构合同、逆向证据和任务台账为准。

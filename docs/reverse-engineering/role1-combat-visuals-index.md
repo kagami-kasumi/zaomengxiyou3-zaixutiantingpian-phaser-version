@@ -69,4 +69,6 @@ SWF 元数据分别为 24/30 fps，但宿主 `Config.frameClips=30`；现代验�
 
 158A 实际验收记录见 `docs/tasks/evidence/TASK-SLICE-158A/visual-audit.md`。三张角色 atlas、14 个 stable key/249 帧、正式单人运行、合法双人 QA 路由、HUD 复用和零 console 均有可复查落点。
 
+2026-08-03 `TASK-SLICE-165A` 用户反馈校准：现代普攻对象不再只从碰撞脚点投影，而是先继承 Role1 本体视觉根 `(footX + 5, rootY - 15)`，再叠加上表既有局部前向/y offset。该映射直接消费本页确认的 `(5,-15)`，没有修改攻击碰撞、伤害、时间窗或资源；坐标专项覆盖左右向，940×590 Role1 关卡运行复验确认本体与普攻对象锚点改善，console warning/error 为 0。
+
 六段证据已由 `Role1.as/Role1Shadow.as` 局部链、BaseBitmapData 共享链、恢复 SWF Symbol/时间轴/SVG 几何、上述可观察合同、现代 stable-key 差异和双重验证计划组成。影响 158A 的未知为零；其他角色不在本文结论范围内。

@@ -25,7 +25,7 @@
 
 输入资料：
 
-- `docs/architecture/设计模式.md`、`docs/architecture/src-boundaries.md`、`docs/domain/glossary.md`。
+- `docs/interview/设计模式.md`、`docs/architecture/src-boundaries.md`、`docs/domain/glossary.md`。
 - `Stage1CombatSystem.ts`、`Monster3System.ts`、`Monster30System.ts`、`MonsterPhysicsSystem.ts`、`MonsterDefeatRewardSystem.ts`、`DropSystem.ts`。
 - `docs/reverse-engineering/monsters-index.md` 与 `M-030` 已确认行为；AS3 只作行为证据，不作现代类结构模板。
 

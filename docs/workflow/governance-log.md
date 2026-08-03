@@ -2,6 +2,30 @@
 
 ## 2026-08-03
 
+### 集中项目讲解材料并更新 Harness 面试稿
+
+变更内容：
+
+- 新建 `docs/interview/`，集中 Harness、游戏现代化、设计模式和逆向技术四份可直接用于面试、答辩或项目介绍的讲述材料，并增加统一入口与推荐讲述顺序。
+- 将原根目录面试稿、游戏面试稿，以及原架构/逆向目录中的两个专题讲稿迁入该目录；同步修正架构合同、任务定义、功能线覆盖和专题文档的引用。
+- 更新 Harness 主稿至 2026-08-03：移除过时的持久 Goal 三层模型，补充治理优先全局执行队列、Task 零 compact 预算、活跃/归档问题反馈机制、上下文读取治理和当前门禁规模。
+- 在 `document-map.md` 增加项目讲解层，明确讲述材料不替代任务台账、架构合同或逆向证据。
+
+影响范围：
+
+- `docs/interview/`
+- `docs/architecture/src-boundaries.md`
+- `docs/tasks/task-definitions/TASK-ARCH-010A.md`
+- `docs/tasks/task-definitions/TASK-ARCH-010B.md`
+- `docs/tasks/feature-line-coverage/LINE-MONSTER-ARCH.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow`
+- `git diff --check`
+
 ### PG-013 V2G 完成并移出全局执行队列
 
 变更内容：

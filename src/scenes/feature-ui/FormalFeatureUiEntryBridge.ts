@@ -13,6 +13,7 @@ import { getFeatureUiAssetBundleId } from '../../assets/SceneAssetBundles';
 import { getPartyHeroId, type PartyConfiguration } from '../../systems/PartyConfigurationSystem';
 import { loadActiveGame } from '../../systems/SaveSlotSystem';
 import {
+  findStageFeaturePointerTarget,
   routeStageFeatureEntry,
   type StageFeatureEntry,
   type StageFeatureEntrySource,
@@ -40,6 +41,10 @@ type FeatureUiKeyBinding = {
   handler: (event: KeyboardEvent) => void;
 };
 
+type FeatureUiPointerBinding = {
+  handler: (pointer: Phaser.Input.Pointer) => void;
+};
+
 type EntryButtonSpec = Readonly<{
   entry: StageFeatureEntry;
   x: number;
@@ -63,6 +68,7 @@ export function installFormalFeatureUiEntries(
 ): void {
   const keyboard = scene.input.keyboard;
   const bindings: FeatureUiKeyBinding[] = [];
+  const pointerBindings: FeatureUiPointerBinding[] = [];
   const buttons: Phaser.GameObjects.GameObject[] = [];
   if (keyboard) {
     bindFeatureKey(scene, keyboard, bindings, Phaser.Input.Keyboard.KeyCodes.ESC, 'settings', 'p1', config);
@@ -77,13 +83,22 @@ export function installFormalFeatureUiEntries(
     }
   }
   if (config.originKind === 'combat') {
-    buttons.push(...createStageFeatureEntryButtons(scene, 'p1', config));
+    buttons.push(...createStageFeatureEntryButtons(scene, 'p1'));
     if (config.party.playerCount === 2) {
-      buttons.push(...createStageFeatureEntryButtons(scene, 'p2', config));
+      buttons.push(...createStageFeatureEntryButtons(scene, 'p2'));
     }
+    const handler = (pointer: Phaser.Input.Pointer) => {
+      const target = findStageFeaturePointerTarget(pointer, config.party.playerCount);
+      if (target) void routeFeatureEntry(scene, target.entry, target.owner, 'pointer', config);
+    };
+    scene.input.on(Phaser.Input.Events.POINTER_UP, handler);
+    pointerBindings.push({ handler });
   }
   scene.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
     for (const binding of bindings) binding.keyboard.off('keydown', binding.handler);
+    for (const binding of pointerBindings) {
+      scene.input.off(Phaser.Input.Events.POINTER_UP, binding.handler);
+    }
     for (const button of buttons) button.destroy();
     ownerAliveByScene.delete(scene);
   });
@@ -139,9 +154,11 @@ export function launchStageSettings(
 ): boolean {
   if (config.originKind !== 'combat') return false;
   if (formalFeatureUiHost.active || scene.scene.isActive('StageSettingsScene')) return false;
+  // StageSettingsScene validates that its origin is already paused during create().
+  // Pause first because Phaser can run the launched scene before launch() returns.
+  scene.scene.pause(scene.scene.key);
   scene.scene.launch('StageSettingsScene', { originSceneKey: scene.scene.key });
   scene.scene.bringToTop('StageSettingsScene');
-  scene.scene.pause(scene.scene.key);
   return true;
 }
 
@@ -166,14 +183,14 @@ function bindFeatureKey(
 function createStageFeatureEntryButtons(
   scene: Phaser.Scene,
   owner: FeatureUiOwner,
-  config: FeatureUiEntryConfig,
 ): Phaser.GameObjects.GameObject[] {
   return EntryButtonSpecs.flatMap((spec) => {
     const x = owner === 'p1' ? spec.x : 920 - spec.x;
     const button = scene.add.image(x, spec.y, spec.assets.up.key)
       .setOrigin(0.5)
       .setScrollFactor(0)
-      .setDepth(114);
+      .setDepth(116)
+      .setInteractive({ useHandCursor: true });
     button.setName(`stage-feature-entry-${owner}-${spec.entry}`);
     const hit = scene.add.zone(
       x,
@@ -185,13 +202,16 @@ function createStageFeatureEntryButtons(
       .setScrollFactor(0)
       .setInteractive({ useHandCursor: true });
     hit.setName(`stage-feature-entry-hit-${owner}-${spec.entry}`);
-    hit.on('pointerover', () => button.setTexture(spec.assets.over.key));
-    hit.on('pointerout', () => button.setTexture(spec.assets.up.key));
-    hit.on('pointerdown', () => button.setTexture(spec.assets.down.key));
-    hit.on('pointerup', () => {
-      button.setTexture(spec.assets.over.key);
-      void routeFeatureEntry(scene, spec.entry, owner, 'pointer', config);
-    });
+    const bindPointer = (target: Phaser.GameObjects.GameObject) => {
+      target.on('pointerover', () => button.setTexture(spec.assets.over.key));
+      target.on('pointerout', () => button.setTexture(spec.assets.up.key));
+      target.on('pointerdown', () => button.setTexture(spec.assets.down.key));
+      target.on('pointerup', () => {
+        button.setTexture(spec.assets.over.key);
+      });
+    };
+    bindPointer(button);
+    bindPointer(hit);
     return [button, hit];
   });
 }

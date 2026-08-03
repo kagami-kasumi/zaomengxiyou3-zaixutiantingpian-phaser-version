@@ -4,13 +4,16 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-064` 是唯一 Ready 游戏 task；执行队列为空时，下一次 `/goal` 进入 Stage 2-3 六段证据逆向。
+`TASK-SETTINGS-165B` 是唯一 Ready 游戏 task；执行队列为空时，复核正式背包动态显示列表、原版基准与当前差异。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-064 | Ready | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 依据证据生成同线最小实现 task | [定义](task-definitions/TASK-SETTINGS-064.md) |
+| TASK-SETTINGS-165B | Ready | LINE-PRE-STAGE-2-3-COMPLETION | UI 逆向复核 | 复核正式背包动态显示列表、原版基准与当前差异 | M-035、M-036、M-037、M-052、VS-064 | 待复核证据矩阵、可见对象差异和 165C 实现合同 | TASK-SLICE-165C | [定义](task-definitions/TASK-SETTINGS-165B.md) |
+| TASK-SLICE-165C | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 真 UI 反馈整改 | 按 165B 合同重做正式背包动态 UI | M-035、M-036、M-037、M-052、VS-064 | 原生动态字段/角色/装备/详情、双 owner 与逐状态证据 | TASK-SLICE-165D | [定义](task-definitions/TASK-SLICE-165C.md) |
+| TASK-SLICE-165D | Planned | LINE-PRE-STAGE-2-3-COMPLETION | 嵌入式背包整改 | 地图炼丹炉右侧改为可交互背包格而非文字列表 | M-035、M-037、M-039、M-052、VS-043、VS-064 | 嵌入式背包视图、材料事务、双 owner 与正式往返证据 | TASK-SETTINGS-064 | [定义](task-definitions/TASK-SLICE-165D.md) |
+| TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 依据证据生成同线最小实现 task | [定义](task-definitions/TASK-SETTINGS-064.md) |
 | TASK-ARCH-010A | Planned | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B | [定义](task-definitions/TASK-ARCH-010A.md) |
 | TASK-ARCH-010B | Planned | LINE-MONSTER-ARCH | 怪物定义/行为集成 | 将 DefinitionCatalog、Brain 与 Targeting 接入 PG-013 已建立的唯一怪物注册表，并在普通怪+Boss 关卡验证 | M-030、VS-007、VS-056 | 既有 Registry 的定义/Brain 接缝、兼容回归与后续策略迁移清单 | 依据试点生成同线策略迁移 task | [定义](task-definitions/TASK-ARCH-010B.md) |
 | TASK-ARCH-014 | Split | LINE-SHARED-UI-COMPONENTS | 共享 UI 组件化父任务 | 分组件族审计、建立、试点并迁移灵魂余额、原生按钮/关闭和背包/物品展示 | M-035、M-037、M-052、VS-059、VS-064 | TASK-ARCH-014A..F 的独立合同、实现、迁移与回归结果 | 全部子 task 完成后收束父任务与 PG-011 | [定义](task-definitions/TASK-ARCH-014.md) |

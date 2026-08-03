@@ -19,6 +19,7 @@ import {
   toggleStageSound,
 } from '../src/systems/StageSettingsSystem';
 import {
+  findStageFeaturePointerTarget,
   routeStageFeatureEntry,
 } from '../src/systems/StageFeatureEntryRouterSystem';
 import {
@@ -30,6 +31,35 @@ import {
 const root = process.cwd();
 const source = (relativePath: string): string =>
   readFileSync(path.join(root, relativePath), 'utf8');
+
+const p1PointerTargets = [
+  ['settings', 63.65, 563.15],
+  ['backpack', 32.9, 540.5],
+  ['skills', 28.5, 504.85],
+  ['magic-weapon', 55.15, 475.4],
+  ['pets', 91.35, 472.65],
+] as const;
+for (const [entry, x, y] of p1PointerTargets) {
+  assert.deepEqual(findStageFeaturePointerTarget({ x, y }, 1), { entry, owner: 'p1' });
+  assert.deepEqual(findStageFeaturePointerTarget({ x: 920 - x, y }, 2), { entry, owner: 'p2' });
+}
+assert.equal(findStageFeaturePointerTarget({ x: 470, y: 295 }, 2), undefined);
+
+const entryBridgeSource = source('src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts');
+const entryRouterSource = source('src/systems/StageFeatureEntryRouterSystem.ts');
+for (const entry of ['settings', 'backpack', 'skills', 'magic-weapon', 'pets']) {
+  assert.match(entryBridgeSource, new RegExp(`entry: '${entry}'`), `${entry} must have a native HUD button`);
+  assert.match(
+    entryBridgeSource,
+    new RegExp(`stage-feature-entry-hit-\\$\\{owner\\}-\\$\\{spec\\.entry\\}`),
+    `${entry} must share the pointer hit-zone path`,
+  );
+}
+assert.match(entryBridgeSource, /setDepth\(116\)[\s\S]*setInteractive\(\{ useHandCursor: true \}\)/);
+assert.match(entryBridgeSource, /bindPointer\(button\)[\s\S]*bindPointer\(hit\)/);
+assert.match(entryBridgeSource, /findStageFeaturePointerTarget\(pointer, config\.party\.playerCount\)[\s\S]*routeFeatureEntry\(scene, target\.entry, target\.owner, 'pointer', config\)[\s\S]*Phaser\.Input\.Events\.POINTER_UP/);
+assert.match(entryRouterSource, /Math\.abs\(point\.x - x\) <= 15\.5[\s\S]*Math\.abs\(point\.y - position\.y\) <= 17\.5/);
+assert.match(entryBridgeSource, /scene\.input\.off\(Phaser\.Input\.Events\.POINTER_UP, binding\.handler\)/);
 
 for (const [entry, states] of Object.entries(stageFeatureEntryButtonAssets)) {
   assert.deepEqual(Object.keys(states), ['up', 'over', 'down', 'hit']);
@@ -241,6 +271,11 @@ for (const originSceneKey of [
 }
 
 const settingsScene = source('src/scenes/StageSettingsScene.ts');
+assert.match(
+  entryBridgeSource,
+  /scene\.scene\.pause\(scene\.scene\.key\);[\s\S]*scene\.scene\.launch\('StageSettingsScene'/,
+  'the combat origin must pause before StageSettingsScene validates its session',
+);
 for (const contract of [
   'stageSettingsAssets.root.key',
   'stageSettingsAssets.helpFrames',
