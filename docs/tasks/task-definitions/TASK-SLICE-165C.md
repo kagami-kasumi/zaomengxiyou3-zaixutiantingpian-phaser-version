@@ -2,17 +2,21 @@
 
 任务类型：`TASK-SLICE`
 
-功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（Active；本 task 为唯一 Ready）
+功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（Active；本 task 已 Split）
 
 目标机制/切片：`M-035`、`M-036`、`M-037`、`M-052`、`VS-064`
 
 规模预算：
-- 主工作包：2
+- 主工作包：0
 - 预计上下文压缩：0
-- 独立验收批次：2
+- 独立验收批次：0
 
 拆分触发：
 - 若 165B 要求新资源派生或第二个页面消费者迁移，立即拆分；本 task 只整改正式背包。
+
+拆分结果：
+- 2026-08-04 执行前窄查确认 `public/assets/ui/inventory/native/` 与其他现代资源中没有 character 358/610、等级/经验及原生状态控件派生物；恢复语料库只有既有源 `local-resources/regima/source/restored-swfs/assets/backpack1.swf`。
+- 因此本父任务不再直接执行，串行拆为 `TASK-SETTINGS-166A`（单一源包动态子资源派生与 provenance）和 `TASK-SLICE-166B`（正式背包唯一消费者实现与视觉验收）。
 
 输入资料：[`TASK-SETTINGS-165B-backpack-review.md`](../../reverse-engineering/evidence/TASK-SETTINGS-165B-backpack-review.md)、统一目录/事务/V6、正式背包 model/view、现有英雄视觉族与入口 runtime snapshot。
 
@@ -49,4 +53,4 @@ UI 原生化合同：
 
 状态更新：更新背包证据、M-052/VS-064、本线覆盖、看板/history 与适用 PG 反馈。
 
-推荐后续任务：`TASK-SLICE-165D`。
+推荐后续任务：`TASK-SETTINGS-166A`；其后依次为 `TASK-SLICE-166B`、`TASK-SLICE-165D`。

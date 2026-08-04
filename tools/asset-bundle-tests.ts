@@ -52,12 +52,21 @@ assert.equal(sceneBundleBySceneKey.ShopScene, 'map-service-shop');
 assert.equal(sceneBundleBySceneKey.TaskScene, 'map-service-tasks');
 assert.equal(sceneBundleBySceneKey.FeatureUiScene, 'feature-ui');
 assert.equal(sceneAssetBundles['feature-ui'].assets.length, 2);
-assert.equal(sceneAssetBundles['feature-ui-backpack'].assets.length, 378);
+assert.equal(sceneAssetBundles['feature-ui-backpack'].assets.length, 439);
 assert.equal(sceneAssetBundles['inventory-items-immortality'].assets.length, 25);
 assert.equal(sceneAssetBundles['inventory-items-shop'].assets.length, 49);
 assert.deepEqual(
   sceneAssetBundles['feature-ui-backpack'].dependencies,
-  ['feature-ui', 'inventory-items-immortality', 'inventory-items-shop'],
+  [
+    'feature-ui',
+    'inventory-items-immortality',
+    'inventory-items-shop',
+    'combat-hero-1',
+    'combat-hero-2',
+    'combat-hero-3',
+    'combat-hero-4',
+    'combat-hero-5',
+  ],
 );
 assert.deepEqual(
   sceneAssetBundles['map-service-immortality'].dependencies,
@@ -76,6 +85,8 @@ assert.equal(
   false,
 );
 assert.equal(requireRuntimeAssetOwner('inventory-item.ptdcz'), 'feature-ui-backpack');
+assert.equal(requireRuntimeAssetOwner('inventory-ui.operation.simple.default'), 'feature-ui-backpack');
+assert.equal(requireRuntimeAssetOwner('inventory-ui.exp.frame-30'), 'feature-ui-backpack');
 assert.equal(requireRuntimeAssetOwner('inventory-item.wpsmd1'), 'inventory-items-immortality');
 assert.equal(requireRuntimeAssetOwner('inventory-item.wpqhs1'), 'inventory-items-shop');
 assert.ok(sceneAssetBundles['feature-ui-skills-common'].assets.length < 80);

@@ -2,7 +2,15 @@ import {
   EquipmentSlotOrder,
   type InventoryUIState,
 } from './EquipmentUISystem';
-import { EquipmentSlotLabels, HeroNamesById, createSeedEquipmentRegistry, type EquipmentSlot } from './EquipmentSystem';
+import {
+  EquipmentSlotLabels,
+  HeroNamesById,
+  calculateEffectiveStats,
+  calculateEquipmentStats,
+  canEquipInstance,
+  createSeedEquipmentRegistry,
+  type EquipmentSlot,
+} from './EquipmentSystem';
 import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
 import {
   equipInventoryItem,
@@ -13,6 +21,7 @@ import {
   type InventoryEntry,
 } from './InventorySystem';
 import type { PlayerSlot } from './InputSystem';
+import { getHeroBaseStats, ProgressionTuning } from './ProgressionSystem';
 import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
@@ -39,6 +48,37 @@ export type FormalInventoryPageModel = {
   restored: LoadedGameState;
   registry: Record<string, ReturnType<typeof createSeedEquipmentRegistry>[string]>;
 };
+
+export type FormalInventoryRuntimePresentation = Readonly<{
+  hp: number;
+  maxHp: number;
+  mp: number;
+  maxMp: number;
+}>;
+
+export type FormalInventoryPresentation = Readonly<{
+  heroId: number;
+  heroName: string;
+  level: number;
+  fightingForce: number;
+  currentHp: number;
+  currentMp: number;
+  maxHp: number;
+  maxMp: number;
+  power: number;
+  defense: number;
+  critPercent: number;
+  missPercent: number;
+  hpRegen: number;
+  mpRegen: number;
+  magicDefensePercent: number;
+  luckPercent: number;
+  currentExp: number;
+  expToNext: number;
+  expFrame: number;
+  maxLevel: boolean;
+  soulCount: number;
+}>;
 
 export function createFormalInventoryPage(
   storage: SaveStorage,
@@ -174,6 +214,82 @@ export function getSelectedFormalInventoryEntry(
 
 export function getSelectedFormalEquipmentSlot(model: FormalInventoryPageModel): EquipmentSlot {
   return EquipmentSlotOrder[model.selectedSlotIndex];
+}
+
+export function canEquipFormalInventorySelection(model: FormalInventoryPageModel): boolean {
+  const entry = getSelectedFormalInventoryEntry(model);
+  if (!entry || entry.kind !== 'equipment') return false;
+  if (entry.definition.description.includes('专属用途与数值效果尚未接入')) return false;
+  const player = getFormalInventoryPlayer(model);
+  return canEquipInstance(
+    player.equipmentLoadout,
+    entry,
+    HeroNamesById[player.progression.heroId] ?? '',
+  ) === true;
+}
+
+export function getFormalInventoryPresentation(
+  model: FormalInventoryPageModel,
+  runtime?: FormalInventoryRuntimePresentation,
+): FormalInventoryPresentation {
+  const player = getFormalInventoryPlayer(model);
+  const progression = player.progression;
+  const effective = calculateEffectiveStats(
+    getHeroBaseStats(progression.heroId, progression.level),
+    player.equipmentLoadout,
+  );
+  const maxLevel = progression.level >= ProgressionTuning.maxLevel;
+  return {
+    heroId: progression.heroId,
+    heroName: HeroNamesById[progression.heroId] ?? `Role${progression.heroId}`,
+    level: progression.level,
+    fightingForce: calculateFormalFightingForce(player),
+    currentHp: runtime?.hp ?? effective.maxHp,
+    currentMp: runtime?.mp ?? effective.maxMp,
+    maxHp: runtime?.maxHp ?? effective.maxHp,
+    maxMp: runtime?.maxMp ?? effective.maxMp,
+    power: effective.power,
+    defense: effective.defense,
+    critPercent: effective.critPercent,
+    missPercent: effective.missPercent,
+    hpRegen: effective.hpRegen,
+    mpRegen: effective.mpRegen,
+    magicDefensePercent: effective.magicDefensePercent,
+    luckPercent: effective.piercePercent,
+    currentExp: progression.currentExp,
+    expToNext: progression.expToNext,
+    expFrame: maxLevel
+      ? 30
+      : Math.max(1, Math.min(30, Math.round(30 * progression.currentExp / progression.expToNext))),
+    maxLevel,
+    soulCount: player.soulCount,
+  };
+}
+
+function calculateFormalFightingForce(player: LoadedPlayer1State): number {
+  const equipment = calculateEquipmentStats(player.equipmentLoadout);
+  let result = player.progression.level * 15;
+  player.skillLearning.passiveSkills.forEach((level, index) => {
+    if (level === 0) return;
+    if (index === 0 || index === 1) result += Math.trunc((level * 100 + 100) * 0.1);
+    else if (index === 2) result += (level + 1) * 10;
+    else result += (level + 1) * 15;
+  });
+  result += Math.trunc(equipment.power * 1.15);
+  const crit = Math.trunc(equipment.critPercent * 100);
+  const hp = Math.trunc(equipment.maxHp * 120);
+  const mp = Math.trunc(equipment.maxMp * 160);
+  const magicDefense = Math.trunc(equipment.magicDefensePercent * 150);
+  const miss = Math.trunc(equipment.missPercent * 150);
+  const regen = Math.trunc(equipment.hpRegen * 10);
+  switch (player.progression.heroId) {
+    case 1: result += hp + mp + crit * 25; break;
+    case 2: result += Math.trunc(mp * 4.5) + crit * 30 + hp; break;
+    case 3: result += hp * 3 + magicDefense * 8 + crit * 10 + mp; break;
+    case 4: result += crit * 20 + miss * 20 + mp + hp; break;
+    case 5: result += mp + hp + Math.trunc(equipment.power * 1.15 * 0.2) + crit * 20; break;
+  }
+  return Math.trunc(result + regen);
 }
 
 export function formatFormalInventorySummary(model: FormalInventoryPageModel): string[] {

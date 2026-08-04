@@ -123,3 +123,47 @@ child，再创建新投影。
    六槽穿脱、拒绝态、P1/P2、战斗即时值/地图回退、关闭返回/再入/V6 重载；
    以确定性测试和 940×590 同尺寸对象差异共同裁决。
 
+## 165C 执行前规模裁决
+
+- 2026-08-04 窄查 `public/assets/ui/inventory/native/`、其余现代资源与恢复语料库后，确认现代仓库尚无 character 358/610、等级/经验及原生状态控件的可直接消费派生物；恢复语料库中存在的权威输入仍是既有 `assets/backpack1.swf`。
+- 这不改变上文“无需新增源包、影响显示事实未知为零”的证据结论，但命中 `TASK-SLICE-165C` 的“新增资源派生即拆分”执行门禁。
+- 165C 因此改为 Split：`TASK-SETTINGS-166A` 只派生并登记单一源包透明子资源，`TASK-SLICE-166B` 才消费这些资源整改正式背包；炼丹炉仍由 165D 独立处理。
+
+## TASK-SETTINGS-166A 动态子资源补证
+
+### 显示列表、局部矩阵与状态
+
+| 对象 | child / depth / 局部矩阵 | 帧或按钮状态 | 导出边界 | 消费坐标 |
+| --- | --- | --- | --- | --- |
+| `simplebtn` 358 | 342 depth 1 `(0,0)`；347 `buse` depth 2 `(43.5,18.5)`；352 `bthrow` depth 4 `(43.5,89)`；357 `bgy` depth 6 `(5,38.5)` | 容器 1 帧；三个 action MovieClip 均为 frame 1 enabled / frame 2 disabled | 底板与默认组合 87×117；action 77×31 | 628 格内 `(25,25)` |
+| `threebtn` 610 | 597 depth 1 `(0,0)`；604 `bzb` depth 2 `(2.25,4.2)`；357 `bgy` depth 4 `(2.6,40.1)`；609 `bmd` depth 6 `(3.1,78.1)` | `bzb` 1 enabled / 2 wrong-role disabled / 3 expired-fashion renew；`bgy` 1/2 enabled/disabled；`bmd` 1/2 enabled/disabled | 底板与默认组合 87×115；action 77×31 | 628 格内 `(25,25)` |
+| 等级容器 219 | 底板 child 218；`levelnum0..9` 是运行时加入的 bitmap child | 数字没有时间轴态；单位 `(21.8,13)`；多位 `(5.8+i*26,13)` | 底板 83×59；每个数字 47×50 | 304 中 `(378.95,105.85)` |
+| 经验进度 210 | 裁剪容器 206 与移动 child 208；每帧只改内部平移/裁剪 | 30 帧；`round(30*current/required)`，满级固定 30 | 每帧 452×20，注册原点与全帧画布保持一致 | 304 中 `(311.6,489.95)` |
+| 出售白装 222 | `DefineButton2`，子形状 221；down 额外 `ty=40 twips` | up/over 视觉相同；down 向下 2 px；hit 只作命中，不登记为可见 key | 导出画布 62×28；可见形状 62×26 | 304 中 `(747.5,445.5)` |
+| 时装开关 297 | depth 1 在 frame 1 为 child 294、frame 2 为 child 296，共享底层 292 | frame 1 fashion hidden；frame 2 fashion shown | 49×18 | 304 中 `(168.05,218.85)` |
+
+358/610 及其 action child 均不是 `SimpleButton`，AS3 只绑定 `CLICK` 并用
+`gotoAndStop` 切换上表帧。因此它们没有可依据的 hover/pressed
+状态；验收中这两态标为不适用，不从现代按钮惯例猜造。
+character 222 才是原生按钮四态容器，其 hit test 不是可见素材。
+
+### 字形 / TextField 裁决
+
+- 原生像素：`levelnum0..9`、210 的 30 帧进度、358/610 action 标签、
+  222 与 297 的可见状态；这些均已登记独立 key。
+- 运行时 TextField：`nowpage` 204、经验字 211、灵魂 214、角色名/战力
+  277/278 与 250..270 的 HP/MP/属性字段。本 task 没有把这些运行值
+  错误固化成 PNG。
+
+### 派生结果与双重验证
+
+- 61 张新 PNG 来自单一 `assets/backpack1.swf` 的选择性导出；加上已有
+  22 条，`inventoryUiAssetList` 现有 83 个唯一 key/path。
+- 专项门禁逐项校验文件、来源 character/frame/state、精确尺寸、RGBA
+  透明像素和“不得是 940×590 整页裁片”。
+- [原 Symbol 渲染 / 接入 PNG / 像素差联系表](../../tasks/evidence/TASK-SETTINGS-166A/source-derived-contact-sheet.png)
+  在棋盘格上展示两列透明边缘；代表性对象的同尺寸源帧与入库文件
+  字节相同，diff 为 0 像素。本批没有二次字体栅格化，因此不需要
+  放宽字体像素容差。
+- 本结论只关闭子资源未知；正式 940×590 页面、动态 child 和互动尚未由
+  166B 实现，不将资源通过误写为页面通过。

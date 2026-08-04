@@ -1,5 +1,77 @@
 # 工作流治理日志
 
+## 2026-08-04
+
+### TASK-SLICE-166B 正式背包动态 UI 归档
+
+变更内容：
+
+- 直接消费 165B/166A 显示合同与 61 张透明子资源，完成 304/246/628 的动态角色、等级/经验、字段、六槽/时装、精确 25 格与 358/610 原生操作层。
+- 建立只读 `InventoryItemCell / InventoryGridProjection` 试点；库存/装备 mutation 仍只在既有 systems，页面 composition 与原皮肤未进入共享 primitive。
+- 战斗入口从 HeroParty runtime scene snapshot 读取即时 HP/MP；地图回退保存成长，保持 P1/P2、431 身份、428 图标、事务与 V6 唯一 owner。
+- 浏览器捕获并修复角色图集重复 bundle owner；改由背包依赖既有五个 `combat-hero-*` owner，专项、构建和 940×590 P1/P2 零 console 通过。
+- PG-007/008/011 适用样本均通过；功能线继续 Active，唯一 Ready 切到 `TASK-SLICE-165D`，本次 `/goal` 不进入第二消费者。
+
+验证：
+
+- `npm run test:formal-inventory`
+- `npm run test:inventory-dynamic-ui`
+- `npm run test:inventory-catalog`
+- `npm run test:asset-bundles`
+- `npm run test:systems`
+- `npm run check:structure`
+- `npm run build`
+- `npm run check:annotations`
+- `npm run check:workflow`
+- `git diff --check`
+- 内置浏览器 940×590 P1/P2 与操作层，console warning/error 为 0
+
+### TASK-SETTINGS-166A 背包动态 UI 子资源归档
+
+变更内容：
+
+- 从单一恢复源包 `assets/backpack1.swf` 选择性导出 358/610 操作条、action 状态、等级数字、30 帧经验、出售白装和时装开关，61 张透明 PNG 进入正式 inventory native 目录。
+- `InventoryUiAssets` 登记 character/frame/state provenance，背包 bundle 增加 61 个唯一 key；新增尺寸、RGBA alpha、状态完整性和禁止整页裁片门禁。
+- 补齐 358/610 child/depth/矩阵、MovieClip 非 hover/pressed 反证、数字字形与运行时 TextField 裁决；棋盘格联系表确认代表性源帧/入库 PNG 零像素差。
+- 实际保持 2 工作包、2 验收批次、0 compact，未修改 `FormalInventoryPageView`、库存事务、owner/V6 或第二消费者。
+- 166A 归档，`TASK-SLICE-166B` 成为唯一 Ready；本次 `/goal` 不进入页面实现。
+
+验证：
+
+- `npm run test:inventory-dynamic-ui`
+- `npm run test:asset-bundles`
+- `npm run check:annotations`
+- `npm run build`
+- `npm run check:workflow`
+- `git diff --check`
+
+### TASK-SLICE-165C 命中资源派生门禁并拆分
+
+变更内容：
+
+- 执行前窄查确认 165B 要求的 character 358/610、等级/经验及原生状态控件尚无现代派生物，命中 165C 自身的资源派生拆分条件；未进入页面实现或炼丹炉迁移。
+- `TASK-SLICE-165C` 改为零工作包/零验收批次的 Split 父任务；新增同线串行 `TASK-SETTINGS-166A` 资源前置与 `TASK-SLICE-166B` 单页面实现，166A 成为唯一 Ready。
+- 回写 PG-007/008/011 效果样本：不以现代可见层补缺，不把资源 provenance、组件试点和第二消费者塞入同一执行项。
+
+影响范围：
+
+- `docs/tasks/task-board.md`
+- `docs/tasks/task-definitions/TASK-SLICE-165C.md`
+- `docs/tasks/task-definitions/TASK-SETTINGS-166A.md`
+- `docs/tasks/task-definitions/TASK-SLICE-166B.md`
+- `docs/tasks/feature-lines.md`
+- `docs/tasks/feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md`
+- `docs/reverse-engineering/evidence/TASK-SETTINGS-165B-backpack-review.md`
+- `docs/workflow/problems/PG-007-UI原生化缺少统一门禁.md`
+- `docs/workflow/problems/PG-008-Task缺少可执行规模门禁.md`
+- `docs/workflow/problems/PG-011-共享UI组件边界与迁移门禁缺失.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow`
+- `git diff --check`
+
 ## 2026-08-03
 
 ### 集中项目讲解材料并更新 Harness 面试稿

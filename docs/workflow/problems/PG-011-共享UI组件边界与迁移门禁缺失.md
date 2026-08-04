@@ -114,3 +114,6 @@
 | 2026-07-26 | `TASK-SLICE-156B` 原生设置与关闭生命周期 | 适用 | 共享范围仅限全局设置 owner、单页 session 和关闭/返回生命周期；371/444 及每个按钮保留独立 Symbol/皮肤/矩阵，没有新建万能现代按钮或扩大消费者迁移 | 通过 | 正式组件审计仍等待 `TASK-ARCH-014A..F`；156C 只做现有五关运行校准 |
 | 2026-07-26 | `TASK-SLICE-156C` 五关共享命中校准 | 适用 | 只把既有五按钮的透明 hit zone 与可见 HUD 统一为固定屏幕坐标；没有抽象通用皮肤、迁移其他页面或改变五个原 Symbol/owner 门禁 | 通过 | 共享行为边界未扩张为万能 UI 组件；正式存量审计仍等待 `TASK-ARCH-014A..F` |
 | 2026-08-04 | `TASK-SETTINGS-165B` item-cell/grid 边界冻结 | 适用 | `InventoryItemCell / InventoryGridProjection` 只读 identity/icon/quantity/instance/empty/selected 与分页，不持有库存副本或页面皮肤；正式背包 304/246/628 composition 仍属页面 | 通过 | 165C 只迁正式背包试点，165D 才迁炼丹炉；商城/任务等奖励消费者不在本批扩张 |
+| 2026-08-04 | `TASK-SLICE-165C` 组件试点执行前拆分 | 适用 | 原生 358/610 等页面资源前置与 item-cell/grid 试点被拆为 166A/166B；166A 不建立组件或触碰消费者，166B 仍只迁正式背包，炼丹炉保持 165D | 通过 | 未把资源 provenance、组件试点和第二消费者塞入同一 task；后续继续检查 view primitive 无库存副本和页面皮肤 |
+| 2026-08-04 | `TASK-SETTINGS-166A` 资源 bundle 边界 | 适用 | 只扩展 `InventoryUiAssets` provenance 与现有 `feature-ui-backpack` bundle，没有新建通用按钮/格子组件、页面皮肤或库存副本，也未迁移炼丹炉等第二消费者 | 通过 | 166B 仅作正式背包试点；跨消费者组件化仍由 014A..F 治理 |
+| 2026-08-04 | `TASK-SLICE-166B` item-cell/grid 正式试点 | 适用 | `InventoryItemCell / InventoryGridProjection` 仅投影 index/坐标/empty/selected/entry，视图不持有库存副本或 mutation；304 皮肤、字段、六槽和操作层全部保留在页面 composition，只迁正式背包 | 通过 | 165D 可消费只读 primitive 但必须保留炼丹炉页面几何/业务；其余消费者不在本线迁移，014A..F 仍负责跨页治理 |

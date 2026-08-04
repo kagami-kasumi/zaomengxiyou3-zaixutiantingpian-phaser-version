@@ -449,7 +449,16 @@ export const sceneAssetBundles = {
     ],
   },
   'feature-ui-backpack': {
-    dependencies: ['feature-ui', 'inventory-items-immortality', 'inventory-items-shop'],
+    dependencies: [
+      'feature-ui',
+      'inventory-items-immortality',
+      'inventory-items-shop',
+      'combat-hero-1',
+      'combat-hero-2',
+      'combat-hero-3',
+      'combat-hero-4',
+      'combat-hero-5',
+    ],
     assets: [
       svg(fullFeatureUiAssets.backpack),
       svg(fullFeatureUiAssets.backpackGrid),

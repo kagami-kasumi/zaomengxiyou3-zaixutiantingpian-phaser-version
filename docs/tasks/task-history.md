@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-166A | 背包动态 UI 资源派生 | 从单一既有 `backpack1.swf` 关闭 358/610 与 304 动态控件的现代资源缺口 | M-035、M-037、M-052、VS-064 | 61 张透明 PNG、83 唯一 UI key/bundle、61 条 ready 标注、完整 child/矩阵/帧/TextField 裁决、尺寸/alpha/状态/禁整页裁片门禁与零像素对照 |
 | TASK-SETTINGS-165B | 正式背包 UI 逆向复核 | 重新闭合 304/246/628 动态显示列表、原版基准与当前差异 | M-035、M-036、M-037、M-052、VS-064 | 六段矩阵、完整动态清单、940×590 并排/差分、对象差异表、零未知 165C 合同与历史审计澄清 |
 | TASK-SLICE-159 | 本地存档正式旅程 | 复用六槽 V6，闭合全部前置功能的跨页面、跨关卡、重启与损坏保护 | M-044、M-050、VS-052、VS-063 | 独立自动旅程、四地图服务/五战斗入口、P1/P2事务、1-2解锁、设置独立owner、临时状态排除、940×590唐僧/白龙重载及零console |
 | TASK-SLICE-164 | 移动型远程普攻修复 | 复现Role5龙魂剑J前三段EnemyMoveBullet的速度、加速度、700距离与实际轨迹命中 | M-022、M-023、M-034、M-047、VS-004、VS-062 | `Role5NormalAttackProjectileSystem`、共享Projectile/HeroPartyRuntime、正式/TestScene真视觉、三段/方向/逐帧/距离/命中/P1-P2专项与940×590零console |
@@ -7150,6 +7151,16 @@ Goal：
   物品专属用途继续后置。
 - 推荐后续：`TASK-SLICE-165C`。
 
+### TASK-SETTINGS-166A
+
+- 完成日期：2026-08-04
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 Active）
+- 规模：2 主工作包、2 验收批次、0 compact。
+- 输出：从单一 `assets/backpack1.swf` 派生 358/610、action、等级数字、30 帧经验、出售白装和时装开关等 61 张透明 PNG；登记 83 个唯一 inventory UI key/path、character/frame/state provenance 与 61 条 ready 标注。
+- 证据：165B 补齐 child/depth/矩阵/帧/TextField 裁决；源帧/入库联系表为零像素差，尺寸、RGBA alpha、状态完整性与禁整页裁片门禁通过。
+- 边界：未修改 `FormalInventoryPageView`、库存事务、owner/V6、legacy extraction 或第二消费者。
+- 推荐后续：`TASK-SLICE-166B`。
+
 ## 执行记录
 
 
@@ -9652,3 +9663,23 @@ Goal：
   未修改 `src/` 或 legacy extraction，未触发拆分。
 - 验证：`check:annotations`、`check:workflow`、`git diff --check`（收尾门禁）。
 - 下一执行项：`TASK-SLICE-165C`，唯一 Ready；不得提前进入 165D 或 Stage 2-3。
+
+### TASK-SLICE-166B
+
+- 完成日期：2026-08-04。
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-165D`）。
+- 消费 166A 的 61 张同源动态子资源，按 character 304/246/628 补齐角色本体/装备族、等级数字、经验 30 帧、名称/战力、HP/MP、八项属性、灵魂、六槽与时装状态。
+- 新增只读 `InventoryItemCell / InventoryGridProjection`：25 格固定 5×5、50×51、step 61×60；视图不持有 inventory 副本，不含页面皮肤或 mutation。
+- 删除原页面右下现代详情、owner/message 与 selected tint；选择后在格内组合 610/358 原生操作层，未实现专属用途保持 disabled，不伪造效果。
+- HeroParty runtime 以 scene 级 WeakMap 暴露只读 snapshot；战斗入口显示即时 HP/MP，地图入口回退保存成长与有效装备属性，没有新增角色或库存 owner。
+- `feature-ui-backpack` 依赖既有五个 `combat-hero-*` bundle owner 复用角色图集；浏览器首次发现的重复 owner 黑屏已修复并由 asset-bundle 门禁覆盖。
+- 940×590 P1/P2 分别证明 `50/50 + 100/100` 与 `70/70 + 55/55` 同 HUD 即时值，装备操作层可见，console warning/error 为 0；证据位于 `docs/tasks/evidence/TASK-SLICE-166B/`。
+- 实际保持两个主工作包、两个验收批次、0 compact；未派生资源、迁移炼丹炉/第二消费者、修改 V6 或新增专属用途。
+
+验证：
+- `npm run test:formal-inventory`、`npm run test:inventory-dynamic-ui`、`npm run test:inventory-catalog`、`npm run test:asset-bundles`。
+- `npm run test:systems`、`npm run check:structure`、`npm run build`、`npm run check:annotations`、`npm run check:workflow`、`git diff --check`。
+- 内置浏览器 940×590 P1/P2、选择/操作层、关闭/再入与零 console。
+
+推荐任务：
+- `TASK-SLICE-165D`：只整改地图炼丹炉右侧嵌入式背包消费者；不重做正式背包 owner 或 V6。

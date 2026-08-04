@@ -53,6 +53,14 @@ export type HeroPartyRuntime = Readonly<{
   destroy: () => void;
 }>;
 
+const heroPartyRuntimeByScene = new WeakMap<Phaser.Scene, HeroPartyRuntime>();
+
+export function readHeroPartyPresentationSnapshot(
+  scene: Phaser.Scene,
+): readonly Omit<HeroPartyViewSnapshot, 'view'>[] | undefined {
+  return heroPartyRuntimeByScene.get(scene)?.snapshots().map(({ view: _view, ...snapshot }) => snapshot);
+}
+
 export function createHeroPartyRuntime(
   scene: Phaser.Scene,
   views: readonly Phaser.GameObjects.Image[],
@@ -109,7 +117,7 @@ export function createHeroPartyRuntime(
     normalAttackProjectileVisuals.update(model.projectiles.projectiles);
   };
 
-  return {
+  const runtime: HeroPartyRuntime = {
     update: (frame) => {
       if (destroyed) return;
       updateHeroPartyRuntime(model, frame);
@@ -150,8 +158,11 @@ export function createHeroPartyRuntime(
       attackVisuals.destroy();
       normalAttackProjectileVisuals.destroy();
       destroyHeroPartyRuntime(model);
+      heroPartyRuntimeByScene.delete(scene);
     },
   };
+  heroPartyRuntimeByScene.set(scene, runtime);
+  return runtime;
 }
 
 function syncFallbackFeedback(

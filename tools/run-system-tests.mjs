@@ -47,6 +47,7 @@ const bundledTests = requestedTests.length > 0
       'player-soul-system-tests',
       'save-party-flow-tests',
       'formal-inventory-tests',
+      'inventory-dynamic-ui-resource-tests',
       'formal-skill-tests',
       'formal-pet-tests',
       'formal-workshop-host-tests',

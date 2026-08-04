@@ -255,6 +255,7 @@ export class FeatureUiScene extends Phaser.Scene {
         onClose: () => this.closeHost(),
         onRerender: () => this.renderBackpackPage(),
       },
+      this.session.playerPresentation?.find((snapshot) => snapshot.owner === owner),
     );
   }
 

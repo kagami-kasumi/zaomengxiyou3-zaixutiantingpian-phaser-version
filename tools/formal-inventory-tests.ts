@@ -8,12 +8,20 @@ import {
   equipFormalInventorySelection,
   getFormalInventoryPageCount,
   getFormalInventoryPageEntries,
+  getFormalInventoryPresentation,
   selectFormalEquipmentSlot,
   selectFormalInventoryCategory,
   selectFormalInventoryEntry,
   setFormalInventoryOwner,
   unequipFormalInventorySelection,
 } from '../src/systems/FormalInventoryPageSystem';
+import {
+  InventoryGridCellHeight,
+  InventoryGridCellWidth,
+  InventoryGridStepX,
+  InventoryGridStepY,
+  createInventoryGridProjection,
+} from '../src/systems/InventoryGridProjection';
 import { InventoryCategories } from '../src/systems/InventorySystem';
 import { createSaveSlot, loadActiveGame } from '../src/systems/SaveSlotSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
@@ -101,10 +109,50 @@ function testTrueAssetsAndSceneContract(): void {
   assert.match(view, /getFormalInventoryPageEntries/);
   assert.match(view, /equipFormalInventorySelection/);
   assert.match(view, /unequipFormalInventorySelection/);
+  assert.match(view, /createInventoryGridProjection/);
+  assert.match(view, /operationThree\.background/);
+  assert.match(view, /operationSimple\.background/);
+  assert.match(view, /getFormalInventoryPresentation/);
   assert.doesNotMatch(view, /add\.rectangle/);
+  assert.doesNotMatch(view, /setTint|formatSelectedDetails|model\.message/);
+}
+
+function testNativeGridAndDynamicPresentation(): void {
+  const storage = createStorage();
+  assert.equal(createSaveSlot(storage, 0), true);
+  const model = createFormalInventoryPage(storage, 'p1');
+  assert.ok(model);
+  const entries = getFormalInventoryPageEntries(model);
+  const cells = createInventoryGridProjection(entries, 12);
+  assert.equal(cells.length, 25);
+  assert.deepEqual(cells[0], { index: 0, x: 0, y: 0, empty: false, selected: false, entry: entries[0] });
+  assert.equal(cells[24]?.x, InventoryGridStepX * 4);
+  assert.equal(cells[24]?.y, InventoryGridStepY * 4);
+  assert.equal(InventoryGridCellWidth, 50);
+  assert.equal(InventoryGridCellHeight, 51);
+
+  model.restored.player1.progression.level = 10;
+  model.restored.player1.progression.currentExp = 50;
+  model.restored.player1.progression.expToNext = 100;
+  const mapPresentation = getFormalInventoryPresentation(model);
+  assert.equal(mapPresentation.heroName, '悟空');
+  assert.equal(mapPresentation.level, 10);
+  assert.equal(mapPresentation.expFrame, 15);
+  assert.equal(mapPresentation.currentHp, mapPresentation.maxHp);
+  assert.equal(mapPresentation.currentMp, mapPresentation.maxMp);
+  assert.ok(mapPresentation.fightingForce > 0);
+
+  const combatPresentation = getFormalInventoryPresentation(model, {
+    hp: 123, maxHp: 456, mp: 17, maxMp: 89,
+  });
+  assert.equal(combatPresentation.currentHp, 123);
+  assert.equal(combatPresentation.maxHp, 456);
+  assert.equal(combatPresentation.currentMp, 17);
+  assert.equal(combatPresentation.maxMp, 89);
 }
 
 testOwnerEquipUnequipAndPersistence();
 testCategoriesPagingAndSafeUnsupportedFeedback();
 testTrueAssetsAndSceneContract();
+testNativeGridAndDynamicPresentation();
 console.log('Formal backpack/equipment owner, persistence, and true asset tests passed.');

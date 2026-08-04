@@ -22,6 +22,7 @@ import {
   ensureSceneAssetBundle,
   type BundleLoadFeedback,
 } from '../SceneAssetBundleBridge';
+import { readHeroPartyPresentationSnapshot } from '../HeroPartyRuntimeBridge';
 
 export const formalFeatureUiHost = createFeatureUiHostModel();
 export const P2_BACKPACK_KEY_CODE = 111;
@@ -139,6 +140,15 @@ export async function launchFormalFeatureUi(
     originSceneKey: scene.scene.key,
     originKind: config.originKind,
     playerCount: config.party.playerCount,
+    ...(config.originKind === 'combat' ? {
+      playerPresentation: readHeroPartyPresentationSnapshot(scene)?.map((snapshot) => ({
+        owner: snapshot.slot,
+        hp: snapshot.hp,
+        maxHp: snapshot.maxHp,
+        mp: snapshot.mp,
+        maxMp: snapshot.maxMp,
+      })),
+    } : {}),
   });
   if (result.status !== 'opened') return false;
 

@@ -4,12 +4,21 @@ export type FeatureUiPage = typeof FeatureUiPages[number];
 export type FeatureUiOwner = 'p1' | 'p2';
 export type FeatureUiOriginKind = 'map' | 'combat';
 
+export type FeatureUiPlayerPresentation = Readonly<{
+  owner: FeatureUiOwner;
+  hp: number;
+  maxHp: number;
+  mp: number;
+  maxMp: number;
+}>;
+
 export type FeatureUiSession = {
   page: FeatureUiPage;
   owner: FeatureUiOwner;
   originSceneKey: string;
   originKind: FeatureUiOriginKind;
   playerCount: 1 | 2;
+  playerPresentation?: readonly FeatureUiPlayerPresentation[];
 };
 
 export type FeatureUiHostModel = {
