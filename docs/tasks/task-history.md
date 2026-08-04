@@ -9683,3 +9683,27 @@ Goal：
 
 推荐任务：
 - `TASK-SLICE-165D`：只整改地图炼丹炉右侧嵌入式背包消费者；不重做正式背包 owner 或 V6。
+
+### TASK-SLICE-166C
+
+- 完成日期：2026-08-04。
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-165D`）。
+- 用户反馈范围：正式背包去小格框、经验黄条归位、358/610 总操作层置顶、分页去重叠/多余字、灵魂值框内右对齐留边；关卡内左下入口明确暂缓。
+- 实现：格子改为 50×51 透明命中区，图标裁去 5px 自带外框；经验 PNG 按导出可见边界投影到原黑槽；操作层延后到容器末尾；304 底图移除重复页码与灵魂占位，动态值分别居中/右对齐。
+- 业务边界：未修改 inventory owner、事务、V6、专属物品用途、炼丹炉或其他页面。
+- 证据：`docs/tasks/evidence/TASK-SLICE-166C/` 的 940×590 P1 基础/装备操作层截图；console warning/error 为 0。
+- 验证：`npm run test:formal-inventory`、`npm run build`、`npm run check:workflow`、`npm run check:structure`、`git diff --check`。
+- 下一执行项：`TASK-SLICE-165D`，恢复为唯一 Ready。
+
+后续澄清：用户指出 166C 删除了错误层级；最终格框、经验文字和页码裁决以 `TASK-SLICE-166D` 为准。
+
+### TASK-SLICE-166D
+
+- 完成日期：2026-08-04。
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-165D`）。
+- 根据用户局部截图恢复 25 个 628 外层棕色格框；物品图标裁切收紧为 9px，仅去除自身第二层小框。
+- 经验 `a / b` 从左对齐字段改为以黑色经验槽中心 `x=311.6` 独立居中；页码在两按钮间显示 `${current}/5`，940×590 证明 `1/5`、`2/5` 无重叠。
+- 166C 的经验黄条、358/610 操作层深度、灵魂右对齐及业务/owner 结论继续有效；关卡内左下入口仍按用户要求暂缓。
+- 证据：`docs/tasks/evidence/TASK-SLICE-166D/`；console warning/error 为 0。
+- 验证：`npm run test:formal-inventory`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`git diff --check`。
+- 下一执行项：`TASK-SLICE-165D`，恢复为唯一 Ready。

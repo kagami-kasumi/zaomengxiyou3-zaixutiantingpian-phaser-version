@@ -30,7 +30,7 @@
 | LINE-STAGE-2-1 | Done | 正式游戏主循环关闭后恢复：先逆向 Stage 2-1，再由证据决定可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-1.md` | 无 | 真场景/五停点/53 怪/38 冰刺/Boss 门/2-2 保存、四怪 94 帧与七攻击对象 132 帧、1P/2P 逐状态和零 console 全部闭合 |
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
-| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-165D | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 166B 已完成正式背包动态组合、只读格子试点与 P1/P2 运行态证据；仅余炼丹炉右栏整改 | 完成 165D 后重新运行全线关闭检查 |
+| LINE-PRE-STAGE-2-3-COMPLETION | Active | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | TASK-SLICE-165D | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 166D 已按用户澄清保留外框、去内框并校正经验文字与页码；仅余炼丹炉右栏整改 | 完成 165D 后重新运行全线关闭检查 |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待本次用户明确要求的前置整改关闭 | 前置线重新关闭后恢复 TASK-SETTINGS-064 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
@@ -50,6 +50,14 @@
 2026-08-04 `TASK-SETTINGS-166A` 已归档：从唯一既有 `backpack1.swf` 选择性派生 358/610 操作条、五类 action 状态、10 个等级数字、30 帧经验条、出售白装与时装开关等 61 张透明 PNG；83 个 inventory UI key 的 provenance/bundle、尺寸/alpha/状态/整页裁片禁止门禁与零像素源帧对照已通过。本 task 未修改正式页面或库存行为，功能线继续 Active，唯一 Ready 切到 `TASK-SLICE-166B`。
 
 2026-08-04 `TASK-SLICE-166B` 已归档：正式背包按 304/246/628 显示列表补齐角色、等级/经验、动态字段、六槽/时装、5×5 精确格阵与 358/610 原生操作层；`InventoryItemCell / InventoryGridProjection` 保持只读，战斗入口消费 HeroParty 即时 HP/MP snapshot，地图回退保存成长。P1/P2 940×590 与零 console、专项/构建通过，唯一 Ready 切到 `TASK-SLICE-165D`。
+
+2026-08-04 用户复验指出正式背包仍有五项可见缺陷：物品格小框不美观、经验黄条错位、装备/给予/出售总操作层被后续对象遮挡、右下分页重叠并出现多余黑字、灵魂数字压框。原 166B 的资源/业务/owner 结论继续有效，视觉关闭结论降级为待复核；新增同线 `TASK-SLICE-166C` 为唯一 Ready，165D 暂回 Planned。关卡内左下背包 pointer 按用户要求暂不进入本 task。
+
+2026-08-04 `TASK-SLICE-166C` 已归档：物品格改为透明命中区并裁去图标自带外框，经验帧按可见边界回到黑槽，358/610 操作层最后绘制，页码移除重复 `/5`，灵魂值在框内右对齐留边。940×590 P1 基础/操作层与零 console、P1/P2 owner 专项、build/workflow 通过；用户明确暂缓的关卡内左下入口未纳入整改。唯一 Ready 恢复为 `TASK-SLICE-165D`。
+
+2026-08-04 用户用局部截图澄清：应保留 628 外层棕色格框，只去除物品图片自身的内层小框；经验 `a/b` 应以整条黑色槽居中；分页应显示 `1/5、2/5`。166C 的操作层、经验黄条、灵魂值与业务结论保留，上述三项视觉结论降级待修；新增 `TASK-SLICE-166D` 为唯一 Ready，165D 暂回 Planned。
+
+2026-08-04 `TASK-SLICE-166D` 已归档：恢复 25 个 628 外层棕色格框，图标裁切从 5px 收紧为 9px 以去除自身内层框；经验文字以黑槽中心 `x=311.6` 独立居中；页码在两按钮间显示 `n/5`。940×590 的 1/5、2/5 证据与 console 零 warning/error、专项/build/workflow 通过；唯一 Ready 恢复为 `TASK-SLICE-165D`。
 
 2026-07-25 `TASK-SETTINGS-066` 已确认四入口实际调用链、四页面身份、三个恢复源包、四根 Symbol 与主要事务/存档边界。因跨三源包和四套 owner 且首次 compact，按拆分门禁停止扩张：父任务改为 `Split`，证据拆为 `066A..D`，实现父任务拆为 `155A..D`，公共检查点见 `map-service-ui-index.md`；功能线不关闭，`GOAL-037 / TASK-SETTINGS-066A` 继续唯一 Active。
 

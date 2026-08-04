@@ -2,15 +2,12 @@
 <svg xmlns:ffdec="https://www.free-decompiler.com/flash" xmlns:xlink="http://www.w3.org/1999/xlink" ffdec:objectType="frame" height="1070.7px" width="2095.2px" xmlns="http://www.w3.org/2000/svg">
   <g transform="matrix(1.0, 0.0, 0.0, 1.0, 753.95, 480.7)">
     <use ffdec:characterId="203" height="590.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="940.05" xlink:href="#shape0"/>
-    <use ffdec:characterId="204" height="23.25" id="nowpage" transform="matrix(1.0, 0.0, 0.0, 1.0, 695.0, 478.85)" width="15.25" xlink:href="#text0"/>
     <use ffdec:characterId="83" height="34.0" id="nextPage" transform="matrix(0.9999, 0.0, 0.0, 0.9922, 727.2, 472.45)" width="86.0" xlink:href="#button0"/>
-    <use ffdec:characterId="205" height="23.25" transform="matrix(1.0, 0.0, 0.0, 1.0, 705.05, 478.85)" width="24.15" xlink:href="#text1"/>
     <use ffdec:characterId="78" height="34.0" id="prePage" transform="matrix(1.0, 0.0, 0.0, 1.0, 609.0, 472.45)" width="86.0" xlink:href="#button1"/>
     <use ffdec:characterId="210" ffdec:characterName="backpack_fla.Timeline_86" height="19.8" id="mc_exp" transform="matrix(1.0, 0.0, 0.0, 1.0, 311.6, 489.95)" width="451.9" xlink:href="#sprite0"/>
     <use ffdec:characterId="31" height="42.0" id="btn_close" transform="matrix(1.0, 0.0, 0.0, 1.0, 809.5, 59.85)" width="40.0" xlink:href="#button2"/>
     <use ffdec:characterId="211" height="22.05" id="txt_exp" transform="matrix(1.0, 0.0, 0.0, 1.0, 237.45, 482.05)" width="139.95" xlink:href="#text2"/>
     <use ffdec:characterId="213" height="35.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="133.0" xlink:href="#shape10"/>
-    <use ffdec:characterId="214" height="22.05" id="txt_lh" transform="matrix(1.0, 0.0, 0.0, 1.0, 664.7, 450.5)" width="74.15" xlink:href="#text3"/>
     <use ffdec:characterId="216" height="23.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="35.0" xlink:href="#shape11"/>
     <use ffdec:characterId="219" height="59.0" id="levelmc" transform="matrix(1.0, 0.0, 0.0, 1.0, 378.95, 105.85)" width="83.0" xlink:href="#sprite2"/>
     <use ffdec:characterId="222" height="28.0" id="sellwhite" transform="matrix(1.0, 0.0, 0.0, 1.0, 747.5, 445.5)" width="62.0" xlink:href="#button3"/>

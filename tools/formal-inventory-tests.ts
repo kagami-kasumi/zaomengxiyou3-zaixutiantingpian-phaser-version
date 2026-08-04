@@ -113,6 +113,13 @@ function testTrueAssetsAndSceneContract(): void {
   assert.match(view, /operationThree\.background/);
   assert.match(view, /operationSimple\.background/);
   assert.match(view, /getFormalInventoryPresentation/);
+  assert.match(view, /inventoryUiAssets\.slot\.key/);
+  assert.match(view, /EXP_BAR_TOP_LEFT/);
+  assert.match(view, /EXP_TEXT_CENTER/);
+  assert.match(view, /setCrop\(9, 9/);
+  assert.match(view, /SOUL_VALUE_RIGHT/);
+  assert.match(view, /PAGE_VALUE_CENTER/);
+  assert.match(view, /getFormalInventoryPageCount\(model\)/);
   assert.doesNotMatch(view, /add\.rectangle/);
   assert.doesNotMatch(view, /setTint|formatSelectedDetails|model\.message/);
 }
