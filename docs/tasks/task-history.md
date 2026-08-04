@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-165B | 正式背包 UI 逆向复核 | 重新闭合 304/246/628 动态显示列表、原版基准与当前差异 | M-035、M-036、M-037、M-052、VS-064 | 六段矩阵、完整动态清单、940×590 并排/差分、对象差异表、零未知 165C 合同与历史审计澄清 |
 | TASK-SLICE-159 | 本地存档正式旅程 | 复用六槽 V6，闭合全部前置功能的跨页面、跨关卡、重启与损坏保护 | M-044、M-050、VS-052、VS-063 | 独立自动旅程、四地图服务/五战斗入口、P1/P2事务、1-2解锁、设置独立owner、临时状态排除、940×590唐僧/白龙重载及零console |
 | TASK-SLICE-164 | 移动型远程普攻修复 | 复现Role5龙魂剑J前三段EnemyMoveBullet的速度、加速度、700距离与实际轨迹命中 | M-022、M-023、M-034、M-047、VS-004、VS-062 | `Role5NormalAttackProjectileSystem`、共享Projectile/HeroPartyRuntime、正式/TestScene真视觉、三段/方向/逐帧/距离/命中/P1-P2专项与940×590零console |
 | TASK-SLICE-163 | 固定世界型远程普攻修复 | 纠正Role2与Role4弓形J只有远程视觉、实际仍按角色近战范围结算的问题 | M-019、M-021、M-023、M-034、M-047、VS-004、VS-062 | 六段远程J矩阵、`HeroNormalAttackGeometry`、释放点冻结、正式Runtime/TestScene统一命中、未来detached门禁、专项/全系统/build与940×590零console |
@@ -7139,6 +7140,16 @@ Goal：
 - 验收：专项/全系统、structure、build、annotations、workflow、diff check 与浏览器临时槽清理通过。
 - 推荐后续：`TASK-SETTINGS-064`。
 
+### TASK-SETTINGS-165B
+
+- 完成日期：2026-08-04
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 Active）
+- 输出：304/246/628 六段矩阵、完整动态显示列表、原版/当前 940×590
+  并排与稳定差分、对象差异、历史审计澄清和零未知 165C 实现合同。
+- 边界：未修改 `src/`、legacy extraction、431 项目录、428 真图标、事务或 V6；
+  物品专属用途继续后置。
+- 推荐后续：`TASK-SLICE-165C`。
+
 ## 执行记录
 
 
@@ -9624,3 +9635,20 @@ Goal：
 
 推荐任务：
 - `TASK-SETTINGS-165B`：只复核正式背包动态显示列表、原版基准与当前差异，不提前实现 165C/165D。
+
+### TASK-SETTINGS-165B
+
+- 完成日期：2026-08-04。
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（继续 Active）。
+- 历史审计澄清：`docs/reverse-engineering/evidence/TASK-SLICE-160-visual-audit.md`
+  自提交 `fbef10b` 起实际存在；“文件缺失”是路径查找误会。其视觉关闭结论因
+  漏查 304 动态角色/等级/字段/装备、628 的 358/610 操作弹层，并误认现代
+  `43×41` 为原版格距而被本次复核取代。
+- 权威产物：`TASK-SETTINGS-165B-backpack-review.md`、原版 304 静态 940×590、
+  原版/当前并排图、稳定面板差分、完整对象差异和 165C 精确合同。
+- 保留结论：431 项身份、428 真图标、三项原版缺陷排除、统一事务、P1/P2 与
+  V6 不受视觉复核影响；专属物品用途仍显式后置。
+- 规模结果：1 个证据工作包、1 个验收批次、0 次 compact；未读取新 UI 源包，
+  未修改 `src/` 或 legacy extraction，未触发拆分。
+- 验证：`check:annotations`、`check:workflow`、`git diff --check`（收尾门禁）。
+- 下一执行项：`TASK-SLICE-165C`，唯一 Ready；不得提前进入 165D 或 Stage 2-3。

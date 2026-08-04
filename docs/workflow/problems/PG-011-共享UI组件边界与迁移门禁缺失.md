@@ -113,3 +113,4 @@
 | 2026-07-26 | `TASK-SLICE-156A` 五入口共享 router | 适用 | 仅共享输入路由、418 命中和生命周期接缝；五个 549/555/561/567/573 仍保留独立原生皮肤、坐标和 owner 门禁，没有趁本 task 建立跨页面万能按钮或迁移其他消费者 | 通过 | 156B 可复用本 router，但正式组件审计与其他消费者迁移仍等待 `TASK-ARCH-014A..F` |
 | 2026-07-26 | `TASK-SLICE-156B` 原生设置与关闭生命周期 | 适用 | 共享范围仅限全局设置 owner、单页 session 和关闭/返回生命周期；371/444 及每个按钮保留独立 Symbol/皮肤/矩阵，没有新建万能现代按钮或扩大消费者迁移 | 通过 | 正式组件审计仍等待 `TASK-ARCH-014A..F`；156C 只做现有五关运行校准 |
 | 2026-07-26 | `TASK-SLICE-156C` 五关共享命中校准 | 适用 | 只把既有五按钮的透明 hit zone 与可见 HUD 统一为固定屏幕坐标；没有抽象通用皮肤、迁移其他页面或改变五个原 Symbol/owner 门禁 | 通过 | 共享行为边界未扩张为万能 UI 组件；正式存量审计仍等待 `TASK-ARCH-014A..F` |
+| 2026-08-04 | `TASK-SETTINGS-165B` item-cell/grid 边界冻结 | 适用 | `InventoryItemCell / InventoryGridProjection` 只读 identity/icon/quantity/instance/empty/selected 与分页，不持有库存副本或页面皮肤；正式背包 304/246/628 composition 仍属页面 | 通过 | 165C 只迁正式背包试点，165D 才迁炼丹炉；商城/任务等奖励消费者不在本批扩张 |

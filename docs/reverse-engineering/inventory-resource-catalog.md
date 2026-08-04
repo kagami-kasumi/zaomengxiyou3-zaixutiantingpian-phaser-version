@@ -136,6 +136,11 @@ InventoryItemDefinitionRegistry（431 项证据目录）
 
 ## 背包显示列表复核
 
+2026-08-04 `TASK-SETTINGS-165B` 已完成权威复核，详见
+[`evidence/TASK-SETTINGS-165B-backpack-review.md`](evidence/TASK-SETTINGS-165B-backpack-review.md)。
+历史 `TASK-SLICE-160` 审计文件实际存在，但其视觉关闭结论漏掉 304 动态层与
+628 原生操作弹层，现已被新复核取代。
+
 ### character 304 根页
 
 - 原舞台可见层是 940×590；组合导出因离台 child 扩成 2095.2×1070.7，
@@ -161,14 +166,16 @@ InventoryItemDefinitionRegistry（431 项证据目录）
 
 - 分类 selected 由运行时把 `upState` 设为 `downState`，不是新增选中框。
 - `drawgz()` 每页创建 5×5 个 `PackThings`；列间距为格宽+11，行间距为
-  格高+9，数据索引为 `(page-1)*25 + localIndex`。
+  格高+9；character 628 为 50×51，因此精确步距是 61×60，数据索引为
+  `(page-1)*25 + localIndex`。当前现代 `43×41` 是待 165C 修正的反证。
 - `PackThings` character 628 动态加入 `ShowObj` 图标，数量大于 1 时由
   `txtname` 覆盖显示；图标必须在数量文字下方。
 - 空格不创建物品 child；实例不显示数量，堆叠 1 也不显示数量。
 
 ### 逐状态结果
 
-`TASK-SLICE-160` 的 940×590 验收与自动门禁覆盖：
+下列是 `TASK-SLICE-160` 当时记录的覆盖范围；165B 证明它没有完整覆盖 304
+动态 child 和 628 操作弹层，因此不能再单独作为原生视觉关闭依据：
 
 - 四分类 normal/hover/pressed/selected；
 - 首/中/末页及分页边界；
@@ -180,7 +187,8 @@ InventoryItemDefinitionRegistry（431 项证据目录）
 
 原版视觉基准继续引用恢复 `backpack1.swf` 304/246 的 940×590 导出与
 `TASK-SLICE-135` 既有运行证据。现代对象差异、几何边缘、逐状态截图和运行
-限制记录于 `evidence/TASK-SLICE-160-visual-audit.md`。
+历史限制记录于 `evidence/TASK-SLICE-160-visual-audit.md`；165C 的唯一视觉输入
+改为 `evidence/TASK-SETTINGS-165B-backpack-review.md`。
 
 ## 六段证据矩阵
 
