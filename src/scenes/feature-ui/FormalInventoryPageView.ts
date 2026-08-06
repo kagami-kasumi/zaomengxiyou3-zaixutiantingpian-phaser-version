@@ -40,6 +40,8 @@ const EXP_BAR_TOP_LEFT = { x: -32.4, y: 480.05 };
 const EXP_TEXT_CENTER = 311.6;
 const SOUL_VALUE_RIGHT = 729;
 const PAGE_VALUE_CENTER = 711.1;
+const ITEM_ICON_CONTENT_SIZE = 32;
+const ITEM_ICON_FRAME_INSET = 9;
 const EQUIPMENT_SLOTS = [
   { x: 362.05, y: 166.65 },
   { x: 362.05, y: 241.65 },
@@ -110,7 +112,7 @@ export function createFormalInventoryPageView(
     objects.push(hit);
     if (equipped) {
       const asset = getInventoryItemAsset(equipped.definition.fillName);
-      if (asset) objects.push(scene.add.image(position.x + 25, position.y + 23, asset.key).setDisplaySize(32, 32));
+      if (asset) objects.push(createFramelessItemIcon(scene, position.x + 25, position.y + 23, asset.key));
     }
   });
 
@@ -161,14 +163,23 @@ export function createFormalInventoryPageView(
   return scene.add.container(0, 0, objects).setDepth(20);
 }
 
+function createFramelessItemIcon(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  textureKey: string,
+): Phaser.GameObjects.Image {
+  const icon = scene.add.image(x, y, textureKey);
+  const cropWidth = Math.max(1, icon.width - ITEM_ICON_FRAME_INSET * 2);
+  const cropHeight = Math.max(1, icon.height - ITEM_ICON_FRAME_INSET * 2);
+  return icon.setCrop(ITEM_ICON_FRAME_INSET, ITEM_ICON_FRAME_INSET, cropWidth, cropHeight)
+    .setScale(ITEM_ICON_CONTENT_SIZE / cropWidth, ITEM_ICON_CONTENT_SIZE / cropHeight);
+}
+
 function createEntryVisual(scene: Phaser.Scene, entry: InventoryEntry, x: number, y: number): Phaser.GameObjects.GameObject[] {
   const objects: Phaser.GameObjects.GameObject[] = [];
   const asset = getInventoryItemAsset(entry.definition.fillName);
-  if (asset) {
-    const icon = scene.add.image(x + 25, y + 25.5, asset.key);
-    icon.setCrop(9, 9, Math.max(1, icon.width - 18), Math.max(1, icon.height - 18)).setDisplaySize(34, 34);
-    objects.push(icon);
-  }
+  if (asset) objects.push(createFramelessItemIcon(scene, x + 25, y + 25.5, asset.key));
   if (entry.kind === 'stack' && entry.quantity > 1) {
     objects.push(scene.add.text(x + 46, y + 47, String(entry.quantity), {
       color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: '11px', stroke: '#000000', strokeThickness: 2,

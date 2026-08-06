@@ -65,6 +65,7 @@
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",
     "check:annotations": "node tools/validate-asset-annotations.mjs",
+    "audit:problems": "node tools/run-problem-audit.mjs",
     "audit:crafting-coverage": "node tools/run-crafting-coverage-audit.mjs",
     "generate:crafting-item-catalog": "node tools/generate-crafting-item-catalog.mjs",
     "generate:crafting-icon-catalog": "node tools/generate-crafting-icon-catalog.mjs",
@@ -72,7 +73,7 @@
     "generate:role5-combat-assets": "node tools/integrate-role5-combat-assets.mjs",
     "generate:formal-soul-ui": "node tools/generate-formal-soul-ui.mjs",
     "check:level-architecture": "node tools/check-playable-level-architecture.mjs",
-    "check:workflow": "node tools/validate-workflow.mjs && node tools/validate-asset-annotations.mjs && npm run check:level-architecture",
+    "check:workflow": "node tools/validate-workflow.mjs && node tools/run-problem-audit.mjs --validate && node tools/validate-asset-annotations.mjs && npm run check:level-architecture",
     "check:all": "npm run check:workflow && npm run check:structure && npm run check:code"
   },
   "dependencies": {

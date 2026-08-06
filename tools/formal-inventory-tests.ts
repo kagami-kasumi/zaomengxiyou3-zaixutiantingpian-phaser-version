@@ -116,7 +116,9 @@ function testTrueAssetsAndSceneContract(): void {
   assert.match(view, /inventoryUiAssets\.slot\.key/);
   assert.match(view, /EXP_BAR_TOP_LEFT/);
   assert.match(view, /EXP_TEXT_CENTER/);
-  assert.match(view, /setCrop\(9, 9/);
+  assert.match(view, /ITEM_ICON_FRAME_INSET = 9/);
+  assert.equal(view.match(/createFramelessItemIcon\(/g)?.length, 3);
+  assert.match(view, /setScale\(ITEM_ICON_CONTENT_SIZE \/ cropWidth, ITEM_ICON_CONTENT_SIZE \/ cropHeight\)/);
   assert.match(view, /SOUL_VALUE_RIGHT/);
   assert.match(view, /PAGE_VALUE_CENTER/);
   assert.match(view, /getFormalInventoryPageCount\(model\)/);

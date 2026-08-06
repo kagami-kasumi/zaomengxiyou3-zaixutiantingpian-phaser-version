@@ -85,6 +85,9 @@
 - `docs/workflow/problem-governance.md`
   - 问题治理协议。
   - 规定系统性工程问题的定义、状态机、效果反馈、复盘换案、关闭出清和活跃/归档索引，不堆叠具体问题正文。
+- `docs/workflow/problem-audit.md`
+  - PG 集中审计协议。
+  - 统一任务收尾的活跃 PG 扫描、单点样本记录和归档评估；试验期间由 `MO-002` 观测，不替代单个 PG 的关闭合同与反证历史。
 - `docs/workflow/method-observation.md`
   - 规定实验性改进方法与 `PG-*` 的边界、基线/指标、真实采样、到期裁决和活跃/归档索引。
 - `docs/workflow/reverse-engineering-protocol.md`

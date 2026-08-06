@@ -21,6 +21,7 @@ const files = {
   codeQualityGates: 'docs/workflow/code-quality-gates.md',
   reviewProtocol: 'docs/workflow/review-protocol.md',
   problemGovernance: 'docs/workflow/problem-governance.md',
+  problemAudit: 'docs/workflow/problem-audit.md',
   methodObservation: 'docs/workflow/method-observation.md',
   reverseEngineeringProtocol: 'docs/workflow/reverse-engineering-protocol.md',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
@@ -1156,7 +1157,6 @@ function problemFeedbackContractErrors(text) {
     '## 7. 适用触发与反馈记录',
     '触发条件：',
     '效果检查：',
-    '| 日期 | 任务/变更 | 适用性 | 证据 | 结论 | 后续动作 |',
   ];
   return requiredFeedbackText.filter((requiredText) => !text.includes(requiredText));
 }
@@ -1263,7 +1263,7 @@ function checkProblemGovernance(
   const negativeFeedbackCases = [
     feedbackSample.replace(/\n## 7\. \u9002\u7528\u89e6\u53d1\u4e0e\u53cd\u9988\u8bb0\u5f55[\s\S]*$/, ''),
     feedbackSample.replace('触发条件：', '触发已删除：'),
-    feedbackSample.replace('| 日期 | 任务/变更 | 适用性 | 证据 | 结论 | 后续动作 |', '| 反馈表已删除 |'),
+    feedbackSample.replace('效果检查：', '效果已删除：'),
   ];
   negativeFeedbackCases.forEach((negativeCase, index) => {
     if (problemFeedbackContractErrors(negativeCase).length === 0) {
@@ -1282,10 +1282,65 @@ function checkProblemGovernance(
       error(`${name} must reference docs/workflow/problem-governance.md.`);
     }
   }
-  if (!agents.includes('效果样本') || !agents.includes('活跃问题索引')
-    || !agentProtocol.includes('问题适用性扫描')
-    || !agentProtocol.includes('归档索引不参与常规扫描')) {
+  if (!agents.includes('npm run audit:problems') || !agents.includes('活跃问题索引')
+    || !agentProtocol.includes('npm run audit:problems')
+    || !agentProtocol.includes('归档索引不参与常规扫描')
+    || !agentProtocol.includes('集中记录一次')) {
     error('Agent entry and protocol must enforce problem-governance feedback scanning.');
+  }
+}
+
+function checkProblemAudit(
+  problemAudit,
+  problemGovernance,
+  methodObservation,
+  packageJsonText,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  agentProtocol,
+) {
+  for (const requiredText of [
+    '职责边界',
+    '任务收尾审计',
+    'PG 归档评估',
+    '集中审计记录',
+    'MO-002',
+    'npm run audit:problems',
+    '| 日期 | 任务/变更 | 变更范围 | 命中 PG | 结论与证据 | 归档评估 | MO-002 指标/后续动作 |',
+  ]) {
+    if (!problemAudit.includes(requiredText)) error(`problem-audit.md must mention: ${requiredText}`);
+  }
+
+  for (const requiredText of ['problem-audit.md', 'npm run audit:problems']) {
+    if (!problemGovernance.includes(requiredText)) error(`problem-governance.md must mention: ${requiredText}`);
+  }
+  for (const requiredText of ['PG 关闭样本', '同一份证据']) {
+    if (!methodObservation.includes(requiredText)) error(`method-observation.md must mention: ${requiredText}`);
+  }
+
+  let packageJson;
+  try {
+    packageJson = JSON.parse(packageJsonText);
+  } catch {
+    return;
+  }
+  if (packageJson.scripts?.['audit:problems'] !== 'node tools/run-problem-audit.mjs') {
+    error('package.json must expose audit:problems through tools/run-problem-audit.mjs.');
+  }
+  if (!packageJson.scripts?.['check:workflow']?.includes('run-problem-audit.mjs --validate')) {
+    error('check:workflow must validate the centralized PG audit contract.');
+  }
+
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+    ['docs/workflow/agent-protocol.md', agentProtocol],
+  ]) {
+    if (!text.includes('problem-audit.md')) error(`${name} must reference docs/workflow/problem-audit.md.`);
   }
 }
 
@@ -1566,6 +1621,7 @@ const packageJsonText = read(files.packageJson);
 const codeQualityGates = read(files.codeQualityGates);
 const reviewProtocol = read(files.reviewProtocol);
 const problemGovernance = read(files.problemGovernance);
+const problemAudit = read(files.problemAudit);
 const methodObservation = read(files.methodObservation);
 const reverseEngineeringProtocol = read(files.reverseEngineeringProtocol);
 const problemDirectory = 'docs/workflow/problems';
@@ -1648,6 +1704,7 @@ checkGovernanceLog([
   files.codeQualityGates,
   files.reviewProtocol,
   files.problemGovernance,
+  files.problemAudit,
   files.methodObservation,
   files.reverseEngineeringProtocol,
   ...problemRecordPaths,
@@ -1669,6 +1726,17 @@ checkUiNativeWorkflowGate(
 checkProblemGovernance(
   problemGovernance,
   problemRecords,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  agentProtocol,
+);
+checkProblemAudit(
+  problemAudit,
+  problemGovernance,
+  methodObservation,
+  packageJsonText,
   agents,
   claude,
   workflowReadme,

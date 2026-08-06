@@ -2,6 +2,41 @@
 
 ## 2026-08-06
 
+### 抽离 PG 收尾校验并建立 MO-002 集中审计
+
+变更内容：
+
+- 新增 `problem-audit.md` 与 `npm run audit:problems`，从单个 PG 文件抽离重复的任务收尾扫描、正常样本记录和归档评估流程；命令读取当前 diff、活跃索引与问题触发/效果合同生成窄审计包。
+- 正常通过样本改为集中记录一次；单个 PG 继续保留问题定义、方案版本、关闭标准、反证和最终归档摘要，既有反馈表作为历史证据保留而不批量迁移。
+- 新增 `MO-002` 试验集中审计的漏检、重复记录、误归档和关闭滞留；删除“PG 关闭样本不得成为 MO 样本”的绝对限制，允许同一份证据同时服务两种合同。
+- 每个通过样本立即执行 PG 归档评估；关闭标准、存量/增量证据、持久防线、样本要求和重开信号全部满足时同次归档，不能仅凭 MO 方法成功提前关闭。
+- workflow 校验器新增集中审计协议、命令入口、MO/PG 双用途证据、活跃 PG 合同和入口文档的正向门禁；反馈负向样例由“必须有逐 PG 表格”调整为“必须保留触发条件与效果检查”。
+- PG-004 升级为集中反馈 V2：正常样本转入统一审计记录，状态变化、反证和换案仍回写问题文档。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `package.json`
+- `tools/run-problem-audit.mjs`
+- `tools/validate-workflow.mjs`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problem-audit.md`
+- `docs/workflow/problems/PG-004-问题治理缺少效果反馈闭环.md`
+- `docs/workflow/method-observation.md`
+- `docs/workflow/methods/MO-002-任务收尾PG集中审计.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run check:workflow`（通过；保留既有 `PlayerSlot` 禁止别名 warning）
+- `npm run audit:problems`（通过；生成 11 个活跃 PG 审计包，本批语义命中 PG-004）
+- `git diff --check`（通过）
+
 ### 建立单 task 多 agent 协作与方法观测闭环
 
 变更内容：

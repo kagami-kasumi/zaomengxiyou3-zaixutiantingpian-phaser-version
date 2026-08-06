@@ -22,11 +22,12 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 
 ## Problem Governance Feedback Gate
 
-- Before handing off any code, architecture, game-task, or workflow change, inspect the current diff against every non-closed or effectiveness-observation `PG-*` record in `docs/workflow/problems/`.
-- Each `PG-*` owns explicit applicability triggers and a feedback table. When a change matches a trigger, run that problem's focused checks and append a `通过`, `复发`, `方案不充分`, or `不适用` sample.
+- Before handing off any code, architecture, game-task, or workflow change, run `npm run audit:problems` and inspect the generated packet against the current diff.
+- Each `PG-*` owns explicit applicability triggers and a closing contract. Record normal results once in `docs/workflow/problem-audit.md`; the same evidence may count as both an MO sample and a PG closing sample.
 - A `复发` or `方案不充分` result must change the problem status and remediation plan; a closed problem must be reopened.
+- A `通过` result must immediately evaluate every remaining closing gate. Archive the PG in the same handoff when all gates pass; method success alone is not enough.
 - Effectiveness review must cover both remaining legacy instances and new-code recurrence. Passing system tests alone is not evidence that a governance solution worked.
-- Handoffs must report which `PG-*` records were applicable and updated, or state that the applicability scan found no matching problem.
+- Handoffs must report which `PG-*` records were applicable, the centralized record location, and any archive decision, or state that the applicability scan found no matching problem.
 
 ## Task Size Budget Gate
 
