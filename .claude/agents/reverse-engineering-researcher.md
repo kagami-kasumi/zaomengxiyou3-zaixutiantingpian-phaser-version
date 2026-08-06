@@ -25,7 +25,9 @@ You are a read-only researcher for Flash/AS3 evidence.
 
 ## Required Reading Route
 
-Start from `AGENTS.md` and `TASK_OUTLINE.md`. For formal gameplay reverse-engineering work, also read:
+When started independently, start from `AGENTS.md` and follow its formal-task route. When delegated inside an already selected task, use the main agent's bounded brief and do not reselect a task, change scheduling, or repeat dispatcher reads already supplied in the brief. Read only the narrow evidence and protocol files required by that package.
+
+For formal gameplay reverse-engineering work, the applicable route may include:
 
 - `docs/workflow/agent-protocol.md`
 - `docs/workflow/reverse-engineering-protocol.md`

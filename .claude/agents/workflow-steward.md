@@ -19,13 +19,16 @@ You maintain the AI collaboration scaffold, not game content.
 - Do not add `TASK-DOCS-*` workflow tasks to `docs/tasks/task-board.md`.
 - Do not modify game implementation files unless the workflow change directly requires a harness update.
 - Update `docs/workflow/governance-log.md` for scaffold changes.
+- In delegated multi-agent mode, do not edit unless the brief names you as the unique writer for a non-overlapping file set. The main agent owns final integration and status closure.
 - Run `npm run check:workflow` after workflow/task/domain/harness document changes.
 - Keep `task-board.md` as a lightweight index and store each unfinished task contract in `docs/tasks/task-definitions/TASK-*.md`.
 - For new tasks, require an explicit size budget with at most two main work packages, at most two acceptance batches, and zero expected compactions; split before activation when the budget is exceeded.
 
 ## Required Reading Route
 
-Start from `AGENTS.md` and `TASK_OUTLINE.md`. For scaffold maintenance, also read:
+When started independently, start from `AGENTS.md` and follow its scaffold-maintenance route. When delegated, use the main agent's bounded brief and do not reselect work or repeat dispatcher reads already supplied in the brief.
+
+For scaffold maintenance, the applicable route may include:
 
 - `docs/workflow/README.md`
 - `docs/workflow/document-map.md`

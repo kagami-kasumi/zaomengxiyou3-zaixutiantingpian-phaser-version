@@ -26,6 +26,7 @@ npm run check:workflow
 | 按需 | [docs/tasks/vertical-slices.md](./docs/tasks/vertical-slices.md) | 涉及实现时 |
 | 按需 | [docs/workflow/review-protocol.md](./docs/workflow/review-protocol.md) | 执行工程评审时 |
 | 按需 | [docs/workflow/problem-governance.md](./docs/workflow/problem-governance.md) | 确认或治理系统性工程问题时 |
+| 按需 | [docs/workflow/method-observation.md](./docs/workflow/method-observation.md) | 提出、试验或裁决可重复改进方法时 |
 | 按需 | [docs/workflow/reverse-engineering-protocol.md](./docs/workflow/reverse-engineering-protocol.md) | 逆向原版行为或依据逆向结论实现时 |
 | 按需 | [docs/workflow/](./docs/workflow/) | 涉及脚手架维护时 |
 
@@ -40,7 +41,7 @@ npm run check:workflow
 | `engineering-reviewer` | 评审实现结果、阶段成果或 `docs/评审/` 文档 | 默认只读；按 `review-protocol.md` 输出发现 |
 | `workflow-steward` | 维护 AGENTS/CLAUDE、workflow 文档、任务规则、校验脚本或治理规则 | 可改脚手架文件；不把治理任务写入游戏看板 |
 
-默认由主 agent 负责最终整合、编辑确认和收尾。subagent 优先承担只读调研、受限实现、独立评审或脚手架维护，避免多个 agent 同时改同一批状态文档。
+默认由主 agent 负责最终整合、编辑确认和收尾。subagent 优先承担只读调研、受限实现、独立评审或脚手架维护，避免多个 agent 同时改同一批状态文档。具体派发、单写者、归并和规模预算统一遵循 `docs/workflow/agent-protocol.md` 的“单 task 多 agent 协作协议”；代理数量不增加 task 工作包预算。
 
 ## 核心约束
 
@@ -56,6 +57,7 @@ npm run check:workflow
 10. AS3 源码是行为参考，不是架构模板。逆向遵循 `docs/workflow/reverse-engineering-protocol.md`：从局部证据追踪共享运行时、SWF 几何和坐标语义，区分确认事实、推断、未知与现代设计选择，再用现代方式重写可观察行为。
 11. 执行工程评审时遵循 `docs/workflow/review-protocol.md`，输出可比较、可执行的结论。
 12. 治理系统性工程问题时遵循 `docs/workflow/problem-governance.md`，先确认问题定义、证据、方案、测试和关闭标准；收尾时只扫描活跃问题索引，归档问题仅在硬信号下定向重开。命中则回写效果样本；复发或方案不充分则转入复盘，保留旧方案并评估换案。
+13. 试验人或 AI 提出的可重复改进方法时遵循 `docs/workflow/method-observation.md`；`MO-*` 不抢占任务，只在明确关联的真实工作中采样，并在截止点裁决采纳、修订或停止。
 
 ## 读取约束
 

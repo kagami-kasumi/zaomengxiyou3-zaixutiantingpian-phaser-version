@@ -35,8 +35,10 @@
 | `code-quality-gates.md` | AI 修改代码时必须遵守的验证、边界和测试要求 |
 | `review-protocol.md` | 工程评审的统一流程、严重程度、输出格式和整改落点 |
 | `problem-governance.md` | 系统性工程问题的定义、验证、效果反馈、复盘换案、关闭出清与活跃/归档索引 |
+| `method-observation.md` | 人或 AI 提出的改进方法如何建立基线、采集真实样本并裁决采纳、修订或停止 |
 | `reverse-engineering-protocol.md` | 玩法逆向的六段证据链、证据分级、坐标语义、上下文交接和关闭门禁 |
 | `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案版本、测试结果、反馈/复盘样本和归档信息 |
+| `methods/MO-*.md` | 每个实验性改进方法的假设、指标、样本、护栏、裁决和沉淀记录 |
 | `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
 | `governance-log.md` | 工作流、任务体系、文档职责和质量门禁的维护历史 |
 | `../domain/glossary.md` | 轻量 DDD 统一语言表 |
@@ -51,6 +53,7 @@
 - **代码实现**：在正式 task 基础上补读 `docs/architecture/src-boundaries.md` 和目标源码。
 - **工程评审**：补读 `review-protocol.md`；涉及代码质量再读 `code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md`。
 - **问题治理**：补读 `problem-governance.md`；若问题来自评审，再读 `review-protocol.md`，若涉及代码质量，再读 `code-quality-gates.md`。
+- **方法观测**：只有当前工作明确提出、试验或命中某个 `MO-*` 时才读 `method-observation.md` 和该方法记录；不扫描全部方法。
 - **行为逆向**：在正式 task 基础上补读 `reverse-engineering-protocol.md`、`local-resources/regima/legacy-extraction/README_extract.md`，从目标局部 AS3 继续追踪共享运行时消费者；疑点再交叉检查 `[25034429].swf/scripts`。
 - **视觉资源逆向**：补读 `docs/reverse-engineering/evb-extraction-report.md` 和 `docs/reverse-engineering/asset-annotation/workflow.md`，优先在 `local-resources/regima/source/restored-swfs/` 窄查；旧 `local-resources/regima/legacy-extraction/` 只作交叉对照。
 - **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
@@ -65,6 +68,7 @@
 - 已完成游戏任务从 `task-board.md` 和 `task-definitions/` 归档到 `docs/tasks/task-history.md`。
 - 工作流合同、文档职责、AI 交接协议和代码质量门禁写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板；只有跨范围执行优先级与活跃治理指针写入 `docs/tasks/execution-queue.md`。
 - 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议、活跃问题索引和问题归档索引。
+- 每个 `MO-*` 方法只占 `docs/workflow/methods/` 下一个独立文档；方法不进入游戏看板或执行队列，只附着在真实工作上采样并在截止点裁决。
 - 逆向结论必须按 `reverse-engineering-protocol.md` 落盘证据矩阵；缺少共享调用链、适用的 SWF 几何/坐标语义或双重验证时，不得宣称“权威实现输入、已闭合、已复现”。UI/HUD/菜单还必须有显示列表清单、原版视觉基准、允许的现代视觉例外和逐状态差异证据，整页真背景不等于 UI 原生化。
 - 代码、架构、游戏 task 或工作流变更收尾时，只按活跃问题索引执行适用性扫描；归档问题仅在硬信号下定向重开。命中时回写效果样本；复发或方案不充分时转入复盘并评估方案新版本，满足出清门禁后归档。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。

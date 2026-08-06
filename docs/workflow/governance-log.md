@@ -1,5 +1,37 @@
 # 工作流治理日志
 
+## 2026-08-06
+
+### 建立单 task 多 agent 协作与方法观测闭环
+
+变更内容：
+
+- 在不改变唯一 Ready、严格单线 `WIP=1`、两主工作包、两验收批次和零 compact 的前提下，新增单 task 内 subagent 协作协议；主 agent 保留范围、单写、证据归并、状态文档和最终验收所有权。
+- task 生成模板新增可选协作计划，旧 task 不做无业务价值的批量迁移；实际启用 subagent 时必须声明工作包、写入 owner、归并检查点和可选 `MO-*`。
+- 新增 `method-observation.md` 与首个 `MO-001`，把实验性改进方法与结构性问题治理分离；方法只附着真实工作采样，不进入游戏看板或执行队列，并在样本量、截止点或停止条件触发时强制裁决。
+- 统一 Claude 固定角色与跨客户端协议：委派模式使用主 agent 的有界 brief，不重复选择 task 或调度读取；实现/工作流角色只有被指定为唯一写者时才能写入，状态文档仍由主 agent 收口。
+- workflow 校验器新增方法记录索引/状态/章节合同、入口引用、协作模板正负样例和委派合同校验。
+- 本次以只读 subagent 审查作为 `MO-001` 首个真实样本：采用条件校验、委派读取路由和单写冲突修正建议；写入冲突、范围扩张、compact 与协调返工均为 0，但单样本不宣称方法已采纳。
+- 收尾扫描活跃问题索引并回写 PG-004/008：方法观测不替代问题反馈，subagent 并行不增加 task 规模预算；其余活跃问题无本批新增适用事实。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `.claude/agents/`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/task-generation.md`
+- `docs/workflow/method-observation.md`
+- `docs/workflow/methods/MO-001-单task内并行证据工作包.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `npm run check:workflow`（通过；保留既有 `PlayerSlot` 禁止别名 warning）
+- `git diff --check`（通过）
+
 ## 2026-08-04
 
 ### TASK-SLICE-166B 正式背包动态 UI 归档

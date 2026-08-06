@@ -49,11 +49,17 @@
 
 规则：按 `docs/workflow/problem-governance.md` 先确认问题定义、证据、解决方案、测试方案、测试结果、关闭标准和适用触发/反馈记录；局部小修不升级为问题治理，只有会持续伤害系统演进能力的结构性缺口才进入该流程。代码、架构、游戏 task 或工作流变更收尾前，只扫描活跃问题索引中 `PG-*` 的触发条件；归档问题不参与常规扫描，仅在硬回归信号下按 ID 重开。命中时回写效果样本；复发或方案不充分时转入复盘，保留旧方案并评估补强或换案。
 
+### 方法观测
+
+适用：人或 AI 提出可重复的协作、逆向、实现、评审或验证改进方法，收益尚未被充分证明，需要以真实工作样本决定采纳、修订或停止。
+
+规则：按 `docs/workflow/method-observation.md` 建立 `MO-*`；它不替代问题治理、不进入游戏看板或执行队列。只有当前工作明确关联方法或命中其精确采样触发时才读取对应记录并回写样本，不扫描全部方法；达到样本量、截止点或停止条件时必须裁决。
+
 ### 正式游戏 task
 
 适用：用户指定 task id、要求执行 task、玩法逆向、修改 `src/` 实现玩法、生成/拆分/重排游戏任务、完成一个可交接切片。
 
-规则：按阅读分流补齐必读文档；执行请求先检查 `docs/tasks/execution-queue.md`。存在 `Ready` 或 `Blocked` 治理执行项时只处理该项，不进入游戏 task；队列无可执行治理项时，普通执行和 `/goal` 才处理 `docs/tasks/task-board.md` 中唯一 `Ready` 游戏 task。执行游戏 task 时只读取该 task 在 `docs/tasks/task-definitions/` 下的独立定义，不全文读取其他未完成 task。新 task 默认预计 0 次上下文压缩；执行前必须核对主工作包、验收批次和拆分触发，超限先拆分。功能线仍保持唯一 `Active` 并跨 task 连续；任务完成必须留下可交接产物，并更新功能线、覆盖台账和 task 状态。详细流程见 `docs/workflow/agent-protocol.md`。
+规则：按阅读分流补齐必读文档；执行请求先检查 `docs/tasks/execution-queue.md`。存在 `Ready` 或 `Blocked` 治理执行项时只处理该项，不进入游戏 task；队列无可执行治理项时，普通执行和 `/goal` 才处理 `docs/tasks/task-board.md` 中唯一 `Ready` 游戏 task。执行游戏 task 时只读取该 task 在 `docs/tasks/task-definitions/` 下的独立定义，不全文读取其他未完成 task。新 task 默认预计 0 次上下文压缩；执行前必须核对主工作包、验收批次和拆分触发，超限先拆分。存在至少两个独立有界的调查/验证工作包且运行环境允许时，可按 `agent-protocol.md` 在单 task 内使用 subagent；唯一 Ready、工作包预算、主 agent 单写与归并责任不变。功能线仍保持唯一 `Active` 并跨 task 连续；任务完成必须留下可交接产物，并更新功能线、覆盖台账和 task 状态。详细流程见 `docs/workflow/agent-protocol.md`。
 
 用户使用 `/goal` 时，先读取 `execution-queue.md`：治理 `Ready`/`Blocked` 存在时只执行或治理该项，完成后结束本次 `/goal`；队列无可执行治理项时，才恢复唯一 `Active` 功能线并执行唯一 `Ready` 游戏 task。游戏 task 完成后激活同线下一 task 并结束当次 `/goal`，不在同一次请求中连续跨 task；遇到阻塞仍只治理当前调度范围内的阻塞，不隐式切换。第一次 compact 即视为规模超限信号：只结束正在运行的检查、回写安全检查点、拆分剩余工作并交接，不再读取新资料族、派生新资源或新增实现。收尾必须明确给出下一执行项、Git 提交/上传建议和对话管理建议。
 
@@ -74,6 +80,7 @@
 | 代码实现：修改 `src/` | 游戏任务执行必读集 + `docs/architecture/src-boundaries.md` + 对应 `src/` 文件 |
 | 工程评审：评审代码、阶段成果或评审文档 | `docs/workflow/review-protocol.md`，涉及代码质量再读 `docs/workflow/code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md` |
 | 问题治理：确认或治理系统性工程问题 | `docs/workflow/problem-governance.md`；若问题来自评审，再读 `docs/workflow/review-protocol.md`；若涉及代码质量，再读 `docs/workflow/code-quality-gates.md` |
+| 方法观测：提出、试验、复核或裁决改进方法 | `docs/workflow/method-observation.md` + 当前 `docs/workflow/methods/MO-*.md`；不读取其他方法记录 |
 | 新增核心领域命名、系统、实体、类型或数据模型 | `docs/domain/glossary.md`、`docs/domain/ubiquitous-language-process.md` |
 | 新增/拆分/重排游戏任务 | `TASK_OUTLINE.md`、`docs/workflow/task-generation.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、涉及的 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | AI 工作流、任务体系、文档职责或脚手架维护 | `docs/workflow/README.md`、`docs/workflow/document-map.md`、`docs/workflow/governance-log.md` |

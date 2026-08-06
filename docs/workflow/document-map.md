@@ -67,7 +67,7 @@
   - Claude Code 快速入口。
   - 摘要列出启动校验、核心约束和代码质量门禁。
 - `.claude/agents/`
-  - Claude Code subagent 定义目录。
+  - Claude Code subagent 适配定义目录；跨客户端的通用协作合同以 `agent-protocol.md` 为准。
   - 维护 `reverse-engineering-researcher`、`modern-implementation-engineer`、`engineering-reviewer` 和 `workflow-steward` 的职责、读取路线、写入边界和输出格式。
   - 不记录具体游戏任务状态。
 - `docs/workflow/task-generation.md`
@@ -85,6 +85,8 @@
 - `docs/workflow/problem-governance.md`
   - 问题治理协议。
   - 规定系统性工程问题的定义、状态机、效果反馈、复盘换案、关闭出清和活跃/归档索引，不堆叠具体问题正文。
+- `docs/workflow/method-observation.md`
+  - 规定实验性改进方法与 `PG-*` 的边界、基线/指标、真实采样、到期裁决和活跃/归档索引。
 - `docs/workflow/reverse-engineering-protocol.md`
   - 玩法逆向证据协议。
   - 规定局部证据、共享运行时、SWF 几何/坐标语义、可观察合同、现代映射和双重验证的六段证据链，以及证据分级和关闭用语门禁。
@@ -92,6 +94,8 @@
 - `docs/workflow/problems/PG-*.md`
   - 独立问题治理记录。
   - 一个问题一个文档，分别维护问题定义、证据、方案版本、测试、关闭标准、适用触发、反馈/复盘样本和归档信息；归档后保留原路径供定向追溯。
+- `docs/workflow/methods/MO-*.md`
+  - 一个方法一个文档，维护假设、基线、指标、试验样本、副作用、裁决和稳定规则沉淀；不承担游戏 task 状态。
 - `docs/workflow/governance-log.md`
   - 工作流脚手架维护日志。
   - 记录任务体系、文档职责、AI 交接协议和代码质量门禁等变化。

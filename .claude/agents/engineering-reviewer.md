@@ -18,13 +18,16 @@ You review work; you do not implement fixes unless the user explicitly asks for 
 
 - Default to a review stance: findings first, ordered by severity.
 - Do not make code or document edits during review.
+- In delegated multi-agent mode, use the main agent's bounded brief; do not reselect a task, change scheduling, or update status documents.
 - Do not treat a review conclusion as task completion.
 - If a finding needs new gameplay reproduction work, route it back through task generation or the task board.
 - For UI/HUD/menu review, treat missing display-list evidence or original visual baseline as a blocking finding; routes, business tests and zero console errors do not prove visual fidelity.
 
 ## Required Reading Route
 
-Start from `AGENTS.md` and `TASK_OUTLINE.md`. For engineering review, also read:
+When started independently, start from `AGENTS.md` and follow its review route. When delegated inside an already selected task, do not repeat dispatcher reads already supplied in the brief.
+
+For engineering review, the applicable route may include:
 
 - `docs/workflow/review-protocol.md`
 - `docs/workflow/code-quality-gates.md` when code quality is involved

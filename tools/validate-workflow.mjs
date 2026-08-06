@@ -21,6 +21,7 @@ const files = {
   codeQualityGates: 'docs/workflow/code-quality-gates.md',
   reviewProtocol: 'docs/workflow/review-protocol.md',
   problemGovernance: 'docs/workflow/problem-governance.md',
+  methodObservation: 'docs/workflow/method-observation.md',
   reverseEngineeringProtocol: 'docs/workflow/reverse-engineering-protocol.md',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
   glossary: 'docs/domain/glossary.md',
@@ -172,6 +173,45 @@ function checkTaskSizeBudgetSamples() {
   negativeCases.forEach((negativeCase, index) => {
     if (taskSizeBudgetErrors(negativeCase).length === 0) {
       error(`Task size budget negative case ${index + 1} must fail validation.`);
+    }
+  });
+}
+
+function collaborationPlanErrors(text) {
+  if (!text.includes('协作计划：')) return [];
+  const planErrors = [];
+  const planStart = text.indexOf('协作计划：');
+  const inputStart = text.indexOf('输入资料：', planStart);
+  const plan = inputStart > planStart ? text.slice(planStart, inputStart) : text.slice(planStart);
+  for (const requiredText of ['模式：', '并行工作包：', '写入 owner：', '归并检查点：', '方法观测：']) {
+    if (!plan.includes(requiredText)) planErrors.push(`协作计划 missing ${requiredText}`);
+  }
+  if (plan.includes('主 agent + subagent')) {
+    if (!plan.includes('写入 owner：主 agent')) planErrors.push('subagent collaboration must keep 主 agent as write owner');
+    if (/并行工作包：\s*无/.test(plan)) planErrors.push('subagent collaboration must declare a bounded parallel package');
+    if (/归并检查点：\s*(不适用|无)/.test(plan)) planErrors.push('subagent collaboration must declare a merge checkpoint');
+  }
+  return planErrors;
+}
+
+function checkCollaborationPlanSamples() {
+  const valid = `协作计划：
+- 模式：主 agent + subagent
+- 并行工作包：只读校验器审查
+- 写入 owner：主 agent
+- 归并检查点：实现前
+- 方法观测：MO-001
+
+输入资料：`;
+  if (collaborationPlanErrors(valid).length > 0) error('Collaboration-plan positive sample failed.');
+  const negativeCases = [
+    valid.replace('写入 owner：主 agent', '写入 owner：subagent'),
+    valid.replace('并行工作包：只读校验器审查', '并行工作包：无'),
+    valid.replace('归并检查点：实现前', '归并检查点：不适用'),
+  ];
+  negativeCases.forEach((negativeCase, index) => {
+    if (collaborationPlanErrors(negativeCase).length === 0) {
+      error(`Collaboration-plan negative case ${index + 1} must fail validation.`);
     }
   });
 }
@@ -463,8 +503,12 @@ function checkBoardShape(board, taskRows, taskDefinitionIds, taskBlockList) {
     for (const budgetError of taskSizeBudgetErrors(block.text, row?.status)) {
       error(`${block.id} has invalid size budget: ${budgetError}.`);
     }
+    for (const planError of collaborationPlanErrors(block.text)) {
+      error(`${block.id} has invalid collaboration plan: ${planError}.`);
+    }
   }
   checkTaskSizeBudgetSamples();
+  checkCollaborationPlanSamples();
 }
 
 function checkRecommendations(board, taskRows) {
@@ -1245,6 +1289,128 @@ function checkProblemGovernance(
   }
 }
 
+function checkMethodObservation(
+  methodObservation,
+  methodRecords,
+  taskBlocks,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  agentProtocol,
+  taskGeneration,
+) {
+  for (const requiredText of [
+    '与问题治理的边界',
+    '适用门槛',
+    '记录结构',
+    '状态机',
+    '执行与采样规则',
+    '活跃方法索引',
+    '方法归档索引',
+    '模板',
+    '最迟复核点',
+    '采纳',
+    '修订',
+    '停止',
+  ]) {
+    if (!methodObservation.includes(requiredText)) {
+      error(`method-observation.md must mention: ${requiredText}`);
+    }
+  }
+
+  if (methodRecords.length === 0) error('docs/workflow/methods must contain at least one MO-*.md record.');
+  const activeIndex = section(methodObservation, '活跃方法索引');
+  const archivedIndex = section(methodObservation, '方法归档索引');
+  const indexedIds = [...new Set([...extractRefs(activeIndex, 'MO'), ...extractRefs(archivedIndex, 'MO')])];
+  const discoveredIds = methodRecords.map(({ id }) => id);
+  const allowedStatuses = new Set(['候选', '试验中', '待裁决', '修订中', '已采纳待归档', '已停止待归档', '已归档']);
+  for (const indexedId of indexedIds) {
+    if (!discoveredIds.includes(indexedId)) error(`method-observation.md indexes missing method record: ${indexedId}`);
+  }
+
+  for (const { id, path: recordPath, text } of methodRecords) {
+    const relativeRecordPath = recordPath.replace('docs/workflow/', '');
+    const activeRow = activeIndex.split(/\r?\n/).find((line) => line.startsWith(`| ${id} `));
+    const archivedRow = archivedIndex.split(/\r?\n/).find((line) => line.startsWith(`| ${id} `));
+    if (!activeIndex.includes(relativeRecordPath) && !archivedIndex.includes(relativeRecordPath)) {
+      error(`method-observation.md must index ${recordPath}.`);
+    }
+    if (!text.includes(`# ${id} `)) error(`${recordPath} must start with its stable id ${id}.`);
+    for (const requiredHeading of [
+      '## 1. 方法与假设',
+      '## 2. 基线与指标',
+      '## 3. 试验设计',
+      '## 4. 采纳标准',
+      '## 5. 观测记录',
+      '## 6. 裁决与沉淀',
+    ]) {
+      if (!text.includes(requiredHeading)) error(`${recordPath} must include: ${requiredHeading}`);
+    }
+    for (const requiredText of ['提出者/来源：', '负责人：', '最迟复核点：', '| 日期 | 任务/场景 | 方法版本 | 样本证据 | 指标结果 | 副作用 | 阶段结论/后续动作 |']) {
+      if (!text.includes(requiredText)) error(`${recordPath} must include observation contract text: ${requiredText}`);
+    }
+    const status = text.match(/^状态：(.+)。$/m)?.[1];
+    const indexRow = activeRow ?? archivedRow;
+    const indexedStatus = indexRow?.split('|')[2]?.trim();
+    if (!status || indexedStatus !== status) {
+      error(`${recordPath} status must match method-observation.md index (${indexedStatus ?? 'missing'}).`);
+    }
+    if (status && !allowedStatuses.has(status)) error(`${recordPath} has unsupported method status: ${status}.`);
+    if (activeRow && archivedRow) error(`${recordPath} must not appear in both active and archived method indexes.`);
+    if (status === '已归档') {
+      if (activeRow || !archivedRow) error(`${recordPath} archived method must appear only in the archive index.`);
+    } else if (!activeRow) {
+      error(`${recordPath} active method must appear in the active method index.`);
+    }
+  }
+
+  for (const block of taskBlocks) {
+    if (!block.text.includes('协作计划：')) continue;
+    for (const methodId of extractRefs(block.text.slice(block.text.indexOf('协作计划：'), block.text.indexOf('输入资料：')), 'MO')) {
+      if (!discoveredIds.includes(methodId)) error(`${block.path} references missing method observation: ${methodId}.`);
+    }
+  }
+
+  for (const [name, text] of [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+    ['docs/workflow/agent-protocol.md', agentProtocol],
+    ['docs/workflow/task-generation.md', taskGeneration],
+  ]) {
+    if (!text.includes('method-observation.md')) error(`${name} must reference docs/workflow/method-observation.md.`);
+  }
+  for (const requiredText of ['单 task 多 agent 协作协议', '写入 owner', '归并检查点']) {
+    if (!agentProtocol.includes(requiredText)) error(`agent-protocol.md must include subagent contract text: ${requiredText}`);
+  }
+  if (!taskGeneration.includes('协作计划：') || !taskGeneration.includes('方法观测：')) {
+    error('task-generation.md must include collaboration-plan and method-observation template fields.');
+  }
+}
+
+function checkDelegatedAgentContracts(reverseAgent, implementationAgent, reviewAgent, workflowAgent) {
+  for (const [name, text] of [
+    ['reverse-engineering-researcher', reverseAgent],
+    ['modern-implementation-engineer', implementationAgent],
+    ['engineering-reviewer', reviewAgent],
+    ['workflow-steward', workflowAgent],
+  ]) {
+    if (!text.includes('bounded brief') || !text.includes('do not reselect')) {
+      error(`${name} must use the main agent bounded brief without reselecting delegated work.`);
+    }
+  }
+  for (const [name, text] of [
+    ['modern-implementation-engineer', implementationAgent],
+    ['workflow-steward', workflowAgent],
+  ]) {
+    if (!text.includes('unique writer') || !text.includes('main agent')) {
+      error(`${name} must enforce the delegated unique-writer contract.`);
+    }
+  }
+}
+
 function reverseEngineeringProtocolErrors(text) {
   const requiredText = [
     '## 六段证据链',
@@ -1400,6 +1566,7 @@ const packageJsonText = read(files.packageJson);
 const codeQualityGates = read(files.codeQualityGates);
 const reviewProtocol = read(files.reviewProtocol);
 const problemGovernance = read(files.problemGovernance);
+const methodObservation = read(files.methodObservation);
 const reverseEngineeringProtocol = read(files.reverseEngineeringProtocol);
 const problemDirectory = 'docs/workflow/problems';
 const problemRecordPaths = readdirSync(filePath(problemDirectory))
@@ -1411,10 +1578,23 @@ const problemRecords = problemRecordPaths.map((recordPath) => ({
   path: recordPath,
   text: read(recordPath),
 }));
+const methodDirectory = 'docs/workflow/methods';
+const methodRecordPaths = existsSync(filePath(methodDirectory))
+  ? readdirSync(filePath(methodDirectory))
+    .filter((name) => /^MO-\d{3}-.+\.md$/.test(name))
+    .sort()
+    .map((name) => `${methodDirectory}/${name}`)
+  : [];
+const methodRecords = methodRecordPaths.map((recordPath) => ({
+  id: path.basename(recordPath).match(/^(MO-\d{3})-/)?.[1] ?? '',
+  path: recordPath,
+  text: read(recordPath),
+}));
 const agentProtocol = read(files.agentProtocol);
 const reverseEngineeringAgent = read(files.reverseEngineeringAgent);
 const implementationAgent = read(files.implementationAgent);
 const reviewAgent = read(files.reviewAgent);
+const workflowAgent = read(files.workflowAgent);
 const tsconfig = read(files.tsconfig);
 const srcBoundaries = read(files.srcBoundaries);
 const inputSystem = read(files.inputSystem);
@@ -1468,8 +1648,10 @@ checkGovernanceLog([
   files.codeQualityGates,
   files.reviewProtocol,
   files.problemGovernance,
+  files.methodObservation,
   files.reverseEngineeringProtocol,
   ...problemRecordPaths,
+  ...methodRecordPaths,
   files.agentProtocol,
 ], governanceLog);
 checkCodeQualityGates(packageJsonText, codeQualityGates, claude);
@@ -1493,6 +1675,18 @@ checkProblemGovernance(
   documentMap,
   agentProtocol,
 );
+checkMethodObservation(
+  methodObservation,
+  methodRecords,
+  taskBlockList,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  agentProtocol,
+  taskGeneration,
+);
+checkDelegatedAgentContracts(reverseEngineeringAgent, implementationAgent, reviewAgent, workflowAgent);
 checkReverseEngineeringProtocol(
   reverseEngineeringProtocol,
   agents,
