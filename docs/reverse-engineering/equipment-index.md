@@ -1,5 +1,13 @@
 # 装备/背包系统索引
 
+`TASK-SETTINGS-170A` 已在
+[`equipment-data-catalog.md`](equipment-data-catalog.md) 冻结原版 1.1 的 164 件
+装备权威数据全集；机器输入、Schema 与可重复校验分别见
+`reference/equipment-data-catalog-1.1.json`、
+`reference/equipment-data-catalog.schema.json` 和
+`npm run test:equipment-data-catalog`。本文下方首轮结论仍作为调用链背景，
+不再承担完整数值表职责。
+
 本文记录 `TASK-SETTINGS-013` 对装备和背包系统的首轮逆向结果。范围只覆盖足够支撑现代最小背包/装备切片的事实：装备类型、属性字段、槽位、穿戴/卸下、背包分类、容量、存取、物品使用与存档字段。合成、掉落、强化、法宝细节和完整道具效果只记录入口，不在本任务展开。
 
 ## 资料状态

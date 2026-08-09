@@ -9761,6 +9761,27 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SLICE-168B`：只原生化分解/打造并完成四页联合校准；不提前扩展四功能规则或全装备数值。
 
+### TASK-SETTINGS-170A
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SETTINGS-170B`）。
+- 新增 `equipment-data-catalog.md`、`reference/equipment-data-catalog.schema.json` 与可重复生成的 `reference/equipment-data-catalog-1.1.json`；生成器从 1.1 `AllEquipment.as` 平衡解析 `MyEquipObj` 构造参数，并直接复用既有 431 身份目录的实际 `findByName` 优先级裁决。
+- 164 个唯一装备身份全部闭合：59 武器、54 防具、17 饰品、20 法宝、14 头衔；角色门禁、品质、颜色、实例语义、原列表、装备等级/成长比例和五行字段均带精确 locator、源哈希、证据等级和反证条件。
+- 每项保存 HP、MP、攻击、防御、暴击、闪避、回血、回蓝、吸血、魔抗、穿透、`haveBlood` 12 个基础字段，以及对应每级强化系数；原表达式、随机上下界开闭、AS3 `int/Number` 强制类型和比例/点数单位均结构化，解析未知为 0。
+- 唯一 `dgg` 缺失 `aStrengthen` 键但由 `MyEquipObj.strengthenEquip()` 硬编码成长的特判已显式记录；没有把缺键或随机值补造为现代 0/样本值。
+- 与 431 目录的一对一子集覆盖无缺失/重复；1.0 辅助表只按显示名交叉命中 150 项，14 项版本差异单列，未覆盖任何 1.1 AS3 权威字段。
+- 纯数据 UI/SWF 几何明确不适用；图标、角色穿戴资源、正式背包/装备显示列表与逐状态基准交给 170B，不据此宣称现代 registry、事务、UI 或存档已完成。
+
+验证：
+
+- `npm run generate:equipment-data-catalog`、`npm run test:equipment-data-catalog`。
+- `npm run check:structure`；仅报告既有 9 个无关 warning，本 task 未修改对应 `src/`/大测试文件。
+- 收尾通过 `npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems` 与 `git diff --check`。
+
+推荐任务：
+
+- `TASK-SETTINGS-170B`：冻结正式背包/穿戴 UI、164 图标与角色穿戴资源、动态字段、verified 真值和逐状态原版基准；不修改现代 UI、事务或存档。
+
 ### TASK-SETTINGS-169
 
 - 完成日期：2026-08-09。

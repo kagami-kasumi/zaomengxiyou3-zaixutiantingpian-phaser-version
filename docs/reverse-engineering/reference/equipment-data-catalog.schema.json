@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-data-catalog.schema.json",
+  "title": "再续天庭 1.1 可穿戴装备权威数据全集",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "gameVersion",
+    "scope",
+    "status",
+    "authorities",
+    "fieldContract",
+    "counts",
+    "coverage",
+    "items"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "gameVersion": { "const": "1.1" },
+    "status": { "enum": ["draft", "blocked", "verified"] },
+    "counts": {
+      "type": "object",
+      "required": ["equipmentItems", "inventoryCatalogItems", "uniqueFillNames", "baseStatFields", "unknownFields"],
+      "properties": {
+        "equipmentItems": { "const": 164 },
+        "inventoryCatalogItems": { "const": 431 },
+        "uniqueFillNames": { "const": 164 },
+        "baseStatFields": { "const": 12 },
+        "unknownFields": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["missingFromInventoryCatalog", "duplicateFillNames", "unknownFields", "version1_0AuxiliaryComparison"],
+      "properties": {
+        "missingFromInventoryCatalog": { "type": "array", "maxItems": 0 },
+        "duplicateFillNames": { "type": "array", "maxItems": 0 },
+        "unknownFields": { "type": "array" },
+        "version1_0AuxiliaryComparison": {
+          "type": "object",
+          "required": ["rule", "matchedByDisplayName", "absentFromVersion1_0Reference"],
+          "properties": {
+            "matchedByDisplayName": { "const": 150 },
+            "absentFromVersion1_0Reference": { "type": "array", "minItems": 14, "maxItems": 14 }
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 164,
+      "maxItems": 164,
+      "items": { "$ref": "#/$defs/equipment" }
+    }
+  },
+  "$defs": {
+    "numericFact": {
+      "type": "object",
+      "required": ["status", "originalExpression", "unit", "consumer", "runtimeCoercion", "value", "min", "max", "maxInclusive", "distribution", "unknownReason"],
+      "properties": {
+        "status": { "enum": ["confirmed", "unknown"] },
+        "originalExpression": { "type": "string" },
+        "unit": { "enum": ["points", "ratio", "identifier", "level"] },
+        "consumer": { "type": "string" },
+        "runtimeCoercion": { "enum": ["Number", "int", "uint"] },
+        "value": { "type": ["number", "null"] },
+        "min": { "type": ["number", "null"] },
+        "max": { "type": ["number", "null"] },
+        "maxInclusive": { "type": ["boolean", "null"] },
+        "distribution": { "type": ["string", "null"] },
+        "unknownReason": { "type": ["string", "null"] }
+      }
+    },
+    "statBlock": {
+      "type": "object",
+      "required": ["hp", "mp", "attack", "defense", "criticalChance", "evasionChance", "hpRegen", "mpRegen", "lifeSteal", "magicDefense", "armorPenetration", "haveBlood"],
+      "additionalProperties": false,
+      "properties": {
+        "hp": { "$ref": "#/$defs/numericFact" },
+        "mp": { "$ref": "#/$defs/numericFact" },
+        "attack": { "$ref": "#/$defs/numericFact" },
+        "defense": { "$ref": "#/$defs/numericFact" },
+        "criticalChance": { "$ref": "#/$defs/numericFact" },
+        "evasionChance": { "$ref": "#/$defs/numericFact" },
+        "hpRegen": { "$ref": "#/$defs/numericFact" },
+        "mpRegen": { "$ref": "#/$defs/numericFact" },
+        "lifeSteal": { "$ref": "#/$defs/numericFact" },
+        "magicDefense": { "$ref": "#/$defs/numericFact" },
+        "armorPenetration": { "$ref": "#/$defs/numericFact" },
+        "haveBlood": { "$ref": "#/$defs/numericFact" }
+      }
+    },
+    "equipment": {
+      "type": "object",
+      "required": ["fillName", "displayName", "showId", "originalType", "slot", "user", "quality", "color", "baseStats", "strengthening", "progression", "fiveElements", "quantityModel", "originalList", "source", "evidenceLevel", "counterEvidence"],
+      "properties": {
+        "fillName": { "type": "string", "minLength": 1 },
+        "displayName": { "type": "string", "minLength": 1 },
+        "showId": { "$ref": "#/$defs/numericFact" },
+        "originalType": { "enum": ["zbwq", "zbfj", "zbsp", "zbfb", "zbtx"] },
+        "slot": { "enum": ["weapon", "armor", "accessory", "magicWeapon", "title"] },
+        "user": { "type": "string" },
+        "quality": { "type": "string", "minLength": 1 },
+        "color": { "type": "string", "minLength": 1 },
+        "baseStats": { "$ref": "#/$defs/statBlock" },
+        "strengthening": {
+          "type": "object",
+          "required": ["model", "perLevel", "hardCodedFallback"],
+          "properties": {
+            "model": { "const": "additive-per-strength-level" },
+            "perLevel": { "$ref": "#/$defs/statBlock" },
+            "hardCodedFallback": { "type": ["string", "null"] }
+          }
+        },
+        "quantityModel": { "const": "instance" },
+        "originalList": { "const": "zblist" },
+        "evidenceLevel": { "enum": ["confirmed", "cross-confirmed", "inferred", "unknown"] }
+      }
+    }
+  }
+}

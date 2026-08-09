@@ -71,6 +71,8 @@
     "audit:crafting-coverage": "node tools/run-crafting-coverage-audit.mjs",
     "generate:crafting-item-catalog": "node tools/generate-crafting-item-catalog.mjs",
     "generate:crafting-icon-catalog": "node tools/generate-crafting-icon-catalog.mjs",
+    "generate:equipment-data-catalog": "node tools/generate-equipment-data-catalog.mjs",
+    "test:equipment-data-catalog": "node tools/generate-equipment-data-catalog.mjs --check",
     "generate:skill-native-assets": "node tools/generate-skill-native-assets.mjs",
     "generate:role5-combat-assets": "node tools/integrate-role5-combat-assets.mjs",
     "generate:formal-soul-ui": "node tools/generate-formal-soul-ui.mjs",
