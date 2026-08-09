@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zaixu-tianding:schema:ui-ground-truth:v1",
+  "title": "再续天庭原版 UI 机器真值",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "truthId",
+    "status",
+    "scope",
+    "generatedBy",
+    "provenance",
+    "stage",
+    "states",
+    "displayObjects",
+    "baselines",
+    "completeness"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "truthId": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9._-]*$" },
+    "status": { "enum": ["draft", "blocked", "verified"] },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taskId", "surfaceId", "originalVersion", "description"],
+      "properties": {
+        "taskId": { "type": "string", "minLength": 1 },
+        "surfaceId": { "type": "string", "minLength": 1 },
+        "originalVersion": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "generatedBy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool", "toolVersion", "command", "generatedAt"],
+      "properties": {
+        "tool": { "type": "string", "minLength": 1 },
+        "toolVersion": { "type": "string", "minLength": 1 },
+        "command": { "type": "string", "minLength": 1 },
+        "generatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "provenance": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/provenanceEntry" }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height", "frameRate", "coordinateSpace"],
+      "properties": {
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "frameRate": { "type": "number", "exclusiveMinimum": 0 },
+        "coordinateSpace": { "const": "stage" },
+        "scaleMode": { "type": "string" },
+        "alignment": { "type": "string" }
+      }
+    },
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/state" }
+    },
+    "displayObjects": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/displayObject" }
+    },
+    "baselines": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/baseline" }
+    },
+    "completeness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expectedStateIds",
+        "extractedStateIds",
+        "expectedVisibleObjectCountByState",
+        "displayListMatched",
+        "stateSetMatched",
+        "unresolved"
+      ],
+      "properties": {
+        "expectedStateIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "extractedStateIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "expectedVisibleObjectCountByState": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "displayListMatched": { "type": "boolean" },
+        "stateSetMatched": { "type": "boolean" },
+        "unresolved": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "description", "impact", "nextEvidence"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "description": { "type": "string", "minLength": 1 },
+              "impact": { "enum": ["none", "implementation", "validation"] },
+              "nextEvidence": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["status"],
+        "properties": {
+          "status": { "const": "verified" }
+        }
+      },
+      "then": {
+        "properties": {
+          "completeness": {
+            "properties": {
+              "displayListMatched": { "const": true },
+              "stateSetMatched": { "const": true },
+              "unresolved": { "maxItems": 0 }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "provenanceEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sourceType", "sourcePath", "sha256", "locator"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "sourceType": {
+          "enum": ["restored-swf", "legacy-as3", "ffdec-xml", "runtime-capture", "user-reference"]
+        },
+        "sourcePath": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "locator": { "type": "string", "minLength": 1 }
+      }
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      }
+    },
+    "bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "top", "width", "height"],
+      "properties": {
+        "left": { "type": "number" },
+        "top": { "type": "number" },
+        "width": { "type": "number", "minimum": 0 },
+        "height": { "type": "number", "minimum": 0 }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["a", "b", "c", "d", "tx", "ty"],
+      "properties": {
+        "a": { "type": "number" },
+        "b": { "type": "number" },
+        "c": { "type": "number" },
+        "d": { "type": "number" },
+        "tx": { "type": "number" },
+        "ty": { "type": "number" }
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "entry", "fixtureId", "baselineId"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "entry": { "type": "string", "minLength": 1 },
+        "frame": { "type": "integer", "minimum": 0 },
+        "fixtureId": { "type": "string", "minLength": 1 },
+        "baselineId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sourceIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provenanceId", "characterId", "symbolClass", "instanceName"],
+      "properties": {
+        "provenanceId": { "type": "string", "minLength": 1 },
+        "characterId": { "type": ["integer", "null"], "minimum": 0 },
+        "symbolClass": { "type": ["string", "null"] },
+        "instanceName": { "type": ["string", "null"] },
+        "frame": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "placement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stateId",
+        "visible",
+        "localMatrix",
+        "registrationPoint",
+        "localBounds",
+        "stageBounds",
+        "derivation",
+        "evidenceRefs"
+      ],
+      "properties": {
+        "stateId": { "type": "string", "minLength": 1 },
+        "visible": { "type": "boolean" },
+        "localMatrix": { "$ref": "#/$defs/matrix" },
+        "registrationPoint": { "$ref": "#/$defs/point" },
+        "localBounds": { "$ref": "#/$defs/bounds" },
+        "stageBounds": { "$ref": "#/$defs/bounds" },
+        "hitArea": { "$ref": "#/$defs/bounds" },
+        "derivation": { "enum": ["extracted", "calculated", "observed"] },
+        "derivationMethod": { "type": "string" },
+        "evidenceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "displayObject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "parentId",
+        "depth",
+        "objectType",
+        "sourceIdentity",
+        "placements",
+        "render"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "parentId": { "type": ["string", "null"] },
+        "depth": { "type": "integer" },
+        "objectType": {
+          "enum": ["movie-clip", "sprite", "shape", "bitmap", "text-field", "button", "mask", "container"]
+        },
+        "sourceIdentity": { "$ref": "#/$defs/sourceIdentity" },
+        "placements": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/placement" }
+        },
+        "render": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["assetRef", "blendMode", "filters", "maskId"],
+          "properties": {
+            "assetRef": { "type": ["string", "null"] },
+            "blendMode": { "type": "string" },
+            "filters": { "type": "array", "items": { "type": "object" } },
+            "maskId": { "type": ["string", "null"] },
+            "textStyle": { "type": ["object", "null"] },
+            "buttonStateAssets": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "stateId", "path", "sha256", "width", "height", "crop"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "stateId": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "width": { "type": "integer", "exclusiveMinimum": 0 },
+        "height": { "type": "integer", "exclusiveMinimum": 0 },
+        "crop": { "$ref": "#/$defs/bounds" }
+      }
+    }
+  }
+}

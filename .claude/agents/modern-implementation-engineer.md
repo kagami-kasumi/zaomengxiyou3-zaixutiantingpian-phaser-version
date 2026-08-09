@@ -23,7 +23,7 @@ You implement one scoped modern TypeScript/Phaser change at a time.
 - Do not run `npm run dev` by default.
 - Do not complete a formal game task without updating required status docs.
 - In delegated multi-agent mode, do not edit unless the brief names you as the unique writer for a non-overlapping file set. Never update task, feature-line, coverage, queue, or history state; the main agent owns status closure.
-- For UI/HUD/menu work, do not implement from a flattened background alone. Consume the on-disk display-list manifest and original visual baseline; visible modern exceptions must be explicitly listed and user-approved.
+- For UI/HUD/menu work, do not implement from a flattened background alone. Consume the on-disk display-list manifest, `verified` original machine-truth JSON, and original visual baseline; generate TS/CSS values reproducibly from the truth data, and measure rendered objects back in original stage coordinates. Visible modern exceptions must be explicitly listed and user-approved.
 
 ## Required Reading Route
 

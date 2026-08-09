@@ -37,7 +37,7 @@
 | `problem-governance.md` | 系统性工程问题的定义、验证、效果反馈、复盘换案、关闭出清与活跃/归档索引 |
 | `problem-audit.md` | 任务收尾时的活跃 PG 集中扫描、单点样本记录、归档评估及 `MO-002` 试验入口 |
 | `method-observation.md` | 人或 AI 提出的改进方法如何建立基线、采集真实样本并裁决采纳、修订或停止 |
-| `reverse-engineering-protocol.md` | 玩法逆向的六段证据链、证据分级、坐标语义、上下文交接和关闭门禁 |
+| `reverse-engineering-protocol.md` | 玩法逆向的六段证据链、证据分级、原版机器真值 JSON、坐标语义、上下文交接和关闭门禁 |
 | `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案版本、测试结果、反馈/复盘样本和归档信息 |
 | `methods/MO-*.md` | 每个实验性改进方法的假设、指标、样本、护栏、裁决和沉淀记录 |
 | `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
@@ -56,7 +56,7 @@
 - **问题治理**：补读 `problem-governance.md` 和 `problem-audit.md`；若问题来自评审，再读 `review-protocol.md`，若涉及代码质量，再读 `code-quality-gates.md`。
 - **方法观测**：只有当前工作明确提出、试验或命中某个 `MO-*` 时才读 `method-observation.md` 和该方法记录；不扫描全部方法。
 - **行为逆向**：在正式 task 基础上补读 `reverse-engineering-protocol.md`、`local-resources/regima/legacy-extraction/README_extract.md`，从目标局部 AS3 继续追踪共享运行时消费者；疑点再交叉检查 `[25034429].swf/scripts`。
-- **视觉资源逆向**：补读 `docs/reverse-engineering/evb-extraction-report.md` 和 `docs/reverse-engineering/asset-annotation/workflow.md`，优先在 `local-resources/regima/source/restored-swfs/` 窄查；旧 `local-resources/regima/legacy-extraction/` 只作交叉对照。
+- **视觉资源逆向**：补读 `docs/reverse-engineering/evb-extraction-report.md`、`docs/reverse-engineering/asset-annotation/workflow.md` 和 `docs/reverse-engineering/ground-truth/README.md`，优先在 `local-resources/regima/source/restored-swfs/` 窄查；旧 `local-resources/regima/legacy-extraction/` 只作交叉对照。
 - **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
 - **历史追溯**：只有需要追溯或修改已完成任务时才读 `task-history.md`。
 
@@ -70,7 +70,7 @@
 - 工作流合同、文档职责、AI 交接协议和代码质量门禁写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板；只有跨范围执行优先级与活跃治理指针写入 `docs/tasks/execution-queue.md`。
 - 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议、活跃问题索引和问题归档索引。
 - 每个 `MO-*` 方法只占 `docs/workflow/methods/` 下一个独立文档；方法不进入游戏看板或执行队列，只附着在真实工作上采样并在截止点裁决。
-- 逆向结论必须按 `reverse-engineering-protocol.md` 落盘证据矩阵；缺少共享调用链、适用的 SWF 几何/坐标语义或双重验证时，不得宣称“权威实现输入、已闭合、已复现”。UI/HUD/菜单还必须有显示列表清单、原版视觉基准、允许的现代视觉例外和逐状态差异证据，整页真背景不等于 UI 原生化。
+- 逆向结论必须按 `reverse-engineering-protocol.md` 落盘证据矩阵；适用的 UI/视觉/空间事实还必须在 `docs/reverse-engineering/ground-truth/` 生成带溯源、Schema 和完整性校验的原版机器真值 JSON。缺少共享调用链、适用的 SWF 几何/坐标语义、`verified` 真值 JSON 或双重验证时，不得宣称“权威实现输入、已闭合、已复现”。UI/HUD/菜单还必须有显示列表清单、原版视觉基准、允许的现代视觉例外和逐状态差异证据，整页真背景不等于 UI 原生化。
 - 代码、架构、游戏 task 或工作流变更收尾时运行 `npm run audit:problems`，只按活跃问题索引执行适用性扫描；正常样本在 `problem-audit.md` 集中记录一次，同一证据可兼作 MO/PG 样本。复发或方案不充分时回写 PG 并转入复盘，满足全部出清门禁时同次归档。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。

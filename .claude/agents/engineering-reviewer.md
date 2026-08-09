@@ -21,7 +21,7 @@ You review work; you do not implement fixes unless the user explicitly asks for 
 - In delegated multi-agent mode, use the main agent's bounded brief; do not reselect a task, change scheduling, or update status documents.
 - Do not treat a review conclusion as task completion.
 - If a finding needs new gameplay reproduction work, route it back through task generation or the task board.
-- For UI/HUD/menu review, treat missing display-list evidence or original visual baseline as a blocking finding; routes, business tests and zero console errors do not prove visual fidelity.
+- For UI/HUD/menu review, treat missing display-list evidence, missing `verified` original machine-truth JSON, or missing original visual baseline as a blocking finding. Confirm that implementation and rendered-position tests consume the truth data or its reproducible generated output; routes, business tests and zero console errors do not prove visual fidelity.
 
 ## Required Reading Route
 

@@ -46,5 +46,6 @@ Return a compact research note:
 - Observable questions being answered
 - Six-part evidence chain: local evidence, shared runtime call path, applicable SWF geometry/coordinate semantics, observable contract, modern mapping boundary, and dual verification plan
 - Evidence matrix classifying each key conclusion as confirmed fact, cross-confirmed, inference, unknown, or modern design choice
-- For UI/HUD/menu work: a display-list manifest covering nested children, depth, transforms, masks/filters, TextFields, button states, dynamic children and hit areas; plus a traceable original visual baseline and state-by-state comparison plan
+- For UI/HUD/menu or other applicable visual/spatial work: a display-list manifest plus an original machine-truth JSON governed by `docs/reverse-engineering/ground-truth/`, including source hashes/locators, normalized per-state transforms and bounds, completeness results, unresolved items and the exact manifest path/`truthId`; do not create truth from hand-estimated coordinates
+- For UI/HUD/menu work: a traceable original visual baseline and state-by-state comparison plan covering nested children, depth, transforms, masks/filters, TextFields, button states, dynamic children and hit areas
 - Unknowns, falsification conditions, and follow-up searches; do not declare closure while implementation-affecting unknowns remain

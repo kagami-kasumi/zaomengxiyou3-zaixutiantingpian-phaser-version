@@ -24,6 +24,8 @@ const files = {
   problemAudit: 'docs/workflow/problem-audit.md',
   methodObservation: 'docs/workflow/method-observation.md',
   reverseEngineeringProtocol: 'docs/workflow/reverse-engineering-protocol.md',
+  groundTruthReadme: 'docs/reverse-engineering/ground-truth/README.md',
+  uiGroundTruthSchema: 'docs/reverse-engineering/ground-truth/schema/ui-ground-truth.schema.json',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
   glossary: 'docs/domain/glossary.md',
   languageProcess: 'docs/domain/ubiquitous-language-process.md',
@@ -1487,6 +1489,12 @@ function reverseEngineeringProtocolErrors(text) {
     '## 状态与关闭门禁',
     '## 逆向完成检查',
     '## UI 显示列表与视觉基准门禁',
+    '## 原版机器真值 JSON 生成流程',
+    'docs/reverse-engineering/ground-truth/',
+    'ui-ground-truth.schema.json',
+    '来源证明',
+    '完整性核对',
+    '自动消费与回测',
     '显示列表清单',
     '原版视觉基准',
     '像素差异',
@@ -1520,6 +1528,7 @@ function checkReverseEngineeringProtocol(
     reverseEngineeringProtocol.replace('- `推断`：', '- `推断分类已删除`：'),
     reverseEngineeringProtocol.replace('## UI 显示列表与视觉基准门禁', '## UI 视觉门禁已删除'),
     reverseEngineeringProtocol.replaceAll('原版视觉基准', '原版参考已删除'),
+    reverseEngineeringProtocol.replace('## 原版机器真值 JSON 生成流程', '## 机器真值流程已删除'),
   ];
   negativeCases.forEach((negativeCase, index) => {
     if (reverseEngineeringProtocolErrors(negativeCase).length === 0) {
@@ -1550,6 +1559,105 @@ function checkReverseEngineeringProtocol(
   }
   if (!reverseEngineeringAgent.includes('Evidence matrix') || !reverseEngineeringAgent.includes('shared runtime call path')) {
     error('reverse-engineering-researcher must output an evidence matrix and shared runtime call path.');
+  }
+}
+
+function checkMachineTruthWorkflow(
+  groundTruthReadme,
+  uiGroundTruthSchemaText,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  reverseEngineeringProtocol,
+  taskGeneration,
+  agentProtocol,
+  codeQualityGates,
+  reviewProtocol,
+  reverseEngineeringAgent,
+  implementationAgent,
+  reviewAgent,
+) {
+  const requiredReadmeText = [
+    '## 生成流程',
+    'schema/ui-ground-truth.schema.json',
+    'manifests/<task-or-scope>.json',
+    '锁定一手来源',
+    '归一化坐标',
+    'Schema 与完整性校验',
+    '自动消费与回测',
+    '`verified`',
+  ];
+  for (const requiredText of requiredReadmeText) {
+    if (!groundTruthReadme.includes(requiredText)) {
+      error(`ground-truth/README.md must include: ${requiredText}`);
+    }
+  }
+
+  let schema;
+  try {
+    schema = JSON.parse(uiGroundTruthSchemaText);
+  } catch (parseError) {
+    error(`ui-ground-truth.schema.json must be valid JSON: ${parseError.message}`);
+    return;
+  }
+
+  if (schema.$schema !== 'https://json-schema.org/draft/2020-12/schema') {
+    error('ui-ground-truth.schema.json must use JSON Schema draft 2020-12.');
+  }
+  const requiredTopLevel = [
+    'schemaVersion',
+    'truthId',
+    'status',
+    'scope',
+    'generatedBy',
+    'provenance',
+    'stage',
+    'states',
+    'displayObjects',
+    'baselines',
+    'completeness',
+  ];
+  for (const key of requiredTopLevel) {
+    if (!schema.required?.includes(key) || !schema.properties?.[key]) {
+      error(`ui-ground-truth.schema.json must require and define top-level field: ${key}`);
+    }
+  }
+  for (const definition of ['provenanceEntry', 'matrix', 'bounds', 'state', 'displayObject', 'baseline']) {
+    if (!schema.$defs?.[definition]) {
+      error(`ui-ground-truth.schema.json must define: ${definition}`);
+    }
+  }
+  const statuses = schema.properties?.status?.enum ?? [];
+  for (const status of ['draft', 'blocked', 'verified']) {
+    if (!statuses.includes(status)) {
+      error(`ui-ground-truth.schema.json must support status: ${status}`);
+    }
+  }
+  const verifiedRule = JSON.stringify(schema.allOf ?? []);
+  for (const requiredVerifiedRule of ['verified', 'displayListMatched', 'stateSetMatched', 'maxItems']) {
+    if (!verifiedRule.includes(requiredVerifiedRule)) {
+      error(`ui-ground-truth.schema.json must enforce verified completeness rule: ${requiredVerifiedRule}`);
+    }
+  }
+
+  for (const [name, text, requiredText] of [
+    ['AGENTS.md', agents, '原版机器真值 JSON'],
+    ['CLAUDE.md', claude, '原版机器真值 JSON'],
+    ['docs/workflow/README.md', workflowReadme, 'docs/reverse-engineering/ground-truth/'],
+    ['docs/workflow/document-map.md', documentMap, 'docs/reverse-engineering/ground-truth/'],
+    ['docs/workflow/reverse-engineering-protocol.md', reverseEngineeringProtocol, '原版机器真值 JSON 生成流程'],
+    ['docs/workflow/task-generation.md', taskGeneration, '原版机器真值 JSON：'],
+    ['docs/workflow/agent-protocol.md', agentProtocol, 'docs/reverse-engineering/ground-truth/'],
+    ['docs/workflow/code-quality-gates.md', codeQualityGates, 'original machine-truth JSON'],
+    ['docs/workflow/review-protocol.md', reviewProtocol, '原版机器真值 JSON'],
+    ['.claude/agents/reverse-engineering-researcher.md', reverseEngineeringAgent, 'original machine-truth JSON'],
+    ['.claude/agents/modern-implementation-engineer.md', implementationAgent, 'original machine-truth JSON'],
+    ['.claude/agents/engineering-reviewer.md', reviewAgent, 'original machine-truth JSON'],
+  ]) {
+    if (!text.includes(requiredText)) {
+      error(`${name} must enforce machine-truth workflow text: ${requiredText}`);
+    }
   }
 }
 
@@ -1624,6 +1732,8 @@ const problemGovernance = read(files.problemGovernance);
 const problemAudit = read(files.problemAudit);
 const methodObservation = read(files.methodObservation);
 const reverseEngineeringProtocol = read(files.reverseEngineeringProtocol);
+const groundTruthReadme = read(files.groundTruthReadme);
+const uiGroundTruthSchemaText = read(files.uiGroundTruthSchema);
 const problemDirectory = 'docs/workflow/problems';
 const problemRecordPaths = readdirSync(filePath(problemDirectory))
   .filter((name) => /^PG-\d{3}-.+\.md$/.test(name))
@@ -1765,6 +1875,22 @@ checkReverseEngineeringProtocol(
   taskGeneration,
   codeQualityGates,
   reverseEngineeringAgent,
+);
+checkMachineTruthWorkflow(
+  groundTruthReadme,
+  uiGroundTruthSchemaText,
+  agents,
+  claude,
+  workflowReadme,
+  documentMap,
+  reverseEngineeringProtocol,
+  taskGeneration,
+  agentProtocol,
+  codeQualityGates,
+  reviewProtocol,
+  reverseEngineeringAgent,
+  implementationAgent,
+  reviewAgent,
 );
 checkSourceBoundaryDocs(tsconfig, srcBoundaries, mechanicsText, inputSystem);
 checkDomainLanguage(glossary, languageProcess, [inputSystem]);

@@ -7,11 +7,11 @@
 1. 需要安装复杂软件时，直接结束任务，让用户手工完成。复杂软件指需要从 GitHub 下载的软件；普通 `npm` 命令可以运行。
 2. 不要修改、删除或重新生成 `local-resources/regima/legacy-extraction/` 中的原始提取结果，除非用户明确要求重新提取。
 3. RegiMA 恢复语料库位于 Git 忽略的 `local-resources/regima/`。视觉资源、SymbolClass、MovieClip 和原始命名 SWF 必须优先从 `local-resources/regima/source/restored-swfs/` 窄查；`local-resources/regima/legacy-extraction/` 只作为旧 AS3、旧提取结果和历史对照，不能再作为视觉资源是否缺失的最终依据。
-4. 现代实现只追求外观、玩法、数值、手感和流程尽量接近原版；AS3 源码是行为参考，不是现代架构模板。逆向必须遵循 `docs/workflow/reverse-engineering-protocol.md` 的六段证据链；证据缺环时标记推断/未知，禁止自行补成原版事实。
+4. 现代实现只追求外观、玩法、数值、手感和流程尽量接近原版；AS3 源码是行为参考，不是现代架构模板。逆向必须遵循 `docs/workflow/reverse-engineering-protocol.md` 的六段证据链；适用的 UI/视觉/空间事实还必须按 Schema 生成原版机器真值 JSON，由实现和测试直接消费。证据缺环时标记推断/未知，禁止自行补成原版事实。
 5. 不要一次性重构大量系统。每次任务选择一个清晰子系统或一个可玩的纵向切片。
 6. 默认不启动 `npm run dev`；修改代码后优先运行可自动结束的检查命令。需要用内置浏览器做视觉验收时，可直接启动 `npm run preview`：它固定监听 `0.0.0.0:4174`，这是用户长期批准的项目级视觉验收入口；服务可在验收后保持运行，只有端口冲突、用户要求或确有必要时才停止。
 7. 在现有文件中新增逻辑前，先运行 `npm run check:structure`；若目标文件触发 error，必须先拆分。若目标文件仅触发 warning，优先拆分；轻量小修可写明理由后局部修改。无关文件的 warning 不阻塞当前任务。
-8. 涉及 UI、HUD、菜单、页面或按钮的逆向/实现，必须按 `docs/workflow/reverse-engineering-protocol.md` 建立显示列表清单、原版视觉基准、允许的现代视觉例外和逐状态差异证据。整页真背景、业务测试、路由可用或零 console error 不能单独证明 UI 原生化；未经用户批准不得用现代可见层替代原版已有视觉。
+8. 涉及 UI、HUD、菜单、页面或按钮的逆向/实现，必须按 `docs/workflow/reverse-engineering-protocol.md` 建立显示列表清单、`verified` 原版机器真值 JSON、原版视觉基准、允许的现代视觉例外和逐状态差异证据。整页真背景、业务测试、路由可用或零 console error 不能单独证明 UI 原生化；未经用户批准不得用现代可见层替代原版已有视觉。
 
 ## 读取与编码约束
 

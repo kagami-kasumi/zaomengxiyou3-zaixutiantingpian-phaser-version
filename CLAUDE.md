@@ -55,7 +55,7 @@ npm run check:workflow
 7. 正式游戏 task 完成后必须更新相关文档并按项目规则归档。
 8. 不修改 `local-resources/regima/legacy-extraction/`。
 9. 视觉资源优先从 Git 忽略的 `local-resources/regima/source/restored-swfs/` 定位；旧 `local-resources/regima/legacy-extraction/` 不能作为视觉资源缺失的最终依据。
-10. AS3 源码是行为参考，不是架构模板。逆向遵循 `docs/workflow/reverse-engineering-protocol.md`：从局部证据追踪共享运行时、SWF 几何和坐标语义，区分确认事实、推断、未知与现代设计选择，再用现代方式重写可观察行为。
+10. AS3 源码是行为参考，不是架构模板。逆向遵循 `docs/workflow/reverse-engineering-protocol.md`：从局部证据追踪共享运行时、SWF 几何和坐标语义，区分确认事实、推断、未知与现代设计选择；适用的 UI/视觉/空间事实必须生成有溯源、Schema 与完整性校验的原版机器真值 JSON，再用现代方式重写并自动回测可观察行为。
 11. 执行工程评审时遵循 `docs/workflow/review-protocol.md`，输出可比较、可执行的结论。
 12. 治理系统性工程问题时遵循 `docs/workflow/problem-governance.md`；代码、架构、游戏 task 或工作流变更收尾时按 `problem-audit.md` 运行 `npm run audit:problems`，正常结果集中记录一次。复发或方案不充分则回写 PG 并转入复盘；通过样本满足全部关闭条件时同次归档。
 13. 试验人或 AI 提出的可重复改进方法时遵循 `docs/workflow/method-observation.md`；`MO-*` 不抢占任务，只在明确关联的真实工作中采样，并在截止点裁决采纳、修订或停止。治理型 MO 可以执行 PG 校验，同一份证据可同时作为 MO 样本与 PG 关闭样本。

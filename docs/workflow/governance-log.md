@@ -1,5 +1,44 @@
 # 工作流治理日志
 
+## 2026-08-08
+
+### 将原版机器真值 JSON 纳入逆向证据链
+
+变更内容：
+
+- 在六段证据链的 SWF 几何/坐标段与可观察行为合同之间增加原版机器真值 JSON 交接；UI、视觉和空间事实必须从一手 SWF/AS3/运行基准生成，不得以文档或 TS/CSS 手抄坐标代替。
+- 新建 `docs/reverse-engineering/ground-truth/`，定义范围冻结、源哈希/locator、原始提取、坐标归一化、状态枚举、Schema/完整性核对、交叉确认和自动回测的生成流程。
+- 新增 `ui-ground-truth.schema.json`，固定 `truthId`、`draft/blocked/verified`、来源证明、舞台、状态、显示对象、逐状态矩阵/边界、基准图和完整性/未解项结构。规范化 manifest 版本化落盘，大体积原始派生物继续留在 Git 忽略的 `local-resources/regima/task-outputs/`。
+- 逆向 task 生成、实现门禁、工程评审、Agent/Claude 入口和三个专业角色同步要求消费 `verified` 真值；位置验证必须把 DOM/Canvas 实测结果换算回原舞台坐标后自动比较。
+- 工作流校验器新增机器真值协议路由、Schema JSON 可解析性、必填顶层字段、状态语义、关键 `$defs` 与逆向/实现/评审跨文档门禁。
+
+影响范围：
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `.claude/agents/reverse-engineering-researcher.md`
+- `.claude/agents/modern-implementation-engineer.md`
+- `.claude/agents/engineering-reviewer.md`
+- `docs/reverse-engineering/ground-truth/README.md`
+- `docs/reverse-engineering/ground-truth/schema/ui-ground-truth.schema.json`
+- `docs/workflow/README.md`
+- `docs/workflow/document-map.md`
+- `docs/workflow/agent-protocol.md`
+- `docs/workflow/task-generation.md`
+- `docs/workflow/reverse-engineering-protocol.md`
+- `docs/workflow/code-quality-gates.md`
+- `docs/workflow/review-protocol.md`
+- `docs/workflow/problem-audit.md`
+- `tools/validate-workflow.mjs`
+
+验证：
+
+- `npm run check:structure` 通过；仅保留 9 个未修改旧大文件的既有 warning。
+- `node --check tools/validate-workflow.mjs` 通过。
+- `npm run check:workflow` 通过；真值 Schema/跨文档门禁、12 个未完成 task、260 个已完成 task、1080 条资源标注和可玩关卡架构校验通过；仅保留既有 `PlayerSlot` 禁止别名 warning。
+- `npm run audit:problems` 完成语义复核；命中 PG-004/005/007，通过样本集中写入 `problem-audit.md`，无复发、状态变更或可归档项。
+- `git diff --check` 通过。
+
 ## 2026-08-06
 
 ### 抽离 PG 收尾校验并建立 MO-002 集中审计
