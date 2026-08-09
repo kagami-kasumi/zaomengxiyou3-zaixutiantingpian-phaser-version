@@ -142,6 +142,43 @@ export function closeEquipmentStrengtheningSession(
   session.message = '未提交材料已返还';
 }
 
+export type EquipmentStrengtheningStagedSlot = 'target' | 'luckyCharm' | 'safeguardCharm' | number;
+
+export function removeEquipmentStrengtheningSlot(
+  session: EquipmentStrengtheningSession,
+  store: InventoryStore,
+  loadout: EquipmentLoadout,
+  slot: EquipmentStrengtheningStagedSlot,
+): boolean {
+  if (slot === 'target') {
+    if (!session.target) return false;
+    const target = session.target;
+    if (session.targetSource && session.targetSource !== 'inventory' && !loadout[session.targetSource]) {
+      equipInstance(loadout, target);
+    } else {
+      addInventoryEntry(store, target);
+    }
+    session.target = undefined;
+    session.targetSource = undefined;
+    session.message = `已退回 ${target.definition.name}`;
+    return true;
+  }
+  if (slot === 'luckyCharm' || slot === 'safeguardCharm') {
+    const material = session[slot];
+    if (!material) return false;
+    addStackByFillName(store, { [material.definition.fillName]: material.definition }, material.definition.fillName, 1);
+    session[slot] = undefined;
+    session.message = `已退回 ${material.definition.name}`;
+    return true;
+  }
+  const material = session.stones[slot];
+  if (!material) return false;
+  addStackByFillName(store, { [material.definition.fillName]: material.definition }, material.definition.fillName, 1);
+  session.stones.splice(slot, 1);
+  session.message = `已退回 ${material.definition.name}`;
+  return true;
+}
+
 export function submitEquipmentStrengthening(params: {
   session: EquipmentStrengtheningSession;
   store: InventoryStore;

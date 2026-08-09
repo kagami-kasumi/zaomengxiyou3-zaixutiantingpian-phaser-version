@@ -27,8 +27,6 @@ export const FormalWorkshopNativeTabLayout: readonly FormalWorkshopNativeTabLayo
 ] as const;
 
 // The four operation symbols share the visual center of the original left frame.
-export const FormalWorkshopOperationCenter = { x: 316, y: 310 } as const;
-
 export const FormalWorkshopReturnHitArea: WorkshopHitArea = {
   x: 842,
   y: 8,
@@ -41,13 +39,6 @@ export const FormalWorkshopPageHitAreas = {
   next: { x: 728, y: 465, width: 82, height: 32 },
 } as const satisfies Record<string, WorkshopHitArea>;
 
-export const FormalWorkshopCommitHitAreas: Readonly<Record<FormalWorkshopTab, WorkshopHitArea>> = {
-  strength: { x: 258, y: 432, width: 138, height: 46 },
-  fusion: { x: 260, y: 438, width: 138, height: 48 },
-  resolution: { x: 264, y: 440, width: 138, height: 46 },
-  making: { x: 264, y: 447, width: 138, height: 47 },
-};
-
 export const FormalWorkshopStageHitAreas: Readonly<Record<FormalWorkshopTab, readonly WorkshopHitArea[]>> = {
   strength: [
     { x: 184, y: 174, width: 68, height: 68 },
@@ -58,8 +49,8 @@ export const FormalWorkshopStageHitAreas: Readonly<Record<FormalWorkshopTab, rea
     { x: 282, y: 312, width: 68, height: 68 },
   ],
   fusion: [
-    { x: 274, y: 128, width: 66, height: 66 },
     { x: 174, y: 208, width: 70, height: 70 },
+    { x: 274, y: 128, width: 66, height: 66 },
     { x: 370, y: 208, width: 70, height: 70 },
   ],
   resolution: [
@@ -67,7 +58,7 @@ export const FormalWorkshopStageHitAreas: Readonly<Record<FormalWorkshopTab, rea
   ],
   making: [
     { x: 282, y: 116, width: 68, height: 68 },
-    { x: 184, y: 196, width: 68, height: 68 },
+    { x: 184, y: 266, width: 68, height: 68 },
     { x: 282, y: 266, width: 68, height: 68 },
     { x: 380, y: 266, width: 68, height: 68 },
   ],

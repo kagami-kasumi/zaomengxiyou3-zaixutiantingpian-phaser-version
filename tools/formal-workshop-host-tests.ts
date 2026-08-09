@@ -13,18 +13,17 @@ import {
   setFormalWorkshopOwner,
   setFormalWorkshopTab,
   stageFormalWorkshopFusion,
+  withdrawFormalWorkshopFusion,
 } from '../src/systems/FormalWorkshopPageSystem';
 import {
-  FormalWorkshopCommitHitAreas,
   FormalWorkshopNativeTabLayout,
-  FormalWorkshopOperationCenter,
   FormalWorkshopPageHitAreas,
   FormalWorkshopReturnHitArea,
   FormalWorkshopStageHitAreas,
 } from '../src/systems/FormalWorkshopNativeTabLayout';
 import { getStackQuantityByFillName } from '../src/systems/InventorySystem';
 import { createDefaultGameSave, createSaveSlot, loadActiveGame } from '../src/systems/SaveSlotSystem';
-import type { SaveStorage } from '../src/systems/SaveSystem';
+import { restoreGameState, type SaveStorage } from '../src/systems/SaveSystem';
 
 const root = process.cwd();
 
@@ -44,6 +43,13 @@ function createReadyModel() {
   assert.equal(createSaveSlot(storage, 0, save), true);
   const model = createFormalWorkshopPage(storage, 'p1');
   assert.ok(model);
+  assert.equal(getStackQuantityByFillName(model.restored.player1.inventoryStore, 'whgzzs'), 1);
+  assert.equal(getStackQuantityByFillName(model.restored.player2.inventoryStore, 'whgzzs'), 1);
+  const persisted = loadActiveGame(storage);
+  assert.ok(persisted);
+  const restored = restoreGameState(persisted, model.registry);
+  assert.equal(getStackQuantityByFillName(restored.player1.inventoryStore, 'whgzzs'), 1);
+  assert.equal(getStackQuantityByFillName(restored.player2.inventoryStore, 'whgzzs'), 1);
   return { storage, model };
 }
 
@@ -62,6 +68,10 @@ function testStageWithdrawTabCloseAndOwnerIsolation(): void {
   selectFillName(model, 'tlzsp');
   assert.equal(stageFormalWorkshopFusion(model), true);
   assert.equal(getStackQuantityByFillName(p1Store, 'tlzsp'), before - 1);
+  assert.equal(withdrawFormalWorkshopFusion(model, 0), true);
+  assert.equal(getStackQuantityByFillName(p1Store, 'tlzsp'), before);
+  selectFillName(model, 'tlzsp');
+  assert.equal(stageFormalWorkshopFusion(model), true);
   setFormalWorkshopTab(model, 'strength');
   assert.equal(getStackQuantityByFillName(p1Store, 'tlzsp'), before);
   assert.equal(model.fusionSessions.p1.slots.length, 0);
@@ -169,7 +179,6 @@ function testOriginalArtworkHitGeometryAndLabels(): void {
     { tab: 'making', label: '打造', sourceCharacterId: 113 },
   ]);
   assert.deepEqual(FormalWorkshopNativeTabLayout.map(({ tab }) => formatFormalWorkshopTab(tab)), ['强化', '合成', '分解', '打造']);
-  assert.deepEqual(FormalWorkshopOperationCenter, { x: 316, y: 310 });
 
   FormalWorkshopNativeTabLayout.forEach((layout, index) => {
     assert.ok(layout.x >= 0 && layout.y >= 0);
@@ -183,7 +192,6 @@ function testOriginalArtworkHitGeometryAndLabels(): void {
   for (const area of [
     FormalWorkshopReturnHitArea,
     ...Object.values(FormalWorkshopPageHitAreas),
-    ...Object.values(FormalWorkshopCommitHitAreas),
     ...Object.values(FormalWorkshopStageHitAreas).flat(),
   ]) {
     assert.ok(area.x >= 0 && area.y >= 0);
@@ -191,6 +199,12 @@ function testOriginalArtworkHitGeometryAndLabels(): void {
     assert.ok(area.y + area.height <= 590);
   }
   assert.ok(FormalWorkshopReturnHitArea.x >= 840 && FormalWorkshopReturnHitArea.y < 20);
+  assert.deepEqual(FormalWorkshopStageHitAreas.fusion, [
+    { x: 174, y: 208, width: 70, height: 70 },
+    { x: 274, y: 128, width: 66, height: 66 },
+    { x: 370, y: 208, width: 70, height: 70 },
+  ]);
+  assert.deepEqual(FormalWorkshopStageHitAreas.making[1], { x: 184, y: 266, width: 68, height: 68 });
   assert.equal(existsSync(path.join(root, 'public/assets/ui/crafting/container-native-background.png')), false);
   assert.equal(existsSync(path.join(root, 'public/assets/ui/crafting/native-tabs')), false);
 

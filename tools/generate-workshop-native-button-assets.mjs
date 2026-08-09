@@ -11,6 +11,8 @@ const outputRoot = path.join(root, 'public/assets/ui/crafting/buttons');
 const pages = [
   { id: 'strength', source: 'DefineSprite_198_export.strength.Strength/1.svg', up: 'shape2', over: 'shape3' },
   { id: 'fusion', source: 'DefineSprite_169_export.strength.Fusion/1.svg', up: 'shape2', over: 'shape3' },
+  { id: 'resolution', source: 'DefineSprite_177_export.strength.Resolution/1.svg', up: 'shape2', over: 'shape3' },
+  { id: 'making', source: 'DefineSprite_152_export.strength.Making/1.svg', up: 'shape3', over: 'shape4' },
 ];
 
 mkdirSync(outputRoot, { recursive: true });
@@ -32,4 +34,4 @@ for (const page of pages) {
   }
 }
 
-console.log('Generated native strength/fusion button up, over, and down assets.');
+console.log('Generated native workshop button up, over, and down assets.');

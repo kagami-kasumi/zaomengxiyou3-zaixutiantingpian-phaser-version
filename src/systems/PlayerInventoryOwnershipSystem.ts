@@ -18,6 +18,7 @@ import {
   type CraftingSession,
 } from './CraftingSystem';
 import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
+import { createEquipmentMakingDefinitionRegistry } from './EquipmentMakingRegistry';
 
 export type PlayerInventoryRuntime = {
   ownerSlot: PlayerSlot;
@@ -43,6 +44,7 @@ export function createPlayerInventoryRuntimes(
   equipmentRegistry: Record<string, EquipmentDefinition>,
 ): PlayerInventoryRuntimes {
   Object.assign(equipmentRegistry, createInventoryItemDefinitionRegistry(equipmentRegistry));
+  Object.assign(equipmentRegistry, createEquipmentMakingDefinitionRegistry(equipmentRegistry));
   return {
     p1: createPlayerInventoryRuntime('p1', equipmentRegistry),
     p2: createPlayerInventoryRuntime('p2', equipmentRegistry),

@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-168B | 炼丹炉分解/打造左页原生化 | 消费 177/152 verified 真值并完成四页联合校准 | M-036、M-039、M-052、VS-064 | 分解/打造动态原生页、四页单按钮校准、同一正式背包/单一页码、左槽 63×62 去白边投影、逐槽点击退回、测试打造书与 940×590 差异证据 |
 | TASK-SETTINGS-167 | 炼丹炉左页 UI 逆向 | 闭合 198/169/177/152 四页的原生显示列表、动态字段、按钮/槽位状态与机器真值 | M-036、M-039、M-052、VS-064 | 四份 verified manifest、完整显示列表/动态拓扑、四页 940×590 原版基准、并排/叠图差异与 168A/168B 实现合同 |
 | TASK-SETTINGS-166A | 背包动态 UI 资源派生 | 从单一既有 `backpack1.swf` 关闭 358/610 与 304 动态控件的现代资源缺口 | M-035、M-037、M-052、VS-064 | 61 张透明 PNG、83 唯一 UI key/bundle、61 条 ready 标注、完整 child/矩阵/帧/TextField 裁决、尺寸/alpha/状态/禁整页裁片门禁与零像素对照 |
 | TASK-SETTINGS-165B | 正式背包 UI 逆向复核 | 重新闭合 304/246/628 动态显示列表、原版基准与当前差异 | M-035、M-036、M-037、M-052、VS-064 | 六段矩阵、完整动态清单、940×590 并排/差分、对象差异表、零未知 165C 合同与历史审计澄清 |
@@ -7210,6 +7211,52 @@ UI 原生化合同：
 
 - 更新工坊索引、mechanics、本线覆盖、资源标注、task-board/task-history；后续为 168A/168B 左页实现。
 
+### TASK-SLICE-168B
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（执行时为唯一 Ready；完成后继续 Active）
+
+目标机制/切片：
+
+- `M-036`、`M-039`、`M-052`、`VS-064`
+
+规模与协作：
+
+- 主工作包 2、预计 0 compact、独立验收批次 2；单 agent、主 agent 单写。
+- 分解/打造若需要新视觉资源族或暴露完整装备规则缺口，只登记给下一审计 task，不借 UI 名义扩展业务。
+
+输入资料：
+
+- `TASK-SETTINGS-167-workshop-left-pages.md`、四份 verified 工坊 manifest、168A 原生 helper、当前分解/打造 systems 与正式 host。
+- `local-resources/regima/source/restored-swfs/assets/backpack1.swf` 的 character 177/152/按钮源；局部 AS3 仅作行为交叉确认。
+
+输出与完成定义：
+
+- 分解页恢复目标、六结果、费用与 176 按钮态；打造页恢复制作书、材料、宝石、产物、六字段与 139 按钮态。
+- 删除四页现代槽名/摘要，按各页 verified 根边界放置，四页不得出现重复按钮；右栏继续消费 165D 同一正式背包投影。
+- 左侧物品使用 63×62 投影覆盖白色内沿、只留最外层格框；已有物品再次点击时逐槽退回背包。右栏只投影当前页数字并复用背景 `/5`。
+- 默认及容量允许的现有存档提供一份 `whgzzs` 测试打造书，不覆盖已满背包、不新增第二 owner。
+
+UI 原生化合同：
+
+- 显示列表与 verified 真值来自 167 的 177/152 及四页联合合同；原版基准为四张 940×590 截图。
+- 允许例外仅为宿主安全反馈和 P1/P2 selector；逐状态覆盖四页、分页、动态内容、进入/返回。
+- 差异证据必须包含四页并排、50% 叠图与逐对象差异表。
+
+验收与禁止范围：
+
+- 运行四功能/host/grid/asset 专项、全系统、build、structure、annotations、workflow、problem audit、diff check 和 940×590 正式流程。
+- 不扩展四功能规则、全装备数值、人物成长或存档 schema；不修改 `legacy-extraction`。
+
+状态更新：
+
+- 更新 mechanics、纵向切片、功能线覆盖、task-board/task-history 与 PG 反馈；下一 task 为 `TASK-SETTINGS-169` 四功能规则完整性审计。
+
 ## 执行记录
 
 
@@ -9680,6 +9727,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
+
+### TASK-SLICE-168B
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SETTINGS-169`）。
+- 分解页按 177 恢复目标、六结果 child、费用字段与 176 三态按钮；打造页按 152 恢复制作书、两材料、三宝石、产物、六文字字段与 139 三态按钮。四页根按各自 verified 边界放置，强化/合成不再出现背景按钮与交互按钮重叠。
+- 右栏保持 165D 与正式/关卡内背包共用的 `InventoryGridProjection / InventoryGridView`；页面只投影当前页数字，复用背景自带 `/5`，不建立第二套分页或库存 owner。
+- 用户连续截图指出 50×50 未填满、67×66 溢出及 57×56 白色内边后，左侧工坊槽最终使用同一裁切规则的 63×62 投影并向左上校准 7 px，覆盖白色内沿、仅保留最外层格框；右侧 25 格仍保持正式背包的 32×32 投影。
+- 强化六槽、合成三槽、分解目标、打造书/三宝石支持点击已有物品逐槽退回；合成槽保留中间空位并优先回填，不移动左右其余材料。
+- 默认新档及打开工坊时在容量允许且尚不存在时补入 `whgzzs` 打造书，P1/P2 各自归属，不覆盖已满背包；制作书注册表同时进入正式背包和运行时 owner。
+- 940×590 四页正式流程、按钮、页码、暂存图标与制作书证据，以及并排/50% 叠图见 `docs/tasks/evidence/TASK-SLICE-168B/`；console warning/error 为 0。
+- 验证：分解/打造/强化/合成/host/grid/asset 专项、`npm run test:systems`、build、structure、annotations、workflow、problem audit 与 `git diff --check`。
+- 下一执行项：`TASK-SETTINGS-169`，审计四功能原版规则与当前覆盖，不提前补造全装备数值。
 
 ### TASK-SLICE-168A
 

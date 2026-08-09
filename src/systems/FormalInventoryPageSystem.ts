@@ -12,6 +12,7 @@ import {
   type EquipmentSlot,
 } from './EquipmentSystem';
 import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalog';
+import { createEquipmentMakingDefinitionRegistry } from './EquipmentMakingRegistry';
 import {
   equipInventoryItem,
   getInventoryEntries,
@@ -86,7 +87,9 @@ export function createFormalInventoryPage(
 ): FormalInventoryPageModel | undefined {
   const save = loadActiveGame(storage);
   if (!save) return undefined;
-  const registry = createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry());
+  const registry = createEquipmentMakingDefinitionRegistry(
+    createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()),
+  );
   return {
     owner,
     activeCategory: 'equipment',

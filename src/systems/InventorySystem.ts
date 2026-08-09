@@ -148,6 +148,7 @@ export function createSeedInventoryStore(
   addEquipmentByFillName(store, registry, 'yxfb');
   addEquipmentByFillName(store, registry, 'ptnmwsz');
   addStackByFillName(store, registry, 'sms1', 8);
+  addStackByFillName(store, registry, 'whgzzs', 1);
   addStackByFillName(store, registry, 'wpcsd', 2);
   addStackByFillName(store, registry, 'wphhd', 1);
   addStackByFillName(store, registry, 'djyys', 1);

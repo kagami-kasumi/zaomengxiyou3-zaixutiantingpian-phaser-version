@@ -7,6 +7,10 @@ import type { InventoryEntry } from '../../systems/InventorySystem';
 
 const ItemIconContentSize = 32;
 const ItemIconFrameInset = 9;
+const WorkshopSlotContentWidth = 63;
+const WorkshopSlotContentHeight = 62;
+const WorkshopSlotVisibleOffsetX = -7;
+const WorkshopSlotVisibleOffsetY = -7;
 
 export type InventoryGridOrigin = Readonly<{ x: number; y: number }>;
 
@@ -45,6 +49,21 @@ export function createInventoryItemIcon(
   const cropHeight = Math.max(1, icon.height - ItemIconFrameInset * 2);
   return icon.setCrop(ItemIconFrameInset, ItemIconFrameInset, cropWidth, cropHeight)
     .setScale(ItemIconContentSize / cropWidth, ItemIconContentSize / cropHeight);
+}
+
+export function createWorkshopSlotItemIcon(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  textureKey: string,
+): Phaser.GameObjects.Image {
+  const icon = scene.add.image(x, y, textureKey);
+  const cropWidth = Math.max(1, icon.width - ItemIconFrameInset * 2);
+  const cropHeight = Math.max(1, icon.height - ItemIconFrameInset * 2);
+  return icon.setPosition(x + WorkshopSlotVisibleOffsetX, y + WorkshopSlotVisibleOffsetY)
+    .setCrop(ItemIconFrameInset, ItemIconFrameInset, cropWidth, cropHeight)
+    .setScale(WorkshopSlotContentWidth / cropWidth, WorkshopSlotContentHeight / cropHeight)
+    .setData('workshopSlotItemIcon', true);
 }
 
 export function createNativeInventoryButton(

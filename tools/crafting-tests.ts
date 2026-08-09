@@ -234,10 +234,16 @@ function testCraftingVisualAssetProvenance(): void {
       craftingAssets.fusionButtonUp,
       craftingAssets.fusionButtonOver,
       craftingAssets.fusionButtonDown,
+      craftingAssets.resolutionButtonUp,
+      craftingAssets.resolutionButtonOver,
+      craftingAssets.resolutionButtonDown,
+      craftingAssets.makingButtonUp,
+      craftingAssets.makingButtonOver,
+      craftingAssets.makingButtonDown,
     ].map((asset) => asset.sourceCharacterId),
-    [182, 184, 184, 161, 163, 163],
+    [182, 184, 184, 161, 163, 163, 173, 175, 175, 136, 138, 138],
   );
-  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 222);
+  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 228);
 }
 
 function testCraftingFixedLayoutAndScaling(): void {
@@ -826,6 +832,15 @@ function testCraftingSessionPreviewAndReturn(): void {
   assert.equal(removeStagedCraftingMaterial(session, store, 1).ok, true);
   assert.equal(stackQuantity(store, 'tlzsp'), 1);
   assert.equal(previewCraftingSession(session, 1_000).materialQuantity, 2);
+  assert.ok(session.slots[0]);
+  assert.equal(session.slots[1], undefined);
+  assert.ok(session.slots[2]);
+  const returnedStack = getInventoryEntries(store, 'items').find(
+    (entry) => entry.kind === 'stack' && entry.definition.fillName === 'tlzsp',
+  );
+  assert.ok(returnedStack?.kind === 'stack');
+  assert.equal(stageCraftingMaterial(session, store, returnedStack).ok, true);
+  assert.ok(session.slots[1]);
   assert.equal(closeCraftingSession(session, store).ok, true);
   assert.equal(session.slots.length, 0);
   assert.equal(stackQuantity(store, 'tlzsp'), 3);

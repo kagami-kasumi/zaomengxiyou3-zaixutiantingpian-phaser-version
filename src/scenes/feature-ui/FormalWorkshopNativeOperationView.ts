@@ -1,10 +1,14 @@
 import Phaser from 'phaser';
 
 import fusionTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-settings-167-workshop-fusion.json';
+import makingTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-settings-167-workshop-making.json';
+import resolutionTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-settings-167-workshop-resolution.json';
 import strengthTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-settings-167-workshop-strength.json';
 import { craftingAssets } from '../../assets/AssetManifest';
 import { getInventoryItemAsset } from '../../assets/InventoryItemAssets';
 import { previewCraftingSession } from '../../systems/CraftingSystem';
+import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
+import { EquipmentResolutionSoulCost } from '../../systems/EquipmentResolutionSystem';
 import {
   getEquipmentStrengthLevel,
   getStrengtheningChance,
@@ -13,11 +17,25 @@ import {
 import {
   getFormalWorkshopPlayer,
   type FormalWorkshopPageModel,
+  type FormalWorkshopTab,
 } from '../../systems/FormalWorkshopPageSystem';
-import { createInventoryItemIcon } from './InventoryGridView';
+import { getStackQuantityByFillName } from '../../systems/InventorySystem';
+import { createWorkshopSlotItemIcon } from './InventoryGridView';
 
-type WorkshopTruth = typeof strengthTruth | typeof fusionTruth;
+type WorkshopTruth = typeof strengthTruth | typeof fusionTruth | typeof resolutionTruth | typeof makingTruth;
 type NativeButtonAssets = Readonly<{ up: string; over: string; down: string }>;
+
+export function getNativeWorkshopPanelBounds(tab: FormalWorkshopTab): Readonly<{
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}> {
+  if (tab === 'strength') return stageBoundsOf(strengthTruth, 'strength-page-root');
+  if (tab === 'fusion') return stageBoundsOf(fusionTruth, 'fusion-page-root');
+  if (tab === 'resolution') return stageBoundsOf(resolutionTruth, 'resolution-page-root');
+  return stageBoundsOf(makingTruth, 'making-page-root');
+}
 
 export function createNativeStrengthObjects(
   scene: Phaser.Scene,
@@ -77,6 +95,69 @@ export function createNativeFusionObjects(
   return objects;
 }
 
+export function createNativeResolutionObjects(
+  scene: Phaser.Scene,
+  model: FormalWorkshopPageModel,
+  onCommit: () => void,
+): Phaser.GameObjects.GameObject[] {
+  assertVerified(resolutionTruth);
+  const session = model.resolutionSessions[model.owner];
+  const objects: Phaser.GameObjects.GameObject[] = [];
+  addItem(objects, scene, session.target?.definition.fillName, centerOf(resolutionTruth, 'material'));
+  session.results.slice(0, 6).forEach((fillName, index) => {
+    addItem(objects, scene, fillName, centerOf(resolutionTruth, `resu${index + 1}`));
+  });
+  objects.push(nativeField(
+    scene,
+    resolutionTruth,
+    'txt_needlh',
+    session.target ? String(EquipmentResolutionSoulCost) : '',
+  ));
+  objects.push(nativeButton(scene, resolutionTruth, 'fjbtn', {
+    up: craftingAssets.resolutionButtonUp.key,
+    over: craftingAssets.resolutionButtonOver.key,
+    down: craftingAssets.resolutionButtonDown.key,
+  }, onCommit));
+  return objects;
+}
+
+export function createNativeMakingObjects(
+  scene: Phaser.Scene,
+  model: FormalWorkshopPageModel,
+  onCommit: () => void,
+): Phaser.GameObjects.GameObject[] {
+  assertVerified(makingTruth);
+  const session = model.makingSessions[model.owner];
+  const player = getFormalWorkshopPlayer(model);
+  const recipe = getEquipmentMakingRecipe(session);
+  const objects: Phaser.GameObjects.GameObject[] = [];
+  addItem(objects, scene, session.book?.definition.fillName, centerOf(makingTruth, 'makingbook'));
+  recipe?.requiredMaterials.slice(0, 2).forEach((material, index) => {
+    addItem(objects, scene, material.fillName, centerOf(makingTruth, `needmaterial${index + 1}`));
+  });
+  session.gems.slice(0, 3).forEach((gem, index) => {
+    addItem(objects, scene, gem.definition.fillName, centerOf(makingTruth, `material${index + 1}`));
+  });
+  addItem(objects, scene, session.lastProduct?.definition.fillName, centerOf(makingTruth, 'makeObj'));
+  const material1 = recipe?.requiredMaterials[0];
+  const material2 = recipe?.requiredMaterials[1];
+  objects.push(nativeField(scene, makingTruth, 'txthas1', material1
+    ? String(getStackQuantityByFillName(player.inventoryStore, material1.fillName)) : ''));
+  objects.push(nativeField(scene, makingTruth, 'txtneed1', material1 ? String(material1.quantity) : ''));
+  objects.push(nativeField(scene, makingTruth, 'txthas2', material2
+    ? String(getStackQuantityByFillName(player.inventoryStore, material2.fillName)) : ''));
+  objects.push(nativeField(scene, makingTruth, 'txtneed2', material2 ? String(material2.quantity) : ''));
+  objects.push(nativeField(scene, makingTruth, 'txt_needlh', session.book
+    ? String(getEquipmentMakingSoulCost(session.book.definition.quality)) : ''));
+  objects.push(nativeField(scene, makingTruth, 'txt_name', session.lastProduct?.definition.name ?? ''));
+  objects.push(nativeButton(scene, makingTruth, 'dzbtn', {
+    up: craftingAssets.makingButtonUp.key,
+    over: craftingAssets.makingButtonOver.key,
+    down: craftingAssets.makingButtonDown.key,
+  }, onCommit));
+  return objects;
+}
+
 function addItem(
   objects: Phaser.GameObjects.GameObject[],
   scene: Phaser.Scene,
@@ -85,7 +166,7 @@ function addItem(
 ): void {
   if (!fillName) return;
   const asset = getInventoryItemAsset(fillName);
-  if (asset) objects.push(createInventoryItemIcon(scene, center.x, center.y, asset.key));
+  if (asset) objects.push(createWorkshopSlotItemIcon(scene, center.x, center.y, asset.key));
 }
 
 function nativeField(

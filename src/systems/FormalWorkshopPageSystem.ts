@@ -11,6 +11,7 @@ import { createInventoryItemDefinitionRegistry } from './InventoryResourceCatalo
 import {
   closeEquipmentStrengtheningSession,
   createEquipmentStrengtheningSession,
+  removeEquipmentStrengtheningSlot,
   stageEquipmentStrengtheningEntry,
   submitEquipmentStrengthening,
   type EquipmentStrengtheningSession,
@@ -26,11 +27,14 @@ import { createEquipmentMakingDefinitionRegistry } from './EquipmentMakingRegist
 import {
   closeEquipmentMakingSession,
   createEquipmentMakingSession,
+  removeEquipmentMakingSlot,
   stageEquipmentMakingEntry,
   submitEquipmentMaking,
   type EquipmentMakingSession,
 } from './EquipmentMakingSystem';
 import {
+  addStackByFillName,
+  getStackQuantityByFillName,
   InventoryCategories,
   type InventoryCategory,
   type InventoryEntry,
@@ -72,7 +76,7 @@ export function createFormalWorkshopPage(storage: SaveStorage, owner: PlayerSlot
   if (!sourceSave) return undefined;
   const equipmentRegistry = createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry());
   const registry = createEquipmentMakingDefinitionRegistry(equipmentRegistry);
-  return {
+  const model: FormalWorkshopPageModel = {
     owner,
     tab: 'strength',
     activeCategory: 'equipment',
@@ -96,6 +100,17 @@ export function createFormalWorkshopPage(storage: SaveStorage, owner: PlayerSlot
     },
     fusionSessions: { p1: createCraftingSession('p1'), p2: createCraftingSession('p2') },
   };
+  seedRequestedMakingBook(model);
+  persistFormalWorkshopPage(model, storage);
+  return model;
+}
+
+function seedRequestedMakingBook(model: FormalWorkshopPageModel): void {
+  for (const player of [model.restored.player1, model.restored.player2]) {
+    if (getStackQuantityByFillName(player.inventoryStore, 'whgzzs') < 1) {
+      addStackByFillName(player.inventoryStore, model.registry, 'whgzzs', 1);
+    }
+  }
 }
 
 export function getFormalWorkshopPlayer(model: FormalWorkshopPageModel): LoadedPlayer1State {
@@ -228,6 +243,18 @@ export function withdrawFormalWorkshopStrengthening(model: FormalWorkshopPageMod
   model.message = model.strengtheningSessions[model.owner].message;
 }
 
+export function withdrawFormalWorkshopStrengtheningSlot(
+  model: FormalWorkshopPageModel,
+  slot: 'target' | 'luckyCharm' | 'safeguardCharm' | number,
+): boolean {
+  if (model.tab !== 'strength') return false;
+  const player = getFormalWorkshopPlayer(model);
+  const session = model.strengtheningSessions[model.owner];
+  const result = removeEquipmentStrengtheningSlot(session, player.inventoryStore, player.equipmentLoadout, slot);
+  model.message = session.message;
+  return result;
+}
+
 export function runFormalWorkshopStrengthening(
   model: FormalWorkshopPageModel,
   storage: SaveStorage,
@@ -258,10 +285,17 @@ export function stageFormalWorkshopFusion(model: FormalWorkshopPageModel): boole
   return result.ok;
 }
 
-export function withdrawFormalWorkshopFusion(model: FormalWorkshopPageModel): boolean {
+export function withdrawFormalWorkshopFusion(
+  model: FormalWorkshopPageModel,
+  slotIndex?: number,
+): boolean {
   if (model.tab !== 'fusion') return false;
   const player = getFormalWorkshopPlayer(model);
-  const result = removeStagedCraftingMaterial(model.fusionSessions[model.owner], player.inventoryStore);
+  const result = removeStagedCraftingMaterial(
+    model.fusionSessions[model.owner],
+    player.inventoryStore,
+    slotIndex,
+  );
   model.message = result.message;
   return result.ok;
 }
@@ -338,6 +372,18 @@ export function stageFormalWorkshopMaking(model: FormalWorkshopPageModel): boole
 export function withdrawFormalWorkshopMaking(model: FormalWorkshopPageModel): void {
   if (model.tab !== 'making') return;
   closeCurrentMaking(model);
+}
+
+export function withdrawFormalWorkshopMakingSlot(
+  model: FormalWorkshopPageModel,
+  slot: 'book' | number,
+): boolean {
+  if (model.tab !== 'making') return false;
+  const player = getFormalWorkshopPlayer(model);
+  const session = model.makingSessions[model.owner];
+  const result = removeEquipmentMakingSlot(session, player.inventoryStore, slot);
+  model.message = session.message;
+  return result;
 }
 
 export function runFormalWorkshopMaking(

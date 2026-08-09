@@ -12,6 +12,7 @@ import {
   closeEquipmentMakingSession,
   createEquipmentMakingStatsOverride,
   createEquipmentMakingSession,
+  removeEquipmentMakingSlot,
   rollEquipmentMakingGemBonus,
   stageEquipmentMakingEntry,
   submitEquipmentMaking,
@@ -104,6 +105,12 @@ function testAtomicTransactionAndReturn(): void {
   addStackByFillName(store, registry, 'sms1', 1);
   assert.equal(stageEquipmentMakingEntry(session, store, findStack(store, 'whgzzs')), true);
   assert.equal(stageEquipmentMakingEntry(session, store, findStack(store, 'sms1')), true);
+  assert.equal(removeEquipmentMakingSlot(session, store, 0), true);
+  assert.equal(getStackQuantityByFillName(store, 'sms1'), 2);
+  assert.equal(removeEquipmentMakingSlot(session, store, 'book'), true);
+  assert.equal(getStackQuantityByFillName(store, 'whgzzs'), 1);
+  assert.equal(stageEquipmentMakingEntry(session, store, findStack(store, 'whgzzs')), true);
+  assert.equal(stageEquipmentMakingEntry(session, store, findStack(store, 'sms1')), true);
   closeEquipmentMakingSession(session, store);
   assert.equal(getStackQuantityByFillName(store, 'whgzzs'), 1);
   assert.equal(getStackQuantityByFillName(store, 'sms1'), 2);
@@ -144,8 +151,9 @@ function testFormalOwnersPersistenceAndTruePage(): void {
   assert.ok(existsSync(path.join(process.cwd(), 'public', craftingAssets.makingPanel.path)));
   const view = readFileSync(path.join(process.cwd(), 'src/scenes/feature-ui/FormalWorkshopPageView.ts'), 'utf8');
   assert.match(view, /craftingAssets\.makingPanel/);
-  assert.match(view, /FormalWorkshopCommitHitAreas\.making/);
-  assert.match(view, /workshop-commit-making/);
+  assert.match(view, /createNativeMakingObjects/);
+  assert.match(view, /callbacks\.onFeedback\(model\.message\)/);
+  assert.doesNotMatch(view, /workshop-commit-making/);
 }
 
 function findStack(store: ReturnType<typeof createInventoryStore>, fillName: string) {

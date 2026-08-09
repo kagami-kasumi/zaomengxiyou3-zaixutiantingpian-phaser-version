@@ -97,6 +97,29 @@ export function closeEquipmentMakingSession(session: EquipmentMakingSession, sto
   session.message = returned > 0 ? `已返还 ${returned} 个未提交物品` : '制作面板已关闭';
 }
 
+export function removeEquipmentMakingSlot(
+  session: EquipmentMakingSession,
+  store: InventoryStore,
+  slot: 'book' | number,
+): boolean {
+  if (slot === 'book') {
+    if (!session.book) return false;
+    const book = session.book;
+    returnStack(store, book);
+    session.book = undefined;
+    session.lastProduct = undefined;
+    session.message = `已退回 ${book.definition.name}`;
+    return true;
+  }
+  const gem = session.gems[slot];
+  if (!gem) return false;
+  returnStack(store, gem);
+  session.gems.splice(slot, 1);
+  session.lastProduct = undefined;
+  session.message = `已退回 ${gem.definition.name}`;
+  return true;
+}
+
 export function submitEquipmentMaking(params: {
   session: EquipmentMakingSession;
   store: InventoryStore;

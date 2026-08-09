@@ -4,13 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-168B` 是唯一 Ready 游戏 task；执行队列为空时，按 verified 真值原生化分解/打造并完成四页联合校准，不提前扩展四功能规则或全装备数值。
+`TASK-SETTINGS-169` 是唯一 Ready 游戏 task；执行队列为空时，审计强化、合成、分解、打造四功能的原版规则与当前实现缺口，不在证据闭合前扩展全装备数值或配方。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-168B | Ready | LINE-CORE-PROGRESSION-COMPLETION | 炼丹炉分解/打造左页原生化 | 消费 177/152 verified 真值并完成四页联合校准 | M-036、M-039、M-052、VS-064 | 两页原生实现、四页联合视觉/事务回归与规则审计输入 | 生成四功能规则完整性审计 task | [定义](task-definitions/TASK-SLICE-168B.md) |
+| TASK-SETTINGS-169 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 炼丹炉四功能规则完整性审计 | 逐项冻结强化、合成、分解、打造的原版规则、当前覆盖与缺口 | M-036、M-039、M-044、VS-064 | 四功能证据矩阵、缺口/未知清单和全装备依赖后的事务收口输入 | 依据审计生成同线全装备数据与 UI task | [定义](task-definitions/TASK-SETTINGS-169.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 待当前成长/UI 完成线关闭后恢复 | [定义](task-definitions/TASK-SETTINGS-064.md) |
 | TASK-ARCH-010A | Planned | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B | [定义](task-definitions/TASK-ARCH-010A.md) |
 | TASK-ARCH-010B | Planned | LINE-MONSTER-ARCH | 怪物定义/行为集成 | 将 DefinitionCatalog、Brain 与 Targeting 接入 PG-013 已建立的唯一怪物注册表，并在普通怪+Boss 关卡验证 | M-030、VS-007、VS-056 | 既有 Registry 的定义/Brain 接缝、兼容回归与后续策略迁移清单 | 依据试点生成同线策略迁移 task | [定义](task-definitions/TASK-ARCH-010B.md) |

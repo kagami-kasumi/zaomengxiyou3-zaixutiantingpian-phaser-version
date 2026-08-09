@@ -3,7 +3,6 @@ import workshopInventoryTruth from '../../../docs/reverse-engineering/ground-tru
 import { craftingAssets } from '../../assets/AssetManifest';
 import { inventoryUiAssets } from '../../assets/InventoryUiAssets';
 import {
-  FormalWorkshopPageCount,
   getFormalWorkshopGridPageEntries,
   getFormalWorkshopGridSelectedIndex,
   getFormalWorkshopPlayer,
@@ -19,26 +18,32 @@ import {
   stageFormalWorkshopMaking,
   stageFormalWorkshopResolution,
   stageFormalWorkshopStrengthening,
+  withdrawFormalWorkshopFusion,
+  withdrawFormalWorkshopMakingSlot,
   withdrawFormalWorkshopResolution,
+  withdrawFormalWorkshopStrengtheningSlot,
   type FormalWorkshopPageModel,
   type FormalWorkshopTab,
 } from '../../systems/FormalWorkshopPageSystem';
 import {
-  FormalWorkshopCommitHitAreas,
   FormalWorkshopNativeTabLayout,
-  FormalWorkshopOperationCenter,
   FormalWorkshopPageHitAreas,
   FormalWorkshopReturnHitArea,
   FormalWorkshopStageHitAreas,
   type WorkshopHitArea,
 } from '../../systems/FormalWorkshopNativeTabLayout';
-import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
 import { createInventoryGridProjection } from '../../systems/InventoryGridProjection';
 import { InventoryCategories } from '../../systems/InventorySystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
 import { createFormalSoulBalanceView } from './FormalSoulBalanceView';
 import { createInventoryGridObjects, createNativeInventoryButton } from './InventoryGridView';
-import { createNativeFusionObjects, createNativeStrengthObjects } from './FormalWorkshopNativeOperationView';
+import {
+  createNativeFusionObjects,
+  createNativeMakingObjects,
+  createNativeResolutionObjects,
+  createNativeStrengthObjects,
+  getNativeWorkshopPanelBounds,
+} from './FormalWorkshopNativeOperationView';
 
 type Callbacks = {
   playerCount: 1 | 2;
@@ -63,14 +68,14 @@ const WorkshopInventoryPagePosition = {
   y: WorkshopInventoryPageBounds.top + 4.65,
 };
 const WorkshopInventoryTabStep = WorkshopItemsTabBounds.left - WorkshopEquipmentTabBounds.left;
-
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
   const objects: Phaser.GameObjects.GameObject[] = [];
   objects.push(scene.add.image(470, 295, craftingAssets.container.key).setDisplaySize(940, 590));
-  if (model.tab === 'fusion') objects.push(scene.add.image(FormalWorkshopOperationCenter.x, FormalWorkshopOperationCenter.y, craftingAssets.fusionPanel.key));
-  if (model.tab === 'strength') objects.push(scene.add.image(FormalWorkshopOperationCenter.x, FormalWorkshopOperationCenter.y, craftingAssets.strengthPanel.key));
-  if (model.tab === 'resolution') objects.push(scene.add.image(FormalWorkshopOperationCenter.x, FormalWorkshopOperationCenter.y, craftingAssets.resolutionPanel.key));
-  if (model.tab === 'making') objects.push(scene.add.image(FormalWorkshopOperationCenter.x, FormalWorkshopOperationCenter.y, craftingAssets.makingPanel.key));
+  const panelAsset = model.tab === 'fusion' ? craftingAssets.fusionPanel
+    : model.tab === 'strength' ? craftingAssets.strengthPanel
+      : model.tab === 'resolution' ? craftingAssets.resolutionPanel : craftingAssets.makingPanel;
+  const panelBounds = getNativeWorkshopPanelBounds(model.tab);
+  objects.push(scene.add.image(panelBounds.left, panelBounds.top, panelAsset.key).setOrigin(0));
   objects.push(ownerLabel(scene, 303, 86, 'P1工坊', () => callbacks.onOwner('p1'), model.owner === 'p1'));
   if (callbacks.playerCount === 2) {
     objects.push(ownerLabel(scene, 424, 86, 'P2工坊', () => callbacks.onOwner('p2'), model.owner === 'p2'));
@@ -103,7 +108,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
   objects.push(scene.add.text(
     WorkshopInventoryPagePosition.x,
     WorkshopInventoryPagePosition.y,
-    `${model.inventoryPage + 1}/${FormalWorkshopPageCount}`,
+    String(model.inventoryPage + 1),
     {
       color: '#ffffff',
       fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
@@ -124,8 +129,8 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
       callbacks.onFeedback(model.message);
       callbacks.onRerender();
     }));
-    objects.push(...stageZones(scene, 'strength', () => {
-      stageFormalWorkshopStrengthening(model); callbacks.onRerender();
+    objects.push(...stageZones(scene, 'strength', (index) => {
+      toggleWorkshopStageSlot(model, 'strength', index); callbacks.onRerender();
     }));
   } else if (model.tab === 'fusion') {
     objects.push(...createNativeFusionObjects(scene, model, () => {
@@ -133,63 +138,27 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
       callbacks.onFeedback(model.message);
       callbacks.onRerender();
     }));
-    objects.push(...stageZones(scene, 'fusion', () => {
-      stageFormalWorkshopFusion(model); callbacks.onRerender();
+    objects.push(...stageZones(scene, 'fusion', (index) => {
+      toggleWorkshopStageSlot(model, 'fusion', index); callbacks.onRerender();
     }));
   } else if (model.tab === 'resolution') {
-    const resolution = model.resolutionSessions[model.owner];
-    const target = resolution.target;
-    const results = resolution.results.map((fillName) => model.registry[fillName]?.name ?? fillName);
-    if (target) {
-      objects.push(scene.add.text(316, 167, target.definition.name, {
-        color: '#fff1ad', fontFamily: 'Arial', fontSize: '13px', align: 'center', wordWrap: { width: 60 },
-      }).setOrigin(0.5));
-    }
-    const resultPositions = [[198, 286], [297, 286], [394, 286], [198, 365], [297, 365], [394, 365]] as const;
-    results.forEach((name, index) => {
-      const position = resultPositions[index];
-      if (!position) return;
-      objects.push(scene.add.text(position[0], position[1], name, {
-        color: '#fff1ad', fontFamily: 'Arial', fontSize: '12px', align: 'center', wordWrap: { width: 60 },
-      }).setOrigin(0.5));
-    });
-    objects.push(statusText(scene, `分解消耗：100 灵魂\n${model.message}`));
-    objects.push(...stageZones(scene, 'resolution', () => {
-      if (resolution.target) withdrawFormalWorkshopResolution(model);
-      else stageFormalWorkshopResolution(model);
+    objects.push(...createNativeResolutionObjects(scene, model, () => {
+      runFormalWorkshopResolution(model, storage);
+      callbacks.onFeedback(model.message);
       callbacks.onRerender();
     }));
-    objects.push(originalHitZone(scene, FormalWorkshopCommitHitAreas.resolution, () => {
-      runFormalWorkshopResolution(model, storage); callbacks.onRerender();
-    }, 'workshop-commit-resolution'));
-  } else {
-    const making = model.makingSessions[model.owner];
-    const recipe = getEquipmentMakingRecipe(making);
-    const productName = recipe ? model.registry[recipe.productFillName]?.name ?? recipe.productFillName : '空';
-    const requirements = recipe?.requiredMaterials.map((material) =>
-      `${model.registry[material.fillName]?.name ?? material.fillName}×${material.quantity}`
-    ).join(' / ') ?? '请先放入制作书';
-    const soulCost = making.book ? getEquipmentMakingSoulCost(making.book.definition.quality) : 0;
-    if (making.book) {
-      objects.push(scene.add.text(316, 167, making.book.definition.name, {
-        color: '#fff1ad', fontFamily: 'Arial', fontSize: '12px', align: 'center', wordWrap: { width: 62 },
-      }).setOrigin(0.5));
-    }
-    const gemPositions = [[216, 317], [328, 317], [445, 318]] as const;
-    making.gems.forEach((gem, index) => {
-      const position = gemPositions[index];
-      if (!position) return;
-      objects.push(scene.add.text(position[0], position[1], gem.definition.name, {
-        color: '#fff1ad', fontFamily: 'Arial', fontSize: '11px', align: 'center', wordWrap: { width: 60 },
-      }).setOrigin(0.5));
-    });
-    objects.push(statusText(scene, `产物：${productName}\n材料：${requirements}\n所需灵魂：${soulCost}\n${model.message}`));
-    objects.push(...stageZones(scene, 'making', () => {
-      stageFormalWorkshopMaking(model); callbacks.onRerender();
+    objects.push(...stageZones(scene, 'resolution', (index) => {
+      toggleWorkshopStageSlot(model, 'resolution', index); callbacks.onRerender();
     }));
-    objects.push(originalHitZone(scene, FormalWorkshopCommitHitAreas.making, () => {
-      runFormalWorkshopMaking(model, storage); callbacks.onRerender();
-    }, 'workshop-commit-making'));
+  } else {
+    objects.push(...createNativeMakingObjects(scene, model, () => {
+      runFormalWorkshopMaking(model, storage);
+      callbacks.onFeedback(model.message);
+      callbacks.onRerender();
+    }));
+    objects.push(...stageZones(scene, 'making', (index) => {
+      toggleWorkshopStageSlot(model, 'making', index); callbacks.onRerender();
+    }));
   }
   return scene.add.container(0, 0, objects).setDepth(20);
 }
@@ -218,16 +187,6 @@ function ownerLabel(
   return text;
 }
 
-function statusText(scene: Phaser.Scene, copy: string): Phaser.GameObjects.Text {
-  return scene.add.text(180, 482, copy, {
-    color: '#e9d8b0',
-    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
-    fontSize: '9px',
-    lineSpacing: -2,
-    wordWrap: { width: 300 },
-  });
-}
-
 function stageSelectedWorkshopEntry(model: FormalWorkshopPageModel): void {
   if (model.tab === 'strength') stageFormalWorkshopStrengthening(model);
   else if (model.tab === 'fusion') stageFormalWorkshopFusion(model);
@@ -235,9 +194,41 @@ function stageSelectedWorkshopEntry(model: FormalWorkshopPageModel): void {
   else stageFormalWorkshopMaking(model);
 }
 
-function stageZones(scene: Phaser.Scene, tab: FormalWorkshopTab, onClick: () => void): Phaser.GameObjects.Zone[] {
+function toggleWorkshopStageSlot(model: FormalWorkshopPageModel, tab: FormalWorkshopTab, index: number): void {
+  if (tab === 'strength') {
+    const slot = (['luckyCharm', 0, 'target', 1, 'safeguardCharm', 2] as const)[index];
+    if (slot === undefined) return;
+    const session = model.strengtheningSessions[model.owner];
+    const occupied = typeof slot === 'number' ? Boolean(session.stones[slot]) : Boolean(session[slot]);
+    if (occupied) withdrawFormalWorkshopStrengtheningSlot(model, slot);
+    else stageFormalWorkshopStrengthening(model);
+    return;
+  }
+  if (tab === 'fusion') {
+    if (model.fusionSessions[model.owner].slots[index]) withdrawFormalWorkshopFusion(model, index);
+    else stageFormalWorkshopFusion(model);
+    return;
+  }
+  if (tab === 'resolution') {
+    if (model.resolutionSessions[model.owner].target) withdrawFormalWorkshopResolution(model);
+    else stageFormalWorkshopResolution(model);
+    return;
+  }
+  const slot = (['book', 0, 1, 2] as const)[index];
+  if (slot === undefined) return;
+  const session = model.makingSessions[model.owner];
+  const occupied = slot === 'book' ? Boolean(session.book) : Boolean(session.gems[slot]);
+  if (occupied) withdrawFormalWorkshopMakingSlot(model, slot);
+  else stageFormalWorkshopMaking(model);
+}
+
+function stageZones(
+  scene: Phaser.Scene,
+  tab: FormalWorkshopTab,
+  onClick: (index: number) => void,
+): Phaser.GameObjects.Zone[] {
   return FormalWorkshopStageHitAreas[tab].map((area, index) =>
-    originalHitZone(scene, area, onClick, `workshop-stage-${tab}-${index}`));
+    originalHitZone(scene, area, () => onClick(index), `workshop-stage-${tab}-${index}`));
 }
 
 function originalHitZone(

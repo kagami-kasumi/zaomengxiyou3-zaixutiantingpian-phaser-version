@@ -96,7 +96,8 @@ export function stageCraftingMaterial(
   if (entry.definition.fillName.includes('jns')) {
     return sessionFailure(session, '技能书不能作为合成材料');
   }
-  if (session.slots.length >= 3) return sessionFailure(session, '合成槽已满');
+  const stagedCount = session.slots.filter((slot) => Boolean(slot)).length;
+  if (stagedCount >= 3) return sessionFailure(session, '合成槽已满');
   if (entry.kind === 'equipment' && session.slots.some((slot) => slot?.entry === entry)) {
     return sessionFailure(session, '同一装备实例不能重复放入');
   }
@@ -110,21 +111,26 @@ export function stageCraftingMaterial(
   } else {
     stagedEntry = takeOneStackUnit(store, location.category, location.index, entry);
   }
-  session.slots.push({ entry: stagedEntry, sourceCategory: location.category });
+  const emptyIndex = session.slots.findIndex((slot) => !slot);
+  session.slots[emptyIndex >= 0 ? emptyIndex : session.slots.length] = {
+    entry: stagedEntry,
+    sourceCategory: location.category,
+  };
   session.lastProductFillName = undefined;
-  session.message = `已放入 ${entry.definition.name} (${session.slots.length}/3)`;
+  session.message = `已放入 ${entry.definition.name} (${stagedCount + 1}/3)`;
   return { ok: true, message: session.message };
 }
 
 export function removeStagedCraftingMaterial(
   session: CraftingSession,
   store: InventoryStore,
-  slotIndex = session.slots.length - 1,
+  slotIndex = findLastOccupiedCraftingSlot(session),
 ): CraftingSessionResult {
   const staged = session.slots[slotIndex];
   if (!staged) return sessionFailure(session, '该合成槽为空');
   returnStagedMaterial(store, staged);
-  session.slots.splice(slotIndex, 1);
+  session.slots[slotIndex] = undefined;
+  while (session.slots.length > 0 && !session.slots[session.slots.length - 1]) session.slots.pop();
   session.lastProductFillName = undefined;
   session.message = `已退回 ${staged.entry.definition.name}`;
   return { ok: true, message: session.message };
@@ -137,7 +143,7 @@ export function closeCraftingSession(
   for (const staged of session.slots) {
     if (staged) returnStagedMaterial(store, staged);
   }
-  const returned = session.slots.length;
+  const returned = session.slots.filter((slot) => Boolean(slot)).length;
   session.slots.length = 0;
   session.lastProductFillName = undefined;
   session.message = returned > 0 ? `已退回 ${returned} 个暂存材料` : '合成面板已关闭';
@@ -150,11 +156,12 @@ export function previewCraftingSession(
   recipes: readonly CraftingRecipe[] = SeedCraftingRecipes,
 ): CraftingPreview {
   const materialFillNames = session.slots.map((slot) => slot?.entry.definition.fillName ?? '');
-  if (materialFillNames.length < 3) {
+  const materialQuantity = session.slots.filter((slot) => Boolean(slot)).length;
+  if (materialQuantity < 3) {
     return {
-      materialQuantity: materialFillNames.length,
+      materialQuantity,
       canCraft: false,
-      message: `材料槽 ${materialFillNames.length}/3`,
+      message: `材料槽 ${materialQuantity}/3`,
     };
   }
   const recipe = matchCraftingRecipe(materialFillNames, recipes);
@@ -168,6 +175,13 @@ export function previewCraftingSession(
     };
   }
   return { recipe, materialQuantity: 3, canCraft: true, message: `可合成 ${recipe.productName}` };
+}
+
+function findLastOccupiedCraftingSlot(session: CraftingSession): number {
+  for (let index = session.slots.length - 1; index >= 0; index -= 1) {
+    if (session.slots[index]) return index;
+  }
+  return -1;
 }
 
 export function craftStagedSession(params: {

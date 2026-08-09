@@ -15,6 +15,7 @@ import {
   closeEquipmentStrengtheningSession,
   createEquipmentStrengtheningSession,
   getStrengtheningChance,
+  removeEquipmentStrengtheningSlot,
   stageEquipmentStrengtheningEntry,
   submitEquipmentStrengthening,
 } from '../src/systems/EquipmentStrengtheningSystem';
@@ -138,6 +139,24 @@ function testRejectedTransactionKeepsStaging(): void {
   assert.equal(target.strengthLevel, undefined);
 }
 
+function testIndividualStagedSlotReturnsToInventory(): void {
+  const store = createInventoryStore(20, 'strength-return');
+  const loadout = createEmptyEquipmentLoadout();
+  const target = addEquipmentByFillName(store, registry, 'ptdcz')!;
+  addStackByFillName(store, registry, 'wpqhs1', 2);
+  const session = createEquipmentStrengtheningSession('p1');
+  assert.equal(stageEquipmentStrengtheningEntry(session, store, loadout, target), true);
+  assert.equal(stageEquipmentStrengtheningEntry(session, store, loadout, findEntry(store, 'wpqhs1')!), true);
+  assert.equal(stageEquipmentStrengtheningEntry(session, store, loadout, findEntry(store, 'wpqhs1')!), true);
+  assert.equal(getStackQuantityByFillName(store, 'wpqhs1'), 0);
+  assert.equal(removeEquipmentStrengtheningSlot(session, store, loadout, 0), true);
+  assert.equal(session.stones.length, 1);
+  assert.equal(getStackQuantityByFillName(store, 'wpqhs1'), 1);
+  assert.equal(removeEquipmentStrengtheningSlot(session, store, loadout, 'target'), true);
+  assert.equal(session.target, undefined);
+  assert.ok(findEntry(store, 'ptdcz'));
+}
+
 function testFormalOwnerTransactionAndPersistence(): void {
   const storage = createStorage();
   const save = createDefaultGameSave();
@@ -215,6 +234,7 @@ function selectModelEntry(model: NonNullable<ReturnType<typeof createFormalWorks
 testProbabilityMatrixAndAdmission();
 testSuccessFailureProtectionAndReturn();
 testRejectedTransactionKeepsStaging();
+testIndividualStagedSlotReturnsToInventory();
 testFormalOwnerTransactionAndPersistence();
 testV4EnhancementRoundTripAndInPlaceMigration();
 testTrueStrengthAsset();
