@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-STAGE-2-3`（Active；本 task 为唯一 Ready）
+- `LINE-STAGE-2-3`（Planned；等待 `LINE-CORE-PROGRESSION-COMPLETION` 关闭后恢复）
 
 
 目标机制/切片：
