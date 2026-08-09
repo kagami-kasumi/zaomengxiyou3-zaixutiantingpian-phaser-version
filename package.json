@@ -53,6 +53,7 @@
     "test:formal-pets": "node tools/run-system-tests.mjs formal-pet-tests",
     "test:formal-workshop-host": "node tools/run-system-tests.mjs formal-workshop-host-tests",
     "test:formal-workshop-grid": "node tools/run-system-tests.mjs formal-workshop-inventory-grid-tests",
+    "test:formal-workshop-left-native": "node tools/run-system-tests.mjs formal-workshop-native-left-page-tests",
     "test:formal-strengthening": "node tools/run-system-tests.mjs formal-strengthening-tests",
     "test:formal-resolution": "node tools/run-system-tests.mjs formal-resolution-tests",
     "test:formal-making": "node tools/run-system-tests.mjs formal-making-tests",
@@ -74,6 +75,9 @@
     "generate:role5-combat-assets": "node tools/integrate-role5-combat-assets.mjs",
     "generate:formal-soul-ui": "node tools/generate-formal-soul-ui.mjs",
     "generate:workshop-inventory-truth": "node tools/generate-workshop-inventory-ground-truth.mjs",
+    "generate:workshop-left-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-workshop-left-baselines.ps1",
+    "generate:workshop-left-truth": "node tools/generate-workshop-left-ground-truth.mjs",
+    "check:ui-ground-truth": "node tools/validate-ui-ground-truth.mjs",
     "check:level-architecture": "node tools/check-playable-level-architecture.mjs",
     "check:workflow": "node tools/validate-workflow.mjs && node tools/run-problem-audit.mjs --validate && node tools/validate-asset-annotations.mjs && npm run check:level-architecture",
     "check:all": "npm run check:workflow && npm run check:structure && npm run check:code"

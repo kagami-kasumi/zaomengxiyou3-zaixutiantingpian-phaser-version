@@ -31,7 +31,7 @@
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
 | LINE-PRE-STAGE-2-3-COMPLETION | Done | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | — | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 无 | 165D 已把炼丹炉右栏闭合为原生 25 格投影；全线关闭合同满足 |
-| LINE-CORE-PROGRESSION-COMPLETION | Active | Stage 2-3 前完成炼丹炉左页与四功能、全装备 UI/数值、五角色成长、存档扩展、关卡左下五入口和用户确认的 UI 整改 | TASK-SETTINGS-167 | `feature-line-coverage/LINE-CORE-PROGRESSION-COMPLETION.md` | 无 | 尚未实施；先闭合炼丹炉左侧四页显示列表和 verified 机器真值 |
+| LINE-CORE-PROGRESSION-COMPLETION | Active | Stage 2-3 前完成炼丹炉左页与四功能、全装备 UI/数值、五角色成长、存档扩展、关卡左下五入口和用户确认的 UI 整改 | TASK-SLICE-168B | `feature-line-coverage/LINE-CORE-PROGRESSION-COMPLETION.md` | 无 | 168A 已原生化强化/合成并闭合 P1/P2 逐状态证据；现推进分解/打造与四页联合校准 |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待 `LINE-CORE-PROGRESSION-COMPLETION` 关闭 | 六段证据尚未开始 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
@@ -63,6 +63,10 @@
 2026-08-09 `TASK-SLICE-165D` 已归档并重新关闭本线：character 119 右栏删除逐行文字列表，直接消费 `InventoryGridProjection / InventoryGridView`、246 四分类、25 个 628 格、统一真图标/数量与固定五页；格点击直接调用既有强化/合成/分解/打造 session，P1/P2 owner、拒绝、关闭返还与 V6 未分叉。`task-slice-165d.workshop-inventory` verified 真值 JSON、940×590 P1/P2/四页签/分页/暂存/返还与零 console、专项/全系统/build/workflow 门禁通过；Split 父任务 165C 随 166A..D 全部产物完成一并收束。现恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064` 为唯一 Active/Ready。
 
 2026-08-09 用户重排 Stage 2-3 之前的后续工作：依次关注炼丹炉左侧页面、四个炼丹炉功能、全装备 UI/数值、人物数值与升级、存档、关卡左下五按钮以及部分 UI 重做。因四功能的全量事务依赖完整装备定义/数值，调度拆为“先复核规则，再补全装备，最后收口四事务”。新增并激活 `LINE-CORE-PROGRESSION-COMPLETION / TASK-SETTINGS-167`；`LINE-STAGE-2-3 / TASK-SETTINGS-064` 回到 Planned，不与新线并行。既有 V6 存档是扩展/迁移基础，不重写第二套 owner。
+
+2026-08-09 `TASK-SETTINGS-167` 已归档：198/169/177/152 四页的完整帧 1 显示列表、按钮态、动态 `ShowObj`/TextField 拓扑、反馈边界、四份 verified 机器真值及 940×590 原版/现代差异证据均已闭合，影响首批实现的未知为零。左页实现按同源页面族拆为 `TASK-SLICE-168A`（强化/合成，唯一 Ready）与 `TASK-SLICE-168B`（分解/打造与联合校准，Planned）；功能线继续 Active。
+
+2026-08-09 `TASK-SLICE-168A` 已归档：强化/合成直接消费 198/169 verified manifest，恢复六槽/三材料/预览/产物动态真图标、原 FZCuYuan 字段与 182/184、161/163 原按钮态；两页页底现代摘要删除，提交反馈进入宿主全局层。事务、随机、灵魂、库存、V6 与 165D 右栏 owner 未改；专项、全门禁及 940×590 P1/P2 空态/暂存/预览/拒绝/返还零 console 通过。功能线继续 Active，唯一 Ready 切换为 `TASK-SLICE-168B`。
 
 2026-07-25 `TASK-SETTINGS-066` 已确认四入口实际调用链、四页面身份、三个恢复源包、四根 Symbol 与主要事务/存档边界。因跨三源包和四套 owner 且首次 compact，按拆分门禁停止扩张：父任务改为 `Split`，证据拆为 `066A..D`，实现父任务拆为 `155A..D`，公共检查点见 `map-service-ui-index.md`；功能线不关闭，`GOAL-037 / TASK-SETTINGS-066A` 继续唯一 Active。
 

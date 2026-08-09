@@ -76,6 +76,8 @@ export class FeatureUiScene extends Phaser.Scene {
   private petModel?: FormalPetPageModel;
   private workshopLayer?: Phaser.GameObjects.Container;
   private workshopModel?: FormalWorkshopPageModel;
+  private workshopFeedbackText?: Phaser.GameObjects.Text;
+  private workshopFeedbackTimer?: Phaser.Time.TimerEvent;
   private magicWeaponLayer?: Phaser.GameObjects.Container;
   private magicWeaponModel?: FormalMagicWeaponPageModel;
   private storage?: SaveStorage;
@@ -333,7 +335,25 @@ export class FeatureUiScene extends Phaser.Scene {
       playerCount: this.session.playerCount,
       onOwner: (nextOwner) => this.switchPage('workshop', nextOwner),
       onClose: () => this.closeHost(),
+      onFeedback: (message) => this.showWorkshopFeedback(message),
       onRerender: () => this.renderWorkshopPage(),
+    });
+  }
+
+  private showWorkshopFeedback(message: string): void {
+    this.workshopFeedbackTimer?.remove(false);
+    this.workshopFeedbackText?.destroy();
+    this.workshopFeedbackText = this.add.text(470, 66, message, {
+      color: '#fff4b0',
+      fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
+      fontSize: '18px',
+      stroke: '#321507',
+      strokeThickness: 4,
+    }).setOrigin(0.5).setDepth(40).setData('workshopGlobalFeedback', true);
+    this.workshopFeedbackTimer = this.time.delayedCall(1_800, () => {
+      this.workshopFeedbackText?.destroy();
+      this.workshopFeedbackText = undefined;
+      this.workshopFeedbackTimer = undefined;
     });
   }
 
@@ -341,6 +361,10 @@ export class FeatureUiScene extends Phaser.Scene {
     if (this.workshopModel) closeFormalWorkshopPage(this.workshopModel);
     this.workshopLayer?.destroy(true);
     this.workshopLayer = undefined;
+    this.workshopFeedbackText?.destroy();
+    this.workshopFeedbackText = undefined;
+    this.workshopFeedbackTimer?.remove(false);
+    this.workshopFeedbackTimer = undefined;
   }
 
   private renderMagicWeaponPage(): void {

@@ -18,10 +18,10 @@
 | Stage 1-3 | 4 | 前景/布局、背景和普通门已转换接入；listener 是行为证据 | `stage13.md` |
 | Stage 2-1 | 18 | 根布局保持选择性导出；场景、背景、地面、普通门、66 帧冰刺、四怪本体 atlas 与七个攻击对象均已接入并完成运行复验 | `stage21.md`、`stage21-monsters.md` |
 | Stage 2-2 | 14 | 场景两层、背景、地面、普通门、130 帧火焰、Monster16 atlas 与六攻击对象均已接入现代 manifest/场景 | `stage22.md` |
-| UI 与配方图标 | 396 | 炼丹炉 UI、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条、新建存档人数/选角 25 条与背包动态 UI 61 条均已接入；其余深层 UI 结论保持 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`inventory-dynamic-ui.md` |
+| UI 与配方图标 | 403 | 炼丹炉 UI（含补录的 Fusion 169）及强化/合成六个原按钮态、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条、新建存档人数/选角 25 条与背包动态 UI 61 条均已接入；其余深层 UI 结论保持 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`inventory-dynamic-ui.md` |
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 
-总计 1080 条标注：1014 条 `ready`、24 条 `derived-ready`、1 条 `export-ready`、34 条 `source-corpus-ready`、2 条 `missing-original`、5 条 `rejected`；1080 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
+总计 1087 条标注：1021 条 `ready`、24 条 `derived-ready`、1 条 `export-ready`、34 条 `source-corpus-ready`、2 条 `missing-original`、5 条 `rejected`；1087 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
 
 ## 人工待办
 
@@ -35,7 +35,7 @@
 
 天庭地图已把 `OtherMat1.swf` 的 `SelectPLace` 1343、`MapMenu` 963 与 Stage 1-1/1-2/1-3、Stage 2-1 四个三帧节点 1311/1297/1304/1290 裁切并接入 `public/assets/ui/heaven-map/`；6 条标注均为 `ready`。
 
-完整功能 UI 已从 `backpack1/OtherMat1/pet1.swf` 选择性派生 11 条组合 SVG；背包/格子、技能总页/主动/绑定/被动、宠物、装备强化与装备分解共 9 条已接入正式页并标为 `ready`，法宝和装备制作 2 条仍为 `derived-ready`。`BackPack` 离台边界与其余根页 940×590 语义已记录在 `full-function-ui-index.md`。
+完整功能 UI 已从 `backpack1/OtherMat1/pet1.swf` 记录 12 条组合页面资源；补录的 Fusion 169 与强化/分解/打造一同链接到 TASK-SETTINGS-167 verified 真值。168A 另接入强化/合成六个原按钮态并以 manifest 驱动动态 child；`BackPack` 离台边界与其余根页 940×590 语义已记录在 `full-function-ui-index.md`。
 
 地图服务 UI 已从 `OtherMat1/backpack1/StageCommon/EIcon1.swf` 选择性派生丹药 990、商城 721、设置 148、任务 85 四条根 SVG/PNG。丹药页另派生 11 条、商城页 18 条、设置页 2 条、任务页 13 条深层资源，并分别由 `immortality-ui-index.md`、`shop-ui-index.md`、`settings-ui-index.md`、`task-ui-index.md` 闭合完整六段证据；设置页 3 条资源已由 `TASK-SLICE-155C` 接入，任务页根与 13 条深层资源已由 `TASK-SLICE-155D` 接入并转为 `ready`。
 

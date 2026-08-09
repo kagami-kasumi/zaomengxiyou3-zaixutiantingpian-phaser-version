@@ -226,7 +226,18 @@ function testCraftingVisualAssetProvenance(): void {
       { fillName: 'mdcqg', sourcePackage: 'assets/MagicWeapon2.swf', sourceCharacterId: 18 },
     ],
   );
-  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 216);
+  assert.deepEqual(
+    [
+      craftingAssets.strengthButtonUp,
+      craftingAssets.strengthButtonOver,
+      craftingAssets.strengthButtonDown,
+      craftingAssets.fusionButtonUp,
+      craftingAssets.fusionButtonOver,
+      craftingAssets.fusionButtonDown,
+    ].map((asset) => asset.sourceCharacterId),
+    [182, 184, 184, 161, 163, 163],
+  );
+  assert.equal(new Set(Object.values(craftingAssets).map((asset) => asset.key)).size, 222);
 }
 
 function testCraftingFixedLayoutAndScaling(): void {

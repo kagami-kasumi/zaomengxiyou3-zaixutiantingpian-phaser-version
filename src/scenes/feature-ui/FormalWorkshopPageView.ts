@@ -32,18 +32,19 @@ import {
   FormalWorkshopStageHitAreas,
   type WorkshopHitArea,
 } from '../../systems/FormalWorkshopNativeTabLayout';
-import { describeEquipmentStrengtheningSession } from '../../systems/EquipmentStrengtheningSystem';
 import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
 import { createInventoryGridProjection } from '../../systems/InventoryGridProjection';
 import { InventoryCategories } from '../../systems/InventorySystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
 import { createFormalSoulBalanceView } from './FormalSoulBalanceView';
 import { createInventoryGridObjects, createNativeInventoryButton } from './InventoryGridView';
+import { createNativeFusionObjects, createNativeStrengthObjects } from './FormalWorkshopNativeOperationView';
 
 type Callbacks = {
   playerCount: 1 | 2;
   onOwner: (owner: 'p1' | 'p2') => void;
   onClose: () => void;
+  onFeedback: (message: string) => void;
   onRerender: () => void;
 };
 
@@ -118,29 +119,23 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
   const player = getFormalWorkshopPlayer(model);
   objects.push(createFormalSoulBalanceView(scene, player.soulCount, 'workshop'));
   if (model.tab === 'strength') {
-    const session = model.strengtheningSessions[model.owner];
-    const summary = describeEquipmentStrengtheningSession(session);
-    objects.push(statusText(scene, [
-      `${summary[0]}　${summary[2]}`,
-      summary[3] ?? '',
-      summary[4] ?? '',
-      model.message,
-    ].filter(Boolean).join('\n')));
+    objects.push(...createNativeStrengthObjects(scene, model, () => {
+      runFormalWorkshopStrengthening(model, storage);
+      callbacks.onFeedback(model.message);
+      callbacks.onRerender();
+    }));
     objects.push(...stageZones(scene, 'strength', () => {
       stageFormalWorkshopStrengthening(model); callbacks.onRerender();
     }));
-    objects.push(originalHitZone(scene, FormalWorkshopCommitHitAreas.strength, () => {
-      runFormalWorkshopStrengthening(model, storage); callbacks.onRerender();
-    }, 'workshop-commit-strength'));
   } else if (model.tab === 'fusion') {
-    const fusion = model.fusionSessions[model.owner];
-    objects.push(statusText(scene, `暂存：${fusion.slots.map((slot) => slot?.entry.definition.name).join(' / ') || '空'}\n${model.message}`));
+    objects.push(...createNativeFusionObjects(scene, model, () => {
+      runFormalWorkshopFusion(model, storage);
+      callbacks.onFeedback(model.message);
+      callbacks.onRerender();
+    }));
     objects.push(...stageZones(scene, 'fusion', () => {
       stageFormalWorkshopFusion(model); callbacks.onRerender();
     }));
-    objects.push(originalHitZone(scene, FormalWorkshopCommitHitAreas.fusion, () => {
-      runFormalWorkshopFusion(model, storage); callbacks.onRerender();
-    }, 'workshop-commit-fusion'));
   } else if (model.tab === 'resolution') {
     const resolution = model.resolutionSessions[model.owner];
     const target = resolution.target;

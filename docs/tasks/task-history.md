@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-167 | 炼丹炉左页 UI 逆向 | 闭合 198/169/177/152 四页的原生显示列表、动态字段、按钮/槽位状态与机器真值 | M-036、M-039、M-052、VS-064 | 四份 verified manifest、完整显示列表/动态拓扑、四页 940×590 原版基准、并排/叠图差异与 168A/168B 实现合同 |
 | TASK-SETTINGS-166A | 背包动态 UI 资源派生 | 从单一既有 `backpack1.swf` 关闭 358/610 与 304 动态控件的现代资源缺口 | M-035、M-037、M-052、VS-064 | 61 张透明 PNG、83 唯一 UI key/bundle、61 条 ready 标注、完整 child/矩阵/帧/TextField 裁决、尺寸/alpha/状态/禁整页裁片门禁与零像素对照 |
 | TASK-SETTINGS-165B | 正式背包 UI 逆向复核 | 重新闭合 304/246/628 动态显示列表、原版基准与当前差异 | M-035、M-036、M-037、M-052、VS-064 | 六段矩阵、完整动态清单、940×590 并排/差分、对象差异表、零未知 165C 合同与历史审计澄清 |
 | TASK-SLICE-159 | 本地存档正式旅程 | 复用六槽 V6，闭合全部前置功能的跨页面、跨关卡、重启与损坏保护 | M-044、M-050、VS-052、VS-063 | 独立自动旅程、四地图服务/五战斗入口、P1/P2事务、1-2解锁、设置独立owner、临时状态排除、940×590唐僧/白龙重载及零console |
@@ -7161,6 +7162,54 @@ Goal：
 - 边界：未修改 `FormalInventoryPageView`、库存事务、owner/V6、legacy extraction 或第二消费者。
 - 推荐后续：`TASK-SLICE-166B`。
 
+### TASK-SETTINGS-167
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（执行时为唯一 Ready）
+
+目标机制/切片：
+
+- `M-036`、`M-039`、`M-052`、`VS-064`
+
+规模与协作：
+
+- 主工作包 2、预计 0 compact、独立验收批次 2；单 agent、主 agent 单写。
+- 若四页跨入新资源包或出现两个以上无法闭合的动态 owner，则拆最小补证 task；本 task 禁止写现代页面。
+
+输入资料：
+
+- `reverse-engineering-protocol.md`、`equipment-workshop-index.md`、`crafting-ui-index.md`、本线覆盖台账。
+- 恢复 `backpack1.swf` character 119/198/169/177/152；`StrengthEquipment/Strength/Fusion/Resolution/Making.as` 与局部共享调用链。
+- 当前现代 view 和 940×590 样本只用于差异，不反推原版事实。
+
+输出与完成定义：
+
+- 补齐四页根/子 Symbol、depth、父子关系、注册点、矩阵、文字、按钮状态、动态 child、槽位和命中区。
+- 每页生成 `verified` 原版机器真值 JSON，包含源 hash/locator、状态集、完整性、证据与实现/测试入口。
+- 建立原版视觉基准和当前差异；静态背景、空/暂存/产物、成功/失败/拒绝均有可复查的像素或 AS3 状态拓扑证据。
+- 所有影响首批实现的未知为零，并把实现拆成一至两个 0-compact 同线 task。
+
+UI 原生化合同：
+
+- truthId 前缀 `task-settings-167.workshop-left-pages`；未达 verified 时阻塞实现。
+- 原版 940×590 基准覆盖四页，并提供原版/现代并排、50% 叠图和可见对象差异。
+- 允许的现代可见例外默认空；动态输入身份不伪造为固定原版截图。
+
+验收与禁止范围：
+
+- 恢复 SWF、局部 AS3、显示消费者交叉确认；空态整页根不能代替动态证据。
+- 运行 annotations、workflow、problem audit 与 diff check。
+- 不修改 `legacy-extraction`、`src/`，不扩展四功能规则、装备数值、人物成长或存档 schema。
+
+状态更新：
+
+- 更新工坊索引、mechanics、本线覆盖、资源标注、task-board/task-history；后续为 168A/168B 左页实现。
+
 ## 执行记录
 
 
@@ -9631,6 +9680,44 @@ Goal：
 
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
+
+### TASK-SLICE-168A
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SLICE-168B`）。
+- 强化/合成实现直接消费 `task-settings-167-workshop-strength/fusion.json` 的 verified 对象、stage bounds 与命中合同；没有复制第二套槽位、文字或按钮坐标。
+- 新增 `FormalWorkshopNativeOperationView`：强化六槽与合成三材料/预览/产物均复用 `InventoryGridView` 的真图标投影；费用、成功率与名称写入原 FZCuYuan TextField 位置，空态保持原版未写入状态。
+- 从 character 182/184、161/163 生成六个原生 up/over/down 按钮资产；down 保持原 over character 的 `y+2`。两页不再用透明提交 zone 单独冒充原按钮态。
+- 删除强化/合成页底现代摘要；提交成功、失败与安全拒绝通过 `FeatureUiScene` 宿主全局反馈层显示，不在 198/169 子页新增可见层。
+- 事务、随机、灵魂、库存、P1/P2 owner、V6 与 165D 右侧背包未修改；切页、换 owner、关闭返回继续返还未提交暂存。
+- 940×590 P1/P2 空态、强化目标/费用、合成三材料/预览、normal/hover/pressed、拒绝/暂存保留、返回/再入和零 console 证据位于 `docs/tasks/evidence/TASK-SLICE-168A/`；并排、50% 叠图与可见对象差异见其中 `visual-difference.md`。
+- 实际保持两个串行主工作包、两个验收批次、0 compact；没有进入分解/打造、四功能规则、全装备数值、成长或存档 schema。
+
+验证：
+- `npm run test:formal-workshop-left-native`、`test:formal-strengthening`、`test:formal-workshop-host`、`test:formal-workshop-grid`、`test:asset-bundles`、`test:formal-game-loop`、`check:ui-ground-truth`。
+- `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+- 内置浏览器正式存档 P1/P2 逐状态复验，console warning/error 为 0。
+
+推荐任务：
+- `TASK-SLICE-168B`：只原生化分解/打造并完成四页联合校准；不提前扩展四功能规则或全装备数值。
+
+### TASK-SETTINGS-167
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-168A`）。
+- 从唯一恢复源 `backpack1.swf` 选择性导出 198/169/177/152 的 PNG/SVG，并以 SWF、FFDec XML、`StrengthEquipment.as` 与四个页面类交叉确认根位置、56 个 scoped display object、12 个动态 TextField、四个 DefineButton2 状态和全部槽位容器。
+- 关闭动态状态边界：四页骨架不切帧；物品/产物进入既定容器的 `ShowObj` child；强化/合成与多数拒绝走全局 `gc.ts`，分解无页内成功文字，打造条件不足原版静默。当前页底多行摘要和 Arial 槽名均确认为现代偏差。
+- 新增四份 `verified` manifest：strength 12、fusion 13、resolution 13、making 18 个 scoped object，均 `displayListMatched=true`、`stateSetMatched=true`、`unresolved=[]`；生成器记录源 hash、locator、矩阵、按钮态和基准 hash。
+- 新增四个 940×590 原版基准，以及逐页左 500px 原版/现代并排和 50% 叠图；动态输入身份不伪造成唯一原版截图，改由 AS3 状态拓扑定义。
+- 资源标注新增缺失的 Fusion 行并把四页链接到 verified truth；没有派生产品资源，也未修改 `src/` 或 `legacy-extraction`。
+- 实现按同源页面族拆为 `TASK-SLICE-168A`（强化/合成，唯一 Ready）和 `TASK-SLICE-168B`（分解/打造与联合校准，Planned），均为 0-compact。
+
+验证：
+- `npm run generate:workshop-left-baselines`、`npm run generate:workshop-left-truth`。
+- `npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-168A`：消费 198/169 verified 真值，原生化强化/合成两页；不得提前扩展四功能规则或全装备数据。
 
 ### TASK-SLICE-165A
 

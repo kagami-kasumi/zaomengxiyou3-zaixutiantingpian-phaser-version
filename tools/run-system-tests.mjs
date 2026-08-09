@@ -52,6 +52,7 @@ const bundledTests = requestedTests.length > 0
       'formal-pet-tests',
       'formal-workshop-host-tests',
       'formal-workshop-inventory-grid-tests',
+      'formal-workshop-native-left-page-tests',
       'formal-strengthening-tests',
       'formal-resolution-tests',
       'formal-making-tests',

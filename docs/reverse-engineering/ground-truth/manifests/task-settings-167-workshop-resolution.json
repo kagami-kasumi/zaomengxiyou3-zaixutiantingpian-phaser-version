@@ -1,0 +1,835 @@
+{
+  "$schema": "../schema/ui-ground-truth.schema.json",
+  "schemaVersion": 1,
+  "truthId": "task-settings-167.workshop-left-pages.resolution",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SETTINGS-167",
+    "surfaceId": "workshop-character-177-resolution",
+    "originalVersion": "RegiMA 1.1 restored corpus",
+    "description": "分解页 character 177 静态显示列表、原生文字字段、槽位容器、提交按钮与舞台几何。运行时 ShowObj 子项和全局 toast 由 AS3 状态矩阵补充，不伪装成 SWF 静态帧。"
+  },
+  "generatedBy": {
+    "tool": "generate-workshop-left-ground-truth.mjs",
+    "toolVersion": "1",
+    "command": "npm run generate:workshop-left-truth",
+    "generatedAt": "2026-08-09T18:00:00+08:00"
+  },
+  "provenance": [
+    {
+      "id": "backpack1-swf",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/backpack1.swf",
+      "sha256": "70c1f1b535ea789ad9c77556f90c7c107084278a4d1773e31471f2b4d7454936",
+      "locator": "character 177 export.strength.Resolution; root character 119 at 24fps, 940x590."
+    },
+    {
+      "id": "backpack1-xml",
+      "sourceType": "ffdec-xml",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-165b-backpack-review/backpack1.xml",
+      "sha256": "7d98f09d0921778bd775ac0199e921c99796c2cab4dbe75aac6898984c046d7c",
+      "locator": "DefineSprite characterID=177, frame 1 PlaceObject depth/matrix/instanceName; button records 176."
+    },
+    {
+      "id": "resolution-as3",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/Resolution.as",
+      "sha256": "b3eea20d2b29ac3faac0743097435e73887f17de10691a0726f0e41f0aacab05",
+      "locator": "export.strength.Resolution: constructor, show/change/submit handlers, dynamic ShowObj children and feedback routing."
+    },
+    {
+      "id": "strength-equipment-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/StrengthEquipment.as",
+      "sha256": "0621259b3220a0693bf414de3b34107bea03a68d13a10b4cd0c09a929ebff28b",
+      "locator": "StrengthEquipment page creation and root placements; export.strength.Resolution selection."
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 24,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "top-left"
+  },
+  "states": [
+    {
+      "id": "resolution-static-skeleton",
+      "entry": "MapMenu -> GMain.showStrengthEquip -> StrengthEquipment -> export.strength.Resolution",
+      "frame": 1,
+      "fixtureId": "original-static-skeleton; runtime dynamic children covered by AS3 state matrix",
+      "baselineId": "original-resolution-940x590"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "resolution-page-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 177,
+        "symbolClass": "export.strength.Resolution",
+        "instanceName": "resolution",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 175.6,
+            "ty": 128.45
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -45,
+            "top": 2.35,
+            "width": 363,
+            "height": 370.6
+          },
+          "stageBounds": {
+            "left": 130.6,
+            "top": 130.79999999999998,
+            "width": 363,
+            "height": 370.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "StrengthEquipment.as root placement composed with the FFDec SVG normalization matrix and exported visible envelope.",
+          "evidenceRefs": [
+            "strength-equipment-as:page-placement",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "shape-170-depth-1",
+      "parentId": "resolution-page-root",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 170,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 82,
+            "height": 29
+          },
+          "stageBounds": {
+            "left": 175.6,
+            "top": 128.45,
+            "width": 82,
+            "height": 29
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-1",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#shape0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "txt_needlh",
+      "parentId": "resolution-page-root",
+      "depth": 2,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 171,
+        "symbolClass": null,
+        "instanceName": "txt_needlh",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 99.5,
+            "ty": 285.65
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 106.45,
+            "height": 22.05
+          },
+          "stageBounds": {
+            "left": 275.1,
+            "top": 414.09999999999997,
+            "width": 106.45,
+            "height": 22.05
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-2",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#text0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "fontSize": 15,
+          "color": "#ffffff",
+          "leading": 2,
+          "dynamic": "txt_needlh"
+        }
+      }
+    },
+    {
+      "id": "shape-159-depth-3",
+      "parentId": "resolution-page-root",
+      "depth": 3,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 159,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 5
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 363,
+            "height": 48
+          },
+          "stageBounds": {
+            "left": 175.6,
+            "top": 133.45,
+            "width": 363,
+            "height": 48
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-3",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#shape1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "fjbtn",
+      "parentId": "resolution-page-root",
+      "depth": 4,
+      "objectType": "button",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 176,
+        "symbolClass": null,
+        "instanceName": "fjbtn",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 84,
+            "ty": 316.05
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 139,
+            "height": 49
+          },
+          "stageBounds": {
+            "left": 259.6,
+            "top": 444.5,
+            "width": 139,
+            "height": 49
+          },
+          "hitArea": {
+            "left": 259.6,
+            "top": 444.5,
+            "width": 139,
+            "height": 49
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-4",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#button0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "buttonStateAssets": {
+          "up": "character-173",
+          "over": "character-175",
+          "down": "character-175@y+2",
+          "hit": "character-175"
+        }
+      }
+    },
+    {
+      "id": "resu6",
+      "parentId": "resolution-page-root",
+      "depth": 6,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 142,
+        "symbolClass": null,
+        "instanceName": "resu6",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 225.5,
+            "ty": 206.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 401.1,
+            "top": 335.4,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-6",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "resu5",
+      "parentId": "resolution-page-root",
+      "depth": 8,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 142,
+        "symbolClass": null,
+        "instanceName": "resu5",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 128.5,
+            "ty": 206.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 304.1,
+            "top": 335.4,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-8",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "resu4",
+      "parentId": "resolution-page-root",
+      "depth": 10,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 142,
+        "symbolClass": null,
+        "instanceName": "resu4",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 30,
+            "ty": 206.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 205.6,
+            "top": 335.4,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-10",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "resu3",
+      "parentId": "resolution-page-root",
+      "depth": 12,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 142,
+        "symbolClass": null,
+        "instanceName": "resu3",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 225.5,
+            "ty": 128.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 401.1,
+            "top": 256.79999999999995,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-12",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "resu2",
+      "parentId": "resolution-page-root",
+      "depth": 14,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 142,
+        "symbolClass": null,
+        "instanceName": "resu2",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 129.35,
+            "ty": 128.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 304.95,
+            "top": 256.79999999999995,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-14",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "resu1",
+      "parentId": "resolution-page-root",
+      "depth": 16,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 142,
+        "symbolClass": null,
+        "instanceName": "resu1",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 30,
+            "ty": 128.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 205.6,
+            "top": 256.79999999999995,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-16",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "shape-165-depth-18",
+      "parentId": "resolution-page-root",
+      "depth": 18,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 165,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 23.15,
+            "ty": -24.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 50
+          },
+          "stageBounds": {
+            "left": 198.75,
+            "top": 103.89999999999999,
+            "width": 50,
+            "height": 50
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-18",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#shape5",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "material",
+      "parentId": "resolution-page-root",
+      "depth": 19,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 168,
+        "symbolClass": null,
+        "instanceName": "material",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "resolution-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 127.35,
+            "ty": 10.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 302.95,
+            "top": 138.79999999999998,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-177-depth-19",
+            "page-svg:177"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_177_export.strength.Resolution/1.svg#sprite1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "original-resolution-940x590",
+      "stateId": "resolution-static-skeleton",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-167/original-resolution-940x590.png",
+      "sha256": "ad1a63416b79eeb61e0f830e9b912b993b18241261fc01b563f7f7d5120535f9",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "resolution-static-skeleton"
+    ],
+    "extractedStateIds": [
+      "resolution-static-skeleton"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "resolution-static-skeleton": 13
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "docs/reverse-engineering/evidence/TASK-SETTINGS-167-workshop-left-pages.md#resolution",
+    "docs/reverse-engineering/equipment-workshop-index.md#task-settings-167-左侧四页原版机器真值"
+  ]
+}

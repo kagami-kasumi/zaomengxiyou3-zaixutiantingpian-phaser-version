@@ -366,3 +366,20 @@ up shape 填充为白色 `#ffffff`；over/down 共用橙色 `#ff9900` shape。�
 | 验证 | 专项覆盖 truth 完整性、分类/五页、空/堆叠/实例、点击暂存/拒绝/返还和双 owner；940×590 覆盖 P1/P2、四页签、成功/拒绝/退回，console warning/error 为 0。逐对象、并排、叠图证据见 `docs/tasks/evidence/TASK-SLICE-165D/visual-audit.md`。 |
 
 原始 119 静态基准仍保留旧 TextField 占位；现代运行时移除静态 `nowpage/txtlh` 后绘制动态页码与宿主反馈。反馈移到左侧业务区，右栏没有新增现代可见层。当前范围内没有影响实现的未知。
+
+## TASK-SETTINGS-167 左侧四页原版机器真值
+
+167 重新审计 character 198/169/177/152，纠正了旧任务把“真整页资源已接入”等同于左页 UI 完整的结论。四页的帧 1 都只是原生骨架；动态物品、名称、费用、成功率和产物必须按实例字段与 `ShowObj` child 组合，反馈多数属于 119 外的全局 `gc.ts`。
+
+| 页面 | 根位置 | 帧 1 对象 | 原生动态字段/容器 | verified manifest |
+| --- | --- | ---: | --- | --- |
+| 强化 198 | 175.6/128.45 | 11 | 2 文字、6 槽、1 按钮；成功/失败/拒绝为全局反馈 | `ground-truth/manifests/task-settings-167-workshop-strength.json` |
+| 合成 169 | 175.6/128.45 | 12 | 3 文字、5 槽、1 按钮；成功/拒绝为全局反馈 | `ground-truth/manifests/task-settings-167-workshop-fusion.json` |
+| 分解 177 | 175.6/128.45 | 12 | 1 文字、7 槽、1 按钮；结果 child 局部 y=-2 | `ground-truth/manifests/task-settings-167-workshop-resolution.json` |
+| 打造 152 | 175.6/110.45 | 17 | 6 文字、7 槽、1 按钮；条件不足原版静默 | `ground-truth/manifests/task-settings-167-workshop-making.json` |
+
+完整 depth、父子关系、矩阵、TextField、按钮四态、动态 child、反馈路由和差异矩阵见 `evidence/TASK-SETTINGS-167-workshop-left-pages.md`。四份 manifest 的源 hash、locator、状态集、对象计数与原版 940×590 baseline 均已闭合为 `verified`，`unresolved=[]`。
+
+168A 已消除强化/合成偏差：实现直接读取 198/169 verified manifest 的 stage bounds，使用共享真图标投影恢复六槽、三材料、预览/产物 child，写入原 FZCuYuan 字段，并从 182/184 与 161/163 生成原 up/over/down 按钮资源；页底摘要删除，成功/失败/拒绝只进入宿主全局反馈。事务、随机、灵魂、库存、V6 与 165D 右栏 owner 未改变。逐状态、并排和 50% 叠图见 `docs/tasks/evidence/TASK-SLICE-168A/visual-difference.md`。
+
+当前剩余可见偏差只在 168B 范围：分解/打造仍以 Arial 槽名和页底摘要代替原 `ShowObj`/TextField，尚未消费 177/152 的完整动态字段与按钮态。P1/P2 只更换事务 owner，四个子页几何不变；168B 必须继续直接消费 verified manifest，并完成四页联合校准。

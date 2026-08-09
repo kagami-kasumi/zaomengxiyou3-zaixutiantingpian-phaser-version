@@ -1,0 +1,849 @@
+{
+  "$schema": "../schema/ui-ground-truth.schema.json",
+  "schemaVersion": 1,
+  "truthId": "task-settings-167.workshop-left-pages.fusion",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SETTINGS-167",
+    "surfaceId": "workshop-character-169-fusion",
+    "originalVersion": "RegiMA 1.1 restored corpus",
+    "description": "合成页 character 169 静态显示列表、原生文字字段、槽位容器、提交按钮与舞台几何。运行时 ShowObj 子项和全局 toast 由 AS3 状态矩阵补充，不伪装成 SWF 静态帧。"
+  },
+  "generatedBy": {
+    "tool": "generate-workshop-left-ground-truth.mjs",
+    "toolVersion": "1",
+    "command": "npm run generate:workshop-left-truth",
+    "generatedAt": "2026-08-09T18:00:00+08:00"
+  },
+  "provenance": [
+    {
+      "id": "backpack1-swf",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/backpack1.swf",
+      "sha256": "70c1f1b535ea789ad9c77556f90c7c107084278a4d1773e31471f2b4d7454936",
+      "locator": "character 169 export.strength.Fusion; root character 119 at 24fps, 940x590."
+    },
+    {
+      "id": "backpack1-xml",
+      "sourceType": "ffdec-xml",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-165b-backpack-review/backpack1.xml",
+      "sha256": "7d98f09d0921778bd775ac0199e921c99796c2cab4dbe75aac6898984c046d7c",
+      "locator": "DefineSprite characterID=169, frame 1 PlaceObject depth/matrix/instanceName; button records 164."
+    },
+    {
+      "id": "fusion-as3",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/Fusion.as",
+      "sha256": "554faa905dbf9a872618a2362e7f80e0306d3483305fd67cc3fbb8d290dc721c",
+      "locator": "export.strength.Fusion: constructor, show/change/submit handlers, dynamic ShowObj children and feedback routing."
+    },
+    {
+      "id": "strength-equipment-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/StrengthEquipment.as",
+      "sha256": "0621259b3220a0693bf414de3b34107bea03a68d13a10b4cd0c09a929ebff28b",
+      "locator": "StrengthEquipment page creation and root placements; export.strength.Fusion selection."
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 24,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "top-left"
+  },
+  "states": [
+    {
+      "id": "fusion-static-skeleton",
+      "entry": "MapMenu -> GMain.showStrengthEquip -> StrengthEquipment -> export.strength.Fusion",
+      "frame": 1,
+      "fixtureId": "original-static-skeleton; runtime dynamic children covered by AS3 state matrix",
+      "baselineId": "original-fusion-940x590"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "fusion-page-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 169,
+        "symbolClass": "export.strength.Fusion",
+        "instanceName": "fusion",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 175.6,
+            "ty": 128.45
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -45,
+            "top": 6,
+            "width": 374,
+            "height": 361.95
+          },
+          "stageBounds": {
+            "left": 130.6,
+            "top": 134.45,
+            "width": 374,
+            "height": 361.95
+          },
+          "derivation": "calculated",
+          "derivationMethod": "StrengthEquipment.as root placement composed with the FFDec SVG normalization matrix and exported visible envelope.",
+          "evidenceRefs": [
+            "strength-equipment-as:page-placement",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "shape-155-depth-3",
+      "parentId": "fusion-page-root",
+      "depth": 3,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 155,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 172.55,
+            "height": 65.05
+          },
+          "stageBounds": {
+            "left": 175.6,
+            "top": 128.45,
+            "width": 172.55,
+            "height": 65.05
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-3",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#shape0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "txt_name",
+      "parentId": "fusion-page-root",
+      "depth": 4,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 156,
+        "symbolClass": null,
+        "instanceName": "txt_name",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 126.85,
+            "ty": 247
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 71,
+            "height": 22.05
+          },
+          "stageBounds": {
+            "left": 302.45,
+            "top": 375.45,
+            "width": 71,
+            "height": 22.05
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-4",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#text0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "fontSize": 15,
+          "color": "#ffffff",
+          "leading": 2,
+          "dynamic": "txt_name"
+        }
+      }
+    },
+    {
+      "id": "txt_success",
+      "parentId": "fusion-page-root",
+      "depth": 5,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 157,
+        "symbolClass": null,
+        "instanceName": "txt_success",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 257.55,
+            "ty": 247
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 73.45,
+            "height": 22.05
+          },
+          "stageBounds": {
+            "left": 433.15,
+            "top": 375.45,
+            "width": 73.45,
+            "height": 22.05
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-5",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#text1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "fontSize": 15,
+          "color": "#ffffff",
+          "leading": 2,
+          "dynamic": "txt_success"
+        }
+      }
+    },
+    {
+      "id": "txt_needlh",
+      "parentId": "fusion-page-root",
+      "depth": 6,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 158,
+        "symbolClass": null,
+        "instanceName": "txt_needlh",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 166.85,
+            "ty": 283
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 163.15,
+            "height": 22.05
+          },
+          "stageBounds": {
+            "left": 342.45,
+            "top": 411.45,
+            "width": 163.15,
+            "height": 22.05
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-6",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#text2",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "fontSize": 15,
+          "color": "#ffffff",
+          "leading": 2,
+          "dynamic": "txt_needlh"
+        }
+      }
+    },
+    {
+      "id": "shape-159-depth-7",
+      "parentId": "fusion-page-root",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 159,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 363,
+            "height": 48
+          },
+          "stageBounds": {
+            "left": 175.6,
+            "top": 128.45,
+            "width": 363,
+            "height": 48
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-7",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#shape1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rlbtn",
+      "parentId": "fusion-page-root",
+      "depth": 8,
+      "objectType": "button",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 164,
+        "symbolClass": null,
+        "instanceName": "rlbtn",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 83,
+            "ty": 312.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 139,
+            "height": 49
+          },
+          "stageBounds": {
+            "left": 258.6,
+            "top": 441.4,
+            "width": 139,
+            "height": 49
+          },
+          "hitArea": {
+            "left": 258.6,
+            "top": 441.4,
+            "width": 139,
+            "height": 49
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-8",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#button0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "buttonStateAssets": {
+          "up": "character-161",
+          "over": "character-163",
+          "down": "character-163@y+2",
+          "hit": "character-163"
+        }
+      }
+    },
+    {
+      "id": "shape-165-depth-10",
+      "parentId": "fusion-page-root",
+      "depth": 10,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 165,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 50
+          },
+          "stageBounds": {
+            "left": 175.6,
+            "top": 128.45,
+            "width": 50,
+            "height": 50
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-10",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#shape4",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "material3",
+      "parentId": "fusion-page-root",
+      "depth": 11,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 168,
+        "symbolClass": null,
+        "instanceName": "material3",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 203.85,
+            "ty": 93.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 379.45,
+            "top": 222.39999999999998,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-11",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "produce",
+      "parentId": "fusion-page-root",
+      "depth": 13,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 142,
+        "symbolClass": null,
+        "instanceName": "produce",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 107.85,
+            "ty": 169.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 283.45,
+            "top": 298.4,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-13",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#sprite1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "preview",
+      "parentId": "fusion-page-root",
+      "depth": 15,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 142,
+        "symbolClass": null,
+        "instanceName": "preview",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 13,
+            "ty": 244.9
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 188.6,
+            "top": 373.35,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-15",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#sprite1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "material2",
+      "parentId": "fusion-page-root",
+      "depth": 17,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 168,
+        "symbolClass": null,
+        "instanceName": "material2",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 105.85,
+            "ty": 14
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 281.45,
+            "top": 142.45,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-17",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "material1",
+      "parentId": "fusion-page-root",
+      "depth": 19,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-xml",
+        "characterId": 168,
+        "symbolClass": null,
+        "instanceName": "material1",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "fusion-static-skeleton",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 8,
+            "ty": 93.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 67,
+            "height": 66
+          },
+          "stageBounds": {
+            "left": 183.6,
+            "top": 222.39999999999998,
+            "width": 67,
+            "height": 66
+          },
+          "derivation": "extracted",
+          "derivationMethod": "Root-frame PlaceObject order/matrix and FFDec SVG reported envelope; dynamic child contents are intentionally not promoted to static frame objects.",
+          "evidenceRefs": [
+            "backpack1-xml:character-169-depth-19",
+            "page-svg:169"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-167-workshop-left-pages/sprites-svg/DefineSprite_169_export.strength.Fusion/1.svg#sprite0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "original-fusion-940x590",
+      "stateId": "fusion-static-skeleton",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-167/original-fusion-940x590.png",
+      "sha256": "831b60b6083ac92775391ab2be3c455eddb752258fce031d2fa07f0e45a8b890",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "fusion-static-skeleton"
+    ],
+    "extractedStateIds": [
+      "fusion-static-skeleton"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "fusion-static-skeleton": 13
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "docs/reverse-engineering/evidence/TASK-SETTINGS-167-workshop-left-pages.md#fusion",
+    "docs/reverse-engineering/equipment-workshop-index.md#task-settings-167-左侧四页原版机器真值"
+  ]
+}
