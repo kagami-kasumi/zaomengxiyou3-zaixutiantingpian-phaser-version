@@ -383,3 +383,7 @@ up shape 填充为白色 `#ffffff`；over/down 共用橙色 `#ff9900` shape。�
 168A 已消除强化/合成偏差：实现直接读取 198/169 verified manifest 的 stage bounds，使用共享真图标投影恢复六槽、三材料、预览/产物 child，写入原 FZCuYuan 字段，并从 182/184 与 161/163 生成原 up/over/down 按钮资源；页底摘要删除，成功/失败/拒绝只进入宿主全局反馈。事务、随机、灵魂、库存、V6 与 165D 右栏 owner 未改变。逐状态、并排和 50% 叠图见 `docs/tasks/evidence/TASK-SLICE-168A/visual-difference.md`。
 
 当前剩余可见偏差只在 168B 范围：分解/打造仍以 Arial 槽名和页底摘要代替原 `ShowObj`/TextField，尚未消费 177/152 的完整动态字段与按钮态。P1/P2 只更换事务 owner，四个子页几何不变；168B 必须继续直接消费 verified manifest，并完成四页联合校准。
+
+## TASK-SETTINGS-169 四功能规则完整性审计
+
+169 的完整矩阵位于 `workshop-rules-completeness-audit.md`。结论不是“四功能已完成”：共同 owner、暂存/返还、灵魂、随机、原子事务和 V6 链路已闭合；剩余明确分为 164 件全装备数据依赖、Fusion 9 条时装时戳配方、打造小数到百分数点适配，以及全装备后的联合事务重放。四份 167 manifest 继续只证明 UI 字段/状态与业务反馈边界，不替代规则证据。

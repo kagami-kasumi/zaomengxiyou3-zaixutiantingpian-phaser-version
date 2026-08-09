@@ -9761,6 +9761,26 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SLICE-168B`：只原生化分解/打造并完成四页联合校准；不提前扩展四功能规则或全装备数值。
 
+### TASK-SETTINGS-169
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SETTINGS-170A`）。
+- 新增 `docs/reverse-engineering/workshop-rules-completeness-audit.md`，按强化、Fusion、分解、打造逐项冻结准入、输入、费用、随机、成功/失败/拒绝、返还、容量、实例字段、P1/P2 owner 与 V6 往返，并为每项记录状态、证据等级、反证条件和关闭 owner。
+- 共同事务 owner、暂存/返还、灵魂、原子拒绝、实例 `strengthLevel/baseStatsOverride` 和成功后活动槽保存链路与当前实现一致；原版角色名反查、静默失败/空引用、无容量预检和手动保存时点明确保留为原版缺陷或现代差异。
+- 强化概率/费用/降级/神恩保护、分解品质产物、78 本可达打造书和 1 个死分支均与专项一致；Fusion 审计确认现代为 112 条唯一事务，而原版 121 个唯一组合中仍有 9 条时装时戳配方未接入。
+- 发现并登记打造单位差异：AS3 的 `ecrit/emiss/magicdef` 使用小数比例，当前 `wptlz/wpllz/wpflz` 仍把 `0.01..` 直接写入现代百分数点字段；本 task 按禁止范围不修改事务。
+- 缺口分为：170A 的 164 件完整装备数据、后续全装备 UI 证据、现代全集接入，以及最终四事务收口（9 条时装配方、百分数单位、全量重放和存档兼容）。
+
+验证：
+
+- `npm run test:formal-strengthening`、`node tools/run-system-tests.mjs crafting-tests`、`npm run test:formal-resolution`、`npm run test:formal-making`、`npm run test:soul-save-v6`。
+- `npm run audit:crafting-coverage`：112 recipes，行为计数 67/41/3/1，201 定义/图标/验收库存全覆盖。
+- 收尾通过 `npm run check:annotations`、`npm run check:workflow`、`npm run check:structure`、`npm run audit:problems` 与 `git diff --check`。
+
+推荐任务：
+
+- `TASK-SETTINGS-170A`：只冻结原版 1.1 的 164 件可穿戴装备权威数据、字段单位、强化成长和 431 子集覆盖；不修改四功能事务或 UI。
+
 ### TASK-SETTINGS-167
 
 - 完成日期：2026-08-09。
