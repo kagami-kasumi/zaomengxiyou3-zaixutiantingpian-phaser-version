@@ -2,7 +2,7 @@
 
 ## 当前结论
 
-第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1..Role5 战斗视觉均已接入；Role5 枪/剑本体、装备、普攻、强化分支、全部已实现技能及附属对象已有精确来源与运行去向标注；炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录以及 Stage 1/2 怪物真视觉已完成接入。
+第一批标注范围已完成语义调查，并已迁移到 EVB 恢复后的分阶段台账。Role1..Role5 战斗视觉均已接入；Role5 枪/剑本体、装备、普攻、强化分支、全部已实现技能及附属对象已有精确来源与运行去向标注；炼丹炉完整 UI、201/201 个权威合成图标、完整背包 431 项目录、164 件装备的角色预览来源以及 Stage 1/2 怪物真视觉已完成调查或接入。
 
 ## 范围覆盖
 
@@ -20,8 +20,9 @@
 | Stage 2-2 | 14 | 场景两层、背景、地面、普通门、130 帧火焰、Monster16 atlas 与六攻击对象均已接入现代 manifest/场景 | `stage22.md` |
 | UI 与配方图标 | 403 | 炼丹炉 UI（含补录的 Fusion 169）及强化/合成六个原按钮态、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条、新建存档人数/选角 25 条与背包动态 UI 61 条均已接入；其余深层 UI 结论保持 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`inventory-dynamic-ui.md` |
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
+| 装备角色预览资源 | 127 | 126 项预览变更装备的源符号已闭合并可选择性导出；`mksddf` 原版标题查找缺陷 rejected，不生成替代层；另 37 件饰品/法宝按原逻辑不改变 HeadSprite | `equipment-visual-resources.md`、`../equipment-visual-resource-catalog.md` |
 
-总计 1087 条标注：1021 条 `ready`、24 条 `derived-ready`、1 条 `export-ready`、34 条 `source-corpus-ready`、2 条 `missing-original`、5 条 `rejected`；1087 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
+总计 1214 条标注：1021 条 `ready`、24 条 `derived-ready`、127 条 `export-ready`、34 条 `source-corpus-ready`、2 条 `missing-original`、6 条 `rejected`；1214 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
 
 ## 人工待办
 

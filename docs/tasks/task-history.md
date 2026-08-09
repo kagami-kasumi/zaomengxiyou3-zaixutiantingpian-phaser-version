@@ -9761,6 +9761,31 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SLICE-168B`：只原生化分解/打造并完成四页联合校准；不提前扩展四功能规则或全装备数值。
 
+### TASK-SETTINGS-170B2
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SLICE-170C`）。
+- 新增可重复生成的 `equipment-visual-resource-catalog-1.1.json` 与 Schema，把 170A 的 164 个 `fillName` 一对一关联到图标和适用的 `HeadSprite` 预览资源；163 个图标正常定位，`fmtstx` 保持已确认的原查找缺陷。
+- 127 件会改变预览的装备形成 138 条资源记录、111 个唯一已定位 character；17 饰品和 20 法宝按原调用链明确不改变预览。Role4 shovel/arrow、Role5 动态 frame、特殊 `showId` 与 520/521 `cs_zb` 跨包均已闭合。
+- 唯一缺失预览 Symbol `role_title_mksddf` 经完整 restored corpus 反证为原版缺陷；默认保持不可见，不生成替代层。影响 170C 的未知和推断均为 0。
+- 新增 127 条资源标注、批次记录、六段证据目录与 source-derived 940×590 代表性接触表；页面几何继续直接引用 170B1 verified manifest。本 task 未修改 `src/`、现代 bundle、事务或存档。
+
+验证：
+
+- `npm run generate:equipment-visual-catalog`、`npm run test:equipment-visual-catalog`、`npm run test:equipment-data-catalog`、`npm run test:inventory-catalog`、`npm run test:equipment-page-truth`。
+- 收尾运行 annotation、UI ground-truth、workflow、problem audit 与 `git diff --check`。
+
+推荐任务：
+
+- `TASK-SLICE-170C`：直接消费 170A 数据、170B1 verified 页面真值与 170B2 视觉目录，接入唯一 equipment/inventory owner、选择性真资源和正式页面逐状态回放。
+
+### TASK-SETTINGS-170B
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（Split 父任务完成收束；下一 task 为 `TASK-SLICE-170C`）。
+- 父任务按来源族拆为 170B1 页面证据与 170B2 视觉资源证据：前者已闭合 63 对象、9 状态 verified 真值，后者已闭合 164 图标和适用角色穿戴/称号 provenance。
+- 两个子任务均完成且影响实现的未知为零；父任务不再保留独立工作，不据此提前宣称现代全装备页面、事务或存档已经完成。
+
 ### TASK-SETTINGS-170B1
 
 - 完成日期：2026-08-09。

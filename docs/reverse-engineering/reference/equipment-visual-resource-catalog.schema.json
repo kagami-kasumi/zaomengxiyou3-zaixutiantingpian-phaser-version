@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-visual-resource-catalog.schema.json",
+  "title": "RegiMA 1.1 equipment visual resource provenance catalog",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "gameVersion",
+    "status",
+    "authorities",
+    "contracts",
+    "counts",
+    "knownOriginalDefects",
+    "items"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "gameVersion": { "const": "1.1" },
+    "status": { "enum": ["draft", "blocked", "verified"] },
+    "items": {
+      "type": "array",
+      "minItems": 164,
+      "maxItems": 164,
+      "items": { "$ref": "#/$defs/item" }
+    }
+  },
+  "$defs": {
+    "bounds": {
+      "type": "object",
+      "required": ["left", "top", "width", "height"],
+      "properties": {
+        "left": { "type": "number" },
+        "top": { "type": "number" },
+        "width": { "type": "number", "minimum": 0 },
+        "height": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "resource": {
+      "type": "object",
+      "required": [
+        "symbolClass",
+        "status",
+        "sourcePackage",
+        "sourcePath",
+        "sourceSha256",
+        "characterId",
+        "definitionTag",
+        "timeline",
+        "registrationPoint",
+        "visibleBounds",
+        "evidenceLevel"
+      ],
+      "properties": {
+        "symbolClass": { "type": "string", "minLength": 1 },
+        "status": {
+          "enum": [
+            "located",
+            "known-broken-original-lookup",
+            "known-original-defect",
+            "unresolved"
+          ]
+        },
+        "sourcePackage": { "type": ["string", "null"] },
+        "sourcePath": { "type": ["string", "null"] },
+        "sourceSha256": {
+          "anyOf": [
+            { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            { "type": "null" }
+          ]
+        },
+        "characterId": { "type": ["integer", "null"], "minimum": 0 },
+        "definitionTag": { "type": ["string", "null"] },
+        "timeline": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": ["frameCount"],
+              "properties": { "frameCount": { "type": "integer", "minimum": 1 } },
+              "additionalProperties": false
+            },
+            { "type": "null" }
+          ]
+        },
+        "registrationPoint": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": ["x", "y", "coordinateSpace"],
+              "properties": {
+                "x": { "type": "number" },
+                "y": { "type": "number" },
+                "coordinateSpace": { "const": "symbol-local-pixels" }
+              },
+              "additionalProperties": false
+            },
+            { "type": "null" }
+          ]
+        },
+        "visibleBounds": {
+          "anyOf": [{ "$ref": "#/$defs/bounds" }, { "type": "null" }]
+        },
+        "evidenceLevel": {
+          "enum": ["confirmed", "cross-confirmed", "inference", "unknown"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "item": {
+      "type": "object",
+      "required": [
+        "fillName",
+        "displayName",
+        "slot",
+        "originalType",
+        "user",
+        "showId",
+        "icon",
+        "preview",
+        "evidenceLevel",
+        "unresolved",
+        "counterEvidence"
+      ],
+      "properties": {
+        "fillName": { "type": "string", "minLength": 1 },
+        "displayName": { "type": "string", "minLength": 1 },
+        "slot": {
+          "enum": ["weapon", "armor", "accessory", "magicWeapon", "title"]
+        },
+        "showId": { "type": "integer", "minimum": 0 },
+        "icon": { "$ref": "#/$defs/resource" },
+        "preview": {
+          "type": "object",
+          "required": ["mode", "resources", "consumerLocator", "evidenceLevel"],
+          "properties": {
+            "mode": {
+              "enum": [
+                "no-head-preview-change",
+                "title-overlay",
+                "layered-role-resource",
+                "role4-dual-body-branch",
+                "role5-dynamic-fashion-layers"
+              ]
+            },
+            "resources": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/resource" }
+            }
+          },
+          "additionalProperties": true
+        },
+        "unresolved": { "type": "array", "maxItems": 0 },
+        "evidenceLevel": { "const": "cross-confirmed" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

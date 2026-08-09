@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-170B2` 是唯一 Ready 游戏 task；执行队列为空时，闭合 164 件装备图标与适用角色穿戴资源 provenance，不修改现代 UI、资产 bundle 或事务。
+`TASK-SLICE-170C` 是唯一 Ready 游戏 task；执行队列为空时，直接消费 170A 数据、170B1 verified 页面真值与 170B2 视觉目录，接入 164 件装备和正式穿戴预览。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-170B | Split | LINE-CORE-PROGRESSION-COMPLETION | 全装备背包/穿戴 UI 原版证据父任务 | 页面真值与 164 图标/角色穿戴资源来自独立恢复源族，拆为 170B1/170B2 | M-035、M-036、M-037、M-052、VS-064 | 170B1 verified 页面真值 + 170B2 视觉资源目录 | 170B2 完成后收束父任务并生成 170C | [定义](task-definitions/TASK-SETTINGS-170B.md) |
-| TASK-SETTINGS-170B2 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 全装备视觉资源原版证据 | 闭合 164 图标与五角色适用穿戴/称号资源、跨包/别名/缺陷和自动覆盖 | M-035、M-036、M-037、M-052、VS-064 | 一对一 provenance 目录、资源状态基准、未知/反证与 170C 合同 | TASK-SLICE-170C 全装备数据与 UI 接入 | [定义](task-definitions/TASK-SETTINGS-170B2.md) |
+| TASK-SLICE-170C | Ready | LINE-CORE-PROGRESSION-COMPLETION | 全装备数据与 UI 接入 | 以三个权威证据产物驱动唯一 equipment/inventory owner、资源 bundle 和正式穿戴预览 | M-035、M-036、M-037、M-044、M-052、VS-064 | 164 项现代目录、选择性真资源、正式页面逐状态与全集回归 | 同线四功能事务收口 task | [定义](task-definitions/TASK-SLICE-170C.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 待当前成长/UI 完成线关闭后恢复 | [定义](task-definitions/TASK-SETTINGS-064.md) |
 | TASK-ARCH-010A | Planned | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B | [定义](task-definitions/TASK-ARCH-010A.md) |
 | TASK-ARCH-010B | Planned | LINE-MONSTER-ARCH | 怪物定义/行为集成 | 将 DefinitionCatalog、Brain 与 Targeting 接入 PG-013 已建立的唯一怪物注册表，并在普通怪+Boss 关卡验证 | M-030、VS-007、VS-056 | 既有 Registry 的定义/Brain 接缝、兼容回归与后续策略迁移清单 | 依据试点生成同线策略迁移 task | [定义](task-definitions/TASK-ARCH-010B.md) |
