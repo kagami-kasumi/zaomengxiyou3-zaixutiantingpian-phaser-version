@@ -1,5 +1,12 @@
 # 工作流治理日志
 
+## 2026-08-09：任务校验器支持显式拆分 ID 的数字尾缀
+
+- 背景：`TASK-SETTINGS-170B` 的既有拆分合同明确使用 `170B1/170B2`，但 `validate-workflow.mjs` 只识别“数字 + 可选单字母”，导致合法的子任务定义、当前推荐和历史归档被误报缺失。
+- 变更：四处任务 ID 解析统一扩展为“数字 + 可选单字母 + 可选单数字”；不放宽任务前缀、文件命名或唯一 Ready/Active 规则。
+- 影响：170B1/170B2 可按原合同进入历史、task-board、独立定义和当前推荐；既有 `004A`、纯数字 ID 的含义不变。
+- 验证：`node --check tools/validate-workflow.mjs`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
 ## 2026-08-09
 
 ### 用首个真实机器真值 UI 任务完成 PG 集中审计裁决

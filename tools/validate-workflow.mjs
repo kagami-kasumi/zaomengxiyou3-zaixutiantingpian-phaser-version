@@ -100,11 +100,11 @@ function tableRows(markdown, prefixPattern) {
 }
 
 function taskDefinitions(markdown) {
-  return [...markdown.matchAll(/^###\s+(TASK-(?:[A-Z]+-)?\d+[A-Z]?)/gm)].map((match) => match[1]);
+  return [...markdown.matchAll(/^###\s+(TASK-(?:[A-Z]+-)?\d+[A-Z]?\d?)/gm)].map((match) => match[1]);
 }
 
 function taskBlocks(markdown) {
-  const matches = [...markdown.matchAll(/^###\s+(TASK-(?:[A-Z]+-)?\d+[A-Z]?)/gm)];
+  const matches = [...markdown.matchAll(/^###\s+(TASK-(?:[A-Z]+-)?\d+[A-Z]?\d?)/gm)];
   return matches.map((match, index) => {
     const next = matches[index + 1]?.index ?? markdown.length;
     return {
@@ -517,7 +517,7 @@ function checkBoardShape(board, taskRows, taskDefinitionIds, taskBlockList) {
 function checkRecommendations(board, taskRows) {
   const recommendationSection = section(board, '当前推荐');
   const recommendedIds = [
-    ...new Set([...recommendationSection.matchAll(/`(TASK-(?:[A-Z]+-)?\d+[A-Z]?)`/g)].map((match) => match[1])),
+    ...new Set([...recommendationSection.matchAll(/`(TASK-(?:[A-Z]+-)?\d+[A-Z]?\d?)`/g)].map((match) => match[1])),
   ];
   const readyIds = taskRows.filter((row) => row.status === 'Ready').map((row) => row.id);
 
@@ -1774,7 +1774,7 @@ const boardIds = taskRows.map((row) => row.id);
 const taskDefinitionDirectory = 'docs/tasks/task-definitions';
 const taskDefinitionPaths = existsSync(filePath(taskDefinitionDirectory))
   ? readdirSync(filePath(taskDefinitionDirectory))
-    .filter((name) => /^TASK-(?:[A-Z]+-)?\d+[A-Z]?\.md$/.test(name))
+    .filter((name) => /^TASK-(?:[A-Z]+-)?\d+[A-Z]?\d?\.md$/.test(name))
     .sort()
     .map((name) => `${taskDefinitionDirectory}/${name}`)
   : [];

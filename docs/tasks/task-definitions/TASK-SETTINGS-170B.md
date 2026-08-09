@@ -1,5 +1,9 @@
 # TASK-SETTINGS-170B
 
+状态：
+
+- `Split`。执行前确认页面、图标和角色穿戴来自三个独立恢复源族，已按合同拆为 `TASK-SETTINGS-170B1`（Done）与 `TASK-SETTINGS-170B2`（Ready）；父任务不再直接执行。
+
 任务类型：
 
 - `TASK-SETTINGS`
@@ -14,9 +18,9 @@
 
 规模预算：
 
-- 主工作包：2
+- 主工作包：0；父任务只聚合 170B1/170B2
 - 预计上下文压缩：0
-- 独立验收批次：2
+- 独立验收批次：0
 
 拆分触发：
 
@@ -75,5 +79,4 @@ UI 原生化合同：
 
 推荐后续任务：
 
-- `TASK-SLICE-170C`：直接消费 170A 权威数据和 170B verified UI/资源证据，把全集接入既有唯一 equipment/inventory owner，并为后续四事务全量重放提供现代输入。
-
+- `TASK-SETTINGS-170B2`：完成 164 图标与适用角色穿戴资源 provenance；随后由 `TASK-SLICE-170C` 消费 170A、170B1、170B2。

@@ -9761,6 +9761,25 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SLICE-168B`：只原生化分解/打造并完成四页联合校准；不提前扩展四功能规则或全装备数值。
 
+### TASK-SETTINGS-170B1
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SETTINGS-170B2`）。
+- 父任务 170B 的规模门禁确认页面、图标、角色穿戴分属三个恢复源族，故按合同拆为 170B1/170B2；本轮只完成页面工作包，未越级调查 164 资源全集。
+- 新增 `task-settings-170b1.equipment-page` verified manifest：940×590 character 304 根、246/628、六槽、`HeadSprite/ShowObj`、15 个动态 TextField/值容器、610/358 操作层等共 63 个 scoped 对象。
+- 状态集显式覆盖 P1/P2、空/已穿戴、page 1/2、装备/物品选择、时装显隐和关闭销毁 9 个 fixture；源 hash、父子链、每状态可见计数和 `unresolved=[]` 可自动复查。
+- 原版基准继续消费可追溯的 character 304 940×590 源渲染；动态值/身份按 AS3 状态拓扑证明，不用现代截图伪造原版运行基准。165B 并排/差分与 166B..D 运行证据被升级为本 task 的差异和双重验证链。
+- 新增证据矩阵 `TASK-SETTINGS-170B1-equipment-page.md`、可重复生成器和专项完整性测试；未修改 `src/`、现代 UI、资产 bundle、装备事务、数值或存档。
+
+验证：
+
+- `npm run generate:equipment-page-truth`、`node tools/validate-ui-ground-truth.mjs docs/reverse-engineering/ground-truth/manifests/task-settings-170b1-equipment-page.json`、`npm run test:equipment-page-truth`。
+- 收尾运行 annotation、workflow、problem audit 与 `git diff --check`。
+
+推荐任务：
+
+- `TASK-SETTINGS-170B2`：闭合 164 件装备图标与五角色适用穿戴/称号资源 provenance；完成后收束 170B 并生成 170C。
+
 ### TASK-SETTINGS-170A
 
 - 完成日期：2026-08-09。
