@@ -166,10 +166,6 @@ export function equipFormalInventorySelection(
     model.message = '该物品没有已支持的穿戴行为';
     return false;
   }
-  if (entry.definition.description.includes('专属用途与数值效果尚未接入')) {
-    model.message = '该装备数值尚未校准，暂不可穿戴';
-    return false;
-  }
   const result = equipInventoryItem(
     player.inventoryStore,
     player.equipmentLoadout,
@@ -222,7 +218,6 @@ export function getSelectedFormalEquipmentSlot(model: FormalInventoryPageModel):
 export function canEquipFormalInventorySelection(model: FormalInventoryPageModel): boolean {
   const entry = getSelectedFormalInventoryEntry(model);
   if (!entry || entry.kind !== 'equipment') return false;
-  if (entry.definition.description.includes('专属用途与数值效果尚未接入')) return false;
   const player = getFormalInventoryPlayer(model);
   return canEquipInstance(
     player.equipmentLoadout,
@@ -253,12 +248,12 @@ export function getFormalInventoryPresentation(
     maxMp: runtime?.maxMp ?? effective.maxMp,
     power: effective.power,
     defense: effective.defense,
-    critPercent: effective.critPercent,
-    missPercent: effective.missPercent,
+    critPercent: effective.critPercent * 100,
+    missPercent: effective.missPercent * 100,
     hpRegen: effective.hpRegen,
     mpRegen: effective.mpRegen,
-    magicDefensePercent: effective.magicDefensePercent,
-    luckPercent: effective.piercePercent,
+    magicDefensePercent: effective.magicDefensePercent * 100,
+    luckPercent: effective.piercePercent * 100,
     currentExp: progression.currentExp,
     expToNext: progression.expToNext,
     expFrame: maxLevel

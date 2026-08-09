@@ -11,6 +11,7 @@ import {
 import { getInventoryItemAsset } from '../../assets/InventoryItemAssets';
 import { inventoryUiAssets } from '../../assets/InventoryUiAssets';
 import { EquipmentSlotOrder } from '../../systems/EquipmentUISystem';
+import { getEquipmentPreviewLayers } from '../../systems/EquipmentPreviewSystem';
 import {
   canEquipFormalInventorySelection,
   changeFormalInventoryPage,
@@ -120,8 +121,7 @@ export function createFormalInventoryPageView(
     }
   });
 
-  objects.push(...createHeroProjection(scene, presentation.heroId, player.equipmentLoadout.weapon !== null
-    || player.equipmentLoadout.armor !== null || player.equipmentLoadout.title !== null));
+  objects.push(...createHeroProjection(scene, presentation.heroId, player.equipmentLoadout));
   objects.push(...createLevelProjection(scene, presentation.level));
   objects.push(scene.add.image(
     EXP_BAR_TOP_LEFT.x,
@@ -199,15 +199,37 @@ function createOperationLayer(
   return objects;
 }
 
-function createHeroProjection(scene: Phaser.Scene, heroId: number, showEquipment: boolean): Phaser.GameObjects.GameObject[] {
+function createHeroProjection(
+  scene: Phaser.Scene,
+  heroId: number,
+  loadout: ReturnType<typeof getFormalInventoryPlayer>['equipmentLoadout'],
+): Phaser.GameObjects.GameObject[] {
   const family = heroId === 1 ? role1CombatAtlases : heroId === 2 ? role2CombatAtlases : heroId === 3
     ? role3CombatAtlases : heroId === 4
       ? { body: role4BodyFamilyAssets.shovel0, equipment: role4BodyFamilyAssets.equipment0 }
       : { body: role5SpearBodyFamilyAssets.body0, equipment: role5SpearBodyFamilyAssets.equipment0 };
   const scale = heroId === 5 ? 0.85 : heroId === 3 ? 0.7 : 0.68;
-  const body = scene.add.sprite(280.25, 285, family.body.key, 0).setOrigin(0.5, 1).setScale(scale);
-  const objects: Phaser.GameObjects.GameObject[] = [body];
-  if (showEquipment) objects.push(scene.add.sprite(280.25, 285, family.equipment.key, 0).setOrigin(0.5, 1).setScale(scale));
+  const layers = getEquipmentPreviewLayers(heroId, loadout);
+  const replacesBody = layers.some((layer) => layer.mode === 'role4-dual-body-branch'
+    || layer.mode === 'role5-dynamic-fashion-layers'
+    || (layer.mode === 'layered-role-resource' && loadout.armor?.definition.fillName === layer.fillName));
+  const objects: Phaser.GameObjects.GameObject[] = [];
+  if (!replacesBody) {
+    objects.push(scene.add.sprite(280.25, 285, family.body.key, 0).setOrigin(0.5, 1).setScale(scale));
+  }
+  layers.forEach((layer) => {
+    const x = 280.25 + layer.offset.x;
+    const y = 285 + layer.offset.y;
+    if (layer.asset.kind === 'spritesheet') {
+      objects.push(scene.add.sprite(x, y, layer.asset.key, 0).setOrigin(0.5, 1).setScale(scale));
+      return;
+    }
+    const bounds = layer.asset.visibleBounds;
+    const image = scene.add.image(x, y, layer.asset.key)
+      .setOrigin(-bounds.left / bounds.width, -bounds.top / bounds.height)
+      .setScale(scale);
+    objects.push(image);
+  });
   return objects;
 }
 

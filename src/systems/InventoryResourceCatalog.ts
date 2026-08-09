@@ -6,6 +6,7 @@ import {
   type EquipmentDefinition,
   type EquipmentItemType,
 } from './EquipmentSystem';
+import { createAuthoritativeEquipmentRegistry } from './EquipmentCatalog';
 import type { InventoryCategory } from './InventorySystem';
 
 export type InventoryQuantityModel = 'instance' | 'stack';
@@ -104,7 +105,7 @@ export function isKnownInventoryResource(fillName: string): boolean {
 export function createInventoryItemDefinitionRegistry(
   existing: Readonly<Record<string, EquipmentDefinition>> = createSeedEquipmentRegistry(),
 ): Record<string, EquipmentDefinition> {
-  return {
+  const identityRegistry = {
     ...existing,
     ...Object.fromEntries(InventoryResourceDefinitions.map((item) => {
     const previous = existing[item.fillName];
@@ -124,4 +125,5 @@ export function createInventoryItemDefinitionRegistry(
     } satisfies EquipmentDefinition];
     })),
   };
+  return createAuthoritativeEquipmentRegistry(identityRegistry);
 }

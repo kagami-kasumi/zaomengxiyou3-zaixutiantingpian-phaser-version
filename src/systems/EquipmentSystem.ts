@@ -32,6 +32,15 @@ export type EquipmentStats = {
   shield: number;
 };
 
+export type EquipmentStatRange = Readonly<{
+  min: number;
+  max: number;
+  maxInclusive: boolean;
+  unit: 'points' | 'ratio';
+  runtimeCoercion: 'int' | 'uint' | 'Number';
+  originalExpression: string;
+}>;
+
 export type EquipmentDefinition = {
   showId: number;
   name: string;
@@ -41,6 +50,8 @@ export type EquipmentDefinition = {
   quality: string;
   color: string;
   stats: EquipmentStats;
+  /** Original 1.1 constructor ranges. `stats` is the deterministic minimum fixture. */
+  baseStatRanges?: Readonly<Partial<Record<keyof EquipmentStats, EquipmentStatRange>>>;
   strengthGrowth?: Partial<EquipmentStats>;
   description: string;
   magicWeapon?: {

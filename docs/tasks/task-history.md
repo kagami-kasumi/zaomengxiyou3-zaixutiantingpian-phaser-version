@@ -9728,6 +9728,25 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
 
+### TASK-SLICE-170C
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 Active）。
+- 新增 `EquipmentCatalog.ts`，直接消费 170A JSON 生成 164 个唯一装备 definition；保留 12 属性的原点数/比例单位、随机范围、运行时 coercion、强化成长和 `dgg` 特判结果，并由 `InventoryResourceCatalog` 覆盖既有 431 identity 中的装备子集，不建立第二 identity owner。
+- 正式穿上/卸下继续只经 `InventorySystem` 事务改变当前 P1/P2 owner；164 项全集、角色门禁、原比例展示、V6 兼容与代表性确定性穿脱均有专项测试。
+- 新增 `EquipmentPreviewAssets/EquipmentPreviewSystem` 与可重复 FFDec 派生脚本，按 170B2 package/character 生成 111 个唯一资源；目录直接回放 layered/Role4 双分支/Role5 frame/title/no-change 模式，保留 `fmtstx` 与 `mksddf` 原缺陷。
+- 预览资源从背包首屏全集 bundle 改为按当前装备选择性动态加载；避免 111 个 atlas 首次进入页面时阻塞。940×590 正式流程验证代表性饰品穿戴、属性刷新、原操作层、关闭/再入，console warning/error 为 0。
+- 两个验收批次结束时，五角色/P2/Role4/Role5/520/521 QA fixture 与逐状态差异图尚未闭合，命中定义中的拆分触发；因此 170C 按“数据/资源接入”完成归档，完整 UI 校准转 `TASK-SLICE-170D`，不宣称视觉全集完成。
+
+验证：
+
+- `npm run check:structure`、`npm run test:equipment-catalog`、`npm run test:equipment-preview`、`npm run build`。
+- 940×590 正式地图 `C` 背包：代表性穿戴/属性/操作层/关闭再入通过，console warning/error 为 0。
+
+推荐任务：
+
+- `TASK-SLICE-170D`：直接消费 170B1 verified 页面真值，完成五角色/双 owner/特殊资源分支的逐状态视觉校准与差异证据。
+
 ### TASK-SLICE-168B
 
 - 完成日期：2026-08-09。

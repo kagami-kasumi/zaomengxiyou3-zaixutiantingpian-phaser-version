@@ -53,6 +53,16 @@ export async function ensureSceneAssetBundle(
   }
 }
 
+export async function ensureSceneAssets(
+  scene: Phaser.Scene,
+  requestId: string,
+  assets: readonly BundleAssetDefinition[],
+): Promise<void> {
+  const missing = assets.filter((asset) => !hasPhaserAsset(scene, asset));
+  if (missing.length === 0) return;
+  await enqueueSceneLoad(scene, requestId, missing);
+}
+
 export async function startSceneWithBundle(
   scene: Phaser.Scene,
   targetSceneKey: string,
@@ -117,7 +127,7 @@ function createPhaserAdapter(scene: Phaser.Scene): AssetBundleLoadAdapter {
 
 function enqueueSceneLoad(
   scene: Phaser.Scene,
-  bundleId: AssetBundleId,
+  bundleId: string,
   assets: readonly BundleAssetDefinition[],
 ): Promise<void> {
   const previous = sceneLoadQueues.get(scene) ?? Promise.resolve();
@@ -132,7 +142,7 @@ function enqueueSceneLoad(
 
 function loadPhaserAssets(
   scene: Phaser.Scene,
-  bundleId: AssetBundleId,
+  bundleId: string,
   assets: readonly BundleAssetDefinition[],
 ): Promise<void> {
   return new Promise((resolve, reject) => {
