@@ -9707,3 +9707,27 @@ Goal：
 - 证据：`docs/tasks/evidence/TASK-SLICE-166D/`；console warning/error 为 0。
 - 验证：`npm run test:formal-inventory`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`git diff --check`。
 - 下一执行项：`TASK-SLICE-165D`，恢复为唯一 Ready。
+
+### TASK-SLICE-165C
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（父任务随所有子任务完成而归档）。
+- 执行前确认 character 358/610、等级/经验与动态状态控件需要从既有 `backpack1.swf` 选择性派生，因此按门禁拆为 `TASK-SETTINGS-166A` 与 `TASK-SLICE-166B`；用户后续视觉澄清再由 `166C/166D` 完成格框、经验文字和页码校正。
+- 四个子任务均已归档：资源 provenance、正式 5×5 背包、P1/P2/战斗即时值、操作层、经验、灵魂、分页和用户澄清后的最终视觉合同全部闭合；父任务不再保留独立实现工作。
+
+### TASK-SLICE-165D
+
+- 完成日期：2026-08-09。
+- 功能条线：`LINE-PRE-STAGE-2-3-COMPLETION`（`Done`）；下一条线为 `LINE-STAGE-2-3`（`Active`）。
+- 新增共享 `InventoryGridView`，正式背包与炼丹炉共同消费 628 外框、9 px 图标裁切、32×32 内容与数量表现；组件不持有 inventory、页面皮肤或 mutation。
+- 炼丹炉右栏删除逐行文字列表，按原 119/`BackPackElement` 几何实现四分类、固定五页和 25 个 5×5 格子；格子点击继续调用既有强化/合成/分解/制作暂存路径，未改四事务规则或新增 owner。
+- 新增 `task-slice-165d.workshop-inventory` verified 原版机器真值 manifest，34 个 scoped display object 完整性核对通过，并由实现与专项测试直接消费。
+- P1/P2、四页签、分页、空/堆叠/实例、成功暂存、拒绝、退回、关闭返回和再入均完成 940×590 验收；console warning/error 为 0。并排、50% 叠图和逐对象差异见 `docs/tasks/evidence/TASK-SLICE-165D/`。
+- 实际保持两个主工作包、两个验收批次、0 compact；未迁移第三消费者、未修改 V6，也未派生新视觉资源。
+
+验证：
+- `npm run test:formal-workshop-grid`、`test:formal-inventory`、`test:formal-workshop-host`、`test:formal-strengthening`、`test:formal-resolution`、`test:formal-making`、`test:asset-bundles`。
+- `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。

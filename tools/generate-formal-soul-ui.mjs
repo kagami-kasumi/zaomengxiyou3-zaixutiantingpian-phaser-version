@@ -68,9 +68,11 @@ const fontOutputPath = path.join(
 
 const source = readFileSync(sourcePath, 'utf8');
 const skillSource = readFileSync(skillSourcePath, 'utf8');
-const cleaned = source.replace(/^\s*<use[^>]*\sid="txtlh"[^>]*\/>\r?\n/m, '');
-if (cleaned === source || cleaned.includes('id="txtlh"')) {
-  throw new Error('Expected to remove the workshop txtlh instance from character 119.');
+const cleaned = source
+  .replace(/^\s*<use[^>]*\sid="txtlh"[^>]*\/>\r?\n/m, '')
+  .replace(/^\s*<use[^>]*\sid="nowpage"[^>]*\/>\r?\n/m, '');
+if (cleaned === source || cleaned.includes('id="txtlh"') || cleaned.includes('id="nowpage"')) {
+  throw new Error('Expected to remove the dynamic workshop soul and page fields from character 119.');
 }
 
 const digitPaths = Array.from({ length: 10 }, (_, digit) => {
@@ -104,4 +106,4 @@ writeFileSync(digitAtlasPath, digitAtlas);
 writeFileSync(badgePath, Buffer.from(badgeMatch[1], 'base64'));
 mkdirSync(path.dirname(fontOutputPath), { recursive: true });
 copyFileSync(fontSourcePath, fontOutputPath);
-console.log('Generated the original workshop root, transparent soul badge, shared soul digits, and FZCuYuan font.');
+console.log('Generated the original workshop root without dynamic soul/page fields, shared soul UI, and FZCuYuan font.');

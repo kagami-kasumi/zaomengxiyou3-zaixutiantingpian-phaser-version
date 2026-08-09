@@ -1,5 +1,30 @@
 # 工作流治理日志
 
+## 2026-08-09
+
+### 用首个真实机器真值 UI 任务完成 PG 集中审计裁决
+
+变更内容：
+
+- `TASK-SLICE-165D` 作为游戏代码/UI/逆向真实样本运行集中审计；单行证据语义命中 PG-002/004/005/007/008/009/011，没有向各问题复制普通成功记录。
+- 按独立关闭合同和历史样本评估后，PG-002/005/007/008/009 的存量、增量、自动门禁、样本量和重开信号全部满足，已从活跃索引移入归档索引。
+- PG-004 仍缺长期无样本主动审计，PG-011 仍缺 `TASK-ARCH-014A..F` 与完整组件线迁移；两项保留活跃，未因本次任务局部成功提前关闭。
+- MO-002 累积三个样本，覆盖脚手架、逆向/UI 工作流和游戏代码/UI；重复成功日志、漏检、误归档与反证丢失均为 0，并由同一证据促成五个 PG 及时归档，裁决为采纳并归档。
+
+影响范围：
+
+- `docs/workflow/problem-governance.md`
+- `docs/workflow/problem-audit.md`
+- `docs/workflow/problems/PG-002/005/007/008/009`
+- `docs/workflow/method-observation.md`
+- `docs/workflow/methods/MO-002-任务收尾PG集中审计.md`
+- `docs/workflow/governance-log.md`
+
+验证：
+
+- `npm run audit:problems`、`npm run check:workflow`、`git diff --check`。
+- `TASK-SLICE-165D` 专项、`npm run test:systems`、`npm run build` 与 940×590 P1/P2 零 console 共同承载真实效果样本。
+
 ## 2026-08-08
 
 ### 将原版机器真值 JSON 纳入逆向证据链

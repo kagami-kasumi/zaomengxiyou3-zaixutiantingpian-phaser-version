@@ -167,3 +167,10 @@ character 222 才是原生按钮四态容器，其 hit test 不是可见素材�
   放宽字体像素容差。
 - 本结论只关闭子资源未知；正式 940×590 页面、动态 child 和互动尚未由
   166B 实现，不将资源通过误写为页面通过。
+
+## TASK-SLICE-165D 第二消费者复核
+
+- 正式背包经 166B..166D 闭合后，165D 将同一 628 格框、图标裁切、数量与空格表现抽到 `InventoryGridView`，炼丹炉成为第二个实际消费者。
+- 工坊仍使用 character 119 自身的右栏根、四分类按钮和分页命中区；共享组件没有携带整页皮肤、库存副本或 mutation。
+- `task-slice-165d.workshop-inventory` verified manifest 直接进入实现和专项门禁；`docs/tasks/evidence/TASK-SLICE-165D/visual-audit.md` 记录原版/现代同尺寸差异及 P1/P2、四页签、暂存、拒绝、退回状态。
+- 因此 165B 识别的“炼丹炉仍为逐行文字第二消费者”缺口已关闭；431 身份、428 真图标、双 owner 与 V6 结论不变。

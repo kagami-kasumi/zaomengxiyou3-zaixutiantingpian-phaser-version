@@ -1,14 +1,18 @@
 import Phaser from 'phaser';
+import workshopInventoryTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-slice-165d-workshop-inventory.json';
 import { craftingAssets } from '../../assets/AssetManifest';
+import { inventoryUiAssets } from '../../assets/InventoryUiAssets';
 import {
-  FormalWorkshopPageSize,
-  getFormalWorkshopEntries,
+  FormalWorkshopPageCount,
+  getFormalWorkshopGridPageEntries,
+  getFormalWorkshopGridSelectedIndex,
   getFormalWorkshopPlayer,
   runFormalWorkshopFusion,
   runFormalWorkshopMaking,
   runFormalWorkshopResolution,
   runFormalWorkshopStrengthening,
-  selectFormalWorkshopEntry,
+  selectFormalWorkshopCategory,
+  selectFormalWorkshopGridEntry,
   setFormalWorkshopTab,
   setFormalWorkshopInventoryPage,
   stageFormalWorkshopFusion,
@@ -28,10 +32,13 @@ import {
   FormalWorkshopStageHitAreas,
   type WorkshopHitArea,
 } from '../../systems/FormalWorkshopNativeTabLayout';
-import { describeEquipmentStrengtheningSession, getEquipmentStrengthLevel } from '../../systems/EquipmentStrengtheningSystem';
+import { describeEquipmentStrengtheningSession } from '../../systems/EquipmentStrengtheningSystem';
 import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
+import { createInventoryGridProjection } from '../../systems/InventoryGridProjection';
+import { InventoryCategories } from '../../systems/InventorySystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
 import { createFormalSoulBalanceView } from './FormalSoulBalanceView';
+import { createInventoryGridObjects, createNativeInventoryButton } from './InventoryGridView';
 
 type Callbacks = {
   playerCount: 1 | 2;
@@ -39,6 +46,22 @@ type Callbacks = {
   onClose: () => void;
   onRerender: () => void;
 };
+
+const WorkshopInventoryRootBounds = getTruthStageBounds('inventory-root');
+const WorkshopInventoryFirstSlotBounds = getTruthStageBounds('inventory-slot-00');
+const WorkshopEquipmentTabBounds = getTruthStageBounds('inventory-tab-equipment');
+const WorkshopItemsTabBounds = getTruthStageBounds('inventory-tab-items');
+const WorkshopInventoryPageBounds = getTruthStageBounds('inventory-page-value');
+const WorkshopInventoryRoot = { x: WorkshopInventoryRootBounds.left, y: WorkshopInventoryRootBounds.top };
+const WorkshopInventoryGridOrigin = {
+  x: WorkshopInventoryFirstSlotBounds.left,
+  y: WorkshopInventoryFirstSlotBounds.top,
+};
+const WorkshopInventoryPagePosition = {
+  x: WorkshopInventoryPageBounds.left,
+  y: WorkshopInventoryPageBounds.top + 4.65,
+};
+const WorkshopInventoryTabStep = WorkshopItemsTabBounds.left - WorkshopEquipmentTabBounds.left;
 
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
   const objects: Phaser.GameObjects.GameObject[] = [];
@@ -57,26 +80,35 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
   }, `workshop-tab-${layout.tab}`)));
   objects.push(originalHitZone(scene, FormalWorkshopReturnHitArea, callbacks.onClose, 'workshop-return'));
 
-  const entries = getFormalWorkshopEntries(model);
-  const pageCount = Math.max(1, Math.ceil(entries.length / FormalWorkshopPageSize));
-  const pageStart = model.inventoryPage * FormalWorkshopPageSize;
-  const visibleEntries = entries.slice(pageStart, pageStart + FormalWorkshopPageSize);
-  objects.push(scene.add.text(526, 108, '背包 / 装备栏（选中后点左侧槽位）', {
-    color: '#ffe59a', fontSize: '14px', fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
+  InventoryCategories.forEach((category, index) => {
+    objects.push(createNativeInventoryButton(
+      scene,
+      WorkshopInventoryRoot.x + index * WorkshopInventoryTabStep,
+      WorkshopInventoryRoot.y,
+      inventoryUiAssets[category],
+      model.activeCategory === category,
+      () => {
+        selectFormalWorkshopCategory(model, category);
+        callbacks.onRerender();
+      },
+    ));
+  });
+  const pageEntries = getFormalWorkshopGridPageEntries(model);
+  const projection = createInventoryGridProjection(pageEntries, getFormalWorkshopGridSelectedIndex(model));
+  objects.push(...createInventoryGridObjects(scene, projection, WorkshopInventoryGridOrigin, (cell) => {
+    if (selectFormalWorkshopGridEntry(model, cell.index)) stageSelectedWorkshopEntry(model);
+    callbacks.onRerender();
   }));
-  objects.push(scene.add.text(792, 109, `第 ${model.inventoryPage + 1}/${pageCount} 页`, {
-    color: '#d9c18a', fontFamily: '"Microsoft YaHei", "SimHei", sans-serif', fontSize: '11px',
-  }).setOrigin(1, 0));
-  visibleEntries.forEach((entry, index) => objects.push(inventoryEntry(
-    scene,
-    526,
-    136 + index * 28,
-    entry.kind === 'equipment'
-      ? `${entry.definition.name} +${getEquipmentStrengthLevel(entry)}`
-      : `${entry.definition.name} ×${entry.quantity}`,
-    () => { selectFormalWorkshopEntry(model, pageStart + index); callbacks.onRerender(); },
-    model.selectedInventoryIndex === pageStart + index,
-  )));
+  objects.push(scene.add.text(
+    WorkshopInventoryPagePosition.x,
+    WorkshopInventoryPagePosition.y,
+    `${model.inventoryPage + 1}/${FormalWorkshopPageCount}`,
+    {
+      color: '#ffffff',
+      fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
+      fontSize: '13px',
+    },
+  ));
   objects.push(originalHitZone(scene, FormalWorkshopPageHitAreas.previous, () => {
     setFormalWorkshopInventoryPage(model, model.inventoryPage - 1); callbacks.onRerender();
   }, 'workshop-page-previous'));
@@ -191,27 +223,21 @@ function ownerLabel(
   return text;
 }
 
-function inventoryEntry(scene: Phaser.Scene, x: number, y: number, label: string, onClick: () => void, selected: boolean): Phaser.GameObjects.Text {
-  const restColor = selected ? '#ffd45c' : '#f4e4bd';
-  const text = scene.add.text(x, y, `${selected ? '▶ ' : '　'}${label}`, {
-    color: restColor,
-    fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
-    fontSize: '13px',
-  }).setInteractive({ useHandCursor: true });
-  text.on('pointerover', () => text.setColor('#ffbd42'));
-  text.on('pointerout', () => text.setColor(restColor));
-  text.on('pointerdown', onClick);
-  return text;
-}
-
 function statusText(scene: Phaser.Scene, copy: string): Phaser.GameObjects.Text {
-  return scene.add.text(526, 408, copy, {
+  return scene.add.text(180, 482, copy, {
     color: '#e9d8b0',
     fontFamily: '"Microsoft YaHei", "SimHei", sans-serif',
-    fontSize: '10px',
-    lineSpacing: 0,
-    wordWrap: { width: 276 },
+    fontSize: '9px',
+    lineSpacing: -2,
+    wordWrap: { width: 300 },
   });
+}
+
+function stageSelectedWorkshopEntry(model: FormalWorkshopPageModel): void {
+  if (model.tab === 'strength') stageFormalWorkshopStrengthening(model);
+  else if (model.tab === 'fusion') stageFormalWorkshopFusion(model);
+  else if (model.tab === 'resolution') stageFormalWorkshopResolution(model);
+  else stageFormalWorkshopMaking(model);
 }
 
 function stageZones(scene: Phaser.Scene, tab: FormalWorkshopTab, onClick: () => void): Phaser.GameObjects.Zone[] {
@@ -231,4 +257,11 @@ function originalHitZone(
     .setData('originalArtworkHitArea', id);
   zone.on('pointerdown', onClick);
   return zone;
+}
+
+function getTruthStageBounds(id: string): Readonly<{ left: number; top: number; width: number; height: number }> {
+  const object = workshopInventoryTruth.displayObjects.find((candidate) => candidate.id === id);
+  const stageBounds = object?.placements[0]?.stageBounds;
+  if (!stageBounds) throw new Error(`Workshop inventory truth is missing ${id}.`);
+  return stageBounds;
 }

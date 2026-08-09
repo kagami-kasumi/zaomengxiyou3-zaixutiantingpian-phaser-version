@@ -351,3 +351,18 @@ up shape 填充为白色 `#ffffff`；over/down 共用橙色 `#ff9900` shape。�
 - `skinClick` 原版固定提示“暂不开放”，幻兵不在本切片实现。
 - 不扩展 78 本可达制作书之外的现代配方，不把 1.0 表覆盖 1.1 AS3。
 - 不复刻中文角色名反查导致的双人串号、无装备点击空引用或灵魂不足静默；安全拒绝属于现代兼容，不改变事务规则。
+
+## TASK-SLICE-165D 嵌入式背包整改
+
+165D 只迁移 character 119 右侧背包消费者，左侧强化、合成、分解、制作书及其事务 owner 均未改。机器真值为 `task-slice-165d.workshop-inventory`（`verified`），文件位于 `ground-truth/manifests/task-slice-165d-workshop-inventory.json`；它直接由现代 view 与专项测试消费。
+
+| 六段证据 | 已闭合事实 |
+| --- | --- |
+| 源身份 | `assets/backpack1.swf`，SHA-256 `70C1F1B535EA789AD9C77556F90C7C107084278A4D1773E31471F2B4D7454936`；原版行为交叉对照 `StrengthEquipment.as`，SHA-256 `0621259B3220A0693BF414DE3B34107BEA03A68D13A10B4CD0C09A929EBFF28B`。 |
+| 可达调用链 | 地图炼丹炉入口创建 `BackPackElement`；四标签与 P1/P2 切换重建当前 owner 的右侧背包，格子选择继续进入既有暂存/返还调用。 |
+| 行为状态 | 四分类、固定五页、空格、堆叠数量、装备实例、选择/拒绝、提交后移除、关闭/切页返还均可观察；拒绝不会生成第二份库存状态。 |
+| 几何与坐标 | 右侧根 `(512.8,130)`；25 格为 5×5，单格 `50×51`、步距 `61×60`；分类、页码与前后页命中区按 manifest 舞台坐标消费。 |
+| 现代映射 | `InventoryGridView` 统一正式背包与工坊的 628 外框、9 px 图标裁切、32×32 内容和数量；`FormalWorkshopPageView` 只保留 119 页面特有几何与透明命中语义。 |
+| 验证 | 专项覆盖 truth 完整性、分类/五页、空/堆叠/实例、点击暂存/拒绝/返还和双 owner；940×590 覆盖 P1/P2、四页签、成功/拒绝/退回，console warning/error 为 0。逐对象、并排、叠图证据见 `docs/tasks/evidence/TASK-SLICE-165D/visual-audit.md`。 |
+
+原始 119 静态基准仍保留旧 TextField 占位；现代运行时移除静态 `nowpage/txtlh` 后绘制动态页码与宿主反馈。反馈移到左侧业务区，右栏没有新增现代可见层。当前范围内没有影响实现的未知。

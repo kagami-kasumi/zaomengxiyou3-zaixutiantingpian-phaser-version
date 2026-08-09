@@ -30,7 +30,11 @@ import {
   submitEquipmentMaking,
   type EquipmentMakingSession,
 } from './EquipmentMakingSystem';
-import { InventoryCategories, type InventoryEntry } from './InventorySystem';
+import {
+  InventoryCategories,
+  type InventoryCategory,
+  type InventoryEntry,
+} from './InventorySystem';
 import type { PlayerSlot } from './InputSystem';
 import { spendPlayerSouls } from './PlayerSoulSystem';
 import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
@@ -44,11 +48,13 @@ import {
 } from './SaveSystem';
 
 export type FormalWorkshopTab = 'strength' | 'fusion' | 'resolution' | 'making';
-export const FormalWorkshopPageSize = 10;
+export const FormalWorkshopPageSize = 25;
+export const FormalWorkshopPageCount = 5;
 
 export type FormalWorkshopPageModel = {
   owner: PlayerSlot;
   tab: FormalWorkshopTab;
+  activeCategory: InventoryCategory;
   inventoryPage: number;
   selectedInventoryIndex: number;
   message: string;
@@ -69,6 +75,7 @@ export function createFormalWorkshopPage(storage: SaveStorage, owner: PlayerSlot
   return {
     owner,
     tab: 'strength',
+    activeCategory: 'equipment',
     inventoryPage: 0,
     selectedInventoryIndex: 0,
     message: '请选择装备与至少一颗强化石',
@@ -103,6 +110,45 @@ export function getFormalWorkshopEntries(model: FormalWorkshopPageModel): Invent
   ];
 }
 
+export function getFormalWorkshopGridEntries(model: FormalWorkshopPageModel): readonly InventoryEntry[] {
+  return getFormalWorkshopPlayer(model).inventoryStore.categories[model.activeCategory];
+}
+
+export function getFormalWorkshopGridPageEntries(model: FormalWorkshopPageModel): readonly InventoryEntry[] {
+  const start = model.inventoryPage * FormalWorkshopPageSize;
+  return getFormalWorkshopGridEntries(model).slice(start, start + FormalWorkshopPageSize);
+}
+
+export function getFormalWorkshopGridSelectedIndex(model: FormalWorkshopPageModel): number | undefined {
+  const selected = getFormalWorkshopEntries(model)[model.selectedInventoryIndex];
+  const pageIndex = getFormalWorkshopGridPageEntries(model).indexOf(selected);
+  return pageIndex < 0 ? undefined : pageIndex;
+}
+
+export function selectFormalWorkshopCategory(
+  model: FormalWorkshopPageModel,
+  category: InventoryCategory,
+): void {
+  model.activeCategory = category;
+  model.inventoryPage = 0;
+  selectFirstFormalWorkshopGridEntry(model);
+}
+
+export function selectFormalWorkshopGridEntry(
+  model: FormalWorkshopPageModel,
+  pageEntryIndex: number,
+): boolean {
+  const entry = getFormalWorkshopGridPageEntries(model)[pageEntryIndex];
+  if (!entry) {
+    model.message = '当前背包格为空';
+    return false;
+  }
+  const inventoryIndex = getFormalWorkshopEntries(model).indexOf(entry);
+  if (inventoryIndex < 0) return false;
+  selectFormalWorkshopEntry(model, inventoryIndex);
+  return true;
+}
+
 export function setFormalWorkshopOwner(model: FormalWorkshopPageModel, owner: PlayerSlot): void {
   if (owner === model.owner) return;
   closeCurrentStrengthening(model);
@@ -111,6 +157,7 @@ export function setFormalWorkshopOwner(model: FormalWorkshopPageModel, owner: Pl
   closeCurrentMaking(model);
   model.owner = owner;
   model.tab = 'strength';
+  model.activeCategory = 'equipment';
   model.inventoryPage = 0;
   model.selectedInventoryIndex = 0;
   model.message = `已切换 ${owner.toUpperCase()}；上一位玩家的暂存材料已返还`;
@@ -138,9 +185,18 @@ export function selectFormalWorkshopEntry(model: FormalWorkshopPageModel, index:
 }
 
 export function setFormalWorkshopInventoryPage(model: FormalWorkshopPageModel, page: number): void {
-  const pageCount = Math.max(1, Math.ceil(getFormalWorkshopEntries(model).length / FormalWorkshopPageSize));
-  model.inventoryPage = Math.max(0, Math.min(pageCount - 1, Math.trunc(page)));
-  model.selectedInventoryIndex = model.inventoryPage * FormalWorkshopPageSize;
+  model.inventoryPage = Math.max(0, Math.min(FormalWorkshopPageCount - 1, Math.trunc(page)));
+  selectFirstFormalWorkshopGridEntry(model);
+}
+
+function selectFirstFormalWorkshopGridEntry(model: FormalWorkshopPageModel): void {
+  const entry = getFormalWorkshopGridPageEntries(model)[0];
+  if (!entry) {
+    model.selectedInventoryIndex = 0;
+    return;
+  }
+  const index = getFormalWorkshopEntries(model).indexOf(entry);
+  model.selectedInventoryIndex = Math.max(0, index);
 }
 
 export function stageFormalWorkshopStrengthening(model: FormalWorkshopPageModel): boolean {

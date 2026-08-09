@@ -9,7 +9,7 @@ import {
   role5SpearBodyFamilyAssets,
 } from '../../assets/AssetManifest';
 import { getInventoryItemAsset } from '../../assets/InventoryItemAssets';
-import { inventoryUiAssets, type InventoryUiAssetDefinition } from '../../assets/InventoryUiAssets';
+import { inventoryUiAssets } from '../../assets/InventoryUiAssets';
 import { EquipmentSlotOrder } from '../../systems/EquipmentUISystem';
 import {
   canEquipFormalInventorySelection,
@@ -29,6 +29,11 @@ import {
 import { createInventoryGridProjection } from '../../systems/InventoryGridProjection';
 import { InventoryCategories, type InventoryEntry } from '../../systems/InventorySystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
+import {
+  createInventoryGridObjects,
+  createInventoryItemIcon,
+  createNativeInventoryButton,
+} from './InventoryGridView';
 
 type Callbacks = Readonly<{ onClose: () => void; onRerender: () => void }>;
 
@@ -40,8 +45,6 @@ const EXP_BAR_TOP_LEFT = { x: -32.4, y: 480.05 };
 const EXP_TEXT_CENTER = 311.6;
 const SOUL_VALUE_RIGHT = 729;
 const PAGE_VALUE_CENTER = 711.1;
-const ITEM_ICON_CONTENT_SIZE = 32;
-const ITEM_ICON_FRAME_INSET = 9;
 const EQUIPMENT_SLOTS = [
   { x: 362.05, y: 166.65 },
   { x: 362.05, y: 241.65 },
@@ -71,7 +74,7 @@ export function createFormalInventoryPageView(
   let operationLayer: Phaser.GameObjects.GameObject[] = [];
 
   InventoryCategories.forEach((category, index) => {
-    objects.push(createNativeButton(scene, TAB_ORIGIN.x + index * TAB_STEP, TAB_ORIGIN.y,
+    objects.push(createNativeInventoryButton(scene, TAB_ORIGIN.x + index * TAB_STEP, TAB_ORIGIN.y,
       inventoryUiAssets[category], model.activeCategory === category, () => {
         selectFormalInventoryCategory(model, category);
         callbacks.onRerender();
@@ -82,20 +85,21 @@ export function createFormalInventoryPageView(
     getFormalInventoryPageEntries(model),
     model.entrySelectionArmed ? model.selectedIndex : undefined,
   );
-  for (const cell of projection) {
-    const x = GRID_ORIGIN.x + cell.x;
-    const y = GRID_ORIGIN.y + cell.y;
-    const slot = scene.add.image(x, y, inventoryUiAssets.slot.key).setOrigin(0)
-      .setInteractive({ useHandCursor: true });
-    slot.on('pointerdown', () => {
+  objects.push(...createInventoryGridObjects(scene, projection, GRID_ORIGIN, (cell) => {
       selectFormalInventoryEntry(model, cell.index);
       callbacks.onRerender();
-    });
-    objects.push(slot);
-    if (cell.entry) objects.push(...createEntryVisual(scene, cell.entry, x, y));
-    if (cell.selected && cell.entry) {
-      operationLayer = createOperationLayer(scene, model, storage, callbacks, cell.entry, x + 25, y + 25);
-    }
+  }));
+  const selectedCell = projection.find((cell) => cell.selected && cell.entry);
+  if (selectedCell?.entry) {
+    operationLayer = createOperationLayer(
+      scene,
+      model,
+      storage,
+      callbacks,
+      selectedCell.entry,
+      GRID_ORIGIN.x + selectedCell.x + 25,
+      GRID_ORIGIN.y + selectedCell.y + 25,
+    );
   }
 
   EquipmentSlotOrder.forEach((equipmentSlot, index) => {
@@ -112,7 +116,7 @@ export function createFormalInventoryPageView(
     objects.push(hit);
     if (equipped) {
       const asset = getInventoryItemAsset(equipped.definition.fillName);
-      if (asset) objects.push(createFramelessItemIcon(scene, position.x + 25, position.y + 23, asset.key));
+      if (asset) objects.push(createInventoryItemIcon(scene, position.x + 25, position.y + 23, asset.key));
     }
   });
 
@@ -126,7 +130,7 @@ export function createFormalInventoryPageView(
   ).setOrigin(0));
   objects.push(scene.add.image(168.05, 218.85, player.equipmentLoadout.fashion
     ? inventoryUiAssets.fashionToggle.shown.key : inventoryUiAssets.fashionToggle.hidden.key).setOrigin(0));
-  objects.push(createNativeButton(scene, 747.5, 445.5, inventoryUiAssets.sellWhite, false, () => undefined));
+  objects.push(createNativeInventoryButton(scene, 747.5, 445.5, inventoryUiAssets.sellWhite, false, () => undefined));
 
   const fields: readonly [number, number, string][] = [
     [237.45, 120.6, presentation.heroName], [234.45, 146.35, String(presentation.fightingForce)],
@@ -152,40 +156,15 @@ export function createFormalInventoryPageView(
     FIELD_STYLE,
   ).setOrigin(0.5, 0));
 
-  objects.push(createNativeButton(scene, 609, 472.45, inventoryUiAssets.previous, false, () => {
+  objects.push(createNativeInventoryButton(scene, 609, 472.45, inventoryUiAssets.previous, false, () => {
     changeFormalInventoryPage(model, -1); callbacks.onRerender();
   }));
-  objects.push(createNativeButton(scene, 727.2, 472.45, inventoryUiAssets.next, false, () => {
+  objects.push(createNativeInventoryButton(scene, 727.2, 472.45, inventoryUiAssets.next, false, () => {
     changeFormalInventoryPage(model, 1); callbacks.onRerender();
   }));
-  objects.push(createNativeButton(scene, 809.5, 59.85, inventoryUiAssets.close, false, callbacks.onClose));
+  objects.push(createNativeInventoryButton(scene, 809.5, 59.85, inventoryUiAssets.close, false, callbacks.onClose));
   objects.push(...operationLayer);
   return scene.add.container(0, 0, objects).setDepth(20);
-}
-
-function createFramelessItemIcon(
-  scene: Phaser.Scene,
-  x: number,
-  y: number,
-  textureKey: string,
-): Phaser.GameObjects.Image {
-  const icon = scene.add.image(x, y, textureKey);
-  const cropWidth = Math.max(1, icon.width - ITEM_ICON_FRAME_INSET * 2);
-  const cropHeight = Math.max(1, icon.height - ITEM_ICON_FRAME_INSET * 2);
-  return icon.setCrop(ITEM_ICON_FRAME_INSET, ITEM_ICON_FRAME_INSET, cropWidth, cropHeight)
-    .setScale(ITEM_ICON_CONTENT_SIZE / cropWidth, ITEM_ICON_CONTENT_SIZE / cropHeight);
-}
-
-function createEntryVisual(scene: Phaser.Scene, entry: InventoryEntry, x: number, y: number): Phaser.GameObjects.GameObject[] {
-  const objects: Phaser.GameObjects.GameObject[] = [];
-  const asset = getInventoryItemAsset(entry.definition.fillName);
-  if (asset) objects.push(createFramelessItemIcon(scene, x + 25, y + 25.5, asset.key));
-  if (entry.kind === 'stack' && entry.quantity > 1) {
-    objects.push(scene.add.text(x + 46, y + 47, String(entry.quantity), {
-      color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: '11px', stroke: '#000000', strokeThickness: 2,
-    }).setOrigin(1));
-  }
-  return objects;
 }
 
 function createOperationLayer(
@@ -242,21 +221,4 @@ function createLevelProjection(scene: Phaser.Scene, level: number): Phaser.GameO
     objects.push(scene.add.image(x + localX, y + 13, inventoryUiAssets.level.digits[Number(digit)]!.key).setOrigin(0));
   });
   return objects;
-}
-
-function createNativeButton(
-  scene: Phaser.Scene,
-  x: number,
-  y: number,
-  assets: Readonly<Record<'up' | 'over' | 'down', InventoryUiAssetDefinition>>,
-  selected: boolean,
-  onClick: () => void,
-): Phaser.GameObjects.Image {
-  const image = scene.add.image(x, y, selected ? assets.down.key : assets.up.key).setOrigin(0)
-    .setInteractive({ useHandCursor: true });
-  image.on('pointerover', () => { if (!selected) image.setTexture(assets.over.key); });
-  image.on('pointerout', () => image.setTexture(selected ? assets.down.key : assets.up.key));
-  image.on('pointerdown', () => image.setTexture(assets.down.key));
-  image.on('pointerup', () => { onClick(); if (image.active) image.setTexture(selected ? assets.down.key : assets.over.key); });
-  return image;
 }

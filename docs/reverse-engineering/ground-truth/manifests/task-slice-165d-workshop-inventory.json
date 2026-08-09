@@ -1,0 +1,2172 @@
+{
+  "$schema": "../schema/ui-ground-truth.schema.json",
+  "schemaVersion": 1,
+  "truthId": "task-slice-165d.workshop-inventory",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SLICE-165D",
+    "surfaceId": "workshop-character-119-inventory-subtree",
+    "originalVersion": "RegiMA 1.1 restored corpus",
+    "description": "Character 119 right-side BackPackElement geometry, native category controls, 25 PackThings cells, and page controls. Runtime item identities remain owner data rather than original visual truth."
+  },
+  "generatedBy": {
+    "tool": "generate-workshop-inventory-ground-truth.mjs",
+    "toolVersion": "1",
+    "command": "npm run generate:workshop-inventory-truth",
+    "generatedAt": "2026-08-09T12:00:00+08:00"
+  },
+  "provenance": [
+    {
+      "id": "backpack1-swf",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/backpack1.swf",
+      "sha256": "70c1f1b535ea789ad9c77556f90c7c107084278a4d1773e31471f2b4d7454936",
+      "locator": "SWF 940x590 @24fps; character 119 StrengthEquipment; dynamic character 246 BackPackElement; character 628 PackThings; button characters 230/235/240/245/78/83."
+    },
+    {
+      "id": "strength-equipment-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/strength/StrengthEquipment.as",
+      "sha256": "0621259b3220a0693bf414de3b34107bea03a68d13a10b4cd0c09a929ebff28b",
+      "locator": "StrengthEquipment.as:198-241 page refresh and addBackPackAgeMc; BackPackElement.as:1-180 category/page/grid lifecycle cross-check."
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 24,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "top-left"
+  },
+  "states": [
+    {
+      "id": "inventory-grid-geometry",
+      "entry": "MapMenu -> GMain.showStrengthEquip -> StrengthEquipment.addBackPackAgeMc",
+      "frame": 1,
+      "fixtureId": "geometry-only; runtime inventory contents excluded",
+      "baselineId": "original-character-119-static"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "workshop-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 119,
+        "symbolClass": "export.strength.StrengthEquipment",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 940,
+            "height": 593.45
+          },
+          "stageBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 940,
+            "height": 590
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-119"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-slice-117-crafting-ui/backpack1/DefineSprite_119_export.strength.StrengthEquipment/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-root",
+      "parentId": "workshop-root",
+      "depth": 1,
+      "objectType": "container",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 246,
+        "symbolClass": "export.pack.BackPackElement",
+        "instanceName": "backpackagemc",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 512.8,
+            "ty": 130
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 295,
+            "height": 329
+          },
+          "stageBounds": {
+            "left": 512.8,
+            "top": 130,
+            "width": 295,
+            "height": 329
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "strength-equipment-as:addBackPackAgeMc",
+            "backpack1-swf:character-246"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-tab-equipment",
+      "parentId": "inventory-root",
+      "depth": 1,
+      "objectType": "button",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 230,
+        "symbolClass": null,
+        "instanceName": "btn-equipment",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 73,
+            "height": 27
+          },
+          "stageBounds": {
+            "left": 512.8,
+            "top": 130,
+            "width": 73,
+            "height": 27
+          },
+          "hitArea": {
+            "left": 512.8,
+            "top": 130,
+            "width": 73,
+            "height": 27
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-246",
+            "strength-equipment-as:addBackPackAgeMc"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/equipment-up.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "buttonStateAssets": {
+          "up": "public/assets/ui/inventory/native/equipment-up.png",
+          "over": "public/assets/ui/inventory/native/equipment-over.png",
+          "down": "public/assets/ui/inventory/native/equipment-down.png",
+          "selected": "public/assets/ui/inventory/native/equipment-down.png"
+        }
+      }
+    },
+    {
+      "id": "inventory-tab-items",
+      "parentId": "inventory-root",
+      "depth": 2,
+      "objectType": "button",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 235,
+        "symbolClass": null,
+        "instanceName": "btn-items",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 74,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 73,
+            "height": 27
+          },
+          "stageBounds": {
+            "left": 586.8,
+            "top": 130,
+            "width": 73,
+            "height": 27
+          },
+          "hitArea": {
+            "left": 586.8,
+            "top": 130,
+            "width": 73,
+            "height": 27
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-246",
+            "strength-equipment-as:addBackPackAgeMc"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/items-up.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "buttonStateAssets": {
+          "up": "public/assets/ui/inventory/native/items-up.png",
+          "over": "public/assets/ui/inventory/native/items-over.png",
+          "down": "public/assets/ui/inventory/native/items-down.png",
+          "selected": "public/assets/ui/inventory/native/items-down.png"
+        }
+      }
+    },
+    {
+      "id": "inventory-tab-fashion",
+      "parentId": "inventory-root",
+      "depth": 3,
+      "objectType": "button",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 240,
+        "symbolClass": null,
+        "instanceName": "btn-fashion",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 148,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 73,
+            "height": 27
+          },
+          "stageBounds": {
+            "left": 660.8,
+            "top": 130,
+            "width": 73,
+            "height": 27
+          },
+          "hitArea": {
+            "left": 660.8,
+            "top": 130,
+            "width": 73,
+            "height": 27
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-246",
+            "strength-equipment-as:addBackPackAgeMc"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/fashion-up.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "buttonStateAssets": {
+          "up": "public/assets/ui/inventory/native/fashion-up.png",
+          "over": "public/assets/ui/inventory/native/fashion-over.png",
+          "down": "public/assets/ui/inventory/native/fashion-down.png",
+          "selected": "public/assets/ui/inventory/native/fashion-down.png"
+        }
+      }
+    },
+    {
+      "id": "inventory-tab-skillBooks",
+      "parentId": "inventory-root",
+      "depth": 4,
+      "objectType": "button",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 245,
+        "symbolClass": null,
+        "instanceName": "btn-skillBooks",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 222,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 73,
+            "height": 27
+          },
+          "stageBounds": {
+            "left": 734.8,
+            "top": 130,
+            "width": 73,
+            "height": 27
+          },
+          "hitArea": {
+            "left": 734.8,
+            "top": 130,
+            "width": 73,
+            "height": 27
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-246",
+            "strength-equipment-as:addBackPackAgeMc"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/skillBooks-up.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "buttonStateAssets": {
+          "up": "public/assets/ui/inventory/native/skillBooks-up.png",
+          "over": "public/assets/ui/inventory/native/skillBooks-over.png",
+          "down": "public/assets/ui/inventory/native/skillBooks-down.png",
+          "selected": "public/assets/ui/inventory/native/skillBooks-down.png"
+        }
+      }
+    },
+    {
+      "id": "inventory-slot-00",
+      "parentId": "inventory-root",
+      "depth": 25,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 38
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 512.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 512.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-01",
+      "parentId": "inventory-root",
+      "depth": 24,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 61,
+            "ty": 38
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 573.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 573.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-02",
+      "parentId": "inventory-root",
+      "depth": 23,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 122,
+            "ty": 38
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 634.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 634.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-03",
+      "parentId": "inventory-root",
+      "depth": 22,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 183,
+            "ty": 38
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 695.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 695.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-04",
+      "parentId": "inventory-root",
+      "depth": 21,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 244,
+            "ty": 38
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 756.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 756.8,
+            "top": 168,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-05",
+      "parentId": "inventory-root",
+      "depth": 20,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 98
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 512.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 512.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-06",
+      "parentId": "inventory-root",
+      "depth": 19,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 61,
+            "ty": 98
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 573.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 573.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-07",
+      "parentId": "inventory-root",
+      "depth": 18,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 122,
+            "ty": 98
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 634.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 634.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-08",
+      "parentId": "inventory-root",
+      "depth": 17,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 183,
+            "ty": 98
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 695.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 695.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-09",
+      "parentId": "inventory-root",
+      "depth": 16,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 244,
+            "ty": 98
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 756.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 756.8,
+            "top": 228,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-10",
+      "parentId": "inventory-root",
+      "depth": 15,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 158
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 512.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 512.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-11",
+      "parentId": "inventory-root",
+      "depth": 14,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 61,
+            "ty": 158
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 573.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 573.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-12",
+      "parentId": "inventory-root",
+      "depth": 13,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 122,
+            "ty": 158
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 634.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 634.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-13",
+      "parentId": "inventory-root",
+      "depth": 12,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 183,
+            "ty": 158
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 695.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 695.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-14",
+      "parentId": "inventory-root",
+      "depth": 11,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 244,
+            "ty": 158
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 756.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 756.8,
+            "top": 288,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-15",
+      "parentId": "inventory-root",
+      "depth": 10,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 218
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 512.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 512.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-16",
+      "parentId": "inventory-root",
+      "depth": 9,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 61,
+            "ty": 218
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 573.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 573.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-17",
+      "parentId": "inventory-root",
+      "depth": 8,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 122,
+            "ty": 218
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 634.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 634.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-18",
+      "parentId": "inventory-root",
+      "depth": 7,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 183,
+            "ty": 218
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 695.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 695.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-19",
+      "parentId": "inventory-root",
+      "depth": 6,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 244,
+            "ty": 218
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 756.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 756.8,
+            "top": 348,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-20",
+      "parentId": "inventory-root",
+      "depth": 5,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 278
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 512.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 512.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-21",
+      "parentId": "inventory-root",
+      "depth": 4,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 61,
+            "ty": 278
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 573.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 573.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-22",
+      "parentId": "inventory-root",
+      "depth": 3,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 122,
+            "ty": 278
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 634.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 634.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-23",
+      "parentId": "inventory-root",
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 183,
+            "ty": 278
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 695.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 695.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-slot-24",
+      "parentId": "inventory-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 628,
+        "symbolClass": "export.pack.PackThings",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 244,
+            "ty": 278
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 50,
+            "height": 51
+          },
+          "stageBounds": {
+            "left": 756.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "hitArea": {
+            "left": 756.8,
+            "top": 408,
+            "width": 50,
+            "height": 51
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-628",
+            "backpack-element-as:drawgz"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/pack-slot.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-page-value",
+      "parentId": "workshop-root",
+      "depth": 23,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 117,
+        "symbolClass": null,
+        "instanceName": "nowpage",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.65,
+            "ty": 471.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 15.25,
+            "height": 23.25
+          },
+          "stageBounds": {
+            "left": 694.65,
+            "top": 471.95,
+            "width": 15.25,
+            "height": 23.25
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-119",
+            "strength-equipment-as:page-controls"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "color": "#ffffff",
+          "dynamic": "currentPage"
+        }
+      }
+    },
+    {
+      "id": "inventory-page-previous",
+      "parentId": "workshop-root",
+      "depth": 27,
+      "objectType": "button",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 78,
+        "symbolClass": null,
+        "instanceName": "prePage",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 608.65,
+            "ty": 465.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 86,
+            "height": 34
+          },
+          "stageBounds": {
+            "left": 608.65,
+            "top": 465.55,
+            "width": 86,
+            "height": 34
+          },
+          "hitArea": {
+            "left": 608.65,
+            "top": 465.55,
+            "width": 86,
+            "height": 34
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-119",
+            "strength-equipment-as:page-controls"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/previous-up.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "inventory-page-next",
+      "parentId": "workshop-root",
+      "depth": 24,
+      "objectType": "button",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 83,
+        "symbolClass": null,
+        "instanceName": "nextPage",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 726.85,
+            "ty": 465.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 86,
+            "height": 34
+          },
+          "stageBounds": {
+            "left": 726.85,
+            "top": 465.55,
+            "width": 86,
+            "height": 34
+          },
+          "hitArea": {
+            "left": 726.85,
+            "top": 465.55,
+            "width": 86,
+            "height": 34
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-119",
+            "strength-equipment-as:page-controls"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/ui/inventory/native/next-up.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "original-character-119-static",
+      "stateId": "inventory-grid-geometry",
+      "path": "local-resources/regima/task-outputs/task-slice-117-crafting-ui/backpack1/DefineSprite_119_export.strength.StrengthEquipment/1.png",
+      "sha256": "51a1d34cd2dce2ec1039a4ed22b6135f62fa879727856ef52394b78b5fad26d4",
+      "width": 940,
+      "height": 594,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "inventory-grid-geometry"
+    ],
+    "extractedStateIds": [
+      "inventory-grid-geometry"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "inventory-grid-geometry": 34
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "docs/reverse-engineering/crafting-ui-index.md:67-85",
+    "docs/reverse-engineering/equipment-workshop-index.md:31-64",
+    "docs/reverse-engineering/evidence/TASK-SETTINGS-165B-backpack-review.md:55-82"
+  ]
+}

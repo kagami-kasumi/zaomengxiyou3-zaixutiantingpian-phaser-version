@@ -499,7 +499,7 @@ export const sceneAssetBundles = {
     assets: [svg(fullFeatureUiAssets.petPage)],
   },
   'feature-ui-workshop': {
-    dependencies: ['feature-ui'],
+    dependencies: ['feature-ui-backpack'],
     assets: Object.values(craftingAssets).map(image),
   },
   'feature-ui-magic-weapon': {

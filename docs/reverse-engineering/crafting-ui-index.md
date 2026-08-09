@@ -202,3 +202,9 @@ Character 142 和 168 都是单帧槽位 Sprite。各按钮是 `DefineButton2` �
 炼丹炉完整视觉源并不缺失，且已定位到确定的 RegiMA 源包、Character ID、帧数和布局。现代实现已接入完整容器、201/201 图标与正式地图入口，并通过 112×P1/P2 事务矩阵。
 
 运行时验收证据位于 `local-resources/regima/task-outputs/task-slice-122-runtime/`：`crafting-map-menu.jpg` 记录正式地图菜单入口，`crafting-panel.jpg` 记录完整真 UI、角色选择器、背包、材料槽、预览和灵魂值。面板截图使用一次性验收查询挂钩渲染，截图后挂钩已从源码回退；正式进入、P1/P2 切换、关闭退还和单人 P2 门禁由 `tools/crafting-tests.ts` 自动验证。运行页面控制台无 error/warn。
+
+## TASK-SLICE-165D 第二背包消费者关闭
+
+- character 119 右栏不再以逐行现代文字列表冒充背包，改为直接消费四分类、固定五页、5×5 的共享 `InventoryGridView`。
+- `InventoryStore` 与四类工坊 session/事务仍是唯一 owner；格子点击只投影并调用既有暂存路径，拒绝、切页、换 owner 与关闭返还没有新事务分支。
+- 原版显示事实由 `task-slice-165d.workshop-inventory` verified manifest 承载；940×590 P1/P2、四页签、分页、成功、拒绝、退回和零 console 证据位于 `docs/tasks/evidence/TASK-SLICE-165D/`。
