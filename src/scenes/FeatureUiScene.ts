@@ -32,6 +32,7 @@ import {
   formalFeatureUiHost,
   P2_BACKPACK_KEY_CODE,
   P2_SKILLS_KEY_CODE,
+  getFormalFeatureUiStorageOverride,
 } from './feature-ui/FormalFeatureUiEntryBridge';
 import { createFormalSkillPageView } from './feature-ui/FormalSkillPageView';
 import { syncFormalSkillRuntime } from './feature-ui/FormalSkillRuntimeBridge';
@@ -97,7 +98,7 @@ export class FeatureUiScene extends Phaser.Scene {
       this.scene.stop();
       return;
     }
-    this.storage = getBrowserStorage();
+    this.storage = getFormalFeatureUiStorageOverride() ?? getBrowserStorage();
     if (this.session.originKind === 'map') this.createMapHostChrome();
     this.renderSession();
 

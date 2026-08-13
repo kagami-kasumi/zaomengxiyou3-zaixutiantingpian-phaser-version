@@ -25,6 +25,14 @@ import {
 import { InventoryCategories } from '../src/systems/InventorySystem';
 import { createSaveSlot, loadActiveGame } from '../src/systems/SaveSlotSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
+import {
+  assertVerifiedEquipmentPageTruth,
+  EquipmentPageTruthId,
+  getEquipmentPageInventorySlotIds,
+  getEquipmentPageTruthChildren,
+  getEquipmentPageTruthObjects,
+  getEquipmentPageTruthPlacement,
+} from '../src/systems/EquipmentPageTruthSystem';
 
 const root = process.cwd();
 
@@ -47,6 +55,8 @@ function testOwnerEquipUnequipAndPersistence(): void {
   assert.ok(accessoryIndex >= 0);
   selectFormalInventoryEntry(model, accessoryIndex);
   assert.equal(equipFormalInventorySelection(model, storage), true);
+  assert.equal(model.entrySelectionArmed, false);
+  assert.equal(model.slotSelectionArmed, false);
   assert.equal(model.restored.player1.equipmentLoadout.accessory?.definition.fillName, 'mysz');
   assert.equal(model.restored.player2.equipmentLoadout.accessory, null);
 
@@ -64,6 +74,8 @@ function testOwnerEquipUnequipAndPersistence(): void {
 
   selectFormalEquipmentSlot(model, 2);
   assert.equal(unequipFormalInventorySelection(model, storage), true);
+  assert.equal(model.entrySelectionArmed, false);
+  assert.equal(model.slotSelectionArmed, false);
   const reloaded = createFormalInventoryPage(storage, 'p1');
   assert.ok(reloaded);
   assert.equal(reloaded.restored.player1.equipmentLoadout.accessory?.definition.fillName, 'mysz');
@@ -110,22 +122,41 @@ function testTrueAssetsAndSceneContract(): void {
   assert.match(view, /getFormalInventoryPageEntries/);
   assert.match(view, /equipFormalInventorySelection/);
   assert.match(view, /unequipFormalInventorySelection/);
+  assert.match(view, /if \(equipped\) unequipFormalInventorySelection/);
+  assert.doesNotMatch(view, /const activate = model\.slotSelectionArmed/);
   assert.match(view, /createInventoryGridProjection/);
   assert.match(view, /operationThree\.background/);
   assert.match(view, /operationSimple\.background/);
   assert.match(view, /getFormalInventoryPresentation/);
   assert.match(view, /createInventoryGridObjects/);
   assert.match(gridView, /inventoryUiAssets\.slot\.key/);
-  assert.match(view, /EXP_BAR_TOP_LEFT/);
-  assert.match(view, /EXP_TEXT_CENTER/);
+  assert.match(view, /getEquipmentPageTruthPlacement/);
+  assert.match(view, /getEquipmentPageInventorySlotIds/);
+  assert.match(view, /EquipmentPageTruthStateId/);
   assert.match(gridView, /ItemIconFrameInset = 9/);
   assert.match(view, /createInventoryItemIcon/);
   assert.match(gridView, /setScale\(ItemIconContentSize \/ cropWidth, ItemIconContentSize \/ cropHeight\)/);
-  assert.match(view, /SOUL_VALUE_RIGHT/);
-  assert.match(view, /PAGE_VALUE_CENTER/);
+  assert.match(view, /soulValue\.stageBounds/);
+  assert.match(view, /pageValue\.stageBounds/);
   assert.match(view, /getFormalInventoryPageCount\(model\)/);
   assert.doesNotMatch(view, /add\.rectangle/);
   assert.doesNotMatch(view, /setTint|formatSelectedDetails|model\.message/);
+  assert.doesNotMatch(view, /const GRID_ORIGIN|const TAB_ORIGIN|const EQUIPMENT_SLOTS/);
+}
+
+function testVerifiedTruthDirectConsumption(): void {
+  assert.doesNotThrow(() => assertVerifiedEquipmentPageTruth());
+  assert.equal(EquipmentPageTruthId, 'task-settings-170b1.equipment-page');
+  assert.equal(getEquipmentPageTruthObjects().length, 63);
+  assert.equal(getEquipmentPageInventorySlotIds().length, 25);
+  assert.equal(getEquipmentPageTruthChildren('inventory-root').length, 29);
+  const firstSlot = getEquipmentPageTruthPlacement('inventory-slot-00');
+  const secondSlot = getEquipmentPageTruthPlacement('inventory-slot-01');
+  assert.deepEqual(firstSlot.localMatrix, { a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 38 });
+  assert.equal(secondSlot.stageBounds.left - firstSlot.stageBounds.left, 61);
+  assert.equal(getEquipmentPageTruthPlacement('equipment-operation-layer').localMatrix.tx, 25);
+  assert.equal(getEquipmentPageTruthPlacement('equipment-operation-layer').localMatrix.ty, 25);
+  assert.equal(getEquipmentPageTruthPlacement('inventory-root', 'page-closing').visible, false);
 }
 
 function testNativeGridAndDynamicPresentation(): void {
@@ -165,5 +196,6 @@ function testNativeGridAndDynamicPresentation(): void {
 testOwnerEquipUnequipAndPersistence();
 testCategoriesPagingAndSafeUnsupportedFeedback();
 testTrueAssetsAndSceneContract();
+testVerifiedTruthDirectConsumption();
 testNativeGridAndDynamicPresentation();
 console.log('Formal backpack/equipment owner, persistence, and true asset tests passed.');

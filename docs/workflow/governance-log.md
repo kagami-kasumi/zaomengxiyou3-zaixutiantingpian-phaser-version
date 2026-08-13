@@ -1,5 +1,19 @@
 # 工作流治理日志
 
+## 2026-08-13：记录正式背包交互回归问题审计
+
+- 背景：用户复验发现左侧已穿装备需要点击两次卸下，右侧装备事务完成后原生三按钮操作层未收起；该变更命中 PG-004/PG-011 收尾审计。
+- 变更：集中记录 `TASK-SLICE-171` 期间的窄修样本；确认选择生命周期仍由 `FormalInventoryPageSystem` 单一持有，未新增 UI、几何或事务 owner，两项均无复发且暂不满足归档条件。
+- 影响：仅更新 `docs/workflow/problem-audit.md` 与本治理日志；不改变 PG 状态、关闭合同或通用工作流规则。
+- 验证：`npm run test:formal-inventory`、`npm run build`、940×590 浏览器点击回归、`npm run audit:problems`、`npm run check:workflow`、`git diff --check`。
+
+## 2026-08-12：记录 TASK-SLICE-170D 收尾问题审计
+
+- 背景：游戏代码、UI 与任务状态变更收尾必须运行集中 PG 审计，并将实际语义命中的活跃问题记录为单一可追溯样本。
+- 变更：为 `TASK-SLICE-170D` 增加 PG-004/PG-011 集中审计行；确认机器真值坐标、视觉目录与正式 inventory/save/transaction owner 未发生第二来源漂移，两项均无复发且暂不满足归档条件。
+- 影响：仅更新 `docs/workflow/problem-audit.md` 与本治理日志；不改变 PG 状态、关闭合同或通用工作流规则。
+- 验证：`npm run audit:problems`、`npm run check:workflow`、`git diff --check`。
+
 ## 2026-08-09：任务校验器支持显式拆分 ID 的数字尾缀
 
 - 背景：`TASK-SETTINGS-170B` 的既有拆分合同明确使用 `170B1/170B2`，但 `validate-workflow.mjs` 只识别“数字 + 可选单字母”，导致合法的子任务定义、当前推荐和历史归档被误报缺失。

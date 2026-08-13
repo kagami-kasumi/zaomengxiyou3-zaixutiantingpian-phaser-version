@@ -15,6 +15,7 @@ import {
   startSceneWithBundle,
   type BundleLoadFeedback,
 } from './SceneAssetBundleBridge';
+import { readEquipmentPageQaOptions } from '../systems/EquipmentPageQaFixtureSystem';
 
 export class BootScene extends Phaser.Scene {
   private loadingText?: Phaser.GameObjects.Text;
@@ -53,6 +54,16 @@ export class BootScene extends Phaser.Scene {
   private async routeFromBoot(): Promise<void> {
     const allowLocalQa = import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname);
     const params = new URLSearchParams(window.location.search);
+    const equipmentQa = readEquipmentPageQaOptions(window.location.search, allowLocalQa);
+    if (equipmentQa) {
+      const p1HeroId = equipmentQa.owner === 'p1' ? equipmentQa.roleId : 1;
+      const p2HeroId = equipmentQa.owner === 'p2' ? equipmentQa.roleId : 2;
+      await this.startQaScene('EquipmentPageQaScene', {
+        options: equipmentQa,
+        devParty: createFormalDevParty(2, p1HeroId, p2HeroId),
+      });
+      return;
+    }
     if (allowLocalQa && params.get('qaStage') === '1-1-role1') {
       const twoPlayers = params.get('players') === '2';
       await this.startQaScene('TestScene', {

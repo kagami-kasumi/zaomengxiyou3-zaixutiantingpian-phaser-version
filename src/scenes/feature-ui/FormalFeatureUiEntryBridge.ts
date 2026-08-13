@@ -18,11 +18,14 @@ import {
   type StageFeatureEntry,
   type StageFeatureEntrySource,
 } from '../../systems/StageFeatureEntryRouterSystem';
-import {
-  ensureSceneAssetBundle,
-  type BundleLoadFeedback,
-} from '../SceneAssetBundleBridge';
+import { ensureSceneAssetBundle, type BundleLoadFeedback } from '../SceneAssetBundleBridge';
 import { readHeroPartyPresentationSnapshot } from '../HeroPartyRuntimeBridge';
+import {
+  createEquipmentPageQaStorage,
+  readEquipmentPageQaOptions,
+} from '../../systems/EquipmentPageQaFixtureSystem';
+import { ensureFeatureUiPageAssets } from './FeatureUiPageAssetBridge';
+import type { SaveStorage } from '../../systems/SaveSystem';
 
 export const formalFeatureUiHost = createFeatureUiHostModel();
 export const P2_BACKPACK_KEY_CODE = 111;
@@ -62,6 +65,11 @@ const EntryButtonSpecs: readonly EntryButtonSpec[] = [
 ];
 
 const ownerAliveByScene = new WeakMap<Phaser.Scene, Map<FeatureUiOwner, boolean>>();
+let featureUiStorageOverride: SaveStorage | undefined;
+
+export function getFormalFeatureUiStorageOverride(): SaveStorage | undefined {
+  return featureUiStorageOverride;
+}
 
 export function installFormalFeatureUiEntries(
   scene: Phaser.Scene,
@@ -125,11 +133,14 @@ export async function launchFormalFeatureUi(
   const heroId = getPartyHeroId(config.party, owner);
   if (heroId === undefined) return false;
   try {
-    await ensureSceneAssetBundle(
-      scene,
-      getFeatureUiAssetBundleId(page, heroId),
-      feedback,
-    );
+    const allowLocalQa = import.meta.env.DEV || ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    const qaOptions = page === 'backpack'
+      ? readEquipmentPageQaOptions(window.location.search, allowLocalQa)
+      : undefined;
+    featureUiStorageOverride = qaOptions ? createEquipmentPageQaStorage(qaOptions) : undefined;
+    const storage = featureUiStorageOverride ?? getBrowserStorage();
+    await ensureSceneAssetBundle(scene, getFeatureUiAssetBundleId(page, heroId), feedback);
+    if (!await ensureFeatureUiPageAssets(scene, page, owner, storage)) return false;
   } catch {
     return false;
   }
@@ -156,6 +167,14 @@ export async function launchFormalFeatureUi(
   scene.scene.bringToTop('FeatureUiScene');
   scene.scene.pause(scene.scene.key);
   return true;
+}
+
+function getBrowserStorage(): SaveStorage | undefined {
+  try {
+    return typeof localStorage === 'undefined' ? undefined : localStorage;
+  } catch {
+    return undefined;
+  }
 }
 
 export function launchStageSettings(

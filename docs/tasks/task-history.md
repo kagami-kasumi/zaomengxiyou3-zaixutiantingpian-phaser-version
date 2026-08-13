@@ -9728,6 +9728,24 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
 
+### TASK-SLICE-170D
+
+- 完成日期：2026-08-12。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-171`）。
+- 新增 `EquipmentPageTruthSystem` 与源 hash 绑定的可重复 runtime 投影；正式 `FormalInventoryPageView` 直接按 170B1 verified manifest 对象 ID 消费 63 对象、9 状态、stage/local matrix、bounds、父子/depth、命中尺寸与关闭可见性，不再维护页签、25 格、六槽、字段、按钮和操作层第二份坐标表。
+- 新增五角色/双 owner QA fixture 与独立 `EquipmentPageQaScene`；只复用 170C 164 项目录、111 character 选择性动态资源和既有正式穿脱/V6 owner。
+- Role4 铲/箭双分支、Role5 动态 frame、520/521、正常称号、分页、610 操作层、关闭/再入均保存 940×590 证据；五角色、P1/P2、空/全槽、穿脱、时装显隐、358/610、37 不变项与 `fmtstx/mksddf` 原缺陷由自动矩阵覆盖，允许现代视觉例外为空。
+- 原版/现代并排、50% 叠图、逐状态截图和可见对象差异见 `docs/tasks/evidence/TASK-SLICE-170D/`；浏览器矩阵 console warning/error 为 0。
+- 实际保持两个主工作包、两个验收批次、0 compact；未修改 170A/170B1/170B2 权威证据、事务规则、存档 schema 或其他页面。
+
+验证：
+- `npm run test:equipment-page-truth`、`test:equipment-page-runtime-truth`、`test:equipment-page-qa`、`test:equipment-preview`、`test:formal-inventory`。
+- `npm run build`、UI truth/annotations/workflow/problem audit、`git diff --check`，以及 940×590 浏览器逐状态零 console。
+
+推荐任务：
+- `TASK-SLICE-171`：关闭 Fusion 9 条时装、打造百分数/V6 兼容，并以 164 件权威目录联合重放四功能事务。
+
+
 ### TASK-SLICE-170C
 
 - 完成日期：2026-08-09。

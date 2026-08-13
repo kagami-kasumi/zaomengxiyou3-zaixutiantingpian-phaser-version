@@ -609,6 +609,7 @@ export const sceneBundleBySceneKey = {
   ShopScene: 'map-service-shop',
   TaskScene: 'map-service-tasks',
   FeatureUiScene: 'feature-ui',
+  EquipmentPageQaScene: 'feature-ui-backpack',
   TestScene: 'stage-11',
   Stage12Scene: 'stage-12',
   Stage13Scene: 'stage-13',

@@ -173,7 +173,10 @@ export function equipFormalInventorySelection(
     HeroNamesById[player.progression.heroId] ?? '',
   );
   model.message = result.message;
-  if (result.ok) persistFormalInventoryPage(model, storage);
+  if (result.ok) {
+    persistFormalInventoryPage(model, storage);
+    clearFormalInventorySelection(model);
+  }
   clampPageAndSelection(model);
   return result.ok;
 }
@@ -186,8 +189,16 @@ export function unequipFormalInventorySelection(
   const slot = EquipmentSlotOrder[model.selectedSlotIndex];
   const result = unequipInventorySlot(player.inventoryStore, player.equipmentLoadout, slot);
   model.message = result.message;
-  if (result.ok) persistFormalInventoryPage(model, storage);
+  if (result.ok) {
+    persistFormalInventoryPage(model, storage);
+    clearFormalInventorySelection(model);
+  }
   return result.ok;
+}
+
+function clearFormalInventorySelection(model: FormalInventoryPageModel): void {
+  model.entrySelectionArmed = false;
+  model.slotSelectionArmed = false;
 }
 
 export function getFormalInventoryPlayer(model: FormalInventoryPageModel): LoadedPlayer1State {
