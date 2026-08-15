@@ -6,7 +6,6 @@ import {
   deleteSaveSlot,
   getSaveSlotDisplayName,
   listSaveSlots,
-  migrateLegacySingleSave,
   selectSaveSlot,
   type SaveSlotId,
   type SaveSlotSnapshot,
@@ -71,14 +70,7 @@ export class SaveSlotScene extends Phaser.Scene {
       return;
     }
 
-    const migration = migrateLegacySingleSave(this.storage);
-    if (migration === 'imported') {
-      this.feedbackText.setText('旧单槽存档已安全迁移到存档 1');
-    } else if (migration === 'legacy-corrupt') {
-      this.feedbackText.setText('检测到损坏的旧存档：原数据已保留，请勿误覆盖');
-    } else {
-      this.feedbackText.setText('选择空槽新建，或读取已有存档；删除必须二次确认');
-    }
+    this.feedbackText.setText('选择空槽新建，或读取当前版本存档；旧版/损坏存档需删除后重建');
     this.refreshSlots();
     this.bindKeyboardShortcuts();
     this.setSlotPanelOpen(true);
@@ -320,7 +312,7 @@ function getSlotDetail(snapshot: SaveSlotSnapshot): string {
   if (snapshot.status === 'corrupt' || !snapshot.save) return '读取被拒绝 · 可确认删除';
   const date = new Date(snapshot.save.savedAt);
   const savedAt = Number.isNaN(date.getTime()) ? '时间未知' : date.toLocaleString('zh-CN', { hour12: false });
-  return `${snapshot.save.party.playerCount}P · ${savedAt}${snapshot.sourceVersion !== snapshot.save.version ? ` · V${snapshot.sourceVersion}→V${snapshot.save.version}` : ''}`;
+  return `${snapshot.save.party.playerCount}P · ${savedAt}`;
 }
 
 function getBrowserStorage(): SaveStorage | undefined {

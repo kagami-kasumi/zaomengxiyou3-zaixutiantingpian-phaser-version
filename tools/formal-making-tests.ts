@@ -182,4 +182,4 @@ testRegistryCoverageAndDeadBranch();
 testGemBoundaries();
 testAtomicTransactionAndReturn();
 testFormalOwnersPersistenceAndTruePage();
-console.log('Equipment making registry, dead branch, gem ranges, atomic transaction, dual owner, V4, and true page tests passed.');
+console.log('Equipment making registry, dead branch, gem ranges, atomic transaction, dual owner, current schema, and true page tests passed.');

@@ -9774,6 +9774,44 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
 
+### TASK-SLICE-171B
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-172`）。
+- 存档升级为 V7，并把当前类型安全更名为 `GameSaveV7`；V6 保留独立版本常量与类型，只在版本迁移分支处理旧数据。
+- 新增 `SaveV7MigrationSystem`：对真实全量 `baseStatsOverride` 按装备定义基值计算 `crit/miss/lifeSteal/magicDefense/pierce` 五字段 delta，仅把 `(0,0.04]` 的旧分数增量换算为百分数点；基础值、非比例字段和新点数档保持不变，V7 再载幂等。
+- Fusion 经书继承属性不再烘焙进临时 `definition.stats`，改为完整实例 `baseStatsOverride`；正式 P1 经书合成、重载、P2 打造触发再次保存后继承值保持，静态目录未污染。
+- `soulCount` 在创建、V6 迁移与 V7 解析入口统一净化为 `0..Number.MAX_SAFE_INTEGER` 的安全整数；负数、小数、非有限值、字符串和越界值均不会形成可载入但不可消费的状态。
+- 浏览器 940×590 载入真实 V6 槽、进入天庭地图和 P1 工坊、返回主菜单，画面与交互正常，console warning/error 为 0；已有槽在正式选择边界归一化为 V7。
+- 实际保持两个主工作包、两个验收批次、0 compact；未实现成长字段、修改配方/随机/材料，或新增存档/UI owner。
+
+验证：
+- `npm run test:systems`（含真实全量快照、五比例、V6→V7→V7、坏值、正式两次保存与 P1/P2 专项）。
+- `npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+- 内置浏览器 940×590 V6 槽正式工坊往返与零 console。
+
+推荐任务：
+- `TASK-SETTINGS-172`：冻结五角色基础数值、经验表、升级/回满/派生时序、P1/P2 与 V7 存档边界；不提前修改现代实现。
+
+后续裁决：
+- 用户于 2026-08-15 明确取消旧档兼容目标；本 task 的 V6→V7 迁移与幂等合同已由 `TASK-ARCH-178` 取代。经书继承实例 `baseStatsOverride`、安全整数灵魂与双 owner 当前 schema 往返继续有效。
+
+### TASK-ARCH-178
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-172`）。
+- 按用户裁决将存档收敛为唯一当前 schema：`parseGameSave` 只接受精确 `GameSaveVersion`，版本不匹配、旧结构、缺失必需子域或损坏当前结构都直接返回 `undefined`。
+- 删除 V1..V6 常量/类型/分支、迁移注册表、`SaveV7MigrationSystem`、单槽旧存档迁移及比例重缩放/幂等专项；选槽也不再重写已有当前档。六槽对不兼容原始值只标记不可用，不自动改写、修复或删除 localStorage。
+- 保留当前经书继承实例 `baseStatsOverride`、非负安全整数 `soulCount`、P1/P2、party、关卡解锁和六槽往返；创建时的非法灵魂值抛出 `RangeError`，读取时的非法值拒绝整份存档。
+- 专项已改为当前 schema round-trip、旧版本/旧形状/损坏子域拒绝、正式工坊两次保存、双 owner 和显式删槽边界。
+- 实际保持两个主工作包、两个验收批次、0 compact；未修改工坊配方/数值、自动删除存档或提前实现成长字段。
+
+验证：
+- `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-172`：冻结五角色基础数值、经验表、升级/回满/派生时序、P1/P2 与当前存档 schema 边界；不提前修改现代实现。
+
 ### TASK-SLICE-176
 
 - 完成日期：2026-08-15。

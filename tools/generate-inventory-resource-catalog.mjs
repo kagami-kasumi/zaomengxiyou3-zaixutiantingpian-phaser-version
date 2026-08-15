@@ -149,7 +149,7 @@ const output = {
     icon:
       "stableKey, original requested symbol, resolved symbol, source package, character id and evidence",
     save:
-      "original field and MyEquipObj pipe-record encoding; modern V6 stores category/fillName/instance-or-stack identity/quantity",
+      "original field and MyEquipObj pipe-record encoding; the current schema stores category/fillName/instance-or-stack identity/quantity",
     reachability:
       "external-reference-observed | catalog-only-no-external-producer; the latter is not promoted to playable original content",
   },

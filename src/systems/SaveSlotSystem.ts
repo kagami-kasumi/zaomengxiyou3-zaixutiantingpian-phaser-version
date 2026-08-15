@@ -5,13 +5,11 @@ import { createHeroProgression } from './ProgressionSystem';
 import { createPlayerInventoryRuntimes } from './PlayerInventoryOwnershipSystem';
 import {
   createGameSave,
-  GameSaveStorageKey,
-  GameSaveVersion,
   loadGame,
   parseGameSave,
   saveGame,
   serializeGameSave,
-  type GameSaveV6,
+  type GameSave,
   type SaveStorage,
 } from './SaveSystem';
 import {
@@ -34,15 +32,8 @@ export type SaveSlotSnapshot = {
   displayNumber: number;
   storageKey: string;
   status: SaveSlotStatus;
-  save?: GameSaveV6;
-  sourceVersion?: number;
+  save?: GameSave;
 };
-
-export type LegacySingleSaveMigrationResult =
-  | 'none'
-  | 'slots-not-empty'
-  | 'imported'
-  | 'legacy-corrupt';
 
 export function getSaveSlotStorageKey(slotId: SaveSlotId): string {
   return `${SaveSlotStorageKeyPrefix}${slotId}`;
@@ -68,7 +59,6 @@ export function inspectSaveSlot(storage: SaveStorage, slotId: SaveSlotId): SaveS
     storageKey,
     status: 'valid',
     save,
-    sourceVersion: readSerializedVersion(raw),
   };
 }
 
@@ -79,7 +69,7 @@ export function listSaveSlots(storage: SaveStorage): SaveSlotSnapshot[] {
 export function createDefaultGameSave(
   now = new Date(),
   party: PartyConfiguration = createPartyConfiguration(1, 1)!,
-): GameSaveV6 {
+): GameSave {
   const rosters = createPlayerPetRosters();
   const inventories = createPlayerInventoryRuntimes(
     createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()),
@@ -107,7 +97,7 @@ export function createDefaultGameSave(
 export function createSaveSlot(
   storage: SaveStorage,
   slotId: SaveSlotId,
-  save: GameSaveV6 = createDefaultGameSave(),
+  save: GameSave = createDefaultGameSave(),
 ): boolean {
   if (inspectSaveSlot(storage, slotId).status !== 'empty') return false;
   const normalized = parseGameSave(serializeGameSave(save));
@@ -142,11 +132,9 @@ export function createPartySaveSlot(
   return party ? createSaveSlot(storage, slotId, createDefaultGameSave(now, party)) : false;
 }
 
-export function selectSaveSlot(storage: SaveStorage, slotId: SaveSlotId): GameSaveV6 | undefined {
+export function selectSaveSlot(storage: SaveStorage, slotId: SaveSlotId): GameSave | undefined {
   const snapshot = inspectSaveSlot(storage, slotId);
   if (snapshot.status !== 'valid' || !snapshot.save) return undefined;
-  // Parsing is the V1..V4 migration and V5 validation boundary. Persist normalized V5 in place.
-  saveGame(storage, snapshot.save, snapshot.storageKey);
   storage.setItem(ActiveSaveSlotStorageKey, String(slotId));
   return snapshot.save;
 }
@@ -165,12 +153,12 @@ export function getActiveSaveSlotId(storage: SaveStorage): SaveSlotId | undefine
   return isSaveSlotId(value) ? value : undefined;
 }
 
-export function loadActiveGame(storage: SaveStorage): GameSaveV6 | undefined {
+export function loadActiveGame(storage: SaveStorage): GameSave | undefined {
   const slotId = getActiveSaveSlotId(storage);
   return slotId === undefined ? undefined : loadGame(storage, getSaveSlotStorageKey(slotId));
 }
 
-export function saveActiveGame(storage: SaveStorage, save: GameSaveV6): boolean {
+export function saveActiveGame(storage: SaveStorage, save: GameSave): boolean {
   const slotId = getActiveSaveSlotId(storage);
   if (slotId === undefined || inspectSaveSlot(storage, slotId).status !== 'valid') return false;
   saveGame(storage, save, getSaveSlotStorageKey(slotId));
@@ -179,7 +167,7 @@ export function saveActiveGame(storage: SaveStorage, save: GameSaveV6): boolean 
 
 export function saveActiveLevelUnlockProgress(
   storage: SaveStorage,
-  progress: GameSaveV6['levelUnlockProgress'],
+  progress: GameSave['levelUnlockProgress'],
   now = new Date(),
 ): boolean {
   const save = loadActiveGame(storage);
@@ -197,18 +185,6 @@ export function getActivePartyConfiguration(
   return loadActiveGame(storage)?.party;
 }
 
-export function migrateLegacySingleSave(storage: SaveStorage): LegacySingleSaveMigrationResult {
-  if (listSaveSlots(storage).some((slot) => slot.status !== 'empty')) return 'slots-not-empty';
-  const raw = storage.getItem(GameSaveStorageKey);
-  if (raw === null) return 'none';
-  const save = parseGameSave(raw);
-  if (!save) return 'legacy-corrupt';
-  saveGame(storage, save, getSaveSlotStorageKey(0));
-  storage.setItem(ActiveSaveSlotStorageKey, '0');
-  storage.removeItem(GameSaveStorageKey);
-  return 'imported';
-}
-
 export function getSaveSlotDisplayName(snapshot: SaveSlotSnapshot): string {
   if (snapshot.status === 'empty') return '空存档';
   if (snapshot.status === 'corrupt' || !snapshot.save) return '损坏存档';
@@ -218,19 +194,4 @@ export function getSaveSlotDisplayName(snapshot: SaveSlotSnapshot): string {
   if (party.playerCount === 1) return `1P ${p1Name} · ${snapshot.save.player1.level}级`;
   const p2Name = heroNames[party.members.p2.heroId] ?? heroNames[0];
   return `2P ${p1Name} / ${p2Name}`;
-}
-
-function readSerializedVersion(raw: string): number | undefined {
-  try {
-    const value: unknown = JSON.parse(raw);
-    if (!value || typeof value !== 'object') return undefined;
-    const version = Reflect.get(value, 'version');
-    return typeof version === 'number' ? version : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-export function isNormalizedSaveSlot(snapshot: SaveSlotSnapshot): boolean {
-  return snapshot.status === 'valid' && snapshot.sourceVersion === GameSaveVersion;
 }

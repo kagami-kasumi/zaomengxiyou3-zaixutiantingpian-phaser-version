@@ -84,7 +84,7 @@ function testOneAndTwoPlayerFailure(): void {
   assert.equal(double.updatePartyFailure(0, Stage12FailureDelayMs), 'failed');
 }
 
-function testV3UnlockPersistencePreservesSave(): void {
+function testCurrentSchemaUnlockPersistencePreservesSave(): void {
   const storage = createMemoryStorage();
   const original = createGameSave({
     progression: createHeroProgression(1),
@@ -123,6 +123,6 @@ function createMemoryStorage(): SaveStorage {
 testFiveStopPointsAndBossDoorGate();
 testWaveCannotFinishBeforeGenerationAndClear();
 testOneAndTwoPlayerFailure();
-testV3UnlockPersistencePreservesSave();
+testCurrentSchemaUnlockPersistencePreservesSave();
 
 console.log('Stage 1-2 flow, boss gate, failure, and save tests passed.');

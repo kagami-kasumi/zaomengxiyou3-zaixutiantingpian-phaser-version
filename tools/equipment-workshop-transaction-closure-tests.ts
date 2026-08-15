@@ -43,7 +43,11 @@ import {
   InventoryStackQuantityLimit,
 } from '../src/systems/InventorySystem';
 import { createDefaultGameSave } from '../src/systems/SaveSlotSystem';
-import { parseGameSave, restoreGameState } from '../src/systems/SaveSystem';
+import {
+  GameSaveVersion,
+  parseGameSave,
+  restoreGameState,
+} from '../src/systems/SaveSystem';
 
 const registry = createEquipmentMakingDefinitionRegistry({
   ...createSeedEquipmentRegistry(),
@@ -192,31 +196,34 @@ function testHighestMakingRecipeRejectsAtomically(): void {
   assert.ok(session.book);
 }
 
-function testV6MakingPercentCompatibility(): void {
+function testCurrentMakingSnapshotRoundTripAndOldVersionRejection(): void {
   const save = createDefaultGameSave();
+  const definition = registry.whg;
+  const currentSnapshot = { ...definition.stats, maxHp: definition.stats.maxHp + 17 };
+  for (const key of [
+    'critPercent', 'missPercent', 'lifeStealPercent', 'magicDefensePercent', 'piercePercent',
+  ] as const) {
+    currentSnapshot[key] = definition.stats[key] + 1;
+  }
   save.player1.inventory.categories.equipment.unshift(
     {
-      kind: 'equipment', fillName: 'whg', instanceId: 'legacy-making-ratio', quantity: 1,
-      baseStatsOverride: { magicDefensePercent: 0.01, critPercent: 0.01, missPercent: 0.01 },
-    },
-    {
-      kind: 'equipment', fillName: 'whg', instanceId: 'modern-making-points', quantity: 1,
-      baseStatsOverride: { magicDefensePercent: 1, critPercent: 1, missPercent: 1 },
+      kind: 'equipment', fillName: 'whg', instanceId: 'current-making-points', quantity: 1,
+      baseStatsOverride: currentSnapshot,
     },
   );
   const parsed = parseGameSave(JSON.stringify(save));
   assert.ok(parsed);
+  assert.equal(parsed.version, GameSaveVersion);
   const restored = restoreGameState(parsed, registry).player1.inventoryStore.categories.equipment;
-  const legacy = restored.find((entry) => entry.kind === 'equipment' && entry.instanceId === 'legacy-making-ratio');
-  const modern = restored.find((entry) => entry.kind === 'equipment' && entry.instanceId === 'modern-making-points');
-  assert.ok(legacy?.kind === 'equipment');
-  assert.ok(modern?.kind === 'equipment');
-  assert.deepEqual(legacy.baseStatsOverride, {
-    critPercent: 0.01, missPercent: 0.01, magicDefensePercent: 0.01,
-  });
-  assert.deepEqual(modern.baseStatsOverride, {
-    critPercent: 1, missPercent: 1, magicDefensePercent: 1,
-  });
+  const current = restored.find((entry) => entry.kind === 'equipment' && entry.instanceId === 'current-making-points');
+  assert.ok(current?.kind === 'equipment');
+  assert.equal(current.baseStatsOverride?.maxHp, definition.stats.maxHp + 17);
+  for (const key of [
+    'critPercent', 'missPercent', 'lifeStealPercent', 'magicDefensePercent', 'piercePercent',
+  ] as const) {
+    assert.equal(current.baseStatsOverride?.[key], definition.stats[key] + 1);
+  }
+  assert.equal(parseGameSave(JSON.stringify({ ...save, version: GameSaveVersion - 1 })), undefined);
 }
 
 function isExpectedStrengthenable(definition: EquipmentDefinition): boolean {
@@ -240,5 +247,5 @@ function findStack(store: ReturnType<typeof createInventoryStore>, fillName: str
 testAuthoritativeStrengtheningAndResolutionReplay();
 testAllMakingRecipesForBothOwners();
 testHighestMakingRecipeRejectsAtomically();
-testV6MakingPercentCompatibility();
-console.log('164-item strengthening/resolution, 78-recipe making, dual-owner, and V6 compatibility replay passed.');
+testCurrentMakingSnapshotRoundTripAndOldVersionRejection();
+console.log('164-item strengthening/resolution, 78-recipe making, dual-owner, and current-schema replay passed.');

@@ -12,15 +12,12 @@ import {
   inspectSaveSlot,
   listSaveSlots,
   loadActiveGame,
-  migrateLegacySingleSave,
   saveActiveGame,
   saveActiveLevelUnlockProgress,
   selectSaveSlot,
 } from '../src/systems/SaveSlotSystem';
 import {
-  GameSaveStorageKey,
   GameSaveVersion,
-  serializeGameSave,
   type SaveStorage,
 } from '../src/systems/SaveSystem';
 
@@ -49,6 +46,13 @@ function createMemoryStorage(initial: Record<string, string> = {}): SaveStorage 
   assert.equal(inspectSaveSlot(storage, 1).status, 'empty');
   assert.equal(createSaveSlot(storage, 2), false, 'valid slots must not be silently overwritten');
   assert.equal(loadActiveGame(storage)?.savedAt, '2026-07-22T01:02:03.000Z');
+  const currentRawBeforeSelection = storage.getItem(getSaveSlotStorageKey(2));
+  assert.ok(selectSaveSlot(storage, 2));
+  assert.equal(
+    storage.getItem(getSaveSlotStorageKey(2)),
+    currentRawBeforeSelection,
+    'selecting a valid current slot must not rewrite its save body',
+  );
 
   const updated = loadActiveGame(storage)!;
   updated.player1.level = 7;
@@ -72,59 +76,21 @@ function createMemoryStorage(initial: Record<string, string> = {}): SaveStorage 
   assert.equal(createSaveSlot(storage, 4), true);
 }
 
-for (const sourceVersion of [1, 2, 3] as const) {
+for (const sourceVersion of [1, 2, 3, 4, 5, 6, GameSaveVersion + 1]) {
   const save = createDefaultGameSave(new Date('2026-07-21T00:00:00.000Z'));
-  const { soulCount, ...player1 } = save.player1;
-  const legacy = {
-    ...save,
-    version: sourceVersion,
-    player1: {
-      ...player1,
-      skillLearning: { ...save.player1.skillLearning, soulCount },
-    },
-    player2: {
-      pets: save.player2.pets,
-      selectedPetIndex: save.player2.selectedPetIndex,
-    },
-  } as Record<string, unknown>;
-  if (sourceVersion === 1) {
-    delete legacy.player2;
-    delete legacy.levelUnlockProgress;
-  } else if (sourceVersion === 2) {
-    delete legacy.levelUnlockProgress;
-  }
+  const incompatible = { ...save, version: sourceVersion };
   const key = getSaveSlotStorageKey(0);
-  const storage = createMemoryStorage({ [key]: JSON.stringify(legacy) });
-  const before = inspectSaveSlot(storage, 0);
-  assert.equal(before.status, 'valid');
-  assert.equal(before.sourceVersion, sourceVersion);
-  assert.ok(selectSaveSlot(storage, 0));
-  const persisted = JSON.parse(storage.getItem(key)!);
-  assert.equal(persisted.version, GameSaveVersion);
-  assert.deepEqual(persisted.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 1 });
+  const raw = JSON.stringify(incompatible);
+  const storage = createMemoryStorage({ [key]: raw });
+  assert.equal(inspectSaveSlot(storage, 0).status, 'corrupt');
+  assert.equal(selectSaveSlot(storage, 0), undefined);
+  assert.equal(createSaveSlot(storage, 0), false, 'incompatible slots require explicit deletion');
+  assert.equal(storage.getItem(key), raw, 'rejected old slots must not be rewritten');
 }
 
 {
-  const save = createDefaultGameSave(new Date('2026-07-20T00:00:00.000Z'));
-  const storage = createMemoryStorage({ [GameSaveStorageKey]: serializeGameSave(save) });
-  assert.equal(migrateLegacySingleSave(storage), 'imported');
-  assert.equal(storage.getItem(GameSaveStorageKey), null);
-  assert.equal(inspectSaveSlot(storage, 0).status, 'valid');
-  assert.equal(getActiveSaveSlotId(storage), 0);
-}
-
-{
-  const storage = createMemoryStorage({ [GameSaveStorageKey]: '{broken' });
-  assert.equal(migrateLegacySingleSave(storage), 'legacy-corrupt');
-  assert.equal(storage.getItem(GameSaveStorageKey), '{broken');
-  assert.equal(inspectSaveSlot(storage, 0).status, 'empty');
-}
-
-{
-  const storage = createMemoryStorage({ [GameSaveStorageKey]: serializeGameSave(createDefaultGameSave()) });
+  const storage = createMemoryStorage();
   assert.equal(createSaveSlot(storage, 3), true);
-  assert.equal(migrateLegacySingleSave(storage), 'slots-not-empty');
-  assert.ok(storage.getItem(GameSaveStorageKey), 'legacy data must remain when slots already exist');
   assert.equal(saveActiveLevelUnlockProgress(storage, { unlockedStage: 1, unlockedLevel: 3 }, new Date('2026-07-22T04:05:06.000Z')), true);
   assert.equal(loadActiveGame(storage)?.levelUnlockProgress.unlockedLevel, 3);
   assert.equal(loadActiveGame(storage)?.savedAt, '2026-07-22T04:05:06.000Z');

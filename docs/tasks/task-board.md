@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-171B` 是唯一 Ready 游戏 task；176 已关闭用户反馈的关卡 HUD/设置重复层、背包灵魂值错位和 Role5 自主换装回归，现恢复 V7 数据损坏风险修复。
+`TASK-SETTINGS-172` 是唯一 Ready 游戏 task；存档已收敛为“只接受当前 schema，变更后旧档直接不可用”，现恢复五角色成长证据。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-171B | Ready | LINE-CORE-PROGRESSION-COMPLETION | 工坊/存档复评纠错 | V7 迁移五个比例字段，持久化打造继承属性，并 sanitize 灵魂整数 | M-039、M-044、VS-063、VS-064 | 真实全量快照迁移、继承属性 round-trip、P1/P2/坏档专项 | TASK-SETTINGS-172 | [定义](task-definitions/TASK-SLICE-171B.md) |
-| TASK-SETTINGS-172 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 五角色成长证据 | 冻结五角色基础属性、经验表、升级/回满/派生时序、P1/P2 与存档边界 | M-036、M-040、M-044、M-049、M-052、VS-014 | 有 locator/schema 的成长目录、六段证据矩阵、未知/反证与实现合同 | 待 171B 关闭后恢复为唯一 Ready | [定义](task-definitions/TASK-SETTINGS-172.md) |
+| TASK-SETTINGS-172 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 五角色成长证据 | 冻结五角色基础属性、经验表、升级/回满/派生时序、P1/P2 与存档边界 | M-036、M-040、M-044、M-049、M-052、VS-014 | 有 locator/schema 的成长目录、六段证据矩阵、未知/反证与实现合同 | 依证据生成同线有界实现 task | [定义](task-definitions/TASK-SETTINGS-172.md) |
 | TASK-SETTINGS-173 | Planned | LINE-CORE-PROGRESSION-COMPLETION | Role1 影分身证据纠错 | 区分五个静态候选/72 tick 与播放帧速，冻结正式 Runtime identity/action 合同 | M-018、M-034、VS-062 | verified 真值、正式/TestScene 差异矩阵与实现合同 | TASK-SLICE-173A | [定义](task-definitions/TASK-SETTINGS-173.md) |
 | TASK-SLICE-173A | Planned | LINE-CORE-PROGRESSION-COMPLETION | Role1 影分身正式接入 | 按 173 的 verified 合同接入正式英雄 Runtime | M-018、M-034、VS-062 | 稳定 identity/action、正式 1P/2P/五关代表回归 | 恢复同线下一缺口 | [定义](task-definitions/TASK-SLICE-173A.md) |
 | TASK-ARCH-174 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 普攻几何/Role5 命中纠错 | 收敛世界特效普攻几何 owner，修复 Role5 移动弹体二维命中与重复结算 | M-022、M-034、VS-062 | 唯一几何数据源、共享结算委托、二维边界回归 | 恢复同线下一缺口 | [定义](task-definitions/TASK-ARCH-174.md) |

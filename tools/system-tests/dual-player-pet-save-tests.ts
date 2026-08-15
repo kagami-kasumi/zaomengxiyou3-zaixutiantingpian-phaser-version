@@ -12,12 +12,12 @@ import {
 import { createSkillLearningState } from '../../src/systems/SkillUISystem';
 
 export function runDualPlayerPetSaveTests(): void {
-  testV2RoundTripRestoresBothPetOwners();
-  testV1MigrationPreservesP1AndCreatesEmptyP2();
-  testV2RejectsDamagedP2WithoutContaminatingP1();
+  testCurrentSchemaRoundTripRestoresBothPetOwners();
+  testOldSchemaIsRejected();
+  testCurrentSchemaRejectsDamagedP2WithoutContaminatingP1();
 }
 
-function testV2RoundTripRestoresBothPetOwners(): void {
+function testCurrentSchemaRoundTripRestoresBothPetOwners(): void {
   const rosters = createPlayerPetRosters();
   rosters.p1.pets[0].level = 7;
   rosters.p2.pets[0].level = 11;
@@ -43,7 +43,7 @@ function testV2RoundTripRestoresBothPetOwners(): void {
   assert.equal(restored.player2PetRoster.pets[0].magicFlowerBuff, undefined);
 }
 
-function testV1MigrationPreservesP1AndCreatesEmptyP2(): void {
+function testOldSchemaIsRejected(): void {
   const rosters = createPlayerPetRosters();
   rosters.p1.pets[0].level = 19;
   const current = createTestSave(rosters.p1, rosters.p2);
@@ -56,16 +56,10 @@ function testV1MigrationPreservesP1AndCreatesEmptyP2(): void {
       skillLearning: { ...current.player1.skillLearning, soulCount },
     },
   };
-  const migrated = parseGameSave(JSON.stringify(legacy));
-  assert.ok(migrated);
-  assert.equal(migrated.version, GameSaveVersion);
-  const restored = restoreGameState(migrated, createSeedEquipmentRegistry());
-  assert.equal(restored.petRoster.pets[0].level, 19);
-  assert.equal(restored.player2PetRoster.pets.length, 0);
-  assert.equal(restored.player2PetRoster.selectedIndex, 0);
+  assert.equal(parseGameSave(JSON.stringify(legacy)), undefined);
 }
 
-function testV2RejectsDamagedP2WithoutContaminatingP1(): void {
+function testCurrentSchemaRejectsDamagedP2WithoutContaminatingP1(): void {
   const rosters = createPlayerPetRosters();
   const save = createTestSave(rosters.p1, rosters.p2) as any;
   save.player2.pets = 'damaged';

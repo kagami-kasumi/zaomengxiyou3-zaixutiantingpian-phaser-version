@@ -21,7 +21,7 @@ import {
   loadActiveGame,
   type SaveSlotId,
 } from '../src/systems/SaveSlotSystem';
-import type { GameSaveV4, SaveStorage } from '../src/systems/SaveSystem';
+import type { GameSave, SaveStorage } from '../src/systems/SaveSystem';
 
 const root = process.cwd();
 const registry = createSeedEquipmentRegistry();
@@ -35,7 +35,7 @@ function createStorage(): SaveStorage {
   };
 }
 
-function createReadyPage(configure?: (save: GameSaveV4) => void) {
+function createReadyPage(configure?: (save: GameSave) => void) {
   const storage = createStorage();
   const save = createDefaultGameSave(new Date('2026-07-22T00:00:00.000Z'));
   configure?.(save);
@@ -46,7 +46,7 @@ function createReadyPage(configure?: (save: GameSaveV4) => void) {
 }
 
 function setEquippedMagicWeapon(
-  save: GameSaveV4,
+  save: GameSave,
   fillName: string,
   level: number,
   element = '木',
@@ -58,7 +58,7 @@ function setEquippedMagicWeapon(
   };
 }
 
-function setStackQuantity(save: GameSaveV4, fillName: string, quantity: number): void {
+function setStackQuantity(save: GameSave, fillName: string, quantity: number): void {
   for (const category of Object.values(save.player1.inventory.categories)) {
     const stack = category.find((entry) => entry.kind === 'stack' && entry.fillName === fillName);
     if (stack) {
@@ -89,7 +89,7 @@ function testEquipmentGateAndP1OnlyContract(): void {
   assert.match(model.message, /未装备法宝/);
 }
 
-function testSoulUpgradeAndV4RoundTrip(): void {
+function testSoulUpgradeAndCurrentRoundTrip(): void {
   const { storage, model } = createReadyPage((save) => {
     setEquippedMagicWeapon(save, 'kyl', 1);
     save.player1.soulCount = 1_500;
@@ -193,10 +193,10 @@ function testTrueAssetAndSceneWiring(): void {
 }
 
 testEquipmentGateAndP1OnlyContract();
-testSoulUpgradeAndV4RoundTrip();
+testSoulUpgradeAndCurrentRoundTrip();
 testInsufficientSoulRejectsWithoutMutation();
 testAuthoritativeSpecialUpgradeBranches();
 testMaterialConfirmCancelAndAtomicCommit();
 testElementResetKeepsLevelRebuildsStatsAndPersists();
 testTrueAssetAndSceneWiring();
-console.log('Formal magic-weapon gate, upgrade branches, reset, P1 owner, V4 round-trip, true asset, and scene tests passed.');
+console.log('Formal magic-weapon gate, upgrade branches, reset, P1 owner, current round-trip, true asset, and scene tests passed.');

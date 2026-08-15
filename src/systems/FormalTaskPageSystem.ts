@@ -11,7 +11,7 @@ import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV6,
+  type GameSave,
   type LoadedGameState,
   type SaveStorage,
 } from './SaveSystem';
@@ -23,7 +23,7 @@ export type FormalTaskPageModel = {
   selectedRow?: number;
   selectedTaskId?: number;
   tasks: PartyTaskModel;
-  sourceSave: GameSaveV6;
+  sourceSave: GameSave;
   restored: LoadedGameState;
   registry: Record<string, EquipmentDefinition>;
   message: string;

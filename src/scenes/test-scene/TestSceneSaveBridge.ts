@@ -1,5 +1,5 @@
 // boundary: save bridge adapts TestScene runtime state to SaveSystem snapshots;
-// serialization, validation, and migration rules remain in src/systems/SaveSystem.ts.
+// serialization and current-schema validation remain in src/systems/SaveSystem.ts.
 import {
   createGameSave,
   getHeroBaseStats,

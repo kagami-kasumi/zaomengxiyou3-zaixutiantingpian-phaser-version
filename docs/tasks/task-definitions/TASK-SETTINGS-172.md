@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Planned，待 `TASK-SLICE-171B` 关闭后恢复为唯一 Ready）
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；当前唯一 Ready）
 
 目标机制/切片：
 
@@ -45,7 +45,7 @@
 
 - 更新 `progression-index.md` 的六段证据矩阵，逐项标记确认事实、现代选择、未知与反证条件。
 - 可重复生成并校验的五角色成长机器目录及 schema/locator，覆盖等级 1/关键分段/89/90、经验、四基础属性和升级时序；现代实现与测试下一 task 直接消费。
-- P1/P2、装备派生、普通怪经验、HP/MP 回满、V6 当前边界和后续统一 schema 输入合同。
+- P1/P2、装备派生、普通怪经验、HP/MP 回满、当前存档 schema 边界和后续统一 schema 输入合同。
 
 原版机器真值 JSON：
 
@@ -64,7 +64,7 @@
 
 禁止范围：
 
-- 不修改 `src/`、V6 schema、HUD/背包视觉、装备目录、关卡经验奖励或 `legacy-extraction` 原始结果。
+- 不修改 `src/`、当前存档 schema、HUD/背包视觉、装备目录、关卡经验奖励或 `legacy-extraction` 原始结果。
 - 不实现任务奖励旁路、宠物经验、Monster111/无尽模式特例或成长 UI。
 
 状态更新：
@@ -73,4 +73,4 @@
 
 推荐后续任务：
 
-- 消费本 task 机器目录，实现五角色基础值、升级时序、P1/P2、装备派生和当前 V6 兼容的同线 `TASK-SLICE-*`。
+- 消费本 task 机器目录，实现五角色基础值、升级时序、P1/P2、装备派生和当前 schema 的同线 `TASK-SLICE-*`；如 schema 变更则直接废弃旧档，不生成迁移任务。

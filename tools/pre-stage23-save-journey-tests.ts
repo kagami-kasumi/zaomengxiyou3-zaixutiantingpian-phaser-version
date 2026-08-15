@@ -56,7 +56,7 @@ import {
   selectSaveSlot,
 } from '../src/systems/SaveSlotSystem';
 import { createStage11Flow } from '../src/systems/Stage11FlowSystem';
-import type { SaveStorage } from '../src/systems/SaveSystem';
+import { GameSaveVersion, type SaveStorage } from '../src/systems/SaveSystem';
 import { createTestLevelCompletionAttempt } from './level-lifecycle-test-helpers';
 
 class RestartableMemoryStorage implements SaveStorage, GlobalSettingsStorage {
@@ -187,9 +187,9 @@ const stage11 = createStage11Flow(2, beforeClear.levelUnlockProgress);
 assert.equal(stage11.tryComplete(createTestLevelCompletionAttempt()), true);
 assert.equal(saveActiveLevelUnlockProgress(storage, stage11.unlockProgress, journeyDate), true);
 
-// 新 storage 实例模拟关闭应用后重开；V6、双方 owner、共享进度和全局设置均从持久值恢复。
+// 新 storage 实例模拟关闭应用后重开；当前 schema、双方 owner、共享进度和全局设置均从持久值恢复。
 const restarted = storage.restart();
-assert.equal(selectSaveSlot(restarted, 0)?.version, 6);
+assert.equal(selectSaveSlot(restarted, 0)?.version, GameSaveVersion);
 const reloaded = loadActiveGame(restarted)!;
 assert.deepEqual(reloaded.party, party);
 assert.deepEqual(reloaded.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 2 });
@@ -208,7 +208,7 @@ assert.deepEqual(loadGlobalSettings(restarted), {
   skillSoundEnabled: false,
   frameRate: 24,
 });
-assert.equal(JSON.parse(restarted.getItem(getSaveSlotStorageKey(0))!).version, 6);
+assert.equal(JSON.parse(restarted.getItem(getSaveSlotStorageKey(0))!).version, GameSaveVersion);
 assert.equal(JSON.parse(restarted.getItem(getSaveSlotStorageKey(0))!)[GlobalSettingsStorageKey], undefined);
 
 const savedKeys = collectObjectKeys(reloaded);
@@ -235,4 +235,4 @@ for (const owner of ['ImmortalityScene', 'ShopScene', 'FormalSettingsOverlay', '
 assert.match(source('src/scenes/PlayableLevelRuntime.ts'), /installFormalFeatureUiEntries/);
 assert.match(source('src/scenes/SaveSlotScene.ts'), /status === 'corrupt'/);
 
-console.log('Pre-Stage-2-3 V6 restart, service, combat-entry, owner, and corruption journey tests passed.');
+console.log('Pre-Stage-2-3 current-schema restart, service, combat-entry, owner, and corruption journey tests passed.');

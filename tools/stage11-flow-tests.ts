@@ -184,7 +184,7 @@ function createMovementInput(moveX: -1 | 0 | 1, jump: boolean): PlayerInputState
   };
 }
 
-function testSaveV4RoundTripAndV1V2Migration(): void {
+function testCurrentSaveRoundTripAndOldVersionRejection(): void {
   const current = createTestSave();
   assert.equal(current.version, GameSaveVersion);
   assert.deepEqual(current.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 2 });
@@ -202,16 +202,10 @@ function testSaveV4RoundTripAndV1V2Migration(): void {
   };
   const v2 = { ...current, version: 2, player1: legacyPlayer1 } as Record<string, unknown>;
   delete v2.levelUnlockProgress;
-  const migratedV2 = parseGameSave(JSON.stringify(v2));
-  assert.ok(migratedV2);
-  assert.equal(migratedV2.version, GameSaveVersion);
-  assert.deepEqual(migratedV2.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 1 });
+  assert.equal(parseGameSave(JSON.stringify(v2)), undefined);
 
   const v1 = { version: 1, savedAt: current.savedAt, player1: legacyPlayer1 };
-  const migratedV1 = parseGameSave(JSON.stringify(v1));
-  assert.ok(migratedV1);
-  assert.equal(migratedV1.version, GameSaveVersion);
-  assert.deepEqual(migratedV1.levelUnlockProgress, { unlockedStage: 1, unlockedLevel: 1 });
+  assert.equal(parseGameSave(JSON.stringify(v1)), undefined);
 }
 
 function createTestSave() {
@@ -237,6 +231,6 @@ testCameraFollowsClimberWhileStopWaveIsAlive();
 testBossTriggersAtHighestLayerWhileStopWaveIsAlive();
 testBossCameraUsesOriginalLowerScreenComposition();
 testFormalStage11DoorAndResultContractRemainsConnected();
-testSaveV4RoundTripAndV1V2Migration();
+testCurrentSaveRoundTripAndOldVersionRejection();
 
 console.log('Stage 1-1 flow tests passed.');

@@ -23,7 +23,7 @@ Agent 依次检查：
 4. `assets-index.md`、相关机制索引和已有缺口计划中是否已有结论。
 5. `local-resources/regima/source/restored-swfs/` 中的原始命名 SWF；用 FFDec `-dumpSWF`、`-dumpAS3` 或 `-export symbolClass` 窄查目标名称。视觉资源是否缺失以这一步为最终依据，不能停在旧 `local-resources/regima/legacy-extraction/`。
 
-`local-resources/regima/legacy-extraction/` 和恢复 SWF 都按只读证据处理。关键词定位和 UTF-8 读取仍遵守 `AGENTS.md`；不得执行恢复目录中的 EXE/DLL。
+`local-resources/regima/legacy-extraction/` 和恢复 SWF 都按只读证据处理。关键词定位仍遵守 `AGENTS.md`；不得执行恢复目录中的 EXE/DLL。
 
 ## 2. 写候选标注
 

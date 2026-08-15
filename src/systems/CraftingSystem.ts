@@ -1,4 +1,9 @@
-import { getEquipmentInstanceStats, type EquipmentDefinition, type EquipmentInstance } from './EquipmentSystem';
+import {
+  getEquipmentInstanceStats,
+  type EquipmentDefinition,
+  type EquipmentInstance,
+  type EquipmentStats,
+} from './EquipmentSystem';
 import {
   addEquipmentDefinition,
   addStackByFillName,
@@ -306,17 +311,17 @@ export function craft(params: {
   }
   const productCategory = getInventoryCategoryForDefinition(product);
   const productUsesInstance = productCategory === 'equipment' || productCategory === 'fashion';
-  const resolvedProduct = inheritsEquipmentStats && productUsesInstance
-    ? createInheritedProduct(
+  const added = productUsesInstance
+    ? addEquipmentDefinition(params.store, product)
+    : addStackByFillName(params.store, params.registry, recipe.productFillName, 1);
+  if (!added) throw new Error('Crafting preflight allowed a product that could not be added');
+  if (inheritsEquipmentStats && productUsesInstance && added.kind === 'equipment') {
+    added.baseStatsOverride = createInheritedProductStatsOverride(
       product,
       selectedMaterials.statsMaterials,
       recipe.productionBehavior,
-    )
-    : product;
-  const added = productUsesInstance
-    ? addEquipmentDefinition(params.store, resolvedProduct)
-    : addStackByFillName(params.store, params.registry, recipe.productFillName, 1);
-  if (!added) throw new Error('Crafting preflight allowed a product that could not be added');
+    );
+  }
   return {
     ok: true,
     message: `合成成功：${recipe.productName}`,
@@ -566,24 +571,18 @@ function removeEquipmentInstance(store: InventoryStore, material: EquipmentInsta
   }
 }
 
-function createInheritedProduct(
+function createInheritedProductStatsOverride(
   product: EquipmentDefinition,
   materials: readonly EquipmentInstance[],
   behavior: CraftingProductionBehavior,
-): EquipmentDefinition {
-  if (product.type === 'zbtx') return product;
+): Partial<EquipmentStats> | undefined {
+  if (product.type === 'zbtx') return undefined;
   const inheritedStats = behavior === 'get_sun_sutra_value'
     ? inheritSunSutraStats(materials, product.fillName)
     : behavior === 'get_mingding_huayan'
       ? inheritMingDingHuaYanStats(materials)
       : inheritSutraStats(materials);
-  return {
-    ...product,
-    stats: {
-      ...product.stats,
-      ...inheritedStats,
-    },
-  };
+  return { ...product.stats, ...inheritedStats };
 }
 
 function isInheritedEquipmentBehavior(behavior: CraftingProductionBehavior): boolean {

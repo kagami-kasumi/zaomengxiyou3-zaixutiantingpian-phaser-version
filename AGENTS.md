@@ -13,11 +13,10 @@
 7. 在现有文件中新增逻辑前，先运行 `npm run check:structure`；若目标文件触发 error，必须先拆分。若目标文件仅触发 warning，优先拆分；轻量小修可写明理由后局部修改。无关文件的 warning 不阻塞当前任务。
 8. 涉及 UI、HUD、菜单、页面或按钮的逆向/实现，必须按 `docs/workflow/reverse-engineering-protocol.md` 建立显示列表清单、`verified` 原版机器真值 JSON、原版视觉基准、允许的现代视觉例外和逐状态差异证据。整页真背景、业务测试、路由可用或零 console error 不能单独证明 UI 原生化；未经用户批准不得用现代可见层替代原版已有视觉。
 
-## 读取与编码约束
+## 读取约束
 
-- PowerShell 读取中文/Markdown 文档必须显式使用 `Get-Content -Encoding UTF8 -LiteralPath ...`；如果输出出现乱码，立刻停止基于该输出推理，改用 UTF-8 重新读取。
 - 优先用 `rg -n`、`Select-Object -First/-Skip/-Last` 或精确路径读取相关片段；不要为了找一条记录全文读入大型 Markdown、AS3 或历史文档。
-- 在 PowerShell 中用 `rg` 搜中文、代码片段或含引号内容时，优先搜“短而窄”的稳定关键词，再按行号读取上下文；不要手拼包含转义双引号的正则串，不要把宽关键词和窄关键词塞进一个 `a|b|c` 或多个 `-e` 里导致海量输出。首选模板：`rg -n -F -e '枯叶灵' path`，命中后 `Get-Content -Encoding UTF8 -LiteralPath path | Select-Object -Skip <n> -First <m>`。多个 `-e` 只用于每个关键词都足够窄的情况。目标是让 `rg` 命令一次成功且输出很小。
+- 用 `rg` 搜中文、代码或含引号内容时，优先 `rg -n -F '稳定关键词' path` 后按行号窄读；避免宽关键词、复杂 alternation 和海量输出。
 - `task-history.md`、大型 reverse-engineering 文档和 AS3 文件默认先关键词定位，再读取命中的小范围上下文。
 - 治理目标是减少无关输出、重复输出和多个大型全文聚合，不是减少命令次数；不要为了少调用工具而在一次命令中合并多个大型文件全文。
 - 当前对话中已经读取且未修改的文件不重复全文读取；compact 后复核关键合同、精确实现证据或文件发生变化时，只重新窄读需要的片段。

@@ -1,7 +1,7 @@
 import { addInventoryResource } from './InventorySystem';
 import { addHeroExperience } from './ProgressionSystem';
 import { createPetSkillState } from './PetSkillStateSystem';
-import type { LoadedGameState, PartyTaskSaveV6 } from './SaveSystem';
+import type { LoadedGameState, PartyTaskSave } from './SaveSystem';
 import type { EquipmentDefinition } from './EquipmentSystem';
 
 export type TaskRewardType = 'dj' | 'zzs' | 'lh' | 'exp' | 'roomhorse';
@@ -94,11 +94,11 @@ export const DailyTaskDefinitions: readonly DailyTaskDefinition[] = DailyRows.ma
 
 export const DormantActivityTaskIds = [101, 102, 103, 104] as const;
 
-export function createPartyTaskModel(now = new Date(), saved?: PartyTaskSaveV6): PartyTaskModel {
+export function createPartyTaskModel(now = new Date(), saved?: PartyTaskSave): PartyTaskModel {
   const dateKey = getLocalDateKey(now);
   const savedById = saved?.dateKey === dateKey
     ? new Map(saved.daily.map((state) => [state.id, state]))
-    : new Map<number, PartyTaskSaveV6['daily'][number]>();
+    : new Map<number, PartyTaskSave['daily'][number]>();
   return {
     dateKey,
     daily: DailyTaskDefinitions.map((definition) => {
@@ -111,7 +111,7 @@ export function createPartyTaskModel(now = new Date(), saved?: PartyTaskSaveV6):
   };
 }
 
-export function encodePartyTaskModel(model: PartyTaskModel): PartyTaskSaveV6 {
+export function encodePartyTaskModel(model: PartyTaskModel): PartyTaskSave {
   return {
     dateKey: model.dateKey,
     daily: model.daily.map((state) => ({

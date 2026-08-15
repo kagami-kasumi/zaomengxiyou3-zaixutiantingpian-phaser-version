@@ -116,13 +116,11 @@ const registry = createInventoryItemDefinitionRegistry(createSeedEquipmentRegist
 }
 
 {
-  const legacyV6 = createDefaultGameSave();
-  const raw = JSON.parse(serializeGameSave(legacyV6));
+  const current = createDefaultGameSave();
+  const raw = JSON.parse(serializeGameSave(current));
   delete raw.player1.immortalityFlags;
   delete raw.player2.immortalityFlags;
-  const migrated = parseGameSave(JSON.stringify(raw));
-  assert.deepEqual(migrated?.player1.immortalityFlags, createEmptyImmortalityFlags());
-  assert.deepEqual(migrated?.player2.immortalityFlags, createEmptyImmortalityFlags());
+  assert.equal(parseGameSave(JSON.stringify(raw)), undefined);
 }
 
 {

@@ -45,7 +45,7 @@ import { loadActiveGame, saveActiveGame } from './SaveSlotSystem';
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV6,
+  type GameSave,
   type LoadedGameState,
   type LoadedPlayer1State,
   type SaveStorage,
@@ -62,7 +62,7 @@ export type FormalWorkshopPageModel = {
   inventoryPage: number;
   selectedInventoryIndex: number;
   message: string;
-  sourceSave: GameSaveV6;
+  sourceSave: GameSave;
   restored: LoadedGameState;
   registry: Record<string, EquipmentDefinition>;
   strengtheningSessions: Record<PlayerSlot, EquipmentStrengtheningSession>;

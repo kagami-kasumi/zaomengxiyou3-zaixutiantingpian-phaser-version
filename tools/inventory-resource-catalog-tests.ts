@@ -99,7 +99,7 @@ function testInstancesAndOwnerIsolation(): void {
   );
 }
 
-function testV6RoundTripWithPreviouslyUncoveredIdentity(): void {
+function testCurrentSchemaRoundTripWithPreviouslyUncoveredIdentity(): void {
   const base = createDefaultGameSave(new Date('2026-07-25T00:00:00.000Z'));
   const restoredBase = restoreGameState(base, registry);
   assert.equal(addInventoryResource(restoredBase.player1.inventoryStore, registry, '_clj', 1).ok, true);
@@ -147,6 +147,6 @@ function testNativeViewBoundary(): void {
 testAuthoritativeCatalogAndAssets();
 testAtomicStackAndCapacityTransactions();
 testInstancesAndOwnerIsolation();
-testV6RoundTripWithPreviouslyUncoveredIdentity();
+testCurrentSchemaRoundTripWithPreviouslyUncoveredIdentity();
 testNativeViewBoundary();
-console.log('Authoritative inventory catalog, atomic transactions, V6 round-trip, and native view tests passed.');
+console.log('Authoritative inventory catalog, atomic transactions, current-schema round-trip, and native view tests passed.');

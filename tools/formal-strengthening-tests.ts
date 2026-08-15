@@ -186,7 +186,7 @@ function testFormalOwnerTransactionAndPersistence(): void {
   assert.equal(JSON.stringify(persisted.player2.inventory), p2Before);
 }
 
-function testV4EnhancementRoundTripAndInPlaceMigration(): void {
+function testEnhancementRoundTripAndOptionalDefaults(): void {
   const store = createInventoryStore(20, 'save');
   const target = addEquipmentByFillName(store, registry, 'ptdcz')!;
   target.strengthLevel = 4;
@@ -205,11 +205,11 @@ function testV4EnhancementRoundTripAndInPlaceMigration(): void {
   assert.deepEqual(roundTripped.baseStatsOverride, { maxHp: 9, power: 11 });
   assert.equal(getEquipmentInstanceStats(roundTripped).power, 23);
 
-  const legacyV4 = JSON.parse(JSON.stringify(save));
-  delete legacyV4.player1.inventory.categories.equipment[0].strengthLevel;
-  delete legacyV4.player1.inventory.categories.equipment[0].baseStatsOverride;
-  const migrated = restoreGameState(parseGameSave(JSON.stringify(legacyV4))!, registry);
-  const safeDefault = findEntry(migrated.player1.inventoryStore, 'ptdcz') as EquipmentInstance;
+  const withoutOptionalEnhancement = JSON.parse(JSON.stringify(save));
+  delete withoutOptionalEnhancement.player1.inventory.categories.equipment[0].strengthLevel;
+  delete withoutOptionalEnhancement.player1.inventory.categories.equipment[0].baseStatsOverride;
+  const defaulted = restoreGameState(parseGameSave(JSON.stringify(withoutOptionalEnhancement))!, registry);
+  const safeDefault = findEntry(defaulted.player1.inventoryStore, 'ptdcz') as EquipmentInstance;
   assert.equal(safeDefault.strengthLevel, undefined);
   assert.equal(safeDefault.baseStatsOverride, undefined);
   assert.equal(getEquipmentInstanceStats(safeDefault).power, 5);
@@ -236,6 +236,6 @@ testSuccessFailureProtectionAndReturn();
 testRejectedTransactionKeepsStaging();
 testIndividualStagedSlotReturnsToInventory();
 testFormalOwnerTransactionAndPersistence();
-testV4EnhancementRoundTripAndInPlaceMigration();
+testEnhancementRoundTripAndOptionalDefaults();
 testTrueStrengthAsset();
-console.log('Equipment strengthening matrix, transactions, owner isolation, V4 migration, stats, and true asset tests passed.');
+console.log('Equipment strengthening matrix, transactions, owner isolation, current-schema stats, and true asset tests passed.');

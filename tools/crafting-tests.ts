@@ -26,7 +26,7 @@ import {
   SutraCraftingRecipes,
   SutraRecipeSources,
 } from '../src/systems/CraftingRecipeRegistry';
-import { createSeedEquipmentRegistry } from '../src/systems/EquipmentSystem';
+import { createSeedEquipmentRegistry, getEquipmentInstanceStats } from '../src/systems/EquipmentSystem';
 import {
   addStackByFillName,
   addEquipmentDefinition,
@@ -454,10 +454,11 @@ function testDuplicateSutraMaterialsAndAtomicFailure(): void {
     (entry) => entry.kind === 'equipment' && entry.definition.fillName === 'gjrls',
   );
   assert.ok(product?.kind === 'equipment');
+  const stats = getEquipmentInstanceStats(product);
   assert.deepEqual(
     {
-      maxHp: product.definition.stats.maxHp, maxMp: product.definition.stats.maxMp,
-      power: product.definition.stats.power, defense: product.definition.stats.defense,
+      maxHp: stats.maxHp, maxMp: stats.maxMp,
+      power: stats.power, defense: stats.defense,
     },
     { maxHp: 10, maxMp: 20, power: 30, defense: 40 },
   );
@@ -500,15 +501,18 @@ function testMinimalSutraInheritance(): void {
     (entry) => entry.kind === 'equipment' && entry.definition.fillName === 'kyl',
   );
   assert.ok(product?.kind === 'equipment');
+  const stats = getEquipmentInstanceStats(product);
   assert.deepEqual(
     {
-      maxHp: product.definition.stats.maxHp,
-      maxMp: product.definition.stats.maxMp,
-      power: product.definition.stats.power,
-      defense: product.definition.stats.defense,
+      maxHp: stats.maxHp,
+      maxMp: stats.maxMp,
+      power: stats.power,
+      defense: stats.defense,
     },
     { maxHp: 41, maxMp: 23, power: 10, defense: 6 },
   );
+  assert.deepEqual(product.definition.stats, sutraRegistry.kyl.stats);
+  assert.ok(product.baseStatsOverride);
   assert.equal(getInventoryEntries(store, 'equipment').length, 1);
 }
 

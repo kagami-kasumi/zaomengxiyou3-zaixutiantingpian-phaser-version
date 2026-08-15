@@ -1,5 +1,12 @@
 # 工作流治理日志
 
+## 2026-08-15：移除 PowerShell 5.1 时代的 UTF-8 提示词补丁
+
+- 背景：当前 Codex shell 已确认为 PowerShell 7.6.4 Core，控制台输出编码为 UTF-8；原有显式 `Get-Content -Encoding UTF8` 与乱码重读规则不再值得常驻占用入口上下文。
+- 变更：从 `AGENTS.md`、`CLAUDE.md`、工作流摘要和局部资料说明中移除 UTF-8/PowerShell 专项提示，删除校验器对该提示词的强制注入。`rg` 窄查规则保留为与 shell 无关的上下文控制，并压缩表述。
+- 影响：不再为 PowerShell 编码问题反复注入专项指令；大文件窄读、减少无关输出的通用治理目标不变。
+- 验证：`node --check tools/validate-workflow.mjs`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
 ## 2026-08-15：将月度评审复评确认项纳入任务流程
 
 - 背景：用户要求把 `docs/评审/评审-2026-08-13.md` 中经复评成立的 High/Medium 纳入正式调度，而不是照搬原始严重级别、重复项和误判。

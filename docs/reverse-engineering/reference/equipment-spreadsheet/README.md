@@ -16,7 +16,6 @@
 - 这些 CSV 是 1.0 资料拆分件，只能作为 1.1 AS3 逆向的辅助索引和交叉校验资料。
 - 最终事实以 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts` 中的 AS3 为准。
 - `equipment-attributes.csv` 第一行保留原 sheet 注释，第二行才是字段头。
-- PowerShell 读取时使用 `Get-Content -Encoding UTF8 -LiteralPath ...`。
 - 优先用 `rg -n "关键词" docs/reverse-engineering/reference/equipment-spreadsheet/*.csv` 定位，再读取小范围上下文。
 
 

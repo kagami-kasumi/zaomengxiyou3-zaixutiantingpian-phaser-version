@@ -9,7 +9,7 @@ import { createSkillLearningState } from '../src/systems/SkillUISystem';
 
 const registry = createSeedEquipmentRegistry();
 
-function testV4RoundTripKeepsBothFeatureOwners(): void {
+function testRoundTripKeepsBothFeatureOwners(): void {
   const rosters = createPlayerPetRosters();
   const p1Inventory = createInventoryStore(125, 'p1-eq');
   const p2Inventory = createInventoryStore(125, 'p2-eq');
@@ -66,7 +66,7 @@ function testV4RoundTripKeepsBothFeatureOwners(): void {
   assert.notStrictEqual(restored.player1, restored.player2);
 }
 
-function testV1V2V3MigrationUsesSafeFeatureDefaults(): void {
+function testOldFeatureShapesAreRejected(): void {
   const current = createGameSave({
     progression: createHeroProgression(3, 17, 42),
     soulCount: 99,
@@ -91,22 +91,11 @@ function testV1V2V3MigrationUsesSafeFeatureDefaults(): void {
     delete legacy.player1.inventory;
     if (version === 1) delete legacy.player2;
     if (version < 3) delete legacy.levelUnlockProgress;
-    const migrated = parseGameSave(JSON.stringify(legacy));
-    assert.ok(migrated);
-    assert.equal(migrated.version, GameSaveVersion);
-    const restored = restoreGameState(migrated, registry);
-    assert.equal(restored.player1.progression.heroId, 3);
-    assert.equal(restored.player1.progression.level, 17);
-    assert.equal(restored.player1.inventoryStore.categories.items.length, 0);
-    assert.equal(restored.player2.progression.level, 1);
-    assert.equal(restored.player2.soulCount, 0);
-    assert.equal(restored.player2.inventoryStore.categories.equipment.length, 0);
-    assert.equal(restored.player2.equipmentLoadout.weapon, null);
-    assert.equal(restored.levelUnlockProgress.unlockedLevel, version === 3 ? 3 : 1);
+    assert.equal(parseGameSave(JSON.stringify(legacy)), undefined);
   }
 }
 
-function testUnknownInventoryDefinitionsAreRejectedAndDamagedSubdomainFallsBack(): void {
+function testUnknownInventoryDefinitionsAndDamagedSubdomainsAreRejected(): void {
   const save = createGameSave({
     progression: createHeroProgression(1),
     skillLoadout: createHeroSkillModel().loadout,
@@ -121,13 +110,10 @@ function testUnknownInventoryDefinitionsAreRejectedAndDamagedSubdomainFallsBack(
 
   save.player1.inventory.categories.items = [];
   (save.player2 as any).inventory = { damaged: true };
-  const parsed = parseGameSave(JSON.stringify(save));
-  assert.ok(parsed);
-  const restored = restoreGameState(parsed, registry);
-  assert.equal(restored.player2.inventoryStore.categories.items.length, 0);
+  assert.equal(parseGameSave(JSON.stringify(save)), undefined);
 }
 
-testV4RoundTripKeepsBothFeatureOwners();
-testV1V2V3MigrationUsesSafeFeatureDefaults();
-testUnknownInventoryDefinitionsAreRejectedAndDamagedSubdomainFallsBack();
-console.log('V4 dual-player feature save and migration tests passed.');
+testRoundTripKeepsBothFeatureOwners();
+testOldFeatureShapesAreRejected();
+testUnknownInventoryDefinitionsAndDamagedSubdomainsAreRejected();
+console.log('Current-schema dual-player feature save and old-shape rejection tests passed.');

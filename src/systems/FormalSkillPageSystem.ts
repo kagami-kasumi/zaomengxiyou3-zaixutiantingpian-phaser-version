@@ -7,7 +7,7 @@ import {
 import {
   createGameSave,
   restoreGameState,
-  type GameSaveV6,
+  type GameSave,
   type LoadedGameState,
   type LoadedPlayer1State,
   type SaveStorage,
@@ -39,7 +39,7 @@ export type FormalSkillPageModel = {
   selectedSlotIndex: number;
   bindingReturnTab: 'tree1' | 'tree2';
   message: string;
-  sourceSave: GameSaveV6;
+  sourceSave: GameSave;
   restored: LoadedGameState;
 };
 

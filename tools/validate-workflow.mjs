@@ -894,20 +894,7 @@ function checkGlobalExecutionRouting(routeDocs) {
   });
 }
 
-function checkUtf8ReadingRules(agents, claude, workflowReadme) {
-  for (const [name, text] of [
-    ['AGENTS.md', agents],
-    ['CLAUDE.md', claude],
-    ['docs/workflow/README.md', workflowReadme],
-  ]) {
-    if (!text.includes('Get-Content -Encoding UTF8 -LiteralPath')) {
-      error(`${name} must require PowerShell UTF-8 reads with Get-Content -Encoding UTF8 -LiteralPath.`);
-    }
-  }
-
-  if (!agents.includes('乱码') || !workflowReadme.includes('mojibake')) {
-    error('Workflow docs must tell agents to stop and reread as UTF-8 when text output is garbled.');
-  }
+function checkTargetedReadingRules(agents) {
   if (!agents.includes('rg -n') || !agents.includes('Select-Object -First/-Skip/-Last')) {
     error('AGENTS.md must require targeted snippet reads instead of broad full-document reads.');
   }
@@ -1802,7 +1789,7 @@ checkStartupRules(agents, outline);
 checkReadingRoutes({ agents, claude, outline, readme, workflowReadme, documentMap, agentProtocol });
 checkGlobalExecutionRouting({ agents, claude, outline, readme, workflowReadme, documentMap, agentProtocol, taskGeneration });
 checkFeatureLineRouting(agents, claude, outline, workflowReadme, documentMap, agentProtocol, taskGeneration);
-checkUtf8ReadingRules(agents, claude, workflowReadme);
+checkTargetedReadingRules(agents);
 checkRegimaRouting(agents, outline, taskBlockList, workflowReadme, documentMap);
 checkWorkflowSeparation(mechanicsText);
 checkGovernanceLog([

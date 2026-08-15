@@ -62,8 +62,7 @@ npm run check:workflow
 
 ## 读取约束
 
-- PowerShell 读取中文/Markdown 文档时使用 `Get-Content -Encoding UTF8 -LiteralPath ...`。
-- 优先 `rg -n` 或小范围片段读取；遇到乱码时不要继续推理，改用 UTF-8 重新读取。
+- 优先 `rg -n` 或小范围片段读取。
 - 先判定任务类型再读取资料；轻量请求、局部评审/排错和脚手架局部讨论默认不读 `TASK_OUTLINE.md`。
 - 控制无关输出、重复输出和多个大型全文聚合，不以减少工具调用次数为目标；已读且未修改的文件不重复全文读取。
 - TypeScript 定义、引用、符号和诊断优先使用可用的 LSP，必要时降级为 `rg`；修改前仍须窄读目标实现与必要消费者。
