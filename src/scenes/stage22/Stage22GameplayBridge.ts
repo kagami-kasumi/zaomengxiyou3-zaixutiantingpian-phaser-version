@@ -165,6 +165,7 @@ export function createStage22Gameplay(
         inputs,
         timeMs: scene.time.now,
         deltaMs,
+        monsterTargets: [...monsters.values()].map((monster) => monster.combat),
         environmentFor: (_index, movement) => ({
           platforms: stage22MovementPlatforms,
           bounds: {

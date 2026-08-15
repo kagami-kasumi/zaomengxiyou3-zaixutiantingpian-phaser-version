@@ -1,0 +1,24 @@
+{
+  "taskId": "TASK-SLICE-173A2",
+  "viewport": { "width": 940, "height": 590 },
+  "truthId": "task-settings-173.role1-shadow",
+  "formalStates": [
+    { "state": "walk", "slot": "p1", "sourceId": "p1", "candidates": [1, 3], "viewFrames": [1, 3] },
+    { "state": "hit1", "slot": "p1", "sourceId": "p1", "actionTick": 3, "viewFrame": 6, "input": "lyfb" },
+    { "state": "hit2", "slot": "p1", "sourceId": "p1", "actionTick": 3, "viewFrame": 11, "input": "zz" }
+  ],
+  "routes": [
+    { "scene": "Stage12Scene", "players": 1, "loaded": true, "consoleWarnings": 0, "consoleErrors": 0 },
+    { "scene": "Stage13Scene", "players": 2, "loaded": true, "consoleWarnings": 0, "consoleErrors": 0 },
+    { "scene": "Stage21Scene", "players": 1, "loaded": true, "consoleWarnings": 0, "consoleErrors": 0 },
+    { "scene": "Stage22Scene", "players": 2, "loaded": true, "consoleWarnings": 0, "consoleErrors": 0 },
+    { "scene": "Stage22DevScene", "players": 1, "loaded": true, "consoleWarnings": 0, "consoleErrors": 0 }
+  ],
+  "automated": {
+    "p1P2IdentityIsolation": true,
+    "inputEdges": ["qsez", "lyfb", "zz"],
+    "targetDamageAndOwner": true,
+    "projectileLifecycle": true,
+    "destroyAndReentry": true
+  }
+}

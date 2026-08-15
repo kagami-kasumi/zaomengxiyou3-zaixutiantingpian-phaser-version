@@ -109,7 +109,7 @@ SWF 元数据分别为 24/30 fps，但宿主 `Config.frameClips=30`；现代验�
 
 ## 现代映射与 158A 验收结果
 
-- 行为数值与窗口保持不变；本体/装备与 image projectile 分支已接入正式流程。173A1 已让 `Role1ShadowTruth` 直接消费 verified manifest，并以共享 `Role1ShadowVisualSystem/Role1ShadowVisualBridge` 闭合固定 candidate、动作 tick、左右矩阵与 TestScene 薄适配；证据见 `docs/tasks/evidence/TASK-SLICE-173A3/visual-audit.md`。正式五关接入仍只由 173A2 负责。Role1 `missing-original` 旧族已删除的资源结论不变。
+- 行为数值与窗口保持不变；本体/装备与 image projectile 分支已接入正式流程。173A1 让 `Role1ShadowTruth` 直接消费 verified manifest，并以共享 `Role1ShadowVisualSystem/Role1ShadowVisualBridge` 闭合固定 candidate、动作 tick、左右矩阵与 TestScene 薄适配；173A2 让正式 `HeroPartyRuntime` 成为输入、目标、弹体、视觉与销毁 owner。证据见 `TASK-SLICE-173A3` 与 `TASK-SLICE-173A2` 视觉验收。Role1 `missing-original` 旧族已删除的资源结论不变。
 - stable key 已闭合 `hero-animation.hero1.body/equipment/shadow` 及上表技能对象；身体和装备共享 cell、hold、坐标和 origin。
 - 原版基准沿用 940×590 HUD 真背景：分别用 Role1 P1 单人、Role1 P2 的合法非重复双人组合，覆盖 idle/run/jump/attack/hurt/remove、左右朝向、每技能起手/持续/命中/结束、HUD 头像/五槽更新。
 - 自动验证锁定 Symbol/id、帧数、hold、触发 tick、自移除与禁止 Arc/Text/单帧回填；视觉验证以同尺寸并排/叠图记录对象、注册点、裁切与 P1/P2 镜像差异。允许的现代可见例外为空。
@@ -118,4 +118,4 @@ SWF 元数据分别为 24/30 fps，但宿主 `Config.frameClips=30`；现代验�
 
 2026-08-03 `TASK-SLICE-165A` 用户反馈校准：现代普攻对象不再只从碰撞脚点投影，而是先继承 Role1 本体视觉根 `(footX + 5, rootY - 15)`，再叠加上表既有局部前向/y offset。该映射直接消费本页确认的 `(5,-15)`，没有修改攻击碰撞、伤害、时间窗或资源；坐标专项覆盖左右向，940×590 Role1 关卡运行复验确认本体与普攻对象锚点改善，console warning/error 为 0。
 
-六段证据已由 `Role1.as/Role1Shadow.as/BaseMonster.as` 局部链、BaseBitmapData 共享链、恢复 SWF character 1/atlas 几何、`task-settings-173.role1-shadow` verified 真值、上述可观察合同、现代差异和双重验证计划组成。影响 173A 的原版未知为零；173A1/TestScene 投射已闭合，正式接入尚未完成，其他角色不在本文结论范围内。
+六段证据已由 `Role1.as/Role1Shadow.as/BaseMonster.as` 局部链、BaseBitmapData 共享链、恢复 SWF character 1/atlas 几何、`task-settings-173.role1-shadow` verified 真值、上述可观察合同、现代差异和双重验证组成。影响 173A 的原版未知为零；TestScene 与正式五关投射均已闭合，其他角色不在本文结论范围内。

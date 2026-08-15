@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-173A2 | Role1 影分身正式 Runtime | 把 verified 影分身接入正式五关共享 Runtime | M-018、M-034、VS-062 | P1/P2 source、输入/目标/弹体/视觉/销毁、五关 940×590、零 console 与正式观测证据 |
+| TASK-SLICE-173A | Role1 影分身父任务收束 | 汇总 173A1/A2/A3 并关闭 Split 父任务 | M-018、M-034、VS-062 | verified 状态机、TestScene 薄适配、正式 Runtime 与完整验收链 |
 | TASK-SLICE-173A3 | Role1 影分身验收/归档 | 收口 173A1 视觉证据、全量门禁与文档状态 | M-018、M-034、VS-062 | 940×590 左右 walk/hit1/hit2/销毁/reentry 证据、零 console、全量门禁与 173A1 归档 |
 | TASK-SLICE-173A1 | Role1 影分身状态机/投射 | 直接消费 verified 合同纠正状态机并建立共享视觉投射/TestScene 薄适配 | M-018、M-034、VS-062 | `Role1ShadowTruth/VisualSystem/VisualBridge`、固定 candidate、90/10/30 tick、派生弹体、P1/P2 identity 专项与 QA 证据 |
 | TASK-SETTINGS-173 | Role1 影分身证据纠错 | 区分五个静态候选、72 tick、寿命与动作速度，冻结正式 Runtime 合同 | M-018、M-034、VS-062 | `task-settings-173.role1-shadow` verified 真值、24 状态/左右矩阵、owner/action/lifecycle 六段证据、TestScene/正式差异与 173A 零未知输入 |
@@ -322,6 +324,67 @@
 推荐后续任务：
 
 - `TASK-SLICE-173A`：直接消费 verified manifest 接入正式 Runtime。
+
+### TASK-SLICE-173A2
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；本任务已完成；下一 task 为 `TASK-ARCH-174`）
+
+目标机制/切片：
+
+- `M-018`、`M-034`、`VS-062`
+
+规模结果：
+
+- 一个主工作包、一个验收批次、0 次 compact；未重写通用英雄生命周期或迁移 Role2-5 技能。
+
+输入资料：
+
+- 173/173A1/173A3 的 verified 真值、共享状态机/视觉投射，以及 `HeroPartyRuntimeSystem/Bridge` 与五关怪物消费者。
+
+输出产物：
+
+- 正式 P1/P2 输入、目标、弹体、视觉、销毁 owner；五关目标快照接线、formal QA 与 `TASK-SLICE-173A2` 运行/视觉证据。
+
+完成定义与验收：
+
+- `qsez/lyfb/zz` 只经证据输入到达 walk/hit1/hit2；source identity、固定位置/朝向、派生结算、frame-over/90 tick/runtime destroy 和 reentry 均由专项覆盖。
+- verified atlas 被正式桥直接消费；940×590 1P/2P 状态与五关加载/再入通过，fresh console warning/error 为 0。
+
+禁止范围：
+
+- 未修改 Role2-5 行为、未补猜未知动作、未用现代可见层替代 `ROLE1_SHALLDOW`。
+
+推荐后续任务：
+
+- `TASK-ARCH-174`。
+
+### TASK-SLICE-173A
+
+任务类型：
+
+- `TASK-SLICE`（Split 父任务收束）
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；父任务已完成）
+
+目标机制/切片：
+
+- `M-018`、`M-034`、`VS-062`
+
+输出产物与完成定义：
+
+- 173A1、173A2、173A3 全部归档；verified 状态机、TestScene 薄适配、正式 Runtime 与完整自动/视觉验收链共同满足父任务合同。
+
+推荐后续任务：
+
+- `TASK-ARCH-174`。
 
 ### TASK-SLICE-162
 
@@ -10005,6 +10068,34 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SLICE-173A2`。
+
+### TASK-SLICE-173A2
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-ARCH-174`）。
+- 173A2 将 Role1 影分身接入共享 `HeroPartyRuntimeSystem/HeroPartyRuntimeBridge`：正式输入、怪物目标、Role1 派生弹体、视觉投射和 destroy/reentry 均由同一 owner 调度，TestScene 不再承担正式事实源。
+- `qsez` 按目标类型创建固定 candidate；`lyfb` 与 `zz` 分别是 hit1/hit2 的唯一正式可达输入。弹体保留创建者 `sourceId`，正式伤害结算写回对应 `PlayerSlot`；P1/P2 runtime、serial、MP、目标与销毁相互隔离。
+- Stage 1-2/1-3/2-1/2-2/2-2 dev 五个消费者均提交当前怪物集合；共享 bridge 复用 verified shadow atlas 和既有 Role1 技能帧，并在场景 shutdown 同时销毁 shadow/projectile views。
+- 新增只在 localhost `qaRole1Shadow=1` 生效的不可见 formal QA loadout/观测；Stage 1-2/1-3 preview QA dev-party 许可与既有 Stage 2 入口统一，避免错误回落活动存档和缺 bundle warning。默认正式路径无新增可见层。
+- 940×590 正式 P1 walk/hit1/hit2 与合法双人 `Role2 + P2 Role1` 页面通过；五关加载/再入 fresh console warning/error 为 0。173A1/173A3 的 9 张原版逐 cell 对照继续作为同一视觉投射的基准。
+- 173A1、173A2、173A3 全部完成，Split 父任务 173A 同次收束归档。
+
+验证：
+
+- `npm run test:role1-shadow-truth`、`npm run test:role1-shadow-runtime`、`npm run test:systems`。
+- `npm run check:structure`、`npm run build`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+- `docs/tasks/evidence/TASK-SLICE-173A2/visual-audit.md` 与 `runtime-observation.json`。
+
+推荐任务：
+
+- `TASK-ARCH-174`：收敛世界特效普攻几何 owner，并修复 Role5 移动弹体二维命中与重复结算。
+
+### TASK-SLICE-173A
+
+- 完成日期：2026-08-15。
+- 状态：Split 父任务收束；173A1、173A2、173A3 已全部归档。
+- 产物：verified 影分身状态机/视觉投射、TestScene 薄 QA 适配、正式五关共享 Runtime 接入，以及 P1/P2/五关自动与 940×590 验收链。
+- 验证与推荐后续同 `TASK-SLICE-173A2`；功能线继续 Active，唯一 Ready 为 `TASK-ARCH-174`。
 
 ### TASK-SLICE-179
 

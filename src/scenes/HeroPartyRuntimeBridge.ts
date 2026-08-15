@@ -3,6 +3,12 @@
 import Phaser from 'phaser';
 import type { HeroSkillLoadout } from '../systems/HeroSkillSystem';
 import { createRole5NormalAttackProjectileVisualBridge } from './Role5NormalAttackProjectileVisualBridge';
+import { createRole1ShadowProjectileVisualBridge } from './Role1ShadowProjectileVisualBridge';
+import {
+  destroyRole1ShadowVisualViews,
+  syncRole1ShadowVisualViews,
+  type Role1ShadowView,
+} from './Role1ShadowVisualBridge';
 import { hasHeroCombatVisual, syncHeroCombatVisual } from './HeroCombatVisualBridge';
 import {
   createHeroNormalAttackVisualBridge,
@@ -75,6 +81,7 @@ export function createHeroPartyRuntime(
     restoreActiveSave?: boolean;
   }>,
 ): HeroPartyRuntime {
+  const role1ShadowQa = isFormalRole1ShadowQaEnabled();
   const mayRestoreActiveSave = options.restoreActiveSave
     ?? views.every((view) => view.getData('formalPartySource') !== 'dev-override');
   const restoredState = mayRestoreActiveSave
@@ -93,11 +100,26 @@ export function createHeroPartyRuntime(
     equipmentLoadout: index === 0
       ? restoredState?.player1.equipmentLoadout
       : restoredState?.player2.equipmentLoadout,
-    skillLoadout: options.skillLoadoutFor?.(view.getData('heroId'), index)
-      ?? (index === 0 ? restoredState?.player1.skillLoadout : restoredState?.player2.skillLoadout),
+    skillLoadout: role1ShadowQa
+      && view.getData('formalPartySource') === 'dev-override'
+      && view.getData('heroId') === 1
+      ? createFormalRole1ShadowQaLoadout()
+      : options.skillLoadoutFor?.(view.getData('heroId'), index)
+        ?? (index === 0 ? restoredState?.player1.skillLoadout : restoredState?.player2.skillLoadout),
   })));
+  if (role1ShadowQa) {
+    for (const member of model.members) {
+      if (member.combat.normalAttack.heroId !== 1) continue;
+      member.combat.maxMp = 2_000;
+      member.combat.mp = 2_000;
+      member.combat.skill.maxMp = 2_000;
+      member.combat.skill.mp = 2_000;
+    }
+  }
   const attackVisuals = createHeroNormalAttackVisualBridge(scene);
   const normalAttackProjectileVisuals = createRole5NormalAttackProjectileVisualBridge(scene);
+  const role1ShadowProjectileVisuals = createRole1ShadowProjectileVisualBridge(scene);
+  const role1ShadowViews = new Map<string, Role1ShadowView>();
   let destroyed = false;
 
   const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
@@ -126,6 +148,32 @@ export function createHeroPartyRuntime(
     attackVisuals.update(model.members.map((member, index) =>
       projectHeroNormalAttackVisualPlayer(views[index]!, member.combat)), timeMs);
     normalAttackProjectileVisuals.update(model.projectiles.projectiles);
+    role1ShadowProjectileVisuals.update(model.projectiles.projectiles);
+    syncRole1ShadowVisualViews({
+      scene,
+      shadows: model.members.flatMap((member) =>
+        member.combat.normalAttack.heroId === 1
+          ? member.combat.skill.role1ShadowRuntime.shadows
+          : []),
+      views: role1ShadowViews,
+    });
+    if (role1ShadowQa) {
+      scene.game.canvas.dataset.formalRole1ShadowQa = JSON.stringify(model.members
+        .filter((member) => member.combat.normalAttack.heroId === 1)
+        .map((member) => ({
+          slot: member.combat.slot,
+          facingX: member.movement.facingX,
+          lastResult: member.combat.skill.lastResult,
+          shadows: member.combat.skill.role1ShadowRuntime.shadows.map((shadow) => ({
+            id: shadow.id,
+            sourceId: shadow.sourceId,
+            action: shadow.action,
+            actionTick: shadow.actionTick,
+            candidate: shadow.candidate,
+            viewFrame: role1ShadowViews.get(shadow.id)?.sprite.frame.name,
+          })),
+        })));
+    }
   };
 
   const runtime: HeroPartyRuntime = {
@@ -168,6 +216,9 @@ export function createHeroPartyRuntime(
       scene.events.off(FormalSkillsUpdatedEvent, syncSkills);
       attackVisuals.destroy();
       normalAttackProjectileVisuals.destroy();
+      role1ShadowProjectileVisuals.destroy();
+      destroyRole1ShadowVisualViews(role1ShadowViews);
+      if (role1ShadowQa) delete scene.game.canvas.dataset.formalRole1ShadowQa;
       destroyHeroPartyRuntime(model);
       heroPartyRuntimeByScene.delete(scene);
     },
@@ -193,4 +244,22 @@ function getBrowserStorage(): Storage | undefined {
   } catch {
     return undefined;
   }
+}
+
+function isFormalRole1ShadowQaEnabled(): boolean {
+  const local = globalThis.location?.hostname === 'localhost'
+    || globalThis.location?.hostname === '127.0.0.1';
+  return local && new URLSearchParams(globalThis.location?.search ?? '').get('qaRole1Shadow') === '1';
+}
+
+function createFormalRole1ShadowQaLoadout(): HeroSkillLoadout {
+  return {
+    slots: [
+      null,
+      null,
+      { skillName: 'lyfb', level: 7 },
+      { skillName: 'qsez', level: 7 },
+      { skillName: 'zz', level: 7 },
+    ],
+  };
 }

@@ -27,6 +27,10 @@ import {
   type Stage1CombatRuntime,
   type Stage1DeathReason,
 } from './Stage1CombatSystem';
+import {
+  resolveFormalRole1ShadowProjectileHits,
+  updateFormalRole1ShadowRuntime,
+} from './Role1ShadowFormalRuntimeSystem';
 
 export type HeroPartyMemberDefinition = Readonly<{
   slot: PlayerSlot;
@@ -50,6 +54,8 @@ export type HeroPartyFrame = Readonly<{
   deltaMs: number;
   inputs: readonly PlayerInputState[];
   environmentFor: (index: number, movement: HeroMovementModel) => LevelHeroEnvironmentSnapshot;
+  monsterTargets?: readonly Stage1CombatEnemy[];
+  random?: () => number;
 }>;
 
 export type HeroRuntimeSnapshot = Readonly<{
@@ -122,6 +128,18 @@ export function updateHeroPartyRuntime(
     const input = frame.inputs[index];
     if (!input || !enabled[index]) return;
     const environment = frame.environmentFor(index, member.movement);
+    const previousInput = member.combat.previousInput;
+    updateFormalRole1ShadowRuntime({
+      player: member.combat,
+      movement: member.movement,
+      input,
+      previousInput,
+      projectiles: runtime.projectiles,
+      targets: frame.monsterTargets ?? [],
+      timeMs: frame.timeMs,
+      deltaMs: frame.deltaMs,
+      random: frame.random,
+    });
     const attackEvent = updateStage1CombatPlayer({
       player: member.combat,
       input,
@@ -209,6 +227,12 @@ export function resolveHeroPartyAttacks(
     });
   });
   resolveRole5LoongSwordProjectileHits({
+    projectiles: runtime.projectiles,
+    combat: runtime.combat,
+    enemies: monsterTargets,
+    timeMs,
+  });
+  resolveFormalRole1ShadowProjectileHits({
     projectiles: runtime.projectiles,
     combat: runtime.combat,
     enemies: monsterTargets,

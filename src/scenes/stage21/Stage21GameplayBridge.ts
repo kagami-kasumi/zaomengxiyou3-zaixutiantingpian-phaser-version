@@ -95,7 +95,7 @@ export function createStage21Gameplay(
       enemyType: qa.holdEnemyType,
       spawnPointId: 'stage21-qa-showcase',
       stopPointIdx: 0,
-      x: 410,
+      x: qa.role1ShadowTarget ? 280 : 410,
       y: STAGE21_GROUND_TOP_Y - Stage21MonsterVisualProvenance[qa.holdEnemyType].height / 2,
       maxHp: 1,
       isBoss: qa.holdEnemyType === 6,
@@ -134,6 +134,7 @@ export function createStage21Gameplay(
       inputs: [state.p1, state.p2],
       timeMs: scene.time.now,
       deltaMs,
+      monsterTargets: [...monsters.values()].map((monster) => monster.combat),
       environmentFor: (_index, movement) => ({
         platforms: stage21MovementPlatforms,
         bounds: {

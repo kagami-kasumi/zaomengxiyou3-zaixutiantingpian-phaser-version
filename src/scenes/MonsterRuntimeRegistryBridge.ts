@@ -28,6 +28,7 @@ export type MonsterRuntimeRegistry = Readonly<{
   spawn: (commands: readonly MonsterSpawnCommand[]) => readonly MonsterRuntimeEvent[];
   update: (heroes: HeroPartyRuntime, timeMs: number, deltaMs: number) => readonly MonsterRuntimeEvent[];
   snapshots: () => readonly MonsterRuntimeSnapshot[];
+  combatTargets: () => readonly Stage1CombatEnemy[];
   destroy: () => void;
 }>;
 
@@ -87,6 +88,7 @@ export function createMonsterRuntimeRegistry<View>(options: Readonly<{
       return events;
     },
     snapshots: () => snapshotMonsterRuntimeRegistry(model),
+    combatTargets: () => getMonsterCombatTargets(model),
     destroy: () => {
       if (destroyed) return;
       destroyed = true;

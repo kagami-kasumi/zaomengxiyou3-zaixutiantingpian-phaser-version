@@ -35,7 +35,7 @@
 | 存档 | 六槽、单一当前 V7、旧版/损坏拒绝、装备实例 override 与正式旅程已有 | 成长字段边界已关闭；后续同线 task 不新增第二存档 owner | 179 的 `heroId/level/currentExp` 双 owner 写回、装备派生恢复、坏类型/旧版拒绝与重载回归 |
 | 左下五入口 | 原生按钮与共享 router 已有 | 用户判定仍未达到“全部可点”，旧关闭结论降级待复验 | 已完成关卡、五按钮、P1/P2、门禁、打开/关闭/返回的 pointer 矩阵 |
 | UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
-| 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173 已闭合影分身 5 静态候选、tick、action、owner、矩阵与生命周期 verified 真值 | Role1 影分身仍仅 QA 接线且 TestScene 投影与真值冲突；四个世界特效普攻几何双源；Role5 移动弹体 X-only 且复制结算 | 173A 直接消费 `task-settings-173.role1-shadow`；174 闭合唯一几何 owner、二维碰撞与共享结算回归 |
+| 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173/173A 已闭合影分身 verified 真值、共享状态机/视觉、正式输入/目标/弹体/销毁与 P1/P2 owner | 四个世界特效普攻几何双源；Role5 移动弹体 X-only 且复制结算 | 174 闭合唯一几何 owner、二维碰撞与共享结算回归 |
 | 功能 UI 真值债务 | 2026-08-08 前页面已有显示列表/视觉审计和业务回归 | 宠物/法宝/功能 host 有明确现代占位；旧审计与当前 `verified` manifest 门禁被越级混写 | 175 先分级并纠正状态，再按页面拆逆向/实现，不批量重做 |
 
 ## 当前调度
@@ -57,8 +57,8 @@
 15. `TASK-ARCH-178`：Done；按用户裁决删除全部历史存档迁移，只接受唯一当前 schema，旧档直接不可用。
 16. `TASK-SETTINGS-172`：Done；已冻结 5×90 基础数值、共同经验表、升级/回满/派生时序、普通怪 P1/P2 owner 与当前存档边界，未修改 `src/`。
 17. `TASK-SLICE-179`：Done；已直接消费 172 目录，闭合五角色全级、跨级/回满/装备派生、P1/P2、HUD 数值和当前 V7 往返。
-18. `TASK-SETTINGS-173`：Done；verified 真值、差异矩阵与零未知实现合同已闭合。`TASK-SLICE-173A`：Split。`TASK-SLICE-173A1/173A3`：Done；verified 状态机、共享视觉投射、TestScene 薄适配、专项/全门禁与 940×590 全状态证据已闭合。`TASK-SLICE-173A2`：Ready；接入正式 Runtime 并完成 P1/P2/五关代表回归。
-19. `TASK-ARCH-174`：Planned；收敛世界特效普攻几何 owner，修复 Role5 移动弹体二维命中与重复结算。
+18. `TASK-SETTINGS-173`：Done；verified 真值、差异矩阵与零未知实现合同已闭合。`TASK-SLICE-173A`：Done（Split 父任务收束）；173A1/173A3 闭合状态机、共享视觉投射与 TestScene 薄适配，173A2 闭合正式 P1/P2 输入/目标/弹体/销毁和五关代表回归。
+19. `TASK-ARCH-174`：Ready；收敛世界特效普攻几何 owner，修复 Role5 移动弹体二维命中与重复结算。
 20. `TASK-SETTINGS-175`：Planned；分级功能页实际占位与 legacy machine-truth 迁移债务，纠正切片状态后按页生成实现任务。
 
 ## 明确排除

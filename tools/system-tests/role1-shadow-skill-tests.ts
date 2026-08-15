@@ -16,6 +16,14 @@ import {
 } from '../../src/systems/Role1ShadowSkillSystem';
 import { Role1ShadowTruth } from '../../src/systems/Role1ShadowTruth';
 import { projectRole1ShadowVisual } from '../../src/systems/Role1ShadowVisualSystem';
+import {
+  createHeroPartyRuntimeModel,
+  destroyHeroPartyRuntime,
+  resolveHeroPartyAttacks,
+  setHeroPartySkillLoadout,
+  updateHeroPartyRuntime,
+} from '../../src/systems/HeroPartyRuntimeSystem';
+import { createStage1CombatEnemy } from '../../src/systems/Stage1CombatSystem';
 
 export function runRole1ShadowSkillTests(): void {
   testVerifiedTruthProjection();
@@ -23,6 +31,8 @@ export function runRole1ShadowSkillTests(): void {
   testHit1TickEmissionAndDestroy();
   testHit2TickEmissionsAndDestroy();
   testLifetimeReentryAndOwnerIdentity();
+  testFormalRuntimeOwnerInputTargetAndDestroyLifecycle();
+  testFormalRuntimeHit1AndHit2Reachability();
 }
 
 function testVerifiedTruthProjection(): void {
@@ -199,6 +209,129 @@ function testLifetimeReentryAndOwnerIdentity(): void {
   assert.equal(p2.shadows.length, 4);
 }
 
+function testFormalRuntimeOwnerInputTargetAndDestroyLifecycle(): void {
+  const runtime = createFormalRuntime({ skillName: 'qsez', level: 7 });
+  const [p1, p2] = runtime.members;
+  p1!.combat.skill.mp = p1!.combat.mp = 2_000;
+  p2!.combat.skill.mp = p2!.combat.mp = 2_000;
+  const target = createStage1CombatEnemy({ id: 'formal-target', enemyType: 30, x: 420, y: 200 });
+  updateHeroPartyRuntime(runtime, formalFrame({
+    p1: input(3, 'p1'),
+    p2: input(undefined, 'p2'),
+    targets: [target],
+    random: sequenceRandom(0.75, 0.5, 0.2),
+  }));
+  assert.equal(p1!.combat.skill.role1ShadowRuntime.shadows.length, 1);
+  assert.equal(p2!.combat.skill.role1ShadowRuntime.shadows.length, 0);
+  assert.equal(p1!.combat.skill.role1ShadowRuntime.shadows[0]?.sourceId, 'p1');
+  assert.ok(runtime.projectiles.projectiles.every((projectile) => projectile.sourceId === 'p1'));
+  const hpBefore = target.hp;
+  resolveHeroPartyAttacks(runtime, [target], 16);
+  assert.ok(target.hp < hpBefore);
+  assert.equal(target.lastHitBy, 'p1');
+
+  updateHeroPartyRuntime(runtime, formalFrame({
+    p1: input(undefined, 'p1'),
+    p2: input(3, 'p2'),
+    targets: [createStage1CombatEnemy({ id: 'formal-p2-target', enemyType: 30, x: 400, y: 200 })],
+    random: sequenceRandom(0.75, 0.5, 0.4),
+  }));
+  assert.equal(p2!.combat.skill.role1ShadowRuntime.shadows.length, 1);
+  assert.equal(p2!.combat.skill.role1ShadowRuntime.shadows[0]?.sourceId, 'p2');
+  assert.notEqual(
+    p1!.combat.skill.role1ShadowRuntime.shadows[0]?.id,
+    p2!.combat.skill.role1ShadowRuntime.shadows[0]?.id,
+  );
+
+  destroyHeroPartyRuntime(runtime);
+  assert.equal(runtime.members.length, 0);
+  assert.equal(runtime.projectiles.projectiles.length, 0);
+  assert.equal(runtime.destroyed, true);
+}
+
+function testFormalRuntimeHit1AndHit2Reachability(): void {
+  const hit1Runtime = createFormalRuntime({ skillName: 'qsez', level: 7 });
+  const hit1Player = hit1Runtime.members[0]!;
+  hit1Player.combat.skill.mp = hit1Player.combat.mp = 2_000;
+  const target = createStage1CombatEnemy({ id: 'hit1-target', enemyType: 30, x: 420, y: 200 });
+  updateHeroPartyRuntime(hit1Runtime, formalFrame({
+    p1: input(3, 'p1'),
+    p2: input(undefined, 'p2'),
+    targets: [target],
+    random: sequenceRandom(0.75, 0.5, 0.1),
+  }));
+  updateHeroPartyRuntime(hit1Runtime, formalFrame({
+    p1: input(undefined, 'p1'),
+    p2: input(undefined, 'p2'),
+    targets: [target],
+    deltaMs: 1_300,
+  }));
+  setHeroPartySkillLoadout(hit1Runtime, 'p1', {
+    slots: [null, null, null, { skillName: 'lyfb', level: 7 }, null],
+  });
+  updateHeroPartyRuntime(hit1Runtime, formalFrame({
+    p1: input(3, 'p1'),
+    p2: input(undefined, 'p2'),
+    targets: [target],
+  }));
+  assert.equal(hit1Player.combat.skill.role1ShadowRuntime.shadows[0]?.action, 'hit1');
+
+  const hit2Runtime = createFormalRuntime({ skillName: 'qsez', level: 7 });
+  const hit2Player = hit2Runtime.members[0]!;
+  hit2Player.combat.skill.mp = hit2Player.combat.mp = 2_000;
+  updateHeroPartyRuntime(hit2Runtime, formalFrame({
+    p1: input(3, 'p1'),
+    p2: input(undefined, 'p2'),
+    targets: [createStage1CombatEnemy({ id: 'hit2-target', enemyType: 30, x: 420, y: 200 })],
+    random: sequenceRandom(0.75, 0.5, 0.1),
+  }));
+  updateHeroPartyRuntime(hit2Runtime, formalFrame({
+    p1: input(undefined, 'p1'),
+    p2: input(undefined, 'p2'),
+    targets: [],
+    deltaMs: 1_300,
+  }));
+  setHeroPartySkillLoadout(hit2Runtime, 'p1', {
+    slots: [null, null, null, null, { skillName: 'zz', level: 7 }],
+  });
+  updateHeroPartyRuntime(hit2Runtime, formalFrame({
+    p1: input(4, 'p1'),
+    p2: input(undefined, 'p2'),
+    targets: [],
+  }));
+  assert.equal(hit2Player.combat.skill.role1ShadowRuntime.shadows[0]?.action, 'hit2');
+  assert.ok(hit2Runtime.projectiles.projectiles.some((projectile) =>
+    projectile.variant === 'role1-zz-hit14-1'));
+}
+
+function createFormalRuntime(binding: { skillName: 'qsez'; level: number }) {
+  const loadout: HeroSkillLoadout = { slots: [null, null, null, binding, null] };
+  return createHeroPartyRuntimeModel([
+    { slot: 'p1', heroId: 1, x: 300, y: 200, width: 80, skillLoadout: loadout },
+    { slot: 'p2', heroId: 1, x: 280, y: 200, width: 80, skillLoadout: loadout },
+  ]);
+}
+
+function formalFrame(params: {
+  p1: PlayerInputState;
+  p2: PlayerInputState;
+  targets: ReturnType<typeof createStage1CombatEnemy>[];
+  deltaMs?: number;
+  random?: () => number;
+}) {
+  return {
+    timeMs: 16,
+    deltaMs: params.deltaMs ?? 16,
+    inputs: [params.p1, params.p2],
+    monsterTargets: params.targets,
+    random: params.random,
+    environmentFor: () => ({
+      platforms: [],
+      bounds: { left: 0, right: 1_000 },
+    }),
+  };
+}
+
 function createFixture(loadout: HeroSkillLoadout) {
   return {
     skill: createHeroSkillModel(loadout, 2_000),
@@ -219,9 +352,9 @@ function sequenceRandom(...values: number[]): () => number {
   return () => values[Math.min(index++, values.length - 1)] ?? 0;
 }
 
-function input(pressedSlot?: number): PlayerInputState {
+function input(pressedSlot?: number, slot: PlayerInputState['slot'] = 'p1'): PlayerInputState {
   return {
-    slot: 'p1',
+    slot,
     moveX: 0,
     down: false,
     up: false,

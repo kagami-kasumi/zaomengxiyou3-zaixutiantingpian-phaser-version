@@ -109,9 +109,23 @@ export class BootScene extends Phaser.Scene {
       });
       return;
     }
+    if (allowLocalQa && (params.get('qaStage') === '1-2' || params.get('qaStage') === '1-3')) {
+      const playerCount = params.get('players') === '2' ? 2 : 1;
+      const role1ShadowQa = params.get('qaRole1Shadow') === '1';
+      await this.startQaScene(params.get('qaStage') === '1-2' ? 'Stage12Scene' : 'Stage13Scene', {
+        devParty: role1ShadowQa && playerCount === 2
+          ? createFormalDevParty(2, 2, 1)
+          : createFormalDevParty(playerCount),
+      });
+      return;
+    }
     if (allowLocalQa && params.get('qaStage') === '2-1') {
+      const playerCount = params.get('players') === '2' ? 2 : 1;
+      const role1ShadowQa = params.get('qaRole1Shadow') === '1';
       await this.startQaScene('Stage21Scene', {
-        devParty: createFormalDevParty(params.get('players') === '2' ? 2 : 1),
+        devParty: role1ShadowQa && playerCount === 2
+          ? createFormalDevParty(2, 2, 1)
+          : createFormalDevParty(playerCount),
       });
       return;
     }

@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import type { FormalPartyRuntime, FormalPartySceneData } from '../systems/FormalPartyRuntimeSystem';
 import { stage13LevelDefinition } from '../systems/Stage13LevelDefinition';
+import { isStage22LocalQaHost } from '../systems/Stage22EntrySystem';
 import { createPlayableLevelRuntime, type PlayableLevelRuntime } from './PlayableLevelRuntime';
 import { resolveFormalPartyScene } from './formal-party/FormalPartySceneBridge';
 import { createStage13Gameplay } from './stage13/Stage13GameplayBridge';
@@ -13,7 +14,10 @@ export class Stage13Scene extends Phaser.Scene {
   public constructor() { super(stage13LevelDefinition.sceneKey); }
 
   public init(data?: FormalPartySceneData): void {
-    this.partyRuntime = resolveFormalPartyScene(data, import.meta.env.DEV);
+    this.partyRuntime = resolveFormalPartyScene(
+      data,
+      import.meta.env.DEV || isStage22LocalQaHost(window.location.hostname),
+    );
   }
 
   public create(): void {

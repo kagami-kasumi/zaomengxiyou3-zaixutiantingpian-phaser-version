@@ -118,6 +118,7 @@ export function createStage12Gameplay(
       inputs: [state.p1, state.p2],
       timeMs: scene.time.now,
       deltaMs,
+      monsterTargets: monsters.combatTargets(),
       environmentFor: (_index, movement) => ({
         platforms: stage12MovementPlatforms,
         bounds: {

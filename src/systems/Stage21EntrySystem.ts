@@ -8,6 +8,7 @@ export type Stage21QaOptions = Readonly<{
   holdEnemyType?: Stage21QaEnemyType;
   forcedEnemyState?: 'hurt' | 'dead';
   showcase?: boolean;
+  role1ShadowTarget?: boolean;
 }>;
 
 export function canEnterStage21(progress: StageUnlockProgress, accessMode?: StageEntryAccessMode): boolean {
@@ -30,6 +31,7 @@ export function readStage21QaOptions(
     fastClear: params.get('qaFastClear') === '1',
     noDamage: params.get('qaNoDamage') === '1',
     showcase: params.get('qaShowcase') === '1',
+    ...(params.get('qaRole1Shadow') === '1' ? { role1ShadowTarget: true } : {}),
     holdEnemyType: holdEnemy === 6 || holdEnemy === 9 || holdEnemy === 10 || holdEnemy === 19
       ? holdEnemy
       : undefined,
