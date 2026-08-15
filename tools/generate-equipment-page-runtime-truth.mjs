@@ -27,6 +27,7 @@ const objects = manifest.displayObjects.map((item) => {
     localMatrix: base.localMatrix,
     stageBounds: base.stageBounds,
     ...(base.hitArea ? { hitArea: base.hitArea } : {}),
+    ...(item.render?.textStyle ? { textStyle: item.render.textStyle } : {}),
     visibleStateIds: item.placements.filter(({ visible }) => visible).map(({ stateId }) => stateId),
   };
 });

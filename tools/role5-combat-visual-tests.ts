@@ -105,6 +105,13 @@ assert.equal(
 assert.equal(readRole5HeldIndex(Role5SpearBodyAnimations.wait!.holds, 0, true), 0);
 assert.equal(readRole5HeldIndex(Role5SpearBodyAnimations.wait!.holds, 20 * (1000 / 30), true), 0);
 assert.equal(readRole5HeldIndex(Role5SwordBodyAnimations.hit21!.holds, 10 * (1000 / 30), false), 2);
+for (const [action, sequence] of Object.entries(Role5SwordBodyAnimations)) {
+  assert.equal(
+    new Set(sequence.frameKeys).size,
+    1,
+    `${action} outer frames select clothes and must not rotate appearance with time`,
+  );
+}
 assert.equal(getRole5BodyActionDurationMs('hit4', 'spear'), 23 * (1000 / 30));
 assert.equal(getRole5BodyActionDurationMs('hit21', 'sword'), 19 * (1000 / 30));
 assert.equal(Role5SpearBodyAnimations.death, undefined, 'Role5 must not invent a death animation');

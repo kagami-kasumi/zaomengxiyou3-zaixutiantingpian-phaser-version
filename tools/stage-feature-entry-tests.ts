@@ -47,6 +47,7 @@ assert.equal(findStageFeaturePointerTarget({ x: 470, y: 295 }, 2), undefined);
 
 const entryBridgeSource = source('src/scenes/feature-ui/FormalFeatureUiEntryBridge.ts');
 const entryRouterSource = source('src/systems/StageFeatureEntryRouterSystem.ts');
+const roleInfoShellSource = source('public/assets/ui/combat-hud/role-info.svg');
 for (const entry of ['settings', 'backpack', 'skills', 'magic-weapon', 'pets']) {
   assert.match(entryBridgeSource, new RegExp(`entry: '${entry}'`), `${entry} must have a native HUD button`);
   assert.match(
@@ -60,6 +61,13 @@ assert.match(entryBridgeSource, /bindPointer\(button\)[\s\S]*bindPointer\(hit\)/
 assert.match(entryBridgeSource, /findStageFeaturePointerTarget\(pointer, config\.party\.playerCount\)[\s\S]*routeFeatureEntry\(scene, target\.entry, target\.owner, 'pointer', config\)[\s\S]*Phaser\.Input\.Events\.POINTER_UP/);
 assert.match(entryRouterSource, /Math\.abs\(point\.x - x\) <= 15\.5[\s\S]*Math\.abs\(point\.y - position\.y\) <= 17\.5/);
 assert.match(entryBridgeSource, /scene\.input\.off\(Phaser\.Input\.Events\.POINTER_UP, binding\.handler\)/);
+for (const embeddedButtonId of ['btn_set', 'btn_bb', 'btn_study', 'btn_fb', 'btn_cw']) {
+  assert.doesNotMatch(
+    roleInfoShellSource,
+    new RegExp(`id="${embeddedButtonId}"`),
+    `${embeddedButtonId} must not be baked into the shell and drawn a second time`,
+  );
+}
 
 for (const [entry, states] of Object.entries(stageFeatureEntryButtonAssets)) {
   assert.deepEqual(Object.keys(states), ['up', 'over', 'down', 'hit']);
@@ -271,6 +279,12 @@ for (const originSceneKey of [
 }
 
 const settingsScene = source('src/scenes/StageSettingsScene.ts');
+assert.match(settingsScene, /replaceBlackBaseFrame/);
+assert.match(settingsScene, /centeredRegistration/);
+assert.match(settingsScene, /button\.width, button\.height, 0x000000/);
+assert.match(settingsScene, /rectangle\(396, 130, 155, 250, 0x000000\)/);
+assert.match(settingsScene, /spawnSpeedFrames\[speedIndex\]/);
+assert.doesNotMatch(settingsScene, /button\.setAlpha\(0\.001\)/);
 assert.match(
   entryBridgeSource,
   /scene\.scene\.pause\(scene\.scene\.key\);[\s\S]*scene\.scene\.launch\('StageSettingsScene'/,

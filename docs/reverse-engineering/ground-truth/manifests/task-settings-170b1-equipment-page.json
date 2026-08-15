@@ -21,7 +21,7 @@
       "sourceType": "restored-swf",
       "sourcePath": "local-resources/regima/source/restored-swfs/assets/backpack1.swf",
       "sha256": "70c1f1b535ea789ad9c77556f90c7c107084278a4d1773e31471f2b4d7454936",
-      "locator": "character 304 export.pack.BackPack; 246 BackPackElement; 628 PackThings; 358 simplebtn; 610 threebtn; 210 experience; 219 level; 222 sellwhite; 297 fashion toggle."
+      "locator": "character 304 export.pack.BackPack; DefineEditText 214 txt_lh uses font 25 FZCuYuan-M03, 300 twips, white, left alignment, outlines; 246 BackPackElement; 628 PackThings; 358 simplebtn; 610 threebtn; 210 experience; 219 level; 222 sellwhite; 297 fashion toggle."
     },
     {
       "id": "backpack-as",
@@ -2844,9 +2844,14 @@
         "filters": [],
         "maskId": null,
         "textStyle": {
-          "fontFamily": "original embedded/runtime TextField",
+          "fontFamily": "FZCuYuan-M03",
           "color": "#ffffff",
-          "dynamic": "owner soul"
+          "dynamic": "owner soul",
+          "fontSizePx": 15,
+          "align": "left",
+          "leftGutterPx": 2,
+          "topGutterPx": 2,
+          "useOutlines": true
         }
       }
     },

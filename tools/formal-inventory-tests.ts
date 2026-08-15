@@ -136,7 +136,10 @@ function testTrueAssetsAndSceneContract(): void {
   assert.match(gridView, /ItemIconFrameInset = 9/);
   assert.match(view, /createInventoryItemIcon/);
   assert.match(gridView, /setScale\(ItemIconContentSize \/ cropWidth, ItemIconContentSize \/ cropHeight\)/);
-  assert.match(view, /soulValue\.stageBounds/);
+  assert.match(view, /getEquipmentPageTruthObject\('soul-value'\)\.textStyle/);
+  assert.match(view, /soulValue\.stageBounds\.left \+ soulTextStyle\.leftGutterPx/);
+  assert.match(view, /soulValue\.stageBounds\.top \+ soulTextStyle\.topGutterPx/);
+  assert.doesNotMatch(view, /String\(presentation\.soulCount\),[\s\S]*?\.setOrigin\(1/);
   assert.match(view, /pageValue\.stageBounds/);
   assert.match(view, /getFormalInventoryPageCount\(model\)/);
   assert.doesNotMatch(view, /add\.rectangle/);

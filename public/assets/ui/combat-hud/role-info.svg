@@ -21,11 +21,6 @@
     <use ffdec:characterId="540" height="16.05" id="txtexp" transform="matrix(1.0, 0.0, 0.0, 1.0, 116.85, 55.0)" width="71.0" xlink:href="#text2"/>
     <use ffdec:characterId="541" height="20.95" id="txtlevel" transform="matrix(1.0, 0.0, 0.0, 1.0, 7.0, 61.1)" width="27.0" xlink:href="#text3"/>
     <use ffdec:characterId="543" height="45.7" id="zi" transform="matrix(1.0, 0.0, 0.0, 1.0, 101.45, 41.65)" width="16.9" xlink:href="#sprite10"/>
-    <use ffdec:characterId="549" height="42.35" id="btn_set" transform="matrix(1.0, 0.0, 0.0, 1.0, 63.65, 563.15)" width="47.0" xlink:href="#button0"/>
-    <use ffdec:characterId="555" height="43.05" id="btn_bb" transform="matrix(1.0, 0.0, 0.0, 1.0, 32.9, 540.5)" width="47.0" xlink:href="#button1"/>
-    <use ffdec:characterId="561" height="39.25" id="btn_study" transform="matrix(1.0, 0.0, 0.0, 1.0, 28.5, 504.85)" width="47.0" xlink:href="#button2"/>
-    <use ffdec:characterId="567" height="40.65" id="btn_fb" transform="matrix(1.0, 0.0, 0.0, 1.0, 55.15, 475.4)" width="47.0" xlink:href="#button3"/>
-    <use ffdec:characterId="573" height="45.5" id="btn_cw" transform="matrix(1.0, 0.0, 0.0, 1.0, 91.35, 472.65)" width="47.0" xlink:href="#button4"/>
   </g>
   <defs>
     <g id="sprite0">

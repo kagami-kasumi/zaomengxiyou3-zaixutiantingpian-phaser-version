@@ -34,6 +34,7 @@ import { InventoryCategories, type InventoryEntry } from '../../systems/Inventor
 import type { SaveStorage } from '../../systems/SaveSystem';
 import {
   getEquipmentPageInventorySlotIds,
+  getEquipmentPageTruthObject,
   getEquipmentPageTruthPlacement,
   type EquipmentPageTruthStateId,
 } from '../../systems/EquipmentPageTruthSystem';
@@ -191,8 +192,23 @@ export function createFormalInventoryPageView(
     FIELD_STYLE,
   ).setOrigin(0.5, 0));
   const soulValue = getEquipmentPageTruthPlacement('soul-value', truthState);
-  objects.push(scene.add.text(soulValue.stageBounds.left + soulValue.stageBounds.width, soulValue.stageBounds.top,
-    String(presentation.soulCount), FIELD_STYLE).setOrigin(1, 0));
+  const soulTextStyle = getEquipmentPageTruthObject('soul-value').textStyle;
+  if (
+    !soulTextStyle?.fontFamily
+    || !soulTextStyle.fontSizePx
+    || soulTextStyle.leftGutterPx === undefined
+    || soulTextStyle.topGutterPx === undefined
+  ) throw new Error('Verified soul TextField style is missing.');
+  objects.push(scene.add.text(
+    soulValue.stageBounds.left + soulTextStyle.leftGutterPx,
+    soulValue.stageBounds.top + soulTextStyle.topGutterPx,
+    String(presentation.soulCount),
+    {
+      color: soulTextStyle.color ?? '#ffffff',
+      fontFamily: soulTextStyle.fontFamily,
+      fontSize: `${soulTextStyle.fontSizePx}px`,
+    },
+  ));
   const pageValue = getEquipmentPageTruthPlacement('page-value', truthState);
   objects.push(scene.add.text(
     pageValue.stageBounds.left + pageValue.stageBounds.width / 2,

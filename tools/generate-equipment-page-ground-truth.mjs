@@ -77,7 +77,10 @@ const textStyle = { fontFamily: 'original embedded/runtime TextField', color: '#
 const dynamicFields = [
   ['page-value', 204, 'nowpage', 695, 478.85, 42, 24, 'category page and /5'],
   ['experience-value', 211, 'txt_exp', 237.45, 482.05, 150, 24, 'current/required or MAX'],
-  ['soul-value', 214, 'txt_lh', 664.7, 450.5, 100, 24, 'owner soul'],
+  ['soul-value', 214, 'txt_lh', 664.7, 450.5, 100, 24, 'owner soul', {
+    fontFamily: 'FZCuYuan-M03', fontSizePx: 15, color: '#ffffff', align: 'left',
+    leftGutterPx: 2, topGutterPx: 2, useOutlines: true,
+  }],
   ['hero-name', 277, 'txt_name', 237.45, 120.6, 145, 24, 'owner/hero name'],
   ['fighting-force', 278, 'txt_zdl', 234.45, 146.35, 150, 24, 'computed fighting force'],
   ['hp', 250, 'txt_hp', 214.5, 313.6, 145, 24, 'current / maximum HP'],
@@ -90,10 +93,10 @@ const dynamicFields = [
   ['mp', 257, 'txt_mp', 378.3, 313.55, 145, 24, 'current / maximum MP'],
   ['luck', 269, 'txt_luck', 213.5, 381, 100, 24, 'deep-hit/luck percent'],
   ['magic-defense', 270, 'txt_mdef', 377.5, 381, 100, 24, 'magic defense percent'],
-].map(([id, characterId, instanceName, x, y, width, height, dynamic]) => object(
+].map(([id, characterId, instanceName, x, y, width, height, dynamic, textStyleOverride = {}]) => object(
   id, 'equipment-page-root', characterId, 'text-field', sourceIdentity(characterId, null, instanceName),
   allStates(x, y, width, height, ['backpack1-swf:character-304', `backpack-as:setInfoTxt:${dynamic}`], { visible: (s) => s !== 'page-closing' }),
-  null, { textStyle: { ...textStyle, dynamic } },
+  null, { textStyle: { ...textStyle, ...textStyleOverride, dynamic } },
 ));
 
 const heroObjects = [
@@ -148,7 +151,7 @@ const manifest = {
   scope: { taskId: 'TASK-SETTINGS-170B1', surfaceId: 'backpack-character-304-equipment-page', originalVersion: 'RegiMA 1.1 restored corpus', description: 'Formal BackPack character 304 display list, 246/628 inventory subtree, six equipped slots, HeadSprite preview, dynamic fields, selection layers, owner/fashion/page/lifecycle topology. Dynamic values are fixture-driven; the common source-rendered 304 baseline intentionally proves the stable root rather than inventing a runtime Flash screenshot.' },
   generatedBy: { tool: 'generate-equipment-page-ground-truth.mjs', toolVersion: '1', command: 'npm run generate:equipment-page-truth', generatedAt: '2026-08-09T20:00:00+08:00' },
   provenance: [
-    { id: 'backpack1-swf', sourceType: 'restored-swf', sourcePath: swfPath, sha256: sha256(swfPath), locator: 'character 304 export.pack.BackPack; 246 BackPackElement; 628 PackThings; 358 simplebtn; 610 threebtn; 210 experience; 219 level; 222 sellwhite; 297 fashion toggle.' },
+    { id: 'backpack1-swf', sourceType: 'restored-swf', sourcePath: swfPath, sha256: sha256(swfPath), locator: 'character 304 export.pack.BackPack; DefineEditText 214 txt_lh uses font 25 FZCuYuan-M03, 300 twips, white, left alignment, outlines; 246 BackPackElement; 628 PackThings; 358 simplebtn; 610 threebtn; 210 experience; 219 level; 222 sellwhite; 297 fashion toggle.' },
     { id: 'backpack-as', sourceType: 'legacy-as3', sourcePath: backPackAs, sha256: sha256(backPackAs), locator: 'BackPack.as setInfoTxt, added/removed, curequip, page/category/fashion lifecycle.' },
     { id: 'backpack-element-as', sourceType: 'legacy-as3', sourcePath: elementAs, sha256: sha256(elementAs), locator: 'BackPackElement.as four categories, five pages and 5x5 PackThings construction.' },
     { id: 'pack-things-as', sourceType: 'legacy-as3', sourcePath: packThingsAs, sha256: sha256(packThingsAs), locator: 'PackThings.as ShowObj/quantity and simplebtn/threebtn selection lifecycle.' },

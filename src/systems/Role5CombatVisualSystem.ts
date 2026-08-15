@@ -41,7 +41,13 @@ const sword = (
   frameKeys: readonly string[],
   holds: readonly number[],
   loop = false,
-): Role5SwordActionFrames => ({ frameKeys, holds, loop });
+): Role5SwordActionFrames => ({
+  // These outer frames select clothes; they are not consecutive body poses.
+  // The original runtime picks one appearance and animates nested clips.
+  frameKeys: frameKeys.map(() => frameKeys[0]!),
+  holds,
+  loop,
+});
 
 export const Role5SwordBodyAnimations: Readonly<Record<string, Role5SwordActionFrames>> = {
   wait: sword(role5SwordBodyAssets.idle.frameKeys, [3, 3, 4, 3, 3, 4], true),

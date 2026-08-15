@@ -9774,6 +9774,18 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
 
+### TASK-SLICE-176
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 恢复为 `TASK-SLICE-171B`）。
+- 用户反馈范围：背包灵魂数字错位、关卡 HUD 背包/设置疑似双份、设置页文字/按钮双层、Role5 白龙无输入持续换装。
+- 根因：对用户所说“黑色区域右侧”一度误读为数字右对齐；直接解析恢复包后确认 `DefineEditText 214 / txt_lh` 实为左对齐的 15px `FZCuYuan-M03` 白字。574/371 完整根已含 normal child 又被场景重复绘制，设置首次整改的 `alpha=0.001` 仍不是原位替换，二次整改又未补偿各按钮 PNG 的不同透明边距且未完整清除倍率字形；Role5 `jidle/jwalk/jattack` 外层衣装选择帧被错误当成时间动画帧。
+- 实现：灵魂值按 verified 字段左上各 2px 内边距起笔并向右展开，machine-truth/runtime truth 直接携带原字体、字号、颜色、对齐和 outline 事实；QA fixture 支持精确回放 `12896360`。574 shell 移除五个已拆出按钮；371 设置六行底字一次性清除，按钮按透明边距补偿后以唯一图层原位换纹理，倍率帧唯一重绘，关闭按中心注册点对齐；Role5 剑形动作固定同一外观选择帧，同时保留动作名、hold、枪/剑和战斗业务。
+- 证据：`docs/tasks/evidence/TASK-SLICE-176-runtime-regressions.md`；940×590 设置与 Role5 连续帧此前通过且 console warning/error 为 0。最终灵魂更正由恢复 SWF、machine-truth 和专项测试闭合；浏览器因首次连接失败后的错误页安全策略阻止重新导航，未伪报新截图。
+- 验证：`npm run test:equipment-page-truth`、`npm run test:equipment-page-runtime-truth`、`npm run test:equipment-page-qa`、`npm run test:formal-inventory`、`npm run test:stage-feature-entry`、`npm run test:role5-visuals`、`npm run test:systems`、`npm run build`。
+- 边界：没有派生新资源、修改事务/数值或越级宣称完整 Role5 动态换装/剑形内部动画；HUD/设置新版 manifest 债务留给 175。
+- 下一执行项：`TASK-SLICE-171B`，恢复为唯一 Ready。
+
 ### TASK-SLICE-171
 
 任务类型：

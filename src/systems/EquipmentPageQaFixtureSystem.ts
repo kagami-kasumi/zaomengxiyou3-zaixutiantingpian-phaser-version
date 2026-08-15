@@ -32,6 +32,7 @@ export type EquipmentPageQaOptions = Readonly<{
   roleId: 1 | 2 | 3 | 4 | 5;
   owner: 'p1' | 'p2';
   fixtureCase: EquipmentPageQaCase;
+  soulCount: number;
 }>;
 
 const QaCases = new Set<EquipmentPageQaCase>([
@@ -51,10 +52,14 @@ export function readEquipmentPageQaOptions(
   const roleId = Number(params.get('qaEquipmentRole'));
   const owner = params.get('qaEquipmentOwner') === 'p2' ? 'p2' : 'p1';
   const fixtureCase = params.get('qaEquipmentCase') as EquipmentPageQaCase | null;
+  const requestedSoulCount = Number(params.get('qaEquipmentSoul') ?? 0);
   if (!Number.isInteger(roleId) || roleId < 1 || roleId > 5 || !fixtureCase || !QaCases.has(fixtureCase)) {
     return undefined;
   }
-  return { roleId: roleId as EquipmentPageQaOptions['roleId'], owner, fixtureCase };
+  const soulCount = Number.isSafeInteger(requestedSoulCount) && requestedSoulCount >= 0
+    ? requestedSoulCount
+    : 0;
+  return { roleId: roleId as EquipmentPageQaOptions['roleId'], owner, fixtureCase, soulCount };
 }
 
 export function createEquipmentPageQaStorage(options: EquipmentPageQaOptions): SaveStorage {
@@ -65,6 +70,7 @@ export function createEquipmentPageQaStorage(options: EquipmentPageQaOptions): S
   const save = createDefaultGameSave(new Date('2026-08-12T00:00:00.000Z'), party);
   const target = options.owner === 'p1' ? save.player1 : save.player2;
   target.equipment = encodeFixtureLoadout(options);
+  target.soulCount = options.soulCount;
   if (!createSaveSlot(storage, 0, save)) throw new Error('Failed to create equipment QA fixture save.');
   return storage;
 }

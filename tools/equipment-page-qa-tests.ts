@@ -12,8 +12,8 @@ import { createSeedEquipmentRegistry } from '../src/systems/EquipmentSystem';
 import { restoreGameState } from '../src/systems/SaveSystem';
 import { loadActiveGame } from '../src/systems/SaveSlotSystem';
 
-function options(fixtureCase: EquipmentPageQaCase, roleId = 1, owner: 'p1' | 'p2' = 'p1') {
-  return { fixtureCase, roleId, owner } as const;
+function options(fixtureCase: EquipmentPageQaCase, roleId = 1, owner: 'p1' | 'p2' = 'p1', soulCount = 0) {
+  return { fixtureCase, roleId, owner, soulCount } as const;
 }
 
 function testQueryGateAndOwnerIsolation(): void {
@@ -23,6 +23,14 @@ function testQueryGateAndOwnerIsolation(): void {
     options('role4-arrow', 4, 'p2'),
   );
   assert.equal(readEquipmentPageQaOptions('?qaEquipmentRole=9&qaEquipmentCase=equipped', true), undefined);
+  assert.deepEqual(
+    readEquipmentPageQaOptions('?qaEquipmentRole=1&qaEquipmentCase=empty&qaEquipmentSoul=12896360', true),
+    options('empty', 1, 'p1', 12896360),
+  );
+  assert.equal(
+    loadActiveGame(createEquipmentPageQaStorage(options('empty', 1, 'p1', 12896360)))!.player1.soulCount,
+    12896360,
+  );
   const save = loadActiveGame(createEquipmentPageQaStorage(options('role4-arrow', 4, 'p2')))!;
   assert.equal(save.party.members.p1.heroId, 1);
   assert.equal(save.party.members.p2?.heroId, 4);

@@ -151,6 +151,12 @@ KeyBoardControl keydown 或 RoleInfo HUD pointer
 
 现代设置状态可复用 `TASK-SLICE-155C` 已批准的 `zaixu-global-settings-v1`，但这是“跨应用重启”的现代例外；原版 `SetMenu.doSaveGame()` 未被调用，`soundStay/SummonMonsterSpeed` 在本证据中只证明为会话级全局值。
 
+### 2026-08-15 用户反馈复核
+
+用户运行截图推翻了 165A/156C 对“可见按钮无重复层”的既有观察结论。重新检查现代资产拓扑确认：574 `role-info.svg` 已包含五个 up button child，371/444 整帧 PNG 也已包含 normal 按钮；场景又各自常驻绘制了一份相同 child，因此形成错位重影。该结论由用户运行截图、SVG 显示列表和整帧/独立按钮资产三类证据交叉确认。
+
+`TASK-SLICE-176` 已让 574 shell 不再内嵌五个已拆出的按钮；371 设置的六行底字与默认倍率先在固定黑底区一次清除，交互图按各 PNG 透明边距补偿后常驻唯一一份，并只通过纹理切换 over/down，倍率状态唯一重绘，关闭按中心注册点对齐。按钮 identity、命中区、路由和 P1/P2 owner 均未改变；444 帮助页未在用户复验整改中扩大范围。940×590 HUD/设置复验与 console 结果见 `docs/tasks/evidence/TASK-SLICE-176-runtime-regressions.md`。本次只纠正重复投影，不补写缺失的新版 machine-truth manifest，视觉债务仍由 175 处理。
+
 ### 3.6 双重验证计划
 
 确定性测试：

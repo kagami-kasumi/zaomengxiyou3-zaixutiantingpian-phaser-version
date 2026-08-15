@@ -34,7 +34,7 @@
 | 人物成长 | 已有 `LevelSystem` 和部分战斗/HUD 派生 | 五角色权威基础值、经验表、成长和升级时序未形成全集合同 | 五角色×P1/P2 的等级、数值、升级、装备派生与 HUD 回归 |
 | 存档 | 六槽 V6、迁移、损坏保护和正式旅程已有 | 新增装备/成长字段尚未冻结 | 新 schema、旧档迁移、跨页/关卡/重启、P1/P2 和损坏保护 |
 | 左下五入口 | 原生按钮与共享 router 已有 | 用户判定仍未达到“全部可点”，旧关闭结论降级待复验 | 已完成关卡、五按钮、P1/P2、门禁、打开/关闭/返回的 pointer 矩阵 |
-| UI 整改 | 已有多页真资源和历史视觉验收 | 本轮用户反馈尚未冻结为有界清单 | 差异清单获得用户确认后逐项关闭；清单外页面不修改 |
+| UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
 | 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有 | Role1 影分身仅 QA 接线；四个世界特效普攻几何双源；Role5 移动弹体 X-only 且复制结算 | 173/173A 的 verified 证据与正式接入；174 的唯一几何 owner、二维碰撞与共享结算回归 |
 | 功能 UI 真值债务 | 2026-08-08 前页面已有显示列表/视觉审计和业务回归 | 宠物/法宝/功能 host 有明确现代占位；旧审计与当前 `verified` manifest 门禁被越级混写 | 175 先分级并纠正状态，再按页面拆逆向/实现，不批量重做 |
 
@@ -52,11 +52,12 @@
 10. `TASK-SLICE-170D`：Done；正式页面通过源 hash 绑定的可重复投影直接消费 170B1 verified 真值；五角色/P1/P2、Role4 双分支、Role5 动态帧、520/521、正常称号、37 不变项、两个原缺陷、分页/操作层/关闭再入均由自动与 940×590 证据闭合。
 11. `TASK-SLICE-171`：Done（Split 父任务）；9 条 Fusion 时装、打造百分数点/V6 兼容和 164 件联合回放主体已形成，compact 后转 171A 收口。
 12. `TASK-SLICE-171A`：Done；单堆上限以权威最高需求 1888 闭合，164 件强化/分解、121 Fusion、78 打造的 P1/P2/V6/正式四页联合验收通过，171 父子共同归档。
-13. `TASK-SLICE-171B`：Ready；复评确认的当前提交阻断项，升级 V7 并关闭五比例字段迁移、打造继承属性和灵魂整数持久化风险。
-14. `TASK-SETTINGS-172`：Planned；171B 完成后恢复为唯一 Ready，冻结五角色基础数值、共同经验表、升级时序、装备派生、P1/P2 与存档边界，不提前实现。
-15. `TASK-SETTINGS-173` → `TASK-SLICE-173A`：Planned；先纠正 Role1 影分身时序/动作证据，再接入正式 Runtime。
-16. `TASK-ARCH-174`：Planned；收敛世界特效普攻几何 owner，修复 Role5 移动弹体二维命中与重复结算。
-17. `TASK-SETTINGS-175`：Planned；分级功能页实际占位与 legacy machine-truth 迁移债务，纠正切片状态后按页生成实现任务。
+13. `TASK-SLICE-176`：Done；关卡 HUD/设置重复 normal 层、背包灵魂值错位与 Role5 appearance selector 被误当时间动画的用户反馈回归已关闭。
+14. `TASK-SLICE-171B`：Ready；恢复为唯一 Ready，升级 V7 并关闭五比例字段迁移、打造继承属性和灵魂整数持久化风险。
+15. `TASK-SETTINGS-172`：Planned；171B 完成后恢复为唯一 Ready，冻结五角色基础数值、共同经验表、升级时序、装备派生、P1/P2 与存档边界，不提前实现。
+16. `TASK-SETTINGS-173` → `TASK-SLICE-173A`：Planned；先纠正 Role1 影分身时序/动作证据，再接入正式 Runtime。
+17. `TASK-ARCH-174`：Planned；收敛世界特效普攻几何 owner，修复 Role5 移动弹体二维命中与重复结算。
+18. `TASK-SETTINGS-175`：Planned；分级功能页实际占位与 legacy machine-truth 迁移债务，纠正切片状态后按页生成实现任务。
 
 ## 明确排除
 

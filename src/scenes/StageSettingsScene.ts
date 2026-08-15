@@ -62,20 +62,24 @@ export class StageSettingsScene extends Phaser.Scene {
 
   private renderSettings(layer: Phaser.GameObjects.Container): void {
     layer.add(this.add.image(0, 0, stageSettingsAssets.root.key).setOrigin(0));
-    this.addNativeButton(layer, 597.95, 102.95, stageSettingsAssets.buttons.close, () => this.closeToOrigin());
-    this.addNativeButton(layer, 415.05, 139.1, stageSettingsAssets.buttons.continue, () => this.closeToOrigin());
-    this.addNativeButton(layer, 415.5, 221.95, stageSettingsAssets.buttons.map, () => this.routeAway('HeavenMapScene'));
-    this.addNativeButton(layer, 415.35, 263.7, stageSettingsAssets.buttons.help, () => {
+    // The root frame bakes all six normal labels and the x1 speed glyph into one bitmap.
+    // Clear that black-only region once, then draw exactly one compensated button texture per row.
+    layer.add(this.add.rectangle(396, 130, 155, 250, 0x000000).setOrigin(0));
+    this.addNativeButton(layer, 597.95, 102.95, stageSettingsAssets.buttons.close, () => this.closeToOrigin(), true, true);
+    this.addNativeButton(layer, 404, 132, stageSettingsAssets.buttons.continue, () => this.closeToOrigin());
+    this.addNativeButton(layer, 411, 215, stageSettingsAssets.buttons.map, () => this.routeAway('HeavenMapScene'));
+    this.addNativeButton(layer, 411, 259, stageSettingsAssets.buttons.help, () => {
       if (!this.model) return;
       openStageHelp(this.model);
       this.render();
     });
-    this.addNativeButton(layer, 402.6, 345.15, stageSettingsAssets.buttons.menu, () => this.routeAway('SaveSlotScene'));
+    this.addNativeButton(layer, 397, 340, stageSettingsAssets.buttons.menu, () => this.routeAway('SaveSlotScene'));
 
-    const soundStates = isStageSoundEnabled()
+    const soundEnabled = isStageSoundEnabled();
+    const soundStates = soundEnabled
       ? stageSettingsAssets.buttons.soundClose
       : stageSettingsAssets.buttons.soundOpen;
-    this.addNativeButton(layer, 414.85, 180.2, soundStates, () => {
+    this.addNativeButton(layer, soundEnabled ? 415 : 409, soundEnabled ? 180 : 173, soundStates, () => {
       const enabled = toggleStageSound(this.storage);
       this.sound.mute = !enabled;
       this.render();
@@ -87,7 +91,7 @@ export class StageSettingsScene extends Phaser.Scene {
       303.9,
       stageSettingsAssets.spawnSpeedFrames[speedIndex]!.key,
     ).setOrigin(0));
-    this.addNativeButton(layer, 402.6, 303.65, stageSettingsAssets.buttons.spawnSpeed, () => {
+    this.addNativeButton(layer, 400, 301, stageSettingsAssets.buttons.spawnSpeed, () => {
       if (!this.model || !this.session) return;
       const speed = cycleStageSpawnSpeed(this.model);
       this.scene.get(this.session.originSceneKey).events.emit(StageSpawnSpeedChangedEvent, speed);
@@ -102,15 +106,15 @@ export class StageSettingsScene extends Phaser.Scene {
     this.addNativeButton(layer, 104.1, 558.7, stageSettingsAssets.helpButtons.action, () => {
       showStageHelpFrame(this.model!, 'action');
       this.render();
-    });
+    }, true);
     this.addNativeButton(layer, 223.05, 558.95, stageSettingsAssets.helpButtons.pet, () => {
       showStageHelpFrame(this.model!, 'pet');
       this.render();
-    });
+    }, true);
     this.addNativeButton(layer, 848.7, 11.35, stageSettingsAssets.helpButtons.back, () => {
       closeStageHelp(this.model!);
       this.render();
-    });
+    }, true);
   }
 
   private addNativeButton(
@@ -119,16 +123,25 @@ export class StageSettingsScene extends Phaser.Scene {
     y: number,
     states: NativeButtonStates,
     onClick: () => void,
+    replaceBlackBaseFrame = false,
+    centeredRegistration = false,
   ): void {
-    const button = this.add.image(x, y, states.up.key).setOrigin(0).setInteractive({
+    const origin = centeredRegistration ? 0.5 : 0;
+    const button = this.add.image(x, y, states.up.key).setOrigin(origin).setInteractive({
       useHandCursor: true,
       pixelPerfect: true,
       alphaTolerance: 1,
     });
+    if (replaceBlackBaseFrame) {
+      layer.add(this.add.rectangle(x, y, button.width, button.height, 0x000000).setOrigin(origin));
+    }
     button.on('pointerover', () => button.setTexture(states.over.key));
     button.on('pointerout', () => button.setTexture(states.up.key));
     button.on('pointerdown', () => button.setTexture(states.down.key));
-    button.on('pointerup', onClick);
+    button.on('pointerup', () => {
+      button.setTexture(states.over.key);
+      onClick();
+    });
     layer.add(button);
   }
 

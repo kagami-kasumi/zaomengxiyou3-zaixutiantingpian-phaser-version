@@ -38,6 +38,16 @@ export type EquipmentPageTruthPlacement = Readonly<{
   hitArea?: TruthBounds;
 }>;
 
+export type EquipmentPageTruthTextStyle = Readonly<{
+  fontFamily?: string;
+  fontSizePx?: number;
+  color?: string;
+  align?: 'left' | 'center' | 'right';
+  leftGutterPx?: number;
+  topGutterPx?: number;
+  useOutlines?: boolean;
+}>;
+
 export type EquipmentPageTruthObject = Readonly<{
   id: string;
   parentId: string | null;
@@ -45,6 +55,7 @@ export type EquipmentPageTruthObject = Readonly<{
   objectType: string;
   placements: readonly EquipmentPageTruthPlacement[];
   assetRef?: string;
+  textStyle?: EquipmentPageTruthTextStyle;
 }>;
 
 type EquipmentPageTruthManifest = Readonly<{
@@ -134,6 +145,7 @@ function toPublicObject(item: RuntimeTruthObject): EquipmentPageTruthObject {
     parentId: item.parentId,
     depth: item.depth,
     objectType: item.objectType,
+    ...(item.textStyle ? { textStyle: item.textStyle } : {}),
     placements: manifest.stateIds.map((stateId) => ({
       stateId,
       visible: item.visibleStateIds.includes(stateId),

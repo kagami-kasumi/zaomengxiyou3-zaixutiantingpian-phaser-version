@@ -46,9 +46,16 @@ assert(selectedEquipment.placements.filter(({ visible }) => visible).map(({ stat
 assert(selectedItem.placements.filter(({ visible }) => visible).map(({ stateId }) => stateId).join() === 'p1-item-selected', 'simplebtn visibility drifted');
 const firstSlot = manifest.displayObjects.find(({ id }) => id === 'inventory-slot-00').placements[0];
 const secondSlot = manifest.displayObjects.find(({ id }) => id === 'inventory-slot-01').placements[0];
+const soulValue = manifest.displayObjects.find(({ id }) => id === 'soul-value');
 assert(firstSlot.localMatrix.tx === 0 && firstSlot.localMatrix.ty === 38, 'first PackThings local matrix drifted');
 assert(firstSlot.stageBounds.left === 516.2 && firstSlot.stageBounds.top === 152.35, 'first PackThings stage bounds drifted');
 assert(secondSlot.localMatrix.tx === 61 && secondSlot.stageBounds.left === 577.2, 'nested 61px column composition drifted');
 assert(selectedEquipment.placements[0].localMatrix.tx === 25 && selectedEquipment.placements[0].localMatrix.ty === 25, 'operation layer must remain local to PackThings');
+assert(soulValue.sourceIdentity.characterId === 214 && soulValue.sourceIdentity.instanceName === 'txt_lh', 'soul field source identity drifted');
+assert(soulValue.render.textStyle.fontFamily === 'FZCuYuan-M03', 'soul field must use the embedded original font');
+assert(soulValue.render.textStyle.fontSizePx === 15 && soulValue.render.textStyle.color === '#ffffff', 'soul field size/color drifted');
+assert(soulValue.render.textStyle.align === 'left', 'original txt_lh is left aligned');
+assert(soulValue.render.textStyle.leftGutterPx === 2 && soulValue.render.textStyle.topGutterPx === 2, 'original txt_lh gutter projection drifted');
+assert(soulValue.render.textStyle.useOutlines === true, 'original txt_lh outline mode drifted');
 
 console.log(`Equipment page truth verified: ${manifest.states.length} states, ${manifest.displayObjects.length} objects, all hashes and parent/state counts match.`);
