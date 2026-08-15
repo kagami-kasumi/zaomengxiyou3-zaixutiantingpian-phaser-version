@@ -58,14 +58,15 @@ function testGemBoundaries(): void {
   assert.equal(rollEquipmentMakingGemBonus('mfs3', () => 0), 195);
   assert.equal(rollEquipmentMakingGemBonus('gjs3', () => 0.999), 40);
   assert.equal(rollEquipmentMakingGemBonus('fys3', () => 0.999), 90);
-  assert.equal(rollEquipmentMakingGemBonus('wptlz', () => 0), 0.01);
-  assert.ok(rollEquipmentMakingGemBonus('wptlz', () => 0.999) < 0.02);
+  assert.equal(rollEquipmentMakingGemBonus('wptlz', () => 0), 1);
+  assert.ok(rollEquipmentMakingGemBonus('wptlz', () => 0.999) < 2);
+  assert.equal(rollEquipmentMakingGemBonus('wpllz', () => 0), 1);
   assert.equal(rollEquipmentMakingGemBonus('wphlz', () => 0.999), 9);
-  assert.equal(rollEquipmentMakingGemBonus('wpflz', () => 0.999), 0.01);
+  assert.equal(rollEquipmentMakingGemBonus('wpflz', () => 0.999), 1);
   assert.equal(rollEquipmentMakingGemBonus('wpslz', () => 0), 4);
   const values = [0.5];
   const override = createEquipmentMakingStatsOverride(registry.whg, ['wpflz', 'sms1'], () => values.shift() ?? 0);
-  assert.equal(override.missPercent, registry.whg.stats.missPercent + 0.01);
+  assert.equal(override.missPercent, registry.whg.stats.missPercent + 1);
   assert.equal(override.maxHp, registry.whg.stats.maxHp + 28);
 }
 

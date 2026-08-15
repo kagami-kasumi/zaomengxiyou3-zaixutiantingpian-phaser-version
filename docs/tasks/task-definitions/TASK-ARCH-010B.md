@@ -32,7 +32,7 @@
 
 输出产物：
 
-- 将 `TASK-ARCH-010A` 的 `MonsterDefinitionCatalog`、`MonsterBrain` 与 Targeting 接缝接入既有 `MonsterRuntimeRegistry`，不改变 Registry 的稳定 ID、创建/查询、死亡登记和安全移除合同。
+- 将 `TASK-ARCH-010A` 的 `MonsterDefinitionCatalog`、`MonsterBrain`、Targeting 与 spawn profile 接缝接入既有 `MonsterRuntimeRegistry`，移除 Registry 对 grounded/height 100 的硬编码默认，同时不改变稳定 ID、创建/查询、死亡登记和安全移除合同。
 - 选择一个已迁移关卡验证定义/Brain 接缝；Flow 继续只保留生成计划、遭遇进度和通关所需计数/ID，不复制完整怪物状态。
 - scene bridge 继续拥有 Phaser view 适配，但不作为生命、AI、死亡或奖励事实源。
 - 形成逐关卡迁移清单、风险和拆分建议，不在本 task 批量迁移其他正式关卡。
@@ -47,7 +47,7 @@
 验收标准：
 
 - 先运行 `npm run check:structure`；目标文件触发 error 时先拆分。
-- 注册表确定性测试覆盖重复 ID、查询、死亡/移除幂等、空遭遇、普通怪与 Boss 并存和通关计数。
+- 注册表确定性测试覆盖重复 ID、查询、grounded/flying、不同碰撞高度、死亡/移除幂等、空遭遇、普通怪与 Boss 并存和通关计数。
 - 试点关卡专项、`npm run test:systems`、`npm run build`、`npm run check:workflow` 和 `git diff --check` 通过。
 - 使用 940×590 正式入口复验 1P/2P 生成、战斗、Boss、失败/胜利、返回与重载，console 无 warning/error。
 
@@ -63,4 +63,4 @@
 
 推荐后续任务：
 
-- 依据试点结果生成同线逐关卡迁移 task；每个 task 只迁移一个共享 owner 簇或一个可独立验收的关卡批次。
+- `TASK-ARCH-010C`：先闭合正式 configured item/reward profile、Monster4/5/6 已证掉落与缺表防御，再依据试点生成逐行为族迁移 task。

@@ -224,4 +224,4 @@ tlzsp + tlzsp + tlzsp -> wptlz（土灵珠）
 
 ## TASK-SETTINGS-169 全量审计补充
 
-`workshop-rules-completeness-audit.md` 已把 Fusion 与打造放回四功能共同 owner/V6 合同中复核。现代注册表的 112 条唯一事务（67 direct、41 default、3 Sun、1 MingDing）与 224 条 P1/P2 矩阵保持闭合，但不能等同于原版 `mixProduce()` 的 121 个唯一组合：9 条 `direct_fashion_timestamp` 仍未接入。打造的 `wptlz/wpllz/wpflz` 原始随机值也仍以 AS3 小数直接写入现代百分数点字段。两项均登记到完整装备数据后的四事务收口，不在逆向审计中修改代码。
+`TASK-SLICE-171/171A` 已完成四功能收口。现代注册表覆盖原版 `mixProduce()` 的 121 个唯一组合（67 direct static、9 `direct_fashion_timestamp` 的永久时装现代例外、41 default、3 Sun、1 MingDing），242 条 P1/P2 事务全绿；`wptlz/wpllz/wpflz` 在现代边界转换为 1..2 百分数点。永久时装只是一项显式现代例外，仍不声称复刻原版未知的期限消费链。

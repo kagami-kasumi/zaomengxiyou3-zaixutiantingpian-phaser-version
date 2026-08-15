@@ -27,7 +27,11 @@ const recipeCatalog = JSON.parse(readFileSync(recipeCatalogPath, 'utf8'));
 const fusionSource = readFileSync(fusionPath, 'utf8');
 const previewAliases = extractPreviewAliases(fusionSource);
 const symbols = loadSymbols();
-const items = itemCatalog.items.map(buildItem);
+// The nine permanent-fashion recipes reuse the unified inventory icon owner.
+// Keep this legacy crafting-specific icon catalog limited to non-fashion inputs.
+const items = itemCatalog.items.filter((item) =>
+  !item.roles.includes('permanent-fashion-material') && !item.roles.includes('permanent-fashion-product')
+).map(buildItem);
 const statusCounts = countBy(items, (item) => item.status);
 const packageCounts = countBy(items.flatMap((item) => item.requiredSymbols), (item) => item.sourcePackage ?? 'unresolved');
 const batchCounts = countBy(items.filter((item) => !item.integrated), (item) => item.batchId);

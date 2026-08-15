@@ -183,7 +183,7 @@ export function createEquipmentMakingStatsOverride(
 }
 
 export function rollEquipmentMakingGemBonus(fillName: string, random: () => number = Math.random): number {
-  if (fillName === 'wpflz') return 0.01;
+  if (fillName === 'wpflz') return as3FractionToPercentPoints(0.01);
   const u = random();
   if (fillName === 'sms1') return Math.round(20 + u * 15);
   if (fillName === 'sms2' || fillName === 'scsms2') return Math.round(145 + u * 15);
@@ -197,10 +197,16 @@ export function rollEquipmentMakingGemBonus(fillName: string, random: () => numb
   if (fillName === 'fys1') return Math.round(14 + u);
   if (fillName === 'fys2' || fillName === 'scfys2') return Math.round(49 + u);
   if (fillName === 'fys3' || fillName === 'scfys3') return Math.round(89 + u);
-  if (fillName === 'wptlz' || fillName === 'wpllz') return 0.01 + u * 0.01;
+  if (fillName === 'wptlz' || fillName === 'wpllz') {
+    return as3FractionToPercentPoints(0.01 + u * 0.01);
+  }
   if (fillName === 'wphlz') return 8 + Math.round(u);
   if (fillName === 'wpslz') return 4 + Math.round(u);
   return 0;
+}
+
+function as3FractionToPercentPoints(value: number): number {
+  return value * 100;
 }
 
 function applyGemBonus(stats: EquipmentStats, fillName: string, random: () => number): void {

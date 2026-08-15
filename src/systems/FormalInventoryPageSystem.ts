@@ -259,12 +259,12 @@ export function getFormalInventoryPresentation(
     maxMp: runtime?.maxMp ?? effective.maxMp,
     power: effective.power,
     defense: effective.defense,
-    critPercent: effective.critPercent * 100,
-    missPercent: effective.missPercent * 100,
+    critPercent: effective.critPercent,
+    missPercent: effective.missPercent,
     hpRegen: effective.hpRegen,
     mpRegen: effective.mpRegen,
-    magicDefensePercent: effective.magicDefensePercent * 100,
-    luckPercent: effective.piercePercent * 100,
+    magicDefensePercent: effective.magicDefensePercent,
+    luckPercent: effective.piercePercent,
     currentExp: progression.currentExp,
     expToNext: progression.expToNext,
     expFrame: maxLevel
@@ -285,11 +285,11 @@ function calculateFormalFightingForce(player: LoadedPlayer1State): number {
     else result += (level + 1) * 15;
   });
   result += Math.trunc(equipment.power * 1.15);
-  const crit = Math.trunc(equipment.critPercent * 100);
+  const crit = Math.trunc(equipment.critPercent);
   const hp = Math.trunc(equipment.maxHp * 120);
   const mp = Math.trunc(equipment.maxMp * 160);
-  const magicDefense = Math.trunc(equipment.magicDefensePercent * 150);
-  const miss = Math.trunc(equipment.missPercent * 150);
+  const magicDefense = Math.trunc(equipment.magicDefensePercent * 1.5);
+  const miss = Math.trunc(equipment.missPercent * 1.5);
   const regen = Math.trunc(equipment.hpRegen * 10);
   switch (player.progression.heroId) {
     case 1: result += hp + mp + crit * 25; break;

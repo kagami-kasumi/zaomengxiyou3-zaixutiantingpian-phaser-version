@@ -41,7 +41,9 @@ export type InventoryConsumeResult = {
   after: number;
 };
 
-export const InventoryStackQuantityLimit = 99;
+// The 1.1 making table consumes as many as 1,888 units in one recipe. Keeping
+// one stack per fillName preserves the existing save shape and transaction owner.
+export const InventoryStackQuantityLimit = 1_888;
 
 export type InventoryTransactionOperation =
   | Readonly<{ kind: 'add-resource'; fillName: string; quantity: number }>

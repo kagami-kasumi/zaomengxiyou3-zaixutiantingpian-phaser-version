@@ -23,10 +23,11 @@ function testAuthoritativeCoverageAndUnits(): void {
     min: 230, max: 234, maxInclusive: true, unit: 'points', runtimeCoercion: 'int',
     originalExpression: '230 + Math.random() * 5',
   });
-  assert.equal(registry._clj?.stats.critPercent, 0.06);
+  assert.equal(registry._clj?.stats.critPercent, 6);
   assert.equal(registry._clj?.baseStatRanges?.critPercent?.unit, 'ratio');
   assert.equal(registry.dgg?.strengthGrowth?.power, 111);
   assert.equal(registry.dgg?.strengthGrowth?.maxHp, 1111);
+  assert.equal(registry.dgg?.strengthGrowth?.magicDefensePercent, 1);
   assert.equal(registry.ptdcz?.stats.power, 5);
 }
 

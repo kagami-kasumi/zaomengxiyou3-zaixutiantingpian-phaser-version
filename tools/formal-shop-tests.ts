@@ -19,7 +19,10 @@ import {
   setFormalShopOwner,
   setFormalShopTypedQuantity,
 } from '../src/systems/FormalShopPageSystem';
-import { getStackQuantityByFillName } from '../src/systems/InventorySystem';
+import {
+  getStackQuantityByFillName,
+  InventoryStackQuantityLimit,
+} from '../src/systems/InventorySystem';
 import { createPartyConfiguration } from '../src/systems/PartyConfigurationSystem';
 import {
   createDefaultGameSave,
@@ -166,7 +169,7 @@ assert.equal(
   const stack = save.player1.inventory.categories.items.find(
     (entry) => entry.fillName === 'wpqhs1',
   )!;
-  stack.quantity = 99;
+  stack.quantity = InventoryStackQuantityLimit;
   assert.equal(createSaveSlot(storage, 0, save), true);
   const model = createFormalShopPage(storage)!;
   assert.equal(openFormalShopConfirmation(model, 'wpqhs1'), true);
@@ -175,7 +178,7 @@ assert.equal(
   assert.equal(getFormalShopPlayer(model).soulCount, 1_000_000);
   assert.equal(
     getStackQuantityByFillName(getFormalShopPlayer(model).inventoryStore, 'wpqhs1'),
-    99,
+    InventoryStackQuantityLimit,
   );
 }
 

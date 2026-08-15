@@ -49,6 +49,7 @@ const bundledTests = requestedTests.length > 0
       'formal-inventory-tests',
       'equipment-catalog-tests',
       'equipment-preview-catalog-tests',
+      'equipment-workshop-transaction-closure-tests',
       'inventory-dynamic-ui-resource-tests',
       'formal-skill-tests',
       'formal-pet-tests',

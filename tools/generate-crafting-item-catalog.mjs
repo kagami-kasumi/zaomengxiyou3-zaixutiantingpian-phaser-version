@@ -9,15 +9,24 @@ const outputPath = path.join(repoRoot, 'docs', 'reverse-engineering', 'reference
 
 const authority = JSON.parse(readFileSync(recipePath, 'utf8'));
 const source = readFileSync(allEquipmentPath, 'utf8');
-const recipes = deduplicateRecipes(authority.recipes.filter((recipe) => recipe.productionBehavior !== 'direct_fashion_timestamp'));
+const recipes = deduplicateRecipes(authority.recipes);
 const definitions = extractDefinitions(source);
 
 const materialFillNames = new Set(recipes.flatMap((recipe) => recipe.materials));
 const productFillNames = new Set(recipes.map((recipe) => recipe.productFillName));
+const permanentFashionRecipes = recipes.filter(
+  (recipe) => recipe.productionBehavior === 'direct_fashion_timestamp',
+);
+const permanentFashionMaterialFillNames = new Set(
+  permanentFashionRecipes.flatMap((recipe) => recipe.materials),
+);
+const permanentFashionProductFillNames = new Set(
+  permanentFashionRecipes.map((recipe) => recipe.productFillName),
+);
 const allFillNames = [...new Set([...materialFillNames, ...productFillNames])].sort();
 
-if (recipes.length !== 112) throw new Error(`Expected 112 recipes, got ${recipes.length}`);
-if (allFillNames.length !== 201) throw new Error(`Expected 201 fillName values, got ${allFillNames.length}`);
+if (recipes.length !== 121) throw new Error(`Expected 121 recipes, got ${recipes.length}`);
+if (allFillNames.length !== 213) throw new Error(`Expected 213 fillName values, got ${allFillNames.length}`);
 
 const items = allFillNames.map((fillName) => buildItem(fillName));
 const statusCounts = countBy(items, (item) => item.authorityStatus);
@@ -27,7 +36,7 @@ const productNameConflictCount = items.filter((item) => item.recipeProductNameCh
 const catalog = {
   schemaVersion: 1,
   gameVersion: '1.1',
-  scope: '112 unique modern-supported Fusion recipes (direct_fashion_timestamp excluded by recorded modern decision)',
+  scope: '121 unique modern-supported Fusion recipes (9 timestamp fashions mapped to permanent-fashion exception)',
   authorities: {
     recipes: 'docs/reverse-engineering/reference/crafting-recipes-1.1.json',
     itemDefinitions: allEquipmentRelativePath,
@@ -109,6 +118,8 @@ function buildItem(fillName) {
     roles: [
       ...(materialFillNames.has(fillName) ? ['material'] : []),
       ...(productFillNames.has(fillName) ? ['product'] : []),
+      ...(permanentFashionMaterialFillNames.has(fillName) ? ['permanent-fashion-material'] : []),
+      ...(permanentFashionProductFillNames.has(fillName) ? ['permanent-fashion-product'] : []),
     ],
     authorityStatus,
     showId: confirmed && /^\d+$/.test(confirmed.showIdExpression) ? Number(confirmed.showIdExpression) : null,

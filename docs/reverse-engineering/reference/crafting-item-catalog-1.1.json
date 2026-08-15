@@ -1,23 +1,23 @@
 {
   "schemaVersion": 1,
   "gameVersion": "1.1",
-  "scope": "112 unique modern-supported Fusion recipes (direct_fashion_timestamp excluded by recorded modern decision)",
+  "scope": "121 unique modern-supported Fusion recipes (9 timestamp fashions mapped to permanent-fashion exception)",
   "authorities": {
     "recipes": "docs/reverse-engineering/reference/crafting-recipes-1.1.json",
     "itemDefinitions": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as"
   },
   "counts": {
-    "recipes": 112,
-    "materialFillNames": 152,
-    "productFillNames": 85,
-    "uniqueFillNames": 201,
+    "recipes": 121,
+    "materialFillNames": 161,
+    "productFillNames": 94,
+    "uniqueFillNames": 213,
     "authorityStatus": {
-      "confirmed": 201
+      "confirmed": 213
     },
     "modernInventoryCategory": {
       "equipment": 82,
       "items": 115,
-      "fashion": 4
+      "fashion": 16
     },
     "productNameConflicts": 0
   },
@@ -1618,6 +1618,40 @@
       "nextAction": "none"
     },
     {
+      "fillName": "jlnmwsz",
+      "roles": [
+        "material",
+        "product",
+        "permanent-fashion-material",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 6,
+      "name": "牛魔王装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "牛魔王装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "6",
+          "name": "牛魔王装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 3270,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3270"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
       "fillName": "jlqyzstx",
       "roles": [
         "material"
@@ -1674,6 +1708,74 @@
           "color": "0x0000FF",
           "sourceLine": 3302,
           "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3302"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jlttzssz",
+      "roles": [
+        "material",
+        "product",
+        "permanent-fashion-material",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 10,
+      "name": "天庭战神装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "天庭战神装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "10",
+          "name": "天庭战神装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 3318,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3318"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "jlzlwsz",
+      "roles": [
+        "material",
+        "product",
+        "permanent-fashion-material",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 7,
+      "name": "转轮王装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "精 良",
+      "color": "0x0000FF",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "转轮王装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "7",
+          "name": "转轮王装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "精 良",
+          "color": "0x0000FF",
+          "sourceLine": 3286,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3286"
         }
       ],
       "nextAction": "none"
@@ -2788,6 +2890,36 @@
       "nextAction": "none"
     },
     {
+      "fillName": "ptnmwsz",
+      "roles": [
+        "material",
+        "permanent-fashion-material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 6,
+      "name": "牛魔王装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "6",
+          "name": "牛魔王装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 3262,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3262"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
       "fillName": "ptsmsrsz",
       "roles": [
         "material"
@@ -2812,6 +2944,66 @@
           "color": "0xFFFFFF",
           "sourceLine": 3294,
           "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3294"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ptttzssz",
+      "roles": [
+        "material",
+        "permanent-fashion-material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 10,
+      "name": "天庭战神装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "10",
+          "name": "天庭战神装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 3310,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3310"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ptzlwsz",
+      "roles": [
+        "material",
+        "permanent-fashion-material"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 7,
+      "name": "转轮王装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "普 通",
+      "color": "0xFFFFFF",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [],
+      "recipeProductNameCheck": "not-applicable",
+      "as3Definitions": [
+        {
+          "showIdExpression": "7",
+          "name": "转轮王装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "普 通",
+          "color": "0xFFFFFF",
+          "sourceLine": 3278,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3278"
         }
       ],
       "nextAction": "none"
@@ -3410,6 +3602,38 @@
       "nextAction": "none"
     },
     {
+      "fillName": "ssnmwsz",
+      "roles": [
+        "product",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 6,
+      "name": "牛魔王装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "牛魔王装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "6",
+          "name": "牛魔王装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 3274,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3274"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
       "fillName": "ssqyzstx",
       "roles": [
         "material"
@@ -3465,6 +3689,70 @@
           "color": "0x660099",
           "sourceLine": 3306,
           "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3306"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "ssttzssz",
+      "roles": [
+        "product",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 10,
+      "name": "天庭战神装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "天庭战神装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "10",
+          "name": "天庭战神装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 3322,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3322"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "sszlwsz",
+      "roles": [
+        "product",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 7,
+      "name": "转轮王装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "史 诗",
+      "color": "0x660099",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "转轮王装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "7",
+          "name": "转轮王装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "史 诗",
+          "color": "0x660099",
+          "sourceLine": 3290,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3290"
         }
       ],
       "nextAction": "none"
@@ -5528,6 +5816,40 @@
       "nextAction": "none"
     },
     {
+      "fillName": "yxnmwsz",
+      "roles": [
+        "material",
+        "product",
+        "permanent-fashion-material",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 6,
+      "name": "牛魔王装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "牛魔王装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "6",
+          "name": "牛魔王装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 3266,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3266"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
       "fillName": "yxqyzstx",
       "roles": [
         "material"
@@ -5584,6 +5906,74 @@
           "color": "0x00FF00",
           "sourceLine": 3298,
           "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3298"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yxttzssz",
+      "roles": [
+        "material",
+        "product",
+        "permanent-fashion-material",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 10,
+      "name": "天庭战神装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "天庭战神装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "10",
+          "name": "天庭战神装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 3314,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3314"
+        }
+      ],
+      "nextAction": "none"
+    },
+    {
+      "fillName": "yxzlwsz",
+      "roles": [
+        "material",
+        "product",
+        "permanent-fashion-material",
+        "permanent-fashion-product"
+      ],
+      "authorityStatus": "confirmed",
+      "showId": 7,
+      "name": "转轮王装",
+      "originalType": "zbsz",
+      "user": "",
+      "quality": "优 秀",
+      "color": "0x00FF00",
+      "modernInventoryCategory": "fashion",
+      "recipeProductDisplayNames": [
+        "转轮王装"
+      ],
+      "recipeProductNameCheck": "match",
+      "as3Definitions": [
+        {
+          "showIdExpression": "7",
+          "name": "转轮王装",
+          "type": "zbsz",
+          "user": "",
+          "quality": "优 秀",
+          "color": "0x00FF00",
+          "sourceLine": 3282,
+          "source": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllEquipment.as:3282"
         }
       ],
       "nextAction": "none"

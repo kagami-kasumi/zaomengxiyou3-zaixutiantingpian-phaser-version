@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-171A | 四功能事务续作 | 关闭高阶打造材料可达性并完成全量联合验收 | M-036、M-037、M-039、M-044、M-052、VS-064 | 1888 单堆上限、164/121/78 双 owner 回放、V6 百分数兼容、正式四页有效提交/返还/重载与零 console |
+| TASK-SLICE-171 | 四功能事务收口父任务 | 汇总 Fusion 时装、打造百分数与全装备四事务主体 | M-036、M-037、M-039、M-044、M-052、VS-064 | 9 条永久时装例外、121 Fusion、百分数点适配、164 件联合回放主体与 171A 收口 |
 | TASK-SLICE-168B | 炼丹炉分解/打造左页原生化 | 消费 177/152 verified 真值并完成四页联合校准 | M-036、M-039、M-052、VS-064 | 分解/打造动态原生页、四页单按钮校准、同一正式背包/单一页码、左槽 63×62 去白边投影、逐槽点击退回、测试打造书与 940×590 差异证据 |
 | TASK-SETTINGS-167 | 炼丹炉左页 UI 逆向 | 闭合 198/169/177/152 四页的原生显示列表、动态字段、按钮/槽位状态与机器真值 | M-036、M-039、M-052、VS-064 | 四份 verified manifest、完整显示列表/动态拓扑、四页 940×590 原版基准、并排/叠图差异与 168A/168B 实现合同 |
 | TASK-SETTINGS-166A | 背包动态 UI 资源派生 | 从单一既有 `backpack1.swf` 关闭 358/610 与 304 动态控件的现代资源缺口 | M-035、M-037、M-052、VS-064 | 61 张透明 PNG、83 唯一 UI key/bundle、61 条 ready 标注、完整 child/矩阵/帧/TextField 裁决、尺寸/alpha/状态/禁整页裁片门禁与零像素对照 |
@@ -7257,6 +7259,50 @@ UI 原生化合同：
 
 - 更新 mechanics、纵向切片、功能线覆盖、task-board/task-history 与 PG 反馈；下一 task 为 `TASK-SETTINGS-169` 四功能规则完整性审计。
 
+### TASK-SLICE-171
+
+任务类型：
+
+- `TASK-SLICE`（Split 父任务）
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（执行时 Active）
+
+目标机制/切片：
+
+- `M-036`、`M-037`、`M-039`、`M-044`、`M-052`、`VS-064`
+
+完成定义：
+
+- 汇总 9 条 Fusion 时装、打造百分数/V6 与 164 件四事务主体；compact 后由 171A 单独关闭高阶材料和全量验收，父任务不保留直接执行项。
+
+验收结果：
+
+- 永久时装例外、121 Fusion、百分数点适配和 164 件回放主体进入 171A；父子结果共同满足原合同。
+
+### TASK-SLICE-171A
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（执行时 Active）
+
+目标机制/切片：
+
+- `M-036`、`M-037`、`M-039`、`M-044`、`M-052`、`VS-064`
+
+完成定义：
+
+- 关闭 160..1888 个高阶打造材料可达性，完成 164 件强化/分解、121 Fusion、78 打造的 P1/P2、V6 与正式四页联合验收，并收束 171 父任务。
+
+验收结果：
+
+- 1888 上限内成功、上限外/材料不足/容量不足原子拒绝；全量专项、全系统/build、workflow/problem audit、940×590 P1/P2 有效提交/返还/重载和零 console 通过。
+
 ## 执行记录
 
 
@@ -9727,6 +9773,55 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
+
+### TASK-SLICE-171
+
+任务类型：
+
+- `TASK-SLICE`（Split 父任务）
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（执行时 Active）
+
+目标机制/切片：
+
+- `M-036`、`M-037`、`M-039`、`M-044`、`M-052`、`VS-064`
+
+完成定义：
+
+- 汇总 Fusion 9 条时装、打造百分数/V6 与 164 件四事务主体；compact 后剩余高阶材料和验收只由 171A 完成，父任务不直接继续执行。
+
+- 完成日期：2026-08-13；Split 父任务随 `TASK-SLICE-171A` 完成而归档。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 Active）。
+- compact 前接入 9 条 `direct_fashion_timestamp` 的永久时装现代例外、121 条 Fusion、打造百分数点/V6 兼容与 164 件强化/分解联合回放主体；时装复用统一背包真图标，不新增视觉资源。
+- compact 后回放发现 160..1888 个打造材料被旧 99 单堆上限拒绝，按门禁停止扩张并拆出 171A；父任务不保留未完成实现。
+
+### TASK-SLICE-171A
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（执行时 Active）
+
+目标机制/切片：
+
+- `M-036`、`M-037`、`M-039`、`M-044`、`M-052`、`VS-064`
+
+完成定义：
+
+- 关闭 160..1888 个高阶打造材料可达性，完成 164 件强化/分解、121 Fusion、78 打造的 P1/P2、V6 与正式四页联合验收，并共同归档 171 父任务。
+
+- 完成日期：2026-08-13。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 Active；下一 task 为 `TASK-SETTINGS-172`）。
+- 统一背包继续使用单 fillName 单堆和既有 V6 存档形状，仅将无权威依据的 99 上限提升到制作表最高需求 1888；上限外、材料缺 1、产物容量不足均由统一事务原子拒绝，无部分扣除。
+- 164 件装备强化/分解、121 条 Fusion、78 条打造均完成 P1/P2 联合回放；打造 ratio 转换为现代百分数点，V6 旧 `0.01` 与新 `1` override 原值透传，不升级 V7。
+- 940×590 正式旅程覆盖 P1/P2 四页切换、空提交拒绝、错配 Fusion 原子拒绝、逐槽/关闭返还、有效 2 级攻击石合成、灵魂 `6900→5900`、关闭重入和保存重载；console warning/error 为 0。
+- 验证：四事务专项、`test:equipment-workshop-closure`、crafting coverage（121/213/213）、equipment data 164、soul/V6、inventory/shop 上限、`test:systems`、`build`、structure、workflow、problem audit 与 `git diff --check`。
+- 下一执行项：`TASK-SETTINGS-172`，冻结五角色成长权威实现输入；不提前修改成长或存档代码。
 
 ### TASK-SLICE-170D
 

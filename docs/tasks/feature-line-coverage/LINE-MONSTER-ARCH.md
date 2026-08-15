@@ -20,21 +20,22 @@
 
 | 维度 | 当前状态 | 关闭要求 |
 | --- | --- | --- |
-| 静态定义 | 分散 | `MonsterDefinitionCatalog` 成为数值、profile 引用和跨关卡怪物类型的唯一现代入口 |
-| 运行状态 | 类型分裂 | 建立最小 `MonsterRuntime` 合同，保留特殊怪物扩展数据但不复制共同字段语义 |
+| 静态定义 | 分散 | `MonsterDefinitionCatalog` 成为数值、运动模式、碰撞高度、reward/loot profile 引用和跨关卡怪物类型的唯一现代入口 |
+| 运行状态 | 类型分裂；既有 Registry spawn 默认写死 grounded/height 100 | 建立最小 `MonsterRuntime` 合同，由 definition/spawn profile 明确 grounded/flying 与真实高度，保留特殊怪物扩展数据但不复制共同字段语义 |
 | AI / 索敌 | 部分共用、部分重复 | 至少地面近战行为族复用统一 `MonsterBrain` / Targeting 合同；特殊行为通过策略组合 |
 | 物理 | 已有共享 owner | `MonsterPhysicsSystem` 继续唯一拥有 grounded/flying 物理，不进入关卡或基类 |
 | 战斗 | 通用 owner 带 Stage1 命名 | 通用怪物创建、更新和攻击合同迁至无关卡命名 owner，兼容期行为不变 |
 | 生命周期 | 由 PG-013 V2 抢占治理 | 本线直接消费 PG-013 已建立并迁移五关的 `MonsterRuntimeRegistry`，不得创建第二个注册表；Flow 只保留遭遇进度 |
 | 动画 / 视图 | 已有视觉 owner 与 bridge | Phaser bridge 只适配状态和显示，不成为 AI、伤害或生命周期事实源 |
-| 奖励 / 掉落 | 已有共享 owner | 怪物定义只引用 reward/loot profile，结算继续由现有共享系统负责 |
+| 奖励 / 掉落 | 已有共享 owner，但正式 reward bridge 不传 configured item，Monster4/5/6 已证表缺失 | 怪物定义只引用 reward/loot profile，正式 bridge 完整转交配置；结算继续由现有共享系统负责，缺表显式可观察 |
 | 回归验证 | 尚未建立重构专项 | 系统测试、structure、build、试点关卡 1P/2P 运行行为和零 console 回归 |
 
 ## 调度
 
-1. `TASK-ARCH-010A`：Planned；建立组合式怪物合同、通用定义目录、Targeting/Brain 接缝和兼容 facade。
-2. `TASK-ARCH-010B`：Planned；把 DefinitionCatalog、Brain 与 Targeting 接入 PG-013 已建立的运行时注册表，在一个普通怪 + Boss 正式关卡验证，不重建生命周期 owner。
-3. 试点完成后依据重复策略和回归风险生成行为族迁移 task；不得重新生成逐关卡生命周期迁移路线。
+1. `TASK-ARCH-010A`：Planned；建立组合式怪物合同、含运动/碰撞/reward profile 的通用定义目录、Targeting/Brain 接缝和兼容 facade。
+2. `TASK-ARCH-010B`：Planned；把 DefinitionCatalog、Brain、Targeting 与 spawn profile 接入 PG-013 已建立的运行时注册表，在一个普通怪 + Boss 正式关卡验证，不重建生命周期 owner。
+3. `TASK-ARCH-010C`：Planned；闭合正式 configured item/reward profile、Monster4/5/6 已证掉落和缺表防御。
+4. 试点完成后依据重复策略和回归风险生成行为族迁移 task；不得重新生成逐关卡生命周期迁移路线。
 
 ## 明确排除
 
@@ -50,6 +51,8 @@
 - [ ] 通用怪物规则不再以单一关卡命名作为权威 owner。
 - [ ] 至少一个普通 AI 行为族完成统一策略复用。
 - [ ] 一个普通怪 + Boss 正式关卡完成 Definition/Brain 与唯一运行时注册表的集成试点。
+- [ ] grounded/flying 与碰撞高度来自 definition/spawn profile，正式生成不再写死 grounded/100。
+- [ ] 正式 reward bridge 消费配置物品/掉落 profile，Monster4/5/6 和缺表行为均有证据与回归。
 - [ ] Flow 与 scene bridge 在所有纳入迁移范围的关卡中不再双持完整怪物状态。
 - [ ] 特殊怪物差异通过策略/能力组合表达，没有形成万能父类。
 - [ ] 自动测试、构建、代表关卡 1P/2P 运行回归和 console 检查通过。

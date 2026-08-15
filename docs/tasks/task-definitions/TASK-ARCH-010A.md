@@ -31,10 +31,10 @@
 
 输出产物：
 
-- 建立 `MonsterDefinition`、`MonsterRuntime`、`MonsterBrain`、目标选择合同和只读 `MonsterDefinitionCatalog` 的现代 owner。
+- 建立 `MonsterDefinition`、`MonsterRuntime`、`MonsterBrain`、目标选择合同和只读 `MonsterDefinitionCatalog` 的现代 owner；definition 明确运动模式、碰撞高度和 reward/loot profile 引用，不由 Registry 猜 grounded/100。
 - 将 `Stage1CombatSystem` 中跨关卡复用的怪物配置、创建和更新规则迁至无关卡命名模块；保留薄兼容 facade，避免一次迁移所有消费者。
 - 把至少一个重复目标选择路径接入参数化 Targeting 策略，支持横向/二维距离、警戒范围和存活过滤，不改变已确认怪物行为。
-- 增加确定性测试，证明定义解析、目标选择、状态转换、稳定 ID 和兼容 facade 行为一致。
+- 增加确定性测试，证明定义解析、grounded/flying 与真实高度投影、目标选择、状态转换、稳定 ID 和兼容 facade 行为一致。
 
 完成定义：
 
@@ -61,4 +61,4 @@
 
 推荐后续任务：
 
-- `TASK-ARCH-010B`：把本 task 的 DefinitionCatalog、Brain 与 Targeting 接缝接入 PG-013 已建立的唯一 `MonsterRuntimeRegistry`，在一个普通怪 + Boss 正式关卡验证，不重建生命周期 owner。
+- `TASK-ARCH-010B`：把本 task 的 DefinitionCatalog、Brain、Targeting 与 spawn profile 接缝接入 PG-013 已建立的唯一 `MonsterRuntimeRegistry`，在一个普通怪 + Boss 正式关卡验证，不重建生命周期 owner。

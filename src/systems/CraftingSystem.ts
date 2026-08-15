@@ -13,6 +13,7 @@ import type { PlayerSlot } from './InputSystem';
 import {
   DirectStaticCraftingRecipes,
   MingDingHuaYanCraftingRecipes,
+  PermanentFashionCraftingRecipes,
   SunSutraCraftingRecipes,
   SutraCraftingRecipes,
 } from './CraftingRecipeRegistry';
@@ -21,6 +22,7 @@ import { createCraftingItemDefinitionRegistry } from './CraftingItemDefinitionRe
 export type CraftingProductionBehavior =
   | 'legacy_static'
   | 'direct_static'
+  | 'direct_fashion_permanent'
   | 'get_sutra_value'
   | 'get_sun_sutra_value'
   | 'get_mingding_huayan';
@@ -78,6 +80,7 @@ const DefaultSeedCraftingRecipe: CraftingRecipe = {
 export const SeedCraftingRecipes: readonly CraftingRecipe[] = [
   DefaultSeedCraftingRecipe,
   ...DirectStaticCraftingRecipes,
+  ...PermanentFashionCraftingRecipes,
   ...SutraCraftingRecipes,
   ...SunSutraCraftingRecipes,
   ...MingDingHuaYanCraftingRecipes,
@@ -278,11 +281,9 @@ export function craft(params: {
   if (!product) return failure('合成产物配置缺失', soulBefore, recipe);
   const requirements = buildRequirements(recipe.materialFillNames);
   const inheritsEquipmentStats = isInheritedEquipmentBehavior(recipe.productionBehavior);
-  const inheritedMaterials = inheritsEquipmentStats
-    ? findInheritedMaterials(params.store, recipe.materialFillNames)
-    : undefined;
-  if (inheritsEquipmentStats && !inheritedMaterials) {
-    return failure('合成材料装备实例不足', soulBefore, recipe);
+  const selectedMaterials = findCraftingMaterials(params.store, recipe.materialFillNames);
+  if (!selectedMaterials) {
+    return failure(inheritsEquipmentStats ? '合成材料装备实例不足' : '合成材料实例不足', soulBefore, recipe);
   }
   for (const [fillName, quantity] of requirements) {
     if (getMaterialQuantity(params.store, fillName) < quantity) {
@@ -294,25 +295,26 @@ export function craft(params: {
     params.store,
     product,
     requirements,
-    inheritedMaterials?.consumedEntries,
+    selectedMaterials.consumedEntries,
   )) {
     return failure('背包空间不足', soulBefore, recipe);
   }
 
-  if (inheritedMaterials) {
-    for (const material of inheritedMaterials.consumedEntries) {
-      if (material.kind === 'equipment') removeEquipmentInstance(params.store, material);
-      else removeStackQuantity(params.store, material.definition.fillName, 1);
-    }
-  } else {
-    for (const [fillName, quantity] of requirements) removeStackQuantity(params.store, fillName, quantity);
+  for (const material of selectedMaterials.consumedEntries) {
+    if (material.kind === 'equipment') removeEquipmentInstance(params.store, material);
+    else removeStackQuantity(params.store, material.definition.fillName, 1);
   }
-  const added = inheritedMaterials
-    ? addEquipmentDefinition(params.store, createInheritedProduct(
+  const productCategory = getInventoryCategoryForDefinition(product);
+  const productUsesInstance = productCategory === 'equipment' || productCategory === 'fashion';
+  const resolvedProduct = inheritsEquipmentStats && productUsesInstance
+    ? createInheritedProduct(
       product,
-      inheritedMaterials.statsMaterials,
+      selectedMaterials.statsMaterials,
       recipe.productionBehavior,
-    ))
+    )
+    : product;
+  const added = productUsesInstance
+    ? addEquipmentDefinition(params.store, resolvedProduct)
     : addStackByFillName(params.store, params.registry, recipe.productFillName, 1);
   if (!added) throw new Error('Crafting preflight allowed a product that could not be added');
   return {
@@ -517,15 +519,15 @@ function removeStackQuantity(store: InventoryStore, fillName: string, quantity: 
   }
 }
 
-type InheritedMaterialsSelection = {
+type CraftingMaterialsSelection = {
   statsMaterials: EquipmentInstance[];
   consumedEntries: InventoryEntry[];
 };
 
-function findInheritedMaterials(
+function findCraftingMaterials(
   store: InventoryStore,
   materialFillNames: readonly string[],
-): InheritedMaterialsSelection | undefined {
+): CraftingMaterialsSelection | undefined {
   const statsMaterials: EquipmentInstance[] = [];
   const consumedEntries: InventoryEntry[] = [];
   const stackUseCount = new Map<InventoryItemStack, number>();

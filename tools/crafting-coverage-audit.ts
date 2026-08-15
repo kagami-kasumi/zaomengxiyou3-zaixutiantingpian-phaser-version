@@ -2,10 +2,11 @@ import recipeAuthority from '../docs/reverse-engineering/reference/crafting-reci
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { CraftingItemTextureKeys } from '../src/assets/AssetManifest';
+import { inventoryItemAssets } from '../src/assets/InventoryItemAssets';
 import {
   DirectStaticCraftingRecipes,
   MingDingHuaYanCraftingRecipes,
+  PermanentFashionCraftingRecipes,
   SunSutraCraftingRecipes,
   SutraCraftingRecipes,
 } from '../src/systems/CraftingRecipeRegistry';
@@ -23,6 +24,7 @@ type AuthorityRecipe = (typeof recipeAuthority.recipes)[number];
 type IncludedRecipe = AuthorityRecipe & { productionBehavior: IncludedBehavior };
 type IncludedBehavior =
   | 'direct_static'
+  | 'direct_fashion_timestamp'
   | 'get_sutra_value'
   | 'get_sun_sutra_value'
   | 'get_mingding_huayan';
@@ -30,6 +32,7 @@ type DefinitionStatus = 'named' | 'placeholder' | 'missing';
 
 const INCLUDED_BEHAVIORS = new Set<IncludedBehavior>([
   'direct_static',
+  'direct_fashion_timestamp',
   'get_sutra_value',
   'get_sun_sutra_value',
   'get_mingding_huayan',
@@ -42,10 +45,11 @@ const seedStore = createCraftingAcceptanceInventoryStore(registry, 'coverage');
 const seededFillNames = new Set(
   Object.values(seedStore.categories).flat().map((entry) => entry.definition.fillName),
 );
-const iconFillNames = new Set(Object.keys(CraftingItemTextureKeys));
+const iconFillNames = new Set(Object.keys(inventoryItemAssets));
 
 const modernRecipes = [
   ...DirectStaticCraftingRecipes,
+  ...PermanentFashionCraftingRecipes,
   ...SutraCraftingRecipes,
   ...SunSutraCraftingRecipes,
   ...MingDingHuaYanCraftingRecipes,
@@ -77,12 +81,13 @@ function deduplicateAuthorityRecipes(): IncludedRecipe[] {
 
 function assertCoverageContract(): void {
   const behaviorCounts = countBy(recipes, (recipe) => recipe.productionBehavior);
-  assertEqual(recipes.length, 112, 'included unique recipe count');
+  assertEqual(recipes.length, 121, 'included unique recipe count');
   assertEqual(behaviorCounts.direct_static, 67, 'direct_static count');
+  assertEqual(behaviorCounts.direct_fashion_timestamp, 9, 'direct_fashion_timestamp count');
   assertEqual(behaviorCounts.get_sutra_value, 41, 'get_sutra_value count');
   assertEqual(behaviorCounts.get_sun_sutra_value, 3, 'get_sun_sutra_value count');
   assertEqual(behaviorCounts.get_mingding_huayan, 1, 'get_mingding_huayan count');
-  assertEqual(modernRecipes.length, 112, 'modern registry count');
+  assertEqual(modernRecipes.length, 121, 'modern registry count');
 
   const authoritySignatures = new Set(
     recipes.map((recipe) => signature(recipe.materials, recipe.productFillName)),
@@ -176,7 +181,7 @@ function writeCoverageDocument(): void {
   const replacement = `${startMarker}\n\n${buildMarkdown()}\n\n${endMarker}`;
   const nextDocument = `${document.slice(0, start)}${replacement}${document.slice(end + endMarker.length)}`;
   writeFileSync(documentPath, nextDocument, 'utf8');
-  console.log('Updated docs/tasks/feature-line-coverage/LINE-CRAFTING.md with 112 recipe rows.');
+  console.log('Updated docs/tasks/feature-line-coverage/LINE-CRAFTING.md with 121 recipe rows.');
 }
 
 function definitionStatus(fillName: string): DefinitionStatus {

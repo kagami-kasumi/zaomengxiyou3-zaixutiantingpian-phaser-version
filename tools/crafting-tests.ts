@@ -19,6 +19,8 @@ import {
   DirectStaticRecipeSources,
   MingDingHuaYanCraftingRecipes,
   MingDingHuaYanRecipeSources,
+  PermanentFashionCraftingRecipes,
+  PermanentFashionRecipeSources,
   SunSutraCraftingRecipes,
   SunSutraRecipeSources,
   SutraCraftingRecipes,
@@ -296,17 +298,24 @@ function testFormalCraftingEntryLifecycle(): void {
 function testAllRecipeTransactionMatrix(): void {
   const recipes = [
     ...DirectStaticCraftingRecipes,
+    ...PermanentFashionCraftingRecipes,
     ...SutraCraftingRecipes,
     ...SunSutraCraftingRecipes,
     ...MingDingHuaYanCraftingRecipes,
   ];
-  assert.equal(recipes.length, 112);
+  assert.equal(recipes.length, 121);
   assert.deepEqual(
     recipes.reduce<Record<string, number>>((counts, recipe) => {
       counts[recipe.productionBehavior] = (counts[recipe.productionBehavior] ?? 0) + 1;
       return counts;
     }, {}),
-    { direct_static: 67, get_sutra_value: 41, get_sun_sutra_value: 3, get_mingding_huayan: 1 },
+    {
+      direct_static: 67,
+      direct_fashion_permanent: 9,
+      get_sutra_value: 41,
+      get_sun_sutra_value: 3,
+      get_mingding_huayan: 1,
+    },
   );
 
   for (const recipe of recipes) {
@@ -357,6 +366,8 @@ function countInventoryFillName(store: ReturnType<typeof createInventoryStore>, 
 function testAuthorityRegistryCoverage(): void {
   assert.equal(DirectStaticRecipeSources.length, 67);
   assert.equal(DirectStaticCraftingRecipes.length, 67);
+  assert.equal(PermanentFashionRecipeSources.length, 9);
+  assert.equal(PermanentFashionCraftingRecipes.length, 9);
   assert.equal(SutraRecipeSources.length, 41);
   assert.equal(SutraCraftingRecipes.length, 41);
   assert.equal(SunSutraRecipeSources.length, 3);
@@ -377,8 +388,8 @@ function testAuthorityRegistryCoverage(): void {
 }
 
 function testCraftingDefinitionRegistryCoverage(): void {
-  assert.equal(CraftingItemCatalogFillNames.length, 201);
-  assert.equal(new Set(CraftingItemCatalogFillNames).size, 201);
+  assert.equal(CraftingItemCatalogFillNames.length, 213);
+  assert.equal(new Set(CraftingItemCatalogFillNames).size, 213);
   const categories = { equipment: 0, items: 0, fashion: 0, skillBooks: 0 };
   for (const fillName of CraftingItemCatalogFillNames) {
     const definition = registry[fillName];
@@ -387,7 +398,7 @@ function testCraftingDefinitionRegistryCoverage(): void {
     assert.doesNotMatch(definition.description, /占位|配方测试材料|合成注册表物品/);
     categories[getInventoryCategoryForDefinition(definition)] += 1;
   }
-  assert.deepEqual(categories, { equipment: 82, items: 115, fashion: 4, skillBooks: 0 });
+  assert.deepEqual(categories, { equipment: 82, items: 115, fashion: 16, skillBooks: 0 });
   assert.deepEqual(
     ['kyg', 'kyz', 'kys', 'kyl', 'tlzsp', 'wptlz'].map((fillName) => ({
       fillName,
@@ -537,7 +548,9 @@ function testMixedMaterialRecipeCrafting(): void {
   });
   assert.equal(result.ok, true);
   assert.equal(result.soulAfter, 0);
-  assert.equal(stackQuantityInCategory(store, 'equipment', 'tjbg'), 1);
+  assert.equal(getInventoryEntries(store, 'equipment').filter(
+    (entry) => entry.kind === 'equipment' && entry.definition.fillName === 'tjbg',
+  ).length, 1);
 }
 
 function testDuplicateMaterialQuantity(): void {
@@ -563,7 +576,10 @@ function testSpecialInheritanceRegistryCoverage(): void {
   );
   assert.equal(SutraCraftingRecipes.some((recipe) => recipe.productFillName === '_dzj'), false);
   assert.equal(SutraCraftingRecipes.some((recipe) => recipe.productFillName === 'mdhy'), false);
-  assert.equal(matchCraftingRecipe(['ptnmwsz', 'ptnmwsz', 'ptnmwsz']), undefined);
+  assert.equal(
+    matchCraftingRecipe(['ptnmwsz', 'ptnmwsz', 'ptnmwsz'])?.productionBehavior,
+    'direct_fashion_permanent',
+  );
 }
 
 function testSunSutraInheritanceRules(): void {

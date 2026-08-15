@@ -50,9 +50,16 @@ const sourceItems = equipmentDataCatalog.items as readonly unknown[] as readonly
 function mapStats(fields: Readonly<Record<string, SourceNumber>>): EquipmentStats {
   const result = createEmptyEquipmentStats();
   for (const [sourceName, targetName] of Object.entries(STAT_FIELDS)) {
-    result[targetName] = fields[sourceName]!.min;
+    const source = fields[sourceName]!;
+    result[targetName] = source.unit === 'ratio'
+      ? as3FractionToPercentPoints(source.min)
+      : source.min;
   }
   return result;
+}
+
+function as3FractionToPercentPoints(value: number): number {
+  return Number((value * 100).toFixed(10));
 }
 
 function mapRanges(
