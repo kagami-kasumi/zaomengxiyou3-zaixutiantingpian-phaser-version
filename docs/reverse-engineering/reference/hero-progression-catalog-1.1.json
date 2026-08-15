@@ -1,0 +1,4494 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "1.1",
+  "scope": "Original five-hero level 1..90 base stats, shared experience thresholds, level-up sequencing, ordinary monster ownership, and original/current-save handoff boundaries",
+  "status": "verified",
+  "authorities": {
+    "constants": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/AllConsts.as",
+      "sha256": "978cdfdf149831ce2c5b9a997adad7827f883f3af751aaaae476e8809ce375db",
+      "locators": [
+        "GAME_ROLE_MAXLEVEL:14"
+      ]
+    },
+    "roleProperties": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as",
+      "sha256": "191254fd38a36365424154a36984f7cdf05ba3571df9b55b624e7d96373fefb4",
+      "locators": [
+        "judgeUpGrade:530-545",
+        "setDefense:674-682",
+        "setExper:790-809",
+        "setinitExper:882-885",
+        "addEquip/removeEquip/addAllEquip:889-993",
+        "removeAllEquipAndPassive/initAll:1098-1114"
+      ]
+    },
+    "baseHero": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+      "locators": [
+        "initPopertits:318-333",
+        "upGrade:1756-1762"
+      ]
+    },
+    "baseMonster": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "locators": [
+        "difficulty experience multipliers:217-242",
+        "reduceHp ordinary experience owner:1433-1467",
+        "addExper helper:1642-1646"
+      ]
+    },
+    "user": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/user/User.as",
+      "sha256": "118016fa1e7ae8df04f6f1cbfc655f8e898394636077798cc7694735e7a082d6",
+      "locators": [
+        "getSaveObj:628-656",
+        "setSaveObj progression restore:658-703"
+      ]
+    },
+    "backpack": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pack/BackPack.as",
+      "sha256": "e7a41adb7fb4c18ac79708ec1db505e86c2bcb83da7ea7c7c28866b8e709fae6",
+      "locators": [
+        "level/experience display:135-161"
+      ]
+    },
+    "roleInfo": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as",
+      "sha256": "ae14af3dbeee617b6c82b2aa827ee83d5b26202dc1f85fea5b16a6dcdf755f81",
+      "locators": [
+        "level/experience display:271-281"
+      ]
+    },
+    "taskInterface": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/taskInterface/TaskInterface.as",
+      "sha256": "d1fb12027e5235a67dce636b42dfefbb5820b5e829c487d179636c52ad7d2400",
+      "locators": [
+        "direct User.curExp reward bypass:328-353"
+      ]
+    },
+    "monster111": {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster111.as",
+      "sha256": "6af322f61f4bf92c9ae80d78f951627fc39654faaf42694382165a866aa2d29d",
+      "locators": [
+        "special shared experience override:337-361"
+      ]
+    },
+    "schema": {
+      "path": "docs/reverse-engineering/reference/hero-progression-catalog.schema.json",
+      "sha256": "c16e2a12bf7a85f6fcc49c434cd259c1662f5486c23655b487bd63a1ff6bc1bc",
+      "locators": [
+        "$id and structural constraints"
+      ]
+    }
+  },
+  "fieldContract": {
+    "geometry": "not-applicable: this catalog freezes numeric and sequencing behavior only; it does not change HUD/UI geometry, upgrade effects, buttons, or visible resources",
+    "baseStats": "Each role upGrade method writes SHHP, SMMP, basePower, and defense from current level; all setters accept int, so positive fractional inputs truncate toward zero before storage",
+    "experience": "exp is the current-level threshold and exper is current-level remainder; levels 89 and 90 both use the 999999999 sentinel",
+    "levelUp": "setExper stores the proposed total, judgeUpGrade raises exactly one level, rebuilds stats, then recursively calls setExper with proposedTotal-oldThreshold",
+    "derivedStats": "On a real level-up, removeAllBuff runs first; pill/equipment/passive contributions are removed, base stats are rebuilt and initially refilled, then passive/equipment/pill contributions are re-added in that order; addAllEquip refills final HP/MP",
+    "owner": "Ordinary monster experience follows curAttackTarget: a BaseHero writes that exact hero player owner, a BasePet writes that pet; no ordinary P1/P2 sharing path exists",
+    "save": "Original User saves curLevel/curExp per player. The modern current schema already stores level/currentExp per player; the implementation task must consume this catalog without creating a second progression or save owner",
+    "numericCoercion": "AS3 int parameters truncate positive fractions: Role5 defense and monster/difficulty/pet-share experience reach integer consumers through int coercion"
+  },
+  "counts": {
+    "roles": 5,
+    "levelsPerRole": 90,
+    "roleLevelRecords": 450,
+    "experienceLevelRecords": 90,
+    "unknownFields": 0
+  },
+  "coverage": {
+    "coveredLevels": {
+      "min": 1,
+      "max": 90
+    },
+    "requiredBoundaryLevels": [
+      1,
+      6,
+      7,
+      12,
+      13,
+      18,
+      19,
+      88,
+      89,
+      90
+    ],
+    "unknownFields": [],
+    "explicitExclusions": [
+      "TaskInterface direct User.curExp rewards",
+      "pet progression formulas and pet task rewards",
+      "Monster111 special shared experience override",
+      "EndlessModeCreate wave scaling",
+      "RoleLevelUpMc visual/timeline evidence",
+      "HUD, backpack, and RoleInfo display geometry"
+    ]
+  },
+  "experienceCurve": {
+    "maxLevel": 90,
+    "sentinelExpToNext": 999999999,
+    "segments": [
+      {
+        "minLevel": 1,
+        "maxLevel": 6,
+        "base": 135,
+        "growth": 10,
+        "originLevel": 1
+      },
+      {
+        "minLevel": 7,
+        "maxLevel": 12,
+        "base": 625,
+        "growth": 50,
+        "originLevel": 7
+      },
+      {
+        "minLevel": 13,
+        "maxLevel": 18,
+        "base": 1950,
+        "growth": 100,
+        "originLevel": 13
+      },
+      {
+        "minLevel": 19,
+        "maxLevel": 88,
+        "base": 5000,
+        "growth": 5000,
+        "originLevel": 19
+      },
+      {
+        "minLevel": 89,
+        "maxLevel": 90,
+        "sentinel": 999999999
+      }
+    ],
+    "levels": [
+      {
+        "level": 1,
+        "expToNext": 135
+      },
+      {
+        "level": 2,
+        "expToNext": 145
+      },
+      {
+        "level": 3,
+        "expToNext": 155
+      },
+      {
+        "level": 4,
+        "expToNext": 165
+      },
+      {
+        "level": 5,
+        "expToNext": 175
+      },
+      {
+        "level": 6,
+        "expToNext": 185
+      },
+      {
+        "level": 7,
+        "expToNext": 625
+      },
+      {
+        "level": 8,
+        "expToNext": 675
+      },
+      {
+        "level": 9,
+        "expToNext": 725
+      },
+      {
+        "level": 10,
+        "expToNext": 775
+      },
+      {
+        "level": 11,
+        "expToNext": 825
+      },
+      {
+        "level": 12,
+        "expToNext": 875
+      },
+      {
+        "level": 13,
+        "expToNext": 1950
+      },
+      {
+        "level": 14,
+        "expToNext": 2050
+      },
+      {
+        "level": 15,
+        "expToNext": 2150
+      },
+      {
+        "level": 16,
+        "expToNext": 2250
+      },
+      {
+        "level": 17,
+        "expToNext": 2350
+      },
+      {
+        "level": 18,
+        "expToNext": 2450
+      },
+      {
+        "level": 19,
+        "expToNext": 5000
+      },
+      {
+        "level": 20,
+        "expToNext": 10000
+      },
+      {
+        "level": 21,
+        "expToNext": 15000
+      },
+      {
+        "level": 22,
+        "expToNext": 20000
+      },
+      {
+        "level": 23,
+        "expToNext": 25000
+      },
+      {
+        "level": 24,
+        "expToNext": 30000
+      },
+      {
+        "level": 25,
+        "expToNext": 35000
+      },
+      {
+        "level": 26,
+        "expToNext": 40000
+      },
+      {
+        "level": 27,
+        "expToNext": 45000
+      },
+      {
+        "level": 28,
+        "expToNext": 50000
+      },
+      {
+        "level": 29,
+        "expToNext": 55000
+      },
+      {
+        "level": 30,
+        "expToNext": 60000
+      },
+      {
+        "level": 31,
+        "expToNext": 65000
+      },
+      {
+        "level": 32,
+        "expToNext": 70000
+      },
+      {
+        "level": 33,
+        "expToNext": 75000
+      },
+      {
+        "level": 34,
+        "expToNext": 80000
+      },
+      {
+        "level": 35,
+        "expToNext": 85000
+      },
+      {
+        "level": 36,
+        "expToNext": 90000
+      },
+      {
+        "level": 37,
+        "expToNext": 95000
+      },
+      {
+        "level": 38,
+        "expToNext": 100000
+      },
+      {
+        "level": 39,
+        "expToNext": 105000
+      },
+      {
+        "level": 40,
+        "expToNext": 110000
+      },
+      {
+        "level": 41,
+        "expToNext": 115000
+      },
+      {
+        "level": 42,
+        "expToNext": 120000
+      },
+      {
+        "level": 43,
+        "expToNext": 125000
+      },
+      {
+        "level": 44,
+        "expToNext": 130000
+      },
+      {
+        "level": 45,
+        "expToNext": 135000
+      },
+      {
+        "level": 46,
+        "expToNext": 140000
+      },
+      {
+        "level": 47,
+        "expToNext": 145000
+      },
+      {
+        "level": 48,
+        "expToNext": 150000
+      },
+      {
+        "level": 49,
+        "expToNext": 155000
+      },
+      {
+        "level": 50,
+        "expToNext": 160000
+      },
+      {
+        "level": 51,
+        "expToNext": 165000
+      },
+      {
+        "level": 52,
+        "expToNext": 170000
+      },
+      {
+        "level": 53,
+        "expToNext": 175000
+      },
+      {
+        "level": 54,
+        "expToNext": 180000
+      },
+      {
+        "level": 55,
+        "expToNext": 185000
+      },
+      {
+        "level": 56,
+        "expToNext": 190000
+      },
+      {
+        "level": 57,
+        "expToNext": 195000
+      },
+      {
+        "level": 58,
+        "expToNext": 200000
+      },
+      {
+        "level": 59,
+        "expToNext": 205000
+      },
+      {
+        "level": 60,
+        "expToNext": 210000
+      },
+      {
+        "level": 61,
+        "expToNext": 215000
+      },
+      {
+        "level": 62,
+        "expToNext": 220000
+      },
+      {
+        "level": 63,
+        "expToNext": 225000
+      },
+      {
+        "level": 64,
+        "expToNext": 230000
+      },
+      {
+        "level": 65,
+        "expToNext": 235000
+      },
+      {
+        "level": 66,
+        "expToNext": 240000
+      },
+      {
+        "level": 67,
+        "expToNext": 245000
+      },
+      {
+        "level": 68,
+        "expToNext": 250000
+      },
+      {
+        "level": 69,
+        "expToNext": 255000
+      },
+      {
+        "level": 70,
+        "expToNext": 260000
+      },
+      {
+        "level": 71,
+        "expToNext": 265000
+      },
+      {
+        "level": 72,
+        "expToNext": 270000
+      },
+      {
+        "level": 73,
+        "expToNext": 275000
+      },
+      {
+        "level": 74,
+        "expToNext": 280000
+      },
+      {
+        "level": 75,
+        "expToNext": 285000
+      },
+      {
+        "level": 76,
+        "expToNext": 290000
+      },
+      {
+        "level": 77,
+        "expToNext": 295000
+      },
+      {
+        "level": 78,
+        "expToNext": 300000
+      },
+      {
+        "level": 79,
+        "expToNext": 305000
+      },
+      {
+        "level": 80,
+        "expToNext": 310000
+      },
+      {
+        "level": 81,
+        "expToNext": 315000
+      },
+      {
+        "level": 82,
+        "expToNext": 320000
+      },
+      {
+        "level": 83,
+        "expToNext": 325000
+      },
+      {
+        "level": 84,
+        "expToNext": 330000
+      },
+      {
+        "level": 85,
+        "expToNext": 335000
+      },
+      {
+        "level": 86,
+        "expToNext": 340000
+      },
+      {
+        "level": 87,
+        "expToNext": 345000
+      },
+      {
+        "level": 88,
+        "expToNext": 350000
+      },
+      {
+        "level": 89,
+        "expToNext": 999999999
+      },
+      {
+        "level": 90,
+        "expToNext": 999999999
+      }
+    ],
+    "sourceLocators": [
+      "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as:upGrade:2484-2526",
+      "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role2.as:upGrade:1907-1949",
+      "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as:upGrade:1740-1782",
+      "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role4.as:upGrade:2762-2804",
+      "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role5.as:upGrade:4838-4880"
+    ],
+    "evidenceLevel": "cross-confirmed",
+    "counterEvidence": "Reopen if any Role1..Role5 upGrade branch or AllConsts.GAME_ROLE_MAXLEVEL changes."
+  },
+  "roles": [
+    {
+      "heroId": 1,
+      "originalClass": "Role1",
+      "displayName": "悟空",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as",
+        "sha256": "9785fb74ddadc858c2bda6d084612a7f50bbd09392e45a99e71a9a7b80fde489",
+        "locators": [
+          "upGrade:2484-2526"
+        ],
+        "upGradeLocator": "upGrade:2484-2526"
+      },
+      "formulas": {
+        "maxHp": {
+          "originalExpression": "80 + 50 * (this.roleProperies.getLevel() - 1)",
+          "base": 80,
+          "perLevel": 50,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "maxMp": {
+          "originalExpression": "50 + 20 * (this.roleProperies.getLevel() - 1)",
+          "base": 50,
+          "perLevel": 20,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "power": {
+          "originalExpression": "10 + 5 * (this.roleProperies.getLevel() - 1)",
+          "base": 10,
+          "perLevel": 5,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "defense": {
+          "originalExpression": "2 + 2 * (this.roleProperies.getLevel() - 1)",
+          "base": 2,
+          "perLevel": 2,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        }
+      },
+      "levels": [
+        {
+          "level": 1,
+          "maxHp": 80,
+          "maxMp": 50,
+          "power": 10,
+          "defense": 2,
+          "expToNext": 135
+        },
+        {
+          "level": 2,
+          "maxHp": 130,
+          "maxMp": 70,
+          "power": 15,
+          "defense": 4,
+          "expToNext": 145
+        },
+        {
+          "level": 3,
+          "maxHp": 180,
+          "maxMp": 90,
+          "power": 20,
+          "defense": 6,
+          "expToNext": 155
+        },
+        {
+          "level": 4,
+          "maxHp": 230,
+          "maxMp": 110,
+          "power": 25,
+          "defense": 8,
+          "expToNext": 165
+        },
+        {
+          "level": 5,
+          "maxHp": 280,
+          "maxMp": 130,
+          "power": 30,
+          "defense": 10,
+          "expToNext": 175
+        },
+        {
+          "level": 6,
+          "maxHp": 330,
+          "maxMp": 150,
+          "power": 35,
+          "defense": 12,
+          "expToNext": 185
+        },
+        {
+          "level": 7,
+          "maxHp": 380,
+          "maxMp": 170,
+          "power": 40,
+          "defense": 14,
+          "expToNext": 625
+        },
+        {
+          "level": 8,
+          "maxHp": 430,
+          "maxMp": 190,
+          "power": 45,
+          "defense": 16,
+          "expToNext": 675
+        },
+        {
+          "level": 9,
+          "maxHp": 480,
+          "maxMp": 210,
+          "power": 50,
+          "defense": 18,
+          "expToNext": 725
+        },
+        {
+          "level": 10,
+          "maxHp": 530,
+          "maxMp": 230,
+          "power": 55,
+          "defense": 20,
+          "expToNext": 775
+        },
+        {
+          "level": 11,
+          "maxHp": 580,
+          "maxMp": 250,
+          "power": 60,
+          "defense": 22,
+          "expToNext": 825
+        },
+        {
+          "level": 12,
+          "maxHp": 630,
+          "maxMp": 270,
+          "power": 65,
+          "defense": 24,
+          "expToNext": 875
+        },
+        {
+          "level": 13,
+          "maxHp": 680,
+          "maxMp": 290,
+          "power": 70,
+          "defense": 26,
+          "expToNext": 1950
+        },
+        {
+          "level": 14,
+          "maxHp": 730,
+          "maxMp": 310,
+          "power": 75,
+          "defense": 28,
+          "expToNext": 2050
+        },
+        {
+          "level": 15,
+          "maxHp": 780,
+          "maxMp": 330,
+          "power": 80,
+          "defense": 30,
+          "expToNext": 2150
+        },
+        {
+          "level": 16,
+          "maxHp": 830,
+          "maxMp": 350,
+          "power": 85,
+          "defense": 32,
+          "expToNext": 2250
+        },
+        {
+          "level": 17,
+          "maxHp": 880,
+          "maxMp": 370,
+          "power": 90,
+          "defense": 34,
+          "expToNext": 2350
+        },
+        {
+          "level": 18,
+          "maxHp": 930,
+          "maxMp": 390,
+          "power": 95,
+          "defense": 36,
+          "expToNext": 2450
+        },
+        {
+          "level": 19,
+          "maxHp": 980,
+          "maxMp": 410,
+          "power": 100,
+          "defense": 38,
+          "expToNext": 5000
+        },
+        {
+          "level": 20,
+          "maxHp": 1030,
+          "maxMp": 430,
+          "power": 105,
+          "defense": 40,
+          "expToNext": 10000
+        },
+        {
+          "level": 21,
+          "maxHp": 1080,
+          "maxMp": 450,
+          "power": 110,
+          "defense": 42,
+          "expToNext": 15000
+        },
+        {
+          "level": 22,
+          "maxHp": 1130,
+          "maxMp": 470,
+          "power": 115,
+          "defense": 44,
+          "expToNext": 20000
+        },
+        {
+          "level": 23,
+          "maxHp": 1180,
+          "maxMp": 490,
+          "power": 120,
+          "defense": 46,
+          "expToNext": 25000
+        },
+        {
+          "level": 24,
+          "maxHp": 1230,
+          "maxMp": 510,
+          "power": 125,
+          "defense": 48,
+          "expToNext": 30000
+        },
+        {
+          "level": 25,
+          "maxHp": 1280,
+          "maxMp": 530,
+          "power": 130,
+          "defense": 50,
+          "expToNext": 35000
+        },
+        {
+          "level": 26,
+          "maxHp": 1330,
+          "maxMp": 550,
+          "power": 135,
+          "defense": 52,
+          "expToNext": 40000
+        },
+        {
+          "level": 27,
+          "maxHp": 1380,
+          "maxMp": 570,
+          "power": 140,
+          "defense": 54,
+          "expToNext": 45000
+        },
+        {
+          "level": 28,
+          "maxHp": 1430,
+          "maxMp": 590,
+          "power": 145,
+          "defense": 56,
+          "expToNext": 50000
+        },
+        {
+          "level": 29,
+          "maxHp": 1480,
+          "maxMp": 610,
+          "power": 150,
+          "defense": 58,
+          "expToNext": 55000
+        },
+        {
+          "level": 30,
+          "maxHp": 1530,
+          "maxMp": 630,
+          "power": 155,
+          "defense": 60,
+          "expToNext": 60000
+        },
+        {
+          "level": 31,
+          "maxHp": 1580,
+          "maxMp": 650,
+          "power": 160,
+          "defense": 62,
+          "expToNext": 65000
+        },
+        {
+          "level": 32,
+          "maxHp": 1630,
+          "maxMp": 670,
+          "power": 165,
+          "defense": 64,
+          "expToNext": 70000
+        },
+        {
+          "level": 33,
+          "maxHp": 1680,
+          "maxMp": 690,
+          "power": 170,
+          "defense": 66,
+          "expToNext": 75000
+        },
+        {
+          "level": 34,
+          "maxHp": 1730,
+          "maxMp": 710,
+          "power": 175,
+          "defense": 68,
+          "expToNext": 80000
+        },
+        {
+          "level": 35,
+          "maxHp": 1780,
+          "maxMp": 730,
+          "power": 180,
+          "defense": 70,
+          "expToNext": 85000
+        },
+        {
+          "level": 36,
+          "maxHp": 1830,
+          "maxMp": 750,
+          "power": 185,
+          "defense": 72,
+          "expToNext": 90000
+        },
+        {
+          "level": 37,
+          "maxHp": 1880,
+          "maxMp": 770,
+          "power": 190,
+          "defense": 74,
+          "expToNext": 95000
+        },
+        {
+          "level": 38,
+          "maxHp": 1930,
+          "maxMp": 790,
+          "power": 195,
+          "defense": 76,
+          "expToNext": 100000
+        },
+        {
+          "level": 39,
+          "maxHp": 1980,
+          "maxMp": 810,
+          "power": 200,
+          "defense": 78,
+          "expToNext": 105000
+        },
+        {
+          "level": 40,
+          "maxHp": 2030,
+          "maxMp": 830,
+          "power": 205,
+          "defense": 80,
+          "expToNext": 110000
+        },
+        {
+          "level": 41,
+          "maxHp": 2080,
+          "maxMp": 850,
+          "power": 210,
+          "defense": 82,
+          "expToNext": 115000
+        },
+        {
+          "level": 42,
+          "maxHp": 2130,
+          "maxMp": 870,
+          "power": 215,
+          "defense": 84,
+          "expToNext": 120000
+        },
+        {
+          "level": 43,
+          "maxHp": 2180,
+          "maxMp": 890,
+          "power": 220,
+          "defense": 86,
+          "expToNext": 125000
+        },
+        {
+          "level": 44,
+          "maxHp": 2230,
+          "maxMp": 910,
+          "power": 225,
+          "defense": 88,
+          "expToNext": 130000
+        },
+        {
+          "level": 45,
+          "maxHp": 2280,
+          "maxMp": 930,
+          "power": 230,
+          "defense": 90,
+          "expToNext": 135000
+        },
+        {
+          "level": 46,
+          "maxHp": 2330,
+          "maxMp": 950,
+          "power": 235,
+          "defense": 92,
+          "expToNext": 140000
+        },
+        {
+          "level": 47,
+          "maxHp": 2380,
+          "maxMp": 970,
+          "power": 240,
+          "defense": 94,
+          "expToNext": 145000
+        },
+        {
+          "level": 48,
+          "maxHp": 2430,
+          "maxMp": 990,
+          "power": 245,
+          "defense": 96,
+          "expToNext": 150000
+        },
+        {
+          "level": 49,
+          "maxHp": 2480,
+          "maxMp": 1010,
+          "power": 250,
+          "defense": 98,
+          "expToNext": 155000
+        },
+        {
+          "level": 50,
+          "maxHp": 2530,
+          "maxMp": 1030,
+          "power": 255,
+          "defense": 100,
+          "expToNext": 160000
+        },
+        {
+          "level": 51,
+          "maxHp": 2580,
+          "maxMp": 1050,
+          "power": 260,
+          "defense": 102,
+          "expToNext": 165000
+        },
+        {
+          "level": 52,
+          "maxHp": 2630,
+          "maxMp": 1070,
+          "power": 265,
+          "defense": 104,
+          "expToNext": 170000
+        },
+        {
+          "level": 53,
+          "maxHp": 2680,
+          "maxMp": 1090,
+          "power": 270,
+          "defense": 106,
+          "expToNext": 175000
+        },
+        {
+          "level": 54,
+          "maxHp": 2730,
+          "maxMp": 1110,
+          "power": 275,
+          "defense": 108,
+          "expToNext": 180000
+        },
+        {
+          "level": 55,
+          "maxHp": 2780,
+          "maxMp": 1130,
+          "power": 280,
+          "defense": 110,
+          "expToNext": 185000
+        },
+        {
+          "level": 56,
+          "maxHp": 2830,
+          "maxMp": 1150,
+          "power": 285,
+          "defense": 112,
+          "expToNext": 190000
+        },
+        {
+          "level": 57,
+          "maxHp": 2880,
+          "maxMp": 1170,
+          "power": 290,
+          "defense": 114,
+          "expToNext": 195000
+        },
+        {
+          "level": 58,
+          "maxHp": 2930,
+          "maxMp": 1190,
+          "power": 295,
+          "defense": 116,
+          "expToNext": 200000
+        },
+        {
+          "level": 59,
+          "maxHp": 2980,
+          "maxMp": 1210,
+          "power": 300,
+          "defense": 118,
+          "expToNext": 205000
+        },
+        {
+          "level": 60,
+          "maxHp": 3030,
+          "maxMp": 1230,
+          "power": 305,
+          "defense": 120,
+          "expToNext": 210000
+        },
+        {
+          "level": 61,
+          "maxHp": 3080,
+          "maxMp": 1250,
+          "power": 310,
+          "defense": 122,
+          "expToNext": 215000
+        },
+        {
+          "level": 62,
+          "maxHp": 3130,
+          "maxMp": 1270,
+          "power": 315,
+          "defense": 124,
+          "expToNext": 220000
+        },
+        {
+          "level": 63,
+          "maxHp": 3180,
+          "maxMp": 1290,
+          "power": 320,
+          "defense": 126,
+          "expToNext": 225000
+        },
+        {
+          "level": 64,
+          "maxHp": 3230,
+          "maxMp": 1310,
+          "power": 325,
+          "defense": 128,
+          "expToNext": 230000
+        },
+        {
+          "level": 65,
+          "maxHp": 3280,
+          "maxMp": 1330,
+          "power": 330,
+          "defense": 130,
+          "expToNext": 235000
+        },
+        {
+          "level": 66,
+          "maxHp": 3330,
+          "maxMp": 1350,
+          "power": 335,
+          "defense": 132,
+          "expToNext": 240000
+        },
+        {
+          "level": 67,
+          "maxHp": 3380,
+          "maxMp": 1370,
+          "power": 340,
+          "defense": 134,
+          "expToNext": 245000
+        },
+        {
+          "level": 68,
+          "maxHp": 3430,
+          "maxMp": 1390,
+          "power": 345,
+          "defense": 136,
+          "expToNext": 250000
+        },
+        {
+          "level": 69,
+          "maxHp": 3480,
+          "maxMp": 1410,
+          "power": 350,
+          "defense": 138,
+          "expToNext": 255000
+        },
+        {
+          "level": 70,
+          "maxHp": 3530,
+          "maxMp": 1430,
+          "power": 355,
+          "defense": 140,
+          "expToNext": 260000
+        },
+        {
+          "level": 71,
+          "maxHp": 3580,
+          "maxMp": 1450,
+          "power": 360,
+          "defense": 142,
+          "expToNext": 265000
+        },
+        {
+          "level": 72,
+          "maxHp": 3630,
+          "maxMp": 1470,
+          "power": 365,
+          "defense": 144,
+          "expToNext": 270000
+        },
+        {
+          "level": 73,
+          "maxHp": 3680,
+          "maxMp": 1490,
+          "power": 370,
+          "defense": 146,
+          "expToNext": 275000
+        },
+        {
+          "level": 74,
+          "maxHp": 3730,
+          "maxMp": 1510,
+          "power": 375,
+          "defense": 148,
+          "expToNext": 280000
+        },
+        {
+          "level": 75,
+          "maxHp": 3780,
+          "maxMp": 1530,
+          "power": 380,
+          "defense": 150,
+          "expToNext": 285000
+        },
+        {
+          "level": 76,
+          "maxHp": 3830,
+          "maxMp": 1550,
+          "power": 385,
+          "defense": 152,
+          "expToNext": 290000
+        },
+        {
+          "level": 77,
+          "maxHp": 3880,
+          "maxMp": 1570,
+          "power": 390,
+          "defense": 154,
+          "expToNext": 295000
+        },
+        {
+          "level": 78,
+          "maxHp": 3930,
+          "maxMp": 1590,
+          "power": 395,
+          "defense": 156,
+          "expToNext": 300000
+        },
+        {
+          "level": 79,
+          "maxHp": 3980,
+          "maxMp": 1610,
+          "power": 400,
+          "defense": 158,
+          "expToNext": 305000
+        },
+        {
+          "level": 80,
+          "maxHp": 4030,
+          "maxMp": 1630,
+          "power": 405,
+          "defense": 160,
+          "expToNext": 310000
+        },
+        {
+          "level": 81,
+          "maxHp": 4080,
+          "maxMp": 1650,
+          "power": 410,
+          "defense": 162,
+          "expToNext": 315000
+        },
+        {
+          "level": 82,
+          "maxHp": 4130,
+          "maxMp": 1670,
+          "power": 415,
+          "defense": 164,
+          "expToNext": 320000
+        },
+        {
+          "level": 83,
+          "maxHp": 4180,
+          "maxMp": 1690,
+          "power": 420,
+          "defense": 166,
+          "expToNext": 325000
+        },
+        {
+          "level": 84,
+          "maxHp": 4230,
+          "maxMp": 1710,
+          "power": 425,
+          "defense": 168,
+          "expToNext": 330000
+        },
+        {
+          "level": 85,
+          "maxHp": 4280,
+          "maxMp": 1730,
+          "power": 430,
+          "defense": 170,
+          "expToNext": 335000
+        },
+        {
+          "level": 86,
+          "maxHp": 4330,
+          "maxMp": 1750,
+          "power": 435,
+          "defense": 172,
+          "expToNext": 340000
+        },
+        {
+          "level": 87,
+          "maxHp": 4380,
+          "maxMp": 1770,
+          "power": 440,
+          "defense": 174,
+          "expToNext": 345000
+        },
+        {
+          "level": 88,
+          "maxHp": 4430,
+          "maxMp": 1790,
+          "power": 445,
+          "defense": 176,
+          "expToNext": 350000
+        },
+        {
+          "level": 89,
+          "maxHp": 4480,
+          "maxMp": 1810,
+          "power": 450,
+          "defense": 178,
+          "expToNext": 999999999
+        },
+        {
+          "level": 90,
+          "maxHp": 4530,
+          "maxMp": 1830,
+          "power": 455,
+          "defense": 180,
+          "expToNext": 999999999
+        }
+      ],
+      "evidenceLevel": "cross-confirmed",
+      "counterEvidence": "Reopen if the role upGrade body, BaseRoleProperies setter signatures, or shared experience branches change."
+    },
+    {
+      "heroId": 2,
+      "originalClass": "Role2",
+      "displayName": "唐僧",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role2.as",
+        "sha256": "cdfea276e85d4d8cc619fb6ca33901cbe2e7d42afd02b2bf5738acbdab16cf3b",
+        "locators": [
+          "upGrade:1907-1949"
+        ],
+        "upGradeLocator": "upGrade:1907-1949"
+      },
+      "formulas": {
+        "maxHp": {
+          "originalExpression": "50 + 20 * (this.roleProperies.getLevel() - 1)",
+          "base": 50,
+          "perLevel": 20,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "maxMp": {
+          "originalExpression": "100 + 40 * (this.roleProperies.getLevel() - 1)",
+          "base": 100,
+          "perLevel": 40,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "power": {
+          "originalExpression": "12 + 8 * (this.roleProperies.getLevel() - 1)",
+          "base": 12,
+          "perLevel": 8,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "defense": {
+          "originalExpression": "this.roleProperies.getLevel() - 1",
+          "base": 0,
+          "perLevel": 1,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        }
+      },
+      "levels": [
+        {
+          "level": 1,
+          "maxHp": 50,
+          "maxMp": 100,
+          "power": 12,
+          "defense": 0,
+          "expToNext": 135
+        },
+        {
+          "level": 2,
+          "maxHp": 70,
+          "maxMp": 140,
+          "power": 20,
+          "defense": 1,
+          "expToNext": 145
+        },
+        {
+          "level": 3,
+          "maxHp": 90,
+          "maxMp": 180,
+          "power": 28,
+          "defense": 2,
+          "expToNext": 155
+        },
+        {
+          "level": 4,
+          "maxHp": 110,
+          "maxMp": 220,
+          "power": 36,
+          "defense": 3,
+          "expToNext": 165
+        },
+        {
+          "level": 5,
+          "maxHp": 130,
+          "maxMp": 260,
+          "power": 44,
+          "defense": 4,
+          "expToNext": 175
+        },
+        {
+          "level": 6,
+          "maxHp": 150,
+          "maxMp": 300,
+          "power": 52,
+          "defense": 5,
+          "expToNext": 185
+        },
+        {
+          "level": 7,
+          "maxHp": 170,
+          "maxMp": 340,
+          "power": 60,
+          "defense": 6,
+          "expToNext": 625
+        },
+        {
+          "level": 8,
+          "maxHp": 190,
+          "maxMp": 380,
+          "power": 68,
+          "defense": 7,
+          "expToNext": 675
+        },
+        {
+          "level": 9,
+          "maxHp": 210,
+          "maxMp": 420,
+          "power": 76,
+          "defense": 8,
+          "expToNext": 725
+        },
+        {
+          "level": 10,
+          "maxHp": 230,
+          "maxMp": 460,
+          "power": 84,
+          "defense": 9,
+          "expToNext": 775
+        },
+        {
+          "level": 11,
+          "maxHp": 250,
+          "maxMp": 500,
+          "power": 92,
+          "defense": 10,
+          "expToNext": 825
+        },
+        {
+          "level": 12,
+          "maxHp": 270,
+          "maxMp": 540,
+          "power": 100,
+          "defense": 11,
+          "expToNext": 875
+        },
+        {
+          "level": 13,
+          "maxHp": 290,
+          "maxMp": 580,
+          "power": 108,
+          "defense": 12,
+          "expToNext": 1950
+        },
+        {
+          "level": 14,
+          "maxHp": 310,
+          "maxMp": 620,
+          "power": 116,
+          "defense": 13,
+          "expToNext": 2050
+        },
+        {
+          "level": 15,
+          "maxHp": 330,
+          "maxMp": 660,
+          "power": 124,
+          "defense": 14,
+          "expToNext": 2150
+        },
+        {
+          "level": 16,
+          "maxHp": 350,
+          "maxMp": 700,
+          "power": 132,
+          "defense": 15,
+          "expToNext": 2250
+        },
+        {
+          "level": 17,
+          "maxHp": 370,
+          "maxMp": 740,
+          "power": 140,
+          "defense": 16,
+          "expToNext": 2350
+        },
+        {
+          "level": 18,
+          "maxHp": 390,
+          "maxMp": 780,
+          "power": 148,
+          "defense": 17,
+          "expToNext": 2450
+        },
+        {
+          "level": 19,
+          "maxHp": 410,
+          "maxMp": 820,
+          "power": 156,
+          "defense": 18,
+          "expToNext": 5000
+        },
+        {
+          "level": 20,
+          "maxHp": 430,
+          "maxMp": 860,
+          "power": 164,
+          "defense": 19,
+          "expToNext": 10000
+        },
+        {
+          "level": 21,
+          "maxHp": 450,
+          "maxMp": 900,
+          "power": 172,
+          "defense": 20,
+          "expToNext": 15000
+        },
+        {
+          "level": 22,
+          "maxHp": 470,
+          "maxMp": 940,
+          "power": 180,
+          "defense": 21,
+          "expToNext": 20000
+        },
+        {
+          "level": 23,
+          "maxHp": 490,
+          "maxMp": 980,
+          "power": 188,
+          "defense": 22,
+          "expToNext": 25000
+        },
+        {
+          "level": 24,
+          "maxHp": 510,
+          "maxMp": 1020,
+          "power": 196,
+          "defense": 23,
+          "expToNext": 30000
+        },
+        {
+          "level": 25,
+          "maxHp": 530,
+          "maxMp": 1060,
+          "power": 204,
+          "defense": 24,
+          "expToNext": 35000
+        },
+        {
+          "level": 26,
+          "maxHp": 550,
+          "maxMp": 1100,
+          "power": 212,
+          "defense": 25,
+          "expToNext": 40000
+        },
+        {
+          "level": 27,
+          "maxHp": 570,
+          "maxMp": 1140,
+          "power": 220,
+          "defense": 26,
+          "expToNext": 45000
+        },
+        {
+          "level": 28,
+          "maxHp": 590,
+          "maxMp": 1180,
+          "power": 228,
+          "defense": 27,
+          "expToNext": 50000
+        },
+        {
+          "level": 29,
+          "maxHp": 610,
+          "maxMp": 1220,
+          "power": 236,
+          "defense": 28,
+          "expToNext": 55000
+        },
+        {
+          "level": 30,
+          "maxHp": 630,
+          "maxMp": 1260,
+          "power": 244,
+          "defense": 29,
+          "expToNext": 60000
+        },
+        {
+          "level": 31,
+          "maxHp": 650,
+          "maxMp": 1300,
+          "power": 252,
+          "defense": 30,
+          "expToNext": 65000
+        },
+        {
+          "level": 32,
+          "maxHp": 670,
+          "maxMp": 1340,
+          "power": 260,
+          "defense": 31,
+          "expToNext": 70000
+        },
+        {
+          "level": 33,
+          "maxHp": 690,
+          "maxMp": 1380,
+          "power": 268,
+          "defense": 32,
+          "expToNext": 75000
+        },
+        {
+          "level": 34,
+          "maxHp": 710,
+          "maxMp": 1420,
+          "power": 276,
+          "defense": 33,
+          "expToNext": 80000
+        },
+        {
+          "level": 35,
+          "maxHp": 730,
+          "maxMp": 1460,
+          "power": 284,
+          "defense": 34,
+          "expToNext": 85000
+        },
+        {
+          "level": 36,
+          "maxHp": 750,
+          "maxMp": 1500,
+          "power": 292,
+          "defense": 35,
+          "expToNext": 90000
+        },
+        {
+          "level": 37,
+          "maxHp": 770,
+          "maxMp": 1540,
+          "power": 300,
+          "defense": 36,
+          "expToNext": 95000
+        },
+        {
+          "level": 38,
+          "maxHp": 790,
+          "maxMp": 1580,
+          "power": 308,
+          "defense": 37,
+          "expToNext": 100000
+        },
+        {
+          "level": 39,
+          "maxHp": 810,
+          "maxMp": 1620,
+          "power": 316,
+          "defense": 38,
+          "expToNext": 105000
+        },
+        {
+          "level": 40,
+          "maxHp": 830,
+          "maxMp": 1660,
+          "power": 324,
+          "defense": 39,
+          "expToNext": 110000
+        },
+        {
+          "level": 41,
+          "maxHp": 850,
+          "maxMp": 1700,
+          "power": 332,
+          "defense": 40,
+          "expToNext": 115000
+        },
+        {
+          "level": 42,
+          "maxHp": 870,
+          "maxMp": 1740,
+          "power": 340,
+          "defense": 41,
+          "expToNext": 120000
+        },
+        {
+          "level": 43,
+          "maxHp": 890,
+          "maxMp": 1780,
+          "power": 348,
+          "defense": 42,
+          "expToNext": 125000
+        },
+        {
+          "level": 44,
+          "maxHp": 910,
+          "maxMp": 1820,
+          "power": 356,
+          "defense": 43,
+          "expToNext": 130000
+        },
+        {
+          "level": 45,
+          "maxHp": 930,
+          "maxMp": 1860,
+          "power": 364,
+          "defense": 44,
+          "expToNext": 135000
+        },
+        {
+          "level": 46,
+          "maxHp": 950,
+          "maxMp": 1900,
+          "power": 372,
+          "defense": 45,
+          "expToNext": 140000
+        },
+        {
+          "level": 47,
+          "maxHp": 970,
+          "maxMp": 1940,
+          "power": 380,
+          "defense": 46,
+          "expToNext": 145000
+        },
+        {
+          "level": 48,
+          "maxHp": 990,
+          "maxMp": 1980,
+          "power": 388,
+          "defense": 47,
+          "expToNext": 150000
+        },
+        {
+          "level": 49,
+          "maxHp": 1010,
+          "maxMp": 2020,
+          "power": 396,
+          "defense": 48,
+          "expToNext": 155000
+        },
+        {
+          "level": 50,
+          "maxHp": 1030,
+          "maxMp": 2060,
+          "power": 404,
+          "defense": 49,
+          "expToNext": 160000
+        },
+        {
+          "level": 51,
+          "maxHp": 1050,
+          "maxMp": 2100,
+          "power": 412,
+          "defense": 50,
+          "expToNext": 165000
+        },
+        {
+          "level": 52,
+          "maxHp": 1070,
+          "maxMp": 2140,
+          "power": 420,
+          "defense": 51,
+          "expToNext": 170000
+        },
+        {
+          "level": 53,
+          "maxHp": 1090,
+          "maxMp": 2180,
+          "power": 428,
+          "defense": 52,
+          "expToNext": 175000
+        },
+        {
+          "level": 54,
+          "maxHp": 1110,
+          "maxMp": 2220,
+          "power": 436,
+          "defense": 53,
+          "expToNext": 180000
+        },
+        {
+          "level": 55,
+          "maxHp": 1130,
+          "maxMp": 2260,
+          "power": 444,
+          "defense": 54,
+          "expToNext": 185000
+        },
+        {
+          "level": 56,
+          "maxHp": 1150,
+          "maxMp": 2300,
+          "power": 452,
+          "defense": 55,
+          "expToNext": 190000
+        },
+        {
+          "level": 57,
+          "maxHp": 1170,
+          "maxMp": 2340,
+          "power": 460,
+          "defense": 56,
+          "expToNext": 195000
+        },
+        {
+          "level": 58,
+          "maxHp": 1190,
+          "maxMp": 2380,
+          "power": 468,
+          "defense": 57,
+          "expToNext": 200000
+        },
+        {
+          "level": 59,
+          "maxHp": 1210,
+          "maxMp": 2420,
+          "power": 476,
+          "defense": 58,
+          "expToNext": 205000
+        },
+        {
+          "level": 60,
+          "maxHp": 1230,
+          "maxMp": 2460,
+          "power": 484,
+          "defense": 59,
+          "expToNext": 210000
+        },
+        {
+          "level": 61,
+          "maxHp": 1250,
+          "maxMp": 2500,
+          "power": 492,
+          "defense": 60,
+          "expToNext": 215000
+        },
+        {
+          "level": 62,
+          "maxHp": 1270,
+          "maxMp": 2540,
+          "power": 500,
+          "defense": 61,
+          "expToNext": 220000
+        },
+        {
+          "level": 63,
+          "maxHp": 1290,
+          "maxMp": 2580,
+          "power": 508,
+          "defense": 62,
+          "expToNext": 225000
+        },
+        {
+          "level": 64,
+          "maxHp": 1310,
+          "maxMp": 2620,
+          "power": 516,
+          "defense": 63,
+          "expToNext": 230000
+        },
+        {
+          "level": 65,
+          "maxHp": 1330,
+          "maxMp": 2660,
+          "power": 524,
+          "defense": 64,
+          "expToNext": 235000
+        },
+        {
+          "level": 66,
+          "maxHp": 1350,
+          "maxMp": 2700,
+          "power": 532,
+          "defense": 65,
+          "expToNext": 240000
+        },
+        {
+          "level": 67,
+          "maxHp": 1370,
+          "maxMp": 2740,
+          "power": 540,
+          "defense": 66,
+          "expToNext": 245000
+        },
+        {
+          "level": 68,
+          "maxHp": 1390,
+          "maxMp": 2780,
+          "power": 548,
+          "defense": 67,
+          "expToNext": 250000
+        },
+        {
+          "level": 69,
+          "maxHp": 1410,
+          "maxMp": 2820,
+          "power": 556,
+          "defense": 68,
+          "expToNext": 255000
+        },
+        {
+          "level": 70,
+          "maxHp": 1430,
+          "maxMp": 2860,
+          "power": 564,
+          "defense": 69,
+          "expToNext": 260000
+        },
+        {
+          "level": 71,
+          "maxHp": 1450,
+          "maxMp": 2900,
+          "power": 572,
+          "defense": 70,
+          "expToNext": 265000
+        },
+        {
+          "level": 72,
+          "maxHp": 1470,
+          "maxMp": 2940,
+          "power": 580,
+          "defense": 71,
+          "expToNext": 270000
+        },
+        {
+          "level": 73,
+          "maxHp": 1490,
+          "maxMp": 2980,
+          "power": 588,
+          "defense": 72,
+          "expToNext": 275000
+        },
+        {
+          "level": 74,
+          "maxHp": 1510,
+          "maxMp": 3020,
+          "power": 596,
+          "defense": 73,
+          "expToNext": 280000
+        },
+        {
+          "level": 75,
+          "maxHp": 1530,
+          "maxMp": 3060,
+          "power": 604,
+          "defense": 74,
+          "expToNext": 285000
+        },
+        {
+          "level": 76,
+          "maxHp": 1550,
+          "maxMp": 3100,
+          "power": 612,
+          "defense": 75,
+          "expToNext": 290000
+        },
+        {
+          "level": 77,
+          "maxHp": 1570,
+          "maxMp": 3140,
+          "power": 620,
+          "defense": 76,
+          "expToNext": 295000
+        },
+        {
+          "level": 78,
+          "maxHp": 1590,
+          "maxMp": 3180,
+          "power": 628,
+          "defense": 77,
+          "expToNext": 300000
+        },
+        {
+          "level": 79,
+          "maxHp": 1610,
+          "maxMp": 3220,
+          "power": 636,
+          "defense": 78,
+          "expToNext": 305000
+        },
+        {
+          "level": 80,
+          "maxHp": 1630,
+          "maxMp": 3260,
+          "power": 644,
+          "defense": 79,
+          "expToNext": 310000
+        },
+        {
+          "level": 81,
+          "maxHp": 1650,
+          "maxMp": 3300,
+          "power": 652,
+          "defense": 80,
+          "expToNext": 315000
+        },
+        {
+          "level": 82,
+          "maxHp": 1670,
+          "maxMp": 3340,
+          "power": 660,
+          "defense": 81,
+          "expToNext": 320000
+        },
+        {
+          "level": 83,
+          "maxHp": 1690,
+          "maxMp": 3380,
+          "power": 668,
+          "defense": 82,
+          "expToNext": 325000
+        },
+        {
+          "level": 84,
+          "maxHp": 1710,
+          "maxMp": 3420,
+          "power": 676,
+          "defense": 83,
+          "expToNext": 330000
+        },
+        {
+          "level": 85,
+          "maxHp": 1730,
+          "maxMp": 3460,
+          "power": 684,
+          "defense": 84,
+          "expToNext": 335000
+        },
+        {
+          "level": 86,
+          "maxHp": 1750,
+          "maxMp": 3500,
+          "power": 692,
+          "defense": 85,
+          "expToNext": 340000
+        },
+        {
+          "level": 87,
+          "maxHp": 1770,
+          "maxMp": 3540,
+          "power": 700,
+          "defense": 86,
+          "expToNext": 345000
+        },
+        {
+          "level": 88,
+          "maxHp": 1790,
+          "maxMp": 3580,
+          "power": 708,
+          "defense": 87,
+          "expToNext": 350000
+        },
+        {
+          "level": 89,
+          "maxHp": 1810,
+          "maxMp": 3620,
+          "power": 716,
+          "defense": 88,
+          "expToNext": 999999999
+        },
+        {
+          "level": 90,
+          "maxHp": 1830,
+          "maxMp": 3660,
+          "power": 724,
+          "defense": 89,
+          "expToNext": 999999999
+        }
+      ],
+      "evidenceLevel": "cross-confirmed",
+      "counterEvidence": "Reopen if the role upGrade body, BaseRoleProperies setter signatures, or shared experience branches change."
+    },
+    {
+      "heroId": 3,
+      "originalClass": "Role3",
+      "displayName": "八戒",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as",
+        "sha256": "1a55dc67a6e0af9a8db2a60e45933ec9c1152c58c74f16bc9a113d8e618b85a1",
+        "locators": [
+          "upGrade:1740-1782"
+        ],
+        "upGradeLocator": "upGrade:1740-1782"
+      },
+      "formulas": {
+        "maxHp": {
+          "originalExpression": "100 + 70 * (this.roleProperies.getLevel() - 1)",
+          "base": 100,
+          "perLevel": 70,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "maxMp": {
+          "originalExpression": "35 + 15 * (this.roleProperies.getLevel() - 1)",
+          "base": 35,
+          "perLevel": 15,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "power": {
+          "originalExpression": "15 + 8 * (this.roleProperies.getLevel() - 1)",
+          "base": 15,
+          "perLevel": 8,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "defense": {
+          "originalExpression": "4 + (this.roleProperies.getLevel() - 1)",
+          "base": 4,
+          "perLevel": 1,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        }
+      },
+      "levels": [
+        {
+          "level": 1,
+          "maxHp": 100,
+          "maxMp": 35,
+          "power": 15,
+          "defense": 4,
+          "expToNext": 135
+        },
+        {
+          "level": 2,
+          "maxHp": 170,
+          "maxMp": 50,
+          "power": 23,
+          "defense": 5,
+          "expToNext": 145
+        },
+        {
+          "level": 3,
+          "maxHp": 240,
+          "maxMp": 65,
+          "power": 31,
+          "defense": 6,
+          "expToNext": 155
+        },
+        {
+          "level": 4,
+          "maxHp": 310,
+          "maxMp": 80,
+          "power": 39,
+          "defense": 7,
+          "expToNext": 165
+        },
+        {
+          "level": 5,
+          "maxHp": 380,
+          "maxMp": 95,
+          "power": 47,
+          "defense": 8,
+          "expToNext": 175
+        },
+        {
+          "level": 6,
+          "maxHp": 450,
+          "maxMp": 110,
+          "power": 55,
+          "defense": 9,
+          "expToNext": 185
+        },
+        {
+          "level": 7,
+          "maxHp": 520,
+          "maxMp": 125,
+          "power": 63,
+          "defense": 10,
+          "expToNext": 625
+        },
+        {
+          "level": 8,
+          "maxHp": 590,
+          "maxMp": 140,
+          "power": 71,
+          "defense": 11,
+          "expToNext": 675
+        },
+        {
+          "level": 9,
+          "maxHp": 660,
+          "maxMp": 155,
+          "power": 79,
+          "defense": 12,
+          "expToNext": 725
+        },
+        {
+          "level": 10,
+          "maxHp": 730,
+          "maxMp": 170,
+          "power": 87,
+          "defense": 13,
+          "expToNext": 775
+        },
+        {
+          "level": 11,
+          "maxHp": 800,
+          "maxMp": 185,
+          "power": 95,
+          "defense": 14,
+          "expToNext": 825
+        },
+        {
+          "level": 12,
+          "maxHp": 870,
+          "maxMp": 200,
+          "power": 103,
+          "defense": 15,
+          "expToNext": 875
+        },
+        {
+          "level": 13,
+          "maxHp": 940,
+          "maxMp": 215,
+          "power": 111,
+          "defense": 16,
+          "expToNext": 1950
+        },
+        {
+          "level": 14,
+          "maxHp": 1010,
+          "maxMp": 230,
+          "power": 119,
+          "defense": 17,
+          "expToNext": 2050
+        },
+        {
+          "level": 15,
+          "maxHp": 1080,
+          "maxMp": 245,
+          "power": 127,
+          "defense": 18,
+          "expToNext": 2150
+        },
+        {
+          "level": 16,
+          "maxHp": 1150,
+          "maxMp": 260,
+          "power": 135,
+          "defense": 19,
+          "expToNext": 2250
+        },
+        {
+          "level": 17,
+          "maxHp": 1220,
+          "maxMp": 275,
+          "power": 143,
+          "defense": 20,
+          "expToNext": 2350
+        },
+        {
+          "level": 18,
+          "maxHp": 1290,
+          "maxMp": 290,
+          "power": 151,
+          "defense": 21,
+          "expToNext": 2450
+        },
+        {
+          "level": 19,
+          "maxHp": 1360,
+          "maxMp": 305,
+          "power": 159,
+          "defense": 22,
+          "expToNext": 5000
+        },
+        {
+          "level": 20,
+          "maxHp": 1430,
+          "maxMp": 320,
+          "power": 167,
+          "defense": 23,
+          "expToNext": 10000
+        },
+        {
+          "level": 21,
+          "maxHp": 1500,
+          "maxMp": 335,
+          "power": 175,
+          "defense": 24,
+          "expToNext": 15000
+        },
+        {
+          "level": 22,
+          "maxHp": 1570,
+          "maxMp": 350,
+          "power": 183,
+          "defense": 25,
+          "expToNext": 20000
+        },
+        {
+          "level": 23,
+          "maxHp": 1640,
+          "maxMp": 365,
+          "power": 191,
+          "defense": 26,
+          "expToNext": 25000
+        },
+        {
+          "level": 24,
+          "maxHp": 1710,
+          "maxMp": 380,
+          "power": 199,
+          "defense": 27,
+          "expToNext": 30000
+        },
+        {
+          "level": 25,
+          "maxHp": 1780,
+          "maxMp": 395,
+          "power": 207,
+          "defense": 28,
+          "expToNext": 35000
+        },
+        {
+          "level": 26,
+          "maxHp": 1850,
+          "maxMp": 410,
+          "power": 215,
+          "defense": 29,
+          "expToNext": 40000
+        },
+        {
+          "level": 27,
+          "maxHp": 1920,
+          "maxMp": 425,
+          "power": 223,
+          "defense": 30,
+          "expToNext": 45000
+        },
+        {
+          "level": 28,
+          "maxHp": 1990,
+          "maxMp": 440,
+          "power": 231,
+          "defense": 31,
+          "expToNext": 50000
+        },
+        {
+          "level": 29,
+          "maxHp": 2060,
+          "maxMp": 455,
+          "power": 239,
+          "defense": 32,
+          "expToNext": 55000
+        },
+        {
+          "level": 30,
+          "maxHp": 2130,
+          "maxMp": 470,
+          "power": 247,
+          "defense": 33,
+          "expToNext": 60000
+        },
+        {
+          "level": 31,
+          "maxHp": 2200,
+          "maxMp": 485,
+          "power": 255,
+          "defense": 34,
+          "expToNext": 65000
+        },
+        {
+          "level": 32,
+          "maxHp": 2270,
+          "maxMp": 500,
+          "power": 263,
+          "defense": 35,
+          "expToNext": 70000
+        },
+        {
+          "level": 33,
+          "maxHp": 2340,
+          "maxMp": 515,
+          "power": 271,
+          "defense": 36,
+          "expToNext": 75000
+        },
+        {
+          "level": 34,
+          "maxHp": 2410,
+          "maxMp": 530,
+          "power": 279,
+          "defense": 37,
+          "expToNext": 80000
+        },
+        {
+          "level": 35,
+          "maxHp": 2480,
+          "maxMp": 545,
+          "power": 287,
+          "defense": 38,
+          "expToNext": 85000
+        },
+        {
+          "level": 36,
+          "maxHp": 2550,
+          "maxMp": 560,
+          "power": 295,
+          "defense": 39,
+          "expToNext": 90000
+        },
+        {
+          "level": 37,
+          "maxHp": 2620,
+          "maxMp": 575,
+          "power": 303,
+          "defense": 40,
+          "expToNext": 95000
+        },
+        {
+          "level": 38,
+          "maxHp": 2690,
+          "maxMp": 590,
+          "power": 311,
+          "defense": 41,
+          "expToNext": 100000
+        },
+        {
+          "level": 39,
+          "maxHp": 2760,
+          "maxMp": 605,
+          "power": 319,
+          "defense": 42,
+          "expToNext": 105000
+        },
+        {
+          "level": 40,
+          "maxHp": 2830,
+          "maxMp": 620,
+          "power": 327,
+          "defense": 43,
+          "expToNext": 110000
+        },
+        {
+          "level": 41,
+          "maxHp": 2900,
+          "maxMp": 635,
+          "power": 335,
+          "defense": 44,
+          "expToNext": 115000
+        },
+        {
+          "level": 42,
+          "maxHp": 2970,
+          "maxMp": 650,
+          "power": 343,
+          "defense": 45,
+          "expToNext": 120000
+        },
+        {
+          "level": 43,
+          "maxHp": 3040,
+          "maxMp": 665,
+          "power": 351,
+          "defense": 46,
+          "expToNext": 125000
+        },
+        {
+          "level": 44,
+          "maxHp": 3110,
+          "maxMp": 680,
+          "power": 359,
+          "defense": 47,
+          "expToNext": 130000
+        },
+        {
+          "level": 45,
+          "maxHp": 3180,
+          "maxMp": 695,
+          "power": 367,
+          "defense": 48,
+          "expToNext": 135000
+        },
+        {
+          "level": 46,
+          "maxHp": 3250,
+          "maxMp": 710,
+          "power": 375,
+          "defense": 49,
+          "expToNext": 140000
+        },
+        {
+          "level": 47,
+          "maxHp": 3320,
+          "maxMp": 725,
+          "power": 383,
+          "defense": 50,
+          "expToNext": 145000
+        },
+        {
+          "level": 48,
+          "maxHp": 3390,
+          "maxMp": 740,
+          "power": 391,
+          "defense": 51,
+          "expToNext": 150000
+        },
+        {
+          "level": 49,
+          "maxHp": 3460,
+          "maxMp": 755,
+          "power": 399,
+          "defense": 52,
+          "expToNext": 155000
+        },
+        {
+          "level": 50,
+          "maxHp": 3530,
+          "maxMp": 770,
+          "power": 407,
+          "defense": 53,
+          "expToNext": 160000
+        },
+        {
+          "level": 51,
+          "maxHp": 3600,
+          "maxMp": 785,
+          "power": 415,
+          "defense": 54,
+          "expToNext": 165000
+        },
+        {
+          "level": 52,
+          "maxHp": 3670,
+          "maxMp": 800,
+          "power": 423,
+          "defense": 55,
+          "expToNext": 170000
+        },
+        {
+          "level": 53,
+          "maxHp": 3740,
+          "maxMp": 815,
+          "power": 431,
+          "defense": 56,
+          "expToNext": 175000
+        },
+        {
+          "level": 54,
+          "maxHp": 3810,
+          "maxMp": 830,
+          "power": 439,
+          "defense": 57,
+          "expToNext": 180000
+        },
+        {
+          "level": 55,
+          "maxHp": 3880,
+          "maxMp": 845,
+          "power": 447,
+          "defense": 58,
+          "expToNext": 185000
+        },
+        {
+          "level": 56,
+          "maxHp": 3950,
+          "maxMp": 860,
+          "power": 455,
+          "defense": 59,
+          "expToNext": 190000
+        },
+        {
+          "level": 57,
+          "maxHp": 4020,
+          "maxMp": 875,
+          "power": 463,
+          "defense": 60,
+          "expToNext": 195000
+        },
+        {
+          "level": 58,
+          "maxHp": 4090,
+          "maxMp": 890,
+          "power": 471,
+          "defense": 61,
+          "expToNext": 200000
+        },
+        {
+          "level": 59,
+          "maxHp": 4160,
+          "maxMp": 905,
+          "power": 479,
+          "defense": 62,
+          "expToNext": 205000
+        },
+        {
+          "level": 60,
+          "maxHp": 4230,
+          "maxMp": 920,
+          "power": 487,
+          "defense": 63,
+          "expToNext": 210000
+        },
+        {
+          "level": 61,
+          "maxHp": 4300,
+          "maxMp": 935,
+          "power": 495,
+          "defense": 64,
+          "expToNext": 215000
+        },
+        {
+          "level": 62,
+          "maxHp": 4370,
+          "maxMp": 950,
+          "power": 503,
+          "defense": 65,
+          "expToNext": 220000
+        },
+        {
+          "level": 63,
+          "maxHp": 4440,
+          "maxMp": 965,
+          "power": 511,
+          "defense": 66,
+          "expToNext": 225000
+        },
+        {
+          "level": 64,
+          "maxHp": 4510,
+          "maxMp": 980,
+          "power": 519,
+          "defense": 67,
+          "expToNext": 230000
+        },
+        {
+          "level": 65,
+          "maxHp": 4580,
+          "maxMp": 995,
+          "power": 527,
+          "defense": 68,
+          "expToNext": 235000
+        },
+        {
+          "level": 66,
+          "maxHp": 4650,
+          "maxMp": 1010,
+          "power": 535,
+          "defense": 69,
+          "expToNext": 240000
+        },
+        {
+          "level": 67,
+          "maxHp": 4720,
+          "maxMp": 1025,
+          "power": 543,
+          "defense": 70,
+          "expToNext": 245000
+        },
+        {
+          "level": 68,
+          "maxHp": 4790,
+          "maxMp": 1040,
+          "power": 551,
+          "defense": 71,
+          "expToNext": 250000
+        },
+        {
+          "level": 69,
+          "maxHp": 4860,
+          "maxMp": 1055,
+          "power": 559,
+          "defense": 72,
+          "expToNext": 255000
+        },
+        {
+          "level": 70,
+          "maxHp": 4930,
+          "maxMp": 1070,
+          "power": 567,
+          "defense": 73,
+          "expToNext": 260000
+        },
+        {
+          "level": 71,
+          "maxHp": 5000,
+          "maxMp": 1085,
+          "power": 575,
+          "defense": 74,
+          "expToNext": 265000
+        },
+        {
+          "level": 72,
+          "maxHp": 5070,
+          "maxMp": 1100,
+          "power": 583,
+          "defense": 75,
+          "expToNext": 270000
+        },
+        {
+          "level": 73,
+          "maxHp": 5140,
+          "maxMp": 1115,
+          "power": 591,
+          "defense": 76,
+          "expToNext": 275000
+        },
+        {
+          "level": 74,
+          "maxHp": 5210,
+          "maxMp": 1130,
+          "power": 599,
+          "defense": 77,
+          "expToNext": 280000
+        },
+        {
+          "level": 75,
+          "maxHp": 5280,
+          "maxMp": 1145,
+          "power": 607,
+          "defense": 78,
+          "expToNext": 285000
+        },
+        {
+          "level": 76,
+          "maxHp": 5350,
+          "maxMp": 1160,
+          "power": 615,
+          "defense": 79,
+          "expToNext": 290000
+        },
+        {
+          "level": 77,
+          "maxHp": 5420,
+          "maxMp": 1175,
+          "power": 623,
+          "defense": 80,
+          "expToNext": 295000
+        },
+        {
+          "level": 78,
+          "maxHp": 5490,
+          "maxMp": 1190,
+          "power": 631,
+          "defense": 81,
+          "expToNext": 300000
+        },
+        {
+          "level": 79,
+          "maxHp": 5560,
+          "maxMp": 1205,
+          "power": 639,
+          "defense": 82,
+          "expToNext": 305000
+        },
+        {
+          "level": 80,
+          "maxHp": 5630,
+          "maxMp": 1220,
+          "power": 647,
+          "defense": 83,
+          "expToNext": 310000
+        },
+        {
+          "level": 81,
+          "maxHp": 5700,
+          "maxMp": 1235,
+          "power": 655,
+          "defense": 84,
+          "expToNext": 315000
+        },
+        {
+          "level": 82,
+          "maxHp": 5770,
+          "maxMp": 1250,
+          "power": 663,
+          "defense": 85,
+          "expToNext": 320000
+        },
+        {
+          "level": 83,
+          "maxHp": 5840,
+          "maxMp": 1265,
+          "power": 671,
+          "defense": 86,
+          "expToNext": 325000
+        },
+        {
+          "level": 84,
+          "maxHp": 5910,
+          "maxMp": 1280,
+          "power": 679,
+          "defense": 87,
+          "expToNext": 330000
+        },
+        {
+          "level": 85,
+          "maxHp": 5980,
+          "maxMp": 1295,
+          "power": 687,
+          "defense": 88,
+          "expToNext": 335000
+        },
+        {
+          "level": 86,
+          "maxHp": 6050,
+          "maxMp": 1310,
+          "power": 695,
+          "defense": 89,
+          "expToNext": 340000
+        },
+        {
+          "level": 87,
+          "maxHp": 6120,
+          "maxMp": 1325,
+          "power": 703,
+          "defense": 90,
+          "expToNext": 345000
+        },
+        {
+          "level": 88,
+          "maxHp": 6190,
+          "maxMp": 1340,
+          "power": 711,
+          "defense": 91,
+          "expToNext": 350000
+        },
+        {
+          "level": 89,
+          "maxHp": 6260,
+          "maxMp": 1355,
+          "power": 719,
+          "defense": 92,
+          "expToNext": 999999999
+        },
+        {
+          "level": 90,
+          "maxHp": 6330,
+          "maxMp": 1370,
+          "power": 727,
+          "defense": 93,
+          "expToNext": 999999999
+        }
+      ],
+      "evidenceLevel": "cross-confirmed",
+      "counterEvidence": "Reopen if the role upGrade body, BaseRoleProperies setter signatures, or shared experience branches change."
+    },
+    {
+      "heroId": 4,
+      "originalClass": "Role4",
+      "displayName": "沙僧",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role4.as",
+        "sha256": "66b6456edf846f6878cec085f48245d15de2ead742a46262e5b9b3faf6832705",
+        "locators": [
+          "upGrade:2762-2804"
+        ],
+        "upGradeLocator": "upGrade:2762-2804"
+      },
+      "formulas": {
+        "maxHp": {
+          "originalExpression": "70 + 30 * (this.roleProperies.getLevel() - 1)",
+          "base": 70,
+          "perLevel": 30,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "maxMp": {
+          "originalExpression": "70 + 30 * (this.roleProperies.getLevel() - 1)",
+          "base": 70,
+          "perLevel": 30,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "power": {
+          "originalExpression": "9 + 4 * (this.roleProperies.getLevel() - 1)",
+          "base": 9,
+          "perLevel": 4,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "defense": {
+          "originalExpression": "this.roleProperies.getLevel() - 1",
+          "base": 0,
+          "perLevel": 1,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        }
+      },
+      "levels": [
+        {
+          "level": 1,
+          "maxHp": 70,
+          "maxMp": 70,
+          "power": 9,
+          "defense": 0,
+          "expToNext": 135
+        },
+        {
+          "level": 2,
+          "maxHp": 100,
+          "maxMp": 100,
+          "power": 13,
+          "defense": 1,
+          "expToNext": 145
+        },
+        {
+          "level": 3,
+          "maxHp": 130,
+          "maxMp": 130,
+          "power": 17,
+          "defense": 2,
+          "expToNext": 155
+        },
+        {
+          "level": 4,
+          "maxHp": 160,
+          "maxMp": 160,
+          "power": 21,
+          "defense": 3,
+          "expToNext": 165
+        },
+        {
+          "level": 5,
+          "maxHp": 190,
+          "maxMp": 190,
+          "power": 25,
+          "defense": 4,
+          "expToNext": 175
+        },
+        {
+          "level": 6,
+          "maxHp": 220,
+          "maxMp": 220,
+          "power": 29,
+          "defense": 5,
+          "expToNext": 185
+        },
+        {
+          "level": 7,
+          "maxHp": 250,
+          "maxMp": 250,
+          "power": 33,
+          "defense": 6,
+          "expToNext": 625
+        },
+        {
+          "level": 8,
+          "maxHp": 280,
+          "maxMp": 280,
+          "power": 37,
+          "defense": 7,
+          "expToNext": 675
+        },
+        {
+          "level": 9,
+          "maxHp": 310,
+          "maxMp": 310,
+          "power": 41,
+          "defense": 8,
+          "expToNext": 725
+        },
+        {
+          "level": 10,
+          "maxHp": 340,
+          "maxMp": 340,
+          "power": 45,
+          "defense": 9,
+          "expToNext": 775
+        },
+        {
+          "level": 11,
+          "maxHp": 370,
+          "maxMp": 370,
+          "power": 49,
+          "defense": 10,
+          "expToNext": 825
+        },
+        {
+          "level": 12,
+          "maxHp": 400,
+          "maxMp": 400,
+          "power": 53,
+          "defense": 11,
+          "expToNext": 875
+        },
+        {
+          "level": 13,
+          "maxHp": 430,
+          "maxMp": 430,
+          "power": 57,
+          "defense": 12,
+          "expToNext": 1950
+        },
+        {
+          "level": 14,
+          "maxHp": 460,
+          "maxMp": 460,
+          "power": 61,
+          "defense": 13,
+          "expToNext": 2050
+        },
+        {
+          "level": 15,
+          "maxHp": 490,
+          "maxMp": 490,
+          "power": 65,
+          "defense": 14,
+          "expToNext": 2150
+        },
+        {
+          "level": 16,
+          "maxHp": 520,
+          "maxMp": 520,
+          "power": 69,
+          "defense": 15,
+          "expToNext": 2250
+        },
+        {
+          "level": 17,
+          "maxHp": 550,
+          "maxMp": 550,
+          "power": 73,
+          "defense": 16,
+          "expToNext": 2350
+        },
+        {
+          "level": 18,
+          "maxHp": 580,
+          "maxMp": 580,
+          "power": 77,
+          "defense": 17,
+          "expToNext": 2450
+        },
+        {
+          "level": 19,
+          "maxHp": 610,
+          "maxMp": 610,
+          "power": 81,
+          "defense": 18,
+          "expToNext": 5000
+        },
+        {
+          "level": 20,
+          "maxHp": 640,
+          "maxMp": 640,
+          "power": 85,
+          "defense": 19,
+          "expToNext": 10000
+        },
+        {
+          "level": 21,
+          "maxHp": 670,
+          "maxMp": 670,
+          "power": 89,
+          "defense": 20,
+          "expToNext": 15000
+        },
+        {
+          "level": 22,
+          "maxHp": 700,
+          "maxMp": 700,
+          "power": 93,
+          "defense": 21,
+          "expToNext": 20000
+        },
+        {
+          "level": 23,
+          "maxHp": 730,
+          "maxMp": 730,
+          "power": 97,
+          "defense": 22,
+          "expToNext": 25000
+        },
+        {
+          "level": 24,
+          "maxHp": 760,
+          "maxMp": 760,
+          "power": 101,
+          "defense": 23,
+          "expToNext": 30000
+        },
+        {
+          "level": 25,
+          "maxHp": 790,
+          "maxMp": 790,
+          "power": 105,
+          "defense": 24,
+          "expToNext": 35000
+        },
+        {
+          "level": 26,
+          "maxHp": 820,
+          "maxMp": 820,
+          "power": 109,
+          "defense": 25,
+          "expToNext": 40000
+        },
+        {
+          "level": 27,
+          "maxHp": 850,
+          "maxMp": 850,
+          "power": 113,
+          "defense": 26,
+          "expToNext": 45000
+        },
+        {
+          "level": 28,
+          "maxHp": 880,
+          "maxMp": 880,
+          "power": 117,
+          "defense": 27,
+          "expToNext": 50000
+        },
+        {
+          "level": 29,
+          "maxHp": 910,
+          "maxMp": 910,
+          "power": 121,
+          "defense": 28,
+          "expToNext": 55000
+        },
+        {
+          "level": 30,
+          "maxHp": 940,
+          "maxMp": 940,
+          "power": 125,
+          "defense": 29,
+          "expToNext": 60000
+        },
+        {
+          "level": 31,
+          "maxHp": 970,
+          "maxMp": 970,
+          "power": 129,
+          "defense": 30,
+          "expToNext": 65000
+        },
+        {
+          "level": 32,
+          "maxHp": 1000,
+          "maxMp": 1000,
+          "power": 133,
+          "defense": 31,
+          "expToNext": 70000
+        },
+        {
+          "level": 33,
+          "maxHp": 1030,
+          "maxMp": 1030,
+          "power": 137,
+          "defense": 32,
+          "expToNext": 75000
+        },
+        {
+          "level": 34,
+          "maxHp": 1060,
+          "maxMp": 1060,
+          "power": 141,
+          "defense": 33,
+          "expToNext": 80000
+        },
+        {
+          "level": 35,
+          "maxHp": 1090,
+          "maxMp": 1090,
+          "power": 145,
+          "defense": 34,
+          "expToNext": 85000
+        },
+        {
+          "level": 36,
+          "maxHp": 1120,
+          "maxMp": 1120,
+          "power": 149,
+          "defense": 35,
+          "expToNext": 90000
+        },
+        {
+          "level": 37,
+          "maxHp": 1150,
+          "maxMp": 1150,
+          "power": 153,
+          "defense": 36,
+          "expToNext": 95000
+        },
+        {
+          "level": 38,
+          "maxHp": 1180,
+          "maxMp": 1180,
+          "power": 157,
+          "defense": 37,
+          "expToNext": 100000
+        },
+        {
+          "level": 39,
+          "maxHp": 1210,
+          "maxMp": 1210,
+          "power": 161,
+          "defense": 38,
+          "expToNext": 105000
+        },
+        {
+          "level": 40,
+          "maxHp": 1240,
+          "maxMp": 1240,
+          "power": 165,
+          "defense": 39,
+          "expToNext": 110000
+        },
+        {
+          "level": 41,
+          "maxHp": 1270,
+          "maxMp": 1270,
+          "power": 169,
+          "defense": 40,
+          "expToNext": 115000
+        },
+        {
+          "level": 42,
+          "maxHp": 1300,
+          "maxMp": 1300,
+          "power": 173,
+          "defense": 41,
+          "expToNext": 120000
+        },
+        {
+          "level": 43,
+          "maxHp": 1330,
+          "maxMp": 1330,
+          "power": 177,
+          "defense": 42,
+          "expToNext": 125000
+        },
+        {
+          "level": 44,
+          "maxHp": 1360,
+          "maxMp": 1360,
+          "power": 181,
+          "defense": 43,
+          "expToNext": 130000
+        },
+        {
+          "level": 45,
+          "maxHp": 1390,
+          "maxMp": 1390,
+          "power": 185,
+          "defense": 44,
+          "expToNext": 135000
+        },
+        {
+          "level": 46,
+          "maxHp": 1420,
+          "maxMp": 1420,
+          "power": 189,
+          "defense": 45,
+          "expToNext": 140000
+        },
+        {
+          "level": 47,
+          "maxHp": 1450,
+          "maxMp": 1450,
+          "power": 193,
+          "defense": 46,
+          "expToNext": 145000
+        },
+        {
+          "level": 48,
+          "maxHp": 1480,
+          "maxMp": 1480,
+          "power": 197,
+          "defense": 47,
+          "expToNext": 150000
+        },
+        {
+          "level": 49,
+          "maxHp": 1510,
+          "maxMp": 1510,
+          "power": 201,
+          "defense": 48,
+          "expToNext": 155000
+        },
+        {
+          "level": 50,
+          "maxHp": 1540,
+          "maxMp": 1540,
+          "power": 205,
+          "defense": 49,
+          "expToNext": 160000
+        },
+        {
+          "level": 51,
+          "maxHp": 1570,
+          "maxMp": 1570,
+          "power": 209,
+          "defense": 50,
+          "expToNext": 165000
+        },
+        {
+          "level": 52,
+          "maxHp": 1600,
+          "maxMp": 1600,
+          "power": 213,
+          "defense": 51,
+          "expToNext": 170000
+        },
+        {
+          "level": 53,
+          "maxHp": 1630,
+          "maxMp": 1630,
+          "power": 217,
+          "defense": 52,
+          "expToNext": 175000
+        },
+        {
+          "level": 54,
+          "maxHp": 1660,
+          "maxMp": 1660,
+          "power": 221,
+          "defense": 53,
+          "expToNext": 180000
+        },
+        {
+          "level": 55,
+          "maxHp": 1690,
+          "maxMp": 1690,
+          "power": 225,
+          "defense": 54,
+          "expToNext": 185000
+        },
+        {
+          "level": 56,
+          "maxHp": 1720,
+          "maxMp": 1720,
+          "power": 229,
+          "defense": 55,
+          "expToNext": 190000
+        },
+        {
+          "level": 57,
+          "maxHp": 1750,
+          "maxMp": 1750,
+          "power": 233,
+          "defense": 56,
+          "expToNext": 195000
+        },
+        {
+          "level": 58,
+          "maxHp": 1780,
+          "maxMp": 1780,
+          "power": 237,
+          "defense": 57,
+          "expToNext": 200000
+        },
+        {
+          "level": 59,
+          "maxHp": 1810,
+          "maxMp": 1810,
+          "power": 241,
+          "defense": 58,
+          "expToNext": 205000
+        },
+        {
+          "level": 60,
+          "maxHp": 1840,
+          "maxMp": 1840,
+          "power": 245,
+          "defense": 59,
+          "expToNext": 210000
+        },
+        {
+          "level": 61,
+          "maxHp": 1870,
+          "maxMp": 1870,
+          "power": 249,
+          "defense": 60,
+          "expToNext": 215000
+        },
+        {
+          "level": 62,
+          "maxHp": 1900,
+          "maxMp": 1900,
+          "power": 253,
+          "defense": 61,
+          "expToNext": 220000
+        },
+        {
+          "level": 63,
+          "maxHp": 1930,
+          "maxMp": 1930,
+          "power": 257,
+          "defense": 62,
+          "expToNext": 225000
+        },
+        {
+          "level": 64,
+          "maxHp": 1960,
+          "maxMp": 1960,
+          "power": 261,
+          "defense": 63,
+          "expToNext": 230000
+        },
+        {
+          "level": 65,
+          "maxHp": 1990,
+          "maxMp": 1990,
+          "power": 265,
+          "defense": 64,
+          "expToNext": 235000
+        },
+        {
+          "level": 66,
+          "maxHp": 2020,
+          "maxMp": 2020,
+          "power": 269,
+          "defense": 65,
+          "expToNext": 240000
+        },
+        {
+          "level": 67,
+          "maxHp": 2050,
+          "maxMp": 2050,
+          "power": 273,
+          "defense": 66,
+          "expToNext": 245000
+        },
+        {
+          "level": 68,
+          "maxHp": 2080,
+          "maxMp": 2080,
+          "power": 277,
+          "defense": 67,
+          "expToNext": 250000
+        },
+        {
+          "level": 69,
+          "maxHp": 2110,
+          "maxMp": 2110,
+          "power": 281,
+          "defense": 68,
+          "expToNext": 255000
+        },
+        {
+          "level": 70,
+          "maxHp": 2140,
+          "maxMp": 2140,
+          "power": 285,
+          "defense": 69,
+          "expToNext": 260000
+        },
+        {
+          "level": 71,
+          "maxHp": 2170,
+          "maxMp": 2170,
+          "power": 289,
+          "defense": 70,
+          "expToNext": 265000
+        },
+        {
+          "level": 72,
+          "maxHp": 2200,
+          "maxMp": 2200,
+          "power": 293,
+          "defense": 71,
+          "expToNext": 270000
+        },
+        {
+          "level": 73,
+          "maxHp": 2230,
+          "maxMp": 2230,
+          "power": 297,
+          "defense": 72,
+          "expToNext": 275000
+        },
+        {
+          "level": 74,
+          "maxHp": 2260,
+          "maxMp": 2260,
+          "power": 301,
+          "defense": 73,
+          "expToNext": 280000
+        },
+        {
+          "level": 75,
+          "maxHp": 2290,
+          "maxMp": 2290,
+          "power": 305,
+          "defense": 74,
+          "expToNext": 285000
+        },
+        {
+          "level": 76,
+          "maxHp": 2320,
+          "maxMp": 2320,
+          "power": 309,
+          "defense": 75,
+          "expToNext": 290000
+        },
+        {
+          "level": 77,
+          "maxHp": 2350,
+          "maxMp": 2350,
+          "power": 313,
+          "defense": 76,
+          "expToNext": 295000
+        },
+        {
+          "level": 78,
+          "maxHp": 2380,
+          "maxMp": 2380,
+          "power": 317,
+          "defense": 77,
+          "expToNext": 300000
+        },
+        {
+          "level": 79,
+          "maxHp": 2410,
+          "maxMp": 2410,
+          "power": 321,
+          "defense": 78,
+          "expToNext": 305000
+        },
+        {
+          "level": 80,
+          "maxHp": 2440,
+          "maxMp": 2440,
+          "power": 325,
+          "defense": 79,
+          "expToNext": 310000
+        },
+        {
+          "level": 81,
+          "maxHp": 2470,
+          "maxMp": 2470,
+          "power": 329,
+          "defense": 80,
+          "expToNext": 315000
+        },
+        {
+          "level": 82,
+          "maxHp": 2500,
+          "maxMp": 2500,
+          "power": 333,
+          "defense": 81,
+          "expToNext": 320000
+        },
+        {
+          "level": 83,
+          "maxHp": 2530,
+          "maxMp": 2530,
+          "power": 337,
+          "defense": 82,
+          "expToNext": 325000
+        },
+        {
+          "level": 84,
+          "maxHp": 2560,
+          "maxMp": 2560,
+          "power": 341,
+          "defense": 83,
+          "expToNext": 330000
+        },
+        {
+          "level": 85,
+          "maxHp": 2590,
+          "maxMp": 2590,
+          "power": 345,
+          "defense": 84,
+          "expToNext": 335000
+        },
+        {
+          "level": 86,
+          "maxHp": 2620,
+          "maxMp": 2620,
+          "power": 349,
+          "defense": 85,
+          "expToNext": 340000
+        },
+        {
+          "level": 87,
+          "maxHp": 2650,
+          "maxMp": 2650,
+          "power": 353,
+          "defense": 86,
+          "expToNext": 345000
+        },
+        {
+          "level": 88,
+          "maxHp": 2680,
+          "maxMp": 2680,
+          "power": 357,
+          "defense": 87,
+          "expToNext": 350000
+        },
+        {
+          "level": 89,
+          "maxHp": 2710,
+          "maxMp": 2710,
+          "power": 361,
+          "defense": 88,
+          "expToNext": 999999999
+        },
+        {
+          "level": 90,
+          "maxHp": 2740,
+          "maxMp": 2740,
+          "power": 365,
+          "defense": 89,
+          "expToNext": 999999999
+        }
+      ],
+      "evidenceLevel": "cross-confirmed",
+      "counterEvidence": "Reopen if the role upGrade body, BaseRoleProperies setter signatures, or shared experience branches change."
+    },
+    {
+      "heroId": 5,
+      "originalClass": "Role5",
+      "displayName": "白龙",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role5.as",
+        "sha256": "7b947e6aa3885aec2741f60ae80440de206bb91009bc9fb19758aca0c8434c78",
+        "locators": [
+          "upGrade:4838-4880"
+        ],
+        "upGradeLocator": "upGrade:4838-4880"
+      },
+      "formulas": {
+        "maxHp": {
+          "originalExpression": "70 + 49 * (this.roleProperies.getLevel() - 1)",
+          "base": 70,
+          "perLevel": 49,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "maxMp": {
+          "originalExpression": "55 + 24 * (this.roleProperies.getLevel() - 1)",
+          "base": 55,
+          "perLevel": 24,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "power": {
+          "originalExpression": "9 + 6 * (this.roleProperies.getLevel() - 1)",
+          "base": 9,
+          "perLevel": 6,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        },
+        "defense": {
+          "originalExpression": "2 + 1.5 * (this.roleProperies.getLevel() - 1)",
+          "base": 2,
+          "perLevel": 1.5,
+          "runtimeCoercion": "int-truncate-toward-zero",
+          "unit": "points"
+        }
+      },
+      "levels": [
+        {
+          "level": 1,
+          "maxHp": 70,
+          "maxMp": 55,
+          "power": 9,
+          "defense": 2,
+          "expToNext": 135
+        },
+        {
+          "level": 2,
+          "maxHp": 119,
+          "maxMp": 79,
+          "power": 15,
+          "defense": 3,
+          "expToNext": 145
+        },
+        {
+          "level": 3,
+          "maxHp": 168,
+          "maxMp": 103,
+          "power": 21,
+          "defense": 5,
+          "expToNext": 155
+        },
+        {
+          "level": 4,
+          "maxHp": 217,
+          "maxMp": 127,
+          "power": 27,
+          "defense": 6,
+          "expToNext": 165
+        },
+        {
+          "level": 5,
+          "maxHp": 266,
+          "maxMp": 151,
+          "power": 33,
+          "defense": 8,
+          "expToNext": 175
+        },
+        {
+          "level": 6,
+          "maxHp": 315,
+          "maxMp": 175,
+          "power": 39,
+          "defense": 9,
+          "expToNext": 185
+        },
+        {
+          "level": 7,
+          "maxHp": 364,
+          "maxMp": 199,
+          "power": 45,
+          "defense": 11,
+          "expToNext": 625
+        },
+        {
+          "level": 8,
+          "maxHp": 413,
+          "maxMp": 223,
+          "power": 51,
+          "defense": 12,
+          "expToNext": 675
+        },
+        {
+          "level": 9,
+          "maxHp": 462,
+          "maxMp": 247,
+          "power": 57,
+          "defense": 14,
+          "expToNext": 725
+        },
+        {
+          "level": 10,
+          "maxHp": 511,
+          "maxMp": 271,
+          "power": 63,
+          "defense": 15,
+          "expToNext": 775
+        },
+        {
+          "level": 11,
+          "maxHp": 560,
+          "maxMp": 295,
+          "power": 69,
+          "defense": 17,
+          "expToNext": 825
+        },
+        {
+          "level": 12,
+          "maxHp": 609,
+          "maxMp": 319,
+          "power": 75,
+          "defense": 18,
+          "expToNext": 875
+        },
+        {
+          "level": 13,
+          "maxHp": 658,
+          "maxMp": 343,
+          "power": 81,
+          "defense": 20,
+          "expToNext": 1950
+        },
+        {
+          "level": 14,
+          "maxHp": 707,
+          "maxMp": 367,
+          "power": 87,
+          "defense": 21,
+          "expToNext": 2050
+        },
+        {
+          "level": 15,
+          "maxHp": 756,
+          "maxMp": 391,
+          "power": 93,
+          "defense": 23,
+          "expToNext": 2150
+        },
+        {
+          "level": 16,
+          "maxHp": 805,
+          "maxMp": 415,
+          "power": 99,
+          "defense": 24,
+          "expToNext": 2250
+        },
+        {
+          "level": 17,
+          "maxHp": 854,
+          "maxMp": 439,
+          "power": 105,
+          "defense": 26,
+          "expToNext": 2350
+        },
+        {
+          "level": 18,
+          "maxHp": 903,
+          "maxMp": 463,
+          "power": 111,
+          "defense": 27,
+          "expToNext": 2450
+        },
+        {
+          "level": 19,
+          "maxHp": 952,
+          "maxMp": 487,
+          "power": 117,
+          "defense": 29,
+          "expToNext": 5000
+        },
+        {
+          "level": 20,
+          "maxHp": 1001,
+          "maxMp": 511,
+          "power": 123,
+          "defense": 30,
+          "expToNext": 10000
+        },
+        {
+          "level": 21,
+          "maxHp": 1050,
+          "maxMp": 535,
+          "power": 129,
+          "defense": 32,
+          "expToNext": 15000
+        },
+        {
+          "level": 22,
+          "maxHp": 1099,
+          "maxMp": 559,
+          "power": 135,
+          "defense": 33,
+          "expToNext": 20000
+        },
+        {
+          "level": 23,
+          "maxHp": 1148,
+          "maxMp": 583,
+          "power": 141,
+          "defense": 35,
+          "expToNext": 25000
+        },
+        {
+          "level": 24,
+          "maxHp": 1197,
+          "maxMp": 607,
+          "power": 147,
+          "defense": 36,
+          "expToNext": 30000
+        },
+        {
+          "level": 25,
+          "maxHp": 1246,
+          "maxMp": 631,
+          "power": 153,
+          "defense": 38,
+          "expToNext": 35000
+        },
+        {
+          "level": 26,
+          "maxHp": 1295,
+          "maxMp": 655,
+          "power": 159,
+          "defense": 39,
+          "expToNext": 40000
+        },
+        {
+          "level": 27,
+          "maxHp": 1344,
+          "maxMp": 679,
+          "power": 165,
+          "defense": 41,
+          "expToNext": 45000
+        },
+        {
+          "level": 28,
+          "maxHp": 1393,
+          "maxMp": 703,
+          "power": 171,
+          "defense": 42,
+          "expToNext": 50000
+        },
+        {
+          "level": 29,
+          "maxHp": 1442,
+          "maxMp": 727,
+          "power": 177,
+          "defense": 44,
+          "expToNext": 55000
+        },
+        {
+          "level": 30,
+          "maxHp": 1491,
+          "maxMp": 751,
+          "power": 183,
+          "defense": 45,
+          "expToNext": 60000
+        },
+        {
+          "level": 31,
+          "maxHp": 1540,
+          "maxMp": 775,
+          "power": 189,
+          "defense": 47,
+          "expToNext": 65000
+        },
+        {
+          "level": 32,
+          "maxHp": 1589,
+          "maxMp": 799,
+          "power": 195,
+          "defense": 48,
+          "expToNext": 70000
+        },
+        {
+          "level": 33,
+          "maxHp": 1638,
+          "maxMp": 823,
+          "power": 201,
+          "defense": 50,
+          "expToNext": 75000
+        },
+        {
+          "level": 34,
+          "maxHp": 1687,
+          "maxMp": 847,
+          "power": 207,
+          "defense": 51,
+          "expToNext": 80000
+        },
+        {
+          "level": 35,
+          "maxHp": 1736,
+          "maxMp": 871,
+          "power": 213,
+          "defense": 53,
+          "expToNext": 85000
+        },
+        {
+          "level": 36,
+          "maxHp": 1785,
+          "maxMp": 895,
+          "power": 219,
+          "defense": 54,
+          "expToNext": 90000
+        },
+        {
+          "level": 37,
+          "maxHp": 1834,
+          "maxMp": 919,
+          "power": 225,
+          "defense": 56,
+          "expToNext": 95000
+        },
+        {
+          "level": 38,
+          "maxHp": 1883,
+          "maxMp": 943,
+          "power": 231,
+          "defense": 57,
+          "expToNext": 100000
+        },
+        {
+          "level": 39,
+          "maxHp": 1932,
+          "maxMp": 967,
+          "power": 237,
+          "defense": 59,
+          "expToNext": 105000
+        },
+        {
+          "level": 40,
+          "maxHp": 1981,
+          "maxMp": 991,
+          "power": 243,
+          "defense": 60,
+          "expToNext": 110000
+        },
+        {
+          "level": 41,
+          "maxHp": 2030,
+          "maxMp": 1015,
+          "power": 249,
+          "defense": 62,
+          "expToNext": 115000
+        },
+        {
+          "level": 42,
+          "maxHp": 2079,
+          "maxMp": 1039,
+          "power": 255,
+          "defense": 63,
+          "expToNext": 120000
+        },
+        {
+          "level": 43,
+          "maxHp": 2128,
+          "maxMp": 1063,
+          "power": 261,
+          "defense": 65,
+          "expToNext": 125000
+        },
+        {
+          "level": 44,
+          "maxHp": 2177,
+          "maxMp": 1087,
+          "power": 267,
+          "defense": 66,
+          "expToNext": 130000
+        },
+        {
+          "level": 45,
+          "maxHp": 2226,
+          "maxMp": 1111,
+          "power": 273,
+          "defense": 68,
+          "expToNext": 135000
+        },
+        {
+          "level": 46,
+          "maxHp": 2275,
+          "maxMp": 1135,
+          "power": 279,
+          "defense": 69,
+          "expToNext": 140000
+        },
+        {
+          "level": 47,
+          "maxHp": 2324,
+          "maxMp": 1159,
+          "power": 285,
+          "defense": 71,
+          "expToNext": 145000
+        },
+        {
+          "level": 48,
+          "maxHp": 2373,
+          "maxMp": 1183,
+          "power": 291,
+          "defense": 72,
+          "expToNext": 150000
+        },
+        {
+          "level": 49,
+          "maxHp": 2422,
+          "maxMp": 1207,
+          "power": 297,
+          "defense": 74,
+          "expToNext": 155000
+        },
+        {
+          "level": 50,
+          "maxHp": 2471,
+          "maxMp": 1231,
+          "power": 303,
+          "defense": 75,
+          "expToNext": 160000
+        },
+        {
+          "level": 51,
+          "maxHp": 2520,
+          "maxMp": 1255,
+          "power": 309,
+          "defense": 77,
+          "expToNext": 165000
+        },
+        {
+          "level": 52,
+          "maxHp": 2569,
+          "maxMp": 1279,
+          "power": 315,
+          "defense": 78,
+          "expToNext": 170000
+        },
+        {
+          "level": 53,
+          "maxHp": 2618,
+          "maxMp": 1303,
+          "power": 321,
+          "defense": 80,
+          "expToNext": 175000
+        },
+        {
+          "level": 54,
+          "maxHp": 2667,
+          "maxMp": 1327,
+          "power": 327,
+          "defense": 81,
+          "expToNext": 180000
+        },
+        {
+          "level": 55,
+          "maxHp": 2716,
+          "maxMp": 1351,
+          "power": 333,
+          "defense": 83,
+          "expToNext": 185000
+        },
+        {
+          "level": 56,
+          "maxHp": 2765,
+          "maxMp": 1375,
+          "power": 339,
+          "defense": 84,
+          "expToNext": 190000
+        },
+        {
+          "level": 57,
+          "maxHp": 2814,
+          "maxMp": 1399,
+          "power": 345,
+          "defense": 86,
+          "expToNext": 195000
+        },
+        {
+          "level": 58,
+          "maxHp": 2863,
+          "maxMp": 1423,
+          "power": 351,
+          "defense": 87,
+          "expToNext": 200000
+        },
+        {
+          "level": 59,
+          "maxHp": 2912,
+          "maxMp": 1447,
+          "power": 357,
+          "defense": 89,
+          "expToNext": 205000
+        },
+        {
+          "level": 60,
+          "maxHp": 2961,
+          "maxMp": 1471,
+          "power": 363,
+          "defense": 90,
+          "expToNext": 210000
+        },
+        {
+          "level": 61,
+          "maxHp": 3010,
+          "maxMp": 1495,
+          "power": 369,
+          "defense": 92,
+          "expToNext": 215000
+        },
+        {
+          "level": 62,
+          "maxHp": 3059,
+          "maxMp": 1519,
+          "power": 375,
+          "defense": 93,
+          "expToNext": 220000
+        },
+        {
+          "level": 63,
+          "maxHp": 3108,
+          "maxMp": 1543,
+          "power": 381,
+          "defense": 95,
+          "expToNext": 225000
+        },
+        {
+          "level": 64,
+          "maxHp": 3157,
+          "maxMp": 1567,
+          "power": 387,
+          "defense": 96,
+          "expToNext": 230000
+        },
+        {
+          "level": 65,
+          "maxHp": 3206,
+          "maxMp": 1591,
+          "power": 393,
+          "defense": 98,
+          "expToNext": 235000
+        },
+        {
+          "level": 66,
+          "maxHp": 3255,
+          "maxMp": 1615,
+          "power": 399,
+          "defense": 99,
+          "expToNext": 240000
+        },
+        {
+          "level": 67,
+          "maxHp": 3304,
+          "maxMp": 1639,
+          "power": 405,
+          "defense": 101,
+          "expToNext": 245000
+        },
+        {
+          "level": 68,
+          "maxHp": 3353,
+          "maxMp": 1663,
+          "power": 411,
+          "defense": 102,
+          "expToNext": 250000
+        },
+        {
+          "level": 69,
+          "maxHp": 3402,
+          "maxMp": 1687,
+          "power": 417,
+          "defense": 104,
+          "expToNext": 255000
+        },
+        {
+          "level": 70,
+          "maxHp": 3451,
+          "maxMp": 1711,
+          "power": 423,
+          "defense": 105,
+          "expToNext": 260000
+        },
+        {
+          "level": 71,
+          "maxHp": 3500,
+          "maxMp": 1735,
+          "power": 429,
+          "defense": 107,
+          "expToNext": 265000
+        },
+        {
+          "level": 72,
+          "maxHp": 3549,
+          "maxMp": 1759,
+          "power": 435,
+          "defense": 108,
+          "expToNext": 270000
+        },
+        {
+          "level": 73,
+          "maxHp": 3598,
+          "maxMp": 1783,
+          "power": 441,
+          "defense": 110,
+          "expToNext": 275000
+        },
+        {
+          "level": 74,
+          "maxHp": 3647,
+          "maxMp": 1807,
+          "power": 447,
+          "defense": 111,
+          "expToNext": 280000
+        },
+        {
+          "level": 75,
+          "maxHp": 3696,
+          "maxMp": 1831,
+          "power": 453,
+          "defense": 113,
+          "expToNext": 285000
+        },
+        {
+          "level": 76,
+          "maxHp": 3745,
+          "maxMp": 1855,
+          "power": 459,
+          "defense": 114,
+          "expToNext": 290000
+        },
+        {
+          "level": 77,
+          "maxHp": 3794,
+          "maxMp": 1879,
+          "power": 465,
+          "defense": 116,
+          "expToNext": 295000
+        },
+        {
+          "level": 78,
+          "maxHp": 3843,
+          "maxMp": 1903,
+          "power": 471,
+          "defense": 117,
+          "expToNext": 300000
+        },
+        {
+          "level": 79,
+          "maxHp": 3892,
+          "maxMp": 1927,
+          "power": 477,
+          "defense": 119,
+          "expToNext": 305000
+        },
+        {
+          "level": 80,
+          "maxHp": 3941,
+          "maxMp": 1951,
+          "power": 483,
+          "defense": 120,
+          "expToNext": 310000
+        },
+        {
+          "level": 81,
+          "maxHp": 3990,
+          "maxMp": 1975,
+          "power": 489,
+          "defense": 122,
+          "expToNext": 315000
+        },
+        {
+          "level": 82,
+          "maxHp": 4039,
+          "maxMp": 1999,
+          "power": 495,
+          "defense": 123,
+          "expToNext": 320000
+        },
+        {
+          "level": 83,
+          "maxHp": 4088,
+          "maxMp": 2023,
+          "power": 501,
+          "defense": 125,
+          "expToNext": 325000
+        },
+        {
+          "level": 84,
+          "maxHp": 4137,
+          "maxMp": 2047,
+          "power": 507,
+          "defense": 126,
+          "expToNext": 330000
+        },
+        {
+          "level": 85,
+          "maxHp": 4186,
+          "maxMp": 2071,
+          "power": 513,
+          "defense": 128,
+          "expToNext": 335000
+        },
+        {
+          "level": 86,
+          "maxHp": 4235,
+          "maxMp": 2095,
+          "power": 519,
+          "defense": 129,
+          "expToNext": 340000
+        },
+        {
+          "level": 87,
+          "maxHp": 4284,
+          "maxMp": 2119,
+          "power": 525,
+          "defense": 131,
+          "expToNext": 345000
+        },
+        {
+          "level": 88,
+          "maxHp": 4333,
+          "maxMp": 2143,
+          "power": 531,
+          "defense": 132,
+          "expToNext": 350000
+        },
+        {
+          "level": 89,
+          "maxHp": 4382,
+          "maxMp": 2167,
+          "power": 537,
+          "defense": 134,
+          "expToNext": 999999999
+        },
+        {
+          "level": 90,
+          "maxHp": 4431,
+          "maxMp": 2191,
+          "power": 543,
+          "defense": 135,
+          "expToNext": 999999999
+        }
+      ],
+      "evidenceLevel": "cross-confirmed",
+      "counterEvidence": "Reopen if the role upGrade body, BaseRoleProperies setter signatures, or shared experience branches change."
+    }
+  ],
+  "levelUpSequence": {
+    "orderedSteps": [
+      "setExper receives an int proposed total and stores it when below the current threshold",
+      "when proposed total reaches the threshold and level is below 90, store it and call judgeUpGrade",
+      "judgeUpGrade snapshots the old threshold, increments level, and synchronizes that level to the same User owner",
+      "who.upGrade(false) removes buffs, then pill/equipment/passive contributions, writes base stats and provisional full HP/MP, assigns the new threshold, and re-adds passive/equipment/pill contributions",
+      "addAllEquip refills HP/MP to the final derived maxima",
+      "setExper recursively receives stored proposed total minus the old threshold; recursion repeats for every crossed level",
+      "RoleLevelUpMc is added after recursive leveling returns, so multi-level gains add one visual per crossed level in reverse unwind order"
+    ],
+    "level90Boundary": "At level 90, totals below 999999999 are stored; a proposed total at or above the sentinel is ignored because neither setExper branch writes it.",
+    "initialRestore": "BaseHero.initPopertits clears runtime stats, sets level, writes saved experience with setinitExper (no leveling), then calls upGrade() to rebuild current-level derived stats.",
+    "evidenceLevel": "cross-confirmed",
+    "counterEvidence": "Reopen if BaseRoleProperies.setExper/judgeUpGrade, BaseHero.initPopertits/upGrade, or role upGrade ordering changes."
+  },
+  "ordinaryMonsterExperience": {
+    "difficultyMultipliers": {
+      "normal": 1,
+      "hard": 1.6,
+      "hell": 0.01
+    },
+    "heroWithoutPet": "targetHero.exper + int(monsterExp)",
+    "heroWithPet": "targetHero.exper + int(monsterExp*0.6), targetHero.currentPet.exper + pet consumer coercion of monsterExp*0.6",
+    "petTarget": "targetPet.exper + pet consumer coercion of monsterExp",
+    "owner": "curAttackTarget player/pet only",
+    "evidenceLevel": "confirmed",
+    "counterEvidence": "Monster111 and TaskInterface are explicit bypasses and cannot be generalized into the ordinary rule."
+  },
+  "transitionTests": [
+    {
+      "id": "below-threshold",
+      "start": {
+        "level": 1,
+        "currentExp": 10
+      },
+      "addedExperience": 124,
+      "expected": {
+        "level": 1,
+        "currentExp": 134
+      }
+    },
+    {
+      "id": "exact-single-level",
+      "start": {
+        "level": 1,
+        "currentExp": 0
+      },
+      "addedExperience": 135,
+      "expected": {
+        "level": 2,
+        "currentExp": 0
+      }
+    },
+    {
+      "id": "multi-level-recursion",
+      "start": {
+        "level": 1,
+        "currentExp": 130
+      },
+      "addedExperience": 160,
+      "expected": {
+        "level": 3,
+        "currentExp": 10
+      }
+    },
+    {
+      "id": "level-88-to-89",
+      "start": {
+        "level": 88,
+        "currentExp": 349999
+      },
+      "addedExperience": 1,
+      "expected": {
+        "level": 89,
+        "currentExp": 0
+      }
+    },
+    {
+      "id": "sentinel-level-89-to-90",
+      "start": {
+        "level": 89,
+        "currentExp": 999999998
+      },
+      "addedExperience": 1,
+      "expected": {
+        "level": 90,
+        "currentExp": 0
+      }
+    },
+    {
+      "id": "level-90-stores-below-sentinel",
+      "start": {
+        "level": 90,
+        "currentExp": 0
+      },
+      "addedExperience": 4,
+      "expected": {
+        "level": 90,
+        "currentExp": 4
+      }
+    },
+    {
+      "id": "level-90-ignores-sentinel-total",
+      "start": {
+        "level": 90,
+        "currentExp": 999999998
+      },
+      "addedExperience": 1,
+      "expected": {
+        "level": 90,
+        "currentExp": 999999998
+      }
+    }
+  ],
+  "commonEvidenceLevel": "cross-confirmed",
+  "commonCounterEvidence": "Reopen if any recorded source hash, role formula, setter type, upgrade order, ordinary monster owner path, original save locator, or current schema boundary changes."
+}

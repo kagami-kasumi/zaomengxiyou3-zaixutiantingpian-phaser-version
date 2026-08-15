@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hero-progression-catalog.schema.json",
+  "title": "再续天庭 1.1 五角色成长权威目录",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "gameVersion",
+    "scope",
+    "status",
+    "authorities",
+    "fieldContract",
+    "counts",
+    "coverage",
+    "experienceCurve",
+    "roles",
+    "levelUpSequence",
+    "ordinaryMonsterExperience",
+    "transitionTests"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "gameVersion": { "const": "1.1" },
+    "status": { "const": "verified" },
+    "counts": {
+      "type": "object",
+      "required": ["roles", "levelsPerRole", "roleLevelRecords", "experienceLevelRecords", "unknownFields"],
+      "properties": {
+        "roles": { "const": 5 },
+        "levelsPerRole": { "const": 90 },
+        "roleLevelRecords": { "const": 450 },
+        "experienceLevelRecords": { "const": 90 },
+        "unknownFields": { "const": 0 }
+      },
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["coveredLevels", "requiredBoundaryLevels", "unknownFields", "explicitExclusions"],
+      "properties": {
+        "unknownFields": { "type": "array", "maxItems": 0 },
+        "requiredBoundaryLevels": {
+          "const": [1, 6, 7, 12, 13, 18, 19, 88, 89, 90]
+        }
+      }
+    },
+    "experienceCurve": {
+      "type": "object",
+      "required": ["maxLevel", "sentinelExpToNext", "segments", "levels", "sourceLocators", "evidenceLevel", "counterEvidence"],
+      "properties": {
+        "maxLevel": { "const": 90 },
+        "sentinelExpToNext": { "const": 999999999 },
+        "segments": { "type": "array", "minItems": 5, "maxItems": 5 },
+        "levels": {
+          "type": "array",
+          "minItems": 90,
+          "maxItems": 90,
+          "items": { "$ref": "#/$defs/experienceLevel" }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/role" }
+    },
+    "transitionTests": {
+      "type": "array",
+      "minItems": 7,
+      "items": { "$ref": "#/$defs/transitionTest" }
+    }
+  },
+  "$defs": {
+    "formula": {
+      "type": "object",
+      "required": ["originalExpression", "base", "perLevel", "runtimeCoercion", "unit"],
+      "properties": {
+        "originalExpression": { "type": "string", "minLength": 1 },
+        "base": { "type": "number" },
+        "perLevel": { "type": "number" },
+        "runtimeCoercion": { "const": "int-truncate-toward-zero" },
+        "unit": { "const": "points" }
+      },
+      "additionalProperties": false
+    },
+    "experienceLevel": {
+      "type": "object",
+      "required": ["level", "expToNext"],
+      "properties": {
+        "level": { "type": "integer", "minimum": 1, "maximum": 90 },
+        "expToNext": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "roleLevel": {
+      "type": "object",
+      "required": ["level", "maxHp", "maxMp", "power", "defense", "expToNext"],
+      "properties": {
+        "level": { "type": "integer", "minimum": 1, "maximum": 90 },
+        "maxHp": { "type": "integer", "minimum": 0 },
+        "maxMp": { "type": "integer", "minimum": 0 },
+        "power": { "type": "integer", "minimum": 0 },
+        "defense": { "type": "integer", "minimum": 0 },
+        "expToNext": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "role": {
+      "type": "object",
+      "required": ["heroId", "originalClass", "displayName", "source", "formulas", "levels", "evidenceLevel", "counterEvidence"],
+      "properties": {
+        "heroId": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "originalClass": { "enum": ["Role1", "Role2", "Role3", "Role4", "Role5"] },
+        "displayName": { "type": "string", "minLength": 1 },
+        "formulas": {
+          "type": "object",
+          "required": ["maxHp", "maxMp", "power", "defense"],
+          "properties": {
+            "maxHp": { "$ref": "#/$defs/formula" },
+            "maxMp": { "$ref": "#/$defs/formula" },
+            "power": { "$ref": "#/$defs/formula" },
+            "defense": { "$ref": "#/$defs/formula" }
+          },
+          "additionalProperties": false
+        },
+        "levels": {
+          "type": "array",
+          "minItems": 90,
+          "maxItems": 90,
+          "items": { "$ref": "#/$defs/roleLevel" }
+        }
+      }
+    },
+    "progressionState": {
+      "type": "object",
+      "required": ["level", "currentExp"],
+      "properties": {
+        "level": { "type": "integer", "minimum": 1, "maximum": 90 },
+        "currentExp": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "transitionTest": {
+      "type": "object",
+      "required": ["id", "start", "addedExperience", "expected"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "start": { "$ref": "#/$defs/progressionState" },
+        "addedExperience": { "type": "integer", "minimum": 0 },
+        "expected": { "$ref": "#/$defs/progressionState" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-172 | 五角色成长证据 | 冻结 1..90 级基础属性、经验、升级/回满/派生顺序、双 owner 与存档边界 | M-036、M-040、M-044、M-049、M-052、VS-014 | 5×90 可重复目录/Schema、源 hash/locator、7 转换向量、六段证据、Role5 `int` 防御与 179 实现合同 |
 | TASK-SLICE-171A | 四功能事务续作 | 关闭高阶打造材料可达性并完成全量联合验收 | M-036、M-037、M-039、M-044、M-052、VS-064 | 1888 单堆上限、164/121/78 双 owner 回放、V6 百分数兼容、正式四页有效提交/返还/重载与零 console |
 | TASK-SLICE-171 | 四功能事务收口父任务 | 汇总 Fusion 时装、打造百分数与全装备四事务主体 | M-036、M-037、M-039、M-044、M-052、VS-064 | 9 条永久时装例外、121 Fusion、百分数点适配、164 件联合回放主体与 171A 收口 |
 | TASK-SLICE-168B | 炼丹炉分解/打造左页原生化 | 消费 177/152 verified 真值并完成四页联合校准 | M-036、M-039、M-052、VS-064 | 分解/打造动态原生页、四页单按钮校准、同一正式背包/单一页码、左槽 63×62 去白边投影、逐槽点击退回、测试打造书与 940×590 差异证据 |
@@ -7303,6 +7304,58 @@ UI 原生化合同：
 
 - 1888 上限内成功、上限外/材料不足/容量不足原子拒绝；全量专项、全系统/build、workflow/problem audit、940×590 P1/P2 有效提交/返还/重载和零 console 通过。
 
+### TASK-SETTINGS-172
+
+任务类型：
+- `TASK-SETTINGS`
+
+功能条线：
+- `LINE-CORE-PROGRESSION-COMPLETION`（完成时继续 Active）
+
+目标机制/切片：
+- `M-036`、`M-040`、`M-044`、`M-049`、`M-052`、`VS-014`
+
+规模预算：
+- 主工作包：2（五角色基础值/经验/升级公式；运行时派生/owner/存档消费者）
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 若需读取新视觉源包、派生升级特效/UI 资源、修改现代成长/存档代码，或发现任务奖励/宠物/Monster111 特例需独立事实族，立即拆出同线后续 task。
+
+协作计划：
+- 模式：单 agent
+- 并行工作包：无
+- 写入 owner：主 agent
+- 归并检查点：五角色静态公式闭合后、共享消费者矩阵定稿前
+- 方法观测：无
+
+输入资料：
+- `progression-index.md`、`equipment-data-catalog.md`、`combat-hud-index.md`、`save-slots-index.md`。
+- `User.as`、`BaseHero.as`、`BaseRoleProperies.as`、`Role1.as`..`Role5.as`、`BaseMonster.as` 及真实成长/HUD/save 消费者。
+
+输出产物：
+- 更新 `progression-index.md` 的六段证据矩阵、确认事实、现代选择、未知与反证条件。
+- 可重复生成并校验的五角色 1..90 级成长目录、Schema/locator 与转换向量。
+- P1/P2、装备派生、普通怪经验、HP/MP 回满、当前存档边界和后续实现合同。
+
+完成定义：
+- 六段证据链闭合五角色共同/差异公式、经验分段、升级递归/回满/重算、整数边界、P1/P2 owner 与保存消费者；影响普通成长实现的未知为零。
+- 目录由一手 locator 可重复生成，Schema、计数、边界和源 hash 校验通过，不从现代测试常量反推原版。
+
+验收标准：
+- 成长目录 generate/check、Schema/locator 完整性、关键等级/跨级/满级纯合同测试、`npm run check:workflow`、`npm run audit:problems` 与 `git diff --check`。
+
+禁止范围：
+- 不修改 `src/`、当前存档 schema、HUD/背包视觉、装备目录、关卡经验奖励或 `legacy-extraction` 原始结果。
+- 不实现任务奖励旁路、宠物经验、Monster111/无尽特例或成长 UI。
+
+状态更新：
+- 更新 progression/mechanics/功能线覆盖/task-board/task-history；完成后生成同线五角色成长实现 task。
+
+推荐后续任务：
+- `TASK-SLICE-179`：消费成长目录，实现五角色基础值、升级时序、P1/P2、装备派生和当前 schema。
+
 ## 执行记录
 
 
@@ -9773,6 +9826,26 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
+
+### TASK-SETTINGS-172
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SLICE-179`）。
+- 新增 `hero-progression-catalog-1.1.json` 与 Schema；生成器直接解析五个 1.1 `Role*.upGrade()`，交叉核对 `BaseRoleProperies`、`BaseHero`、`BaseMonster`、`User`、背包/RoleInfo 和明确旁路，不从现代常量反推原版。
+- 目录固定 5 角色、90 条经验门槛、450 条角色-等级数值、关键分段、源 SHA-256/locator 与零未知；Role5 `2 + 1.5*(L-1)` 通过 `setDefense(int)` 按正数向 0 截断，Lv2=3、Lv90=135。
+- 六段证据闭合 `setExper/judgeUpGrade` 递归扣余数，去 buff→去丹药/装备/被动→重建基础值→加被动/装备/丹药→最终回满时序，并精确记录 89/90 级 `999999999` sentinel。
+- 普通怪经验明确随 `curAttackTarget` 的 Hero/User 或 Pet，P1/P2 不共享；难度倍率与 Hero `int` 消费边界已记录。`TaskInterface` 直写、宠物成长、`Monster111`、无尽模式与 `RoleLevelUpMc` 视觉均显式排除。
+- 现代差异已定位：`ProgressionSystem` 仍手写第二份公式且 Role5 保留 `.5`，正式升级尚未按当前装备/持久加成重建有效属性。本 task 未修改 `src/`，不越级宣称已复现。
+
+验证：
+
+- `npm run generate:hero-progression-catalog`、`npm run test:hero-progression-catalog`：5 角色、450 角色-等级记录、90 经验记录、0 未知、7 转换向量。
+- `npm run check:structure`；仅报告既有无关 warning，本 task 未修改对应 `src/`或大测试文件。
+- 收尾通过 `npm run check:workflow`、`npm run audit:problems` 与 `git diff --check`。
+
+推荐任务：
+
+- `TASK-SLICE-179`：直接消费 172 目录，闭合五角色全级、Role5 整数防御、跨级/回满/装备派生、P1/P2/HUD 与当前 V7 往返。
 
 ### TASK-SLICE-171B
 

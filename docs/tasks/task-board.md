@@ -4,13 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-172` 是唯一 Ready 游戏 task；存档已收敛为“只接受当前 schema，变更后旧档直接不可用”，现恢复五角色成长证据。
+`TASK-SLICE-179` 是唯一 Ready 游戏 task；172 已冻结五角色 1..90 级目录、升级时序和双 owner/存档合同，现直接消费该证据实现。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-172 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 五角色成长证据 | 冻结五角色基础属性、经验表、升级/回满/派生时序、P1/P2 与存档边界 | M-036、M-040、M-044、M-049、M-052、VS-014 | 有 locator/schema 的成长目录、六段证据矩阵、未知/反证与实现合同 | 依证据生成同线有界实现 task | [定义](task-definitions/TASK-SETTINGS-172.md) |
+| TASK-SLICE-179 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 五角色成长正式接入 | 直连 172 目录，闭合整数属性、跨级/回满/装备派生、P1/P2 与当前存档 | M-036、M-040、M-044、M-049、VS-014 | 唯一目录消费、五角色全级、正式双 owner/装备/HUD/V7 回归 | 恢复 TASK-SETTINGS-173 | [定义](task-definitions/TASK-SLICE-179.md) |
 | TASK-SETTINGS-173 | Planned | LINE-CORE-PROGRESSION-COMPLETION | Role1 影分身证据纠错 | 区分五个静态候选/72 tick 与播放帧速，冻结正式 Runtime identity/action 合同 | M-018、M-034、VS-062 | verified 真值、正式/TestScene 差异矩阵与实现合同 | TASK-SLICE-173A | [定义](task-definitions/TASK-SETTINGS-173.md) |
 | TASK-SLICE-173A | Planned | LINE-CORE-PROGRESSION-COMPLETION | Role1 影分身正式接入 | 按 173 的 verified 合同接入正式英雄 Runtime | M-018、M-034、VS-062 | 稳定 identity/action、正式 1P/2P/五关代表回归 | 恢复同线下一缺口 | [定义](task-definitions/TASK-SLICE-173A.md) |
 | TASK-ARCH-174 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 普攻几何/Role5 命中纠错 | 收敛世界特效普攻几何 owner，修复 Role5 移动弹体二维命中与重复结算 | M-022、M-034、VS-062 | 唯一几何数据源、共享结算委托、二维边界回归 | 恢复同线下一缺口 | [定义](task-definitions/TASK-ARCH-174.md) |
