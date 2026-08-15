@@ -72,9 +72,14 @@ export function createHeroPartyRuntime(
       heroId: number,
       index: number,
     ) => HeroSkillLoadout | undefined;
+    restoreActiveSave?: boolean;
   }>,
 ): HeroPartyRuntime {
-  const restoredSkills = readFormalSkillRuntime(getBrowserStorage());
+  const mayRestoreActiveSave = options.restoreActiveSave
+    ?? views.every((view) => view.getData('formalPartySource') !== 'dev-override');
+  const restoredState = mayRestoreActiveSave
+    ? readFormalSkillRuntime(getBrowserStorage())
+    : undefined;
   const model = createHeroPartyRuntimeModel(views.map((view, index) => ({
     slot: index === 0 ? 'p1' : 'p2',
     heroId: view.getData('heroId'),
@@ -82,8 +87,14 @@ export function createHeroPartyRuntime(
     y: options.groundY,
     width: options.memberWidth ?? view.displayWidth,
     currentPlatformId: options.groundPlatformId,
+    progression: index === 0
+      ? restoredState?.player1.progression
+      : restoredState?.player2.progression,
+    equipmentLoadout: index === 0
+      ? restoredState?.player1.equipmentLoadout
+      : restoredState?.player2.equipmentLoadout,
     skillLoadout: options.skillLoadoutFor?.(view.getData('heroId'), index)
-      ?? (index === 0 ? restoredSkills?.player1.skillLoadout : restoredSkills?.player2?.skillLoadout),
+      ?? (index === 0 ? restoredState?.player1.skillLoadout : restoredState?.player2.skillLoadout),
   })));
   const attackVisuals = createHeroNormalAttackVisualBridge(scene);
   const normalAttackProjectileVisuals = createRole5NormalAttackProjectileVisualBridge(scene);

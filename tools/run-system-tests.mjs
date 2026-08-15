@@ -65,6 +65,7 @@ const bundledTests = requestedTests.length > 0
       'pre-stage23-save-journey-tests',
       'formal-party-runtime-tests',
       'hero-party-runtime-tests',
+      'hero-progression-runtime-tests',
       'monster-runtime-tests',
       'asset-bundle-tests',
     ];

@@ -87,6 +87,7 @@
     "test:equipment-page-qa": "node tools/run-system-tests.mjs equipment-page-qa-tests",
     "test:equipment-data-catalog": "node tools/generate-equipment-data-catalog.mjs --check",
     "test:hero-progression-catalog": "node tools/generate-hero-progression-catalog.mjs --check",
+    "test:hero-progression-runtime": "node tools/run-system-tests.mjs hero-progression-runtime-tests",
     "test:equipment-visual-catalog": "node tools/generate-equipment-visual-resource-catalog.mjs --check",
     "generate:skill-native-assets": "node tools/generate-skill-native-assets.mjs",
     "generate:role5-combat-assets": "node tools/integrate-role5-combat-assets.mjs",

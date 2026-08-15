@@ -80,6 +80,7 @@ export function createTestSceneHeroPartyRuntime(
   scene: Phaser.Scene & any,
   playerCount: 1 | 2,
   heroIds: readonly HeroId[],
+  restoreActiveSave = true,
 ): TestSceneHeroPartyRuntime {
   const markers = createPlayerMarkerViews.call(scene, playerCount, heroIds);
   const runtime: HeroPartyRuntime = createHeroPartyRuntime(
@@ -90,6 +91,7 @@ export function createTestSceneHeroPartyRuntime(
       groundPlatformId: STAGE11_GROUND_PLATFORM_ID,
       memberWidth: 48,
       skillLoadoutFor: (heroId) => getTestHeroSkillLoadoutPreset(heroId as HeroId, 0),
+      restoreActiveSave,
     },
   );
   const players = runtime.compatibilityMembers().map((member, index): TestScenePlayerView => {

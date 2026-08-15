@@ -29,6 +29,7 @@ import {
   recordTaskMonsterDefeat,
 } from '../../systems/PartyTaskSystem';
 import { loadActiveGame, saveActiveGame } from '../../systems/SaveSlotSystem';
+import type { SaveStorage } from '../../systems/SaveSystem';
 
 export type Stage1RewardPlayer = Readonly<{
   view: Phaser.GameObjects.Image;
@@ -83,7 +84,10 @@ export function createStage1RewardBridge(
     });
     if (!result) return;
     const target = players.find((player) => player.combat.slot === result.experience.owner);
-    if (target) awardStage1CombatPlayerExperience(target.combat, result.experience.amount);
+    if (target) {
+      awardStage1CombatPlayerExperience(target.combat, result.experience.amount);
+      persistStage1RewardProgression(taskStorage, target.combat);
+    }
   };
 
   const update = (deltaMs: number): void => {
@@ -107,6 +111,27 @@ export function createStage1RewardBridge(
       .map((player) => `${player.combat.slot.toUpperCase()} 灵魂 ${player.combat.soul} 经验 ${player.combat.progression.currentExp}`)
       .join(' · '),
   };
+}
+
+export function persistStage1RewardProgression(
+  storage: SaveStorage | undefined,
+  player: Stage1CombatPlayer,
+): void {
+  if (!storage) return;
+  const save = loadActiveGame(storage);
+  if (!save) return;
+  const key = player.slot === 'p1' ? 'player1' : 'player2';
+  const owner = save[key];
+  if (owner.heroId !== player.progression.heroId) return;
+  saveActiveGame(storage, {
+    ...save,
+    savedAt: new Date().toISOString(),
+    [key]: {
+      ...owner,
+      level: player.progression.level,
+      currentExp: player.progression.currentExp,
+    },
+  });
 }
 
 function getBrowserStorage(): Storage | undefined {

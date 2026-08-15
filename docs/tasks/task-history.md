@@ -9847,6 +9847,27 @@ UI 原生化合同：
 
 - `TASK-SLICE-179`：直接消费 172 目录，闭合五角色全级、Role5 整数防御、跨级/回满/装备派生、P1/P2/HUD 与当前 V7 往返。
 
+### TASK-SLICE-179
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SETTINGS-173`）。
+- `ProgressionSystem` 直接消费 172 的 verified `hero-progression-catalog-1.1.json`，不再手写第二份角色/经验公式；五角色 1..90、Role5 整数防御、7 个跨级向量和 89/90 sentinel 全部逐项对目录。
+- 五关共享 `HeroPartyRuntime` 从当前 V7 槽恢复每个活动 slot 的成长、技能和装备；升级以新级基础值加当前装备实例 override/强化派生重建有效 HP/MP/攻击/防御，并回满双方各自 HP/MP。
+- 普通怪奖励保持显式 `PlayerSlot`，写回同一活动槽的对应 `heroId/level/currentExp`；Stage 1-1 的旧兼容桥改为保留同一 progression 引用，避免 autosave 用陈旧副本覆盖奖励。
+- `SaveSystem` 增加成长字段严格门禁：hero、等级、经验必须是当前合法整数范围；旧版本、字符串/越界经验和损坏结构直接拒绝，不新增迁移或第二 owner。
+- 新增 `hero-progression-runtime-tests.ts` 与 npm 入口，覆盖 450 条角色等级、90 条经验、7 转换向量、Role5 全级整数、装备派生回满、P1/P2 隔离、奖励写回、当前 V7 重载和损坏拒绝。
+- 940×590 正式新建 1P 悟空与 2P 唐僧/白龙槽进入 Stage 1-1；HUD 分别显示目录对应 Lv1 数值，双方无串号，console warning/error 为 0；未改显示对象，因此不生成伪视觉差分。
+
+验证：
+
+- `npm run test:hero-progression-catalog`、`npm run test:hero-progression-runtime`、存档/HUD/party/runtime 专项与 `npm run test:systems`。
+- `npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+- 内置浏览器 940×590 正式 1P/2P 地图→Stage 1-1、HUD 数值与零 console。
+
+推荐任务：
+
+- `TASK-SETTINGS-173`：只纠正 Role1 影分身候选/72 tick/动作/identity 证据，不提前接入 173A。
+
 ### TASK-SLICE-171B
 
 - 完成日期：2026-08-15。

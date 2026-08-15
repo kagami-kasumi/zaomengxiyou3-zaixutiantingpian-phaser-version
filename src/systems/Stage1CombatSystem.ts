@@ -22,6 +22,12 @@ import {
 } from './HeroNormalAttackSystem';
 import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem';
 import {
+  calculateEffectiveStats,
+  createEmptyEquipmentLoadout,
+  type EquipmentLoadout,
+  type HeroEffectiveStats,
+} from './EquipmentSystem';
+import {
   addHeroExperience,
   createHeroProgression,
   getHeroBaseStats,
@@ -99,6 +105,8 @@ export type Stage1CombatPlayer = {
   soul: number;
   warriorEnergy: number;
   progression: HeroProgressionModel;
+  equipmentLoadout: EquipmentLoadout;
+  effectiveStats: HeroEffectiveStats;
   skill: HeroSkillModel;
 };
 
@@ -168,24 +176,36 @@ export function createStage1CombatRuntime(): Stage1CombatRuntime {
 export function createStage1CombatPlayer(
   slot: PlayerSlot,
   heroId: HeroId = Stage1CombatTuning.defaultHeroId,
+  initial: Readonly<{
+    progression?: HeroProgressionModel;
+    equipmentLoadout?: EquipmentLoadout;
+  }> = {},
 ): Stage1CombatPlayer {
   const combat = createHeroCombat(slot);
-  const baseStats = getHeroBaseStats(heroId, 1);
-  combat.maxHp = baseStats.maxHp;
+  const progression = initial.progression?.heroId === heroId
+    ? createHeroProgression(heroId, initial.progression.level, initial.progression.currentExp)
+    : createHeroProgression(heroId);
+  const equipmentLoadout = initial.equipmentLoadout ?? createEmptyEquipmentLoadout();
+  const effectiveStats = calculateEffectiveStats(
+    getHeroBaseStats(heroId, progression.level),
+    equipmentLoadout,
+  );
+  combat.maxHp = effectiveStats.maxHp;
   combat.hp = combat.maxHp;
   combat.damageProtectionMs = Stage1CombatTuning.playerProtectionMs;
-  const progression = createHeroProgression(heroId);
   return {
     slot,
     combat,
     normalAttack: createHeroNormalAttack(heroId),
     damageLog: [],
-    mp: baseStats.maxMp,
-    maxMp: baseStats.maxMp,
+    mp: effectiveStats.maxMp,
+    maxMp: effectiveStats.maxMp,
     soul: 0,
     warriorEnergy: 0,
     progression,
-    skill: createHeroSkillModel({ slots: [null, null, null, null, null] }, baseStats.maxMp),
+    equipmentLoadout,
+    effectiveStats,
+    skill: createHeroSkillModel({ slots: [null, null, null, null, null] }, effectiveStats.maxMp),
   };
 }
 
@@ -195,9 +215,13 @@ export function awardStage1CombatPlayerExperience(
 ): HeroProgressionResult {
   const result = addHeroExperience(player.progression, amount);
   if (result.levelsGained <= 0) return result;
-  player.combat.maxHp = result.baseStatsAfter.maxHp;
+  player.effectiveStats = calculateEffectiveStats(
+    result.baseStatsAfter,
+    player.equipmentLoadout,
+  );
+  player.combat.maxHp = player.effectiveStats.maxHp;
   player.combat.hp = player.combat.maxHp;
-  player.maxMp = result.baseStatsAfter.maxMp;
+  player.maxMp = player.effectiveStats.maxMp;
   player.mp = player.maxMp;
   player.skill.maxMp = player.maxMp;
   player.skill.mp = player.maxMp;

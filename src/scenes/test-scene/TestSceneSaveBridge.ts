@@ -60,7 +60,7 @@ export function initializeSceneSave(this: any): void {
     return;
   }
 
-  player.progression = restored.progression;
+  Object.assign(player.progression, restored.progression);
   setHeroId(player.normalAttack, restored.progression.heroId);
   player.baseStats = getHeroBaseStats(restored.progression.heroId, restored.progression.level);
   player.skill.loadout = restored.skillLoadout;
@@ -93,7 +93,7 @@ export function initializeSceneSave(this: any): void {
   this.refreshPlayerHeroView(player);
   const player2 = this.playerViews.find((view: any) => view.slot === 'p2');
   if (player2) {
-    player2.progression = restored.player2.progression;
+    Object.assign(player2.progression, restored.player2.progression);
     setHeroId(player2.normalAttack, restored.player2.progression.heroId);
     player2.baseStats = getHeroBaseStats(
       restored.player2.progression.heroId,

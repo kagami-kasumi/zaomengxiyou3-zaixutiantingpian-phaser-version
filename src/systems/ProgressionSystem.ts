@@ -1,3 +1,4 @@
+import heroProgressionCatalog from '../../docs/reverse-engineering/reference/hero-progression-catalog-1.1.json';
 import type { HeroBaseStats } from './EquipmentSystem';
 import type { HeroId } from './HeroNormalAttackSystem';
 
@@ -21,10 +22,20 @@ export type HeroProgressionResult = {
 };
 
 export const ProgressionTuning = {
-  maxLevel: 90,
-  maxLevelExpToNext: 999_999_999,
+  maxLevel: heroProgressionCatalog.experienceCurve.maxLevel,
+  maxLevelExpToNext: heroProgressionCatalog.experienceCurve.sentinelExpToNext,
   monster30Experience: 4,
 } as const;
+
+const experienceByLevel = new Map(
+  heroProgressionCatalog.experienceCurve.levels.map((entry) => [entry.level, entry.expToNext]),
+);
+const statsByHeroAndLevel = new Map(
+  heroProgressionCatalog.roles.flatMap((role) => role.levels.map((entry) => [
+    `${role.heroId}:${entry.level}`,
+    entry,
+  ] as const)),
+);
 
 export function createHeroProgression(
   heroId: HeroId,
@@ -71,7 +82,23 @@ export function addHeroExperience(
     );
   }
 
-  progression.currentExp += appliedExp;
+  const proposedTotal = progression.currentExp + appliedExp;
+  if (
+    progression.level >= ProgressionTuning.maxLevel &&
+    proposedTotal >= ProgressionTuning.maxLevelExpToNext
+  ) {
+    progression.lastResult = `+${appliedExp} exp ignored | Lv.${progression.level} MAX`;
+    return createProgressionResult(
+      progression,
+      levelBefore,
+      expBefore,
+      baseStatsBefore,
+      0,
+      appliedExp,
+    );
+  }
+
+  progression.currentExp = proposedTotal;
   let levelsGained = 0;
 
   while (
@@ -87,7 +114,6 @@ export function addHeroExperience(
   if (progression.level >= ProgressionTuning.maxLevel) {
     progression.level = ProgressionTuning.maxLevel;
     progression.expToNext = ProgressionTuning.maxLevelExpToNext;
-    progression.currentExp = Math.min(progression.currentExp, progression.expToNext - 1);
   }
 
   progression.lastResult = levelsGained > 0
@@ -106,61 +132,21 @@ export function addHeroExperience(
 
 export function getHeroExperienceToNextLevel(level: number): number {
   const normalizedLevel = normalizeHeroLevel(level);
-  if (normalizedLevel < 7) {
-    return 135 + 10 * (normalizedLevel - 1);
-  }
-  if (normalizedLevel < 13) {
-    return 625 + 50 * (normalizedLevel - 7);
-  }
-  if (normalizedLevel < 19) {
-    return 1950 + 100 * (normalizedLevel - 13);
-  }
-  if (normalizedLevel < 89) {
-    return 5000 + 5000 * (normalizedLevel - 19);
-  }
-  return ProgressionTuning.maxLevelExpToNext;
+  const expToNext = experienceByLevel.get(normalizedLevel);
+  if (expToNext === undefined) throw new RangeError(`Missing progression level ${normalizedLevel}.`);
+  return expToNext;
 }
 
 export function getHeroBaseStats(heroId: HeroId, level: number): HeroBaseStats {
-  const levelOffset = normalizeHeroLevel(level) - 1;
-
-  switch (heroId) {
-    case 1:
-      return {
-        maxHp: 80 + 50 * levelOffset,
-        maxMp: 50 + 20 * levelOffset,
-        power: 10 + 5 * levelOffset,
-        defense: 2 + 2 * levelOffset,
-      };
-    case 2:
-      return {
-        maxHp: 50 + 20 * levelOffset,
-        maxMp: 100 + 40 * levelOffset,
-        power: 12 + 8 * levelOffset,
-        defense: levelOffset,
-      };
-    case 3:
-      return {
-        maxHp: 100 + 70 * levelOffset,
-        maxMp: 35 + 15 * levelOffset,
-        power: 15 + 8 * levelOffset,
-        defense: 4 + levelOffset,
-      };
-    case 4:
-      return {
-        maxHp: 70 + 30 * levelOffset,
-        maxMp: 70 + 30 * levelOffset,
-        power: 9 + 4 * levelOffset,
-        defense: levelOffset,
-      };
-    case 5:
-      return {
-        maxHp: 70 + 49 * levelOffset,
-        maxMp: 55 + 24 * levelOffset,
-        power: 9 + 6 * levelOffset,
-        defense: 2 + 1.5 * levelOffset,
-      };
-  }
+  const normalizedLevel = normalizeHeroLevel(level);
+  const entry = statsByHeroAndLevel.get(`${heroId}:${normalizedLevel}`);
+  if (!entry) throw new RangeError(`Missing progression stats for R${heroId} Lv.${normalizedLevel}.`);
+  return {
+    maxHp: entry.maxHp,
+    maxMp: entry.maxMp,
+    power: entry.power,
+    defense: entry.defense,
+  };
 }
 
 export function formatHeroProgression(progression: HeroProgressionModel): string {

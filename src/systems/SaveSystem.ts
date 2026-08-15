@@ -671,6 +671,10 @@ function decodeSkillLearning(
 function isValidPlayerFeatureSave(value: unknown): value is PlayerFeatureSave {
   const candidate = value as PlayerFeatureSave;
   return isPlayerSaveBase(value) &&
+    Number.isInteger(candidate.heroId) && candidate.heroId >= 1 && candidate.heroId <= 5 &&
+    Number.isInteger(candidate.level) && candidate.level >= 1 && candidate.level <= ProgressionTuning.maxLevel &&
+    Number.isInteger(candidate.currentExp) && candidate.currentExp >= 0 &&
+    candidate.currentExp < getHeroExperienceToNextLevel(candidate.level) &&
     Number.isSafeInteger(candidate.soulCount) && candidate.soulCount >= 0 &&
     isValidInventorySave(candidate.inventory) &&
     isRecord(candidate.equipment) &&

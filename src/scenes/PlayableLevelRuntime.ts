@@ -106,6 +106,7 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
           createHeroCombatVisual(scene, view, heroId);
           return view;
         });
+      for (const view of playerViews) view.setData('formalPartySource', partyRuntime.source);
       const titleText = factories.title?.(playerCount);
       if (titleText) {
         title = scene.add.text(18, 16, titleText, {

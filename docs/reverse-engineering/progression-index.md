@@ -85,15 +85,15 @@ sentinel 时，`setExper()` 两分支均不写入，保持先前余数。UI 在 
 
 | owner/消费者 | 当前状态 | 下一 task 合同 |
 | --- | --- | --- |
-| `ProgressionSystem` | 已有五角色公式和 while 跨级，但 Role5 防御保留 `.5`，且公式仍是第二数据源 | 直接消费成长目录，固定 AS3 int 边界和 7 转换向量 |
-| `Stage1CombatSystem` / 正式 reward bridge | 升级时只用基础 HP/MP 回满，装备/持久加成重算未全集闭合 | 以各 player 当前 loadout/加成重建有效属性并回满，不建第二 owner |
-| `MonsterDefeatRewardSystem` | 奖励带显式 `PlayerSlot`，与原普通 owner 语义一致 | 回归 P1/P2 击杀、跨级和不串号 |
-| `Stage1CombatHudSystem` / 正式背包 | 消费当前 player progression；满级显示 `MAX` | 只验证数值投影，不改显示列表、几何或资源 |
-| `SaveSystem` V7 | 每 player 已持有 `heroId/level/currentExp`，旧版或损坏结构直接拒绝 | 保留唯一当前 schema，完成五角色/P1/P2 往返；若变更 schema 则废弃旧档，不生成迁移 |
+| `ProgressionSystem` | 179 已直接消费成长目录的 450 条角色等级记录与 90 条经验记录，Role5 防御和 7 转换向量均按目录 | 不再维护第二份公式；目录缺项直接报错 |
+| `Stage1CombatSystem` / 正式 reward bridge | 升级按各 player 当前 loadout（含实例 override/强化）重建有效 HP/MP/攻击/防御并回满 | 普通怪奖励只写明确 `PlayerSlot`，不建第二 owner |
+| `MonsterDefeatRewardSystem` | 奖励带显式 `PlayerSlot`，五关共享 reward bridge 只更新/保存该 owner | P1/P2 击杀、跨级和不串号由专项与全系统回归覆盖 |
+| `Stage1CombatHudSystem` / 正式背包 | 消费当前 player progression；满级显示 `MAX`；940×590 1P/2P 数值投影通过 | 未改显示列表、几何或资源 |
+| `SaveSystem` V7 | 每 player 的 `heroId/level/currentExp` 与装备实例共同恢复到正式 runtime；奖励后写回同一活动槽 | 唯一当前 schema 保持，旧版、坏类型和越界经验直接拒绝，不生成迁移 |
 
 ## 验证和交接
 
 - 生成器从原 AS3 解析四基础属性表达式，对比五份经验分段，记录源 hash/locator。
 - `--check` 重放 7 转换向量，覆盖未跨级、单级、多级、88→89、89→90、90 级 sentinel 两分支。
 - schema 固定 5 角色、90 经验记录、450 角色-等级记录、关键分段和零未知。
-- 本 task 不修改 `src/`，不宣称现代五角色成长已完成；下一实现 task 必须直接消费本目录并闭合上表差异。
+- `TASK-SLICE-179` 已完成现代接入；本目录继续作为唯一普通五角色成长事实源。明确排除项不得因本次实现被补成普通成长事实。

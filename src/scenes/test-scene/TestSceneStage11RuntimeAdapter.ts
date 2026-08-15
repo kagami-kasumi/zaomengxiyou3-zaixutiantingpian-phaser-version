@@ -32,6 +32,7 @@ export function createTestSceneStage11Runtime(
         scene,
         partyRuntime.playerCount,
         partyRuntime.members.map((member) => member.heroId),
+        partyRuntime.source === 'active-save',
       );
       return scene.heroPartyRuntime.players().map((player: any) => player.sprite);
     },

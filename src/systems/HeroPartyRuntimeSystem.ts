@@ -7,6 +7,8 @@ import {
 } from './LevelHeroMovementSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
 import type { HeroId } from './HeroNormalAttackSystem';
+import type { EquipmentLoadout } from './EquipmentSystem';
+import type { HeroProgressionModel } from './ProgressionSystem';
 import { updateHeroCombat } from './HeroCombatSystem';
 import { createProjectileSystem, updateProjectiles } from './ProjectileSystem';
 import {
@@ -34,6 +36,8 @@ export type HeroPartyMemberDefinition = Readonly<{
   width: number;
   currentPlatformId?: string;
   skillLoadout?: HeroSkillLoadout;
+  progression?: HeroProgressionModel;
+  equipmentLoadout?: EquipmentLoadout;
 }>;
 
 export type LevelHeroEnvironmentSnapshot = Readonly<{
@@ -91,7 +95,10 @@ export function createHeroPartyRuntimeModel(
     currentPlatformId: member.currentPlatformId,
   })));
   const members = definitions.map((definition, index) => {
-    const combat = createStage1CombatPlayer(definition.slot, definition.heroId);
+    const combat = createStage1CombatPlayer(definition.slot, definition.heroId, {
+      progression: definition.progression,
+      equipmentLoadout: definition.equipmentLoadout,
+    });
     if (definition.skillLoadout) combat.skill.loadout = definition.skillLoadout;
     return { combat, movement: movement.members[index]!.movement };
   });
