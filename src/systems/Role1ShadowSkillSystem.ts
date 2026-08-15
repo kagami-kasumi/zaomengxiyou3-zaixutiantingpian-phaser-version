@@ -7,6 +7,12 @@ import { lockHeroMovementForSkill, type HeroMovementModel } from './HeroMovement
 import type { HeroNormalAttackModel } from './HeroNormalAttackSystem';
 import type { HeroSkillCastEvent, HeroSkillModel, SkillBinding } from './HeroSkillSystem';
 import type { PlayerInputState } from './InputSystem';
+import { spawnRole1LyfbShadowProjectiles } from './Role1SkillProjectileFactory';
+import {
+  getRole1ShadowActionTotalTicks,
+  Role1ShadowTruth,
+  type Role1ShadowAction,
+} from './Role1ShadowTruth';
 import {
   spawnProjectileFromTuning,
   type ProjectileModel,
@@ -41,8 +47,20 @@ export type Role1ShadowModel = {
   y: number;
   facingX: -1 | 1;
   qsezLevel: number;
+  candidate: number;
+  action: Role1ShadowAction;
+  actionTick: number;
+  actionDamage: number;
+  remainingTicks: number;
+  tickAccumulatorMs: number;
   remainingMs: number;
 };
+
+export type Role1ShadowActionEvent = Readonly<{
+  kind: 'hit1' | 'hit2-first' | 'hit2-second';
+  shadow: Role1ShadowModel;
+  damage: number;
+}>;
 
 export type Role1ShadowTarget = {
   id: string;
@@ -137,13 +155,93 @@ export function syncRole1ShadowLearnedSkills(
 export function updateRole1ShadowRuntime(
   runtime: Role1ShadowSkillRuntime,
   deltaMs: number,
-): void {
+): Role1ShadowActionEvent[] {
   const safeDelta = Math.max(0, deltaMs);
   runtime.actionRemainingMs = Math.max(0, runtime.actionRemainingMs - safeDelta);
+  const events: Role1ShadowActionEvent[] = [];
   for (const shadow of runtime.shadows) {
-    shadow.remainingMs -= safeDelta;
+    shadow.tickAccumulatorMs += safeDelta;
+    while (shadow.tickAccumulatorMs + 1e-7 >= Role1ShadowTruth.tickMs && shadow.remainingTicks > 0) {
+      shadow.tickAccumulatorMs -= Role1ShadowTruth.tickMs;
+      shadow.remainingTicks -= 1;
+      if (shadow.action !== 'walk') {
+        shadow.actionTick += 1;
+        if (shadow.actionTick === 2) {
+          events.push({
+            kind: shadow.action === 'hit1' ? 'hit1' : 'hit2-first',
+            shadow: { ...shadow },
+            damage: shadow.actionDamage,
+          });
+        }
+        if (shadow.action === 'hit2' && shadow.actionTick === getRole1ShadowActionTotalTicks('hit2')) {
+          events.push({ kind: 'hit2-second', shadow: { ...shadow }, damage: shadow.actionDamage });
+        }
+      }
+      const actionFinished = shadow.action !== 'walk'
+        && shadow.actionTick >= getRole1ShadowActionTotalTicks(shadow.action);
+      if (actionFinished) {
+        shadow.remainingTicks = 0;
+        break;
+      }
+    }
+    shadow.remainingMs = Math.max(
+      0,
+      shadow.remainingTicks * Role1ShadowTruth.tickMs - shadow.tickAccumulatorMs,
+    );
   }
-  runtime.shadows = runtime.shadows.filter((shadow) => shadow.remainingMs > 0);
+  runtime.shadows = runtime.shadows.filter((shadow) => shadow.remainingTicks > 0);
+  return events;
+}
+
+export function startRole1ShadowHit1(runtime: Role1ShadowSkillRuntime, sourceDamage: number): number {
+  return startRole1ShadowAction(runtime, 'hit1', () => sourceDamage);
+}
+
+export function startRole1ShadowHit2(runtime: Role1ShadowSkillRuntime, sourcePower: number): number {
+  return startRole1ShadowAction(
+    runtime,
+    'hit2',
+    (shadow) => calculateRole1ShadowZzDamage(shadow.qsezLevel, sourcePower),
+  );
+}
+
+export function spawnRole1ShadowActionProjectiles(
+  events: readonly Role1ShadowActionEvent[],
+  params: { projectiles: ProjectileSystemModel; combat: HeroCombatModel },
+): ProjectileModel[] {
+  const spawned: ProjectileModel[] = [];
+  for (const event of events) {
+    if (event.kind === 'hit1') {
+      const pair = spawnRole1LyfbShadowProjectiles({
+        projectiles: params.projectiles,
+        combat: params.combat,
+        x: event.shadow.x,
+        y: event.shadow.y,
+        facingX: event.shadow.facingX,
+        damage: event.damage,
+      });
+      spawned.push(...pair);
+      continue;
+    }
+    const first = event.kind === 'hit2-first';
+    const tuning = first
+      ? { ...zzFirstProjectileTuning, actionName: 'hit14_1' }
+      : { ...zzSecondProjectileTuning, actionName: 'hit14_2_1' };
+    const projectile = spawnRole1ShadowProjectile(
+      params.projectiles,
+      params.combat,
+      event.shadow.x,
+      event.shadow.y,
+      event.shadow.facingX,
+      first ? 'role1-shadow-zz-hit14-1' : 'role1-shadow-zz-hit14-2',
+      first ? 'role1-shadow-zz-hit14-1' : 'role1-shadow-zz-hit14-2',
+      tuning,
+    );
+    projectile.damage = event.damage;
+    spawned.push(projectile);
+  }
+  params.projectiles.projectiles.push(...spawned);
+  return spawned;
 }
 
 export function getRole1QsezMpCost(binding: SkillBinding): number {
@@ -270,11 +368,10 @@ function castZz(
   const damage = calculateRole1ZzDamage(binding.level, params.sourcePower);
   const first = spawnZzProjectile(params, params.movement.x, params.movement.y, 'role1-zz-hit14-1', zzFirstProjectileTuning, damage);
   const second = spawnZzProjectile(params, params.movement.x, params.movement.y, 'role1-zz-hit14-2', zzSecondProjectileTuning, damage);
-  const shadowProjectiles = spawnRole1ShadowZzProjectiles(params, params.sourcePower);
-  const spawnedProjectiles = [first, second, ...shadowProjectiles];
+  const shadowCount = startRole1ShadowHit2(params.skill.role1ShadowRuntime, params.sourcePower);
+  const spawnedProjectiles = [first, second];
   params.projectiles.projectiles.push(...spawnedProjectiles);
-  params.skill.role1ShadowRuntime.shadows = [];
-  params.skill.lastResult = `zz shadows:${shadowProjectiles.length / 2} mp ${params.skill.mp}`;
+  params.skill.lastResult = `zz shadows:${shadowCount} mp ${params.skill.mp}`;
   return {
     skillName: 'zz',
     slotIndex,
@@ -284,7 +381,7 @@ function castZz(
     mpBefore,
     mpAfter: params.skill.mp,
     mpCost,
-    reentered: shadowProjectiles.length > 0,
+    reentered: shadowCount > 0,
   };
 }
 
@@ -311,6 +408,12 @@ export function spawnRole1ShadowsFromQsezHit(
       y: target.y,
       facingX,
       qsezLevel,
+      candidate: Math.min(4, Math.floor(random() * 5)),
+      action: 'walk' as const,
+      actionTick: 0,
+      actionDamage: 0,
+      remainingTicks: Role1ShadowTruth.lifetimeTicks,
+      tickAccumulatorMs: 0,
       remainingMs: Role1ShadowSkillTuning.shadowLifetimeMs,
     };
     runtime.shadows.push(shadow);
@@ -319,20 +422,18 @@ export function spawnRole1ShadowsFromQsezHit(
   return spawned;
 }
 
-function spawnRole1ShadowZzProjectiles(
-  params: Parameters<typeof requestRole1ShadowSkillFromInput>[0],
-  sourcePower: number,
-): ProjectileModel[] {
-  return params.skill.role1ShadowRuntime.shadows.flatMap((shadow) => {
-    const damage = calculateRole1ShadowZzDamage(shadow.qsezLevel, sourcePower);
-    return [
-      spawnZzProjectile(params, shadow.x, shadow.y, 'role1-shadow-zz-hit14-1', zzFirstProjectileTuning, damage),
-      spawnZzProjectile(params, shadow.x, shadow.y, 'role1-shadow-zz-hit14-2', {
-        ...zzSecondProjectileTuning,
-        actionName: 'hit14_1',
-      }, damage),
-    ];
-  });
+function startRole1ShadowAction(
+  runtime: Role1ShadowSkillRuntime,
+  action: Exclude<Role1ShadowAction, 'walk'>,
+  getDamage: (shadow: Role1ShadowModel) => number,
+): number {
+  for (const shadow of runtime.shadows) {
+    shadow.action = action;
+    shadow.actionTick = 0;
+    shadow.actionDamage = getDamage(shadow);
+    shadow.tickAccumulatorMs = 0;
+  }
+  return runtime.shadows.length;
 }
 
 function findRole1QsezTarget(

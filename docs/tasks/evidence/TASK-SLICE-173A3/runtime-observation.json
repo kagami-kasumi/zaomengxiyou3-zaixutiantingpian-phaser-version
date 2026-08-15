@@ -1,0 +1,80 @@
+{
+  "taskId": "TASK-SLICE-173A3",
+  "route": "http://127.0.0.1:4174/?qaStage=1-1-role1&qaRole1Shadow=1",
+  "viewport": {
+    "width": 940,
+    "height": 590
+  },
+  "truthId": "task-settings-173.role1-shadow",
+  "truthStatus": "verified",
+  "textureKey": "hero-animation.hero1.shadow",
+  "console": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "observations": [
+    {
+      "evidence": "walk-right.jpg",
+      "states": ["walk-1-right", "walk-1-right"],
+      "frames": [1, 1],
+      "candidates": [1, 1],
+      "origin": [0.425, 0.525],
+      "flipX": true,
+      "sourceIds": ["p1", "p1"]
+    },
+    {
+      "evidence": "walk-left.jpg",
+      "states": ["walk-3-left", "walk-1-left"],
+      "frames": [3, 1],
+      "candidates": [3, 1],
+      "origin": [0.575, 0.525],
+      "flipX": false,
+      "sourceIds": ["p1", "p1"]
+    },
+    {
+      "evidence": "hit1-right-frame-0.jpg",
+      "states": ["hit1-0-right", "hit1-0-right"],
+      "frames": [5, 5],
+      "actionTicks": [0, 0],
+      "origin": [0.425, 0.525],
+      "flipX": true,
+      "sourceIds": ["p1", "p1"]
+    },
+    {
+      "evidence": "hit1-destroyed.jpg",
+      "states": [],
+      "meaning": "hit1 frame-over destroyed every participating shadow"
+    },
+    {
+      "evidence": "hit2-right-frame-0.jpg",
+      "states": ["hit2-0-right"],
+      "frames": [10],
+      "actionTicks": [1]
+    },
+    {
+      "evidence": "hit2-right-frame-1.jpg",
+      "states": ["hit2-1-right"],
+      "frames": [11],
+      "actionTicks": [6]
+    },
+    {
+      "evidence": "hit2-right-frame-2.jpg",
+      "states": ["hit2-2-right"],
+      "frames": [12],
+      "actionTicks": [15]
+    },
+    {
+      "evidence": "hit2-destroyed.jpg",
+      "states": [],
+      "meaning": "hit2 frame-over destroyed every participating shadow"
+    },
+    {
+      "evidence": "reentry-right.jpg",
+      "states": ["walk-0-right"],
+      "frames": [0],
+      "ids": ["p1-shadow-2"],
+      "sourceIds": ["p1"],
+      "meaning": "a new stable identity can be created after destruction"
+    }
+  ]
+}

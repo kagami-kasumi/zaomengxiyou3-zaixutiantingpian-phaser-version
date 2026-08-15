@@ -1,37 +1,42 @@
-import Phaser from 'phaser';
-import { Role1CombatAssetKeys } from '../../assets/AssetManifest';
+import type Phaser from 'phaser';
+import {
+  syncRole1ShadowVisualViews,
+  type Role1ShadowView,
+} from '../Role1ShadowVisualBridge';
 import type { Role1ShadowModel } from '../../systems/Role1ShadowSkillSystem';
-
-type ShadowView = Readonly<{
-  sprite: Phaser.GameObjects.Sprite;
-  model: Role1ShadowModel;
-}>;
+import { projectRole1ShadowVisual } from '../../systems/Role1ShadowVisualSystem';
+import { isRole1ShadowQaEnabled } from './TestSceneConfig';
 
 export function syncRole1ShadowVisuals(scene: Phaser.Scene & Record<string, any>): void {
-  const views: Map<string, ShadowView> = scene.role1ShadowVisuals ?? new Map<string, ShadowView>();
+  const views: Map<string, Role1ShadowView> = scene.role1ShadowVisuals ?? new Map<string, Role1ShadowView>();
   scene.role1ShadowVisuals = views;
-  const active = new Map<string, Role1ShadowModel>();
+  const shadows: Role1ShadowModel[] = [];
   for (const player of scene.playerViews ?? []) {
     if (player.normalAttack?.heroId !== 1) continue;
-    for (const shadow of player.skill.role1ShadowRuntime.shadows as Role1ShadowModel[]) {
-      active.set(shadow.id, shadow);
-      let view = views.get(shadow.id);
-      if (!view) {
-        const sprite = scene.add.sprite(shadow.x + 15, shadow.y - 5, Role1CombatAssetKeys.shadow, 0)
-          .setOrigin(shadow.facingX < 0 ? 0.575 : 0.425, 0.525)
-          .setFlipX(shadow.facingX > 0)
-          .setDepth(19);
-        view = { sprite, model: shadow };
-        views.set(shadow.id, view);
-      }
-      const elapsedMs = 3_000 - shadow.remainingMs;
-      const frame = Math.min(4, Math.floor(Math.max(0, elapsedMs) / 400));
-      view.sprite.setPosition(shadow.x + 15, shadow.y - 5).setFrame(frame);
-    }
+    shadows.push(...player.skill.role1ShadowRuntime.shadows as Role1ShadowModel[]);
   }
-  for (const [id, view] of views) {
-    if (active.has(id)) continue;
-    view.sprite.destroy();
-    views.delete(id);
+  syncRole1ShadowVisualViews({ scene, shadows, views });
+  if (isRole1ShadowQaEnabled()) {
+    scene.game.canvas.dataset.role1ShadowQaPlayers = JSON.stringify((scene.playerViews ?? [])
+      .filter((player: any) => player.normalAttack?.heroId === 1)
+      .map((player: any) => ({
+        slot: player.slot,
+        facingX: player.movement?.facingX,
+        combatState: player.combat?.state,
+        loadout: player.skill.loadout.slots.map((binding: any) => binding?.skillName ?? null),
+        lastResult: player.skill.lastResult,
+        shadowActionRemainingMs: player.skill.role1ShadowRuntime.actionRemainingMs,
+      })));
+    scene.game.canvas.dataset.role1ShadowQa = JSON.stringify(shadows.map((shadow) => ({
+      id: shadow.id,
+      sourceId: shadow.sourceId,
+      action: shadow.action,
+      actionTick: shadow.actionTick,
+      candidate: shadow.candidate,
+      remainingTicks: shadow.remainingTicks,
+      textureKey: views.get(shadow.id)?.sprite.texture.key,
+      textureFrame: views.get(shadow.id)?.sprite.frame.name,
+      ...projectRole1ShadowVisual(shadow),
+    })));
   }
 }

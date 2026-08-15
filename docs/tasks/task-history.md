@@ -13,6 +13,9 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-173A3 | Role1 影分身验收/归档 | 收口 173A1 视觉证据、全量门禁与文档状态 | M-018、M-034、VS-062 | 940×590 左右 walk/hit1/hit2/销毁/reentry 证据、零 console、全量门禁与 173A1 归档 |
+| TASK-SLICE-173A1 | Role1 影分身状态机/投射 | 直接消费 verified 合同纠正状态机并建立共享视觉投射/TestScene 薄适配 | M-018、M-034、VS-062 | `Role1ShadowTruth/VisualSystem/VisualBridge`、固定 candidate、90/10/30 tick、派生弹体、P1/P2 identity 专项与 QA 证据 |
+| TASK-SETTINGS-173 | Role1 影分身证据纠错 | 区分五个静态候选、72 tick、寿命与动作速度，冻结正式 Runtime 合同 | M-018、M-034、VS-062 | `task-settings-173.role1-shadow` verified 真值、24 状态/左右矩阵、owner/action/lifecycle 六段证据、TestScene/正式差异与 173A 零未知输入 |
 | TASK-SETTINGS-172 | 五角色成长证据 | 冻结 1..90 级基础属性、经验、升级/回满/派生顺序、双 owner 与存档边界 | M-036、M-040、M-044、M-049、M-052、VS-014 | 5×90 可重复目录/Schema、源 hash/locator、7 转换向量、六段证据、Role5 `int` 防御与 179 实现合同 |
 | TASK-SLICE-171A | 四功能事务续作 | 关闭高阶打造材料可达性并完成全量联合验收 | M-036、M-037、M-039、M-044、M-052、VS-064 | 1888 单堆上限、164/121/78 双 owner 回放、V6 百分数兼容、正式四页有效提交/返还/重载与零 console |
 | TASK-SLICE-171 | 四功能事务收口父任务 | 汇总 Fusion 时装、打造百分数与全装备四事务主体 | M-036、M-037、M-039、M-044、M-052、VS-064 | 9 条永久时装例外、121 Fusion、百分数点适配、164 件联合回放主体与 171A 收口 |
@@ -280,6 +283,45 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-173
+
+任务类型：
+
+- `TASK-SETTINGS`
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；本任务已完成；下一 task 为 `TASK-SLICE-173A`）
+
+目标机制/切片：
+
+- `M-018`、`M-034`、`VS-062`
+
+规模结果：
+
+- 两个主工作包、两个验收批次、0 次 compact；未触发新 SWF 资源族、第三个技能行为或通用英雄生命周期重做。
+
+输入资料：
+
+- `reverse-engineering-protocol.md`、`role1-combat-visuals-index.md`、`Role1.as/Role1Shadow.as/BaseMonster.as/BaseBitmapDataClip.as`、恢复 `WuKong.swf` character 1 与现代 TestScene/正式 Runtime 消费者。
+
+输出产物：
+
+- `task-settings-173.role1-shadow` verified 真值、Role1 视觉索引六段证据、TestScene/正式差异矩阵、零未知 173A 实现合同。
+
+完成定义与验收：
+
+- 不再用单个总时长替代静态候选/action 语义；五个静态候选、72 tick、`frameClips*3`、`hit1/hit2`、owner、朝向、矩阵与销毁均可自动复查。
+- 真值通过源 hash、locator、Schema、状态完整性和生成回测；本任务只交付证据，未修改正式战斗实现。
+
+禁止范围：
+
+- 未把五张静态候选补成 2400ms 循环，未从 TestScene 常量反推原版，未接入正式 Runtime 或修改其他角色。
+
+推荐后续任务：
+
+- `TASK-SLICE-173A`：直接消费 verified manifest 接入正式 Runtime。
 
 ### TASK-SLICE-162
 
@@ -7356,6 +7398,66 @@ UI 原生化合同：
 推荐后续任务：
 - `TASK-SLICE-179`：消费成长目录，实现五角色基础值、升级时序、P1/P2、装备派生和当前 schema。
 
+### TASK-SLICE-173A1
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；已完成）
+
+目标机制/切片：
+- `M-018`、`M-034`、`VS-062`
+
+规模结果：
+- 主工作包：1；首次 compact 后按门禁改为 Split，剩余验收由 `TASK-SLICE-173A3` 收口。
+- 协作：单 agent；未进入正式英雄 Runtime、Role2-5 或新资料族。
+
+输入资料：
+- `task-settings-173.role1-shadow` verified manifest、Role1 shadow skill/projectile systems 与 TestScene bridges。
+
+输出产物：
+- manifest 直读的 fixed candidate、90 tick walk、10 tick hit1、30 tick hit2 状态机与证据化派生/销毁时点。
+- 共享 `Role1ShadowTruth`、`Role1ShadowVisualSystem`、`Role1ShadowVisualBridge`；TestScene 薄 QA 适配。
+- 创建、固定候选、左右矩阵、hit1/hit2、销毁、重入和独立 source identity 专项。
+
+完成定义与边界：
+- TestScene 状态机/投射无 173 已列偏差，verified manifest 被实现和测试直接消费，现代可见例外为空。
+- 不宣称正式五关已接入；该范围由 `TASK-SLICE-173A2` 承担。
+
+推荐后续任务：
+- `TASK-SLICE-173A3` 完成视觉证据、全量门禁与归档。
+
+### TASK-SLICE-173A3
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；已完成；下一 task 为 `TASK-SLICE-173A2`）
+
+目标机制/切片：
+- `M-018`、`M-034`、`VS-062`
+
+规模结果：
+- 主工作包：1；上下文压缩：0；验收批次：1；单 agent。
+- 未修改正式 Runtime、Role2-5 或新资料族。
+
+输入资料：
+- 173A1 compact 安全检查点、当前实现、verified manifest 与阶段性自动/浏览器证据。
+
+输出产物：
+- `docs/tasks/evidence/TASK-SLICE-173A3/` 的显示列表、现代例外、逐状态差异、机器观测与 9 张 940×590 截图。
+- truth/runtime 专项、全量 systems/build/structure/workflow/problem/diff 门禁闭环。
+- Role1 视觉索引、资源标注、M-018/M-034、VS-062、功能线覆盖与 PG-001/004 集中审计更新。
+
+完成定义与边界：
+- 左右 walk、hit1、hit2 三段、销毁与重入均与 verified truth 一致；fresh console warning/error 为 0。
+- 173A1/173A3 同次归档并激活 173A2；正式 P1/P2/五关不在本批结论内。
+
+推荐后续任务：
+- `TASK-SLICE-173A2`。
+
 ## 执行记录
 
 
@@ -9846,6 +9948,63 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SLICE-179`：直接消费 172 目录，闭合五角色全级、Role5 整数防御、跨级/回满/装备派生、P1/P2/HUD 与当前 V7 往返。
+
+### TASK-SETTINGS-173
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SLICE-173A`）。
+- 新增可重复生成的 `task-settings-173.role1-shadow` verified manifest；锁定 `WuKong.swf` character 1 / `ROLE1_SHALLDOW`、1000×600 5×3 atlas、源 hash/locator、左右注册矩阵、24 个逐向状态与逐 cell 原版基准。
+- 纠正时序：row0 在创建时从五个静态 cell 选一，`frameCount=1` 使 72 tick 后仍保持同一 cell；它不是 400ms 五帧轮换，72 tick 也不是可跨 20/24/30 质量档固定为 2400ms 的播放速度。寿命另由 `frameClips*3` 保持约 3 秒。
+- 闭合行为合同：Bullet13 命中创建 1..2/4..5，source Role1 持有 owner，创建时锁定朝向与位置，`move()` 为空；`hit1/hit2` 仅由 source `hit8/hit14` 达到，分别 10/30 tick 并在 frame-over 销毁。
+- 差异矩阵确认 TestScene 每 400ms 换候选且将 `(15,-5)` offset 同时写入 position/origin 而重复应用；正式 `HeroPartyRuntime` 虽持有 skill model，但不更新 Role1 shadow skill 也无视图。原版输入未知为 0，修复留给 173A，本 task 未修改 `src/`。
+
+验证：
+
+- `npm run generate:role1-shadow-truth`、`npm run test:role1-shadow-truth`、`npm run check:ui-ground-truth`。
+- 收尾运行 `npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+
+- `TASK-SLICE-173A`：直接消费 verified manifest 与差异矩阵，以稳定 candidate/action/tick/matrix 接入正式 Runtime；不扩到其他角色或通用英雄重写。
+
+### TASK-SLICE-173A1
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SLICE-173A2`）。
+- 173A1 直接消费 `task-settings-173.role1-shadow`：创建时固定 row0 candidate，walk 保持 90 tick；`lyfb` 只进入 10 tick hit1，`zz` 只进入 30 tick hit2，并在证据 tick 产生分身位置弹体后 frame-over 销毁。
+- 新增共享 `Role1ShadowTruth`、`Role1ShadowVisualSystem` 与 `Role1ShadowVisualBridge`；TestScene 只保留输入、加载与不可见 QA 观测，不再持有 400ms 候选轮换或第二套坐标补偿。异步 atlas 未就绪时不创建 `__MISSING` sprite。
+- 专项覆盖创建/固定候选、左右矩阵、hit1/hit2 holds 与发射/销毁、3 秒寿命、重入及 P1/P2 独立 source identity；既有 Role1 basic 测试同步改为证据化延迟派生合同。
+- 173A1 首次 compact 后按门禁停止新增实现并拆出 173A3；173A3 完成 940×590 左右 walk、hit1、hit2 frames 10/11/12、销毁和新 identity 重入证据，现代可见例外为空，fresh console warning/error 为 0。
+- 本批不接入或宣称正式五关完成；`HeroPartyRuntime` 输入、目标、弹体与 P1/P2/五关生命周期由 173A2 独立验收。
+
+验证：
+
+- `npm run test:role1-shadow-truth`、`npm run test:role1-shadow-runtime`、`npm run test:systems`。
+- `npm run check:structure`、`npm run build`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+- 视觉证据：`docs/tasks/evidence/TASK-SLICE-173A3/visual-audit.md` 与 `runtime-observation.json`。
+
+推荐任务：
+
+- `TASK-SLICE-173A2`：复用同一状态机/共享视觉桥接入正式英雄 Runtime，完成正式 P1/P2、输入/目标/弹体生命周期与五关代表回归。
+
+### TASK-SLICE-173A3
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SLICE-173A2`）。
+- 作为 173A1 首次 compact 后的唯一收口批次，未扩入正式 Runtime；稳定重现并落盘 940×590 左右 walk、hit1、hit2 三段、销毁与新 identity 重入。
+- 显示列表仍只有每个 model 一个 `ROLE1_SHALLDOW` 200×200 bitmap；QA target、MP/无敌和 `data-*` 观测均不可见，现代可见例外为空。
+- fresh tab 机器观测确认真纹理、左右 origin/flip、frame 5/10/11/12、销毁空数组和重入 source owner，console warning/error 为 0。
+- 完成 Role1 视觉索引、资源批次、M-018/M-034、VS-062、功能线覆盖与 PG-001/004 集中审计更新；173A1 与本任务同次归档。
+
+验证：
+
+- `npm run test:role1-shadow-truth`、`npm run test:role1-shadow-runtime`、`npm run test:systems`。
+- `npm run check:structure`、`npm run build`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+- `docs/tasks/evidence/TASK-SLICE-173A3/visual-audit.md`、`runtime-observation.json` 与 9 张 940×590 JPEG。
+
+推荐任务：
+
+- `TASK-SLICE-173A2`。
 
 ### TASK-SLICE-179
 

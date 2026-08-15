@@ -1,12 +1,16 @@
 # TASK-SLICE-173A
 
+状态：
+
+- `Split`（首次 compact 触发规模门禁；剩余工作拆为 `TASK-SLICE-173A1`、`TASK-SLICE-173A2`）
+
 任务类型：
 
 - `TASK-SLICE`
 
 功能条线：
 
-- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Planned，依赖 `TASK-SETTINGS-173`）
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；父任务不再直接执行）
 
 目标机制/切片：
 
@@ -14,9 +18,9 @@
 
 规模预算：
 
-- 主工作包：1
+- 主工作包：0
 - 预计上下文压缩：0
-- 独立验收批次：2
+- 独立验收批次：0
 
 拆分触发：
 
@@ -32,7 +36,7 @@
 
 输入资料：
 
-- `TASK-SETTINGS-173` 的 verified 真值、差异矩阵和实现合同。
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-173-role1-shadow.json` 的 verified 真值，以及 `role1-combat-visuals-index.md` 的差异矩阵和零未知实现合同。
 - `HeroPartyRuntimeBridge.ts`、Role1 视觉/技能 owner、TestScene 兼容 bridge 与正式五关 Runtime。
 
 输出产物：
@@ -60,4 +64,13 @@
 
 推荐后续任务：
 
-- 恢复本线按覆盖台账尚未关闭的成长、存档、五入口或 UI 差异任务。
+- `TASK-SLICE-173A1` 先闭合影分身自身的 verified 状态机、投射与 TestScene 薄适配。
+- `TASK-SLICE-173A2` 再接入正式英雄 Runtime，并完成 1P/2P、五关代表验收。
+
+## Compact 安全检查点（2026-08-15）
+
+- 已完成只读调查：确认正式 `HeroPartyRuntimeSystem`/`HeroPartyRuntimeBridge` 尚未拥有 Role1 影分身；TestScene 仍独立持有视觉与行为更新。
+- 已确认现实现偏差：row0 每 400ms 轮换、位置同时叠加 `(+15,-5)` 与注册点补偿、`zz` 立即生成两枚弹体并清空分身，均不符合 173 verified 合同。
+- 已确认可复用接缝：`HeroSkillModel.role1ShadowRuntime`、`Role1SkillProjectileFactory`、共享英雄 Runtime 与 TestScene 兼容桥。
+- 未修改 `src/`；不得把本检查点视为 173A 的实现或视觉验收完成。
+- 首次 compact 已达到本任务拆分触发；后续不得继续以 173A 父任务扩张实现。

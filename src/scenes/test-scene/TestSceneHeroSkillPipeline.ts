@@ -10,6 +10,7 @@ import { Role2BodyAnimations } from '../../systems/Role2CombatVisualSystem';
 import { getRole3BodyActionDurationMs } from '../../systems/Role3CombatVisualSystem';
 import { getRole4BodyActionDurationMs } from '../../systems/Role4CombatVisualSystem';
 import { role4MdsBombAsset } from '../../assets/AssetManifest';
+import { isRole1ShadowQaEnabled } from './TestSceneConfig';
 
 export function updateHeroSkillProjectiles(
   this: any,
@@ -18,12 +19,23 @@ export function updateHeroSkillProjectiles(
   delta: number,
 ): void {
   const skillLearning = { p1: this.p1SkillLearning, p2: this.p2SkillLearning };
-  const role1Events = updateRole1SkillBridge({
+  const role1Result = updateRole1SkillBridge({
     players: this.playerViews,
     input,
     previousInput: this.lastInput,
     projectiles: this.projectileSystem,
     targets: [
+      ...(isRole1ShadowQaEnabled()
+        ? this.playerViews
+          .filter((player: any) => player.movement && player.normalAttack?.heroId === 1)
+          .map((player: any) => ({
+            id: `${player.slot}-role1-shadow-qa-target`,
+            x: player.movement.x + player.movement.facingX * 120,
+            y: player.movement.y,
+            isBoss: false,
+            isAlive: true,
+          }))
+        : []),
       ...this.monster30s
         .filter((monster: any) => monster.state !== 'dead' && monster.state !== 'removed')
         .map((monster: any) => ({
@@ -47,6 +59,7 @@ export function updateHeroSkillProjectiles(
     deltaMs: delta,
     timeMs: time,
   });
+  const role1Events = role1Result.castEvents;
   for (const event of role1Events) {
     const sourceId = event.projectile.sourceId;
     const player = this.playerViews.find((candidate: any) => candidate.slot === sourceId);
@@ -164,6 +177,7 @@ export function updateHeroSkillProjectiles(
   });
   const projectiles = [
     ...role1Events.flatMap((event) => event.spawnedProjectiles ?? [event.projectile]),
+    ...role1Result.spawnedProjectiles,
     ...role2Result.castEvents.map((event) => event.projectile),
     ...role3Events.map((event) => event.projectile),
     ...role4Result.spawnedProjectiles,

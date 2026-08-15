@@ -6,7 +6,7 @@ import type { HeroMovementBounds, HeroMovementModel, MovementPlatform } from '..
 import type { HeroNormalAttackModel } from '../../systems/HeroNormalAttackSystem';
 import type { HeroBaseStats } from '../../systems/EquipmentSystem';
 import type { HeroProgressionModel } from '../../systems/ProgressionSystem';
-import type { HeroSkillModel } from '../../systems/HeroSkillSystem';
+import type { HeroSkillLoadout, HeroSkillModel } from '../../systems/HeroSkillSystem';
 import type { InputState, PlayerSlot } from '../../systems/InputSystem';
 import {
   getHeroBaseStats,
@@ -29,6 +29,7 @@ import type { AttackEffectView } from '../HeroNormalAttackVisualBridge';
 import { createAttackFlash, type AttackFlash } from './TestSceneViews';
 import { toPhaserRect } from './TestSceneGeometry';
 import type { ProjectileSystemModel } from '../../systems/ProjectileSystem';
+import { isRole1ShadowQaEnabled } from './TestSceneConfig';
 import {
   isRole5LoongSwordProjectileAttack,
   spawnRole5LoongSwordProjectile,
@@ -82,6 +83,7 @@ export function createTestSceneHeroPartyRuntime(
   heroIds: readonly HeroId[],
   restoreActiveSave = true,
 ): TestSceneHeroPartyRuntime {
+  const role1ShadowQa = isRole1ShadowQaEnabled();
   const markers = createPlayerMarkerViews.call(scene, playerCount, heroIds);
   const runtime: HeroPartyRuntime = createHeroPartyRuntime(
     scene,
@@ -90,7 +92,9 @@ export function createTestSceneHeroPartyRuntime(
       groundY: STAGE11_GROUND_TOP_Y,
       groundPlatformId: STAGE11_GROUND_PLATFORM_ID,
       memberWidth: 48,
-      skillLoadoutFor: (heroId) => getTestHeroSkillLoadoutPreset(heroId as HeroId, 0),
+      skillLoadoutFor: (heroId) => role1ShadowQa && heroId === 1
+        ? createRole1ShadowQaLoadout()
+        : getTestHeroSkillLoadoutPreset(heroId as HeroId, 0),
       restoreActiveSave,
     },
   );
@@ -109,6 +113,14 @@ export function createTestSceneHeroPartyRuntime(
       progression,
     };
   });
+  if (role1ShadowQa) {
+    for (const player of players) {
+      if (player.normalAttack.heroId !== 1) continue;
+      player.combat.invulnerableUntilMs = Number.POSITIVE_INFINITY;
+      player.skill.maxMp = 2_000;
+      player.skill.mp = 2_000;
+    }
+  }
 
   return {
     players: () => players,
@@ -226,6 +238,18 @@ export function createTestSceneHeroPartyRuntime(
       for (const marker of markers) marker.label.destroy();
       players.length = 0;
     },
+  };
+}
+
+function createRole1ShadowQaLoadout(): HeroSkillLoadout {
+  return {
+    slots: [
+      { skillName: 'qsez', level: 1 },
+      { skillName: 'lyfb', level: 1 },
+      { skillName: 'zz', level: 1 },
+      null,
+      null,
+    ],
   };
 }
 

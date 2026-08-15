@@ -1,0 +1,1539 @@
+{
+  "$schema": "../schema/ui-ground-truth.schema.json",
+  "schemaVersion": 1,
+  "truthId": "task-settings-173.role1-shadow",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SETTINGS-173",
+    "surfaceId": "role1-shadow-runtime-visual",
+    "originalVersion": "RegiMA 1.1 restored corpus",
+    "description": "Role1Shadow character 1 identity, 5 static walk candidates, hit1/hit2 cells, host-tick holds, left/right registration matrices and fixed 30-tick fixture. Lifetime and action reachability remain AS3 behavior contracts documented by the evidence index."
+  },
+  "generatedBy": {
+    "tool": "generate-role1-shadow-ground-truth.mjs",
+    "toolVersion": "1",
+    "command": "npm run generate:role1-shadow-truth",
+    "generatedAt": "2026-08-15T12:00:00+08:00"
+  },
+  "provenance": [
+    {
+      "id": "wukong-swf",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/WuKong.swf",
+      "sha256": "61e71b182b3dd500b230be569336b6fb72081e5ac35a770f1886b3f603fedea3",
+      "locator": "character 1 / ROLE1_SHALLDOW; BitmapData 1000x600; source owner for the 5x3 atlas"
+    },
+    {
+      "id": "role1-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as",
+      "sha256": "9785fb74ddadc858c2bda6d084612a7f50bbd09392e45a99e71a9a7b80fde489",
+      "locator": "createShallow; shallowArray owner/step; hit8 -> shadow hit1; hit14 -> shadow hit2"
+    },
+    {
+      "id": "role1-shadow-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1Shadow.as",
+      "sha256": "04b1477e07dcb211f3990206f3c95ab9b9a4101583ef0e648cee9fec3898614d",
+      "locator": "constructor, initBBDC, setAction, enterFrameFunc, scriptFrameOverFunc, move, destroy"
+    },
+    {
+      "id": "base-monster-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "locator": "Role1Bullet13 hit creates 1..2 non-boss shadows or 4..5 boss shadows"
+    },
+    {
+      "id": "base-bitmap-data-clip-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "locator": "frameShow/step/frameCount semantics, mirrored cell selection and setXYByDirect matrix"
+    },
+    {
+      "id": "game-setting-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/setmenu/gameSetting.as",
+      "sha256": "d467c90af7d1aea39f9e2b77a4d40a35601c3ce9d4f9e169ac841d0728eea177",
+      "locator": "quality selector binds frameClips and stage.frameRate to 20, 24 or 30"
+    },
+    {
+      "id": "wukong-ffdec-xml",
+      "sourceType": "ffdec-xml",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-069a-role1/wukong-selected.xml",
+      "sha256": "a6bdbc7854a21c880cd33a2433cb936ae12f345078aca4f6cdd8041c3789a9d6",
+      "locator": "AVM2 constants expose ROLE1_SHALLDOW and 1000x600 BitmapData identity"
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 30,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "top-left"
+  },
+  "states": [
+    {
+      "id": "walk-0-left",
+      "entry": "walk row=0 cell=0; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 0,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-0-left"
+    },
+    {
+      "id": "walk-1-left",
+      "entry": "walk row=0 cell=1; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 1,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-1-left"
+    },
+    {
+      "id": "walk-2-left",
+      "entry": "walk row=0 cell=2; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 2,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-2-left"
+    },
+    {
+      "id": "walk-3-left",
+      "entry": "walk row=0 cell=3; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 3,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-3-left"
+    },
+    {
+      "id": "walk-4-left",
+      "entry": "walk row=0 cell=4; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 4,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-4-left"
+    },
+    {
+      "id": "hit1-0-left",
+      "entry": "hit1 row=1 cell=0; hold=2 host ticks; action total=10 ticks and destroys on frame-over",
+      "frame": 5,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit1-0-left"
+    },
+    {
+      "id": "hit1-1-left",
+      "entry": "hit1 row=1 cell=1; hold=3 host ticks; action total=10 ticks and destroys on frame-over",
+      "frame": 6,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit1-1-left"
+    },
+    {
+      "id": "hit1-2-left",
+      "entry": "hit1 row=1 cell=2; hold=2 host ticks; action total=10 ticks and destroys on frame-over",
+      "frame": 7,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit1-2-left"
+    },
+    {
+      "id": "hit1-3-left",
+      "entry": "hit1 row=1 cell=3; hold=3 host ticks; action total=10 ticks and destroys on frame-over",
+      "frame": 8,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit1-3-left"
+    },
+    {
+      "id": "hit2-0-left",
+      "entry": "hit2 row=2 cell=0; hold=2 host ticks; action total=30 ticks and destroys on frame-over",
+      "frame": 10,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit2-0-left"
+    },
+    {
+      "id": "hit2-1-left",
+      "entry": "hit2 row=2 cell=1; hold=12 host ticks; action total=30 ticks and destroys on frame-over",
+      "frame": 11,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit2-1-left"
+    },
+    {
+      "id": "hit2-2-left",
+      "entry": "hit2 row=2 cell=2; hold=16 host ticks; action total=30 ticks and destroys on frame-over",
+      "frame": 12,
+      "fixtureId": "sourceRoot=(470,350); direct=0; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit2-2-left"
+    },
+    {
+      "id": "walk-0-right",
+      "entry": "walk row=0 cell=0; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 0,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-0-right"
+    },
+    {
+      "id": "walk-1-right",
+      "entry": "walk row=0 cell=1; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 1,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-1-right"
+    },
+    {
+      "id": "walk-2-right",
+      "entry": "walk row=0 cell=2; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 2,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-2-right"
+    },
+    {
+      "id": "walk-3-right",
+      "entry": "walk row=0 cell=3; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 3,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-3-right"
+    },
+    {
+      "id": "walk-4-right",
+      "entry": "walk row=0 cell=4; hold=72 host ticks; selected once from five candidates; frameCount=1 keeps this cell after the initial 72-tick hold",
+      "frame": 4,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-walk-4-right"
+    },
+    {
+      "id": "hit1-0-right",
+      "entry": "hit1 row=1 cell=0; hold=2 host ticks; action total=10 ticks and destroys on frame-over",
+      "frame": 5,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit1-0-right"
+    },
+    {
+      "id": "hit1-1-right",
+      "entry": "hit1 row=1 cell=1; hold=3 host ticks; action total=10 ticks and destroys on frame-over",
+      "frame": 6,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit1-1-right"
+    },
+    {
+      "id": "hit1-2-right",
+      "entry": "hit1 row=1 cell=2; hold=2 host ticks; action total=10 ticks and destroys on frame-over",
+      "frame": 7,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit1-2-right"
+    },
+    {
+      "id": "hit1-3-right",
+      "entry": "hit1 row=1 cell=3; hold=3 host ticks; action total=10 ticks and destroys on frame-over",
+      "frame": 8,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit1-3-right"
+    },
+    {
+      "id": "hit2-0-right",
+      "entry": "hit2 row=2 cell=0; hold=2 host ticks; action total=30 ticks and destroys on frame-over",
+      "frame": 10,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit2-0-right"
+    },
+    {
+      "id": "hit2-1-right",
+      "entry": "hit2 row=2 cell=1; hold=12 host ticks; action total=30 ticks and destroys on frame-over",
+      "frame": 11,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit2-1-right"
+    },
+    {
+      "id": "hit2-2-right",
+      "entry": "hit2 row=2 cell=2; hold=16 host ticks; action total=30 ticks and destroys on frame-over",
+      "frame": 12,
+      "fixtureId": "sourceRoot=(470,350); direct=1; frameClips=30; lifetime=90 ticks",
+      "baselineId": "atlas-hit2-2-right"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "role1-shadow-bitmap",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "wukong-swf",
+        "characterId": 1,
+        "symbolClass": "ROLE1_SHALLDOW",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "walk-0-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=0, column=0; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-1-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=0, column=1; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-2-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=0, column=2; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-3-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=0, column=3; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-4-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=0, column=4; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit1-0-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=1, column=0; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit1-1-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=1, column=1; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit1-2-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=1, column=2; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit1-3-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=1, column=3; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit2-0-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=2, column=0; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit2-1-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=2, column=1; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit2-2-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -115,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 115,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -115,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 355,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=0; atlas cell row=2, column=2; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-0-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=0, column=0; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-1-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=0, column=1; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-2-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=0, column=2; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-3-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=0, column=3; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "walk-4-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=0, column=4; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit1-0-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=1, column=0; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit1-1-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=1, column=1; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit1-2-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=1, column=2; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit1-3-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=1, column=3; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit2-0-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=2, column=0; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit2-1-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=2, column=1; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        },
+        {
+          "stateId": "hit2-2-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -85,
+            "ty": -105
+          },
+          "registrationPoint": {
+            "x": 85,
+            "y": 105
+          },
+          "localBounds": {
+            "left": -85,
+            "top": -105,
+            "width": 200,
+            "height": 200
+          },
+          "stageBounds": {
+            "left": 385,
+            "top": 245,
+            "width": 200,
+            "height": 200
+          },
+          "derivation": "calculated",
+          "derivationMethod": "BaseBitmapDataClip 200x200; setOffsetXY(15,-5); direct=1; atlas cell row=2, column=2; right uses BaseBitmapDataPool mirrored bitmap",
+          "evidenceRefs": [
+            "role1-shadow-as",
+            "base-bitmap-data-clip-as",
+            "wukong-atlas"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "atlas-walk-0-left",
+      "stateId": "walk-0-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-1-left",
+      "stateId": "walk-1-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 200,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-2-left",
+      "stateId": "walk-2-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 400,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-3-left",
+      "stateId": "walk-3-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 600,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-4-left",
+      "stateId": "walk-4-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 800,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit1-0-left",
+      "stateId": "hit1-0-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 0,
+        "top": 200,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit1-1-left",
+      "stateId": "hit1-1-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 200,
+        "top": 200,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit1-2-left",
+      "stateId": "hit1-2-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 400,
+        "top": 200,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit1-3-left",
+      "stateId": "hit1-3-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 600,
+        "top": 200,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit2-0-left",
+      "stateId": "hit2-0-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 0,
+        "top": 400,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit2-1-left",
+      "stateId": "hit2-1-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 200,
+        "top": 400,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit2-2-left",
+      "stateId": "hit2-2-left",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 400,
+        "top": 400,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-0-right",
+      "stateId": "walk-0-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-1-right",
+      "stateId": "walk-1-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 200,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-2-right",
+      "stateId": "walk-2-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 400,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-3-right",
+      "stateId": "walk-3-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 600,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-walk-4-right",
+      "stateId": "walk-4-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 800,
+        "top": 0,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit1-0-right",
+      "stateId": "hit1-0-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 0,
+        "top": 200,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit1-1-right",
+      "stateId": "hit1-1-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 200,
+        "top": 200,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit1-2-right",
+      "stateId": "hit1-2-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 400,
+        "top": 200,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit1-3-right",
+      "stateId": "hit1-3-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 600,
+        "top": 200,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit2-0-right",
+      "stateId": "hit2-0-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 0,
+        "top": 400,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit2-1-right",
+      "stateId": "hit2-1-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 200,
+        "top": 400,
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "id": "atlas-hit2-2-right",
+      "stateId": "hit2-2-right",
+      "path": "public/assets/combat/role1/body/1_ROLE1_SHALLDOW.png",
+      "sha256": "a1d7d6ff167769b39b39f3cb12877d3b88314d98f44b703c4ae399b961ff9244",
+      "width": 1000,
+      "height": 600,
+      "crop": {
+        "left": 400,
+        "top": 400,
+        "width": 200,
+        "height": 200
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "walk-0-left",
+      "walk-1-left",
+      "walk-2-left",
+      "walk-3-left",
+      "walk-4-left",
+      "hit1-0-left",
+      "hit1-1-left",
+      "hit1-2-left",
+      "hit1-3-left",
+      "hit2-0-left",
+      "hit2-1-left",
+      "hit2-2-left",
+      "walk-0-right",
+      "walk-1-right",
+      "walk-2-right",
+      "walk-3-right",
+      "walk-4-right",
+      "hit1-0-right",
+      "hit1-1-right",
+      "hit1-2-right",
+      "hit1-3-right",
+      "hit2-0-right",
+      "hit2-1-right",
+      "hit2-2-right"
+    ],
+    "extractedStateIds": [
+      "walk-0-left",
+      "walk-1-left",
+      "walk-2-left",
+      "walk-3-left",
+      "walk-4-left",
+      "hit1-0-left",
+      "hit1-1-left",
+      "hit1-2-left",
+      "hit1-3-left",
+      "hit2-0-left",
+      "hit2-1-left",
+      "hit2-2-left",
+      "walk-0-right",
+      "walk-1-right",
+      "walk-2-right",
+      "walk-3-right",
+      "walk-4-right",
+      "hit1-0-right",
+      "hit1-1-right",
+      "hit1-2-right",
+      "hit1-3-right",
+      "hit2-0-right",
+      "hit2-1-right",
+      "hit2-2-right"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "walk-0-left": 1,
+      "walk-1-left": 1,
+      "walk-2-left": 1,
+      "walk-3-left": 1,
+      "walk-4-left": 1,
+      "hit1-0-left": 1,
+      "hit1-1-left": 1,
+      "hit1-2-left": 1,
+      "hit1-3-left": 1,
+      "hit2-0-left": 1,
+      "hit2-1-left": 1,
+      "hit2-2-left": 1,
+      "walk-0-right": 1,
+      "walk-1-right": 1,
+      "walk-2-right": 1,
+      "walk-3-right": 1,
+      "walk-4-right": 1,
+      "hit1-0-right": 1,
+      "hit1-1-right": 1,
+      "hit1-2-right": 1,
+      "hit1-3-right": 1,
+      "hit2-0-right": 1,
+      "hit2-1-right": 1,
+      "hit2-2-right": 1
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "role1-shadow-as",
+    "role1-as",
+    "base-monster-as",
+    "base-bitmap-data-clip-as",
+    "game-setting-as",
+    "wukong-ffdec-xml"
+  ]
+}

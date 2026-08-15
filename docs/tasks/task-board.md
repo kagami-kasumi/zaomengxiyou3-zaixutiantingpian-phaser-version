@@ -4,14 +4,14 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-173` 是唯一 Ready 游戏 task；179 已完成五角色成长目录直连、正式双 owner、装备派生与当前 V7 往返，现按同线顺序纠正 Role1 影分身证据。
+`TASK-SLICE-173A2` 是唯一 Ready 游戏 task；173A1/173A3 已闭合 verified 状态机、共享视觉投射、TestScene 薄适配与全量验收，下一步只接入正式英雄 Runtime。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-173 | Ready | LINE-CORE-PROGRESSION-COMPLETION | Role1 影分身证据纠错 | 区分五个静态候选/72 tick 与播放帧速，冻结正式 Runtime identity/action 合同 | M-018、M-034、VS-062 | verified 真值、正式/TestScene 差异矩阵与实现合同 | TASK-SLICE-173A | [定义](task-definitions/TASK-SETTINGS-173.md) |
-| TASK-SLICE-173A | Planned | LINE-CORE-PROGRESSION-COMPLETION | Role1 影分身正式接入 | 按 173 的 verified 合同接入正式英雄 Runtime | M-018、M-034、VS-062 | 稳定 identity/action、正式 1P/2P/五关代表回归 | 恢复同线下一缺口 | [定义](task-definitions/TASK-SLICE-173A.md) |
+| TASK-SLICE-173A | Split | LINE-CORE-PROGRESSION-COMPLETION | Role1 影分身正式接入父任务 | 首次 compact 后按行为投射与正式接入拆分；173A1/173A3 已完成 | M-018、M-034、VS-062 | 173A1 状态机/投射已归档，待 173A2 正式 Runtime | 子任务全部完成后归档父任务 | [定义](task-definitions/TASK-SLICE-173A.md) |
+| TASK-SLICE-173A2 | Ready | LINE-CORE-PROGRESSION-COMPLETION | Role1 影分身正式 Runtime 接入 | 消费 173A1/173A3 闭环合同接入共享英雄 Runtime | M-018、M-034、VS-062 | 正式 P1/P2、输入/目标/弹体生命周期与五关代表回归 | 恢复同线下一缺口 | [定义](task-definitions/TASK-SLICE-173A2.md) |
 | TASK-ARCH-174 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 普攻几何/Role5 命中纠错 | 收敛世界特效普攻几何 owner，修复 Role5 移动弹体二维命中与重复结算 | M-022、M-034、VS-062 | 唯一几何数据源、共享结算委托、二维边界回归 | 恢复同线下一缺口 | [定义](task-definitions/TASK-ARCH-174.md) |
 | TASK-SETTINGS-175 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 功能 UI 真值债务审计 | 区分实际占位、旧视觉审计与 verified 真值，纠正越级切片状态并按页拆分 | M-035、M-052、VS-054、VS-055、VS-059 | 逐页证据等级、显示列表/基准/真值计划与页面级任务入口 | 依据清单生成单页逆向/实现 task | [定义](task-definitions/TASK-SETTINGS-175.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 待当前成长/UI 完成线关闭后恢复 | [定义](task-definitions/TASK-SETTINGS-064.md) |

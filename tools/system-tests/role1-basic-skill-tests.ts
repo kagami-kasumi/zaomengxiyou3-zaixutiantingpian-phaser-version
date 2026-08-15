@@ -35,6 +35,7 @@ import {
   getRole1ZzMpCost,
   requestRole1ShadowSkillFromInput,
   Role1ShadowSkillTuning,
+  spawnRole1ShadowActionProjectiles,
   spawnRole1ShadowsFromQsezHit,
   updateRole1ShadowRuntime,
 } from '../../src/systems/Role1ShadowSkillSystem';
@@ -302,15 +303,29 @@ function testZzBodyWindowsAndShadowSync(): void {
   assert.ok(event);
   assert.equal(event.skillName, 'zz');
   assert.equal(event.actionName, 'hit14');
-  assert.equal(event.spawnedProjectiles?.length, 6);
-  const [bodyFirst, bodySecond, shadowFirst, shadowSecond] = event.spawnedProjectiles ?? [];
+  assert.equal(event.spawnedProjectiles?.length, 2);
+  const [bodyFirst, bodySecond] = event.spawnedProjectiles ?? [];
   assert.equal(bodyFirst.sourceSymbol, 'Role1Bullet14_1');
   assert.equal(bodyFirst.damage, calculateRole1ZzDamage(8, fixture.sourcePower));
   assert.equal(bodySecond.sourceSymbol, 'Role1Bullet14_2');
   assert.equal(bodySecond.damage, bodyFirst.damage);
-  assert.equal(shadowFirst.sourceSymbol, 'Role1Bullet14_1');
-  assert.equal(shadowFirst.damage, calculateRole1ShadowZzDamage(7, fixture.sourcePower));
-  assert.equal(shadowSecond.actionName, 'hit14_1');
+  assert.equal(fixture.skill.role1ShadowRuntime.shadows.length, 2);
+  assert.ok(fixture.skill.role1ShadowRuntime.shadows.every((shadow) => shadow.action === 'hit2'));
+  const firstEvents = updateRole1ShadowRuntime(
+    fixture.skill.role1ShadowRuntime,
+    (1_000 / 30) * 2,
+  );
+  const shadowFirst = spawnRole1ShadowActionProjectiles(firstEvents, fixture);
+  assert.equal(shadowFirst.length, 2);
+  assert.equal(shadowFirst[0]?.sourceSymbol, 'Role1Bullet14_1');
+  assert.equal(shadowFirst[0]?.damage, calculateRole1ShadowZzDamage(7, fixture.sourcePower));
+  const secondEvents = updateRole1ShadowRuntime(
+    fixture.skill.role1ShadowRuntime,
+    (1_000 / 30) * 28,
+  );
+  const shadowSecond = spawnRole1ShadowActionProjectiles(secondEvents, fixture);
+  assert.equal(shadowSecond.length, 2);
+  assert.equal(shadowSecond[0]?.actionName, 'hit14_2_1');
   assert.equal(fixture.skill.role1ShadowRuntime.shadows.length, 0);
 
   const p2 = createFixture('p2');

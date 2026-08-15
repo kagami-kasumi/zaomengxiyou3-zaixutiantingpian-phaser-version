@@ -54,7 +54,7 @@ const lyfbMovingProjectileTuning = {
 export function spawnRole1LyfbProjectiles(params: {
   projectiles: ProjectileSystemModel;
   combat: HeroCombatModel;
-  movement: HeroMovementModel;
+  movement: Pick<HeroMovementModel, 'x' | 'y' | 'facingX'>;
   damage: number;
   shadowDerived?: boolean;
 }) {
@@ -86,10 +86,31 @@ export function spawnRole1LyfbProjectiles(params: {
   return [follow, moving] as const;
 }
 
+export function spawnRole1LyfbShadowProjectiles(params: {
+  projectiles: ProjectileSystemModel;
+  combat: HeroCombatModel;
+  x: number;
+  y: number;
+  facingX: -1 | 1;
+  damage: number;
+}) {
+  return spawnRole1LyfbProjectiles({
+    projectiles: params.projectiles,
+    combat: params.combat,
+    movement: {
+      x: params.x,
+      y: params.y,
+      facingX: params.facingX,
+    },
+    damage: params.damage,
+    shadowDerived: true,
+  });
+}
+
 function spawnRole1LyfbProjectile(
   projectiles: ProjectileSystemModel,
   combat: HeroCombatModel,
-  movement: HeroMovementModel,
+  movement: Pick<HeroMovementModel, 'x' | 'y' | 'facingX'>,
   variant:
     | 'role1-lyfb-hit8'
     | 'role1-lyfb-hit8-2'

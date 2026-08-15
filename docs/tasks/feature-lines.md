@@ -31,7 +31,7 @@
 | LINE-UI-NATIVE-SKILLS | Done | 将技能总页、主动页、绑定页和被动页重做为直接复用原图片中文字、按钮、状态和布局的原生化 UI，保留既有技能业务与双 owner/存档 | — | `feature-line-coverage/LINE-UI-NATIVE-SKILLS.md` | 无 | 250/868/417/213、按钮三态、角色 selected、技能三态、五键槽、五被动行、动态字段、P1/P2、V4 与 940×590 正式流程闭合 |
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
 | LINE-PRE-STAGE-2-3-COMPLETION | Done | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | — | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 无 | 165D 已把炼丹炉右栏闭合为原生 25 格投影；全线关闭合同满足 |
-| LINE-CORE-PROGRESSION-COMPLETION | Active | Stage 2-3 前完成炼丹炉左页与四功能、全装备 UI/数值、五角色成长、存档扩展、关卡左下五入口、用户确认的 UI 整改及复评确认的同线纠错 | TASK-SETTINGS-173 | `feature-line-coverage/LINE-CORE-PROGRESSION-COMPLETION.md` | 无 | 179 已闭合目录直连、五角色全级、正式双 owner、装备派生、HUD 与当前 V7 往返；现进入 173 影分身证据纠错 |
+| LINE-CORE-PROGRESSION-COMPLETION | Active | Stage 2-3 前完成炼丹炉左页与四功能、全装备 UI/数值、五角色成长、存档扩展、关卡左下五入口、用户确认的 UI 整改及复评确认的同线纠错 | TASK-SLICE-173A2 | `feature-line-coverage/LINE-CORE-PROGRESSION-COMPLETION.md` | 无 | 173A1/173A3 已闭合状态机/共享投射/TestScene 证据；下一步正式 Runtime |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待 `LINE-CORE-PROGRESSION-COMPLETION` 关闭 | 六段证据尚未开始 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
@@ -88,6 +88,14 @@
 2026-08-15 `TASK-SETTINGS-172` 已归档：从五个 `Role*.upGrade()`、`BaseRoleProperies`、`BaseHero`、普通怪/User/HUD 消费链生成带 source hash/locator/Schema 的 5×90 权威成长目录，闭合 Role5 `int` 防御、共同经验分段、跨级递归、回满/派生顺序、89/90 sentinel、普通怪 P1/P2 owner 和当前存档交接；普通成长实现未知为 0。功能线继续 Active，唯一 Ready 切换为 `TASK-SLICE-179`。
 
 2026-08-15 `TASK-SLICE-179` 已归档：`ProgressionSystem` 直接消费 172 的 5×90 verified 目录，闭合 Role5 整数防御、7 转换向量与满级 sentinel；五关共享英雄 runtime 从活动 V7 槽恢复双方成长/装备，升级按基础值+实例 override/强化派生回满 HP/MP 并保存明确 owner。损坏成长字段与旧版本直接拒绝；全系统/build、940×590 1P/2P HUD 和零 console 通过。功能线继续 Active，唯一 Ready 切换为 `TASK-SETTINGS-173`。
+
+2026-08-15 `TASK-SETTINGS-173` 已归档：`task-settings-173.role1-shadow` verified 真值以源 hash/locator 锁定 character 1、5×3 atlas、左右矩阵和 24 个逐向状态；证明 row0 是创建时五选一的静态 cell，72 tick 不切换候选，三档寿命均由 `frameClips*3` 保持约 3 秒。`hit1/hit2`、source owner、朝向、位置与销毁调用链闭合；TestScene 400ms 轮换/重复 x offset 与正式 Runtime 缺口已分列。功能线继续 Active，唯一 Ready 切换为 `TASK-SLICE-173A`。
+
+2026-08-15 `TASK-SLICE-173A` 在完成现状与接缝调查后首次 compact，按规模门禁停止新增实现并改为 Split：`173A1` 先闭合 verified 状态机、共享视觉投射与 TestScene 薄适配，`173A2` 再接入正式英雄 Runtime 并验收 P1/P2/五关。无 `src/` 实现被冒充完成；功能线继续 Active，唯一 Ready 切换为 `TASK-SLICE-173A1`。
+
+2026-08-15 `TASK-SLICE-173A1` 已实现 verified 状态机、共享视觉投射与 TestScene 薄 QA 适配，并完成阶段性专项/全量 systems/build 及 940×590 walk/hit2 检查；首次 compact 触发规模门禁后停止新增实现，剩余 hit1 fresh 证据落盘、全量门禁和归档拆为唯一 Ready `TASK-SLICE-173A3`。正式 Runtime `173A2` 仍为 Planned。
+
+2026-08-15 `TASK-SLICE-173A1/173A3` 已归档：verified manifest 由状态机与共享视觉投射直接消费，TestScene 只保留不可见 QA 适配；固定 candidate、90/10/30 tick、hit1/hit2 派生/销毁、左右矩阵、独立 source/reentry 均由专项和 940×590 证据闭合，fresh console warning/error 为 0。功能线继续 Active，唯一 Ready 切换为正式 Runtime `TASK-SLICE-173A2`。
 
 2026-07-25 `TASK-SETTINGS-066` 已确认四入口实际调用链、四页面身份、三个恢复源包、四根 Symbol 与主要事务/存档边界。因跨三源包和四套 owner 且首次 compact，按拆分门禁停止扩张：父任务改为 `Split`，证据拆为 `066A..D`，实现父任务拆为 `155A..D`，公共检查点见 `map-service-ui-index.md`；功能线不关闭，`GOAL-037 / TASK-SETTINGS-066A` 继续唯一 Active。
 
