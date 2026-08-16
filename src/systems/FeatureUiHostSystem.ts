@@ -60,16 +60,14 @@ export function openFeatureUi(
   return { status: 'opened', session: model.active };
 }
 
-export function switchFeatureUi(
+export function switchFeatureUiOwner(
   model: FeatureUiHostModel,
-  page: FeatureUiPage,
   owner: FeatureUiOwner,
 ): FeatureUiSession | undefined {
   const active = model.active;
   if (!active || !isOwnerAvailable(owner, active.playerCount)) return undefined;
-  active.page = page;
   active.owner = owner;
-  model.lastFeedback = `${formatFeatureUiOwner(owner)} · ${getFeatureUiPageLabel(page)}`;
+  model.lastFeedback = `${formatFeatureUiOwner(owner)} · ${getFeatureUiPageLabel(active.page)}`;
   return active;
 }
 

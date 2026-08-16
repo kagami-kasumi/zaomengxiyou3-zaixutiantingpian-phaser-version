@@ -20,10 +20,7 @@ import {
 } from '../systems/FormalPetPageSystem';
 import {
   closeFeatureUi,
-  FeatureUiPages,
-  formatFeatureUiOwner,
-  getFeatureUiPageLabel,
-  switchFeatureUi,
+  switchFeatureUiOwner,
   type FeatureUiOwner,
   type FeatureUiPage,
   type FeatureUiSession,
@@ -54,6 +51,7 @@ import { createFormalMagicWeaponPageView } from './feature-ui/FormalMagicWeaponP
 import { syncFormalMagicWeaponRuntime } from './feature-ui/FormalMagicWeaponRuntimeBridge';
 import { ensureFeatureUiPageAssets } from './feature-ui/FeatureUiPageAssetBridge';
 import { createFormalInventoryPageView } from './feature-ui/FormalInventoryPageView';
+import { assertVerifiedStageFeatureHostTruth } from './feature-ui/FormalStageFeatureHostTruth';
 
 const PageKeys: ReadonlyArray<{ keyCode: number; page: FeatureUiPage; owner: FeatureUiOwner }> = [
   { keyCode: Phaser.Input.Keyboard.KeyCodes.C, page: 'backpack', owner: 'p1' },
@@ -67,8 +65,6 @@ const PageKeys: ReadonlyArray<{ keyCode: number; page: FeatureUiPage; owner: Fea
 
 export class FeatureUiScene extends Phaser.Scene {
   private session?: FeatureUiSession;
-  private titleText?: Phaser.GameObjects.Text;
-  private detailText?: Phaser.GameObjects.Text;
   private backpackLayer?: Phaser.GameObjects.Container;
   private inventoryModel?: FormalInventoryPageModel;
   private skillLayer?: Phaser.GameObjects.Container;
@@ -99,15 +95,10 @@ export class FeatureUiScene extends Phaser.Scene {
       return;
     }
     this.storage = getFormalFeatureUiStorageOverride() ?? getBrowserStorage();
-    if (this.session.originKind === 'map') this.createMapHostChrome();
+    assertVerifiedStageFeatureHostTruth();
     this.renderSession();
 
-    if (this.session.originKind === 'map') {
-      for (const binding of PageKeys) {
-        this.input.keyboard?.addKey(binding.keyCode).on('down', () => this.switchPage(binding.page, binding.owner));
-      }
-      this.input.keyboard?.on('keydown-ESC', this.closeHost, this);
-    } else {
+    if (this.session.originKind === 'combat') {
       for (const binding of PageKeys.filter((binding) => binding.page === this.session?.page)) {
         this.input.keyboard?.addKey(binding.keyCode).on('down', this.closeHost, this);
       }
@@ -115,56 +106,24 @@ export class FeatureUiScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.finishSession, this);
   }
 
-  private createMapHostChrome(): void {
-    this.cameras.main.setBackgroundColor('rgba(4, 8, 16, 0.72)');
-    this.add.rectangle(470, 295, 940, 590, 0x030711, 0.78).setInteractive();
-    this.add.rectangle(470, 294, 660, 410, 0x111a27, 0.98).setStrokeStyle(3, 0xf2c14e);
-    this.add.text(470, 126, '正式功能页面主机', {
-      color: '#fff3bf', fontFamily: 'Arial, sans-serif', fontSize: '29px', fontStyle: 'bold',
-    }).setOrigin(0.5);
-    this.titleText = this.add.text(470, 187, '', {
-      color: '#f4f7ff', fontFamily: 'Arial, sans-serif', fontSize: '25px',
-    }).setOrigin(0.5);
-    this.detailText = this.add.text(470, 238, '', {
-      color: '#b9c9df', fontFamily: 'Arial, sans-serif', fontSize: '17px', align: 'center',
-      wordWrap: { width: 570 }, lineSpacing: 8,
-    }).setOrigin(0.5, 0);
-    FeatureUiPages.forEach((page, index) => {
-      const x = 220 + index * 125;
-      createPageButton(this, x, 388, getFeatureUiPageLabel(page), () => this.switchPage(page, 'p1'));
-    });
-    createCloseButton(this, 470, 457, () => this.closeHost());
-  }
-
-  private async switchPage(page: FeatureUiPage, owner: FeatureUiOwner): Promise<void> {
+  private async switchOwner(owner: FeatureUiOwner): Promise<void> {
+    if (!this.session) return;
+    const page = this.session.page;
     if (
       page === 'skills'
       && (!this.storage || getFormalSkillEntryPlayerCount(this.storage, owner) === undefined)
     ) {
-      this.detailText?.setText('当前存档没有这位玩家，无法切换到对应技能页。');
       return;
     }
     if (!await ensureFeatureUiPageAssets(this, page, owner, this.storage)) {
-      this.detailText?.setText('页面资源加载失败，请再次尝试。');
       return;
     }
-    const session = switchFeatureUi(formalFeatureUiHost, page, owner);
+    const session = switchFeatureUiOwner(formalFeatureUiHost, owner);
     if (!session) {
-      this.detailText?.setText('当前游戏没有第二位玩家，无法切换到 P2 页面。');
       return;
     }
-    this.refreshTargetPageModel(page);
     this.session = session;
     this.renderSession();
-  }
-
-  private refreshTargetPageModel(page: FeatureUiPage): void {
-    if (page === this.session?.page) return;
-    if (page === 'backpack') this.inventoryModel = undefined;
-    if (page === 'skills') this.skillModel = undefined;
-    if (page === 'pets') this.petModel = undefined;
-    if (page === 'workshop') this.workshopModel = undefined;
-    if (page === 'magic-weapon') this.magicWeaponModel = undefined;
   }
 
   private renderSession(): void {
@@ -225,13 +184,6 @@ export class FeatureUiScene extends Phaser.Scene {
     this.skillLayer = undefined;
     this.petLayer?.destroy(true);
     this.petLayer = undefined;
-    this.titleText?.setText(`${formatFeatureUiOwner(this.session.owner)} · ${getFeatureUiPageLabel(this.session.page)}`);
-    this.detailText?.setText([
-      '共享入口、owner、互斥与返回协议已经生效。',
-      '此页的真 UI 与完整交互将在对应后续切片接入；当前不会把占位内容标记为完成。',
-      this.session.originKind === 'combat' ? '关卡已暂停，关闭后从同一运行态继续。' : '天庭地图已进入模态交互冻结，关闭后回到原地图。',
-      'P1：C / V / B / N　P2：小键盘 / / * / -　Esc 关闭',
-    ].join('\n'));
   }
 
   private renderBackpackPage(): void {
@@ -246,8 +198,6 @@ export class FeatureUiScene extends Phaser.Scene {
     }
 
     if (!this.inventoryModel || !this.storage) {
-      this.titleText?.setText(`${owner.toUpperCase()} · 背包`);
-      this.detailText?.setText('当前没有可读的活动存档，无法打开正式背包。');
       return;
     }
     this.backpackLayer = createFormalInventoryPageView(
@@ -273,12 +223,10 @@ export class FeatureUiScene extends Phaser.Scene {
       setFormalSkillOwner(this.skillModel, owner);
     }
     if (!this.skillModel || !this.storage) {
-      this.titleText?.setText(`${formatFeatureUiOwner(owner)} · 心法与技能`);
-      this.detailText?.setText('当前没有可读的活动存档，无法打开正式技能页。');
       return;
     }
     this.skillLayer = createFormalSkillPageView(this, this.skillModel, this.storage, {
-      onOwner: (nextOwner) => this.switchPage('skills', nextOwner),
+      onOwner: (nextOwner) => this.switchOwner(nextOwner),
       onSaved: () => this.syncSkillRuntime(),
       onClose: () => this.closeHost(),
       onRerender: () => this.renderSkillPage(),
@@ -302,13 +250,11 @@ export class FeatureUiScene extends Phaser.Scene {
       setFormalPetOwner(this.petModel, owner);
     }
     if (!this.petModel || !this.storage) {
-      this.titleText?.setText(`${formatFeatureUiOwner(owner)} · 宠物`);
-      this.detailText?.setText('当前没有可读的活动存档，无法打开正式宠物页。');
       return;
     }
     this.petLayer = createFormalPetPageView(this, this.petModel, this.storage, {
       playerCount: this.session.playerCount,
-      onOwner: (nextOwner) => this.switchPage('pets', nextOwner),
+      onOwner: (nextOwner) => this.switchOwner(nextOwner),
       onSaved: () => this.syncPetRuntime(),
       onClose: () => this.closeHost(),
       onRerender: () => this.renderPetPage(),
@@ -328,13 +274,11 @@ export class FeatureUiScene extends Phaser.Scene {
     if (!this.workshopModel && this.storage) this.workshopModel = createFormalWorkshopPage(this.storage, owner);
     if (this.workshopModel && this.workshopModel.owner !== owner) setFormalWorkshopOwner(this.workshopModel, owner);
     if (!this.workshopModel || !this.storage) {
-      this.titleText?.setText(`${formatFeatureUiOwner(owner)} · 装备工坊`);
-      this.detailText?.setText('当前没有可读的活动存档，无法打开正式装备工坊。');
       return;
     }
     this.workshopLayer = createFormalWorkshopPageView(this, this.workshopModel, this.storage, {
       playerCount: this.session.playerCount,
-      onOwner: (nextOwner) => this.switchPage('workshop', nextOwner),
+      onOwner: (nextOwner) => this.switchOwner(nextOwner),
       onClose: () => this.closeHost(),
       onFeedback: (message) => this.showWorkshopFeedback(message),
       onRerender: () => this.renderWorkshopPage(),
@@ -373,8 +317,6 @@ export class FeatureUiScene extends Phaser.Scene {
     this.magicWeaponLayer?.destroy(true);
     if (!this.magicWeaponModel && this.storage) this.magicWeaponModel = createFormalMagicWeaponPage(this.storage);
     if (!this.magicWeaponModel || !this.storage) {
-      this.titleText?.setText('P1 · 法宝强化');
-      this.detailText?.setText('当前没有可读的活动存档，无法打开正式法宝页。');
       return;
     }
     this.magicWeaponLayer = createFormalMagicWeaponPageView(this, this.magicWeaponModel, this.storage, {
@@ -424,30 +366,4 @@ function getBrowserStorage(): SaveStorage | undefined {
   } catch {
     return undefined;
   }
-}
-
-function createPageButton(
-  scene: Phaser.Scene,
-  x: number,
-  y: number,
-  label: string,
-  onClick: () => void,
-): void {
-  const background = scene.add.rectangle(x, y, 112, 42, 0x263950)
-    .setStrokeStyle(1, 0xc8d5e6).setInteractive({ useHandCursor: true });
-  scene.add.text(x, y, label, {
-    color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: '14px', align: 'center',
-  }).setOrigin(0.5);
-  background.on('pointerover', () => background.setFillStyle(0x38536f));
-  background.on('pointerout', () => background.setFillStyle(0x263950));
-  background.on('pointerdown', onClick);
-}
-
-function createCloseButton(scene: Phaser.Scene, x: number, y: number, onClick: () => void): void {
-  const background = scene.add.rectangle(x, y, 190, 46, 0x7b3d3d)
-    .setStrokeStyle(2, 0xffc6a8).setInteractive({ useHandCursor: true });
-  scene.add.text(x, y, '关闭并返回', {
-    color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: '17px',
-  }).setOrigin(0.5);
-  background.on('pointerdown', onClick);
 }

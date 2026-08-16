@@ -34,6 +34,7 @@
     "test:role4-visuals": "node tools/run-system-tests.mjs role4-combat-visual-tests",
     "test:role5-visuals": "node tools/run-system-tests.mjs role5-combat-visual-tests",
     "test:stage-feature-entry": "node tools/run-system-tests.mjs stage-feature-entry-tests",
+    "test:stage-feature-host-runtime": "node tools/run-system-tests.mjs stage-feature-host-runtime-tests",
     "test:save-slots": "node tools/run-system-tests.mjs save-slot-tests",
     "test:heaven-map": "node tools/run-system-tests.mjs heaven-map-tests",
     "test:immortality": "node tools/run-system-tests.mjs immortality-tests",

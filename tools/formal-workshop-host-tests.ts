@@ -163,7 +163,8 @@ function testTrueContainerFusionAndSceneWiring(): void {
   assert.match(soulView, /\.setCrop\(cropX, 0, DigitCellWidth, DigitHeight\)/);
   assert.doesNotMatch(soulView, /scene\.add\.text/);
   assert.match(soulView, /formalSoulBalance/);
-  assert.match(scene, /refreshTargetPageModel\(page\)/);
+  assert.match(scene, /switchFeatureUiOwner\(formalFeatureUiHost, owner\)/);
+  assert.doesNotMatch(scene, /refreshTargetPageModel|switchFeatureUi\(/);
   for (const model of ['inventoryModel', 'skillModel', 'petModel', 'workshopModel', 'magicWeaponModel']) {
     assert.match(scene, new RegExp(`this\\.${model} = undefined`));
   }

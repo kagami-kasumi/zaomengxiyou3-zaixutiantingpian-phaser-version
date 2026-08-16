@@ -6,7 +6,7 @@ import {
   createFeatureUiHostModel,
   getFeatureUiPageLabel,
   openFeatureUi,
-  switchFeatureUi,
+  switchFeatureUiOwner,
 } from '../src/systems/FeatureUiHostSystem';
 
 const root = process.cwd();
@@ -32,8 +32,8 @@ function testSessionOwnerAndMutualExclusion(): void {
   assert.equal(busy.status, 'busy');
   assert.equal(model.active?.page, 'backpack');
 
-  const switched = switchFeatureUi(model, 'pets', 'p2');
-  assert.equal(switched?.page, 'pets');
+  const switched = switchFeatureUiOwner(model, 'p2');
+  assert.equal(switched?.page, 'backpack');
   assert.equal(switched?.owner, 'p2');
   assert.equal(closeFeatureUi(model)?.originKind, 'combat');
   assert.equal(model.active, undefined);
@@ -64,8 +64,9 @@ function testBridgeAndOverlayContracts(): void {
   assert.ok(bridge.includes('scene.scene.pause(scene.scene.key)'));
 
   const overlay = source('src/scenes/FeatureUiScene.ts');
-  assert.ok(overlay.includes('关卡已暂停'));
-  assert.ok(overlay.includes('不会把占位内容标记为完成'));
+  assert.ok(overlay.includes('assertVerifiedStageFeatureHostTruth'));
+  assert.doesNotMatch(overlay, /createMapHostChrome|正式功能页面主机|关闭并返回/);
+  assert.doesNotMatch(overlay, /keydown-ESC/);
   assert.ok(overlay.includes('this.scene.resume(session.originSceneKey)'));
   assert.ok(overlay.includes('closeFeatureUi(formalFeatureUiHost)'));
 }

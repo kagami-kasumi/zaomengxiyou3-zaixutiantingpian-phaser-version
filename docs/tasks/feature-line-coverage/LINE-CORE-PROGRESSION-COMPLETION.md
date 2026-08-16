@@ -33,10 +33,10 @@
 | 装备 | 170A/170B1/170B2 已冻结数据、页面真值与视觉 provenance；170C 已接入 164 项唯一目录与 111 个唯一预览资源；170D 已让正式页面消费 63 对象/9 状态 verified 真值，并闭合五角色、双 owner、Role4/Role5/520/521/称号/不变槽位逐状态证据 | 已关闭；后续只消费装备目录，不重开正式页面 | 权威装备目录、数值和六槽/时装/法宝页面回放 |
 | 人物成长 | 172 已冻结带 hash/locator/Schema 的 5×90 目录、共同经验表、Role5 `int` 防御、升级递归/回满/派生顺序、普通怪双 owner 与存档交接 | 已关闭；179 已直连目录并闭合五角色全级、正式装备派生、回满、P1/P2 与 HUD | `hero-progression-runtime-tests.ts`、五关共享 runtime/reward、940×590 1P/2P HUD 与当前 V7 回归 |
 | 存档 | 六槽、单一当前 V7、旧版/损坏拒绝、装备实例 override 与正式旅程已有 | 成长字段边界已关闭；后续同线 task 不新增第二存档 owner | 179 的 `heroId/level/currentExp` 双 owner 写回、装备派生恢复、坏类型/旧版拒绝与重载回归 |
-| 左下五入口 | 原生按钮与共享 router 已有；175C 已闭合 574/371/444 的 25 对象/42 状态 verified 真值 | 宿主实现仍需直接消费真值并删除地图态未批准 chrome；`TASK-SLICE-182` Planned | 175C manifest/证据矩阵；后续五按钮 P1/P2、门禁、打开/关闭/返回的 pointer 与视觉回测 |
+| 左下五入口 | 原生按钮与共享 router 已有；175C 已闭合 574/371/444 的 25 对象/42 状态 verified 真值 | 已关闭；182 已直接消费真值、删除地图共享 chrome 并恢复单页门 | 175C manifest/证据矩阵；182 的 P1/P2、门禁、五关共享 owner、打开/关闭/返回与 940×590 证据 |
 | UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
 | 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173/173A 已闭合影分身 verified 真值、共享状态机/视觉、正式输入/目标/弹体/销毁与 P1/P2 owner | 已关闭：174 生成 detached 普攻 verified 空间真值并建立唯一几何 owner；Role5 projectile 恢复二维命中并委托共享结算 | 共享消费者一致性、X/Y 边界、重复/死亡/P1/P2 专项与 940×590 单/双人零 console |
-| 功能 UI 真值债务 | 175A..I 已全部生成 verified 真值；宠物页与法宝页已分别直接消费 74/16、28/21 对象/状态真值并删除现代覆盖 | 地图 host chrome 仍为明确现代占位；技能/丹药/商城/设置/任务/建档 view 尚未直连 manifest；TASK-SLICE-182..187 待逐页实现 | 175 审计、175A..I evidence/manifests；实现逐页直接消费并回测 |
+| 功能 UI 真值债务 | 175A..I 已全部生成 verified 真值；宠物页、法宝页和功能宿主已分别直接消费 74/16、28/21、25/42 对象/状态真值并删除现代覆盖 | 技能/丹药/商城/设置/任务/建档 view 尚未直连 manifest；TASK-SLICE-183..187 待逐页实现 | 175 审计、175A..I evidence/manifests；实现逐页直接消费并回测 |
 
 ## 当前调度
 
@@ -71,7 +71,8 @@
 29. `TASK-SETTINGS-175I`：Done；`task-settings-175i.party-creation` 已闭合为 20 对象/30 状态 verified manifest，`unresolved=[]`；生成 `TASK-SLICE-187`（Planned）。
 30. `TASK-SLICE-180`：Done；已直接消费 175A 宠物页真值，删除未经批准的现代覆盖层并通过视觉/owner/存档回归。
 31. `TASK-SLICE-181`：Done；直接消费 175B 的 28 对象/21 状态 verified 真值，投影 596/200/34 与原按钮/字段，删除未经批准的现代覆盖；owner、事务、存档和 940×590 回归通过。
-32. `TASK-SLICE-182`：Ready；直接消费 175C 宿主真值，删除地图态未批准共享 chrome。183..187 保持同线 Planned。
+32. `TASK-SLICE-182`：Done；直接消费 175C 宿主真值，删除地图态共享 chrome，恢复地图/战斗单页门、页内 owner、同键关闭与 Escape 设置边界。
+33. `TASK-SLICE-183`：Ready；直接消费 175D 技能四页真值，删除技能页现代覆盖和手写视觉真值源。184..187 保持同线 Planned。
 
 ## 明确排除
 
@@ -85,7 +86,7 @@
 - [x] 原版 1.1 全可穿戴装备的 UI、数值、槽位、穿脱与双 owner 全集闭合。
 - [x] 五角色基础数值、经验/等级、升级成长、装备派生和 HUD 闭合。
 - [x] 当前 V7、旧档废弃、成长双 owner、跨关卡/重启和损坏保护闭合。
-- [ ] 已完成关卡的左下五按钮 pointer 矩阵通过。
+- [x] 已完成关卡的左下五按钮 pointer 矩阵通过。
 - [ ] 用户确认的 UI 差异清单无未解释缺口。
 - [ ] 复评确认的 Role1 影分身与普攻几何/Role5 弹体已关闭；175 已完成证据分级，功能页 manifest/实现缺口由 175A..I 逐页关闭。
 - [ ] 自动测试、structure/build/workflow、多次 940×590 正式旅程与 console 零 warning/error 通过。

@@ -10694,3 +10694,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-182`：直接消费 175C 宿主 verified 真值，删除地图态未批准共享 chrome 并恢复原单页门；183..187 保持 Planned。
+
+### TASK-SLICE-182
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-183`）。
+- 新增 `FormalStageFeatureHostTruth.ts`，运行时直接导入并断言 `task-settings-175c.stage-feature-host`：25 个 scoped display object、42 个状态、`unresolved=[]`，且 `map-origin-no-shared-chrome` 可见对象计数为 0。
+- `FeatureUiScene` 删除地图暗层、金边、Arial 标题、跨页按钮、workshop 宿主页和通用关闭；地图服务与战斗入口只直出当前页根。host session 收窄为只切当前页 owner，不再持有跨页切换。
+- 地图不再安装战斗五快捷键；战斗页只绑定当前页同键关闭，其他页快捷键不切换，Escape 继续只进入 371 设置链。574 五按钮、P1/P2 镜像、非对称门禁、暂停/恢复和五关共享 owner 保持不变。
+- 940×590 地图零 chrome、P1/P2 背包直出、其他键不切页、同键/原关闭返回与双 HUD 证据位于 `docs/tasks/evidence/TASK-SLICE-182/`，浏览器 console warning/error 为 0。允许的新增可见现代例外为空。
+
+验证：
+- `npm run test:stage-feature-host-truth`、`npm run test:stage-feature-host-runtime`、`npm run test:stage-feature-entry`、`npm run test:feature-ui-host`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-183`：直接消费 175D 技能四页 verified 真值，删除技能页现代覆盖与手写视觉真值源；184..187 保持 Planned。

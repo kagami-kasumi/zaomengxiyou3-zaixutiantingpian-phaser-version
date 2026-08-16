@@ -79,7 +79,7 @@ export function installFormalFeatureUiEntries(
   const bindings: FeatureUiKeyBinding[] = [];
   const pointerBindings: FeatureUiPointerBinding[] = [];
   const buttons: Phaser.GameObjects.GameObject[] = [];
-  if (keyboard) {
+  if (keyboard && config.originKind === 'combat') {
     bindFeatureKey(scene, keyboard, bindings, Phaser.Input.Keyboard.KeyCodes.ESC, 'settings', 'p1', config);
     bindFeatureKey(scene, keyboard, bindings, Phaser.Input.Keyboard.KeyCodes.C, 'backpack', 'p1', config);
     bindFeatureKey(scene, keyboard, bindings, Phaser.Input.Keyboard.KeyCodes.V, 'skills', 'p1', config);

@@ -3,7 +3,7 @@
 任务类型：
 - `TASK-SLICE`
 功能条线：
-- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Planned）
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Ready）
 目标机制/切片：
 - `M-041`、`M-052`、`VS-055`
 规模预算：
@@ -38,4 +38,4 @@ UI 原生化合同：
 状态更新：
 - 更新 `skill-ui-native-index.md`、机制/VS-055、功能线台账、看板/history；只有直接消费与逐态回归闭合后才提升 VS-055。
 推荐后续任务：
-- 按 175A..I 全部 manifest 的调度结果进入同线实现批次；不得抢占当前 `TASK-SETTINGS-175E`。
+- `TASK-SLICE-184`：技能页闭合后继续商城页 manifest 直连；不得越过当前唯一 Ready。

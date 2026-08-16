@@ -303,17 +303,15 @@ for (const contract of [
 }
 
 const featureScene = source('src/scenes/FeatureUiScene.ts');
-assert.ok(featureScene.includes("this.session.originKind === 'map'"));
+assert.ok(featureScene.includes('assertVerifiedStageFeatureHostTruth'));
 assert.ok(featureScene.includes("binding.page === this.session?.page"));
-assert.ok(featureScene.includes("this.input.keyboard?.on('keydown-ESC', this.closeHost, this)"));
 assert.match(
   featureScene,
-  /if \(this\.session\.originKind === 'map'\)[\s\S]*keydown-ESC[\s\S]*else \{[\s\S]*binding\.page === this\.session\?\.page/,
+  /if \(this\.session\.originKind === 'combat'\)[\s\S]*binding\.page === this\.session\?\.page/,
 );
-assert.doesNotMatch(
-  featureScene,
-  /originKind === 'combat'[\s\S]{0,160}(?:switchFeatureUi|keydown-ESC|createMapHostChrome)/,
-);
+assert.doesNotMatch(featureScene, /switchFeatureUi\(|keydown-ESC|createMapHostChrome/);
+assert.doesNotMatch(featureScene, /正式功能页面主机|关闭并返回|装备工坊.*跨页/);
+assert.match(entryBridgeSource, /if \(keyboard && config\.originKind === 'combat'\)/);
 assert.ok(source('src/main.ts').includes('StageSettingsScene'));
 
 const assetBundles = source('src/assets/SceneAssetBundles.ts');
