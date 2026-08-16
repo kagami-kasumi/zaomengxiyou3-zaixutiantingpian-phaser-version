@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-175E` 是唯一 Ready 游戏 task；175D 已将技能 250/868/417/213 闭合为 250 对象/32 状态 verified 真值并生成 183 消费合同，下一步只迁移丹药 990/969/1006 的旧审计。
+`TASK-SETTINGS-175F` 是唯一 Ready 游戏 task；175E 已将丹药 990/969/1006 闭合为 132 对象/26 状态 verified 真值，下一步只迁移商城 721/717/624 的旧审计。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-175E | Ready | LINE-CORE-PROGRESSION-COMPLETION | 丹药页真值迁移 | 将 990/969/1006 旧审计机械升级为当前 manifest | M-035、M-052、VS-059 | `task-settings-175e.immortality-page` verified manifest | TASK-SETTINGS-175F | [定义](task-definitions/TASK-SETTINGS-175E.md) |
-| TASK-SETTINGS-175F | Planned | LINE-CORE-PROGRESSION-COMPLETION | 商城页真值迁移 | 将 721/717/624 旧审计机械升级为当前 manifest | M-046、M-052、VS-059 | `task-settings-175f.shop-page` verified manifest | TASK-SETTINGS-175G | [定义](task-definitions/TASK-SETTINGS-175F.md) |
+| TASK-SETTINGS-175F | Ready | LINE-CORE-PROGRESSION-COMPLETION | 商城页真值迁移 | 将 721/717/624 旧审计机械升级为当前 manifest | M-046、M-052、VS-059 | `task-settings-175f.shop-page` verified manifest | TASK-SETTINGS-175G | [定义](task-definitions/TASK-SETTINGS-175F.md) |
 | TASK-SETTINGS-175G | Planned | LINE-CORE-PROGRESSION-COMPLETION | 设置页真值迁移 | 将 148 页面族旧审计机械升级为当前 manifest | M-035、M-052、VS-059 | `task-settings-175g.settings-page` verified manifest | TASK-SETTINGS-175H | [定义](task-definitions/TASK-SETTINGS-175G.md) |
 | TASK-SETTINGS-175H | Planned | LINE-CORE-PROGRESSION-COMPLETION | 任务页真值迁移 | 将 85 页面族旧审计机械升级为当前 manifest | M-046、M-052、VS-059 | `task-settings-175h.task-page` verified manifest | TASK-SETTINGS-175I | [定义](task-definitions/TASK-SETTINGS-175H.md) |
 | TASK-SETTINGS-175I | Planned | LINE-CORE-PROGRESSION-COMPLETION | 建档/选角真值迁移 | 将 1149/901 旧审计机械升级为当前 manifest | M-005、M-006、M-050、M-052、VS-052 | `task-settings-175i.party-creation` verified manifest | 依据逐页 manifest 生成同线实现任务 | [定义](task-definitions/TASK-SETTINGS-175I.md) |

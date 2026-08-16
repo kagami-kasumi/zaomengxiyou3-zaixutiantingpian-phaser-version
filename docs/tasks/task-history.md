@@ -10589,3 +10589,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-175E`：只将丹药 990/969/1006 旧审计机械升级为当前 manifest，不提前进入技能或其他功能页实现。
+
+### TASK-SETTINGS-175E
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-175F`）。
+- 恢复源 `assets/OtherMat1.swf` SHA-256 `97478E1E03A22C7D06197FFB75AB890D98B084377CBDCF394716CBAF27082126` 的 990/969/1006 已由本轮 FFDec SVG/PNG/button、XML、三类 AS3 调用链交叉核对。
+- 新增 `task-settings-175e.immortality-page` verified manifest：132 个 scoped display object、26 个状态、26 张 940×590 恢复源结构基准；覆盖 25 格嵌套显示列表、构造期隐藏服用按钮、五职业 selector、P1/P2、动态已服用图、炼制弹层、拒绝/成功、返回，`unresolved=[]`。
+- 新增可重复生成/回测入口 `generate:immortality-page-baselines`、`generate:immortality-page-truth`、`test:immortality-page-truth`；原始 FFDec 根导出会显示构造器随后隐藏的 25 个 968，基准生成器按 `SingleImmortality` 生命周期移除后再按状态叠加。
+- 本 task 未修改 `src/`、丹药事务、owner 或存档；允许的新增可见现代例外为空。实际保持两个主工作包、两个验收批次、0 compact。
+
+验证：
+- `npm run test:immortality-page-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-175F`：只将商城 721/717/624 旧审计机械升级为当前 manifest，不进入商城事务或其他页面实现。

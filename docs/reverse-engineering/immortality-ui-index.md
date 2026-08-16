@@ -7,6 +7,14 @@
 - 结论：丹药页显示列表、五类五阶、服用/炼制事务、拒绝态、P1/P2 owner 与存档边界已闭合；影响 `TASK-SLICE-155A` 的原版事实未知为零。
 - 本文只给出逆向事实和现代实现合同，不实现现代页面。
 
+## TASK-SETTINGS-175E 丹药页机器真值
+
+`task-settings-175e.immortality-page` 已由恢复源同哈希 SWF 的本轮 FFDec SVG/PNG/button、
+990/969/1006 显示列表与三类 AS3 调用链交叉确认，序列化 132 个对象、26 个状态，
+`unresolved=[]`。权威坐标、父子/depth、状态、命中与基准见
+`ground-truth/manifests/task-settings-175e-immortality-page.json`；证据矩阵见
+`evidence/TASK-SETTINGS-175E-immortality-page.md`。后续实现不得继续把本文手抄表当作第二真值源。
+
 ## 六段证据链
 
 ### 1. 可观察问题
@@ -152,4 +160,3 @@ char969 内含 char965 底格 `(0,0)` depth 1 和 `eatbtn` char968 `(5,5)` depth
 | 五配方、容量/材料拒绝与走火 | `ExchangeImmortality`、`AllEquipment` | 1006 弹窗与配方静态层 | 已确认 | 0 |
 | owner 与存档边界 | `User`、`MemoryClass` | owner 选择器、灵魂栏 | 已确认 | 0 |
 | 现代 V6 映射 | `SaveSystem`、`SaveSlotSystem` | 不适用 | 现代设计选择 | 0 |
-
