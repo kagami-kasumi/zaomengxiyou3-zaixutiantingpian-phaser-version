@@ -33,10 +33,10 @@
 | 装备 | 170A/170B1/170B2 已冻结数据、页面真值与视觉 provenance；170C 已接入 164 项唯一目录与 111 个唯一预览资源；170D 已让正式页面消费 63 对象/9 状态 verified 真值，并闭合五角色、双 owner、Role4/Role5/520/521/称号/不变槽位逐状态证据 | 已关闭；后续只消费装备目录，不重开正式页面 | 权威装备目录、数值和六槽/时装/法宝页面回放 |
 | 人物成长 | 172 已冻结带 hash/locator/Schema 的 5×90 目录、共同经验表、Role5 `int` 防御、升级递归/回满/派生顺序、普通怪双 owner 与存档交接 | 已关闭；179 已直连目录并闭合五角色全级、正式装备派生、回满、P1/P2 与 HUD | `hero-progression-runtime-tests.ts`、五关共享 runtime/reward、940×590 1P/2P HUD 与当前 V7 回归 |
 | 存档 | 六槽、单一当前 V7、旧版/损坏拒绝、装备实例 override 与正式旅程已有 | 成长字段边界已关闭；后续同线 task 不新增第二存档 owner | 179 的 `heroId/level/currentExp` 双 owner 写回、装备派生恢复、坏类型/旧版拒绝与重载回归 |
-| 左下五入口 | 原生按钮与共享 router 已有 | 用户判定仍未达到“全部可点”，旧关闭结论降级待复验 | 已完成关卡、五按钮、P1/P2、门禁、打开/关闭/返回的 pointer 矩阵 |
+| 左下五入口 | 原生按钮与共享 router 已有；175C 已闭合 574/371/444 的 25 对象/42 状态 verified 真值 | 宿主实现仍需直接消费真值并删除地图态未批准 chrome；`TASK-SLICE-182` Planned | 175C manifest/证据矩阵；后续五按钮 P1/P2、门禁、打开/关闭/返回的 pointer 与视觉回测 |
 | UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
 | 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173/173A 已闭合影分身 verified 真值、共享状态机/视觉、正式输入/目标/弹体/销毁与 P1/P2 owner | 已关闭：174 生成 detached 普攻 verified 空间真值并建立唯一几何 owner；Role5 projectile 恢复二维命中并委托共享结算 | 共享消费者一致性、X/Y 边界、重复/死亡/P1/P2 专项与 940×590 单/双人零 console |
-| 功能 UI 真值债务 | 宠物 932 已生成 74 对象/16 状态、法宝 596 已生成 28 对象/21 状态 verified 真值；2026-08-08 前其余页面已有显示列表/视觉审计和业务回归 | 宠物/法宝现代实现与地图 host 仍为明确现代占位；其余页面为旧审计 manifest 迁移债务；TASK-SLICE-180/181 已 Planned | 175 审计、175A/175B evidence 与 175C..I 逐页链；manifest verified 后才进入单页实现 |
+| 功能 UI 真值债务 | 宠物 932、法宝 596、宿主 574/371/444 已分别生成 74/28/25 对象与 16/21/42 状态 verified 真值；其余页面有旧显示列表/视觉审计和业务回归 | 宠物/法宝现代实现与地图 host chrome 仍为明确现代占位；技能等其余页面为旧审计 manifest 迁移债务；TASK-SLICE-180/181/182 已 Planned | 175 审计、175A/B/C evidence 与 175D..I 逐页链；manifest verified 后才进入单页/宿主实现 |
 
 ## 当前调度
 
@@ -62,7 +62,8 @@
 20. `TASK-SETTINGS-175`：Done；九个页面/宿主已按“明确占位 / 旧视觉审计 / verified / 未知”分级，冻结五个恢复源 SHA/locator、truthId、状态集、完整性门禁和实现生成条件；VS-054/055/059 保持降级措辞。
 21. `TASK-SETTINGS-175A`：Done；`task-settings-175a.pet-page` 已闭合 74 对象、16 状态、940×590 基准、P1/P2/两页/selected/技能/确认/洗练/进化/关闭，`unresolved=[]`；生成 `TASK-SLICE-180`（Planned）。
 22. `TASK-SETTINGS-175B`：Done；`task-settings-175b.magic-weapon-page` 已闭合 17 个根 child、200/34 动态确认、28 对象、21 状态、940×590 基准、九字段/按钮态/升级/拒绝/取消/重置/P2 无入口/关闭，`unresolved=[]`；生成 `TASK-SLICE-181`（Planned）。
-23. `TASK-SETTINGS-175C`：Ready；只闭合战斗五入口/设置宿主真值与地图态现代 chrome 的负向差异。175D..I/180/181 均为同线 Planned。
+23. `TASK-SETTINGS-175C`：Done；25 对象/42 状态 verified 宿主真值与地图态无共享 chrome 负向差异已闭合，生成 `TASK-SLICE-182`（Planned）。
+24. `TASK-SETTINGS-175D`：Ready；只将技能 250/868/417/213 旧审计机械升级为当前 manifest。175E..I/180..182 均为同线 Planned。
 
 ## 明确排除
 

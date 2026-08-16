@@ -10559,3 +10559,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
+
+### TASK-SETTINGS-175C
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-175D`）。
+- 恢复源 `assets/OtherMat1.swf` SHA-256 `97478E1E03A22C7D06197FFB75AB890D98B084377CBDCF394716CBAF27082126` 的 574/371/444 已由本轮 FFDec SVG/PNG/button 与 067 精确 sprite XML 交叉核对：574 为 27/27 child，371 为 10/10 child，444 depth 1 为 432→443 两帧替换并保留三按钮。
+- 新增 `task-settings-175c.stage-feature-host` verified manifest：25 个 scoped 对象、42 个状态、940×590 结构基准、P1/P2 五按钮 normal/over/down/hit、共享 418 命中、非对称门禁、371 声音/x1-x2-x4/关闭、444 两帧和单页返回，`unresolved=[]`。
+- 负向差异已冻结：原版不存在地图态共享暗层、金色边框、Arial 标题、跨页按钮、workshop 或通用关闭；当前 `createMapHostChrome()` 不是已批准现代例外。
+- 本 task 未修改 `src/`；新增 `TASK-SLICE-182`（Planned）作为宿主真值直连、地图 chrome 删除与原单页门回归合同。实际保持两个主工作包、两个验收批次、0 compact，未进入各功能页实现。
+
+验证：
+- `npm run test:stage-feature-host-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-175D`：只将技能 250/868/417/213 旧审计机械升级为当前 manifest，不提前进入宿主或页内实现。

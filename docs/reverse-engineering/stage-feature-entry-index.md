@@ -206,3 +206,11 @@ KeyBoardControl keydown 或 RoleInfo HUD pointer
 `TASK-SLICE-165A` 保留 574 的 549/555/561/567/573 独立皮肤、418 固定命中区、P1/P2 镜像和原门禁，只把五个可见按钮与透明命中区统一接到场景级 pointer-up 路由。确定性测试逐项锁定 P1 五坐标、P2 `920 - x` 镜像、对象名、命中范围和关闭时 listener 清理。
 
 940×590 `?qaStage=1-1-role1` 运行验收真实点击设置、背包、技能、法宝、宠物五个 P1 HUD 按钮；四功能页和 371 设置均可见，原关闭控件返回同一关卡，console warning/error 为 0。运行中额外发现设置入口先 `launch` 再暂停 origin 会让 `StageSettingsScene.create()` 的会话检查自停并留下透明冻结；现代映射现改为先暂停 origin 再 launch，顺序防回归已加入专项测试。允许的现代视觉例外仍为空。
+
+## TASK-SETTINGS-175C 机器真值与 host chrome 裁决
+
+2026-08-16 新增 `docs/reverse-engineering/ground-truth/manifests/task-settings-175c-stage-feature-host.json`（truthId `task-settings-175c.stage-feature-host`）。生成器核验 OtherMat1 固定 SHA-256，将本轮 FFDec SVG/PNG/button 与 067 的精确 sprite XML 交叉比较：574 为 27/27 child，371 为 10/10 child，444 保留三按钮并在 depth 1 从 432 替换为 443。
+
+规范化结果为 25 个 scoped 对象、42 个状态、940×590 基准和 `unresolved=[]`。五入口覆盖 P1 normal/over/down/hit、P2 父子双反转与 `920-x`、特殊关卡/死亡/未装备法宝/宠物死亡不拦截；371/444 覆盖声音互斥、x1/x2/x4、关闭与帮助两帧。详细矩阵见 `evidence/TASK-SETTINGS-175C-stage-feature-host.md`。
+
+负向结论同步冻结：原版各入口直接添加 371/250/304/596/932 页根，不存在共享暗层、金色边框、Arial 标题、跨页按钮、workshop 页或通用关闭。`FeatureUiScene.createMapHostChrome()` 及其跨页/Escape 行为是未批准现代差异，后续宿主整改任务必须删除可见 chrome 或先取得用户逐项批准，不得为其伪造原版 locator。

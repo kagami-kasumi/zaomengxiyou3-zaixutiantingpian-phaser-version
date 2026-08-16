@@ -44,7 +44,7 @@
 | M-013 | 下落平台 | 已扒 | 已复现 | `movement-index.md`、`BaseObject.getFallDown()`、`PhysicsWorld.addSubObj()` | `src/systems/HeroMovementSystem.ts`、`src/scenes/TestScene.ts` | 后续补完整平台库并继续校准特殊平台类型 |
 | M-014 | 上/交互/通关 | 已扒 | 已复现 | `levels-index.md`、`level-result-ui-index.md`、`BaseHero.checkTransferDoor()`、`Role*.myKeyDown()`、`MainGame.levelClear()`、`GameWin.as`、`GameFail.as`、2026-07-26/30 用户试玩反馈 | `LevelLifecycleSystem.ts`、`LevelLifecycleBridge.ts`、`LevelResultView.ts`、五关 Flow/scenes | `TASK-ARCH-015` 统一真实 bounds 重叠 + 对应上键、全员判负、幂等解锁与结果终态；`TASK-SLICE-161` 补齐唯一原版 GameWin/GameFail presenter 并删除五关私有黑框，后续关卡必须同时消费生命周期与结果视图 |
 | M-015 | 技能槽输入 | 已扒 | 已复现 | `skills-input-index.md`、`BaseHero.sendSkill()`、`KeyBoardControl.as`、`User.returnSkillNameBySkillKey()`、`roles-index.md` | `src/systems/InputSystem.ts`、`src/systems/HeroSkillSystem.ts`、`src/scenes/TestScene.ts` | 现代测试场景已按 0..4 普通技能槽触发，Space/小键盘 0 与 H/小键盘 7 不接普通技能；后续 UI 任务只负责可视化与配置 |
-| M-016 | UI 快捷键 | 已扒 | 已复现 | `stage-feature-entry-index.md`、`skills-input-index.md`、`pets-index.md`、`KeyBoardControl.as`、`GameInfo.as`、`RoleInfo.as`、`magic-weapons-index.md` | `StageFeatureEntryRouterSystem.ts`、`StageSettingsSystem.ts`、`FormalFeatureUiEntryBridge.ts`、`StageSettingsScene.ts`、现有功能 systems | 574 五真 HUD、371/444 设置/帮助、P1 `C/V/B/N/Esc`、P2 `/ * -` 与路由保持；176 根据用户反馈移除完整根与独立按钮同时常驻造成的 HUD/设置双层，按钮 identity/命中/owner 未改 |
+| M-016 | UI 快捷键 | 已扒 | 已复现 | `stage-feature-entry-index.md`、`task-settings-175c-stage-feature-host.json`、`skills-input-index.md`、`pets-index.md`、`KeyBoardControl.as`、`GameInfo.as`、`RoleInfo.as`、`magic-weapons-index.md` | `StageFeatureEntryRouterSystem.ts`、`StageSettingsSystem.ts`、`FormalFeatureUiEntryBridge.ts`、`StageSettingsScene.ts`、现有功能 systems | 574 五真 HUD、371/444 设置/帮助、P1 `C/V/B/N/Esc`、P2 `/ * -` 已有 25 对象/42 状态 verified 真值；176 移除重复常驻层，地图态未批准共享 chrome 待 182 整改，按钮 identity/命中/owner 未改 |
 | M-017 | 角色列表 | 已扒 | 未复现 | `roles-index.md`、`export/hero/Role1.as` 至 `Role5.as`、`User.getRoleName()` | 无 | 角色动作索引已够支撑选择首个角色，后续实现前先补移动和资源 |
 | M-018 | Role1 悟空 | 已扒 | 已复现 | `roles-index.md`、`skills-input-index.md`、`projectiles-index.md`、`role1-combat-visuals-index.md`、`task-settings-173-role1-shadow.json`、`Role1.as`、`Role1Shadow.as`、`BaseRoleProperies.as` | Role1 技能 systems、`Role1CombatVisualBridge.ts`、`Role1ShadowVisualBridge.ts`、共享 `HeroPartyRuntime`、TestScene 薄适配、独立测试 | 173A 已直接消费 verified 真值，闭合五选一静态 candidate、90 tick 寿命、`hit1/hit2` holds/触发/销毁、P1/P2 owner/朝向/矩阵、正式输入/目标/弹体和五关 940×590 证据 |
 | M-019 | Role2 唐僧 | 已扒 | 已复现 | `roles-index.md`、`skills-input-index.md`、`projectiles-index.md`、`role2-combat-visuals-index.md`、`attack-effects-index.md`、`Role2.as`、`Role2Shadow.as` | `HeroNormalAttackSystem.ts`、`HeroNormalAttackGeometry.ts`、Role2 技能 systems、Role2视觉桥 | 163纠正真视觉替代行为验证的旧结论：Bullet1/2按释放点、Symbol bounds和方向投影固定world命中，正式Runtime与TestScene共用；专项/全系统/build及940×590零console通过 |
@@ -80,7 +80,7 @@
 | M-049 | 正式战斗 HUD | 已扒 | 已复现 | `combat-hud-index.md`、五角色战斗视觉索引、`Stage1CombatHudSystem.ts`、`Stage1CombatHudBridge.ts`、恢复 `OtherMat1/bossblood.swf` | Stage 1 三关共享 snapshot/bridge；P1/P2 独立成长与技能状态；Role1..Role5使用character 505 frame1..5头像；Boss即时/0.8s追赶条 | 940×590固定层、P1/P2镜像、五槽键位及五角色头像均已运行闭合 |
 | M-050 | 启动与存档槽流程 | 已扒 | 已复现 | `save-slots-index.md`、`save-party-flow-index.md`、`GMain.as`、`GameMenu.as`、`SelectRole.as`、`SaveInter.as`、`User.getSaveObj()`、`MemoryClass.setStorage()`、`OtherMat1.swf` 1149/901、`Common1.swf` 69/18 | `PartyConfigurationSystem.ts`、`SaveProfileDraftSystem.ts`、`SaveSlotSystem.ts`、`SaveSlotScene.ts`、`SavePartyCreationView.ts`、`SaveSystem.ts` | 六槽读删/损坏保护、V5 party/旧档迁移、原子建槽、character 1149 人数页、901 五角色页、1P/2P P1/P2 顺序、取消不写、重载摘要与 940×590 零 console 均已闭合 |
 | M-051 | 天庭地图选关 | 已扒 | 已复现 | `heaven-map-index.md`、`SelectPLace.as`、`MapMenu.as`、`GMain.as`、`MainGame.as`、`GameWin.as`、`GameFail.as`、`OtherMat1.swf` 1343/963/1311/1297/1304/1290、用户 2026-07-23/24 试玩反馈 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、`FormalPartyRuntimeSystem.ts`、正式结果/退出桥、专项与视觉证据 | 四节点状态、单调进度、活动槽 party 直接进关、往返/重试/重载已完成；现代逐关人数 chooser 已删除且有静态防回流门禁 |
-| M-052 | 完整功能 UI | 已扒 | 部分复现 | `full-function-ui-index.md`、`stage-feature-entry-index.md`、`level-result-ui-index.md`、`equipment-workshop-index.md`、`evidence/TASK-SETTINGS-175-functional-ui-truth-audit.md`、既有 verified 工坊/装备 manifests、技能/背包/宠物/法宝与地图服务索引 | `StageFeatureEntryRouterSystem.ts`、`StageSettingsSystem.ts`、`FormalFeatureUiEntryBridge.ts`、正式功能页 systems/views | 175 已确认宠物/法宝/地图 host 为明确现代占位，其余页面为旧审计 manifest 迁移债务；175A..I 逐页 verified 与实现消费前不恢复完整原生化结论 |
+| M-052 | 完整功能 UI | 已扒 | 部分复现 | `full-function-ui-index.md`、`stage-feature-entry-index.md`、`task-settings-175c-stage-feature-host.json`、`level-result-ui-index.md`、`equipment-workshop-index.md`、`evidence/TASK-SETTINGS-175-functional-ui-truth-audit.md`、既有 verified 工坊/装备 manifests、技能/背包/宠物/法宝与地图服务索引 | `StageFeatureEntryRouterSystem.ts`、`StageSettingsSystem.ts`、`FormalFeatureUiEntryBridge.ts`、正式功能页 systems/views | 宠物/法宝/功能宿主已有 verified 真值，但对应现代覆盖和地图态共享 chrome 仍待 180/181/182；其余页面为旧审计 manifest 迁移债务，175A..I 与实现消费完成前不恢复完整原生化结论 |
 
 2026-07-24 前置体验补全调整：用户将天庭地图“丹药/商城/设置/任务”、关卡内“设置/技能/背包/法宝/宠物”、已完成关卡全部小怪真动画和五角色战斗 UI/技能动画提升为 Stage 2-3 逆向前置。`M-016/M-052` 现有“可达/已有页面业务”不得作为原版逐状态关闭证据；`M-030/M-034/M-047` 的代表性或占位视觉不得作为全集关闭证据。`M-044/M-050` 的六槽 V6 `localStorage` 已满足“存到本地”的基础要求，不新增重复实现，只由 `VS-063` 在全部新功能完成后做跨重启正式旅程回归。调度见 `LINE-PRE-STAGE-2-3-COMPLETION` 与 `GOAL-037..041`。
 
@@ -136,6 +136,12 @@ character 596 生成 `task-settings-175b.magic-weapon-page` verified manifest，
 character 200/34 动态确认、28 对象、21 状态、按钮三态/命中、九字段、灵魂条、升级/拒绝/取消、
 重置、P2 无入口与关闭，`unresolved=[]`。这只解除法宝单页实现的证据阻塞；现代覆盖仍待
 `TASK-SLICE-181`，M-035/M-043/M-052 状态不提前提升。
+
+M-016/M-035/M-052 功能宿主真值补充：`TASK-SETTINGS-175C` 已从恢复源
+`OtherMat1.swf` character 574/371/444 生成 `task-settings-175c.stage-feature-host` verified
+manifest，闭合 25 对象、42 状态、P1/P2 五按钮四态、非对称门禁、设置/帮助与单页返回，
+`unresolved=[]`。原版无地图态共享 chrome；当前暗层、标题、跨页/workshop/通用关闭已冻结为未批准差异，
+后续由 `TASK-SLICE-182`。M-016 的原入口行为结论保持；M-035/M-052 因实现债务仍不提升。
 
 ## 第一批复现门槛
 

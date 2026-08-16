@@ -5,9 +5,9 @@
 本审计只分级证据，不把目录盘点冒充 UI 实现。当前仓库中，工坊左页、工坊右栏、装备页、宠物页和法宝页已有 `verified` 原版机器真值；其余功能页仍按本表债务执行。
 
 - **明确现代占位**：宠物页、法宝页、地图态共享功能主机。它们当前可见层含原版不存在且未经批准的暗层、矩形、Arial 标题、通用按钮或摘要，不能称为原生化。
-- **旧视觉审计但缺机器真值**：技能、丹药、商城、设置、任务、建档/选角，以及战斗态五入口/设置宿主。既有显示列表、原版基准和逐状态证据仍有效，但缺当前 Schema、source hash/locator 完整性核对和直接消费链。
-- **已 verified**：宠物页 932 已由 175A 闭合，法宝页 596 已由 175B 闭合；两页现代实现仍是明确占位，不能用 manifest 反推实现已完成。
-- **证据未知**：宠物页和法宝页的本轮机器真值未知已清零；其余页面继续按旧审计迁移债务处理。
+- **旧视觉审计但缺机器真值**：技能、丹药、商城、设置、任务和建档/选角。既有显示列表、原版基准和逐状态证据仍有效，但缺当前 Schema、source hash/locator 完整性核对和直接消费链。
+- **已 verified**：宠物页 932 已由 175A 闭合，法宝页 596 已由 175B 闭合，战斗五入口/设置宿主已由 175C 以 25 对象/42 状态闭合；对应现代占位或 chrome 仍待实现整改，不能用 manifest 反推实现已完成。
+- **证据未知**：宠物页、法宝页和战斗功能宿主的本轮机器真值未知已清零；其余页面继续按旧审计迁移债务处理。
 
 ## 一手来源冻结
 
@@ -27,7 +27,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 `TASK-SETTINGS-175A` | 宠物 932 | `verified` 真值；实现仍为明确现代占位 | `TASK-SETTINGS-175A-pet-page.md` 与生成器从恢复 SWF 核对 50 个根 child，并补齐列表/头像/技能/确认动态 child；74 对象、16 状态、`unresolved=[]` | `task-settings-175a.pet-page` / `task-settings-175a-pet-page.json` | 空 P1/P2、两页五行、selected、出战/休息、放生确认、属性/技能洗练、进化、8 技能、hover/pressed、关闭均匹配 | 已生成 `TASK-SLICE-180`（Planned），直接消费真值并删除现代暗层/矩形/Arial 控件 |
 | 2 `TASK-SETTINGS-175B` | 法宝 596 | `verified` 真值；实现仍为明确现代占位 | `TASK-SETTINGS-175B-magic-weapon-page.md` 与生成器从恢复 SWF 核对 17 个根 child，并补齐 200/34 两类确认层；28 对象、21 状态、`unresolved=[]` | `task-settings-175b.magic-weapon-page` / `task-settings-175b-magic-weapon-page.json` | 未装备、normal、三个根按钮/确认按钮态、灵魂成功/拒绝、普通/特殊确认、取消、重置、P2 无入口与关闭均匹配 | 已生成 `TASK-SLICE-181`（Planned），直接消费真值并删除现代暗层/矩形/Arial 控件 |
-| 3 `TASK-SETTINGS-175C` | 战斗五入口与功能 host | 地图态明确现代占位；战斗态旧视觉审计 | `stage-feature-entry-index.md` 已有 574/371/444 与入口/返回合同，可机械生成战斗宿主真值；原版没有地图态统一五页 chrome，当前 `FeatureUiScene.createMapHostChrome()` 不是原版事实 | `task-settings-175c.stage-feature-host` / `task-settings-175c-stage-feature-host.json` | 574 五按钮 normal/hover/down/hit、P2 镜像、门禁、单页打开/关闭、371/444 设置态；地图态统一 chrome 记为未批准现代例外而非原版对象 | manifest `verified` 后生成宿主实现 task；战斗页直出原页面，地图态必须移除可见 chrome 或先取得用户逐项批准 |
+| 3 `TASK-SETTINGS-175C` | 战斗五入口与功能 host | `verified` 真值；地图态现代 chrome 待整改 | `stage-feature-entry-index.md` 与 `TASK-SETTINGS-175C-stage-feature-host.md`；恢复 SWF 与精确 XML/SVG 已核对 574/371/444，原版不存在共享五页 chrome | `task-settings-175c.stage-feature-host` / `task-settings-175c-stage-feature-host.json` | 25 对象、42 状态；574 五按钮 normal/hover/down/hit、P2 镜像、门禁、单页打开/关闭、371/444 设置/帮助态；`unresolved=[]` | 生成宿主整改 task：战斗页直出原页面，地图态移除可见 chrome 或先取得用户逐项批准 |
 | 4 `TASK-SETTINGS-175D` | 技能 250/868/417/213 | 旧视觉审计，缺 manifest | `skill-ui-native-index.md` 已有 SHA、完整显示列表、状态、动态 child、940×590 基准和差异合同；**可机械升级，但必须由源导出复核，禁止手抄 TS 坐标** | `task-settings-175d.skill-pages` / `task-settings-175d-skill-pages.json` | 总页/主动/绑定/被动；按钮 up/over/down、角色 selected、技能锁定/可学/已学、绑定 P1/P2、被动动态字段、进入/返回 | manifest `verified` 后生成实现迁移 task，使 layout/view 消费 JSON 或可重复生成物 |
 | 5 `TASK-SETTINGS-175E` | 丹药 990/969/1006 | 旧视觉审计，缺 manifest | `immortality-ui-index.md` 有完整清单、按钮态、动态格、原基准和差异计划；**可机械升级**，需补 SHA/locator 与完整性脚本 | `task-settings-175e.immortality-page` / `task-settings-175e-immortality-page.json` | normal/hover/pressed/selected、五 owner、25 格、服用/炼制、五类拒绝/成功、余额、关闭 | manifest `verified` 后生成实现迁移 task，使 `ImmortalityScene` 删除手抄坐标源 |
 | 6 `TASK-SETTINGS-175F` | 商城 721/717/624 | 旧视觉审计，缺 manifest | `shop-ui-index.md` 有根/商品卡/确认弹层/16 按钮状态和逐态基准；**可机械升级** | `task-settings-175f.shop-page` / `task-settings-175f-shop-page.json` | 分类 selected、卡 hover/pressed、分页、1/99/100/0、确认/取消/不足/成功、P1/P2、返回 | manifest `verified` 后生成实现迁移 task，使 `ShopScene` 消费真值投影；保留已批准共享灵魂余额例外 |

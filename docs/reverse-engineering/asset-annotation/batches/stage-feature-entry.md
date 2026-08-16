@@ -27,3 +27,7 @@
 - [x] 派生物只写入新的 Git 忽略 task-output，未修改恢复源或 legacy extraction。
 - [x] 574/371/444 的根、depth、矩阵、按钮状态、动态 child 和 940×590 normal 基准已记录。
 - [x] P2 镜像、owner、暂停、互斥、返回、原版/现代差异和后续双重验证已落盘。
+
+## 175C 机器真值升级
+
+2026-08-16 已将本批次的 574/371/444 证据机械升级为 `task-settings-175c.stage-feature-host` verified manifest：本轮选择性 SVG/PNG/button 与上述精确 XML 显示列表交叉核对，25 对象、42 状态、`unresolved=[]`。地图态共享 chrome 以“原版无对象”的负向状态序列化，没有为当前现代层伪造 stableKey 或 locator。
