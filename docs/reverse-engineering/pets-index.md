@@ -876,6 +876,15 @@ CD 参数（`skillCDN = [初始帧, 间隔帧]`，`gc.frameClips = 30`）：
 
 现代实现不应新增 `DropBigType = "cwzb"` 来伪装宠物掉落。宠物消耗品可作为普通道具进入背包；宠物本体获得应走独立 `PetInfo`/宠物仓库入口。
 
+## TASK-SETTINGS-175A：宠物页 932 机器真值
+
+`TASK-SETTINGS-175A` 已将页面行为证据升级为 `task-settings-175a.pet-page` verified 真值。
+恢复源 `assets/pet1.swf` character 932 的 50 个根 child 与 SWF PlaceObject depth/matrix、FFDec
+SVG 逐项一致；运行时 5 行 1224 列表、`PetHeadSprite`、8 个 `skillImage`、1228 tooltip、
+1221 放生确认由 `PetInterface/PutPetSkill/PetHeadSprite` 交叉确认。manifest 共 74 对象、16 状态，
+覆盖两页、selected、出战/休息、洗练/进化、P1/P2 与关闭，`unresolved=[]`。证据矩阵与实现合同见
+`evidence/TASK-SETTINGS-175A-pet-page.md`；现代页仍须由 `TASK-SLICE-180` 删除未经批准的覆盖层。
+
 ## 最小现代模型建议
 
 **注意**：AS3 数值基数 `hy.first = 2×atk`、`sxhz.first = 4×atk`、`hsqj.first = 6×atk` 等来自 `PetInfo.getPetHarmObj()`，均已确认。凤凰 `phoenix1..4`、兔 `rabbit1..4`、鼠 `mouse1..4` 的专属技能链见下方新增章节。

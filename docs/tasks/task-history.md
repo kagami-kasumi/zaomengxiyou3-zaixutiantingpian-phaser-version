@@ -10030,6 +10030,22 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
 
+### TASK-SETTINGS-175A
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 Active；下一 task 为 `TASK-SETTINGS-175B`）。
+- 从唯一恢复源 `assets/pet1.swf` character 932 与 `PetInterface/PetHeadSprite/PutPetSkill` 生成
+  `task-settings-175a.pet-page` verified manifest：74 对象、16 状态、940×590、`unresolved=[]`。
+- 闭合 50 个根 child、5 行/两页、selected/出战/休息、属性/技能洗练、进化、8 技能、tooltip、
+  放生确认、按钮 normal/hover/pressed/hit、P1/P2 与关闭；视觉结构基准和六段证据矩阵已落盘。
+- 当前现代暗层、矩形、Arial 标题/按钮和摘要继续记为未批准覆盖；生成 `TASK-SLICE-180`
+  作为同线 Planned 单页实现，不在本 task 修改 `src/`。
+- 验证：`test:pet-page-truth`、Schema/哈希/locator/状态计数、视觉抽查；收尾另跑 workflow、annotations、diff check。
+
+推荐任务：
+
+- `TASK-SETTINGS-175B`：只闭合法宝 character 596 的 verified 真值，不跨入实现。
+
 ### TASK-SETTINGS-172
 
 - 完成日期：2026-08-15。

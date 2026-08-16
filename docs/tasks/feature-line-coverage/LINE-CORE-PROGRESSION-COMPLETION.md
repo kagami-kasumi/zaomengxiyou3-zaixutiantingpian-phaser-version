@@ -36,7 +36,7 @@
 | 左下五入口 | 原生按钮与共享 router 已有 | 用户判定仍未达到“全部可点”，旧关闭结论降级待复验 | 已完成关卡、五按钮、P1/P2、门禁、打开/关闭/返回的 pointer 矩阵 |
 | UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
 | 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173/173A 已闭合影分身 verified 真值、共享状态机/视觉、正式输入/目标/弹体/销毁与 P1/P2 owner | 已关闭：174 生成 detached 普攻 verified 空间真值并建立唯一几何 owner；Role5 projectile 恢复二维命中并委托共享结算 | 共享消费者一致性、X/Y 边界、重复/死亡/P1/P2 专项与 940×590 单/双人零 console |
-| 功能 UI 真值债务 | 2026-08-08 前页面已有显示列表/视觉审计和业务回归 | 175 已确认宠物/法宝/地图 host 为明确现代占位；技能、丹药、商城、设置、任务、建档/选角和战斗 host 为旧审计 manifest 迁移债务 | `TASK-SETTINGS-175-functional-ui-truth-audit.md` 与 175A..I 逐页链；manifest verified 后才生成单页实现 task |
+| 功能 UI 真值债务 | 宠物 932 已生成 74 对象、16 状态 verified 真值；2026-08-08 前其余页面已有显示列表/视觉审计和业务回归 | 法宝/地图 host 仍为明确现代占位；其余页面为旧审计 manifest 迁移债务；宠物实现 TASK-SLICE-180 已 Planned | 175 审计、`TASK-SETTINGS-175A-pet-page.md` 与 175B..I 逐页链；manifest verified 后才进入单页实现 |
 
 ## 当前调度
 
@@ -60,7 +60,8 @@
 18. `TASK-SETTINGS-173`：Done；verified 真值、差异矩阵与零未知实现合同已闭合。`TASK-SLICE-173A`：Done（Split 父任务收束）；173A1/173A3 闭合状态机、共享视觉投射与 TestScene 薄适配，173A2 闭合正式 P1/P2 输入/目标/弹体/销毁和五关代表回归。
 19. `TASK-ARCH-174`：Done；四个 detached 普攻 verified 空间真值与唯一几何 owner 已闭合，Role5 移动弹体恢复二维命中并委托共享结算。
 20. `TASK-SETTINGS-175`：Done；九个页面/宿主已按“明确占位 / 旧视觉审计 / verified / 未知”分级，冻结五个恢复源 SHA/locator、truthId、状态集、完整性门禁和实现生成条件；VS-054/055/059 保持降级措辞。
-21. `TASK-SETTINGS-175A`：Ready；只闭合宠物 `pet1.swf` character 932 的完整显示列表、原版逐状态基准与 verified manifest。175B..I 均为同线 Planned，不在同一次 `/goal` 跨 task。
+21. `TASK-SETTINGS-175A`：Done；`task-settings-175a.pet-page` 已闭合 74 对象、16 状态、940×590 基准、P1/P2/两页/selected/技能/确认/洗练/进化/关闭，`unresolved=[]`；生成 `TASK-SLICE-180`（Planned）。
+22. `TASK-SETTINGS-175B`：Ready；只闭合法宝 `backpack1.swf` character 596 的字段、按钮/确认态、原版逐状态基准与 verified manifest。175C..I/180 均为同线 Planned。
 
 ## 明确排除
 
