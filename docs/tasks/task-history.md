@@ -10030,6 +10030,22 @@ UI 原生化合同：
 推荐任务：
 - `TASK-SETTINGS-064`：闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据。
 
+### TASK-SETTINGS-175B
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-175C`）。
+- 恢复源 `assets/backpack1.swf` SHA-256 `70C1F1B535EA789AD9C77556F90C7C107084278A4D1773E31471F2B4D7454936` 的 character 596 已由 SWF PlaceObject 与 FFDec SVG 17/17 根 child 交叉确认。
+- 新增 `task-settings-175b.magic-weapon-page` verified manifest：596 根、九动态字段、50 帧灵魂条、27 帧/26 标签展示与说明、character 200/34 两类确认，共 28 对象、21 状态、`unresolved=[]`。
+- 940×590 结构基准覆盖未装备、三个根按钮与确认按钮 hover/pressed、灵魂升级成功/拒绝、普通/特殊材料确认、取消、重置确认/拒绝/完成、P2 无入口与关闭；共享 `ts/alert` 不伪造为页面 child。
+- 未修改 `src/`、强化/重置规则或可见实现；生成 `TASK-SLICE-181`（Planned）作为单页 manifest 直连与现代覆盖层删除合同。
+- 实际保持两个主工作包、两个验收批次、0 compact；未读取第二视觉源包，未触发拆分。
+
+验证：
+- `npm run test:magic-weapon-page-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-175C`：只闭合战斗五入口/设置宿主真值与地图态现代 chrome 的负向差异，不提前进入实现。
+
 ### TASK-SETTINGS-175A
 
 - 完成日期：2026-08-16。

@@ -131,6 +131,12 @@ M-035/M-042/M-052 宠物页真值补充：`TASK-SETTINGS-175A` 已从恢复源 `
 动态列表/头像/8 技能/tooltip/放生确认、P1/P2 与关闭，`unresolved=[]`。这只解除宠物单页实现的
 证据阻塞；`FormalPetPageView` 的现代覆盖仍待 `TASK-SLICE-180`，M-035/M-042/M-052 状态不提前提升。
 
+M-035/M-043/M-052 法宝页真值补充：`TASK-SETTINGS-175B` 已从恢复源 `backpack1.swf`
+character 596 生成 `task-settings-175b.magic-weapon-page` verified manifest，闭合 17 个根 child、
+character 200/34 动态确认、28 对象、21 状态、按钮三态/命中、九字段、灵魂条、升级/拒绝/取消、
+重置、P2 无入口与关闭，`unresolved=[]`。这只解除法宝单页实现的证据阻塞；现代覆盖仍待
+`TASK-SLICE-181`，M-035/M-043/M-052 状态不提前提升。
+
 ## 第一批复现门槛
 
 第一批纵向切片开始前，最低门槛如下：

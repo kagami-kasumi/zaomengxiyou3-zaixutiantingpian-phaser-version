@@ -338,7 +338,7 @@ time = gc.frameClips * 5
 | --- | --- | --- | --- |
 | 局部入口与门禁 | `RoleInfo.fbClick()` 与 `KeyBoardControl` 的 N 键均进入 `SutraInterface`；未装备 `zbfb` 时不建立有效强化目标 | `FeatureUiScene` 的 N/法宝入口统一打开正式页，`FormalMagicWeaponPageSystem` 再校验 P1 当前 `zbfb` | 已证实 |
 | 共享生命周期 | `RoleInfo` 关闭旧界面、加入当前界面并切换 `setCurrent`；界面期间暂停，退出后继续 | 复用共享 `FeatureUiScene` host、互斥页与暂停/恢复合同 | 已证实 |
-| 视觉与坐标 | restored SWF character 596 的舞台边界为约 `940.05×590` | 当前底图加动态 overlay 只证明资源接入/业务可用；`FormalMagicWeaponPageView` 的现代标题、面板和通用按钮未经批准，不能称原版等价 | 原根边界已证实；完整显示列表/状态与 verified manifest 待 `TASK-SETTINGS-175B` |
+| 视觉与坐标 | restored SWF character 596 的舞台边界为约 `940.05×590` | 当前底图加动态 overlay 只证明资源接入/业务可用；`FormalMagicWeaponPageView` 的现代标题、面板和通用按钮未经批准，不能称原版等价 | 175B 已生成 28 对象/21 状态 verified manifest；现代直连与差异验收待 `TASK-SLICE-181` |
 | 强化分支 | `SutraInterface.as` 给出普通灵魂、10 级后 `wplvdyl`、`zsTimerup1/2`、`kly4/5`、`qpjy` 等分支和各法宝上限 | `FormalMagicWeaponPageSystem` 以单一规则 owner 返回需求，确认时原子扣除并升级；取消不消耗 | 已证实；原子确认模型为现代事务选择 |
 | 五行重置 | `SutraInterface` 消耗 3 个 `wpccfq`，按基础装备和当前等级重建；`AllEquipment.initRondomPro()` 以 count=5 从五行池无放回抽取，实际结果包含金木水火土全部五行 | 重置确认后消耗 3 个材料，保留等级、按基础值重新成长并写入五行全集 | 运行代码事实；函数名暗示的“随机意图”未知，不把它外推为随机结果 |
 | 保存与消费者 | `User/MemoryClass` 保存装备实例；战斗法宝按当前 `zbfb` 等级/五行消费 | V4 在装备实例上保存 `level/element/growthRate/baseStatsOverride`，runtime bridge 回写 P1 装备与有效属性 | 已证实 + 现代 schema 映射 |
@@ -355,6 +355,23 @@ time = gc.frameClips * 5
 - 确定性专项覆盖未装备门禁、P1 owner、普通灵魂升级、所有特殊材料阶段、取消/确认原子性、五行重置和 V4 往返。
 - 系统测试与生产构建通过；940×590 运行样本验证地图 N 键进入 character 596 真页、1→2 强化、灵魂 5000→4000、属性刷新和关闭返回地图。
 - 浏览器工具的 URL 策略阻止重载，未绕过也未伪造重载运行样本；V4 重载由专项测试补证。
+
+## TASK-SETTINGS-175B 法宝页 596 机器真值
+
+`docs/reverse-engineering/ground-truth/manifests/task-settings-175b-magic-weapon-page.json`
+已达到 `verified`：恢复源 `backpack1.swf` character 596 的 17 个根 child 与 SWF PlaceObject、
+FFDec SVG 逐项一致；character 200/34 两类动态确认层各 4 个 child 也已序列化。总计 28 个对象、
+21 个状态、`unresolved=[]`。
+
+- 596 根持有九个动态字段、50 帧灵魂条、27 帧/26 标签的展示与说明、升级/重置/关闭三按钮。
+- 普通 10..14 级材料确认使用 200；特殊升级与五行重置使用 34；两者共享 19/24 确认/取消按钮。
+- 未装备与原版 P2 无入口均不构造 596；共享 `ts/alert` 是宿主反馈，不伪造为页面 child。
+- 940×590 基准覆盖三个根按钮与确认按钮态、升级成功/拒绝、普通/特殊确认、取消、重置、关闭。
+- 现代实现合同为 `TASK-SLICE-181`：直接消费 manifest，删除未经批准的现代标题、面板、摘要与通用按钮；
+  强化、重置、装备、灵魂和保存 owner 不变。
+
+完整六段矩阵、显示列表导航、反证条件与差异合同见
+`docs/reverse-engineering/evidence/TASK-SETTINGS-175B-magic-weapon-page.md`。
 
 ## 现代实现建议
 
