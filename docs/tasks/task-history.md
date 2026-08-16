@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-175 | 功能 UI 真值债务审计 | 分级明确占位、旧视觉审计、verified 与未知，并按页拆分后续 | M-035、M-052、VS-054、VS-055、VS-059 | 九页/宿主状态表、五源 SHA/locator、truthId/状态/完整性门禁、175A..I 独立合同与切片措辞纠正 |
 | TASK-ARCH-174 | 普攻几何/Role5 命中纠错 | 收敛 detached 普攻几何 owner，恢复 Role5 二维命中与共享结算 | M-022、M-034、VS-062 | verified 空间真值、视觉/碰撞共源、X/Y/重复/死亡/P1-P2 专项、940×590 单/双人零 console |
 | TASK-SLICE-173A2 | Role1 影分身正式 Runtime | 把 verified 影分身接入正式五关共享 Runtime | M-018、M-034、VS-062 | P1/P2 source、输入/目标/弹体/视觉/销毁、五关 940×590、零 console 与正式观测证据 |
 | TASK-SLICE-173A | Role1 影分身父任务收束 | 汇总 173A1/A2/A3 并关闭 Split 父任务 | M-018、M-034、VS-062 | verified 状态机、TestScene 薄适配、正式 Runtime 与完整验收链 |
@@ -325,6 +326,22 @@
 推荐后续任务：
 
 - `TASK-SLICE-173A`：直接消费 verified manifest 接入正式 Runtime。
+
+### TASK-SETTINGS-175
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-175A`）。
+- 新增 `TASK-SETTINGS-175-functional-ui-truth-audit.md`：确认宠物、法宝和地图态共享 host 是实际现代占位；技能、丹药、商城、设置、任务、建档/选角和战斗 host 是旧视觉审计到当前 `verified` manifest 的迁移债务。本范围当前没有新增 verified manifest。
+- 冻结 `OtherMat1/backpack1/StageCommon/pet1/Common1` 五个恢复源完整 SHA-256、character locator、逐页 truthId、状态集、完整性核对、现代例外与实现 task 生成条件；视觉源不以 legacy extraction 缺失作结论。
+- 宠物 932 与法宝 596 因完整嵌套显示列表/动态状态证据不足判为不可机械升级；其余旧审计页面可由恢复源机械序列化，但禁止从 TS 手抄坐标反向造真值。
+- `VS-054/055/059` 分别保持“业务已完成”“业务/旧视觉审计已完成”的待机制状态；H2/M13 标为仍存在并由 175A..I 逐页处理。
+- 生成 175A..I 九个独立、单页、0-compact 逆向合同；只有 175A Ready，其余 Planned。每页 manifest verified 后才生成对应实现迁移 task，本次没有修改 `src/` 或任何可见 UI。
+
+验证：
+- `npm run check:workflow`、适用标注检查、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-175A`：只读取 `pet1.swf` character 932 页面族，闭合宠物页显示列表、原版逐状态基准与 verified manifest。
 
 ### TASK-ARCH-174
 

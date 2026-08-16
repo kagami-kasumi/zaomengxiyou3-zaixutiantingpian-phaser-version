@@ -338,7 +338,7 @@ time = gc.frameClips * 5
 | --- | --- | --- | --- |
 | 局部入口与门禁 | `RoleInfo.fbClick()` 与 `KeyBoardControl` 的 N 键均进入 `SutraInterface`；未装备 `zbfb` 时不建立有效强化目标 | `FeatureUiScene` 的 N/法宝入口统一打开正式页，`FormalMagicWeaponPageSystem` 再校验 P1 当前 `zbfb` | 已证实 |
 | 共享生命周期 | `RoleInfo` 关闭旧界面、加入当前界面并切换 `setCurrent`；界面期间暂停，退出后继续 | 复用共享 `FeatureUiScene` host、互斥页与暂停/恢复合同 | 已证实 |
-| 视觉与坐标 | restored SWF character 596 的舞台边界为约 `940.05×590` | `/assets/ui/feature/magic-weapon/magic-weapon-page.svg` 作为 940×590 正式底图，动态数值由 DOM overlay 表达 | 已证实；overlay 为现代等价实现 |
+| 视觉与坐标 | restored SWF character 596 的舞台边界为约 `940.05×590` | 当前底图加动态 overlay 只证明资源接入/业务可用；`FormalMagicWeaponPageView` 的现代标题、面板和通用按钮未经批准，不能称原版等价 | 原根边界已证实；完整显示列表/状态与 verified manifest 待 `TASK-SETTINGS-175B` |
 | 强化分支 | `SutraInterface.as` 给出普通灵魂、10 级后 `wplvdyl`、`zsTimerup1/2`、`kly4/5`、`qpjy` 等分支和各法宝上限 | `FormalMagicWeaponPageSystem` 以单一规则 owner 返回需求，确认时原子扣除并升级；取消不消耗 | 已证实；原子确认模型为现代事务选择 |
 | 五行重置 | `SutraInterface` 消耗 3 个 `wpccfq`，按基础装备和当前等级重建；`AllEquipment.initRondomPro()` 以 count=5 从五行池无放回抽取，实际结果包含金木水火土全部五行 | 重置确认后消耗 3 个材料，保留等级、按基础值重新成长并写入五行全集 | 运行代码事实；函数名暗示的“随机意图”未知，不把它外推为随机结果 |
 | 保存与消费者 | `User/MemoryClass` 保存装备实例；战斗法宝按当前 `zbfb` 等级/五行消费 | V4 在装备实例上保存 `level/element/growthRate/baseStatsOverride`，runtime bridge 回写 P1 装备与有效属性 | 已证实 + 现代 schema 映射 |

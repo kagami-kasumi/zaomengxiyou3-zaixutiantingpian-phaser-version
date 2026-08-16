@@ -1,5 +1,12 @@
 # 工作流治理日志
 
+## 2026-08-16：记录 TASK-SETTINGS-175 功能 UI 真值审计
+
+- 背景：游戏 task 收尾命中 PG-004；本任务又涉及 feature UI host、原生按钮和页面实现门禁，语义命中 PG-011。
+- 变更：在集中审计表记录九个页面/宿主证据分级、未批准现代占位、legacy manifest 迁移债务和 175A..I 单页合同；确认没有新增共享组件、第二业务 owner 或可见实现。
+- 影响：PG-004/PG-011 均无复发但未满足归档条件；其余活跃 PG 语义复核不适用。本次不修改问题状态或通用工作流规则。
+- 验证：`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
 ## 2026-08-15：记录 TASK-ARCH-174 普攻几何与结算 owner 审计
 
 - 背景：本任务收敛四个 detached 普攻的几何事实源，并修改 Role5 projectile 的碰撞与普通敌人死亡/奖励归属链，命中 PG-004/PG-006 收尾审计。
