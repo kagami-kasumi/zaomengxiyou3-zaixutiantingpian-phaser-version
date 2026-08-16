@@ -91,6 +91,7 @@
     "generate:stage-feature-host-truth": "node tools/generate-stage-feature-host-ground-truth.mjs",
     "generate:skill-pages-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-skill-pages-baselines.ps1",
     "generate:skill-pages-truth": "node tools/generate-skill-pages-ground-truth.mjs",
+    "generate:skill-pages-runtime-evidence": "python tools/generate-skill-pages-runtime-evidence.py",
     "generate:immortality-page-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-immortality-page-baselines.ps1",
     "generate:immortality-page-truth": "node tools/generate-immortality-page-ground-truth.mjs",
     "generate:shop-page-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-shop-page-baselines.ps1",

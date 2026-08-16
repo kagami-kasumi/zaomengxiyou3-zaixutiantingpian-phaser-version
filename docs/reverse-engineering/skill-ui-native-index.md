@@ -331,7 +331,7 @@ P1 键槽显示 frame 1，P2 显示 frame 2；显示位置仍是 Y/U/I/O/L 五�
 - 250 个 scoped display object、32 个状态、15 张 940×590 恢复源结构基准；250/868/417/213 根显示列表、五角色 selector、212 五行、865 十树、50 个主动技能图标三帧、七类按钮、P1/P2 绑定、被动字段与返回均纳入。
 - `/completeness/unresolved=[]`；详细六段矩阵、反证条件和差异入口见 `evidence/TASK-SETTINGS-175D-skill-pages.md`。
 
-这只关闭 manifest 债务。现代 `FormalSkillPageView` 的直接消费和逐状态运行回测仍由后续 `TASK-SLICE-183` 完成；在该任务归档前，`VS-055` 不恢复“已完成”。
+`TASK-SLICE-183` 已完成现代直连：`FormalSkillPageTruth` 运行断言 250 对象/32 状态与零 unresolved，`FormalSkillPageView` 按 manifest 对象 ID/状态读取四页根、十树、五行、selector、技能、按钮和动态字段 bounds，删除 `FormalSkillNativeLayout`、现代 owner 文字与第二份坐标表。940×590 主动/被动/P1-P2 绑定/拖放/返回差异证据位于 `docs/tasks/evidence/TASK-SLICE-183/`，`VS-055` 恢复“已完成”。
 
 ## 13. 未知与实现门禁结论
 
@@ -340,6 +340,6 @@ P1 键槽显示 frame 1，P2 显示 frame 2；显示位置仍是 Y/U/I/O/L 五�
 - 原版共享瞬时提示对象的完整视觉族不属于四页自身 symbol；实现可复用项目已有原提示等价，但不得保留永久摘要。若当前项目没有原提示资源，先用不可见 live region 保持可访问反馈，不新增可见层。
 - 浏览器的字体栅格化可能与 Flash 不逐像素一致；这是验收容差，不改变 TextField 几何和样式合同。
 
-影响 `TASK-SLICE-143` 的未知项：**0**。
+影响现代技能页的未知项：**0**。
 
 下一任务可以开始实现，但必须逐项消费本文显示列表与原版基准；四张扁平 public SVG 只能作为静态根层，所有交互态和动态 child 必须从本文列出的源帧族派生。

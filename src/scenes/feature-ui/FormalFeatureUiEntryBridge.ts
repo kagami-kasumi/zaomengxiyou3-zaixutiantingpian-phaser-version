@@ -26,6 +26,10 @@ import {
 } from '../../systems/EquipmentPageQaFixtureSystem';
 import { ensureFeatureUiPageAssets } from './FeatureUiPageAssetBridge';
 import type { SaveStorage } from '../../systems/SaveSystem';
+import {
+  createSkillPageQaStorage,
+  isSkillPageQaRequested,
+} from '../../systems/SkillPageQaFixtureSystem';
 
 export const formalFeatureUiHost = createFeatureUiHostModel();
 export const P2_BACKPACK_KEY_CODE = 111;
@@ -137,7 +141,13 @@ export async function launchFormalFeatureUi(
     const qaOptions = page === 'backpack'
       ? readEquipmentPageQaOptions(window.location.search, allowLocalQa)
       : undefined;
-    featureUiStorageOverride = qaOptions ? createEquipmentPageQaStorage(qaOptions) : undefined;
+    const skillQa = page === 'skills'
+      && isSkillPageQaRequested(window.location.search, allowLocalQa);
+    featureUiStorageOverride = qaOptions
+      ? createEquipmentPageQaStorage(qaOptions)
+      : skillQa
+        ? createSkillPageQaStorage(config.party)
+        : undefined;
     const storage = featureUiStorageOverride ?? getBrowserStorage();
     await ensureSceneAssetBundle(scene, getFeatureUiAssetBundleId(page, heroId), feedback);
     if (!await ensureFeatureUiPageAssets(scene, page, owner, storage)) return false;

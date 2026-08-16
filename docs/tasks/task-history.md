@@ -10709,3 +10709,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-183`：直接消费 175D 技能四页 verified 真值，删除技能页现代覆盖与手写视觉真值源；184..187 保持 Planned。
+
+### TASK-SLICE-183
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-184`）。
+- 新增 `FormalSkillPageTruth.ts`，运行时直接导入并断言 `task-settings-175d.skill-pages`：250 个 scoped display object、32 个状态、`unresolved=[]`。
+- `FormalSkillPageView` 已按 manifest 对象 ID、状态和 bounds 投影 250/868/865/417/213/212：覆盖四页根、十树、五角色 selector、50 个技能三态、七类按钮、五行被动、P1/P2 绑定槽与动态字段；删除 `FormalSkillNativeLayout.ts`、现代 owner 文字、现代 selected 样式和第二份坐标表。
+- owner、学习/升级、心法、被动、拖放绑定和存档继续由既有 system 负责；新增 localhost-only 内存 fixture 只为正式 Stage 1-2 HUD 验收提供已学习技能，不修改用户存档或生产 schema。
+- 940×590 主动、被动、P1/P2 绑定、拖放/提交、关闭返回的并排、50% overlay 和 difference 证据位于 `docs/tasks/evidence/TASK-SLICE-183/`；正式地图入口和战斗 HUD 均通过，浏览器 console warning/error 为 0。允许的新增可见现代例外为空。
+
+验证：
+- `npm run test:formal-skills`、`npm run test:skill-pages-truth`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-184`：直接消费 175F 商城页 verified 真值，删除商城页手写视觉真值源；185..187 保持 Planned。

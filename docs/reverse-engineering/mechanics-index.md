@@ -170,8 +170,9 @@ manifest，闭合 25 对象、42 状态、P1/P2 五按钮四态、非对称门�
 M-041/M-052 技能页真值补充：`TASK-SETTINGS-175D` 已从恢复源 `OtherMat1.swf`
 character 250/868/417/213、212 与 865 生成 `task-settings-175d.skill-pages` verified manifest，
 闭合 250 对象、32 状态、五角色 selector、七类按钮、角色 selected、十树/50 图标三态、绑定 P1/P2、
-被动动态字段和返回，`unresolved=[]`。现代页面直接消费与逐状态运行差异仍待
-`TASK-SLICE-183`；M-041 的业务复现保持，M-052 不提前提升。
+被动动态字段和返回，`unresolved=[]`。`TASK-SLICE-183` 已让正式 view 直接消费该 manifest，
+删除手写视觉真值、现代 owner 文字和第二坐标表，并完成主动/被动/P1-P2 绑定/拖放/返回的
+940×590 与零 console 回归。M-041 的业务与页面闭环已完成；M-052 因更广功能 UI 范围保持原状态。
 
 ## 第一批复现门槛
 

@@ -28,6 +28,19 @@ import {
   FormalSkillsUpdatedEvent,
   syncFormalSkillRuntime,
 } from '../src/scenes/feature-ui/FormalSkillRuntimeBridge';
+import {
+  assertVerifiedSkillPagesTruth,
+  getSkillTreeChildId,
+  getSkillTreeRootId,
+  getSkillTruthBounds,
+  getSkillTruthCharacterId,
+  getSkillTruthStateIds,
+  SkillPagesTruthId,
+} from '../src/scenes/feature-ui/FormalSkillPageTruth';
+import {
+  createSkillPageQaStorage,
+  isSkillPageQaRequested,
+} from '../src/systems/SkillPageQaFixtureSystem';
 
 const root = process.cwd();
 
@@ -181,6 +194,23 @@ function testHudSyncKeepsStableOwnerSlot(): void {
 }
 
 function testTrueSkillAssets(): void {
+  assertVerifiedSkillPagesTruth();
+  assert.equal(SkillPagesTruthId, 'task-settings-175d.skill-pages');
+  assert.equal(getSkillTruthStateIds().length, 32);
+  assert.deepEqual(getSkillTruthBounds('skill-hub-root'), {
+    left: 0, top: 0, width: 940, height: 590,
+  });
+  for (const heroId of [1, 2, 3, 4, 5] as const) {
+    for (const treeIndex of [0, 1] as const) {
+      const treeRootId = getSkillTreeRootId(heroId, treeIndex);
+      assert.equal(getSkillTruthCharacterId(treeRootId), 865);
+      HERO_SKILL_TREES[heroId][treeIndex].skills.forEach((_skill, skillIndex) => {
+        assert.ok(getSkillTruthCharacterId(getSkillTreeChildId(
+          heroId, treeIndex, 'skill', skillIndex,
+        )) > 0);
+      });
+    }
+  }
   for (const key of ['skillHub', 'skillActive', 'skillBind', 'skillPassive'] as const) {
     const asset = fullFeatureUiAssets[key];
     assert.equal(asset.status, 'ready');
@@ -211,10 +241,15 @@ function testTrueSkillAssets(): void {
   assert.doesNotMatch(view, /正式心法与技能|绑定到选中槽|升级选中被动|关闭返回/);
   assert.match(view, /getSkillNativeButtonAsset/);
   assert.match(view, /getSkillNativeSpriteAsset/);
-  assert.match(view, /P1技能|owner\.toUpperCase\(\)/);
-  assert.match(view, /treeNameText/);
+  assert.match(view, /assertVerifiedSkillPagesTruth/);
+  assert.match(view, /getSkillTruthBounds/);
+  assert.doesNotMatch(view, /P1技能|P2技能|owner\.toUpperCase\(\)/);
+  assert.doesNotMatch(view, /treeNameText|ownerLabel/);
+  assert.equal(existsSync(path.join(
+    root, 'src/scenes/feature-ui/FormalSkillNativeLayout.ts',
+  )), false, 'handwritten skill-page visual truth must not return');
   assert.match(view, /createFormalSoulBalanceView\(scene, player\.soulCount, 'skills'\)/);
-  assert.match(view, /fontFamily: '"FZCuYuan-M03"'/);
+  assert.match(view, /NativeFont = 'FZCuYuan-M03/);
   assert.doesNotMatch(view, /PassiveTableHeaders|被动技能.*当前等级.*当前效果/);
   assert.match(pageAssets, /document\.fonts\.load\('16px "FZCuYuan-M03"'\)/);
   assert.match(styles, /@font-face[\s\S]*font-family: "FZCuYuan-M03"/);
@@ -262,6 +297,18 @@ function testPassiveEffectDescriptions(): void {
   assert.equal(formatFormalPassiveEffect(0, 0), '----');
 }
 
+function testLocalSkillPageQaFixture(): void {
+  assert.equal(isSkillPageQaRequested('?qaSkillFixture=ready', true), true);
+  assert.equal(isSkillPageQaRequested('?qaSkillFixture=ready', false), false);
+  const party = createPartyConfiguration(2, 2, 1)!;
+  const model = createFormalSkillPage(createSkillPageQaStorage(party), 'p1');
+  assert.ok(model);
+  assert.equal(model.restored.player1.skillLearning.trees[0].learnedSkills.length, 1);
+  assert.equal(model.restored.player2.skillLearning.trees[0].learnedSkills.length, 1);
+  assert.equal(model.restored.player1.soulCount, 20_000);
+  assert.deepEqual(getFormalSkillOwners(model), ['p1', 'p2']);
+}
+
 testTreeLearnUpgradeBindPassiveAndReload();
 testOwnerIsolationAndLockedFeedback();
 testInsufficientSoulRejectsWithoutMutation();
@@ -269,4 +316,5 @@ testPartyDrivenOwnerAndHeroFiltering();
 testHudSyncKeepsStableOwnerSlot();
 testTrueSkillAssets();
 testPassiveEffectDescriptions();
+testLocalSkillPageQaFixture();
 console.log('Formal skill trees, binding, passive, owner, save, and true asset tests passed.');
