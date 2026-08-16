@@ -137,6 +137,12 @@ character 990/969/1006 生成 `task-settings-175e.immortality-page` verified man
 与返回，`unresolved=[]`。这只解除丹药单页的证据债务；现代直接消费和逐状态差异仍待后续实现，
 M-035/M-052 与 VS-059 状态不提前提升。
 
+M-046/M-052/VS-059 商城页真值补充：`TASK-SETTINGS-175F` 已从恢复源 `backpack1.swf`
+character 721/717/624 生成 `task-settings-175f.shop-page` verified manifest，闭合 132 对象、31 状态、
+27 个根 child、九卡嵌套显示列表、动态商品图标、16 组按钮、分类/分页/数量、确认/取消/拒绝/成功、
+P1/P2 与返回，`unresolved=[]`。这只解除商城单页的证据债务；现代直接消费和逐状态差异仍待
+`TASK-SLICE-184`，M-046/M-052 与 VS-059 状态不提前提升。
+
 M-035/M-043/M-052 法宝页真值补充：`TASK-SETTINGS-175B` 已从恢复源 `backpack1.swf`
 character 596 生成 `task-settings-175b.magic-weapon-page` verified manifest，闭合 17 个根 child、
 character 200/34 动态确认、28 对象、21 状态、按钮三态/命中、九字段、灵魂条、升级/拒绝/取消、

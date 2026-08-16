@@ -10604,3 +10604,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-175F`：只将商城 721/717/624 旧审计机械升级为当前 manifest，不进入商城事务或其他页面实现。
+
+### TASK-SETTINGS-175F
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-175G`）。
+- 恢复源 `assets/backpack1.swf` SHA-256 `70C1F1B535EA789AD9C77556F90C7C107084278A4D1773E31471F2B4D7454936` 的 721/717/624 与 16 个按钮已由本轮 FFDec SVG/PNG/button、XML 和三类商城 AS3 调用链交叉核对。
+- 新增 `task-settings-175f.shop-page` verified manifest：132 个 scoped display object、31 个状态、31 张 940×590 恢复源结构基准；覆盖 27 个根 child、九卡×10 child、动态商品图标、分类 selected、分页 9/4 卡与时装 8/宠物 5 卡、数量 0/99/100、确认/取消/不足/成功、P1/P2 与返回，`unresolved=[]`。
+- 新增可重复生成/回测入口 `generate:shop-page-baselines`、`generate:shop-page-truth`、`test:shop-page-truth`，并生成 `TASK-SLICE-184`（Planned）作为 manifest 直连、手写视觉真值删除和逐状态运行差异合同。
+- 本 task 未修改 `src/`、商城事务、在线边界、owner 或存档；允许的现代可见例外仅为用户已批准的共享灵魂余额。实际保持两个主工作包、两个验收批次、0 compact。
+
+验证：
+- `npm run test:shop-page-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-175G`：只将设置 148 页面族旧审计机械升级为当前 manifest，不进入商城或设置实现。

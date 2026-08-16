@@ -4,20 +4,20 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-175F` 是唯一 Ready 游戏 task；175E 已将丹药 990/969/1006 闭合为 132 对象/26 状态 verified 真值，下一步只迁移商城 721/717/624 的旧审计。
+`TASK-SETTINGS-175G` 是唯一 Ready 游戏 task；175F 已将商城 721/717/624 闭合为 132 对象/31 状态 verified 真值，下一步只迁移设置 148 页面族的旧审计。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-175F | Ready | LINE-CORE-PROGRESSION-COMPLETION | 商城页真值迁移 | 将 721/717/624 旧审计机械升级为当前 manifest | M-046、M-052、VS-059 | `task-settings-175f.shop-page` verified manifest | TASK-SETTINGS-175G | [定义](task-definitions/TASK-SETTINGS-175F.md) |
-| TASK-SETTINGS-175G | Planned | LINE-CORE-PROGRESSION-COMPLETION | 设置页真值迁移 | 将 148 页面族旧审计机械升级为当前 manifest | M-035、M-052、VS-059 | `task-settings-175g.settings-page` verified manifest | TASK-SETTINGS-175H | [定义](task-definitions/TASK-SETTINGS-175G.md) |
+| TASK-SETTINGS-175G | Ready | LINE-CORE-PROGRESSION-COMPLETION | 设置页真值迁移 | 将 148 页面族旧审计机械升级为当前 manifest | M-035、M-052、VS-059 | `task-settings-175g.settings-page` verified manifest | TASK-SETTINGS-175H | [定义](task-definitions/TASK-SETTINGS-175G.md) |
 | TASK-SETTINGS-175H | Planned | LINE-CORE-PROGRESSION-COMPLETION | 任务页真值迁移 | 将 85 页面族旧审计机械升级为当前 manifest | M-046、M-052、VS-059 | `task-settings-175h.task-page` verified manifest | TASK-SETTINGS-175I | [定义](task-definitions/TASK-SETTINGS-175H.md) |
 | TASK-SETTINGS-175I | Planned | LINE-CORE-PROGRESSION-COMPLETION | 建档/选角真值迁移 | 将 1149/901 旧审计机械升级为当前 manifest | M-005、M-006、M-050、M-052、VS-052 | `task-settings-175i.party-creation` verified manifest | 依据逐页 manifest 生成同线实现任务 | [定义](task-definitions/TASK-SETTINGS-175I.md) |
 | TASK-SLICE-180 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 宠物页原生化实现 | 直接消费 175A verified 真值，删除宠物页现代覆盖层 | M-035、M-042、M-052、VS-054 | 932 原显示列表投影、逐状态视觉/owner/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-180.md) |
 | TASK-SLICE-181 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 法宝页原生化实现 | 直接消费 175B verified 真值，删除法宝页现代覆盖层 | M-035、M-043、M-052、VS-054 | 596/200/34 原显示列表投影、逐状态视觉/owner/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-181.md) |
 | TASK-SLICE-182 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 功能宿主原生化整改 | 直接消费 175C verified 真值，删除地图态未批准共享 chrome 并恢复原单页门 | M-016、M-035、M-052、VS-060 | 574/371/444 宿主投影、无 chrome 负向回测、P1/P2/门禁/暂停/返回证据 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-182.md) |
 | TASK-SLICE-183 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 技能四页 manifest 直连 | 直接消费 175D verified 真值，删除技能页现代覆盖与手写视觉真值源 | M-041、M-052、VS-055 | 250/868/417/213 投影、逐状态视觉/owner/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-183.md) |
+| TASK-SLICE-184 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 商城页 manifest 直连 | 直接消费 175F verified 真值，删除商城页手写视觉真值源 | M-046、M-052、VS-059 | 721/717/624 投影、31 状态视觉/owner/事务/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-184.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 待当前成长/UI 完成线关闭后恢复 | [定义](task-definitions/TASK-SETTINGS-064.md) |
 | TASK-ARCH-010A | Planned | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B | [定义](task-definitions/TASK-ARCH-010A.md) |
 | TASK-ARCH-010B | Planned | LINE-MONSTER-ARCH | 怪物定义/行为集成 | 将 DefinitionCatalog、Brain 与 Targeting 接入 PG-013 已建立的唯一怪物注册表，并在普通怪+Boss 关卡验证 | M-030、VS-007、VS-056 | 既有 Registry 的定义/Brain 接缝、兼容回归与后续策略迁移清单 | 依据试点生成同线策略迁移 task | [定义](task-definitions/TASK-ARCH-010B.md) |

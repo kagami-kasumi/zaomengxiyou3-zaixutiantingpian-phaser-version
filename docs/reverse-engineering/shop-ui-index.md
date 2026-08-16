@@ -206,3 +206,16 @@ character 721 无 mask、filter、blend、alpha、rotation 或缩放例外；下
 - 49 商品、权威价格、折扣例外、数量边界、拒绝态、双 owner、离线灵魂事务、内存快照/显式落盘边界、character 721/717/624 完整显示列表和按钮四态均已闭合。
 - 影响 `TASK-SLICE-155B` 的原版未知为零。
 - 现代保存时机、停服静态文字是否替换属于产品/现代设计选择，不得伪装成原版事实；在用户未批准前采用零替换。
+
+## TASK-SETTINGS-175F 商城页机器真值
+
+`task-settings-175f.shop-page` 已由同哈希恢复源 `backpack1.swf` 的本轮 FFDec 26 SVG/PNG/button/XML
+导出与 `Micropayment/ShopThing/SumInterface` 调用链交叉确认，达到 `verified`：132 个 scoped 对象、
+31 个状态，覆盖 721 的 27 个根 child、九个 717 卡及动态商品图标、624 确认层、16 组按钮四态、
+分类 selected、分页 9/4 卡、时装 8 卡、宠物 5 卡、数量 0/99/100、拒绝/成功、P1/P2 与返回，
+`unresolved=[]`。
+
+机器清单见 `docs/reverse-engineering/ground-truth/manifests/task-settings-175f-shop-page.json`；证据矩阵、
+940×590 基准和后续逐对象差异合同见
+`docs/reverse-engineering/evidence/TASK-SETTINGS-175F-shop-page.md`。后续实现只能由 `TASK-SLICE-184`
+直连该真值；本结论不表示现代 `ShopScene` 已完成 manifest 消费或逐状态视觉回测。
