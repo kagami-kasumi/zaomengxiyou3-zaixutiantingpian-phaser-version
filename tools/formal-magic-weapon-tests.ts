@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { fullFeatureUiAssets } from '../src/assets/AssetManifest';
+import { fullFeatureUiAssets, magicWeaponNativeUiAssets } from '../src/assets/AssetManifest';
+import {
+  assertVerifiedMagicWeaponPageTruth,
+  getMagicWeaponTruthBounds,
+  getMagicWeaponTruthStateIds,
+  MagicWeaponPageTruthId,
+} from '../src/scenes/feature-ui/FormalMagicWeaponPageTruth';
 import { createSeedEquipmentRegistry, type EquipmentInstance } from '../src/systems/EquipmentSystem';
 import {
   MagicWeaponResetElement,
@@ -180,16 +186,35 @@ function testElementResetKeepsLevelRebuildsStatsAndPersists(): void {
 }
 
 function testTrueAssetAndSceneWiring(): void {
+  assertVerifiedMagicWeaponPageTruth();
+  assert.equal(MagicWeaponPageTruthId, 'task-settings-175b.magic-weapon-page');
+  assert.equal(getMagicWeaponTruthStateIds().length, 21);
+  assert.deepEqual(getMagicWeaponTruthBounds('magic-weapon-page-root.btn_sj'), {
+    left: 395.95, top: 403.75, width: 67, height: 34,
+  });
   assert.equal(fullFeatureUiAssets.magicWeaponPage.sourceCharacterId, 596);
   assert.ok(existsSync(path.join(root, 'public', fullFeatureUiAssets.magicWeaponPage.path)));
+  for (const overlay of Object.values(magicWeaponNativeUiAssets.overlays)) {
+    assert.ok(existsSync(path.join(root, 'public', overlay.path)));
+  }
+  for (const states of Object.values(magicWeaponNativeUiAssets.buttons)) {
+    for (const asset of Object.values(states)) {
+      assert.ok(existsSync(path.join(root, 'public', asset.path)));
+    }
+  }
   const scene = readFileSync(path.join(root, 'src/scenes/FeatureUiScene.ts'), 'utf8');
   assert.match(scene, /session\.page === 'magic-weapon'/);
   assert.match(scene, /createFormalMagicWeaponPageView/);
   assert.match(scene, /syncFormalMagicWeaponRuntime/);
   const view = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalMagicWeaponPageView.ts'), 'utf8');
   assert.match(view, /fullFeatureUiAssets\.magicWeaponPage/);
-  assert.match(view, /确认提交/);
-  assert.match(view, /原版仅有 P1 N/);
+  assert.match(view, /assertVerifiedMagicWeaponPageTruth/);
+  assert.match(view, /getMagicWeaponTruthBounds/);
+  assert.match(view, /magicWeaponNativeUiAssets/);
+  assert.match(view, /result === 'rejected'\) return/);
+  assert.doesNotMatch(view, /scene\.add\.rectangle/);
+  assert.doesNotMatch(view, /fontFamily:\s*'Arial'/);
+  assert.doesNotMatch(view, /P1 法宝强化与五行重置|原版仅有 P1 N|关闭并重算返回/);
 }
 
 testEquipmentGateAndP1OnlyContract();

@@ -2183,6 +2183,44 @@ export const fullFeatureUiAssets = {
   ),
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
 
+function magicWeaponNativeImage(
+  key: string,
+  path: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return extractedCraftingImage(key, path, 'assets/backpack1.swf', sourceSymbol, sourceCharacterId);
+}
+
+export const magicWeaponNativeUiAssets = {
+  overlays: {
+    upgrade: magicWeaponNativeImage(
+      'full-ui.magic-weapon-native.upgrade-confirm',
+      '/assets/ui/feature/magic-weapon/native/overlays/upgrade-confirm.svg',
+      'updataFBWithLvdyl',
+      200,
+    ),
+    shared: magicWeaponNativeImage(
+      'full-ui.magic-weapon-native.shared-confirm',
+      '/assets/ui/feature/magic-weapon/native/overlays/shared-confirm.svg',
+      'renewalseThisSZ',
+      34,
+    ),
+  },
+  buttons: Object.fromEntries([19, 24, 31, 368, 436].map((characterId) => [
+    characterId,
+    Object.fromEntries((['up', 'over', 'down'] as const).map((state) => [
+      state,
+      magicWeaponNativeImage(
+        `full-ui.magic-weapon-native.button-${characterId}-${state}`,
+        `/assets/ui/feature/magic-weapon/native/buttons/${characterId}/${state}.png`,
+        `DefineButton2 ${characterId} ${state}`,
+        characterId,
+      ),
+    ])),
+  ])) as Record<number, Record<'up' | 'over' | 'down', ExtractedImageAssetDefinition>>,
+} as const;
+
 function skillNativeSprite(characterId: number, frame: number): ExtractedImageAssetDefinition {
   return extractedCraftingImage(
     `full-ui.skill-native.sprite-${characterId}-${frame}`,

@@ -6,6 +6,7 @@ import {
   heavenMapAssets,
   immortalityUiAssets,
   levelResultAssets,
+  magicWeaponNativeUiAssets,
   getPetNativeProgressAsset,
   getPetNativeQualityAsset,
   petNativeHeadAssets,
@@ -520,7 +521,12 @@ export const sceneAssetBundles = {
   },
   'feature-ui-magic-weapon': {
     dependencies: ['feature-ui'],
-    assets: [svg(fullFeatureUiAssets.magicWeaponPage)],
+    assets: [
+      svg(fullFeatureUiAssets.magicWeaponPage),
+      ...Object.values(magicWeaponNativeUiAssets.overlays).map(svg),
+      ...Object.values(magicWeaponNativeUiAssets.buttons)
+        .flatMap((states) => Object.values(states).map(image)),
+    ],
   },
   'combat-common': {
     dependencies: [],

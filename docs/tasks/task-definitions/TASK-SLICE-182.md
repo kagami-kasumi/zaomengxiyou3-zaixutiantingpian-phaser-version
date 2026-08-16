@@ -3,7 +3,7 @@
 任务类型：
 - `TASK-SLICE`
 功能条线：
-- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Planned）
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Ready）
 目标机制/切片：
 - `M-016`、`M-035`、`M-052`、`VS-060`
 规模预算：
@@ -45,6 +45,6 @@ UI 原生化合同：
 - 不在本任务重做宠物 932、法宝 596、技能 250/868/417/213 或背包 304 页内视图。
 - 不保留无用户批准的可见便利层。
 状态更新：
-- 175A..I 真值批次完成后，与 180/181/183 及后续逐页实现任务统一排序；不抢占当前 175E Ready。
+- 180/181 已完成并归档；本 task 为唯一 Ready，183..187 保持同线 Planned。
 推荐后续任务：
 - 依 175A..I 完整批次的实现排序继续。

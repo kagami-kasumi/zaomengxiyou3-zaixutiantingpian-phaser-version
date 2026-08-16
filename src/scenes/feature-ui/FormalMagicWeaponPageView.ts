@@ -1,5 +1,10 @@
 import Phaser from 'phaser';
-import { fullFeatureUiAssets } from '../../assets/AssetManifest';
+// boundary: this view projects verified character-596 geometry and forwards pointer intents;
+// upgrade, reset, ownership, inventory, soul, and persistence rules remain in systems.
+import {
+  fullFeatureUiAssets,
+  magicWeaponNativeUiAssets,
+} from '../../assets/AssetManifest';
 import {
   cancelFormalMagicWeaponAction,
   confirmFormalMagicWeaponAction,
@@ -7,8 +12,15 @@ import {
   requestFormalMagicWeaponElementReset,
   requestFormalMagicWeaponUpgrade,
   type FormalMagicWeaponPageModel,
+  type FormalMagicWeaponPanelState,
 } from '../../systems/FormalMagicWeaponPageSystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
+import {
+  assertVerifiedMagicWeaponPageTruth,
+  getMagicWeaponTruthBounds,
+  getMagicWeaponTruthCharacterId,
+  MagicWeaponPageTruthId,
+} from './FormalMagicWeaponPageTruth';
 
 type Callbacks = {
   onSaved: () => void;
@@ -16,109 +28,146 @@ type Callbacks = {
   onRerender: () => void;
 };
 
+type NativeButtonState = 'up' | 'over' | 'down';
+const NativeFont = 'FZCuYuan-M03, Microsoft YaHei, sans-serif';
+
 export function createFormalMagicWeaponPageView(
   scene: Phaser.Scene,
   model: FormalMagicWeaponPageModel,
   storage: SaveStorage,
   callbacks: Callbacks,
 ): Phaser.GameObjects.Container {
-  const objects: Phaser.GameObjects.GameObject[] = [];
-  objects.push(scene.add.image(0, 0, fullFeatureUiAssets.magicWeaponPage.key)
-    .setOrigin(0).setCrop(0, 0, 940, 590).setAlpha(0.78));
-  objects.push(scene.add.rectangle(470, 295, 940, 590, 0x07101b, 0.34));
+  assertVerifiedMagicWeaponPageTruth();
   const panel = getFormalMagicWeaponPanelState(model);
-  objects.push(scene.add.text(470, 28, 'P1 法宝强化与五行重置', {
-    color: '#fff0ad', fontFamily: 'Arial', fontSize: '25px', fontStyle: 'bold',
-  }).setOrigin(0.5));
-  objects.push(scene.add.text(470, 59, '原版仅有 P1 N / HUD 法宝入口；不伪造 P2 快捷键', {
-    color: '#c8d6e8', fontFamily: 'Arial', fontSize: '13px',
-  }).setOrigin(0.5));
-
   if (!panel.equipped) {
-    objects.push(scene.add.rectangle(470, 280, 560, 190, 0x111a27, 0.94).setStrokeStyle(2, 0xd38b63));
-    objects.push(scene.add.text(470, 260, '未装备法宝', {
-      color: '#ffb4a8', fontFamily: 'Arial', fontSize: '28px', fontStyle: 'bold',
-    }).setOrigin(0.5));
-    objects.push(scene.add.text(470, 310, '请先在正式背包把 zbfb 法宝穿入法宝槽；当前拒绝强化与重置。', {
-      color: '#e7eef9', fontFamily: 'Arial', fontSize: '16px', align: 'center',
-    }).setOrigin(0.5));
-    objects.push(...button(scene, 470, 520, 170, 42, '关闭并返回', callbacks.onClose));
-    return scene.add.container(0, 0, objects).setDepth(20);
+    return scene.add.container(0, 0).setDepth(20)
+      .setData('magicWeaponPageTruthId', MagicWeaponPageTruthId)
+      .setData('magicWeaponTruthState', 'unequipped-p1');
   }
 
-  objects.push(scene.add.rectangle(292, 302, 430, 410, 0x101a28, 0.82).setStrokeStyle(2, 0xc9a84f));
-  objects.push(scene.add.text(292, 116, `${panel.name}　Lv.${panel.level}`, {
-    color: '#fff1ad', fontFamily: 'Arial', fontSize: '23px', fontStyle: 'bold',
-  }).setOrigin(0.5));
-  const stats = panel.stats;
-  objects.push(scene.add.text(115, 160, [
-    `内部名：${panel.fillName}`,
-    `成长率：${panel.growthRate}`,
-    `五行：${panel.element || '-'}`,
-    `攻击：${Math.trunc(stats.power)}`,
-    `防御：${Math.trunc(stats.defense)}`,
-    `生命：${Math.trunc(stats.maxHp)}`,
-    `魔法：${Math.trunc(stats.maxMp)}`,
-  ].join('\n'), {
-    color: '#eef4ff', fontFamily: 'Arial', fontSize: '17px', lineSpacing: 12,
+  const objects: Phaser.GameObjects.GameObject[] = [
+    scene.add.image(0, 0, fullFeatureUiAssets.magicWeaponPage.key)
+      .setOrigin(0)
+      .setData('magicWeaponTruthObject', 'magic-weapon-page-root'),
+  ];
+  addDynamicFields(scene, objects, panel);
+  objects.push(nativeButton(scene, 'magic-weapon-page-root.btn_sj', 436, () => {
+    const result = requestFormalMagicWeaponUpgrade(model, storage);
+    if (result === 'upgraded') callbacks.onSaved();
+    callbacks.onRerender();
   }));
-  objects.push(scene.add.text(115, 390, `灵魂：${panel.soul}\n传承法器：${panel.resetMaterialCount}`, {
-    color: '#ffe08a', fontFamily: 'Arial', fontSize: '16px', lineSpacing: 8,
+  objects.push(nativeButton(scene, 'magic-weapon-page-root.resetbtn', 368, () => {
+    requestFormalMagicWeaponElementReset(model);
+    callbacks.onRerender();
   }));
+  objects.push(nativeButton(scene, 'magic-weapon-page-root.btn_close', 31, callbacks.onClose));
+  if (model.pending) addNativeConfirmation(scene, objects, model, storage, callbacks);
 
-  objects.push(scene.add.rectangle(700, 290, 390, 365, 0x101a28, 0.9).setStrokeStyle(2, 0xc9a84f));
-  objects.push(scene.add.text(700, 155, `下一等级：${panel.requirement.available ? `Lv.${panel.requirement.nextLevel}` : '-'}\n${panel.requirement.message}`, {
-    color: '#f4d58d', fontFamily: 'Arial', fontSize: '17px', align: 'center', lineSpacing: 8,
-    wordWrap: { width: 340 },
-  }).setOrigin(0.5));
-  objects.push(scene.add.text(700, 280, panel.message, {
-    color: '#dce8f7', fontFamily: 'Arial', fontSize: '15px', align: 'center', lineSpacing: 5,
-    wordWrap: { width: 340 },
-  }).setOrigin(0.5));
-
-  if (model.pending) {
-    objects.push(scene.add.rectangle(700, 390, 350, 120, 0x2a1c18, 0.97).setStrokeStyle(2, 0xffdc75));
-    objects.push(scene.add.text(700, 365, model.pending.prompt, {
-      color: '#fff3bf', fontFamily: 'Arial', fontSize: '14px', align: 'center', wordWrap: { width: 320 },
-    }).setOrigin(0.5));
-    objects.push(...button(scene, 630, 418, 125, 36, '确认提交', () => {
-      const result = confirmFormalMagicWeaponAction(model, storage);
-      if (result === 'upgraded' || result === 'reset') callbacks.onSaved();
-      callbacks.onRerender();
-    }));
-    objects.push(...button(scene, 770, 418, 125, 36, '取消', () => {
-      cancelFormalMagicWeaponAction(model); callbacks.onRerender();
-    }));
-  } else {
-    objects.push(...button(scene, 625, 390, 145, 42, '强化法宝', () => {
-      const result = requestFormalMagicWeaponUpgrade(model, storage);
-      if (result === 'upgraded') callbacks.onSaved();
-      callbacks.onRerender();
-    }));
-    objects.push(...button(scene, 775, 390, 145, 42, '重置五行', () => {
-      requestFormalMagicWeaponElementReset(model); callbacks.onRerender();
-    }));
-  }
-  objects.push(...button(scene, 700, 510, 170, 42, '关闭并重算返回', callbacks.onClose));
-  return scene.add.container(0, 0, objects).setDepth(20);
+  return scene.add.container(0, 0, objects).setDepth(20)
+    .setData('magicWeaponPageTruthId', MagicWeaponPageTruthId)
+    .setData('magicWeaponTruthState', model.pending ? pendingTruthState(model) : 'normal-level1-p1');
 }
 
-function button(
+function addDynamicFields(
   scene: Phaser.Scene,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  label: string,
+  objects: Phaser.GameObjects.GameObject[],
+  panel: FormalMagicWeaponPanelState,
+): void {
+  const nextSoul = panel.level * panel.level * 1_000;
+  const fields: Readonly<Record<string, string>> = {
+    txt_fbname: panel.name,
+    txt_fbdj: String(panel.level),
+    txt_fbczl: String(panel.growthRate),
+    txt_fbwx: panel.element,
+    txt_fbatk: String(Math.trunc(panel.stats.power)),
+    txt_fbdef: String(Math.trunc(panel.stats.defense)),
+    txt_fbhx: String(Math.trunc(panel.stats.maxHp)),
+    txt_fbhl: String(Math.trunc(panel.stats.maxMp)),
+    txt_fblh: `${Math.trunc(panel.soul)}/${nextSoul}`,
+  };
+  Object.entries(fields).forEach(([instanceName, copy]) => {
+    addField(scene, objects, `magic-weapon-page-root.${instanceName}`, copy, instanceName === 'txt_fblh');
+  });
+}
+
+function addNativeConfirmation(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  model: FormalMagicWeaponPageModel,
+  storage: SaveStorage,
+  callbacks: Callbacks,
+): void {
+  const upgradeMaterial = model.pending?.kind === 'upgrade'
+    && model.pending.cost.fillName === 'wplvdyl';
+  const rootId = upgradeMaterial ? 'upgrade-confirm-overlay' : 'shared-confirm-overlay';
+  const overlay = upgradeMaterial
+    ? magicWeaponNativeUiAssets.overlays.upgrade
+    : magicWeaponNativeUiAssets.overlays.shared;
+  objects.push(scene.add.image(0, 0, overlay.key).setOrigin(0)
+    .setData('magicWeaponTruthObject', rootId));
+  addField(scene, objects, `${rootId}.txt`, model.pending!.prompt);
+  objects.push(nativeButton(scene, `${rootId}.okbtn`, 19, () => {
+    const result = confirmFormalMagicWeaponAction(model, storage);
+    if (result === 'upgraded' || result === 'reset') callbacks.onSaved();
+    if (result === 'rejected') return;
+    callbacks.onRerender();
+  }));
+  objects.push(nativeButton(scene, `${rootId}.nobtn`, 24, () => {
+    cancelFormalMagicWeaponAction(model);
+    callbacks.onRerender();
+  }));
+}
+
+function addField(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  id: string,
+  copy: string,
+  centered = false,
+): void {
+  const bounds = getMagicWeaponTruthBounds(id);
+  const text = scene.add.text(centered ? bounds.left + bounds.width / 2 : bounds.left, bounds.top, copy, {
+    color: '#ffffff',
+    fontFamily: NativeFont,
+    fontSize: '14px',
+    align: centered ? 'center' : 'left',
+    wordWrap: { width: bounds.width },
+  }).setData('magicWeaponTruthObject', id);
+  if (centered) text.setOrigin(0.5, 0);
+  objects.push(text);
+}
+
+function nativeButton(
+  scene: Phaser.Scene,
+  id: string,
+  characterId: 19 | 24 | 31 | 368 | 436,
   onClick: () => void,
-): Phaser.GameObjects.GameObject[] {
-  const background = scene.add.rectangle(x, y, width, height, 0x24364d, 0.98)
-    .setStrokeStyle(1, 0xc9d6e8).setInteractive({ useHandCursor: true });
-  const text = scene.add.text(x, y, label, {
-    color: '#fff', fontFamily: 'Arial', fontSize: '14px', align: 'center',
-  }).setOrigin(0.5);
-  background.on('pointerover', () => background.setFillStyle(0x38536f));
-  background.on('pointerout', () => background.setFillStyle(0x24364d));
-  background.on('pointerdown', onClick);
-  return [background, text];
+): Phaser.GameObjects.Image {
+  if (getMagicWeaponTruthCharacterId(id) !== characterId) {
+    throw new Error(`Magic-weapon truth character mismatch for ${id}.`);
+  }
+  const bounds = getMagicWeaponTruthBounds(id);
+  const assets = magicWeaponNativeUiAssets.buttons[characterId];
+  const image = scene.add.image(bounds.left, bounds.top, assets.up.key)
+    .setOrigin(0)
+    .setDisplaySize(bounds.width, bounds.height)
+    .setInteractive({ useHandCursor: true })
+    .setData('magicWeaponTruthObject', id);
+  const setState = (state: NativeButtonState) => image.setTexture(assets[state].key)
+    .setDisplaySize(bounds.width, bounds.height);
+  image.on('pointerover', () => setState('over'));
+  image.on('pointerout', () => setState('up'));
+  image.on('pointerdown', () => setState('down'));
+  image.on('pointerup', () => {
+    onClick();
+    if (image.active) setState('over');
+  });
+  return image;
+}
+
+function pendingTruthState(model: FormalMagicWeaponPageModel): string {
+  if (model.pending?.kind === 'reset-element') return 'reset-confirm-p1';
+  return model.pending?.cost.fillName === 'wplvdyl'
+    ? 'upgrade-confirm-material-p1'
+    : 'upgrade-confirm-special-p1';
 }

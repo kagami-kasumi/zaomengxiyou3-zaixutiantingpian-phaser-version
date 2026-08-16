@@ -36,7 +36,7 @@
 | 左下五入口 | 原生按钮与共享 router 已有；175C 已闭合 574/371/444 的 25 对象/42 状态 verified 真值 | 宿主实现仍需直接消费真值并删除地图态未批准 chrome；`TASK-SLICE-182` Planned | 175C manifest/证据矩阵；后续五按钮 P1/P2、门禁、打开/关闭/返回的 pointer 与视觉回测 |
 | UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
 | 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173/173A 已闭合影分身 verified 真值、共享状态机/视觉、正式输入/目标/弹体/销毁与 P1/P2 owner | 已关闭：174 生成 detached 普攻 verified 空间真值并建立唯一几何 owner；Role5 projectile 恢复二维命中并委托共享结算 | 共享消费者一致性、X/Y 边界、重复/死亡/P1/P2 专项与 940×590 单/双人零 console |
-| 功能 UI 真值债务 | 175A..I 已全部生成 verified 真值；宠物页已直接消费 74 对象/16 状态真值并删除现代覆盖 | 法宝现代实现与地图 host chrome 仍为明确现代占位；技能/丹药/商城/设置/任务/建档 view 尚未直连 manifest；TASK-SLICE-181..187 待逐页实现 | 175 审计、175A..I evidence/manifests；实现逐页直接消费并回测 |
+| 功能 UI 真值债务 | 175A..I 已全部生成 verified 真值；宠物页与法宝页已分别直接消费 74/16、28/21 对象/状态真值并删除现代覆盖 | 地图 host chrome 仍为明确现代占位；技能/丹药/商城/设置/任务/建档 view 尚未直连 manifest；TASK-SLICE-182..187 待逐页实现 | 175 审计、175A..I evidence/manifests；实现逐页直接消费并回测 |
 
 ## 当前调度
 
@@ -70,7 +70,8 @@
 28. `TASK-SETTINGS-175H`：Done；任务 85 已闭合为 45 对象/28 状态 verified manifest，`unresolved=[]`，并生成 `TASK-SLICE-186`（Planned）。
 29. `TASK-SETTINGS-175I`：Done；`task-settings-175i.party-creation` 已闭合为 20 对象/30 状态 verified manifest，`unresolved=[]`；生成 `TASK-SLICE-187`（Planned）。
 30. `TASK-SLICE-180`：Done；已直接消费 175A 宠物页真值，删除未经批准的现代覆盖层并通过视觉/owner/存档回归。
-31. `TASK-SLICE-181`：Ready；直接消费 175B 法宝页真值，删除未经批准的现代覆盖层。182..187 保持同线 Planned。
+31. `TASK-SLICE-181`：Done；直接消费 175B 的 28 对象/21 状态 verified 真值，投影 596/200/34 与原按钮/字段，删除未经批准的现代覆盖；owner、事务、存档和 940×590 回归通过。
+32. `TASK-SLICE-182`：Ready；直接消费 175C 宿主真值，删除地图态未批准共享 chrome。183..187 保持同线 Planned。
 
 ## 明确排除
 

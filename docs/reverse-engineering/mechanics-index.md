@@ -158,8 +158,8 @@ child、五个任务行、四个奖励格、三组按钮、动态已领取/0..4 
 M-035/M-043/M-052 法宝页真值补充：`TASK-SETTINGS-175B` 已从恢复源 `backpack1.swf`
 character 596 生成 `task-settings-175b.magic-weapon-page` verified manifest，闭合 17 个根 child、
 character 200/34 动态确认、28 对象、21 状态、按钮三态/命中、九字段、灵魂条、升级/拒绝/取消、
-重置、P2 无入口与关闭，`unresolved=[]`。这只解除法宝单页实现的证据阻塞；现代覆盖仍待
-`TASK-SLICE-181`，M-035/M-043/M-052 状态不提前提升。
+重置、P2 无入口与关闭，`unresolved=[]`。`TASK-SLICE-181` 已让正式 view 直接消费该 manifest，
+删除现代覆盖并通过 owner/存档/940×590 回归；M-043 保持“部分复现”仅因外部战斗资源范围。
 
 M-016/M-035/M-052 功能宿主真值补充：`TASK-SETTINGS-175C` 已从恢复源
 `OtherMat1.swf` character 574/371/444 生成 `task-settings-175c.stage-feature-host` verified

@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-181` 是唯一 Ready 游戏 task；宠物页已完成 manifest 直连，现按单页有界批次继续法宝页原生化。
+`TASK-SLICE-182` 是唯一 Ready 游戏 task；宠物页与法宝页已完成 manifest 直连，现整改功能页共享宿主边界。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-181 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 法宝页原生化实现 | 直接消费 175B verified 真值，删除法宝页现代覆盖层 | M-035、M-043、M-052、VS-054 | 596/200/34 原显示列表投影、逐状态视觉/owner/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-181.md) |
-| TASK-SLICE-182 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 功能宿主原生化整改 | 直接消费 175C verified 真值，删除地图态未批准共享 chrome 并恢复原单页门 | M-016、M-035、M-052、VS-060 | 574/371/444 宿主投影、无 chrome 负向回测、P1/P2/门禁/暂停/返回证据 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-182.md) |
+| TASK-SLICE-182 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 功能宿主原生化整改 | 直接消费 175C verified 真值，删除地图态未批准共享 chrome 并恢复原单页门 | M-016、M-035、M-052、VS-060 | 574/371/444 宿主投影、无 chrome 负向回测、P1/P2/门禁/暂停/返回证据 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-182.md) |
 | TASK-SLICE-183 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 技能四页 manifest 直连 | 直接消费 175D verified 真值，删除技能页现代覆盖与手写视觉真值源 | M-041、M-052、VS-055 | 250/868/417/213 投影、逐状态视觉/owner/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-183.md) |
 | TASK-SLICE-184 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 商城页 manifest 直连 | 直接消费 175F verified 真值，删除商城页手写视觉真值源 | M-046、M-052、VS-059 | 721/717/624 投影、31 状态视觉/owner/事务/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-184.md) |
 | TASK-SLICE-185 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 设置页 manifest 直连 | 直接消费 175G verified 真值，删除设置页手写视觉真值源 | M-035、M-052、VS-059 | 148 投影、23 状态视觉/owner/持久化回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-185.md) |

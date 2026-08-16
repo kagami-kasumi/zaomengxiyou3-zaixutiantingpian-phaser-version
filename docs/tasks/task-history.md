@@ -10679,3 +10679,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-181`：直接消费 175B 法宝页 verified 真值，删除法宝页现代覆盖层；182..187 保持 Planned。
+
+### TASK-SLICE-181
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-182`）。
+- `FormalMagicWeaponPageTruth.ts` 运行时直接导入并断言 `task-settings-175b.magic-weapon-page` verified manifest：28 个 scoped display object、21 个状态、`unresolved=[]`。
+- `FormalMagicWeaponPageView` 已按 manifest bounds 投影 character 596 原显示列表、九个动态 TextField、368/436/31 原按钮三态/命中，以及 character 200/34 与 19/24 动态确认；删除旧现代暗层、矩形面板、Arial 标题/摘要和通用按钮。
+- 新增同源原按钮与确认 overlay 资源及按页 bundle；未装备、P2 无入口和关闭保持零页对象，材料不足后的重置确认 overlay 保留。
+- 强化/重置、P1 owner、库存、灵魂与当前存档业务继续由既有 system 负责；940×590 normal、hover、确认、拒绝保留、取消、关闭证据与并排/50% overlay 位于 `docs/tasks/evidence/TASK-SLICE-181/`，浏览器 console warning/error 为 0。
+
+验证：
+- `npm run test:magic-weapon-page-truth`、`npm run test:formal-magic-weapon`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-182`：直接消费 175C 宿主 verified 真值，删除地图态未批准共享 chrome 并恢复原单页门；183..187 保持 Planned。
