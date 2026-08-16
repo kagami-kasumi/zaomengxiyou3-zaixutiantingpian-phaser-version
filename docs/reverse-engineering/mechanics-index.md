@@ -80,7 +80,7 @@
 | M-049 | 正式战斗 HUD | 已扒 | 已复现 | `combat-hud-index.md`、五角色战斗视觉索引、`Stage1CombatHudSystem.ts`、`Stage1CombatHudBridge.ts`、恢复 `OtherMat1/bossblood.swf` | Stage 1 三关共享 snapshot/bridge；P1/P2 独立成长与技能状态；Role1..Role5使用character 505 frame1..5头像；Boss即时/0.8s追赶条 | 940×590固定层、P1/P2镜像、五槽键位及五角色头像均已运行闭合 |
 | M-050 | 启动与存档槽流程 | 已扒 | 已复现 | `save-slots-index.md`、`save-party-flow-index.md`、`task-settings-175i-party-creation.json`、`GameMenu.as`、`SelectRole.as`、`OtherMat1.swf` 1149/901、`Common1.swf` 69/18 | `PartyConfigurationSystem.ts`、`SaveProfileDraftSystem.ts`、`SaveSlotSystem.ts`、`SaveSlotScene.ts`、`SavePartyCreationView.ts`、`SaveSystem.ts` | 六槽、当前单 schema、原子建槽和 1P/2P 行为已闭合；175I 冻结 20 对象/30 状态，现代 view 手写真值源待 187 直连 |
 | M-051 | 天庭地图选关 | 已扒 | 已复现 | `heaven-map-index.md`、`SelectPLace.as`、`MapMenu.as`、`GMain.as`、`MainGame.as`、`GameWin.as`、`GameFail.as`、`OtherMat1.swf` 1343/963/1311/1297/1304/1290、用户 2026-07-23/24 试玩反馈 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、`FormalPartyRuntimeSystem.ts`、正式结果/退出桥、专项与视觉证据 | 四节点状态、单调进度、活动槽 party 直接进关、往返/重试/重载已完成；现代逐关人数 chooser 已删除且有静态防回流门禁 |
-| M-052 | 完整功能 UI | 已扒 | 部分复现 | `full-function-ui-index.md`、175A..I verified manifests、`evidence/TASK-SETTINGS-175-functional-ui-truth-audit.md`、既有 verified 工坊/装备 manifests | `StageFeatureEntryRouterSystem.ts`、`StageSettingsSystem.ts`、`FormalFeatureUiEntryBridge.ts`、正式功能页 systems/views | 宠物至建档/选角的真值迁移已全部闭合，宠物、法宝与功能宿主已直接消费；技能及地图四服务/建档的手写视觉真值源仍待 183..187 逐页整改，完成前不恢复完整原生化结论 |
+| M-052 | 完整功能 UI | 已扒 | 部分复现 | `full-function-ui-index.md`、175A..I verified manifests、`evidence/TASK-SETTINGS-175-functional-ui-truth-audit.md`、既有 verified 工坊/装备 manifests | `StageFeatureEntryRouterSystem.ts`、`StageSettingsSystem.ts`、`FormalFeatureUiEntryBridge.ts`、正式功能页 systems/views | 宠物至建档/选角的真值迁移已全部闭合，宠物、法宝、功能宿主、技能和商城已直接消费；设置/任务/建档的手写视觉真值源仍待 185..187 逐页整改，完成前不恢复完整原生化结论 |
 
 2026-07-24 前置体验补全调整：用户将天庭地图“丹药/商城/设置/任务”、关卡内“设置/技能/背包/法宝/宠物”、已完成关卡全部小怪真动画和五角色战斗 UI/技能动画提升为 Stage 2-3 逆向前置。`M-016/M-052` 现有“可达/已有页面业务”不得作为原版逐状态关闭证据；`M-030/M-034/M-047` 的代表性或占位视觉不得作为全集关闭证据。`M-044/M-050` 的六槽 V6 `localStorage` 已满足“存到本地”的基础要求，不新增重复实现，只由 `VS-063` 在全部新功能完成后做跨重启正式旅程回归。调度见 `LINE-PRE-STAGE-2-3-COMPLETION` 与 `GOAL-037..041`。
 
@@ -140,8 +140,9 @@ M-035/M-052 与 VS-059 状态不提前提升。
 M-046/M-052/VS-059 商城页真值补充：`TASK-SETTINGS-175F` 已从恢复源 `backpack1.swf`
 character 721/717/624 生成 `task-settings-175f.shop-page` verified manifest，闭合 132 对象、31 状态、
 27 个根 child、九卡嵌套显示列表、动态商品图标、16 组按钮、分类/分页/数量、确认/取消/拒绝/成功、
-P1/P2 与返回，`unresolved=[]`。这只解除商城单页的证据债务；现代直接消费和逐状态差异仍待
-`TASK-SLICE-184`，M-046/M-052 与 VS-059 状态不提前提升。
+P1/P2 与返回，`unresolved=[]`。`TASK-SLICE-184` 已让 `FormalShopPageTruth/ShopScene` 直接消费
+132 对象/31 状态，删除页面第二套手写坐标并闭合业务、owner、当前存档、940×590 差异与零 console；
+M-046 因更广支付/活动范围保持暂缓，M-052/VS-059 因设置、任务和建档等剩余页面不提前提升。
 
 M-035/M-052/VS-059 设置页真值补充：`TASK-SETTINGS-175G` 已从恢复源 `StageCommon.swf`
 character 148 生成 `task-settings-175g.settings-page` verified manifest，闭合 19 对象、23 状态、

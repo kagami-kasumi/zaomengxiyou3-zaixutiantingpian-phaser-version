@@ -3,7 +3,7 @@
 任务类型：
 - `TASK-SLICE`
 功能条线：
-- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Planned）
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Ready）
 目标机制/切片：
 - `M-035`、`M-052`、`VS-059`
 规模预算：

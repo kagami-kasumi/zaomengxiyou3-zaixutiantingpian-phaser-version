@@ -26,20 +26,25 @@ import {
 } from '../systems/FormalShopPageSystem';
 import type { SaveStorage } from '../systems/SaveSystem';
 import { createFormalSoulBalanceView } from './feature-ui/FormalSoulBalanceView';
+import {
+  assertVerifiedShopPageTruth,
+  getShopCardTruthBounds,
+  getShopTruthBounds,
+  ShopTruthObjectIds,
+  type ShopTruthBounds,
+} from './shop/FormalShopPageTruth';
 
 // 边界：本场景只负责商城显示与交互，不直接持有商品、灵魂、背包或存档事务规则。
-const CardColumns = [137.8, 362.3, 585.8] as const;
-const CardRows = [156, 247, 339] as const;
 const CategoryButtons: readonly Readonly<{
   category: FormalShopCategory;
-  x: number;
+  truthId: string;
   assets: NativeButtonAssets;
 }>[] = [
-  { category: 'all', x: 131.3, assets: shopUiAssets.buttons.categoryAll },
-  { category: 'gems', x: 207.3, assets: shopUiAssets.buttons.categoryGem },
-  { category: 'items', x: 283.3, assets: shopUiAssets.buttons.categoryItem },
-  { category: 'fashion', x: 359.3, assets: shopUiAssets.buttons.categoryFashion },
-  { category: 'pets', x: 435.25, assets: shopUiAssets.buttons.categoryPet },
+  { category: 'all', truthId: ShopTruthObjectIds.categories.all, assets: shopUiAssets.buttons.categoryAll },
+  { category: 'gems', truthId: ShopTruthObjectIds.categories.gems, assets: shopUiAssets.buttons.categoryGem },
+  { category: 'items', truthId: ShopTruthObjectIds.categories.items, assets: shopUiAssets.buttons.categoryItem },
+  { category: 'fashion', truthId: ShopTruthObjectIds.categories.fashion, assets: shopUiAssets.buttons.categoryFashion },
+  { category: 'pets', truthId: ShopTruthObjectIds.categories.pets, assets: shopUiAssets.buttons.categoryPet },
 ];
 
 type NativeButtonAssets = Readonly<{
@@ -62,6 +67,7 @@ export class ShopScene extends Phaser.Scene {
   }
 
   public create(): void {
+    assertVerifiedShopPageTruth();
     this.storage = getBrowserStorage();
     this.model = this.storage ? createFormalShopPage(this.storage) : undefined;
     if (!this.model || !this.storage) {
@@ -86,8 +92,7 @@ export class ShopScene extends Phaser.Scene {
 
     for (const button of CategoryButtons) {
       layer.add(this.createNativeButton(
-        button.x,
-        99,
+        getShopTruthBounds(button.truthId),
         button.assets,
         () => {
           selectFormalShopCategory(this.model!, button.category);
@@ -99,8 +104,7 @@ export class ShopScene extends Phaser.Scene {
     }
 
     layer.add(this.createNativeButton(
-      148.8,
-      436.8,
+      getShopTruthBounds(ShopTruthObjectIds.charge),
       shopUiAssets.buttons.charge,
       () => {
         showFormalShopOfflineChargeMessage(this.model!);
@@ -111,8 +115,7 @@ export class ShopScene extends Phaser.Scene {
       layer.add(this.createOwnerButton(owner));
     }
     layer.add(this.createNativeButton(
-      650.8,
-      448.3,
+      getShopTruthBounds(ShopTruthObjectIds.pagePrev),
       shopUiAssets.buttons.pagePrev,
       () => {
         changeFormalShopPage(this.model!, -1);
@@ -121,8 +124,7 @@ export class ShopScene extends Phaser.Scene {
       },
     ));
     layer.add(this.createNativeButton(
-      741.8,
-      448.3,
+      getShopTruthBounds(ShopTruthObjectIds.pageNext),
       shopUiAssets.buttons.pageNext,
       () => {
         changeFormalShopPage(this.model!, 1);
@@ -130,19 +132,21 @@ export class ShopScene extends Phaser.Scene {
         this.renderDynamicLayer();
       },
     ));
-    layer.add(this.add.text(699.8, 451.4, `${this.model.page}/${getFormalShopPageCount(this.model)}`, {
+    const pageBounds = getShopTruthBounds(ShopTruthObjectIds.pageText);
+    layer.add(this.add.text(pageBounds.left, pageBounds.top, `${this.model.page}/${getFormalShopPageCount(this.model)}`, {
       color: '#000000',
       fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
       fontSize: '20px',
       align: 'center',
-      fixedWidth: 50,
+      fixedWidth: pageBounds.width,
     }).setOrigin(0));
-    layer.add(this.add.text(363.2, 450.3, String(getFormalShopPlayer(this.model).soulCount), {
+    const moneyBounds = getShopTruthBounds(ShopTruthObjectIds.money);
+    layer.add(this.add.text(moneyBounds.left, moneyBounds.top, String(getFormalShopPlayer(this.model).soulCount), {
       color: '#ffffff',
       fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
       fontSize: '25px',
       align: 'center',
-      fixedWidth: 82,
+      fixedWidth: moneyBounds.width,
     }).setOrigin(0));
     layer.add(createFormalSoulBalanceView(
       this,
@@ -150,16 +154,13 @@ export class ShopScene extends Phaser.Scene {
       'standalone',
     ));
     layer.add(this.createNativeButton(
-      866.7,
-      10.8,
+      getShopTruthBounds(ShopTruthObjectIds.back),
       shopUiAssets.buttons.back,
       () => this.returnToMap(),
     ));
 
     getFormalShopVisibleItems(this.model).forEach((item, index) => {
-      const x = CardColumns[index % 3]!;
-      const y = CardRows[Math.floor(index / 3)]!;
-      this.renderItemCard(layer, item, x, y);
+      this.renderItemCard(layer, item, index);
     });
 
     if (this.model.pendingFillName) this.renderConfirmation(layer);
@@ -168,38 +169,43 @@ export class ShopScene extends Phaser.Scene {
   private renderItemCard(
     layer: Phaser.GameObjects.Container,
     item: FormalShopItem,
-    x: number,
-    y: number,
+    cardIndex: number,
   ): void {
-    layer.add(this.add.image(x, y, shopUiAssets.card.key).setOrigin(0));
+    const cardBounds = getShopCardTruthBounds(cardIndex);
+    layer.add(this.add.image(cardBounds.left, cardBounds.top, shopUiAssets.card.key).setOrigin(0));
     const icon = getInventoryItemAsset(item.fillName);
     if (icon) {
-      layer.add(this.add.image(x + 18, y + 23, icon.key).setOrigin(0).setDisplaySize(48, 48));
+      const bounds = getShopCardTruthBounds(cardIndex, 'icon');
+      layer.add(this.add.image(bounds.left, bounds.top, icon.key).setOrigin(0)
+        .setDisplaySize(bounds.width, bounds.height));
     }
-    layer.add(this.add.text(x + 92, y + 9.8, item.name, {
+    const nameBounds = getShopCardTruthBounds(cardIndex, 'name');
+    layer.add(this.add.text(nameBounds.left, nameBounds.top, item.name, {
       color: '#000000',
       fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
       fontSize: '15px',
       align: 'right',
-      fixedWidth: 112,
+      fixedWidth: nameBounds.width,
     }).setOrigin(0));
     const unitPrice = getFormalShopUnitPrice(item, this.model!.currentBigStage);
-    layer.add(this.add.text(x + 81, y + 61, `${unitPrice}灵魂`, {
+    const priceBounds = getShopCardTruthBounds(cardIndex, 'price');
+    layer.add(this.add.text(priceBounds.left, priceBounds.top, `${unitPrice}灵魂`, {
       color: '#000000',
       fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
       fontSize: '15px',
       align: 'right',
-      fixedWidth: 62,
+      fixedWidth: priceBounds.width,
     }).setOrigin(0));
     const quantity = this.editingFillName === item.fillName && this.typedQuantity !== ''
       ? this.typedQuantity
       : String(getFormalShopQuantity(this.model!, item.fillName));
-    const quantityText = this.add.text(x + 153, y + 35.9, quantity, {
+    const quantityBounds = getShopCardTruthBounds(cardIndex, 'quantity');
+    const quantityText = this.add.text(quantityBounds.left, quantityBounds.top, quantity, {
       color: '#ffffff',
       fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
       fontSize: '14px',
       align: 'center',
-      fixedWidth: 37,
+      fixedWidth: quantityBounds.width,
     }).setOrigin(0).setInteractive({ useHandCursor: true });
     quantityText.on('pointerdown', () => {
       this.editingFillName = item.fillName;
@@ -207,8 +213,7 @@ export class ShopScene extends Phaser.Scene {
     });
     layer.add(quantityText);
     layer.add(this.createNativeButton(
-      x + 187.5,
-      y + 34.25,
+      getShopCardTruthBounds(cardIndex, 'quantityUp'),
       shopUiAssets.buttons.quantityUp,
       () => {
         changeFormalShopQuantity(this.model!, item.fillName, 1);
@@ -217,8 +222,7 @@ export class ShopScene extends Phaser.Scene {
       },
     ));
     layer.add(this.createNativeButton(
-      x + 187.5,
-      y + 43.75,
+      getShopCardTruthBounds(cardIndex, 'quantityDown'),
       shopUiAssets.buttons.quantityDown,
       () => {
         changeFormalShopQuantity(this.model!, item.fillName, -1);
@@ -227,8 +231,7 @@ export class ShopScene extends Phaser.Scene {
       },
     ));
     layer.add(this.createNativeButton(
-      x + 138,
-      y + 54.45,
+      getShopCardTruthBounds(cardIndex, 'buy'),
       shopUiAssets.buttons.buy,
       () => {
         if (openFormalShopConfirmation(this.model!, item.fillName)) {
@@ -244,8 +247,7 @@ export class ShopScene extends Phaser.Scene {
       ? shopUiAssets.buttons.ownerP1
       : shopUiAssets.buttons.ownerP2;
     return this.createNativeButton(
-      owner === 'p1' ? 465.3 : 553.3,
-      449.3,
+      getShopTruthBounds(owner === 'p1' ? ShopTruthObjectIds.ownerP1 : ShopTruthObjectIds.ownerP2),
       assets,
       () => {
         setFormalShopOwner(this.model!, owner);
@@ -257,21 +259,22 @@ export class ShopScene extends Phaser.Scene {
   }
 
   private renderConfirmation(layer: Phaser.GameObjects.Container): void {
-    const blocker = this.add.image(0, 0, shopUiAssets.confirm.key)
+    const confirmBounds = getShopTruthBounds(ShopTruthObjectIds.confirm);
+    const blocker = this.add.image(confirmBounds.left, confirmBounds.top, shopUiAssets.confirm.key)
       .setOrigin(0)
       .setInteractive()
       .setDepth(50);
     layer.add(blocker);
-    layer.add(this.add.text(394, 254.7, getFormalShopConfirmationText(this.model!), {
+    const textBounds = getShopTruthBounds(ShopTruthObjectIds.confirmText);
+    layer.add(this.add.text(textBounds.left, textBounds.top, getFormalShopConfirmationText(this.model!), {
       color: '#ffffff',
       fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
       fontSize: '14px',
-      fixedWidth: 181,
-      wordWrap: { width: 181 },
+      fixedWidth: textBounds.width,
+      wordWrap: { width: textBounds.width },
     }).setOrigin(0).setDepth(51));
     layer.add(this.createNativeButton(
-      403.3,
-      319,
+      getShopTruthBounds(ShopTruthObjectIds.confirmOk),
       shopUiAssets.buttons.confirmOk,
       () => {
         confirmFormalShopPurchase(this.model!, this.storage!);
@@ -280,8 +283,7 @@ export class ShopScene extends Phaser.Scene {
       },
     ).setDepth(51));
     layer.add(this.createNativeButton(
-      490.3,
-      319,
+      getShopTruthBounds(ShopTruthObjectIds.confirmCancel),
       shopUiAssets.buttons.confirmCancel,
       () => {
         closeFormalShopConfirmation(this.model!);
@@ -291,14 +293,13 @@ export class ShopScene extends Phaser.Scene {
   }
 
   private createNativeButton(
-    x: number,
-    y: number,
+    bounds: ShopTruthBounds,
     assets: NativeButtonAssets,
     action: () => void,
     restingState: 'up' | 'over' | 'down' = 'up',
   ): Phaser.GameObjects.Image {
     const restingKey = assets[restingState].key;
-    const button = this.add.image(x, y, restingKey).setOrigin(0)
+    const button = this.add.image(bounds.left, bounds.top, restingKey).setOrigin(0)
       .setInteractive({ useHandCursor: true });
     button.on('pointerover', () => button.setTexture(assets.over.key));
     button.on('pointerout', () => button.setTexture(restingKey));

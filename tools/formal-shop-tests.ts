@@ -30,6 +30,15 @@ import {
   loadActiveGame,
 } from '../src/systems/SaveSlotSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
+import {
+  assertVerifiedShopPageTruth,
+  getShopCardTruthBounds,
+  getShopTruthBounds,
+  getShopTruthCharacterId,
+  getShopTruthStateIds,
+  ShopPageTruthId,
+  ShopTruthObjectIds,
+} from '../src/scenes/shop/FormalShopPageTruth';
 
 class MemoryStorage implements SaveStorage {
   private readonly values = new Map<string, string>();
@@ -48,6 +57,20 @@ class MemoryStorage implements SaveStorage {
 }
 
 assert.equal(FormalShopItems.length, 49);
+assert.doesNotThrow(() => assertVerifiedShopPageTruth());
+assert.equal(ShopPageTruthId, 'task-settings-175f.shop-page');
+assert.equal(getShopTruthStateIds().length, 31);
+assert.equal(getShopTruthCharacterId(ShopTruthObjectIds.root), 721);
+assert.equal(getShopTruthCharacterId(ShopTruthObjectIds.confirm), 624);
+assert.deepEqual(getShopTruthBounds(ShopTruthObjectIds.categories.all), {
+  left: 131.3, top: 99, width: 80, height: 36,
+});
+assert.deepEqual(getShopCardTruthBounds(0), {
+  left: 137.8, top: 156, width: 212, height: 88,
+});
+assert.deepEqual(getShopCardTruthBounds(8, 'icon'), {
+  left: 600.8, top: 359, width: 50, height: 50,
+});
 assert.equal(new Set(FormalShopItems.map((item) => item.fillName)).size, 49);
 assert.deepEqual(
   FormalShopItems.slice(0, 3).map((item) => item.fillName),
@@ -207,6 +230,10 @@ assert.doesNotMatch(cardStatic, /id="txt_name"|id="txt_num"|id="btn_buy"/);
 const shopSource = readFileSync(path.join(repoRoot, 'src/scenes/ShopScene.ts'), 'utf8');
 assert.doesNotMatch(shopSource, /fetch\(|XMLHttpRequest|WebSocket|PayMoneyVar/);
 assert.match(shopSource, /createFormalSoulBalanceView/);
+assert.match(shopSource, /assertVerifiedShopPageTruth/);
+assert.match(shopSource, /getShopTruthBounds/);
+assert.match(shopSource, /getShopCardTruthBounds/);
+assert.doesNotMatch(shopSource, /CardColumns|CardRows/);
 assert.match(shopSource, /getFormalShopPlayer\(this\.model\)\.soulCount,\s*'standalone'/);
 const soulBalanceSource = readFileSync(
   path.join(repoRoot, 'src/scenes/feature-ui/FormalSoulBalanceView.ts'),

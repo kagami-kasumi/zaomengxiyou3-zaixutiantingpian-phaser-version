@@ -96,6 +96,7 @@
     "generate:immortality-page-truth": "node tools/generate-immortality-page-ground-truth.mjs",
     "generate:shop-page-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-shop-page-baselines.ps1",
     "generate:shop-page-truth": "node tools/generate-shop-page-ground-truth.mjs",
+    "generate:shop-page-runtime-evidence": "python tools/generate-shop-page-runtime-evidence.py",
     "generate:settings-page-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-settings-page-baselines.ps1",
     "generate:settings-page-truth": "node tools/generate-settings-page-ground-truth.mjs",
     "generate:task-page-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-task-page-baselines.ps1",

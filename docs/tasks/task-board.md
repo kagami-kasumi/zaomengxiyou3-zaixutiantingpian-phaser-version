@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-184` 是唯一 Ready 游戏 task；技能四页已直接消费 175D 真值并删除手写视觉源，现进入商城页 manifest 直连。
+`TASK-SLICE-185` 是唯一 Ready 游戏 task；商城页已直接消费 175F 真值并删除手写视觉源，现进入设置页 manifest 直连。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-184 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 商城页 manifest 直连 | 直接消费 175F verified 真值，删除商城页手写视觉真值源 | M-046、M-052、VS-059 | 721/717/624 投影、31 状态视觉/owner/事务/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-184.md) |
-| TASK-SLICE-185 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 设置页 manifest 直连 | 直接消费 175G verified 真值，删除设置页手写视觉真值源 | M-035、M-052、VS-059 | 148 投影、23 状态视觉/owner/持久化回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-185.md) |
+| TASK-SLICE-185 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 设置页 manifest 直连 | 直接消费 175G verified 真值，删除设置页手写视觉真值源 | M-035、M-052、VS-059 | 148 投影、23 状态视觉/owner/持久化回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-185.md) |
 | TASK-SLICE-186 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 任务页 manifest 直连 | 直接消费 175H verified 真值，删除任务页手写视觉真值源 | M-044、M-046、M-052、VS-059 | 85 投影、28 状态视觉/owner/事务/存档回归 | 按 175A..I 调度结果排入同线实现批次 | [定义](task-definitions/TASK-SLICE-186.md) |
 | TASK-SLICE-187 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 建档/选角 manifest 直连 | 直接消费 175I verified 真值，删除 `SavePartyCreationView` 手写视觉真值源 | M-005、M-006、M-050、M-052、VS-052 | 1149/901 投影、30 状态视觉/owner/原子建档/重载回归 | 按 180..187 同线实现批次继续 | [定义](task-definitions/TASK-SLICE-187.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 待当前成长/UI 完成线关闭后恢复 | [定义](task-definitions/TASK-SETTINGS-064.md) |

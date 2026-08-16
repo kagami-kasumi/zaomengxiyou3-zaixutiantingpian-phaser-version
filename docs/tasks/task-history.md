@@ -10724,3 +10724,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-184`：直接消费 175F 商城页 verified 真值，删除商城页手写视觉真值源；185..187 保持 Planned。
+
+### TASK-SLICE-184
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-185`）。
+- 新增 `FormalShopPageTruth.ts`，运行时直接导入并断言 `task-settings-175f.shop-page`：132 个 scoped display object、31 个状态、`unresolved=[]`。
+- `ShopScene` 已按 manifest 对象 ID 读取 721 根的五分类、九个 717 卡、动态图标/字段、16 组按钮和 624 确认层 stage bounds；删除 `CardColumns/CardRows` 与页面内第二套手写视觉坐标，商品图标恢复 manifest 的 `(15,20)`/50×50 投影。
+- 49 项商品、折扣、数量、灵魂、库存、P1/P2 和当前存档继续由既有 system 持有；专项覆盖成功、灵魂不足、堆叠拒绝与双 owner 原子保存，未新增支付、网络或可见 chrome。
+- 940×590 默认、分类 8/5 卡、末页 4 卡、数量 99/100、确认/取消、拒绝、返回/重开的运行证据，以及五组并排、50% overlay、difference 位于 `docs/tasks/evidence/TASK-SLICE-184/`；console warning/error 为 0。唯一批准的可见现代例外仍是共享灵魂余额。
+
+验证：
+- `npm run test:shop`、`npm run test:shop-page-truth`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-185`：直接消费 175G 设置页 verified 真值，删除设置页手写视觉真值源；186..187 保持 Planned。
