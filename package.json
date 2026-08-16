@@ -99,6 +99,7 @@
     "generate:shop-page-runtime-evidence": "python tools/generate-shop-page-runtime-evidence.py",
     "generate:settings-page-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-settings-page-baselines.ps1",
     "generate:settings-page-truth": "node tools/generate-settings-page-ground-truth.mjs",
+    "generate:settings-page-runtime-evidence": "python tools/generate-settings-page-runtime-evidence.py",
     "generate:task-page-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-task-page-baselines.ps1",
     "generate:task-page-truth": "node tools/generate-task-page-ground-truth.mjs",
     "generate:party-creation-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-party-creation-baselines.ps1",

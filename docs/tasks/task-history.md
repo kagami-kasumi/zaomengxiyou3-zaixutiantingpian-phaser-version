@@ -10739,3 +10739,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-185`：直接消费 175G 设置页 verified 真值，删除设置页手写视觉真值源；186..187 保持 Planned。
+
+### TASK-SLICE-185
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-186`）。
+- 新增 `FormalSettingsPageTruth.ts`，运行时直接导入并断言 `task-settings-175g.settings-page`：19 个 scoped display object、23 个状态、`unresolved=[]`。
+- `FormalSettingsOverlay` 已按 manifest 对象 ID 投影 148 根、134/133 全舞台命中面、五个静态 label、五组 146/145、144 关闭按钮及字体/hover style；删除五行 x/y/width、104×34.1 命中和关闭锚点的第二套手写视觉真值。
+- 四项循环、默认音量死控件、全局非 P1/P2 owner 与独立 global storage 继续由既有 system 持有；未修改玩家 V7 schema、声音系统或可见 chrome。
+- 940×590 的 19 个稳定运行状态均保留现代截图，五个代表状态生成并排、50% overlay、像素差和边缘差；四个 pressed 状态由无独立 pointerdown/144 down 原资源门禁覆盖。关闭、底层阻挡、重开、页面重载与零 console 证据位于 `docs/tasks/evidence/TASK-SLICE-185/`。跨重启仍只标记为用户批准的现代例外。
+
+验证：
+- `npm run test:settings`、`npm run test:settings-page-truth`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`python tools/generate-settings-page-runtime-evidence.py`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-186`：直接消费 175H 任务页 verified 真值，删除任务页手写视觉真值源；187 保持 Planned。

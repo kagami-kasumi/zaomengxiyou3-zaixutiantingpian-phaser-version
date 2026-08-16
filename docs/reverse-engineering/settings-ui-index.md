@@ -149,3 +149,15 @@ character 148 无 mask、filter、blend、alpha、rotation 例外。坐标均为
   运行态文字差异由 fixture/AS3 合同明确分开。
 - 现代跨重启持久化仍只属于已批准例外，不进入原版 `/displayObjects`。后续直连与逐状态差异由
   `TASK-SLICE-185` 承担，不在 175G 修改 `src/`。
+
+## TASK-SLICE-185 现代直连结果
+
+- `FormalSettingsPageTruth` 直接导入并断言 `task-settings-175g.settings-page` 的 19 对象、23 状态、
+  display-list/state-set 完整性与 `unresolved=[]`。
+- `FormalSettingsOverlay` 的 root/overlay、五组 label/value、145 局部 `(2,2)`、字体/hover style、
+  144 锚点和命中边界均改由 manifest 投影；旧五行坐标、104×34.1 命中和关闭坐标已删除。
+- 四项循环、默认音量死控件、共享全局 owner 与独立跨重启 storage 未重写；玩家 V7 schema、
+  P1/P2 owner 和可见 chrome 均未改变。
+- 23 状态专项和 19 个稳定 940×590 运行状态证据见
+  `docs/tasks/evidence/TASK-SLICE-185/visual-audit.md`；关闭、底层阻挡、重开/重载与 console 零
+  warning/error 已通过。跨重启继续只作为用户批准现代例外，不改写原版非存档事实。

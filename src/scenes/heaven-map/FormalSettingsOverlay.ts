@@ -6,16 +6,20 @@ import {
   loadGlobalSettings,
   type GlobalSettingsStorage,
 } from '../../systems/GlobalSettingsSystem';
+import {
+  assertVerifiedSettingsPageTruth,
+  getSettingsTruthBounds,
+  getSettingsTruthLocalOffset,
+  getSettingsTruthTextStyle,
+  SettingsTruthObjectIds,
+} from './FormalSettingsPageTruth';
 
 type SettingField = 'difficulty' | 'bgmEnabled' | 'skillSoundEnabled' | 'frameRate';
 
 type ValueRow = Readonly<{
   label: string;
-  labelX: number;
-  labelWidth: number;
+  truth: Readonly<{ label: string; value: string; text: string }>;
   field?: SettingField;
-  x: number;
-  y: number;
   value: () => string;
   message: () => string;
 }>;
@@ -23,41 +27,29 @@ type ValueRow = Readonly<{
 const ValueRows: readonly ValueRow[] = [
   {
     label: '游戏难度：',
-    labelX: 364.85,
-    labelWidth: 139.6,
+    truth: SettingsTruthObjectIds.rows.difficulty,
     field: 'difficulty',
-    x: 501.4,
-    y: 192.8,
     value: () => ['普 通', '困 难', '地 狱'][getGlobalSettings().difficulty]!,
     message: () => '关卡难度已改变',
   },
   {
     label: '背景音效：',
-    labelX: 384.05,
-    labelWidth: 129,
+    truth: SettingsTruthObjectIds.rows.bgmEnabled,
     field: 'bgmEnabled',
-    x: 501.4,
-    y: 237.9,
     value: () => getGlobalSettings().bgmEnabled ? '开 启' : '关 闭',
     message: () => getGlobalSettings().bgmEnabled ? '已开启背景音乐' : '已关闭背景音乐',
   },
   {
     label: '技能音效：',
-    labelX: 352.85,
-    labelWidth: 123.3,
+    truth: SettingsTruthObjectIds.rows.skillSoundEnabled,
     field: 'skillSoundEnabled',
-    x: 501.4,
-    y: 286.1,
     value: () => getGlobalSettings().skillSoundEnabled ? '开 启' : '关 闭',
     message: () => getGlobalSettings().skillSoundEnabled ? '已开启技能音效' : '已关闭技能音效',
   },
   {
     label: '画面质量：',
-    labelX: 352.85,
-    labelWidth: 123.3,
+    truth: SettingsTruthObjectIds.rows.frameRate,
     field: 'frameRate',
-    x: 501.4,
-    y: 334.9,
     value: () => getGlobalSettings().frameRate === 30
       ? '  高'
       : getGlobalSettings().frameRate === 24 ? '  中' : '  低',
@@ -65,10 +57,7 @@ const ValueRows: readonly ValueRow[] = [
   },
   {
     label: '默认音量：',
-    labelX: 352.55,
-    labelWidth: 123.3,
-    x: 500.4,
-    y: 383.65,
+    truth: SettingsTruthObjectIds.rows.defaultVol,
     value: () => '示 例',
     message: () => '开启游戏时默认 示例 音量',
   },
@@ -93,31 +82,57 @@ export class FormalSettingsOverlay {
 
   public open(): void {
     if (this.container) return;
+    assertVerifiedSettingsPageTruth();
+    const rootBounds = getSettingsTruthBounds(SettingsTruthObjectIds.root);
+    const overlayHitBounds = getSettingsTruthBounds(SettingsTruthObjectIds.overlayHit);
     const container = this.scene.add.container(0, 0).setDepth(200);
     this.container = container;
-    container.add(this.scene.add.zone(0, 0, 940, 590).setOrigin(0).setInteractive());
-    container.add(this.scene.add.image(0, 0, settingsUiAssets.root.key).setOrigin(0));
+    container.add(this.scene.add.zone(
+      overlayHitBounds.left,
+      overlayHitBounds.top,
+      overlayHitBounds.width,
+      overlayHitBounds.height,
+    ).setOrigin(0).setInteractive());
+    container.add(this.scene.add.image(
+      rootBounds.left,
+      rootBounds.top,
+      settingsUiAssets.root.key,
+    ).setOrigin(0));
 
     for (const row of ValueRows) {
-      container.add(this.scene.add.text(row.labelX, row.y + 4, row.label, {
-        color: '#ffffff',
-        fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
-        fontSize: '22px',
+      const labelBounds = getSettingsTruthBounds(row.truth.label);
+      const labelStyle = getSettingsTruthTextStyle(row.truth.label);
+      const valueBounds = getSettingsTruthBounds(row.truth.value);
+      const textOffset = getSettingsTruthLocalOffset(row.truth.text);
+      const valueStyle = getSettingsTruthTextStyle(row.truth.text);
+      container.add(this.scene.add.text(labelBounds.left, labelBounds.top, row.label, {
+        color: labelStyle.color,
+        fontFamily: `${labelStyle.fontFamily}, Arial, sans-serif`,
+        fontSize: `${labelStyle.fontSize}px`,
         align: 'center',
-        fixedWidth: row.labelWidth,
+        fixedWidth: labelBounds.width,
       }).setOrigin(0));
-      const text = this.scene.add.text(row.x + 2, row.y + 2, row.value(), {
-        color: '#ffffff',
-        fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
-        fontSize: '25px',
-        fixedWidth: 102,
-      }).setOrigin(0).setInteractive(
-        new Phaser.Geom.Rectangle(-2, -2, 104, 34.1),
+      const text = this.scene.add.text(
+        valueBounds.left + textOffset.x,
+        valueBounds.top + textOffset.y,
+        row.value(), {
+          color: valueStyle.color,
+          fontFamily: `${valueStyle.fontFamily}, Arial, sans-serif`,
+          fontSize: `${valueStyle.fontSize}px`,
+          fixedWidth: valueBounds.width - textOffset.x,
+        },
+      ).setOrigin(0).setInteractive(
+        new Phaser.Geom.Rectangle(
+          -textOffset.x,
+          -textOffset.y,
+          valueBounds.width,
+          valueBounds.height,
+        ),
         Phaser.Geom.Rectangle.Contains,
       );
       text.setData('settings-field', row.field ?? 'defaultVol');
-      text.on('pointerover', () => text.setColor('#ffff00'));
-      text.on('pointerout', () => text.setColor('#ffffff'));
+      text.on('pointerover', () => text.setColor(valueStyle.hoverColor ?? valueStyle.color));
+      text.on('pointerout', () => text.setColor(valueStyle.color));
       text.on('pointerup', () => {
         if (row.field) {
           cycleGlobalSetting(row.field, this.storage);
@@ -129,9 +144,20 @@ export class FormalSettingsOverlay {
       container.add(text);
     }
 
-    const close = this.scene.add.image(590, 131.95, settingsUiAssets.close.up.key)
+    const closeBounds = getSettingsTruthBounds(SettingsTruthObjectIds.close);
+    const closeHitSize = closeBounds.width;
+    const close = this.scene.add.image(
+      closeBounds.left,
+      closeBounds.top,
+      settingsUiAssets.close.up.key,
+    )
       .setOrigin(0)
-      .setInteractive(new Phaser.Geom.Rectangle(0, 2, 40, 40), Phaser.Geom.Rectangle.Contains);
+      .setInteractive(new Phaser.Geom.Rectangle(
+        0,
+        closeBounds.height - closeHitSize,
+        closeHitSize,
+        closeHitSize,
+      ), Phaser.Geom.Rectangle.Contains);
     close.setData('settings-close', true);
     close.on('pointerover', () => close.setTexture(settingsUiAssets.close.over.key));
     close.on('pointerout', () => close.setTexture(settingsUiAssets.close.up.key));

@@ -10,6 +10,16 @@ import {
   loadGlobalSettings,
   type GlobalSettingsStorage,
 } from '../src/systems/GlobalSettingsSystem';
+import {
+  assertVerifiedSettingsPageTruth,
+  getSettingsTruthBounds,
+  getSettingsTruthCharacterId,
+  getSettingsTruthLocalOffset,
+  getSettingsTruthStateIds,
+  getSettingsTruthTextStyle,
+  SettingsPageTruthId,
+  SettingsTruthObjectIds,
+} from '../src/scenes/heaven-map/FormalSettingsPageTruth';
 
 class MemoryStorage implements GlobalSettingsStorage {
   public readonly values = new Map<string, string>();
@@ -26,6 +36,36 @@ class MemoryStorage implements GlobalSettingsStorage {
 const storage = new MemoryStorage();
 activateGlobalSettingsForTests();
 assert.deepEqual(loadGlobalSettings(storage), DefaultGlobalSettings);
+assert.doesNotThrow(() => assertVerifiedSettingsPageTruth());
+assert.equal(SettingsPageTruthId, 'task-settings-175g.settings-page');
+assert.equal(getSettingsTruthStateIds().length, 23);
+assert.equal(getSettingsTruthCharacterId(SettingsTruthObjectIds.root), 148);
+assert.equal(getSettingsTruthCharacterId(SettingsTruthObjectIds.overlay), 134);
+assert.equal(getSettingsTruthCharacterId(SettingsTruthObjectIds.overlayHit), 133);
+assert.equal(getSettingsTruthCharacterId(SettingsTruthObjectIds.close), 144);
+assert.deepEqual(getSettingsTruthBounds(SettingsTruthObjectIds.overlayHit), {
+  left: 0, top: 0, width: 940, height: 590,
+});
+assert.deepEqual(getSettingsTruthBounds(SettingsTruthObjectIds.rows.difficulty.label), {
+  left: 364.85, top: 196.8, width: 139.689, height: 36.4,
+});
+assert.deepEqual(getSettingsTruthBounds(SettingsTruthObjectIds.rows.defaultVol.value), {
+  left: 500.4, top: 383.65, width: 104, height: 34.1,
+});
+assert.deepEqual(getSettingsTruthBounds(SettingsTruthObjectIds.close), {
+  left: 590, top: 131.95, width: 40, height: 42,
+});
+assert.deepEqual(getSettingsTruthLocalOffset(SettingsTruthObjectIds.rows.difficulty.text), {
+  x: 2, y: 2,
+});
+assert.deepEqual(getSettingsTruthTextStyle(SettingsTruthObjectIds.rows.difficulty.text), {
+  fontFamily: 'FZCuYuan-M03',
+  fontSize: 25,
+  color: '#ffffff',
+  hoverColor: '#ffff00',
+  dynamic: true,
+  source: 'gameSetting.refreshTxt.difficulty',
+});
 
 assert.equal(cycleGlobalSetting('difficulty', storage).difficulty, 1);
 assert.equal(cycleGlobalSetting('difficulty', storage).difficulty, 2);
@@ -60,6 +100,10 @@ const overlaySource = readFileSync(
   path.join(repoRoot, 'src/scenes/heaven-map/FormalSettingsOverlay.ts'),
   'utf8',
 );
+const truthSource = readFileSync(
+  path.join(repoRoot, 'src/scenes/heaven-map/FormalSettingsPageTruth.ts'),
+  'utf8',
+);
 const mapSource = readFileSync(path.join(repoRoot, 'src/scenes/HeavenMapScene.ts'), 'utf8');
 const manifestSource = readFileSync(path.join(repoRoot, 'src/assets/AssetManifest.ts'), 'utf8');
 const bundleSource = readFileSync(path.join(repoRoot, 'src/assets/SceneAssetBundles.ts'), 'utf8');
@@ -71,8 +115,14 @@ const rootSvg = readFileSync(
 assert.match(mapSource, /new FormalSettingsOverlay/);
 assert.match(mapSource, /settingsOverlay\?\.open\(\)/);
 assert.match(mapSource, /263\.95,\s*508,\s*66,\s*66/);
-assert.match(overlaySource, /new Phaser\.Geom\.Rectangle\(-2,\s*-2,\s*104,\s*34\.1\)/);
-assert.match(overlaySource, /add\.zone\(0,\s*0,\s*940,\s*590\).*setInteractive\(\)/);
+assert.match(overlaySource, /assertVerifiedSettingsPageTruth/);
+assert.match(overlaySource, /getSettingsTruthBounds/);
+assert.match(overlaySource, /getSettingsTruthLocalOffset/);
+assert.match(overlaySource, /getSettingsTruthTextStyle/);
+assert.doesNotMatch(overlaySource, /(?:364\.85|384\.05|352\.85|501\.4|500\.4|383\.65|34\.1)/);
+assert.doesNotMatch(overlaySource, /text\.on\('pointerdown'/);
+assert.match(truthSource, /task-settings-175g-settings-page\.json/);
+assert.match(truthSource, /displayObjects\.find/);
 assert.match(overlaySource, /'示 例'/);
 for (const label of ['游戏难度：', '背景音效：', '技能音效：', '画面质量：', '默认音量：']) {
   assert.match(overlaySource, new RegExp(label));
