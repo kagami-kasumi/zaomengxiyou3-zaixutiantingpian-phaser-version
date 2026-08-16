@@ -234,3 +234,21 @@ ID 27/28/29 的可见描述分别写“高友乾/杨森/王魔”，但进度行
 - 43 个日常的目标、producer、候选奖励、完成、随机领取、双玩家副作用、同日恢复和跨日重置已闭合。
 - 4 个活动是“构造但未入数组”的休眠定义；103/104 还缺完成分支。当前版本可忠实离线复现的活动页是空页，不是四个可领取任务。
 - 影响 `TASK-SLICE-155D` 的原版事实未知为零；活动复活和 P2 经验 bug 修正属于未来产品裁决，不伪装成原版事实。
+
+## TASK-SETTINGS-175H 机器真值迁移
+
+2026-08-16 将上述旧审计机械升级为 `task-settings-175h.task-page` verified manifest：
+
+- 恢复源仍为 SHA-256 `70C1F1B535EA789AD9C77556F90C7C107084278A4D1773E31471F2B4D7454936` 的
+  `assets/backpack1.swf` character 85；生成器断言 21 个根 child，并逐帧核对 60/73 嵌套显示列表。
+- 45 个 scoped 对象覆盖五个 tile 的底图/任务名、四个奖励格的底图/名称、31/78/83 四态、
+  character 9 已领取图和 0..4 个运行时奖励图；28 个状态覆盖 daily/activity、selected、完成未领/已领、
+  末页三行、隐藏 selectId 陈旧右栏、空活动陈旧领取、P1/P2、关闭/重开。
+- 940×590 原版结构基准统一裁去 FFDec 的 0.05 px 右缘；动态文字、帧切换、隐藏行和动态 child
+  由 AS3 fixture 与逐帧 Symbol 交叉确认，静态 PNG 不冒充运行态截图。
+- manifest、证据矩阵和回测入口分别位于
+  `ground-truth/manifests/task-settings-175h-task-page.json`、
+  `evidence/TASK-SETTINGS-175H-task-page.md` 与 `npm run test:task-page-truth`；`unresolved=[]`。
+
+这只解除任务页现代直连的证据债务。`TaskScene` 删除手写视觉真值、同尺寸逐态差异和正式运行验收
+由 `TASK-SLICE-186` 完成；本次未修改任务定义、奖励、party owner、存档或 `src/`。

@@ -149,6 +149,12 @@ character 148 生成 `task-settings-175g.settings-page` verified manifest，闭�
 关闭/重开与原版非存档边界，`unresolved=[]`。跨重启仍只是独立全局现代例外；现代直接消费待
 `TASK-SLICE-185`，M-035/M-052 与 VS-059 状态不提前提升。
 
+M-044/M-046/M-052/VS-059 任务页真值补充：`TASK-SETTINGS-175H` 已从恢复源 `backpack1.swf`
+character 85 生成 `task-settings-175h.task-page` verified manifest，闭合 45 对象、28 状态、21 个根
+child、五个任务行、四个奖励格、三组按钮、动态已领取/0..4 奖励、daily/activity、末页/空活动
+残留、P1/P2 与关闭/重开，`unresolved=[]`。这只解除任务页证据债务；现代直接消费和逐状态差异
+仍待 `TASK-SLICE-186`，M-044/M-046/M-052 与 VS-059 状态不提前提升。
+
 M-035/M-043/M-052 法宝页真值补充：`TASK-SETTINGS-175B` 已从恢复源 `backpack1.swf`
 character 596 生成 `task-settings-175b.magic-weapon-page` verified manifest，闭合 17 个根 child、
 character 200/34 动态确认、28 对象、21 状态、按钮三态/命中、九字段、灵魂条、升级/拒绝/取消、

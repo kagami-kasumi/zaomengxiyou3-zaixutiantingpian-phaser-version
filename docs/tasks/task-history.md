@@ -10634,3 +10634,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-175H`：只将任务 85 页面族旧审计机械升级为当前 manifest，不进入设置或任务实现。
+
+### TASK-SETTINGS-175H
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-175I`）。
+- 恢复源 `assets/backpack1.swf` SHA-256 `70C1F1B535EA789AD9C77556F90C7C107084278A4D1773E31471F2B4D7454936` 的 character 85 已由 FFDec SVG、既有 066D 深审计与任务页 AS3 调用链交叉核对：21 个根 child、五个 60、四个 73、31/78/83 四态、动态 character 9 与奖励图全部进入显示列表。
+- 新增 `task-settings-175h.task-page` verified manifest：45 个 scoped display object、28 个状态、28 张 940×590 恢复源结构基准；覆盖 daily/activity、normal/hover/pressed/selected、完成未领/已领、0..4 奖励、末页三行/隐藏 selectId 残留、空活动陈旧详情、P1/P2、关闭/重开，`unresolved=[]`。
+- 新增可重复生成/回测入口 `generate:task-page-baselines`、`generate:task-page-truth`、`test:task-page-truth`，并生成 `TASK-SLICE-186`（Planned）作为 manifest 直连、手写视觉真值删除和逐状态运行差异合同。
+- 本 task 未修改 `src/`、43 条任务、奖励事务、party owner 或存档；P2 EXP 修正与即时保存继续作为既有现代行为差异，不新增可见对象。实际保持两个主工作包、两个验收批次、0 compact。
+
+验证：
+- `npm run test:task-page-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-175I`：只将建档/选角 1149/901 旧审计机械升级为当前 manifest，不提前进入任务页或建档实现。
