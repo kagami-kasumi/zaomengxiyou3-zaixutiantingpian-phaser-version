@@ -322,7 +322,18 @@ P1 键槽显示 frame 1，P2 显示 frame 2；显示位置仍是 Y/U/I/O/L 五�
 - 稳定静态区域做像素或边缘差异；动态数值区单独 mask。允许字体抗锯齿/栅格化容差，但文字矩形、基线、颜色、对齐和是否存在不容差。
 - 任一现代矩形、标题、通用按钮、错误 selected 帧或错误层级都记为失败，不能以路由/业务测试通过替代。
 
-## 12. 未知与实现门禁结论
+## 12. `TASK-SETTINGS-175D` 机器真值迁移
+
+2026-08-16 已将本文旧视觉审计机械升级为当前 Schema 的 `verified` manifest：
+
+- truthId：`task-settings-175d.skill-pages`；路径：`ground-truth/manifests/task-settings-175d-skill-pages.json`。
+- 恢复源仍为同一 `OtherMat1.swf` SHA-256；生成器直接解析 SWF PlaceObject，并与本轮 FFDec SVG 逐帧交叉核对，不读取现代 TypeScript 坐标。
+- 250 个 scoped display object、32 个状态、15 张 940×590 恢复源结构基准；250/868/417/213 根显示列表、五角色 selector、212 五行、865 十树、50 个主动技能图标三帧、七类按钮、P1/P2 绑定、被动字段与返回均纳入。
+- `/completeness/unresolved=[]`；详细六段矩阵、反证条件和差异入口见 `evidence/TASK-SETTINGS-175D-skill-pages.md`。
+
+这只关闭 manifest 债务。现代 `FormalSkillPageView` 的直接消费和逐状态运行回测仍由后续 `TASK-SLICE-183` 完成；在该任务归档前，`VS-055` 不恢复“已完成”。
+
+## 13. 未知与实现门禁结论
 
 非阻塞事实边界：
 

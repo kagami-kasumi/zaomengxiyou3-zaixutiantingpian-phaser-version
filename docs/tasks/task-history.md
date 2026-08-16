@@ -10574,3 +10574,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-175D`：只将技能 250/868/417/213 旧审计机械升级为当前 manifest，不提前进入宿主或页内实现。
+
+### TASK-SETTINGS-175D
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-175E`）。
+- 恢复源 `assets/OtherMat1.swf` SHA-256 `97478E1E03A22C7D06197FFB75AB890D98B084377CBDCF394716CBAF27082126` 的 250/868/417/213 已由本轮 FFDec SVG/PNG/button 与生成器直接解析的 SWF PlaceObject 逐帧交叉核对；四页根分别为 5/14/8/6 个 child，212 五个被动行各 6 个 child，865 十树为 16/17/16×8 个 child。
+- 新增 `task-settings-175d.skill-pages` verified manifest：250 个 scoped display object、32 个状态、15 张 940×590 恢复源结构基准；覆盖五角色 selector、七类按钮、角色 selected、十树、50 个主动图标各 3 帧、绑定 P1/P2/拖放/回退/关闭提交、被动动态字段/满级隐藏与进入/返回，`unresolved=[]`。
+- 新增可重复生成/回测入口 `generate:skill-pages-baselines`、`generate:skill-pages-truth`、`test:skill-pages-truth`，并生成 `TASK-SLICE-183`（Planned）作为 manifest 直连、现代覆盖删除和逐状态运行差异合同。
+- 本 task 未修改 `src/`、技能业务、owner 或存档；允许的新增可见现代例外为空。实际保持两个主工作包、两个验收批次、0 compact。
+
+验证：
+- `npm run test:skill-pages-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-175E`：只将丹药 990/969/1006 旧审计机械升级为当前 manifest，不提前进入技能或其他功能页实现。

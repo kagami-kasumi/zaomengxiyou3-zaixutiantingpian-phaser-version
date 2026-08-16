@@ -36,7 +36,7 @@
 | 左下五入口 | 原生按钮与共享 router 已有；175C 已闭合 574/371/444 的 25 对象/42 状态 verified 真值 | 宿主实现仍需直接消费真值并删除地图态未批准 chrome；`TASK-SLICE-182` Planned | 175C manifest/证据矩阵；后续五按钮 P1/P2、门禁、打开/关闭/返回的 pointer 与视觉回测 |
 | UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
 | 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173/173A 已闭合影分身 verified 真值、共享状态机/视觉、正式输入/目标/弹体/销毁与 P1/P2 owner | 已关闭：174 生成 detached 普攻 verified 空间真值并建立唯一几何 owner；Role5 projectile 恢复二维命中并委托共享结算 | 共享消费者一致性、X/Y 边界、重复/死亡/P1/P2 专项与 940×590 单/双人零 console |
-| 功能 UI 真值债务 | 宠物 932、法宝 596、宿主 574/371/444 已分别生成 74/28/25 对象与 16/21/42 状态 verified 真值；其余页面有旧显示列表/视觉审计和业务回归 | 宠物/法宝现代实现与地图 host chrome 仍为明确现代占位；技能等其余页面为旧审计 manifest 迁移债务；TASK-SLICE-180/181/182 已 Planned | 175 审计、175A/B/C evidence 与 175D..I 逐页链；manifest verified 后才进入单页/宿主实现 |
+| 功能 UI 真值债务 | 宠物 932、法宝 596、宿主 574/371/444、技能 250/868/417/213 已分别生成 verified 真值；技能为 250 对象/32 状态、五角色 selector、50 图标×3 帧 | 宠物/法宝现代实现与地图 host chrome 仍为明确现代占位；技能现代 view 尚未直连 manifest；丹药等其余页面仍为旧审计迁移债务；TASK-SLICE-180..183 已 Planned | 175 审计、175A..D evidence 与 175E..I 逐页链；manifest verified 后才进入单页/宿主实现 |
 
 ## 当前调度
 
@@ -63,7 +63,8 @@
 21. `TASK-SETTINGS-175A`：Done；`task-settings-175a.pet-page` 已闭合 74 对象、16 状态、940×590 基准、P1/P2/两页/selected/技能/确认/洗练/进化/关闭，`unresolved=[]`；生成 `TASK-SLICE-180`（Planned）。
 22. `TASK-SETTINGS-175B`：Done；`task-settings-175b.magic-weapon-page` 已闭合 17 个根 child、200/34 动态确认、28 对象、21 状态、940×590 基准、九字段/按钮态/升级/拒绝/取消/重置/P2 无入口/关闭，`unresolved=[]`；生成 `TASK-SLICE-181`（Planned）。
 23. `TASK-SETTINGS-175C`：Done；25 对象/42 状态 verified 宿主真值与地图态无共享 chrome 负向差异已闭合，生成 `TASK-SLICE-182`（Planned）。
-24. `TASK-SETTINGS-175D`：Ready；只将技能 250/868/417/213 旧审计机械升级为当前 manifest。175E..I/180..182 均为同线 Planned。
+24. `TASK-SETTINGS-175D`：Done；250 对象/32 状态、五角色 selector、50 主动图标×3 帧、P1/P2 绑定与被动字段已由 verified 真值闭合，生成 `TASK-SLICE-183`（Planned）。
+25. `TASK-SETTINGS-175E`：Ready；只将丹药 990/969/1006 旧审计机械升级为当前 manifest。175F..I/180..183 均为同线 Planned。
 
 ## 明确排除
 
