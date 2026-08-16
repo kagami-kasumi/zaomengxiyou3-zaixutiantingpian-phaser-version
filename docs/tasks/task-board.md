@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-ARCH-174` 是唯一 Ready 游戏 task；Role1 影分身的 verified 状态机、TestScene 薄适配与正式五关 Runtime 已闭合，下一步收敛普攻几何 owner 与 Role5 二维弹体结算。
+`TASK-SETTINGS-175` 是唯一 Ready 游戏 task；普攻几何/Role5 弹体纠错已闭合，下一步分级功能页实际占位、旧视觉审计与 verified 真值债务。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-174 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 普攻几何/Role5 命中纠错 | 收敛世界特效普攻几何 owner，修复 Role5 移动弹体二维命中与重复结算 | M-022、M-034、VS-062 | 唯一几何数据源、共享结算委托、二维边界回归 | 恢复同线下一缺口 | [定义](task-definitions/TASK-ARCH-174.md) |
-| TASK-SETTINGS-175 | Planned | LINE-CORE-PROGRESSION-COMPLETION | 功能 UI 真值债务审计 | 区分实际占位、旧视觉审计与 verified 真值，纠正越级切片状态并按页拆分 | M-035、M-052、VS-054、VS-055、VS-059 | 逐页证据等级、显示列表/基准/真值计划与页面级任务入口 | 依据清单生成单页逆向/实现 task | [定义](task-definitions/TASK-SETTINGS-175.md) |
+| TASK-SETTINGS-175 | Ready | LINE-CORE-PROGRESSION-COMPLETION | 功能 UI 真值债务审计 | 区分实际占位、旧视觉审计与 verified 真值，纠正越级切片状态并按页拆分 | M-035、M-052、VS-054、VS-055、VS-059 | 逐页证据等级、显示列表/基准/真值计划与页面级任务入口 | 依据清单生成单页逆向/实现 task | [定义](task-definitions/TASK-SETTINGS-175.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 待当前成长/UI 完成线关闭后恢复 | [定义](task-definitions/TASK-SETTINGS-064.md) |
 | TASK-ARCH-010A | Planned | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B | [定义](task-definitions/TASK-ARCH-010A.md) |
 | TASK-ARCH-010B | Planned | LINE-MONSTER-ARCH | 怪物定义/行为集成 | 将 DefinitionCatalog、Brain 与 Targeting 接入 PG-013 已建立的唯一怪物注册表，并在普通怪+Boss 关卡验证 | M-030、VS-007、VS-056 | 既有 Registry 的定义/Brain 接缝、兼容回归与后续策略迁移清单 | 依据试点生成同线策略迁移 task | [定义](task-definitions/TASK-ARCH-010B.md) |

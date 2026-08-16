@@ -1,0 +1,455 @@
+{
+  "$schema": "../schema/ui-ground-truth.schema.json",
+  "schemaVersion": 1,
+  "truthId": "task-arch-174.normal-attack-spatial",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-ARCH-174",
+    "surfaceId": "detached-normal-attack-world-effects",
+    "originalVersion": "RegiMA 1.1 restored corpus",
+    "description": "Four detached normal-attack effect release offsets, local visible/collision bounds and canonical stage projection. Runtime direction mirroring and damage settlement remain behavior contracts tested separately."
+  },
+  "generatedBy": {
+    "tool": "generate-normal-attack-spatial-ground-truth.mjs",
+    "toolVersion": "1",
+    "command": "npm run generate:normal-attack-spatial-truth",
+    "generatedAt": "2026-08-15T20:00:00+08:00"
+  },
+  "provenance": [
+    {
+      "id": "role2-swf",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/TangSeng1.swf",
+      "sha256": "5a3deedd551ebca5026f04ee2ca75abecbc5c8b5837cbc615e09e36bd8855187",
+      "locator": "TangSeng1.swf characters 274/232; Role2Bullet1/2 restored visual source"
+    },
+    {
+      "id": "role4-swf",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/ShaShen.swf",
+      "sha256": "721382af64a6b12a6d5087d5a05a6a7e577fe4423b666f4e1f16355b59831440",
+      "locator": "ShaShen.swf characters 68/71; Role4BulletArrow1/2 restored visual source"
+    },
+    {
+      "id": "role2-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role2.as",
+      "sha256": "cdfea276e85d4d8cc619fb6ca33901cbe2e7d42afd02b2bf5738acbdab16cf3b",
+      "locator": "hit1/hit2 release points and detached SpecialEffectBullet construction"
+    },
+    {
+      "id": "role4-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role4.as",
+      "sha256": "66b6456edf846f6878cec085f48245d15de2ead742a46262e5b9b3faf6832705",
+      "locator": "arrow hit1/hit3 release points and detached SpecialEffectBullet construction"
+    },
+    {
+      "id": "role2-hit1-baseline",
+      "sourceType": "runtime-capture",
+      "sourcePath": "public/assets/combat/role2/skills/DefineSprite_274_Role2Bullet1/1.png",
+      "sha256": "376687980840f9ecf3bdffb13ec1341a3379a007a6d91e2ca6aa0e95a1c4b7f7",
+      "locator": "Role2Bullet1 restored first-frame export and local visible bounds"
+    },
+    {
+      "id": "role2-hit2-baseline",
+      "sourceType": "runtime-capture",
+      "sourcePath": "public/assets/combat/role2/skills/DefineSprite_232_Role2Bullet2/1.png",
+      "sha256": "7862aa8e85ff2eb5a1f0a33cf9caa5ad58febb90b63cae0a8b9077a7c1b4703e",
+      "locator": "Role2Bullet2 restored first-frame export and local visible bounds"
+    },
+    {
+      "id": "role4-arrow-hit1-baseline",
+      "sourceType": "runtime-capture",
+      "sourcePath": "public/assets/combat/role4/skills/DefineSprite_68_Role4BulletArrow1/1.svg",
+      "sha256": "676e8764be896d7fdfae6887f98e7ab78b9aef86878d85bfcd14263ceea59fd4",
+      "locator": "Role4BulletArrow1 restored first-frame export and local visible bounds"
+    },
+    {
+      "id": "role4-arrow-hit3-baseline",
+      "sourceType": "runtime-capture",
+      "sourcePath": "public/assets/combat/role4/skills/DefineSprite_71_Role4BulletArrow2/1.svg",
+      "sha256": "9dbac8ca84ed68722e82641d433645ce4677263147be1181289de463e3ed5835",
+      "locator": "Role4BulletArrow2 restored first-frame export and local visible bounds"
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 30,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "top-left"
+  },
+  "states": [
+    {
+      "id": "role2-hit1",
+      "entry": "Role2Bullet1 detached SpecialEffectBullet release; canonical right-facing fixture",
+      "frame": 1,
+      "fixtureId": "heroFoot=(470,350); stage=940x590; facing=right",
+      "baselineId": "baseline-role2-hit1"
+    },
+    {
+      "id": "role2-hit2",
+      "entry": "Role2Bullet2 detached SpecialEffectBullet release; canonical right-facing fixture",
+      "frame": 1,
+      "fixtureId": "heroFoot=(470,350); stage=940x590; facing=right",
+      "baselineId": "baseline-role2-hit2"
+    },
+    {
+      "id": "role4-arrow-hit1",
+      "entry": "Role4BulletArrow1 detached SpecialEffectBullet release; canonical right-facing fixture",
+      "frame": 1,
+      "fixtureId": "heroFoot=(470,350); stage=940x590; facing=right",
+      "baselineId": "baseline-role4-arrow-hit1"
+    },
+    {
+      "id": "role4-arrow-hit3",
+      "entry": "Role4BulletArrow2 detached SpecialEffectBullet release; canonical right-facing fixture",
+      "frame": 1,
+      "fixtureId": "heroFoot=(470,350); stage=940x590; facing=right",
+      "baselineId": "baseline-role4-arrow-hit3"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "role2-hit1",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "role2Swf",
+        "characterId": 274,
+        "symbolClass": "Role2Bullet1",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "role2-hit1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 50,
+            "ty": 10
+          },
+          "registrationPoint": {
+            "x": 493,
+            "y": 94.95
+          },
+          "localBounds": {
+            "left": -493,
+            "top": -94.95,
+            "width": 591.5,
+            "height": 179.4
+          },
+          "stageBounds": {
+            "left": 42,
+            "top": 215.05,
+            "width": 591.5,
+            "height": 179.4
+          },
+          "hitArea": {
+            "left": -493,
+            "top": -94.95,
+            "width": 591.5,
+            "height": 179.4
+          },
+          "derivation": "calculated",
+          "derivationMethod": "localMatrix tx/ty is AS3 release offset (50,10); localBounds is restored frame geometry; stageBounds uses hero visual root footY-50 and Role2 +15 local X",
+          "evidenceRefs": [
+            "role2Swf",
+            "role2As",
+            "role2-hit1-baseline"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/combat/role2/skills/DefineSprite_274_Role2Bullet1/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "role2-hit2",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "role2Swf",
+        "characterId": 232,
+        "symbolClass": "Role2Bullet2",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "role2-hit2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 50,
+            "ty": 10
+          },
+          "registrationPoint": {
+            "x": 1289,
+            "y": 130
+          },
+          "localBounds": {
+            "left": -1289,
+            "top": -130,
+            "width": 1414,
+            "height": 258.9
+          },
+          "stageBounds": {
+            "left": -754,
+            "top": 180,
+            "width": 1414,
+            "height": 258.9
+          },
+          "hitArea": {
+            "left": -1289,
+            "top": -130,
+            "width": 1414,
+            "height": 258.9
+          },
+          "derivation": "calculated",
+          "derivationMethod": "localMatrix tx/ty is AS3 release offset (50,10); localBounds is restored frame geometry; stageBounds uses hero visual root footY-50 and Role2 +15 local X",
+          "evidenceRefs": [
+            "role2Swf",
+            "role2As",
+            "role2-hit2-baseline"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/combat/role2/skills/DefineSprite_232_Role2Bullet2/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "role4-arrow-hit1",
+      "parentId": null,
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "role4Swf",
+        "characterId": 68,
+        "symbolClass": "Role4BulletArrow1",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "role4-arrow-hit1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 90,
+            "ty": 0
+          },
+          "registrationPoint": {
+            "x": 374.4,
+            "y": 44
+          },
+          "localBounds": {
+            "left": -374.4,
+            "top": -44,
+            "width": 533.4,
+            "height": 108
+          },
+          "stageBounds": {
+            "left": 185.60000000000002,
+            "top": 256,
+            "width": 533.4,
+            "height": 108
+          },
+          "hitArea": {
+            "left": -374.4,
+            "top": -44,
+            "width": 533.4,
+            "height": 108
+          },
+          "derivation": "calculated",
+          "derivationMethod": "localMatrix tx/ty is AS3 release offset (90,0); localBounds is restored frame geometry; stageBounds uses hero visual root footY-50 and Role2 +15 local X",
+          "evidenceRefs": [
+            "role4Swf",
+            "role4As",
+            "role4-arrow-hit1-baseline"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/combat/role4/skills/DefineSprite_68_Role4BulletArrow1/1.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "role4-arrow-hit3",
+      "parentId": null,
+      "depth": 3,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "role4Swf",
+        "characterId": 71,
+        "symbolClass": "Role4BulletArrow2",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "role4-arrow-hit3",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 115,
+            "ty": -20
+          },
+          "registrationPoint": {
+            "x": 366.1,
+            "y": 150.65
+          },
+          "localBounds": {
+            "left": -366.1,
+            "top": -150.65,
+            "width": 535.9,
+            "height": 285.55
+          },
+          "stageBounds": {
+            "left": 218.89999999999998,
+            "top": 129.35,
+            "width": 535.9,
+            "height": 285.55
+          },
+          "hitArea": {
+            "left": -366.1,
+            "top": -150.65,
+            "width": 535.9,
+            "height": 285.55
+          },
+          "derivation": "calculated",
+          "derivationMethod": "localMatrix tx/ty is AS3 release offset (115,-20); localBounds is restored frame geometry; stageBounds uses hero visual root footY-50 and Role2 +15 local X",
+          "evidenceRefs": [
+            "role4Swf",
+            "role4As",
+            "role4-arrow-hit3-baseline"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "public/assets/combat/role4/skills/DefineSprite_71_Role4BulletArrow2/1.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "baseline-role2-hit1",
+      "stateId": "role2-hit1",
+      "path": "public/assets/combat/role2/skills/DefineSprite_274_Role2Bullet1/1.png",
+      "sha256": "376687980840f9ecf3bdffb13ec1341a3379a007a6d91e2ca6aa0e95a1c4b7f7",
+      "width": 592,
+      "height": 180,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 591.5,
+        "height": 179.4
+      }
+    },
+    {
+      "id": "baseline-role2-hit2",
+      "stateId": "role2-hit2",
+      "path": "public/assets/combat/role2/skills/DefineSprite_232_Role2Bullet2/1.png",
+      "sha256": "7862aa8e85ff2eb5a1f0a33cf9caa5ad58febb90b63cae0a8b9077a7c1b4703e",
+      "width": 1414,
+      "height": 259,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1414,
+        "height": 258.9
+      }
+    },
+    {
+      "id": "baseline-role4-arrow-hit1",
+      "stateId": "role4-arrow-hit1",
+      "path": "public/assets/combat/role4/skills/DefineSprite_68_Role4BulletArrow1/1.svg",
+      "sha256": "676e8764be896d7fdfae6887f98e7ab78b9aef86878d85bfcd14263ceea59fd4",
+      "width": 534,
+      "height": 108,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 533.4,
+        "height": 108
+      }
+    },
+    {
+      "id": "baseline-role4-arrow-hit3",
+      "stateId": "role4-arrow-hit3",
+      "path": "public/assets/combat/role4/skills/DefineSprite_71_Role4BulletArrow2/1.svg",
+      "sha256": "9dbac8ca84ed68722e82641d433645ce4677263147be1181289de463e3ed5835",
+      "width": 536,
+      "height": 286,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 535.9,
+        "height": 285.55
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "role2-hit1",
+      "role2-hit2",
+      "role4-arrow-hit1",
+      "role4-arrow-hit3"
+    ],
+    "extractedStateIds": [
+      "role2-hit1",
+      "role2-hit2",
+      "role4-arrow-hit1",
+      "role4-arrow-hit3"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "role2-hit1": 1,
+      "role2-hit2": 1,
+      "role4-arrow-hit1": 1,
+      "role4-arrow-hit3": 1
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "role2-swf",
+    "role4-swf",
+    "role2-as",
+    "role4-as",
+    "role2-hit1-baseline",
+    "role2-hit2-baseline",
+    "role4-arrow-hit1-baseline",
+    "role4-arrow-hit3-baseline"
+  ]
+}

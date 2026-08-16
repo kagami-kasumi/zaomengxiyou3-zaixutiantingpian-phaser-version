@@ -74,7 +74,9 @@ Role5 没有 Role2/3/4 的角色总系数，直接乘技能自身系数。除 `l
 | --- | --- | --- | --- | --- | --- | --- |
 | 龙魂剑前三段生成 | `Role5.as hit18..20 -> doLoongHit123` | `HeroNormalAttackSystem -> Role5NormalAttackProjectileSystem -> ProjectileSystem`；正式关卡由HeroPartyRuntime消费，TestScene调用同一生成函数 | 现代foot/root映射后创建点为前方54.8/50.2/43.5，foot y偏移1.6/-12.65/2.7；真资源注册点沿用Role5视觉索引 | 交叉确认 | 普通剑态与hit21继续Follow；若未来证据改变hero root映射需重跑坐标专项 | 三段身份、普通/第四段负向、正式Runtime调度、940×590观察 |
 | EnemyMove逐帧轨迹 | `setSpeed(±8,0)`、`setAddSpeed(±2.4,0)`、`setDistance(700)`；`EnemyMoveBullet.step`先移动再加速并扣距离 | `ProjectileSystem.updateProjectiles`按60fps子步执行相同顺序 | 首帧位移8、速度变10.4、剩余689.6；第21帧销毁，显示原点累计移动672 | 交叉确认 | 大delta拆成不超过1帧子步；不引入第二projectile owner | 左右、逐帧速度/加速度、700距离与结束位置 |
-| 轨迹命中与owner | `BaseBullet.setAction(hit18_1..20_1)`，三段attackInterval=999/hitMaxCount=999 | 共享HitRegistry按projectile attack id逐目标去重，正式/TestScene沿实际projectile hitbox结算 | 反向与范围外不命中；近/远目标仅在剑气经过时命中 | 交叉确认 | 原版像素级复杂碰撞仍沿项目矩形等价边界；不影响移动轨迹与远端命中结论 | 近/远/反向/范围外、重复重叠一次、P1/P2隔离 |
+| 轨迹命中与owner | `BaseBullet.checkAttack -> BaseMonster.beMagicAttack` 使用 `AUtils.testIntersects + HitTest.complexHitTestObject`；三段 attackInterval=999/hitMaxCount=999 | projectile 只提交二维 overlap；共享 `resolveStage1HeroHit` 统一处理 HitRegistry、防御、伤害、硬直/死亡、`lastHitBy` 和审计 | 反向/范围外/同 X 上下分离不命中；近/远目标仅在剑气经过时命中 | 交叉确认 | 原版像素级复杂碰撞继续映射为项目既有矩形/目标点等价边界；禁止退化回 X-only 或复制结算 | 近/远/X-Y 边界、多目标、重复 resolve、死亡、P1/P2 隔离 |
+
+`TASK-ARCH-174` 已关闭 164 留下的二维命中与结算 owner 缺口：Role5 projectile 不再复制 `Stage1CombatSystem` 的防御、伤害事件、hurt/dead、奖励归属和审计写入；同 X 但 Y 完全分离的目标由专项明确拒绝。适用空间真值为 `task-arch-174.normal-attack-spatial`；Role5 的原版像素级 `complexHitTestObject` 仍按既有矩形/目标点现代等价边界实现，不冒充逐像素复刻。
 
 ## 5. 伤害和状态边界
 

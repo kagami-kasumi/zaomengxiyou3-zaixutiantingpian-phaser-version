@@ -1,6 +1,9 @@
 import { HeroNormalAttackEffectKeys } from '../assets/AssetManifest';
 import type { ActiveHeroNormalAttack } from '../systems/HeroNormalAttackSystem';
-import { shouldFlipNormalAttackEffect } from '../systems/HeroNormalAttackGeometry';
+import {
+  getWorldNormalAttackGeometry,
+  shouldFlipNormalAttackEffect,
+} from '../systems/HeroNormalAttackGeometry';
 
 export const HeroVisualRootHeight = 100;
 
@@ -35,16 +38,12 @@ const normalAttackVisualOffsets: Readonly<Record<string, VisualOffset>> = {
   [HeroNormalAttackEffectKeys.role1Hit3]: { forward: 30, y: -110 },
   [HeroNormalAttackEffectKeys.role1Hit4]: { forward: 160, y: -10 },
   [HeroNormalAttackEffectKeys.role1Hit5]: { forward: 165, y: -20 },
-  [HeroNormalAttackEffectKeys.role2Hit1]: { forward: 50, y: 10 },
-  [HeroNormalAttackEffectKeys.role2Hit2]: { forward: 50, y: 10 },
   [HeroNormalAttackEffectKeys.role3Hit1]: { forward: 130, y: -72 },
   [HeroNormalAttackEffectKeys.role3Hit2]: { forward: 140, y: -30 },
   [HeroNormalAttackEffectKeys.role3Hit3]: { forward: 180, y: -140 },
   [HeroNormalAttackEffectKeys.role4ShovelHit1]: { forward: 20, y: 30 },
   [HeroNormalAttackEffectKeys.role4ShovelHit2]: { forward: 15, y: 0 },
   [HeroNormalAttackEffectKeys.role4ShovelHit3]: { forward: 0, y: 0 },
-  [HeroNormalAttackEffectKeys.role4ArrowHit1]: { forward: 90, y: 0 },
-  [HeroNormalAttackEffectKeys.role4ArrowHit3]: { forward: 115, y: -20 },
   [HeroNormalAttackEffectKeys.role5SpearHit1]: { forward: 37, y: 43 },
   [HeroNormalAttackEffectKeys.role5SpearHit2]: { forward: 57, y: 49 },
   [HeroNormalAttackEffectKeys.role5SpearHit3]: { forward: 187, y: 49 },
@@ -63,7 +62,10 @@ export function projectNormalAttackVisualPoint(
   footX: number,
   footY: number,
 ): Readonly<{ x: number; y: number }> {
-  const offset = normalAttackVisualOffsets[attack.effectKey] ?? { forward: 0, y: 0 };
+  const worldGeometry = getWorldNormalAttackGeometry(attack.effectKey);
+  const offset = worldGeometry
+    ? { forward: worldGeometry.forward, y: worldGeometry.rootOffsetY }
+    : normalAttackVisualOffsets[attack.effectKey] ?? { forward: 0, y: 0 };
   const root = projectHeroCombatVisualRootPoint(attack.heroId, footX, footY);
   return {
     x: root.x + attack.facingX * offset.forward,

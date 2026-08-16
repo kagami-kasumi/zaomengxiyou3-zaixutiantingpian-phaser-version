@@ -16,11 +16,11 @@ import type {
 } from './ProjectileTypes';
 import type { ActiveHeroNormalAttack } from './HeroNormalAttackSystem';
 import {
-  calculateStage1HeroDamage,
+  resolveStage1HeroHit,
   type Stage1CombatEnemy,
   type Stage1CombatRuntime,
 } from './Stage1CombatSystem';
-import { createDamageEvent, resolveHitOnce, type DamageEvent } from './CombatSystem';
+import type { DamageEvent } from './CombatSystem';
 
 type LoongSwordAction = 'hit18' | 'hit19' | 'hit20';
 
@@ -74,36 +74,36 @@ export function resolveRole5LoongSwordProjectileHits(params: Readonly<{
     if (!projectile.variant.startsWith('role5-loong-sword-') || projectile.isExpired) continue;
     const hitbox = getProjectileHitbox(projectile);
     for (const enemy of params.enemies) {
-      if (enemy.phase === 'dead' || enemy.x < hitbox.x || enemy.x > hitbox.x + hitbox.width) continue;
+      if (!containsPoint(hitbox, enemy)) continue;
       const attackId = getProjectileAttackId(projectile);
-      if (!resolveHitOnce(params.combat.hitRegistry, attackId, enemy.id)) continue;
-      const amount = Math.min(enemy.hp, calculateStage1HeroDamage(
-        enemy.enemyType,
-        projectile.attackKind,
-        projectile.damage,
-      ));
-      const event = createDamageEvent({
-        sourceId: projectile.sourceId,
-        targetId: enemy.id,
+      const event = resolveStage1HeroHit({
+        runtime: params.combat,
+        enemy,
+        sourceId: projectile.sourceId === 'p2' ? 'p2' : 'p1',
         attackId,
         actionName: projectile.actionName,
-        amount,
         attackKind: projectile.attackKind,
+        damage: projectile.damage,
         knockbackX: projectile.knockbackX,
         knockbackY: projectile.knockbackY,
-        occurredAtMs: params.timeMs,
+        timeMs: params.timeMs,
       });
-      enemy.hp = Math.max(0, enemy.hp - amount);
-      enemy.lastHitBy = projectile.sourceId === 'p2' ? 'p2' : 'p1';
-      enemy.activeAttack = undefined;
-      enemy.phase = enemy.hp === 0 ? 'dead' : 'hurt';
-      enemy.phaseRemainingMs = enemy.hp === 0 ? 0 : 180;
-      params.combat.audit.damageEvents.push(event);
+      if (!event) continue;
       recordProjectileHit(projectile);
       events.push(event);
     }
   }
   return events;
+}
+
+function containsPoint(
+  hitbox: Readonly<{ x: number; y: number; width: number; height: number }>,
+  point: Readonly<{ x: number; y: number }>,
+): boolean {
+  return point.x >= hitbox.x
+    && point.x <= hitbox.x + hitbox.width
+    && point.y >= hitbox.y
+    && point.y <= hitbox.y + hitbox.height;
 }
 
 function projectile(

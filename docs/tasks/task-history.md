@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-174 | 普攻几何/Role5 命中纠错 | 收敛 detached 普攻几何 owner，恢复 Role5 二维命中与共享结算 | M-022、M-034、VS-062 | verified 空间真值、视觉/碰撞共源、X/Y/重复/死亡/P1-P2 专项、940×590 单/双人零 console |
 | TASK-SLICE-173A2 | Role1 影分身正式 Runtime | 把 verified 影分身接入正式五关共享 Runtime | M-018、M-034、VS-062 | P1/P2 source、输入/目标/弹体/视觉/销毁、五关 940×590、零 console 与正式观测证据 |
 | TASK-SLICE-173A | Role1 影分身父任务收束 | 汇总 173A1/A2/A3 并关闭 Split 父任务 | M-018、M-034、VS-062 | verified 状态机、TestScene 薄适配、正式 Runtime 与完整验收链 |
 | TASK-SLICE-173A3 | Role1 影分身验收/归档 | 收口 173A1 视觉证据、全量门禁与文档状态 | M-018、M-034、VS-062 | 940×590 左右 walk/hit1/hit2/销毁/reentry 证据、零 console、全量门禁与 173A1 归档 |
@@ -324,6 +325,26 @@
 推荐后续任务：
 
 - `TASK-SLICE-173A`：直接消费 verified manifest 接入正式 Runtime。
+
+### TASK-ARCH-174
+
+- 完成日期：2026-08-15。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`；下一 task 为 `TASK-SETTINGS-175`）。
+- 新增生成式 `task-arch-174.normal-attack-spatial` verified manifest，锁定 Role2 hit1/hit2 与 Role4 弓 hit1/hit3 的恢复 SWF/AS3 hash、释放点、local bounds、canonical stage bounds 与 hitArea；Schema、完整性与 stale check 通过。
+- verified manifest 成为四个 detached 世界特效唯一原版 `forward/rootOffsetY/localBounds` 事实源；`HeroNormalAttackGeometry` 直接读取并形成唯一运行时投影，`HeroCombatVisualCoordinates` 删除四组重复常量，跨消费者一致性专项防止重新漂移。
+- `Role5NormalAttackProjectileSystem` 从 X-only 改为 projectile hitbox 的 X/Y 边界；同 X 但上下完全分离目标不再误中。近/远、反向、范围外、多目标、重复 resolve、死亡和 P1/P2 均有确定性回归。
+- `Stage1CombatSystem.resolveStage1HeroHit` 成为英雄对普通敌人统一结算入口：HitRegistry、防御、DamageEvent、hurt/dead、`lastHitBy` 与 audit 只实现一次；普通普攻与 Role5 projectile 共同委托，既有伤害及时序不变。
+- 940×590 `?qaStage=1-1-role5` 与双人 `players=2` 均加载，Role5 真角色/技能/怪物层保持且无新增可见例外；console warning/error 为 0。
+
+验证：
+
+- `npm run test:normal-attack-spatial-truth`、`npm run test:remote-normal-attacks`、`npm run test:systems`。
+- `npm run check:structure`、`npm run build`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+- `docs/tasks/evidence/TASK-ARCH-174/visual-audit.md` 与 `runtime-observation.json`。
+
+推荐任务：
+
+- `TASK-SETTINGS-175`：分级功能页实际占位、legacy 审计与 verified 机器真值债务，并按页生成后续任务。
 
 ### TASK-SLICE-173A2
 

@@ -369,38 +369,60 @@ export function resolveStage1HeroAttack(params: {
     } else if (Math.abs(enemyModel.x - params.movement.x) > Stage1CombatTuning.heroAttackRange) {
       continue;
     }
-    const attackId = `${params.player.slot}-normal-${attack.id}`;
-    if (!resolveHitOnce(params.runtime.hitRegistry, attackId, enemyModel.id)) continue;
-    const amount = calculateStage1HeroDamage(
-      enemyModel.enemyType,
-      attack.attackKind,
-      attack.damage,
-    );
-    const event = createDamageEvent({
+    const event = resolveStage1HeroHit({
+      runtime: params.runtime,
+      enemy: enemyModel,
       sourceId: params.player.slot,
-      targetId: enemyModel.id,
-      attackId,
+      attackId: `${params.player.slot}-normal-${attack.id}`,
       actionName: attack.actionName,
-      amount: Math.min(enemyModel.hp, amount),
       attackKind: attack.attackKind,
+      damage: attack.damage,
       knockbackX: attack.facingX * 4,
       knockbackY: -2,
-      occurredAtMs: params.timeMs,
+      timeMs: params.timeMs,
     });
-    enemyModel.hp = Math.max(0, enemyModel.hp - event.amount);
-    enemyModel.lastHitBy = params.player.slot;
-    enemyModel.activeAttack = undefined;
-    if (enemyModel.hp === 0) {
-      enemyModel.phase = 'dead';
-      enemyModel.phaseRemainingMs = 0;
-    } else {
-      enemyModel.phase = 'hurt';
-      enemyModel.phaseRemainingMs = Stage1CombatTuning.enemyHurtMs;
-    }
-    params.runtime.audit.damageEvents.push(event);
-    resolved.push(event);
+    if (event) resolved.push(event);
   }
   return resolved;
+}
+
+export function resolveStage1HeroHit(params: Readonly<{
+  runtime: Stage1CombatRuntime;
+  enemy: Stage1CombatEnemy;
+  sourceId: PlayerSlot;
+  attackId: string;
+  actionName: string;
+  attackKind: AttackKind;
+  damage: number;
+  knockbackX: number;
+  knockbackY: number;
+  timeMs: number;
+}>): DamageEvent | undefined {
+  if (params.enemy.phase === 'dead') return undefined;
+  if (!resolveHitOnce(params.runtime.hitRegistry, params.attackId, params.enemy.id)) return undefined;
+  const amount = Math.min(params.enemy.hp, calculateStage1HeroDamage(
+    params.enemy.enemyType,
+    params.attackKind,
+    params.damage,
+  ));
+  const event = createDamageEvent({
+    sourceId: params.sourceId,
+    targetId: params.enemy.id,
+    attackId: params.attackId,
+    actionName: params.actionName,
+    amount,
+    attackKind: params.attackKind,
+    knockbackX: params.knockbackX,
+    knockbackY: params.knockbackY,
+    occurredAtMs: params.timeMs,
+  });
+  params.enemy.hp = Math.max(0, params.enemy.hp - event.amount);
+  params.enemy.lastHitBy = params.sourceId;
+  params.enemy.activeAttack = undefined;
+  params.enemy.phase = params.enemy.hp === 0 ? 'dead' : 'hurt';
+  params.enemy.phaseRemainingMs = params.enemy.hp === 0 ? 0 : Stage1CombatTuning.enemyHurtMs;
+  params.runtime.audit.damageEvents.push(event);
+  return event;
 }
 
 function recordDamage(

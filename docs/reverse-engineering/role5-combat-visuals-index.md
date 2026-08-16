@@ -131,6 +131,8 @@
 
 `TASK-SLICE-164` 已把 `swordhit1_1..3_1` 从角色Follow显示改为共享projectile轨迹显示：正式关卡由 `Role5NormalAttackProjectileVisualBridge` 消费同一模型，TestScene通用projectile view复用相同真帧序列与注册点。940×590单/双人Role5入口可见龙魂剑状态与增强普攻对象，console warning/error为0；没有新增现代可见例外。
 
+`TASK-ARCH-174` 不改变 Role5 可见序列、注册点或资源；它只让四个 detached 普攻的视觉投影消费 `HeroNormalAttackGeometry` 同一 `forward/rootOffsetY` owner，并以 `task-arch-174.normal-attack-spatial` verified 真值回测。940×590 Role5 单/双人正式入口重新加载通过，console warning/error 为 0，现代可见例外仍为 0。
+
 ### 2026-08-15 剑形外层帧语义纠错
 
 用户报告 Role5 在关卡内持续自主换装。运行采样和直接逐帧查看 `jidle` 1..6 后确认，六帧分别是白/蓝/金/红/紫/绿衣装；它们是 `fashion_yf.gotoAndStop(clothId)` 的外观选择帧，不是 idle 的六个时间动画姿势。此前 `Role5SwordBodyAnimations` 把外层 selector 按 30fps 循环属于现代映射错误，原“剑形动作帧序已闭合”结论对 body 外层降级并由本节纠正。

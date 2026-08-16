@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Planned）
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Ready）
 
 目标机制/切片：
 

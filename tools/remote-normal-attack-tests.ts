@@ -33,6 +33,10 @@ import {
   createHeroPartyRuntimeModel,
   updateHeroPartyRuntime,
 } from '../src/systems/HeroPartyRuntimeSystem';
+import {
+  projectHeroCombatVisualRootPoint,
+  projectNormalAttackVisualPoint,
+} from '../src/scenes/HeroCombatVisualCoordinates';
 
 function attackInput(attack: boolean): PlayerInputState {
   return {
@@ -66,6 +70,24 @@ function testWorldEffectRegistryIsExplicit(): void {
     () => assertDetachedNormalAttackGeometry('normal-attack-effect.future-ranged-without-geometry'),
     /requires explicit world geometry/,
   );
+}
+
+function testWorldEffectVisualProjectionConsumesGeometryOwner(): void {
+  for (const [heroId, effectKey] of [
+    [2, HeroNormalAttackEffectKeys.role2Hit1],
+    [2, HeroNormalAttackEffectKeys.role2Hit2],
+    [4, HeroNormalAttackEffectKeys.role4ArrowHit1],
+    [4, HeroNormalAttackEffectKeys.role4ArrowHit3],
+  ] as const) {
+    const geometry = getWorldNormalAttackGeometry(effectKey);
+    assert.ok(geometry);
+    const root = projectHeroCombatVisualRootPoint(heroId, 470, 350);
+    const point = projectNormalAttackVisualPoint({ heroId, effectKey, facingX: 1 }, 470, 350);
+    assert.deepEqual(point, {
+      x: root.x + geometry.forward,
+      y: root.y + geometry.rootOffsetY,
+    });
+  }
 }
 
 function testRole2WorldHitboxUsesReleasePointAndFacing(): void {
@@ -231,7 +253,9 @@ function testRole5LoongSwordTrajectoryHitsAndPlayerIsolation(): void {
   const near = createStage1CombatEnemy({ id: 'near', enemyType: 30, x: 100, y: 500 });
   const far = createStage1CombatEnemy({ id: 'far', enemyType: 30, x: 500, y: 500 });
   const outside = createStage1CombatEnemy({ id: 'outside', enemyType: 30, x: 800, y: 500 });
-  const enemies = [behind, near, far, outside];
+  const above = createStage1CombatEnemy({ id: 'above', enemyType: 30, x: 100, y: 400 });
+  const below = createStage1CombatEnemy({ id: 'below', enemyType: 30, x: 100, y: 600 });
+  const enemies = [behind, near, far, outside, above, below];
   let now = 0;
   for (let frame = 0; frame < 21; frame += 1) {
     resolveRole5LoongSwordProjectileHits({ projectiles, combat, enemies, timeMs: now });
@@ -241,6 +265,8 @@ function testRole5LoongSwordTrajectoryHitsAndPlayerIsolation(): void {
   }
   assert.equal(behind.hp, behind.maxHp);
   assert.equal(outside.hp, outside.maxHp);
+  assert.equal(above.hp, above.maxHp, 'same X but vertically separated target is not hit');
+  assert.equal(below.hp, below.maxHp, 'same X but vertically separated target is not hit');
   assert.equal(near.hp, near.maxHp - 29, 'near target is hit once despite repeated overlap checks');
   assert.equal(far.hp, far.maxHp - 29, 'far target is hit when the projectile reaches its trajectory');
 
@@ -252,6 +278,31 @@ function testRole5LoongSwordTrajectoryHitsAndPlayerIsolation(): void {
   resolveRole5LoongSwordProjectileHits({ projectiles: isolated, combat: isolatedCombat, enemies: [sharedTarget], timeMs: 0 });
   assert.equal(isolatedCombat.audit.damageEvents.length, 2);
   assert.deepEqual(new Set(isolatedCombat.audit.damageEvents.map((event) => event.sourceId)), new Set(['p1', 'p2']));
+
+  const lethalProjectiles = createProjectileSystem();
+  spawnRole5LoongSwordProjectile(
+    lethalProjectiles,
+    { sourceId: 'p2', x: 0, y: 500, facingX: 1 },
+    role5Attack('hit18', 1, 3),
+    true,
+  );
+  const dying = createStage1CombatEnemy({ id: 'dying', enemyType: 30, x: 100, y: 500 });
+  dying.hp = 10;
+  const lethalCombat = createStage1CombatRuntime();
+  const lethalEvents = resolveRole5LoongSwordProjectileHits({
+    projectiles: lethalProjectiles,
+    combat: lethalCombat,
+    enemies: [dying],
+    timeMs: 0,
+  });
+  assert.equal(lethalEvents[0]?.amount, 10, 'shared settlement clamps lethal damage to remaining HP');
+  assert.equal(dying.phase, 'dead');
+  assert.equal(dying.lastHitBy, 'p2', 'shared settlement preserves reward ownership');
+  assert.deepEqual(
+    [lethalEvents[0]?.knockbackX, lethalEvents[0]?.knockbackY],
+    [0, -2],
+    'shared settlement preserves projectile knockback',
+  );
 }
 
 function role5Attack(
@@ -271,6 +322,7 @@ function role5Attack(
 }
 
 testWorldEffectRegistryIsExplicit();
+testWorldEffectVisualProjectionConsumesGeometryOwner();
 testRole2WorldHitboxUsesReleasePointAndFacing();
 testRole4ArrowUsesWorldGeometryWhileShovelDoesNot();
 testFormalCombatResolvesFarWorldEffectOnceWithoutRearLeak();

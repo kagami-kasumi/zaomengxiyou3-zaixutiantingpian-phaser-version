@@ -130,6 +130,8 @@ projectileId + ":" + sourceAttackId + ":" + hitSerial + ":" + targetId
 
 `TASK-SLICE-164` 为共享 `ProjectileSystem` 补入可选加速度字段与逐帧子步，未新增第二运行owner。Role5龙魂剑 `hit18_1..20_1` 以 `swordhit1_1..3_1` 真资源消费速度±8、加速度±2.4和700距离；正式HeroPartyRuntime与TestScene共用生成、更新和逐目标去重合同，专项覆盖三段、双向、结束位置、近远反向、一次命中及P1/P2隔离。
 
+`TASK-ARCH-174` 继续收口命中链：原 `BaseMonster.beMagicAttack` 的二维 `testIntersects + complexHitTestObject` 映射为 projectile hitbox 的 X/Y 边界，拒绝同 X 上下分离目标；实际伤害、防御、hurt/dead、`lastHitBy` 与 audit 委托共享 `resolveStage1HeroHit`，Role5 system 不再持有第二套结算。近/远、上下边界、多目标、重复 resolve、死亡与 P1/P2 专项通过。
+
 ## 首个技能候选：`Role2.sgq -> hit5`
 
 ### 技能入口

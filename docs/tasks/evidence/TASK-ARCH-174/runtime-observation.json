@@ -1,0 +1,19 @@
+{
+  "taskId": "TASK-ARCH-174",
+  "viewport": { "width": 940, "height": 590 },
+  "truthId": "task-arch-174.normal-attack-spatial",
+  "routes": [
+    { "url": "?qaStage=1-1-role5", "players": 1, "loaded": true, "consoleWarnings": 0, "consoleErrors": 0 },
+    { "url": "?qaStage=1-1-role5&players=2", "players": 2, "loaded": true, "consoleWarnings": 0, "consoleErrors": 0 }
+  ],
+  "automated": {
+    "sharedGeometryConsumerProjection": true,
+    "nearAndFarTargets": true,
+    "verticalSeparationRejectsHit": true,
+    "multipleTargets": true,
+    "repeatResolutionIsIdempotent": true,
+    "deathAndLastHitOwner": true,
+    "p1P2Isolation": true
+  },
+  "visibleModernExceptions": []
+}

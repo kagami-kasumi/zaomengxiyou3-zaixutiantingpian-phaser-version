@@ -1,5 +1,12 @@
 # 工作流治理日志
 
+## 2026-08-15：记录 TASK-ARCH-174 普攻几何与结算 owner 审计
+
+- 背景：本任务收敛四个 detached 普攻的几何事实源，并修改 Role5 projectile 的碰撞与普通敌人死亡/奖励归属链，命中 PG-004/PG-006 收尾审计。
+- 变更：集中记录 verified 空间真值、视觉/碰撞共源、二维 overlap 与共享 `resolveStage1HeroHit` 结算样本；确认没有新增逐关伤害、死亡或奖励 owner。
+- 影响：PG-004/PG-006 均无复发但未满足完整归档条件；PG-001/011/012/013 经语义复核不适用。本次不改变任何 PG 状态或关闭合同。
+- 验证：空间 truth/Schema、Role5 专项、全量 systems/build/structure/workflow、940×590 单/双人零 console、`npm run audit:problems` 与 `git diff --check`。
+
 ## 2026-08-15：移除 PowerShell 5.1 时代的 UTF-8 提示词补丁
 
 - 背景：当前 Codex shell 已确认为 PowerShell 7.6.4 Core，控制台输出编码为 UTF-8；原有显式 `Get-Content -Encoding UTF8` 与乱码重读规则不再值得常驻占用入口上下文。
