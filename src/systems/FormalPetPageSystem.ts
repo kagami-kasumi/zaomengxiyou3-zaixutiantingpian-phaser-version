@@ -129,6 +129,11 @@ export function releaseFormalPet(model: FormalPetPageModel, storage: SaveStorage
   return Boolean(released);
 }
 
+export function cancelFormalPetRelease(model: FormalPetPageModel): void {
+  model.releaseArmedPetId = undefined;
+  model.message = '已取消放生';
+}
+
 export function useFormalPetConsumable(
   model: FormalPetPageModel,
   storage: SaveStorage,

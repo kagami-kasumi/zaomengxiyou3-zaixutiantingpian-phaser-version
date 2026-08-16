@@ -4,7 +4,7 @@
 - `TASK-SLICE`
 
 功能条线：
-- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Planned）
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Ready）
 
 目标机制/切片：
 - `M-035`、`M-043`、`M-052`、`VS-054`
@@ -53,4 +53,3 @@ UI 原生化合同：
 
 推荐后续任务：
 - 按 175A..I 证据链与同线调度结果继续，不切入 Stage 2-3。
-

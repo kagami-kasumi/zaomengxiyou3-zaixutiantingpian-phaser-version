@@ -2250,6 +2250,123 @@ export function getSkillNativeButtonAsset(
   return skillNativeButton(characterId, state);
 }
 
+const PetNativeHeadCharacterByPetName = {
+  dragon1: 9, dragon2: 13, dragon3: 16, dragon4: 23,
+  horse1: 1, horse2: 3, horse3: 5, horse4: 19,
+  ufo1: 10, ufo2: 21, ufo3: 6,
+  monkey1: 14, monkey2: 2, monkey3: 4, monkey4: 20,
+  phoenix1: 12, phoenix2: 17, phoenix3: 8, phoenix4: 24,
+  tigress4: 18,
+  turtle1: 7, turtle2: 11, turtle3: 15, turtle4: 22,
+} as const;
+
+const PetNativeSkillCharacterByKey = {
+  tsml: 130, zrsh: 157, smzf: 136, mfby: 806, qlfj: 79,
+  sxkb: 707, fsnl: 234, smjc: 134, mfjc: 830, gjjc: 77, fyjc: 109,
+  xj: 127, lj: 478, lyq: 224, jgaoyi: 326,
+  sp: 107, bd: 731, bz: 755, tmaoyi: 574,
+  fs: 305, sdcc: 514, ltwj: 335, qlaoyi: 106,
+  sld: 206, txlj: 189, sybh: 173, xwaoyi: 609,
+  pms: 312, ss: 280, kmsk: 296,
+  hy: 469, sxhz: 282, hsqj: 447, bhaoyi: 658,
+  np: 118, bshn: 120, dhly: 115, zqaoyi: 655,
+  yg: 633, jf: 550, bs: 360, ysaoyi: 145,
+  sc: 683, hxfb: 132, zsaoyi: 877,
+} as const;
+
+function petNativeImage(
+  key: string,
+  path: string,
+  sourcePackage: string,
+  sourceSymbol: string,
+  sourceCharacterId: number,
+): ExtractedImageAssetDefinition {
+  return extractedCraftingImage(key, path, sourcePackage, sourceSymbol, sourceCharacterId);
+}
+
+export const petNativeUiAssets = {
+  row: petNativeImage('full-ui.pet-native.row', '/assets/ui/feature/pets/native/pet-list-row.svg', 'assets/pet1.swf', 'petlist', 1224),
+  tooltip: petNativeImage('full-ui.pet-native.tooltip', '/assets/ui/feature/pets/native/skill-tooltip.svg', 'assets/pet1.swf', 'skillIntro', 1228),
+  releaseConfirm: petNativeImage('full-ui.pet-native.release-confirm', '/assets/ui/feature/pets/native/release-confirm.svg', 'assets/pet1.swf', 'giveUpThisPet', 1221),
+  buttons: Object.fromEntries([835, 840, 845, 883].map((characterId) => [
+    characterId,
+    Object.fromEntries((['up', 'over', 'down'] as const).map((state) => [
+      state,
+      petNativeImage(
+        `full-ui.pet-native.button-${characterId}-${state}`,
+        `/assets/ui/feature/pets/native/buttons/${characterId}/${state}.png`,
+        'assets/pet1.swf',
+        `DefineButton2 ${characterId} ${state}`,
+        characterId,
+      ),
+    ])),
+  ])) as Record<number, Record<'up' | 'over' | 'down', ExtractedImageAssetDefinition>>,
+} as const;
+
+function getPetHeadSymbol(petName: string): string {
+  const species = petName.slice(0, -1);
+  const prefix = species === 'ufo'
+    ? 'Kabu'
+    : species === 'tigress'
+      ? 'Tiger'
+      : `${species[0].toUpperCase()}${species.slice(1)}`;
+  return `Pet${prefix}Bmd${petName.at(-1)}`;
+}
+
+export const petNativeHeadAssets = Object.fromEntries(
+  Object.entries(PetNativeHeadCharacterByPetName).map(([petName, characterId]) => {
+    const symbol = getPetHeadSymbol(petName);
+    return [petName, petNativeImage(
+      `full-ui.pet-native.head-${petName}`,
+      `/assets/ui/feature/pets/native/heads/${symbol}.png`,
+      'assets/pet1.swf',
+      symbol,
+      characterId,
+    )];
+  }),
+) as Record<keyof typeof PetNativeHeadCharacterByPetName, ExtractedImageAssetDefinition>;
+
+export const petNativeSkillAssets = Object.fromEntries(
+  Object.entries(PetNativeSkillCharacterByKey).map(([skillKey, characterId]) => [
+    skillKey,
+    petNativeImage(
+      `full-ui.pet-native.skill-${skillKey}`,
+      `/assets/ui/feature/pets/native/skills/petskill_${skillKey}.png`,
+      'assets/EIcon1.swf',
+      `petskill_${skillKey}`,
+      characterId,
+    ),
+  ]),
+) as Record<keyof typeof PetNativeSkillCharacterByKey, ExtractedImageAssetDefinition>;
+
+export function getPetNativeHeadAsset(petName: string): ExtractedImageAssetDefinition | undefined {
+  return petNativeHeadAssets[petName as keyof typeof petNativeHeadAssets];
+}
+
+export function getPetNativeSkillAsset(skillKey: string): ExtractedImageAssetDefinition | undefined {
+  return petNativeSkillAssets[skillKey as keyof typeof petNativeSkillAssets];
+}
+
+export function getPetNativeProgressAsset(characterId: number, frame: number): ExtractedImageAssetDefinition {
+  return petNativeImage(
+    `full-ui.pet-native.progress-${characterId}-${frame}`,
+    `/assets/ui/feature/pets/native/progress/${characterId}/${frame}.svg`,
+    'assets/pet1.swf',
+    `character ${characterId} frame ${frame}`,
+    characterId,
+  );
+}
+
+export function getPetNativeQualityAsset(frame: number): ExtractedImageAssetDefinition {
+  return petNativeImage(
+    `full-ui.pet-native.quality-${frame}`,
+    `/assets/ui/feature/pets/native/quality/${frame}.svg`,
+    'assets/pet1.swf',
+    `character 891 frame ${frame}`,
+    891,
+  );
+}
+
 function createRole1NormalAttackFrames(
   symbol: string,
   frameCount: number,

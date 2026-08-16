@@ -6,6 +6,11 @@ import {
   heavenMapAssets,
   immortalityUiAssets,
   levelResultAssets,
+  getPetNativeProgressAsset,
+  getPetNativeQualityAsset,
+  petNativeHeadAssets,
+  petNativeSkillAssets,
+  petNativeUiAssets,
   pickupAssets,
   role1CombatAtlases,
   role1NormalAttackAssets,
@@ -496,7 +501,18 @@ export const sceneAssetBundles = {
   },
   'feature-ui-pets': {
     dependencies: ['feature-ui'],
-    assets: [svg(fullFeatureUiAssets.petPage)],
+    assets: [
+      svg(fullFeatureUiAssets.petPage),
+      svg(petNativeUiAssets.row),
+      svg(petNativeUiAssets.tooltip),
+      svg(petNativeUiAssets.releaseConfirm),
+      ...Object.values(petNativeUiAssets.buttons).flatMap((states) => Object.values(states).map(image)),
+      ...Object.values(petNativeHeadAssets).map(image),
+      ...Object.values(petNativeSkillAssets).map(image),
+      ...[852, 858, 863, 868, 873, 878].flatMap((characterId) =>
+        Array.from({ length: 20 }, (_, index) => svg(getPetNativeProgressAsset(characterId, index + 1)))),
+      ...[1, 2, 3].map((frame) => svg(getPetNativeQualityAsset(frame))),
+    ],
   },
   'feature-ui-workshop': {
     dependencies: ['feature-ui-backpack'],

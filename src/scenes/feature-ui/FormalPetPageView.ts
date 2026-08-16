@@ -1,9 +1,18 @@
 import Phaser from 'phaser';
-import { fullFeatureUiAssets } from '../../assets/AssetManifest';
+// boundary: this view projects verified pet-page geometry and forwards pointer intents;
+// pet roster, growth, combat, ownership, and persistence rules remain in systems.
 import {
+  fullFeatureUiAssets,
+  getPetNativeHeadAsset,
+  getPetNativeProgressAsset,
+  getPetNativeQualityAsset,
+  getPetNativeSkillAsset,
+  petNativeUiAssets,
+} from '../../assets/AssetManifest';
+import {
+  cancelFormalPetRelease,
   changeFormalPetPage,
   deployFormalPet,
-  formatFormalPetSummary,
   getFormalPetPageCount,
   getFormalPetPagePets,
   getFormalPetPlayer,
@@ -16,6 +25,12 @@ import {
 } from '../../systems/FormalPetPageSystem';
 import { buildPetSkillSlotViews } from '../../systems/PetPanelSystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
+import type { PetState } from '../../systems/PetTypes';
+import {
+  assertVerifiedPetPageTruth,
+  getPetTruthBounds,
+  getPetTruthCharacterId,
+} from './FormalPetPageTruth';
 
 type FormalPetPageCallbacks = {
   playerCount: 1 | 2;
@@ -25,131 +40,289 @@ type FormalPetPageCallbacks = {
   onRerender: () => void;
 };
 
+type NativeButtonState = 'up' | 'over' | 'down';
+const NativeFont = 'FZCuYuan-M03, Microsoft YaHei, sans-serif';
+// FFDec frame exports preserve each MovieClip registration translation inside the SVG.
+// These offsets are generated from the first root matrix of the same verified source assets.
+const ProgressAssetRegistration: Readonly<Record<number, Readonly<{ x: number; y: number }>>> = {
+  852: { x: 312.2, y: 10 },
+  858: { x: 204.7, y: 10.5 },
+  863: { x: 203.05, y: 10.5 },
+  868: { x: 202.2, y: 10.5 },
+  873: { x: 201.65, y: 11 },
+  878: { x: 202.5, y: 10.5 },
+};
+
 export function createFormalPetPageView(
   scene: Phaser.Scene,
   model: FormalPetPageModel,
   storage: SaveStorage,
   callbacks: FormalPetPageCallbacks,
 ): Phaser.GameObjects.Container {
-  const objects: Phaser.GameObjects.GameObject[] = [];
-  objects.push(scene.add.image(0, 0, fullFeatureUiAssets.petPage.key).setOrigin(0).setAlpha(0.72));
-  objects.push(scene.add.rectangle(470, 295, 940, 590, 0x07101b, 0.52));
-  objects.push(scene.add.rectangle(470, 295, 900, 548, 0x111a27, 0.88).setStrokeStyle(2, 0xe5bc55));
-  objects.push(scene.add.text(470, 34, `${model.owner.toUpperCase()} 正式宠物`, {
-    color: '#fff0ad', fontFamily: 'Arial, sans-serif', fontSize: '25px', fontStyle: 'bold',
-  }).setOrigin(0.5));
-  objects.push(...createPetButton(scene, 84, 70, 92, 32, 'P1 宠物', () => callbacks.onOwner('p1')));
-  if (callbacks.playerCount === 2) {
-    objects.push(...createPetButton(scene, 184, 70, 92, 32, 'P2 宠物', () => callbacks.onOwner('p2')));
-  }
-
-  const roster = getFormalPetPlayer(model).petRoster;
-  const pageStart = model.pageIndex * 5;
-  getFormalPetPagePets(model).forEach((pet, index) => {
-    objects.push(...createPetButton(
-      scene,
-      155,
-      130 + index * 66,
-      238,
-      54,
-      `${pageStart + index === roster.selectedIndex ? '▶ ' : ''}${pet.displayName}  F${pet.form} Lv.${pet.level}${pet.isActive ? ' [出战]' : ''}\nHP ${pet.hp}/${pet.maxHp}  寿命 ${pet.lifetime}`,
-      () => {
-        selectFormalPet(model, storage, index);
-        callbacks.onSaved();
-        callbacks.onRerender();
-      },
-      pageStart + index === roster.selectedIndex,
-    ));
-  });
-  if (roster.pets.length === 0) {
-    objects.push(scene.add.text(155, 190, '当前没有宠物', {
-      color: '#cbd8e8', fontFamily: 'Arial, sans-serif', fontSize: '17px',
-    }).setOrigin(0.5));
-  }
-
-  objects.push(...createPetButton(scene, 87, 470, 88, 34, '上一页', () => {
-    changeFormalPetPage(model, storage, -1);
-    callbacks.onSaved();
-    callbacks.onRerender();
-  }));
-  objects.push(scene.add.text(155, 470, `${model.pageIndex + 1}/${getFormalPetPageCount(model)}`, {
-    color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: '14px',
-  }).setOrigin(0.5));
-  objects.push(...createPetButton(scene, 223, 470, 88, 34, '下一页', () => {
-    changeFormalPetPage(model, storage, 1);
-    callbacks.onSaved();
-    callbacks.onRerender();
-  }));
-
-  const pet = getSelectedFormalPet(model);
-  objects.push(scene.add.text(300, 105, formatFormalPetSummary(model).slice(0, 5).join('\n'), {
-    color: '#dce8f7', fontFamily: 'Arial, sans-serif', fontSize: '14px', lineSpacing: 5,
-    wordWrap: { width: 565 },
-  }));
-  objects.push(scene.add.text(300, 245, '八技能展示槽', {
-    color: '#ffe59a', fontFamily: 'Arial, sans-serif', fontSize: '17px', fontStyle: 'bold',
-  }));
-  const slots = pet ? buildPetSkillSlotViews(pet) : [];
-  for (let index = 0; index < 8; index += 1) {
-    const slot = slots[index];
-    const col = index % 4;
-    const row = Math.floor(index / 4);
-    objects.push(...createPetButton(
-      scene, 370 + col * 135, 292 + row * 55, 124, 44,
-      `${index + 1}. ${slot && !slot.isEmpty ? `${slot.name}\n${slot.skillKey}` : '-'}`,
-      () => undefined,
-    ));
-  }
-
-  objects.push(...createPetButton(scene, 335, 395, 104, 38, '出战', () => runPetAction(
-    deployFormalPet(model, storage), callbacks,
-  )));
-  objects.push(...createPetButton(scene, 452, 395, 104, 38, '休息', () => runPetAction(
-    restFormalPet(model, storage), callbacks,
-  )));
-  objects.push(...createPetButton(scene, 569, 395, 104, 38, model.releaseArmedPetId ? '确认放生' : '放生', () => runPetAction(
-    releaseFormalPet(model, storage), callbacks,
-  )));
-  objects.push(...createPetButton(scene, 686, 395, 104, 38, '资质重洗', () => runPetAction(
-    useFormalPetConsumable(model, storage, 'cwzzxld'), callbacks,
-  )));
-  objects.push(...createPetButton(scene, 803, 395, 104, 38, '技能重洗', () => runPetAction(
-    useFormalPetConsumable(model, storage, 'cwjnxld'), callbacks,
-  )));
-  objects.push(...createPetButton(scene, 686, 445, 104, 38, '进化', () => runPetAction(
-    useFormalPetConsumable(model, storage, 'nianjhd'), callbacks,
-  )));
-  objects.push(scene.add.text(300, 470, formatFormalPetSummary(model).slice(5).join('\n'), {
-    color: '#f0dca0', fontFamily: 'Arial, sans-serif', fontSize: '12px', lineSpacing: 4,
-    wordWrap: { width: 480 },
-  }));
-  objects.push(...createPetButton(scene, 850, 520, 130, 40, '关闭返回', callbacks.onClose));
-  return scene.add.container(0, 0, objects).setDepth(20);
+  assertVerifiedPetPageTruth();
+  const objects: Phaser.GameObjects.GameObject[] = [
+    scene.add.image(0, 0, fullFeatureUiAssets.petPage.key)
+      .setOrigin(0)
+      .setData('petTruthObject', 'pet-page-root'),
+  ];
+  addPetRows(scene, objects, model, storage, callbacks);
+  addSelectedPetProjection(scene, objects, model);
+  addNativeActions(scene, objects, model, storage, callbacks);
+  if (model.releaseArmedPetId) addReleaseConfirmation(scene, objects, model, storage, callbacks);
+  return scene.add.container(0, 0, objects).setDepth(20)
+    .setData('petPageTruthId', 'task-settings-175a.pet-page');
 }
 
-function runPetAction(changed: boolean, callbacks: FormalPetPageCallbacks): void {
-  if (changed) {
-    callbacks.onSaved();
+function addPetRows(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  model: FormalPetPageModel,
+  storage: SaveStorage,
+  callbacks: FormalPetPageCallbacks,
+): void {
+  const roster = getFormalPetPlayer(model).petRoster;
+  const start = model.pageIndex * 5;
+  getFormalPetPagePets(model).forEach((pet, index) => {
+    const rowId = `pet-list-row-${index}`;
+    const rowBounds = getPetTruthBounds(rowId);
+    const row = scene.add.image(rowBounds.left, rowBounds.top, petNativeUiAssets.row.key)
+      .setOrigin(0)
+      .setDisplaySize(rowBounds.width, rowBounds.height)
+      .setInteractive({ useHandCursor: true })
+      .setData('petTruthObject', rowId);
+    row.on('pointerdown', () => {
+      selectFormalPet(model, storage, index);
+      callbacks.onSaved();
+      callbacks.onRerender();
+    });
+    objects.push(row);
+    const nameBounds = getPetTruthBounds(`${rowId}-name`);
+    objects.push(scene.add.text(nameBounds.left, nameBounds.top, `${pet.displayName}${pet.isActive ? '（出战）' : ''}`, {
+      color: start + index === roster.selectedIndex ? '#fdfcba' : '#381d09',
+      fontFamily: NativeFont,
+      fontSize: '13px',
+    }).setData('petTruthObject', `${rowId}-name`));
+  });
+  addField(scene, objects, 'listtxt', `${model.pageIndex + 1}/${getFormalPetPageCount(model)}`);
+}
+
+function addSelectedPetProjection(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  model: FormalPetPageModel,
+): void {
+  const pet = getSelectedFormalPet(model);
+  addProgress(scene, objects, 878, pet ? clampFrame(20 - Math.round(20 * pet.lifetime / 100)) : 20);
+  addQuality(scene, objects, pet?.quality ?? 3);
+  if (!pet) return;
+
+  const head = getPetNativeHeadAsset(`${pet.species}${pet.form}`);
+  if (head) {
+    const bounds = getPetTruthBounds('selected-pet-head');
+    objects.push(scene.add.image(bounds.left, bounds.top, head.key)
+      .setOrigin(0)
+      .setDisplaySize(bounds.width, bounds.height)
+      .setData('petTruthObject', 'selected-pet-head'));
   }
+
+  const fields: Readonly<Record<string, string>> = {
+    txtname: pet.displayName,
+    leveltxt: String(pet.level),
+    hptxt: `${pet.hp}/${pet.maxHp}`,
+    mptxt: `${pet.mp}/${pet.maxMp}`,
+    atktxt: String(pet.atk),
+    deftxt: String(pet.def),
+    perceptiontxt: String(pet.perception),
+    techniquetxt: String(pet.technique),
+    warpowertxt: String(pet.warpower),
+    exptxt: `${pet.exp}/${pet.expToNext}`,
+    lifetimetxt: `${pet.lifetime}/100`,
+    hpqualitytxt: `${pet.hpQuality}/2000`,
+    mpqualitytxt: `${pet.mpQuality}/2000`,
+    atkqualitytxt: `${pet.atkQuality}/2000`,
+    defqualitytxt: `${pet.defQuality}/2000`,
+    speedtxt: String(pet.moveSpeed),
+    crittxt: `${Math.trunc(pet.critBonusRate * 100)}%`,
+  };
+  Object.entries(fields).forEach(([id, copy]) => addField(scene, objects, id, copy));
+
+  addProgress(scene, objects, 852, ratioFrame(pet.exp, pet.expToNext));
+  addProgress(scene, objects, 858, ratioFrame(pet.hpQuality, 2000));
+  addProgress(scene, objects, 863, ratioFrame(pet.mpQuality, 2000));
+  addProgress(scene, objects, 868, ratioFrame(pet.atkQuality, 2000));
+  addProgress(scene, objects, 873, ratioFrame(pet.defQuality, 2000));
+  addSkillIcons(scene, objects, pet);
+}
+
+function addSkillIcons(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  pet: PetState,
+): void {
+  const tooltipBounds = getPetTruthBounds('skill-tooltip');
+  const tooltipBackground = scene.add.image(tooltipBounds.left, tooltipBounds.top, petNativeUiAssets.tooltip.key)
+    .setOrigin(0)
+    .setDisplaySize(tooltipBounds.width, tooltipBounds.height);
+  const tooltipName = scene.add.text(tooltipBounds.left + 10, tooltipBounds.top + 8, '', {
+    color: '#fff1a0', fontFamily: NativeFont, fontSize: '13px',
+  });
+  const tooltipInfo = scene.add.text(tooltipBounds.left + 10, tooltipBounds.top + 31, '', {
+    color: '#ffffff', fontFamily: NativeFont, fontSize: '12px',
+    wordWrap: { width: tooltipBounds.width - 20 },
+  });
+  const tooltip = scene.add.container(0, 0, [tooltipBackground, tooltipName, tooltipInfo])
+    .setVisible(false)
+    .setData('petTruthObject', 'skill-tooltip');
+
+  buildPetSkillSlotViews(pet).forEach((slot, index) => {
+    if (slot.isEmpty) return;
+    const asset = getPetNativeSkillAsset(slot.skillKey);
+    if (!asset) return;
+    const bounds = getPetTruthBounds(`skill${index + 1}`);
+    const icon = scene.add.image(bounds.left, bounds.top, asset.key)
+      .setOrigin(0)
+      .setDisplaySize(bounds.width, bounds.height)
+      .setInteractive({ useHandCursor: true })
+      .setData('petTruthObject', `skill-runtime-icon-${index + 1}`);
+    icon.on('pointerover', () => {
+      tooltipName.setText(slot.name);
+      tooltipInfo.setText(slot.info);
+      tooltip.setVisible(true);
+    });
+    icon.on('pointerout', () => tooltip.setVisible(false));
+    objects.push(icon);
+  });
+  objects.push(tooltip);
+}
+
+function addNativeActions(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  model: FormalPetPageModel,
+  storage: SaveStorage,
+  callbacks: FormalPetPageCallbacks,
+): void {
+  objects.push(nativeButton(scene, 'fightbtn', 835, () => runPetAction(deployFormalPet(model, storage), callbacks)));
+  objects.push(nativeButton(scene, 'restbtn', 845, () => runPetAction(restFormalPet(model, storage), callbacks)));
+  objects.push(nativeButton(scene, 'releasebtn', 840, () => runPetAction(releaseFormalPet(model, storage), callbacks)));
+  objects.push(nativeButton(scene, 'btn_close', 883, callbacks.onClose));
+  objects.push(nativeZone(scene, 'prePage', () => changePage(model, storage, -1, callbacks)));
+  objects.push(nativeZone(scene, 'nextPage', () => changePage(model, storage, 1, callbacks)));
+  objects.push(nativeZone(scene, 'czsxbtn', () => runPetAction(useFormalPetConsumable(model, storage, 'cwzzxld'), callbacks)));
+  objects.push(nativeZone(scene, 'czjnbtn', () => runPetAction(useFormalPetConsumable(model, storage, 'cwjnxld'), callbacks)));
+  objects.push(nativeZone(scene, 'upBtn', () => runPetAction(useFormalPetConsumable(model, storage, 'nianjhd'), callbacks)));
+}
+
+function addReleaseConfirmation(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  model: FormalPetPageModel,
+  storage: SaveStorage,
+  callbacks: FormalPetPageCallbacks,
+): void {
+  const bounds = getPetTruthBounds('release-confirm-overlay');
+  objects.push(scene.add.image(bounds.left, bounds.top, petNativeUiAssets.releaseConfirm.key)
+    .setOrigin(0)
+    .setDisplaySize(bounds.width, bounds.height)
+    .setData('petTruthObject', 'release-confirm-overlay'));
+  objects.push(nativeZone(scene, 'release-confirm-ok', () => runPetAction(releaseFormalPet(model, storage), callbacks)));
+  objects.push(nativeZone(scene, 'release-confirm-no', () => {
+    cancelFormalPetRelease(model);
+    callbacks.onRerender();
+  }));
+}
+
+function addField(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  id: string,
+  copy: string,
+): void {
+  const bounds = getPetTruthBounds(id);
+  objects.push(scene.add.text(bounds.left, bounds.top, copy, {
+    color: '#ffffff', fontFamily: NativeFont, fontSize: '13px',
+  }).setData('petTruthObject', id));
+}
+
+function addProgress(
+  scene: Phaser.Scene,
+  objects: Phaser.GameObjects.GameObject[],
+  characterId: number,
+  frame: number,
+): void {
+  const id = ({ 852: 'expmc', 858: 'hpqualitymc', 863: 'mpqualitymc', 868: 'atkqualitymc', 873: 'defqualitymc', 878: 'lifetimemc' } as Record<number, string>)[characterId];
+  const bounds = getPetTruthBounds(id);
+  const registration = ProgressAssetRegistration[characterId];
+  objects.push(scene.add.image(bounds.left - registration.x, bounds.top - registration.y, getPetNativeProgressAsset(characterId, clampFrame(frame)).key)
+    .setOrigin(0)
+    .setDisplaySize(bounds.width, bounds.height)
+    .setData('petTruthObject', id));
+}
+
+function addQuality(scene: Phaser.Scene, objects: Phaser.GameObjects.GameObject[], quality: number): void {
+  const bounds = getPetTruthBounds('qualitymc');
+  const frame = Math.max(1, Math.min(3, Math.trunc(quality)));
+  objects.push(scene.add.image(bounds.left, bounds.top, getPetNativeQualityAsset(frame).key)
+    .setOrigin(0)
+    .setDisplaySize(bounds.width, bounds.height)
+    .setData('petTruthObject', 'qualitymc'));
+}
+
+function nativeButton(
+  scene: Phaser.Scene,
+  id: string,
+  characterId: 835 | 840 | 845 | 883,
+  onClick: () => void,
+): Phaser.GameObjects.Image {
+  if (getPetTruthCharacterId(id) !== characterId) throw new Error(`Pet truth character mismatch for ${id}.`);
+  const bounds = getPetTruthBounds(id);
+  const assets = petNativeUiAssets.buttons[characterId];
+  const image = scene.add.image(bounds.left, bounds.top, assets.up.key)
+    .setOrigin(0)
+    .setDisplaySize(bounds.width, bounds.height)
+    .setInteractive({ useHandCursor: true })
+    .setData('petTruthObject', id);
+  const setState = (state: NativeButtonState) => image.setTexture(assets[state].key)
+    .setDisplaySize(bounds.width, bounds.height);
+  image.on('pointerover', () => setState('over'));
+  image.on('pointerout', () => setState('up'));
+  image.on('pointerdown', () => setState('down'));
+  image.on('pointerup', () => {
+    onClick();
+    if (image.active) setState('over');
+  });
+  return image;
+}
+
+function nativeZone(scene: Phaser.Scene, id: string, onClick: () => void): Phaser.GameObjects.Zone {
+  const bounds = getPetTruthBounds(id);
+  return scene.add.zone(bounds.left, bounds.top, bounds.width, bounds.height)
+    .setOrigin(0)
+    .setInteractive({ useHandCursor: true })
+    .on('pointerdown', onClick)
+    .setData('petTruthObject', id);
+}
+
+function changePage(
+  model: FormalPetPageModel,
+  storage: SaveStorage,
+  direction: -1 | 1,
+  callbacks: FormalPetPageCallbacks,
+): void {
+  changeFormalPetPage(model, storage, direction);
+  callbacks.onSaved();
   callbacks.onRerender();
 }
 
-function createPetButton(
-  scene: Phaser.Scene,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  label: string,
-  onClick: () => void,
-  selected = false,
-): Phaser.GameObjects.GameObject[] {
-  const background = scene.add.rectangle(x, y, width, height, selected ? 0x765b27 : 0x24364d, 0.98)
-    .setStrokeStyle(selected ? 3 : 1, selected ? 0xffdc75 : 0xc9d6e8)
-    .setInteractive({ useHandCursor: true });
-  const text = scene.add.text(x, y, label, {
-    color: '#ffffff', fontFamily: 'Arial, sans-serif', fontSize: '12px', align: 'center',
-  }).setOrigin(0.5);
-  background.on('pointerdown', onClick);
-  return [background, text];
+function runPetAction(changed: boolean, callbacks: FormalPetPageCallbacks): void {
+  if (changed) callbacks.onSaved();
+  callbacks.onRerender();
+}
+
+function ratioFrame(value: number, maximum: number): number {
+  return clampFrame(Math.round(20 * value / Math.max(1, maximum)) + 1);
+}
+
+function clampFrame(frame: number): number {
+  return Math.max(1, Math.min(20, Math.trunc(frame)));
 }

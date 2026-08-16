@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fullFeatureUiAssets } from '../src/assets/AssetManifest';
 import { syncFormalPetRuntime } from '../src/scenes/feature-ui/FormalPetRuntimeBridge';
 import {
+  cancelFormalPetRelease,
   changeFormalPetPage,
   createFormalPetPage,
   deployFormalPet,
@@ -70,6 +71,9 @@ function testFiveByTwoDeployRestReleaseAndReload(): void {
   const releaseId = roster.pets[7].id;
   assert.equal(releaseFormalPet(model, storage), false);
   assert.equal(roster.pets.some((pet) => pet.id === releaseId), true);
+  cancelFormalPetRelease(model);
+  assert.equal(model.releaseArmedPetId, undefined);
+  assert.equal(releaseFormalPet(model, storage), false);
   assert.equal(releaseFormalPet(model, storage), true);
   assert.equal(roster.pets.some((pet) => pet.id === releaseId), false);
   assert.equal(roster.pets.length, 9);

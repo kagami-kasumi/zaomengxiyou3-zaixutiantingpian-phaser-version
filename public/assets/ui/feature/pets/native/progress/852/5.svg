@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:ffdec="https://www.free-decompiler.com/flash" xmlns:xlink="http://www.w3.org/1999/xlink" ffdec:objectType="frame" height="20.0px" width="417.7px" xmlns="http://www.w3.org/2000/svg">
+  <g transform="matrix(1.0, 0.0, 0.0, 1.0, 312.2, 10.0)">
+    <use ffdec:characterId="847" height="20.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="211.0" xlink:href="#shape0"/>
+    <clipPath id="clipPath0">
+      <path d="M -102.21 -7.66 L -102.21 6.69 L 102.64 6.69 L 102.64 -7.66 Z"/>
+    </clipPath>
+    <g clip-path="url(#clipPath0)">
+      <use ffdec:characterId="851" height="20.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 16.25, 267.95)" width="211.0" xlink:href="#sprite0"/>
+    </g>
+  </g>
+  <defs>
+    <g id="shape0">
+      <pattern height="20" id="PatternID_847_1" overflow="visible" patternTransform="matrix(1.0, 0.0, 0.0, 1.0, -105.5, -10.0)" patternUnits="userSpaceOnUse" viewBox="0 0 211 20" width="211">
+        <image height="20" style="image-rendering:optimizeSpeed; image-rendering:pixelated" width="211" xlink:href="data:image/PNG;base64,iVBORw0KGgoAAAANSUhEUgAAANMAAAAUCAYAAAAX6gjVAAAA2UlEQVR42u3bPwsBYQDH8VsMcqVMUiwUXedhNFHcYpXXoNj8WSROFqtVylvwGrwEdXkHLk4SL8Dj9lOe4Qbq+6vP8oxPfetZHk1jjIW7dUeLnMZmwZ2aNQBqnJ6hB2I622JwGBpy380DUOTNxTEQk394bZlxWUlHASi6LcryQ0ylZz0b44KAEGJ6NIgJICaAmABiAkBMADEBxAQQEwBiAogJ+POYxN3K6VwQEEJMu007I2dWEoCCZTMl/RfdKxCT0zcSF1uMPFtsAXzn97JyJ8UqvyEZY4z95t43GBDT59Zv4wAAAABJRU5ErkJggg=="/>
+      </pattern>
+      <path d="M105.5 10.0 L-105.5 10.0 -105.5 -10.0 105.5 -10.0 105.5 10.0" ffdec:fill-bitmapId="846" fill-rule="evenodd" style="fill:url(#PatternID_847_1)"/>
+    </g>
+    <g id="sprite0">
+      <use ffdec:characterId="850" height="20.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="211.0" xlink:href="#shape1"/>
+    </g>
+    <g id="shape1">
+      <pattern height="20" id="PatternID_850_1" overflow="visible" patternTransform="matrix(1.0, 0.0, 0.0, 1.0, -285.1, -277.95)" patternUnits="userSpaceOnUse" viewBox="0 0 211 20" width="211">
+        <image height="20" style="image-rendering:optimizeSpeed; image-rendering:pixelated" width="211" xlink:href="data:image/PNG;base64,iVBORw0KGgoAAAANSUhEUgAAANMAAAAUCAYAAAAX6gjVAAABIUlEQVR42u3av0rDUBiG8SOCsTegILp5DZVAcXASxHvxihTsYgWhIqiLXUTBQeumgw1tY6ix/2LS1JM4HIuKOJxDzyzPA7/tW9/tE4KIiIiI/nt5vLObR9uP2dDNv0SlJIvWYwB/lUa/G3nbamjH9N5d+8gHRQXAjuxttrVjSjuulOHkAICV9MUwpqTlyrFfVADsjHzDmOKGK1NvsjYAVhLPMKZ+fUlG9Xk1vJ35djcLQOdnI4P7Ff2Ywqs52bsWCoCd7s2yfkydmiNfa0IBsBNeGsYUnDuycyYUAEsXhjH5VUcGVaEAWDo1jKl16GR+RSgAdoJjw5i8cmHc3BcKgKWDhVA7pueTjSOvvNh+2iskAKZrVlYf+OolIiIiIiKa3idDHx2enEVxmQAAAABJRU5ErkJggg=="/>
+      </pattern>
+      <path d="M-74.1 -257.95 L-285.1 -257.95 -285.1 -277.95 -74.1 -277.95 -74.1 -257.95" ffdec:fill-bitmapId="849" fill-rule="evenodd" style="fill:url(#PatternID_850_1)"/>
+    </g>
+  </defs>
+</svg>

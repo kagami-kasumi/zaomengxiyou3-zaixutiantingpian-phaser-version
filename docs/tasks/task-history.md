@@ -10664,3 +10664,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-180`：直接消费 175A 宠物页 verified 真值，删除未经批准的现代覆盖层；181..187 保持 Planned。
+
+### TASK-SLICE-180
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-181`）。
+- `FormalPetPageTruth.ts` 运行时直接导入并断言 `task-settings-175a.pet-page` verified manifest：74 个 scoped display object、16 个状态、`unresolved=[]`。
+- `FormalPetPageView` 已改为按 manifest bounds 投影 character 932 原显示列表，接入原列表行、四组按钮态、tooltip、放生确认、进度/品质帧，以及从恢复源 `pet1.swf`/`EIcon1.swf` 提取的头像和技能图标；删除旧深色面板、矩形卡片、Arial 标题/摘要和现代按钮。
+- 新增可重复资源与证据入口 `generate:pet-page-native-assets`、`generate:pet-page-runtime-evidence`，专项 `test:pet-page-truth` 同时校验 manifest 与运行投影；允许的新增可见现代例外为空。
+- owner、放生取消/确认、洗练、进化和存档业务继续由既有 system 负责；940×590 selected、skill-hover、release-confirm 的并排、50% overlay 和 difference 证据位于 `docs/tasks/evidence/TASK-SLICE-180/`，浏览器 console warning/error 为 0。
+
+验证：
+- `npm run test:pet-page-truth`、`npm run test:formal-pets`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-181`：直接消费 175B 法宝页 verified 真值，删除法宝页现代覆盖层；182..187 保持 Planned。
