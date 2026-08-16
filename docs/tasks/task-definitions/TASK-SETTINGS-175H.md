@@ -3,7 +3,7 @@
 任务类型：
 - `TASK-SETTINGS`
 功能条线：
-- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Planned）
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；Ready）
 目标机制/切片：
 - `M-046`、`M-052`、`VS-059`
 规模预算：

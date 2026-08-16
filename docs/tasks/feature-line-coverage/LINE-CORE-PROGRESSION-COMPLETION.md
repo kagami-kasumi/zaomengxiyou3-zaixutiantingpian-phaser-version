@@ -66,7 +66,8 @@
 24. `TASK-SETTINGS-175D`：Done；250 对象/32 状态、五角色 selector、50 主动图标×3 帧、P1/P2 绑定与被动字段已由 verified 真值闭合，生成 `TASK-SLICE-183`（Planned）。
 25. `TASK-SETTINGS-175E`：已完成；丹药 990/969/1006 已闭合为 132 对象/26 状态 verified manifest，`unresolved=[]`。
 26. `TASK-SETTINGS-175F`：Done；商城 721/717/624 已闭合为 132 对象/31 状态 verified manifest，`unresolved=[]`；生成 `TASK-SLICE-184`（Planned）。
-27. `TASK-SETTINGS-175G`：Ready；只将设置 148 页面族旧审计机械升级为当前 manifest。175H..I/180..184 均为同线 Planned。
+27. `TASK-SETTINGS-175G`：Done；设置 148 已闭合为 19 对象/23 状态 verified manifest，`unresolved=[]`；生成 `TASK-SLICE-185`（Planned）。
+28. `TASK-SETTINGS-175H`：Ready；只将任务 85 页面族旧审计机械升级为当前 manifest。175I/180..185 均为同线 Planned。
 
 ## 明确排除
 

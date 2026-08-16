@@ -10619,3 +10619,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-175G`：只将设置 148 页面族旧审计机械升级为当前 manifest，不进入商城或设置实现。
+
+### TASK-SETTINGS-175G
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-175H`）。
+- 恢复源 `assets/StageCommon.swf` SHA-256 `C6FC973D7D606CE4EA177B0AC075844C86A5EE7E493235FA812A029FBE4F29C9` 的 148/134/136..147 已由既有 FFDec XML/SVG/button、设置页与地图入口 AS3 调用链交叉核对。
+- 新增 `task-settings-175g.settings-page` verified manifest：19 个 scoped display object、23 个状态、23 张 940×590 恢复源结构基准；覆盖 12 个根 child、134/133 全舞台 overlay、五组 146/145、144 四态、四项全循环、默认音量死控件、关闭/重开，`unresolved=[]`。
+- 新增可重复生成/回测入口 `generate:settings-page-baselines`、`generate:settings-page-truth`、`test:settings-page-truth`，并生成 `TASK-SLICE-185`（Planned）作为 manifest 直连、手写视觉真值删除和逐状态运行差异合同。
+- 本 task 未修改 `src/`、设置行为、声音 owner 或存档；跨重启只保留用户已批准的独立全局现代例外，不进入原版对象表。实际保持两个主工作包、两个验收批次、0 compact。
+
+验证：
+- `npm run test:settings-page-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-175H`：只将任务 85 页面族旧审计机械升级为当前 manifest，不进入设置或任务实现。

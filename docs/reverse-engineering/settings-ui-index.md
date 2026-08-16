@@ -138,3 +138,14 @@ character 148 无 mask、filter、blend、alpha、rotation 例外。坐标均为
 - character 148/134/136..147 的完整显示列表、关闭按钮四状态、五行命中/hover/pressed、全部循环、副作用、死控件、overlay 生命周期、会话 owner 和原版非存档边界均已闭合。
 - 影响 `TASK-SLICE-155C` 的原版事实未知为零。
 - 跨重启保存是用户已确认范围下的现代例外；采用独立全局 localStorage owner，不新增 V6/player schema。把死控件改成真正恢复默认仍未获批准，默认禁止。
+
+## TASK-SETTINGS-175G 设置页机器真值
+
+- `task-settings-175g.settings-page` 已由 `tools/generate-settings-page-ground-truth.mjs` 机械生成并达到
+  `verified`；manifest 位于 `ground-truth/manifests/task-settings-175g-settings-page.json`。
+- 同哈希 `StageCommon.swf` 的 FFDec XML 与 SVG 已逐项核对 character 148 的 12 个根 child、depth、
+  instance 与矩阵；manifest 记录 19 个 scoped 对象、23 个状态，`unresolved=[]`。
+- 23 张 940×590 原版结构基准位于 `docs/tasks/evidence/TASK-SETTINGS-175G/`；时间轴“示 例”与
+  运行态文字差异由 fixture/AS3 合同明确分开。
+- 现代跨重启持久化仍只属于已批准例外，不进入原版 `/displayObjects`。后续直连与逐状态差异由
+  `TASK-SLICE-185` 承担，不在 175G 修改 `src/`。

@@ -143,6 +143,12 @@ character 721/717/624 生成 `task-settings-175f.shop-page` verified manifest，
 P1/P2 与返回，`unresolved=[]`。这只解除商城单页的证据债务；现代直接消费和逐状态差异仍待
 `TASK-SLICE-184`，M-046/M-052 与 VS-059 状态不提前提升。
 
+M-035/M-052/VS-059 设置页真值补充：`TASK-SETTINGS-175G` 已从恢复源 `StageCommon.swf`
+character 148 生成 `task-settings-175g.settings-page` verified manifest，闭合 19 对象、23 状态、
+12 个根 child、134/133 全舞台 overlay、五组 146/145、144 四态、四项全循环、默认音量死控件、
+关闭/重开与原版非存档边界，`unresolved=[]`。跨重启仍只是独立全局现代例外；现代直接消费待
+`TASK-SLICE-185`，M-035/M-052 与 VS-059 状态不提前提升。
+
 M-035/M-043/M-052 法宝页真值补充：`TASK-SETTINGS-175B` 已从恢复源 `backpack1.swf`
 character 596 生成 `task-settings-175b.magic-weapon-page` verified manifest，闭合 17 个根 child、
 character 200/34 动态确认、28 对象、21 状态、按钮三态/命中、九字段、灵魂条、升级/拒绝/取消、
