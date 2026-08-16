@@ -219,3 +219,11 @@ DEV/测试边界：
 恢复视觉只读取 `OtherMat1.swf` 与主加载 SWF；选择性派生只写 Git 忽略的 `local-resources/regima/task-outputs/task-settings-065-save-party/`。未修改 legacy extraction 或恢复源。
 
 排除：现代代码实现、Stage 2-3、技能数值、关卡规则、玩家键位、原版开场动画复现、可见现代确认/取消控件。
+
+## 11. TASK-SETTINGS-175I 机器真值迁移
+
+`task-settings-175i.party-creation` 已将本索引的旧审计机械升级为当前 Schema：20 个 scoped 对象、30 个状态，
+覆盖 1149 人数态与六个移出舞台的主菜单对象、901 五卡/文字/空 895、108/115 marker、逐卡四态、P1→P2、
+取消/完成/重载，`unresolved=[]`。manifest、生成器、基准和六段证据矩阵见
+`ground-truth/manifests/task-settings-175i-party-creation.json` 与
+`evidence/TASK-SETTINGS-175I-party-creation.md`。现代页面直连留给 `TASK-SLICE-187`。

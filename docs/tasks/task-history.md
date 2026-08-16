@@ -10649,3 +10649,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-175I`：只将建档/选角 1149/901 旧审计机械升级为当前 manifest，不提前进入任务页或建档实现。
+
+### TASK-SETTINGS-175I
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-180`）。
+- 恢复源 `assets/OtherMat1.swf` SHA-256 `97478E1E03A22C7D06197FFB75AB890D98B084377CBDCF394716CBAF27082126` 的 1149/901 与 `assets/Common1.swf` SHA-256 `7459555A0D76872F93BCB164079FFF496A9A68730F85FE4015EA0D2C2337CACD` 的 69/18 共享入口交叉核对。
+- 新增 `task-settings-175i.party-creation` verified manifest：20 个 scoped display object、30 个状态、30 张 940×590 恢复源结构基准；覆盖人数三按钮、六个移出舞台的主菜单对象、五卡四态、两个文字字段、空 895、P1/P2 marker、不同角色门禁、取消/完成/重载，`unresolved=[]`。
+- 新增可重复生成/回测入口 `generate:party-creation-truth`、`test:party-creation-truth` 与基准脚本，并生成 `TASK-SLICE-187`（Planned）作为 `SavePartyCreationView` manifest 直连和手写视觉真值源删除合同。
+- 本 task 未修改 `src/`、存档 schema、建档事务、owner 或路由；原子写槽仍是用户批准的现代流程映射，新增可见现代例外为空。实际保持两个主工作包、两个验收批次、0 compact。
+
+验证：
+- `npm run test:party-creation-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-180`：直接消费 175A 宠物页 verified 真值，删除未经批准的现代覆盖层；181..187 保持 Planned。
