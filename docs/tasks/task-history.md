@@ -10903,3 +10903,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-190B1`：在强化页共享右侧装备 grid 与目标槽复用 190A 的只读 tooltip 接缝，不修改事务或存档。
+
+### 2026-08-17：TASK-SLICE-190B1 执行记录
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-190B2`）。
+- 强化页共享右侧 5×5 grid 直接复用 `InventoryGridView` 的 equipment-only hover 回调；198 强化页只给原目标槽 hit area 绑定 `EquipmentTooltipSystem/View`，强化石、幸运符、神恩符和其他 stack 保持排除。
+- tooltip 根最后进入页面容器；分类、分页、放入/取回、提交、owner 切换和关闭沿用既有 rerender/destroy 生命周期，每次从当前 `EquipmentInstance` 重建，不缓存第二数值 owner。
+- 新增 localhost-only `qaEquipmentPage=workshop` 分支，复用正式 workshop view/model 与 189 的随机实例 fixture；不修改正式事务、装备数值或存档 schema。
+- 940×590 P1 `_clj` 随机攻击 234 +3 目标槽、1 级石失败降为 +2 后右 grid 即时刷新、P2 同实例目标槽、关闭重开零残留证据位于 `docs/tasks/evidence/TASK-SLICE-190B1/`；fresh console warning/error 为 0。
+- PG-004/PG-011 集中审计通过且均不归档；其余活跃 PG 经语义复核不适用。
+
+验证：
+- `npm run test:equipment-tooltip-truth`、`npm run test:equipment-tooltip-runtime-truth`、`npm run test:equipment-tooltip-runtime`、`npm run test:formal-strengthening`、`npm run test:formal-workshop-left-native`、`npm run test:formal-workshop-grid`、`npm run test:formal-workshop-host`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-190B2`：在合成页共享右 grid、装备材料、preview 与成功产物复用同一实例 tooltip；不修改配方、随机、事务或存档。

@@ -60,6 +60,9 @@ function testStagePlacementAndLifecycleWiring(): void {
 
   const root = process.cwd();
   const page = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalInventoryPageView.ts'), 'utf8');
+  const workshop = readFileSync(path.join(root, 'src/scenes/feature-ui/FormalWorkshopPageView.ts'), 'utf8');
+  const boot = readFileSync(path.join(root, 'src/scenes/BootScene.ts'), 'utf8');
+  const qaScene = readFileSync(path.join(root, 'src/scenes/EquipmentPageQaScene.ts'), 'utf8');
   const grid = readFileSync(path.join(root, 'src/scenes/feature-ui/InventoryGridView.ts'), 'utf8');
   assert.match(page, /createEquipmentTooltipView/);
   assert.match(page, /onEquipmentOver/);
@@ -67,6 +70,14 @@ function testStagePlacementAndLifecycleWiring(): void {
   assert.match(page, /objects\.push\(equipmentTooltip\.root\)/);
   assert.match(grid, /cell\.entry\?\.kind === 'equipment'/);
   assert.match(grid, /pointerout/);
+  assert.match(workshop, /model\.tab === 'strength' \? createEquipmentTooltipView/);
+  assert.match(workshop, /onEquipmentOver/);
+  assert.match(workshop, /FormalWorkshopStrengthTargetHitAreaIndex/);
+  assert.match(workshop, /bindEquipmentTooltip\(targetZone, target, equipmentTooltip\)/);
+  assert.match(workshop, /objects\.push\(equipmentTooltip\.root\)/);
+  assert.match(boot, /qaEquipmentPage.*workshop/);
+  assert.match(qaScene, /createFormalWorkshopPageView/);
+  assert.match(qaScene, /entry\.kind === 'equipment' && entry\.instanceId === 'qa-_clj'/);
 }
 
 function testRandomStrengthQaFixture(): void {

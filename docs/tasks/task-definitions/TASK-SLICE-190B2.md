@@ -4,7 +4,7 @@
 - `TASK-SLICE`
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
 
 目标机制/切片：
 - `M-036`、`M-037`、`M-052`、`VS-066`

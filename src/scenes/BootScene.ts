@@ -60,6 +60,7 @@ export class BootScene extends Phaser.Scene {
       const p2HeroId = equipmentQa.owner === 'p2' ? equipmentQa.roleId : 2;
       await this.startQaScene('EquipmentPageQaScene', {
         options: equipmentQa,
+        page: params.get('qaEquipmentPage') === 'workshop' ? 'workshop' : 'backpack',
         devParty: createFormalDevParty(2, p1HeroId, p2HeroId),
       });
       return;

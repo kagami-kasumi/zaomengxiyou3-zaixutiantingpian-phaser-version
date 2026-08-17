@@ -39,6 +39,10 @@ export const FormalWorkshopPageHitAreas = {
   next: { x: 728, y: 465, width: 82, height: 32 },
 } as const satisfies Record<string, WorkshopHitArea>;
 
+// Character 198 places the equipment target in the third interactive slot.
+// The other strength slots are stones or charms and must not expose equipment attributes.
+export const FormalWorkshopStrengthTargetHitAreaIndex = 2;
+
 export const FormalWorkshopStageHitAreas: Readonly<Record<FormalWorkshopTab, readonly WorkshopHitArea[]>> = {
   strength: [
     { x: 184, y: 174, width: 68, height: 68 },

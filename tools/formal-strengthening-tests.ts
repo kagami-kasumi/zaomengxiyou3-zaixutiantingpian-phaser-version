@@ -29,6 +29,10 @@ import {
   stageFormalWorkshopStrengthening,
 } from '../src/systems/FormalWorkshopPageSystem';
 import {
+  FormalWorkshopStageHitAreas,
+  FormalWorkshopStrengthTargetHitAreaIndex,
+} from '../src/systems/FormalWorkshopNativeTabLayout';
+import {
   addEquipmentByFillName,
   addStackByFillName,
   createInventoryStore,
@@ -221,6 +225,14 @@ function testTrueStrengthAsset(): void {
   assert.ok(existsSync(path.join(process.cwd(), 'public', craftingAssets.strengthPanel.path)));
 }
 
+function testStrengthTooltipTargetContract(): void {
+  assert.equal(FormalWorkshopStrengthTargetHitAreaIndex, 2);
+  assert.equal(FormalWorkshopStageHitAreas.strength.length, 6);
+  assert.deepEqual(FormalWorkshopStageHitAreas.strength[FormalWorkshopStrengthTargetHitAreaIndex], {
+    x: 282, y: 222, width: 68, height: 68,
+  });
+}
+
 function equipmentInstance(definition: EquipmentDefinition): EquipmentInstance {
   return { kind: 'equipment', instanceId: `test-${definition.fillName}`, definition, quantity: 1 };
 }
@@ -238,4 +250,5 @@ testIndividualStagedSlotReturnsToInventory();
 testFormalOwnerTransactionAndPersistence();
 testEnhancementRoundTripAndOptionalDefaults();
 testTrueStrengthAsset();
+testStrengthTooltipTargetContract();
 console.log('Equipment strengthening matrix, transactions, owner isolation, current-schema stats, and true asset tests passed.');

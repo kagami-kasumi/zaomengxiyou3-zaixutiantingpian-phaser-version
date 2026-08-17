@@ -29,6 +29,7 @@ import {
   FormalWorkshopNativeTabLayout,
   FormalWorkshopPageHitAreas,
   FormalWorkshopReturnHitArea,
+  FormalWorkshopStrengthTargetHitAreaIndex,
   FormalWorkshopStageHitAreas,
   type WorkshopHitArea,
 } from '../../systems/FormalWorkshopNativeTabLayout';
@@ -36,6 +37,7 @@ import { createInventoryGridProjection } from '../../systems/InventoryGridProjec
 import { InventoryCategories } from '../../systems/InventorySystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
 import { createFormalSoulBalanceView } from './FormalSoulBalanceView';
+import { createEquipmentTooltipView, type EquipmentTooltipView } from './EquipmentTooltipView';
 import { createInventoryGridObjects, createNativeInventoryButton } from './InventoryGridView';
 import {
   createNativeFusionObjects,
@@ -70,6 +72,7 @@ const WorkshopInventoryPagePosition = {
 const WorkshopInventoryTabStep = WorkshopItemsTabBounds.left - WorkshopEquipmentTabBounds.left;
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
   const objects: Phaser.GameObjects.GameObject[] = [];
+  const equipmentTooltip = model.tab === 'strength' ? createEquipmentTooltipView(scene) : undefined;
   objects.push(scene.add.image(470, 295, craftingAssets.container.key).setDisplaySize(940, 590));
   const panelAsset = model.tab === 'fusion' ? craftingAssets.fusionPanel
     : model.tab === 'strength' ? craftingAssets.strengthPanel
@@ -104,7 +107,11 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
   objects.push(...createInventoryGridObjects(scene, projection, WorkshopInventoryGridOrigin, (cell) => {
     if (selectFormalWorkshopGridEntry(model, cell.index)) stageSelectedWorkshopEntry(model);
     callbacks.onRerender();
-  }));
+  }, equipmentTooltip ? {
+    onEquipmentOver: (entry, pointer) => equipmentTooltip.show(entry, pointer.x, pointer.y),
+    onEquipmentMove: (pointer) => equipmentTooltip.move(pointer.x, pointer.y),
+    onEquipmentOut: equipmentTooltip.hide,
+  } : undefined));
   objects.push(scene.add.text(
     WorkshopInventoryPagePosition.x,
     WorkshopInventoryPagePosition.y,
@@ -129,9 +136,13 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
       callbacks.onFeedback(model.message);
       callbacks.onRerender();
     }));
-    objects.push(...stageZones(scene, 'strength', (index) => {
+    const strengthZones = stageZones(scene, 'strength', (index) => {
       toggleWorkshopStageSlot(model, 'strength', index); callbacks.onRerender();
-    }));
+    });
+    const target = model.strengtheningSessions[model.owner].target;
+    const targetZone = strengthZones[FormalWorkshopStrengthTargetHitAreaIndex];
+    if (target && targetZone && equipmentTooltip) bindEquipmentTooltip(targetZone, target, equipmentTooltip);
+    objects.push(...strengthZones);
   } else if (model.tab === 'fusion') {
     objects.push(...createNativeFusionObjects(scene, model, () => {
       runFormalWorkshopFusion(model, storage);
@@ -160,6 +171,7 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
       toggleWorkshopStageSlot(model, 'making', index); callbacks.onRerender();
     }));
   }
+  if (equipmentTooltip) objects.push(equipmentTooltip.root);
   return scene.add.container(0, 0, objects).setDepth(20);
 }
 
@@ -229,6 +241,16 @@ function stageZones(
 ): Phaser.GameObjects.Zone[] {
   return FormalWorkshopStageHitAreas[tab].map((area, index) =>
     originalHitZone(scene, area, () => onClick(index), `workshop-stage-${tab}-${index}`));
+}
+
+function bindEquipmentTooltip(
+  zone: Phaser.GameObjects.Zone,
+  instance: NonNullable<FormalWorkshopPageModel['strengtheningSessions']['p1']['target']>,
+  tooltip: EquipmentTooltipView,
+): void {
+  zone.on('pointerover', (pointer: Phaser.Input.Pointer) => tooltip.show(instance, pointer.x, pointer.y));
+  zone.on('pointermove', (pointer: Phaser.Input.Pointer) => tooltip.move(pointer.x, pointer.y));
+  zone.on('pointerout', tooltip.hide);
 }
 
 function originalHitZone(
