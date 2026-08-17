@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+// 边界：本视图只装配 verified 工坊几何与交互，不持有装备属性、事务、背包或存档规则。
 import workshopInventoryTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-slice-165d-workshop-inventory.json';
 import { craftingAssets } from '../../assets/AssetManifest';
 import { inventoryUiAssets } from '../../assets/InventoryUiAssets';
@@ -46,6 +47,7 @@ import {
   createNativeStrengthObjects,
   getNativeWorkshopPanelBounds,
   getNativeFusionTooltipTargets,
+  getNativeMakingTooltipTarget,
   getNativeResolutionTooltipTarget,
 } from './FormalWorkshopNativeOperationView';
 
@@ -74,7 +76,8 @@ const WorkshopInventoryPagePosition = {
 const WorkshopInventoryTabStep = WorkshopItemsTabBounds.left - WorkshopEquipmentTabBounds.left;
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
   const objects: Phaser.GameObjects.GameObject[] = [];
-  const equipmentTooltip = model.tab === 'strength' || model.tab === 'fusion' || model.tab === 'resolution'
+  const equipmentTooltip = model.tab === 'strength' || model.tab === 'fusion'
+    || model.tab === 'resolution' || model.tab === 'making'
     ? createEquipmentTooltipView(scene)
     : undefined;
   objects.push(scene.add.image(470, 295, craftingAssets.container.key).setDisplaySize(940, 590));
@@ -186,6 +189,10 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
     objects.push(...stageZones(scene, 'making', (index) => {
       toggleWorkshopStageSlot(model, 'making', index); callbacks.onRerender();
     }));
+    const product = getNativeMakingTooltipTarget(model);
+    const productZone = originalHoverZone(scene, product.bounds, 'workshop-making-product');
+    if (product.instance && equipmentTooltip) bindEquipmentTooltip(productZone, product.instance, equipmentTooltip);
+    objects.push(productZone);
   }
   if (equipmentTooltip) objects.push(equipmentTooltip.root);
   return scene.add.container(0, 0, objects).setDepth(20);
@@ -281,6 +288,17 @@ function originalHitZone(
     .setData('originalArtworkHitArea', id);
   zone.on('pointerdown', onClick);
   return zone;
+}
+
+function originalHoverZone(
+  scene: Phaser.Scene,
+  area: WorkshopHitArea,
+  id: string,
+): Phaser.GameObjects.Zone {
+  return scene.add.zone(area.x, area.y, area.width, area.height)
+    .setOrigin(0)
+    .setInteractive()
+    .setData('originalArtworkHitArea', id);
 }
 
 function getTruthStageBounds(id: string): Readonly<{ left: number; top: number; width: number; height: number }> {

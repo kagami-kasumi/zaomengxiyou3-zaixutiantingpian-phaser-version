@@ -27,6 +27,7 @@ export type EquipmentPageQaCase =
   | 'unchanged'
   | 'tooltip-instance'
   | 'fusion-tooltip'
+  | 'making-tooltip'
   | 'fmtstx-defect'
   | 'mksddf-defect';
 
@@ -40,7 +41,7 @@ export type EquipmentPageQaOptions = Readonly<{
 const QaCases = new Set<EquipmentPageQaCase>([
   'equipped', 'empty', 'role4-shovel', 'role4-arrow', 'role5-frame',
   'character-520', 'character-521', 'title', 'unchanged', 'fmtstx-defect', 'mksddf-defect',
-  'tooltip-instance', 'fusion-tooltip',
+  'tooltip-instance', 'fusion-tooltip', 'making-tooltip',
 ]);
 const QaEquipmentRegistry = createEquipmentMakingDefinitionRegistry(
   createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()),
@@ -75,6 +76,7 @@ export function createEquipmentPageQaStorage(options: EquipmentPageQaOptions): S
   target.equipment = encodeFixtureLoadout(options);
   target.soulCount = options.soulCount;
   if (options.fixtureCase === 'fusion-tooltip') seedFusionTooltipInventory(target.inventory);
+  if (options.fixtureCase === 'making-tooltip') seedMakingTooltipInventory(target.inventory);
   if (!createSaveSlot(storage, 0, save)) throw new Error('Failed to create equipment QA fixture save.');
   return storage;
 }
@@ -95,6 +97,14 @@ function seedFusionTooltipInventory(inventory: ReturnType<typeof createDefaultGa
     },
   ];
   inventory.nextEquipmentInstanceId = 4;
+}
+
+function seedMakingTooltipInventory(inventory: ReturnType<typeof createDefaultGameSave>['player1']['inventory']): void {
+  inventory.categories.items.unshift(
+    { kind: 'stack', fillName: 'whgzzs', stackId: 'qa-making-book', quantity: 1 },
+    { kind: 'stack', fillName: 'wptm', stackId: 'qa-making-material', quantity: 20 },
+    { kind: 'stack', fillName: 'sms1', stackId: 'qa-making-gem', quantity: 1 },
+  );
 }
 
 export function getEquipmentPageQaFillNames(options: EquipmentPageQaOptions): readonly string[] {

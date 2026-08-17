@@ -30,6 +30,7 @@ import {
   loadActiveGame,
 } from '../src/systems/SaveSlotSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
+import { AuthoritativeEquipmentCatalog } from '../src/systems/EquipmentCatalog';
 import {
   assertVerifiedShopPageTruth,
   getShopCardTruthBounds,
@@ -72,6 +73,11 @@ assert.deepEqual(getShopCardTruthBounds(8, 'icon'), {
   left: 600.8, top: 359, width: 50, height: 50,
 });
 assert.equal(new Set(FormalShopItems.map((item) => item.fillName)).size, 49);
+assert.deepEqual(
+  FormalShopItems.filter((item) => AuthoritativeEquipmentCatalog[item.fillName]),
+  [],
+  'the 49-item shop catalog must not become an equipment-tooltip consumer',
+);
 assert.deepEqual(
   FormalShopItems.slice(0, 3).map((item) => item.fillName),
   ['wpqhs1', 'wpqhs2', 'wpqhs3'],
@@ -229,6 +235,7 @@ const cardStatic = readFileSync(
 assert.doesNotMatch(cardStatic, /id="txt_name"|id="txt_num"|id="btn_buy"/);
 const shopSource = readFileSync(path.join(repoRoot, 'src/scenes/ShopScene.ts'), 'utf8');
 assert.doesNotMatch(shopSource, /fetch\(|XMLHttpRequest|WebSocket|PayMoneyVar/);
+assert.doesNotMatch(shopSource, /EquipmentTooltip|createEquipmentTooltipView/);
 assert.match(shopSource, /createFormalSoulBalanceView/);
 assert.match(shopSource, /assertVerifiedShopPageTruth/);
 assert.match(shopSource, /getShopTruthBounds/);

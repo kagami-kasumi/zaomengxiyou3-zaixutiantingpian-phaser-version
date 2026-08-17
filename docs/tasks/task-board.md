@@ -4,15 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-190B4` 是唯一 Ready 游戏 task；190B3 已在分解页闭合共享右 grid、目标实例、拒绝/成功、结果排除、P1/P2 与关闭重开生命周期，本 task 只迁移打造产物并关闭商城负合同。
+`TASK-SETTINGS-191` 是唯一 Ready 游戏 task；190B1..B4 已闭合正式工坊全部装备 tooltip 消费者，商城 49 项与权威装备目录零交集且时装继续保持原版禁用 hover，Split 父任务 190B 已归档。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-190B | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 嵌入式装备 hover 父任务 | 汇总 189 确认的工坊消费者迁移；父任务不直接实现 | M-036、M-037、M-052、VS-066 | 190B1..B4 的独立页面合同、实现与回归结果 | 全部子 task 完成后收束父任务 | [定义](task-definitions/TASK-SLICE-190B.md) |
-| TASK-SLICE-190B4 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 打造页装备 hover | 在打造页复用同一实例 owner，并关闭商城时装禁用 hover 的负向回归 | M-036、M-037、M-052、VS-066 | 打造页原生投影、刷新/移出回归与商城负向门禁 | TASK-SETTINGS-191 | [定义](task-definitions/TASK-SLICE-190B4.md) |
-| TASK-SETTINGS-191 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物 UI 可见性逆向 | 定位正式路径“无宠物 UI”是入口、宿主、层级、bundle、绘制还是真值消费缺口，并闭合战斗宠物 HUD 证据 | M-016、M-035、M-042、M-052、VS-067 | 页面/战斗 UI 显示列表、verified 真值/基准、正式路由根因与 192A/B 合同 | TASK-SLICE-192A | [定义](task-definitions/TASK-SETTINGS-191.md) |
+| TASK-SETTINGS-191 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物 UI 可见性逆向 | 定位正式路径“无宠物 UI”是入口、宿主、层级、bundle、绘制还是真值消费缺口，并闭合战斗宠物 HUD 证据 | M-016、M-035、M-042、M-052、VS-067 | 页面/战斗 UI 显示列表、verified 真值/基准、正式路由根因与 192A/B 合同 | TASK-SLICE-192A | [定义](task-definitions/TASK-SETTINGS-191.md) |
 | TASK-SLICE-192A | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物页/入口 UI | 修复正式关卡 P1/P2 宠物入口与页面可见/交互链 | M-016、M-042、M-052、VS-067 | 正式宠物页原生投影、owner/存档回归与零遮挡差异 | TASK-SLICE-192B | [定义](task-definitions/TASK-SLICE-192A.md) |
 | TASK-SLICE-192B | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物战斗 UI | 直接投影当前 pet runtime owner 的原生战斗可见对象/HUD | M-042、M-049、M-052、VS-067 | P1/P2 独立宠物状态、技能/休息/死亡更新和逐状态差异 | TASK-SETTINGS-193 | [定义](task-definitions/TASK-SLICE-192B.md) |
 | TASK-SETTINGS-193 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物动画 corpus 分区 | 盘点九物种/形态/动作/技能对象的恢复源 owner，冻结分族证据与实现批次 | M-034、M-035、M-042、VS-067 | corpus 目录、缺失/占位矩阵、每资源族证据+ 实现子 task | 执行所有生成的宠物资源族子 task，然后 TASK-SLICE-194 | [定义](task-definitions/TASK-SETTINGS-193.md) |

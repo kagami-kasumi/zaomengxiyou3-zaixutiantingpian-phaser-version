@@ -61,6 +61,8 @@ function testNativeDynamicChildrenFieldsAndButtons(): void {
   assert.match(nativeView, /session\.results\.slice\(0, 6\)/);
   assert.match(nativeView, /getNativeResolutionTooltipTarget/);
   assert.match(nativeView, /hitAreaOf\(resolutionTruth, 'material'\)/);
+  assert.match(nativeView, /getNativeMakingTooltipTarget/);
+  assert.match(nativeView, /hitAreaOf\(makingTruth, 'makeObj'\)/);
   assert.match(nativeView, /session\.book\?\.definition\.fillName/);
   assert.match(nativeView, /recipe\?\.requiredMaterials\.slice\(0, 2\)/);
   assert.match(nativeView, /session\.gems\.slice\(0, 3\)/);
@@ -81,6 +83,10 @@ function testNativeDynamicChildrenFieldsAndButtons(): void {
   assert.match(workshopView, /getNativeResolutionTooltipTarget\(model\)/);
   assert.match(workshopView, /workshop-resolution-material/);
   assert.doesNotMatch(workshopView, /workshop-resolution-resu/);
+  assert.match(workshopView, /getNativeMakingTooltipTarget\(model\)/);
+  assert.match(workshopView, /originalHoverZone\(scene, product\.bounds/);
+  assert.match(workshopView, /workshop-making-product/);
+  assert.doesNotMatch(workshopView, /workshop-making-(?:book|needmaterial|material)/);
   assert.doesNotMatch(workshopView, /inventoryPage \+ 1\}\/\$\{FormalWorkshopPageCount/);
   assert.match(inventoryGridView, /createWorkshopSlotItemIcon/);
   assert.match(inventoryGridView, /const WorkshopSlotContentWidth = 63/);

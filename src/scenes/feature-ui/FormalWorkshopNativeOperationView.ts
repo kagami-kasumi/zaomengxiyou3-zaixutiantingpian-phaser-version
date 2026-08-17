@@ -37,6 +37,10 @@ export type NativeResolutionTooltipTarget = Readonly<{
   bounds: Readonly<{ x: number; y: number; width: number; height: number }>;
   instance?: EquipmentInstance;
 }>;
+export type NativeMakingTooltipTarget = Readonly<{
+  bounds: Readonly<{ x: number; y: number; width: number; height: number }>;
+  instance?: EquipmentInstance;
+}>;
 
 export function getNativeWorkshopPanelBounds(tab: FormalWorkshopTab): Readonly<{
   left: number;
@@ -202,6 +206,17 @@ export function createNativeMakingObjects(
     down: craftingAssets.makingButtonDown.key,
   }, onCommit));
   return objects;
+}
+
+export function getNativeMakingTooltipTarget(
+  model: FormalWorkshopPageModel,
+): NativeMakingTooltipTarget {
+  assertVerified(makingTruth);
+  const product = model.makingSessions[model.owner].lastProduct;
+  return {
+    bounds: hitAreaOf(makingTruth, 'makeObj'),
+    ...(product ? { instance: product } : {}),
+  };
 }
 
 function addItem(

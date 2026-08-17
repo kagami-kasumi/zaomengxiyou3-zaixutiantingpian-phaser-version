@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-190B | 嵌入式装备 hover 父任务收束 | 汇总并关闭 189 确认的全部工坊消费者与商城负合同 | M-036、M-037、M-052、VS-066 | 190B1..B4 四页独立 verified 几何/生命周期、共享只读实例 tooltip、商城 49 项负门禁与 VS-066 完成 |
+| TASK-SLICE-190B4 | 打造页装备 hover | 打造成功产物复用实例 tooltip，书/材料/宝石与商城保持排除 | M-036、M-037、M-052、VS-066 | verified makeObj bounds、P1/P2 成功、拒绝/返回重开、商城零装备/禁用时装 hover 与 940×590 零 console |
 | TASK-SLICE-190B3 | 分解页装备 hover | 共享右 grid 与目标实例复用 tooltip，结果材料保持排除 | M-036、M-037、M-052、VS-066 | verified 目标 bounds、拒绝/成功/返还、P1/P2、结果排除与 940×590 零 console 验收 |
 | TASK-SLICE-190B2 | 合成页装备 hover | 共享右 grid、装备材料、preview 与成功产物复用同一实例 tooltip | M-036、M-037、M-052、VS-066 | 真实产物实例引用、同算法继承 preview、P1/P2/移出/重开与 940×590 零 console 验收 |
 | TASK-SETTINGS-189 | 装备 hover UI 逆向 | 冻结原字段、触发、几何、实例数值和全消费者合同 | M-036、M-037、M-052、VS-066 | 12 状态/32 对象 verified 真值、164 件 tooltip 字段、消费者矩阵、190B1..B4 拆分 |
@@ -291,6 +293,83 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-190B4
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务已完成；下一 task 为 `TASK-SETTINGS-191`）
+
+目标机制/切片：
+
+- `M-036`、`M-037`、`M-052`、`VS-066`
+
+规模结果：
+
+- 两个主工作包、两个验收批次、0 次 compact；商城 49 项没有新增 `zblist` 装备消费者，未触发拆分。
+
+输入资料：
+
+- 189 tooltip 真值/消费者矩阵、167 making verified manifest、175F 商城真值、当前 making session/view 与商城目录。
+
+输出产物：
+
+- 打造页右 grid 与 `makeObj` 成功产物共享 equipment-only tooltip；制作书、需求材料、宝石、空/拒绝态排除；商城 49 项/时装禁用 hover 防扩散门禁。
+
+完成定义与验收：
+
+- `makeObj` bounds 直接来自 verified making manifest，实例直接读取 `EquipmentMakingSession.lastProduct`，没有第二属性、几何或事务 owner。
+- P1/P2、成功/拒绝、pointerout、返回/C 重开、940×590 与 fresh console 通过；商城目录与权威装备表零交集，`ShopScene` 无 tooltip 接线。
+
+禁止范围：
+
+- 未实现非装备物品 tooltip，未修改打造/商城事务、价格、数值、存档或页面皮肤。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-191`：定位宠物 UI 正式可见性根因与战斗 HUD 证据。
+
+### TASK-SLICE-190B
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Split 父任务已完成；下一 task 为 `TASK-SETTINGS-191`）
+
+目标机制/切片：
+
+- `M-036`、`M-037`、`M-052`、`VS-066`
+
+规模结果：
+
+- 父任务不直接实现；190B1..B4 四个独立页面任务均在各自预算内完成。
+
+输入资料：
+
+- 189 消费者/显示列表矩阵、verified tooltip 真值、190A 共享接缝与四份工坊页面真值。
+
+输出产物：
+
+- 强化、合成、分解、打造四页独立皮肤/几何下的共享只读实例 tooltip 和完整消费者关闭证据。
+
+完成定义与验收：
+
+- 190B1..B4 全部归档；商城 49 项无装备正向消费者且时装原版禁用 hover，不生成第五个实现 task；VS-066 已完成。
+
+禁止范围：
+
+- 未修改装备事务/数值/存档，未扩大到非装备 tooltip，未用通用现代可见层替换页面皮肤。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-191`：继续当前功能线的宠物 UI 可见性逆向。
 
 ### TASK-SLICE-186
 
@@ -11008,3 +11087,33 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-190B4`：迁移打造页最终装备产物 tooltip，并关闭商城时装禁用 hover 的负向合同与 Split 父任务 190B。
+
+### TASK-SLICE-190B4
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-191`）。
+- 打造页共享右侧 5×5 grid 继续复用 `InventoryGridView` 的 equipment-only hover；167 making verified manifest 的 `makeObj` bounds 成为唯一成品命中几何，只绑定当前 `EquipmentMakingSession.lastProduct`。
+- 制作书、两个需求材料、三个宝石槽、空成品和拒绝态均不绑定 tooltip；成功产物直接使用背包中的真实 `EquipmentInstance`，未复制属性、坐标、打造事务或存档 owner。
+- 商城 49 商品与 `AuthoritativeEquipmentCatalog` 交集为空，`ShopScene` 没有 equipment tooltip 接线；189 `shop-fashion-disabled` 保持原版无面板，未生成第五个实现 task。
+- 940×590 P1/P2 “尾火棍”成功产物 hover、1000→800 灵魂、0 灵魂拒绝、书/宝石排除、pointerout、返回/C 重开均通过，fresh console warning/error 为 0；证据汇总位于 `docs/tasks/evidence/TASK-SLICE-190B4/visual-audit.md`。
+- PG-004/PG-011 集中审计通过且均不归档；PG-001/006/012/013 经语义复核不适用。
+
+验证：
+- tooltip truth/runtime truth、making、shop、formal workshop 专项、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-191`：定位正式路径宠物 UI 不可见的入口/宿主/层级/bundle/绘制/真值消费根因，并闭合战斗宠物 HUD 证据。
+
+### TASK-SLICE-190B
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-191`）。
+- 190B1..B4 已分别闭合强化、合成、分解和打造的独立 verified 页面几何、实例 owner、hover 生命周期与非装备排除；189 消费者矩阵没有未迁移的正向消费者。
+- 商城 49 项无 `zblist` 装备，时装原版禁用 hover 负合同通过，因此未生成第五个实现 task。
+- Split 父任务随最后子任务同次归档，VS-066 更新为已完成；完整验证集合与 B4 共用同次结果。
+
+验证：
+- `TASK-SLICE-190B1..B4` 各自专项/全系统/build/structure/workflow/annotations/problem audit/diff 与 940×590 零 console 证据均通过。
+
+推荐任务：
+- `TASK-SETTINGS-191`：定位正式路径宠物 UI 不可见根因并冻结页面/战斗 HUD 证据。

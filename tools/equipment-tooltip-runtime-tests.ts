@@ -16,7 +16,11 @@ import {
   readEquipmentPageQaOptions,
 } from '../src/systems/EquipmentPageQaFixtureSystem';
 import { createFormalInventoryPage } from '../src/systems/FormalInventoryPageSystem';
-import { createFormalWorkshopPage, getFormalWorkshopGridPageEntries } from '../src/systems/FormalWorkshopPageSystem';
+import {
+  createFormalWorkshopPage,
+  getFormalWorkshopEntries,
+  getFormalWorkshopGridPageEntries,
+} from '../src/systems/FormalWorkshopPageSystem';
 
 function fixture(
   fillName: string,
@@ -71,7 +75,7 @@ function testStagePlacementAndLifecycleWiring(): void {
   assert.match(page, /objects\.push\(equipmentTooltip\.root\)/);
   assert.match(grid, /cell\.entry\?\.kind === 'equipment'/);
   assert.match(grid, /pointerout/);
-  assert.match(workshop, /model\.tab === 'strength' \|\| model\.tab === 'fusion' \|\| model\.tab === 'resolution'/);
+  assert.match(workshop, /model\.tab === 'strength' \|\| model\.tab === 'fusion'[\s\S]*model\.tab === 'resolution' \|\| model\.tab === 'making'/);
   assert.match(workshop, /onEquipmentOver/);
   assert.match(workshop, /FormalWorkshopStrengthTargetHitAreaIndex/);
   assert.match(workshop, /bindEquipmentTooltip\(targetZone, target, equipmentTooltip\)/);
@@ -80,6 +84,9 @@ function testStagePlacementAndLifecycleWiring(): void {
   assert.match(workshop, /bindEquipmentTooltip\(zone, target\.instance, equipmentTooltip\)/);
   assert.match(workshop, /getNativeResolutionTooltipTarget\(model\)/);
   assert.match(workshop, /bindEquipmentTooltip\(targetZone, target\.instance, equipmentTooltip\)/);
+  assert.match(workshop, /getNativeMakingTooltipTarget\(model\)/);
+  assert.match(workshop, /bindEquipmentTooltip\(productZone, product\.instance, equipmentTooltip\)/);
+  assert.doesNotMatch(workshop, /bindEquipmentTooltip\([^\n]*(?:makingbook|needmaterial|material[123])/);
   assert.match(workshop, /objects\.push\(equipmentTooltip\.root\)/);
   assert.match(boot, /qaEquipmentPage.*workshop/);
   assert.match(qaScene, /createFormalWorkshopPageView/);
@@ -118,8 +125,23 @@ function testFusionTooltipQaFixture(): void {
   assert.equal(first?.kind === 'equipment' ? first.baseStatsOverride?.power : undefined, 234);
 }
 
+function testMakingTooltipQaFixture(): void {
+  const options = readEquipmentPageQaOptions(
+    '?qaEquipmentRole=1&qaEquipmentOwner=p1&qaEquipmentCase=making-tooltip&qaEquipmentSoul=1000',
+    true,
+  );
+  assert.ok(options);
+  const model = createFormalWorkshopPage(createEquipmentPageQaStorage(options), 'p1');
+  assert.ok(model);
+  const fillNames = getFormalWorkshopEntries(model).map((entry) => entry.definition.fillName);
+  assert.ok(fillNames.includes('whgzzs'));
+  assert.ok(fillNames.includes('wptm'));
+  assert.ok(fillNames.includes('sms1'));
+}
+
 testVerifiedTruthAndInstanceProjection();
 testStagePlacementAndLifecycleWiring();
 testRandomStrengthQaFixture();
 testFusionTooltipQaFixture();
+testMakingTooltipQaFixture();
 console.log('Equipment tooltip truth, instance projection, placement, and formal inventory wiring tests passed.');
