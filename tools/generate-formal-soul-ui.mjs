@@ -69,10 +69,17 @@ const fontOutputPath = path.join(
 const source = readFileSync(sourcePath, 'utf8');
 const skillSource = readFileSync(skillSourcePath, 'utf8');
 const cleaned = source
-  .replace(/^\s*<use[^>]*\sid="txtlh"[^>]*\/>\r?\n/m, '')
-  .replace(/^\s*<use[^>]*\sid="nowpage"[^>]*\/>\r?\n/m, '');
-if (cleaned === source || cleaned.includes('id="txtlh"') || cleaned.includes('id="nowpage"')) {
-  throw new Error('Expected to remove the dynamic workshop soul and page fields from character 119.');
+  .replace(/^\s*<use[^\r\n]*\sid="txtlh"[^\r\n]*\/>\r?\n?/m, '')
+  .replace(/^\s*<use[^\r\n]*\sid="nowpage"[^\r\n]*\/>\r?\n?/m, '')
+  .replace(/^\s*<use[^\r\n]*\sid="prePage"[^\r\n]*\/>\r?\n?/m, '')
+  .replace(/^\s*<use[^\r\n]*\sid="nextPage"[^\r\n]*\/>\r?\n?/m, '')
+  .replace(/^\s*<use[^\r\n]*ffdec:characterId="118"[^\r\n]*xlink:href="#text2"[^\r\n]*\/>\r?\n?/m, '');
+if (
+  cleaned === source
+  || /id="(?:txtlh|nowpage|prePage|nextPage)"/.test(cleaned)
+  || /ffdec:characterId="118"[^>]*xlink:href="#text2"/.test(cleaned)
+) {
+  throw new Error('Expected to remove the workshop soul field and runtime-projected pager objects from character 119.');
 }
 
 const digitPaths = Array.from({ length: 10 }, (_, digit) => {
@@ -106,4 +113,4 @@ writeFileSync(digitAtlasPath, digitAtlas);
 writeFileSync(badgePath, Buffer.from(badgeMatch[1], 'base64'));
 mkdirSync(path.dirname(fontOutputPath), { recursive: true });
 copyFileSync(fontSourcePath, fontOutputPath);
-console.log('Generated the original workshop root without dynamic soul/page fields, shared soul UI, and FZCuYuan font.');
+console.log('Generated the original workshop root without runtime-projected soul/pager objects, shared soul UI, and FZCuYuan font.');

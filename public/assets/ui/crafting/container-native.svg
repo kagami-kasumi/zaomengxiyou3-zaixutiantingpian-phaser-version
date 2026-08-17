@@ -8,10 +8,7 @@
     <use ffdec:characterId="102" height="522.45" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="742.0" xlink:href="#shape10"/>    <use ffdec:characterId="105" height="314.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="26.0" xlink:href="#shape11"/>
     <use ffdec:characterId="109" height="32.0" id="resolutionbtn" transform="matrix(1.0, 0.0, 0.0, 1.0, 226.2, 556.45)" width="65.0" xlink:href="#button3"/>
     <use ffdec:characterId="113" height="33.0" id="makingbtn" transform="matrix(1.0, 0.0, 0.0, 1.0, 302.1, 557.45)" width="80.0" xlink:href="#button4"/>
-    <use ffdec:characterId="116" height="408.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="684.65" xlink:href="#shape18"/>    <use ffdec:characterId="83" height="34.0" id="nextPage" transform="matrix(0.9999, 0.0, 0.0, 0.9922, 726.85, 465.55)" width="86.0" xlink:href="#button5"/>
-    <use ffdec:characterId="118" height="23.25" transform="matrix(1.0, 0.0, 0.0, 1.0, 704.7, 471.95)" width="24.15" xlink:href="#text2"/>
-    <use ffdec:characterId="78" height="34.0" id="prePage" transform="matrix(1.0, 0.0, 0.0, 1.0, 608.65, 465.55)" width="86.0" xlink:href="#button6"/>
-  </g>
+    <use ffdec:characterId="116" height="408.0" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="684.65" xlink:href="#shape18"/>  </g>
   <defs>
     <g id="shape0">
       <pattern height="590" id="PatternID_87_1" overflow="visible" patternTransform="matrix(1.0, 0.0, 0.0, 1.0, 0.45, 0.0)" patternUnits="userSpaceOnUse" viewBox="0 0 940 590" width="940">

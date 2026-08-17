@@ -118,6 +118,15 @@ const displayObjects = [
     render: { ...render(null), textStyle: { fontFamily: 'FZCuYuan-M03', color: '#ffffff', dynamic: 'currentPage' } },
   },
   {
+    id: 'inventory-page-suffix',
+    parentId: 'workshop-root',
+    depth: 25,
+    objectType: 'text-field',
+    sourceIdentity: sourceIdentity(118, null, null),
+    placements: [placement(matrix(704.7, 471.95), bounds(0, 0, 24.15, 23.25), bounds(704.7, 471.95, 24.15, 23.25), ['backpack1-swf:character-119', 'backpack1-swf:character-118'])],
+    render: { ...render(null), textStyle: { fontFamily: 'FZCuYuan-M03', color: '#ffffff', staticText: '/5' } },
+  },
+  {
     id: 'inventory-page-previous',
     parentId: 'workshop-root',
     depth: 27,
@@ -150,9 +159,9 @@ const manifest = {
   },
   generatedBy: {
     tool: 'generate-workshop-inventory-ground-truth.mjs',
-    toolVersion: '1',
+    toolVersion: '2',
     command: 'npm run generate:workshop-inventory-truth',
-    generatedAt: '2026-08-09T12:00:00+08:00',
+    generatedAt: '2026-08-17T00:00:00+08:00',
   },
   provenance: [
     {
@@ -160,7 +169,7 @@ const manifest = {
       sourceType: 'restored-swf',
       sourcePath: swfPath,
       sha256: sha256(swfPath),
-      locator: 'SWF 940x590 @24fps; character 119 StrengthEquipment; dynamic character 246 BackPackElement; character 628 PackThings; button characters 230/235/240/245/78/83.',
+      locator: 'SWF 940x590 @24fps; character 119 StrengthEquipment; dynamic character 246 BackPackElement; character 628 PackThings; page suffix character 118; button characters 230/235/240/245/78/83.',
     },
     {
       id: 'strength-equipment-as',

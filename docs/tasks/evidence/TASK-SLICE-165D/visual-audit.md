@@ -4,7 +4,7 @@
 
 - 舞台：`940×590`，正式地图炼丹炉入口。
 - 原版根基准：`local-resources/regima/task-outputs/task-slice-117-crafting-ui/backpack1/DefineSprite_119_export.strength.StrengthEquipment/1.png`，按舞台裁为 `940×590`。
-- 原版机器真值：`task-slice-165d.workshop-inventory`，路径 `docs/reverse-engineering/ground-truth/manifests/task-slice-165d-workshop-inventory.json`；`verified`，34 个本 task 范围内显示对象，`unresolved=[]`。
+- 原版机器真值：`task-slice-165d.workshop-inventory`，路径 `docs/reverse-engineering/ground-truth/manifests/task-slice-165d-workshop-inventory.json`；`verified`，190C 补记原静态 `/5` 后为 35 个本 task 范围内显示对象，`unresolved=[]`。
 - 现代前态基准：`docs/tasks/evidence/TASK-SLICE-142-p1-strength-original-ui-940x590.png`，仅用于证明逐行文字列表已被移除，不冒充原版运行态。
 - 用户批准边界：只在 character 119 右栏恢复/组合既有 BackPackElement 分类、628 格、真图标、数量与分页；左侧四业务页和 119 外观不重做。
 

@@ -129,6 +129,8 @@ function testTrueAssetsAndSceneContract(): void {
   assert.match(view, /operationSimple\.background/);
   assert.match(view, /getFormalInventoryPresentation/);
   assert.match(view, /createInventoryGridObjects/);
+  assert.match(view, /createInventoryPagerObjects/);
+  assert.match(gridView, /`\$\{options\.currentPage\}\/\$\{options\.pageCount\}`/);
   assert.match(gridView, /inventoryUiAssets\.slot\.key/);
   assert.match(view, /getEquipmentPageTruthPlacement/);
   assert.match(view, /getEquipmentPageInventorySlotIds/);
@@ -140,7 +142,7 @@ function testTrueAssetsAndSceneContract(): void {
   assert.match(view, /soulValue\.stageBounds\.left \+ soulTextStyle\.leftGutterPx/);
   assert.match(view, /soulValue\.stageBounds\.top \+ soulTextStyle\.topGutterPx/);
   assert.doesNotMatch(view, /String\(presentation\.soulCount\),[\s\S]*?\.setOrigin\(1/);
-  assert.match(view, /pageValue\.stageBounds/);
+  assert.match(view, /pageBounds: pageValue\.stageBounds/);
   assert.match(view, /getFormalInventoryPageCount\(model\)/);
   assert.doesNotMatch(view, /add\.rectangle/);
   assert.doesNotMatch(view, /setTint|formatSelectedDetails|model\.message/);

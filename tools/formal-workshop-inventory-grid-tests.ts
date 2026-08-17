@@ -79,6 +79,10 @@ function testViewAndTruthContract(): void {
   assert.match(view, /task-slice-165d-workshop-inventory\.json/);
   assert.match(view, /createInventoryGridProjection/);
   assert.match(view, /createInventoryGridObjects/);
+  assert.match(view, /createInventoryPagerObjects/);
+  assert.match(view, /pageCount: FormalWorkshopPageCount/);
+  assert.match(view, /WorkshopInventoryPageSuffixBounds/);
+  assert.doesNotMatch(view, /FormalWorkshopPageHitAreas\.(?:previous|next)/);
   assert.match(view, /InventoryCategories\.forEach/);
   assert.match(view, /selectFormalWorkshopGridEntry/);
   assert.match(view, /stageSelectedWorkshopEntry/);
@@ -87,7 +91,11 @@ function testViewAndTruthContract(): void {
   assert.match(sharedView, /getInventoryItemAsset/);
   assert.match(sharedView, /entry\.quantity > 1/);
   assert.match(bundles, /'feature-ui-workshop': \{\s*dependencies: \['feature-ui-backpack'\]/);
-  assert.doesNotMatch(container, /id="nowpage"|id="txtlh"/);
+  assert.doesNotMatch(container, /id="(?:nowpage|txtlh|prePage|nextPage)"/);
+  assert.doesNotMatch(container, /ffdec:characterId="118"[^>]*xlink:href="#text2"/);
+  assert.match(sharedView, /`\$\{options\.currentPage\}\/\$\{options\.pageCount\}`/);
+  assert.match(sharedView, /inventoryUiAssets\.previous/);
+  assert.match(sharedView, /inventoryUiAssets\.next/);
 }
 
 testCategoryPageAndOwnerProjection();

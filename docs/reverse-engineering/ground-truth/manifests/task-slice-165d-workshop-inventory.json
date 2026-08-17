@@ -11,9 +11,9 @@
   },
   "generatedBy": {
     "tool": "generate-workshop-inventory-ground-truth.mjs",
-    "toolVersion": "1",
+    "toolVersion": "2",
     "command": "npm run generate:workshop-inventory-truth",
-    "generatedAt": "2026-08-09T12:00:00+08:00"
+    "generatedAt": "2026-08-17T00:00:00+08:00"
   },
   "provenance": [
     {
@@ -21,7 +21,7 @@
       "sourceType": "restored-swf",
       "sourcePath": "local-resources/regima/source/restored-swfs/assets/backpack1.swf",
       "sha256": "70c1f1b535ea789ad9c77556f90c7c107084278a4d1773e31471f2b4d7454936",
-      "locator": "SWF 940x590 @24fps; character 119 StrengthEquipment; dynamic character 246 BackPackElement; character 628 PackThings; button characters 230/235/240/245/78/83."
+      "locator": "SWF 940x590 @24fps; character 119 StrengthEquipment; dynamic character 246 BackPackElement; character 628 PackThings; page suffix character 118; button characters 230/235/240/245/78/83."
     },
     {
       "id": "strength-equipment-as",
@@ -2012,6 +2012,66 @@
       }
     },
     {
+      "id": "inventory-page-suffix",
+      "parentId": "workshop-root",
+      "depth": 25,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "backpack1-swf",
+        "characterId": 118,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "inventory-grid-geometry",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 704.7,
+            "ty": 471.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 24.15,
+            "height": 23.25
+          },
+          "stageBounds": {
+            "left": 704.7,
+            "top": 471.95,
+            "width": 24.15,
+            "height": 23.25
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Unit-scale parent translation composed with restored SWF/AS3 placement evidence.",
+          "evidenceRefs": [
+            "backpack1-swf:character-119",
+            "backpack1-swf:character-118"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "color": "#ffffff",
+          "staticText": "/5"
+        }
+      }
+    },
+    {
       "id": "inventory-page-previous",
       "parentId": "workshop-root",
       "depth": 27,
@@ -2158,7 +2218,7 @@
       "inventory-grid-geometry"
     ],
     "expectedVisibleObjectCountByState": {
-      "inventory-grid-geometry": 34
+      "inventory-grid-geometry": 35
     },
     "displayListMatched": true,
     "stateSetMatched": true,

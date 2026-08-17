@@ -79,7 +79,8 @@ function testNativeDynamicChildrenFieldsAndButtons(): void {
   assert.doesNotMatch(workshopView, /FormalWorkshopCommitHitAreas\.making/);
   assert.doesNotMatch(workshopView, /statusText/);
   assert.doesNotMatch(workshopView, /fontFamily: 'Arial'/);
-  assert.match(workshopView, /String\(model\.inventoryPage \+ 1\)/);
+  assert.match(workshopView, /createInventoryPagerObjects/);
+  assert.match(workshopView, /pageCount: FormalWorkshopPageCount/);
   assert.match(workshopView, /getNativeResolutionTooltipTarget\(model\)/);
   assert.match(workshopView, /workshop-resolution-material/);
   assert.doesNotMatch(workshopView, /workshop-resolution-resu/);
@@ -87,7 +88,7 @@ function testNativeDynamicChildrenFieldsAndButtons(): void {
   assert.match(workshopView, /originalHoverZone\(scene, product\.bounds/);
   assert.match(workshopView, /workshop-making-product/);
   assert.doesNotMatch(workshopView, /workshop-making-(?:book|needmaterial|material)/);
-  assert.doesNotMatch(workshopView, /inventoryPage \+ 1\}\/\$\{FormalWorkshopPageCount/);
+  assert.doesNotMatch(workshopView, /FormalWorkshopPageHitAreas\.(?:previous|next)/);
   assert.match(inventoryGridView, /createWorkshopSlotItemIcon/);
   assert.match(inventoryGridView, /const WorkshopSlotContentWidth = 63/);
   assert.match(inventoryGridView, /const WorkshopSlotContentHeight = 62/);

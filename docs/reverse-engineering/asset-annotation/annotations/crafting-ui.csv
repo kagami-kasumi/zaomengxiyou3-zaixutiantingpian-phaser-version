@@ -1,5 +1,5 @@
 stableKey,as3Name,sourceKind,sourcePath,sourcePackage,symbolId,scope,usage,status,confidence,nextAction,note
-crafting-ui.container,export.strength.StrengthEquipment,restored-swf,public/assets/ui/crafting/container-native.svg;src/assets/AssetManifest.ts,assets/backpack1.swf,119,ui,炼丹炉完整容器,ready,confirmed,none,FFDec sprite frame 1 选择性派生 SVG；仅移除动态 txtlh 实例，运行时由共享原版余额组件投影
+crafting-ui.container,export.strength.StrengthEquipment,restored-swf,public/assets/ui/crafting/container-native.svg;src/assets/AssetManifest.ts,assets/backpack1.swf,119,ui,炼丹炉完整容器,ready,confirmed,none,FFDec sprite frame 1 选择性派生 SVG；移除运行时投影的 txtlh/nowpage/78/83/118 实例，余额与分页由共享原版组件按 verified 几何投影
 full-ui.soul-digits,DefineEditText 103,restored-swf,public/assets/ui/feature/shared/soul-digits.svg;src/assets/AssetManifest.ts,assets/backpack1.swf,103,ui,技能与炼丹炉共享灵魂余额数字字形,ready,confirmed,none,从原 SWF 嵌入 FZCuYuan-M03 的 0-9 轮廓选择性派生；保留 0.0244 缩放、22px 基线与原字宽
 crafting-ui.fusion-panel,export.strength.Fusion,restored-swf,public/assets/ui/crafting/fusion-panel.png;src/assets/AssetManifest.ts,assets/backpack1.swf,169,ui,三材料槽与合成按钮面板,ready,confirmed,none,FFDec sprite frame 1 选择性派生
 crafting-ui.selector.role1.unselected,export.shop.SelectWK,restored-swf,public/assets/ui/crafting/selectors/role1-unselected.png;src/assets/AssetManifest.ts,assets/OtherMat1.swf,218,ui,悟空选择器未选态,ready,confirmed,none,frame 1

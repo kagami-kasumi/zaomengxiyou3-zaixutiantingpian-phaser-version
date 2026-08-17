@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-190C | 背包分页视觉一致性 | 统一正式背包与炼丹炉的原生分页 UI，同时保持同一 inventory owner 与各页 truth 几何 | M-035、M-037、M-052、VS-064、VS-070 | `createInventoryPagerObjects`、character 118 静态后缀 truth/清除、跨页门禁与第一页/第二页运行证据 |
 | TASK-SLICE-190B | 嵌入式装备 hover 父任务收束 | 汇总并关闭 189 确认的全部工坊消费者与商城负合同 | M-036、M-037、M-052、VS-066 | 190B1..B4 四页独立 verified 几何/生命周期、共享只读实例 tooltip、商城 49 项负门禁与 VS-066 完成 |
 | TASK-SLICE-190B4 | 打造页装备 hover | 打造成功产物复用实例 tooltip，书/材料/宝石与商城保持排除 | M-036、M-037、M-052、VS-066 | verified makeObj bounds、P1/P2 成功、拒绝/返回重开、商城零装备/禁用时装 hover 与 940×590 零 console |
 | TASK-SLICE-190B3 | 分解页装备 hover | 共享右 grid 与目标实例复用 tooltip，结果材料保持排除 | M-036、M-037、M-052、VS-066 | verified 目标 bounds、拒绝/成功/返还、P1/P2、结果排除与 940×590 零 console 验收 |
@@ -293,6 +294,45 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-190C
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务已完成；下一 task 为 `TASK-SETTINGS-191`）
+
+目标机制/切片：
+
+- `M-035`、`M-037`、`M-052`、`VS-064`、`VS-070`
+
+规模结果：
+
+- 一个主工作包、两个验收批次、0 次 compact；没有修改 inventory/save owner，也没有迁移第三个消费者。
+
+输入资料：
+
+- 170B1 正式背包与 165D 炼丹炉两份 verified manifest、119/304 原生分页资源、两页现有 view/专项。
+
+输出产物：
+
+- `InventoryGridView` 提供共享分页投影，两页共用 character 78/83 三态按钮和完整 `n/5`；工坊 truth 补记 character 118 静态后缀并从运行 SVG 清除旧分页残留。
+
+完成定义与验收：
+
+- 两页继续消费同一 P1/P2 inventory owner、分类和 grid，仅保留各自 verified stage bounds；炼丹炉不再使用背景按钮透明 hit zone 或独立 `/5`。
+- 正式背包/炼丹炉均从 `1/5` 翻到 `2/5`；专项、全系统、build、structure、annotations、workflow、problem audit、diff check 与运行视觉证据通过。
+
+禁止范围：
+
+- 未修改库存、事务、存档 schema、P1/P2 owner、工坊左页或整页皮肤，未提前执行 `TASK-ARCH-014A..F`。
+
+推荐后续任务：
+
+- `TASK-SETTINGS-191`：定位宠物 UI 正式可见性根因与战斗 HUD 证据。
 
 ### TASK-SLICE-190B4
 

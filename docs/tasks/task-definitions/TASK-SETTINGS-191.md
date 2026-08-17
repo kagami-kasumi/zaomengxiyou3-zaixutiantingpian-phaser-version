@@ -4,7 +4,7 @@
 - `TASK-SETTINGS`
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready；`TASK-SLICE-190C` 分页回归已关闭）
 
 目标机制/切片：
 - `M-016`、`M-035`、`M-042`、`M-049`、`M-052`、`VS-067`

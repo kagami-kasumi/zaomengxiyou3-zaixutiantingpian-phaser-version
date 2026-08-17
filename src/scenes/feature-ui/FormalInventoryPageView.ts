@@ -40,6 +40,7 @@ import {
 } from '../../systems/EquipmentPageTruthSystem';
 import {
   createInventoryGridObjects,
+  createInventoryPagerObjects,
   createInventoryItemIcon,
   createNativeInventoryButton,
 } from './InventoryGridView';
@@ -221,22 +222,20 @@ export function createFormalInventoryPageView(
     },
   ));
   const pageValue = getEquipmentPageTruthPlacement('page-value', truthState);
-  objects.push(scene.add.text(
-    pageValue.stageBounds.left + pageValue.stageBounds.width / 2,
-    pageValue.stageBounds.top,
-    `${model.pageIndex + 1}/${getFormalInventoryPageCount(model)}`,
-    FIELD_STYLE,
-  ).setOrigin(0.5, 0));
-
   const previousPage = getEquipmentPageTruthPlacement('previous-page', truthState);
-  objects.push(createNativeInventoryButton(scene, previousPage.stageBounds.left, previousPage.stageBounds.top,
-    inventoryUiAssets.previous, false, () => {
-    changeFormalInventoryPage(model, -1); callbacks.onRerender();
-  }));
   const nextPage = getEquipmentPageTruthPlacement('next-page', truthState);
-  objects.push(createNativeInventoryButton(scene, nextPage.stageBounds.left, nextPage.stageBounds.top,
-    inventoryUiAssets.next, false, () => {
-    changeFormalInventoryPage(model, 1); callbacks.onRerender();
+  objects.push(...createInventoryPagerObjects(scene, {
+    currentPage: model.pageIndex + 1,
+    pageCount: getFormalInventoryPageCount(model),
+    pageBounds: pageValue.stageBounds,
+    previousBounds: previousPage.stageBounds,
+    nextBounds: nextPage.stageBounds,
+    onPrevious: () => {
+      changeFormalInventoryPage(model, -1); callbacks.onRerender();
+    },
+    onNext: () => {
+      changeFormalInventoryPage(model, 1); callbacks.onRerender();
+    },
   }));
   const close = getEquipmentPageTruthPlacement('close', truthState);
   objects.push(createNativeInventoryButton(scene, close.stageBounds.left, close.stageBounds.top,

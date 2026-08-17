@@ -4,6 +4,7 @@ import workshopInventoryTruth from '../../../docs/reverse-engineering/ground-tru
 import { craftingAssets } from '../../assets/AssetManifest';
 import { inventoryUiAssets } from '../../assets/InventoryUiAssets';
 import {
+  FormalWorkshopPageCount,
   getFormalWorkshopGridPageEntries,
   getFormalWorkshopGridSelectedIndex,
   getFormalWorkshopPlayer,
@@ -28,7 +29,6 @@ import {
 } from '../../systems/FormalWorkshopPageSystem';
 import {
   FormalWorkshopNativeTabLayout,
-  FormalWorkshopPageHitAreas,
   FormalWorkshopReturnHitArea,
   FormalWorkshopStrengthTargetHitAreaIndex,
   FormalWorkshopStageHitAreas,
@@ -39,7 +39,11 @@ import { InventoryCategories } from '../../systems/InventorySystem';
 import type { SaveStorage } from '../../systems/SaveSystem';
 import { createFormalSoulBalanceView } from './FormalSoulBalanceView';
 import { createEquipmentTooltipView, type EquipmentTooltipView } from './EquipmentTooltipView';
-import { createInventoryGridObjects, createNativeInventoryButton } from './InventoryGridView';
+import {
+  createInventoryGridObjects,
+  createInventoryPagerObjects,
+  createNativeInventoryButton,
+} from './InventoryGridView';
 import {
   createNativeFusionObjects,
   createNativeMakingObjects,
@@ -64,14 +68,20 @@ const WorkshopInventoryFirstSlotBounds = getTruthStageBounds('inventory-slot-00'
 const WorkshopEquipmentTabBounds = getTruthStageBounds('inventory-tab-equipment');
 const WorkshopItemsTabBounds = getTruthStageBounds('inventory-tab-items');
 const WorkshopInventoryPageBounds = getTruthStageBounds('inventory-page-value');
+const WorkshopInventoryPageSuffixBounds = getTruthStageBounds('inventory-page-suffix');
+const WorkshopInventoryPreviousPageBounds = getTruthStageBounds('inventory-page-previous');
+const WorkshopInventoryNextPageBounds = getTruthStageBounds('inventory-page-next');
 const WorkshopInventoryRoot = { x: WorkshopInventoryRootBounds.left, y: WorkshopInventoryRootBounds.top };
 const WorkshopInventoryGridOrigin = {
   x: WorkshopInventoryFirstSlotBounds.left,
   y: WorkshopInventoryFirstSlotBounds.top,
 };
-const WorkshopInventoryPagePosition = {
-  x: WorkshopInventoryPageBounds.left,
-  y: WorkshopInventoryPageBounds.top + 4.65,
+const WorkshopInventoryPageTextBounds = {
+  left: WorkshopInventoryPageBounds.left,
+  top: WorkshopInventoryPageBounds.top + 4.65,
+  width: WorkshopInventoryPageSuffixBounds.left + WorkshopInventoryPageSuffixBounds.width
+    - WorkshopInventoryPageBounds.left,
+  height: Math.max(WorkshopInventoryPageBounds.height, WorkshopInventoryPageSuffixBounds.height),
 };
 const WorkshopInventoryTabStep = WorkshopItemsTabBounds.left - WorkshopEquipmentTabBounds.left;
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
@@ -119,22 +129,19 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
     onEquipmentMove: (pointer) => equipmentTooltip.move(pointer.x, pointer.y),
     onEquipmentOut: equipmentTooltip.hide,
   } : undefined));
-  objects.push(scene.add.text(
-    WorkshopInventoryPagePosition.x,
-    WorkshopInventoryPagePosition.y,
-    String(model.inventoryPage + 1),
-    {
-      color: '#ffffff',
-      fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
-      fontSize: '13px',
+  objects.push(...createInventoryPagerObjects(scene, {
+    currentPage: model.inventoryPage + 1,
+    pageCount: FormalWorkshopPageCount,
+    pageBounds: WorkshopInventoryPageTextBounds,
+    previousBounds: WorkshopInventoryPreviousPageBounds,
+    nextBounds: WorkshopInventoryNextPageBounds,
+    onPrevious: () => {
+      setFormalWorkshopInventoryPage(model, model.inventoryPage - 1); callbacks.onRerender();
     },
-  ));
-  objects.push(originalHitZone(scene, FormalWorkshopPageHitAreas.previous, () => {
-    setFormalWorkshopInventoryPage(model, model.inventoryPage - 1); callbacks.onRerender();
-  }, 'workshop-page-previous'));
-  objects.push(originalHitZone(scene, FormalWorkshopPageHitAreas.next, () => {
-    setFormalWorkshopInventoryPage(model, model.inventoryPage + 1); callbacks.onRerender();
-  }, 'workshop-page-next'));
+    onNext: () => {
+      setFormalWorkshopInventoryPage(model, model.inventoryPage + 1); callbacks.onRerender();
+    },
+  }));
   const player = getFormalWorkshopPlayer(model);
   objects.push(createFormalSoulBalanceView(scene, player.soulCount, 'workshop'));
   if (model.tab === 'strength') {

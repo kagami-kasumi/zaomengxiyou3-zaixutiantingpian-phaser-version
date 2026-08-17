@@ -2080,7 +2080,7 @@ function extractedCraftingImage(
 }
 
 export const craftingAssets = {
-  container: extractedCraftingImage(CraftingAssetKeys.container, '/assets/ui/crafting/container-native.svg', 'assets/backpack1.swf', 'export.strength.StrengthEquipment frame 1 with dynamic txtlh removed', 119),
+  container: extractedCraftingImage(CraftingAssetKeys.container, '/assets/ui/crafting/container-native.svg', 'assets/backpack1.swf', 'export.strength.StrengthEquipment frame 1 with runtime-projected txtlh/pager objects removed', 119),
   fusionPanel: extractedCraftingImage(CraftingAssetKeys.fusionPanel, '/assets/ui/crafting/fusion-panel.png', 'assets/backpack1.swf', 'export.strength.Fusion', 169),
   strengthPanel: extractedCraftingImage(CraftingAssetKeys.strengthPanel, '/assets/ui/crafting/equipment-strength.svg', 'assets/backpack1.swf', 'export.strength.Strength', 198),
   resolutionPanel: extractedCraftingImage(CraftingAssetKeys.resolutionPanel, '/assets/ui/crafting/equipment-resolution.svg', 'assets/backpack1.swf', 'export.strength.Resolution', 177),

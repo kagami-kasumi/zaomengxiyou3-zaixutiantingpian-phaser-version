@@ -13,6 +13,16 @@ const WorkshopSlotVisibleOffsetX = -7;
 const WorkshopSlotVisibleOffsetY = -7;
 
 export type InventoryGridOrigin = Readonly<{ x: number; y: number }>;
+export type InventoryPagerBounds = Readonly<{ left: number; top: number; width: number; height: number }>;
+export type InventoryPagerOptions = Readonly<{
+  currentPage: number;
+  pageCount: number;
+  pageBounds: InventoryPagerBounds;
+  previousBounds: InventoryPagerBounds;
+  nextBounds: InventoryPagerBounds;
+  onPrevious: () => void;
+  onNext: () => void;
+}>;
 export type InventoryGridHoverCallbacks = Readonly<{
   onEquipmentOver: (entry: Extract<InventoryEntry, { kind: 'equipment' }>, pointer: Phaser.Input.Pointer) => void;
   onEquipmentMove: (pointer: Phaser.Input.Pointer) => void;
@@ -95,6 +105,41 @@ export function createNativeInventoryButton(
     if (image.active) image.setTexture(selected ? assets.down.key : assets.over.key);
   });
   return image;
+}
+
+export function createInventoryPagerObjects(
+  scene: Phaser.Scene,
+  options: InventoryPagerOptions,
+): Phaser.GameObjects.GameObject[] {
+  const { pageBounds, previousBounds, nextBounds } = options;
+  return [
+    createNativeInventoryButton(
+      scene,
+      previousBounds.left,
+      previousBounds.top,
+      inventoryUiAssets.previous,
+      false,
+      options.onPrevious,
+    ),
+    scene.add.text(
+      pageBounds.left + pageBounds.width / 2,
+      pageBounds.top,
+      `${options.currentPage}/${options.pageCount}`,
+      {
+        color: '#ffffff',
+        fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
+        fontSize: '13px',
+      },
+    ).setOrigin(0.5, 0),
+    createNativeInventoryButton(
+      scene,
+      nextBounds.left,
+      nextBounds.top,
+      inventoryUiAssets.next,
+      false,
+      options.onNext,
+    ),
+  ];
 }
 
 function createInventoryEntryVisual(
