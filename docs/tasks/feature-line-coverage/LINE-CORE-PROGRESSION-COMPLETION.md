@@ -36,7 +36,7 @@
 | 左下五入口 | 原生按钮与共享 router 已有；175C 已闭合 574/371/444 的 25 对象/42 状态 verified 真值 | 已关闭；182 已直接消费真值、删除地图共享 chrome 并恢复单页门 | 175C manifest/证据矩阵；182 的 P1/P2、门禁、五关共享 owner、打开/关闭/返回与 940×590 证据 |
 | UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
 | 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173/173A 已闭合影分身 verified 真值、共享状态机/视觉、正式输入/目标/弹体/销毁与 P1/P2 owner | 已关闭：174 生成 detached 普攻 verified 空间真值并建立唯一几何 owner；Role5 projectile 恢复二维命中并委托共享结算 | 共享消费者一致性、X/Y 边界、重复/死亡/P1/P2 专项与 940×590 单/双人零 console |
-| 功能 UI 真值债务 | 175A..I 已全部生成 verified 真值；宠物页、法宝页、功能宿主、技能四页、商城和设置页已分别直接消费 74/16、28/21、25/42、250/32、132/31、19/23 对象/状态真值并删除现代覆盖/手写视觉源 | 丹药/任务/建档 view 尚未直连 manifest；TASK-SLICE-186..187 待逐页实现 | 175 审计、175A..I manifests；180..185 运行投影、差异证据与专项 |
+| 功能 UI 真值债务 | 175A..I 已全部生成 verified 真值；宠物页、法宝页、功能宿主、技能四页、商城、设置和任务页已分别直接消费 74/16、28/21、25/42、250/32、132/31、19/23、45/28 对象/状态真值并删除现代覆盖/手写视觉源 | 丹药/建档 view 尚未直连 manifest；任务页已由 186 关闭，187 待实现 | 175 审计、175A..I manifests；180..186 运行投影、差异证据与专项 |
 
 ## 当前调度
 
@@ -75,7 +75,8 @@
 33. `TASK-SLICE-183`：Done；直接消费 175D 的 250 对象/32 状态技能四页真值，删除手写视觉源、现代 owner 文字与第二坐标表，主动/被动/P1-P2 绑定/拖放/返回通过。
 34. `TASK-SLICE-184`：Done；`ShopScene` 通过 `FormalShopPageTruth` 直接消费 175F 的 132 对象/31 状态 verified 真值，删除分类、九卡、字段、按钮和 624 确认层第二套手写坐标；业务/owner/存档、940×590 差异和零 console 回归通过。
 35. `TASK-SLICE-185`：Done；新增 `FormalSettingsPageTruth` 直接消费 175G 的 19 对象/23 状态，删除五行坐标、命中、字体与关闭按钮锚点的手写视觉真值；四项循环、死控件、全局 owner、关闭/重开/重载、940×590 差异和零 console 回归通过。
-36. `TASK-SLICE-186`：Ready；直接消费 175H 任务页真值，删除任务页手写视觉源并完成 28 状态 owner/事务/存档回归。187 保持同线 Planned。
+36. `TASK-SLICE-186`：Done；`FormalTaskPageTruth/TaskScene` 已直接消费 175H 的 45 对象/28 状态，删除行/奖励/文字/按钮手写真值与现代反馈文字；`root-static.svg` 修复整帧动态 child 回填，空活动、末页、P1/P2 奖励、存档、关闭/重开与零 console 通过。
+37. `TASK-SLICE-187`：Ready；直接消费 175I 建档/选角真值，删除 `SavePartyCreationView` 手写视觉源并完成 30 状态 owner/原子建档/重载回归。
 
 ## 明确排除
 

@@ -14,11 +14,16 @@ import {
 } from '../systems/FormalTaskPageSystem';
 import { getTaskProgressText, type TaskReward } from '../systems/PartyTaskSystem';
 import type { SaveStorage } from '../systems/SaveSystem';
-
-const TileY = [182.35, 228.35, 273.35, 320.35, 365.95] as const;
-const AwardPositions = [
-  [431.45, 268.35], [560.95, 268.35], [431.45, 324.35], [561, 325.35],
-] as const;
+import {
+  assertVerifiedTaskPageTruth,
+  getTaskRewardTruthBounds,
+  getTaskTileTruthBounds,
+  getTaskTruthBounds,
+  getTaskTruthHitArea,
+  getTaskTruthTextStyle,
+  TaskTruthObjectIds,
+  type TaskTruthBounds,
+} from './task/FormalTaskPageTruth';
 
 type NativeButtonAssets = Readonly<{
   up: Readonly<{ key: string }>;
@@ -36,6 +41,7 @@ export class TaskScene extends Phaser.Scene {
   }
 
   public create(): void {
+    assertVerifiedTaskPageTruth();
     this.storage = getBrowserStorage();
     this.model = this.storage ? createFormalTaskPage(this.storage) : undefined;
     if (!this.model || !this.storage) {
@@ -60,28 +66,33 @@ export class TaskScene extends Phaser.Scene {
     const layer = this.add.container(0, 0).setDepth(20);
     this.dynamicLayer = layer;
 
-    layer.add(this.createTab('daily', 182.3, taskUiAssets.daily));
-    layer.add(this.createTab('activity', 289.3, taskUiAssets.activity));
-    layer.add(this.createNativeButton(690.95, 79.45, taskUiAssets.buttons.close, this.returnToMap.bind(this)));
-    layer.add(this.createNativeButton(187.45, 414.8, taskUiAssets.buttons.prev, () => {
+    layer.add(this.createTab('daily', TaskTruthObjectIds.dailyTab, taskUiAssets.daily));
+    layer.add(this.createTab('activity', TaskTruthObjectIds.activityTab, taskUiAssets.activity));
+    layer.add(this.createNativeButton(TaskTruthObjectIds.close, taskUiAssets.buttons.close, this.returnToMap.bind(this)));
+    layer.add(this.createNativeButton(TaskTruthObjectIds.previous, taskUiAssets.buttons.prev, () => {
       changeFormalTaskPage(this.model!, -1);
       this.render();
     }));
-    layer.add(this.createNativeButton(307.45, 414.8, taskUiAssets.buttons.next, () => {
+    layer.add(this.createNativeButton(TaskTruthObjectIds.next, taskUiAssets.buttons.next, () => {
       changeFormalTaskPage(this.model!, 1);
       this.render();
     }));
-    layer.add(this.text(272, 421.5, `${this.model.page}/${getFormalTaskPageCount(this.model)}`, 15, 40));
+    layer.add(this.text(
+      getTaskTruthBounds(TaskTruthObjectIds.pageText),
+      `${this.model.page}/${getFormalTaskPageCount(this.model)}`,
+      TaskTruthObjectIds.pageText,
+      'center',
+    ));
 
     const visible = getFormalTaskVisibleDefinitions(this.model);
     visible.forEach((definition, row) => {
-      const y = TileY[row]!;
       const state = this.model!.tasks.daily[definition.id - 1]!;
       const selected = this.model!.selectedRow === row;
-      const tile = this.add.image(186, y, selected
+      const tileBounds = getTaskTileTruthBounds(row);
+      const tile = this.add.image(tileBounds.left, tileBounds.top, selected
         ? taskUiAssets.tile.selected.key
         : taskUiAssets.tile.normal.key)
-        .setOrigin(0)
+        .setOrigin(0).setDisplaySize(tileBounds.width, tileBounds.height)
         .setInteractive({ useHandCursor: true });
       tile.setData('task-id', definition.id);
       tile.on('pointerdown', () => {
@@ -89,50 +100,57 @@ export class TaskScene extends Phaser.Scene {
         this.render();
       });
       layer.add(tile);
-      layer.add(this.text(221, y + 6.5, definition.name, 22, 161));
+      layer.add(this.text(getTaskTileTruthBounds(row, 'name'), definition.name, `${TaskTruthObjectIds.rows[row]}.rwnametxt`));
       if (state.hasClaimed) {
-        layer.add(this.add.image(336.5, y, taskUiAssets.received.key).setOrigin(0));
+        const receivedBounds = getTaskTileTruthBounds(row, 'received');
+        layer.add(this.add.image(receivedBounds.left, receivedBounds.top, taskUiAssets.received.key).setOrigin(0)
+          .setDisplaySize(receivedBounds.width, receivedBounds.height));
       }
     });
 
     const selected = getSelectedFormalTask(this.model);
     if (selected) {
-      layer.add(this.text(442, 158, selected.definition.description, 15, 244));
-      layer.add(this.text(442, 193.8, getTaskProgressText(selected.definition, selected.state), 15, 243));
+      layer.add(this.text(
+        getTaskTruthBounds(TaskTruthObjectIds.description),
+        selected.definition.description,
+        TaskTruthObjectIds.description,
+      ));
+      layer.add(this.text(
+        getTaskTruthBounds(TaskTruthObjectIds.progress),
+        getTaskProgressText(selected.definition, selected.state),
+        TaskTruthObjectIds.progress,
+      ));
       selected.definition.rewards.forEach((reward, index) => {
-        const position = AwardPositions[index];
-        if (position) this.renderReward(layer, reward, position[0], position[1]);
+        if (index < TaskTruthObjectIds.rewards.length) this.renderReward(layer, reward, index);
       });
     }
     const canClaim = selected?.state.isComplete === true && !selected.state.hasClaimed;
+    const claimBounds = getTaskTruthBounds(TaskTruthObjectIds.claim);
     const claim = this.add.image(
-      492.45,
-      397.8,
+      claimBounds.left,
+      claimBounds.top,
       canClaim ? taskUiAssets.claim.enabled.key : taskUiAssets.claim.disabled.key,
-    ).setOrigin(0).setInteractive({ useHandCursor: canClaim });
+    ).setOrigin(0).setDisplaySize(claimBounds.width, claimBounds.height)
+      .setInteractive({ useHandCursor: canClaim });
     claim.setData('task-claim-enabled', canClaim);
     claim.on('pointerdown', () => {
       if (claimSelectedFormalTask(this.model!, this.storage!)) this.render();
     });
     layer.add(claim);
-    if (this.model.message) {
-      layer.add(this.add.text(442, 455, this.model.message, {
-        color: '#fff3bf', fontFamily: 'FZCuYuan-M03', fontSize: '15px',
-        stroke: '#000000', strokeThickness: 3, fixedWidth: 250, align: 'center',
-      }).setOrigin(0));
-    }
   }
 
   private createTab(
     tab: 'daily' | 'activity',
-    x: number,
+    truthId: string,
     assets: typeof taskUiAssets.daily,
   ): Phaser.GameObjects.Image {
+    const bounds = getTaskTruthBounds(truthId);
     const image = this.add.image(
-      x,
-      138,
+      bounds.left,
+      bounds.top,
       this.model!.tab === tab ? assets.selected.key : assets.normal.key,
-    ).setOrigin(0).setInteractive({ useHandCursor: true });
+    ).setOrigin(0).setDisplaySize(bounds.width, bounds.height)
+      .setInteractive({ useHandCursor: true });
     image.setData('task-tab', tab);
     image.on('pointerdown', () => {
       setFormalTaskTab(this.model!, tab);
@@ -144,10 +162,11 @@ export class TaskScene extends Phaser.Scene {
   private renderReward(
     layer: Phaser.GameObjects.Container,
     reward: TaskReward,
-    x: number,
-    y: number,
+    rewardIndex: number,
   ): void {
-    layer.add(this.add.image(x, y, taskUiAssets.awardCell.key).setOrigin(0));
+    const bounds = getTaskRewardTruthBounds(rewardIndex);
+    layer.add(this.add.image(bounds.left, bounds.top, taskUiAssets.awardCell.key).setOrigin(0)
+      .setDisplaySize(bounds.width, bounds.height));
     const inventoryAsset = reward.type === 'dj' || reward.type === 'zzs'
       ? getInventoryItemAsset(reward.value)
       : undefined;
@@ -157,17 +176,29 @@ export class TaskScene extends Phaser.Scene {
           : reward.type === 'roomhorse' ? taskUiAssets.rewards.horse.key
             : taskUiAssets.rewards.stone.key
     );
-    layer.add(this.add.image(x + 3.5, y + 3.5, key).setOrigin(0).setDisplaySize(50, 50));
-    layer.add(this.text(x + 57, y + 14.75, reward.label, 12, 70));
+    const iconBounds = getTaskRewardTruthBounds(rewardIndex, 'icon');
+    layer.add(this.add.image(iconBounds.left, iconBounds.top, key).setOrigin(0)
+      .setDisplaySize(iconBounds.width, iconBounds.height));
+    const nameBounds = getTaskRewardTruthBounds(rewardIndex, 'name');
+    layer.add(this.text(nameBounds, reward.label, `${TaskTruthObjectIds.rewards[rewardIndex]}.txtname`));
   }
 
   private createNativeButton(
-    x: number,
-    y: number,
+    truthId: string,
     assets: NativeButtonAssets,
     action: () => void,
   ): Phaser.GameObjects.Image {
-    const image = this.add.image(x, y, assets.up.key).setOrigin(0).setInteractive({ useHandCursor: true });
+    const bounds = getTaskTruthBounds(truthId);
+    const hitArea = getTaskTruthHitArea(truthId);
+    const image = this.add.image(bounds.left, bounds.top, assets.up.key).setOrigin(0)
+      .setDisplaySize(bounds.width, bounds.height)
+      .setInteractive(new Phaser.Geom.Rectangle(
+        hitArea.left - bounds.left,
+        hitArea.top - bounds.top,
+        hitArea.width,
+        hitArea.height,
+      ), Phaser.Geom.Rectangle.Contains);
+    image.input!.cursor = 'pointer';
     image.on('pointerover', () => image.setTexture(assets.over.key));
     image.on('pointerout', () => image.setTexture(assets.up.key));
     image.on('pointerdown', () => image.setTexture(assets.down.key));
@@ -175,12 +206,19 @@ export class TaskScene extends Phaser.Scene {
     return image;
   }
 
-  private text(x: number, y: number, value: string, fontSize: number, width: number) {
-    return this.add.text(x, y, value, {
-      color: '#ffffff',
-      fontFamily: 'FZCuYuan-M03',
-      fontSize: `${fontSize}px`,
-      fixedWidth: width,
+  private text(
+    bounds: TaskTruthBounds,
+    value: string,
+    truthId: string,
+    align?: 'left' | 'center',
+  ): Phaser.GameObjects.Text {
+    const style = getTaskTruthTextStyle(truthId);
+    return this.add.text(bounds.left, bounds.top, value, {
+      color: style.color,
+      fontFamily: style.fontFamily,
+      fontSize: `${style.fontSize}px`,
+      fixedWidth: bounds.width,
+      align,
     }).setOrigin(0);
   }
 

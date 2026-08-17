@@ -155,8 +155,10 @@ M-035/M-052 与 VS-059 因更广页面范围保持原状态。
 M-044/M-046/M-052/VS-059 任务页真值补充：`TASK-SETTINGS-175H` 已从恢复源 `backpack1.swf`
 character 85 生成 `task-settings-175h.task-page` verified manifest，闭合 45 对象、28 状态、21 个根
 child、五个任务行、四个奖励格、三组按钮、动态已领取/0..4 奖励、daily/activity、末页/空活动
-残留、P1/P2 与关闭/重开，`unresolved=[]`。这只解除任务页证据债务；现代直接消费和逐状态差异
-仍待 `TASK-SLICE-186`，M-044/M-046/M-052 与 VS-059 状态不提前提升。
+残留、P1/P2 与关闭/重开，`unresolved=[]`。`TASK-SLICE-186` 已让 `FormalTaskPageTruth/TaskScene`
+直接消费 45 对象/28 状态，删除行/奖励/文字/按钮的手写视觉真值，并以 `root-static.svg` 消除整帧
+动态 child 回填；43 定义、0..4 奖励、末页/空活动、P1/P2 经验 owner、即时保存/重载、940×590
+运行与零 console 已关闭。M-044/M-046/M-052 与 VS-059 因丹药及更广任务/活动范围保持原状态。
 
 M-035/M-043/M-052 法宝页真值补充：`TASK-SETTINGS-175B` 已从恢复源 `backpack1.swf`
 character 596 生成 `task-settings-175b.magic-weapon-page` verified manifest，闭合 17 个根 child、

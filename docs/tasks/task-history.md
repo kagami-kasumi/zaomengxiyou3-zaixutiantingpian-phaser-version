@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-186 | 任务页 manifest 直连 | 直接消费 175H verified 真值并删除任务页手写视觉真值源 | M-044、M-046、M-052、VS-059 | `FormalTaskPageTruth`、`root-static`、45 对象/28 状态投影、43 定义/奖励/P1-P2/存档与 940×590 零 console 验收 |
 | TASK-SETTINGS-175 | 功能 UI 真值债务审计 | 分级明确占位、旧视觉审计、verified 与未知，并按页拆分后续 | M-035、M-052、VS-054、VS-055、VS-059 | 九页/宿主状态表、五源 SHA/locator、truthId/状态/完整性门禁、175A..I 独立合同与切片措辞纠正 |
 | TASK-ARCH-174 | 普攻几何/Role5 命中纠错 | 收敛 detached 普攻几何 owner，恢复 Role5 二维命中与共享结算 | M-022、M-034、VS-062 | verified 空间真值、视觉/碰撞共源、X/Y/重复/死亡/P1-P2 专项、940×590 单/双人零 console |
 | TASK-SLICE-173A2 | Role1 影分身正式 Runtime | 把 verified 影分身接入正式五关共享 Runtime | M-018、M-034、VS-062 | P1/P2 source、输入/目标/弹体/视觉/销毁、五关 940×590、零 console 与正式观测证据 |
@@ -287,6 +288,46 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-186
+
+任务类型：
+
+- `TASK-SLICE`
+
+功能条线：
+
+- `LINE-CORE-PROGRESSION-COMPLETION`（Active；本任务已完成；下一 task 为 `TASK-SLICE-187`）
+
+目标机制/切片：
+
+- `M-044`、`M-046`、`M-052`、`VS-059`
+
+规模结果：
+
+- 两个主工作包、两个验收批次、0 次 compact；未修改任务定义、奖励概率、party owner 或存档 schema。
+
+输入资料：
+
+- `task-settings-175h-task-page.json`、`TASK-SETTINGS-175H-task-page.md`、`task-ui-index.md`、既有 `TaskScene` 与 155D 运行证据。
+
+输出产物：
+
+- `FormalTaskPageTruth` 只读投影、仅保留原版静态 shape 的 `root-static.svg`、28 状态现代差异与 43 定义/奖励/party/save 回归。
+
+完成定义与验收：
+
+- `TaskScene` 直接消费 truthId `task-settings-175h.task-page` 的 45 对象、28 状态、命中区、字体与动态奖励投影；`unresolved=[]`。
+- 已删除 `TileY`、`AwardPositions`、按钮/文字锚点及无原版对象的反馈层；daily、空 activity、末页、关闭/重开、P1/P2 owner、即时保存与重载通过。
+- 940×590 正式入口由用户确认通过，console warning/error 为 0；自动检查与构建通过。
+
+禁止范围：
+
+- 未复活活动、修改奖励概率/P2 修正/即时保存、增加可见 chrome，亦未重写任务业务或存档。
+
+推荐后续任务：
+
+- `TASK-SLICE-187`：直接消费 175I 建档/选角 verified 真值，删除 `SavePartyCreationView` 手写视觉真值源；完成后审查当前功能线关闭合同。
 
 ### TASK-SETTINGS-173
 
@@ -10754,3 +10795,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-186`：直接消费 175H 任务页 verified 真值，删除任务页手写视觉真值源；187 保持 Planned。
+
+### TASK-SLICE-186
+
+- 完成日期：2026-08-16。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-187`）。
+- 新增 `FormalTaskPageTruth.ts`，运行时直接导入并断言 `task-settings-175h.task-page`：45 个 scoped display object、28 个状态、`unresolved=[]`。
+- `TaskScene` 已按 manifest 对象 ID 投影 85 根、44/49 页签、五个 60 任务行、四个 73 奖励格、动态已领取/0..4 奖励图、64/65/84 文字及 31/78/83 按钮/命中；删除 `TileY`、`AwardPositions`、字体/按钮锚点和无原版对象的现代反馈文字。
+- 首次 940×590 验收发现整帧 `root.svg` 仍烘焙动态 child；新增 `generate-task-native-assets.mjs` 可重复生成仅保留三个原版静态 shape 的 `root-static.svg`，专项负向门禁禁止 18 个动态根 child 回填。修正后用户确认 daily/空活动/末页/关闭重开与 console 零 warning/error 通过。
+- 43 条定义、完成/领取、0..4 候选奖励、同日/跨日、末页陈旧详情、活动空页、P1/P2 各自经验 owner、即时保存和重载继续由既有任务/存档 system 持有；未复活活动、修改奖励概率或新增第二 owner/chrome。
+
+验证：
+- `npm run test:task-page-truth`、`npm run test:tasks`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`；940×590 正式入口人工复验通过。
+
+推荐任务：
+- `TASK-SLICE-187`：直接消费 175I 建档/选角 verified 真值，删除 `SavePartyCreationView` 手写视觉真值源；完成后审查当前功能线关闭合同。

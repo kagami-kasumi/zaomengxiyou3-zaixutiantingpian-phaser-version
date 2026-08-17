@@ -252,3 +252,16 @@ ID 27/28/29 的可见描述分别写“高友乾/杨森/王魔”，但进度行
 
 这只解除任务页现代直连的证据债务。`TaskScene` 删除手写视觉真值、同尺寸逐态差异和正式运行验收
 由 `TASK-SLICE-186` 完成；本次未修改任务定义、奖励、party owner、存档或 `src/`。
+
+## TASK-SLICE-186 现代直连结果
+
+2026-08-16 `FormalTaskPageTruth` 运行导入并断言 `task-settings-175h.task-page` 的 45 对象、28 状态、
+display-list/state-set 匹配与 `unresolved=[]`。`TaskScene` 按对象 ID 查询页签、五行、动态已领取、
+四个奖励格、说明/进度/页码、31/78/83 stage bounds/hitArea 和 manifest text style；`TileY`、
+`AwardPositions`、按钮/文字锚点与现代反馈文字已删除。
+
+首次运行验收发现旧 `root.svg` 是包含动态 child 的整帧导出；现由
+`generate-task-native-assets.mjs` 从同一恢复源可重复生成只保留三个静态 shape 的
+`root-static.svg`，并由负向测试禁止 18 个动态根 child 回填。43 定义、0..4 奖励、末页三行与
+陈旧详情、空活动、P1/P2 经验 owner、即时保存/重载、关闭/重开和 940×590 零 console 证据见
+`docs/tasks/evidence/TASK-SLICE-186/visual-audit.md`。

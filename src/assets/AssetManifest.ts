@@ -1136,7 +1136,7 @@ function taskButtonAssets(name: string, sourceCharacterId: number) {
 }
 
 export const taskUiAssets = {
-  root: taskUiAsset('map-service.tasks.root', 'root.svg', 'export.taskInterface.TaskInterface character 85', 85),
+  root: taskUiAsset('map-service.tasks.root', 'root-static.svg', 'character 85 static children only', 85),
   daily: {
     normal: taskUiAsset('map-service.tasks.daily.normal', 'daily-normal.svg', 'character 44 frame 1', 44),
     selected: taskUiAsset('map-service.tasks.daily.selected', 'daily-selected.svg', 'character 44 frame 2', 44),

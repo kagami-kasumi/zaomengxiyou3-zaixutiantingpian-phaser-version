@@ -23,7 +23,20 @@ import {
   createSaveSlot,
   loadActiveGame,
 } from '../src/systems/SaveSlotSystem';
+import { createPartyConfiguration } from '../src/systems/PartyConfigurationSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
+import {
+  assertVerifiedTaskPageTruth,
+  getTaskRewardTruthBounds,
+  getTaskTileTruthBounds,
+  getTaskTruthBounds,
+  getTaskTruthCharacterId,
+  getTaskTruthHitArea,
+  getTaskTruthStateIds,
+  getTaskTruthTextStyle,
+  TaskPageTruthId,
+  TaskTruthObjectIds,
+} from '../src/scenes/task/FormalTaskPageTruth';
 
 class MemoryStorage implements SaveStorage {
   private readonly values = new Map<string, string>();
@@ -35,6 +48,58 @@ class MemoryStorage implements SaveStorage {
 assert.equal(DailyTaskDefinitions.length, 43);
 assert.deepEqual(DailyTaskDefinitions.map((task) => task.id), Array.from({ length: 43 }, (_, index) => index + 1));
 assert.deepEqual(DormantActivityTaskIds, [101, 102, 103, 104]);
+assert.doesNotThrow(() => assertVerifiedTaskPageTruth());
+assert.equal(TaskPageTruthId, 'task-settings-175h.task-page');
+assert.deepEqual(getTaskTruthStateIds(), [
+  'daily-initial',
+  'daily-tab-hover',
+  'daily-tab-pressed',
+  'activity-tab-hover',
+  'activity-tab-pressed',
+  'daily-selected',
+  'tile-hover',
+  'tile-pressed',
+  'completed-unclaimed',
+  'claim-pressed',
+  'claimed-selected',
+  'claimed-p1-p2',
+  'reward-three-candidates',
+  'reward-four-candidates',
+  'previous-hover',
+  'previous-pressed',
+  'next-hover',
+  'next-pressed',
+  'daily-page2-same-row',
+  'daily-last-page-three-tiles',
+  'daily-last-page-stale-row4',
+  'next-last-boundary',
+  'activity-empty',
+  'activity-empty-stale-detail',
+  'close-hover',
+  'close-pressed',
+  'closed',
+  'reopened-daily',
+]);
+assert.equal(getTaskTruthCharacterId(TaskTruthObjectIds.root), 85);
+assert.deepEqual(getTaskTruthBounds(TaskTruthObjectIds.dailyTab), {
+  left: 182.3, top: 138, width: 110, height: 44,
+});
+assert.deepEqual(getTaskTruthHitArea(TaskTruthObjectIds.close), {
+  left: 690.95, top: 79.45, width: 40, height: 40,
+});
+assert.deepEqual(getTaskTileTruthBounds(4), {
+  left: 187.45, top: 365.95, width: 204, height: 40,
+});
+assert.deepEqual(getTaskTileTruthBounds(4, 'received'), {
+  left: 337.95, top: 365.95, width: 63, height: 47,
+});
+assert.deepEqual(getTaskRewardTruthBounds(3, 'icon'), {
+  left: 564.5, top: 328.85, width: 50, height: 50,
+});
+assert.deepEqual(getTaskTruthTextStyle(TaskTruthObjectIds.description), {
+  fontFamily: 'FZCuYuan-M03', fontSize: 15, color: '#ffffff', dynamic: true,
+  source: 'Task.getrwdict()',
+});
 assert.equal(DailyTaskDefinitions[2]!.needs[1]!.producerKey, 'Monster3');
 assert.equal(DailyTaskDefinitions[24]!.rewards.length, 4);
 assert.equal(DailyTaskDefinitions[38]!.needs.length, 3);
@@ -85,6 +150,40 @@ const reloaded = loadActiveGame(storage)!;
 assert.equal(reloaded.partyTasks?.daily[0]?.hasClaimed, true);
 assert.equal(reloaded.player1.soulCount, 250);
 
+const dualStorage = new MemoryStorage();
+const dualParty = createPartyConfiguration(2, 1, 2)!;
+assert.equal(createSaveSlot(
+  dualStorage,
+  0,
+  createDefaultGameSave(new Date(2026, 6, 26), dualParty),
+), true);
+dualStorage.setItem(ActiveSaveSlotStorageKey, '0');
+const dualPage = createFormalTaskPage(dualStorage, new Date(2026, 6, 26))!;
+changeFormalTaskPage(dualPage, 1);
+assert.equal(dualPage.page, 2);
+assert.equal(selectFormalTaskRow(dualPage, 0), true);
+dualPage.tasks.daily[5]!.progress = [25, 25];
+dualPage.tasks.daily[5]!.isComplete = true;
+assert.equal(claimSelectedFormalTask(
+  dualPage,
+  dualStorage,
+  () => 1,
+  new Date(2026, 6, 26),
+), true);
+assert.equal(dualPage.restored.player1.petRoster.pets[dualPage.restored.player1.petRoster.selectedIndex]!.exp, 600);
+assert.equal(dualPage.restored.player2.petRoster.pets[dualPage.restored.player2.petRoster.selectedIndex]!.exp, 600);
+const dualReloaded = loadActiveGame(dualStorage)!;
+assert.equal(dualReloaded.partyTasks?.daily[5]?.hasClaimed, true);
+const dualReloadedPage = createFormalTaskPage(dualStorage, new Date(2026, 6, 26))!;
+assert.equal(
+  dualReloadedPage.restored.player1.petRoster.pets[dualReloadedPage.restored.player1.petRoster.selectedIndex]!.exp,
+  600,
+);
+assert.equal(
+  dualReloadedPage.restored.player2.petRoster.pets[dualReloadedPage.restored.player2.petRoster.selectedIndex]!.exp,
+  600,
+);
+
 const root = process.cwd();
 const scene = readFileSync(path.join(root, 'src/scenes/TaskScene.ts'), 'utf8');
 const map = readFileSync(path.join(root, 'src/scenes/HeavenMapScene.ts'), 'utf8');
@@ -94,10 +193,20 @@ assert.match(map, /'TaskScene'/);
 assert.match(scene, /taskUiAssets\.tile\.(?:selected|normal)/);
 assert.match(scene, /taskUiAssets\.claim\.(?:enabled|disabled)/);
 assert.match(scene, /getFormalTaskVisibleDefinitions/);
+assert.match(scene, /assertVerifiedTaskPageTruth/);
+assert.match(scene, /getTaskTruthBounds/);
+assert.match(scene, /getTaskTileTruthBounds/);
+assert.match(scene, /getTaskRewardTruthBounds/);
+assert.doesNotMatch(scene, /(?:TileY|AwardPositions|182\.35|228\.35|273\.35|320\.35|365\.95|431\.45|560\.95|690\.95|414\.8|397\.8)/);
 assert.doesNotMatch(scene, /活动说明|在线服务|owner selector/i);
 assert.match(manifest, /map-service\.tasks\.root/);
-for (const file of ['root.svg', 'daily-selected.svg', 'activity-selected.svg', 'tile-selected.svg', 'claim-enabled.svg']) {
+for (const file of ['root-static.svg', 'daily-selected.svg', 'activity-selected.svg', 'tile-selected.svg', 'claim-enabled.svg']) {
   assert.ok(readFileSync(path.join(root, 'public/assets/ui/map-services/tasks', file)).length > 1_000);
 }
+const staticRoot = readFileSync(
+  path.join(root, 'public/assets/ui/map-services/tasks/root-static.svg'),
+  'utf8',
+);
+assert.doesNotMatch(staticRoot, /id="(?:dailymc|activitymc|getaward|btn_close|t[1-5]|txtinstr|txtcur|alist[1-4]|prepage|nextpage|txtpage)"/);
 
 console.log('formal task catalog, progress, cross-day reset, native assets, and map wiring tests passed');

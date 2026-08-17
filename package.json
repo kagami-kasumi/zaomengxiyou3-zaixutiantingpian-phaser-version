@@ -102,6 +102,7 @@
     "generate:settings-page-runtime-evidence": "python tools/generate-settings-page-runtime-evidence.py",
     "generate:task-page-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-task-page-baselines.ps1",
     "generate:task-page-truth": "node tools/generate-task-page-ground-truth.mjs",
+    "generate:task-native-assets": "node tools/generate-task-native-assets.mjs",
     "generate:party-creation-baselines": "powershell -ExecutionPolicy Bypass -File tools/generate-party-creation-baselines.ps1",
     "generate:party-creation-truth": "node tools/generate-party-creation-ground-truth.mjs",
     "generate:equipment-visual-catalog": "node tools/generate-equipment-visual-resource-catalog.mjs",
