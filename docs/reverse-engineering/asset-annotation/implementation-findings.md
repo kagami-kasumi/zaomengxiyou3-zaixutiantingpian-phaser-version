@@ -13,6 +13,7 @@
 | `pet-skill.monkey4.jgaoyi` | 使用行为式占位名 `PetMonkey4.hit5` | 奥义主要复用 `PetMonkeyBmd4` 本体 `hit5` 动作 | 真素材接入应从宠物本体 atlas 取动作，不寻找不存在的独立 bullet。 |
 | `pet-skill.dragon1.fs` | 使用 `PetDragon1Bullet1` | `PetDragon1.as` 的 `doHit2()` 创建半透明同类分身，视觉来自 `PetDragonBmd1` | 真素材接入应复用本体资源。 |
 | `pet-skill.turtle4.xwaoyi` | 使用占位名 `PetTurtle4Hit5` | `PetTurtle4.as` 复用本体 `hit5`，满足前置时再创建 `PetTurtle3Bullet3` | 后续把本体动作和范围特效分开登记。 |
+| 宠物本体/技能全集 | `TestScenePetViewBridge` 仍绘制几何 body/ear/label；部分高级技能直接写 `pet-skill.*` 字符串且没有 loadable asset | 193 corpus 已将九物种 35 形态与 38 个技能映射定位到五个恢复包，0 个未定位符号 | 按 193A..193R 逐物种完成证据→实现；不得一次全量替换或继续声明 `missing-original`。 |
 
 ## 覆盖与分类发现
 

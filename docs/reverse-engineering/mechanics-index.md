@@ -92,6 +92,8 @@
 
 2026-08-17 `TASK-SLICE-192B` character 662 投影：共享 HUD snapshot 直接读取当前活动存档 P1/P2 `PetRoster`，并在既有 `FormalPetsUpdatedEvent` 上替换同一 roster 引用；没有第二宠物数值/runtime owner。605 shell、610/614 各 25 帧、同源头像和三字段按 `task-settings-191.pet-combat-hud` 投影，P2 镜像与字段反转、满值/半值/0 HP、休息移除和再次出战重建均通过；原版 662 无技能 child，故不添加现代技能层。M-049 的宠物战斗 HUD 子范围已复现，M-042/M-052 与 VS-067 因宠物本体/技能真动画仍保持部分状态并转入 193。
 
+2026-08-17 `TASK-SETTINGS-193` 宠物动画 corpus：恢复 `pet1/20120203/20120808/mouse/StageCommon.swf` 精确 SymbolClass 扫描将当前 9 物种、35 实际形态、9 本体族与 38 技能视觉映射全部定位，`unlocated=[]`。重复符号按 `Aloader` 补丁顺序冻结候选 owner，并要求分族证据 task 用 ApplicationDomain/load precedence 反证；现代 `TestScenePetViewBridge` 几何本体、projectile fallback 和字符串 key 均仍是占位或未渲染。193A..193R 已按九物种串行插入 194 前，故 M-035/M-042 与 VS-067 仍保持部分复现，不因 corpus 定位提前提升。
+
 2026-07-25 地图四服务页检查点：`MapMenu/GMain` 与 restored SWF 交叉确认丹药 990（`OtherMat1`）、商城 721 和任务 85（`backpack1`）、设置 148（`StageCommon`）。商城在该单机版本以玩家灵魂结算；购买成功只刷新运行态和 `MemoryClass.mystorage` 内存快照，必须返回地图手动存档才写文件，不得因旧充值/点券静态文字伪造在线服务；设置字段原版为会话态，不在 `User.getSaveObj`。四页深证据按 `TASK-SETTINGS-066A..D` 继续，详见 `map-service-ui-index.md`，当前不提升 `M-044/M-046/M-052` 状态。
 
 2026-07-25 丹药页深证据：`TASK-SETTINGS-066A` 已闭合 character 990/969/1006、四按钮、五职业选择器、25 格顺序解锁、五类五阶加成、五配方、灵魂/材料/容量拒绝、原版刷新瑕疵、P1/P2 owner 和显式保存边界，详见 `immortality-ui-index.md`。这只清零 `TASK-SLICE-155A` 输入未知，不提前提升 `M-044/M-052` 或 `VS-059`。

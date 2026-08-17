@@ -905,6 +905,12 @@ SVG 逐项一致；运行时 5 行 1224 列表、`PetHeadSprite`、8 个 `skillI
 
 可见层复用恢复源 605 shell、610/614 全帧和 175A 同源头像，按 P1 `(0,94)`、P2 `(920,94), scaleX=-1` 投影，三个 P2 字段再反转。原版 662 不含技能 child，因此技能激活不新增可见层；宠物本体与技能动画仍严格留给 193 的恢复源 corpus/资源族任务。正式双人出战、P2 休息/重建和零 console 证据见 `docs/tasks/evidence/TASK-SLICE-192B/visual-audit.md`。
 
+## TASK-SETTINGS-193：宠物动画 corpus 分区
+
+机器目录 `pet-animation-corpus.json` 已直接扫描恢复 `assets/pet1.swf`、`20120203.swf`、`20120808.swf`、`mouse.swf` 与 `StageCommon.swf`，覆盖当前九物种 35 个实际形态、9 个本体资源族和 38 个技能视觉映射，预期 SymbolClass 未定位数为 0。`mouse1..3` 共用 `PetMouseBmd1`，`mouse4` 使用 `PetMouseBmd2`；猴/马/UFO/虎的早期形态存在 20120203 补丁候选，玄龟四阶存在 20120808 候选。
+
+该目录只冻结 source owner/character id/hash/candidate 与现代 placeholder/unrendered 状态。动作行、帧数、持帧、注册点、嵌套矩阵、可见/碰撞边界和触发/销毁仍由 193A..193Q 的逐物种证据 task 生成 verified 真值，配对 193B..193R 才允许接入。当前不得把 `AssetManifest` 的旧 `missing-original`、几何 pet view 或 projectile sourceSymbol 当作真动画关闭证据。
+
 ## 最小现代模型建议
 
 **注意**：AS3 数值基数 `hy.first = 2×atk`、`sxhz.first = 4×atk`、`hsqj.first = 6×atk` 等来自 `PetInfo.getPetHarmObj()`，均已确认。凤凰 `phoenix1..4`、兔 `rabbit1..4`、鼠 `mouse1..4` 的专属技能链见下方新增章节。

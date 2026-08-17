@@ -1,0 +1,2663 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "task-settings-193.pet-animation-corpus",
+  "status": "partitioned-not-visually-verified",
+  "scope": "Nine currently supported modern pet species, their actual forms, body atlas SymbolClasses, skill objects, restored source owners, and placeholder/unrendered modern mappings.",
+  "exclusions": [
+    "No frame derivation",
+    "No atlas generation",
+    "No src integration",
+    "No claim that any species visual is closed"
+  ],
+  "sourcePackages": [
+    {
+      "sourcePackage": "assets/pet1.swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+      "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644",
+      "matchingSymbolCount": 81
+    },
+    {
+      "sourcePackage": "assets/20120203.swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+      "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832",
+      "matchingSymbolCount": 39
+    },
+    {
+      "sourcePackage": "assets/20120808.swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120808.swf",
+      "sha256": "73DA00CCEA990D642D071DCF70FC1D067706324598699C28814932E09ED76D4C",
+      "matchingSymbolCount": 1
+    },
+    {
+      "sourcePackage": "assets/mouse.swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+      "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0",
+      "matchingSymbolCount": 5
+    },
+    {
+      "sourcePackage": "assets/StageCommon.swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/StageCommon.swf",
+      "sha256": "C6FC973D7D606CE4EA177B0AC075844C86A5EE7E493235FA812A029FBE4F29C9",
+      "matchingSymbolCount": 1
+    }
+  ],
+  "sourcePrecedenceEvidence": {
+    "locator": "local-resources/regima/task-outputs/task-settings-189-equipment-tooltip/restored-main-script/scripts/loader/Aloader.as: constructor urls and sequential next()",
+    "rule": "20120203.swf loads before 20120808.swf and StageCommon.swf; duplicate candidates are frozen to the later listed patch for child-task investigation, while pet1/mouse-only symbols keep their sole owner.",
+    "counterEvidence": "Reopen the selected owner if the family evidence task proves pet1/mouse load timing or ApplicationDomain duplicate-class behavior selects a different definition."
+  },
+  "species": [
+    {
+      "species": "monkey",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetMonkeyBmd1",
+          "body": {
+            "symbol": "PetMonkeyBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 7,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 7,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 14,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetMonkeyBmd2",
+          "body": {
+            "symbol": "PetMonkeyBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 14,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 14,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 2,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetMonkeyBmd3",
+          "body": {
+            "symbol": "PetMonkeyBmd3",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 11,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 11,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 4,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        },
+        {
+          "form": 4,
+          "bodySymbol": "PetMonkeyBmd4",
+          "body": {
+            "symbol": "PetMonkeyBmd4",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 20,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 20,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.monkey1.xj",
+          "usage": "monkey1 xj projectile",
+          "symbols": [
+            {
+              "symbol": "PetMonkey1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 229,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 229,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1014,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.monkey2.lj",
+          "usage": "monkey2 lj two-stage effect",
+          "symbols": [
+            {
+              "symbol": "PetMonkey2Bullet2_1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 207,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 207,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1024,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            },
+            {
+              "symbol": "PetMonkey2Bullet2_2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 208,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 208,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1025,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.monkey2.xj",
+          "usage": "monkey2 xj reuses monkey1 projectile",
+          "symbols": [
+            {
+              "symbol": "PetMonkey1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 229,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 229,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1014,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.monkey3.lyq",
+          "usage": "monkey3 lyq projectile",
+          "symbols": [
+            {
+              "symbol": "PetMonkey3Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 192,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 192,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1088,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.monkey3.xj",
+          "usage": "monkey3 xj reuses monkey1 projectile",
+          "symbols": [
+            {
+              "symbol": "PetMonkey1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 229,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 229,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1014,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.monkey3.lj",
+          "usage": "monkey3 lj prelude and damage stage",
+          "symbols": [
+            {
+              "symbol": "PetMonkey3Bullet3_1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 136,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 136,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1095,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            },
+            {
+              "symbol": "PetMonkey3Bullet3_2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 137,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 137,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1096,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.monkey4.jgaoyi",
+          "usage": "monkey4 jgaoyi body hit5 action",
+          "symbols": [
+            {
+              "symbol": "PetMonkeyBmd4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 20,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 20,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193A",
+      "implementationTask": "TASK-SLICE-193B",
+      "note": null
+    },
+    {
+      "species": "horse",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetHorseBmd1",
+          "body": {
+            "symbol": "PetHorseBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 17,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 17,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 1,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetHorseBmd2",
+          "body": {
+            "symbol": "PetHorseBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 15,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 15,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 3,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetHorseBmd3",
+          "body": {
+            "symbol": "PetHorseBmd3",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 12,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 12,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 5,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        },
+        {
+          "form": 4,
+          "bodySymbol": "PetHorseBmd4",
+          "body": {
+            "symbol": "PetHorseBmd4",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 19,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 19,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.horse1.sp",
+          "usage": "horse1 sp projectile",
+          "symbols": [
+            {
+              "symbol": "PetHorse1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 124,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 124,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1105,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.horse2.bd",
+          "usage": "horse2 bd projectile",
+          "symbols": [
+            {
+              "symbol": "PetHorse2Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 101,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 101,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1128,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.horse3.bz",
+          "usage": "horse3 bz projectile",
+          "symbols": [
+            {
+              "symbol": "PetHorse3Bullet4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 82,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 82,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1194,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.horse4.tmaoyi",
+          "usage": "horse4 ultimate falling/tracking stage",
+          "symbols": [
+            {
+              "symbol": "PetHorse4Bullet5",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 699,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 699,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.horse4.tmaoyi.explode",
+          "usage": "horse4 ultimate explosion stage",
+          "symbols": [
+            {
+              "symbol": "PetHorse4Bullet5Explode",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 695,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 695,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193C",
+      "implementationTask": "TASK-SLICE-193D",
+      "note": null
+    },
+    {
+      "species": "ufo",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetKabuBmd1",
+          "body": {
+            "symbol": "PetKabuBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 8,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 8,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 10,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetKabuBmd2",
+          "body": {
+            "symbol": "PetKabuBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 6,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 6,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 21,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetKabuBmd3",
+          "body": {
+            "symbol": "PetKabuBmd3",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 9,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 9,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 6,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.ufo1.pms",
+          "usage": "ufo1 pms projectile",
+          "symbols": [
+            {
+              "symbol": "PetKabu1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 283,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 283,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 954,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.ufo2.ss",
+          "usage": "ufo2 teleport and body normal-attack continuation",
+          "symbols": [
+            {
+              "symbol": "PetKabuBmd2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 6,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 6,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 21,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.ufo3.kmsk",
+          "usage": "ufo3 kmsk area object",
+          "symbols": [
+            {
+              "symbol": "PetKabu3Bullet4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 272,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 272,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 985,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193E",
+      "implementationTask": "TASK-SLICE-193F",
+      "note": null
+    },
+    {
+      "species": "tigress",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetTigerBmd1",
+          "body": {
+            "symbol": "PetTigerBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 16,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 16,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetTigerBmd2",
+          "body": {
+            "symbol": "PetTigerBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 13,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 13,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetTigerBmd3",
+          "body": {
+            "symbol": "PetTigerBmd3",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120203.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+              "characterId": 10,
+              "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 10,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 4,
+          "bodySymbol": "PetTigerBmd4",
+          "body": {
+            "symbol": "PetTigerBmd4",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 18,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 18,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.tigress.hy",
+          "usage": "tigress hy projectile",
+          "symbols": [
+            {
+              "symbol": "PetTiger1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 343,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 343,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.tigress.sxhz",
+          "usage": "tigress sxhz two-stage object",
+          "symbols": [
+            {
+              "symbol": "PetTiger2Bullet3_1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 332,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 332,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetTiger2Bullet3_2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 298,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 298,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.tigress.hsqj",
+          "usage": "tigress hsqj prelude and damage stage",
+          "symbols": [
+            {
+              "symbol": "PetTiger3Bullet4_1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 370,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 370,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetTiger3Bullet4_2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 366,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 366,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.tigress.bhaoyi",
+          "usage": "tigress body teleport/combo and reused skills",
+          "symbols": [
+            {
+              "symbol": "PetTigerBmd4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 18,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 18,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetTiger1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 343,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 343,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetTiger2Bullet3_1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 332,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 332,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetTiger2Bullet3_2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 298,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 298,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetTiger3Bullet4_1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 370,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 370,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetTiger3Bullet4_2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 366,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 366,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193G",
+      "implementationTask": "TASK-SLICE-193H",
+      "note": null
+    },
+    {
+      "species": "turtle",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetTurtleBmd1",
+          "body": {
+            "symbol": "PetTurtleBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 7,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 7,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetTurtleBmd2",
+          "body": {
+            "symbol": "PetTurtleBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 11,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 11,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetTurtleBmd3",
+          "body": {
+            "symbol": "PetTurtleBmd3",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 15,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 15,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 4,
+          "bodySymbol": "PetTurtleBmd4",
+          "body": {
+            "symbol": "PetTurtleBmd4",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/20120808.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120808.swf",
+              "characterId": 15,
+              "sha256": "73DA00CCEA990D642D071DCF70FC1D067706324598699C28814932E09ED76D4C"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/20120808.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120808.swf",
+                "characterId": 15,
+                "sha256": "73DA00CCEA990D642D071DCF70FC1D067706324598699C28814932E09ED76D4C"
+              },
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 22,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.turtle1.sld",
+          "usage": "turtle1 sld projectile",
+          "symbols": [
+            {
+              "symbol": "PetTurtle1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 504,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 504,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.turtle2.txlj",
+          "usage": "turtle2 owner/pet link effect",
+          "symbols": [
+            {
+              "symbol": "PetTurtle2Buff",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 507,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 507,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.turtle3.sybh",
+          "usage": "turtle3 sybh area object",
+          "symbols": [
+            {
+              "symbol": "PetTurtle3Bullet3",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 534,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 534,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.turtle4.xwaoyi",
+          "usage": "turtle4 body hit5 plus reused area object",
+          "symbols": [
+            {
+              "symbol": "PetTurtleBmd4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120808.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120808.swf",
+                "characterId": 15,
+                "sha256": "73DA00CCEA990D642D071DCF70FC1D067706324598699C28814932E09ED76D4C"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120808.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120808.swf",
+                  "characterId": 15,
+                  "sha256": "73DA00CCEA990D642D071DCF70FC1D067706324598699C28814932E09ED76D4C"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 22,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            },
+            {
+              "symbol": "PetTurtle3Bullet3",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 534,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 534,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193I",
+      "implementationTask": "TASK-SLICE-193J",
+      "note": null
+    },
+    {
+      "species": "phoenix",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetPhoenixBmd1",
+          "body": {
+            "symbol": "PetPhoenixBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 12,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 12,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetPhoenixBmd2",
+          "body": {
+            "symbol": "PetPhoenixBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 17,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 17,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetPhoenixBmd3",
+          "body": {
+            "symbol": "PetPhoenixBmd3",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 8,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 8,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 4,
+          "bodySymbol": "PetPhoenixBmd4",
+          "body": {
+            "symbol": "PetPhoenixBmd4",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 24,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 24,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.phoenix.np",
+          "usage": "phoenix transformation and rebirth feedback",
+          "symbols": [
+            {
+              "symbol": "PetPhoenixBmd1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 12,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 12,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPhoenixBmd2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 17,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 17,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPhoenixBmd3",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 8,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 8,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPhoenixBmd4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 24,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 24,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPhoenix1Bullet2_1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 69,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 69,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPhoenix1Bullet2_2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 93,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 93,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.phoenix.bshn",
+          "usage": "phoenix bshn projectile",
+          "symbols": [
+            {
+              "symbol": "PetPhoenix2Bullet3",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 100,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 100,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.phoenix.dhly",
+          "usage": "phoenix dhly area object",
+          "symbols": [
+            {
+              "symbol": "PetPhoenix3Bullet4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 49,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 49,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.phoenix.zqaoyi",
+          "usage": "phoenix ultimate body and combo objects",
+          "symbols": [
+            {
+              "symbol": "PetPhoenixBmd4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 24,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 24,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPhoenix4Bullet3_2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 118,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 118,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPhoenix4Bullet5",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 144,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 144,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPhoenix4Bullet6",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 104,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 104,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193K",
+      "implementationTask": "TASK-SLICE-193L",
+      "note": null
+    },
+    {
+      "species": "dragon",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetDragonBmd1",
+          "body": {
+            "symbol": "PetDragonBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 9,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 9,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetDragonBmd2",
+          "body": {
+            "symbol": "PetDragonBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 13,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 13,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetDragonBmd3",
+          "body": {
+            "symbol": "PetDragonBmd3",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 16,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 16,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 4,
+          "bodySymbol": "PetDragonBmd4",
+          "body": {
+            "symbol": "PetDragonBmd4",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 23,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 23,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.dragon1.fs",
+          "usage": "dragon1 translucent body clone",
+          "symbols": [
+            {
+              "symbol": "PetDragonBmd1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 9,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 9,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.dragon2.sdcc",
+          "usage": "dragon2 sdcc projectile",
+          "symbols": [
+            {
+              "symbol": "PetDragon2Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 563,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 563,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.dragon3.ltwj",
+          "usage": "dragon3 ltwj projectile",
+          "symbols": [
+            {
+              "symbol": "PetDragon3Bullet3",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 603,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 603,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.dragon4.qlaoyi",
+          "usage": "dragon4 ultimate trigger object",
+          "symbols": [
+            {
+              "symbol": "PetDragonBullet4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 539,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 539,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193M",
+      "implementationTask": "TASK-SLICE-193N",
+      "note": null
+    },
+    {
+      "species": "rabbit",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetPetRabbitBmd1",
+          "body": {
+            "symbol": "PetPetRabbitBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 172,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 172,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetPetRabbitBmd2",
+          "body": {
+            "symbol": "PetPetRabbitBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 222,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 222,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetPetRabbitBmd3",
+          "body": {
+            "symbol": "PetPetRabbitBmd3",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 293,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 293,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 4,
+          "bodySymbol": "PetPetRabbitBmd4",
+          "body": {
+            "symbol": "PetPetRabbitBmd4",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/pet1.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+              "characterId": 331,
+              "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 331,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.rabbit.yg",
+          "usage": "rabbit moonlight proc object",
+          "symbols": [
+            {
+              "symbol": "Monster130Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 338,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 338,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.rabbit.jf",
+          "usage": "rabbit attack/dodge buff feedback",
+          "symbols": [
+            {
+              "symbol": "PetPetRabbitBulletBuff",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 254,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 254,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetPetRabbitJFBuff",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 189,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 189,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.rabbit.bs",
+          "usage": "rabbit ice projectile",
+          "symbols": [
+            {
+              "symbol": "PetPetRabbitBullet4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 228,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 228,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.rabbit.ysaoyi",
+          "usage": "rabbit ultimate body and moon field",
+          "symbols": [
+            {
+              "symbol": "PetPetRabbitBmd4",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 331,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 331,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "petRabbit4AoyiBuff",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/pet1.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                "characterId": 353,
+                "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 353,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193O",
+      "implementationTask": "TASK-SLICE-193P",
+      "note": null
+    },
+    {
+      "species": "mouse",
+      "forms": [
+        {
+          "form": 1,
+          "bodySymbol": "PetMouseBmd1",
+          "body": {
+            "symbol": "PetMouseBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/mouse.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+              "characterId": 98,
+              "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 98,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 2,
+          "bodySymbol": "PetMouseBmd1",
+          "body": {
+            "symbol": "PetMouseBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/mouse.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+              "characterId": 98,
+              "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 98,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 3,
+          "bodySymbol": "PetMouseBmd1",
+          "body": {
+            "symbol": "PetMouseBmd1",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/mouse.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+              "characterId": 98,
+              "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 98,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        },
+        {
+          "form": 4,
+          "bodySymbol": "PetMouseBmd2",
+          "body": {
+            "symbol": "PetMouseBmd2",
+            "status": "located",
+            "selectedOwner": {
+              "sourcePackage": "assets/mouse.swf",
+              "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+              "characterId": 51,
+              "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+            },
+            "candidates": [
+              {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 51,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              }
+            ],
+            "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+          }
+        }
+      ],
+      "requiredBodyActionClasses": [
+        "wait/follow",
+        "walk/warp",
+        "normal-attack",
+        "species-skill-actions",
+        "hurt",
+        "death-or-zero-hp lifecycle"
+      ],
+      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "skills": [
+        {
+          "stableKey": "pet-skill.mouse.sc",
+          "usage": "mouse rush and bite objects",
+          "symbols": [
+            {
+              "symbol": "PetMouse1Bullet1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 67,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/mouse.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                  "characterId": 67,
+                  "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetMouse1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 63,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/mouse.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                  "characterId": 63,
+                  "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.mouse.hxfb",
+          "usage": "mouse returning-dart object",
+          "symbols": [
+            {
+              "symbol": "PetMouse1Bullet3",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 17,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/mouse.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                  "characterId": 17,
+                  "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        },
+        {
+          "stableKey": "pet-skill.mouse.zsaoyi",
+          "usage": "mouse ultimate body and reused combo objects",
+          "symbols": [
+            {
+              "symbol": "PetMouseBmd2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 51,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/mouse.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                  "characterId": 51,
+                  "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetMouse1Bullet1",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 67,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/mouse.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                  "characterId": 67,
+                  "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetMouse1Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 63,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/mouse.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                  "characterId": 63,
+                  "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            },
+            {
+              "symbol": "PetMouse1Bullet3",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/mouse.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                "characterId": 17,
+                "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/mouse.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/mouse.swf",
+                  "characterId": 17,
+                  "sha256": "15FE0D0007734B56D2F5D2D715683DFD89B7BBBAA73F5A4367AD6217ACC25DC0"
+                }
+              ],
+              "ownerRule": "Only exact restored SymbolClass candidate in the audited package set."
+            }
+          ],
+          "modernStatus": "placeholder-or-unrendered"
+        }
+      ],
+      "modernBody": {
+        "status": "placeholder",
+        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+      },
+      "evidenceTask": "TASK-SETTINGS-193Q",
+      "implementationTask": "TASK-SLICE-193R",
+      "note": "PetMouse2/3 inherit PetMouse1 without a new body atlas; PetMouse4 alone switches to PetMouseBmd2."
+    }
+  ],
+  "completeness": {
+    "expectedSpecies": 9,
+    "extractedSpecies": 9,
+    "unlocated": [],
+    "noUnpartitionedFamily": true
+  }
+}

@@ -4,13 +4,30 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-193` 是唯一 Ready 游戏 task；192B 已把 191 冻结的 character 662 原生战斗宠物 HUD 接入五关共享 Runtime，并闭合 P1/P2 出战/休息/死亡只读投影。下一步只盘点宠物恢复源 corpus 并按资源族生成证据/实现子 task，不在 193 中派生或接入动画。
+`TASK-SETTINGS-193A` 是唯一 Ready 游戏 task；193 已把九物种 35 个实际形态与 38 个技能视觉映射定位到五个恢复包，并生成九组“证据 → 实现”串行 task。下一步只闭合猴系动作/对象机器真值，不派生其他物种或提前接入动画。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-193 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物动画 corpus 分区 | 盘点九物种/形态/动作/技能对象的恢复源 owner，冻结分族证据与实现批次 | M-034、M-035、M-042、VS-067 | corpus 目录、缺失/占位矩阵、每资源族证据+ 实现子 task | 执行所有生成的宠物资源族子 task，然后 TASK-SLICE-194 | [定义](task-definitions/TASK-SETTINGS-193.md) |
+| TASK-SETTINGS-193A | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 猴系动画证据 | 冻结 monkey1..4 本体动作、技能对象、补丁 owner 与逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193B | [定义](task-definitions/TASK-SETTINGS-193A.md) |
+| TASK-SLICE-193B | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 猴系真动画接入 | 直接消费 193A 真值替换猴系几何本体与技能占位 | M-034、M-035、M-042、VS-067 | 猴系真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193C | [定义](task-definitions/TASK-SLICE-193B.md) |
+| TASK-SETTINGS-193C | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 马系动画证据 | 冻结 horse1..4 本体、技能/冰效、补丁 owner 与逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193D | [定义](task-definitions/TASK-SETTINGS-193C.md) |
+| TASK-SLICE-193D | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 马系真动画接入 | 直接消费 193C 真值替换马系本体与水泡/冰冻/冰锥/奥义占位 | M-034、M-035、M-042、VS-067 | 马系真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193E | [定义](task-definitions/TASK-SLICE-193D.md) |
+| TASK-SETTINGS-193E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 动画证据 | 冻结 ufo1..3 本体、魔破杀/瞬闪/狂魔闪空逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193F | [定义](task-definitions/TASK-SETTINGS-193E.md) |
+| TASK-SLICE-193F | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 真动画接入 | 直接消费 193E 真值替换 UFO 本体与技能占位 | M-034、M-035、M-042、VS-067 | UFO 真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193G | [定义](task-definitions/TASK-SLICE-193F.md) |
+| TASK-SETTINGS-193G | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎系动画证据 | 冻结 tigress1..4 本体、三技能与组合奥义逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193H | [定义](task-definitions/TASK-SETTINGS-193G.md) |
+| TASK-SLICE-193H | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎系真动画接入 | 直接消费 193G 真值替换虎系本体与技能占位 | M-034、M-035、M-042、VS-067 | 虎系真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193I | [定义](task-definitions/TASK-SLICE-193H.md) |
+| TASK-SETTINGS-193I | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟动画证据 | 冻结 turtle1..4 本体、链接/范围/奥义与 20120808 owner | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193J | [定义](task-definitions/TASK-SETTINGS-193I.md) |
+| TASK-SLICE-193J | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟真动画接入 | 直接消费 193I 真值替换玄龟本体与技能占位 | M-034、M-035、M-042、VS-067 | 玄龟真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193K | [定义](task-definitions/TASK-SLICE-193J.md) |
+| TASK-SETTINGS-193K | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 凤凰动画证据 | 冻结 phoenix1..4 本体、涅槃/火鸟/地火/奥义逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193L | [定义](task-definitions/TASK-SETTINGS-193K.md) |
+| TASK-SLICE-193L | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 凤凰真动画接入 | 直接消费 193K 真值替换凤凰本体与技能占位 | M-034、M-035、M-042、VS-067 | 凤凰真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193M | [定义](task-definitions/TASK-SLICE-193L.md) |
+| TASK-SETTINGS-193M | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 青龙动画证据 | 冻结 dragon1..4 本体、分身/冲锋/雷霆/奥义逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193N | [定义](task-definitions/TASK-SETTINGS-193M.md) |
+| TASK-SLICE-193N | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 青龙真动画接入 | 直接消费 193M 真值替换青龙本体与技能占位 | M-034、M-035、M-042、VS-067 | 青龙真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193O | [定义](task-definitions/TASK-SLICE-193N.md) |
+| TASK-SETTINGS-193O | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玉兔动画证据 | 冻结 rabbit1..4 本体、月光/疾风/冰霜/奥义逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193P | [定义](task-definitions/TASK-SETTINGS-193O.md) |
+| TASK-SLICE-193P | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玉兔真动画接入 | 直接消费 193O 真值替换玉兔本体与技能占位 | M-034、M-035、M-042、VS-067 | 玉兔真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193Q | [定义](task-definitions/TASK-SLICE-193P.md) |
+| TASK-SETTINGS-193Q | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 子鼠动画证据 | 冻结 mouse1..4 两套本体、鼠窜/飞镖/奥义逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193R | [定义](task-definitions/TASK-SETTINGS-193Q.md) |
+| TASK-SLICE-193R | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 子鼠真动画接入 | 直接消费 193Q 真值替换子鼠本体与技能占位 | M-034、M-035、M-042、VS-067 | 子鼠真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SLICE-194 | [定义](task-definitions/TASK-SLICE-193R.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在所有 193 生成子 task 完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |
 | TASK-SETTINGS-195 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色动作完整性/流畅度审计 | 比较五角色原 SWF 与现代帧时序、持帧、转移、clock、解包/加载/投影完整性并确定根因 | M-018..M-025、M-035、M-047、VS-068 | 可重现跨角色差异矩阵、根因分类、每受影响角色修复子 task | 执行所有生成的单角色子 task，然后 TASK-SLICE-196 | [定义](task-definitions/TASK-SETTINGS-195.md) |
 | TASK-SLICE-196 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色统一校准 | 统一复验五角色 UI/本体/普攻/技能动作流畅度与正式 Runtime 转移 | M-018..M-025、M-047、M-049、VS-068 | 五角色同标准自动对账、940×590 动作对照与无未解释卡顿 | TASK-SETTINGS-197 | [定义](task-definitions/TASK-SLICE-196.md) |

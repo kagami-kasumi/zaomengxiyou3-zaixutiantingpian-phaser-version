@@ -11206,3 +11206,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-193`：只盘点九物种/形态/本体动作/技能对象的恢复源 corpus 和 owner，生成逐资源族证据/实现子 task；不在 193 中派生或接入动画。
+
+### TASK-SETTINGS-193
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-193A`）。
+- 新增可重复生成的 `pet-animation-corpus.json`：直接读取五个恢复 SWF 的 SymbolClass 与 SHA-256，覆盖九物种、35 个实际形态、9 个本体族与 38 个技能视觉映射，未定位符号为 0。
+- `pet-body-animations.csv` 新增 9 条本体族；`pet-skill-effects.csv` 从旧 24 条待定位扩为 38 条精确 `export-ready` 映射。没有把几何本体、projectile 占位或字符串 key 写成真视觉。
+- 重复 SymbolClass 按 `Aloader` 补丁顺序冻结 owner 候选并记录 ApplicationDomain/load precedence 反证条件；本 task 未深追逐帧时间轴、未派生 atlas、未修改 `src/` 或 legacy 原始结果。
+- 按猴、马、UFO、虎、玄龟、凤凰、青龙、玉兔、子鼠生成 `193A..193R` 九组 0-compact“证据 task -> 实现 task”，串行插入 194 前；每个实现 task 在配对 verified 真值完成前保持 Planned。
+
+验证：
+- `npm run test:pet-animation-corpus`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-193A`：只闭合 monkey1..4 本体与 xj/lj/lyq/jgaoyi 的动作行、帧时序/持帧、注册点/边界、补丁 owner 与 verified 真值；不接入现代动画。
