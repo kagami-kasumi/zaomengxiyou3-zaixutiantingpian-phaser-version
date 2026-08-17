@@ -1,5 +1,25 @@
 # 工作流治理日志
 
+## 2026-08-17：完成 PG-013 V2R 怪物领域与关卡资源解耦
+
+- 背景：此前把怪物资源归首次引入关卡的方案被用户反证；全局治理队列要求本次只完成 V2R，不执行游戏 Ready task。
+- 变更：新增 `MonsterDefinitionCatalog` 与 `MonsterAssetCatalog`；12 类只读战斗定义、五个怪物资源族和 424 个视觉/几何文件从关卡 owner 解耦。五关 bundle 仅声明怪物族依赖，旧 `stage-*-monsters*` bundle 与 `public/assets/stages/**/monsters/` 清零；同步机器标注、架构地图、PG-013 和集中审计。
+- 影响：V2R 已从全局执行队列移除，下一次 `/goal` 回退唯一 Active/Ready 游戏任务。PG-013 仍为复盘中；V2H..V2K Monster Runtime 消费者与后续新关卡样本未完成，不提前归档。
+- 验证：`npm run test:monster-assets`、关卡资源/asset bundle/五关视觉与资源专项、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+## 2026-08-17：登记 PG-013 V2R 怪物领域与关卡资源解耦
+
+- 背景：用户进一步指出怪物不能与关卡绑定；以首次引入关卡作为怪物 UI/视觉资源 owner 仍然错误，关卡只能持有出怪信息。
+- 变更：PG-013 资源方案转为不充分，新增 V2R 工作包并作为全局队列唯一 `Ready`；目标是独立 monster catalog、代码/资源/bundle owner，五关只消费 monster id 与 spawn 编排。不新增问题编号。
+- 交接：本对话已发生压缩，按规模合同仅记录安全检查点和执行队列，不继续读取新资料族或实施迁移。下一次执行只处理 V2R，完成后结束当次治理任务。
+
+## 2026-08-17：撤销独立问题编号并扩充 PG-013 资源边界
+
+- 背景：用户指出关卡类化本就应覆盖 UI/视觉资源管理，不应另建并归档一个难以跟踪的 PG；同时指出 `shared/stage-1`、`shared/stage-2` 没有可维护的领域语义。
+- 变更：撤销误建的独立问题文件、活跃/归档记录和调度叙述，把证据、解决合同、测试与触发条件并入 `PG-013`。资源树修订为 `shared/floors` 具名资源族与 `stage-N-M/{scene,objects,hazards,monsters}` 首次引入关卡 owner；Stage 1 聚合攻击几何按 Symbol 无损拆成三份并归对应 monster bundle。
+- 影响：PG-013 仍为复盘中，不因资源切片通过而关闭。历史四根继续清零；视觉文件未删除，重复哈希时间轴帧继续保留；未修改恢复 SWF 或 legacy extraction。
+- 验证：由关卡资源专项、五关资源、asset bundle、全系统、build、structure、annotations、workflow、problem audit 与 diff check 覆盖；集中审计按 PG-013 记录，不产生新的问题归档。
+
 ## 2026-08-17：记录 TASK-SLICE-187 建档/选角 manifest 直连审计
 
 - 背景：游戏 task 收尾命中 PG-004；本任务修改原生按钮状态、命中和建档页面视觉 owner，语义命中 PG-011。

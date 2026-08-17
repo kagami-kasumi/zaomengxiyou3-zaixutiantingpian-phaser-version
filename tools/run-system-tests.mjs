@@ -68,6 +68,8 @@ const bundledTests = requestedTests.length > 0
       'hero-progression-runtime-tests',
       'monster-runtime-tests',
       'asset-bundle-tests',
+      'stage-asset-ownership-tests',
+      'monster-asset-ownership-tests',
     ];
 
 rmSync(outDir, { recursive: true, force: true });

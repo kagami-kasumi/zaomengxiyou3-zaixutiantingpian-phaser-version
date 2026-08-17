@@ -30,7 +30,7 @@
 
 ## 去向
 
-- 已接入：11 条 `ready`，位于 `public/assets/stage21/` 并由 `AssetManifest.ts` / `BootScene.ts` 加载。
+- 已接入：11 条 `ready`，位于章节共享目录 `public/assets/monsters/family-6-9-10-19/` 并由 `AssetManifest.ts` / scene bundle 按需加载。
 - 待定位符号：0。
 - 可选择性导出：0；已完成窄派生。
 - 继续使用占位：0。

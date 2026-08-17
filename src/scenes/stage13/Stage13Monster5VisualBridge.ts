@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import {
-  stage13Monster5Atlas,
-  stage13Monster5AttackAssets,
-  Stage13MonsterAssetKeys,
-} from '../../assets/AssetManifest';
+  monster5Atlas,
+  monster5AttackAssets,
+  Monster5AssetKeys,
+} from '../../assets/MonsterAssetCatalog';
 import type { Stage1CombatEnemy } from '../../systems/Stage1CombatSystem';
 import {
   createStage13Monster5Visual,
@@ -52,7 +52,7 @@ const symbolToFamily: Readonly<Record<string, Stage13Monster5AttackFamily>> = {
 export function readStage13Monster5AttackGeometry(
   scene: Phaser.Scene,
 ): Stage13Monster5AttackGeometry {
-  const text = scene.cache.text.get(Stage13MonsterAssetKeys.attackGeometry);
+  const text = scene.cache.text.get(Monster5AssetKeys.attackGeometry);
   if (typeof text !== 'string') throw new Error('Stage 1-3 Monster5 geometry was not loaded');
   const registry: Record<Stage13Monster5AttackFamily, AttackFrameGeometry[]> = {
     monster5Hit1: [],
@@ -71,9 +71,9 @@ export function readStage13Monster5AttackGeometry(
       height: Math.ceil(Number(height)),
     });
   }
-  for (const [family, asset] of Object.entries(stage13Monster5AttackAssets) as [
+  for (const [family, asset] of Object.entries(monster5AttackAssets) as [
     Stage13Monster5AttackFamily,
-    (typeof stage13Monster5AttackAssets)[Stage13Monster5AttackFamily],
+    (typeof monster5AttackAssets)[Stage13Monster5AttackFamily],
   ][]) {
     if (registry[family].length !== asset.frameCount) {
       throw new Error(`${family} geometry expected ${asset.frameCount} frames`);
@@ -89,7 +89,7 @@ export function createStage13Monster5View(
   geometry: Stage13Monster5AttackGeometry,
 ): Stage13Monster5View {
   const origin = getStage13Monster5SpriteOrigin();
-  const sprite = scene.add.sprite(x, y, stage13Monster5Atlas.key, 0)
+  const sprite = scene.add.sprite(x, y, monster5Atlas.key, 0)
     .setName('Monster5')
     .setOrigin(origin.x, origin.y)
     .setDepth(18);
@@ -141,7 +141,7 @@ function createAttackView(
   geometry: Stage13Monster5AttackGeometry,
 ): AttackView {
   const frame = geometry[family][0]!;
-  const asset = stage13Monster5AttackAssets[family];
+  const asset = monster5AttackAssets[family];
   const image = scene.add.image(x, y, asset.frameKeys[0])
     .setName(asset.sourceSymbol)
     .setOrigin(-frame.minX / frame.width, -frame.minY / frame.height)
@@ -157,7 +157,7 @@ function updateAttackViews(attacks: AttackView[], deltaMs: number): void {
     while (attack.elapsedMs + 0.0001 >= Stage13Monster5VisualTickMs) {
       attack.elapsedMs -= Stage13Monster5VisualTickMs;
       attack.frameIndex += 1;
-      const asset = stage13Monster5AttackAssets[attack.family];
+      const asset = monster5AttackAssets[attack.family];
       if (attack.frameIndex >= asset.frameCount) {
         attack.image.destroy();
         attacks.splice(index, 1);

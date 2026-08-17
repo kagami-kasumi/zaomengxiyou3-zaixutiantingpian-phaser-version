@@ -2,10 +2,10 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import {
-  stage12MonsterAtlases,
-  stage12MonsterAttackAssets,
-  Stage12MonsterAssetKeys,
-} from '../src/assets/AssetManifest';
+  monsterFamily2478Atlases,
+  monsterFamily2478AttackAssets,
+  MonsterFamily2478AssetKeys,
+} from '../src/assets/MonsterAssetCatalog';
 import { sceneAssetBundles } from '../src/assets/SceneAssetBundles';
 import {
   chooseStage12MonsterAttack,
@@ -21,8 +21,6 @@ import {
 } from '../src/systems/Stage12MonsterVisualSystem';
 
 const repoRoot = process.cwd();
-const monsterDirectory = path.join(repoRoot, 'public', 'assets', 'stage1', 'monsters');
-
 function pngDimensions(filePath: string): { width: number; height: number } {
   const bytes = readFileSync(filePath);
   assert.equal(bytes.toString('ascii', 1, 4), 'PNG', `${filePath} must be PNG`);
@@ -35,14 +33,14 @@ const expectedAtlasDimensions = {
   monster7: { width: 900, height: 750 },
   monster8: { width: 900, height: 900 },
 } as const;
-for (const [name, asset] of Object.entries(stage12MonsterAtlases)) {
+for (const [name, asset] of Object.entries(monsterFamily2478Atlases)) {
   assert.deepEqual(
     pngDimensions(path.join(repoRoot, 'public', asset.path)),
     expectedAtlasDimensions[name as keyof typeof expectedAtlasDimensions],
   );
 }
 assert.equal(
-  Object.values(stage12MonsterAtlases).reduce(
+  Object.values(monsterFamily2478Atlases).reduce(
     (sum, asset) => sum + asset.reachableFrameCount,
     0,
   ),
@@ -50,14 +48,14 @@ assert.equal(
   'Stage 1-2 must expose all 96 reachable body visuals',
 );
 assert.equal(
-  Object.values(stage12MonsterAttackAssets).reduce(
+  Object.values(monsterFamily2478AttackAssets).reduce(
     (sum, asset) => sum + asset.frameCount,
     0,
   ),
   122,
   'the nine Stage 1-2 attack/effect objects must expose all 122 frames',
 );
-for (const asset of Object.values(stage12MonsterAttackAssets)) {
+for (const asset of Object.values(monsterFamily2478AttackAssets)) {
   assert.equal(
     readdirSync(path.join(repoRoot, 'public', path.dirname(asset.framePaths[0]!))).length,
     asset.frameCount,
@@ -69,15 +67,20 @@ for (const asset of Object.values(stage12MonsterAttackAssets)) {
 }
 
 const stage12BundleKeys = new Set(
-  sceneAssetBundles['stage-1-monsters-12'].assets.map((asset) => asset.key),
+  sceneAssetBundles['monster-family-2-4-7-8'].assets.map((asset) => asset.key),
 );
 for (const key of [
-  ...Object.values(stage12MonsterAtlases).map((asset) => asset.key),
-  ...Object.values(stage12MonsterAttackAssets).flatMap((asset) => asset.frameKeys),
-  Stage12MonsterAssetKeys.attackGeometry,
+  ...Object.values(monsterFamily2478Atlases).map((asset) => asset.key),
+  ...Object.values(monsterFamily2478AttackAssets).flatMap((asset) => asset.frameKeys),
 ]) {
-  assert.ok(stage12BundleKeys.has(key), `stage-1-monsters-12 bundle must own ${key}`);
+  assert.ok(stage12BundleKeys.has(key), `monster-family-2-4-7-8 bundle must own ${key}`);
 }
+assert.ok(
+  sceneAssetBundles['monster-family-2-4-7-8'].assets.some(
+    (asset) => asset.key === MonsterFamily2478AssetKeys.attackGeometry,
+  ),
+  'the Monster 2/4/7/8 family bundle must own its attack geometry',
+);
 
 const actionsByMonster: Readonly<
   Record<Stage12MonsterType, readonly Stage12MonsterAction[]>

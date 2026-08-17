@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import {
-  stage22Monster16Atlas,
-  stage22Monster16AttackAssets,
-  Stage22AssetKeys,
-} from '../../assets/AssetManifest';
+  monster16Atlas,
+  monster16AttackAssets,
+  Monster16AssetKeys,
+} from '../../assets/MonsterAssetCatalog';
 import type { Stage1CombatEnemy } from '../../systems/Stage1CombatSystem';
 import {
   createMonster16Visual,
@@ -59,7 +59,7 @@ const symbolToFamily: Readonly<Record<string, Monster16AttackFamily>> = {
 export function readMonster16AttackGeometry(
   scene: Phaser.Scene,
 ): Monster16AttackGeometryRegistry {
-  const text = scene.cache.text.get(Stage22AssetKeys.monster16AttackGeometry);
+  const text = scene.cache.text.get(Monster16AssetKeys.attackGeometry);
   if (typeof text !== 'string') throw new Error('Stage 2-2 Monster16 attack geometry was not loaded');
   const registry: Record<Monster16AttackFamily, AttackFrameGeometry[]> = {
     monster16Hit1: [],
@@ -80,9 +80,9 @@ export function readMonster16AttackGeometry(
       height: Math.ceil(Number(height) || Number(maxY) - Number(minY)),
     });
   }
-  for (const [family, asset] of Object.entries(stage22Monster16AttackAssets) as [
+  for (const [family, asset] of Object.entries(monster16AttackAssets) as [
     Monster16AttackFamily,
-    (typeof stage22Monster16AttackAssets)[Monster16AttackFamily],
+    (typeof monster16AttackAssets)[Monster16AttackFamily],
   ][]) {
     if (registry[family].length !== asset.frameCount) {
       throw new Error(`${family} geometry expected ${asset.frameCount} frames`);
@@ -98,7 +98,7 @@ export function createMonster16View(
   geometry: Monster16AttackGeometryRegistry,
 ): Monster16View {
   const origin = getMonster16SpriteOrigin();
-  const sprite = scene.add.sprite(x, y, stage22Monster16Atlas.key, 0)
+  const sprite = scene.add.sprite(x, y, monster16Atlas.key, 0)
     .setName('Monster16')
     .setOrigin(origin.x, origin.y)
     .setDepth(18);
@@ -167,7 +167,7 @@ function createAttackView(
   geometry: Monster16AttackGeometryRegistry,
 ): Monster16AttackView {
   const frame = geometry[family][0]!;
-  const asset = stage22Monster16AttackAssets[family];
+  const asset = monster16AttackAssets[family];
   const image = scene.add.image(x, y, asset.frameKeys[0])
     .setName(asset.sourceSymbol)
     .setOrigin(-frame.minX / frame.width, -frame.minY / frame.height)
@@ -199,7 +199,7 @@ function updateAttackViews(
     if (attack.followOwner) {
       attack.image.setPosition(combat.x + attack.offsetX, combat.y + attack.offsetY);
     }
-    const asset = stage22Monster16AttackAssets[attack.family];
+    const asset = monster16AttackAssets[attack.family];
     while (attack.elapsedMs + 0.0001 >= Monster16VisualTickMs) {
       attack.elapsedMs -= Monster16VisualTickMs;
       attack.frameIndex += 1;

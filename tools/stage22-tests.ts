@@ -4,10 +4,12 @@ import path from 'node:path';
 import {
   assetBundles,
   stage22Assets,
-  stage22Monster16Atlas,
-  stage22Monster16AttackAssets,
   Stage22AssetKeys,
 } from '../src/assets/AssetManifest';
+import {
+  monster16Atlas,
+  monster16AttackAssets,
+} from '../src/assets/MonsterAssetCatalog';
 import {
   isStage22LocalQaHost,
   normalizeStage22PlayerCount,
@@ -90,24 +92,24 @@ assert.equal(stage22Assets.fireThorn.frameKeys.length, 130);
 assert.equal(stage22Assets.fireThorn.framePaths.length, 130);
 assert.deepEqual(
   {
-    characterId: stage22Monster16Atlas.sourceCharacterId,
-    columns: stage22Monster16Atlas.columns,
-    rows: stage22Monster16Atlas.rows,
-    reachable: stage22Monster16Atlas.reachableFrameCount,
+    characterId: monster16Atlas.sourceCharacterId,
+    columns: monster16Atlas.columns,
+    rows: monster16Atlas.rows,
+    reachable: monster16Atlas.reachableFrameCount,
   },
   { characterId: 6, columns: 6, rows: 8, reachable: 36 },
 );
 assert.deepEqual(
-  Object.values(stage22Monster16AttackAssets).map((asset) => [
+  Object.values(monster16AttackAssets).map((asset) => [
     asset.sourceCharacterId,
     asset.frameCount,
   ]),
   [[235, 20], [229, 4], [225, 29], [191, 15], [160, 16], [143, 20]],
 );
-assert.deepEqual(readSvgDimensions('assets/stage22/background.svg'), { width: 4700, height: 590 });
-assert.deepEqual(readSvgDimensions('assets/stage22/midground.svg'), { width: 1745.1, height: 52.45 });
-assert.deepEqual(readSvgDimensions('assets/stage22/foreground.svg'), { width: 4701, height: 94 });
-assert.deepEqual(readSvgDimensions('assets/stage22/transfer-door.svg'), { width: 185.8, height: 165 });
+assert.deepEqual(readSvgDimensions('assets/stages/stage-2-2/scene/background.svg'), { width: 4700, height: 590 });
+assert.deepEqual(readSvgDimensions('assets/stages/stage-2-2/scene/midground.svg'), { width: 1745.1, height: 52.45 });
+assert.deepEqual(readSvgDimensions('assets/stages/stage-2-2/scene/foreground.svg'), { width: 4701, height: 94 });
+assert.deepEqual(readSvgDimensions('assets/stages/stage-2-2/objects/transfer-door/base.svg'), { width: 185.8, height: 165 });
 for (const framePath of stage22Assets.fireThorn.framePaths) {
   assert.deepEqual(readSvgDimensions(framePath), { width: 143, height: 314.35 });
 }

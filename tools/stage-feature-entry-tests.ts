@@ -315,14 +315,15 @@ assert.match(entryBridgeSource, /if \(keyboard && config\.originKind === 'combat
 assert.ok(source('src/main.ts').includes('StageSettingsScene'));
 
 const assetBundles = source('src/assets/SceneAssetBundles.ts');
-assert.ok(assetBundles.includes('const sharedStage2MonsterAssets = ['));
+assert.ok(assetBundles.includes("from './MonsterAssetCatalog'"));
+assert.ok(assetBundles.includes('const monsterResourceBundleAssets ='));
 assert.match(
   assetBundles,
-  /'stage-2-monsters': \{[\s\S]*assets: sharedStage2MonsterAssets/,
+  /'monster-family-6-9-10-19': \{[\s\S]*assets: monsterResourceBundleAssets\('monster-family-6-9-10-19'\)/,
 );
 assert.match(
   assetBundles,
-  /'stage-22': \{[\s\S]*dependencies: \['combat-common', 'stage-2-common', 'stage-2-monsters'\]/,
+  /'stage-22': \{[\s\S]*'monster-family-6-9-10-19',[\s\S]*'monster-16'/,
 );
 
 console.log('stage-feature-entry-tests: ok');

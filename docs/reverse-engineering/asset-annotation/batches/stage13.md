@@ -16,7 +16,7 @@
 
 ## 当前去向
 
-- 3 个真视觉条目均已转为 `ready + none`，接入 `public/assets/stage/stage1-3/` 和 `Stage13AssetKeys`。
+- 3 个真视觉条目均已转为 `ready + none`，接入 `public/assets/stages/stage-1-3/` 的 `scene/objects` 子树和 `Stage13AssetKeys`。
 - 监听器条目为 `rejected + none`，继续仅作 AS3 行为证据。
 - `TASK-SLICE-129` 已只选择性导出并接入这 3 个场景资源族；没有扩张到怪物或角色真素材。
 

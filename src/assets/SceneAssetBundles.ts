@@ -42,28 +42,17 @@ import {
   shopUiAssets,
   skillNativeUiCommonAssets,
   stage11Assets,
-  stage11MonsterAtlases,
-  stage11MonsterAttackAssets,
-  stage12MonsterAtlases,
-  stage12MonsterAttackAssets,
-  Stage11MonsterAssetKeys,
-  Stage12MonsterAssetKeys,
   stage12Assets,
   stage13Assets,
-  stage13Monster5Atlas,
-  stage13Monster5AttackAssets,
-  Stage13MonsterAssetKeys,
   stage21Assets,
-  stage21AttackAssets,
-  stage21MonsterAtlases,
-  Stage21MonsterAssetKeys,
   stage22Assets,
-  stage22Monster16Atlas,
-  stage22Monster16AttackAssets,
-  Stage22AssetKeys,
 } from './AssetManifest';
 import { inventoryItemAssets } from './InventoryItemAssets';
 import { inventoryUiAssetList } from './InventoryUiAssets';
+import {
+  monsterResourceFamilies,
+  type MonsterResourceFamilyId,
+} from './MonsterAssetCatalog';
 
 export type AssetBundleId =
   | 'shell'
@@ -97,16 +86,13 @@ export type AssetBundleId =
   | 'combat-hero-4-skills'
   | 'combat-hero-5-skills'
   | 'stage-1-common'
-  | 'stage-1-monsters-11'
-  | 'stage-1-monsters-12'
-  | 'stage-1-monsters-13'
   | 'stage-2-common'
-  | 'stage-2-monsters'
   | 'stage-11'
   | 'stage-12'
   | 'stage-13'
   | 'stage-21'
-  | 'stage-22';
+  | 'stage-22'
+  | MonsterResourceFamilyId;
 
 export type BundleAssetDefinition =
   | Readonly<{ kind: 'image' | 'svg' | 'text'; key: string; path: string }>
@@ -327,69 +313,29 @@ const combatCommonAssets = [
 const stage11BundleAssets = Object.entries(stage11Assets)
   .filter(([name]) => name !== 'floor')
   .flatMap(([, asset]) => 'framePaths' in asset ? images(asset) : [image(asset)]);
-const stage11MonsterBundleAssets = [
-  ...Object.values(stage11MonsterAtlases).map((asset) => ({
-    kind: 'spritesheet' as const,
-    key: asset.key,
-    path: asset.path,
-    frameWidth: asset.cellWidth,
-    frameHeight: asset.cellHeight,
-  })),
-  ...Object.values(stage11MonsterAttackAssets).flatMap(images),
-  {
-    kind: 'text' as const,
-    key: Stage11MonsterAssetKeys.attackGeometry,
-    path: '/assets/stage1/monsters/attack-frame-geometry.csv',
-  },
-];
-const stage12MonsterBundleAssets = [
-  ...Object.values(stage12MonsterAtlases).map((asset) => ({
-    kind: 'spritesheet' as const,
-    key: asset.key,
-    path: asset.path,
-    frameWidth: asset.cellWidth,
-    frameHeight: asset.cellHeight,
-  })),
-  ...Object.values(stage12MonsterAttackAssets).flatMap(images),
-  {
-    kind: 'text' as const,
-    key: Stage12MonsterAssetKeys.attackGeometry,
-    path: '/assets/stage1/monsters/attack-frame-geometry.csv',
-  },
-];
-const stage13MonsterBundleAssets = [
-  {
-    kind: 'spritesheet' as const,
-    key: stage13Monster5Atlas.key,
-    path: stage13Monster5Atlas.path,
-    frameWidth: stage13Monster5Atlas.cellWidth,
-    frameHeight: stage13Monster5Atlas.cellHeight,
-  },
-  ...Object.values(stage13Monster5AttackAssets).flatMap(images),
-  {
-    kind: 'text' as const,
-    key: Stage13MonsterAssetKeys.attackGeometry,
-    path: '/assets/stage1/monsters/attack-frame-geometry.csv',
-  },
-];
+const monsterResourceBundleAssets = (familyId: MonsterResourceFamilyId): BundleAssetDefinition[] => {
+  const family = monsterResourceFamilies[familyId];
+  const attackAssets = Object.values(family.attacks).flatMap((asset) =>
+    family.attackAssetKind === 'svg' ? svgs(asset) : images(asset));
+  return [
+    ...Object.values(family.atlases).map((asset) => ({
+      kind: 'spritesheet' as const,
+      key: asset.key,
+      path: asset.path,
+      frameWidth: asset.cellWidth,
+      frameHeight: asset.cellHeight,
+    })),
+    ...attackAssets,
+    {
+      kind: 'text',
+      key: family.geometry.key,
+      path: family.geometry.path,
+    },
+  ];
+};
 const stage12BundleAssets = Object.values(stage12Assets).flatMap((asset) =>
   'framePaths' in asset ? images(asset) : [image(asset)]);
 const stage13BundleAssets = Object.values(stage13Assets).map(image);
-const sharedStage2MonsterAssets = [
-  ...Object.values(stage21MonsterAtlases).map((asset) => ({
-    kind: 'spritesheet' as const,
-    key: asset.key,
-    path: asset.path,
-    frameWidth: asset.cellWidth,
-    frameHeight: asset.cellHeight,
-  })),
-  ...Object.values(stage21AttackAssets).flatMap(images),
-  {
-    kind: 'text' as const,
-    key: Stage21MonsterAssetKeys.attackGeometry,
-    path: '/assets/stage21/bullet-frame-geometry.csv',
-  },
-];
 const stage21BundleAssets = [
   ...Object.entries(stage21Assets)
     .filter(([name]) => name !== 'floor')
@@ -399,19 +345,6 @@ const stage22BundleAssets = [
   ...Object.entries(stage22Assets)
     .filter(([name]) => name !== 'floor')
     .flatMap(([, asset]) => 'framePaths' in asset ? svgs(asset) : [svg(asset)]),
-  {
-    kind: 'spritesheet' as const,
-    key: stage22Monster16Atlas.key,
-    path: stage22Monster16Atlas.path,
-    frameWidth: stage22Monster16Atlas.cellWidth,
-    frameHeight: stage22Monster16Atlas.cellHeight,
-  },
-  ...Object.values(stage22Monster16AttackAssets).flatMap(svgs),
-  {
-    kind: 'text' as const,
-    key: Stage22AssetKeys.monster16AttackGeometry,
-    path: '/assets/stage22/monster16/bullet-frame-geometry.csv',
-  },
 ];
 
 export const sceneAssetBundles = {
@@ -576,50 +509,59 @@ export const sceneAssetBundles = {
     dependencies: [],
     assets: [image(stage11Assets.floor)],
   },
-  'stage-1-monsters-11': {
+  'monster-family-3-30': {
     dependencies: [],
-    assets: stage11MonsterBundleAssets,
+    assets: monsterResourceBundleAssets('monster-family-3-30'),
   },
-  'stage-1-monsters-12': {
+  'monster-family-2-4-7-8': {
     dependencies: [],
-    assets: stage12MonsterBundleAssets,
+    assets: monsterResourceBundleAssets('monster-family-2-4-7-8'),
   },
-  'stage-1-monsters-13': {
+  'monster-5': {
     dependencies: [],
-    assets: stage13MonsterBundleAssets,
+    assets: monsterResourceBundleAssets('monster-5'),
   },
   'stage-2-common': {
     dependencies: [],
     assets: [image(stage21Assets.floor)],
   },
-  'stage-2-monsters': {
+  'monster-family-6-9-10-19': {
     dependencies: [],
-    assets: sharedStage2MonsterAssets,
+    assets: monsterResourceBundleAssets('monster-family-6-9-10-19'),
+  },
+  'monster-16': {
+    dependencies: [],
+    assets: monsterResourceBundleAssets('monster-16'),
   },
   'stage-11': {
-    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters-11'],
+    dependencies: ['combat-common', 'stage-1-common', 'monster-family-3-30'],
     assets: stage11BundleAssets,
   },
   'stage-12': {
-    dependencies: ['combat-common', 'stage-1-common', 'stage-1-monsters-12'],
+    dependencies: ['combat-common', 'stage-1-common', 'monster-family-2-4-7-8'],
     assets: stage12BundleAssets,
   },
   'stage-13': {
     dependencies: [
       'combat-common',
       'stage-1-common',
-      'stage-1-monsters-11',
-      'stage-1-monsters-12',
-      'stage-1-monsters-13',
+      'monster-family-3-30',
+      'monster-family-2-4-7-8',
+      'monster-5',
     ],
     assets: stage13BundleAssets,
   },
   'stage-21': {
-    dependencies: ['combat-common', 'stage-2-common', 'stage-2-monsters'],
+    dependencies: ['combat-common', 'stage-2-common', 'monster-family-6-9-10-19'],
     assets: stage21BundleAssets,
   },
   'stage-22': {
-    dependencies: ['combat-common', 'stage-2-common', 'stage-2-monsters'],
+    dependencies: [
+      'combat-common',
+      'stage-2-common',
+      'monster-family-6-9-10-19',
+      'monster-16',
+    ],
     assets: stage22BundleAssets,
   },
 } as const satisfies Record<AssetBundleId, SceneAssetBundleDefinition>;

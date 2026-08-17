@@ -3,11 +3,13 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import {
   stage11Assets,
-  stage11MonsterAtlases,
-  stage11MonsterAttackAssets,
   Stage11AssetKeys,
-  Stage11MonsterAssetKeys,
 } from '../src/assets/AssetManifest';
+import {
+  MonsterFamily330AssetKeys,
+  monsterFamily330Atlases,
+  monsterFamily330AttackAssets,
+} from '../src/assets/MonsterAssetCatalog';
 import { sceneAssetBundles } from '../src/assets/SceneAssetBundles';
 import { activateBossArena, createBossArena } from '../src/systems/LevelSystem';
 import {
@@ -35,7 +37,7 @@ import {
 } from '../src/systems/Stage11MonsterVisualSystem';
 
 const repoRoot = process.cwd();
-const assetDirectory = path.join(repoRoot, 'public', 'assets', 'stage', 'stage1-1');
+const assetDirectory = path.join(repoRoot, 'public', 'assets', 'stages', 'stage-1-1');
 
 function pngDimensions(filePath: string): { width: number; height: number } {
   const bytes = readFileSync(filePath);
@@ -94,7 +96,7 @@ assert.deepEqual(stage11RenderBounds.floor, { left: 0, right: 1440, top: 0, bott
 assert.deepEqual(stage11RenderBounds.background, { left: -79, right: 1053, top: 0, bottom: 3051 });
 assert.deepEqual(stage11RenderBounds.foreground, { left: -200, right: 1097.2, top: 205.5, bottom: 2961.05 });
 
-const expectedFiles = ['background.png', 'floor.png', 'foreground.png', 'transfer-door'];
+const expectedFiles = ['objects', 'scene'];
 assert.deepEqual(readdirSync(assetDirectory).sort(), expectedFiles);
 for (const [name, asset] of Object.entries(stage11Assets)) {
   assert.equal(asset.status, 'ready');
@@ -123,7 +125,14 @@ assert.deepEqual(stage11Assets.transferDoor.frameCount, 20);
 assert.match(stage11Assets.transferDoor.sourceSymbol, /character 45/);
 assert.match(stage11Assets.transferDoor.sourceTag, /41 \(20 frames\).*44 \(19 frames\)/);
 
-const monsterDirectory = path.join(repoRoot, 'public', 'assets', 'stage1', 'monsters');
+const monsterDirectory = path.join(
+  repoRoot,
+  'public',
+  'assets',
+  'monsters',
+  'family-3-30',
+  'atlases',
+);
 assert.deepEqual(pngDimensions(path.join(monsterDirectory, 'monster30.png')), {
   width: 900,
   height: 600,
@@ -133,31 +142,36 @@ assert.deepEqual(pngDimensions(path.join(monsterDirectory, 'monster3.png')), {
   height: 1080,
 });
 assert.deepEqual(
-  Object.values(stage11MonsterAtlases).map((asset) => asset.reachableFrameCount),
+  Object.values(monsterFamily330Atlases).map((asset) => asset.reachableFrameCount),
   [13, 27],
 );
 assert.deepEqual(
-  Object.values(stage11MonsterAttackAssets).map((asset) => asset.frameCount),
+  Object.values(monsterFamily330AttackAssets).map((asset) => asset.frameCount),
   [10, 5, 10],
 );
-for (const asset of Object.values(stage11MonsterAttackAssets)) {
+for (const asset of Object.values(monsterFamily330AttackAssets)) {
   for (const framePath of asset.framePaths) {
     assert.ok(readFileSync(path.join(repoRoot, 'public', framePath), 'utf8').includes('<svg'));
   }
 }
 
 const stage11BundleKeys = new Set(
-  sceneAssetBundles['stage-1-monsters-11'].assets.map((asset) => asset.key),
+  sceneAssetBundles['monster-family-3-30'].assets.map((asset) => asset.key),
 );
 const expectedStage11BundleKeys = [
-  stage11MonsterAtlases.monster30.key,
-  stage11MonsterAtlases.monster3.key,
-  ...Object.values(stage11MonsterAttackAssets).flatMap((asset) => asset.frameKeys),
-  Stage11MonsterAssetKeys.attackGeometry,
+  monsterFamily330Atlases.monster30.key,
+  monsterFamily330Atlases.monster3.key,
+  ...Object.values(monsterFamily330AttackAssets).flatMap((asset) => asset.frameKeys),
 ];
 for (const key of expectedStage11BundleKeys) {
-  assert.ok(stage11BundleKeys.has(key), `stage-1-monsters-11 bundle must own ${key}`);
+  assert.ok(stage11BundleKeys.has(key), `monster-family-3-30 bundle must own ${key}`);
 }
+assert.ok(
+  sceneAssetBundles['monster-family-3-30'].assets.some(
+    (asset) => asset.key === MonsterFamily330AssetKeys.attackGeometry,
+  ),
+  'the Monster 3/30 family bundle must own its attack geometry',
+);
 
 const actionsByMonster: Readonly<Record<Stage11MonsterType, readonly Stage11MonsterAction[]>> = {
   3: ['wait', 'walk', 'hurt', 'dead', 'hit1', 'hit2'],

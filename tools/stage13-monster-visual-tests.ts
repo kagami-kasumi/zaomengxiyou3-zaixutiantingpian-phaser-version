@@ -2,12 +2,12 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import {
-  stage11MonsterAtlases,
-  stage12MonsterAtlases,
-  stage13Monster5Atlas,
-  stage13Monster5AttackAssets,
-  Stage13MonsterAssetKeys,
-} from '../src/assets/AssetManifest';
+  monsterFamily330Atlases,
+  monsterFamily2478Atlases,
+  monster5Atlas,
+  monster5AttackAssets,
+  Monster5AssetKeys,
+} from '../src/assets/MonsterAssetCatalog';
 import { sceneAssetBundles } from '../src/assets/SceneAssetBundles';
 import {
   chooseStage13Monster5Attack,
@@ -30,15 +30,15 @@ function pngDimensions(filePath: string): { width: number; height: number } {
 }
 
 assert.deepEqual(
-  pngDimensions(path.join(repoRoot, 'public', stage13Monster5Atlas.path)),
+  pngDimensions(path.join(repoRoot, 'public', monster5Atlas.path)),
   { width: 2100, height: 2450 },
 );
-assert.equal(stage13Monster5Atlas.reachableFrameCount, 31);
+assert.equal(monster5Atlas.reachableFrameCount, 31);
 assert.equal(
-  Object.values(stage13Monster5AttackAssets).reduce((sum, asset) => sum + asset.frameCount, 0),
+  Object.values(monster5AttackAssets).reduce((sum, asset) => sum + asset.frameCount, 0),
   24,
 );
-for (const asset of Object.values(stage13Monster5AttackAssets)) {
+for (const asset of Object.values(monster5AttackAssets)) {
   assert.equal(
     readdirSync(path.join(repoRoot, 'public', path.dirname(asset.framePaths[0]!))).length,
     asset.frameCount,
@@ -48,23 +48,28 @@ for (const asset of Object.values(stage13Monster5AttackAssets)) {
   }
 }
 
-const stage13Keys = new Set(sceneAssetBundles['stage-1-monsters-13'].assets.map((asset) => asset.key));
+const stage13Keys = new Set(sceneAssetBundles['monster-5'].assets.map((asset) => asset.key));
 for (const key of [
-  stage13Monster5Atlas.key,
-  ...Object.values(stage13Monster5AttackAssets).flatMap((asset) => asset.frameKeys),
-  Stage13MonsterAssetKeys.attackGeometry,
+  monster5Atlas.key,
+  ...Object.values(monster5AttackAssets).flatMap((asset) => asset.frameKeys),
 ]) {
-  assert.ok(stage13Keys.has(key), `stage-1-monsters-13 bundle must own ${key}`);
+  assert.ok(stage13Keys.has(key), `monster-5 bundle must own ${key}`);
 }
+assert.ok(
+  sceneAssetBundles['monster-5'].assets.some(
+    (asset) => asset.key === Monster5AssetKeys.attackGeometry,
+  ),
+  'the Monster 5 bundle must own its attack geometry',
+);
 assert.deepEqual(
   sceneAssetBundles['stage-13'].dependencies,
-  ['combat-common', 'stage-1-common', 'stage-1-monsters-11', 'stage-1-monsters-12', 'stage-1-monsters-13'],
+  ['combat-common', 'stage-1-common', 'monster-family-3-30', 'monster-family-2-4-7-8', 'monster-5'],
   'Stage 1-3 loads its own boss plus the exact reused Stage 1-1/1-2 monster families',
 );
-assert.equal(stage11MonsterAtlases.monster3.key, 'monster.stage1.monster3.atlas');
-assert.equal(stage11MonsterAtlases.monster30.key, 'monster.stage1.monster30.atlas');
-assert.equal(stage12MonsterAtlases.monster7.key, 'monster.stage1.monster7.atlas');
-assert.equal(stage12MonsterAtlases.monster8.key, 'monster.stage1.monster8.atlas');
+assert.equal(monsterFamily330Atlases.monster3.key, 'monster.monster3.atlas');
+assert.equal(monsterFamily330Atlases.monster30.key, 'monster.monster30.atlas');
+assert.equal(monsterFamily2478Atlases.monster7.key, 'monster.monster7.atlas');
+assert.equal(monsterFamily2478Atlases.monster8.key, 'monster.monster8.atlas');
 
 const actions: readonly Stage13Monster5Action[] = [
   'wait', 'walk', 'hurt', 'dead', 'hit1', 'hit2', 'hit3',

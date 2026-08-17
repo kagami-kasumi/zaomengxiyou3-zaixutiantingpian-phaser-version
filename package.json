@@ -70,6 +70,8 @@
     "test:hero-party-runtime": "node tools/run-system-tests.mjs hero-party-runtime-tests",
     "test:monster-runtime": "node tools/run-system-tests.mjs monster-runtime-tests",
     "test:asset-bundles": "node tools/run-system-tests.mjs asset-bundle-tests",
+    "test:stage-assets": "node tools/run-system-tests.mjs stage-asset-ownership-tests",
+    "test:monster-assets": "node tools/run-system-tests.mjs monster-asset-ownership-tests",
     "check:structure": "node tools/check-structure.mjs",
     "check:code": "npm run test:systems && npm run build",
     "check:annotations": "node tools/validate-asset-annotations.mjs",

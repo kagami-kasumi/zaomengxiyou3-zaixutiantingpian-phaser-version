@@ -2,17 +2,17 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
-  stage11MonsterAtlases,
-  stage11MonsterAttackAssets,
-  stage12MonsterAtlases,
-  stage12MonsterAttackAssets,
-  stage13Monster5Atlas,
-  stage13Monster5AttackAssets,
-  stage21MonsterAtlases,
-  stage21AttackAssets,
-  stage22Monster16Atlas,
-  stage22Monster16AttackAssets,
-} from '../src/assets/AssetManifest';
+  monsterFamily330Atlases,
+  monsterFamily330AttackAssets,
+  monsterFamily2478Atlases,
+  monsterFamily2478AttackAssets,
+  monster5Atlas,
+  monster5AttackAssets,
+  monsterFamily691019Atlases,
+  monsterFamily691019AttackAssets,
+  monster16Atlas,
+  monster16AttackAssets,
+} from '../src/assets/MonsterAssetCatalog';
 import { sceneAssetBundles } from '../src/assets/SceneAssetBundles';
 import {
   AssetBundleCoordinator,
@@ -24,66 +24,66 @@ const sum = <T>(values: readonly T[], project: (value: T) => number): number =>
   values.reduce((total, value) => total + project(value), 0);
 
 const stage1Atlases = [
-  ...Object.values(stage11MonsterAtlases),
-  ...Object.values(stage12MonsterAtlases),
-  stage13Monster5Atlas,
+  ...Object.values(monsterFamily330Atlases),
+  ...Object.values(monsterFamily2478Atlases),
+  monster5Atlas,
 ];
 const stage1Attacks = [
-  ...Object.values(stage11MonsterAttackAssets),
-  ...Object.values(stage12MonsterAttackAssets),
-  ...Object.values(stage13Monster5AttackAssets),
+  ...Object.values(monsterFamily330AttackAssets),
+  ...Object.values(monsterFamily2478AttackAssets),
+  ...Object.values(monster5AttackAssets),
 ];
 assert.equal(sum(stage1Atlases, (asset) => asset.reachableFrameCount), 167);
 assert.equal(sum(stage1Attacks, (asset) => asset.frameCount), 171);
-for (const asset of Object.values(stage11MonsterAtlases)) {
-  assert.equal(requireRuntimeAssetOwner(asset.key), 'stage-1-monsters-11');
+for (const asset of Object.values(monsterFamily330Atlases)) {
+  assert.equal(requireRuntimeAssetOwner(asset.key), 'monster-family-3-30');
 }
-for (const asset of Object.values(stage12MonsterAtlases)) {
-  assert.equal(requireRuntimeAssetOwner(asset.key), 'stage-1-monsters-12');
+for (const asset of Object.values(monsterFamily2478Atlases)) {
+  assert.equal(requireRuntimeAssetOwner(asset.key), 'monster-family-2-4-7-8');
 }
-assert.equal(requireRuntimeAssetOwner(stage13Monster5Atlas.key), 'stage-1-monsters-13');
+assert.equal(requireRuntimeAssetOwner(monster5Atlas.key), 'monster-5');
 for (const [index, asset] of stage1Attacks.entries()) {
-  const owner = index < Object.values(stage11MonsterAttackAssets).length
-    ? 'stage-1-monsters-11'
-    : index < Object.values(stage11MonsterAttackAssets).length + Object.values(stage12MonsterAttackAssets).length
-      ? 'stage-1-monsters-12'
-      : 'stage-1-monsters-13';
+  const owner = index < Object.values(monsterFamily330AttackAssets).length
+    ? 'monster-family-3-30'
+    : index < Object.values(monsterFamily330AttackAssets).length + Object.values(monsterFamily2478AttackAssets).length
+      ? 'monster-family-2-4-7-8'
+      : 'monster-5';
   for (const key of asset.frameKeys) {
     assert.equal(requireRuntimeAssetOwner(key), owner);
   }
 }
 
 assert.equal(
-  sum(Object.values(stage21MonsterAtlases), (asset) => asset.reachableFrameCount),
+  sum(Object.values(monsterFamily691019Atlases), (asset) => asset.reachableFrameCount),
   94,
 );
-assert.equal(sum(Object.values(stage21AttackAssets), (asset) => asset.frameCount), 132);
-for (const asset of Object.values(stage21MonsterAtlases)) {
-  assert.equal(requireRuntimeAssetOwner(asset.key), 'stage-2-monsters');
+assert.equal(sum(Object.values(monsterFamily691019AttackAssets), (asset) => asset.frameCount), 132);
+for (const asset of Object.values(monsterFamily691019Atlases)) {
+  assert.equal(requireRuntimeAssetOwner(asset.key), 'monster-family-6-9-10-19');
 }
-for (const asset of Object.values(stage21AttackAssets)) {
+for (const asset of Object.values(monsterFamily691019AttackAssets)) {
   for (const key of asset.frameKeys) {
-    assert.equal(requireRuntimeAssetOwner(key), 'stage-2-monsters');
+    assert.equal(requireRuntimeAssetOwner(key), 'monster-family-6-9-10-19');
   }
 }
 
-assert.equal(stage22Monster16Atlas.reachableFrameCount, 36);
-assert.equal(sum(Object.values(stage22Monster16AttackAssets), (asset) => asset.frameCount), 104);
-assert.equal(requireRuntimeAssetOwner(stage22Monster16Atlas.key), 'stage-22');
-for (const asset of Object.values(stage22Monster16AttackAssets)) {
-  for (const key of asset.frameKeys) assert.equal(requireRuntimeAssetOwner(key), 'stage-22');
+assert.equal(monster16Atlas.reachableFrameCount, 36);
+assert.equal(sum(Object.values(monster16AttackAssets), (asset) => asset.frameCount), 104);
+assert.equal(requireRuntimeAssetOwner(monster16Atlas.key), 'monster-16');
+for (const asset of Object.values(monster16AttackAssets)) {
+  for (const key of asset.frameKeys) assert.equal(requireRuntimeAssetOwner(key), 'monster-16');
 }
 
 assert.deepEqual(sceneAssetBundles['stage-11'].dependencies,
-  ['combat-common', 'stage-1-common', 'stage-1-monsters-11']);
+  ['combat-common', 'stage-1-common', 'monster-family-3-30']);
 assert.deepEqual(sceneAssetBundles['stage-12'].dependencies,
-  ['combat-common', 'stage-1-common', 'stage-1-monsters-12']);
+  ['combat-common', 'stage-1-common', 'monster-family-2-4-7-8']);
 assert.deepEqual(sceneAssetBundles['stage-13'].dependencies,
-  ['combat-common', 'stage-1-common', 'stage-1-monsters-11', 'stage-1-monsters-12', 'stage-1-monsters-13']);
+  ['combat-common', 'stage-1-common', 'monster-family-3-30', 'monster-family-2-4-7-8', 'monster-5']);
 assert.deepEqual(sceneAssetBundles['stage-21'].dependencies,
-  ['combat-common', 'stage-2-common', 'stage-2-monsters']);
+  ['combat-common', 'stage-2-common', 'monster-family-6-9-10-19']);
 assert.deepEqual(sceneAssetBundles['stage-22'].dependencies,
-  ['combat-common', 'stage-2-common', 'stage-2-monsters']);
+  ['combat-common', 'stage-2-common', 'monster-family-6-9-10-19', 'monster-16']);
 
 {
   const coordinator = new AssetBundleCoordinator();
@@ -102,10 +102,11 @@ assert.deepEqual(sceneAssetBundles['stage-22'].dependencies,
     assert.equal(coordinator.isLoaded(bundleId), true);
     assert.equal(loadCounts.get(bundleId), 1, `${bundleId} must load only once across re-entry`);
   }
-  assert.equal(loadCounts.get('stage-1-monsters-11'), 1);
-  assert.equal(loadCounts.get('stage-1-monsters-12'), 1);
-  assert.equal(loadCounts.get('stage-1-monsters-13'), 1);
-  assert.equal(loadCounts.get('stage-2-monsters'), 1);
+  assert.equal(loadCounts.get('monster-family-3-30'), 1);
+  assert.equal(loadCounts.get('monster-family-2-4-7-8'), 1);
+  assert.equal(loadCounts.get('monster-5'), 1);
+  assert.equal(loadCounts.get('monster-family-6-9-10-19'), 1);
+  assert.equal(loadCounts.get('monster-16'), 1);
 }
 
 const repoRoot = process.cwd();

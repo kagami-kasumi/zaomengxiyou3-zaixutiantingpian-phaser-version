@@ -3,11 +3,13 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
   assetBundles,
-  stage21AttackAssets,
   stage21Assets,
-  stage21MonsterAtlases,
   Stage21AssetKeys,
 } from '../src/assets/AssetManifest';
+import {
+  monsterFamily691019AttackAssets,
+  monsterFamily691019Atlases,
+} from '../src/assets/MonsterAssetCatalog';
 import {
   canEnterStage21,
   normalizeStage21PlayerCount,
@@ -89,35 +91,35 @@ for (const asset of [stage21Assets.midground, stage21Assets.foreground]) {
 }
 
 assert.deepEqual(
-  Object.values(stage21MonsterAtlases).map((asset) => asset.sourceCharacterId),
+  Object.values(monsterFamily691019Atlases).map((asset) => asset.sourceCharacterId),
   [4, 2, 1, 5],
 );
 assert.deepEqual(
-  Object.values(stage21MonsterAtlases).map((asset) => asset.reachableFrameCount),
+  Object.values(monsterFamily691019Atlases).map((asset) => asset.reachableFrameCount),
   [32, 20, 20, 22],
 );
 assert.equal(
-  Object.values(stage21MonsterAtlases).reduce(
+  Object.values(monsterFamily691019Atlases).reduce(
     (sum, asset) => sum + asset.reachableFrameCount,
     0,
   ),
   94,
 );
-for (const asset of Object.values(stage21MonsterAtlases)) {
+for (const asset of Object.values(monsterFamily691019Atlases)) {
   assert.deepEqual(
     pngDimensions(path.join(repoRoot, 'public', asset.path)),
     { width: asset.cellWidth * asset.columns, height: asset.cellHeight * asset.rows },
   );
 }
 assert.deepEqual(
-  Object.values(stage21AttackAssets).map((asset) => asset.frameCount),
+  Object.values(monsterFamily691019AttackAssets).map((asset) => asset.frameCount),
   [5, 43, 30, 21, 4, 4, 25],
 );
 assert.equal(
-  Object.values(stage21AttackAssets).reduce((sum, asset) => sum + asset.frameCount, 0),
+  Object.values(monsterFamily691019AttackAssets).reduce((sum, asset) => sum + asset.frameCount, 0),
   132,
 );
-for (const asset of Object.values(stage21AttackAssets)) {
+for (const asset of Object.values(monsterFamily691019AttackAssets)) {
   assert.equal(asset.frameKeys.length, asset.frameCount);
   assert.equal(asset.framePaths.length, asset.frameCount);
   for (const framePath of asset.framePaths) {
@@ -125,7 +127,7 @@ for (const asset of Object.values(stage21AttackAssets)) {
   }
 }
 const attackGeometry = readFileSync(
-  path.join(repoRoot, 'public/assets/stage21/bullet-frame-geometry.csv'),
+  path.join(repoRoot, 'public/assets/monsters/family-6-9-10-19/attack-frame-geometry.csv'),
   'utf8',
 ).trim().split(/\r?\n/);
 assert.equal(attackGeometry.length, 133);
@@ -145,7 +147,7 @@ for (const line of attackGeometry.slice(1)) {
   assert.deepEqual(
     pngDimensions(path.join(
       repoRoot,
-      `public/assets/stage21/attacks/${directory}/${frame}.png`,
+      `public/assets/monsters/family-6-9-10-19/attacks/${directory}/${frame}.png`,
     )),
     { width: Math.ceil(Number(exportWidth)), height: Math.ceil(Number(exportHeight)) },
     `${symbol} frame ${frame} keeps the registered export canvas`,

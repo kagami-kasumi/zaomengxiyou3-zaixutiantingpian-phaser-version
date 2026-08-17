@@ -133,19 +133,19 @@
 
 ## stable key 与选择性接入清单
 
-- `monster.stage2-1.monster6.atlas`
-- `monster.stage2-1.monster9.atlas`
-- `monster.stage2-1.monster10.atlas`
-- `monster.stage2-1.monster19.atlas`
-- `projectile.stage2-1.monster6.hit1`
-- `projectile.stage2-1.monster6.hit2-start`
-- `projectile.stage2-1.monster6.hit2-rain`
-- `projectile.stage2-1.monster6.hit3`
-- `projectile.stage2-1.monster9.hit1`
-- `projectile.stage2-1.monster10.hit1`
-- `projectile.stage2-1.monster19.hit1`
+- `monster.monster6.atlas`
+- `monster.monster9.atlas`
+- `monster.monster10.atlas`
+- `monster.monster19.atlas`
+- `projectile.monster6.hit1`
+- `projectile.monster6.hit2-start`
+- `projectile.monster6.hit2-rain`
+- `projectile.monster6.hit3`
+- `projectile.monster9.hit1`
+- `projectile.monster10.hit1`
+- `projectile.monster19.hit1`
 
-全部 11 条已在本地选择性派生为 `derived-ready`；不需要再次全量导出 assets/2.swf。实现只复制这些派生族到 `public/assets/stage21/`，并保留源包、character id、atlas cell、帧数和注册点 provenance。
+全部 11 条已在本地选择性派生为 `derived-ready`；不需要再次全量导出 assets/2.swf。实现只复制这些派生族到 `public/assets/monsters/family-6-9-10-19/`，并保留源包、character id、atlas cell、帧数和注册点 provenance。
 
 ## 双重验证计划
 

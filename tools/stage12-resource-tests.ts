@@ -68,11 +68,17 @@ for (const asset of Object.values(stage12Assets)) {
 }
 
 assert.deepEqual(
-  readdirSync(path.join(repoRoot, 'public/assets/stage/stage1-2/fb-enter')).sort(),
+  readdirSync(path.join(repoRoot, 'public/assets/stages/stage-1-2/objects/fb-enter/frames')).sort(),
   Array.from({ length: 30 }, (_, index) => `frame-${String(index + 1).padStart(2, '0')}.png`),
 );
-assert.equal(readdirSync(path.join(repoRoot, 'public/assets/stage/stage1-2/transfer-door-primary')).length, 20);
-assert.equal(readdirSync(path.join(repoRoot, 'public/assets/stage/stage1-2/transfer-door-accent')).length, 19);
+assert.equal(
+  readdirSync(path.join(repoRoot, 'public/assets/stages/stage-1-2/objects/transfer-door/primary')).length,
+  20,
+);
+assert.equal(
+  readdirSync(path.join(repoRoot, 'public/assets/stages/stage-1-2/objects/transfer-door/accent')).length,
+  19,
+);
 
 assert.deepEqual(stage12RenderBounds.foreground, {
   left: -200, right: 5177.75, top: 494, bottom: 589.4,

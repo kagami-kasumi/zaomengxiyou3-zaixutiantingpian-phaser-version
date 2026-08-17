@@ -39,13 +39,13 @@
 
 ## TASK-SLICE-150A 接入结果
 
-- `public/assets/stage22/` 接入背景、中景、前景、普通门与 FireThron 130 个真 SVG 帧；`floorBg2` 复用既有 Stage 2 共享 owner。
+- `public/assets/stages/stage-2-2/` 的 `scene/objects/hazards` 子树接入背景、中景、前景、普通门与 FireThron 130 个真 SVG 帧；`floorBg2` 复用 `public/assets/stages/shared/floors/` 的地板资源 owner。
 - `Stage22Layout` / `Stage22TraversalSystem` 保留 3+1 墙、3 个单向平台、5 个停点、地面顶和左右边界；正式波次仍未暴露。
 - `Stage22FireHazardSystem` 只在第 2..19 帧调用当前真纹理 alpha 命中；第 20..130 帧为视觉播放，回到第 1 帧停止。
 - 940×590 证据覆盖三平台、左右边界和左/中/右代表火焰；console warning/error 为零。显示列表与差异记录见 `../../../tasks/evidence/TASK-SLICE-150A-visual-review.md`。
 
 ## TASK-SLICE-150C 接入结果
 
-- `public/assets/stage22/monster16/` 接入 1800×2400 本体 atlas、六攻击对象 104 个真 SVG 帧与注册点几何 CSV。
+- `public/assets/monsters/monster-16/` 接入 1800×2400 本体 atlas、六攻击对象 104 个真 SVG 帧与注册点几何 CSV。
 - 独立 Monster16 visual system/bridge 消费 36 个本体关键帧、四动作事件与 Bullet3 7 秒跟随生命周期；没有新增现代可见替代层。
 - 940×590 证据覆盖本体 wait/walk/hurt/dead/hit1..4、六对象、左右镜像、显门和胜利页；console warning/error 为零。显示列表与差异记录见 `../../../tasks/evidence/TASK-SLICE-150C-visual-review.md`。

@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import {
-  stage12MonsterAtlases,
-  stage12MonsterAttackAssets,
-  Stage12MonsterAssetKeys,
-} from '../../assets/AssetManifest';
+  monsterFamily2478Atlases,
+  monsterFamily2478AttackAssets,
+  MonsterFamily2478AssetKeys,
+} from '../../assets/MonsterAssetCatalog';
 import type { Stage1CombatEnemy } from '../../systems/Stage1CombatSystem';
 import {
   createStage12MonsterVisual,
@@ -44,10 +44,10 @@ export type Stage12MonsterView = {
 };
 
 const atlasByType = {
-  2: stage12MonsterAtlases.monster2,
-  4: stage12MonsterAtlases.monster4,
-  7: stage12MonsterAtlases.monster7,
-  8: stage12MonsterAtlases.monster8,
+  2: monsterFamily2478Atlases.monster2,
+  4: monsterFamily2478Atlases.monster4,
+  7: monsterFamily2478Atlases.monster7,
+  8: monsterFamily2478Atlases.monster8,
 } as const;
 
 const symbolToFamily: Readonly<Record<string, Stage12AttackFamily>> = {
@@ -65,7 +65,7 @@ const symbolToFamily: Readonly<Record<string, Stage12AttackFamily>> = {
 export function readStage12AttackGeometry(
   scene: Phaser.Scene,
 ): Stage12AttackGeometryRegistry {
-  const text = scene.cache.text.get(Stage12MonsterAssetKeys.attackGeometry);
+  const text = scene.cache.text.get(MonsterFamily2478AssetKeys.attackGeometry);
   if (typeof text !== 'string') throw new Error('Stage 1-2 attack geometry was not loaded');
   const registry: Record<Stage12AttackFamily, AttackFrameGeometry[]> = {
     monster2Hit1Start: [],
@@ -89,9 +89,9 @@ export function readStage12AttackGeometry(
       height: Math.ceil(Number(height)),
     });
   }
-  for (const [family, asset] of Object.entries(stage12MonsterAttackAssets) as [
+  for (const [family, asset] of Object.entries(monsterFamily2478AttackAssets) as [
     Stage12AttackFamily,
-    (typeof stage12MonsterAttackAssets)[Stage12AttackFamily],
+    (typeof monsterFamily2478AttackAssets)[Stage12AttackFamily],
   ][]) {
     if (registry[family].length !== asset.frameCount) {
       throw new Error(`${family} geometry expected ${asset.frameCount} frames`);
@@ -168,7 +168,7 @@ function createAttackView(
   geometry: Stage12AttackGeometryRegistry,
 ): AttackView {
   const frame = geometry[family][0]!;
-  const asset = stage12MonsterAttackAssets[family];
+  const asset = monsterFamily2478AttackAssets[family];
   const image = scene.add.image(x, y, asset.frameKeys[0])
     .setName(asset.sourceSymbol)
     .setOrigin(-frame.minX / frame.width, -frame.minY / frame.height)
@@ -184,7 +184,7 @@ function updateAttackViews(attacks: AttackView[], deltaMs: number): void {
     while (attack.elapsedMs + 0.0001 >= Stage12VisualTickMs) {
       attack.elapsedMs -= Stage12VisualTickMs;
       attack.frameIndex += 1;
-      const asset = stage12MonsterAttackAssets[attack.family];
+      const asset = monsterFamily2478AttackAssets[attack.family];
       if (attack.frameIndex >= asset.frameCount) {
         attack.image.destroy();
         attacks.splice(index, 1);

@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 import {
-  stage11MonsterAtlases,
-  stage11MonsterAttackAssets,
-  Stage11MonsterAssetKeys,
-} from '../../assets/AssetManifest';
+  monsterFamily330Atlases,
+  monsterFamily330AttackAssets,
+  MonsterFamily330AssetKeys,
+} from '../../assets/MonsterAssetCatalog';
 import type { Monster3Model } from '../../systems/Monster3System';
 import type { Monster30Model } from '../../systems/Monster30System';
 import {
@@ -50,11 +50,11 @@ type Stage11MonsterCombat = Pick<
 >;
 
 const atlasByType = {
-  3: stage11MonsterAtlases.monster3,
-  30: stage11MonsterAtlases.monster30,
+  3: monsterFamily330Atlases.monster3,
+  30: monsterFamily330Atlases.monster30,
 } as const;
 
-const attackByFamily = stage11MonsterAttackAssets;
+const attackByFamily = monsterFamily330AttackAssets;
 
 const symbolToFamily: Readonly<Record<string, Stage11AttackFamily>> = {
   Monster30Bullet1: 'monster30Hit1',
@@ -65,7 +65,7 @@ const symbolToFamily: Readonly<Record<string, Stage11AttackFamily>> = {
 export function readStage11AttackGeometry(
   scene: Phaser.Scene,
 ): Stage11AttackGeometryRegistry {
-  const text = scene.cache.text.get(Stage11MonsterAssetKeys.attackGeometry);
+  const text = scene.cache.text.get(MonsterFamily330AssetKeys.attackGeometry);
   if (typeof text !== 'string') throw new Error('Stage 1-1 attack geometry was not loaded');
   const registry: Record<Stage11AttackFamily, AttackFrameGeometry[]> = {
     monster30Hit1: [],

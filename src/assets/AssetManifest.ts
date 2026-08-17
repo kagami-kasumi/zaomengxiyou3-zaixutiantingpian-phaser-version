@@ -99,30 +99,30 @@ export const Stage11AssetKeys = {
   transferDoor: 'stage.stage1-1.transfer-door',
 } as const;
 
-export const Stage11MonsterAssetKeys = {
-  monster30: 'monster.stage1.monster30.atlas',
-  monster3: 'monster.stage1.monster3.atlas',
-  monster30Hit1: 'projectile.stage1.monster30.hit1',
-  monster3Hit1: 'projectile.stage1.monster3.hit1',
-  monster3Hit2: 'projectile.stage1.monster3.hit2',
-  attackGeometry: 'stage1.monster-attack-geometry',
+export const MonsterFamily330AssetKeys = {
+  monster30: 'monster.monster30.atlas',
+  monster3: 'monster.monster3.atlas',
+  monster30Hit1: 'projectile.monster30.hit1',
+  monster3Hit1: 'projectile.monster3.hit1',
+  monster3Hit2: 'projectile.monster3.hit2',
+  attackGeometry: 'monster.family-3-30.attack-geometry',
 } as const;
 
-export const Stage12MonsterAssetKeys = {
-  monster2: 'monster.stage1.monster2.atlas',
-  monster4: 'monster.stage1.monster4.atlas',
-  monster7: 'monster.stage1.monster7.atlas',
-  monster8: 'monster.stage1.monster8.atlas',
-  monster2Hit1Start: 'projectile.stage1.monster2.hit1-start',
-  monster2Hit1End: 'projectile.stage1.monster2.hit1-followup',
-  monster2Hit2: 'effect.stage1.monster2.hit2',
-  monster4Hit1: 'projectile.stage1.monster4.hit1',
-  monster4Hit2Start: 'effect.stage1.monster4.hit2-start',
-  monster4Hit2End: 'projectile.stage1.monster4.hit2-followup',
-  monster7Hit1: 'projectile.stage1.monster7.hit1',
-  monster8Hit1: 'projectile.stage1.monster8.hit1',
-  monster8Hit2: 'projectile.stage1.monster8.hit2',
-  attackGeometry: 'stage12.monster-attack-geometry',
+export const MonsterFamily2478AssetKeys = {
+  monster2: 'monster.monster2.atlas',
+  monster4: 'monster.monster4.atlas',
+  monster7: 'monster.monster7.atlas',
+  monster8: 'monster.monster8.atlas',
+  monster2Hit1Start: 'projectile.monster2.hit1-start',
+  monster2Hit1End: 'projectile.monster2.hit1-followup',
+  monster2Hit2: 'effect.monster2.hit2',
+  monster4Hit1: 'projectile.monster4.hit1',
+  monster4Hit2Start: 'effect.monster4.hit2-start',
+  monster4Hit2End: 'projectile.monster4.hit2-followup',
+  monster7Hit1: 'projectile.monster7.hit1',
+  monster8Hit1: 'projectile.monster8.hit1',
+  monster8Hit2: 'projectile.monster8.hit2',
+  attackGeometry: 'monster.family-2-4-7-8.attack-geometry',
 } as const;
 
 export const Stage12AssetKeys = {
@@ -142,13 +142,13 @@ export const Stage13AssetKeys = {
   transferDoor: 'stage.stage1-3.transfer-door',
 } as const;
 
-export const Stage13MonsterAssetKeys = {
-  monster5: 'monster.stage1.monster5.atlas',
-  monster5Hit1: 'projectile.stage1.monster5.hit1',
-  monster5Hit2Start: 'projectile.stage1.monster5.hit2-start',
-  monster5Hit2End: 'projectile.stage1.monster5.hit2-followup',
-  monster5Hit3: 'projectile.stage1.monster5.hit3',
-  attackGeometry: 'stage13.monster5-attack-geometry',
+export const Monster5AssetKeys = {
+  monster5: 'monster.monster5.atlas',
+  monster5Hit1: 'projectile.monster5.hit1',
+  monster5Hit2Start: 'projectile.monster5.hit2-start',
+  monster5Hit2End: 'projectile.monster5.hit2-followup',
+  monster5Hit3: 'projectile.monster5.hit3',
+  attackGeometry: 'monster.monster5.attack-geometry',
 } as const;
 
 export const Stage21AssetKeys = {
@@ -196,29 +196,32 @@ export const Stage22AssetKeys = {
   foreground: 'stage.stage2-2.layout',
   transferDoor: 'stage.stage2-2.transfer-door',
   fireThorn: 'stage.stage2-2.fire-thorn',
-  monster16: 'monster.stage2-2.monster16.atlas',
-  monster16Hit1: 'projectile.stage2-2.monster16.hit1',
-  monster16Hit2Start: 'projectile.stage2-2.monster16.hit2-start',
-  monster16Hit2Followup: 'projectile.stage2-2.monster16.hit2-followup',
-  monster16Hit3: 'projectile.stage2-2.monster16.hit3',
-  monster16Hit4Start: 'projectile.stage2-2.monster16.hit4-start',
-  monster16Hit4Followup: 'projectile.stage2-2.monster16.hit4-followup',
-  monster16AttackGeometry: 'stage2-2.monster16-attack-geometry',
 } as const;
 
-export const Stage21MonsterAssetKeys = {
-  monster6: 'monster.stage2-1.monster6.atlas',
-  monster9: 'monster.stage2-1.monster9.atlas',
-  monster10: 'monster.stage2-1.monster10.atlas',
-  monster19: 'monster.stage2-1.monster19.atlas',
-  monster6Hit1: 'projectile.stage2-1.monster6.hit1',
-  monster6Hit2Start: 'projectile.stage2-1.monster6.hit2-start',
-  monster6Hit2Rain: 'projectile.stage2-1.monster6.hit2-rain',
-  monster6Hit3: 'projectile.stage2-1.monster6.hit3',
-  monster9Hit1: 'projectile.stage2-1.monster9.hit1',
-  monster10Hit1: 'projectile.stage2-1.monster10.hit1',
-  monster19Hit1: 'projectile.stage2-1.monster19.hit1',
-  attackGeometry: 'stage2-1.monster-attack-geometry',
+export const Monster16AssetKeys = {
+  monster16: 'monster.monster16.atlas',
+  monster16Hit1: 'projectile.monster16.hit1',
+  monster16Hit2Start: 'projectile.monster16.hit2-start',
+  monster16Hit2Followup: 'projectile.monster16.hit2-followup',
+  monster16Hit3: 'projectile.monster16.hit3',
+  monster16Hit4Start: 'projectile.monster16.hit4-start',
+  monster16Hit4Followup: 'projectile.monster16.hit4-followup',
+  attackGeometry: 'monster.monster16.attack-geometry',
+} as const;
+
+export const MonsterFamily691019AssetKeys = {
+  monster6: 'monster.monster6.atlas',
+  monster9: 'monster.monster9.atlas',
+  monster10: 'monster.monster10.atlas',
+  monster19: 'monster.monster19.atlas',
+  monster6Hit1: 'projectile.monster6.hit1',
+  monster6Hit2Start: 'projectile.monster6.hit2-start',
+  monster6Hit2Rain: 'projectile.monster6.hit2-rain',
+  monster6Hit3: 'projectile.monster6.hit3',
+  monster9Hit1: 'projectile.monster9.hit1',
+  monster10Hit1: 'projectile.monster10.hit1',
+  monster19Hit1: 'projectile.monster19.hit1',
+  attackGeometry: 'monster.family-6-9-10-19.attack-geometry',
 } as const;
 
 export const CombatHudAssetKeys = {
@@ -565,7 +568,7 @@ const stageFramePaths = (directory: string, frameCount: number): readonly string
 export const stage11Assets = {
   floor: {
     key: Stage11AssetKeys.floor,
-    path: '/assets/stage/stage1-1/floor.png',
+    path: '/assets/stages/shared/floors/floor-bg-1.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -578,7 +581,7 @@ export const stage11Assets = {
   },
   background: {
     key: Stage11AssetKeys.background,
-    path: '/assets/stage/stage1-1/background.png',
+    path: '/assets/stages/stage-1-1/scene/background.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -591,7 +594,7 @@ export const stage11Assets = {
   },
   foreground: {
     key: Stage11AssetKeys.foreground,
-    path: '/assets/stage/stage1-1/foreground.png',
+    path: '/assets/stages/stage-1-1/scene/foreground.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level11.swf',
@@ -606,7 +609,7 @@ export const stage11Assets = {
   transferDoor: {
     key: Stage11AssetKeys.transferDoor,
     frameKeys: stageFrameKeys(Stage11AssetKeys.transferDoor, 20),
-    framePaths: stageFramePaths('/assets/stage/stage1-1/transfer-door', 20),
+    framePaths: stageFramePaths('/assets/stages/stage-1-1/objects/transfer-door/frames', 20),
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level11.swf',
@@ -1315,7 +1318,7 @@ export const pickupAssets = {
 export const stage12Assets = {
   background: {
     key: Stage12AssetKeys.background,
-    path: '/assets/stage/stage1-2/background.png',
+    path: '/assets/stages/stage-1-2/scene/background.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -1329,7 +1332,7 @@ export const stage12Assets = {
   },
   foreground: {
     key: Stage12AssetKeys.foreground,
-    path: '/assets/stage/stage1-2/foreground.png',
+    path: '/assets/stages/stage-1-2/scene/foreground.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level12.swf',
@@ -1344,7 +1347,7 @@ export const stage12Assets = {
   fbEnter: {
     key: Stage12AssetKeys.fbEnter,
     frameKeys: stageFrameKeys(Stage12AssetKeys.fbEnter, 30),
-    framePaths: stageFramePaths('/assets/stage/stage1-2/fb-enter', 30),
+    framePaths: stageFramePaths('/assets/stages/stage-1-2/objects/fb-enter/frames', 30),
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level12.swf',
@@ -1358,7 +1361,7 @@ export const stage12Assets = {
   },
   transferDoor: {
     key: Stage12AssetKeys.transferDoor,
-    path: '/assets/stage/stage1-2/transfer-door.png',
+    path: '/assets/stages/stage-1-2/objects/transfer-door/base.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level12.swf',
@@ -1373,7 +1376,7 @@ export const stage12Assets = {
   transferDoorPrimary: {
     key: Stage12AssetKeys.transferDoorPrimary,
     frameKeys: stageFrameKeys(Stage12AssetKeys.transferDoorPrimary, 20),
-    framePaths: stageFramePaths('/assets/stage/stage1-2/transfer-door-primary', 20),
+    framePaths: stageFramePaths('/assets/stages/stage-1-2/objects/transfer-door/primary', 20),
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level12.swf',
@@ -1388,7 +1391,7 @@ export const stage12Assets = {
   transferDoorAccent: {
     key: Stage12AssetKeys.transferDoorAccent,
     frameKeys: stageFrameKeys(Stage12AssetKeys.transferDoorAccent, 19),
-    framePaths: stageFramePaths('/assets/stage/stage1-2/transfer-door-accent', 19),
+    framePaths: stageFramePaths('/assets/stages/stage-1-2/objects/transfer-door/accent', 19),
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level12.swf',
@@ -1412,7 +1415,7 @@ export const stage12Assets = {
 export const stage13Assets = {
   background: {
     key: Stage13AssetKeys.background,
-    path: '/assets/stage/stage1-3/background.png',
+    path: '/assets/stages/stage-1-3/scene/background.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -1425,7 +1428,7 @@ export const stage13Assets = {
   },
   foreground: {
     key: Stage13AssetKeys.foreground,
-    path: '/assets/stage/stage1-3/foreground.png',
+    path: '/assets/stages/stage-1-3/scene/foreground.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level13.swf',
@@ -1438,7 +1441,7 @@ export const stage13Assets = {
   },
   transferDoor: {
     key: Stage13AssetKeys.transferDoor,
-    path: '/assets/stage/stage1-3/transfer-door.png',
+    path: '/assets/stages/stage-1-3/objects/transfer-door/base.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level13.swf',
@@ -1454,7 +1457,7 @@ export const stage13Assets = {
 export const stage21Assets = {
   floor: {
     key: Stage21AssetKeys.floor,
-    path: '/assets/stage/stage2-1/floor.png',
+    path: '/assets/stages/shared/floors/floor-bg-2.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/2.swf',
@@ -1467,7 +1470,7 @@ export const stage21Assets = {
   },
   background: {
     key: Stage21AssetKeys.background,
-    path: '/assets/stage/stage2-1/background.png',
+    path: '/assets/stages/stage-2-1/scene/background.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/2.swf',
@@ -1480,7 +1483,7 @@ export const stage21Assets = {
   },
   midground: {
     key: Stage21AssetKeys.midground,
-    path: '/assets/stage/stage2-1/midground.svg',
+    path: '/assets/stages/stage-2-1/scene/midground.svg',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level21.swf',
@@ -1493,7 +1496,7 @@ export const stage21Assets = {
   },
   foreground: {
     key: Stage21AssetKeys.foreground,
-    path: '/assets/stage/stage2-1/foreground.svg',
+    path: '/assets/stages/stage-2-1/scene/foreground.svg',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level21.swf',
@@ -1506,7 +1509,7 @@ export const stage21Assets = {
   },
   transferDoor: {
     key: Stage21AssetKeys.transferDoor,
-    path: '/assets/stage/stage2-1/transfer-door.png',
+    path: '/assets/stages/stage-2-1/objects/transfer-door/base.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level21.swf',
@@ -1520,7 +1523,7 @@ export const stage21Assets = {
   iceThorn: {
     key: Stage21AssetKeys.iceThorn,
     frameKeys: stageFrameKeys(Stage21AssetKeys.iceThorn, 66),
-    framePaths: numberedFramePaths('/assets/stage/stage2-1/ice-thorn', 66),
+    framePaths: numberedFramePaths('/assets/stages/stage-2-1/hazards/ice-thorn/frames', 66),
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level21.swf',
@@ -1538,7 +1541,7 @@ export const stage22Assets = {
   floor: stage21Assets.floor,
   background: {
     key: Stage22AssetKeys.background,
-    path: '/assets/stage22/background.svg',
+    path: '/assets/stages/stage-2-2/scene/background.svg',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/2.swf',
@@ -1551,7 +1554,7 @@ export const stage22Assets = {
   },
   midground: {
     key: Stage22AssetKeys.midground,
-    path: '/assets/stage22/midground.svg',
+    path: '/assets/stages/stage-2-2/scene/midground.svg',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level22.swf',
@@ -1564,7 +1567,7 @@ export const stage22Assets = {
   },
   foreground: {
     key: Stage22AssetKeys.foreground,
-    path: '/assets/stage22/foreground.svg',
+    path: '/assets/stages/stage-2-2/scene/foreground.svg',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level22.swf',
@@ -1577,7 +1580,7 @@ export const stage22Assets = {
   },
   transferDoor: {
     key: Stage22AssetKeys.transferDoor,
-    path: '/assets/stage22/transfer-door.svg',
+    path: '/assets/stages/stage-2-2/objects/transfer-door/base.svg',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level22.swf',
@@ -1591,7 +1594,7 @@ export const stage22Assets = {
   fireThorn: {
     key: Stage22AssetKeys.fireThorn,
     frameKeys: stageFrameKeys(Stage22AssetKeys.fireThorn, 130),
-    framePaths: numberedFramePaths('/assets/stage22/fire-thorn', 130, 'svg'),
+    framePaths: numberedFramePaths('/assets/stages/stage-2-2/hazards/fire-thorn/frames', 130, 'svg'),
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/levels/level22.swf',
@@ -1605,9 +1608,9 @@ export const stage22Assets = {
   },
 } as const;
 
-export const stage22Monster16Atlas: Stage21MonsterAtlasAssetDefinition = {
-  key: Stage22AssetKeys.monster16,
-  path: '/assets/stage22/monster16/monster16.png',
+export const monster16Atlas: Stage21MonsterAtlasAssetDefinition = {
+  key: Monster16AssetKeys.monster16,
+  path: '/assets/monsters/monster-16/monster16.png',
   status: 'ready',
   source: 'extracted-flash',
   sourcePackage: 'assets/2.swf',
@@ -1621,7 +1624,7 @@ export const stage22Monster16Atlas: Stage21MonsterAtlasAssetDefinition = {
   registrationOffset: { x: 0, y: -20 },
 };
 
-const stage22Monster16Attack = (
+const monster16Attack = (
   key: string,
   directory: string,
   sourceSymbol: string,
@@ -1630,54 +1633,54 @@ const stage22Monster16Attack = (
 ): Stage21AttackAssetDefinition => ({
   key,
   frameKeys: stageFrameKeys(key, frameCount),
-  framePaths: numberedFramePaths(`/assets/stage22/monster16/attacks/${directory}`, frameCount, 'svg'),
+  framePaths: numberedFramePaths(`/assets/monsters/monster-16/attacks/${directory}`, frameCount, 'svg'),
   status: 'ready',
   source: 'extracted-flash',
   sourcePackage: 'assets/2.swf',
   sourceSymbol,
   sourceCharacterId,
   frameCount,
-  geometryPath: '/assets/stage22/monster16/bullet-frame-geometry.csv',
+  geometryPath: '/assets/monsters/monster-16/attack-frame-geometry.csv',
 });
 
-export const stage22Monster16AttackAssets = {
-  monster16Hit1: stage22Monster16Attack(
-    Stage22AssetKeys.monster16Hit1,
+export const monster16AttackAssets = {
+  monster16Hit1: monster16Attack(
+    Monster16AssetKeys.monster16Hit1,
     'DefineSprite_235_Monster16Bullet1',
     'Monster16Bullet1',
     235,
     20,
   ),
-  monster16Hit2Start: stage22Monster16Attack(
-    Stage22AssetKeys.monster16Hit2Start,
+  monster16Hit2Start: monster16Attack(
+    Monster16AssetKeys.monster16Hit2Start,
     'DefineSprite_229_Monster16Bullet2_1',
     'Monster16Bullet2_1',
     229,
     4,
   ),
-  monster16Hit2Followup: stage22Monster16Attack(
-    Stage22AssetKeys.monster16Hit2Followup,
+  monster16Hit2Followup: monster16Attack(
+    Monster16AssetKeys.monster16Hit2Followup,
     'DefineSprite_225_Monster16Bullet2_2',
     'Monster16Bullet2_2',
     225,
     29,
   ),
-  monster16Hit3: stage22Monster16Attack(
-    Stage22AssetKeys.monster16Hit3,
+  monster16Hit3: monster16Attack(
+    Monster16AssetKeys.monster16Hit3,
     'DefineSprite_191_Monster16Bullet3',
     'Monster16Bullet3',
     191,
     15,
   ),
-  monster16Hit4Start: stage22Monster16Attack(
-    Stage22AssetKeys.monster16Hit4Start,
+  monster16Hit4Start: monster16Attack(
+    Monster16AssetKeys.monster16Hit4Start,
     'DefineSprite_160_Monster16Bullet4_1',
     'Monster16Bullet4_1',
     160,
     16,
   ),
-  monster16Hit4Followup: stage22Monster16Attack(
-    Stage22AssetKeys.monster16Hit4Followup,
+  monster16Hit4Followup: monster16Attack(
+    Monster16AssetKeys.monster16Hit4Followup,
     'DefineSprite_143_Monster16Bullet4_2',
     'Monster16Bullet4_2',
     143,
@@ -1685,7 +1688,7 @@ export const stage22Monster16AttackAssets = {
   ),
 } as const;
 
-const stage21Attack = (
+const monsterFamily691019Attack = (
   key: string,
   directory: string,
   sourceSymbol: string,
@@ -1694,17 +1697,18 @@ const stage21Attack = (
 ): Stage21AttackAssetDefinition => ({
   key,
   frameKeys: stageFrameKeys(key, frameCount),
-  framePaths: numberedFramePaths(`/assets/stage21/attacks/${directory}`, frameCount),
+  framePaths: numberedFramePaths(`/assets/monsters/family-6-9-10-19/attacks/${directory}`, frameCount),
   status: 'ready',
   source: 'extracted-flash',
   sourcePackage: 'assets/2.swf',
   sourceSymbol,
   sourceCharacterId,
   frameCount,
-  geometryPath: '/assets/stage21/bullet-frame-geometry.csv',
+  geometryPath: '/assets/monsters/family-6-9-10-19/attack-frame-geometry.csv',
 });
 
-const stage11MonsterAttack = (
+const extractedSvgMonsterAttack = (
+  familyDirectory: 'family-3-30' | 'family-2-4-7-8' | 'monster-5',
   key: string,
   directory: string,
   sourceSymbol: string,
@@ -1714,7 +1718,7 @@ const stage11MonsterAttack = (
   key,
   frameKeys: stageFrameKeys(key, frameCount),
   framePaths: numberedFramePaths(
-    `/assets/stage1/monsters/attacks/${directory}`,
+    `/assets/monsters/${familyDirectory}/attacks/${directory}`,
     frameCount,
     'svg',
   ),
@@ -1724,15 +1728,23 @@ const stage11MonsterAttack = (
   sourceSymbol,
   sourceCharacterId,
   frameCount,
-  geometryPath: '/assets/stage1/monsters/attack-frame-geometry.csv',
+  geometryPath: `/assets/monsters/${familyDirectory}/attack-frame-geometry.csv`,
 });
 
-const stage12MonsterAttack = stage11MonsterAttack;
+type SvgMonsterAttackArgs = Parameters<typeof extractedSvgMonsterAttack> extends readonly [unknown, ...infer Rest]
+  ? Rest
+  : never;
+const monsterFamily330Attack = (...args: SvgMonsterAttackArgs) =>
+  extractedSvgMonsterAttack('family-3-30', ...args);
+const monsterFamily2478Attack = (...args: SvgMonsterAttackArgs) =>
+  extractedSvgMonsterAttack('family-2-4-7-8', ...args);
+const monster5Attack = (...args: SvgMonsterAttackArgs) =>
+  extractedSvgMonsterAttack('monster-5', ...args);
 
-export const stage11MonsterAtlases = {
+export const monsterFamily330Atlases = {
   monster30: {
-    key: Stage11MonsterAssetKeys.monster30,
-    path: '/assets/stage1/monsters/monster30.png',
+    key: MonsterFamily330AssetKeys.monster30,
+    path: '/assets/monsters/family-3-30/atlases/monster30.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -1746,8 +1758,8 @@ export const stage11MonsterAtlases = {
     registrationOffset: { x: 5, y: -2 },
   },
   monster3: {
-    key: Stage11MonsterAssetKeys.monster3,
-    path: '/assets/stage1/monsters/monster3.png',
+    key: MonsterFamily330AssetKeys.monster3,
+    path: '/assets/monsters/family-3-30/atlases/monster3.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -1762,23 +1774,23 @@ export const stage11MonsterAtlases = {
   },
 } as const satisfies Record<string, MonsterAtlasAssetDefinition>;
 
-export const stage11MonsterAttackAssets = {
-  monster30Hit1: stage11MonsterAttack(
-    Stage11MonsterAssetKeys.monster30Hit1,
+export const monsterFamily330AttackAssets = {
+  monster30Hit1: monsterFamily330Attack(
+    MonsterFamily330AssetKeys.monster30Hit1,
     'monster30-hit1',
     'Monster30Bullet1',
     21,
     10,
   ),
-  monster3Hit1: stage11MonsterAttack(
-    Stage11MonsterAssetKeys.monster3Hit1,
+  monster3Hit1: monsterFamily330Attack(
+    MonsterFamily330AssetKeys.monster3Hit1,
     'monster3-hit1',
     'Monster3Bullet1',
     70,
     5,
   ),
-  monster3Hit2: stage11MonsterAttack(
-    Stage11MonsterAssetKeys.monster3Hit2,
+  monster3Hit2: monsterFamily330Attack(
+    MonsterFamily330AssetKeys.monster3Hit2,
     'monster3-hit2',
     'Monster3Bullet2',
     74,
@@ -1786,10 +1798,10 @@ export const stage11MonsterAttackAssets = {
   ),
 } as const satisfies Record<string, MonsterAttackAssetDefinition>;
 
-export const stage12MonsterAtlases = {
+export const monsterFamily2478Atlases = {
   monster2: {
-    key: Stage12MonsterAssetKeys.monster2,
-    path: '/assets/stage1/monsters/monster2.png',
+    key: MonsterFamily2478AssetKeys.monster2,
+    path: '/assets/monsters/family-2-4-7-8/atlases/monster2.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -1803,8 +1815,8 @@ export const stage12MonsterAtlases = {
     registrationOffset: { x: -20, y: -10 },
   },
   monster4: {
-    key: Stage12MonsterAssetKeys.monster4,
-    path: '/assets/stage1/monsters/monster4.png',
+    key: MonsterFamily2478AssetKeys.monster4,
+    path: '/assets/monsters/family-2-4-7-8/atlases/monster4.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -1818,8 +1830,8 @@ export const stage12MonsterAtlases = {
     registrationOffset: { x: 0, y: -10 },
   },
   monster7: {
-    key: Stage12MonsterAssetKeys.monster7,
-    path: '/assets/stage1/monsters/monster7.png',
+    key: MonsterFamily2478AssetKeys.monster7,
+    path: '/assets/monsters/family-2-4-7-8/atlases/monster7.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -1833,8 +1845,8 @@ export const stage12MonsterAtlases = {
     registrationOffset: { x: 3, y: 0 },
   },
   monster8: {
-    key: Stage12MonsterAssetKeys.monster8,
-    path: '/assets/stage1/monsters/monster8.png',
+    key: MonsterFamily2478AssetKeys.monster8,
+    path: '/assets/monsters/family-2-4-7-8/atlases/monster8.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/1.swf',
@@ -1849,65 +1861,65 @@ export const stage12MonsterAtlases = {
   },
 } as const satisfies Record<string, MonsterAtlasAssetDefinition>;
 
-export const stage12MonsterAttackAssets = {
-  monster2Hit1Start: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster2Hit1Start,
+export const monsterFamily2478AttackAssets = {
+  monster2Hit1Start: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster2Hit1Start,
     'monster2-hit1-1',
     'Monster2Bullet1_1',
     49,
     14,
   ),
-  monster2Hit1End: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster2Hit1End,
+  monster2Hit1End: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster2Hit1End,
     'monster2-hit1-2',
     'Monster2Bullet1_2',
     34,
     20,
   ),
-  monster2Hit2: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster2Hit2,
+  monster2Hit2: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster2Hit2,
     'monster2-hit2',
     'Monster2Bullet2',
     30,
     14,
   ),
-  monster4Hit1: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster4Hit1,
+  monster4Hit1: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster4Hit1,
     'monster4-hit1',
     'Monster4Bullet1',
     52,
     13,
   ),
-  monster4Hit2Start: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster4Hit2Start,
+  monster4Hit2Start: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster4Hit2Start,
     'monster4-hit2-1',
     'Monster4Bullet2_1',
     61,
     35,
   ),
-  monster4Hit2End: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster4Hit2End,
+  monster4Hit2End: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster4Hit2End,
     'monster4-hit2-2',
     'Monster4Bullet2_2',
     65,
     20,
   ),
-  monster7Hit1: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster7Hit1,
+  monster7Hit1: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster7Hit1,
     'monster7-hit1',
     'Monster7Bullet1',
     75,
     1,
   ),
-  monster8Hit1: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster8Hit1,
+  monster8Hit1: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster8Hit1,
     'monster8-hit1',
     'Monster8Bullet1',
     23,
     1,
   ),
-  monster8Hit2: stage12MonsterAttack(
-    Stage12MonsterAssetKeys.monster8Hit2,
+  monster8Hit2: monsterFamily2478Attack(
+    MonsterFamily2478AssetKeys.monster8Hit2,
     'monster8-hit2',
     'Monster8Bullet2',
     28,
@@ -1915,9 +1927,9 @@ export const stage12MonsterAttackAssets = {
   ),
 } as const satisfies Record<string, MonsterAttackAssetDefinition>;
 
-export const stage13Monster5Atlas = {
-  key: Stage13MonsterAssetKeys.monster5,
-  path: '/assets/stage1/monsters/monster5.png',
+export const monster5Atlas = {
+  key: Monster5AssetKeys.monster5,
+  path: '/assets/monsters/monster-5/atlases/monster5.png',
   status: 'ready',
   source: 'extracted-flash',
   sourcePackage: 'assets/1.swf',
@@ -1931,30 +1943,30 @@ export const stage13Monster5Atlas = {
   registrationOffset: { x: 30, y: -55 },
 } as const satisfies MonsterAtlasAssetDefinition;
 
-export const stage13Monster5AttackAssets = {
-  monster5Hit1: stage11MonsterAttack(
-    Stage13MonsterAssetKeys.monster5Hit1,
+export const monster5AttackAssets = {
+  monster5Hit1: monster5Attack(
+    Monster5AssetKeys.monster5Hit1,
     'monster5-hit1',
     'Monster5Bullet1',
     105,
     4,
   ),
-  monster5Hit2Start: stage11MonsterAttack(
-    Stage13MonsterAssetKeys.monster5Hit2Start,
+  monster5Hit2Start: monster5Attack(
+    Monster5AssetKeys.monster5Hit2Start,
     'monster5-hit2-1',
     'Monster5Bullet2_1',
     102,
     10,
   ),
-  monster5Hit2End: stage11MonsterAttack(
-    Stage13MonsterAssetKeys.monster5Hit2End,
+  monster5Hit2End: monster5Attack(
+    Monster5AssetKeys.monster5Hit2End,
     'monster5-hit2-2',
     'Monster5Bullet2_2',
     93,
     6,
   ),
-  monster5Hit3: stage11MonsterAttack(
-    Stage13MonsterAssetKeys.monster5Hit3,
+  monster5Hit3: monster5Attack(
+    Monster5AssetKeys.monster5Hit3,
     'monster5-hit3',
     'Monster5Bullet3',
     80,
@@ -1962,10 +1974,10 @@ export const stage13Monster5AttackAssets = {
   ),
 } as const satisfies Record<string, MonsterAttackAssetDefinition>;
 
-export const stage21MonsterAtlases = {
+export const monsterFamily691019Atlases = {
   monster6: {
-    key: Stage21MonsterAssetKeys.monster6,
-    path: '/assets/stage21/monsters/monster6.png',
+    key: MonsterFamily691019AssetKeys.monster6,
+    path: '/assets/monsters/family-6-9-10-19/atlases/monster6.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/2.swf',
@@ -1979,8 +1991,8 @@ export const stage21MonsterAtlases = {
     registrationOffset: { x: 0, y: -55 },
   },
   monster9: {
-    key: Stage21MonsterAssetKeys.monster9,
-    path: '/assets/stage21/monsters/monster9.png',
+    key: MonsterFamily691019AssetKeys.monster9,
+    path: '/assets/monsters/family-6-9-10-19/atlases/monster9.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/2.swf',
@@ -1994,8 +2006,8 @@ export const stage21MonsterAtlases = {
     registrationOffset: { x: 9, y: -15 },
   },
   monster10: {
-    key: Stage21MonsterAssetKeys.monster10,
-    path: '/assets/stage21/monsters/monster10.png',
+    key: MonsterFamily691019AssetKeys.monster10,
+    path: '/assets/monsters/family-6-9-10-19/atlases/monster10.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/2.swf',
@@ -2009,8 +2021,8 @@ export const stage21MonsterAtlases = {
     registrationOffset: { x: 22, y: -17 },
   },
   monster19: {
-    key: Stage21MonsterAssetKeys.monster19,
-    path: '/assets/stage21/monsters/monster19.png',
+    key: MonsterFamily691019AssetKeys.monster19,
+    path: '/assets/monsters/family-6-9-10-19/atlases/monster19.png',
     status: 'ready',
     source: 'extracted-flash',
     sourcePackage: 'assets/2.swf',
@@ -2025,27 +2037,27 @@ export const stage21MonsterAtlases = {
   },
 } as const satisfies Record<string, Stage21MonsterAtlasAssetDefinition>;
 
-export const stage21AttackAssets = {
-  monster6Hit1: stage21Attack(
-    Stage21MonsterAssetKeys.monster6Hit1, 'monster6-hit1', 'Monster6Bullet1', 238, 5,
+export const monsterFamily691019AttackAssets = {
+  monster6Hit1: monsterFamily691019Attack(
+    MonsterFamily691019AssetKeys.monster6Hit1, 'monster6-hit1', 'Monster6Bullet1', 238, 5,
   ),
-  monster6Hit2Start: stage21Attack(
-    Stage21MonsterAssetKeys.monster6Hit2Start, 'monster6-hit2-start', 'Monster6Bullet2_1', 271, 43,
+  monster6Hit2Start: monsterFamily691019Attack(
+    MonsterFamily691019AssetKeys.monster6Hit2Start, 'monster6-hit2-start', 'Monster6Bullet2_1', 271, 43,
   ),
-  monster6Hit2Rain: stage21Attack(
-    Stage21MonsterAssetKeys.monster6Hit2Rain, 'monster6-hit2-rain', 'Monster6Bullet2_2', 261, 30,
+  monster6Hit2Rain: monsterFamily691019Attack(
+    MonsterFamily691019AssetKeys.monster6Hit2Rain, 'monster6-hit2-rain', 'Monster6Bullet2_2', 261, 30,
   ),
-  monster6Hit3: stage21Attack(
-    Stage21MonsterAssetKeys.monster6Hit3, 'monster6-hit3', 'Monster6Bullet3', 244, 21,
+  monster6Hit3: monsterFamily691019Attack(
+    MonsterFamily691019AssetKeys.monster6Hit3, 'monster6-hit3', 'Monster6Bullet3', 244, 21,
   ),
-  monster9Hit1: stage21Attack(
-    Stage21MonsterAssetKeys.monster9Hit1, 'monster9-hit1', 'Monster9Bullet1', 19, 4,
+  monster9Hit1: monsterFamily691019Attack(
+    MonsterFamily691019AssetKeys.monster9Hit1, 'monster9-hit1', 'Monster9Bullet1', 19, 4,
   ),
-  monster10Hit1: stage21Attack(
-    Stage21MonsterAssetKeys.monster10Hit1, 'monster10-hit1', 'Monster10Bullet1', 11, 4,
+  monster10Hit1: monsterFamily691019Attack(
+    MonsterFamily691019AssetKeys.monster10Hit1, 'monster10-hit1', 'Monster10Bullet1', 11, 4,
   ),
-  monster19Hit1: stage21Attack(
-    Stage21MonsterAssetKeys.monster19Hit1, 'monster19-hit1', 'Monster19Bullet1', 15, 25,
+  monster19Hit1: monsterFamily691019Attack(
+    MonsterFamily691019AssetKeys.monster19Hit1, 'monster19-hit1', 'Monster19Bullet1', 15, 25,
   ),
 } as const satisfies Record<string, Stage21AttackAssetDefinition>;
 
@@ -3217,20 +3229,20 @@ export const assetBundles = {
   crafting: Object.values(craftingAssets),
   stage11: [
     ...Object.values(stage11Assets),
-    ...Object.values(stage11MonsterAtlases),
-    ...Object.values(stage11MonsterAttackAssets),
+    ...Object.values(monsterFamily330Atlases),
+    ...Object.values(monsterFamily330AttackAssets),
   ],
   stage12: [stage11Assets.floor, ...Object.values(stage12Assets)],
   stage13: [
     stage11Assets.floor,
     ...Object.values(stage13Assets),
-    stage13Monster5Atlas,
-    ...Object.values(stage13Monster5AttackAssets),
+    monster5Atlas,
+    ...Object.values(monster5AttackAssets),
   ],
   stage21: [
     ...Object.values(stage21Assets),
-    ...Object.values(stage21MonsterAtlases),
-    ...Object.values(stage21AttackAssets),
+    ...Object.values(monsterFamily691019Atlases),
+    ...Object.values(monsterFamily691019AttackAssets),
   ],
   stage22: Object.values(stage22Assets),
 } as const;

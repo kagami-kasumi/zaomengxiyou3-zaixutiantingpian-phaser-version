@@ -21,7 +21,7 @@
 ## 去向
 
 - 4 条视觉记录均已转为 `ready + confirmed + none`；监听器为 `rejected + confirmed + none`，表示它是行为证据而非视觉资产。
-- `TASK-SLICE-125` 将前景/背景/特殊入口/普通门共 72 张 PNG 接入 `public/assets/stage/stage1-2/`，manifest 保留 character 25/135/22/52/48/51、tag、源尺寸、帧数和现代栅格尺寸；`floorBg1` 继续复用 Stage 1-1 资源。
+- `TASK-SLICE-125` 将前景/背景/特殊入口/普通门共 72 张 PNG 接入；当前统一位于 `public/assets/stages/stage-1-2/` 的 `scene/objects` 子树，manifest 保留 character 25/135/22/52/48/51、tag、源尺寸、帧数和现代栅格尺寸；`floorBg1` 从 `public/assets/stages/shared/floors/` 复用。
 - `Stage12Layout.ts` 保存全部 3+1 墙、5 停点、13 刷怪点及两入口数据，`Stage12WorldBridge.ts` 保留根地面 → `sl12` → `bgContainer` 的组合边界。
 - 无推测、未知、缺源或人工消歧项。
 - 下一正式 task 为同线 `TASK-SLICE-126`：实现五停点 46 怪、双 boss 普通门门禁与普通完成/失败；特殊入口仍留给后续独立切片。

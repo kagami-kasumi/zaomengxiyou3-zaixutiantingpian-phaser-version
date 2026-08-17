@@ -54,6 +54,12 @@
 - `docs/architecture/src-boundaries.md`
   - 现代代码模块边界。
   - 维护 `src/` 目录职责、输入系统约束和 TypeScript/Phaser 参数约定。
+- `docs/architecture/stage-asset-ownership.md`
+  - 现代关卡资源目录与运行时 bundle ownership 合同。
+  - 维护具名共享/单关私有目录、光门组件归组、死资源判定和防复发门禁。
+- `docs/architecture/monster-asset-ownership.md`
+  - 现代怪物定义、资源 catalog 与运行时 bundle ownership 合同。
+  - 维护怪物定义/资源/单局状态边界、无关卡编号资源族、五关依赖和防回填门禁。
 - `docs/domain/glossary.md`
   - 领域统一语言表。
   - 维护中文概念、推荐代码名、上下文、说明和禁止别名。
