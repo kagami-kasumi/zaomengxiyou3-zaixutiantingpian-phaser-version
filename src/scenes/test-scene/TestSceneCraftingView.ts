@@ -182,7 +182,7 @@ export function updateCraftingPanelView(scene: any, view: CraftingPanelView): vo
   const previewTexture = getCraftingItemTexture(preview.recipe?.productFillName);
   view.previewIcon.setVisible(Boolean(previewTexture));
   if (previewTexture) view.previewIcon.setTexture(previewTexture);
-  const productTexture = getCraftingItemTexture(runtime.craftingSession.lastProductFillName);
+  const productTexture = getCraftingItemTexture(runtime.craftingSession.lastProduct?.definition.fillName);
   view.productIcon.setVisible(Boolean(productTexture));
   if (productTexture) view.productIcon.setTexture(productTexture);
   view.soulText.setText(String(runtime.magicWeaponSoul));

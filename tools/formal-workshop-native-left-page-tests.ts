@@ -55,7 +55,9 @@ function testNativeDynamicChildrenFieldsAndButtons(): void {
   assert.match(nativeView, /session\.stones\.forEach/);
   assert.match(nativeView, /session\.slots\.forEach/);
   assert.match(nativeView, /preview\.recipe\?\.productFillName/);
-  assert.match(nativeView, /session\.lastProductFillName/);
+  assert.match(nativeView, /session\.lastProduct\?\.definition\.fillName/);
+  assert.match(nativeView, /createCraftingPreviewEquipmentInstance/);
+  assert.match(nativeView, /getNativeFusionTooltipTargets/);
   assert.match(nativeView, /session\.results\.slice\(0, 6\)/);
   assert.match(nativeView, /session\.book\?\.definition\.fillName/);
   assert.match(nativeView, /recipe\?\.requiredMaterials\.slice\(0, 2\)/);

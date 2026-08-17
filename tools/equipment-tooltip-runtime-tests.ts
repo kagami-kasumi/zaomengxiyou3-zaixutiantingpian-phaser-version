@@ -16,6 +16,7 @@ import {
   readEquipmentPageQaOptions,
 } from '../src/systems/EquipmentPageQaFixtureSystem';
 import { createFormalInventoryPage } from '../src/systems/FormalInventoryPageSystem';
+import { createFormalWorkshopPage, getFormalWorkshopGridPageEntries } from '../src/systems/FormalWorkshopPageSystem';
 
 function fixture(
   fillName: string,
@@ -70,10 +71,13 @@ function testStagePlacementAndLifecycleWiring(): void {
   assert.match(page, /objects\.push\(equipmentTooltip\.root\)/);
   assert.match(grid, /cell\.entry\?\.kind === 'equipment'/);
   assert.match(grid, /pointerout/);
-  assert.match(workshop, /model\.tab === 'strength' \? createEquipmentTooltipView/);
+  assert.match(workshop, /model\.tab === 'strength' \|\| model\.tab === 'fusion'/);
   assert.match(workshop, /onEquipmentOver/);
   assert.match(workshop, /FormalWorkshopStrengthTargetHitAreaIndex/);
   assert.match(workshop, /bindEquipmentTooltip\(targetZone, target, equipmentTooltip\)/);
+  assert.match(workshop, /getNativeFusionTooltipTargets\(model\)/);
+  assert.match(workshop, /workshop-fusion-\$\{target\.id\}/);
+  assert.match(workshop, /bindEquipmentTooltip\(zone, target\.instance, equipmentTooltip\)/);
   assert.match(workshop, /objects\.push\(equipmentTooltip\.root\)/);
   assert.match(boot, /qaEquipmentPage.*workshop/);
   assert.match(qaScene, /createFormalWorkshopPageView/);
@@ -95,7 +99,25 @@ function testRandomStrengthQaFixture(): void {
   assert.match(presentation.rows.find((row) => row.id === 'stat-power')?.value ?? '', /^攻击： 234\(\+/);
 }
 
+function testFusionTooltipQaFixture(): void {
+  const options = readEquipmentPageQaOptions(
+    '?qaEquipmentRole=1&qaEquipmentOwner=p1&qaEquipmentCase=fusion-tooltip&qaEquipmentSoul=5000',
+    true,
+  );
+  assert.ok(options);
+  const model = createFormalWorkshopPage(createEquipmentPageQaStorage(options), 'p1');
+  assert.ok(model);
+  assert.deepEqual(
+    getFormalWorkshopGridPageEntries(model).slice(0, 3).map((entry) => entry.definition.fillName),
+    ['tdlzj', 'mgzh', 'tflj'],
+  );
+  const first = getFormalWorkshopGridPageEntries(model)[0];
+  assert.equal(first?.kind === 'equipment' ? first.strengthLevel : undefined, 3);
+  assert.equal(first?.kind === 'equipment' ? first.baseStatsOverride?.power : undefined, 234);
+}
+
 testVerifiedTruthAndInstanceProjection();
 testStagePlacementAndLifecycleWiring();
 testRandomStrengthQaFixture();
+testFusionTooltipQaFixture();
 console.log('Equipment tooltip truth, instance projection, placement, and formal inventory wiring tests passed.');

@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-190B2 | 合成页装备 hover | 共享右 grid、装备材料、preview 与成功产物复用同一实例 tooltip | M-036、M-037、M-052、VS-066 | 真实产物实例引用、同算法继承 preview、P1/P2/移出/重开与 940×590 零 console 验收 |
 | TASK-SETTINGS-189 | 装备 hover UI 逆向 | 冻结原字段、触发、几何、实例数值和全消费者合同 | M-036、M-037、M-052、VS-066 | 12 状态/32 对象 verified 真值、164 件 tooltip 字段、消费者矩阵、190B1..B4 拆分 |
 | TASK-SLICE-186 | 任务页 manifest 直连 | 直接消费 175H verified 真值并删除任务页手写视觉真值源 | M-044、M-046、M-052、VS-059 | `FormalTaskPageTruth`、`root-static`、45 对象/28 状态投影、43 定义/奖励/P1-P2/存档与 940×590 零 console 验收 |
 | TASK-SETTINGS-175 | 功能 UI 真值债务审计 | 分级明确占位、旧视觉审计、verified 与未知，并按页拆分后续 | M-035、M-052、VS-054、VS-055、VS-059 | 九页/宿主状态表、五源 SHA/locator、truthId/状态/完整性门禁、175A..I 独立合同与切片措辞纠正 |
@@ -7631,6 +7632,34 @@ UI 原生化合同：
 推荐后续任务：
 - `TASK-SLICE-190A`。
 
+### TASK-SLICE-190B2
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；已完成；下一 task 为 `TASK-SLICE-190B3`）
+
+目标机制/切片：
+- `M-036`、`M-037`、`M-052`、`VS-066`
+
+规模结果：
+- 主工作包：2；上下文压缩：0；验收批次：2；单 agent。
+
+输入资料：
+- 189/190A/190B1 tooltip 接缝、`task-settings-167-workshop-fusion`、当前 crafting session/view。
+
+输出产物：
+- 合成页共享 grid、装备材料、preview 与成功产物 hover；preview 与正式产物共用继承算法和实例字段模型。
+- `docs/tasks/evidence/TASK-SLICE-190B2/visual-audit.md` 的 940×590 P1/P2、移出、成功和重开证据。
+
+完成定义与边界：
+- 成功产物保存背包中真实 `InventoryEntry`，preview 为同算法只读 `EquipmentInstance`；没有第二数值/坐标/事务 owner。
+- 未进入强化、分解、打造或商城，未改变配方、随机、事务或存档 schema。
+
+推荐后续任务：
+- `TASK-SLICE-190B3`。
+
 ## 执行记录
 
 
@@ -10919,3 +10948,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-190B2`：在合成页共享右 grid、装备材料、preview 与成功产物复用同一实例 tooltip；不修改配方、随机、事务或存档。
+
+### TASK-SLICE-190B2
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-190B3`）。
+- 合成页共享右侧 5×5 grid、三个 167 material 槽、preview 与 produce 直接复用 `EquipmentTooltipSystem/View`；槽位命中 bounds 由 verified fusion manifest 读取，没有第二坐标表。
+- `CraftingResult/CraftingSession` 保存背包中真实成功 `InventoryEntry`，替代仅存 fillName；preview 使用相同的继承函数和当前三件材料构建只读 `EquipmentInstance`。成功产物、preview 与背包项的 `baseStatsOverride` 同源，不修改配方、随机、事务或存档 schema。
+- 新增 localhost-only `fusion-tooltip` QA 档，三件装备材料含随机基值与 +3 后缀；P1/P2 的 `_dzj` preview 与成功实例均显示生命 770、魔法 583、攻击 156、防御 184、暴击 3%，成功后灵魂 5000→4000。
+- 940×590 空态、grid/material/preview/produce hover、pointerout、成功、P1/P2、关闭/C 重开与 fresh console 零 warning/error 证据汇总位于 `docs/tasks/evidence/TASK-SLICE-190B2/visual-audit.md`。
+- PG-004/PG-011 集中审计通过且均不归档；PG-001/006/012/013 经语义复核不适用。
+
+验证：
+- tooltip/crafting/fusion/formal-workshop 五组定向专项、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、LSP diagnostics、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-190B3`：在分解页共享右 grid 与目标装备复用同一实例 tooltip；六个非装备结果材料保持排除。

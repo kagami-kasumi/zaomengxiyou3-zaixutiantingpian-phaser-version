@@ -26,6 +26,7 @@ export type EquipmentPageQaCase =
   | 'title'
   | 'unchanged'
   | 'tooltip-instance'
+  | 'fusion-tooltip'
   | 'fmtstx-defect'
   | 'mksddf-defect';
 
@@ -39,7 +40,7 @@ export type EquipmentPageQaOptions = Readonly<{
 const QaCases = new Set<EquipmentPageQaCase>([
   'equipped', 'empty', 'role4-shovel', 'role4-arrow', 'role5-frame',
   'character-520', 'character-521', 'title', 'unchanged', 'fmtstx-defect', 'mksddf-defect',
-  'tooltip-instance',
+  'tooltip-instance', 'fusion-tooltip',
 ]);
 const QaEquipmentRegistry = createEquipmentMakingDefinitionRegistry(
   createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()),
@@ -73,8 +74,27 @@ export function createEquipmentPageQaStorage(options: EquipmentPageQaOptions): S
   const target = options.owner === 'p1' ? save.player1 : save.player2;
   target.equipment = encodeFixtureLoadout(options);
   target.soulCount = options.soulCount;
+  if (options.fixtureCase === 'fusion-tooltip') seedFusionTooltipInventory(target.inventory);
   if (!createSaveSlot(storage, 0, save)) throw new Error('Failed to create equipment QA fixture save.');
   return storage;
+}
+
+function seedFusionTooltipInventory(inventory: ReturnType<typeof createDefaultGameSave>['player1']['inventory']): void {
+  inventory.categories.equipment = [
+    {
+      kind: 'equipment', fillName: 'tdlzj', instanceId: 'qa-fusion-tdlzj', quantity: 1,
+      strengthLevel: 3, baseStatsOverride: { power: 234 },
+    },
+    {
+      kind: 'equipment', fillName: 'mgzh', instanceId: 'qa-fusion-mgzh', quantity: 1,
+      baseStatsOverride: { maxHp: 345 },
+    },
+    {
+      kind: 'equipment', fillName: 'tflj', instanceId: 'qa-fusion-tflj', quantity: 1,
+      baseStatsOverride: { defense: 123 },
+    },
+  ];
+  inventory.nextEquipmentInstanceId = 4;
 }
 
 export function getEquipmentPageQaFillNames(options: EquipmentPageQaOptions): readonly string[] {

@@ -45,6 +45,7 @@ import {
   createNativeResolutionObjects,
   createNativeStrengthObjects,
   getNativeWorkshopPanelBounds,
+  getNativeFusionTooltipTargets,
 } from './FormalWorkshopNativeOperationView';
 
 type Callbacks = {
@@ -72,7 +73,9 @@ const WorkshopInventoryPagePosition = {
 const WorkshopInventoryTabStep = WorkshopItemsTabBounds.left - WorkshopEquipmentTabBounds.left;
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
   const objects: Phaser.GameObjects.GameObject[] = [];
-  const equipmentTooltip = model.tab === 'strength' ? createEquipmentTooltipView(scene) : undefined;
+  const equipmentTooltip = model.tab === 'strength' || model.tab === 'fusion'
+    ? createEquipmentTooltipView(scene)
+    : undefined;
   objects.push(scene.add.image(470, 295, craftingAssets.container.key).setDisplaySize(940, 590));
   const panelAsset = model.tab === 'fusion' ? craftingAssets.fusionPanel
     : model.tab === 'strength' ? craftingAssets.strengthPanel
@@ -149,9 +152,17 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
       callbacks.onFeedback(model.message);
       callbacks.onRerender();
     }));
-    objects.push(...stageZones(scene, 'fusion', (index) => {
-      toggleWorkshopStageSlot(model, 'fusion', index); callbacks.onRerender();
-    }));
+    const fusionTargets = getNativeFusionTooltipTargets(model);
+    fusionTargets.forEach((target, index) => {
+      const zone = originalHitZone(scene, target.bounds, () => {
+        if (index < 3) {
+          toggleWorkshopStageSlot(model, 'fusion', index);
+          callbacks.onRerender();
+        }
+      }, `workshop-fusion-${target.id}`);
+      if (target.instance && equipmentTooltip) bindEquipmentTooltip(zone, target.instance, equipmentTooltip);
+      objects.push(zone);
+    });
   } else if (model.tab === 'resolution') {
     objects.push(...createNativeResolutionObjects(scene, model, () => {
       runFormalWorkshopResolution(model, storage);

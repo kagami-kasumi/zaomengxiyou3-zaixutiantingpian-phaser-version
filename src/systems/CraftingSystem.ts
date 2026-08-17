@@ -53,6 +53,7 @@ export type CraftingResult = {
   soulBefore: number;
   soulAfter: number;
   recipe?: CraftingRecipe;
+  product?: InventoryEntry;
 };
 
 export type StagedCraftingMaterial = {
@@ -64,7 +65,7 @@ export type CraftingSession = {
   ownerSlot: PlayerSlot;
   slots: [StagedCraftingMaterial?, StagedCraftingMaterial?, StagedCraftingMaterial?];
   message: string;
-  lastProductFillName?: string;
+  lastProduct?: InventoryEntry;
 };
 
 export type CraftingSessionResult = {
@@ -124,7 +125,7 @@ export function stageCraftingMaterial(
     entry: stagedEntry,
     sourceCategory: location.category,
   };
-  session.lastProductFillName = undefined;
+  session.lastProduct = undefined;
   session.message = `已放入 ${entry.definition.name} (${stagedCount + 1}/3)`;
   return { ok: true, message: session.message };
 }
@@ -139,7 +140,7 @@ export function removeStagedCraftingMaterial(
   returnStagedMaterial(store, staged);
   session.slots[slotIndex] = undefined;
   while (session.slots.length > 0 && !session.slots[session.slots.length - 1]) session.slots.pop();
-  session.lastProductFillName = undefined;
+  session.lastProduct = undefined;
   session.message = `已退回 ${staged.entry.definition.name}`;
   return { ok: true, message: session.message };
 }
@@ -153,7 +154,7 @@ export function closeCraftingSession(
   }
   const returned = session.slots.filter((slot) => Boolean(slot)).length;
   session.slots.length = 0;
-  session.lastProductFillName = undefined;
+  session.lastProduct = undefined;
   session.message = returned > 0 ? `已退回 ${returned} 个暂存材料` : '合成面板已关闭';
   return { ok: true, message: session.message };
 }
@@ -163,7 +164,9 @@ export function previewCraftingSession(
   soul: number,
   recipes: readonly CraftingRecipe[] = SeedCraftingRecipes,
 ): CraftingPreview {
-  const materialFillNames = session.slots.map((slot) => slot?.entry.definition.fillName ?? '');
+  const materialFillNames = [0, 1, 2].map(
+    (index) => session.slots[index]?.entry.definition.fillName ?? '',
+  );
   const materialQuantity = session.slots.filter((slot) => Boolean(slot)).length;
   if (materialQuantity < 3) {
     return {
@@ -183,6 +186,37 @@ export function previewCraftingSession(
     };
   }
   return { recipe, materialQuantity: 3, canCraft: true, message: `可合成 ${recipe.productName}` };
+}
+
+export function createCraftingPreviewEquipmentInstance(
+  session: CraftingSession,
+  registry: Readonly<Record<string, EquipmentDefinition>>,
+  recipes: readonly CraftingRecipe[] = SeedCraftingRecipes,
+): EquipmentInstance | undefined {
+  const materialFillNames = session.slots.map((slot) => slot?.entry.definition.fillName ?? '');
+  const recipe = matchCraftingRecipe(materialFillNames, recipes);
+  if (!recipe) return undefined;
+  const product = registry[recipe.productFillName];
+  const productCategory = product ? getInventoryCategoryForDefinition(product) : undefined;
+  if (!product || (productCategory !== 'equipment' && productCategory !== 'fashion')) return undefined;
+  const statsMaterials = [0, 1, 2].map((index) =>
+    session.slots[index] ? asCraftingStatsMaterial(session.slots[index]!.entry, index) : undefined
+  );
+  if (statsMaterials.some((material) => !material)) return undefined;
+  const baseStatsOverride = isInheritedEquipmentBehavior(recipe.productionBehavior)
+    ? createInheritedProductStatsOverride(
+      product,
+      statsMaterials as EquipmentInstance[],
+      recipe.productionBehavior,
+    )
+    : undefined;
+  return {
+    kind: 'equipment',
+    instanceId: `crafting-preview-${session.ownerSlot}-${product.fillName}`,
+    definition: product,
+    quantity: 1,
+    ...(baseStatsOverride ? { baseStatsOverride } : {}),
+  };
 }
 
 function findLastOccupiedCraftingSlot(session: CraftingSession): number {
@@ -217,9 +251,9 @@ export function craftStagedSession(params: {
   });
   if (result.ok) {
     params.session.slots.length = 0;
-    params.session.lastProductFillName = result.recipe?.productFillName;
+    params.session.lastProduct = result.product;
   } else {
-    params.session.lastProductFillName = undefined;
+    params.session.lastProduct = undefined;
     for (const staged of params.session.slots) {
       if (staged) withdrawRestoredMaterial(params.store, staged);
     }
@@ -328,6 +362,7 @@ export function craft(params: {
     soulBefore,
     soulAfter: soulBefore - recipe.soulCost,
     recipe,
+    product: added,
   };
 }
 
@@ -550,15 +585,20 @@ function findCraftingMaterials(
       statsMaterials.push(found);
     } else {
       stackUseCount.set(found, (stackUseCount.get(found) ?? 0) + 1);
-      statsMaterials.push({
-        kind: 'equipment',
-        instanceId: `crafting-stack-${fillName}-${index}`,
-        definition: found.definition,
-        quantity: 1,
-      });
+      statsMaterials.push(asCraftingStatsMaterial(found, index));
     }
   }
   return { statsMaterials, consumedEntries };
+}
+
+function asCraftingStatsMaterial(entry: InventoryEntry, index: number): EquipmentInstance {
+  if (entry.kind === 'equipment') return entry;
+  return {
+    kind: 'equipment',
+    instanceId: `crafting-stack-${entry.definition.fillName}-${index}`,
+    definition: entry.definition,
+    quantity: 1,
+  };
 }
 
 function removeEquipmentInstance(store: InventoryStore, material: EquipmentInstance): void {

@@ -6,7 +6,11 @@ import resolutionTruth from '../../../docs/reverse-engineering/ground-truth/mani
 import strengthTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-settings-167-workshop-strength.json';
 import { craftingAssets } from '../../assets/AssetManifest';
 import { getInventoryItemAsset } from '../../assets/InventoryItemAssets';
-import { previewCraftingSession } from '../../systems/CraftingSystem';
+import {
+  createCraftingPreviewEquipmentInstance,
+  previewCraftingSession,
+} from '../../systems/CraftingSystem';
+import type { EquipmentInstance } from '../../systems/EquipmentSystem';
 import { getEquipmentMakingRecipe, getEquipmentMakingSoulCost } from '../../systems/EquipmentMakingSystem';
 import { EquipmentResolutionSoulCost } from '../../systems/EquipmentResolutionSystem';
 import {
@@ -24,6 +28,11 @@ import { createWorkshopSlotItemIcon } from './InventoryGridView';
 
 type WorkshopTruth = typeof strengthTruth | typeof fusionTruth | typeof resolutionTruth | typeof makingTruth;
 type NativeButtonAssets = Readonly<{ up: string; over: string; down: string }>;
+export type NativeFusionTooltipTarget = Readonly<{
+  id: 'material1' | 'material2' | 'material3' | 'preview' | 'produce';
+  bounds: Readonly<{ x: number; y: number; width: number; height: number }>;
+  instance?: EquipmentInstance;
+}>;
 
 export function getNativeWorkshopPanelBounds(tab: FormalWorkshopTab): Readonly<{
   left: number;
@@ -82,7 +91,7 @@ export function createNativeFusionObjects(
   });
   const preview = previewCraftingSession(session, player.soulCount);
   addItem(objects, scene, preview.recipe?.productFillName, centerOf(fusionTruth, 'preview'));
-  addItem(objects, scene, session.lastProductFillName, centerOf(fusionTruth, 'produce'));
+  addItem(objects, scene, session.lastProduct?.definition.fillName, centerOf(fusionTruth, 'produce'));
   objects.push(nativeField(scene, fusionTruth, 'txt_name', preview.recipe?.productName ?? ''));
   const hasStagedMaterial = session.slots.length > 0;
   objects.push(nativeField(scene, fusionTruth, 'txt_success', hasStagedMaterial ? '100%' : ''));
@@ -93,6 +102,28 @@ export function createNativeFusionObjects(
     down: craftingAssets.fusionButtonDown.key,
   }, onCommit));
   return objects;
+}
+
+export function getNativeFusionTooltipTargets(
+  model: FormalWorkshopPageModel,
+): readonly NativeFusionTooltipTarget[] {
+  assertVerified(fusionTruth);
+  const session = model.fusionSessions[model.owner];
+  const preview = createCraftingPreviewEquipmentInstance(session, model.registry);
+  const targets: NativeFusionTooltipTarget[] = [0, 1, 2].map((index) => ({
+    id: `material${index + 1}` as NativeFusionTooltipTarget['id'],
+    bounds: hitAreaOf(fusionTruth, `material${index + 1}`),
+    ...(session.slots[index]?.entry.kind === 'equipment'
+      ? { instance: session.slots[index].entry as EquipmentInstance }
+      : {}),
+  }));
+  targets.push({ id: 'preview', bounds: hitAreaOf(fusionTruth, 'preview'), ...(preview ? { instance: preview } : {}) });
+  targets.push({
+    id: 'produce',
+    bounds: hitAreaOf(fusionTruth, 'produce'),
+    ...(session.lastProduct?.kind === 'equipment' ? { instance: session.lastProduct } : {}),
+  });
+  return targets;
 }
 
 export function createNativeResolutionObjects(
@@ -209,6 +240,14 @@ function nativeButton(
 function centerOf(truth: WorkshopTruth, id: string): Readonly<{ x: number; y: number }> {
   const bounds = stageBoundsOf(truth, id);
   return { x: bounds.left + bounds.width / 2, y: bounds.top + bounds.height / 2 };
+}
+
+function hitAreaOf(
+  truth: WorkshopTruth,
+  id: string,
+): Readonly<{ x: number; y: number; width: number; height: number }> {
+  const bounds = stageBoundsOf(truth, id);
+  return { x: bounds.left, y: bounds.top, width: bounds.width, height: bounds.height };
 }
 
 function stageBoundsOf(

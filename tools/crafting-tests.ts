@@ -3,6 +3,7 @@ import {
   craft,
   craftStagedSession,
   closeCraftingSession,
+  createCraftingPreviewEquipmentInstance,
   createCraftingSession,
   createSeedCraftingItemDefinitions,
   inheritMingDingHuaYanStats,
@@ -893,7 +894,7 @@ function testCraftingSessionSuccessAndFailureLifecycle(): void {
   });
   assert.equal(success.ok, true);
   assert.equal(successSession.slots.length, 0);
-  assert.equal(successSession.lastProductFillName, 'wptlz');
+  assert.equal(successSession.lastProduct?.definition.fillName, 'wptlz');
   assert.equal(stackQuantity(successStore, 'tlzsp'), 0);
   assert.equal(stackQuantity(successStore, 'wptlz'), 1);
 
@@ -909,10 +910,10 @@ function testCraftingSessionSuccessAndFailureLifecycle(): void {
   assert.equal(failure.ok, false);
   assert.equal(failure.soulAfter, 999);
   assert.equal(failureSession.slots.length, 3);
-  assert.equal(failureSession.lastProductFillName, undefined);
+  assert.equal(failureSession.lastProduct, undefined);
   assert.equal(stackQuantity(failureStore, 'tlzsp'), 0);
   closeCraftingSession(failureSession, failureStore);
-  assert.equal(failureSession.lastProductFillName, undefined);
+  assert.equal(failureSession.lastProduct, undefined);
   assert.equal(stackQuantity(failureStore, 'tlzsp'), 3);
   assert.equal(stackQuantity(failureStore, 'wptlz'), 0);
 }
@@ -928,12 +929,21 @@ function testCraftingSessionConsumesStagedEquipment(): void {
   }
   assert.equal(getInventoryEntries(store, 'equipment').length, 0);
   assert.equal(previewCraftingSession(session, 1_000).recipe?.productFillName, '_dzj');
+  const previewInstance = createCraftingPreviewEquipmentInstance(session, specialRegistry);
+  assert.equal(previewInstance?.definition.fillName, '_dzj');
+  assert.ok(previewInstance?.baseStatsOverride);
   const result = craftStagedSession({ session, store, registry: specialRegistry, soul: 1_000 });
   assert.equal(result.ok, true);
   assert.equal(session.slots.length, 0);
   const entries = getInventoryEntries(store, 'equipment');
   assert.equal(entries.length, 1);
   assert.equal(entries[0].definition.fillName, '_dzj');
+  assert.equal(result.product, entries[0]);
+  assert.equal(session.lastProduct, entries[0]);
+  assert.deepEqual(
+    session.lastProduct?.kind === 'equipment' ? session.lastProduct.baseStatsOverride : undefined,
+    previewInstance?.baseStatsOverride,
+  );
 }
 
 function testCraftingSessionsStayPlayerIsolated(): void {
@@ -1013,7 +1023,7 @@ function testKylSeedCraftingAndPlayerIsolation(): void {
   runtimes.p2.magicWeaponSoul = success.soulAfter;
   assert.equal(runtimes.p2.magicWeaponSoul, 4_000);
   assert.equal(runtimes.p1.magicWeaponSoul, 5_000);
-  assert.equal(runtimes.p2.craftingSession.lastProductFillName, 'kyl');
+  assert.equal(runtimes.p2.craftingSession.lastProduct?.definition.fillName, 'kyl');
   assert.equal(runtimes.p2.craftingSession.slots.length, 0);
   assert.equal(getInventoryEntries(runtimes.p2.store, 'equipment').some(
     (entry) => entry.definition.fillName === 'kyl',
