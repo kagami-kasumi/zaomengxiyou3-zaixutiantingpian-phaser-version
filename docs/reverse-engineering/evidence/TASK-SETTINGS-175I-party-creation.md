@@ -46,14 +46,19 @@ manifest 序列化 20 个 scoped 对象、30 个状态，覆盖人数页、主�
 1081×1067 导出按 `x=0..939,y=189..778` 裁切，逐卡状态和 108/115 marker 按原注册点叠加。退出态透明图只表示
 1149/901 选角主体已移除，不代表原版主菜单、现代六槽或地图为空。
 
-后续 `TASK-SLICE-187` 必须让 `SavePartyCreationView` 直接消费 manifest 或其可重复只读投影，并完成：
+`TASK-SLICE-187` 运行对照发现并修正基准生成器的 GDI+ alpha 合成缺陷：旧 `DrawImageUnscaled` 会把角色/marker
+PNG 的透明 padding 填成有色像素；现改为显式 source/destination rectangle 的 `DrawImage(..., GraphicsUnit.Pixel)`，
+30 张基准与 manifest SHA 已重生成。显示列表、状态集、恢复源派生 PNG 和原版几何未改变；纠错证据与对象级差异见
+`docs/tasks/evidence/TASK-SLICE-187/visual-audit.md`。
 
-- 30 状态对象/depth/matrix/bounds/hitArea 的确定性回测；
+`TASK-SLICE-187` 已让 `SavePartyCreationView` 直接消费 manifest 的可重复只读投影，并完成：
+
+- 30 状态对象/depth/matrix/bounds/hitArea 的 Schema、完整性与 truth adapter 确定性回测；
 - 940×590 并排、50% 叠图、稳定边缘和逐对象差异；
 - 人数返回、角色 Escape、1P 五种、2P 20 种有序不同组合、最终一次写槽和重载；
-- 新增现代标题、角色名、选中框、通用确认/取消或替代按钮零容差。
+- 新增现代标题、角色名、选中框、通用确认/取消或替代按钮为零。
 
 ## 实现边界
 
-`SaveProfileDraftSystem`、`SaveSlotSystem` 与当前单 schema owner 保持不变。本 task 没有修改 `src/`、存档 schema、
+`SaveProfileDraftSystem`、`SaveSlotSystem` 与当前单 schema owner 保持不变。175I 没有修改 `src/`、存档 schema、
 建档事务或路由；`TASK-SLICE-187` 只删除 `SavePartyCreationView` 中手写的坐标/命中/状态真值源并接入 manifest。

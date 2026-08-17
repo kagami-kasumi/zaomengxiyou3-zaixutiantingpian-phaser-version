@@ -9018,7 +9018,7 @@
       "id": "original-role1-hover-p1-940x590",
       "stateId": "role1-hover-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role1-hover-p1-940x590.png",
-      "sha256": "ebc1c4161a2c19e468f9e9b2191744191e6bda50a21681fe9d738ed317000532",
+      "sha256": "f34e307a05c0808db3f60fd4d1f7ccd3288cea77e66fbc35de9137807fd345cc",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9032,7 +9032,7 @@
       "id": "original-role1-pressed-p1-940x590",
       "stateId": "role1-pressed-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role1-pressed-p1-940x590.png",
-      "sha256": "ebc1c4161a2c19e468f9e9b2191744191e6bda50a21681fe9d738ed317000532",
+      "sha256": "f34e307a05c0808db3f60fd4d1f7ccd3288cea77e66fbc35de9137807fd345cc",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9046,7 +9046,7 @@
       "id": "original-role1-selected-p1-940x590",
       "stateId": "role1-selected-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role1-selected-p1-940x590.png",
-      "sha256": "baab0330d53f2e7b7501b2b71dfe2abe92ecd9efc6689e83f1c967228b7ad00b",
+      "sha256": "a5a4355a59b0b8a4107d4761eb5fbc7a81591f7ed480398337111a4ab3323a45",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9060,7 +9060,7 @@
       "id": "original-role2-hover-p1-940x590",
       "stateId": "role2-hover-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role2-hover-p1-940x590.png",
-      "sha256": "1ba804050274d3aba232ed53d9b72eae1562cdf9fdf451e6a56d7e8a1f54ccdf",
+      "sha256": "55d70c9e341b676fc7cb60255cdf77cc1c43ba0e689fa240aeb45abb464c884c",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9074,7 +9074,7 @@
       "id": "original-role2-pressed-p1-940x590",
       "stateId": "role2-pressed-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role2-pressed-p1-940x590.png",
-      "sha256": "1ba804050274d3aba232ed53d9b72eae1562cdf9fdf451e6a56d7e8a1f54ccdf",
+      "sha256": "55d70c9e341b676fc7cb60255cdf77cc1c43ba0e689fa240aeb45abb464c884c",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9088,7 +9088,7 @@
       "id": "original-role2-selected-p1-940x590",
       "stateId": "role2-selected-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role2-selected-p1-940x590.png",
-      "sha256": "750835250131c3e2adc70d74735f78d076fb518fa4df91e2b1ad982e804fb8d2",
+      "sha256": "9466a91c9fef0ea03e648f14412cb57811fe0acaebc71c009db234d66696573d",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9102,7 +9102,7 @@
       "id": "original-role3-hover-p1-940x590",
       "stateId": "role3-hover-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role3-hover-p1-940x590.png",
-      "sha256": "e1b019a68dd14805daef557351b79a2747dd70349d5d791d1e3f922bc614274b",
+      "sha256": "d0d3dface0e30ab737cdd9d8ee289601cd4d1efcb761c15789da9079bf4b6df6",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9116,7 +9116,7 @@
       "id": "original-role3-pressed-p1-940x590",
       "stateId": "role3-pressed-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role3-pressed-p1-940x590.png",
-      "sha256": "e1b019a68dd14805daef557351b79a2747dd70349d5d791d1e3f922bc614274b",
+      "sha256": "d0d3dface0e30ab737cdd9d8ee289601cd4d1efcb761c15789da9079bf4b6df6",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9130,7 +9130,7 @@
       "id": "original-role3-selected-p1-940x590",
       "stateId": "role3-selected-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role3-selected-p1-940x590.png",
-      "sha256": "e40d1fee40ac73bcb4e01e635f26bec98f2f803be67c5d84db12e1089a08be49",
+      "sha256": "addc3d97ea125f2cdd49f816da2c62ea4c094bf2f0ed51188d8ec06980f91857",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9144,7 +9144,7 @@
       "id": "original-role4-hover-p1-940x590",
       "stateId": "role4-hover-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role4-hover-p1-940x590.png",
-      "sha256": "ee4dccab9208fb04195a31ce052bc5a12f03070ea7196481706637f1983553ef",
+      "sha256": "fbfee6fd7260decee0de8ed88aa533619a0a25996a479f6e2fd87706d42d636d",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9158,7 +9158,7 @@
       "id": "original-role4-pressed-p1-940x590",
       "stateId": "role4-pressed-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role4-pressed-p1-940x590.png",
-      "sha256": "ee4dccab9208fb04195a31ce052bc5a12f03070ea7196481706637f1983553ef",
+      "sha256": "fbfee6fd7260decee0de8ed88aa533619a0a25996a479f6e2fd87706d42d636d",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9172,7 +9172,7 @@
       "id": "original-role4-selected-p1-940x590",
       "stateId": "role4-selected-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role4-selected-p1-940x590.png",
-      "sha256": "1326b27e9939363a20167747373650aff09903d664d982d24e75fe94034e7c9a",
+      "sha256": "d0017e6fa1af9b534ab6b50ad2296bee2599776a7983884789c124bedc3fce2c",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9186,7 +9186,7 @@
       "id": "original-role5-hover-p1-940x590",
       "stateId": "role5-hover-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role5-hover-p1-940x590.png",
-      "sha256": "a04498f3dc9b866f8e3f292b0d3fd7e5e8ad030705bc247bd7f29ce87978750e",
+      "sha256": "c4aade4f77bf816587f31dbadbaf506f4c4b585726d1e9eae950ec434151eea3",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9200,7 +9200,7 @@
       "id": "original-role5-pressed-p1-940x590",
       "stateId": "role5-pressed-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role5-pressed-p1-940x590.png",
-      "sha256": "a04498f3dc9b866f8e3f292b0d3fd7e5e8ad030705bc247bd7f29ce87978750e",
+      "sha256": "c4aade4f77bf816587f31dbadbaf506f4c4b585726d1e9eae950ec434151eea3",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9214,7 +9214,7 @@
       "id": "original-role5-selected-p1-940x590",
       "stateId": "role5-selected-p1",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-role5-selected-p1-940x590.png",
-      "sha256": "c8f33d465d2ed8f2cff874114336d70bddf940f6c947a178d47245661b31bb91",
+      "sha256": "1993b823d4ba592258b43617060622c07751e3c8f499cb361227f76f5820fbf0",
       "width": 940,
       "height": 590,
       "crop": {
@@ -9228,7 +9228,7 @@
       "id": "original-two-player-p1-role1-selected-p2-role2-hover-940x590",
       "stateId": "two-player-p1-role1-selected-p2-role2-hover",
       "path": "docs/tasks/evidence/TASK-SETTINGS-175I/original-two-player-p1-role1-selected-p2-role2-hover-940x590.png",
-      "sha256": "8609356fa8e377bc50d707f1bbe41c1fcbbaec00423ff989db150511a06e4033",
+      "sha256": "81676245cf16be51d8e1823d08b9ec5f78a3dca69577dd1519ed79d8611cd1a0",
       "width": 940,
       "height": 590,
       "crop": {

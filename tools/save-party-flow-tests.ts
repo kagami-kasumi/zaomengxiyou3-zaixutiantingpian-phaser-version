@@ -14,8 +14,40 @@ import {
   inspectSaveSlot,
 } from '../src/systems/SaveSlotSystem';
 import type { SaveStorage } from '../src/systems/SaveSystem';
+import {
+  assertVerifiedPartyCreationTruth,
+  getPartyCreationMarkerBounds,
+  getPartyCreationRoleObjectId,
+  getPartyCreationTruthAssetRef,
+  getPartyCreationTruthCharacterId,
+  getPartyCreationTruthHitArea,
+  getPartyCreationTruthStage,
+  getPartyCreationTruthStateIds,
+  PartyCreationTruthId,
+  PartyCreationTruthObjectIds,
+} from '../src/scenes/save-slot/SavePartyCreationTruth';
 
 const repoRoot = process.cwd();
+
+assert.doesNotThrow(() => assertVerifiedPartyCreationTruth());
+assert.equal(PartyCreationTruthId, 'task-settings-175i.party-creation');
+assert.deepEqual(getPartyCreationTruthStage(), { width: 940, height: 590 });
+assert.equal(getPartyCreationTruthStateIds().length, 30);
+assert.equal(getPartyCreationTruthCharacterId(PartyCreationTruthObjectIds.numberRoot), 1149);
+assert.equal(getPartyCreationTruthCharacterId(PartyCreationTruthObjectIds.roleRoot), 901);
+assert.deepEqual(getPartyCreationTruthHitArea(PartyCreationTruthObjectIds.numberOne, 'number-normal'), {
+  left: 510.6, top: 174.2, width: 481.1, height: 46.8,
+});
+assert.deepEqual(getPartyCreationTruthHitArea(getPartyCreationRoleObjectId(5), 'role-normal-p1'), {
+  left: 754.82, top: 0, width: 184.31, height: 590,
+});
+assert.deepEqual(getPartyCreationMarkerBounds(3), {
+  left: 444.2, top: 40, width: 84, height: 84,
+});
+assert.equal(
+  getPartyCreationTruthAssetRef(getPartyCreationRoleObjectId(2), 'down'),
+  'public/assets/ui/save-party/role2-3_down.png',
+);
 
 function createMemoryStorage(): SaveStorage & { values: Map<string, string> } {
   const values = new Map<string, string>();
@@ -102,10 +134,10 @@ const viewSource = readFileSync(
   path.join(repoRoot, 'src/scenes/save-slot/SavePartyCreationView.ts'),
   'utf8',
 );
-assert.match(viewSource, /savePartyAssets\.numberUp\.key/);
-assert.match(viewSource, /savePartyAssets\.roleUp\.key/);
-assert.match(viewSource, /savePartyAssets\.markerP1\.key/);
-assert.match(viewSource, /savePartyAssets\.markerP2\.key/);
+assert.match(viewSource, /assertVerifiedPartyCreationTruth/);
+assert.match(viewSource, /getPartyCreationTruthHitArea/);
+assert.match(viewSource, /getPartyCreationTruthAssetRef/);
+assert.doesNotMatch(viewSource, /RoleImageX|RoleRegistrationX|RoleHitBounds/);
 assert.doesNotMatch(viewSource, /add\.text\(/, 'selection subject must not add modern visible labels');
 assert.doesNotMatch(viewSource, /setStrokeStyle/, 'selection subject must not add modern selection borders');
 

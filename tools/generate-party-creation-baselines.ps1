@@ -6,6 +6,24 @@ $assetRoot = Join-Path $projectRoot 'public/assets/ui/save-party'
 $outputRoot = Join-Path $projectRoot 'docs/tasks/evidence/TASK-SETTINGS-175I'
 New-Item -ItemType Directory -Force -Path $outputRoot | Out-Null
 
+function Draw-ImageNativeAlpha(
+  [System.Drawing.Graphics]$graphics,
+  [System.Drawing.Image]$image,
+  [int]$x,
+  [int]$y
+) {
+  $destination = [System.Drawing.Rectangle]::new($x, $y, $image.Width, $image.Height)
+  $graphics.DrawImage(
+    $image,
+    $destination,
+    0,
+    0,
+    $image.Width,
+    $image.Height,
+    [System.Drawing.GraphicsUnit]::Pixel
+  )
+}
+
 $numberStates = @{
   'number-normal' = 'select-number-up.png'
   'number-1p-hover' = 'select-number-1p-over.png'
@@ -26,14 +44,14 @@ function New-RoleBaseline([string]$state, [int]$roleIndex = 0, [string]$visual =
   $graphics = [System.Drawing.Graphics]::FromImage($canvas)
   try {
     $root = [System.Drawing.Image]::FromFile((Join-Path $assetRoot 'select-role-up.png'))
-    try { $graphics.DrawImageUnscaled($root, 0, 0) } finally { $root.Dispose() }
+    try { Draw-ImageNativeAlpha $graphics $root 0 0 } finally { $root.Dispose() }
     if ($visual) {
       $overlay = [System.Drawing.Image]::FromFile((Join-Path $assetRoot "role$roleIndex-$visual.png"))
-      try { $graphics.DrawImageUnscaled($overlay, $roleX[$roleIndex - 1], 0) } finally { $overlay.Dispose() }
+      try { Draw-ImageNativeAlpha $graphics $overlay $roleX[$roleIndex - 1] 0 } finally { $overlay.Dispose() }
     }
     if ($marker) {
       $markerImage = [System.Drawing.Image]::FromFile((Join-Path $assetRoot "marker-$marker.png"))
-      try { $graphics.DrawImageUnscaled($markerImage, [int]($roleRegistrationX[$roleIndex - 1] - 50), 40) } finally { $markerImage.Dispose() }
+      try { Draw-ImageNativeAlpha $graphics $markerImage ([int]($roleRegistrationX[$roleIndex - 1] - 50)) 40 } finally { $markerImage.Dispose() }
     }
     $canvas.Save((Join-Path $outputRoot "original-$state-940x590.png"), [System.Drawing.Imaging.ImageFormat]::Png)
   } finally {
@@ -61,7 +79,7 @@ try {
     @{ file = 'marker-p2.png'; x = 256; y = 40 }
   )) {
     $image = [System.Drawing.Image]::FromFile((Join-Path $assetRoot $draw.file))
-    try { $graphics.DrawImageUnscaled($image, $draw.x, $draw.y) } finally { $image.Dispose() }
+    try { Draw-ImageNativeAlpha $graphics $image $draw.x $draw.y } finally { $image.Dispose() }
   }
   $canvas.Save((Join-Path $outputRoot "original-$p2State-940x590.png"), [System.Drawing.Imaging.ImageFormat]::Png)
 } finally {

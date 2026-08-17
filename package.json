@@ -124,7 +124,7 @@
     "test:shop-page-truth": "node tools/generate-shop-page-ground-truth.mjs --check && node tools/validate-ui-ground-truth.mjs docs/reverse-engineering/ground-truth/manifests/task-settings-175f-shop-page.json",
     "test:settings-page-truth": "node tools/generate-settings-page-ground-truth.mjs --check && node tools/validate-ui-ground-truth.mjs docs/reverse-engineering/ground-truth/manifests/task-settings-175g-settings-page.json",
     "test:task-page-truth": "node tools/generate-task-page-ground-truth.mjs --check && node tools/validate-ui-ground-truth.mjs docs/reverse-engineering/ground-truth/manifests/task-settings-175h-task-page.json",
-    "test:party-creation-truth": "node tools/generate-party-creation-ground-truth.mjs --check && node tools/validate-ui-ground-truth.mjs docs/reverse-engineering/ground-truth/manifests/task-settings-175i-party-creation.json",
+    "test:party-creation-truth": "node tools/generate-party-creation-ground-truth.mjs --check && node tools/validate-ui-ground-truth.mjs docs/reverse-engineering/ground-truth/manifests/task-settings-175i-party-creation.json && node tools/run-system-tests.mjs save-party-flow-tests",
     "test:role1-shadow-runtime": "node tools/run-system-tests.mjs system-tests",
     "test:hero-progression-runtime": "node tools/run-system-tests.mjs hero-progression-runtime-tests",
     "test:equipment-visual-catalog": "node tools/generate-equipment-visual-resource-catalog.mjs --check",

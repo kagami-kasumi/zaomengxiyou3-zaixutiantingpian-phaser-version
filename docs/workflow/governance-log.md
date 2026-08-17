@@ -1,5 +1,12 @@
 # 工作流治理日志
 
+## 2026-08-17：记录 TASK-SLICE-187 建档/选角 manifest 直连审计
+
+- 背景：游戏 task 收尾命中 PG-004；本任务修改原生按钮状态、命中和建档页面视觉 owner，语义命中 PG-011。
+- 变更：在集中审计表记录 175I manifest 直连、手写坐标/命中删除、GDI+ alpha 基准生成纠错、1P/2P/取消/原子建槽/重载和 940×590 对照证据；确认未新增共享组件、第二业务 owner、现代可见层或截图裁片。
+- 影响：PG-004/PG-011 均无复发但未满足归档条件；PG-001/006/012/013 语义复核不适用。唯一 Ready 已切换为同线 `TASK-SLICE-188`，本次不修改问题状态或通用工作流规则。
+- 验证：`npm run test:party-creation-truth`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
 ## 2026-08-16：记录 TASK-SETTINGS-175 功能 UI 真值审计
 
 - 背景：游戏 task 收尾命中 PG-004；本任务又涉及 feature UI host、原生按钮和页面实现门禁，语义命中 PG-011。

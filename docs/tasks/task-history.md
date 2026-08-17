@@ -10810,3 +10810,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-187`：直接消费 175I 建档/选角 verified 真值，删除 `SavePartyCreationView` 手写视觉真值源；完成后审查当前功能线关闭合同。
+
+### TASK-SLICE-187
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（继续 `Active`，下一 task 为 `TASK-SLICE-188`）。
+- 新增 `SavePartyCreationTruth.ts`，运行时直接导入并断言 `task-settings-175i.party-creation`：20 个 scoped display object、30 个状态、`unresolved=[]`、940×590。
+- `SavePartyCreationView` 按 manifest 对象 ID/state 读取人数页根与三按钮状态/命中、角色页根、五卡状态/命中和 P1/P2 marker；删除 `RoleImageX`、`RoleRegistrationX`、`RoleHitBounds` 与角色状态 key 坐标表。资产引用通过 manifest `assetRef` 反查现有 bundle key，没有新增第二份视觉映射。
+- 视觉对照发现并修正 `generate-party-creation-baselines.ps1` 的 GDI+ alpha 合成缺陷，重生成 30 张基准并更新 manifest baseline SHA；修正不改变 restored SWF 派生 PNG、显示列表或现代业务。
+- 1P 五角色、2P 20 个有序不同组合、重复角色拒绝、人数返回、角色 Escape、原子建槽、当前 schema 与重载保持；940×590 并排/50% overlay/对象差异位于 `docs/tasks/evidence/TASK-SLICE-187/`，浏览器 console warning/error 为 0。
+
+验证：
+- `npm run test:party-creation-truth`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`；940×590 正式入口人工复验通过。
+
+推荐任务：
+- `TASK-SLICE-188`：直接消费 175E 丹药页 verified 真值，删除 `ImmortalityScene` 手写视觉真值源；完成后审查当前功能线关闭合同。

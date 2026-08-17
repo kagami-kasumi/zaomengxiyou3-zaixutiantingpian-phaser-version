@@ -1,0 +1,353 @@
+﻿{
+    "truthId":  "task-settings-175i.party-creation",
+    "generatedBy":  "tools/generate-party-creation-visual-evidence.ps1",
+    "stage":  {
+                  "width":  940,
+                  "height":  590
+              },
+    "comparison":  "RGBA exact comparison; anti-aliasing and transparent-edge differences remain visible in the reported metrics.",
+    "states":  [
+                   {
+                       "stateId":  "number-normal",
+                       "original":  "docs/tasks/evidence/TASK-SETTINGS-175I/original-number-normal-940x590.png",
+                       "modern":  "docs/tasks/evidence/TASK-SLICE-187/modern-number-normal-940x590.png",
+                       "sideBySide":  "docs/tasks/evidence/TASK-SLICE-187/side-by-side-number-normal.png",
+                       "overlay":  "docs/tasks/evidence/TASK-SLICE-187/overlay-number-normal.png",
+                       "fullStage":  {
+                                         "pixelCount":  554600,
+                                         "mismatchPixels":  306058,
+                                         "mismatchRatio":  0.551854,
+                                         "meanAbsoluteChannelDelta":  2.266754,
+                                         "maxChannelDelta":  90
+                                     },
+                       "objects":  [
+                                       {
+                                           "objectId":  "number-root",
+                                           "bounds":  {
+                                                          "left":  0,
+                                                          "top":  0,
+                                                          "width":  940,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  554600,
+                                           "mismatchPixels":  306058,
+                                           "mismatchRatio":  0.551854,
+                                           "meanAbsoluteChannelDelta":  2.266754,
+                                           "maxChannelDelta":  90
+                                       },
+                                       {
+                                           "objectId":  "number-root.simpleGame",
+                                           "bounds":  {
+                                                          "left":  510,
+                                                          "top":  174,
+                                                          "width":  430,
+                                                          "height":  47
+                                                      },
+                                           "pixelCount":  20210,
+                                           "mismatchPixels":  8911,
+                                           "mismatchRatio":  0.44092,
+                                           "meanAbsoluteChannelDelta":  2.265871,
+                                           "maxChannelDelta":  76
+                                       },
+                                       {
+                                           "objectId":  "number-root.doubleGame",
+                                           "bounds":  {
+                                                          "left":  751,
+                                                          "top":  250,
+                                                          "width":  111,
+                                                          "height":  41
+                                                      },
+                                           "pixelCount":  4551,
+                                           "mismatchPixels":  2541,
+                                           "mismatchRatio":  0.558339,
+                                           "meanAbsoluteChannelDelta":  6.25,
+                                           "maxChannelDelta":  69
+                                       },
+                                       {
+                                           "objectId":  "number-root.backbtn",
+                                           "bounds":  {
+                                                          "left":  750,
+                                                          "top":  301,
+                                                          "width":  100,
+                                                          "height":  29
+                                                      },
+                                           "pixelCount":  2900,
+                                           "mismatchPixels":  1147,
+                                           "mismatchRatio":  0.395517,
+                                           "meanAbsoluteChannelDelta":  5.579483,
+                                           "maxChannelDelta":  75
+                                       }
+                                   ]
+                   },
+                   {
+                       "stateId":  "role1-hover-p1",
+                       "original":  "docs/tasks/evidence/TASK-SETTINGS-175I/original-role1-hover-p1-940x590.png",
+                       "modern":  "docs/tasks/evidence/TASK-SLICE-187/modern-role1-hover-p1-940x590.png",
+                       "sideBySide":  "docs/tasks/evidence/TASK-SLICE-187/side-by-side-role1-hover-p1.png",
+                       "overlay":  "docs/tasks/evidence/TASK-SLICE-187/overlay-role1-hover-p1.png",
+                       "fullStage":  {
+                                         "pixelCount":  554600,
+                                         "mismatchPixels":  452757,
+                                         "mismatchRatio":  0.816367,
+                                         "meanAbsoluteChannelDelta":  3.802028,
+                                         "maxChannelDelta":  255
+                                     },
+                       "objects":  [
+                                       {
+                                           "objectId":  "role-root",
+                                           "bounds":  {
+                                                          "left":  0,
+                                                          "top":  0,
+                                                          "width":  940,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  554600,
+                                           "mismatchPixels":  452757,
+                                           "mismatchRatio":  0.816367,
+                                           "meanAbsoluteChannelDelta":  3.802028,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn1",
+                                           "bounds":  {
+                                                          "left":  0,
+                                                          "top":  0,
+                                                          "width":  263,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  155170,
+                                           "mismatchPixels":  141952,
+                                           "mismatchRatio":  0.914816,
+                                           "meanAbsoluteChannelDelta":  5.981738,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn2",
+                                           "bounds":  {
+                                                          "left":  188,
+                                                          "top":  0,
+                                                          "width":  255,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  150450,
+                                           "mismatchPixels":  119988,
+                                           "mismatchRatio":  0.797527,
+                                           "meanAbsoluteChannelDelta":  2.668544,
+                                           "maxChannelDelta":  164
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn3",
+                                           "bounds":  {
+                                                          "left":  376,
+                                                          "top":  0,
+                                                          "width":  277,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  163430,
+                                           "mismatchPixels":  125772,
+                                           "mismatchRatio":  0.769577,
+                                           "meanAbsoluteChannelDelta":  2.479213,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn4",
+                                           "bounds":  {
+                                                          "left":  564,
+                                                          "top":  0,
+                                                          "width":  285,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  168150,
+                                           "mismatchPixels":  129295,
+                                           "mismatchRatio":  0.768927,
+                                           "meanAbsoluteChannelDelta":  2.987315,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn5",
+                                           "bounds":  {
+                                                          "left":  752,
+                                                          "top":  0,
+                                                          "width":  188,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  110920,
+                                           "mismatchPixels":  86724,
+                                           "mismatchRatio":  0.781861,
+                                           "meanAbsoluteChannelDelta":  3.88452,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.name-prompt",
+                                           "bounds":  {
+                                                          "left":  250,
+                                                          "top":  569,
+                                                          "width":  105,
+                                                          "height":  17
+                                                      },
+                                           "pixelCount":  1785,
+                                           "mismatchPixels":  1555,
+                                           "mismatchRatio":  0.871148,
+                                           "meanAbsoluteChannelDelta":  4.639916,
+                                           "maxChannelDelta":  43
+                                       },
+                                       {
+                                           "objectId":  "role-root.username",
+                                           "bounds":  {
+                                                          "left":  399,
+                                                          "top":  537,
+                                                          "width":  142,
+                                                          "height":  31
+                                                      },
+                                           "pixelCount":  4402,
+                                           "mismatchPixels":  3894,
+                                           "mismatchRatio":  0.884598,
+                                           "meanAbsoluteChannelDelta":  4.225352,
+                                           "maxChannelDelta":  49
+                                       },
+                                       {
+                                           "objectId":  "role-root.owner-marker",
+                                           "bounds":  {
+                                                          "left":  68,
+                                                          "top":  40,
+                                                          "width":  85,
+                                                          "height":  84
+                                                      },
+                                           "pixelCount":  7140,
+                                           "mismatchPixels":  6957,
+                                           "mismatchRatio":  0.97437,
+                                           "meanAbsoluteChannelDelta":  4.178256,
+                                           "maxChannelDelta":  86
+                                       }
+                                   ]
+                   },
+                   {
+                       "stateId":  "two-player-p1-role1-selected-p2-role2-hover",
+                       "original":  "docs/tasks/evidence/TASK-SETTINGS-175I/original-two-player-p1-role1-selected-p2-role2-hover-940x590.png",
+                       "modern":  "docs/tasks/evidence/TASK-SLICE-187/modern-two-player-p1-role1-selected-p2-role2-hover-940x590.png",
+                       "sideBySide":  "docs/tasks/evidence/TASK-SLICE-187/side-by-side-two-player-p1-role1-selected-p2-role2-hover.png",
+                       "overlay":  "docs/tasks/evidence/TASK-SLICE-187/overlay-two-player-p1-role1-selected-p2-role2-hover.png",
+                       "fullStage":  {
+                                         "pixelCount":  554600,
+                                         "mismatchPixels":  471507,
+                                         "mismatchRatio":  0.850175,
+                                         "meanAbsoluteChannelDelta":  4.09754,
+                                         "maxChannelDelta":  255
+                                     },
+                       "objects":  [
+                                       {
+                                           "objectId":  "role-root",
+                                           "bounds":  {
+                                                          "left":  0,
+                                                          "top":  0,
+                                                          "width":  940,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  554600,
+                                           "mismatchPixels":  471507,
+                                           "mismatchRatio":  0.850175,
+                                           "meanAbsoluteChannelDelta":  4.09754,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn1",
+                                           "bounds":  {
+                                                          "left":  0,
+                                                          "top":  0,
+                                                          "width":  263,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  155170,
+                                           "mismatchPixels":  148021,
+                                           "mismatchRatio":  0.953928,
+                                           "meanAbsoluteChannelDelta":  6.136421,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn2",
+                                           "bounds":  {
+                                                          "left":  188,
+                                                          "top":  0,
+                                                          "width":  255,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  150450,
+                                           "mismatchPixels":  139193,
+                                           "mismatchRatio":  0.925178,
+                                           "meanAbsoluteChannelDelta":  3.89793,
+                                           "maxChannelDelta":  174
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn3",
+                                           "bounds":  {
+                                                          "left":  376,
+                                                          "top":  0,
+                                                          "width":  277,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  163430,
+                                           "mismatchPixels":  128854,
+                                           "mismatchRatio":  0.788435,
+                                           "meanAbsoluteChannelDelta":  2.515531,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn4",
+                                           "bounds":  {
+                                                          "left":  564,
+                                                          "top":  0,
+                                                          "width":  285,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  168150,
+                                           "mismatchPixels":  129295,
+                                           "mismatchRatio":  0.768927,
+                                           "meanAbsoluteChannelDelta":  2.987315,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.btn5",
+                                           "bounds":  {
+                                                          "left":  752,
+                                                          "top":  0,
+                                                          "width":  188,
+                                                          "height":  590
+                                                      },
+                                           "pixelCount":  110920,
+                                           "mismatchPixels":  86724,
+                                           "mismatchRatio":  0.781861,
+                                           "meanAbsoluteChannelDelta":  3.88452,
+                                           "maxChannelDelta":  255
+                                       },
+                                       {
+                                           "objectId":  "role-root.name-prompt",
+                                           "bounds":  {
+                                                          "left":  250,
+                                                          "top":  569,
+                                                          "width":  105,
+                                                          "height":  17
+                                                      },
+                                           "pixelCount":  1785,
+                                           "mismatchPixels":  1781,
+                                           "mismatchRatio":  0.997759,
+                                           "meanAbsoluteChannelDelta":  4.636415,
+                                           "maxChannelDelta":  61
+                                       },
+                                       {
+                                           "objectId":  "role-root.username",
+                                           "bounds":  {
+                                                          "left":  399,
+                                                          "top":  537,
+                                                          "width":  142,
+                                                          "height":  31
+                                                      },
+                                           "pixelCount":  4402,
+                                           "mismatchPixels":  3894,
+                                           "mismatchRatio":  0.884598,
+                                           "meanAbsoluteChannelDelta":  4.225352,
+                                           "maxChannelDelta":  49
+                                       }
+                                   ]
+                   }
+               ]
+}
