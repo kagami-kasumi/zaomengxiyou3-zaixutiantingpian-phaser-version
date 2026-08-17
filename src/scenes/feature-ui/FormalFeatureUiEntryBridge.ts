@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+// boundary: this bridge owns formal entry input, asset readiness, failure signals,
+// and host scene lifecycle; page drawing and feature business rules stay elsewhere.
 import {
   stageFeatureEntryButtonAssets,
 } from '../../assets/AssetManifest';
@@ -30,6 +32,11 @@ import {
   createSkillPageQaStorage,
   isSkillPageQaRequested,
 } from '../../systems/SkillPageQaFixtureSystem';
+import {
+  createFeatureUiFailureSignal,
+  FeatureUiFailureEvent,
+  type FeatureUiFailurePhase,
+} from '../../systems/FeatureUiFailureSystem';
 
 export const formalFeatureUiHost = createFeatureUiHostModel();
 export const P2_BACKPACK_KEY_CODE = 111;
@@ -135,26 +142,41 @@ export async function launchFormalFeatureUi(
   feedback?: BundleLoadFeedback,
 ): Promise<boolean> {
   const heroId = getPartyHeroId(config.party, owner);
-  if (heroId === undefined) return false;
-  try {
-    const allowLocalQa = import.meta.env.DEV || ['localhost', '127.0.0.1'].includes(window.location.hostname);
-    const qaOptions = page === 'backpack'
-      ? readEquipmentPageQaOptions(window.location.search, allowLocalQa)
-      : undefined;
-    const skillQa = page === 'skills'
-      && isSkillPageQaRequested(window.location.search, allowLocalQa);
-    featureUiStorageOverride = qaOptions
-      ? createEquipmentPageQaStorage(qaOptions)
-      : skillQa
-        ? createSkillPageQaStorage(config.party)
-        : undefined;
-    const storage = featureUiStorageOverride ?? getBrowserStorage();
-    await ensureSceneAssetBundle(scene, getFeatureUiAssetBundleId(page, heroId), feedback);
-    if (!await ensureFeatureUiPageAssets(scene, page, owner, storage)) return false;
-  } catch {
+  if (heroId === undefined) {
+    reportFormalFeatureUiFailure(scene, page, owner, 'owner', 'Feature UI owner has no active hero.');
     return false;
   }
-  if (!scene.scene.isActive(scene.scene.key)) return false;
+  const allowLocalQa = import.meta.env.DEV || ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  const qaOptions = page === 'backpack'
+    ? readEquipmentPageQaOptions(window.location.search, allowLocalQa)
+    : undefined;
+  const skillQa = page === 'skills'
+    && isSkillPageQaRequested(window.location.search, allowLocalQa);
+  featureUiStorageOverride = qaOptions
+    ? createEquipmentPageQaStorage(qaOptions)
+    : skillQa
+      ? createSkillPageQaStorage(config.party)
+      : undefined;
+  const storage = featureUiStorageOverride ?? getBrowserStorage();
+  try {
+    await ensureSceneAssetBundle(scene, getFeatureUiAssetBundleId(page, heroId), feedback);
+  } catch (error) {
+    reportFormalFeatureUiFailure(scene, page, owner, 'bundle', error);
+    return false;
+  }
+  try {
+    if (!await ensureFeatureUiPageAssets(scene, page, owner, storage)) {
+      reportFormalFeatureUiFailure(scene, page, owner, 'page-assets', 'Origin scene became inactive while page assets loaded.');
+      return false;
+    }
+  } catch (error) {
+    reportFormalFeatureUiFailure(scene, page, owner, 'page-assets', error);
+    return false;
+  }
+  if (!scene.scene.isActive(scene.scene.key)) {
+    reportFormalFeatureUiFailure(scene, page, owner, 'origin', 'Origin scene became inactive before the page opened.');
+    return false;
+  }
   const result = openFeatureUi(formalFeatureUiHost, {
     page,
     owner,
@@ -171,12 +193,31 @@ export async function launchFormalFeatureUi(
       })),
     } : {}),
   });
-  if (result.status !== 'opened') return false;
+  if (result.status !== 'opened') {
+    reportFormalFeatureUiFailure(scene, page, owner, 'host', `Feature UI host rejected the page: ${result.status}.`);
+    return false;
+  }
 
   scene.scene.launch('FeatureUiScene', result.session);
   scene.scene.bringToTop('FeatureUiScene');
   scene.scene.pause(scene.scene.key);
   return true;
+}
+
+export function reportFormalFeatureUiFailure(
+  scene: Phaser.Scene,
+  page: FeatureUiPage,
+  owner: FeatureUiOwner,
+  phase: FeatureUiFailurePhase,
+  error?: unknown,
+): void {
+  scene.events.emit(FeatureUiFailureEvent, createFeatureUiFailureSignal({
+    phase,
+    page,
+    owner,
+    originSceneKey: scene.scene.key,
+    error,
+  }));
 }
 
 function getBrowserStorage(): SaveStorage | undefined {

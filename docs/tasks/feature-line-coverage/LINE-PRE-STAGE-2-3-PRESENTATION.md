@@ -22,7 +22,7 @@
 | --- | --- | --- | --- |
 | 装备悬停数值 | 189 已冻结 12 状态/32 对象 verified 真值；190A/190B1..B4 已闭合正式背包和工坊四页全部原版装备消费者 | 无；商城 49 项与权威装备目录零交集，时装原版禁用 hover 负合同保持 | 190A 正式背包；190B1 强化、B2 合成、B3 分解、B4 打造；P1/P2、拒绝/成功/移出/返回重开和商城负门禁均通过 |
 | 背包分页一致性 | 正式背包与炼丹炉共享 `InventoryGridView`、同一 inventory owner 和两份 verified 页面真值 | 无；190C 已移除工坊静态 `/5`、背景按钮和透明分页命中分叉 | 两页共同消费 `createInventoryPagerObjects`、原生三态按钮与完整 `n/5`；各自 truth 几何、第一页/第二页和 940×590 运行对照通过 |
-| 宠物页/入口 | 175A 的 74 对象/16 状态真值、180 页面投影、P1/P2 业务/存档；191 已证 P1/P2 正式 Runtime 的入口、bundle、scene/depth 和 932 绘制链可见 | QA 正式 Runtime 已通过；仍需非 QA 冷启动存档→地图→五关旅程和 bundle/绘制失败可观察性，不能让 `catch` 静默 | 191 分层矩阵；192A 正式冷启动门禁；P1/P2/五关/重载运行对照 |
+| 宠物页/入口 | 175A 的 74 对象/16 状态真值、180 页面投影、191 正式可见性矩阵；192A 已固化非 QA 当前 schema 双人冷启动→地图→五关 Runtime→P1/P2 932→返回/重载旅程 | 无；bundle、page-assets、render 失败均发出统一 `feature-ui-failed` 结构化信号 | `formal-pet-journey-tests.ts`；`TASK-SLICE-192A/runtime-audit.md`；P1/P2/五关/重载与 940×590 零 console |
 | 宠物战斗 UI | 宠物 owner、出战状态和技能 runtime 已有；191 新增 character 662 的 10 对象/10 状态 verified 真值 | 现代 HUD 仅有 `petAvailable` 文字，缺原 662 shell/head/level/HP/MP 和出战/休息生命周期消费 | 191 `task-settings-191.pet-combat-hud`；192B 只读消费同一 pet runtime owner |
 | 宠物真动画 | 九物种技能行为与部分占位 projectile 已有 | 物种/形态/动作/技能对象的恢复源、时间轴、注册点和运行消费未分区，不得一次全量接入 | 193 冻结 corpus/批次；随后每资源族一个证据 task + 一个实现 task；194 最终跨族校准 |
 | 五角色动作流畅度 | 069/158 视觉索引/桥、163/164/173/174 几何与行为证据 | 用户观察到角色间卡顿与流畅度不一；根因可能在资源完整性、帧时序/持帧、clock、动作转移、加载或投影 | 195 跨角色可测对照与根因分类；只为受影响角色生成单角色修复 task；196 五角色统一校准 |
@@ -34,7 +34,7 @@
 1. `TASK-SETTINGS-189`：Done；已闭合装备 hover 证据和消费者矩阵。
 2. `TASK-SLICE-190A`、`TASK-SLICE-190B1..B4` 与 Split 父任务 `TASK-SLICE-190B`：Done；正式背包、工坊四页与商城负合同已闭合，VS-066 完成。
 3. `TASK-SLICE-190C`：Done；用户插入的背包分页视觉回归已关闭，两页共用原生三态分页投影与完整 `n/5`，未提前执行完整共享 UI 组件线。
-4. `TASK-SETTINGS-191`：Done；页面入口链在 P1/P2 可见，精确缺口为独立战斗 character 662 未消费。`TASK-SLICE-192A -> TASK-SLICE-192B`：先固化非 QA 冷启动页面旅程/失败信号，再投影 662 战斗 HUD。
+4. `TASK-SETTINGS-191`、`TASK-SLICE-192A`：Done；页面入口链在 P1/P2 可见，非 QA 五关冷启动/返回/重载旅程与失败信号已固化。唯一 Ready `TASK-SLICE-192B` 只投影独立战斗 character 662 HUD。
 5. `TASK-SETTINGS-193`：只盘点宠物恢复源 corpus 并生成分族 task。完成时必须把生成的“每资源族证据 task -> 对应实现 task”串行插入 194 之前。
 6. `TASK-SLICE-194`：所有宠物资源族子 task 完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
 7. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。

@@ -11174,3 +11174,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-192A`：固化非 QA 冷启动正式宠物页面旅程和 bundle/绘制失败信号；页面继续消费 175A verified 真值，不做可见重写。
+
+### TASK-SLICE-192A
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-192B`）。
+- 新增独立 `formal-pet-journey-tests.ts`：当前 schema 双人冷启动槽重启后，从地图 route catalog 覆盖五个正式 Runtime；逐 Runtime、逐 P1/P2 回归宠物入口、932 页面、两页/selected、出战/休息、放生确认取消、关闭/重开与再次重载。
+- 新增 `FeatureUiFailureSystem.ts` 的稳定 `feature-ui-failed` payload；`FormalFeatureUiEntryBridge` 分别报告 owner、bundle、page-assets、origin、host 失败，`FeatureUiScene` 报告 page-assets/render 失败。`FeatureUiPageAssetBridge` 不再以静默 `false` 吞掉加载异常。
+- 932 页面继续直接消费 175A verified 真值；宠物业务、owner、数值、技能、存档 schema、页面坐标/皮肤和可见显示列表均未改，character 662 战斗 HUD 与宠物动画仍严格留给 192B/193。
+- 940×590 非 QA 双人槽从启动页→地图→Stage 1-1 验证 P1/P2 pointer、skill hover、休息/出战、放生确认取消、关闭返回和整页重载后重开，console warning/error 为 0；记录见 `docs/tasks/evidence/TASK-SLICE-192A/runtime-audit.md`。
+- PG-004/PG-011 集中审计通过且均不归档；其余活跃 PG 经语义复核不适用。
+
+验证：
+- `npm run test:formal-pet-journey`、`npm run test:formal-pets`、`npm run test:pet-page-truth`、`npm run test:stage-feature-entry`、`npm run test:feature-ui-host`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-192B`：直接消费 191 verified character 662 真值，在共享战斗 HUD 只读投影 P1/P2 当前出战宠物状态；不进入宠物本体或技能动画恢复源。

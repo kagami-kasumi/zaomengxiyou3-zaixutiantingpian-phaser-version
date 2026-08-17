@@ -893,6 +893,12 @@ SVG 逐项一致；运行时 5 行 1224 列表、`PetHeadSprite`、8 个 `skillI
 
 新增 `task-settings-191.pet-combat-hud` verified 真值：10 个序列化对象、10 状态、每个可见态 8 对象，`unresolved=[]`；P1/P2、无宠物、满值、受击、0 HP 与休息状态、原版基准和分帧公式均已冻结。详细路由矩阵、显示列表、差异和 192A/192B 边界见 `evidence/TASK-SETTINGS-191-pet-ui-visibility.md`。宠物实体/技能真动画不属于 662，继续由 193 按恢复源资源族分区。
 
+## TASK-SLICE-192A：非 QA 正式页面旅程与失败信号
+
+当前 schema 双人冷启动槽从启动页进入地图后，五个已实现关卡 Runtime 共用的入口均通过 P1/P2 `pets` route 打开 932 页面；自动旅程覆盖分页、selected、出战/休息、放生确认取消、关闭/重开和存档重载。940×590 正式非 QA 运行另验证 P1/P2 pointer、skill hover、返回与整页重载，console warning/error 为 0。页面继续直接消费 `task-settings-175a.pet-page`，无可见对象、坐标、皮肤或现代例外变化。
+
+入口失败现在统一产生 `feature-ui-failed`：payload 包含 `phase = owner | bundle | page-assets | origin | host | render`、page、owner、originSceneKey 和稳定 message。`FeatureUiPageAssetBridge` 不再吞掉加载异常，`FeatureUiScene` 在 932 投影未创建或渲染抛错时回报 origin；该信号只增加可诊断性，不改变 pet owner、事务、存档或页面显示列表。
+
 ## 最小现代模型建议
 
 **注意**：AS3 数值基数 `hy.first = 2×atk`、`sxhz.first = 4×atk`、`hsqj.first = 6×atk` 等来自 `PetInfo.getPetHarmObj()`，均已确认。凤凰 `phoenix1..4`、兔 `rabbit1..4`、鼠 `mouse1..4` 的专属技能链见下方新增章节。

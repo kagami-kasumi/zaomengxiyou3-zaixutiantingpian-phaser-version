@@ -30,6 +30,7 @@ import {
   P2_BACKPACK_KEY_CODE,
   P2_SKILLS_KEY_CODE,
   getFormalFeatureUiStorageOverride,
+  reportFormalFeatureUiFailure,
 } from './feature-ui/FormalFeatureUiEntryBridge';
 import { createFormalSkillPageView } from './feature-ui/FormalSkillPageView';
 import { syncFormalSkillRuntime } from './feature-ui/FormalSkillRuntimeBridge';
@@ -95,8 +96,17 @@ export class FeatureUiScene extends Phaser.Scene {
       return;
     }
     this.storage = getFormalFeatureUiStorageOverride() ?? getBrowserStorage();
-    assertVerifiedStageFeatureHostTruth();
-    this.renderSession();
+    try {
+      assertVerifiedStageFeatureHostTruth();
+      this.renderSession();
+      if (this.session.page === 'pets' && !this.petLayer) {
+        throw new Error('Formal pet page did not create its verified 932 projection.');
+      }
+    } catch (error) {
+      this.reportFailure('render', error);
+      this.scene.stop();
+      return;
+    }
 
     if (this.session.originKind === 'combat') {
       for (const binding of PageKeys.filter((binding) => binding.page === this.session?.page)) {
@@ -115,7 +125,13 @@ export class FeatureUiScene extends Phaser.Scene {
     ) {
       return;
     }
-    if (!await ensureFeatureUiPageAssets(this, page, owner, this.storage)) {
+    try {
+      if (!await ensureFeatureUiPageAssets(this, page, owner, this.storage)) {
+        this.reportFailure('page-assets', 'Feature UI scene became inactive while owner assets loaded.');
+        return;
+      }
+    } catch (error) {
+      this.reportFailure('page-assets', error);
       return;
     }
     const session = switchFeatureUiOwner(formalFeatureUiHost, owner);
@@ -124,6 +140,14 @@ export class FeatureUiScene extends Phaser.Scene {
     }
     this.session = session;
     this.renderSession();
+  }
+
+  private reportFailure(phase: 'page-assets' | 'render', error: unknown): void {
+    if (!this.session) return;
+    const origin = this.scene.get(this.session.originSceneKey);
+    if (origin) {
+      reportFormalFeatureUiFailure(origin, this.session.page, this.session.owner, phase, error);
+    }
   }
 
   private renderSession(): void {

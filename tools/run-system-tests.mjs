@@ -55,6 +55,7 @@ const bundledTests = requestedTests.length > 0
       'inventory-dynamic-ui-resource-tests',
       'formal-skill-tests',
       'formal-pet-tests',
+      'formal-pet-journey-tests',
       'formal-workshop-host-tests',
       'formal-workshop-inventory-grid-tests',
       'formal-workshop-native-left-page-tests',
