@@ -2,6 +2,7 @@ import type { PlayerSlot } from './InputSystem';
 import { ProgressionTuning } from './ProgressionSystem';
 import type { HeroSkillModel } from './HeroSkillSystem';
 import type { HeroId } from './HeroNormalAttackSystem';
+import type { PetState } from './PetTypes';
 import { getStage1EnemyConfig, type Stage1CombatEnemy, type Stage1CombatPlayer } from './Stage1CombatSystem';
 
 export type CombatHudSkillBinding = Readonly<{
@@ -24,7 +25,21 @@ export type CombatHudPlayerSource = Readonly<{
   skillBindings: readonly (CombatHudSkillBinding | null)[];
   warriorEnergy?: number;
   magicWeaponAvailable?: boolean;
-  petAvailable?: boolean;
+  pet?: CombatHudPetSnapshot;
+}>;
+
+export type CombatHudPetSnapshot = Readonly<{
+  id: string;
+  nativeHeadName: string;
+  level: number;
+  hp: number;
+  maxHp: number;
+  hpText: string;
+  hpFrame: number;
+  mp: number;
+  maxMp: number;
+  mpText: string;
+  mpFrame: number;
 }>;
 
 export type CombatHudSkillSlot = Readonly<{
@@ -51,7 +66,7 @@ export type CombatHudPlayerSnapshot = Readonly<{
   warriorEnergy?: number;
   specialReady: boolean;
   magicWeaponAvailable: boolean;
-  petAvailable: boolean;
+  pet?: CombatHudPetSnapshot;
 }>;
 
 export type CombatHudEnemySnapshot = Readonly<{
@@ -111,12 +126,30 @@ export function createCombatHudPlayerSnapshot(
     warriorEnergy: source.warriorEnergy,
     specialReady: source.warriorEnergy !== undefined && source.warriorEnergy >= 100,
     magicWeaponAvailable: source.magicWeaponAvailable ?? false,
-    petAvailable: source.petAvailable ?? false,
+    pet: source.pet,
+  };
+}
+
+export function createCombatHudPetSnapshot(pet: PetState | undefined): CombatHudPetSnapshot | undefined {
+  if (!pet || !pet.isActive || pet.lifetime <= 0) return undefined;
+  return {
+    id: pet.id,
+    nativeHeadName: `${pet.species}${pet.form}`,
+    level: Math.max(1, Math.floor(pet.level)),
+    hp: finiteNonNegative(pet.hp),
+    maxHp: finiteNonNegative(pet.maxHp),
+    hpText: `${integerText(pet.hp)}/${integerText(pet.maxHp)}`,
+    hpFrame: petBarFrame(pet.hp, pet.maxHp),
+    mp: finiteNonNegative(pet.mp),
+    maxMp: finiteNonNegative(pet.maxMp),
+    mpText: `${integerText(pet.mp)}/${integerText(pet.maxMp)}`,
+    mpFrame: petBarFrame(pet.mp, pet.maxMp),
   };
 }
 
 export function createStage1CombatPlayerHudSnapshot(
   player: Stage1CombatPlayer,
+  pet?: CombatHudPetSnapshot,
 ): CombatHudPlayerSnapshot {
   return createCombatHudPlayerSnapshot({
     slot: player.slot,
@@ -131,6 +164,7 @@ export function createStage1CombatPlayerHudSnapshot(
     isMaxLevel: player.progression.level >= ProgressionTuning.maxLevel,
     skillBindings: createCombatHudSkillBindings(player.skill),
     warriorEnergy: player.warriorEnergy,
+    pet,
   });
 }
 
@@ -220,6 +254,14 @@ function safeRatio(current: number, maximum: number): number {
 
 function integerText(value: number): string {
   return String(Number.isFinite(value) ? Math.max(0, Math.round(value)) : 0);
+}
+
+function finiteNonNegative(value: number): number {
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
+
+function petBarFrame(current: number, maximum: number): number {
+  return Math.max(1, 25 - Math.round(25 * safeRatio(current, maximum)));
 }
 
 function approachLinear(current: number, target: number, progress: number): number {

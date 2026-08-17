@@ -233,6 +233,12 @@ export const CombatHudAssetKeys = {
   bossBlood: 'combat-hud.boss-blood',
 } as const;
 
+export const PetCombatHudAssetKeys = {
+  shell: 'combat-hud.pet.shell',
+  hpFramePrefix: 'combat-hud.pet.hp',
+  mpFramePrefix: 'combat-hud.pet.mp',
+} as const;
+
 export const StageFeatureEntryAssetKeys = {
   settings: 'stage-feature-entry.settings',
   backpack: 'stage-feature-entry.backpack',
@@ -686,6 +692,34 @@ export const combatHudAssets = {
     sourceCharacterId: 110,
   },
 } as const satisfies Record<string, ExtractedImageAssetDefinition>;
+
+const petCombatHudBar = (
+  keyPrefix: string,
+  directory: 'hp' | 'mp',
+  sourceCharacterId: 610 | 614,
+): FrameSequenceAssetDefinition => ({
+  key: keyPrefix,
+  frameKeys: Array.from({ length: 25 }, (_, index) => `${keyPrefix}.${index + 1}`),
+  framePaths: numberedFramePaths(`/assets/ui/combat-hud/pet/${directory}`, 25),
+  status: 'ready',
+  source: 'extracted-flash',
+  sourcePackage: 'assets/pet1.swf',
+  sourceSymbol: `character ${sourceCharacterId} frames 1..25`,
+});
+
+export const petCombatHudAssets = {
+  shell: {
+    key: PetCombatHudAssetKeys.shell,
+    path: '/assets/ui/combat-hud/pet/shell.png',
+    status: 'ready',
+    source: 'extracted-flash',
+    sourcePackage: 'assets/pet1.swf',
+    sourceSymbol: 'export.pet.ShowPetInfo character 662 / shell character 605',
+    sourceCharacterId: 605,
+  },
+  hp: petCombatHudBar(PetCombatHudAssetKeys.hpFramePrefix, 'hp', 610),
+  mp: petCombatHudBar(PetCombatHudAssetKeys.mpFramePrefix, 'mp', 614),
+} as const;
 
 const stageFeatureEntryButton = (
   key: string,

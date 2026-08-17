@@ -1,15 +1,21 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { combatHudAssets } from '../src/assets/AssetManifest';
+import {
+  combatHudAssets,
+  petCombatHudAssets,
+  petNativeHeadAssets,
+} from '../src/assets/AssetManifest';
 import {
   clearCombatHudBossRuntime,
   createCombatHudBossRuntime,
+  createCombatHudPetSnapshot,
   createCombatHudPlayerSnapshot,
   createStage1CombatEnemyHudSnapshot,
   createStage1CombatPlayerHudSnapshot,
   updateCombatHudBossRuntime,
 } from '../src/systems/Stage1CombatHudSystem';
+import { createSeedPetRoster, getActivePet, restSelectedPet } from '../src/systems/PetSystem';
 import {
   createStage1CombatEnemy,
   createStage1CombatPlayer,
@@ -34,6 +40,8 @@ for (const asset of Object.values(combatHudAssets)) {
 for (const relativePath of [
   'src/scenes/stage12/Stage12GameplayBridge.ts',
   'src/scenes/stage13/Stage13GameplayBridge.ts',
+  'src/scenes/stage21/Stage21GameplayBridge.ts',
+  'src/scenes/stage22/Stage22GameplayBridge.ts',
 ]) {
   const source = readFileSync(path.join(repoRoot, relativePath), 'utf8');
   assert.match(source, /createStage1CombatHudBridge\(/);
@@ -49,6 +57,52 @@ assert.match(stage11Source, /createTestSceneStage11Runtime\(this, this\.formalPa
 assert.match(stage11RuntimeAdapterSource, /createTestSceneStage1HudBridge\(scene\)/);
 assert.match(stage11RuntimeAdapterSource, /stage1CombatHud\?\.update\(deltaMs\)/);
 assert.match(stage11RuntimeAdapterSource, /stage1CombatHud\?\.destroy\(\)/);
+
+for (const asset of [petCombatHudAssets.shell, ...Object.values(petNativeHeadAssets)]) {
+  const file = readFileSync(path.join(repoRoot, 'public', asset.path));
+  assert.deepEqual([...file.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+}
+for (const sequence of [petCombatHudAssets.hp, petCombatHudAssets.mp]) {
+  assert.equal(sequence.frameKeys.length, 25);
+  assert.equal(sequence.framePaths.length, 25);
+  for (const framePath of sequence.framePaths) {
+    const file = readFileSync(path.join(repoRoot, 'public', framePath));
+    assert.deepEqual([...file.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  }
+}
+
+{
+  const roster = createSeedPetRoster();
+  const active = getActivePet(roster);
+  assert.ok(active);
+  let snapshot = createCombatHudPetSnapshot(active);
+  assert.ok(snapshot);
+  assert.equal(snapshot.nativeHeadName, 'monkey1');
+  assert.equal(snapshot.hpFrame, 1);
+  assert.equal(snapshot.mpFrame, 1);
+  active.hp = active.maxHp / 2;
+  active.mp = 0;
+  snapshot = createCombatHudPetSnapshot(active);
+  assert.equal(snapshot?.hpFrame, 12);
+  assert.equal(snapshot?.mpFrame, 25);
+  active.hp = 0;
+  assert.equal(createCombatHudPetSnapshot(active)?.hpFrame, 25, 'zero HP remains visible while lifetime is positive');
+  restSelectedPet(roster);
+  assert.equal(createCombatHudPetSnapshot(getActivePet(roster)), undefined);
+}
+
+const heroPartyRuntimeSource = readFileSync(
+  path.join(repoRoot, 'src/scenes/HeroPartyRuntimeBridge.ts'),
+  'utf8',
+);
+const petHudViewSource = readFileSync(
+  path.join(repoRoot, 'src/scenes/stage1/Stage1PetCombatHudView.ts'),
+  'utf8',
+);
+assert.match(heroPartyRuntimeSource, /FormalPetsUpdatedEvent/);
+assert.match(heroPartyRuntimeSource, /createCombatHudPetSnapshot\(roster \? getActivePet\(roster\) : undefined\)/);
+assert.match(petHudViewSource, /task-settings-191\.pet-combat-hud/);
+assert.doesNotMatch(petHudViewSource, /fillRect|Graphics/);
 
 {
   const snapshot = createCombatHudPlayerSnapshot({

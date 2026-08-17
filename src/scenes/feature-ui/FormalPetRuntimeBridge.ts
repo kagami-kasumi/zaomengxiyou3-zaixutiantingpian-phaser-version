@@ -18,6 +18,11 @@ type PetRuntimeScene = Phaser.Scene & {
 
 export const FormalPetsUpdatedEvent = 'feature-ui-pets-updated';
 
+export type FormalPetsUpdatedPayload = Readonly<{
+  owner: 'p1' | 'p2';
+  roster: PetRoster;
+}>;
+
 export function syncFormalPetRuntime(origin: Phaser.Scene, model: FormalPetPageModel): void {
   const roster = getFormalPetPlayer(model).petRoster;
   const runtime = origin as PetRuntimeScene;
@@ -32,5 +37,8 @@ export function syncFormalPetRuntime(origin: Phaser.Scene, model: FormalPetPageM
     runtime.p2PetView?.root.destroy(true);
     runtime.p2PetView = undefined;
   }
-  origin.events.emit(FormalPetsUpdatedEvent, { owner: model.owner, roster });
+  origin.events.emit(FormalPetsUpdatedEvent, {
+    owner: model.owner,
+    roster,
+  } satisfies FormalPetsUpdatedPayload);
 }

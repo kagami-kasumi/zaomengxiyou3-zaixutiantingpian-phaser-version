@@ -2,6 +2,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
+  petNativeHeadAssets,
+} from '../src/assets/AssetManifest';
+import {
   runtimeAssetBundleOwners,
   sceneAssetBundles,
   sceneBundleBySceneKey,
@@ -28,6 +31,7 @@ const requiredBundles = [
   'feature-ui-skills-common',
   'feature-ui-skills-hero-1',
   'feature-ui-skills-hero-5',
+  'pet-native-heads',
   'combat-hero-1',
   'combat-hero-5',
   'combat-hero-1-skills',
@@ -94,6 +98,8 @@ assert.equal(requireRuntimeAssetOwner('inventory-item.wpqhs1'), 'inventory-items
 assert.ok(sceneAssetBundles['feature-ui-skills-common'].assets.length < 80);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-1'].assets.length, 30);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-5'].assets.length, 30);
+assert.equal(sceneAssetBundles['pet-native-heads'].assets.length, Object.keys(petNativeHeadAssets).length);
+assert.deepEqual(sceneAssetBundles['combat-common'].dependencies, ['pet-native-heads']);
 for (const characterId of [597, 608]) {
   for (let frame = 1; frame <= 5; frame += 1) {
     assert.ok(
@@ -121,6 +127,8 @@ assert.equal(requireRuntimeAssetOwner('stage.stage1-1.transfer-door.frame-01'), 
 assert.equal(requireRuntimeAssetOwner('stage.stage1-3.transfer-door'), 'stage-13');
 assert.equal(requireRuntimeAssetOwner('monster.monster6.atlas'), 'monster-family-6-9-10-19');
 assert.equal(requireRuntimeAssetOwner('monster.monster16.atlas'), 'monster-16');
+assert.equal(requireRuntimeAssetOwner('combat-hud.pet.shell'), 'combat-common');
+assert.equal(requireRuntimeAssetOwner('full-ui.pet-native.head-monkey1'), 'pet-native-heads');
 assert.throws(
   () => requireRuntimeAssetOwner('ready-but-unowned'),
   /has no bundle owner/,
@@ -152,7 +160,7 @@ assert.throws(
     },
   };
   await coordinator.ensure('stage-12', adapter);
-  assert.deepEqual(calls, ['combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12']);
+  assert.deepEqual(calls, ['pet-native-heads', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12']);
   await coordinator.ensure('combat-hero-2', adapter);
   assert.equal(calls.at(-1), 'combat-hero-2');
   assert.equal(loadedKeys.has('hero-animation.hero2.body'), true);
@@ -164,7 +172,7 @@ assert.throws(
   assert.deepEqual(
     calls,
     [
-      'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12',
+      'pet-native-heads', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12',
       'combat-hero-2', 'combat-hero-2-skills',
     ],
   );

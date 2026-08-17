@@ -7,6 +7,7 @@ import {
   immortalityUiAssets,
   levelResultAssets,
   magicWeaponNativeUiAssets,
+  petCombatHudAssets,
   getPetNativeProgressAsset,
   getPetNativeQualityAsset,
   petNativeHeadAssets,
@@ -74,6 +75,7 @@ export type AssetBundleId =
   | 'feature-ui-pets'
   | 'feature-ui-workshop'
   | 'feature-ui-magic-weapon'
+  | 'pet-native-heads'
   | 'combat-common'
   | 'combat-hero-1'
   | 'combat-hero-2'
@@ -298,6 +300,9 @@ const combatCommonAssets = [
   ...Object.values(levelResultAssets).map(image),
   svg(combatHudAssets.roleInfo),
   svg(combatHudAssets.bossBlood),
+  image(petCombatHudAssets.shell),
+  ...images(petCombatHudAssets.hp),
+  ...images(petCombatHudAssets.mp),
   ...Object.values(stageFeatureEntryButtonAssets).flatMap((states) =>
     Object.values(states).map(image)),
   image(stageSettingsAssets.root),
@@ -434,19 +439,22 @@ export const sceneAssetBundles = {
     assets: getSkillNativeHeroUiAssets(5).map(svg),
   },
   'feature-ui-pets': {
-    dependencies: ['feature-ui'],
+    dependencies: ['feature-ui', 'pet-native-heads'],
     assets: [
       svg(fullFeatureUiAssets.petPage),
       svg(petNativeUiAssets.row),
       svg(petNativeUiAssets.tooltip),
       svg(petNativeUiAssets.releaseConfirm),
       ...Object.values(petNativeUiAssets.buttons).flatMap((states) => Object.values(states).map(image)),
-      ...Object.values(petNativeHeadAssets).map(image),
       ...Object.values(petNativeSkillAssets).map(image),
       ...[852, 858, 863, 868, 873, 878].flatMap((characterId) =>
         Array.from({ length: 20 }, (_, index) => svg(getPetNativeProgressAsset(characterId, index + 1)))),
       ...[1, 2, 3].map((frame) => svg(getPetNativeQualityAsset(frame))),
     ],
+  },
+  'pet-native-heads': {
+    dependencies: [],
+    assets: Object.values(petNativeHeadAssets).map(image),
   },
   'feature-ui-workshop': {
     dependencies: ['feature-ui-backpack'],
@@ -462,7 +470,7 @@ export const sceneAssetBundles = {
     ],
   },
   'combat-common': {
-    dependencies: [],
+    dependencies: ['pet-native-heads'],
     assets: combatCommonAssets,
   },
   'combat-hero-1': {

@@ -899,6 +899,12 @@ SVG 逐项一致；运行时 5 行 1224 列表、`PetHeadSprite`、8 个 `skillI
 
 入口失败现在统一产生 `feature-ui-failed`：payload 包含 `phase = owner | bundle | page-assets | origin | host | render`、page、owner、originSceneKey 和稳定 message。`FeatureUiPageAssetBridge` 不再吞掉加载异常，`FeatureUiScene` 在 932 投影未创建或渲染抛错时回报 origin；该信号只增加可诊断性，不改变 pet owner、事务、存档或页面显示列表。
 
+## TASK-SLICE-192B：战斗 character 662 原生投影
+
+现代共享 combat HUD 已直接消费 191 verified 真值。`CombatHudPetSnapshot` 从当前 P1/P2 `PetRoster` 派生头像 key、等级、HP/MP 文本和原 25 帧公式；`HeroPartyRuntimeBridge` 监听 `FormalPetsUpdatedEvent` 只替换同一 owner roster 引用，不复制宠物状态，也不新增第二宠物 runtime。休息/放生使 `getActivePet()` 为空并移除全部 662 对象；HP=0、lifetime 仍正时保持 HUD 并显示 frame 25。
+
+可见层复用恢复源 605 shell、610/614 全帧和 175A 同源头像，按 P1 `(0,94)`、P2 `(920,94), scaleX=-1` 投影，三个 P2 字段再反转。原版 662 不含技能 child，因此技能激活不新增可见层；宠物本体与技能动画仍严格留给 193 的恢复源 corpus/资源族任务。正式双人出战、P2 休息/重建和零 console 证据见 `docs/tasks/evidence/TASK-SLICE-192B/visual-audit.md`。
+
 ## 最小现代模型建议
 
 **注意**：AS3 数值基数 `hy.first = 2×atk`、`sxhz.first = 4×atk`、`hsqj.first = 6×atk` 等来自 `PetInfo.getPetHarmObj()`，均已确认。凤凰 `phoenix1..4`、兔 `rabbit1..4`、鼠 `mouse1..4` 的专属技能链见下方新增章节。

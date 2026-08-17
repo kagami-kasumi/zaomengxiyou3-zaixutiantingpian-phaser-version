@@ -174,3 +174,9 @@ isBoss
 旧“`ShowPetInfo` 完整皮肤未定位”的未知已清零。恢复 `assets/pet1.swf` character 662 `export.pet.ShowPetInfo` 是 `RoleInfo` 动态添加的独立原版战斗 HUD 根，不是 character 573 宠物页按钮，也不是 932 宠物页面。其 7 个直接 child 为 605 shell、610/614 两条 25 帧 HP/MP 时间轴、657 当前宠物头像和 659/660/661 等级/MP/HP TextField；根在 RoleInfo 局部 `(0,94)`，P2 随 `(920,0), scaleX=-1` 镜像并由 `flipHorizontalTxt(2)` 保持文字可读。
 
 机器真值 `task-settings-191.pet-combat-hud` 已冻结 P1/P2 的无宠物、满值、受击、0 HP 与休息共 10 状态，10 个序列化对象、每个可见态 8 对象、`unresolved=[]`。现代正式 HUD 当前只有 `petAvailable` 文本摘要，没有 pet snapshot、character 662、HP/MP 或生命周期消费，因此用户反证命中真值消费层。192B 必须直接恢复该 HUD；未经批准不得继续用“宠物”文字、现代矩形或通用血条替代。详细证据见 `evidence/TASK-SETTINGS-191-pet-ui-visibility.md`。
+
+## TASK-SLICE-192B：character 662 现代投影
+
+`Stage1PetCombatHudView` 已直接投影 191 真值：恢复源 605 shell、610/614 各 25 帧、175A 同源宠物头像与 659/660/661 动态字段。`HeroPartyRuntimeBridge` 只读活动存档 P1/P2 roster，并消费宠物页既有更新事件；`Stage1CombatHudBridge` 删除 `petAvailable` 可见文字，不创建现代矩形、通用血条或技能子层。
+
+五个正式 Runtime 继续共用同一 HUD bridge。940×590 双人运行证明左右 owner 的 HP/MP 值独立、P2 父镜像与字段反转可读；P2 休息只移除自己的 662，重试及再次出战重建，P1 不受影响。半血/0 HP 帧公式由专项测试覆盖，完整叠图、对象差异和零 console 记录见 `docs/tasks/evidence/TASK-SLICE-192B/visual-audit.md`。

@@ -11190,3 +11190,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-192B`：直接消费 191 verified character 662 真值，在共享战斗 HUD 只读投影 P1/P2 当前出战宠物状态；不进入宠物本体或技能动画恢复源。
+
+### TASK-SLICE-192B
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-193`）。
+- 从恢复 `assets/pet1.swf` 选择性导出 605 shell 与 610/614 各 25 帧 HP/MP；复用 175A 已恢复的同源宠物头像，`Stage1PetCombatHudView` 按 191 verified `task-settings-191.pet-combat-hud` 的 P1/P2 矩阵、字段和状态投影。
+- `CombatHudPetSnapshot` 只从当前 `PetRoster` 派生等级、头像 key、HP/MP 文本和帧；`HeroPartyRuntimeBridge` 监听既有 `FormalPetsUpdatedEvent` 并替换同一 owner roster 引用，没有新增宠物数值、runtime 或存档 owner。
+- 删除 `petAvailable`/“宠物—”可见文字替代；原版 662 无技能 child，未新增现代技能层、矩形或通用血条。半血 frame 12、0 HP frame 25、休息移除、再次出战重建和 P1/P2 不串号均有专项回归。
+- 五个正式 Runtime 继续共享 `Stage1CombatHudBridge`；940×590 正式双人运行验证左右独立 MP、P2 镜像/字段反转、休息只移除 P2、重试与再次出战重建，console warning/error 为 0。叠图与对象差异见 `docs/tasks/evidence/TASK-SLICE-192B/visual-audit.md`。
+- 宠物本体、物种动作和技能对象真动画未进入本 task，继续由 193 盘点恢复源 corpus 并按资源族拆分。
+
+验证：
+- `npm run test:pet-combat-hud`、`npm run test:asset-bundles`、`npm run test:formal-pet-journey`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、LSP diagnostics、`git diff --check` 与 940×590 浏览器验收。
+
+推荐任务：
+- `TASK-SETTINGS-193`：只盘点九物种/形态/本体动作/技能对象的恢复源 corpus 和 owner，生成逐资源族证据/实现子 task；不在 193 中派生或接入动画。

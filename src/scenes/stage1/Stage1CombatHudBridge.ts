@@ -9,6 +9,11 @@ import {
   type CombatHudPlayerSnapshot,
 } from '../../systems/Stage1CombatHudSystem';
 import { setStageFeatureEntryOwnerAlive } from '../feature-ui/FormalFeatureUiEntryBridge';
+import {
+  createStage1PetCombatHudView,
+  updateStage1PetCombatHudView,
+  type Stage1PetCombatHudView,
+} from './Stage1PetCombatHudView';
 
 export type Stage1CombatHudBridge = Readonly<{
   update: (deltaMs: number) => void;
@@ -26,6 +31,7 @@ type PlayerHudView = Readonly<{
   levelText: Phaser.GameObjects.Text;
   skillTexts: readonly Phaser.GameObjects.Text[];
   shortcutText: Phaser.GameObjects.Text;
+  pet: Stage1PetCombatHudView;
 }>;
 
 type BossHudView = Readonly<{
@@ -108,8 +114,9 @@ function createPlayerHudView(scene: Phaser.Scene, slot: 'p1' | 'p2'): PlayerHudV
   const skillTexts = PLAYER_SKILL_X[slot].map((x) => hudText(scene, x, 520, '').setFontSize(11));
   const shortcutText = hudText(scene, slot === 'p1' ? 72 : 848, 472, '')
     .setFontSize(10).setOrigin(textOrigin, 0.5);
-  root.add([shell, portrait, gauges, hpText, mpText, expText, levelText, ...skillTexts, shortcutText]);
-  return { root, portrait, gauges, hpText, mpText, expText, levelText, skillTexts, shortcutText };
+  const pet = createStage1PetCombatHudView(scene, slot);
+  root.add([shell, portrait, gauges, hpText, mpText, expText, levelText, ...skillTexts, shortcutText, pet.root]);
+  return { root, portrait, gauges, hpText, mpText, expText, levelText, skillTexts, shortcutText, pet };
 }
 
 function updatePlayerHudView(view: PlayerHudView, player: CombatHudPlayerSnapshot): void {
@@ -140,8 +147,8 @@ function updatePlayerHudView(view: PlayerHudView, player: CombatHudPlayerSnapsho
     view.skillTexts[index]?.setText(`${slot.displayKey}\n${skill}`);
   });
   const magic = player.magicWeaponAvailable ? '法宝' : '法宝—';
-  const pet = player.petAvailable ? '宠物' : '宠物—';
-  view.shortcutText.setText(`${magic}  ${pet}${player.specialReady ? '  ★' : ''}`);
+  view.shortcutText.setText(`${magic}${player.specialReady ? '  ★' : ''}`);
+  updateStage1PetCombatHudView(view.pet, player.pet);
 }
 
 function syncBossViews(

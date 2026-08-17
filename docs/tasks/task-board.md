@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SLICE-192B` 是唯一 Ready 游戏 task；192A 已固化非 QA 冷启动→地图→五关 P1/P2 宠物页旅程，并让 bundle/page-assets/render 失败产生统一可断言信号。下一步只投影 191 已冻结的 character 662 战斗宠物 HUD，不进入宠物动画资源族。
+`TASK-SETTINGS-193` 是唯一 Ready 游戏 task；192B 已把 191 冻结的 character 662 原生战斗宠物 HUD 接入五关共享 Runtime，并闭合 P1/P2 出战/休息/死亡只读投影。下一步只盘点宠物恢复源 corpus 并按资源族生成证据/实现子 task，不在 193 中派生或接入动画。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SLICE-192B | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物战斗 UI | 直接投影当前 pet runtime owner 的原生战斗可见对象/HUD | M-042、M-049、M-052、VS-067 | P1/P2 独立宠物状态、技能/休息/死亡更新和逐状态差异 | TASK-SETTINGS-193 | [定义](task-definitions/TASK-SLICE-192B.md) |
-| TASK-SETTINGS-193 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物动画 corpus 分区 | 盘点九物种/形态/动作/技能对象的恢复源 owner，冻结分族证据与实现批次 | M-034、M-035、M-042、VS-067 | corpus 目录、缺失/占位矩阵、每资源族证据+ 实现子 task | 执行所有生成的宠物资源族子 task，然后 TASK-SLICE-194 | [定义](task-definitions/TASK-SETTINGS-193.md) |
+| TASK-SETTINGS-193 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物动画 corpus 分区 | 盘点九物种/形态/动作/技能对象的恢复源 owner，冻结分族证据与实现批次 | M-034、M-035、M-042、VS-067 | corpus 目录、缺失/占位矩阵、每资源族证据+ 实现子 task | 执行所有生成的宠物资源族子 task，然后 TASK-SLICE-194 | [定义](task-definitions/TASK-SETTINGS-193.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在所有 193 生成子 task 完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |
 | TASK-SETTINGS-195 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色动作完整性/流畅度审计 | 比较五角色原 SWF 与现代帧时序、持帧、转移、clock、解包/加载/投影完整性并确定根因 | M-018..M-025、M-035、M-047、VS-068 | 可重现跨角色差异矩阵、根因分类、每受影响角色修复子 task | 执行所有生成的单角色子 task，然后 TASK-SLICE-196 | [定义](task-definitions/TASK-SETTINGS-195.md) |
 | TASK-SLICE-196 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色统一校准 | 统一复验五角色 UI/本体/普攻/技能动作流畅度与正式 Runtime 转移 | M-018..M-025、M-047、M-049、VS-068 | 五角色同标准自动对账、940×590 动作对照与无未解释卡顿 | TASK-SETTINGS-197 | [定义](task-definitions/TASK-SLICE-196.md) |

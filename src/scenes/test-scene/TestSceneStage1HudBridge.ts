@@ -2,8 +2,10 @@ import type Phaser from 'phaser';
 import { ProgressionTuning } from '../../systems/ProgressionSystem';
 import {
   createCombatHudPlayerSnapshot,
+  createCombatHudPetSnapshot,
   createCombatHudSkillBindings,
 } from '../../systems/Stage1CombatHudSystem';
+import { getActivePet } from '../../systems/PetRosterSystem';
 import {
   createStage1CombatHudBridge,
   type Stage1CombatHudBridge,
@@ -25,7 +27,7 @@ export function createTestSceneStage1HudBridge(scene: Phaser.Scene & any): Stage
       isMaxLevel: player.progression.level >= ProgressionTuning.maxLevel,
       skillBindings: createCombatHudSkillBindings(player.skill),
       magicWeaponAvailable: true,
-      petAvailable: true,
+      pet: createCombatHudPetSnapshot(getActivePet(scene.playerPetRosters[player.slot])),
     })),
     () => {
       const boss = scene.bossArena?.boss;

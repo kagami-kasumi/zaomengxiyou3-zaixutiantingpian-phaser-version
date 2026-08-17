@@ -30,12 +30,21 @@ import {
   type HeroRuntimeSnapshot,
 } from '../systems/HeroPartyRuntimeSystem';
 import type { Stage1CombatEnemy } from '../systems/Stage1CombatSystem';
-import { createStage1CombatPlayerHudSnapshot } from '../systems/Stage1CombatHudSystem';
+import {
+  createCombatHudPetSnapshot,
+  createStage1CombatPlayerHudSnapshot,
+} from '../systems/Stage1CombatHudSystem';
+import { getActivePet } from '../systems/PetRosterSystem';
+import type { PetRoster } from '../systems/PetTypes';
 import {
   FormalSkillsUpdatedEvent,
   readFormalSkillRuntime,
   type FormalSkillsUpdatedPayload,
 } from './feature-ui/FormalSkillRuntimeBridge';
+import {
+  FormalPetsUpdatedEvent,
+  type FormalPetsUpdatedPayload,
+} from './feature-ui/FormalPetRuntimeBridge';
 
 export type HeroPartyViewSnapshot = HeroRuntimeSnapshot & Readonly<{
   view: Phaser.GameObjects.Image;
@@ -87,6 +96,10 @@ export function createHeroPartyRuntime(
   const restoredState = mayRestoreActiveSave
     ? readFormalSkillRuntime(getBrowserStorage())
     : undefined;
+  const petRosters: Partial<Record<'p1' | 'p2', PetRoster>> = {
+    p1: restoredState?.player1.petRoster,
+    p2: restoredState?.player2.petRoster,
+  };
   const model = createHeroPartyRuntimeModel(views.map((view, index) => ({
     slot: index === 0 ? 'p1' : 'p2',
     heroId: view.getData('heroId'),
@@ -125,7 +138,11 @@ export function createHeroPartyRuntime(
   const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
     setHeroPartySkillLoadout(model, payload.owner, payload.skillLoadout);
   };
+  const syncPets = (payload: FormalPetsUpdatedPayload) => {
+    petRosters[payload.owner] = payload.roster;
+  };
   scene.events.on(FormalSkillsUpdatedEvent, syncSkills);
+  scene.events.on(FormalPetsUpdatedEvent, syncPets);
 
   const snapshots = (): readonly HeroPartyViewSnapshot[] => snapshotHeroParty(model).map((snapshot, index) => ({
     ...snapshot,
@@ -203,8 +220,13 @@ export function createHeroPartyRuntime(
       });
     },
     snapshots,
-    hudSnapshots: () => model.members.map((member) =>
-      createStage1CombatPlayerHudSnapshot(member.combat)),
+    hudSnapshots: () => model.members.map((member) => {
+      const roster = petRosters[member.combat.slot];
+      return createStage1CombatPlayerHudSnapshot(
+        member.combat,
+        createCombatHudPetSnapshot(roster ? getActivePet(roster) : undefined),
+      );
+    }),
     rewardPlayers: () => model.members.map((member, index) => ({
       view: views[index]!,
       combat: member.combat,
@@ -214,6 +236,7 @@ export function createHeroPartyRuntime(
       if (destroyed) return;
       destroyed = true;
       scene.events.off(FormalSkillsUpdatedEvent, syncSkills);
+      scene.events.off(FormalPetsUpdatedEvent, syncPets);
       attackVisuals.destroy();
       normalAttackProjectileVisuals.destroy();
       role1ShadowProjectileVisuals.destroy();
