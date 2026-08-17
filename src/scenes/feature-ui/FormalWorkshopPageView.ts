@@ -46,6 +46,7 @@ import {
   createNativeStrengthObjects,
   getNativeWorkshopPanelBounds,
   getNativeFusionTooltipTargets,
+  getNativeResolutionTooltipTarget,
 } from './FormalWorkshopNativeOperationView';
 
 type Callbacks = {
@@ -73,7 +74,7 @@ const WorkshopInventoryPagePosition = {
 const WorkshopInventoryTabStep = WorkshopItemsTabBounds.left - WorkshopEquipmentTabBounds.left;
 export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalWorkshopPageModel, storage: SaveStorage, callbacks: Callbacks): Phaser.GameObjects.Container {
   const objects: Phaser.GameObjects.GameObject[] = [];
-  const equipmentTooltip = model.tab === 'strength' || model.tab === 'fusion'
+  const equipmentTooltip = model.tab === 'strength' || model.tab === 'fusion' || model.tab === 'resolution'
     ? createEquipmentTooltipView(scene)
     : undefined;
   objects.push(scene.add.image(470, 295, craftingAssets.container.key).setDisplaySize(940, 590));
@@ -169,9 +170,13 @@ export function createFormalWorkshopPageView(scene: Phaser.Scene, model: FormalW
       callbacks.onFeedback(model.message);
       callbacks.onRerender();
     }));
-    objects.push(...stageZones(scene, 'resolution', (index) => {
-      toggleWorkshopStageSlot(model, 'resolution', index); callbacks.onRerender();
-    }));
+    const target = getNativeResolutionTooltipTarget(model);
+    const targetZone = originalHitZone(scene, target.bounds, () => {
+      toggleWorkshopStageSlot(model, 'resolution', 0);
+      callbacks.onRerender();
+    }, 'workshop-resolution-material');
+    if (target.instance && equipmentTooltip) bindEquipmentTooltip(targetZone, target.instance, equipmentTooltip);
+    objects.push(targetZone);
   } else {
     objects.push(...createNativeMakingObjects(scene, model, () => {
       runFormalWorkshopMaking(model, storage);

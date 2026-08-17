@@ -71,13 +71,15 @@ function testStagePlacementAndLifecycleWiring(): void {
   assert.match(page, /objects\.push\(equipmentTooltip\.root\)/);
   assert.match(grid, /cell\.entry\?\.kind === 'equipment'/);
   assert.match(grid, /pointerout/);
-  assert.match(workshop, /model\.tab === 'strength' \|\| model\.tab === 'fusion'/);
+  assert.match(workshop, /model\.tab === 'strength' \|\| model\.tab === 'fusion' \|\| model\.tab === 'resolution'/);
   assert.match(workshop, /onEquipmentOver/);
   assert.match(workshop, /FormalWorkshopStrengthTargetHitAreaIndex/);
   assert.match(workshop, /bindEquipmentTooltip\(targetZone, target, equipmentTooltip\)/);
   assert.match(workshop, /getNativeFusionTooltipTargets\(model\)/);
   assert.match(workshop, /workshop-fusion-\$\{target\.id\}/);
   assert.match(workshop, /bindEquipmentTooltip\(zone, target\.instance, equipmentTooltip\)/);
+  assert.match(workshop, /getNativeResolutionTooltipTarget\(model\)/);
+  assert.match(workshop, /bindEquipmentTooltip\(targetZone, target\.instance, equipmentTooltip\)/);
   assert.match(workshop, /objects\.push\(equipmentTooltip\.root\)/);
   assert.match(boot, /qaEquipmentPage.*workshop/);
   assert.match(qaScene, /createFormalWorkshopPageView/);

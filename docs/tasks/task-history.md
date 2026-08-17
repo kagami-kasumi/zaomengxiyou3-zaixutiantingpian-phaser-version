@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-190B3 | 分解页装备 hover | 共享右 grid 与目标实例复用 tooltip，结果材料保持排除 | M-036、M-037、M-052、VS-066 | verified 目标 bounds、拒绝/成功/返还、P1/P2、结果排除与 940×590 零 console 验收 |
 | TASK-SLICE-190B2 | 合成页装备 hover | 共享右 grid、装备材料、preview 与成功产物复用同一实例 tooltip | M-036、M-037、M-052、VS-066 | 真实产物实例引用、同算法继承 preview、P1/P2/移出/重开与 940×590 零 console 验收 |
 | TASK-SETTINGS-189 | 装备 hover UI 逆向 | 冻结原字段、触发、几何、实例数值和全消费者合同 | M-036、M-037、M-052、VS-066 | 12 状态/32 对象 verified 真值、164 件 tooltip 字段、消费者矩阵、190B1..B4 拆分 |
 | TASK-SLICE-186 | 任务页 manifest 直连 | 直接消费 175H verified 真值并删除任务页手写视觉真值源 | M-044、M-046、M-052、VS-059 | `FormalTaskPageTruth`、`root-static`、45 对象/28 状态投影、43 定义/奖励/P1-P2/存档与 940×590 零 console 验收 |
@@ -7660,6 +7661,34 @@ UI 原生化合同：
 推荐后续任务：
 - `TASK-SLICE-190B3`。
 
+### TASK-SLICE-190B3
+
+任务类型：
+- `TASK-SLICE`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；已完成；下一 task 为 `TASK-SLICE-190B4`）
+
+目标机制/切片：
+- `M-036`、`M-037`、`M-052`、`VS-066`
+
+规模结果：
+- 主工作包：2；上下文压缩：0；验收批次：2；单 agent。
+
+输入资料：
+- 189 与先前 tooltip 接缝、`task-settings-167-workshop-resolution`、当前 resolution session/view。
+
+输出产物：
+- 分解页共享 grid 与 verified `material` 目标槽 hover；六个 `resu` 结果保持非装备排除。
+- `docs/tasks/evidence/TASK-SLICE-190B3/visual-audit.md` 的 P1/P2、拒绝/成功/返还/重开证据。
+
+完成定义与边界：
+- 目标槽显示当前实例原字段/随机基值/强化后缀，成功、返还和关闭后无陈旧 tooltip。
+- 未进入打造/商城，未改变分解概率、产物、事务或存档。
+
+推荐后续任务：
+- `TASK-SLICE-190B4`。
+
 ## 执行记录
 
 
@@ -10964,3 +10993,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-190B3`：在分解页共享右 grid 与目标装备复用同一实例 tooltip；六个非装备结果材料保持排除。
+
+### TASK-SLICE-190B3
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-190B4`）。
+- 分解页共享右侧 5×5 grid 继续复用 `InventoryGridView` equipment-only hover；167 resolution verified manifest 的 `material` bounds 成为唯一目标命中几何，并绑定当前 `EquipmentResolutionSession.target`。
+- 六个 `resu1..6` 只保留原材料图标投影，没有 tooltip zone；拒绝保持目标实例，成功清空目标并销毁面板，返还/切页/关闭沿既有 rerender/destroy 生命周期清理。
+- 940×590 P1 `_clj` 随机攻击 234 +3 目标、成功后灵魂 5000→4900 与结果排除；P2 0 灵魂拒绝、pointerout、返还、关闭/C 重开均无残留，fresh console warning/error 为 0。
+- PG-004/PG-011 集中审计通过且均不归档；PG-001/006/012/013 经语义复核不适用。
+
+验证：
+- tooltip/resolution/formal-workshop 五组定向专项、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`；LSP 服务不可用，`tsc --noEmit` 已由 build 通过。
+
+推荐任务：
+- `TASK-SLICE-190B4`：迁移打造页最终装备产物 tooltip，并关闭商城时装禁用 hover 的负向合同与 Split 父任务 190B。

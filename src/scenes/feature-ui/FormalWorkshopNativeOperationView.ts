@@ -33,6 +33,10 @@ export type NativeFusionTooltipTarget = Readonly<{
   bounds: Readonly<{ x: number; y: number; width: number; height: number }>;
   instance?: EquipmentInstance;
 }>;
+export type NativeResolutionTooltipTarget = Readonly<{
+  bounds: Readonly<{ x: number; y: number; width: number; height: number }>;
+  instance?: EquipmentInstance;
+}>;
 
 export function getNativeWorkshopPanelBounds(tab: FormalWorkshopTab): Readonly<{
   left: number;
@@ -150,6 +154,17 @@ export function createNativeResolutionObjects(
     down: craftingAssets.resolutionButtonDown.key,
   }, onCommit));
   return objects;
+}
+
+export function getNativeResolutionTooltipTarget(
+  model: FormalWorkshopPageModel,
+): NativeResolutionTooltipTarget {
+  assertVerified(resolutionTruth);
+  const target = model.resolutionSessions[model.owner].target;
+  return {
+    bounds: hitAreaOf(resolutionTruth, 'material'),
+    ...(target ? { instance: target } : {}),
+  };
 }
 
 export function createNativeMakingObjects(
