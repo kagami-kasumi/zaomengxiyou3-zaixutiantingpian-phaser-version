@@ -3,7 +3,7 @@
 ## 当前范围
 
 - 玩家可见目标：Stage 2-3 真场景资源、专属流程、怪物/机关、进入/失败/完成/返回和进度保存闭环。
-- `LINE-FORMAL-GAME-LOOP`、前置体验补全线及核心成长/UI 完成线均已关闭；本线于 2026-08-17 恢复为唯一 Active。现代实现范围仍必须由 Stage 2-3 六段证据决定。
+- `LINE-FORMAL-GAME-LOOP`、旧前置体验补全线及核心成长/UI 完成线均已关闭，但 2026-08-17 用户复验新建了 `LINE-PRE-STAGE-2-3-PRESENTATION`；本线当前为 Planned，不得执行 064。现代实现范围仍必须由 Stage 2-3 六段证据决定。
 - 行为参考从目标关卡局部类追到共享输入、镜头、物理、怪物、结果和存档消费者。
 - 视觉资源优先从 `local-resources/regima/source/restored-swfs/` 窄查；legacy extraction 只作为只读 AS3 与历史对照。
 
@@ -20,7 +20,7 @@
 
 ## 调度
 
-1. `TASK-SETTINGS-064`：Ready；只闭合六段证据、资源标注、未知/反证和后续实现拆分，不写现代实现。
+1. `TASK-SETTINGS-064`：Planned；等待 `LINE-PRE-STAGE-2-3-PRESENTATION` 关闭后才能恢复 Ready；只闭合六段证据、资源标注、未知/反证和后续实现拆分，不写现代实现。
 
 ## 关闭检查
 

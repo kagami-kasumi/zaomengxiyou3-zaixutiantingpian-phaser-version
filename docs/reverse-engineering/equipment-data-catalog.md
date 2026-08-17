@@ -9,7 +9,7 @@
 ## 待证明的可观察问题
 
 1. 原版 1.1 的 431 项可入包身份中，哪些是 `zblist` 的 164 件装备？
-2. 每件装备的显示身份、原类型、槽位、角色门禁、品质和 12 个基础属性是什么？
+2. 每件装备的显示身份、原类型、槽位、角色门禁、品质、tooltip 说明/类型/价值和 12 个基础属性是什么？
 3. 随机基础值的原表达式、运行时取值边界和 AS3 `int/Number` 单位是什么？
 4. 每级强化读取哪个 `aStrengthen` 字段，缺字段是零还是存在原版特判？
 5. 164 项能否与既有 431 身份目录一对一复查，并保留 1.0 辅助表的版本差异？
@@ -42,6 +42,9 @@
 | `hpRegen/mpRegen` | `param14..15`；`ehp/emp` | 点数；基础构造参数为 AS3 `int` |
 | `lifeSteal/magicDefense/armorPenetration` | `param16..18`；`ebol/mdef/dhit` | 0..1 比例；角色属性消费时乘 100 后取整 |
 | `haveBlood` | `param23`；`haveblood` | 原数值点数；角色属性消费时取整 |
+| `tooltip.instruction` | `param20` | `AttributeCon` 的 135px、14px 换行说明；保留原文本/HTML |
+| `tooltip.typeLabel` | `MyEquipObj.trans(type)` | 武器/防具/饰品/法宝/头衔 |
+| `tooltip.soulValue` | `MyEquipObj.transValue()` | 品质到灵魂价值；`魔 王` 无分支，原初始化结果为 0 |
 
 基础值若使用 `Math.round(Math.random() * n)`，目录保存含两端范围；若直接
 使用 `Math.random() * n`，`Number` 字段保留上界不含语义，`int/uint` 构造
@@ -73,4 +76,3 @@
 - 1.0 表中的同名数值只能用于人工反证；即使冲突也不能覆盖 1.1 记录。
 - 目录可供强化、Fusion、分解、打造和 V6 兼容分析共同消费，但没有替代
   这些系统各自的事务、UI、穿戴视觉或存档迁移验收。
-

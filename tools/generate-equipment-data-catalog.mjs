@@ -168,6 +168,8 @@ const output = {
       'criticalChance, evasionChance, lifeSteal, magicDefense and armorPenetration use original 0..1 ratios; BaseRoleProperies multiplies them by 100 for role percentage-point fields',
     strengthening:
       'aStrengthen values are additive increments per strength level; missing keys are confirmed zero except the original dgg hard-coded fallback recorded per item',
+    tooltip:
+      'AttributeCon reads the original constructor instruction, the type label derived by MyEquipObj.trans, and the soul value derived by MyEquipObj.transValue directly from the same MyEquipObj instance',
     quantity:
       'All 164 records use instance semantics in zblist; strength level and base values are saved per MyEquipObj instance',
     geometry:
@@ -266,6 +268,11 @@ function buildItem(catalogItem) {
           ? 'MyEquipObj.strengthenEquip assigns dgg fallback increments when aStrengthen keys are absent'
           : null,
     },
+    tooltip: {
+      instruction: decodeString(definition.args[19] ?? '""'),
+      typeLabel: equipmentTypeLabel(catalogItem.originalType),
+      soulValue: qualitySoulValue(catalogItem.quality),
+    },
     progression: {
       equipmentLevel: numericFact(
         levelObject.elevel ?? '0',
@@ -297,6 +304,40 @@ function buildItem(catalogItem) {
     counterEvidence:
       'Reopen this record if its authoritative source variable, constructor expression, findByName precedence, or consumer unit mapping changes.',
   };
+}
+
+function equipmentTypeLabel(type) {
+  const labels = {
+    zbwq: '武器',
+    zbfj: '防具',
+    zbsp: '饰品',
+    zbfb: '法宝',
+    zbtx: '头衔',
+  };
+  const label = labels[type];
+  if (!label) throw new Error(`Unsupported equipment tooltip type ${type}`);
+  return label;
+}
+
+function qualitySoulValue(quality) {
+  const values = {
+    '粗 糙': 10,
+    '普 通': 20,
+    '优 秀': 40,
+    '精 良': 80,
+    '史 诗': 160,
+    '传 说': 1280,
+    '转 悦': 114514,
+    '邪 灵': 320,
+    '魂 器': 640,
+    '灵 器': 2560,
+    '神 器': 2560,
+    // MyEquipObj.transValue has no 魔 王 branch, so the initialized split fields remain 0.
+    '魔 王': 0,
+  };
+  const value = values[quality];
+  if (value === undefined) throw new Error(`Unsupported equipment tooltip quality ${quality}`);
+  return value;
 }
 
 function numericFact(expression, unit, consumer, runtimeCoercion = 'Number') {

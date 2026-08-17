@@ -28,6 +28,25 @@ type SourceEquipment = Readonly<{
   color: string;
   baseStats: Readonly<Record<string, SourceNumber>>;
   strengthening: Readonly<{ perLevel: Readonly<Record<string, SourceNumber>> }>;
+  progression: Readonly<{
+    equipmentLevel: SourceNumber;
+    upgradeRatio: SourceNumber;
+  }>;
+  fiveElements: Readonly<Record<'metal' | 'wood' | 'water' | 'fire' | 'earth', boolean>>;
+  tooltip: Readonly<{
+    instruction: string;
+    typeLabel: string;
+    soulValue: number;
+  }>;
+}>;
+
+export type EquipmentTooltipCatalogEntry = Readonly<{
+  instruction: string;
+  typeLabel: string;
+  soulValue: number;
+  equipmentLevel: number;
+  upgradeRatio: number;
+  fiveElements: readonly string[];
 }>;
 
 const STAT_FIELDS = {
@@ -97,6 +116,26 @@ export const AuthoritativeEquipmentDefinitions: readonly EquipmentDefinition[] =
 export const AuthoritativeEquipmentCatalog = Object.fromEntries(
   AuthoritativeEquipmentDefinitions.map((definition) => [definition.fillName, definition]),
 ) as Readonly<Record<string, EquipmentDefinition>>;
+
+const ElementLabels = [
+  ['metal', '金'], ['wood', '木'], ['water', '水'], ['fire', '火'], ['earth', '土'],
+] as const;
+
+export const AuthoritativeEquipmentTooltipCatalog = Object.fromEntries(sourceItems.map((item) => [
+  item.fillName,
+  {
+    ...item.tooltip,
+    equipmentLevel: item.progression.equipmentLevel.value ?? 0,
+    upgradeRatio: item.progression.upgradeRatio.value ?? 0,
+    fiveElements: ElementLabels.filter(([key]) => item.fiveElements[key]).map(([, label]) => label),
+  } satisfies EquipmentTooltipCatalogEntry,
+])) as Readonly<Record<string, EquipmentTooltipCatalogEntry>>;
+
+export function getEquipmentTooltipCatalogEntry(fillName: string): EquipmentTooltipCatalogEntry {
+  const entry = AuthoritativeEquipmentTooltipCatalog[fillName];
+  if (!entry) throw new Error(`Equipment tooltip catalog entry is missing: ${fillName}`);
+  return entry;
+}
 
 /** Applies the 164-item authority while retaining existing non-data behavior metadata. */
 export function createAuthoritativeEquipmentRegistry(

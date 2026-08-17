@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-189 | 装备 hover UI 逆向 | 冻结原字段、触发、几何、实例数值和全消费者合同 | M-036、M-037、M-052、VS-066 | 12 状态/32 对象 verified 真值、164 件 tooltip 字段、消费者矩阵、190B1..B4 拆分 |
 | TASK-SLICE-186 | 任务页 manifest 直连 | 直接消费 175H verified 真值并删除任务页手写视觉真值源 | M-044、M-046、M-052、VS-059 | `FormalTaskPageTruth`、`root-static`、45 对象/28 状态投影、43 定义/奖励/P1-P2/存档与 940×590 零 console 验收 |
 | TASK-SETTINGS-175 | 功能 UI 真值债务审计 | 分级明确占位、旧视觉审计、verified 与未知，并按页拆分后续 | M-035、M-052、VS-054、VS-055、VS-059 | 九页/宿主状态表、五源 SHA/locator、truthId/状态/完整性门禁、175A..I 独立合同与切片措辞纠正 |
 | TASK-ARCH-174 | 普攻几何/Role5 命中纠错 | 收敛 detached 普攻几何 owner，恢复 Role5 二维命中与共享结算 | M-022、M-034、VS-062 | verified 空间真值、视觉/碰撞共源、X/Y/重复/死亡/P1-P2 专项、940×590 单/双人零 console |
@@ -7600,6 +7601,36 @@ UI 原生化合同：
 推荐后续任务：
 - `TASK-SLICE-173A2`。
 
+### TASK-SETTINGS-189
+
+任务类型：
+- `TASK-SETTINGS`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；已完成；下一 task 为 `TASK-SLICE-190A`）
+
+目标机制/切片：
+- `M-036`、`M-037`、`M-052`、`VS-066`
+
+规模结果：
+- 主工作包：2；上下文压缩：1；验收批次：2；单 agent。
+- 首次 compact 后只完成既有证据、状态归档与门禁收尾，没有读取新资料族或新增现代实现。
+
+输入资料：
+- 恢复主包 `1_MainLoad__main1.swf`、`AttributeCon/ShowObj`、164 件装备权威目录、正式背包与工坊消费者。
+
+输出产物：
+- `task-settings-189.equipment-tooltip` 的 12 状态/32 对象 verified 真值、源码重放基准、资产标注与六段证据。
+- 164 件目录的 tooltip 说明/类型/价值字段，以及正式背包、强化、合成、分解、打造和商城禁用态消费者矩阵。
+- `TASK-SLICE-190B1..B4` 独立实现合同；190B 转为 Split 父任务。
+
+完成定义与边界：
+- `unresolved=[]`，恢复脚本与历史对照 SHA 一致；未修改 `src/` 或旧提取原始结果。
+- 源码重放 SVG 不是 Flash 运行截图；现代运行差异由后续实现 task 闭合。
+
+推荐后续任务：
+- `TASK-SLICE-190A`。
+
 ## 执行记录
 
 
@@ -10840,3 +10871,35 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-064`：逆向 Stage 2-3 真场景、专属流程、怪物/机关、结果与当前槽保存六段证据；本 task 不写现代实现。
+
+### 2026-08-17：TASK-SETTINGS-189 执行记录
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-190A`）。
+- 从恢复主包 `1_MainLoad__main1.swf` 窄导出 `AttributeCon/ShowObj`；脚本 SHA-256 与旧提取对照一致，恢复主包 SHA-256 为 `F8E6F937350D4C6121119119BBEBF2B6744BA1422B9FB238764849123D62F734`。
+- 新增 `task-settings-189.equipment-tooltip` verified 真值：12 个生命周期/边界/消费者状态、32 个显示对象、`unresolved=[]`；同步生成 940×590 原始源码重放 SVG 基准，明确不冒充 Flash 运行截图。
+- 164 件权威装备目录新增 tooltip 说明、原版类型标签和品质灵魂价值；证据闭合基础值、强化后缀、百分数字段、法宝成长/等级/五行、右缘翻转、底部钳制、移动/移出/销毁和数量文本隐藏恢复。
+- 消费者矩阵确认正式背包六个穿戴槽与 5×5 物品格，以及强化、合成、分解、打造四条独立工坊生命周期；商城时装由原版 `zbsz` 禁用 hover。190B 命中拆分触发，改为 Split 父任务并生成 190B1..B4。
+- 本 task 未修改 `src/`，也未改动 `local-resources/regima/legacy-extraction/` 原始结果。
+
+验证：
+- `npm run test:equipment-data-catalog`、`npm run test:equipment-tooltip-truth`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-190A`：在正式背包已穿戴槽和装备格直接消费 189 verified 真值与既有实例 owner，闭合 P1/P2、分页、穿脱、移出和重开生命周期。
+
+### 2026-08-17：TASK-SLICE-190A 执行记录
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-190B1`）。
+- 新增 `EquipmentTooltipTruth.generated.ts`、`EquipmentTooltipSystem.ts` 与 `EquipmentTooltipView.ts`，运行时断言 189 的 12 状态/32 对象、`verified`、`unresolved=[]`，并直接使用真值根边界/文字风格投影。
+- 正式背包 5×5 装备格与六个已穿戴槽共用同一 hover/move/out 生命周期；分页、分类、穿脱、关闭重开均由页面销毁清除陈旧 tooltip。
+- tooltip 只读当前 `EquipmentInstance`：`baseStatsOverride` 保留为正文基值，`strengthGrowth * strengthLevel` 保留为括号后缀；权威目录提供说明、原类型、灵魂价值、法宝成长/等级与五行，页面未缓存第二份数值。
+- 首次 940×590 对照发现 189 生成器漏记 `drawInfo()` 名称后 `++i`；依 `AttributeCon.as` 修正品质行的 25px 偏移，重生 manifest 和 12 张 source replay，Schema/完整性重新通过。
+- P1/P2、背包格/已穿戴槽、`_clj` 随机攻击 234 +3 后缀、右翻/底夹、分页、移出、关闭重开的 940×590 证据位于 `docs/tasks/evidence/TASK-SLICE-190A/`；fresh P1/P2 console warning/error 为 0。
+
+验证：
+- `npm run test:equipment-tooltip-truth`、`npm run test:equipment-tooltip-runtime-truth`、`npm run test:equipment-tooltip-runtime`、`npm run test:formal-inventory`、`npm run test:equipment-page-qa`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-190B1`：在强化页共享右侧装备 grid 与目标槽复用 190A 的只读 tooltip 接缝，不修改事务或存档。

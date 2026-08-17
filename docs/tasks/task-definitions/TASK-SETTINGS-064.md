@@ -6,7 +6,7 @@
 
 功能条线：
 
-- `LINE-STAGE-2-3`（Active；Ready）
+- `LINE-STAGE-2-3`（Planned；等待 `LINE-PRE-STAGE-2-3-PRESENTATION` 关闭）
 
 
 目标机制/切片：

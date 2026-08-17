@@ -13,12 +13,18 @@ const WorkshopSlotVisibleOffsetX = -7;
 const WorkshopSlotVisibleOffsetY = -7;
 
 export type InventoryGridOrigin = Readonly<{ x: number; y: number }>;
+export type InventoryGridHoverCallbacks = Readonly<{
+  onEquipmentOver: (entry: Extract<InventoryEntry, { kind: 'equipment' }>, pointer: Phaser.Input.Pointer) => void;
+  onEquipmentMove: (pointer: Phaser.Input.Pointer) => void;
+  onEquipmentOut: () => void;
+}>;
 
 export function createInventoryGridObjects(
   scene: Phaser.Scene,
   cells: readonly InventoryItemCell[],
   origin: InventoryGridOrigin,
   onCell: (cell: InventoryItemCell) => void,
+  hoverCallbacks?: InventoryGridHoverCallbacks,
 ): Phaser.GameObjects.GameObject[] {
   const objects: Phaser.GameObjects.GameObject[] = [];
   for (const cell of cells) {
@@ -32,6 +38,11 @@ export function createInventoryGridObjects(
         selected: cell.selected,
       });
     slot.on('pointerdown', () => onCell(cell));
+    if (cell.entry?.kind === 'equipment' && hoverCallbacks) {
+      slot.on('pointerover', (pointer: Phaser.Input.Pointer) => hoverCallbacks.onEquipmentOver(cell.entry as Extract<InventoryEntry, { kind: 'equipment' }>, pointer));
+      slot.on('pointermove', (pointer: Phaser.Input.Pointer) => hoverCallbacks.onEquipmentMove(pointer));
+      slot.on('pointerout', hoverCallbacks.onEquipmentOut);
+    }
     objects.push(slot);
     if (cell.entry) objects.push(...createInventoryEntryVisual(scene, cell.entry, x, y));
   }

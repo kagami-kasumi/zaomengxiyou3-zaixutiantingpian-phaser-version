@@ -92,7 +92,7 @@
     },
     "equipment": {
       "type": "object",
-      "required": ["fillName", "displayName", "showId", "originalType", "slot", "user", "quality", "color", "baseStats", "strengthening", "progression", "fiveElements", "quantityModel", "originalList", "source", "evidenceLevel", "counterEvidence"],
+      "required": ["fillName", "displayName", "showId", "originalType", "slot", "user", "quality", "color", "baseStats", "strengthening", "tooltip", "progression", "fiveElements", "quantityModel", "originalList", "source", "evidenceLevel", "counterEvidence"],
       "properties": {
         "fillName": { "type": "string", "minLength": 1 },
         "displayName": { "type": "string", "minLength": 1 },
@@ -110,6 +110,16 @@
             "model": { "const": "additive-per-strength-level" },
             "perLevel": { "$ref": "#/$defs/statBlock" },
             "hardCodedFallback": { "type": ["string", "null"] }
+          }
+        },
+        "tooltip": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["instruction", "typeLabel", "soulValue"],
+          "properties": {
+            "instruction": { "type": "string" },
+            "typeLabel": { "enum": ["武器", "防具", "饰品", "法宝", "头衔"] },
+            "soulValue": { "type": "integer", "minimum": 0 }
           }
         },
         "quantityModel": { "const": "instance" },

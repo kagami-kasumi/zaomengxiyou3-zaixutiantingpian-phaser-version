@@ -18,11 +18,11 @@
 | Stage 1-3 | 4 | 前景/布局、背景和普通门已转换接入；listener 是行为证据 | `stage13.md` |
 | Stage 2-1 | 18 | 根布局保持选择性导出；场景、背景、地面、普通门、66 帧冰刺、四怪本体 atlas 与七个攻击对象均已接入并完成运行复验 | `stage21.md`、`stage21-monsters.md` |
 | Stage 2-2 | 14 | 场景两层、背景、地面、普通门、130 帧火焰、Monster16 atlas 与六攻击对象均已接入现代 manifest/场景 | `stage22.md` |
-| UI 与配方图标 | 403 | 炼丹炉 UI（含补录的 Fusion 169）及强化/合成六个原按钮态、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条、新建存档人数/选角 25 条与背包动态 UI 61 条均已接入；其余深层 UI 结论保持 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`inventory-dynamic-ui.md` |
+| UI 与配方图标 | 404 | 炼丹炉 UI（含补录的 Fusion 169）及强化/合成六个原按钮态、共享灵魂数字字形、201/201 个配方图标、正式战斗 HUD 12 条、启动/存档 3 条、天庭地图 6 条、新建存档人数/选角 25 条、背包动态 UI 61 条与装备 tooltip 动态显示列表均已接入；其余深层 UI 结论保持 | `crafting-ui.md`、`crafting-kyl-icons.md`、`crafting-items-remaining.md`、`combat-hud.md`、`save-slots.md`、`save-party.md`、`heaven-map.md`、`full-function-ui.md`、`map-services.md`、`stage-feature-entry.md`、`inventory-dynamic-ui.md`、`equipment-tooltip.md` |
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 | 装备角色预览资源 | 127 | 126 项预览变更装备的源符号已闭合并可选择性导出；`mksddf` 原版标题查找缺陷 rejected，不生成替代层；另 37 件饰品/法宝按原逻辑不改变 HeadSprite | `equipment-visual-resources.md`、`../equipment-visual-resource-catalog.md` |
 
-总计 1214 条标注：1021 条 `ready`、24 条 `derived-ready`、127 条 `export-ready`、34 条 `source-corpus-ready`、2 条 `missing-original`、6 条 `rejected`；1214 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
+总计 1215 条标注：1021 条 `ready`、25 条 `derived-ready`、127 条 `export-ready`、34 条 `source-corpus-ready`、2 条 `missing-original`、6 条 `rejected`；1215 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
 
 ## 人工待办
 

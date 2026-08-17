@@ -34,7 +34,7 @@
     },
     "schema": {
       "path": "docs/reverse-engineering/reference/equipment-data-catalog.schema.json",
-      "sha256": "6657a9548a427d04e2098dc0334ed02024a10639a6ab342a947e9377900b782e"
+      "sha256": "9736e098c2584238852453836c9c530bdf67a48959279bb6b4aeeb24b81ea5b8"
     }
   },
   "fieldContract": {
@@ -44,6 +44,7 @@
     "baseStats": "Twelve constructor fields are preserved as exact values or inclusive random ranges without sampling",
     "ratioUnits": "criticalChance, evasionChance, lifeSteal, magicDefense and armorPenetration use original 0..1 ratios; BaseRoleProperies multiplies them by 100 for role percentage-point fields",
     "strengthening": "aStrengthen values are additive increments per strength level; missing keys are confirmed zero except the original dgg hard-coded fallback recorded per item",
+    "tooltip": "AttributeCon reads the original constructor instruction, the type label derived by MyEquipObj.trans, and the soul value derived by MyEquipObj.transValue directly from the same MyEquipObj instance",
     "quantity": "All 164 records use instance semantics in zblist; strength level and base values are saved per MyEquipObj instance",
     "geometry": "not-applicable: this catalog freezes non-visual data only; wearable art, registration points and UI display lists belong to TASK-SETTINGS-170B and restored SWF evidence"
   },
@@ -502,6 +503,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -888,6 +894,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "饰品",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -1276,6 +1287,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "11·11，光棍节绝版头衔",
+        "typeLabel": "头衔",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -1662,6 +1678,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "一切有为法。如梦幻泡影，如露亦如电。应作如是观",
+        "typeLabel": "防具",
+        "soulValue": 40
       },
       "progression": {
         "equipmentLevel": {
@@ -2050,6 +2071,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "最适合单身狗的头衔了！",
+        "typeLabel": "头衔",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -2436,6 +2462,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "不受攻击时，将拥有强大的回血能力。可以合成传说饰品",
+        "typeLabel": "饰品",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -2824,6 +2855,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "古枪寒黯黯，铸来几千秋",
+        "typeLabel": "武器",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -3210,6 +3246,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "珠坠鲛人泪，袍闪波涛光",
+        "typeLabel": "防具",
+        "soulValue": 80
       },
       "progression": {
         "equipmentLevel": {
@@ -3598,6 +3639,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -3984,6 +4030,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "战无不胜",
+        "typeLabel": "防具",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -4372,6 +4423,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "金身不灭",
+        "typeLabel": "防具",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -4758,6 +4814,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "凡尘不净",
+        "typeLabel": "防具",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -5146,6 +5207,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "飞龙在天",
+        "typeLabel": "防具",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -5532,6 +5598,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "檀香不绝",
+        "typeLabel": "防具",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -5920,6 +5991,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "广力在世",
+        "typeLabel": "武器",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -6306,6 +6382,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "琉璃光可照三界之暗",
+        "typeLabel": "武器",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -6694,6 +6775,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "无支祁现于淮水，骇风奇袭，惊浪翻涌。大禹治水时，锁其四肢，压其龟山脚",
+        "typeLabel": "武器",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -7080,6 +7166,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "达摩驾一叶扁舟，东来传佛法。受嫉妒，七遭毒，手携只履，翩翩独逝",
+        "typeLabel": "武器",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -7468,6 +7559,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "河伯循琴音而去，见宓妃厌九隆，发大水抢妻，百年守护，只为美人笑，终而生情",
+        "typeLabel": "武器",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -7854,6 +7950,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "云衔七曜起，雨拂九门来",
+        "typeLabel": "头衔",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -8242,6 +8343,11 @@
         },
         "hardCodedFallback": "MyEquipObj.strengthenEquip assigns dgg fallback increments when aStrengthen keys are absent"
       },
+      "tooltip": {
+        "instruction": "最适合单身狗的头衔了！",
+        "typeLabel": "头衔",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -8628,6 +8734,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "四海龙王何所惧，逆鳞为甲护金身",
+        "typeLabel": "防具",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -9016,6 +9127,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "我本因地，以念佛心，入无生忍，今于此界，摄念佛人，归于净土",
+        "typeLabel": "防具",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -9402,6 +9518,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "世尊地藏，般若诸佛",
+        "typeLabel": "饰品",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -9790,6 +9911,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "三元归一剑贯魑魅，一点浩气霆击祸祟",
+        "typeLabel": "法宝",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -10176,6 +10302,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -10564,6 +10695,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "慧力堪传教，禅宫久伏魔",
+        "typeLabel": "头衔",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -10950,6 +11086,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -11338,6 +11479,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "一种相思，两处闲愁，火焰化红莲，此情自消衍",
+        "typeLabel": "防具",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -11724,6 +11870,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "我就是混世魔王,哈哈哈哈!",
+        "typeLabel": "头衔",
+        "soulValue": 0
       },
       "progression": {
         "equipmentLevel": {
@@ -12112,6 +12263,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "最适合单身狗的头衔了！",
+        "typeLabel": "头衔",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -12498,6 +12654,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "黑犀侠滋润掩藏,但发出狂啸的力量,召唤水之黑犀铠甲",
+        "typeLabel": "防具",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -12886,6 +13047,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "三仙降临，花遍人间，蕴藏无穷神力\n\n附带吸血效果",
+        "typeLabel": "饰品",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -13272,6 +13438,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "倾盆雨，惊天雷，众里寻他而去",
+        "typeLabel": "武器",
+        "soulValue": 80
       },
       "progression": {
         "equipmentLevel": {
@@ -13660,6 +13831,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "龙吟恨，且回首，却在灯火阑珊",
+        "typeLabel": "防具",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -14046,6 +14222,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "损愁眉，哭断肠，待到佳期如梦",
+        "typeLabel": "武器",
+        "soulValue": 80
       },
       "progression": {
         "equipmentLevel": {
@@ -14434,6 +14615,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "抵挡大量伤害以及反弹部分伤害，如果效果结束后盾量还有剩余，则部分转化为自己的生命",
+        "typeLabel": "法宝",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -14820,6 +15006,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "抵挡一定伤害",
+        "typeLabel": "法宝",
+        "soulValue": 80
       },
       "progression": {
         "equipmentLevel": {
@@ -15208,6 +15399,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "太上老君用神冰铁亲自锤炼，借五方五帝、六丁六甲之力锻造而成，重量有一藏之数，连柄五千零四十八斤",
+        "typeLabel": "武器",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -15594,6 +15790,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -15982,6 +16183,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -16368,6 +16574,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -16756,6 +16967,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "且看西行多险阻，观音赠袍，笑把金蝉护",
+        "typeLabel": "防具",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -17142,6 +17358,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "风卷云残，俱消往昔，既然无缘，何立誓言",
+        "typeLabel": "防具",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -17530,6 +17751,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "云衔七曜起，雨拂九门来",
+        "typeLabel": "头衔",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -17916,6 +18142,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "若人造重罪，作已深自责；忏悔更不造，能拔根本业",
+        "typeLabel": "武器",
+        "soulValue": 40
       },
       "progression": {
         "equipmentLevel": {
@@ -18304,6 +18535,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "菩提本无树，明镜亦非台。本来无疑物，何处染尘埃",
+        "typeLabel": "防具",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -18690,6 +18926,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "一从化真骨，万里乘飞电",
+        "typeLabel": "武器",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -19078,6 +19319,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "东海精为月，西岳气凝金",
+        "typeLabel": "防具",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -19464,6 +19710,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "双生莲散发幽香,沁心四方，莲灵附体玩家,提升攻击；莲魂附体敌方,降低攻击",
+        "typeLabel": "法宝",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -19852,6 +20103,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "一落红，一枯叶，落红离弦去，从此两难聚",
+        "typeLabel": "武器",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -20238,6 +20494,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "曾斩魑魅首，怒断魍魉喉",
+        "typeLabel": "武器",
+        "soulValue": 40
       },
       "progression": {
         "equipmentLevel": {
@@ -20626,6 +20887,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "缓慢回复少许生命",
+        "typeLabel": "法宝",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -21012,6 +21278,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "群叶以覆，片片杀生",
+        "typeLabel": "防具",
+        "soulValue": 40
       },
       "progression": {
         "equipmentLevel": {
@@ -21400,6 +21671,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "落黄昏，三更雨，临行密密缝，离愁丝丝苦",
+        "typeLabel": "防具",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -21786,6 +22062,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "求不得，放不下，梧桐化成杖，孤走枯苍道",
+        "typeLabel": "武器",
+        "soulValue": 40
       },
       "progression": {
         "equipmentLevel": {
@@ -22174,6 +22455,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -22560,6 +22846,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -22948,6 +23239,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "禁锢刑天于十八层地狱之中，六道轮回，生生世世，永无止境",
+        "typeLabel": "武器",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -23334,6 +23630,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "饰品",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -23722,6 +24023,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "最适合单身狗的头衔了！",
+        "typeLabel": "头衔",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -24108,6 +24414,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "入魔后攻击暴击小幅提升，但会持续扣血",
+        "typeLabel": "法宝",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -24496,6 +24807,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "释放多支剑，对敌人造成多重伤害",
+        "typeLabel": "法宝",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -24882,6 +25198,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "流星枪之狂瀑扎帖,碎魔伏暴,灭于狂瀑,平如镜水",
+        "typeLabel": "武器",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -25270,6 +25591,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "烈焰刀之封魔斩帖,斩邪除怪,熔于烈焰,消于晨曦",
+        "typeLabel": "武器",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -25656,6 +25982,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "林遍众山过天河，花绽凌云接苍穹",
+        "typeLabel": "武器",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -26044,6 +26375,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "倦鹊绕枝翻冻影，飞鸿摩月堕孤音",
+        "typeLabel": "武器",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -26430,6 +26766,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "召唤恶魂环绕自身，持续一段时间，受到攻击时攻击者会获得【恶魂缠身】诅咒",
+        "typeLabel": "法宝",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -26818,6 +27159,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "此花绽放之时，结局已然落定",
+        "typeLabel": "饰品",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -27204,6 +27550,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "四角碍白日，七层摩苍穹",
+        "typeLabel": "防具",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -27592,6 +27943,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "马行处，雪无痕，相见难，别亦难",
+        "typeLabel": "饰品",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -27978,6 +28334,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "还记得横空出世的七魔王篇,还记得那个疯玩暑假的十殿阎罗篇,还记得冬日一天的大闹天庭篇......这些回忆都铸就了那个梦开始的地方!",
+        "typeLabel": "头衔",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -28366,6 +28727,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "饰品",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -28752,6 +29118,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "被眩晕、催眠后，立刻解除此状态。可以合成传说饰品",
+        "typeLabel": "饰品",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -29140,6 +29511,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -29526,6 +29902,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -29914,6 +30295,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 20
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -30300,6 +30686,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 20
       },
       "progression": {
         "equipmentLevel": {
@@ -30688,6 +31079,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 20
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -31074,6 +31470,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 20
       },
       "progression": {
         "equipmentLevel": {
@@ -31462,6 +31863,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 20
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -31848,6 +32254,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 20
       },
       "progression": {
         "equipmentLevel": {
@@ -32236,6 +32647,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 20
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -32622,6 +33038,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 20
       },
       "progression": {
         "equipmentLevel": {
@@ -33010,6 +33431,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 20
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -33396,6 +33822,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 20
       },
       "progression": {
         "equipmentLevel": {
@@ -33784,6 +34215,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -34170,6 +34606,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -34558,6 +34999,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "御剑飞行",
+        "typeLabel": "法宝",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -34944,6 +35390,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "凝霜夜，幽香梦，枕边人赴烽火，吹起一帘牵挂",
+        "typeLabel": "武器",
+        "soulValue": 80
       },
       "progression": {
         "equipmentLevel": {
@@ -35332,6 +35783,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "碧天阔，白云散，百万里无硝烟，大雁向南飞去",
+        "typeLabel": "防具",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -35718,6 +36174,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "御剑飞行",
+        "typeLabel": "法宝",
+        "soulValue": 80
       },
       "progression": {
         "equipmentLevel": {
@@ -36106,6 +36567,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "珠有泪，玉生烟，稀白头不胜簪，只是当时惘然",
+        "typeLabel": "饰品",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -36492,6 +36958,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "撑天之柱，刑天与帝争神，大闹天庭时，坠入地狱",
+        "typeLabel": "武器",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -36880,6 +37351,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "英雄泪，只为江山。万里山河，千里孤城，破国恨，永难忘",
+        "typeLabel": "饰品",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -37266,6 +37742,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "魔非魔，念人间，怎知情愁滋味",
+        "typeLabel": "武器",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -37654,6 +38135,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "倦鹊绕枝翻冻影，飞鸿摩月堕孤音",
+        "typeLabel": "武器",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -38040,6 +38526,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "太上老君用神冰铁亲自锤炼，借五方五帝、六丁六甲之力锻造而成，重量有一藏之数，连柄五千零四十八斤",
+        "typeLabel": "武器",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -38428,6 +38919,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "且看西行多险阻，观音赠袍，笑把金蝉护",
+        "typeLabel": "防具",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -38814,6 +39310,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "禁锢刑天于十八层地狱之中，六道轮回，生生世世，永无止境",
+        "typeLabel": "武器",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -39202,6 +39703,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "对酒不觉瞑,落花盈我衣",
+        "typeLabel": "武器",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -39588,6 +40094,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "撑天之柱，刑天与帝争神，大闹天庭时，坠入地狱。",
+        "typeLabel": "武器",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -39976,6 +40487,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "四角碍白日，七层摩苍穹",
+        "typeLabel": "防具",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -40362,6 +40878,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "四海龙王何所惧，逆鳞为甲护金身",
+        "typeLabel": "防具",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -40750,6 +41271,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "纵使相逢应不识，战衣在身，天蓬始终如一",
+        "typeLabel": "防具",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -41136,6 +41662,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "最适合单身狗的头衔了！",
+        "typeLabel": "头衔",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -41524,6 +42055,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "云衔七曜起，雨拂九门来",
+        "typeLabel": "头衔",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -41910,6 +42446,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "凛冬将至，大雪纷飞。",
+        "typeLabel": "法宝",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -42298,6 +42839,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "入魔后攻击暴击中幅提升，但会持续扣血",
+        "typeLabel": "法宝",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -42684,6 +43230,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "缓慢回复生命与魔法",
+        "typeLabel": "法宝",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -43072,6 +43623,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "殿可毁，人可亡，恨犹在，何时还",
+        "typeLabel": "饰品",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -43458,6 +44014,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "风过处，百花残，心有意，爱无伤",
+        "typeLabel": "饰品",
+        "soulValue": 40
       },
       "progression": {
         "equipmentLevel": {
@@ -43846,6 +44407,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "集阴阳之力为一体的无上法宝，拥有起死回生的能力",
+        "typeLabel": "法宝",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -44232,6 +44798,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "纵使相逢应不识，战衣在身，天蓬始终如一",
+        "typeLabel": "防具",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -44620,6 +45191,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "诸法因缘生，我说是因缘；因缘尽故灭，我作如是说",
+        "typeLabel": "武器",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -45006,6 +45582,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "心若顽石，不生多情，多情空于恨，此恨无绝期",
+        "typeLabel": "防具",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -45394,6 +45975,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "当舍于懈怠，远离诸愦闹；寂静常知足，是人当解脱",
+        "typeLabel": "武器",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -45780,6 +46366,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -46168,6 +46759,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "街喧闹，人过往，且记曾相识，不为少年留",
+        "typeLabel": "武器",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -46554,6 +47150,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "有一定概率捕捉宠物",
+        "typeLabel": "法宝",
+        "soulValue": 80
       },
       "progression": {
         "equipmentLevel": {
@@ -46942,6 +47543,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -47328,6 +47934,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {
@@ -47716,6 +48327,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "拥有【魔童连击】技能，对随机怪物造成多次伤害，其攻击且带有【破防】效果，使用完毕后立即产生随机的奇妙效果",
+        "typeLabel": "法宝",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -48102,6 +48718,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "人离合，月圆缺，花开又花谢，不愿再相逢",
+        "typeLabel": "防具",
+        "soulValue": 40
       },
       "progression": {
         "equipmentLevel": {
@@ -48490,6 +49111,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "花映红，春风笑，佳人佩美坠，不知与谁同",
+        "typeLabel": "饰品",
+        "soulValue": 40
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -48876,6 +49502,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -49264,6 +49895,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -49650,6 +50286,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "逆万千阵行，潜龙在渊",
+        "typeLabel": "防具",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -50038,6 +50679,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -50424,6 +51070,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -50812,6 +51463,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -51198,6 +51854,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "只手补天裂，何惧道谴",
+        "typeLabel": "武器",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -51586,6 +52247,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -51972,6 +52638,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -52360,6 +53031,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -52746,6 +53422,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "挽金弓，如满月，望人间，凝伫久",
+        "typeLabel": "武器",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -53134,6 +53815,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "汝修三昧，本出尘劳。淫心不除，尘不可出",
+        "typeLabel": "防具",
+        "soulValue": 80
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -53520,6 +54206,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -53908,6 +54599,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "防具",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -54294,6 +54990,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "升腾炎上无限火之炎龙铠甲",
+        "typeLabel": "防具",
+        "soulValue": 640
       },
       "progression": {
         "equipmentLevel": {
@@ -54682,6 +55383,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "最适合单身狗的头衔了！",
+        "typeLabel": "头衔",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -55068,6 +55774,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "忌强化炼制",
+        "typeLabel": "饰品",
+        "soulValue": 320
       },
       "progression": {
         "equipmentLevel": {
@@ -55456,6 +56167,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "入魔后将扣除一半生命值，攻击和暴击大幅提升",
+        "typeLabel": "法宝",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -55842,6 +56558,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "云衔七曜起，雨拂九门来",
+        "typeLabel": "头衔",
+        "soulValue": 40
       },
       "progression": {
         "equipmentLevel": {
@@ -56230,6 +56951,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "催眠飞行怪物，即便死亡也不会苏醒。可以合成传说饰品",
+        "typeLabel": "饰品",
+        "soulValue": 320
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -56616,6 +57342,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "人间道，路远茫，相逢终有期",
+        "typeLabel": "武器",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -57004,6 +57735,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "人间如梦，红尘万丈，劈不断相思情",
+        "typeLabel": "武器",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -57390,6 +58126,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "提供人物无敌时间以及恢复部分生命值",
+        "typeLabel": "法宝",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -57778,6 +58519,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "恨悠悠，几时休。爱轻轻，随风行",
+        "typeLabel": "防具",
+        "soulValue": 160
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -58164,6 +58910,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "以紫金铸就神铲，斩妖除魔无所不能",
+        "typeLabel": "武器",
+        "soulValue": 160
       },
       "progression": {
         "equipmentLevel": {
@@ -58552,6 +59303,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "武器",
+        "soulValue": 640
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -58938,6 +59694,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "斩妖除奸恶，雷霆动乾坤",
+        "typeLabel": "法宝",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -59326,6 +60087,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "使用记录角色当前时刻的位置、生命、魔法，再次使用时光倒流至记录时刻的状态",
+        "typeLabel": "法宝",
+        "soulValue": 1280
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -59712,6 +60478,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "船下广陵去,月明征虏亭",
+        "typeLabel": "防具",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -60100,6 +60871,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "对酒不觉瞑,落花盈我衣",
+        "typeLabel": "武器",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -60486,6 +61262,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "对酒不觉瞑,落花盈我衣",
+        "typeLabel": "武器",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -60874,6 +61655,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "船下广陵去,月明征虏亭",
+        "typeLabel": "防具",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -61260,6 +62046,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "对酒不觉瞑,落花盈我衣",
+        "typeLabel": "武器",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -61648,6 +62439,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "船下广陵去,月明征虏亭",
+        "typeLabel": "防具",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -62034,6 +62830,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "船下广陵去,月明征虏亭",
+        "typeLabel": "防具",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -62422,6 +63223,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "对酒不觉瞑,落花盈我衣",
+        "typeLabel": "武器",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -62808,6 +63614,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "船下广陵去,月明征虏亭",
+        "typeLabel": "防具",
+        "soulValue": 2560
       },
       "progression": {
         "equipmentLevel": {
@@ -63196,6 +64007,11 @@
         },
         "hardCodedFallback": null
       },
+      "tooltip": {
+        "instruction": "对酒不觉瞑,落花盈我衣",
+        "typeLabel": "武器",
+        "soulValue": 2560
+      },
       "progression": {
         "equipmentLevel": {
           "status": "confirmed",
@@ -63582,6 +64398,11 @@
           }
         },
         "hardCodedFallback": null
+      },
+      "tooltip": {
+        "instruction": "",
+        "typeLabel": "饰品",
+        "soulValue": 1280
       },
       "progression": {
         "equipmentLevel": {

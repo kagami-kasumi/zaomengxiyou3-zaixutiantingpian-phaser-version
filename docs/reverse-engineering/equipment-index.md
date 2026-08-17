@@ -8,6 +8,12 @@
 `npm run test:equipment-data-catalog`。本文下方首轮结论仍作为调用链背景，
 不再承担完整数值表职责。
 
+`TASK-SETTINGS-189` 已进一步闭合 `ShowObj -> AttributeCon` 装备悬停显示列表、
+字段/单位、舞台边缘定位、实例刷新与全消费者矩阵；权威证据见
+[`evidence/TASK-SETTINGS-189-equipment-tooltip.md`](evidence/TASK-SETTINGS-189-equipment-tooltip.md)，
+机器真值为 `task-settings-189.equipment-tooltip`。164 件数据目录同时新增
+`tooltip.instruction/typeLabel/soulValue`，让后续 UI 直接消费同一原版目录。
+
 本文记录 `TASK-SETTINGS-013` 对装备和背包系统的首轮逆向结果。范围只覆盖足够支撑现代最小背包/装备切片的事实：装备类型、属性字段、槽位、穿戴/卸下、背包分类、容量、存取、物品使用与存档字段。合成、掉落、强化、法宝细节和完整道具效果只记录入口，不在本任务展开。
 
 ## 资料状态

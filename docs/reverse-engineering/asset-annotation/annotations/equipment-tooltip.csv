@@ -1,0 +1,2 @@
+stableKey,as3Name,sourceKind,sourcePath,sourcePackage,symbolId,scope,usage,status,confidence,nextAction,note
+equipment-tooltip.attributecon,export.pack.AttributeCon;export.pack.ShowObj,restored-swf,local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf;docs/reverse-engineering/ground-truth/manifests/task-settings-189-equipment-tooltip.json,1_MainLoad__main1.swf,,ui,装备实例悬停动态属性面板与舞台边缘定位,derived-ready,confirmed,integrate,纯 AS3 动态显示列表无 character id；12 状态 source-replay 与字段/生命周期真值已生成

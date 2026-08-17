@@ -25,6 +25,7 @@ export type EquipmentPageQaCase =
   | 'character-521'
   | 'title'
   | 'unchanged'
+  | 'tooltip-instance'
   | 'fmtstx-defect'
   | 'mksddf-defect';
 
@@ -38,6 +39,7 @@ export type EquipmentPageQaOptions = Readonly<{
 const QaCases = new Set<EquipmentPageQaCase>([
   'equipped', 'empty', 'role4-shovel', 'role4-arrow', 'role5-frame',
   'character-520', 'character-521', 'title', 'unchanged', 'fmtstx-defect', 'mksddf-defect',
+  'tooltip-instance',
 ]);
 const QaEquipmentRegistry = createEquipmentMakingDefinitionRegistry(
   createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry()),
@@ -96,6 +98,10 @@ function applyRepresentativeCase(
 ): void {
   const items = Object.values(EquipmentVisualCatalog);
   let fillName: string | undefined;
+  if (options.fixtureCase === 'tooltip-instance') {
+    loadout.weapon = instance('_clj', 3, { power: 234 });
+    return;
+  }
   if (options.fixtureCase === 'role4-shovel' || options.fixtureCase === 'role4-arrow') {
     fillName = items.find((item) => item.preview.mode === 'role4-dual-body-branch')?.fillName;
     if (fillName) loadout.armor = instance(fillName);
@@ -138,19 +144,30 @@ function findCompatibleFillName(roleId: number, slot: EquipmentSlot): string | u
   })?.fillName ?? definitions.find((definition) => getEquipmentSlotForType(definition.type) === slot)?.fillName;
 }
 
-function instance(fillName: string): EquipmentInstance {
+function instance(
+  fillName: string,
+  strengthLevel?: number,
+  baseStatsOverride?: EquipmentInstance['baseStatsOverride'],
+): EquipmentInstance {
   return {
     kind: 'equipment',
     instanceId: `qa-${fillName}`,
     definition: QaEquipmentRegistry[fillName]!,
     quantity: 1,
+    ...(strengthLevel ? { strengthLevel } : {}),
+    ...(baseStatsOverride ? { baseStatsOverride } : {}),
   };
 }
 
 function encodeLoadout(loadout: ReturnType<typeof createEmptyEquipmentLoadout>) {
   return Object.fromEntries(Object.entries(loadout).map(([slot, value]) => [
     slot,
-    value ? { fillName: value.definition.fillName, instanceId: value.instanceId } : null,
+    value ? {
+      fillName: value.definition.fillName,
+      instanceId: value.instanceId,
+      ...(value.strengthLevel ? { strengthLevel: value.strengthLevel } : {}),
+      ...(value.baseStatsOverride ? { baseStatsOverride: value.baseStatsOverride } : {}),
+    } : null,
   ])) as ReturnType<typeof createDefaultGameSave>['player1']['equipment'];
 }
 

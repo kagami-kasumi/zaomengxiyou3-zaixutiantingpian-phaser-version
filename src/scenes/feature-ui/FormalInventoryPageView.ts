@@ -43,6 +43,7 @@ import {
   createInventoryItemIcon,
   createNativeInventoryButton,
 } from './InventoryGridView';
+import { createEquipmentTooltipView } from './EquipmentTooltipView';
 
 type Callbacks = Readonly<{ onClose: () => void; onRerender: () => void }>;
 
@@ -81,6 +82,7 @@ export function createFormalInventoryPageView(
   ];
   const player = getFormalInventoryPlayer(model);
   const presentation = getFormalInventoryPresentation(model, runtime);
+  const equipmentTooltip = createEquipmentTooltipView(scene);
   let operationLayer: Phaser.GameObjects.GameObject[] = [];
 
   InventoryCategories.forEach((category) => {
@@ -102,6 +104,10 @@ export function createFormalInventoryPageView(
   objects.push(...createInventoryGridObjects(scene, projection, gridOrigin, (cell) => {
       selectFormalInventoryEntry(model, cell.index);
       callbacks.onRerender();
+  }, {
+    onEquipmentOver: (entry, pointer) => equipmentTooltip.show(entry, pointer.x, pointer.y),
+    onEquipmentMove: (pointer) => equipmentTooltip.move(pointer.x, pointer.y),
+    onEquipmentOut: equipmentTooltip.hide,
   }));
   const selectedCell = projection.find((cell) => cell.selected && cell.entry);
   if (selectedCell?.entry) {
@@ -141,6 +147,11 @@ export function createFormalInventoryPageView(
       if (equipped) unequipFormalInventorySelection(model, storage);
       callbacks.onRerender();
     });
+    if (equipped) {
+      hit.on('pointerover', (pointer: Phaser.Input.Pointer) => equipmentTooltip.show(equipped, pointer.x, pointer.y));
+      hit.on('pointermove', (pointer: Phaser.Input.Pointer) => equipmentTooltip.move(pointer.x, pointer.y));
+      hit.on('pointerout', equipmentTooltip.hide);
+    }
     objects.push(hit);
     if (equipped) {
       const asset = getInventoryItemAsset(equipped.definition.fillName);
@@ -231,6 +242,7 @@ export function createFormalInventoryPageView(
   objects.push(createNativeInventoryButton(scene, close.stageBounds.left, close.stageBounds.top,
     inventoryUiAssets.close, false, callbacks.onClose));
   objects.push(...operationLayer);
+  objects.push(equipmentTooltip.root);
   return scene.add.container(0, 0, objects).setDepth(20);
 }
 

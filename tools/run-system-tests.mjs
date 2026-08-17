@@ -48,6 +48,7 @@ const bundledTests = requestedTests.length > 0
       'player-soul-system-tests',
       'save-party-flow-tests',
       'formal-inventory-tests',
+      'equipment-tooltip-runtime-tests',
       'equipment-catalog-tests',
       'equipment-preview-catalog-tests',
       'equipment-workshop-transaction-closure-tests',
