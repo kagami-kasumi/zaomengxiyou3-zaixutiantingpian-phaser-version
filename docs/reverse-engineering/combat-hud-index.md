@@ -168,3 +168,9 @@ isBoss
 - `反证条件`：若原版录屏显示 Stage 1 的 HUD 被关卡镜头带动、P2 技能顺序不同、Boss 条在死亡前消失，或存在本任务未覆盖的正式核心字段，应把相应结论降级为待复核并重新追踪。
 
 以上未知不影响 `TASK-SLICE-131` 的 HP/MP/经验/等级、五槽、入口提示和重要敌人条实现；它们禁止把宠物完整 HUD 或全部技能图标宣称为已闭合。
+
+## TASK-SETTINGS-191：宠物战斗 HUD 真值
+
+旧“`ShowPetInfo` 完整皮肤未定位”的未知已清零。恢复 `assets/pet1.swf` character 662 `export.pet.ShowPetInfo` 是 `RoleInfo` 动态添加的独立原版战斗 HUD 根，不是 character 573 宠物页按钮，也不是 932 宠物页面。其 7 个直接 child 为 605 shell、610/614 两条 25 帧 HP/MP 时间轴、657 当前宠物头像和 659/660/661 等级/MP/HP TextField；根在 RoleInfo 局部 `(0,94)`，P2 随 `(920,0), scaleX=-1` 镜像并由 `flipHorizontalTxt(2)` 保持文字可读。
+
+机器真值 `task-settings-191.pet-combat-hud` 已冻结 P1/P2 的无宠物、满值、受击、0 HP 与休息共 10 状态，10 个序列化对象、每个可见态 8 对象、`unresolved=[]`。现代正式 HUD 当前只有 `petAvailable` 文本摘要，没有 pet snapshot、character 662、HP/MP 或生命周期消费，因此用户反证命中真值消费层。192B 必须直接恢复该 HUD；未经批准不得继续用“宠物”文字、现代矩形或通用血条替代。详细证据见 `evidence/TASK-SETTINGS-191-pet-ui-visibility.md`。

@@ -11157,3 +11157,20 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-191`：定位正式路径宠物 UI 不可见根因并冻结页面/战斗 HUD 证据。
+
+### TASK-SETTINGS-191
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-192A`）。
+- 按入口、owner、门禁、bundle、scene/layer、绘制与真值消费建立正式路由矩阵。940×590 `?qaStage=1-1-role1` 的 P1 character 573 pointer 与双人加载完成后的 P2 镜像 pointer 均打开现有 932 页面，显示各自小猴、出战态和技能，console warning/error 为 0；故 175A/180 页面事实保留。
+- 精确根因是战斗宠物 HUD 真值未消费：原版 `RoleInfo` 动态添加恢复 `pet1.swf` character 662 `export.pet.ShowPetInfo`，现代 `Stage1CombatHudSnapshot/Bridge` 只有 `petAvailable` 和“宠物/宠物—”文字，没有头像、等级、HP/MP 条/数值或出战/休息生命周期。
+- 新增 `task-settings-191.pet-combat-hud` verified manifest，冻结 605/610/614/657/659/660/661 显示列表、P1/P2 矩阵、HP/MP 25 帧公式、无宠物/满值/受击/0 HP/休息共 10 状态；10 个序列化对象、每个可见态 8 对象、`unresolved=[]`。
+- 新增 10 张 940×590 SWF-derived 原版结构基准、可重复 baseline/truth 生成器和 Schema 检查；完整六段证据、差异和 192A/192B 精确边界位于 `docs/reverse-engineering/evidence/TASK-SETTINGS-191-pet-ui-visibility.md`。
+- 192A 收紧为非 QA 冷启动存档→地图→五关页面旅程及失败可观察性，不重做已通过的 932；192B 明确只恢复 character 662，不接入 193 管理的宠物本体/技能动画。
+- 本 task 未修改 `src/`、宠物业务/数值/存档，也未修改 `local-resources/regima/legacy-extraction/` 原始结果。
+
+验证：
+- `npm run test:pet-combat-hud-truth`、`npm run test:pet-page-truth`、`npm run test:stage-feature-host-truth`、`npm run test:stage-feature-entry`、`npm run test:formal-pets`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-192A`：固化非 QA 冷启动正式宠物页面旅程和 bundle/绘制失败信号；页面继续消费 175A verified 真值，不做可见重写。

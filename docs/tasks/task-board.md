@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-191` 是唯一 Ready 游戏 task；190C 已闭合正式背包与炼丹炉的分页视觉分叉，现继续定位宠物 UI 正式路径不可见的精确层。
+`TASK-SLICE-192A` 是唯一 Ready 游戏 task；191 已确认 932 页面入口/owner/bundle/scene/depth 链在 P1/P2 可见，用户反证命中独立的战斗宠物 HUD 消费缺失。192A 先把非 QA 正式冷启动旅程和失败可观察性固化为门禁，不重做页面。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-191 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物 UI 可见性逆向 | 定位正式路径“无宠物 UI”是入口、宿主、层级、bundle、绘制还是真值消费缺口，并闭合战斗宠物 HUD 证据 | M-016、M-035、M-042、M-052、VS-067 | 页面/战斗 UI 显示列表、verified 真值/基准、正式路由根因与 192A/B 合同 | TASK-SLICE-192A | [定义](task-definitions/TASK-SETTINGS-191.md) |
-| TASK-SLICE-192A | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物页/入口 UI | 修复正式关卡 P1/P2 宠物入口与页面可见/交互链 | M-016、M-042、M-052、VS-067 | 正式宠物页原生投影、owner/存档回归与零遮挡差异 | TASK-SLICE-192B | [定义](task-definitions/TASK-SLICE-192A.md) |
+| TASK-SLICE-192A | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物页/入口正式旅程 | 固化冷启动存档→地图→五关 P1/P2 宠物入口/932 页面/返回链，并让 bundle/绘制失败可观察 | M-016、M-042、M-052、VS-067 | 非 QA 正式旅程门禁、失败信号、owner/存档/返回回归与零遮挡差异 | TASK-SLICE-192B | [定义](task-definitions/TASK-SLICE-192A.md) |
 | TASK-SLICE-192B | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物战斗 UI | 直接投影当前 pet runtime owner 的原生战斗可见对象/HUD | M-042、M-049、M-052、VS-067 | P1/P2 独立宠物状态、技能/休息/死亡更新和逐状态差异 | TASK-SETTINGS-193 | [定义](task-definitions/TASK-SLICE-192B.md) |
 | TASK-SETTINGS-193 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物动画 corpus 分区 | 盘点九物种/形态/动作/技能对象的恢复源 owner，冻结分族证据与实现批次 | M-034、M-035、M-042、VS-067 | corpus 目录、缺失/占位矩阵、每资源族证据+ 实现子 task | 执行所有生成的宠物资源族子 task，然后 TASK-SLICE-194 | [定义](task-definitions/TASK-SETTINGS-193.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在所有 193 生成子 task 完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |

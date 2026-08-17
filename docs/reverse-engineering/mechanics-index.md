@@ -86,6 +86,8 @@
 
 2026-08-17 Stage 2-3 前用户复验再次反证：装备 hover 未显示数值，正式路径未看到宠物 UI/真动画，五角色动作流畅度不一，战斗 HUD 未可见显示角色技能。这些反证不删除 170/175/180/183 的目录、单页真值和业务证据，但立即降级 `M-036/M-047/M-049/M-052`、`VS-051/054/062` 的整体关闭措辞；`M-018..M-022` 一律等待 195 的同标准帧时序/持帧/clock/资源完整性审计，不预先认定是解包不全。`M-042` 的行为/双 owner/存档证据保留，但真动画与正式 UI 交付明确未关闭；193 必须先按恢复源资源族分区，再生成逐族证据/实现 task。新调度见 `LINE-PRE-STAGE-2-3-PRESENTATION`。
 
+2026-08-17 `TASK-SETTINGS-191` 宠物 UI 可见性复核：P1/P2 的 character 573 pointer、`feature-ui-pets` bundle、`FeatureUiScene` 顶层和 932 页面在 940×590 正式 Runtime 均可见且零 console，175A/180 单页事实保留；用户反证命中的精确层是独立战斗 HUD。原版 `RoleInfo` 动态添加 `pet1.swf` character 662 `ShowPetInfo`，显示当前宠物头像、等级及 25 帧 HP/MP 条/数值；现代 HUD 只有 `petAvailable` 文字。新增 `task-settings-191.pet-combat-hud` verified 真值，10 个序列化对象/10 状态、可见态 8 对象、`unresolved=[]`。M-016 的入口事实保持；M-042/M-049/M-052 等待 192A 正式冷启动旅程和 192B character 662 投影，不因本证据 task 提升复现状态。
+
 2026-07-25 地图四服务页检查点：`MapMenu/GMain` 与 restored SWF 交叉确认丹药 990（`OtherMat1`）、商城 721 和任务 85（`backpack1`）、设置 148（`StageCommon`）。商城在该单机版本以玩家灵魂结算；购买成功只刷新运行态和 `MemoryClass.mystorage` 内存快照，必须返回地图手动存档才写文件，不得因旧充值/点券静态文字伪造在线服务；设置字段原版为会话态，不在 `User.getSaveObj`。四页深证据按 `TASK-SETTINGS-066A..D` 继续，详见 `map-service-ui-index.md`，当前不提升 `M-044/M-046/M-052` 状态。
 
 2026-07-25 丹药页深证据：`TASK-SETTINGS-066A` 已闭合 character 990/969/1006、四按钮、五职业选择器、25 格顺序解锁、五类五阶加成、五配方、灵魂/材料/容量拒绝、原版刷新瑕疵、P1/P2 owner 和显式保存边界，详见 `immortality-ui-index.md`。这只清零 `TASK-SLICE-155A` 输入未知，不提前提升 `M-044/M-052` 或 `VS-059`。

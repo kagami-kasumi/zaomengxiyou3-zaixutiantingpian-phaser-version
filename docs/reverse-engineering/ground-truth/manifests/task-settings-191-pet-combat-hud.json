@@ -1,0 +1,2227 @@
+{
+  "$schema": "../schema/ui-ground-truth.schema.json",
+  "schemaVersion": 1,
+  "truthId": "task-settings-191.pet-combat-hud",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SETTINGS-191",
+    "surfaceId": "role-info-dynamic-show-pet-info-character-662",
+    "originalVersion": "RegiMA 1.1 restored corpus",
+    "description": "The independent battle pet HUD dynamically added above RoleInfo: character 662 shell, current pet head, level, HP/MP bars and texts. The separate character 573 pet-page button is outside this scope and remains covered by task-settings-175c.stage-feature-host."
+  },
+  "generatedBy": {
+    "tool": "generate-pet-combat-hud-ground-truth.mjs",
+    "toolVersion": "1",
+    "command": "npm run generate:pet-combat-hud-truth",
+    "generatedAt": "2026-08-17T22:30:00+08:00"
+  },
+  "provenance": [
+    {
+      "id": "pet1-swf",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+      "sha256": "0699a5d3a49ea8024d3635b18c6349f5d7f7cf5f1db869dd18a0a5ee6de60644",
+      "locator": "character 662 export.pet.ShowPetInfo frame 1; children 605/610/614/657/659/660/661; 610 and 614 each 25 frames; FFDec 26 selective SVG/PNG export."
+    },
+    {
+      "id": "pet1-ffdec-xml",
+      "sourceType": "ffdec-xml",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-175a-pet-page/pet1.xml",
+      "sha256": "5bc723862a5cc68418911d158e7660e0043dfb47e65ced7413f7a6ab8ed3fdd7",
+      "locator": "DefineSprite 662 first-frame PlaceObject depths, matrices, instance names and headmc filter."
+    },
+    {
+      "id": "role-info-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/RoleInfo.as",
+      "sha256": "ae14af3dbeee617b6c82b2aa827ee83d5b26202dc1f85fea5b16a6dcdf755f81",
+      "locator": "added/addPetHead/removePetHead/changeCurPet/step/setPos: dynamic addChild at y=94, P2 parent mirror, per-frame show()."
+    },
+    {
+      "id": "show-pet-info-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/ShowPetInfo.as",
+      "sha256": "a93d6ae5955ce77e9c44140392aee43afa0b7f14202176f7f3cbf78d85d93f24",
+      "locator": "show/flipHorizontalTxt: head label, level, HP/MP text and 25-frame formulas; P2 text readability transforms."
+    },
+    {
+      "id": "pet-interface-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetInterface.as",
+      "sha256": "4255255b7d35a419dc0a43920742e03f84f089befa5daed53de7ceb6c5aeeee9",
+      "locator": "fightClick/restClick/okClick/sendHeroRefreshPet dispatch CHANGECURRENTPET."
+    },
+    {
+      "id": "base-pet-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+      "locator": "reduceHp: HP clamps to zero, death action and lifetime decrement while the same PetInfo remains visible."
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 30,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "top-left"
+  },
+  "states": [
+    {
+      "id": "no-pet-p1",
+      "entry": "P1 RoleInfo created without an active pet",
+      "frame": 0,
+      "fixtureId": "p1; findCurrentPet()=null",
+      "baselineId": "original-no-pet-p1-940x590"
+    },
+    {
+      "id": "active-full-p1",
+      "entry": "P1 active pet is created or selected",
+      "frame": 1,
+      "fixtureId": "p1; monkey1 火丸; level=1; hp=840/840; mp=150/150",
+      "baselineId": "original-active-full-p1-940x590"
+    },
+    {
+      "id": "active-hit-p1",
+      "entry": "P1 active pet is damaged and RoleInfo.step refreshes",
+      "frame": 1,
+      "fixtureId": "p1; monkey1; hp=420/840; mp=150/150",
+      "baselineId": "original-active-hit-p1-940x590"
+    },
+    {
+      "id": "active-dead-p1",
+      "entry": "P1 active pet reaches zero HP while lifetime remains positive",
+      "frame": 1,
+      "fixtureId": "p1; monkey1; hp=0/840; lifetime>0",
+      "baselineId": "original-active-dead-p1-940x590"
+    },
+    {
+      "id": "rested-p1",
+      "entry": "P1 PetInterface rests the active pet and dispatches CHANGECURRENTPET",
+      "frame": 0,
+      "fixtureId": "p1; isFight=0",
+      "baselineId": "original-rested-p1-940x590"
+    },
+    {
+      "id": "no-pet-p2",
+      "entry": "P2 RoleInfo created without an active pet",
+      "frame": 0,
+      "fixtureId": "p2; findCurrentPet()=null",
+      "baselineId": "original-no-pet-p2-940x590"
+    },
+    {
+      "id": "active-full-p2",
+      "entry": "P2 active pet is created or selected",
+      "frame": 1,
+      "fixtureId": "p2; monkey1 火丸; level=1; hp=840/840; mp=150/150",
+      "baselineId": "original-active-full-p2-940x590"
+    },
+    {
+      "id": "active-hit-p2",
+      "entry": "P2 active pet is damaged and RoleInfo.step refreshes",
+      "frame": 1,
+      "fixtureId": "p2; monkey1; hp=420/840; mp=150/150",
+      "baselineId": "original-active-hit-p2-940x590"
+    },
+    {
+      "id": "active-dead-p2",
+      "entry": "P2 active pet reaches zero HP while lifetime remains positive",
+      "frame": 1,
+      "fixtureId": "p2; monkey1; hp=0/840; lifetime>0",
+      "baselineId": "original-active-dead-p2-940x590"
+    },
+    {
+      "id": "rested-p2",
+      "entry": "P2 PetInterface rests the active pet and dispatches CHANGECURRENTPET",
+      "frame": 0,
+      "fixtureId": "p2; isFight=0",
+      "baselineId": "original-rested-p2-940x590"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "pet-combat-hud-root",
+      "parentId": null,
+      "depth": 65,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 662,
+        "symbolClass": "export.pet.ShowPetInfo",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "active-full-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.2,
+            "top": -29.55,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": -87.2,
+            "top": 64.45,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-662",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-hit-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.2,
+            "top": -29.55,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": -87.2,
+            "top": 64.45,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-662",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-dead-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.2,
+            "top": -29.55,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": -87.2,
+            "top": 64.45,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-662",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-full-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 920,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.2,
+            "top": -29.55,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 733.5,
+            "top": 64.45,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-662",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-hit-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 920,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.2,
+            "top": -29.55,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 733.5,
+            "top": 64.45,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-662",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-dead-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 920,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.2,
+            "top": -29.55,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 733.5,
+            "top": 64.45,
+            "width": 273.7,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-662",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.shell",
+      "parentId": "pet-combat-hud-root",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 605,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "active-full-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 178,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 0,
+            "top": 94,
+            "width": 178,
+            "height": 56
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-605",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-hit-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 178,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 0,
+            "top": 94,
+            "width": 178,
+            "height": 56
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-605",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-dead-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 0,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 178,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 0,
+            "top": 94,
+            "width": 178,
+            "height": 56
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-605",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-full-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 920,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 178,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 742,
+            "top": 94,
+            "width": 178,
+            "height": 56
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-605",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-hit-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 920,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 178,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 742,
+            "top": 94,
+            "width": 178,
+            "height": 56
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-605",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-dead-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 920,
+            "ty": 94
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 178,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 742,
+            "top": 94,
+            "width": 178,
+            "height": 56
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-605",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#shape0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.hpmc-full",
+      "parentId": "pet-combat-hud-root",
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 610,
+        "symbolClass": null,
+        "instanceName": "hpmc",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "active-full-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 118.3,
+            "ty": 109.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -86.75,
+            "top": -15.58,
+            "width": 168,
+            "height": 29.36
+          },
+          "stageBounds": {
+            "left": 45.43,
+            "top": 96.263,
+            "width": 141.12,
+            "height": 24.662
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-610",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-full-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 801.7,
+            "ty": 109.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -86.75,
+            "top": -15.58,
+            "width": 168,
+            "height": 29.36
+          },
+          "stageBounds": {
+            "left": 733.45,
+            "top": 96.263,
+            "width": 141.12,
+            "height": 24.662
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-610",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#sprite0-frame-1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.hpmc-hit",
+      "parentId": "pet-combat-hud-root",
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 610,
+        "symbolClass": null,
+        "instanceName": "hpmc",
+        "frame": 12
+      },
+      "placements": [
+        {
+          "stateId": "active-hit-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 118.3,
+            "ty": 109.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -86.75,
+            "top": -15.58,
+            "width": 168,
+            "height": 29.36
+          },
+          "stageBounds": {
+            "left": 45.43,
+            "top": 96.263,
+            "width": 141.12,
+            "height": 24.662
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-610",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-hit-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 801.7,
+            "ty": 109.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -86.75,
+            "top": -15.58,
+            "width": 168,
+            "height": 29.36
+          },
+          "stageBounds": {
+            "left": 733.45,
+            "top": 96.263,
+            "width": 141.12,
+            "height": 24.662
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-610",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#sprite0-frame-12",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.hpmc-dead",
+      "parentId": "pet-combat-hud-root",
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 610,
+        "symbolClass": null,
+        "instanceName": "hpmc",
+        "frame": 25
+      },
+      "placements": [
+        {
+          "stateId": "active-dead-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 118.3,
+            "ty": 109.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -86.75,
+            "top": -15.58,
+            "width": 168,
+            "height": 29.36
+          },
+          "stageBounds": {
+            "left": 45.43,
+            "top": 96.263,
+            "width": 141.12,
+            "height": 24.662
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-610",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-dead-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 801.7,
+            "ty": 109.35
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -86.75,
+            "top": -15.58,
+            "width": 168,
+            "height": 29.36
+          },
+          "stageBounds": {
+            "left": 733.45,
+            "top": 96.263,
+            "width": 141.12,
+            "height": 24.662
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-610",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#sprite0-frame-25",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.mpmc",
+      "parentId": "pet-combat-hud-root",
+      "depth": 7,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 614,
+        "symbolClass": null,
+        "instanceName": "mpmc",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "active-full-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 117,
+            "ty": 125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -72.2,
+            "top": -10.55,
+            "width": 151,
+            "height": 22
+          },
+          "stageBounds": {
+            "left": 56.352,
+            "top": 116.138,
+            "width": 126.84,
+            "height": 18.48
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-614",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-hit-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 117,
+            "ty": 125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -72.2,
+            "top": -10.55,
+            "width": 151,
+            "height": 22
+          },
+          "stageBounds": {
+            "left": 56.352,
+            "top": 116.138,
+            "width": 126.84,
+            "height": 18.48
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-614",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-dead-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 117,
+            "ty": 125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -72.2,
+            "top": -10.55,
+            "width": 151,
+            "height": 22
+          },
+          "stageBounds": {
+            "left": 56.352,
+            "top": 116.138,
+            "width": 126.84,
+            "height": 18.48
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-614",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-full-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 803,
+            "ty": 125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -72.2,
+            "top": -10.55,
+            "width": 151,
+            "height": 22
+          },
+          "stageBounds": {
+            "left": 736.808,
+            "top": 116.138,
+            "width": 126.84,
+            "height": 18.48
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-614",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-hit-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 803,
+            "ty": 125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -72.2,
+            "top": -10.55,
+            "width": 151,
+            "height": 22
+          },
+          "stageBounds": {
+            "left": 736.808,
+            "top": 116.138,
+            "width": 126.84,
+            "height": 18.48
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-614",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-dead-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -0.84,
+            "b": 0,
+            "c": 0,
+            "d": 0.84,
+            "tx": 803,
+            "ty": 125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -72.2,
+            "top": -10.55,
+            "width": 151,
+            "height": 22
+          },
+          "stageBounds": {
+            "left": 736.808,
+            "top": 116.138,
+            "width": 126.84,
+            "height": 18.48
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-614",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#sprite1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.headmc",
+      "parentId": "pet-combat-hud-root",
+      "depth": 12,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 657,
+        "symbolClass": null,
+        "instanceName": "headmc",
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "active-full-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 7.8,
+            "ty": 82.7
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 7.8,
+            "top": 82.7,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-657",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-hit-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 7.8,
+            "ty": 82.7
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 7.8,
+            "top": 82.7,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-657",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-dead-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 7.8,
+            "ty": 82.7
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 7.8,
+            "top": 82.7,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-657",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-full-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 912.2,
+            "ty": 82.7
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 807.4,
+            "top": 82.7,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-657",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-hit-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 912.2,
+            "ty": 82.7
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 807.4,
+            "top": 82.7,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-657",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-dead-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 912.2,
+            "ty": 82.7
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "stageBounds": {
+            "left": 807.4,
+            "top": 82.7,
+            "width": 104.8,
+            "height": 93.6
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-657",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#sprite2",
+        "blendMode": "normal",
+        "filters": [
+          {
+            "type": "glow",
+            "color": "#000000",
+            "blurX": 4,
+            "blurY": 4,
+            "strength": 3
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.txtlevel",
+      "parentId": "pet-combat-hud-root",
+      "depth": 26,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 659,
+        "symbolClass": null,
+        "instanceName": "txtlevel",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "active-full-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 5.5,
+            "ty": 130.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "stageBounds": {
+            "left": 5.5,
+            "top": 130.55,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-659",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-hit-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 5.5,
+            "ty": 130.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "stageBounds": {
+            "left": 5.5,
+            "top": 130.55,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-659",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-dead-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 5.5,
+            "ty": 130.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "stageBounds": {
+            "left": 5.5,
+            "top": 130.55,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-659",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-full-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 895,
+            "ty": 130.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "stageBounds": {
+            "left": 895,
+            "top": 130.55,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-659",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-hit-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 895,
+            "ty": 130.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "stageBounds": {
+            "left": 895,
+            "top": 130.55,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-659",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-dead-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 895,
+            "ty": 130.55
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "stageBounds": {
+            "left": 895,
+            "top": 130.55,
+            "width": 19.5,
+            "height": 18.1
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-659",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#text0",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "fontSize": 12,
+          "color": "#ffffff",
+          "dynamic": true,
+          "source": "PetInfo.getLevel()"
+        }
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.txtmp",
+      "parentId": "pet-combat-hud-root",
+      "depth": 27,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 660,
+        "symbolClass": null,
+        "instanceName": "txtmp",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "active-full-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 79,
+            "ty": 118.15
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 72,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 79,
+            "top": 118.15,
+            "width": 72,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-660",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-hit-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 79,
+            "ty": 118.15
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 72,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 79,
+            "top": 118.15,
+            "width": 72,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-660",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-dead-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 79,
+            "ty": 118.15
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 72,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 79,
+            "top": 118.15,
+            "width": 72,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-660",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-full-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 780,
+            "ty": 118.15
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 72,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 780,
+            "top": 118.15,
+            "width": 72,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-660",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-hit-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 780,
+            "ty": 118.15
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 72,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 780,
+            "top": 118.15,
+            "width": 72,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-660",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-dead-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 780,
+            "ty": 118.15
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 72,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 780,
+            "top": 118.15,
+            "width": 72,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-660",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#text1",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "fontSize": 12,
+          "color": "#ffffff",
+          "dynamic": true,
+          "source": "PetInfo.getMp()/getSMp()"
+        }
+      }
+    },
+    {
+      "id": "pet-combat-hud-root.txthp",
+      "parentId": "pet-combat-hud-root",
+      "depth": 28,
+      "objectType": "text-field",
+      "sourceIdentity": {
+        "provenanceId": "pet1-swf",
+        "characterId": 661,
+        "symbolClass": null,
+        "instanceName": "txthp",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "active-full-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 78,
+            "ty": 101.5
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 74,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 78,
+            "top": 101.5,
+            "width": 74,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-661",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-hit-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 78,
+            "ty": 101.5
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 74,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 78,
+            "top": 101.5,
+            "width": 74,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-661",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-dead-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 78,
+            "ty": 101.5
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 74,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 78,
+            "top": 101.5,
+            "width": 74,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-661",
+            "role-info-as:addPetHead/step"
+          ]
+        },
+        {
+          "stateId": "active-full-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 780,
+            "ty": 101.5
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 74,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 780,
+            "top": 101.5,
+            "width": 74,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-661",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-hit-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 780,
+            "ty": 101.5
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 74,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 780,
+            "top": 101.5,
+            "width": 74,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-661",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        },
+        {
+          "stateId": "active-dead-p2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 780,
+            "ty": 101.5
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 74,
+            "height": 16
+          },
+          "stageBounds": {
+            "left": 780,
+            "top": 101.5,
+            "width": 74,
+            "height": 16
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Character 662 local PlaceObject geometry composed with RoleInfo.addPetHead y=94 and GameInfo P1/P2 parent transforms.",
+          "evidenceRefs": [
+            "pet1-swf:character-661",
+            "role-info-as:setPos/addPetHead",
+            "show-pet-info-as:flipHorizontalTxt"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-191-pet-ui/svg/DefineSprite_662_export.pet.ShowPetInfo/1.svg#text2",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null,
+        "textStyle": {
+          "fontFamily": "FZCuYuan-M03",
+          "fontSize": 12,
+          "color": "#ffffff",
+          "dynamic": true,
+          "source": "PetInfo.getHp()/getSHp()"
+        }
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "original-no-pet-p1-940x590",
+      "stateId": "no-pet-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-no-pet-p1-940x590.png",
+      "sha256": "a7a72053c4d847d6d2ffec075c0acc2cb22e4ce7bf5ce467e874541a47034b35",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-active-full-p1-940x590",
+      "stateId": "active-full-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-active-full-p1-940x590.png",
+      "sha256": "545b25a07e187dde72e559bf77538712dbf1101fa72ab0122a156853609af2b1",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-active-hit-p1-940x590",
+      "stateId": "active-hit-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-active-hit-p1-940x590.png",
+      "sha256": "545b25a07e187dde72e559bf77538712dbf1101fa72ab0122a156853609af2b1",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-active-dead-p1-940x590",
+      "stateId": "active-dead-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-active-dead-p1-940x590.png",
+      "sha256": "545b25a07e187dde72e559bf77538712dbf1101fa72ab0122a156853609af2b1",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-rested-p1-940x590",
+      "stateId": "rested-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-rested-p1-940x590.png",
+      "sha256": "a7a72053c4d847d6d2ffec075c0acc2cb22e4ce7bf5ce467e874541a47034b35",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-no-pet-p2-940x590",
+      "stateId": "no-pet-p2",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-no-pet-p2-940x590.png",
+      "sha256": "a7a72053c4d847d6d2ffec075c0acc2cb22e4ce7bf5ce467e874541a47034b35",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-active-full-p2-940x590",
+      "stateId": "active-full-p2",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-active-full-p2-940x590.png",
+      "sha256": "7c44f563ecd178369f92b8704304e9fcc57a842a493cb8556f54426d4359d0fe",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-active-hit-p2-940x590",
+      "stateId": "active-hit-p2",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-active-hit-p2-940x590.png",
+      "sha256": "7c44f563ecd178369f92b8704304e9fcc57a842a493cb8556f54426d4359d0fe",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-active-dead-p2-940x590",
+      "stateId": "active-dead-p2",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-active-dead-p2-940x590.png",
+      "sha256": "7c44f563ecd178369f92b8704304e9fcc57a842a493cb8556f54426d4359d0fe",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-rested-p2-940x590",
+      "stateId": "rested-p2",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-191/original-rested-p2-940x590.png",
+      "sha256": "a7a72053c4d847d6d2ffec075c0acc2cb22e4ce7bf5ce467e874541a47034b35",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "no-pet-p1",
+      "active-full-p1",
+      "active-hit-p1",
+      "active-dead-p1",
+      "rested-p1",
+      "no-pet-p2",
+      "active-full-p2",
+      "active-hit-p2",
+      "active-dead-p2",
+      "rested-p2"
+    ],
+    "extractedStateIds": [
+      "no-pet-p1",
+      "active-full-p1",
+      "active-hit-p1",
+      "active-dead-p1",
+      "rested-p1",
+      "no-pet-p2",
+      "active-full-p2",
+      "active-hit-p2",
+      "active-dead-p2",
+      "rested-p2"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "no-pet-p1": 0,
+      "active-full-p1": 8,
+      "active-hit-p1": 8,
+      "active-dead-p1": 8,
+      "rested-p1": 0,
+      "no-pet-p2": 0,
+      "active-full-p2": 8,
+      "active-hit-p2": 8,
+      "active-dead-p2": 8,
+      "rested-p2": 0
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "docs/reverse-engineering/evidence/TASK-SETTINGS-191-pet-ui-visibility.md",
+    "docs/reverse-engineering/pets-index.md#task-settings-191-正式可见性与战斗-hud-裁决",
+    "docs/reverse-engineering/combat-hud-index.md#task-settings-191-宠物战斗-hud-真值"
+  ]
+}

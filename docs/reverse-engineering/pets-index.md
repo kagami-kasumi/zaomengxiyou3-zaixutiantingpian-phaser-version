@@ -885,6 +885,14 @@ SVG 逐项一致；运行时 5 行 1224 列表、`PetHeadSprite`、8 个 `skillI
 覆盖两页、selected、出战/休息、洗练/进化、P1/P2 与关闭，`unresolved=[]`。证据矩阵与实现合同见
 `evidence/TASK-SETTINGS-175A-pet-page.md`；现代页仍须由 `TASK-SLICE-180` 删除未经批准的覆盖层。
 
+## TASK-SETTINGS-191：正式可见性与战斗 HUD 裁决
+
+2026-08-17 对用户“正式路径无宠物 UI”反证按入口、owner、scene/layer、bundle、绘制和真值消费逐层复核。940×590 `?qaStage=1-1-role1` 的 P1 character 573 pointer，以及双人路由加载完成后的 P2 镜像 pointer，均通过统一 `PlayableLevelRuntime -> FormalFeatureUiEntryBridge -> feature-ui-pets -> FeatureUiScene` 打开 932 页面，页面显示当前 owner 小猴、出战态和技能，console warning/error 为 0。因此 175A/180 的单页事实保留，页面链未复现不可见根因。
+
+精确缺口位于独立战斗 HUD：原版 `RoleInfo.addPetHead()` 动态添加 `pet1.swf` character 662 `export.pet.ShowPetInfo`，每帧显示当前宠物头像、等级、HP/MP 25 帧条及数值，P2 随 RoleInfo 镜像并把三个 TextField 再反转；出战/休息/放生由 `CHANGECURRENTPET` 创建或移除。现代 `Stage1CombatHudSnapshot` 只保留 `petAvailable:boolean`，`Stage1CombatHudBridge` 仅画“宠物/宠物—”文字，完全没有 character 662 或宠物数值消费者。
+
+新增 `task-settings-191.pet-combat-hud` verified 真值：10 个序列化对象、10 状态、每个可见态 8 对象，`unresolved=[]`；P1/P2、无宠物、满值、受击、0 HP 与休息状态、原版基准和分帧公式均已冻结。详细路由矩阵、显示列表、差异和 192A/192B 边界见 `evidence/TASK-SETTINGS-191-pet-ui-visibility.md`。宠物实体/技能真动画不属于 662，继续由 193 按恢复源资源族分区。
+
 ## 最小现代模型建议
 
 **注意**：AS3 数值基数 `hy.first = 2×atk`、`sxhz.first = 4×atk`、`hsqj.first = 6×atk` 等来自 `PetInfo.getPetHarmObj()`，均已确认。凤凰 `phoenix1..4`、兔 `rabbit1..4`、鼠 `mouse1..4` 的专属技能链见下方新增章节。
