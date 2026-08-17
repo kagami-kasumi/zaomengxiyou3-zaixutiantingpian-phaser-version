@@ -36,7 +36,7 @@
 | 左下五入口 | 原生按钮与共享 router 已有；175C 已闭合 574/371/444 的 25 对象/42 状态 verified 真值 | 已关闭；182 已直接消费真值、删除地图共享 chrome 并恢复单页门 | 175C manifest/证据矩阵；182 的 P1/P2、门禁、五关共享 owner、打开/关闭/返回与 940×590 证据 |
 | UI 整改 | 176 已关闭背包灵魂值错位、关卡 HUD 背包/设置重复层、设置页重复层与 Role5 自主换装四项用户确认差异 | 当前无新增用户确认差异；HUD/设置新版 machine-truth 债务仍归 175 | `TASK-SLICE-176-runtime-regressions.md` 的重复 normal 层、字段锚点、Role5 appearance-selector 专项与 940×590 连续帧证据；清单外页面不修改 |
 | 评审战斗纠错 | Role1/Role5 真视觉和五关正式 Runtime 已有；173/173A 已闭合影分身 verified 真值、共享状态机/视觉、正式输入/目标/弹体/销毁与 P1/P2 owner | 已关闭：174 生成 detached 普攻 verified 空间真值并建立唯一几何 owner；Role5 projectile 恢复二维命中并委托共享结算 | 共享消费者一致性、X/Y 边界、重复/死亡/P1/P2 专项与 940×590 单/双人零 console |
-| 功能 UI 真值债务 | 175A..I 已全部生成 verified 真值；宠物页、法宝页、功能宿主、技能四页、商城、设置、任务页和建档/选角已分别直接消费 74/16、28/21、25/42、250/32、132/31、19/23、45/28、20/30 对象/状态真值并删除现代覆盖/手写视觉源 | 仅丹药 view 尚未直连 175E manifest；188 为唯一 Ready | 175 审计、175A..I manifests；180..187 运行投影、差异证据与专项 |
+| 功能 UI 真值债务 | 175A..I 已全部生成 verified 真值；宠物、法宝、宿主、技能、商城、设置、任务、建档/选角及丹药页分别直接消费 74/16、28/21、25/42、250/32、132/31、19/23、45/28、20/30、132/26 对象/状态真值 | 已关闭；188 删除丹药页五组手写坐标表并直接消费 990/969/1006 真值投影 | 175 审计、175A..I manifests；180..188 运行投影、差异证据与专项 |
 
 ## 当前调度
 
@@ -77,7 +77,7 @@
 35. `TASK-SLICE-185`：Done；新增 `FormalSettingsPageTruth` 直接消费 175G 的 19 对象/23 状态，删除五行坐标、命中、字体与关闭按钮锚点的手写视觉真值；四项循环、死控件、全局 owner、关闭/重开/重载、940×590 差异和零 console 回归通过。
 36. `TASK-SLICE-186`：Done；`FormalTaskPageTruth/TaskScene` 已直接消费 175H 的 45 对象/28 状态，删除行/奖励/文字/按钮手写真值与现代反馈文字；`root-static.svg` 修复整帧动态 child 回填，空活动、末页、P1/P2 奖励、存档、关闭/重开与零 console 通过。
 37. `TASK-SLICE-187`：Done；新增 `SavePartyCreationTruth` 并直接消费 175I 的 20 对象/30 状态真值，删除 `RoleImageX/RoleRegistrationX/RoleHitBounds`；修正基准生成 alpha 缺陷，1P/2P、取消、原子建槽、重载、940×590 与零 console 通过。
-38. `TASK-SLICE-188`：Ready；直接消费 175E 丹药页真值，删除 `ImmortalityScene` 手写视觉源并完成 26 状态 owner/事务/重载回归。
+38. `TASK-SLICE-188`：Done；直接消费 175E 丹药页 132 对象/26 状态真值，删除 `ImmortalityScene` 五组手写视觉坐标，owner/事务/重载、全系统、build 与 940×590 零 console 回归通过；本线关闭并恢复 Stage 2-3。
 
 ## 明确排除
 
@@ -92,7 +92,7 @@
 - [x] 五角色基础数值、经验/等级、升级成长、装备派生和 HUD 闭合。
 - [x] 当前 V7、旧档废弃、成长双 owner、跨关卡/重启和损坏保护闭合。
 - [x] 已完成关卡的左下五按钮 pointer 矩阵通过。
-- [ ] 用户确认的 UI 差异清单无未解释缺口。
-- [ ] 复评确认的 Role1 影分身与普攻几何/Role5 弹体已关闭；175 已完成证据分级，功能页 manifest/实现缺口由 175A..I 逐页关闭。
-- [ ] 自动测试、structure/build/workflow、多次 940×590 正式旅程与 console 零 warning/error 通过。
-- [ ] 无未完成同线 task。
+- [x] 用户确认的 UI 差异清单无未解释缺口。
+- [x] 复评确认的 Role1 影分身与普攻几何/Role5 弹体已关闭；175A..I 与 180..188 已逐页关闭功能 UI 真值债务。
+- [x] 自动测试、structure/build/workflow、多次 940×590 正式旅程与 console 零 warning/error 通过。
+- [x] 无未完成同线 task。

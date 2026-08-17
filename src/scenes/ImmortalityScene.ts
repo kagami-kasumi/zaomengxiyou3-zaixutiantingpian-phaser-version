@@ -18,12 +18,14 @@ import {
 import { getImmortalityFillName } from '../systems/ImmortalitySystem';
 import type { PlayerSlot } from '../systems/InputSystem';
 import type { SaveStorage } from '../systems/SaveSystem';
-
-const CellColumns = [196.85, 299.85, 406.85, 517.85, 622.85] as const;
-const CellRows = [150.85, 218.35, 287.85, 357.85, 430.35] as const;
-const EffectRows = [178.6, 249.6, 318.6, 392.55, 461.55] as const;
-const MakeRows = [178.9, 247.9, 317.9, 388.9, 461.9] as const;
-const CompoundRows = [146.4, 205.35, 266.4, 325.35, 383.95] as const;
+import {
+  assertVerifiedImmortalityPageTruth,
+  getImmortalityCellTruthBounds,
+  getImmortalityOwnerTruthBounds,
+  getImmortalityTruthBounds,
+  ImmortalityTruthObjectIds,
+  type ImmortalityTruthBounds,
+} from './immortality/FormalImmortalityPageTruth';
 
 export class ImmortalityScene extends Phaser.Scene {
   private storage?: SaveStorage;
@@ -37,6 +39,7 @@ export class ImmortalityScene extends Phaser.Scene {
   }
 
   public create(): void {
+    assertVerifiedImmortalityPageTruth();
     this.storage = getBrowserStorage();
     this.model = this.storage ? createFormalImmortalityPage(this.storage) : undefined;
     if (!this.model || !this.storage) {
@@ -44,7 +47,8 @@ export class ImmortalityScene extends Phaser.Scene {
       return;
     }
     this.cameras.main.setBackgroundColor('#000000');
-    this.add.image(0, 0, immortalityUiAssets.root.key).setOrigin(0);
+    const rootBounds = getImmortalityTruthBounds(ImmortalityTruthObjectIds.root);
+    this.add.image(rootBounds.left, rootBounds.top, immortalityUiAssets.root.key).setOrigin(0);
     this.renderDynamicLayer();
     this.input.keyboard?.on('keydown-ESC', this.handleEscape, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
@@ -60,18 +64,21 @@ export class ImmortalityScene extends Phaser.Scene {
     this.dynamicLayer = layer;
     const player = getFormalImmortalityPlayer(this.model);
 
-    layer.add(this.add.text(805.95, 544, String(player.soulCount), {
+    const soulBounds = getImmortalityTruthBounds(ImmortalityTruthObjectIds.soul);
+    layer.add(this.add.text(soulBounds.left, soulBounds.top, String(player.soulCount), {
       color: '#ffffff',
       fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
       fontSize: '23px',
+      fixedWidth: soulBounds.width,
     }).setOrigin(0));
     getFormalImmortalityEffectTotals(this.model).forEach((value, index) => {
-      layer.add(this.add.text(747.95, EffectRows[index]!, String(value), {
+      const bounds = getImmortalityTruthBounds(ImmortalityTruthObjectIds.effects[index]!);
+      layer.add(this.add.text(bounds.left, bounds.top, String(value), {
         color: '#ffffff',
         fontFamily: 'FZCuYuan-M03, Arial, sans-serif',
         fontSize: '15px',
         align: 'center',
-        fixedWidth: 104,
+        fixedWidth: bounds.width,
       }).setOrigin(0));
     });
 
@@ -80,8 +87,7 @@ export class ImmortalityScene extends Phaser.Scene {
     }
     for (let typeIndex = 0; typeIndex < 5; typeIndex += 1) {
       layer.add(this.createNativeButton(
-        80.7,
-        MakeRows[typeIndex]!,
+        getImmortalityTruthBounds(ImmortalityTruthObjectIds.make[typeIndex]!),
         immortalityUiAssets.buttons.compound,
         () => {
           openFormalImmortalityExchange(this.model!, typeIndex);
@@ -89,17 +95,16 @@ export class ImmortalityScene extends Phaser.Scene {
         },
       ));
       for (let gradeIndex = 0; gradeIndex < 5; gradeIndex += 1) {
-        const x = CellColumns[gradeIndex]!;
-        const y = CellRows[typeIndex]!;
         if (player.immortalityFlags[typeIndex]![gradeIndex] === 1) {
           const asset = getInventoryItemAsset(getImmortalityFillName(typeIndex, gradeIndex));
           if (asset) {
-            layer.add(this.add.image(x + 2, y + 2, asset.key).setOrigin(0).setDisplaySize(51, 51));
+            const bounds = getImmortalityCellTruthBounds(typeIndex, gradeIndex, 'consumed');
+            layer.add(this.add.image(bounds.left, bounds.top, asset.key).setOrigin(0)
+              .setDisplaySize(bounds.width, bounds.height));
           }
         } else if (isFormalImmortalityEatVisible(this.model, typeIndex, gradeIndex)) {
           layer.add(this.createNativeButton(
-            x + 5,
-            y + 5,
+            getImmortalityCellTruthBounds(typeIndex, gradeIndex, 'eat'),
             immortalityUiAssets.buttons.eat,
             () => {
               eatFormalImmortality(this.model!, this.storage!, typeIndex, gradeIndex);
@@ -111,8 +116,7 @@ export class ImmortalityScene extends Phaser.Scene {
       }
     }
     layer.add(this.createNativeButton(
-      853.3,
-      23.35,
+      getImmortalityTruthBounds(ImmortalityTruthObjectIds.back),
       immortalityUiAssets.buttons.back,
       () => this.returnToMap(),
     ));
@@ -122,9 +126,10 @@ export class ImmortalityScene extends Phaser.Scene {
   private createOwnerSelector(owner: PlayerSlot): Phaser.GameObjects.Image {
     const heroId = getFormalImmortalityHeroId(this.model!, owner)! as 1 | 2 | 3 | 4 | 5;
     const state = owner === this.model!.owner ? 'selected' : 'normal';
+    const bounds = getImmortalityOwnerTruthBounds(heroId, owner);
     const image = this.add.image(
-      owner === 'p1' ? 50 : 140,
-      540,
+      bounds.left,
+      bounds.top,
       immortalityUiAssets.owners[heroId][state].key,
     ).setOrigin(0).setInteractive({ useHandCursor: true });
     image.on('pointerdown', () => {
@@ -135,15 +140,15 @@ export class ImmortalityScene extends Phaser.Scene {
   }
 
   private renderExchange(layer: Phaser.GameObjects.Container): void {
-    const blocker = this.add.image(0, 0, immortalityUiAssets.exchange.key)
+    const dialogBounds = getImmortalityTruthBounds(ImmortalityTruthObjectIds.dialog);
+    const blocker = this.add.image(dialogBounds.left, dialogBounds.top, immortalityUiAssets.exchange.key)
       .setOrigin(0)
       .setInteractive()
       .setDepth(50);
     layer.add(blocker);
-    CompoundRows.forEach((y, gradeIndex) => {
+    ImmortalityTruthObjectIds.compound.forEach((truthId, gradeIndex) => {
       const button = this.createNativeButton(
-        589.8,
-        y,
+        getImmortalityTruthBounds(truthId),
         immortalityUiAssets.buttons.compound,
         () => {
           craftFormalImmortality(this.model!, this.storage!, gradeIndex);
@@ -154,8 +159,7 @@ export class ImmortalityScene extends Phaser.Scene {
       layer.add(button);
     });
     layer.add(this.createNativeButton(
-      700.3,
-      87.35,
+      getImmortalityTruthBounds(ImmortalityTruthObjectIds.dialogClose),
       immortalityUiAssets.buttons.close,
       () => {
         closeFormalImmortalityExchange(this.model!);
@@ -165,8 +169,7 @@ export class ImmortalityScene extends Phaser.Scene {
   }
 
   private createNativeButton(
-    x: number,
-    y: number,
+    bounds: ImmortalityTruthBounds,
     assets: {
       up: { key: string };
       over: { key: string };
@@ -174,7 +177,7 @@ export class ImmortalityScene extends Phaser.Scene {
     },
     action: () => void,
   ): Phaser.GameObjects.Image {
-    const button = this.add.image(x, y, assets.up.key).setOrigin(0)
+    const button = this.add.image(bounds.left, bounds.top, assets.up.key).setOrigin(0)
       .setInteractive({ useHandCursor: true });
     button.on('pointerover', () => button.setTexture(assets.over.key));
     button.on('pointerout', () => button.setTexture(assets.up.key));

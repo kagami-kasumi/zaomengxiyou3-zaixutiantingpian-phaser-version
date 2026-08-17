@@ -10825,3 +10825,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-188`：直接消费 175E 丹药页 verified 真值，删除 `ImmortalityScene` 手写视觉真值源；完成后审查当前功能线关闭合同。
+
+### TASK-SLICE-188
+
+- 完成日期：2026-08-17。
+- 功能条线：`LINE-CORE-PROGRESSION-COMPLETION`（已关闭；恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`）。
+- 新增 `FormalImmortalityPageTruth.ts`，运行时直接导入并断言 `task-settings-175e.immortality-page`：132 个 scoped display object、26 个状态、`unresolved=[]`。
+- `ImmortalityScene` 按 manifest 对象 ID 投影 990 根、25 个 969 格、968 服用按钮、动态已服用图、五 owner、动态灵魂/效果字段、五个 989、973 返回与 1006/997 弹层；删除 `CellColumns/CellRows/EffectRows/MakeRows/CompoundRows` 五组手写视觉真值源。
+- 丹药配方、消耗/炼制拒绝顺序、背包、灵魂、P1/P2 owner、当前 schema、即时保存和地图路由保持；没有新增可见现代例外。
+- 940×590 normal、make hover、craft dialog、dialog close、back return 与原版基准人工对照通过，console warning/error 为 0；运行记录位于 `docs/tasks/evidence/TASK-SLICE-188/visual-audit.md`。
+
+验证：
+- `npm run test:immortality`、`npm run test:immortality-page-truth`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run check:annotations`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SETTINGS-064`：逆向 Stage 2-3 真场景、专属流程、怪物/机关、结果与当前槽保存六段证据；本 task 不写现代实现。

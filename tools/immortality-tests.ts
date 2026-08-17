@@ -28,6 +28,16 @@ import {
   loadActiveGame,
 } from '../src/systems/SaveSlotSystem';
 import { parseGameSave, serializeGameSave, type SaveStorage } from '../src/systems/SaveSystem';
+import {
+  assertVerifiedImmortalityPageTruth,
+  getImmortalityCellTruthBounds,
+  getImmortalityOwnerTruthBounds,
+  getImmortalityTruthBounds,
+  getImmortalityTruthCharacterId,
+  getImmortalityTruthStateIds,
+  ImmortalityPageTruthId,
+  ImmortalityTruthObjectIds,
+} from '../src/scenes/immortality/FormalImmortalityPageTruth';
 
 class MemoryStorage implements SaveStorage {
   private readonly values = new Map<string, string>();
@@ -46,6 +56,24 @@ class MemoryStorage implements SaveStorage {
 }
 
 const registry = createInventoryItemDefinitionRegistry(createSeedEquipmentRegistry());
+
+assert.doesNotThrow(() => assertVerifiedImmortalityPageTruth());
+assert.equal(ImmortalityPageTruthId, 'task-settings-175e.immortality-page');
+assert.equal(getImmortalityTruthStateIds().length, 26);
+assert.equal(getImmortalityTruthCharacterId(ImmortalityTruthObjectIds.root), 990);
+assert.equal(getImmortalityTruthCharacterId(ImmortalityTruthObjectIds.dialog), 1006);
+assert.deepEqual(getImmortalityCellTruthBounds(0, 0), {
+  left: 196.85, top: 150.85, width: 55, height: 55,
+});
+assert.deepEqual(getImmortalityCellTruthBounds(4, 4, 'consumed'), {
+  left: 624.85, top: 432.35, width: 51, height: 51,
+});
+assert.deepEqual(getImmortalityOwnerTruthBounds(5, 'p2'), {
+  left: 140, top: 540, width: 68, height: 36.3,
+});
+assert.deepEqual(getImmortalityTruthBounds(ImmortalityTruthObjectIds.dialogClose), {
+  left: 700.3, top: 87.35, width: 40, height: 42,
+});
 
 {
   const store = createInventoryStore(125, 'pill');
@@ -179,5 +207,10 @@ assert.doesNotMatch(rootStatic, /id="eatbtn"/);
 assert.doesNotMatch(rootStatic, /id="txtlh"/);
 const mapSource = readFileSync(path.join(repoRoot, 'src/scenes/HeavenMapScene.ts'), 'utf8');
 assert.match(mapSource, /ImmortalityScene/);
+const sceneSource = readFileSync(path.join(repoRoot, 'src/scenes/ImmortalityScene.ts'), 'utf8');
+assert.match(sceneSource, /assertVerifiedImmortalityPageTruth/);
+assert.match(sceneSource, /getImmortalityCellTruthBounds/);
+assert.match(sceneSource, /getImmortalityOwnerTruthBounds/);
+assert.doesNotMatch(sceneSource, /const CellColumns|const CellRows|const EffectRows|const MakeRows|const CompoundRows/);
 
 console.log('immortality system tests passed');
