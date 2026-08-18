@@ -11237,3 +11237,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-193B`：只直接消费 193A verified 真值，选择性派生并接入猴系本体/对象，删除几何本体、错名和缺段占位；不改玩法数值或触及其他物种。
+
+### TASK-SLICE-193B
+
+- 完成日期：2026-08-18。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-193C`）。
+- 新增可重复派生脚本，选择性复制四个 monkey 本体 atlas 与九个唯一对象序列/80 帧；`combat-common` 是唯一 bundle owner，没有修改恢复源或 legacy 原始提取结果。
+- `PetMonkeyAnimationAssets/PetMonkeyAnimationView` 直接导入并断言 193A 的 626 状态/20 对象 verified 真值，按动作行、逐 cell 持帧、20/24/30 host clock、左右注册点、偏移、深度与生命周期驱动真本体和对象。
+- Stage 1-1 与其余四个正式关卡共享同一投影模块；P1/P2 继续读取现有 roster 和 `PetRuntimeSystem`。monkey2/3 lj 恢复双对象，四形态 xj 复用正确对象并保留 4 秒，jgaoyi 改为本体 hit5 而非独立伪 projectile。
+- 玩法伤害/冷却、碰撞、宠物 AI、业务 owner 和当前存档未改。normal 素材/动作/对象已注册，但当前现代业务没有通用宠物普攻触发链，本 task 未越界新增 AI 入口。
+- 940×590 正式双人 Stage 1-1 与 Retry 验证 P1/P2 猴系真本体，console warning/error 为 0；逐状态差异与显示列表见 `docs/verification/TASK-SLICE-193B/visual-audit.md`。
+
+验证：
+- `npm run test:pet-monkey-animation-runtime`、`npm run test:pet-monkey-animation-truth`、`npm run test:pet-animation-corpus`、`npm run test:asset-bundles`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、LSP diagnostics、`git diff --check` 与 940×590 浏览器验收。
+
+推荐任务：
+- `TASK-SETTINGS-193C`：只闭合 horse1..4 本体、技能/共享冰效、补丁 owner 与逐帧 verified 真值；不修改 `src/` 或派生现代 atlas。

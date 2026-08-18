@@ -374,6 +374,10 @@ Role5 完整表见 `role5-combat-index.md`。当前确认的实现拆分如下�
 
 xj 的 `PetMonkey1Bullet2` 是例外：monkey1..4 复用同一 16 帧对象，`setDestroyWhenLastFrame(false)`，跟随宠物位置/朝向，并以 `setDestroyInCount(frameClips * 4)` 保持 4 秒后销毁。monkey4 jgaoyi 不创建 bullet，直接播放本体 hit5 row8。逐形态生成偏移、左右注册矩阵、可见边界与现代错名/缺段映射见 `evidence/TASK-SETTINGS-193A-pet-monkey-animation.md`。
 
+## TASK-SLICE-193B 猴系对象投影
+
+Stage 1-1 的测试场景适配和其余四关的共享宠物本体 bridge 均消费 193A 的对象用途表：monkey2 lj 同时投影 `PetMonkey2Bullet2_1/_2`，monkey3/4 lj 同时投影 `PetMonkey3Bullet3_1/_2`，四形态 xj 统一复用 `PetMonkey1Bullet2` 并保持 4 秒，jgaoyi 只切换本体 `PetMonkeyBmd4Hit5` 而不绘制独立弹体。`ProjectileSystem` 的伤害、冷却、碰撞和销毁 owner 未迁移，只纠正可见 runtime/source metadata。
+
 ## 现代实现状态
 
 `TASK-SLICE-005` 已完成 `VS-008` 第一个窄切片：

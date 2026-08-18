@@ -1037,4 +1037,8 @@ interface PetState {
 
 普攻对象为 `PetMonkey1Bullet1`、`PetMonkey2Bullet1`、`PetMonkey3Bullet1`；xj 复用 16 帧 `PetMonkey1Bullet2` 并按 `frameClips×4` 循环；monkey2 lj 必须同时显示 `_1/_2`，monkey3/4 lj 必须同时显示 `PetMonkey3Bullet3_1/_2`；lyq 使用 25 帧 `PetMonkey3Bullet2`；jgaoyi 只使用 monkey4 本体 hit5 行。原版远距 warp 只是 root 瞬移，没有独立动作。完整触发、生成偏移、层级与销毁矩阵见 `evidence/TASK-SETTINGS-193A-pet-monkey-animation.md`。
 
+## TASK-SLICE-193B 猴系运行投影
+
+`PetMonkeyAnimationAssets` 直接导入并断言 193A 真值，`PetMonkeyAnimationView` 以同一份动作行、host-tick 持帧和注册点驱动 P1/P2；Stage 1-1 与其余四个正式 Runtime 只装配共享 bridge，宠物 roster、跟随/warp、HP/MP 与存档继续由现有 owner 控制。normal 素材、动作和对象已经注册，但当前现代业务没有通用宠物普攻触发链；193B 按禁止 AI/玩法变更的合同不虚构新触发入口。
+
 

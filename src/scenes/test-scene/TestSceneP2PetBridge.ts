@@ -3,7 +3,12 @@
 import {
   getActivePet,
 } from './TestSceneSystems';
-import { createPetView, type PetView } from './TestSceneViews';
+import {
+  createPetView,
+  petViewMatchesPet,
+  syncPetViewPresentation,
+  type PetView,
+} from './TestSceneViews';
 import { updateOwnedPetSystem } from './TestScenePetMagicBridge';
 
 export function updateP2PetSystem(this: any, deltaMs: number): void {
@@ -26,14 +31,21 @@ export function syncP2PetView(this: any, activePet: NonNullable<ReturnType<typeo
     destroyP2PetView.call(this);
     return;
   }
+  if (this.p2PetView && !petViewMatchesPet(this.p2PetView, activePet)) {
+    this.p2PetView.root.destroy(true);
+    this.p2PetView = undefined;
+  }
   if (!this.p2PetView) {
     this.p2PetView = createPetView(this, activePet, this.p2PetRuntime.x, this.p2PetRuntime.y) as PetView;
   }
-  this.p2PetView.root.setPosition(this.p2PetRuntime.x, this.p2PetRuntime.y);
-  this.p2PetView.root.setScale(this.p2PetRuntime.facingX < 0 ? -1 : 1, 1);
-  this.p2PetView.body.setFillStyle(this.p2PetRuntime.state === 'warp' ? 0xf2c14e : 0x74c0fc, 0.9);
-  this.p2PetView.ear.setFillStyle(0xf3f6ff, this.p2PetRuntime.state === 'follow' ? 0.7 : 0.45);
-  this.p2PetView.label.setText(`P2 ${activePet.displayName} F${activePet.form} ${this.p2PetRuntime.state}`);
+  syncPetViewPresentation(
+    this,
+    this.p2PetView,
+    activePet,
+    this.p2PetRuntime,
+    this.projectileSystem.projectiles,
+    'P2',
+  );
 }
 
 export function destroyP2PetView(this: any): void {

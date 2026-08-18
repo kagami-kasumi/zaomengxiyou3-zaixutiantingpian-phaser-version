@@ -83,6 +83,7 @@ import {
   type MonsterView,
   type ProjectileEffectView,
 } from './TestSceneViews';
+import { syncPetMonkeyProjectileVisuals } from './TestScenePetProjectileVisualBridge';
 import {
   destroyStage11MonsterView,
   updateStage11MonsterView,
@@ -754,6 +755,7 @@ export function updatePlayerCombatVisual(this: any, player: any, time: number): 
 
 export function updateProjectileEffectViews(this: any): void {
     const activeProjectiles = getActiveProjectiles(this.projectileSystem);
+    syncPetMonkeyProjectileVisuals(this, activeProjectiles, [this.petView, this.p2PetView]);
     const activeIds = new Set(activeProjectiles.map((projectile) => projectile.id));
     const activeViews: ProjectileEffectView[] = [];
 

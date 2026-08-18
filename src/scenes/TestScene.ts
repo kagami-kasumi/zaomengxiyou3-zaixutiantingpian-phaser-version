@@ -191,6 +191,7 @@ import {
   destroyPetView as destroyPetViewImpl,
   syncPetView as syncPetViewImpl,
 } from './test-scene/TestScenePetViewBridge';
+import { destroyPetMonkeyProjectileVisuals } from './test-scene/TestScenePetProjectileVisualBridge';
 import {
   initializeSceneSave as initializeSceneSaveImpl,
   saveSceneNow as saveSceneNowImpl,
@@ -465,6 +466,7 @@ export class TestScene extends Phaser.Scene {
   public override update(_time: number, delta: number): void { this.runtime?.update(delta); }
 
   private shutdownStage11(): void {
+    destroyPetMonkeyProjectileVisuals(this);
     this.runtime?.destroy();
     this.runtime = undefined;
   }

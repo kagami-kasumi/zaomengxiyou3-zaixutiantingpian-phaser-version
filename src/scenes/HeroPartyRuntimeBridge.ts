@@ -45,6 +45,7 @@ import {
   FormalPetsUpdatedEvent,
   type FormalPetsUpdatedPayload,
 } from './feature-ui/FormalPetRuntimeBridge';
+import { createFormalPetMonkeyBodyBridge } from './FormalPetMonkeyBodyBridge';
 
 export type HeroPartyViewSnapshot = HeroRuntimeSnapshot & Readonly<{
   view: Phaser.GameObjects.Image;
@@ -133,6 +134,9 @@ export function createHeroPartyRuntime(
   const normalAttackProjectileVisuals = createRole5NormalAttackProjectileVisualBridge(scene);
   const role1ShadowProjectileVisuals = createRole1ShadowProjectileVisualBridge(scene);
   const role1ShadowViews = new Map<string, Role1ShadowView>();
+  const formalPetMonkeyBodies = scene.scene.key === 'TestScene'
+    ? undefined
+    : createFormalPetMonkeyBodyBridge(scene, (slot) => petRosters[slot]);
   let destroyed = false;
 
   const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
@@ -174,6 +178,13 @@ export function createHeroPartyRuntime(
           : []),
       views: role1ShadowViews,
     });
+    formalPetMonkeyBodies?.update(model.members.map((member) => ({
+      slot: member.combat.slot,
+      x: member.movement.x,
+      y: member.movement.y,
+      facingX: member.movement.facingX,
+      dead: member.combat.combat.state === 'dead',
+    })), timeMs);
     if (role1ShadowQa) {
       scene.game.canvas.dataset.formalRole1ShadowQa = JSON.stringify(model.members
         .filter((member) => member.combat.normalAttack.heroId === 1)
@@ -241,6 +252,7 @@ export function createHeroPartyRuntime(
       normalAttackProjectileVisuals.destroy();
       role1ShadowProjectileVisuals.destroy();
       destroyRole1ShadowVisualViews(role1ShadowViews);
+      formalPetMonkeyBodies?.destroy();
       if (role1ShadowQa) delete scene.game.canvas.dataset.formalRole1ShadowQa;
       destroyHeroPartyRuntime(model);
       heroPartyRuntimeByScene.delete(scene);

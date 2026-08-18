@@ -96,6 +96,8 @@
 
 2026-08-18 `TASK-SETTINGS-193A` 猴系逐帧真值：`task-settings-193a.pet-monkey-animation` 以 626 状态、20 显示对象与 626 个 SWF-derived 基准冻结 monkey1..4 本体行/持帧、普攻、xj/lj/lyq/jgaoyi、hurt/dead、左右注册点/alpha 边界、生成矩阵、20/24/30 host clock 和销毁合同，`unresolved=[]`。真实加载时序确认 `PetMonkeyBmd1..3` 与九对象选择 `20120203.swf` 补丁 owner，`Bmd4` 选择 `pet1.swf`；monkey2/3 两段对象、`PetMonkey2Bullet3` 错名和 jgaoyi 本体 hit5 差异已转交 193B。M-034/M-035/M-042 与 VS-067 仍保持部分复现，直到现代正式 Runtime 消费真值。
 
+2026-08-18 `TASK-SLICE-193B` 猴系真动画接入：四本体 atlas 与九个唯一对象序列由 `combat-common` 唯一加载，Stage 1-1 和其余四关共享同一真值消费者；逐行动作 clock/持帧/注册点、lj 双段、xj 复用与 4 秒生命周期、jgaoyi 本体 hit5 均直接派生自 193A。P1/P2 roster、跟随/远距传送、伤害/冷却、AI 和存档 owner 未改。M-034/M-035/M-042 与 VS-067 仍为部分复现，等待其余八族 193C..193R 和 194 校准。
+
 2026-07-25 地图四服务页检查点：`MapMenu/GMain` 与 restored SWF 交叉确认丹药 990（`OtherMat1`）、商城 721 和任务 85（`backpack1`）、设置 148（`StageCommon`）。商城在该单机版本以玩家灵魂结算；购买成功只刷新运行态和 `MemoryClass.mystorage` 内存快照，必须返回地图手动存档才写文件，不得因旧充值/点券静态文字伪造在线服务；设置字段原版为会话态，不在 `User.getSaveObj`。四页深证据按 `TASK-SETTINGS-066A..D` 继续，详见 `map-service-ui-index.md`，当前不提升 `M-044/M-046/M-052` 状态。
 
 2026-07-25 丹药页深证据：`TASK-SETTINGS-066A` 已闭合 character 990/969/1006、四按钮、五职业选择器、25 格顺序解锁、五类五阶加成、五配方、灵魂/材料/容量拒绝、原版刷新瑕疵、P1/P2 owner 和显式保存边界，详见 `immortality-ui-index.md`。这只清零 `TASK-SLICE-155A` 输入未知，不提前提升 `M-044/M-052` 或 `VS-059`。

@@ -24,7 +24,7 @@
 | 背包分页一致性 | 正式背包与炼丹炉共享 `InventoryGridView`、同一 inventory owner 和两份 verified 页面真值 | 无；190C 已移除工坊静态 `/5`、背景按钮和透明分页命中分叉 | 两页共同消费 `createInventoryPagerObjects`、原生三态按钮与完整 `n/5`；各自 truth 几何、第一页/第二页和 940×590 运行对照通过 |
 | 宠物页/入口 | 175A 的 74 对象/16 状态真值、180 页面投影、191 正式可见性矩阵；192A 已固化非 QA 当前 schema 双人冷启动→地图→五关 Runtime→P1/P2 932→返回/重载旅程 | 无；bundle、page-assets、render 失败均发出统一 `feature-ui-failed` 结构化信号 | `formal-pet-journey-tests.ts`；`TASK-SLICE-192A/runtime-audit.md`；P1/P2/五关/重载与 940×590 零 console |
 | 宠物战斗 UI | 宠物 owner、出战状态和技能 runtime 已有；191 新增 character 662 的 10 对象/10 状态 verified 真值 | 无；192B 已删除 `petAvailable` 文字并恢复 605/610/614/head/三字段及出战/休息/0 HP 生命周期 | `Stage1PetCombatHudView` 直接消费 191 truth；五关/P1-P2 专项、`TASK-SLICE-192B/visual-audit.md`、940×590 零 console |
-| 宠物真动画 | 九物种技能行为与部分占位 projectile 已有；193 已冻结 35 形态/38 技能映射；193A 已冻结猴系 626 状态/20 对象 verified 真值、补丁 owner、注册点、clock 与销毁矩阵 | 猴系正式运行消费及其余八族逐帧证据/实现仍未闭合 | 193B 直接消费猴系真值；随后 193C..193R 按马/UFO/虎/龟/凤/龙/兔/鼠执行 verified 证据→实现；194 最终跨族校准 |
+| 宠物真动画 | 九物种技能行为与部分占位 projectile 已有；193 已冻结 35 形态/38 技能映射；193A/193B 已闭合猴系 626 状态/20 对象真值及 P1/P2 五关共享运行投影 | 其余八族逐帧证据/实现仍未闭合 | 猴系 4 本体 atlas、9 唯一对象序列、双段 lj、xj 复用与 jgaoyi 本体 hit5 已直连真值；193C..193R 继续按马/UFO/虎/龟/凤/龙/兔/鼠执行 verified 证据→实现；194 最终跨族校准 |
 | 五角色动作流畅度 | 069/158 视觉索引/桥、163/164/173/174 几何与行为证据 | 用户观察到角色间卡顿与流畅度不一；根因可能在资源完整性、帧时序/持帧、clock、动作转移、加载或投影 | 195 跨角色可测对照与根因分类；只为受影响角色生成单角色修复 task；196 五角色统一校准 |
 | 战斗技能 HUD | 技能功能页 175D/183、五槽绑定数据、HUD snapshot/bridge 已有 | 用户在战斗 UI 中未看到角色技能；旧 M-049/VS-051 关闭结论待复核，不得用技能功能页替代 | 197 战斗 HUD 显示列表/verified 真值；198 可见原生投影；199 绑定/MP/冷却/P1-P2/存档联动 |
 | 正式旅程 | 当前单 schema、五关 Runtime、功能页 router 和旧 159 旅程 | 新 UI/动画组合后的冷启动、跨页/跨关/双人/重载尚未证明 | 200 独立自动旅程 + 940×590 人工视觉/手感验收 |
@@ -37,12 +37,13 @@
 4. `TASK-SETTINGS-191`、`TASK-SLICE-192A/192B`：Done；页面入口链、非 QA 五关冷启动/返回/重载旅程、失败信号及独立战斗 character 662 的 P1/P2 原生投影均已闭合。
 5. `TASK-SETTINGS-193`：Done；`pet-animation-corpus.json` 已闭合 9 物种、35 形态、38 技能映射与五恢复包 owner，生成 193A..193R 九组串行证据→实现 task。
 6. `TASK-SETTINGS-193A`：Done；`task-settings-193a.pet-monkey-animation` 以 626 状态、20 显示对象、626 SWF-derived 基准闭合 monkey1..4 本体、普攻、xj/lj/lyq/jgaoyi、hurt/dead、补丁 owner、host-tick clock、注册点/边界与销毁矩阵，`unresolved=[]`。
-7. `TASK-SLICE-193B -> TASK-SETTINGS-193C -> ... -> TASK-SETTINGS-193Q -> TASK-SLICE-193R`：193B 只消费猴系真值；其余物种继续逐族生成 verified 真值后接入，证据未闭合时配对实现不得 Ready。
-8. `TASK-SLICE-194`：所有宠物资源族子 task 完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
-9. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。
-10. `TASK-SLICE-196`：五角色统一动作流畅度、UI 完整度和正式 Runtime 校准；不代替单角色修复。
-11. `TASK-SETTINGS-197 -> TASK-SLICE-198 -> TASK-SLICE-199`：技能功能页保持独立已有证据；本批只闭合战斗技能 HUD 真值、可见投影和运行联动。
-12. `TASK-SLICE-200`：集中正式旅程与整线关闭；通过后才恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`。
+7. `TASK-SLICE-193B`：Done；四本体与九唯一对象序列由 `combat-common` 唯一加载，Stage 1-1 与其余四关共享同一真值消费者，P1/P2/Retry 和 940×590 零 console 通过；未改玩法、AI、owner 或存档。
+8. `TASK-SETTINGS-193C -> ... -> TASK-SETTINGS-193Q -> TASK-SLICE-193R`：其余物种继续逐族生成 verified 真值后接入，证据未闭合时配对实现不得 Ready。
+9. `TASK-SLICE-194`：所有宠物资源族子 task 完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
+10. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。
+11. `TASK-SLICE-196`：五角色统一动作流畅度、UI 完整度和正式 Runtime 校准；不代替单角色修复。
+12. `TASK-SETTINGS-197 -> TASK-SLICE-198 -> TASK-SLICE-199`：技能功能页保持独立已有证据；本批只闭合战斗技能 HUD 真值、可见投影和运行联动。
+13. `TASK-SLICE-200`：集中正式旅程与整线关闭；通过后才恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`。
 
 ## 明确排除
 

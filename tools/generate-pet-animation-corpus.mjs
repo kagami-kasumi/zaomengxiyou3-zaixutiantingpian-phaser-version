@@ -198,11 +198,11 @@ const bodyRows = species.map((item) => {
     unique.map((entry) => entry.selectedOwner.characterId).join(';'),
     'effect',
     monkeyReady ? 'monkey actual-form body atlases with verified action rows and owner precedence' : `${item.species} actual-form body atlases; exact action rows remain for ${item.evidenceTask}`,
-    monkeyReady ? 'derived-ready' : 'export-ready',
+    monkeyReady ? 'ready' : 'export-ready',
     'confirmed',
-    monkeyReady ? 'integrate' : 'export-selectively',
+    monkeyReady ? 'none' : 'export-selectively',
     monkeyReady
-      ? 'TASK-SETTINGS-193A truth task-settings-193a.pet-monkey-animation verifies host-tick holds, registration/visible bounds and patch owner; TASK-SLICE-193B must derive only this family.'
+      ? 'TASK-SLICE-193B directly consumes TASK-SETTINGS-193A truth for host-tick holds, registration, visible bounds and patch owner in P1/P2 combat runtime.'
       : `Source owner partitioned by TASK-SETTINGS-193; derive nothing before ${item.evidenceTask} verifies action rows, registration points, frame timing and load precedence.`,
   ]);
 });
@@ -219,10 +219,12 @@ const skillRows = skillSpecs.map(([stableKey, speciesName, names, usage]) => {
     resolved.map((entry) => entry.selectedOwner.characterId).join(';'),
     'effect',
     monkeyReady?.[0] ?? usage,
-    monkeyReady ? 'derived-ready' : 'export-ready',
+    monkeyReady ? 'ready' : 'export-ready',
     'confirmed',
-    monkeyReady ? 'integrate' : 'export-selectively',
-    monkeyReady?.[1] ?? `${speciesName} family is partitioned to ${speciesSpecs.find((item) => item.species === speciesName).evidenceTask}; modern visibility remains placeholder or absent until its paired implementation task.`,
+    monkeyReady ? 'none' : 'export-selectively',
+    monkeyReady
+      ? `${monkeyReady[1]} TASK-SLICE-193B now consumes this verified visual in the shared monkey runtime.`
+      : `${speciesName} family is partitioned to ${speciesSpecs.find((item) => item.species === speciesName).evidenceTask}; modern visibility remains placeholder or absent until its paired implementation task.`,
   ]);
 });
 

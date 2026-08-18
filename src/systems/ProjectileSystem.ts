@@ -278,8 +278,8 @@ export const PetMonkey2LjProjectileTuning = {
 export const PetMonkey2XjProjectileTuning = {
   actionName: 'hit3',
   assetKey: PetSkillEffectKeys.monkey2Xj,
-  sourceSymbol: 'PetMonkey2Bullet3',
-  runtimeName: 'PetMonkey2Bullet3',
+  sourceSymbol: 'PetMonkey1Bullet2',
+  runtimeName: 'PetMonkey1Bullet2',
   offsetX: 0,
   offsetY: 0,
   speedX: 0,
@@ -362,8 +362,8 @@ export const PetMonkey3LjProjectileTuning = {
 export const PetMonkey4JgaoyiProjectileTuning = {
   actionName: 'hit5',
   assetKey: PetSkillEffectKeys.monkey4Jgaoyi,
-  sourceSymbol: 'PetMonkey4.hit5',
-  runtimeName: 'PetMonkey4Hit5',
+  sourceSymbol: 'PetMonkeyBmd4.row8',
+  runtimeName: 'PetMonkeyBmd4Hit5',
   offsetX: 0,
   offsetY: -30,
   speedX: 0,

@@ -2123,7 +2123,7 @@ function testPetMonkey2XjSpawnsProjectileAndDamagesMonster30(): void {
   assert.equal(projectile.variant, 'pet-monkey2-xj');
   assert.equal(projectile.sourceId, pet.id);
   assert.equal(projectile.actionName, 'hit3');
-  assert.equal(projectile.runtimeName, 'PetMonkey2Bullet3');
+  assert.equal(projectile.runtimeName, 'PetMonkey1Bullet2');
   assert.equal(rectanglesIntersect(
     getProjectileHitbox(projectile),
     { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
@@ -2664,7 +2664,7 @@ function testPetMonkey4JgaoyiSpawnsHit5FeedbackWithoutDirectDamage(): void {
   assert.equal(projectile.variant, 'pet-monkey4-jgaoyi');
   assert.equal(projectile.sourceId, pet.id);
   assert.equal(projectile.actionName, 'hit5');
-  assert.equal(projectile.runtimeName, 'PetMonkey4Hit5');
+  assert.equal(projectile.runtimeName, 'PetMonkeyBmd4Hit5');
   assert.equal(projectile.damage, 0);
   assert.equal(rectanglesIntersect(
     getProjectileHitbox(projectile),

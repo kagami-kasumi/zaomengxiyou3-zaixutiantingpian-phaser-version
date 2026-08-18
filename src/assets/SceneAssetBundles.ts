@@ -51,6 +51,10 @@ import {
 import { inventoryItemAssets } from './InventoryItemAssets';
 import { inventoryUiAssetList } from './InventoryUiAssets';
 import {
+  petMonkeyBodyAssets,
+  petMonkeyEffectAssets,
+} from './PetMonkeyAnimationAssets';
+import {
   monsterResourceFamilies,
   type MonsterResourceFamilyId,
 } from './MonsterAssetCatalog';
@@ -297,6 +301,14 @@ const role5CombatBundleAssets = [
 const role5CombatSkillBundleAssets = Object.values(role5SkillVisualAssets).flatMap(svgs);
 const combatCommonAssets = [
   ...Object.values(scaffoldAssets).map(svg),
+  ...Object.values(petMonkeyBodyAssets).map((asset) => ({
+    kind: 'spritesheet' as const,
+    key: asset.key,
+    path: asset.path,
+    frameWidth: asset.cellWidth,
+    frameHeight: asset.cellHeight,
+  })),
+  ...Object.values(petMonkeyEffectAssets).flatMap(images),
   ...Object.values(levelResultAssets).map(image),
   svg(combatHudAssets.roleInfo),
   svg(combatHudAssets.bossBlood),

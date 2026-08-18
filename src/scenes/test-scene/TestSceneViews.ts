@@ -16,7 +16,14 @@ import {
 import type { WorldDrop } from '../../systems/DropSystem';
 import type { Monster30Model } from '../../systems/Monster30System';
 import type { PetState } from '../../systems/PetSystem';
+import type { PetRuntimeModel } from '../../systems/PetTypes';
 import type { ProjectileModel } from '../../systems/ProjectileSystem';
+import {
+  createPetMonkeyAnimationView,
+  isSupportedPetMonkey,
+  syncPetMonkeyAnimationView,
+  type PetMonkeyAnimationView,
+} from '../PetMonkeyAnimationView';
 import {
   createStage11MonsterView,
   setStage11MonsterViewVisible,
@@ -27,13 +34,16 @@ import {
 export type MonsterView = Stage11MonsterView;
 export type BossView = Stage11MonsterView;
 
-export type PetView = {
+type PlaceholderPetView = {
+  kind: 'placeholder';
   root: Phaser.GameObjects.Container;
   body: Phaser.GameObjects.Ellipse;
   ear: Phaser.GameObjects.Ellipse;
   eye: Phaser.GameObjects.Ellipse;
   label: Phaser.GameObjects.Text;
 };
+
+export type PetView = PlaceholderPetView | PetMonkeyAnimationView;
 
 export type DropView = {
   root: Phaser.GameObjects.Container;
@@ -94,10 +104,13 @@ export function createBossView(
 
 export function createPetView(
   scene: Phaser.Scene,
-  activePet: Pick<PetState, 'displayName'>,
+  activePet: PetState,
   x: number,
   y: number,
 ): PetView {
+  if (isSupportedPetMonkey(activePet)) {
+    return createPetMonkeyAnimationView(scene, activePet as PetState, x, y);
+  }
   const root = scene.add.container(x, y);
   const body = scene.add.ellipse(0, 0, 38, 30, 0x7ad7a8, 0.9);
   const ear = scene.add.ellipse(-10, -18, 15, 12, 0xf3f6ff, 0.45);
@@ -111,7 +124,39 @@ export function createPetView(
   body.setStrokeStyle(2, 0xdff7ef, 0.9);
   root.add([body, ear, eye, label]);
   root.setDepth(42);
-  return { root, body, ear, eye, label };
+  return { kind: 'placeholder', root, body, ear, eye, label };
+}
+
+export function petViewMatchesPet(view: PetView, pet: PetState): boolean {
+  return view.kind === 'monkey-native'
+    ? isSupportedPetMonkey(pet) && view.petId === pet.id && view.form === pet.form
+    : !isSupportedPetMonkey(pet);
+}
+
+export function syncPetViewPresentation(
+  scene: Phaser.Scene,
+  view: PetView,
+  activePet: PetState,
+  runtime: PetRuntimeModel,
+  projectiles: readonly ProjectileModel[],
+  ownerLabel?: string,
+): void {
+  if (view.kind === 'monkey-native') {
+    syncPetMonkeyAnimationView(
+      view,
+      activePet,
+      runtime,
+      projectiles,
+      scene.time.now,
+      scene.game.loop.targetFps,
+    );
+    return;
+  }
+  view.root.setPosition(runtime.x, runtime.y);
+  view.root.setScale(runtime.facingX < 0 ? -1 : 1, 1);
+  view.body.setFillStyle(runtime.state === 'warp' ? 0xf2c14e : ownerLabel ? 0x74c0fc : 0x7ad7a8, 0.9);
+  view.ear.setFillStyle(0xf3f6ff, runtime.state === 'follow' ? 0.7 : 0.45);
+  view.label.setText(`${ownerLabel ? `${ownerLabel} ` : ''}${activePet.displayName} F${activePet.form} ${runtime.state}`);
 }
 
 export function createDropView(
@@ -206,6 +251,7 @@ export function createProjectileEffectView(
   scene: Phaser.Scene,
   projectile: ProjectileModel,
 ): ProjectileEffectView | undefined {
+  if (projectile.assetKey.startsWith('pet-skill.monkey')) return undefined;
   if (projectile.assetKey === SkillProjectileEffectKeys.role3XgqHit11Cast) return undefined;
   if (projectile.assetKey === SkillProjectileEffectKeys.role5LyshCompanion ||
       projectile.assetKey === SkillProjectileEffectKeys.role5JrjlCompanion ||
