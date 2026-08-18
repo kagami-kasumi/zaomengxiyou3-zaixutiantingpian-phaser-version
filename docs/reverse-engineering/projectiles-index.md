@@ -378,6 +378,12 @@ xj 的 `PetMonkey1Bullet2` 是例外：monkey1..4 复用同一 16 帧对象，`s
 
 Stage 1-1 的测试场景适配和其余四关的共享宠物本体 bridge 均消费 193A 的对象用途表：monkey2 lj 同时投影 `PetMonkey2Bullet2_1/_2`，monkey3/4 lj 同时投影 `PetMonkey3Bullet3_1/_2`，四形态 xj 统一复用 `PetMonkey1Bullet2` 并保持 4 秒，jgaoyi 只切换本体 `PetMonkeyBmd4Hit5` 而不绘制独立弹体。`ProjectileSystem` 的伤害、冷却、碰撞和销毁 owner 未迁移，只纠正可见 runtime/source metadata。
 
+## TASK-SETTINGS-193C 马系可见对象
+
+马系普攻及 sp/bd/bz 使用补丁包 characters 129/124/118/101/97/93/88/82，各为 5/8/14/45/20/15/8/31 帧。horse1 sp 和各阶 bd 按本体移动/朝向跟随，其余为生成点特效；均由 `BaseBullet.step2()` 在根 MovieClip 末帧销毁。命中冰效来自 StageCommon character 40，缩放到目标碰撞体并暂停其 BBDC。
+
+horse4 tmaoyi 的 `PetHorse4Bullet5` 外层只有 1 帧，但内嵌 character 698 实际循环 8 帧；每怪一枚，距离 2000 或 `frameClips×10` 销毁。`PetHorse4Bullet5Explode` 为 30 帧末帧销毁对象，受 bz/bd 组合门禁。逐对象生成偏移、左右矩阵、注册点和基准见 `evidence/TASK-SETTINGS-193C-pet-horse-animation.md`。
+
 ## 现代实现状态
 
 `TASK-SLICE-005` 已完成 `VS-008` 第一个窄切片：

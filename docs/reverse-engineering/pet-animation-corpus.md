@@ -44,3 +44,10 @@
 - 本体逐行 host-tick 持帧、20/24/30 clock、左右注册点/alpha 可见边界、普攻和 xj/lj/lyq 对象的 80 根帧、生成矩阵与销毁合同已冻结。
 - 原版没有独立 warp clip；`>=1000` 距离触发只改写 root 位置。`jgaoyi` 直接使用 monkey4 body `hit5` row8，也没有独立 projectile 视觉。
 - 证据矩阵与现代 key 差异见 `evidence/TASK-SETTINGS-193A-pet-monkey-animation.md`；193B 必须直接消费该真值，不能继续使用几何本体或单段/错名 projectile 占位。
+
+## TASK-SETTINGS-193C 马系逐帧真值
+
+- `task-settings-193c.pet-horse-animation` 已达到 `verified`，包含 716 状态、20 显示对象、716 个原版基准，`unresolved=[]`。
+- `PetHorseBmd1..3` 和一至三阶普攻/技能对象由 `20120203.swf` 提供；`PetHorseBmd4` 与天马奥义两段来自 `pet1.swf`；共享 `PetHorseIceEffect` 由启动期 `StageCommon.swf` 提供。
+- 本体逐行 host-tick 持帧、20/24/30 clock、左右注册点/alpha 边界、普攻与 sp/bd/bz 的 146 个根帧、天马奥义 8 个内嵌 subframe/30 帧爆炸、共享冰效缩放/暂停/恢复合同均已冻结。
+- 原版无独立 warp clip；完整 owner、对象、生成、销毁和现代差异见 `evidence/TASK-SETTINGS-193C-pet-horse-animation.md`；193D 必须直接消费该真值。

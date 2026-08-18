@@ -1041,4 +1041,10 @@ interface PetState {
 
 `PetMonkeyAnimationAssets` 直接导入并断言 193A 真值，`PetMonkeyAnimationView` 以同一份动作行、host-tick 持帧和注册点驱动 P1/P2；Stage 1-1 与其余四个正式 Runtime 只装配共享 bridge，宠物 roster、跟随/warp、HP/MP 与存档继续由现有 owner 控制。normal 素材、动作和对象已经注册，但当前现代业务没有通用宠物普攻触发链；193B 按禁止 AI/玩法变更的合同不虚构新触发入口。
 
+## TASK-SETTINGS-193C 马系动画合同
+
+权威真值 `task-settings-193c.pet-horse-animation` 将 horse1..4 本体 wait/walk、hurt、dead、normal、sp/bd/bz/tmaoyi 动作行的 host-tick 持帧、左右注册矩阵、可见边界和 frame-over 转移冻结为 716 状态/20 对象，`unresolved=[]`。一至三阶本体及普通对象选 `20120203.swf`，四阶本体/奥义选 `pet1.swf`，冰效选启动期 `StageCommon.swf`。
+
+sp/bd 命中可添加同一 `PetHorseIceEffect`，按目标 `colipse` 尺寸缩放并暂停/恢复 BBDC；奥义对每个怪生成一枚内嵌 8 帧的 `PetHorse4Bullet5`，学 sp 时追踪，学 bz 时命中生成 30 帧爆炸，同时学 bd 则延迟 1 秒。远距 warp 仍只改 root 坐标。精确行、偏移和销毁矩阵见 `evidence/TASK-SETTINGS-193C-pet-horse-animation.md`。
+
 

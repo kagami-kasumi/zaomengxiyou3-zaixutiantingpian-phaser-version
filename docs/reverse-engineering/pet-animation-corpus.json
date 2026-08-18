@@ -44,7 +44,7 @@
   "sourcePrecedenceEvidence": {
     "locator": "local-resources/regima/task-outputs/task-settings-189-equipment-tooltip/restored-main-script/scripts/loader/Aloader.as: constructor urls and sequential next()",
     "rule": "20120203.swf loads before 20120808.swf and StageCommon.swf; duplicate candidates are frozen to the later listed patch for child-task investigation, while pet1/mouse-only symbols keep their sole owner.",
-    "counterEvidence": "TASK-SETTINGS-193A resolved monkey1..3 and all monkey effect collisions to 20120203.swf by real load timing; other families must still reopen their selected owner if family evidence contradicts the frozen precedence."
+    "counterEvidence": "TASK-SETTINGS-193A resolved monkey collisions to 20120203.swf. TASK-SETTINGS-193C resolved horse1..3 bodies and ordinary effects to 20120203.swf, horse4/tmaoyi to pet1.swf, and shared PetHorseIceEffect to startup-loaded StageCommon.swf. Other families must still reopen their selected owner if family evidence contradicts the frozen precedence."
   },
   "species": [
     {
@@ -76,7 +76,7 @@
                 "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
               }
             ],
-            "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+            "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
           }
         },
         {
@@ -105,7 +105,7 @@
                 "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
               }
             ],
-            "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+            "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
           }
         },
         {
@@ -134,7 +134,7 @@
                 "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
               }
             ],
-            "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+            "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
           }
         },
         {
@@ -198,7 +198,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"
@@ -230,7 +230,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
             },
             {
               "symbol": "PetMonkey2Bullet2_2",
@@ -255,7 +255,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"
@@ -287,7 +287,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"
@@ -319,7 +319,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"
@@ -351,7 +351,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"
@@ -383,7 +383,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
             },
             {
               "symbol": "PetMonkey3Bullet3_2",
@@ -408,7 +408,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B."
+              "ownerRule": "Verified by task-settings-193a.pet-monkey-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193B."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"
@@ -477,7 +477,7 @@
                 "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
               }
             ],
-            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            "ownerRule": "Verified by task-settings-193c.pet-horse-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193D."
           }
         },
         {
@@ -506,7 +506,7 @@
                 "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
               }
             ],
-            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            "ownerRule": "Verified by task-settings-193c.pet-horse-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193D."
           }
         },
         {
@@ -535,7 +535,7 @@
                 "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
               }
             ],
-            "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+            "ownerRule": "Verified by task-settings-193c.pet-horse-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193D."
           }
         },
         {
@@ -570,11 +570,11 @@
         "hurt",
         "death-or-zero-hp lifecycle"
       ],
-      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "exactBodyActionRows": "verified by task-settings-193c.pet-horse-animation; 716 states / 20 objects / unresolved=[]; docs/reverse-engineering/evidence/TASK-SETTINGS-193C-pet-horse-animation.md",
       "skills": [
         {
           "stableKey": "pet-skill.horse1.sp",
-          "usage": "horse1 sp projectile",
+          "usage": "horse1/2 sp reuses PetHorse1Bullet2; horse3/4 sp switches to PetHorse3Bullet3",
           "symbols": [
             {
               "symbol": "PetHorse1Bullet2",
@@ -599,14 +599,39 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+              "ownerRule": "Verified by task-settings-193c.pet-horse-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193D."
+            },
+            {
+              "symbol": "PetHorse3Bullet3",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 88,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 88,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1142,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Verified by task-settings-193c.pet-horse-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193D."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"
         },
         {
           "stableKey": "pet-skill.horse2.bd",
-          "usage": "horse2 bd projectile",
+          "usage": "horse2 bd uses PetHorse2Bullet2; horse3/4 bd switches to PetHorse3Bullet2",
           "symbols": [
             {
               "symbol": "PetHorse2Bullet2",
@@ -631,7 +656,32 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+              "ownerRule": "Verified by task-settings-193c.pet-horse-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193D."
+            },
+            {
+              "symbol": "PetHorse3Bullet2",
+              "status": "located",
+              "selectedOwner": {
+                "sourcePackage": "assets/20120203.swf",
+                "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                "characterId": 93,
+                "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+              },
+              "candidates": [
+                {
+                  "sourcePackage": "assets/20120203.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/20120203.swf",
+                  "characterId": 93,
+                  "sha256": "3383E2F13967CFC33E7A8FD937CF37C407784F769B86BEEBB15694BEFCEFB832"
+                },
+                {
+                  "sourcePackage": "assets/pet1.swf",
+                  "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+                  "characterId": 1137,
+                  "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
+                }
+              ],
+              "ownerRule": "Verified by task-settings-193c.pet-horse-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193D."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"
@@ -663,7 +713,7 @@
                   "sha256": "0699A5D3A49EA8024D3635B18C6349F5D7F7CF5F1DB869DD18A0A5EE6DE60644"
                 }
               ],
-              "ownerRule": "Prefer the later Aloader patch package over the pet1 base package; the family evidence task must verify ApplicationDomain/load precedence before deriving frames."
+              "ownerRule": "Verified by task-settings-193c.pet-horse-animation: Aloader startup packages load before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected owner is authoritative for TASK-SLICE-193D."
             }
           ],
           "modernStatus": "placeholder-or-unrendered"

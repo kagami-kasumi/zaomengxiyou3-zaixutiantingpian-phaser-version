@@ -11253,3 +11253,20 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-193C`：只闭合 horse1..4 本体、技能/共享冰效、补丁 owner 与逐帧 verified 真值；不修改 `src/` 或派生现代 atlas。
+
+### TASK-SETTINGS-193C
+
+- 完成日期：2026-08-18。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-193D`）。
+- 新增 `task-settings-193c.pet-horse-animation` verified 真值：716 状态、20 显示对象、716 个 SWF-derived 原版基准，覆盖 horse1..4 wait/follow、walk/warp、普攻、sp/bd/bz/tmaoyi、共享冰效、hurt、dead/0 HP、左右方向与逐 MovieClip/subframe，`unresolved=[]`。
+- 真实加载链确认 `PetHorseBmd1..3` 和一至三阶普通对象选 `20120203.swf`，`PetHorseBmd4` 与奥义两段选 `pet1.swf`，重名 `PetHorseIceEffect` 选启动期 `StageCommon.swf`；三者都使用 current ApplicationDomain。
+- 冻结四形态图集 cell、动作行、frameCount/frameStopCount、20/24/30 host clock、左右注册点、alpha 可见边界、普攻/sp/bd/bz 的 146 个根帧、生成偏移与末帧销毁合同。
+- 四阶奥义已按内嵌时间轴而非外层根帧冻结：`PetHorse4Bullet5` 为 8 个 subframe 循环，每怪一枚、可选追踪、距离 2000 或 `frameClips×10` 销毁；`PetHorse4Bullet5Explode` 为 30 帧，保留 bz/bd 组合门禁与 1 秒延迟。
+- 共享冰效冻结为目标 child：尺寸匹配 `colipse`，同名去重，添加时停止目标 BBDC，到期移除并恢复；sp/bd 为 `frameClips×2`，学 bd 的奥义为 `frameClips×2.4`。
+- 本 task 只写生成器、真值、证据/索引、标注和任务状态；没有修改 `src/`、玩法数值、现代 atlas 或 `legacy-extraction` 原始结果。
+
+验证：
+- `npm run test:pet-horse-animation-truth`、`npm run test:pet-animation-corpus`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-193D`：直接消费 193C verified 真值，选择性派生并接入马系本体、普攻/sp/bd/bz/tmaoyi 对象和共享冰效；不改玩法数值、AI、owner 或存档。
