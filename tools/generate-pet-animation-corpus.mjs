@@ -70,6 +70,22 @@ const skillSpecs = [
   ['pet-skill.mouse.zsaoyi', 'mouse', 'PetMouseBmd2;PetMouse1Bullet1;PetMouse1Bullet2;PetMouse1Bullet3', 'mouse ultimate body and reused combo objects'],
 ];
 
+const monkeyTruth = {
+  truthId: 'task-settings-193a.pet-monkey-animation',
+  evidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-193A-pet-monkey-animation.md',
+  implementationTask: 'TASK-SLICE-193B',
+};
+
+const monkeySkillAnnotations = new Map([
+  ['pet-skill.monkey1.xj', ['monkey1 xj 16-frame looping projectile', 'TASK-SETTINGS-193A verified patch owner registration emit matrix and four-second lifecycle; pair implementation is TASK-SLICE-193B.']],
+  ['pet-skill.monkey2.lj', ['monkey2 lj two-stage 4+5 frame effect', 'TASK-SETTINGS-193A requires both prelude and damage objects; pair implementation is TASK-SLICE-193B.']],
+  ['pet-skill.monkey2.xj', ['monkey2 xj reuses monkey1 16-frame projectile', 'TASK-SETTINGS-193A disproves the modern PetMonkey2Bullet3 source name; pair implementation must reuse PetMonkey1Bullet2.']],
+  ['pet-skill.monkey3.lyq', ['monkey3 and monkey4 lyq 25-frame projectile', 'TASK-SETTINGS-193A verified patch owner registration emit matrix and last-frame destruction.']],
+  ['pet-skill.monkey3.xj', ['monkey3 and monkey4 xj reuse monkey1 projectile', 'TASK-SETTINGS-193A verifies shared visual owner with form-specific emit offsets.']],
+  ['pet-skill.monkey3.lj', ['monkey3 and monkey4 lj prelude plus damage stage', 'TASK-SETTINGS-193A requires disabled behind-pet prelude and visible damage stage; modern single-stage projection is incomplete.']],
+  ['pet-skill.monkey4.jgaoyi', ['monkey4 jgaoyi body hit5 row8', 'TASK-SETTINGS-193A confirms no independent projectile visual; TASK-SLICE-193B must consume the body action.']],
+]);
+
 const packagePriority = new Map([
   ['assets/20120808.swf', 0],
   ['assets/20120203.swf', 1],
@@ -111,19 +127,32 @@ function resolveSymbol(name) {
   };
 }
 
+function resolveFamilySymbol(name, speciesName) {
+  const resolved = resolveSymbol(name);
+  if (speciesName === 'monkey' && resolved.candidates.length > 1) {
+    return {
+      ...resolved,
+      ownerRule: `Verified by ${monkeyTruth.truthId}: Aloader loads 20120203.swf before stage AssetsLoader adds pet1.swf to the same ApplicationDomain; selected patch owner is authoritative for TASK-SLICE-193B.`,
+    };
+  }
+  return resolved;
+}
+
 const species = speciesSpecs.map((spec) => {
   const skills = skillSpecs.filter((entry) => entry[1] === spec.species).map(([stableKey, , names, usage]) => ({
     stableKey,
     usage,
-    symbols: names.split(';').map(resolveSymbol),
+    symbols: names.split(';').map((name) => resolveFamilySymbol(name, spec.species)),
     modernStatus: 'placeholder-or-unrendered',
   }));
-  const forms = spec.forms.map((form, index) => ({ form, bodySymbol: spec.bodies[index], body: resolveSymbol(spec.bodies[index]) }));
+  const forms = spec.forms.map((form, index) => ({ form, bodySymbol: spec.bodies[index], body: resolveFamilySymbol(spec.bodies[index], spec.species) }));
   return {
     species: spec.species,
     forms,
     requiredBodyActionClasses: ['wait/follow', 'walk/warp', 'normal-attack', 'species-skill-actions', 'hurt', 'death-or-zero-hp lifecycle'],
-    exactBodyActionRows: 'unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation',
+    exactBodyActionRows: spec.species === 'monkey'
+      ? `verified by ${monkeyTruth.truthId}; 626 states / 20 objects / unresolved=[]; ${monkeyTruth.evidencePath}`
+      : 'unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation',
     skills,
     modernBody: { status: 'placeholder', locator: 'src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection' },
     evidenceTask: spec.evidenceTask,
@@ -148,7 +177,7 @@ const corpus = {
   sourcePrecedenceEvidence: {
     locator: 'local-resources/regima/task-outputs/task-settings-189-equipment-tooltip/restored-main-script/scripts/loader/Aloader.as: constructor urls and sequential next()',
     rule: '20120203.swf loads before 20120808.swf and StageCommon.swf; duplicate candidates are frozen to the later listed patch for child-task investigation, while pet1/mouse-only symbols keep their sole owner.',
-    counterEvidence: 'Reopen the selected owner if the family evidence task proves pet1/mouse load timing or ApplicationDomain duplicate-class behavior selects a different definition.',
+    counterEvidence: 'TASK-SETTINGS-193A resolved monkey1..3 and all monkey effect collisions to 20120203.swf by real load timing; other families must still reopen their selected owner if family evidence contradicts the frozen precedence.',
   },
   species,
   completeness: { expectedSpecies: 9, extractedSpecies: species.length, unlocated: missing, noUnpartitionedFamily: species.every((item) => item.evidenceTask && item.implementationTask) },
@@ -159,6 +188,7 @@ const header = ['stableKey', 'as3Name', 'sourceKind', 'sourcePath', 'sourcePacka
 
 const bodyRows = species.map((item) => {
   const unique = [...new Map(item.forms.map((form) => [form.bodySymbol, form.body])).values()];
+  const monkeyReady = item.species === 'monkey';
   return row([
     `pet-animation.${item.species}.body-family`,
     unique.map((entry) => entry.symbol).join(';'),
@@ -167,16 +197,19 @@ const bodyRows = species.map((item) => {
     unique.map((entry) => entry.selectedOwner.sourcePackage).filter(uniqueValue).join(';'),
     unique.map((entry) => entry.selectedOwner.characterId).join(';'),
     'effect',
-    `${item.species} actual-form body atlases; exact action rows remain for ${item.evidenceTask}`,
-    'export-ready',
+    monkeyReady ? 'monkey actual-form body atlases with verified action rows and owner precedence' : `${item.species} actual-form body atlases; exact action rows remain for ${item.evidenceTask}`,
+    monkeyReady ? 'derived-ready' : 'export-ready',
     'confirmed',
-    'export-selectively',
-    `Source owner partitioned by TASK-SETTINGS-193; derive nothing before ${item.evidenceTask} verifies action rows, registration points, frame timing and load precedence.`,
+    monkeyReady ? 'integrate' : 'export-selectively',
+    monkeyReady
+      ? 'TASK-SETTINGS-193A truth task-settings-193a.pet-monkey-animation verifies host-tick holds, registration/visible bounds and patch owner; TASK-SLICE-193B must derive only this family.'
+      : `Source owner partitioned by TASK-SETTINGS-193; derive nothing before ${item.evidenceTask} verifies action rows, registration points, frame timing and load precedence.`,
   ]);
 });
 
 const skillRows = skillSpecs.map(([stableKey, speciesName, names, usage]) => {
   const resolved = names.split(';').map(resolveSymbol);
+  const monkeyReady = monkeySkillAnnotations.get(stableKey);
   return row([
     stableKey,
     names,
@@ -185,11 +218,11 @@ const skillRows = skillSpecs.map(([stableKey, speciesName, names, usage]) => {
     resolved.map((entry) => entry.selectedOwner.sourcePackage).filter(uniqueValue).join(';'),
     resolved.map((entry) => entry.selectedOwner.characterId).join(';'),
     'effect',
-    usage,
-    'export-ready',
+    monkeyReady?.[0] ?? usage,
+    monkeyReady ? 'derived-ready' : 'export-ready',
     'confirmed',
-    'export-selectively',
-    `${speciesName} family is partitioned to ${speciesSpecs.find((item) => item.species === speciesName).evidenceTask}; modern visibility remains placeholder or absent until its paired implementation task.`,
+    monkeyReady ? 'integrate' : 'export-selectively',
+    monkeyReady?.[1] ?? `${speciesName} family is partitioned to ${speciesSpecs.find((item) => item.species === speciesName).evidenceTask}; modern visibility remains placeholder or absent until its paired implementation task.`,
   ]);
 });
 

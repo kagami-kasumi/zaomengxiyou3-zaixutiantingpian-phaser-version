@@ -36,3 +36,11 @@
 - `PetSkillEffectKeys` 只覆盖旧 24 key，虎/凤凰/兔/鼠部分实现直接写字符串 key；两者均未形成可加载真动画 bundle。
 - `AssetManifest.sourceAssetFamilies.petSkillProjectiles` 仍写 `missing-original`，已被恢复 SWF 精确命中反证；193 按禁止范围不改 `src/`，由首个配对实现 task 开始按物种移除对应旧声明。
 - 193 完成只证明“35 个形态、38 个技能映射均有恢复源 owner 或明确复用关系，且全部进入有界批次”，不证明动作时间轴、真视觉或运行消费完成。
+
+## TASK-SETTINGS-193A 猴系逐帧真值
+
+- `task-settings-193a.pet-monkey-animation` 已达到 `verified`，包含 626 状态、20 显示对象、626 原版基准，`unresolved=[]`。
+- `PetMonkeyBmd1..3` 的 owner 已由真实加载时序裁决为 `20120203.swf`；`PetMonkeyBmd4` 使用 `pet1.swf` 唯一候选。猴 2/3 的补丁与基础包图集哈希不同，禁止混用。
+- 本体逐行 host-tick 持帧、20/24/30 clock、左右注册点/alpha 可见边界、普攻和 xj/lj/lyq 对象的 80 根帧、生成矩阵与销毁合同已冻结。
+- 原版没有独立 warp clip；`>=1000` 距离触发只改写 root 位置。`jgaoyi` 直接使用 monkey4 body `hit5` row8，也没有独立 projectile 视觉。
+- 证据矩阵与现代 key 差异见 `evidence/TASK-SETTINGS-193A-pet-monkey-animation.md`；193B 必须直接消费该真值，不能继续使用几何本体或单段/错名 projectile 占位。

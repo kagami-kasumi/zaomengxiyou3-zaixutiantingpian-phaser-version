@@ -11221,3 +11221,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-193A`：只闭合 monkey1..4 本体与 xj/lj/lyq/jgaoyi 的动作行、帧时序/持帧、注册点/边界、补丁 owner 与 verified 真值；不接入现代动画。
+
+### TASK-SETTINGS-193A
+
+- 完成日期：2026-08-18。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-193B`）。
+- 新增 `task-settings-193a.pet-monkey-animation` verified 真值：626 状态、20 显示对象、626 个 SWF-derived 原版基准，覆盖 monkey1..4 wait/follow、walk、普攻、xj/lj/lyq/jgaoyi、hurt、dead/0 HP、左右方向与逐 MovieClip 根帧，`unresolved=[]`。
+- 真实加载链确认 `Aloader` 先把 `20120203.swf` 装入 current ApplicationDomain，`pet1` 只在后续关卡资源列表加载；故 `PetMonkeyBmd1..3` 与九类攻击/技能对象使用补丁 owner，`PetMonkeyBmd4` 使用 `pet1.swf` 唯一 owner。猴 2/3 的基础包同名图集与补丁哈希不同，禁止混用。
+- 冻结四形态图集 cell、动作行、frameCount/frameStopCount、20/24/30 host clock、左右注册点、alpha 可见边界、局部/舞台矩阵、对象生成偏移与末帧/四秒销毁合同。原版远距 warp 只是 root 瞬移，没有独立动作。
+- 现代差异已明确转交 193B：monkey2 lj 和 monkey3/4 lj 必须恢复双对象；现代 `PetMonkey2Bullet3` 实际应复用 `PetMonkey1Bullet2`；jgaoyi 使用 monkey4 本体 hit5 row8，不创建独立 projectile 视觉。
+- 本 task 只写生成器、真值、证据/索引、标注和任务状态；未修改 `src/`、玩法数值、现代 atlas 或 `legacy-extraction` 原始结果。
+
+验证：
+- `npm run test:pet-monkey-animation-truth`、`npm run test:pet-animation-corpus`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-193B`：只直接消费 193A verified 真值，选择性派生并接入猴系本体/对象，删除几何本体、错名和缺段占位；不改玩法数值或触及其他物种。

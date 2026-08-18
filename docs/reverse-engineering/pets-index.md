@@ -1031,4 +1031,10 @@ interface PetState {
 - 宠物道具消耗和背包 UI 串联。
 - P2/联机同步。
 
+## TASK-SETTINGS-193A 猴系动画合同
+
+猴系行为数值合同保持不变；本批只冻结玩家可见动画输入。权威真值为 `task-settings-193a.pet-monkey-animation`：monkey1..4 本体按形态消费 `PetMonkeyBmd1..4`，其中 1..3 来自先加载的 `20120203.swf` 补丁 owner，4 来自 `pet1.swf`。wait/walk、hurt、dead、normal、xj/lj/lyq/jgaoyi 的逐行 host-tick 持帧、左右注册矩阵、可见边界和 frame-over 转移均已 verified。
+
+普攻对象为 `PetMonkey1Bullet1`、`PetMonkey2Bullet1`、`PetMonkey3Bullet1`；xj 复用 16 帧 `PetMonkey1Bullet2` 并按 `frameClips×4` 循环；monkey2 lj 必须同时显示 `_1/_2`，monkey3/4 lj 必须同时显示 `PetMonkey3Bullet3_1/_2`；lyq 使用 25 帧 `PetMonkey3Bullet2`；jgaoyi 只使用 monkey4 本体 hit5 行。原版远距 warp 只是 root 瞬移，没有独立动作。完整触发、生成偏移、层级与销毁矩阵见 `evidence/TASK-SETTINGS-193A-pet-monkey-animation.md`。
+
 

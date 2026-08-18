@@ -368,6 +368,12 @@ Role5 完整表见 `role5-combat-index.md`。当前确认的实现拆分如下�
 
 `TASK-SLICE-006` 已复现 `Role2.smb -> hit4_1` 的 `EnemyMoveBullet("Role2Bullet4_1")` 占位移动 projectile。`TASK-SLICE-007` 已继续实现 `hit4_2`：读取第一段运行时名 `Role1Bullet4_1` 的当前位置记录，在其上方约 320 像素、横向按朝向反向约 50 像素生成 `Role2Bullet4_2` 二段特效。
 
+## TASK-SETTINGS-193A 猴系可见对象
+
+猴系普攻与主动技能的原版可见对象已由 `task-settings-193a.pet-monkey-animation` 冻结：普攻使用 `PetMonkey1Bullet1`（10 帧）、`PetMonkey2Bullet1`（4 帧）、`PetMonkey3Bullet1`（6 帧）；lyq 使用 `PetMonkey3Bullet2`（25 帧）；monkey2 lj 是 `PetMonkey2Bullet2_1/_2` 的 4+5 帧两段；monkey3/4 lj 是 `PetMonkey3Bullet3_1/_2` 的 4+6 帧两段。它们默认由 `BaseBullet.step2()` 在根 MovieClip 末帧销毁，disabled 前置段只保留视觉/层级，不参与碰撞。
+
+xj 的 `PetMonkey1Bullet2` 是例外：monkey1..4 复用同一 16 帧对象，`setDestroyWhenLastFrame(false)`，跟随宠物位置/朝向，并以 `setDestroyInCount(frameClips * 4)` 保持 4 秒后销毁。monkey4 jgaoyi 不创建 bullet，直接播放本体 hit5 row8。逐形态生成偏移、左右注册矩阵、可见边界与现代错名/缺段映射见 `evidence/TASK-SETTINGS-193A-pet-monkey-animation.md`。
+
 ## 现代实现状态
 
 `TASK-SLICE-005` 已完成 `VS-008` 第一个窄切片：

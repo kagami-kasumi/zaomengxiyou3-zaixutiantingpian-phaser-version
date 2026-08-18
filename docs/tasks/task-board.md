@@ -4,14 +4,13 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-193A` 是唯一 Ready 游戏 task；193 已把九物种 35 个实际形态与 38 个技能视觉映射定位到五个恢复包，并生成九组“证据 → 实现”串行 task。下一步只闭合猴系动作/对象机器真值，不派生其他物种或提前接入动画。
+`TASK-SLICE-193B` 是唯一 Ready 游戏 task；193A 已把猴系四形态本体动作、普攻与 xj/lj/lyq/jgaoyi 对象冻结为 626 状态/20 对象 verified 真值。下一步只直接消费该真值接入猴系真动画，不触及其他物种或玩法数值。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-193A | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 猴系动画证据 | 冻结 monkey1..4 本体动作、技能对象、补丁 owner 与逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193B | [定义](task-definitions/TASK-SETTINGS-193A.md) |
-| TASK-SLICE-193B | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 猴系真动画接入 | 直接消费 193A 真值替换猴系几何本体与技能占位 | M-034、M-035、M-042、VS-067 | 猴系真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193C | [定义](task-definitions/TASK-SLICE-193B.md) |
+| TASK-SLICE-193B | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 猴系真动画接入 | 直接消费 193A 真值替换猴系几何本体与技能占位 | M-034、M-035、M-042、VS-067 | 猴系真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193C | [定义](task-definitions/TASK-SLICE-193B.md) |
 | TASK-SETTINGS-193C | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 马系动画证据 | 冻结 horse1..4 本体、技能/冰效、补丁 owner 与逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193D | [定义](task-definitions/TASK-SETTINGS-193C.md) |
 | TASK-SLICE-193D | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 马系真动画接入 | 直接消费 193C 真值替换马系本体与水泡/冰冻/冰锥/奥义占位 | M-034、M-035、M-042、VS-067 | 马系真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193E | [定义](task-definitions/TASK-SLICE-193D.md) |
 | TASK-SETTINGS-193E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 动画证据 | 冻结 ufo1..3 本体、魔破杀/瞬闪/狂魔闪空逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193F | [定义](task-definitions/TASK-SETTINGS-193E.md) |
