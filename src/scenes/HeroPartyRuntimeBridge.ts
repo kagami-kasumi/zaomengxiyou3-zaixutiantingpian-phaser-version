@@ -46,6 +46,7 @@ import {
   type FormalPetsUpdatedPayload,
 } from './feature-ui/FormalPetRuntimeBridge';
 import { createFormalPetMonkeyBodyBridge } from './FormalPetMonkeyBodyBridge';
+import { createFormalPetHorseBodyBridge } from './FormalPetHorseBodyBridge';
 
 export type HeroPartyViewSnapshot = HeroRuntimeSnapshot & Readonly<{
   view: Phaser.GameObjects.Image;
@@ -137,6 +138,9 @@ export function createHeroPartyRuntime(
   const formalPetMonkeyBodies = scene.scene.key === 'TestScene'
     ? undefined
     : createFormalPetMonkeyBodyBridge(scene, (slot) => petRosters[slot]);
+  const formalPetHorseBodies = scene.scene.key === 'TestScene'
+    ? undefined
+    : createFormalPetHorseBodyBridge(scene, (slot) => petRosters[slot]);
   let destroyed = false;
 
   const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
@@ -179,6 +183,13 @@ export function createHeroPartyRuntime(
       views: role1ShadowViews,
     });
     formalPetMonkeyBodies?.update(model.members.map((member) => ({
+      slot: member.combat.slot,
+      x: member.movement.x,
+      y: member.movement.y,
+      facingX: member.movement.facingX,
+      dead: member.combat.combat.state === 'dead',
+    })), timeMs);
+    formalPetHorseBodies?.update(model.members.map((member) => ({
       slot: member.combat.slot,
       x: member.movement.x,
       y: member.movement.y,
@@ -253,6 +264,7 @@ export function createHeroPartyRuntime(
       role1ShadowProjectileVisuals.destroy();
       destroyRole1ShadowVisualViews(role1ShadowViews);
       formalPetMonkeyBodies?.destroy();
+      formalPetHorseBodies?.destroy();
       if (role1ShadowQa) delete scene.game.canvas.dataset.formalRole1ShadowQa;
       destroyHeroPartyRuntime(model);
       heroPartyRuntimeByScene.delete(scene);

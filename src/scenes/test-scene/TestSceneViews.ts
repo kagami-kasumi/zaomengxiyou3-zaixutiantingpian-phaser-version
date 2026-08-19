@@ -25,6 +25,12 @@ import {
   type PetMonkeyAnimationView,
 } from '../PetMonkeyAnimationView';
 import {
+  createPetHorseAnimationView,
+  isSupportedPetHorse,
+  syncPetHorseAnimationView,
+  type PetHorseAnimationView,
+} from '../PetHorseAnimationView';
+import {
   createStage11MonsterView,
   setStage11MonsterViewVisible,
   type Stage11AttackGeometryRegistry,
@@ -43,7 +49,7 @@ type PlaceholderPetView = {
   label: Phaser.GameObjects.Text;
 };
 
-export type PetView = PlaceholderPetView | PetMonkeyAnimationView;
+export type PetView = PlaceholderPetView | PetMonkeyAnimationView | PetHorseAnimationView;
 
 export type DropView = {
   root: Phaser.GameObjects.Container;
@@ -111,6 +117,9 @@ export function createPetView(
   if (isSupportedPetMonkey(activePet)) {
     return createPetMonkeyAnimationView(scene, activePet as PetState, x, y);
   }
+  if (isSupportedPetHorse(activePet)) {
+    return createPetHorseAnimationView(scene, activePet as PetState, x, y);
+  }
   const root = scene.add.container(x, y);
   const body = scene.add.ellipse(0, 0, 38, 30, 0x7ad7a8, 0.9);
   const ear = scene.add.ellipse(-10, -18, 15, 12, 0xf3f6ff, 0.45);
@@ -128,9 +137,13 @@ export function createPetView(
 }
 
 export function petViewMatchesPet(view: PetView, pet: PetState): boolean {
-  return view.kind === 'monkey-native'
-    ? isSupportedPetMonkey(pet) && view.petId === pet.id && view.form === pet.form
-    : !isSupportedPetMonkey(pet);
+  if (view.kind === 'monkey-native') {
+    return isSupportedPetMonkey(pet) && view.petId === pet.id && view.form === pet.form;
+  }
+  if (view.kind === 'horse-native') {
+    return isSupportedPetHorse(pet) && view.petId === pet.id && view.form === pet.form;
+  }
+  return !isSupportedPetMonkey(pet) && !isSupportedPetHorse(pet);
 }
 
 export function syncPetViewPresentation(
@@ -143,6 +156,17 @@ export function syncPetViewPresentation(
 ): void {
   if (view.kind === 'monkey-native') {
     syncPetMonkeyAnimationView(
+      view,
+      activePet,
+      runtime,
+      projectiles,
+      scene.time.now,
+      scene.game.loop.targetFps,
+    );
+    return;
+  }
+  if (view.kind === 'horse-native') {
+    syncPetHorseAnimationView(
       view,
       activePet,
       runtime,
@@ -251,7 +275,8 @@ export function createProjectileEffectView(
   scene: Phaser.Scene,
   projectile: ProjectileModel,
 ): ProjectileEffectView | undefined {
-  if (projectile.assetKey.startsWith('pet-skill.monkey')) return undefined;
+  if (projectile.assetKey.startsWith('pet-skill.monkey') ||
+      projectile.assetKey.startsWith('pet-skill.horse')) return undefined;
   if (projectile.assetKey === SkillProjectileEffectKeys.role3XgqHit11Cast) return undefined;
   if (projectile.assetKey === SkillProjectileEffectKeys.role5LyshCompanion ||
       projectile.assetKey === SkillProjectileEffectKeys.role5JrjlCompanion ||

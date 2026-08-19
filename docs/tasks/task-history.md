@@ -11270,3 +11270,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-193D`：直接消费 193C verified 真值，选择性派生并接入马系本体、普攻/sp/bd/bz/tmaoyi 对象和共享冰效；不改玩法数值、AI、owner 或存档。
+
+### TASK-SLICE-193D
+
+- 完成日期：2026-08-18。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-193E`）。
+- 新增可重复派生脚本，选择性复制四个 horse 本体 atlas 与普攻、sp/bd/bz、tmaoyi nested subframe/爆炸和 StageCommon 共享冰效，共 185 帧；`combat-common` 是唯一 bundle owner，没有修改恢复源或 legacy 原始提取结果。
+- `PetHorseAnimationAssets/PetHorseAnimationView` 直接导入并断言 193C 的 716 状态/20 对象 verified 真值，按动作行、逐 cell 持帧、20/24/30 host clock、逐帧注册点、偏移、深度和生命周期驱动真本体与对象。
+- Stage 1-1 与其余四个正式关卡共享同一投影模块；P1/P2 继续读取现有 roster 和 `PetRuntimeSystem`。horse4 `tmaoyi` 使用本体 row8、8 个内嵌 falling subframe 和 30 帧 explosion；共享冰效只读既有 `magicSnowIce` 状态并按 60×80 fixture 投影。
+- 玩法伤害/冷却、碰撞、宠物 AI、业务 owner 和当前存档未改。normal 素材/动作/对象已注册，但当前现代业务没有通用宠物普攻触发链，本 task 未越界新增 AI 入口。
+- 940×590 正式双人 Stage 1-1 验证 P1/P2 horse1 真本体，console warning/error 为 0；原版 horse1 wait 与现代 P1/P2 对照、逐状态差异和显示列表见 `docs/verification/TASK-SLICE-193D/visual-audit.md`。
+
+验证：
+- `npm run test:pet-horse-animation-runtime`、`npm run test:pet-horse-animation-truth`、`npm run test:pet-animation-corpus`、`npm run test:asset-bundles`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check` 与 940×590 浏览器验收。
+
+推荐任务：
+- `TASK-SETTINGS-193E`：只闭合 ufo1..3 本体与 pms/ss/kmsk 的动作行、帧时序/持帧、注册点/边界、owner 与 verified 真值；不接入现代动画。

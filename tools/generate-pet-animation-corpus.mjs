@@ -208,8 +208,8 @@ const header = ['stableKey', 'as3Name', 'sourceKind', 'sourcePath', 'sourcePacka
 
 const bodyRows = species.map((item) => {
   const unique = [...new Map(item.forms.map((form) => [form.bodySymbol, form.body])).values()];
-  const integrated = item.species === 'monkey';
-  const derivedReady = item.species === 'horse';
+  const monkeyIntegrated = item.species === 'monkey';
+  const horseIntegrated = item.species === 'horse';
   return row([
     `pet-animation.${item.species}.body-family`,
     unique.map((entry) => entry.symbol).join(';'),
@@ -218,23 +218,23 @@ const bodyRows = species.map((item) => {
     unique.map((entry) => entry.selectedOwner.sourcePackage).filter(uniqueValue).join(';'),
     unique.map((entry) => entry.selectedOwner.characterId).join(';'),
     'effect',
-    integrated ? 'monkey actual-form body atlases with verified action rows and owner precedence' : derivedReady ? 'horse actual-form body atlases with verified action rows, owner precedence and implementation-ready truth' : `${item.species} actual-form body atlases; exact action rows remain for ${item.evidenceTask}`,
-    integrated ? 'ready' : derivedReady ? 'derived-ready' : 'export-ready',
+    monkeyIntegrated ? 'monkey actual-form body atlases with verified action rows and owner precedence' : horseIntegrated ? 'horse actual-form body atlases with verified action rows and owner precedence' : `${item.species} actual-form body atlases; exact action rows remain for ${item.evidenceTask}`,
+    monkeyIntegrated || horseIntegrated ? 'ready' : 'export-ready',
     'confirmed',
-    integrated ? 'none' : derivedReady ? 'integrate' : 'export-selectively',
-    integrated
+    monkeyIntegrated || horseIntegrated ? 'none' : 'export-selectively',
+    monkeyIntegrated
       ? 'TASK-SLICE-193B directly consumes TASK-SETTINGS-193A truth for host-tick holds, registration, visible bounds and patch owner in P1/P2 combat runtime.'
-      : derivedReady
-        ? 'TASK-SLICE-193D must directly consume TASK-SETTINGS-193C truth for host-tick holds, registration, normal/sp/bd/bz/tmaoyi objects and shared ice effect.'
+      : horseIntegrated
+        ? 'TASK-SLICE-193D directly consumes TASK-SETTINGS-193C truth for host-tick holds, registration, visible bounds and patch/base owner in P1/P2 combat runtime.'
       : `Source owner partitioned by TASK-SETTINGS-193; derive nothing before ${item.evidenceTask} verifies action rows, registration points, frame timing and load precedence.`,
   ]);
 });
 
 const skillRows = skillSpecs.map(([stableKey, speciesName, names, usage]) => {
   const resolved = names.split(';').map(resolveSymbol);
-  const integrated = monkeySkillAnnotations.get(stableKey);
-  const derivedReady = horseSkillAnnotations.get(stableKey);
-  const ready = integrated ?? derivedReady;
+  const monkeyIntegrated = monkeySkillAnnotations.get(stableKey);
+  const horseIntegrated = horseSkillAnnotations.get(stableKey);
+  const ready = monkeyIntegrated ?? horseIntegrated;
   return row([
     stableKey,
     names,
@@ -244,13 +244,13 @@ const skillRows = skillSpecs.map(([stableKey, speciesName, names, usage]) => {
     resolved.map((entry) => entry.selectedOwner.characterId).join(';'),
     'effect',
     ready?.[0] ?? usage,
-    integrated ? 'ready' : derivedReady ? 'derived-ready' : 'export-ready',
+    monkeyIntegrated || horseIntegrated ? 'ready' : 'export-ready',
     'confirmed',
-    integrated ? 'none' : derivedReady ? 'integrate' : 'export-selectively',
-    integrated
-      ? `${integrated[1]} TASK-SLICE-193B now consumes this verified visual in the shared monkey runtime.`
-      : derivedReady
-        ? `${derivedReady[1]} TASK-SLICE-193D is the paired consumer; modern visibility remains unchanged in this evidence task.`
+    monkeyIntegrated || horseIntegrated ? 'none' : 'export-selectively',
+    monkeyIntegrated
+      ? `${monkeyIntegrated[1]} TASK-SLICE-193B now consumes this verified visual in the shared monkey runtime.`
+      : horseIntegrated
+        ? `${horseIntegrated[1]} TASK-SLICE-193D now consumes this verified visual in the shared horse runtime; gameplay gates remain with the existing pet/projectile owner.`
       : `${speciesName} family is partitioned to ${speciesSpecs.find((item) => item.species === speciesName).evidenceTask}; modern visibility remains placeholder or absent until its paired implementation task.`,
   ]);
 });

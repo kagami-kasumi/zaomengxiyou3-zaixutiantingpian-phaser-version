@@ -1,5 +1,19 @@
 # 工作流治理日志
 
+## 2026-08-19：登记系统设计验证与真值表有效性问题
+
+- 背景：用户把关卡类化与宠物类化归纳为同一个方法缺口，并以宠物战斗 HUD 头像错位反证现有 `verified` 真值没有形成有效约束。
+- 变更：新增 PG-016，冻结系统设计/类化缺少统一产出与验证协议的问题；新增 PG-017“真值表不管用”，把形式验证完整但语义自证循环的问题与已归档 PG-005/PG-007 区分。两个问题均进入活跃索引，方案留待后续独立对话。
+- 影响：本轮不修改宠物实现、真值产物、Schema、校验器、任务看板或全局执行队列，不打断当前唯一游戏 Ready task，也不批量降级既有 `verified` manifest。
+- 验证：`npm run check:workflow` 通过（8 个活跃 PG 合同，唯一推荐/执行仍为 `TASK-SETTINGS-193E`）；`npm run audit:problems` 生成包含 PG-016/PG-017 触发与效果合同的审计包；`git diff --check` 无错误。保留既有 `PlayerSlot` 命名 warning。
+
+## 2026-08-18：记录 TASK-SLICE-193D 马系真动画接入审计
+
+- 背景：游戏 task 收尾命中 PG-004；新增共享正式关卡宠物视觉 bridge 与 `combat-common` 资源 owner，语义命中 PG-013。
+- 变更：在集中审计表记录 193C verified 真值直连、四本体/185 帧对象、五关共享 Runtime、P1/P2 正式运行和零 console 证据；确认未新增逐关宠物生命周期、第二业务 owner、技能数值或现代可见替代层。
+- 影响：PG-004/PG-013 均无复发但未满足归档条件；PG-001/006/011/012 语义复核不适用。唯一 Ready 已切换为同线 `TASK-SETTINGS-193E`，本次不修改问题状态或通用工作流规则。
+- 验证：马系 runtime/truth/corpus、asset bundle、全系统、build、structure、annotations、workflow、problem audit、940×590 正式双人视觉与 `git diff --check`。
+
 ## 2026-08-17：按用户复验插入 Stage 2-3 前表现整改功能线
 
 - 背景：用户在执行 Stage 2-3 前指出装备悬停不显示数值、宠物缺 UI/动画、五角色动作流畅度不一和战斗技能未在 UI 显示。这些正式运行反证优先于 158/180/183 的旧单页/主体关闭措辞。

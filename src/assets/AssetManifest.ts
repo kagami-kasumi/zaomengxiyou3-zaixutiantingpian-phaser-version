@@ -3210,21 +3210,6 @@ export const sourceAssetFamilies = {
   petSkillProjectiles: {
     status: 'missing-original',
     sourceSymbols: [
-      'PetHorseBmd1',
-      'PetHorse1Bullet1',
-      'PetHorse1Bullet2',
-      'PetHorseBmd2',
-      'PetHorse2Bullet1',
-      'PetHorse2Bullet2',
-      'PetHorseBmd3',
-      'PetHorse3Bullet1',
-      'PetHorse3Bullet2',
-      'PetHorse3Bullet3',
-      'PetHorse3Bullet4',
-      'PetHorseBmd4',
-      'PetHorse4Bullet5',
-      'PetHorse4Bullet5Explode',
-      'PetHorseIceEffect',
       'PetDragonBmd1',
       'PetDragon1Bullet1',
       'PetDragonBmd2',
@@ -3246,7 +3231,7 @@ export const sourceAssetFamilies = {
       'PetKabuBmd3',
       'PetKabu3Bullet4',
     ],
-    notes: 'Horse1/sp, horse2/bd, horse3/bz, horse4/tmaoyi, dragon1/fs, dragon2/sdcc, dragon3/ltwj, dragon4/qlaoyi, turtle1/sld, turtle3/sybh, turtle4/xwaoyi, and ufo1/pms, ufo3/kmsk projectile families remain represented by modern placeholder effects. Monkey resources moved to the verified TASK-SLICE-193B runtime bundle.',
+    notes: 'Dragon, turtle, and UFO projectile families listed here remain represented by modern placeholder effects. Monkey resources moved to TASK-SLICE-193B and horse resources moved to TASK-SLICE-193D verified runtime bundles.',
   },
 } as const satisfies Record<string, MissingSourceAssetFamily>;
 

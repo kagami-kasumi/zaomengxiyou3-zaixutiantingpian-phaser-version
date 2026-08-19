@@ -55,6 +55,10 @@ import {
   petMonkeyEffectAssets,
 } from './PetMonkeyAnimationAssets';
 import {
+  petHorseBodyAssets,
+  petHorseEffectAssets,
+} from './PetHorseAnimationAssets';
+import {
   monsterResourceFamilies,
   type MonsterResourceFamilyId,
 } from './MonsterAssetCatalog';
@@ -309,6 +313,18 @@ const combatCommonAssets = [
     frameHeight: asset.cellHeight,
   })),
   ...Object.values(petMonkeyEffectAssets).flatMap(images),
+  ...Object.values(petHorseBodyAssets).map((asset) => ({
+    kind: 'spritesheet' as const,
+    key: asset.key,
+    path: asset.path,
+    frameWidth: asset.cellWidth,
+    frameHeight: asset.cellHeight,
+  })),
+  ...Object.values(petHorseEffectAssets).flatMap((asset) => asset.frames.map((frame) => ({
+    kind: 'image' as const,
+    key: frame.key,
+    path: frame.path,
+  }))),
   ...Object.values(levelResultAssets).map(image),
   svg(combatHudAssets.roleInfo),
   svg(combatHudAssets.bossBlood),
