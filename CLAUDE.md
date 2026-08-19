@@ -28,6 +28,8 @@ npm run check:workflow
 | 按需 | [docs/workflow/problem-governance.md](./docs/workflow/problem-governance.md) | 确认或治理系统性工程问题时 |
 | 收尾必读 | [docs/workflow/problem-audit.md](./docs/workflow/problem-audit.md) | 代码、架构、游戏 task 或工作流变更收尾时 |
 | 按需 | [docs/workflow/method-observation.md](./docs/workflow/method-observation.md) | 提出、试验或裁决可重复改进方法时 |
+| 人工触发 | [docs/workflow/system-design-protocol.md](./docs/workflow/system-design-protocol.md) | 仅当用户明确要求为具体系统设计或重设计设计模式时 |
+| 关联 task | [docs/workflow/system-design-acceptance-protocol.md](./docs/workflow/system-design-acceptance-protocol.md) | 当前 task 链接尚未完成且未退出的具体系统设计时，每批重复验收 |
 | 按需 | [docs/workflow/reverse-engineering-protocol.md](./docs/workflow/reverse-engineering-protocol.md) | 逆向原版行为或依据逆向结论实现时 |
 | 按需 | [docs/workflow/](./docs/workflow/) | 涉及脚手架维护时 |
 
@@ -59,6 +61,8 @@ npm run check:workflow
 11. 执行工程评审时遵循 `docs/workflow/review-protocol.md`，输出可比较、可执行的结论。
 12. 治理系统性工程问题时遵循 `docs/workflow/problem-governance.md`；代码、架构、游戏 task 或工作流变更收尾时按 `problem-audit.md` 运行 `npm run audit:problems`，正常结果集中记录一次。复发或方案不充分则回写 PG 并转入复盘；通过样本满足全部关闭条件时同次归档。
 13. 试验人或 AI 提出的可重复改进方法时遵循 `docs/workflow/method-observation.md`；`MO-*` 不抢占任务，只在明确关联的真实工作中采样，并在截止点裁决采纳、修订或停止。治理型 MO 可以执行 PG 校验，同一份证据可同时作为 MO 样本与 PG 关闭样本。
+14. 只有用户明确要求为具体系统设计、类化或重设计设计模式时，才读取 `docs/workflow/system-design-protocol.md`；Agent 不得自行触发。只产出一套当前方案，冻结角色、入口、扩展点、消费者、禁止路径和验收合同，并交接后续验收。
+15. 具体系统设计完成后，关联实现/评审 task 必须按 `docs/workflow/system-design-acceptance-protocol.md` 重复验收，执行本批 `npm run check:system-design -- <system> <gate>`；非零退出不得记为通过。只有 `all` gate 为 0 才能同批标记 `验收状态：已完成`、`验收退出：已退出`。退出后普通任务不再读取或检查该设计模式，不扫描、不自动重开；只有用户明确要求时才重开。
 
 ## 读取约束
 

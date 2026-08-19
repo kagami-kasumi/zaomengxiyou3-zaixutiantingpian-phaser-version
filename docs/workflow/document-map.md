@@ -54,6 +54,9 @@
 - `docs/architecture/src-boundaries.md`
   - 现代代码模块边界。
   - 维护 `src/` 目录职责、输入系统约束和 TypeScript/Phaser 参数约定。
+- `docs/architecture/system-designs/`
+  - 用户手动触发的具体系统设计目录。
+  - 每个目标系统只记录一套当前设计，包括模式角色到源码的映射、协作顺序、扩展规约、消费者、禁止路径和实现符合性证据。
 - `docs/architecture/stage-asset-ownership.md`
   - 现代关卡资源目录与运行时 bundle ownership 合同。
   - 维护具名共享/单关私有目录、光门组件归组、死资源判定和防复发门禁。
@@ -100,6 +103,15 @@
   - 统一任务收尾的活跃 PG 扫描、单点样本记录和归档评估；试验期间由 `MO-002` 观测，不替代单个 PG 的关闭合同与反证历史。
 - `docs/workflow/method-observation.md`
   - 规定实验性改进方法与 `PG-*` 的边界、基线/指标、真实采样、到期裁决和活跃/归档索引。
+- `docs/workflow/system-design-protocol.md`
+  - 用户手动触发的具体系统设计与设计模式机制。
+  - 规定单方案设计、模式规约、人工重设计和实施交接；Agent 不得自行触发。
+- `docs/workflow/system-design-acceptance-protocol.md`（迁移期重复验收；系统完成后退出，不再自动检查）
+  - 具体系统设计模式的独立验收机制。
+  - 对当前 task 明确关联的未完成设计运行 `check:system-design` 批次硬门禁；以静态结构、可执行行为合同和正式消费者回归的退出码裁决，`all` 为 0 才能完成，退出后停止调用。
+- `tools/check-system-design.mjs`
+  - 关卡、宠物、英雄设计的可执行硬门禁入口。
+  - 按 L/P/H 迁移 gate 检查真实类、方法、依赖、消费者与旧路径，并运行专用合同测试；不进入默认 `check:all`。
 - `docs/workflow/reverse-engineering-protocol.md`
   - 玩法逆向证据协议。
   - 规定局部证据、共享运行时、SWF 几何/坐标语义、可观察合同、现代映射和双重验证的六段证据链，以及原版机器真值 JSON 生成、证据分级和关闭用语门禁。

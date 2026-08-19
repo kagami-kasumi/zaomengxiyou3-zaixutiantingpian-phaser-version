@@ -160,6 +160,7 @@
     "generate:workshop-left-truth": "node tools/generate-workshop-left-ground-truth.mjs",
     "check:ui-ground-truth": "node tools/validate-ui-ground-truth.mjs",
     "check:level-architecture": "node tools/check-playable-level-architecture.mjs",
+    "check:system-design": "node tools/check-system-design.mjs",
     "check:workflow": "node tools/validate-workflow.mjs && node tools/run-problem-audit.mjs --validate && node tools/validate-asset-annotations.mjs && npm run check:level-architecture",
     "check:all": "npm run check:workflow && npm run check:structure && npm run check:code"
   },

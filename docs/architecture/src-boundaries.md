@@ -57,6 +57,7 @@
 - `LevelResultView` 是全部关卡唯一的结果展示 presenter：只消费生命周期终态、成绩快照和路由回调，统一投影原版 `GameWin` / `GameFail` 及按钮状态。关卡不得新增私有 `Stage*ResultBridge`，也不得用全屏现代 `Rectangle/Text` 回填结果页。
 - `MonsterDefinitionCatalog` 保存跨关卡只读战斗定义，`MonsterAssetCatalog` 保存 monster id 到视觉/几何资源族的映射，`MonsterRuntimeRegistry` 保存单局可变怪物状态；三者不得混为同一个 Registry。
 - `HeroPartyRuntime` 是单局活动英雄的唯一运行时 owner：按 `PlayerSlot` 持有移动、战斗、普攻、技能和角色视觉生命周期。关卡只提交平台、移动边界与特殊环境快照，不声明 `PlayerRuntime`，不直接调用角色内部 update/resolve。
+- 关卡、宠物和英雄当前类设计分别见 `system-designs/level.md`、`system-designs/pet.md`、`system-designs/hero.md`。关卡保持组合式 `PlayableLevelRuntime`，不得新建万能 `BaseLevel`；宠物战斗统一经 `PetCombatRuntime` 注入 `PetBehavior`；英雄队伍聚合单英雄 `HeroRuntime`，五英雄实现只覆盖差异钩子。三份设计在各自验收退出前约束迁移 task，退出后不再触发设计模式专项检查。
 - 怪物差异优先通过 `MonsterBrain`、物理 profile、能力集合、动画集合和奖励 profile 组合，不建立承载全部职责的万能 `BaseMonster`。
 - `MonsterRuntimeRegistry` 只持有稳定 ID 与纯运行状态；Phaser view 映射由关卡无关的实体视图 adapter 持有。关卡遭遇只发 spawn 命令并消费 spawned/defeated/cleared 事件，不声明怪物 runtime 类型或 `Map`，不直接调用怪物内部 update/resolve。
 

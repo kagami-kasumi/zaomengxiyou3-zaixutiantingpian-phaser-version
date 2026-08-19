@@ -38,6 +38,7 @@
 | 英雄普攻系统 | `HeroNormalAttackSystem` | System | Combat | 根据输入和英雄移动状态触发普攻动作、特效与命中框 | `RoleAttackSystem`, `NormalAttackSystem` |
 | 英雄战斗模型 | `HeroCombatModel` | Model | Combat | 单个英雄生命、受击、死亡、保护和最近伤害事件状态 | `PlayerCombatModel`, `HeroHealthState` |
 | 英雄队伍运行时 | `HeroPartyRuntime` | Runtime / Orchestrator | Combat / Runtime | 单局活动英雄的唯一运行时 owner，按 `PlayerSlot` 持有移动、战斗、普攻、技能与角色视觉生命周期；只消费关卡环境快照，不拥有地形、波次或机关规则 | `PlayerRuntime`, `PartyCombatRuntime`, `LevelHeroRuntime` |
+| 英雄运行时 | `HeroRuntime` | Abstract Runtime Class | Combat / Runtime | 单个活动英雄的公共运行时骨架，统一移动、战斗、普攻、技能、快照与销毁顺序；`Hero1Runtime` 至 `Hero5Runtime` 只实现角色差异钩子，由 `HeroPartyRuntime` 聚合 | `RoleRuntime`, `CharacterRuntime`, `PlayerHeroRuntime` |
 | 怪物 | `Monster` | Entity | Combat | 敌方单位 | `Enemy`, `Mob` |
 | 怪物定义 | `MonsterDefinition` | Config | Combat / Content | 某类怪物跨关卡共享的只读配置，引用数值、物理、行为、能力、动画和奖励 profile | `EnemyDefinition`, `MonsterConfig` |
 | 怪物定义目录 | `MonsterDefinitionCatalog` | Config / Registry | Combat / Content | 按怪物类型稳定 ID 查询唯一 `MonsterDefinition`；不保存单局可变状态 | `MonsterRegistry`, `EnemyCatalog` |
@@ -48,6 +49,8 @@
 | 宠物模型 | `PetState` | Model | Combat / Progression | 单只宠物的可持久化运行数据，包含名称、等级、HP/MP、寿命、出战状态和技能名 | `PetInfo`, `PetData` |
 | 宠物消耗品 | `PetConsumable` | Item Effect / Type | Progression | 道具背包中可对当前出战宠物生效的普通道具效果，例如寿命丹、还魂丹、经验石 | `PetItem`, `CompanionConsumable`, `FamiliarItem` |
 | 宠物系统 | `PetSystem` | System | Combat / Progression | 管理宠物列表、单只出战、跟随实体运行状态和首批宠物 UI 数据 | `CompanionSystem`, `FamiliarSystem` |
+| 宠物战斗运行时 | `PetCombatRuntime` | Runtime Class / Strategy Context | Combat / Runtime | 单个出战宠物在战斗中的唯一生命周期 owner，统一同步、跟随、索敌、技能选择、效果推进、快照与销毁；种类/形态差异只经 `PetBehavior` 注入 | `CompanionRuntime`, `PetBattleSystem`, `PetController` |
+| 宠物行为 | `PetBehavior` | Strategy Contract | Combat | 只表达某宠物种类/形态的技能选择、释放和持续效果差异，不拥有队伍存档、场景显示对象或公共跟随生命周期 | `PetAI`, `CompanionBehavior`, `PetStrategy` |
 | 宠物成长系统 | `PetGrowthSystem` | System | Progression | 负责宠物属性洗练、还童和形态进化等可测试成长规则；道具扣除仍由背包系统负责 | `PetTrainingSystem`, `PetEvolutionSystem` |
 | 基础对象 | `GameObjectModel` | Model | Runtime / Combat | 现代逻辑对象模型；不要直接照搬 AS3 `BaseObject` | `BaseObject`, `EntityBase` |
 | 技能 | `Skill` | Entity / Config | Combat | 主动技能或技能配置 | `Ability`, `Spell` |

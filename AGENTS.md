@@ -54,6 +54,18 @@
 
 规则：按 `docs/workflow/method-observation.md` 建立 `MO-*`；它不替代问题定义与关闭合同、不进入游戏看板或执行队列。只有当前工作明确关联方法或命中其精确采样触发时才读取对应记录并回写样本，不扫描全部方法；治理型 MO 可以按试验设计扫描活跃 PG，并让同一份证据同时成为 MO 样本与 PG 关闭样本。达到样本量、截止点或停止条件时必须裁决。
 
+### 具体系统设计与设计模式
+
+适用：仅当用户明确要求为关卡、宠物等具体系统进行设计模式设计、类化或重新设计时。不得根据重复代码、大文件、多个消费者或架构判断自行触发。
+
+规则：按 `docs/workflow/system-design-protocol.md` 先核定现有完成度，再只产出一套当前设计，在 `docs/architecture/system-designs/<system>.md` 冻结模式角色、源码映射、调用入口、扩展点、消费者、禁止路径和验收合同，并按实际代码把验收状态设为 `未开始` 或 `实施中`。不实现多套模式或无模式对照；人工可随时直接替换当前方案。
+
+### 具体系统设计验收
+
+适用：当前实现或评审 task 明确链接某份 `docs/architecture/system-designs/<system>.md`，且其尚未 `已完成/已退出`；或用户明确要求验收代码是否遵守该设计。不得扫描全部设计文档自行猜测关联；已退出设计不再适用。
+
+规则：按 `docs/workflow/system-design-acceptance-protocol.md` 对当前批次重复验收，并执行 task 声明的 `npm run check:system-design -- <system> <gate>`。退出码非 `0` 必须判本批不通过，不得用文档、人工评审、编译或普通测试覆盖。所有消费者、旧路径和证据清零且 `all` gate 为 `0` 后，同批标记 `已完成/已退出`。退出后普通任务不再读取设计验收机制、不再运行设计模式专项检查，也不得自动重开；只有用户明确要求时才重设计或重开验收。
+
 ### 正式游戏 task
 
 适用：用户指定 task id、要求执行 task、玩法逆向、修改 `src/` 实现玩法、生成/拆分/重排游戏任务、完成一个可交接切片。
@@ -80,6 +92,8 @@
 | 工程评审：评审代码、阶段成果或评审文档 | `docs/workflow/review-protocol.md`，涉及代码质量再读 `docs/workflow/code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md` |
 | 问题治理：确认或治理系统性工程问题 | `docs/workflow/problem-governance.md`、`docs/workflow/problem-audit.md`；若问题来自评审，再读 `docs/workflow/review-protocol.md`；若涉及代码质量，再读 `docs/workflow/code-quality-gates.md` |
 | 方法观测：提出、试验、复核或裁决改进方法 | `docs/workflow/method-observation.md` + 当前 `docs/workflow/methods/MO-*.md`；不读取其他方法记录 |
+| 用户明确要求具体系统设计/设计模式 | `docs/workflow/system-design-protocol.md`、`docs/architecture/src-boundaries.md`、目标 `docs/architecture/system-designs/<system>.md`；未被用户触发时不读取 |
+| 关联具体系统设计的实现/评审验收 | `docs/workflow/system-design-acceptance-protocol.md` + 当前 task 明确链接且尚未 `已完成/已退出` 的具体设计；每批重复读取，不扫描其他设计；已退出后不再读取 |
 | 新增核心领域命名、系统、实体、类型或数据模型 | `docs/domain/glossary.md`、`docs/domain/ubiquitous-language-process.md` |
 | 新增/拆分/重排游戏任务 | `TASK_OUTLINE.md`、`docs/workflow/task-generation.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、涉及的 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
 | AI 工作流、任务体系、文档职责或脚手架维护 | `docs/workflow/README.md`、`docs/workflow/document-map.md`、`docs/workflow/governance-log.md` |

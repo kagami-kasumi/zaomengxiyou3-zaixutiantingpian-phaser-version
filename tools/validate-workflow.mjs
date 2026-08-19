@@ -24,6 +24,9 @@ const files = {
   problemAudit: 'docs/workflow/problem-audit.md',
   methodObservation: 'docs/workflow/method-observation.md',
   reverseEngineeringProtocol: 'docs/workflow/reverse-engineering-protocol.md',
+  systemDesignProtocol: 'docs/workflow/system-design-protocol.md',
+  systemDesignAcceptanceProtocol: 'docs/workflow/system-design-acceptance-protocol.md',
+  systemDesignTemplate: 'docs/architecture/system-designs/_template.md',
   groundTruthReadme: 'docs/reverse-engineering/ground-truth/README.md',
   uiGroundTruthSchema: 'docs/reverse-engineering/ground-truth/schema/ui-ground-truth.schema.json',
   srcBoundaries: 'docs/architecture/src-boundaries.md',
@@ -35,6 +38,7 @@ const files = {
   reviewAgent: '.claude/agents/engineering-reviewer.md',
   workflowAgent: '.claude/agents/workflow-steward.md',
   structureCheck: 'tools/check-structure.mjs',
+  systemDesignCheck: 'tools/check-system-design.mjs',
   packageJson: 'package.json',
   tsconfig: 'tsconfig.json',
   inputSystem: 'src/systems/InputSystem.ts',
@@ -975,7 +979,7 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
   }
 
   const scripts = packageJson.scripts ?? {};
-  for (const scriptName of ['test:systems', 'check:code', 'check:structure', 'check:all']) {
+  for (const scriptName of ['test:systems', 'check:code', 'check:structure', 'check:system-design', 'check:all']) {
     if (typeof scripts[scriptName] !== 'string') {
       error(`package.json is missing required script: ${scriptName}`);
     }
@@ -987,6 +991,7 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
     'npm run test:systems',
     'npm run build',
     'npm run check:structure',
+    'npm run check:system-design',
     'npm run check:all',
     'Structural Gates',
     'File size limits',
@@ -1007,6 +1012,14 @@ function checkCodeQualityGates(packageJsonText, codeQualityGates, claude) {
 
   if (!existsSync(filePath(files.structureCheck))) {
     error(`Missing structural check script: ${files.structureCheck}`);
+  }
+  try {
+    execFileSync(process.execPath, [filePath(files.systemDesignCheck), '--self-test'], {
+      cwd: root,
+      stdio: 'pipe',
+    });
+  } catch {
+    error('System design hard-gate self-test failed.');
   }
 }
 

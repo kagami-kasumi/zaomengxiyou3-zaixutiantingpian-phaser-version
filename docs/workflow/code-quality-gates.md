@@ -56,6 +56,9 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 
 ## Architecture Gates
 
+- When the user explicitly invokes concrete-system design, the design task must follow `docs/workflow/system-design-protocol.md`, create/link one current `docs/architecture/system-designs/<system>.md`, freeze its roles, entry paths, consumers, extensions, forbidden bypasses, and acceptance contract, then hand implementation conformance to the separate acceptance protocol. This gate must not self-trigger from code shape alone.
+- Once a task is linked to a concrete design whose acceptance status is not complete and has not exited, every implementation/review batch must follow `docs/workflow/system-design-acceptance-protocol.md`, record batch evidence and remaining consumers/legacy paths, and keep repeating until all system-level conformance gates pass. The completion batch must mark the acceptance as exited; later ordinary work must not keep design-pattern-specific checks in the default gate or reopen the acceptance automatically.
+- Concrete-system conformance is hard-gated by `npm run check:system-design -- <system> <gate>`: the tool checks required classes/methods, dependency and consumer paths, forbidden legacy code, then runs the system-specific behavior contract and formal regression tests. A nonzero exit cannot be overridden by prose. Completion requires the `all` gate to return zero; this command is intentionally not part of `check:all`, so exited systems are no longer checked automatically.
 - Every damageable or interactable runtime entity must have a stable ID. Array index, display object identity, and localized label text are not valid IDs.
 - `src/scenes/` may create Phaser objects and schedule systems, but complex combat, level, skill, inventory, save, or AI rules belong in `src/systems/`.
 - If a scene method begins to coordinate more than one domain rule, extract a system function before adding the next feature on top of it.

@@ -69,6 +69,8 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 
 ## 代码任务规则
 
+- 只有用户明确要求为具体系统设计、类化或重设计设计模式时，才读取 `docs/workflow/system-design-protocol.md` 并新建/更新 `docs/architecture/system-designs/<system>.md`；不得根据重复代码、大文件或架构判断自行触发。设计阶段只负责冻结规约和交接验收。
+- 设计阶段结束后，实际承担迁移的当前及后续实现 task 必须明确链接具体设计及本批 gate；只要其尚未 `已完成/已退出`，每批都执行 `npm run check:system-design -- <system> <gate>` 并回写剩余项。退出码非 0 不得通过，系统级 `all` 为 0 才能同批退出；之后普通 task 不再读取或检查该设计模式，不得扫描全部设计目录猜测关联、自动重开或以单批通过替代系统级完成。
 - 依据原版行为实现前，先读取 `docs/workflow/reverse-engineering-protocol.md`、对应落盘证据矩阵及其引用的原版机器真值 JSON；重新窄读关键一手证据，不得只凭聊天、compact 摘要或文档中的手抄坐标实现。
 - 关键合同仍有影响验收的 `推断` 或 `未知` 时，先补逆向；禁止自行添加无 AS3、SWF 几何或运行观察支持的便利阈值。
 - 遵循 `docs/architecture/src-boundaries.md` 的模块边界和 TypeScript/Phaser 参数约定。

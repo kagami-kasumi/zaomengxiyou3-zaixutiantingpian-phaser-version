@@ -34,6 +34,8 @@
 | `problem-governance.md` | 系统性工程问题的定义、验证、效果反馈、复盘换案、关闭出清与活跃/归档索引 |
 | `problem-audit.md` | 任务收尾时的活跃 PG 集中扫描、单点样本记录、归档评估及 `MO-002` 试验入口 |
 | `method-observation.md` | 人或 AI 提出的改进方法如何建立基线、采集真实样本并裁决采纳、修订或停止 |
+| `system-design-protocol.md` | 用户手动触发的具体系统设计模式机制：单方案设计、模式规约和实施验收交接 |
+| `system-design-acceptance-protocol.md` | 具体系统设计模式的重复验收机制：逐实现批次检查代码规约，系统完成后硬退出 |
 | `reverse-engineering-protocol.md` | 玩法逆向的六段证据链、证据分级、原版机器真值 JSON、坐标语义、上下文交接和关闭门禁 |
 | `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案版本、测试结果、反馈/复盘样本和归档信息 |
 | `methods/MO-*.md` | 每个实验性改进方法的假设、指标、样本、护栏、裁决和沉淀记录 |
@@ -52,6 +54,8 @@
 - **工程评审**：补读 `review-protocol.md`；涉及代码质量再读 `code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md`。
 - **问题治理**：补读 `problem-governance.md` 和 `problem-audit.md`；若问题来自评审，再读 `review-protocol.md`，若涉及代码质量，再读 `code-quality-gates.md`。
 - **方法观测**：只有当前工作明确提出、试验或命中某个 `MO-*` 时才读 `method-observation.md` 和该方法记录；不扫描全部方法。
+- **具体系统设计/设计模式**：只有用户明确要求时才读 `system-design-protocol.md`、`src-boundaries.md` 和目标 `architecture/system-designs/<system>.md`；Agent 不得根据代码形态自行触发，也不扫描其他系统设计。
+- **具体系统设计验收**：当前实现/评审 task 明确链接尚未 `已完成/已退出` 的具体设计时，读 `system-design-acceptance-protocol.md` 和该设计，执行 `npm run check:system-design -- <system> <gate>`；非零退出即不通过，最终 `all` 为 0 才能退出。已退出设计不再读取或自动重开。
 - **行为逆向**：在正式 task 基础上补读 `reverse-engineering-protocol.md`、`local-resources/regima/legacy-extraction/README_extract.md`，从目标局部 AS3 继续追踪共享运行时消费者；疑点再交叉检查 `[25034429].swf/scripts`。
 - **视觉资源逆向**：补读 `docs/reverse-engineering/evb-extraction-report.md`、`docs/reverse-engineering/asset-annotation/workflow.md` 和 `docs/reverse-engineering/ground-truth/README.md`，优先在 `local-resources/regima/source/restored-swfs/` 窄查；旧 `local-resources/regima/legacy-extraction/` 只作交叉对照。
 - **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
@@ -67,6 +71,8 @@
 - 工作流合同、文档职责、AI 交接协议和代码质量门禁写入 `docs/workflow/`，不新增 `TASK-DOCS-*` 到游戏任务看板；只有跨范围执行优先级与活跃治理指针写入 `docs/tasks/execution-queue.md`。
 - 每个 `PG-*` 问题只占 `docs/workflow/problems/` 下一个独立文档；`problem-governance.md` 只维护通用协议、活跃问题索引和问题归档索引。
 - 每个 `MO-*` 方法只占 `docs/workflow/methods/` 下一个独立文档；方法不进入游戏看板或执行队列，只附着在真实工作上采样并在截止点裁决。
+- 用户手动触发的具体系统设计规则写入 `system-design-protocol.md`；当前设计写入 `docs/architecture/system-designs/`，只保留一套方案并冻结后续验收合同。未被用户触发时不读取或生成。
+- 设计完成后的代码符合性由 `system-design-acceptance-protocol.md` 独立负责；关联 task 每批验收，只有消费者、旧路径、合同和正式运行全部闭合时才同批标记完成并退出。退出后停止设计模式专项检查，只保留普通功能与回归验证。
 - 逆向结论必须按 `reverse-engineering-protocol.md` 落盘证据矩阵；适用的 UI/视觉/空间事实还必须在 `docs/reverse-engineering/ground-truth/` 生成带溯源、Schema 和完整性校验的原版机器真值 JSON。缺少共享调用链、适用的 SWF 几何/坐标语义、`verified` 真值 JSON 或双重验证时，不得宣称“权威实现输入、已闭合、已复现”。UI/HUD/菜单还必须有显示列表清单、原版视觉基准、允许的现代视觉例外和逐状态差异证据，整页真背景不等于 UI 原生化。
 - 代码、架构、游戏 task 或工作流变更收尾时运行 `npm run audit:problems`，只按活跃问题索引执行适用性扫描；正常样本在 `problem-audit.md` 集中记录一次，同一证据可兼作 MO/PG 样本。复发或方案不充分时回写 PG 并转入复盘，满足全部出清门禁时同次归档。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
