@@ -241,14 +241,17 @@
 
 实际任务以 `task-board.md` 为准。本文只定义任务类型。
 
-### TASK-SETTINGS：玩法逆向任务
+### 逆向任务模型（兼容 TASK-SETTINGS ID）
 
 目标：
 
+- 在 task definition 显式声明 `任务模型：逆向任务` 和 `代码逆向/视觉真值逆向` 子类型；代码逆向沿用现有证据流程，视觉真值逆向才链接唯一方案并生成机器真值，不从 PG 读取执行步骤。
 - 只读 AS3 和资料。
 - 输出或更新 `docs/reverse-engineering/*.md`。
 - 更新 `mechanics-index.md`。
 - 不写现代游戏代码。
+
+现有 `TASK-SETTINGS-*` 继续作为兼容 ID，不批量迁移；新建或重新拆分的逆向任务按 `docs/workflow/reverse-engineering-task-protocol.md` 建模。
 
 例子：
 

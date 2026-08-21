@@ -37,6 +37,8 @@
 | `system-design-protocol.md` | 用户手动触发的具体系统设计模式机制：单方案设计、模式规约和实施验收交接 |
 | `system-design-acceptance-protocol.md` | 具体系统设计模式的重复验收机制：逐实现批次检查代码规约，系统完成后硬退出 |
 | `reverse-engineering-protocol.md` | 玩法逆向的六段证据链、证据分级、原版机器真值 JSON、坐标语义、上下文交接和关闭门禁 |
+| `reverse-engineering-task-protocol.md` | 一等逆向任务及代码逆向/视觉真值逆向子类型的渐进读取协议；只有视觉真值逆向读取独立方案 |
+| `ground-truth-completeness-validator.md` | PG-017 的真值产物全面性校验器讨论入口；只冻结职责与待决问题，不监督生成器内部提取步骤 |
 | `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案版本、测试结果、反馈/复盘样本和归档信息 |
 | `methods/MO-*.md` | 每个实验性改进方法的假设、指标、样本、护栏、裁决和沉淀记录 |
 | `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
@@ -56,8 +58,9 @@
 - **方法观测**：只有当前工作明确提出、试验或命中某个 `MO-*` 时才读 `method-observation.md` 和该方法记录；不扫描全部方法。
 - **具体系统设计/设计模式**：只有用户明确要求时才读 `system-design-protocol.md`、`src-boundaries.md` 和目标 `architecture/system-designs/<system>.md`；Agent 不得根据代码形态自行触发，也不扫描其他系统设计。
 - **具体系统设计验收**：当前实现/评审 task 明确链接尚未 `已完成/已退出` 的具体设计时，读 `system-design-acceptance-protocol.md` 和该设计，执行 `npm run check:system-design -- <system> <gate>`；非零退出即不通过，最终 `all` 为 0 才能退出。已退出设计不再读取或自动重开。
-- **行为逆向**：在正式 task 基础上补读 `reverse-engineering-protocol.md`、`local-resources/regima/legacy-extraction/README_extract.md`，从目标局部 AS3 继续追踪共享运行时消费者；疑点再交叉检查 `[25034429].swf/scripts`。
-- **视觉资源逆向**：补读 `docs/reverse-engineering/evb-extraction-report.md`、`docs/reverse-engineering/asset-annotation/workflow.md` 和 `docs/reverse-engineering/ground-truth/README.md`，优先在 `local-resources/regima/source/restored-swfs/` 窄查；旧 `local-resources/regima/legacy-extraction/` 只作交叉对照。
+- **代码逆向**：沿用既有入口，只补读 `reverse-engineering-protocol.md` 和当前 task 指定的 AS3、共享调用链与消费者；不读取 `reverse-engineering-task-protocol.md`、`docs/reverse-engineering/plans/`、真值精细方案或 PG-017，不新增专用方案文档约束。
+- **视觉真值逆向**：当前 task 声明该子类型后，才读取 task 唯一链接的 `逆向方案`、`docs/reverse-engineering/evb-extraction-report.md`、`docs/reverse-engineering/asset-annotation/workflow.md` 和 `docs/reverse-engineering/ground-truth/README.md`，优先在 `local-resources/regima/source/restored-swfs/` 窄查；不扫描其他方案，旧提取集只作交叉对照。
+- **真值全面性校验器**：只有用户明确讨论/实施该校验器，或当前治理项明确链接时才读 `ground-truth-completeness-validator.md`；普通真值生成任务不默认读取。
 - **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
 - **历史追溯**：只有需要追溯或修改已完成任务时才读 `task-history.md`。
 

@@ -31,6 +31,7 @@ npm run check:workflow
 | 人工触发 | [docs/workflow/system-design-protocol.md](./docs/workflow/system-design-protocol.md) | 仅当用户明确要求为具体系统设计或重设计设计模式时 |
 | 关联 task | [docs/workflow/system-design-acceptance-protocol.md](./docs/workflow/system-design-acceptance-protocol.md) | 当前 task 链接尚未完成且未退出的具体系统设计时，每批重复验收 |
 | 按需 | [docs/workflow/reverse-engineering-protocol.md](./docs/workflow/reverse-engineering-protocol.md) | 逆向原版行为或依据逆向结论实现时 |
+| 视觉真值逆向 task | [docs/workflow/reverse-engineering-task-protocol.md](./docs/workflow/reverse-engineering-task-protocol.md) | 仅视觉真值逆向读取，并继续读取 task 唯一链接的方案；代码逆向沿用既有入口 |
 | 按需 | [docs/workflow/](./docs/workflow/) | 涉及脚手架维护时 |
 
 ## Subagents

@@ -14,7 +14,7 @@
 5. 如果任务实际过大，不硬做完；按 `docs/workflow/task-generation.md` 把原任务标为 `Split`，拆出更小子任务，只完成其中一个可验收子任务。
 6. 任务结束时必须更新功能线覆盖台账、`task-board.md`、当前独立定义和同线推荐后续任务；条线未关闭时禁止推荐其他系统。
 7. 如果任务完成，把该任务从 `task-board.md` 和 `task-definitions/` 移到 `docs/tasks/task-history.md`，并在历史中记录完成内容、产物和必要验证。
-8. 逆向任务必须遵循 `docs/workflow/reverse-engineering-protocol.md`，留下局部证据、共享调用链、适用的 SWF 几何/坐标语义、可观察合同、证据分级和验证计划；涉及 UI/视觉/空间事实时还必须生成有溯源、Schema 与完整性核对的原版机器真值 JSON，并同步更新 `docs/reverse-engineering/mechanics-index.md`。
+8. 代码逆向沿用既有 `docs/workflow/reverse-engineering-protocol.md` 和 task 输入，不新增任务协议/方案文档。只有视觉真值逆向读取 `docs/workflow/reverse-engineering-task-protocol.md` 与当前 task 唯一链接的 `逆向方案`，生成有溯源、Schema 与完整性核对的原版机器真值 JSON。两类任务均不得从 PG 恢复执行步骤，并同步更新 `docs/reverse-engineering/mechanics-index.md`。
 9. 实现任务还必须同步更新 `docs/tasks/vertical-slices.md`，并更新 `mechanics-index.md` 的复现状态。
 10. task 完成只代表工作单元归档；只有 `feature-lines.md` 的完整关闭合同满足后，才能关闭功能线并切换到下一条线。
 
@@ -83,6 +83,8 @@ AI 可以主动建议 commit / push / 新开对话，但不能把这些建议当
 
 ## 逆向任务规则
 
+- 逆向任务是一等 task，不是 PG 段落或实现 task 的内部阶段。当前 task 先声明 `逆向子类型：代码逆向/视觉真值逆向`：代码逆向沿用通用证据流程，不新增方案文档；视觉真值逆向才要求唯一 `逆向方案` 并实例化有限范围、入口、状态/fixture、源资料族和产物路径。
+- 代码逆向沿用当前 task definition 与通用逆向协议，不读取新的任务协议或真值方案。视觉真值逆向才读取 `docs/workflow/reverse-engineering-task-protocol.md` 和当前 task 显式链接的方案，不扫描其他方案；两类都不因来源关联某个 PG 就把 PG 当作执行手册。
 - 先列出待证明的可观察问题，再从目标关卡/对象局部证据沿真实读写路径追踪输入、角色、物理、镜头、状态机、存档等共享运行时消费者。
 - 涉及视觉、位置、碰撞或镜头时，必须检查恢复 SWF 的时间轴、嵌套矩阵、注册点、碰撞盒和 local/world/screen 坐标转换；旧 AS3 提取集不能独立证明视觉结论。
 - 适用的 UI/视觉/空间事实必须按 `docs/reverse-engineering/ground-truth/` 规范生成原版机器真值 JSON：固定范围/状态集、保留源哈希与 locator、归一化矩阵/边界、通过 Schema/完整性核对，并将影响实现的未解项保持为 `draft`/`blocked`。

@@ -64,6 +64,7 @@
 每个 task 必须包含：
 
 - `任务类型`：`TASK-SETTINGS`、`TASK-ARCH` 或 `TASK-SLICE`。
+- `任务模型`：新建/重拆的逆向工作写 `逆向任务`，其他任务写 `常规任务`；逆向任务再填写 `逆向子类型：代码逆向/视觉真值逆向`，用于渐进式读取，不替代兼容 ID 类型。
 - `功能条线`：唯一所属 `LINE-*` 及其状态。
 - `目标机制/切片`：至少一个 `M-*` 或 `VS-*`。
 - `输入资料`、`输出产物`、`完成定义`、`验收标准`、`禁止范围`、`状态更新`、`推荐后续任务`。
@@ -95,11 +96,26 @@ task 的完成定义只判断该工作单元，不得包含未经覆盖证明的
 
 选择 `主 agent + subagent` 时，必须遵循 `agent-protocol.md` 的单 task 多 agent 协作协议。并行工作包必须包含在“主工作包”总数内；不能借代理数量绕过最多 2 个主工作包、最多 2 个验收批次和 0 compact。旧 task 未因范围变化重新拆分时不要求仅为补字段而批量改写，但实际启用 subagent 前必须在执行记录或任务定义中补齐同等声明。
 
+逆向工作是独立任务模型，不再作为 PG 方案或实现 task 的内部步骤。新建或重新拆分的逆向 task 必须先选子类型：
+
+```md
+任务模型：
+- 逆向任务
+
+逆向子类型：
+- 代码逆向 / 视觉真值逆向
+
+逆向方案：
+- 代码逆向填写“不适用”；视觉真值逆向填写 `docs/reverse-engineering/plans/<visual-truth-plan>.md`
+```
+
+代码逆向沿用当前 task definition 和通用逆向证据协议，不新增方案文档约束。只有视觉真值逆向才读取当前 task 显式链接的视觉方案，并由 task definition 把方案实例化为有限范围、入口、状态/fixture、源资料族和产物路径；不扫描方案目录，也不从 `PG-*` 猜测执行步骤。详细合同见 `docs/workflow/reverse-engineering-task-protocol.md`。
+
 ## ID 与状态
 
 任务 ID：
 
-- `TASK-SETTINGS-###`：行为、机制、内容或资源盘点/逆向。
+- `TASK-SETTINGS-###`：行为、机制、内容或资源盘点的兼容 ID；其中逆向工作还必须通过 `任务模型：逆向任务` 和独立方案确定读取路由。
 - `TASK-ARCH-###`：现代工程架构和基础设施。
 - `TASK-SLICE-###`：可玩或可验证切片。
 - 大任务拆分使用 `004A`、`004B` 等字母后缀，不复用历史 ID。
@@ -127,7 +143,9 @@ task 的完成定义只判断该工作单元，不得包含未经覆盖证明的
 
 ## 逆向 task 生成门禁
 
-生成或拆分 `TASK-SETTINGS-*` 逆向任务时，必须引用 `docs/workflow/reverse-engineering-protocol.md`，并在完成定义和验收标准中覆盖：
+生成或拆分逆向任务时，必须声明 `任务模型：逆向任务`、`逆向子类型：代码逆向/视觉真值逆向`。代码逆向只引用既有 `docs/workflow/reverse-engineering-protocol.md`，`逆向方案` 写“不适用”；视觉真值逆向才额外引用 `docs/workflow/reverse-engineering-task-protocol.md` 和唯一 `逆向方案：`。两类任务都在完成定义和验收标准中覆盖：
+
+迁移期旧代码逆向 task 沿用已有定义，不要求补建方案；旧视觉/真值 task 轮到执行或重拆时，才补视觉真值子类型和独立方案。任何子类型都不得从关联 PG 代取执行步骤。
 
 - 待证明的可观察问题，而不是笼统的“阅读 AS3”；
 - 关卡/对象局部证据及其共享输入、物理、镜头、状态机等实际消费者；
@@ -209,6 +227,15 @@ UI 原生化合同：
 任务类型：
 - `TASK-SETTINGS` / `TASK-ARCH` / `TASK-SLICE`
 
+任务模型：
+- `逆向任务` / `常规任务`
+
+逆向子类型：
+- 逆向任务填写 `代码逆向` / `视觉真值逆向`；常规任务填写“不适用”
+
+逆向方案：
+- 视觉真值逆向填写 `docs/reverse-engineering/plans/<visual-truth-plan>.md`；代码逆向和常规任务填写“不适用”
+
 功能条线：
 - `LINE-*`（必须说明 Active / Planned）
 
@@ -261,6 +288,7 @@ UI 原生化合同：
 - 先读 docs/tasks/feature-lines.md 和当前线覆盖台账。
 - 读 docs/tasks/task-board.md 和当前独立 task 定义；每个 task 预计零次 compact，并核对规模预算与拆分触发。
 - task 必须关联当前 LINE-* 和至少一个 M-* / VS-*。
+- 若缺口需要逆向，task 必须声明代码/视觉真值子类型；代码逆向沿用既有协议且不新增文档约束，视觉真值逆向才链接 `reverse-engineering-task-protocol.md` 和唯一 `docs/reverse-engineering/plans/*.md`，并实例化范围/入口/fixture/源资料族；不得把拆解步骤写进 PG。
 - 只推荐同线下一 task；遇到阻塞就生成同线解除任务。
 - 不激活或推进其他功能线。
 - 更新 task-board、task-definitions、功能线台账和相关事实文档，不写无关代码。

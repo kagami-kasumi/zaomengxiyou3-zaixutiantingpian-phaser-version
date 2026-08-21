@@ -24,6 +24,9 @@ const files = {
   problemAudit: 'docs/workflow/problem-audit.md',
   methodObservation: 'docs/workflow/method-observation.md',
   reverseEngineeringProtocol: 'docs/workflow/reverse-engineering-protocol.md',
+  reverseEngineeringTaskProtocol: 'docs/workflow/reverse-engineering-task-protocol.md',
+  groundTruthGenerationPlan: 'docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md',
+  groundTruthCompletenessValidator: 'docs/workflow/ground-truth-completeness-validator.md',
   systemDesignProtocol: 'docs/workflow/system-design-protocol.md',
   systemDesignAcceptanceProtocol: 'docs/workflow/system-design-acceptance-protocol.md',
   systemDesignTemplate: 'docs/architecture/system-designs/_template.md',
@@ -1468,6 +1471,114 @@ function checkDelegatedAgentContracts(reverseAgent, implementationAgent, reviewA
   }
 }
 
+function checkReverseEngineeringTaskModel(
+  reverseEngineeringTaskProtocol,
+  groundTruthGenerationPlan,
+  groundTruthCompletenessValidator,
+  pg017,
+  routeDocs,
+  taskBlockList,
+) {
+  const requiredProtocolText = [
+    '## 1. 任务模型与子类型',
+    '## 2. 渐进式读取顺序',
+    '## 3. Task definition 合同',
+    '任务模型：',
+    '逆向子类型：',
+    '逆向方案：',
+    '**代码逆向**',
+    '**视觉真值逆向**',
+    '不读取 `docs/reverse-engineering/plans/`',
+    '普通代码逆向和视觉真值逆向都不把 PG 当作任务手册',
+  ];
+  for (const requiredText of requiredProtocolText) {
+    if (!reverseEngineeringTaskProtocol.includes(requiredText)) {
+      error(`reverse-engineering-task-protocol.md must include: ${requiredText}`);
+    }
+  }
+
+  const requiredPlanText = [
+    '适用任务模型：`逆向任务`',
+    '适用逆向子类型：`视觉真值逆向`',
+    '## 2. 任务输入',
+    '## 3. 拆解步骤',
+    '## 4. 输出产物',
+    '## 5. 方案验收',
+    '状态 fixture × 根 Symbol/MovieClip × 目标帧或时间片 × 该时刻的递归可见显示列表',
+    '`gotoAndStop`',
+    '`gotoAndPlay`',
+    '本方案不研发或裁决全面性校验器',
+  ];
+  for (const requiredText of requiredPlanText) {
+    if (!groundTruthGenerationPlan.includes(requiredText)) {
+      error(`ground-truth-fine-grained-generation.md must include: ${requiredText}`);
+    }
+  }
+
+  for (const [name, text] of routeDocs) {
+    if (!text.includes('reverse-engineering-task-protocol.md')
+      || !text.includes('代码逆向')
+      || !text.includes('视觉真值逆向')) {
+      error(`${name} must progressively route reverse tasks through code-reverse and visual-ground-truth subtypes.`);
+    }
+  }
+
+  if (!pg017.includes('docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md')
+    || !pg017.includes('不再承载逆向任务的详细拆解步骤')) {
+    error('PG-017 must link the independent generation plan without retaining the detailed reverse-task procedure.');
+  }
+  if (pg017.includes('### 3.2 生成逻辑的精细化合同')) {
+    error('PG-017 must not embed the fine-grained generation procedure; keep it in the linked reverse plan.');
+  }
+  if (!groundTruthCompletenessValidator.includes('当前 `视觉真值逆向` task 显式链接')
+    || !groundTruthCompletenessValidator.includes('代码逆向不读取该方案或本文')
+    || !groundTruthCompletenessValidator.includes('不得要求任何逆向任务通过读取 PG 恢复执行步骤')) {
+    error('The completeness-validator discussion must consume the task-linked generation plan without routing ordinary reverse tasks through PG-017.');
+  }
+
+  for (const block of taskBlockList) {
+    if (!block.text.includes('任务模型：') || !block.text.includes('逆向任务')) continue;
+    const subtypeStart = block.text.indexOf('逆向子类型：');
+    const planStart = block.text.indexOf('逆向方案：', subtypeStart);
+    if (subtypeStart === -1 || planStart === -1) {
+      error(`${block.id} declares 逆向任务 but lacks 逆向子类型 or 逆向方案 fields.`);
+      continue;
+    }
+    const subtypeText = block.text.slice(subtypeStart, planStart);
+    const isCodeReverse = subtypeText.includes('代码逆向');
+    const isVisualTruthReverse = subtypeText.includes('视觉真值逆向');
+    if (isCodeReverse === isVisualTruthReverse) {
+      error(`${block.id} must select exactly one reverse subtype: 代码逆向 or 视觉真值逆向.`);
+      continue;
+    }
+    const inputStart = block.text.indexOf('输入资料：', planStart);
+    const planText = block.text.slice(planStart, inputStart === -1 ? block.text.length : inputStart);
+    const planMatches = [...planText.matchAll(/`(docs\/reverse-engineering\/plans\/[^`]+\.md)`/g)]
+      .map((match) => match[1]);
+    const uniquePlans = [...new Set(planMatches)];
+    if (isCodeReverse && uniquePlans.length !== 0) {
+      error(`${block.id} is 代码逆向 and must not load a visual ground-truth plan.`);
+      continue;
+    }
+    if (isCodeReverse) {
+      if (block.text.includes('docs/workflow/reverse-engineering-task-protocol.md')) {
+        error(`${block.id} is 代码逆向 and must keep the existing route without the visual reverse-task protocol.`);
+      }
+      continue;
+    }
+    if (!block.text.includes('docs/workflow/reverse-engineering-task-protocol.md')) {
+      error(`${block.id} is 视觉真值逆向 but does not reference reverse-engineering-task-protocol.md.`);
+    }
+    if (uniquePlans.length !== 1) {
+      error(`${block.id} is 视觉真值逆向 and must reference exactly one docs/reverse-engineering/plans/*.md plan; found ${uniquePlans.length}.`);
+      continue;
+    }
+    if (!existsSync(filePath(uniquePlans[0]))) {
+      error(`${block.id} references missing reverse plan: ${uniquePlans[0]}`);
+    }
+  }
+}
+
 function reverseEngineeringProtocolErrors(text) {
   const requiredText = [
     '## 六段证据链',
@@ -1732,6 +1843,9 @@ const problemGovernance = read(files.problemGovernance);
 const problemAudit = read(files.problemAudit);
 const methodObservation = read(files.methodObservation);
 const reverseEngineeringProtocol = read(files.reverseEngineeringProtocol);
+const reverseEngineeringTaskProtocol = read(files.reverseEngineeringTaskProtocol);
+const groundTruthGenerationPlan = read(files.groundTruthGenerationPlan);
+const groundTruthCompletenessValidator = read(files.groundTruthCompletenessValidator);
 const groundTruthReadme = read(files.groundTruthReadme);
 const uiGroundTruthSchemaText = read(files.uiGroundTruthSchema);
 const problemDirectory = 'docs/workflow/problems';
@@ -1817,6 +1931,9 @@ checkGovernanceLog([
   files.problemAudit,
   files.methodObservation,
   files.reverseEngineeringProtocol,
+  files.reverseEngineeringTaskProtocol,
+  files.groundTruthGenerationPlan,
+  files.groundTruthCompletenessValidator,
   ...problemRecordPaths,
   ...methodRecordPaths,
   files.agentProtocol,
@@ -1865,6 +1982,22 @@ checkMethodObservation(
   taskGeneration,
 );
 checkDelegatedAgentContracts(reverseEngineeringAgent, implementationAgent, reviewAgent, workflowAgent);
+checkReverseEngineeringTaskModel(
+  reverseEngineeringTaskProtocol,
+  groundTruthGenerationPlan,
+  groundTruthCompletenessValidator,
+  problemRecords.find((record) => record.id === 'PG-017')?.text ?? '',
+  [
+    ['AGENTS.md', agents],
+    ['CLAUDE.md', claude],
+    ['TASK_OUTLINE.md', outline],
+    ['docs/workflow/README.md', workflowReadme],
+    ['docs/workflow/document-map.md', documentMap],
+    ['docs/workflow/agent-protocol.md', agentProtocol],
+    ['docs/workflow/task-generation.md', taskGeneration],
+  ],
+  taskBlockList,
+);
 checkReverseEngineeringProtocol(
   reverseEngineeringProtocol,
   agents,

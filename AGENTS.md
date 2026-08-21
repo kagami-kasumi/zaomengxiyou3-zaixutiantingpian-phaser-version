@@ -86,8 +86,8 @@
 | --- | --- |
 | 轻量请求：解释、typo、注释、单个常量、明显配置、小范围排错 | 无。只在改动涉及具体系统时再读相关文件。 |
 | 游戏任务执行：用户指定 task 或使用 `/goal` | 先读 `docs/tasks/execution-queue.md`；只有无可执行治理项时再读 `TASK_OUTLINE.md`、`docs/workflow/agent-protocol.md`、`docs/tasks/feature-lines.md`、当前线覆盖台账、`docs/tasks/task-board.md`、当前 `docs/tasks/task-definitions/TASK-*.md`、`docs/reverse-engineering/mechanics-index.md`、`docs/tasks/vertical-slices.md` |
-| 玩法逆向：AS3、调用链、行为合同 | 游戏任务执行必读集 + `docs/workflow/reverse-engineering-protocol.md` + `local-resources/regima/legacy-extraction/README_extract.md` + 对应局部与共享 AS3 路径；视觉/空间结论还必须补 SWF 几何和坐标语义 |
-| 视觉资源逆向：symbol、位图、时间轴、资源族 | 游戏任务执行必读集 + `docs/reverse-engineering/evb-extraction-report.md` + `docs/reverse-engineering/asset-annotation/workflow.md` + `local-resources/regima/source/restored-swfs/` 中的目标源包；旧 `local-resources/regima/legacy-extraction/` 仅作交叉对照 |
+| 代码逆向：AS3、调用链、行为合同 | 游戏任务执行必读集 + `docs/workflow/reverse-engineering-protocol.md` + `local-resources/regima/legacy-extraction/README_extract.md` + 当前 task 指定的局部/共享 AS3 与消费者；沿用既有流程，不新增任务协议/方案文档，不从 PG 恢复步骤 |
+| 视觉真值逆向：symbol、位图、时间轴、UI/动画/空间真值 | 游戏任务执行必读集 + `docs/workflow/reverse-engineering-task-protocol.md` + 当前 task definition 唯一链接的 `逆向方案` + `docs/reverse-engineering/evb-extraction-report.md` + `docs/reverse-engineering/asset-annotation/workflow.md` + `local-resources/regima/source/restored-swfs/` 中的目标源包；旧视觉 task 轮到执行时才补子类型/方案，不扫描其他方案，旧 `local-resources/regima/legacy-extraction/` 仅作交叉对照 |
 | 代码实现：修改 `src/` | 游戏任务执行必读集 + `docs/architecture/src-boundaries.md` + 对应 `src/` 文件 |
 | 工程评审：评审代码、阶段成果或评审文档 | `docs/workflow/review-protocol.md`，涉及代码质量再读 `docs/workflow/code-quality-gates.md`，涉及 `src/` 边界再读 `docs/architecture/src-boundaries.md` |
 | 问题治理：确认或治理系统性工程问题 | `docs/workflow/problem-governance.md`、`docs/workflow/problem-audit.md`；若问题来自评审，再读 `docs/workflow/review-protocol.md`；若涉及代码质量，再读 `docs/workflow/code-quality-gates.md` |

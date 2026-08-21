@@ -1,5 +1,33 @@
 # 工作流治理日志
 
+## 2026-08-20：将真值方案收窄为视觉真值逆向子类型
+
+- 背景：用户确认机器真值提取只适用于视觉逆向；既有 AS3/调用链代码逆向表现良好，不应被迫加载真值精细生成方案或增加新的方案文档约束。
+- 子类型：独立逆向任务增加 `代码逆向` 与 `视觉真值逆向`。两类共用现有六段证据协议；代码逆向直接读取当前 task 指定的 AS3/消费者，视觉真值逆向才渐进加载 task 唯一链接的视觉方案和 ground-truth 资料。
+- 方案边界：`ground-truth-fine-grained-generation.md` 明确只适用于视觉真值逆向，代码逆向不得加载；代码逆向首次发现必须生成视觉真值时，拆成同线视觉真值逆向 task。
+- 迁移边界：旧代码逆向 task 不补建方案；旧视觉/真值 task 只在轮到执行或重新拆分时补子类型与视觉方案。不修改当前游戏执行队列。
+- 路由与门禁：同步 AGENTS、CLAUDE、TASK_OUTLINE、task/agent/reverse 协议、workflow README/document-map、PG-017 与校验器讨论稿；工作流校验改为仅要求视觉真值子类型链接唯一方案，并拒绝代码逆向加载视觉方案。
+- 验证：`node --check tools/validate-workflow.mjs`、`npm run check:workflow` 通过（7 个活跃 PG 合同，唯一推荐/执行仍为 `TASK-SETTINGS-193E`，仅保留既有 `PlayerSlot` warning）；`npm run audit:problems` 命中 PG-004/PG-017 并已集中记录；`git diff --check` 通过。
+
+## 2026-08-20：把逆向任务和精细生成方案从 PG-017 抽离
+
+- 背景：用户指出把详细生成拆解挤在 PG-017 中会使普通逆向执行无法按 task 路由读取，要求将逆向建模为独立任务，并把拆解方案作为独立输入喂给该任务。
+- 任务模型：新增 `reverse-engineering-task-protocol.md`，把逆向任务定义为一等可调度 task；新建/重拆任务显式声明 `任务模型：逆向任务` 和唯一 `逆向方案：`。现有 `TASK-SETTINGS-*` 只作为兼容 ID，不批量迁移。
+- 方案落点：将逐状态、目标帧/时间片、递归显示列表、动态时序、几何、未知项和 baseline 的详细拆解移入 `docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`。task definition 必须实例化范围、入口、fixture、源资料族和产物路径，只读其链接方案，不扫描方案目录。
+- PG 边界：PG-017 只保留问题、职责、调度边界、测试与关闭条件，并链接任务协议、生成方案和全面性校验器讨论稿；普通逆向 task 不从 PG 恢复执行步骤。
+- 路由与门禁：同步 AGENTS、CLAUDE、TASK_OUTLINE、agent/task-generation 协议、workflow README/document-map；工作流校验新增逆向任务模型、方案存在性、路由和 PG 瘦身门禁。
+- 范围：本轮不创建/激活 character 657 执行 task，不改真值、Schema、生成器、校验器或 `src`，不改变当前唯一游戏执行项。
+- 验证：`npm run check:structure` 通过（仅既有 8 个非目标大文件 warning）；`node --check tools/validate-workflow.mjs`、`npm run check:workflow` 通过（7 个活跃 PG 合同，唯一推荐/执行仍为 `TASK-SETTINGS-193E`，仅保留既有 `PlayerSlot` warning）；`npm run audit:problems` 命中 PG-004/PG-017 并已集中记录；`git diff --check` 通过。
+
+## 2026-08-20：冻结 PG-017 精细生成合同与全面性校验器边界
+
+- 背景：用户确认真值问题包含生成粒度过粗与产物全面性无法证明两部分，并明确校验器不应监督生成器是否逐步完成内部提取操作，只负责判断最终生成物是否全面；当前不用 `correct/incorrect` 单独界定校验器结果。
+- 生成合同：PG-017 将动态目标的提取单位冻结为“状态 fixture × 根 Symbol/MovieClip × 目标帧或时间片 × 递归可见显示列表”，明确 `gotoAndStop/gotoAndPlay`、动态 child、嵌套时间轴、矩阵/注册点/可见 bounds、mask/filter/文本、逐状态基准和未知能力的生成责任。简单静态对象不强制无差别拆帧，动态对象不得继续使用容器联合 bounds 代替具体状态。
+- 校验器边界：新增 `ground-truth-completeness-validator.md`，只记录“校验最终产物是否全面”的职责、不得缩小检查范围的约束和后续待决问题；不提前选择校验算法，不修改 Schema/manifest，也不建立生成流程监督器。
+- 状态：PG-017 仍为待治理，仅将状态说明更新为“生成逻辑方案已冻结；全面性校验器待独立对话讨论”。本轮不修宠物 HUD、不改生成器/校验器代码、不建立执行队列项、不批量降级存量真值。
+- 文档路由：README 与 document-map 增加全面性校验器文档的按需读取入口；普通真值生成任务不默认读取。
+- 验证：`npm run check:workflow` 通过（7 个活跃 PG 合同，唯一推荐/执行仍为 `TASK-SETTINGS-193E`，仅保留既有 `PlayerSlot` warning）；`npm run audit:problems` 命中 PG-004/PG-017 并已集中记录；`git diff --check` 通过。
+
 ## 2026-08-19：冻结关卡、宠物、英雄类设计并增加验收硬退出
 
 - 背景：用户手动要求为关卡、宠物、角色三个系统生成类设计，并要求先核定老角色系统的面向对象完成度；同时明确系统完成后不应继续检测是否满足设计模式。
