@@ -1,0 +1,890 @@
+{
+  "reportId": "task-settings-201.pet-combat-hud-head.completeness",
+  "status": "verified",
+  "declarationSource": {
+    "corpus": "docs/reverse-engineering/pet-animation-corpus.json",
+    "fixtureCount": 35,
+    "petKeys": [
+      "monkey1",
+      "monkey2",
+      "monkey3",
+      "monkey4",
+      "horse1",
+      "horse2",
+      "horse3",
+      "horse4",
+      "ufo1",
+      "ufo2",
+      "ufo3",
+      "tigress1",
+      "tigress2",
+      "tigress3",
+      "tigress4",
+      "turtle1",
+      "turtle2",
+      "turtle3",
+      "turtle4",
+      "phoenix1",
+      "phoenix2",
+      "phoenix3",
+      "phoenix4",
+      "dragon1",
+      "dragon2",
+      "dragon3",
+      "dragon4",
+      "rabbit1",
+      "rabbit2",
+      "rabbit3",
+      "rabbit4",
+      "mouse1",
+      "mouse2",
+      "mouse3",
+      "mouse4"
+    ]
+  },
+  "stateSource": {
+    "mapping": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+    "timeline": "local-resources/regima/task-outputs/task-settings-175a-pet-page/pet1.xml",
+    "characterId": 657,
+    "declaredTimelineFrames": 42,
+    "extractedTimelineFrames": 42
+  },
+  "comparison": {
+    "expectedFixtureCount": 35,
+    "extractedFixtureCount": 35,
+    "missingPetKeys": [],
+    "unexpectedPetKeys": [],
+    "recursiveTerminalCount": 35,
+    "xmlSvgGeometryMatchedCount": 35,
+    "duplicateLabelGroups": [
+      {
+        "chineseName": "子鼠元帅",
+        "petKeys": [
+          "mouse1",
+          "mouse2",
+          "mouse3"
+        ],
+        "targetFrame": 34,
+        "characterId": 648
+      }
+    ],
+    "negativeStateCount": 4,
+    "p1ProjectionCount": 35,
+    "p2ProjectionCount": 35
+  },
+  "fixtures": [
+    {
+      "petKey": "monkey1",
+      "chineseName": "火丸",
+      "targetFrame": 4,
+      "characterId": 618,
+      "depth": 5,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 2.95,
+        "top": 15.5,
+        "width": 44.75,
+        "height": 37.2
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/monkey1-frame-04-.png",
+      "baselineSha256": "080fb4df744d8811b7a6fbe9edb9ade6cf8a474d19bd8043e65001cf7d6864ba"
+    },
+    {
+      "petKey": "monkey2",
+      "chineseName": "灵猴",
+      "targetFrame": 5,
+      "characterId": 619,
+      "depth": 4,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 0.45,
+        "top": 12.85,
+        "width": 46.75,
+        "height": 40
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/monkey2-frame-05-.png",
+      "baselineSha256": "5179102eb7db19f799cb1e37587cde26041238f372f12197801126ab7d1dea1c"
+    },
+    {
+      "petKey": "monkey3",
+      "chineseName": "火猿",
+      "targetFrame": 6,
+      "characterId": 620,
+      "depth": 4,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 0.35,
+        "top": 8.1,
+        "width": 50.2,
+        "height": 45.3
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/monkey3-frame-06-.png",
+      "baselineSha256": "34a1998b3940bb4f8f53caa45bc428b90e24572bb579716cf79a8c490a67f79f"
+    },
+    {
+      "petKey": "monkey4",
+      "chineseName": "烈焰金刚",
+      "targetFrame": 22,
+      "characterId": 636,
+      "depth": 5,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -8.8,
+        "top": 3.6,
+        "width": 61.45,
+        "height": 52.25
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/monkey4-frame-22-.png",
+      "baselineSha256": "963687de564c32e3bdb436bfc60bec4481c7026a8464f434b73944d0218ebce8"
+    },
+    {
+      "petKey": "horse1",
+      "chineseName": "雪球",
+      "targetFrame": 1,
+      "characterId": 615,
+      "depth": 8,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 4.25,
+        "top": 17.05,
+        "width": 51.95,
+        "height": 34.8
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/horse1-frame-01-.png",
+      "baselineSha256": "29e836990e5cd68e08f63203d1426bb5a83fe1a1769f1d12dfa3f5cf17484589"
+    },
+    {
+      "petKey": "horse2",
+      "chineseName": "雪马",
+      "targetFrame": 2,
+      "characterId": 616,
+      "depth": 6,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 0,
+        "top": 4.45,
+        "width": 57.45,
+        "height": 51.75
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/horse2-frame-02-.png",
+      "baselineSha256": "7923f248144a913ffb764bfed0ae484ce2143d6309ef3abeac905989686f7de7"
+    },
+    {
+      "petKey": "horse3",
+      "chineseName": "寒野",
+      "targetFrame": 3,
+      "characterId": 617,
+      "depth": 3,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 3.2,
+        "top": 12,
+        "width": 64.5,
+        "height": 44.9
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/horse3-frame-03-.png",
+      "baselineSha256": "1cadd300038b2b9fbb0719826c3911923095a58fd8407cc40fc10c95c5fc268b"
+    },
+    {
+      "petKey": "horse4",
+      "chineseName": "极寒天马",
+      "targetFrame": 23,
+      "characterId": 637,
+      "depth": 7,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -4.1,
+        "top": 6.15,
+        "width": 88.5,
+        "height": 46.45
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/horse4-frame-23-.png",
+      "baselineSha256": "796dc59577992a15b2b873bd0d3b3ce449309ca0ee3347213891b89be596b382"
+    },
+    {
+      "petKey": "ufo1",
+      "chineseName": "小飞",
+      "targetFrame": 7,
+      "characterId": 621,
+      "depth": 5,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 1.7,
+        "top": 6.5,
+        "width": 47.4,
+        "height": 45.7
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/ufo1-frame-07-.png",
+      "baselineSha256": "10c7899b9d16367011e6c4670c6425083538563e2939f083ca04e86de8e7787b"
+    },
+    {
+      "petKey": "ufo2",
+      "chineseName": "裂云",
+      "targetFrame": 8,
+      "characterId": 622,
+      "depth": 4,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 8.95,
+        "top": 8.9,
+        "width": 42.15,
+        "height": 45.1
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/ufo2-frame-08-.png",
+      "baselineSha256": "6fb1d4d1cfed81073b4d3c387e12de6d93456311b7f802b28fd96937d4c1d3e8"
+    },
+    {
+      "petKey": "ufo3",
+      "chineseName": "冲霄",
+      "targetFrame": 9,
+      "characterId": 623,
+      "depth": 4,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 2.25,
+        "top": 4.05,
+        "width": 47.65,
+        "height": 56.05
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/ufo3-frame-09-.png",
+      "baselineSha256": "3defce20138f28ce7e0e68b9992d855b254b96c6691acb6e8242426752d0727d"
+    },
+    {
+      "petKey": "tigress1",
+      "chineseName": "虎丸",
+      "targetFrame": 10,
+      "characterId": 624,
+      "depth": 7,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 0.25,
+        "top": 10.15,
+        "width": 49.4,
+        "height": 42.85
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/tigress1-frame-10-.png",
+      "baselineSha256": "c51284c1210ce68b907c12f4ce479bff0c2c4a229a2644ad0957f83ed4a95b75"
+    },
+    {
+      "petKey": "tigress2",
+      "chineseName": "白灵虎",
+      "targetFrame": 11,
+      "characterId": 625,
+      "depth": 8,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 0.85,
+        "top": 7.55,
+        "width": 53,
+        "height": 45.55
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/tigress2-frame-11-.png",
+      "baselineSha256": "9b0348052cf781f7d060d26989b266915a790a75ae1744f811f206f14a871cbb"
+    },
+    {
+      "petKey": "tigress3",
+      "chineseName": "白虎将军",
+      "targetFrame": 12,
+      "characterId": 626,
+      "depth": 9,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 0,
+        "top": 8.4,
+        "width": 53.55,
+        "height": 45.15
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/tigress3-frame-12-.png",
+      "baselineSha256": "f7c9e2077e3062df1b848ee1c693656a18fdd30cbb2311e4a1570a9d2247e5df"
+    },
+    {
+      "petKey": "tigress4",
+      "chineseName": "白虎战神",
+      "targetFrame": 24,
+      "characterId": 638,
+      "depth": 8,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -3.85,
+        "top": 5.7,
+        "width": 59.3,
+        "height": 51.95
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/tigress4-frame-24-.png",
+      "baselineSha256": "92f91b64508f23eaacf8afd5e4dfa4c238b5a6a2b6fa92b5737aa4a28ff848a8"
+    },
+    {
+      "petKey": "turtle1",
+      "chineseName": "龟布",
+      "targetFrame": 13,
+      "characterId": 627,
+      "depth": 3,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 6.55,
+        "top": 11.9,
+        "width": 46.45,
+        "height": 40.75
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/turtle1-frame-13-.png",
+      "baselineSha256": "4122243362a5e007f39ba00f6e7d5fb1b431fd1b27acfd1b2fe7487b419429e9"
+    },
+    {
+      "petKey": "turtle2",
+      "chineseName": "墨玄龟",
+      "targetFrame": 14,
+      "characterId": 628,
+      "depth": 4,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 1.75,
+        "top": 9.65,
+        "width": 50.5,
+        "height": 43.05
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/turtle2-frame-14-.png",
+      "baselineSha256": "2d31bcbe18728db10950e9b1183e4a17958e1dcef957f901372d59870d6e996d"
+    },
+    {
+      "petKey": "turtle3",
+      "chineseName": "玄武将军",
+      "targetFrame": 15,
+      "characterId": 629,
+      "depth": 5,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -2.25,
+        "top": -1,
+        "width": 59.05,
+        "height": 55.55
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/turtle3-frame-15-.png",
+      "baselineSha256": "c66f79cdbdf19d90ce6af40850b2e6fc7beb2ca3c2ac1d9dce897ef41050bf5e"
+    },
+    {
+      "petKey": "turtle4",
+      "chineseName": "玄武大帝",
+      "targetFrame": 25,
+      "characterId": 639,
+      "depth": 9,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -10.15,
+        "top": 6.1,
+        "width": 63.35,
+        "height": 52.65
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/turtle4-frame-25-.png",
+      "baselineSha256": "6d7b1d74559efb55efe002ad606b3d61dcad4e525f6445886bc18b2586753c2f"
+    },
+    {
+      "petKey": "phoenix1",
+      "chineseName": "雀蛋",
+      "targetFrame": 16,
+      "characterId": 630,
+      "depth": 2,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 2.7,
+        "top": 9.65,
+        "width": 50.4,
+        "height": 43.55
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/phoenix1-frame-16-.png",
+      "baselineSha256": "c162b9c5e94c4559fb39a6b98f2ed906a8cd868f0ad72c802d8922118f794e9a"
+    },
+    {
+      "petKey": "phoenix2",
+      "chineseName": "炎皇雀",
+      "targetFrame": 17,
+      "characterId": 631,
+      "depth": 7,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 2.8,
+        "top": 8.6,
+        "width": 58.35,
+        "height": 56.35
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/phoenix2-frame-17-.png",
+      "baselineSha256": "443a54d74d95f462998ead05da956f37bc715be415cd7acd2efcefa08b3daa82"
+    },
+    {
+      "petKey": "phoenix3",
+      "chineseName": "朱雀将军",
+      "targetFrame": 18,
+      "characterId": 632,
+      "depth": 6,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -4.1,
+        "top": 8.55,
+        "width": 68.3,
+        "height": 66.8
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/phoenix3-frame-18-.png",
+      "baselineSha256": "9c14aeed42fbfa252f5cfbf4ce138fbae44f0ae7e9c429bc56c4d1f424b46e6e"
+    },
+    {
+      "petKey": "phoenix4",
+      "chineseName": "朱雀女皇",
+      "targetFrame": 26,
+      "characterId": 640,
+      "depth": 6,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -4.1,
+        "top": 6.45,
+        "width": 57.45,
+        "height": 66.4
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/phoenix4-frame-26-.png",
+      "baselineSha256": "81a755d4ce7ff904b9e96f56bd9c3af13d76c1b9e379a9a70e67d86b940cfe3f"
+    },
+    {
+      "petKey": "dragon1",
+      "chineseName": "龙仔",
+      "targetFrame": 19,
+      "characterId": 633,
+      "depth": 6,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 2.7,
+        "top": 11.6,
+        "width": 50.85,
+        "height": 46.95
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/dragon1-frame-19-.png",
+      "baselineSha256": "8a44853c63d9eb3d18d893a41ebf41bde19a5ade0fe3d4273c4ba84d131e36b5"
+    },
+    {
+      "petKey": "dragon2",
+      "chineseName": "绿英龙",
+      "targetFrame": 20,
+      "characterId": 634,
+      "depth": 5,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 2.9,
+        "top": 12.15,
+        "width": 53.15,
+        "height": 51.8
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/dragon2-frame-20-.png",
+      "baselineSha256": "10ecd645c41429bd262e46d63b414da394b3f79bc7a76db11f9fea4ca3d97553"
+    },
+    {
+      "petKey": "dragon3",
+      "chineseName": "青龙将军",
+      "targetFrame": 21,
+      "characterId": 635,
+      "depth": 8,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -0.5,
+        "top": -2.6,
+        "width": 53.6,
+        "height": 74.6
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/dragon3-frame-21-.png",
+      "baselineSha256": "a77612c61bf105ffadcc99afcba98fb36b11e25e7742407a0ca1156317d070a8"
+    },
+    {
+      "petKey": "dragon4",
+      "chineseName": "青龙妖圣",
+      "targetFrame": 27,
+      "characterId": 641,
+      "depth": 9,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -3.3,
+        "top": -6.45,
+        "width": 61.8,
+        "height": 63.25
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/dragon4-frame-27-.png",
+      "baselineSha256": "3d7109b8090c5c2f1fc5a07d305ec6d8048880a71f93d731af280f047226866f"
+    },
+    {
+      "petKey": "rabbit1",
+      "chineseName": "月兔",
+      "targetFrame": 28,
+      "characterId": 642,
+      "depth": 6,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 8.8,
+        "top": 14.35,
+        "width": 42.2,
+        "height": 42.5
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/rabbit1-frame-28-.png",
+      "baselineSha256": "e097786cff13077445accf2c60cb2b9cf7d3baf06e7cb315ae67366cca7df6d5"
+    },
+    {
+      "petKey": "rabbit2",
+      "chineseName": "疾风兔",
+      "targetFrame": 29,
+      "characterId": 643,
+      "depth": 5,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 6,
+        "top": 10.9,
+        "width": 49.1,
+        "height": 47.55
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/rabbit2-frame-29-.png",
+      "baselineSha256": "add5edd3f052bf0b940286c02181675a17d51b9c941197c86da3ddae53863654"
+    },
+    {
+      "petKey": "rabbit3",
+      "chineseName": "寒冰玉兔",
+      "targetFrame": 30,
+      "characterId": 644,
+      "depth": 8,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 5,
+        "top": 11.05,
+        "width": 54.8,
+        "height": 59.8
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/rabbit3-frame-30-.png",
+      "baselineSha256": "35bddf08f6d58e3f1eda638137b9cb051135328f0e97f8fcd2012e8581d6bfe0"
+    },
+    {
+      "petKey": "rabbit4",
+      "chineseName": "冰霜月神",
+      "targetFrame": 31,
+      "characterId": 645,
+      "depth": 11,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": 0.4,
+        "top": 6.3,
+        "width": 55.2,
+        "height": 58.75
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/rabbit4-frame-31-.png",
+      "baselineSha256": "dab2a40ca6c5da27f281123a7f673481283b256d13f185f760f9d9c0117622ef"
+    },
+    {
+      "petKey": "mouse1",
+      "chineseName": "子鼠元帅",
+      "targetFrame": 34,
+      "characterId": 648,
+      "depth": 7,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -2.5,
+        "top": 9.25,
+        "width": 56.25,
+        "height": 47.6
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/mouse1-frame-34-.png",
+      "baselineSha256": "3043b75e927e3532e09161c99aad711adf1e00f13f5b72045d06ed6e141dc2d1"
+    },
+    {
+      "petKey": "mouse2",
+      "chineseName": "子鼠元帅",
+      "targetFrame": 34,
+      "characterId": 648,
+      "depth": 7,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -2.5,
+        "top": 9.25,
+        "width": 56.25,
+        "height": 47.6
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/mouse2-frame-34-.png",
+      "baselineSha256": "3043b75e927e3532e09161c99aad711adf1e00f13f5b72045d06ed6e141dc2d1"
+    },
+    {
+      "petKey": "mouse3",
+      "chineseName": "子鼠元帅",
+      "targetFrame": 34,
+      "characterId": 648,
+      "depth": 7,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -2.5,
+        "top": 9.25,
+        "width": 56.25,
+        "height": 47.6
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/mouse3-frame-34-.png",
+      "baselineSha256": "3043b75e927e3532e09161c99aad711adf1e00f13f5b72045d06ed6e141dc2d1"
+    },
+    {
+      "petKey": "mouse4",
+      "chineseName": "子鼠大元帅",
+      "targetFrame": 35,
+      "characterId": 649,
+      "depth": 8,
+      "localMatrix": {
+        "a": 1,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "localBounds": {
+        "left": -19.3,
+        "top": 4.6,
+        "width": 72.8,
+        "height": 58.3
+      },
+      "baselinePath": "docs/tasks/evidence/TASK-SETTINGS-201/head/mouse4-frame-35-.png",
+      "baselineSha256": "4e8b0777ec18bd0b931d25073f31da9a4fb192705deb608e75c40b5ca32a6ad5"
+    }
+  ],
+  "verdict": {
+    "stateSetMatched": true,
+    "recursiveDisplayListsMatched": true,
+    "geometryCrossSourceMatched": true,
+    "expectedWasNotCopiedFromExtracted": true,
+    "rationale": "Expected fixtures come from pet-animation-corpus plus PetInfo AS3 name mapping; extracted frames/children/matrices come from the restored-SWF FFDec XML and are independently cross-checked against per-frame FFDec SVG/PNG.",
+    "unresolved": []
+  }
+}

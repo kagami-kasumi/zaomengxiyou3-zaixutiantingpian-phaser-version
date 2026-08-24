@@ -1,5 +1,23 @@
 # 工作流治理日志
 
+## 2026-08-24：character 657 首次实施细粒度真值方案
+
+- 背景：`TASK-SETTINGS-201` 是 PG-017 精细生成方案的首个有界视觉真值实例；用户运行反证已证明旧 191 的 Schema/哈希/测试自洽仍不能发现 character 657 动态 child 缺失。
+- 生成：新增独立 201 生成器，以 corpus + `PetInfo` AS3 映射声明 expected，以恢复 SWF XML 时间线提取 actual，并用逐帧 SVG/PNG 交叉确认 child、matrix、矢量 bounds 与 alpha edge；不研发完整 Flash VM。
+- Schema：兼容增量新增 `parentBounds/visibleBounds/clipBounds/alpha/colorTransform`，并用 `supersededBy` 让旧 manifest 精确标记局部取代关系，不批量否定静态真值。
+- 验证：201 提供缺 child、错 frame、关键 matrix 三类变异自测、字节稳定 `--check`、独立 completeness report 和逐 fixture baseline；`verified` 由声明集/提取集/递归显示列表/多源几何/负状态共同支持。
+- PG：PG-017 通过首阶段样本但不关闭；正式消费者 202、通用全面性校验器、两个后续样本与存量高风险审计仍未完成。PG-004/017 的本次结果集中记录于 `problem-audit.md`。
+- 调度：归档 201，只激活同线 `TASK-SLICE-202`；本轮不修改现代 `src` 或提前实践 HUD。
+
+## 2026-08-21：创建 character 657 首个细粒度真值执行链
+
+- 背景：用户要求在当前 193E 前先重做宠物真值并把新真值实践到 UI，再建立宠物基类。PG-017 与精细生成方案已把首个错误实例定位为战斗 HUD character 657 动态头像。
+- 任务拆分：按“视觉真值逆向不修改 `src`、UI 逆向与实现分 task”的既有门禁，将第一项拆为 `TASK-SETTINGS-201` 细粒度真值和 `TASK-SLICE-202` 正式 HUD 消费；第二项按已冻结 `system-designs/pet.md` 落为 `TASK-ARCH-203` P1 公共类。
+- 调度：唯一 Ready 从 `TASK-SETTINGS-193E` 改为 201，顺序固定为 `201 -> 202 -> 203 -> 193E`；保持唯一 Active 功能线，不新增治理执行队列项。
+- 边界：201 只处理 35 个 `gotoAndStop` 中文名 fixture、递归 child 和 P1/P2 投影；202 只实践新真值；203 只建立 `PetCombatRuntime/PetBehavior/Registry/Targeting` 并要求 pet P1 gate=0，不迁移设计 P2-P4。
+- PG：同步 PG-017 的调度事实和集中问题审计；任务尚未执行，PG-017 保持“待治理”，全面性校验器仍留在独立对话讨论。
+- 验证：`npm run check:structure` 已确认目标 `PetSystem.ts` 为既有 1267 行 warning，203 禁止继续向该文件新增基类逻辑；`npm run check:workflow`、`npm run audit:problems` 与 `git diff --check` 作为本次收尾门禁。
+
 ## 2026-08-20：将真值方案收窄为视觉真值逆向子类型
 
 - 背景：用户确认机器真值提取只适用于视觉逆向；既有 AS3/调用链代码逆向表现良好，不应被迫加载真值精细生成方案或增加新的方案文档约束。

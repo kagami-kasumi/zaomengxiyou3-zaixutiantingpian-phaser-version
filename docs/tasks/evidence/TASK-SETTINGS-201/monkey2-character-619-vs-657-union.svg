@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="170" viewBox="0 0 620 170">
+  <rect width="620" height="170" fill="#151922"/>
+  <text x="18" y="24" fill="#fff" font-family="sans-serif" font-size="14">灵猴：character 657 frame 5 → character 619</text>
+  <g transform="translate(18 42)">
+    <image href="head/monkey2-frame-05-.png" width="105" height="94"/>
+    <rect x="0.5" y="0.5" width="103.8" height="92.6" fill="none" stroke="#ff5364" stroke-width="1"/>
+    <rect x="20.85" y="31.1" width="46.75" height="40" fill="none" stroke="#53e08d" stroke-width="1.5"/>
+  </g>
+  <g font-family="sans-serif" font-size="13">
+    <text x="145" y="68" fill="#ff5364">红：旧 657 联合画布 104.8 × 93.6</text>
+    <text x="145" y="94" fill="#53e08d">绿：frame 5 / character 619 矢量 bounds 46.75 × 40</text>
+    <text x="145" y="120" fill="#c9d1dc">P1 stage bounds: (8.25, 95.55, 46.75, 40)</text>
+    <text x="145" y="146" fill="#c9d1dc">旧画布不能作为单只头像尺寸；身体 atlas 也不是该 frame child。</text>
+  </g>
+</svg>

@@ -92,6 +92,10 @@
 
 2026-08-17 `TASK-SLICE-192B` character 662 投影：共享 HUD snapshot 直接读取当前活动存档 P1/P2 `PetRoster`，并在既有 `FormalPetsUpdatedEvent` 上替换同一 roster 引用；没有第二宠物数值/runtime owner。605 shell、610/614 各 25 帧、同源头像和三字段按 `task-settings-191.pet-combat-hud` 投影，P2 镜像与字段反转、满值/半值/0 HP、休息移除和再次出战重建均通过；原版 662 无技能 child，故不添加现代技能层。M-049 的宠物战斗 HUD 子范围已复现，M-042/M-052 与 VS-067 因宠物本体/技能真动画仍保持部分状态并转入 193。
 
+2026-08-21 character 657 真值与宠物类调度纠正：PG-017 的用户运行反证已使上段“同源头像已复现”降级。旧 191 把 42 帧动态头像选择器的联合 bounds 当作具体头像，192B 又用身体 atlas 代替实际帧内 child；605/610/614、条和文本静态范围暂不受此反证波及。用户要求在 193E 前先修真值/UI、再建宠物基类，故新增 `TASK-SETTINGS-201 -> TASK-SLICE-202 -> TASK-ARCH-203`：201 按 35 个中文名 fixture 递归 character 657 目标帧，202 让正式 HUD 直接消费新真值，203 按已冻结设计只建立 `PetCombatRuntime/PetBehavior/Registry/Targeting` P1。M-042/M-049/M-052 与 VS-067 均保持部分复现，完成 203 后才恢复 193E。
+
+2026-08-24 `TASK-SETTINGS-201` character 657 细粒度真值：`task-settings-201.pet-combat-hud-head` 由 35 项 corpus + AS3 中文名映射独立声明 expected，以恢复 `pet1.swf` 的 42 帧 XML 时间线提取 actual，并逐 fixture 用 SVG child/matrix/size 与 PNG alpha/baseline 交叉确认；生成 70 个 P1/P2 可见投影、4 个无出战/休息负状态，`unresolved=[]`。灵猴为 frame 5 / character 619 / `46.75×40`，旧 191 的 `104.8×93.6` 仅是 657 联合画布；191 的动态 head 对象已机器标记由 201 取代，605/610/614 与文本保留。M-035/M-042/M-049/M-052 仍不提升复现状态，等待 202 正式消费。
+
 2026-08-17 `TASK-SETTINGS-193` 宠物动画 corpus：恢复 `pet1/20120203/20120808/mouse/StageCommon.swf` 精确 SymbolClass 扫描将当前 9 物种、35 实际形态、9 本体族与 38 技能视觉映射全部定位，`unlocated=[]`。重复符号按 `Aloader` 补丁顺序冻结候选 owner，并要求分族证据 task 用 ApplicationDomain/load precedence 反证；现代 `TestScenePetViewBridge` 几何本体、projectile fallback 和字符串 key 均仍是占位或未渲染。193A..193R 已按九物种串行插入 194 前，故 M-035/M-042 与 VS-067 仍保持部分复现，不因 corpus 定位提前提升。
 
 2026-08-18 `TASK-SETTINGS-193A` 猴系逐帧真值：`task-settings-193a.pet-monkey-animation` 以 626 状态、20 显示对象与 626 个 SWF-derived 基准冻结 monkey1..4 本体行/持帧、普攻、xj/lj/lyq/jgaoyi、hurt/dead、左右注册点/alpha 边界、生成矩阵、20/24/30 host clock 和销毁合同，`unresolved=[]`。真实加载时序确认 `PetMonkeyBmd1..3` 与九对象选择 `20120203.swf` 补丁 owner，`Bmd4` 选择 `pet1.swf`；monkey2/3 两段对象、`PetMonkey2Bullet3` 错名和 jgaoyi 本体 hit5 差异已转交 193B。M-034/M-035/M-042 与 VS-067 仍保持部分复现，直到现代正式 Runtime 消费真值。

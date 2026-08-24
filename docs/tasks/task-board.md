@@ -4,13 +4,15 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-193E` 是唯一 Ready 游戏 task；193D 已直接消费 193C 的 716 状态/20 对象 verified 真值，在共享 Runtime 接入马系本体、技能对象、奥义两段与共享冰效。下一步只闭合 UFO 动画证据。
+`TASK-SLICE-202` 是唯一 Ready 游戏 task。201 已按 35 个 fixture 完成 character 657 逐状态递归真值；当前只让正式 HUD 直接消费新真值并删除身体 atlas/联合 bounds 替代，随后由 203 建立已冻结设计的宠物战斗公共类 P1，再恢复 193E。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-SETTINGS-193E | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 动画证据 | 冻结 ufo1..3 本体、魔破杀/瞬闪/狂魔闪空逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193F | [定义](task-definitions/TASK-SETTINGS-193E.md) |
+| TASK-SLICE-202 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物 HUD 新真值实践 | 正式 HUD 直接消费 201，删除身体 atlas/657 联合 bounds 替代 | M-035、M-042、M-049、M-052、VS-067 | 原生头像资源/投影、真值变异测试、P1/P2/五关逐状态差异 | TASK-ARCH-203 | [定义](task-definitions/TASK-SLICE-202.md) |
+| TASK-ARCH-203 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物战斗公共类 P1 | 建立 PetCombatRuntime、PetBehavior、Registry、Targeting | M-032、M-034、M-042、VS-012、VS-067 | 四个类设计角色、生命周期合同测试、pet P1 gate=0 | TASK-SETTINGS-193E | [定义](task-definitions/TASK-ARCH-203.md) |
+| TASK-SETTINGS-193E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 动画证据 | 冻结 ufo1..3 本体、魔破杀/瞬闪/狂魔闪空逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193F | [定义](task-definitions/TASK-SETTINGS-193E.md) |
 | TASK-SLICE-193F | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 真动画接入 | 直接消费 193E 真值替换 UFO 本体与技能占位 | M-034、M-035、M-042、VS-067 | UFO 真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193G | [定义](task-definitions/TASK-SLICE-193F.md) |
 | TASK-SETTINGS-193G | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎系动画证据 | 冻结 tigress1..4 本体、三技能与组合奥义逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193H | [定义](task-definitions/TASK-SETTINGS-193G.md) |
 | TASK-SLICE-193H | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎系真动画接入 | 直接消费 193G 真值替换虎系本体与技能占位 | M-034、M-035、M-042、VS-067 | 虎系真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193I | [定义](task-definitions/TASK-SLICE-193H.md) |

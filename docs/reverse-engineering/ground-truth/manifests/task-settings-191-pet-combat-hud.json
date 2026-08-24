@@ -7,7 +7,7 @@
     "taskId": "TASK-SETTINGS-191",
     "surfaceId": "role-info-dynamic-show-pet-info-character-662",
     "originalVersion": "RegiMA 1.1 restored corpus",
-    "description": "The independent battle pet HUD dynamically added above RoleInfo: character 662 shell, current pet head, level, HP/MP bars and texts. The separate character 573 pet-page button is outside this scope and remains covered by task-settings-175c.stage-feature-host."
+    "description": "The independent battle pet HUD dynamically added above RoleInfo: character 662 shell, level, HP/MP bars and texts remain verified here. Character 657 all-timeline union geometry is retained only as historical container evidence and is machine-marked superseded by task-settings-201.pet-combat-hud-head. The separate character 573 pet-page button is outside this scope and remains covered by task-settings-175c.stage-feature-host."
   },
   "generatedBy": {
     "tool": "generate-pet-combat-hud-ground-truth.mjs",
@@ -1328,6 +1328,15 @@
           }
         ],
         "maskId": null
+      },
+      "supersededBy": {
+        "truthId": "task-settings-201.pet-combat-hud-head",
+        "reason": "The 104.8x93.6 value is character 657 all-timeline union geometry, not a selected pet portrait. Only this dynamic head subtree is superseded; character 605/610/614 and the text fields remain in this manifest.",
+        "replacementPointers": [
+          "/states",
+          "/displayObjects/1",
+          "/displayObjects/2"
+        ]
       }
     },
     {

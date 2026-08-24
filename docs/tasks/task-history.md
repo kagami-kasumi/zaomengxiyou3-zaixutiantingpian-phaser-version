@@ -11286,3 +11286,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-193E`：只闭合 ufo1..3 本体与 pms/ss/kmsk 的动作行、帧时序/持帧、注册点/边界、owner 与 verified 真值；不接入现代动画。
+
+### TASK-SETTINGS-201
+
+- 完成日期：2026-08-24。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-202`）。
+- 新增 `task-settings-201.pet-combat-hud-head` verified 真值：35 个 corpus fixture、70 个 P1/P2 可见投影、4 个无出战/休息负状态、37 个显示对象与 35 个逐帧 SWF-derived baseline，`unresolved=[]`。
+- expected 由 `pet-animation-corpus.json` 与 `PetInfo.transPetChinaName()` 独立声明；actual 来自恢复 `pet1.swf` 的 character 657 42 帧 XML 时间线，并由逐帧 SVG child/matrix/size 与 PNG alpha edge 交叉确认。mouse1/2/3 有证据地共享 frame 34 / character 648。
+- 灵猴固定为 frame 5 / character 619 / depth 4 / local bounds `46.75×40`，P1/P2 stage bounds 分别为 `(8.25,95.55,46.75,40)` 与 `(865,95.55,46.75,40)`，直接反证旧 `104.8×93.6` 联合画布。
+- 191 manifest 通过机器 `supersededBy` 只标记 character 657 动态 head subtree 被 201 取代；605/610/614 壳体/条和文本范围保留。身体 atlas 不属于 `ShowPetInfo.headmc.gotoAndStop()` 显示链。
+- 新生成器支持字节稳定 `--check` 与缺 child、错 frame、关键 matrix 三类变异自测；Schema 只做兼容增量扩展。本 task 未修改 `src`、现代 HUD、恢复 SWF 或 `legacy-extraction` 原始结果。
+
+验证：
+- `npm run test:pet-combat-hud-head-truth`、`npm run test:pet-combat-hud-truth`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+- `TASK-SLICE-202`：正式 HUD 直接消费 201 verified 头像真值，删除身体 atlas/657 联合 bounds 替代，并完成 P1/P2/五关逐状态差异与关键字段变异测试。

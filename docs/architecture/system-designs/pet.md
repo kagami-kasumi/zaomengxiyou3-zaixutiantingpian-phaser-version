@@ -6,7 +6,7 @@
 
 验收退出：未退出。
 
-实施 task：尚未生成；本设计不并入当前宠物动画/表现 task，用户要求实施时再生成独立有界迁移 task。
+实施 task：`TASK-ARCH-203` 已生成并排在当前宠物 HUD 真值/实现之后，只实施 P1 公共类与合同；P2-P4 消费者迁移 task 尚未生成。
 
 ## 目标与范围
 
@@ -81,7 +81,7 @@
 | `FeatureUiScene` 的宠物保存同步 | 正式功能页 | 只通知 Roster 变化；不控制战斗 Runtime 内部 | `FormalPetRuntimeBridge` 直接重置 runtime model | P3 | 待改为生命周期通知 |
 | 全部具体宠物行为 | 系统消费者 | Registry 唯一解析 | 具体函数由 barrel/Scene 直接导入 | P1/P4 | 未迁移 |
 
-迁移批次：P1 建立 Runtime/Behavior/Registry/Targeting 并适配现有技能；P2 迁移 TestScene P1/P2；P3 接入五个正式关卡；P4 删除旧分发出口、完成合同和正式旅程。
+迁移批次：P1 由 `TASK-ARCH-203` 建立 Runtime/Behavior/Registry/Targeting 与公共合同；P2 迁移 TestScene P1/P2；P3 接入五个正式关卡；P4 删除旧分发出口、完成合同和正式旅程。P2-P4 仍待后续生成独立 task。
 
 ## 禁止路径
 

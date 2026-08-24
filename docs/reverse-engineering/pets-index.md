@@ -893,6 +893,12 @@ SVG 逐项一致；运行时 5 行 1224 列表、`PetHeadSprite`、8 个 `skillI
 
 新增 `task-settings-191.pet-combat-hud` verified 真值：10 个序列化对象、10 状态、每个可见态 8 对象，`unresolved=[]`；P1/P2、无宠物、满值、受击、0 HP 与休息状态、原版基准和分帧公式均已冻结。详细路由矩阵、显示列表、差异和 192A/192B 边界见 `evidence/TASK-SETTINGS-191-pet-ui-visibility.md`。宠物实体/技能真动画不属于 662，继续由 193 按恢复源资源族分区。
 
+## TASK-SETTINGS-201：战斗 HUD 头像逐状态递归真值
+
+`task-settings-201.pet-combat-hud-head` 把 35 个已支持宠物形态逐项解析为 `PetInfo` 中文名、character 657 目标 frame、真实 child/depth/matrix、注册偏移与 local/parent/stage/visible/clip bounds。每项生成 P1/P2 投影，并补 P1/P2 无出战/休息负状态；35 个 SWF-derived baseline、独立 expected/extracted 全面性报告与 child/frame/matrix 变异自测通过，`unresolved=[]`。mouse1/2/3 因原版都映射“子鼠元帅”而共同选择 frame 34 / character 648，这是已证共享状态而非漏项。
+
+有界裁决只取代 191 的 character 657 联合画布和 192B 的身体 atlas 头像替代；605/610/614、659/660/661 和 character 662 父级事实继续保留。灵猴反证、完整显示列表和六段证据位于 `evidence/TASK-SETTINGS-201-pet-combat-hud-head.md`。本 task 未修改现代 HUD，正式画面修复由 202 独占。
+
 ## TASK-SLICE-192A：非 QA 正式页面旅程与失败信号
 
 当前 schema 双人冷启动槽从启动页进入地图后，五个已实现关卡 Runtime 共用的入口均通过 P1/P2 `pets` route 打开 932 页面；自动旅程覆盖分页、selected、出战/休息、放生确认取消、关闭/重开和存档重载。940×590 正式非 QA 运行另验证 P1/P2 pointer、skill hover、返回与整页重载，console warning/error 为 0。页面继续直接消费 `task-settings-175a.pet-page`，无可见对象、坐标、皮肤或现代例外变化。

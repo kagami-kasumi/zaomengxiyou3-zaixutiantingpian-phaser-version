@@ -241,8 +241,26 @@
         "localMatrix": { "$ref": "#/$defs/matrix" },
         "registrationPoint": { "$ref": "#/$defs/point" },
         "localBounds": { "$ref": "#/$defs/bounds" },
+        "parentBounds": { "$ref": "#/$defs/bounds" },
         "stageBounds": { "$ref": "#/$defs/bounds" },
+        "visibleBounds": { "$ref": "#/$defs/bounds" },
+        "clipBounds": { "$ref": "#/$defs/bounds" },
         "hitArea": { "$ref": "#/$defs/bounds" },
+        "alpha": { "type": "number", "minimum": 0, "maximum": 1 },
+        "colorTransform": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "redMultiplier": { "type": "number" },
+            "greenMultiplier": { "type": "number" },
+            "blueMultiplier": { "type": "number" },
+            "alphaMultiplier": { "type": "number" },
+            "redOffset": { "type": "number" },
+            "greenOffset": { "type": "number" },
+            "blueOffset": { "type": "number" },
+            "alphaOffset": { "type": "number" }
+          }
+        },
         "derivation": { "enum": ["extracted", "calculated", "observed"] },
         "derivationMethod": { "type": "string" },
         "evidenceRefs": {
@@ -290,6 +308,20 @@
             "buttonStateAssets": {
               "type": "object",
               "additionalProperties": { "type": "string" }
+            }
+          }
+        },
+        "supersededBy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["truthId", "reason", "replacementPointers"],
+          "properties": {
+            "truthId": { "type": "string", "minLength": 1 },
+            "reason": { "type": "string", "minLength": 1 },
+            "replacementPointers": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
             }
           }
         }

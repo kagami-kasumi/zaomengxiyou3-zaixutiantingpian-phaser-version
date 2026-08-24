@@ -69,7 +69,7 @@ const placement = (stateId, localMatrix, localBounds, stageBounds, evidenceRefs,
 });
 const render = (assetRef, extra = {}) => ({ assetRef, blendMode: 'normal', filters: [], maskId: null, ...extra });
 const displayObjects = [];
-function addObject({ id, parentId, depth, objectType, characterId, instanceName = null, sourceFrame = 1, p1StateSet = p1States, p2StateSet = p2States, p1Matrix, p1Bounds, p2Matrix, p2Bounds, localBounds, assetRef, extraRender = {} }) {
+function addObject({ id, parentId, depth, objectType, characterId, instanceName = null, sourceFrame = 1, p1StateSet = p1States, p2StateSet = p2States, p1Matrix, p1Bounds, p2Matrix, p2Bounds, localBounds, assetRef, extraRender = {}, supersededBy = null }) {
   displayObjects.push({
     id, parentId, depth, objectType,
     sourceIdentity: { provenanceId: 'pet1-swf', characterId, symbolClass: characterId === 662 ? 'export.pet.ShowPetInfo' : null, instanceName, frame: sourceFrame },
@@ -78,6 +78,7 @@ function addObject({ id, parentId, depth, objectType, characterId, instanceName 
       ...p2StateSet.map((stateId) => placement(stateId, p2Matrix, localBounds, p2Bounds, [`pet1-swf:character-${characterId}`, 'role-info-as:setPos/addPetHead', 'show-pet-info-as:flipHorizontalTxt'])),
     ],
     render: render(assetRef, extraRender),
+    ...(supersededBy ? { supersededBy } : {}),
   });
 }
 
@@ -104,7 +105,12 @@ addObject({ id: 'pet-combat-hud-root.headmc', parentId: 'pet-combat-hud-root', d
   p1Matrix: matrix(1, 0, 0, 1, 7.8, 82.7), p1Bounds: bounds(7.8, 82.7, 104.8, 93.6),
   p2Matrix: matrix(-1, 0, 0, 1, 912.2, 82.7), p2Bounds: bounds(807.4, 82.7, 104.8, 93.6),
   localBounds: bounds(0, 0, 104.8, 93.6), assetRef: `${svgPath}#sprite2`, sourceFrame: null,
-  extraRender: { filters: [{ type: 'glow', color: '#000000', blurX: 4, blurY: 4, strength: 3 }] } });
+  extraRender: { filters: [{ type: 'glow', color: '#000000', blurX: 4, blurY: 4, strength: 3 }] },
+  supersededBy: {
+    truthId: 'task-settings-201.pet-combat-hud-head',
+    reason: 'The 104.8x93.6 value is character 657 all-timeline union geometry, not a selected pet portrait. Only this dynamic head subtree is superseded; character 605/610/614 and the text fields remain in this manifest.',
+    replacementPointers: ['/states', '/displayObjects/1', '/displayObjects/2'],
+  } });
 
 const textStyle = (source) => ({ fontFamily: 'FZCuYuan-M03', fontSize: 12, color: '#ffffff', dynamic: true, source });
 addObject({ id: 'pet-combat-hud-root.txtlevel', parentId: 'pet-combat-hud-root', depth: 26, objectType: 'text-field', characterId: 659, instanceName: 'txtlevel',
@@ -128,7 +134,7 @@ const baselines = states.map(([stateId]) => {
 const manifest = {
   $schema: '../schema/ui-ground-truth.schema.json', schemaVersion: 1,
   truthId: 'task-settings-191.pet-combat-hud', status: 'verified',
-  scope: { taskId: 'TASK-SETTINGS-191', surfaceId: 'role-info-dynamic-show-pet-info-character-662', originalVersion: 'RegiMA 1.1 restored corpus', description: 'The independent battle pet HUD dynamically added above RoleInfo: character 662 shell, current pet head, level, HP/MP bars and texts. The separate character 573 pet-page button is outside this scope and remains covered by task-settings-175c.stage-feature-host.' },
+  scope: { taskId: 'TASK-SETTINGS-191', surfaceId: 'role-info-dynamic-show-pet-info-character-662', originalVersion: 'RegiMA 1.1 restored corpus', description: 'The independent battle pet HUD dynamically added above RoleInfo: character 662 shell, level, HP/MP bars and texts remain verified here. Character 657 all-timeline union geometry is retained only as historical container evidence and is machine-marked superseded by task-settings-201.pet-combat-hud-head. The separate character 573 pet-page button is outside this scope and remains covered by task-settings-175c.stage-feature-host.' },
   generatedBy: { tool: 'generate-pet-combat-hud-ground-truth.mjs', toolVersion: '1', command, generatedAt: '2026-08-17T22:30:00+08:00' },
   provenance: [
     { id: 'pet1-swf', sourceType: 'restored-swf', sourcePath: swfPath, sha256: sha256(swfPath), locator: 'character 662 export.pet.ShowPetInfo frame 1; children 605/610/614/657/659/660/661; 610 and 614 each 25 frames; FFDec 26 selective SVG/PNG export.' },
