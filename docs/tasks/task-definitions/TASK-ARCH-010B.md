@@ -27,7 +27,7 @@
 
 - `TASK-ARCH-010A` 的通用定义/Brain 合同与兼容 facade。
 - `PG-013 V2` 已建立并完成五关迁移的 `MonsterRuntimeRegistry`；本 task 消费该 owner，不再创建第二个注册表或重新迁移关卡生命周期。
-- `docs/interview/设计模式.md`、`docs/architecture/src-boundaries.md`、`LINE-MONSTER-ARCH` 覆盖台账。
+- `面试/设计模式.md`、`docs/architecture/src-boundaries.md`、`LINE-MONSTER-ARCH` 覆盖台账。
 - 一个同时具有普通怪和 Boss、已具备确定性测试与运行验收入口的正式关卡；默认候选为 Stage 2-2，执行前按当前工作树复核。
 
 输出产物：
