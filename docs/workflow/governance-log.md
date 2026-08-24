@@ -1,5 +1,14 @@
 # 工作流治理日志
 
+## 2026-08-24：建立宠物进化族 Luna 并行逆向薄 Skill
+
+- 背景：用户要求在后续宠物族证据任务前，把猴/马已验证的单族逆向与真值生成流程提炼为内部 Skill，并以 Luna 并行降低高阶模型上下文与串行等待。
+- Skill：创建个人 `$pet-family-reverse`（`~/.codex/skills/pet-family-reverse/`）；入口只负责任务路由、范围冻结、Luna A/B 只读工作包、主 agent 归并门、独立完整性审查和 `MO-001` 指标，详细输入/输出与 brief 按需放在两份 reference。Skill 不复制仓库协议、不改 task 状态、不把 Schema/哈希/自报集合当作 `verified`。
+- 任务：`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 补为视觉真值逆向任务并统一链接 `ground-truth-fine-grained-generation.md`；每个 task 仍保持 2 个主工作包、0 compact、2 个验收批次和串行证据→实现调度。A/B 分别调查 AS3 行为链和恢复 SWF 真值，主 agent 单写，独立 Luna 审查计入验收批次。
+- 方法观测：`MO-001` 增加宠物族 V2 试验设计；193E/193G 只作为计划样本，实际执行并取得可定位证据前不计入样本数。原始总 token 不预设必降，分别观测高阶模型 token、墙钟时间、返工和护栏。
+- 调度：`TASK-ARCH-203` 继续是唯一 Ready；Skill 与协作计划不并行七个 task，也不改变 203→193E→193F 的既有顺序。
+- 验证：`quick_validate.py`、`npm run check:workflow`、`npm run audit:problems` 与 `git diff --check` 作为本次收尾门禁。
+
 ## 2026-08-24：character 657 首次实施细粒度真值方案
 
 - 背景：`TASK-SETTINGS-201` 是 PG-017 精细生成方案的首个有界视觉真值实例；用户运行反证已证明旧 191 的 Schema/哈希/测试自洽仍不能发现 character 657 动态 child 缺失。

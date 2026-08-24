@@ -46,7 +46,7 @@
 10. `TASK-SETTINGS-201`：Done；`task-settings-201.pet-combat-hud-head` 已闭合 35 个 `gotoAndStop` fixture、70 个 P1/P2 投影、4 个负状态、逐帧 baseline、独立全面性结论与 191 有界裁决，`unresolved=[]`，未修改 `src/`。
 11. `TASK-SLICE-202`：Done；正式 HUD 直接消费 201 新真值，33 个唯一终端 child 覆盖 35 fixture；删除身体 atlas/657 联合 bounds 替代，关键字段变异、九物种零像素差与 940×590 双人运行通过。
 12. `TASK-ARCH-203`：按冻结宠物类设计建立 `PetCombatRuntime/PetBehavior/Registry/Targeting` 和 P1 合同；不迁移 TestScene/五关或删除旧入口，P2-P4 后续另行生成。
-13. `TASK-SETTINGS-193E -> ... -> TASK-SETTINGS-193Q -> TASK-SLICE-193R`：完成 203 后恢复，对其余七族按 verified 证据→实现串行；证据未闭合时配对实现不得 Ready。
+13. `TASK-SETTINGS-193E -> ... -> TASK-SETTINGS-193Q -> TASK-SLICE-193R`：完成 203 后恢复，对其余七族按 verified 证据→实现串行；七个证据 task 分别使用 `$pet-family-reverse` 和 `MO-001`，在单 task 内以 Luna A/B 并行只读调查、主 agent 单写归并、Luna 独立完整性复核，不并行 task 状态；证据未闭合时配对实现不得 Ready。
 14. `TASK-SLICE-194`：所有宠物资源族子 task 完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
 15. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。
 16. `TASK-SLICE-196`：五角色统一动作流畅度、UI 完整度和正式 Runtime 校准；不代替单角色修复。

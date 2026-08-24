@@ -373,3 +373,5 @@
 2026-08-24 `TASK-SETTINGS-201` 已归档：新增 `task-settings-201.pet-combat-hud-head` verified 真值，按 corpus + `PetInfo.transPetChinaName()` 的独立声明集执行 character 657 中文目标帧，闭合 35 fixture、70 个 P1/P2 投影、4 个无出战/休息负状态、35 个逐帧 SWF baseline 与 0 unresolved。每个目标帧递归到真实终端 shape，XML child/depth/matrix/twip bounds 与逐帧 SVG/PNG 交叉确认；灵猴确定为 frame 5 / character 619 / 46.75×40，反证旧 104.8×93.6 联合画布。191 仅机器标记动态 head subtree 被 201 取代，605/610/614 与文本静态范围保留；本 task 未修改 `src`。功能线继续 Active，唯一 Ready 切换为 `TASK-SLICE-202`。
 
 2026-08-24 `TASK-SLICE-202` 已归档：新增直接导入 201 verified manifest 的 `PetCombatHudHeadAssets`，33 个唯一终端 child 覆盖 35 fixture，正式 HUD 按 frame/child/matrix/registration/visible bounds 投影并使用专属 bundle；删除宠物页/身体头像路径、`104.8×93.6` 拉伸和硬编码头像定位。关键字段变异、P1/P2、五关旅程、全系统/build 与 940×590 双人运行零 console 通过；九物种 baseline 与 runtime 资源像素差为 0。功能线继续 Active，唯一 Ready 切换为 `TASK-ARCH-203`。
+
+2026-08-24 用户要求把后续宠物进化族的重复逆向/生成流程提炼为内部薄 Skill，并使用 Luna 降低高阶模型上下文和串行等待。`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 已补为视觉真值逆向任务，统一链接精细生成方案，并在各自成为唯一 Ready 后以 `$pet-family-reverse` 执行 `MO-001`：两个主工作包分别只读调查 AS3 行为链与恢复 SWF 真值，主 agent 单写归并，独立完整性审查计入既有验收批次。当前 203 的 Ready 和七族证据→实现串行顺序均不改变。

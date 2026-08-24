@@ -42,6 +42,8 @@
 - 主 agent 在实现或关闭结论前核查来源、冲突和未知项，并记录实际采用与退回内容。
 - task 本身不适合并行时不制造样本。
 
+宠物进化族视觉真值 V2 试验使用个人内部 `$pet-family-reverse` 薄 Skill（`~/.codex/skills/pet-family-reverse/`）统一路由：Luna A 只读追踪 AS3 行为/共享调用链，Luna B 只读核对恢复 SWF owner/时间轴/几何，主 agent 归并后再以独立审查覆盖 expected/extracted、动态 child、基准与消费者。Skill 不替代仓库协议、任务调度、真值生成器或主 agent 的证据裁决。`TASK-SETTINGS-193E` 与 `TASK-SETTINGS-193G` 是计划中的两个真实视觉样本；未执行前不计入观测记录或采纳样本数。
+
 停止条件：出现一次未被归并检查发现的错误闭合，或出现一次状态文档/同一文件写入冲突；出现两次明显协调返工高于直接串行工作的样本。
 
 ## 4. 采纳标准
@@ -60,4 +62,4 @@
 
 ## 6. 裁决与沉淀
 
-尚未裁决。当前先将可执行合同写入 `agent-protocol.md` 和 `task-generation.md`，但保留“可选试验方法”语义；达到采纳标准后再决定是否升级为默认建议或自动门禁。
+尚未裁决。当前已将可执行合同写入 `agent-protocol.md` 和 `task-generation.md`，并创建 `$pet-family-reverse` V2 薄 Skill 作为宠物族试验路由；它仍保持“可选试验方法”语义。达到采纳标准后再决定是否升级为默认建议、抽取仓库内通用生成工具或增加自动门禁。

@@ -6,6 +6,8 @@
 
 `TASK-ARCH-203` 是唯一 Ready 游戏 task。202 已让正式 HUD 直接消费 201 的 35 fixture 逐状态头像真值，并删除身体 atlas/联合 bounds 替代；当前只建立已冻结设计的宠物战斗公共类 P1，完成后恢复 193E。
 
+`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 已登记 `MO-001` 单 task 并行证据试验：各 task 成为唯一 Ready 后使用 `$pet-family-reverse`，由 Luna 并行只读调查 AS3 行为链与恢复 SWF 真值，主 agent 单写归并并负责 `verified` 裁决；这不并行 task 状态，也不改变当前 203 的 Ready 顺序。
+
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
