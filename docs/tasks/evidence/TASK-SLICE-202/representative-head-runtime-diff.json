@@ -1,0 +1,142 @@
+{
+  "truthId": "task-settings-201.pet-combat-hud-head",
+  "comparison": "verified baseline bytes versus runtime bundle bytes",
+  "pixelDifference": 0,
+  "rows": [
+    {
+      "petName": "monkey2",
+      "frame": 5,
+      "characterId": 619,
+      "baselineHash": "5179102eb7db19f799cb1e37587cde26041238f372f12197801126ab7d1dea1c",
+      "runtimeHash": "5179102eb7db19f799cb1e37587cde26041238f372f12197801126ab7d1dea1c",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 20,
+        "top": 30,
+        "width": 49,
+        "height": 42
+      }
+    },
+    {
+      "petName": "horse4",
+      "frame": 23,
+      "characterId": 637,
+      "baselineHash": "796dc59577992a15b2b873bd0d3b3ce449309ca0ee3347213891b89be596b382",
+      "runtimeHash": "796dc59577992a15b2b873bd0d3b3ce449309ca0ee3347213891b89be596b382",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 15,
+        "top": 23,
+        "width": 90,
+        "height": 49
+      }
+    },
+    {
+      "petName": "ufo3",
+      "frame": 9,
+      "characterId": 623,
+      "baselineHash": "3defce20138f28ce7e0e68b9992d855b254b96c6691acb6e8242426752d0727d",
+      "runtimeHash": "3defce20138f28ce7e0e68b9992d855b254b96c6691acb6e8242426752d0727d",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 22,
+        "top": 21,
+        "width": 49,
+        "height": 58
+      }
+    },
+    {
+      "petName": "tigress4",
+      "frame": 24,
+      "characterId": 638,
+      "baselineHash": "92f91b64508f23eaacf8afd5e4dfa4c238b5a6a2b6fa92b5737aa4a28ff848a8",
+      "runtimeHash": "92f91b64508f23eaacf8afd5e4dfa4c238b5a6a2b6fa92b5737aa4a28ff848a8",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 16,
+        "top": 23,
+        "width": 61,
+        "height": 54
+      }
+    },
+    {
+      "petName": "turtle4",
+      "frame": 25,
+      "characterId": 639,
+      "baselineHash": "6d7b1d74559efb55efe002ad606b3d61dcad4e525f6445886bc18b2586753c2f",
+      "runtimeHash": "6d7b1d74559efb55efe002ad606b3d61dcad4e525f6445886bc18b2586753c2f",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 9,
+        "top": 23,
+        "width": 66,
+        "height": 55
+      }
+    },
+    {
+      "petName": "phoenix4",
+      "frame": 26,
+      "characterId": 640,
+      "baselineHash": "81a755d4ce7ff904b9e96f56bd9c3af13d76c1b9e379a9a70e67d86b940cfe3f",
+      "runtimeHash": "81a755d4ce7ff904b9e96f56bd9c3af13d76c1b9e379a9a70e67d86b940cfe3f",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 15,
+        "top": 24,
+        "width": 60,
+        "height": 68
+      }
+    },
+    {
+      "petName": "dragon4",
+      "frame": 27,
+      "characterId": 641,
+      "baselineHash": "3d7109b8090c5c2f1fc5a07d305ec6d8048880a71f93d731af280f047226866f",
+      "runtimeHash": "3d7109b8090c5c2f1fc5a07d305ec6d8048880a71f93d731af280f047226866f",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 16,
+        "top": 11,
+        "width": 64,
+        "height": 65
+      }
+    },
+    {
+      "petName": "rabbit4",
+      "frame": 31,
+      "characterId": 645,
+      "baselineHash": "dab2a40ca6c5da27f281123a7f673481283b256d13f185f760f9d9c0117622ef",
+      "runtimeHash": "dab2a40ca6c5da27f281123a7f673481283b256d13f185f760f9d9c0117622ef",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 20,
+        "top": 24,
+        "width": 57,
+        "height": 60
+      }
+    },
+    {
+      "petName": "mouse4",
+      "frame": 35,
+      "characterId": 649,
+      "baselineHash": "4e8b0777ec18bd0b931d25073f31da9a4fb192705deb608e75c40b5ca32a6ad5",
+      "runtimeHash": "4e8b0777ec18bd0b931d25073f31da9a4fb192705deb608e75c40b5ca32a6ad5",
+      "width": 105,
+      "height": 94,
+      "crop": {
+        "left": 0,
+        "top": 22,
+        "width": 75,
+        "height": 60
+      }
+    }
+  ]
+}

@@ -48,6 +48,7 @@ import {
   stage21Assets,
   stage22Assets,
 } from './AssetManifest';
+import { petCombatHudHeadAssets } from './PetCombatHudHeadAssets';
 import { inventoryItemAssets } from './InventoryItemAssets';
 import { inventoryUiAssetList } from './InventoryUiAssets';
 import {
@@ -84,6 +85,7 @@ export type AssetBundleId =
   | 'feature-ui-workshop'
   | 'feature-ui-magic-weapon'
   | 'pet-native-heads'
+  | 'pet-combat-hud-heads'
   | 'combat-common'
   | 'combat-hero-1'
   | 'combat-hero-2'
@@ -484,6 +486,10 @@ export const sceneAssetBundles = {
     dependencies: [],
     assets: Object.values(petNativeHeadAssets).map(image),
   },
+  'pet-combat-hud-heads': {
+    dependencies: [],
+    assets: Object.values(petCombatHudHeadAssets).map(image),
+  },
   'feature-ui-workshop': {
     dependencies: ['feature-ui-backpack'],
     assets: Object.values(craftingAssets).map(image),
@@ -498,7 +504,7 @@ export const sceneAssetBundles = {
     ],
   },
   'combat-common': {
-    dependencies: ['pet-native-heads'],
+    dependencies: ['pet-combat-hud-heads'],
     assets: combatCommonAssets,
   },
   'combat-hero-1': {

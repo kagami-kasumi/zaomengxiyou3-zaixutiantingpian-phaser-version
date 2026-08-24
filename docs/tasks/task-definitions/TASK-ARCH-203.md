@@ -13,7 +13,7 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned；等待 `TASK-SLICE-202`）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready；`TASK-SLICE-202` 已完成）
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-042`、`VS-012`、`VS-067`

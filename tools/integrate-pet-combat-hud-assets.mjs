@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 
@@ -13,6 +13,7 @@ rmSync(tempRoot, { recursive: true, force: true });
 mkdirSync(tempRoot, { recursive: true });
 mkdirSync(path.join(outputRoot, 'hp'), { recursive: true });
 mkdirSync(path.join(outputRoot, 'mp'), { recursive: true });
+mkdirSync(path.join(outputRoot, 'heads'), { recursive: true });
 
 function run(args) {
   const result = spawnSync(ffdec, ['-onerror', 'abort', '-ignorebackground', ...args], {
@@ -50,5 +51,25 @@ for (const [characterId, directory] of [[610, 'hp'], [614, 'mp']]) {
   }
 }
 
+const headTruth = JSON.parse(readFileSync(path.join(
+  root,
+  'docs/reverse-engineering/ground-truth/manifests/task-settings-201-pet-combat-hud-head.json',
+), 'utf8'));
+if (headTruth.truthId !== 'task-settings-201.pet-combat-hud-head'
+  || headTruth.status !== 'verified'
+  || headTruth.completeness.unresolved.length > 0) {
+  throw new Error('The verified TASK-SETTINGS-201 head truth is unavailable.');
+}
+const copiedHeadCharacters = new Set();
+for (const object of headTruth.displayObjects.filter((candidate) =>
+  candidate.parentId === 'pet-combat-hud-head.character-657')) {
+  const characterId = object.sourceIdentity.characterId;
+  if (copiedHeadCharacters.has(characterId)) continue;
+  const sourcePath = object.render.assetRef;
+  if (!sourcePath) throw new Error(`Missing head baseline for character ${characterId}.`);
+  copyFileSync(path.join(root, sourcePath), path.join(outputRoot, 'heads', `${characterId}.png`));
+  copiedHeadCharacters.add(characterId);
+}
+
 rmSync(tempRoot, { recursive: true, force: true });
-console.log('Integrated character 662 shell plus 25 HP and 25 MP native frames.');
+console.log(`Integrated character 662 shell, 25 HP/MP frames, and ${copiedHeadCharacters.size} verified head children.`);

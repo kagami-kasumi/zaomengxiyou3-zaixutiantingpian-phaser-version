@@ -4,6 +4,7 @@ import path from 'node:path';
 import {
   petNativeHeadAssets,
 } from '../src/assets/AssetManifest';
+import { petCombatHudHeadAssets } from '../src/assets/PetCombatHudHeadAssets';
 import {
   runtimeAssetBundleOwners,
   sceneAssetBundles,
@@ -32,6 +33,7 @@ const requiredBundles = [
   'feature-ui-skills-hero-1',
   'feature-ui-skills-hero-5',
   'pet-native-heads',
+  'pet-combat-hud-heads',
   'combat-hero-1',
   'combat-hero-5',
   'combat-hero-1-skills',
@@ -99,7 +101,11 @@ assert.ok(sceneAssetBundles['feature-ui-skills-common'].assets.length < 80);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-1'].assets.length, 30);
 assert.equal(sceneAssetBundles['feature-ui-skills-hero-5'].assets.length, 30);
 assert.equal(sceneAssetBundles['pet-native-heads'].assets.length, Object.keys(petNativeHeadAssets).length);
-assert.deepEqual(sceneAssetBundles['combat-common'].dependencies, ['pet-native-heads']);
+assert.equal(
+  sceneAssetBundles['pet-combat-hud-heads'].assets.length,
+  Object.keys(petCombatHudHeadAssets).length,
+);
+assert.deepEqual(sceneAssetBundles['combat-common'].dependencies, ['pet-combat-hud-heads']);
 for (const characterId of [597, 608]) {
   for (let frame = 1; frame <= 5; frame += 1) {
     assert.ok(
@@ -160,7 +166,7 @@ assert.throws(
     },
   };
   await coordinator.ensure('stage-12', adapter);
-  assert.deepEqual(calls, ['pet-native-heads', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12']);
+  assert.deepEqual(calls, ['pet-combat-hud-heads', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12']);
   await coordinator.ensure('combat-hero-2', adapter);
   assert.equal(calls.at(-1), 'combat-hero-2');
   assert.equal(loadedKeys.has('hero-animation.hero2.body'), true);
@@ -172,7 +178,7 @@ assert.throws(
   assert.deepEqual(
     calls,
     [
-      'pet-native-heads', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12',
+      'pet-combat-hud-heads', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12',
       'combat-hero-2', 'combat-hero-2-skills',
     ],
   );

@@ -11302,3 +11302,19 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SLICE-202`：正式 HUD 直接消费 201 verified 头像真值，删除身体 atlas/657 联合 bounds 替代，并完成 P1/P2/五关逐状态差异与关键字段变异测试。
+
+### TASK-SLICE-202
+
+- 完成日期：2026-08-24。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-ARCH-203`）。
+- 新增 `PetCombatHudHeadAssets`，直接导入并断言 `task-settings-201.pet-combat-hud-head` 的 74 状态/37 对象/0 unresolved；逐 fixture 解析 frame、终端 child、matrix、registration、visible bounds 与 baseline。
+- 33 个唯一终端 child 覆盖 35 个实际形态，mouse1/2/3 继续按证据共享 character 648；新增 `pet-combat-hud-heads` 专属 bundle，正式战斗不再加载宠物页/身体头像作为 HUD 依赖。
+- `Stage1PetCombatHudView` 删除 `getPetNativeHeadAsset`、`104.8×93.6` 拉伸和硬编码头像偏移，按 truth 注册点和矩阵投影目标帧资源；character 662 壳体、HP/MP 条、文本、P1/P2 根镜像和唯一 roster owner 保持。
+- 定向测试覆盖 35 fixture、33 child、满/半/0 HP/MP、休息隐藏和 frame/child/matrix/registration/visible-bounds 变异；九物种代表 baseline 与 runtime 资源 SHA/像素差为 0。
+- 940×590 正式双人 Stage 1-1 显示 P1/P2 原生头像且 console warning/error 为 0；五关共享、换宠、休息/再出战、返回/重载由正式旅程与全系统测试覆盖。本 task 未改玩法、数值、AI、存档、宠物页或动画行为。
+
+验证：
+- `npm run test:pet-combat-hud`、`npm run test:asset-bundles`、`npm run test:formal-pets`、`npm run test:formal-pet-journey`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、LSP diagnostics、`git diff --check` 与 940×590 浏览器验收。
+
+推荐任务：
+- `TASK-ARCH-203`：按冻结宠物类设计只建立 `PetCombatRuntime/PetBehavior/Registry/Targeting` P1；不迁移消费者或进入 P2-P4。

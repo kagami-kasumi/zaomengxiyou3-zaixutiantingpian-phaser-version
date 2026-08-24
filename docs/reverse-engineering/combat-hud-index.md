@@ -179,6 +179,8 @@ isBoss
 
 用户运行反证后，191 仅保留 character 605/610/614、659/660/661 与 character 662 父级投影；其 `headmc` 的 `104.8×93.6` 联合画布已通过 `supersededBy` 机器字段指向 `task-settings-201.pet-combat-hud-head`。201 按 35 个 pet key + AS3 中文名映射提取实际目标帧和终端 child，生成 70 个 P1/P2 投影、4 个负状态、35 个逐帧原版 baseline，`unresolved=[]`。灵猴固定为 frame 5 / character 619 / local bounds `46.75×40`；身体 atlas 不属于该显示链。完整六段证据与差异见 `evidence/TASK-SETTINGS-201-pet-combat-hud-head.md`；现代 HUD 仍待 202 消费，不能宣称画面已修复。
 
+202 已完成正式消费：HUD 直接读取 201 manifest 的 frame/child/matrix/registration/visible bounds，33 个唯一终端 child 覆盖 35 fixture 并由战斗 HUD 专属 bundle 加载；旧身体 atlas/宠物页头像、联合 bounds 拉伸和硬编码头像定位均已移除。191 的壳体、条和文本静态范围保持。九物种资源对账像素差为 0，P1/P2 五关旅程和 940×590 双人运行零 console；现代画面修复证据见 `docs/tasks/evidence/TASK-SLICE-202/visual-audit.md`。
+
 ## TASK-SLICE-192B：character 662 现代投影
 
 `Stage1PetCombatHudView` 已直接投影 191 真值：恢复源 605 shell、610/614 各 25 帧、175A 同源宠物头像与 659/660/661 动态字段。`HeroPartyRuntimeBridge` 只读活动存档 P1/P2 roster，并消费宠物页既有更新事件；`Stage1CombatHudBridge` 删除 `petAvailable` 可见文字，不创建现代矩形、通用血条或技能子层。

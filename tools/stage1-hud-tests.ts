@@ -7,6 +7,13 @@ import {
   petNativeHeadAssets,
 } from '../src/assets/AssetManifest';
 import {
+  buildPetCombatHudHeadProjections,
+  petCombatHudHeadAssets,
+  petCombatHudHeadProjections,
+  PetCombatHudHeadTruthId,
+} from '../src/assets/PetCombatHudHeadAssets';
+import petCombatHudHeadTruth from '../docs/reverse-engineering/ground-truth/manifests/task-settings-201-pet-combat-hud-head.json';
+import {
   clearCombatHudBossRuntime,
   createCombatHudBossRuntime,
   createCombatHudPetSnapshot,
@@ -62,6 +69,47 @@ for (const asset of [petCombatHudAssets.shell, ...Object.values(petNativeHeadAss
   const file = readFileSync(path.join(repoRoot, 'public', asset.path));
   assert.deepEqual([...file.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
 }
+assert.equal(Object.keys(petCombatHudHeadProjections).length, 35);
+assert.equal(Object.keys(petCombatHudHeadAssets).length, 33, 'mouse1/2/3 share character 648');
+for (const asset of Object.values(petCombatHudHeadAssets)) {
+  const file = readFileSync(path.join(repoRoot, 'public', asset.path));
+  assert.deepEqual([...file.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+}
+{
+  const monkey2 = petCombatHudHeadProjections.monkey2;
+  assert.ok(monkey2);
+  assert.equal(monkey2.truthId, PetCombatHudHeadTruthId);
+  assert.equal(monkey2.frame, 5);
+  assert.equal(monkey2.childCharacterId, 619);
+  assert.deepEqual([monkey2.x, monkey2.y], [7.8, -11.3]);
+  assert.deepEqual(monkey2.visibleBounds, { left: 7.4, top: 94.45, width: 49, height: 42 });
+  assert.equal(monkey2.originX, 20.4 / 105);
+  assert.equal(monkey2.originY, 18.25 / 94);
+
+  type HeadTruthInput = NonNullable<Parameters<typeof buildPetCombatHudHeadProjections>[0]>;
+  const mutatedFrame = structuredClone(petCombatHudHeadTruth) as HeadTruthInput;
+  const monkey2State = mutatedFrame.states.find((state) => state.id === 'monkey2-p1');
+  assert.ok(monkey2State);
+  (monkey2State as { frame: number }).frame += 1;
+  assert.throws(() => buildPetCombatHudHeadProjections(mutatedFrame), /frame\/baseline drifted/);
+
+  for (const [field, value] of [
+    ['localMatrix', { ...monkey2.childMatrix, tx: monkey2.childMatrix.tx + 1 }],
+    ['registrationPoint', { ...monkey2.registrationPoint, x: monkey2.registrationPoint.x + 1 }],
+    ['visibleBounds', { ...monkey2.visibleBounds, width: monkey2.visibleBounds.width + 1 }],
+  ] as const) {
+    const mutated = structuredClone(petCombatHudHeadTruth) as HeadTruthInput;
+    const child = mutated.displayObjects.find((object) => object.id === 'pet-combat-hud-head.monkey2.character-619');
+    const placement = child?.placements.find((candidate) => candidate.stateId === 'monkey2-p1');
+    assert.ok(placement);
+    (placement as unknown as Record<string, unknown>)[field] = value;
+    assert.notDeepEqual(
+      buildPetCombatHudHeadProjections(mutated).monkey2,
+      monkey2,
+      `${field} must affect the runtime projection`,
+    );
+  }
+}
 for (const sequence of [petCombatHudAssets.hp, petCombatHudAssets.mp]) {
   assert.equal(sequence.frameKeys.length, 25);
   assert.equal(sequence.framePaths.length, 25);
@@ -102,6 +150,8 @@ const petHudViewSource = readFileSync(
 assert.match(heroPartyRuntimeSource, /FormalPetsUpdatedEvent/);
 assert.match(heroPartyRuntimeSource, /createCombatHudPetSnapshot\(roster \? getActivePet\(roster\) : undefined\)/);
 assert.match(petHudViewSource, /task-settings-191\.pet-combat-hud/);
+assert.match(petHudViewSource, /PetCombatHudHeadTruthId/);
+assert.doesNotMatch(petHudViewSource, /getPetNativeHeadAsset|setDisplaySize\(104\.8, 93\.6\)/);
 assert.doesNotMatch(petHudViewSource, /fillRect|Graphics/);
 
 {

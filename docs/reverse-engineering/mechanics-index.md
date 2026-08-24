@@ -96,6 +96,8 @@
 
 2026-08-24 `TASK-SETTINGS-201` character 657 细粒度真值：`task-settings-201.pet-combat-hud-head` 由 35 项 corpus + AS3 中文名映射独立声明 expected，以恢复 `pet1.swf` 的 42 帧 XML 时间线提取 actual，并逐 fixture 用 SVG child/matrix/size 与 PNG alpha/baseline 交叉确认；生成 70 个 P1/P2 可见投影、4 个无出战/休息负状态，`unresolved=[]`。灵猴为 frame 5 / character 619 / `46.75×40`，旧 191 的 `104.8×93.6` 仅是 657 联合画布；191 的动态 head 对象已机器标记由 201 取代，605/610/614 与文本保留。M-035/M-042/M-049/M-052 仍不提升复现状态，等待 202 正式消费。
 
+2026-08-24 `TASK-SLICE-202` 正式消费：`PetCombatHudHeadAssets` 直接导入并断言 201 verified manifest，按目标 frame、终端 child、child matrix、registration 与 visible bounds 生成 35 个投影；33 个唯一 child 由 `pet-combat-hud-heads` 专属 bundle 加载。`Stage1PetCombatHudView` 删除宠物页/身体头像引用、`104.8×93.6` 拉伸和硬编码头像偏移，191 壳体/条/文本与既有 roster owner 保持。关键字段变异、P1/P2、五关旅程、九物种零像素差、全系统/build 与 940×590 双人零 console 通过；M-049 的宠物战斗 HUD 头像子范围重新闭合，M-042/M-052 与 VS-067 仍因公共类和其余动画范围保持部分复现。
+
 2026-08-17 `TASK-SETTINGS-193` 宠物动画 corpus：恢复 `pet1/20120203/20120808/mouse/StageCommon.swf` 精确 SymbolClass 扫描将当前 9 物种、35 实际形态、9 本体族与 38 技能视觉映射全部定位，`unlocated=[]`。重复符号按 `Aloader` 补丁顺序冻结候选 owner，并要求分族证据 task 用 ApplicationDomain/load precedence 反证；现代 `TestScenePetViewBridge` 几何本体、projectile fallback 和字符串 key 均仍是占位或未渲染。193A..193R 已按九物种串行插入 194 前，故 M-035/M-042 与 VS-067 仍保持部分复现，不因 corpus 定位提前提升。
 
 2026-08-18 `TASK-SETTINGS-193A` 猴系逐帧真值：`task-settings-193a.pet-monkey-animation` 以 626 状态、20 显示对象与 626 个 SWF-derived 基准冻结 monkey1..4 本体行/持帧、普攻、xj/lj/lyq/jgaoyi、hurt/dead、左右注册点/alpha 边界、生成矩阵、20/24/30 host clock 和销毁合同，`unresolved=[]`。真实加载时序确认 `PetMonkeyBmd1..3` 与九对象选择 `20120203.swf` 补丁 owner，`Bmd4` 选择 `pet1.swf`；monkey2/3 两段对象、`PetMonkey2Bullet3` 错名和 jgaoyi 本体 hit5 差异已转交 193B。M-034/M-035/M-042 与 VS-067 仍保持部分复现，直到现代正式 Runtime 消费真值。

@@ -1,8 +1,9 @@
 import Phaser from 'phaser';
+import { petCombatHudAssets } from '../../assets/AssetManifest';
 import {
-  getPetNativeHeadAsset,
-  petCombatHudAssets,
-} from '../../assets/AssetManifest';
+  getPetCombatHudHeadProjection,
+  PetCombatHudHeadTruthId,
+} from '../../assets/PetCombatHudHeadAssets';
 import type { CombatHudPetSnapshot } from '../../systems/Stage1CombatHudSystem';
 
 export type Stage1PetCombatHudView = Readonly<{
@@ -26,7 +27,8 @@ export function createStage1PetCombatHudView(
   const root = scene.add.container(mirrored ? 920 : 0, 94)
     .setScale(mirrored ? -1 : 1, 1)
     .setVisible(false)
-    .setData('petCombatHudTruthId', 'task-settings-191.pet-combat-hud');
+    .setData('petCombatHudTruthId', 'task-settings-191.pet-combat-hud')
+    .setData('petCombatHudHeadTruthId', PetCombatHudHeadTruthId);
   const shell = scene.add.image(0, 0, petCombatHudAssets.shell.key).setOrigin(0);
   const hpBar = scene.add.image(118.3, 15.35, petCombatHudAssets.hp.frameKeys[0]!)
     .setOrigin(HP_ORIGIN.x, HP_ORIGIN.y)
@@ -34,10 +36,10 @@ export function createStage1PetCombatHudView(
   const mpBar = scene.add.image(117, 31, petCombatHudAssets.mp.frameKeys[0]!)
     .setOrigin(MP_ORIGIN.x, MP_ORIGIN.y)
     .setScale(0.84);
-  const head = scene.add.image(7.8, -11.3, petCombatHudAssets.shell.key)
+  const head = scene.add.image(0, 0, petCombatHudAssets.shell.key)
     .setOrigin(0)
-    .setDisplaySize(104.8, 93.6)
     .setVisible(false);
+  head.preFX?.addGlow(0x000000, 3.546875, 0, false, 0.1, 5);
   const levelText = petText(scene, mirrored ? 25 : 5.5, 36.55, 19.5, 18.1, mirrored);
   const mpText = petText(scene, mirrored ? 140 : 79, 24.15, 72, 16, mirrored);
   const hpText = petText(scene, mirrored ? 140 : 78, 7.5, 74, 16, mirrored);
@@ -56,9 +58,18 @@ export function updateStage1PetCombatHudView(
   view.levelText.setText(String(pet.level));
   view.hpText.setText(pet.hpText);
   view.mpText.setText(pet.mpText);
-  const headAsset = getPetNativeHeadAsset(pet.nativeHeadName);
-  view.head.setVisible(Boolean(headAsset));
-  if (headAsset) view.head.setTexture(headAsset.key);
+  const headProjection = getPetCombatHudHeadProjection(pet.nativeHeadName);
+  view.head.setVisible(Boolean(headProjection));
+  if (headProjection) {
+    view.head
+      .setTexture(headProjection.asset.key)
+      .setPosition(headProjection.x, headProjection.y)
+      .setOrigin(headProjection.originX, headProjection.originY)
+      .setData('petCombatHudHeadFrame', headProjection.frame)
+      .setData('petCombatHudHeadChild', headProjection.childCharacterId)
+      .setData('petCombatHudHeadMatrix', headProjection.childMatrix)
+      .setData('petCombatHudHeadVisibleBounds', headProjection.visibleBounds);
+  }
 }
 
 function petText(
