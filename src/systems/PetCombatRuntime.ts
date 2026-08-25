@@ -7,19 +7,25 @@ import type {
 } from './PetBehavior';
 import { PetBehaviorRegistry } from './PetBehaviorRegistry';
 import { PetCombatTargeting } from './PetCombatTargeting';
+import { createDefaultPetBehaviorRegistry } from './pet-behaviors/createDefaultPetBehaviorRegistry';
 import { createPetRuntime, updatePetRuntime } from './PetRuntimeSystem';
+import { updatePetSkillState } from './PetSkillTickSystem';
+import type { ProjectileSystemModel } from './ProjectileSystem';
 import type {
   PetOwnerSnapshot,
   PetRoster,
   PetRuntimeModel,
+  PetSkillRandomSource,
   PetSkillTarget,
   PetState,
 } from './PetTypes';
 
 export type PetCombatFrame = Readonly<{
-  roster: Readonly<PetRoster>;
+  roster: PetRoster;
   owner: Readonly<PetOwnerSnapshot>;
   targets: readonly PetSkillTarget[];
+  projectiles?: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
   deltaMs: number;
 }>;
 
@@ -52,7 +58,7 @@ export class PetCombatRuntime {
   private destroyed = false;
 
   constructor(
-    private readonly registry: PetBehaviorRegistry,
+    private readonly registry: PetBehaviorRegistry = createDefaultPetBehaviorRegistry(),
     targeting: PetCombatTargeting = new PetCombatTargeting(),
   ) {
     this.targeting = targeting;
@@ -70,6 +76,7 @@ export class PetCombatRuntime {
     if (!this.pet || !this.runtime || !this.behavior) return this.snapshot();
 
     updatePetRuntime(this.runtime, this.pet, frame.owner, frame.deltaMs);
+    updatePetSkillState(frame.roster, frame.deltaMs);
     const targets = this.targeting.livingTargets(frame.targets);
     this.target = this.targeting.nearestTarget(this.runtime, targets);
     const context = this.createBehaviorContext(frame, targets);
@@ -158,6 +165,19 @@ export class PetCombatRuntime {
       targets: Object.freeze([...targets]),
       target: this.target,
       deltaMs: frame.deltaMs,
+      castSkill: (request) => {
+        if (!frame.projectiles) {
+          throw new Error(`Pet behavior ${this.pet?.species}:${this.pet?.form} requires projectiles.`);
+        }
+        if (!this.runtime) throw new Error('Pet behavior skill cast requires an active runtime.');
+        return request({
+          roster: frame.roster,
+          runtime: this.runtime,
+          targets,
+          projectiles: frame.projectiles,
+          random: frame.random,
+        });
+      },
       emit: (behaviorEvent: PetBehaviorEvent) => {
         this.publish({
           type: 'behavior',

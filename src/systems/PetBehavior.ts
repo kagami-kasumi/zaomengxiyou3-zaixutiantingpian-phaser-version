@@ -1,9 +1,13 @@
 import type {
   PetOwnerSnapshot,
+  PetRoster,
   PetRuntimeModel,
+  PetSkillCastResult,
+  PetSkillRandomSource,
   PetSkillTarget,
   PetState,
 } from './PetTypes';
+import type { ProjectileSystemModel } from './ProjectileSystem';
 
 export type PetBehaviorAction = Readonly<{
   type: string;
@@ -17,6 +21,14 @@ export type PetBehaviorEvent = Readonly<{
 
 export type PetBehaviorDestroyReason = 'inactive' | 'replaced' | 'runtime-destroyed';
 
+export type PetBehaviorSkillRequest = (params: {
+  roster: PetRoster;
+  runtime: PetRuntimeModel;
+  targets: readonly PetSkillTarget[];
+  projectiles: ProjectileSystemModel;
+  random?: PetSkillRandomSource;
+}) => PetSkillCastResult;
+
 export type PetBehaviorContext = Readonly<{
   pet: Readonly<PetState>;
   owner: Readonly<PetOwnerSnapshot>;
@@ -24,6 +36,7 @@ export type PetBehaviorContext = Readonly<{
   targets: readonly Readonly<PetSkillTarget>[];
   target?: Readonly<PetSkillTarget>;
   deltaMs: number;
+  castSkill: (request: PetBehaviorSkillRequest) => PetSkillCastResult;
   emit: (event: PetBehaviorEvent) => void;
 }>;
 

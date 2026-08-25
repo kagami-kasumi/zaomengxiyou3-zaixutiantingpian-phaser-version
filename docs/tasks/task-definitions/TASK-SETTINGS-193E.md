@@ -13,7 +13,7 @@
 - `docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready；`TASK-ARCH-203` 已完成）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned；等待 `TASK-ARCH-204F` 完成完整宠物公共类）
 
 目标机制/切片：
 - `M-034`、`M-035`、`M-042`、`VS-067`
@@ -27,6 +27,7 @@
 - 一旦范围越出 UFO 单物种族、开始现代接入，或发现两个无法在本 task 内独立验证的恢复 owner，立即停止并拆分。
 
 协作计划：
+- 执行方式：必须使用 `$pet-family-reverse`；不得退化为不计样本的 planning dry-run
 - 模式：主 agent + subagent
 - 并行工作包：`gpt-5.6-luna` A 只读追踪当前族 AS3 行为/共享 Runtime 调用链；`gpt-5.6-luna` B 只读核对当前族恢复 SWF owner/时间轴/几何/基准；两包合计占既有 2 个主工作包，不新增资料族
 - 写入 owner：主 agent

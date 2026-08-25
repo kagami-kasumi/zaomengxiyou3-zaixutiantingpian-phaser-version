@@ -1,5 +1,14 @@
 # 工作流治理日志
 
+## 2026-08-25：完整宠物公共类前插并强制后续逆向使用 Skill
+
+- 纠错：删除未获用户要求而生成的评审文档；本次按任务重排处理，不再触发工程评审流程。
+- 调度：把 203 的 P1 骨架后续拆为 Split 父任务 `TASK-ARCH-204` 与 204A..F；204A 成为唯一 Ready，六个子任务连续闭合九物种 Behavior、35 形态 Registry、TestScene/正式五关/功能页消费者及旧入口，`pet all=0` 前不恢复宠物视觉逆向。
+- Skill：193E/G/I/K/M/O/Q 全部保持 Planned，并明确必须使用 `$pet-family-reverse` 执行真实单族逆向；planning dry-run 不得冒充执行或计入 `MO-001` 样本。
+- 边界：延续已冻结的 `PetCombatRuntime + PetBehavior + Registry` 组合设计，不另造深继承万能基类；本次不改 `src`、原版真值、Schema、生成器或资源。
+- 执行：同一次 `/goal` 完成 204A；Runtime 增加统一技能时钟与 `castSkill` 能力口，Monkey/Horse Behavior 和默认 Registry 覆盖两族 8 形态，P1/P1B 通过后归档 204A 并激活 204B。
+- 验证：`npm run check:workflow`、`npm run audit:problems` 与 `git diff --check`。
+
 ## 2026-08-24：统一面试材料目录并刷新项目讲法
 
 - 目录：将原 `docs/interview/` 的 Harness、游戏、设计模式和逆向讲稿并入根级 `面试/`，保留 `面试/问题总结.md`，删除旧目录并把 `面试/README.md` 设为唯一入口。

@@ -100,6 +100,10 @@
 
 2026-08-24 `TASK-ARCH-203` 宠物战斗公共类 P1：新增无 Phaser 依赖的 `PetCombatRuntime` Context、`PetBehavior` Strategy、唯一 `PetBehaviorRegistry` 与纯 `PetCombatTargeting`；Runtime 固定同步出战宠物、既有跟随/warp、存活目标快照、Behavior 动作/持续效果、只读事件/快照和幂等销毁顺序。专项合同覆盖换宠、死亡、重复/缺失注册、目标选择、错误输入与 destroy；`pet P1`=0，`PetSystem.ts` 未新增逻辑。M-032/M-034/M-042 与 VS-067 仍保持原复现状态，因为 P2-P4 消费者迁移和其余七族真动画不在本批范围。
 
+2026-08-25 宠物公共类优先级纠正：用户明确 203 的 P1 骨架不足以作为完整宠物基类，故在任何后续宠物逆向前插入 Split 父任务 204 与连续 204A..F，依次完成九物种真实 Behavior、35 形态 Registry、TestScene P1/P2、正式五关/功能页同步和旧入口清零，以 `pet all=0` 作为完整公共类唯一完成证据。193E 暂回 Planned；193E/G/I/K/M/O/Q 全部强制使用 `$pet-family-reverse` 和 `MO-001` 完成单族逆向。
+
+2026-08-25 `TASK-ARCH-204A` 宠物公共类 P1B：`PetCombatRuntime` 统一推进跟随/warp、存活目标、全 roster 技能 cooldown、单帧 Behavior 动作和 `castSkill` 执行能力口；Monkey/Horse Behavior 按原 TestScene 顺序调用既有 11 个请求函数，默认 Registry 覆盖两族 8 形态，不复制数值、Projectile 或技能算法。`pet P1/P1B=0`，M-032/M-034/M-042 与 VS-067 仍保持部分复现，等待 204B..F 闭合其余 Behavior、消费者和旧入口。
+
 2026-08-17 `TASK-SETTINGS-193` 宠物动画 corpus：恢复 `pet1/20120203/20120808/mouse/StageCommon.swf` 精确 SymbolClass 扫描将当前 9 物种、35 实际形态、9 本体族与 38 技能视觉映射全部定位，`unlocated=[]`。重复符号按 `Aloader` 补丁顺序冻结候选 owner，并要求分族证据 task 用 ApplicationDomain/load precedence 反证；现代 `TestScenePetViewBridge` 几何本体、projectile fallback 和字符串 key 均仍是占位或未渲染。193A..193R 已按九物种串行插入 194 前，故 M-035/M-042 与 VS-067 仍保持部分复现，不因 corpus 定位提前提升。
 
 2026-08-18 `TASK-SETTINGS-193A` 猴系逐帧真值：`task-settings-193a.pet-monkey-animation` 以 626 状态、20 显示对象与 626 个 SWF-derived 基准冻结 monkey1..4 本体行/持帧、普攻、xj/lj/lyq/jgaoyi、hurt/dead、左右注册点/alpha 边界、生成矩阵、20/24/30 host clock 和销毁合同，`unresolved=[]`。真实加载时序确认 `PetMonkeyBmd1..3` 与九对象选择 `20120203.swf` 补丁 owner，`Bmd4` 选择 `pet1.swf`；monkey2/3 两段对象、`PetMonkey2Bullet3` 错名和 jgaoyi 本体 hit5 差异已转交 193B。M-034/M-035/M-042 与 VS-067 仍保持部分复现，直到现代正式 Runtime 消费真值。

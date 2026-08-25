@@ -141,6 +141,26 @@ const contracts = {
       forbidAcross(required, [['Phaser dependency', /from\s+['"]phaser['"]|Phaser\./u]], errors);
       requireTest('pet-combat-runtime-design-tests', tests, errors);
     },
+    P1B(errors, tests) {
+      const runtime = 'src/systems/PetCombatRuntime.ts';
+      const monkey = 'src/systems/pet-behaviors/MonkeyPetBehavior.ts';
+      const horse = 'src/systems/pet-behaviors/HorsePetBehavior.ts';
+      const registry = 'src/systems/pet-behaviors/createDefaultPetBehaviorRegistry.ts';
+      requireFiles([runtime, monkey, horse, registry], errors);
+      requireMatches(runtime, [
+        ['shared skill clock', /updatePetSkillState\s*\(/u],
+        ['skill execution port', /castSkill\s*:/u],
+      ], errors);
+      requireMatches(monkey, [['MonkeyPetBehavior strategy', /export\s+class\s+MonkeyPetBehavior\b/u]], errors);
+      requireMatches(horse, [['HorsePetBehavior strategy', /export\s+class\s+HorsePetBehavior\b/u]], errors);
+      requireMatches(registry, [
+        ['default registry factory', /export\s+function\s+createDefaultPetBehaviorRegistry\b/u],
+        ['monkey registrations', /monkeyForms\.map/u],
+        ['horse registrations', /horseForms\.map/u],
+      ], errors);
+      forbidAcross([runtime, monkey, horse, registry], [['Phaser dependency', /from\s+['"]phaser['"]|Phaser\./u]], errors);
+      requireTest('pet-combat-runtime-design-tests', tests, errors);
+    },
     P2(errors, tests) {
       for (const consumer of petTestConsumers) {
         requireMatches(consumer, [['PetCombatRuntime entry', /PetCombatRuntime\b/u]], errors);

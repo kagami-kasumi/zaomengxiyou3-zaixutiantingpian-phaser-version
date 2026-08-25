@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-204A | 宠物公共类 P1B | 实用化公共 Runtime 并接入 Monkey/Horse 真实 Behavior | M-032、M-034、M-042、VS-012、VS-067 | 统一技能时钟/执行能力口、两族 8 形态默认 Registry、P1B 门禁与行为合同 |
 | TASK-SLICE-190C | 背包分页视觉一致性 | 统一正式背包与炼丹炉的原生分页 UI，同时保持同一 inventory owner 与各页 truth 几何 | M-035、M-037、M-052、VS-064、VS-070 | `createInventoryPagerObjects`、character 118 静态后缀 truth/清除、跨页门禁与第一页/第二页运行证据 |
 | TASK-SLICE-190B | 嵌入式装备 hover 父任务收束 | 汇总并关闭 189 确认的全部工坊消费者与商城负合同 | M-036、M-037、M-052、VS-066 | 190B1..B4 四页独立 verified 几何/生命周期、共享只读实例 tooltip、商城 49 项负门禁与 VS-066 完成 |
 | TASK-SLICE-190B4 | 打造页装备 hover | 打造成功产物复用实例 tooltip，书/材料/宝石与商城保持排除 | M-036、M-037、M-052、VS-066 | verified makeObj bounds、P1/P2 成功、拒绝/返回重开、商城零装备/禁用时装 hover 与 940×590 零 console |
@@ -7808,6 +7809,32 @@ UI 原生化合同：
 推荐后续任务：
 - `TASK-SLICE-190B4`。
 
+### TASK-ARCH-204A
+
+任务类型：
+- `TASK-ARCH`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；已完成；下一 task 为 `TASK-ARCH-204B`）
+
+目标机制/切片：
+- `M-032`、`M-034`、`M-042`、`VS-012`、`VS-067`
+
+规模结果：
+- 主工作包：2；上下文压缩：0；验收批次：2；单 agent。
+
+输入资料：
+- 203 的 `PetCombatRuntime/PetBehavior/PetBehaviorRegistry/PetCombatTargeting`、既有猴/马技能请求函数、Projectile owner 与 P1 合同。
+
+输出产物：
+- Runtime 公共技能时钟和 `castSkill` 能力口、Monkey/Horse Behavior、两族 8 形态默认 Registry、P1B 静态/行为门禁。
+
+完成定义与边界：
+- 猴/马全部当前形态通过 Registry 调用既有技能规则，`pet P1/P1B=0`；未迁移 Scene/正式消费者、其他七族、UI/动画/数值/roster/存档，也未新增深继承 `BasePet`。
+
+推荐后续任务：
+- `TASK-ARCH-204B`。
+
 ## 执行记录
 
 
@@ -11333,3 +11360,34 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-SETTINGS-193E`：使用 `$pet-family-reverse` 闭合 UFO 本体与 pms/ss/kmsk 的逐帧 verified 真值；不接入现代动画。
+
+### TASK-ARCH-204A
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（执行时 Active）
+
+目标机制/切片：
+
+- `M-032`、`M-034`、`M-042`、`VS-012`、`VS-067`
+
+完成定义：
+
+- 猴/马全部当前形态通过默认 Registry 解析并调用既有技能规则；公共跟随、索敌、技能 cooldown、单帧动作和执行能力口只由 Runtime 推进，`pet P1B=0`。
+
+- 完成日期：2026-08-25。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-ARCH-204B`）。
+- `PetCombatRuntime` 现由同一更新入口推进跟随/warp、存活目标、全 roster 技能 cooldown、单帧 Behavior 选择/执行与持续效果接缝；`castSkill` 能力口把可变 roster/runtime/targets/projectiles 封装在 Runtime 内，不让 Strategy 复制公共时序。
+- 新增 `MonkeyPetBehavior`、`HorsePetBehavior` 和默认 Registry 工厂，覆盖两族 8 个当前形态；11 个动作继续调用 `PetSystem` 中既有技能请求函数，保留原分发顺序、触发门禁、MP/距离/冷却、伤害数值和 `ProjectileSystem` owner。
+- 专项合同逐形态证明 Registry 解析、真实请求成功、冷却只由公共时钟推进、同一技能冷却期不重复，以及缺失 projectile 执行口时显式拒绝。`pet P1/P1B` 退出码 0；`pet all` 仍只报告 204B..F 声明的其余 Behavior、TestScene/五关消费者、barrel 和旧 Runtime 缺口。
+- 未修改超限的 `PetSystem.ts`、TestScene、Scene 消费者、其他七物种、UI/动画/数值/roster/存档，也未引入深继承 `BasePet`。
+
+验证：
+- `npm run check:system-design -- pet P1B`、`npm run check:system-design -- pet P1`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check` 通过；LSP plugin transport closed，TypeScript 诊断由 `tsc --noEmit`/build 通过替代；`npm run check:system-design -- pet all` 按合同退出码 1，仅保留后续批次清单。
+
+推荐任务：
+- `TASK-ARCH-204B`：接入 Dragon/Turtle/Ufo Behavior 并建立 `pet P1C`；不迁移 Scene 或处理视觉资源。

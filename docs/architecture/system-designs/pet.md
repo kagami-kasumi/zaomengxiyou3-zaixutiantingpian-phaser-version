@@ -6,7 +6,7 @@
 
 验收退出：未退出。
 
-实施 task：`TASK-ARCH-203` 已完成 P1 公共类与合同；P2-P4 消费者迁移 task 尚未生成。
+实施 task：`TASK-ARCH-203` 已完成 P1 骨架；用户要求在继续宠物逆向前完整闭合公共类，已生成 Split 父任务 `TASK-ARCH-204` 与连续子任务 204A..F，覆盖全部具体 Behavior、TestScene/正式消费者和旧入口清零。
 
 ## 目标与范围
 
@@ -48,11 +48,11 @@
 
 | 模式角色 | 项目职责 | 目标文件/符号 | 允许依赖 | 禁止职责 | 实施状态 |
 | --- | --- | --- | --- | --- | --- |
-| Context 公共类 | 单只出战宠物完整战斗生命周期和可变 Runtime 状态 | `src/systems/PetCombatRuntime.ts:class PetCombatRuntime` | PetState/Roster、owner/target snapshot、Projectile、Behavior | Phaser View、存档写盘、宠物 UI | P1 已实现，消费者未迁移 |
+| Context 公共类 | 单只出战宠物完整战斗生命周期和可变 Runtime 状态 | `src/systems/PetCombatRuntime.ts:class PetCombatRuntime` | PetState/Roster、owner/target snapshot、Projectile、Behavior | Phaser View、存档写盘、宠物 UI | P1B 已统一跟随/索敌/技能时钟与执行能力口，消费者未迁移 |
 | Strategy 合同 | 选择宠物动作、执行种类技能、推进种类持续效果 | `src/systems/PetBehavior.ts:interface PetBehavior` | 只读战斗上下文、现有纯 skill systems | 公共跟随、全局选宠、Scene 引用 | P1 合同已实现，具体策略未迁移 |
-| Registry 类 | `species + form` 到 Behavior 的唯一映射和缺失拒绝 | `src/systems/PetBehaviorRegistry.ts:class PetBehaviorRegistry` | Behavior 实现 | 单局状态、技能算法 | P1 已实现，具体注册待 P2-P4 |
+| Registry 类 | `species + form` 到 Behavior 的唯一映射和缺失拒绝 | `src/systems/PetBehaviorRegistry.ts:class PetBehaviorRegistry` | Behavior 实现 | 单局状态、技能算法 | P1B 已注册 Monkey/Horse 8 形态，其余待 P1C/P1D |
 | 公共目标服务 | 存活筛选、最近目标、距离、朝向 | `src/systems/PetCombatTargeting.ts` | 纯快照 | 技能施放和状态修改 | P1 已实现，旧 helper 待 P4 清零 |
-| 具体 Behavior | Monkey/Horse/Dragon/Turtle/Ufo/Tiger/Phoenix/Rabbit/Mouse 等差异接线 | `src/systems/pet-behaviors/*PetBehavior.ts` | 对应现有技能系统 | 复制 Runtime 更新骨架 | 未实现 |
+| 具体 Behavior | Monkey/Horse/Dragon/Turtle/Ufo/Tiger/Phoenix/Rabbit/Mouse 等差异接线 | `src/systems/pet-behaviors/*PetBehavior.ts` | 对应现有技能系统 | 复制 Runtime 更新骨架 | Monkey/Horse 已实现；其余待 P1C/P1D |
 | 表现适配器 | 把 Runtime snapshot 投影为宠物动画/视图 | `src/scenes/*Pet*Bridge/View.ts` | Phaser、只读 snapshot | 技能选择、伤害或状态算法 | 部分实现 |
 
 ## 协作顺序
@@ -79,9 +79,9 @@
 | `TestSceneP2PetBridge` / Advanced bridge | 测试承载 | 同一 Runtime API | 第二套 P2/高级技能接线 | P2 | 未迁移 |
 | Stage 1-1、1-2、1-3、2-1、2-2 P1/P2 | 正式 | 由 `HeroPartyRuntimeBridge`/公共宠物桥创建并更新 Runtime | Monkey/Horse BodyBridge 只做跟随表现，其他战斗行为未接 | P3 | 未迁移 |
 | `FeatureUiScene` 的宠物保存同步 | 正式功能页 | 只通知 Roster 变化；不控制战斗 Runtime 内部 | `FormalPetRuntimeBridge` 直接重置 runtime model | P3 | 待改为生命周期通知 |
-| 全部具体宠物行为 | 系统消费者 | Registry 唯一解析 | 具体函数由 barrel/Scene 直接导入 | P1/P4 | 未迁移 |
+| 全部具体宠物行为 | 系统消费者 | Registry 唯一解析 | 具体函数由 barrel/Scene 直接导入 | P1B/P1C/P1D/P4 | 未迁移 |
 
-迁移批次：P1 由 `TASK-ARCH-203` 建立 Runtime/Behavior/Registry/Targeting 与公共合同；P2 迁移 TestScene P1/P2；P3 接入五个正式关卡；P4 删除旧分发出口、完成合同和正式旅程。P2-P4 仍待后续生成独立 task。
+迁移批次：P1 由 203 建立骨架；P1B 由 204A 实用化 Runtime 并接 Monkey/Horse；P1C 由 204B 接 Dragon/Turtle/Ufo；P1D 由 204C 接 Tiger/Phoenix/Rabbit/Mouse 并闭合 35 形态 Registry；P2/P3/P4 分别由 204D/E/F 迁移 TestScene、正式五关并清零旧入口。204F 的 `all=0` 前不得宣称完整宠物基类完成。
 
 ## 禁止路径
 
@@ -98,12 +98,15 @@
 | Gate | 对应迁移批次 | 静态结构断言 | 必须执行的行为/正式测试 | 命令 | 当前退出码 |
 | --- | --- | --- | --- | --- | --- |
 | P1 | Runtime/Behavior/Registry/Targeting | 四个目标文件和类/合同存在，systems 不依赖 Phaser | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P1` | 0 |
+| P1B | Runtime 实用化 + Monkey/Horse | Runtime 自有公共时序，猴/马真实 Behavior 与默认 Registry 存在 | 扩展 `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P1B` | 0 |
+| P1C | Dragon/Turtle/Ufo Behavior | 三族当前形态只经 Registry/Behavior 调用既有纯技能系统 | 扩展宠物 Behavior 合同 | `npm run check:system-design -- pet P1C` | 2（gate 待 204B 建立） |
+| P1D | Tiger/Phoenix/Rabbit/Mouse Behavior | 四族 Behavior 与 35 形态 Registry 全面性成立 | 扩展宠物 Behavior 合同 | `npm run check:system-design -- pet P1D` | 2（gate 待 204C 建立） |
 | P2 | TestScene P1/P2 迁移 | 三个测试消费者只引用 Runtime，不再直接请求具体技能或分发 species/form | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P2` | 1 |
 | P3 | 五关正式接入 | 共享正式桥创建 `PetCombatRuntime`，BodyBridge 不再依赖旧 Runtime 函数 | 专用合同、`formal-pet-tests`、`formal-pet-journey-tests` | `npm run check:system-design -- pet P3` | 1 |
 | P4 | 旧入口清零 | Scene 无具体宠物技能请求，barrel 不导出具体请求，旧 `PetRuntimeSystem.ts` 删除 | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P4` | 1 |
 | all | 系统完成 | 同时执行 P1-P4 全部断言 | 同时执行全部合同与正式回归 | `npm run check:system-design -- pet all` | 1 |
 
-P1 已由命令证明通过；P2-P4 与 `all` 仍因 Scene 具体技能分发、正式入口未迁移、重复入口及旧 Runtime 文件存在而保持退出码 1。
+P1/P1B 已由命令证明通过；P1C/P1D 尚未建立，P2-P4 与 `all` 仍因其余 Behavior/Registry 不完整、Scene 具体技能分发、正式入口未迁移、重复入口及旧 Runtime 文件存在而未通过。
 
 ## 验收合同
 
@@ -118,9 +121,10 @@ P1 已由命令证明通过；P2-P4 与 `all` 仍因 Scene 具体技能分发、
 
 ## 系统级剩余清单
 
-- 未迁移消费者：TestScene P1/P2、高级技能桥、五关 P1/P2、功能页到战斗 Runtime 的换宠同步。
+- 未实现策略：Monkey/Horse 8 形态与 Runtime 公共技能时序已由 204A 完成；Dragon/Turtle/Ufo、Tiger/Phoenix/Rabbit/Mouse 与默认 35 形态 Registry 全集仍待 204B/C。
+- 未迁移消费者：TestScene P1/P2、高级技能桥、五关 P1/P2、功能页到战斗 Runtime 的换宠同步，待 204D/E。
 - 保留旧路径/兼容层：`PetRuntimeSystem` 函数组、`PetSystem` 大量具体技能出口、Scene 直接分发。
-- 未通过 gate：`pet/all` 当前退出码 1，精确对应 P2 TestScene、P3 正式五关和 P4 旧入口清零未完成；P1 专项合同已通过。
+- 未通过 gate：P1C/P1D 当前尚未建立；`pet/all` 当前退出码 1，P2 TestScene、P3 正式五关和 P4 旧入口清零未完成；P1/P1B 专项合同已通过。
 - 未决偏差：尚未恢复/接入的宠物视觉不阻塞类骨架实施，但对应 Behavior 只有在行为证据明确后才能登记为完成。
 
 ## 验收批次记录
@@ -129,10 +133,11 @@ P1 已由命令证明通过；P2-P4 与 `all` 仍因 Scene 具体技能分发、
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-08-19 / 人工设计 | 现状核定和硬门禁基线 | `pet/all` 退出码 1，报告缺类/Registry、Scene 直调、正式接入和旧文件 | 专用合同测试缺失，门禁拒绝通过 | 未运行 | 设计冻结，验收未开始 | P1-P4 全部待实施 |
 | 2026-08-24 / `TASK-ARCH-203` | P1 Runtime/Behavior/Registry/Targeting | 四个目标角色存在、无 Phaser 依赖，`pet P1` 退出码 0 | 生命周期顺序、换宠/死亡、Registry、Targeting、只读事件/快照、错误输入、幂等销毁通过 | 本批按合同不迁移正式消费者；全系统与 build 回归通过 | 本批通过，系统实施中 | P2 TestScene、P3 五关、P4 旧入口清零仍待独立 task |
+| 2026-08-25 / `TASK-ARCH-204A` | P1B Runtime 实用化与 Monkey/Horse | 无 Phaser；默认 Registry 精确覆盖猴/马 8 形态，`pet P1/P1B` 退出码 0 | 既有技能函数/Projectile owner、优先级、触发、MP/距离/冷却及缺执行口拒绝合同通过 | 本批按合同不迁移 Scene；全系统与 build 回归通过 | 本批通过，系统实施中 | P1C/P1D 其余物种、P2/P3 消费者和 P4 旧入口仍待 204B..F |
 
 ## 验收退出记录
 
 - 退出日期/Task：未退出。
 - 最终证据：未完成。
-- 退出条件：P1-P4 均为 0、`pet all` 为 0、所有正式 P1/P2 消费者和旧路径全部清零，并在同批标记 `已完成/已退出`。
+- 退出条件：P1/P1B/P1C/P1D/P2/P3/P4 均为 0、`pet all` 为 0、所有正式 P1/P2 消费者和旧路径全部清零，并在同批标记 `已完成/已退出`。
 - 退出后规则：普通宠物开发不再读取本设计验收机制，不再运行设计模式专项符合性检查；只有用户明确要求时才重开。

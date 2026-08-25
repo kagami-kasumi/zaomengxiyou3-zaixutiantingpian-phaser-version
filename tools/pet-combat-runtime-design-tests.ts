@@ -8,7 +8,10 @@ import type {
 import { PetBehaviorRegistry } from '../src/systems/PetBehaviorRegistry';
 import { PetCombatRuntime } from '../src/systems/PetCombatRuntime';
 import { PetCombatTargeting } from '../src/systems/PetCombatTargeting';
+import { createDefaultPetBehaviorRegistry } from '../src/systems/pet-behaviors/createDefaultPetBehaviorRegistry';
 import { createSeedPetRoster } from '../src/systems/PetRosterSystem';
+import { createProjectileSystem } from '../src/systems/ProjectileSystem';
+import type { PetRoster, PetState } from '../src/systems/PetTypes';
 
 const owner = { x: 200, y: 300, facingX: 1 as const };
 
@@ -187,9 +190,109 @@ function testRuntimeReplacesBehaviorWhenSamePetChangesForm(): void {
   assert.equal(runtime.snapshot().form, 2);
 }
 
+function testDefaultRegistryRunsMonkeyAndHorseRulesThroughOneRuntimeClock(): void {
+  const expectedKeys = [
+    'monkey:1', 'monkey:2', 'monkey:3', 'monkey:4',
+    'horse:1', 'horse:2', 'horse:3', 'horse:4',
+  ];
+  assert.deepEqual(createDefaultPetBehaviorRegistry().keys(), expectedKeys);
+
+  const cases = [
+    ['monkey', 1, 'monkey1-xj'],
+    ['monkey', 2, 'monkey2-lj'],
+    ['monkey', 3, 'monkey3-lyq'],
+    ['monkey', 4, 'monkey4-jgaoyi'],
+    ['horse', 1, 'horse1-sp'],
+    ['horse', 2, 'horse2-bd'],
+    ['horse', 3, 'horse3-bz'],
+    ['horse', 4, 'horse4-tmaoyi'],
+  ] as const;
+
+  for (const [species, form, expectedAction] of cases) {
+    const roster = createSeedPetRoster();
+    const pet = activatePet(roster, species, form);
+    if (species === 'monkey' && form === 1) pet.skillState!.monkey1Xj.releaseReady = true;
+    if (species === 'horse' && form === 2) pet.skillState!.horse2Bd.releaseReady = true;
+    const projectiles = createProjectileSystem();
+    const runtime = new PetCombatRuntime();
+
+    runtime.update({
+      roster,
+      owner,
+      targets: [{ id: 'target', x: 210, y: 300, isAlive: true }],
+      projectiles,
+      random: () => 1,
+      deltaMs: 16,
+    });
+
+    const behaviorEvent = runtime.events().find(({ type }) => type === 'behavior');
+    const payload = behaviorEvent?.behaviorEvent?.payload as { action?: string; ok?: boolean } | undefined;
+    assert.equal(payload?.action, expectedAction, `${species}:${form} must choose its registered skill`);
+    assert.equal(payload?.ok, true, `${species}:${form} must call the existing skill rule successfully`);
+    assert.ok(projectiles.projectiles.length > 0, `${species}:${form} must preserve projectile-system ownership`);
+
+    const cooldownAfterCast = getActionCooldown(pet, expectedAction);
+    assert.ok(cooldownAfterCast > 0, `${expectedAction} must write the existing cooldown state`);
+    runtime.update({
+      roster,
+      owner,
+      targets: [{ id: 'target', x: 210, y: 300, isAlive: true }],
+      projectiles,
+      deltaMs: 16,
+    });
+    assert.equal(getActionCooldown(pet, expectedAction), cooldownAfterCast - 16);
+    const nextPayload = runtime.events().find(({ type }) => type === 'behavior')
+      ?.behaviorEvent?.payload as { action?: string } | undefined;
+    assert.notEqual(nextPayload?.action, expectedAction, `${expectedAction} must not repeat while cooling`);
+  }
+}
+
+function testRealBehaviorRequiresTheSkillExecutionPort(): void {
+  const roster = createSeedPetRoster();
+  const monkey = activatePet(roster, 'monkey', 2);
+  monkey.skillState!.monkey2Lj.cooldownMs = 0;
+  const runtime = new PetCombatRuntime();
+  assert.throws(
+    () => runtime.update({
+      roster,
+      owner,
+      targets: [{ id: 'target', x: 210, y: 300, isAlive: true }],
+      deltaMs: 0,
+    }),
+    /requires projectiles/u,
+  );
+}
+
+function activatePet(roster: PetRoster, species: string, form: number): PetState {
+  let active: PetState | undefined;
+  for (const pet of roster.pets) {
+    pet.isActive = pet.species === species && pet.form === form;
+    if (pet.isActive) active = pet;
+  }
+  assert.ok(active, `seed roster must contain ${species}:${form}`);
+  return active;
+}
+
+function getActionCooldown(pet: PetState, action: string): number {
+  const state = pet.skillState!;
+  switch (action) {
+    case 'monkey1-xj': return state.monkey1Xj.cooldownMs;
+    case 'monkey2-lj': return state.monkey2Lj.cooldownMs;
+    case 'monkey3-lyq': return state.monkey3Lyq.cooldownMs;
+    case 'monkey4-jgaoyi': return state.monkey4Jgaoyi.cooldownMs;
+    case 'horse1-sp': return state.horse1Sp.cooldownMs;
+    case 'horse2-bd': return state.horse2Bd.cooldownMs;
+    case 'horse3-bz': return state.horse3Bz.cooldownMs;
+    case 'horse4-tmaoyi': return state.horse4Tmaoyi.cooldownMs;
+    default: throw new Error(`Unknown tested pet action: ${action}`);
+  }
+}
+
 testTargetingIsPureAndDeterministic();
 testRegistryRejectsDuplicateMissingAndInvalidKeys();
 testRuntimeOwnsOrderedLifecycleSnapshotsAndEvents();
 testRuntimeRejectsBadFramesAndMissingBehaviorTransactionally();
 testRuntimeReplacesBehaviorWhenSamePetChangesForm();
-console.log('Pet combat runtime P1 design contract tests passed.');
+testDefaultRegistryRunsMonkeyAndHorseRulesThroughOneRuntimeClock();
+testRealBehaviorRequiresTheSkillExecutionPort();
+console.log('Pet combat runtime P1/P1B design contract tests passed.');
