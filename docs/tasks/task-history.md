@@ -11391,3 +11391,37 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-ARCH-204B`：接入 Dragon/Turtle/Ufo Behavior 并建立 `pet P1C`；不迁移 Scene 或处理视觉资源。
+
+### TASK-SETTINGS-205
+
+任务类型：
+
+- `TASK-SETTINGS`（代码逆向）
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（执行时 Active）
+
+目标机制/切片：
+
+- `M-042`、`VS-012`
+
+完成定义：
+
+- 独立闭合原版 `BaseObject -> BasePet -> 具体宠物类` 的继承、字段/owner、构造与每帧生命周期、公共钩子、35 形态覆写矩阵，以及动作/技能/受击/死亡/销毁和 P1/P2/联机边界。
+- 以六段证据链冻结架构无关行为合同，并逐项审计当前 `PetCombatRuntime/PetBehavior/Registry/Targeting`；本 task 不选择或实施现代方案，不修改 `src`、设计文档、视觉真值、资源、数值、roster 或存档。
+
+- 完成日期：2026-08-25。
+- 功能条线继续 `Active`，唯一 Ready 切换为 `TASK-ARCH-206`；`TASK-ARCH-204B..F` 保持 Planned，等待现代设计裁决。
+- 新增 `docs/reverse-engineering/pet-base-class.md`。以 `[172845]` 可读主类与 `[25034429]` 混淆副本作确定性 A/B 复核，35/35 具体类的 `extends`、override 数和函数数一致；当前范围 33 个类直接继承 `BasePet`，仅 `PetMouse2/3` 复用 `PetMouse1`，没有物种级中间基类。
+- 冻结 `PetInfo` 持久数据 owner、`BaseHero` 活动实体 owner、`BasePet` 活动会话 owner，以及构造、step/AI、技能 1→4、受击、dead 动画、frame-over 销毁和私有资源清理顺序；193A/193C 只交叉确认 monkey/horse 的 warp、hurt/dead 可见事实，其余七族没有外推。
+- 现代审计确认 exact species+form Registry 与每 slot Runtime 是可保留的现代方向；`nearestTarget`、全 roster cooldown、AI 前先递减 cooldown、HP 归零立即卸载与原版合同冲突，当前 Behavior 还缺移动/索敌、受击、动画命中和私有清理差异接缝。
+- 未知项保留为未知：`obbsiteArray` 上游排序、其余七族视觉细节、原版 `destroy()` 重入以及真实网络延迟下的回放边界。
+
+验证：
+
+- 双源确定性结构扫描 35/35 一致；`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
+推荐任务：
+
+- `TASK-ARCH-206`：依据 205 证据修订或确认唯一现代宠物系统设计、硬 gate 和 204B..F 基线；不实施 `src`。

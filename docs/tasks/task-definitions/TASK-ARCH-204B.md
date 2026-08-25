@@ -13,7 +13,7 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready；`TASK-ARCH-204A` 已完成）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned；`TASK-ARCH-204A`、`TASK-SETTINGS-205` 已完成，等待 `TASK-ARCH-206` 的现代设计裁决）
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-042`、`VS-012`、`VS-067`
@@ -40,7 +40,7 @@
 - 方法观测：无
 
 输入资料：
-- 204A 稳定 Runtime/Registry；`PetDragon/Turtle/UfoSkillSystem`、共享 tick/priority/projectile 接缝及既有系统测试。
+- 204A 当前 Runtime/Registry、205 的 `pet-base-class.md`、后续现代宠物设计裁决；仅当裁决保留本 task 时，再读取 `PetDragon/Turtle/UfoSkillSystem`、共享 tick/priority/projectile 接缝及既有系统测试。
 
 输出产物：
 - Dragon/Turtle/Ufo 全当前形态 Behavior、Registry 映射和组合/持续效果合同；`P1C` 门禁。
@@ -52,7 +52,7 @@
 - `npm run check:system-design -- pet P1C`=0；专项、全系统、build、structure/workflow/problem audit、LSP、diff check 通过；`pet all` 仍预期为 1。
 
 禁止范围：
-- 不迁移消费者，不处理虎/凤/兔/鼠，不修改视觉真值、资源、数值或存档。
+- 205 与后续现代设计裁决完成前不得执行；执行时不迁移消费者，不处理虎/凤/兔/鼠，不修改视觉真值、资源、数值或存档。
 
 状态更新：
 - 归档本 task，更新 pet 设计批次记录，仅激活 `TASK-ARCH-204C`。

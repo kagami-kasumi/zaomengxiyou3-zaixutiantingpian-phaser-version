@@ -4,16 +4,17 @@
 
 ## 当前推荐
 
-`TASK-ARCH-204B` 是唯一 Ready 游戏 task。204A 已让公共 Runtime 统一推进技能时钟，并以默认 Registry 接入猴/马 8 个当前形态；当前继续完成龙/龟/UFO Behavior，`pet all=0` 后才恢复 193E。
+`TASK-ARCH-206` 是唯一 Ready 游戏 task。已归档的 TASK-SETTINGS-205 闭合了原版 `BasePet` 的 35 形态继承/覆写、字段 owner、活动实例时钟、ordered-first 索敌、死亡延迟销毁和现代 owner 审计；证据表明当前 `nearestTarget`、全 roster 冷却、HP 归零立即卸载与原版冲突，现须先修订/确认唯一现代宠物系统设计和硬 gate。TASK-ARCH-204B..F 继续 Planned，不直接扩展旧 `Behavior` 方案。
 
-`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 全部强制使用 `$pet-family-reverse`：各 task 成为唯一 Ready 后由 Luna 并行只读调查 AS3 行为链与恢复 SWF 真值，主 agent 单写归并并负责 `verified` 裁决，并按 `MO-001` 记录真实样本；在 204A..F 完成前全部保持 Planned。
+`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 全部强制使用 `$pet-family-reverse`：各 task 成为唯一 Ready 后由 Luna 并行只读调查 AS3 行为链与恢复 SWF 真值，主 agent 单写归并并负责 `verified` 裁决，并按 `MO-001` 记录真实样本；在 206 完成现代设计裁决和宠物公共类最终迁移前全部保持 Planned。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 闭合具体 Behavior、双人测试/正式消费者与旧入口 | M-032、M-034、M-042、VS-012、VS-067 | 204A..F 全部完成且 pet all=0 | TASK-ARCH-204B | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-ARCH-204B | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 龙/龟/UFO Behavior | 迁入三族现有纯技能系统并扩充唯一 Registry | M-032、M-034、M-042、VS-012、VS-067 | 三族 Behavior、组合/持续效果合同、pet P1C=0 | TASK-ARCH-204C | [定义](task-definitions/TASK-ARCH-204B.md) |
+| TASK-ARCH-206 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物公共 Runtime 设计证据校正 | 依据 205 修订/确认 Runtime、Behavior、Registry、Targeting、死亡与差异钩子唯一设计 | M-032、M-034、M-042、VS-012、VS-067 | 当前唯一 `pet.md`、新 gate/失败基线、204B..F 重基线 | 恢复或替换最小 204B 实施批次 | [定义](task-definitions/TASK-ARCH-206.md) |
+| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 闭合具体差异接缝、双人测试/正式消费者与旧入口 | M-032、M-034、M-042、VS-012、VS-067 | 206 设计裁决后重基线 204B..F，最终 pet all=0 | TASK-ARCH-206 | [定义](task-definitions/TASK-ARCH-204.md) |
+| TASK-ARCH-204B | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 龙/龟/UFO Behavior | 等待 206 对 ordered target、活动 CD、死亡生命周期与差异钩子作唯一裁决；不得先扩展现有 Behavior | M-032、M-034、M-042、VS-012、VS-067 | 若设计保留本批：三族差异接缝、组合/持续效果合同、pet P1C=0 | TASK-ARCH-204C | [定义](task-definitions/TASK-ARCH-204B.md) |
 | TASK-ARCH-204C | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎/凤/兔/鼠 Behavior | 完成剩余四族策略与 35 形态 Registry 全集 | M-032、M-034、M-042、VS-012、VS-067 | 四族 Behavior、Registry 完整性、pet P1D=0 | TASK-ARCH-204D | [定义](task-definitions/TASK-ARCH-204C.md) |
 | TASK-ARCH-204D | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | TestScene 双人迁移 | P1/P2/高级技能桥只消费 PetCombatRuntime | M-032、M-034、M-042、VS-012、VS-067 | 三个测试消费者统一入口、pet P2=0 | TASK-ARCH-204E | [定义](task-definitions/TASK-ARCH-204D.md) |
 | TASK-ARCH-204E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 正式五关宠物 Runtime | 五关 P1/P2 与功能页换宠统一接公共 Runtime | M-032、M-034、M-042、VS-012、VS-067 | 正式公共桥、五关/换宠回归、pet P3=0 | TASK-ARCH-204F | [定义](task-definitions/TASK-ARCH-204E.md) |

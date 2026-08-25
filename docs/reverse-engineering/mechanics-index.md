@@ -104,6 +104,10 @@
 
 2026-08-25 `TASK-ARCH-204A` 宠物公共类 P1B：`PetCombatRuntime` 统一推进跟随/warp、存活目标、全 roster 技能 cooldown、单帧 Behavior 动作和 `castSkill` 执行能力口；Monkey/Horse Behavior 按原 TestScene 顺序调用既有 11 个请求函数，默认 Registry 覆盖两族 8 形态，不复制数值、Projectile 或技能算法。`pet P1/P1B=0`，M-032/M-034/M-042 与 VS-067 仍保持部分复现，等待 204B..F 闭合其余 Behavior、消费者和旧入口。
 
+2026-08-25 `BasePet` 逆向前置纠正：用户指出原版宠物公共类应先审计 AS3 属性、继承、生命周期和具体类覆写，再据此裁决现代设计。现有 `pets-index.md` 已记录创建链、基础行为和技能事实，但没有完整继承树、字段/owner、公共方法/覆写矩阵与“原版职责→现代 owner”证据链。新增代码逆向 `TASK-SETTINGS-205` 为唯一 Ready；204B 暂回 Planned，205 后先生成现代宠物系统设计调整/确认 task，不得把 Monkey/Horse 已实现状态外推成原版分类事实。M-042 与 VS-067 状态不提升。
+
+2026-08-25 `TASK-SETTINGS-205` 原版 `BasePet` 专项已闭合：`pet-base-class.md` 以 `[172845]` 可读主类和 `[25034429]` 混淆副本的 35/35 继承/override/function 结构一致性为双源，确认 33 个具体类直继承 `BasePet`、仅 `PetMouse2/3 -> PetMouse1`；冻结 `PetInfo` 数据 owner、`BaseHero` 活动实体 owner、BasePet 字段/活动实例时钟、ordered-first/1200 索敌、技能 1→4、AI 先于 CD 递减、hurt/dead/frame-over/destroy 及 P1/P2/联机回放合同。猴/马 warp、hurt/dead 与 193A/193C verified 真值一致，其余七族视觉细节不外推。现代审计判定 nearest、全 roster CD、HP 归零立即卸载与证据冲突，Behavior 也缺受击/移动/动画命中/私有清理接缝；M-042/VS-067 状态仍不提升，唯一 Ready 切到 `TASK-ARCH-206` 先修订/确认唯一宠物设计和 gate。
+
 2026-08-17 `TASK-SETTINGS-193` 宠物动画 corpus：恢复 `pet1/20120203/20120808/mouse/StageCommon.swf` 精确 SymbolClass 扫描将当前 9 物种、35 实际形态、9 本体族与 38 技能视觉映射全部定位，`unlocated=[]`。重复符号按 `Aloader` 补丁顺序冻结候选 owner，并要求分族证据 task 用 ApplicationDomain/load precedence 反证；现代 `TestScenePetViewBridge` 几何本体、projectile fallback 和字符串 key 均仍是占位或未渲染。193A..193R 已按九物种串行插入 194 前，故 M-035/M-042 与 VS-067 仍保持部分复现，不因 corpus 定位提前提升。
 
 2026-08-18 `TASK-SETTINGS-193A` 猴系逐帧真值：`task-settings-193a.pet-monkey-animation` 以 626 状态、20 显示对象与 626 个 SWF-derived 基准冻结 monkey1..4 本体行/持帧、普攻、xj/lj/lyq/jgaoyi、hurt/dead、左右注册点/alpha 边界、生成矩阵、20/24/30 host clock 和销毁合同，`unresolved=[]`。真实加载时序确认 `PetMonkeyBmd1..3` 与九对象选择 `20120203.swf` 补丁 owner，`Bmd4` 选择 `pet1.swf`；monkey2/3 两段对象、`PetMonkey2Bullet3` 错名和 jgaoyi 本体 hit5 差异已转交 193B。M-034/M-035/M-042 与 VS-067 仍保持部分复现，直到现代正式 Runtime 消费真值。

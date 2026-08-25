@@ -149,6 +149,16 @@
 
 `BasePet` 是宠物战斗实体基类，保存 `sourceRole:BaseHero` 和 `_petInfo:PetInfo`。构造时从 `PetInfo` 取移动速度，后续每帧 `step()` 处理跟随、传送、动作、目标、技能、受击和联机同步。
 
+`TASK-SETTINGS-205` 已把本节扩展为独立专项证据：[`pet-base-class.md`](pet-base-class.md)。该文档冻结当前 corpus 9 物种/35 形态的完整继承与覆写矩阵、字段/owner、构造和每帧顺序、受击/死亡/销毁、P1/P2/联机边界、六段证据链以及“原版职责 -> 当前现代 owner”审计。
+
+专项关键裁决：
+
+- 35 个当前形态中 33 个直接继承 `BasePet`；只有 `PetMouse2/3 -> PetMouse1`，没有九个物种级中间基类。
+- `PetInfo` 持有持久数值，`BaseHero` 持有当前实体，`BasePet` 只持活动会话的 owner/目标/CD/buff/projectile/表现状态；只有出战实体每帧推进。
+- `searchTarget()` 按 `gc.obbsiteArray` 顺序选择首个 `<=1200` 的对象，不是最近目标；技能按 1→4 选择，且本帧选择发生在本帧 CD 递减之前。
+- HP 归零后先播放 `dead`，frame-over 才 `destroy()`；公共清理销毁 BBDC/effect/projectile 并清 hero 引用，龙族再清私有分身。
+- 当前现代 Runtime/Behavior/Registry 总体方向有部分证据支持，但 nearest、全 roster CD、HP 归零立即卸载和过窄差异钩子不能原样继续扩展；`TASK-ARCH-206` 先作唯一设计与 gate 裁决。
+
 已确认的基础行为：
 
 - 宠物离来源英雄距离过远时会传送回英雄附近。
