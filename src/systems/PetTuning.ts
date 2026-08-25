@@ -5,6 +5,7 @@ export const PetTuning = {
   followMinDistance: 64,
   followOffsetX: 58,
   followOffsetY: 18,
+  searchRange: 1200,
   warpDistance: 1000,
   warpOffsetY: -30,
   magicBottleSoulCost: 5000,

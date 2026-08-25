@@ -1,143 +1,128 @@
 # 宠物系统类设计
 
-设计状态：当前有效；`TASK-SETTINGS-205` 原版 `BasePet` 专项逆向与后续现代设计裁决完成前暂停扩展。
+设计状态：当前有效；`TASK-ARCH-206` 已依据 `TASK-SETTINGS-205` 校正。
 
 验收状态：实施中。
 
 验收退出：未退出。
 
-实施 task：`TASK-ARCH-203` 已完成 P1 骨架，`TASK-ARCH-204A` 已完成当前 Monkey/Horse 接线；用户进一步要求先专项逆向原版 `BasePet` 的属性、继承、生命周期和具体类覆写。现由 `TASK-SETTINGS-205` 抢占 204B，205 后先执行现代设计调整/确认 task；在裁决前本文不得作为继续扩展 `Behavior` 的充分依据。
+实施 task：`TASK-ARCH-203/204A` 只完成旧 P1/P1B 骨架；206 证明该基线不符合原版活动时钟、ordered-first 索敌和死亡生命周期。204B 已完成公共校正与猴马重接；后续按 `TASK-ARCH-204C..G` 串行扩族、迁移消费者并清零旧入口。
 
-## 目标与范围
+## 目标、事实边界与非目标
 
-- 目标系统：单/双人正式战斗中的出战宠物跟随、索敌、技能、持续效果、快照和销毁。
-- 要消除的重复/开发困难：按宠物种类/形态散落的技能分发、重复最近目标/朝向计算、TestScene 大型分支和正式关卡只接本体不接战斗行为。
-- 本设计范围：生成一个 `PetCombatRuntime` 公共类，以 `PetBehavior` 注入种类/形态差异，并由唯一 Registry 选择行为。
-- 非目标：不改宠物存档、成长、背包道具、功能页 UI 或动画真值；不把 Phaser 显示对象放进 systems。
+- 目标：以一个 `PetCombatRuntime` 管理一名玩家当前出战宠物的一次战斗会话，以 `PetBehavior` 表达 35 形态差异，以 `PetBehaviorRegistry` 唯一解析差异实现，以 `PetCombatTargeting` 复现 ordered-first/1200 索敌。
+- 权威事实：`PetInfo` 等价数据继续由 `PetState/PetRoster` 持有；玩家/队伍 owner 持有当前 Runtime；Runtime 只持活动会话状态、目标、活动时钟、动作/死亡阶段和清理句柄。
+- 现代组合不复制 AS3 的万能 `BasePet` 深继承；原版可观察顺序和差异钩子必须保留。
+- 不在本设计中改存档 schema、成长、背包、功能页视觉、动画真值、玩法数值或 Phaser view。
 
-## 现状定位
+## 205 审计逐项处置
 
-| 重复或困难 | 精确文件/符号 | 影响的消费者 | 本设计要如何收束 |
+| 审计项 | 206 处置 | 唯一现代 owner |
+| --- | --- | --- |
+| roster/持久数值 | 保留 | `PetRoster/PetState`；Runtime 只持引用，不复制数值 |
+| 活动实体/owner | 收窄 | 每个 `PlayerSlot` 最多一个 `PetCombatRuntime`；Party/正式公共桥负责创建、替换、离场销毁 |
+| 跟随/warp | 保留并增加移动许可 | Runtime 复用纯移动算法；Behavior 的 `canMove` 只回答形态/动作是否允许移动 |
+| 技能 CD | 替换 | 新 `tickActivePetSkillState(pet, deltaMs)` 只推进当前活动会话，并且位于本帧动作选择/执行之后 |
+| 索敌 | 替换 | `PetCombatTargeting.orderedFirstTarget(origin, orderedTargets, 1200)`；不得提供或调用 `nearestTarget` |
+| 上游目标顺序 | 明确输入合同 | 关卡公共敌方 Registry 提供稳定 encounter/insertion 顺序；不得声称其已按距离排序，未来运行证据可改变输入排序但不能改写 BasePet 算法事实 |
+| 当前目标 | 扩展为 sticky session state | Runtime 保留目标；目标死亡或距离 `>=1200` 时本帧只清空，下帧才从 ordered 集合重新搜索 |
+| 普攻 fallback/攻击态 | 扩展 Behavior 接缝 | Runtime 统一优先级和状态转移；Behavior 的 `basicAttack` 返回形态所需普攻命令/无普攻，不能复制 update 骨架 |
+| 自动/被动效果 | 扩展 Behavior 接缝 | `updateEffects` 只处理该活动会话的形态效果；公共 CD/生命周期不下放 |
+| 受击触发 | 新增差异钩子 | Runtime 先结算共享 HP/阶段，再调用 `onDamaged` 生成反击/表现命令 |
+| 移动许可 | 新增差异钩子 | `canMove` 决定公共跟随步骤能否推进；位置算法仍归 Runtime |
+| 动画命中事件 | 新增差异钩子 | View 只回传有类型的动画事件；Runtime 路由 `onAnimationEvent`，伤害/投射物仍由 systems 端口执行 |
+| hurt/dead | 替换立即卸载 | Runtime 明确 `alive -> dead-playing -> destroy`；HP 归零只发布 dead 表现命令，不释放会话 |
+| 私有召唤物/销毁 | 扩展销毁合同 | Behavior `destroy(reason)` 清理形态私有句柄；Runtime 随后统一清理来源 projectile/effect、发布 view release、活动引用清空；现代实现必须幂等 |
+| owner/roster/runtime 双人隔离 | 保留并冻结 | P1/P2 各自 roster 与 Runtime；Registry/只读定义可共享；不得用 Scene 单例或另一份数值状态串联 |
+
+以上没有遗留“与证据冲突”或影响 204B 实施的 owner 未定项。未知项只保留 `orderedTargets` 上游是否在原版运行时另行排序；当前现代合同明确使用稳定 encounter/insertion 顺序并把该未知作为可重开信号。
+
+## 选定组合与模式角色
+
+选定方案仍为“运行时 Context + 差异 Strategy + 唯一 Registry + 纯 Targeting + 窄端口/事件适配”，但 Strategy 不再只是技能选择器。
+
+| 角色 | 目标文件/符号 | 职责 | 禁止职责 |
 | --- | --- | --- | --- |
-| 跟随 Runtime 只有 create/sync/update 函数，没有完整战斗生命周期 owner | `src/systems/PetRuntimeSystem.ts` | TestScene、Monkey/Horse 正式 BodyBridge | 合并为 `PetCombatRuntime` 类的公共生命周期 |
-| 技能按种类/形态暴露大量 `requestPet*Skill` | `PetSystem.ts` 及 `Pet*SkillSystem.ts` | TestScene 两个宠物技能 bridge | 由 `PetBehavior` 实现调用，消费者不直接选择具体技能函数 |
-| 最近目标、距离和朝向算法在多个技能文件重复 | Mouse/Phoenix/Rabbit/Tiger 等技能系统 | 多种宠物技能 | 迁入公共 `PetCombatTargeting` 服务，由 Runtime 统一调用 |
-| TestScene 持有大型技能分支，正式五关没有同等战斗接法 | `TestScenePetMagicBridge.ts`、`TestSceneAdvancedPetSkillBridge.ts` | P1/P2 TestScene、五个正式关卡 | TestScene 与正式关卡都只提交帧输入给 Runtime |
+| 活动会话 Context | `PetCombatRuntime` | 同步当前出战项、sticky target、公共更新顺序、`alive/dead-playing`、活动 CD、事件与幂等清理 | Phaser、存档、全 roster tick、形态分支 |
+| 差异 Strategy | `PetBehavior` | `canMove`、`basicAttack`、`selectAction/executeAction`、`updateEffects`、`onDamaged`、`onAnimationEvent`、私有 `destroy` | 公共跟随/索敌/时钟/死亡阶段、Scene 引用 |
+| Factory Registry | `PetBehaviorRegistry` + default factory | `species + form` 唯一映射并为每次活动会话创建实例 | 单局状态、技能算法、fallback |
+| 目标服务 | `PetCombatTargeting` | 存活过滤、距离/朝向、ordered-first/1200 搜索 | nearest、排序、施法和状态修改 |
+| 数值/效果端口 | `PetCombatPorts` 等价窄合同 | 调用既有伤害、Projectile、Buff、视图命令，不让 Behavior 直接持有 Scene | 第二份数值、Phaser 对象泄漏进 systems |
+| 表现适配器 | 共享 Pet view bridge | 消费 snapshot/command，回传 animation hit/complete/dead-complete | 选择技能、推进 CD、决定死亡释放 |
 
-## 设计前完成度
+## 冻结公共调用顺序
 
-| 能力 | 已有实现 | 完成判断 | 设计处置 |
+每个 `update(frame)` 严格按以下顺序执行：
+
+1. 校验输入，按 `PlayerSlot`/roster 同步当前出战引用；换宠或离场按 `replaced/inactive/runtime-destroyed` 幂等清理旧会话。
+2. 消费上一 host tick 入队的 damage/animation 事件。HP 首次归零时转为 `dead-playing` 并发布 dead 动画命令；不得在此处卸载。
+3. `dead-playing` 只允许处理动画完成与清理事件，不索敌、不行动、不推进战斗 CD。收到匹配会话的 dead-complete 后，依次执行 Behavior 私有清理、来源 projectile/effect 清理、view release、活动引用清空。
+4. `alive` 时先校验 sticky target：死亡或距离 `>=1200` 则只清空并结束本帧索敌；没有旧目标时按输入顺序选择首个存活且距离 `<=1200` 的目标。
+5. 根据 `canMove` 推进公共 follow/warp；Runtime 统一动作优先级：受击/强制态、形态技能、普攻 fallback、跟随/idle。Behavior 只返回差异命令。
+6. 执行动作，推进当前 Behavior 的活动效果并发布只读 snapshot/command/event。
+7. 最后仅调用 `tickActivePetSkillState(activePet, deltaMs)`；未出战 roster 项、`dead-playing` 会话和已销毁会话不推进战斗时钟。
+
+动画命中回调带 `runtimeKey + actionToken + eventName`，Runtime 必须拒绝旧会话/旧动作事件。死亡完成也是同一受控事件，不允许 View 自行删除系统状态。
+
+## 扩展点与禁止路径
+
+| 场景 | 允许扩展 | 必须复用 | 禁止路径 |
 | --- | --- | --- | --- |
-| 宠物存档/出战选择 | `PetRoster`、`PetState`、ownership/growth 系统 | 已完成且不属于本次重构 | 作为 Runtime 输入，不迁入类 |
-| 跟随/warp | `PetRuntimeSystem` | 已有可复用算法 | 迁入公共类或由类独占调用 |
-| 种类技能规则 | 多个纯 skill system | 行为规则较完整但入口分裂 | 保留算法，以 Behavior 适配统一调用 |
-| 公共战斗类 | 不存在 | 未完成 | 新建 `PetCombatRuntime` |
-| 正式五关战斗接入 | 目前以 Monkey/Horse 本体表现为主 | 未完成 | 五关 P1/P2 统一接 Runtime |
+| 新形态 | 一个 Behavior + Registry 映射 + 纯规则测试 | 全部公共 Runtime 顺序 | 继承万能 BasePet、复制 update |
+| 特殊受击/移动 | `onDamaged` / `canMove` | Runtime HP 与移动 owner | Scene 分支、Behavior 改 owner 坐标算法 |
+| 动画命中/死亡 | `onAnimationEvent` + typed view event | Runtime action token/phase | View 直接扣血或 hp=0 立即销毁 |
+| 私有召唤物 | Behavior 会话句柄 + 窄端口 | Runtime destroy 顺序 | 全局匿名对象、离场遗留 |
+| 目标选择 | 上游提交稳定 orderedTargets | `orderedFirstTarget(..., 1200)` | nearest、Behavior/技能私有再选目标 |
+| 冷却 | 活动宠物 tick helper | Runtime 帧末调用 | 遍历 roster、选择前递减 |
 
-结论：宠物数据和单项技能已有积累，但面向对象的公共战斗生命周期完成度低；当前不能视为已经完成类设计。
+全局禁止：Scene/Bridge 直接导入 `requestPet*Skill`；Scene 按 species/form 分发；systems 依赖 Phaser；`PetRuntimeSystem` 与新 Runtime 双 owner；barrel 暴露具体技能请求；正式五关只画本体不更新战斗 Runtime。
 
-## 选定设计
+## 消费者全集与所有权
 
-- 选定方案：策略注册型宠物战斗运行时类。
-- Context：`PetCombatRuntime` 固定同步、跟随、索敌、选择动作、执行技能、推进持续效果、输出快照和销毁顺序。
-- Strategy：`PetBehavior` 只表达某种类/形态可选择和执行的技能差异；现有纯技能函数继续作为策略内部协作者。
-- Registry：`PetBehaviorRegistry` 按 `species + form` 返回唯一 Behavior，不允许 Scene 写第二套分支。
-- 公共服务：`PetCombatTargeting` 统一存活目标筛选、最近目标、距离和朝向。
-
-## 模式角色与源码映射
-
-| 模式角色 | 项目职责 | 目标文件/符号 | 允许依赖 | 禁止职责 | 实施状态 |
-| --- | --- | --- | --- | --- | --- |
-| Context 公共类 | 单只出战宠物完整战斗生命周期和可变 Runtime 状态 | `src/systems/PetCombatRuntime.ts:class PetCombatRuntime` | PetState/Roster、owner/target snapshot、Projectile、Behavior | Phaser View、存档写盘、宠物 UI | P1B 已统一跟随/索敌/技能时钟与执行能力口，消费者未迁移 |
-| Strategy 合同 | 选择宠物动作、执行种类技能、推进种类持续效果 | `src/systems/PetBehavior.ts:interface PetBehavior` | 只读战斗上下文、现有纯 skill systems | 公共跟随、全局选宠、Scene 引用 | P1 合同已实现，具体策略未迁移 |
-| Registry 类 | `species + form` 到 Behavior 的唯一映射和缺失拒绝 | `src/systems/PetBehaviorRegistry.ts:class PetBehaviorRegistry` | Behavior 实现 | 单局状态、技能算法 | P1B 已注册 Monkey/Horse 8 形态，其余待 P1C/P1D |
-| 公共目标服务 | 存活筛选、最近目标、距离、朝向 | `src/systems/PetCombatTargeting.ts` | 纯快照 | 技能施放和状态修改 | P1 已实现，旧 helper 待 P4 清零 |
-| 具体 Behavior | Monkey/Horse/Dragon/Turtle/Ufo/Tiger/Phoenix/Rabbit/Mouse 等差异接线 | `src/systems/pet-behaviors/*PetBehavior.ts` | 对应现有技能系统 | 复制 Runtime 更新骨架 | Monkey/Horse 已实现；其余待 P1C/P1D |
-| 表现适配器 | 把 Runtime snapshot 投影为宠物动画/视图 | `src/scenes/*Pet*Bridge/View.ts` | Phaser、只读 snapshot | 技能选择、伤害或状态算法 | 部分实现 |
-
-## 协作顺序
-
-1. Party/关卡按 `PlayerSlot` 创建一个 `PetCombatRuntime`，传入 Roster、主人快照和共享 `PetBehaviorRegistry`。
-2. 每帧 Runtime 同步当前出战宠物；更换、死亡或形态变化时销毁旧 Behavior 会话并从 Registry 解析新 Behavior。
-3. Runtime 先执行公共跟随/warp，再由 `PetCombatTargeting` 形成唯一目标快照。
-4. Runtime 调用 Behavior 选择并执行动作，统一处理冷却、MP/状态门禁和事件，再调用 Behavior 推进种类持续效果。
-5. Runtime 发布只读 snapshot/event 给表现层和关卡；shutdown、换宠或离场时幂等 `destroy()`。
-
-## 扩展规约
-
-| 开发场景 | 允许新增/修改的位置 | 必须复用的入口 | 禁止做法 |
+| 消费者 | owner/输入 | 目标接法 | 批次 |
 | --- | --- | --- | --- |
-| 修改公共跟随/索敌/技能时序 | `PetCombatRuntime`、`PetCombatTargeting` 和合同测试 | Runtime `update(frame)` | 同步修改每个宠物技能文件 |
-| 新增宠物种类/形态 | 一个 Behavior 实现 + Registry 一条映射 + 对应只读数据/测试 | `PetBehaviorRegistry.resolve` | Scene 增加 `if/switch species/form` |
-| 增加技能特例 | 对应 Behavior 和纯 skill system | Behavior 的声明钩子 | 覆盖/复制完整 Runtime update |
+| Monkey/Horse 8 形态 | Registry 创建会话 Behavior | 先适配完整差异钩子与新公共顺序 | 204B |
+| Dragon/Turtle/Ufo | 同上 | 三族 Behavior/私有持续效果/清理 | 204C |
+| Tiger/Phoenix/Rabbit/Mouse | 同上 | 四族 Behavior + 35 形态完整 Registry | 204D |
+| `TestScenePetMagicBridge`、Advanced、P2 | P1/P2 各自 roster/runtime | 只提交 Frame/typed events、消费 snapshot/commands | 204E |
+| `HeroPartyRuntimeBridge`、Stage 1-1/1-2/1-3/2-1/2-2 | Party 按 PlayerSlot 持 Runtime | 共享正式宠物桥；view 回传 typed animation events | 204F |
+| `FeatureUiScene/FormalPetRuntimeBridge` | roster 是唯一状态 owner | 只发布出战/休息/换宠生命周期通知 | 204F |
+| barrel、旧 Runtime、全部 Scene/Bridge | 无新增 owner | 清零具体技能出口、重复 targeting 与兼容路径 | 204G |
+| 未来网络/回放 | 记录 Frame 输入顺序与 typed events | 复用 Runtime，不拥有第二套模拟 | 非本轮实现；本设计冻结接口边界 |
 
-## 消费者与迁移批次
+## 迁移 gate 与真实基线
 
-| 消费者 | 正式/测试 | 目标接入方式 | 旧路径 | 迁移批次 | 状态 |
-| --- | --- | --- | --- | --- | --- |
-| `TestScenePetMagicBridge` P1 | 测试承载 | 只提交 `PetCombatFrame`、消费 snapshot/event | 大型 `requestPet*Skill` 分支 | P2 | 未迁移 |
-| `TestSceneP2PetBridge` / Advanced bridge | 测试承载 | 同一 Runtime API | 第二套 P2/高级技能接线 | P2 | 未迁移 |
-| Stage 1-1、1-2、1-3、2-1、2-2 P1/P2 | 正式 | 由 `HeroPartyRuntimeBridge`/公共宠物桥创建并更新 Runtime | Monkey/Horse BodyBridge 只做跟随表现，其他战斗行为未接 | P3 | 未迁移 |
-| `FeatureUiScene` 的宠物保存同步 | 正式功能页 | 只通知 Roster 变化；不控制战斗 Runtime 内部 | `FormalPetRuntimeBridge` 直接重置 runtime model | P3 | 待改为生命周期通知 |
-| 全部具体宠物行为 | 系统消费者 | Registry 唯一解析 | 具体函数由 barrel/Scene 直接导入 | P1B/P1C/P1D/P4 | 未迁移 |
-
-迁移批次：P1 由 203 建立骨架；P1B 由 204A 实用化 Runtime 并接 Monkey/Horse；P1C 由 204B 接 Dragon/Turtle/Ufo；P1D 由 204C 接 Tiger/Phoenix/Rabbit/Mouse 并闭合 35 形态 Registry；P2/P3/P4 分别由 204D/E/F 迁移 TestScene、正式五关并清零旧入口。204F 的 `all=0` 前不得宣称完整宠物基类完成。
-
-## 禁止路径
-
-| 禁止行为 | 禁止的文件/符号/模式 | 校验方式 | 允许例外 | 当前结果 |
-| --- | --- | --- | --- | --- |
-| Scene 选择具体宠物技能 | Scene/Bridge 导入 `requestPet*Skill` | 迁移期 import 负向搜索 | P1/P2 迁移期临时兼容 | 当前大量存在 |
-| 第二套种类/形态分支 | Scene/Bridge 的 species/form `if/switch` | AST/源码搜索 + 消费者矩阵 | Registry 内唯一映射 | 当前存在 |
-| 重复目标/朝向算法 | 各 `Pet*SkillSystem` 私有 `selectNearest/getFacing/getDistance` | 精确符号搜索 | 技能独有几何计算 | 当前多处存在 |
-| Runtime 依赖 Phaser | `src/systems/PetCombatRuntime.ts` 导入 Phaser/Scene/View | import 检查 | 无 | 目标未实现 |
-| 正式关卡只投影本体而不更新战斗 Runtime | 五关宠物 bridge | 正式运行断言 | 无 | 当前未闭合 |
-
-## 硬性验证门禁
-
-| Gate | 对应迁移批次 | 静态结构断言 | 必须执行的行为/正式测试 | 命令 | 当前退出码 |
-| --- | --- | --- | --- | --- | --- |
-| P1 | Runtime/Behavior/Registry/Targeting | 四个目标文件和类/合同存在，systems 不依赖 Phaser | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P1` | 0 |
-| P1B | Runtime 实用化 + Monkey/Horse | Runtime 自有公共时序，猴/马真实 Behavior 与默认 Registry 存在 | 扩展 `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P1B` | 0 |
-| P1C | Dragon/Turtle/Ufo Behavior | 三族当前形态只经 Registry/Behavior 调用既有纯技能系统 | 扩展宠物 Behavior 合同 | `npm run check:system-design -- pet P1C` | 2（gate 待 204B 建立） |
-| P1D | Tiger/Phoenix/Rabbit/Mouse Behavior | 四族 Behavior 与 35 形态 Registry 全面性成立 | 扩展宠物 Behavior 合同 | `npm run check:system-design -- pet P1D` | 2（gate 待 204C 建立） |
-| P2 | TestScene P1/P2 迁移 | 三个测试消费者只引用 Runtime，不再直接请求具体技能或分发 species/form | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P2` | 1 |
-| P3 | 五关正式接入 | 共享正式桥创建 `PetCombatRuntime`，BodyBridge 不再依赖旧 Runtime 函数 | 专用合同、`formal-pet-tests`、`formal-pet-journey-tests` | `npm run check:system-design -- pet P3` | 1 |
-| P4 | 旧入口清零 | Scene 无具体宠物技能请求，barrel 不导出具体请求，旧 `PetRuntimeSystem.ts` 删除 | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P4` | 1 |
-| all | 系统完成 | 同时执行 P1-P4 全部断言 | 同时执行全部合同与正式回归 | `npm run check:system-design -- pet all` | 1 |
-
-P1/P1B 已由命令证明通过；P1C/P1D 尚未建立，P2-P4 与 `all` 仍因其余 Behavior/Registry 不完整、Scene 具体技能分发、正式入口未迁移、重复入口及旧 Runtime 文件存在而未通过。
-
-## 验收合同
-
-| 规约 | 静态检查/测试/运行步骤 | 系统级完成预期 | 当前结果 |
+| Gate | 任务 | 通过合同 | 2026-08-25 基线 |
 | --- | --- | --- | --- |
-| 角色存在与职责 | `check:system-design pet P1` | 四类角色真实存在且不依赖 Phaser | gate=0 |
-| 依赖与唯一入口 | Scene import 负向搜索、Registry 映射完整性测试 | Scene 只依赖 Runtime/快照 | pending |
-| 禁止路径清零 | `requestPet*Skill` Scene 导入、species/form 分支、重复 targeting 搜索 | 迁移目标旧路径为零 | pending |
-| 模式合同 | 新 Runtime 生命周期、换宠、死亡、冷却、技能与幂等销毁测试 | P1/P2 和全部已恢复宠物行为通过 | pending |
-| 正式消费者接入 | 五关 1P/2P 宠物跟随、索敌、释放、换宠/离场旅程 | 全部正式消费者调用同一 Runtime | pending |
-| 迁移遗漏清零 | P1-P4 矩阵和 barrel/bridge 旧入口搜索 | 剩余消费者、旧入口、兼容层为零 | pending |
+| P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `1`：当前 nearest、全 roster 选择前 tick、HP0 立即卸载、钩子缺失 |
+| P1B | 204B | Monkey/Horse 8 形态适配完整钩子且不复制 Runtime | `1`：旧 Behavior 只有窄技能 Strategy |
+| P1C | 204C | Dragon/Turtle/Ufo 全形态与私有效果/清理 | `1`：目标 Behavior/Registry 映射缺失 |
+| P1D | 204D | Tiger/Phoenix/Rabbit/Mouse + 35 形态完整性 | `1`：目标 Behavior/Registry 完整性声明缺失 |
+| P2 | 204E | 三个 TestScene 双人消费者只用 Runtime/typed events | `1`：仍有具体技能直调/分发 |
+| P3 | 204F | 五关 P1/P2 与功能页换宠共用正式 Runtime owner | `1`：正式公共接入未闭合 |
+| P4 | 204G | Scene/barrel/旧 Runtime/重复 helper 清零 | `1`：兼容入口仍存在 |
+| all | 204G | P1-P4 全部合同与声明正式回归 | `1` |
 
-## 系统级剩余清单
+门禁命令：`npm run check:system-design -- pet <gate>`。设计阶段允许非 0；失败必须只对应表中未实施项。`tools/pet-combat-runtime-design-tests.ts` 同时拒绝 nearest、全 roster/选择前 CD、HP0 立即卸载和缺失差异钩子。
 
-- 未实现策略：Monkey/Horse 8 形态与 Runtime 公共技能时序已由 204A 完成；Dragon/Turtle/Ufo、Tiger/Phoenix/Rabbit/Mouse 与默认 35 形态 Registry 全集仍待 204B/C。
-- 未迁移消费者：TestScene P1/P2、高级技能桥、五关 P1/P2、功能页到战斗 Runtime 的换宠同步，待 204D/E。
-- 保留旧路径/兼容层：`PetRuntimeSystem` 函数组、`PetSystem` 大量具体技能出口、Scene 直接分发。
-- 未通过 gate：P1C/P1D 当前尚未建立；`pet/all` 当前退出码 1，P2 TestScene、P3 正式五关和 P4 旧入口清零未完成；P1/P1B 专项合同已通过。
-- 未决偏差：尚未恢复/接入的宠物视觉不阻塞类骨架实施，但对应 Behavior 只有在行为证据明确后才能登记为完成。
+## 实施与退出合同
+
+- 204B 只修公共合同并重新适配 Monkey/Horse；不得顺手扩七族或迁 Scene。
+- 204C、204D 分别扩 3 族与 4 族；204E 只迁 TestScene；204F 只迁正式五关/功能页；204G 只清旧入口并做全量验收。
+- 每批重复读取本设计与验收协议，运行声明 gate；退出码非 0 时该批不得完成。
+- `P1/P1B/P1C/P1D/P2/P3/P4/all` 全为 0、全部消费者与兼容路径清零后，204G 同批将本文标记“已完成/已退出”。退出后普通宠物任务不再读取专项设计验收，除非用户明确重开。
 
 ## 验收批次记录
 
-| 日期/Task | 本批范围 | 静态检查 | 合同测试 | 正式运行 | 结论 | 系统剩余项 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2026-08-19 / 人工设计 | 现状核定和硬门禁基线 | `pet/all` 退出码 1，报告缺类/Registry、Scene 直调、正式接入和旧文件 | 专用合同测试缺失，门禁拒绝通过 | 未运行 | 设计冻结，验收未开始 | P1-P4 全部待实施 |
-| 2026-08-24 / `TASK-ARCH-203` | P1 Runtime/Behavior/Registry/Targeting | 四个目标角色存在、无 Phaser 依赖，`pet P1` 退出码 0 | 生命周期顺序、换宠/死亡、Registry、Targeting、只读事件/快照、错误输入、幂等销毁通过 | 本批按合同不迁移正式消费者；全系统与 build 回归通过 | 本批通过，系统实施中 | P2 TestScene、P3 五关、P4 旧入口清零仍待独立 task |
-| 2026-08-25 / `TASK-ARCH-204A` | P1B Runtime 实用化与 Monkey/Horse | 无 Phaser；默认 Registry 精确覆盖猴/马 8 形态，`pet P1/P1B` 退出码 0 | 既有技能函数/Projectile owner、优先级、触发、MP/距离/冷却及缺执行口拒绝合同通过 | 本批按合同不迁移 Scene；全系统与 build 回归通过 | 本批通过，系统实施中 | P1C/P1D 其余物种、P2/P3 消费者和 P4 旧入口仍待 204B..F |
+| 日期/Task | 范围 | 结果 | 结论 |
+| --- | --- | --- | --- |
+| 2026-08-24 / 203 | 旧 P1 骨架 | 当时 gate 0 | 205 后降级：只证明类存在，不证明新合同 |
+| 2026-08-25 / 204A | 旧 P1B Monkey/Horse | 当时 gate 0 | 205 后降级：复用了既有规则，但时钟/索敌/死亡与钩子合同不成立 |
+| 2026-08-25 / 206 | 设计证据校正 | `pet P1/P1B/P1C/P1D/P2/P3/P4/all` 均为 1（真实失败基线） | 唯一设计已冻结；从 204B 开始实施 |
+| 2026-08-25 / 204B | 公共 Runtime + Monkey/Horse 8 形态 | `pet P1=0`、`pet P1B=0`；专项合同、全系统、build、LSP 通过；`all=1` 仅保留后续批次 | 本批通过，系统实施中；剩余 P1C/P1D/P2/P3/P4/all |
 
-## 验收退出记录
+## 反证与重开
 
-- 退出日期/Task：未退出。
-- 最终证据：未完成。
-- 退出条件：P1/P1B/P1C/P1D/P2/P3/P4 均为 0、`pet all` 为 0、所有正式 P1/P2 消费者和旧路径全部清零，并在同批标记 `已完成/已退出`。
-- 退出后规则：普通宠物开发不再读取本设计验收机制，不再运行设计模式专项符合性检查；只有用户明确要求时才重开。
+- 若原版运行证据证明 `gc.obbsiteArray` 在全部适用关卡具有另一稳定排序，只更新上游 orderedTargets 适配，不把 Targeting 改名为 nearest。
+- 若某族真值证明死亡不等 frame-over、存在独立 warp label 或不走公共受击链，只在该 Behavior 钩子中记录例外，不推翻公共默认合同。
+- 若实施发现新正式消费者或新 owner，当前批停止并拆同线解除 task，不把逻辑塞回 Scene。

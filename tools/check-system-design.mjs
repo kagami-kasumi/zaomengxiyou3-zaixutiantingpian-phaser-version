@@ -136,8 +136,28 @@ const contracts = {
       ];
       requireFiles(required, errors);
       requireMatches(required[0], [['exported PetCombatRuntime class', /export\s+class\s+PetCombatRuntime\b/u]], errors);
-      requireMatches(required[1], [['PetBehavior contract', /export\s+(?:type|interface)\s+PetBehavior\b/u]], errors);
+      requireMatches(required[0], [
+        ['alive/dead-playing session phase', /['"]dead-playing['"]/u],
+        ['animation completion input', /animation(?:Event|Events|Finished)/u],
+        ['active-pet-only skill clock', /tickActivePetSkillState\s*\(/u],
+        ['action selection before skill clock tick', /selectAction\s*\([\s\S]*tickActivePetSkillState\s*\(/u],
+      ], errors);
+      forbidMatches(required[0], [
+        ['nearest target selection', /nearestTarget\s*\(/u],
+        ['whole-roster skill clock', /updatePetSkillState\s*\(\s*frame\.roster/u],
+        ['HP-zero active-session rejection', /pet\.isActive\s*&&[\s\S]{0,100}pet\.hp\s*>\s*0/u],
+      ], errors);
+      requireMatches(required[1], [
+        ['PetBehavior contract', /export\s+(?:type|interface)\s+PetBehavior\b/u],
+        ['movement permission hook', /canMove\s*\(/u],
+        ['basic attack fallback hook', /basicAttack\s*\(/u],
+        ['damage reaction hook', /onDamaged\s*\(/u],
+        ['animation event hook', /onAnimationEvent\s*\(/u],
+      ], errors);
       requireMatches(required[2], [['exported PetBehaviorRegistry class', /export\s+class\s+PetBehaviorRegistry\b/u]], errors);
+      requireMatches(required[3], [['ordered-first target selection', /orderedFirstTarget\s*\(/u]], errors);
+      forbidMatches(required[3], [['nearest target API', /nearestTarget\s*\(/u]], errors);
+      requireMatches('src/systems/PetTuning.ts', [['original search range', /searchRange\s*:\s*1200\b/u]], errors);
       forbidAcross(required, [['Phaser dependency', /from\s+['"]phaser['"]|Phaser\./u]], errors);
       requireTest('pet-combat-runtime-design-tests', tests, errors);
     },
@@ -148,17 +168,62 @@ const contracts = {
       const registry = 'src/systems/pet-behaviors/createDefaultPetBehaviorRegistry.ts';
       requireFiles([runtime, monkey, horse, registry], errors);
       requireMatches(runtime, [
-        ['shared skill clock', /updatePetSkillState\s*\(/u],
+        ['active-pet-only skill clock', /tickActivePetSkillState\s*\(/u],
         ['skill execution port', /castSkill\s*:/u],
       ], errors);
-      requireMatches(monkey, [['MonkeyPetBehavior strategy', /export\s+class\s+MonkeyPetBehavior\b/u]], errors);
-      requireMatches(horse, [['HorsePetBehavior strategy', /export\s+class\s+HorsePetBehavior\b/u]], errors);
+      for (const [file, label] of [[monkey, 'MonkeyPetBehavior'], [horse, 'HorsePetBehavior']]) {
+        requireMatches(file, [
+          [`${label} strategy`, new RegExp(`export\\s+class\\s+${label}\\b`, 'u')],
+          ['movement permission hook', /canMove\s*\(/u],
+          ['basic attack fallback hook', /basicAttack\s*\(/u],
+          ['damage reaction hook', /onDamaged\s*\(/u],
+          ['animation event hook', /onAnimationEvent\s*\(/u],
+        ], errors);
+      }
       requireMatches(registry, [
         ['default registry factory', /export\s+function\s+createDefaultPetBehaviorRegistry\b/u],
         ['monkey registrations', /monkeyForms\.map/u],
         ['horse registrations', /horseForms\.map/u],
       ], errors);
       forbidAcross([runtime, monkey, horse, registry], [['Phaser dependency', /from\s+['"]phaser['"]|Phaser\./u]], errors);
+      requireTest('pet-combat-runtime-design-tests', tests, errors);
+    },
+    P1C(errors, tests) {
+      const behaviors = ['Dragon', 'Turtle', 'Ufo'].map((name) => (
+        `src/systems/pet-behaviors/${name}PetBehavior.ts`
+      ));
+      requireFiles(behaviors, errors);
+      behaviors.forEach((file) => requireMatches(file, [
+        ['movement permission hook', /canMove\s*\(/u],
+        ['basic attack fallback hook', /basicAttack\s*\(/u],
+        ['damage reaction hook', /onDamaged\s*\(/u],
+        ['animation event hook', /onAnimationEvent\s*\(/u],
+      ], errors));
+      requireMatches('src/systems/pet-behaviors/createDefaultPetBehaviorRegistry.ts', [
+        ['dragon registrations', /dragonForms\.map/u],
+        ['turtle registrations', /turtleForms\.map/u],
+        ['ufo registrations', /ufoForms\.map/u],
+      ], errors);
+      requireTest('pet-combat-runtime-design-tests', tests, errors);
+    },
+    P1D(errors, tests) {
+      const behaviors = ['Tiger', 'Phoenix', 'Rabbit', 'Mouse'].map((name) => (
+        `src/systems/pet-behaviors/${name}PetBehavior.ts`
+      ));
+      requireFiles(behaviors, errors);
+      behaviors.forEach((file) => requireMatches(file, [
+        ['movement permission hook', /canMove\s*\(/u],
+        ['basic attack fallback hook', /basicAttack\s*\(/u],
+        ['damage reaction hook', /onDamaged\s*\(/u],
+        ['animation event hook', /onAnimationEvent\s*\(/u],
+      ], errors));
+      requireMatches('src/systems/pet-behaviors/createDefaultPetBehaviorRegistry.ts', [
+        ['35-form registry declaration', /EXPECTED_PET_BEHAVIOR_KEYS|expectedPetBehaviorKeys/u],
+        ['tiger registrations', /tigerForms\.map/u],
+        ['phoenix registrations', /phoenixForms\.map/u],
+        ['rabbit registrations', /rabbitForms\.map/u],
+        ['mouse registrations', /mouseForms\.map/u],
+      ], errors);
       requireTest('pet-combat-runtime-design-tests', tests, errors);
     },
     P2(errors, tests) {

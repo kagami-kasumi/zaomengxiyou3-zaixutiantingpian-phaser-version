@@ -4,21 +4,20 @@
 
 ## 当前推荐
 
-`TASK-ARCH-206` 是唯一 Ready 游戏 task。已归档的 TASK-SETTINGS-205 闭合了原版 `BasePet` 的 35 形态继承/覆写、字段 owner、活动实例时钟、ordered-first 索敌、死亡延迟销毁和现代 owner 审计；证据表明当前 `nearestTarget`、全 roster 冷却、HP 归零立即卸载与原版冲突，现须先修订/确认唯一现代宠物系统设计和硬 gate。TASK-ARCH-204B..F 继续 Planned，不直接扩展旧 `Behavior` 方案。
+`TASK-ARCH-204C` 是唯一 Ready 游戏 task。204B 已把公共 Runtime 与 Monkey/Horse 8 形态校正到 `pet P1/P1B=0`；204C 只接入 Dragon/Turtle/Ufo 全形态 Behavior、持续效果与私有清理，消费者迁移和其余四族仍留给 204D..G。
 
-`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 全部强制使用 `$pet-family-reverse`：各 task 成为唯一 Ready 后由 Luna 并行只读调查 AS3 行为链与恢复 SWF 真值，主 agent 单写归并并负责 `verified` 裁决，并按 `MO-001` 记录真实样本；在 206 完成现代设计裁决和宠物公共类最终迁移前全部保持 Planned。
+`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 全部强制使用 `$pet-family-reverse`：各 task 成为唯一 Ready 后由 Luna 并行只读调查 AS3 行为链与恢复 SWF 真值，主 agent 单写归并并负责 `verified` 裁决，并按 `MO-001` 记录真实样本；在 204G 完成宠物公共类最终迁移前全部保持 Planned。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-206 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物公共 Runtime 设计证据校正 | 依据 205 修订/确认 Runtime、Behavior、Registry、Targeting、死亡与差异钩子唯一设计 | M-032、M-034、M-042、VS-012、VS-067 | 当前唯一 `pet.md`、新 gate/失败基线、204B..F 重基线 | 恢复或替换最小 204B 实施批次 | [定义](task-definitions/TASK-ARCH-206.md) |
-| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 闭合具体差异接缝、双人测试/正式消费者与旧入口 | M-032、M-034、M-042、VS-012、VS-067 | 206 设计裁决后重基线 204B..F，最终 pet all=0 | TASK-ARCH-206 | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-ARCH-204B | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 龙/龟/UFO Behavior | 等待 206 对 ordered target、活动 CD、死亡生命周期与差异钩子作唯一裁决；不得先扩展现有 Behavior | M-032、M-034、M-042、VS-012、VS-067 | 若设计保留本批：三族差异接缝、组合/持续效果合同、pet P1C=0 | TASK-ARCH-204C | [定义](task-definitions/TASK-ARCH-204B.md) |
-| TASK-ARCH-204C | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎/凤/兔/鼠 Behavior | 完成剩余四族策略与 35 形态 Registry 全集 | M-032、M-034、M-042、VS-012、VS-067 | 四族 Behavior、Registry 完整性、pet P1D=0 | TASK-ARCH-204D | [定义](task-definitions/TASK-ARCH-204C.md) |
-| TASK-ARCH-204D | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | TestScene 双人迁移 | P1/P2/高级技能桥只消费 PetCombatRuntime | M-032、M-034、M-042、VS-012、VS-067 | 三个测试消费者统一入口、pet P2=0 | TASK-ARCH-204E | [定义](task-definitions/TASK-ARCH-204D.md) |
-| TASK-ARCH-204E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 正式五关宠物 Runtime | 五关 P1/P2 与功能页换宠统一接公共 Runtime | M-032、M-034、M-042、VS-012、VS-067 | 正式公共桥、五关/换宠回归、pet P3=0 | TASK-ARCH-204F | [定义](task-definitions/TASK-ARCH-204E.md) |
-| TASK-ARCH-204F | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 旧入口清零与系统退出 | 删除旧 Runtime/barrel/Scene 分发并完成 all gate | M-032、M-034、M-042、VS-012、VS-067 | pet P4=0、pet all=0、设计验收退出 | TASK-SETTINGS-193E | [定义](task-definitions/TASK-ARCH-204F.md) |
+| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 闭合证据校正 Runtime、35 形态、双人测试/正式消费者与旧入口 | M-032、M-034、M-042、VS-012、VS-067 | 204B..G 串行，最终 pet all=0 | TASK-ARCH-204C | [定义](task-definitions/TASK-ARCH-204.md) |
+| TASK-ARCH-204C | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 龙/龟/UFO Behavior | 三族全形态差异钩子、持续效果和私有清理 | M-032、M-034、M-042、VS-012、VS-067 | pet P1C=0 | TASK-ARCH-204D | [定义](task-definitions/TASK-ARCH-204C.md) |
+| TASK-ARCH-204D | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎/凤/兔/鼠 Behavior | 四族差异钩子与 35 形态 Registry 全集 | M-032、M-034、M-042、VS-012、VS-067 | pet P1D=0 | TASK-ARCH-204E | [定义](task-definitions/TASK-ARCH-204D.md) |
+| TASK-ARCH-204E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | TestScene 双人迁移 | 三个测试消费者只消费 Runtime/typed events | M-032、M-034、M-042、VS-012、VS-067 | pet P2=0 | TASK-ARCH-204F | [定义](task-definitions/TASK-ARCH-204E.md) |
+| TASK-ARCH-204F | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 正式五关宠物 Runtime | 五关 P1/P2 与功能页换宠统一接公共 Runtime | M-032、M-034、M-042、VS-012、VS-067 | pet P3=0 | TASK-ARCH-204G | [定义](task-definitions/TASK-ARCH-204F.md) |
+| TASK-ARCH-204G | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 旧入口清零与系统退出 | 删除旧 Runtime/barrel/Scene 分发并完成 all gate | M-032、M-034、M-042、VS-012、VS-067 | pet P4=0、pet all=0、设计验收退出 | TASK-SETTINGS-193E | [定义](task-definitions/TASK-ARCH-204G.md) |
 | TASK-SETTINGS-193E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 动画证据（Skill） | 用 `$pet-family-reverse` 冻结 ufo1..3 本体、魔破杀/瞬闪/狂魔闪空逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵与 MO-001 样本 | TASK-SLICE-193F | [定义](task-definitions/TASK-SETTINGS-193E.md) |
 | TASK-SLICE-193F | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 真动画接入 | 直接消费 193E 真值替换 UFO 本体与技能占位 | M-034、M-035、M-042、VS-067 | UFO 真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193G | [定义](task-definitions/TASK-SLICE-193F.md) |
 | TASK-SETTINGS-193G | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎系动画证据（Skill） | 用 `$pet-family-reverse` 冻结 tigress1..4 本体、三技能与组合奥义逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵与 MO-001 样本 | TASK-SLICE-193H | [定义](task-definitions/TASK-SETTINGS-193G.md) |

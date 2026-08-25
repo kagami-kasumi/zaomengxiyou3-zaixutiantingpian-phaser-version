@@ -19,7 +19,21 @@ export type PetBehaviorEvent = Readonly<{
   payload?: unknown;
 }>;
 
-export type PetBehaviorDestroyReason = 'inactive' | 'replaced' | 'runtime-destroyed';
+export type PetCombatDamageEvent = Readonly<{
+  runtimeKey: string;
+  amount: number;
+  sourceId?: string;
+}>;
+
+export type PetCombatAnimationEventName = 'hit' | 'complete' | 'dead-complete';
+
+export type PetCombatAnimationEvent = Readonly<{
+  runtimeKey: string;
+  actionToken: number;
+  eventName: PetCombatAnimationEventName;
+}>;
+
+export type PetBehaviorDestroyReason = 'inactive' | 'replaced' | 'dead-complete' | 'runtime-destroyed';
 
 export type PetBehaviorSkillRequest = (params: {
   roster: PetRoster;
@@ -42,9 +56,13 @@ export type PetBehaviorContext = Readonly<{
 
 export interface PetBehavior {
   enter(context: PetBehaviorContext): void;
+  canMove(context: PetBehaviorContext): boolean;
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined;
+  basicAttack(context: PetBehaviorContext): PetBehaviorAction | undefined;
   executeAction(action: PetBehaviorAction, context: PetBehaviorContext): void;
   updateEffects(context: PetBehaviorContext): void;
+  onDamaged(event: PetCombatDamageEvent, context: PetBehaviorContext): void;
+  onAnimationEvent(event: PetCombatAnimationEvent, context: PetBehaviorContext): void;
   destroy(reason: PetBehaviorDestroyReason): void;
 }
 

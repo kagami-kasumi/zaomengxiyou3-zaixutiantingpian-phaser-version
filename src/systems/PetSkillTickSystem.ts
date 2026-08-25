@@ -24,12 +24,15 @@ export function markActivePetSkillTriggered(roster: PetRoster): boolean {
 
 export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
   for (const pet of roster.pets) {
-    const state = pet.skillState;
-    if (!state) {
-      continue;
-    }
+    tickActivePetSkillState(pet, deltaMs);
+  }
+}
 
-    state.monkey1Xj.cooldownMs = Math.max(0, state.monkey1Xj.cooldownMs - Math.max(0, deltaMs));
+export function tickActivePetSkillState(pet: PetState, deltaMs: number): void {
+  const state = pet.skillState;
+  if (!state) return;
+
+  state.monkey1Xj.cooldownMs = Math.max(0, state.monkey1Xj.cooldownMs - Math.max(0, deltaMs));
     state.monkey2Lj.cooldownMs = Math.max(0, state.monkey2Lj.cooldownMs - Math.max(0, deltaMs));
     state.monkey2Xj.cooldownMs = Math.max(0, state.monkey2Xj.cooldownMs - Math.max(0, deltaMs));
     state.monkey3Lyq.cooldownMs = Math.max(0, state.monkey3Lyq.cooldownMs - Math.max(0, deltaMs));
@@ -83,8 +86,7 @@ export function updatePetSkillState(roster: PetRoster, deltaMs: number): void {
     state.rabbit4Ysaoyi.cooldownMs = Math.max(0, state.rabbit4Ysaoyi.cooldownMs - Math.max(0, deltaMs));
     state.mouse1Sc.cooldownMs = Math.max(0, state.mouse1Sc.cooldownMs - Math.max(0, deltaMs));
     state.mouse4Hxfb.cooldownMs = Math.max(0, state.mouse4Hxfb.cooldownMs - Math.max(0, deltaMs));
-    state.mouse4Zsaoyi.cooldownMs = Math.max(0, state.mouse4Zsaoyi.cooldownMs - Math.max(0, deltaMs));
-  }
+  state.mouse4Zsaoyi.cooldownMs = Math.max(0, state.mouse4Zsaoyi.cooldownMs - Math.max(0, deltaMs));
 }
 
 function ensurePetSkillState(pet: PetState): PetSkillState {

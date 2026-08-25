@@ -104,6 +104,10 @@
 
 2026-08-25 `TASK-ARCH-204A` 宠物公共类 P1B：`PetCombatRuntime` 统一推进跟随/warp、存活目标、全 roster 技能 cooldown、单帧 Behavior 动作和 `castSkill` 执行能力口；Monkey/Horse Behavior 按原 TestScene 顺序调用既有 11 个请求函数，默认 Registry 覆盖两族 8 形态，不复制数值、Projectile 或技能算法。`pet P1/P1B=0`，M-032/M-034/M-042 与 VS-067 仍保持部分复现，等待 204B..F 闭合其余 Behavior、消费者和旧入口。
 
+2026-08-25 `TASK-ARCH-206` 设计校正：205 证据已使 204A 的 `pet P1/P1B=0` 降级为旧合同结果。唯一现代设计现要求 ordered-first/1200 sticky 目标、动作选择后仅活动实例 CD、`alive -> dead-playing -> destroy`、完整受击/移动/普攻/动画命中/私有清理钩子；当前新 P1/P1B 均为 1，M-032/M-034/M-042 与 VS-067 状态不提升，等待 204B..G。
+
+2026-08-25 `TASK-ARCH-204B` 公共校正已完成：`PetCombatRuntime` 采用 ordered-first/1200 sticky 目标，动作与效果之后只推进活动宠物 CD，并以 `runtimeKey + actionToken` 拒绝旧 damage/animation event；HP0 进入 `dead-playing`，仅匹配 `dead-complete` 释放。Monkey/Horse 8 形态实现完整 Behavior 差异钩子，`pet P1/P1B=0`；M-042 与 VS-067 仍为部分复现，等待 204C..G。
+
 2026-08-25 `BasePet` 逆向前置纠正：用户指出原版宠物公共类应先审计 AS3 属性、继承、生命周期和具体类覆写，再据此裁决现代设计。现有 `pets-index.md` 已记录创建链、基础行为和技能事实，但没有完整继承树、字段/owner、公共方法/覆写矩阵与“原版职责→现代 owner”证据链。新增代码逆向 `TASK-SETTINGS-205` 为唯一 Ready；204B 暂回 Planned，205 后先生成现代宠物系统设计调整/确认 task，不得把 Monkey/Horse 已实现状态外推成原版分类事实。M-042 与 VS-067 状态不提升。
 
 2026-08-25 `TASK-SETTINGS-205` 原版 `BasePet` 专项已闭合：`pet-base-class.md` 以 `[172845]` 可读主类和 `[25034429]` 混淆副本的 35/35 继承/override/function 结构一致性为双源，确认 33 个具体类直继承 `BasePet`、仅 `PetMouse2/3 -> PetMouse1`；冻结 `PetInfo` 数据 owner、`BaseHero` 活动实体 owner、BasePet 字段/活动实例时钟、ordered-first/1200 索敌、技能 1→4、AI 先于 CD 递减、hurt/dead/frame-over/destroy 及 P1/P2/联机回放合同。猴/马 warp、hurt/dead 与 193A/193C verified 真值一致，其余七族视觉细节不外推。现代审计判定 nearest、全 roster CD、HP 归零立即卸载与证据冲突，Behavior 也缺受击/移动/动画命中/私有清理接缝；M-042/VS-067 状态仍不提升，唯一 Ready 切到 `TASK-ARCH-206` 先修订/确认唯一宠物设计和 gate。

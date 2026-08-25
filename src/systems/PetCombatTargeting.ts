@@ -12,24 +12,16 @@ export class PetCombatTargeting {
       .map((target) => Object.freeze({ ...target }));
   }
 
-  nearestTarget(
-    origin: PetCombatPoint | undefined,
-    targets: readonly PetSkillTarget[],
+  orderedFirstTarget(
+    origin: PetCombatPoint,
+    orderedTargets: readonly PetSkillTarget[],
+    searchRange: number,
   ): Readonly<PetSkillTarget> | undefined {
-    const living = this.livingTargets(targets);
-    if (!origin || living.length < 2) return living[0];
-
-    let nearest = living[0]!;
-    let nearestDistance = this.distance(origin, nearest);
-    for (let index = 1; index < living.length; index += 1) {
-      const candidate = living[index]!;
-      const candidateDistance = this.distance(origin, candidate);
-      if (candidateDistance < nearestDistance) {
-        nearest = candidate;
-        nearestDistance = candidateDistance;
-      }
+    if (!Number.isFinite(searchRange) || searchRange < 0) {
+      throw new Error(`Pet combat search range must be finite and non-negative: ${searchRange}`);
     }
-    return nearest;
+    return this.livingTargets(orderedTargets)
+      .find((target) => this.distance(origin, target) <= searchRange);
   }
 
   distance(from: PetCombatPoint, to: PetCombatPoint): number {

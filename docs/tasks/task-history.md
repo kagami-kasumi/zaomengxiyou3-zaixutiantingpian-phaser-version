@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-ARCH-206 | 宠物 Runtime 设计证据校正 | 依据 205 冻结唯一现代组合、调用顺序、差异钩子、owner、消费者与硬 gate | M-032、M-034、M-042、VS-012、VS-067 | 校正后 `pet.md`、P1..P4 失败基线、204B..G 串行实施合同 |
 | TASK-ARCH-204A | 宠物公共类 P1B | 实用化公共 Runtime 并接入 Monkey/Horse 真实 Behavior | M-032、M-034、M-042、VS-012、VS-067 | 统一技能时钟/执行能力口、两族 8 形态默认 Registry、P1B 门禁与行为合同 |
 | TASK-SLICE-190C | 背包分页视觉一致性 | 统一正式背包与炼丹炉的原生分页 UI，同时保持同一 inventory owner 与各页 truth 几何 | M-035、M-037、M-052、VS-064、VS-070 | `createInventoryPagerObjects`、character 118 静态后缀 truth/清除、跨页门禁与第一页/第二页运行证据 |
 | TASK-SLICE-190B | 嵌入式装备 hover 父任务收束 | 汇总并关闭 189 确认的全部工坊消费者与商城负合同 | M-036、M-037、M-052、VS-066 | 190B1..B4 四页独立 verified 几何/生命周期、共享只读实例 tooltip、商城 49 项负门禁与 VS-066 完成 |
@@ -7835,6 +7836,62 @@ UI 原生化合同：
 推荐后续任务：
 - `TASK-ARCH-204B`。
 
+### TASK-ARCH-206
+
+任务类型：
+- `TASK-ARCH`
+
+任务模型：
+- `常规任务`
+
+逆向子类型：
+- 不适用
+
+逆向方案：
+- 不适用
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（执行时 Active）
+
+目标机制/切片：
+- `M-032`、`M-034`、`M-042`、`VS-012`、`VS-067`
+
+规模预算：
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 一旦需要修改 `src`、实施 Behavior/消费者或重新逆向视觉族，停止并拆同线实现 task。
+
+协作计划：
+- 模式：单 agent
+- 并行工作包：无
+- 写入 owner：主 agent
+- 归并检查点：验收前
+- 方法观测：无
+
+输入资料：
+- 205 的 `pet-base-class.md`、旧 `pet.md`、当前 Runtime/Behavior/Registry/Targeting/消费者、gate 与 204B..F。
+
+输出产物：
+- 唯一证据校正 `pet.md`、P1..P4/all 硬 gate 和真实失败基线、204B..G 串行实施合同。
+
+完成定义：
+- ordered target、活动 CD、dead-playing、差异钩子、owner、消费者和清理边界均与 205 事实/未知分级一致；不修改 `src`。
+
+验收标准：
+- 各 gate 退出码与设计记录一致；专项合同能捕获关键反证；workflow/problem audit/diff check 通过。
+
+禁止范围：
+- 不实施 `src`、宠物族视觉真值/atlas、玩法数值、roster 或存档；不保留多套候选设计。
+
+状态更新：
+- 归档 206，功能线保持 Active，仅激活 `TASK-ARCH-204B`。
+
+推荐后续任务：
+- `TASK-ARCH-204B`。
+
 ## 执行记录
 
 
@@ -11425,3 +11482,69 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-ARCH-206`：依据 205 证据修订或确认唯一现代宠物系统设计、硬 gate 和 204B..F 基线；不实施 `src`。
+
+### TASK-ARCH-206
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（执行时 Active）
+
+目标机制/切片：
+
+- `M-032`、`M-034`、`M-042`、`VS-012`、`VS-067`
+
+完成定义：
+
+- 依据 205 逐项处置 ordered target、活动实例 CD、死亡生命周期、Behavior 差异接缝、owner 与消费者，只保留一套现代设计。
+- 更新系统设计 gate 与专用合同测试，记录真实失败基线并把后续实施重排为零 compact 的串行小 task；不修改 `src`。
+
+- 完成日期：2026-08-25。
+- 保留 `PetCombatRuntime + PetBehavior + Registry + Targeting` 组合，但把 Behavior 从窄技能 Strategy 扩展为 `canMove/basicAttack/onDamaged/onAnimationEvent/updateEffects/destroy` 差异合同；公共 Runtime 继续拥有顺序、阶段和活动会话。
+- 冻结 ordered-first/1200 sticky target；当前目标死/越界时本帧只清空。冻结动作选择/执行后才推进当前活动宠物 CD，未出战 roster 与 `dead-playing` 均不推进。
+- 冻结 `alive -> dead-playing -> destroy`：HP 归零只发布 dead 命令，typed dead-complete 后才依次清 Behavior 私有句柄、来源 projectile/effect、view 与活动引用；P1/P2 roster/runtime 隔离，Scene 不得持第二套数值或具体技能分发。
+- `check-system-design.mjs` 新增 P1C/P1D，并让 P1/P1B 拒绝 nearest、全 roster/选择前 CD、HP0 立即卸载和缺失差异钩子；专用测试加入同一反证合同。
+- 实测 `pet P1/P1B/P1C/P1D/P2/P3/P4/all` 全部退出码 1，分别只报告对应未实施批次；旧 203/204A 的 P1/P1B=0 降级为旧合同历史。
+- 原 204B..F 边界不足，现重排为 204B 公共校正+猴马、204C 三族、204D 四族、204E TestScene、204F 正式五关/功能页、204G 清理退出。功能线继续 Active，唯一 Ready 为 204B。
+
+验证：
+
+- P1/P1B/P1C/P1D/P2/P3/P4/all 失败基线均为退出码 1 且与设计表一致；LSP 引用确认 Runtime 尚无外部消费者、nearest 仅 Targeting/Runtime 两处、全 roster tick 由 Runtime 直接调用。
+- `npm run check:workflow`、`npm run audit:problems`、`git diff --check`（见本任务最终验证记录）。
+
+推荐任务：
+
+- `TASK-ARCH-204B`：按校正设计实现公共 Runtime 与 Monkey/Horse，要求 `pet P1/P1B=0`；不扩七族或迁移消费者。
+
+### TASK-ARCH-204B
+
+任务类型：
+
+- `TASK-ARCH`
+
+功能条线：
+
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（执行时 Active）
+
+完成定义：
+
+- 校正公共 Runtime 的 ordered-first/1200 sticky 索敌、活动宠物帧末 CD、`alive -> dead-playing -> destroy` 和 typed damage/animation event，并让 Monkey/Horse 8 形态适配完整 Behavior 钩子，`pet P1/P1B=0`。
+
+- 完成日期：2026-08-25。
+- `PetCombatTargeting` 删除 nearest API，按稳定输入顺序选择 1200 范围内首个存活目标；sticky 目标死亡或越界时本帧只清空，下帧重搜。
+- `PetCombatRuntime` 只在动作选择/执行和效果更新后推进当前活动宠物技能时钟；未出战 roster 项和 `dead-playing` 会话不再推进。
+- Runtime 新增 `alive/dead-playing`、`runtimeKey + actionToken` 事件门禁和 typed damage/animation event；HP 归零保留会话并发布 dead 动作，只有匹配的 `dead-complete` 才幂等清理 Behavior 与活动引用。
+- `PetBehavior` 扩展 `canMove/basicAttack/onDamaged/onAnimationEvent`；Monkey/Horse 8 形态实现完整接缝，技能仍调用既有纯规则与 Projectile owner，没有复制 Runtime 更新骨架。
+- 功能线继续 Active，唯一 Ready 切换为 `TASK-ARCH-204C`；系统设计保持“实施中”，剩余 P1C/P1D/P2/P3/P4/all。
+
+验证：
+
+- `npm run check:system-design -- pet P1`、`npm run check:system-design -- pet P1B`、`npm run test:systems`、`npm run build`、`npm run check:structure`、LSP TypeScript diagnostics、`git diff --check` 通过。
+- `npm run check:system-design -- pet all` 按合同退出码 1，仅报告 204C..G 的其余族、TestScene/正式消费者与旧入口清理项。
+
+推荐任务：
+
+- `TASK-ARCH-204C`：接入 Dragon/Turtle/Ufo 全形态 Behavior、持续效果和私有清理，要求 `pet P1C=0`；不迁消费者或修改视觉资源。

@@ -3,6 +3,8 @@ import type {
   PetBehaviorAction,
   PetBehaviorContext,
   PetBehaviorDestroyReason,
+  PetCombatAnimationEvent,
+  PetCombatDamageEvent,
   PetBehaviorSkillRequest,
 } from '../PetBehavior';
 import {
@@ -45,6 +47,10 @@ export class MonkeyPetBehavior implements PetBehavior {
     }
   }
 
+  canMove(_context: PetBehaviorContext): boolean {
+    return true;
+  }
+
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined {
     if (!context.target) return undefined;
     const state = context.pet.skillState;
@@ -69,7 +75,15 @@ export class MonkeyPetBehavior implements PetBehavior {
     }
   }
 
+  basicAttack(context: PetBehaviorContext): PetBehaviorAction | undefined {
+    return context.target ? { type: 'basic-attack' } : undefined;
+  }
+
   executeAction(action: PetBehaviorAction, context: PetBehaviorContext): void {
+    if (action.type === 'basic-attack') {
+      context.emit({ type: 'basic-attack', payload: { targetId: context.target?.id } });
+      return;
+    }
     const request = requestByAction[action.type as MonkeyActionType];
     if (!request) throw new Error(`Unsupported monkey behavior action: ${action.type}`);
     const result = context.castSkill(request);
@@ -86,6 +100,18 @@ export class MonkeyPetBehavior implements PetBehavior {
   }
 
   updateEffects(_context: PetBehaviorContext): void {}
+
+  onDamaged(event: PetCombatDamageEvent, context: PetBehaviorContext): void {
+    const state = context.pet.skillState;
+    if (this.form === 1 && state) state.monkey1Xj.releaseReady = true;
+    if (this.form === 2 && state) state.monkey2Xj.releaseReady = true;
+    if (this.form === 3 && state) state.monkey3Lj.releaseReady = true;
+    context.emit({ type: 'damaged', payload: { amount: event.amount, sourceId: event.sourceId } });
+  }
+
+  onAnimationEvent(event: PetCombatAnimationEvent, context: PetBehaviorContext): void {
+    context.emit({ type: 'animation-event', payload: { eventName: event.eventName } });
+  }
 
   destroy(_reason: PetBehaviorDestroyReason): void {}
 }

@@ -3,6 +3,8 @@ import type {
   PetBehaviorAction,
   PetBehaviorContext,
   PetBehaviorDestroyReason,
+  PetCombatAnimationEvent,
+  PetCombatDamageEvent,
   PetBehaviorSkillRequest,
 } from '../PetBehavior';
 import {
@@ -32,6 +34,10 @@ export class HorsePetBehavior implements PetBehavior {
     }
   }
 
+  canMove(_context: PetBehaviorContext): boolean {
+    return true;
+  }
+
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined {
     if (!context.target) return undefined;
     const state = context.pet.skillState;
@@ -49,7 +55,15 @@ export class HorsePetBehavior implements PetBehavior {
     }
   }
 
+  basicAttack(context: PetBehaviorContext): PetBehaviorAction | undefined {
+    return context.target ? { type: 'basic-attack' } : undefined;
+  }
+
   executeAction(action: PetBehaviorAction, context: PetBehaviorContext): void {
+    if (action.type === 'basic-attack') {
+      context.emit({ type: 'basic-attack', payload: { targetId: context.target?.id } });
+      return;
+    }
     const request = requestByAction[action.type as HorseActionType];
     if (!request) throw new Error(`Unsupported horse behavior action: ${action.type}`);
     const result = context.castSkill(request);
@@ -66,6 +80,17 @@ export class HorsePetBehavior implements PetBehavior {
   }
 
   updateEffects(_context: PetBehaviorContext): void {}
+
+  onDamaged(event: PetCombatDamageEvent, context: PetBehaviorContext): void {
+    if (this.form === 2 && context.pet.skillState) {
+      context.pet.skillState.horse2Bd.releaseReady = true;
+    }
+    context.emit({ type: 'damaged', payload: { amount: event.amount, sourceId: event.sourceId } });
+  }
+
+  onAnimationEvent(event: PetCombatAnimationEvent, context: PetBehaviorContext): void {
+    context.emit({ type: 'animation-event', payload: { eventName: event.eventName } });
+  }
 
   destroy(_reason: PetBehaviorDestroyReason): void {}
 }

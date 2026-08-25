@@ -4,12 +4,15 @@ import type {
   PetBehaviorContext,
   PetBehaviorDestroyReason,
   PetBehaviorEvent,
+  PetCombatAnimationEvent,
+  PetCombatDamageEvent,
 } from './PetBehavior';
 import { PetBehaviorRegistry } from './PetBehaviorRegistry';
 import { PetCombatTargeting } from './PetCombatTargeting';
 import { createDefaultPetBehaviorRegistry } from './pet-behaviors/createDefaultPetBehaviorRegistry';
 import { createPetRuntime, updatePetRuntime } from './PetRuntimeSystem';
-import { updatePetSkillState } from './PetSkillTickSystem';
+import { tickActivePetSkillState } from './PetSkillTickSystem';
+import { PetTuning } from './PetTuning';
 import type { ProjectileSystemModel } from './ProjectileSystem';
 import type {
   PetOwnerSnapshot,
@@ -26,8 +29,12 @@ export type PetCombatFrame = Readonly<{
   targets: readonly PetSkillTarget[];
   projectiles?: ProjectileSystemModel;
   random?: PetSkillRandomSource;
+  damageEvents?: readonly PetCombatDamageEvent[];
+  animationEvents?: readonly PetCombatAnimationEvent[];
   deltaMs: number;
 }>;
+
+export type PetCombatSessionPhase = 'alive' | 'dead-playing';
 
 export type PetCombatRuntimeEvent = Readonly<{
   sequence: number;
@@ -36,6 +43,7 @@ export type PetCombatRuntimeEvent = Readonly<{
   reason?: PetBehaviorDestroyReason;
   action?: PetBehaviorAction;
   behaviorEvent?: PetBehaviorEvent;
+  actionToken?: number;
 }>;
 
 export type PetCombatSnapshot = Readonly<{
@@ -45,6 +53,8 @@ export type PetCombatSnapshot = Readonly<{
   form?: number;
   runtime?: Readonly<PetRuntimeModel>;
   target?: Readonly<PetSkillTarget>;
+  phase?: PetCombatSessionPhase;
+  actionToken?: number;
 }>;
 
 export class PetCombatRuntime {
@@ -53,6 +63,9 @@ export class PetCombatRuntime {
   private pet: PetState | undefined;
   private runtime: PetRuntimeModel | undefined;
   private target: Readonly<PetSkillTarget> | undefined;
+  private phase: PetCombatSessionPhase | undefined;
+  private actionToken = 0;
+  private completedDeadRuntimeKey: string | undefined;
   private publishedEvents: PetCombatRuntimeEvent[] = [];
   private nextEventSequence = 1;
   private destroyed = false;
@@ -70,22 +83,50 @@ export class PetCombatRuntime {
     this.publishedEvents = [];
 
     const activePet = frame.roster.pets.find((pet) => (
-      pet.isActive && pet.lifetime > 0 && pet.hp > 0
+      pet.isActive
+      && pet.lifetime > 0
+      && !(pet.hp <= 0 && this.completedDeadRuntimeKey === `${pet.id}:${pet.species}:${pet.form}`)
     ));
     this.synchronizePet(activePet, frame.owner);
     if (!this.pet || !this.runtime || !this.behavior) return this.snapshot();
 
-    updatePetRuntime(this.runtime, this.pet, frame.owner, frame.deltaMs);
-    updatePetSkillState(frame.roster, frame.deltaMs);
     const targets = this.targeting.livingTargets(frame.targets);
-    this.target = this.targeting.nearestTarget(this.runtime, targets);
-    const context = this.createBehaviorContext(frame, targets);
-    const action = this.behavior.selectAction(context);
+    this.consumeDamageEvents(frame, targets);
+    if (!this.pet || !this.runtime || !this.behavior) return this.snapshot();
+    this.consumeAnimationEvents(frame, targets);
+    if (!this.pet || !this.runtime || !this.behavior) return this.snapshot();
+
+    if (this.pet.hp <= 0 && this.phase === 'alive') this.beginDeath();
+    if (this.phase === 'dead-playing') return this.snapshot();
+
+    const targetWasCleared = this.validateStickyTarget(targets);
+    if (!this.target && !targetWasCleared) {
+      this.target = this.targeting.orderedFirstTarget(
+        this.runtime,
+        targets,
+        PetTuning.searchRange,
+      );
+    }
+
+    let context = this.createBehaviorContext(frame, targets);
+    if (this.behavior.canMove(context)) {
+      updatePetRuntime(this.runtime, this.pet, frame.owner, frame.deltaMs);
+      context = this.createBehaviorContext(frame, targets);
+    }
+
+    const action = this.behavior.selectAction(context) ?? this.behavior.basicAttack(context);
     if (action) {
+      this.actionToken += 1;
       this.behavior.executeAction(action, context);
-      this.publish({ type: 'action', petId: this.pet.id, action: { ...action } });
+      this.publish({
+        type: 'action',
+        petId: this.pet.id,
+        action: { ...action },
+        actionToken: this.actionToken,
+      });
     }
     this.behavior.updateEffects(context);
+    tickActivePetSkillState(this.pet, frame.deltaMs);
     return this.snapshot();
   }
 
@@ -97,6 +138,8 @@ export class PetCombatRuntime {
       form: this.pet?.form,
       runtime: this.runtime ? Object.freeze({ ...this.runtime }) : undefined,
       target: this.target ? Object.freeze({ ...this.target }) : undefined,
+      phase: this.phase,
+      actionToken: this.pet ? this.actionToken : undefined,
     });
   }
 
@@ -133,6 +176,8 @@ export class PetCombatRuntime {
     this.pet = activePet;
     this.runtime = createPetRuntime(activePet, owner);
     this.behavior = nextBehavior;
+    this.phase = 'alive';
+    this.actionToken = 0;
     this.publish({ type: 'activated', petId: activePet.id });
     this.behavior.enter(this.createBehaviorContext({
       roster: { pets: [activePet], selectedIndex: 0, message: '' },
@@ -150,6 +195,66 @@ export class PetCombatRuntime {
     this.pet = undefined;
     this.runtime = undefined;
     this.target = undefined;
+    this.phase = undefined;
+    this.actionToken = 0;
+  }
+
+  private consumeDamageEvents(
+    frame: PetCombatFrame,
+    targets: readonly Readonly<PetSkillTarget>[],
+  ): void {
+    if (!this.pet || !this.runtime || !this.behavior || this.phase !== 'alive') return;
+    for (const event of frame.damageEvents ?? []) {
+      if (event.runtimeKey !== this.runtime.runtimeKey) continue;
+      this.pet.hp = Math.max(0, this.pet.hp - event.amount);
+      const context = this.createBehaviorContext(frame, targets);
+      this.behavior.onDamaged(event, context);
+      if (this.pet.hp <= 0) {
+        this.beginDeath();
+        return;
+      }
+    }
+  }
+
+  private consumeAnimationEvents(
+    frame: PetCombatFrame,
+    targets: readonly Readonly<PetSkillTarget>[],
+  ): void {
+    if (!this.runtime || !this.behavior) return;
+    for (const event of frame.animationEvents ?? []) {
+      if (event.runtimeKey !== this.runtime.runtimeKey || event.actionToken !== this.actionToken) continue;
+      const context = this.createBehaviorContext(frame, targets);
+      this.behavior.onAnimationEvent(event, context);
+      if (this.phase === 'dead-playing' && event.eventName === 'dead-complete') {
+        this.completedDeadRuntimeKey = this.runtime.runtimeKey;
+        this.releaseBehavior('dead-complete');
+        return;
+      }
+    }
+  }
+
+  private beginDeath(): void {
+    if (!this.pet || this.phase !== 'alive') return;
+    this.phase = 'dead-playing';
+    this.target = undefined;
+    this.actionToken += 1;
+    this.publish({
+      type: 'action',
+      petId: this.pet.id,
+      action: { type: 'dead' },
+      actionToken: this.actionToken,
+    });
+  }
+
+  private validateStickyTarget(targets: readonly Readonly<PetSkillTarget>[]): boolean {
+    if (!this.target || !this.runtime) return false;
+    const current = targets.find(({ id }) => id === this.target?.id);
+    if (current && this.targeting.distance(this.runtime, current) < PetTuning.searchRange) {
+      this.target = current;
+      return false;
+    }
+    this.target = undefined;
+    return true;
   }
 
   private createBehaviorContext(
@@ -206,6 +311,16 @@ export class PetCombatRuntime {
     for (const target of frame.targets) {
       if (!Number.isFinite(target.x) || !Number.isFinite(target.y)) {
         throw new Error(`Pet combat target coordinates must be finite: ${target.id}`);
+      }
+    }
+    for (const event of frame.damageEvents ?? []) {
+      if (!Number.isFinite(event.amount) || event.amount < 0) {
+        throw new Error(`Pet combat damage must be finite and non-negative: ${event.amount}`);
+      }
+    }
+    for (const event of frame.animationEvents ?? []) {
+      if (!Number.isSafeInteger(event.actionToken) || event.actionToken < 0) {
+        throw new Error(`Pet combat action token must be a non-negative integer: ${event.actionToken}`);
       }
     }
   }

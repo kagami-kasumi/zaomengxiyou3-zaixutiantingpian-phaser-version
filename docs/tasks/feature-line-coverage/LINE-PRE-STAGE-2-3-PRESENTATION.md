@@ -9,7 +9,7 @@
 - 全部整改在正式建档→地图→关卡→功能页→返回→重载旅程中验证后，才能恢复 Stage 2-3。
 - 用户 2026-08-17 追加反馈：正式背包与炼丹炉必须明确为同一背包，底部分页使用同一套原生按钮状态和 `n/5` 表现；各自宿主原版坐标仍保留。
 - 用户 2026-08-21 要求在 193E 前先重做宠物真值并把新真值实践到 UI，再建立宠物基类；201/202 已完成真值/UI，203 只完成 P1 骨架。用户 2026-08-25 明确要求在继续逆向前完整闭合宠物公共类，因此 204A..F 必须连续完成至 `pet all=0`，其间不插入 193E。
-- 用户 2026-08-25 进一步明确：宠物公共类实施前必须先专项逆向原版 AS3 `BasePet` 的属性、继承、生命周期和具体类覆写，再据此形成或修正现代系统设计；不得把已实现猴/马包装误当成原版分类证据。因此 205 抢占 204B，204B..F 等待逆向与现代设计裁决。
+- 用户 2026-08-25 进一步明确：宠物公共类实施前必须先专项逆向原版 AS3 `BasePet` 的属性、继承、生命周期和具体类覆写，再据此形成或修正现代系统设计；不得把已实现猴/马包装误当成原版分类证据。205/206 已完成该证据与设计裁决，实施现按 204B..G 串行。
 
 ## 证据原则
 
@@ -27,7 +27,7 @@
 | 背包分页一致性 | 正式背包与炼丹炉共享 `InventoryGridView`、同一 inventory owner 和两份 verified 页面真值 | 无；190C 已移除工坊静态 `/5`、背景按钮和透明分页命中分叉 | 两页共同消费 `createInventoryPagerObjects`、原生三态按钮与完整 `n/5`；各自 truth 几何、第一页/第二页和 940×590 运行对照通过 |
 | 宠物页/入口 | 175A 的 74 对象/16 状态真值、180 页面投影、191 正式可见性矩阵；192A 已固化非 QA 当前 schema 双人冷启动→地图→五关 Runtime→P1/P2 932→返回/重载旅程 | 无；bundle、page-assets、render 失败均发出统一 `feature-ui-failed` 结构化信号 | `formal-pet-journey-tests.ts`；`TASK-SLICE-192A/runtime-audit.md`；P1/P2/五关/重载与 940×590 零 console |
 | 宠物战斗 UI | 宠物 owner、出战状态和技能 runtime 已有；191 的 662 壳体、605/610/614、条和三字段保留；201 已生成 35 fixture/70 P1-P2 投影/4 负状态 verified 头像真值 | 无；202 已删除身体 atlas、联合 bounds 拉伸和硬编码头像定位 | 202 的 33 唯一终端 child/35 fixture 专属 bundle、关键字段变异、P1/P2/五关旅程、九物种零像素差和 940×590 零 console |
-| 宠物战斗公共类 | 203/204A 已建立当前 `PetCombatRuntime/PetBehavior/Registry/Targeting` 与猴/马接线；205 已闭合 35 形态继承/覆写、字段 owner、活动时钟、索敌与死亡合同 | 205 证明 nearest、全 roster CD、HP 归零立即卸载与原版冲突，Behavior 缺受击/移动/动画命中/私有清理接缝；其余物种、消费者与旧入口仍未闭合 | `pet-base-class.md`；206 先形成唯一修订设计、新 gate 与 204B..F 重基线，最终仍以适用设计 gate 与正式消费者闭合为准 |
+| 宠物战斗公共类 | 203/204A 建立旧骨架；205 闭合 35 形态证据；206 冻结证据校正 `PetCombatRuntime/Behavior/Registry/Targeting` 唯一设计与 P1..P4 gate | 当前 P1/P1B 真实失败：nearest、全 roster/选择前 CD、HP0 立即卸载和差异钩子不足；其余物种、消费者与旧入口仍未闭合 | `pet-base-class.md`、`system-designs/pet.md`；204B..G 依次达成 P1/P1B、P1C、P1D、P2、P3、P4/all |
 | 宠物真动画 | 九物种技能行为与部分占位 projectile 已有；193 已冻结 35 形态/38 技能映射；193A..193D 已闭合猴系、马系真值与运行投影 | 其余七族逐帧证据/实现未闭合 | 猴系 4 本体 atlas/9 唯一对象序列与马系 4 本体 atlas/185 帧对象均直连 verified 真值；193E..193R 继续其余七族；194 最终跨族校准 |
 | 五角色动作流畅度 | 069/158 视觉索引/桥、163/164/173/174 几何与行为证据 | 用户观察到角色间卡顿与流畅度不一；根因可能在资源完整性、帧时序/持帧、clock、动作转移、加载或投影 | 195 跨角色可测对照与根因分类；只为受影响角色生成单角色修复 task；196 五角色统一校准 |
 | 战斗技能 HUD | 技能功能页 175D/183、五槽绑定数据、HUD snapshot/bridge 已有 | 用户在战斗 UI 中未看到角色技能；旧 M-049/VS-051 关闭结论待复核，不得用技能功能页替代 | 197 战斗 HUD 显示列表/verified 真值；198 可见原生投影；199 绑定/MP/冷却/P1-P2/存档联动 |
@@ -47,15 +47,17 @@
 10. `TASK-SETTINGS-201`：Done；`task-settings-201.pet-combat-hud-head` 已闭合 35 个 `gotoAndStop` fixture、70 个 P1/P2 投影、4 个负状态、逐帧 baseline、独立全面性结论与 191 有界裁决，`unresolved=[]`，未修改 `src/`。
 11. `TASK-SLICE-202`：Done；正式 HUD 直接消费 201 新真值，33 个唯一终端 child 覆盖 35 fixture；删除身体 atlas/657 联合 bounds 替代，关键字段变异、九物种零像素差与 940×590 双人运行通过。
 12. `TASK-ARCH-203`：Done；已按冻结宠物类设计建立 `PetCombatRuntime/PetBehavior/Registry/Targeting` 和 P1 合同；未迁移 TestScene/五关或删除旧入口，P2-P4 后续另行生成。
-13. `TASK-ARCH-204`：Split；204A Done，公共 Runtime 与 Monkey/Horse 8 形态已通过 P1B；剩余 204B..F 暂停，等待 205 与现代设计裁决。
+13. `TASK-ARCH-204`：Split；204A 的旧 P1/P1B 结论经 205/206 降级；现由 204B..G 按“公共校正→3族→4族→TestScene→正式消费者→清理退出”串行。
 14. `TASK-SETTINGS-205`：Done；`pet-base-class.md` 已闭合原版 `BasePet` 继承树、字段/owner、生命周期、35 形态覆写矩阵、架构无关行为合同和现代 owner 审计；没有修改 `src` 或设计文档。
-15. `TASK-ARCH-206`：Ready；依据 205 对 ordered target、活动实例 CD、dead-playing 生命周期、Behavior 差异接缝、owner 和消费者作唯一现代设计裁决，更新硬 gate 并重基线 204B..F；不实施 `src`。
-16. `TASK-SETTINGS-193E -> ... -> TASK-SETTINGS-193Q -> TASK-SLICE-193R`：宠物公共类最终迁移完成后恢复，对其余七族按 verified 证据→实现串行；七个证据 task 强制使用 `$pet-family-reverse` 和 `MO-001`，在单 task 内以 Luna A/B 并行只读调查、主 agent 单写归并、Luna 独立完整性复核，不并行 task 状态；证据未闭合时配对实现不得 Ready。
-17. `TASK-SLICE-194`：所有宠物资源族子 task 完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
-18. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。
-19. `TASK-SLICE-196`：五角色统一动作流畅度、UI 完整度和正式 Runtime 校准；不代替单角色修复。
-20. `TASK-SETTINGS-197 -> TASK-SLICE-198 -> TASK-SLICE-199`：技能功能页保持独立已有证据；本批只闭合战斗技能 HUD 真值、可见投影和运行联动。
-21. `TASK-SLICE-200`：集中正式旅程与整线关闭；通过后才恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`。
+15. `TASK-ARCH-206`：Done；保留组合总体方向但扩展 Behavior，冻结 ordered-first/1200 sticky 目标、活动实例帧末 CD、`alive -> dead-playing -> destroy`、typed animation/damage 事件、私有清理、owner/消费者和 204B..G gate；未修改 `src`。
+16. `TASK-ARCH-204B`：Done；公共 Runtime 已闭合 ordered-first/1200 sticky 索敌、活动实例帧末 CD、`alive -> dead-playing -> destroy`、typed damage/animation event 和完整差异钩子，Monkey/Horse 8 形态重新适配，`pet P1/P1B=0`。
+17. `TASK-ARCH-204C`：Ready；接入 Dragon/Turtle/Ufo 全形态 Behavior、持续效果与私有清理，要求 `pet P1C=0`。
+17. `TASK-SETTINGS-193E -> ... -> TASK-SETTINGS-193Q -> TASK-SLICE-193R`：宠物公共类最终迁移完成后恢复，对其余七族按 verified 证据→实现串行；七个证据 task 强制使用 `$pet-family-reverse` 和 `MO-001`，在单 task 内以 Luna A/B 并行只读调查、主 agent 单写归并、Luna 独立完整性复核，不并行 task 状态；证据未闭合时配对实现不得 Ready。
+18. `TASK-SLICE-194`：所有宠物资源族子 task 完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
+19. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。
+20. `TASK-SLICE-196`：五角色统一动作流畅度、UI 完整度和正式 Runtime 校准；不代替单角色修复。
+21. `TASK-SETTINGS-197 -> TASK-SLICE-198 -> TASK-SLICE-199`：技能功能页保持独立已有证据；本批只闭合战斗技能 HUD 真值、可见投影和运行联动。
+22. `TASK-SLICE-200`：集中正式旅程与整线关闭；通过后才恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`。
 
 ## 明确排除
 
@@ -63,7 +65,7 @@
 - 新宠物、新角色、新技能、新装备数值，以及网络/活动/商业系统。
 - 未经原版证据或用户批准的现代面板、占位动画、通用按钮或可见替代层。
 - 借本线顺手执行 `LINE-SHARED-UI-COMPONENTS`、怪物架构或发布载荷重构。
-- 在 205/现代设计裁决前继续扩展旧 `Behavior` 方案；或未经证据和明确设计 task，直接把现代实现改成深继承体系。
+- 绕过 206 设计直接扩展旧 `Behavior`，或未经证据和明确设计 task 把现代实现改成深继承体系。
 
 ## 关闭检查
 
@@ -71,9 +73,9 @@
 - [ ] 宠物页与战斗 UI 在正式 P1/P2 路径可见、可操作，不被宿主/层级/加载问题隐藏。
 - [x] character 657 的 35 个声明头像已按中文名目标帧递归到真实 child；P1/P2 投影、负状态、逐帧 baseline、全面性与 child/frame/matrix 变异门禁通过。
 - [x] 正式 HUD 直接消费 201，删除联合 bounds/身体 atlas 头像替代，并以五关 P1/P2 逐状态差异证明消费有效。
-- [x] 宠物战斗公共类 P1 gate 为 0，`PetSystem.ts` 未新增基类逻辑。
-- [x] 204A 已让 Runtime 统一推进技能时钟并以默认 Registry 接入 Monkey/Horse 8 形态，`pet P1B=0`。
-- [x] 205 已闭合原版 `BasePet` 专项继承、字段、生命周期、35 形态覆写矩阵和架构无关行为合同；现代方案的明确修订/确认由 206 继续。
+- [x] 证据校正后的宠物战斗公共类 P1 gate 为 0；ordered-first/1200 sticky 索敌、活动实例帧末 CD、dead-playing 和 typed event 已由 204B 证明。
+- [x] Monkey/Horse 8 形态按完整差异钩子接入且 P1B=0；未复制 Runtime 更新骨架。
+- [x] 205 已闭合原版 `BasePet` 专项证据，206 已冻结唯一现代设计、真实失败基线和 204B..G 串行合同。
 - [ ] 按裁决后的现代设计完成其余物种差异接缝、TestScene/正式五关/功能页迁移和旧入口清零，适用的系统设计 `all` gate 为 0 且验收退出。
 - [ ] 宠物 corpus 无未解释资源族，本体/移动/攻击/技能/受击/死亡中适用动作的真时间轴与行为一致，占位 projectile/字样回填清零。
 - [ ] 五角色共用同一动作质量标准；每个用户可见卡顿/丢帧/错转移都有根因、修复或原版证据解释。
