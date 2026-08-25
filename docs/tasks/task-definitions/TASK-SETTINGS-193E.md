@@ -13,7 +13,7 @@
 - `docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned；等待 `TASK-ARCH-203`）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready；`TASK-ARCH-203` 已完成）
 
 目标机制/切片：
 - `M-034`、`M-035`、`M-042`、`VS-067`

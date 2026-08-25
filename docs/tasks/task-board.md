@@ -4,16 +4,15 @@
 
 ## 当前推荐
 
-`TASK-ARCH-203` 是唯一 Ready 游戏 task。202 已让正式 HUD 直接消费 201 的 35 fixture 逐状态头像真值，并删除身体 atlas/联合 bounds 替代；当前只建立已冻结设计的宠物战斗公共类 P1，完成后恢复 193E。
+`TASK-SETTINGS-193E` 是唯一 Ready 游戏 task。203 已完成宠物战斗公共类 P1 并保持 P2-P4 未迁移边界；当前恢复 UFO 本体/技能对象逐帧视觉真值。
 
-`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 已登记 `MO-001` 单 task 并行证据试验：各 task 成为唯一 Ready 后使用 `$pet-family-reverse`，由 Luna 并行只读调查 AS3 行为链与恢复 SWF 真值，主 agent 单写归并并负责 `verified` 裁决；这不并行 task 状态，也不改变当前 203 的 Ready 顺序。
+`TASK-SETTINGS-193E/193G/193I/193K/193M/193O/193Q` 已登记 `MO-001` 单 task 并行证据试验：各 task 成为唯一 Ready 后使用 `$pet-family-reverse`，由 Luna 并行只读调查 AS3 行为链与恢复 SWF 真值，主 agent 单写归并并负责 `verified` 裁决；这不并行 task 状态，当前只激活 193E。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-203 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物战斗公共类 P1 | 建立 PetCombatRuntime、PetBehavior、Registry、Targeting | M-032、M-034、M-042、VS-012、VS-067 | 四个类设计角色、生命周期合同测试、pet P1 gate=0 | TASK-SETTINGS-193E | [定义](task-definitions/TASK-ARCH-203.md) |
-| TASK-SETTINGS-193E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 动画证据 | 冻结 ufo1..3 本体、魔破杀/瞬闪/狂魔闪空逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193F | [定义](task-definitions/TASK-SETTINGS-193E.md) |
+| TASK-SETTINGS-193E | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 动画证据 | 冻结 ufo1..3 本体、魔破杀/瞬闪/狂魔闪空逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193F | [定义](task-definitions/TASK-SETTINGS-193E.md) |
 | TASK-SLICE-193F | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | UFO 真动画接入 | 直接消费 193E 真值替换 UFO 本体与技能占位 | M-034、M-035、M-042、VS-067 | UFO 真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193G | [定义](task-definitions/TASK-SLICE-193F.md) |
 | TASK-SETTINGS-193G | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎系动画证据 | 冻结 tigress1..4 本体、三技能与组合奥义逐帧真值 | M-034、M-035、M-042、VS-067 | verified 动作/对象真值、原版基准、注册点/时序/行为矩阵 | TASK-SLICE-193H | [定义](task-definitions/TASK-SETTINGS-193G.md) |
 | TASK-SLICE-193H | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 虎系真动画接入 | 直接消费 193G 真值替换虎系本体与技能占位 | M-034、M-035、M-042、VS-067 | 虎系真 atlas/对象、动作联动、P1/P2 正式回归 | TASK-SETTINGS-193I | [定义](task-definitions/TASK-SLICE-193H.md) |

@@ -11318,3 +11318,18 @@ UI 原生化合同：
 
 推荐任务：
 - `TASK-ARCH-203`：按冻结宠物类设计只建立 `PetCombatRuntime/PetBehavior/Registry/Targeting` P1；不迁移消费者或进入 P2-P4。
+
+### TASK-ARCH-203
+
+- 完成日期：2026-08-24。
+- 功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-193E`）。
+- 新增无 Phaser 依赖的 `PetCombatRuntime` Context、`PetBehavior` Strategy 合同、唯一 `PetBehaviorRegistry` 与纯 `PetCombatTargeting`，没有修改 1267 行的 `PetSystem.ts`。
+- Runtime 复用既有跟随/warp 算法，固定同步出战宠物、存活目标快照、Behavior 选择/执行、持续效果推进、只读 snapshot/event 和销毁顺序；换宠、形态变化、死亡与离场均释放当前 Behavior，会话销毁幂等。
+- Registry 以 `species + form` 唯一解析，重复、缺失和非法 key 显式拒绝；目标服务统一存活筛选、最近目标、距离和朝向，旧技能 helper 按 P1 禁止范围暂不批量删除。
+- 专项合同覆盖生命周期顺序、换宠/死亡、Registry、Targeting、事件/快照、错误输入和幂等销毁。`pet P1` 退出码 0；设计状态更新为“实施中”，P2-P4 与 `all` 仍明确未完成，未迁移 TestScene/五关、未删除旧 Runtime/barrel、未修改 UI/动画/数值/存档。
+
+验证：
+- `npm run check:system-design -- pet P1`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:workflow`、`npm run audit:problems`、LSP diagnostics、`git diff --check` 通过；`npm run check:system-design -- pet all` 按合同退出码 1，仅报告 P2-P4 未迁移项。
+
+推荐任务：
+- `TASK-SETTINGS-193E`：使用 `$pet-family-reverse` 闭合 UFO 本体与 pms/ss/kmsk 的逐帧 verified 真值；不接入现代动画。

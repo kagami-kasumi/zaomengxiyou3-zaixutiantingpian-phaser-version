@@ -2,11 +2,11 @@
 
 设计状态：当前有效。
 
-验收状态：未开始。
+验收状态：实施中。
 
 验收退出：未退出。
 
-实施 task：`TASK-ARCH-203` 已生成并排在当前宠物 HUD 真值/实现之后，只实施 P1 公共类与合同；P2-P4 消费者迁移 task 尚未生成。
+实施 task：`TASK-ARCH-203` 已完成 P1 公共类与合同；P2-P4 消费者迁移 task 尚未生成。
 
 ## 目标与范围
 
@@ -48,10 +48,10 @@
 
 | 模式角色 | 项目职责 | 目标文件/符号 | 允许依赖 | 禁止职责 | 实施状态 |
 | --- | --- | --- | --- | --- | --- |
-| Context 公共类 | 单只出战宠物完整战斗生命周期和可变 Runtime 状态 | `src/systems/PetCombatRuntime.ts:class PetCombatRuntime` | PetState/Roster、owner/target snapshot、Projectile、Behavior | Phaser View、存档写盘、宠物 UI | 未实现 |
-| Strategy 合同 | 选择宠物动作、执行种类技能、推进种类持续效果 | `src/systems/PetBehavior.ts:interface PetBehavior` | 只读战斗上下文、现有纯 skill systems | 公共跟随、全局选宠、Scene 引用 | 未实现 |
-| Registry 类 | `species + form` 到 Behavior 的唯一映射和缺失拒绝 | `src/systems/PetBehaviorRegistry.ts:class PetBehaviorRegistry` | Behavior 实现 | 单局状态、技能算法 | 未实现 |
-| 公共目标服务 | 存活筛选、最近目标、距离、朝向 | `src/systems/PetCombatTargeting.ts` | 纯快照 | 技能施放和状态修改 | 未实现，当前重复 |
+| Context 公共类 | 单只出战宠物完整战斗生命周期和可变 Runtime 状态 | `src/systems/PetCombatRuntime.ts:class PetCombatRuntime` | PetState/Roster、owner/target snapshot、Projectile、Behavior | Phaser View、存档写盘、宠物 UI | P1 已实现，消费者未迁移 |
+| Strategy 合同 | 选择宠物动作、执行种类技能、推进种类持续效果 | `src/systems/PetBehavior.ts:interface PetBehavior` | 只读战斗上下文、现有纯 skill systems | 公共跟随、全局选宠、Scene 引用 | P1 合同已实现，具体策略未迁移 |
+| Registry 类 | `species + form` 到 Behavior 的唯一映射和缺失拒绝 | `src/systems/PetBehaviorRegistry.ts:class PetBehaviorRegistry` | Behavior 实现 | 单局状态、技能算法 | P1 已实现，具体注册待 P2-P4 |
+| 公共目标服务 | 存活筛选、最近目标、距离、朝向 | `src/systems/PetCombatTargeting.ts` | 纯快照 | 技能施放和状态修改 | P1 已实现，旧 helper 待 P4 清零 |
 | 具体 Behavior | Monkey/Horse/Dragon/Turtle/Ufo/Tiger/Phoenix/Rabbit/Mouse 等差异接线 | `src/systems/pet-behaviors/*PetBehavior.ts` | 对应现有技能系统 | 复制 Runtime 更新骨架 | 未实现 |
 | 表现适配器 | 把 Runtime snapshot 投影为宠物动画/视图 | `src/scenes/*Pet*Bridge/View.ts` | Phaser、只读 snapshot | 技能选择、伤害或状态算法 | 部分实现 |
 
@@ -97,19 +97,19 @@
 
 | Gate | 对应迁移批次 | 静态结构断言 | 必须执行的行为/正式测试 | 命令 | 当前退出码 |
 | --- | --- | --- | --- | --- | --- |
-| P1 | Runtime/Behavior/Registry/Targeting | 四个目标文件和类/合同存在，systems 不依赖 Phaser | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P1` | 1 |
+| P1 | Runtime/Behavior/Registry/Targeting | 四个目标文件和类/合同存在，systems 不依赖 Phaser | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P1` | 0 |
 | P2 | TestScene P1/P2 迁移 | 三个测试消费者只引用 Runtime，不再直接请求具体技能或分发 species/form | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P2` | 1 |
 | P3 | 五关正式接入 | 共享正式桥创建 `PetCombatRuntime`，BodyBridge 不再依赖旧 Runtime 函数 | 专用合同、`formal-pet-tests`、`formal-pet-journey-tests` | `npm run check:system-design -- pet P3` | 1 |
 | P4 | 旧入口清零 | Scene 无具体宠物技能请求，barrel 不导出具体请求，旧 `PetRuntimeSystem.ts` 删除 | `pet-combat-runtime-design-tests` | `npm run check:system-design -- pet P4` | 1 |
 | all | 系统完成 | 同时执行 P1-P4 全部断言 | 同时执行全部合同与正式回归 | `npm run check:system-design -- pet all` | 1 |
 
-当前失败基线真实来自命令：四个目标角色、专用合同测试和正式入口均不存在，Scene 具体技能分发、重复入口及旧 Runtime 文件仍存在。
+P1 已由命令证明通过；P2-P4 与 `all` 仍因 Scene 具体技能分发、正式入口未迁移、重复入口及旧 Runtime 文件存在而保持退出码 1。
 
 ## 验收合同
 
 | 规约 | 静态检查/测试/运行步骤 | 系统级完成预期 | 当前结果 |
 | --- | --- | --- | --- |
-| 角色存在与职责 | `check:system-design pet P1` | 四类角色真实存在且不依赖 Phaser | gate=1 |
+| 角色存在与职责 | `check:system-design pet P1` | 四类角色真实存在且不依赖 Phaser | gate=0 |
 | 依赖与唯一入口 | Scene import 负向搜索、Registry 映射完整性测试 | Scene 只依赖 Runtime/快照 | pending |
 | 禁止路径清零 | `requestPet*Skill` Scene 导入、species/form 分支、重复 targeting 搜索 | 迁移目标旧路径为零 | pending |
 | 模式合同 | 新 Runtime 生命周期、换宠、死亡、冷却、技能与幂等销毁测试 | P1/P2 和全部已恢复宠物行为通过 | pending |
@@ -120,7 +120,7 @@
 
 - 未迁移消费者：TestScene P1/P2、高级技能桥、五关 P1/P2、功能页到战斗 Runtime 的换宠同步。
 - 保留旧路径/兼容层：`PetRuntimeSystem` 函数组、`PetSystem` 大量具体技能出口、Scene 直接分发。
-- 失败测试：`pet/all` 当前退出码 1；缺 `pet-combat-runtime-design-tests.ts`，目标类尚未实现。
+- 未通过 gate：`pet/all` 当前退出码 1，精确对应 P2 TestScene、P3 正式五关和 P4 旧入口清零未完成；P1 专项合同已通过。
 - 未决偏差：尚未恢复/接入的宠物视觉不阻塞类骨架实施，但对应 Behavior 只有在行为证据明确后才能登记为完成。
 
 ## 验收批次记录
@@ -128,6 +128,7 @@
 | 日期/Task | 本批范围 | 静态检查 | 合同测试 | 正式运行 | 结论 | 系统剩余项 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-08-19 / 人工设计 | 现状核定和硬门禁基线 | `pet/all` 退出码 1，报告缺类/Registry、Scene 直调、正式接入和旧文件 | 专用合同测试缺失，门禁拒绝通过 | 未运行 | 设计冻结，验收未开始 | P1-P4 全部待实施 |
+| 2026-08-24 / `TASK-ARCH-203` | P1 Runtime/Behavior/Registry/Targeting | 四个目标角色存在、无 Phaser 依赖，`pet P1` 退出码 0 | 生命周期顺序、换宠/死亡、Registry、Targeting、只读事件/快照、错误输入、幂等销毁通过 | 本批按合同不迁移正式消费者；全系统与 build 回归通过 | 本批通过，系统实施中 | P2 TestScene、P3 五关、P4 旧入口清零仍待独立 task |
 
 ## 验收退出记录
 
