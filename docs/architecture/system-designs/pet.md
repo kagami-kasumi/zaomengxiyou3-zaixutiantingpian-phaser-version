@@ -6,7 +6,7 @@
 
 验收退出：未退出。
 
-实施 task：`TASK-ARCH-203/204A` 只完成旧 P1/P1B 骨架；206 证明该基线不符合原版活动时钟、ordered-first 索敌和死亡生命周期。204B 已完成公共校正与猴马重接；后续按 `TASK-ARCH-204C..G` 串行扩族、迁移消费者并清零旧入口。
+实施 task：`TASK-ARCH-203/204A` 只完成旧 P1/P1B 骨架；206 校正活动时钟、ordered-first 索敌和死亡生命周期，204B 让对应结构 gate=0。用户随后以正式运行反证：Runtime 尚无 Scene/正式消费者，`basicAttack` 只发事件，不能据此声称猴马或公共类玩家可见闭合。旧 204C..G 横向迁移撤销，先由 207/208 完成猴系参考家族，再按经验证 Skill 逐族生成任务。
 
 ## 目标、事实边界与非目标
 
@@ -81,36 +81,33 @@
 
 | 消费者 | owner/输入 | 目标接法 | 批次 |
 | --- | --- | --- | --- |
-| Monkey/Horse 8 形态 | Registry 创建会话 Behavior | 先适配完整差异钩子与新公共顺序 | 204B |
-| Dragon/Turtle/Ufo | 同上 | 三族 Behavior/私有持续效果/清理 | 204C |
-| Tiger/Phoenix/Rabbit/Mouse | 同上 | 四族 Behavior + 35 形态完整 Registry | 204D |
-| `TestScenePetMagicBridge`、Advanced、P2 | P1/P2 各自 roster/runtime | 只提交 Frame/typed events、消费 snapshot/commands | 204E |
-| `HeroPartyRuntimeBridge`、Stage 1-1/1-2/1-3/2-1/2-2 | Party 按 PlayerSlot 持 Runtime | 共享正式宠物桥；view 回传 typed animation events | 204F |
-| `FeatureUiScene/FormalPetRuntimeBridge` | roster 是唯一状态 owner | 只发布出战/休息/换宠生命周期通知 | 204F |
-| barrel、旧 Runtime、全部 Scene/Bridge | 无新增 owner | 清零具体技能出口、重复 targeting 与兼容路径 | 204G |
+| Monkey/Horse 结构接缝 | Registry 创建会话 Behavior | ordered-first、活动 CD、dead-playing 与差异钩子；不等于真实普通攻击或正式消费者 | 204B（结构完成，玩家可见闭合被反证） |
+| Monkey1..4 完整证据 | BasePet/具体类/恢复 SWF/现代消费者全集 | 自主 AI、普通攻击、全部技能、命中/伤害、真动画、owner 与生命周期同一证据链 | 207 |
+| Monkey1..4 完整正式复现 | P1/P2 各自 roster/runtime，TestScene 与五关共享桥 | 真实普通攻击/技能/伤害/动画/死亡/换宠正式可见；通过后才沉淀 Skill | 208 |
+| 其余八家族 | 同一 Registry/Runtime，逐族完整任务 | 只能依据 208 后经验证 Skill 一次生成一个家族；不得恢复横向 Behavior/视觉/消费者批次 | 208 后按覆盖缺口生成 |
+| barrel、旧 Runtime、全部 Scene/Bridge | 无新增 owner | 全部家族完成后清零具体技能出口、重复 targeting 与兼容路径 | 最终逐族任务之后生成 |
 | 未来网络/回放 | 记录 Frame 输入顺序与 typed events | 复用 Runtime，不拥有第二套模拟 | 非本轮实现；本设计冻结接口边界 |
 
 ## 迁移 gate 与真实基线
 
 | Gate | 任务 | 通过合同 | 2026-08-25 基线 |
 | --- | --- | --- | --- |
-| P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `1`：当前 nearest、全 roster 选择前 tick、HP0 立即卸载、钩子缺失 |
-| P1B | 204B | Monkey/Horse 8 形态适配完整钩子且不复制 Runtime | `1`：旧 Behavior 只有窄技能 Strategy |
-| P1C | 204C | Dragon/Turtle/Ufo 全形态与私有效果/清理 | `1`：目标 Behavior/Registry 映射缺失 |
-| P1D | 204D | Tiger/Phoenix/Rabbit/Mouse + 35 形态完整性 | `1`：目标 Behavior/Registry 完整性声明缺失 |
-| P2 | 204E | 三个 TestScene 双人消费者只用 Runtime/typed events | `1`：仍有具体技能直调/分发 |
-| P3 | 204F | 五关 P1/P2 与功能页换宠共用正式 Runtime owner | `1`：正式公共接入未闭合 |
-| P4 | 204G | Scene/barrel/旧 Runtime/重复 helper 清零 | `1`：兼容入口仍存在 |
-| all | 204G | P1-P4 全部合同与声明正式回归 | `1` |
+| P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `0`：结构 gate 已通过；不证明 Scene/正式消费者或玩家可见自主战斗 |
+| P1B | 204B | Monkey/Horse 8 形态适配结构钩子且不复制 Runtime | `0`：结构 gate 已通过；`basicAttack` 仍可能只有事件，不证明动画、命中与伤害闭环 |
+| P1R | 208（207 先冻结机器合同） | Monkey1..4 完整自主战斗、真实普通攻击/全部技能、真动画、命中/伤害、P1/P2 TestScene/五关 owner 与生命周期 | `1`：Runtime 无 Scene/正式消费者，basic attack 无真实伤害/动画链 |
+| P1C/P1D | 208 后逐族生成 | 其余家族不得只登记 Behavior；每个家族都复用完整证据→正式运行合同 | `1`：其余家族未完整闭合；旧 204C/204D 撤销 |
+| P2/P3 | 208 后逐族推进 | TestScene、五关和功能页消费者随每个家族同批闭合，不再最后集中迁移 | `1`：当前无新 Runtime 正式消费者；旧 204E/204F 撤销 |
+| P4/all | 全部家族完成后生成 | Scene/barrel/旧 Runtime/重复 helper 清零并执行全部正式回归 | `1`：兼容入口仍存在 |
 
 门禁命令：`npm run check:system-design -- pet <gate>`。设计阶段允许非 0；失败必须只对应表中未实施项。`tools/pet-combat-runtime-design-tests.ts` 同时拒绝 nearest、全 roster/选择前 CD、HP0 立即卸载和缺失差异钩子。
 
 ## 实施与退出合同
 
-- 204B 只修公共合同并重新适配 Monkey/Horse；不得顺手扩七族或迁 Scene。
-- 204C、204D 分别扩 3 族与 4 族；204E 只迁 TestScene；204F 只迁正式五关/功能页；204G 只清旧入口并做全量验收。
+- 204B 只证明公共结构接缝；用户反证后不得再把它描述为猴马玩家可见完整闭合。
+- 207/208 必须连续完成猴系完整证据与正式复现；208 之前不得切换宠物家族或更新/强制使用 `$pet-family-reverse`。
+- 208 通过后只依据经验证 Skill 为一个家族生成完整连续任务；不得恢复旧 204C..G 或 193E..R 的横向批处理。
 - 每批重复读取本设计与验收协议，运行声明 gate；退出码非 0 时该批不得完成。
-- `P1/P1B/P1C/P1D/P2/P3/P4/all` 全为 0、全部消费者与兼容路径清零后，204G 同批将本文标记“已完成/已退出”。退出后普通宠物任务不再读取专项设计验收，除非用户明确重开。
+- `P1/P1B/P1R`、后续逐族 gate 与最终 `P4/all` 全为 0、全部消费者与兼容路径清零后，最终任务同批将本文标记“已完成/已退出”。退出后普通宠物任务不再读取专项设计验收，除非用户明确重开。
 
 ## 验收批次记录
 
@@ -119,7 +116,8 @@
 | 2026-08-24 / 203 | 旧 P1 骨架 | 当时 gate 0 | 205 后降级：只证明类存在，不证明新合同 |
 | 2026-08-25 / 204A | 旧 P1B Monkey/Horse | 当时 gate 0 | 205 后降级：复用了既有规则，但时钟/索敌/死亡与钩子合同不成立 |
 | 2026-08-25 / 206 | 设计证据校正 | `pet P1/P1B/P1C/P1D/P2/P3/P4/all` 均为 1（真实失败基线） | 唯一设计已冻结；从 204B 开始实施 |
-| 2026-08-25 / 204B | 公共 Runtime + Monkey/Horse 8 形态 | `pet P1=0`、`pet P1B=0`；专项合同、全系统、build、LSP 通过；`all=1` 仅保留后续批次 | 本批通过，系统实施中；剩余 P1C/P1D/P2/P3/P4/all |
+| 2026-08-25 / 204B | 公共 Runtime + Monkey/Horse 结构接缝 | `pet P1=0`、`pet P1B=0`；专项合同、全系统、build、LSP 通过 | 仅结构通过；用户运行看不到自主攻击，玩家可见/正式消费者结论降级，禁止据此扩族 |
+| 2026-08-25 / 用户反证重排 | 完整家族与 Skill 成熟度 | LSP 仅找到 Runtime 声明；`basicAttack` 只发事件；旧 204C..G/193E..R 横向批次已撤销 | 新增 P1R；207/208 先完整闭合猴系，Skill 仅在 208 通过后重写 |
 
 ## 反证与重开
 

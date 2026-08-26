@@ -446,6 +446,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193A",
       "implementationTask": "TASK-SLICE-193B",
+      "familyTruthId": "task-settings-207.pet-monkey-family",
+      "familyEvidencePath": "docs/reverse-engineering/evidence/TASK-SETTINGS-207-pet-monkey-family.md",
+      "familyImplementationTask": "TASK-SLICE-208",
       "note": null
     },
     {
@@ -777,6 +780,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193C",
       "implementationTask": "TASK-SLICE-193D",
+      "familyTruthId": null,
+      "familyEvidencePath": null,
+      "familyImplementationTask": null,
       "note": null
     },
     {
@@ -983,6 +989,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193E",
       "implementationTask": "TASK-SLICE-193F",
+      "familyTruthId": null,
+      "familyEvidencePath": null,
+      "familyImplementationTask": null,
       "note": null
     },
     {
@@ -1335,6 +1344,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193G",
       "implementationTask": "TASK-SLICE-193H",
+      "familyTruthId": null,
+      "familyEvidencePath": null,
+      "familyImplementationTask": null,
       "note": null
     },
     {
@@ -1585,6 +1597,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193I",
       "implementationTask": "TASK-SLICE-193J",
+      "familyTruthId": null,
+      "familyEvidencePath": null,
+      "familyImplementationTask": null,
       "note": null
     },
     {
@@ -1956,6 +1971,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193K",
       "implementationTask": "TASK-SLICE-193L",
+      "familyTruthId": null,
+      "familyEvidencePath": null,
+      "familyImplementationTask": null,
       "note": null
     },
     {
@@ -2175,6 +2193,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193M",
       "implementationTask": "TASK-SLICE-193N",
+      "familyTruthId": null,
+      "familyEvidencePath": null,
+      "familyImplementationTask": null,
       "note": null
     },
     {
@@ -2432,6 +2453,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193O",
       "implementationTask": "TASK-SLICE-193P",
+      "familyTruthId": null,
+      "familyEvidencePath": null,
+      "familyImplementationTask": null,
       "note": null
     },
     {
@@ -2701,6 +2725,9 @@
       },
       "evidenceTask": "TASK-SETTINGS-193Q",
       "implementationTask": "TASK-SLICE-193R",
+      "familyTruthId": null,
+      "familyEvidencePath": null,
+      "familyImplementationTask": null,
       "note": "PetMouse2/3 inherit PetMouse1 without a new body atlas; PetMouse4 alone switches to PetMouseBmd2."
     }
   ],

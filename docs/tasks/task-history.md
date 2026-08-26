@@ -11538,7 +11538,7 @@ UI 原生化合同：
 - `PetCombatRuntime` 只在动作选择/执行和效果更新后推进当前活动宠物技能时钟；未出战 roster 项和 `dead-playing` 会话不再推进。
 - Runtime 新增 `alive/dead-playing`、`runtimeKey + actionToken` 事件门禁和 typed damage/animation event；HP 归零保留会话并发布 dead 动作，只有匹配的 `dead-complete` 才幂等清理 Behavior 与活动引用。
 - `PetBehavior` 扩展 `canMove/basicAttack/onDamaged/onAnimationEvent`；Monkey/Horse 8 形态实现完整接缝，技能仍调用既有纯规则与 Projectile owner，没有复制 Runtime 更新骨架。
-- 功能线继续 Active，唯一 Ready 切换为 `TASK-ARCH-204C`；系统设计保持“实施中”，剩余 P1C/P1D/P2/P3/P4/all。
+- 当时功能线继续 Active，并曾把唯一 Ready 切换为 `TASK-ARCH-204C`；该调度随后被同日用户正式运行反证撤销。
 
 验证：
 
@@ -11547,4 +11547,36 @@ UI 原生化合同：
 
 推荐任务：
 
-- `TASK-ARCH-204C`：接入 Dragon/Turtle/Ufo 全形态 Behavior、持续效果和私有清理，要求 `pet P1C=0`；不迁消费者或修改视觉资源。
+- 原推荐 `TASK-ARCH-204C` 已撤销。用户看不到宠物自主攻击，LSP 又确认 `PetCombatRuntime` 没有 Scene/正式消费者，`basicAttack` 只有事件而没有真实动画/命中/伤害；204B 只保留“结构 gate 通过”的历史结论。
+- 当前唯一 Ready 改为 `TASK-SETTINGS-207`：先完整逆向猴系四形态；随后 `TASK-SLICE-208` 完成正式自主战斗，并且只有完整案例通过后才重写 `$pet-family-reverse`。
+
+### TASK-SETTINGS-207
+
+任务类型：`TASK-SETTINGS`。任务模型：视觉真值逆向。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`。
+
+完成定义：
+
+- 在不使用现有未验证 `$pet-family-reverse`、不修改 `src/`、不扩猴系之外宠物族的前提下，闭合 `BasePet -> PetMonkey1..4` 的 owner、AI、追击/回跟/warp、普通攻击、`xj/lj/lyq/jgaoyi`、CD、受击释放、命中/伤害、动作/effect、碰撞、死亡/销毁与 P1/P2 生命周期。
+- 以 `task-settings-207.pet-monkey-family` 固化 41 项同集合同；引用并重新验证 193A 的 626 states / 20 objects / 626 original baselines，将三套 `StageCommon` collision Symbol 的 bounds/注册点补入机器真值，`unresolved=[]`。
+- 建立“原版事实 -> 现代 owner/消费者 -> 208 自动/正式运行 gate”矩阵，明确 Runtime 无 Scene 消费者、basicAttack 仅事件、monkey4 受击 lj 和 jgaoyi 五段链缺失；现代缺口不反写为原版未知。
+
+完成日期：2026-08-26。
+
+关键产物：
+
+- `docs/reverse-engineering/evidence/TASK-SETTINGS-207-pet-monkey-family.md`
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-207-pet-monkey-family.json`
+- `docs/reverse-engineering/ground-truth/schema/pet-family-ground-truth.schema.json`
+- `tools/generate-pet-monkey-family-ground-truth.mjs`
+- 猴系 corpus 的 `familyTruthId/familyEvidencePath/familyImplementationTask` 交接字段。
+
+验证：
+
+- `npm run test:pet-monkey-family-truth`：41 contracts、4 forms、0 unresolved；Schema/完整性与 monkey4 lj CD 关键字段变异通过。
+- `npm run test:pet-monkey-animation-truth`：193A manifest、626 原版状态/基准与 UI Schema 复核通过。
+- `npm run test:pet-animation-corpus`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check` 通过。
+- LSP 引用复核 `PetCombatRuntime` 只有声明、无正式 Scene 消费者；该反证已进入 208 P1R，而非伪装为完成实现。
+
+推荐任务：
+
+- `TASK-SLICE-208`：直接消费 207 的 41 项 P1R 输入，在正式 P1/P2 五关完成猴系自主战斗、真动画/命中/伤害与生命周期；全部通过后才复盘并重写 Skill。

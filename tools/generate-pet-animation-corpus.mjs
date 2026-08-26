@@ -74,6 +74,9 @@ const monkeyTruth = {
   truthId: 'task-settings-193a.pet-monkey-animation',
   evidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-193A-pet-monkey-animation.md',
   implementationTask: 'TASK-SLICE-193B',
+  familyTruthId: 'task-settings-207.pet-monkey-family',
+  familyEvidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-207-pet-monkey-family.md',
+  familyImplementationTask: 'TASK-SLICE-208',
 };
 
 const horseTruth = {
@@ -177,6 +180,9 @@ const species = speciesSpecs.map((spec) => {
     modernBody: { status: 'placeholder', locator: 'src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection' },
     evidenceTask: spec.evidenceTask,
     implementationTask: spec.implementationTask,
+    familyTruthId: familyTruth.get(spec.species)?.familyTruthId ?? null,
+    familyEvidencePath: familyTruth.get(spec.species)?.familyEvidencePath ?? null,
+    familyImplementationTask: familyTruth.get(spec.species)?.familyImplementationTask ?? null,
     note: spec.note ?? null,
   };
 });

@@ -106,7 +106,11 @@
 
 2026-08-25 `TASK-ARCH-206` 设计校正：205 证据已使 204A 的 `pet P1/P1B=0` 降级为旧合同结果。唯一现代设计现要求 ordered-first/1200 sticky 目标、动作选择后仅活动实例 CD、`alive -> dead-playing -> destroy`、完整受击/移动/普攻/动画命中/私有清理钩子；当前新 P1/P1B 均为 1，M-032/M-034/M-042 与 VS-067 状态不提升，等待 204B..G。
 
-2026-08-25 `TASK-ARCH-204B` 公共校正已完成：`PetCombatRuntime` 采用 ordered-first/1200 sticky 目标，动作与效果之后只推进活动宠物 CD，并以 `runtimeKey + actionToken` 拒绝旧 damage/animation event；HP0 进入 `dead-playing`，仅匹配 `dead-complete` 释放。Monkey/Horse 8 形态实现完整 Behavior 差异钩子，`pet P1/P1B=0`；M-042 与 VS-067 仍为部分复现，等待 204C..G。
+2026-08-25 `TASK-ARCH-204B` 公共结构校正已完成：`PetCombatRuntime` 采用 ordered-first/1200 sticky 目标，动作与效果之后只推进活动宠物 CD，并以 `runtimeKey + actionToken` 拒绝旧 damage/animation event；HP0 进入 `dead-playing`，仅匹配 `dead-complete` 释放。Monkey/Horse 8 形态结构钩子使 `pet P1/P1B=0`，但该 gate 不证明正式消费者、自主攻击、动画命中或伤害闭环；M-042 与 VS-067 仍为部分复现。
+
+2026-08-25 用户正式运行反证：现代 `PetCombatRuntime` 尚无 Scene/正式消费者，Monkey/Horse `basicAttack` 只发事件，没有真动画、命中和伤害链。后续改为 `TASK-SETTINGS-207 -> TASK-SLICE-208` 先完整闭合 monkey1..4，再从完整案例沉淀并以第二家族验证 `$pet-family-reverse`；旧 204C..G/193E..R 不再执行。
+
+2026-08-26 `TASK-SETTINGS-207` 补齐 M-032/M-034/M-035/M-042 的猴系原版交叉证据：`task-settings-207.pet-monkey-family` 将 BasePet 更新/索敌/CD、monkey1..4 全技能和伤害公式、BaseBullet 命中、193A 的 626 状态视觉、StageCommon 三套碰撞、owner/load precedence、死亡销毁与 P1/P2 生命周期冻结为 41 项 P1R 同集合同，`unresolved=[]`。现代状态仍为部分复现；`PetCombatRuntime` 无正式消费者、basicAttack 无命中伤害、monkey4 受击 lj 与 jgaoyi 五段链缺失均由 208 关闭。
 
 2026-08-25 `BasePet` 逆向前置纠正：用户指出原版宠物公共类应先审计 AS3 属性、继承、生命周期和具体类覆写，再据此裁决现代设计。现有 `pets-index.md` 已记录创建链、基础行为和技能事实，但没有完整继承树、字段/owner、公共方法/覆写矩阵与“原版职责→现代 owner”证据链。新增代码逆向 `TASK-SETTINGS-205` 为唯一 Ready；204B 暂回 Planned，205 后先生成现代宠物系统设计调整/确认 task，不得把 Monkey/Horse 已实现状态外推成原版分类事实。M-042 与 VS-067 状态不提升。
 

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pet-family-ground-truth.schema.json",
+  "title": "RegiMA pet family ground truth",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "truthId",
+    "status",
+    "taskId",
+    "sources",
+    "visualTruth",
+    "owners",
+    "sharedRuntime",
+    "forms",
+    "collisionProfiles",
+    "playerLifecycle",
+    "modernConsumers",
+    "contractMatrix",
+    "p1rAcceptance",
+    "completeness"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "truthId": { "const": "task-settings-207.pet-monkey-family" },
+    "status": { "const": "verified" },
+    "taskId": { "const": "TASK-SETTINGS-207" },
+    "sources": { "type": "array", "minItems": 9 },
+    "visualTruth": { "type": "object" },
+    "owners": { "type": "array", "minItems": 4, "maxItems": 4 },
+    "sharedRuntime": { "type": "object" },
+    "forms": { "type": "array", "minItems": 4, "maxItems": 4 },
+    "collisionProfiles": { "type": "array", "minItems": 3, "maxItems": 3 },
+    "playerLifecycle": { "type": "object" },
+    "modernConsumers": { "type": "array", "minItems": 8 },
+    "contractMatrix": { "type": "array", "minItems": 41, "maxItems": 41 },
+    "p1rAcceptance": { "type": "object" },
+    "completeness": {
+      "type": "object",
+      "required": ["declaredContractIds", "manifestContractIds", "p1rContractIds", "unresolved"],
+      "properties": {
+        "declaredContractIds": { "type": "array", "minItems": 30, "uniqueItems": true },
+        "manifestContractIds": { "type": "array", "minItems": 30, "uniqueItems": true },
+        "p1rContractIds": { "type": "array", "minItems": 30, "uniqueItems": true },
+        "unresolved": { "type": "array", "maxItems": 0 }
+      }
+    }
+  },
+  "additionalProperties": false
+}
