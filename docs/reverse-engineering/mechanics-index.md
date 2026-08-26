@@ -112,6 +112,8 @@
 
 2026-08-26 `TASK-SETTINGS-207` 补齐 M-032/M-034/M-035/M-042 的猴系原版交叉证据：`task-settings-207.pet-monkey-family` 将 BasePet 更新/索敌/CD、monkey1..4 全技能和伤害公式、BaseBullet 命中、193A 的 626 状态视觉、StageCommon 三套碰撞、owner/load precedence、死亡销毁与 P1/P2 生命周期冻结为 41 项 P1R 同集合同，`unresolved=[]`。现代状态仍为部分复现；`PetCombatRuntime` 无正式消费者、basicAttack 无命中伤害、monkey4 受击 lj 与 jgaoyi 五段链缺失均由 208 关闭。
 
+2026-08-26 `TASK-SLICE-208` 完成 M-032/M-034/M-035/M-042 的首个完整家族运行样本：P1/P2 公共桥各自拥有 `PetCombatRuntime`，monkey1..4 真普通攻击与全部技能按 verified hit frame 进入 Stage1 伤害/attack-id dedup，真动画、受击 lj、jgaoyi 五段链、死亡完成、换宠/休息/重试/返回均同源；`pet P1R=0`。这只提升猴系正式复现，不外推其余家族。
+
 2026-08-25 `BasePet` 逆向前置纠正：用户指出原版宠物公共类应先审计 AS3 属性、继承、生命周期和具体类覆写，再据此裁决现代设计。现有 `pets-index.md` 已记录创建链、基础行为和技能事实，但没有完整继承树、字段/owner、公共方法/覆写矩阵与“原版职责→现代 owner”证据链。新增代码逆向 `TASK-SETTINGS-205` 为唯一 Ready；204B 暂回 Planned，205 后先生成现代宠物系统设计调整/确认 task，不得把 Monkey/Horse 已实现状态外推成原版分类事实。M-042 与 VS-067 状态不提升。
 
 2026-08-25 `TASK-SETTINGS-205` 原版 `BasePet` 专项已闭合：`pet-base-class.md` 以 `[172845]` 可读主类和 `[25034429]` 混淆副本的 35/35 继承/override/function 结构一致性为双源，确认 33 个具体类直继承 `BasePet`、仅 `PetMouse2/3 -> PetMouse1`；冻结 `PetInfo` 数据 owner、`BaseHero` 活动实体 owner、BasePet 字段/活动实例时钟、ordered-first/1200 索敌、技能 1→4、AI 先于 CD 递减、hurt/dead/frame-over/destroy 及 P1/P2/联机回放合同。猴/马 warp、hurt/dead 与 193A/193C verified 真值一致，其余七族视觉细节不外推。现代审计判定 nearest、全 roster CD、HP 归零立即卸载与证据冲突，Behavior 也缺受击/移动/动画命中/私有清理接缝；M-042/VS-067 状态仍不提升，唯一 Ready 切到 `TASK-ARCH-206` 先修订/确认唯一宠物设计和 gate。

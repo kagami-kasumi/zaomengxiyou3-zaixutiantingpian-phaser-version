@@ -10,7 +10,7 @@ import type { HeroId } from './HeroNormalAttackSystem';
 import type { EquipmentLoadout } from './EquipmentSystem';
 import type { HeroProgressionModel } from './ProgressionSystem';
 import { updateHeroCombat } from './HeroCombatSystem';
-import { createProjectileSystem, updateProjectiles } from './ProjectileSystem';
+import { createProjectileSystem, updateProjectiles, type ProjectileSourceSnapshot } from './ProjectileSystem';
 import {
   isRole5LoongSwordProjectileAttack,
   resolveRole5LoongSwordProjectileHits,
@@ -56,6 +56,7 @@ export type HeroPartyFrame = Readonly<{
   environmentFor: (index: number, movement: HeroMovementModel) => LevelHeroEnvironmentSnapshot;
   monsterTargets?: readonly Stage1CombatEnemy[];
   random?: () => number;
+  projectileSources?: readonly ProjectileSourceSnapshot[];
 }>;
 
 export type HeroRuntimeSnapshot = Readonly<{
@@ -164,12 +165,12 @@ export function updateHeroPartyRuntime(
   });
   updateProjectiles(
     runtime.projectiles,
-    runtime.members.map((member) => ({
+    [...runtime.members.map((member): ProjectileSourceSnapshot => ({
       id: member.combat.combat.id,
       state: member.combat.combat.state === 'dead'
         ? 'dead'
         : member.combat.combat.state === 'hurt' ? 'hurt' : 'ready',
-    })),
+    })), ...(frame.projectileSources ?? [])],
     frame.deltaMs,
   );
 }

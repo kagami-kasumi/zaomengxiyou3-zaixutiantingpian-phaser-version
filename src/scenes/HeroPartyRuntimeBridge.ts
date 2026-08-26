@@ -36,6 +36,11 @@ import {
 } from '../systems/Stage1CombatHudSystem';
 import { getActivePet } from '../systems/PetRosterSystem';
 import type { PetRoster } from '../systems/PetTypes';
+import type { PetSkillTarget } from '../systems/PetTypes';
+import type { ProjectileSystemModel } from '../systems/ProjectileSystem';
+import { PetCombatRuntime, type PetCombatSnapshot } from '../systems/PetCombatRuntime';
+import type { PetCombatAnimationEvent } from '../systems/PetBehavior';
+import { resolveFormalPetMonkeyProjectileHits } from '../systems/PetMonkeyCombatSystem';
 import {
   FormalSkillsUpdatedEvent,
   readFormalSkillRuntime,
@@ -60,6 +65,13 @@ export type HeroPartyRuntime = Readonly<{
   applyEnvironmentHits: (hits: readonly HeroPartyEnvironmentHit[]) => void;
   resolveAttacks: (monsterTargets: readonly Stage1CombatEnemy[], timeMs: number) => void;
   resolveEnemyAttack: (enemy: Stage1CombatEnemy, timeMs: number) => void;
+  updatePets: (frame: Readonly<{
+    targets: readonly PetSkillTarget[];
+    projectiles: ProjectileSystemModel;
+    timeMs: number;
+    deltaMs: number;
+    random?: () => number;
+  }>) => void;
   snapshots: () => readonly HeroPartyViewSnapshot[];
   hudSnapshots: () => readonly ReturnType<typeof createStage1CombatPlayerHudSnapshot>[];
   rewardPlayers: () => readonly Readonly<{
@@ -137,11 +149,17 @@ export function createHeroPartyRuntime(
   const role1ShadowViews = new Map<string, Role1ShadowView>();
   const formalPetMonkeyBodies = scene.scene.key === 'TestScene'
     ? undefined
-    : createFormalPetMonkeyBodyBridge(scene, (slot) => petRosters[slot]);
+    : createFormalPetMonkeyBodyBridge(scene);
   const formalPetHorseBodies = scene.scene.key === 'TestScene'
     ? undefined
     : createFormalPetHorseBodyBridge(scene, (slot) => petRosters[slot]);
   let destroyed = false;
+  const petCombatRuntimes = {
+    p1: new PetCombatRuntime(),
+    p2: new PetCombatRuntime(),
+  };
+  const petCombatSnapshots: Partial<Record<'p1' | 'p2', PetCombatSnapshot>> = {};
+  const pendingPetAnimationEvents: Partial<Record<'p1' | 'p2', PetCombatAnimationEvent[]>> = {};
 
   const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
     setHeroPartySkillLoadout(model, payload.owner, payload.skillLoadout);
@@ -182,13 +200,17 @@ export function createHeroPartyRuntime(
           : []),
       views: role1ShadowViews,
     });
-    formalPetMonkeyBodies?.update(model.members.map((member) => ({
+    const emittedAnimationEvents = formalPetMonkeyBodies?.update(model.members.map((member) => ({
       slot: member.combat.slot,
-      x: member.movement.x,
-      y: member.movement.y,
-      facingX: member.movement.facingX,
-      dead: member.combat.combat.state === 'dead',
-    })), timeMs);
+      pet: getActivePet(petRosters[member.combat.slot] ?? { pets: [], selectedIndex: 0, message: '' }),
+      snapshot: petCombatSnapshots[member.combat.slot] ?? { destroyed: false },
+    })), model.projectiles.projectiles, timeMs) ?? [];
+    for (const event of emittedAnimationEvents) {
+      const slot = model.members.find((member) => (
+        petCombatSnapshots[member.combat.slot]?.runtime?.runtimeKey === event.runtimeKey
+      ))?.combat.slot;
+      if (slot) pendingPetAnimationEvents[slot] = [...(pendingPetAnimationEvents[slot] ?? []), event];
+    }
     formalPetHorseBodies?.update(model.members.map((member) => ({
       slot: member.combat.slot,
       x: member.movement.x,
@@ -218,7 +240,23 @@ export function createHeroPartyRuntime(
   const runtime: HeroPartyRuntime = {
     update: (frame) => {
       if (destroyed) return;
-      updateHeroPartyRuntime(model, frame);
+      const activePetSources = (['p1', 'p2'] as const).flatMap((slot) => {
+        const pet = getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' });
+        return pet ? [{ id: pet.id, state: pet.hp <= 0 ? 'dead' as const : 'ready' as const }] : [];
+      });
+      updateHeroPartyRuntime(model, { ...frame, projectileSources: activePetSources });
+      updatePets({
+        targets: (frame.monsterTargets ?? []).map((target) => ({
+          id: target.id,
+          x: target.x,
+          y: target.y,
+          isAlive: target.phase !== 'dead',
+        })),
+        projectiles: model.projectiles,
+        timeMs: frame.timeMs,
+        deltaMs: frame.deltaMs,
+        random: frame.random,
+      });
       syncVisuals(frame.timeMs);
     },
     updateMovement: (frame) => updateHeroPartyMovement(model, frame),
@@ -233,7 +271,18 @@ export function createHeroPartyRuntime(
         syncFallbackFeedback(view, member.combat);
       });
     },
-    resolveAttacks: (monsterTargets, timeMs) => resolveHeroPartyAttacks(model, monsterTargets, timeMs),
+    resolveAttacks: (monsterTargets, timeMs) => {
+      resolveHeroPartyAttacks(model, monsterTargets, timeMs);
+      resolveFormalPetMonkeyProjectileHits({
+        projectiles: model.projectiles,
+        combat: model.combat,
+        enemies: monsterTargets,
+        ownerSlotForPet: (petId) => (['p1', 'p2'] as const).find((slot) => (
+          getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' })?.id === petId
+        )),
+        timeMs,
+      });
+    },
     resolveEnemyAttack: (enemy, timeMs) => {
       resolveHeroPartyEnemyAttack(model, enemy, timeMs);
       model.members.forEach((member, index) => {
@@ -254,6 +303,7 @@ export function createHeroPartyRuntime(
       combat: member.combat,
     })),
     compatibilityMembers: () => model.members,
+    updatePets,
     destroy: () => {
       if (destroyed) return;
       destroyed = true;
@@ -265,6 +315,8 @@ export function createHeroPartyRuntime(
       destroyRole1ShadowVisualViews(role1ShadowViews);
       formalPetMonkeyBodies?.destroy();
       formalPetHorseBodies?.destroy();
+      petCombatRuntimes.p1.destroy();
+      petCombatRuntimes.p2.destroy();
       if (role1ShadowQa) delete scene.game.canvas.dataset.formalRole1ShadowQa;
       destroyHeroPartyRuntime(model);
       heroPartyRuntimeByScene.delete(scene);
@@ -272,6 +324,39 @@ export function createHeroPartyRuntime(
   };
   heroPartyRuntimeByScene.set(scene, runtime);
   return runtime;
+
+  function updatePets(frame: Readonly<{
+    targets: readonly PetSkillTarget[];
+    projectiles: ProjectileSystemModel;
+    timeMs: number;
+    deltaMs: number;
+    random?: () => number;
+  }>): void {
+    for (const member of model.members) {
+      const slot = member.combat.slot;
+      const roster = petRosters[slot];
+      if (!roster || member.combat.combat.state === 'dead') {
+        petCombatSnapshots[slot] = petCombatRuntimes[slot].update({
+          roster: roster ?? { pets: [], selectedIndex: 0, message: '' },
+          owner: { x: member.movement.x, y: member.movement.y, facingX: member.movement.facingX },
+          targets: [],
+          projectiles: frame.projectiles,
+          deltaMs: frame.deltaMs,
+        });
+        continue;
+      }
+      petCombatSnapshots[slot] = petCombatRuntimes[slot].update({
+        roster,
+        owner: { x: member.movement.x, y: member.movement.y, facingX: member.movement.facingX },
+        targets: frame.targets,
+        projectiles: frame.projectiles,
+        random: frame.random,
+        animationEvents: pendingPetAnimationEvents[slot],
+        deltaMs: frame.deltaMs,
+      });
+      pendingPetAnimationEvents[slot] = [];
+    }
+  }
 }
 
 function syncFallbackFeedback(

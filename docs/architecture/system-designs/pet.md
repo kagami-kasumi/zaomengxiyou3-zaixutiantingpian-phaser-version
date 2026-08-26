@@ -94,7 +94,7 @@
 | --- | --- | --- | --- |
 | P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `0`：结构 gate 已通过；不证明 Scene/正式消费者或玩家可见自主战斗 |
 | P1B | 204B | Monkey/Horse 8 形态适配结构钩子且不复制 Runtime | `0`：结构 gate 已通过；`basicAttack` 仍可能只有事件，不证明动画、命中与伤害闭环 |
-| P1R | 208（207 先冻结机器合同） | Monkey1..4 完整自主战斗、真实普通攻击/全部技能、真动画、命中/伤害、P1/P2 TestScene/五关 owner 与生命周期 | `1`：Runtime 无 Scene/正式消费者，basic attack 无真实伤害/动画链 |
+| P1R | 208（207 先冻结机器合同） | Monkey1..4 完整自主战斗、真实普通攻击/全部技能、真动画、命中/伤害、P1/P2 TestScene/五关 owner 与生命周期 | `0`：公共桥拥有 P1/P2 Runtime，真普攻/全部技能进入动画→命中→伤害→清理链，正式运行通过 |
 | P1C/P1D | 208 后逐族生成 | 其余家族不得只登记 Behavior；每个家族都复用完整证据→正式运行合同 | `1`：其余家族未完整闭合；旧 204C/204D 撤销 |
 | P2/P3 | 208 后逐族推进 | TestScene、五关和功能页消费者随每个家族同批闭合，不再最后集中迁移 | `1`：当前无新 Runtime 正式消费者；旧 204E/204F 撤销 |
 | P4/all | 全部家族完成后生成 | Scene/barrel/旧 Runtime/重复 helper 清零并执行全部正式回归 | `1`：兼容入口仍存在 |
@@ -118,6 +118,7 @@
 | 2026-08-25 / 206 | 设计证据校正 | `pet P1/P1B/P1C/P1D/P2/P3/P4/all` 均为 1（真实失败基线） | 唯一设计已冻结；从 204B 开始实施 |
 | 2026-08-25 / 204B | 公共 Runtime + Monkey/Horse 结构接缝 | `pet P1=0`、`pet P1B=0`；专项合同、全系统、build、LSP 通过 | 仅结构通过；用户运行看不到自主攻击，玩家可见/正式消费者结论降级，禁止据此扩族 |
 | 2026-08-25 / 用户反证重排 | 完整家族与 Skill 成熟度 | LSP 仅找到 Runtime 声明；`basicAttack` 只发事件；旧 204C..G/193E..R 横向批次已撤销 | 新增 P1R；207/208 先完整闭合猴系，Skill 仅在 208 通过后重写 |
+| 2026-08-26 / 208 | Monkey1..4 完整正式复现 | `pet P1R=0`；家族专项、全系统、build、正式 P1/P2 940×590 与零 console 通过 | 首个完整参考家族成立；设计继续实施中，209 起以马系验证 Skill，其他 gate 仍保持 1 |
 
 ## 反证与重开
 

@@ -4,16 +4,16 @@
 
 ## 当前推荐
 
-`TASK-SLICE-208` 是唯一 Ready 游戏 task。207 已以 `task-settings-207.pet-monkey-family` 闭合 monkey1..4 的 41 项原版合同、三套碰撞真值、现代消费者反证与 P1R 输入，`unresolved=[]`。当前直接消费该真值完成猴系正式 P1/P2 自主战斗。
+`TASK-SETTINGS-209` 是唯一 Ready 游戏 task。207/208 已完成 monkey1..4 从 41 项 verified 原版合同到正式 P1/P2 自主战斗的首个完整家族闭环，`pet P1R=0`。当前用更新后的 `$pet-family-reverse` 验证第二家族 horse1..4 的完整证据合同；正式实现将在 209 产出后单独生成。
 
-现有 `$pet-family-reverse` 降级为未验证草案，旧 193E..R 的“视觉证据→动画实现”批次全部撤销，不再强制使用。207 完成猴系完整逆向但不更新 Skill；208 完成猴系正式自主战斗和 P1/P2 运行闭环后，才从该完整案例复盘并使用 `$skill-creator` 重写 Skill。之后每次只为一个家族生成完整连续任务。
+`$pet-family-reverse` 已由 208 的完整猴系案例重写为“单家族已证明、第二家族待验证”；旧 193E..R 的横向批次仍保持撤销。209 只处理马系完整证据，不预写第三家族，也不把 Skill 宣告为九族已采纳规则。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以一个完整参考家族证明逆向、Runtime、正式消费者和 Skill 沉淀链，再逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 207/208 先闭合猴系；后续任务只由已验证 Skill 逐族生成 | TASK-SLICE-208 | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-SLICE-208 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 猴系完整正式复现与 Skill 沉淀 | 四形态正式自主战斗、真普通攻击/技能/动画/伤害、P1/P2 五关生命周期全部闭合后才重写 Skill | M-032、M-034、M-035、M-042、M-044、VS-012、VS-067 | pet P1R=0、正式运行闭环、完整案例复盘与经验证 `$pet-family-reverse` | 依据验证后的 Skill 生成下一个单一家族完整任务 | [定义](task-definitions/TASK-SLICE-208.md) |
+| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 207/208 已闭合猴系；209 开始第二家族验证 | TASK-SETTINGS-209 | [定义](task-definitions/TASK-ARCH-204.md) |
+| TASK-SETTINGS-209 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 马系完整家族证据与 Skill 第二样本 | 在既有 193C 真视觉基础上闭合 horse1..4 普攻、全部技能/冰冻/奥义、命中伤害、owner 与 P1/P2 生命周期同集合同 | M-032、M-034、M-035、M-042、M-044、VS-067 | verified 马系完整真值、实施合同、MO-003 第二样本前半程 | 依据 209 verified 合同生成马系正式复现 task | [定义](task-definitions/TASK-SETTINGS-209.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在 207/208 及后续逐个生成的完整家族任务全部完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |
 | TASK-SETTINGS-195 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色动作完整性/流畅度审计 | 比较五角色原 SWF 与现代帧时序、持帧、转移、clock、解包/加载/投影完整性并确定根因 | M-018..M-025、M-035、M-047、VS-068 | 可重现跨角色差异矩阵、根因分类、每受影响角色修复子 task | 执行所有生成的单角色子 task，然后 TASK-SLICE-196 | [定义](task-definitions/TASK-SETTINGS-195.md) |
 | TASK-SLICE-196 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色统一校准 | 统一复验五角色 UI/本体/普攻/技能动作流畅度与正式 Runtime 转移 | M-018..M-025、M-047、M-049、VS-068 | 五角色同标准自动对账、940×590 动作对照与无未解释卡顿 | TASK-SETTINGS-197 | [定义](task-definitions/TASK-SLICE-196.md) |

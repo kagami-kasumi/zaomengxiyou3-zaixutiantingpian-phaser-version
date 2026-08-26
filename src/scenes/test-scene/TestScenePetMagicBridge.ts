@@ -153,6 +153,13 @@ function updatePetSystemForOwner(this: any, delta: number): void {
     owner.skill.maxMp = petAutoBuffOwnerStats.maxMp;
     owner.baseStats.power = petAutoBuffOwnerStats.power;
     owner.baseStats.defense = petAutoBuffOwnerStats.defense;
+    // Monkey autonomous combat is owned by HeroPartyRuntime.updatePets for both
+    // TestScene and formal levels. Keep this bridge only as the legacy view and
+    // non-monkey compatibility adapter until the remaining families migrate.
+    if (activePet.species === 'monkey') {
+      this.syncPetView(activePet);
+      return;
+    }
     updatePetSkillState(this.petRoster, delta);
     if (updateAdvancedPetSkillChains(this, activePet, petAutoBuffOwnerStats, delta)) {
       owner.combat.hp = petAutoBuffOwnerStats.hp;

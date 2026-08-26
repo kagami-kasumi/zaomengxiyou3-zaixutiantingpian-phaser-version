@@ -63,6 +63,7 @@
     "test:formal-skills": "node tools/run-system-tests.mjs formal-skill-tests",
     "test:formal-pets": "node tools/run-system-tests.mjs formal-pet-tests",
     "test:formal-pet-journey": "node tools/run-system-tests.mjs formal-pet-journey-tests",
+    "test:pet-monkey-family": "node tools/run-system-tests.mjs pet-monkey-family-runtime-tests pet-monkey-animation-runtime-tests",
     "test:formal-workshop-host": "node tools/run-system-tests.mjs formal-workshop-host-tests",
     "test:formal-workshop-grid": "node tools/run-system-tests.mjs formal-workshop-inventory-grid-tests",
     "test:formal-workshop-left-native": "node tools/run-system-tests.mjs formal-workshop-native-left-page-tests",

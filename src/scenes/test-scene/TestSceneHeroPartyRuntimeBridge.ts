@@ -140,6 +140,12 @@ export function createTestSceneHeroPartyRuntime(
       });
     },
     updateNormalAttacks: (input, previousInput, timeMs, compatibility) => {
+      runtime.updatePets({
+        targets: scene.createPetSkillTargets(),
+        projectiles: compatibility.projectileSystem,
+        timeMs,
+        deltaMs: scene.game.loop.delta,
+      });
       for (const player of players) {
         if (isHeroCombatDead(player.combat)) continue;
         if (isRole3SspComboRequested({

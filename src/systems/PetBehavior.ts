@@ -50,7 +50,11 @@ export type PetBehaviorContext = Readonly<{
   targets: readonly Readonly<PetSkillTarget>[];
   target?: Readonly<PetSkillTarget>;
   deltaMs: number;
+  random: () => number;
   castSkill: (request: PetBehaviorSkillRequest) => PetSkillCastResult;
+  castSkillAt: (request: PetBehaviorSkillRequest, target: Readonly<PetSkillTarget>) => PetSkillCastResult;
+  castBasicAttack: () => PetSkillCastResult;
+  relocate: (x: number, y: number) => void;
   emit: (event: PetBehaviorEvent) => void;
 }>;
 

@@ -188,6 +188,41 @@ const contracts = {
       forbidAcross([runtime, monkey, horse, registry], [['Phaser dependency', /from\s+['"]phaser['"]|Phaser\./u]], errors);
       requireTest('pet-combat-runtime-design-tests', tests, errors);
     },
+    P1R(errors, tests) {
+      const runtime = 'src/systems/PetCombatRuntime.ts';
+      const monkey = 'src/systems/pet-behaviors/MonkeyPetBehavior.ts';
+      const combat = 'src/systems/PetMonkeyCombatSystem.ts';
+      const formal = 'src/scenes/HeroPartyRuntimeBridge.ts';
+      const body = 'src/scenes/FormalPetMonkeyBodyBridge.ts';
+      const testScene = 'src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts';
+      requireFiles([runtime, monkey, combat, formal, body, testScene], errors);
+      requireMatches(runtime, [
+        ['true monkey basic attack port', /requestPetMonkeyBasicAttack\s*\(/u],
+        ['animation completion input', /animationEvents/u],
+      ], errors);
+      requireMatches(monkey, [
+        ['two-roll normal branch', /random\(\)\s*<=\s*0\.7[\s\S]*random\(\)\s*<\s*0\.3/u],
+        ['form4 inherited action priority', /case\s+4:[\s\S]*monkey3-lyq[\s\S]*monkey3-xj[\s\S]*monkey3-lj[\s\S]*monkey4-jgaoyi/u],
+        ['form4 hurt release', /this\.form\s*===\s*4[\s\S]*monkey3Lj\.releaseReady\s*=\s*true/u],
+      ], errors);
+      requireMatches(combat, [
+        ['verified collision dimensions', /31\.05[\s\S]*35[\s\S]*49\.95/u],
+        ['attack-id deduplicated formal damage', /getProjectileAttackId[\s\S]*resolveStage1PetHit/u],
+        ['P1/P2 damage ownership port', /ownerSlotForPet/u],
+      ], errors);
+      requireMatches(formal, [
+        ['dual public pet runtimes', /p1:\s*new PetCombatRuntime\(\)[\s\S]*p2:\s*new PetCombatRuntime\(\)/u],
+        ['formal monkey hit resolution', /resolveFormalPetMonkeyProjectileHits\s*\(/u],
+        ['formal animation feedback queue', /pendingPetAnimationEvents/u],
+      ], errors);
+      requireMatches(testScene, [['shared TestScene updatePets entry', /runtime\.updatePets\s*\(/u]], errors);
+      forbidMatches(body, [['legacy PetRuntimeSystem dependency', /PetRuntimeSystem/u]], errors);
+      requireTest('pet-combat-runtime-design-tests', tests, errors);
+      requireTest('pet-monkey-family-runtime-tests', tests, errors);
+      requireTest('pet-monkey-animation-runtime-tests', tests, errors);
+      requireTest('formal-pet-tests', tests, errors);
+      requireTest('formal-pet-journey-tests', tests, errors);
+    },
     P1C(errors, tests) {
       const behaviors = ['Dragon', 'Turtle', 'Ufo'].map((name) => (
         `src/systems/pet-behaviors/${name}PetBehavior.ts`

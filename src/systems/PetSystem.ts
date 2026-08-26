@@ -346,6 +346,7 @@ export function requestPetMonkey3LyqSkill(params: {
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
   random?: PetSkillRandomSource;
+  chainCast?: boolean;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -353,7 +354,7 @@ export function requestPetMonkey3LyqSkill(params: {
   }
 
   const state = ensurePetSkillState(pet);
-  if (pet.species !== 'monkey' || pet.form !== 3) {
+  if (pet.species !== 'monkey' || (pet.form !== 3 && pet.form !== 4)) {
     return setPetSkillFailure(params.roster, `${pet.displayName} is not monkey3`, pet);
   }
 
@@ -361,11 +362,11 @@ export function requestPetMonkey3LyqSkill(params: {
     return setPetSkillFailure(params.roster, `${pet.displayName} has not learned lyq`, pet);
   }
 
-  if (pet.mp < PetTuning.monkey3LyqMpCost) {
+  if (!params.chainCast && pet.mp < PetTuning.monkey3LyqMpCost) {
     return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for lyq`, pet);
   }
 
-  if (state.monkey3Lyq.cooldownMs > 0) {
+  if (!params.chainCast && state.monkey3Lyq.cooldownMs > 0) {
     return setPetSkillFailure(params.roster, `${pet.displayName} lyq cooling ${Math.ceil(state.monkey3Lyq.cooldownMs)}ms`, pet);
   }
 
@@ -375,14 +376,16 @@ export function requestPetMonkey3LyqSkill(params: {
   }
 
   const distance = getPetSkillDistance(params.runtime, target);
-  if (distance > PetTuning.monkey3LyqMaxDistance) {
+  if (!params.chainCast && distance > PetTuning.monkey3LyqMaxDistance) {
     return setPetSkillFailure(params.roster, `${pet.displayName} lyq target too far ${Math.ceil(distance)}`, pet);
   }
 
   const mpBefore = pet.mp;
   const damage = calculatePetSkillDamage(pet, PetTuning.monkey3LyqDamageMultiplier, params.random);
-  pet.mp = Math.max(0, pet.mp - PetTuning.monkey3LyqMpCost);
-  state.monkey3Lyq.cooldownMs = PetTuning.monkey3LyqCooldownMs;
+  if (!params.chainCast) {
+    pet.mp = Math.max(0, pet.mp - PetTuning.monkey3LyqMpCost);
+    state.monkey3Lyq.cooldownMs = PetTuning.monkey3LyqCooldownMs;
+  }
 
   const projectile = spawnPetMonkey3LyqProjectile(params.projectiles, {
     sourceId: pet.id,
@@ -412,6 +415,7 @@ export function requestPetMonkey3XjSkill(params: {
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
   random?: PetSkillRandomSource;
+  chainCast?: boolean;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -419,7 +423,7 @@ export function requestPetMonkey3XjSkill(params: {
   }
 
   const state = ensurePetSkillState(pet);
-  if (pet.species !== 'monkey' || pet.form !== 3) {
+  if (pet.species !== 'monkey' || (pet.form !== 3 && pet.form !== 4)) {
     return setPetSkillFailure(params.roster, `${pet.displayName} is not monkey3`, pet);
   }
 
@@ -427,11 +431,11 @@ export function requestPetMonkey3XjSkill(params: {
     return setPetSkillFailure(params.roster, `${pet.displayName} has not learned xj`, pet);
   }
 
-  if (pet.mp < PetTuning.monkey3XjMpCost) {
+  if (!params.chainCast && pet.mp < PetTuning.monkey3XjMpCost) {
     return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for xj`, pet);
   }
 
-  if (state.monkey3Xj.cooldownMs > 0) {
+  if (!params.chainCast && state.monkey3Xj.cooldownMs > 0) {
     return setPetSkillFailure(params.roster, `${pet.displayName} xj cooling ${Math.ceil(state.monkey3Xj.cooldownMs)}ms`, pet);
   }
 
@@ -442,8 +446,10 @@ export function requestPetMonkey3XjSkill(params: {
 
   const mpBefore = pet.mp;
   const damage = calculatePetSkillDamage(pet, PetTuning.monkey3XjDamageMultiplier, params.random);
-  pet.mp = Math.max(0, pet.mp - PetTuning.monkey3XjMpCost);
-  state.monkey3Xj.cooldownMs = PetTuning.monkey3XjCooldownMs;
+  if (!params.chainCast) {
+    pet.mp = Math.max(0, pet.mp - PetTuning.monkey3XjMpCost);
+    state.monkey3Xj.cooldownMs = PetTuning.monkey3XjCooldownMs;
+  }
 
   const projectile = spawnPetMonkey3XjProjectile(params.projectiles, {
     sourceId: pet.id,
@@ -473,6 +479,7 @@ export function requestPetMonkey3LjSkill(params: {
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
   random?: PetSkillRandomSource;
+  chainCast?: boolean;
 }): PetSkillCastResult {
   const pet = getActivePet(params.roster);
   if (!pet) {
@@ -480,7 +487,7 @@ export function requestPetMonkey3LjSkill(params: {
   }
 
   const state = ensurePetSkillState(pet);
-  if (pet.species !== 'monkey' || pet.form !== 3) {
+  if (pet.species !== 'monkey' || (pet.form !== 3 && pet.form !== 4)) {
     return setPetSkillFailure(params.roster, `${pet.displayName} is not monkey3`, pet);
   }
 
@@ -488,15 +495,15 @@ export function requestPetMonkey3LjSkill(params: {
     return setPetSkillFailure(params.roster, `${pet.displayName} has not learned lj`, pet);
   }
 
-  if (pet.mp < PetTuning.monkey3LjMpCost) {
+  if (!params.chainCast && pet.mp < PetTuning.monkey3LjMpCost) {
     return setPetSkillFailure(params.roster, `${pet.displayName} MP not enough for lj`, pet);
   }
 
-  if (!state.monkey3Lj.releaseReady) {
+  if (!params.chainCast && !state.monkey3Lj.releaseReady) {
     return setPetSkillFailure(params.roster, `${pet.displayName} lj trigger not ready`, pet);
   }
 
-  if (state.monkey3Lj.cooldownMs > 0) {
+  if (!params.chainCast && state.monkey3Lj.cooldownMs > 0) {
     return setPetSkillFailure(params.roster, `${pet.displayName} lj cooling ${Math.ceil(state.monkey3Lj.cooldownMs)}ms`, pet);
   }
 
@@ -507,9 +514,13 @@ export function requestPetMonkey3LjSkill(params: {
 
   const mpBefore = pet.mp;
   const damage = calculatePetSkillDamage(pet, PetTuning.monkey3LjDamageMultiplier, params.random);
-  pet.mp = Math.max(0, pet.mp - PetTuning.monkey3LjMpCost);
-  state.monkey3Lj.releaseReady = false;
-  state.monkey3Lj.cooldownMs = PetTuning.monkey3LjCooldownMs;
+  if (!params.chainCast) {
+    pet.mp = Math.max(0, pet.mp - PetTuning.monkey3LjMpCost);
+    state.monkey3Lj.releaseReady = false;
+    state.monkey3Lj.cooldownMs = pet.form === 4
+      ? PetTuning.monkey4LjCooldownMs
+      : PetTuning.monkey3LjCooldownMs;
+  }
 
   const projectile = spawnPetMonkey3LjProjectile(params.projectiles, {
     sourceId: pet.id,
@@ -1261,6 +1272,4 @@ function getPetSkillFacing(
   }
   return target.x < runtime.x ? -1 : 1;
 }
-
-
 

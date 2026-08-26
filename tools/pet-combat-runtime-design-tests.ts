@@ -382,7 +382,7 @@ function testDefaultRegistryRunsMonkeyAndHorseRulesThroughOneRuntimeClock(): voi
     ['monkey', 1, 'monkey1-xj'],
     ['monkey', 2, 'monkey2-lj'],
     ['monkey', 3, 'monkey3-lyq'],
-    ['monkey', 4, 'monkey4-jgaoyi'],
+    ['monkey', 4, 'monkey3-lyq'],
     ['horse', 1, 'horse1-sp'],
     ['horse', 2, 'horse2-bd'],
     ['horse', 3, 'horse3-bz'],

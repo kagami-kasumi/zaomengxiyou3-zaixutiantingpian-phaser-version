@@ -39,6 +39,10 @@ const requestByAction: Readonly<Record<MonkeyActionType, PetBehaviorSkillRequest
 };
 
 export class MonkeyPetBehavior implements PetBehavior {
+  private normalBranchRemainingMs = 0;
+  private jgaoyiRemaining = 0;
+  private jgaoyiStepRemainingMs = 0;
+
   constructor(private readonly form: MonkeyPetForm) {}
 
   enter(context: PetBehaviorContext): void {
@@ -48,11 +52,12 @@ export class MonkeyPetBehavior implements PetBehavior {
   }
 
   canMove(_context: PetBehaviorContext): boolean {
-    return true;
+    return this.jgaoyiRemaining === 0;
   }
 
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined {
     if (!context.target) return undefined;
+    if (this.jgaoyiRemaining > 0) return undefined;
     const state = context.pet.skillState;
     switch (this.form) {
       case 1:
@@ -71,22 +76,46 @@ export class MonkeyPetBehavior implements PetBehavior {
           ? { type: 'monkey3-lj' }
           : undefined;
       case 4:
-        return cooldownReady(state?.monkey4Jgaoyi.cooldownMs) ? { type: 'monkey4-jgaoyi' } : undefined;
+        if (cooldownReady(state?.monkey3Lyq.cooldownMs)) return { type: 'monkey3-lyq' };
+        if (cooldownReady(state?.monkey3Xj.cooldownMs)) return { type: 'monkey3-xj' };
+        if (state?.monkey3Lj.releaseReady && cooldownReady(state.monkey3Lj.cooldownMs)) {
+          return { type: 'monkey3-lj' };
+        }
+        return cooldownReady(state?.monkey4Jgaoyi.cooldownMs)
+          ? { type: 'monkey4-jgaoyi' }
+          : undefined;
     }
   }
 
   basicAttack(context: PetBehaviorContext): PetBehaviorAction | undefined {
-    return context.target ? { type: 'basic-attack' } : undefined;
+    if (!context.target || this.normalBranchRemainingMs > 0) return undefined;
+    this.normalBranchRemainingMs = 1_000;
+    if (context.random() <= 0.7) return { type: 'basic-attack' };
+    context.emit({ type: context.random() < 0.3 ? 'wait' : 'chase' });
+    return undefined;
   }
 
   executeAction(action: PetBehaviorAction, context: PetBehaviorContext): void {
     if (action.type === 'basic-attack') {
-      context.emit({ type: 'basic-attack', payload: { targetId: context.target?.id } });
+      const result = context.castBasicAttack();
+      context.emit({
+        type: 'basic-attack',
+        payload: Object.freeze({
+          ok: result.ok,
+          targetId: result.target?.id,
+          damage: result.damage,
+          projectileId: result.projectile?.id,
+        }),
+      });
       return;
     }
     const request = requestByAction[action.type as MonkeyActionType];
     if (!request) throw new Error(`Unsupported monkey behavior action: ${action.type}`);
     const result = context.castSkill(request);
+    if (action.type === 'monkey4-jgaoyi' && result.ok) {
+      this.jgaoyiRemaining = 5;
+      this.jgaoyiStepRemainingMs = 0;
+    }
     context.emit({
       type: 'skill-cast',
       payload: Object.freeze({
@@ -99,13 +128,55 @@ export class MonkeyPetBehavior implements PetBehavior {
     });
   }
 
-  updateEffects(_context: PetBehaviorContext): void {}
+  updateEffects(context: PetBehaviorContext): void {
+    this.normalBranchRemainingMs = Math.max(0, this.normalBranchRemainingMs - context.deltaMs);
+    if (this.jgaoyiRemaining <= 0) return;
+    this.jgaoyiStepRemainingMs = Math.max(0, this.jgaoyiStepRemainingMs - context.deltaMs);
+    if (this.jgaoyiStepRemainingMs > 0) return;
+    const visible = context.targets.filter((target) => target.isAlive && target.x > 20 && target.x < 920);
+    if (visible.length === 0) {
+      this.finishJgaoyi(context, 'no-visible-target');
+      return;
+    }
+    const target = visible[Math.min(visible.length - 1, Math.floor(context.random() * visible.length))]!;
+    context.relocate(target.x + context.random() * 100 - 50, target.y - 30);
+    this.jgaoyiRemaining -= 1;
+    const final = this.jgaoyiRemaining === 0;
+    if (final) {
+      if (context.pet.skills.includes('lyq')) {
+        context.castSkillAt((params) => requestPetMonkey3LyqSkill({ ...params, chainCast: true }), target);
+      } else {
+        context.castBasicAttack();
+      }
+    } else {
+      if (context.pet.skills.includes('xj')) {
+        context.castSkillAt((params) => requestPetMonkey3XjSkill({ ...params, chainCast: true }), target);
+      }
+      if (context.pet.skills.includes('lj')) {
+        context.castSkillAt((params) => requestPetMonkey3LjSkill({ ...params, chainCast: true }), target);
+      } else {
+        context.castBasicAttack();
+      }
+    }
+    context.emit({
+      type: 'jgaoyi-chain-step',
+      payload: { targetId: target.id, remaining: this.jgaoyiRemaining, final },
+    });
+    if (final) this.finishJgaoyi(context, 'complete');
+    else this.jgaoyiStepRemainingMs = 400;
+  }
 
   onDamaged(event: PetCombatDamageEvent, context: PetBehaviorContext): void {
     const state = context.pet.skillState;
     if (this.form === 1 && state) state.monkey1Xj.releaseReady = true;
     if (this.form === 2 && state) state.monkey2Xj.releaseReady = true;
     if (this.form === 3 && state) state.monkey3Lj.releaseReady = true;
+    if (this.form === 4 && state) state.monkey3Lj.releaseReady = true;
+    if (this.form === 4 && this.jgaoyiRemaining > 0) {
+      this.jgaoyiRemaining = 0;
+      this.jgaoyiStepRemainingMs = 0;
+      context.emit({ type: 'jgaoyi-chain-cancelled', payload: { sourceId: event.sourceId } });
+    }
     context.emit({ type: 'damaged', payload: { amount: event.amount, sourceId: event.sourceId } });
   }
 
@@ -113,7 +184,17 @@ export class MonkeyPetBehavior implements PetBehavior {
     context.emit({ type: 'animation-event', payload: { eventName: event.eventName } });
   }
 
-  destroy(_reason: PetBehaviorDestroyReason): void {}
+  destroy(_reason: PetBehaviorDestroyReason): void {
+    this.jgaoyiRemaining = 0;
+    this.jgaoyiStepRemainingMs = 0;
+  }
+
+  private finishJgaoyi(context: PetBehaviorContext, reason: string): void {
+    this.jgaoyiRemaining = 0;
+    this.jgaoyiStepRemainingMs = 0;
+    context.relocate(context.owner.x, context.owner.y - 50);
+    context.emit({ type: 'jgaoyi-chain-finished', payload: { reason } });
+  }
 }
 
 function cooldownReady(cooldownMs: number | undefined): boolean {

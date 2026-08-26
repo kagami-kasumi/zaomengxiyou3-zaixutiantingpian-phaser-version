@@ -175,6 +175,10 @@ export const petMonkeyEffectAssets = Object.fromEntries(
 ) as Readonly<Record<EffectSymbol, PetMonkeyEffectAsset>>;
 
 const projectileObjectIds: Readonly<Record<string, readonly string[]>> = {
+  'pet-skill.monkey1.normal': ['monkey1-normal'],
+  'pet-skill.monkey2.normal': ['monkey2-normal'],
+  'pet-skill.monkey3.normal': ['monkey3-normal'],
+  'pet-skill.monkey4.normal': ['monkey4-normal'],
   'pet-skill.monkey1.xj': ['monkey1-xj'],
   'pet-skill.monkey2.lj': ['monkey2-lj-prelude', 'monkey2-lj-damage'],
   'pet-skill.monkey2.xj': ['monkey2-xj'],
@@ -217,12 +221,19 @@ export function getPetMonkeyBodyActionForProjectile(
   assetKey: string,
 ): string | undefined {
   return ({
+    '1:pet-skill.monkey1.normal': 'hit1-normal',
+    '2:pet-skill.monkey2.normal': 'hit1-normal',
+    '3:pet-skill.monkey3.normal': 'hit1-normal',
+    '4:pet-skill.monkey4.normal': 'hit1-normal',
     '1:pet-skill.monkey1.xj': 'hit2-xj',
     '2:pet-skill.monkey2.lj': 'hit2-lj',
     '2:pet-skill.monkey2.xj': 'hit3-xj',
     '3:pet-skill.monkey3.lyq': 'hit2-lyq',
     '3:pet-skill.monkey3.xj': 'hit3-xj',
     '3:pet-skill.monkey3.lj': 'hit4-lj',
+    '4:pet-skill.monkey3.lyq': 'hit2-lyq',
+    '4:pet-skill.monkey3.xj': 'hit3-xj',
+    '4:pet-skill.monkey3.lj': 'hit4-lj',
     '4:pet-skill.monkey4.jgaoyi': 'hit5-jgaoyi',
   } as Readonly<Record<string, string>>)[`${form}:${assetKey}`];
 }

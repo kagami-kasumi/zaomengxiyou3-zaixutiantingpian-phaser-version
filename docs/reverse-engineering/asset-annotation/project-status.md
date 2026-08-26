@@ -22,7 +22,7 @@
 | 完整背包资源 | 431 | 428 项精确真图标已接入；2 项原查找缺陷 rejected、1 项源资源缺失 missing-original，均无现代替代图 | `inventory-items.md`、`../inventory-resource-catalog.md` |
 | 装备角色预览资源 | 127 | 126 项预览变更装备的源符号已闭合并可选择性导出；`mksddf` 原版标题查找缺陷 rejected，不生成替代层；另 37 件饰品/法宝按原逻辑不改变 HeadSprite | `equipment-visual-resources.md`、`../equipment-visual-resource-catalog.md` |
 
-总计 1242 条标注：1025 条 `ready`、25 条 `derived-ready`、174 条 `export-ready`、10 条 `source-corpus-ready`、2 条 `missing-original`、6 条 `rejected`；1242 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
+总计 1246 条标注：1043 条 `ready`、25 条 `derived-ready`、160 条 `export-ready`、10 条 `source-corpus-ready`、2 条 `missing-original`、6 条 `rejected`；1246 条均为 `confirmed`。当前没有 `needs-annotation`、`needs-splitting` 或 `unknown` 条目。
 
 ## 人工待办
 

@@ -18,7 +18,7 @@ export type PetMonkeyAnimationView = Readonly<{
   runtime: PetMonkeyAnimationClock;
 }>;
 
-type PetMonkeyAnimationClock = {
+export type PetMonkeyAnimationClock = {
   action: string;
   actionStartedMs: number;
   lastHp: number;

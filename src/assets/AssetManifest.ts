@@ -530,7 +530,11 @@ export const MagicWeaponEffectKeys = {
 } as const;
 
 export const PetSkillEffectKeys = {
-  monkey1Xj: 'pet-skill.monkey1.xj',
+    monkey1Normal: 'pet-skill.monkey1.normal',
+    monkey2Normal: 'pet-skill.monkey2.normal',
+    monkey3Normal: 'pet-skill.monkey3.normal',
+    monkey4Normal: 'pet-skill.monkey4.normal',
+    monkey1Xj: 'pet-skill.monkey1.xj',
   monkey2Lj: 'pet-skill.monkey2.lj',
   monkey2Xj: 'pet-skill.monkey2.xj',
   monkey3Lyq: 'pet-skill.monkey3.lyq',

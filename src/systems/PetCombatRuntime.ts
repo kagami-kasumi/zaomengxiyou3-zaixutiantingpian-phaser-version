@@ -13,6 +13,7 @@ import { createDefaultPetBehaviorRegistry } from './pet-behaviors/createDefaultP
 import { createPetRuntime, updatePetRuntime } from './PetRuntimeSystem';
 import { tickActivePetSkillState } from './PetSkillTickSystem';
 import { PetTuning } from './PetTuning';
+import { requestPetMonkeyBasicAttack } from './PetMonkeyCombatSystem';
 import type { ProjectileSystemModel } from './ProjectileSystem';
 import type {
   PetOwnerSnapshot,
@@ -270,6 +271,7 @@ export class PetCombatRuntime {
       targets: Object.freeze([...targets]),
       target: this.target,
       deltaMs: frame.deltaMs,
+      random: frame.random ?? Math.random,
       castSkill: (request) => {
         if (!frame.projectiles) {
           throw new Error(`Pet behavior ${this.pet?.species}:${this.pet?.form} requires projectiles.`);
@@ -282,6 +284,41 @@ export class PetCombatRuntime {
           projectiles: frame.projectiles,
           random: frame.random,
         });
+      },
+      castSkillAt: (request, target) => {
+        if (!frame.projectiles) {
+          throw new Error(`Pet behavior ${this.pet?.species}:${this.pet?.form} requires projectiles.`);
+        }
+        if (!this.runtime) throw new Error('Pet behavior skill cast requires an active runtime.');
+        return request({
+          roster: frame.roster,
+          runtime: this.runtime,
+          targets: [target],
+          projectiles: frame.projectiles,
+          random: frame.random,
+        });
+      },
+      castBasicAttack: () => {
+        if (!frame.projectiles) {
+          throw new Error(`Pet behavior ${this.pet?.species}:${this.pet?.form} requires projectiles.`);
+        }
+        if (!this.runtime || !this.target) {
+          throw new Error('Pet behavior basic attack requires an active runtime and target.');
+        }
+        return requestPetMonkeyBasicAttack({
+          roster: frame.roster,
+          runtime: this.runtime,
+          target: this.target,
+          projectiles: frame.projectiles,
+          random: frame.random,
+        });
+      },
+      relocate: (x, y) => {
+        if (!this.runtime || !Number.isFinite(x) || !Number.isFinite(y)) {
+          throw new Error('Pet behavior relocation requires a finite active runtime point.');
+        }
+        this.runtime.x = x;
+        this.runtime.y = y;
       },
       emit: (behaviorEvent: PetBehaviorEvent) => {
         this.publish({

@@ -11580,3 +11580,34 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SLICE-208`：直接消费 207 的 41 项 P1R 输入，在正式 P1/P2 五关完成猴系自主战斗、真动画/命中/伤害与生命周期；全部通过后才复盘并重写 Skill。
+
+### TASK-SLICE-208
+
+任务类型：`TASK-SLICE`。任务模型：常规任务。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-209`）。
+
+完成定义：
+
+- 正式公共 `HeroPartyRuntimeBridge` 为 P1/P2 分别拥有一个 `PetCombatRuntime`；TestScene 与五个正式关卡通过同一更新/投射物/动画事件链消费 monkey1..4。
+- 四形态真实普通攻击、`xj/lj/lyq/jgaoyi`、受击 lj、jgaoyi 五段链、verified hit-frame damage、attack-id dedup、死亡动画完成、换宠/休息/重试/返回重载已闭合，`pet P1R=0`。
+- 940×590 正式 P1/P2 运行中宠物和真攻击 effect 可见、怪物 HP 下降、console 零 warning/error；没有把孤立动画、字符串事件或专项 mock 当成正式闭合。
+- 使用 `$skill-creator` 将 `$pet-family-reverse` 从未验证视觉草案重写为完整证据→正式运行合同，并明确“单家族已证明、第二家族待验证”。
+
+完成日期：2026-08-26。
+
+关键产物：
+
+- `src/systems/PetMonkeyCombatSystem.ts` 与公共 Runtime/Behavior/Projectile/Stage1 damage 接缝。
+- `src/scenes/HeroPartyRuntimeBridge.ts`、`src/scenes/FormalPetMonkeyBodyBridge.ts` 及 TestScene 同源消费者。
+- `tools/pet-monkey-family-runtime-tests.ts`、`tools/check-system-design.mjs` 的 `pet P1R` gate。
+- `docs/tasks/evidence/TASK-SLICE-208/runtime-audit.md`。
+- 个人 Skill `pet-family-reverse` 的完整案例重写和 MO-003 记录。
+
+验证：
+
+- `npm run check:system-design -- pet P1R`、`npm run test:pet-monkey-family`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check` 通过。
+- 940×590 非 QA 正式 P1/P2 Stage 1-1 重载验收通过，warning/error 均为 0。
+- structure 仅保留既有大文件 warning 与公共装配桥 11 个 systems import warning；新家族规则集中在独立 `PetMonkeyCombatSystem`，大文件只做 verified 时序/公共入口窄改，未进行无关重构。
+
+推荐任务：
+
+- `TASK-SETTINGS-209`：选择已有 193C/193D 完整视觉源与消费者基础的 horse1..4，使用更新后的 `$pet-family-reverse` 闭合第二家族完整证据；依据结果再生成单独正式实现/运行 task。

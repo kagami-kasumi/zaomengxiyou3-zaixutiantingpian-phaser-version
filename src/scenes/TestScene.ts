@@ -704,18 +704,15 @@ export class TestScene extends Phaser.Scene {
       const shadow = player.skill.role2Runtime.shadow;
       return shadow ? [{ id: shadow.id, state: 'ready' as const }] : [];
     });
-    const activePet = getActivePet(this.petRoster);
-    if (!activePet) {
-      return [...playerSnapshots, ...shadowSnapshots];
-    }
-
+    const activePets = [getActivePet(this.petRoster), getActivePet(this.p2PetRoster)]
+      .filter((pet): pet is NonNullable<typeof pet> => Boolean(pet));
     return [
       ...playerSnapshots,
       ...shadowSnapshots,
-      {
-        id: activePet.id,
-        state: activePet.hp <= 0 ? 'dead' as const : 'ready' as const,
-      },
+      ...activePets.map((pet) => ({
+        id: pet.id,
+        state: pet.hp <= 0 ? 'dead' as const : 'ready' as const,
+      })),
     ];
   }
 
