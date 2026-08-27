@@ -11611,3 +11611,9 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SETTINGS-209`：选择已有 193C/193D 完整视觉源与消费者基础的 horse1..4，使用更新后的 `$pet-family-reverse` 闭合第二家族完整证据；依据结果再生成单独正式实现/运行 task。
+
+后续反证（2026-08-26，覆盖现行结论但不删除历史记录）：
+
+- 用户正式运行发现猴系在各形态 `attackRange` 外原地播放攻击效果，不追击且不命中。207 manifest 与原版 `BasePet.myIntelligence` 已包含正确攻击距离/追击事实；缺口属于 208 Runtime 与 verifier 的语义消费。
+- 专项只核对 41 个 contract id，并把敌人放在 projectile 坐标；P1R 只检查结构/正则和同源测试，运行审计也没有距离→追击→命中→pet-source damage 的来源隔离 trace。因此上述“完整闭合/P1R=0/Skill 首例成功”被撤销，P1R 现为 1。
+- `TASK-SLICE-208` 仍作为已执行历史 task 保留，不伪改完成日期或删除产物；PG-017 已转 V2 复盘并抢占 209，MO-003 转修订中。先落地行为合同运行时语义 verifier，再生成猴系整改 task，重新闭合后才恢复马系。

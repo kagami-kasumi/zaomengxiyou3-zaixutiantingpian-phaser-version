@@ -6,7 +6,7 @@
 
 验收退出：未退出。
 
-实施 task：`TASK-ARCH-203/204A` 只完成旧 P1/P1B 骨架；206 校正活动时钟、ordered-first 索敌和死亡生命周期，204B 让对应结构 gate=0。用户随后以正式运行反证：Runtime 尚无 Scene/正式消费者，`basicAttack` 只发事件，不能据此声称猴马或公共类玩家可见闭合。旧 204C..G 横向迁移撤销，先由 207/208 完成猴系参考家族，再按经验证 Skill 逐族生成任务。
+实施 task：`TASK-ARCH-203/204A` 只完成旧 P1/P1B 骨架；206 校正活动时钟、ordered-first 索敌和死亡生命周期，204B 让对应结构 gate=0。207/208 随后接入猴系证据与正式消费者，但 2026-08-26 用户再次反证：Runtime 未按各形态 `attackRange` 追击目标，普攻会在距离外虚空播放；专项/P1R 仍错误返回 0。P1R 现降为 1，先由 PG-017 V2 落地行为语义 verifier 并整改猴系，再逐族推进。
 
 ## 目标、事实边界与非目标
 
@@ -83,8 +83,8 @@
 | --- | --- | --- | --- |
 | Monkey/Horse 结构接缝 | Registry 创建会话 Behavior | ordered-first、活动 CD、dead-playing 与差异钩子；不等于真实普通攻击或正式消费者 | 204B（结构完成，玩家可见闭合被反证） |
 | Monkey1..4 完整证据 | BasePet/具体类/恢复 SWF/现代消费者全集 | 自主 AI、普通攻击、全部技能、命中/伤害、真动画、owner 与生命周期同一证据链 | 207 |
-| Monkey1..4 完整正式复现 | P1/P2 各自 roster/runtime，TestScene 与五关共享桥 | 真实普通攻击/技能/伤害/动画/死亡/换宠正式可见；通过后才沉淀 Skill | 208 |
-| 其余八家族 | 同一 Registry/Runtime，逐族完整任务 | 只能依据 208 后经验证 Skill 一次生成一个家族；不得恢复横向 Behavior/视觉/消费者批次 | 208 后按覆盖缺口生成 |
+| Monkey1..4 完整正式复现 | P1/P2 各自 roster/runtime，TestScene 与五关共享桥 | 208 已接入但被 `attackRange` 外虚空攻击反证；须经 PG-017 V2 verifier 与后续猴系整改重验追击→攻击→来源隔离伤害 | 208 历史 + 待生成整改 task |
+| 其余八家族 | 同一 Registry/Runtime，逐族完整任务 | 猴系语义 P1R 重新为 0 并修订 Skill 后，才一次生成一个家族；不得恢复横向 Behavior/视觉/消费者批次 | 猴系整改后按覆盖缺口生成 |
 | barrel、旧 Runtime、全部 Scene/Bridge | 无新增 owner | 全部家族完成后清零具体技能出口、重复 targeting 与兼容路径 | 最终逐族任务之后生成 |
 | 未来网络/回放 | 记录 Frame 输入顺序与 typed events | 复用 Runtime，不拥有第二套模拟 | 非本轮实现；本设计冻结接口边界 |
 
@@ -94,18 +94,18 @@
 | --- | --- | --- | --- |
 | P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `0`：结构 gate 已通过；不证明 Scene/正式消费者或玩家可见自主战斗 |
 | P1B | 204B | Monkey/Horse 8 形态适配结构钩子且不复制 Runtime | `0`：结构 gate 已通过；`basicAttack` 仍可能只有事件，不证明动画、命中与伤害闭环 |
-| P1R | 208（207 先冻结机器合同） | Monkey1..4 完整自主战斗、真实普通攻击/全部技能、真动画、命中/伤害、P1/P2 TestScene/五关 owner 与生命周期 | `0`：公共桥拥有 P1/P2 Runtime，真普攻/全部技能进入动画→命中→伤害→清理链，正式运行通过 |
+| P1R | 208 历史 + PG-017 V2 + 待生成猴系整改 task（207 提供冻结机器合同） | Monkey1..4 完整自主战斗；每形态 `attackRange` 外追击、范围内真实普通攻击/全部技能、真动画、命中/来源隔离伤害、P1/P2 TestScene/五关 owner 与生命周期 | `1`：旧命令仍可因结构/正则与同源专项返回 0，但玩家已反证距离外虚空攻击；在行为语义 verifier 和猴系整改通过前，该退出码不构成 P1R 验收 |
 | P1C/P1D | 208 后逐族生成 | 其余家族不得只登记 Behavior；每个家族都复用完整证据→正式运行合同 | `1`：其余家族未完整闭合；旧 204C/204D 撤销 |
 | P2/P3 | 208 后逐族推进 | TestScene、五关和功能页消费者随每个家族同批闭合，不再最后集中迁移 | `1`：当前无新 Runtime 正式消费者；旧 204E/204F 撤销 |
 | P4/all | 全部家族完成后生成 | Scene/barrel/旧 Runtime/重复 helper 清零并执行全部正式回归 | `1`：兼容入口仍存在 |
 
-门禁命令：`npm run check:system-design -- pet <gate>`。设计阶段允许非 0；失败必须只对应表中未实施项。`tools/pet-combat-runtime-design-tests.ts` 同时拒绝 nearest、全 roster/选择前 CD、HP0 立即卸载和缺失差异钩子。
+门禁命令：`npm run check:system-design -- pet <gate>`。设计阶段允许非 0；失败必须只对应表中未实施项。`tools/pet-combat-runtime-design-tests.ts` 同时拒绝 nearest、全 roster/选择前 CD、HP0 立即卸载和缺失差异钩子。2026-08-26 起，旧 `pet P1R` 的 0 仅记录为结构 gate 旧结果；在 PG-017 V2 把合同字段映射到黑盒 trace 与 mutation-kill 前，不得用它宣布语义闭合。
 
 ## 实施与退出合同
 
 - 204B 只证明公共结构接缝；用户反证后不得再把它描述为猴马玩家可见完整闭合。
 - 207/208 必须连续完成猴系完整证据与正式复现；208 之前不得切换宠物家族或更新/强制使用 `$pet-family-reverse`。
-- 208 通过后只依据经验证 Skill 为一个家族生成完整连续任务；不得恢复旧 204C..G 或 193E..R 的横向批处理。
+- 208 的历史执行结果已被虚空攻击反证；只有 PG-017 V2 和猴系整改让语义 P1R 重新为 0 后，才可修订 Skill 并为一个家族生成完整连续任务；不得恢复旧 204C..G 或 193E..R 的横向批处理。
 - 每批重复读取本设计与验收协议，运行声明 gate；退出码非 0 时该批不得完成。
 - `P1/P1B/P1R`、后续逐族 gate 与最终 `P4/all` 全为 0、全部消费者与兼容路径清零后，最终任务同批将本文标记“已完成/已退出”。退出后普通宠物任务不再读取专项设计验收，除非用户明确重开。
 
@@ -119,6 +119,7 @@
 | 2026-08-25 / 204B | 公共 Runtime + Monkey/Horse 结构接缝 | `pet P1=0`、`pet P1B=0`；专项合同、全系统、build、LSP 通过 | 仅结构通过；用户运行看不到自主攻击，玩家可见/正式消费者结论降级，禁止据此扩族 |
 | 2026-08-25 / 用户反证重排 | 完整家族与 Skill 成熟度 | LSP 仅找到 Runtime 声明；`basicAttack` 只发事件；旧 204C..G/193E..R 横向批次已撤销 | 新增 P1R；207/208 先完整闭合猴系，Skill 仅在 208 通过后重写 |
 | 2026-08-26 / 208 | Monkey1..4 完整正式复现 | `pet P1R=0`；家族专项、全系统、build、正式 P1/P2 940×590 与零 console 通过 | 首个完整参考家族成立；设计继续实施中，209 起以马系验证 Skill，其他 gate 仍保持 1 |
+| 2026-08-26 / 用户虚空攻击反证 | Monkey1..4 攻击距离/追击与 verifier 独立性 | 207 manifest/BasePet 含 `attackRange`，Runtime 只跟 owner且普攻无范围门；测试把敌人放到 projectile 坐标，旧 P1R 仍返回 0 | 覆盖上一行的现行结论：首个完整参考家族不成立，P1R=1；PG-017 V2/猴系整改先行，209 暂停 |
 
 ## 反证与重开
 

@@ -20,3 +20,9 @@
 | 控制台 | 最终 build 重载后 warning=0、error=0 |
 
 结论：现代正式运行直接消费 193A/207 真值；玩家可见链已从 body/action 延伸到 effect→collision/hit frame→damage→cleanup，不能再由孤立动画或字符串事件替代。`pet P1R=0`。
+
+## 后续反证（2026-08-26）
+
+用户正式运行发现猴系在各形态 `attackRange` 外原地播放攻击效果，不追击且不命中。本审计的“追击、普通攻击真 effect 和怪物 HP 下降”是非来源隔离观察：它没有记录目标初始距离、宠物逐帧追击、进入攻击范围的时点、projectile 与目标关联、pet attack id/source 及 HP 前后值；因此无法证明这些现象属于同一条运行链。
+
+207 的原版合同仍有效，失效的是 208 实现消费与验收 oracle。上述结论和 `P1R=0` 被本反证覆盖，当前 P1R=1；本文件保留原观察作为历史证据。后续必须按 PG-017 V2 的行为合同运行时 verifier 重建受控 trace，并在猴系整改 task 中重新验收。

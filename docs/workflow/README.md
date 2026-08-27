@@ -39,6 +39,7 @@
 | `reverse-engineering-protocol.md` | 玩法逆向的六段证据链、证据分级、原版机器真值 JSON、坐标语义、上下文交接和关闭门禁 |
 | `reverse-engineering-task-protocol.md` | 一等逆向任务及代码逆向/视觉真值逆向子类型的渐进读取协议；只有视觉真值逆向读取独立方案 |
 | `ground-truth-completeness-validator.md` | PG-017 的真值产物全面性校验器讨论入口；只冻结职责与待决问题，不监督生成器内部提取步骤 |
+| `behavior-contract-runtime-verifier.md` | PG-017 V2 的行为合同到黑盒运行时语义 verifier；冻结 expected/actual 数据流隔离、字段级覆盖、受控场景与 mutation-kill |
 | `problems/PG-*.md` | 每个已登记系统性问题的独立定义、证据、方案版本、测试结果、反馈/复盘样本和归档信息 |
 | `methods/MO-*.md` | 每个实验性改进方法的假设、指标、样本、护栏、裁决和沉淀记录 |
 | `document-map.md` | 全仓库文档职责地图，区分游戏任务层和脚手架层 |
@@ -61,6 +62,7 @@
 - **代码逆向**：沿用既有入口，只补读 `reverse-engineering-protocol.md` 和当前 task 指定的 AS3、共享调用链与消费者；不读取 `reverse-engineering-task-protocol.md`、`docs/reverse-engineering/plans/`、真值精细方案或 PG-017，不新增专用方案文档约束。
 - **视觉真值逆向**：当前 task 声明该子类型后，才读取 task 唯一链接的 `逆向方案`、`docs/reverse-engineering/evb-extraction-report.md`、`docs/reverse-engineering/asset-annotation/workflow.md` 和 `docs/reverse-engineering/ground-truth/README.md`，优先在 `local-resources/regima/source/restored-swfs/` 窄查；不扫描其他方案，旧提取集只作交叉对照。
 - **真值全面性校验器**：只有用户明确讨论/实施该校验器，或当前治理项明确链接时才读 `ground-truth-completeness-validator.md`；普通真值生成任务不默认读取。
+- **行为合同运行时 verifier**：只有 PG-017 V2 治理项、明确链接它的整改 task，或用户明确讨论该机制时才读 `behavior-contract-runtime-verifier.md`；普通逆向/实现不默认加载。
 - **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
 - **历史追溯**：只有需要追溯或修改已完成任务时才读 `task-history.md`。
 

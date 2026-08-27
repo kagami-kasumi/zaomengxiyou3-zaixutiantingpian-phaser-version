@@ -1,5 +1,14 @@
 # 工作流治理日志
 
+## 2026-08-26：PG-017 复盘猴系 P1R 自证循环
+
+- 反证：207 原版合同已经包含每形态 `attackRange` 与 BasePet 追击事实，但 208 Runtime 仍只跟随 owner，普攻没有范围门；测试把敌人放在 projectile 坐标并只核对合同 id，导致虚空攻击存在时专项与 `pet P1R` 仍为 0。
+- 归属：该问题不是 PG-005 的证据缺环，而是 PG-017 的同源 oracle 自证循环从视觉产物扩展到行为合同消费；PG-017 转为复盘中，原视觉全面性校验器边界不变。
+- V2：新增 `behavior-contract-runtime-verifier.md`，冻结 expected/actual 数据流隔离、合同字段覆盖矩阵、范围外负场景、追击→命中→pet-source damage 结构化 trace 和关键字段 mutation-kill；“再找一个 AI 写测试”不构成独立性。
+- 降级：保留 208 的历史执行记录，但以用户反证覆盖“完整案例/P1R=0”现行结论；P1R 降为 1。MO-003 转修订中，`$pet-family-reverse` 暂停作为马系 209 的执行路由。
+- 调度：PG-017 V2 以唯一 Ready 治理项抢占 209；治理项只落地 verifier 并生成猴系整改 task，不在脚手架任务中顺手修玩法。猴系重新达到语义 P1R=0 后才恢复第二家族验证。
+- 验证：`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
 ## 2026-08-26：记录完整猴系首案例的证据阶段样本
 
 - 方法观测：`MO-003` 新增 `TASK-SETTINGS-207` 证据阶段样本；41 项家族合同暴露了旧横向视觉/Behavior 路线遗漏的稳定目标顺序、双随机分支、伤害特例、受击门和 jgaoyi 覆盖链。

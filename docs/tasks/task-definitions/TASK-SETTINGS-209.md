@@ -13,7 +13,10 @@
 - `docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；游戏 Ready，但被全局执行队列的 PG-017 Ready 抢占）
+
+执行前置：
+- 2026-08-26 猴系虚空攻击已推翻 208 的“完整案例/P1R=0”现行结论。PG-017 V2 行为合同运行时 verifier 与后续猴系整改必须先完成，猴系重新达到语义 P1R=0，并修订 `$pet-family-reverse`；此前不得执行本 task。
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
@@ -31,10 +34,10 @@
 - 并行工作包：无
 - 写入 owner：主 agent
 - 归并检查点：机器真值生成前、验收前
-- 方法观测：`MO-003`；使用 208 后重写的 `$pet-family-reverse`，只计第二家族证据阶段样本
+- 方法观测：`MO-003`（修订中）；只在猴系重验后使用修订版 `$pet-family-reverse`，计第二家族证据阶段样本
 
 输入资料：
-- 更新后的 `$pet-family-reverse` 与其 `family-contract.md`。
+- 经 PG-017 V2 与猴系整改重验后修订的 `$pet-family-reverse` 与其 `family-contract.md`；不得使用 208 后、反证前的版本作为执行依据。
 - `docs/workflow/reverse-engineering-protocol.md`、`docs/workflow/reverse-engineering-task-protocol.md` 与本 task 唯一链接的细粒度真值方案。
 - 193C verified 真值 `task-settings-193c.pet-horse-animation`、证据、716 个原版 baseline、20 个显示对象和 193D 现代动画消费者。
 - 原版 `BasePet -> PetHorse1..4`、`sp/bd/bz/tmaoyi`、`BaseBullet`、冰冻/伤害/owner/load chain 的局部 AS3 与 `local-resources/regima/source/restored-swfs/` 中 193C 已声明的三包。
