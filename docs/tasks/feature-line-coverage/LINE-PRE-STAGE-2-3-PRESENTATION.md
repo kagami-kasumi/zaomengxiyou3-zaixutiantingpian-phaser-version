@@ -30,8 +30,8 @@
 | 背包分页一致性 | 正式背包与炼丹炉共享 `InventoryGridView`、同一 inventory owner 和两份 verified 页面真值 | 无；190C 已移除工坊静态 `/5`、背景按钮和透明分页命中分叉 | 两页共同消费 `createInventoryPagerObjects`、原生三态按钮与完整 `n/5`；各自 truth 几何、第一页/第二页和 940×590 运行对照通过 |
 | 宠物页/入口 | 175A 的 74 对象/16 状态真值、180 页面投影、191 正式可见性矩阵；192A 已固化非 QA 当前 schema 双人冷启动→地图→五关 Runtime→P1/P2 932→返回/重载旅程 | 无；bundle、page-assets、render 失败均发出统一 `feature-ui-failed` 结构化信号 | `formal-pet-journey-tests.ts`；`TASK-SLICE-192A/runtime-audit.md`；P1/P2/五关/重载与 940×590 零 console |
 | 宠物战斗 UI | 宠物 owner、出战状态和技能 runtime 已有；191 的 662 壳体、605/610/614、条和三字段保留；201 已生成 35 fixture/70 P1-P2 投影/4 负状态 verified 头像真值 | 无；202 已删除身体 atlas、联合 bounds 拉伸和硬编码头像定位 | 202 的 33 唯一终端 child/35 fixture 专属 bundle、关键字段变异、P1/P2/五关旅程、九物种零像素差和 940×590 零 console |
-| 宠物战斗公共类 | 203/204A 建立旧骨架；205 闭合 35 形态基类证据；206 冻结组合设计；204B 让结构 P1/P1B gate=0；207 冻结猴系 41 项正确原版合同；PG-017 V2 已把字段映射到黑盒 trace/mutation-kill 并接入 P1R | 208 仍未消费 `attackRange`/追击语义；新 gate 已稳定检出四形态 P1/P2 的提前攻击、不追击和不入围，故猴系 P1R=1；其余八家族与兼容入口也未闭合 | 208A 整改范围外追击→范围内攻击→pet-source damage/cleanup；语义 P1R=0 与 Skill 修订后恢复 209，最终 all=0 |
-| 宠物真动画 | 193 已冻结 35 形态/38 技能映射；193A..193D 已闭合猴/马局部视觉真值与投影；208 已接入猴系动作/effect | 猴系存在攻击距离外虚空播放，动画可见不能证明追击/命中/伤害语义；Skill 首例被反证，马系尚未开始完整家族合同 | 以黑盒 trace 重新闭合猴系距离→追击→攻击→pet-source damage，再修订 Skill 并恢复马系第二样本；194 最终跨族校准 |
+| 宠物战斗公共类 | 203/204A 建立旧骨架；205 闭合 35 形态基类证据；206 冻结组合设计；204B 让结构 P1/P1B gate=0；207 冻结猴系 41 项正确原版合同；PG-017 V2 已把字段映射到黑盒 trace/mutation-kill 并接入 P1R；208A 已修复 `attackRange` 追击、target/action token、verified hit、pet-source damage 与 cleanup | 猴系 P1R 已重新为 0；其余八家族与兼容入口仍未闭合，Skill 仍待马系第二样本裁决 | 209 起逐家族复用修订后的证据→独立语义 verifier→正式运行合同，最终 all=0 |
+| 宠物真动画 | 193 已冻结 35 形态/38 技能映射；193A..193D 已闭合猴/马局部视觉真值与投影；208/208A 已接入并语义重验猴系动作/effect | 猴系虚空攻击已由独立 trace 关闭；马系及其余家族尚未完成同标准完整合同 | 209 使用修订 Skill 做第二家族证据样本并生成配对实现；194 最终跨族校准 |
 | 五角色动作流畅度 | 069/158 视觉索引/桥、163/164/173/174 几何与行为证据 | 用户观察到角色间卡顿与流畅度不一；根因可能在资源完整性、帧时序/持帧、clock、动作转移、加载或投影 | 195 跨角色可测对照与根因分类；只为受影响角色生成单角色修复 task；196 五角色统一校准 |
 | 战斗技能 HUD | 技能功能页 175D/183、五槽绑定数据、HUD snapshot/bridge 已有 | 用户在战斗 UI 中未看到角色技能；旧 M-049/VS-051 关闭结论待复核，不得用技能功能页替代 | 197 战斗 HUD 显示列表/verified 真值；198 可见原生投影；199 绑定/MP/冷却/P1-P2/存档联动 |
 | 正式旅程 | 当前单 schema、五关 Runtime、功能页 router 和旧 159 旅程 | 新 UI/动画组合后的冷启动、跨页/跨关/双人/重载尚未证明 | 200 独立自动旅程 + 940×590 人工视觉/手感验收 |
@@ -57,8 +57,8 @@
 17. `TASK-SETTINGS-207`：Done；未使用现有宠物 Skill，以 `task-settings-207.pet-monkey-family` 闭合 41 项自主 AI、普通攻击、全部技能、命中/伤害、626 状态视觉引用、三套碰撞、owner 和 P1/P2 生命周期合同，`unresolved=[]`，并冻结 P1R 同集输入。
 18. `TASK-SLICE-208`：Done（历史执行，现行完成结论被反证）；曾通过专项、P1R 和 940×590 观察，但未验证 `attackRange` 外追击，故“完整案例/P1R=0”撤销为 P1R=1；由 PG-017 V2 和后续猴系整改接续。
 19. PG-017 V2：治理脚手架 Done；trace Schema、41 项字段覆盖、八条受控范围链和三类关键 mutation-kill 已落地，真实 verifier/P1R 对当前错误实现稳定返回 1；不在治理项中修改玩法。
-20. `TASK-SLICE-208A`：Ready；只整改猴系 frozen `attackRange` 的追击→攻击→verified hit→pet-source damage→cleanup，P1/P2/TestScene/正式关卡同源并修订 Skill/MO-003。
-21. `TASK-SETTINGS-209`：Planned；马系仍是第二家族候选，但在 208A 语义 P1R=0、Skill 修订前不可执行。
+20. `TASK-SLICE-208A`：Done；四形态 × P1/P2 范围链、动作/projectile token、verified hit、pet-source damage/cleanup 与语义 P1R=0 已闭合，Skill/MO-003 已进入 V3 重验状态。
+21. `TASK-SETTINGS-209`：Ready；以修订后的 `$pet-family-reverse` 执行马系第二家族证据样本，本 task 不提前实现。
 22. 旧 `TASK-ARCH-204C..G` 与 `TASK-SETTINGS-193E..TASK-SLICE-193R` 全部撤销；只为当前家族生成连续完整任务，完成前不切换家族。
 23. `TASK-SLICE-194`：所有按新方法生成的完整家族任务完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
 24. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。

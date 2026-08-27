@@ -49,6 +49,7 @@ export type ProjectileModel = {
   magicStunMs?: number;
   magicIceMs?: number;
   trackingTargetId?: string;
+  petActionToken?: number;
   petHealOnHit?: number;
   petComboTags?: string[];
   explosionDelayMs?: number;

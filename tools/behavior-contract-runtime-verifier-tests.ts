@@ -22,8 +22,8 @@ const expected: RangeAttackChainExpected = {
 const passingTrace: readonly BehaviorRuntimeTraceFrame[] = [
   frame({ frame: 0, distance: 140, petX: 0 }),
   frame({ frame: 1, elapsedMs: 100, distance: 90, petX: 50 }),
-  frame({ frame: 2, elapsedMs: 200, distance: 40, petX: 100, action: 'basic-attack', actionToken: 1, projectileId: 'projectile-1', projectileX: 120, projectileY: 0, projectileElapsedMs: 0 }),
-  frame({ frame: 3, elapsedMs: 600, distance: 40, petX: 100, projectileId: 'projectile-1', projectileX: 120, projectileY: 0, projectileElapsedMs: 400, attackId: 'projectile-1:pet-monkey-1-normal-1:1', damageSourceId: 'pet-monkey-1', targetHpBefore: 100, targetHpAfter: 75, cleanupReason: 'hit' }),
+  frame({ frame: 2, elapsedMs: 200, distance: 40, petX: 100, action: 'basic-attack', actionToken: 1, projectileId: 'projectile-1', projectileActionToken: 1, projectileX: 120, projectileY: 0, projectileElapsedMs: 0 }),
+  frame({ frame: 3, elapsedMs: 600, distance: 40, petX: 100, projectileId: 'projectile-1', projectileActionToken: 1, projectileX: 120, projectileY: 0, projectileElapsedMs: 400, attackId: 'projectile-1:pet-monkey-1-normal-1:1', damageSourceId: 'pet-monkey-1', targetHpBefore: 100, targetHpAfter: 75, cleanupReason: 'hit' }),
 ];
 
 assert.deepEqual(validateBehaviorRuntimeTrace(passingTrace), []);
@@ -49,14 +49,10 @@ for (const mutation of mutations) {
   assert.ok(issues.some(({ code }) => code === mutation.killedBy), `${mutation.name} mutation must be killed`);
 }
 
-const currentFailure = verifyRangeAttackDamageChain(
-  collectMonkeyRangeScenario(1, 'p1').expected,
-  collectMonkeyRangeScenario(1, 'p1').trace,
-);
-assert.ok(currentFailure.some(({ code }) => code === 'EARLY_ATTACK'));
-assert.ok(currentFailure.some(({ code }) => code === 'NO_CHASE'));
+const currentScenario = collectMonkeyRangeScenario(1, 'p1');
+assert.deepEqual(verifyRangeAttackDamageChain(currentScenario.expected, currentScenario.trace), []);
 
-console.log('Behavior contract trace schema, coverage, controlled failure, and mutation-kill tests passed.');
+console.log('Behavior contract trace schema, coverage, corrected runtime, and mutation-kill tests passed.');
 
 function frame(overrides: Partial<BehaviorRuntimeTraceFrame>): BehaviorRuntimeTraceFrame {
   return {

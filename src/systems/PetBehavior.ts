@@ -49,6 +49,7 @@ export type PetBehaviorContext = Readonly<{
   runtime: Readonly<PetRuntimeModel>;
   targets: readonly Readonly<PetSkillTarget>[];
   target?: Readonly<PetSkillTarget>;
+  actionToken: number;
   deltaMs: number;
   random: () => number;
   castSkill: (request: PetBehaviorSkillRequest) => PetSkillCastResult;
@@ -62,6 +63,7 @@ export interface PetBehavior {
   enter(context: PetBehaviorContext): void;
   canMove(context: PetBehaviorContext): boolean;
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined;
+  basicAttackRange?(context: PetBehaviorContext): number;
   basicAttack(context: PetBehaviorContext): PetBehaviorAction | undefined;
   executeAction(action: PetBehaviorAction, context: PetBehaviorContext): void;
   updateEffects(context: PetBehaviorContext): void;

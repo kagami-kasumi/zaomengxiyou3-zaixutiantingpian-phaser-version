@@ -256,6 +256,8 @@ character 250/868/417/213、212 与 865 生成 `task-settings-175d.skill-pages` 
 - 补充现代产物文件。
 - 同步更新 `docs/tasks/vertical-slices.md`。
 
+2026-08-27 `TASK-SLICE-208A` 补充：`M-032/M-034/M-035/M-042/M-044` 的猴系范围链已由独立黑盒 verifier 重验。生产 Runtime 直接消费 207 冻结的 `attackRange=40/70/150/150`，范围外追击 sticky target、入围后普通攻击；projectile 保留 target/action token，在 verified hit frame 由正式伤害入口形成 pet-source HP decrease 与 cleanup。四形态 × P1/P2、TestScene/正式五关共享消费者、换宠/休息/返回生命周期由 P1R/家族/旅程回归覆盖；不修改存档 schema、视觉资源或其他家族，故这些机制的全局状态不额外提升。
+
 如果实现中发现机制没扒清楚：
 
 - 不硬写。

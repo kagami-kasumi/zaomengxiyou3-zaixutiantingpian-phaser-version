@@ -1,5 +1,12 @@
 # 工作流治理日志
 
+## 2026-08-27：208A 以独立语义 verifier 关闭猴系反例
+
+- 运行合同：生产 Runtime 直接消费 207 frozen `attackRange`；四形态 × P1/P2 从范围外追击入围后才普通攻击，projectile target/action token、verified hit、pet-source damage 与 cleanup 保持同链。
+- 防自证：行为 trace Schema 增加 projectile action token；正向 verifier 自测改为断言修正后真实场景通过，同时继续杀死 range、hit timing、source owner 三类变异。
+- 方法：按 `$skill-creator` 修订 `$pet-family-reverse` 的字段级覆盖、负前置场景、source-isolated trace 与 mutation-kill；MO-003 仍待马系第二家族裁决。
+- 调度：归档 208A，仅将 `TASK-SETTINGS-209` 恢复为唯一 Ready；本轮不续跑马系。
+
 ## 2026-08-27：PG-017 V2 行为语义 verifier 落地
 
 - Schema/覆盖：新增黑盒 trace Schema、通用 verifier、207 的 41 项字段→场景→actual→assertion 矩阵，以及四形态 × P1/P2 受控范围链采集器；expected 直接读取冻结 manifest，actual 只来自公共 Runtime snapshot/event、Projectile 与正式伤害事件。

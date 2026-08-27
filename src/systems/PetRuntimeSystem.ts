@@ -1,5 +1,5 @@
 ﻿import { PetTuning } from './PetTuning';
-import type { PetOwnerSnapshot, PetRoster, PetRuntimeModel, PetState } from './PetTypes';
+import type { PetOwnerSnapshot, PetRoster, PetRuntimeModel, PetSkillTarget, PetState } from './PetTypes';
 export function createPetRuntime(
   pet: PetState,
   owner: PetOwnerSnapshot,
@@ -59,6 +59,29 @@ export function updatePetRuntime(
 
   const speedPxPerSecond = pet.moveSpeed * 90;
   const step = Math.min(distance, speedPxPerSecond * (deltaMs / 1000));
+  runtime.x += (dx / distance) * step;
+  runtime.y += (dy / distance) * step;
+  runtime.state = 'follow';
+}
+
+export function chasePetRuntimeTarget(
+  runtime: PetRuntimeModel,
+  pet: PetState,
+  target: Readonly<PetSkillTarget>,
+  stopDistance: number,
+  deltaMs: number,
+): void {
+  const dx = target.x - runtime.x;
+  const dy = target.y - runtime.y;
+  const distance = Math.hypot(dx, dy);
+  if (distance <= 0) {
+    runtime.state = 'idle';
+    return;
+  }
+
+  runtime.facingX = dx < 0 ? -1 : 1;
+  const speedPxPerSecond = pet.moveSpeed * 90;
+  const step = Math.min(Math.max(0, distance - stopDistance), speedPxPerSecond * (deltaMs / 1000));
   runtime.x += (dx / distance) * step;
   runtime.y += (dy / distance) * step;
   runtime.state = 'follow';

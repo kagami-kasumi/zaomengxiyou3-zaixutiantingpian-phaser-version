@@ -49,6 +49,7 @@ export function requestPetMonkeyBasicAttack(params: Readonly<{
   roster: PetRoster;
   runtime: PetRuntimeModel;
   target: Readonly<PetSkillTarget>;
+  actionToken: number;
   projectiles: ProjectileSystemModel;
   random?: PetSkillRandomSource;
 }>): PetSkillCastResult {
@@ -72,7 +73,7 @@ export function requestPetMonkeyBasicAttack(params: Readonly<{
     distance: undefined,
     width: definition.width,
     height: definition.height,
-    lifetimeMs: Math.max(420, definition.hitFrame * (1000 / 24) + 80),
+    lifetimeMs: Math.max(420, definition.hitFrame * (1000 / 24) + 120),
     damage,
     attackKind: 'magic',
     knockbackX: 2,
@@ -94,6 +95,7 @@ export function requestPetMonkeyBasicAttack(params: Readonly<{
   );
   projectile.destroyWhenSourceHurt = false;
   projectile.trackingTargetId = params.target.id;
+  projectile.petActionToken = params.actionToken;
   params.projectiles.projectiles.push(projectile);
   return {
     ok: true,
@@ -122,7 +124,8 @@ export function resolveFormalPetMonkeyProjectileHits(params: Readonly<{
     if (!ownerSlot) continue;
     const hitbox = getProjectileHitbox(projectile);
     for (const enemy of params.enemies) {
-      if (enemy.phase === 'dead' || !containsPoint(hitbox, enemy)) continue;
+      const isTrackedTarget = projectile.trackingTargetId === enemy.id;
+      if (enemy.phase === 'dead' || (!isTrackedTarget && !containsPoint(hitbox, enemy))) continue;
       const event = resolveStage1PetHit({
         runtime: params.combat,
         enemy,

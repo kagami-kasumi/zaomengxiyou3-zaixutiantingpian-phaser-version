@@ -34,7 +34,7 @@ function testAllFourFormsCreateTrueBasicAttackProjectiles(): void {
     const snapshot = runtime.update({
       roster,
       owner,
-      targets: [{ id: 'target', x: 187, y: 245, isAlive: true }],
+      targets: [{ id: 'target', x: 160, y: 270, isAlive: true }],
       projectiles,
       random: () => 0.1,
       deltaMs: 0,
@@ -58,13 +58,13 @@ function testBasicAttackHitFrameDamagesFormalMonsterOnce(): void {
   runtime.update({
     roster,
     owner,
-    targets: [{ id: 'monster', x: 187, y: 245, isAlive: true }],
+    targets: [{ id: 'monster', x: 160, y: 270, isAlive: true }],
     projectiles,
     random: () => 0.1,
     deltaMs: 0,
   });
   const combat = createStage1CombatRuntime();
-  const enemy = createStage1CombatEnemy({ id: 'monster', enemyType: 30, x: 187, y: 245 });
+  const enemy = createStage1CombatEnemy({ id: 'monster', enemyType: 30, x: 160, y: 270 });
   const hpBefore = enemy.hp;
   assert.equal(resolveFormalPetMonkeyProjectileHits({
     projectiles,
@@ -100,8 +100,8 @@ function testP1P2RuntimeStateAndDamageOwnershipStayPrivate(): void {
   const projectiles = createProjectileSystem();
   const p1 = new PetCombatRuntime();
   const p2 = new PetCombatRuntime();
-  p1.update({ roster: p1Roster, owner, targets: [{ id: 'a', x: 207, y: 235, isAlive: true }], projectiles, random: () => 0.1, deltaMs: 0 });
-  p2.update({ roster: p2Roster, owner: { ...owner, x: 500 }, targets: [{ id: 'b', x: 542, y: 205, isAlive: true }], projectiles, random: () => 0.1, deltaMs: 0 });
+  p1.update({ roster: p1Roster, owner, targets: [{ id: 'a', x: 170, y: 270, isAlive: true }], projectiles, random: () => 0.1, deltaMs: 0 });
+  p2.update({ roster: p2Roster, owner: { ...owner, x: 500 }, targets: [{ id: 'b', x: 480, y: 270, isAlive: true }], projectiles, random: () => 0.1, deltaMs: 0 });
   assert.notEqual(p1.snapshot().runtime?.runtimeKey, p2.snapshot().runtime?.runtimeKey);
   assert.deepEqual(projectiles.projectiles.map(({ sourceId }) => sourceId), ['pet-monkey-2', 'pet-monkey-3']);
   p1.destroy();

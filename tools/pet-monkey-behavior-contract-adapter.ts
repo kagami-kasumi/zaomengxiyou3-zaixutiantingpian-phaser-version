@@ -103,6 +103,7 @@ export function collectMonkeyRangeScenario(
       action: actionEvent?.action?.type,
       actionToken: actionEvent?.actionToken,
       projectileId: projectile?.projectileId,
+      projectileActionToken: projectile?.petActionToken,
       projectileX: projectile?.x,
       projectileY: projectile?.y,
       projectileElapsedMs: projectile?.elapsedMs,

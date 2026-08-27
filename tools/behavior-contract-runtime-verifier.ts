@@ -16,6 +16,7 @@ export type BehaviorRuntimeTraceFrame = Readonly<{
   action?: string;
   actionToken?: number;
   projectileId?: string;
+  projectileActionToken?: number;
   projectileX?: number;
   projectileY?: number;
   projectileElapsedMs?: number;
@@ -51,6 +52,7 @@ export type BehaviorVerificationIssue = Readonly<{
     | 'NO_CHASE'
     | 'NO_IN_RANGE'
     | 'NO_ATTACK'
+    | 'WRONG_ACTION_TOKEN'
     | 'EARLY_HIT'
     | 'NO_HIT'
     | 'WRONG_DAMAGE_SOURCE'
@@ -101,6 +103,10 @@ export function validateBehaviorRuntimeTrace(
     }
     if (entry.projectileId && (!Number.isFinite(entry.projectileX) || !Number.isFinite(entry.projectileY))) {
       errors.push(`trace[${index}] projectile coordinates must accompany projectileId`);
+    }
+    if (entry.projectileActionToken !== undefined
+      && (!Number.isSafeInteger(entry.projectileActionToken) || entry.projectileActionToken < 0)) {
+      errors.push(`trace[${index}].projectileActionToken must be a non-negative integer`);
     }
     if (entry.attackId && !entry.projectileId) errors.push(`trace[${index}] attackId requires projectileId`);
     if (entry.damageSourceId && !entry.attackId) errors.push(`trace[${index}] damageSourceId requires attackId`);
@@ -190,11 +196,27 @@ export function verifyRangeAttackDamageChain(
     issues.push({ code: 'NO_ATTACK', contractId: expected.contractId, message: 'no in-range basic attack projectile' });
     return issues;
   }
+  if (attack.actionToken === undefined || attack.projectileActionToken !== attack.actionToken) {
+    issues.push({
+      code: 'WRONG_ACTION_TOKEN',
+      contractId: expected.contractId,
+      message: `projectile action token ${attack.projectileActionToken ?? 'missing'} does not match runtime action token ${attack.actionToken ?? 'missing'}`,
+      frame: attack.frame,
+    });
+  }
 
   const hit = trace.slice(firstInRange).find((entry) => entry.attackId && entry.damageSourceId);
   if (!hit) {
     issues.push({ code: 'NO_HIT', contractId: expected.contractId, message: 'no projectile hit event linked to damage' });
     return issues;
+  }
+  if (hit.projectileId !== attack.projectileId || hit.projectileActionToken !== attack.actionToken) {
+    issues.push({
+      code: 'WRONG_ACTION_TOKEN',
+      contractId: expected.contractId,
+      message: 'damage did not preserve the attacking projectile/action token identity',
+      frame: hit.frame,
+    });
   }
   if ((hit.projectileElapsedMs ?? -1) < expected.minimumHitElapsedMs) {
     issues.push({

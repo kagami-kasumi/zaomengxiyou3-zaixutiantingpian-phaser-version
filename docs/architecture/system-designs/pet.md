@@ -6,7 +6,7 @@
 
 验收退出：未退出。
 
-实施 task：`TASK-ARCH-203/204A` 只完成旧 P1/P1B 骨架；206 校正活动时钟、ordered-first 索敌和死亡生命周期，204B 让对应结构 gate=0。207/208 随后接入猴系证据与正式消费者，但 2026-08-26 用户再次反证：Runtime 未按各形态 `attackRange` 追击目标，普攻会在距离外虚空播放。2026-08-27 PG-017 V2 已让独立行为 verifier/P1R 对该错误稳定返回 1；当前由 `TASK-SLICE-208A` 整改猴系，再逐族推进。
+实施 task：`TASK-ARCH-203/204A` 只完成旧 P1/P1B 骨架；206 校正活动时钟、ordered-first 索敌和死亡生命周期，204B 让对应结构 gate=0。207/208 随后接入猴系证据与正式消费者，但 2026-08-26 用户反证其未消费各形态 `attackRange`。PG-017 V2 先让独立行为 verifier/P1R 稳定失败，208A 再闭合范围外追击→范围内攻击→verified hit→pet-source damage/cleanup；当前 P1R=0，继续逐族推进。
 
 ## 目标、事实边界与非目标
 
@@ -94,7 +94,7 @@
 | --- | --- | --- | --- |
 | P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `0`：结构 gate 已通过；不证明 Scene/正式消费者或玩家可见自主战斗 |
 | P1B | 204B | Monkey/Horse 8 形态适配结构钩子且不复制 Runtime | `0`：结构 gate 已通过；`basicAttack` 仍可能只有事件，不证明动画、命中与伤害闭环 |
-| P1R | 208 历史 + PG-017 V2 + `TASK-SLICE-208A`（207 提供冻结机器合同） | Monkey1..4 完整自主战斗；每形态 `attackRange` 外追击、范围内真实普通攻击/全部技能、真动画、命中/来源隔离伤害、P1/P2 TestScene/五关 owner 与生命周期 | `1`：新行为语义 verifier 已接入 gate，当前 8/8 范围链稳定报告提前攻击、不追击、不入围；208A 修复前正确保持非 0 |
+| P1R | 208 历史 + PG-017 V2 + `TASK-SLICE-208A`（207 提供冻结机器合同） | Monkey1..4 完整自主战斗；每形态 `attackRange` 外追击、范围内真实普通攻击/全部技能、真动画、命中/来源隔离伤害、P1/P2 TestScene/五关 owner 与生命周期 | `0`：八条范围链、字段覆盖、range/hit/source mutation-kill、家族专项、正式五关旅程均通过；系统仍因其余家族与旧入口保持实施中 |
 | P1C/P1D | 208 后逐族生成 | 其余家族不得只登记 Behavior；每个家族都复用完整证据→正式运行合同 | `1`：其余家族未完整闭合；旧 204C/204D 撤销 |
 | P2/P3 | 208 后逐族推进 | TestScene、五关和功能页消费者随每个家族同批闭合，不再最后集中迁移 | `1`：当前无新 Runtime 正式消费者；旧 204E/204F 撤销 |
 | P4/all | 全部家族完成后生成 | Scene/barrel/旧 Runtime/重复 helper 清零并执行全部正式回归 | `1`：兼容入口仍存在 |
@@ -121,6 +121,7 @@
 | 2026-08-26 / 208 | Monkey1..4 完整正式复现 | `pet P1R=0`；家族专项、全系统、build、正式 P1/P2 940×590 与零 console 通过 | 首个完整参考家族成立；设计继续实施中，209 起以马系验证 Skill，其他 gate 仍保持 1 |
 | 2026-08-26 / 用户虚空攻击反证 | Monkey1..4 攻击距离/追击与 verifier 独立性 | 207 manifest/BasePet 含 `attackRange`，Runtime 只跟 owner且普攻无范围门；测试把敌人放到 projectile 坐标，旧 P1R 仍返回 0 | 覆盖上一行的现行结论：首个完整参考家族不成立，P1R=1；PG-017 V2/猴系整改先行，209 暂停 |
 | 2026-08-27 / PG-017 V2 | P1R 独立行为语义 gate | verifier 自测=0；真实四形态 × P1/P2 range trace 与 `pet P1R`=1，逐项报告 `EARLY_ATTACK/NO_CHASE/NO_IN_RANGE`；未修改玩法 | 本批不通过且失败精确对应存量缺口；门禁已不再假绿，唯一 Ready `TASK-SLICE-208A` 负责整改 |
+| 2026-08-27 / 208A | Monkey1..4 行为语义整改 | `test:behavior-contract-verifier=0`、八条 P1/P2 range trace=0、`pet P1R=0`、家族/五关/全系统/build 均通过 | 本批通过，系统实施中；Skill 已修订，剩余为马系及其余家族、最终旧入口清零与 all gate |
 
 ## 反证与重开
 

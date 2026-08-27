@@ -10,7 +10,7 @@ import type {
 import { PetBehaviorRegistry } from './PetBehaviorRegistry';
 import { PetCombatTargeting } from './PetCombatTargeting';
 import { createDefaultPetBehaviorRegistry } from './pet-behaviors/createDefaultPetBehaviorRegistry';
-import { createPetRuntime, updatePetRuntime } from './PetRuntimeSystem';
+import { chasePetRuntimeTarget, createPetRuntime, updatePetRuntime } from './PetRuntimeSystem';
 import { tickActivePetSkillState } from './PetSkillTickSystem';
 import { PetTuning } from './PetTuning';
 import { requestPetMonkeyBasicAttack } from './PetMonkeyCombatSystem';
@@ -110,15 +110,40 @@ export class PetCombatRuntime {
     }
 
     let context = this.createBehaviorContext(frame, targets);
+    const attackRange = this.behavior.basicAttackRange?.(context);
+    if (attackRange !== undefined && (!Number.isFinite(attackRange) || attackRange < 0)) {
+      throw new Error(`Pet basic attack range must be finite and non-negative: ${attackRange}`);
+    }
+    const shouldChaseTarget = this.target !== undefined
+      && attackRange !== undefined
+      && this.targeting.distance(this.runtime, this.target) > attackRange;
     if (this.behavior.canMove(context)) {
-      updatePetRuntime(this.runtime, this.pet, frame.owner, frame.deltaMs);
+      if (shouldChaseTarget && this.target && attackRange !== undefined) {
+        chasePetRuntimeTarget(this.runtime, this.pet, this.target, attackRange, frame.deltaMs);
+      } else if (this.target && attackRange !== undefined) {
+        this.runtime.facingX = this.targeting.facing(this.runtime, this.target, this.runtime.facingX);
+        this.runtime.state = 'idle';
+      } else {
+        updatePetRuntime(this.runtime, this.pet, frame.owner, frame.deltaMs);
+      }
       context = this.createBehaviorContext(frame, targets);
     }
 
-    const action = this.behavior.selectAction(context) ?? this.behavior.basicAttack(context);
+    let action = this.behavior.selectAction(context);
+    if (!action) {
+      if (this.target && attackRange !== undefined) {
+        if (this.targeting.distance(this.runtime, this.target) > attackRange) {
+          action = undefined;
+        } else {
+          action = this.behavior.basicAttack(context);
+        }
+      } else {
+        action = this.behavior.basicAttack(context);
+      }
+    }
     if (action) {
       this.actionToken += 1;
-      this.behavior.executeAction(action, context);
+      this.behavior.executeAction(action, this.createBehaviorContext(frame, targets));
       this.publish({
         type: 'action',
         petId: this.pet.id,
@@ -270,6 +295,7 @@ export class PetCombatRuntime {
       runtime: Object.freeze({ ...this.runtime }),
       targets: Object.freeze([...targets]),
       target: this.target,
+      actionToken: this.actionToken,
       deltaMs: frame.deltaMs,
       random: frame.random ?? Math.random,
       castSkill: (request) => {
@@ -309,6 +335,7 @@ export class PetCombatRuntime {
           roster: frame.roster,
           runtime: this.runtime,
           target: this.target,
+          actionToken: this.actionToken,
           projectiles: frame.projectiles,
           random: frame.random,
         });

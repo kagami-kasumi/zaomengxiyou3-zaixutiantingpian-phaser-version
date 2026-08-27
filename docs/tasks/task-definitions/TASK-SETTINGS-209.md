@@ -16,7 +16,7 @@
 - `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned，等待 208A）
 
 执行前置：
-- 2026-08-27 PG-017 V2 verifier 已落地并让当前错误实现的 `pet P1R` 正确返回 1；`TASK-SLICE-208A` 必须先让猴系范围外追击→范围内攻击→来源隔离伤害链通过，并修订 `$pet-family-reverse`。此前不得执行本 task。
+- 2026-08-27 PG-017 V2 verifier 已落地；`TASK-SLICE-208A` 已让猴系范围外追击→范围内攻击→来源隔离伤害链与 `pet P1R=0` 通过，并修订 `$pet-family-reverse`。本 task 现为唯一 Ready，只执行马系证据阶段。
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`

@@ -39,6 +39,7 @@
       "action": { "type": "string", "minLength": 1 },
       "actionToken": { "type": "integer", "minimum": 0 },
       "projectileId": { "type": "string", "minLength": 1 },
+      "projectileActionToken": { "type": "integer", "minimum": 0 },
       "projectileX": { "type": "number" },
       "projectileY": { "type": "number" },
       "projectileElapsedMs": { "type": "number", "minimum": 0 },

@@ -16,6 +16,7 @@ import {
   requestPetMonkey3XjSkill,
   requestPetMonkey4JgaoyiSkill,
 } from '../PetSystem';
+import monkeyFamilyTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-settings-207-pet-monkey-family.json';
 
 export type MonkeyPetForm = 1 | 2 | 3 | 4;
 
@@ -37,6 +38,10 @@ const requestByAction: Readonly<Record<MonkeyActionType, PetBehaviorSkillRequest
   'monkey3-lj': requestPetMonkey3LjSkill,
   'monkey4-jgaoyi': requestPetMonkey4JgaoyiSkill,
 };
+
+const attackRangeByForm = Object.freeze(Object.fromEntries(
+  monkeyFamilyTruth.forms.map((form, index) => [index + 1, form.attackRange]),
+) as Record<MonkeyPetForm, number>);
 
 export class MonkeyPetBehavior implements PetBehavior {
   private normalBranchRemainingMs = 0;
@@ -85,6 +90,10 @@ export class MonkeyPetBehavior implements PetBehavior {
           ? { type: 'monkey4-jgaoyi' }
           : undefined;
     }
+  }
+
+  basicAttackRange(_context: PetBehaviorContext): number {
+    return attackRangeByForm[this.form];
   }
 
   basicAttack(context: PetBehaviorContext): PetBehaviorAction | undefined {

@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-208A | 猴系行为语义整改 | 闭合 frozen attackRange 外追击、入围攻击、verified hit、pet-source damage 与 cleanup 的独立黑盒链 | M-032、M-034、M-035、M-042、M-044、VS-067 | 公共追击/范围 owner、target/action token projectile、八条 P1/P2 trace、三类 mutation-kill、P1R=0、Skill/MO-003 修订 |
 | TASK-ARCH-206 | 宠物 Runtime 设计证据校正 | 依据 205 冻结唯一现代组合、调用顺序、差异钩子、owner、消费者与硬 gate | M-032、M-034、M-042、VS-012、VS-067 | 校正后 `pet.md`、P1..P4 失败基线、204B..G 串行实施合同 |
 | TASK-ARCH-204A | 宠物公共类 P1B | 实用化公共 Runtime 并接入 Monkey/Horse 真实 Behavior | M-032、M-034、M-042、VS-012、VS-067 | 统一技能时钟/执行能力口、两族 8 形态默认 Registry、P1B 门禁与行为合同 |
 | TASK-SLICE-190C | 背包分页视觉一致性 | 统一正式背包与炼丹炉的原生分页 UI，同时保持同一 inventory owner 与各页 truth 几何 | M-035、M-037、M-052、VS-064、VS-070 | `createInventoryPagerObjects`、character 118 静态后缀 truth/清除、跨页门禁与第一页/第二页运行证据 |
@@ -7891,6 +7892,36 @@ UI 原生化合同：
 
 推荐后续任务：
 - `TASK-ARCH-204B`。
+
+### TASK-SLICE-208A
+
+任务类型：`TASK-SLICE`。任务模型：常规任务。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-209`）。
+
+完成定义：
+
+- `PetCombatRuntime` 通过猴系 Behavior 直接消费 207 manifest 冻结的四形态 `attackRange=40/70/150/150`；锁定目标在范围外时追击 sticky target，进入范围后保持位置并执行普通攻击，不再先创建虚空 projectile。
+- normal projectile 保存 target/action token；正式命中 resolver 在 verified hit frame 只结算绑定目标，形成 pet-source attack id、目标 HP 下降与 hit cleanup 的同一可观察链。
+- 四形态 × P1/P2 八条黑盒 trace 全部通过，范围、命中时序、source owner 三类 mutation-kill 继续有效；TestScene 与正式五关仍复用公共 Runtime/Projectile/伤害入口，换宠、休息、返回和重载合同由既有家族/旅程回归保持。
+- 使用 `$skill-creator` 将字段级覆盖、范围外负场景、source-isolated trace、action token 与 mutation-kill 写回 `$pet-family-reverse`；MO-003 保持修订中，等待马系第二样本最终裁决。
+
+完成日期：2026-08-27。
+
+关键产物：
+
+- `src/systems/PetCombatRuntime.ts`、`PetRuntimeSystem.ts`、`PetBehavior.ts` 与 `pet-behaviors/MonkeyPetBehavior.ts` 的 frozen range/追击公共语义。
+- `src/systems/PetMonkeyCombatSystem.ts`、`ProjectileTypes.ts` 的 target/action token、verified hit 与 cleanup 链。
+- `tools/behavior-contract-runtime-verifier*.ts`、`pet-monkey-behavior-contract-*` 与家族正向 fixture 的独立黑盒/变异回归。
+- `$pet-family-reverse` 的 V3 修订、MO-003/PG-017/设计验收与功能线台账记录。
+
+验证：
+
+- `npm run test:behavior-contract-verifier`、`npm run test:pet-monkey-behavior-contract`、`npm run test:pet-monkey-family`、`npm run check:system-design -- pet P1R` 均返回 0。
+- `npm run test:formal-pet-journey`、`npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check` 通过；structure 仅保留既有 warning，本批对大文件均为窄改。
+- 当前会话没有暴露内置浏览器控制接口，因此未新增人工 940×590 观察结论；正式五关/P1/P2 路径由 P1R 消费者回归和冷启动旅程覆盖，视觉资产与投影未修改。
+
+推荐任务：
+
+- `TASK-SETTINGS-209`：使用修订后的 `$pet-family-reverse` 完成 horse1..4 第二家族证据样本，并依据 verified 合同生成独立正式实现 task；不得在同一次 `/goal` 续跑。
 
 ## 执行记录
 
