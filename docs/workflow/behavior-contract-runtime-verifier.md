@@ -1,6 +1,6 @@
 # 行为合同到运行时语义 verifier
 
-状态：治理设计中，由 PG-017 V2 调度。
+状态：V2 脚手架已落地；当前猴系错误实现被稳定反证，等待 `TASK-SLICE-208A` 整改。
 
 关联问题：`PG-017 真值表不管用`。
 
@@ -46,6 +46,16 @@
 - 新 P1R gate：结构 gate 可保留为前置，但只有语义 verifier 与正式路径证据同时通过时，P1R 才能返回 0。
 - 失败报告必须指出未消费字段、缺失场景或断裂事件，不能只输出测试文件失败。
 
+当前落点：
+
+- Trace Schema：`docs/workflow/schemas/behavior-runtime-trace.schema.json`。
+- 通用字段/trace/范围链 verifier：`tools/behavior-contract-runtime-verifier.ts`。
+- 41 项字段覆盖矩阵：`tools/pet-monkey-behavior-contract-coverage.ts`。
+- 黑盒场景采集适配器：`tools/pet-monkey-behavior-contract-adapter.ts`；expected 直接读取 207 manifest，actual 只读公共 Runtime snapshot/event、Projectile 和正式伤害事件。
+- 自测入口：`npm run test:behavior-contract-verifier`；覆盖 Schema 负例、41 id 完整性和 `attackRange`/命中帧/source owner 三类 mutation-kill。
+- 真实入口：`npm run test:pet-monkey-behavior-contract`；当前四形态 × P1/P2 均报告 `EARLY_ATTACK/NO_CHASE/NO_IN_RANGE`。
+- P1R：`tools/check-system-design.mjs` 已强制运行真实入口；旧结构/同源专项即使为绿，当前错误实现的 `npm run check:system-design -- pet P1R` 仍返回 1。
+
 ## 5. 非目标与调度
 
 - 本文不实施猴系追击/攻击修复，不改 207 已冻结的原版事实。
@@ -58,3 +68,5 @@
 - verifier 的 Schema、字段覆盖检查、受控场景和 mutation-kill 入口落地，并能对当前猴系错误实现稳定报错。
 - 旧 `pet P1R` 即使结构检查和原专项仍为绿，也会因语义链失败返回非 0。
 - 形成猴系整改 task 的精确输入；治理项完成后由该游戏 task 修实现，而不是在治理脚手架中顺手修改玩法。
+
+2026-08-27 结果：上述三项均满足。治理项已从全局执行队列移除，并生成 `TASK-SLICE-208A`；猴系 P1R 仍为 1 是本轮预期反证结果，不是治理脚手架失败。

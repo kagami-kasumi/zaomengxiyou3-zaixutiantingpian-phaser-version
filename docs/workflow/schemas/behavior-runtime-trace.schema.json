@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/workflow/schemas/behavior-runtime-trace.schema.json",
+  "title": "Behavior contract black-box runtime trace",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "frame",
+      "elapsedMs",
+      "ownerSlot",
+      "consumerPath",
+      "runtimeKey",
+      "petId",
+      "petX",
+      "petY",
+      "targetId",
+      "targetX",
+      "targetY",
+      "distance",
+      "targetHpBefore",
+      "targetHpAfter"
+    ],
+    "properties": {
+      "frame": { "type": "integer", "minimum": 0 },
+      "elapsedMs": { "type": "number", "minimum": 0 },
+      "ownerSlot": { "enum": ["p1", "p2"] },
+      "consumerPath": { "type": "string", "minLength": 1 },
+      "runtimeKey": { "type": "string", "minLength": 1 },
+      "petId": { "type": "string", "minLength": 1 },
+      "petX": { "type": "number" },
+      "petY": { "type": "number" },
+      "targetId": { "type": "string", "minLength": 1 },
+      "targetX": { "type": "number" },
+      "targetY": { "type": "number" },
+      "distance": { "type": "number", "minimum": 0 },
+      "action": { "type": "string", "minLength": 1 },
+      "actionToken": { "type": "integer", "minimum": 0 },
+      "projectileId": { "type": "string", "minLength": 1 },
+      "projectileX": { "type": "number" },
+      "projectileY": { "type": "number" },
+      "projectileElapsedMs": { "type": "number", "minimum": 0 },
+      "attackId": { "type": "string", "minLength": 1 },
+      "damageSourceId": { "type": "string", "minLength": 1 },
+      "targetHpBefore": { "type": "number", "minimum": 0 },
+      "targetHpAfter": { "type": "number", "minimum": 0 },
+      "cleanupReason": { "enum": ["hit", "expired", "source-destroyed", "runtime-destroyed"] }
+    }
+  }
+}

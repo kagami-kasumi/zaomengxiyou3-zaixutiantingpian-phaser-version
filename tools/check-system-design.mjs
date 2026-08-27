@@ -219,6 +219,7 @@ const contracts = {
       forbidMatches(body, [['legacy PetRuntimeSystem dependency', /PetRuntimeSystem/u]], errors);
       requireTest('pet-combat-runtime-design-tests', tests, errors);
       requireTest('pet-monkey-family-runtime-tests', tests, errors);
+      requireTest('pet-monkey-behavior-contract-runtime-tests', tests, errors);
       requireTest('pet-monkey-animation-runtime-tests', tests, errors);
       requireTest('formal-pet-tests', tests, errors);
       requireTest('formal-pet-journey-tests', tests, errors);

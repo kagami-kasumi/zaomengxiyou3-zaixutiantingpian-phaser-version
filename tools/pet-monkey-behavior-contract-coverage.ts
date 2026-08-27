@@ -1,0 +1,82 @@
+import type { BehaviorContractCoverage } from './behavior-contract-runtime-verifier';
+
+const external = (
+  contractId: string,
+  expectedFields: readonly string[],
+  scenarioId: string,
+  actualField: string,
+  assertion: string,
+): BehaviorContractCoverage => ({
+  contractId,
+  expectedFields,
+  scenarioIds: [scenarioId],
+  actualTraceFields: [actualField],
+  assertions: [assertion],
+  verificationKind: 'external-gate',
+});
+
+const trace = (
+  contractId: string,
+  expectedFields: readonly string[],
+  scenarioIds: readonly string[],
+  actualTraceFields: readonly string[],
+  assertions: readonly string[],
+): BehaviorContractCoverage => ({
+  contractId,
+  expectedFields,
+  scenarioIds,
+  actualTraceFields,
+  assertions,
+  verificationKind: 'trace',
+});
+
+const rangeScenarios = [
+  'monkey1-p1-range-chain', 'monkey1-p2-range-chain',
+  'monkey2-p1-range-chain', 'monkey2-p2-range-chain',
+  'monkey3-p1-range-chain', 'monkey3-p2-range-chain',
+  'monkey4-p1-range-chain', 'monkey4-p2-range-chain',
+] as const;
+
+export const monkeyBehaviorContractCoverage: readonly BehaviorContractCoverage[] = [
+  external('owner.body', ['/owners/*/bodyClass', '/owners/*/bodyOwner'], 'asset-owner-gate', 'asset.body.owner', 'body symbol resolves from the frozen owner'),
+  external('owner.effects', ['/forms/*/actions/*/projectile'], 'asset-owner-gate', 'asset.effect.owner', 'effect symbol resolves from the frozen owner'),
+  external('owner.collision', ['/owners/*/collisionClass', '/collisionTruth/*'], 'asset-owner-gate', 'asset.collision.owner', 'collision symbol and dimensions match the frozen owner'),
+  external('visual.states', ['/visualTruth/stateCount', '/visualTruth/displayObjectCount'], 'visual-truth-gate', 'visual.state.fixture', 'runtime action maps to a verified state fixture'),
+  external('visual.baselines', ['/visualTruth/baselineCount', '/visualTruth/unresolvedCount'], 'visual-truth-gate', 'visual.baseline.diff', 'state baseline is present and unresolved count remains zero'),
+  trace('runtime.update-order', ['/sharedRuntime/updateOrder'], ['runtime-order-trace'], ['frame', 'actionToken', 'projectileElapsedMs'], ['projectile step precedes AI and cooldown tick follows action']),
+  trace('runtime.target-order', ['/sharedRuntime/targeting/selection', '/sharedRuntime/targeting/order'], ['ordered-target-trace'], ['targetId', 'distance'], ['first living target inside search range remains selected']),
+  trace('runtime.target-loss', ['/sharedRuntime/targeting/loss'], ['target-loss-trace'], ['frame', 'targetId', 'action'], ['lost target clears without same-frame reselection']),
+  trace('runtime.follow-owner', ['/sharedRuntime/movement/ownerFollowRange'], ['owner-follow-trace'], ['petX', 'petY', 'distance'], ['pet converges on owner only when no target chase is required']),
+  trace('runtime.follow-target', ['/forms/0/attackRange', '/forms/1/attackRange', '/forms/2/attackRange', '/forms/3/attackRange'], rangeScenarios, ['petX', 'petY', 'targetX', 'targetY', 'distance', 'action'], ['distance decreases outside attackRange', 'no attack evidence appears outside attackRange']),
+  trace('runtime.warp', ['/sharedRuntime/movement/warpDistance', '/sharedRuntime/movement/warpDestination'], ['owner-warp-trace'], ['petX', 'petY', 'action'], ['warp occurs only at the frozen owner distance and destination']),
+  trace('runtime.action-priority', ['/sharedRuntime/cadence/decisionPriority'], ['action-priority-trace'], ['frame', 'action', 'actionToken'], ['one action follows frozen priority per decision frame']),
+  trace('runtime.normal-roll', ['/sharedRuntime/cadence/normalBranch', '/forms/*/attackRate'], ['normal-roll-trace'], ['frame', 'action'], ['two independent random rolls select normal, wait, or chase']),
+  trace('runtime.cooldown-order', ['/sharedRuntime/cooldown'], ['cooldown-order-trace'], ['frame', 'actionToken'], ['AI reads cooldown before the frame decrement']),
+  trace('runtime.auto-buff', ['/sharedRuntime/updateOrder'], ['auto-buff-trace'], ['frame', 'action'], ['passive and passive-upgrade positions follow frozen order']),
+  trace('runtime.hurt', ['/sharedRuntime/hurt'], ['hurt-trace'], ['frame', 'action', 'damageSourceId'], ['damage is consumed before hurt-release behavior']),
+  trace('runtime.death', ['/sharedRuntime/death'], ['death-trace'], ['frame', 'action', 'cleanupReason'], ['lethal damage enters dead action before cleanup']),
+  trace('runtime.destroy', ['/sharedRuntime/destroy', '/playerLifecycle/destruction'], ['destroy-trace'], ['runtimeKey', 'petId', 'cleanupReason'], ['destroy clears only the owning runtime and projectiles']),
+  trace('runtime.projectile-collision', ['/sharedRuntime/projectile', '/collisionTruth/*'], rangeScenarios, ['projectileId', 'projectileX', 'projectileY', 'attackId'], ['hit is produced by projectile collision at the verified frame']),
+  trace('runtime.attack-id-dedup', ['/sharedRuntime/projectile'], ['attack-dedup-trace'], ['attackId', 'targetId'], ['one attack id damages one target at most once']),
+  trace('runtime.damage-pipeline', ['/sharedRuntime/damage'], rangeScenarios, ['attackId', 'damageSourceId', 'targetHpBefore', 'targetHpAfter'], ['pet-source attack id is the sole cause of target HP decrease']),
+  trace('runtime.p1-p2', ['/playerLifecycle/sharedLogic', '/playerLifecycle/ownerPrecedence', '/playerLifecycle/independentState'], rangeScenarios, ['ownerSlot', 'runtimeKey', 'petId', 'damageSourceId'], ['P1 and P2 traces retain private runtime, source, and cleanup state']),
+  trace('monkey1.normal', ['/forms/0/attackRange', '/forms/0/actions/normal'], ['monkey1-p1-range-chain', 'monkey1-p2-range-chain'], ['distance', 'action', 'projectileId', 'attackId'], ['normal attack starts in range and reaches its frozen hit frame']),
+  trace('monkey1.xj', ['/forms/0/actions/xj', '/forms/0/skills/0'], ['monkey1-xj-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['xj release, projectile, hit, and damage form one action token chain']),
+  trace('monkey1.hurt-release', ['/forms/0/skills/0/release'], ['monkey1-hurt-release-trace'], ['damageSourceId', 'action', 'actionToken'], ['hurt arms xj before its release']),
+  trace('monkey2.normal', ['/forms/1/attackRange', '/forms/1/actions/normal'], ['monkey2-p1-range-chain', 'monkey2-p2-range-chain'], ['distance', 'action', 'projectileId', 'attackId'], ['normal attack starts in range and reaches its frozen hit frame']),
+  trace('monkey2.lj', ['/forms/1/actions/lj', '/forms/1/skills/0'], ['monkey2-lj-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['lj prelude does not damage and damage projectile does']),
+  trace('monkey2.xj', ['/forms/1/actions/xj', '/forms/1/skills/1'], ['monkey2-xj-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['xj release, projectile, hit, and damage form one action token chain']),
+  trace('monkey2.hurt-release', ['/forms/1/skills/1/release'], ['monkey2-hurt-release-trace'], ['damageSourceId', 'action', 'actionToken'], ['hurt arms xj before its release']),
+  trace('monkey3.normal', ['/forms/2/attackRange', '/forms/2/actions/normal'], ['monkey3-p1-range-chain', 'monkey3-p2-range-chain'], ['distance', 'action', 'projectileId', 'attackId'], ['normal attack starts in range and reaches its frozen hit frame']),
+  trace('monkey3.lyq', ['/forms/2/actions/lyq', '/forms/2/skills/0'], ['monkey3-lyq-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['lyq projectile and damage follow the frozen target rule']),
+  trace('monkey3.xj', ['/forms/2/actions/xj', '/forms/2/skills/1'], ['monkey3-xj-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['xj projectile and damage follow the frozen target rule']),
+  trace('monkey3.lj', ['/forms/2/actions/lj', '/forms/2/skills/2'], ['monkey3-lj-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['lj release, projectile, hit, and damage form one action token chain']),
+  trace('monkey3.hurt-release', ['/forms/2/skills/2/release'], ['monkey3-hurt-release-trace'], ['damageSourceId', 'action', 'actionToken'], ['hurt arms lj before its release']),
+  trace('monkey4.normal', ['/forms/3/attackRange', '/forms/3/actions/normal'], ['monkey4-p1-range-chain', 'monkey4-p2-range-chain'], ['distance', 'action', 'projectileId', 'attackId'], ['normal attack starts in range and reaches its frozen hit frame']),
+  trace('monkey4.lyq', ['/forms/3/actions/lyq', '/forms/3/skills/0'], ['monkey4-lyq-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['inherited lyq projectile and damage retain monkey4 ownership']),
+  trace('monkey4.xj', ['/forms/3/actions/xj', '/forms/3/skills/1'], ['monkey4-xj-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['inherited xj projectile and damage retain monkey4 ownership']),
+  trace('monkey4.lj', ['/forms/3/actions/lj', '/forms/3/skills/2'], ['monkey4-lj-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['inherited lj projectile and damage retain monkey4 ownership']),
+  trace('monkey4.jgaoyi', ['/forms/3/actions/jgaoyi', '/forms/3/skills/3'], ['monkey4-jgaoyi-trace'], ['action', 'projectileId', 'attackId', 'targetHpAfter'], ['jgaoyi starts only when its frozen preconditions hold']),
+  trace('monkey4.hurt-release', ['/forms/3/skills/2/release'], ['monkey4-hurt-release-trace'], ['damageSourceId', 'action', 'actionToken'], ['hurt arms inherited lj before its release']),
+  trace('monkey4.jgaoyi-chain', ['/forms/3/actions/jgaoyi', '/playerLifecycle/independentState'], ['monkey4-jgaoyi-chain-trace'], ['frame', 'actionToken', 'targetId', 'petX', 'petY'], ['five steps retain private target and action ownership before cleanup']),
+];

@@ -1,5 +1,13 @@
 # 工作流治理日志
 
+## 2026-08-27：PG-017 V2 行为语义 verifier 落地
+
+- Schema/覆盖：新增黑盒 trace Schema、通用 verifier、207 的 41 项字段→场景→actual→assertion 矩阵，以及四形态 × P1/P2 受控范围链采集器；expected 直接读取冻结 manifest，actual 只来自公共 Runtime snapshot/event、Projectile 与正式伤害事件。
+- 反证：自测稳定杀死 `attackRange`、命中帧和 source owner 三类关键变异；真实入口对当前猴系 8/8 场景报告 `EARLY_ATTACK/NO_CHASE/NO_IN_RANGE`，旧专项仍绿时 `pet P1R` 已正确返回 1。
+- 调度：PG-017 V2 从全局治理执行队列移除；生成唯一 Ready `TASK-SLICE-208A` 修玩法，209 改回 Planned。同一次 `/goal` 到此结束，不续跑游戏 task。
+- 方法：MO-003 只记录 V3 修订准备样本；猴系整改达到语义 P1R=0 后才修订 `$pet-family-reverse`，再恢复马系第二家族验证。
+- 验证：`npm run test:behavior-contract-verifier=0`；`npm run test:pet-monkey-behavior-contract=1` 与 `npm run check:system-design -- pet P1R=1` 为当前存量错误的预期反证；收尾另跑 workflow/problem/build/diff 门禁。
+
 ## 2026-08-26：PG-017 复盘猴系 P1R 自证循环
 
 - 反证：207 原版合同已经包含每形态 `attackRange` 与 BasePet 追击事实，但 208 Runtime 仍只跟随 owner，普攻没有范围门；测试把敌人放在 projectile 坐标并只核对合同 id，导致虚空攻击存在时专项与 `pet P1R` 仍为 0。

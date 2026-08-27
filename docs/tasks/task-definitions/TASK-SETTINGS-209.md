@@ -13,10 +13,10 @@
 - `docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；游戏 Ready，但被全局执行队列的 PG-017 Ready 抢占）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned，等待 208A）
 
 执行前置：
-- 2026-08-26 猴系虚空攻击已推翻 208 的“完整案例/P1R=0”现行结论。PG-017 V2 行为合同运行时 verifier 与后续猴系整改必须先完成，猴系重新达到语义 P1R=0，并修订 `$pet-family-reverse`；此前不得执行本 task。
+- 2026-08-27 PG-017 V2 verifier 已落地并让当前错误实现的 `pet P1R` 正确返回 1；`TASK-SLICE-208A` 必须先让猴系范围外追击→范围内攻击→来源隔离伤害链通过，并修订 `$pet-family-reverse`。此前不得执行本 task。
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`

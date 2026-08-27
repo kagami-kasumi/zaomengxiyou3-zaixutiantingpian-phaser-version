@@ -14,9 +14,7 @@
 
 ## 活跃治理执行项
 
-| 优先级 | 问题 | 状态 | 类型 | 目标 | 治理合同 | 完成后 |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | PG-017 | Ready | V2 复盘/验证脚手架 | 落地行为合同到运行时语义 verifier，使猴系 `attackRange`、追击、命中和伤害来源的自证循环可被自动反证 | [PG-017](../workflow/problems/PG-017-真值表不管用.md)、[verifier 合同](../workflow/behavior-contract-runtime-verifier.md) | 生成猴系整改 task；猴系重新达到 P1R=0 后才恢复 209 |
+当前为空。PG-017 V2 治理项已于 2026-08-27 完成：行为语义 verifier 已接入 P1R，并生成唯一 Ready 游戏 task `TASK-SLICE-208A`；同一次 `/goal` 不继续执行该游戏 task。
 
 ## 游戏回退
 
