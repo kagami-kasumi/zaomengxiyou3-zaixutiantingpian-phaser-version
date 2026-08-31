@@ -14,6 +14,7 @@ import { chasePetRuntimeTarget, createPetRuntime, updatePetRuntime } from './Pet
 import { tickActivePetSkillState } from './PetSkillTickSystem';
 import { PetTuning } from './PetTuning';
 import { requestPetMonkeyBasicAttack } from './PetMonkeyCombatSystem';
+import { requestPetHorseBasicAttack } from './PetHorseCombatSystem';
 import type { ProjectileSystemModel } from './ProjectileSystem';
 import type {
   PetOwnerSnapshot,
@@ -309,6 +310,7 @@ export class PetCombatRuntime {
           targets,
           projectiles: frame.projectiles,
           random: frame.random,
+          actionToken: this.actionToken,
         });
       },
       castSkillAt: (request, target) => {
@@ -322,16 +324,20 @@ export class PetCombatRuntime {
           targets: [target],
           projectiles: frame.projectiles,
           random: frame.random,
+          actionToken: this.actionToken,
         });
       },
       castBasicAttack: () => {
         if (!frame.projectiles) {
           throw new Error(`Pet behavior ${this.pet?.species}:${this.pet?.form} requires projectiles.`);
         }
-        if (!this.runtime || !this.target) {
+        if (!this.pet || !this.runtime || !this.target) {
           throw new Error('Pet behavior basic attack requires an active runtime and target.');
         }
-        return requestPetMonkeyBasicAttack({
+        const request = this.pet.species === 'horse'
+          ? requestPetHorseBasicAttack
+          : requestPetMonkeyBasicAttack;
+        return request({
           roster: frame.roster,
           runtime: this.runtime,
           target: this.target,

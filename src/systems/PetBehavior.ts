@@ -41,6 +41,7 @@ export type PetBehaviorSkillRequest = (params: {
   targets: readonly PetSkillTarget[];
   projectiles: ProjectileSystemModel;
   random?: PetSkillRandomSource;
+  actionToken?: number;
 }) => PetSkillCastResult;
 
 export type PetBehaviorContext = Readonly<{

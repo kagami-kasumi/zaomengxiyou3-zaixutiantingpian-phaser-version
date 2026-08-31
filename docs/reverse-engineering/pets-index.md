@@ -1065,4 +1065,10 @@ interface PetState {
 
 sp/bd 命中可添加同一 `PetHorseIceEffect`，按目标 `colipse` 尺寸缩放并暂停/恢复 BBDC；奥义对每个怪生成一枚内嵌 8 帧的 `PetHorse4Bullet5`，学 sp 时追踪，学 bz 时命中生成 30 帧爆炸，同时学 bd 则延迟 1 秒。远距 warp 仍只改 root 坐标。精确行、偏移和销毁矩阵见 `evidence/TASK-SETTINGS-193C-pet-horse-animation.md`。
 
+## TASK-SETTINGS-209 马系完整家族合同
+
+权威真值 `task-settings-209.pet-horse-family` 在 193C 视觉真值之上冻结 43 项字段级合同：BasePet 更新/索敌/双随机/追击/回跟/warp、horse1..4 普攻范围 `40/70/150/150`、所有形态实际继承的 `sp/bd/bz/tmaoyi`、body emit tick、effect/projectile collision、attack-id dedup、原版伤害、共享冰效、owner 与 P1/P2 生命周期。expected/extracted forms/actions/effects 分离核对，`unresolved=[]`。
+
+马系与猴系不可共用 generic 技能模板：horse2..4 的 `bd` 由受击 flag 门控并在 projectile 创建时清除；horse3/4 保留早阶技能；horse4 奥义按 monster 数量逐个生成下落物，`sp` 控制 tracking、`bd` 控制 `hit5_1` 的 2.4 秒冰冻并令爆炸延迟 1 秒、`bz` 控制 `hit5_2` 爆炸。现代 `HorsePetBehavior` 的字符串普攻、旧最小 skill request 和独立 `FormalPetHorseBodyBridge/PetRuntimeSystem` 不能证明命中。完整证据和 210 的 field→scenario→trace→assertion 交接见 `evidence/TASK-SETTINGS-209-pet-horse-family.md`。
+
 

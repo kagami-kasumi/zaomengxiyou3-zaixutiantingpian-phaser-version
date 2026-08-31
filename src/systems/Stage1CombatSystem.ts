@@ -105,6 +105,7 @@ export type Stage1CombatEnemy = {
     attackRange: number;
   }>;
   lastHitBy?: PlayerSlot;
+  petHorseIceRemainingMs?: number;
 };
 
 export type Stage1CombatAudit = {

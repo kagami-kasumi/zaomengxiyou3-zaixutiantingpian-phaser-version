@@ -11648,3 +11648,72 @@ UI 原生化合同：
 - 用户正式运行发现猴系在各形态 `attackRange` 外原地播放攻击效果，不追击且不命中。207 manifest 与原版 `BasePet.myIntelligence` 已包含正确攻击距离/追击事实；缺口属于 208 Runtime 与 verifier 的语义消费。
 - 专项只核对 41 个 contract id，并把敌人放在 projectile 坐标；P1R 只检查结构/正则和同源测试，运行审计也没有距离→追击→命中→pet-source damage 的来源隔离 trace。因此上述“完整闭合/P1R=0/Skill 首例成功”被撤销，P1R 现为 1。
 - `TASK-SLICE-208` 仍作为已执行历史 task 保留，不伪改完成日期或删除产物；PG-017 已转 V2 复盘并抢占 209，MO-003 转修订中。先落地行为合同运行时语义 verifier，再生成猴系整改 task，重新闭合后才恢复马系。
+
+### TASK-SETTINGS-209
+
+任务类型：`TASK-SETTINGS`。任务模型：视觉真值逆向。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-210`）。
+
+完成定义：
+
+- 使用经 208A 语义重验后修订的 `$pet-family-reverse`，只闭合 horse1..4 的 BasePet 公共 AI、追击/回跟/warp、四形态普攻、全部继承 `sp/bd/bz/tmaoyi`、共享冰效、奥义组合、命中/伤害、owner 与 P1/P2 生命周期；不修改 `src/`。
+- `task-settings-209.pet-horse-family` 固化 43 项 field→scenario→trace→assertion 同集合同；引用并复核 193C 的 716 states / 20 display objects / 716 original baselines，补齐两套 StageCommon collision、body emit tick、BaseBullet dedup/damage、三包 owner 和 P1/P2 lifecycle，`unresolved=[]`。
+- 生成 `TASK-SLICE-210`，要求 P1H 独立 verifier、range/hit/source mutation-kill、TestScene/正式五关同源与 940×590 玩家可见验证；证据 task 不越级宣告马系已经复现。
+
+完成日期：2026-08-28。
+
+关键产物：
+
+- `docs/reverse-engineering/evidence/TASK-SETTINGS-209-pet-horse-family.md`
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-209-pet-horse-family.json`
+- 泛化后的 `docs/reverse-engineering/ground-truth/schema/pet-family-ground-truth.schema.json`
+- `tools/generate-pet-horse-family-ground-truth.mjs`、`tools/validate-pet-horse-family-handoff.mjs`
+- corpus 的 `familyTruthId/familyEvidencePath/familyImplementationTask` 马系交接字段。
+- `docs/tasks/task-definitions/TASK-SLICE-210.md`
+
+证据结论：
+
+- horse1..4 普攻范围为 `40/70/150/150`；三四阶的 150 来自 BasePet 默认值，不从猴系复制。普通攻击和技能各自按 body sequence/hold tick 生成真实 effect，碰撞后才进入 dedup/damage。
+- horse2..4 继承的 `bd` 由受击 flag 门控并在 projectile 创建时清除；horse3/4 保留早阶 `sp/bd`；horse4 保留全部前三技能。
+- `tmaoyi` 按 monster 数量逐个生成下落物；学 `sp` 才 tracking，学 `bd` 才对 `hit5_1` 附加 2.4 秒冰冻，学 `bz` 才生成二段爆炸，同时学 `bd+bz` 时爆炸延迟 1 秒。
+- 现代 `HorsePetBehavior.basicAttack` 仍只有字符串事件，旧最小 skill request 不是 verified projectile hit；正式 horse body bridge 仍使用第二套 `PetRuntimeSystem` 表现 owner，正式马系伤害解析缺失。这些缺口均进入 210，而非反写成原版未知。
+- `$pet-family-reverse` 第二家族证据阶段通过：阻止 4 类遗漏，记录 5 类家族差异，返工 0、错误完成声明 0、跨家族切换 0；MO-003 仍为修订中，等待 210 正式实现/运行后裁决。
+
+验证：
+
+- `npm run test:pet-horse-family-truth`：43 contracts、4 forms、14 actions、0 unresolved；source hash、Schema、expected/extracted、range/tmaoyi timing/acceptance trace 关键字段变异与独立 handoff 通过。
+- `npm run test:pet-horse-animation-truth`：193C 716 状态/20 对象仍为 current。
+- `npm run test:pet-animation-corpus`：9 species、35 forms、38 skill mappings、0 unlocated。
+- `npm run check:structure` 通过，仅报告与本 task 无关的既有大文件/装配桥 warning；本 task 未修改 `src/`。
+
+推荐任务：
+
+- `TASK-SLICE-210`：直接消费 209 的 43 项 verified 合同，在正式 P1/P2/TestScene 同源 Runtime 闭合范围外追击、真实普攻/全部技能、实际 HP decrease、真动画、owner 与生命周期，并完成 MO-003 第二家族最终裁决输入。
+
+### TASK-SLICE-210
+
+任务类型：`TASK-SLICE`。任务模型：常规任务。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-211`）。
+
+完成定义：
+
+- horse1..4 × P1/P2 从范围外追击到双随机普通攻击，全部继承 `sp/bd/bz`、受击 bd、共享冰效与 `tmaoyi` tracking/ice/explosion 组合直接消费 209 的 43 项 verified 合同。
+- 真 projectile 在 verified emit/hit 时序后通过 attack-id dedup 和 pet source 进入 Stage1 共享伤害结算，形成实际怪物 HP decrease 与 cleanup；没有以动画自证命中。
+- `FormalPetHorseBodyBridge` 改为 `PetCombatSnapshot/actionToken/projectile` 单 owner，TestScene 删除马系具体技能直连；P1/P2 的 target/CD/hurt/projectile/ice/延迟爆炸/销毁互相隔离。
+
+完成日期：2026-08-31。
+
+关键产物：
+
+- `src/systems/PetHorseCombatSystem.ts`、`src/systems/pet-behaviors/HorsePetBehavior.ts` 与公共 `PetCombatRuntime/Projectile/Stage1` 接缝。
+- `src/scenes/HeroPartyRuntimeBridge.ts`、`src/scenes/FormalPetHorseBodyBridge.ts` 及 TestScene 同源消费者。
+- `tools/pet-horse-behavior-contract-*`、`tools/pet-horse-family-runtime-tests.ts` 与 `pet P1H` gate。
+- `docs/tasks/evidence/TASK-SLICE-210/runtime-audit.md`。
+
+验证：
+
+- `npm run check:system-design -- pet P1H`、马系 family/behavior/animation、formal pets/journey、全系统、build、structure、annotations、workflow、problem audit 与 diff check 通过。
+- 940×590 双人正式 Stage 1-2 可见 horse4 P1/P2 本体/HUD，浏览器 warning/error 为 0；八条范围 trace 和 formal damage test 独立证明 HP decrease。
+- MO-003 第二家族样本没有新增重大遗漏、稳定步骤修订、返工、错误完成声明或跨家族切换，最终裁决“采纳”。
+
+推荐任务：
+
+- `TASK-SETTINGS-211`：逆向怪物 hurt/HP、普通/暴击伤害数字与连击原版真值；证据轮不修改 `src/`。

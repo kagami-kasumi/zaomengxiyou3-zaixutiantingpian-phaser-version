@@ -2384,3 +2384,31 @@
 验证：
 - 运行 `npm run test:systems`，通过。
 - 运行 `npm run build`，通过。
+
+## 2026-08-28
+
+### MO-003 记录马系第二家族证据阶段样本
+
+变更内容：
+- `TASK-SETTINGS-209` 使用修订后的 `$pet-family-reverse` 生成 43 项马系字段级合同、独立 handoff 与 `TASK-SLICE-210`；证据阶段 `unresolved=[]`，不提前宣告正式复现。
+- `MO-003` 记录 Skill 阻止的遗漏、马系差异、返工和阶段结论；方法状态仍为“修订中”，最终裁决等待 210 的 P1H、独立 verifier、mutation-kill 与 940×590 正式运行。
+- 本次没有修改方法协议或默认工作流，只增加真实样本与可定位证据。
+
+验证：
+- `npm run test:pet-horse-family-truth`
+- `npm run test:pet-animation-corpus`
+- `npm run check:workflow`
+
+## 2026-08-31
+
+### MO-003 完成第二家族样本并裁决采纳
+
+变更内容：
+- `TASK-SLICE-210` 直接消费 209 的 43 项马系合同，独立 verifier、range/hit/source mutation-kill、`pet P1H=0`、正式五关与 940×590 双人运行均通过。
+- 第二家族没有新增重大遗漏、稳定步骤修订、返工、错误完成声明或跨家族切换；继承技能、受击门和组合奥义均由 V3 Skill 的家族专属证据槽位承载。
+- `MO-003` 从“修订中”裁决为“采纳”并归档；本批不改写 Skill，也不改变默认任务调度协议。
+
+验证：
+- `npm run check:system-design -- pet P1H`
+- `npm run test:pet-horse-behavior-contract`
+- `npm run check:workflow`

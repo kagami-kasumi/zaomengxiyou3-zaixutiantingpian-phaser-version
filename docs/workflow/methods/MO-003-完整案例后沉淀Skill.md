@@ -1,6 +1,8 @@
 # MO-003 完整案例后沉淀 Skill
 
-状态：修订中。
+状态：已归档。
+
+裁决：采纳。归档日期：2026-08-31。
 
 提出者/来源：用户 2026-08-25 对宠物公共类与 `$pet-family-reverse` 的运行反证。
 
@@ -59,7 +61,9 @@
 | 2026-08-26 | TASK-SLICE-208 猴系虚空攻击用户反证 | V2 失效复盘 | 207 已冻结每形态 `attackRange` 与 BasePet 追击事实；现代 Runtime 只跟 owner，普攻无距离门；专项把敌人放在 projectile 坐标且只核对合同 id；结构式 P1R 与同源测试仍返回 0 | “首个完整案例”实际漏掉行为合同字段消费、范围外负场景、追击→命中→pet-source damage trace 和关键字段 mutation-kill；错误完成声明发生 1 次 | 已按未完成案例生成 Skill，证明“跑一次正式画面”本身仍不足以成为独立裁判 | 前一行“首个完整案例通过”被本反证覆盖但保留为历史；MO 转修订中。先由 PG-017 V2 落地行为语义 verifier 并整改猴系，Skill 暂停作为 209 路由 |
 | 2026-08-27 | PG-017 V2 verifier 脚手架 | V3 修订准备 | 41 项字段覆盖矩阵、四形态 × P1/P2 受控范围链、expected/actual 隔离、三类 mutation-kill；旧专项仍绿时新 verifier/P1R 稳定失败 | 已把“完整案例”的缺失判据从人工观察改为可执行反证；当前准确发现 8/8 范围链的提前攻击、不追击、不入围，未产生跨家族切换 | 增加独立 verifier 维护成本，但未修改玩法或为 gate 放宽事实 | 只计修订准备，不计猴系成功样本；208A 通过后才能重写 Skill 并恢复 209 |
 | 2026-08-27 | TASK-SLICE-208A 猴系首案例语义重验 | V3 首案例重验 | 四形态 × P1/P2 从 frozen range 外开始，追击入围后才生成 normal projectile；action/projectile token、verified hit、pet-source HP decrease 与 hit cleanup 同链；range/hit/source mutation-kill、P1R、五关旅程、全系统通过 | 关闭 V2 漏掉的 4 层：字段语义消费、负前置场景、target/action token 连续性、来源隔离清理；无跨家族切换，错误完成声明未再发生 | Skill 增加独立 verifier 与 mutation-kill 成本；当前会话未暴露内置浏览器控制接口，未新增人工 940×590 结论 | 猴系首案例重新成立；已用 `$skill-creator` 修订 Skill，但 MO 仍为“修订中”，恢复 209 做第二家族证据/正式运行样本后再裁决 |
+| 2026-08-28 | TASK-SETTINGS-209 马系第二家族证据阶段 | V3 第二案例前半程 | 43 项同集合同；193C 716 状态/20 对象/716 基准复核；四形态普攻、全部继承 sp/bd/bz/tmaoyi、共享冰效、奥义组合、owner/碰撞/伤害/P1-P2 生命周期；field-level acceptance 与三类关键字段 mutation self-test；`unresolved=[]` | Skill 阻止了“只沿用视觉、只登记 Behavior、字符串普攻自证、generic 奥义”4 类遗漏；新增 5 类马系差异但没有发现需要修改稳定证据步骤，返工 0、错误完成声明 0、跨家族切换 0 | 43 项字段级 handoff 和五种奥义组合增加 210 验收成本；本阶段不包含正式实现/运行，不能据此评价完整成本或玩家可见失败 | 第二家族证据阶段通过；MO 保持“修订中”，只在 210 的 P1H、独立 verifier、mutation-kill 与 940×590 正式运行结束后作最终采纳/修订/停止裁决 |
+| 2026-08-31 | TASK-SLICE-210 马系第二家族正式实现/运行 | V3 第二案例完成 | 43 项合同由生产 Runtime 直接消费；horse1..4 × P1/P2 范围链、全部继承技能、冰效/tmaoyi 五种组合、真实 projectile/HP decrease、Formal/TestScene 同源、P1H 与三类 mutation-kill 全绿；940×590 双人 Stage 1-2 零 console | 新增重大遗漏 0、稳定步骤修订 0、返工 0、错误完成声明 0、跨家族切换 0；马系差异全部落在既有“家族专属事实”槽位 | 独立 verifier 与正式路径双重验收增加任务成本，但准确阻止 Scene 直连、第二表现 owner 和无伤害动画自证 | 满足采纳标准：保留 V3 Skill，无需再改步骤；MO-003 裁决为“采纳”，后续逐族按同一证据→handoff→正式运行合同执行 |
 
 ## 6. 裁决与沉淀
 
-阶段裁决为“修订”，尚未最终采纳或停止。“先完整案例、后 Skill”的方向仍有价值，但当前对“完整”的定义缺少独立行为语义 verifier，导致同一实现链同时充当运动员和裁判。`$pet-family-reverse` 不能再按“单家族已证明”路由 209；先完成 PG-017 V2、用范围外追击→范围内攻击→来源隔离伤害的受控场景重新闭合猴系，再修订 Skill。猴系重验和马系第二样本均通过后，才作最终裁决。
+最终裁决为“采纳”。猴系经 PG-017 V2/208A 语义重验后成为首个完整样本，马系 209/210 作为不同家族的第二样本没有暴露新的重大遗漏、稳定步骤缺口、返工或错误完成声明；其继承技能、受击门和组合奥义差异均由现有家族专属证据槽位承载。V3 `$pet-family-reverse` 保持现状，后续逐族必须继续使用字段→场景→trace→断言、范围外负场景、source-isolated damage、mutation-kill 与正式玩家路径的完整合同；单个 gate 或动画仍不得替代完整闭合。

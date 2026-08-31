@@ -63,6 +63,7 @@
 | 法宝系统 | `MagicWeaponSystem` | System | Combat / Progression | 管理当前法宝、H 键触发、使用中重入边界和首批持续效果 | `ArtifactSystem`, `RelicSystem`, `SutraSystem` |
 | 战斗系统 | `CombatSystem` | System | Combat | 伤害事件、命中去重和首批互伤结算函数 | `DamageSystem`, `HitSystem` |
 | 伤害事件 | `DamageEvent` | Value Object | Combat | 一次伤害结算输入 | `HitInfo`, `DamageInfo` |
+| 战斗反馈事件 | `CombatFeedbackEvent` | Value Object / Event | Combat / Runtime | 只在伤害结算已形成实际 HP decrease 后派生，携带来源、owner、目标、暴击与可见反馈锚点；视图不得据攻击动画自行伪造 | `HitFeedback`, `DamagePopupEvent`, `FloatingDamageEvent` |
 | 命中框 | `Hitbox` | Value Object / Component | Combat | 攻击判定区域 | `AttackBox` |
 | 受击框 | `Hurtbox` | Value Object / Component | Combat | 被命中判定区域 | `BodyBox` |
 | 关卡 | `Level` | Entity / Config | Content | 一次可进入、刷怪、通关的流程 | `Stage`, `Mission` |

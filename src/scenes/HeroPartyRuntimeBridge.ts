@@ -34,13 +34,14 @@ import {
   createCombatHudPetSnapshot,
   createStage1CombatPlayerHudSnapshot,
 } from '../systems/Stage1CombatHudSystem';
-import { getActivePet } from '../systems/PetRosterSystem';
+import { createSeedPetRoster, getActivePet } from '../systems/PetRosterSystem';
 import type { PetRoster } from '../systems/PetTypes';
 import type { PetSkillTarget } from '../systems/PetTypes';
 import type { ProjectileSystemModel } from '../systems/ProjectileSystem';
 import { PetCombatRuntime, type PetCombatSnapshot } from '../systems/PetCombatRuntime';
 import type { PetCombatAnimationEvent } from '../systems/PetBehavior';
 import { resolveFormalPetMonkeyProjectileHits } from '../systems/PetMonkeyCombatSystem';
+import { resolveFormalPetHorseProjectileHits } from '../systems/PetHorseCombatSystem';
 import {
   FormalSkillsUpdatedEvent,
   readFormalSkillRuntime,
@@ -114,6 +115,13 @@ export function createHeroPartyRuntime(
     p1: restoredState?.player1.petRoster,
     p2: restoredState?.player2.petRoster,
   };
+  if (!mayRestoreActiveSave) {
+    const qaHorseForm = readFormalHorseQaForm();
+    if (qaHorseForm) {
+      petRosters.p1 = createFormalHorseQaRoster('p1', qaHorseForm);
+      petRosters.p2 = createFormalHorseQaRoster('p2', qaHorseForm);
+    }
+  }
   const model = createHeroPartyRuntimeModel(views.map((view, index) => ({
     slot: index === 0 ? 'p1' : 'p2',
     heroId: view.getData('heroId'),
@@ -152,7 +160,7 @@ export function createHeroPartyRuntime(
     : createFormalPetMonkeyBodyBridge(scene);
   const formalPetHorseBodies = scene.scene.key === 'TestScene'
     ? undefined
-    : createFormalPetHorseBodyBridge(scene, (slot) => petRosters[slot]);
+    : createFormalPetHorseBodyBridge(scene);
   let destroyed = false;
   const petCombatRuntimes = {
     p1: new PetCombatRuntime(),
@@ -211,13 +219,17 @@ export function createHeroPartyRuntime(
       ))?.combat.slot;
       if (slot) pendingPetAnimationEvents[slot] = [...(pendingPetAnimationEvents[slot] ?? []), event];
     }
-    formalPetHorseBodies?.update(model.members.map((member) => ({
+    const emittedHorseAnimationEvents = formalPetHorseBodies?.update(model.members.map((member) => ({
       slot: member.combat.slot,
-      x: member.movement.x,
-      y: member.movement.y,
-      facingX: member.movement.facingX,
-      dead: member.combat.combat.state === 'dead',
-    })), timeMs);
+      pet: getActivePet(petRosters[member.combat.slot] ?? { pets: [], selectedIndex: 0, message: '' }),
+      snapshot: petCombatSnapshots[member.combat.slot] ?? { destroyed: false },
+    })), model.projectiles.projectiles, timeMs) ?? [];
+    for (const event of emittedHorseAnimationEvents) {
+      const slot = model.members.find((member) => (
+        petCombatSnapshots[member.combat.slot]?.runtime?.runtimeKey === event.runtimeKey
+      ))?.combat.slot;
+      if (slot) pendingPetAnimationEvents[slot] = [...(pendingPetAnimationEvents[slot] ?? []), event];
+    }
     if (role1ShadowQa) {
       scene.game.canvas.dataset.formalRole1ShadowQa = JSON.stringify(model.members
         .filter((member) => member.combat.normalAttack.heroId === 1)
@@ -274,6 +286,15 @@ export function createHeroPartyRuntime(
     resolveAttacks: (monsterTargets, timeMs) => {
       resolveHeroPartyAttacks(model, monsterTargets, timeMs);
       resolveFormalPetMonkeyProjectileHits({
+        projectiles: model.projectiles,
+        combat: model.combat,
+        enemies: monsterTargets,
+        ownerSlotForPet: (petId) => (['p1', 'p2'] as const).find((slot) => (
+          getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' })?.id === petId
+        )),
+        timeMs,
+      });
+      resolveFormalPetHorseProjectileHits({
         projectiles: model.projectiles,
         combat: model.combat,
         enemies: monsterTargets,
@@ -376,6 +397,25 @@ function getBrowserStorage(): Storage | undefined {
   } catch {
     return undefined;
   }
+}
+
+function readFormalHorseQaForm(): 1 | 2 | 3 | 4 | undefined {
+  const local = globalThis.location?.hostname === 'localhost'
+    || globalThis.location?.hostname === '127.0.0.1';
+  if (!local) return undefined;
+  const value = Number(new URLSearchParams(globalThis.location?.search ?? '').get('qaPetHorse'));
+  return value === 1 || value === 2 || value === 3 || value === 4 ? value : undefined;
+}
+
+function createFormalHorseQaRoster(owner: 'p1' | 'p2', form: 1 | 2 | 3 | 4): PetRoster {
+  const roster = createSeedPetRoster();
+  roster.pets.forEach((pet) => {
+    pet.isActive = pet.species === 'horse' && pet.form === form;
+    pet.id = `${owner}-${pet.id}`;
+  });
+  roster.selectedIndex = roster.pets.findIndex(({ isActive }) => isActive);
+  roster.message = `${owner.toUpperCase()} horse${form} formal QA`;
+  return roster;
 }
 
 function isFormalRole1ShadowQaEnabled(): boolean {

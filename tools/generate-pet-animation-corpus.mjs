@@ -83,6 +83,9 @@ const horseTruth = {
   truthId: 'task-settings-193c.pet-horse-animation',
   evidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-193C-pet-horse-animation.md',
   implementationTask: 'TASK-SLICE-193D',
+  familyTruthId: 'task-settings-209.pet-horse-family',
+  familyEvidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-209-pet-horse-family.md',
+  familyImplementationTask: 'TASK-SLICE-210',
 };
 
 const familyTruth = new Map([
@@ -99,6 +102,13 @@ const monkeySkillAnnotations = new Map([
   ['pet-skill.monkey3.lj', ['monkey3 and monkey4 lj prelude plus damage stage', 'TASK-SETTINGS-193A requires disabled behind-pet prelude and visible damage stage; modern single-stage projection is incomplete.']],
   ['pet-skill.monkey4.jgaoyi', ['monkey4 jgaoyi body hit5 row8', 'TASK-SETTINGS-193A confirms no independent projectile visual; TASK-SLICE-193B must consume the body action.']],
 ]);
+
+const monkeyNormalAnnotations = [
+  ['pet-skill.monkey1.normal', 'PetMonkey1Bullet1', true, 'monkey1 verified normal hit1 effect at frame-count 10', 'TASK-SETTINGS-207 freezes the normal attack emit and collision contract; TASK-SLICE-208 consumes the 193A terminal effect frames in the shared formal runtime.'],
+  ['pet-skill.monkey2.normal', 'PetMonkey2Bullet1', true, 'monkey2 verified normal hit1 effect at frame-count 8', 'TASK-SETTINGS-207 freezes the normal attack emit and ObjectBaseSprite4 collision contract; TASK-SLICE-208 consumes the 193A terminal effect frames in the shared formal runtime.'],
+  ['pet-skill.monkey3.normal', 'PetMonkey3Bullet1', true, 'monkey3 verified normal hit1 effect at frame-count 8', 'TASK-SETTINGS-207 freezes the normal attack emit and ObjectBaseSprite collision contract; TASK-SLICE-208 consumes the 193A terminal effect frames in the shared formal runtime.'],
+  ['pet-skill.monkey4.normal', 'PetMonkey3Bullet1', false, 'monkey4 verified normal hit1 reuse at frame-count 8', 'TASK-SETTINGS-207 freezes the form4 reuse and damage owner; TASK-SLICE-208 consumes the 193A monkey4-normal placement with the shared terminal effect frames.'],
+];
 
 const horseSkillAnnotations = new Map([
   ['pet-skill.horse1.sp', ['horse1/2 sp 8-frame PetHorse1Bullet2 and horse3/4 sp 8-frame PetHorse3Bullet3', 'TASK-SETTINGS-193C verified both patch objects, form-specific emit matrices, horse1-only following behavior, last-frame lifecycle and the horse1 hit2 ice effect.']],
@@ -177,13 +187,20 @@ const species = speciesSpecs.map((spec) => {
       ? `verified by ${familyTruth.get(spec.species).truthId}; ${spec.species === 'monkey' ? '626' : '716'} states / 20 objects / unresolved=[]; ${familyTruth.get(spec.species).evidencePath}`
       : 'unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation',
     skills,
-    modernBody: { status: 'placeholder', locator: 'src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection' },
+    modernBody: spec.species === 'horse'
+      ? {
+          status: 'restored-runtime',
+          locator: 'src/scenes/FormalPetHorseBodyBridge.ts + src/scenes/test-scene/TestSceneViews.ts:createPetView',
+        }
+      : { status: 'placeholder', locator: 'src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection' },
     evidenceTask: spec.evidenceTask,
     implementationTask: spec.implementationTask,
     familyTruthId: familyTruth.get(spec.species)?.familyTruthId ?? null,
     familyEvidencePath: familyTruth.get(spec.species)?.familyEvidencePath ?? null,
     familyImplementationTask: familyTruth.get(spec.species)?.familyImplementationTask ?? null,
-    note: spec.note ?? null,
+    note: spec.species === 'horse'
+      ? 'TASK-SLICE-210 binds restored horse body/effects to PetCombatSnapshot/actionToken/projectile and shared formal/TestScene damage runtime; pet P1H=0.'
+      : spec.note ?? null,
   };
 });
 
@@ -236,7 +253,25 @@ const bodyRows = species.map((item) => {
   ]);
 });
 
-const skillRows = skillSpecs.map(([stableKey, speciesName, names, usage]) => {
+const normalRows = monkeyNormalAnnotations.map(([stableKey, names, selectedOnly, usage, note]) => {
+  const resolved = names.split(';').map(resolveSymbol);
+  return row([
+    stableKey,
+    names,
+    'restored-swf',
+    resolved.flatMap((entry) => selectedOnly ? [entry.selectedOwner.sourcePath] : entry.candidates.map((candidate) => candidate.sourcePath)).filter(uniqueValue).join(';'),
+    resolved.map((entry) => entry.selectedOwner.sourcePackage).filter(uniqueValue).join(';'),
+    resolved.map((entry) => entry.selectedOwner.characterId).join(';'),
+    'effect',
+    usage,
+    'ready',
+    'confirmed',
+    'none',
+    note,
+  ]);
+});
+
+const skillRows = [...normalRows, ...skillSpecs.map(([stableKey, speciesName, names, usage]) => {
   const resolved = names.split(';').map(resolveSymbol);
   const monkeyIntegrated = monkeySkillAnnotations.get(stableKey);
   const horseIntegrated = horseSkillAnnotations.get(stableKey);
@@ -259,7 +294,7 @@ const skillRows = skillSpecs.map(([stableKey, speciesName, names, usage]) => {
         ? `${horseIntegrated[1]} TASK-SLICE-193D now consumes this verified visual in the shared horse runtime; gameplay gates remain with the existing pet/projectile owner.`
       : `${speciesName} family is partitioned to ${speciesSpecs.find((item) => item.species === speciesName).evidenceTask}; modern visibility remains placeholder or absent until its paired implementation task.`,
   ]);
-});
+})];
 
 const bodyCsv = `${header.join(',')}\n${bodyRows.join('\n')}\n`;
 const skillCsv = `${header.join(',')}\n${skillRows.join('\n')}\n`;

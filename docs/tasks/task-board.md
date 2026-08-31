@@ -4,23 +4,26 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-209` 是唯一 Ready 游戏 task。208A 已让猴系四形态 × P1/P2 受控范围链全部通过：范围外追击、入围后普通攻击、verified hit、pet-source damage 与 cleanup 保持同一 action/projectile token 链，`pet P1R=0`。
+`TASK-SETTINGS-211` 是唯一 Ready 游戏 task。210 已直接消费 209 的 43 项字段级合同，闭合 horse1..4 的 P1/P2 范围链、真实普攻/全部继承技能、共享冰效、奥义组合、owner、实际 HP decrease 与生命周期，`pet P1H=0`。
 
-`$pet-family-reverse` 已按 208A 反证修订为字段级覆盖、范围外负场景、source-isolated trace 与 mutation-kill 合同，MO-003 仍待马系第二样本裁决。旧 193E..R 横向批次保持撤销；本轮只恢复马系 209，不续跑其实现。
+`$pet-family-reverse` 第二家族正式样本已通过，MO-003 裁决“采纳”。旧 193E..R 横向批次保持撤销；下一步 211 只逆向怪物伤害数字/连击真值，不修改 `src/`。
+
+2026-08-27 用户新增正式运行反证：当前出战马宠物可见攻击但怪物无可辨识受击/伤害数字，现代运行又没有连击动画。代码诊断确认正式扣血/怪物 hurt 入口不是 Role 专用，但当前只有猴系接入正式宠物伤害解析；209 现已生成 210，先由其闭合马系实际 HP decrease。各来源 `DamageEvent` 仍没有共享可见反馈，故 `TASK-SETTINGS-211 -> TASK-SLICE-212` 保持在 210 后，不抢占当前唯一 Ready。
 
 ## 待完成任务
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 207 证据有效；PG-017 V2 已反证 208，当前执行 208A 猴系整改 | TASK-SETTINGS-209（208A 后恢复） | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-SETTINGS-209 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 马系完整家族证据与 Skill 第二样本 | 在既有 193C 真视觉基础上闭合 horse1..4 普攻、全部技能/冰冻/奥义、命中伤害、owner 与 P1/P2 生命周期同集合同 | M-032、M-034、M-035、M-042、M-044、VS-067 | verified 马系完整真值、实施合同、MO-003 第二样本前半程 | 依据 209 verified 合同生成马系正式复现 task | [定义](task-definitions/TASK-SETTINGS-209.md) |
+| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 猴系 P1R=0、马系 P1H=0；其余七族与旧入口仍待逐族闭合 | 后续按当前线覆盖缺口生成单家族 task | [定义](task-definitions/TASK-ARCH-204.md) |
+| TASK-SETTINGS-211 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 怪物命中反馈与连击真值 | 闭合怪物 hurt/HP、普通/暴击伤害数字和连击面板的原版 producer、显示列表、时间线与来源语义 | M-032、M-035、M-049、M-053、VS-071 | verified 战斗反馈真值、940×590 基准、实际 HP decrease 到可见反馈的无未知合同 | TASK-SLICE-212 | [定义](task-definitions/TASK-SETTINGS-211.md) |
+| TASK-SLICE-212 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 共享伤害数字与连击闭环 | 让成功 `DamageEvent` 成为 Role/宠物/法宝共享的唯一怪物受击可见反馈来源 | M-032、M-035、M-049、M-053、VS-071 | source-agnostic hurt、原版数字/连击、最高连击与 HP delta 一一对应 trace | 继续逐家族宠物闭合；全族完成后 TASK-SLICE-194 | [定义](task-definitions/TASK-SLICE-212.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在 207/208 及后续逐个生成的完整家族任务全部完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |
 | TASK-SETTINGS-195 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色动作完整性/流畅度审计 | 比较五角色原 SWF 与现代帧时序、持帧、转移、clock、解包/加载/投影完整性并确定根因 | M-018..M-025、M-035、M-047、VS-068 | 可重现跨角色差异矩阵、根因分类、每受影响角色修复子 task | 执行所有生成的单角色子 task，然后 TASK-SLICE-196 | [定义](task-definitions/TASK-SETTINGS-195.md) |
 | TASK-SLICE-196 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色统一校准 | 统一复验五角色 UI/本体/普攻/技能动作流畅度与正式 Runtime 转移 | M-018..M-025、M-047、M-049、VS-068 | 五角色同标准自动对账、940×590 动作对照与无未解释卡顿 | TASK-SETTINGS-197 | [定义](task-definitions/TASK-SLICE-196.md) |
 | TASK-SETTINGS-197 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 战斗技能 HUD 逆向 | 闭合原版战斗技能栏显示列表、图标/键位/状态、P1/P2 几何和与技能绑定的可观察合同 | M-015、M-041、M-049、M-052、VS-069 | verified 战斗技能 HUD 真值、原版基准、状态/数据映射与 198/199 合同 | TASK-SLICE-198 | [定义](task-definitions/TASK-SETTINGS-197.md) |
 | TASK-SLICE-198 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 战斗技能 HUD 原生投影 | 在正式战斗 HUD 中可见显示五槽技能与原生状态 | M-015、M-041、M-049、M-052、VS-069 | manifest 直接消费、P1/P2 几何/图标/键位与逐状态差异 | TASK-SLICE-199 | [定义](task-definitions/TASK-SLICE-198.md) |
 | TASK-SLICE-199 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 战斗技能 HUD 运行联动 | 技能功能页绑定、战斗五槽、MP/冷却/可用性、P1/P2 与当前存档同源实时更新 | M-015、M-041、M-044、M-049、VS-069 | 页面↔HUD↔释放↔重载确定性与正式双人运行回归 | TASK-SLICE-200 | [定义](task-definitions/TASK-SLICE-199.md) |
-| TASK-SLICE-200 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | Stage 2-3 前最终旅程 | 集中验证装备 hover、宠物 UI/动画、五角色流畅度和战斗技能 HUD 在正式冷启动/P1/P2/重载中一致 | M-036、M-042、M-044、M-047、M-049、M-052、VS-070 | 独立自动旅程、940×590 人工验收、整线关闭与 Stage 2-3 恢复 | 关闭本线并恢复 TASK-SETTINGS-064 | [定义](task-definitions/TASK-SLICE-200.md) |
+| TASK-SLICE-200 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | Stage 2-3 前最终旅程 | 集中验证装备 hover、宠物 UI/动画与实际伤害反馈、五角色流畅度、伤害数字/连击和战斗技能 HUD 在正式冷启动/P1/P2/重载中一致 | M-036、M-042、M-044、M-047、M-049、M-052、M-053、VS-070、VS-071 | 独立自动旅程、940×590 人工验收、整线关闭与 Stage 2-3 恢复 | 关闭本线并恢复 TASK-SETTINGS-064 | [定义](task-definitions/TASK-SLICE-200.md) |
 | TASK-SETTINGS-064 | Planned | LINE-STAGE-2-3 | 关卡/玩法逆向 | 闭合 Stage 2-3 真场景、流程、怪物/机关、结果与存档六段证据 | M-026、M-027、M-030、M-035、M-044、VS-057 | 权威证据矩阵、资源标注、未知/反证与有界实现 task | 依据闭合证据生成同线最小实现或补证 task | [定义](task-definitions/TASK-SETTINGS-064.md) |
 | TASK-ARCH-010A | Planned | LINE-MONSTER-ARCH | 现代怪物架构 | 建立组合式怪物定义、运行状态、Targeting/Brain 接缝并抽离关卡命名的通用 owner | M-030、VS-005、VS-006 | 通用合同、定义目录、策略入口、兼容 facade 与确定性回归 | TASK-ARCH-010B | [定义](task-definitions/TASK-ARCH-010A.md) |
 | TASK-ARCH-010B | Planned | LINE-MONSTER-ARCH | 怪物定义/行为集成 | 将 DefinitionCatalog、Brain 与 Targeting 接入 PG-013 已建立的唯一怪物注册表，并在普通怪+Boss 关卡验证 | M-030、VS-007、VS-056 | 既有 Registry 的定义/Brain 接缝、兼容回归与后续策略迁移清单 | 依据试点生成同线策略迁移 task | [定义](task-definitions/TASK-ARCH-010B.md) |

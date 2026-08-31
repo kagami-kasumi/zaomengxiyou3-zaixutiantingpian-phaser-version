@@ -385,8 +385,8 @@ function testDefaultRegistryRunsMonkeyAndHorseRulesThroughOneRuntimeClock(): voi
     ['monkey', 4, 'monkey3-lyq'],
     ['horse', 1, 'horse1-sp'],
     ['horse', 2, 'horse2-bd'],
-    ['horse', 3, 'horse3-bz'],
-    ['horse', 4, 'horse4-tmaoyi'],
+    ['horse', 3, 'horse3-sp'],
+    ['horse', 4, 'horse4-sp'],
   ] as const;
 
   for (const [species, form, expectedAction] of cases) {
@@ -462,6 +462,8 @@ function getActionCooldown(pet: PetState, action: string): number {
     case 'monkey3-lyq': return state.monkey3Lyq.cooldownMs;
     case 'monkey4-jgaoyi': return state.monkey4Jgaoyi.cooldownMs;
     case 'horse1-sp': return state.horse1Sp.cooldownMs;
+    case 'horse3-sp': return state.horse1Sp.cooldownMs;
+    case 'horse4-sp': return state.horse1Sp.cooldownMs;
     case 'horse2-bd': return state.horse2Bd.cooldownMs;
     case 'horse3-bz': return state.horse3Bz.cooldownMs;
     case 'horse4-tmaoyi': return state.horse4Tmaoyi.cooldownMs;

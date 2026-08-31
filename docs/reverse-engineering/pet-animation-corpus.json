@@ -775,15 +775,15 @@
         }
       ],
       "modernBody": {
-        "status": "placeholder",
-        "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
+        "status": "restored-runtime",
+        "locator": "src/scenes/FormalPetHorseBodyBridge.ts + src/scenes/test-scene/TestSceneViews.ts:createPetView"
       },
       "evidenceTask": "TASK-SETTINGS-193C",
       "implementationTask": "TASK-SLICE-193D",
-      "familyTruthId": null,
-      "familyEvidencePath": null,
-      "familyImplementationTask": null,
-      "note": null
+      "familyTruthId": "task-settings-209.pet-horse-family",
+      "familyEvidencePath": "docs/reverse-engineering/evidence/TASK-SETTINGS-209-pet-horse-family.md",
+      "familyImplementationTask": "TASK-SLICE-210",
+      "note": "TASK-SLICE-210 binds restored horse body/effects to PetCombatSnapshot/actionToken/projectile and shared formal/TestScene damage runtime; pet P1H=0."
     },
     {
       "species": "ufo",

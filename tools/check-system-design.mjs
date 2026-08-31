@@ -224,6 +224,51 @@ const contracts = {
       requireTest('formal-pet-tests', tests, errors);
       requireTest('formal-pet-journey-tests', tests, errors);
     },
+    P1H(errors, tests) {
+      const runtime = 'src/systems/PetCombatRuntime.ts';
+      const horse = 'src/systems/pet-behaviors/HorsePetBehavior.ts';
+      const combat = 'src/systems/PetHorseCombatSystem.ts';
+      const formal = 'src/scenes/HeroPartyRuntimeBridge.ts';
+      const body = 'src/scenes/FormalPetHorseBodyBridge.ts';
+      const testScene = 'src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts';
+      requireFiles([runtime, horse, combat, formal, body, testScene], errors);
+      requireMatches(runtime, [
+        ['true horse basic attack port', /requestPetHorseBasicAttack\b/u],
+        ['dual runtime animation completion input', /animationEvents/u],
+      ], errors);
+      requireMatches(horse, [
+        ['verified horse truth dependency', /task-settings-209-pet-horse-family\.json/u],
+        ['form attack range port', /getPetHorseAttackRange\s*\(/u],
+        ['two-roll normal branch', /random\(\)\s*<=\s*attackRate[\s\S]*random\(\)\s*<\s*0\.3/u],
+        ['inherited bd priority', /this\.form\s*>=\s*2[\s\S]*horse2Bd\.releaseReady/u],
+        ['inherited sp priority', /skills\.includes\(['"]sp['"]\)/u],
+        ['inherited bz priority', /this\.form\s*>=\s*3[\s\S]*skills\.includes\(['"]bz['"]\)/u],
+        ['horse4 tmaoyi priority', /horse4-tmaoyi/u],
+      ], errors);
+      requireMatches(combat, [
+        ['verified family truth input', /task-settings-209-pet-horse-family\.json/u],
+        ['field-derived emit timing', /emitTiming\.holdTick/u],
+        ['attack-id deduplicated formal damage', /getProjectileAttackId[\s\S]*resolveStage1PetHit/u],
+        ['P1/P2 damage ownership port', /ownerSlotForPet/u],
+        ['horse ice result', /petHorseIceRemainingMs/u],
+        ['tmaoyi tracking', /trackingTargetId\s*=\s*hasSp/u],
+        ['tmaoyi delayed explosion', /explosionDelayMs/u],
+      ], errors);
+      requireMatches(formal, [
+        ['dual public pet runtimes', /p1:\s*new PetCombatRuntime\(\)[\s\S]*p2:\s*new PetCombatRuntime\(\)/u],
+        ['formal horse hit resolution', /resolveFormalPetHorseProjectileHits\s*\(/u],
+        ['formal animation feedback queue', /pendingPetAnimationEvents/u],
+      ], errors);
+      requireMatches(testScene, [['shared TestScene updatePets entry', /runtime\.updatePets\s*\(/u]], errors);
+      requireMatches(body, [['PetCombatSnapshot presentation input', /PetCombatSnapshot/u]], errors);
+      forbidMatches(body, [['legacy PetRuntimeSystem dependency', /PetRuntimeSystem/u]], errors);
+      requireTest('pet-combat-runtime-design-tests', tests, errors);
+      requireTest('pet-horse-family-runtime-tests', tests, errors);
+      requireTest('pet-horse-behavior-contract-runtime-tests', tests, errors);
+      requireTest('pet-horse-animation-runtime-tests', tests, errors);
+      requireTest('formal-pet-tests', tests, errors);
+      requireTest('formal-pet-journey-tests', tests, errors);
+    },
     P1C(errors, tests) {
       const behaviors = ['Dragon', 'Turtle', 'Ufo'].map((name) => (
         `src/systems/pet-behaviors/${name}PetBehavior.ts`

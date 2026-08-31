@@ -198,9 +198,19 @@ export const petHorseEffectAssets = Object.fromEntries(
 ) as Readonly<Record<EffectSymbol, PetHorseEffectAsset>>;
 
 const projectileObjectIds: Readonly<Record<string, string>> = {
+  'pet-skill.horse1.normal': 'horse1-normal',
   'pet-skill.horse1.sp': 'horse1-sp',
+  'pet-skill.horse2.normal': 'horse2-normal',
   'pet-skill.horse2.bd': 'horse2-bd',
+  'pet-skill.horse2.sp': 'horse1-sp',
+  'pet-skill.horse3.normal': 'horse3-normal',
+  'pet-skill.horse3.bd': 'horse3-bd',
+  'pet-skill.horse3.sp': 'horse3-sp',
   'pet-skill.horse3.bz': 'horse3-bz',
+  'pet-skill.horse4.normal': 'horse3-normal',
+  'pet-skill.horse4.bd': 'horse3-bd',
+  'pet-skill.horse4.sp': 'horse3-sp',
+  'pet-skill.horse4.bz': 'horse3-bz',
   'pet-skill.horse4.tmaoyi': 'horse4-tmaoyi-falling',
   'pet-skill.horse4.tmaoyi.explode': 'horse4-tmaoyi-explode',
 };
@@ -237,9 +247,19 @@ export function getPetHorseIceEffectAsset(): PetHorseEffectAsset {
 
 export function getPetHorseBodyActionForProjectile(form: number, assetKey: string): string | undefined {
   return ({
+    '1:pet-skill.horse1.normal': 'hit1-normal',
     '1:pet-skill.horse1.sp': 'hit2-sp',
+    '2:pet-skill.horse2.normal': 'hit1-normal',
     '2:pet-skill.horse2.bd': 'hit2-bd',
+    '2:pet-skill.horse2.sp': 'hit3-sp',
+    '3:pet-skill.horse3.normal': 'hit1-normal',
+    '3:pet-skill.horse3.bd': 'hit2-bd',
+    '3:pet-skill.horse3.sp': 'hit3-sp',
     '3:pet-skill.horse3.bz': 'hit4-bz',
+    '4:pet-skill.horse4.normal': 'hit1-normal',
+    '4:pet-skill.horse4.bd': 'hit2-bd',
+    '4:pet-skill.horse4.sp': 'hit3-sp',
+    '4:pet-skill.horse4.bz': 'hit4-bz',
     '4:pet-skill.horse4.tmaoyi': 'hit5-tmaoyi',
   } as Readonly<Record<string, string>>)[`${form}:${assetKey}`];
 }

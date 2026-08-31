@@ -1284,6 +1284,9 @@ function updateProjectilePosition(projectile: ProjectileModel, deltaMs: number):
     projectile.y += projectile.velocityY * frameScale;
     projectile.velocityX += (projectile.accelerationX ?? 0) * frameScale;
     projectile.velocityY += (projectile.accelerationY ?? 0) * frameScale;
+    if (projectile.maxVelocityY !== undefined) {
+      projectile.velocityY = Math.min(projectile.velocityY, projectile.maxVelocityY);
+    }
 
     if (projectile.remainingDistance !== undefined) {
       projectile.remainingDistance -= Math.hypot(

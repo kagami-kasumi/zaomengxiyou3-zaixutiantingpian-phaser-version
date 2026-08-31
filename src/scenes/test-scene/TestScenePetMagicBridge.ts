@@ -24,10 +24,6 @@ import {
   requestPetDragon2SdccSkill,
   requestPetDragon3LtwjSkill,
   requestPetDragon4QlaoyiSkill,
-  requestPetHorse1SpSkill,
-  requestPetHorse2BdSkill,
-  requestPetHorse3BzSkill,
-  requestPetHorse4TmaoyiSkill,
   requestPetMonkey1XjSkill,
   requestPetMonkey2LjSkill,
   requestPetMonkey2XjSkill,
@@ -256,71 +252,6 @@ function updatePetSystemForOwner(this: any, delta: number): void {
       (activePet.skillState?.monkey4Jgaoyi.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
     ) {
       const result = requestPetMonkey4JgaoyiSkill({
-        roster: this.petRoster,
-        runtime: this.petRuntime,
-        targets: this.createPetSkillTargets(),
-        projectiles: this.projectileSystem,
-      });
-      if (result.ok) {
-        this.syncPetView(activePet);
-        return;
-      }
-    }
-    if (
-      activePet.species === 'horse' &&
-      activePet.form === 1 &&
-      (activePet.skillState?.horse1Sp.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
-    ) {
-      const result = requestPetHorse1SpSkill({
-        roster: this.petRoster,
-        runtime: this.petRuntime,
-        targets: this.createPetSkillTargets(),
-        projectiles: this.projectileSystem,
-      });
-      if (result.ok) {
-        this.syncPetView(activePet);
-        return;
-      }
-    }
-    if (
-      activePet.species === 'horse' &&
-      activePet.form === 2 &&
-      activePet.skillState?.horse2Bd.releaseReady &&
-      activePet.skillState.horse2Bd.cooldownMs <= 0
-    ) {
-      const result = requestPetHorse2BdSkill({
-        roster: this.petRoster,
-        runtime: this.petRuntime,
-        targets: this.createPetSkillTargets(),
-        projectiles: this.projectileSystem,
-      });
-      if (result.ok) {
-        this.syncPetView(activePet);
-        return;
-      }
-    }
-    if (
-      activePet.species === 'horse' &&
-      activePet.form === 3 &&
-      (activePet.skillState?.horse3Bz.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
-    ) {
-      const result = requestPetHorse3BzSkill({
-        roster: this.petRoster,
-        runtime: this.petRuntime,
-        targets: this.createPetSkillTargets(),
-        projectiles: this.projectileSystem,
-      });
-      if (result.ok) {
-        this.syncPetView(activePet);
-        return;
-      }
-    }
-    if (
-      activePet.species === 'horse' &&
-      activePet.form === 4 &&
-      (activePet.skillState?.horse4Tmaoyi.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
-    ) {
-      const result = requestPetHorse4TmaoyiSkill({
         roster: this.petRoster,
         runtime: this.petRuntime,
         targets: this.createPetSkillTargets(),

@@ -31,6 +31,7 @@ export type ProjectileModel = {
   velocityY: number;
   accelerationX?: number;
   accelerationY?: number;
+  maxVelocityY?: number;
   rotation?: number;
   remainingDistance: number | undefined;
   width: number;
@@ -214,9 +215,19 @@ export type ProjectileVariant =
   | 'pet-monkey3-xj'
   | 'pet-monkey3-lj'
   | 'pet-monkey4-jgaoyi'
+  | 'pet-horse1-normal'
   | 'pet-horse1-sp'
+  | 'pet-horse2-normal'
   | 'pet-horse2-bd'
+  | 'pet-horse2-sp'
+  | 'pet-horse3-normal'
+  | 'pet-horse3-bd'
+  | 'pet-horse3-sp'
   | 'pet-horse3-bz'
+  | 'pet-horse4-normal'
+  | 'pet-horse4-bd'
+  | 'pet-horse4-sp'
+  | 'pet-horse4-bz'
   | 'pet-horse4-tmaoyi'
   | 'pet-horse4-tmaoyi-explode'
   | 'pet-dragon1-fs'
