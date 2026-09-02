@@ -263,6 +263,10 @@ character 250/868/417/213、212 与 865 生成 `task-settings-175d.skill-pages` 
 
 2026-08-31 `TASK-SLICE-210` 补充：`M-032/M-034/M-035/M-042/M-044` 的马系现代链已直接消费 209 的 43 项合同。horse1..4 × P1/P2 从范围外追击到双随机普攻，全部继承 `sp/bd/bz`、受击 bd、共享冰效及 `tmaoyi` tracking/ice/explosion 组合均生成真实 projectile；verified attack id/source 经 Stage1 共享结算形成实际 HP decrease 与 cleanup。独立字段覆盖、八条范围 trace、range/hit/source mutation-kill、`pet P1H=0`、五关旅程与 940×590 双人正式 Stage 1-2 通过。全局机制仍为部分复现，因为其余七宠物家族及 211/212 伤害数字/连击反馈尚未闭合。
 
+2026-08-31 `TASK-SLICE-210A` 补充：用户反证恢复了原版 `BaseBullet.checkAttack()` 的怪物来源二段目标链——玩家候选命中检查后，只要攻击仍可命中，还会检查该玩家的出战 `BasePet`。现代正式五关共享桥现以宠物 Runtime 坐标、宠物物防、active attack 范围和共享 attack-id registry 生成 typed pet damage，P1/P2 `PetCombatRuntime` 消费后形成 HP decrease 与既有真 hurt/dead 动画输入；范围外、死亡宠物与重复 attack id 均不产生命中。怪物主动 AI 仍以玩家为追击目标，未无证据改为追宠；伤害数字/连击仍由 211/212 闭合。
+
+2026-09-02 `TASK-SETTINGS-211` 补充：`M-032/M-035/M-049/M-053` 的怪物目标命中反馈已由 `task-settings-211.combat-hit-feedback` 冻结。恢复 `OtherMat1.swf` 证明 `hurtnum0..9` 30×30、`bnum0..9` 42×42、20px 伤害位距、character 299/298 Batter 背景和 `num0..9` 五帧 scale/blur pulse；AS3 链证明目标锚点、4×→1×弹出、延迟上浮淡出、队列五项扇出、直接命中连击、effect 不增连击反证、2 起显、40 host tick 相邻快照无增长清零和 `GameWin` 最高值。23 个 940×590 状态基准、Schema 与可重复生成通过，`unresolved=[]`；现代复现仍为部分复现，唯一 Ready `TASK-SLICE-212` 负责实际 HP decrease 到数字/连击/结果页的共享消费。
+
 如果实现中发现机制没扒清楚：
 
 - 不硬写。

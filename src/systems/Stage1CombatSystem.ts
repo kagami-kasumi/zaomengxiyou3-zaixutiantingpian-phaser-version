@@ -36,6 +36,7 @@ import {
 } from './ProgressionSystem';
 import { createHeroSkillModel, type HeroSkillModel } from './HeroSkillSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
+import type { PetCombatDamageEvent } from './PetBehavior';
 import { getWorldNormalAttackGeometry } from './HeroNormalAttackGeometry';
 import {
   getMonsterDefinition,
@@ -325,6 +326,33 @@ export function resolveStage1EnemyAttack(params: {
     resolved.push(event);
   }
   return resolved;
+}
+
+export function resolveStage1EnemyPetAttack(params: Readonly<{
+  runtime: Stage1CombatRuntime;
+  enemy: Stage1CombatEnemy;
+  target: Readonly<{
+    runtimeKey: string;
+    x: number;
+    defense: number;
+    hp: number;
+  }>;
+}>): PetCombatDamageEvent | undefined {
+  const { enemy, target } = params;
+  if (enemy.phase !== 'active' || !enemy.activeAttack || target.hp <= 0) return undefined;
+  if (Math.abs(target.x - enemy.x) > enemy.activeAttack.attackRange) return undefined;
+  if (!resolveHitOnce(params.runtime.hitRegistry, enemy.activeAttack.attackId, target.runtimeKey)) {
+    return undefined;
+  }
+  return {
+    runtimeKey: target.runtimeKey,
+    amount: calculateStage1IncomingDamage(
+      enemy.activeAttack.attackKind,
+      enemy.activeAttack.damage,
+      target.defense,
+    ),
+    sourceId: enemy.id,
+  };
 }
 
 export function resolveStage1HeroAttack(params: {

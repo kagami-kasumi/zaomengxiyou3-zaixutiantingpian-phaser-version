@@ -11717,3 +11717,65 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SETTINGS-211`：逆向怪物 hurt/HP、普通/暴击伤害数字与连击原版真值；证据轮不修改 `src/`。
+
+### TASK-SLICE-210A
+
+任务类型：`TASK-SLICE`。任务模型：常规任务。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（用户反证窄修；完成后仍由 `TASK-SETTINGS-211` 保持唯一 Ready）。
+
+完成定义：
+
+- 重新核对原版怪物攻击对宠物的可观察合同；只补正式共享怪物攻击到出战宠物的实际 HP/hurt/dead 链，不改变怪物 AI 追击目标，不提前实现伤害数字/连击。
+- P1/P2 宠物按各自 Runtime 坐标、宠物防御、active attack 范围与共享 attack-id registry 结算；范围外、死亡宠物和重复攻击不生成 damage event。
+- 提供 5173 origin 专用且不覆盖普通槽的全宠物视觉档：第 6 槽、2P 悟空/唐僧、双方各 35 形态/9 物种；重复访问只选择已生成的同型档。
+
+完成日期：2026-08-31。
+
+证据与实现：
+
+- 原版 `BaseBullet.as:220-365`：怪物来源先遍历玩家数组，若攻击仍有剩余命中次数，再检查 `BaseHero.getPet()` 并调用宠物 `beMagicAttack()`；`BasePet.as:779-904`：物理伤害扣宠物防御，成功扣血后进入 hurt，HP0 进入 dead。
+- `Stage1CombatSystem.resolveStage1EnemyPetAttack()` 生成 typed `PetCombatDamageEvent`；`HeroPartyRuntimeBridge` 以 P1/P2 独立 pending queue 交给既有 `PetCombatRuntime`，没有建立第二 HP owner。
+- `PetVisualQaFixtureSystem` 只允许 localhost/127.0.0.1 且显式 `qaPetSave=all`，固定使用第 6 槽；4174 与 5173 因不同 origin 使用不同 localStorage，本 fixture 直接在 5173 页面执行。
+
+验证：
+
+- `npm run test:pet-incoming-damage`、`npm run test:pet-monkey-family`、`npm run test:pet-horse-family`、`npm run build` 通过。
+- 5173 浏览器返回 `data-pet-visual-qa-save=created`，存档页可见第 6 槽 `2P 悟空 / 唐僧`；fixture 测试断言双方各 35 宠物、9 个物种。
+
+推荐任务：
+
+- `TASK-SETTINGS-211`：继续闭合怪物实际 HP decrease 对应的 hurt/普通与暴击数字/连击真值；随后由 212 建立明确的命中可见反馈。
+
+### TASK-SETTINGS-211
+
+任务类型：`TASK-SETTINGS`。任务模型：逆向任务（视觉真值逆向）。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-212`）。
+
+完成定义：
+
+- 从恢复 `OtherMat1.swf` 与 `BaseMonster/CureHpQueue/ANumber/GameInfo/Batter` producer→queue→view→reset 链闭合怪物普通/暴击数字、连击面板、最高连击与 P1/P2 来源语义。
+- `task-settings-211.combat-hit-feedback` 直接固化 23 个 940×590 状态、53 个显示对象、20 个伤害位图、10 个五帧连击 MovieClip、character 299/298、目标/HUD 锚点、队列和时间线，`unresolved=[]`。
+- 明确直接 Role/宠物/法宝命中参与同一连击；`BaseAddEffect` 可显示普通数字但不新增连击。原版成功的计算 0 会显示 `0`，212 按 task 冻结的现代收紧合同只接受实际 HP decrease。
+
+完成日期：2026-09-02。
+
+关键产物：
+
+- `docs/reverse-engineering/combat-hit-feedback-index.md`
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-211-combat-hit-feedback.json`
+- `docs/tasks/evidence/TASK-SETTINGS-211/` 的逐状态 940×590 原版派生基准
+- `tools/generate-combat-hit-feedback-ground-truth.mjs`
+- `npm run generate:combat-hit-feedback-truth` / `npm run test:combat-hit-feedback-truth`
+
+证据结论：
+
+- 普通/暴击数字分别为 30×30/42×42 原位图，统一 20px 位距；锚点是怪物 `(x-20, y-min(300,height)/2)`，4× 在 0.2s 收到 1×，0.25s 后用 1s 上浮 100px 并淡出销毁。
+- 队列长度大于 5 时同 tick 按五个偏移扇出，伤害数字每两 host tick 再出队；连击从 2 显示，Batter 固定 `(694.95,234.95)`，数字位距 50，五帧循环 pulse，面板事件后 2s 淡出。
+- 连击不是固定毫秒 timeout：`GameInfo` 每 40 host tick 比较快照，相邻检查无增长才清零，并先更新 `biggestbatterNum`；胜利页直接消费最高值。
+
+验证：
+
+- `npm run test:combat-hit-feedback-truth`：可重复生成、源语义断言、SymbolClass、显示树/五帧矩阵与 UI Schema 通过。
+- `npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check` 通过；本 task 未修改 `src/`。
+
+推荐任务：
+
+- `TASK-SLICE-212`：直接消费 211 truth，以实际 HP decrease 生成统一 CombatFeedbackEvent，闭合 Role/宠物/法宝、普通/暴击数字、连击/最高值、五关 P1/P2 与结果页。

@@ -29,7 +29,10 @@ import {
   type HeroPartyEnvironmentHit,
   type HeroRuntimeSnapshot,
 } from '../systems/HeroPartyRuntimeSystem';
-import type { Stage1CombatEnemy } from '../systems/Stage1CombatSystem';
+import {
+  resolveStage1EnemyPetAttack,
+  type Stage1CombatEnemy,
+} from '../systems/Stage1CombatSystem';
 import {
   createCombatHudPetSnapshot,
   createStage1CombatPlayerHudSnapshot,
@@ -39,7 +42,7 @@ import type { PetRoster } from '../systems/PetTypes';
 import type { PetSkillTarget } from '../systems/PetTypes';
 import type { ProjectileSystemModel } from '../systems/ProjectileSystem';
 import { PetCombatRuntime, type PetCombatSnapshot } from '../systems/PetCombatRuntime';
-import type { PetCombatAnimationEvent } from '../systems/PetBehavior';
+import type { PetCombatAnimationEvent, PetCombatDamageEvent } from '../systems/PetBehavior';
 import { resolveFormalPetMonkeyProjectileHits } from '../systems/PetMonkeyCombatSystem';
 import { resolveFormalPetHorseProjectileHits } from '../systems/PetHorseCombatSystem';
 import {
@@ -168,6 +171,7 @@ export function createHeroPartyRuntime(
   };
   const petCombatSnapshots: Partial<Record<'p1' | 'p2', PetCombatSnapshot>> = {};
   const pendingPetAnimationEvents: Partial<Record<'p1' | 'p2', PetCombatAnimationEvent[]>> = {};
+  const pendingPetDamageEvents: Partial<Record<'p1' | 'p2', PetCombatDamageEvent[]>> = {};
 
   const syncSkills = (payload: FormalSkillsUpdatedPayload) => {
     setHeroPartySkillLoadout(model, payload.owner, payload.skillLoadout);
@@ -306,6 +310,22 @@ export function createHeroPartyRuntime(
     },
     resolveEnemyAttack: (enemy, timeMs) => {
       resolveHeroPartyEnemyAttack(model, enemy, timeMs);
+      for (const slot of ['p1', 'p2'] as const) {
+        const pet = getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' });
+        const snapshot = petCombatSnapshots[slot];
+        if (!pet || !snapshot?.runtime) continue;
+        const event = resolveStage1EnemyPetAttack({
+          runtime: model.combat,
+          enemy,
+          target: {
+            runtimeKey: snapshot.runtime.runtimeKey,
+            x: snapshot.runtime.x,
+            defense: pet.def,
+            hp: pet.hp,
+          },
+        });
+        if (event) pendingPetDamageEvents[slot] = [...(pendingPetDamageEvents[slot] ?? []), event];
+      }
       model.members.forEach((member, index) => {
         const view = views[index];
         if (view) syncFallbackFeedback(view, member.combat);
@@ -362,8 +382,10 @@ export function createHeroPartyRuntime(
           owner: { x: member.movement.x, y: member.movement.y, facingX: member.movement.facingX },
           targets: [],
           projectiles: frame.projectiles,
+          damageEvents: pendingPetDamageEvents[slot],
           deltaMs: frame.deltaMs,
         });
+        pendingPetDamageEvents[slot] = [];
         continue;
       }
       petCombatSnapshots[slot] = petCombatRuntimes[slot].update({
@@ -372,9 +394,11 @@ export function createHeroPartyRuntime(
         targets: frame.targets,
         projectiles: frame.projectiles,
         random: frame.random,
+        damageEvents: pendingPetDamageEvents[slot],
         animationEvents: pendingPetAnimationEvents[slot],
         deltaMs: frame.deltaMs,
       });
+      pendingPetDamageEvents[slot] = [];
       pendingPetAnimationEvents[slot] = [];
     }
   }

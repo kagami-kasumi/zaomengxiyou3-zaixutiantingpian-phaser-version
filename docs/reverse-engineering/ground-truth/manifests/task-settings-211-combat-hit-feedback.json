@@ -1,0 +1,3914 @@
+{
+  "$schema": "../schema/ui-ground-truth.schema.json",
+  "schemaVersion": 1,
+  "truthId": "task-settings-211.combat-hit-feedback",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SETTINGS-211",
+    "surfaceId": "monster-target-hit-numbers-and-global-combo-panel",
+    "originalVersion": "RegiMA 1.1 restored corpus",
+    "description": "Monster-target ordinary/critical number glyphs, target-relative anchor, queue fan-out/cadence, TweenMax visual key points, global combo threshold/placement, 2/9/10/99/100 layouts, five-frame combo digit pulse, unchanged-count reset and P1/P2 source invariance. Player/pet incoming, heal and MP numbers are excluded."
+  },
+  "generatedBy": {
+    "tool": "generate-combat-hit-feedback-ground-truth.mjs",
+    "toolVersion": "1",
+    "command": "npm run generate:combat-hit-feedback-truth",
+    "generatedAt": "2026-09-02T12:00:00+08:00"
+  },
+  "provenance": [
+    {
+      "id": "othermat1-swf",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/OtherMat1.swf",
+      "sha256": "97478e1e03a22c7d06197ffb75ab890d98b084377cbdcf394716cbaf27082126",
+      "locator": "SymbolClass export.Batter=299; num0..9=296..259; hurtnum0..9=117..91; bnum0..9=35..23."
+    },
+    {
+      "id": "othermat1-ffdec-xml",
+      "sourceType": "ffdec-xml",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-175c-stage-feature-host/OtherMat1.xml",
+      "sha256": "23e9152fd0f22bd460357f17440665d0db697d42df08c5a8fac4f0dabad6703b",
+      "locator": "FFDec 26 XML: character 299 -> shape 298; num0..9 five-frame matrices and blur filters; asset frameRate=24."
+    },
+    {
+      "id": "base-monster-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "locator": "beMagicAttack success/miss/crit/damage/reduceHp/event order; addMonHurtMc target anchor and resource routing."
+    },
+    {
+      "id": "base-bullet-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "locator": "checkAttack attackId/target deduplication before beMagicAttack and sourceRole forwarding."
+    },
+    {
+      "id": "base-object-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "locator": "step drives CureHpQueue once per host tick."
+    },
+    {
+      "id": "base-pet-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+      "locator": "Pet basic attack creates a bullet whose sourceRole is the BasePet instance."
+    },
+    {
+      "id": "base-add-effect-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "locator": "Direct effect ticks reduce monster HP and call addMonHurtMc without the direct-hit combo increment."
+    },
+    {
+      "id": "cure-hp-queue-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/CureHpQueue.as",
+      "sha256": "a14335ab72810cee3f1760296a0b9414a04a8fcb02a5c00867fd770d09a21efd",
+      "locator": "queue caps, five-item fan-out, two-tick damage cadence and ANumber creation in gameSence."
+    },
+    {
+      "id": "a-number-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/ANumber.as",
+      "sha256": "d6ed003f8d466234c7349fbcda63863b7be8c4f26d68ed904c314e37c6e8b491",
+      "locator": "20px damage stride, 4x->1x 0.2s pop, 0.25s delay, 100px/1s rise+fade+destroy; 50px combo stride."
+    },
+    {
+      "id": "game-info-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/GameInfo.as",
+      "sha256": "fd41c10c09c4a49fbe5fc587db2520ff15e55e9e4417c04b91c4bc29983f6c07",
+      "locator": "MonsterIsBeat consumer, combo>=2 panel, fixed anchor, 2s fade, 40-tick unchanged reset and maximum update."
+    },
+    {
+      "id": "batter-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/Batter.as",
+      "sha256": "0814927c1d7e4e0c58e864e6c3d66cb924d74d4084addf4e9726ce0e2c1fa79e",
+      "locator": "1/2/3+ digit x anchors and num MovieClip layout."
+    },
+    {
+      "id": "user-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/user/User.as",
+      "sha256": "118016fa1e7ae8df04f6f1cbfc655f8e898394636077798cc7694735e7a082d6",
+      "locator": "Static current and biggest combo owners."
+    },
+    {
+      "id": "game-win-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/win/GameWin.as",
+      "sha256": "62527635eb27339934c6f1c61700f1811159d4b9d5b45408fac45af9e36dbf74",
+      "locator": "Result page txt_hight consumes User.biggestbatterNum."
+    },
+    {
+      "id": "magic-ring-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/magicWeapon/MagicRing.as",
+      "sha256": "2a3ba12850de67519b50fd37c76dcb535b42fe9df7e8a1ee282d233370ecda8c",
+      "locator": "Representative magic-weapon bullet sets its sourceRole to the owning hero before shared monster hit resolution."
+    },
+    {
+      "id": "game-setting-as",
+      "sourceType": "legacy-as3",
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/setmenu/gameSetting.as",
+      "sha256": "d467c90af7d1aea39f9e2b77a4d40a35601c3ce9d4f9e169ac841d0728eea177",
+      "locator": "Host frameClips/stage.frameRate choices 20, 24 and 30."
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 30,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "top-left"
+  },
+  "states": [
+    {
+      "id": "normal-role-p1-t0",
+      "entry": "Successful P1 Role hit; ordinary 42 appears at pop start.",
+      "frame": 0,
+      "fixtureId": "source=role;p1;target=(470,350);height=120;damage=42;t=0ms",
+      "baselineId": "original-normal-role-p1-t0-940x590"
+    },
+    {
+      "id": "normal-role-p1-t200",
+      "entry": "Same ordinary hit after the 0.2s pop settles.",
+      "frame": 0,
+      "fixtureId": "source=role;p1;target=(470,350);height=120;damage=42;t=200ms",
+      "baselineId": "original-normal-role-p1-t200-940x590"
+    },
+    {
+      "id": "normal-pet-p1-t250",
+      "entry": "Successful P1 pet hit at rise/fade delay boundary; source does not change glyphs.",
+      "frame": 0,
+      "fixtureId": "source=pet;p1;target=(470,350);height=120;damage=73;t=250ms",
+      "baselineId": "original-normal-pet-p1-t250-940x590"
+    },
+    {
+      "id": "critical-magic-p1-t250",
+      "entry": "Successful magic-weapon/hero-owned critical hit uses bnum glyphs.",
+      "frame": 0,
+      "fixtureId": "source=magic-weapon;p1;target=(470,350);height=120;damage=73;critical=true;t=250ms",
+      "baselineId": "original-critical-magic-p1-t250-940x590"
+    },
+    {
+      "id": "normal-pet-p2-t750",
+      "entry": "P2 pet hit shares the target-relative world anchor; halfway through rise/fade.",
+      "frame": 0,
+      "fixtureId": "source=pet;p2;target=(470,350);height=120;damage=73;t=750ms",
+      "baselineId": "original-normal-pet-p2-t750-940x590"
+    },
+    {
+      "id": "critical-role-p2-t1250",
+      "entry": "At tween completion the number is transparent and destroyed.",
+      "frame": 0,
+      "fixtureId": "source=role;p2;target=(470,350);height=120;damage=73;critical=true;t=1250ms",
+      "baselineId": "original-critical-role-p2-t1250-940x590"
+    },
+    {
+      "id": "rapid-six-hit-p1-t0",
+      "entry": "Six queued successful hits cause the first five to fan out in one tick; one remains queued.",
+      "frame": 0,
+      "fixtureId": "source=mixed;p1;target=(470,350);height=120;values=11..16;queueLength=6;t=0",
+      "baselineId": "original-rapid-six-hit-p1-t0-940x590"
+    },
+    {
+      "id": "lethal-critical-p2-t200",
+      "entry": "A successful lethal hit still renders its final clamped damage before dead visual cleanup.",
+      "frame": 0,
+      "fixtureId": "source=role;p2;targetHpBefore=999;damage=999;critical=true;t=200ms",
+      "baselineId": "original-lethal-critical-p2-t200-940x590"
+    },
+    {
+      "id": "miss-p1",
+      "entry": "Dodge/miss returns before combo increment and damage-number enqueue.",
+      "frame": 0,
+      "fixtureId": "source=role;p1;outcome=miss",
+      "baselineId": "original-miss-p1-940x590"
+    },
+    {
+      "id": "duplicate-attack-id-p1",
+      "entry": "An already resolved attackId is rejected before BaseMonster.beMagicAttack.",
+      "frame": 0,
+      "fixtureId": "source=pet;p1;outcome=duplicate-attack-id",
+      "baselineId": "original-duplicate-attack-id-p1-940x590"
+    },
+    {
+      "id": "zero-damage-original-p1",
+      "entry": "Original accepts and displays computed 0 after a successful hit; TASK-SLICE-212 intentionally tightens this to actual HP decrease only.",
+      "frame": 0,
+      "fixtureId": "source=role;p1;computedDamage=0;originalOutcome=visible;modernException=suppress",
+      "baselineId": "original-zero-damage-original-p1-940x590"
+    },
+    {
+      "id": "effect-tick-no-combo-p1",
+      "entry": "A direct BaseAddEffect tick can reduce monster HP and show an ordinary number without incrementing User.batterNum.",
+      "frame": 0,
+      "fixtureId": "source=role-effect;p1;damage=55;comboDelta=0",
+      "baselineId": "original-effect-tick-no-combo-p1-940x590"
+    },
+    {
+      "id": "combo-2-p1-frame-1",
+      "entry": "Combo panel at value 2, digit timeline frame 1/5.",
+      "frame": 1,
+      "fixtureId": "p1;combo=2;digitFrame=1;panelAgeTicks=0",
+      "baselineId": "original-combo-2-p1-frame-1-940x590"
+    },
+    {
+      "id": "combo-2-p1-frame-2",
+      "entry": "Combo panel at value 2, digit timeline frame 2/5.",
+      "frame": 2,
+      "fixtureId": "p1;combo=2;digitFrame=2;panelAgeTicks=1",
+      "baselineId": "original-combo-2-p1-frame-2-940x590"
+    },
+    {
+      "id": "combo-2-p1-frame-3",
+      "entry": "Combo panel at value 2, digit timeline frame 3/5.",
+      "frame": 3,
+      "fixtureId": "p1;combo=2;digitFrame=3;panelAgeTicks=2",
+      "baselineId": "original-combo-2-p1-frame-3-940x590"
+    },
+    {
+      "id": "combo-2-p1-frame-4",
+      "entry": "Combo panel at value 2, digit timeline frame 4/5.",
+      "frame": 4,
+      "fixtureId": "p1;combo=2;digitFrame=4;panelAgeTicks=3",
+      "baselineId": "original-combo-2-p1-frame-4-940x590"
+    },
+    {
+      "id": "combo-2-p1-frame-5",
+      "entry": "Combo panel at value 2, digit timeline frame 5/5.",
+      "frame": 5,
+      "fixtureId": "p1;combo=2;digitFrame=5;panelAgeTicks=4",
+      "baselineId": "original-combo-2-p1-frame-5-940x590"
+    },
+    {
+      "id": "combo-9-p1-frame-5",
+      "entry": "Combo panel value 9; stable fifth digit frame before the five-frame MovieClip loops.",
+      "frame": 5,
+      "fixtureId": "p1;combo=9;digitFrame=5",
+      "baselineId": "original-combo-9-p1-frame-5-940x590"
+    },
+    {
+      "id": "combo-10-p1-frame-5",
+      "entry": "Combo panel value 10; stable fifth digit frame before the five-frame MovieClip loops.",
+      "frame": 5,
+      "fixtureId": "p1;combo=10;digitFrame=5",
+      "baselineId": "original-combo-10-p1-frame-5-940x590"
+    },
+    {
+      "id": "combo-99-p1-frame-5",
+      "entry": "Combo panel value 99; stable fifth digit frame before the five-frame MovieClip loops.",
+      "frame": 5,
+      "fixtureId": "p1;combo=99;digitFrame=5",
+      "baselineId": "original-combo-99-p1-frame-5-940x590"
+    },
+    {
+      "id": "combo-100-p1-frame-5",
+      "entry": "Combo panel value 100; stable fifth digit frame before the five-frame MovieClip loops.",
+      "frame": 5,
+      "fixtureId": "p1;combo=100;digitFrame=5",
+      "baselineId": "original-combo-100-p1-frame-5-940x590"
+    },
+    {
+      "id": "combo-10-p2-frame-5",
+      "entry": "P2 successful hits feed the same single global HUD panel; geometry is not mirrored.",
+      "frame": 5,
+      "fixtureId": "p2;combo=10;digitFrame=5",
+      "baselineId": "original-combo-10-p2-frame-5-940x590"
+    },
+    {
+      "id": "combo-timeout-reset",
+      "entry": "At a 40-tick checkpoint with no growth since the previous checkpoint, combo resets to 0 and no panel is created.",
+      "frame": 0,
+      "fixtureId": "comboUnchangedAcrossTwoCheckpoints=true;panelPreviouslyFadedOrRemoved=true",
+      "baselineId": "original-combo-timeout-reset-940x590"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "normal-role-p1-t0.hurtnum-0-0-4",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 105,
+        "symbolClass": "hurtnum4",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "normal-role-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 450,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 290,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/105_hurtnum4.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "normal-role-p1-t0.hurtnum-0-1-2",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 110,
+        "symbolClass": "hurtnum2",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "normal-role-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 530,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 530,
+            "top": 290,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/110_hurtnum2.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "normal-role-p1-t200.hurtnum-0-0-4",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 105,
+        "symbolClass": "hurtnum4",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "normal-role-p1-t200",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 450,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 290,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/105_hurtnum4.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "normal-role-p1-t200.hurtnum-0-1-2",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 110,
+        "symbolClass": "hurtnum2",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "normal-role-p1-t200",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 470,
+            "top": 290,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/110_hurtnum2.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "normal-pet-p1-t250.hurtnum-0-0-7",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 95,
+        "symbolClass": "hurtnum7",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "normal-pet-p1-t250",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 450,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 290,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/95_hurtnum7.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "normal-pet-p1-t250.hurtnum-0-1-3",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 107,
+        "symbolClass": "hurtnum3",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "normal-pet-p1-t250",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 470,
+            "top": 290,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/107_hurtnum3.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "critical-magic-p1-t250.bnum-0-0-7",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 27,
+        "symbolClass": "bnum7",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "critical-magic-p1-t250",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 450,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 42,
+            "height": 42
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 290,
+            "width": 42,
+            "height": 42
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/27_bnum7.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "critical-magic-p1-t250.bnum-0-1-3",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 32,
+        "symbolClass": "bnum3",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "critical-magic-p1-t250",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 42,
+            "height": 42
+          },
+          "stageBounds": {
+            "left": 470,
+            "top": 290,
+            "width": 42,
+            "height": 42
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/32_bnum3.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "normal-pet-p2-t750.hurtnum-0-0-7",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 95,
+        "symbolClass": "hurtnum7",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "normal-pet-p2-t750",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 450,
+            "ty": 240
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 240,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 0.5,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/95_hurtnum7.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "normal-pet-p2-t750.hurtnum-0-1-3",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 107,
+        "symbolClass": "hurtnum3",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "normal-pet-p2-t750",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 240
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 470,
+            "top": 240,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 0.5,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/107_hurtnum3.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "critical-role-p2-t1250.bnum-0-0-7",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 27,
+        "symbolClass": "bnum7",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "critical-role-p2-t1250",
+          "visible": false,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 450,
+            "ty": 190
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 42,
+            "height": 42
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 190,
+            "width": 42,
+            "height": 42
+          },
+          "alpha": 0,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/27_bnum7.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "critical-role-p2-t1250.bnum-0-1-3",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 32,
+        "symbolClass": "bnum3",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "critical-role-p2-t1250",
+          "visible": false,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 190
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 42,
+            "height": 42
+          },
+          "stageBounds": {
+            "left": 470,
+            "top": 190,
+            "width": 42,
+            "height": 42
+          },
+          "alpha": 0,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/32_bnum3.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-0-0-1",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 114,
+        "symbolClass": "hurtnum1",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 430,
+            "ty": 270
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 430,
+            "top": 270,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/114_hurtnum1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-0-1-1",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 114,
+        "symbolClass": "hurtnum1",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 510,
+            "ty": 270
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 510,
+            "top": 270,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/114_hurtnum1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-1-0-1",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 114,
+        "symbolClass": "hurtnum1",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 440,
+            "ty": 280
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 440,
+            "top": 280,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/114_hurtnum1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-1-1-2",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 110,
+        "symbolClass": "hurtnum2",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 520,
+            "ty": 280
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 520,
+            "top": 280,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/110_hurtnum2.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-2-0-1",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 114,
+        "symbolClass": "hurtnum1",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 450,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 290,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/114_hurtnum1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-2-1-3",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 107,
+        "symbolClass": "hurtnum3",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 530,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 530,
+            "top": 290,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/107_hurtnum3.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-3-0-1",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 114,
+        "symbolClass": "hurtnum1",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 460,
+            "ty": 280
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 460,
+            "top": 280,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/114_hurtnum1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-3-1-4",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 105,
+        "symbolClass": "hurtnum4",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 540,
+            "ty": 280
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 540,
+            "top": 280,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/105_hurtnum4.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-4-0-1",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 114,
+        "symbolClass": "hurtnum1",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 470,
+            "ty": 270
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 470,
+            "top": 270,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/114_hurtnum1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "rapid-six-hit-p1-t0.hurtnum-4-1-5",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 103,
+        "symbolClass": "hurtnum5",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "rapid-six-hit-p1-t0",
+          "visible": true,
+          "localMatrix": {
+            "a": 4,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "tx": 550,
+            "ty": 270
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 550,
+            "top": 270,
+            "width": 120,
+            "height": 120
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/103_hurtnum5.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "lethal-critical-p2-t200.bnum-0-0-9",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 23,
+        "symbolClass": "bnum9",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "lethal-critical-p2-t200",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 450,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 42,
+            "height": 42
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 290,
+            "width": 42,
+            "height": 42
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/23_bnum9.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "lethal-critical-p2-t200.bnum-0-1-9",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 23,
+        "symbolClass": "bnum9",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "lethal-critical-p2-t200",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 42,
+            "height": 42
+          },
+          "stageBounds": {
+            "left": 470,
+            "top": 290,
+            "width": 42,
+            "height": 42
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/23_bnum9.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "lethal-critical-p2-t200.bnum-0-2-9",
+      "parentId": null,
+      "depth": 2,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 23,
+        "symbolClass": "bnum9",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "lethal-critical-p2-t200",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 490,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 42,
+            "height": 42
+          },
+          "stageBounds": {
+            "left": 490,
+            "top": 290,
+            "width": 42,
+            "height": 42
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/23_bnum9.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "zero-damage-original-p1.hurtnum-0-0-0",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 117,
+        "symbolClass": "hurtnum0",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "zero-damage-original-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 450,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 290,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/117_hurtnum0.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "effect-tick-no-combo-p1.hurtnum-0-0-5",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 103,
+        "symbolClass": "hurtnum5",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "effect-tick-no-combo-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 450,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 450,
+            "top": 290,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/103_hurtnum5.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "effect-tick-no-combo-p1.hurtnum-0-1-5",
+      "parentId": null,
+      "depth": 1,
+      "objectType": "bitmap",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 103,
+        "symbolClass": "hurtnum5",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "effect-tick-no-combo-p1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 290
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 30,
+            "height": 30
+          },
+          "stageBounds": {
+            "left": 470,
+            "top": 290,
+            "width": 30,
+            "height": 30
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/images/103_hurtnum5.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-1.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-1.combo-digit-0-2-frame-1",
+      "parentId": "combo-2-p1-frame-1.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 288,
+        "symbolClass": "num2",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-1",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 611.45,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_288_num2/1.svg",
+        "blendMode": "normal",
+        "filters": [
+          {
+            "type": "blur",
+            "blurX": 70,
+            "blurY": 70,
+            "passes": 1
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-2.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-2.combo-digit-0-2-frame-2",
+      "parentId": "combo-2-p1-frame-2.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 288,
+        "symbolClass": "num2",
+        "instanceName": null,
+        "frame": 2
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 611.45,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_288_num2/2.svg",
+        "blendMode": "normal",
+        "filters": [
+          {
+            "type": "blur",
+            "blurX": 52.5,
+            "blurY": 52.5,
+            "passes": 1
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-3.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-3",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-3.combo-digit-0-2-frame-3",
+      "parentId": "combo-2-p1-frame-3.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 288,
+        "symbolClass": "num2",
+        "instanceName": null,
+        "frame": 3
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-3",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 611.45,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_288_num2/3.svg",
+        "blendMode": "normal",
+        "filters": [
+          {
+            "type": "blur",
+            "blurX": 35,
+            "blurY": 35,
+            "passes": 1
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-4.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-4",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-4.combo-digit-0-2-frame-4",
+      "parentId": "combo-2-p1-frame-4.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 288,
+        "symbolClass": "num2",
+        "instanceName": null,
+        "frame": 4
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-4",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 611.45,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_288_num2/4.svg",
+        "blendMode": "normal",
+        "filters": [
+          {
+            "type": "blur",
+            "blurX": 17.5,
+            "blurY": 17.5,
+            "passes": 1
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-5.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-2-p1-frame-5.combo-digit-0-2-frame-5",
+      "parentId": "combo-2-p1-frame-5.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 288,
+        "symbolClass": "num2",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-2-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 611.45,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_288_num2/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-9-p1-frame-5.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-9-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-9-p1-frame-5.combo-digit-0-9-frame-5",
+      "parentId": "combo-9-p1-frame-5.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 259,
+        "symbolClass": "num9",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-9-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 611.45,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_259_num9/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-10-p1-frame-5.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-10-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-10-p1-frame-5.combo-digit-0-1-frame-5",
+      "parentId": "combo-10-p1-frame-5.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 292,
+        "symbolClass": "num1",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-10-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -44.6,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 562.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_292_num1/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-10-p1-frame-5.combo-digit-1-0-frame-5",
+      "parentId": "combo-10-p1-frame-5.batter-root",
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 296,
+        "symbolClass": "num0",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-10-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 5.4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 612.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_296_num0/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-99-p1-frame-5.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-99-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-99-p1-frame-5.combo-digit-0-9-frame-5",
+      "parentId": "combo-99-p1-frame-5.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 259,
+        "symbolClass": "num9",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-99-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -44.6,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 562.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_259_num9/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-99-p1-frame-5.combo-digit-1-9-frame-5",
+      "parentId": "combo-99-p1-frame-5.batter-root",
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 259,
+        "symbolClass": "num9",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-99-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 5.4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 612.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_259_num9/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-100-p1-frame-5.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-100-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-100-p1-frame-5.combo-digit-0-1-frame-5",
+      "parentId": "combo-100-p1-frame-5.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 292,
+        "symbolClass": "num1",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-100-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -95.6,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 511.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_292_num1/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-100-p1-frame-5.combo-digit-1-0-frame-5",
+      "parentId": "combo-100-p1-frame-5.batter-root",
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 296,
+        "symbolClass": "num0",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-100-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -45.6,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 561.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_296_num0/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-100-p1-frame-5.combo-digit-2-0-frame-5",
+      "parentId": "combo-100-p1-frame-5.batter-root",
+      "depth": 3,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 296,
+        "symbolClass": "num0",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-100-p1-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 4.4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 611.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_296_num0/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-10-p2-frame-5.batter-root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 299,
+        "symbolClass": "export.Batter",
+        "instanceName": null,
+        "frame": null
+      },
+      "placements": [
+        {
+          "stateId": "combo-10-p2-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 694.95,
+            "ty": 234.95
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 190,
+            "height": 60
+          },
+          "stageBounds": {
+            "left": 694.95,
+            "top": 234.95,
+            "width": 190,
+            "height": 60
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback/sprites/DefineSprite_299_export.Batter/1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-10-p2-frame-5.combo-digit-0-1-frame-5",
+      "parentId": "combo-10-p2-frame-5.batter-root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 292,
+        "symbolClass": "num1",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-10-p2-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": -44.6,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 562.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_292_num1/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "combo-10-p2-frame-5.combo-digit-1-0-frame-5",
+      "parentId": "combo-10-p2-frame-5.batter-root",
+      "depth": 2,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "othermat1-swf",
+        "characterId": 296,
+        "symbolClass": "num0",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "combo-10-p2-frame-5",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 5.4,
+            "ty": 28.3
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -87.5,
+            "top": -87.5,
+            "width": 175,
+            "height": 175
+          },
+          "stageBounds": {
+            "left": 612.85,
+            "top": 175.75,
+            "width": 175,
+            "height": 175
+          },
+          "alpha": 1,
+          "derivation": "calculated",
+          "derivationMethod": "AS3 constructor/addChild coordinates composed with the fixed 940x590 fixture and restored-resource bounds.",
+          "evidenceRefs": [
+            "base-monster-as",
+            "cure-hp-queue-as",
+            "a-number-as",
+            "game-info-as",
+            "batter-as",
+            "othermat1-swf"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-211-combat-hit-feedback-svg/sprites/DefineSprite_296_num0/5.svg",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "original-normal-role-p1-t0-940x590",
+      "stateId": "normal-role-p1-t0",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-normal-role-p1-t0-940x590.svg",
+      "sha256": "6de1e35437901ce20c24ebfe0f5ad7cf8c3b01182e04476b4e9c31f1e7ec81b5",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-normal-role-p1-t200-940x590",
+      "stateId": "normal-role-p1-t200",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-normal-role-p1-t200-940x590.svg",
+      "sha256": "e32f19a13da34c7a90d73d03b11d3787f1191f1d35dbfbbce537bb8ed7208494",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-normal-pet-p1-t250-940x590",
+      "stateId": "normal-pet-p1-t250",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-normal-pet-p1-t250-940x590.svg",
+      "sha256": "4c7f83e66b1a8d67192a4bcc3fd191be94770ff9336b6d41cd0e6eb1f725e881",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-critical-magic-p1-t250-940x590",
+      "stateId": "critical-magic-p1-t250",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-critical-magic-p1-t250-940x590.svg",
+      "sha256": "9527fcf41c5bae0627ccb1e2f1cfceff192fe108d3a49e35cb7cd40ae93abf94",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-normal-pet-p2-t750-940x590",
+      "stateId": "normal-pet-p2-t750",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-normal-pet-p2-t750-940x590.svg",
+      "sha256": "912a19f30ab6f1863c295a67199fa013f6a4bc9d135b355d1e3f3b4651645705",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-critical-role-p2-t1250-940x590",
+      "stateId": "critical-role-p2-t1250",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-critical-role-p2-t1250-940x590.svg",
+      "sha256": "936c512fbe851efbcb8fabd13f686137ff45394a7dc470564567797bd98f2939",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-rapid-six-hit-p1-t0-940x590",
+      "stateId": "rapid-six-hit-p1-t0",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-rapid-six-hit-p1-t0-940x590.svg",
+      "sha256": "525dbb3646ac0b12d45fd7aabe82d79fabbabc03a1466e4a6d0e638698838fb2",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-lethal-critical-p2-t200-940x590",
+      "stateId": "lethal-critical-p2-t200",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-lethal-critical-p2-t200-940x590.svg",
+      "sha256": "4140348bdcd498ef17c7008a977c4fdc1bc157f9f10bd914302b567b16d5c289",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-miss-p1-940x590",
+      "stateId": "miss-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-miss-p1-940x590.svg",
+      "sha256": "936c512fbe851efbcb8fabd13f686137ff45394a7dc470564567797bd98f2939",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-duplicate-attack-id-p1-940x590",
+      "stateId": "duplicate-attack-id-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-duplicate-attack-id-p1-940x590.svg",
+      "sha256": "936c512fbe851efbcb8fabd13f686137ff45394a7dc470564567797bd98f2939",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-zero-damage-original-p1-940x590",
+      "stateId": "zero-damage-original-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-zero-damage-original-p1-940x590.svg",
+      "sha256": "6ee5951d92b6da1ca5037bda0411471b82a264922ec3385242dcec438654dd20",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-effect-tick-no-combo-p1-940x590",
+      "stateId": "effect-tick-no-combo-p1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-effect-tick-no-combo-p1-940x590.svg",
+      "sha256": "51596b1f860eff9f6276f4ca94b8691403bc1c2d7697dc61ad9ffa8993b31939",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-2-p1-frame-1-940x590",
+      "stateId": "combo-2-p1-frame-1",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-2-p1-frame-1-940x590.svg",
+      "sha256": "e6ed4a46d61fe519d89a92bd031aefca3738157bc1abc966f98a038d786d4b67",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-2-p1-frame-2-940x590",
+      "stateId": "combo-2-p1-frame-2",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-2-p1-frame-2-940x590.svg",
+      "sha256": "ee57391c754a0d5aee5b178579a70ff4b917e39ded71907caa4624065d9957a2",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-2-p1-frame-3-940x590",
+      "stateId": "combo-2-p1-frame-3",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-2-p1-frame-3-940x590.svg",
+      "sha256": "444959408d0e993af00cef4690c6ab8eacbfc9cb0f6aa65575672c3732e6c1f0",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-2-p1-frame-4-940x590",
+      "stateId": "combo-2-p1-frame-4",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-2-p1-frame-4-940x590.svg",
+      "sha256": "3db46b5f855a71d9075a464f5a6c6cde453f869bd3f329c29eb4324272a4abd4",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-2-p1-frame-5-940x590",
+      "stateId": "combo-2-p1-frame-5",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-2-p1-frame-5-940x590.svg",
+      "sha256": "b2e9107badb87a1d9b436c572bd5706ed454d74979d03ca6c4363ff29d702551",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-9-p1-frame-5-940x590",
+      "stateId": "combo-9-p1-frame-5",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-9-p1-frame-5-940x590.svg",
+      "sha256": "8321d4006faacef3f006c61be1e0a9a887308bbcb983a6d0bd2fcb35d474ba94",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-10-p1-frame-5-940x590",
+      "stateId": "combo-10-p1-frame-5",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-10-p1-frame-5-940x590.svg",
+      "sha256": "e52926859fed7b020dbed41c12e82d3370773378687d0a587de40f1247f565d8",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-99-p1-frame-5-940x590",
+      "stateId": "combo-99-p1-frame-5",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-99-p1-frame-5-940x590.svg",
+      "sha256": "94ddcab44c2af3344e0eda3ad5d2f96849291475d65f28617ce042fab1d733c8",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-100-p1-frame-5-940x590",
+      "stateId": "combo-100-p1-frame-5",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-100-p1-frame-5-940x590.svg",
+      "sha256": "10bd5c48d48f792b91d0818650f4a7bee7326fb8b865d5c000aafb9688d0d2cc",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-10-p2-frame-5-940x590",
+      "stateId": "combo-10-p2-frame-5",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-10-p2-frame-5-940x590.svg",
+      "sha256": "e52926859fed7b020dbed41c12e82d3370773378687d0a587de40f1247f565d8",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "original-combo-timeout-reset-940x590",
+      "stateId": "combo-timeout-reset",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-211/original-combo-timeout-reset-940x590.svg",
+      "sha256": "936c512fbe851efbcb8fabd13f686137ff45394a7dc470564567797bd98f2939",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "normal-role-p1-t0",
+      "normal-role-p1-t200",
+      "normal-pet-p1-t250",
+      "critical-magic-p1-t250",
+      "normal-pet-p2-t750",
+      "critical-role-p2-t1250",
+      "rapid-six-hit-p1-t0",
+      "lethal-critical-p2-t200",
+      "miss-p1",
+      "duplicate-attack-id-p1",
+      "zero-damage-original-p1",
+      "effect-tick-no-combo-p1",
+      "combo-2-p1-frame-1",
+      "combo-2-p1-frame-2",
+      "combo-2-p1-frame-3",
+      "combo-2-p1-frame-4",
+      "combo-2-p1-frame-5",
+      "combo-9-p1-frame-5",
+      "combo-10-p1-frame-5",
+      "combo-99-p1-frame-5",
+      "combo-100-p1-frame-5",
+      "combo-10-p2-frame-5",
+      "combo-timeout-reset"
+    ],
+    "extractedStateIds": [
+      "normal-role-p1-t0",
+      "normal-role-p1-t200",
+      "normal-pet-p1-t250",
+      "critical-magic-p1-t250",
+      "normal-pet-p2-t750",
+      "critical-role-p2-t1250",
+      "rapid-six-hit-p1-t0",
+      "lethal-critical-p2-t200",
+      "miss-p1",
+      "duplicate-attack-id-p1",
+      "zero-damage-original-p1",
+      "effect-tick-no-combo-p1",
+      "combo-2-p1-frame-1",
+      "combo-2-p1-frame-2",
+      "combo-2-p1-frame-3",
+      "combo-2-p1-frame-4",
+      "combo-2-p1-frame-5",
+      "combo-9-p1-frame-5",
+      "combo-10-p1-frame-5",
+      "combo-99-p1-frame-5",
+      "combo-100-p1-frame-5",
+      "combo-10-p2-frame-5",
+      "combo-timeout-reset"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "normal-role-p1-t0": 2,
+      "normal-role-p1-t200": 2,
+      "normal-pet-p1-t250": 2,
+      "critical-magic-p1-t250": 2,
+      "normal-pet-p2-t750": 2,
+      "critical-role-p2-t1250": 0,
+      "rapid-six-hit-p1-t0": 10,
+      "lethal-critical-p2-t200": 3,
+      "miss-p1": 0,
+      "duplicate-attack-id-p1": 0,
+      "zero-damage-original-p1": 1,
+      "effect-tick-no-combo-p1": 2,
+      "combo-2-p1-frame-1": 2,
+      "combo-2-p1-frame-2": 2,
+      "combo-2-p1-frame-3": 2,
+      "combo-2-p1-frame-4": 2,
+      "combo-2-p1-frame-5": 2,
+      "combo-9-p1-frame-5": 2,
+      "combo-10-p1-frame-5": 3,
+      "combo-99-p1-frame-5": 3,
+      "combo-100-p1-frame-5": 4,
+      "combo-10-p2-frame-5": 3,
+      "combo-timeout-reset": 0
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "docs/reverse-engineering/combat-hit-feedback-index.md",
+    "docs/tasks/task-history.md"
+  ]
+}

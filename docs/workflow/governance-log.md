@@ -1,5 +1,13 @@
 # 工作流治理日志
 
+## 2026-09-02：211 冻结怪物命中反馈视觉真值
+
+- 真值：从恢复 `OtherMat1.swf` 与 AS3 producer→queue→view→reset 链生成普通/暴击数字、连击面板和五帧字形的 23 状态、53 显示对象、940×590 基准，`unresolved=[]`。
+- 防自证：生成器自测拒绝状态缺失、character 漂移、数字漏项、帧漏项和错误 0 伤害现代语义五类变异；资源标注新增 4 条 `derived-ready`。
+- 调度：归档 `TASK-SETTINGS-211`，唯一 Ready 切换为 `TASK-SLICE-212`；本轮不修改现代 `src`。
+- 治理：集中审计命中 PG-004/017；动态视觉样本通过，但 212 正式消费者、通用视觉全面性校验器与存量关闭合同仍待后续。
+- 验证：真值重复生成/语义变异/UI Schema、annotations、structure、workflow、problem audit 与 `git diff --check`。
+
 ## 2026-08-27：208A 以独立语义 verifier 关闭猴系反例
 
 - 运行合同：生产 Runtime 直接消费 207 frozen `attackRange`；四形态 × P1/P2 从范围外追击入围后才普通攻击，projectile target/action token、verified hit、pet-source damage 与 cleanup 保持同链。

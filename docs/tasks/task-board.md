@@ -4,9 +4,11 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-211` 是唯一 Ready 游戏 task。210 已直接消费 209 的 43 项字段级合同，闭合 horse1..4 的 P1/P2 范围链、真实普攻/全部继承技能、共享冰效、奥义组合、owner、实际 HP decrease 与生命周期，`pet P1H=0`。
+`TASK-SLICE-212` 是唯一 Ready 游戏 task。211 已从恢复源 `OtherMat1.swf` 与 AS3 producer/queue/view/reset 链生成 23 状态、53 显示对象的 verified 怪物命中反馈真值，闭合普通/暴击数字、队列、连击面板、P1/P2 与最高连击 owner，`unresolved=[]`。
 
-`$pet-family-reverse` 第二家族正式样本已通过，MO-003 裁决“采纳”。旧 193E..R 横向批次保持撤销；下一步 211 只逆向怪物伤害数字/连击真值，不修改 `src/`。
+`$pet-family-reverse` 第二家族正式样本已通过，MO-003 裁决“采纳”。旧 193E..R 横向批次保持撤销；下一步 212 直接消费 211 真值，让实际 HP decrease 成为 Role/宠物/法宝共享怪物反馈的唯一 producer。
+
+2026-08-31 用户反证“怪物不会攻击宠物”已由 210A 窄修：正式怪物 active attack 现在会按范围/防御/attack-id 去重伤害出战宠物，并由 Pet Runtime 驱动 HP/hurt/dead。5173 第 6 槽已通过 localhost-only fixture 写入 P1/P2 各 35 形态全宠物档。该回归不替代 211/212；唯一 Ready 仍为 211。
 
 2026-08-27 用户新增正式运行反证：当前出战马宠物可见攻击但怪物无可辨识受击/伤害数字，现代运行又没有连击动画。代码诊断确认正式扣血/怪物 hurt 入口不是 Role 专用，但当前只有猴系接入正式宠物伤害解析；209 现已生成 210，先由其闭合马系实际 HP decrease。各来源 `DamageEvent` 仍没有共享可见反馈，故 `TASK-SETTINGS-211 -> TASK-SLICE-212` 保持在 210 后，不抢占当前唯一 Ready。
 
@@ -15,8 +17,7 @@
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 猴系 P1R=0、马系 P1H=0；其余七族与旧入口仍待逐族闭合 | 后续按当前线覆盖缺口生成单家族 task | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-SETTINGS-211 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 怪物命中反馈与连击真值 | 闭合怪物 hurt/HP、普通/暴击伤害数字和连击面板的原版 producer、显示列表、时间线与来源语义 | M-032、M-035、M-049、M-053、VS-071 | verified 战斗反馈真值、940×590 基准、实际 HP decrease 到可见反馈的无未知合同 | TASK-SLICE-212 | [定义](task-definitions/TASK-SETTINGS-211.md) |
-| TASK-SLICE-212 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 共享伤害数字与连击闭环 | 让成功 `DamageEvent` 成为 Role/宠物/法宝共享的唯一怪物受击可见反馈来源 | M-032、M-035、M-049、M-053、VS-071 | source-agnostic hurt、原版数字/连击、最高连击与 HP delta 一一对应 trace | 继续逐家族宠物闭合；全族完成后 TASK-SLICE-194 | [定义](task-definitions/TASK-SLICE-212.md) |
+| TASK-SLICE-212 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 共享伤害数字与连击闭环 | 让成功 `DamageEvent` 成为 Role/宠物/法宝共享的唯一怪物受击可见反馈来源 | M-032、M-035、M-049、M-053、VS-071 | source-agnostic hurt、原版数字/连击、最高连击与 HP delta 一一对应 trace | 继续逐家族宠物闭合；全族完成后 TASK-SLICE-194 | [定义](task-definitions/TASK-SLICE-212.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在 207/208 及后续逐个生成的完整家族任务全部完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |
 | TASK-SETTINGS-195 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色动作完整性/流畅度审计 | 比较五角色原 SWF 与现代帧时序、持帧、转移、clock、解包/加载/投影完整性并确定根因 | M-018..M-025、M-035、M-047、VS-068 | 可重现跨角色差异矩阵、根因分类、每受影响角色修复子 task | 执行所有生成的单角色子 task，然后 TASK-SLICE-196 | [定义](task-definitions/TASK-SETTINGS-195.md) |
 | TASK-SLICE-196 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色统一校准 | 统一复验五角色 UI/本体/普攻/技能动作流畅度与正式 Runtime 转移 | M-018..M-025、M-047、M-049、VS-068 | 五角色同标准自动对账、940×590 动作对照与无未解释卡顿 | TASK-SETTINGS-197 | [定义](task-definitions/TASK-SLICE-196.md) |
