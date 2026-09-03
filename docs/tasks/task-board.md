@@ -6,6 +6,8 @@
 
 `TASK-SETTINGS-213` 是唯一 Ready 游戏 task。212 已让真实 HP decrease 成为 Role/宠物/法宝共享伤害数字和连击反馈的唯一 producer，并把最高连击传入结果页；下一步按已采纳 `$pet-family-reverse` 闭合青龙 `dragon1..4` 完整家族证据。
 
+2026-09-03 用户运行反证确认角色/宠物会实际扣血但头顶没有承伤数字，且 5173 默认入口看不到现有仅由 `?qaPetSave=all` 触发的全宠物测试存档。原版数字链已定位到 `BaseHero.reduceHp()/BasePet.reduceHp() -> pnum0..9 -> ANumber`，而 211/212 只覆盖怪物作为受伤目标的 `hurtnum/bnum`。新增 `TASK-SETTINGS-215 -> TASK-SLICE-216`，排在青龙 213/214 之后：先冻结 `pnum` 真值，再闭合正式 P1/P2/TestScene 的角色/宠物承伤数字，并让 localhost 5173 全宠物 QA 存档入口可发现、可复验；不改正式存档 schema，不抢占当前唯一 Ready。
+
 `$pet-family-reverse` 第二家族正式样本已通过，MO-003 裁决“采纳”。旧 193E..R 横向批次保持撤销；213/214 只处理一个完整青龙家族，先证据、后正式实现，不能在同一次 `/goal` 跨 task。
 
 2026-08-31 用户反证“怪物不会攻击宠物”已由 210A 窄修：正式怪物 active attack 现在会按范围/防御/attack-id 去重伤害出战宠物，并由 Pet Runtime 驱动 HP/hurt/dead。5173 第 6 槽已通过 localhost-only fixture 写入 P1/P2 各 35 形态全宠物档。该回归不替代 211/212；唯一 Ready 仍为 211。
@@ -18,7 +20,9 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 猴系 P1R=0、马系 P1H=0；其余七族与旧入口仍待逐族闭合 | 后续按当前线覆盖缺口生成单家族 task | [定义](task-definitions/TASK-ARCH-204.md) |
 | TASK-SETTINGS-213 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 青龙完整家族逆向 | 闭合 dragon1..4 的 BasePet AI、普攻、fs/sdcc/ltwj/qlaoyi、真动画、命中/治疗、owner 与生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | verified 单家族合同、逐状态原版基准、独立 verifier/mutation-kill 与 214 handoff | TASK-SLICE-214 | [定义](task-definitions/TASK-SETTINGS-213.md) |
-| TASK-SLICE-214 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 青龙完整家族正式实现 | 直接消费 213 verified 合同，闭合正式 P1/P2/TestScene 同源 Runtime、真普攻/技能、命中治疗和生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | pet P1G、source trace、真动画/伤害/治疗与 940×590 正式验证 | 继续下一未闭合宠物家族 | [定义](task-definitions/TASK-SLICE-214.md) |
+| TASK-SLICE-214 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 青龙完整家族正式实现 | 直接消费 213 verified 合同，闭合正式 P1/P2/TestScene 同源 Runtime、真普攻/技能、命中治疗和生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | pet P1G、source trace、真动画/伤害/治疗与 940×590 正式验证 | TASK-SETTINGS-215 | [定义](task-definitions/TASK-SLICE-214.md) |
+| TASK-SETTINGS-215 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 角色/宠物承伤数字逆向 | 闭合 `pnum0..9`、角色/宠物 producer、最终显示值、锚点、时序、P1/P2 owner 与特殊防御边界 | M-032、M-035、M-042、M-049、M-054、VS-072 | verified `pnum` 真值、逐状态原版基准、字段级 verifier/mutation-kill 与 216 handoff | TASK-SLICE-216 | [定义](task-definitions/TASK-SETTINGS-215.md) |
+| TASK-SLICE-216 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 角色/宠物承伤数字实现 | 直接消费 215 真值，让有效角色/宠物 HP decrease 生成原版 `pnum`；同时让 localhost 5173 全宠物 QA 存档入口可发现，不影响正式存档、怪物数字/连击 | M-032、M-035、M-042、M-049、M-054、VS-072 | 正式五关/TestScene P1/P2 incoming-damage trace、5173 全宠物档可见性、逐状态差异与回归 | 继续下一未闭合宠物家族 | [定义](task-definitions/TASK-SLICE-216.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在 207/208 及后续逐个生成的完整家族任务全部完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |
 | TASK-SETTINGS-195 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色动作完整性/流畅度审计 | 比较五角色原 SWF 与现代帧时序、持帧、转移、clock、解包/加载/投影完整性并确定根因 | M-018..M-025、M-035、M-047、VS-068 | 可重现跨角色差异矩阵、根因分类、每受影响角色修复子 task | 执行所有生成的单角色子 task，然后 TASK-SLICE-196 | [定义](task-definitions/TASK-SETTINGS-195.md) |
 | TASK-SLICE-196 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色统一校准 | 统一复验五角色 UI/本体/普攻/技能动作流畅度与正式 Runtime 转移 | M-018..M-025、M-047、M-049、VS-068 | 五角色同标准自动对账、940×590 动作对照与无未解释卡顿 | TASK-SETTINGS-197 | [定义](task-definitions/TASK-SLICE-196.md) |

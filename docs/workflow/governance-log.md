@@ -1,5 +1,12 @@
 # 工作流治理日志
 
+## 2026-09-03：登记角色/宠物承伤数字证据与实现任务
+
+- 反证：用户在 `5173` 运行中指出全宠物测试存档入口不可见，并要求核查怪物攻击角色时的数字显示；代码与原版 AS3 复核确认现代角色/宠物扣血链均未消费原版 `pnum` 承伤数字。
+- 调度：新增 `M-054`、`VS-072` 与连续任务 `TASK-SETTINGS-215` → `TASK-SLICE-216`，排在青龙 `213/214` 之后；唯一 Ready 仍为 `TASK-SETTINGS-213`，未越过 WIP=1。
+- 边界：215 只冻结角色/宠物承伤 `pnum0..9` 的 producer→view→reset、P1/P2、时序与几何真值；216 才实施正式五关/TestScene 消费，并让 210A 已有 localhost-only 全宠物 QA fixture 在 5173 验收入口可发现。回血、MP、miss、怪物侧 `hurtnum/bnum`、正式存档 schema 与非本地暴露不并入本批。
+- 验证：`npm run check:workflow`、`npm run audit:problems`、`git diff --check`。
+
 ## 2026-09-02：211 冻结怪物命中反馈视觉真值
 
 - 真值：从恢复 `OtherMat1.swf` 与 AS3 producer→queue→view→reset 链生成普通/暴击数字、连击面板和五帧字形的 23 状态、53 显示对象、940×590 基准，`unresolved=[]`。

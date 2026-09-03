@@ -34,6 +34,7 @@
 | 宠物战斗公共类 | 203/204A 建立旧骨架；205 闭合 35 形态基类证据；206 冻结组合设计；204B 让结构 P1/P1B gate=0；207/208A 让猴系语义 P1R=0；209/210 让马系 43 项合同与正式 P1H=0 | 猴系与马系完整家族链已闭合；其余七家族与最终兼容入口仍未闭合 | 后续继续按完整证据→独立语义 verifier→正式运行合同逐族推进，最终 all=0 |
 | 宠物真动画 | 193 已冻结 35 形态/38 技能映射；193A..193D 已闭合猴/马视觉真值与投影；208A/210 已把两族动作/effect 绑定到 CombatRuntime action/projectile token | 猴系与马系语义/真动画同链已闭合；其余七家族尚未完成同标准合同 | 逐族闭合后由 194 最终跨族校准 |
 | 怪物命中反馈/伤害数字/连击 | 211 已生成 23 状态 verified 真值；212 已让英雄、猴/马宠物、法宝和 effect 的成功 HP decrease 共用 `CombatFeedbackEvent`、原版普通/暴击位图、队列与 Batter view | 无；effect 明确只显示不增连击，miss/0/dedup/dead 无反馈，结果页读取真实最高连击 | 专项/source trace/结果页、全系统、build 与 940×590 双人 Stage 1-2 零 console 通过；`TASK-SLICE-212/runtime-audit.md` |
+| 角色/宠物承伤数字 | 原版 AS3 已定位 `BaseHero.reduceHp()/BasePet.reduceHp() -> pnum0..9 -> ANumber`；现代怪物攻击、角色/宠物 HP decrease 与 hurt/dead 已存在；210A 全宠物 fixture 仅由隐藏查询参数触发 | 211/212 只覆盖怪物作为受伤目标；现代 incoming-damage producer 未创建角色/宠物数字，`pnum` 也未进入真值/资源 bundle/view；5173 默认入口不可发现全宠物 QA 档 | 215 冻结 `pnum`、数值/特殊防御/owner/几何/时序；216 直接消费并以角色/宠物、P1/P2、五关/TestScene、HP delta/负场景、5173 QA 入口可发现性和 940×590 差异关闭 |
 | 五角色动作流畅度 | 069/158 视觉索引/桥、163/164/173/174 几何与行为证据 | 用户观察到角色间卡顿与流畅度不一；根因可能在资源完整性、帧时序/持帧、clock、动作转移、加载或投影 | 195 跨角色可测对照与根因分类；只为受影响角色生成单角色修复 task；196 五角色统一校准 |
 | 战斗技能 HUD | 技能功能页 175D/183、五槽绑定数据、HUD snapshot/bridge 已有 | 用户在战斗 UI 中未看到角色技能；旧 M-049/VS-051 关闭结论待复核，不得用技能功能页替代 | 197 战斗 HUD 显示列表/verified 真值；198 可见原生投影；199 绑定/MP/冷却/P1-P2/存档联动 |
 | 正式旅程 | 当前单 schema、五关 Runtime、功能页 router 和旧 159 旅程 | 新 UI/动画组合后的冷启动、跨页/跨关/双人/重载尚未证明 | 200 独立自动旅程 + 940×590 人工视觉/手感验收 |
@@ -65,12 +66,13 @@
 23. `TASK-SLICE-210A`：Done；用户运行反证指出怪物不会伤害宠物。原版 `BaseBullet.checkAttack()` 在怪物攻击命中玩家候选后仍检查其出战宠物；现代正式桥现把同一 active attack 按宠物运行坐标、防御与 attack-id 去重派入 `PetCombatRuntime.damageEvents`，形成 HP decrease、hurt/dead 生命周期。5173 第 6 槽另由 localhost-only `qaPetSave=all` fixture 提供 P1/P2 各 35 形态、9 物种的视觉档，不覆盖其他槽。
 24. `TASK-SETTINGS-211 -> TASK-SLICE-212`：Done；verified 真值、统一成功 HP decrease producer、原版普通/暴击数字、共享连击/最高值、结果页与双人正式运行已闭合。
 25. `TASK-SETTINGS-213 -> TASK-SLICE-214`：213 Ready、214 Planned；只闭合 dragon1..4 完整证据与正式实现，不复制猴/马家族事实。
-26. 旧 `TASK-ARCH-204C..G` 与 `TASK-SETTINGS-193E..TASK-SLICE-193R` 全部撤销；只为当前家族生成连续完整任务，完成前不切换家族。
-27. `TASK-SLICE-194`：所有按新方法生成的完整家族任务及 212 战斗反馈完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
-28. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。
-29. `TASK-SLICE-196`：五角色统一动作流畅度、UI 完整度和正式 Runtime 校准；不代替单角色修复。
-30. `TASK-SETTINGS-197 -> TASK-SLICE-198 -> TASK-SLICE-199`：技能功能页保持独立已有证据；本批只闭合战斗技能 HUD 真值、可见投影和运行联动。
-31. `TASK-SLICE-200`：集中正式旅程与整线关闭；通过后才恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`。
+26. `TASK-SETTINGS-215 -> TASK-SLICE-216`：Planned，排在 214 后；用户反证表明角色/宠物实际承伤没有 `pnum`，且 5173 默认入口看不到查询参数门控的全宠物 QA 存档；先做 verified 真值，再闭合正式 P1/P2/TestScene incoming-damage 可见链与 localhost QA 入口可发现性。
+27. 旧 `TASK-ARCH-204C..G` 与 `TASK-SETTINGS-193E..TASK-SLICE-193R` 全部撤销；只为当前家族生成连续完整任务，完成前不切换家族；215/216 是用户反证插入的同线反馈修复对。
+28. `TASK-SLICE-194`：所有按新方法生成的完整家族任务及 212、216 双向伤害反馈完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
+29. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。
+30. `TASK-SLICE-196`：五角色统一动作流畅度、UI 完整度和正式 Runtime 校准；不代替单角色修复。
+31. `TASK-SETTINGS-197 -> TASK-SLICE-198 -> TASK-SLICE-199`：技能功能页保持独立已有证据；本批只闭合战斗技能 HUD 真值、可见投影和运行联动。
+32. `TASK-SLICE-200`：集中正式旅程与整线关闭；通过后才恢复 `LINE-STAGE-2-3 / TASK-SETTINGS-064`。
 
 ## 明确排除
 
@@ -94,6 +96,7 @@
 - [ ] 五角色共用同一动作质量标准；每个用户可见卡顿/丢帧/错转移都有根因、修复或原版证据解释。
 - [ ] 战斗 HUD 可见显示当前角色五槽技能，技能图标/键位/不可用/MP/冷却/绑定和 P1/P2 状态与功能页、存档同源。
 - [x] 每个玩家可见的怪物伤害数字都对应唯一实际 HP decrease；Role/宠物/法宝共享 source-agnostic hurt/HP 反馈，普通/暴击数字、连击累计/超时清零和结果页最高连击直接消费 211 真值并通过 P1/P2/五关回归。
+- [ ] 角色与出战宠物的每个有效 incoming HP decrease 按 215 的 `pnum` 真值产生唯一承伤数字；P1/P2、五关/TestScene、致死/无效/特殊防御和生命周期清理均有自动与 940×590 证据，且不计入连击。
 - [ ] 所有 UI/HUD 具有显示列表、`verified` 原版机器真值 JSON、原版基准、许可现代例外和逐状态差异证据。
 - [ ] 自动专项、全系统、structure、annotations、workflow、build 与 940×590 正式冷启动/P1/P2/重载旅程通过，console 零 warning/error。
 - [ ] 无未完成同线 task，所有用户反证都有新证据、处置与可重开信号。
