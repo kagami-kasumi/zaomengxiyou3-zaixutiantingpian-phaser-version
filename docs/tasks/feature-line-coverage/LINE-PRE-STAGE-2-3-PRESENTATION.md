@@ -65,7 +65,7 @@
 22. `TASK-SLICE-210`：Done；horse1..4 正式 P1/P2 自主战斗、真实命中伤害、P1H、独立 verifier/mutation-kill 与 940×590 双人 Stage 1-2 已闭合；MO-003 裁决“采纳”。
 23. `TASK-SLICE-210A`：Done；用户运行反证指出怪物不会伤害宠物。原版 `BaseBullet.checkAttack()` 在怪物攻击命中玩家候选后仍检查其出战宠物；现代正式桥现把同一 active attack 按宠物运行坐标、防御与 attack-id 去重派入 `PetCombatRuntime.damageEvents`，形成 HP decrease、hurt/dead 生命周期。5173 第 6 槽另由 localhost-only `qaPetSave=all` fixture 提供 P1/P2 各 35 形态、9 物种的视觉档，不覆盖其他槽。
 24. `TASK-SETTINGS-211 -> TASK-SLICE-212`：Done；verified 真值、统一成功 HP decrease producer、原版普通/暴击数字、共享连击/最高值、结果页与双人正式运行已闭合。
-25. `TASK-SETTINGS-213 -> TASK-SLICE-214`：213 Ready、214 Planned；只闭合 dragon1..4 完整证据与正式实现，不复制猴/马家族事实。
+25. `TASK-SETTINGS-213 -> TASK-SLICE-214`：213 Done、214 Ready；213 已闭合 dragon1..4 的 44 项 verified 合同、11 显示对象/111 基准、九对象 ltwj、qlaoyi gate-only MP、owner/命中治疗/P1-P2 生命周期，214 直接消费同一 truth 完成正式实现。
 26. `TASK-SETTINGS-215 -> TASK-SLICE-216`：Planned，排在 214 后；用户反证表明角色/宠物实际承伤没有 `pnum`，且 5173 默认入口看不到查询参数门控的全宠物 QA 存档；先做 verified 真值，再闭合正式 P1/P2/TestScene incoming-damage 可见链与 localhost QA 入口可发现性。
 27. 旧 `TASK-ARCH-204C..G` 与 `TASK-SETTINGS-193E..TASK-SLICE-193R` 全部撤销；只为当前家族生成连续完整任务，完成前不切换家族；215/216 是用户反证插入的同线反馈修复对。
 28. `TASK-SLICE-194`：所有按新方法生成的完整家族任务及 212、216 双向伤害反馈完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。

@@ -11808,3 +11808,38 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SETTINGS-213`：使用已采纳 `$pet-family-reverse` 闭合 dragon1..4 的 BasePet AI、普攻、fs/sdcc/ltwj/qlaoyi、真动画、命中/治疗、owner 与 P1/P2 生命周期，生成独立正式实现 task 214；本证据轮不修改 `src/`。
+
+### TASK-SETTINGS-213
+
+任务类型：`TASK-SETTINGS`。任务模型：逆向任务（单宠物家族完整合同）。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SLICE-214`）。
+
+完成定义：
+
+- 按 `$pet-family-reverse` 六段证据链闭合 dragon1..4 的 BasePet AI、普通攻击、`fs`、`sdcc`、`ltwj`、`qlaoyi`、真实动画、命中/治疗时序、owner 优先级及 P1/P2 生命周期。
+- 固化 44 个合同、15 个动作、11 个显示对象与 111 张 940×590 逐状态透明基准；manifest `unresolved=[]`，并由独立交接校验直接约束 214。
+- 纠正旧现代切片的两处关键偏差：`ltwj` 是 `1+2+2+2+2` 共 9 个雷电对象；`qlaoyi` 的 30 MP 只作释放门槛，原版释放路径不扣 MP。
+
+完成日期：2026-09-03。
+
+关键产物：
+
+- `docs/reverse-engineering/evidence/TASK-SETTINGS-213-pet-dragon-family.md`
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-213-pet-dragon-family.json`
+- `docs/tasks/evidence/TASK-SETTINGS-213/baselines/` 的 111 张原版派生基准及 `baseline-index.json`
+- `tools/generate-pet-dragon-baselines.py`、`tools/generate-pet-dragon-family-ground-truth.mjs`、`tools/validate-pet-dragon-family-handoff.mjs`
+- `npm run generate:pet-dragon-family-truth` / `npm run test:pet-dragon-family-truth`
+
+证据结论：
+
+- dragon1..4 攻击距离统一为 150，BasePet 攻击判定率为 0.8；判定失败后再以 0.3 概率等待，否则跟随，距离外直接跟随。
+- `fs` 生成同形态真实分身：dragon1..3 为 alpha 0.5、10 秒，dragon4 为 alpha 0.6、12 秒；分身 owner 私有，结束治疗本体 3.6% SHp，dragon4 提前死亡也触发治疗。
+- `sdcc` 为 30 帧跟随弹体并在命中治疗；`ltwj` 五波九对象且每次命中治疗；`qlaoyi` 在 12/24/36/48 tick 触发四次链，末 tick 必生成 `hit4`，owner/分身沿 `sdcc → ltwj` 或 `hit6 → ltwj` 继续。
+
+验证：
+
+- `npm run test:pet-dragon-family-truth`：111 张基准可重复生成、44 个合同、Schema/变异测试和独立 214 交接校验通过。
+- `dragon4.qlaoyi.left` 与 `dragon3-ltwj.nine-object-wave.left` 基准完成视觉抽查；本 task 未修改 `src/`。
+
+推荐任务：
+
+- `TASK-SLICE-214`：直接消费 213 的 44 个合同和逐状态基准，修正龙宠现代实现并完成五关/TestScene 的 P1/P2 玩家可见验收。

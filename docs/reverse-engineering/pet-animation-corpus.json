@@ -2080,7 +2080,7 @@
         "hurt",
         "death-or-zero-hp lifecycle"
       ],
-      "exactBodyActionRows": "unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation",
+      "exactBodyActionRows": "verified by task-settings-213.pet-dragon-family; 111 key-tick baselines / 11 objects / unresolved=[]; docs/reverse-engineering/evidence/TASK-SETTINGS-213-pet-dragon-family.md",
       "skills": [
         {
           "stableKey": "pet-skill.dragon1.fs",
@@ -2191,12 +2191,12 @@
         "status": "placeholder",
         "locator": "src/scenes/test-scene/TestScenePetViewBridge.ts:createPetView geometric body/ear/label projection"
       },
-      "evidenceTask": "TASK-SETTINGS-193M",
-      "implementationTask": "TASK-SLICE-193N",
-      "familyTruthId": null,
-      "familyEvidencePath": null,
-      "familyImplementationTask": null,
-      "note": null
+      "evidenceTask": "TASK-SETTINGS-213",
+      "implementationTask": "TASK-SLICE-214",
+      "familyTruthId": "task-settings-213.pet-dragon-family",
+      "familyEvidencePath": "docs/reverse-engineering/evidence/TASK-SETTINGS-213-pet-dragon-family.md",
+      "familyImplementationTask": "TASK-SLICE-214",
+      "note": "TASK-SETTINGS-213 verifies dragon1..4 body/effect owners, 111 key-tick baselines, normal attacks, clones, nine-object ltwj, qlaoyi composition, owner and lifecycle; TASK-SLICE-214 remains the formal runtime implementation."
     },
     {
       "species": "rabbit",

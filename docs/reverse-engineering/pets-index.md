@@ -516,11 +516,13 @@
 | 3 | `horse3/bz` | 只需主动距离 `<= 250` 和范围占位特效，但建议等 `sp/bd` 的马系资源/冰冻边界稳定后再做 |
 | 4 | `horse4/tmaoyi` | 涉及全怪生成、追踪/非追踪差异、冰冻增强、爆炸二段和奥义 buff，适合拆成单独切片，不与 `sp/bd/bz` 同次实现 |
 
-青龙首批链路：
+## TASK-SETTINGS-213 青龙完整家族合同
+
+`task-settings-213.pet-dragon-family` 已达到 `verified`：44 个字段级合同、4 形态、15 个动作、11 个原版显示对象、111 个 `940×590` 关键 tick 基准，`unresolved=[]`。权威事实位于 `ground-truth/manifests/task-settings-213-pet-dragon-family.json`，解释和反证位于 `evidence/TASK-SETTINGS-213-pet-dragon-family.md`；后续 `TASK-SLICE-214` 必须直接消费该 manifest。
 
 `BaseHero.addPetByPi()` 按 `dragon1..4` 分别创建 `PetDragon1..4`。`PetInfo.rePetSkill()` 会把青龙候选池扩成 `dragon1: fs`、`dragon2: fs/sdcc`、`dragon3: fs/sdcc/ltwj`、`dragon4: fs/sdcc/ltwj/qlaoyi`；`addSpecialSkill()` 在 `dragon1 -> dragon2` 时把 `fs` 从追加候选中替换为 `sdcc`，在 `dragon2 -> dragon3` 时把 `sdcc` 替换为 `ltwj`。四阶说明和四阶学习入口会让 `dragon4` 持有 `qlaoyi`，普通角色技能书 `jns` 不参与宠物专属技能学习。
 
-`findPetUsedMagic()` 给出青龙消耗：`fs/sdcc/ltwj` 都消耗 20 MP，`qlaoyi` 消耗 30 MP。`getPetHarmObj()` 给出伤害基数：`fs = 0`、`sdcc = (0.03 * SHp + 3 * atk) * 1.05`、`ltwj = (0.024 * SHp + 3.6 * 2 * atk) * 1.05`、`qlaoyi = 0`。青龙现代基础属性已按宠物种族给出 `maxMp = 175`、`atk = 25`，后续实现可先沿用现有宠物伤害 helper 接入 `fsnl/sxkb`，但 `fs/qlaoyi` 本体仍保持直接伤害 0。
+`findPetUsedMagic()` 给出青龙技能的 MP 数值：`fs/sdcc/ltwj` 为 20，`qlaoyi` 为 30；但释放路径证明前三者实际扣除 20，`qlaoyi` 的 30 只参与门禁而不扣除。`getPetHarmObj()` 给出伤害基数：`fs = 0`、`sdcc = (0.03 * SHp + 3 * atk) * 1.05`、`ltwj = (0.024 * SHp + 3.6 * 2 * atk) * 1.05`、`qlaoyi = 0`。青龙现代基础属性已按宠物种族给出 `maxMp = 175`、`atk = 25`，后续实现可先沿用现有宠物伤害 helper 接入 `fsnl/sxkb`，但 `fs/qlaoyi` 本体仍保持直接伤害 0。
 
 | 类 | 技能槽 | 条件 | 动作/伤害 |
 | --- | --- | --- | --- |
@@ -529,26 +531,19 @@
 | `PetDragon4` | skill1 `fs` | 已学 `fs`、MP 足够、目标存在、CD1 就绪 | 同上；四阶版本额外要求 `curAttackTarget != null` |
 | `PetDragon2/3` | skill2 `sdcc` | 已学 `sdcc`、MP 足够、目标存在、距离 `<= 300`、CD2 就绪 | `hit3`，扣 20 MP；生成 `FollowBaseObjectBullet("PetDragon2Bullet2")` / `hit2`，命中造成 `sdcc` 伤害并按 `int(SHp * 0.018 + atk * 0.18 + level * 2)` 治疗宠物 |
 | `PetDragon4` | skill2 `sdcc` | 已学 `sdcc`、MP 足够、目标存在、距离 `<= 180`、CD2 就绪 | 同 `sdcc`，四阶距离门禁收窄到 `180` |
-| `PetDragon3` | skill3 `ltwj` | 已学 `ltwj`、MP 足够、目标存在、距离 `<= 500`、CD3 就绪 | `hit4`，扣 20 MP；分批生成多个 `SpecialEffectBullet("PetDragon3Bullet3")` / `hit3`，命中造成 `ltwj` 伤害并按 `int(SHp * 0.028 + atk * 0.09 + level * 2)` 治疗宠物 |
-| `PetDragon4` | skill3 `ltwj` | 已学 `ltwj`、MP 足够、目标存在、距离 `<= 220`、CD3 就绪 | 同 `ltwj`，四阶距离门禁收窄到 `220` |
-| `PetDragon4` | skill4 `qlaoyi` | 已学 `qlaoyi`、MP `>= 30`、目标存在、CD4 就绪 | `hit5`，进入奥义 buff；第 48 帧生成 `FollowBaseObjectBullet("PetDragonBullet4")` / `hit4`，自身直接伤害为 0，实际威力依赖已学 `fs/sdcc/ltwj` 的分身组合 |
+| `PetDragon3` | skill3 `ltwj` | 已学 `ltwj`、MP 足够、目标存在、距离 `<= 500`、CD3 就绪 | `hit4`，扣 20 MP；在 0/0.2/0.4/0.6/0.8 秒按 `1+2+2+2+2` 生成 **9 个** `SpecialEffectBullet("PetDragon3Bullet3")` / `hit3`；每对象独立命中、伤害、治疗与清理 |
+| `PetDragon4` | skill3 `ltwj` | 已学 `ltwj`、MP 足够、目标存在、距离 `<= 220`、CD3 就绪 | 同一九对象 `ltwj`，四阶距离门禁收窄到 `220`，伤害乘 `hurtBaseEffectRate()` |
+| `PetDragon4` | skill4 `qlaoyi` | 已学 `qlaoyi`、MP `>= 30`、目标距离 `<= 200`、CD4 就绪 | `hit5` 持续 48 ticks；12/24/36/48 tick 各尝试创建一只 fs 分身，tick48 另生成 `FollowBaseObjectBullet("PetDragonBullet4")` / `hit4`；30 MP **只作门禁，原版不扣蓝** |
 
-青龙 CD 来自 `skillCDN = [初始, 间隔]`：`fs` 约 `10s`、`sdcc` 约 `3.6s`、`ltwj` 约 `5s`、`qlaoyi` 约 `24s`。`qlaoyi` 的 `releSkill4()` 未在已读片段中看到显式 MP 扣除，门禁仍使用 `findPetUsedMagic("qlaoyi") = 30`；现代实现应先按门禁和其他奥义一致性扣 30 MP，并在文档中保留 AS3 片段未见扣 MP 的边界说明。
+青龙 `skillCDN=[初始,间隔]`：`fs=2.5s/10s`、`sdcc=3s/3.6s`、`ltwj=5s/5s`、`qlaoyi=15s/24s`。213 的源码边界检查和 MP mutation 已把 qlaoyi 冻结为“30 MP 门禁、0 MP 实际扣除”，不再按其他家族一致性补写。
 
-`fs` 分身边界：`doHit2()` 会创建同类宠物分身并加入 `fenshenArray`，分身复制宠物信息、设 `type = 1`、`alpha = 0.5`，持续 `gc.frameClips * 10` 后销毁；主宠会在分身回收路径中执行一次按 `SHp * 0.036` 的治疗。首个现代切片建议只做分身可见反馈、10 秒持续和直接伤害 0，分身 AI、分身到期治疗和多分身协同后置。
+`fs` 分身是真实同形态宠物实例，不是字符串反馈：dragon1..3 为 alpha 0.5/10 秒，dragon4 为 alpha 0.6/12 秒并复制技能与扩大量 HP/MP；分身拥有自己的 AI、attack id 和 projectile，但留在 owner 私有 `fenshenArray`。dragon1..3 正常到期治疗主人 3.6% SHp；dragon4 到期或提前死亡均治疗 3.6% SHp。换宠/休息/死亡/返回/重载必须只清理对应 slot，分身销毁不得清空 owner 宠物槽。
 
-`qlaoyi` 组合边界：如果已学 `fs`，奥义会创建分身；如果已学 `sdcc`，分身会走 `releSkill2WithoutMana()`；否则若已学 `ltwj`，分身进入 `hit6`；都不满足时清掉 `isAoyi`。这说明四阶奥义不是单个高伤害 projectile，而是依赖前置技能链的组合表现，适合等 `fs/sdcc/ltwj` 都有最小实现后再拆独立切片。
+`qlaoyi` 是有序组合：owner 和每只可选分身优先免费 sdcc；hit3 完成后若学 ltwj 再免费释放九对象 ltwj；没有 sdcc 但有 ltwj 时经 hit6 转入 ltwj。即使未学 fs，tick48 的 `PetDragonBullet4` 仍生成并以 `hit4` 使用 ltwj 伤害公式；“hit5 本体伤害为 0”不能被误写成奥义整链无伤害。
 
-青龙资源键已由 AS3 确认：本体为 `PetDragonBmd1..4`，技能/弹体包括 `PetDragon1Bullet1`、`PetDragon2Bullet1`、`PetDragon2Bullet2`、`PetDragon3Bullet1`、`PetDragon3Bullet3`、`PetDragonBullet4`。`attackBackInfoDict` 中 `hit1/hit2` 为 physics，`hit3/hit4` 为 magic，击退大致为 `[3,-5]`、`[7,-5]`、`[2,-5]`、`[1,-5]`；现代首批只登记占位资源 key，不重新提取资源。
+青龙本体和攻击对象的唯一 owner 均为恢复 `assets/pet1.swf`：character 9/13/16/23 与 542/547/563/572/603/539；共享 `AoyiBuff` 为 `StageCommon.swf` character 120，碰撞为 character 103/101。manifest 已记录完整哈希、逐帧几何、注册点、bounds、owner precedence 和基准，不再标记为资源缺失。
 
-青龙现代最小切片建议：
-
-| 优先级 | 切片 | 理由与边界 |
-| --- | --- | --- |
-| 1 | `dragon1/fs` | 已由 `TASK-SLICE-062` 完成：已学、MP、约 10 秒 CD、10 秒分身占位反馈、无目标释放和直接伤害 0 |
-| 2 | `dragon2/sdcc` | 已由 `TASK-SLICE-063` 完成：目标/距离 `<= 300` 门禁、混合伤害公式、`fsnl/sxkb` 兼容和命中治疗记录 |
-| 3 | `dragon3/ltwj` | 已由 `TASK-SLICE-064` 完成：距离 `<= 500` 门禁、4 段 `PetDragon3Bullet3` 占位反馈、混合伤害公式、`fsnl/sxkb` 兼容和命中治疗记录 |
-| 4 | `dragon4/qlaoyi` | 已由 `TASK-SLICE-065` 完成：目标/距离 `<= 200` 门禁、30 MP、约 24 秒 CD、`PetDragonBullet4` 奥义占位反馈、直接伤害 0，并按已学 `fs/sdcc/ltwj` 记录组合标签 |
+旧 062..065 只完成占位最小切片，不能作为完整家族实现。唯一后续为 `TASK-SLICE-214`：统一消费 213 的 `attackRange=150`、真本体/对象、九对象 ltwj、qlaoyi gate-only MP、命中治疗与 P1/P2 clone/projectile 生命周期，并以 P1G 和 940×590 正式运行闭合。
 
 玄龟首批链路：
 

@@ -1,0 +1,1464 @@
+{
+  "taskId": "TASK-SETTINGS-213",
+  "truthId": "task-settings-213.pet-dragon-family",
+  "originalVersion": "RegiMA 1.1 restored corpus",
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "coordinateSpace": "stage",
+    "fixtureRoot": {
+      "x": 470,
+      "y": 350
+    }
+  },
+  "expectedIds": [
+    "dragon1.wait.left",
+    "dragon1.wait.right",
+    "dragon1.walk.left",
+    "dragon1.walk.right",
+    "dragon1.hurt.left",
+    "dragon1.hurt.right",
+    "dragon1.dead.left",
+    "dragon1.dead.right",
+    "dragon1.normal.left",
+    "dragon1.normal.right",
+    "dragon1.fs.left",
+    "dragon1.fs.right",
+    "dragon2.wait.left",
+    "dragon2.wait.right",
+    "dragon2.walk.left",
+    "dragon2.walk.right",
+    "dragon2.hurt.left",
+    "dragon2.hurt.right",
+    "dragon2.dead.left",
+    "dragon2.dead.right",
+    "dragon2.normal.left",
+    "dragon2.normal.right",
+    "dragon2.fs.left",
+    "dragon2.fs.right",
+    "dragon2.sdcc.left",
+    "dragon2.sdcc.right",
+    "dragon3.wait.left",
+    "dragon3.wait.right",
+    "dragon3.walk.left",
+    "dragon3.walk.right",
+    "dragon3.hurt.left",
+    "dragon3.hurt.right",
+    "dragon3.dead.left",
+    "dragon3.dead.right",
+    "dragon3.normal.left",
+    "dragon3.normal.right",
+    "dragon3.fs.left",
+    "dragon3.fs.right",
+    "dragon3.sdcc.left",
+    "dragon3.sdcc.right",
+    "dragon3.ltwj.left",
+    "dragon3.ltwj.right",
+    "dragon4.wait.left",
+    "dragon4.wait.right",
+    "dragon4.walk.left",
+    "dragon4.walk.right",
+    "dragon4.hurt.left",
+    "dragon4.hurt.right",
+    "dragon4.dead.left",
+    "dragon4.dead.right",
+    "dragon4.normal.left",
+    "dragon4.normal.right",
+    "dragon4.fs.left",
+    "dragon4.fs.right",
+    "dragon4.sdcc.left",
+    "dragon4.sdcc.right",
+    "dragon4.ltwj.left",
+    "dragon4.ltwj.right",
+    "dragon4.qlaoyi.left",
+    "dragon4.qlaoyi.right",
+    "dragon4.qlaoyi-ltwj-link.left",
+    "dragon4.qlaoyi-ltwj-link.right",
+    "dragon1.fs-clone-active.left",
+    "dragon1.fs-clone-active.right",
+    "dragon2.fs-clone-active.left",
+    "dragon2.fs-clone-active.right",
+    "dragon3.fs-clone-active.left",
+    "dragon3.fs-clone-active.right",
+    "dragon4.fs-clone-active.left",
+    "dragon4.fs-clone-active.right",
+    "dragon1-normal.frame01.left",
+    "dragon1-normal.frame01.right",
+    "dragon1-normal.frame06.left",
+    "dragon1-normal.frame06.right",
+    "dragon1-normal.frame11.left",
+    "dragon1-normal.frame11.right",
+    "dragon2-normal.frame01.left",
+    "dragon2-normal.frame01.right",
+    "dragon2-normal.frame08.left",
+    "dragon2-normal.frame08.right",
+    "dragon2-normal.frame15.left",
+    "dragon2-normal.frame15.right",
+    "dragon2-sdcc.frame01.left",
+    "dragon2-sdcc.frame01.right",
+    "dragon2-sdcc.frame15.left",
+    "dragon2-sdcc.frame15.right",
+    "dragon2-sdcc.frame30.left",
+    "dragon2-sdcc.frame30.right",
+    "dragon3-normal.frame01.left",
+    "dragon3-normal.frame01.right",
+    "dragon3-normal.frame11.left",
+    "dragon3-normal.frame11.right",
+    "dragon3-normal.frame21.left",
+    "dragon3-normal.frame21.right",
+    "dragon3-ltwj.frame01.left",
+    "dragon3-ltwj.frame01.right",
+    "dragon3-ltwj.frame05.left",
+    "dragon3-ltwj.frame05.right",
+    "dragon3-ltwj.frame10.left",
+    "dragon3-ltwj.frame10.right",
+    "dragon4-qlaoyi.frame01.left",
+    "dragon4-qlaoyi.frame01.right",
+    "dragon4-qlaoyi.frame24.left",
+    "dragon4-qlaoyi.frame24.right",
+    "dragon4-qlaoyi.frame48.left",
+    "dragon4-qlaoyi.frame48.right",
+    "dragon3-ltwj.nine-object-wave.left",
+    "dragon3-ltwj.nine-object-wave.right",
+    "dragon4-qlaoyi-aoyi-buff.frame01.fixed",
+    "dragon4-qlaoyi-aoyi-buff.frame07.fixed",
+    "dragon4-qlaoyi-aoyi-buff.frame14.fixed"
+  ],
+  "extractedIds": [
+    "dragon1.wait.left",
+    "dragon1.wait.right",
+    "dragon1.walk.left",
+    "dragon1.walk.right",
+    "dragon1.hurt.left",
+    "dragon1.hurt.right",
+    "dragon1.dead.left",
+    "dragon1.dead.right",
+    "dragon1.normal.left",
+    "dragon1.normal.right",
+    "dragon1.fs.left",
+    "dragon1.fs.right",
+    "dragon2.wait.left",
+    "dragon2.wait.right",
+    "dragon2.walk.left",
+    "dragon2.walk.right",
+    "dragon2.hurt.left",
+    "dragon2.hurt.right",
+    "dragon2.dead.left",
+    "dragon2.dead.right",
+    "dragon2.normal.left",
+    "dragon2.normal.right",
+    "dragon2.fs.left",
+    "dragon2.fs.right",
+    "dragon2.sdcc.left",
+    "dragon2.sdcc.right",
+    "dragon3.wait.left",
+    "dragon3.wait.right",
+    "dragon3.walk.left",
+    "dragon3.walk.right",
+    "dragon3.hurt.left",
+    "dragon3.hurt.right",
+    "dragon3.dead.left",
+    "dragon3.dead.right",
+    "dragon3.normal.left",
+    "dragon3.normal.right",
+    "dragon3.fs.left",
+    "dragon3.fs.right",
+    "dragon3.sdcc.left",
+    "dragon3.sdcc.right",
+    "dragon3.ltwj.left",
+    "dragon3.ltwj.right",
+    "dragon4.wait.left",
+    "dragon4.wait.right",
+    "dragon4.walk.left",
+    "dragon4.walk.right",
+    "dragon4.hurt.left",
+    "dragon4.hurt.right",
+    "dragon4.dead.left",
+    "dragon4.dead.right",
+    "dragon4.normal.left",
+    "dragon4.normal.right",
+    "dragon4.fs.left",
+    "dragon4.fs.right",
+    "dragon4.sdcc.left",
+    "dragon4.sdcc.right",
+    "dragon4.ltwj.left",
+    "dragon4.ltwj.right",
+    "dragon4.qlaoyi.left",
+    "dragon4.qlaoyi.right",
+    "dragon4.qlaoyi-ltwj-link.left",
+    "dragon4.qlaoyi-ltwj-link.right",
+    "dragon1.fs-clone-active.left",
+    "dragon1.fs-clone-active.right",
+    "dragon2.fs-clone-active.left",
+    "dragon2.fs-clone-active.right",
+    "dragon3.fs-clone-active.left",
+    "dragon3.fs-clone-active.right",
+    "dragon4.fs-clone-active.left",
+    "dragon4.fs-clone-active.right",
+    "dragon1-normal.frame01.left",
+    "dragon1-normal.frame01.right",
+    "dragon1-normal.frame06.left",
+    "dragon1-normal.frame06.right",
+    "dragon1-normal.frame11.left",
+    "dragon1-normal.frame11.right",
+    "dragon2-normal.frame01.left",
+    "dragon2-normal.frame01.right",
+    "dragon2-normal.frame08.left",
+    "dragon2-normal.frame08.right",
+    "dragon2-normal.frame15.left",
+    "dragon2-normal.frame15.right",
+    "dragon2-sdcc.frame01.left",
+    "dragon2-sdcc.frame01.right",
+    "dragon2-sdcc.frame15.left",
+    "dragon2-sdcc.frame15.right",
+    "dragon2-sdcc.frame30.left",
+    "dragon2-sdcc.frame30.right",
+    "dragon3-normal.frame01.left",
+    "dragon3-normal.frame01.right",
+    "dragon3-normal.frame11.left",
+    "dragon3-normal.frame11.right",
+    "dragon3-normal.frame21.left",
+    "dragon3-normal.frame21.right",
+    "dragon3-ltwj.frame01.left",
+    "dragon3-ltwj.frame01.right",
+    "dragon3-ltwj.frame05.left",
+    "dragon3-ltwj.frame05.right",
+    "dragon3-ltwj.frame10.left",
+    "dragon3-ltwj.frame10.right",
+    "dragon4-qlaoyi.frame01.left",
+    "dragon4-qlaoyi.frame01.right",
+    "dragon4-qlaoyi.frame24.left",
+    "dragon4-qlaoyi.frame24.right",
+    "dragon4-qlaoyi.frame48.left",
+    "dragon4-qlaoyi.frame48.right",
+    "dragon3-ltwj.nine-object-wave.left",
+    "dragon3-ltwj.nine-object-wave.right",
+    "dragon4-qlaoyi-aoyi-buff.frame01.fixed",
+    "dragon4-qlaoyi-aoyi-buff.frame07.fixed",
+    "dragon4-qlaoyi-aoyi-buff.frame14.fixed"
+  ],
+  "items": [
+    {
+      "id": "dragon1.wait.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.wait.left.png",
+      "sha256": "3702879640a260c8321c9d3b94fde7c39d406a1074d7661d9f491f70f643d57a",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.wait.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.wait.right.png",
+      "sha256": "efb0c461864cbf4f458f7d8e52f2fcc0983d22b53d7e6fcb9b70a8ab049e3e5d",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.walk.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.walk.left.png",
+      "sha256": "3702879640a260c8321c9d3b94fde7c39d406a1074d7661d9f491f70f643d57a",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.walk.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.walk.right.png",
+      "sha256": "efb0c461864cbf4f458f7d8e52f2fcc0983d22b53d7e6fcb9b70a8ab049e3e5d",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.hurt.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.hurt.left.png",
+      "sha256": "8c3b1587f67c8d78b3f8968dd0d956f30ff36868eff0d594e4b344a320d00a09",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.hurt.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.hurt.right.png",
+      "sha256": "1254d6fa4a397e48a299ba391071f7d726985a0e5449d21b00e4017145d18f2e",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.dead.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.dead.left.png",
+      "sha256": "72d64370710a9f7245fd32da5ebab129e5e36a7a139ae99574c094a1a53104b2",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.dead.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.dead.right.png",
+      "sha256": "6cd37949d26229a6e051d436dafcde1ac35b147dab1cd395b4876f662e9b8437",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.normal.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.normal.left.png",
+      "sha256": "99bd459c63e557f2577cb43c496d572728f7e377edf205ebc40ba7dd16a00bd3",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.normal.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.normal.right.png",
+      "sha256": "890cc826f0d1ab910253f5b89e3498dde4907732b9777cd338c49da5e14684a6",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.fs.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.fs.left.png",
+      "sha256": "dd8d1b1aa019ef3fd8a0f4e4a843be09e497dfe5c927cdd67750ee5aca26fe1b",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.fs.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.fs.right.png",
+      "sha256": "2a46246a2e3fe6e914f732ca7fe882d6299323e7079c9572221aa455e7271079",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon2.wait.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.wait.left.png",
+      "sha256": "021cca0898910fb64e8885c694419e72a333d226bb8e8281f501eb8e71274fe7",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.wait.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.wait.right.png",
+      "sha256": "6e670122d0e71c0345c726434731f7f4d00433aa319b2f5e2fa2d5e1965571b6",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.walk.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.walk.left.png",
+      "sha256": "6a4af02d6424100e3ffe9de4084295bd64b18eacdd9beda2b7be68912bbcce0e",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.walk.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.walk.right.png",
+      "sha256": "041f26b2bfd4c7acc1887b611c7698d7a78bdcaceeeda8a0626004a96210e7da",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.hurt.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.hurt.left.png",
+      "sha256": "3687d7bab1639fc59329b268e9f06c612b6138102460ab0d6a74c151b74f0dc9",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.hurt.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.hurt.right.png",
+      "sha256": "f554bebd31c3cc6158c66d7c3de20ff0b7d0946280b02d323b0ae32e3aff069f",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.dead.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.dead.left.png",
+      "sha256": "98c2f7ea286442423d2cd5103ca700003ba91f777af641a42e13b97f3b06a3bf",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.dead.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.dead.right.png",
+      "sha256": "c72cbc5851886a3b20831b83dc99de9a33b5275cb452b0df60b2b0ef2e73bebd",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.normal.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.normal.left.png",
+      "sha256": "e174033dbb2bf652b18fc91af8fa86e0650fa3feaad8f2448086dcbcf802fd7e",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.normal.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.normal.right.png",
+      "sha256": "0da5a36d43019a94d8952d9df2cec3326faf66540b5d5804247a34a80a435085",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.fs.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.fs.left.png",
+      "sha256": "0ce8c8dc9eff8c7d1c94aabc7d515a7c01ff1d36d6a7788ce4964ac6bc5b27b5",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.fs.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.fs.right.png",
+      "sha256": "39ab7e23ea9cf2006838fab963bb0eac4d61e9e86c14c6333cbfb9750709e326",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.sdcc.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.sdcc.left.png",
+      "sha256": "fe93a7487b905ea21821826b12f5403c5e27a78f56a8b3300797f6c282a4ca6e",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.sdcc.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.sdcc.right.png",
+      "sha256": "e698bb4b57e53689cdc829062dc68901220be568d79ca87fc282c59f46501d30",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon3.wait.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.wait.left.png",
+      "sha256": "cb9b4955be4680bdf235da26bbab6dcfce5dc3fa72ec47e430d449245e0a8d0d",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.wait.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.wait.right.png",
+      "sha256": "2dfc070ad5cf7dae321c6fe8b1bbfa1a3ebd83f3c80aef4e9a5969f52b6cb284",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.walk.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.walk.left.png",
+      "sha256": "047abb663270ead0dca73f3e99ab065de0a7dbe30fa80cc985cddc46c0b3992a",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.walk.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.walk.right.png",
+      "sha256": "cd14b383ff2d6ae012da68db7d3dca44d3115800fa65df92edec508b35b9dfb0",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.hurt.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.hurt.left.png",
+      "sha256": "6911e80f6ddaa58f8e630624978a6239235367498ff76575ed5ef3f8d24b7810",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.hurt.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.hurt.right.png",
+      "sha256": "04e50d9d55834354672f5af7c50e2d53c99ec381974c970de1d69faf8509602b",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.dead.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.dead.left.png",
+      "sha256": "8626560539424268cb8a288a61187c8ce720971bed4b6208ac7916a0173f59d8",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.dead.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.dead.right.png",
+      "sha256": "4244e35c11ccd2b7a0b9a2888b8a899076c74000337fd1d61bb04e0a0d7dc4b6",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.normal.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.normal.left.png",
+      "sha256": "84c41cf13cc8971292e51c8abe8154018020fdfd1646251fb1cc7d77ebae5de1",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.normal.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.normal.right.png",
+      "sha256": "d46baaf10a330ddef9e1dba1e59006161b373b61568d33ddcc1f0ff002fa0492",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.fs.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.fs.left.png",
+      "sha256": "de97a1f4bff98d7825da7332107cbd3924721011529f20a7cf6d4b5c8235d1ee",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.fs.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.fs.right.png",
+      "sha256": "05526147d39526b441ad4b4b8b0a9331d50d13a9596290df33e5efb621193f6b",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.sdcc.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.sdcc.left.png",
+      "sha256": "6b866c3290dc605266966d07af3ff95392e0e058cc82e56104dba514118781c0",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.sdcc.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.sdcc.right.png",
+      "sha256": "5f3acf08f59a4aa01171a058700edec6039ee66e5ffe77b6afabf5376222e1de",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.ltwj.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.ltwj.left.png",
+      "sha256": "8e2dbb9a88ec1641aed1fbd427ba1c72c1b039736fe3fdc8f9fbf837efa36e29",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.ltwj.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.ltwj.right.png",
+      "sha256": "e3c1d2a5c9f89d8cc0f99991388a428a2327da2bc3c512c2f4795315dd2e2e4b",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon4.wait.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.left.png",
+      "sha256": "832488ce67753f66a6084b2bd384eb8e561a136f9c95600738f3be2107063fb4",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.wait.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.right.png",
+      "sha256": "5ba7d675985787b404ebc4e0cae676d722666e598c34cc72e09c9f540c740a83",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.walk.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.left.png",
+      "sha256": "c0a2bb219073cf2b8c106b31abd46f09e92016d4969c88f306344a6217021e77",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.walk.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.right.png",
+      "sha256": "52d92bd14dbdd9de0267cba29f0bb0bd833183c73a6e4c79407706d373c1fbdc",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.hurt.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.hurt.left.png",
+      "sha256": "8cffaac21007871aa6bedd6377a5d33fd5b0070b8a959c7767d16cc4c8e9b4d6",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.hurt.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.hurt.right.png",
+      "sha256": "119b9b1db3ae10730bfa719b90957a5068dc2ef66f569493d28433e321d6fb32",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.dead.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.left.png",
+      "sha256": "7ec677e0d20f8c76dc01b059fc3e7439c0c470fbd549c267b7e06a45bd9830c7",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.dead.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.right.png",
+      "sha256": "3337e5f706cd7b54a74f156960a7dbf9283c7462ac808fbc2d3afbdfbc7cc15d",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.normal.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.left.png",
+      "sha256": "b9ab63ee8f295445f30882de3d6d17f92936ac1e83b89cdc7fc2fcdfa17cac38",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.normal.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.right.png",
+      "sha256": "4a1de06c6d92c2725488ea839870147ae4036ec1459ba72f1f742dbdddd8390d",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.fs.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.left.png",
+      "sha256": "9973c4b9ef53021da345f9ce2b250c05599648ed643dfe37edce32d3b1716554",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.fs.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.right.png",
+      "sha256": "16681887c9c7d7b92b41dbedf38eb68e2161a6f8d4f7a27dc78ee56b3e05e208",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.sdcc.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.sdcc.left.png",
+      "sha256": "388445cb3fff0631ef51b484030e4535a09d2bcdac32da30fc5c82b2f370fd56",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.sdcc.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.sdcc.right.png",
+      "sha256": "5d0b408c7493dc34fe8b8c2a97e1f4ff9fe427113e66280eb807c6d61561114e",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.left.png",
+      "sha256": "cf278a0ed1e974ea923fa1a300e71d273df2275234ac0928a6f268e8d9e16d0f",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.right.png",
+      "sha256": "9efc97a0c1727cddff94e9d5abc30488dc26e8605f090bb7ee81b73ee2f784b9",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi.left.png",
+      "sha256": "9b22a46719d5e5545190c857eea1c01d82500155dc58cad4ca8fd3aad7bf2676",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi.right.png",
+      "sha256": "a8c0d1b80c4eaf7eea4404ef38c4c3e0f8256ba5c6833452ee9417ef88c2ba76",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-ltwj-link.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi-ltwj-link.left.png",
+      "sha256": "f27f5fd2d0498b07ba9095cea283a7a1072186fe84a5fe6d45458fec973256f3",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-ltwj-link.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi-ltwj-link.right.png",
+      "sha256": "616708f46690696cc5482e46eb3b8f267494792f116c26c30efe7103e7ddbada",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon1.fs-clone-active.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.fs-clone-active.left.png",
+      "sha256": "837d469589ad89d802b82fe6839f79ca28561a618d8917a4d9753772463c97c7",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as:createFenshen/doHit2",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon1.fs-clone-active.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1.fs-clone-active.right.png",
+      "sha256": "07cd517c4a166fa45cbb5cfb4a111deb87c42af7c695409a2f41670582a5da7e",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1.as:createFenshen/doHit2",
+        "9_PetDragonBmd1.png"
+      ]
+    },
+    {
+      "id": "dragon2.fs-clone-active.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.fs-clone-active.left.png",
+      "sha256": "fa129df5de9de620c471a13851184fd35851a11c2a8d8378bf9477302c81b3a2",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as:createFenshen/doHit2",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon2.fs-clone-active.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2.fs-clone-active.right.png",
+      "sha256": "684dae9945f6629d79faa3d59cc9d21023be26ceb4263943a13e32e0414aa024",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2.as:createFenshen/doHit2",
+        "13_PetDragonBmd2.png"
+      ]
+    },
+    {
+      "id": "dragon3.fs-clone-active.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.fs-clone-active.left.png",
+      "sha256": "e3b6a494dc8fed23068125733073ec872c29169ec7b4fe8e5176c4844abdb456",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as:createFenshen/doHit2",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon3.fs-clone-active.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3.fs-clone-active.right.png",
+      "sha256": "ecf0426d1bc651bfd9ebe7dbd36305ee82792b32f736b49b4f128edda137ed5f",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as:createFenshen/doHit2",
+        "16_PetDragonBmd3.png"
+      ]
+    },
+    {
+      "id": "dragon4.fs-clone-active.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs-clone-active.left.png",
+      "sha256": "b3e86135260c5fa0f822dd0369fcb1d2b7dcaee02761fa2cbbb6c0bb8cf55aa8",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as:createFenshen/doHit2",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon4.fs-clone-active.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs-clone-active.right.png",
+      "sha256": "f439c47996d849d075e68f3dfcb84453e8a42736f88f731c01fe5035512b2912",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon4.as:createFenshen/doHit2",
+        "23_PetDragonBmd4.png"
+      ]
+    },
+    {
+      "id": "dragon1-normal.frame01.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1-normal.frame01.left.png",
+      "sha256": "6995e421e1a3576a47219a0eb06bbe4f234775065ad2a3ed0638be28d38ef780",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1Bullet1",
+        "character 542"
+      ]
+    },
+    {
+      "id": "dragon1-normal.frame01.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1-normal.frame01.right.png",
+      "sha256": "711de342bf0922a02d7c0e48985d655a7995fcf0be7b6f09cd0423de8480e306",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1Bullet1",
+        "character 542"
+      ]
+    },
+    {
+      "id": "dragon1-normal.frame06.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1-normal.frame06.left.png",
+      "sha256": "88f4d862ff8c6236cedb7b12d186cdc87fc730e87b14ee6688d7485c98eec926",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1Bullet1",
+        "character 542"
+      ]
+    },
+    {
+      "id": "dragon1-normal.frame06.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1-normal.frame06.right.png",
+      "sha256": "1adfcc34ba8eb20ee57116a83d46d900b4dfa74bce9a11f7fc775a883cccd931",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1Bullet1",
+        "character 542"
+      ]
+    },
+    {
+      "id": "dragon1-normal.frame11.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1-normal.frame11.left.png",
+      "sha256": "622e40a9682e7c84b858964d3d7175195943eee9d7fa8f27585ee824561f3bff",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1Bullet1",
+        "character 542"
+      ]
+    },
+    {
+      "id": "dragon1-normal.frame11.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon1-normal.frame11.right.png",
+      "sha256": "34139f6e768229007a5a8a96d631b3afef7c6e1c0312d23c26d1d7cb004bb88b",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon1Bullet1",
+        "character 542"
+      ]
+    },
+    {
+      "id": "dragon2-normal.frame01.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-normal.frame01.left.png",
+      "sha256": "32b32c36d38659d05d7f6ba35fd80d8116547ac187c28b922361df776e6c7656",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet1",
+        "character 547"
+      ]
+    },
+    {
+      "id": "dragon2-normal.frame01.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-normal.frame01.right.png",
+      "sha256": "34f63e130c679419b552a80e4dd903d761db3ec8631cab0c32d9f107729b9469",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet1",
+        "character 547"
+      ]
+    },
+    {
+      "id": "dragon2-normal.frame08.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-normal.frame08.left.png",
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet1",
+        "character 547"
+      ]
+    },
+    {
+      "id": "dragon2-normal.frame08.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-normal.frame08.right.png",
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet1",
+        "character 547"
+      ]
+    },
+    {
+      "id": "dragon2-normal.frame15.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-normal.frame15.left.png",
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet1",
+        "character 547"
+      ]
+    },
+    {
+      "id": "dragon2-normal.frame15.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-normal.frame15.right.png",
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet1",
+        "character 547"
+      ]
+    },
+    {
+      "id": "dragon2-sdcc.frame01.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-sdcc.frame01.left.png",
+      "sha256": "f38d803c03ab604f55a21d2d128a993c2a625ccd5525caef2f1f3aed7edc3620",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet2",
+        "character 563"
+      ]
+    },
+    {
+      "id": "dragon2-sdcc.frame01.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-sdcc.frame01.right.png",
+      "sha256": "8c9092731a90dd1de5fbcdb37ee4302e3d22a141ad149a4f23b3953e8d395211",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet2",
+        "character 563"
+      ]
+    },
+    {
+      "id": "dragon2-sdcc.frame15.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-sdcc.frame15.left.png",
+      "sha256": "6440aa036a570a1ce47db97e126757c0e8c8965b565a61f0d2e5e13c279617cb",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet2",
+        "character 563"
+      ]
+    },
+    {
+      "id": "dragon2-sdcc.frame15.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-sdcc.frame15.right.png",
+      "sha256": "3b8656d2c939763ab02bc6c2c2e1e62151c5b6e078fd5d1310a07f2a332cb0ae",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet2",
+        "character 563"
+      ]
+    },
+    {
+      "id": "dragon2-sdcc.frame30.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-sdcc.frame30.left.png",
+      "sha256": "8905d27e32ab9813bc49870993049adc04fcb135ef7cb2e4d16157c49ae5949a",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet2",
+        "character 563"
+      ]
+    },
+    {
+      "id": "dragon2-sdcc.frame30.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon2-sdcc.frame30.right.png",
+      "sha256": "b1dfc51641dd37c74aa857f1d1df5e0f1cd89a5d2e1263d9e2c1c9bd949b7aa2",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon2Bullet2",
+        "character 563"
+      ]
+    },
+    {
+      "id": "dragon3-normal.frame01.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-normal.frame01.left.png",
+      "sha256": "c6baa64cad6a5ae58146d38bdf3ba89398711de28d5f74b52ccd1667053f961f",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet1",
+        "character 572"
+      ]
+    },
+    {
+      "id": "dragon3-normal.frame01.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-normal.frame01.right.png",
+      "sha256": "e87d22cb8de7c31dd23661ef01cd9aadf5a6bf19fab204ec5fa1f0c3cd3df03b",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet1",
+        "character 572"
+      ]
+    },
+    {
+      "id": "dragon3-normal.frame11.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-normal.frame11.left.png",
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet1",
+        "character 572"
+      ]
+    },
+    {
+      "id": "dragon3-normal.frame11.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-normal.frame11.right.png",
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet1",
+        "character 572"
+      ]
+    },
+    {
+      "id": "dragon3-normal.frame21.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-normal.frame21.left.png",
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet1",
+        "character 572"
+      ]
+    },
+    {
+      "id": "dragon3-normal.frame21.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-normal.frame21.right.png",
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet1",
+        "character 572"
+      ]
+    },
+    {
+      "id": "dragon3-ltwj.frame01.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-ltwj.frame01.left.png",
+      "sha256": "f01fe73bb3d30e51eb7b09bf674a33111a791a0d41b3c75168355346f461d710",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet3",
+        "character 603"
+      ]
+    },
+    {
+      "id": "dragon3-ltwj.frame01.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-ltwj.frame01.right.png",
+      "sha256": "33de35a2e0d8b6b1299066cc44a1ceb7683f390e4df67715f416da4e05ea7a70",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet3",
+        "character 603"
+      ]
+    },
+    {
+      "id": "dragon3-ltwj.frame05.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-ltwj.frame05.left.png",
+      "sha256": "b2ab383e8baca40622dc380997cfab43ab2d18acb3c3a9efafecf206485554de",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet3",
+        "character 603"
+      ]
+    },
+    {
+      "id": "dragon3-ltwj.frame05.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-ltwj.frame05.right.png",
+      "sha256": "6dfa8be2f02fb7fe85461db04fb5cdfb0eba17af82bcf4eec444969adfbfb643",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet3",
+        "character 603"
+      ]
+    },
+    {
+      "id": "dragon3-ltwj.frame10.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-ltwj.frame10.left.png",
+      "sha256": "8b4a68b4a9cb827707280b94b553c0465f19d4cee1ce57dd36ff6b00f520903a",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet3",
+        "character 603"
+      ]
+    },
+    {
+      "id": "dragon3-ltwj.frame10.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-ltwj.frame10.right.png",
+      "sha256": "1e05992da63305bfc59eb2620409396b0cc8311d79fa196eae014127d6d96a8c",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3Bullet3",
+        "character 603"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame01.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame01.left.png",
+      "sha256": "556db43ea4619214c7a495705a903e2eff2c62cf84863e31f188ea008199c81b",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragonBullet4",
+        "character 539"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame01.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame01.right.png",
+      "sha256": "faebbb10fa8ecd22cb24c5c2c44226f09f192e546d9a28faa1c4aa42d9e4dd8e",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragonBullet4",
+        "character 539"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame24.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame24.left.png",
+      "sha256": "c0bf6cd943f55077345f9af7889420639c6642235577684160929a2ec610ec2e",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragonBullet4",
+        "character 539"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame24.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame24.right.png",
+      "sha256": "0b6c7d91d74aded322f1b9af11a2cdbc35519cf5da83f56ef0f90cb3dd7ca18f",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragonBullet4",
+        "character 539"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame48.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame48.left.png",
+      "sha256": "17a5601a9b70e28c24305c0906cc42362132deee992fad97043453f00688a762",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragonBullet4",
+        "character 539"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame48.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame48.right.png",
+      "sha256": "886ad1e6919f723d730e73be225940b8861835cad4ff73b6213a1f20b7c4c861",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragonBullet4",
+        "character 539"
+      ]
+    },
+    {
+      "id": "dragon3-ltwj.nine-object-wave.left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-ltwj.nine-object-wave.left.png",
+      "sha256": "0e0e9343e0f6df2585d7d94c1de4f94561bbbbddc2bd97317dddf6119398705b",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as:doHit4",
+        "PetDragon3Bullet3 character 603"
+      ]
+    },
+    {
+      "id": "dragon3-ltwj.nine-object-wave.right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon3-ltwj.nine-object-wave.right.png",
+      "sha256": "8813a0dc44b3ad82ba932e9546cd0951928f400b773e7594dfc2cec444bf86bf",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "PetDragon3.as:doHit4",
+        "PetDragon3Bullet3 character 603"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi-aoyi-buff.frame01.fixed",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi-aoyi-buff.frame01.fixed.png",
+      "sha256": "da31872bc359e1e8c37e7a3482a3c51266d9dd8a6239dfefd36cf30c4f489616",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "BasePet.as:addAoyiBuff",
+        "StageCommon.swf character 120"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi-aoyi-buff.frame07.fixed",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi-aoyi-buff.frame07.fixed.png",
+      "sha256": "6a0cf887e81a620a0156771d513147e506c434604a70619331b80815504191c0",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "BasePet.as:addAoyiBuff",
+        "StageCommon.swf character 120"
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi-aoyi-buff.frame14.fixed",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi-aoyi-buff.frame14.fixed.png",
+      "sha256": "1d344579003d817b911dca28ac052590eb12329419cf270ecf393b6b5b605b4c",
+      "width": 940,
+      "height": 590,
+      "sourceRefs": [
+        "BasePet.as:addAoyiBuff",
+        "StageCommon.swf character 120"
+      ]
+    }
+  ],
+  "unresolved": []
+}

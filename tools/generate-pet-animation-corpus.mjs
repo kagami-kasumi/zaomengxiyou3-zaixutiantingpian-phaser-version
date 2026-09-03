@@ -24,7 +24,7 @@ const speciesSpecs = [
   { species: 'tigress', forms: [1, 2, 3, 4], bodies: ['PetTigerBmd1', 'PetTigerBmd2', 'PetTigerBmd3', 'PetTigerBmd4'], evidenceTask: 'TASK-SETTINGS-193G', implementationTask: 'TASK-SLICE-193H' },
   { species: 'turtle', forms: [1, 2, 3, 4], bodies: ['PetTurtleBmd1', 'PetTurtleBmd2', 'PetTurtleBmd3', 'PetTurtleBmd4'], evidenceTask: 'TASK-SETTINGS-193I', implementationTask: 'TASK-SLICE-193J' },
   { species: 'phoenix', forms: [1, 2, 3, 4], bodies: ['PetPhoenixBmd1', 'PetPhoenixBmd2', 'PetPhoenixBmd3', 'PetPhoenixBmd4'], evidenceTask: 'TASK-SETTINGS-193K', implementationTask: 'TASK-SLICE-193L' },
-  { species: 'dragon', forms: [1, 2, 3, 4], bodies: ['PetDragonBmd1', 'PetDragonBmd2', 'PetDragonBmd3', 'PetDragonBmd4'], evidenceTask: 'TASK-SETTINGS-193M', implementationTask: 'TASK-SLICE-193N' },
+  { species: 'dragon', forms: [1, 2, 3, 4], bodies: ['PetDragonBmd1', 'PetDragonBmd2', 'PetDragonBmd3', 'PetDragonBmd4'], evidenceTask: 'TASK-SETTINGS-213', implementationTask: 'TASK-SLICE-214' },
   { species: 'rabbit', forms: [1, 2, 3, 4], bodies: ['PetPetRabbitBmd1', 'PetPetRabbitBmd2', 'PetPetRabbitBmd3', 'PetPetRabbitBmd4'], evidenceTask: 'TASK-SETTINGS-193O', implementationTask: 'TASK-SLICE-193P' },
   { species: 'mouse', forms: [1, 2, 3, 4], bodies: ['PetMouseBmd1', 'PetMouseBmd1', 'PetMouseBmd1', 'PetMouseBmd2'], evidenceTask: 'TASK-SETTINGS-193Q', implementationTask: 'TASK-SLICE-193R', note: 'PetMouse2/3 inherit PetMouse1 without a new body atlas; PetMouse4 alone switches to PetMouseBmd2.' },
 ];
@@ -77,6 +77,7 @@ const monkeyTruth = {
   familyTruthId: 'task-settings-207.pet-monkey-family',
   familyEvidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-207-pet-monkey-family.md',
   familyImplementationTask: 'TASK-SLICE-208',
+  visualSummary: '626 states / 20 objects / unresolved=[]',
 };
 
 const horseTruth = {
@@ -86,11 +87,23 @@ const horseTruth = {
   familyTruthId: 'task-settings-209.pet-horse-family',
   familyEvidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-209-pet-horse-family.md',
   familyImplementationTask: 'TASK-SLICE-210',
+  visualSummary: '716 states / 20 objects / unresolved=[]',
+};
+
+const dragonTruth = {
+  truthId: 'task-settings-213.pet-dragon-family',
+  evidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-213-pet-dragon-family.md',
+  implementationTask: 'TASK-SLICE-214',
+  familyTruthId: 'task-settings-213.pet-dragon-family',
+  familyEvidencePath: 'docs/reverse-engineering/evidence/TASK-SETTINGS-213-pet-dragon-family.md',
+  familyImplementationTask: 'TASK-SLICE-214',
+  visualSummary: '111 key-tick baselines / 11 objects / unresolved=[]',
 };
 
 const familyTruth = new Map([
   ['monkey', monkeyTruth],
   ['horse', horseTruth],
+  ['dragon', dragonTruth],
 ]);
 
 const monkeySkillAnnotations = new Map([
@@ -116,6 +129,13 @@ const horseSkillAnnotations = new Map([
   ['pet-skill.horse3.bz', ['horse3/4 bz 31-frame projectile', 'TASK-SETTINGS-193C verified patch owner, emit matrix and last-frame lifecycle.']],
   ['pet-skill.horse4.tmaoyi', ['horse4 tmaoyi 8-frame nested falling loop', 'TASK-SETTINGS-193C verified per-monster spawn, optional homing, 2000-distance and frameClips*10 lifetime.']],
   ['pet-skill.horse4.tmaoyi.explode', ['horse4 tmaoyi 30-frame explosion', 'TASK-SETTINGS-193C verified impact spawn, bz gate, optional one-second bd delay and last-frame lifecycle.']],
+]);
+
+const dragonSkillAnnotations = new Map([
+  ['pet-skill.dragon1.fs', ['dragon1 translucent body clone', 'TASK-SETTINGS-213 verified clone appearance and lifecycle; modern visibility remains placeholder or absent until TASK-SLICE-214.']],
+  ['pet-skill.dragon2.sdcc', ['dragon2 sdcc projectile', 'TASK-SETTINGS-213 verified projectile frames and hit/heal lifecycle; modern visibility remains placeholder or absent until TASK-SLICE-214.']],
+  ['pet-skill.dragon3.ltwj', ['dragon3 ltwj projectile', 'TASK-SETTINGS-213 verified the five-wave nine-object sequence and hit/heal lifecycle; modern visibility remains placeholder or absent until TASK-SLICE-214.']],
+  ['pet-skill.dragon4.qlaoyi', ['dragon4 ultimate trigger object', 'TASK-SETTINGS-213 verified the four-tick clone/trigger/skill chain and gate-only MP rule; modern visibility remains placeholder or absent until TASK-SLICE-214.']],
 ]);
 
 const packagePriority = new Map([
@@ -184,7 +204,7 @@ const species = speciesSpecs.map((spec) => {
     forms,
     requiredBodyActionClasses: ['wait/follow', 'walk/warp', 'normal-attack', 'species-skill-actions', 'hurt', 'death-or-zero-hp lifecycle'],
     exactBodyActionRows: familyTruth.has(spec.species)
-      ? `verified by ${familyTruth.get(spec.species).truthId}; ${spec.species === 'monkey' ? '626' : '716'} states / 20 objects / unresolved=[]; ${familyTruth.get(spec.species).evidencePath}`
+      ? `verified by ${familyTruth.get(spec.species).truthId}; ${familyTruth.get(spec.species).visualSummary}; ${familyTruth.get(spec.species).evidencePath}`
       : 'unresolved-by-design; owned by the generated evidence task and must be serialized as verified machine truth before implementation',
     skills,
     modernBody: spec.species === 'horse'
@@ -200,7 +220,9 @@ const species = speciesSpecs.map((spec) => {
     familyImplementationTask: familyTruth.get(spec.species)?.familyImplementationTask ?? null,
     note: spec.species === 'horse'
       ? 'TASK-SLICE-210 binds restored horse body/effects to PetCombatSnapshot/actionToken/projectile and shared formal/TestScene damage runtime; pet P1H=0.'
-      : spec.note ?? null,
+      : spec.species === 'dragon'
+        ? 'TASK-SETTINGS-213 verifies dragon1..4 body/effect owners, 111 key-tick baselines, normal attacks, clones, nine-object ltwj, qlaoyi composition, owner and lifecycle; TASK-SLICE-214 remains the formal runtime implementation.'
+        : spec.note ?? null,
   };
 });
 
@@ -233,6 +255,7 @@ const bodyRows = species.map((item) => {
   const unique = [...new Map(item.forms.map((form) => [form.bodySymbol, form.body])).values()];
   const monkeyIntegrated = item.species === 'monkey';
   const horseIntegrated = item.species === 'horse';
+  const dragonVerified = item.species === 'dragon';
   return row([
     `pet-animation.${item.species}.body-family`,
     unique.map((entry) => entry.symbol).join(';'),
@@ -241,7 +264,7 @@ const bodyRows = species.map((item) => {
     unique.map((entry) => entry.selectedOwner.sourcePackage).filter(uniqueValue).join(';'),
     unique.map((entry) => entry.selectedOwner.characterId).join(';'),
     'effect',
-    monkeyIntegrated ? 'monkey actual-form body atlases with verified action rows and owner precedence' : horseIntegrated ? 'horse actual-form body atlases with verified action rows and owner precedence' : `${item.species} actual-form body atlases; exact action rows remain for ${item.evidenceTask}`,
+    monkeyIntegrated ? 'monkey actual-form body atlases with verified action rows and owner precedence' : horseIntegrated ? 'horse actual-form body atlases with verified action rows and owner precedence' : dragonVerified ? 'dragon actual-form body atlases; TASK-SETTINGS-213 verified complete family states' : `${item.species} actual-form body atlases; exact action rows remain for ${item.evidenceTask}`,
     monkeyIntegrated || horseIntegrated ? 'ready' : 'export-ready',
     'confirmed',
     monkeyIntegrated || horseIntegrated ? 'none' : 'export-selectively',
@@ -249,7 +272,9 @@ const bodyRows = species.map((item) => {
       ? 'TASK-SLICE-193B directly consumes TASK-SETTINGS-193A truth for host-tick holds, registration, visible bounds and patch owner in P1/P2 combat runtime.'
       : horseIntegrated
         ? 'TASK-SLICE-193D directly consumes TASK-SETTINGS-193C truth for host-tick holds, registration, visible bounds and patch/base owner in P1/P2 combat runtime.'
-      : `Source owner partitioned by TASK-SETTINGS-193; derive nothing before ${item.evidenceTask} verifies action rows, registration points, frame timing and load precedence.`,
+      : dragonVerified
+        ? 'TASK-SETTINGS-213 verified action rows, registration points, frame timing, load precedence and 111 baselines; TASK-SLICE-214 remains the formal consumer.'
+        : `Source owner partitioned by TASK-SETTINGS-193; derive nothing before ${item.evidenceTask} verifies action rows, registration points, frame timing and load precedence.`,
   ]);
 });
 
@@ -275,7 +300,8 @@ const skillRows = [...normalRows, ...skillSpecs.map(([stableKey, speciesName, na
   const resolved = names.split(';').map(resolveSymbol);
   const monkeyIntegrated = monkeySkillAnnotations.get(stableKey);
   const horseIntegrated = horseSkillAnnotations.get(stableKey);
-  const ready = monkeyIntegrated ?? horseIntegrated;
+  const dragonVerified = dragonSkillAnnotations.get(stableKey);
+  const ready = monkeyIntegrated ?? horseIntegrated ?? dragonVerified;
   return row([
     stableKey,
     names,
@@ -292,7 +318,9 @@ const skillRows = [...normalRows, ...skillSpecs.map(([stableKey, speciesName, na
       ? `${monkeyIntegrated[1]} TASK-SLICE-193B now consumes this verified visual in the shared monkey runtime.`
       : horseIntegrated
         ? `${horseIntegrated[1]} TASK-SLICE-193D now consumes this verified visual in the shared horse runtime; gameplay gates remain with the existing pet/projectile owner.`
-      : `${speciesName} family is partitioned to ${speciesSpecs.find((item) => item.species === speciesName).evidenceTask}; modern visibility remains placeholder or absent until its paired implementation task.`,
+        : dragonVerified
+          ? dragonVerified[1]
+          : `${speciesName} family is partitioned to ${speciesSpecs.find((item) => item.species === speciesName).evidenceTask}; modern visibility remains placeholder or absent until its paired implementation task.`,
   ]);
 })];
 

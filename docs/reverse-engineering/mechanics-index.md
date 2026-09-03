@@ -272,6 +272,8 @@ character 250/868/417/213、212 与 865 生成 `task-settings-175d.skill-pages` 
 
 2026-09-03 `M-054/VS-072` 新增：用户在 5173 正式双人战斗观察到角色/宠物 HP decrease 但没有头顶承伤数字；运行 trace 只含怪物 target。原版 `BaseHero.reduceHp()` 与 `BasePet.reduceHp()` 会在本地 owner/单机路径分别调用 `addHeroHurtMc()` / `addMonHurtMc()`，共同以 `pnum0..9`、20px 位距、`(x-20,y-60)` 锚点交给 `ANumber` 做 4×弹出和上浮淡出；恢复 `OtherMat1.swf` 的 SymbolClass 已确认十个 `pnum`。现代角色/宠物伤害只完成扣血与 hurt/dead，未生成 incoming feedback，故新增 215/216；在 verified 真值完成前只标记“已定位”，不把聊天核查越级写成已扒。
 
+2026-09-03 `TASK-SETTINGS-213` 补充：`M-032/M-034/M-035/M-042/M-044` 的青龙原版事实已由 `task-settings-213.pet-dragon-family` 冻结为 44 项同集合同。dragon1..4 统一 `attackRange=150`、0.8 双随机，四套本体动作/普攻、fs 真分身、sdcc、`1+2+2+2+2=9` 对象 ltwj、qlaoyi 12/24/36/48 tick 分身与 tick48 trigger/免费 sdcc→ltwj 链均有字段级 acceptance；30 MP 对 qlaoyi 只作门禁，原版不扣蓝。pet1/StageCommon 的 11 个显示对象、111 个 940×590 基准、碰撞/命中/治疗、owner 与 P1/P2 生命周期均 verified，`unresolved=[]`。这只提升青龙逆向证据完成度；现代仍为部分复现，等待 `TASK-SLICE-214 / pet P1G`。
+
 如果实现中发现机制没扒清楚：
 
 - 不硬写。
