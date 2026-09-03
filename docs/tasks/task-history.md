@@ -11779,3 +11779,32 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SLICE-212`：直接消费 211 truth，以实际 HP decrease 生成统一 CombatFeedbackEvent，闭合 Role/宠物/法宝、普通/暴击数字、连击/最高值、五关 P1/P2 与结果页。
+
+### TASK-SLICE-212
+
+任务类型：`TASK-SLICE`。任务模型：常规任务。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-213`）。
+
+完成定义：
+
+- 成功且唯一的实际怪物 HP decrease 生成共享 `CombatFeedbackEvent`，保留稳定 event id、source/owner、target anchor、clamped amount 与最终 critical；miss、0、amount/delta 不一致、重复 id 和 dead target 不产生可见反馈。
+- 正式五关和 TestScene 共用纯反馈系统与原版普通/暴击数字、Batter/五帧连击资源；Role、宠物、法宝直接命中共享 P1/P2 连击，effect 只显示数字不增连击。
+- 结果页直接读取同一战斗会话 `highestCombo`；返回、重试、重载销毁 queue/trace/combo/view，不扩存档 schema。
+
+完成日期：2026-09-02。
+
+关键产物：
+
+- `src/systems/CombatFeedbackSystem.ts`、`src/scenes/CombatFeedbackView.ts`、`src/scenes/CombatFeedbackQaBridge.ts` 与 TestScene 共享反馈 bridge。
+- `src/assets/CombatHitFeedbackAssets.ts` 及 `public/assets/ui/combat-feedback/` 的 71 个恢复源资源。
+- `Stage1CombatSystem`、英雄/猴/马/法宝 projectile 接缝、五关正式 Runtime 与 `PlayableLevelRuntime/LevelResultView` 结果页消费。
+- `tools/combat-feedback-tests.ts`、`docs/tasks/evidence/TASK-SLICE-212/runtime-audit.md`。
+
+验证：
+
+- `npm run test:combat-feedback` 覆盖 truth、真实 HP decrease、source matrix、普通/暴击、六项扇出、P1/P2 共享计数、40-tick 清零、最高值和 71 个资源；英雄、猴系、马系、结果页与 asset bundle 专项通过。
+- 全系统、build、structure、annotations、workflow、problem audit 与 diff check 通过；LSP 核心文件零诊断。
+- 940×590 正式双人 Stage 1-2 轨迹包含 P1 Role、P1/P2 horse4，最高连击达到 22，原版数字/Batter 可见，console warning/error 为 0；30fps host tick 独立于渲染帧，315×315 导出滤镜画布已按原版 175×175 bounds 校正。
+
+推荐任务：
+
+- `TASK-SETTINGS-213`：使用已采纳 `$pet-family-reverse` 闭合 dragon1..4 的 BasePet AI、普攻、fs/sdcc/ltwj/qlaoyi、真动画、命中/治疗、owner 与 P1/P2 生命周期，生成独立正式实现 task 214；本证据轮不修改 `src/`。

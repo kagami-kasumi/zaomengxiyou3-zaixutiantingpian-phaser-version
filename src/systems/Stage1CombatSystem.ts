@@ -37,6 +37,12 @@ import {
 import { createHeroSkillModel, type HeroSkillModel } from './HeroSkillSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
 import type { PetCombatDamageEvent } from './PetBehavior';
+import {
+  createCombatFeedbackModel,
+  recordCombatFeedback,
+  type CombatFeedbackModel,
+  type CombatFeedbackSource,
+} from './CombatFeedbackSystem';
 import { getWorldNormalAttackGeometry } from './HeroNormalAttackGeometry';
 import {
   getMonsterDefinition,
@@ -117,6 +123,7 @@ export type Stage1CombatAudit = {
 export type Stage1CombatRuntime = {
   hitRegistry: HitRegistry;
   audit: Stage1CombatAudit;
+  feedback: CombatFeedbackModel;
 };
 
 export function getStage1EnemyConfig(enemyType: Stage1EnemyType): Stage1EnemyConfig {
@@ -148,6 +155,7 @@ export function createStage1CombatRuntime(): Stage1CombatRuntime {
   return {
     hitRegistry: createHitRegistry(),
     audit: { damageEvents: [], maxSourcesInSameFrame: 0 },
+    feedback: createCombatFeedbackModel(),
   };
 }
 
@@ -394,7 +402,9 @@ export function resolveStage1HeroAttack(params: {
 export function resolveStage1HeroHit(params: Readonly<{
   runtime: Stage1CombatRuntime;
   enemy: Stage1CombatEnemy;
-  sourceId: PlayerSlot;
+  sourceId: string;
+  ownerSlot?: PlayerSlot;
+  source?: CombatFeedbackSource;
   attackId: string;
   actionName: string;
   attackKind: AttackKind;
@@ -402,10 +412,13 @@ export function resolveStage1HeroHit(params: Readonly<{
   knockbackX: number;
   knockbackY: number;
   timeMs: number;
+  critical?: boolean;
+  incrementsCombo?: boolean;
 }>): DamageEvent | undefined {
   if (params.enemy.phase === 'dead') return undefined;
   if (!resolveHitOnce(params.runtime.hitRegistry, params.attackId, params.enemy.id)) return undefined;
-  const amount = Math.min(params.enemy.hp, calculateStage1HeroDamage(
+  const hpBefore = params.enemy.hp;
+  const amount = Math.min(hpBefore, calculateStage1HeroDamage(
     params.enemy.enemyType,
     params.attackKind,
     params.damage,
@@ -420,13 +433,30 @@ export function resolveStage1HeroHit(params: Readonly<{
     knockbackX: params.knockbackX,
     knockbackY: params.knockbackY,
     occurredAtMs: params.timeMs,
+    critical: params.critical,
   });
   params.enemy.hp = Math.max(0, params.enemy.hp - event.amount);
-  params.enemy.lastHitBy = params.sourceId;
+  const ownerSlot = params.ownerSlot ?? (params.sourceId === 'p2' ? 'p2' : 'p1');
+  params.enemy.lastHitBy = ownerSlot;
   params.enemy.activeAttack = undefined;
   params.enemy.phase = params.enemy.hp === 0 ? 'dead' : 'hurt';
   params.enemy.phaseRemainingMs = params.enemy.hp === 0 ? 0 : Stage1CombatTuning.enemyHurtMs;
   params.runtime.audit.damageEvents.push(event);
+  recordCombatFeedback(params.runtime.feedback, {
+    damageEvent: event,
+    hpBefore,
+    hpAfter: params.enemy.hp,
+    source: params.source ?? 'hero',
+    ownerSlot,
+    target: {
+      id: params.enemy.id,
+      x: params.enemy.x,
+      y: params.enemy.y,
+      height: getStage1EnemyConfig(params.enemy.enemyType).feedbackHeight,
+    },
+    critical: event.critical,
+    incrementsCombo: params.incrementsCombo ?? true,
+  });
   return event;
 }
 
@@ -442,10 +472,12 @@ export function resolveStage1PetHit(params: Readonly<{
   knockbackX: number;
   knockbackY: number;
   timeMs: number;
+  critical?: boolean;
 }>): DamageEvent | undefined {
   if (params.enemy.phase === 'dead') return undefined;
   if (!resolveHitOnce(params.runtime.hitRegistry, params.attackId, params.enemy.id)) return undefined;
-  const amount = Math.min(params.enemy.hp, calculateStage1HeroDamage(
+  const hpBefore = params.enemy.hp;
+  const amount = Math.min(hpBefore, calculateStage1HeroDamage(
     params.enemy.enemyType,
     params.attackKind,
     params.damage,
@@ -460,6 +492,7 @@ export function resolveStage1PetHit(params: Readonly<{
     knockbackX: params.knockbackX,
     knockbackY: params.knockbackY,
     occurredAtMs: params.timeMs,
+    critical: params.critical,
   });
   params.enemy.hp = Math.max(0, params.enemy.hp - amount);
   params.enemy.lastHitBy = params.ownerSlot;
@@ -467,6 +500,21 @@ export function resolveStage1PetHit(params: Readonly<{
   params.enemy.phase = params.enemy.hp === 0 ? 'dead' : 'hurt';
   params.enemy.phaseRemainingMs = params.enemy.hp === 0 ? 0 : Stage1CombatTuning.enemyHurtMs;
   params.runtime.audit.damageEvents.push(event);
+  recordCombatFeedback(params.runtime.feedback, {
+    damageEvent: event,
+    hpBefore,
+    hpAfter: params.enemy.hp,
+    source: 'pet',
+    ownerSlot: params.ownerSlot,
+    target: {
+      id: params.enemy.id,
+      x: params.enemy.x,
+      y: params.enemy.y,
+      height: getStage1EnemyConfig(params.enemy.enemyType).feedbackHeight,
+    },
+    critical: event.critical,
+    incrementsCombo: true,
+  });
   return event;
 }
 

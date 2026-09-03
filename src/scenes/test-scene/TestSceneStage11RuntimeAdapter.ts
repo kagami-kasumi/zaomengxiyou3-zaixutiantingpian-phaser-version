@@ -14,6 +14,10 @@ import { createBossView } from './TestSceneViews';
 import { createInputSystem } from './TestSceneSystems';
 import { readStage11AttackGeometry } from '../stage11/Stage11MonsterVisualBridge';
 import { createTestSceneHeroPartyRuntime } from './TestSceneHeroPartyRuntimeBridge';
+import {
+  createTestSceneCombatFeedback,
+  destroyTestSceneCombatFeedback,
+} from './TestSceneCombatFeedbackBridge';
 
 // Stage 1-1 keeps its combat/pet/skill sandbox as a narrow encounter adapter.
 // Common camera, party views, feature entries, result, routing and destruction
@@ -47,6 +51,7 @@ export function createTestSceneStage11Runtime(
             return 'failed';
           }
           const input = scene.inputSystem.read();
+          scene.combatFeedback?.view.update();
           const previousCameraY = scene.verticalClimb.cameraY;
           scene.getUpdatePipeline().run(scene.time.now, deltaMs, input, previousCameraY);
           scene.stage1CombatHud?.update(deltaMs);
@@ -64,6 +69,8 @@ export function createTestSceneStage11Runtime(
           scene.stage1CombatHud = undefined;
           scene.heroPartyRuntime?.destroy();
           scene.heroPartyRuntime = undefined;
+          destroyTestSceneCombatFeedback(scene.combatFeedback);
+          scene.combatFeedback = undefined;
         },
       };
     },
@@ -105,6 +112,7 @@ function initializeEncounter(scene: Phaser.Scene & any, world: Stage11WorldView)
     color: '#f3f6ff', fontFamily: 'Arial, sans-serif', fontSize: '16px', lineSpacing: 6,
   }).setScrollFactor(0).setDepth(90).setVisible(false);
   scene.stage1CombatHud = createTestSceneStage1HudBridge(scene);
+  scene.combatFeedback = createTestSceneCombatFeedback(scene);
   applyDoorQa(scene);
 }
 

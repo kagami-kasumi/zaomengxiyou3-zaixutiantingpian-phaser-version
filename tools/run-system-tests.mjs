@@ -28,6 +28,7 @@ const bundledTests = requestedTests.length > 0
       'stage21-tests',
       'stage22-tests',
       'stage1-combat-tests',
+      'combat-feedback-tests',
       'remote-normal-attack-tests',
       'stage1-hud-tests',
       'role1-combat-visual-tests',

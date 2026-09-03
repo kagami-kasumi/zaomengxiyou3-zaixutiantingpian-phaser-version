@@ -11,6 +11,8 @@ import { getRole3BodyActionDurationMs } from '../../systems/Role3CombatVisualSys
 import { getRole4BodyActionDurationMs } from '../../systems/Role4CombatVisualSystem';
 import { role4MdsBombAsset } from '../../assets/AssetManifest';
 import { isRole1ShadowQaEnabled } from './TestSceneConfig';
+import { createDamageEvent } from '../../systems/CombatSystem';
+import { recordTestSceneCombatFeedback } from './TestSceneCombatFeedbackBridge';
 
 export function updateHeroSkillProjectiles(
   this: any,
@@ -139,8 +141,30 @@ export function updateHeroSkillProjectiles(
     };
   }
   for (const event of role4Result.poisonDamageEvents) {
-    if (event.source !== 'poison-bomb') continue;
     const target = this.monster30s.find((monster: any) => monster.id === event.targetId);
+    if (target && event.amount > 0) {
+      const damageEvent = createDamageEvent({
+        sourceId: event.slot,
+        targetId: event.targetId,
+        attackId: `${event.slot}-${event.source}-${event.targetId}-${time}`,
+        actionName: event.source,
+        amount: event.amount,
+        attackKind: 'magic',
+        knockbackX: 0,
+        knockbackY: 0,
+        occurredAtMs: time,
+      });
+      recordTestSceneCombatFeedback(this.combatFeedback, {
+        damageEvent,
+        hpBefore: target.hp + event.amount,
+        hpAfter: target.hp,
+        source: 'effect',
+        ownerSlot: event.slot,
+        target: { id: target.id, x: target.x, y: target.y, height: 150 },
+        incrementsCombo: false,
+      });
+    }
+    if (event.source !== 'poison-bomb') continue;
     if (!target) continue;
     const view = this.add.image(
       target.x,

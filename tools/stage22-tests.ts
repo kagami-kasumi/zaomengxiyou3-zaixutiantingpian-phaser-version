@@ -276,6 +276,7 @@ assert.deepEqual(getStage1EnemyConfig(16), {
   recoveryMs: 680,
   isBoss: true,
   displayName: 'Monster16',
+  feedbackHeight: 300,
 });
 const bossCombat = createStage1CombatEnemy({ id: 'boss-cycle', enemyType: 16, x: 0, y: 0 });
 for (const expected of [

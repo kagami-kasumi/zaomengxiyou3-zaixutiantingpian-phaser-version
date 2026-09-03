@@ -37,6 +37,7 @@ export type ProjectileModel = {
   width: number;
   height: number;
   damage: number;
+  critical?: boolean;
   attackKind: AttackKind;
   knockbackX: number;
   knockbackY: number;
@@ -55,6 +56,7 @@ export type ProjectileModel = {
   petComboTags?: string[];
   explosionDelayMs?: number;
   secondStageDamage?: number;
+  secondStageCritical?: boolean;
   secondStageMagicIceMs?: number;
   petBurnMs?: number;
   petBurnDamage?: number;

@@ -289,6 +289,7 @@ import type { PlayableLevelRuntime } from './PlayableLevelRuntime';
 import {
   type Stage11AttackGeometryRegistry,
 } from './stage11/Stage11MonsterVisualBridge';
+import type { TestSceneCombatFeedback } from './test-scene/TestSceneCombatFeedbackBridge';
 
 type HeroSelectionKeys = Record<HeroId, Phaser.Input.Keyboard.Key>;
 
@@ -331,6 +332,7 @@ export class TestScene extends Phaser.Scene {
   public inputSystem?: InputSystem;
   private statusText?: Phaser.GameObjects.Text;
   public stage1CombatHud?: Stage1CombatHudBridge;
+  public combatFeedback?: TestSceneCombatFeedback;
   private heroPartyRuntime?: TestSceneHeroPartyRuntime;
   public get playerViews(): TestScenePlayerView[] {
     return this.heroPartyRuntime?.players() ?? [];

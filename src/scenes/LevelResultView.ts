@@ -33,12 +33,13 @@ export function markLevelResultStarted(scene: Phaser.Scene): void {
 export function createLevelResultStats(
   scene: Phaser.Scene,
   healthPercent = 100,
+  highestCombo = 0,
 ): LevelResultStats {
   const startedAt = scene.data.get(LevelResultStartedAtDataKey);
   return {
     elapsedMs: typeof startedAt === 'number' ? Math.max(0, scene.time.now - startedAt) : 0,
     healthPercent: clampPercentage(healthPercent),
-    highestCombo: 0,
+    highestCombo: Math.max(0, Math.floor(highestCombo)),
     totalScore: 0,
   };
 }

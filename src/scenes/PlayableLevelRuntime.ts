@@ -18,6 +18,7 @@ import { createLevelResultStats, markLevelResultStarted, showLevelResult } from 
 import { ensureSceneAssetBundle, startSceneWithBundle } from './SceneAssetBundleBridge';
 import type { TransferDoorView } from './TransferDoorView';
 import { createHeroCombatVisual } from './HeroCombatVisualBridge';
+import { readCombatFeedbackHighestCombo } from './CombatFeedbackView';
 
 export type PlayableLevelWorldAdapter = Readonly<{
   transferDoor: TransferDoorView;
@@ -138,7 +139,7 @@ export function createPlayableLevelRuntime<W extends PlayableLevelWorldAdapter>(
       const retryData = createFormalPartyRetryData(partyRuntime);
       resultOverlay = showLevelResult(scene, {
         result,
-        stats: createLevelResultStats(scene),
+        stats: createLevelResultStats(scene, 100, readCombatFeedbackHighestCombo(scene)),
         unlockProgress: encounter.unlockProgress(),
         onRetry: () => scene.scene.restart(retryData),
         onNext: () => void startSceneWithBundle(

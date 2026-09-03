@@ -10,6 +10,7 @@ export type DamageEvent = {
   knockbackX: number;
   knockbackY: number;
   occurredAtMs: number;
+  critical: boolean;
 };
 
 export type HitRegistry = {
@@ -37,8 +38,10 @@ export function resolveHitOnce(
   return true;
 }
 
-export function createDamageEvent(params: DamageEvent): DamageEvent {
-  return params;
+export function createDamageEvent(
+  params: Omit<DamageEvent, 'critical'> & Partial<Pick<DamageEvent, 'critical'>>,
+): DamageEvent {
+  return { ...params, critical: params.critical ?? false };
 }
 
 export function formatDamageEvent(event: DamageEvent | undefined): string {

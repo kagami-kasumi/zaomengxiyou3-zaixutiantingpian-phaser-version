@@ -1,4 +1,4 @@
-import { createDamageEvent, resolveHitOnce, type DamageEvent } from './CombatSystem';
+import type { DamageEvent } from './CombatSystem';
 import type { HeroMovementModel } from './HeroMovementSystem';
 import type { PlayerInputState } from './InputSystem';
 import {
@@ -17,8 +17,8 @@ import {
 } from './Role1ShadowSkillSystem';
 import { findJustPressedSkillSlot } from './SkillInputUtils';
 import {
-  calculateStage1HeroDamage,
   getStage1EnemyConfig,
+  resolveStage1HeroHit,
   type Stage1CombatEnemy,
   type Stage1CombatPlayer,
   type Stage1CombatRuntime,
@@ -93,30 +93,22 @@ export function resolveFormalRole1ShadowProjectileHits(params: Readonly<{
     const hitbox = getProjectileHitbox(projectile);
     for (const enemy of params.enemies) {
       if (enemy.phase === 'dead' || enemy.x < hitbox.x || enemy.x > hitbox.x + hitbox.width) continue;
-      const attackId = getProjectileAttackId(projectile);
-      if (!resolveHitOnce(params.combat.hitRegistry, attackId, enemy.id)) continue;
-      const amount = Math.min(enemy.hp, calculateStage1HeroDamage(
-        enemy.enemyType,
-        projectile.attackKind,
-        projectile.damage,
-      ));
-      const event = createDamageEvent({
+      const event = resolveStage1HeroHit({
+        runtime: params.combat,
+        enemy,
         sourceId: projectile.sourceId,
-        targetId: enemy.id,
-        attackId,
+        ownerSlot: projectile.sourceId.startsWith('p2') ? 'p2' : 'p1',
+        source: 'hero',
+        attackId: getProjectileAttackId(projectile),
         actionName: projectile.actionName,
-        amount,
         attackKind: projectile.attackKind,
+        damage: projectile.damage,
         knockbackX: projectile.knockbackX,
         knockbackY: projectile.knockbackY,
-        occurredAtMs: params.timeMs,
+        timeMs: params.timeMs,
+        critical: projectile.critical,
       });
-      enemy.hp = Math.max(0, enemy.hp - amount);
-      enemy.lastHitBy = projectile.sourceId === 'p2' ? 'p2' : 'p1';
-      enemy.activeAttack = undefined;
-      enemy.phase = enemy.hp === 0 ? 'dead' : 'hurt';
-      enemy.phaseRemainingMs = enemy.hp === 0 ? 0 : 180;
-      params.combat.audit.damageEvents.push(event);
+      if (!event) continue;
       recordProjectileHit(projectile);
       events.push(event);
     }

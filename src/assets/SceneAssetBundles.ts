@@ -49,6 +49,7 @@ import {
   stage22Assets,
 } from './AssetManifest';
 import { petCombatHudHeadAssets } from './PetCombatHudHeadAssets';
+import { combatHitFeedbackAssets } from './CombatHitFeedbackAssets';
 import { inventoryItemAssets } from './InventoryItemAssets';
 import { inventoryUiAssetList } from './InventoryUiAssets';
 import {
@@ -307,6 +308,10 @@ const role5CombatBundleAssets = [
 const role5CombatSkillBundleAssets = Object.values(role5SkillVisualAssets).flatMap(svgs);
 const combatCommonAssets = [
   ...Object.values(scaffoldAssets).map(svg),
+  image(combatHitFeedbackAssets.batter),
+  ...combatHitFeedbackAssets.ordinaryDigits.map(image),
+  ...combatHitFeedbackAssets.criticalDigits.map(image),
+  ...combatHitFeedbackAssets.comboDigitFrames.map(image),
   ...Object.values(petMonkeyBodyAssets).map((asset) => ({
     kind: 'spritesheet' as const,
     key: asset.key,

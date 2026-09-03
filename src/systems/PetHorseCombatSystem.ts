@@ -100,12 +100,14 @@ export function requestPetHorseBasicAttack(params: Readonly<{
   const pet = getActiveHorse(params.roster);
   if (!pet) return failure(params.roster, 'No active horse for basic attack');
   const form = pet.form as HorseForm;
+  const roll = calculateHorseDamage(pet, 'normal', params.random);
   return spawnAction({
     ...params,
     pet,
     form,
     action: 'normal',
-    damage: calculateHorseDamage(pet, 'normal', params.random),
+    damage: roll.amount,
+    critical: roll.critical,
   });
 }
 
@@ -148,6 +150,7 @@ export function requestPetHorseSkill(
     );
     return success(params.roster, pet, target, projectiles[0], projectiles, 0, mpBefore, action);
   }
+  const roll = calculateHorseDamage(pet, action, params.random);
   const result = spawnAction({
     roster: params.roster,
     runtime: params.runtime,
@@ -158,7 +161,8 @@ export function requestPetHorseSkill(
     pet,
     form,
     action,
-    damage: calculateHorseDamage(pet, action, params.random),
+    damage: roll.amount,
+    critical: roll.critical,
   });
   return { ...result, mpBefore, mpAfter: pet.mp };
 }
@@ -193,6 +197,7 @@ export function resolveFormalPetHorseProjectileHits(params: Readonly<{
         knockbackX: projectile.knockbackX,
         knockbackY: projectile.knockbackY,
         timeMs: params.timeMs,
+        critical: projectile.critical,
       });
       if (!event) continue;
       if (projectile.magicIceMs && projectile.magicIceMs > 0) {
@@ -224,6 +229,7 @@ function spawnAction(params: Readonly<{
   form: HorseForm;
   action: 'normal' | HorseSkillAction;
   damage: number;
+  critical: boolean;
 }>): PetSkillCastResult {
   const frozen = getFrozenForm(params.form).actions[params.action];
   const variant = variantByAction[`${params.form}:${params.action}`];
@@ -262,6 +268,7 @@ function spawnAction(params: Readonly<{
   projectile.trackingTargetId = params.target.id;
   projectile.petActionToken = params.actionToken;
   projectile.destroyWhenSourceHurt = false;
+  projectile.critical = params.critical;
   if (params.action === 'sp' || params.action === 'bd') projectile.magicIceMs = 2_000;
   params.projectiles.projectiles.push(projectile);
   return success(params.roster, params.pet, params.target, projectile, [projectile], params.damage, params.pet.mp, params.action);
@@ -306,7 +313,7 @@ function spawnTmaoyiProjectiles(
         width: 35,
         height: 69.95,
         lifetimeMs: 10_000,
-        damage,
+        damage: damage.amount,
         attackKind: 'magic',
         knockbackX: 0,
         knockbackY: 0,
@@ -320,9 +327,12 @@ function spawnTmaoyiProjectiles(
     projectile.maxVelocityY = 35;
     projectile.trackingTargetId = hasSp ? target.id : undefined;
     projectile.magicIceMs = hasBd ? 2_400 : undefined;
-    projectile.secondStageDamage = hasBz ? calculateHorseDamage(pet, 'bz', random) : undefined;
+    const secondStage = hasBz ? calculateHorseDamage(pet, 'bz', random) : undefined;
+    projectile.secondStageDamage = secondStage?.amount;
+    projectile.secondStageCritical = secondStage?.critical;
     projectile.explosionDelayMs = hasBd && hasBz ? 1_000 : 0;
     projectile.destroyWhenSourceHurt = false;
+    projectile.critical = damage.critical;
     projectiles.projectiles.push(projectile);
     return projectile;
   });
@@ -363,6 +373,7 @@ function createTmaoyiExplosion(
   projectile.petActionToken = source.petActionToken;
   projectile.trackingTargetId = enemy.id;
   projectile.destroyWhenSourceHurt = false;
+  projectile.critical = source.secondStageCritical;
   return projectile;
 }
 
@@ -370,13 +381,14 @@ function calculateHorseDamage(
   pet: PetState,
   action: 'normal' | Exclude<HorseSkillAction, 'tmaoyi'>,
   random?: PetSkillRandomSource,
-): number {
+): Readonly<{ amount: number; critical: boolean }> {
   const base = action === 'normal' ? pet.atk : (action === 'bz' ? 6.6 : 3.6) * pet.atk * 1.05;
   const magicAdd = pet.autoBuffState?.fsnl.active?.bonusSkillDamage ?? 0;
-  const crit = (random?.() ?? 1) <= pet.critBonusRate ? 2 : 1;
+  const critical = (random?.() ?? 1) <= pet.critBonusRate;
+  const crit = critical ? 2 : 1;
   const gxp = pet.skills.includes('gxp') ? 1.2 : 1;
   const flower = pet.form === 4 ? (pet.magicFlowerBuff?.attackMultiplier ?? 1) : 1;
-  return (base + magicAdd) * crit * gxp * flower;
+  return { amount: (base + magicAdd) * crit * gxp * flower, critical };
 }
 
 function skillGate(action: HorseSkillAction, pet: PetState, distance: number): string | undefined {

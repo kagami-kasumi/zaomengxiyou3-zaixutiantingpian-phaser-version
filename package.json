@@ -26,6 +26,7 @@
     "test:stage21": "node tools/run-system-tests.mjs stage21-tests",
     "test:stage22": "node tools/run-system-tests.mjs stage22-tests",
     "test:stage1-combat": "node tools/run-system-tests.mjs stage1-combat-tests",
+    "test:combat-feedback": "node tools/run-system-tests.mjs combat-feedback-tests && npm run test:combat-hit-feedback-truth",
     "test:remote-normal-attacks": "node tools/run-system-tests.mjs remote-normal-attack-tests",
     "test:stage1-hud": "node tools/run-system-tests.mjs stage1-hud-tests",
     "test:pet-combat-hud": "node tools/run-system-tests.mjs stage1-hud-tests && npm run test:pet-combat-hud-truth && npm run test:pet-combat-hud-head-truth",

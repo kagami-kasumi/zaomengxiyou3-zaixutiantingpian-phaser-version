@@ -61,6 +61,7 @@ function testAllCompletedLevelsUseOneNativeResultPresenter(): void {
 
 function testPresenterUsesRecoveredRootsStatesAndGeometry(): void {
   const presenter = readFileSync(path.join(repoRoot, 'src/scenes/LevelResultView.ts'), 'utf8');
+  const playableRuntime = readFileSync(path.join(repoRoot, 'src/scenes/PlayableLevelRuntime.ts'), 'utf8');
   const manifest = readFileSync(path.join(repoRoot, 'src/assets/AssetManifest.ts'), 'utf8');
   const bundles = readFileSync(path.join(repoRoot, 'src/assets/SceneAssetBundles.ts'), 'utf8');
 
@@ -71,6 +72,9 @@ function testPresenterUsesRecoveredRootsStatesAndGeometry(): void {
   assert.match(presenter, /x: 305\.95[\s\S]*y: 394/);
   assert.match(presenter, /x: 470\.95[\s\S]*y: 394/);
   assert.match(presenter, /fontFamily: 'FZCuYuan-M03/);
+  assert.match(presenter, /highestCombo = 0/);
+  assert.match(playableRuntime, /readCombatFeedbackHighestCombo\(scene\)/);
+  assert.match(playableRuntime, /createLevelResultStats\(scene, 100, readCombatFeedbackHighestCombo\(scene\)\)/);
   assert.match(manifest, /GameWin\/base', 320\)/);
   assert.match(manifest, /GameFail\/base', 302\)/);
   assert.match(manifest, /nextStageButton\/up', 329\)/);
@@ -86,7 +90,8 @@ function testResultEvidenceKeepsTheOriginalAndModernExceptionsExplicit(): void {
   );
   assert.match(evidence, /GameWin 330/);
   assert.match(evidence, /GameFail 313/);
-  assert.match(evidence, /现代尚无最大连击\/总积分 producer/);
+  assert.match(evidence, /共享战斗反馈会话产出并传入实际最大连击/);
+  assert.match(evidence, /总积分仍无 producer/);
   assert.match(evidence, /禁止差异：全屏黑 Rectangle/);
 }
 

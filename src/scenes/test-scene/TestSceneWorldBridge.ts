@@ -69,6 +69,11 @@ import { toPhaserRect } from './TestSceneGeometry';
 import { tryRole3RjHealOnHit } from '../../systems/Role3DefenseSkillSystem';
 import { tryRole1SxLifeSteal } from '../../systems/Role1BasicSkillSystem';
 import {
+  classifyProjectileFeedbackSource,
+  combatFeedbackOwnerSlot,
+  recordTestSceneCombatFeedback,
+} from './TestSceneCombatFeedbackBridge';
+import {
   applyRole4PoisonProjectileHit,
   type Role4PoisonTarget,
 } from '../../systems/Role4PoisonSkillSystem';
@@ -175,8 +180,17 @@ export function tryPetQlfjCounterAttack(this: any, monster: Monster30Model, time
       knockbackY: 0,
       occurredAtMs: time,
     });
+    const hpBefore = monster.hp;
     if (applyMonster30Hit(monster, damageEvent.amount)) {
       this.lastDamageEvent = damageEvent;
+      recordTestSceneCombatFeedback(this.combatFeedback, {
+        damageEvent,
+        hpBefore,
+        hpAfter: monster.hp,
+        source: 'pet',
+        ownerSlot: slot,
+        target: { id: monster.id, x: monster.x, y: monster.y, height: 150 },
+      });
       this.attackFlashes.push(createAttackFlash(
         this,
         new Phaser.Geom.Rectangle(monster.x - 18, monster.y - 48, 36, 42),
@@ -556,6 +570,17 @@ export function applyCombatBridgeResult(this: any,
   ): void {
     for (const damageEvent of result.damageEvents) {
       this.lastDamageEvent = damageEvent;
+      const monster = this.getMonster30s().find((candidate: any) => candidate.id === damageEvent.targetId);
+      if (monster) {
+        recordTestSceneCombatFeedback(this.combatFeedback, {
+          damageEvent,
+          hpBefore: monster.hp + damageEvent.amount,
+          hpAfter: monster.hp,
+          source: damageEvent.sourceId === 'p1' || damageEvent.sourceId === 'p2' ? 'hero' : 'pet',
+          ownerSlot: combatFeedbackOwnerSlot(damageEvent.sourceId),
+          target: { id: monster.id, x: monster.x, y: monster.y, height: 150 },
+        });
+      }
     }
 
     for (const flashBounds of result.flashBounds) {
@@ -606,7 +631,8 @@ export function applyProjectileHits(this: any, time: number): void {
           continue;
         }
 
-        const effectiveDamage = Math.min(projectile.damage, monster.hp);
+        const hpBefore = monster.hp;
+        const effectiveDamage = Math.min(projectile.damage, hpBefore);
         const damageEvent = createDamageEvent({
           sourceId: projectile.sourceId,
           targetId: monster.id,
@@ -617,6 +643,7 @@ export function applyProjectileHits(this: any, time: number): void {
           knockbackX: projectile.facingX * projectile.knockbackX,
           knockbackY: projectile.knockbackY,
           occurredAtMs: time,
+          critical: projectile.critical,
         });
 
         if (applyMonster30Hit(monster, damageEvent.amount)) {
@@ -655,13 +682,35 @@ export function applyProjectileHits(this: any, time: number): void {
                 return applied;
               },
             };
-            applyRole4PoisonProjectileHit({
+            const poisonBurst = applyRole4PoisonProjectileHit({
               runtime: owner.skill.role4Runtime,
               projectile,
               target: poisonTarget,
               hero: owner.combat,
               sourcePower: owner.baseStats.power,
             });
+            if (poisonBurst && poisonBurst.amount > 0) {
+              const poisonDamageEvent = createDamageEvent({
+                sourceId: projectile.sourceId,
+                targetId: monster.id,
+                attackId: `${attackId}:poison-bomb`,
+                actionName: poisonBurst.source,
+                amount: poisonBurst.amount,
+                attackKind: 'magic',
+                knockbackX: 0,
+                knockbackY: 0,
+                occurredAtMs: time,
+              });
+              recordTestSceneCombatFeedback(this.combatFeedback, {
+                damageEvent: poisonDamageEvent,
+                hpBefore: monster.hp + poisonBurst.amount,
+                hpAfter: monster.hp,
+                source: 'effect',
+                ownerSlot: playerProjectileOwner,
+                target: { id: monster.id, x: monster.x, y: monster.y, height: 150 },
+                incrementsCombo: false,
+              });
+            }
             this.monster30AuraTargets.set(monster.id, projectile.sourceId);
             tryRole1LifeStealForPlayer(
               this.getPlayer(playerProjectileOwner),
@@ -678,6 +727,14 @@ export function applyProjectileHits(this: any, time: number): void {
             if (award) this.awardMonsterExperience(award.ownerSlot, award.experience);
           }
           this.lastDamageEvent = damageEvent;
+          recordTestSceneCombatFeedback(this.combatFeedback, {
+            damageEvent,
+            hpBefore,
+            hpAfter: monster.hp,
+            source: classifyProjectileFeedbackSource(projectile),
+            ownerSlot: combatFeedbackOwnerSlot(projectile.sourceId),
+            target: { id: monster.id, x: monster.x, y: monster.y, height: 150 },
+          });
           recordProjectileHit(projectile);
           this.attackFlashes.push(createAttackFlash(this, attackBounds, time, 0x7ee7ff));
         }
@@ -700,7 +757,8 @@ export function applyProjectileHits(this: any, time: number): void {
           continue;
         }
 
-        const effectiveDamage = Math.min(projectile.damage, this.bossArena.boss.hp);
+        const hpBefore = this.bossArena.boss.hp;
+        const effectiveDamage = Math.min(projectile.damage, hpBefore);
         const damageEvent = createDamageEvent({
           sourceId: projectile.sourceId,
           targetId: 'monster3',
@@ -711,6 +769,7 @@ export function applyProjectileHits(this: any, time: number): void {
           knockbackX: projectile.facingX * projectile.knockbackX,
           knockbackY: projectile.knockbackY,
           occurredAtMs: time,
+          critical: projectile.critical,
         });
 
         if (applyMonster3Hit(this.bossArena.boss, damageEvent.amount)) {
@@ -723,6 +782,16 @@ export function applyProjectileHits(this: any, time: number): void {
             tryRole3HealForPlayer(this.getPlayer(projectile.sourceId));
           }
           this.lastDamageEvent = damageEvent;
+          recordTestSceneCombatFeedback(this.combatFeedback, {
+            damageEvent,
+            hpBefore,
+            hpAfter: this.bossArena.boss.hp,
+            source: classifyProjectileFeedbackSource(projectile),
+            ownerSlot: combatFeedbackOwnerSlot(projectile.sourceId),
+            target: {
+              id: 'monster3', x: this.bossArena.boss.x, y: this.bossArena.boss.y, height: 180,
+            },
+          });
           recordProjectileHit(projectile);
           this.attackFlashes.push(createAttackFlash(this, attackBounds, time, 0x7ee7ff));
         }

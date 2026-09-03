@@ -56,6 +56,8 @@ import {
 } from './feature-ui/FormalPetRuntimeBridge';
 import { createFormalPetMonkeyBodyBridge } from './FormalPetMonkeyBodyBridge';
 import { createFormalPetHorseBodyBridge } from './FormalPetHorseBodyBridge';
+import { createCombatFeedbackView } from './CombatFeedbackView';
+import { createCombatFeedbackQaBridge } from './CombatFeedbackQaBridge';
 
 export type HeroPartyViewSnapshot = HeroRuntimeSnapshot & Readonly<{
   view: Phaser.GameObjects.Image;
@@ -83,6 +85,7 @@ export type HeroPartyRuntime = Readonly<{
     combat: ReturnType<typeof createHeroPartyRuntimeModel>['members'][number]['combat'];
   }>[];
   compatibilityMembers: () => ReturnType<typeof createHeroPartyRuntimeModel>['members'];
+  highestCombo: () => number;
   destroy: () => void;
 }>;
 
@@ -158,6 +161,8 @@ export function createHeroPartyRuntime(
   const normalAttackProjectileVisuals = createRole5NormalAttackProjectileVisualBridge(scene);
   const role1ShadowProjectileVisuals = createRole1ShadowProjectileVisualBridge(scene);
   const role1ShadowViews = new Map<string, Role1ShadowView>();
+  const combatFeedbackView = createCombatFeedbackView(scene, model.combat.feedback);
+  const combatFeedbackQa = createCombatFeedbackQaBridge(scene, model.combat.feedback);
   const formalPetMonkeyBodies = scene.scene.key === 'TestScene'
     ? undefined
     : createFormalPetMonkeyBodyBridge(scene);
@@ -274,6 +279,8 @@ export function createHeroPartyRuntime(
         random: frame.random,
       });
       syncVisuals(frame.timeMs);
+      combatFeedbackView.update();
+      combatFeedbackQa.sync();
     },
     updateMovement: (frame) => updateHeroPartyMovement(model, frame),
     updateCombatStates: (frame) => updateHeroPartyCombatStates(model, frame),
@@ -307,6 +314,8 @@ export function createHeroPartyRuntime(
         )),
         timeMs,
       });
+      combatFeedbackView.flush();
+      combatFeedbackQa.sync();
     },
     resolveEnemyAttack: (enemy, timeMs) => {
       resolveHeroPartyEnemyAttack(model, enemy, timeMs);
@@ -344,6 +353,7 @@ export function createHeroPartyRuntime(
       combat: member.combat,
     })),
     compatibilityMembers: () => model.members,
+    highestCombo: () => model.combat.feedback.highestCombo,
     updatePets,
     destroy: () => {
       if (destroyed) return;
@@ -356,6 +366,8 @@ export function createHeroPartyRuntime(
       destroyRole1ShadowVisualViews(role1ShadowViews);
       formalPetMonkeyBodies?.destroy();
       formalPetHorseBodies?.destroy();
+      combatFeedbackView.destroy();
+      combatFeedbackQa.destroy();
       petCombatRuntimes.p1.destroy();
       petCombatRuntimes.p2.destroy();
       if (role1ShadowQa) delete scene.game.canvas.dataset.formalRole1ShadowQa;

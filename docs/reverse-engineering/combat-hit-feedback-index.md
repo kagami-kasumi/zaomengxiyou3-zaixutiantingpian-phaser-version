@@ -144,3 +144,9 @@ owner 结论：当前连击和最高连击是原版 `User` 的静态战斗会话
 - 未完成：本 task 不含现代截图或叠图；这些属于 212 的双重验证，不影响 211 的原版真值 `verified`。
 - 重开信号：恢复 SWF hash、SymbolClass、五帧 num 时间线或 AS3 producer 顺序变化；212 发现法宝/持续效果无法归入上述参与矩阵；用户提供原版运行录屏显示与恢复 SWF/AS3 不一致。
 
+## 212 现代消费结果（2026-09-02）
+
+- `CombatFeedbackSystem` 以 `attackId -> targetId` 为稳定事件身份，只接受与实际 HP decrease 完全一致的 clamped `DamageEvent.amount`；Role、宠物、法宝和 effect 共用 source/owner/target/critical/anchor 轨迹，effect 显示但不增加连击。
+- `CombatFeedbackView` 直接消费 211 的 71 个原版资源与锚点/位距/队列/时间合同，以 30fps source host tick 独立于 Phaser 渲染帧推进。连击 PNG 的 315×315 导出滤镜画布按原版 175×175 display bounds 缩放，不引入现代字形或覆盖层。
+- 正式五关的共享 `Stage1CombatRuntime` 与 TestScene 的同系统 bridge 均在成功扣血后产生反馈；返回/重试/重载销毁状态，结果页读取同一会话 `highestCombo`。
+- 确定性专项覆盖 miss、0、重复、dead、六项扇出、P1/P2 共享计数、普通/暴击、Role/pet/magic/effect 和结果页。940×590 双人 Stage 1-2 运行轨迹达到最高 22 连击，含 P1 Role、P1/P2 horse4，console warning/error 为 0；详见 `docs/tasks/evidence/TASK-SLICE-212/runtime-audit.md`。

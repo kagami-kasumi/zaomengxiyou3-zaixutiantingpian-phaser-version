@@ -31,6 +31,7 @@ import {
   resolveFormalRole1ShadowProjectileHits,
   updateFormalRole1ShadowRuntime,
 } from './Role1ShadowFormalRuntimeSystem';
+import { destroyCombatFeedbackModel } from './CombatFeedbackSystem';
 
 export type HeroPartyMemberDefinition = Readonly<{
   slot: PlayerSlot;
@@ -311,4 +312,5 @@ export function destroyHeroPartyRuntime(runtime: HeroPartyRuntimeModel): void {
   runtime.members.length = 0;
   runtime.movement.members.length = 0;
   runtime.projectiles.projectiles.length = 0;
+  destroyCombatFeedbackModel(runtime.combat.feedback);
 }

@@ -34,12 +34,12 @@
 | 下一关 | `GameWin.nextClick()`、329 | 更新当前关卡后 `selectStageOver` | 131×61 | 确认事实 | Stage 2-3 未实现，2-2 暂返回已解锁地图 | 路由测试 |
 | 重玩 | `GameFail.rePlay()`、307 | `ReStart` | 160×61 | 确认事实 | 无 | 路由测试 |
 | 返回 | 两类 `backClick/backToMap`、312 | 按 `whichlastworld` 回地图 | 160×61 | 确认事实 | 当前范围统一 HeavenMapScene | 路由测试 |
-| 成绩字段 | `setUserTime/setState/setHigh/setAllScore`、321..324 | 读取时间、英雄 HP/MP、最大连击和 score | 上表 | 确认事实 | 现代尚无最大连击/总积分 producer，显示 0；不伪造已复现 | 文本/几何测试 |
+| 成绩字段 | `setUserTime/setState/setHigh/setAllScore`、321..324 | 读取时间、英雄 HP/MP、最大连击和 score | 上表 | 确认事实 | 212 已让共享战斗反馈会话产出并传入实际最大连击；总积分仍无 producer，显示 0 | 文本/几何测试 |
 
 ## 现代实现映射与差异
 
 - `LevelResultView` 是五关唯一 presenter；生命周期只给出 `cleared/failed`，view 不反向拥有战斗规则。
 - 302/320 和按钮三态全部直接复用恢复源派生资源。
 - 动态数字使用已接入的同包 `FZCuYuan-M03`；字体抗锯齿差异是渲染器差异。
-- 允许的现代例外只有：暂无 producer 的最大连击/总积分显示 0；Stage 2-2 下一关暂返回已解锁地图。
+- 允许的现代例外只有：暂无 producer 的总积分显示 0；Stage 2-2 下一关暂返回已解锁地图。最大连击已由 212 的共享战斗反馈会话真实提供，不再属于例外。
 - 禁止差异：全屏黑 Rectangle、现代标题/说明文字、矩形通用按钮、逐关私有 ResultBridge。

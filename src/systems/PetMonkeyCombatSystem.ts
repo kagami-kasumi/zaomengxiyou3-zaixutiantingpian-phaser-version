@@ -58,7 +58,8 @@ export function requestPetMonkeyBasicAttack(params: Readonly<{
     return { ok: false, message: 'No active monkey for basic attack' };
   }
   const definition = normalByForm[pet.form];
-  const crit = (params.random?.() ?? 1) <= pet.critBonusRate ? 2 : 1;
+  const critical = (params.random?.() ?? 1) <= pet.critBonusRate;
+  const crit = critical ? 2 : 1;
   const flowerRate = pet.magicFlowerBuff?.attackMultiplier ?? 1;
   const damage = pet.atk * flowerRate * crit * (1 + pet.skillDamageBonus);
   const tuning: ProjectileTuning = {
@@ -94,6 +95,7 @@ export function requestPetMonkeyBasicAttack(params: Readonly<{
     tuning,
   );
   projectile.destroyWhenSourceHurt = false;
+  projectile.critical = critical;
   projectile.trackingTargetId = params.target.id;
   projectile.petActionToken = params.actionToken;
   params.projectiles.projectiles.push(projectile);
@@ -138,6 +140,7 @@ export function resolveFormalPetMonkeyProjectileHits(params: Readonly<{
         knockbackX: projectile.knockbackX,
         knockbackY: projectile.knockbackY,
         timeMs: params.timeMs,
+        critical: projectile.critical,
       });
       if (!event) continue;
       recordProjectileHit(projectile);
