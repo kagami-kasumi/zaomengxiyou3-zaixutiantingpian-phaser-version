@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-214C3 | 公共地面移动接入 | 主子Session与五关正式/TestScene环境闭环 | M-032、M-034、M-035、M-042、M-044、VS-067 | 20/24/30fps移动/动作完成/hurt与动态P1/P2转发trace、P1GS/关卡回归/217复验；C4真实战斗交接 |
+| TASK-SETTINGS-217 | 宠物地面环境空间真值 | 关闭C3五关wall/owner根环境输入缺口 | M-035、M-042、VS-067 | 43墙/134递归对象、5张源SVG基准、binary/SVG/恢复脚本独立验证与7类变异；217 handoff，恢复C3 |
 | TASK-SLICE-214C1 | 青龙私有实体公共接缝 | 在单顶层Runtime内复用主/子实体步骤，闭合来源/数值/事件/清理隔离并保持猴马回归 | M-034、M-035、M-042、VS-067 | P1GS、10类实现mutation、P1/P1B/P1R/P1H及正式五关/全系统/build通过；214C2接缝交接 |
 | TASK-SLICE-214A | 青龙完整资源准备 | 交付213真值驱动的本体/技能资源与逐状态对账 | M-034、M-035、M-042、VS-067 | 153文件、345零差异状态、627host ticks、唯一bundle owner与214B交接 |
 | TASK-SETTINGS-213A | 青龙时钟/基准补证 | 关闭完整本体持帧缺口、倒计时误读与奥义trigger基准错位 | M-034、M-035、M-042、VS-067 | 31动作、234逐cell/345基准、15类变异、独立生成前验收，恢复214A |
@@ -8030,6 +8032,166 @@ UI 原生化合同：
 验证：test:pet-dragon-assets通过（153文件、627host ticks、345原版状态零像素差、位置/alpha/frame/九对象数4类变异）；test:pet-dragon-family-truth、bundle/关卡资源所有权、build、structure、annotations、workflow、problem audit、diff与LSP通过。透明边缘无损裁切使RGBA解码从842.9MiB降到61.17MiB；本体布局与可见舞台像素均保持。
 
 范围限制：未实现Dragon Behavior/分身/伤害/治疗/正式视图；无P1G或正式双人战斗通过结论，214父任务保持Split。资源准备不能代表家族完成。推荐后续TASK-SLICE-214B。
+
+### TASK-SETTINGS-217
+
+任务类型：
+- `TASK-SETTINGS`
+
+任务模型：
+- `逆向任务`
+
+逆向子类型：
+- `视觉真值逆向`
+
+逆向方案：
+- `docs/reverse-engineering/plans/pet-ground-environment-truth.md`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Done）
+
+目标机制/切片：
+- `M-035`、`M-042`、`VS-067`
+
+规模预算：
+- 主工作包：2（既有五关wall空间真值与共享条件；独立核对及C3交接）
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 超出五关wall/共享碰撞及owner根映射、第三工作包、新资源内容族或第二次compact，停止扩张并保留本项全部未完成合同；不借同属地面环境扩到整关逆向。
+
+协作计划：
+- 模式：主 agent + subagent
+- 并行工作包：只读核对wall对象计数/矩阵与共享through条件，主agent生成产物；只在可独立返回时启用
+- 写入 owner：主 agent
+- 归并检查点：标记verified前
+- 方法观测：MO-003；只记消费差异，不计家族完成
+
+输入资料：
+- `docs/workflow/reverse-engineering-task-protocol.md`、`docs/reverse-engineering/ground-truth/README.md`。
+- `docs/tasks/evidence/TASK-SLICE-214C3/preflight.md`、`docs/tasks/task-definitions/TASK-SLICE-214C3.md`。
+- 恢复源根 `local-resources/regima/source/restored-swfs/` 下 `1_MainLoad__main1.swf`、`assets/levels/level11.swf`、`level12.swf`、`level13.swf`、`level21.swf`、`level22.swf`；只读wall及共享碰撞对象，不读取同前缀其他副本或分关。
+- 旧AS3主包中的BaseObject/BasePet/BaseHero、角色碰撞构造与实际wall类，仅作调用链/历史交叉证据；现有213/207碰撞profile优先复用。
+- `src/systems/Stage11Layout.ts`、Stage12/13/21/22Layout及TraversalSystem的wall/platform片段；HeroPartyRuntimeSystem、HeroPartyRuntimeBridge、TestSceneHeroPartyRuntimeBridge直接环境接口；`docs/reverse-engineering/levels-index.md`相关wall表与hero-combat-visuals-index人物落地行。
+
+待证明的可观察问题：
+- 五关全部宠物可碰撞墙的真实left/right/top/bottom、嵌套变换、场景offset和单向/特殊墙标记如何进入公共求解器？哪些实际状态超出当前静态轴对齐能力？
+- 角色脚点→逻辑根→宠物出生/warp使用什么坐标；原0.1落地间隙如何映射？
+
+输出产物：
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-217-pet-ground-environment.json`：Schema合规、源哈希/对象locator/状态完整、verified且接入未解项为零。
+- `docs/tasks/evidence/TASK-SETTINGS-217/`：显示列表、六段矩阵、共享条件、源几何基准索引、独立验证/负向变异结果与handoff。大中间物放同名本地task-outputs，不修改legacy-extraction。
+- 有限fixture：五关初始wall全集、实际存在的特殊墙状态、P1/P2同坐标转换、出生/warp与落地边界。不是整页UI或完整战斗旅程。
+
+完成定义：
+- C3不再需要猜测墙厚、丢弃侧墙/特殊标记或把hero travel bounds当宠物边界；交付可直接消费的源空间事实和必须适配的完整字段。未知不能降格成便利常量。
+
+验收标准：
+- 执行方案的Schema/来源/对象状态完整性、独立源几何核对和至少五类负向变异，所有结果落盘；不以现代Layout自证源。
+- 当前求解器不支持的实际条件必须精确归类并写入C3实现输入；若新增独立实现包确实超限，按任务生成规则拆分剩余实现，不删除C3合同。
+- workflow、相关真值/annotations校验、problem audit与diff check通过；不运行pet设计gate冒充逆向验收。
+
+禁止范围：
+- 不修改src/玩法、不派生新可见宠物资产、不逆向敌人/刷怪/关卡结果、不扩到Stage2-3；不更换公共pet设计，不新增存档或第二移动owner。
+
+状态更新：
+- 完成后归档本项，更新覆盖/机制与217handoff；解除214C3 Blocked并恢复唯一Ready，然后结束当次goal。214C4/C5保持Planned，父C2/C完整合同保留。
+
+推荐后续任务：
+- `TASK-SLICE-214C3`。
+
+完成日期：2026-09-05。
+
+完成结果：五关43墙/134递归对象与5张源SVG基准；verified空间真值、source-contract与行为属性、独立binary/SVG/源检查和7类变异通过。完整交接见 docs/tasks/evidence/TASK-SETTINGS-217/handoff.md。恢复214C3唯一Ready，原C3/C4/C5与父C2/C合同保留；未改src或现代资源。workflow含15项harness/annotations/关卡架构、structure和problem audit通过；原9结构warning/PlayerSlot命名warning保留。未运行build或pet设计gate，不以逆向完成冒充实现。
+
+### TASK-SLICE-214C3
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+逆向子类型：
+- 不适用
+
+逆向方案：
+- 不适用
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
+
+目标机制/切片：
+- `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
+
+规模预算：
+- 主工作包：2（公共地面移动接入；本批验证与交接）
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 新资料族、资源派生、未声明 owner、第三工作包或第二次 compact 时停止新增实现，保留完整父级合同并拆分交接；不能因同属青龙而合并多批。
+
+协作计划：
+- 模式：主 agent + subagent（存在独立有界验证包且主 agent 可推进实现时启用）
+- 并行工作包：只读核对本批精确源条件与生产 trace；输出差异和未覆盖项，不扩大来源范围
+- 写入 owner：主 agent
+- 归并检查点：正式验证前
+- 方法观测：MO-003；只记录实际差异，不提前计完整家族成功
+
+输入资料：
+- `docs/tasks/evidence/TASK-SETTINGS-217/handoff.md`、217 verified环境空间manifest与environment-properties/source-contract（补证已完成）；历史预检见 `docs/tasks/evidence/TASK-SLICE-214C3/preflight.md`。
+- `docs/tasks/evidence/TASK-SLICE-214C2/handoff.md`、本地已保存源检查产物。
+- `docs/tasks/task-definitions/TASK-SLICE-214C2.md` 全部父级合同与未完成项；C1 handoff、214A 生产查询、213 verified 真值。
+- `docs/architecture/system-designs/pet.md`（实施中）和本批直接消费者；不重新设计模式或职责归属。
+
+输出产物：
+- 将现有未集成求解器接入既有 Session 与正式/TestScene 环境接口，核定 owner 根坐标和出生/瞬移锚点，保留每实体水平朝向与重力/碰撞顺序。
+- 源码条件冻结、生产环境适配、20/24/30fps 主子会话移动 trace、地面/空中攻击恢复和 hurt 静止回归。
+- 本批证据保存到 `docs/tasks/evidence/TASK-SLICE-214C3/`，提供后续消费者、风险和可重跑命令。
+
+UI 原生化合同：
+- 继承 C2/214B 的显示列表、verified 真值、原版基准和允许例外；只消费 214A 查询，不复制视觉坐标或在视图新增战斗 owner。A/B 不宣称正式可见链完成，C 必须全量验收。
+
+完成定义：
+- 本批产物及测试成立且同线交接完整；不把公共接缝通过等同青龙或整家族完成。
+
+验收标准：
+- 源码条件冻结、生产环境适配、20/24/30fps 主子会话移动 trace、地面/空中攻击恢复和 hurt 静止回归。
+- 执行 `npm run check:system-design -- pet P1GS` 保持既有公共接缝及猴马回归；C 批还必须新增并执行 `npm run check:system-design -- pet P1GC`，退出码 0 才能关闭初阶完整链。
+- 相关生产系统测试、build、structure、workflow、problem audit 和 diff check 通过；涉及真值/资源时执行相应真值/资源/annotations 检查。剩余父级标准逐项转交，不静默删除。
+
+禁止范围：
+- 不跨家族、不新增存档 schema，不以视觉替身代替真实实体；用户已授权速度换算、既有职责内修正和必要窄接口，不将触及公共文件自动当成需审批的重设计。
+
+状态更新：
+- 通过后归档本项、更新覆盖台账与机制/切片、激活 TASK-SLICE-214C4。A/B 结束当次 goal；C 完成时必须同时归档 Split C2/C，未完成任何父级标准则不得激活 214D。
+
+推荐后续任务：
+- `TASK-SLICE-214C4`。
+
+## 2026-09-05 消费预检
+
+历史阻塞原因（217已解除）：
+- 原生产环境缺完整wall空间/特殊状态真值；同线 `TASK-SETTINGS-217` 已交付43墙/134对象、源顺序/标记、owner根精度合同与7类变异，恢复本项全部实现与验收合同。
+
+本项尚未实现。现有HeroParty环境只有platform顶面与hero bounds，缺原wall bottom/侧墙/特殊状态；Stage11平台适配会过滤竖墙。不能直接把这些输入交给静态求解器并宣称完整接入。按本项新增资料族拆分触发，先由同线TASK-SETTINGS-217从已有恢复五关wall与共享碰撞类补齐机器真值，完成后恢复本项全部两包合同。原C4/C5及父级验收不变。接口修正已有授权，不需要再次审批；没有缺软件/用户材料或compact阻塞。
+
+2026-09-05 后续补证结果：217已完成并归档，本项恢复唯一Ready。五关43墙均初始static、0/90°轴对齐；FallDownWhenStandingWall按通行标记处理而非动态下落。以217的唯一几何manifest、行为属性与碰撞顺序接入；原始local坐标到Stage11现代世界平移、导出profile/未舍入仿射尺寸及owner视觉根精度见handoff，禁止再次合并为无来源常量。以上只解除证据阻塞，不等于本项实现通过。
+
+## 执行记录：2026-09-05 compact 恢复检查点
+
+- 本轮自动压缩恢复后补记首次恢复；历史C2检查点不作为本轮计数依据。当前合同仍为本文件，C3未实现、未通过；217补证已经归档。
+- 当前未提交变更为217真值、工具与证据，以及对应任务/台账/机制/MO/问题扫描记录；`git status --short`已复查，尚无src变更。不得把217完成当作C3完成。
+- 运行中检查：无。结构检查退出0，保留原9项warning；217 verifier、workflow、problem audit、diff在前轮通过，尚无本批build/P1GS通过结论。
+- 剩余两包：Session/生产环境接入；20/24/30fps主子trace、攻击恢复/hurt与既有回归、P1GS及交接。下一允许动作是在本合同内实现和验收；若发生第二次compact则结束检查并拆分交接，不继续新增实现。
+
+完成日期：2026-09-05。
+
+完成结果：2026-09-05 TASK-SLICE-214C3完成：公共Session接入217完整地面墙/根坐标，20/24/30fps主子trace、ground/air normal与fs完成、hurt/static、jump/drop、边界和动态正式P1/P2环境转发通过；P1GS保持猴马及10类会话变异回归。214C4成为唯一Ready，父214C2/214C仍Split、214C5仍承担正式可见/P1GC，不提升VS-067或第三家族完整完成状态。见 docs/tasks/evidence/TASK-SLICE-214C3/handoff.md。
+
+验证结果：两组宠物目标测试、P1GS、关卡生命周期/结果/运行/正式旅程、217独立真值检查、build与structure退出0；最终workflow/problem audit/diff均退出0；workflow确认31未完成定义/287归档定义、唯一Ready为214C4、1250标注及关卡架构通过。归档时C4定义CRLF触发标题校验，改回LF后完整复验通过。保留原9结构warnings和build大chunk提醒。无运行服务，未commit/push；建议提交217证据和C3实现后新对话执行C4，未提交前不建议直接push。
 
 ## 执行记录
 

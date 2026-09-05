@@ -1,3 +1,4 @@
+import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 // boundary: Stage 2-2 submits level input/environment/monster targets to HeroPartyRuntime;
 // it keeps fire hazards, encounter waves, QA, and the not-yet-migrated monster runtime only.
 import Phaser from 'phaser';
@@ -79,6 +80,8 @@ type MonsterRuntime = {
 };
 
 type HeroSnapshots = ReturnType<HeroPartyRuntime['snapshots']>;
+
+const petGroundEnvironment = getPetGroundEnvironment(22);
 
 export type Stage22GameplayHandle = Readonly<{
   flow: Stage22FlowModel;
@@ -167,6 +170,7 @@ export function createStage22Gameplay(
         deltaMs,
         monsterTargets: [...monsters.values()].map((monster) => monster.combat),
         environmentFor: (_index, movement) => ({
+          petGroundEnvironment,
           platforms: stage22MovementPlatforms,
           bounds: {
             left: scene.cameras.main.scrollX + STAGE22_SCREEN_LEFT_X - movement.width / 2,

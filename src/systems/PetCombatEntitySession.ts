@@ -12,6 +12,9 @@ import { createPetCombatContext } from './PetCombatContext';
 import type { ProjectileSystemModel } from './ProjectileSystem';
 import type { PetAnimationClock } from './PetAnimationClock';
 import { DefaultGlobalSettings } from './GlobalSettingsSystem';
+import { PetGroundSessionMovement } from './PetGroundSessionMovement';
+import { PetGroundOwnerAnchors } from '../assets/PetGroundEnvironmentAssets';
+import type { PetBehaviorAction } from './PetBehavior';
 
 type EntityPorts = Readonly<{
   publish: (event: Omit<PetCombatRuntimeEvent, 'sequence'>) => void;
@@ -33,6 +36,7 @@ export class PetCombatEntitySession {
   releaseReason: PetCombatReleaseReason | undefined;
   private projectiles: ProjectileSystemModel | undefined;
   private readonly animation: PetAnimationClock | undefined;
+  private readonly ground: PetGroundSessionMovement | undefined;
   hostTick = 0;
   targetAcquiredThisFrame = false;
   private pendingHostTicks = 0;
@@ -49,10 +53,18 @@ export class PetCombatEntitySession {
     private readonly ports: EntityPorts,
     owner: Readonly<PetOwnerSnapshot>,
     position?: Readonly<{ x: number; y: number; facingX: -1 | 1 }>,
+    ownerRootOffsetY = 0,
   ) {
     this.identity = `${pet.id}:${pet.species}:${pet.form}`;
     this.animation = behavior.createAnimationClock?.();
     this.runtime = { ...createPetRuntime(pet, owner), runtimeKey };
+    const groundDefinition = behavior.groundMovement?.();
+    if (groundDefinition) {
+      if (!this.animation) throw new Error('Ground pet requires a host animation clock');
+      this.ground = new PetGroundSessionMovement(this.runtime, groundDefinition);
+      this.runtime.x = owner.x;
+      this.runtime.y = owner.y + ownerRootOffsetY + PetGroundOwnerAnchors.spawnOffsetY;
+    }
     if (position) {
       this.runtime.x = position.x;
       this.runtime.y = position.y;
@@ -69,6 +81,7 @@ export class PetCombatEntitySession {
   }
 
   update(frame: PetCombatFrame, eventsOnly = false): void {
+    if (this.ground && !frame.groundEnvironment) throw new Error('Ground pet requires verified level environment');
     if (!this.animation) {
       this.updateFrame(frame, eventsOnly);
       return;
@@ -121,7 +134,7 @@ export class PetCombatEntitySession {
     }
     const shouldChaseTarget = this.target !== undefined && attackRange !== undefined
       && this.targeting.distance(this.runtime, this.target) > attackRange;
-    if (this.behavior.canMove(context)) {
+    if (!this.ground && this.behavior.canMove(context)) {
       if (shouldChaseTarget && this.target && attackRange !== undefined) {
         chasePetRuntimeTarget(this.runtime, this.pet, this.target, attackRange, frame.deltaMs, frame.hostFps);
       } else if (this.target && attackRange !== undefined) {
@@ -133,11 +146,13 @@ export class PetCombatEntitySession {
       context = this.context(frame, targets);
     }
     const currentAnimation = this.animation?.snapshot().action;
-    if (currentAnimation === 'wait' || currentAnimation === 'walk') {
+    if (!this.ground && (currentAnimation === 'wait' || currentAnimation === 'walk')) {
       this.animation!.select(this.runtime.state === 'follow' ? 'walk' : 'wait', this.actionToken);
     }
-    let action = this.behavior.selectAction(context);
-    if (!action) {
+    let action = this.ground
+      ? this.selectGroundAction(context, targetWasCleared, attackRange, frame.groundEnvironment!)
+      : this.behavior.selectAction(context);
+    if (!this.ground && !action) {
       if (this.target && attackRange !== undefined) {
         if (this.targeting.distance(this.runtime, this.target) <= attackRange) {
           action = this.behavior.basicAttack(context);
@@ -157,7 +172,48 @@ export class PetCombatEntitySession {
     this.ports.stepChildren(frame, false);
     tickActivePetSkillState(this.pet, frame.deltaMs);
     this.hostTick = (this.hostTick + 1) % 59999;
+    if (this.ground) {
+      const environment = frame.groundEnvironment;
+      if (!environment) throw new Error('Ground pet requires verified level environment');
+      const actionNow = this.animation?.snapshot().action;
+      if (!this.ground.isAttacking(actionNow) && actionNow !== 'hurt') {
+        this.ground.warp(context.owner);
+      }
+    }
     this.advanceAnimation(frame, targets);
+    if (this.released) return;
+    if (this.ground?.step(frame.groundEnvironment!, this.pet.moveSpeed, this.animation?.snapshot().action)) {
+      this.animation!.select(this.runtime.state === 'follow' ? 'walk' : 'wait', this.actionToken);
+    }
+  }
+
+  private selectGroundAction(
+    context: PetBehaviorContext, targetWasCleared: boolean, attackRange: number | undefined,
+    environment: NonNullable<PetCombatFrame['groundEnvironment']>,
+  ): PetBehaviorAction | undefined {
+    const ground = this.ground!;
+    const attemptTick = this.hostTick % context.hostFps === 0;
+    let action: PetBehaviorAction | undefined;
+    if (!targetWasCleared && (!this.target || this.targetAcquiredThisFrame)) {
+      if (attemptTick) ground.followOwner(context.owner);
+    } else if (!targetWasCleared && !ground.isAttacking(context.animation?.action)
+      && context.animation?.action !== 'hurt' && this.behavior.canMove(context)) {
+      action = this.behavior.selectAction(context);
+      if (!action && attemptTick && this.target) {
+        if (attackRange !== undefined && this.targeting.distance(this.runtime, this.target) <= attackRange) {
+          if (context.random() <= ground.definition.attackRate) action = this.behavior.basicAttack(context);
+          else if (context.random() < 0.3) {
+            ground.setStatic();
+          } else ground.turnTo(this.target.x);
+        } else ground.turnTo(this.target.x);
+      }
+    }
+    // Source checks the action selected by this AI pass before jump/drop.
+    const selected = action?.type ?? this.animation?.snapshot().action;
+    if (!ground.isAttacking(selected) && selected !== 'hurt') {
+      ground.adjustVertical(context.owner, environment);
+    }
+    return action;
   }
 
   animationSnapshot(): ReturnType<PetAnimationClock['snapshot']> | undefined {
@@ -189,6 +245,7 @@ export class PetCombatEntitySession {
       parentRuntimeKey: this.parentRuntimeKey, sourcePetId: this.sourcePetId,
       hp: this.pet.hp, maxHp: this.pet.maxHp, mp: this.pet.mp, maxMp: this.pet.maxMp,
       animation: this.animation?.snapshot(),
+      groundMotion: this.ground?.snapshot(),
     });
   }
 
@@ -221,7 +278,10 @@ export class PetCombatEntitySession {
     for (const event of frame.animationEvents ?? []) {
       if (this.released) return;
       if (event.runtimeKey !== this.runtimeKey || event.actionToken !== this.actionToken) continue;
-      if (event.eventName === 'complete' && event.setStatic) this.runtime.state = 'idle';
+      if (event.eventName === 'complete' && event.setStatic) {
+        this.runtime.state = 'idle';
+        this.ground?.setStatic();
+      }
       this.behavior.onAnimationEvent(event, this.context(frame, targets));
       if (this.phase === 'dead-playing' && event.eventName === 'dead-complete') {
         this.release('dead-complete');
@@ -251,7 +311,10 @@ export class PetCombatEntitySession {
   }
 
   private context(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[]): PetBehaviorContext {
-    return createPetCombatContext(this, frame, targets, {
+    const input = this.ground && frame.groundEnvironment ? { ...frame, owner: {
+      ...frame.owner, y: frame.owner.y + frame.groundEnvironment.ownerRootOffsetY,
+    } } : frame;
+    return createPetCombatContext(this, input, targets, {
       ...this.ports,
       emit: (behaviorEvent) => this.publish({ type: 'behavior', behaviorEvent }),
     });

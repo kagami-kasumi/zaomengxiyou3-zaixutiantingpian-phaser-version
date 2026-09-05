@@ -9,6 +9,7 @@ import type {
 } from './PetTypes';
 import type { ProjectileSystemModel } from './ProjectileSystem';
 import type { PetAnimationClock } from './PetAnimationClock';
+import type { PetGroundMovementDefinition } from './PetGroundSessionMovement';
 import type {
   PetCombatEntitySnapshot, PetCombatReleaseReason, PetCombatSummonHandle, PetCombatSummonRequest,
 } from './PetCombatTypes';
@@ -79,6 +80,7 @@ export type PetBehaviorContext = Readonly<{
 
 export interface PetBehavior {
   createAnimationClock?(): PetAnimationClock;
+  groundMovement?(): PetGroundMovementDefinition;
   enter(context: PetBehaviorContext): void;
   canMove(context: PetBehaviorContext): boolean;
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined;

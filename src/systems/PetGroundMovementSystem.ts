@@ -13,6 +13,8 @@ export type PetGroundWall = Readonly<{
   through?: boolean;
   throughDown?: boolean;
   throughUp?: boolean;
+  /** Class test used by landing; distinct from the through marker. */
+  isThroughWallClass?: boolean;
   /** Source instance is a Wall, whose tolerance includes its (zero here) wall speed and actor speed. */
   usesWallTolerance: boolean;
 }>;
@@ -43,8 +45,10 @@ export function stepPetGroundMotion(
 ): Readonly<{ landed: boolean; hitHead: boolean; hitSide: boolean }> {
   const { collision } = input;
   const wasStanding = motion.standingOn !== undefined;
-  if (!input.hurt) motion.velocityX = motion.direction * input.speed;
-  if (wasStanding && input.attacking && !input.mayMoveDuringGroundAttack) motion.velocityX = 0;
+  if (!input.hurt) {
+    if (motion.direction !== 0) motion.velocityX = motion.direction * input.speed;
+    if (wasStanding && input.attacking && !input.mayMoveDuringGroundAttack) motion.velocityX = 0;
+  }
   motion.standingOn = undefined;
   let landed = false;
   let hitHead = false;
@@ -58,7 +62,7 @@ export function stepPetGroundMotion(
     // getBottom and snapping. Preserve that distinction, including the 0.1 gap.
     const tolerance = 8 + (wall.usesWallTolerance ? Math.abs(motion.velocityY) : 0);
     if (motion.velocityY > 0 && motion.y + collision.height / 2 <= wall.top + tolerance && !wall.throughDown
-      && (wall.through || (current.right > wall.left && current.left < wall.right))) {
+      && (wall.isThroughWallClass || (current.right > wall.left && current.left < wall.right))) {
       motion.y = wall.top - 0.1 - collision.height / 2;
       motion.velocityY = 0;
       motion.standingOn = wall.id;

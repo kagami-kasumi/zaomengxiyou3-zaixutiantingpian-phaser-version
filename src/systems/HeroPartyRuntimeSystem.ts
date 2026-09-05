@@ -1,3 +1,4 @@
+import type { PetGroundEnvironment } from '../assets/PetGroundEnvironmentAssets';
 import type { HeroSkillLoadout } from './HeroSkillSystem';
 import type { HeroMovementBounds, HeroMovementModel, MovementPlatform } from './HeroMovementSystem';
 import {
@@ -46,6 +47,7 @@ export type HeroPartyMemberDefinition = Readonly<{
 }>;
 
 export type LevelHeroEnvironmentSnapshot = Readonly<{
+  petGroundEnvironment?: PetGroundEnvironment;
   platforms: readonly MovementPlatform[];
   bounds: HeroMovementBounds;
 }>;

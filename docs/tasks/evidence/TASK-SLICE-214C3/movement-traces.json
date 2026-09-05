@@ -1,0 +1,1495 @@
+{
+  "scope": "Production Runtime/Session with registry probe; verified five-level environment adapter; no dragon combat or visual completion claim",
+  "traces": [
+    {
+      "fps": 20,
+      "case": "air-normal-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:1:1",
+          "x": 95,
+          "y": 256.5,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:1:1",
+          "x": 95,
+          "y": 256.5,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 5,
+          "velocityY": 28.5,
+          "direction": 1
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 20,
+      "case": "ground-normal-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:2:1",
+          "x": -65.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "walk",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:2:1",
+          "x": -65.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 20,
+      "case": "ground-fs-completion-child-first-tick",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:2:1",
+          "x": -60.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 2,
+        "animation": {
+          "action": "walk",
+          "actionToken": 2,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:2:1",
+          "x": -60.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+              "x": -60.62949200000003,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 0,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:2:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 840,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 0,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 1,
+              "elapsedTicks": 1,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+              "x": -60.62949200000003,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 5,
+              "velocityY": 1.5,
+              "direction": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 20,
+      "case": "child-hurt-static",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:2:1",
+          "x": 59.37050799999997,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 2,
+        "animation": {
+          "action": "walk",
+          "actionToken": 2,
+          "row": 0,
+          "column": 4,
+          "keyFrameIndex": 4,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 9,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:2:1",
+          "x": 59.37050799999997,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+              "x": -15.629492000000027,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 2,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:2:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 839,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 2,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 2,
+              "elapsedTicks": 0,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:2:1:summon:2",
+              "x": -15.629492000000027,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 0,
+              "velocityY": 1.5,
+              "direction": 0,
+              "standingOn": "level12-d14"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 20,
+      "case": "warp-preserves-motion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:3:1",
+          "x": 805,
+          "y": -27,
+          "facingX": 1,
+          "state": "warp"
+        },
+        "phase": "alive",
+        "actionToken": 0,
+        "animation": {
+          "action": "wait",
+          "actionToken": 0,
+          "row": 0,
+          "column": 1,
+          "keyFrameIndex": 1,
+          "remainingHoldCount": 1,
+          "elapsedTicks": 3,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:3:1",
+          "x": 805,
+          "y": -27,
+          "facingX": 1,
+          "state": "warp",
+          "velocityX": 5,
+          "velocityY": 4.5,
+          "direction": 1
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 20,
+      "case": "air-normal-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:4:1",
+          "x": 800,
+          "y": 180,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:4:1",
+          "x": 800,
+          "y": 180,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 24,
+          "direction": 0
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 20,
+      "case": "air-fs-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:5:1",
+          "x": 800,
+          "y": 229.5,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:5:1",
+          "x": 800,
+          "y": 229.5,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 27,
+          "direction": 0
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:5:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:5:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:5:1:summon:2",
+              "x": 800,
+              "y": 180,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 0,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:5:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 840,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 0,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 1,
+              "elapsedTicks": 1,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:5:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:5:1:summon:2",
+              "x": 800,
+              "y": 180,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 0,
+              "velocityY": 1.5,
+              "direction": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 20,
+      "case": "air-hurt-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:6:1",
+          "x": 800,
+          "y": 42,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:6:1",
+          "x": 800,
+          "y": 42,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 12,
+          "direction": 0
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 24,
+      "case": "air-normal-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:10:1",
+          "x": 95,
+          "y": 256.5,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:10:1",
+          "x": 95,
+          "y": 256.5,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 5,
+          "velocityY": 28.5,
+          "direction": 1
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 24,
+      "case": "ground-normal-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:11:1",
+          "x": -65.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "walk",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:11:1",
+          "x": -65.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 24,
+      "case": "ground-fs-completion-child-first-tick",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:11:1",
+          "x": -60.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 2,
+        "animation": {
+          "action": "walk",
+          "actionToken": 2,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:11:1",
+          "x": -60.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+              "x": -60.62949200000003,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 0,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:11:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 840,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 0,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 1,
+              "elapsedTicks": 1,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+              "x": -60.62949200000003,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 5,
+              "velocityY": 1.5,
+              "direction": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 24,
+      "case": "child-hurt-static",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:11:1",
+          "x": 59.37050799999997,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 2,
+        "animation": {
+          "action": "walk",
+          "actionToken": 2,
+          "row": 0,
+          "column": 4,
+          "keyFrameIndex": 4,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 9,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:11:1",
+          "x": 59.37050799999997,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+              "x": -15.629492000000027,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 2,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:11:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 839,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 2,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 2,
+              "elapsedTicks": 0,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:11:1:summon:2",
+              "x": -15.629492000000027,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 0,
+              "velocityY": 1.5,
+              "direction": 0,
+              "standingOn": "level12-d14"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 24,
+      "case": "warp-preserves-motion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:12:1",
+          "x": 805,
+          "y": -27,
+          "facingX": 1,
+          "state": "warp"
+        },
+        "phase": "alive",
+        "actionToken": 0,
+        "animation": {
+          "action": "wait",
+          "actionToken": 0,
+          "row": 0,
+          "column": 1,
+          "keyFrameIndex": 1,
+          "remainingHoldCount": 1,
+          "elapsedTicks": 3,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:12:1",
+          "x": 805,
+          "y": -27,
+          "facingX": 1,
+          "state": "warp",
+          "velocityX": 5,
+          "velocityY": 4.5,
+          "direction": 1
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 24,
+      "case": "air-normal-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:13:1",
+          "x": 800,
+          "y": 180,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:13:1",
+          "x": 800,
+          "y": 180,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 24,
+          "direction": 0
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 24,
+      "case": "air-fs-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:14:1",
+          "x": 800,
+          "y": 229.5,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:14:1",
+          "x": 800,
+          "y": 229.5,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 27,
+          "direction": 0
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:14:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:14:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:14:1:summon:2",
+              "x": 800,
+              "y": 180,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 0,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:14:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 840,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 0,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 1,
+              "elapsedTicks": 1,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:14:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:14:1:summon:2",
+              "x": 800,
+              "y": 180,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 0,
+              "velocityY": 1.5,
+              "direction": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 24,
+      "case": "air-hurt-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:15:1",
+          "x": 800,
+          "y": 42,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:15:1",
+          "x": 800,
+          "y": 42,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 12,
+          "direction": 0
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 30,
+      "case": "air-normal-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:19:1",
+          "x": 95,
+          "y": 256.5,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:19:1",
+          "x": 95,
+          "y": 256.5,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 5,
+          "velocityY": 28.5,
+          "direction": 1
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 30,
+      "case": "ground-normal-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:20:1",
+          "x": -65.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "walk",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:20:1",
+          "x": -65.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 30,
+      "case": "ground-fs-completion-child-first-tick",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:20:1",
+          "x": -60.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 2,
+        "animation": {
+          "action": "walk",
+          "actionToken": 2,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:20:1",
+          "x": -60.62949200000003,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+              "x": -60.62949200000003,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 0,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:20:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 840,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 0,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 1,
+              "elapsedTicks": 1,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+              "x": -60.62949200000003,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 5,
+              "velocityY": 1.5,
+              "direction": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 30,
+      "case": "child-hurt-static",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:20:1",
+          "x": 59.37050799999997,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow"
+        },
+        "phase": "alive",
+        "actionToken": 2,
+        "animation": {
+          "action": "walk",
+          "actionToken": 2,
+          "row": 0,
+          "column": 4,
+          "keyFrameIndex": 4,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 9,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:20:1",
+          "x": 59.37050799999997,
+          "y": 485.97519809999994,
+          "facingX": 1,
+          "state": "follow",
+          "velocityX": 5,
+          "velocityY": 1.5,
+          "direction": 1,
+          "standingOn": "level12-d14"
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+              "x": -15.629492000000027,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 2,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:20:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 839,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 2,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 2,
+              "elapsedTicks": 0,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:20:1:summon:2",
+              "x": -15.629492000000027,
+              "y": 485.97519809999994,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 0,
+              "velocityY": 1.5,
+              "direction": 0,
+              "standingOn": "level12-d14"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 30,
+      "case": "warp-preserves-motion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:21:1",
+          "x": 805,
+          "y": -27,
+          "facingX": 1,
+          "state": "warp"
+        },
+        "phase": "alive",
+        "actionToken": 0,
+        "animation": {
+          "action": "wait",
+          "actionToken": 0,
+          "row": 0,
+          "column": 1,
+          "keyFrameIndex": 1,
+          "remainingHoldCount": 1,
+          "elapsedTicks": 3,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:21:1",
+          "x": 805,
+          "y": -27,
+          "facingX": 1,
+          "state": "warp",
+          "velocityX": 5,
+          "velocityY": 4.5,
+          "direction": 1
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 30,
+      "case": "air-normal-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:22:1",
+          "x": 800,
+          "y": 180,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:22:1",
+          "x": 800,
+          "y": 180,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 24,
+          "direction": 0
+        },
+        "summons": []
+      }
+    },
+    {
+      "fps": 30,
+      "case": "air-fs-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:23:1",
+          "x": 800,
+          "y": 229.5,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:23:1",
+          "x": 800,
+          "y": 229.5,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 27,
+          "direction": 0
+        },
+        "summons": [
+          {
+            "petId": "pet-monkey-1:monkey:1:session:23:1:summon:2",
+            "species": "monkey",
+            "form": 1,
+            "runtime": {
+              "petId": "pet-monkey-1:monkey:1:session:23:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:23:1:summon:2",
+              "x": 800,
+              "y": 180,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 0,
+            "parentRuntimeKey": "pet-monkey-1:monkey:1:session:23:1",
+            "sourcePetId": "pet-monkey-1",
+            "hp": 840,
+            "maxHp": 840,
+            "mp": 150,
+            "maxMp": 150,
+            "animation": {
+              "action": "wait",
+              "actionToken": 0,
+              "row": 0,
+              "column": 0,
+              "keyFrameIndex": 0,
+              "remainingHoldCount": 1,
+              "elapsedTicks": 1,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "pet-monkey-1:monkey:1:session:23:1:summon:2",
+              "runtimeKey": "pet-monkey-1:monkey:1:session:23:1:summon:2",
+              "x": 800,
+              "y": 180,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 0,
+              "velocityY": 1.5,
+              "direction": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fps": 30,
+      "case": "air-hurt-near-owner-completion",
+      "snapshot": {
+        "destroyed": false,
+        "petId": "pet-monkey-1",
+        "species": "monkey",
+        "form": 1,
+        "runtime": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:24:1",
+          "x": 800,
+          "y": 42,
+          "facingX": 1,
+          "state": "idle"
+        },
+        "phase": "alive",
+        "actionToken": 1,
+        "animation": {
+          "action": "wait",
+          "actionToken": 1,
+          "row": 0,
+          "column": 0,
+          "keyFrameIndex": 0,
+          "remainingHoldCount": 2,
+          "elapsedTicks": 0,
+          "complete": false
+        },
+        "groundMotion": {
+          "petId": "pet-monkey-1",
+          "runtimeKey": "pet-monkey-1:monkey:1:session:24:1",
+          "x": 800,
+          "y": 42,
+          "facingX": 1,
+          "state": "idle",
+          "velocityX": 0,
+          "velocityY": 12,
+          "direction": 0
+        },
+        "summons": []
+      }
+    },
+    {
+      "case": "production-updatePets-p1-p2",
+      "snapshots": {
+        "p1": {
+          "destroyed": false,
+          "petId": "pet-monkey-1",
+          "species": "monkey",
+          "form": 1,
+          "runtime": {
+            "petId": "pet-monkey-1",
+            "runtimeKey": "pet-monkey-1:monkey:1:session:28:1",
+            "x": 19.370507999999973,
+            "y": 485.97519809999994,
+            "facingX": 1,
+            "state": "idle"
+          },
+          "phase": "alive",
+          "actionToken": 0,
+          "animation": {
+            "action": "wait",
+            "actionToken": 0,
+            "row": 0,
+            "column": 1,
+            "keyFrameIndex": 1,
+            "remainingHoldCount": 2,
+            "elapsedTicks": 2,
+            "complete": false
+          },
+          "groundMotion": {
+            "petId": "pet-monkey-1",
+            "runtimeKey": "pet-monkey-1:monkey:1:session:28:1",
+            "x": 19.370507999999973,
+            "y": 485.97519809999994,
+            "facingX": 1,
+            "state": "idle",
+            "velocityX": 0,
+            "velocityY": 1.5,
+            "direction": 0,
+            "standingOn": "level12-d14"
+          },
+          "summons": []
+        },
+        "p2": {
+          "destroyed": false,
+          "petId": "pet-monkey-1",
+          "species": "monkey",
+          "form": 1,
+          "runtime": {
+            "petId": "pet-monkey-1",
+            "runtimeKey": "pet-monkey-1:monkey:1:session:29:1",
+            "x": 197.00013199999967,
+            "y": 503.97519809999994,
+            "facingX": 1,
+            "state": "idle"
+          },
+          "phase": "alive",
+          "actionToken": 0,
+          "animation": {
+            "action": "wait",
+            "actionToken": 0,
+            "row": 0,
+            "column": 1,
+            "keyFrameIndex": 1,
+            "remainingHoldCount": 2,
+            "elapsedTicks": 2,
+            "complete": false
+          },
+          "groundMotion": {
+            "petId": "pet-monkey-1",
+            "runtimeKey": "pet-monkey-1:monkey:1:session:29:1",
+            "x": 197.00013199999967,
+            "y": 503.97519809999994,
+            "facingX": 1,
+            "state": "idle",
+            "velocityX": 0,
+            "velocityY": 1.5,
+            "direction": 0,
+            "standingOn": "level21-d172"
+          },
+          "summons": []
+        }
+      }
+    }
+  ]
+}

@@ -37,7 +37,7 @@ export class PetCombatRuntime {
       pet.isActive && pet.lifetime > 0
       && !(pet.hp <= 0 && this.completedDeadIdentity === `${pet.id}:${pet.species}:${pet.form}`)
     ));
-    this.synchronizePet(activePet, frame.owner);
+    this.synchronizePet(activePet, frame.owner, frame.groundEnvironment?.ownerRootOffsetY);
     if (!this.active) return this.snapshot();
     this.stepEntity(this.active, frame);
     return this.snapshot();
@@ -51,6 +51,7 @@ export class PetCombatRuntime {
       runtime: active?.runtime, target: active?.target, phase: active?.phase,
       actionToken: active?.actionToken,
       animation: active?.animation,
+      groundMotion: active?.groundMotion,
       summons: Object.freeze([...this.entities.values()]
         .filter((entity) => entity.parentRuntimeKey && !entity.released)
         .map((entity) => entity.snapshot())),
@@ -69,7 +70,7 @@ export class PetCombatRuntime {
     this.publish({ type: 'destroyed' });
   }
 
-  private synchronizePet(pet: PetState | undefined, owner: Readonly<PetOwnerSnapshot>): void {
+  private synchronizePet(pet: PetState | undefined, owner: Readonly<PetOwnerSnapshot>, ownerRootOffsetY = 0): void {
     if (!pet) {
       if (this.active) this.releaseEntity(this.active, 'inactive');
       return;
@@ -84,11 +85,11 @@ export class PetCombatRuntime {
     if (this.active) this.releaseEntity(this.active, 'replaced');
     const key = `${identity}:session:${this.instanceId}:${this.nextEntityId++}`;
     const entity = new PetCombatEntitySession(
-      pet, key, pet.id, undefined, behavior, this.targeting, this.entityPorts(key), owner,
+      pet, key, pet.id, undefined, behavior, this.targeting, this.entityPorts(key), owner, undefined, ownerRootOffsetY,
     );
     this.active = entity;
     this.entities.set(key, entity);
-    entity.enter(owner);
+    entity.enter(behavior.groundMovement ? { ...owner, y: owner.y + ownerRootOffsetY } : owner);
   }
 
   private entityPorts(key: string) {

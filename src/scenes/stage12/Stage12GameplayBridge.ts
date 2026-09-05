@@ -1,3 +1,4 @@
+import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 // boundary: Stage 1-2 owns encounter waves only; shared entity runtimes own heroes and monsters.
 import Phaser from 'phaser';
 import { createInputSystem } from '../../systems/InputSystem';
@@ -38,6 +39,8 @@ import {
 import { createMonsterRuntimeRegistry } from '../MonsterRuntimeRegistryBridge';
 
 type HeroSnapshots = ReturnType<HeroPartyRuntime['snapshots']>;
+
+const petGroundEnvironment = getPetGroundEnvironment(12);
 
 export type Stage12GameplayResult = 'failed' | 'cleared' | 'fb-entered';
 
@@ -120,6 +123,7 @@ export function createStage12Gameplay(
       deltaMs,
       monsterTargets: monsters.combatTargets(),
       environmentFor: (_index, movement) => ({
+          petGroundEnvironment,
         platforms: stage12MovementPlatforms,
         bounds: {
           left: scene.cameras.main.scrollX + STAGE12_SCREEN_LEFT_X - movement.width / 2,

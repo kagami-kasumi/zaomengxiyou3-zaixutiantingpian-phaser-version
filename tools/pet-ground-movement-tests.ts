@@ -58,4 +58,16 @@ const throughDown = state({ y: groundY, velocityY: 1.5, direction: 0 });
 assert.equal(stepPetGroundMotion(throughDown, { ...profile, walls: [{ ...floor, throughDown: true }] }).landed, false);
 assert.equal(throughDown.standingOn, undefined);
 
+const drifting = state({ direction: 0, velocityX: 7 });
+stepPetGroundMotion(drifting, { ...profile, walls: [] });
+close(drifting.x, 7);
+const hurtAttack = state({ velocityX: 7, standingOn: 'floor', y: groundY, velocityY: 1.5 });
+stepPetGroundMotion(hurtAttack, { ...profile, walls: [floor], hurt: true, attacking: true });
+close(hurtAttack.x, 7);
+// A marker-only object does not receive the actual ThroughWall class landing exception.
+const edge = state({ x: -120, y: groundY, velocityX: 30, velocityY: 1.5, direction: 0 });
+assert.equal(stepPetGroundMotion({ ...edge }, { ...profile, walls: [{ ...floor, through: true }] }).landed, false);
+assert.equal(stepPetGroundMotion({ ...edge }, { ...profile, walls: [{ ...floor, through: true,
+  isThroughWallClass: true }] }).landed, true);
+
 console.log('Pet static-wall motion: source gravity order, registration versus snap, attack ground/air, side/head and through flags passed.');

@@ -1,3 +1,4 @@
+import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 // boundary: Stage 1-1 compatibility code reaches hero models only through this
 // bridge; HeroPartyRuntime remains their lifecycle and visual owner.
 import Phaser from 'phaser';
@@ -34,6 +35,8 @@ import {
   isRole5LoongSwordProjectileAttack,
   spawnRole5LoongSwordProjectile,
 } from '../../systems/Role5NormalAttackProjectileSystem';
+
+const petGroundEnvironment = getPetGroundEnvironment(11);
 
 export type TestScenePlayerView = {
   slot: PlayerSlot;
@@ -142,6 +145,7 @@ export function createTestSceneHeroPartyRuntime(
     updateNormalAttacks: (input, previousInput, timeMs, compatibility) => {
       runtime.updatePets({
         targets: scene.createPetSkillTargets(),
+        groundEnvironmentFor: () => petGroundEnvironment,
         projectiles: compatibility.projectileSystem,
         timeMs,
         deltaMs: scene.game.loop.delta,

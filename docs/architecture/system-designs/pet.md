@@ -136,3 +136,5 @@
 - 若原版运行证据证明 `gc.obbsiteArray` 在全部适用关卡具有另一稳定排序，只更新上游 orderedTargets 适配，不把 Targeting 改名为 nearest。
 - 若某族真值证明死亡不等 frame-over、存在独立 warp label 或不走公共受击链，只在该 Behavior 钩子中记录例外，不推翻公共默认合同。
 - 若实施发现新正式消费者或新 owner，当前批停止并拆同线解除 task，不把逻辑塞回 Scene。
+
+2026-09-05 TASK-SLICE-214C3批次：P1GS=0，本批公共移动通过、系统仍实施中/未退出。PetBehavior新增可选ground事实；Session保持唯一host调度与方向/速度owner，场景仅传217环境。源时序精化：ground路径AI/动作→效果/子会话/CD/计数→warp→动画完成→速度/碰撞/积分/重力，旧猴马路径及gate回归不变。pet-ground-session-tests在20/24/30fps与实际正式updatePets闭包验证本批；freeze来源、精度与C4/C5剩余项见 docs/tasks/evidence/TASK-SLICE-214C3/handoff.md。未运行P1GC或all，不提升完整青龙/系统退出。

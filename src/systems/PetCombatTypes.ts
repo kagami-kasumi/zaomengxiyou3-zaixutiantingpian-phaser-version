@@ -8,6 +8,8 @@ import type {
 } from './PetTypes';
 import type { ProjectileSystemModel } from './ProjectileSystem';
 import type { PetAnimationClock } from './PetAnimationClock';
+import type { PetGroundEnvironment } from '../assets/PetGroundEnvironmentAssets';
+import type { PetGroundMotion } from './PetGroundMovementSystem';
 
 export type PetCombatFrame = Readonly<{
   roster: PetRoster;
@@ -20,6 +22,7 @@ export type PetCombatFrame = Readonly<{
   deltaMs: number;
   /** Original host clock selected by the scene; movement speed is pixels per tick. */
   hostFps?: number;
+  groundEnvironment?: PetGroundEnvironment;
 }>;
 
 export type PetCombatSessionPhase = 'alive' | 'dead-playing';
@@ -60,6 +63,7 @@ export type PetCombatEntitySnapshot = Readonly<{
   mp: number;
   maxMp: number;
   animation?: ReturnType<PetAnimationClock['snapshot']>;
+  groundMotion?: Readonly<PetGroundMotion>;
 }>;
 
 export type PetCombatSnapshot = Readonly<{
@@ -73,6 +77,7 @@ export type PetCombatSnapshot = Readonly<{
   actionToken?: number;
   animation?: ReturnType<PetAnimationClock['snapshot']>;
   summons?: readonly PetCombatEntitySnapshot[];
+  groundMotion?: Readonly<PetGroundMotion>;
 }>;
 
 export type PetCombatSummonRequest = Readonly<{

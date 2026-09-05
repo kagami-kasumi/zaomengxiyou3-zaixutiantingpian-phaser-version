@@ -1,0 +1,687 @@
+{
+  "truthId": "task-settings-217.pet-ground-environment",
+  "manifestSha256": "c13aad6e462ca64128f538bcfb4b44f7709fbf25f824e104f7c2bfee4051e1e8",
+  "status": "verified",
+  "levels": [
+    {
+      "level": 11,
+      "collisionOrder": [
+        "level11-d31",
+        "level11-d28",
+        "level11-d25",
+        "level11-d34",
+        "level11-d37",
+        "level11-d40",
+        "level11-d43",
+        "level11-d46",
+        "level11-d49",
+        "level11-d52",
+        "level11-d55",
+        "level11-d58",
+        "level11-d61",
+        "level11-d64",
+        "level11-d67",
+        "level11-d70",
+        "level11-d73",
+        "level11-d76",
+        "level11-d79",
+        "level11-d88"
+      ],
+      "walls": [
+        {
+          "objectId": "level11-d25",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d28",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": true,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d31",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": true,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d34",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d37",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d40",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d43",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d46",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d49",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d52",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d55",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d58",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d61",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d64",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d67",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d70",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d73",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d76",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d79",
+          "className": "export.ThroughUpButDownWall",
+          "markers": [
+            "isThroughUpButDownWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": true,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level11-d88",
+          "className": "export.FallDownWhenStandingWall",
+          "markers": [
+            "isThroughDownButUpWall"
+          ],
+          "through": false,
+          "throughDown": true,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        }
+      ]
+    },
+    {
+      "level": 12,
+      "collisionOrder": [
+        "level12-d20",
+        "level12-d14",
+        "level12-d17",
+        "level12-d23"
+      ],
+      "walls": [
+        {
+          "objectId": "level12-d14",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level12-d17",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level12-d20",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": true,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level12-d23",
+          "className": "export.FallDownWhenStandingWall",
+          "markers": [
+            "isThroughDownButUpWall"
+          ],
+          "through": false,
+          "throughDown": true,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        }
+      ]
+    },
+    {
+      "level": 13,
+      "collisionOrder": [
+        "level13-d14",
+        "level13-d8",
+        "level13-d11",
+        "level13-d17"
+      ],
+      "walls": [
+        {
+          "objectId": "level13-d8",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level13-d11",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level13-d14",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": true,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level13-d17",
+          "className": "export.FallDownWhenStandingWall",
+          "markers": [
+            "isThroughDownButUpWall"
+          ],
+          "through": false,
+          "throughDown": true,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        }
+      ]
+    },
+    {
+      "level": 21,
+      "collisionOrder": [
+        "level21-d178",
+        "level21-d84",
+        "level21-d87",
+        "level21-d90",
+        "level21-d93",
+        "level21-d172",
+        "level21-d175",
+        "level21-d181"
+      ],
+      "walls": [
+        {
+          "objectId": "level21-d84",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level21-d87",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level21-d90",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level21-d93",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level21-d172",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level21-d175",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level21-d178",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": true,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level21-d181",
+          "className": "export.FallDownWhenStandingWall",
+          "markers": [
+            "isThroughDownButUpWall"
+          ],
+          "through": false,
+          "throughDown": true,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        }
+      ]
+    },
+    {
+      "level": 22,
+      "collisionOrder": [
+        "level22-d46",
+        "level22-d40",
+        "level22-d43",
+        "level22-d52",
+        "level22-d55",
+        "level22-d58",
+        "level22-d61"
+      ],
+      "walls": [
+        {
+          "objectId": "level22-d40",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level22-d43",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level22-d46",
+          "className": "export.ObsWall",
+          "markers": [
+            "isWall"
+          ],
+          "through": false,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": true,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level22-d52",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level22-d55",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level22-d58",
+          "className": "export.ThroughWall",
+          "markers": [
+            "isThroughWall"
+          ],
+          "through": true,
+          "throughDown": false,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": true,
+          "rotated": false,
+          "axisAligned": true
+        },
+        {
+          "objectId": "level22-d61",
+          "className": "export.FallDownWhenStandingWall",
+          "markers": [
+            "isThroughDownButUpWall"
+          ],
+          "through": false,
+          "throughDown": true,
+          "throughUp": false,
+          "usesWallTolerance": true,
+          "isThroughWallClass": false,
+          "rotated": false,
+          "axisAligned": true
+        }
+      ]
+    }
+  ]
+}

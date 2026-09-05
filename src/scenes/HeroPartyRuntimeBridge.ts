@@ -1,3 +1,4 @@
+import type { PetGroundEnvironment } from '../assets/PetGroundEnvironmentAssets';
 // boundary: this bridge owns active hero movement/combat and hero visual updates;
 // levels provide only input, environment snapshots, and monster target models.
 import Phaser from 'phaser';
@@ -77,6 +78,7 @@ export type HeroPartyRuntime = Readonly<{
     timeMs: number;
     deltaMs: number;
     random?: () => number;
+    groundEnvironmentFor?: (index: number) => PetGroundEnvironment | undefined;
   }>) => void;
   snapshots: () => readonly HeroPartyViewSnapshot[];
   hudSnapshots: () => readonly ReturnType<typeof createStage1CombatPlayerHudSnapshot>[];
@@ -277,6 +279,7 @@ export function createHeroPartyRuntime(
         timeMs: frame.timeMs,
         deltaMs: frame.deltaMs,
         random: frame.random,
+        groundEnvironmentFor: (index) => frame.environmentFor(index, model.members[index]!.movement).petGroundEnvironment,
       });
       syncVisuals(frame.timeMs);
       combatFeedbackView.update();
@@ -384,8 +387,9 @@ export function createHeroPartyRuntime(
     timeMs: number;
     deltaMs: number;
     random?: () => number;
+    groundEnvironmentFor?: (index: number) => PetGroundEnvironment | undefined;
   }>): void {
-    for (const member of model.members) {
+    for (const [index, member] of model.members.entries()) {
       const slot = member.combat.slot;
       const roster = petRosters[slot];
       if (!roster || member.combat.combat.state === 'dead') {
@@ -397,6 +401,7 @@ export function createHeroPartyRuntime(
           damageEvents: pendingPetDamageEvents[slot],
           deltaMs: frame.deltaMs,
           hostFps: scene.game.loop.targetFps,
+          groundEnvironment: frame.groundEnvironmentFor?.(index),
         });
         pendingPetDamageEvents[slot] = [];
         continue;
@@ -411,6 +416,7 @@ export function createHeroPartyRuntime(
         animationEvents: pendingPetAnimationEvents[slot],
         deltaMs: frame.deltaMs,
         hostFps: scene.game.loop.targetFps,
+        groundEnvironment: frame.groundEnvironmentFor?.(index),
       });
       pendingPetDamageEvents[slot] = [];
       pendingPetAnimationEvents[slot] = [];

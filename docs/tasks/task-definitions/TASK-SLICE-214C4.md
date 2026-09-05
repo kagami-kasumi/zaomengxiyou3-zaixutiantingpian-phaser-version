@@ -13,7 +13,7 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
@@ -34,6 +34,7 @@
 - 方法观测：MO-003；只记录实际差异，不提前计完整家族成功
 
 输入资料：
+- `docs/tasks/evidence/TASK-SLICE-214C3/handoff.md` 与 movement-traces.json；本批公共ground能力/环境已接入，必须保持其中目标测试及P1GS回归。
 - `docs/tasks/evidence/TASK-SLICE-214C2/handoff.md`、本地已保存源检查产物。
 - `docs/tasks/task-definitions/TASK-SLICE-214C2.md` 全部父级合同与未完成项；C1 handoff、214A 生产查询、213 verified 真值。
 - `docs/architecture/system-designs/pet.md`（实施中）和本批直接消费者；不重新设计模式或职责归属。

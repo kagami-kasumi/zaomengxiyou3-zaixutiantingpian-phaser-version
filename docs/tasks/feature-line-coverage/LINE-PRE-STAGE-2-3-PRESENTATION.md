@@ -114,3 +114,9 @@
 2026-09-05 214C1公共接缝完成：每slot单顶层Runtime，主/私有实体复用EntitySession，数值/目标/CD/token/来源与清理隔离；父死亡事件路由、enter失败子树回滚、10类实现mutation、P1GS及猴马P1/P1B/P1R/P1H、正式五关/全系统/build通过。唯一Ready改为214C2；未实现青龙Behavior或正式分身伤害治疗，M-034/M-035/M-042与VS-067保持部分复现。交接见 `docs/tasks/evidence/TASK-SLICE-214C1/handoff.md`。
 
 2026-09-05 214C2 第二次 compact：C2 改为 Split，214C3 唯一 Ready（公共地面移动接入），214C4/214C5 Planned（真实战斗链、正式投影与 P1GC）。速度与可选时钟接缝已通过，地面求解器仅独立目标测试，未集成；恢复主包构造赋值链纠正青龙 attackRate 为 0.7。普攻/fs/伤害治疗/正式可见和原 C2/C 全合同继续保留，状态不提升。交接见 `docs/tasks/evidence/TASK-SLICE-214C2/handoff.md`。
+
+2026-09-05 214C3消费预检：现有环境只含平台顶面/hero bounds，缺侧墙、bottom与特殊墙状态；出生与warp、动画完成后同tick恢复也需源条件约束。214C3保持全部合同并设Blocked，同线TASK-SETTINGS-217成为唯一Ready，补齐五关wall空间真值后恢复C3；C4/C5保持Planned。无src/资源变更，不提高M-035/M-042或VS-067复现状态。证据见 docs/tasks/evidence/TASK-SLICE-214C3/preflight.md。
+
+2026-09-05 TASK-SETTINGS-217完成：五关43墙/134递归对象及源SVG基准已形成verified空间真值；完整marker/碰撞顺序、原始local坐标、owner导出profile与未舍入仿射精度分别冻结，binary/SVG/恢复脚本独立核对与7类变异通过。214C3恢复唯一Ready；未改src或现代可见资源，M-035/M-042和VS-067实现状态不提升。交接见 docs/tasks/evidence/TASK-SETTINGS-217/handoff.md。
+
+2026-09-05 TASK-SLICE-214C3完成：公共Session接入217完整地面墙/根坐标，20/24/30fps主子trace、ground/air normal与fs完成、hurt/static、jump/drop、边界和动态正式P1/P2环境转发通过；P1GS保持猴马及10类会话变异回归。214C4成为唯一Ready，父214C2/214C仍Split、214C5仍承担正式可见/P1GC，不提升VS-067或第三家族完整完成状态。见 docs/tasks/evidence/TASK-SLICE-214C3/handoff.md。

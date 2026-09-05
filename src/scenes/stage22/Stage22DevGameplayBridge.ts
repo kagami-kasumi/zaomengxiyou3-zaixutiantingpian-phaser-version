@@ -1,3 +1,4 @@
+import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 // boundary: DEV-only Stage 2-2 bridge submits input/environment/fire hits to HeroPartyRuntime;
 // it keeps true fire-pixel sampling, camera, and disposable QA feedback only.
 import Phaser from 'phaser';
@@ -21,6 +22,8 @@ import {
   stage22MovementPlatforms,
 } from '../../systems/Stage22TraversalSystem';
 import { createHeroPartyRuntime } from '../HeroPartyRuntimeBridge';
+
+const petGroundEnvironment = getPetGroundEnvironment(22);
 
 export type Stage22DevGameplayHandle = Readonly<{
   hazards: readonly Stage22FireHazardModel[];
@@ -63,6 +66,7 @@ export function createStage22DevGameplay(
         timeMs: scene.time.now,
         deltaMs,
         environmentFor: () => ({
+          petGroundEnvironment,
           platforms: stage22MovementPlatforms,
           bounds: { left: STAGE22_TRAVEL_LEFT, right: STAGE22_TRAVEL_RIGHT },
         }),

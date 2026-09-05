@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "wallCount": 43,
+  "displayObjectCount": 134,
+  "independentInputs": [
+    "SWF binary recursive RECT/MATRIX and marker registration",
+    "FFDec SVG direct wall matrices and dimension envelopes (not pixel equality)",
+    "restored AS3"
+  ],
+  "mutations": [
+    {
+      "name": "missing-side-wall",
+      "rejected": true
+    },
+    {
+      "name": "wrong-bottom",
+      "rejected": true
+    },
+    {
+      "name": "missing-inner-matrix",
+      "rejected": true
+    },
+    {
+      "name": "through-class-collapse",
+      "rejected": true
+    },
+    {
+      "name": "foot-as-root",
+      "rejected": true
+    },
+    {
+      "name": "wrong-wall-order",
+      "rejected": true
+    },
+    {
+      "name": "slope-mislabel",
+      "rejected": true
+    }
+  ],
+  "manifestSha256": "c13aad6e462ca64128f538bcfb4b44f7709fbf25f824e104f7c2bfee4051e1e8"
+}

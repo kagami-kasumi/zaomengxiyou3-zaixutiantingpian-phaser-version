@@ -1,0 +1,200 @@
+{
+  "status": "source-checked",
+  "sourceMain": {
+    "path": "local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf",
+    "sha256": "f8e6f937350d4c6121119119bbebf2b6744ba1422b9fb238764849123d62f734"
+  },
+  "rootInitializations": [
+    {
+      "level": 11,
+      "source": "local-resources/regima/source/restored-swfs/assets/levels/level11.swf",
+      "sha256": "fcf7f7fc36b4bbaebfee645a31bd631d96b53ab0db9f3b1c243ce419e8533ad5",
+      "script": "local-resources/regima/task-outputs/task-settings-217/source-audit/level11/scripts/export/gameSence/sl11.as",
+      "declaredTypes": [],
+      "assignedProperties": [],
+      "dynamicTokens": [],
+      "scriptSha256": "c7f771d6d7df8fda884b5e5cb836fa9d9ccc3d8116d9803916cdc513bac5cf55"
+    },
+    {
+      "level": 12,
+      "source": "local-resources/regima/source/restored-swfs/assets/levels/level12.swf",
+      "sha256": "37472c1bc37f71e4e6c2b01a923b11eb476c7d31d840999c729c313154fb0f68",
+      "script": "local-resources/regima/task-outputs/task-settings-217/source-audit/level12/scripts/export/gameSence/sl12.as",
+      "declaredTypes": [
+        "MonsterAppearPoint",
+        "MovieClip",
+        "StopPoint"
+      ],
+      "assignedProperties": [
+        "betweenRandL",
+        "delay",
+        "enemyType",
+        "idx",
+        "interval",
+        "isBoss",
+        "isRandom",
+        "stopPointIdx",
+        "totalNum"
+      ],
+      "dynamicTokens": [],
+      "scriptSha256": "13ffb5b125a8dc778c16577f5c21cab283c1765c5061dedc690b4cd040c382de"
+    },
+    {
+      "level": 13,
+      "source": "local-resources/regima/source/restored-swfs/assets/levels/level13.swf",
+      "sha256": "e2bb5b8c22c1e9656a4addba6f59cd59a1d515a045b5d3fd73eb04a155d38ee6",
+      "script": "local-resources/regima/task-outputs/task-settings-217/source-audit/level13/scripts/export/gameSence/sl13.as",
+      "declaredTypes": [
+        "MonsterAppearPoint",
+        "StopPoint"
+      ],
+      "assignedProperties": [
+        "betweenRandL",
+        "delay",
+        "enemyType",
+        "idx",
+        "interval",
+        "isBoss",
+        "isRandom",
+        "stopPointIdx",
+        "totalNum"
+      ],
+      "dynamicTokens": [],
+      "scriptSha256": "f6f0c5f86ca9abc2fa95f176b2b4dbe59aac14772695cab99f40e7d94baf0d6d"
+    },
+    {
+      "level": 21,
+      "source": "local-resources/regima/source/restored-swfs/assets/levels/level21.swf",
+      "sha256": "acaff62e2611e6b1b4b5825a6fabd5cbc22cace0bb5a08b686d50081ba7eacb9",
+      "script": "local-resources/regima/task-outputs/task-settings-217/source-audit/level21/scripts/export/gameSence/sl21.as",
+      "declaredTypes": [
+        "MonsterAppearPoint",
+        "StopPoint"
+      ],
+      "assignedProperties": [
+        "betweenRandL",
+        "delay",
+        "enemyType",
+        "idx",
+        "interval",
+        "isBoss",
+        "isRandom",
+        "stopPointIdx",
+        "totalNum"
+      ],
+      "dynamicTokens": [],
+      "scriptSha256": "a806804812f24d605db591fbd31824a85fafc7bd946ea7efbdf29a4ff4660682"
+    },
+    {
+      "level": 22,
+      "source": "local-resources/regima/source/restored-swfs/assets/levels/level22.swf",
+      "sha256": "6f6ad1a9b380553be5065a1e81b327642cecb8d03ed4e01ceebb001a51988942",
+      "script": "local-resources/regima/task-outputs/task-settings-217/source-audit/level22/scripts/export/gameSence/sl22.as",
+      "declaredTypes": [
+        "MonsterAppearPoint",
+        "StopPoint"
+      ],
+      "assignedProperties": [
+        "betweenRandL",
+        "delay",
+        "enemyType",
+        "idx",
+        "interval",
+        "isBoss",
+        "isRandom",
+        "stopPointIdx",
+        "totalNum"
+      ],
+      "dynamicTokens": [],
+      "scriptSha256": "39910a9e2e64adc8d064a0442b137281df91369d6df993c526e3960441c1bb18"
+    }
+  ],
+  "sharedSources": [
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/base/BaseObject.as",
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/base/BasePet.as",
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/base/BaseHero.as",
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/base/Wall.as",
+      "sha256": "1c5e2e66d9a6534e5da295ec073dac94d3feef4b54b4c7a7eccf733084449358"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/base/BaseGameSence.as",
+      "sha256": "69d5b76e1d1c30a6362c81955853add338dc4b9df518b9699441e62bf485ec7f"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/World/PhysicsWorld.as",
+      "sha256": "371a5bd35d0e7a69e5648d60c8de61fc1d3555babb8e9323838a5698117cde49"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/export/ObsWall.as",
+      "sha256": "f73509275e76590a659909031e1b29eb5ecf7357fe66815ecd95e8c9bd77025b"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/export/ThroughWall.as",
+      "sha256": "1e2909bbf0f6ca6689b03f37618af661438eb7d76730a0d16c9fab8c2bc4d264"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/export/ThroughUpButDownWall.as",
+      "sha256": "86c3831c4f450c3427db7493e9011ae6ac25ea130c073a496e3e403533e0aeb5"
+    },
+    {
+      "path": "local-resources/regima/task-outputs/task-settings-217/shared-source/scripts/export/FallDownWhenStandingWall.as",
+      "sha256": "316dd4354173194359a3ef9c306918ee04db88fac34a7c49ae8c02a7eacc65e2"
+    }
+  ],
+  "ownerCollision": {
+    "characterId": 105,
+    "bounds": {
+      "left": -25.0,
+      "top": -50.0,
+      "width": 49.999542236328125,
+      "height": 99.9993896484375
+    },
+    "profileTruthId": "task-settings-207.pet-monkey-family",
+    "source": {
+      "id": "collision-owner",
+      "file": "local-resources/regima/source/restored-swfs/assets/StageCommon.swf",
+      "sha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9"
+    },
+    "existingExportBounds": {
+      "width": 49.95,
+      "height": 99.95
+    },
+    "distinction": "Binary affine geometry versus FFDec integer-twip export bounds; neither is a Flash runtime capture."
+  },
+  "ownerMapping": {
+    "spawnOffsetY": -100.0,
+    "warpOffsetY": -30.0,
+    "landingGap": 0.1,
+    "affineGroundRootOffsetY": -50.09969482421875,
+    "existingProfileGroundRootOffsetY": -50.075,
+    "modernVisualRootOffsetY": -50,
+    "sourceLandingFormula": "wall.top - 0.1 - colipse.height / 2",
+    "note": "Source landing formula, unrounded affine calculation, existing export-profile approximation and modern registration mapping are distinct."
+  },
+  "fixtures": [
+    {
+      "owner": "p1",
+      "floorTop": 500,
+      "originalLandedRootY": 449.9003051757812,
+      "petSpawnY": 349.9003051757812,
+      "petWarpY": 419.9003051757812
+    },
+    {
+      "owner": "p2",
+      "floorTop": 500,
+      "originalLandedRootY": 449.9003051757812,
+      "petSpawnY": 349.9003051757812,
+      "petWarpY": 419.9003051757812
+    }
+  ]
+}
