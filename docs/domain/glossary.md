@@ -50,6 +50,9 @@
 | 宠物消耗品 | `PetConsumable` | Item Effect / Type | Progression | 道具背包中可对当前出战宠物生效的普通道具效果，例如寿命丹、还魂丹、经验石 | `PetItem`, `CompanionConsumable`, `FamiliarItem` |
 | 宠物系统 | `PetSystem` | System | Combat / Progression | 管理宠物列表、单只出战、跟随实体运行状态和首批宠物 UI 数据 | `CompanionSystem`, `FamiliarSystem` |
 | 宠物战斗运行时 | `PetCombatRuntime` | Runtime Class / Strategy Context | Combat / Runtime | 单个出战宠物在战斗中的唯一生命周期 owner，统一同步、跟随、索敌、技能选择、效果推进、快照与销毁；种类/形态差异只经 `PetBehavior` 注入 | `CompanionRuntime`, `PetBattleSystem`, `PetController` |
+| 宠物战斗实体会话 | `PetCombatEntitySession` | Internal Runtime Session | Combat / Runtime | PetCombatRuntime内部复用的单实体步骤与临时会话；持有数值引用、目标/动作/阶段，不是第二顶层运行时或持久roster owner | — |
+| 宠物动作时钟 | `PetAnimationClock` | Runtime Clock | Combat / Presentation | EntitySession持有的逐hosttick倒计时游标；消费形态只读持帧定义并产生typed动画事件，不负责AI、伤害或View | — |
+| 宠物私有召唤句柄 | `PetCombatSummonHandle` | Value Object | Combat / Runtime | 由顶层Runtime分配的私有实体身份；Behavior经窄端口创建/释放，包含父实体与出战来源身份，不持有另一套AI/CD | — |
 | 宠物行为 | `PetBehavior` | Strategy Contract | Combat | 只表达某宠物种类/形态的技能选择、释放和持续效果差异，不拥有队伍存档、场景显示对象或公共跟随生命周期 | `PetAI`, `CompanionBehavior`, `PetStrategy` |
 | 宠物成长系统 | `PetGrowthSystem` | System | Progression | 负责宠物属性洗练、还童和形态进化等可测试成长规则；道具扣除仍由背包系统负责 | `PetTrainingSystem`, `PetEvolutionSystem` |
 | 基础对象 | `GameObjectModel` | Model | Runtime / Combat | 现代逻辑对象模型；不要直接照搬 AS3 `BaseObject` | `BaseObject`, `EntityBase` |

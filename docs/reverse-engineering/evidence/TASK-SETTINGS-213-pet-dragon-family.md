@@ -49,12 +49,12 @@
 
 | 形态 | `attackRange/rate` | 本体动作行（帧数；holds） | 普攻 emit | 可见对象 / 结果 |
 | --- | --- | --- | --- | --- |
-| dragon1 | `150 / 0.8` | wait+walk r0 (6；`2,2,2,3,2,4`)，hurt r1，dead r2 (4)，normal r3 (4)，fs r4 (5) | normal seq4 hold10，`x±30,y` | `PetDragon1Bullet1`；physics hit1；命中后治疗 |
-| dragon2 | `150 / 0.8` | wait r0，walk r1，hurt r2，dead r3 (5)，normal r4 (4)，fs r5 (5)，sdcc r6 (1) | normal seq4 hold10，`x±30,y` | `PetDragon2Bullet1`；physics hit1；命中后治疗 |
-| dragon3 | `150 / 0.8` | wait r0，walk r1，hurt r2，dead r3 (5)，normal r4 (6)，fs r5 (5)，sdcc r6，ltwj r7 (3) | normal seq3 hold7，`x±30,y` | `PetDragon3Bullet1`；physics hit1；命中后治疗 |
-| dragon4 | `150 / 0.8` | dragon3 行 + qlaoyi r8 (1×48)，link r9 (`2,40`) | normal seq3 hold7，`x±65,y-15` | 复用 `PetDragon3Bullet1`；命中伤害再乘 `hurtBaseEffectRate()` |
+| dragon1 | `150 / 0.7` | wait+walk r0 (6；`2,2,2,3,2,4`)，hurt r1，dead r2 (4)，normal r3 (4)，fs r4 (5) | normal seq4 hold10，`x±30,y` | `PetDragon1Bullet1`；physics hit1；命中后治疗 |
+| dragon2 | `150 / 0.7` | wait r0，walk r1，hurt r2，dead r3 (5)，normal r4 (4)，fs r5 (5)，sdcc r6 (1) | normal seq4 hold10，`x±30,y` | `PetDragon2Bullet1`；physics hit1；命中后治疗 |
+| dragon3 | `150 / 0.7` | wait r0，walk r1，hurt r2，dead r3 (5)，normal r4 (6)，fs r5 (5)，sdcc r6，ltwj r7 (3) | normal seq3 hold7，`x±30,y` | `PetDragon3Bullet1`；physics hit1；命中后治疗 |
+| dragon4 | `150 / 0.7` | dragon3 行 + qlaoyi r8 (1×48)，link r9 (`2,40`) | normal seq3 hold7，`x±65,y-15` | 复用 `PetDragon3Bullet1`；命中伤害再乘 `hurtBaseEffectRate()` |
 
-`BasePet.myIntelligence()` 的顺序是 skill1 → skill2 → skill3 → skill4 → 每秒普通攻击/跟随。范围内第一次随机 `<=0.8` 才攻击；失败后重新随机 `<0.3` 等待，否则追击。范围外始终追击。目标是 `gc.obbsiteArray` 中首个 `<=1200` 的活目标；死目标或距离 `>=1200` 在当前帧清空而不重选。无目标时每秒检查主人距离，`>640` 跟随，否则等待；距主人 `>=1000` 且非攻击/受击时根坐标瞬移到 `(owner.x, owner.y-30)`，没有 warp 动画行。
+`BasePet.myIntelligence()` 的顺序是 skill1 → skill2 → skill3 → skill4 → 每秒普通攻击/跟随。范围内第一次随机 `<=0.7` 才攻击；失败后重新随机 `<0.3` 等待，否则追击。范围外始终追击。目标是 `gc.obbsiteArray` 中首个 `<=1200` 的活目标；死目标或距离 `>=1200` 在当前帧清空而不重选。无目标时每秒检查主人距离，`>640` 跟随，否则等待；距主人 `>=1000` 且非攻击/受击时根坐标瞬移到 `(owner.x, owner.y-30)`，没有 warp 动画行。
 
 普通攻击、sdcc 和 ltwj 都在 `setRole()` 时快照宠物 attack id；目标侧 `beAttackIdArray` 去重。普通攻击和 sdcc 的每次命中回调治疗 `floor(SHp*0.018 + atk*0.18 + level*2)`；ltwj 的每个命中对象治疗 `floor(SHp*0.028 + atk*0.09 + level*2)`，均由 `cureHp` 封顶。
 
@@ -127,3 +127,7 @@ manifest `/p1rAcceptance/acceptanceMatrix` 对上述 44 个 contract id 逐项�
 - 允许的现代可见例外为空；仅可增加稳定 runtime/action/projectile/attack id 作为不可见追踪字段。
 - 345 张透明舞台基准来自恢复 SWF 选择性导出和 AS3 矩阵；它们是对象级原版基准，不是现代运行截图。214 仍须给出正式 P1/P2 并排/叠图与 console 零 warning/error。
 - 本 task 达到 G0-G4，可归档；青龙家族的玩家可见闭合必须等 `TASK-SLICE-214` 完成。
+
+## 2026-09-05 构造后攻击概率更正
+
+214C2 从恢复主包 `1_MainLoad__main1.swf` 的 BasePet 可执行 pcode 核实：attackRate 先连续写入九次 0.8，再写入五次 0.7；不能把字段初值当作构造结束值。BaseObject 与 dragon1..4 无直接覆盖。四形态 manifest 改为最终值 0.7；生成器由独立 pcode 提取常量写入顺序并拒绝分支/非字面量，旧 0.8 变异必须失败。证据见 `docs/tasks/evidence/TASK-SLICE-214C2/attack-rate-bytecode.json`，主包 SHA256 为 `f8e6f937350d4c6121119119bbebf2b6744ba1422b9fb238764849123d62f734`。此证据只证明上述常量赋值链，不代替完整原版战斗回放；未修改其他家族或视觉基准。

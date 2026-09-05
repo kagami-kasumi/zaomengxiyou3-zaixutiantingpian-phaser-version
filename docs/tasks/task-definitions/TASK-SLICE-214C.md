@@ -13,18 +13,18 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Split；由214C1/214C2连续承接）
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
 
 规模预算：
-- 主工作包：2（本项战斗链实现；同源消费者与验收）
+- 主工作包：0（Split父级合同，由214C1/214C2执行）
 - 预计上下文压缩：0
-- 独立验收批次：2
+- 独立验收批次：0
 
 拆分触发：
-- 若需要改变公共 pet 设计/存档 schema、新增逆向资料族、第三独立工作包或第二次 compact，停止新增实现并拆分同线承接项；不得削减父级合同。
+- 若需要重选公共 pet 设计模式/职责归属、改变存档 schema、新增逆向资料族、第三独立工作包或第二次 compact，停止新增实现并拆分同线承接项；不得削减父级合同。用户已授权既有职责内修复、速度换算与必要窄接口，不因触及公共文件而自动视为重设计。
 
 协作计划：
 - 模式：主 agent + subagent（有独立有界验证包时启用；否则串行）
@@ -62,3 +62,14 @@ UI 原生化合同：
 
 推荐后续任务：
 - `TASK-SLICE-214D`。
+
+执行记录（2026-09-05规模预检）：
+- compact次数0；只读子代理原版核对已归并，精确证据与裁决见 `docs/tasks/evidence/TASK-SLICE-214C/preflight.md`。
+- 公共步骤绑定唯一出战项，提取私有实体共用步骤及猴马回归构成第三工作包；按规模门禁标记Split。现有设计允许私有召唤物，不因原版new同类擅自改为每slot多个顶层Runtime。
+- 唯一Ready为 `TASK-SLICE-214C1`，随后 `TASK-SLICE-214C2` 完整关闭上文原合同/P1GC并归档本项，再进入214D；不执行215，不提高青龙复现状态。
+- 未改src、资源或原始提取；初始工作区干净；仅有本次任务拆分文档，未提交。无运行中服务。
+- 收尾检查：generate:harness、check:workflow（含15个harness自测、annotations、level architecture）、audit:problems、git diff --check均通过；check:structure退出0、9项既有warning。workflow保留既有PlayerSlot词汇warning；未运行P1GC/build/正式浏览器，因为本次没有实现。活跃PG只命中PG-004，集中记录于problem-audit.md，未满足长期归档条件。
+
+续行记录（2026-09-05）：
+- 自动goal续行已完成并归档214C1，实际公共Session/Context及私有句柄接缝、P1GS/10类mutation、猴马门禁/五关/全系统/build均通过。上方“未改src”只描述此前规模预检，不描述当前工作区。
+- 下一执行项为214C2（Ready），交接入口 `docs/tasks/evidence/TASK-SLICE-214C1/handoff.md`；本父任务仍Split、P1GC未通过，不得把接缝批次当成原214C玩法完成。代码和两轮任务文档均未提交。

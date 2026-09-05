@@ -1,172 +1,59 @@
-import type {
-  PetBehavior,
-  PetBehaviorAction,
-  PetBehaviorContext,
-  PetBehaviorDestroyReason,
-  PetBehaviorEvent,
-  PetCombatAnimationEvent,
-  PetCombatDamageEvent,
-} from './PetBehavior';
 import { PetBehaviorRegistry } from './PetBehaviorRegistry';
 import { PetCombatTargeting } from './PetCombatTargeting';
 import { createDefaultPetBehaviorRegistry } from './pet-behaviors/createDefaultPetBehaviorRegistry';
-import { chasePetRuntimeTarget, createPetRuntime, updatePetRuntime } from './PetRuntimeSystem';
-import { tickActivePetSkillState } from './PetSkillTickSystem';
-import { PetTuning } from './PetTuning';
-import { requestPetMonkeyBasicAttack } from './PetMonkeyCombatSystem';
-import { requestPetHorseBasicAttack } from './PetHorseCombatSystem';
-import type { ProjectileSystemModel } from './ProjectileSystem';
+import { PetCombatEntitySession, validatePetCombatFrame } from './PetCombatEntitySession';
 import type {
-  PetOwnerSnapshot,
-  PetRoster,
-  PetRuntimeModel,
-  PetSkillRandomSource,
-  PetSkillTarget,
-  PetState,
-} from './PetTypes';
+  PetCombatEntitySnapshot, PetCombatFrame, PetCombatReleaseReason, PetCombatRuntimeEvent,
+  PetCombatSnapshot, PetCombatSummonHandle, PetCombatSummonRequest,
+} from './PetCombatTypes';
+import type { PetOwnerSnapshot, PetState } from './PetTypes';
 
-export type PetCombatFrame = Readonly<{
-  roster: PetRoster;
-  owner: Readonly<PetOwnerSnapshot>;
-  targets: readonly PetSkillTarget[];
-  projectiles?: ProjectileSystemModel;
-  random?: PetSkillRandomSource;
-  damageEvents?: readonly PetCombatDamageEvent[];
-  animationEvents?: readonly PetCombatAnimationEvent[];
-  deltaMs: number;
-}>;
+export type {
+  PetCombatFrame, PetCombatRuntimeEvent, PetCombatSessionPhase, PetCombatSnapshot,
+} from './PetCombatTypes';
 
-export type PetCombatSessionPhase = 'alive' | 'dead-playing';
-
-export type PetCombatRuntimeEvent = Readonly<{
-  sequence: number;
-  type: 'activated' | 'deactivated' | 'action' | 'behavior' | 'destroyed';
-  petId?: string;
-  reason?: PetBehaviorDestroyReason;
-  action?: PetBehaviorAction;
-  behaviorEvent?: PetBehaviorEvent;
-  actionToken?: number;
-}>;
-
-export type PetCombatSnapshot = Readonly<{
-  destroyed: boolean;
-  petId?: string;
-  species?: string;
-  form?: number;
-  runtime?: Readonly<PetRuntimeModel>;
-  target?: Readonly<PetSkillTarget>;
-  phase?: PetCombatSessionPhase;
-  actionToken?: number;
-}>;
+let nextRuntimeId = 1;
 
 export class PetCombatRuntime {
-  private readonly targeting: PetCombatTargeting;
-  private behavior: PetBehavior | undefined;
-  private pet: PetState | undefined;
-  private runtime: PetRuntimeModel | undefined;
-  private target: Readonly<PetSkillTarget> | undefined;
-  private phase: PetCombatSessionPhase | undefined;
-  private actionToken = 0;
-  private completedDeadRuntimeKey: string | undefined;
+  private readonly instanceId = nextRuntimeId++;
+  private nextEntityId = 1;
+  private active: PetCombatEntitySession | undefined;
+  private readonly entities = new Map<string, PetCombatEntitySession>();
+  private completedDeadIdentity: string | undefined;
   private publishedEvents: PetCombatRuntimeEvent[] = [];
   private nextEventSequence = 1;
   private destroyed = false;
 
   constructor(
     private readonly registry: PetBehaviorRegistry = createDefaultPetBehaviorRegistry(),
-    targeting: PetCombatTargeting = new PetCombatTargeting(),
-  ) {
-    this.targeting = targeting;
-  }
+    private readonly targeting: PetCombatTargeting = new PetCombatTargeting(),
+  ) {}
 
   update(frame: PetCombatFrame): PetCombatSnapshot {
     if (this.destroyed) return this.snapshot();
-    this.validateFrame(frame);
+    validatePetCombatFrame(frame);
     this.publishedEvents = [];
-
     const activePet = frame.roster.pets.find((pet) => (
-      pet.isActive
-      && pet.lifetime > 0
-      && !(pet.hp <= 0 && this.completedDeadRuntimeKey === `${pet.id}:${pet.species}:${pet.form}`)
+      pet.isActive && pet.lifetime > 0
+      && !(pet.hp <= 0 && this.completedDeadIdentity === `${pet.id}:${pet.species}:${pet.form}`)
     ));
     this.synchronizePet(activePet, frame.owner);
-    if (!this.pet || !this.runtime || !this.behavior) return this.snapshot();
-
-    const targets = this.targeting.livingTargets(frame.targets);
-    this.consumeDamageEvents(frame, targets);
-    if (!this.pet || !this.runtime || !this.behavior) return this.snapshot();
-    this.consumeAnimationEvents(frame, targets);
-    if (!this.pet || !this.runtime || !this.behavior) return this.snapshot();
-
-    if (this.pet.hp <= 0 && this.phase === 'alive') this.beginDeath();
-    if (this.phase === 'dead-playing') return this.snapshot();
-
-    const targetWasCleared = this.validateStickyTarget(targets);
-    if (!this.target && !targetWasCleared) {
-      this.target = this.targeting.orderedFirstTarget(
-        this.runtime,
-        targets,
-        PetTuning.searchRange,
-      );
-    }
-
-    let context = this.createBehaviorContext(frame, targets);
-    const attackRange = this.behavior.basicAttackRange?.(context);
-    if (attackRange !== undefined && (!Number.isFinite(attackRange) || attackRange < 0)) {
-      throw new Error(`Pet basic attack range must be finite and non-negative: ${attackRange}`);
-    }
-    const shouldChaseTarget = this.target !== undefined
-      && attackRange !== undefined
-      && this.targeting.distance(this.runtime, this.target) > attackRange;
-    if (this.behavior.canMove(context)) {
-      if (shouldChaseTarget && this.target && attackRange !== undefined) {
-        chasePetRuntimeTarget(this.runtime, this.pet, this.target, attackRange, frame.deltaMs);
-      } else if (this.target && attackRange !== undefined) {
-        this.runtime.facingX = this.targeting.facing(this.runtime, this.target, this.runtime.facingX);
-        this.runtime.state = 'idle';
-      } else {
-        updatePetRuntime(this.runtime, this.pet, frame.owner, frame.deltaMs);
-      }
-      context = this.createBehaviorContext(frame, targets);
-    }
-
-    let action = this.behavior.selectAction(context);
-    if (!action) {
-      if (this.target && attackRange !== undefined) {
-        if (this.targeting.distance(this.runtime, this.target) > attackRange) {
-          action = undefined;
-        } else {
-          action = this.behavior.basicAttack(context);
-        }
-      } else {
-        action = this.behavior.basicAttack(context);
-      }
-    }
-    if (action) {
-      this.actionToken += 1;
-      this.behavior.executeAction(action, this.createBehaviorContext(frame, targets));
-      this.publish({
-        type: 'action',
-        petId: this.pet.id,
-        action: { ...action },
-        actionToken: this.actionToken,
-      });
-    }
-    this.behavior.updateEffects(context);
-    tickActivePetSkillState(this.pet, frame.deltaMs);
+    if (!this.active) return this.snapshot();
+    this.stepEntity(this.active, frame);
     return this.snapshot();
   }
 
   snapshot(): PetCombatSnapshot {
+    const active = this.active?.snapshot();
     return Object.freeze({
       destroyed: this.destroyed,
-      petId: this.pet?.id,
-      species: this.pet?.species,
-      form: this.pet?.form,
-      runtime: this.runtime ? Object.freeze({ ...this.runtime }) : undefined,
-      target: this.target ? Object.freeze({ ...this.target }) : undefined,
-      phase: this.phase,
-      actionToken: this.pet ? this.actionToken : undefined,
+      petId: active?.petId, species: active?.species, form: active?.form,
+      runtime: active?.runtime, target: active?.target, phase: active?.phase,
+      actionToken: active?.actionToken,
+      animation: active?.animation,
+      summons: Object.freeze([...this.entities.values()]
+        .filter((entity) => entity.parentRuntimeKey && !entity.released)
+        .map((entity) => entity.snapshot())),
     });
   }
 
@@ -177,221 +64,110 @@ export class PetCombatRuntime {
   destroy(): void {
     if (this.destroyed) return;
     this.publishedEvents = [];
-    this.releaseBehavior('runtime-destroyed');
+    if (this.active) this.releaseEntity(this.active, 'runtime-destroyed');
     this.destroyed = true;
     this.publish({ type: 'destroyed' });
   }
 
-  private synchronizePet(
-    activePet: PetState | undefined,
-    owner: Readonly<PetOwnerSnapshot>,
-  ): void {
-    if (!activePet) {
-      this.releaseBehavior('inactive');
+  private synchronizePet(pet: PetState | undefined, owner: Readonly<PetOwnerSnapshot>): void {
+    if (!pet) {
+      if (this.active) this.releaseEntity(this.active, 'inactive');
       return;
     }
-
-    const runtimeKey = `${activePet.id}:${activePet.species}:${activePet.form}`;
-    const changed = !this.pet || !this.runtime || this.runtime.runtimeKey !== runtimeKey;
-    if (!changed) {
-      this.pet = activePet;
+    const identity = `${pet.id}:${pet.species}:${pet.form}`;
+    if (this.active?.identity === identity) {
+      this.active.pet = pet;
       return;
     }
-
-    const nextBehavior = this.registry.resolve(activePet.species, activePet.form);
-    this.releaseBehavior(this.pet ? 'replaced' : 'inactive');
-    this.pet = activePet;
-    this.runtime = createPetRuntime(activePet, owner);
-    this.behavior = nextBehavior;
-    this.phase = 'alive';
-    this.actionToken = 0;
-    this.publish({ type: 'activated', petId: activePet.id });
-    this.behavior.enter(this.createBehaviorContext({
-      roster: { pets: [activePet], selectedIndex: 0, message: '' },
-      owner,
-      targets: [],
-      deltaMs: 0,
-    }, []));
+    // Resolve before releasing the current session: failed selection leaves it intact.
+    const behavior = this.registry.resolve(pet.species, pet.form);
+    if (this.active) this.releaseEntity(this.active, 'replaced');
+    const key = `${identity}:session:${this.instanceId}:${this.nextEntityId++}`;
+    const entity = new PetCombatEntitySession(
+      pet, key, pet.id, undefined, behavior, this.targeting, this.entityPorts(key), owner,
+    );
+    this.active = entity;
+    this.entities.set(key, entity);
+    entity.enter(owner);
   }
 
-  private releaseBehavior(reason: PetBehaviorDestroyReason): void {
-    const petId = this.pet?.id;
-    if (this.behavior) this.behavior.destroy(reason);
-    if (petId) this.publish({ type: 'deactivated', petId, reason });
-    this.behavior = undefined;
-    this.pet = undefined;
-    this.runtime = undefined;
-    this.target = undefined;
-    this.phase = undefined;
-    this.actionToken = 0;
+  private entityPorts(key: string) {
+    return {
+      publish: (event: Omit<PetCombatRuntimeEvent, 'sequence'>) => this.publish(event),
+      stepChildren: (frame: PetCombatFrame, eventsOnly: boolean) => {
+        for (const child of this.childrenOf(key)) this.stepEntity(child, frame, eventsOnly);
+      },
+      releaseChildren: (reason: PetCombatReleaseReason) => {
+        for (const child of this.childrenOf(key)) this.releaseEntity(child, reason);
+      },
+      spawnSummon: (request: PetCombatSummonRequest, owner: Readonly<PetOwnerSnapshot>) => this.spawnSummon(key, request, owner),
+      releaseSummon: (handle: PetCombatSummonHandle, reason: PetCombatReleaseReason) => {
+        const child = this.entities.get(handle.runtimeKey);
+        if (child?.parentRuntimeKey === key && handle.parentRuntimeKey === key
+          && child.pet.id === handle.petId && child.sourcePetId === handle.sourcePetId) {
+          this.releaseEntity(child, reason);
+        }
+      },
+      summonSnapshots: (): readonly PetCombatEntitySnapshot[] => Object.freeze(
+        this.childrenOf(key).map((entity) => entity.snapshot()),
+      ),
+    };
   }
 
-  private consumeDamageEvents(
-    frame: PetCombatFrame,
-    targets: readonly Readonly<PetSkillTarget>[],
-  ): void {
-    if (!this.pet || !this.runtime || !this.behavior || this.phase !== 'alive') return;
-    for (const event of frame.damageEvents ?? []) {
-      if (event.runtimeKey !== this.runtime.runtimeKey) continue;
-      this.pet.hp = Math.max(0, this.pet.hp - event.amount);
-      const context = this.createBehaviorContext(frame, targets);
-      this.behavior.onDamaged(event, context);
-      if (this.pet.hp <= 0) {
-        this.beginDeath();
-        return;
-      }
+  private spawnSummon(
+    parentKey: string, request: PetCombatSummonRequest, owner: Readonly<PetOwnerSnapshot>,
+  ): PetCombatSummonHandle {
+    const parent = this.entities.get(parentKey);
+    if (!parent || parent.released || parent.phase !== 'alive' || this.destroyed) {
+      throw new Error('Cannot summon from a released pet combat session.');
     }
-  }
-
-  private consumeAnimationEvents(
-    frame: PetCombatFrame,
-    targets: readonly Readonly<PetSkillTarget>[],
-  ): void {
-    if (!this.runtime || !this.behavior) return;
-    for (const event of frame.animationEvents ?? []) {
-      if (event.runtimeKey !== this.runtime.runtimeKey || event.actionToken !== this.actionToken) continue;
-      const context = this.createBehaviorContext(frame, targets);
-      this.behavior.onAnimationEvent(event, context);
-      if (this.phase === 'dead-playing' && event.eventName === 'dead-complete') {
-        this.completedDeadRuntimeKey = this.runtime.runtimeKey;
-        this.releaseBehavior('dead-complete');
-        return;
-      }
+    if (!Number.isFinite(request.x) || !Number.isFinite(request.y)
+      || ![-1, 1].includes(request.facingX)) throw new Error('Pet summon position must be finite.');
+    const behavior = this.registry.resolve(request.pet.species, request.pet.form);
+    const key = `${parentKey}:summon:${this.nextEntityId++}`;
+    const pet: PetState = { ...structuredClone(request.pet), id: key, isActive: true };
+    const child = new PetCombatEntitySession(
+      pet, key, parent.sourcePetId, parentKey, behavior, this.targeting,
+      this.entityPorts(key), owner, request,
+    );
+    this.entities.set(key, child);
+    try {
+      child.enter(owner);
+    } catch (error) {
+      this.releaseEntity(child, 'dismissed');
+      throw error;
     }
-  }
-
-  private beginDeath(): void {
-    if (!this.pet || this.phase !== 'alive') return;
-    this.phase = 'dead-playing';
-    this.target = undefined;
-    this.actionToken += 1;
-    this.publish({
-      type: 'action',
-      petId: this.pet.id,
-      action: { type: 'dead' },
-      actionToken: this.actionToken,
-    });
-  }
-
-  private validateStickyTarget(targets: readonly Readonly<PetSkillTarget>[]): boolean {
-    if (!this.target || !this.runtime) return false;
-    const current = targets.find(({ id }) => id === this.target?.id);
-    if (current && this.targeting.distance(this.runtime, current) < PetTuning.searchRange) {
-      this.target = current;
-      return false;
-    }
-    this.target = undefined;
-    return true;
-  }
-
-  private createBehaviorContext(
-    frame: PetCombatFrame,
-    targets: readonly Readonly<PetSkillTarget>[],
-  ): PetBehaviorContext {
-    if (!this.pet || !this.runtime) throw new Error('Pet behavior context requires an active pet.');
-    const petId = this.pet.id;
     return Object.freeze({
-      pet: this.pet,
-      owner: Object.freeze({ ...frame.owner }),
-      runtime: Object.freeze({ ...this.runtime }),
-      targets: Object.freeze([...targets]),
-      target: this.target,
-      actionToken: this.actionToken,
-      deltaMs: frame.deltaMs,
-      random: frame.random ?? Math.random,
-      castSkill: (request) => {
-        if (!frame.projectiles) {
-          throw new Error(`Pet behavior ${this.pet?.species}:${this.pet?.form} requires projectiles.`);
-        }
-        if (!this.runtime) throw new Error('Pet behavior skill cast requires an active runtime.');
-        return request({
-          roster: frame.roster,
-          runtime: this.runtime,
-          targets,
-          projectiles: frame.projectiles,
-          random: frame.random,
-          actionToken: this.actionToken,
-        });
-      },
-      castSkillAt: (request, target) => {
-        if (!frame.projectiles) {
-          throw new Error(`Pet behavior ${this.pet?.species}:${this.pet?.form} requires projectiles.`);
-        }
-        if (!this.runtime) throw new Error('Pet behavior skill cast requires an active runtime.');
-        return request({
-          roster: frame.roster,
-          runtime: this.runtime,
-          targets: [target],
-          projectiles: frame.projectiles,
-          random: frame.random,
-          actionToken: this.actionToken,
-        });
-      },
-      castBasicAttack: () => {
-        if (!frame.projectiles) {
-          throw new Error(`Pet behavior ${this.pet?.species}:${this.pet?.form} requires projectiles.`);
-        }
-        if (!this.pet || !this.runtime || !this.target) {
-          throw new Error('Pet behavior basic attack requires an active runtime and target.');
-        }
-        const request = this.pet.species === 'horse'
-          ? requestPetHorseBasicAttack
-          : requestPetMonkeyBasicAttack;
-        return request({
-          roster: frame.roster,
-          runtime: this.runtime,
-          target: this.target,
-          actionToken: this.actionToken,
-          projectiles: frame.projectiles,
-          random: frame.random,
-        });
-      },
-      relocate: (x, y) => {
-        if (!this.runtime || !Number.isFinite(x) || !Number.isFinite(y)) {
-          throw new Error('Pet behavior relocation requires a finite active runtime point.');
-        }
-        this.runtime.x = x;
-        this.runtime.y = y;
-      },
-      emit: (behaviorEvent: PetBehaviorEvent) => {
-        this.publish({
-          type: 'behavior',
-          petId,
-          behaviorEvent: Object.freeze({ ...behaviorEvent }),
-        });
-      },
+      runtimeKey: key, petId: pet.id, parentRuntimeKey: parentKey, sourcePetId: parent.sourcePetId,
     });
+  }
+
+  private childrenOf(key: string): PetCombatEntitySession[] {
+    return [...this.entities.values()].filter((entity) => (
+      entity.parentRuntimeKey === key && !entity.released
+    ));
+  }
+
+  private stepEntity(entity: PetCombatEntitySession, frame: PetCombatFrame, eventsOnly = false): void {
+    if (entity.released || !this.entities.has(entity.runtimeKey)) return;
+    entity.update(frame, eventsOnly);
+    if (entity.released) this.forgetEntity(entity);
+  }
+
+  private releaseEntity(entity: PetCombatEntitySession, reason: PetCombatReleaseReason): void {
+    entity.release(reason);
+    this.forgetEntity(entity);
+  }
+
+  private forgetEntity(entity: PetCombatEntitySession): void {
+    this.entities.delete(entity.runtimeKey);
+    if (this.active === entity) {
+      if (entity.releaseReason === 'dead-complete') this.completedDeadIdentity = entity.identity;
+      this.active = undefined;
+    }
   }
 
   private publish(event: Omit<PetCombatRuntimeEvent, 'sequence'>): void {
-    this.publishedEvents.push(Object.freeze({
-      ...event,
-      sequence: this.nextEventSequence,
-    }));
-    this.nextEventSequence += 1;
-  }
-
-  private validateFrame(frame: PetCombatFrame): void {
-    if (!Number.isFinite(frame.deltaMs) || frame.deltaMs < 0) {
-      throw new Error(`Pet combat deltaMs must be finite and non-negative: ${frame.deltaMs}`);
-    }
-    if (!Number.isFinite(frame.owner.x) || !Number.isFinite(frame.owner.y)) {
-      throw new Error('Pet combat owner coordinates must be finite.');
-    }
-    for (const target of frame.targets) {
-      if (!Number.isFinite(target.x) || !Number.isFinite(target.y)) {
-        throw new Error(`Pet combat target coordinates must be finite: ${target.id}`);
-      }
-    }
-    for (const event of frame.damageEvents ?? []) {
-      if (!Number.isFinite(event.amount) || event.amount < 0) {
-        throw new Error(`Pet combat damage must be finite and non-negative: ${event.amount}`);
-      }
-    }
-    for (const event of frame.animationEvents ?? []) {
-      if (!Number.isSafeInteger(event.actionToken) || event.actionToken < 0) {
-        throw new Error(`Pet combat action token must be a non-negative integer: ${event.actionToken}`);
-      }
-    }
+    this.publishedEvents.push(Object.freeze({ ...event, sequence: this.nextEventSequence++ }));
   }
 }

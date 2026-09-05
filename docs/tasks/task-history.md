@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-214C1 | 青龙私有实体公共接缝 | 在单顶层Runtime内复用主/子实体步骤，闭合来源/数值/事件/清理隔离并保持猴马回归 | M-034、M-035、M-042、VS-067 | P1GS、10类实现mutation、P1/P1B/P1R/P1H及正式五关/全系统/build通过；214C2接缝交接 |
 | TASK-SLICE-214A | 青龙完整资源准备 | 交付213真值驱动的本体/技能资源与逐状态对账 | M-034、M-035、M-042、VS-067 | 153文件、345零差异状态、627host ticks、唯一bundle owner与214B交接 |
 | TASK-SETTINGS-213A | 青龙时钟/基准补证 | 关闭完整本体持帧缺口、倒计时误读与奥义trigger基准错位 | M-034、M-035、M-042、VS-067 | 31动作、234逐cell/345基准、15类变异、独立生成前验收，恢复214A |
 | TASK-SLICE-208A | 猴系行为语义整改 | 闭合 frozen attackRange 外追击、入围攻击、verified hit、pet-source damage 与 cleanup 的独立黑盒链 | M-032、M-034、M-035、M-042、M-044、VS-067 | 公共追击/范围 owner、target/action token projectile、八条 P1/P2 trace、三类 mutation-kill、P1R=0、Skill/MO-003 修订 |
@@ -299,6 +300,79 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-214C1
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+逆向子类型：
+- 不适用
+
+逆向方案：
+- 不适用
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本项Done，下一214C2）
+
+目标机制/切片：
+- `M-034`、`M-035`、`M-042`、`VS-067`
+
+规模预算：
+- 主工作包：1（公共实体接缝提取及既有消费者回归）
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 需要改变pet冻结设计角色、存档schema、其他家族规则或新增原版资料族时停止扩展并记录具体冲突；本项不得附带青龙完整技能/视图实施。
+
+协作计划：
+- 模式：主 agent + subagent（存在有界只读回归核对包时启用）
+- 并行工作包：子代理核对提取前后公共调用顺序与已有测试，主agent实现
+- 写入 owner：主 agent
+- 归并检查点：公共接缝完成后、门禁前
+- 方法观测：`MO-003`，只记录第三家族准备差异，不计成功样本
+
+输入资料：
+- `docs/tasks/evidence/TASK-SLICE-214C/preflight.md` 的源定位、规模裁决和“局部门禁不等于自动AI”的边界。
+- `docs/architecture/system-designs/pet.md`（实施中）；`PetCombatRuntime.ts`、`PetBehavior.ts`、`PetCombatTargeting.ts`、`PetRuntimeSystem.ts` 和猴马Behavior/正式消费者。
+- 213 verified manifest的sharedRuntime与dragon1 clone合同；214A资源查询只作后续输入，不派生资源。
+
+输出产物：
+- 每slot仍仅一个顶层PetCombatRuntime；活动宠物与其私有实体复用同一公共更新步骤，目标/动作token/事件路由/活动CD/释放不复制到Behavior。
+- Behavior仅持形态私有句柄并经typed窄端口请求创建/清理；临时实体数值由私有会话持有引用，不写入持久roster或存档，不新增第二顶层owner。
+- 可供C2消费的子实体身份、来源、快照、事件和清理接缝；不得把实际命中治疗变成无条件动画回调。
+- `docs/tasks/evidence/TASK-SLICE-214C1/handoff.md`：实际API/源码映射、回归输出及C2剩余工作。
+
+完成定义：
+- 既有宠物更新经同一公共实现，私有实体接缝有可执行隔离/清理合同，猴马原有正式消费者回归通过；只证明基础接缝，不证明青龙战斗可玩。
+
+验收标准：
+- 新增 `npm run check:system-design -- pet P1GS`：同一slot主实体/至少两子实体的目标、token、事件和CD隔离；旧key事件拒绝；子实体清理不释放原身/更改roster；原身replacement/rest/destroy级联且幂等；P1/P2隔离。
+- 负向断言拒绝Behavior/Scene复制公共跟随、target选择、CD或死亡步骤；如提取导致原P1/P1B静态定位迁移，同步定位真实公共实现，保留原语义断言，禁止删弱门禁。
+- `pet P1/P1B/P1R/P1H`、既有正式宠物/旅程回归、build、structure、annotations、workflow、problem audit和diff check通过。
+- 只重构系统接缝，不改变可见输出；若实际修改显示行为，须补相应原版/现代视觉验收后才能完成。
+
+禁止范围：
+- 不重设计pet，不将Behavior变成第二运行时，不为每个clone创建第二顶层PetCombatRuntime，不修改持久schema或猴马数值，不实现dragon2..4或执行215。
+
+状态更新：
+- 归档本项，更新设计本批结果/覆盖/机制/切片；激活 `TASK-SLICE-214C2`。P1GC/P1G保持未完成，不归档214C/214B/214。
+
+推荐后续任务：
+- `TASK-SLICE-214C2`。
+
+完成日期：2026-09-05。
+
+完成定义与验收结果：
+- 公共EntitySession/Context及typed私有句柄已接入唯一顶层Runtime，完成上列隔离/cleanup与真实旧普攻端口合同；不包含青龙正式玩法。
+- P1GS、P1/P1B/P1R/P1H、10类实现mutation、正式五关/全系统/build/LSP通过；structure保留9项既有warning，build保留大chunk警告。workflow/annotations/problem audit/diff check通过。
+- 交接：`docs/tasks/evidence/TASK-SLICE-214C1/handoff.md`与mutation-results.json；子代理3项问题已修复并只读复核。
+- 功能线仍Active，214C2为唯一Ready；214C/P1GC与214B/214/P1G未完成。
+
 
 ### TASK-SLICE-190C
 

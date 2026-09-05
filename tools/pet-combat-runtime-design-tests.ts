@@ -20,24 +20,26 @@ const owner = { x: 200, y: 300, facingX: 1 as const };
 
 function testEvidenceCorrectedDesignSurface(): void {
   const runtimeSource = readFileSync('src/systems/PetCombatRuntime.ts', 'utf8');
+  const sessionSource = readFileSync('src/systems/PetCombatEntitySession.ts', 'utf8');
   const behaviorSource = readFileSync('src/systems/PetBehavior.ts', 'utf8');
   const targetingSource = readFileSync('src/systems/PetCombatTargeting.ts', 'utf8');
   const tuningSource = readFileSync('src/systems/PetTuning.ts', 'utf8');
   const violations: string[] = [];
 
-  if (/nearestTarget\s*\(/u.test(runtimeSource) || /nearestTarget\s*\(/u.test(targetingSource)) {
+  if ([runtimeSource, sessionSource, targetingSource].some((source) => /nearestTarget\s*\(/u.test(source))) {
     violations.push('targeting must be sticky ordered-first within the original 1200 range, not nearest');
   }
   if (!/orderedFirstTarget\s*\(/u.test(targetingSource) || !/searchRange\s*:\s*1200\b/u.test(tuningSource)) {
     violations.push('orderedFirstTarget and the 1200 searchRange contract are missing');
   }
   if (/updatePetSkillState\s*\(\s*frame\.roster/u.test(runtimeSource)
-    || !/selectAction\s*\([\s\S]*tickActivePetSkillState\s*\(/u.test(runtimeSource)) {
+    || /updatePetSkillState\s*\(/u.test(sessionSource)
+    || !/selectAction\s*\([\s\S]*tickActivePetSkillState\s*\(/u.test(sessionSource)) {
     violations.push('only the active session may tick cooldowns, after this frame action selection');
   }
   if (/pet\.isActive\s*&&[\s\S]{0,100}pet\.hp\s*>\s*0/u.test(runtimeSource)
-    || !/['"]dead-playing['"]/u.test(runtimeSource)
-    || !/animation(?:Event|Events|Finished)/u.test(runtimeSource)) {
+    || !/['"]dead-playing['"]/u.test(sessionSource)
+    || !/animation(?:Event|Events|Finished)/u.test(sessionSource)) {
     violations.push('HP zero must retain a dead-playing session until an animation completion event');
   }
   for (const hook of ['canMove', 'basicAttack', 'onDamaged', 'onAnimationEvent']) {

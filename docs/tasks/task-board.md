@@ -4,7 +4,7 @@
 
 ## 当前推荐
 
-`TASK-SLICE-214C` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SLICE-214C.md)。
+`TASK-SLICE-214C3` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SLICE-214C3.md)。
 
 本节由 `npm run generate:harness` 从下方状态表生成；历史事件见工作流治理日志。
 
@@ -15,7 +15,11 @@
 | TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 猴系 P1R=0、马系 P1H=0；其余七族与旧入口仍待逐族闭合 | 后续按当前线覆盖缺口生成单家族 task | [定义](task-definitions/TASK-ARCH-204.md) |
 | TASK-SLICE-214 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 青龙完整家族父任务 | 由 214A 资源准备与 214B 完整正式实现连续闭合全部 44 项合同 | M-032、M-034、M-035、M-042、M-044、VS-067 | 214B 通过 P1G 后归档父任务 | TASK-SLICE-214B | [定义](task-definitions/TASK-SLICE-214.md) |
 | TASK-SLICE-214B | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 青龙完整家族正式实现 | 消费 214A 资源与 213 全部合同，闭合真分身/技能/伤害治疗与正式 P1/P2/TestScene | M-032、M-034、M-035、M-042、M-044、VS-067 | 全 44 项合同、pet P1G、source trace 与正式 940×590 验收 | TASK-SLICE-214C | [定义](task-definitions/TASK-SLICE-214B.md) |
-| TASK-SLICE-214C | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 初阶青龙完整战斗链 | dragon1 的公共 Runtime 注册、原版动作时钟、范围外追击/正常攻击、真实 fs 分身及命中/到期治疗；正式与 TestScene 同源显示及 P1/P2 生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | dragon1.normal、dragon1.fs、dragon1.fs-expiry-heal 和适用公共合同；分身须有真实攻击/伤害/治疗与销毁证据 | TASK-SLICE-214D | [定义](task-definitions/TASK-SLICE-214C.md) |
+| TASK-SLICE-214C | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 初阶青龙完整战斗链 | dragon1 的公共 Runtime 注册、原版动作时钟、范围外追击/正常攻击、真实 fs 分身及命中/到期治疗；正式与 TestScene 同源显示及 P1/P2 生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | dragon1.normal、dragon1.fs、dragon1.fs-expiry-heal 和适用公共合同；分身须有真实攻击/伤害/治疗与销毁证据 | TASK-SLICE-214C2 | [定义](task-definitions/TASK-SLICE-214C.md) |
+| TASK-SLICE-214C2 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 初阶青龙完整正式链 | 消费C1，原样闭合214C的普攻/真实fs/命中及到期治疗/正式与TestScene/P1P2生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | 原214C全合同与P1GC，完成后归档214C | TASK-SLICE-214C3 | [定义](task-definitions/TASK-SLICE-214C2.md) |
+| TASK-SLICE-214C3 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 公共地面移动接入 | 将现有未集成求解器接入既有 Session 与正式/TestScene 环境接口，核定 owner 根坐标和出生/瞬移锚点，保留每实体水平朝向与重力/碰撞顺序。 | M-032、M-034、M-035、M-042、M-044、VS-067 | 源码条件冻结、生产环境适配、20/24/30fps 主子会话移动 trace、地面/空中攻击恢复和 hurt 静止回归。 | TASK-SLICE-214C4 | [定义](task-definitions/TASK-SLICE-214C3.md) |
+| TASK-SLICE-214C4 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 初阶青龙真实战斗链 | 在 A 的公共移动与现有时钟上注册 dragon1 Behavior，实现正常弹真实碰撞/来源伤害、自身命中治疗、fs 私有实体独立数值/CD/普攻、自然到期治疗及提前死亡清理。 | M-032、M-034、M-035、M-042、M-044、VS-067 | source-isolated normal/fs/expiry-heal trace、实际 HP/MP delta、root/clone 来源与生命周期负向验证；不能使用猴系攻击回退或视觉假分身。 | TASK-SLICE-214C5 | [定义](task-definitions/TASK-SLICE-214C4.md) |
+| TASK-SLICE-214C5 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 初阶青龙正式投影与验收 | 将 B 的实际动作和 projectile snapshot 在正式与 TestScene 同源投影，闭合 P1/P2、换宠/休息/retry/return/reload 与完整原 C2 合同。 | M-032、M-034、M-035、M-042、M-044、VS-067 | 逐状态 940×590 原版/现代差异、真实伤害治疗链、P1GC=0；最终逐项核对 C2/C 所有未完成验收，父级未覆盖项不得省略。 | TASK-SLICE-214D | [定义](task-definitions/TASK-SLICE-214C5.md) |
 | TASK-SLICE-214D | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 二三阶青龙增量战斗链 | 在 214C 同一 Runtime/Behavior 与视图上接入 dragon2/3 继承普攻/fs、sdcc 和九对象 ltwj；正式与 TestScene 同源校准 | M-032、M-034、M-035、M-042、M-044、VS-067 | dragon2/3 全部合同；ltwj 的 1+2+2+2+2 对象和 0/0.2/0.4/0.6/0.8 秒时序、追踪碰撞/伤害/清理证据 | TASK-SLICE-214E | [定义](task-definitions/TASK-SLICE-214D.md) |
 | TASK-SLICE-214E | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 四阶青龙奥义与全家族验收 | 接入 dragon4 全继承技能、qlaoyi trigger/真实分身/连锁；闭合四形态全部 44 项合同及 pet P1G | M-032、M-034、M-035、M-042、M-044、VS-067 | qlaoyi 30 MP 只门禁不扣除，第 1/13/25/37 enter 回调和 left/right/left/right；全家族正式五关/TestScene、P1/P2、换宠/休息/retry/return/reload 与 P1G | TASK-SETTINGS-215 | [定义](task-definitions/TASK-SLICE-214E.md) |
 | TASK-SETTINGS-215 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 角色/宠物承伤数字逆向 | 闭合 `pnum0..9`、角色/宠物 producer、最终显示值、锚点、时序、P1/P2 owner 与特殊防御边界 | M-032、M-035、M-042、M-049、M-054、VS-072 | verified `pnum` 真值、逐状态原版基准、字段级 verifier/mutation-kill 与 216 handoff | TASK-SLICE-216 | [定义](task-definitions/TASK-SETTINGS-215.md) |

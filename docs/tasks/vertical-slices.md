@@ -622,3 +622,7 @@
 2026-09-05 TASK-SETTINGS-213A 补证完成：同一213真值恢复verified，31本体动作/234逐cell状态与完整倒计时语义，345基准中原105保留、6个trigger根坐标修正。qlaoyi elapsed tick 1/13/25/37及首回调trigger/left-right-left-right替代旧误读。独立源/产物像素检查与15类变异通过；214A恢复唯一Ready，214B保持Planned，现代复现状态不提升。
 
 2026-09-05 TASK-SLICE-214A资源准备完成：153文件/11对象已由PetDragonAnimationAssets直接消费213修复真值，combat-common唯一加载；627host ticks与345状态零像素差、4类视觉变异通过。透明边缘裁切保留原注册点与可见像素，解码约61MiB。214B现为唯一Ready，负责全部正式战斗/P1G；本次不提高青龙战斗或VS-067完整复现状态，不计完整第三家族实施成功。
+
+2026-09-05 214C1公共接缝完成：每slot单顶层Runtime，主/私有实体复用EntitySession，数值/目标/CD/token/来源与清理隔离；父死亡事件路由、enter失败子树回滚、10类实现mutation、P1GS及猴马P1/P1B/P1R/P1H、正式五关/全系统/build通过。唯一Ready改为214C2；未实现青龙Behavior或正式分身伤害治疗，M-034/M-035/M-042与VS-067保持部分复现。交接见 `docs/tasks/evidence/TASK-SLICE-214C1/handoff.md`。
+
+2026-09-05 214C2 第二次 compact：C2 改为 Split，214C3 唯一 Ready（公共地面移动接入），214C4/214C5 Planned（真实战斗链、正式投影与 P1GC）。速度与可选时钟接缝已通过，地面求解器仅独立目标测试，未集成；恢复主包构造赋值链纠正青龙 attackRate 为 0.7。普攻/fs/伤害治疗/正式可见和原 C2/C 全合同继续保留，状态不提升。交接见 `docs/tasks/evidence/TASK-SLICE-214C2/handoff.md`。

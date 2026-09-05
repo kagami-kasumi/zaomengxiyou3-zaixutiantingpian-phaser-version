@@ -1,0 +1,122 @@
+{
+  "source": {
+    "id": "restored-main-code",
+    "file": "local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf",
+    "sha256": "f8e6f937350d4c6121119119bbebf2b6744ba1422b9fb238764849123d62f734"
+  },
+  "extractor": "FFDec script:pcode selected BasePet, BaseObject and dragon1..4",
+  "writes": [
+    {
+      "line": 127,
+      "value": 0.8
+    },
+    {
+      "line": 131,
+      "value": 0.8
+    },
+    {
+      "line": 135,
+      "value": 0.8
+    },
+    {
+      "line": 139,
+      "value": 0.8
+    },
+    {
+      "line": 143,
+      "value": 0.8
+    },
+    {
+      "line": 147,
+      "value": 0.8
+    },
+    {
+      "line": 151,
+      "value": 0.8
+    },
+    {
+      "line": 155,
+      "value": 0.8
+    },
+    {
+      "line": 159,
+      "value": 0.8
+    },
+    {
+      "line": 163,
+      "value": 0.7
+    },
+    {
+      "line": 167,
+      "value": 0.7
+    },
+    {
+      "line": 171,
+      "value": 0.7
+    },
+    {
+      "line": 175,
+      "value": 0.7
+    },
+    {
+      "line": 179,
+      "value": 0.7
+    }
+  ],
+  "finalAttackRate": 0.7,
+  "overrideCheck": [
+    {
+      "class": "base.BaseObject",
+      "writesAttackRate": false
+    },
+    {
+      "class": "export.pet.PetDragon1",
+      "writesAttackRate": false
+    },
+    {
+      "class": "export.pet.PetDragon2",
+      "writesAttackRate": false
+    },
+    {
+      "class": "export.pet.PetDragon3",
+      "writesAttackRate": false
+    },
+    {
+      "class": "export.pet.PetDragon4",
+      "writesAttackRate": false
+    }
+  ],
+  "extracted": [
+    {
+      "class": "base.BasePet",
+      "file": "local-resources/regima/task-outputs/task-slice-214c2-source-check/scripts/base/BasePet.pcode",
+      "sha256": "86f7b662d6879e05501ffbb53e83cf48606f4ecc9a8932cbd6b007e6cf2a640f"
+    },
+    {
+      "class": "base.BaseObject",
+      "file": "local-resources/regima/task-outputs/task-slice-214c2-source-check/scripts/base/BaseObject.pcode",
+      "sha256": "5878f55a069ce0e6029bd9f265d15e2b8b8032a1de6ec81ef6c2ad96f9854dd0"
+    },
+    {
+      "class": "export.pet.PetDragon1",
+      "file": "local-resources/regima/task-outputs/task-slice-214c2-source-check/scripts/export/pet/PetDragon1.pcode",
+      "sha256": "d09a175370be88678e4ffe5793d46e3691d4d05acca7540b52dab47412fea485"
+    },
+    {
+      "class": "export.pet.PetDragon2",
+      "file": "local-resources/regima/task-outputs/task-slice-214c2-source-check/scripts/export/pet/PetDragon2.pcode",
+      "sha256": "00f2f89503eb327b9a153e883c80bd22eede75182569d5c4074ce05313489743"
+    },
+    {
+      "class": "export.pet.PetDragon3",
+      "file": "local-resources/regima/task-outputs/task-slice-214c2-source-check/scripts/export/pet/PetDragon3.pcode",
+      "sha256": "1f4082f910c9cffbd23d18ca2f4106eba1b1dc7a060535382afd8cdf8651ea28"
+    },
+    {
+      "class": "export.pet.PetDragon4",
+      "file": "local-resources/regima/task-outputs/task-slice-214c2-source-check/scripts/export/pet/PetDragon4.pcode",
+      "sha256": "35ad5704cb77539c96197af3ee9746016f576b81d77e3a6efeae62de12cda7d8"
+    }
+  ],
+  "scope": "Executable constant assignment order and absence of direct overrides; not a full original combat replay"
+}

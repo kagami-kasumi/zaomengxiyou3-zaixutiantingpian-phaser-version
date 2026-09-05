@@ -58,6 +58,8 @@
 - `MonsterDefinitionCatalog` 保存跨关卡只读战斗定义，`MonsterAssetCatalog` 保存 monster id 到视觉/几何资源族的映射，`MonsterRuntimeRegistry` 保存单局可变怪物状态；三者不得混为同一个 Registry。
 - `HeroPartyRuntime` 是单局活动英雄的唯一运行时 owner：按 `PlayerSlot` 持有移动、战斗、普攻、技能和角色视觉生命周期。关卡只提交平台、移动边界与特殊环境快照，不声明 `PlayerRuntime`，不直接调用角色内部 update/resolve。
 - 关卡、宠物和英雄当前类设计分别见 `system-designs/level.md`、`system-designs/pet.md`、`system-designs/hero.md`。关卡保持组合式 `PlayableLevelRuntime`，不得新建万能 `BaseLevel`；宠物战斗统一经 `PetCombatRuntime` 注入 `PetBehavior`；英雄队伍聚合单英雄 `HeroRuntime`，五英雄实现只覆盖差异钩子。三份设计在各自验收退出前约束迁移 task，退出后不再触发设计模式专项检查。
+- `PetCombatEntitySession` 与 `PetCombatContext` 是宠物Runtime内部公共步骤/端口实现；Scene和Behavior不直接创建或推进实体会话。私有召唤物只经Behavior窄端口创建/释放，临时数值不进入持久roster；正式桥继续只消费顶层Runtime快照与typed事件。
+- `PetAnimationClock`只负责共享倒计时游标；`PetDragonAnimationClock`从verified资源查询构造定义。EntitySession持有和推进时钟、消费typed事件；View消费只读动画snapshot，不能再持另一套战斗时钟。Frame.hostFps由场景传入，公共移动按每实体moveSpeed进行原版单位换算。
 - 怪物差异优先通过 `MonsterBrain`、物理 profile、能力集合、动画集合和奖励 profile 组合，不建立承载全部职责的万能 `BaseMonster`。
 - `MonsterRuntimeRegistry` 只持有稳定 ID 与纯运行状态；Phaser view 映射由关卡无关的实体视图 adapter 持有。关卡遭遇只发 spawn 命令并消费 spawned/defeated/cleared 事件，不声明怪物 runtime 类型或 `Map`，不直接调用怪物内部 update/resolve。
 

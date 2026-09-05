@@ -21,6 +21,7 @@ export function updateP2PetSystem(this: any, deltaMs: number): void {
     targets: this.createPetSkillTargets(),
     projectiles: this.projectileSystem,
     deltaMs,
+    hostFps: this.game.loop.targetFps,
     syncView: (pet) => syncP2PetView.call(this, pet),
     destroyView: () => destroyP2PetView.call(this),
   });

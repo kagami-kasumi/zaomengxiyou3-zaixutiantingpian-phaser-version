@@ -1,8 +1,11 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
+import { petSessionConsumerViolations } from './pet-session-consumer-guard.mjs';
 
 const root = process.cwd();
+const petSession = 'src/systems/PetCombatEntitySession.ts';
+const petContext = 'src/systems/PetCombatContext.ts';
 
 function absolute(relativePath) {
   return path.join(root, relativePath);
@@ -136,7 +139,7 @@ const contracts = {
       ];
       requireFiles(required, errors);
       requireMatches(required[0], [['exported PetCombatRuntime class', /export\s+class\s+PetCombatRuntime\b/u]], errors);
-      requireMatches(required[0], [
+      requireMatches(petSession, [
         ['alive/dead-playing session phase', /['"]dead-playing['"]/u],
         ['animation completion input', /animation(?:Event|Events|Finished)/u],
         ['active-pet-only skill clock', /tickActivePetSkillState\s*\(/u],
@@ -147,6 +150,11 @@ const contracts = {
         ['whole-roster skill clock', /updatePetSkillState\s*\(\s*frame\.roster/u],
         ['HP-zero active-session rejection', /pet\.isActive\s*&&[\s\S]{0,100}pet\.hp\s*>\s*0/u],
       ], errors);
+      forbidAcross([petSession, petContext], [
+        ['nearest target selection', /nearestTarget\s*\(/u],
+        ['whole-roster skill clock', /updatePetSkillState\s*\(/u],
+      ], errors);
+      requireMatches(required[0], [['shared entity session owner', /new PetCombatEntitySession\s*\(/u]], errors);
       requireMatches(required[1], [
         ['PetBehavior contract', /export\s+(?:type|interface)\s+PetBehavior\b/u],
         ['movement permission hook', /canMove\s*\(/u],
@@ -158,7 +166,7 @@ const contracts = {
       requireMatches(required[3], [['ordered-first target selection', /orderedFirstTarget\s*\(/u]], errors);
       forbidMatches(required[3], [['nearest target API', /nearestTarget\s*\(/u]], errors);
       requireMatches('src/systems/PetTuning.ts', [['original search range', /searchRange\s*:\s*1200\b/u]], errors);
-      forbidAcross(required, [['Phaser dependency', /from\s+['"]phaser['"]|Phaser\./u]], errors);
+      forbidAcross([...required, petSession, petContext], [['Phaser dependency', /from\s+['"]phaser['"]|Phaser\./u]], errors);
       requireTest('pet-combat-runtime-design-tests', tests, errors);
     },
     P1B(errors, tests) {
@@ -167,8 +175,10 @@ const contracts = {
       const horse = 'src/systems/pet-behaviors/HorsePetBehavior.ts';
       const registry = 'src/systems/pet-behaviors/createDefaultPetBehaviorRegistry.ts';
       requireFiles([runtime, monkey, horse, registry], errors);
-      requireMatches(runtime, [
+      requireMatches(petSession, [
         ['active-pet-only skill clock', /tickActivePetSkillState\s*\(/u],
+      ], errors);
+      requireMatches(petContext, [
         ['skill execution port', /castSkill\s*:/u],
       ], errors);
       for (const [file, label] of [[monkey, 'MonkeyPetBehavior'], [horse, 'HorsePetBehavior']]) {
@@ -196,8 +206,10 @@ const contracts = {
       const body = 'src/scenes/FormalPetMonkeyBodyBridge.ts';
       const testScene = 'src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts';
       requireFiles([runtime, monkey, combat, formal, body, testScene], errors);
-      requireMatches(runtime, [
+      requireMatches(petContext, [
         ['true monkey basic attack port', /requestPetMonkeyBasicAttack\s*\(/u],
+      ], errors);
+      requireMatches(petSession, [
         ['animation completion input', /animationEvents/u],
       ], errors);
       requireMatches(monkey, [
@@ -232,8 +244,10 @@ const contracts = {
       const body = 'src/scenes/FormalPetHorseBodyBridge.ts';
       const testScene = 'src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts';
       requireFiles([runtime, horse, combat, formal, body, testScene], errors);
-      requireMatches(runtime, [
-        ['true horse basic attack port', /requestPetHorseBasicAttack\b/u],
+      requireMatches(petContext, [
+        ['true horse basic attack port', /requestPetHorseBasicAttack\s*\(/u],
+      ], errors);
+      requireMatches(petSession, [
         ['dual runtime animation completion input', /animationEvents/u],
       ], errors);
       requireMatches(horse, [
@@ -268,6 +282,26 @@ const contracts = {
       requireTest('pet-horse-animation-runtime-tests', tests, errors);
       requireTest('formal-pet-tests', tests, errors);
       requireTest('formal-pet-journey-tests', tests, errors);
+    },
+    P1GS(errors, tests) {
+      for (const gate of ['P1', 'P1B', 'P1R', 'P1H']) contracts.pet[gate](errors, tests);
+      const runtime = 'src/systems/PetCombatRuntime.ts';
+      requireMatches(runtime, [
+        ['private entity collection', /Map<string, PetCombatEntitySession>/u],
+        ['shared step for active entity', /stepEntity\(this\.active, frame\)/u],
+        ['shared step for children', /stepEntity\(child, frame, eventsOnly\)/u],
+        ['single entity update implementation', /entity\.update\(frame, eventsOnly\)/u],
+      ], errors);
+      forbidMatches(runtime, [['recursive top-level runtime', /new PetCombatRuntime\s*\(/u]], errors);
+      requireMatches(petSession, [
+        ['private cleanup before child release', /behavior\.destroy\(reason\)[\s\S]*ports\.releaseChildren\(reason\)/u],
+        ['shared ordered target selection', /orderedFirstTarget\s*\(/u],
+      ], errors);
+      for (const file of [...walk('src/systems/pet-behaviors'), ...walk('src/scenes')].filter((file) => file.endsWith('.ts'))) {
+        errors.push(...petSessionConsumerViolations(file, read(file, errors)));
+      }
+      requireTest('pet-combat-session-tests', tests, errors);
+      requireTest('pet-combat-session-mutation-tests', tests, errors);
     },
     P1C(errors, tests) {
       const behaviors = ['Dragon', 'Turtle', 'Ufo'].map((name) => (

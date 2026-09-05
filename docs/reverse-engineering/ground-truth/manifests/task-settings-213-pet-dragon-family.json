@@ -5,6 +5,11 @@
   "taskId": "TASK-SETTINGS-213",
   "sources": [
     {
+      "id": "restored-main-code",
+      "file": "local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf",
+      "sha256": "f8e6f937350d4c6121119119bbebf2b6744ba1422b9fb238764849123d62f734"
+    },
+    {
       "id": "pet-dragon-1",
       "file": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon1.as",
       "sha256": "a1d9f80e9fc68784b6d4e63d43cd7703baf53ff4a46ed97eadd129f0e5f3998e"
@@ -6253,7 +6258,7 @@
     {
       "id": "dragon1",
       "speed": 5,
-      "attackRate": 0.8,
+      "attackRate": 0.7,
       "attackRange": 150,
       "collision": "ObjectBaseSprite3",
       "skills": [
@@ -6335,7 +6340,7 @@
     {
       "id": "dragon2",
       "speed": 5,
-      "attackRate": 0.8,
+      "attackRate": 0.7,
       "attackRange": 150,
       "collision": "ObjectBaseSprite4",
       "skills": [
@@ -6457,7 +6462,7 @@
     {
       "id": "dragon3",
       "speed": 5,
-      "attackRate": 0.8,
+      "attackRate": 0.7,
       "attackRange": 150,
       "collision": "ObjectBaseSprite4",
       "skills": [
@@ -6687,7 +6692,7 @@
     {
       "id": "dragon4",
       "speed": 5,
-      "attackRate": 0.8,
+      "attackRate": 0.7,
       "attackRange": 150,
       "collision": "ObjectBaseSprite4",
       "skills": [

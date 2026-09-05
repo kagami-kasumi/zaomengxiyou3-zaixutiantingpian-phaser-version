@@ -8,6 +8,10 @@ import type {
   PetState,
 } from './PetTypes';
 import type { ProjectileSystemModel } from './ProjectileSystem';
+import type { PetAnimationClock } from './PetAnimationClock';
+import type {
+  PetCombatEntitySnapshot, PetCombatReleaseReason, PetCombatSummonHandle, PetCombatSummonRequest,
+} from './PetCombatTypes';
 
 export type PetBehaviorAction = Readonly<{
   type: string;
@@ -31,9 +35,12 @@ export type PetCombatAnimationEvent = Readonly<{
   runtimeKey: string;
   actionToken: number;
   eventName: PetCombatAnimationEventName;
+  action?: string;
+  setStatic?: boolean;
 }>;
 
-export type PetBehaviorDestroyReason = 'inactive' | 'replaced' | 'dead-complete' | 'runtime-destroyed';
+export type PetBehaviorDestroyReason = 'inactive' | 'replaced' | 'dead-complete' | 'runtime-destroyed'
+  | 'dismissed' | 'expired';
 
 export type PetBehaviorSkillRequest = (params: {
   roster: PetRoster;
@@ -51,16 +58,27 @@ export type PetBehaviorContext = Readonly<{
   targets: readonly Readonly<PetSkillTarget>[];
   target?: Readonly<PetSkillTarget>;
   actionToken: number;
+  parentRuntimeKey?: string;
+  sourcePetId: string;
   deltaMs: number;
+  hostFps: number;
+  hostTick: number;
+  targetAcquiredThisFrame: boolean;
+  animation?: ReturnType<PetAnimationClock['snapshot']>;
   random: () => number;
   castSkill: (request: PetBehaviorSkillRequest) => PetSkillCastResult;
   castSkillAt: (request: PetBehaviorSkillRequest, target: Readonly<PetSkillTarget>) => PetSkillCastResult;
   castBasicAttack: () => PetSkillCastResult;
   relocate: (x: number, y: number) => void;
+  playAnimation: (action: string) => void;
+  spawnSummon: (request: PetCombatSummonRequest) => PetCombatSummonHandle;
+  releaseSummon: (handle: PetCombatSummonHandle, reason?: PetCombatReleaseReason) => void;
+  summonSnapshots: () => readonly PetCombatEntitySnapshot[];
   emit: (event: PetBehaviorEvent) => void;
 }>;
 
 export interface PetBehavior {
+  createAnimationClock?(): PetAnimationClock;
   enter(context: PetBehaviorContext): void;
   canMove(context: PetBehaviorContext): boolean;
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined;

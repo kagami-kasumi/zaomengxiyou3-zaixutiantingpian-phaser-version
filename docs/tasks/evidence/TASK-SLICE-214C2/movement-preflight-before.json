@@ -1,0 +1,39 @@
+{
+  "status": "mismatch",
+  "scope": "Existing shared chase helper versus one grounded AS3 walking host tick only",
+  "source": [
+    "PetDragon1.as:25",
+    "BaseObject.as:284-313",
+    "BaseObject.as:601-610"
+  ],
+  "assumptions": [
+    "walking, not running or hurt",
+    "grounded with no wall or enforced velocity",
+    "target to the right, beyond attack range",
+    "one original host tick"
+  ],
+  "cases": [
+    {
+      "hostFps": 20,
+      "expectedGroundedDeltaX": 5,
+      "actualDeltaX": 22.5,
+      "actualDeltaY": 0,
+      "matches": false
+    },
+    {
+      "hostFps": 24,
+      "expectedGroundedDeltaX": 5,
+      "actualDeltaX": 18.75,
+      "actualDeltaY": 0,
+      "matches": false
+    },
+    {
+      "hostFps": 30,
+      "expectedGroundedDeltaX": 5,
+      "actualDeltaX": 15,
+      "actualDeltaY": 0,
+      "matches": false
+    }
+  ],
+  "provenance": "Observed before correction: node tools/run-system-tests.mjs pet-dragon1-movement-preflight exited 1; retained historical output."
+}

@@ -396,6 +396,7 @@ export function createHeroPartyRuntime(
           projectiles: frame.projectiles,
           damageEvents: pendingPetDamageEvents[slot],
           deltaMs: frame.deltaMs,
+          hostFps: scene.game.loop.targetFps,
         });
         pendingPetDamageEvents[slot] = [];
         continue;
@@ -409,6 +410,7 @@ export function createHeroPartyRuntime(
         damageEvents: pendingPetDamageEvents[slot],
         animationEvents: pendingPetAnimationEvents[slot],
         deltaMs: frame.deltaMs,
+        hostFps: scene.game.loop.targetFps,
       });
       pendingPetDamageEvents[slot] = [];
       pendingPetAnimationEvents[slot] = [];

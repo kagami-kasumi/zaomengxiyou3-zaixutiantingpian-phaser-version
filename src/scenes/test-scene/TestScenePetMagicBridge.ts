@@ -64,6 +64,7 @@ export function updatePetSystem(this: any, delta: number): void {
     targets: this.createPetSkillTargets(),
     projectiles: this.projectileSystem,
     deltaMs: delta,
+    hostFps: this.game.loop.targetFps,
     syncView: (pet) => this.syncPetView(pet),
     destroyView: () => this.destroyPetView(),
   });
@@ -77,6 +78,7 @@ export type OwnedPetSystemInput = {
   targets: PetSkillTarget[];
   projectiles: ProjectileSystemModel;
   deltaMs: number;
+  hostFps?: number;
   syncView(pet: NonNullable<ReturnType<typeof getActivePet>>): void;
   destroyView(): void;
 };
@@ -84,6 +86,7 @@ export type OwnedPetSystemInput = {
 export function updateOwnedPetSystem(input: OwnedPetSystemInput): PetRuntimeModel | undefined {
   const adapter = {
     ownerSlot: input.ownerSlot,
+    hostFps: input.hostFps,
     getInventoryPlayer: () => input.owner,
     petRoster: input.roster,
     petRuntime: input.runtime,
@@ -129,6 +132,7 @@ function updatePetSystemForOwner(this: any, delta: number): void {
         facingX: owner.movement.facingX,
       },
       delta,
+      this.hostFps,
     );
     const petAutoBuffOwnerStats = {
       hp: owner.combat.hp,

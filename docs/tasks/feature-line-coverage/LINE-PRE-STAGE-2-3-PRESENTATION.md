@@ -108,3 +108,9 @@
 2026-09-05 TASK-SLICE-214A资源准备完成：153文件/11对象已由PetDragonAnimationAssets直接消费213修复真值，combat-common唯一加载；627host ticks与345状态零像素差、4类视觉变异通过。透明边缘裁切保留原注册点与可见像素，解码约61MiB。214B现为唯一Ready，负责全部正式战斗/P1G；本次不提高青龙战斗或VS-067完整复现状态，不计完整第三家族实施成功。
 
 2026-09-05 214B 首次 compact：尚无正式 Runtime 实现，拆为214C Ready、214D/214E Planned；覆盖状态不提升，最终214E闭合父级全部44合同/P1G。
+
+2026-09-05 214C规模预检：公共实体步骤提取及猴马回归是原两包外的第三工作包，214C标记Split，214C1唯一Ready、214C2 Planned；现有pet设计允许私有召唤句柄，不重设计或新增顶层owner。C2原样承担214C全部真实分身/伤害治疗/正式可见与P1GC，之后214D/214E；本次未改src、真值或资源，不提高复现状态。精确证据见 `docs/tasks/evidence/TASK-SLICE-214C/preflight.md`。
+
+2026-09-05 214C1公共接缝完成：每slot单顶层Runtime，主/私有实体复用EntitySession，数值/目标/CD/token/来源与清理隔离；父死亡事件路由、enter失败子树回滚、10类实现mutation、P1GS及猴马P1/P1B/P1R/P1H、正式五关/全系统/build通过。唯一Ready改为214C2；未实现青龙Behavior或正式分身伤害治疗，M-034/M-035/M-042与VS-067保持部分复现。交接见 `docs/tasks/evidence/TASK-SLICE-214C1/handoff.md`。
+
+2026-09-05 214C2 第二次 compact：C2 改为 Split，214C3 唯一 Ready（公共地面移动接入），214C4/214C5 Planned（真实战斗链、正式投影与 P1GC）。速度与可选时钟接缝已通过，地面求解器仅独立目标测试，未集成；恢复主包构造赋值链纠正青龙 attackRate 为 0.7。普攻/fs/伤害治疗/正式可见和原 C2/C 全合同继续保留，状态不提升。交接见 `docs/tasks/evidence/TASK-SLICE-214C2/handoff.md`。

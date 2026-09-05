@@ -88,11 +88,16 @@
 | barrel、旧 Runtime、全部 Scene/Bridge | 无新增 owner | 全部家族完成后清零具体技能出口、重复 targeting 与兼容路径 | 最终逐族任务之后生成 |
 | 未来网络/回放 | 记录 Frame 输入顺序与 typed events | 复用 Runtime，不拥有第二套模拟 | 非本轮实现；本设计冻结接口边界 |
 
+214C2实施映射（未完成）：速度单位由公共移动helper消费每实体moveSpeed与Frame.hostFps。可选PetAnimationClock由EntitySession持有，Behavior factory只提供verified定义；时钟驱动的会话按host tick执行既有公共步骤，产生同步typed事件并提供只读动画snapshot。旧猴马适配尚未切换此时钟。PetDragonAnimationClock仅构造初阶定义；纯时钟/接缝测试不代表dragon1生产Behavior或正式画面已完成。
+
 ## 迁移 gate 与真实基线
+
+214C1 实现映射：`PetCombatRuntime` 仍是每slot唯一顶层owner；其内部 `PetCombatEntitySession` 统一执行主实体/私有实体的公共步骤，`PetCombatContext` 适配窄端口。主实体引用roster数值，私有召唤物采用隔离的临时数值引用，不写存档。Behavior只持句柄并请求创建/释放，不持另一套公共AI/CD。祖先死亡时子实体只消费事件/清理，不继续AI/CD；这属于现代事件路由，不是青龙完整复现结论。
 
 | Gate | 任务 | 通过合同 | 2026-08-25 基线 |
 | --- | --- | --- | --- |
 | P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `0`：结构 gate 已通过；不证明 Scene/正式消费者或玩家可见自主战斗 |
+| P1GS | 214C1 | 单顶层Runtime内主/子复用公共步骤；数值/目标/token/来源隔离、旧key拒绝、子事件、失败创建回滚与级联清理；保持猴马全部既有门禁 | `0`：P1/P1B/P1R/P1H、私有会话合同与10类实现mutation通过；只证明接缝，P1GC/P1G仍待214C2/214E |
 | P1B | 204B | Monkey/Horse 8 形态适配结构钩子且不复制 Runtime | `0`：结构 gate 已通过；`basicAttack` 仍可能只有事件，不证明动画、命中与伤害闭环 |
 | P1R | 208 历史 + PG-017 V2 + `TASK-SLICE-208A`（207 提供冻结机器合同） | Monkey1..4 完整自主战斗；每形态 `attackRange` 外追击、范围内真实普通攻击/全部技能、真动画、命中/来源隔离伤害、P1/P2 TestScene/五关 owner 与生命周期 | `0`：八条范围链、字段覆盖、range/hit/source mutation-kill、家族专项、正式五关旅程均通过；系统仍因其余家族与旧入口保持实施中 |
 | P1H | 209/210 | Horse1..4 完整自主战斗；范围外追击、双随机普攻、全部继承技能、冰效/tmaoyi 组合、真实命中伤害、P1/P2 TestScene/五关 owner 与生命周期 | `0`：43 项字段覆盖、八条 P1/P2 范围链、range/hit/source mutation-kill、马系/动画/正式五关旅程及 940×590 双人 Stage 1-2 通过；系统仍因其余七家族与旧入口保持实施中 |
@@ -114,6 +119,7 @@
 
 | 日期/Task | 范围 | 结果 | 结论 |
 | --- | --- | --- | --- |
+| 2026-09-05 / 214C1 | 私有实体公共接缝 | P1GS=0，P1/P1B/P1R/P1H=0，10类mutation-kill、正式五关旅程、全系统/build/LSP通过 | 本批通过，系统实施中；没有青龙Behavior/正式视觉/伤害治疗完成结论，214C2继续P1GC |
 | 2026-08-24 / 203 | 旧 P1 骨架 | 当时 gate 0 | 205 后降级：只证明类存在，不证明新合同 |
 | 2026-08-25 / 204A | 旧 P1B Monkey/Horse | 当时 gate 0 | 205 后降级：复用了既有规则，但时钟/索敌/死亡与钩子合同不成立 |
 | 2026-08-25 / 206 | 设计证据校正 | `pet P1/P1B/P1C/P1D/P2/P3/P4/all` 均为 1（真实失败基线） | 唯一设计已冻结；从 204B 开始实施 |

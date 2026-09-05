@@ -1,5 +1,6 @@
 import { spawnSync } from 'node:child_process'
 import { buildDragonBodyTimelines, dragonSourceRoot } from './pet-dragon-body-truth.mjs'
+import { deriveDragonAttackRate } from './pet-dragon-attack-rate-source.mjs'
 import { createHash } from 'node:crypto'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -7,6 +8,7 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+let resolvedAttackRate
 const outputPath = path.join(repoRoot, 'docs/reverse-engineering/ground-truth/manifests/task-settings-213-pet-dragon-family.json')
 const schemaPath = path.join(repoRoot, 'docs/reverse-engineering/ground-truth/schema/pet-family-ground-truth.schema.json')
 const baselineIndexPath = 'docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json'
@@ -77,7 +79,7 @@ function action({ hit, bodyRow, bodyFrames, holds, emitTiming, projectile, proje
 }
 
 function commonForm(id, collision, actions, skills, special) {
-  return { id, speed: 5, attackRate: 0.8, attackRange: 150, collision, skills, actions, ...(special ? { special } : {}) }
+  return { id, speed: 5, attackRate: resolvedAttackRate, attackRange: 150, collision, skills, actions, ...(special ? { special } : {}) }
 }
 
 function expectedFieldsFor(id) {
@@ -166,7 +168,9 @@ async function spriteFrames(characterId, symbol, sourcePrefix = 'pet1') {
 
 async function buildTruth() {
   await assertSourceFacts()
-  const sources = []
+  const attackRateSource = await deriveDragonAttackRate(repoRoot)
+  resolvedAttackRate = attackRateSource.attackRate
+  const sources = [attackRateSource.source]
   for (const [id, file, expectedSha256] of sourceSpecs) {
     const actualSha256 = await sha256(file)
     if (actualSha256 !== expectedSha256) throw new Error(`${id} source hash changed: ${actualSha256}`)
@@ -392,6 +396,7 @@ async function validate(truth) {
   if (truth.contractMatrix.some((item) => !item.modernOwner || !item.status || !item.verification)) errors.push('contract consumer matrix')
   if (truth.p1rAcceptance.acceptanceMatrix.some((item) => !item.expectedFields.length || !item.controlledScenarios.length || !item.traceFields.includes('hpAfter') || !item.semanticAssertions.length)) errors.push('field-level acceptance')
   if (JSON.stringify(truth.forms.map(({ attackRange }) => attackRange)) !== JSON.stringify([150, 150, 150, 150])) errors.push('normal attack ranges')
+  if (truth.forms.some(({ attackRate }) => attackRate !== resolvedAttackRate)) errors.push('normal attack rate must follow executable constructor order')
   if (truth.forms.find(({ id }) => id === 'dragon3').actions.ltwj.projectileCount !== 9) errors.push('ltwj projectile count')
   const qlaoyi = truth.forms.find(({ id }) => id === 'dragon4')
   if (!qlaoyi.special.qlaoyi.noMpDebit || qlaoyi.skills.find(({ id }) => id === 'qlaoyi').mpDebit.amount !== 0) errors.push('qlaoyi gate-only MP')
@@ -403,6 +408,7 @@ async function main() {
   await validate(truth)
   if (process.argv.includes('--self-test')) {
     for (const mutation of [
+      (copy) => { copy.forms.find(({ id }) => id === 'dragon1').attackRate = 0.8 },
       (copy) => { copy.forms.find(({ id }) => id === 'dragon2').attackRange = 300 },
       (copy) => { copy.forms.find(({ id }) => id === 'dragon3').actions.ltwj.projectileCount = 4 },
       (copy) => { copy.forms.find(({ id }) => id === 'dragon4').skills.find(({ id }) => id === 'qlaoyi').mpDebit.amount = 30 },
