@@ -8,7 +8,7 @@ import { recommendation, routes, run, validate } from './check-harness.mjs';
 function fixture() {
   const board = '## 当前推荐\n\nPLACEHOLDER\n\n## 待完成任务\n\n| TASK-SLICE-001 | Ready | LINE-ONE |';
   return {
-    'AGENTS.md': '首次 compact 后安全交接。',
+    'AGENTS.md': '允许一次 compact，复核后继续原 task；第二次 compact 强制交接。',
     ...routes,
     'docs/tasks/task-board.md': board.replace('PLACEHOLDER', recommendation(board)),
     'docs/tasks/feature-lines.md': '| LINE-ONE | Active | scope | TASK-SLICE-001 |',
@@ -44,7 +44,9 @@ const cases = [
   ['old queue id', 'docs/tasks/execution-queue.md', text => `${text}\n旧 TASK-SLICE-001 已完成。`, 'retain game'],
   ['stricter client rule', 'CLAUDE.md', () => 'warning/error 必须先拆分。', 'delegate'],
   ['contradictory appended rule', 'CLAUDE.md', text => `${text}\nwarning/error 必须先拆分。`, 'delegate'],
-  ['compact continuation', 'AGENTS.md', text => `${text}\n优先 compact，继续实现。`, 'safe handoff'],
+  ['unbounded compact continuation', 'AGENTS.md', text => `${text}\n优先 compact，继续实现。`, 'safe handoff'],
+  ['first compact forced stop', 'AGENTS.md', text => `${text}\n首次 compact 后不得新增实现。`, 'safe handoff'],
+  ['second compact continuation', 'CLAUDE.md', text => `${text}\n第二次 compact 后继续实现。`, 'safe handoff'],
   ['lost full gate', 'package.json', text => text.replace('npm run check:level-architecture', ''), 'retain'],
 ];
 for (const [name, file, mutate, expected] of cases) {

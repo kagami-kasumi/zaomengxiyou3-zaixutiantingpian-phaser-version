@@ -1,10 +1,19 @@
 # TASK-SETTINGS-213 青龙完整家族证据
 
+## 当前接受状态（213A 修复，2026-09-05）
+
+- 当前 manifest 已恢复 verified，unresolved=[]。214A 预检曾发现缺完整非攻击本体持帧、六个 trigger 基准偏移；213A 又沿 BaseBitmapDataClip.step/getCurFrameCount 证明原计数是剩余持帧数，修正了 elapsed tick 和分身方向顺序。
+- visualTruth.bodyTimelines 为 31 个适用动作提供 row、sourceAction、每 cell 的 holdTicks/firstHostTick/lastHostTick、循环、入口保留和完成路由及源码 locator；bodyClock 冻结 enter→decrement/advance→exit。重复进入同一 row 不重置 cell，不能把每个状态入口都当作从头播放。
+- 普通/技能 emitTiming 的 remainingHoldCount 与 elapsedHostTick 明确区分。qlaoyi 剩余计数48/36/24/12对应 elapsed tick 1/13/25/37，分身 left/right/left/right；trigger 在第一次 enter 回调于 pet 根坐标生成，并由 FollowBaseObjectBullet 保留相对偏移跟随。
+- 345 个基准包含原105个未改状态、6个修正trigger状态、新234个逐cell状态；不是345段正式战斗录像。核对报告和并排像素差见 `docs/tasks/evidence/TASK-SETTINGS-213A/repair-audit.json`、`trigger-corrections.png`。
+- 独立 verifier 从源码重新核对动作全集、持帧、发射条件和完成代码，逐cell比较源 atlas 像素，检查真实 trigger 根坐标；15 类负向变异通过。generator 在写 verified 前必须通过该产物检查，handoff 也强制运行，不可仅凭 id/hash 恢复接受。
+- 历史反证保留在 `docs/tasks/evidence/TASK-SLICE-214A/truth-hold.json`（resolved）；现代资源和正式战斗仍分别由214A/214B完成。
+
 ## 结论与范围
 
 - 家族范围仅为 `dragon1..4`；原版入口为 RegiMA 1.1 正式战斗，舞台 `940×590`。
 - 权威机器真值为 `task-settings-213.pet-dragon-family`：`docs/reverse-engineering/ground-truth/manifests/task-settings-213-pet-dragon-family.json`，`status=verified`，`unresolved=[]`。
-- 原版基准索引为 `docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json`，包含 111 个可重复生成的 `940×590` 关键状态；左右方向、本体状态、全部技能关键 tick、六类可见对象与九对象雷霆组合均在集合内。
+- 原版基准索引为 `docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json`，包含 345 个可重复生成的 `940×590` 关键状态；左右方向、本体状态、全部技能关键 tick、六类可见对象与九对象雷霆组合均在集合内。
 - 本任务只生成证据与 `TASK-SLICE-214` 交接，不修改 `src/`、不派生现代 atlas，也不宣称现代青龙已复现；合同总数为 44。
 - 完整合同集：`CONTRACT_SET:owner.body|owner.effects|owner.collision|visual.states|visual.baselines|runtime.update-order|runtime.target-order|runtime.target-loss|runtime.follow-owner|runtime.follow-target|runtime.warp|runtime.action-priority|runtime.normal-roll|runtime.cooldown-order|runtime.hurt|runtime.death|runtime.destroy|runtime.projectile-collision|runtime.attack-id-dedup|runtime.damage-pipeline|runtime.heal-on-hit|runtime.clone-owner|runtime.p1-p2|dragon1.normal|dragon1.fs|dragon1.fs-expiry-heal|dragon2.normal|dragon2.fs|dragon2.sdcc|dragon3.normal|dragon3.fs|dragon3.sdcc|dragon3.ltwj|dragon3.ltwj-nine-object-wave|dragon4.normal|dragon4.fs|dragon4.sdcc|dragon4.ltwj|dragon4.qlaoyi|dragon4.qlaoyi-trigger|dragon4.qlaoyi-clones|dragon4.qlaoyi-chain|dragon4.qlaoyi-no-mp-debit|dragon4.cleanup`
 
@@ -61,20 +70,20 @@
 | dragon4 `fs` | 目标存在、已学、MP≥20；2.5s/10s | 分身复制完整技能；HP/MP 采用源码的大倍率复制；alpha .6、12s | 同 slot；到期或提前死亡都治疗主人 3.6% SHp；owner 销毁先置 `isFight=0` 再销毁 |
 | dragon4 `sdcc` | 目标≤180 | dragon3 sdcc，伤害乘 `hurtBaseEffectRate()` | hit3 可移动；正常扣 20 MP，奥义链免费 |
 | dragon4 `ltwj` | 目标≤220 | dragon3 九对象 ltwj，伤害乘 `hurtBaseEffectRate()` | hit4 地面不可移动；正常扣 20 MP，奥义链免费 |
-| dragon4 `qlaoyi` | 已学、目标≤200、MP≥30；15s/24s | hit5 持续 48 ticks；12/24/36/48 各尝试一只分身；tick48 另发 `PetDragonBullet4` hit4；结束后 owner/clone 走 sdcc→ltwj 或 hit6→ltwj | **30 MP 只作门禁，`releSkill4()` 不扣蓝**；AoyiBuff、分身、延迟雷霆、trigger 都必须由本 slot 生命周期清理 |
+| dragon4 `qlaoyi` | 已学、目标≤200、MP≥30；15s/24s | hit5 持续 48 ticks；剩余计数48/36/24/12各尝试一只分身；首个 host tick（剩余计数48） 另发 `PetDragonBullet4` hit4；结束后 owner/clone 走 sdcc→ltwj 或 hit6→ltwj | **30 MP 只作门禁，`releSkill4()` 不扣蓝**；AoyiBuff、分身、延迟雷霆、trigger 都必须由本 slot 生命周期清理 |
 
 ### 需要推翻的旧结论
 
 - 旧 `pets-index.md`/现代 `PetTuning` 把 ltwj 写为 4 段；AS3 `doHit4()` 直接证明实际是 9 个对象、五批时序。
 - 旧文档建议“按一致性扣 30 MP”；原版 `beforeSkill4Start()` 只检查 30，而 `releSkill4()` 不调用 `setMp`。本任务将其冻结为原版 quirk，214 不得自行修正。
-- `qlaoyi` 本体 `hit5` 直接伤害为 0，不表示整条奥义无伤害：tick48 的 `PetDragonBullet4` 使用 `hit4`，按 ltwj 公式结算；可选分身还会免费释放 sdcc/ltwj。
+- `qlaoyi` 本体 `hit5` 直接伤害为 0，不表示整条奥义无伤害：首个 host tick（剩余计数48） 的 `PetDragonBullet4` 使用 `hit4`，按 ltwj 公式结算；可选分身还会免费释放 sdcc/ltwj。
 - dragon1..3 的 `fs` 不需要目标，dragon4 的 `fs` 明确需要目标；不能用单一泛化门禁覆盖四形态。
 
 ## qlaoyi 组合真值
 
 1. `releSkill4()` 设置 `isAoyi=true`、生成 disabled `AoyiBuff`、进入 hit5，不扣 MP。
-2. hit5 的 12/24/36/48 tick 都调用 `doHit5()`；只有已学 fs 才生成分身，方向依次 right/left/right/left。
-3. tick48 无论是否学 fs 都生成 `PetDragonBullet4`，其 projectile action 为 hit4；它使用 ltwj 伤害公式。
+2. hit5 的 剩余计数48/36/24/12（elapsed host tick 1/13/25/37） 都调用 `doHit5()`；只有已学 fs 才生成分身，方向依次 left/right/left/right。
+3. 首个 host tick（剩余计数48） 无论是否学 fs 都生成 `PetDragonBullet4`，其 projectile action 为 hit4；它使用 ltwj 伤害公式。
 4. 分身和 owner 若学 sdcc，先免费 `releSkill2WithoutMana()`；hit3 动画结束且 `isAoyi` 仍真时，再免费 ltwj。
 5. 若没学 sdcc 但学 ltwj，则经 hit6 进入免费 ltwj。若 fs-only，则克隆被创建但 `isAoyi` 清除，不继续伤害链。
 6. 延迟 ltwj 回调只有在 pet 未死亡（dragon4 还要求 `isFight==1`）时继续生成对象。
@@ -102,7 +111,7 @@
 
 ## 214 字段级交接
 
-manifest `/p1rAcceptance/acceptanceMatrix` 对上述 45 个 contract id 逐项给出：expected 字段、正/负 fixture、实际 trace 字段、语义断言和 black-box actual source。214 必须直接消费同一 truth id，不得从本文件抄常量。
+manifest `/p1rAcceptance/acceptanceMatrix` 对上述 44 个 contract id 逐项给出：expected 字段、正/负 fixture、实际 trace 字段、语义断言和 black-box actual source。214 必须直接消费同一 truth id，不得从本文件抄常量。
 
 强制反证：
 
@@ -116,5 +125,5 @@ manifest `/p1rAcceptance/acceptanceMatrix` 对上述 45 个 contract id 逐项�
 
 - 实现影响 `unresolved=[]`。随机分身 x 只冻结原版范围，214 的确定性 fixture 可以注入固定随机值，但不能把 fixture 值宣称为原版常量。
 - 允许的现代可见例外为空；仅可增加稳定 runtime/action/projectile/attack id 作为不可见追踪字段。
-- 111 张透明舞台基准来自恢复 SWF 选择性导出和 AS3 矩阵；它们是对象级原版基准，不是现代运行截图。214 仍须给出正式 P1/P2 并排/叠图与 console 零 warning/error。
+- 345 张透明舞台基准来自恢复 SWF 选择性导出和 AS3 矩阵；它们是对象级原版基准，不是现代运行截图。214 仍须给出正式 P1/P2 并排/叠图与 console 零 warning/error。
 - 本 task 达到 G0-G4，可归档；青龙家族的玩家可见闭合必须等 `TASK-SLICE-214` 完成。

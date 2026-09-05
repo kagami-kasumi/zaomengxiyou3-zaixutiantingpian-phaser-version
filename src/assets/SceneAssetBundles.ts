@@ -1,3 +1,4 @@
+import { petDragonBundleAssets } from './PetDragonAnimationAssets';
 import {
   combatHudAssets,
   craftingAssets,
@@ -307,6 +308,7 @@ const role5CombatBundleAssets = [
 ];
 const role5CombatSkillBundleAssets = Object.values(role5SkillVisualAssets).flatMap(svgs);
 const combatCommonAssets = [
+  ...petDragonBundleAssets,
   ...Object.values(scaffoldAssets).map(svg),
   image(combatHitFeedbackAssets.batter),
   ...combatHitFeedbackAssets.ordinaryDigits.map(image),

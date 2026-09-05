@@ -13,15 +13,15 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready；213 verified）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Split；由 TASK-SLICE-214A → TASK-SLICE-214B 连续承接）
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
 
 规模预算：
-- 主工作包：2
+- 主工作包：0
 - 预计上下文压缩：0
-- 独立验收批次：2
+- 独立验收批次：0
 
 拆分触发：
 - 若 213 留下实现影响 unresolved、需要改变存档 schema/公共宠物设计、引入第二宠物家族或新增独立正式旅程，先拆同线解除项；不得用现代猜测补证据。
@@ -42,7 +42,7 @@
 
 输出产物：
 - dragon1..4 共用公共 `PetCombatRuntime`，统一从 `attackRange=150` 的范围外追击到真普通攻击；`fs/sdcc/ltwj/qlaoyi` 及继承组合以 action token 驱动真实 effect/projectile、collision/tracking、hit frame、pet-source damage/heal 与 cleanup。
-- `ltwj` 必须按 213 冻结的 `1+2+2+2+2=9` 对象与 0/0.2/0.4/0.6/0.8 秒时序实现；`qlaoyi` 的 30 MP 仅作原版门禁，不得实际扣蓝，tick48 trigger 与四次可选分身链分别保留身份。
+- `ltwj` 必须按 213 冻结的 `1+2+2+2+2=9` 对象与 0/0.2/0.4/0.6/0.8 秒时序实现；`qlaoyi` 的 30 MP 仅作原版门禁，不得实际扣蓝，首个 host tick（剩余计数 48）trigger 与四次可选分身链分别保留身份。
 - 原版本体/分身/技能对象直接消费 213 真值；正式 P1/P2 与 TestScene 使用同一 Runtime/source snapshots，无第二 visual owner 或场景技能直连。
 - source-isolated 黑盒 trace：frame/time、owner/runtime key、宠物/目标坐标与距离、action/token、projectile/attack、damage/heal、HP before/after 与 cleanup reason；覆盖四形态、全部技能和生命周期。
 - 新增 task-specific `pet P1G` system-design gate、family/runtime/visual/formal tests、runtime audit 与 940×590 差异证据。
@@ -71,3 +71,17 @@ UI 原生化合同：
 
 推荐后续任务：
 - `TASK-SETTINGS-215`：冻结角色/宠物承伤 `pnum` 的原版真值与全链路行为合同；216 完成后再恢复下一未闭合宠物家族。
+
+执行记录（2026-09-05，规模预检）：
+- 状态：Split；未修改 src，未生成现代资源，未运行或宣称 P1G 通过。工作区开始时干净。
+- 拆分依据：`docs/workflow/task-generation.md` 的“新资料族/资源派生、多个运行时 owner、端到端运行校准中任意三类同时出现时，必须拆成连续 task”。213 evidence 明确本阶段尚未派生现代 atlas；现有 `src/assets/PetHorseAnimationAssets.ts` 有马系入口，但没有对应青龙入口；`PetCombatRuntime.ts` 仍只有猴/马普攻请求，`PetBehavior.ts` 目前没有分身快照/命中治疗通道。214 同时要求资源派生、真分身/延迟九对象/奥义私有生命周期和正式 P1/P2 逐状态校准，三类同时存在。
+- 214A（Ready）：只交付青龙完整资源准备与对象级原版差异证据，不迁移部分 Behavior，不声明正式战斗完成。
+- 214B（Planned）：消费准备好的资源，一次承接本父任务全部 44 项行为/视觉/正式验收合同，完整青龙家族闭合后才激活 215。
+- 本次按 agent-protocol 的执行前规模门禁只重排并交接；未发生 compact，无运行中检查需承接。验收结果见本次集中 problem audit。
+- 下一允许动作：执行 214A。公共设计若需改变仍按原拆分触发单独裁决，不能把本次拆分当作重设计授权。
+
+213A 时钟修正合同：
+- 必须直接消费 visualTruth.bodyTimelines/bodyClock；getCurFrameCount 是剩余持帧数，普通/技能 emitTiming 使用 remainingHoldCount 与 elapsedHostTick，不再消费歧义 holdTick。
+- qlaoyi 的剩余计数 48/36/24/12 对应从动作起算第 1/13/25/37 次 enter 回调，分身依次 left/right/left/right；trigger 在第 1 次回调置于 pet 根坐标且随后跟随，不是第 48 tick。
+
+2026-09-05 214A已完成归档：完整资源和生产查询入口、345状态零差异可供214B直接消费。214B为唯一Ready，父任务仍Split；正式家族/P1G尚未完成。

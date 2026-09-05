@@ -32,7 +32,7 @@
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
 | LINE-PRE-STAGE-2-3-COMPLETION | Done | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | — | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 无 | 165D 已把炼丹炉右栏闭合为原生 25 格投影；全线关闭合同满足 |
 | LINE-CORE-PROGRESSION-COMPLETION | Done | Stage 2-3 前完成炼丹炉左页与四功能、全装备 UI/数值、五角色成长、存档扩展、关卡左下五入口、用户确认的 UI 整改及复评确认的同线纠错 | — | `feature-line-coverage/LINE-CORE-PROGRESSION-COMPLETION.md` | 无 | 188 已让丹药页直接消费 132 对象/26 状态真值；当前线全部范围、专项、正式旅程、全系统、build 与 940×590 零 console 验收闭合 |
-| LINE-PRE-STAGE-2-3-PRESENTATION | Active | 在执行 Stage 2-3 前按用户复验闭合装备悬停数值、宠物页/战斗 UI 与真动画、完整宠物战斗公共类、怪物/角色/宠物伤害数字与连击反馈、五角色动作流畅度/视觉完整性、战斗技能 HUD 可见与原生化 | TASK-SLICE-214 | `feature-line-coverage/LINE-PRE-STAGE-2-3-PRESENTATION.md` | 213 verified；214 直接消费青龙完整合同，随后由 215/216 闭合角色/宠物承伤 `pnum` | 214 必须保持九对象 `ltwj`、gate-only MP `qlaoyi`、P1/P2 owner 与正式/TestScene 同源；215/216 不抢占当前 Ready |
+| LINE-PRE-STAGE-2-3-PRESENTATION | Active | 在执行 Stage 2-3 前按用户复验闭合装备悬停数值、宠物页/战斗 UI 与真动画、完整宠物战斗公共类、怪物/角色/宠物伤害数字与连击反馈、五角色动作流畅度/视觉完整性、战斗技能 HUD 可见与原生化 | TASK-SLICE-214C | `feature-line-coverage/LINE-PRE-STAGE-2-3-PRESENTATION.md` | 213A真值修复与214A完整资源已通过；214B负责全部正式战斗合同，随后215 | 214 必须保持九对象 `ltwj`、gate-only MP `qlaoyi`、P1/P2 owner 与正式/TestScene 同源；215/216 不抢占当前 Ready |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待 `LINE-PRE-STAGE-2-3-PRESENTATION` 关闭 | 六段证据尚未开始 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
@@ -415,3 +415,11 @@
 2026-09-03 用户复验补充：5173 正式双人战斗中角色/宠物 HP 会下降，但头顶没有承伤数字；运行 trace 也只记录以怪物为 target 的 211/212 反馈。原版 `BaseHero.reduceHp()` 与 `BasePet.reduceHp()` 分别调用 `addHeroHurtMc()` / `addMonHurtMc()`，共同使用恢复 `OtherMat1.swf` 的 `pnum0..9`，现有索引已明确 211/212 未覆盖该方向。新增 `M-054/VS-072` 与 `TASK-SETTINGS-215 -> TASK-SLICE-216`，排在 213/214 之后；先冻结数值、特殊防御、P1/P2 owner、几何及时序，再实现正式五关/TestScene 消费，不重开怪物数字与连击。
 
 2026-08-27 用户在正式保存档观察到马宠物已有攻击表现，但怪物没有可辨识受击效果，且现代缺少原版伤害数字/连击动画。代码与 940×590 运行诊断确认：共享怪物结算并不限制 Role 来源，英雄与猴系成功命中会实际扣 HP 并设置 hurt；当前马系正式桥尚无伤害解析，且所有来源的 `DamageEvent` 没有共享可见消费者。新增 `M-053/VS-071` 与 `TASK-SETTINGS-211 -> TASK-SLICE-212`，固定排在 209 生成的马系实现 210 之后；209 归档后当前唯一 Ready 已切到 210。
+
+2026-09-05 `TASK-SLICE-214` 执行前命中资源派生、多个运行实例、端到端校准三类规模门禁，标记 Split；唯一 Ready 改为 `TASK-SLICE-214A`（完整资源准备），随后 `TASK-SLICE-214B` 原样承接 44 项合同与 P1G/正式验收。仅重排交接，未改 src 或提升复现状态；青龙完整闭合前不执行 215 或下一家族。
+
+2026-09-05 213A 已归档并恢复214A Ready：补齐31本体动作、234逐cell状态，修正六张trigger基准与倒计时误读；同一213真值verified，15类mutation与完整检查通过。功能线继续Active，214B完整正式验收仍待实施。
+
+2026-09-05 214A资源准备已归档：153文件、345状态零像素差、627host ticks和4类视觉变异，build/所有权检查通过。唯一Ready切换214B，功能线仍Active；P1G与正式分身/技能/命中治疗仍待完整实现。
+
+2026-09-05 214B 首次 compact 后留检查点并 Split：214C 唯一 Ready，214D/214E Planned。按初阶完整链、二三阶增量、四阶与全家族验收连续交接；214/214B 全 44 项合同保留，214E 全通过后才进入215。

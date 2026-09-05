@@ -1067,3 +1067,7 @@ sp/bd 命中可添加同一 `PetHorseIceEffect`，按目标 `colipse` 尺寸缩�
 马系与猴系不可共用 generic 技能模板：horse2..4 的 `bd` 由受击 flag 门控并在 projectile 创建时清除；horse3/4 保留早阶技能；horse4 奥义按 monster 数量逐个生成下落物，`sp` 控制 tracking、`bd` 控制 `hit5_1` 的 2.4 秒冰冻并令爆炸延迟 1 秒、`bz` 控制 `hit5_2` 爆炸。现代 `HorsePetBehavior` 的字符串普攻、旧最小 skill request 和独立 `FormalPetHorseBodyBridge/PetRuntimeSystem` 不能证明命中。完整证据和 210 的 field→scenario→trace→assertion 交接见 `evidence/TASK-SETTINGS-209-pet-horse-family.md`。
 
 
+
+2026-09-05 213A 修正当前青龙真值：31个完整本体动作、234个逐cell状态加入 visualTruth.bodyTimelines/bodyClock，基准总345。原12/24/36/48是剩余计数；按时间先后为48/36/24/12，对应elapsed tick 1/13/25/37，分身left/right/left/right；trigger首回调在pet根坐标生成。原第48tick触发结论撤销，六张trigger错位基准已修复，15类负向检查通过；同一truth恢复verified，正式实现仍未闭合。
+
+2026-09-05 TASK-SLICE-214A资源准备完成：153文件/11对象已由PetDragonAnimationAssets直接消费213修复真值，combat-common唯一加载；627host ticks与345状态零像素差、4类视觉变异通过。透明边缘裁切保留原注册点与可见像素，解码约61MiB。214B现为唯一Ready，负责全部正式战斗/P1G；本次不提高青龙战斗或VS-067完整复现状态，不计完整第三家族实施成功。

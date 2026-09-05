@@ -1,0 +1,74 @@
+{
+  "taskId": "TASK-SETTINGS-213A",
+  "truthId": "task-settings-213.pet-dragon-family",
+  "scope": "original-source visual evidence only; no modern runtime or gameplay claim",
+  "bodyActions": 31,
+  "bodyCellStates": 234,
+  "totalBaselines": 345,
+  "priorStatesRetainedUnchanged": 105,
+  "priorStatesCorrected": [
+    {
+      "id": "dragon4-qlaoyi.frame01.left",
+      "oldSha256": "556db43ea4619214c7a495705a903e2eff2c62cf84863e31f188ea008199c81b",
+      "newSha256": "546b6e90edb73379fe5e80caf1e8a7cbbf522ee75198d534aea121d83c24bced",
+      "changedPixels": 77966,
+      "correction": "root y, removing incorrect +40 fixture offset"
+    },
+    {
+      "id": "dragon4-qlaoyi.frame01.right",
+      "oldSha256": "faebbb10fa8ecd22cb24c5c2c44226f09f192e546d9a28faa1c4aa42d9e4dd8e",
+      "newSha256": "949202d4996a2bdf0fe239a780487679d7e0781e3594d27c6c1e687d2fdad34d",
+      "changedPixels": 77966,
+      "correction": "root y, removing incorrect +40 fixture offset"
+    },
+    {
+      "id": "dragon4-qlaoyi.frame24.left",
+      "oldSha256": "c0bf6cd943f55077345f9af7889420639c6642235577684160929a2ec610ec2e",
+      "newSha256": "01252e87ac7c17804bd5d4d43ca952403767d9ed82f6fe2fc3f8845f30b41ab5",
+      "changedPixels": 82594,
+      "correction": "root y, removing incorrect +40 fixture offset"
+    },
+    {
+      "id": "dragon4-qlaoyi.frame24.right",
+      "oldSha256": "0b6c7d91d74aded322f1b9af11a2cdbc35519cf5da83f56ef0f90cb3dd7ca18f",
+      "newSha256": "b159189727b58f1fb3166e7769da3983a12911e60843af3207eaabdebadf9b72",
+      "changedPixels": 82594,
+      "correction": "root y, removing incorrect +40 fixture offset"
+    },
+    {
+      "id": "dragon4-qlaoyi.frame48.left",
+      "oldSha256": "17a5601a9b70e28c24305c0906cc42362132deee992fad97043453f00688a762",
+      "newSha256": "6b1bea32dec514aa8c2b7cffda7c75ce59d020f9a3fddb9a60f124488476e8bc",
+      "changedPixels": 82585,
+      "correction": "root y, removing incorrect +40 fixture offset"
+    },
+    {
+      "id": "dragon4-qlaoyi.frame48.right",
+      "oldSha256": "886ad1e6919f723d730e73be225940b8861835cad4ff73b6213a1f20b7c4c861",
+      "newSha256": "5be49731de088586ee1469de2a514dc57c3d6b0140ded1d1f9689d8271cca67d",
+      "changedPixels": 82585,
+      "correction": "root y, removing incorrect +40 fixture offset"
+    }
+  ],
+  "newStates": 234,
+  "sourcePixelCheck": "verify-pet-dragon-visual-truth.py: every new body cell plus all six trigger fixtures",
+  "clock": "remaining hold count; enter before decrement; trigger elapsed callback 1, clones 1/13/25/37",
+  "mutationKills": [
+    "missing-wait",
+    "missing-walk",
+    "missing-hurt",
+    "missing-dead",
+    "hold",
+    "row",
+    "loop",
+    "clock",
+    "transition",
+    "trigger-tick",
+    "clone-direction",
+    "root-offset",
+    "missing-baseline",
+    "baseline-image-y+40",
+    "emit-condition"
+  ],
+  "unresolved": []
+}

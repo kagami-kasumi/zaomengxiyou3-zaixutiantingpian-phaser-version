@@ -60,9 +60,14 @@
       "sha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9"
     },
     {
+      "id": "body-clock",
+      "file": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2"
+    },
+    {
       "id": "baseline-index",
       "file": "docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json",
-      "sha256": "106b1108526b5fc953538217395d5e22f743ae9e0cef2e5e3dc3f1e5c8d1a1bf"
+      "sha256": "70f146f6914f6eb7d4f0cceeb8d72268c773dcc044a5da6e80ba2529e65ac3df"
     }
   ],
   "visualTruth": {
@@ -76,7 +81,7 @@
       }
     },
     "baselineIndex": "docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json",
-    "baselineCount": 111,
+    "baselineCount": 345,
     "expectedBaselineIds": [
       "dragon1.wait.left",
       "dragon1.wait.right",
@@ -188,7 +193,241 @@
       "dragon3-ltwj.nine-object-wave.right",
       "dragon4-qlaoyi-aoyi-buff.frame01.fixed",
       "dragon4-qlaoyi-aoyi-buff.frame07.fixed",
-      "dragon4-qlaoyi-aoyi-buff.frame14.fixed"
+      "dragon4-qlaoyi-aoyi-buff.frame14.fixed",
+      "dragon1.wait.cell00.left",
+      "dragon1.wait.cell00.right",
+      "dragon1.wait.cell01.left",
+      "dragon1.wait.cell01.right",
+      "dragon1.wait.cell02.left",
+      "dragon1.wait.cell02.right",
+      "dragon1.wait.cell03.left",
+      "dragon1.wait.cell03.right",
+      "dragon1.wait.cell04.left",
+      "dragon1.wait.cell04.right",
+      "dragon1.wait.cell05.left",
+      "dragon1.wait.cell05.right",
+      "dragon1.walk.cell00.left",
+      "dragon1.walk.cell00.right",
+      "dragon1.walk.cell01.left",
+      "dragon1.walk.cell01.right",
+      "dragon1.walk.cell02.left",
+      "dragon1.walk.cell02.right",
+      "dragon1.walk.cell03.left",
+      "dragon1.walk.cell03.right",
+      "dragon1.walk.cell04.left",
+      "dragon1.walk.cell04.right",
+      "dragon1.walk.cell05.left",
+      "dragon1.walk.cell05.right",
+      "dragon1.hurt.cell00.left",
+      "dragon1.hurt.cell00.right",
+      "dragon1.normal.cell00.left",
+      "dragon1.normal.cell00.right",
+      "dragon1.normal.cell01.left",
+      "dragon1.normal.cell01.right",
+      "dragon1.normal.cell02.left",
+      "dragon1.normal.cell02.right",
+      "dragon1.normal.cell03.left",
+      "dragon1.normal.cell03.right",
+      "dragon1.fs.cell00.left",
+      "dragon1.fs.cell00.right",
+      "dragon1.fs.cell01.left",
+      "dragon1.fs.cell01.right",
+      "dragon1.fs.cell02.left",
+      "dragon1.fs.cell02.right",
+      "dragon1.fs.cell03.left",
+      "dragon1.fs.cell03.right",
+      "dragon1.fs.cell04.left",
+      "dragon1.fs.cell04.right",
+      "dragon1.dead.cell00.left",
+      "dragon1.dead.cell00.right",
+      "dragon1.dead.cell01.left",
+      "dragon1.dead.cell01.right",
+      "dragon1.dead.cell02.left",
+      "dragon1.dead.cell02.right",
+      "dragon1.dead.cell03.left",
+      "dragon1.dead.cell03.right",
+      "dragon2.wait.cell00.left",
+      "dragon2.wait.cell00.right",
+      "dragon2.wait.cell01.left",
+      "dragon2.wait.cell01.right",
+      "dragon2.wait.cell02.left",
+      "dragon2.wait.cell02.right",
+      "dragon2.wait.cell03.left",
+      "dragon2.wait.cell03.right",
+      "dragon2.wait.cell04.left",
+      "dragon2.wait.cell04.right",
+      "dragon2.wait.cell05.left",
+      "dragon2.wait.cell05.right",
+      "dragon2.walk.cell00.left",
+      "dragon2.walk.cell00.right",
+      "dragon2.walk.cell01.left",
+      "dragon2.walk.cell01.right",
+      "dragon2.walk.cell02.left",
+      "dragon2.walk.cell02.right",
+      "dragon2.walk.cell03.left",
+      "dragon2.walk.cell03.right",
+      "dragon2.hurt.cell00.left",
+      "dragon2.hurt.cell00.right",
+      "dragon2.normal.cell00.left",
+      "dragon2.normal.cell00.right",
+      "dragon2.normal.cell01.left",
+      "dragon2.normal.cell01.right",
+      "dragon2.normal.cell02.left",
+      "dragon2.normal.cell02.right",
+      "dragon2.normal.cell03.left",
+      "dragon2.normal.cell03.right",
+      "dragon2.fs.cell00.left",
+      "dragon2.fs.cell00.right",
+      "dragon2.fs.cell01.left",
+      "dragon2.fs.cell01.right",
+      "dragon2.fs.cell02.left",
+      "dragon2.fs.cell02.right",
+      "dragon2.fs.cell03.left",
+      "dragon2.fs.cell03.right",
+      "dragon2.fs.cell04.left",
+      "dragon2.fs.cell04.right",
+      "dragon2.sdcc.cell00.left",
+      "dragon2.sdcc.cell00.right",
+      "dragon2.dead.cell00.left",
+      "dragon2.dead.cell00.right",
+      "dragon2.dead.cell01.left",
+      "dragon2.dead.cell01.right",
+      "dragon2.dead.cell02.left",
+      "dragon2.dead.cell02.right",
+      "dragon2.dead.cell03.left",
+      "dragon2.dead.cell03.right",
+      "dragon2.dead.cell04.left",
+      "dragon2.dead.cell04.right",
+      "dragon3.wait.cell00.left",
+      "dragon3.wait.cell00.right",
+      "dragon3.wait.cell01.left",
+      "dragon3.wait.cell01.right",
+      "dragon3.wait.cell02.left",
+      "dragon3.wait.cell02.right",
+      "dragon3.wait.cell03.left",
+      "dragon3.wait.cell03.right",
+      "dragon3.wait.cell04.left",
+      "dragon3.wait.cell04.right",
+      "dragon3.wait.cell05.left",
+      "dragon3.wait.cell05.right",
+      "dragon3.walk.cell00.left",
+      "dragon3.walk.cell00.right",
+      "dragon3.walk.cell01.left",
+      "dragon3.walk.cell01.right",
+      "dragon3.walk.cell02.left",
+      "dragon3.walk.cell02.right",
+      "dragon3.walk.cell03.left",
+      "dragon3.walk.cell03.right",
+      "dragon3.hurt.cell00.left",
+      "dragon3.hurt.cell00.right",
+      "dragon3.normal.cell00.left",
+      "dragon3.normal.cell00.right",
+      "dragon3.normal.cell01.left",
+      "dragon3.normal.cell01.right",
+      "dragon3.normal.cell02.left",
+      "dragon3.normal.cell02.right",
+      "dragon3.normal.cell03.left",
+      "dragon3.normal.cell03.right",
+      "dragon3.normal.cell04.left",
+      "dragon3.normal.cell04.right",
+      "dragon3.normal.cell05.left",
+      "dragon3.normal.cell05.right",
+      "dragon3.fs.cell00.left",
+      "dragon3.fs.cell00.right",
+      "dragon3.fs.cell01.left",
+      "dragon3.fs.cell01.right",
+      "dragon3.fs.cell02.left",
+      "dragon3.fs.cell02.right",
+      "dragon3.fs.cell03.left",
+      "dragon3.fs.cell03.right",
+      "dragon3.fs.cell04.left",
+      "dragon3.fs.cell04.right",
+      "dragon3.sdcc.cell00.left",
+      "dragon3.sdcc.cell00.right",
+      "dragon3.ltwj.cell00.left",
+      "dragon3.ltwj.cell00.right",
+      "dragon3.ltwj.cell01.left",
+      "dragon3.ltwj.cell01.right",
+      "dragon3.ltwj.cell02.left",
+      "dragon3.ltwj.cell02.right",
+      "dragon3.dead.cell00.left",
+      "dragon3.dead.cell00.right",
+      "dragon3.dead.cell01.left",
+      "dragon3.dead.cell01.right",
+      "dragon3.dead.cell02.left",
+      "dragon3.dead.cell02.right",
+      "dragon3.dead.cell03.left",
+      "dragon3.dead.cell03.right",
+      "dragon3.dead.cell04.left",
+      "dragon3.dead.cell04.right",
+      "dragon4.wait.cell00.left",
+      "dragon4.wait.cell00.right",
+      "dragon4.wait.cell01.left",
+      "dragon4.wait.cell01.right",
+      "dragon4.wait.cell02.left",
+      "dragon4.wait.cell02.right",
+      "dragon4.wait.cell03.left",
+      "dragon4.wait.cell03.right",
+      "dragon4.wait.cell04.left",
+      "dragon4.wait.cell04.right",
+      "dragon4.wait.cell05.left",
+      "dragon4.wait.cell05.right",
+      "dragon4.walk.cell00.left",
+      "dragon4.walk.cell00.right",
+      "dragon4.walk.cell01.left",
+      "dragon4.walk.cell01.right",
+      "dragon4.walk.cell02.left",
+      "dragon4.walk.cell02.right",
+      "dragon4.walk.cell03.left",
+      "dragon4.walk.cell03.right",
+      "dragon4.hurt.cell00.left",
+      "dragon4.hurt.cell00.right",
+      "dragon4.normal.cell00.left",
+      "dragon4.normal.cell00.right",
+      "dragon4.normal.cell01.left",
+      "dragon4.normal.cell01.right",
+      "dragon4.normal.cell02.left",
+      "dragon4.normal.cell02.right",
+      "dragon4.normal.cell03.left",
+      "dragon4.normal.cell03.right",
+      "dragon4.normal.cell04.left",
+      "dragon4.normal.cell04.right",
+      "dragon4.normal.cell05.left",
+      "dragon4.normal.cell05.right",
+      "dragon4.fs.cell00.left",
+      "dragon4.fs.cell00.right",
+      "dragon4.fs.cell01.left",
+      "dragon4.fs.cell01.right",
+      "dragon4.fs.cell02.left",
+      "dragon4.fs.cell02.right",
+      "dragon4.fs.cell03.left",
+      "dragon4.fs.cell03.right",
+      "dragon4.fs.cell04.left",
+      "dragon4.fs.cell04.right",
+      "dragon4.sdcc.cell00.left",
+      "dragon4.sdcc.cell00.right",
+      "dragon4.ltwj.cell00.left",
+      "dragon4.ltwj.cell00.right",
+      "dragon4.ltwj.cell01.left",
+      "dragon4.ltwj.cell01.right",
+      "dragon4.ltwj.cell02.left",
+      "dragon4.ltwj.cell02.right",
+      "dragon4.qlaoyi.cell00.left",
+      "dragon4.qlaoyi.cell00.right",
+      "dragon4.qlaoyi-ltwj-link.cell00.left",
+      "dragon4.qlaoyi-ltwj-link.cell00.right",
+      "dragon4.qlaoyi-ltwj-link.cell01.left",
+      "dragon4.qlaoyi-ltwj-link.cell01.right",
+      "dragon4.dead.cell00.left",
+      "dragon4.dead.cell00.right",
+      "dragon4.dead.cell01.left",
+      "dragon4.dead.cell01.right",
+      "dragon4.dead.cell02.left",
+      "dragon4.dead.cell02.right",
+      "dragon4.dead.cell03.left",
+      "dragon4.dead.cell03.right",
+      "dragon4.dead.cell04.left",
+      "dragon4.dead.cell04.right"
     ],
     "extractedBaselineIds": [
       "dragon1.wait.left",
@@ -301,7 +540,241 @@
       "dragon3-ltwj.nine-object-wave.right",
       "dragon4-qlaoyi-aoyi-buff.frame01.fixed",
       "dragon4-qlaoyi-aoyi-buff.frame07.fixed",
-      "dragon4-qlaoyi-aoyi-buff.frame14.fixed"
+      "dragon4-qlaoyi-aoyi-buff.frame14.fixed",
+      "dragon1.wait.cell00.left",
+      "dragon1.wait.cell00.right",
+      "dragon1.wait.cell01.left",
+      "dragon1.wait.cell01.right",
+      "dragon1.wait.cell02.left",
+      "dragon1.wait.cell02.right",
+      "dragon1.wait.cell03.left",
+      "dragon1.wait.cell03.right",
+      "dragon1.wait.cell04.left",
+      "dragon1.wait.cell04.right",
+      "dragon1.wait.cell05.left",
+      "dragon1.wait.cell05.right",
+      "dragon1.walk.cell00.left",
+      "dragon1.walk.cell00.right",
+      "dragon1.walk.cell01.left",
+      "dragon1.walk.cell01.right",
+      "dragon1.walk.cell02.left",
+      "dragon1.walk.cell02.right",
+      "dragon1.walk.cell03.left",
+      "dragon1.walk.cell03.right",
+      "dragon1.walk.cell04.left",
+      "dragon1.walk.cell04.right",
+      "dragon1.walk.cell05.left",
+      "dragon1.walk.cell05.right",
+      "dragon1.hurt.cell00.left",
+      "dragon1.hurt.cell00.right",
+      "dragon1.normal.cell00.left",
+      "dragon1.normal.cell00.right",
+      "dragon1.normal.cell01.left",
+      "dragon1.normal.cell01.right",
+      "dragon1.normal.cell02.left",
+      "dragon1.normal.cell02.right",
+      "dragon1.normal.cell03.left",
+      "dragon1.normal.cell03.right",
+      "dragon1.fs.cell00.left",
+      "dragon1.fs.cell00.right",
+      "dragon1.fs.cell01.left",
+      "dragon1.fs.cell01.right",
+      "dragon1.fs.cell02.left",
+      "dragon1.fs.cell02.right",
+      "dragon1.fs.cell03.left",
+      "dragon1.fs.cell03.right",
+      "dragon1.fs.cell04.left",
+      "dragon1.fs.cell04.right",
+      "dragon1.dead.cell00.left",
+      "dragon1.dead.cell00.right",
+      "dragon1.dead.cell01.left",
+      "dragon1.dead.cell01.right",
+      "dragon1.dead.cell02.left",
+      "dragon1.dead.cell02.right",
+      "dragon1.dead.cell03.left",
+      "dragon1.dead.cell03.right",
+      "dragon2.wait.cell00.left",
+      "dragon2.wait.cell00.right",
+      "dragon2.wait.cell01.left",
+      "dragon2.wait.cell01.right",
+      "dragon2.wait.cell02.left",
+      "dragon2.wait.cell02.right",
+      "dragon2.wait.cell03.left",
+      "dragon2.wait.cell03.right",
+      "dragon2.wait.cell04.left",
+      "dragon2.wait.cell04.right",
+      "dragon2.wait.cell05.left",
+      "dragon2.wait.cell05.right",
+      "dragon2.walk.cell00.left",
+      "dragon2.walk.cell00.right",
+      "dragon2.walk.cell01.left",
+      "dragon2.walk.cell01.right",
+      "dragon2.walk.cell02.left",
+      "dragon2.walk.cell02.right",
+      "dragon2.walk.cell03.left",
+      "dragon2.walk.cell03.right",
+      "dragon2.hurt.cell00.left",
+      "dragon2.hurt.cell00.right",
+      "dragon2.normal.cell00.left",
+      "dragon2.normal.cell00.right",
+      "dragon2.normal.cell01.left",
+      "dragon2.normal.cell01.right",
+      "dragon2.normal.cell02.left",
+      "dragon2.normal.cell02.right",
+      "dragon2.normal.cell03.left",
+      "dragon2.normal.cell03.right",
+      "dragon2.fs.cell00.left",
+      "dragon2.fs.cell00.right",
+      "dragon2.fs.cell01.left",
+      "dragon2.fs.cell01.right",
+      "dragon2.fs.cell02.left",
+      "dragon2.fs.cell02.right",
+      "dragon2.fs.cell03.left",
+      "dragon2.fs.cell03.right",
+      "dragon2.fs.cell04.left",
+      "dragon2.fs.cell04.right",
+      "dragon2.sdcc.cell00.left",
+      "dragon2.sdcc.cell00.right",
+      "dragon2.dead.cell00.left",
+      "dragon2.dead.cell00.right",
+      "dragon2.dead.cell01.left",
+      "dragon2.dead.cell01.right",
+      "dragon2.dead.cell02.left",
+      "dragon2.dead.cell02.right",
+      "dragon2.dead.cell03.left",
+      "dragon2.dead.cell03.right",
+      "dragon2.dead.cell04.left",
+      "dragon2.dead.cell04.right",
+      "dragon3.wait.cell00.left",
+      "dragon3.wait.cell00.right",
+      "dragon3.wait.cell01.left",
+      "dragon3.wait.cell01.right",
+      "dragon3.wait.cell02.left",
+      "dragon3.wait.cell02.right",
+      "dragon3.wait.cell03.left",
+      "dragon3.wait.cell03.right",
+      "dragon3.wait.cell04.left",
+      "dragon3.wait.cell04.right",
+      "dragon3.wait.cell05.left",
+      "dragon3.wait.cell05.right",
+      "dragon3.walk.cell00.left",
+      "dragon3.walk.cell00.right",
+      "dragon3.walk.cell01.left",
+      "dragon3.walk.cell01.right",
+      "dragon3.walk.cell02.left",
+      "dragon3.walk.cell02.right",
+      "dragon3.walk.cell03.left",
+      "dragon3.walk.cell03.right",
+      "dragon3.hurt.cell00.left",
+      "dragon3.hurt.cell00.right",
+      "dragon3.normal.cell00.left",
+      "dragon3.normal.cell00.right",
+      "dragon3.normal.cell01.left",
+      "dragon3.normal.cell01.right",
+      "dragon3.normal.cell02.left",
+      "dragon3.normal.cell02.right",
+      "dragon3.normal.cell03.left",
+      "dragon3.normal.cell03.right",
+      "dragon3.normal.cell04.left",
+      "dragon3.normal.cell04.right",
+      "dragon3.normal.cell05.left",
+      "dragon3.normal.cell05.right",
+      "dragon3.fs.cell00.left",
+      "dragon3.fs.cell00.right",
+      "dragon3.fs.cell01.left",
+      "dragon3.fs.cell01.right",
+      "dragon3.fs.cell02.left",
+      "dragon3.fs.cell02.right",
+      "dragon3.fs.cell03.left",
+      "dragon3.fs.cell03.right",
+      "dragon3.fs.cell04.left",
+      "dragon3.fs.cell04.right",
+      "dragon3.sdcc.cell00.left",
+      "dragon3.sdcc.cell00.right",
+      "dragon3.ltwj.cell00.left",
+      "dragon3.ltwj.cell00.right",
+      "dragon3.ltwj.cell01.left",
+      "dragon3.ltwj.cell01.right",
+      "dragon3.ltwj.cell02.left",
+      "dragon3.ltwj.cell02.right",
+      "dragon3.dead.cell00.left",
+      "dragon3.dead.cell00.right",
+      "dragon3.dead.cell01.left",
+      "dragon3.dead.cell01.right",
+      "dragon3.dead.cell02.left",
+      "dragon3.dead.cell02.right",
+      "dragon3.dead.cell03.left",
+      "dragon3.dead.cell03.right",
+      "dragon3.dead.cell04.left",
+      "dragon3.dead.cell04.right",
+      "dragon4.wait.cell00.left",
+      "dragon4.wait.cell00.right",
+      "dragon4.wait.cell01.left",
+      "dragon4.wait.cell01.right",
+      "dragon4.wait.cell02.left",
+      "dragon4.wait.cell02.right",
+      "dragon4.wait.cell03.left",
+      "dragon4.wait.cell03.right",
+      "dragon4.wait.cell04.left",
+      "dragon4.wait.cell04.right",
+      "dragon4.wait.cell05.left",
+      "dragon4.wait.cell05.right",
+      "dragon4.walk.cell00.left",
+      "dragon4.walk.cell00.right",
+      "dragon4.walk.cell01.left",
+      "dragon4.walk.cell01.right",
+      "dragon4.walk.cell02.left",
+      "dragon4.walk.cell02.right",
+      "dragon4.walk.cell03.left",
+      "dragon4.walk.cell03.right",
+      "dragon4.hurt.cell00.left",
+      "dragon4.hurt.cell00.right",
+      "dragon4.normal.cell00.left",
+      "dragon4.normal.cell00.right",
+      "dragon4.normal.cell01.left",
+      "dragon4.normal.cell01.right",
+      "dragon4.normal.cell02.left",
+      "dragon4.normal.cell02.right",
+      "dragon4.normal.cell03.left",
+      "dragon4.normal.cell03.right",
+      "dragon4.normal.cell04.left",
+      "dragon4.normal.cell04.right",
+      "dragon4.normal.cell05.left",
+      "dragon4.normal.cell05.right",
+      "dragon4.fs.cell00.left",
+      "dragon4.fs.cell00.right",
+      "dragon4.fs.cell01.left",
+      "dragon4.fs.cell01.right",
+      "dragon4.fs.cell02.left",
+      "dragon4.fs.cell02.right",
+      "dragon4.fs.cell03.left",
+      "dragon4.fs.cell03.right",
+      "dragon4.fs.cell04.left",
+      "dragon4.fs.cell04.right",
+      "dragon4.sdcc.cell00.left",
+      "dragon4.sdcc.cell00.right",
+      "dragon4.ltwj.cell00.left",
+      "dragon4.ltwj.cell00.right",
+      "dragon4.ltwj.cell01.left",
+      "dragon4.ltwj.cell01.right",
+      "dragon4.ltwj.cell02.left",
+      "dragon4.ltwj.cell02.right",
+      "dragon4.qlaoyi.cell00.left",
+      "dragon4.qlaoyi.cell00.right",
+      "dragon4.qlaoyi-ltwj-link.cell00.left",
+      "dragon4.qlaoyi-ltwj-link.cell00.right",
+      "dragon4.qlaoyi-ltwj-link.cell01.left",
+      "dragon4.qlaoyi-ltwj-link.cell01.right",
+      "dragon4.dead.cell00.left",
+      "dragon4.dead.cell00.right",
+      "dragon4.dead.cell01.left",
+      "dragon4.dead.cell01.right",
+      "dragon4.dead.cell02.left",
+      "dragon4.dead.cell02.right",
+      "dragon4.dead.cell03.left",
+      "dragon4.dead.cell03.right",
+      "dragon4.dead.cell04.left",
+      "dragon4.dead.cell04.right"
     ],
     "displayObjectCount": 11,
     "displayObjects": [
@@ -4093,6 +4566,1580 @@
         ]
       }
     ],
+    "bodyTimelines": [
+      {
+        "form": 1,
+        "source": {
+          "file": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon1.as",
+          "sha256": "a1d9f80e9fc68784b6d4e63d43cd7703baf53ff4a46ed97eadd129f0e5f3998e",
+          "initLine": 63,
+          "setActionLine": 92,
+          "frameOverLine": 148
+        },
+        "rowCount": 5,
+        "actions": [
+          {
+            "id": "wait",
+            "sourceAction": "wait",
+            "row": 0,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 3,
+                "firstHostTick": 7,
+                "lastHostTick": 9
+              },
+              {
+                "column": 4,
+                "holdTicks": 2,
+                "firstHostTick": 10,
+                "lastHostTick": 11
+              },
+              {
+                "column": 5,
+                "holdTicks": 4,
+                "firstHostTick": 12,
+                "lastHostTick": 15
+              }
+            ],
+            "totalHostTicks": 15,
+            "loops": true,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": true,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.bbdc.setFramePointX(0);\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "walk",
+            "sourceAction": "walk",
+            "row": 0,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 3,
+                "firstHostTick": 7,
+                "lastHostTick": 9
+              },
+              {
+                "column": 4,
+                "holdTicks": 2,
+                "firstHostTick": 10,
+                "lastHostTick": 11
+              },
+              {
+                "column": 5,
+                "holdTicks": 4,
+                "firstHostTick": 12,
+                "lastHostTick": 15
+              }
+            ],
+            "totalHostTicks": 15,
+            "loops": true,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": true,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.bbdc.setFramePointX(0);\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "walk"
+                }
+              ]
+            }
+          },
+          {
+            "id": "hurt",
+            "sourceAction": "hurt",
+            "row": 1,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 8,
+                "firstHostTick": 1,
+                "lastHostTick": 8
+              }
+            ],
+            "totalHostTicks": 8,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": true,
+              "destroys": false,
+              "sourceCode": "this.setStatic();\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "normal",
+            "sourceAction": "hit1",
+            "row": 3,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 10,
+                "firstHostTick": 7,
+                "lastHostTick": 16
+              }
+            ],
+            "totalHostTicks": 16,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "fs",
+            "sourceAction": "hit2",
+            "row": 4,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 7,
+                "lastHostTick": 8
+              },
+              {
+                "column": 4,
+                "holdTicks": 10,
+                "firstHostTick": 9,
+                "lastHostTick": 18
+              }
+            ],
+            "totalHostTicks": 18,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "dead",
+            "sourceAction": "dead",
+            "row": 2,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 10,
+                "firstHostTick": 7,
+                "lastHostTick": 16
+              }
+            ],
+            "totalHostTicks": 16,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": true,
+              "sourceCode": "this.destroy();\n         }",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "destroy"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "form": 2,
+        "source": {
+          "file": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon2.as",
+          "sha256": "c2eaf4311f7d612143397a8339b70e5e5c07119c19f54046fe398fa822354b8f",
+          "initLine": 63,
+          "setActionLine": 92,
+          "frameOverLine": 156
+        },
+        "rowCount": 7,
+        "actions": [
+          {
+            "id": "wait",
+            "sourceAction": "wait",
+            "row": 0,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 3,
+                "firstHostTick": 7,
+                "lastHostTick": 9
+              },
+              {
+                "column": 4,
+                "holdTicks": 2,
+                "firstHostTick": 10,
+                "lastHostTick": 11
+              },
+              {
+                "column": 5,
+                "holdTicks": 4,
+                "firstHostTick": 12,
+                "lastHostTick": 15
+              }
+            ],
+            "totalHostTicks": 15,
+            "loops": true,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": true,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.bbdc.setFramePointX(0);\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "walk",
+            "sourceAction": "walk",
+            "row": 1,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 4,
+                "firstHostTick": 1,
+                "lastHostTick": 4
+              },
+              {
+                "column": 1,
+                "holdTicks": 4,
+                "firstHostTick": 5,
+                "lastHostTick": 8
+              },
+              {
+                "column": 2,
+                "holdTicks": 4,
+                "firstHostTick": 9,
+                "lastHostTick": 12
+              },
+              {
+                "column": 3,
+                "holdTicks": 4,
+                "firstHostTick": 13,
+                "lastHostTick": 16
+              }
+            ],
+            "totalHostTicks": 16,
+            "loops": true,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": true,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.bbdc.setFramePointX(0);\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "walk"
+                }
+              ]
+            }
+          },
+          {
+            "id": "hurt",
+            "sourceAction": "hurt",
+            "row": 2,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 8,
+                "firstHostTick": 1,
+                "lastHostTick": 8
+              }
+            ],
+            "totalHostTicks": 8,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": true,
+              "destroys": false,
+              "sourceCode": "this.setStatic();\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "normal",
+            "sourceAction": "hit1",
+            "row": 4,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 10,
+                "firstHostTick": 7,
+                "lastHostTick": 16
+              }
+            ],
+            "totalHostTicks": 16,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "fs",
+            "sourceAction": "hit2",
+            "row": 5,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 7,
+                "lastHostTick": 8
+              },
+              {
+                "column": 4,
+                "holdTicks": 10,
+                "firstHostTick": 9,
+                "lastHostTick": 18
+              }
+            ],
+            "totalHostTicks": 18,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "sdcc",
+            "sourceAction": "hit3",
+            "row": 6,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 30,
+                "firstHostTick": 1,
+                "lastHostTick": 30
+              }
+            ],
+            "totalHostTicks": 30,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": true,
+              "destroys": false,
+              "sourceCode": "this.setStatic();\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "dead",
+            "sourceAction": "dead",
+            "row": 3,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 7,
+                "lastHostTick": 8
+              },
+              {
+                "column": 4,
+                "holdTicks": 10,
+                "firstHostTick": 9,
+                "lastHostTick": 18
+              }
+            ],
+            "totalHostTicks": 18,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": true,
+              "sourceCode": "this.destroy();\n         }",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "destroy"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "form": 3,
+        "source": {
+          "file": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon3.as",
+          "sha256": "83b57dc5e73d355dfb67ca3d83c707e2d50319d524195ea4ef2645099bff25c7",
+          "initLine": 63,
+          "setActionLine": 92,
+          "frameOverLine": 164
+        },
+        "rowCount": 8,
+        "actions": [
+          {
+            "id": "wait",
+            "sourceAction": "wait",
+            "row": 0,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 3,
+                "firstHostTick": 7,
+                "lastHostTick": 9
+              },
+              {
+                "column": 4,
+                "holdTicks": 2,
+                "firstHostTick": 10,
+                "lastHostTick": 11
+              },
+              {
+                "column": 5,
+                "holdTicks": 4,
+                "firstHostTick": 12,
+                "lastHostTick": 15
+              }
+            ],
+            "totalHostTicks": 15,
+            "loops": true,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": true,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.bbdc.setFramePointX(0);\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "walk",
+            "sourceAction": "walk",
+            "row": 1,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 4,
+                "firstHostTick": 1,
+                "lastHostTick": 4
+              },
+              {
+                "column": 1,
+                "holdTicks": 4,
+                "firstHostTick": 5,
+                "lastHostTick": 8
+              },
+              {
+                "column": 2,
+                "holdTicks": 4,
+                "firstHostTick": 9,
+                "lastHostTick": 12
+              },
+              {
+                "column": 3,
+                "holdTicks": 4,
+                "firstHostTick": 13,
+                "lastHostTick": 16
+              }
+            ],
+            "totalHostTicks": 16,
+            "loops": true,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": true,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.bbdc.setFramePointX(0);\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "walk"
+                }
+              ]
+            }
+          },
+          {
+            "id": "hurt",
+            "sourceAction": "hurt",
+            "row": 2,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 8,
+                "firstHostTick": 1,
+                "lastHostTick": 8
+              }
+            ],
+            "totalHostTicks": 8,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": true,
+              "destroys": false,
+              "sourceCode": "this.setStatic();\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "normal",
+            "sourceAction": "hit1",
+            "row": 4,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 7,
+                "firstHostTick": 5,
+                "lastHostTick": 11
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 12,
+                "lastHostTick": 13
+              },
+              {
+                "column": 4,
+                "holdTicks": 2,
+                "firstHostTick": 14,
+                "lastHostTick": 15
+              },
+              {
+                "column": 5,
+                "holdTicks": 10,
+                "firstHostTick": 16,
+                "lastHostTick": 25
+              }
+            ],
+            "totalHostTicks": 25,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "fs",
+            "sourceAction": "hit2",
+            "row": 5,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 7,
+                "lastHostTick": 8
+              },
+              {
+                "column": 4,
+                "holdTicks": 10,
+                "firstHostTick": 9,
+                "lastHostTick": 18
+              }
+            ],
+            "totalHostTicks": 18,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "sdcc",
+            "sourceAction": "hit3",
+            "row": 6,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 30,
+                "firstHostTick": 1,
+                "lastHostTick": 30
+              }
+            ],
+            "totalHostTicks": 30,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": true,
+              "destroys": false,
+              "sourceCode": "this.setStatic();\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ltwj",
+            "sourceAction": "hit4",
+            "row": 7,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 30,
+                "firstHostTick": 5,
+                "lastHostTick": 34
+              }
+            ],
+            "totalHostTicks": 34,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "dead",
+            "sourceAction": "dead",
+            "row": 3,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 7,
+                "lastHostTick": 8
+              },
+              {
+                "column": 4,
+                "holdTicks": 10,
+                "firstHostTick": 9,
+                "lastHostTick": 18
+              }
+            ],
+            "totalHostTicks": 18,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": true,
+              "sourceCode": "this.destroy();\n         }",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "destroy"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "form": 4,
+        "source": {
+          "file": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon4.as",
+          "sha256": "b34c427a30308ade65a1c3a7a9b2ae48da98f9dd76005f89325c1f259b0a2403",
+          "initLine": 73,
+          "setActionLine": 102,
+          "frameOverLine": 193
+        },
+        "rowCount": 10,
+        "actions": [
+          {
+            "id": "wait",
+            "sourceAction": "wait",
+            "row": 0,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 3,
+                "firstHostTick": 7,
+                "lastHostTick": 9
+              },
+              {
+                "column": 4,
+                "holdTicks": 2,
+                "firstHostTick": 10,
+                "lastHostTick": 11
+              },
+              {
+                "column": 5,
+                "holdTicks": 4,
+                "firstHostTick": 12,
+                "lastHostTick": 15
+              }
+            ],
+            "totalHostTicks": 15,
+            "loops": true,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": true
+            },
+            "completion": {
+              "resetColumn": true,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.bbdc.setFramePointX(0);\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "walk",
+            "sourceAction": "walk",
+            "row": 1,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 4,
+                "firstHostTick": 1,
+                "lastHostTick": 4
+              },
+              {
+                "column": 1,
+                "holdTicks": 4,
+                "firstHostTick": 5,
+                "lastHostTick": 8
+              },
+              {
+                "column": 2,
+                "holdTicks": 4,
+                "firstHostTick": 9,
+                "lastHostTick": 12
+              },
+              {
+                "column": 3,
+                "holdTicks": 4,
+                "firstHostTick": 13,
+                "lastHostTick": 16
+              }
+            ],
+            "totalHostTicks": 16,
+            "loops": true,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": true
+            },
+            "completion": {
+              "resetColumn": true,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.bbdc.setFramePointX(0);\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "walk"
+                }
+              ]
+            }
+          },
+          {
+            "id": "hurt",
+            "sourceAction": "hurt",
+            "row": 2,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 8,
+                "firstHostTick": 1,
+                "lastHostTick": 8
+              }
+            ],
+            "totalHostTicks": 8,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": true
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": true,
+              "destroys": false,
+              "sourceCode": "this.setStatic();\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "normal",
+            "sourceAction": "hit1",
+            "row": 4,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 7,
+                "firstHostTick": 5,
+                "lastHostTick": 11
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 12,
+                "lastHostTick": 13
+              },
+              {
+                "column": 4,
+                "holdTicks": 2,
+                "firstHostTick": 14,
+                "lastHostTick": 15
+              },
+              {
+                "column": 5,
+                "holdTicks": 10,
+                "firstHostTick": 16,
+                "lastHostTick": 25
+              }
+            ],
+            "totalHostTicks": 25,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "fs",
+            "sourceAction": "hit2",
+            "row": 5,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 7,
+                "lastHostTick": 8
+              },
+              {
+                "column": 4,
+                "holdTicks": 10,
+                "firstHostTick": 9,
+                "lastHostTick": 18
+              }
+            ],
+            "totalHostTicks": 18,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "sdcc",
+            "sourceAction": "hit3",
+            "row": 6,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 30,
+                "firstHostTick": 1,
+                "lastHostTick": 30
+              }
+            ],
+            "totalHostTicks": 30,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": true,
+              "destroys": false,
+              "sourceCode": "this.setStatic();\n               if(this.isAoyi)\n               {\n                  if(this._petInfo.findHasStudySkill(\"ltwj\"))\n                  {\n                     this.releSkill3WithoutMana();\n                     break;\n                  }\n                  this.isAoyi = false;\n                  this.setAction(\"wait\");\n                  break;\n               }\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [
+                    "isAoyi",
+                    "learned:ltwj"
+                  ],
+                  "target": "ltwj",
+                  "free": true
+                },
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "ltwj",
+            "sourceAction": "hit4",
+            "row": 7,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 30,
+                "firstHostTick": 5,
+                "lastHostTick": 34
+              }
+            ],
+            "totalHostTicks": 34,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.isAoyi = false;\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "qlaoyi",
+            "sourceAction": "hit5",
+            "row": 8,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 48,
+                "firstHostTick": 1,
+                "lastHostTick": 48
+              }
+            ],
+            "totalHostTicks": 48,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "if(this.isAoyi)\n               {\n                  if(this._petInfo.findHasStudySkill(\"sdcc\"))\n                  {\n                     this.releSkill2WithoutMana();\n                     break;\n                  }\n                  if(this._petInfo.findHasStudySkill(\"ltwj\"))\n                  {\n                     this.setAction(\"hit6\");\n                     this.lastHit = \"hit6\";\n                     break;\n                  }\n                  this.setAction(\"wait\");\n                  break;\n               }\n               this.setAction(\"wait\");\n               break;",
+              "routes": [
+                {
+                  "when": [
+                    "isAoyi",
+                    "learned:sdcc"
+                  ],
+                  "target": "sdcc",
+                  "free": true
+                },
+                {
+                  "when": [
+                    "isAoyi",
+                    "learned:ltwj"
+                  ],
+                  "target": "qlaoyi-ltwj-link"
+                },
+                {
+                  "when": [],
+                  "target": "wait"
+                }
+              ]
+            }
+          },
+          {
+            "id": "qlaoyi-ltwj-link",
+            "sourceAction": "hit6",
+            "row": 9,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 40,
+                "firstHostTick": 3,
+                "lastHostTick": 42
+              }
+            ],
+            "totalHostTicks": 42,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": false,
+              "sourceCode": "this.releSkill3WithoutMana();\n               break;",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "ltwj",
+                  "free": true
+                }
+              ]
+            }
+          },
+          {
+            "id": "dead",
+            "sourceAction": "dead",
+            "row": 3,
+            "cells": [
+              {
+                "column": 0,
+                "holdTicks": 2,
+                "firstHostTick": 1,
+                "lastHostTick": 2
+              },
+              {
+                "column": 1,
+                "holdTicks": 2,
+                "firstHostTick": 3,
+                "lastHostTick": 4
+              },
+              {
+                "column": 2,
+                "holdTicks": 2,
+                "firstHostTick": 5,
+                "lastHostTick": 6
+              },
+              {
+                "column": 3,
+                "holdTicks": 2,
+                "firstHostTick": 7,
+                "lastHostTick": 8
+              },
+              {
+                "column": 4,
+                "holdTicks": 10,
+                "firstHostTick": 9,
+                "lastHostTick": 18
+              }
+            ],
+            "totalHostTicks": 18,
+            "loops": false,
+            "entry": {
+              "resetColumnOnlyOnRowChange": true,
+              "clearAoyi": false
+            },
+            "completion": {
+              "resetColumn": false,
+              "setStatic": false,
+              "destroys": true,
+              "sourceCode": "this.destroy();\n         }",
+              "routes": [
+                {
+                  "when": [],
+                  "target": "destroy"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "bodyClock": {
+      "unit": "host tick",
+      "counter": "remaining hold ticks",
+      "callbackOrder": [
+        "enter callback with current remaining count",
+        "decrement or advance/frame-over",
+        "exit callback"
+      ],
+      "firstHostTick": 1,
+      "source": {
+        "file": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+        "lines": [
+          461,
+          518,
+          552,
+          559
+        ]
+      }
+    },
     "directions": [
       "left",
       "right"
@@ -4238,8 +6285,9 @@
           ],
           "emitTiming": {
             "sequence": 3,
-            "holdTick": 10,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 10,
+            "elapsedHostTick": 7
           },
           "projectile": "PetDragon1Bullet1",
           "projectileType": "SpecialEffectBullet",
@@ -4265,8 +6313,9 @@
           ],
           "emitTiming": {
             "sequence": 4,
-            "holdTick": 2,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 2,
+            "elapsedHostTick": 17
           },
           "projectile": null,
           "projectileType": "SpecialEffectBullet",
@@ -4333,8 +6382,9 @@
           ],
           "emitTiming": {
             "sequence": 3,
-            "holdTick": 10,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 10,
+            "elapsedHostTick": 7
           },
           "projectile": "PetDragon2Bullet1",
           "projectileType": "SpecialEffectBullet",
@@ -4360,8 +6410,9 @@
           ],
           "emitTiming": {
             "sequence": 4,
-            "holdTick": 2,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 2,
+            "elapsedHostTick": 17
           },
           "projectile": null,
           "projectileType": "SpecialEffectBullet",
@@ -4385,8 +6436,9 @@
           ],
           "emitTiming": {
             "sequence": 0,
-            "holdTick": 24,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 24,
+            "elapsedHostTick": 7
           },
           "projectile": "PetDragon2Bullet2",
           "projectileType": "FollowBaseObjectBullet",
@@ -4470,8 +6522,9 @@
           ],
           "emitTiming": {
             "sequence": 2,
-            "holdTick": 7,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 7,
+            "elapsedHostTick": 5
           },
           "projectile": "PetDragon3Bullet1",
           "projectileType": "SpecialEffectBullet",
@@ -4497,8 +6550,9 @@
           ],
           "emitTiming": {
             "sequence": 4,
-            "holdTick": 2,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 2,
+            "elapsedHostTick": 17
           },
           "projectile": null,
           "projectileType": "SpecialEffectBullet",
@@ -4522,8 +6576,9 @@
           ],
           "emitTiming": {
             "sequence": 0,
-            "holdTick": 24,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 24,
+            "elapsedHostTick": 7
           },
           "projectile": "PetDragon2Bullet2",
           "projectileType": "FollowBaseObjectBullet",
@@ -4548,8 +6603,9 @@
           ],
           "emitTiming": {
             "sequence": 2,
-            "holdTick": 20,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 20,
+            "elapsedHostTick": 15
           },
           "projectile": "PetDragon3Bullet3",
           "projectileType": "SpecialEffectBullet",
@@ -4689,7 +6745,7 @@
             "originalQuirk": "gate-only; releSkill4 has no MP debit"
           },
           "hit": "hit5/hit4",
-          "formula": "body hit5=0; tick-48 trigger uses ltwj hit4 formula; optional clone skill chains",
+          "formula": "body hit5=0; first-host-tick trigger uses ltwj hit4 formula; optional clone skill chains",
           "release": "learned && mp >= 30 && targetDistance <= 200"
         }
       ],
@@ -4708,8 +6764,9 @@
           ],
           "emitTiming": {
             "sequence": 2,
-            "holdTick": 7,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 7,
+            "elapsedHostTick": 5
           },
           "projectile": "PetDragon3Bullet1",
           "projectileType": "SpecialEffectBullet",
@@ -4735,8 +6792,9 @@
           ],
           "emitTiming": {
             "sequence": 4,
-            "holdTick": 2,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 2,
+            "elapsedHostTick": 17
           },
           "projectile": null,
           "projectileType": "SpecialEffectBullet",
@@ -4760,8 +6818,9 @@
           ],
           "emitTiming": {
             "sequence": 0,
-            "holdTick": 24,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 24,
+            "elapsedHostTick": 7
           },
           "projectile": "PetDragon2Bullet2",
           "projectileType": "FollowBaseObjectBullet",
@@ -4786,8 +6845,9 @@
           ],
           "emitTiming": {
             "sequence": 2,
-            "holdTick": 20,
-            "clock": "BaseBitmapDataClip host tick"
+            "clock": "BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick",
+            "remainingHoldCount": 20,
+            "elapsedHostTick": 15
           },
           "projectile": "PetDragon3Bullet3",
           "projectileType": "SpecialEffectBullet",
@@ -4873,13 +6933,20 @@
           ],
           "emitTiming": {
             "cloneTicks": [
-              12,
-              24,
-              36,
-              48
+              1,
+              13,
+              25,
+              37
             ],
-            "triggerTick": 48,
-            "clock": "BaseBitmapDataClip host tick"
+            "cloneRemainingCounts": [
+              48,
+              36,
+              24,
+              12
+            ],
+            "triggerTick": 1,
+            "triggerRemainingCount": 48,
+            "clock": "BaseBitmapDataClip enter callback, one-based elapsed host tick"
           },
           "projectile": "PetDragonBullet4",
           "projectileType": "FollowBaseObjectBullet",
@@ -4923,22 +6990,22 @@
           "bodyTicks": 48,
           "aoyiBuff": "disabled FollowBaseObjectBullet(AoyiBuff), action null, owner-following",
           "cloneTicks": [
-            12,
-            24,
-            36,
-            48
+            1,
+            13,
+            25,
+            37
           ],
           "cloneDirections": [
-            "right",
             "left",
             "right",
-            "left"
+            "left",
+            "right"
           ],
           "cloneGate": "fs learned",
           "cloneStats": "HP=currentHP*20, SHp=HP*20, MP=currentMP*99, SMp=MP*99; copies atk/def/crit/level/moveSpeed/name/skills; isFight=1",
           "cloneDurationSeconds": 12,
           "chain": "each clone and the owner prefer free sdcc; after hit3 completes, free ltwj follows when learned. Without sdcc but with ltwj, hit6 bridges to free ltwj.",
-          "trigger": "tick 48 creates PetDragonBullet4 hit4 regardless of fs; hit4 damage uses ltwj formula even though qlaoyi body damage is zero",
+          "trigger": "remaining count 48 / first host callback creates PetDragonBullet4 hit4 regardless of fs; hit4 damage uses ltwj formula even though qlaoyi body damage is zero",
           "noMpDebit": true
         }
       }
@@ -7112,7 +9179,7 @@
           "cleanupReason"
         ],
         "semanticAssertions": [
-          "Ticks 12/24/36/48, trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination."
+          "Remaining counts 48/36/24/12 (elapsed ticks 1/13/25/37), first-callback trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination."
         ],
         "actualSource": "black-box runtime trace; expected values are read only from task-settings-213.pet-dragon-family"
       },
@@ -7158,7 +9225,7 @@
           "cleanupReason"
         ],
         "semanticAssertions": [
-          "Ticks 12/24/36/48, trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination."
+          "Remaining counts 48/36/24/12 (elapsed ticks 1/13/25/37), first-callback trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination."
         ],
         "actualSource": "black-box runtime trace; expected values are read only from task-settings-213.pet-dragon-family"
       },
@@ -7204,7 +9271,7 @@
           "cleanupReason"
         ],
         "semanticAssertions": [
-          "Ticks 12/24/36/48, trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination."
+          "Remaining counts 48/36/24/12 (elapsed ticks 1/13/25/37), first-callback trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination."
         ],
         "actualSource": "black-box runtime trace; expected values are read only from task-settings-213.pet-dragon-family"
       },
@@ -7250,7 +9317,7 @@
           "cleanupReason"
         ],
         "semanticAssertions": [
-          "Ticks 12/24/36/48, trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination."
+          "Remaining counts 48/36/24/12 (elapsed ticks 1/13/25/37), first-callback trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination."
         ],
         "actualSource": "black-box runtime trace; expected values are read only from task-settings-213.pet-dragon-family"
       },

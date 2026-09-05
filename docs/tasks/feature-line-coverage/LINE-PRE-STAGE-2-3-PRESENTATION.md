@@ -65,7 +65,7 @@
 22. `TASK-SLICE-210`：Done；horse1..4 正式 P1/P2 自主战斗、真实命中伤害、P1H、独立 verifier/mutation-kill 与 940×590 双人 Stage 1-2 已闭合；MO-003 裁决“采纳”。
 23. `TASK-SLICE-210A`：Done；用户运行反证指出怪物不会伤害宠物。原版 `BaseBullet.checkAttack()` 在怪物攻击命中玩家候选后仍检查其出战宠物；现代正式桥现把同一 active attack 按宠物运行坐标、防御与 attack-id 去重派入 `PetCombatRuntime.damageEvents`，形成 HP decrease、hurt/dead 生命周期。5173 第 6 槽另由 localhost-only `qaPetSave=all` fixture 提供 P1/P2 各 35 形态、9 物种的视觉档，不覆盖其他槽。
 24. `TASK-SETTINGS-211 -> TASK-SLICE-212`：Done；verified 真值、统一成功 HP decrease producer、原版普通/暴击数字、共享连击/最高值、结果页与双人正式运行已闭合。
-25. `TASK-SETTINGS-213 -> TASK-SLICE-214`：213 Done、214 Ready；213 已闭合 dragon1..4 的 44 项 verified 合同、11 显示对象/111 基准、九对象 ltwj、qlaoyi gate-only MP、owner/命中治疗/P1-P2 生命周期，214 直接消费同一 truth 完成正式实现。
+25. `TASK-SETTINGS-213 -> TASK-SLICE-214`：213 Done、214 Split、214A Ready、214B Planned；213 已闭合 dragon1..4 的 44 项 verified 合同、11 显示对象/111 基准、九对象 ltwj、qlaoyi gate-only MP、owner/命中治疗/P1-P2 生命周期，214A 准备完整资源与对象级差异，214B 直接消费同一 truth 完成全部正式实现；资源准备不等于家族闭合。
 26. `TASK-SETTINGS-215 -> TASK-SLICE-216`：Planned，排在 214 后；用户反证表明角色/宠物实际承伤没有 `pnum`，且 5173 默认入口看不到查询参数门控的全宠物 QA 存档；先做 verified 真值，再闭合正式 P1/P2/TestScene incoming-damage 可见链与 localhost QA 入口可发现性。
 27. 旧 `TASK-ARCH-204C..G` 与 `TASK-SETTINGS-193E..TASK-SLICE-193R` 全部撤销；只为当前家族生成连续完整任务，完成前不切换家族；215/216 是用户反证插入的同线反馈修复对。
 28. `TASK-SLICE-194`：所有按新方法生成的完整家族任务及 212、216 双向伤害反馈完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
@@ -100,3 +100,11 @@
 - [ ] 所有 UI/HUD 具有显示列表、`verified` 原版机器真值 JSON、原版基准、许可现代例外和逐状态差异证据。
 - [ ] 自动专项、全系统、structure、annotations、workflow、build 与 940×590 正式冷启动/P1/P2/重载旅程通过，console 零 warning/error。
 - [ ] 无未完成同线 task，所有用户反证都有新证据、处置与可重开信号。
+
+2026-09-05 214A 消费预检反证：213 缺四本体完整非攻击动作机器时序，六个 qlaoyi trigger 基准使用 y+40 而 doHit5 实际 root y；原 truth 全套门禁仍为 0。当前接受结论降为 blocked，由唯一 Ready `TASK-SETTINGS-213A` 补证，214A Blocked、214B Planned；未生成现代资源或提高复现状态。详见 `docs/tasks/evidence/TASK-SLICE-214A/truth-hold.json`。
+
+2026-09-05 TASK-SETTINGS-213A 补证完成：同一213真值恢复verified，31本体动作/234逐cell状态与完整倒计时语义，345基准中原105保留、6个trigger根坐标修正。qlaoyi elapsed tick 1/13/25/37及首回调trigger/left-right-left-right替代旧误读。独立源/产物像素检查与15类变异通过；214A恢复唯一Ready，214B保持Planned，现代复现状态不提升。
+
+2026-09-05 TASK-SLICE-214A资源准备完成：153文件/11对象已由PetDragonAnimationAssets直接消费213修复真值，combat-common唯一加载；627host ticks与345状态零像素差、4类视觉变异通过。透明边缘裁切保留原注册点与可见像素，解码约61MiB。214B现为唯一Ready，负责全部正式战斗/P1G；本次不提高青龙战斗或VS-067完整复现状态，不计完整第三家族实施成功。
+
+2026-09-05 214B 首次 compact：尚无正式 Runtime 实现，拆为214C Ready、214D/214E Planned；覆盖状态不提升，最终214E闭合父级全部44合同/P1G。

@@ -2449,3 +2449,17 @@
 - `npm run check:system-design -- pet P1H`
 - `npm run test:pet-horse-behavior-contract`
 - `npm run check:workflow`
+
+## 2026-09-05：青龙 213 反证阻止假绿交接
+
+214A 消费预检发现缺完整本体时序和奥义 trigger 基准 40px 错位，旧 truth 门禁仍通过。按 PG-017 保留 V2 并记录方案不充分，213 接受状态 blocked，generator/交接门禁显式拒绝；同线新增 213A 补证后恢复 214A→214B。未修改 src 或原始提取资料；未改变通用工作流规则。
+
+213A 同日补强：生成器在写verified前强制独立源/产物检查，handoff执行15类负向变异；345基准、完整本体倒计时与根坐标修复后恢复214A。临时hold改为resolved历史记录，机器门禁仍检查实际产物，不以人工标记放行。
+
+2026-09-05 214A增加generate/test:pet-dragon-assets资源门禁：来源哈希、透明裁边元数据、唯一加载owner、生产查询驱动345原版对账与4类视觉反证。不引入新的工作流规则，P1G完整家族验收继续由214B承担。
+
+2026-09-05：214B首次compact按agent-protocol落盘安全检查点并拆分214C/214D/214E；仅任务交接，不新增实现、不缩减原214完整范围，214C唯一Ready。
+
+## 2026-09-05：允许一次 compact 与条件委派
+
+按用户明确要求，首次 compact 落盘并窄读关键合同/当前代码后可继续原 task，第二次强制交接；同一对话累计，不因任务拆分清零。预计0次仍是规划目标，余量不扩大工作包或验收范围。有独立有界调查/验证包且主 agent 可同时推进工作时适当使用 subagent；单 agent 仅初始计划，调整前记录分工，默认主写/子只读，禁止并写共享核心。同步 AGENTS、CLAUDE、README、agent-protocol、task-generation、TASK_OUTLINE、214CDE与harness正负用例；214B保留旧检查点并标注规则已替代。本次使用只读subagent独立审查遗漏。验证：check:structure通过（9个已有无关warning）；check:workflow（含15项harness测试）、audit:problems与diff check通过；已有PlayerSlot别名warning保留。

@@ -67,3 +67,11 @@
 ## 6. 裁决与沉淀
 
 最终裁决为“采纳”。猴系经 PG-017 V2/208A 语义重验后成为首个完整样本，马系 209/210 作为不同家族的第二样本没有暴露新的重大遗漏、稳定步骤缺口、返工或错误完成声明；其继承技能、受击门和组合奥义差异均由现有家族专属证据槽位承载。V3 `$pet-family-reverse` 保持现状，后续逐族必须继续使用字段→场景→trace→断言、范围外负场景、source-isolated damage、mutation-kill 与正式玩家路径的完整合同；单个 gate 或动画仍不得替代完整闭合。
+
+2026-09-05 第三家族执行前规模差异：213 已有完整证据，但不像 210 执行前已有 193D 现代资源，214 还同时要求资源派生、分身实例/延迟效果与正式校准。按规模门禁拆为 214A 资源准备→214B 完整家族实现，全部 44 项最终合同保持；本次仅预检，不计第三家族实施成功，不修改已采纳裁决或 Skill。家族闭合前不跨族。
+
+2026-09-05 214A 消费预检反证：213 缺四本体完整非攻击动作机器时序，六个 qlaoyi trigger 基准使用 y+40 而 doHit5 实际 root y；原 truth 全套门禁仍为 0。当前接受结论降为 blocked，由唯一 Ready `TASK-SETTINGS-213A` 补证，214A Blocked、214B Planned；未生成现代资源或提高复现状态。详见 `docs/tasks/evidence/TASK-SLICE-214A/truth-hold.json`。
+
+2026-09-05 TASK-SETTINGS-213A 补证完成：同一213真值恢复verified，31本体动作/234逐cell状态与完整倒计时语义，345基准中原105保留、6个trigger根坐标修正。qlaoyi elapsed tick 1/13/25/37及首回调trigger/left-right-left-right替代旧误读。独立源/产物像素检查与15类变异通过；214A恢复唯一Ready，214B保持Planned，现代复现状态不提升。
+
+2026-09-05 TASK-SLICE-214A资源准备完成：153文件/11对象已由PetDragonAnimationAssets直接消费213修复真值，combat-common唯一加载；627host ticks与345状态零像素差、4类视觉变异通过。透明边缘裁切保留原注册点与可见像素，解码约61MiB。214B现为唯一Ready，负责全部正式战斗/P1G；本次不提高青龙战斗或VS-067完整复现状态，不计完整第三家族实施成功。

@@ -1,9 +1,11 @@
+import { spawnSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const root = process.cwd()
 const readText = (file) => readFile(path.join(root, file), 'utf8')
 const manifest = JSON.parse(await readText('docs/reverse-engineering/ground-truth/manifests/task-settings-213-pet-dragon-family.json'))
+if (manifest.status !== 'verified') throw new Error('213 handoff blocked: truth status is not verified; see TASK-SETTINGS-213A')
 const evidence = await readText('docs/reverse-engineering/evidence/TASK-SETTINGS-213-pet-dragon-family.md')
 const task214 = await readText('docs/tasks/task-definitions/TASK-SLICE-214.md')
 const baselineIndex = JSON.parse(await readText('docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json'))
@@ -35,10 +37,10 @@ for (const key of ['Forms', 'Actions', 'Effects']) {
     throw new Error(`${expectedKey} differs from ${extractedKey}`)
   }
 }
-if (manifest.visualTruth.baselineCount !== 111 || manifest.visualTruth.displayObjectCount !== 11 || manifest.visualTruth.unresolved.length !== 0) {
+if (manifest.visualTruth.baselineCount !== baselineIndex.items.length || manifest.visualTruth.displayObjectCount !== 11 || manifest.visualTruth.unresolved.length !== 0) {
   throw new Error('dragon visual truth is incomplete')
 }
-if (JSON.stringify(baselineIndex.expectedIds) !== JSON.stringify(baselineIndex.extractedIds) || baselineIndex.items.length !== 111 || baselineIndex.unresolved.length !== 0) {
+if (JSON.stringify(baselineIndex.expectedIds) !== JSON.stringify(baselineIndex.extractedIds) || baselineIndex.items.length !== 345 || baselineIndex.unresolved.length !== 0) {
   throw new Error('dragon baseline set is incomplete')
 }
 if (manifest.completeness.unresolved.length !== 0) throw new Error('implementation-affecting unresolved items remain')
@@ -52,7 +54,7 @@ if (manifest.forms.some(({ attackRange }) => attackRange !== 150)) throw new Err
 if (manifest.forms.find(({ id }) => id === 'dragon3')?.actions.ltwj.projectileCount !== 9) throw new Error('dragon3 ltwj is not the verified nine-object wave')
 const dragon4 = manifest.forms.find(({ id }) => id === 'dragon4')
 if (!dragon4?.special.qlaoyi.noMpDebit || dragon4.skills.find(({ id }) => id === 'qlaoyi')?.mpDebit.amount !== 0) throw new Error('qlaoyi does not preserve gate-only MP semantics')
-if (dragon4.actions.qlaoyi.emitTiming.cloneTicks.join(',') !== '12,24,36,48') throw new Error('qlaoyi clone ticks differ from evidence')
+if (dragon4.actions.qlaoyi.emitTiming.cloneTicks.join(',') !== '1,13,25,37') throw new Error('qlaoyi clone ticks differ from evidence')
 
 const dragonCorpus = corpus.species.find(({ species }) => species === 'dragon')
 if (!dragonCorpus) throw new Error('dragon corpus row is missing')
@@ -64,4 +66,8 @@ for (const required of ['P1G', 'range', 'hit', 'source', 'ltwj', 'qlaoyi', '940Ã
   if (!task214.includes(required)) throw new Error(`TASK-SLICE-214 is missing acceptance term: ${required}`)
 }
 
-console.log(`pet dragon family handoff verified independently: ${sets.get('evidence').length} contracts, 4 forms, 15 actions, 111 baselines, 0 unresolved`)
+const visualCheck = spawnSync('python', ['tools/verify-pet-dragon-visual-truth.py', '--self-test'], { encoding: 'utf8', cwd: root })
+if (visualCheck.status !== 0) throw new Error(visualCheck.stderr || visualCheck.stdout)
+console.log(visualCheck.stdout.trim())
+
+console.log(`pet dragon family handoff verified independently: ${sets.get('evidence').length} contracts, 4 forms, 31 body actions, 345 baselines, 0 unresolved`)

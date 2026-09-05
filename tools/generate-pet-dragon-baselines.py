@@ -41,7 +41,7 @@ EFFECTS = {
     "dragon2-sdcc": (563, "PetDragon2Bullet2", (0, 10), (1, 15, 30)),
     "dragon3-normal": (572, "PetDragon3Bullet1", (30, 0), (1, 11, 21)),
     "dragon3-ltwj": (603, "PetDragon3Bullet3", (0, 40), (1, 5, 10)),
-    "dragon4-qlaoyi": (539, "PetDragonBullet4", (0, 40), (1, 24, 48)),
+    "dragon4-qlaoyi": (539, "PetDragonBullet4", (0, 0), (1, 24, 48)),
 }
 
 
@@ -141,6 +141,27 @@ def build_items() -> list[dict[str, object]]:
         paste_effect(image, 120, "AoyiBuff", frame, "left", (0, 0), source_prefix="common")
         items.append(item(f"dragon4-qlaoyi-aoyi-buff.frame{frame:02d}.fixed", image, ["BasePet.as:addAoyiBuff", "StageCommon.swf character 120"]))
 
+    # Every source-declared body cell, with its entire host-tick interval.
+    source_base = ROOT / "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet"
+    aliases = {"hit1": "normal", "hit2": "fs", "hit3": "sdcc", "hit4": "ltwj", "hit5": "qlaoyi", "hit6": "qlaoyi-ltwj-link"}
+    for form in FORMS:
+        source = (source_base / f"PetDragon{form}.as").read_text(encoding="utf-8")
+        holds = json.loads(re.search(r"setFrameStopCount\((\[.*?\])\);", source).group(1))
+        action_source = source.split("function setAction(", 1)[1].split("function ", 1)[0]
+        for case in action_source.split('case "')[1:]:
+            source_action = case.split('"', 1)[0]
+            action = aliases.get(source_action, source_action)
+            row = int(re.search(r"setFramePointY\((\d+)\)", case).group(1))
+            tick = 1
+            for column, hold in enumerate(holds[row]):
+                for direction in ("left", "right"):
+                    canvas = Image.new("RGBA", STAGE_SIZE, (0, 0, 0, 0))
+                    paste_body(canvas, body_cell(form, row, column), form, direction)
+                    state_id = f"dragon{form}.{action}.cell{column:02d}.{direction}"
+                    entry = item(state_id, canvas, [f"PetDragon{form}.as:initBBDC/setAction", FORMS[form]["atlas"]])
+                    entry["bodyCell"] = {"form": form, "action": action, "row": row, "column": column, "holdTicks": hold, "firstHostTick": tick, "lastHostTick": tick + hold - 1}
+                    items.append(entry)
+                tick += hold
     return items
 
 

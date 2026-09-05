@@ -1,3 +1,5 @@
+import { spawnSync } from 'node:child_process'
+import { buildDragonBodyTimelines, dragonSourceRoot } from './pet-dragon-body-truth.mjs'
 import { createHash } from 'node:crypto'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -102,7 +104,7 @@ function assertionFor(id) {
   if (id.endsWith('.normal')) return 'No action or projectile before distance <= 150; distance decreases first, then one token-linked verified projectile reaches pet-source damage and cleanup.'
   if (id.includes('ltwj-nine')) return 'One cast creates 1 + 2 + 2 + 2 + 2 = 9 independently identified hit3 objects at 0/0.2/0.4/0.6/0.8 seconds.'
   if (id.includes('qlaoyi-no-mp')) return 'The 30 MP value gates qlaoyi but the original releSkill4 path does not debit MP; a debit mutation must fail.'
-  if (id.includes('qlaoyi')) return 'Ticks 12/24/36/48, trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination.'
+  if (id.includes('qlaoyi')) return 'Remaining counts 48/36/24/12 (elapsed ticks 1/13/25/37), first-callback trigger object, optional clones, sdcc-before-ltwj chain, damage/heal, and cleanup match the frozen combination.'
   if (id === 'runtime.heal-on-hit') return 'Normal/sdcc uses floor(SHp*0.018 + atk*0.18 + level*2); each ltwj hit uses floor(SHp*0.028 + atk*0.09 + level*2), capped by SHp.'
   if (id === 'runtime.p1-p2') return 'Runtime, target, cooldown, clone, projectile, source, damage, heal, and cleanup state never cross player slots.'
   return 'The independent black-box trace equals the frozen expected field semantics and is observed by the declared consumer.'
@@ -170,6 +172,9 @@ async function buildTruth() {
     if (actualSha256 !== expectedSha256) throw new Error(`${id} source hash changed: ${actualSha256}`)
     sources.push({ id, file, sha256: actualSha256 })
   }
+  const bodyTimelines = await buildDragonBodyTimelines(repoRoot)
+  const clockFile = `${dragonSourceRoot}/base/BaseBitmapDataClip.as`
+  sources.push({ id: 'body-clock', file: clockFile, sha256: await sha256(clockFile) })
   const baselineIndex = JSON.parse(await readFile(path.join(repoRoot, baselineIndexPath), 'utf8'))
   const baselineIndexSha256 = await sha256(baselineIndexPath)
   const effects = [
@@ -224,29 +229,43 @@ async function buildTruth() {
       fs: clone('dragon4', 5, 5, [2, 2, 2, 2, 10], 0.6, 12),
       sdcc: sdcc(6, 1, [30]),
       ltwj: ltwj(7, 3, [2, 2, 30]),
-      qlaoyi: action({ hit: 'hit5 body; hit4 trigger', bodyRow: 8, bodyFrames: 1, holds: [48], emitTiming: { cloneTicks: [12, 24, 36, 48], triggerTick: 48, clock: 'BaseBitmapDataClip host tick' }, projectile: 'PetDragonBullet4', projectileType: 'FollowBaseObjectBullet', emit: { x: 0, y: 0 }, visibleFrames: 48, followsPet: true, triggerDamage: 'hit4 reuses ltwj formula * hurtBaseEffectRate; setHurtCanCutDownEffect(false)', destroy: 'last visual frame' }),
+      qlaoyi: action({ hit: 'hit5 body; hit4 trigger', bodyRow: 8, bodyFrames: 1, holds: [48], emitTiming: { cloneTicks: [1, 13, 25, 37], cloneRemainingCounts: [48, 36, 24, 12], triggerTick: 1, triggerRemainingCount: 48, clock: 'BaseBitmapDataClip enter callback, one-based elapsed host tick' }, projectile: 'PetDragonBullet4', projectileType: 'FollowBaseObjectBullet', emit: { x: 0, y: 0 }, visibleFrames: 48, followsPet: true, triggerDamage: 'hit4 reuses ltwj formula * hurtBaseEffectRate; setHurtCanCutDownEffect(false)', destroy: 'last visual frame' }),
       'qlaoyi-ltwj-link': action({ hit: 'hit6 -> free ltwj', bodyRow: 9, bodyFrames: 2, holds: [2, 40], emitTiming: { sequence: 1, transition: 'releSkill3WithoutMana', clock: 'BaseBitmapDataClip host tick / standInObj early release' }, projectile: 'PetDragon3Bullet3', emit: { x: 0, y: 40 }, projectileCount: 9 }),
     }, [
       skill('fs', 1, 2.5, 10, 20, { amount: 20, lookupKey: 'fs' }, 'hit2', '0 direct damage; 12-second stronger clone copies skills', 'learned && mp && target'),
       skill('sdcc', 2, 3, 3.6, 20, { amount: 20, lookupKey: 'sdcc' }, 'hit3/hit2', 'dragon3 sdcc * hurtBaseEffectRate', 'learned && mp && targetDistance <= 180'),
       skill('ltwj', 3, 5, 5, 20, { amount: 20, lookupKey: 'ltwj' }, 'hit4/hit3', 'dragon3 ltwj * hurtBaseEffectRate per object', 'learned && mp && targetDistance <= 220'),
-      skill('qlaoyi', 4, 15, 24, 30, { amount: 0, lookupKey: null, originalQuirk: 'gate-only; releSkill4 has no MP debit' }, 'hit5/hit4', 'body hit5=0; tick-48 trigger uses ltwj hit4 formula; optional clone skill chains', 'learned && mp >= 30 && targetDistance <= 200'),
+      skill('qlaoyi', 4, 15, 24, 30, { amount: 0, lookupKey: null, originalQuirk: 'gate-only; releSkill4 has no MP debit' }, 'hit5/hit4', 'body hit5=0; first-host-tick trigger uses ltwj hit4 formula; optional clone skill chains', 'learned && mp >= 30 && targetDistance <= 200'),
     ], {
       qlaoyi: {
         bodyTicks: 48,
         aoyiBuff: 'disabled FollowBaseObjectBullet(AoyiBuff), action null, owner-following',
-        cloneTicks: [12, 24, 36, 48],
-        cloneDirections: ['right', 'left', 'right', 'left'],
+        cloneTicks: [1, 13, 25, 37],
+        cloneDirections: ['left', 'right', 'left', 'right'],
         cloneGate: 'fs learned',
         cloneStats: 'HP=currentHP*20, SHp=HP*20, MP=currentMP*99, SMp=MP*99; copies atk/def/crit/level/moveSpeed/name/skills; isFight=1',
         cloneDurationSeconds: 12,
         chain: 'each clone and the owner prefer free sdcc; after hit3 completes, free ltwj follows when learned. Without sdcc but with ltwj, hit6 bridges to free ltwj.',
-        trigger: 'tick 48 creates PetDragonBullet4 hit4 regardless of fs; hit4 damage uses ltwj formula even though qlaoyi body damage is zero',
+        trigger: 'remaining count 48 / first host callback creates PetDragonBullet4 hit4 regardless of fs; hit4 damage uses ltwj formula even though qlaoyi body damage is zero',
         noMpDebit: true,
       },
     }),
   ]
 
+  for (const form of forms) {
+    for (const [id, action] of Object.entries(form.actions)) {
+      const body = bodyTimelines.find((item) => `dragon${item.form}` === form.id).actions.find((item) => item.id === id)
+      if (JSON.stringify(body.cells.map((cell) => cell.holdTicks)) !== JSON.stringify(action.holds) || body.row !== action.bodyRow) throw new Error(`body timing differs: ${form.id}.${id}`)
+      if (action.emitTiming.holdTick !== undefined) {
+        const remaining = action.emitTiming.holdTick
+        delete action.emitTiming.holdTick
+        const cell = body.cells[action.emitTiming.sequence]
+        action.emitTiming.remainingHoldCount = remaining
+        action.emitTiming.elapsedHostTick = cell.firstHostTick + cell.holdTicks - remaining
+        action.emitTiming.clock = 'BaseBitmapDataClip enter callback before decrement; one-based elapsed host tick'
+      }
+    }
+  }
   const matrix = contractIds.map((id) => {
     if (id.startsWith('visual.')) return { id, modernOwner: 'future PetDragonAnimationAssets -> formal/TestScene dragon view', status: 'gap', verification: '214 consumes 213 visualTruth and 940x590 baselines' }
     if (id.startsWith('owner.')) return { id, modernOwner: 'AssetManifest / future formal dragon view', status: 'partial', verification: '214 source-owner mutation gate and load-precedence check' }
@@ -268,6 +287,8 @@ async function buildTruth() {
       extractedBaselineIds: baselineIndex.extractedIds,
       displayObjectCount: displayObjects.length,
       displayObjects,
+      bodyTimelines,
+      bodyClock: { unit: 'host tick', counter: 'remaining hold ticks', callbackOrder: ['enter callback with current remaining count', 'decrement or advance/frame-over', 'exit callback'], firstHostTick: 1, source: { file: clockFile, lines: [461, 518, 552, 559] } },
       directions: ['left', 'right'],
       clocks: ['BaseBitmapDataClip host tick for body atlases', 'one stage tick per ordinary MovieClip frame', 'TweenMax seconds for delayed ltwj waves'],
       ownerPrecedence: 'dragon bodies and attack objects have one exact SymbolClass owner in assets/pet1.swf; collision and shared AoyiBuff come from already-loaded StageCommon.swf',
@@ -360,7 +381,7 @@ async function validate(truth) {
   for (const key of Object.keys(truth)) if (!allowed.has(key)) errors.push(`schema.additionalProperties.${key}`)
   if (truth.truthId !== 'task-settings-213.pet-dragon-family' || truth.taskId !== 'TASK-SETTINGS-213' || truth.status !== 'verified') errors.push('identity')
   if (truth.owners.length !== 4 || truth.forms.length !== 4 || truth.collisionProfiles.length !== 2) errors.push('cardinality')
-  if (truth.visualTruth.baselineCount !== 111 || truth.visualTruth.displayObjectCount !== 11 || truth.visualTruth.unresolved.length !== 0) errors.push('visual truth')
+  if (truth.visualTruth.baselineCount !== truth.visualTruth.expectedBaselineIds.length || truth.visualTruth.displayObjectCount !== 11 || truth.visualTruth.unresolved.length !== 0) errors.push('visual truth')
   for (const key of ['expectedForms', 'expectedActions', 'expectedEffects']) {
     const extractedKey = key.replace('expected', 'extracted')
     if (JSON.stringify(truth.completeness[key]) !== JSON.stringify(truth.completeness[extractedKey])) errors.push(`completeness.${key}`)
@@ -396,11 +417,13 @@ async function main() {
     console.log('pet dragon family schema and range/count/MP/source-field mutation self-test passed')
     return
   }
+  const independent = spawnSync('python', ['tools/verify-pet-dragon-visual-truth.py', '--candidate'], { cwd: repoRoot, input: JSON.stringify(truth), encoding: 'utf8' })
+  if (independent.status !== 0) throw new Error(`Independent dragon visual acceptance failed: ${independent.stderr}`)
   const serialized = `${JSON.stringify(truth, null, 2)}\n`
   if (process.argv.includes('--check')) {
     const existing = await readFile(outputPath, 'utf8')
     if (existing !== serialized) throw new Error('pet dragon family truth is stale; run npm run generate:pet-dragon-family-truth')
-    console.log(`pet dragon family truth verified: ${contractIds.length} contracts, 4 forms, 111 baselines, 0 unresolved`)
+    console.log(`pet dragon family truth verified: ${contractIds.length} contracts, 4 forms, ${truth.visualTruth.baselineCount} baselines, 0 unresolved`)
     return
   }
   await writeFile(outputPath, serialized)

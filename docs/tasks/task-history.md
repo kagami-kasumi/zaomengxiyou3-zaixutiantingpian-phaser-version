@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-214A | 青龙完整资源准备 | 交付213真值驱动的本体/技能资源与逐状态对账 | M-034、M-035、M-042、VS-067 | 153文件、345零差异状态、627host ticks、唯一bundle owner与214B交接 |
+| TASK-SETTINGS-213A | 青龙时钟/基准补证 | 关闭完整本体持帧缺口、倒计时误读与奥义trigger基准错位 | M-034、M-035、M-042、VS-067 | 31动作、234逐cell/345基准、15类变异、独立生成前验收，恢复214A |
 | TASK-SLICE-208A | 猴系行为语义整改 | 闭合 frozen attackRange 外追击、入围攻击、verified hit、pet-source damage 与 cleanup 的独立黑盒链 | M-032、M-034、M-035、M-042、M-044、VS-067 | 公共追击/范围 owner、target/action token projectile、八条 P1/P2 trace、三类 mutation-kill、P1R=0、Skill/MO-003 修订 |
 | TASK-ARCH-206 | 宠物 Runtime 设计证据校正 | 依据 205 冻结唯一现代组合、调用顺序、差异钩子、owner、消费者与硬 gate | M-032、M-034、M-042、VS-012、VS-067 | 校正后 `pet.md`、P1..P4 失败基线、204B..G 串行实施合同 |
 | TASK-ARCH-204A | 宠物公共类 P1B | 实用化公共 Runtime 并接入 Monkey/Horse 真实 Behavior | M-032、M-034、M-042、VS-012、VS-067 | 统一技能时钟/执行能力口、两族 8 形态默认 Registry、P1B 门禁与行为合同 |
@@ -7922,6 +7924,38 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SETTINGS-209`：使用修订后的 `$pet-family-reverse` 完成 horse1..4 第二家族证据样本，并依据 verified 合同生成独立正式实现 task；不得在同一次 `/goal` 续跑。
+
+### TASK-SETTINGS-213A
+
+任务类型：`TASK-SETTINGS`。任务模型：逆向任务（视觉真值逆向）。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active，下一 TASK-SLICE-214A）。完成日期：2026-09-05。
+
+完成定义：修复214A发现的完整本体时钟缺口和六张trigger基准错位，独立负向检查通过后恢复同一213真值接受状态；不修改src、现代资源或原始提取。
+
+关键产物：
+- 213 manifest 的 visualTruth.bodyTimelines/bodyClock、31动作/234逐cell状态/345基准；emitTiming拆分remainingHoldCount与elapsedHostTick。
+- `tools/pet-dragon-body-truth.mjs` 从四类initBBDC/setAction/frame-over提取机器动作矩阵；`tools/verify-pet-dragon-visual-truth.py` 独立核对源动作/时钟/发射条件与完整产物像素。
+- `docs/tasks/evidence/TASK-SETTINGS-213A/repair-audit.json`、`trigger-corrections.png`；旧105基准不变、6张修正、新增234张。
+
+证据裁决：BaseBitmapDataClip先enter再递减；getCurFrameCount为剩余数。qlaoyi条件48/36/24/12对应动作第1/13/25/37次回调，trigger首回调在根坐标生成，分身left/right/left/right。此结论覆盖213历史记录中“末tick触发”的误读；44项原合同id保留，数值/MP/九对象规则未改。
+
+验证：test:pet-dragon-family-truth通过（345基准重复生成、Schema/原四类变异、独立15类视觉/时序负向检查）；check:structure、check:annotations、check:workflow、audit:problems、diff检查通过。人工查看六状态并排/像素差；无现代正式运行声明。
+
+推荐任务：TASK-SLICE-214A。214B仍承担全部正式家族合同，213A完成不等于青龙实现完成。
+
+### TASK-SLICE-214A
+
+任务类型：`TASK-SLICE`。任务模型：常规任务。完成日期：2026-09-05。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active，下一TASK-SLICE-214B）。
+
+完成定义：214B可直接查询并加载全部213显示对象/帧/时序/几何，无需再次派生资源；所有文件来源及逐状态对象级差异可复验。
+
+关键产物：
+- `src/assets/PetDragonAnimationAssets.ts`、`PetDragonAssetFiles.json`、`SceneAssetBundles.ts`；4本体atlas、149效果帧共153文件全部由combat-common唯一加载，AoyiBuff共享目录复用入口。
+- `tools/integrate-pet-dragon-assets.py`、`tools/pet-dragon-animation-assets-tests.ts`、`tools/verify-pet-dragon-asset-projections.py`；源码真值与源PNG哈希核对、重复生成、完整查询和像素差门禁。
+- `docs/tasks/evidence/TASK-SLICE-214A/handoff.md`、`asset-projections.json`、`visual-diff.json`、345张projections与contact-sheet。
+
+验证：test:pet-dragon-assets通过（153文件、627host ticks、345原版状态零像素差、位置/alpha/frame/九对象数4类变异）；test:pet-dragon-family-truth、bundle/关卡资源所有权、build、structure、annotations、workflow、problem audit、diff与LSP通过。透明边缘无损裁切使RGBA解码从842.9MiB降到61.17MiB；本体布局与可见舞台像素均保持。
+
+范围限制：未实现Dragon Behavior/分身/伤害/治疗/正式视图；无P1G或正式双人战斗通过结论，214父任务保持Split。资源准备不能代表家族完成。推荐后续TASK-SLICE-214B。
 
 ## 执行记录
 
