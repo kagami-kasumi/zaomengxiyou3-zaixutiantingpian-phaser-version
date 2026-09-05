@@ -4,6 +4,8 @@
 
 ## 启动校验
 
+可先运行 `npm run check:harness` 独立检查协作规则与调度；看板状态变更后运行 `npm run generate:harness` 刷新当前推荐。完整收尾仍执行下面的兼容组合检查。
+
 涉及 workflow/task/domain/harness 文档变更时，运行一致性校验：
 
 ```bash
@@ -81,7 +83,7 @@ npm run test:systems
 npm run build
 ```
 
-在现有文件中新增逻辑前，先运行 `npm run check:structure`，确认目标文件不在 warning/error 列表中。若在列表中，必须先拆分再添加新功能。
+结构检查与 warning/error 处理以 [AGENTS.md 必须遵守第 7 条](./AGENTS.md#必须遵守) 为准；先运行 `npm run check:structure`，不在客户端入口另设更严格的拆分条件。
 
 修改 workflow/task/domain/harness 文档后，必须运行：
 

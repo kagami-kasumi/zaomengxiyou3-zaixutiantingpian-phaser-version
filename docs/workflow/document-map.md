@@ -20,6 +20,7 @@
   - 未完成游戏任务的轻量状态索引。
   - 只维护 task id、状态、功能条线、摘要、下一步和独立定义链接；每个 task 必须属于一个功能条线。
   - 不记录 AI 工作流治理任务。
+  - 状态表是 task 状态来源；“当前推荐”由 `npm run generate:harness` 派生，禁止追加历史事件。
 - `docs/tasks/task-definitions/TASK-*.md`
   - 单个未完成 task 的完整执行合同。
   - 维护输入、输出、完成定义、规模预算、拆分触发、验收和禁止范围；执行时只读取当前 task 文件。
@@ -74,6 +75,11 @@
   - 维护轻量 DDD 的更新规则、命名规则和例外处理。
 
 ## 工作流脚手架层
+
+- `tools/check-harness.mjs`、`tools/check-harness.test.mjs`
+  - 独立 harness 门禁及负向用例：检查入口规则引用、当前调度快照、相对文档链接和检查命令组合。
+  - `--write` 只更新看板当前推荐，不改功能线或 task 状态；不读取游戏源码或本地资源。
+  - `check:workflow` 仍承担完整兼容组合检查；该轻量门禁不替代游戏正确性或证据全面性校验。
 
 - `AGENTS.md`
   - Agent 强规则入口。

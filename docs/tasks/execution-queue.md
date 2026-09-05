@@ -14,7 +14,7 @@
 
 ## 活跃治理执行项
 
-当前为空。PG-017 V2 治理项已于 2026-08-27 完成：行为语义 verifier 已接入 P1R，并生成唯一 Ready 游戏 task `TASK-SLICE-208A`；同一次 `/goal` 不继续执行该游戏 task。
+当前为空。完成事件见 [工作流治理日志](../workflow/governance-log.md)。
 
 ## 游戏回退
 

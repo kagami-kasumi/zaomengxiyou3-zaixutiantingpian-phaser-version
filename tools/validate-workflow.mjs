@@ -1334,7 +1334,11 @@ function checkProblemAudit(
   if (packageJson.scripts?.['audit:problems'] !== 'node tools/run-problem-audit.mjs') {
     error('package.json must expose audit:problems through tools/run-problem-audit.mjs.');
   }
-  if (!packageJson.scripts?.['check:workflow']?.includes('run-problem-audit.mjs --validate')) {
+  const workflowScript = packageJson.scripts?.['check:workflow'] ?? '';
+  const harnessScript = packageJson.scripts?.['check:harness'] ?? '';
+  const auditViaHarness = workflowScript.startsWith('npm run check:harness && ')
+    && harnessScript.endsWith('&& node tools/run-problem-audit.mjs --validate');
+  if (!workflowScript.includes('run-problem-audit.mjs --validate') && !auditViaHarness) {
     error('check:workflow must validate the centralized PG audit contract.');
   }
 

@@ -4,15 +4,9 @@
 
 ## 当前推荐
 
-`TASK-SLICE-214` 是唯一 Ready 游戏 task。213 已以 `task-settings-213.pet-dragon-family` 闭合青龙 `dragon1..4` 的 44 项完整合同、11 个原版显示对象、111 个 940×590 基准、九对象 `ltwj`、gate-only MP `qlaoyi`、owner/命中治疗/P1-P2 生命周期与独立 verifier；下一步直接消费该 truth 完成正式实现。
+`TASK-SLICE-214` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SLICE-214.md)。
 
-2026-09-03 用户运行反证确认角色/宠物会实际扣血但头顶没有承伤数字，且 5173 默认入口看不到现有仅由 `?qaPetSave=all` 触发的全宠物测试存档。原版数字链已定位到 `BaseHero.reduceHp()/BasePet.reduceHp() -> pnum0..9 -> ANumber`，而 211/212 只覆盖怪物作为受伤目标的 `hurtnum/bnum`。新增 `TASK-SETTINGS-215 -> TASK-SLICE-216`，排在青龙 213/214 之后：先冻结 `pnum` 真值，再闭合正式 P1/P2/TestScene 的角色/宠物承伤数字，并让 localhost 5173 全宠物 QA 存档入口可发现、可复验；不改正式存档 schema，不抢占当前唯一 Ready。
-
-`$pet-family-reverse` 第二家族正式样本已通过，MO-003 裁决“采纳”。旧 193E..R 横向批次保持撤销；213/214 只处理一个完整青龙家族，先证据、后正式实现，不能在同一次 `/goal` 跨 task。
-
-2026-08-31 用户反证“怪物不会攻击宠物”已由 210A 窄修：正式怪物 active attack 现在会按范围/防御/attack-id 去重伤害出战宠物，并由 Pet Runtime 驱动 HP/hurt/dead。5173 第 6 槽已通过 localhost-only fixture 写入 P1/P2 各 35 形态全宠物档。该回归不替代 211/212；唯一 Ready 仍为 211。
-
-2026-08-27 用户新增正式运行反证：当前出战马宠物可见攻击但怪物无可辨识受击/伤害数字，现代运行又没有连击动画。代码诊断确认正式扣血/怪物 hurt 入口不是 Role 专用，但当前只有猴系接入正式宠物伤害解析；209 现已生成 210，先由其闭合马系实际 HP decrease。各来源 `DamageEvent` 仍没有共享可见反馈，故 `TASK-SETTINGS-211 -> TASK-SLICE-212` 保持在 210 后，不抢占当前唯一 Ready。
+本节由 `npm run generate:harness` 从下方状态表生成；历史事件见工作流治理日志。
 
 ## 待完成任务
 

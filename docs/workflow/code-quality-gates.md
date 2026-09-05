@@ -6,6 +6,7 @@ This document records harness-level rules for AI agents that edit game code. It 
 
 - Source edits under `src/` must run `npm run test:systems` and `npm run build` before the task is marked complete.
 - Workflow, task, domain, or harness document edits must run `npm run check:workflow`.
+- `npm run check:harness` is the independent fast check for harness routes, links, scheduling snapshots and PG contracts. The full `check:workflow` retains legacy validation, asset annotations and level architecture checks. After editing board status, run `npm run generate:harness` to refresh its derived recommendation.
 - Mixed code and workflow edits should run `npm run check:all`.
 - Before adding new logic to any file, run `npm run check:structure`. If the target file appears in errors, splitting is mandatory before adding logic. If the target file appears only in warnings, split it first for feature work; for a small local fix, document the reason and keep the edit narrow. Warnings in unrelated files do not block the current task.
 - Visual testing is useful, but it is not enough for completion. A visual pass must be paired with a deterministic command whenever the changed behavior can be represented as a system invariant.
