@@ -1,5 +1,25 @@
 # 工作流治理日志
 
+## 2026-09-13：214C5初阶青龙生产验收门禁
+
+- 新增pet P1GC，复用P1GS并强制青龙真实行为/实现变异、生产presenter72态原版像素对账、P1/P2生产消费者及正式旅程；不把资源查询或动画播放当伤害闭环。新测试加入普通systems集合，系统设计保持实施中，未宣称all完成。
+- 214C5与父C2/C同次归档，唯一Ready切到214D；精确验证与限制见214C5/handoff.md，未改变同线调度和其余家族合同。
+- 已归并Luna只读合同/接线审查；修正QA TestScene默认roster与Runtime不同步导致重复显示风险。structure保留9个既有warning；workflow、P1GC/P1GS、build、全系统、真值/资源及940×590浏览器通过。
+
+## 2026-09-13：明确主/子 agent 模型准入
+
+- 按用户反馈补充准入表：输入/范围/验收明确且可独立验证时优先 Luna，整项满足可由 Luna 主 agent 执行；复杂运行时、方案、证据冲突和综合判断优先 GPT-6。边界不清先由 Luna 做有界调查，主 agent 决定后续，不无限重试。
+- 保留有独立工作且主 agent 可同时推进才委派的条件；极小或强顺序工作直接完成。同步 AGENTS、任务模板和214C5分工，覆盖下方初版的最小上下文管理要求；不建立运行记录核验、启动拦截或上下文管理门禁。
+- 用户级 `C:/Users/Administrator/.codex/config.toml` 新增 `[agents].default_subagent_model = "gpt-5.6-luna"`，主模型保持原配置。本批采用单 agent 顺序修改；不改变游戏调度。
+- 验证：structure、workflow 和 diff 检查通过（仅既有结构/命名 warning）；problem audit 已执行，PG-004集中记录，其他活跃PG不适用。
+
+## 2026-09-13：加强 subagent 与 Luna 默认分工
+
+- 按用户明确偏好，有可独立返回的有界工作包且主 agent 可同时推进时默认委派；简单工作优先显式指定 `gpt-5.6-luna`，使用最小上下文和明确验收标准。
+- agent-protocol 维护模型选择、例外、失败回退和主 agent 归并责任；AGENTS 入口、task-generation 模板和当前 214C5 协作计划同步。保留唯一 Ready、工作包预算、单写和原验收标准，不启动游戏实现。
+- 本批实际派发一个 Luna 只读规则审查包，与主 agent 修改并行；已归并模型选择、回退和避免人为拆包的建议。不据此宣称成本或质量收益已验证。
+- 验证：check:structure 通过（9项既有无关 warning）；check:workflow 通过（既有 PlayerSlot 命名 warning）；audit:problems 已完成并集中记录，git diff --check 通过。
+
 ## 2026-09-06：取消 compact 次数停止门禁
 
 - 按用户明确要求，取消第二次 compact 强制交接及实际次数上限；预计零次仅保留为规划目标，实际范围扩大仍按合同拆分。

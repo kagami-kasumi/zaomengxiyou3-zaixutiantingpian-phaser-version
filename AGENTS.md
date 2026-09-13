@@ -15,6 +15,8 @@
 
 ## 读取约束
 
+模型与委派按 `docs/workflow/agent-protocol.md` 的准入表执行：整项输入/范围/验收明确且可独立验证的任务可用 Luna 主 agent；复杂任务优先 GPT-6 主 agent，简单独立包优先 Luna 子 agent，边界不清先 Luna 有界调查再由主 agent 决定。仅在可独立返回且主 agent 可同时推进其他工作时委派；本阶段只采用默认模型配置与文字规则，不增加运行记录校验或上下文管理门禁。
+
 - 优先用 `rg -n`、`Select-Object -First/-Skip/-Last` 或精确路径读取相关片段；不要为了找一条记录全文读入大型 Markdown、AS3 或历史文档。
 - 用 `rg` 搜中文、代码或含引号内容时，优先 `rg -n -F '稳定关键词' path` 后按行号窄读；避免宽关键词、复杂 alternation 和海量输出。
 - `task-history.md`、大型 reverse-engineering 文档和 AS3 文件默认先关键词定位，再读取命中的小范围上下文。
@@ -70,7 +72,7 @@
 
 适用：用户指定 task id、要求执行 task、玩法逆向、修改 `src/` 实现玩法、生成/拆分/重排游戏任务、完成一个可交接切片。
 
-规则：按阅读分流补齐必读文档；执行请求先检查 `docs/tasks/execution-queue.md`。存在 `Ready` 或 `Blocked` 治理执行项时只处理该项，不进入游戏 task；队列无可执行治理项时，普通执行和 `/goal` 才处理 `docs/tasks/task-board.md` 中唯一 `Ready` 游戏 task。执行游戏 task 时只读取该 task 在 `docs/tasks/task-definitions/` 下的独立定义，不全文读取其他未完成 task。新 task 默认预计 0 次上下文压缩；执行前必须核对主工作包、验收批次和拆分触发，超限先拆分。存在可独立返回的有界调查/验证工作包，且主 agent 可同时推进其他工作、运行环境允许时，应按 `agent-protocol.md` 在单 task 内使用 subagent；唯一 Ready、工作包预算、主 agent 单写与归并责任不变。功能线仍保持唯一 `Active` 并跨 task 连续；任务完成必须留下可交接产物，并更新功能线、覆盖台账和 task 状态。详细流程见 `docs/workflow/agent-protocol.md`。
+规则：按阅读分流补齐必读文档；执行请求先检查 `docs/tasks/execution-queue.md`。存在 `Ready` 或 `Blocked` 治理执行项时只处理该项，不进入游戏 task；队列无可执行治理项时，普通执行和 `/goal` 才处理 `docs/tasks/task-board.md` 中唯一 `Ready` 游戏 task。执行游戏 task 时只读取该 task 在 `docs/tasks/task-definitions/` 下的独立定义，不全文读取其他未完成 task。新 task 默认预计 0 次上下文压缩；执行前必须核对主工作包、验收批次和拆分触发，超限先拆分。存在可独立返回的有界调查/验证工作包，且主 agent 可同时推进其他工作、运行环境允许时，默认按 `agent-protocol.md` 在单 task 内使用 subagent，简单有界工作优先显式指定 `gpt-5.6-luna`；唯一 Ready、工作包预算、主 agent 单写与归并责任不变。功能线仍保持唯一 `Active` 并跨 task 连续；任务完成必须留下可交接产物，并更新功能线、覆盖台账和 task 状态。详细流程见 `docs/workflow/agent-protocol.md`。
 
 用户使用 `/goal` 时，先读取 `execution-queue.md`：治理 `Ready`/`Blocked` 存在时只执行或治理该项，完成后结束本次 `/goal`；队列无可执行治理项时，才恢复唯一 `Active` 功能线并执行唯一 `Ready` 游戏 task。游戏 task 完成后激活同线下一 task 并结束当次 `/goal`，不在同一次请求中连续跨 task；遇到阻塞仍只治理当前调度范围内的阻塞，不隐式切换。compact 次数不作为停止、拆分或新开对话条件；恢复后窄读当前合同、改动和必要证据，继续原 task，不借此扩张范围。仅在存在尚未保存且影响恢复的信息或需要实际交接时更新简短检查点；已有记录足够时直接复用，不重复计数、落盘或运行无变化的检查。收尾必须明确给出下一执行项、Git 提交/上传建议和对话管理建议。
 

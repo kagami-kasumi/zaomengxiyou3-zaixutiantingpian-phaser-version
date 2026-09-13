@@ -57,6 +57,8 @@ import {
 } from './feature-ui/FormalPetRuntimeBridge';
 import { createFormalPetMonkeyBodyBridge } from './FormalPetMonkeyBodyBridge';
 import { createFormalPetHorseBodyBridge } from './FormalPetHorseBodyBridge';
+import { createPetDragonPresentationBridge } from './PetDragonPresentationBridge';
+import { createPetDragonQaRoster, isPetDragonQaEnabled, isPetDragonQaOwnerProtected } from './PetDragonQaBridge';
 import { createCombatFeedbackView } from './CombatFeedbackView';
 import { createCombatFeedbackQaBridge } from './CombatFeedbackQaBridge';
 import { createPetProjectileCombatBridge } from './PetProjectileCombatBridge';
@@ -126,6 +128,10 @@ export function createHeroPartyRuntime(
     p2: restoredState?.player2.petRoster,
   };
   if (!mayRestoreActiveSave) {
+    if (isPetDragonQaEnabled()) {
+      petRosters.p1 = createPetDragonQaRoster('p1');
+      petRosters.p2 = createPetDragonQaRoster('p2');
+    }
     const qaHorseForm = readFormalHorseQaForm();
     if (qaHorseForm) {
       petRosters.p1 = createFormalHorseQaRoster('p1', qaHorseForm);
@@ -152,6 +158,9 @@ export function createHeroPartyRuntime(
       : options.skillLoadoutFor?.(view.getData('heroId'), index)
         ?? (index === 0 ? restoredState?.player1.skillLoadout : restoredState?.player2.skillLoadout),
   })));
+  if (!mayRestoreActiveSave && isPetDragonQaOwnerProtected()) {
+    for (const member of model.members) member.combat.combat.invulnerableUntilMs = Number.POSITIVE_INFINITY;
+  }
   if (role1ShadowQa) {
     for (const member of model.members) {
       if (member.combat.normalAttack.heroId !== 1) continue;
@@ -168,6 +177,7 @@ export function createHeroPartyRuntime(
   const combatFeedbackView = createCombatFeedbackView(scene, model.combat.feedback);
   const combatFeedbackQa = createCombatFeedbackQaBridge(scene, model.combat.feedback);
   const petProjectileCombat = createPetProjectileCombatBridge(scene);
+  const petDragonPresentation = createPetDragonPresentationBridge(scene);
   const formalPetMonkeyBodies = scene.scene.key === 'TestScene'
     ? undefined
     : createFormalPetMonkeyBodyBridge(scene);
@@ -373,6 +383,8 @@ export function createHeroPartyRuntime(
       destroyRole1ShadowVisualViews(role1ShadowViews);
       formalPetMonkeyBodies?.destroy();
       formalPetHorseBodies?.destroy();
+      petDragonPresentation.destroy();
+      if (isPetDragonQaEnabled()) delete scene.game.canvas.dataset.petDragonQa;
       combatFeedbackView.destroy();
       combatFeedbackQa.destroy();
       petCombatRuntimes.p1.destroy();
@@ -430,6 +442,12 @@ export function createHeroPartyRuntime(
       pendingPetDamageEvents[slot] = [];
       pendingPetAnimationEvents[slot] = [];
     }
+    petDragonPresentation.update(Object.values(petCombatSnapshots), frame.projectiles.projectiles);
+    if (isPetDragonQaEnabled()) scene.game.canvas.dataset.petDragonQa = JSON.stringify({
+      snapshots: petCombatSnapshots,
+      damage: model.combat.audit.damageEvents.slice(-60),
+      pets: Object.fromEntries(Object.entries(petRosters).map(([slot, roster]) => [slot, getActivePet(roster!)])),
+    });
   }
 }
 

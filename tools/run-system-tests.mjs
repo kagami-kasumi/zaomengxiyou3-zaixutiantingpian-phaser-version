@@ -60,6 +60,8 @@ const bundledTests = requestedTests.length > 0
       'pet-monkey-family-runtime-tests',
       'pet-movement-clock-tests',
       'pet-dragon1-clock-tests',
+      'pet-dragon1-presentation-tests',
+      'pet-dragon1-consumer-tests',
       'pet-animation-session-tests',
       'formal-workshop-host-tests',
       'formal-workshop-inventory-grid-tests',

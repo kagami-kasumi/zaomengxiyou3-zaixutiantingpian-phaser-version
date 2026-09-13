@@ -1,0 +1,1292 @@
+{
+  "damage": [
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-34:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-3:1",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 170699.1,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-14"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-35:p1-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-9"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-35:p1-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-10"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-35:p1-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-11"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-35:p1-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-12"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-35:p1-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-15"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-35:p1-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-17"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-35:p1-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-19"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-36:p2-pet-dragon-1-dragon1-normal-11:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-9"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-36:p2-pet-dragon-1-dragon1-normal-11:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-10"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-36:p2-pet-dragon-1-dragon1-normal-11:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-11"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-36:p2-pet-dragon-1-dragon1-normal-11:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-12"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-36:p2-pet-dragon-1-dragon1-normal-11:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-14"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-36:p2-pet-dragon-1-dragon1-normal-11:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-15"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-36:p2-pet-dragon-1-dragon1-normal-11:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-17"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-36:p2-pet-dragon-1-dragon1-normal-11:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171482.5,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-19"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 4,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171532.5,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-15"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171532.5,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-17"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171532.5,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-19"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-38:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171532.5,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-11"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-38:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171532.5,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-12"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-38:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171532.5,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-14"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171549.1,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-9"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171549.1,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-10"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 20,
+      "attackId": "projectile-38:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171549.1,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-9"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 20,
+      "attackId": "projectile-38:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171549.1,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-10"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 20,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171565.8,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-11"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171582.5,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-12"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-38:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171582.5,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-17"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-38:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171582.5,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-19"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171615.8,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-14"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 20,
+      "attackId": "projectile-37:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-4:1",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 171699.1,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-14"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 20,
+      "attackId": "projectile-39:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-5:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 172532.8,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-12"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 4,
+      "attackId": "projectile-40:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-5:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 172532.8,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-17"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-40:p2-pet-dragon-1:dragon:1:session:2:1:summon:4-dragon1-normal-5:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 172532.8,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:4",
+      "targetId": "stage12-enemy-19"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 4,
+      "attackId": "projectile-39:p1-pet-dragon-1:dragon:1:session:1:1:summon:4-dragon1-normal-5:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 172565.8,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:4",
+      "targetId": "stage12-enemy-19"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-41:p2-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 176499.1,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-13"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-41:p2-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 176499.1,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-16"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-41:p2-pet-dragon-1-dragon1-normal-12:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 176515.8,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-18"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-42:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-1:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 176532.8,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-13"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-42:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-1:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 176532.8,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-16"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-42:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-1:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 176532.8,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-18"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-43:p1-pet-dragon-1-dragon1-normal-13:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177482.7,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-13"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-43:p1-pet-dragon-1-dragon1-normal-13:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177482.7,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-16"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-43:p1-pet-dragon-1-dragon1-normal-13:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177482.7,
+      "sourceId": "p1-pet-dragon-1",
+      "targetId": "stage12-enemy-18"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-44:p2-pet-dragon-1-dragon1-normal-13:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177482.7,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-13"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-44:p2-pet-dragon-1-dragon1-normal-13:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177482.7,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-16"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-44:p2-pet-dragon-1-dragon1-normal-13:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177482.7,
+      "sourceId": "p2-pet-dragon-1",
+      "targetId": "stage12-enemy-18"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-45:p1-pet-dragon-1:dragon:1:session:1:1:summon:5-dragon1-normal-1:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177549.1,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+      "targetId": "stage12-enemy-13"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-45:p1-pet-dragon-1:dragon:1:session:1:1:summon:5-dragon1-normal-1:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177549.1,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+      "targetId": "stage12-enemy-16"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-45:p1-pet-dragon-1:dragon:1:session:1:1:summon:5-dragon1-normal-1:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177549.1,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+      "targetId": "stage12-enemy-18"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-46:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-2:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177565.8,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-13"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-46:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-2:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177565.8,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-16"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-46:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-2:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 177565.8,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-18"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-47:p1-pet-dragon-1:dragon:1:session:1:1:summon:5-dragon1-normal-2:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 178532.5,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+      "targetId": "stage12-enemy-13"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-47:p1-pet-dragon-1:dragon:1:session:1:1:summon:5-dragon1-normal-2:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 178532.5,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+      "targetId": "stage12-enemy-16"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 28,
+      "attackId": "projectile-47:p1-pet-dragon-1:dragon:1:session:1:1:summon:5-dragon1-normal-2:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 178532.5,
+      "sourceId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+      "targetId": "stage12-enemy-18"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 4,
+      "attackId": "projectile-48:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-3:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 178532.5,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-13"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 4,
+      "attackId": "projectile-48:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-3:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 178532.5,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-16"
+    },
+    {
+      "actionName": "hit1",
+      "amount": 4,
+      "attackId": "projectile-48:p2-pet-dragon-1:dragon:1:session:2:1:summon:5-dragon1-normal-3:0",
+      "attackKind": "physics",
+      "critical": false,
+      "knockbackX": 3,
+      "knockbackY": -5,
+      "occurredAtMs": 178532.5,
+      "sourceId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+      "targetId": "stage12-enemy-18"
+    }
+  ],
+  "pets": {
+    "p1": {
+      "atk": 30,
+      "atkQuality": 1,
+      "critBonusRate": 0,
+      "def": 100,
+      "defQuality": 1,
+      "displayName": "小龙",
+      "exp": 0,
+      "expToNext": 50,
+      "form": 1,
+      "hp": 10000,
+      "hpQuality": 1,
+      "id": "p1-pet-dragon-1",
+      "isActive": true,
+      "level": 1,
+      "lifetime": 100,
+      "maxHp": 10000,
+      "maxMp": 1000,
+      "moveSpeed": 5,
+      "mp": 920,
+      "mpQuality": 1,
+      "perception": 1,
+      "quality": 1,
+      "skillDamageBonus": 0,
+      "skillState": {
+        "dragon1Fs": {
+          "cloneRemainingMs": 0,
+          "cooldownMs": 3883.333333333326
+        },
+        "dragon2Sdcc": {
+          "cooldownMs": 0,
+          "lastHealOnHit": 0
+        },
+        "dragon3Ltwj": {
+          "cooldownMs": 0,
+          "lastHealOnHit": 0
+        },
+        "dragon4Qlaoyi": {
+          "cooldownMs": 0,
+          "lastCombo": {
+            "cloneCombo": false,
+            "ltwjCombo": false,
+            "sdccCombo": false
+          }
+        },
+        "horse1Sp": {
+          "cooldownMs": 0
+        },
+        "horse2Bd": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "horse3Bz": {
+          "cooldownMs": 0
+        },
+        "horse4Tmaoyi": {
+          "cooldownMs": 0
+        },
+        "lastResult": "pet skill ready",
+        "monkey1Xj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey2Lj": {
+          "cooldownMs": 0
+        },
+        "monkey2Xj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey3Lj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey3Lyq": {
+          "cooldownMs": 0
+        },
+        "monkey3Xj": {
+          "cooldownMs": 0
+        },
+        "monkey4Jgaoyi": {
+          "cooldownMs": 0
+        },
+        "mouse1Sc": {
+          "cooldownMs": 0
+        },
+        "mouse4Hxfb": {
+          "cooldownMs": 0
+        },
+        "mouse4Zsaoyi": {
+          "comboStep": 0,
+          "comboStepElapsedMs": 0,
+          "cooldownMs": 0,
+          "emittedSteps": []
+        },
+        "phoenix1Np": {
+          "cooldownMs": 0,
+          "damageTakenMultiplier": 1,
+          "hurtActionImmune": false,
+          "pendingFullHeal": false,
+          "transformationRemainingMs": 0
+        },
+        "phoenix2Bshn": {
+          "cooldownMs": 0
+        },
+        "phoenix3Dhly": {
+          "cooldownMs": 0
+        },
+        "phoenix4Zqaoyi": {
+          "cooldownMs": 0,
+          "fireImbueActive": false
+        },
+        "rabbit1Yg": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "rabbit2Jf": {
+          "activeRemainingMs": 0,
+          "attackRate": 0.7,
+          "cooldownMs": 0,
+          "dodgeBonusRate": 0
+        },
+        "rabbit3Bs": {
+          "cooldownMs": 0
+        },
+        "rabbit4Ysaoyi": {
+          "activeRemainingMs": 0,
+          "cooldownMs": 0,
+          "healTickAccumulatorMs": 0,
+          "lastOwnerHeal": 0,
+          "lastPetHeal": 0
+        },
+        "tiger1Hy": {
+          "cooldownMs": 0
+        },
+        "tiger2Sxhz": {
+          "cooldownMs": 0,
+          "lastHeal": 0
+        },
+        "tiger3Hsqj": {
+          "cooldownMs": 0
+        },
+        "tiger4Bhaoyi": {
+          "attackBoostReady": false,
+          "comboStep": 0,
+          "comboStepElapsedMs": 0,
+          "cooldownMs": 0,
+          "emittedSteps": [],
+          "lastCombo": {
+            "hsqjFreeCast": false,
+            "hyFreeCast": false,
+            "sxhzFreeCast": false
+          }
+        },
+        "turtle1Sld": {
+          "cooldownMs": 0,
+          "lastHeal": 0,
+          "lastOwnerHeal": 0
+        },
+        "turtle2Txlj": {
+          "cooldownMs": 0,
+          "lastOwnerDamageAfterRedirect": 0,
+          "lastOwnerDamageRedirect": 0,
+          "lastOwnerHealBoost": 0,
+          "lastPetHeal": 0,
+          "linkRemainingMs": 0
+        },
+        "turtle3Sybh": {
+          "cooldownMs": 0
+        },
+        "turtle4Xwaoyi": {
+          "cooldownMs": 0,
+          "lastCombo": {
+            "sldFreeCasts": 0,
+            "sybhSustained": false,
+            "txljRefreshed": false
+          },
+          "sldFreeCastTimersMs": [],
+          "ultimateRemainingMs": 0
+        },
+        "ufo1Pms": {
+          "cooldownMs": 0
+        },
+        "ufo2Ss": {
+          "cooldownMs": 0
+        },
+        "ufo3Kmsk": {
+          "cooldownMs": 0,
+          "risingMs": 0,
+          "risingTotalMs": 0
+        }
+      },
+      "skills": [
+        "fs"
+      ],
+      "species": "dragon",
+      "technique": 1,
+      "warpower": 1
+    },
+    "p2": {
+      "atk": 30,
+      "atkQuality": 1,
+      "critBonusRate": 0,
+      "def": 100,
+      "defQuality": 1,
+      "displayName": "小龙",
+      "exp": 0,
+      "expToNext": 50,
+      "form": 1,
+      "hp": 10000,
+      "hpQuality": 1,
+      "id": "p2-pet-dragon-1",
+      "isActive": true,
+      "level": 1,
+      "lifetime": 100,
+      "maxHp": 10000,
+      "maxMp": 1000,
+      "moveSpeed": 5,
+      "mp": 920,
+      "mpQuality": 1,
+      "perception": 1,
+      "quality": 1,
+      "skillDamageBonus": 0,
+      "skillState": {
+        "dragon1Fs": {
+          "cloneRemainingMs": 0,
+          "cooldownMs": 3883.333333333326
+        },
+        "dragon2Sdcc": {
+          "cooldownMs": 0,
+          "lastHealOnHit": 0
+        },
+        "dragon3Ltwj": {
+          "cooldownMs": 0,
+          "lastHealOnHit": 0
+        },
+        "dragon4Qlaoyi": {
+          "cooldownMs": 0,
+          "lastCombo": {
+            "cloneCombo": false,
+            "ltwjCombo": false,
+            "sdccCombo": false
+          }
+        },
+        "horse1Sp": {
+          "cooldownMs": 0
+        },
+        "horse2Bd": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "horse3Bz": {
+          "cooldownMs": 0
+        },
+        "horse4Tmaoyi": {
+          "cooldownMs": 0
+        },
+        "lastResult": "pet skill ready",
+        "monkey1Xj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey2Lj": {
+          "cooldownMs": 0
+        },
+        "monkey2Xj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey3Lj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey3Lyq": {
+          "cooldownMs": 0
+        },
+        "monkey3Xj": {
+          "cooldownMs": 0
+        },
+        "monkey4Jgaoyi": {
+          "cooldownMs": 0
+        },
+        "mouse1Sc": {
+          "cooldownMs": 0
+        },
+        "mouse4Hxfb": {
+          "cooldownMs": 0
+        },
+        "mouse4Zsaoyi": {
+          "comboStep": 0,
+          "comboStepElapsedMs": 0,
+          "cooldownMs": 0,
+          "emittedSteps": []
+        },
+        "phoenix1Np": {
+          "cooldownMs": 0,
+          "damageTakenMultiplier": 1,
+          "hurtActionImmune": false,
+          "pendingFullHeal": false,
+          "transformationRemainingMs": 0
+        },
+        "phoenix2Bshn": {
+          "cooldownMs": 0
+        },
+        "phoenix3Dhly": {
+          "cooldownMs": 0
+        },
+        "phoenix4Zqaoyi": {
+          "cooldownMs": 0,
+          "fireImbueActive": false
+        },
+        "rabbit1Yg": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "rabbit2Jf": {
+          "activeRemainingMs": 0,
+          "attackRate": 0.7,
+          "cooldownMs": 0,
+          "dodgeBonusRate": 0
+        },
+        "rabbit3Bs": {
+          "cooldownMs": 0
+        },
+        "rabbit4Ysaoyi": {
+          "activeRemainingMs": 0,
+          "cooldownMs": 0,
+          "healTickAccumulatorMs": 0,
+          "lastOwnerHeal": 0,
+          "lastPetHeal": 0
+        },
+        "tiger1Hy": {
+          "cooldownMs": 0
+        },
+        "tiger2Sxhz": {
+          "cooldownMs": 0,
+          "lastHeal": 0
+        },
+        "tiger3Hsqj": {
+          "cooldownMs": 0
+        },
+        "tiger4Bhaoyi": {
+          "attackBoostReady": false,
+          "comboStep": 0,
+          "comboStepElapsedMs": 0,
+          "cooldownMs": 0,
+          "emittedSteps": [],
+          "lastCombo": {
+            "hsqjFreeCast": false,
+            "hyFreeCast": false,
+            "sxhzFreeCast": false
+          }
+        },
+        "turtle1Sld": {
+          "cooldownMs": 0,
+          "lastHeal": 0,
+          "lastOwnerHeal": 0
+        },
+        "turtle2Txlj": {
+          "cooldownMs": 0,
+          "lastOwnerDamageAfterRedirect": 0,
+          "lastOwnerDamageRedirect": 0,
+          "lastOwnerHealBoost": 0,
+          "lastPetHeal": 0,
+          "linkRemainingMs": 0
+        },
+        "turtle3Sybh": {
+          "cooldownMs": 0
+        },
+        "turtle4Xwaoyi": {
+          "cooldownMs": 0,
+          "lastCombo": {
+            "sldFreeCasts": 0,
+            "sybhSustained": false,
+            "txljRefreshed": false
+          },
+          "sldFreeCastTimersMs": [],
+          "ultimateRemainingMs": 0
+        },
+        "ufo1Pms": {
+          "cooldownMs": 0
+        },
+        "ufo2Ss": {
+          "cooldownMs": 0
+        },
+        "ufo3Kmsk": {
+          "cooldownMs": 0,
+          "risingMs": 0,
+          "risingTotalMs": 0
+        }
+      },
+      "skills": [
+        "fs"
+      ],
+      "species": "dragon",
+      "technique": 1,
+      "warpower": 1
+    }
+  },
+  "snapshots": {
+    "p1": {
+      "actionToken": 76,
+      "animation": {
+        "action": "walk",
+        "actionToken": 76,
+        "column": 3,
+        "complete": false,
+        "elapsedTicks": 7,
+        "keyFrameIndex": 3,
+        "remainingHoldCount": 2,
+        "row": 0
+      },
+      "destroyed": false,
+      "form": 1,
+      "groundMotion": {
+        "direction": -1,
+        "facingX": -1,
+        "petId": "p1-pet-dragon-1",
+        "runtimeKey": "p1-pet-dragon-1:dragon:1:session:1:1",
+        "standingOn": "level12-d14",
+        "state": "follow",
+        "velocityX": -5,
+        "velocityY": 1.5,
+        "x": 1529.7,
+        "y": 485.97519809999994
+      },
+      "petId": "p1-pet-dragon-1",
+      "phase": "alive",
+      "runtime": {
+        "facingX": -1,
+        "petId": "p1-pet-dragon-1",
+        "runtimeKey": "p1-pet-dragon-1:dragon:1:session:1:1",
+        "state": "follow",
+        "x": 1529.7,
+        "y": 485.97519809999994
+      },
+      "species": "dragon",
+      "summons": [
+        {
+          "actionToken": 2,
+          "animation": {
+            "action": "walk",
+            "actionToken": 2,
+            "column": 2,
+            "complete": false,
+            "elapsedTicks": 4,
+            "keyFrameIndex": 2,
+            "remainingHoldCount": 2,
+            "row": 0
+          },
+          "form": 1,
+          "groundMotion": {
+            "direction": -1,
+            "facingX": -1,
+            "petId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+            "runtimeKey": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+            "standingOn": "level12-d14",
+            "state": "follow",
+            "velocityX": -5,
+            "velocityY": 1.5,
+            "x": 923.55,
+            "y": 485.97519809999994
+          },
+          "hp": 10000,
+          "maxHp": 10000,
+          "maxMp": 920,
+          "mp": 920,
+          "parentRuntimeKey": "p1-pet-dragon-1:dragon:1:session:1:1",
+          "petId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+          "phase": "alive",
+          "runtime": {
+            "facingX": -1,
+            "petId": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+            "runtimeKey": "p1-pet-dragon-1:dragon:1:session:1:1:summon:5",
+            "state": "follow",
+            "x": 923.55,
+            "y": 485.97519809999994
+          },
+          "sourcePetId": "p1-pet-dragon-1",
+          "species": "dragon"
+        }
+      ]
+    },
+    "p2": {
+      "actionToken": 64,
+      "animation": {
+        "action": "walk",
+        "actionToken": 64,
+        "column": 3,
+        "complete": false,
+        "elapsedTicks": 7,
+        "keyFrameIndex": 3,
+        "remainingHoldCount": 2,
+        "row": 0
+      },
+      "destroyed": false,
+      "form": 1,
+      "groundMotion": {
+        "direction": 1,
+        "facingX": 1,
+        "petId": "p2-pet-dragon-1",
+        "runtimeKey": "p2-pet-dragon-1:dragon:1:session:2:1",
+        "standingOn": "level12-d14",
+        "state": "follow",
+        "velocityX": 5,
+        "velocityY": 1.5,
+        "x": 1060,
+        "y": 485.97519809999994
+      },
+      "petId": "p2-pet-dragon-1",
+      "phase": "alive",
+      "runtime": {
+        "facingX": 1,
+        "petId": "p2-pet-dragon-1",
+        "runtimeKey": "p2-pet-dragon-1:dragon:1:session:2:1",
+        "state": "follow",
+        "x": 1060,
+        "y": 485.97519809999994
+      },
+      "species": "dragon",
+      "summons": [
+        {
+          "actionToken": 3,
+          "animation": {
+            "action": "walk",
+            "actionToken": 3,
+            "column": 2,
+            "complete": false,
+            "elapsedTicks": 4,
+            "keyFrameIndex": 2,
+            "remainingHoldCount": 2,
+            "row": 0
+          },
+          "form": 1,
+          "groundMotion": {
+            "direction": 1,
+            "facingX": 1,
+            "petId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+            "runtimeKey": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+            "standingOn": "level12-d14",
+            "state": "follow",
+            "velocityX": 5,
+            "velocityY": 1.5,
+            "x": 1079.4,
+            "y": 485.97519809999994
+          },
+          "hp": 10000,
+          "maxHp": 10000,
+          "maxMp": 920,
+          "mp": 920,
+          "parentRuntimeKey": "p2-pet-dragon-1:dragon:1:session:2:1",
+          "petId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+          "phase": "alive",
+          "runtime": {
+            "facingX": 1,
+            "petId": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+            "runtimeKey": "p2-pet-dragon-1:dragon:1:session:2:1:summon:5",
+            "state": "follow",
+            "x": 1079.4,
+            "y": 485.97519809999994
+          },
+          "sourcePetId": "p2-pet-dragon-1",
+          "species": "dragon"
+        }
+      ]
+    }
+  }
+}

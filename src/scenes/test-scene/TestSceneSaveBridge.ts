@@ -13,6 +13,7 @@ import {
   syncMagicWeaponFromLoadout,
   type SaveStorage,
 } from './TestSceneSystems';
+import { createPetDragonQaRoster, isPetDragonQaEnabled } from '../PetDragonQaBridge';
 
 type SceneSaveRuntime = {
   autosaveElapsedMs: number;
@@ -33,6 +34,10 @@ export function initializeSceneSave(this: any): void {
   }).setScrollFactor(0).setDepth(120);
   applyFormalPartyHeroes(this);
   if (this.formalPartyRuntime?.source === 'dev-override') {
+    if (isPetDragonQaEnabled()) {
+      this.petRoster = this.playerPetRosters.p1 = createPetDragonQaRoster('p1');
+      this.p2PetRoster = this.playerPetRosters.p2 = createPetDragonQaRoster('p2');
+    }
     setSaveResult(this, 'SAVE disabled for DEV party');
     return;
   }

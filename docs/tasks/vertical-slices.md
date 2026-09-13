@@ -640,3 +640,5 @@
 2026-09-06 218完成：三目标Sprite/12映射/11帧双向、原版自带AIR861项/1604322像素/25基准与中心输入合同已verified，15类源/参考变异通过。218归档，C4唯一Ready；仅解除碰撞输入阻塞，不提高真实战斗或整族完成度。证据见docs/tasks/evidence/TASK-SETTINGS-218/handoff.md。
 
 2026-09-06 C4真实战斗链完成：dragon1正常弹/原版碰撞/缓存伤害与自身治疗、真实fs独立实体及到期/提前死亡闭环；20/24/30fps、P1/P2生产updatePets共享Combat、14类变异、P1GS和build通过。C5唯一Ready承接正式投影/TestScene/全生命周期/P1GC，父C2/C仍Split，不提升家族完整完成状态。交接见 docs/tasks/evidence/TASK-SLICE-214C4/handoff.md。
+
+2026-09-13 TASK-SLICE-214C5完成并同次归档父C2/C：共享presenter消费真实本体/子实体/弹体snapshot，TestScene实际Monster30通过同一Combat端口结算；72个初阶原版状态零像素差、P1GC/P1GS、全系统/build/真值/资源与940×590双人正式、失败重试和返回清理通过。214D唯一Ready，214E仍承担完整44项与P1G，功能线保持Active，VS-067及全家族状态仍为部分复现。交接见 `docs/tasks/evidence/TASK-SLICE-214C5/handoff.md`。

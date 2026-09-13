@@ -215,7 +215,7 @@ const p1 = setup(20, getPetGroundEnvironment(12));
 const p2 = setup(20, getPetGroundEnvironment(21));
 const snapshots: Record<string, ReturnType<PetCombatRuntime['snapshot']>> = {};
 const updateProductionPets = new Function('model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots',
-  'pendingPetDamageEvents', 'pendingPetAnimationEvents', 'scene', 'petProjectileCombat', `${closure}\nreturn updatePets;`)(
+  'pendingPetDamageEvents', 'pendingPetAnimationEvents', 'scene', 'petProjectileCombat', 'petDragonPresentation', 'isPetDragonQaEnabled', `${closure}\nreturn updatePets;`)(
   { members: [p1, p2].map((p, index) => ({ movement: p.frame.owner,
     combat: { slot: index === 0 ? 'p1' : 'p2', combat: { state: 'ready' } } })) },
   { p1: p1.frame.roster, p2: p2.frame.roster }, { p1: p1.runtime, p2: p2.runtime }, snapshots,
@@ -223,6 +223,8 @@ const updateProductionPets = new Function('model', 'petRosters', 'petCombatRunti
   (input: Omit<Parameters<typeof createPetProjectileCombatPort>[0], 'mask'>) => createPetProjectileCombatPort({
     ...input, mask: () => { throw new Error('Movement-only probe must not request a hit mask'); },
   }),
+  { update() {} },
+  () => false,
 ) as (frame: unknown) => void;
 const requested: number[] = [];
 for (const [index, p] of [p1, p2].entries()) {
@@ -233,7 +235,7 @@ for (const [index, p] of [p1, p2].entries()) {
   p.frame.owner.y = y - environment.ownerRootOffsetY;
   p.probes[0]!.context.relocate(p.frame.owner.x, y);
 }
-for (let i = 0; i < 2; i++) updateProductionPets({ targets: [], deltaMs: 50, timeMs: i * 50,
+for (let i = 0; i < 2; i++) updateProductionPets({ targets: [], projectiles: { projectiles: [] }, deltaMs: 50, timeMs: i * 50,
   groundEnvironmentFor: (index: number) => { requested.push(index); return getPetGroundEnvironment(index === 0 ? 12 : 21); } });
 assert.deepEqual(requested, [0, 1, 0, 1]);
 assert.ok(snapshots.p1!.groundMotion!.standingOn?.startsWith('level12-'));

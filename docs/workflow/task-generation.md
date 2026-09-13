@@ -90,6 +90,7 @@ task 的完成定义只判断该工作单元，不得包含未经覆盖证明的
 ```md
 协作计划：
 - 模式：单 agent / 主 agent + subagent
+- 模型分工：按 agent-protocol 准入表选择；整项明确可验证任务可用 Luna 主 agent，复杂任务由 GPT-6 主 agent 加 Luna 有界子包；边界不清先 Luna 调查；单 agent 时说明原因
 - 并行工作包：无 / `问题、输入边界、输出格式`
 - 写入 owner：主 agent
 - 归并检查点：实现前 / 验收前 / 不适用

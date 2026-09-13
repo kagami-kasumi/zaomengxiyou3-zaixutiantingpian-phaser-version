@@ -100,6 +100,12 @@ export function updateOwnedPetSystem(input: OwnedPetSystemInput): PetRuntimeMode
 }
 
 function updatePetSystemForOwner(this: any, delta: number): void {
+    const sharedPet = getActivePet(this.petRoster);
+    if (sharedPet?.species === 'dragon' && sharedPet.form === 1) {
+      this.petRuntime = undefined;
+      this.destroyPetView();
+      return;
+    }
     const owner = this.getInventoryPlayer();
     if (!owner?.movement || isHeroCombatDead(owner.combat)) {
       this.petRuntime = undefined;

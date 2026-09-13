@@ -97,6 +97,7 @@
 | Gate | 任务 | 通过合同 | 2026-08-25 基线 |
 | --- | --- | --- | --- |
 | P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `0`：结构 gate 已通过；不证明 Scene/正式消费者或玩家可见自主战斗 |
+| P1GC | 214C5 | 初阶dragon1正式/TestScene真实战斗、同源本体/分身/弹体投影与生命周期，72原版状态逐像素及生产trace | `0`：P1GS、真实行为/14变异、生产消费者、4视觉变异、正式双人重试/返回；其余形态及all未完成 |
 | P1GS | 214C1 | 单顶层Runtime内主/子复用公共步骤；数值/目标/token/来源隔离、旧key拒绝、子事件、失败创建回滚与级联清理；保持猴马全部既有门禁 | `0`：P1/P1B/P1R/P1H、私有会话合同与10类实现mutation通过；只证明接缝，P1GC/P1G仍待214C2/214E |
 | P1B | 204B | Monkey/Horse 8 形态适配结构钩子且不复制 Runtime | `0`：结构 gate 已通过；`basicAttack` 仍可能只有事件，不证明动画、命中与伤害闭环 |
 | P1R | 208 历史 + PG-017 V2 + `TASK-SLICE-208A`（207 提供冻结机器合同） | Monkey1..4 完整自主战斗；每形态 `attackRange` 外追击、范围内真实普通攻击/全部技能、真动画、命中/来源隔离伤害、P1/P2 TestScene/五关 owner 与生命周期 | `0`：八条范围链、字段覆盖、range/hit/source mutation-kill、家族专项、正式五关旅程均通过；系统仍因其余家族与旧入口保持实施中 |
@@ -140,3 +141,5 @@
 2026-09-05 TASK-SLICE-214C3批次：P1GS=0，本批公共移动通过、系统仍实施中/未退出。PetBehavior新增可选ground事实；Session保持唯一host调度与方向/速度owner，场景仅传217环境。源时序精化：ground路径AI/动作→效果/子会话/CD/计数→warp→动画完成→速度/碰撞/积分/重力，旧猴马路径及gate回归不变。pet-ground-session-tests在20/24/30fps与实际正式updatePets闭包验证本批；freeze来源、精度与C4/C5剩余项见 docs/tasks/evidence/TASK-SLICE-214C3/handoff.md。未运行P1GC或all，不提升完整青龙/系统退出。
 
 2026-09-06 TASK-SLICE-214C4批次：P1GS=0，独立dragon1 Behavior与公共Runtime/Session实现真实normal/fs/expiry-heal；源碰撞861项、P1/P2生产接线和14类变异通过。新增窄端口由Session持有数值/CD/朝向，场景只传Combat与mask；完整证据见 docs/tasks/evidence/TASK-SLICE-214C4/handoff.md。系统仍实施中/未退出，C5继续正式/TestScene/全生命周期与P1GC，未执行all或宣称完整家族通过。
+
+2026-09-13 / 214C5：本批P1GC=0，P1GS保持0；生产presenter不持时钟或技能owner，Monster30适配不持第二HP。72态原版对账、P1/P2实际伤害与分身、rest/replacement/teardown及正式重试/返回通过。初阶父C2/C归档，设计继续实施中/未退出；214D/214E和其他家族/旧入口仍未完成。见214C5/handoff.md。

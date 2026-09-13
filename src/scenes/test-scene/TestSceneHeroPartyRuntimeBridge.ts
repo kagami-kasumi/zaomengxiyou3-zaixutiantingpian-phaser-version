@@ -31,6 +31,9 @@ import { createAttackFlash, type AttackFlash } from './TestSceneViews';
 import { toPhaserRect } from './TestSceneGeometry';
 import type { ProjectileSystemModel } from '../../systems/ProjectileSystem';
 import { isRole1ShadowQaEnabled } from './TestSceneConfig';
+import { adaptTestScenePetEnemies } from './TestScenePetEnemyAdapter';
+import { claimMonsterExperienceForCurrentTarget } from '../../systems/PetSystem';
+import { FormalPetsUpdatedEvent } from '../feature-ui/FormalPetRuntimeBridge';
 import {
   isRole5LoongSwordProjectileAttack,
   spawnRole5LoongSwordProjectile,
@@ -143,7 +146,17 @@ export function createTestSceneHeroPartyRuntime(
       });
     },
     updateNormalAttacks: (input, previousInput, timeMs, compatibility) => {
+      for (const slot of ['p1', 'p2'] as const) {
+        scene.events.emit(FormalPetsUpdatedEvent, { owner: slot, roster: scene.playerPetRosters[slot] });
+      }
       runtime.updatePets({
+        combatEnemies: adaptTestScenePetEnemies(scene.getMonster30s(), (monster, slot) => {
+          scene.monster30AuraTargets.set(monster.id, slot);
+          if (monster.hp <= 0 && !monster.experienceAwardedTo) {
+            const award = claimMonsterExperienceForCurrentTarget(monster, slot);
+            if (award) scene.awardMonsterExperience(award.ownerSlot, award.experience);
+          }
+        }),
         targets: scene.createPetSkillTargets(),
         groundEnvironmentFor: () => petGroundEnvironment,
         projectiles: compatibility.projectileSystem,

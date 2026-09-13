@@ -1,0 +1,80 @@
+{
+  "scope": "Actual production updatePets closure, Runtime, presenter and Monster30 adapter. Scene route wiring separately covered by formal journey tests.",
+  "rows": [
+    {
+      "entry": "formal",
+      "reason": "retry",
+      "oldKey": "p1-pet-dragon-1:dragon:1:session:1:1",
+      "damage": 12,
+      "owners": [],
+      "monsterHp": 1000000,
+      "monsterState": "wait",
+      "remainingDisplays": 0,
+      "remainingProjectiles": 0
+    },
+    {
+      "entry": "formal",
+      "reason": "return",
+      "oldKey": "p1-pet-dragon-1:dragon:1:session:4:1",
+      "damage": 12,
+      "owners": [],
+      "monsterHp": 1000000,
+      "monsterState": "wait",
+      "remainingDisplays": 0,
+      "remainingProjectiles": 0
+    },
+    {
+      "entry": "formal",
+      "reason": "reload",
+      "oldKey": "p1-pet-dragon-1:dragon:1:session:7:1",
+      "damage": 12,
+      "owners": [],
+      "monsterHp": 1000000,
+      "monsterState": "wait",
+      "remainingDisplays": 0,
+      "remainingProjectiles": 0
+    },
+    {
+      "entry": "TestScene",
+      "reason": "retry",
+      "oldKey": "p1-pet-dragon-1:dragon:1:session:10:1",
+      "damage": 12,
+      "owners": [
+        "p1",
+        "p2"
+      ],
+      "monsterHp": 998824,
+      "monsterState": "hurt",
+      "remainingDisplays": 0,
+      "remainingProjectiles": 0
+    },
+    {
+      "entry": "TestScene",
+      "reason": "return",
+      "oldKey": "p1-pet-dragon-1:dragon:1:session:13:1",
+      "damage": 12,
+      "owners": [
+        "p1",
+        "p2"
+      ],
+      "monsterHp": 998824,
+      "monsterState": "hurt",
+      "remainingDisplays": 0,
+      "remainingProjectiles": 0
+    },
+    {
+      "entry": "TestScene",
+      "reason": "reload",
+      "oldKey": "p1-pet-dragon-1:dragon:1:session:16:1",
+      "damage": 12,
+      "owners": [
+        "p1",
+        "p2"
+      ],
+      "monsterHp": 998824,
+      "monsterState": "hurt",
+      "remainingDisplays": 0,
+      "remainingProjectiles": 0
+    }
+  ]
+}

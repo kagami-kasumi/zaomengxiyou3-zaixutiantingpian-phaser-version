@@ -3,6 +3,11 @@ import catalog from './PetDragonAssetFiles.json';
 
 export const PetDragonAnimationTruthId = 'task-settings-213.pet-dragon-family';
 export type PetDragonDirection = 'left' | 'right';
+export function getPetDragonCloneAlpha(form: number): number {
+  const family = truth.forms.find(candidate => candidate.id === `dragon${form}`);
+  if (!family) throw new Error(`Unknown dragon clone form ${form}`);
+  return family.actions.fs.cloneAlpha;
+}
 type Point = Readonly<{ x: number; y: number }>;
 
 export function assertVerifiedPetDragonAnimationTruth(): void {

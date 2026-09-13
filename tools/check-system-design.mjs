@@ -303,6 +303,23 @@ const contracts = {
       requireTest('pet-combat-session-tests', tests, errors);
       requireTest('pet-combat-session-mutation-tests', tests, errors);
     },
+    P1GC(errors, tests) {
+      contracts.pet.P1GS(errors, tests);
+      requireMatches('src/scenes/HeroPartyRuntimeBridge.ts', [
+        ['shared dragon presenter', /petDragonPresentation\.update\(Object\.values\(petCombatSnapshots\), frame\.projectiles\.projectiles\)/u],
+        ['dragon presenter disposal', /petDragonPresentation\.destroy\(\)/u],
+      ], errors);
+      requireMatches('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', [
+        ['actual sandbox enemy adapter', /combatEnemies: adaptTestScenePetEnemies\(scene\.getMonster30s\(\)/u],
+      ], errors);
+      forbidMatches('src/scenes/PetDragonPresentationBridge.ts', [
+        ['view-owned battle clock', /elapsedMs|Date\.now|scene\.time|new PetCombatRuntime/u],
+      ], errors);
+      for (const test of ['pet-dragon1-runtime-tests', 'pet-dragon1-mutation-tests',
+        'pet-dragon1-presentation-tests', 'pet-dragon1-consumer-tests',
+        'pet-ground-session-tests', 'pet-dragon1-clock-tests', 'combat-feedback-tests',
+        'formal-game-loop-journey-tests']) requireTest(test, tests, errors);
+    },
     P1C(errors, tests) {
       const behaviors = ['Dragon', 'Turtle', 'Ufo'].map((name) => (
         `src/systems/pet-behaviors/${name}PetBehavior.ts`

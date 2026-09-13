@@ -275,6 +275,7 @@ export function createProjectileEffectView(
   scene: Phaser.Scene,
   projectile: ProjectileModel,
 ): ProjectileEffectView | undefined {
+  if (projectile.petHostTick !== undefined) return undefined;
   if (projectile.assetKey.startsWith('pet-skill.monkey') ||
       projectile.assetKey.startsWith('pet-skill.horse')) return undefined;
   if (projectile.assetKey === SkillProjectileEffectKeys.role3XgqHit11Cast) return undefined;

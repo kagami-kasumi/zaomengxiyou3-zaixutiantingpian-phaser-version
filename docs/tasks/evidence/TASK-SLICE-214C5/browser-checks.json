@@ -1,0 +1,25 @@
+{
+  "canvas": {
+    "width": 940,
+    "height": 590
+  },
+  "returnState": {
+    "dragonTracePresent": false
+  },
+  "retry": {
+    "before": [
+      "p1-pet-dragon-1:dragon:1:session:1:1",
+      "p2-pet-dragon-1:dragon:1:session:2:1"
+    ],
+    "after": [
+      "p1-pet-dragon-1:dragon:1:session:3:1",
+      "p2-pet-dragon-1:dragon:1:session:4:1"
+    ],
+    "damage": 0,
+    "summons": [
+      0,
+      0
+    ]
+  },
+  "console": []
+}

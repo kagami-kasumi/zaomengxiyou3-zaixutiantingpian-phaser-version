@@ -205,7 +205,7 @@ const sharedCombat = createStage1CombatRuntime();
 const sharedProjectiles = createProjectileSystem();
 const snapshots: Record<string, ReturnType<PetCombatRuntime['snapshot']>> = {};
 const updateParty = new Function('model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots',
-  'pendingPetDamageEvents', 'pendingPetAnimationEvents', 'scene', 'petProjectileCombat',
+  'pendingPetDamageEvents', 'pendingPetAnimationEvents', 'scene', 'petProjectileCombat', 'petDragonPresentation', 'isPetDragonQaEnabled',
   `${closure}\nreturn updatePets;`)(
   { combat: sharedCombat, members: party.map((p, index) => ({ movement: p.frame.owner,
     combat: { slot: index === 0 ? 'p1' : 'p2', combat: { state: 'ready' } } })) },
@@ -214,6 +214,8 @@ const updateParty = new Function('model', 'petRosters', 'petCombatRuntimes', 'pe
   { p1: [], p2: [] }, { p1: [], p2: [] }, { game: { loop: { targetFps: 24 } } },
   (input: Omit<Parameters<typeof createPetProjectileCombatPort>[0], 'mask'>) =>
     createPetProjectileCombatPort({ ...input, mask: () => mask }),
+  { update() {} },
+  () => false,
 ) as (frame: unknown) => void;
 for (let tick = 1; tick <= 44; tick++) {
   updateProjectiles(sharedProjectiles, party.map(p => ({ id: p.pet.id, state: 'ready' as const })), 1000 / 24);
