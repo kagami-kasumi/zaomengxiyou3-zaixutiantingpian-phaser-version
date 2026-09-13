@@ -1,0 +1,47 @@
+{
+  "scope": "independent source oracle; no production execution",
+  "resolvedTargetDamage": "fixture uses cached amount without target mitigation; production target rules remain separate",
+  "expected": [
+    {
+      "tick": 1,
+      "target": "m1",
+      "accepted": true,
+      "hpBefore": 100,
+      "hpAfter": 90,
+      "cacheForNext": 17,
+      "attackerHp": 55,
+      "attackSerial": 0,
+      "sourceId": "p2-root:clone:1",
+      "ownerSlot": "p2"
+    },
+    {
+      "tick": 2,
+      "target": "m2",
+      "accepted": false,
+      "hpBefore": 100,
+      "hpAfter": 100,
+      "cacheForNext": 17,
+      "attackerHp": 55,
+      "attackSerial": 0,
+      "sourceId": "p2-root:clone:1",
+      "ownerSlot": "p2"
+    },
+    {
+      "tick": 11,
+      "target": "m1",
+      "accepted": true,
+      "hpBefore": 90,
+      "hpAfter": 73,
+      "cacheForNext": 23,
+      "attackerHp": 60,
+      "attackSerial": 1,
+      "sourceId": "p2-root:clone:1",
+      "ownerSlot": "p2"
+    }
+  ],
+  "mutationsKilled": [
+    "expire-before-last",
+    "refresh-before-hit",
+    "heal-rejected"
+  ]
+}

@@ -65,9 +65,12 @@ export class PetCombatRuntime {
   destroy(): void {
     if (this.destroyed) return;
     this.publishedEvents = [];
-    if (this.active) this.releaseEntity(this.active, 'runtime-destroyed');
-    this.destroyed = true;
-    this.publish({ type: 'destroyed' });
+    try {
+      if (this.active) this.releaseEntity(this.active, 'runtime-destroyed');
+    } finally {
+      this.destroyed = true;
+      this.publish({ type: 'destroyed' });
+    }
   }
 
   private synchronizePet(pet: PetState | undefined, owner: Readonly<PetOwnerSnapshot>, ownerRootOffsetY = 0): void {
@@ -99,7 +102,11 @@ export class PetCombatRuntime {
         for (const child of this.childrenOf(key)) this.stepEntity(child, frame, eventsOnly);
       },
       releaseChildren: (reason: PetCombatReleaseReason) => {
-        for (const child of this.childrenOf(key)) this.releaseEntity(child, reason);
+        const failures: unknown[] = [];
+        for (const child of this.childrenOf(key)) {
+          try { this.releaseEntity(child, reason); } catch (error) { failures.push(error); }
+        }
+        if (failures.length) throw new AggregateError(failures, 'Pet child release callbacks failed after cleanup');
       },
       spawnSummon: (request: PetCombatSummonRequest, owner: Readonly<PetOwnerSnapshot>) => this.spawnSummon(key, request, owner),
       releaseSummon: (handle: PetCombatSummonHandle, reason: PetCombatReleaseReason) => {
@@ -129,7 +136,10 @@ export class PetCombatRuntime {
     const pet: PetState = { ...structuredClone(request.pet), id: key, isActive: true };
     const child = new PetCombatEntitySession(
       pet, key, parent.sourcePetId, parentKey, behavior, this.targeting,
-      this.entityPorts(key), owner, request,
+      { ...this.entityPorts(key), publish: (event) => {
+        this.publish(event);
+        if (event.type === 'deactivated' && event.reason) request.onReleased?.(event.reason);
+      } }, owner, request,
     );
     this.entities.set(key, child);
     try {
@@ -151,13 +161,13 @@ export class PetCombatRuntime {
 
   private stepEntity(entity: PetCombatEntitySession, frame: PetCombatFrame, eventsOnly = false): void {
     if (entity.released || !this.entities.has(entity.runtimeKey)) return;
-    entity.update(frame, eventsOnly);
-    if (entity.released) this.forgetEntity(entity);
+    try { entity.update(frame, eventsOnly); }
+    finally { if (entity.released) this.forgetEntity(entity); }
   }
 
   private releaseEntity(entity: PetCombatEntitySession, reason: PetCombatReleaseReason): void {
-    entity.release(reason);
-    this.forgetEntity(entity);
+    try { entity.release(reason); }
+    finally { this.forgetEntity(entity); }
   }
 
   private forgetEntity(entity: PetCombatEntitySession): void {

@@ -76,6 +76,10 @@
 
 ## 工作流脚手架层
 
+- [docs/workflow/air-runtime-verification.md](air-runtime-verification.md)
+  - AIR工具登记与按需执行合同：本机路径、ADL调用、运行环境溯源、证据边界、批次频率和复用条件。
+  - 不持有游戏task状态，不接入默认门禁；从逆向证据协议按触发条件读取，现阶段使用CLI，无独立MCP服务。
+
 - `tools/check-harness.mjs`、`tools/check-harness.test.mjs`
   - 独立 harness 门禁及负向用例：检查入口规则引用、当前调度快照、相对文档链接和检查命令组合。
   - `--write` 只更新看板当前推荐，不改功能线或 task 状态；不读取游戏源码或本地资源。

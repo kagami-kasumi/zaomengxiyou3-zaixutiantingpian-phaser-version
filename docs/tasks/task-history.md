@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-214C4 | 初阶青龙真实战斗链 | normal/fs/命中自疗与到期治疗 | M-032、M-034、M-035、M-042、M-044、VS-067 | 生产Runtime/P1P2 trace、861源碰撞对账、14变异、P1GS；C5完整正式验收交接 |
+| TASK-SETTINGS-218 | 初阶青龙目标碰撞补证 | 三Sprite/12映射/11帧源空间与采样 | M-032、M-034、M-035、M-042、VS-067 | verified空间/碰撞JSON、原版AIR861项/1604322像素/25基准、15变异与C4中心输入交接 |
 | TASK-SLICE-214C3 | 公共地面移动接入 | 主子Session与五关正式/TestScene环境闭环 | M-032、M-034、M-035、M-042、M-044、VS-067 | 20/24/30fps移动/动作完成/hurt与动态P1/P2转发trace、P1GS/关卡回归/217复验；C4真实战斗交接 |
 | TASK-SETTINGS-217 | 宠物地面环境空间真值 | 关闭C3五关wall/owner根环境输入缺口 | M-035、M-042、VS-067 | 43墙/134递归对象、5张源SVG基准、binary/SVG/恢复脚本独立验证与7类变异；217 handoff，恢复C3 |
 | TASK-SLICE-214C1 | 青龙私有实体公共接缝 | 在单顶层Runtime内复用主/子实体步骤，闭合来源/数值/事件/清理隔离并保持猴马回归 | M-034、M-035、M-042、VS-067 | P1GS、10类实现mutation、P1/P1B/P1R/P1H及正式五关/全系统/build通过；214C2接缝交接 |
@@ -302,6 +304,204 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-214C4
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+逆向子类型：
+- 不适用
+
+逆向方案：
+- 不适用
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Done）
+
+目标机制/切片：
+- `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
+
+规模预算：
+- 主工作包：2（初阶青龙真实战斗链；本批验证与交接）
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 新资料族、资源派生、未声明 owner、第三工作包时停止新增实现，保留完整父级合同并拆分交接；不能因同属青龙而合并多批。
+
+协作计划：
+- 模式：主 agent + subagent（存在独立有界验证包且主 agent 可推进实现时启用）
+- 并行工作包：只读核对本批精确源条件与生产 trace；输出差异和未覆盖项，不扩大来源范围
+- 写入 owner：主 agent
+- 归并检查点：正式验证前
+- 方法观测：MO-003；只记录实际差异，不提前计完整家族成功
+
+输入资料：
+- `TASK-SETTINGS-218` 的verified目标碰撞真值与独立fixture；消费入口为 `docs/tasks/evidence/TASK-SETTINGS-218/handoff.md`，历史阻塞见本项preflight。
+- `docs/tasks/evidence/TASK-SLICE-214C3/handoff.md` 与 movement-traces.json；本批公共ground能力/环境已接入，必须保持其中目标测试及P1GS回归。
+- `docs/tasks/evidence/TASK-SLICE-214C2/handoff.md`、本地已保存源检查产物。
+- `docs/tasks/task-definitions/TASK-SLICE-214C2.md` 全部父级合同与未完成项；C1 handoff、214A 生产查询、213 verified 真值。
+- `docs/architecture/system-designs/pet.md`（实施中）和本批直接消费者；不重新设计模式或职责归属。
+
+输入阻塞解除：
+- 218已交付三Sprite/12映射、原版AIR采样、214A mask投影及中心输入合同。本项完整验收不删减；源级参考fixture不替代本项生产trace。
+
+输出产物：
+- 在 A 的公共移动与现有时钟上注册 dragon1 Behavior，实现正常弹真实碰撞/来源伤害、自身命中治疗、fs 私有实体独立数值/CD/普攻、自然到期治疗及提前死亡清理。
+- source-isolated normal/fs/expiry-heal trace、实际 HP/MP delta、root/clone 来源与生命周期负向验证；不能使用猴系攻击回退或视觉假分身。
+- 本批证据保存到 `docs/tasks/evidence/TASK-SLICE-214C4/`，提供后续消费者、风险和可重跑命令。
+
+UI 原生化合同：
+- 继承 C2/214B 的显示列表、verified 真值、原版基准和允许例外；只消费 214A 查询，不复制视觉坐标或在视图新增战斗 owner。A/B 不宣称正式可见链完成，C 必须全量验收。
+
+完成定义：
+- 本批产物及测试成立且同线交接完整；不把公共接缝通过等同青龙或整家族完成。
+
+验收标准：
+- source-isolated normal/fs/expiry-heal trace、实际 HP/MP delta、root/clone 来源与生命周期负向验证；不能使用猴系攻击回退或视觉假分身。
+- 执行 `npm run check:system-design -- pet P1GS` 保持既有公共接缝及猴马回归；C 批还必须新增并执行 `npm run check:system-design -- pet P1GC`，退出码 0 才能关闭初阶完整链。
+- 相关生产系统测试、build、structure、workflow、problem audit 和 diff check 通过；涉及真值/资源时执行相应真值/资源/annotations 检查。剩余父级标准逐项转交，不静默删除。
+
+禁止范围：
+- 不跨家族、不新增存档 schema，不以视觉替身代替真实实体；用户已授权速度换算、既有职责内修正和必要窄接口，不将触及公共文件自动当成需审批的重设计。
+
+状态更新：
+- 通过后归档本项、更新覆盖台账与机制/切片、激活 TASK-SLICE-214C5。A/B 结束当次 goal；C 完成时必须同时归档 Split C2/C，未完成任何父级标准则不得激活 214D。
+
+推荐后续任务：
+- `TASK-SLICE-214C5`。
+
+#### 2026-09-06 消费预检与安全检查点
+
+- 本对话compact 0次。当前C4未完成；真实碰撞输入缺失，218成为唯一Ready，C5及父C2/C全部合同不变。
+- 主/subagent独立窄读发现：原版用目标colipse与普通弹逐帧绘制交集，213只含宠物碰撞3/4和视觉bounds；五关目标需要1/2/7三种Sprite及12条映射。现有PNG能直接读RGBA，不能以此代替目标空间/Flash采样证据。
+- 源条件补充：伤害缓存成功命中后刷新，失败不刷新；clone等级被动必须运行；GXP是运行时状态，不可用技能字符串猜触发。详见preflight精确来源。
+- 初步54行公共端口试改已全部撤回，src与初始clean基线一致；仅留下预检脚本/报告与调度文档。无运行服务、Git提交或上传。
+- 下一允许执行项为218补证；本次按声明范围门禁停止，不跨入新的逆向资料族。本项未归档、不宣称P1GS/P1GC或生产战斗通过。
+
+#### 2026-09-06 218补证完成后的恢复
+
+- 当前唯一Ready为本项。218已归档，原版AIR51.1.1.5的861项/1604322像素/25基准和中心输入合同已verified；先前“下一允许执行218”是历史状态。
+- 从218/handoff.md消费runtimeBounds、当前帧矩阵、源采样与缓存/owner合同。现代中心→源碰撞root为恒等映射，不附加脚点offset；不宣称现有怪物物理与原版轨迹相同。
+- 真实normal/fs/expiry-heal、P1/P2生命周期、生产trace和父级门禁仍全部待本项实现，不因218完成而删减。
+
+#### 2026-09-06 第二次 compact 安全交接
+
+- 本对话已发生至少2次compact，达到第二次强制交接门禁；此前218的一次不得因恢复C4清零。上方compact 0次仅为早期历史检查点。本次不新增实现、不派生资源，不宣称当前goal完成。
+- 当前执行合同仍为本文件，唯一Ready仍是214C4，治理执行队列为空。218已完成的采样与harness接入不能代替C4完整战斗验收。
+- 已完成范围：218输入闭环和AIR按需工具合同；C4仅阅读现有Behavior、Context、Types、默认注册器与猴行为，完成只读独立源条件核对。当前Context的castBasicAttack只区分horse/其他猴回退，默认注册器尚无dragon；必须实现青龙独立消费，不能沿用此回退。
+- 本轮源码核对结果沿用preflight的准确合同：normal第7tick发弹、第16tick完成；fs第17tick生成、第18tick完成。clone在生成tick复制当时HP/MP为自身值及上限，并复制atk/def/level；新PetInfo不继承技能、crit、额外属性、buff/GXP，但独立等级被动继续运行。接受命中先消费旧缓存，再刷新，再治疗实际发弹实体；接受但HP变化0仍治疗。到期治疗root，提前死亡不治疗。源locator见preflight和218 handoff，本轮未扩展来源族。
+- 未提交改动归属：218的tools/air-collision、生成/运行/验证脚本、真值JSON/schema、evidence及任务归档/覆盖记录；AIR工具合同及workflow路由；C4历史preflight与本检查点。未提交或上传Git；未新增src实现。
+- 检查状态：最近check:workflow退出0（含15项harness测试）；C4起始check:structure为0 error、9项既有warning。无待收集的shell检查或AIR进程；只读subagent已返回最终结果。当前未运行C4生产测试、build或P1GC，不能据文档检查宣布它们通过。
+- 剩余工作保持原有两个工作包：真实normal/fs/expiry-heal实现，以及完整生产验证/交接。公共Runtime/Session仍为实体owner，Behavior不自行创建第二套session；218的runtimeBounds已含实例缩放，源root=(combat.x,combat.y)，不加脚点偏移。
+- 剩余范围已由既有214C4/214C5承接，本次不再创建同义任务：C4承接上述战斗实现与源隔离trace，C5承接既定正式视觉/生命周期整链验收；本文件原验收及父C2/C全部保留，P1GC未通过不能关闭初阶完整链。
+- 下一允许动作：在新对话继续唯一Ready的214C4，从本检查点、218/handoff和当前实现窄读恢复；本对话只完成收尾检查。不要重跑输入未变的861项AIR采样，不把交接标成外部运行时缺失，也不激活214D。
+
+#### 2026-09-06 用户取消 compact 次数门禁
+
+- 用户明确取消第二次 compact 强制交接。上方因次数要求停止、新开对话及禁止新增实现的指令已失效，仅保留历史事实；当前可在本对话继续214C4，不必新建同义任务。
+- 已有检查点及218证据直接复用，不再次整理相同内容。原有工作包、完整验收与唯一Ready保持不变；此次规则修改不表示战斗实现完成。
+
+完成日期：2026-09-06。
+
+完成结果：2026-09-06 C4真实战斗链完成：dragon1正常弹/原版碰撞/缓存伤害与自身治疗、真实fs独立实体及到期/提前死亡闭环；20/24/30fps、P1/P2生产updatePets共享Combat、14类变异、P1GS和build通过。C5唯一Ready承接正式投影/TestScene/全生命周期/P1GC，父C2/C仍Split，不提升家族完整完成状态。交接见 docs/tasks/evidence/TASK-SLICE-214C4/handoff.md。
+
+
+### TASK-SETTINGS-218
+
+任务类型：
+- `TASK-SETTINGS`
+
+任务模型：
+- `逆向任务`
+
+逆向子类型：
+- `视觉真值逆向`
+
+逆向方案：
+- `docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Done）
+
+目标机制/切片：
+- `M-032`、`M-034`、`M-035`、`M-042`、`VS-067`
+
+规模预算：
+- 主工作包：2（目标碰撞空间/普通弹采样合同；独立验证与C4交接）
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 超出三个目标碰撞Sprite、12条既有catalog映射或需要新增其他怪物行为/源包/独立视觉旅程时先拆分；第二次compact按协议仅交接。不把五关目标集合扩为全部游戏怪物。
+
+协作计划：
+- 模式：主 agent + subagent（有独立有界核对包时启用）
+- 并行工作包：只读核对目标newColipse映射及命中/拒绝/伤害缓存源条件
+- 写入 owner：主 agent
+- 归并检查点：真值定级与214C4恢复前
+- 方法观测：无；MO-003已归档，本批不计完整家族成功
+
+待证明的可观察问题：
+- 五关既有12类目标的独立colipse使用何种源Sprite，形状是否实心、注册/嵌套矩阵及现代目标root如何映射；不能套用213宠物ObjectBaseSprite3/4。
+- 原HitTest的bounds粗筛、BitmapData.draw/颜色变换/DIFFERENCE/整数采样如何作用于现有11帧PetDragon1Bullet1 PNG；透明空隙、边缘、左右翻转、非整数位置和末帧是否命中。
+- 正常缓存伤害初建、成功后刷新、失败不刷新、Dodge消耗attackId及同ID去重如何形成独立正/负fixture；不推断未证GXP触发或其他怪物技能。
+
+输入资料：
+- `docs/workflow/reverse-engineering-task-protocol.md`、`docs/workflow/reverse-engineering-protocol.md`及唯一逆向方案。
+- `docs/tasks/evidence/TASK-SLICE-214C4/preflight.md`、`collision-preflight.json`；214A现有PNG/crop/query及213真值仅作已验证资源和宠物碰撞对照。
+- 恢复源优先窄查`local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf`与`assets/StageCommon.swf`中ObjectBaseSprite、ObjectBaseSprite2、ObjectBaseSprite7的SymbolClass/引用；包归属须核实，不预设为已证事实。普通弹只消费已有`assets/pet1.swf`的214A产物，不重提取本体/整家族。
+- 已有主AS3中的BaseMonster、BaseBullet、BaseObject、BasePet、PetDragon1、my/HitTest、AUtils、PetInfo；Monster2/3/4/5/6/7/8/9/10/16/19/30仅newColipse及必要根变换，恢复源交叉核对。
+- 只读现代MonsterDefinitionCatalog、Stage1CombatSystem、ProjectileSystem和正式目标适配，确认消费者字段；不写src。
+
+输出产物：
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-218-dragon1-target-collision.json`与适用Schema：三个碰撞Sprite的显示列表/形状/矩阵/注册、12条映射、命中fixture、源hash/locator、完整性与unresolved。
+- `docs/tasks/evidence/TASK-SETTINGS-218/`中的有限940×590原版空间/碰撞基准、独立碰撞oracle、正负fixture、变异结果和C4消费handoff。
+- 可重跑生成/独立核对命令；碰撞真值与现代实现不得共用AABB假设自证。
+
+UI 原生化合同：
+- 本批无UI修改；空间真值仍必须逐状态显示列表、verified JSON、可追溯原版基准和差异证据。状态固定为三个目标Sprite、普通弹11帧×左右、非整数根/透明空隙/边缘接触/末帧/拒绝命中fixture；公共采样fixture可复用但必须逐项映射，不能仅检查资源存在。
+- 允许现代视觉例外：无。未知绘制/采样语义保留unresolved；不得以可解析JSON代替精确碰撞完成。
+
+完成定义：
+- 上述有界目标空间和普通弹命中合同可直接供C4消费，关键未知清零；只解除输入阻塞，不声明青龙战斗或整族完成。
+
+验收标准：
+- 恢复SWF与AS3两类独立证据核对形状/12映射/矩阵；分离expected与extracted。
+- PNG alpha/crop保持原哈希；验证Flash绘制语义等价或明确未解项，不能用alpha包围矩形替代。
+- 至少杀死透明区域误中、错误翻转/根偏移、末帧先销毁、缓存提前刷新及拒绝命中仍治疗五类变异；独立fixture同时覆盖有效HP decrease、0/拒绝/dedup和owner隔离输入。
+- 真值Schema/完整性、相关213/214A资源回归、structure、workflow、problem audit与diff check通过。
+
+禁止范围：
+- 不实现dragon1 Behavior或修改src、不改原始提取、不扩其他家族/全怪物行为，不以此任务重设计pet/monster owner，不改存档。
+
+状态更新：
+- 通过后归档218，更新当前线/覆盖/机制/切片，恢复TASK-SLICE-214C4为唯一Ready；C4全合同、C5与父C2/C保留。未解决时继续Blocked/拆分同线补证，不提前恢复C4。
+
+原阻塞解除：
+- 已发现并加载游戏包自带AIR51.1.1.5，与提取清单hash一致；861项/1,604,322像素/25基准实测及中心输入合同通过。
+
+推荐后续任务：
+- `TASK-SLICE-214C4`。
+
+Compact 安全检查点：
+- 当前压缩计数：1；继续本任务，不扩大范围。
+- 已完成：恢复源三个碰撞Sprite、12类newColipse及构造缩放、普通弹11帧左右矩阵的提取；生成25态源资源基准与draft真值。
+- 当前文件：`tools/dragon-collision-swf-fixtures.py`、`tools/generate-dragon-target-collision.py`、`tools/verify-dragon-target-collision.py`及本任务evidence目录。均未改src，尚未晋升verified。
+- 未解：intersection局部1像素透明边缘的FFDec渲染与颜色变换推导不一致；须查明或明确记录运行时证据缺口，不能以几何交叠冒充像素命中。
+- 待做：独立采样核对、真实变异验证、零伤害/owner隔离fixture、现代坐标交接、Schema与资源回归及workflow/problem audit收尾。
+- C4仍Blocked；本任务完成也不等于C4或青龙家族完成。
+- 增量检查点：源/几何和10类参考变异已通过，零伤害/clone隔离已补齐；213/214A回归通过。精确采样门禁返回2，详见`docs/tasks/evidence/TASK-SETTINGS-218/handoff.md`。本机未找到Flash/AIR运行时，用户路径问题仍待答复；无环境变化时不重复提取/渲染或新增同义task。
+
+完成记录（2026-09-06）：
+- 原版runtime与新SDK861项结果和基准完全一致；空间/碰撞JSON已verified，15类源/参考变异拒绝，UI与碰撞Schema通过。
+- 213回归234 cells/345基准/15变异、214A 345态零像素差/4变异通过；structure 0 error/9既有warning，workflow通过。
+- 交接见docs/tasks/evidence/TASK-SETTINGS-218/handoff.md。此前compact检查点为历史状态；当前无碰撞输入阻塞。C4恢复唯一Ready，未声称生产战斗/整族完成。
+
 
 ### TASK-SLICE-214C1
 

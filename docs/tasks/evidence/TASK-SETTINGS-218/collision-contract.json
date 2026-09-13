@@ -1,0 +1,1396 @@
+{
+  "schemaVersion": 1,
+  "truthId": "task-settings-218.dragon1-target-collision",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SETTINGS-218",
+    "monsterIds": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      16,
+      19,
+      30
+    ],
+    "symbols": [
+      "ObjectBaseSprite",
+      "ObjectBaseSprite2",
+      "ObjectBaseSprite7"
+    ],
+    "bullet": "PetDragon1Bullet1",
+    "stage": {
+      "width": 940,
+      "height": 590
+    },
+    "excludes": [
+      "other families",
+      "other monsters",
+      "game implementation"
+    ]
+  },
+  "provenance": [
+    {
+      "path": "local-resources/regima/source/restored-swfs/assets/StageCommon.swf",
+      "sha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9"
+    },
+    {
+      "path": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+      "sha256": "0699a5d3a49ea8024d3635b18c6349f5d7f7cf5f1db869dd18a0a5ee6de60644"
+    },
+    {
+      "path": "local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf",
+      "sha256": "f8e6f937350d4c6121119119bbebf2b6744ba1422b9fb238764849123d62f734"
+    }
+  ],
+  "symbols": [
+    {
+      "symbol": "ObjectBaseSprite",
+      "characterId": 105,
+      "frameCount": 1,
+      "displayList": [
+        {
+          "parentCharacterId": 105,
+          "characterId": 104,
+          "depth": 1,
+          "instanceName": null,
+          "matrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -25.0,
+            "ty": -50.0
+          }
+        },
+        {
+          "parentCharacterId": 104,
+          "characterId": 53,
+          "depth": 1,
+          "instanceName": null,
+          "matrix": {
+            "a": 0.7142791748046875,
+            "d": 0.8333282470703125,
+            "b": 0,
+            "c": 0,
+            "tx": 0.0,
+            "ty": 0.0
+          }
+        }
+      ],
+      "shapeId": 53,
+      "shapePolygonTwips": [
+        [
+          1400,
+          0
+        ],
+        [
+          1400,
+          2400
+        ],
+        [
+          0,
+          2400
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1400,
+          0
+        ]
+      ],
+      "fill": {
+        "alpha": 127,
+        "blue": 0,
+        "green": 0,
+        "red": 255
+      },
+      "shapeToRoot": {
+        "a": 0.7142791748046875,
+        "d": 0.8333282470703125,
+        "b": 0,
+        "c": 0,
+        "tx": -25.0,
+        "ty": -50.0
+      },
+      "affineBounds": {
+        "left": -25.0,
+        "top": -50.0,
+        "width": 49.999542236328125,
+        "height": 99.9993896484375
+      },
+      "exportBounds": {
+        "width": 49.95,
+        "height": 99.95
+      },
+      "sourceSvg": "local-resources/regima/task-outputs/task-settings-218/collision-svg/DefineSprite_105_ObjectBaseSprite/1.svg",
+      "sourceSvgSha256": "a59387fdd038480e21b00ea4f1641dc289633106883607f69a52a97627301ccf"
+    },
+    {
+      "symbol": "ObjectBaseSprite2",
+      "characterId": 107,
+      "frameCount": 1,
+      "displayList": [
+        {
+          "parentCharacterId": 107,
+          "characterId": 106,
+          "depth": 1,
+          "instanceName": "colipseRect",
+          "matrix": {
+            "a": 0.9999847412109375,
+            "d": 1.0,
+            "b": 0,
+            "c": 0,
+            "tx": -30.0,
+            "ty": -65.0
+          }
+        },
+        {
+          "parentCharacterId": 106,
+          "characterId": 53,
+          "depth": 1,
+          "instanceName": null,
+          "matrix": {
+            "a": 0.857147216796875,
+            "d": 1.08331298828125,
+            "b": 0,
+            "c": 0,
+            "tx": 0.0,
+            "ty": 0.0
+          }
+        }
+      ],
+      "shapeId": 53,
+      "shapePolygonTwips": [
+        [
+          1400,
+          0
+        ],
+        [
+          1400,
+          2400
+        ],
+        [
+          0,
+          2400
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1400,
+          0
+        ]
+      ],
+      "fill": {
+        "alpha": 127,
+        "blue": 0,
+        "green": 0,
+        "red": 255
+      },
+      "shapeToRoot": {
+        "a": 0.8571341377682984,
+        "d": 1.08331298828125,
+        "b": 0,
+        "c": 0,
+        "tx": -30.0,
+        "ty": -65.0
+      },
+      "affineBounds": {
+        "left": -30.0,
+        "top": -65.0,
+        "width": 59.99938964378089,
+        "height": 129.99755859375
+      },
+      "exportBounds": {
+        "width": 59.95,
+        "height": 129.95
+      },
+      "sourceSvg": "local-resources/regima/task-outputs/task-settings-218/collision-svg/DefineSprite_107_ObjectBaseSprite2/1.svg",
+      "sourceSvgSha256": "1e67294097ecc7c826449dd076ebb94f9a76c3328c90b8786c4473486a49716f"
+    },
+    {
+      "symbol": "ObjectBaseSprite7",
+      "characterId": 95,
+      "frameCount": 1,
+      "displayList": [
+        {
+          "parentCharacterId": 95,
+          "characterId": 94,
+          "depth": 1,
+          "instanceName": null,
+          "matrix": {
+            "a": 1.6285400390625,
+            "d": 0.350006103515625,
+            "b": 0,
+            "c": 0,
+            "tx": -57.0,
+            "ty": -21.0
+          }
+        },
+        {
+          "parentCharacterId": 94,
+          "characterId": 53,
+          "depth": 1,
+          "instanceName": null,
+          "matrix": {
+            "a": 1.0,
+            "d": 0.9999847412109375,
+            "b": 0,
+            "c": 0,
+            "tx": 0.0,
+            "ty": 0.0
+          }
+        }
+      ],
+      "shapeId": 53,
+      "shapePolygonTwips": [
+        [
+          1400,
+          0
+        ],
+        [
+          1400,
+          2400
+        ],
+        [
+          0,
+          2400
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1400,
+          0
+        ]
+      ],
+      "fill": {
+        "alpha": 127,
+        "blue": 0,
+        "green": 0,
+        "red": 255
+      },
+      "shapeToRoot": {
+        "a": 1.6285400390625,
+        "d": 0.35000076284632087,
+        "b": 0,
+        "c": 0,
+        "tx": -57.0,
+        "ty": -21.0
+      },
+      "affineBounds": {
+        "left": -57.0,
+        "top": -21.0,
+        "width": 113.997802734375,
+        "height": 42.000091541558504
+      },
+      "exportBounds": {
+        "width": 113.95,
+        "height": 41.95
+      },
+      "sourceSvg": "local-resources/regima/task-outputs/task-settings-218/collision-svg/DefineSprite_95_ObjectBaseSprite7/1.svg",
+      "sourceSvgSha256": "a0bc05dba853a6c60ababb1cf20476faa12b080f9eaa7faf7307496afb3763dc"
+    }
+  ],
+  "monsterMappings": [
+    {
+      "monsterId": 2,
+      "symbol": "ObjectBaseSprite",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster2.as",
+      "sourceSha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -50.0,
+        "top": -50.0,
+        "width": 99.99908447265625,
+        "height": 99.9993896484375
+      },
+      "exportProfileBounds": {
+        "width": 99.9,
+        "height": 99.95
+      },
+      "runtimeBounds": {
+        "left": -50,
+        "top": -50,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "monsterId": 3,
+      "symbol": "ObjectBaseSprite",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster3.as",
+      "sourceSha256": "3e094ce63f532cd906f5262e071fa5c33ddaa7414742d9b502f6dd8ed3774629",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -50.0,
+        "top": -50.0,
+        "width": 99.99908447265625,
+        "height": 99.9993896484375
+      },
+      "exportProfileBounds": {
+        "width": 99.9,
+        "height": 99.95
+      },
+      "runtimeBounds": {
+        "left": -50,
+        "top": -50,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "monsterId": 4,
+      "symbol": "ObjectBaseSprite",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster4.as",
+      "sourceSha256": "61602ceb6da4182022c7b724f1c50634f2b8de788111129dbbcdb04b230499b4",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -50.0,
+        "top": -50.0,
+        "width": 99.99908447265625,
+        "height": 99.9993896484375
+      },
+      "exportProfileBounds": {
+        "width": 99.9,
+        "height": 99.95
+      },
+      "runtimeBounds": {
+        "left": -50,
+        "top": -50,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "monsterId": 5,
+      "symbol": "ObjectBaseSprite2",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster5.as",
+      "sourceSha256": "06b1dd4be55301d6a4db9fa55bccfbeeb49da1646813efbf2220060413354b5d",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -60.0,
+        "top": -65.0,
+        "width": 119.99877928756177,
+        "height": 129.99755859375
+      },
+      "exportProfileBounds": {
+        "width": 119.9,
+        "height": 129.95
+      },
+      "runtimeBounds": {
+        "left": -60,
+        "top": -65,
+        "width": 120,
+        "height": 130
+      }
+    },
+    {
+      "monsterId": 6,
+      "symbol": "ObjectBaseSprite2",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster6.as",
+      "sourceSha256": "ddd11a9154a216aef523551cab73833dce31f46e24553bf9c3e4267a344652ab",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -60.0,
+        "top": -65.0,
+        "width": 119.99877928756177,
+        "height": 129.99755859375
+      },
+      "exportProfileBounds": {
+        "width": 119.9,
+        "height": 129.95
+      },
+      "runtimeBounds": {
+        "left": -60,
+        "top": -65,
+        "width": 120,
+        "height": 130
+      }
+    },
+    {
+      "monsterId": 7,
+      "symbol": "ObjectBaseSprite",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster7.as",
+      "sourceSha256": "c0d71690f6a79a641a5d656357f5faa064ec9da10e33d7ceb39d557d205e15f3",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -50.0,
+        "top": -50.0,
+        "width": 99.99908447265625,
+        "height": 99.9993896484375
+      },
+      "exportProfileBounds": {
+        "width": 99.9,
+        "height": 99.95
+      },
+      "runtimeBounds": {
+        "left": -50,
+        "top": -50,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "monsterId": 8,
+      "symbol": "ObjectBaseSprite",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster8.as",
+      "sourceSha256": "385574dd14ea27a6d8bc7a05160e3fde87d5e1e9db99eb201f3eb5a34ca5ae34",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -50.0,
+        "top": -50.0,
+        "width": 99.99908447265625,
+        "height": 99.9993896484375
+      },
+      "exportProfileBounds": {
+        "width": 99.9,
+        "height": 99.95
+      },
+      "runtimeBounds": {
+        "left": -50,
+        "top": -50,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "monsterId": 9,
+      "symbol": "ObjectBaseSprite",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster9.as",
+      "sourceSha256": "d9bc6c7503b611bb2159be42387a5711817c28befe13a169b5d7a095719fbac0",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -50.0,
+        "top": -50.0,
+        "width": 99.99908447265625,
+        "height": 99.9993896484375
+      },
+      "exportProfileBounds": {
+        "width": 99.9,
+        "height": 99.95
+      },
+      "runtimeBounds": {
+        "left": -50,
+        "top": -50,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "monsterId": 10,
+      "symbol": "ObjectBaseSprite",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster10.as",
+      "sourceSha256": "c62c1d7a974a35ac2c9d2aa2f4ec31dd463e40744643881e16746c5c7d8d45a6",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -50.0,
+        "top": -50.0,
+        "width": 99.99908447265625,
+        "height": 99.9993896484375
+      },
+      "exportProfileBounds": {
+        "width": 99.9,
+        "height": 99.95
+      },
+      "runtimeBounds": {
+        "left": -50,
+        "top": -50,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "monsterId": 16,
+      "symbol": "ObjectBaseSprite2",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster16.as",
+      "sourceSha256": "e548bd4e7d66d3f95110def8aa0c13866521ef2a06e12a44fc7b3ea03ca87676",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -60.0,
+        "top": -65.0,
+        "width": 119.99877928756177,
+        "height": 129.99755859375
+      },
+      "exportProfileBounds": {
+        "width": 119.9,
+        "height": 129.95
+      },
+      "runtimeBounds": {
+        "left": -60,
+        "top": -65,
+        "width": 120,
+        "height": 130
+      }
+    },
+    {
+      "monsterId": 19,
+      "symbol": "ObjectBaseSprite",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster19.as",
+      "sourceSha256": "f41a70b4beb9fbfa46ab2b25d445873938567e312071bf0bc495ec2bc1356da5",
+      "localScaleX": 1,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 2.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -50.0,
+        "top": -50.0,
+        "width": 99.99908447265625,
+        "height": 99.9993896484375
+      },
+      "exportProfileBounds": {
+        "width": 99.9,
+        "height": 99.95
+      },
+      "runtimeBounds": {
+        "left": -50,
+        "top": -50,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "monsterId": 30,
+      "symbol": "ObjectBaseSprite7",
+      "sourcePath": "local-resources/regima/task-outputs/task-settings-218/source/scripts/export/monster/Monster30.as",
+      "sourceSha256": "67dd2bbce4853063cd0641abef6a490c8163bb9bb785939e7f59641bd1060b79",
+      "localScaleX": 0.5,
+      "baseConstructorScaleXMultiplier": 2.0,
+      "instanceMatrix": {
+        "a": 1.0,
+        "b": 0,
+        "c": 0,
+        "d": 1,
+        "tx": 0,
+        "ty": 0
+      },
+      "affineBounds": {
+        "left": -57.0,
+        "top": -21.0,
+        "width": 113.997802734375,
+        "height": 42.000091541558504
+      },
+      "exportProfileBounds": {
+        "width": 113.95,
+        "height": 41.95
+      },
+      "runtimeBounds": {
+        "left": -57,
+        "top": -21,
+        "width": 114,
+        "height": 42
+      }
+    }
+  ],
+  "bulletFrames": [
+    {
+      "frame": 1,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": 1.5,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -33.0,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 2,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -24.0,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -58.5,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 3,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -49.5,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -84.0,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 4,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -75.0,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -109.5,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 5,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -100.5,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -135.0,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 6,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -125.95,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -160.45,
+        "top": -27.0,
+        "width": 68.99999999999999,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 7,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -151.45,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -185.95,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 8,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -176.95,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -211.45,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 9,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -202.45,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -236.95,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 10,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -227.95,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -262.45,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    },
+    {
+      "frame": 11,
+      "characterId": 541,
+      "matrix": {
+        "a": 1,
+        "d": 1,
+        "b": 0,
+        "c": 0,
+        "tx": -253.45,
+        "ty": 1.0
+      },
+      "drawBounds": {
+        "left": -287.95,
+        "top": -27.0,
+        "width": 69.0,
+        "height": 56.0
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "ObjectBaseSprite",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/ObjectBaseSprite.png",
+      "sha256": "e67130b4fa1d1fbca40bd0847b475956c3684231fe5ac0a2113b88dc56813df7",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 470,
+        "ty": 295
+      }
+    },
+    {
+      "id": "ObjectBaseSprite2",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/ObjectBaseSprite2.png",
+      "sha256": "f4bcb630b1b2e80b137622f6a9b2f9e0cd7bd3b6e5f9e2c9f40a2d2700115d53",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 470,
+        "ty": 295
+      }
+    },
+    {
+      "id": "ObjectBaseSprite7",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/ObjectBaseSprite7.png",
+      "sha256": "eee9c1826091ce273948b4288de3971bacd6e72ac54275e41e6c9d2b526c8c44",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 470,
+        "ty": 295
+      }
+    },
+    {
+      "id": "bullet-1-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-1-left.png",
+      "sha256": "ad82ae1671c1d2391007cd954dda135085e3e95698adc22806c1423479a918f7",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 471.5,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-1-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-1-right.png",
+      "sha256": "42a5186d91224e67113057b98f37d5172ae217535ebe33d842fcb9afedd2a84e",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 468.5,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-2-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-2-left.png",
+      "sha256": "843098d8c5d3c26a9e64d4f00e72532e252a49faff3f20b0d1ead3e85ef0bae2",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 446.0,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-2-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-2-right.png",
+      "sha256": "9e12dc1b3e37fe481cb3bcab6b0f68d6dabca6db360a8d45c039b809a5c30f23",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 494.0,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-3-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-3-left.png",
+      "sha256": "2e9bbcfd0af1a7f8dab2433852ddc04885508011febd827c2d7b1a564685c3d2",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 420.5,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-3-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-3-right.png",
+      "sha256": "f4658b5c02736eb76db3624391249fead919073b4cc06749c1c2ce561c2628e5",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 519.5,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-4-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-4-left.png",
+      "sha256": "3657496a871d33765b4a7e4186969f992426f76c959569cba6417bd47bc02fea",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 395.0,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-4-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-4-right.png",
+      "sha256": "2d572897b52d71fe7e55dbf3343f449f633059ad49c74e8542c613ae5c98c08e",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 545.0,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-5-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-5-left.png",
+      "sha256": "4ae894689c3b5b7727bf9daadcb0334ebfe0b9ded88d79f01a4c4717f03a15cc",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 369.5,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-5-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-5-right.png",
+      "sha256": "1dcdded1408a7f26d40785881aefe8a78af6e834f6d409383913e5e9fd45d177",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 570.5,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-6-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-6-left.png",
+      "sha256": "2e9003310e1542ebae78eeffefcb6dcd1be3d797bb3b79b7e82345db9ddc16d7",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 344.05,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-6-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-6-right.png",
+      "sha256": "8e93b376bcdfe13ce3297139a7fa84e76705a10d8b654eb61f42ba63d5e540fa",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 595.95,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-7-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-7-left.png",
+      "sha256": "b4f0ec6211c650f0ae5ad41c7c4a27c67c80fcba52b35a8493811fcdea676c64",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 318.55,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-7-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-7-right.png",
+      "sha256": "d934cf4594dcdec142c4dcdc73041d086014a1457497fdc5c8f63ff0f483c024",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 621.45,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-8-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-8-left.png",
+      "sha256": "7df9e5315e7c214edc4e3f2643b6a32a07df7a8b2a6c7454fe5d3c470f2c2cf5",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 293.05,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-8-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-8-right.png",
+      "sha256": "51e8d295c0aee4c7511de30ea32473c7ab47aae9e748f18da91021763e2fe3d8",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 646.95,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-9-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-9-left.png",
+      "sha256": "7acc0898b42beb1e1f73f9b271780bfb6e5e1c67e40583f2f2e9bd33e0fe100c",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 267.55,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-9-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-9-right.png",
+      "sha256": "a65ee6193c7e620d6765c14744b9c3ce561e12d3781ed4fe485ebe18eb37b462",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 672.45,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-10-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-10-left.png",
+      "sha256": "79062dac0b9240ce46e68d9475487b75124787841e9caa4b1ce4368677f8a8e1",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 242.05,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-10-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-10-right.png",
+      "sha256": "5e9f160a2eb8ae0a5f0a8c3c6c26a0005cff1ff186a969688bf4625230393adf",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 697.95,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-11-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-11-left.png",
+      "sha256": "5e30992aedf2a8eb1c692468c2a4b50c6f71861d7a7bf4a2f9da471acaedbe44",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": 1,
+        "d": 1,
+        "tx": 216.55,
+        "ty": 296.0
+      }
+    },
+    {
+      "id": "bullet-11-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-11-right.png",
+      "sha256": "05c6db2f787341156e78f546bc63e86ed06e4d8b64a6861c6de6f5c5ac489276",
+      "width": 940,
+      "height": 590,
+      "kind": "original game bundled AIR51.1 source-tag BitmapData baseline; no gameplay capture",
+      "renderMatrix": {
+        "a": -1,
+        "d": 1,
+        "tx": 723.45,
+        "ty": 296.0
+      }
+    }
+  ],
+  "precision": {
+    "affine": "Exact source fixed16 matrices composed without rounding",
+    "exportProfile": "Separate FFDec twip-truncated export dimensions; not silently equated to affine geometry"
+  },
+  "rootMapping": {
+    "inputSpace": "modern combat/physics center",
+    "sourceSpace": "original collision root",
+    "expression": {
+      "x": "combat.x",
+      "y": "combat.y"
+    },
+    "justification": "All three source runtimeBounds have center (0,0); modern physics uses y +/- height/2",
+    "instanceScale": "Already included in runtimeBounds; do not apply it twice",
+    "trajectoryEquivalence": "not claimed; existing height100 modern landing physics is outside this collision-input contract"
+  },
+  "collision": {
+    "source": "my/HitTest.as:14-85",
+    "accuracy": 1,
+    "minIntersectionWidth": 1,
+    "minIntersectionHeight": 1,
+    "colorOffsets": [
+      [
+        255,
+        -255,
+        -255,
+        255
+      ],
+      [
+        255,
+        255,
+        255,
+        255
+      ]
+    ],
+    "matchArgb": "0xFF00FFFF",
+    "blend": "difference",
+    "bitmapTransparent": false,
+    "bitmapDimensions": "int(intersection.width/height)",
+    "pngAlphaIsHitMask": "nonzero source alpha only with the validated original sampler; not generic pixel-center sampling",
+    "explanation": "Original bundled AIR executes unchanged HitTest; 861 cases and 25 baseline states match AIR51.3.4. Fractional positions require calibrated source sampling, not bitmap rectangle or ordinary nearest pixel-center tests.",
+    "runtimeEvidence": "docs/tasks/evidence/TASK-SETTINGS-218/air-original/measurement.json",
+    "independentVerification": "docs/tasks/evidence/TASK-SETTINGS-218/air-verification.json",
+    "samplerScope": "axis-aligned unit bullet scale +/-1, accuracy1, source fixed-twip coordinates",
+    "assetMaskProjection": {
+      "sourceOffset": [
+        0,
+        0
+      ],
+      "size": [
+        67,
+        53
+      ],
+      "transparentPaddingRightBottom": [
+        2,
+        3
+      ],
+      "frames": [
+        {
+          "frame": 1,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/1.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 2,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/2.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 3,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/3.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 4,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/4.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 5,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/5.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 6,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/6.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 7,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/7.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 8,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/8.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 9,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/9.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 10,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/10.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        },
+        {
+          "frame": 11,
+          "path": "public/assets/pets/dragon/effects/PetDragon1Bullet1/11.png",
+          "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8"
+        }
+      ]
+    },
+    "sampling": {
+      "kind": "empirical original-runtime calibration",
+      "twipsPerPixel": 20,
+      "dx": "round((intersection.x - bulletBounds.x) * 20)",
+      "dy": "round((intersection.y - bulletBounds.y) * 20)",
+      "sourcePixelXLeft": "ceil((dx - 5) / 20) + bufferPixelX",
+      "sourcePixelXRight": "68 - ceil((dx - 10) / 20) - bufferPixelX",
+      "sourcePixelY": "ceil((dy - 5) / 20) + bufferPixelY",
+      "hit": "any in-bounds source alpha > 0",
+      "applicability": "original source bitmap and HitTest; accuracy1, axis-aligned unit bullet scale +/-1, fixed-twip fixture inputs",
+      "verifiedCases": 861,
+      "verifiedBufferPixels": 1604322
+    }
+  },
+  "completeness": {
+    "expectedSymbols": [
+      "ObjectBaseSprite",
+      "ObjectBaseSprite2",
+      "ObjectBaseSprite7"
+    ],
+    "expectedMonsterIds": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      16,
+      19,
+      30
+    ],
+    "expectedBulletFrameCount": 11,
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  }
+}

@@ -1,0 +1,4995 @@
+{
+  "status": "verified-c4-runtime-scope",
+  "scope": [
+    "normal-20-24-30fps",
+    "fs-p1-p2",
+    "expiry",
+    "early-death",
+    "generation-stats-passive",
+    "zero-dodge-protection",
+    "gxp-hurt",
+    "last-frame-contact",
+    "render-host-clock",
+    "production-updatePets-p1-p2"
+  ],
+  "excludes": [
+    "C5-visuals",
+    "TestScene-enemy-adapter",
+    "full-scene-lifecycle",
+    "P1GC"
+  ],
+  "traces": [
+    {
+      "fps": 20,
+      "case": "normal",
+      "events": [
+        {
+          "tick": 21,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:1:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 21,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:1:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 27,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p1-dragon",
+                "x": 30,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:1:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        },
+        {
+          "tick": 28,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 538
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:1:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 5
+          }
+        }
+      ],
+      "damage": [
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-1:p1-dragon-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 1400,
+          "critical": false
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "case": "normal",
+      "events": [
+        {
+          "tick": 25,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:2:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 25,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:2:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 31,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p1-dragon",
+                "x": 30,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:2:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        },
+        {
+          "tick": 32,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 538
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:2:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 5
+          }
+        }
+      ],
+      "damage": [
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-1:p1-dragon-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 1333.3333333333333,
+          "critical": false
+        }
+      ]
+    },
+    {
+      "fps": 30,
+      "case": "normal",
+      "events": [
+        {
+          "tick": 31,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:3:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 31,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:3:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 37,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p1-dragon",
+                "x": 30,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:3:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        },
+        {
+          "tick": 38,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 538
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:3:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 5
+          }
+        }
+      ],
+      "damage": [
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-1:p1-dragon-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 1266.6666666666667,
+          "critical": false
+        }
+      ]
+    },
+    {
+      "owner": "p1",
+      "case": "fs-expiry",
+      "events": [
+        {
+          "tick": 25,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 50,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 61,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-fs-cast",
+              "payload": {
+                "mpBefore": 100,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        },
+        {
+          "tick": 61,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "fs"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 5
+          }
+        },
+        {
+          "tick": 75,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 6
+          }
+        },
+        {
+          "tick": 77,
+          "event": {
+            "type": "activated",
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 7
+          }
+        },
+        {
+          "tick": 77,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-clone-spawned",
+              "payload": {
+                "handle": {
+                  "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+                  "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                  "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+                  "sourcePetId": "p1-dragon"
+                },
+                "hp": 500,
+                "maxHp": 500,
+                "mp": 80,
+                "maxMp": 80,
+                "atk": 100,
+                "def": 20
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 8
+          }
+        },
+        {
+          "tick": 97,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 2,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 9
+          }
+        },
+        {
+          "tick": 100,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 10
+          }
+        },
+        {
+          "tick": 102,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 11
+          }
+        },
+        {
+          "tick": 102,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 12
+          }
+        },
+        {
+          "tick": 103,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p1-dragon",
+                "x": 125,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 13
+          }
+        },
+        {
+          "tick": 104,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 538
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 14
+          }
+        },
+        {
+          "tick": 108,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-2",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 150,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 15
+          }
+        },
+        {
+          "tick": 109,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 16
+          }
+        },
+        {
+          "tick": 121,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 3,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 17
+          }
+        },
+        {
+          "tick": 125,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 538,
+                "hpAfter": 538,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 18
+          }
+        },
+        {
+          "tick": 126,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 2,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 19
+          }
+        },
+        {
+          "tick": 127,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 20
+          }
+        },
+        {
+          "tick": 127,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-3",
+                "sourceId": "p1-dragon",
+                "x": 80,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 21
+          }
+        },
+        {
+          "tick": 128,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 538,
+                "hpAfter": 576
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 22
+          }
+        },
+        {
+          "tick": 132,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-4",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 105,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 23
+          }
+        },
+        {
+          "tick": 133,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 24
+          }
+        },
+        {
+          "tick": 145,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 4,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 25
+          }
+        },
+        {
+          "tick": 150,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 576,
+                "hpAfter": 576,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 26
+          }
+        },
+        {
+          "tick": 150,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 3,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 27
+          }
+        },
+        {
+          "tick": 151,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-5",
+                "sourceId": "p1-dragon",
+                "x": 95,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 28
+          }
+        },
+        {
+          "tick": 152,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 576,
+                "hpAfter": 614
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 29
+          }
+        },
+        {
+          "tick": 152,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 30
+          }
+        },
+        {
+          "tick": 156,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-6",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 120,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 31
+          }
+        },
+        {
+          "tick": 157,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 32
+          }
+        },
+        {
+          "tick": 169,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 5,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 33
+          }
+        },
+        {
+          "tick": 174,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 4,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 34
+          }
+        },
+        {
+          "tick": 175,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 614,
+                "hpAfter": 614,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 35
+          }
+        },
+        {
+          "tick": 175,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-7",
+                "sourceId": "p1-dragon",
+                "x": 80,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 36
+          }
+        },
+        {
+          "tick": 176,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 614,
+                "hpAfter": 652
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 37
+          }
+        },
+        {
+          "tick": 177,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 38
+          }
+        },
+        {
+          "tick": 180,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-8",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 105,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 39
+          }
+        },
+        {
+          "tick": 181,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 40
+          }
+        },
+        {
+          "tick": 193,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 6,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 41
+          }
+        },
+        {
+          "tick": 198,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 5,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 42
+          }
+        },
+        {
+          "tick": 199,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-9",
+                "sourceId": "p1-dragon",
+                "x": 95,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 43
+          }
+        },
+        {
+          "tick": 200,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 652,
+                "hpAfter": 690
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 44
+          }
+        },
+        {
+          "tick": 200,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 690,
+                "hpAfter": 690,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 45
+          }
+        },
+        {
+          "tick": 202,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 46
+          }
+        },
+        {
+          "tick": 204,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-10",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 120,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 47
+          }
+        },
+        {
+          "tick": 205,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 48
+          }
+        },
+        {
+          "tick": 217,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 7,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 49
+          }
+        },
+        {
+          "tick": 222,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 6,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 50
+          }
+        },
+        {
+          "tick": 223,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-11",
+                "sourceId": "p1-dragon",
+                "x": 80,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 51
+          }
+        },
+        {
+          "tick": 224,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 690,
+                "hpAfter": 728
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 52
+          }
+        },
+        {
+          "tick": 225,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 728,
+                "hpAfter": 728,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 53
+          }
+        },
+        {
+          "tick": 227,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 54
+          }
+        },
+        {
+          "tick": 228,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-12",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 105,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 55
+          }
+        },
+        {
+          "tick": 229,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 56
+          }
+        },
+        {
+          "tick": 241,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 8,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 57
+          }
+        },
+        {
+          "tick": 246,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 7,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 58
+          }
+        },
+        {
+          "tick": 247,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-13",
+                "sourceId": "p1-dragon",
+                "x": 95,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 59
+          }
+        },
+        {
+          "tick": 248,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 728,
+                "hpAfter": 766
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 60
+          }
+        },
+        {
+          "tick": 250,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 766,
+                "hpAfter": 766,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 61
+          }
+        },
+        {
+          "tick": 252,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 62
+          }
+        },
+        {
+          "tick": 252,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-14",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 120,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 63
+          }
+        },
+        {
+          "tick": 253,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 64
+          }
+        },
+        {
+          "tick": 265,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 9,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 65
+          }
+        },
+        {
+          "tick": 270,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 8,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 66
+          }
+        },
+        {
+          "tick": 271,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-15",
+                "sourceId": "p1-dragon",
+                "x": 80,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 67
+          }
+        },
+        {
+          "tick": 272,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 766,
+                "hpAfter": 804
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 68
+          }
+        },
+        {
+          "tick": 275,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 804,
+                "hpAfter": 804,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 69
+          }
+        },
+        {
+          "tick": 276,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-16",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 105,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 70
+          }
+        },
+        {
+          "tick": 277,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 71
+          }
+        },
+        {
+          "tick": 277,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 72
+          }
+        },
+        {
+          "tick": 289,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 10,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 73
+          }
+        },
+        {
+          "tick": 294,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 9,
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 74
+          }
+        },
+        {
+          "tick": 295,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-17",
+                "sourceId": "p1-dragon",
+                "x": 95,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 75
+          }
+        },
+        {
+          "tick": 296,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 804,
+                "hpAfter": 842
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 76
+          }
+        },
+        {
+          "tick": 300,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 842,
+                "hpAfter": 842,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 77
+          }
+        },
+        {
+          "tick": 300,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-18",
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "x": 120,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 78
+          }
+        },
+        {
+          "tick": 301,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 79
+          }
+        },
+        {
+          "tick": 302,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 80
+          }
+        },
+        {
+          "tick": 313,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 11,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 81
+          }
+        },
+        {
+          "tick": 317,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-clone-expired"
+            },
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 82
+          }
+        },
+        {
+          "tick": 317,
+          "event": {
+            "type": "deactivated",
+            "reason": "expired",
+            "petId": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sequence": 83
+          }
+        },
+        {
+          "tick": 317,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-expiry-heal",
+              "payload": {
+                "hpBefore": 842,
+                "hpAfter": 878
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:4:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 84
+          }
+        }
+      ],
+      "damage": [
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-1:p1-dragon-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 4333.333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-2:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 4541.666666666667,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-3:p1-dragon-dragon1-normal-2:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 5333.333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-4:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-2:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 5541.666666666667,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-5:p1-dragon-dragon1-normal-3:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 6333.333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-6:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-3:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 6541.666666666667,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-7:p1-dragon-dragon1-normal-4:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 7333.333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-8:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-4:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 7541.666666666667,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-9:p1-dragon-dragon1-normal-5:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 8333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-10:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-5:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 8541.666666666666,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-11:p1-dragon-dragon1-normal-6:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 9333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-12:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-6:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 9541.666666666666,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-13:p1-dragon-dragon1-normal-7:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 10333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-14:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-7:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 10541.666666666666,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-15:p1-dragon-dragon1-normal-8:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 11333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-16:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-8:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 11541.666666666666,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-17:p1-dragon-dragon1-normal-9:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 12333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p1-dragon:dragon:1:session:4:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-18:p1-dragon:dragon:1:session:4:1:summon:2-dragon1-normal-9:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 12541.666666666666,
+          "critical": false
+        }
+      ]
+    },
+    {
+      "owner": "p2",
+      "case": "fs-expiry",
+      "events": [
+        {
+          "tick": 25,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 50,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 61,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-fs-cast",
+              "payload": {
+                "mpBefore": 100,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 4
+          }
+        },
+        {
+          "tick": 61,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "fs"
+            },
+            "actionToken": 1,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 5
+          }
+        },
+        {
+          "tick": 75,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 6
+          }
+        },
+        {
+          "tick": 77,
+          "event": {
+            "type": "activated",
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 7
+          }
+        },
+        {
+          "tick": 77,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-clone-spawned",
+              "payload": {
+                "handle": {
+                  "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+                  "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                  "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+                  "sourcePetId": "p2-dragon"
+                },
+                "hp": 500,
+                "maxHp": 500,
+                "mp": 80,
+                "maxMp": 80,
+                "atk": 100,
+                "def": 20
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 8
+          }
+        },
+        {
+          "tick": 97,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 2,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 9
+          }
+        },
+        {
+          "tick": 100,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 10
+          }
+        },
+        {
+          "tick": 102,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 11
+          }
+        },
+        {
+          "tick": 102,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 12
+          }
+        },
+        {
+          "tick": 103,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p2-dragon",
+                "x": 125,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 13
+          }
+        },
+        {
+          "tick": 104,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 538
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 14
+          }
+        },
+        {
+          "tick": 108,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-2",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 150,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 15
+          }
+        },
+        {
+          "tick": 109,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 16
+          }
+        },
+        {
+          "tick": 121,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 3,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 17
+          }
+        },
+        {
+          "tick": 125,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 538,
+                "hpAfter": 538,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 18
+          }
+        },
+        {
+          "tick": 126,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 2,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 19
+          }
+        },
+        {
+          "tick": 127,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 20
+          }
+        },
+        {
+          "tick": 127,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-3",
+                "sourceId": "p2-dragon",
+                "x": 80,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 21
+          }
+        },
+        {
+          "tick": 128,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 538,
+                "hpAfter": 576
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 22
+          }
+        },
+        {
+          "tick": 132,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-4",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 105,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 23
+          }
+        },
+        {
+          "tick": 133,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 24
+          }
+        },
+        {
+          "tick": 145,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 4,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 25
+          }
+        },
+        {
+          "tick": 150,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 576,
+                "hpAfter": 576,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 26
+          }
+        },
+        {
+          "tick": 150,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 3,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 27
+          }
+        },
+        {
+          "tick": 151,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-5",
+                "sourceId": "p2-dragon",
+                "x": 95,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 28
+          }
+        },
+        {
+          "tick": 152,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 576,
+                "hpAfter": 614
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 29
+          }
+        },
+        {
+          "tick": 152,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 30
+          }
+        },
+        {
+          "tick": 156,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-6",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 120,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 31
+          }
+        },
+        {
+          "tick": 157,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 32
+          }
+        },
+        {
+          "tick": 169,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 5,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 33
+          }
+        },
+        {
+          "tick": 174,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 4,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 34
+          }
+        },
+        {
+          "tick": 175,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 614,
+                "hpAfter": 614,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 35
+          }
+        },
+        {
+          "tick": 175,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-7",
+                "sourceId": "p2-dragon",
+                "x": 80,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 36
+          }
+        },
+        {
+          "tick": 176,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 614,
+                "hpAfter": 652
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 37
+          }
+        },
+        {
+          "tick": 177,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 38
+          }
+        },
+        {
+          "tick": 180,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-8",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 105,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 39
+          }
+        },
+        {
+          "tick": 181,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 40
+          }
+        },
+        {
+          "tick": 193,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 6,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 41
+          }
+        },
+        {
+          "tick": 198,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 5,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 42
+          }
+        },
+        {
+          "tick": 199,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-9",
+                "sourceId": "p2-dragon",
+                "x": 95,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 43
+          }
+        },
+        {
+          "tick": 200,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 652,
+                "hpAfter": 690
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 44
+          }
+        },
+        {
+          "tick": 200,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 690,
+                "hpAfter": 690,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 45
+          }
+        },
+        {
+          "tick": 202,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 46
+          }
+        },
+        {
+          "tick": 204,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-10",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 120,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 47
+          }
+        },
+        {
+          "tick": 205,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 48
+          }
+        },
+        {
+          "tick": 217,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 7,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 49
+          }
+        },
+        {
+          "tick": 222,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 6,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 50
+          }
+        },
+        {
+          "tick": 223,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-11",
+                "sourceId": "p2-dragon",
+                "x": 80,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 51
+          }
+        },
+        {
+          "tick": 224,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 690,
+                "hpAfter": 728
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 52
+          }
+        },
+        {
+          "tick": 225,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 728,
+                "hpAfter": 728,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 53
+          }
+        },
+        {
+          "tick": 227,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 54
+          }
+        },
+        {
+          "tick": 228,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-12",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 105,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 55
+          }
+        },
+        {
+          "tick": 229,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 56
+          }
+        },
+        {
+          "tick": 241,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 8,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 57
+          }
+        },
+        {
+          "tick": 246,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 7,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 58
+          }
+        },
+        {
+          "tick": 247,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-13",
+                "sourceId": "p2-dragon",
+                "x": 95,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 59
+          }
+        },
+        {
+          "tick": 248,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 728,
+                "hpAfter": 766
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 60
+          }
+        },
+        {
+          "tick": 250,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 766,
+                "hpAfter": 766,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 61
+          }
+        },
+        {
+          "tick": 252,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 62
+          }
+        },
+        {
+          "tick": 252,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-14",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 120,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 63
+          }
+        },
+        {
+          "tick": 253,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 64
+          }
+        },
+        {
+          "tick": 265,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 9,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 65
+          }
+        },
+        {
+          "tick": 270,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 8,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 66
+          }
+        },
+        {
+          "tick": 271,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-15",
+                "sourceId": "p2-dragon",
+                "x": 80,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 67
+          }
+        },
+        {
+          "tick": 272,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 766,
+                "hpAfter": 804
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 68
+          }
+        },
+        {
+          "tick": 275,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 804,
+                "hpAfter": 804,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 69
+          }
+        },
+        {
+          "tick": 276,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-16",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 105,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 70
+          }
+        },
+        {
+          "tick": 277,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 71
+          }
+        },
+        {
+          "tick": 277,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 72
+          }
+        },
+        {
+          "tick": 289,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 10,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 73
+          }
+        },
+        {
+          "tick": 294,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 9,
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 74
+          }
+        },
+        {
+          "tick": 295,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-17",
+                "sourceId": "p2-dragon",
+                "x": 95,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 75
+          }
+        },
+        {
+          "tick": 296,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 804,
+                "hpAfter": 842
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 76
+          }
+        },
+        {
+          "tick": 300,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 842,
+                "hpAfter": 842,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 77
+          }
+        },
+        {
+          "tick": 300,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-18",
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "x": 120,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 78
+          }
+        },
+        {
+          "tick": 301,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 500
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 79
+          }
+        },
+        {
+          "tick": 302,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 80,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 80
+          }
+        },
+        {
+          "tick": 313,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 11,
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 81
+          }
+        },
+        {
+          "tick": 317,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-clone-expired"
+            },
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 82
+          }
+        },
+        {
+          "tick": 317,
+          "event": {
+            "type": "deactivated",
+            "reason": "expired",
+            "petId": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1:summon:2",
+            "sourcePetId": "p2-dragon",
+            "parentRuntimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sequence": 83
+          }
+        },
+        {
+          "tick": 317,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-expiry-heal",
+              "payload": {
+                "hpBefore": 842,
+                "hpAfter": 878
+              }
+            },
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:5:1",
+            "sourcePetId": "p2-dragon",
+            "sequence": 84
+          }
+        }
+      ],
+      "damage": [
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-1:p2-dragon-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 4333.333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-2:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 4541.666666666667,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-3:p2-dragon-dragon1-normal-2:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 5333.333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-4:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-2:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 5541.666666666667,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-5:p2-dragon-dragon1-normal-3:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 6333.333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-6:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-3:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 6541.666666666667,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-7:p2-dragon-dragon1-normal-4:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 7333.333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-8:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-4:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 7541.666666666667,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-9:p2-dragon-dragon1-normal-5:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 8333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-10:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-5:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 8541.666666666666,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-11:p2-dragon-dragon1-normal-6:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 9333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-12:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-6:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 9541.666666666666,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-13:p2-dragon-dragon1-normal-7:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 10333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-14:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-7:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 10541.666666666666,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-15:p2-dragon-dragon1-normal-8:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 11333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-16:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-8:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 11541.666666666666,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-17:p2-dragon-dragon1-normal-9:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 12333.333333333334,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon:dragon:1:session:5:1:summon:2",
+          "targetId": "target",
+          "attackId": "projectile-18:p2-dragon:dragon:1:session:5:1:summon:2-dragon1-normal-9:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 12541.666666666666,
+          "critical": false
+        }
+      ]
+    },
+    {
+      "case": "zero",
+      "events": [
+        {
+          "tick": 25,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:9:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 25,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:9:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 31,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p1-dragon",
+                "x": 30,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 3,
+                  "attack": 8,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:9:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        },
+        {
+          "tick": 32,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 1,
+                "consumed": {
+                  "hurt": 3,
+                  "attack": 8,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 3,
+                  "attack": 8,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 520
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:9:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 5
+          }
+        }
+      ],
+      "damage": [
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-1:p1-dragon-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 0,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 1333.3333333333333,
+          "critical": false
+        }
+      ]
+    },
+    {
+      "case": "dodge",
+      "events": [
+        {
+          "tick": 25,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:10:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 25,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:10:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 31,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p1-dragon",
+                "x": 30,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 3,
+                  "attack": 8,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:10:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        }
+      ],
+      "damage": []
+    },
+    {
+      "case": "protected",
+      "events": [
+        {
+          "tick": 25,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:11:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 25,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:11:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 31,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p1-dragon",
+                "x": 30,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 3,
+                  "attack": 8,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:11:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        }
+      ],
+      "damage": []
+    },
+    {
+      "case": "production-updatePets-shared-p1-p2",
+      "damage": [
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-1:p1-dragon-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 1333.3333333333333,
+          "critical": false
+        },
+        {
+          "sourceId": "p2-dragon",
+          "targetId": "target",
+          "attackId": "projectile-2:p2-dragon-dragon1-normal-1:0",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 1333.3333333333333,
+          "critical": false
+        }
+      ],
+      "hp": [
+        538,
+        538
+      ],
+      "snapshots": {
+        "p1": {
+          "destroyed": false,
+          "petId": "p1-dragon",
+          "species": "dragon",
+          "form": 1,
+          "runtime": {
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:17:1",
+            "x": 25,
+            "y": -15.075,
+            "facingX": 1,
+            "state": "follow"
+          },
+          "target": {
+            "id": "target",
+            "x": 100,
+            "y": -15,
+            "isAlive": true
+          },
+          "phase": "alive",
+          "actionToken": 1,
+          "animation": {
+            "action": "walk",
+            "actionToken": 1,
+            "row": 0,
+            "column": 2,
+            "keyFrameIndex": 2,
+            "remainingHoldCount": 2,
+            "elapsedTicks": 4,
+            "complete": false
+          },
+          "groundMotion": {
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:17:1",
+            "x": 25,
+            "y": -15.075,
+            "facingX": 1,
+            "state": "follow",
+            "velocityX": 5,
+            "velocityY": 1.5,
+            "direction": 1,
+            "standingOn": "floor"
+          },
+          "summons": []
+        },
+        "p2": {
+          "destroyed": false,
+          "petId": "p2-dragon",
+          "species": "dragon",
+          "form": 1,
+          "runtime": {
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:18:1",
+            "x": 25,
+            "y": -15.075,
+            "facingX": 1,
+            "state": "follow"
+          },
+          "target": {
+            "id": "target",
+            "x": 100,
+            "y": -15,
+            "isAlive": true
+          },
+          "phase": "alive",
+          "actionToken": 1,
+          "animation": {
+            "action": "walk",
+            "actionToken": 1,
+            "row": 0,
+            "column": 2,
+            "keyFrameIndex": 2,
+            "remainingHoldCount": 2,
+            "elapsedTicks": 4,
+            "complete": false
+          },
+          "groundMotion": {
+            "petId": "p2-dragon",
+            "runtimeKey": "p2-dragon:dragon:1:session:18:1",
+            "x": 25,
+            "y": -15.075,
+            "facingX": 1,
+            "state": "follow",
+            "velocityX": 5,
+            "velocityY": 1.5,
+            "direction": 1,
+            "standingOn": "floor"
+          },
+          "summons": []
+        }
+      }
+    },
+    {
+      "case": "generation-time-stats-passive",
+      "events": [
+        {
+          "tick": 25,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 50,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 61,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-fs-cast",
+              "payload": {
+                "mpBefore": 100,
+                "mpAfter": 80
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        },
+        {
+          "tick": 61,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "fs"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 5
+          }
+        },
+        {
+          "tick": 75,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 333,
+                "hpAfter": 339,
+                "mpBefore": 44,
+                "mpAfter": 46
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 6
+          }
+        },
+        {
+          "tick": 77,
+          "event": {
+            "type": "activated",
+            "petId": "p1-dragon:dragon:1:session:8:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sequence": 7
+          }
+        },
+        {
+          "tick": 77,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-clone-spawned",
+              "payload": {
+                "handle": {
+                  "runtimeKey": "p1-dragon:dragon:1:session:8:1:summon:2",
+                  "petId": "p1-dragon:dragon:1:session:8:1:summon:2",
+                  "parentRuntimeKey": "p1-dragon:dragon:1:session:8:1",
+                  "sourcePetId": "p1-dragon"
+                },
+                "hp": 339,
+                "maxHp": 339,
+                "mp": 46,
+                "maxMp": 46,
+                "atk": 27,
+                "def": 11
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 8
+          }
+        },
+        {
+          "tick": 100,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 339,
+                "hpAfter": 345,
+                "mpBefore": 46,
+                "mpAfter": 48
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 9
+          }
+        },
+        {
+          "tick": 102,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 339,
+                "hpAfter": 339,
+                "mpBefore": 46,
+                "mpAfter": 46
+              }
+            },
+            "petId": "p1-dragon:dragon:1:session:8:1:summon:2",
+            "runtimeKey": "p1-dragon:dragon:1:session:8:1:summon:2",
+            "sourcePetId": "p1-dragon",
+            "parentRuntimeKey": "p1-dragon:dragon:1:session:8:1",
+            "sequence": 10
+          }
+        }
+      ]
+    },
+    {
+      "case": "last-frame-contact",
+      "events": [
+        {
+          "tick": 25,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-passive",
+              "payload": {
+                "hpBefore": 500,
+                "hpAfter": 500,
+                "mpBefore": 100,
+                "mpAfter": 100
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:14:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 2
+          }
+        },
+        {
+          "tick": 25,
+          "event": {
+            "type": "action",
+            "action": {
+              "type": "normal"
+            },
+            "actionToken": 1,
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:14:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 3
+          }
+        },
+        {
+          "tick": 31,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-normal-emitted",
+              "payload": {
+                "projectileId": "projectile-1",
+                "sourceId": "p1-dragon",
+                "x": 30,
+                "y": -15.05,
+                "cache": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                }
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:14:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 4
+          }
+        },
+        {
+          "tick": 42,
+          "event": {
+            "type": "behavior",
+            "behaviorEvent": {
+              "type": "dragon1-hit-heal",
+              "payload": {
+                "sourceId": "p1-dragon",
+                "targetId": "target",
+                "frame": 11,
+                "consumed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "refreshed": {
+                  "hurt": 100,
+                  "attack": 280,
+                  "critical": false
+                },
+                "hpBefore": 500,
+                "hpAfter": 538
+              }
+            },
+            "petId": "p1-dragon",
+            "runtimeKey": "p1-dragon:dragon:1:session:14:1",
+            "sourcePetId": "p1-dragon",
+            "sequence": 5
+          }
+        }
+      ],
+      "damage": [
+        {
+          "sourceId": "p1-dragon",
+          "targetId": "target",
+          "attackId": "projectile-1:p1-dragon-dragon1-normal-1:1",
+          "actionName": "hit1",
+          "amount": 97,
+          "attackKind": "physics",
+          "knockbackX": 3,
+          "knockbackY": -5,
+          "occurredAtMs": 1750,
+          "critical": false
+        }
+      ]
+    }
+  ]
+}

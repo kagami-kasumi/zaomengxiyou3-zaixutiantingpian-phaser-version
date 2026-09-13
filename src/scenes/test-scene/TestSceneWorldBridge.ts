@@ -618,6 +618,7 @@ export function applyProjectileHits(this: any, time: number): void {
 
       const monsterBounds = getMonster30Bounds(monster);
       for (const projectile of getActiveProjectiles(this.projectileSystem)) {
+        if (projectile.petHostTick !== undefined) continue;
         if (projectile.visualOnly || projectile.elapsedMs < (projectile.activeAfterMs ?? 0)) continue;
         const hitbox = getProjectileHitbox(projectile);
         const attackBounds = toPhaserRect(hitbox);
@@ -744,6 +745,7 @@ export function applyProjectileHits(this: any, time: number): void {
     if (this.bossArena.state === 'active' && this.bossArena.boss) {
       const bossBounds = this.getBossBounds();
       for (const projectile of getActiveProjectiles(this.projectileSystem)) {
+        if (projectile.petHostTick !== undefined) continue;
         if (projectile.visualOnly || projectile.elapsedMs < (projectile.activeAfterMs ?? 0)) continue;
         const hitbox = getProjectileHitbox(projectile);
         const attackBounds = toPhaserRect(hitbox);

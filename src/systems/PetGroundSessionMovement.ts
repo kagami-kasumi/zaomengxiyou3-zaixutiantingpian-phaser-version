@@ -32,6 +32,11 @@ export class PetGroundSessionMovement {
     this.runtime.facingX = this.velocity.direction;
   }
 
+  face(direction: -1 | 1): void {
+    this.velocity.direction = direction;
+    this.runtime.facingX = direction;
+  }
+
   followOwner(owner: PetOwnerSnapshot): boolean {
     if (Math.hypot(this.runtime.x - owner.x, this.runtime.y - owner.y) > 640) {
       this.turnTo(owner.x);

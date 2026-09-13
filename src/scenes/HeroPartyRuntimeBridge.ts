@@ -59,6 +59,7 @@ import { createFormalPetMonkeyBodyBridge } from './FormalPetMonkeyBodyBridge';
 import { createFormalPetHorseBodyBridge } from './FormalPetHorseBodyBridge';
 import { createCombatFeedbackView } from './CombatFeedbackView';
 import { createCombatFeedbackQaBridge } from './CombatFeedbackQaBridge';
+import { createPetProjectileCombatBridge } from './PetProjectileCombatBridge';
 
 export type HeroPartyViewSnapshot = HeroRuntimeSnapshot & Readonly<{
   view: Phaser.GameObjects.Image;
@@ -74,6 +75,7 @@ export type HeroPartyRuntime = Readonly<{
   resolveEnemyAttack: (enemy: Stage1CombatEnemy, timeMs: number) => void;
   updatePets: (frame: Readonly<{
     targets: readonly PetSkillTarget[];
+    combatEnemies?: readonly Stage1CombatEnemy[];
     projectiles: ProjectileSystemModel;
     timeMs: number;
     deltaMs: number;
@@ -165,6 +167,7 @@ export function createHeroPartyRuntime(
   const role1ShadowViews = new Map<string, Role1ShadowView>();
   const combatFeedbackView = createCombatFeedbackView(scene, model.combat.feedback);
   const combatFeedbackQa = createCombatFeedbackQaBridge(scene, model.combat.feedback);
+  const petProjectileCombat = createPetProjectileCombatBridge(scene);
   const formalPetMonkeyBodies = scene.scene.key === 'TestScene'
     ? undefined
     : createFormalPetMonkeyBodyBridge(scene);
@@ -269,6 +272,7 @@ export function createHeroPartyRuntime(
       });
       updateHeroPartyRuntime(model, { ...frame, projectileSources: activePetSources });
       updatePets({
+        combatEnemies: frame.monsterTargets,
         targets: (frame.monsterTargets ?? []).map((target) => ({
           id: target.id,
           x: target.x,
@@ -383,6 +387,7 @@ export function createHeroPartyRuntime(
 
   function updatePets(frame: Readonly<{
     targets: readonly PetSkillTarget[];
+    combatEnemies?: readonly Stage1CombatEnemy[];
     projectiles: ProjectileSystemModel;
     timeMs: number;
     deltaMs: number;
@@ -402,6 +407,8 @@ export function createHeroPartyRuntime(
           deltaMs: frame.deltaMs,
           hostFps: scene.game.loop.targetFps,
           groundEnvironment: frame.groundEnvironmentFor?.(index),
+          projectileCombat: petProjectileCombat({ combat: model.combat, enemies: frame.combatEnemies ?? [],
+            ownerSlot: slot, timeMs: frame.timeMs, random: frame.random ?? Math.random }),
         });
         pendingPetDamageEvents[slot] = [];
         continue;
@@ -417,6 +424,8 @@ export function createHeroPartyRuntime(
         deltaMs: frame.deltaMs,
         hostFps: scene.game.loop.targetFps,
         groundEnvironment: frame.groundEnvironmentFor?.(index),
+        projectileCombat: petProjectileCombat({ combat: model.combat, enemies: frame.combatEnemies ?? [],
+          ownerSlot: slot, timeMs: frame.timeMs, random: frame.random ?? Math.random }),
       });
       pendingPetDamageEvents[slot] = [];
       pendingPetAnimationEvents[slot] = [];

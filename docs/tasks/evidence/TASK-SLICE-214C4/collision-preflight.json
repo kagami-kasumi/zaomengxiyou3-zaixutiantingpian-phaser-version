@@ -1,0 +1,196 @@
+{
+  "status": "blocked-input",
+  "task": "TASK-SLICE-214C4",
+  "scope": "Source conditions and existing asset alpha only; no production combat trace or Flash pixel replay",
+  "sources": [
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/HitTest.as",
+      "sha256": "156a7e5f08a0aeca5dc4160fa08d648e12c6e687e031dcdeffcaa04a703ac87f"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96"
+    }
+  ],
+  "existingPetCollisionProfiles": [
+    "ObjectBaseSprite3",
+    "ObjectBaseSprite4"
+  ],
+  "bulletFrames": [
+    {
+      "frame": 1,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/1.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        255,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 2,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/2.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        230,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 3,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/3.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        204,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 4,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/4.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        179,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 5,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/5.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        153,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 6,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/6.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        128,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 7,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/7.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        102,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 8,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/8.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        77,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 9,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/9.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        51,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 10,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/10.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        26,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    },
+    {
+      "frame": 11,
+      "path": "/assets/pets/dragon/effects/PetDragon1Bullet1/11.png",
+      "sha256": "e57be12474db608ee8ee45b0cb76e484515034f9dcf10b08a4613e14929095a8",
+      "size": [
+        67,
+        53
+      ],
+      "crop": [
+        0,
+        0
+      ],
+      "transparentPixels": 1598,
+      "nontransparentPixels": 1953
+    }
+  ],
+  "requiredEvidence": [
+    "target colipse shape/registration/transform",
+    "Flash draw/intersection sampling equivalence",
+    "successful-hit cached damage refresh and rejected-hit fixtures"
+  ],
+  "retained": "213/214A visual assets and pet geometry; target collision completeness not established"
+}

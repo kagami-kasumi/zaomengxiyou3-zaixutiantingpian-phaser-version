@@ -37,6 +37,7 @@
 | `system-design-protocol.md` | 用户手动触发的具体系统设计模式机制：单方案设计、模式规约和实施验收交接 |
 | `system-design-acceptance-protocol.md` | 具体系统设计模式的重复验收机制：逐实现批次检查代码规约，系统完成后硬退出 |
 | `reverse-engineering-protocol.md` | 玩法逆向的六段证据链、证据分级、原版机器真值 JSON、坐标语义、上下文交接和关闭门禁 |
+| [air-runtime-verification.md](air-runtime-verification.md) | AIR SDK本机路径、按需触发、ADL调用/证据边界及复用频率；非默认门禁 |
 | `reverse-engineering-task-protocol.md` | 一等逆向任务及代码逆向/视觉真值逆向子类型的渐进读取协议；只有视觉真值逆向读取独立方案 |
 | `ground-truth-completeness-validator.md` | PG-017 的真值产物全面性校验器讨论入口；只冻结职责与待决问题，不监督生成器内部提取步骤 |
 | `behavior-contract-runtime-verifier.md` | PG-017 V2 的行为合同到黑盒运行时语义 verifier；冻结 expected/actual 数据流隔离、字段级覆盖、受控场景与 mutation-kill |
@@ -64,6 +65,7 @@
 - **真值全面性校验器**：只有用户明确讨论/实施该校验器，或当前治理项明确链接时才读 `ground-truth-completeness-validator.md`；普通真值生成任务不默认读取。
 - **行为合同运行时 verifier**：只有 PG-017 V2 治理项、明确链接它的整改 task，或用户明确讨论该机制时才读 `behavior-contract-runtime-verifier.md`；普通逆向/实现不默认加载。
 - **脚手架维护**：补读本 README、`document-map.md` 和 `governance-log.md`。
+- **AIR源运行验证**：只有静态证据无法确定且影响当前合同的运行语义、出现证据冲突，或task要求尚缺的源运行trace时，按[工具合同](air-runtime-verification.md)调用；普通任务不加载、不探测SDK。
 - **历史追溯**：只有需要追溯或修改已完成任务时才读 `task-history.md`。
 
 ## 维护规则
@@ -82,7 +84,7 @@
 - 代码、架构、游戏 task 或工作流变更收尾时运行 `npm run audit:problems`，只按活跃问题索引执行适用性扫描；正常样本在 `problem-audit.md` 集中记录一次，同一证据可兼作 MO/PG 样本。复发或方案不充分时回写 PG 并转入复盘，满足全部出清门禁时同次归档。
 - 脚手架维护必须在 `governance-log.md` 留下日期、变更内容、影响范围和验证结果。
 - 新增核心领域命名前，先更新 `docs/domain/glossary.md` 和 `docs/domain/ubiquitous-language-process.md`。
-- 同一个正式游戏 task 未完成时默认继续当前对话；允许一次 compact，落盘检查点并窄读关键合同和当前代码后继续原 task；第二次 compact 即视为规模超限，只完成当前检查、复查关键文件、回写安全检查点并拆分剩余 task，不继续读取新资料或新增实现。
+- 同一个正式游戏 task 未完成时默认继续当前对话；compact 次数不作为停止、拆分或新开对话条件；恢复后窄读当前合同、改动和必要证据，继续原 task，不借此扩张范围。仅在存在尚未保存且影响恢复的信息或需要实际交接时更新简短检查点；已有记录足够时直接复用，不重复计数、落盘或运行无变化的检查。
 - 只有完成 task、切换明显不同机制/切片/子系统，或已读取大量 AS3/逆向/历史资料时，才建议新开对话。
 - Codex 默认不自动提交或 push；只有用户明确要求时才执行 Git 提交和上传。
 - 提交前必须检查工作区，区分本次改动和已有未提交改动，不回滚用户改动。

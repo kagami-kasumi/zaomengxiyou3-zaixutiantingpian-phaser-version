@@ -1,0 +1,134 @@
+{
+  "source": "package { import flash.display.Sprite; import flash.desktop.NativeApplication; import flash.system.Capabilities;\r\npublic class CoordinateProbe extends Sprite { public function CoordinateProbe() {\r\nvar s:Sprite=new Sprite(); s.graphics.beginFill(0xffffff); s.graphics.drawRect(0,0,69,56); s.graphics.endFill(); addChild(s);\r\nvar values:Array=[0.001,0.024,0.025,0.026,0.049,0.051,1.234,-0.001,-0.024,-0.025,-0.026,-0.049,-0.051,-14.975,1/3];\r\nfor each(var n:Number in values){ s.x=n;s.y=n; var b:Object=s.getBounds(this); trace(\"CASE \"+JSON.stringify({input:n,x:s.x,y:s.y,bx:b.x,by:b.y})); }\r\ntrace(\"RUNTIME \"+Capabilities.version);trace(\"COMPLETE\");NativeApplication.nativeApplication.exit(0);\r\n} } }",
+  "sourceSha256": "bb74ef8d8e86c211be007b5b7e5457d7493f224928b61a25875fd2f418694f2f",
+  "command": [
+    "D:\\AIRsdkmanager\\sdk\\AIRSDK_51.3.4\\bin\\adl.exe",
+    "-runtime",
+    "D:\\web-projects\\Front-end\\再续天庭-现代化\\local-resources\\regima\\source\\unpacked",
+    "-profile",
+    "desktop",
+    "D:\\web-projects\\Front-end\\再续天庭-现代化\\local-resources\\regima\\task-outputs\\task-slice-214c4\\coordinate-probe\\application.xml",
+    "D:\\web-projects\\Front-end\\再续天庭-现代化\\local-resources\\regima\\task-outputs\\task-slice-214c4\\coordinate-probe"
+  ],
+  "compileCommand": [
+    "java",
+    "-Dflexlib=D:\\AIRsdkmanager\\sdk\\AIRSDK_51.3.4\\frameworks",
+    "-jar",
+    "D:\\AIRsdkmanager\\sdk\\AIRSDK_51.3.4\\lib\\mxmlc-cli.jar",
+    "+configname=air",
+    "-debug=true",
+    "-output=CoordinateProbe.swf",
+    "CoordinateProbe.as"
+  ],
+  "exitCode": 0,
+  "trace": "CASE {\"y\":0,\"by\":0,\"input\":0.001,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":0.024,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":0.025,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":0.026,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":0.049,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0.05,\"by\":0.05,\"input\":0.051,\"bx\":0.05,\"x\":0.05}\r\r\nCASE {\"y\":1.2,\"by\":1.2,\"input\":1.234,\"bx\":1.2,\"x\":1.2}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":-0.001,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":-0.024,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":-0.025,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":-0.026,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":0,\"by\":0,\"input\":-0.049,\"bx\":0,\"x\":0}\r\r\nCASE {\"y\":-0.05,\"by\":-0.05,\"input\":-0.051,\"bx\":-0.05,\"x\":-0.05}\r\r\nCASE {\"y\":-14.95,\"by\":-14.95,\"input\":-14.975,\"bx\":-14.95,\"x\":-14.95}\r\r\nCASE {\"y\":0.3,\"by\":0.3,\"input\":0.3333333333333333,\"bx\":0.3,\"x\":0.3}\r\r\nRUNTIME WIN 51,1,1,5\r\r\nCOMPLETE\r\r\n",
+  "cases": [
+    {
+      "y": 0,
+      "by": 0,
+      "input": 0.001,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": 0.024,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": 0.025,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": 0.026,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": 0.049,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0.05,
+      "by": 0.05,
+      "input": 0.051,
+      "bx": 0.05,
+      "x": 0.05
+    },
+    {
+      "y": 1.2,
+      "by": 1.2,
+      "input": 1.234,
+      "bx": 1.2,
+      "x": 1.2
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": -0.001,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": -0.024,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": -0.025,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": -0.026,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": 0,
+      "by": 0,
+      "input": -0.049,
+      "bx": 0,
+      "x": 0
+    },
+    {
+      "y": -0.05,
+      "by": -0.05,
+      "input": -0.051,
+      "bx": -0.05,
+      "x": -0.05
+    },
+    {
+      "y": -14.95,
+      "by": -14.95,
+      "input": -14.975,
+      "bx": -14.95,
+      "x": -14.95
+    },
+    {
+      "y": 0.3,
+      "by": 0.3,
+      "input": 0.3333333333333333,
+      "bx": 0.3,
+      "x": 0.3
+    }
+  ],
+  "descriptor": "<application xmlns=\"http://ns.adobe.com/air/application/51.1\"><id>regima.c4.coordinate</id><versionNumber>1.0.0</versionNumber><filename>CoordinateProbe</filename><supportedProfiles>desktop</supportedProfiles><initialWindow><content>CoordinateProbe.swf</content><visible>false</visible><width>940</width><height>590</height><renderMode>direct</renderMode></initialWindow></application>",
+  "swfSha256": "71a358b71d4800ae119ca04e8dd7fd672e1af9d6948e7d7f3687170c4abbc74f"
+}

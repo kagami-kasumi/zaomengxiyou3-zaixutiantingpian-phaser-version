@@ -10,6 +10,7 @@ import type { ProjectileSystemModel } from './ProjectileSystem';
 import type { PetAnimationClock } from './PetAnimationClock';
 import type { PetGroundEnvironment } from '../assets/PetGroundEnvironmentAssets';
 import type { PetGroundMotion } from './PetGroundMovementSystem';
+import type { PetProjectileCombatPort } from './PetProjectileCombatPort';
 
 export type PetCombatFrame = Readonly<{
   roster: PetRoster;
@@ -23,6 +24,9 @@ export type PetCombatFrame = Readonly<{
   /** Original host clock selected by the scene; movement speed is pixels per tick. */
   hostFps?: number;
   groundEnvironment?: PetGroundEnvironment;
+  projectileCombat?: PetProjectileCombatPort;
+  /** Transient entity effects, indexed by session key rather than persistent skills. */
+  gxpRuntimeKeys?: readonly string[];
 }>;
 
 export type PetCombatSessionPhase = 'alive' | 'dead-playing';
@@ -86,4 +90,5 @@ export type PetCombatSummonRequest = Readonly<{
   x: number;
   y: number;
   facingX: -1 | 1;
+  onReleased?: (reason: PetCombatReleaseReason) => void;
 }>;

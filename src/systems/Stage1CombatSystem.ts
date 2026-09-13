@@ -37,6 +37,7 @@ import {
 import { createHeroSkillModel, type HeroSkillModel } from './HeroSkillSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
 import type { PetCombatDamageEvent } from './PetBehavior';
+import { calculateDragonPhysicalDamage, type DragonDamageCache } from './PetDragonDamageSystem';
 import {
   createCombatFeedbackModel,
   recordCombatFeedback,
@@ -113,6 +114,8 @@ export type Stage1CombatEnemy = {
   }>;
   lastHitBy?: PlayerSlot;
   petHorseIceRemainingMs?: number;
+  /** Supplied by the monster's current source-state adapter; defaults describe spawn state only. */
+  sourceHitProtection?: Readonly<{ protected: boolean; dodgeProbability: number }>;
 };
 
 export type Stage1CombatAudit = {
@@ -473,11 +476,22 @@ export function resolveStage1PetHit(params: Readonly<{
   knockbackY: number;
   timeMs: number;
   critical?: boolean;
+  /** Opt-in source bullet semantics; existing monkey/horse callers retain their damage path. */
+  sourceBullet?: Readonly<{
+    cache: DragonDamageCache;
+    protected: boolean;
+    dodgeProbability: number;
+    random: () => number;
+  }>;
 }>): DamageEvent | undefined {
   if (params.enemy.phase === 'dead') return undefined;
+  if (params.sourceBullet?.protected) return undefined;
   if (!resolveHitOnce(params.runtime.hitRegistry, params.attackId, params.enemy.id)) return undefined;
+  if (params.sourceBullet && params.sourceBullet.random() <= params.sourceBullet.dodgeProbability) return undefined;
   const hpBefore = params.enemy.hp;
-  const amount = Math.min(hpBefore, calculateStage1HeroDamage(
+  const amount = Math.min(hpBefore, params.sourceBullet
+    ? calculateDragonPhysicalDamage(params.sourceBullet.cache, getStage1EnemyConfig(params.enemy.enemyType).physicalDefense)
+    : calculateStage1HeroDamage(
     params.enemy.enemyType,
     params.attackKind,
     params.damage,

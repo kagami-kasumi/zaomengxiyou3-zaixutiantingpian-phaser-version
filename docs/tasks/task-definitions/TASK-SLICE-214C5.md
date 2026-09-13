@@ -13,7 +13,7 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
@@ -24,7 +24,7 @@
 - 独立验收批次：2
 
 拆分触发：
-- 新资料族、资源派生、未声明 owner、第三工作包或第二次 compact 时停止新增实现，保留完整父级合同并拆分交接；不能因同属青龙而合并多批。
+- 新资料族、资源派生、未声明 owner、第三工作包时停止新增实现，保留完整父级合同并拆分交接；不能因同属青龙而合并多批。
 
 协作计划：
 - 模式：主 agent + subagent（存在独立有界验证包且主 agent 可推进实现时启用）
@@ -34,6 +34,7 @@
 - 方法观测：MO-003；只记录实际差异，不提前计完整家族成功
 
 输入资料：
+- `docs/tasks/evidence/TASK-SLICE-214C4/handoff.md`、runtime-traces.json和combat-core.md；消费实际生产行为与剩余接线边界，不重建第二owner。
 - `docs/tasks/evidence/TASK-SLICE-214C2/handoff.md`、本地已保存源检查产物。
 - `docs/tasks/task-definitions/TASK-SLICE-214C2.md` 全部父级合同与未完成项；C1 handoff、214A 生产查询、213 verified 真值。
 - `docs/architecture/system-designs/pet.md`（实施中）和本批直接消费者；不重新设计模式或职责归属。

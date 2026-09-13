@@ -1,5 +1,32 @@
 # 工作流治理日志
 
+## 2026-09-06：取消 compact 次数停止门禁
+
+- 按用户明确要求，取消第二次 compact 强制交接及实际次数上限；预计零次仅保留为规划目标，实际范围扩大仍按合同拆分。
+- 同步AGENTS、CLAUDE、TASK_OUTLINE、README、agent-protocol、task-generation及未完成214系列合同的拆分触发。历史检查点不删除，C4显式标记旧停止指令失效。
+- 检查点只记录尚未保存且影响恢复的信息或实际交接需要，已有记录复用；不因自动续跑重复计数、落盘或重验未变输入。
+- harness改为拒绝恢复次数停止门禁，并增加多次compact继续原task的正向用例。保留唯一Ready、原合同范围和全部验收要求；不修改游戏实现或宣称C4完成。
+- 验证：check:structure通过（9项既有warning）；check:workflow、audit:problems及diff检查结果见本批执行输出。
+
+## 2026-09-06：218原版AIR实测闭环与C4恢复
+
+- 纠正此前环境排查遗漏：unpacked已有原版AIR51.1.1.5，其DLL hash与原提取清单一致；SDK ADL通过-runtime加载，不再以新版AIR替代原版证据。工具合同补充原包优先检索和Windows stderr trace兼容。
+- 861个固定输入、1604322个buffer像素、25个940×590基准在原版/新版AIR中一致，源bitmap alpha与11张214A PNG投影一致；15类源/参考变异通过，明确不代表生产战斗通过。
+- 三Sprite/12映射/当前帧采样及中心→中心输入合同晋升verified，218归档，C4恢复唯一Ready。C4真实normal/fs/expiry-heal、P1/P2和父级验收不删减；PG-017仍等待正式消费，不归档、不计整族成功。
+
+## 2026-09-06：AIR工具接入harness按需路由
+
+- 登记已核验的SDK 51.3.4/build 3及ADL绝对路径，补充descriptor调用、舞台/非cmd限制、超时与trace/完成标记、来源和版本记录。
+- README、职责地图和逆向证据协议按触发条件路由到`air-runtime-verification.md`；普通任务零调用，按case批次运行，输入未变复用基准。未加入默认门禁或现代运行依赖。
+- 当前保留CLI入口，无需MCP；只有出现稳定跨客户端调度/结构化结果需求时再评估。未宣称AIR等价旧Flash、未执行218采样或改变游戏看板状态。
+- 验证：`check:structure`为0 error/9个既有warning；`check:workflow`通过（15个harness测试），仅既有PlayerSlot命名warning；`audit:problems`已集中记录适用性，`git diff --check`通过。调用模板尚无本批实际fixture，不以文档检查代替运行语义验收。
+
+## 2026-09-06：218碰撞补证保留运行时缺口
+
+- 三目标Sprite/12映射/11帧源几何、25源tag渲染基准及10类参考变异已落盘；218保持draft，明确区分源逻辑转录、FFDec导出和生产黑盒验证。
+- 1像素局部画布与平移留白画布出现采样差异，不能宣称Flash等价。218转Blocked，当前线不切换；C4仍Blocked。等待已有Flash/AIR运行时路径，不生成同义任务或虚报完成。
+- 交接：`docs/tasks/evidence/TASK-SETTINGS-218/handoff.md`；精确碰撞验收返回2，其他已知部分与213/214A回归通过。PG-017 V2.3继续补证，未归档。
+
 ## 2026-09-05：214C2 第二次 compact 交接与构造值更正
 
 - 严格停止新增实现，C2 Split 为 A/B/C，A 唯一 Ready；原完整合同由三批连续承接，C 通过 P1GC 才能归档父级。
@@ -2490,3 +2517,7 @@
 ## 2026-09-05：允许一次 compact 与条件委派
 
 按用户明确要求，首次 compact 落盘并窄读关键合同/当前代码后可继续原 task，第二次强制交接；同一对话累计，不因任务拆分清零。预计0次仍是规划目标，余量不扩大工作包或验收范围。有独立有界调查/验证包且主 agent 可同时推进工作时适当使用 subagent；单 agent 仅初始计划，调整前记录分工，默认主写/子只读，禁止并写共享核心。同步 AGENTS、CLAUDE、README、agent-protocol、task-generation、TASK_OUTLINE、214CDE与harness正负用例；214B保留旧检查点并标注规则已替代。本次使用只读subagent独立审查遗漏。验证：check:structure通过（9个已有无关warning）；check:workflow（含15项harness测试）、audit:problems与diff check通过；已有PlayerSlot别名warning保留。
+
+## 2026-09-06：214C4碰撞输入补证调度
+
+214C4独立源核对发现目标colipse/像素采样真值缺口，设Blocked并创建同线218为唯一Ready；所有父级战斗合同保持。PG-017回写方案不充分/V2.3，集中审计记录一次；不修改调度规则、不建立治理抢占项。现有213/214A视觉事实保留，初步src试改全部撤回，预检脚本只输出阻塞证据，不替代生产战斗验收。

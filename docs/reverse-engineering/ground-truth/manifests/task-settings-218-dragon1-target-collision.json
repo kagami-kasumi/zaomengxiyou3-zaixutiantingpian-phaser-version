@@ -1,0 +1,3525 @@
+{
+  "schemaVersion": 1,
+  "truthId": "task-settings-218.dragon1-target-collision",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SETTINGS-218",
+    "surfaceId": "dragon1-target-collision",
+    "originalVersion": "RegiMA 1.1",
+    "description": "3 target collision sprites and 11 bullet frames x 2 directions; contract sidecar holds runtime mappings and source HitTest fixtures"
+  },
+  "generatedBy": {
+    "tool": "generate-dragon-target-collision.py",
+    "toolVersion": "1",
+    "command": "python tools/generate-dragon-target-collision.py",
+    "generatedAt": "2026-09-06T09:35:32.185022+00:00"
+  },
+  "provenance": [
+    {
+      "id": "common",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/StageCommon.swf",
+      "sha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9",
+      "locator": "Symbols ObjectBaseSprite/2/7; shape53"
+    },
+    {
+      "id": "pet",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/pet1.swf",
+      "sha256": "0699a5d3a49ea8024d3635b18c6349f5d7f7cf5f1db869dd18a0a5ee6de60644",
+      "locator": "sprite542; shape541; bitmap540"
+    },
+    {
+      "id": "main",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/1_MainLoad__main1.swf",
+      "sha256": "f8e6f937350d4c6121119119bbebf2b6744ba1422b9fb238764849123d62f734",
+      "locator": "selected newColipse/HitTest/BaseBullet"
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 24,
+    "coordinateSpace": "stage"
+  },
+  "states": [
+    {
+      "id": "ObjectBaseSprite",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 1,
+      "fixtureId": "ObjectBaseSprite",
+      "baselineId": "ObjectBaseSprite"
+    },
+    {
+      "id": "ObjectBaseSprite2",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 1,
+      "fixtureId": "ObjectBaseSprite2",
+      "baselineId": "ObjectBaseSprite2"
+    },
+    {
+      "id": "ObjectBaseSprite7",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 1,
+      "fixtureId": "ObjectBaseSprite7",
+      "baselineId": "ObjectBaseSprite7"
+    },
+    {
+      "id": "bullet-1-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 1,
+      "fixtureId": "bullet-1-left",
+      "baselineId": "bullet-1-left"
+    },
+    {
+      "id": "bullet-1-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 1,
+      "fixtureId": "bullet-1-right",
+      "baselineId": "bullet-1-right"
+    },
+    {
+      "id": "bullet-2-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 2,
+      "fixtureId": "bullet-2-left",
+      "baselineId": "bullet-2-left"
+    },
+    {
+      "id": "bullet-2-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 2,
+      "fixtureId": "bullet-2-right",
+      "baselineId": "bullet-2-right"
+    },
+    {
+      "id": "bullet-3-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 3,
+      "fixtureId": "bullet-3-left",
+      "baselineId": "bullet-3-left"
+    },
+    {
+      "id": "bullet-3-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 3,
+      "fixtureId": "bullet-3-right",
+      "baselineId": "bullet-3-right"
+    },
+    {
+      "id": "bullet-4-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 4,
+      "fixtureId": "bullet-4-left",
+      "baselineId": "bullet-4-left"
+    },
+    {
+      "id": "bullet-4-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 4,
+      "fixtureId": "bullet-4-right",
+      "baselineId": "bullet-4-right"
+    },
+    {
+      "id": "bullet-5-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 5,
+      "fixtureId": "bullet-5-left",
+      "baselineId": "bullet-5-left"
+    },
+    {
+      "id": "bullet-5-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 5,
+      "fixtureId": "bullet-5-right",
+      "baselineId": "bullet-5-right"
+    },
+    {
+      "id": "bullet-6-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 6,
+      "fixtureId": "bullet-6-left",
+      "baselineId": "bullet-6-left"
+    },
+    {
+      "id": "bullet-6-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 6,
+      "fixtureId": "bullet-6-right",
+      "baselineId": "bullet-6-right"
+    },
+    {
+      "id": "bullet-7-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 7,
+      "fixtureId": "bullet-7-left",
+      "baselineId": "bullet-7-left"
+    },
+    {
+      "id": "bullet-7-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 7,
+      "fixtureId": "bullet-7-right",
+      "baselineId": "bullet-7-right"
+    },
+    {
+      "id": "bullet-8-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 8,
+      "fixtureId": "bullet-8-left",
+      "baselineId": "bullet-8-left"
+    },
+    {
+      "id": "bullet-8-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 8,
+      "fixtureId": "bullet-8-right",
+      "baselineId": "bullet-8-right"
+    },
+    {
+      "id": "bullet-9-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 9,
+      "fixtureId": "bullet-9-left",
+      "baselineId": "bullet-9-left"
+    },
+    {
+      "id": "bullet-9-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 9,
+      "fixtureId": "bullet-9-right",
+      "baselineId": "bullet-9-right"
+    },
+    {
+      "id": "bullet-10-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 10,
+      "fixtureId": "bullet-10-left",
+      "baselineId": "bullet-10-left"
+    },
+    {
+      "id": "bullet-10-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 10,
+      "fixtureId": "bullet-10-right",
+      "baselineId": "bullet-10-right"
+    },
+    {
+      "id": "bullet-11-left",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 11,
+      "fixtureId": "bullet-11-left",
+      "baselineId": "bullet-11-left"
+    },
+    {
+      "id": "bullet-11-right",
+      "entry": "Source-tag isolated spatial baseline; no live gameplay capture",
+      "frame": 11,
+      "fixtureId": "bullet-11-right",
+      "baselineId": "bullet-11-right"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "ObjectBaseSprite-105",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 105,
+        "symbolClass": "ObjectBaseSprite",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -25.0,
+            "top": -50.0,
+            "width": 49.999542236328125,
+            "height": 99.9993896484375
+          },
+          "stageBounds": {
+            "left": 445.0,
+            "top": 245.0,
+            "width": 49.999542236328125,
+            "height": 99.9993896484375
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "ObjectBaseSprite-104",
+      "parentId": "ObjectBaseSprite-105",
+      "depth": 1,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 104,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -25.0,
+            "ty": -50.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0.0,
+            "top": 0.0,
+            "width": 49.999542236328125,
+            "height": 99.9993896484375
+          },
+          "stageBounds": {
+            "left": 445.0,
+            "top": 245.0,
+            "width": 49.999542236328125,
+            "height": 99.9993896484375
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "ObjectBaseSprite-53",
+      "parentId": "ObjectBaseSprite-104",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 53,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.7142791748046875,
+            "d": 0.8333282470703125,
+            "b": 0,
+            "c": 0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 70,
+            "height": 120
+          },
+          "stageBounds": {
+            "left": 445.0,
+            "top": 245.0,
+            "width": 49.999542236328125,
+            "height": 99.9993896484375
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "ObjectBaseSprite2-107",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 107,
+        "symbolClass": "ObjectBaseSprite2",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite2",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -30.0,
+            "top": -65.0,
+            "width": 59.99938964378089,
+            "height": 129.99755859375
+          },
+          "stageBounds": {
+            "left": 440.0,
+            "top": 230.0,
+            "width": 59.99938964378089,
+            "height": 129.99755859375
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "ObjectBaseSprite2-106",
+      "parentId": "ObjectBaseSprite2-107",
+      "depth": 1,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 106,
+        "symbolClass": null,
+        "instanceName": "colipseRect",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite2",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.9999847412109375,
+            "d": 1.0,
+            "b": 0,
+            "c": 0,
+            "tx": -30.0,
+            "ty": -65.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0.0,
+            "top": 0.0,
+            "width": 60.00030517578125,
+            "height": 129.99755859375
+          },
+          "stageBounds": {
+            "left": 440.0,
+            "top": 230.0,
+            "width": 59.99938964378089,
+            "height": 129.99755859375
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "ObjectBaseSprite2-53",
+      "parentId": "ObjectBaseSprite2-106",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 53,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite2",
+          "visible": true,
+          "localMatrix": {
+            "a": 0.857147216796875,
+            "d": 1.08331298828125,
+            "b": 0,
+            "c": 0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 70,
+            "height": 120
+          },
+          "stageBounds": {
+            "left": 440.0,
+            "top": 230.0,
+            "width": 59.99938964378089,
+            "height": 129.99755859375
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "ObjectBaseSprite7-95",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 95,
+        "symbolClass": "ObjectBaseSprite7",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite7",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -57.0,
+            "top": -21.0,
+            "width": 113.997802734375,
+            "height": 42.000091541558504
+          },
+          "stageBounds": {
+            "left": 413.0,
+            "top": 274.0,
+            "width": 113.997802734375,
+            "height": 42.000091541558504
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "ObjectBaseSprite7-94",
+      "parentId": "ObjectBaseSprite7-95",
+      "depth": 1,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 94,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite7",
+          "visible": true,
+          "localMatrix": {
+            "a": 1.6285400390625,
+            "d": 0.350006103515625,
+            "b": 0,
+            "c": 0,
+            "tx": -57.0,
+            "ty": -21.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0.0,
+            "top": 0.0,
+            "width": 70.0,
+            "height": 119.9981689453125
+          },
+          "stageBounds": {
+            "left": 413.0,
+            "top": 274.0,
+            "width": 113.997802734375,
+            "height": 42.000091541558504
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "ObjectBaseSprite7-53",
+      "parentId": "ObjectBaseSprite7-94",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "common",
+        "characterId": 53,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "ObjectBaseSprite7",
+          "visible": true,
+          "localMatrix": {
+            "a": 1.0,
+            "d": 0.9999847412109375,
+            "b": 0,
+            "c": 0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 0,
+            "width": 70,
+            "height": 120
+          },
+          "stageBounds": {
+            "left": 413.0,
+            "top": 274.0,
+            "width": 113.997802734375,
+            "height": 42.000091541558504
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "common"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-1-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-1-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -33.0,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 437.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-1-left-541",
+      "parentId": "bullet-1-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-1-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": 1.5,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 437.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-1-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-1-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -33.0,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 434.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-1-right-541",
+      "parentId": "bullet-1-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-1-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": 1.5,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 434.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-2-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 2
+      },
+      "placements": [
+        {
+          "stateId": "bullet-2-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -58.5,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 411.5,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-2-left-541",
+      "parentId": "bullet-2-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-2-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -24.0,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 411.5,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-2-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 2
+      },
+      "placements": [
+        {
+          "stateId": "bullet-2-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -58.5,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 459.5,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-2-right-541",
+      "parentId": "bullet-2-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-2-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -24.0,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 459.5,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-3-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 3
+      },
+      "placements": [
+        {
+          "stateId": "bullet-3-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -84.0,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 386.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-3-left-541",
+      "parentId": "bullet-3-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-3-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -49.5,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 386.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-3-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 3
+      },
+      "placements": [
+        {
+          "stateId": "bullet-3-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -84.0,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 485.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-3-right-541",
+      "parentId": "bullet-3-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-3-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -49.5,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 485.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-4-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 4
+      },
+      "placements": [
+        {
+          "stateId": "bullet-4-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -109.5,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 360.5,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-4-left-541",
+      "parentId": "bullet-4-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-4-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -75.0,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 360.5,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-4-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 4
+      },
+      "placements": [
+        {
+          "stateId": "bullet-4-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -109.5,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 510.5,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-4-right-541",
+      "parentId": "bullet-4-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-4-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -75.0,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 510.5,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-5-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "bullet-5-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -135.0,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 335.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-5-left-541",
+      "parentId": "bullet-5-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-5-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -100.5,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 335.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-5-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "bullet-5-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -135.0,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 536.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-5-right-541",
+      "parentId": "bullet-5-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-5-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -100.5,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 536.0,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-6-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 6
+      },
+      "placements": [
+        {
+          "stateId": "bullet-6-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -160.45,
+            "top": -27.0,
+            "width": 68.99999999999999,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 309.55,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-6-left-541",
+      "parentId": "bullet-6-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-6-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -125.95,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 309.55,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-6-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 6
+      },
+      "placements": [
+        {
+          "stateId": "bullet-6-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -160.45,
+            "top": -27.0,
+            "width": 68.99999999999999,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 561.45,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-6-right-541",
+      "parentId": "bullet-6-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-6-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -125.95,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 561.45,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-7-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 7
+      },
+      "placements": [
+        {
+          "stateId": "bullet-7-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -185.95,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 284.05,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-7-left-541",
+      "parentId": "bullet-7-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-7-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -151.45,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 284.05,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-7-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 7
+      },
+      "placements": [
+        {
+          "stateId": "bullet-7-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -185.95,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 586.95,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-7-right-541",
+      "parentId": "bullet-7-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-7-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -151.45,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 586.95,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-8-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 8
+      },
+      "placements": [
+        {
+          "stateId": "bullet-8-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -211.45,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 258.55,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-8-left-541",
+      "parentId": "bullet-8-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-8-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -176.95,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 258.55,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-8-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 8
+      },
+      "placements": [
+        {
+          "stateId": "bullet-8-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -211.45,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 612.45,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-8-right-541",
+      "parentId": "bullet-8-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-8-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -176.95,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 612.45,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-9-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 9
+      },
+      "placements": [
+        {
+          "stateId": "bullet-9-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -236.95,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 233.05,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-9-left-541",
+      "parentId": "bullet-9-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-9-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -202.45,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 233.05,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-9-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 9
+      },
+      "placements": [
+        {
+          "stateId": "bullet-9-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -236.95,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 637.95,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-9-right-541",
+      "parentId": "bullet-9-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-9-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -202.45,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 637.95,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-10-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 10
+      },
+      "placements": [
+        {
+          "stateId": "bullet-10-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -262.45,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 207.55,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-10-left-541",
+      "parentId": "bullet-10-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-10-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -227.95,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 207.55,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-10-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 10
+      },
+      "placements": [
+        {
+          "stateId": "bullet-10-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -262.45,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 663.45,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-10-right-541",
+      "parentId": "bullet-10-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-10-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -227.95,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 663.45,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-11-left-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 11
+      },
+      "placements": [
+        {
+          "stateId": "bullet-11-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -287.95,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 182.05,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-11-left-541",
+      "parentId": "bullet-11-left-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-11-left",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -253.45,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 182.05,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-11-right-542",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "sprite",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 542,
+        "symbolClass": "PetDragon1Bullet1",
+        "instanceName": null,
+        "frame": 11
+      },
+      "placements": [
+        {
+          "stateId": "bullet-11-right",
+          "visible": true,
+          "localMatrix": {
+            "a": -1,
+            "b": 0,
+            "c": 0,
+            "d": 1,
+            "tx": 470,
+            "ty": 295
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -287.95,
+            "top": -27.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "stageBounds": {
+            "left": 688.95,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "bullet-11-right-541",
+      "parentId": "bullet-11-right-542",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "pet",
+        "characterId": 541,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "bullet-11-right",
+          "visible": true,
+          "localMatrix": {
+            "a": 1,
+            "d": 1,
+            "b": 0,
+            "c": 0,
+            "tx": -253.45,
+            "ty": 1.0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -34.5,
+            "top": -28,
+            "width": 69,
+            "height": 56
+          },
+          "stageBounds": {
+            "left": 688.95,
+            "top": 268.0,
+            "width": 69.0,
+            "height": 56.0
+          },
+          "derivation": "calculated",
+          "derivationMethod": "Original fixed16 matrices and shape polygon; isolated source-tag render fixture",
+          "evidenceRefs": [
+            "pet"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "ObjectBaseSprite",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/ObjectBaseSprite.png",
+      "sha256": "e67130b4fa1d1fbca40bd0847b475956c3684231fe5ac0a2113b88dc56813df7",
+      "width": 940,
+      "height": 590,
+      "stateId": "ObjectBaseSprite",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "ObjectBaseSprite2",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/ObjectBaseSprite2.png",
+      "sha256": "f4bcb630b1b2e80b137622f6a9b2f9e0cd7bd3b6e5f9e2c9f40a2d2700115d53",
+      "width": 940,
+      "height": 590,
+      "stateId": "ObjectBaseSprite2",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "ObjectBaseSprite7",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/ObjectBaseSprite7.png",
+      "sha256": "eee9c1826091ce273948b4288de3971bacd6e72ac54275e41e6c9d2b526c8c44",
+      "width": 940,
+      "height": 590,
+      "stateId": "ObjectBaseSprite7",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-1-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-1-left.png",
+      "sha256": "ad82ae1671c1d2391007cd954dda135085e3e95698adc22806c1423479a918f7",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-1-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-1-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-1-right.png",
+      "sha256": "42a5186d91224e67113057b98f37d5172ae217535ebe33d842fcb9afedd2a84e",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-1-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-2-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-2-left.png",
+      "sha256": "843098d8c5d3c26a9e64d4f00e72532e252a49faff3f20b0d1ead3e85ef0bae2",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-2-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-2-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-2-right.png",
+      "sha256": "9e12dc1b3e37fe481cb3bcab6b0f68d6dabca6db360a8d45c039b809a5c30f23",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-2-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-3-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-3-left.png",
+      "sha256": "2e9bbcfd0af1a7f8dab2433852ddc04885508011febd827c2d7b1a564685c3d2",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-3-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-3-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-3-right.png",
+      "sha256": "f4658b5c02736eb76db3624391249fead919073b4cc06749c1c2ce561c2628e5",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-3-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-4-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-4-left.png",
+      "sha256": "3657496a871d33765b4a7e4186969f992426f76c959569cba6417bd47bc02fea",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-4-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-4-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-4-right.png",
+      "sha256": "2d572897b52d71fe7e55dbf3343f449f633059ad49c74e8542c613ae5c98c08e",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-4-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-5-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-5-left.png",
+      "sha256": "4ae894689c3b5b7727bf9daadcb0334ebfe0b9ded88d79f01a4c4717f03a15cc",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-5-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-5-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-5-right.png",
+      "sha256": "1dcdded1408a7f26d40785881aefe8a78af6e834f6d409383913e5e9fd45d177",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-5-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-6-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-6-left.png",
+      "sha256": "2e9003310e1542ebae78eeffefcb6dcd1be3d797bb3b79b7e82345db9ddc16d7",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-6-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-6-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-6-right.png",
+      "sha256": "8e93b376bcdfe13ce3297139a7fa84e76705a10d8b654eb61f42ba63d5e540fa",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-6-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-7-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-7-left.png",
+      "sha256": "b4f0ec6211c650f0ae5ad41c7c4a27c67c80fcba52b35a8493811fcdea676c64",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-7-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-7-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-7-right.png",
+      "sha256": "d934cf4594dcdec142c4dcdc73041d086014a1457497fdc5c8f63ff0f483c024",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-7-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-8-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-8-left.png",
+      "sha256": "7df9e5315e7c214edc4e3f2643b6a32a07df7a8b2a6c7454fe5d3c470f2c2cf5",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-8-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-8-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-8-right.png",
+      "sha256": "51e8d295c0aee4c7511de30ea32473c7ab47aae9e748f18da91021763e2fe3d8",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-8-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-9-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-9-left.png",
+      "sha256": "7acc0898b42beb1e1f73f9b271780bfb6e5e1c67e40583f2f2e9bd33e0fe100c",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-9-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-9-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-9-right.png",
+      "sha256": "a65ee6193c7e620d6765c14744b9c3ce561e12d3781ed4fe485ebe18eb37b462",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-9-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-10-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-10-left.png",
+      "sha256": "79062dac0b9240ce46e68d9475487b75124787841e9caa4b1ce4368677f8a8e1",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-10-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-10-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-10-right.png",
+      "sha256": "5e9f160a2eb8ae0a5f0a8c3c6c26a0005cff1ff186a969688bf4625230393adf",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-10-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-11-left",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-11-left.png",
+      "sha256": "5e30992aedf2a8eb1c692468c2a4b50c6f71861d7a7bf4a2f9da471acaedbe44",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-11-left",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "bullet-11-right",
+      "path": "docs/tasks/evidence/TASK-SETTINGS-218/baselines/bullet-11-right.png",
+      "sha256": "05c6db2f787341156e78f546bc63e86ed06e4d8b64a6861c6de6f5c5ac489276",
+      "width": 940,
+      "height": 590,
+      "stateId": "bullet-11-right",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "ObjectBaseSprite",
+      "ObjectBaseSprite2",
+      "ObjectBaseSprite7",
+      "bullet-1-left",
+      "bullet-1-right",
+      "bullet-2-left",
+      "bullet-2-right",
+      "bullet-3-left",
+      "bullet-3-right",
+      "bullet-4-left",
+      "bullet-4-right",
+      "bullet-5-left",
+      "bullet-5-right",
+      "bullet-6-left",
+      "bullet-6-right",
+      "bullet-7-left",
+      "bullet-7-right",
+      "bullet-8-left",
+      "bullet-8-right",
+      "bullet-9-left",
+      "bullet-9-right",
+      "bullet-10-left",
+      "bullet-10-right",
+      "bullet-11-left",
+      "bullet-11-right"
+    ],
+    "extractedStateIds": [
+      "ObjectBaseSprite",
+      "ObjectBaseSprite2",
+      "ObjectBaseSprite7",
+      "bullet-1-left",
+      "bullet-1-right",
+      "bullet-2-left",
+      "bullet-2-right",
+      "bullet-3-left",
+      "bullet-3-right",
+      "bullet-4-left",
+      "bullet-4-right",
+      "bullet-5-left",
+      "bullet-5-right",
+      "bullet-6-left",
+      "bullet-6-right",
+      "bullet-7-left",
+      "bullet-7-right",
+      "bullet-8-left",
+      "bullet-8-right",
+      "bullet-9-left",
+      "bullet-9-right",
+      "bullet-10-left",
+      "bullet-10-right",
+      "bullet-11-left",
+      "bullet-11-right"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "ObjectBaseSprite": 3,
+      "ObjectBaseSprite2": 3,
+      "ObjectBaseSprite7": 3,
+      "bullet-1-left": 2,
+      "bullet-1-right": 2,
+      "bullet-2-left": 2,
+      "bullet-2-right": 2,
+      "bullet-3-left": 2,
+      "bullet-3-right": 2,
+      "bullet-4-left": 2,
+      "bullet-4-right": 2,
+      "bullet-5-left": 2,
+      "bullet-5-right": 2,
+      "bullet-6-left": 2,
+      "bullet-6-right": 2,
+      "bullet-7-left": 2,
+      "bullet-7-right": 2,
+      "bullet-8-left": 2,
+      "bullet-8-right": 2,
+      "bullet-9-left": 2,
+      "bullet-9-right": 2,
+      "bullet-10-left": 2,
+      "bullet-10-right": 2,
+      "bullet-11-left": 2,
+      "bullet-11-right": 2
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  }
+}

@@ -52,6 +52,8 @@ export type ProjectileModel = {
   magicIceMs?: number;
   trackingTargetId?: string;
   petActionToken?: number;
+  /** Advanced by the source entity's host clock, never by the render-frame loop. */
+  petHostTick?: number;
   petHealOnHit?: number;
   petComboTags?: string[];
   explosionDelayMs?: number;
@@ -233,6 +235,7 @@ export type ProjectileVariant =
   | 'pet-horse4-tmaoyi'
   | 'pet-horse4-tmaoyi-explode'
   | 'pet-dragon1-fs'
+  | 'pet-dragon1-normal'
   | 'pet-dragon2-sdcc'
   | 'pet-dragon3-ltwj'
   | 'pet-dragon4-qlaoyi'

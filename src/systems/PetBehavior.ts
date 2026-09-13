@@ -6,10 +6,12 @@ import type {
   PetSkillRandomSource,
   PetSkillTarget,
   PetState,
+  PetSkillState,
 } from './PetTypes';
 import type { ProjectileSystemModel } from './ProjectileSystem';
 import type { PetAnimationClock } from './PetAnimationClock';
 import type { PetGroundMovementDefinition } from './PetGroundSessionMovement';
+import type { PetProjectileCombatPort } from './PetProjectileCombatPort';
 import type {
   PetCombatEntitySnapshot, PetCombatReleaseReason, PetCombatSummonHandle, PetCombatSummonRequest,
 } from './PetCombatTypes';
@@ -66,11 +68,18 @@ export type PetBehaviorContext = Readonly<{
   hostTick: number;
   targetAcquiredThisFrame: boolean;
   animation?: ReturnType<PetAnimationClock['snapshot']>;
+  projectileCombat?: PetProjectileCombatPort;
+  isGxp: boolean;
   random: () => number;
   castSkill: (request: PetBehaviorSkillRequest) => PetSkillCastResult;
   castSkillAt: (request: PetBehaviorSkillRequest, target: Readonly<PetSkillTarget>) => PetSkillCastResult;
   castBasicAttack: () => PetSkillCastResult;
   relocate: (x: number, y: number) => void;
+  face: (direction: -1 | 1) => void;
+  healSelf: (hp: number, mp?: number) => void;
+  spendMp: (amount: number) => boolean;
+  setSkillCooldown: (skill: Exclude<keyof PetSkillState, 'lastResult'>, milliseconds: number) => void;
+  releaseSelf: (reason: PetCombatReleaseReason) => void;
   playAnimation: (action: string) => void;
   spawnSummon: (request: PetCombatSummonRequest) => PetCombatSummonHandle;
   releaseSummon: (handle: PetCombatSummonHandle, reason?: PetCombatReleaseReason) => void;
@@ -79,6 +88,8 @@ export type PetBehaviorContext = Readonly<{
 }>;
 
 export interface PetBehavior {
+  beforeActions?(context: PetBehaviorContext): void;
+  afterChildren?(context: PetBehaviorContext): void;
   createAnimationClock?(): PetAnimationClock;
   groundMovement?(): PetGroundMovementDefinition;
   enter(context: PetBehaviorContext): void;

@@ -299,3 +299,11 @@ character 250/868/417/213、212 与 865 生成 `task-settings-175d.skill-pages` 
 2026-09-05 TASK-SETTINGS-217完成：五关43墙/134递归对象及源SVG基准已形成verified空间真值；完整marker/碰撞顺序、原始local坐标、owner导出profile与未舍入仿射精度分别冻结，binary/SVG/恢复脚本独立核对与7类变异通过。214C3恢复唯一Ready；未改src或现代可见资源，M-035/M-042和VS-067实现状态不提升。交接见 docs/tasks/evidence/TASK-SETTINGS-217/handoff.md。
 
 2026-09-05 TASK-SLICE-214C3完成：公共Session接入217完整地面墙/根坐标，20/24/30fps主子trace、ground/air normal与fs完成、hurt/static、jump/drop、边界和动态正式P1/P2环境转发通过；P1GS保持猴马及10类会话变异回归。214C4成为唯一Ready，父214C2/214C仍Split、214C5仍承担正式可见/P1GC，不提升VS-067或第三家族完整完成状态。见 docs/tasks/evidence/TASK-SLICE-214C3/handoff.md。
+
+2026-09-06 214C4消费预检：原版普通弹要求目标colipse与逐帧绘制交集，213宠物碰撞3/4及visibleBounds不足以覆盖正式怪物1/2/7；214A已有RGBA保留，可直接消费但未证明Flash采样等价。C4设Blocked，同线TASK-SETTINGS-218唯一Ready补3个Sprite/12条映射与独立命中fixture。初步src试改已全部撤回，未提高青龙/VS-067完成度；C5及父C2/C合同保持。证据见 `docs/tasks/evidence/TASK-SLICE-214C4/preflight.md`。
+
+2026-09-06 218补证检查点：三个目标Sprite、12映射、11帧左右矩阵和25个源tag基准已核对，10类参考变异通过；Flash局部BitmapData采样仍未证且验收返回2，真值保持draft。218转Blocked、C4继续Blocked，不提高机制/切片完成度，不激活其他task。下一步取得运行时证据，详见 `docs/tasks/evidence/TASK-SETTINGS-218/handoff.md`。
+
+2026-09-06 218完成：三目标Sprite/12映射/11帧双向、原版自带AIR861项/1604322像素/25基准与中心输入合同已verified，15类源/参考变异通过。218归档，C4唯一Ready；仅解除碰撞输入阻塞，不提高真实战斗或整族完成度。证据见docs/tasks/evidence/TASK-SETTINGS-218/handoff.md。
+
+2026-09-06 C4真实战斗链完成：dragon1正常弹/原版碰撞/缓存伤害与自身治疗、真实fs独立实体及到期/提前死亡闭环；20/24/30fps、P1/P2生产updatePets共享Combat、14类变异、P1GS和build通过。C5唯一Ready承接正式投影/TestScene/全生命周期/P1GC，父C2/C仍Split，不提升家族完整完成状态。交接见 docs/tasks/evidence/TASK-SLICE-214C4/handoff.md。

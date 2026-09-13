@@ -375,6 +375,7 @@ function testRuntimeReplacesBehaviorWhenSamePetChangesForm(): void {
 
 function testDefaultRegistryRunsMonkeyAndHorseRulesThroughOneRuntimeClock(): void {
   const expectedKeys = [
+    'dragon:1',
     'monkey:1', 'monkey:2', 'monkey:3', 'monkey:4',
     'horse:1', 'horse:2', 'horse:3', 'horse:4',
   ];

@@ -8,6 +8,7 @@ import type { PetOwnerSnapshot, PetSkillTarget } from './PetTypes';
 import { requestPetMonkeyBasicAttack } from './PetMonkeyCombatSystem';
 import { requestPetHorseBasicAttack } from './PetHorseCombatSystem';
 import { DefaultGlobalSettings } from './GlobalSettingsSystem';
+import { createPetSkillState } from './PetSkillStateSystem';
 
 type ContextPorts = Readonly<{
   spawnSummon: (request: PetCombatSummonRequest, owner: Readonly<PetOwnerSnapshot>) => PetCombatSummonHandle;
@@ -53,6 +54,30 @@ export function createPetCombatContext(
     hostTick: session.hostTick,
     targetAcquiredThisFrame: session.targetAcquiredThisFrame,
     animation: session.animationSnapshot(),
+    projectileCombat: frame.projectileCombat,
+    isGxp: frame.gxpRuntimeKeys?.includes(session.runtimeKey) ?? false,
+    face: (direction) => { requireLiveSession(); session.face(direction); },
+    healSelf: (hp, mp = 0) => {
+      requireLiveSession();
+      if (!Number.isFinite(hp) || !Number.isFinite(mp) || hp < 0 || mp < 0) throw new Error('Invalid pet healing');
+      if (session.pet.hp <= 0) return;
+      session.pet.hp = Math.min(session.pet.maxHp, session.pet.hp + (hp | 0));
+      session.pet.mp = Math.min(session.pet.maxMp, session.pet.mp + (mp | 0));
+    },
+    spendMp: (amount) => {
+      requireLiveSession();
+      if (!Number.isFinite(amount) || amount < 0) throw new Error('Invalid pet MP cost');
+      if (session.pet.hp <= 0 || session.pet.mp < amount) return false;
+      session.pet.mp -= amount;
+      return true;
+    },
+    setSkillCooldown: (skill, milliseconds) => {
+      requireLiveSession();
+      if (!Number.isFinite(milliseconds) || milliseconds < 0) throw new Error('Invalid pet cooldown');
+      session.pet.skillState ??= createPetSkillState();
+      session.pet.skillState[skill].cooldownMs = milliseconds;
+    },
+    releaseSelf: (reason) => { requireLiveSession(); session.release(reason); },
     playAnimation: (action) => {
       requireLiveSession();
       session.playAnimation(action);

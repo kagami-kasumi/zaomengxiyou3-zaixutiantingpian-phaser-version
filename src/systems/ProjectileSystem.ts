@@ -1198,6 +1198,8 @@ export function updateProjectiles(
       continue;
     }
 
+    if (projectile.petHostTick !== undefined) continue;
+
     const source = sourceById.get(projectile.sourceId);
     if (!source || source.state === 'dead' || (projectile.destroyWhenSourceHurt && source.state === 'hurt')) {
       projectile.isExpired = true;

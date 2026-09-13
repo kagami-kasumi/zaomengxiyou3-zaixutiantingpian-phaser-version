@@ -108,7 +108,7 @@ export class PetCombatEntitySession {
   private updateFrame(frame: PetCombatFrame, eventsOnly: boolean): void {
     if (this.released) return;
     if (frame.projectiles) this.projectiles = frame.projectiles;
-    const targets = this.targeting.livingTargets(frame.targets);
+    let targets = this.targeting.livingTargets(frame.targets);
     this.consumeDamageEvents(frame, targets);
     if (this.released) return;
     this.consumeAnimationEvents(frame, targets);
@@ -121,6 +121,9 @@ export class PetCombatEntitySession {
       return;
     }
 
+    this.behavior.beforeActions?.(this.context(frame, targets));
+    if (this.released) return;
+    if (frame.projectileCombat) targets = targets.filter(target => frame.projectileCombat!.target(target.id)?.alive ?? target.isAlive);
     const targetWasCleared = this.validateStickyTarget(targets);
     this.targetAcquiredThisFrame = false;
     if (!this.target && !targetWasCleared) {
@@ -170,6 +173,9 @@ export class PetCombatEntitySession {
     this.behavior.updateEffects(context);
     if (this.released) return;
     this.ports.stepChildren(frame, false);
+    if (this.released) return;
+    this.behavior.afterChildren?.(this.context(frame, targets));
+    if (this.released) return;
     tickActivePetSkillState(this.pet, frame.deltaMs);
     this.hostTick = (this.hostTick + 1) % 59999;
     if (this.ground) {
@@ -227,6 +233,11 @@ export class PetCombatEntitySession {
     this.publish({ type: 'action', action: { type: action }, actionToken: this.actionToken });
   }
 
+  face(direction: -1 | 1): void {
+    this.runtime.facingX = direction;
+    this.ground?.face(direction);
+  }
+
   private advanceAnimation(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[]): void {
     this.animation?.advance(frame.deltaMs, frame.hostFps ?? DefaultGlobalSettings.frameRate, (event) => {
       this.consumeAnimationEvents({ ...frame, animationEvents: [{
@@ -253,12 +264,14 @@ export class PetCombatEntitySession {
     if (this.released) return;
     this.released = true;
     this.releaseReason = reason;
-    this.behavior.destroy(reason);
-    this.ports.releaseChildren(reason);
+    const failures: unknown[] = [];
+    try { this.behavior.destroy(reason); } catch (error) { failures.push(error); }
+    try { this.ports.releaseChildren(reason); } catch (error) { failures.push(error); }
     if (this.parentRuntimeKey && this.projectiles) {
       this.projectiles.projectiles = this.projectiles.projectiles.filter(({ sourceId }) => sourceId !== this.pet.id);
     }
-    this.publish({ type: 'deactivated', reason });
+    try { this.publish({ type: 'deactivated', reason }); } catch (error) { failures.push(error); }
+    if (failures.length) throw new AggregateError(failures, 'Pet release callbacks failed after cleanup');
   }
 
   private consumeDamageEvents(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[]): void {

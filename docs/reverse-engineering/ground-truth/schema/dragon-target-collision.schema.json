@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zaixu-tianding:schema:dragon-target-collision:v1",
+  "title": "TASK-SETTINGS-218 bounded collision contract",
+  "type": "object",
+  "required": ["schemaVersion", "truthId", "status", "scope", "provenance", "symbols", "monsterMappings", "bulletFrames", "baselines", "precision", "rootMapping", "collision", "completeness"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "truthId": {"const": "task-settings-218.dragon1-target-collision"},
+    "status": {"enum": ["draft", "verified"]},
+    "scope": {"type": "object", "required": ["taskId", "monsterIds", "symbols", "bullet"], "properties": {
+      "taskId": {"const": "TASK-SETTINGS-218"},
+      "monsterIds": {"const": [2,3,4,5,6,7,8,9,10,16,19,30]},
+      "symbols": {"const": ["ObjectBaseSprite", "ObjectBaseSprite2", "ObjectBaseSprite7"]},
+      "bullet": {"const": "PetDragon1Bullet1"}
+    }},
+    "provenance": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}},
+    "symbols": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "object", "required": ["symbol", "characterId", "displayList", "shapeId", "shapePolygonTwips", "fill", "shapeToRoot", "affineBounds"], "properties": {"shapeId": {"const": 53}, "displayList": {"type": "array", "minItems": 2, "maxItems": 2}}}},
+    "monsterMappings": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"type": "object", "required": ["monsterId", "symbol", "sourcePath", "sourceSha256", "localScaleX", "baseConstructorScaleXMultiplier", "instanceMatrix", "runtimeBounds"], "properties": {
+      "monsterId": {"enum": [2,3,4,5,6,7,8,9,10,16,19,30]},
+      "symbol": {"enum": ["ObjectBaseSprite", "ObjectBaseSprite2", "ObjectBaseSprite7"]},
+      "baseConstructorScaleXMultiplier": {"const": 2},
+      "runtimeBounds": {"$ref": "#/$defs/bounds"}
+    }}},
+    "bulletFrames": {"type": "array", "minItems": 11, "maxItems": 11, "items": {"type": "object", "required": ["frame", "characterId", "matrix", "drawBounds"], "properties": {"frame": {"type": "integer", "minimum": 1, "maximum": 11}, "characterId": {"const": 541}, "drawBounds": {"$ref": "#/$defs/bounds"}}}},
+    "baselines": {"type": "array", "minItems": 25, "maxItems": 25},
+    "rootMapping": {"type": "object", "required": ["inputSpace", "sourceSpace", "expression", "instanceScale", "trajectoryEquivalence"], "properties": {"expression": {"const": {"x": "combat.x", "y": "combat.y"}}}},
+    "collision": {"type": "object", "required": ["source", "accuracy", "minIntersectionWidth", "minIntersectionHeight", "colorOffsets", "matchArgb", "blend", "runtimeEvidence", "independentVerification", "samplerScope", "assetMaskProjection", "sampling"], "properties": {
+      "accuracy": {"const": 1}, "minIntersectionWidth": {"const": 1}, "minIntersectionHeight": {"const": 1},
+      "matchArgb": {"const": "0xFF00FFFF"}, "blend": {"const": "difference"},
+      "assetMaskProjection": {"type": "object", "required": ["sourceOffset", "size", "transparentPaddingRightBottom", "frames"], "properties": {"sourceOffset": {"const": [0,0]}, "size": {"const": [67,53]}, "transparentPaddingRightBottom": {"const": [2,3]}, "frames": {"type": "array", "minItems": 11, "maxItems": 11}}},
+      "sampling": {"type": "object", "required": ["kind", "twipsPerPixel", "dx", "dy", "sourcePixelXLeft", "sourcePixelXRight", "sourcePixelY", "hit", "applicability", "verifiedCases", "verifiedBufferPixels"], "properties": {"twipsPerPixel": {"const": 20}, "verifiedCases": {"const": 861}, "verifiedBufferPixels": {"const": 1604322}}}
+    }},
+    "completeness": {"type": "object", "required": ["displayListMatched", "stateSetMatched", "unresolved"], "properties": {"displayListMatched": {"type": "boolean"}, "stateSetMatched": {"type": "boolean"}, "unresolved": {"type": "array", "items": {"type": "string"}}}}
+  },
+  "allOf": [{"if": {"properties": {"status": {"const": "verified"}}}, "then": {"properties": {"completeness": {"properties": {"displayListMatched": {"const": true}, "stateSetMatched": {"const": true}, "unresolved": {"maxItems": 0}}}}}}],
+  "$defs": {"bounds": {"type": "object", "required": ["left", "top", "width", "height"], "properties": {"left": {"type": "number"}, "top": {"type": "number"}, "width": {"type": "number", "exclusiveMinimum": 0}, "height": {"type": "number", "exclusiveMinimum": 0}}}}
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "clone-source",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "clone-max-hp",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "clone-crit",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "early-expiry",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "death-heal",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "free-fs",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "gxp-hurt",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "double-clock",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "zero-damage",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "missing-heal",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "last-frame",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "facing-direction",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "right-sampling",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "coordinate-rounding",
+    "rejected": true,
+    "exitCode": 1
+  }
+]

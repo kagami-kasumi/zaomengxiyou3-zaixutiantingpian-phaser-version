@@ -333,6 +333,22 @@ function testConsumerGuardRejectsCopiedSteps(): void {
   assert.ok(petSessionConsumerViolations(legacy, 'updatePetRuntime(); updatePetRuntime();').length > 0);
 }
 
+function testReleaseCallbackFailureStillCleansEveryEntity(): void {
+  const r = rig();
+  const released: string[] = [];
+  r.root.context.spawnSummon({ pet: r.pet, x: 0, y: 270, facingX: 1,
+    onReleased: () => { released.push('first'); throw new Error('intentional release callback failure'); } });
+  r.root.context.spawnSummon({ pet: r.pet, x: 100, y: 270, facingX: 1,
+    onReleased: () => released.push('second') });
+  assert.throws(() => r.runtime.destroy(), /release callbacks failed after cleanup/);
+  assert.deepEqual(released, ['first', 'second']);
+  assert.equal(r.runtime.snapshot().destroyed, true);
+  assert.equal(r.runtime.snapshot().petId, undefined);
+  assert.equal(r.runtime.snapshot().summons!.length, 0);
+  assert.doesNotThrow(() => r.runtime.destroy());
+}
+
+testReleaseCallbackFailureStillCleansEveryEntity();
 testIndependentStateAndRealCombatPort();
 testOldAndCrossPlayerKeys();
 testDeathAndCascade();
