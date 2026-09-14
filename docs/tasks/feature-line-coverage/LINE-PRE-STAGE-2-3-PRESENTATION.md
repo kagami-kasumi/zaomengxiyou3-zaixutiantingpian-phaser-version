@@ -66,7 +66,7 @@
 23. `TASK-SLICE-210A`：Done；用户运行反证指出怪物不会伤害宠物。原版 `BaseBullet.checkAttack()` 在怪物攻击命中玩家候选后仍检查其出战宠物；现代正式桥现把同一 active attack 按宠物运行坐标、防御与 attack-id 去重派入 `PetCombatRuntime.damageEvents`，形成 HP decrease、hurt/dead 生命周期。5173 第 6 槽另由 localhost-only `qaPetSave=all` fixture 提供 P1/P2 各 35 形态、9 物种的视觉档，不覆盖其他槽。
 24. `TASK-SETTINGS-211 -> TASK-SLICE-212`：Done；verified 真值、统一成功 HP decrease producer、原版普通/暴击数字、共享连击/最高值、结果页与双人正式运行已闭合。
 25. `TASK-SETTINGS-213 -> TASK-SLICE-214`：213 Done、214 Split、214A Ready、214B Planned；213 已闭合 dragon1..4 的 44 项 verified 合同、11 显示对象/111 基准、九对象 ltwj、qlaoyi gate-only MP、owner/命中治疗/P1-P2 生命周期，214A 准备完整资源与对象级差异，214B 直接消费同一 truth 完成全部正式实现；资源准备不等于家族闭合。
-26. `TASK-SETTINGS-215 -> TASK-SLICE-216`：Planned，排在 214 后；用户反证表明角色/宠物实际承伤没有 `pnum`，且 5173 默认入口看不到查询参数门控的全宠物 QA 存档；先做 verified 真值，再闭合正式 P1/P2/TestScene incoming-damage 可见链与 localhost QA 入口可发现性。
+26. `TASK-SETTINGS-215 -> TASK-SLICE-216`：215 Done、216 Ready；用户反证表明角色/宠物实际承伤没有 `pnum`，且 5173 默认入口看不到查询参数门控的全宠物 QA 存档；先做 verified 真值，再闭合正式 P1/P2/TestScene incoming-damage 可见链与 localhost QA 入口可发现性。
 27. 旧 `TASK-ARCH-204C..G` 与 `TASK-SETTINGS-193E..TASK-SLICE-193R` 全部撤销；只为当前家族生成连续完整任务，完成前不切换家族；215/216 是用户反证插入的同线反馈修复对。
 28. `TASK-SLICE-194`：所有按新方法生成的完整家族任务及 212、216 双向伤害反馈完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
 29. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。
@@ -96,7 +96,7 @@
 - [ ] 五角色共用同一动作质量标准；每个用户可见卡顿/丢帧/错转移都有根因、修复或原版证据解释。
 - [ ] 战斗 HUD 可见显示当前角色五槽技能，技能图标/键位/不可用/MP/冷却/绑定和 P1/P2 状态与功能页、存档同源。
 - [x] 每个玩家可见的怪物伤害数字都对应唯一实际 HP decrease；Role/宠物/法宝共享 source-agnostic hurt/HP 反馈，普通/暴击数字、连击累计/超时清零和结果页最高连击直接消费 211 真值并通过 P1/P2/五关回归。
-- [ ] 角色与出战宠物的每个有效 incoming HP decrease 按 215 的 `pnum` 真值产生唯一承伤数字；P1/P2、五关/TestScene、致死/无效/特殊防御和生命周期清理均有自动与 940×590 证据，且不计入连击。
+- [ ] 角色与出战宠物的按215声明的producer/显示值/ordinal产生原版承伤数字，保留已证零值与额外producer例外；P1/P2、五关/TestScene、致死/无效/特殊防御和生命周期清理均有自动与 940×590 证据，且不计入连击。
 - [ ] 所有 UI/HUD 具有显示列表、`verified` 原版机器真值 JSON、原版基准、许可现代例外和逐状态差异证据。
 - [ ] 自动专项、全系统、structure、annotations、workflow、build 与 940×590 正式冷启动/P1/P2/重载旅程通过，console 零 warning/error。
 - [ ] 无未完成同线 task，所有用户反证都有新证据、处置与可重开信号。
@@ -142,3 +142,5 @@
 2026-09-14 TASK-SETTINGS-220完成：奥义trigger五源定义含mask/bitmap，48帧96方向状态与384对象verified；11520原版HitTest例/78373320像素零差异、7采样/10产物变异和480相位编码通过，四权威产物再生成一致。220归档，214E恢复唯一Ready，44合同/P1G与整族仍未完成；未改src/生产资源，不提升VS-067复现状态。见 `docs/tasks/evidence/TASK-SETTINGS-220/handoff.md`。
 
 2026-09-14 TASK-SLICE-214E完成：dragon4继承技能、qlaoyi首回调trigger/四次可选真实分身/免费连锁与12秒/早死治疗闭合；完整44合同、64组家族trace、60组五关P1/P2消费者、345态投影及pet P1G=0，全系统/build和正式Stage1-2/TestScene可见伤害/清理通过。219四效果104像素批准近似保留，220 trigger有限样本零残差；本批补四阶魔花乘数。214E、214B与214同次归档，TASK-SETTINGS-215唯一Ready。猴/马/青龙三族完成，六族及旧入口仍未闭合，功能线保持Active、VS-067仍部分实现。交接见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。
+
+2026-09-14 TASK-SETTINGS-215完成：pnum十字形、109原生渲染态（53显示API态+56行为显示值重放）、34源fixture与22组原数值/producer片段执行闭合；Schema/源像素/再生成及10字段+6行为变异通过。明确致死显示值与HP delta分离、Role3 GXP显示除二、玄龟int截断95+6、盾溢出递归与Pig8/毒/火显式producer例外。未修改src或宣称现代复现，216按修正后的源合同唯一Ready，M-054已扒/未复现，VS-072待实现，当前线仍Active。见 `docs/tasks/evidence/TASK-SETTINGS-215/handoff.md`。

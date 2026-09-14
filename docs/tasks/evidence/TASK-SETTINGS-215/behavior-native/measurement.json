@@ -1,0 +1,623 @@
+{
+  "status": "measured-not-promoted",
+  "runtime": "original AIR runtime 51.1.1.5",
+  "sdk": "AIRSDK_51.3.4",
+  "compileCommand": [
+    "java",
+    "-Dflexlib=D:\\AIRsdkmanager\\sdk\\AIRSDK_51.3.4\\frameworks",
+    "-jar",
+    "D:\\AIRsdkmanager\\sdk\\AIRSDK_51.3.4\\lib\\mxmlc-cli.jar",
+    "+configname=air",
+    "-debug=true",
+    "-default-frame-rate=24",
+    "-default-size=940,590",
+    "-output=BehaviorProbe.swf",
+    "BehaviorProbe.as"
+  ],
+  "runCommand": [
+    "D:\\AIRsdkmanager\\sdk\\AIRSDK_51.3.4\\bin\\adl.exe",
+    "-runtime",
+    "D:\\web-projects\\Front-end\\再续天庭-现代化\\local-resources\\regima\\source\\unpacked",
+    "-profile",
+    "desktop",
+    "D:\\web-projects\\Front-end\\再续天庭-现代化\\local-resources\\regima\\task-outputs\\task-settings-215\\air-behavior\\application.xml",
+    "D:\\web-projects\\Front-end\\再续天庭-现代化\\local-resources\\regima\\task-outputs\\task-settings-215\\air-behavior"
+  ],
+  "exitCode": 0,
+  "sourceSlices": [
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "startLine": 795,
+      "endLine": 851,
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+      "sliceSha256": "80ec6bdac9096e920072304eeaaa7e0e4ac95a87f08e8921223a3afaee1093ed",
+      "startMarker": "override public function reduceHp",
+      "endMarker": "         if(this.roleProperies.getHHP() > 0)"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "startLine": 1794,
+      "endLine": 1801,
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+      "sliceSha256": "2748d28409116c097f157a824a288df72d719ad150ed7c1a796954abbf3980fd",
+      "startMarker": "public function addHeroHurtMc",
+      "endMarker": "      protected function addMissMc"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "startLine": 1197,
+      "endLine": 1203,
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+      "sliceSha256": "b43bd4488d4149e6bbae60f7f33a1b2e7d4573796673e5bef97d17cbee53294a",
+      "startMarker": "override public function getHurtByPig8",
+      "endMarker": "      public function beMagicAttack1"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+      "startLine": 865,
+      "endLine": 889,
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+      "sliceSha256": "e60e8852bf9121f1182fae6cbfbf9c8a2ffd8eef2ce488e5825bcdc5523a0f55",
+      "startMarker": "override public function reduceHp",
+      "endMarker": "            if(gc.sid == this.sourceRole.sid && gc.isInRoom())"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+      "startLine": 974,
+      "endLine": 979,
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+      "sliceSha256": "8b9af20ced6d9ffeaa0dbca7a46b9de0e18a02ad79a267aa368315d985a4bd5a"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as",
+      "startLine": 815,
+      "endLine": 841,
+      "sha256": "191254fd38a36365424154a36984f7cdf05ba3571df9b55b624e7d96373fefb4",
+      "sliceSha256": "8aaae71e079ed9d6ba615ad8914d1b6c966d67f3d283eaa538d30f4cb394cc0b",
+      "startMarker": "public function setHHP",
+      "endMarker": "public function getHHP"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as",
+      "startLine": 841,
+      "endLine": 846,
+      "sha256": "191254fd38a36365424154a36984f7cdf05ba3571df9b55b624e7d96373fefb4",
+      "sliceSha256": "93fc344ea9de0f4c6ba72cf91c5c493c60cca89cbf374bf6a5de20c5743c9665",
+      "startMarker": "public function getHHP",
+      "endMarker": "public function setMMP"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+      "startLine": 2356,
+      "endLine": 2361,
+      "sha256": "b9bba062ed38c9e475bb4e1b29dfc2328ba968453ed8d2fe821a403eb4b4dbc2",
+      "sliceSha256": "7cb8ad064da31ee8e9789460347d8f3e755fc28fad4692edba16d97d625165d4",
+      "startMarker": "public function setHp",
+      "endMarker": "public function setSHp"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+      "startLine": 2452,
+      "endLine": 2461,
+      "sha256": "b9bba062ed38c9e475bb4e1b29dfc2328ba968453ed8d2fe821a403eb4b4dbc2",
+      "sliceSha256": "d89bc957b16315bbab77bf7bd5ee3e4b89dee0ff6e5193a40468dcc4705397f5",
+      "startMarker": "public function getHp",
+      "endMarker": "public function getSHp"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 1330,
+      "endLine": 1337,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "bc0a702a8b89cfb5733cbd0b2bec18ae2481de524bf779cd8c5bd082fae37d9d",
+      "startMarker": "public function remove(param1:Object)",
+      "endMarker": "         if(param1.name == BaseAddEffect.POISON)"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 2711,
+      "endLine": 2734,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "ceca838af6b7df7f4092b918661f5d0b020ce6a7d9d9528c5998b8b42d2191e7",
+      "startMarker": "public function reduceMagicUmbDef",
+      "endMarker": "public function reducetjglShieldDef"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 2734,
+      "endLine": 2757,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "76868c7d04db00dabf72a76395d418957f9b7aa864afda0c198ece9caeaa626e",
+      "startMarker": "public function reducetjglShieldDef",
+      "endMarker": "      protected function hide_magic_umb_def"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 3577,
+      "endLine": 3593,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "fcb4b24528625980287ef91b35ec80c6f490c3bebfc95188251b2b5733d13331",
+      "startMarker": "public function getBuffByName",
+      "endMarker": "public function getBuffTimeLeftByName"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 3609,
+      "endLine": 3625,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "54890ed8dd344e5c7ce05e95afb2d61bb7ca7a187e028a1f37db54fbb0354061",
+      "startMarker": "public function curDebuff",
+      "endMarker": "public function getAllBuffArray"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as",
+      "startLine": 1999,
+      "endLine": 2010,
+      "sha256": "1a55dc67a6e0af9a8db2a60e45933ec9c1152c58c74f16bc9a113d8e618b85a1",
+      "sliceSha256": "54b51be9c88c75581c5ac26da23b87f8b658eafde0a8d3365cd9ed1916b726a2",
+      "startMarker": "override public function addHeroHurtMc",
+      "endMarker": "      private function isAttackingButCanAttack"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as",
+      "startLine": 838,
+      "endLine": 918,
+      "sha256": "29d2cd9a39d65862318de3486cd6b5d3be068e1504a31d5b0404f1e14ae4e1f7",
+      "sliceSha256": "b59af1fad5bfca2ddbb6ce9eeb3fa3f02e4ed4eda40de62c945a3888ca3def1a",
+      "startMarker": "private function refreshOtherMutiUser",
+      "endMarker": "      private function refreshRoomList"
+    }
+  ],
+  "measurements": [
+    {
+      "id": "hero-local-damage-pnum",
+      "petHpAfter": 100,
+      "pnumValues": [
+        10
+      ],
+      "hpAfter": 90,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 290,
+          "value": 10,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "hero-hp-clamp-zero",
+      "petHpAfter": 100,
+      "pnumValues": [
+        25
+      ],
+      "hpAfter": 0,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 290,
+          "value": 25,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 10
+    },
+    {
+      "id": "hero-zero-damage",
+      "petHpAfter": 100,
+      "pnumValues": [
+        0
+      ],
+      "hpAfter": 50,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 290,
+          "value": 0,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 50
+    },
+    {
+      "id": "hero-magic-umbrella-short-circuit",
+      "petHpAfter": 100,
+      "pnumValues": [],
+      "hpAfter": 100,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [],
+      "hpBefore": 100
+    },
+    {
+      "id": "hero-shield-overflow-recurses",
+      "petHpAfter": 100,
+      "pnumValues": [
+        15
+      ],
+      "hpAfter": 85,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 290,
+          "value": 15,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "hero-petturtle-transfer",
+      "petHpAfter": 194,
+      "pnumValues": [
+        6,
+        95
+      ],
+      "hpAfter": 105,
+      "syncedPetHp": 194,
+      "petHpBefore": 200,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 370,
+          "value": 6,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        },
+        {
+          "y": 290,
+          "value": 95,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 200
+    },
+    {
+      "id": "hero-gethurt-pig8-duplicate-local",
+      "petHpAfter": 100,
+      "pnumValues": [
+        7,
+        7
+      ],
+      "hpAfter": 93,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 290,
+          "value": 7,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        },
+        {
+          "y": 290,
+          "value": 7,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "pig8-full-shield-still-explicit-display",
+      "petHpAfter": 100,
+      "pnumValues": [
+        7
+      ],
+      "hpAfter": 50,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 290,
+          "value": 7,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 50
+    },
+    {
+      "id": "role3-gxp-display-half",
+      "petHpAfter": 100,
+      "pnumValues": [
+        10
+      ],
+      "hpAfter": 100,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 290,
+          "value": 10,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "role3-nongxp-display-unchanged",
+      "petHpAfter": 100,
+      "pnumValues": [
+        20
+      ],
+      "hpAfter": 100,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 290,
+          "value": 20,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "pet-clamp-and-owner-display",
+      "petHpAfter": 0,
+      "pnumValues": [
+        25
+      ],
+      "hpAfter": 100,
+      "syncedPetHp": -15,
+      "petHpBefore": 10,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 370,
+          "value": 25,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "pet-zero-damage",
+      "petHpAfter": 50,
+      "pnumValues": [
+        0
+      ],
+      "hpAfter": 100,
+      "syncedPetHp": 50,
+      "petHpBefore": 50,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 370,
+          "value": 0,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-reduce-no-local-display",
+      "petHpAfter": 100,
+      "pnumValues": [],
+      "hpAfter": 90,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-pet-reduce-no-display",
+      "petHpAfter": 90,
+      "pnumValues": [],
+      "hpAfter": 100,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-sync-decrease-on-start",
+      "petHpAfter": 100,
+      "pnumValues": [
+        10
+      ],
+      "hpAfter": 100,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 90,
+      "calls": [
+        {
+          "y": 290,
+          "value": 10,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-sync-same-no-display",
+      "petHpAfter": 100,
+      "pnumValues": [],
+      "hpAfter": 100,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 90,
+      "calls": [],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-sync-before-start-no-display",
+      "petHpAfter": 100,
+      "pnumValues": [],
+      "hpAfter": 100,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 90,
+      "calls": [],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-pet-name-change-no-pnum",
+      "petHpAfter": 100,
+      "pnumValues": [],
+      "hpAfter": 100,
+      "syncedPetHp": 90,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-sync-reordered-explicit-sequence",
+      "petHpAfter": 100,
+      "pnumValues": [
+        10,
+        10
+      ],
+      "hpAfter": 100,
+      "syncedPetHp": 100,
+      "petHpBefore": 100,
+      "syncedHp": 90,
+      "calls": [
+        {
+          "y": 290,
+          "value": 10,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        },
+        {
+          "y": 290,
+          "value": 10,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-pet-sync-decrease",
+      "petHpAfter": 100,
+      "pnumValues": [
+        10
+      ],
+      "hpAfter": 100,
+      "syncedPetHp": 90,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [
+        {
+          "y": 370,
+          "value": 10,
+          "x": 280,
+          "stride": 20,
+          "family": "pnum"
+        }
+      ],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-pet-sync-same",
+      "petHpAfter": 100,
+      "pnumValues": [],
+      "hpAfter": 100,
+      "syncedPetHp": 90,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [],
+      "hpBefore": 100
+    },
+    {
+      "id": "remote-pet-sync-not-started",
+      "petHpAfter": 100,
+      "pnumValues": [],
+      "hpAfter": 100,
+      "syncedPetHp": 90,
+      "petHpBefore": 100,
+      "syncedHp": 100,
+      "calls": [],
+      "hpBefore": 100
+    }
+  ],
+  "probeSha256": "fbfa36e99948569ad05407f44957511aa98949695b5ea2ba70bbd51ba5a01ce0",
+  "prepareSha256": "a6508c4074fab6e499f3bab9973a31a41ed3b5b47aece6f6768b121e45d90ded",
+  "compiledSha256": "b09d11ee1e5df2c8a14ef6848e9506b2a7967e36245e5bb3e784842fec6fac24",
+  "runtimeSha256": "a5f5bff2f58e2339f13694904267712033266e924e0a0e507dc3df41c05534c4",
+  "generatedSources": {
+    "BaseAddEffect.as": "d05f58377e358d1a4ad4282a8f361eb30682c2b78bcb7caefb9c2522fb2e7c80",
+    "BaseHero.as": "50277d0f4b98535c2e6550c8d8ab41b7e7c22606d85058f70d02518968625041",
+    "BaseMutiLevelListenering.as": "7fd5d8f97dd7f27cef1e33d99e923d175a7dfdc4ea66409a47c00ca37e763603",
+    "BasePet.as": "d0c3860d19c02e595bb8a6b43f14384ce1b3b6cbb5427bb7c519a581582b76a2",
+    "BehaviorProbe.as": "fbfa36e99948569ad05407f44957511aa98949695b5ea2ba70bbd51ba5a01ce0",
+    "config/Config.as": "eb3fb1eb5b31888accce62907919c54b5c776a82a54172f8d2315611edf7d39d",
+    "event/CommonEvent.as": "09883b182596467e127aa5885f0abd173c9c4b7f00e07dd88d3cd3cd5790e2f1",
+    "HP.as": "48da6cb1ee145c691b1f673b1615b4f9e5dc6b91cf1b17faa6a4646ea8b3e362",
+    "MutiUser.as": "f0ae07e6088ed0f67453da0209e1e38e94a200003fd16cf8e8b54316c6436aba",
+    "my/ANumber.as": "07cb3e02be14961e16acb8eb63d99fdc996869c2b5d1f4373b2c46aea9bade1b",
+    "PetInfo.as": "1f52b750b2ae638d5ad59a66453283ab42ec7ace2e0f47c99f5b16a733725a40",
+    "Role3.as": "23b63b79be3ab8f4c32441b7c4ca6013e1aff3ec04d9a62032d3bc31fe295125"
+  },
+  "coveredFixtureIds": [
+    "hero-local-damage-pnum",
+    "hero-hp-clamp-zero",
+    "hero-zero-damage",
+    "hero-magic-umbrella-short-circuit",
+    "hero-shield-overflow-recurses",
+    "hero-petturtle-transfer",
+    "hero-gethurt-pig8-duplicate-local",
+    "pig8-full-shield-still-explicit-display",
+    "role3-gxp-display-half",
+    "role3-nongxp-display-unchanged",
+    "pet-clamp-and-owner-display",
+    "pet-zero-damage",
+    "remote-reduce-no-local-display",
+    "remote-pet-reduce-no-display",
+    "remote-sync-decrease-on-start",
+    "remote-sync-same-no-display",
+    "remote-sync-before-start-no-display",
+    "remote-pet-name-change-no-pnum",
+    "remote-sync-reordered-explicit-sequence",
+    "remote-pet-sync-decrease",
+    "remote-pet-sync-same",
+    "remote-pet-sync-not-started"
+  ],
+  "scope": "Original computational prefixes through pnum production and HP clamp, full shield residual methods and remote refresh. External scene/player/network services are fixture adapters; ANumber is an argument capture sink.",
+  "excluded": "Death/respawn actions and MP, full role damage overrides, upstream hit geometry/effect scheduling/network transport. No handwritten damage algorithm."
+}

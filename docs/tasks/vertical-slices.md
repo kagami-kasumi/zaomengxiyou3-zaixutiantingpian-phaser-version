@@ -86,7 +86,7 @@
 | VS-069 战斗技能 HUD 闭环 | 待机制 | 正式战斗 HUD 可见显示当前角色五槽技能，与技能功能页绑定、MP/冷却/可用性、P1/P2 和存档同源 | M-015、M-041、M-044、M-049、M-052 | `TASK-SETTINGS-197`、`TASK-SLICE-198/199` | 175D/183 只证明技能功能页；197 另建战斗 HUD 显示列表/verified 真值，198 做可见投影，199 闭合实时 owner 联动 |
 | VS-070 Stage 2-3 前表现整改正式旅程 | 待实现 | 冷启动正式 P1/P2 档串联装备 hover、宠物 UI/动画与实际伤害反馈、五角色动作、双向伤害数字/连击和技能 HUD，跨页/跨关/重载一致 | M-036、M-042、M-044、M-047、M-049、M-052、M-053、M-054、VS-066..069、VS-071..072 | `TASK-SLICE-200` | 只在所有前置/动态生成子 task 完成后执行；自动旅程和 940×590 人工验收全通过后才恢复 Stage 2-3 |
 | VS-071 怪物命中可见反馈与连击闭环 | 已完成 | Role、宠物与法宝只有在实际扣减怪物 HP 后才共享 hurt/HP、普通/暴击伤害数字与原版连击反馈，结果页记录真实最高连击 | M-032、M-035、M-049、M-053 | `TASK-SETTINGS-211`、`TASK-SLICE-212` 已完成；209/210 已闭合马系正式伤害 | 211 的 23 状态 verified truth 由 212 直接消费；source-isolated trace、负场景、结果页专项及 940×590 双人正式 Stage 1-2 已证明可见反馈与 HP delta 一一对应 |
-| VS-072 角色/宠物承伤数字闭环 | 待机制 | 怪物及证据声明的 incoming-damage producer 对角色/出战宠物造成有效 HP decrease 时，以原版 `pnum` 在正确目标锚点显示唯一数字，P1/P2 同源且不计连击 | M-032、M-035、M-042、M-049、M-054 | `TASK-SETTINGS-215`、`TASK-SLICE-216` | 215 先闭合 `pnum0..9`、最终显示值、特殊防御、owner、几何/时序真值；216 再接入正式五关/TestScene、HP delta trace、负场景和 940×590 验收 |
+| VS-072 角色/宠物承伤数字闭环 | 待实现 | 怪物及证据声明的 incoming-damage producer 对角色/出战宠物按215的source producer/ordinal与显示值，在正确目标锚点显示原版 `pnum`，P1/P2 同源且不计连击 | M-032、M-035、M-042、M-049、M-054 | `TASK-SETTINGS-215`、`TASK-SLICE-216` | 215 先闭合 `pnum0..9`、最终显示值、特殊防御、owner、几何/时序真值；216 再接入正式五关/TestScene、HP delta trace、负场景和 940×590 验收 |
 
 ## 第一批推荐执行顺序
 
@@ -654,3 +654,5 @@
 2026-09-14 TASK-SETTINGS-220完成：奥义trigger五源定义含mask/bitmap，48帧96方向状态与384对象verified；11520原版HitTest例/78373320像素零差异、7采样/10产物变异和480相位编码通过，四权威产物再生成一致。220归档，214E恢复唯一Ready，44合同/P1G与整族仍未完成；未改src/生产资源，不提升VS-067复现状态。见 `docs/tasks/evidence/TASK-SETTINGS-220/handoff.md`。
 
 2026-09-14 TASK-SLICE-214E完成：dragon4继承技能、qlaoyi首回调trigger/四次可选真实分身/免费连锁与12秒/早死治疗闭合；完整44合同、64组家族trace、60组五关P1/P2消费者、345态投影及pet P1G=0，全系统/build和正式Stage1-2/TestScene可见伤害/清理通过。219四效果104像素批准近似保留，220 trigger有限样本零残差；本批补四阶魔花乘数。214E、214B与214同次归档，TASK-SETTINGS-215唯一Ready。猴/马/青龙三族完成，六族及旧入口仍未闭合，功能线保持Active、VS-067仍部分实现。交接见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。
+
+2026-09-14 TASK-SETTINGS-215完成：pnum十字形、109原生渲染态（53显示API态+56行为显示值重放）、34源fixture与22组原数值/producer片段执行闭合；Schema/源像素/再生成及10字段+6行为变异通过。明确致死显示值与HP delta分离、Role3 GXP显示除二、玄龟int截断95+6、盾溢出递归与Pig8/毒/火显式producer例外。未修改src或宣称现代复现，216按修正后的源合同唯一Ready，M-054已扒/未复现，VS-072待实现，当前线仍Active。见 `docs/tasks/evidence/TASK-SETTINGS-215/handoff.md`。

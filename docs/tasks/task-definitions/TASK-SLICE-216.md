@@ -13,7 +13,7 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned，等待 215 verified）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready，215 verified与交接已完成）
 
 目标机制/切片：
 - `M-032`、`M-035`、`M-042`、`M-049`、`M-054`、`VS-072`
@@ -36,10 +36,12 @@
 
 输入资料：
 - 215 的 verified manifest、证据矩阵、逐状态原版基准、generator/check 和完整 acceptance handoff。
+- 固定入口：`docs/reverse-engineering/player-pet-incoming-damage-feedback-index.md`、`docs/reverse-engineering/ground-truth/manifests/task-settings-215-player-pet-incoming-damage-feedback.json`、`docs/tasks/evidence/TASK-SETTINGS-215/handoff.md`。严格区分原生行为执行trace与按已证显示值重放的原生图像，不把后者当伤害执行证明。
 - 当前 `HeroCombatSystem`、`Stage1CombatSystem`、`PetCombatRuntime`、环境伤害、`CombatFeedbackSystem/View`、TestScene 与正式五关消费者。
 
 输出产物：
-- 角色/宠物承伤经 215 冻结的成功与数值语义生成 typed incoming-damage feedback；怪物攻击、声明的环境/持续伤害入口共用稳定 event id、target kind/owner、HP before/after、world anchor 和生命周期。
+- 角色/宠物承伤经 215 冻结的 producer 与数值语义生成 typed incoming-damage feedback；怪物攻击、声明的环境/持续伤害入口共用稳定 event id、producer kind/ordinal、target kind/owner、settled damage、display value、HP before/after、world anchor 和生命周期。
+- 215 的源反证已替代早期“只按有效 HP decrease 生成唯一数字”的假设：致死显示值可超过 HP delta，直接零值可显示0，Role3 GXP显示单独除二，Pig8/毒/火可有两个producer；同一producer重放去重不得吞掉不同producer。盾满吸收/溢出与显式producer分别验收，不变更已有伤害公式或顺带实现未完成家族。
 - `pnum0..9` 由 combat-common 唯一加载，显示层直接消费 215 真值投影；不得影响 211/212 的怪物 `hurtnum/bnum`、连击计数、最高连击或结果页。
 - TestScene 与正式五关 P1/P2 使用同一 producer/view；角色与出战宠物的受击数字、hurt/dead、返回/重试/重载清理同链。
 - 5173 默认本地验收入口可发现并创建/刷新 210A 已有全宠物 QA 存档，不再要求用户预先知道 `?qaPetSave=all`；4174、非 localhost 与正式存档 schema/普通槽位规则保持隔离。
@@ -51,10 +53,10 @@ UI 原生化合同：
 - 原版视觉基准：使用 215 的角色/宠物、P1/P2 和逐时间点 940×590 基准。
 - 允许的现代视觉例外：只允许稳定 event/runtime id；不新增可见替代层。
 - 逐状态验收：角色/宠物、P1/P2、普通/致死/无效/重复命中、215 判定适用的护盾/无敌/转嫁/环境状态，以及重试/返回/重载。
-- 差异证据：逐状态并排/叠图、对象/字形/几何/时序差异及 attack→accepted HP delta→feedback→destroy 一一对应 trace。
+- 差异证据：逐状态并排/叠图、对象/字形/几何/时序差异及 attack→settled damage/HP delta→producer/ordinal/display value→feedback→destroy 对应 trace；一击多producer按215逐项计数。
 
 完成定义：
-- 怪物及 215 声明的其他 incoming-damage producer 对角色/宠物造成有效承伤时，正式五关与 TestScene 均以原版 `pnum` 给出正确、唯一、可清理的 P1/P2 数字反馈；无效命中无假数字，现有怪物伤害数字和连击语义不回归。
+- 怪物及 215 声明且当前正式 Runtime 存在的其他 incoming-damage producer 在正式五关与 TestScene 中，以原版 `pnum` 给出正确、按producer区分、可清理的 P1/P2 数字反馈；拒绝碰撞无该producer的假数字，显式源例外按215保留，现有怪物伤害数字和连击语义不回归。尚不存在的房间/防御技能/家族能力明确登记消费者不适用；若验收要求补这些玩法，先按拆分触发生成同线task，不以mock宣告正式覆盖。
 
 验收标准：
 - 215 generator/check、Schema/完整性、字段级 verifier 与关键值/owner/timing mutation-kill 通过。

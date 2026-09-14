@@ -1,0 +1,249 @@
+{
+  "scope": "有限的 producer 正负 fixture 集；静态一手 legacy AS3 证据，未宣称 native 已实测。",
+  "fixtures": [
+    {
+      "id": "hero-local-damage-pnum",
+      "input": {"mode": "single_or_local_room", "heroHHP": 100, "damage": 10, "param2": true},
+      "expected": {"pnumValues": [10], "hpDelta": -10, "owner": "local hero"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 824, "endLine": 837, "contains": ["_loc3_.hp -= param1", "SetHHp", "gc.sid == this.sid || gc.isSingleGame()", "addHeroHurtMc(param1)"], "reject": ["remote room always displays from reduceHp"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 1794, "endLine": 1799, "contains": ["aNumImage(\"pnum\",param1"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "hero-hp-clamp-zero",
+      "input": {"heroHHP": 10, "damage": 25, "param2": true},
+      "expected": {"pnumValues": [25], "hpAfter": 0, "hpDelta": -10, "owner": "hero", "deathCheck": true},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 833, "endLine": 865, "contains": ["SetHHp", "if(this.roleProperies.getHHP() > 0)", "else", "param1 -= _loc7_"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as", "startLine": 815, "endLine": 839, "contains": ["this.dataObject.hhp = param1", "if(this.getHHP() < 0)", "this.setHHP(0)", "if(this.getHHP() > this.getSHHP())"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "hero-magic-umbrella-short-circuit",
+      "input": {"heroHHP": 100, "damage": 20, "magicUmbrellaShield": true, "tjglShield": true},
+      "expected": {"pnumValues": [], "hpDelta": 0, "shieldConsumer": "magic umbrella first", "owner": "hero"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 802, "endLine": 813, "contains": ["MAGIC_UMBRELLA_DEFEND", "reduceMagicUmbDef(param1)", "return", "tjgl_Shield"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "hero-shield-overflow-recurses",
+      "input": {"heroHHP": 100, "damage": 20, "tjglShield": {"defendValue": 5}, "otherMitigation": false, "petturtle": false, "role3": false},
+      "expected": {"pnumValues": [15], "hpDelta": -15, "shieldAbsorbs": 5, "owner": "hero", "shieldRemoved": true},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as", "startLine": 2734, "endLine": 2755, "contains": ["reducetjglShieldDef", "defendValue -= param1", "if(_loc3_.defendValue <= 0)", "this.remove(_loc3_)", "this.sourceRole.reduceHp(Math.abs(_loc3_.defendValue),true)"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 809, "endLine": 813, "contains": ["reducetjglShieldDef(param1)", "return"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "hero-petturtle-transfer",
+      "input": {"heroDamage": 101, "heroHasPetturtle": true, "petHasPetturtle": true},
+      "expected": {"heroDamageAfterTransfer": 95, "petDamage": 6, "rounding": "param1:int truncates hero after *=.95; pet uses ceil", "owner": "pet_then_hero"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 814, "endLine": 821, "contains": ["PETTURTKE_BUFF", "Math.ceil(param1 * 0.05)", "param1 *= 0.95", "Math.ceil(param1)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "hero-dzjj-mp-transfer",
+      "input": {"heroHHP": 10, "heroMMP": 30, "damage": 25, "dzjj": true},
+      "expected": {"hpAfter": 0, "mpDamage": 45, "pnumValues": [25], "mpGlyph": "mp_", "owner": "hero"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 863, "endLine": 916, "contains": ["param1 -= _loc7_", "getFillName() == \"dzjj\"", "reduceMp(param1 * 3)", "return"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 386, "endLine": 393, "contains": ["SetMMp", "addHeroMpReduceMc(param1)"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/CureHpQueue.as", "startLine": 60, "endLine": 69, "contains": ["resName = \"mp_\""]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "hero-gethurt-pig8-duplicate-local",
+      "input": {"mode": "single_or_local_room", "damage": 7},
+      "expected": {"pnumValues": [7, 7], "hpDelta": -7, "reason": "reduceHp plus explicit addHeroHurtMc"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 1197, "endLine": 1201, "contains": ["reduceHp(param1)", "addHeroHurtMc(param1)"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 835, "endLine": 837, "contains": ["addHeroHurtMc(param1)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "role3-gxp-display-half",
+      "input": {"entry": "addHeroHurtMc", "role": "Role3", "isGXP": true, "damage": 20},
+      "expected": {"pnumValues": [10], "displayTransform": "damage / 2", "actualDamageTransform": "reduceHp GXP multiplier remains separate"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as", "startLine": 1999, "endLine": 2008, "contains": ["if(this.isGXP)", "param1 /= 2", "aNumImage(\"pnum\",param1"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as", "startLine": 1201, "endLine": 1222, "contains": ["if(this.isGXP)", "reduceHurt += -0.125", "param1 *= reduceHurt"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "pet-clamp-and-owner-display",
+      "input": {"mode": "single_or_local_room", "petHP": 10, "damage": 25},
+      "expected": {"pnumValues": [25], "petHpAfter": 0, "petHpDelta": -10, "owner": "pet"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as", "startLine": 865, "endLine": 888, "contains": ["setHp(Number(this._petInfo.getHp()) - param1)", "addMonHurtMc(param1,false)", "if(this._petInfo.getHp() <= 0)", "setHp(0)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "bullet-attackid-dedup",
+      "input": {"sameBulletAttackId": "A", "sameTarget": true, "collisionTicks": 2},
+      "expected": {"damageApplications": 1, "pnumValues": "one producer-side value", "dedupKey": "target.beAttackIdArray + attackId"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as", "startLine": 301, "endLine": 325, "contains": ["beAttackIdArray.indexOf(this.getAttackId()) == -1", "beMagicAttack", "beAttackIdArray.push(this.getAttackId())"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "continuous-poison-duplicate-single",
+      "input": {"effect": "POISON", "mode": "single", "heroAlive": true, "power": 4},
+      "expected": {"pnumValues": [4, 4], "hpDelta": -4, "reason": "reduceHp then unconditional explicit display"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as", "startLine": 608, "endLine": 619, "contains": ["POISON", "this.sourceRole.reduceHp(_loc10_.power)", "BaseHero(this.sourceRole).addHeroHurtMc(_loc10_.power)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "addhplose-no-producer",
+      "input": {"operation": "rg full package for addHpLose call sites"},
+      "expected": {"callers": 0, "usableAsProducer": false},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/CureHpQueue.as", "startLine": 71, "endLine": 84, "contains": ["public function addHpLose", "resName = \"pnum\""]}],
+      "evidenceGrade": "confirmed_definition_only"
+    },
+    {
+      "id": "invincible-father-rejects-hit",
+      "input": {"protectedState": "isYourFather", "bulletHit": true},
+      "expected": {"damageApplications": 0, "pnumValues": [], "beMagicAttack": false},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 1223, "endLine": 1227, "contains": ["isYourFather", "return false"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as", "startLine": 581, "endLine": 585, "contains": ["isYourFather", "return false"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "hero-zero-damage",
+      "input": {"mode": "single", "heroHHP": 50, "damage": 0, "param2": true},
+      "expected": {"pnumValues": [0], "hpAfter": 50, "hpDelta": 0, "hurtAction": false},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 833, "endLine": 861, "contains": ["addHeroHurtMc(param1)", "if(param1 != 0)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "pet-zero-damage",
+      "input": {"mode": "single", "petHP": 50, "damage": 0, "param2": true},
+      "expected": {"pnumValues": [0], "petHpAfter": 50, "petHpDelta": 0},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as", "startLine": 873, "endLine": 885, "contains": ["setHp(Number(this._petInfo.getHp()) - param1)", "addMonHurtMc(param1,false)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-reduce-no-local-display",
+      "input": {"mode": "remote_room", "heroHHP": 100, "damage": 10},
+      "expected": {"pnumValues": [], "hpDelta": -10, "owner": "remote hero state"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 824, "endLine": 837, "contains": ["gc.sid == this.sid && gc.isInRoom()", "if(gc.sid == this.sid || gc.isSingleGame())", "addHeroHurtMc(param1)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-sync-decrease-on-start",
+      "input": {"oldHp": 100, "newHp": 90, "nodeInfo.isStartIng": true},
+      "expected": {"pnumValues": [10], "hpDelta": -10, "owner": "remote hero visual"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 864, "endLine": 875, "contains": ["isStartIng()", "_loc5_ < _loc17_.hp", "addHeroHurtMc(_loc17_.hp - _loc5_)", "_loc17_.hp = _loc5_"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-sync-same-no-display",
+      "input": {"oldHp": 90, "newHp": 90, "nodeInfo.isStartIng": true},
+      "expected": {"pnumValues": [], "hpDelta": 0},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 864, "endLine": 875, "contains": ["if(_loc5_ < _loc17_.hp)", "else if(_loc5_ > _loc17_.hp)", "_loc17_.hp = _loc5_"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-sync-before-start-no-display",
+      "input": {"oldHp": 100, "newHp": 90, "nodeInfo.isStartIng": false},
+      "expected": {"pnumValues": [], "hpDelta": -10, "owner": "remote hero state"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 864, "endLine": 875, "contains": ["if(gc.nodeInfo.isStartIng())", "_loc17_.hp = _loc5_"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-pet-name-change-no-pnum",
+      "input": {"oldPetName": "A", "newPetName": "B", "oldPetHp": 100, "newPetHp": 90, "nodeInfo.isStartIng": true},
+      "expected": {"pnumValues": [], "petChanged": true, "petHpAfter": 90},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 880, "endLine": 903, "contains": ["if(_loc17_.petName != _loc10_)", "changePet()", "else if(_loc18_.getPet())"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-sync-reordered-explicit-sequence",
+      "input": {"sequence": [{"oldHp": 100, "newHp": 90}, {"oldHp": 90, "newHp": 90}, {"oldHp": 90, "newHp": 100}, {"oldHp": 100, "newHp": 90}], "nodeInfo.isStartIng": true},
+      "expected": {"pnumValues": [10, 10], "hpSequence": [90, 90, 100, 90], "dedup": false},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 864, "endLine": 875, "contains": ["_loc5_ < _loc17_.hp", "_loc5_ > _loc17_.hp", "_loc17_.hp = _loc5_"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "continuous-fire-two-ticks",
+      "input": {"effect": "MONSTER6008FIRE", "mode": "single", "heroAlive": true, "power": 4, "ticks": 2},
+      "expected": {"pnumValues": [4, 4, 4, 4], "hpDelta": -8, "reason": "each tick reduceHp plus explicit display"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as", "startLine": 593, "endLine": 605, "contains": ["MONSTER6008FIRE", "addHeroHurtMc(_loc10_.power)", "reduceHp(_loc10_.power)", "gc.isSingleGame()"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "continuous-fire-room-no-local-fire",
+      "input": {"effect": "MONSTER6008FIRE", "mode": "room", "heroAlive": true, "power": 4},
+      "expected": {"pnumValues": [], "hpDelta": 0, "reason": "fire branch is single-game gated"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as", "startLine": 593, "endLine": 605, "contains": ["if(this.gc.isSingleGame())", "reduceHp(_loc10_.power)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "pig8-full-shield-still-explicit-display",
+      "input": {"heroHHP": 50, "damage": 7, "tjglShield": {"defendValue": 20}},
+      "expected": {"pnumValues": [7], "hpDelta": 0, "shieldRemaining": 13, "reason": "reduceHp returns at shield, explicit second call remains"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 1197, "endLine": 1201, "contains": ["reduceHp(param1)", "addHeroHurtMc(param1)"]}, {"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as", "startLine": 809, "endLine": 813, "contains": ["reducetjglShieldDef(param1)", "return"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "role3-nongxp-display-unchanged",
+      "input": {"role": "Role3", "isGXP": false, "damage": 20},
+      "expected": {"pnumValues": [20], "displayTransform": "identity"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as", "startLine": 1999, "endLine": 2008, "contains": ["if(this.isGXP)", "param1 /= 2", "aNumImage(\"pnum\",param1"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "queue-stage98-rejects-hplose",
+      "input": {"stage": 98, "queue": "CureHpQueue.addHpLose", "value": 5},
+      "expected": {"enqueued": false, "glyph": "pnum"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/CureHpQueue.as", "startLine": 71, "endLine": 84, "contains": ["public function addHpLose", "if(this.gc.curStage != 98)", "resName = \"pnum\"", "this.queue.push(_loc4_)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "queue-other-stage-allows-hplose",
+      "input": {"stage": 97, "queue": "CureHpQueue.addHpLose", "value": 5},
+      "expected": {"enqueued": true, "glyph": "pnum"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/CureHpQueue.as", "startLine": 71, "endLine": 84, "contains": ["public function addHpLose", "if(this.gc.curStage != 98)", "resName = \"pnum\"", "this.queue.push(_loc4_)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-pet-decrease-on-start",
+      "input": {"oldPetHp": 100, "newPetHp": 90, "nodeInfo.isStartIng": true, "petNameUnchanged": true},
+      "expected": {"pnumValues": [10], "petHpDelta": -10},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 888, "endLine": 903, "contains": ["else if(_loc18_.getPet())", "isStartIng()", "_loc11_ < _loc17_.petHp", "addMonHurtMc(_loc17_.petHp - _loc11_,false)"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-pet-same-no-display",
+      "input": {"oldPetHp": 90, "newPetHp": 90, "nodeInfo.isStartIng": true, "petNameUnchanged": true},
+      "expected": {"pnumValues": [], "petHpDelta": 0},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 890, "endLine": 903, "contains": ["if(_loc11_ < _loc17_.petHp)", "else if(_loc11_ > _loc17_.petHp)", "_loc17_.petHp = _loc11_"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "remote-pet-before-start-no-display",
+      "input": {"oldPetHp": 100, "newPetHp": 90, "nodeInfo.isStartIng": false, "petNameUnchanged": true},
+      "expected": {"pnumValues": [], "petHpDelta": -10},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 890, "endLine": 903, "contains": ["if(gc.nodeInfo.isStartIng())", "_loc17_.petHp = _loc11_"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "host-hurt-other-rejected",
+      "input": {"handler": "hurtOther", "gc.isInHost": true},
+      "expected": {"damageApplications": 0, "pnumValues": []},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as", "startLine": 1212, "endLine": 1219, "contains": ["private function hurtOther", "if(gc.isInHost())", "return"]}],
+      "evidenceGrade": "confirmed"
+    },
+    {
+      "id": "ice-thron-damage-entry",
+      "input": {"environment": "IceThron", "heroProtected": false, "collision": true, "damageRange": "10..20"},
+      "expected": {"reduceHpCalled": true, "param2": true, "pnumValues": "random 10..20"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/mapObject/IceThron.as", "startLine": 68, "endLine": 77, "contains": ["beAttackIdArray.indexOf(this.getAttackId()) == -1", "if(!_loc1_.isYourFather())", "HitTest.complexHitTestObject", "_loc1_.reduceHp(15 + (Math.random() - 0.5) * 10,true)"]}],
+      "evidenceGrade": "confirmed_same_as3_family"
+    },
+    {
+      "id": "ice-thron-protected-reject",
+      "input": {"environment": "IceThron", "heroProtected": true, "collision": true},
+      "expected": {"reduceHpCalled": false, "pnumValues": []},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/mapObject/IceThron.as", "startLine": 70, "endLine": 76, "contains": ["if(!_loc1_.isYourFather())", "reduceHp(15"]}],
+      "evidenceGrade": "confirmed_same_as3_family"
+    },
+    {
+      "id": "fire-thron-damage-entry",
+      "input": {"environment": "FireThron", "heroProtected": false, "collision": true, "damageRange": "40..50"},
+      "expected": {"reduceHpCalled": true, "param2": true, "pnumValues": "random 40..50"},
+      "sourceChecks": [{"path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/mapObject/FireThron.as", "startLine": 67, "endLine": 76, "contains": ["beAttackIdArray.indexOf(this.getAttackId()) == -1", "if(!_loc2_.isYourFather())", "HitTest.complexHitTestObject", "_loc2_.reduceHp(45 + (Math.random() - 0.5) * 10,true)"]}],
+      "evidenceGrade": "confirmed_same_as3_family"
+    }
+  ],
+  "notApplicable": [
+    "ANumber negative-sign rendering is covered by AIR evidence: -12 displays as 012; this is not a sign glyph contract.",
+    "Remote room arbitrary network ordering is not a contract; only the explicit listener input sequence fixtures below are asserted.",
+    "BaseBullet maxAttackCount multi-target fanout is outside this bounded hero/pet producer set.",
+    "Damage formula changes in Role overrides are recorded as source expectations only; this fixture set does not authorize changing formula implementation."
+  ]
+}

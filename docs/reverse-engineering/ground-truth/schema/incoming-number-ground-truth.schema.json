@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zaixu-tianding:schema:incoming-number:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "truthId", "status", "visualTruth", "glyphs", "animation", "behavior", "behaviorNative", "unresolved"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "truthId": {"const": "task-settings-215.player-pet-incoming-damage-feedback"},
+    "status": {"enum": ["draft", "blocked", "verified"]},
+    "visualTruth": {"$ref": "urn:zaixu-tianding:schema:ui-ground-truth:v1"},
+    "glyphs": {"type": "array", "minItems": 10, "maxItems": 10, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["digit", "symbolClass", "characterId", "width", "height", "locator", "assetRef", "sha256"],
+      "properties": {
+        "digit": {"type": "integer", "minimum": 0, "maximum": 9},
+        "symbolClass": {"type": "string", "pattern": "^pnum[0-9]$"},
+        "characterId": {"type": "integer", "minimum": 1},
+        "width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1},
+        "locator": {"type": "string"}, "assetRef": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }},
+    "animation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["digitStride", "anchorOffset", "popScale", "popSeconds", "delaySeconds", "risePixels", "fadeSeconds", "destroySeconds", "ease", "queueIntervalTicks", "queueBurstThreshold", "queueBurstOffsets", "queueStageExcluded", "queueHpLoseCapacity"],
+      "properties": {
+        "digitStride": {"type": "number"},
+        "anchorOffset": {"type": "object", "additionalProperties": false, "required": ["x","y"], "properties": {"x":{"type":"number"},"y":{"type":"number"}}},
+        "popScale": {"type": "number"}, "popSeconds": {"type": "number"}, "delaySeconds": {"type": "number"},
+        "risePixels": {"type": "number"}, "fadeSeconds": {"type": "number"}, "destroySeconds": {"type": "number"}, "ease": {"type": "string"},
+        "queueIntervalTicks": {"type": "integer"}, "queueBurstThreshold": {"type": "integer"},
+        "queueBurstOffsets": {"type":"array", "items":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"number"}}},
+        "queueStageExcluded": {"type":"integer"}, "queueHpLoseCapacity": {"type":["integer","null"]}
+      }
+    },
+    "behavior": {"type":"object", "required":["fixtures"], "properties":{"fixtures":{"type":"array","minItems":1,"items":{"type":"object","required":["id","input","expected","sourceChecks","evidenceGrade"],"properties":{"id":{"type":"string"},"input":{"type":"object"},"expected":{"type":"object"},"sourceChecks":{"type":"array","minItems":1,"items":{"type":"object","required":["path","startLine","endLine","contains"],"properties":{"path":{"type":"string"},"startLine":{"type":"integer","minimum":1},"endLine":{"type":"integer","minimum":1},"contains":{"type":"array","minItems":1,"items":{"type":"string"}}}}},"evidenceGrade":{"type":"string"}}}}}},
+    "behaviorNative": {"type":"object","additionalProperties":false,"required":["measurementPath","sha256","matchedFixtureIds","supplementaryCaseIds","measurements","sourceSlices","scope","excluded"],"properties":{"measurementPath":{"type":"string"},"sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"matchedFixtureIds":{"type":"array","minItems":21,"uniqueItems":true,"items":{"type":"string"}},"supplementaryCaseIds":{"type":"array","items":{"type":"string"}},"measurements":{"type":"array","minItems":22,"maxItems":22},"sourceSlices":{"type":"array","minItems":16},"scope":{"type":"string"},"excluded":{"type":"string"}}},
+    "unresolved": {"type": "array"}
+  },
+  "allOf": [{"if":{"properties":{"status":{"const":"verified"}}},"then":{"properties":{"unresolved":{"maxItems":0},"visualTruth":{"properties":{"status":{"const":"verified"}}}}}}]
+}
