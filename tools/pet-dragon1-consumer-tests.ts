@@ -80,8 +80,9 @@ for(const entry of ['formal','TestScene']) for(const reason of ['retry','return'
     runtimes.p1.destroy();runtimes.p2.destroy();presentation.destroy();
     assert.ok(displays.every(d=>d.destroyed));
     assert.ok(projectiles.projectiles.every(p=>p.isExpired));
-    rows.push({entry,reason,oldKey,damage:combat.audit.damageEvents.length,owners:[...new Set(owners)],
-      monsterHp:monster.hp,monsterState:monster.state,remainingDisplays:0,remainingProjectiles:0});
+    rows.push({entry,reason,oldKey,damage:combat.audit.damageEvents.length,
+      owners:[...new Set(combat.audit.damageEvents.map(event=>event.sourceId.split('-')[0]))],
+      monsterHp:enemies[0]!.hp,monsterState:enemies[0]!.phase,remainingDisplays:0,remainingProjectiles:0});
   }
   const next=new PetCombatRuntime();
   const first=next.update({roster:rosters.p1!,owner:{x:0,y:0,facingX:1},targets:[],deltaMs:0,

@@ -11,6 +11,7 @@ export type PetGroundMovementDefinition = Readonly<{
   attackRate: number;
   attackActions: readonly string[];
   immobileGroundActions: readonly string[];
+  speedByAction?: Readonly<Record<string, number>>;
 }>;
 
 export class PetGroundSessionMovement {
@@ -69,7 +70,8 @@ export class PetGroundSessionMovement {
   step(environment: PetGroundEnvironment, speed: number, action: string | undefined): boolean {
     const motion = { ...this.runtime, ...this.velocity };
     const result = stepPetGroundMotion(motion, {
-      speed, gravity: this.definition.gravity, collision: this.definition.collision,
+      speed: this.definition.speedByAction?.[action ?? ''] ?? speed,
+      gravity: this.definition.gravity, collision: this.definition.collision,
       walls: environment.walls, attacking: this.isAttacking(action), hurt: action === 'hurt',
       mayMoveDuringGroundAttack: action === undefined || !this.definition.immobileGroundActions.includes(action),
     });

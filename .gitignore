@@ -3,12 +3,27 @@ dist/
 .tmp/
 local-resources/
 
+# Local verification images: retain for reruns without adding thousands of files.
+# Collision contracts, runtime mask data and verification reports remain tracked.
+/docs/tasks/evidence/TASK-SETTINGS-219/**/*.png
+/docs/tasks/evidence/TASK-SLICE-214D/**/*.png
+
+# Compressed original collision samples retained locally for verification.
+/docs/tasks/evidence/**/*.deflate
+
 # Local reverse-engineering corpora. They may live inside the workspace for
 # stable discovery, but remain outside Git unless curated explicitly.
-再续天庭1.1.exe
+鍐嶇画澶╁涵1.1.exe
 
 *.log
 *.err.log
 
 .DS_Store
 Thumbs.db
+
+# Regenerable verification projections and historical diagnostic composites.
+/docs/tasks/evidence/TASK-SLICE-*/projections/
+/docs/tasks/evidence/TASK-SLICE-*/*overlay*.png
+/docs/tasks/evidence/TASK-SLICE-*/*side-by-side*.png
+/docs/tasks/evidence/TASK-SLICE-*/*region-diff*.png
+/docs/tasks/evidence/TASK-SLICE-*/pre-fix-*.png

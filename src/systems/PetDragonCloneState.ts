@@ -2,9 +2,9 @@ import type { PetState } from './PetTypes';
 import { createPetSkillState } from './PetSkillStateSystem';
 
 /** PetDragon1.doHit2 creates a fresh PetInfo and copies these five current stats. */
-export function createDragon1CloneState(parent: Readonly<PetState>): PetState {
+export function createDragon1CloneState(parent: Readonly<PetState>, form = 1): PetState {
   return {
-    id: '', species: 'dragon', form: 1, displayName: parent.displayName,
+    id: '', species: 'dragon', form, displayName: parent.displayName,
     level: parent.level, hp: parent.hp, maxHp: parent.hp, mp: parent.mp, maxMp: parent.mp,
     atk: parent.atk, def: parent.def, exp: 0, expToNext: 0,
     critBonusRate: 0, skillDamageBonus: 0, moveSpeed: 5, lifetime: 0,

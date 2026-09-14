@@ -6,9 +6,12 @@
       "reason": "retry",
       "oldKey": "p1-pet-dragon-1:dragon:1:session:1:1",
       "damage": 12,
-      "owners": [],
-      "monsterHp": 1000000,
-      "monsterState": "wait",
+      "owners": [
+        "p1",
+        "p2"
+      ],
+      "monsterHp": 998824,
+      "monsterState": "hurt",
       "remainingDisplays": 0,
       "remainingProjectiles": 0
     },
@@ -17,9 +20,12 @@
       "reason": "return",
       "oldKey": "p1-pet-dragon-1:dragon:1:session:4:1",
       "damage": 12,
-      "owners": [],
-      "monsterHp": 1000000,
-      "monsterState": "wait",
+      "owners": [
+        "p1",
+        "p2"
+      ],
+      "monsterHp": 998824,
+      "monsterState": "hurt",
       "remainingDisplays": 0,
       "remainingProjectiles": 0
     },
@@ -28,9 +34,12 @@
       "reason": "reload",
       "oldKey": "p1-pet-dragon-1:dragon:1:session:7:1",
       "damage": 12,
-      "owners": [],
-      "monsterHp": 1000000,
-      "monsterState": "wait",
+      "owners": [
+        "p1",
+        "p2"
+      ],
+      "monsterHp": 998824,
+      "monsterState": "hurt",
       "remainingDisplays": 0,
       "remainingProjectiles": 0
     },

@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "sourceFrames": 76,
+  "directionalStates": 152,
+  "displayObjects": 414,
+  "quarterPlanesChecked": 864,
+  "sourceTruth": "verified source facts only",
+  "runtimeSampling": "user-approved approximation, not exact AIR equivalence",
+  "nativeCases": 6448,
+  "nativeBufferPixels": 25655000,
+  "knownDifferingPixels": 104
+}

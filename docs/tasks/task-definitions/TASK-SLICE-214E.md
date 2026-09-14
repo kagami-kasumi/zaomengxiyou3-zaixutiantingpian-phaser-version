@@ -13,7 +13,7 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
@@ -35,7 +35,7 @@
 
 输入资料：
 - `docs/tasks/task-definitions/TASK-SLICE-214B.md` 的完整 44 项合同、UI 原生化合同、时钟修正和 compact 检查点；父级合同未完成，最终由 214E 全量关闭。
-- `TASK-SLICE-214D` 交付；`docs/tasks/evidence/TASK-SLICE-214A/handoff.md`、213 verified 真值和 source evidence。
+- `docs/tasks/evidence/TASK-SLICE-214D/handoff.md`、source-contracts及P1GD交付；`docs/tasks/evidence/TASK-SLICE-214A/handoff.md`、213 verified 真值和 source evidence。
 - `docs/architecture/system-designs/pet.md`（实施中）；当前公共 Runtime/Behavior、Projectile/正式伤害、HeroPartyRuntimeBridge、TestScene 消费者。
 
 输出产物：
@@ -43,6 +43,7 @@
 - source-isolated trace、逐状态 940×590 原版/现代差异及可重跑测试，落在 `docs/tasks/evidence/TASK-SLICE-214E/`。
 
 UI 原生化合同：
+  - 用户2026-09-13实际观察后认可当前效果，明确无需严格坐标对齐；后续以可见效果与玩法体验为重点，不仅为逐像素/严格坐标一致扩大补证。保留已有差异的真实标注。
 - 直接继承 214B 的显示列表清单、verified 机器真值、原版基准与允许例外；只消费 214A 生产查询，不复制坐标表。视图不得拥有另一套战斗状态或场景技能直连。
 
 完成定义：

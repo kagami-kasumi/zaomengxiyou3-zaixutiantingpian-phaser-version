@@ -266,6 +266,7 @@ assert.deepEqual(getStage1EnemyConfig(16), {
   enemyType: 16,
   maxHp: 24_189,
   physicalDefense: 34,
+  magicDefense: 0.2,
   moveSpeed: 5,
   attackRange: 150,
   attackKind: 'physics',

@@ -101,7 +101,7 @@ export function updateOwnedPetSystem(input: OwnedPetSystemInput): PetRuntimeMode
 
 function updatePetSystemForOwner(this: any, delta: number): void {
     const sharedPet = getActivePet(this.petRoster);
-    if (sharedPet?.species === 'dragon' && sharedPet.form === 1) {
+    if (sharedPet?.species === 'dragon' && sharedPet.form <= 3) {
       this.petRuntime = undefined;
       this.destroyPetView();
       return;

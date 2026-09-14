@@ -6,6 +6,7 @@ export type MonsterCombatDefinition = Readonly<{
   enemyType: MonsterDefinitionId;
   maxHp: number;
   physicalDefense: number;
+  magicDefense: number;
   moveSpeed: number;
   attackRange: number;
   attackKind: AttackKind;
@@ -58,6 +59,8 @@ function definition(
     enemyType,
     maxHp,
     physicalDefense,
+    // Current early-stage spawn definitions (Monster6 differs from BaseMonster's 0.2).
+    magicDefense: enemyType === 6 ? 0.25 : 0.2,
     moveSpeed,
     attackRange,
     attackKind,

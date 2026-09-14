@@ -1,0 +1,3645 @@
+{
+  "date": "2026-09-13",
+  "status": "deleted",
+  "count": 606,
+  "bytes": 21692854,
+  "files": [
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-155A/stable-region-diff.png",
+      "bytes": 238678,
+      "sha256": "2e42a172c837887a23ea32b9bca679bf96db2afae650ba78f431f7d1beb0e7cf",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-155B/original-modern-overlay.png",
+      "bytes": 493459,
+      "sha256": "a9deae2c4482688a04b4c283c7e62477a574d8f066ab6a3a0002b71f23252779",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-155B/stable-region-diff.png",
+      "bytes": 143521,
+      "sha256": "1e15cb347bae85f2dcdcbcbd0e127682a1b334c5fc819a4994d901d01b2bf627",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-168B/overlay-50-fusion-940x590.png",
+      "bytes": 468896,
+      "sha256": "077f0bfef33d8aee6e0de1c0bb29cb8de4b85835337de68fb710992b484d9381",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-168B/overlay-50-making-940x590.png",
+      "bytes": 487650,
+      "sha256": "4491f5e891b2c55c026981069c726b884f9d43017efa83c35917f08e6368c268",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-168B/overlay-50-resolution-940x590.png",
+      "bytes": 456258,
+      "sha256": "224ade2f9c72b722568a5c840a981b5866b2e1a0de397cd1dc527cffe361e7af",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-168B/overlay-50-strength-940x590.png",
+      "bytes": 455478,
+      "sha256": "ae7c385f2ac0db78ba04cb1a33680c3aca703fdcbe3a40280c9af9d2c7d9987c",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-168B/side-by-side-fusion-940x590.png",
+      "bytes": 799691,
+      "sha256": "f5e1864be90e4e8da8a52a36a8a597c7c20cacc94c3f3165f2a66d3cc38b1194",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-168B/side-by-side-making-940x590.png",
+      "bytes": 817514,
+      "sha256": "f9dbdda3378aab5a7039249ccaad4e8c1b070726b1fd5f76d7b6d185bb92950e",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-168B/side-by-side-resolution-940x590.png",
+      "bytes": 767166,
+      "sha256": "1a27443c307e029ca138f5b43472472b344187a415abadefa76787e427b656b9",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-168B/side-by-side-strength-940x590.png",
+      "bytes": 783557,
+      "sha256": "3bfc17df774ebe04d2efa0ae9152c4351770efcf46263f4d30c0defd952dcfdf",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-186/pre-fix-activity-empty-duplicate-root-940x590.png",
+      "bytes": 96310,
+      "sha256": "fab9d8f2ce244ca77001f5313af3f90d868663591d158a676fb9a4517d885496",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-186/pre-fix-activity-tab-hover-duplicate-root-940x590.png",
+      "bytes": 102625,
+      "sha256": "7ea4231cf1c3f8f26a74917ad9bce99d4e2bffae332ac2c5710e12ba9aa29b1c",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-186/pre-fix-daily-initial-duplicate-root-940x590.png",
+      "bytes": 102625,
+      "sha256": "7ea4231cf1c3f8f26a74917ad9bce99d4e2bffae332ac2c5710e12ba9aa29b1c",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-186/pre-fix-daily-tab-hover-duplicate-root-940x590.png",
+      "bytes": 102625,
+      "sha256": "7ea4231cf1c3f8f26a74917ad9bce99d4e2bffae332ac2c5710e12ba9aa29b1c",
+      "reason": "completed-task-derived-diagnostic"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-normal.frame01.left.png",
+      "bytes": 17542,
+      "sha256": "9a708d1ceaa3bd915e9c3d0fc95aecdc0f2bb66ba2070c50fc9db767a3f41544",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-normal.frame01.right.png",
+      "bytes": 17466,
+      "sha256": "898b947985fc1aab3d095c81fb66de93749feac4fe6ee45a4c4e1aef0302bb74",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-normal.frame08.left.png",
+      "bytes": 2230,
+      "sha256": "1b042ef7e91dd5eb7490a773208511da04a0434fb5d06bb1c2263edf46b8ad50",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-normal.frame08.right.png",
+      "bytes": 2230,
+      "sha256": "1b042ef7e91dd5eb7490a773208511da04a0434fb5d06bb1c2263edf46b8ad50",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-normal.frame15.left.png",
+      "bytes": 2230,
+      "sha256": "1b042ef7e91dd5eb7490a773208511da04a0434fb5d06bb1c2263edf46b8ad50",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-normal.frame15.right.png",
+      "bytes": 2230,
+      "sha256": "1b042ef7e91dd5eb7490a773208511da04a0434fb5d06bb1c2263edf46b8ad50",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-sdcc.frame01.left.png",
+      "bytes": 55167,
+      "sha256": "54ba558abba24078d544646bb3f4df50e053eef7a624ddbe991597ef6f20e2b8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-sdcc.frame01.right.png",
+      "bytes": 55156,
+      "sha256": "e305d303726aec5b93b1d612eb1ff349b044e5232e2b161d01ee6e2dc2abd8d8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-sdcc.frame15.left.png",
+      "bytes": 61022,
+      "sha256": "70099341d4d80d4da39db9622edd3741c616251be63a4ab014d6437efbaf42c3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-sdcc.frame15.right.png",
+      "bytes": 61119,
+      "sha256": "55d3ab722fca7feaf45ba80e4ed9fc550972da92a4f41b33494c7b74739aee6d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-sdcc.frame30.left.png",
+      "bytes": 22540,
+      "sha256": "67ec880837a62644ff6ff1dcc89335df27f4db221955d62ec922065f62ad53d8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2-sdcc.frame30.right.png",
+      "bytes": 22701,
+      "sha256": "2692e6c32d545536545073fbab7344344cc7e85c29ae50f27198e5a8569fda4b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell00.left.png",
+      "bytes": 19508,
+      "sha256": "e38283d325006805b68c7d3e5c84d918a74131473bfeed86a0bb123958ecfe79",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell00.right.png",
+      "bytes": 19498,
+      "sha256": "fb11918abb3efc2d51b7cc96d09ab4c18712a56d66d2792a5baf0a393b9b8eaa",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell01.left.png",
+      "bytes": 18867,
+      "sha256": "62af631f07d57676a79e1ec391172b863186d2ed63c2b0984a0f73473629e637",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell01.right.png",
+      "bytes": 18752,
+      "sha256": "2f5d42ed9d85e431f693ab9322b3f282c82a9e8ff5755df7f741d928c6d15ae7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell02.left.png",
+      "bytes": 18461,
+      "sha256": "65c88d272037f64ab78b1fb01140dbcf3a20dfe73c7639143cd5d5425605677b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell02.right.png",
+      "bytes": 18360,
+      "sha256": "bdf67494e038e45f4da8074d29063d04f8f6e8beaa0c5f62fae7e4c7925e534c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell03.left.png",
+      "bytes": 18046,
+      "sha256": "638b1d79bdf9cbca1dffc012055f9317291643e69dda61068701146965998246",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell03.right.png",
+      "bytes": 18034,
+      "sha256": "03e2e45b2a1d6b7b477fa3ee3bca72f9ae2e8f444ec61ec8169c6fa0d866198d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell04.left.png",
+      "bytes": 17684,
+      "sha256": "b1cafcaa295be68382149acedc779c34a8c3b431c0f8e4c5d7def384ced49c73",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.cell04.right.png",
+      "bytes": 17661,
+      "sha256": "2d55fb4968cea0f2f93ad982a4380597c8ea18f98c76784634f06b07c402e817",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.left.png",
+      "bytes": 17684,
+      "sha256": "b1cafcaa295be68382149acedc779c34a8c3b431c0f8e4c5d7def384ced49c73",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.dead.right.png",
+      "bytes": 17661,
+      "sha256": "2d55fb4968cea0f2f93ad982a4380597c8ea18f98c76784634f06b07c402e817",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs-clone-active.left.png",
+      "bytes": 19172,
+      "sha256": "e52d0e5c0e5c6a6e9429e9966b1f380dc7fb97b2cab2cfd9e1610ced3dfd1d7b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs-clone-active.right.png",
+      "bytes": 19156,
+      "sha256": "0c75cf770d74bb05e39e867f02da5ec0e7c4313433ef2b15907f2bfd4ec42dcc",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell00.left.png",
+      "bytes": 19160,
+      "sha256": "eaa10dbf65bc5d2ce9654c61dbc57229a5a93ba2d171cdeea2abe56bba4b47a2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell00.right.png",
+      "bytes": 19209,
+      "sha256": "6fccd9ac28f842a985083f36590ae4f86f280274b505158543186d5548877439",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell01.left.png",
+      "bytes": 23709,
+      "sha256": "925b3f0fc6fef8dd66634d6e71d3ffa059d9bb277094e84cadb82d309cbea1d7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell01.right.png",
+      "bytes": 23719,
+      "sha256": "73a8237dae077328d8be12d43af1531e623d40feb1c2425d486a87e7b36c4b07",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell02.left.png",
+      "bytes": 19160,
+      "sha256": "eaa10dbf65bc5d2ce9654c61dbc57229a5a93ba2d171cdeea2abe56bba4b47a2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell02.right.png",
+      "bytes": 19209,
+      "sha256": "6fccd9ac28f842a985083f36590ae4f86f280274b505158543186d5548877439",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell03.left.png",
+      "bytes": 23709,
+      "sha256": "925b3f0fc6fef8dd66634d6e71d3ffa059d9bb277094e84cadb82d309cbea1d7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell03.right.png",
+      "bytes": 23719,
+      "sha256": "73a8237dae077328d8be12d43af1531e623d40feb1c2425d486a87e7b36c4b07",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell04.left.png",
+      "bytes": 24991,
+      "sha256": "ceb7b63519aef4cb82a2e0d792e0d022391b043ef96c1fd80f42f49bc27b4d82",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.cell04.right.png",
+      "bytes": 25053,
+      "sha256": "65d4f2d587348061717b1eb90ac9144a6bb89b0bacfbcbcc6cbd08c80050956a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.left.png",
+      "bytes": 24991,
+      "sha256": "ceb7b63519aef4cb82a2e0d792e0d022391b043ef96c1fd80f42f49bc27b4d82",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.fs.right.png",
+      "bytes": 25053,
+      "sha256": "65d4f2d587348061717b1eb90ac9144a6bb89b0bacfbcbcc6cbd08c80050956a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.hurt.cell00.left.png",
+      "bytes": 20154,
+      "sha256": "c2bdfc285a0e4089e03721bbe334330a945cf5bcf0be8062cb950e156f38fbb0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.hurt.cell00.right.png",
+      "bytes": 20166,
+      "sha256": "3d241e0ee137c982be3e48bd87f036ca354705a59e5623566f460d0d1f48450d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.hurt.left.png",
+      "bytes": 20154,
+      "sha256": "c2bdfc285a0e4089e03721bbe334330a945cf5bcf0be8062cb950e156f38fbb0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.hurt.right.png",
+      "bytes": 20166,
+      "sha256": "3d241e0ee137c982be3e48bd87f036ca354705a59e5623566f460d0d1f48450d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.cell00.left.png",
+      "bytes": 19332,
+      "sha256": "87379564be1c4e18ce85feab46dbfa18cea25572a467961da8915064db50278e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.cell00.right.png",
+      "bytes": 19374,
+      "sha256": "64366884f7c90bccd8d28039ee1d78ff37e8b6ed84dd40afc41fa0241c05a218",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.cell01.left.png",
+      "bytes": 19011,
+      "sha256": "e33482a707358731dd67132a0893293368b5efa6bfc8b795b36561a064b0d018",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.cell01.right.png",
+      "bytes": 19047,
+      "sha256": "9d40c421cc96ebde87264e1193c57487f39597e3fd0eadb99427fe88c69e052b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.cell02.left.png",
+      "bytes": 18840,
+      "sha256": "0bb3bccb4cc6e7668e73d38ba95f98ffccce46bcda736a33f09002d0a0381506",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.cell02.right.png",
+      "bytes": 18877,
+      "sha256": "ca8bc78eb7f9c559476323c33202f13849aa026d6d251440b84c3cb464fdbfa4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.cell03.left.png",
+      "bytes": 18912,
+      "sha256": "3ffabec869226b5d646659e0fd1c7e62eb156ce8c2254169c9acb3adfd83b02e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.cell03.right.png",
+      "bytes": 18904,
+      "sha256": "9a23e42961871aa5484eea8104a0bca35f14b76c27366a7472f098c6ba0bac8b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.left.png",
+      "bytes": 18912,
+      "sha256": "3ffabec869226b5d646659e0fd1c7e62eb156ce8c2254169c9acb3adfd83b02e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.normal.right.png",
+      "bytes": 18904,
+      "sha256": "9a23e42961871aa5484eea8104a0bca35f14b76c27366a7472f098c6ba0bac8b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.sdcc.cell00.left.png",
+      "bytes": 19138,
+      "sha256": "e347b2eea9449e9ebf39ce0e2bf8508bca64d35d3627ed03ea7ba582591b1e6f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.sdcc.cell00.right.png",
+      "bytes": 19200,
+      "sha256": "bd44704ca5a70e68dec542d5b6d761f87f2a002026c822205aecc4133372ad67",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.sdcc.left.png",
+      "bytes": 19138,
+      "sha256": "e347b2eea9449e9ebf39ce0e2bf8508bca64d35d3627ed03ea7ba582591b1e6f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.sdcc.right.png",
+      "bytes": 19200,
+      "sha256": "bd44704ca5a70e68dec542d5b6d761f87f2a002026c822205aecc4133372ad67",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell00.left.png",
+      "bytes": 19188,
+      "sha256": "e20bfa9e29f94cdb6652081cc19a482046f104827ed9dedc39f9eedb75aa21b0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell00.right.png",
+      "bytes": 19239,
+      "sha256": "7764857fadc02b7259400ce784eebf171118cd51fb170c94e30eda7c29b53443",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell01.left.png",
+      "bytes": 19205,
+      "sha256": "bdbf75dc921ffef220440b86f3556125e8b9c1caba15e8508cade003feab3fd6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell01.right.png",
+      "bytes": 19311,
+      "sha256": "67139fb3e25025428ce6057e12ab18ccd1784e8dca8f0cc8cc76ffaae76e5b22",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell02.left.png",
+      "bytes": 19368,
+      "sha256": "3b6ba62102c2e17b47781c525354848f0cc95d42c0da270c6befd3e3d28c4c74",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell02.right.png",
+      "bytes": 19456,
+      "sha256": "a06d4108dd2af3ad2570602b2dd82a9dee3a80775eedb593daa84ec14bfb7c75",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell03.left.png",
+      "bytes": 19400,
+      "sha256": "238b6ff1b2abc053a654c2bf043207c9624b410ecf7e8560ddb66cf2c57a4e0a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell03.right.png",
+      "bytes": 19437,
+      "sha256": "1cf0b2dfe91c29239cd17056ccf9a7da1fd9aebabd92c4f00947c96bcb4e47c8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell04.left.png",
+      "bytes": 19177,
+      "sha256": "b778bd6f156839da564c612f2c21b4d749a490c25c3eec7b08e2cbaface0d369",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell04.right.png",
+      "bytes": 19301,
+      "sha256": "854eb6875b79e51c4c2f19436a47a769bbea0195a949742c9f0518f1e278c279",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell05.left.png",
+      "bytes": 19217,
+      "sha256": "f7302b082e59e6930b35548f0fbda738306f677c7a94981ff35322808d71c224",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.cell05.right.png",
+      "bytes": 19303,
+      "sha256": "630a8eb5b78a9ce167b44298080d062de42044132d1e2fa1f73966a353ac98ad",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.left.png",
+      "bytes": 19188,
+      "sha256": "e20bfa9e29f94cdb6652081cc19a482046f104827ed9dedc39f9eedb75aa21b0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.wait.right.png",
+      "bytes": 19239,
+      "sha256": "7764857fadc02b7259400ce784eebf171118cd51fb170c94e30eda7c29b53443",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.cell00.left.png",
+      "bytes": 19211,
+      "sha256": "068e5908821d228a7e917d566d0c59d224e9cc7e7d7dbe730b16adebc442db59",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.cell00.right.png",
+      "bytes": 19212,
+      "sha256": "0b18781371706ddaed67b49b51242ba22b918e705d3c16a7a223cf838d493c72",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.cell01.left.png",
+      "bytes": 19229,
+      "sha256": "1146b49c4f6032035eef44763cf7fab9c8e16fbf9885a9f8bd17e989e5a23dcd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.cell01.right.png",
+      "bytes": 19258,
+      "sha256": "acef3045f03f05d08d24e890032b27dce17d2cd13b557bc29d05b511f4454fef",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.cell02.left.png",
+      "bytes": 19403,
+      "sha256": "91da7a8877c8c9574afae34320046a1e866c007064eba0630151990513dcf5a2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.cell02.right.png",
+      "bytes": 19369,
+      "sha256": "0ea91114cdcdc813c110acb33d1465d54a260cce3bf8abdc698c59128a0682af",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.cell03.left.png",
+      "bytes": 19229,
+      "sha256": "1146b49c4f6032035eef44763cf7fab9c8e16fbf9885a9f8bd17e989e5a23dcd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.cell03.right.png",
+      "bytes": 19258,
+      "sha256": "acef3045f03f05d08d24e890032b27dce17d2cd13b557bc29d05b511f4454fef",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.left.png",
+      "bytes": 19211,
+      "sha256": "068e5908821d228a7e917d566d0c59d224e9cc7e7d7dbe730b16adebc442db59",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon2.walk.right.png",
+      "bytes": 19212,
+      "sha256": "0b18781371706ddaed67b49b51242ba22b918e705d3c16a7a223cf838d493c72",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-ltwj.frame01.left.png",
+      "bytes": 92272,
+      "sha256": "82a4f47e1d468bc58525c5c4db1dc119f750dfd448e698da54dd778bc39eab1e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-ltwj.frame01.right.png",
+      "bytes": 92365,
+      "sha256": "fbd1f7a0e9f883ea803b838f1c89532dabe9e81813bafa1d6606551f95c062cd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-ltwj.frame05.left.png",
+      "bytes": 53568,
+      "sha256": "ee9bb63162abfcb26b1c81e55db20e2b2ef79c371d5785045b21a44822a844f6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-ltwj.frame05.right.png",
+      "bytes": 53477,
+      "sha256": "7b6d0bc90fb7847513df4789a0dfcbf2c99a7dec4629676d2ee08e88fe7bd67c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-ltwj.frame10.left.png",
+      "bytes": 5128,
+      "sha256": "0cbcdc9a88d609edda7e21dfc078021ddb48c17193fca5fd176091549a9d39dc",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-ltwj.frame10.right.png",
+      "bytes": 5109,
+      "sha256": "ee65983e75999ec654fd25cab3e2ea004c638e65c3b42afb919a168da94293d9",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-ltwj.nine-object-wave.left.png",
+      "bytes": 323956,
+      "sha256": "679446e32970cceceee81c77cef7dece362452ce9c3720fc359cf82ff956e173",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-ltwj.nine-object-wave.right.png",
+      "bytes": 324900,
+      "sha256": "2495bb764835cb829cb2453c24f1a1265031cf75885a7b6ddb215569fb2e2eb4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-normal.frame01.left.png",
+      "bytes": 9929,
+      "sha256": "f4432506bcc9e9031c139c90a92cdc5d40d98dd860a6f3738fc34dde76eb3ff2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-normal.frame01.right.png",
+      "bytes": 10067,
+      "sha256": "fd7480bd19db8d1b883096dfec1f25c61772ceb7c77932a5cf11b4bb3f26e4c8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-normal.frame11.left.png",
+      "bytes": 2230,
+      "sha256": "1b042ef7e91dd5eb7490a773208511da04a0434fb5d06bb1c2263edf46b8ad50",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-normal.frame11.right.png",
+      "bytes": 2230,
+      "sha256": "1b042ef7e91dd5eb7490a773208511da04a0434fb5d06bb1c2263edf46b8ad50",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-normal.frame21.left.png",
+      "bytes": 2230,
+      "sha256": "1b042ef7e91dd5eb7490a773208511da04a0434fb5d06bb1c2263edf46b8ad50",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3-normal.frame21.right.png",
+      "bytes": 2230,
+      "sha256": "1b042ef7e91dd5eb7490a773208511da04a0434fb5d06bb1c2263edf46b8ad50",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell00.left.png",
+      "bytes": 26033,
+      "sha256": "7c77563a92b58cc343254f6501cb17b4c727dbff0b249f28bd555a69c5565544",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell00.right.png",
+      "bytes": 26099,
+      "sha256": "be621ef03d28dfb97030562729142e21113add5b6c5fc0626b3d250f76e23389",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell01.left.png",
+      "bytes": 24030,
+      "sha256": "aba1e824b4bdb2ca7d548e5f2e40af386ea6ddb33432d98d3e792dc6ff5e2d8d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell01.right.png",
+      "bytes": 24123,
+      "sha256": "7d239eb28e0dbc31c0ac2b848d18033495f13de55561d2a785a43a3e17b96e31",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell02.left.png",
+      "bytes": 23017,
+      "sha256": "eac7a974e44a9ea7c2d1e0c6b6295288d134a2444d436c6a98522d014fdf7e5d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell02.right.png",
+      "bytes": 23024,
+      "sha256": "33f8a3fb4a6c845b0ae9cf59324f5398a8978a1ba79f3fd1eeeac01d501b02fb",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell03.left.png",
+      "bytes": 23207,
+      "sha256": "3af29ffad93cb8bc67908b94ed5780c595c928c9e7e9d1b88f4e794fe0748bec",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell03.right.png",
+      "bytes": 23185,
+      "sha256": "40e264bdcbb9c19591af0e2eca44c6a4a3ba0611f0888221101053b6f42cc18c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell04.left.png",
+      "bytes": 22605,
+      "sha256": "b4d8e950433e2fbee5bf8894a34030f648a90c90ea215e5d077c036658abf47c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.cell04.right.png",
+      "bytes": 22518,
+      "sha256": "9ef510e157f76ae0bf30883857944b0c9f2bb853219713bf8ea13a56cd33a4a5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.left.png",
+      "bytes": 22605,
+      "sha256": "b4d8e950433e2fbee5bf8894a34030f648a90c90ea215e5d077c036658abf47c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.dead.right.png",
+      "bytes": 22518,
+      "sha256": "9ef510e157f76ae0bf30883857944b0c9f2bb853219713bf8ea13a56cd33a4a5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs-clone-active.left.png",
+      "bytes": 26143,
+      "sha256": "513220b0fffd5158082ed7673548f834dbb2cacedc7fc8c57014256ca48e3370",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs-clone-active.right.png",
+      "bytes": 26187,
+      "sha256": "61bc187e746f9e4497686979f3b80cf29c62b35c16c857af1dcae224aa0c9930",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell00.left.png",
+      "bytes": 29722,
+      "sha256": "812491ffb35df86ffe92feefa13ffb178d1641a95bc2bd040cf146e3e962d6ba",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell00.right.png",
+      "bytes": 29589,
+      "sha256": "c0ae1ac79428ca5bfdc15c0b5a08e8b7965a891414384f917c83722b5fbe90ab",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell01.left.png",
+      "bytes": 34643,
+      "sha256": "14a2c029a8ace3161c90531bf5e4972727ec95c0882a7b921fe0151057fcfbcd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell01.right.png",
+      "bytes": 34731,
+      "sha256": "ee736afde5ea71e955ea158a317971d2cc99347010852e4681ac3d5742299fa4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell02.left.png",
+      "bytes": 29185,
+      "sha256": "99efe0d1cfbb2e97e8e4bddae12624b1e7a9e4c746d4a70c5eae15886287dd1a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell02.right.png",
+      "bytes": 29188,
+      "sha256": "eded1961c1aa458189c722d8cccc7eeef10d4cb4a3ed204dabe09ff7d8ac877b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell03.left.png",
+      "bytes": 35142,
+      "sha256": "91b3fc77adf84a7ef4a91d855a89727aaf9b43ca607f6a9d464c3873d1838491",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell03.right.png",
+      "bytes": 35277,
+      "sha256": "42bb914699ec47419e854ce5f883be09cf1afc575e991ebfe6a36b1206ca4440",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell04.left.png",
+      "bytes": 35307,
+      "sha256": "6726fca8f3b17e14b27b2c728dfa1be2f892eb860c9873b4bcd454896f5c2edd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.cell04.right.png",
+      "bytes": 35376,
+      "sha256": "598499200bf04dce2e25e1512f85e4aefd6c1c2985d01ed9b5257e8e41302e8a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.left.png",
+      "bytes": 35307,
+      "sha256": "6726fca8f3b17e14b27b2c728dfa1be2f892eb860c9873b4bcd454896f5c2edd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.fs.right.png",
+      "bytes": 35376,
+      "sha256": "598499200bf04dce2e25e1512f85e4aefd6c1c2985d01ed9b5257e8e41302e8a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.hurt.cell00.left.png",
+      "bytes": 28990,
+      "sha256": "86d5759fd67b768efde27ec954317c8a2ba6fb7e742e8ee3125e69c80e8524a0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.hurt.cell00.right.png",
+      "bytes": 29105,
+      "sha256": "589fbe9f2eb899b6ec2cdeff7ee70877c6ebe40d833e4c3ad3ef6fdcc992d92b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.hurt.left.png",
+      "bytes": 28990,
+      "sha256": "86d5759fd67b768efde27ec954317c8a2ba6fb7e742e8ee3125e69c80e8524a0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.hurt.right.png",
+      "bytes": 29105,
+      "sha256": "589fbe9f2eb899b6ec2cdeff7ee70877c6ebe40d833e4c3ad3ef6fdcc992d92b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.ltwj.cell00.left.png",
+      "bytes": 26158,
+      "sha256": "c62eba88d299fc3591c2df2a8fc31f9117c837529030d77d018d19ac4185f27d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.ltwj.cell00.right.png",
+      "bytes": 26342,
+      "sha256": "421ab96f638596eac1e4bfc5d7ddb9ae893958038b4eacdadeac35a806755264",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.ltwj.cell01.left.png",
+      "bytes": 27032,
+      "sha256": "b6b9261b6a8764d38e55daebf0896c15acd777b09b3f028a8b80edcb119cb102",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.ltwj.cell01.right.png",
+      "bytes": 27222,
+      "sha256": "e98c959a751f2b8deab6b39a40cdd82a4ff10886a48a33c03ec688da684f1898",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.ltwj.cell02.left.png",
+      "bytes": 26128,
+      "sha256": "af87f8aa6603026b511b6bb02ae96cec51cb192f25ea94994a5caaf3614ab5c1",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.ltwj.cell02.right.png",
+      "bytes": 26132,
+      "sha256": "3c17d68a6b8c188c05ba9112cbb8c886dff180dda33d2a29bbc977c835d8e5da",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.ltwj.left.png",
+      "bytes": 26128,
+      "sha256": "af87f8aa6603026b511b6bb02ae96cec51cb192f25ea94994a5caaf3614ab5c1",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.ltwj.right.png",
+      "bytes": 26132,
+      "sha256": "3c17d68a6b8c188c05ba9112cbb8c886dff180dda33d2a29bbc977c835d8e5da",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell00.left.png",
+      "bytes": 26800,
+      "sha256": "929916ecb200c33c1a33700e3b4b66295872b7ebbb5c79fe9f300ba2e2f79c93",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell00.right.png",
+      "bytes": 26728,
+      "sha256": "72d397c513e766799d5c954acc6a965b6e29bf4588c97a0ec220296c07241b1f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell01.left.png",
+      "bytes": 26640,
+      "sha256": "8168bb468267825b1c6f92156b21b5f0d23da8e5d6973a86f7f474d60f6b82a2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell01.right.png",
+      "bytes": 26780,
+      "sha256": "0f49baed4c0c6ea9eaa6acd7121238fe6204d70cde02069c33ef616a1da3f293",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell02.left.png",
+      "bytes": 26118,
+      "sha256": "eb0dbb31a54ec1492b72a4b8aac6be2eb331d8dba253932c817001ea4356fdda",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell02.right.png",
+      "bytes": 26112,
+      "sha256": "1a23e4fbbf990df41eb0bf5b060cb380b811ca94bde1cd7385d0ae406c692ea4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell03.left.png",
+      "bytes": 25496,
+      "sha256": "500bcbe41503ebb23229eef7aaeb5fa99d3d2801c0f12fb5a52d148acd9c164d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell03.right.png",
+      "bytes": 25573,
+      "sha256": "caf315edbda1035d9c5aed18bcefd7aa8dd41911173fdcafe01ed604caa22239",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell04.left.png",
+      "bytes": 25713,
+      "sha256": "dea9c31b43a8bc73f998a38f9dc10e5e267c303237cfe9ddfe6ae4fdfe50e698",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell04.right.png",
+      "bytes": 25807,
+      "sha256": "5195eda41c5a4a7e8069ee9fb04d23ccfa535ca8b23adba1345aac6217c49d0f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell05.left.png",
+      "bytes": 26066,
+      "sha256": "4f966443c54d03d5215b62335bd6503ad27e91e720c0b7cc59bce4c7a467a7e9",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.cell05.right.png",
+      "bytes": 26086,
+      "sha256": "92efabd74f3082517aafb5ad16f1b2ad4a7ca4663910b2c1aba969bb91743570",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.left.png",
+      "bytes": 26118,
+      "sha256": "eb0dbb31a54ec1492b72a4b8aac6be2eb331d8dba253932c817001ea4356fdda",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.normal.right.png",
+      "bytes": 26112,
+      "sha256": "1a23e4fbbf990df41eb0bf5b060cb380b811ca94bde1cd7385d0ae406c692ea4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.sdcc.cell00.left.png",
+      "bytes": 25682,
+      "sha256": "2c27f8521da9332a391ef6dfba0fc0e7f7ddd16fa77d102eb09739538066e01c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.sdcc.cell00.right.png",
+      "bytes": 25661,
+      "sha256": "d7e63adca81f1798373eb6bdd9c93f311362b70f9a1bdc4f8094a3762126c0ad",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.sdcc.left.png",
+      "bytes": 25682,
+      "sha256": "2c27f8521da9332a391ef6dfba0fc0e7f7ddd16fa77d102eb09739538066e01c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.sdcc.right.png",
+      "bytes": 25661,
+      "sha256": "d7e63adca81f1798373eb6bdd9c93f311362b70f9a1bdc4f8094a3762126c0ad",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell00.left.png",
+      "bytes": 26194,
+      "sha256": "aced84c6abb2a21a0d5578cb413f29e711d5782a3dbf6ecc78825dfa971dd2ce",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell00.right.png",
+      "bytes": 26193,
+      "sha256": "cc2c3376ffab515ff3da97a96c4565a31511c338a78c17044c149e4999a15afe",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell01.left.png",
+      "bytes": 26229,
+      "sha256": "c639af80b6f4569bead6626ace8e8cb42f2f530d1ef2f205d78b4f3a75d1668d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell01.right.png",
+      "bytes": 26246,
+      "sha256": "b124ee6189a247f9b70443c32a8f3c54bc1d8eeba1765c36501b152dbaf23769",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell02.left.png",
+      "bytes": 26200,
+      "sha256": "b1b3c1b1a9282d9558c41604862f84fbe1ef81072cfc741fa86736537ec99484",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell02.right.png",
+      "bytes": 26353,
+      "sha256": "8bf366531376cc8eab16bfaa69e54921c2cd7ce83951d3483809ffcb62ee62fb",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell03.left.png",
+      "bytes": 26215,
+      "sha256": "9b1536102376afcb3f82065979b04caaab1c64f533981e4d5c037708d12b3a22",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell03.right.png",
+      "bytes": 26360,
+      "sha256": "4b18f0fd50048080cd2e7f67ec6bcabc340e25a5aa4f239b35408ba2901b8ef0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell04.left.png",
+      "bytes": 26176,
+      "sha256": "65f5170e3eee11d081fdba5d041854d7f844fb05c6ed2edc46aa0e45fadc79a4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell04.right.png",
+      "bytes": 26208,
+      "sha256": "60d2d50269c3cf6691ca824e89c81ea1edf471c4c1360df8713b79f1bb1167a4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell05.left.png",
+      "bytes": 26154,
+      "sha256": "0d43b9aa918938aa4ab7b4a4c0a9c75b661e4e5abc30e61075b37e143d966104",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.cell05.right.png",
+      "bytes": 26200,
+      "sha256": "2b00302ec81859fd1bf0663e31cda48de173c4e3c675521b809316d5b7b5413f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.left.png",
+      "bytes": 26194,
+      "sha256": "aced84c6abb2a21a0d5578cb413f29e711d5782a3dbf6ecc78825dfa971dd2ce",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.wait.right.png",
+      "bytes": 26193,
+      "sha256": "cc2c3376ffab515ff3da97a96c4565a31511c338a78c17044c149e4999a15afe",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.cell00.left.png",
+      "bytes": 26736,
+      "sha256": "3580a6733b9d68420f039b9300756045464e4d6eb0d0956a1f5b7f2ded08ca08",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.cell00.right.png",
+      "bytes": 26673,
+      "sha256": "a4185b3ef284693c6ee8ccb2bec9f8a1807c2d89fb2f7c867756ffff8fb7d070",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.cell01.left.png",
+      "bytes": 25676,
+      "sha256": "3327a723174e4532ffa4fb3e0f83d8c8d3fbbc50f444eba9ec7cdcf468787054",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.cell01.right.png",
+      "bytes": 25681,
+      "sha256": "c7b157ab974e59189fddf7023a97dfcc394fa102734306551fee27b566498a21",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.cell02.left.png",
+      "bytes": 26835,
+      "sha256": "9331841a4caaba086df764d167f9b4151a4bf572409c4fb86f56d5886f188b57",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.cell02.right.png",
+      "bytes": 26815,
+      "sha256": "9d261ba7ce0f9b451bc06ef800a7b5fa3199783ee89801fda33afc3cf48b1328",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.cell03.left.png",
+      "bytes": 25760,
+      "sha256": "986dae5e6c5445ac19bf8e876e3ca8a6483dda79eb7a55710e2c88349d54942e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.cell03.right.png",
+      "bytes": 25782,
+      "sha256": "4d58f5ced4361dfa6f6149064712a5da5878e6aab2a7c233724ff373d901976d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.left.png",
+      "bytes": 26736,
+      "sha256": "3580a6733b9d68420f039b9300756045464e4d6eb0d0956a1f5b7f2ded08ca08",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214D/projections/dragon3.walk.right.png",
+      "bytes": 26673,
+      "sha256": "a4185b3ef284693c6ee8ccb2bec9f8a1807c2d89fb2f7c867756ffff8fb7d070",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1-normal.frame01.left.png",
+      "bytes": 10193,
+      "sha256": "8b478a26584fc8479bd311b2e7759ae20d0c351d38bec7fb6212be0b09489534",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1-normal.frame01.right.png",
+      "bytes": 10212,
+      "sha256": "15d9a17541dbc71ab03cdc5e3b5a1665fa00d1d4f3a900dd05cfa54c4c0596ef",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1-normal.frame06.left.png",
+      "bytes": 10197,
+      "sha256": "dde0ae1b2532b96d741ac311c55b761dc0927b1b2d99bb1a72985a4a57b8f833",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1-normal.frame06.right.png",
+      "bytes": 10214,
+      "sha256": "05ebc22f1a4dd0ae0da4410bbc26eea9e4fe6ef7203128a7de8f04b0a281e720",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1-normal.frame11.left.png",
+      "bytes": 10198,
+      "sha256": "6a68cf698e7609b57e580a06717a5686e0981ae87bc666cab17981b4018ef5aa",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1-normal.frame11.right.png",
+      "bytes": 10212,
+      "sha256": "5505814bfa38277c813d12f1e540f1954df00f4ff4ed1a1eb502a2cab38809cf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.cell00.left.png",
+      "bytes": 10631,
+      "sha256": "d95e4630b53f474d0e764abbe69f066adb6ee6f07aca769e133849cc9f77eaa6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.cell00.right.png",
+      "bytes": 10649,
+      "sha256": "27a6b1d992609c4d5221844a7ed5a3e7388f77dc11af4b1e6a237281d674224b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.cell01.left.png",
+      "bytes": 10835,
+      "sha256": "5d5d0b2e3562b8227ed87bd1f69a62704d98a433a6337ddeb4fea08bdd8228f7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.cell01.right.png",
+      "bytes": 10829,
+      "sha256": "c243f624c08c778b3e5cfc1930ea3e584285804146a0a8e01d184b31ce9654d4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.cell02.left.png",
+      "bytes": 10328,
+      "sha256": "9289ec535667af125b847ea465035aa408093c63f649541a680c5b9516fcab3b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.cell02.right.png",
+      "bytes": 10357,
+      "sha256": "bcc039bca8505fc94ff07dbfafe6c16ecb1f2faf2ead4c990a4563fb75a49087",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.cell03.left.png",
+      "bytes": 10799,
+      "sha256": "3678f89068eb040135c5b28fc96c975ba0317df946229a9dc0bb75f5f9c6b868",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.cell03.right.png",
+      "bytes": 10789,
+      "sha256": "8cfa803568e978780c06fc9e12255868530b88e3ff2ace5de8bccd290f525f43",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.left.png",
+      "bytes": 10799,
+      "sha256": "3678f89068eb040135c5b28fc96c975ba0317df946229a9dc0bb75f5f9c6b868",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.dead.right.png",
+      "bytes": 10789,
+      "sha256": "8cfa803568e978780c06fc9e12255868530b88e3ff2ace5de8bccd290f525f43",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs-clone-active.left.png",
+      "bytes": 10533,
+      "sha256": "4aa031e47c17b2220bbb13b9b04e38c91a2ac520ed1b6c1fb3d7c6d364672835",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs-clone-active.right.png",
+      "bytes": 10510,
+      "sha256": "2dccd2ab4e06e472ab3ec1ad642a8c6d9cacdd13cd4ed82746f650511669dafe",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell00.left.png",
+      "bytes": 11698,
+      "sha256": "427515f5e6df6cd935818f3783e767eee2802216c05f9e2eef46357e55aebfca",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell00.right.png",
+      "bytes": 11660,
+      "sha256": "b8e9d88a638c87c56cb38afabe1f5ab3f80ef38a9a41e99c049b0e0c829c9fb8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell01.left.png",
+      "bytes": 14301,
+      "sha256": "86d3c94a51df1bf20a2148ef83c4ebfd06c4e57e678edf6a60a87cfef368ac76",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell01.right.png",
+      "bytes": 14213,
+      "sha256": "d078944922b712eb78549c6133b80929958f05c0de09b63b944707bef044e754",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell02.left.png",
+      "bytes": 11788,
+      "sha256": "0fdd8b4773c8546a43f825e2a5b4afb3d487f4af1268f6bf983a784d74e604c2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell02.right.png",
+      "bytes": 11727,
+      "sha256": "45eaeb03960593a2738a1908e4b93d337b3be75afe81ee8956a170e07591a92a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell03.left.png",
+      "bytes": 14366,
+      "sha256": "df4909d488eb098c3f3de8658ee8ecd1b35cb3886b520e4dee40be6fd6b362e6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell03.right.png",
+      "bytes": 14337,
+      "sha256": "7c4c1d9babbad101fd5394cdd39d9cd39b034feba302e81f50eb5cb8882fb718",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell04.left.png",
+      "bytes": 15820,
+      "sha256": "55dbaa7a29867326474914184ec047d3c3d9364240690593ae3fda876904362b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.cell04.right.png",
+      "bytes": 15861,
+      "sha256": "667d2636b8dc3415f58e778098c2c7aeb7ff0e62b8e6fccaf626c09c7a24c800",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.left.png",
+      "bytes": 15820,
+      "sha256": "55dbaa7a29867326474914184ec047d3c3d9364240690593ae3fda876904362b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.fs.right.png",
+      "bytes": 15861,
+      "sha256": "667d2636b8dc3415f58e778098c2c7aeb7ff0e62b8e6fccaf626c09c7a24c800",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.hurt.cell00.left.png",
+      "bytes": 10551,
+      "sha256": "1dddb93bb8642336d1cb61a711dd76676e1ec9c407f20a764e69ba2d309f960b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.hurt.cell00.right.png",
+      "bytes": 10546,
+      "sha256": "cdad5c334e12e1096abb383197ec4f612fe2b364ebadc5ae314af4aa30e6b4f5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.hurt.left.png",
+      "bytes": 10551,
+      "sha256": "1dddb93bb8642336d1cb61a711dd76676e1ec9c407f20a764e69ba2d309f960b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.hurt.right.png",
+      "bytes": 10546,
+      "sha256": "cdad5c334e12e1096abb383197ec4f612fe2b364ebadc5ae314af4aa30e6b4f5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.cell00.left.png",
+      "bytes": 10615,
+      "sha256": "f7c95483e87e43a90998384332c5ca2caebb07228a6a14591814923a5e6e61cf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.cell00.right.png",
+      "bytes": 10607,
+      "sha256": "c36debdce05e39b9fe97d652e2144c010953bd92fc5efdfad992482a1639f6eb",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.cell01.left.png",
+      "bytes": 10671,
+      "sha256": "c46175d2a2bafee10efd267e1da2d1bb65e0a62f764edbf783ed805fbcea437a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.cell01.right.png",
+      "bytes": 10690,
+      "sha256": "a6e2501d97be318afb6a9c02b533de62e590904288c7b0be47b0df9aea5ea21e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.cell02.left.png",
+      "bytes": 10763,
+      "sha256": "20482863425ba7711a2a5c0e515a7ae9061130fa543892087c1d9cb3e4d34570",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.cell02.right.png",
+      "bytes": 10789,
+      "sha256": "e0b60c0a9fcd3e5fdfb9a137b6dd6f882a193a065c46feb08378de3ac2aee881",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.cell03.left.png",
+      "bytes": 10577,
+      "sha256": "15cc18621d83e6803952ca5179c2f99b61ba76a1b5b30f5e7d87f92493f9ed92",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.cell03.right.png",
+      "bytes": 10609,
+      "sha256": "d363b281519bf81ce28cf00129b2118002de8deadda9427a149e2323c186f335",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.left.png",
+      "bytes": 10577,
+      "sha256": "15cc18621d83e6803952ca5179c2f99b61ba76a1b5b30f5e7d87f92493f9ed92",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.normal.right.png",
+      "bytes": 10609,
+      "sha256": "d363b281519bf81ce28cf00129b2118002de8deadda9427a149e2323c186f335",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell00.left.png",
+      "bytes": 10535,
+      "sha256": "b20d8c851848cc965176eb02eb866bb36dd38d89e50fcac8978659faece60c2d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell00.right.png",
+      "bytes": 10507,
+      "sha256": "cb4216ac8b6270033231d6361dd74ca61cc03f2599b9ac82c8eac943ec86926f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell01.left.png",
+      "bytes": 10510,
+      "sha256": "9f7bfe8ef524c6c5c378721c9d4de55e88e6ddfbeaac441331d6dd1605539f9c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell01.right.png",
+      "bytes": 10517,
+      "sha256": "a0d7fe6bbe560eac659fad410fffee261910244dff6ceb9047edbdf2bc0eeb0f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell02.left.png",
+      "bytes": 10687,
+      "sha256": "bef3687974c1a805c1485bf0c5e9b4ab46c48632c141a27661242679f7bde9d7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell02.right.png",
+      "bytes": 10675,
+      "sha256": "0e4134d1834f67c930b91e3d9f4369c721415dfe59d7e3af8e2e8a98b299877b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell03.left.png",
+      "bytes": 10568,
+      "sha256": "bd18a6fa4e4a0606bffcda9379f558527b60a8b8e172220e91f7a272d07f9d53",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell03.right.png",
+      "bytes": 10595,
+      "sha256": "7707723820ffff778226205e5ae665fffb5ffbee959880b71bd2184ec0f7c401",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell04.left.png",
+      "bytes": 10636,
+      "sha256": "e35338645238f6d3336b69946b623afaa22583a3f5d21e19eb9ce90b0ec7d795",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell04.right.png",
+      "bytes": 10682,
+      "sha256": "5b37d7d628175482e05b41c8b932791c48e5dd536f7fb6d83131fe6ebbf508a8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell05.left.png",
+      "bytes": 10598,
+      "sha256": "d7afaac2f3f346361ba23018ad7afde01746ed164ea30feb49845ef867024d40",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.cell05.right.png",
+      "bytes": 10573,
+      "sha256": "c11285534d834ab2c8170857e2f93281b3b71233ba488a87fa59ef209de2c011",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.left.png",
+      "bytes": 10535,
+      "sha256": "b20d8c851848cc965176eb02eb866bb36dd38d89e50fcac8978659faece60c2d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.wait.right.png",
+      "bytes": 10507,
+      "sha256": "cb4216ac8b6270033231d6361dd74ca61cc03f2599b9ac82c8eac943ec86926f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell00.left.png",
+      "bytes": 10535,
+      "sha256": "b20d8c851848cc965176eb02eb866bb36dd38d89e50fcac8978659faece60c2d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell00.right.png",
+      "bytes": 10507,
+      "sha256": "cb4216ac8b6270033231d6361dd74ca61cc03f2599b9ac82c8eac943ec86926f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell01.left.png",
+      "bytes": 10510,
+      "sha256": "9f7bfe8ef524c6c5c378721c9d4de55e88e6ddfbeaac441331d6dd1605539f9c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell01.right.png",
+      "bytes": 10517,
+      "sha256": "a0d7fe6bbe560eac659fad410fffee261910244dff6ceb9047edbdf2bc0eeb0f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell02.left.png",
+      "bytes": 10687,
+      "sha256": "bef3687974c1a805c1485bf0c5e9b4ab46c48632c141a27661242679f7bde9d7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell02.right.png",
+      "bytes": 10675,
+      "sha256": "0e4134d1834f67c930b91e3d9f4369c721415dfe59d7e3af8e2e8a98b299877b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell03.left.png",
+      "bytes": 10568,
+      "sha256": "bd18a6fa4e4a0606bffcda9379f558527b60a8b8e172220e91f7a272d07f9d53",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell03.right.png",
+      "bytes": 10595,
+      "sha256": "7707723820ffff778226205e5ae665fffb5ffbee959880b71bd2184ec0f7c401",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell04.left.png",
+      "bytes": 10636,
+      "sha256": "e35338645238f6d3336b69946b623afaa22583a3f5d21e19eb9ce90b0ec7d795",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell04.right.png",
+      "bytes": 10682,
+      "sha256": "5b37d7d628175482e05b41c8b932791c48e5dd536f7fb6d83131fe6ebbf508a8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell05.left.png",
+      "bytes": 10598,
+      "sha256": "d7afaac2f3f346361ba23018ad7afde01746ed164ea30feb49845ef867024d40",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.cell05.right.png",
+      "bytes": 10573,
+      "sha256": "c11285534d834ab2c8170857e2f93281b3b71233ba488a87fa59ef209de2c011",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.left.png",
+      "bytes": 10535,
+      "sha256": "b20d8c851848cc965176eb02eb866bb36dd38d89e50fcac8978659faece60c2d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214C5/projections/dragon1.walk.right.png",
+      "bytes": 10507,
+      "sha256": "cb4216ac8b6270033231d6361dd74ca61cc03f2599b9ac82c8eac943ec86926f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1-normal.frame01.left.png",
+      "bytes": 10094,
+      "sha256": "6995e421e1a3576a47219a0eb06bbe4f234775065ad2a3ed0638be28d38ef780",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1-normal.frame01.right.png",
+      "bytes": 10125,
+      "sha256": "711de342bf0922a02d7c0e48985d655a7995fcf0be7b6f09cd0423de8480e306",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1-normal.frame06.left.png",
+      "bytes": 10095,
+      "sha256": "88f4d862ff8c6236cedb7b12d186cdc87fc730e87b14ee6688d7485c98eec926",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1-normal.frame06.right.png",
+      "bytes": 10125,
+      "sha256": "1adfcc34ba8eb20ee57116a83d46d900b4dfa74bce9a11f7fc775a883cccd931",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1-normal.frame11.left.png",
+      "bytes": 10092,
+      "sha256": "622e40a9682e7c84b858964d3d7175195943eee9d7fa8f27585ee824561f3bff",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1-normal.frame11.right.png",
+      "bytes": 10125,
+      "sha256": "34139f6e768229007a5a8a96d631b3afef7c6e1c0312d23c26d1d7cb004bb88b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.cell00.left.png",
+      "bytes": 10430,
+      "sha256": "ba769e328c1fefe9ef7e307b28ffd0396330a5fd8da2094f2039498b6b994032",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.cell00.right.png",
+      "bytes": 10433,
+      "sha256": "fcc6975f99075d0a26e8e1f5281210b6b3e1e425b0fd88e8036f31fc6a8b1680",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.cell01.left.png",
+      "bytes": 10629,
+      "sha256": "5ab4902dbca0b4f35161b94433980deb8bef6b5fbe3f9a6f89fe594ebe987b15",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.cell01.right.png",
+      "bytes": 10625,
+      "sha256": "c0bd23d0439e9d6dd2b98cfc982fdef553281cefaf9c52c3fc8b2b83dad440a0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.cell02.left.png",
+      "bytes": 10193,
+      "sha256": "6e0ab20ec70c9e095140aadd87522f3c54103124ea2fe1f62c3d7b4e6a09b306",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.cell02.right.png",
+      "bytes": 10148,
+      "sha256": "c4fa7804dbd9dea5f01e2179e03ed1e350ec13c8e1198335da58d366f26d3ae6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.cell03.left.png",
+      "bytes": 10618,
+      "sha256": "72d64370710a9f7245fd32da5ebab129e5e36a7a139ae99574c094a1a53104b2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.cell03.right.png",
+      "bytes": 10558,
+      "sha256": "6cd37949d26229a6e051d436dafcde1ac35b147dab1cd395b4876f662e9b8437",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.left.png",
+      "bytes": 10618,
+      "sha256": "72d64370710a9f7245fd32da5ebab129e5e36a7a139ae99574c094a1a53104b2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.dead.right.png",
+      "bytes": 10558,
+      "sha256": "6cd37949d26229a6e051d436dafcde1ac35b147dab1cd395b4876f662e9b8437",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs-clone-active.left.png",
+      "bytes": 10338,
+      "sha256": "837d469589ad89d802b82fe6839f79ca28561a618d8917a4d9753772463c97c7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs-clone-active.right.png",
+      "bytes": 10337,
+      "sha256": "07cd517c4a166fa45cbb5cfb4a111deb87c42af7c695409a2f41670582a5da7e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell00.left.png",
+      "bytes": 11356,
+      "sha256": "be60ce4ba6a15667155ead75bfa753184b347aa547641fe71c8e08a69389659d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell00.right.png",
+      "bytes": 11300,
+      "sha256": "e809482118810ca2a9a3ac0624af83e707c072c829f925713382b6b4c7fb9580",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell01.left.png",
+      "bytes": 13741,
+      "sha256": "af340d42389ce9b993f63fd29d8816170a79b3ef91c601d78278ac60179358ca",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell01.right.png",
+      "bytes": 13691,
+      "sha256": "dd03fa76198ccc5e7ae1e74bee623e1f9a5608c55cd0bc71d462c2c49386e5ee",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell02.left.png",
+      "bytes": 11409,
+      "sha256": "55da7e92dc4971f1169238d91f53dfbc525a4ec4eb900137ace09f864f919301",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell02.right.png",
+      "bytes": 11355,
+      "sha256": "17af7088406de808f7632a386cc9ad19e5d04bd0f3a567fcb0dff2d6be49b92b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell03.left.png",
+      "bytes": 13828,
+      "sha256": "24f9838be42222242555a72070e7dc54a4bd2df8f7076bca84a01ff3b7c650ee",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell03.right.png",
+      "bytes": 13773,
+      "sha256": "d38765f9b1a02f38ec5340691888135fe357cb1e4eb30c0947729ecb62c904ac",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell04.left.png",
+      "bytes": 15181,
+      "sha256": "dd8d1b1aa019ef3fd8a0f4e4a843be09e497dfe5c927cdd67750ee5aca26fe1b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.cell04.right.png",
+      "bytes": 15182,
+      "sha256": "2a46246a2e3fe6e914f732ca7fe882d6299323e7079c9572221aa455e7271079",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.left.png",
+      "bytes": 15181,
+      "sha256": "dd8d1b1aa019ef3fd8a0f4e4a843be09e497dfe5c927cdd67750ee5aca26fe1b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.fs.right.png",
+      "bytes": 15182,
+      "sha256": "2a46246a2e3fe6e914f732ca7fe882d6299323e7079c9572221aa455e7271079",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.hurt.cell00.left.png",
+      "bytes": 10361,
+      "sha256": "8c3b1587f67c8d78b3f8968dd0d956f30ff36868eff0d594e4b344a320d00a09",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.hurt.cell00.right.png",
+      "bytes": 10355,
+      "sha256": "1254d6fa4a397e48a299ba391071f7d726985a0e5449d21b00e4017145d18f2e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.hurt.left.png",
+      "bytes": 10361,
+      "sha256": "8c3b1587f67c8d78b3f8968dd0d956f30ff36868eff0d594e4b344a320d00a09",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.hurt.right.png",
+      "bytes": 10355,
+      "sha256": "1254d6fa4a397e48a299ba391071f7d726985a0e5449d21b00e4017145d18f2e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.cell00.left.png",
+      "bytes": 10387,
+      "sha256": "8325353589fe6bd3b865ecf15fc7f82cca6f9a35083e04cb0a0e954c46146e79",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.cell00.right.png",
+      "bytes": 10401,
+      "sha256": "7a5a131ce48f6f685bb10c6d87f6ae6ce3db1a61b2e21c6c7d9177590eb0a120",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.cell01.left.png",
+      "bytes": 10460,
+      "sha256": "7ac594a0dc1a9826965c6e2e270642e7f4506016fbe3f4c9447f825ca5677bb0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.cell01.right.png",
+      "bytes": 10484,
+      "sha256": "a5433b151838804bbef639be65e18b0d1cc45d55678b3d7665ceaf8a727a562a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.cell02.left.png",
+      "bytes": 10593,
+      "sha256": "2a67dafb175f14e5cdda58caa4cfd6467f35496c9d2c35eb0e569c3be5478cdd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.cell02.right.png",
+      "bytes": 10586,
+      "sha256": "e7f23da446c845a8bbef63016cd717e107af8fb2587443437bed3ce9de2e2191",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.cell03.left.png",
+      "bytes": 10370,
+      "sha256": "99bd459c63e557f2577cb43c496d572728f7e377edf205ebc40ba7dd16a00bd3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.cell03.right.png",
+      "bytes": 10418,
+      "sha256": "890cc826f0d1ab910253f5b89e3498dde4907732b9777cd338c49da5e14684a6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.left.png",
+      "bytes": 10370,
+      "sha256": "99bd459c63e557f2577cb43c496d572728f7e377edf205ebc40ba7dd16a00bd3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.normal.right.png",
+      "bytes": 10418,
+      "sha256": "890cc826f0d1ab910253f5b89e3498dde4907732b9777cd338c49da5e14684a6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell00.left.png",
+      "bytes": 10325,
+      "sha256": "3702879640a260c8321c9d3b94fde7c39d406a1074d7661d9f491f70f643d57a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell00.right.png",
+      "bytes": 10316,
+      "sha256": "efb0c461864cbf4f458f7d8e52f2fcc0983d22b53d7e6fcb9b70a8ab049e3e5d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell01.left.png",
+      "bytes": 10269,
+      "sha256": "ad24b6d18ee219507c6832da88c6b7eec2a87caabeb528382e8cf42c8ed4ecc0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell01.right.png",
+      "bytes": 10275,
+      "sha256": "b37f8e503e057629427d0991297e08720d5fa6288b314152c87e5aa2fcf54d9f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell02.left.png",
+      "bytes": 10438,
+      "sha256": "ad7676c15446bd9b1f0f03d943ceaa4354a9b8bc7d14dfaf718b7091ef23a3d6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell02.right.png",
+      "bytes": 10446,
+      "sha256": "f8b872cec2b470e9f8747040ee195aad574d69f35fb6fb08e8bb0381b3853bc2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell03.left.png",
+      "bytes": 10355,
+      "sha256": "2b35c4c05b0bbe5bb33518400cf39c72e87e3702bf7c8c06006b0d1cbf008f08",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell03.right.png",
+      "bytes": 10384,
+      "sha256": "f7c45e774b4e7eb306352b7c37d2807c4af4d1318eb1d9723bf24184721299d3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell04.left.png",
+      "bytes": 10411,
+      "sha256": "ac8df229cc195cfbf6b1015bfbdc7bca460ade586f666213abfdb362f571b3d8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell04.right.png",
+      "bytes": 10446,
+      "sha256": "9e7c6f733d2414e8eb7be3588ae0df86198a711670e7d4fab36318b029c12e14",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell05.left.png",
+      "bytes": 10351,
+      "sha256": "c69e00b16829b2dd3df44b02208f831e34b7ba9ac9fedbea45d1a801ab8241cf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.cell05.right.png",
+      "bytes": 10351,
+      "sha256": "dd5327e1fd4738930f579e3580b6be935e9845d99b4786c2de1dcb7fbf00f87c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.left.png",
+      "bytes": 10325,
+      "sha256": "3702879640a260c8321c9d3b94fde7c39d406a1074d7661d9f491f70f643d57a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.wait.right.png",
+      "bytes": 10316,
+      "sha256": "efb0c461864cbf4f458f7d8e52f2fcc0983d22b53d7e6fcb9b70a8ab049e3e5d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell00.left.png",
+      "bytes": 10325,
+      "sha256": "3702879640a260c8321c9d3b94fde7c39d406a1074d7661d9f491f70f643d57a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell00.right.png",
+      "bytes": 10316,
+      "sha256": "efb0c461864cbf4f458f7d8e52f2fcc0983d22b53d7e6fcb9b70a8ab049e3e5d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell01.left.png",
+      "bytes": 10269,
+      "sha256": "ad24b6d18ee219507c6832da88c6b7eec2a87caabeb528382e8cf42c8ed4ecc0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell01.right.png",
+      "bytes": 10275,
+      "sha256": "b37f8e503e057629427d0991297e08720d5fa6288b314152c87e5aa2fcf54d9f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell02.left.png",
+      "bytes": 10438,
+      "sha256": "ad7676c15446bd9b1f0f03d943ceaa4354a9b8bc7d14dfaf718b7091ef23a3d6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell02.right.png",
+      "bytes": 10446,
+      "sha256": "f8b872cec2b470e9f8747040ee195aad574d69f35fb6fb08e8bb0381b3853bc2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell03.left.png",
+      "bytes": 10355,
+      "sha256": "2b35c4c05b0bbe5bb33518400cf39c72e87e3702bf7c8c06006b0d1cbf008f08",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell03.right.png",
+      "bytes": 10384,
+      "sha256": "f7c45e774b4e7eb306352b7c37d2807c4af4d1318eb1d9723bf24184721299d3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell04.left.png",
+      "bytes": 10411,
+      "sha256": "ac8df229cc195cfbf6b1015bfbdc7bca460ade586f666213abfdb362f571b3d8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell04.right.png",
+      "bytes": 10446,
+      "sha256": "9e7c6f733d2414e8eb7be3588ae0df86198a711670e7d4fab36318b029c12e14",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell05.left.png",
+      "bytes": 10351,
+      "sha256": "c69e00b16829b2dd3df44b02208f831e34b7ba9ac9fedbea45d1a801ab8241cf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.cell05.right.png",
+      "bytes": 10351,
+      "sha256": "dd5327e1fd4738930f579e3580b6be935e9845d99b4786c2de1dcb7fbf00f87c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.left.png",
+      "bytes": 10325,
+      "sha256": "3702879640a260c8321c9d3b94fde7c39d406a1074d7661d9f491f70f643d57a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon1.walk.right.png",
+      "bytes": 10316,
+      "sha256": "efb0c461864cbf4f458f7d8e52f2fcc0983d22b53d7e6fcb9b70a8ab049e3e5d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-normal.frame01.left.png",
+      "bytes": 17021,
+      "sha256": "32b32c36d38659d05d7f6ba35fd80d8116547ac187c28b922361df776e6c7656",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-normal.frame01.right.png",
+      "bytes": 16947,
+      "sha256": "34f63e130c679419b552a80e4dd903d761db3ec8631cab0c32d9f107729b9469",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-normal.frame08.left.png",
+      "bytes": 2230,
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-normal.frame08.right.png",
+      "bytes": 2230,
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-normal.frame15.left.png",
+      "bytes": 2230,
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-normal.frame15.right.png",
+      "bytes": 2230,
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-sdcc.frame01.left.png",
+      "bytes": 52260,
+      "sha256": "f38d803c03ab604f55a21d2d128a993c2a625ccd5525caef2f1f3aed7edc3620",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-sdcc.frame01.right.png",
+      "bytes": 52205,
+      "sha256": "8c9092731a90dd1de5fbcdb37ee4302e3d22a141ad149a4f23b3953e8d395211",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-sdcc.frame15.left.png",
+      "bytes": 58182,
+      "sha256": "6440aa036a570a1ce47db97e126757c0e8c8965b565a61f0d2e5e13c279617cb",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-sdcc.frame15.right.png",
+      "bytes": 58387,
+      "sha256": "3b8656d2c939763ab02bc6c2c2e1e62151c5b6e078fd5d1310a07f2a332cb0ae",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-sdcc.frame30.left.png",
+      "bytes": 22724,
+      "sha256": "8905d27e32ab9813bc49870993049adc04fcb135ef7cb2e4d16157c49ae5949a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2-sdcc.frame30.right.png",
+      "bytes": 22970,
+      "sha256": "b1dfc51641dd37c74aa857f1d1df5e0f1cd89a5d2e1263d9e2c1c9bd949b7aa2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell00.left.png",
+      "bytes": 19085,
+      "sha256": "c4e843c05129d6e54d922da3e2e6db8de6e691901a8c53368e430b660e9e6273",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell00.right.png",
+      "bytes": 19084,
+      "sha256": "bda7eb0f16f087a9c27da07f6e3b5a0d130bbaee17662ae2e86dccbae6b73951",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell01.left.png",
+      "bytes": 18504,
+      "sha256": "f02a7cc77f6231aa3b5bed3c2845eac6878779438f05bdf35ee3a36858b4d850",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell01.right.png",
+      "bytes": 18389,
+      "sha256": "0ad9667d3870de5c2ba0ed7fd8595db84e19e3a4a2d3a83cc622eae24d1db947",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell02.left.png",
+      "bytes": 18080,
+      "sha256": "8ea54c73d12ee72a4c7b22e1486b3b0fc4975b832204ad9b582e125d7dbf847a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell02.right.png",
+      "bytes": 17952,
+      "sha256": "42aec64f2562911f2ce28862b7f398eed46b3142aae5920f30671fd053f1b238",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell03.left.png",
+      "bytes": 17676,
+      "sha256": "41a959d16e4b0afa266fb27b11120a07a66b4448fc23214ed573f45192fc8eb5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell03.right.png",
+      "bytes": 17669,
+      "sha256": "3461115c6d24107008c58a6ed43b4daac0d09e064c5c774429ee894f68ca015a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell04.left.png",
+      "bytes": 17357,
+      "sha256": "98c2f7ea286442423d2cd5103ca700003ba91f777af641a42e13b97f3b06a3bf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.cell04.right.png",
+      "bytes": 17341,
+      "sha256": "c72cbc5851886a3b20831b83dc99de9a33b5275cb452b0df60b2b0ef2e73bebd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.left.png",
+      "bytes": 17357,
+      "sha256": "98c2f7ea286442423d2cd5103ca700003ba91f777af641a42e13b97f3b06a3bf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.dead.right.png",
+      "bytes": 17341,
+      "sha256": "c72cbc5851886a3b20831b83dc99de9a33b5275cb452b0df60b2b0ef2e73bebd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs-clone-active.left.png",
+      "bytes": 18724,
+      "sha256": "fa129df5de9de620c471a13851184fd35851a11c2a8d8378bf9477302c81b3a2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs-clone-active.right.png",
+      "bytes": 18753,
+      "sha256": "684dae9945f6629d79faa3d59cc9d21023be26ceb4263943a13e32e0414aa024",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell00.left.png",
+      "bytes": 18447,
+      "sha256": "f6c6bc48ebaf7d28aa0951b8e4323b8ef018b6d9cc725c74266716b317dead35",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell00.right.png",
+      "bytes": 18516,
+      "sha256": "0ac4712b0b29c5cdb973af8df7aca4fe1a4bf69922103518fff71a3e0b313952",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell01.left.png",
+      "bytes": 22091,
+      "sha256": "c0ae309450b56385fedf199d824457ac0e54697af4545318a7f377286a8cb4e6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell01.right.png",
+      "bytes": 22170,
+      "sha256": "89f0f599c0766db585ac389645c5dd9d4591a5fdd884ed6907377041efe77454",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell02.left.png",
+      "bytes": 18447,
+      "sha256": "f6c6bc48ebaf7d28aa0951b8e4323b8ef018b6d9cc725c74266716b317dead35",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell02.right.png",
+      "bytes": 18516,
+      "sha256": "0ac4712b0b29c5cdb973af8df7aca4fe1a4bf69922103518fff71a3e0b313952",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell03.left.png",
+      "bytes": 22091,
+      "sha256": "c0ae309450b56385fedf199d824457ac0e54697af4545318a7f377286a8cb4e6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell03.right.png",
+      "bytes": 22170,
+      "sha256": "89f0f599c0766db585ac389645c5dd9d4591a5fdd884ed6907377041efe77454",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell04.left.png",
+      "bytes": 23522,
+      "sha256": "0ce8c8dc9eff8c7d1c94aabc7d515a7c01ff1d36d6a7788ce4964ac6bc5b27b5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.cell04.right.png",
+      "bytes": 23667,
+      "sha256": "39ab7e23ea9cf2006838fab963bb0eac4d61e9e86c14c6333cbfb9750709e326",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.left.png",
+      "bytes": 23522,
+      "sha256": "0ce8c8dc9eff8c7d1c94aabc7d515a7c01ff1d36d6a7788ce4964ac6bc5b27b5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.fs.right.png",
+      "bytes": 23667,
+      "sha256": "39ab7e23ea9cf2006838fab963bb0eac4d61e9e86c14c6333cbfb9750709e326",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.hurt.cell00.left.png",
+      "bytes": 19752,
+      "sha256": "3687d7bab1639fc59329b268e9f06c612b6138102460ab0d6a74c151b74f0dc9",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.hurt.cell00.right.png",
+      "bytes": 19744,
+      "sha256": "f554bebd31c3cc6158c66d7c3de20ff0b7d0946280b02d323b0ae32e3aff069f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.hurt.left.png",
+      "bytes": 19752,
+      "sha256": "3687d7bab1639fc59329b268e9f06c612b6138102460ab0d6a74c151b74f0dc9",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.hurt.right.png",
+      "bytes": 19744,
+      "sha256": "f554bebd31c3cc6158c66d7c3de20ff0b7d0946280b02d323b0ae32e3aff069f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.cell00.left.png",
+      "bytes": 18890,
+      "sha256": "f8b6f22f1b92b6e5813aede30223f3173487ddb17bbf065a692f9f2c12fdb83f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.cell00.right.png",
+      "bytes": 18887,
+      "sha256": "9e1571c1c0120c8aeae9a7fe011ee897840d2b5e52353f1085309a6e128355da",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.cell01.left.png",
+      "bytes": 18642,
+      "sha256": "135993fbc2dc92c86d934bac91eca0e86ca22705b230ecc7d63835d3e61b1c4c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.cell01.right.png",
+      "bytes": 18614,
+      "sha256": "d8e5c8e4940a219801bd2e3c499065b19f20e5a6bbccb6e13f8ea923191a78b2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.cell02.left.png",
+      "bytes": 18464,
+      "sha256": "3923e61358657a7866012c774ceee7ac73a761e16ae75628055e734d994b9f81",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.cell02.right.png",
+      "bytes": 18409,
+      "sha256": "cd406ed90b12f071204ba00b38a252641a67f0e240402843bc3db12f7f99c2f4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.cell03.left.png",
+      "bytes": 18502,
+      "sha256": "e174033dbb2bf652b18fc91af8fa86e0650fa3feaad8f2448086dcbcf802fd7e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.cell03.right.png",
+      "bytes": 18511,
+      "sha256": "0da5a36d43019a94d8952d9df2cec3326faf66540b5d5804247a34a80a435085",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.left.png",
+      "bytes": 18502,
+      "sha256": "e174033dbb2bf652b18fc91af8fa86e0650fa3feaad8f2448086dcbcf802fd7e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.normal.right.png",
+      "bytes": 18511,
+      "sha256": "0da5a36d43019a94d8952d9df2cec3326faf66540b5d5804247a34a80a435085",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.sdcc.cell00.left.png",
+      "bytes": 18735,
+      "sha256": "fe93a7487b905ea21821826b12f5403c5e27a78f56a8b3300797f6c282a4ca6e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.sdcc.cell00.right.png",
+      "bytes": 18738,
+      "sha256": "e698bb4b57e53689cdc829062dc68901220be568d79ca87fc282c59f46501d30",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.sdcc.left.png",
+      "bytes": 18735,
+      "sha256": "fe93a7487b905ea21821826b12f5403c5e27a78f56a8b3300797f6c282a4ca6e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.sdcc.right.png",
+      "bytes": 18738,
+      "sha256": "e698bb4b57e53689cdc829062dc68901220be568d79ca87fc282c59f46501d30",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell00.left.png",
+      "bytes": 18750,
+      "sha256": "021cca0898910fb64e8885c694419e72a333d226bb8e8281f501eb8e71274fe7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell00.right.png",
+      "bytes": 18791,
+      "sha256": "6e670122d0e71c0345c726434731f7f4d00433aa319b2f5e2fa2d5e1965571b6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell01.left.png",
+      "bytes": 18812,
+      "sha256": "b018793304590c1edaa3a276047b1e5216416385080a11b6c0e406c0307a68fa",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell01.right.png",
+      "bytes": 18913,
+      "sha256": "4b4d69181c392c8201e403393547c380aa2adc4f04bdb6454d916b5d3346c771",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell02.left.png",
+      "bytes": 18976,
+      "sha256": "75010a4c5779995922e3b82ea06d526ce400caca4322d858ba42d5849e2407aa",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell02.right.png",
+      "bytes": 19017,
+      "sha256": "810ec9d07cddce6d5cb2b39b6d62fb313b5001ed28e215536cc8e36efb733082",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell03.left.png",
+      "bytes": 18998,
+      "sha256": "91cf2bdad0d4f34470933567be0bbda0bdae5a8e6840aaae3f98f346cb54be72",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell03.right.png",
+      "bytes": 18980,
+      "sha256": "1eeae075997678dbdf07a6daaae00c86bd24194036f6f4ebcafd9bb3aead4919",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell04.left.png",
+      "bytes": 18746,
+      "sha256": "203f0dab1e28b8c9bc339043f466f5f842c7528a29800364e840275a7797a2c9",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell04.right.png",
+      "bytes": 18872,
+      "sha256": "27f784e735d0fd949653f4882008ee04e4843c0b94b82d3a5fa27c1a6ca7da22",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell05.left.png",
+      "bytes": 18765,
+      "sha256": "0e1eb20cfc64090bd518016c9568a5abca1ce12eb9c1ae8121e1af7d0fda41fa",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.cell05.right.png",
+      "bytes": 18810,
+      "sha256": "5fb016513e2536f0794105e63962b0c353c73b022d57e66b32a92a5337c833b7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.left.png",
+      "bytes": 18750,
+      "sha256": "021cca0898910fb64e8885c694419e72a333d226bb8e8281f501eb8e71274fe7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.wait.right.png",
+      "bytes": 18791,
+      "sha256": "6e670122d0e71c0345c726434731f7f4d00433aa319b2f5e2fa2d5e1965571b6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.cell00.left.png",
+      "bytes": 18786,
+      "sha256": "6a4af02d6424100e3ffe9de4084295bd64b18eacdd9beda2b7be68912bbcce0e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.cell00.right.png",
+      "bytes": 18789,
+      "sha256": "041f26b2bfd4c7acc1887b611c7698d7a78bdcaceeeda8a0626004a96210e7da",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.cell01.left.png",
+      "bytes": 18795,
+      "sha256": "701abf58cf7151008e45b1c2eac0e84716b38380e2ee800d7ca70527d441fc66",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.cell01.right.png",
+      "bytes": 18794,
+      "sha256": "f727c1cbede4c5e140474e9897d96e18450dc066d4851585784350c8a0041d3f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.cell02.left.png",
+      "bytes": 19008,
+      "sha256": "9eac1d23484fe8459e86e5eff69f83f7021d7e4b4d0efd7286e447a664f614d2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.cell02.right.png",
+      "bytes": 18956,
+      "sha256": "948dc46b150e68c717f998f0d0b79ef7c6ab7333d0f7a1a47e785f2556cc7902",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.cell03.left.png",
+      "bytes": 18795,
+      "sha256": "701abf58cf7151008e45b1c2eac0e84716b38380e2ee800d7ca70527d441fc66",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.cell03.right.png",
+      "bytes": 18794,
+      "sha256": "f727c1cbede4c5e140474e9897d96e18450dc066d4851585784350c8a0041d3f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.left.png",
+      "bytes": 18786,
+      "sha256": "6a4af02d6424100e3ffe9de4084295bd64b18eacdd9beda2b7be68912bbcce0e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon2.walk.right.png",
+      "bytes": 18789,
+      "sha256": "041f26b2bfd4c7acc1887b611c7698d7a78bdcaceeeda8a0626004a96210e7da",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-ltwj.frame01.left.png",
+      "bytes": 90440,
+      "sha256": "f01fe73bb3d30e51eb7b09bf674a33111a791a0d41b3c75168355346f461d710",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-ltwj.frame01.right.png",
+      "bytes": 90494,
+      "sha256": "33de35a2e0d8b6b1299066cc44a1ceb7683f390e4df67715f416da4e05ea7a70",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-ltwj.frame05.left.png",
+      "bytes": 50886,
+      "sha256": "b2ab383e8baca40622dc380997cfab43ab2d18acb3c3a9efafecf206485554de",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-ltwj.frame05.right.png",
+      "bytes": 50912,
+      "sha256": "6dfa8be2f02fb7fe85461db04fb5cdfb0eba17af82bcf4eec444969adfbfb643",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-ltwj.frame10.left.png",
+      "bytes": 4976,
+      "sha256": "8b4a68b4a9cb827707280b94b553c0465f19d4cee1ce57dd36ff6b00f520903a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-ltwj.frame10.right.png",
+      "bytes": 4929,
+      "sha256": "1e05992da63305bfc59eb2620409396b0cc8311d79fa196eae014127d6d96a8c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-ltwj.nine-object-wave.left.png",
+      "bytes": 317768,
+      "sha256": "1cfae6ec6a359a3252f2a01cdcf2e03d918cf85c4459c28ebb5c4d375dba94b4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-ltwj.nine-object-wave.right.png",
+      "bytes": 318821,
+      "sha256": "8813a0dc44b3ad82ba932e9546cd0951928f400b773e7594dfc2cec444bf86bf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-normal.frame01.left.png",
+      "bytes": 9964,
+      "sha256": "c6baa64cad6a5ae58146d38bdf3ba89398711de28d5f74b52ccd1667053f961f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-normal.frame01.right.png",
+      "bytes": 10118,
+      "sha256": "e87d22cb8de7c31dd23661ef01cd9aadf5a6bf19fab204ec5fa1f0c3cd3df03b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-normal.frame11.left.png",
+      "bytes": 2230,
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-normal.frame11.right.png",
+      "bytes": 2230,
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-normal.frame21.left.png",
+      "bytes": 2230,
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3-normal.frame21.right.png",
+      "bytes": 2230,
+      "sha256": "ee4ac3c1b0e6b7c737511afd51df56dbd1795f22cab30da2f3643af885d25c02",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell00.left.png",
+      "bytes": 25320,
+      "sha256": "589202d579915a100cba8a6fd0e81859e36289ddb0768d6b0507daf00ad35496",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell00.right.png",
+      "bytes": 25381,
+      "sha256": "88d7d5294844c83da78fa32da82f90f7648c45b8bb648d48befc7f5279464308",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell01.left.png",
+      "bytes": 23581,
+      "sha256": "dde1d89fd832adf06ad2362a204e4f50c27f515ab18ea24990fe4ee29e8b8172",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell01.right.png",
+      "bytes": 23665,
+      "sha256": "02631121e637b4c4607b746bf9dece1e2d0f0b9dc91aebd52f339382dd1ab8fd",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell02.left.png",
+      "bytes": 22658,
+      "sha256": "f7ff86085b56cc9702c6572ea82e4a802beb96cf2f489bfc29ac7c22eea6856d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell02.right.png",
+      "bytes": 22676,
+      "sha256": "13de14deafed9087efdd860e38889b933e278c08435121a7cbd04c7bd5558352",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell03.left.png",
+      "bytes": 22837,
+      "sha256": "79c944cd0fb92b8a60ed968766f2ab700806ffbd531766f6bc4c0252b98d0ca3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell03.right.png",
+      "bytes": 22818,
+      "sha256": "e79ed658340aa94314d70d54da3ec853248a0e3adb81e1a98feb9928bc9e96c5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell04.left.png",
+      "bytes": 22284,
+      "sha256": "8626560539424268cb8a288a61187c8ce720971bed4b6208ac7916a0173f59d8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.cell04.right.png",
+      "bytes": 22215,
+      "sha256": "4244e35c11ccd2b7a0b9a2888b8a899076c74000337fd1d61bb04e0a0d7dc4b6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.left.png",
+      "bytes": 22284,
+      "sha256": "8626560539424268cb8a288a61187c8ce720971bed4b6208ac7916a0173f59d8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.dead.right.png",
+      "bytes": 22215,
+      "sha256": "4244e35c11ccd2b7a0b9a2888b8a899076c74000337fd1d61bb04e0a0d7dc4b6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs-clone-active.left.png",
+      "bytes": 25431,
+      "sha256": "e3b6a494dc8fed23068125733073ec872c29169ec7b4fe8e5176c4844abdb456",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs-clone-active.right.png",
+      "bytes": 25477,
+      "sha256": "ecf0426d1bc651bfd9ebe7dbd36305ee82792b32f736b49b4f128edda137ed5f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell00.left.png",
+      "bytes": 28348,
+      "sha256": "07b56e4f5d806e8fa0e8a0c30ad29ac52ae121bfb6a43cd0a43305c4a2e2bae1",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell00.right.png",
+      "bytes": 28214,
+      "sha256": "1a58afc597729ff82406b4d1199b3eea405d29efc190c5511c8e42338cf252c3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell01.left.png",
+      "bytes": 32581,
+      "sha256": "549d2a6638a27245bc93b3f3c92f148c89ce19980a9df39140062433c992aaba",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell01.right.png",
+      "bytes": 32601,
+      "sha256": "4210c9c472db62b8b9d2debbab0a665601ff94c6a8e23d9c3da05c414942ef85",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell02.left.png",
+      "bytes": 27898,
+      "sha256": "543a825bd636d17ae63dcf6f64712eea5e39efe70ba0769b8173039c691b3d17",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell02.right.png",
+      "bytes": 27824,
+      "sha256": "0e67ef6a9a7915ecc55e5d08a3a62342e52840df4e6e67191dd2fb45cdb5ee8a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell03.left.png",
+      "bytes": 33005,
+      "sha256": "c08e68877cb3036cf9f0ca29005bbbec1b4f115ad917a28a7ad11ea71239bb58",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell03.right.png",
+      "bytes": 32963,
+      "sha256": "a586aa0b082df2cdb22be99d94e5d1539a2c8bc650bb0c981f9033b22233322a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell04.left.png",
+      "bytes": 33929,
+      "sha256": "de97a1f4bff98d7825da7332107cbd3924721011529f20a7cf6d4b5c8235d1ee",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.cell04.right.png",
+      "bytes": 34015,
+      "sha256": "05526147d39526b441ad4b4b8b0a9331d50d13a9596290df33e5efb621193f6b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.left.png",
+      "bytes": 33929,
+      "sha256": "de97a1f4bff98d7825da7332107cbd3924721011529f20a7cf6d4b5c8235d1ee",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.fs.right.png",
+      "bytes": 34015,
+      "sha256": "05526147d39526b441ad4b4b8b0a9331d50d13a9596290df33e5efb621193f6b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.hurt.cell00.left.png",
+      "bytes": 28541,
+      "sha256": "6911e80f6ddaa58f8e630624978a6239235367498ff76575ed5ef3f8d24b7810",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.hurt.cell00.right.png",
+      "bytes": 28673,
+      "sha256": "04e50d9d55834354672f5af7c50e2d53c99ec381974c970de1d69faf8509602b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.hurt.left.png",
+      "bytes": 28541,
+      "sha256": "6911e80f6ddaa58f8e630624978a6239235367498ff76575ed5ef3f8d24b7810",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.hurt.right.png",
+      "bytes": 28673,
+      "sha256": "04e50d9d55834354672f5af7c50e2d53c99ec381974c970de1d69faf8509602b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.ltwj.cell00.left.png",
+      "bytes": 25470,
+      "sha256": "d6116ba3a48fb7da47156baddbae837d247b0d4ca21bd74107c48c92898c3e7f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.ltwj.cell00.right.png",
+      "bytes": 25631,
+      "sha256": "557eefdc7870862e2705496559bef4fe627f7a71ebbca3182edcadb88be683ab",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.ltwj.cell01.left.png",
+      "bytes": 26621,
+      "sha256": "a4a3eda9b55012beac427aff7891f9ed89d568975df1c12ce7556426c6f184db",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.ltwj.cell01.right.png",
+      "bytes": 26835,
+      "sha256": "d5499d00f360e2d331749f85a1cf1fc81bb74d141e1791e209e06075d0d7cbd1",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.ltwj.cell02.left.png",
+      "bytes": 25388,
+      "sha256": "8e2dbb9a88ec1641aed1fbd427ba1c72c1b039736fe3fdc8f9fbf837efa36e29",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.ltwj.cell02.right.png",
+      "bytes": 25408,
+      "sha256": "e3c1d2a5c9f89d8cc0f99991388a428a2327da2bc3c512c2f4795315dd2e2e4b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.ltwj.left.png",
+      "bytes": 25388,
+      "sha256": "8e2dbb9a88ec1641aed1fbd427ba1c72c1b039736fe3fdc8f9fbf837efa36e29",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.ltwj.right.png",
+      "bytes": 25408,
+      "sha256": "e3c1d2a5c9f89d8cc0f99991388a428a2327da2bc3c512c2f4795315dd2e2e4b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell00.left.png",
+      "bytes": 26318,
+      "sha256": "20d5751bcfac46091f9e2e0b3c5d24bf17d40b5a8f5de8c770e3fe00bad852d3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell00.right.png",
+      "bytes": 26220,
+      "sha256": "7ba834dfbd264e31ad259d2be6b75d6bee311dda2e4d8940a67833a52b915ec0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell01.left.png",
+      "bytes": 26108,
+      "sha256": "c3286b0fe37ee69b09e377e492ed5f0fb7ba4072147545b0a2fcdb728bb09074",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell01.right.png",
+      "bytes": 26214,
+      "sha256": "57ff9369f20b2c5e084d877c2277dbfb3cbe1a9d4dc8ee30aadab2180d515787",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell02.left.png",
+      "bytes": 25432,
+      "sha256": "84c41cf13cc8971292e51c8abe8154018020fdfd1646251fb1cc7d77ebae5de1",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell02.right.png",
+      "bytes": 25442,
+      "sha256": "d46baaf10a330ddef9e1dba1e59006161b373b61568d33ddcc1f0ff002fa0492",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell03.left.png",
+      "bytes": 24894,
+      "sha256": "6564b2a51485e3d766f2c68f2c9f01b3eafcddbffb9a1b84d02a294b1aebb24f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell03.right.png",
+      "bytes": 24994,
+      "sha256": "5e5502d619eef7db3465a8a9ff26b9889e5f85273450750592640e06bf7e978c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell04.left.png",
+      "bytes": 25029,
+      "sha256": "93baa606ae826ae0affbdea1e71fd692ffcddacfeb3def4d17fa481717c5bf29",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell04.right.png",
+      "bytes": 25144,
+      "sha256": "46156798fe8d07e16e692dd8e6515b444b9e6e56898277269588399151c3ce29",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell05.left.png",
+      "bytes": 25352,
+      "sha256": "bdf33b03e56ff6ed1f86b8680b5fd450787a3bdaf287a0737cc5ee3dd68c2de3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.cell05.right.png",
+      "bytes": 25337,
+      "sha256": "73ab74e48e2964ff3c254526231a18a93a1069d67af4b328833b9e7e83b2a970",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.left.png",
+      "bytes": 25432,
+      "sha256": "84c41cf13cc8971292e51c8abe8154018020fdfd1646251fb1cc7d77ebae5de1",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.normal.right.png",
+      "bytes": 25442,
+      "sha256": "d46baaf10a330ddef9e1dba1e59006161b373b61568d33ddcc1f0ff002fa0492",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.sdcc.cell00.left.png",
+      "bytes": 24925,
+      "sha256": "6b866c3290dc605266966d07af3ff95392e0e058cc82e56104dba514118781c0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.sdcc.cell00.right.png",
+      "bytes": 24954,
+      "sha256": "5f3acf08f59a4aa01171a058700edec6039ee66e5ffe77b6afabf5376222e1de",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.sdcc.left.png",
+      "bytes": 24925,
+      "sha256": "6b866c3290dc605266966d07af3ff95392e0e058cc82e56104dba514118781c0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.sdcc.right.png",
+      "bytes": 24954,
+      "sha256": "5f3acf08f59a4aa01171a058700edec6039ee66e5ffe77b6afabf5376222e1de",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell00.left.png",
+      "bytes": 25456,
+      "sha256": "cb9b4955be4680bdf235da26bbab6dcfce5dc3fa72ec47e430d449245e0a8d0d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell00.right.png",
+      "bytes": 25482,
+      "sha256": "2dfc070ad5cf7dae321c6fe8b1bbfa1a3ebd83f3c80aef4e9a5969f52b6cb284",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell01.left.png",
+      "bytes": 25464,
+      "sha256": "16961e44e7a92bbc8b6a46d97b1d167babb1b604113b18a073bc30fe26fce4e5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell01.right.png",
+      "bytes": 25558,
+      "sha256": "29b75c7b83093c47009704031cbf43fc2080abec40bb9dd8cbb56c5356ef1145",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell02.left.png",
+      "bytes": 25483,
+      "sha256": "df566cad27ed49608975fa9c3f83d78b4cd1953d5ee85dc3167d450acfec1ee9",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell02.right.png",
+      "bytes": 25631,
+      "sha256": "ce47a6b546415597fb282e3fa863730e3ed7499c244aee03d4a9bad0e0757fb5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell03.left.png",
+      "bytes": 25575,
+      "sha256": "9eae0c2448cbf617bbe65d61fa6759daeeaab331821ffb91c45ea8e3a622df2b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell03.right.png",
+      "bytes": 25642,
+      "sha256": "471c55a40d4d381c4d65d40e1ee62a23930748d540036d6736e55b51183a4d5f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell04.left.png",
+      "bytes": 25432,
+      "sha256": "1a7b72ee0c2f75444c129afa82cb7a4ad95979a9b9d20c8d8c22569896afbcdf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell04.right.png",
+      "bytes": 25510,
+      "sha256": "e1a9cb27231e14eb59eecb45709a814efd5f066af9f81f019cd0fbd8072344c8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell05.left.png",
+      "bytes": 25424,
+      "sha256": "fadf3e63d088f3916c6b06b6bb9e5c84894a23e4e2b66f200dd4006d7471232f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.cell05.right.png",
+      "bytes": 25513,
+      "sha256": "26b4cded7cd3ceac80c38dfef5e4c34fb55d5e687d702f473b9f71dbfc508237",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.left.png",
+      "bytes": 25456,
+      "sha256": "cb9b4955be4680bdf235da26bbab6dcfce5dc3fa72ec47e430d449245e0a8d0d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.wait.right.png",
+      "bytes": 25482,
+      "sha256": "2dfc070ad5cf7dae321c6fe8b1bbfa1a3ebd83f3c80aef4e9a5969f52b6cb284",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.cell00.left.png",
+      "bytes": 26238,
+      "sha256": "047abb663270ead0dca73f3e99ab065de0a7dbe30fa80cc985cddc46c0b3992a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.cell00.right.png",
+      "bytes": 26189,
+      "sha256": "cd14b383ff2d6ae012da68db7d3dca44d3115800fa65df92edec508b35b9dfb0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.cell01.left.png",
+      "bytes": 24957,
+      "sha256": "d0cbc511c92e2e5e4a392329a22c7251db56181aa92cafec33c9c7fa0b1ef1bb",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.cell01.right.png",
+      "bytes": 24969,
+      "sha256": "c1e70f7786632c19150733dd057dfb6eca3e648f05f0322c74ef48597006cafa",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.cell02.left.png",
+      "bytes": 26422,
+      "sha256": "dd78fab5ac45ad197b11aa2c7f2eae86fcfaf9e3013bc0141c33c88dfa59d055",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.cell02.right.png",
+      "bytes": 26411,
+      "sha256": "f03a84507d47427e9e3e7ddc53bca8bc103e19c74a69389779be0eb45f3e2b5e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.cell03.left.png",
+      "bytes": 25006,
+      "sha256": "fdd0d2861d0cba21ac1c2fe8cffc3546b92fb65a70e4b3e1cc8d6a08a5004b30",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.cell03.right.png",
+      "bytes": 25035,
+      "sha256": "594d1230404ce242075d368cc654401f7b4aba0de40ef5941b500fb6a32f8e8e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.left.png",
+      "bytes": 26238,
+      "sha256": "047abb663270ead0dca73f3e99ab065de0a7dbe30fa80cc985cddc46c0b3992a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon3.walk.right.png",
+      "bytes": 26189,
+      "sha256": "cd14b383ff2d6ae012da68db7d3dca44d3115800fa65df92edec508b35b9dfb0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi-aoyi-buff.frame01.fixed.png",
+      "bytes": 11927,
+      "sha256": "da31872bc359e1e8c37e7a3482a3c51266d9dd8a6239dfefd36cf30c4f489616",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi-aoyi-buff.frame07.fixed.png",
+      "bytes": 50238,
+      "sha256": "6a0cf887e81a620a0156771d513147e506c434604a70619331b80815504191c0",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi-aoyi-buff.frame14.fixed.png",
+      "bytes": 36765,
+      "sha256": "1d344579003d817b911dca28ac052590eb12329419cf270ecf393b6b5b605b4c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi.frame01.left.png",
+      "bytes": 144637,
+      "sha256": "546b6e90edb73379fe5e80caf1e8a7cbbf522ee75198d534aea121d83c24bced",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi.frame01.right.png",
+      "bytes": 144163,
+      "sha256": "949202d4996a2bdf0fe239a780487679d7e0781e3594d27c6c1e687d2fdad34d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi.frame24.left.png",
+      "bytes": 147124,
+      "sha256": "01252e87ac7c17804bd5d4d43ca952403767d9ed82f6fe2fc3f8845f30b41ab5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi.frame24.right.png",
+      "bytes": 146443,
+      "sha256": "b159189727b58f1fb3166e7769da3983a12911e60843af3207eaabdebadf9b72",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi.frame48.left.png",
+      "bytes": 148946,
+      "sha256": "6b1bea32dec514aa8c2b7cffda7c75ce59d020f9a3fddb9a60f124488476e8bc",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4-qlaoyi.frame48.right.png",
+      "bytes": 149099,
+      "sha256": "5be49731de088586ee1469de2a514dc57c3d6b0140ded1d1f9689d8271cca67d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell00.left.png",
+      "bytes": 37313,
+      "sha256": "cb3ccca63094ca99d313329c8b38c831b688e77a46106e273acfdd8e3c22ed67",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell00.right.png",
+      "bytes": 37419,
+      "sha256": "8fb657a6c1c7a35d23feb2c95c6f856b79adb6aa9eb276e152ee41e50bbcaf16",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell01.left.png",
+      "bytes": 34885,
+      "sha256": "ab25806a4ded2cf65bd539f18dae107849164eaa1c7e566cca809f4d2b246c0e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell01.right.png",
+      "bytes": 34885,
+      "sha256": "0da89577e6f62b2bbf9f864e1f7e0fe8ac76750cb0a16683127f709546c65961",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell02.left.png",
+      "bytes": 34916,
+      "sha256": "39774b0a1f9f620632d78da0120dc32549d399ebc2ff7006258295ca8128b83b",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell02.right.png",
+      "bytes": 34839,
+      "sha256": "573768e8c73bf6858230b5cd6cc1e5a650ab0e33c35b4d5194fa5e2fff809edc",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell03.left.png",
+      "bytes": 34934,
+      "sha256": "f9bc0e43f81b155246482c4ba62c349ffb964291b1f8954a729a4d56ab6183f4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell03.right.png",
+      "bytes": 34630,
+      "sha256": "de292fd9adad26599f31c223aa8010edf0802dd2014b529c791319af7e3025d4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell04.left.png",
+      "bytes": 31748,
+      "sha256": "7ec677e0d20f8c76dc01b059fc3e7439c0c470fbd549c267b7e06a45bd9830c7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.cell04.right.png",
+      "bytes": 31483,
+      "sha256": "3337e5f706cd7b54a74f156960a7dbf9283c7462ac808fbc2d3afbdfbc7cc15d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.left.png",
+      "bytes": 31748,
+      "sha256": "7ec677e0d20f8c76dc01b059fc3e7439c0c470fbd549c267b7e06a45bd9830c7",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.dead.right.png",
+      "bytes": 31483,
+      "sha256": "3337e5f706cd7b54a74f156960a7dbf9283c7462ac808fbc2d3afbdfbc7cc15d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs-clone-active.left.png",
+      "bytes": 37656,
+      "sha256": "b3e86135260c5fa0f822dd0369fcb1d2b7dcaee02761fa2cbbb6c0bb8cf55aa8",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs-clone-active.right.png",
+      "bytes": 38003,
+      "sha256": "f439c47996d849d075e68f3dfcb84453e8a42736f88f731c01fe5035512b2912",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell00.left.png",
+      "bytes": 34039,
+      "sha256": "3692627989f0034a237d24868b485e31a8ce56fded3e794ab6b62986045ae1a3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell00.right.png",
+      "bytes": 34070,
+      "sha256": "be1a7a47aacba6e036ee8c32ef320c8ec4c6c46bd121fec90b139ec5c2cb4eaa",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell01.left.png",
+      "bytes": 38762,
+      "sha256": "0c68f58b1a1fc2bbff4c303fd36cfa180f7f13bd389b01771cfa7ef2159feff5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell01.right.png",
+      "bytes": 38710,
+      "sha256": "e8e1d24cdd8f5df37aae219033da5c628a359f1712a01d4c446ce65ff671d068",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell02.left.png",
+      "bytes": 33907,
+      "sha256": "d7efb45ec7fed181cd062702a145bbf16c27ab96acef8f3608df3ee5885a8471",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell02.right.png",
+      "bytes": 33955,
+      "sha256": "be209d09bf52b7b43c69c5759802197d9fe6c15975c63ff4496a9e5f7eb7076a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell03.left.png",
+      "bytes": 38824,
+      "sha256": "5d635c3539e840969d3b3084c9c6474ab357e370f572fb549d261783cd4bb9e4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell03.right.png",
+      "bytes": 38870,
+      "sha256": "ec973afdb126a6475a1c1d2d79c975b0d1bde3b5ed64f1a4267e800dc4347859",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell04.left.png",
+      "bytes": 43801,
+      "sha256": "9973c4b9ef53021da345f9ce2b250c05599648ed643dfe37edce32d3b1716554",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.cell04.right.png",
+      "bytes": 43794,
+      "sha256": "16681887c9c7d7b92b41dbedf38eb68e2161a6f8d4f7a27dc78ee56b3e05e208",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.left.png",
+      "bytes": 43801,
+      "sha256": "9973c4b9ef53021da345f9ce2b250c05599648ed643dfe37edce32d3b1716554",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.fs.right.png",
+      "bytes": 43794,
+      "sha256": "16681887c9c7d7b92b41dbedf38eb68e2161a6f8d4f7a27dc78ee56b3e05e208",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.hurt.cell00.left.png",
+      "bytes": 38449,
+      "sha256": "8cffaac21007871aa6bedd6377a5d33fd5b0070b8a959c7767d16cc4c8e9b4d6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.hurt.cell00.right.png",
+      "bytes": 38490,
+      "sha256": "119b9b1db3ae10730bfa719b90957a5068dc2ef66f569493d28433e321d6fb32",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.hurt.left.png",
+      "bytes": 38449,
+      "sha256": "8cffaac21007871aa6bedd6377a5d33fd5b0070b8a959c7767d16cc4c8e9b4d6",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.hurt.right.png",
+      "bytes": 38490,
+      "sha256": "119b9b1db3ae10730bfa719b90957a5068dc2ef66f569493d28433e321d6fb32",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.ltwj.cell00.left.png",
+      "bytes": 37495,
+      "sha256": "7c3adb702f5e4ef92981763a0b322cb20b080ff5ab17aac2db753145086ce2ed",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.ltwj.cell00.right.png",
+      "bytes": 37646,
+      "sha256": "da951e85b464fd1058f464b97a04bb06385b9ca9584aec260a4cc89aa41db14a",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.ltwj.cell01.left.png",
+      "bytes": 37686,
+      "sha256": "3daa0746eb00a591486f9bdfbd26308606a0c85a899139fda4af3a6413306aaf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.ltwj.cell01.right.png",
+      "bytes": 37942,
+      "sha256": "4d3a83d7e08210c480f9a9a7b1a6cebbd473fe7021c95d9957da5120b1239aad",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.ltwj.cell02.left.png",
+      "bytes": 38341,
+      "sha256": "cf278a0ed1e974ea923fa1a300e71d273df2275234ac0928a6f268e8d9e16d0f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.ltwj.cell02.right.png",
+      "bytes": 38240,
+      "sha256": "9efc97a0c1727cddff94e9d5abc30488dc26e8605f090bb7ee81b73ee2f784b9",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.ltwj.left.png",
+      "bytes": 38341,
+      "sha256": "cf278a0ed1e974ea923fa1a300e71d273df2275234ac0928a6f268e8d9e16d0f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.ltwj.right.png",
+      "bytes": 38240,
+      "sha256": "9efc97a0c1727cddff94e9d5abc30488dc26e8605f090bb7ee81b73ee2f784b9",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell00.left.png",
+      "bytes": 37983,
+      "sha256": "3b44b773983458d897efd3d98ffd03d1c0fe017582df2b07874f54a02a25a60c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell00.right.png",
+      "bytes": 38076,
+      "sha256": "b8b56a5e5c4606926e6858c00c4c7601174d137a291504ae050bf231c287e348",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell01.left.png",
+      "bytes": 37581,
+      "sha256": "36cea4ab8c61e47d34d147dd5d264e1429423cba14f5e9ff315bdc0dfc45b546",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell01.right.png",
+      "bytes": 37719,
+      "sha256": "8c45b3490a64b6f7a0213a8124ecef59144a6e672cab3bfb8b3aaf59b609d27e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell02.left.png",
+      "bytes": 36608,
+      "sha256": "b9ab63ee8f295445f30882de3d6d17f92936ac1e83b89cdc7fc2fcdfa17cac38",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell02.right.png",
+      "bytes": 36642,
+      "sha256": "4a1de06c6d92c2725488ea839870147ae4036ec1459ba72f1f742dbdddd8390d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell03.left.png",
+      "bytes": 36844,
+      "sha256": "02d802287eca68bf1cb61817a8a27aed3e9e0623b837cef616579a64ecf1e540",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell03.right.png",
+      "bytes": 36886,
+      "sha256": "4de1cddc8247f0683a415cfa6d35be82b34a9ac0bf64271448b59edb7f327939",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell04.left.png",
+      "bytes": 37466,
+      "sha256": "b3abfb2b961e32e034cba17ebcfa08bc9e33d4b65a3de101307fd7b3d766c9b2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell04.right.png",
+      "bytes": 37474,
+      "sha256": "a661d29319e64d360fa84c4729bb11883d3145b5dbb6adad9892ba88a01fefcb",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell05.left.png",
+      "bytes": 36395,
+      "sha256": "f4d687eb6b5550c9b1546d1ff05dfc654e42a0a74aad4cc5bec31f7da95c91d2",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.cell05.right.png",
+      "bytes": 36465,
+      "sha256": "f82a3ea42a5397f049deaf4f95be7ca6a65e8d8171a7dcfaa225ff709a5a0332",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.left.png",
+      "bytes": 36608,
+      "sha256": "b9ab63ee8f295445f30882de3d6d17f92936ac1e83b89cdc7fc2fcdfa17cac38",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.normal.right.png",
+      "bytes": 36642,
+      "sha256": "4a1de06c6d92c2725488ea839870147ae4036ec1459ba72f1f742dbdddd8390d",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi-ltwj-link.cell00.left.png",
+      "bytes": 36342,
+      "sha256": "0f8eebc3da6c3868ca6bf87d7d9f6a1c2a4ce848d124d039006715d4fc887307",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi-ltwj-link.cell00.right.png",
+      "bytes": 36380,
+      "sha256": "12a98b54924b479bfa07384c087a8b27441e0e1037bacbd7ce2c5a09cf196634",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi-ltwj-link.cell01.left.png",
+      "bytes": 35812,
+      "sha256": "f27f5fd2d0498b07ba9095cea283a7a1072186fe84a5fe6d45458fec973256f3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi-ltwj-link.cell01.right.png",
+      "bytes": 36022,
+      "sha256": "616708f46690696cc5482e46eb3b8f267494792f116c26c30efe7103e7ddbada",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi-ltwj-link.left.png",
+      "bytes": 35812,
+      "sha256": "f27f5fd2d0498b07ba9095cea283a7a1072186fe84a5fe6d45458fec973256f3",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi-ltwj-link.right.png",
+      "bytes": 36022,
+      "sha256": "616708f46690696cc5482e46eb3b8f267494792f116c26c30efe7103e7ddbada",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi.cell00.left.png",
+      "bytes": 35884,
+      "sha256": "9b22a46719d5e5545190c857eea1c01d82500155dc58cad4ca8fd3aad7bf2676",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi.cell00.right.png",
+      "bytes": 36045,
+      "sha256": "a8c0d1b80c4eaf7eea4404ef38c4c3e0f8256ba5c6833452ee9417ef88c2ba76",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi.left.png",
+      "bytes": 35884,
+      "sha256": "9b22a46719d5e5545190c857eea1c01d82500155dc58cad4ca8fd3aad7bf2676",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.qlaoyi.right.png",
+      "bytes": 36045,
+      "sha256": "a8c0d1b80c4eaf7eea4404ef38c4c3e0f8256ba5c6833452ee9417ef88c2ba76",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.sdcc.cell00.left.png",
+      "bytes": 36602,
+      "sha256": "388445cb3fff0631ef51b484030e4535a09d2bcdac32da30fc5c82b2f370fd56",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.sdcc.cell00.right.png",
+      "bytes": 36587,
+      "sha256": "5d0b408c7493dc34fe8b8c2a97e1f4ff9fe427113e66280eb807c6d61561114e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.sdcc.left.png",
+      "bytes": 36602,
+      "sha256": "388445cb3fff0631ef51b484030e4535a09d2bcdac32da30fc5c82b2f370fd56",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.sdcc.right.png",
+      "bytes": 36587,
+      "sha256": "5d0b408c7493dc34fe8b8c2a97e1f4ff9fe427113e66280eb807c6d61561114e",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell00.left.png",
+      "bytes": 37785,
+      "sha256": "832488ce67753f66a6084b2bd384eb8e561a136f9c95600738f3be2107063fb4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell00.right.png",
+      "bytes": 37964,
+      "sha256": "5ba7d675985787b404ebc4e0cae676d722666e598c34cc72e09c9f540c740a83",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell01.left.png",
+      "bytes": 37870,
+      "sha256": "b4ec65e0d2f60f2144435611868fffd0c989467fe3f6170d284f40b6531f73b4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell01.right.png",
+      "bytes": 38111,
+      "sha256": "f7335ed1b33f18bac431853be431b6bf4c934df596997ab1ebc4d94b72769ee5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell02.left.png",
+      "bytes": 37991,
+      "sha256": "eb5059f44c20f3ea2e4e422f55a2dd0723bf3a0723122a1190e38565b9464f99",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell02.right.png",
+      "bytes": 38160,
+      "sha256": "da6bf303694e22373c9f0b1d9fae0945ccaeb7f7440e83e9146c34548981d347",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell03.left.png",
+      "bytes": 38141,
+      "sha256": "6b32b37e25cfe22efd69512f523e8e528a39d6fcdf02b21925800533afe9787f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell03.right.png",
+      "bytes": 38382,
+      "sha256": "6b4f39311f7ed6f9eb287c9beaa11d1fa474328734ff8271d3c2876fb98af3a5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell04.left.png",
+      "bytes": 37893,
+      "sha256": "e4f667dfc04097eba96c6cb2f42a9ead6b7fda5344ccf4942d35810fd09247e5",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell04.right.png",
+      "bytes": 38108,
+      "sha256": "a4a4077ed66a946e38d08b65507755e02867423b772af61e2004bab918d484bf",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell05.left.png",
+      "bytes": 37715,
+      "sha256": "4d9594cf2c749dd89a6684c01f9b77129e5d79072fc9123a2d8f0ce64a9b5f21",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.cell05.right.png",
+      "bytes": 37965,
+      "sha256": "23d9564b2a18f4e56f5faeef91cf1e9a9db3dd24dcaacf841c483a4786384ede",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.left.png",
+      "bytes": 37785,
+      "sha256": "832488ce67753f66a6084b2bd384eb8e561a136f9c95600738f3be2107063fb4",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.wait.right.png",
+      "bytes": 37964,
+      "sha256": "5ba7d675985787b404ebc4e0cae676d722666e598c34cc72e09c9f540c740a83",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.cell00.left.png",
+      "bytes": 37673,
+      "sha256": "c0a2bb219073cf2b8c106b31abd46f09e92016d4969c88f306344a6217021e77",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.cell00.right.png",
+      "bytes": 37727,
+      "sha256": "52d92bd14dbdd9de0267cba29f0bb0bd833183c73a6e4c79407706d373c1fbdc",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.cell01.left.png",
+      "bytes": 36462,
+      "sha256": "b2c08289923408d3ebfc6f3892aaad6d0bd5853dad632f9a3af093ed4235d65c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.cell01.right.png",
+      "bytes": 36435,
+      "sha256": "13af9c1e502b78947590e66bd9998c59c4fcdccfea6f1ac7aa9f650f7a0be881",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.cell02.left.png",
+      "bytes": 37609,
+      "sha256": "da8dbfcb49344d8f4a45d07b89c724d02a5ee3b3b8a4376fb24edfb8dc8c155f",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.cell02.right.png",
+      "bytes": 37519,
+      "sha256": "998e4531f4e56d902af7a0b756ec602dbd7b6a8c6f819472124bb4d559eae36c",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.cell03.left.png",
+      "bytes": 36379,
+      "sha256": "1d96dfd95b21a0154ed781d3fa2b1c91e89ab36b7c2004a57432c7d2836064d1",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.cell03.right.png",
+      "bytes": 36344,
+      "sha256": "80b4dfdd0376a1b1208e1be9f0729aef1769cf4a3b134cb74413a09225d16c35",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.left.png",
+      "bytes": 37673,
+      "sha256": "c0a2bb219073cf2b8c106b31abd46f09e92016d4969c88f306344a6217021e77",
+      "reason": "regenerable-modern-projection"
+    },
+    {
+      "path": "docs/tasks/evidence/TASK-SLICE-214A/projections/dragon4.walk.right.png",
+      "bytes": 37727,
+      "sha256": "52d92bd14dbdd9de0267cba29f0bb0bd833183c73a6e4c79407706d373c1fbdc",
+      "reason": "regenerable-modern-projection"
+    }
+  ],
+  "retained": "Original baselines in TASK-SETTINGS evidence, active 218/219 collision inputs, runtime assets, machine truth, reports and representative screenshots. Existing generator-referenced images retained conservatively; review consumers before future deletion."
+}

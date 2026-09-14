@@ -13,7 +13,7 @@
 4. 开始执行前，确认该 task 在 `task-definitions/` 中有独立的“完成定义”。如果没有，先按 `docs/workflow/task-generation.md` 补齐独立定义和索引链接，再执行。
 5. 如果任务实际过大，不硬做完；按 `docs/workflow/task-generation.md` 把原任务标为 `Split`，拆出更小子任务，只完成其中一个可验收子任务。
 6. 任务结束时必须更新功能线覆盖台账、`task-board.md`、当前独立定义和同线推荐后续任务；条线未关闭时禁止推荐其他系统。
-7. 如果任务完成，把该任务从 `task-board.md` 和 `task-definitions/` 移到 `docs/tasks/task-history.md`，并在历史中记录完成内容、产物和必要验证。
+7. 如果任务完成，把该任务从 `task-board.md` 和 `task-definitions/` 移到 `docs/tasks/task-history.md`，并在历史中记录完成内容、产物和必要验证；按下方“验证产物生命周期”处理证据文件。
 8. 代码逆向沿用既有 `docs/workflow/reverse-engineering-protocol.md` 和 task 输入，不新增任务协议/方案文档。只有视觉真值逆向读取 `docs/workflow/reverse-engineering-task-protocol.md` 与当前 task 唯一链接的 `逆向方案`，生成有溯源、Schema 与完整性核对的原版机器真值 JSON。两类任务均不得从 PG 恢复执行步骤，并同步更新 `docs/reverse-engineering/mechanics-index.md`。
 9. 实现任务还必须同步更新 `docs/tasks/vertical-slices.md`，并更新 `mechanics-index.md` 的复现状态。
 10. task 完成只代表工作单元归档；只有 `feature-lines.md` 的完整关闭合同满足后，才能关闭功能线并切换到下一条线。
@@ -21,6 +21,16 @@
 每个 task 的完成定义必须写在独立的 `task-definitions/TASK-*.md`，并包含：要解决的问题、必读资料、输出产物、验收标准、禁止范围和推荐后续任务。`task-board.md` 只保留轻量索引。
 
 看板状态表更新后运行 `npm run generate:harness` 刷新当前推荐；推荐是派生视图，不另写历史事件或手动维护第二份 Ready 状态。
+
+## 验证产物生命周期
+
+- 新生成的逐帧投影、差异图、叠图、重复截图和临时录制默认放在 Git 忽略的 `.tmp/verification-images/<task-id>/`；需要跨任务保留的原始采样放在 `local-resources/regima/task-outputs/<task-id>/`。常规检查优先内存比较，不默认落盘每一帧；诊断输出使用显式开关。
+- 每个 task 收尾检查产物用途，立即删除可再生且无后续输入依赖的中间输出。一个完整宠物家族或功能验收完成时，再集中清理该范围跨 task 留下的临时证据；不能把前置 task 完成误当作整个功能完成。
+- 长期保留运行时资源、测试代码、原版机器真值与溯源、复验所需的独立原版基准、精简报告和少量有说明的代表截图。原版基准与运行时资源不能仅因图片数量多就删除；不得用现代实现重新生成“原版”基准。需要保留的本地大批输入列出用途、消费者和清理时点，并加入 Git 忽略。
+- 清理前列出路径、数量、体积和消费者，区分测试输入与生成输出；先改掉对可再生输出文件存在性的依赖，再运行相关复验。删除只针对已确认的生成产物，核对绝对路径位于目标目录，不触碰原始提取语料。历史证据删除记录路径、摘要、原因和剩余基准位置，旧报告的已清理图片链接按该记录解释。
+- 后续修改共享碰撞、动画、伤害或生命周期时仍执行相关回归；出现可见回归或验收差异时按需重新生成诊断图片，用完清理。复验不要求永久保存所有过程图片，也不要求每完成一个 task 就重复整套人工视觉验收。精度按用户已批准的验收范围，近似仍明确标记，不能改写成 verified 原版事实。
+
+青龙投影诊断：`python tools/verify-pet-dragon-asset-projections.py --check --write-images`；生产展示诊断：`python tools/verify-dragon1-presentation.py --write-images`（二三阶加 `--dragon23`）。省略 `--write-images` 时照常比较原版基准并验证变异，取消的只是批量 PNG 落盘。报告中的历史 projection 路径是结果标识，不再要求该输出文件常驻。
 
 ## 单 task 多 agent 协作协议
 

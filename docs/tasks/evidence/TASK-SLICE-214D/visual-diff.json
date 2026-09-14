@@ -1,0 +1,710 @@
+{
+  "scope": "Actual production presenter output; Phaser display protocol capture, independently rendered against original baselines",
+  "states": 174,
+  "differentPixels": 0,
+  "mutationKills": [
+    "geometry",
+    "alpha",
+    "frame",
+    "flip",
+    "wave-insertion-order"
+  ],
+  "results": [
+    {
+      "id": "dragon2.wait.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.hurt.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.hurt.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.sdcc.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.sdcc.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.hurt.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.hurt.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.sdcc.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.sdcc.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.ltwj.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.ltwj.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs-clone-active.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs-clone-active.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs-clone-active.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs-clone-active.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-normal.frame01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-normal.frame01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-normal.frame08.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-normal.frame08.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-normal.frame15.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-normal.frame15.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-sdcc.frame01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-sdcc.frame01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-sdcc.frame15.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-sdcc.frame15.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-sdcc.frame30.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2-sdcc.frame30.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-normal.frame01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-normal.frame01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-normal.frame11.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-normal.frame11.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-normal.frame21.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-normal.frame21.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-ltwj.frame01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-ltwj.frame01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-ltwj.frame05.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-ltwj.frame05.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-ltwj.frame10.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-ltwj.frame10.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-ltwj.nine-object-wave.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3-ltwj.nine-object-wave.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell04.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell04.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell05.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.wait.cell05.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.walk.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.hurt.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.hurt.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.normal.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell04.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.fs.cell04.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.sdcc.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.sdcc.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell04.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon2.dead.cell04.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell04.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell04.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell05.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.wait.cell05.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.walk.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.hurt.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.hurt.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell04.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell04.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell05.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.normal.cell05.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell04.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.fs.cell04.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.sdcc.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.sdcc.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.ltwj.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.ltwj.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.ltwj.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.ltwj.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.ltwj.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.ltwj.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell00.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell00.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell01.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell01.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell02.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell02.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell03.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell03.right",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell04.left",
+      "differentPixels": 0
+    },
+    {
+      "id": "dragon3.dead.cell04.right",
+      "differentPixels": 0
+    }
+  ]
+}

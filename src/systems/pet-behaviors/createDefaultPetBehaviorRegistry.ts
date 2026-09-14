@@ -9,6 +9,8 @@ const horseForms = [1, 2, 3, 4] as const satisfies readonly HorsePetForm[];
 export function createDefaultPetBehaviorRegistry(): PetBehaviorRegistry {
   return new PetBehaviorRegistry([
     { species: 'dragon', form: 1, create: () => new Dragon1PetBehavior() },
+    { species: 'dragon', form: 2, create: () => new Dragon1PetBehavior(2) },
+    { species: 'dragon', form: 3, create: () => new Dragon1PetBehavior(3) },
     ...monkeyForms.map((form) => ({
       species: 'monkey',
       form,

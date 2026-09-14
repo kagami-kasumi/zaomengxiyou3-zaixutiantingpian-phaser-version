@@ -23,7 +23,7 @@ def different(a,b):
     return any(band.getbbox() for band in ImageChops.difference(a,b).split())
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument("--check",action="store_true");args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument("--check",action="store_true");parser.add_argument("--write-images",action="store_true",help="Write diagnostic PNGs under ignored .tmp/verification-images");args=parser.parse_args()
     data=json.loads((OUT/"asset-projections.json").read_text(encoding="utf-8"))
     baseline=json.loads((ROOT/"docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json").read_text(encoding="utf-8"))
     assert [x["id"] for x in data["projections"]]==baseline["expectedIds"]
@@ -34,8 +34,9 @@ def main():
         assert not different(actual,original),"unexplained visual difference: "+state["id"]
         buffer=io.BytesIO();actual.save(buffer,format="PNG",compress_level=9);pixels=buffer.getvalue()
         path=OUT/"projections"/(state["id"]+".png")
-        if args.check: assert path.exists() and path.read_bytes()==pixels,"stale projection: "+state["id"]
-        else: path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(pixels)
+        if args.write_images:
+            diagnostic=ROOT/".tmp/verification-images"/OUT.name/"projections"/path.name
+            diagnostic.parent.mkdir(parents=True,exist_ok=True);diagnostic.write_bytes(pixels)
         results.append(dict(id=state["id"],path=str(path.relative_to(ROOT)).replace("\\","/"),sha256=hashlib.sha256(pixels).hexdigest(),differentPixels=0,layers=len(state["layers"])))
         if state["id"] in selected:
             for i,(im,label) in enumerate([(original,"Original"),(actual,"Asset query projection")]):
@@ -58,6 +59,7 @@ def main():
     text=json.dumps(report,ensure_ascii=False,indent=2)+'\n'
     if args.check: assert (OUT/'visual-diff.json').read_text(encoding='utf-8')==text
     else:
-        (OUT/'visual-diff.json').write_text(text,encoding='utf-8',newline='\n');contact.save(OUT/'contact-sheet.png')
+        (OUT/'visual-diff.json').write_text(text,encoding='utf-8',newline='\n')
+    if args.write_images: contact.save(ROOT/'.tmp/verification-images'/OUT.name/'contact-sheet.png')
     print(f"dragon modern asset projections: {len(results)} states, zero pixel differences, 4 visual mutation kills")
 if __name__=='__main__': main()

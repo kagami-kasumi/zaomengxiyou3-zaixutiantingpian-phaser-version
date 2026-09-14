@@ -1885,15 +1885,8 @@
         {
           "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
           "key": "pet-animation.dragon.PetDragon3Bullet3.1",
-          "x": 525.55,
+          "x": 225.55,
           "y": -13.699999999999989,
-          "flipX": false
-        },
-        {
-          "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
-          "key": "pet-animation.dragon.PetDragon3Bullet3.1",
-          "x": 285.55,
-          "y": -28.69999999999999,
           "flipX": false
         },
         {
@@ -1906,35 +1899,42 @@
         {
           "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
           "key": "pet-animation.dragon.PetDragon3Bullet3.1",
-          "x": 225.55,
-          "y": -13.699999999999989,
-          "flipX": false
-        },
-        {
-          "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
-          "key": "pet-animation.dragon.PetDragon3Bullet3.1",
-          "x": 645.55,
+          "x": 285.55,
           "y": -28.69999999999999,
           "flipX": false
         },
         {
           "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
           "key": "pet-animation.dragon.PetDragon3Bullet3.1",
-          "x": 165.55,
+          "x": 525.55,
           "y": -13.699999999999989,
-          "flipX": false
-        },
-        {
-          "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
-          "key": "pet-animation.dragon.PetDragon3Bullet3.1",
-          "x": 585.55,
-          "y": -28.69999999999999,
           "flipX": false
         },
         {
           "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
           "key": "pet-animation.dragon.PetDragon3Bullet3.1",
           "x": 105.55,
+          "y": -28.69999999999999,
+          "flipX": false
+        },
+        {
+          "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
+          "key": "pet-animation.dragon.PetDragon3Bullet3.1",
+          "x": 585.55,
+          "y": -13.699999999999989,
+          "flipX": false
+        },
+        {
+          "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
+          "key": "pet-animation.dragon.PetDragon3Bullet3.1",
+          "x": 165.55,
+          "y": -28.69999999999999,
+          "flipX": false
+        },
+        {
+          "path": "/assets/pets/dragon/effects/PetDragon3Bullet3/1.png",
+          "key": "pet-animation.dragon.PetDragon3Bullet3.1",
+          "x": 645.55,
           "y": -13.699999999999989,
           "flipX": false
         }

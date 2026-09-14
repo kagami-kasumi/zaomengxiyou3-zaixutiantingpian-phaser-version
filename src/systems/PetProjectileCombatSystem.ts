@@ -22,7 +22,7 @@ export function createPetProjectileCombatPort(input: Readonly<{
       if (!enemy) return false;
       return resolveStage1PetHit({ runtime: input.combat, enemy, ownerSlot: input.ownerSlot,
         petId: projectile.sourceId, attackId: getProjectileAttackId(projectile),
-        actionName: projectile.actionName, attackKind: 'physics', damage: cache.hurt,
+        actionName: projectile.actionName, attackKind: projectile.attackKind, damage: cache.hurt,
         critical: cache.critical, knockbackX: projectile.knockbackX, knockbackY: projectile.knockbackY,
         timeMs: input.timeMs, sourceBullet: { cache,
           protected: enemy.sourceHitProtection?.protected ?? false,

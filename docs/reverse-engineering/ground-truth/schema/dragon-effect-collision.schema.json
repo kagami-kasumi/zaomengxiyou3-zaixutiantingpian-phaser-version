@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zaixu-tianding:schema:dragon-effect-collision:v1",
+  "title": "Four dragon effects: verified source facts with a separately approved collision approximation",
+  "type": "object",
+  "required": ["schemaVersion", "truthId", "status", "scope", "provenance", "targetContract", "frames", "maskPack", "rootMapping", "sampling", "lifecycle", "completeness"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "truthId": {"const": "task-settings-219.dragon23-effect-collision"},
+    "status": {"enum": ["draft", "verified"]},
+    "scope": {"type": "object", "required": ["taskId", "symbols", "frameCounts", "frames", "directionalStates"], "properties": {
+      "taskId": {"const": "TASK-SETTINGS-219"}, "frames": {"const": 76}, "directionalStates": {"const": 152},
+      "symbols": {"const": ["PetDragon2Bullet1", "PetDragon2Bullet2", "PetDragon3Bullet1", "PetDragon3Bullet3"]},
+      "frameCounts": {"const": {"PetDragon2Bullet1": 15, "PetDragon2Bullet2": 30, "PetDragon3Bullet1": 21, "PetDragon3Bullet3": 10}}
+    }},
+    "frames": {"type": "array", "minItems": 76, "maxItems": 76, "items": {
+      "type": "object", "required": ["symbol", "frame", "characterId", "blank", "localBounds", "directions", "displayList", "production"],
+      "properties": {
+        "symbol": {"enum": ["PetDragon2Bullet1", "PetDragon2Bullet2", "PetDragon3Bullet1", "PetDragon3Bullet3"]},
+        "frame": {"type": "integer", "minimum": 1, "maximum": 30},
+        "characterId": {"enum": [547, 563, 572, 603]}, "blank": {"type": "boolean"},
+        "localBounds": {"$ref": "#/$defs/bounds"},
+        "directions": {"type": "object", "required": ["left", "right"], "additionalProperties": {"type": "object", "required": ["bounds", "fieldId"], "properties": {"bounds": {"$ref": "#/$defs/bounds"}, "fieldId": {"type": "string"}}}},
+        "displayList": {"type": "array"},
+        "production": {"type": "object", "required": ["path", "sha256", "cropX", "cropY", "registrationX", "registrationY", "collisionUsesPngAlpha"], "properties": {"sha256": {"$ref": "#/$defs/hash"}, "collisionUsesPngAlpha": {"const": false}}}
+      }
+    }},
+    "maskPack": {"type": "object", "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/hash"}}},
+    "rootMapping": {"type": "object", "required": ["expression", "owners", "independence", "sourceCoordinate"], "properties": {"expression": {"const": {"x": "combat.x", "y": "combat.y"}}, "owners": {"const": ["P1", "P2"]}}},
+    "sampling": {"type": "object", "required": ["status", "approvalPath", "approvalSha256", "equivalence", "algorithm", "accuracy", "minIntersectionWidth", "minIntersectionHeight", "phaseOrder", "blank", "nativePrecisionNotModeled"], "properties": {
+      "status": {"const": "approved-approximation"}, "approvalSha256": {"$ref": "#/$defs/hash"}, "accuracy": {"const": 1},
+      "minIntersectionWidth": {"const": 1}, "minIntersectionHeight": {"const": 1}, "nativePrecisionNotModeled": {"type": "array", "minItems": 1}
+    }},
+    "lifecycle": {"type": "object", "required": ["sourceOrder", "damageOnLastFrame", "sdccFollowsAfterCollision", "ltwjIndependentObjects", "attackId"], "properties": {"damageOnLastFrame": {"const": true}, "sdccFollowsAfterCollision": {"const": true}, "ltwjIndependentObjects": {"const": true}}},
+    "completeness": {"type": "object", "required": ["displayListMatched", "stateSetMatched", "unresolved"], "properties": {"displayListMatched": {"type": "boolean"}, "stateSetMatched": {"type": "boolean"}, "unresolved": {"type": "array"}}}
+  },
+  "allOf": [{"if": {"properties": {"status": {"const": "verified"}}}, "then": {"properties": {"completeness": {"properties": {"displayListMatched": {"const": true}, "stateSetMatched": {"const": true}, "unresolved": {"maxItems": 0}}}}}}],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "bounds": {"type": "object", "required": ["left", "top", "width", "height"], "properties": {"left": {"type": "number"}, "top": {"type": "number"}, "width": {"type": "number", "minimum": 0}, "height": {"type": "number", "minimum": 0}}}
+  }
+}

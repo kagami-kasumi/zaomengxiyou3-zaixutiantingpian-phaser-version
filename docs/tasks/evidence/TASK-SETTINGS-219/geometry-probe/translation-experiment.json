@@ -1,0 +1,197 @@
+{
+  "status": "measured-not-promoted",
+  "caseId": "PetDragon3Bullet1-3-right-t0-phase-3",
+  "geometryProbe": "656976b3a0e3e418fe79b85b937d1b7d8277f43f4447baf44b654f08c43b9c91",
+  "translationExperiments": [
+    {
+      "errors": 0,
+      "shift": 0
+    },
+    {
+      "errors": 0,
+      "shift": 1
+    },
+    {
+      "errors": 0,
+      "shift": 2
+    },
+    {
+      "errors": 0,
+      "shift": 5
+    },
+    {
+      "errors": 0,
+      "shift": 10
+    },
+    {
+      "errors": 0,
+      "shift": 14
+    },
+    {
+      "errors": 1,
+      "shift": 20
+    },
+    {
+      "errors": 1,
+      "shift": 50
+    },
+    {
+      "errors": 1,
+      "shift": 100
+    },
+    {
+      "errors": 1,
+      "position": {
+        "y": 58.4,
+        "x": 41.35
+      }
+    },
+    {
+      "errors": 1,
+      "position": {
+        "y": 58.25,
+        "x": 41.25
+      }
+    },
+    {
+      "errors": 1,
+      "position": {
+        "y": 58.35,
+        "x": 41.35
+      }
+    },
+    {
+      "errors": 1,
+      "position": {
+        "y": 58.39999999999998,
+        "x": 41.35000000000002
+      }
+    },
+    {
+      "matrix": {
+        "d": 0.6539306640625,
+        "tx": 112.65000000000003,
+        "ty": 33.49999999999998,
+        "a": -0.6539306640625,
+        "b": -0.2801971435546875,
+        "c": -0.2801971435546875
+      },
+      "flattenedErrors": 78
+    },
+    {
+      "bestFlattenedErrors": 0,
+      "positions": [
+        {
+          "y": 33.25,
+          "x": 112.75
+        },
+        {
+          "y": 33.3,
+          "x": 112.75
+        },
+        {
+          "y": 33.35,
+          "x": 112.75
+        },
+        {
+          "y": 33.4,
+          "x": 112.75
+        },
+        {
+          "y": 33.45,
+          "x": 112.75
+        },
+        {
+          "y": 33.25,
+          "x": 112.8
+        },
+        {
+          "y": 33.3,
+          "x": 112.8
+        },
+        {
+          "y": 33.35,
+          "x": 112.8
+        },
+        {
+          "y": 33.4,
+          "x": 112.8
+        },
+        {
+          "y": 33.45,
+          "x": 112.8
+        },
+        {
+          "y": 33.25,
+          "x": 112.85
+        },
+        {
+          "y": 33.3,
+          "x": 112.85
+        },
+        {
+          "y": 33.35,
+          "x": 112.85
+        },
+        {
+          "y": 33.4,
+          "x": 112.85
+        },
+        {
+          "y": 33.45,
+          "x": 112.85
+        },
+        {
+          "y": 33.25,
+          "x": 112.9
+        },
+        {
+          "y": 33.3,
+          "x": 112.9
+        },
+        {
+          "y": 33.35,
+          "x": 112.9
+        },
+        {
+          "y": 33.4,
+          "x": 112.9
+        },
+        {
+          "y": 33.45,
+          "x": 112.9
+        },
+        {
+          "y": 33.25,
+          "x": 112.95
+        },
+        {
+          "y": 33.3,
+          "x": 112.95
+        },
+        {
+          "y": 33.35,
+          "x": 112.95
+        },
+        {
+          "y": 33.4,
+          "x": 112.95
+        },
+        {
+          "y": 33.45,
+          "x": 112.95
+        }
+      ]
+    }
+  ],
+  "sourceOnlyVsHitTestBufferDifferentPixels": 0,
+  "conclusion": "Integer translation of a rasterized rotated source is not bitwise invariant in original AIR. A finite fractional-phase mask plus integer crop is not an exact general collision sampler.",
+  "unresolved": [
+    "Texture sampling after inverse-transform quantization; no runtime rule promoted."
+  ],
+  "artifacts": {
+    "original.png": "7b9e622da98337f28efc04447f1df4de7508d974f5c684f7b161e003a79ed906",
+    "bitmap-source.png": "d2fa62c5591a78caf2f47c110ca21486b98fbd4917ddbb0de216b17221080876",
+    "colored-source.png": "b28d7eace084acc16af0a3d685e3409cf9f112a6cd4a7efb2fee14f362daad65"
+  }
+}

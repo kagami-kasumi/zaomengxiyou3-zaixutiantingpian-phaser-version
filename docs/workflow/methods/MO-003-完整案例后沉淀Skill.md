@@ -2,6 +2,8 @@
 
 状态：已归档。
 
+2026-09-13 214D应用差异：Luna只读核对源发射/翻转与manifest范围，主agent核对218有限采样和生产首帧mask。四效果碰撞oracle缺口在实现前转为219补证；未计第三完整家族成功，不改变采纳裁决或Skill。
+
 2026-09-13 214C5应用差异：Luna只读合同及接线核对与主agent投影/验证并行；发现QA TestScene默认roster和公共Runtime分离，主agent通过初始化及既有事件同源同步修复。72态生产presenter对原版像素差0、P1GC和正式双人失败重试/返回通过。仅初阶完成，未计第三完整家族成功，不修改既有采纳裁决或Skill。
 
 裁决：采纳。归档日期：2026-08-31。
@@ -91,3 +93,5 @@
 2026-09-05 TASK-SETTINGS-217补证完成：43墙/134递归对象以独立binary和SVG矩阵/尺寸包络核对，7类变异通过；只读复核找出的共同白名单漏项、旋转适用字段与提前promotion三处已修正。角色导出profile与未舍入仿射精度分列，未当作Flash运行捕获；214C3恢复Ready，不计第三家族成功、不修改已采纳裁决。见217/handoff.md与verification.json。
 
 2026-09-05 TASK-SLICE-214C3实施差异：只读subagent追到Config.sendPetAction发现网络wait不能解释成本地切动画，主agent修复并补近owner normal/fs/hurt完成反例。实际生产updatePets闭包动态验证P1/P2环境，避免仅以接线字符串宣称传递完成。公共移动/P1GS通过，不计第三家族成功，不修改既有裁决。见214C3/handoff.md。
+
+2026-09-13 214D增量完成：219用户批准碰撞近似后接二三阶同源正式Runtime；174态对账发现并修正原nine-object-wave左向世界偏移/插入顺序基准错误，补5类视觉和9类实现变异。只读审计的两个不成立推断由主agent按源码退回；P1GD与实际P1/P2通过，不计完整第三家族成功，214E继续全44项/P1G，不修改既有采纳裁决或Skill。

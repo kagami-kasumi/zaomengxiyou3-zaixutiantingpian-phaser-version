@@ -74,7 +74,8 @@ const projections = index.items.map((state) => {
   } else if (state.id.includes('nine-object-wave')) {
     const action = truth.forms[2].actions.ltwj;
     layers = action.waves.flatMap((wave) => wave.offsets.map(([x, y]) =>
-      effectLayer(action.projectile, 1, direction, { x: x + action.emit.x, y: y + action.emit.y })));
+      effectLayer(action.projectile, 1, direction,
+        { x: (x + action.emit.x) * (direction === 'left' ? -1 : 1), y: y + action.emit.y })));
   } else if (state.id.includes('aoyi-buff')) {
     const frame = Number(state.id.match(/frame(\d+)/u)![1]);
     layers = [effectLayer('AoyiBuff', frame, direction)];

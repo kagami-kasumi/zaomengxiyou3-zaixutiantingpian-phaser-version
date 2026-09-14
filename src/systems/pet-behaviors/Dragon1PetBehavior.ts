@@ -1,21 +1,30 @@
 import type { PetBehavior, PetBehaviorContext, PetBehaviorAction, PetCombatAnimationEvent } from '../PetBehavior';
-import { createPetDragon1AnimationClock } from '../PetDragonAnimationClock';
+import { createPetDragonAnimationClock } from '../PetDragonAnimationClock';
 import { getPetDragonCollision } from '../../assets/PetDragonAnimationAssets';
 import { PetDragon1ProjectileSystem } from '../PetDragon1ProjectileSystem';
+import { PetDragon23ProjectileSystem } from '../PetDragon23ProjectileSystem';
 import { createDragon1CloneState } from '../PetDragonCloneState';
 import { toDragonSourceCoordinate } from '../PetDragonCollisionSystem';
 
 export class Dragon1PetBehavior implements PetBehavior {
-  private readonly projectiles = new PetDragon1ProjectileSystem();
+  private readonly projectiles: PetDragon1ProjectileSystem | PetDragon23ProjectileSystem;
   private passiveCount = 0;
   private passiveLevel = 0;
   private remainingTicks: number | undefined;
 
-  createAnimationClock = createPetDragon1AnimationClock;
-  groundMovement = () => ({ collision: getPetDragonCollision(1), gravity: 1.5,
-    jumpPower: -30, attackRate: 0.7, attackActions: ['normal', 'fs'], immobileGroundActions: ['normal', 'fs'] });
+  constructor(private readonly form: 1 | 2 | 3 = 1) {
+    this.projectiles = form === 1 ? new PetDragon1ProjectileSystem() : new PetDragon23ProjectileSystem(form);
+  }
+  createAnimationClock = () => createPetDragonAnimationClock(this.form);
+  groundMovement = () => ({ collision: getPetDragonCollision(this.form), gravity: 1.5,
+    jumpPower: -30, attackRate: 0.7, attackActions: ['normal', 'fs', 'sdcc', 'ltwj'],
+    immobileGroundActions: ['normal', 'fs', 'ltwj'], speedByAction: { sdcc: 10 } });
 
-  enter(context: PetBehaviorContext): void { context.setSkillCooldown('dragon1Fs', 2500); }
+  enter(context: PetBehaviorContext): void {
+    context.setSkillCooldown('dragon1Fs', 2500);
+    if (this.form >= 2) context.setSkillCooldown('dragon2Sdcc', 3000);
+    if (this.form >= 3) context.setSkillCooldown('dragon3Ltwj', 5000);
+  }
   canMove(): boolean { return true; }
   basicAttackRange(): number { return 150; }
   basicAttack(): PetBehaviorAction { return { type: 'normal' }; }
@@ -24,6 +33,13 @@ export class Dragon1PetBehavior implements PetBehavior {
     if (!context.parentRuntimeKey && context.target && !context.targetAcquiredThisFrame
       && context.pet.skills.includes('fs') && context.pet.mp >= 20
       && (context.pet.skillState?.dragon1Fs.cooldownMs ?? Infinity) <= 1e-7) return { type: 'fs' };
+    if (context.target && !context.targetAcquiredThisFrame && context.pet.mp >= 20) {
+      const distance = Math.hypot(context.runtime.x - context.target.x, context.runtime.y - context.target.y);
+      if (this.form >= 2 && context.pet.skills.includes('sdcc') && distance <= 300
+        && (context.pet.skillState?.dragon2Sdcc.cooldownMs ?? Infinity) <= 1e-7) return { type: 'sdcc' };
+      if (this.form >= 3 && context.pet.skills.includes('ltwj') && distance <= 500
+        && (context.pet.skillState?.dragon3Ltwj.cooldownMs ?? Infinity) <= 1e-7) return { type: 'ltwj' };
+    }
     return undefined;
   }
 
@@ -34,6 +50,14 @@ export class Dragon1PetBehavior implements PetBehavior {
       if (!context.spendMp(20)) throw new Error('Dragon1 fs action lost its MP gate');
       context.setSkillCooldown('dragon1Fs', 10000);
       context.emit({ type: 'dragon1-fs-cast', payload: { mpBefore, mpAfter: context.pet.mp } });
+    }
+    if (action.type === 'sdcc' || action.type === 'ltwj') {
+      const mpBefore = context.pet.mp;
+      const mpCost = 20;
+      if (!context.spendMp(mpCost)) throw new Error('Dragon skill lost its MP gate');
+      context.setSkillCooldown(action.type === 'sdcc' ? 'dragon2Sdcc' : 'dragon3Ltwj',
+        action.type === 'sdcc' ? 3600 : 5000);
+      context.emit({ type: `dragon${this.form}-${action.type}-cast`, payload: { mpBefore, mpAfter: context.pet.mp } });
     }
   }
 
@@ -79,8 +103,11 @@ export class Dragon1PetBehavior implements PetBehavior {
   onAnimationEvent(event: PetCombatAnimationEvent, context: PetBehaviorContext): void {
     if (event.eventName !== 'hit' || context.pet.hp <= 0) return;
     if (event.action === 'normal') this.projectiles.emit(context);
+    if ((event.action === 'sdcc' || event.action === 'ltwj') && this.projectiles instanceof PetDragon23ProjectileSystem) {
+      this.projectiles.emit(context, event.action);
+    }
     if (event.action === 'fs' && !context.parentRuntimeKey) {
-      const pet = createDragon1CloneState(context.pet);
+      const pet = createDragon1CloneState(context.pet, this.form);
       const handle = context.spawnSummon({ pet,
         x: toDragonSourceCoordinate(toDragonSourceCoordinate(context.runtime.x) + (context.random() - 0.5) * 300),
         y: toDragonSourceCoordinate(context.runtime.y) - 50,

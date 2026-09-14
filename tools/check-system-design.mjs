@@ -320,6 +320,23 @@ const contracts = {
         'pet-ground-session-tests', 'pet-dragon1-clock-tests', 'combat-feedback-tests',
         'formal-game-loop-journey-tests']) requireTest(test, tests, errors);
     },
+    P1GD(errors, tests) {
+      contracts.pet.P1GC(errors, tests);
+      requireMatches('src/systems/pet-behaviors/createDefaultPetBehaviorRegistry.ts', [
+        ['second form registration', /form: 2, create: \(\) => new Dragon1PetBehavior\(2\)/u],
+        ['third form registration', /form: 3, create: \(\) => new Dragon1PetBehavior\(3\)/u],
+      ], errors);
+      forbidMatches('src/systems/PetDragon23ProjectileSystem.ts', [
+        ['second runtime or scene clock', /new PetCombatRuntime|setTimeout|scene\.time|Date\.now/u],
+      ], errors);
+      requireMatches('src/scenes/test-scene/TestScenePetMagicBridge.ts', [
+        ['later forms bypass old battle path', /sharedPet\.form <= 3/u],
+      ], errors);
+      for (const test of ['pet-dragon23-collision-tests', 'pet-dragon23-runtime-tests',
+        'pet-dragon23-mutation-tests', 'pet-dragon23-consumer-tests', 'pet-dragon23-presentation-tests']) {
+        requireTest(test, tests, errors);
+      }
+    },
     P1C(errors, tests) {
       const behaviors = ['Dragon', 'Turtle', 'Ufo'].map((name) => (
         `src/systems/pet-behaviors/${name}PetBehavior.ts`

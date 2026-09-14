@@ -133,7 +133,10 @@ def build_items() -> list[dict[str, object]]:
         image = Image.new("RGBA", STAGE_SIZE, (0, 0, 0, 0))
         offsets = ((0, 40), (-150, 30), (90, 15), (-90, 15), (150, 30), (-270, 15), (210, 30), (-210, 15), (270, 30))
         for offset in offsets:
-            paste_effect(image, 603, "PetDragon3Bullet3", 1, direction, offset)
+            # doHit4 captures world-space offsets, independently of facing. Preserve
+            # insertion order too: reversing it changes overlap compositing.
+            world_offset = (offset[0] if direction == "right" else -offset[0], offset[1])
+            paste_effect(image, 603, "PetDragon3Bullet3", 1, direction, world_offset)
         items.append(item(f"dragon3-ltwj.nine-object-wave.{direction}", image, ["PetDragon3.as:doHit4", "PetDragon3Bullet3 character 603"]))
 
     for frame in (1, 7, 14):

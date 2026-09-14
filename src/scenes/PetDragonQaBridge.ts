@@ -13,11 +13,13 @@ export function isPetDragonQaOwnerProtected(): boolean {
 /** Ephemeral dev-party fixture; never reads or writes a save slot. */
 export function createPetDragonQaRoster(slot: 'p1' | 'p2') {
   const roster = createSeedPetRoster();
+  const requested = Number(new URLSearchParams(globalThis.location?.search ?? '').get('qaPetDragonForm'));
+  const form = requested === 2 || requested === 3 ? requested : 1;
   for (const pet of roster.pets) {
     pet.id = `${slot}-${pet.id}`;
-    pet.isActive = pet.species === 'dragon' && pet.form === 1;
+    pet.isActive = pet.species === 'dragon' && pet.form === form;
     if (pet.isActive) Object.assign(pet, { hp: 5000, maxHp: 10000, mp: 1000, maxMp: 1000,
-      atk: 30, def: 100, skills: ['fs'] });
+      atk: 30, def: 100, skills: ['fs', ...(form >= 2 ? ['sdcc'] : []), ...(form >= 3 ? ['ltwj'] : [])] });
   }
   return roster;
 }

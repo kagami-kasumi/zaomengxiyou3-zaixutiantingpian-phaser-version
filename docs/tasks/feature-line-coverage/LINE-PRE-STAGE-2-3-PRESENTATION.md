@@ -130,3 +130,9 @@
 2026-09-06 C4真实战斗链完成：dragon1正常弹/原版碰撞/缓存伤害与自身治疗、真实fs独立实体及到期/提前死亡闭环；20/24/30fps、P1/P2生产updatePets共享Combat、14类变异、P1GS和build通过。C5唯一Ready承接正式投影/TestScene/全生命周期/P1GC，父C2/C仍Split，不提升家族完整完成状态。交接见 docs/tasks/evidence/TASK-SLICE-214C4/handoff.md。
 
 2026-09-13 TASK-SLICE-214C5完成并同次归档父C2/C：共享presenter消费真实本体/子实体/弹体snapshot，TestScene实际Monster30通过同一Combat端口结算；72个初阶原版状态零像素差、P1GC/P1GS、全系统/build/真值/资源与940×590双人正式、失败重试和返回清理通过。214D唯一Ready，214E仍承担完整44项与P1G，功能线保持Active，VS-067及全家族状态仍为部分复现。交接见 `docs/tasks/evidence/TASK-SLICE-214C5/handoff.md`。
+
+2026-09-13 214D输入预检：四效果76帧视觉资源齐全，218碰撞采样仅覆盖初阶普通弹；四效果逐帧源绘制/alpha映射与HitTest oracle尚缺，不能套用首帧mask或固定68翻转。214D设Blocked、TASK-SETTINGS-219唯一Ready补有界空间/采样，完成后恢复214D；214E/215/216保持Planned。未改src或生产资源，P1GD未实施，整族与VS-067仍为部分复现。证据见 `docs/tasks/evidence/TASK-SLICE-214D/preflight.md`。
+
+2026-09-13 219完成补证：四效果76帧/152方向源显示事实verified，原版6,448案例命中布尔一致，104像素差异按用户明确批准的碰撞近似单列；54方向场/505平面、独立源/Schema核对与8变异通过，原图不变。恢复214D唯一Ready继续二三阶实现；P1GD、214E整家族/P1G与VS-067仍未完成，215/216不抢占。交接见 `docs/tasks/evidence/TASK-SETTINGS-219/handoff.md`。
+
+2026-09-13 TASK-SLICE-214D完成：二三阶复用同一Runtime/Behavior与生产presenter，normal/fs/sdcc/九对象ltwj真实P1/P2伤害、治疗、时序和释放通过；P1GD=0、174状态零像素差/5视觉变异、9实现变异、6448原版碰撞消费（104像素批准近似）。修正213唯一左向九对象组合基准的世界偏移/插入顺序及214A投影。全系统/build及正式/TestScene可见链通过，214E唯一Ready，整家族/P1G与VS-067仍为部分复现。交接见 `docs/tasks/evidence/TASK-SLICE-214D/handoff.md`。

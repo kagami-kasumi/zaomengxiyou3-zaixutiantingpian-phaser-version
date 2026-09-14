@@ -4,11 +4,15 @@ import { PetAnimationClock, type PetAnimationDefinition } from './PetAnimationCl
 
 /** The initial form's unconditional completion routes; later forms require their own verified conditions. */
 export function createPetDragon1AnimationClock(): PetAnimationClock {
-  const body = getPetDragonBodyAsset(1);
-  const form = truth.forms.find(({ id }) => id === 'dragon1')!;
+  return createPetDragonAnimationClock(1);
+}
+
+export function createPetDragonAnimationClock(formNumber: 1 | 2 | 3): PetAnimationClock {
+  const body = getPetDragonBodyAsset(formNumber);
+  const form = truth.forms.find(({ id }) => id === `dragon${formNumber}`)!;
   const definitions: Record<string, PetAnimationDefinition> = {};
   for (const action of body.timeline.actions) {
-    const emit = Object.values(form.actions).find((candidate) => candidate.hit === action.sourceAction)?.emitTiming;
+    const emit = Object.entries(form.actions).find(([id]) => id === action.id)?.[1].emitTiming;
     const routes = action.completion.routes;
     if (routes.some(({ when }) => when.length > 0) || routes.length > 1) {
       throw new Error('Dragon1 clock requires an unconditional verified completion route.');

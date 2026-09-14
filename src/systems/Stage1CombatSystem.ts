@@ -37,7 +37,7 @@ import {
 import { createHeroSkillModel, type HeroSkillModel } from './HeroSkillSystem';
 import type { PlayerInputState, PlayerSlot } from './InputSystem';
 import type { PetCombatDamageEvent } from './PetBehavior';
-import { calculateDragonPhysicalDamage, type DragonDamageCache } from './PetDragonDamageSystem';
+import { calculateDragonPhysicalDamage, calculateDragonMagicDamage, type DragonDamageCache } from './PetDragonDamageSystem';
 import {
   createCombatFeedbackModel,
   recordCombatFeedback,
@@ -490,7 +490,9 @@ export function resolveStage1PetHit(params: Readonly<{
   if (params.sourceBullet && params.sourceBullet.random() <= params.sourceBullet.dodgeProbability) return undefined;
   const hpBefore = params.enemy.hp;
   const amount = Math.min(hpBefore, params.sourceBullet
-    ? calculateDragonPhysicalDamage(params.sourceBullet.cache, getStage1EnemyConfig(params.enemy.enemyType).physicalDefense)
+    ? params.attackKind === 'magic'
+      ? calculateDragonMagicDamage(params.sourceBullet.cache, getStage1EnemyConfig(params.enemy.enemyType).magicDefense)
+      : calculateDragonPhysicalDamage(params.sourceBullet.cache, getStage1EnemyConfig(params.enemy.enemyType).physicalDefense)
     : calculateStage1HeroDamage(
     params.enemy.enemyType,
     params.attackKind,
