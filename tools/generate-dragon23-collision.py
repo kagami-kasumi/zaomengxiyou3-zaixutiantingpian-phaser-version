@@ -26,7 +26,11 @@ def descend(node):
         yield from descend(child)
 
 
-def spatial(source,native):
+def spatial(source,native,*,output=None,identity=None):
+    output=output or OUT
+    identity=identity or dict(taskId='TASK-SETTINGS-219',truthId='task-settings-219.dragon23-effect-collision',
+        surfaceId='dragon23-effect-collision',description='Four source effects, 76 native frames and 152 directional states. Source geometry/baselines only; collision approximation is explicitly separate in collision-contract.json.',
+        tool='generate-dragon23-collision.py',locator='Symbols 547/563/572/603; unchanged closure 543..603')
     trees={(t['symbol'],t['frame']):t['tree'] for t in native['trees']}
     objects=[];states=[];baselines=[];counts={}
     for item in source['states']:
@@ -53,17 +57,16 @@ def spatial(source,native):
                     render=dict(assetRef=None,blendMode=measured['blendMode'],filters=measured['filters'],maskId=None)))
             states.append(dict(id=state,entry='Original AIR native source-tag playback; isolated combat-space baseline',
                                frame=item['frame'],fixtureId=state,baselineId=state))
-            path=OUT/'air-original/stage-baselines'/(state+'.png')
+            path=output/'air-original/stage-baselines'/(state+'.png')
             baselines.append(dict(id=state,stateId=state,path=rel(path),sha256=sha(path),width=940,height=590,
                                   crop=dict(left=0,top=0,width=940,height=590)))
-    return dict(schemaVersion=1,truthId='task-settings-219.dragon23-effect-collision',status='draft',
-        scope=dict(taskId='TASK-SETTINGS-219',surfaceId='dragon23-effect-collision',originalVersion='RegiMA 1.1',
-            description='Four source effects, 76 native frames and 152 directional states. Source geometry/baselines only; collision approximation is explicitly separate in collision-contract.json.'),
-        generatedBy=dict(tool='generate-dragon23-collision.py',toolVersion='1',command='python tools/generate-dragon23-collision.py',generatedAt=datetime.now(timezone.utc).isoformat()),
+    return dict(schemaVersion=1,truthId=identity['truthId'],status='draft',
+        scope=dict(taskId=identity['taskId'],surfaceId=identity['surfaceId'],originalVersion='RegiMA 1.1',description=identity['description']),
+        generatedBy=dict(tool=identity['tool'],toolVersion='1',command='python tools/'+identity['tool'],generatedAt=datetime.now(timezone.utc).isoformat()),
         provenance=[dict(id='pet',sourceType='restored-swf',sourcePath='local-resources/regima/source/restored-swfs/assets/pet1.swf',
-                         sha256=source['sourceHashes']['pet1.swf'],locator='Symbols 547/563/572/603; unchanged closure 543..603'),
-                    dict(id='air',sourceType='runtime-capture',sourcePath=rel(OUT/'air-original/measurement.json'),
-                         sha256=sha(OUT/'air-original/measurement.json'),locator='trees, actual and artifactHashes; original AIR DLL/probe provenance')],
+                         sha256=source['sourceHashes']['pet1.swf'],locator=identity['locator']),
+                    dict(id='air',sourceType='runtime-capture',sourcePath=rel(output/'air-original/measurement.json'),
+                         sha256=sha(output/'air-original/measurement.json'),locator='trees, actual and artifactHashes; original AIR DLL/probe provenance')],
         stage=dict(width=940,height=590,frameRate=24,coordinateSpace='stage'),states=states,displayObjects=objects,baselines=baselines,
         completeness=dict(expectedStateIds=[s['id'] for s in states],extractedStateIds=[s['id'] for s in states],
             expectedVisibleObjectCountByState=counts,displayListMatched=False,stateSetMatched=False,

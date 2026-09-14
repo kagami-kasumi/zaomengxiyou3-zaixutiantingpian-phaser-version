@@ -10,14 +10,15 @@ sys.dont_write_bytecode = True
 
 ROOT = Path(__file__).resolve().parents[1]
 LATER = '--dragon23' in sys.argv
+FOURTH = '--dragon4' in sys.argv
 WRITE_IMAGES = '--write-images' in sys.argv
-OUT = ROOT / ('docs/tasks/evidence/TASK-SLICE-214D' if LATER else 'docs/tasks/evidence/TASK-SLICE-214C5')
+OUT = ROOT / ('docs/tasks/evidence/TASK-SLICE-214E' if FOURTH else 'docs/tasks/evidence/TASK-SLICE-214D' if LATER else 'docs/tasks/evidence/TASK-SLICE-214C5')
 spec = importlib.util.spec_from_file_location('render', ROOT / 'tools/verify-pet-dragon-asset-projections.py')
 render = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(render)
 data = json.loads((OUT / 'view-projections.json').read_text(encoding='utf-8'))
 expected = json.loads((ROOT / 'docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json').read_text())
-ids = [v for v in expected['expectedIds'] if v.startswith(('dragon2', 'dragon3') if LATER else ('dragon1.', 'dragon1-normal.'))]
+ids = [v for v in expected['expectedIds'] if v.startswith(('dragon4',) if FOURTH else ('dragon2', 'dragon3') if LATER else ('dragon1.', 'dragon1-normal.'))]
 assert [s['id'] for s in data['projections']] == ids
 results = []
 sheet = Image.new('RGB', (940, 6*200), (30,34,44))
@@ -27,6 +28,9 @@ selected = ['dragon1.wait.left','dragon1.normal.right','dragon1.fs.left',
 if LATER:
     selected = ['dragon2.sdcc.left', 'dragon2.fs-clone-active.right', 'dragon2-sdcc.frame15.right',
                 'dragon3.normal.right', 'dragon3.ltwj.left', 'dragon3-ltwj.nine-object-wave.right']
+if FOURTH:
+    selected = ['dragon4.qlaoyi.left', 'dragon4.fs-clone-active.right', 'dragon4.qlaoyi-ltwj-link.right',
+                'dragon4-qlaoyi.frame24.right', 'dragon4-qlaoyi-aoyi-buff.frame07.fixed', 'dragon4.dead.right']
 for state in data['projections']:
     actual = render.render(state)
     original = Image.open(ROOT / state['baseline']).convert('RGBA')
@@ -46,11 +50,14 @@ kills=[]
 for key, state_id in [('geometry','dragon1.wait.left'),('alpha','dragon1.fs-clone-active.right'),
                       ('frame','dragon1.normal.right'),('flip','dragon1-normal.frame06.left')]:
     if LATER: state_id = state_id.replace('dragon1', 'dragon2').replace('frame06', 'frame01')
+    if FOURTH: state_id = state_id.replace('dragon1', 'dragon4').replace('normal.frame06', 'qlaoyi.frame24')
     state=copy.deepcopy(next(s for s in data['projections'] if s['id']==state_id))
     layer=state['layers'][0]
     if key=='geometry': layer['x']+=1
     if key=='alpha': layer['alpha']=1
-    if key=='frame': layer['crop'][0]-=250; layer['crop'][2]-=250
+    if key=='frame':
+        width = 300 if FOURTH else 250
+        layer['crop'][0]-=width; layer['crop'][2]-=width
     if key=='flip': layer['flipX']=not layer['flipX']
     assert render.different(render.render(state), Image.open(ROOT/state['baseline']).convert('RGBA')), key
     kills.append(key)

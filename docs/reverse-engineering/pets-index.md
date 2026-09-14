@@ -518,7 +518,7 @@
 
 ## TASK-SETTINGS-213 青龙完整家族合同
 
-`task-settings-213.pet-dragon-family` 已达到 `verified`：44 个字段级合同、4 形态、15 个动作、11 个原版显示对象、111 个 `940×590` 关键 tick 基准，`unresolved=[]`。权威事实位于 `ground-truth/manifests/task-settings-213-pet-dragon-family.json`，解释和反证位于 `evidence/TASK-SETTINGS-213-pet-dragon-family.md`；后续 `TASK-SLICE-214` 必须直接消费该 manifest。
+`task-settings-213.pet-dragon-family` 已达到 `verified`：44 个字段级合同、4 形态、31 个本体动作、11 个原版显示对象、345 个 `940×590` 关键 tick 基准，`unresolved=[]`。权威事实位于 `ground-truth/manifests/task-settings-213-pet-dragon-family.json`，解释和反证位于 `evidence/TASK-SETTINGS-213-pet-dragon-family.md`；后续 `TASK-SLICE-214` 必须直接消费该 manifest。
 
 `BaseHero.addPetByPi()` 按 `dragon1..4` 分别创建 `PetDragon1..4`。`PetInfo.rePetSkill()` 会把青龙候选池扩成 `dragon1: fs`、`dragon2: fs/sdcc`、`dragon3: fs/sdcc/ltwj`、`dragon4: fs/sdcc/ltwj/qlaoyi`；`addSpecialSkill()` 在 `dragon1 -> dragon2` 时把 `fs` 从追加候选中替换为 `sdcc`，在 `dragon2 -> dragon3` 时把 `sdcc` 替换为 `ltwj`。四阶说明和四阶学习入口会让 `dragon4` 持有 `qlaoyi`，普通角色技能书 `jns` 不参与宠物专属技能学习。
 
@@ -539,11 +539,11 @@
 
 `fs` 分身是真实同形态宠物实例，不是字符串反馈：dragon1..3 为 alpha 0.5/10 秒，dragon4 为 alpha 0.6/12 秒并复制技能与扩大量 HP/MP；分身拥有自己的 AI、attack id 和 projectile，但留在 owner 私有 `fenshenArray`。dragon1..3 正常到期治疗主人 3.6% SHp；dragon4 到期或提前死亡均治疗 3.6% SHp。换宠/休息/死亡/返回/重载必须只清理对应 slot，分身销毁不得清空 owner 宠物槽。
 
-`qlaoyi` 是有序组合：owner 和每只可选分身优先免费 sdcc；hit3 完成后若学 ltwj 再免费释放九对象 ltwj；没有 sdcc 但有 ltwj 时经 hit6 转入 ltwj。即使未学 fs，tick48 的 `PetDragonBullet4` 仍生成并以 `hit4` 使用 ltwj 伤害公式；“hit5 本体伤害为 0”不能被误写成奥义整链无伤害。
+`qlaoyi` 是有序组合：owner 和每只可选分身优先免费 sdcc；hit3 完成后若学 ltwj 再免费释放九对象 ltwj；没有 sdcc 但有 ltwj 时经 hit6 转入 ltwj。即使未学 fs，首个enter回调（剩余48，第1 host tick）的 `PetDragonBullet4` 仍生成并以 `hit4` 使用 ltwj 伤害公式；“hit5 本体伤害为 0”不能被误写成奥义整链无伤害。
 
 青龙本体和攻击对象的唯一 owner 均为恢复 `assets/pet1.swf`：character 9/13/16/23 与 542/547/563/572/603/539；共享 `AoyiBuff` 为 `StageCommon.swf` character 120，碰撞为 character 103/101。manifest 已记录完整哈希、逐帧几何、注册点、bounds、owner precedence 和基准，不再标记为资源缺失。
 
-旧 062..065 只完成占位最小切片，不能作为完整家族实现。唯一后续为 `TASK-SLICE-214`：统一消费 213 的 `attackRange=150`、真本体/对象、九对象 ltwj、qlaoyi gate-only MP、命中治疗与 P1/P2 clone/projectile 生命周期，并以 P1G 和 940×590 正式运行闭合。
+旧 062..065 只完成占位最小切片，不能作为完整家族实现。`TASK-SLICE-214E`已闭合214父合同：统一消费 213 的 `attackRange=150`、真本体/对象、九对象 ltwj、qlaoyi gate-only MP、命中治疗与 P1/P2 clone/projectile 生命周期，P1G=0与940×590正式运行通过；详见 `../tasks/evidence/TASK-SLICE-214E/handoff.md`。
 
 玄龟首批链路：
 
@@ -1071,3 +1071,5 @@ sp/bd 命中可添加同一 `PetHorseIceEffect`，按目标 `colipse` 尺寸缩�
 2026-09-05 213A 修正当前青龙真值：31个完整本体动作、234个逐cell状态加入 visualTruth.bodyTimelines/bodyClock，基准总345。原12/24/36/48是剩余计数；按时间先后为48/36/24/12，对应elapsed tick 1/13/25/37，分身left/right/left/right；trigger首回调在pet根坐标生成。原第48tick触发结论撤销，六张trigger错位基准已修复，15类负向检查通过；同一truth恢复verified，正式实现仍未闭合。
 
 2026-09-05 TASK-SLICE-214A资源准备完成：153文件/11对象已由PetDragonAnimationAssets直接消费213修复真值，combat-common唯一加载；627host ticks与345状态零像素差、4类视觉变异通过。透明边缘裁切保留原注册点与可见像素，解码约61MiB。214B现为唯一Ready，负责全部正式战斗/P1G；本次不提高青龙战斗或VS-067完整复现状态，不计完整第三家族实施成功。
+
+2026-09-14实现补充：四阶getRealPower独有的魔花增伤由现有magicFlowerBuff消费；前三阶保持原值。完整44合同映射、345态生产投影、P1/P2真实伤害及生命周期见214E交接。

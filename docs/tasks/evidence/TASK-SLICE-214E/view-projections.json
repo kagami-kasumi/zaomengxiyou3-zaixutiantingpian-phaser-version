@@ -1,0 +1,1931 @@
+{
+  "scope": "Production presenter calls for all original dragon4 body cells, clone alpha, trigger and AoyiBuff states",
+  "projections": [
+    {
+      "id": "dragon4.wait.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            0,
+            300,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            0,
+            300,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            250,
+            300,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            250,
+            300,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.hurt.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.hurt.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            500,
+            300,
+            750
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.hurt.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.hurt.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            500,
+            300,
+            750
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            1200,
+            750,
+            1500,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            1200,
+            750,
+            1500,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            600,
+            1000,
+            900,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            600,
+            1000,
+            900,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            1200,
+            1250,
+            1500,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            1200,
+            1250,
+            1500,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.sdcc.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.sdcc.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            1500,
+            300,
+            1750
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.sdcc.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.sdcc.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            1500,
+            300,
+            1750
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            600,
+            1750,
+            900,
+            2000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            600,
+            1750,
+            900,
+            2000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            2000,
+            300,
+            2250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            2000,
+            300,
+            2250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-ltwj-link.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi-ltwj-link.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            300,
+            2250,
+            600,
+            2500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-ltwj-link.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi-ltwj-link.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            300,
+            2250,
+            600,
+            2500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs-clone-active.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs-clone-active.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 189,
+          "y": 150,
+          "flipX": false,
+          "alpha": 0.6,
+          "crop": [
+            0,
+            0,
+            300,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs-clone-active.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs-clone-active.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 251,
+          "y": 150,
+          "flipX": true,
+          "alpha": 0.6,
+          "crop": [
+            0,
+            0,
+            300,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame01.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame01.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/effects/PetDragonBullet4/1.png",
+          "key": "pet-animation.dragon.PetDragonBullet4.1",
+          "x": 325.79999999999995,
+          "y": 183.89999999999998,
+          "flipX": false,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame01.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame01.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/effects/PetDragonBullet4/1.png",
+          "key": "pet-animation.dragon.PetDragonBullet4.1",
+          "x": 327.20000000000005,
+          "y": 183.89999999999998,
+          "flipX": true,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame24.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame24.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/effects/PetDragonBullet4/24.png",
+          "key": "pet-animation.dragon.PetDragonBullet4.24",
+          "x": 324.79999999999995,
+          "y": 181.89999999999998,
+          "flipX": false,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame24.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame24.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/effects/PetDragonBullet4/24.png",
+          "key": "pet-animation.dragon.PetDragonBullet4.24",
+          "x": 314.20000000000005,
+          "y": 181.89999999999998,
+          "flipX": true,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame48.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame48.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/effects/PetDragonBullet4/48.png",
+          "key": "pet-animation.dragon.PetDragonBullet4.48",
+          "x": 325.79999999999995,
+          "y": 183.89999999999998,
+          "flipX": false,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi.frame48.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi.frame48.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/effects/PetDragonBullet4/48.png",
+          "key": "pet-animation.dragon.PetDragonBullet4.48",
+          "x": 314.20000000000005,
+          "y": 183.89999999999998,
+          "flipX": true,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi-aoyi-buff.frame01.fixed",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi-aoyi-buff.frame01.fixed.png",
+      "layers": [
+        {
+          "path": "/assets/pets/shared/AoyiBuff/1.png",
+          "key": "pet-animation.shared.AoyiBuff.1",
+          "x": 440,
+          "y": 338,
+          "flipX": false,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi-aoyi-buff.frame07.fixed",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi-aoyi-buff.frame07.fixed.png",
+      "layers": [
+        {
+          "path": "/assets/pets/shared/AoyiBuff/7.png",
+          "key": "pet-animation.shared.AoyiBuff.7",
+          "x": 390,
+          "y": 250,
+          "flipX": false,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4-qlaoyi-aoyi-buff.frame14.fixed",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4-qlaoyi-aoyi-buff.frame14.fixed.png",
+      "layers": [
+        {
+          "path": "/assets/pets/shared/AoyiBuff/14.png",
+          "key": "pet-animation.shared.AoyiBuff.14",
+          "x": 385,
+          "y": 261,
+          "flipX": false,
+          "alpha": 1
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            0,
+            300,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            0,
+            300,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell01.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell01.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            300,
+            0,
+            600,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell01.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell01.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            300,
+            0,
+            600,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell02.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell02.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            600,
+            0,
+            900,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell02.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell02.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            600,
+            0,
+            900,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell03.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell03.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            900,
+            0,
+            1200,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell03.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell03.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            900,
+            0,
+            1200,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell04.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell04.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            1200,
+            0,
+            1500,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell04.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell04.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            1200,
+            0,
+            1500,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell05.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell05.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            1500,
+            0,
+            1800,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.wait.cell05.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.wait.cell05.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            1500,
+            0,
+            1800,
+            250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            250,
+            300,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            250,
+            300,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.cell01.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.cell01.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            300,
+            250,
+            600,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.cell01.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.cell01.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            300,
+            250,
+            600,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.cell02.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.cell02.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            600,
+            250,
+            900,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.cell02.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.cell02.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            600,
+            250,
+            900,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.cell03.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.cell03.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            900,
+            250,
+            1200,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.walk.cell03.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.walk.cell03.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            900,
+            250,
+            1200,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.hurt.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.hurt.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            500,
+            300,
+            750
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.hurt.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.hurt.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            500,
+            300,
+            750
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            1000,
+            300,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            1000,
+            300,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell01.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell01.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            300,
+            1000,
+            600,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell01.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell01.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            300,
+            1000,
+            600,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell02.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell02.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            600,
+            1000,
+            900,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell02.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell02.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            600,
+            1000,
+            900,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell03.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell03.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            900,
+            1000,
+            1200,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell03.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell03.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            900,
+            1000,
+            1200,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell04.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell04.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            1200,
+            1000,
+            1500,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell04.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell04.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            1200,
+            1000,
+            1500,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell05.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell05.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            1500,
+            1000,
+            1800,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.normal.cell05.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.normal.cell05.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            1500,
+            1000,
+            1800,
+            1250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            1250,
+            300,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            1250,
+            300,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell01.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell01.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            300,
+            1250,
+            600,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell01.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell01.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            300,
+            1250,
+            600,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell02.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell02.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            600,
+            1250,
+            900,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell02.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell02.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            600,
+            1250,
+            900,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell03.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell03.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            900,
+            1250,
+            1200,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell03.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell03.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            900,
+            1250,
+            1200,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell04.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell04.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            1200,
+            1250,
+            1500,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.fs.cell04.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.fs.cell04.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            1200,
+            1250,
+            1500,
+            1500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.sdcc.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.sdcc.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            1500,
+            300,
+            1750
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.sdcc.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.sdcc.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            1500,
+            300,
+            1750
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            1750,
+            300,
+            2000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            1750,
+            300,
+            2000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.cell01.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.cell01.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            300,
+            1750,
+            600,
+            2000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.cell01.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.cell01.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            300,
+            1750,
+            600,
+            2000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.cell02.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.cell02.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            600,
+            1750,
+            900,
+            2000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.ltwj.cell02.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.ltwj.cell02.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            600,
+            1750,
+            900,
+            2000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            2000,
+            300,
+            2250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            2000,
+            300,
+            2250
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-ltwj-link.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi-ltwj-link.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            2250,
+            300,
+            2500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-ltwj-link.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi-ltwj-link.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            2250,
+            300,
+            2500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-ltwj-link.cell01.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi-ltwj-link.cell01.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            300,
+            2250,
+            600,
+            2500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-ltwj-link.cell01.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.qlaoyi-ltwj-link.cell01.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            300,
+            2250,
+            600,
+            2500
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell00.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell00.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            0,
+            750,
+            300,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell00.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell00.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            0,
+            750,
+            300,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell01.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell01.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            300,
+            750,
+            600,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell01.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell01.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            300,
+            750,
+            600,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell02.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell02.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            600,
+            750,
+            900,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell02.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell02.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            600,
+            750,
+            900,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell03.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell03.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            900,
+            750,
+            1200,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell03.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell03.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            900,
+            750,
+            1200,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell04.left",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell04.left.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 289,
+          "y": 200,
+          "flipX": false,
+          "alpha": 1,
+          "crop": [
+            1200,
+            750,
+            1500,
+            1000
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon4.dead.cell04.right",
+      "baseline": "docs/tasks/evidence/TASK-SETTINGS-213/baselines/dragon4.dead.cell04.right.png",
+      "layers": [
+        {
+          "path": "/assets/pets/dragon/body/PetDragonBmd4.png",
+          "key": "pet-animation.dragon.dragon4-body.0",
+          "x": 351,
+          "y": 200,
+          "flipX": true,
+          "alpha": 1,
+          "crop": [
+            1200,
+            750,
+            1500,
+            1000
+          ]
+        }
+      ]
+    }
+  ]
+}

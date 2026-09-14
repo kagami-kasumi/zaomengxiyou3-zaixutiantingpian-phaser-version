@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "states": 96,
+  "objects": 384,
+  "nativeCases": 11520,
+  "fieldPlanesChecked": 480,
+  "artifactMutations": [
+    "missing-frame",
+    "missing-child",
+    "lost-mask",
+    "mask-visible",
+    "wrong-tile",
+    "wrong-crop",
+    "lost-clip-depth",
+    "wrong-trigger-tick",
+    "hurt-interrupt",
+    "invented-heal"
+  ],
+  "manifestSha256": "2ea2ab98901c98fa51aab39f5c3a326f21ead532f340614b7c8232b97163dde3",
+  "contractSha256": "ae1ec966e190a10506089367f05c8159058ea7ef12cfb18fc62fc1ac10eb3bd6",
+  "samplingSha256": "33d825a8df9561317531e2e1283a9b46bbab086a1214001695b2d24a24e91f6e"
+}

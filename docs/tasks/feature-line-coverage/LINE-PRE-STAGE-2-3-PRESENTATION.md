@@ -31,8 +31,8 @@
 | 背包分页一致性 | 正式背包与炼丹炉共享 `InventoryGridView`、同一 inventory owner 和两份 verified 页面真值 | 无；190C 已移除工坊静态 `/5`、背景按钮和透明分页命中分叉 | 两页共同消费 `createInventoryPagerObjects`、原生三态按钮与完整 `n/5`；各自 truth 几何、第一页/第二页和 940×590 运行对照通过 |
 | 宠物页/入口 | 175A 的 74 对象/16 状态真值、180 页面投影、191 正式可见性矩阵；192A 已固化非 QA 当前 schema 双人冷启动→地图→五关 Runtime→P1/P2 932→返回/重载旅程 | 无；bundle、page-assets、render 失败均发出统一 `feature-ui-failed` 结构化信号 | `formal-pet-journey-tests.ts`；`TASK-SLICE-192A/runtime-audit.md`；P1/P2/五关/重载与 940×590 零 console |
 | 宠物战斗 UI | 宠物 owner、出战状态和技能 runtime 已有；191 的 662 壳体、605/610/614、条和三字段保留；201 已生成 35 fixture/70 P1-P2 投影/4 负状态 verified 头像真值 | 无；202 已删除身体 atlas、联合 bounds 拉伸和硬编码头像定位 | 202 的 33 唯一终端 child/35 fixture 专属 bundle、关键字段变异、P1/P2/五关旅程、九物种零像素差和 940×590 零 console |
-| 宠物战斗公共类 | 203/204A 建立旧骨架；205 闭合 35 形态基类证据；206 冻结组合设计；204B 让结构 P1/P1B gate=0；207/208A 让猴系语义 P1R=0；209/210 让马系 43 项合同与正式 P1H=0 | 猴系与马系完整家族链已闭合；其余七家族与最终兼容入口仍未闭合 | 后续继续按完整证据→独立语义 verifier→正式运行合同逐族推进，最终 all=0 |
-| 宠物真动画 | 193 已冻结 35 形态/38 技能映射；193A..193D 已闭合猴/马视觉真值与投影；208A/210 已把两族动作/effect 绑定到 CombatRuntime action/projectile token | 猴系与马系语义/真动画同链已闭合；其余七家族尚未完成同标准合同 | 逐族闭合后由 194 最终跨族校准 |
+| 宠物战斗公共类 | 203/204A 建立旧骨架；205 闭合 35 形态基类证据；206 冻结组合设计；204B 让结构 P1/P1B gate=0；207/208A 让猴系语义 P1R=0；209/210 让马系 43 项合同与正式 P1H=0 | 猴、马、青龙三族完整家族链已闭合（青龙44合同/P1G=0）；其余六家族与最终兼容入口仍未闭合 | 后续继续按完整证据→独立语义 verifier→正式运行合同逐族推进，最终 all=0 |
+| 宠物真动画 | 193 已冻结 35 形态/38 技能映射；193A..193D 已闭合猴/马视觉真值与投影；208A/210 已把两族动作/effect 绑定到 CombatRuntime action/projectile token | 猴、马、青龙三族语义/真动画同链已闭合；其余六家族尚未完成同标准合同 | 逐族闭合后由 194 最终跨族校准 |
 | 怪物命中反馈/伤害数字/连击 | 211 已生成 23 状态 verified 真值；212 已让英雄、猴/马宠物、法宝和 effect 的成功 HP decrease 共用 `CombatFeedbackEvent`、原版普通/暴击位图、队列与 Batter view | 无；effect 明确只显示不增连击，miss/0/dedup/dead 无反馈，结果页读取真实最高连击 | 专项/source trace/结果页、全系统、build 与 940×590 双人 Stage 1-2 零 console 通过；`TASK-SLICE-212/runtime-audit.md` |
 | 角色/宠物承伤数字 | 原版 AS3 已定位 `BaseHero.reduceHp()/BasePet.reduceHp() -> pnum0..9 -> ANumber`；现代怪物攻击、角色/宠物 HP decrease 与 hurt/dead 已存在；210A 全宠物 fixture 仅由隐藏查询参数触发 | 211/212 只覆盖怪物作为受伤目标；现代 incoming-damage producer 未创建角色/宠物数字，`pnum` 也未进入真值/资源 bundle/view；5173 默认入口不可发现全宠物 QA 档 | 215 冻结 `pnum`、数值/特殊防御/owner/几何/时序；216 直接消费并以角色/宠物、P1/P2、五关/TestScene、HP delta/负场景、5173 QA 入口可发现性和 940×590 差异关闭 |
 | 五角色动作流畅度 | 069/158 视觉索引/桥、163/164/173/174 几何与行为证据 | 用户观察到角色间卡顿与流畅度不一；根因可能在资源完整性、帧时序/持帧、clock、动作转移、加载或投影 | 195 跨角色可测对照与根因分类；只为受影响角色生成单角色修复 task；196 五角色统一校准 |
@@ -136,3 +136,9 @@
 2026-09-13 219完成补证：四效果76帧/152方向源显示事实verified，原版6,448案例命中布尔一致，104像素差异按用户明确批准的碰撞近似单列；54方向场/505平面、独立源/Schema核对与8变异通过，原图不变。恢复214D唯一Ready继续二三阶实现；P1GD、214E整家族/P1G与VS-067仍未完成，215/216不抢占。交接见 `docs/tasks/evidence/TASK-SETTINGS-219/handoff.md`。
 
 2026-09-13 TASK-SLICE-214D完成：二三阶复用同一Runtime/Behavior与生产presenter，normal/fs/sdcc/九对象ltwj真实P1/P2伤害、治疗、时序和释放通过；P1GD=0、174状态零像素差/5视觉变异、9实现变异、6448原版碰撞消费（104像素批准近似）。修正213唯一左向九对象组合基准的世界偏移/插入顺序及214A投影。全系统/build及正式/TestScene可见链通过，214E唯一Ready，整家族/P1G与VS-067仍为部分复现。交接见 `docs/tasks/evidence/TASK-SLICE-214D/handoff.md`。
+
+2026-09-14 214E输入预检：PetDragonBullet4的48帧视觉资源完整，但218/219没有该奥义trigger碰撞oracle，219四效果近似许可不外推。214E设Blocked、TASK-SETTINGS-220唯一Ready补单对象输入后恢复E；父214/214B与44合同/P1G保持未完成。未改src或生产资源，功能线保持Active，机制/VS-067复现状态不提升。证据见 `docs/tasks/evidence/TASK-SLICE-214E/preflight.md`。
+
+2026-09-14 TASK-SETTINGS-220完成：奥义trigger五源定义含mask/bitmap，48帧96方向状态与384对象verified；11520原版HitTest例/78373320像素零差异、7采样/10产物变异和480相位编码通过，四权威产物再生成一致。220归档，214E恢复唯一Ready，44合同/P1G与整族仍未完成；未改src/生产资源，不提升VS-067复现状态。见 `docs/tasks/evidence/TASK-SETTINGS-220/handoff.md`。
+
+2026-09-14 TASK-SLICE-214E完成：dragon4继承技能、qlaoyi首回调trigger/四次可选真实分身/免费连锁与12秒/早死治疗闭合；完整44合同、64组家族trace、60组五关P1/P2消费者、345态投影及pet P1G=0，全系统/build和正式Stage1-2/TestScene可见伤害/清理通过。219四效果104像素批准近似保留，220 trigger有限样本零残差；本批补四阶魔花乘数。214E、214B与214同次归档，TASK-SETTINGS-215唯一Ready。猴/马/青龙三族完成，六族及旧入口仍未闭合，功能线保持Active、VS-067仍部分实现。交接见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。

@@ -315,3 +315,9 @@ character 250/868/417/213、212 与 865 生成 `task-settings-175d.skill-pages` 
 2026-09-13 219完成补证：四效果76帧/152方向源显示事实verified，原版6,448案例命中布尔一致，104像素差异按用户明确批准的碰撞近似单列；54方向场/505平面、独立源/Schema核对与8变异通过，原图不变。恢复214D唯一Ready继续二三阶实现；P1GD、214E整家族/P1G与VS-067仍未完成，215/216不抢占。交接见 `docs/tasks/evidence/TASK-SETTINGS-219/handoff.md`。
 
 2026-09-13 TASK-SLICE-214D完成：二三阶复用同一Runtime/Behavior与生产presenter，normal/fs/sdcc/九对象ltwj真实P1/P2伤害、治疗、时序和释放通过；P1GD=0、174状态零像素差/5视觉变异、9实现变异、6448原版碰撞消费（104像素批准近似）。修正213唯一左向九对象组合基准的世界偏移/插入顺序及214A投影。全系统/build及正式/TestScene可见链通过，214E唯一Ready，整家族/P1G与VS-067仍为部分复现。交接见 `docs/tasks/evidence/TASK-SLICE-214D/handoff.md`。
+
+2026-09-14 214E输入预检：PetDragonBullet4的48帧视觉资源完整，但218/219没有该奥义trigger碰撞oracle，219四效果近似许可不外推。214E设Blocked、TASK-SETTINGS-220唯一Ready补单对象输入后恢复E；父214/214B与44合同/P1G保持未完成。未改src或生产资源，功能线保持Active，机制/VS-067复现状态不提升。证据见 `docs/tasks/evidence/TASK-SLICE-214E/preflight.md`。
+
+2026-09-14 TASK-SETTINGS-220完成：奥义trigger五源定义含mask/bitmap，48帧96方向状态与384对象verified；11520原版HitTest例/78373320像素零差异、7采样/10产物变异和480相位编码通过，四权威产物再生成一致。220归档，214E恢复唯一Ready，44合同/P1G与整族仍未完成；未改src/生产资源，不提升VS-067复现状态。见 `docs/tasks/evidence/TASK-SETTINGS-220/handoff.md`。
+
+2026-09-14 TASK-SLICE-214E完成：dragon4继承技能、qlaoyi首回调trigger/四次可选真实分身/免费连锁与12秒/早死治疗闭合；完整44合同、64组家族trace、60组五关P1/P2消费者、345态投影及pet P1G=0，全系统/build和正式Stage1-2/TestScene可见伤害/清理通过。219四效果104像素批准近似保留，220 trigger有限样本零残差；本批补四阶魔花乘数。214E、214B与214同次归档，TASK-SETTINGS-215唯一Ready。猴/马/青龙三族完成，六族及旧入口仍未闭合，功能线保持Active、VS-067仍部分实现。交接见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。

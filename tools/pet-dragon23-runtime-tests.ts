@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { mkdirSync, readFileSync } from 'node:fs';
+import { writeFileSync } from './write-dragon-evidence';
 import { createHash } from 'node:crypto';
 import source from '../docs/tasks/evidence/TASK-SLICE-214D/source-contracts.json';
 import { PetCombatRuntime } from '../src/systems/PetCombatRuntime';

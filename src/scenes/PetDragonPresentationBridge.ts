@@ -14,7 +14,7 @@ export function createPetDragonPresentationBridge(scene: Phaser.Scene) {
       const sources = new Set<string>();
       for (const snapshot of snapshots) {
         for (const entity of [snapshot, ...(snapshot.summons ?? [])]) {
-          if (entity.species !== 'dragon' || !entity.form || entity.form > 3 || !entity.runtime || !entity.animation) continue;
+          if (entity.species !== 'dragon' || !entity.form || entity.form > 4 || !entity.runtime || !entity.animation) continue;
           const { runtime, animation } = entity;
           const key = runtime.runtimeKey;
           activeBodies.add(key);
@@ -39,7 +39,7 @@ export function createPetDragonPresentationBridge(scene: Phaser.Scene) {
       for (const projectile of projectiles) {
         if (projectile.petHostTick === undefined || projectile.isExpired || !sources.has(projectile.sourceId)
           || !['PetDragon1Bullet1', 'PetDragon2Bullet1', 'PetDragon2Bullet2', 'PetDragon3Bullet1',
-            'PetDragon3Bullet3'].includes(projectile.sourceSymbol)) continue;
+            'PetDragon3Bullet3', 'PetDragonBullet4', 'AoyiBuff'].includes(projectile.sourceSymbol)) continue;
         const frame = Math.max(1, projectile.petHostTick);
         const asset = getPetDragonEffectFrame(projectile.sourceSymbol, frame);
         const placement = getPetDragonEffectPlacement(projectile.sourceSymbol, frame,

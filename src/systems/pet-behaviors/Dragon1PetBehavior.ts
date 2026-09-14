@@ -7,18 +7,18 @@ import { createDragon1CloneState } from '../PetDragonCloneState';
 import { toDragonSourceCoordinate } from '../PetDragonCollisionSystem';
 
 export class Dragon1PetBehavior implements PetBehavior {
-  private readonly projectiles: PetDragon1ProjectileSystem | PetDragon23ProjectileSystem;
+  protected readonly projectiles: PetDragon1ProjectileSystem | PetDragon23ProjectileSystem;
   private passiveCount = 0;
   private passiveLevel = 0;
   private remainingTicks: number | undefined;
 
-  constructor(private readonly form: 1 | 2 | 3 = 1) {
+  constructor(protected readonly form: 1 | 2 | 3 | 4 = 1) {
     this.projectiles = form === 1 ? new PetDragon1ProjectileSystem() : new PetDragon23ProjectileSystem(form);
   }
   createAnimationClock = () => createPetDragonAnimationClock(this.form);
-  groundMovement = () => ({ collision: getPetDragonCollision(this.form), gravity: 1.5,
+  groundMovement() { return { collision: getPetDragonCollision(this.form), gravity: 1.5,
     jumpPower: -30, attackRate: 0.7, attackActions: ['normal', 'fs', 'sdcc', 'ltwj'],
-    immobileGroundActions: ['normal', 'fs', 'ltwj'], speedByAction: { sdcc: 10 } });
+    immobileGroundActions: ['normal', 'fs', 'ltwj'], speedByAction: { sdcc: 10 } }; }
 
   enter(context: PetBehaviorContext): void {
     context.setSkillCooldown('dragon1Fs', 2500);
@@ -35,9 +35,9 @@ export class Dragon1PetBehavior implements PetBehavior {
       && (context.pet.skillState?.dragon1Fs.cooldownMs ?? Infinity) <= 1e-7) return { type: 'fs' };
     if (context.target && !context.targetAcquiredThisFrame && context.pet.mp >= 20) {
       const distance = Math.hypot(context.runtime.x - context.target.x, context.runtime.y - context.target.y);
-      if (this.form >= 2 && context.pet.skills.includes('sdcc') && distance <= 300
+      if (this.form >= 2 && context.pet.skills.includes('sdcc') && distance <= (this.form === 4 ? 180 : 300)
         && (context.pet.skillState?.dragon2Sdcc.cooldownMs ?? Infinity) <= 1e-7) return { type: 'sdcc' };
-      if (this.form >= 3 && context.pet.skills.includes('ltwj') && distance <= 500
+      if (this.form >= 3 && context.pet.skills.includes('ltwj') && distance <= (this.form === 4 ? 220 : 500)
         && (context.pet.skillState?.dragon3Ltwj.cooldownMs ?? Infinity) <= 1e-7) return { type: 'ltwj' };
     }
     return undefined;
@@ -76,7 +76,7 @@ export class Dragon1PetBehavior implements PetBehavior {
 
   updateEffects(context: PetBehaviorContext): void {
     if (context.parentRuntimeKey) {
-      this.remainingTicks ??= context.hostFps * 10;
+      this.remainingTicks ??= context.hostFps * (this.form === 4 ? 12 : 10);
       if (--this.remainingTicks <= 0) {
         context.emit({ type: 'dragon1-clone-expired' });
         context.releaseSelf('expired');
@@ -107,6 +107,11 @@ export class Dragon1PetBehavior implements PetBehavior {
       this.projectiles.emit(context, event.action);
     }
     if (event.action === 'fs' && !context.parentRuntimeKey) {
+      this.spawnClone(context);
+    }
+  }
+
+  protected spawnClone(context: PetBehaviorContext): void {
       const pet = createDragon1CloneState(context.pet, this.form);
       const handle = context.spawnSummon({ pet,
         x: toDragonSourceCoordinate(toDragonSourceCoordinate(context.runtime.x) + (context.random() - 0.5) * 300),
@@ -121,7 +126,6 @@ export class Dragon1PetBehavior implements PetBehavior {
       });
       context.emit({ type: 'dragon1-clone-spawned', payload: { handle,
         hp: pet.hp, maxHp: pet.maxHp, mp: pet.mp, maxMp: pet.maxMp, atk: pet.atk, def: pet.def } });
-    }
   }
 
   destroy(): void { this.projectiles.destroy(); }

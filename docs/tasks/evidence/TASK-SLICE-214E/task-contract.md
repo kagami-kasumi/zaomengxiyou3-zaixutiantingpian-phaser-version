@@ -13,7 +13,7 @@
 - 不适用
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready，220已解除trigger碰撞输入阻塞）
 
 目标机制/切片：
 - `M-032`、`M-034`、`M-035`、`M-042`、`M-044`、`VS-067`
@@ -34,6 +34,7 @@
 - 方法观测：`MO-003`；仅记录当前实际差异，最终整家族验收前不计成功样本。
 
 输入资料：
+- `docs/tasks/evidence/TASK-SETTINGS-220/handoff.md`、verified trigger collision-contract与runtime-mask-pack：48帧/96方向状态，11520原版case和78373320像素零差异；不继承219近似授权。
 - `docs/tasks/task-definitions/TASK-SLICE-214B.md` 的完整 44 项合同、UI 原生化合同、时钟修正和 compact 检查点；父级合同未完成，最终由 214E 全量关闭。
 - `docs/tasks/evidence/TASK-SLICE-214D/handoff.md`、source-contracts及P1GD交付；`docs/tasks/evidence/TASK-SLICE-214A/handoff.md`、213 verified 真值和 source evidence。
 - `docs/architecture/system-designs/pet.md`（实施中）；当前公共 Runtime/Behavior、Projectile/正式伤害、HeroPartyRuntimeBridge、TestScene 消费者。
@@ -63,6 +64,15 @@ UI 原生化合同：
 
 推荐后续任务：
 - `TASK-SETTINGS-215`。
+
+执行记录（2026-09-14 输入预检）：
+- 主 agent 核对生产碰撞消费者与213/218/219范围；Luna只读核对PetDragon4及共享弹体调用链，主agent为唯一写入owner，归并点在实现前。详见 `docs/tasks/evidence/TASK-SLICE-214E/preflight.md`。
+- 48帧PetDragonBullet4视觉文件存在且哈希一致，但219只覆盖二三阶四效果，不含奥义trigger。其原版逐帧碰撞采样是第三独立逆向工作包，命中本项拆分触发；本次不新增战斗实现。
+- 本项Blocked，同线TASK-SETTINGS-220唯一Ready补trigger输入，通过后恢复本项。完整44合同、P1G、正式/TestScene及最终归档合同全部保留；215/216不抢占。
+- 视觉体验验收沿用用户无需严格坐标对齐的偏好；不把219仅限四效果的碰撞近似授权外推到新对象。尚未运行P1G或证明四阶完成。
+
+阻塞原因：
+- 已解除（2026-09-14）：220交付本对象独立原版输入，214E恢复Ready。上方预检为历史事件；本项实现/44合同/P1G仍未完成。
 
 最终关闭合同：
 - 必须全量执行 214B 的 44 项合同与全部最终验收，包括全系统检查和 P1G；全部通过后归档 214E、214B 与 214，修复 handoff verifier 的持久合同读取位置，才可激活 215。

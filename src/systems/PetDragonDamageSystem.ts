@@ -1,12 +1,12 @@
 /** Source BaseBullet stores hurt as int and attack power separately. */
 export type DragonDamageCache = Readonly<{ hurt: number; attack: number; critical: boolean }>;
-export type DragonAttackStats = Readonly<{ attack: number; magicAdd: number; gxp: boolean; power?: number }>;
+export type DragonAttackStats = Readonly<{ attack: number; magicAdd: number; gxp: boolean; power?: number; effectRate?: number }>;
 
 // PetDragon1.getRealPower(hit1), called twice with crit enabled by BaseBullet.refresh,
 // then once with crit disabled to determine the displayed critical flag.
 export function refreshDragonDamageCache(stats: DragonAttackStats,
   rollCritical: () => boolean): DragonDamageCache {
-  const base = ((stats.power ?? stats.attack) + (stats.magicAdd >>> 0)) * (stats.gxp ? 1.2 : 1);
+  const base = ((stats.power ?? stats.attack) + (stats.magicAdd >>> 0)) * (stats.gxp ? 1.2 : 1) * (stats.effectRate ?? 1);
   const hurt = (base * (rollCritical() ? 2 : 1)) | 0;
   rollCritical(); // qixue read still invokes getRealPower, even though qixue is zero.
   const noncritical = base | 0;

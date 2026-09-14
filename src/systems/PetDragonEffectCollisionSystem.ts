@@ -1,16 +1,19 @@
 import contract from '../../docs/tasks/evidence/TASK-SETTINGS-219/collision-contract.json';
 import pack from '../../docs/tasks/evidence/TASK-SETTINGS-219/runtime-mask-pack.json';
+import trigger from '../../docs/tasks/evidence/TASK-SETTINGS-220/collision-contract.json';
+import triggerPack from '../../docs/tasks/evidence/TASK-SETTINGS-220/runtime-mask-pack.json';
 import { toDragonSourceCoordinate, type DragonCollisionBounds } from './PetDragonCollisionSystem';
 
 if (contract.status !== 'verified' || contract.sampling.status !== 'approved-approximation') {
   throw new Error('Dragon effects require verified source facts and an explicit approved sampling contract');
 }
 
-const frames = new Map(contract.frames.map(frame => [`${frame.symbol}/${frame.frame}`, frame]));
+if (trigger.status !== 'verified') throw new Error('Dragon trigger requires its own verified collision contract');
+const frames = new Map([...contract.frames, ...trigger.frames].map(frame => [`${frame.symbol}/${frame.frame}`, frame]));
 const decoded = new Map<string, Uint8Array>();
 const fields: Record<string, { width: number; height: number; originX: number; originY: number;
-  quarterPhasePlaneIds: string[] }> = pack.fields;
-const planes: Record<string, { size: number; spans: number[] }> = pack.planes;
+  quarterPhasePlaneIds: string[] }> = { ...pack.fields, ...triggerPack.fields };
+const planes: Record<string, { size: number; spans: number[] }> = { ...pack.planes, ...triggerPack.planes };
 
 function plane(id: string): Uint8Array {
   let bits = decoded.get(id);
@@ -25,7 +28,7 @@ function plane(id: string): Uint8Array {
   return bits;
 }
 
-/** 219's approved finite phase approximation, never claimed to reproduce all AIR pixels. */
+/** Per-object finite source samples: 219's approved residual does not apply to 220's trigger. */
 export function sampleDragonEffectCollision(symbol: string, frame: number,
   root: Readonly<{ x: number; y: number }>, facingX: -1 | 1, target: DragonCollisionBounds) {
   const source = frames.get(`${symbol}/${frame}`);

@@ -72,12 +72,17 @@ export class PetCombatEntitySession {
     }
   }
 
-  enter(owner: Readonly<PetOwnerSnapshot>): void {
+  enter(owner: Readonly<PetOwnerSnapshot>, initialAction?: PetBehaviorAction): void {
     this.publish({ type: 'activated' });
-    this.behavior.enter(this.context({
+    const context = () => this.context({
       roster: { pets: [this.pet], selectedIndex: 0, message: '' },
       owner, targets: [], deltaMs: 0,
-    }, []));
+    }, []);
+    this.behavior.enter(context());
+    if (initialAction) {
+      this.playAnimation(initialAction.type);
+      this.behavior.executeAction(initialAction, context());
+    }
   }
 
   update(frame: PetCombatFrame, eventsOnly = false): void {
@@ -239,6 +244,7 @@ export class PetCombatEntitySession {
   }
 
   private advanceAnimation(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[]): void {
+    this.ground?.applyEnterVelocity(this.animation?.snapshot().action);
     this.animation?.advance(frame.deltaMs, frame.hostFps ?? DefaultGlobalSettings.frameRate, (event) => {
       this.consumeAnimationEvents({ ...frame, animationEvents: [{
         runtimeKey: this.runtimeKey, actionToken: event.actionToken,

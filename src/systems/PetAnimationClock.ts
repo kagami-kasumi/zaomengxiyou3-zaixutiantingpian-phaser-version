@@ -8,6 +8,8 @@ export type PetAnimationDefinition = Readonly<{
   completionEvent?: PetCombatAnimationEventName;
   completionStatic?: boolean;
   hit?: Readonly<{ column: number; remaining: number }>;
+  hits?: readonly Readonly<{ column: number; remaining: number }>[];
+  enterEvent?: boolean;
 }>;
 
 export type PetAnimationClockEvent = Readonly<{
@@ -66,7 +68,8 @@ export class PetAnimationClock {
     this.fractionalTicks = Math.max(0, this.fractionalTicks - count);
     const events: PetAnimationClockEvent[] = [];
     for (let tick = 0; tick < count && !this.completed; tick++) {
-      const definition = this.definition(this.action);
+      let definition = this.definition(this.action);
+      let action = this.action, token = this.token;
       const event = (eventName: PetCombatAnimationEventName) => {
         const value = Object.freeze({ action: this.action, actionToken: this.token, eventName,
           elapsedHostTick: this.elapsed + 1, setStatic: eventName === 'complete' && definition.completionStatic });
@@ -74,7 +77,13 @@ export class PetAnimationClock {
         onEvent?.(value);
       };
       // BaseBitmapDataClip calls enter before decrement, advance, or completion.
-      if (definition.hit?.column === this.column && definition.hit.remaining === this.remaining) event('hit');
+      if (definition.enterEvent) event('enter');
+      const switchedInEnter = this.action !== action || this.token !== token;
+      if (!switchedInEnter && [...(definition.hits ?? []), ...(definition.hit ? [definition.hit] : [])]
+        .some(hit => hit.column === this.column && hit.remaining === this.remaining)) event('hit');
+      // Source continues its decrement on the new row when enter changes state.
+      definition = this.definition(this.action);
+      action = this.action; token = this.token;
       if (this.remaining > 1) {
         this.remaining--;
         this.elapsed++;
@@ -90,6 +99,8 @@ export class PetAnimationClock {
         this.elapsed = 0;
       } else {
         if (definition.completionEvent) event(definition.completionEvent);
+        // A behavior may select a source-defined conditional route in its callback.
+        if (this.action !== action || this.token !== token) continue;
         if (definition.completionAction) this.select(definition.completionAction, this.token);
         else {
           this.elapsed++;

@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "date": "2026-09-14",
+  "checks": [
+    {
+      "command": "pet P1G",
+      "exitCode": 0,
+      "logSha256": "594050c04af8b75581c4309aa16c43877c33f8bafc00f8d0a5114d6c15110e83"
+    },
+    {
+      "command": "test:systems",
+      "exitCode": 0,
+      "logSha256": "4bba224c17ab05e72e5cd127e638894f18aa155c0a2df7442201e9e03ae398e0"
+    },
+    {
+      "command": "build",
+      "exitCode": 0,
+      "logSha256": "6484a32665cd2d226459e3112d55af2eb3e0da5266770fdf3778ca140826f3fb"
+    },
+    {
+      "command": "test:pet-dragon-family-truth",
+      "exitCode": 0,
+      "logSha256": "597246cd208db05b1c69d69b3da660bdd84e93560916eeca72e15ce0b4232ee6"
+    },
+    {
+      "command": "test:pet-dragon-assets",
+      "exitCode": 0,
+      "logSha256": "150d9a19cb8c2b9083951f9587d6a6a8d854c813e6cd9f57a012a509b66bbd1f"
+    },
+    {
+      "command": "check:workflow",
+      "exitCode": 0,
+      "logSha256": "f530e0ac5082a7ba10411337da823b9428f7a19a31741e41555de0648e50ae42"
+    },
+    {
+      "command": "check:structure",
+      "exitCode": 0,
+      "logSha256": "78e9778e76cec3fafb35d9dc88b5ffe82041743f69eb710c96a99811e706ff89"
+    },
+    {
+      "command": "audit:problems",
+      "exitCode": 0,
+      "logSha256": "63e94072ab0bdcdae33ad13a5abda811e3c458618dd7743ad5330e2114378547"
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "warnings": [
+    "9 existing unrelated structure warnings",
+    "existing PlayerSlot alias warning",
+    "existing Vite large chunk warning"
+  ],
+  "browserConsoleWarningErrorCount": 0,
+  "nextTask": "TASK-SETTINGS-215",
+  "completedTasks": [
+    "TASK-SLICE-214E",
+    "TASK-SLICE-214B",
+    "TASK-SLICE-214"
+  ],
+  "petDesignStatus": "实施中/未退出",
+  "gitCommitPerformed": false,
+  "gitPushPerformed": false
+}

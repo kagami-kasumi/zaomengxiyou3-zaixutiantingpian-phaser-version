@@ -330,12 +330,30 @@ const contracts = {
         ['second runtime or scene clock', /new PetCombatRuntime|setTimeout|scene\.time|Date\.now/u],
       ], errors);
       requireMatches('src/scenes/test-scene/TestScenePetMagicBridge.ts', [
-        ['later forms bypass old battle path', /sharedPet\.form <= 3/u],
+        ['later forms bypass old battle path', /sharedPet\.form <= [34]/u],
       ], errors);
       for (const test of ['pet-dragon23-collision-tests', 'pet-dragon23-runtime-tests',
         'pet-dragon23-mutation-tests', 'pet-dragon23-consumer-tests', 'pet-dragon23-presentation-tests']) {
         requireTest(test, tests, errors);
       }
+    },
+    P1G(errors, tests) {
+      contracts.pet.P1GD(errors, tests);
+      requireMatches('src/systems/pet-behaviors/createDefaultPetBehaviorRegistry.ts', [
+        ['fourth dragon registration', /form: 4, create: \(\) => new Dragon4PetBehavior\(\)/u],
+      ], errors);
+      requireMatches('src/scenes/test-scene/TestScenePetMagicBridge.ts', [
+        ['all dragon forms bypass old battle path', /sharedPet\.form <= 4/u],
+      ], errors);
+      requireMatches('src/systems/PetDragonEffectCollisionSystem.ts', [
+        ['separate trigger contract', /TASK-SETTINGS-220\/collision-contract\.json/u],
+      ], errors);
+      forbidMatches('src/systems/pet-behaviors/Dragon4PetBehavior.ts', [
+        ['private runtime or scene clock', /new PetCombatRuntime|new PetCombatEntitySession|setTimeout|scene\.time|Date\.now/u],
+      ], errors);
+      for (const test of ['pet-dragon4-runtime-tests', 'pet-dragon4-collision-tests', 'pet-dragon4-mutation-tests',
+        'pet-dragon4-presentation-tests', 'pet-dragon-family-behavior-tests', 'pet-dragon-family-consumer-tests',
+        'formal-pet-tests', 'formal-pet-journey-tests', 'pet-dragon-family-audit-tests']) requireTest(test, tests, errors);
     },
     P1C(errors, tests) {
       const behaviors = ['Dragon', 'Turtle', 'Ufo'].map((name) => (

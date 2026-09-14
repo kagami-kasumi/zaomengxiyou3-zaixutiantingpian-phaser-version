@@ -13,3 +13,11 @@ export function createDragon1CloneState(parent: Readonly<PetState>, form = 1): P
     skillState: createPetSkillState(),
   };
 }
+
+/** PetDragon4.createFenshen applies each multiplier twice when setting the maxima. */
+export function createDragon4CloneState(parent: Readonly<PetState>): PetState {
+  return { ...createDragon1CloneState(parent, 4),
+    hp: (parent.hp * 20) | 0, maxHp: ((parent.hp * 20) | 0) * 20,
+    mp: (parent.mp * 99) | 0, maxMp: ((parent.mp * 99) | 0) * 99,
+    critBonusRate: parent.critBonusRate, moveSpeed: parent.moveSpeed, skills: [...parent.skills] };
+}

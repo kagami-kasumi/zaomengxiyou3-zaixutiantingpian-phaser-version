@@ -143,7 +143,7 @@ export class PetCombatRuntime {
     );
     this.entities.set(key, child);
     try {
-      child.enter(owner);
+      child.enter(owner, request.initialAction);
     } catch (error) {
       this.releaseEntity(child, 'dismissed');
       throw error;

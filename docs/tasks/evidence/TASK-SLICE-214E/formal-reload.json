@@ -1,0 +1,93 @@
+{
+  "damage": [],
+  "pets": {
+    "p1": {
+      "hp": 5000,
+      "mp": 1000
+    },
+    "p2": {
+      "hp": 5000,
+      "mp": 1000
+    }
+  },
+  "snapshots": {
+    "p1": {
+      "actionToken": 0,
+      "animation": {
+        "action": "wait",
+        "actionToken": 0,
+        "column": 5,
+        "complete": false,
+        "elapsedTicks": 12,
+        "keyFrameIndex": 5,
+        "remainingHoldCount": 3,
+        "row": 0
+      },
+      "destroyed": false,
+      "form": 4,
+      "groundMotion": {
+        "direction": 0,
+        "facingX": 1,
+        "petId": "p1-pet-dragon-4",
+        "runtimeKey": "p1-pet-dragon-4:dragon:4:session:1:1",
+        "standingOn": "level12-d14",
+        "state": "idle",
+        "velocityX": 0,
+        "velocityY": 1.5,
+        "x": 100,
+        "y": 465.97519809999994
+      },
+      "petId": "p1-pet-dragon-4",
+      "phase": "alive",
+      "runtime": {
+        "facingX": 1,
+        "petId": "p1-pet-dragon-4",
+        "runtimeKey": "p1-pet-dragon-4:dragon:4:session:1:1",
+        "state": "idle",
+        "x": 100,
+        "y": 465.97519809999994
+      },
+      "species": "dragon",
+      "summons": []
+    },
+    "p2": {
+      "actionToken": 0,
+      "animation": {
+        "action": "wait",
+        "actionToken": 0,
+        "column": 5,
+        "complete": false,
+        "elapsedTicks": 12,
+        "keyFrameIndex": 5,
+        "remainingHoldCount": 3,
+        "row": 0
+      },
+      "destroyed": false,
+      "form": 4,
+      "groundMotion": {
+        "direction": 0,
+        "facingX": 1,
+        "petId": "p2-pet-dragon-4",
+        "runtimeKey": "p2-pet-dragon-4:dragon:4:session:2:1",
+        "standingOn": "level12-d14",
+        "state": "idle",
+        "velocityX": 0,
+        "velocityY": 1.5,
+        "x": 100,
+        "y": 465.97519809999994
+      },
+      "petId": "p2-pet-dragon-4",
+      "phase": "alive",
+      "runtime": {
+        "facingX": 1,
+        "petId": "p2-pet-dragon-4",
+        "runtimeKey": "p2-pet-dragon-4:dragon:4:session:2:1",
+        "state": "idle",
+        "x": 100,
+        "y": 465.97519809999994
+      },
+      "species": "dragon",
+      "summons": []
+    }
+  }
+}

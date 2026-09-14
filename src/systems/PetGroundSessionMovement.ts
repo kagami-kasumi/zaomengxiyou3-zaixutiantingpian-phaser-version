@@ -12,6 +12,7 @@ export type PetGroundMovementDefinition = Readonly<{
   attackActions: readonly string[];
   immobileGroundActions: readonly string[];
   speedByAction?: Readonly<Record<string, number>>;
+  enterVelocityByAction?: Readonly<Record<string, Readonly<{ x: number; y: number }>>>;
 }>;
 
 export class PetGroundSessionMovement {
@@ -49,6 +50,14 @@ export class PetGroundSessionMovement {
 
   isAttacking(action: string | undefined): boolean {
     return action !== undefined && this.definition.attackActions.includes(action);
+  }
+
+  applyEnterVelocity(action: string | undefined): void {
+    const velocity = this.definition.enterVelocityByAction?.[action ?? ''];
+    if (velocity) {
+      this.velocity.velocityX = velocity.x;
+      this.velocity.velocityY = velocity.y;
+    }
   }
 
   adjustVertical(owner: PetOwnerSnapshot, environment: PetGroundEnvironment): void {

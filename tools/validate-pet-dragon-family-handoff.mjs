@@ -7,7 +7,7 @@ const readText = (file) => readFile(path.join(root, file), 'utf8')
 const manifest = JSON.parse(await readText('docs/reverse-engineering/ground-truth/manifests/task-settings-213-pet-dragon-family.json'))
 if (manifest.status !== 'verified') throw new Error('213 handoff blocked: truth status is not verified; see TASK-SETTINGS-213A')
 const evidence = await readText('docs/reverse-engineering/evidence/TASK-SETTINGS-213-pet-dragon-family.md')
-const task214 = await readText('docs/tasks/task-definitions/TASK-SLICE-214.md')
+const task214 = await readText('docs/tasks/evidence/TASK-SLICE-214E/parent-contract.md')
 const baselineIndex = JSON.parse(await readText('docs/tasks/evidence/TASK-SETTINGS-213/baseline-index.json'))
 const corpus = JSON.parse(await readText('docs/reverse-engineering/pet-animation-corpus.json'))
 

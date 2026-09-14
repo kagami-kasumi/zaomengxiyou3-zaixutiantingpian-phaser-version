@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "cases": 11520,
+  "pixels": 78373320,
+  "positive": 7620,
+  "negative": 3900,
+  "booleanMismatches": [],
+  "pixelMismatches": [],
+  "mutations": {
+    "first-frame": 1134,
+    "flip": 1230,
+    "root": 1215,
+    "crop": 7620,
+    "phase": 72,
+    "rectangle": 3600,
+    "last-frame": 162
+  },
+  "fieldReportSha256": "4196286882995caf1bd36c56b3a682465174e93c34b15c9a3f21490d014df082",
+  "oracleReportSha256": "21542c1b38464e41579c1394b2cf637f03ee5bb3d75d388fcdb50399b61938f9",
+  "blankFrameMutation": "Not applicable: source has nonempty masked tiles in all 48 frames; verify from native state set.",
+  "exactAirEquivalence": false,
+  "scope": "Finite original inputs; no claim of universal AIR raster equivalence."
+}

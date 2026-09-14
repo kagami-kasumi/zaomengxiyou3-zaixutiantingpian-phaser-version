@@ -1,0 +1,14 @@
+{
+  "status": "losslessly-packed",
+  "pngCount": 10026,
+  "pngBytes": 1826186,
+  "archivePath": "docs/tasks/evidence/TASK-SETTINGS-220/air-original/buffers.zip",
+  "archiveBytes": 2845230,
+  "archiveSha256": "6bc996dffc39eca60919c33d78311b72b207e65dd4a3ae67d73d9257ed3190b0",
+  "entryHashes": "air-original/measurement.json artifactHashes.buffers",
+  "consumers": [
+    "tools/verify-dragon4-sampling.py",
+    "TASK-SLICE-214E source oracle"
+  ],
+  "retention": "Keep as independent source input until family closure; unpacking is unnecessary."
+}

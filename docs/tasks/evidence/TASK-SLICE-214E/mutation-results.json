@@ -1,0 +1,102 @@
+[
+  {
+    "id": "family-range",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "family-hit",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "family-source",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "flower-rate",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "qlaoyi-debit",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "missing-clone-tick",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "trigger-fs-gate",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "clone-hp",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "clone-mp",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "initial-chain",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "clone-direction",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "clone-expiry",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "dead-clone-heal",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "trigger-hurt-cut",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "trigger-heal",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "no-owner-chain",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "ascent",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "enter-new-row",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "normal-offset",
+    "rejected": true,
+    "exitCode": 1
+  },
+  {
+    "id": "first-mask",
+    "rejected": true,
+    "exitCode": 1
+  }
+]

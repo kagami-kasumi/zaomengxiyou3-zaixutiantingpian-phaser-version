@@ -9,7 +9,7 @@ const mutations = [
   ['clone-source', 'PetDragon1ProjectileSystem', 'sourceId: context.pet.id', 'sourceId: context.sourcePetId'],
   ['clone-max-hp', 'PetDragonCloneState', 'maxHp: parent.hp', 'maxHp: parent.maxHp'],
   ['clone-crit', 'PetDragonCloneState', 'critBonusRate: 0', 'critBonusRate: parent.critBonusRate'],
-  ['early-expiry', 'pet-behaviors/Dragon1PetBehavior', 'context.hostFps * 10', 'context.hostFps * 9'],
+  ['early-expiry', 'pet-behaviors/Dragon1PetBehavior', 'this.form === 4 ? 12 : 10', 'this.form === 4 ? 12 : 9'],
   ['death-heal', 'pet-behaviors/Dragon1PetBehavior', "if (reason !== 'expired') return;", 'if (false) return;'],
   ['free-fs', 'pet-behaviors/Dragon1PetBehavior', 'context.spendMp(20)', 'context.spendMp(0)'],
   ['gxp-hurt', 'pet-behaviors/Dragon1PetBehavior', 'context.pet.hp > 0 && !context.isGxp', 'context.pet.hp > 0'],
@@ -23,6 +23,7 @@ const mutations = [
 ] as const;
 const directory = path.resolve('.tmp/dragon1-mutations');
 mkdirSync(directory, { recursive: true });
+const baselines = ['docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json'].map(file => ({ file, bytes: readFileSync(file) }));
 const results = [];
 for (const [id, stem, from, to] of mutations) {
   const file = path.resolve(`src/systems/${stem}.ts`);
@@ -38,11 +39,12 @@ for (const [id, stem, from, to] of mutations) {
   } }] });
   const executable = path.join(directory, `${id}.mjs`);
   writeFileSync(executable, bundle.outputFiles[0]!.text);
-  const run = spawnSync(process.execPath, [executable], { encoding: 'utf8', timeout: 30000 });
+  const run = spawnSync(process.execPath, [executable], { encoding: 'utf8', timeout: 30000, env: { ...process.env, PET_DRAGON_MUTATION: '1' } });
   assert.equal(run.error, undefined, `${id}: must execute`);
   const rejected = run.status !== 0 && run.stderr.includes('AssertionError');
   results.push({ id, rejected, exitCode: run.status });
   assert.ok(rejected, `${id}: expected a semantic assertion failure\n${run.stderr}`);
 }
+for (const { file, bytes } of baselines) assert.deepEqual(readFileSync(file), bytes, 'Mutation process overwrote baseline: ' + file);
 writeFileSync('docs/tasks/evidence/TASK-SLICE-214C4/mutation-results.json', JSON.stringify(results, null, 2) + '\n');
 console.log(`Dragon1 ${results.length} independent implementation mutations rejected.`);

@@ -1,0 +1,38 @@
+
+> zaixu-tianding-modern@0.1.0 check:system-design
+> node tools/check-system-design.mjs pet P1G
+
+Pet combat runtime P1/P1B design contract tests passed.
+Pet monkey family P1R runtime, damage, owner, and consumer tests passed.
+Monkey behavior contract runtime semantics verifier passed.
+pet monkey animation runtime tests passed
+Formal pet paging, actions, growth, owner, runtime, save, and true asset tests passed.
+Formal cold-start five-stage P1/P2 pet page journey and observable failure tests passed.
+Horse normal/skill inheritance, tmaoyi combinations, formal damage, ice, and shared consumers passed.
+Horse behavior contract coverage, P1/P2 range traces, and mutation-kill passed.
+pet horse animation runtime tests passed
+Pet private entity sessions passed: shared step, real port, source isolation, stale keys, death and cascade.
+Pet entity session mutation-kill passed (10 independent implementation mutations).
+Dragon1 real Runtime: normal, private clone damage, expiry and early death passed.
+Dragon1 14 independent implementation mutations rejected.
+Dragon1 production presenter: 72 original states, P1/P2 identity and release passed.
+72 production presenter states match original; 4 visual mutations rejected
+Dragon1 production consumers: shared P1/P2 combat, real sandbox HP, rest/replacement and disposal passed.
+Ground Session: 20/24/30fps root/child motion, ground/air completion, hurt, birth, warp, sticky AI and five-level forwarding passed.
+Dragon1 clock: all cells, enter-before-decrement hits, completions, same-row preservation and interruption passed at 20/24/30fps.
+Combat feedback tests passed.
+Formal game-loop end-to-end journey tests passed.
+Dragon23 production collision: 6448 native cases, only explicitly approved residuals
+Dragon23 Runtime: source clocks, real damage/heal, clones, dash and nine-wave cleanup passed
+Dragon23 9 independent implementation mutations rejected.
+Dragon production consumers: 12 form/level/lifecycle groups, P1/P2 damage and cleanup passed.
+Dragon23 production presenter: 174 original states, P1/P2 identity and release passed.
+174 production presenter states match original; 5 visual mutations rejected
+Dragon4 Runtime: clocks, 16 P1/P2 combinations, real damage, gate-only MP, clone removal and hurt passed
+Dragon4 production collision: 11520 original inputs / 78373320 pixels, zero residual
+Dragon4: 20 implementation mutations rejected
+99 production presenter states match original; 4 visual mutations rejected
+Dragon family: eight range-to-damage chains, ordered targets, loss, priority, CD and death passed
+Dragon production consumers: 60 form/level/lifecycle groups, P1/P2 damage and cleanup passed.
+Dragon family audit: 44 exact contracts, 64 traces, 60 consumers, 345 visual states, 20 mutation kills
+System design check passed for pet/P1G: P1G.

@@ -1,0 +1,722 @@
+{
+  "damage": [
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-5:p1-pet-dragon-4-dragon4-ltwj-3:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 10385.4,
+      "sourceId": "p1-pet-dragon-4",
+      "targetId": "monster30-1"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-5:p1-pet-dragon-4-dragon4-ltwj-3:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 10385.4,
+      "sourceId": "p1-pet-dragon-4",
+      "targetId": "monster30-3"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-6:p2-pet-dragon-4-dragon4-ltwj-3:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 10385.4,
+      "sourceId": "p2-pet-dragon-4",
+      "targetId": "monster30-2"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-6:p2-pet-dragon-4-dragon4-ltwj-3:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 10418.8,
+      "sourceId": "p2-pet-dragon-4",
+      "targetId": "monster30-4"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-24:p2-pet-dragon-4-dragon4-ltwj-12:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 21068.9,
+      "sourceId": "p2-pet-dragon-4",
+      "targetId": "monster30-5"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-24:p2-pet-dragon-4-dragon4-ltwj-12:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 21068.9,
+      "sourceId": "p2-pet-dragon-4",
+      "targetId": "monster30-6"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-26:p2-pet-dragon-4-dragon4-ltwj-14:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 21268.9,
+      "sourceId": "p2-pet-dragon-4",
+      "targetId": "monster30-7"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-26:p2-pet-dragon-4-dragon4-ltwj-14:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 21268.9,
+      "sourceId": "p2-pet-dragon-4",
+      "targetId": "monster30-8"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-33:p2-pet-dragon-4:dragon:4:session:2:1:summon:3-dragon4-ltwj-1:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 31552,
+      "sourceId": "p2-pet-dragon-4:dragon:4:session:2:1:summon:3",
+      "targetId": "monster30-9"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-33:p2-pet-dragon-4:dragon:4:session:2:1:summon:3-dragon4-ltwj-1:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 31552,
+      "sourceId": "p2-pet-dragon-4:dragon:4:session:2:1:summon:3",
+      "targetId": "monster30-10"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-33:p2-pet-dragon-4:dragon:4:session:2:1:summon:3-dragon4-ltwj-1:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 31552,
+      "sourceId": "p2-pet-dragon-4:dragon:4:session:2:1:summon:3",
+      "targetId": "monster30-11"
+    },
+    {
+      "actionName": "hit3",
+      "amount": 150,
+      "attackId": "projectile-33:p2-pet-dragon-4:dragon:4:session:2:1:summon:3-dragon4-ltwj-1:0",
+      "attackKind": "magic",
+      "critical": false,
+      "knockbackX": 2,
+      "knockbackY": -5,
+      "occurredAtMs": 31552,
+      "sourceId": "p2-pet-dragon-4:dragon:4:session:2:1:summon:3",
+      "targetId": "monster30-12"
+    }
+  ],
+  "pets": {
+    "p1": {
+      "atk": 30,
+      "atkQuality": 1,
+      "critBonusRate": 0,
+      "def": 100,
+      "defQuality": 1,
+      "displayName": "小龙 F4",
+      "exp": 16,
+      "expToNext": 50,
+      "form": 4,
+      "hp": 6288,
+      "hpQuality": 1,
+      "id": "p1-pet-dragon-4",
+      "isActive": true,
+      "level": 1,
+      "lifetime": 100,
+      "maxHp": 10000,
+      "maxMp": 1000,
+      "moveSpeed": 5,
+      "mp": 880,
+      "mpQuality": 1,
+      "perception": 1,
+      "quality": 1,
+      "skillDamageBonus": 0,
+      "skillState": {
+        "dragon1Fs": {
+          "cloneRemainingMs": 0,
+          "cooldownMs": 4133.333333333325
+        },
+        "dragon2Sdcc": {
+          "cooldownMs": 0,
+          "lastHealOnHit": 0
+        },
+        "dragon3Ltwj": {
+          "cooldownMs": 0,
+          "lastHealOnHit": 0
+        },
+        "dragon4Qlaoyi": {
+          "cooldownMs": 0,
+          "lastCombo": {
+            "cloneCombo": false,
+            "ltwjCombo": false,
+            "sdccCombo": false
+          }
+        },
+        "horse1Sp": {
+          "cooldownMs": 0
+        },
+        "horse2Bd": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "horse3Bz": {
+          "cooldownMs": 0
+        },
+        "horse4Tmaoyi": {
+          "cooldownMs": 0
+        },
+        "lastResult": "pet skill ready",
+        "monkey1Xj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey2Lj": {
+          "cooldownMs": 0
+        },
+        "monkey2Xj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey3Lj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey3Lyq": {
+          "cooldownMs": 0
+        },
+        "monkey3Xj": {
+          "cooldownMs": 0
+        },
+        "monkey4Jgaoyi": {
+          "cooldownMs": 0
+        },
+        "mouse1Sc": {
+          "cooldownMs": 0
+        },
+        "mouse4Hxfb": {
+          "cooldownMs": 0
+        },
+        "mouse4Zsaoyi": {
+          "comboStep": 0,
+          "comboStepElapsedMs": 0,
+          "cooldownMs": 0,
+          "emittedSteps": []
+        },
+        "phoenix1Np": {
+          "cooldownMs": 0,
+          "damageTakenMultiplier": 1,
+          "hurtActionImmune": false,
+          "pendingFullHeal": false,
+          "transformationRemainingMs": 0
+        },
+        "phoenix2Bshn": {
+          "cooldownMs": 0
+        },
+        "phoenix3Dhly": {
+          "cooldownMs": 0
+        },
+        "phoenix4Zqaoyi": {
+          "cooldownMs": 0,
+          "fireImbueActive": false
+        },
+        "rabbit1Yg": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "rabbit2Jf": {
+          "activeRemainingMs": 0,
+          "attackRate": 0.7,
+          "cooldownMs": 0,
+          "dodgeBonusRate": 0
+        },
+        "rabbit3Bs": {
+          "cooldownMs": 0
+        },
+        "rabbit4Ysaoyi": {
+          "activeRemainingMs": 0,
+          "cooldownMs": 0,
+          "healTickAccumulatorMs": 0,
+          "lastOwnerHeal": 0,
+          "lastPetHeal": 0
+        },
+        "tiger1Hy": {
+          "cooldownMs": 0
+        },
+        "tiger2Sxhz": {
+          "cooldownMs": 0,
+          "lastHeal": 0
+        },
+        "tiger3Hsqj": {
+          "cooldownMs": 0
+        },
+        "tiger4Bhaoyi": {
+          "attackBoostReady": false,
+          "comboStep": 0,
+          "comboStepElapsedMs": 0,
+          "cooldownMs": 0,
+          "emittedSteps": [],
+          "lastCombo": {
+            "hsqjFreeCast": false,
+            "hyFreeCast": false,
+            "sxhzFreeCast": false
+          }
+        },
+        "turtle1Sld": {
+          "cooldownMs": 0,
+          "lastHeal": 0,
+          "lastOwnerHeal": 0
+        },
+        "turtle2Txlj": {
+          "cooldownMs": 0,
+          "lastOwnerDamageAfterRedirect": 0,
+          "lastOwnerDamageRedirect": 0,
+          "lastOwnerHealBoost": 0,
+          "lastPetHeal": 0,
+          "linkRemainingMs": 0
+        },
+        "turtle3Sybh": {
+          "cooldownMs": 0
+        },
+        "turtle4Xwaoyi": {
+          "cooldownMs": 0,
+          "lastCombo": {
+            "sldFreeCasts": 0,
+            "sybhSustained": false,
+            "txljRefreshed": false
+          },
+          "sldFreeCastTimersMs": [],
+          "ultimateRemainingMs": 0
+        },
+        "ufo1Pms": {
+          "cooldownMs": 0
+        },
+        "ufo2Ss": {
+          "cooldownMs": 0
+        },
+        "ufo3Kmsk": {
+          "cooldownMs": 0,
+          "risingMs": 0,
+          "risingTotalMs": 0
+        }
+      },
+      "skills": [
+        "fs",
+        "sdcc",
+        "ltwj",
+        "qlaoyi"
+      ],
+      "species": "dragon",
+      "technique": 1,
+      "warpower": 1
+    },
+    "p2": {
+      "atk": 30,
+      "atkQuality": 1,
+      "critBonusRate": 0,
+      "def": 100,
+      "defQuality": 1,
+      "displayName": "小龙 F4",
+      "exp": 8,
+      "expToNext": 50,
+      "form": 4,
+      "hp": 7424,
+      "hpQuality": 1,
+      "id": "p2-pet-dragon-4",
+      "isActive": true,
+      "level": 1,
+      "lifetime": 100,
+      "maxHp": 10000,
+      "maxMp": 1000,
+      "moveSpeed": 5,
+      "mp": 880,
+      "mpQuality": 1,
+      "perception": 1,
+      "quality": 1,
+      "skillDamageBonus": 0,
+      "skillState": {
+        "dragon1Fs": {
+          "cloneRemainingMs": 0,
+          "cooldownMs": 4133.333333333325
+        },
+        "dragon2Sdcc": {
+          "cooldownMs": 0,
+          "lastHealOnHit": 0
+        },
+        "dragon3Ltwj": {
+          "cooldownMs": 0,
+          "lastHealOnHit": 0
+        },
+        "dragon4Qlaoyi": {
+          "cooldownMs": 0,
+          "lastCombo": {
+            "cloneCombo": false,
+            "ltwjCombo": false,
+            "sdccCombo": false
+          }
+        },
+        "horse1Sp": {
+          "cooldownMs": 0
+        },
+        "horse2Bd": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "horse3Bz": {
+          "cooldownMs": 0
+        },
+        "horse4Tmaoyi": {
+          "cooldownMs": 0
+        },
+        "lastResult": "pet skill ready",
+        "monkey1Xj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey2Lj": {
+          "cooldownMs": 0
+        },
+        "monkey2Xj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey3Lj": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "monkey3Lyq": {
+          "cooldownMs": 0
+        },
+        "monkey3Xj": {
+          "cooldownMs": 0
+        },
+        "monkey4Jgaoyi": {
+          "cooldownMs": 0
+        },
+        "mouse1Sc": {
+          "cooldownMs": 0
+        },
+        "mouse4Hxfb": {
+          "cooldownMs": 0
+        },
+        "mouse4Zsaoyi": {
+          "comboStep": 0,
+          "comboStepElapsedMs": 0,
+          "cooldownMs": 0,
+          "emittedSteps": []
+        },
+        "phoenix1Np": {
+          "cooldownMs": 0,
+          "damageTakenMultiplier": 1,
+          "hurtActionImmune": false,
+          "pendingFullHeal": false,
+          "transformationRemainingMs": 0
+        },
+        "phoenix2Bshn": {
+          "cooldownMs": 0
+        },
+        "phoenix3Dhly": {
+          "cooldownMs": 0
+        },
+        "phoenix4Zqaoyi": {
+          "cooldownMs": 0,
+          "fireImbueActive": false
+        },
+        "rabbit1Yg": {
+          "cooldownMs": 0,
+          "releaseReady": false
+        },
+        "rabbit2Jf": {
+          "activeRemainingMs": 0,
+          "attackRate": 0.7,
+          "cooldownMs": 0,
+          "dodgeBonusRate": 0
+        },
+        "rabbit3Bs": {
+          "cooldownMs": 0
+        },
+        "rabbit4Ysaoyi": {
+          "activeRemainingMs": 0,
+          "cooldownMs": 0,
+          "healTickAccumulatorMs": 0,
+          "lastOwnerHeal": 0,
+          "lastPetHeal": 0
+        },
+        "tiger1Hy": {
+          "cooldownMs": 0
+        },
+        "tiger2Sxhz": {
+          "cooldownMs": 0,
+          "lastHeal": 0
+        },
+        "tiger3Hsqj": {
+          "cooldownMs": 0
+        },
+        "tiger4Bhaoyi": {
+          "attackBoostReady": false,
+          "comboStep": 0,
+          "comboStepElapsedMs": 0,
+          "cooldownMs": 0,
+          "emittedSteps": [],
+          "lastCombo": {
+            "hsqjFreeCast": false,
+            "hyFreeCast": false,
+            "sxhzFreeCast": false
+          }
+        },
+        "turtle1Sld": {
+          "cooldownMs": 0,
+          "lastHeal": 0,
+          "lastOwnerHeal": 0
+        },
+        "turtle2Txlj": {
+          "cooldownMs": 0,
+          "lastOwnerDamageAfterRedirect": 0,
+          "lastOwnerDamageRedirect": 0,
+          "lastOwnerHealBoost": 0,
+          "lastPetHeal": 0,
+          "linkRemainingMs": 0
+        },
+        "turtle3Sybh": {
+          "cooldownMs": 0
+        },
+        "turtle4Xwaoyi": {
+          "cooldownMs": 0,
+          "lastCombo": {
+            "sldFreeCasts": 0,
+            "sybhSustained": false,
+            "txljRefreshed": false
+          },
+          "sldFreeCastTimersMs": [],
+          "ultimateRemainingMs": 0
+        },
+        "ufo1Pms": {
+          "cooldownMs": 0
+        },
+        "ufo2Ss": {
+          "cooldownMs": 0
+        },
+        "ufo3Kmsk": {
+          "cooldownMs": 0,
+          "risingMs": 0,
+          "risingTotalMs": 0
+        }
+      },
+      "skills": [
+        "fs",
+        "sdcc",
+        "ltwj",
+        "qlaoyi"
+      ],
+      "species": "dragon",
+      "technique": 1,
+      "warpower": 1
+    }
+  },
+  "snapshots": {
+    "p1": {
+      "actionToken": 10,
+      "animation": {
+        "action": "wait",
+        "actionToken": 10,
+        "column": 0,
+        "complete": false,
+        "elapsedTicks": 1,
+        "keyFrameIndex": 0,
+        "remainingHoldCount": 1,
+        "row": 0
+      },
+      "destroyed": false,
+      "form": 4,
+      "groundMotion": {
+        "direction": 0,
+        "facingX": -1,
+        "petId": "p1-pet-dragon-4",
+        "runtimeKey": "p1-pet-dragon-4:dragon:4:session:1:1",
+        "standingOn": "level11-d25",
+        "state": "idle",
+        "velocityX": 0,
+        "velocityY": 1.5,
+        "x": 479.6,
+        "y": 2833.4751981
+      },
+      "petId": "p1-pet-dragon-4",
+      "phase": "alive",
+      "runtime": {
+        "facingX": -1,
+        "petId": "p1-pet-dragon-4",
+        "runtimeKey": "p1-pet-dragon-4:dragon:4:session:1:1",
+        "state": "idle",
+        "x": 479.6,
+        "y": 2833.4751981
+      },
+      "species": "dragon",
+      "summons": [
+        {
+          "actionToken": 0,
+          "animation": {
+            "action": "wait",
+            "actionToken": 0,
+            "column": 2,
+            "complete": false,
+            "elapsedTicks": 5,
+            "keyFrameIndex": 2,
+            "remainingHoldCount": 1,
+            "row": 0
+          },
+          "form": 4,
+          "groundMotion": {
+            "direction": 0,
+            "facingX": -1,
+            "petId": "p1-pet-dragon-4:dragon:4:session:1:1:summon:4",
+            "runtimeKey": "p1-pet-dragon-4:dragon:4:session:1:1:summon:4",
+            "standingOn": "level11-d25",
+            "state": "idle",
+            "velocityX": 0,
+            "velocityY": 1.5,
+            "x": 562.95,
+            "y": 2833.4751981
+          },
+          "hp": 118560,
+          "maxHp": 2371200,
+          "maxMp": 8624880,
+          "mp": 87120,
+          "parentRuntimeKey": "p1-pet-dragon-4:dragon:4:session:1:1",
+          "petId": "p1-pet-dragon-4:dragon:4:session:1:1:summon:4",
+          "phase": "alive",
+          "runtime": {
+            "facingX": -1,
+            "petId": "p1-pet-dragon-4:dragon:4:session:1:1:summon:4",
+            "runtimeKey": "p1-pet-dragon-4:dragon:4:session:1:1:summon:4",
+            "state": "idle",
+            "x": 562.95,
+            "y": 2833.4751981
+          },
+          "sourcePetId": "p1-pet-dragon-4",
+          "species": "dragon"
+        }
+      ]
+    },
+    "p2": {
+      "actionToken": 10,
+      "animation": {
+        "action": "wait",
+        "actionToken": 10,
+        "column": 0,
+        "complete": false,
+        "elapsedTicks": 1,
+        "keyFrameIndex": 0,
+        "remainingHoldCount": 1,
+        "row": 0
+      },
+      "destroyed": false,
+      "form": 4,
+      "groundMotion": {
+        "direction": 0,
+        "facingX": -1,
+        "petId": "p2-pet-dragon-4",
+        "runtimeKey": "p2-pet-dragon-4:dragon:4:session:2:1",
+        "standingOn": "level11-d25",
+        "state": "idle",
+        "velocityX": 0,
+        "velocityY": 1.5,
+        "x": 305.19999999999993,
+        "y": 2833.4751981
+      },
+      "petId": "p2-pet-dragon-4",
+      "phase": "alive",
+      "runtime": {
+        "facingX": -1,
+        "petId": "p2-pet-dragon-4",
+        "runtimeKey": "p2-pet-dragon-4:dragon:4:session:2:1",
+        "state": "idle",
+        "x": 305.19999999999993,
+        "y": 2833.4751981
+      },
+      "species": "dragon",
+      "summons": [
+        {
+          "actionToken": 0,
+          "animation": {
+            "action": "wait",
+            "actionToken": 0,
+            "column": 2,
+            "complete": false,
+            "elapsedTicks": 5,
+            "keyFrameIndex": 2,
+            "remainingHoldCount": 1,
+            "row": 0
+          },
+          "form": 4,
+          "groundMotion": {
+            "direction": 0,
+            "facingX": -1,
+            "petId": "p2-pet-dragon-4:dragon:4:session:2:1:summon:4",
+            "runtimeKey": "p2-pet-dragon-4:dragon:4:session:2:1:summon:4",
+            "standingOn": "level11-d25",
+            "state": "idle",
+            "velocityX": 0,
+            "velocityY": 1.5,
+            "x": 338.45,
+            "y": 2833.4751981
+          },
+          "hp": 141280,
+          "maxHp": 2825600,
+          "maxMp": 8624880,
+          "mp": 87120,
+          "parentRuntimeKey": "p2-pet-dragon-4:dragon:4:session:2:1",
+          "petId": "p2-pet-dragon-4:dragon:4:session:2:1:summon:4",
+          "phase": "alive",
+          "runtime": {
+            "facingX": -1,
+            "petId": "p2-pet-dragon-4:dragon:4:session:2:1:summon:4",
+            "runtimeKey": "p2-pet-dragon-4:dragon:4:session:2:1:summon:4",
+            "state": "idle",
+            "x": 338.45,
+            "y": 2833.4751981
+          },
+          "sourcePetId": "p2-pet-dragon-4",
+          "species": "dragon"
+        }
+      ]
+    }
+  }
+}

@@ -90,5 +90,6 @@ export type PetCombatSummonRequest = Readonly<{
   x: number;
   y: number;
   facingX: -1 | 1;
+  initialAction?: PetBehaviorAction;
   onReleased?: (reason: PetCombatReleaseReason) => void;
 }>;

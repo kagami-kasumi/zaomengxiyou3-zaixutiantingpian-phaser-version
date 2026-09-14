@@ -36,7 +36,7 @@ def tree_data(element):
             'text': element.text.strip() if element.text and element.text.strip() else None}
 
 
-def timelines(definitions):
+def timelines(definitions, allow_clip_depth=False):
     result = {}
     for cid, definition in definitions.items():
         if definition.get('type') != 'DefineSpriteTag':
@@ -61,7 +61,9 @@ def timelines(definitions):
                     state['blendMode'] = int(item.get('blendMode'))
                 if item.get('placeFlagHasName') == 'true':
                     state['instanceName'] = item.get('name')
-                assert item.get('placeFlagHasClipDepth') != 'true', 'Unresolved clipDepth'
+                if item.get('placeFlagHasClipDepth') == 'true':
+                    assert allow_clip_depth, 'Unresolved clipDepth'
+                    state['clipDepth'] = int(item.get('clipDepth'))
                 assert item.get('placeFlagHasClipActions') != 'true', 'Unresolved clipActions'
                 state['locator'] = f'DefineSprite/{cid}/subTags/{index}'
                 live[depth] = state

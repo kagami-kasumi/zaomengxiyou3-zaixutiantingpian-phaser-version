@@ -13,7 +13,7 @@
 - `docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
 
 功能条线：
-- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Planned，排在 214 之后）
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Ready，214E已闭合青龙家族）
 
 目标机制/切片：
 - `M-032`、`M-035`、`M-042`、`M-049`、`M-054`、`VS-072`

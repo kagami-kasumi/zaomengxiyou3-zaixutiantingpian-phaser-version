@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync } from './write-dragon-evidence';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { PetCombatRuntime } from '../src/systems/PetCombatRuntime';

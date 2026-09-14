@@ -2,6 +2,7 @@ import { PetBehaviorRegistry } from '../PetBehaviorRegistry';
 import { HorsePetBehavior, type HorsePetForm } from './HorsePetBehavior';
 import { MonkeyPetBehavior, type MonkeyPetForm } from './MonkeyPetBehavior';
 import { Dragon1PetBehavior } from './Dragon1PetBehavior';
+import { Dragon4PetBehavior } from './Dragon4PetBehavior';
 
 const monkeyForms = [1, 2, 3, 4] as const satisfies readonly MonkeyPetForm[];
 const horseForms = [1, 2, 3, 4] as const satisfies readonly HorsePetForm[];
@@ -11,6 +12,7 @@ export function createDefaultPetBehaviorRegistry(): PetBehaviorRegistry {
     { species: 'dragon', form: 1, create: () => new Dragon1PetBehavior() },
     { species: 'dragon', form: 2, create: () => new Dragon1PetBehavior(2) },
     { species: 'dragon', form: 3, create: () => new Dragon1PetBehavior(3) },
+    { species: 'dragon', form: 4, create: () => new Dragon4PetBehavior() },
     ...monkeyForms.map((form) => ({
       species: 'monkey',
       form,

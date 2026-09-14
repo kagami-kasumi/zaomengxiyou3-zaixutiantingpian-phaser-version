@@ -1,0 +1,551 @@
+{
+  "status": "passed",
+  "scope": "44 runtime and projection contracts; browser observations are separately recorded in runtime-audit.md",
+  "truthId": "task-settings-213.pet-dragon-family",
+  "rows": [
+    {
+      "id": "owner.body",
+      "tests": [
+        "tools/pet-dragon-animation-assets-tests.ts",
+        "tools/pet-dragon1-presentation-tests.ts",
+        "tools/pet-dragon23-presentation-tests.ts",
+        "tools/pet-dragon4-presentation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214A/handoff.md",
+        "docs/tasks/evidence/TASK-SLICE-214C5/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214D/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/visual-diff.json"
+      ]
+    },
+    {
+      "id": "owner.effects",
+      "tests": [
+        "tools/pet-dragon-animation-assets-tests.ts",
+        "tools/pet-dragon1-presentation-tests.ts",
+        "tools/pet-dragon23-presentation-tests.ts",
+        "tools/pet-dragon4-presentation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214A/handoff.md",
+        "docs/tasks/evidence/TASK-SLICE-214C5/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214D/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/visual-diff.json"
+      ]
+    },
+    {
+      "id": "owner.collision",
+      "tests": [
+        "tools/pet-dragon-animation-assets-tests.ts",
+        "tools/pet-dragon1-presentation-tests.ts",
+        "tools/pet-dragon23-presentation-tests.ts",
+        "tools/pet-dragon4-presentation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214A/handoff.md",
+        "docs/tasks/evidence/TASK-SLICE-214C5/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214D/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/visual-diff.json"
+      ]
+    },
+    {
+      "id": "visual.states",
+      "tests": [
+        "tools/pet-dragon-animation-assets-tests.ts",
+        "tools/pet-dragon1-presentation-tests.ts",
+        "tools/pet-dragon23-presentation-tests.ts",
+        "tools/pet-dragon4-presentation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214A/handoff.md",
+        "docs/tasks/evidence/TASK-SLICE-214C5/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214D/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/visual-diff.json"
+      ]
+    },
+    {
+      "id": "visual.baselines",
+      "tests": [
+        "tools/pet-dragon-animation-assets-tests.ts",
+        "tools/pet-dragon1-presentation-tests.ts",
+        "tools/pet-dragon23-presentation-tests.ts",
+        "tools/pet-dragon4-presentation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214A/handoff.md",
+        "docs/tasks/evidence/TASK-SLICE-214C5/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214D/visual-diff.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/visual-diff.json"
+      ]
+    },
+    {
+      "id": "runtime.update-order",
+      "tests": [
+        "tools/pet-ground-session-tests.ts",
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C3/movement-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.follow-owner",
+      "tests": [
+        "tools/pet-ground-session-tests.ts",
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C3/movement-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.warp",
+      "tests": [
+        "tools/pet-ground-session-tests.ts",
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C3/movement-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.normal-roll",
+      "tests": [
+        "tools/pet-ground-session-tests.ts",
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C3/movement-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.target-order",
+      "tests": [
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.target-loss",
+      "tests": [
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.follow-target",
+      "tests": [
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.action-priority",
+      "tests": [
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.cooldown-order",
+      "tests": [
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.death",
+      "tests": [
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.hurt",
+      "tests": [
+        "tools/pet-dragon1-runtime-tests.ts",
+        "tools/pet-dragon4-runtime-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.destroy",
+      "tests": [
+        "tools/pet-dragon-family-consumer-tests.ts",
+        "tools/formal-pet-journey-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.p1-p2",
+      "tests": [
+        "tools/pet-dragon-family-consumer-tests.ts",
+        "tools/formal-pet-journey-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.projectile-collision",
+      "tests": [
+        "tools/pet-dragon-collision-tests.ts",
+        "tools/pet-dragon23-collision-tests.ts",
+        "tools/pet-dragon4-collision-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SETTINGS-218/handoff.md",
+        "docs/tasks/evidence/TASK-SETTINGS-219/handoff.md",
+        "docs/tasks/evidence/TASK-SETTINGS-220/handoff.md"
+      ]
+    },
+    {
+      "id": "runtime.attack-id-dedup",
+      "tests": [
+        "tools/pet-dragon-damage-tests.ts",
+        "tools/pet-dragon1-runtime-tests.ts",
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.damage-pipeline",
+      "tests": [
+        "tools/pet-dragon-damage-tests.ts",
+        "tools/pet-dragon1-runtime-tests.ts",
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.heal-on-hit",
+      "tests": [
+        "tools/pet-dragon-damage-tests.ts",
+        "tools/pet-dragon1-runtime-tests.ts",
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon-family-behavior-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json"
+      ]
+    },
+    {
+      "id": "runtime.clone-owner",
+      "tests": [
+        "tools/pet-dragon1-runtime-tests.ts",
+        "tools/pet-dragon1-mutation-tests.ts",
+        "tools/pet-dragon4-runtime-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon1.normal",
+      "tests": [
+        "tools/pet-dragon1-runtime-tests.ts",
+        "tools/pet-dragon1-mutation-tests.ts",
+        "tools/pet-dragon4-runtime-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon1.fs",
+      "tests": [
+        "tools/pet-dragon1-runtime-tests.ts",
+        "tools/pet-dragon1-mutation-tests.ts",
+        "tools/pet-dragon4-runtime-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon1.fs-expiry-heal",
+      "tests": [
+        "tools/pet-dragon1-runtime-tests.ts",
+        "tools/pet-dragon1-mutation-tests.ts",
+        "tools/pet-dragon4-runtime-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon2.normal",
+      "tests": [
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon23-mutation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon2.fs",
+      "tests": [
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon23-mutation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon2.sdcc",
+      "tests": [
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon23-mutation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon3.normal",
+      "tests": [
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon23-mutation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon3.fs",
+      "tests": [
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon23-mutation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon3.sdcc",
+      "tests": [
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon23-mutation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon3.ltwj",
+      "tests": [
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon23-mutation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon3.ltwj-nine-object-wave",
+      "tests": [
+        "tools/pet-dragon23-runtime-tests.ts",
+        "tools/pet-dragon23-mutation-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.normal",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.fs",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.sdcc",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.ltwj",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-trigger",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-clones",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-chain",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.qlaoyi-no-mp-debit",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    },
+    {
+      "id": "dragon4.cleanup",
+      "tests": [
+        "tools/pet-dragon4-runtime-tests.ts",
+        "tools/pet-dragon4-mutation-tests.ts",
+        "tools/pet-dragon-family-consumer-tests.ts"
+      ],
+      "evidence": [
+        "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json",
+        "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json"
+      ]
+    }
+  ],
+  "evidenceSha256": {
+    "docs/tasks/evidence/TASK-SLICE-214A/handoff.md": "bdae5517f752bf0044784fd468f62b4ec147f38752aa74a678c30b1a66651fe1",
+    "docs/tasks/evidence/TASK-SLICE-214C5/visual-diff.json": "afe34d3bd8f1306f01828f5d1281c906a80d55b0735c22e61317810cb5a1cc6d",
+    "docs/tasks/evidence/TASK-SLICE-214D/visual-diff.json": "dd4510269e6ab8ce6721eee9a9ed14690fa48ae2ce6bb6749f99fc1f80a50bc1",
+    "docs/tasks/evidence/TASK-SLICE-214E/visual-diff.json": "b4c211846d9e29e94cf7b288eab461ea5e7dd9e73cf331f952f95de33d0a3366",
+    "docs/tasks/evidence/TASK-SLICE-214C3/movement-traces.json": "5c91c3373aec74c6fcc177e971f959306d00ce908cd9c3793960d29d73bea1dc",
+    "docs/tasks/evidence/TASK-SLICE-214E/family-runtime-traces.json": "7c120ae3266349d8fbf93e55c1fb43b553df7755a075c27f3a8b2d32c41eda77",
+    "docs/tasks/evidence/TASK-SLICE-214C4/runtime-traces.json": "d0fd4c0cc2ffccb791a28d61b382bf924c89e5cac0355f0b912253a56f4998e1",
+    "docs/tasks/evidence/TASK-SLICE-214E/runtime-traces.json": "e20473332511a695e2f87753e6f6f8df41348909e94276bba4e0cd19d5408047",
+    "docs/tasks/evidence/TASK-SLICE-214E/consumer-traces.json": "f209dd5e3e5d27f0057bf482ec799a7bd55eb268520254f2404ab6e081889766",
+    "docs/tasks/evidence/TASK-SETTINGS-218/handoff.md": "2b6cbe62f6559ad1bf58b8602116c7768588e49d7de9ff25437917c861774e8d",
+    "docs/tasks/evidence/TASK-SETTINGS-219/handoff.md": "24a69225d4729b3ce445268656c45128b67820339f7b0fba0c199f49f10fa2bb",
+    "docs/tasks/evidence/TASK-SETTINGS-220/handoff.md": "f5f646c07283c60d3cc114f01d3e4ee4ad1164e90142c76d1de3b8f4ea192994",
+    "docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json": "ed2c68bd82d04ffb2cb2236571d6598e2e578d5e0ce8dd2521d7a507d50bbf31",
+    "docs/tasks/evidence/TASK-SLICE-214E/mutation-results.json": "b54a5a2031f52a66acace47102d9fff5fb34f8f4ed24db6cb88e938fbf75e9d8"
+  },
+  "limitations": [
+    "219 four-effect approved approximation retains 104 finite-sample pixel residuals",
+    "Source projection baselines are independent renders, not original-game video",
+    "Consumer tests execute production closures; actual browser representative is Stage1-2 and TestScene"
+  ]
+}

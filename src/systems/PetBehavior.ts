@@ -32,7 +32,7 @@ export type PetCombatDamageEvent = Readonly<{
   sourceId?: string;
 }>;
 
-export type PetCombatAnimationEventName = 'hit' | 'complete' | 'dead-complete';
+export type PetCombatAnimationEventName = 'enter' | 'hit' | 'complete' | 'dead-complete';
 
 export type PetCombatAnimationEvent = Readonly<{
   runtimeKey: string;
@@ -68,6 +68,7 @@ export type PetBehaviorContext = Readonly<{
   hostTick: number;
   targetAcquiredThisFrame: boolean;
   animation?: ReturnType<PetAnimationClock['snapshot']>;
+  grounded?: boolean;
   projectileCombat?: PetProjectileCombatPort;
   isGxp: boolean;
   random: () => number;

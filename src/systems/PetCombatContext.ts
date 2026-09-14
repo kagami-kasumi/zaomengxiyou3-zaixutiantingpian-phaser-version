@@ -54,6 +54,7 @@ export function createPetCombatContext(
     hostTick: session.hostTick,
     targetAcquiredThisFrame: session.targetAcquiredThisFrame,
     animation: session.animationSnapshot(),
+    grounded: session.snapshot().groundMotion?.standingOn !== undefined,
     projectileCombat: frame.projectileCombat,
     isGxp: frame.gxpRuntimeKeys?.includes(session.runtimeKey) ?? false,
     face: (direction) => { requireLiveSession(); session.face(direction); },

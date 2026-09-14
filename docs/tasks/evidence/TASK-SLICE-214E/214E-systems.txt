@@ -1,0 +1,86 @@
+
+> zaixu-tianding-modern@0.1.0 test:systems
+> node tools/run-system-tests.mjs
+
+System tests passed.
+Level lifecycle and completed-level architecture tests passed.
+Native shared level result view and architecture tests passed.
+Crafting system tests passed.
+Stage 1-1 true monster visuals, attacks, resource, and layout tests passed.
+Stage 1-1 flow tests passed.
+Stage 1-2 resource, layout, entry, and cleanup tests passed.
+Stage 1-2 true monster visuals, nine attack objects, and lifecycle tests passed.
+Stage 1-2 flow, boss gate, failure, and save tests passed.
+Stage 1-2 traversal, ground alignment, and jump tests passed.
+Stage 1-2 fbEnter hit, animation, stay, and transition tests passed.
+Stage 1-3 resource, layout, and entry tests passed.
+Stage 1-3 Monster5, shared monster identities, and death-view tests passed.
+Five-stage monster frame, owner, re-entry, and placeholder regression tests passed.
+Stage 1-3 waves, cap, boss door, failure, and unlock tests passed.
+Stage 1-3 traversal and shared level hero movement tests passed.
+Stage 2-1 true monster visuals, attacks, layout, flow, and route tests passed.
+Stage 2-2 scene, 54-definition flow, ordinary combat route, and fire tests passed.
+Stage 1 shared combat owner, windows, protection, trace, and death audit tests passed.
+Combat feedback tests passed.
+Remote normal attack world effects and Role5 moving-projectile tests passed.
+stage1-hud-tests: ok
+role1 combat visual tests passed
+role2 combat visual tests passed
+Hero foot/root and normal-attack registration coordinate tests passed.
+stage-feature-entry-tests: ok
+Save slot system tests passed.
+Heaven map state, resource, and formal route tests passed.
+immortality system tests passed
+formal shop catalog, transaction, persistence, and native asset tests passed
+formal settings cycles, global persistence, native assets, and overlay wiring tests passed
+formal task catalog, progress, cross-day reset, native assets, and map wiring tests passed
+Formal feature UI host, owner, pause, and route tests passed.
+Current-schema dual-player feature save and old-shape rejection tests passed.
+Party configuration, current-schema round-trip, active query, and atomic slot tests passed.
+Single current save schema, old-version rejection, safe souls, and owner isolation tests passed.
+Current-schema formal workshop inheritance, double-save, and P1/P2 isolation tests passed.
+Player soul owner, spend, isolation, invalid-cost, and consumer source gates passed.
+Save-party draft, all hero combinations, native assets, and scene contracts passed.
+Formal backpack/equipment owner, persistence, and true asset tests passed.
+Equipment tooltip truth, instance projection, placement, and formal inventory wiring tests passed.
+Authoritative 164-item equipment catalog and transaction-owner tests passed.
+Equipment visual catalog, 111-character bundle, preview modes, and defect tests passed.
+164-item strengthening/resolution, 78-recipe making, dual-owner, and current-schema replay passed.
+Inventory dynamic native UI manifest, provenance, dimensions, alpha, and no-page-capture gates passed.
+Formal skill trees, binding, passive, owner, save, and true asset tests passed.
+Formal pet paging, actions, growth, owner, runtime, save, and true asset tests passed.
+Formal cold-start five-stage P1/P2 pet page journey and observable failure tests passed.
+Pet monkey family P1R runtime, damage, owner, and consumer tests passed.
+Pet movement clock: per-pet speed, 20/24/30fps, fractional delta, root/private routing and clock changes passed.
+Dragon1 clock: all cells, enter-before-decrement hits, completions, same-row preservation and interruption passed at 20/24/30fps.
+Dragon1 production presenter: 72 original states, P1/P2 identity and release passed.
+72 production presenter states match original; 4 visual mutations rejected
+Dragon1 production consumers: shared P1/P2 combat, real sandbox HP, rest/replacement and disposal passed.
+Dragon23 production collision: 6448 native cases, only explicitly approved residuals
+Dragon23 Runtime: source clocks, real damage/heal, clones, dash and nine-wave cleanup passed
+Dragon production consumers: 12 form/level/lifecycle groups, P1/P2 damage and cleanup passed.
+Dragon23 production presenter: 174 original states, P1/P2 identity and release passed.
+174 production presenter states match original; 5 visual mutations rejected
+Dragon4 production collision: 11520 original inputs / 78373320 pixels, zero residual
+Dragon4 Runtime: clocks, 16 P1/P2 combinations, real damage, gate-only MP, clone removal and hurt passed
+99 production presenter states match original; 4 visual mutations rejected
+Dragon family: eight range-to-damage chains, ordered targets, loss, priority, CD and death passed
+Dragon production consumers: 60 form/level/lifecycle groups, P1/P2 damage and cleanup passed.
+Dragon family audit: 44 exact contracts, 64 traces, 60 consumers, 345 visual states, 20 mutation kills
+Pet animation session clock: immediate typed enter, snapshot owner, deferred child step and root/private death passed.
+Formal workshop original artwork hit areas, centered operations, owner styling, host, transactions, and save tests passed.
+Workshop embedded inventory grid category, paging, owner, shared view, truth, and asset contracts passed.
+Verified strength/fusion truth, native dynamic children, button states, and global feedback contracts passed.
+Equipment strengthening matrix, transactions, owner isolation, current-schema stats, and true asset tests passed.
+Equipment resolution matrix, injected randomness, atomic transaction, owner isolation, save, and true page tests passed.
+Equipment making registry, dead branch, gem ranges, atomic transaction, dual owner, current schema, and true page tests passed.
+Formal magic-weapon gate, upgrade branches, reset, P1 owner, current round-trip, true asset, and scene tests passed.
+Formal game-loop end-to-end journey tests passed.
+Pre-Stage-2-3 current-schema restart, service, combat-entry, owner, and corruption journey tests passed.
+Formal party runtime, retry, hero coverage, and DEV isolation tests passed.
+Hero party runtime movement, combat, skills, snapshots, and destroy tests passed.
+hero-progression-runtime-tests: ok
+Monster default gravity, flying exception, and shared defeat reward tests passed.
+Asset bundle catalog, coordinator, retry, route, and Boot boundary tests passed.
+Stage asset ownership, canonical paths, and dead-resource audit tests passed.
+Monster catalog, bundle ownership, disk parity, and stage-boundary tests passed.

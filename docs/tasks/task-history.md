@@ -13,6 +13,10 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-214E | 青龙完整家族收束 | dragon1..4真实自主战斗/分身/全部技能与生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | [214E交接](evidence/TASK-SLICE-214E/handoff.md)；44合同、P1G=0、345态、64组trace、60组消费者与正式可见伤害；215 Ready |
+| TASK-SLICE-214B | 青龙完整家族收束 | dragon1..4真实自主战斗/分身/全部技能与生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | [214E交接](evidence/TASK-SLICE-214E/handoff.md)；44合同、P1G=0、345态、64组trace、60组消费者与正式可见伤害；215 Ready |
+| TASK-SLICE-214 | 青龙完整家族收束 | dragon1..4真实自主战斗/分身/全部技能与生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | [214E交接](evidence/TASK-SLICE-214E/handoff.md)；44合同、P1G=0、345态、64组trace、60组消费者与正式可见伤害；215 Ready |
+| TASK-SETTINGS-220 | 青龙奥义trigger碰撞补证 | 48帧/96状态与独立源碰撞输入 | M-032、M-034、M-035、M-042、VS-067 | verified源事实与采样合同；11520例/78373320像素零差异、7采样/10产物变异；214E交接 |
 | TASK-SLICE-214D | 二三阶青龙增量战斗 | normal/fs/sdcc与九对象ltwj正式闭环 | M-032、M-034、M-035、M-042、M-044、VS-067 | 214D handoff；P1GD=0、174态零像素差/5视觉变异、9实现变异、6448原版碰撞/批准近似、P1P2真实伤害与清理 |
 | TASK-SETTINGS-219 | 二三阶青龙效果碰撞补证 | 四效果76帧/152状态与生产碰撞映射 | M-032、M-034、M-035、M-042、VS-067 | verified源事实；6,448原版例零命中差异/104像素批准近似；8变异、P1P2根、mask-pack与214D交接 |
 | TASK-SLICE-214C5 | 初阶青龙完整链收束 | 正式/TestScene真实动作、分身、伤害治疗与清理 | M-032、M-034、M-035、M-042、M-044、VS-067 | C5 handoff；72原版状态零像素差、P1GC/P1GS、双人正式/重试/返回证据；214D交接 |
@@ -309,6 +313,104 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-214E
+
+状态：Done（2026-09-14）。由214E闭合青龙四阶及父级完整44合同、pet P1G、345态、真实P1/P2伤害与清理；全系统/build/正式旅程通过。完整交接、原合同及边界见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。下一执行项TASK-SETTINGS-215，功能线与全pet设计保持未完成。
+
+### TASK-SLICE-214B
+
+状态：Done（2026-09-14）。由214E闭合青龙四阶及父级完整44合同、pet P1G、345态、真实P1/P2伤害与清理；全系统/build/正式旅程通过。完整交接、原合同及边界见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。下一执行项TASK-SETTINGS-215，功能线与全pet设计保持未完成。
+
+### TASK-SLICE-214
+
+状态：Done（2026-09-14）。由214E闭合青龙四阶及父级完整44合同、pet P1G、345态、真实P1/P2伤害与清理；全系统/build/正式旅程通过。完整交接、原合同及边界见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。下一执行项TASK-SETTINGS-215，功能线与全pet设计保持未完成。
+
+
+### TASK-SETTINGS-220
+
+任务类型：
+- `TASK-SETTINGS`
+
+任务模型：
+- `逆向任务`
+
+逆向子类型：
+- `视觉真值逆向`
+
+逆向方案：
+- `docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Done）
+
+目标机制/切片：
+- `M-032`、`M-034`、`M-035`、`M-042`、`VS-067`
+
+规模预算：
+- 主工作包：1（奥义trigger逐帧源碰撞输入与独立核对）
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若需要新增其他效果/目标资料族、重建通用Flash渲染器或增加独立游戏旅程，先拆同线承接项；不扩为全族再次逆向。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent负责源运行与精度裁决；Luna只读核对固定源显示树、状态/合同覆盖，可独立返回时启用。
+- 并行工作包：同一48帧源对象及218三目标；返回来源、遗漏、反证条件，主agent同时推进提取和采样。
+- 写入 owner：主 agent
+- 归并检查点：生成verified产物前
+- 方法观测：`MO-003`，只记实际差异，不计完整第三家族成功。
+
+输入资料：
+- `docs/workflow/reverse-engineering-task-protocol.md` 与通用六段证据协议；本项按视觉真值子类型执行。
+- `docs/tasks/evidence/TASK-SLICE-214E/preflight.md`、`collision-preflight.json`；214E仍持有完整实现合同。
+- 原版1.1、940×590、PetDragon4.doHit5奥义入口；根 `PetDragonBullet4` / character 539，48帧，`local-resources/regima/source/restored-swfs/assets/pet1.swf`。
+- `task-settings-213-pet-dragon-family.json`、213证据矩阵和214A现有48帧PNG/crop/注册点；保留其视觉与行为已证结论。
+- `docs/tasks/evidence/TASK-SETTINGS-218/collision-contract.json`：现有三目标Sprite与12 monster映射；目标源仅其引用的StageCommon，不新增目标类型。
+- `docs/tasks/evidence/TASK-SETTINGS-219/handoff.md` 与现有源提取/采样工具：复用方法和目标fixture；四效果的批准近似不自动授权本对象。
+- AS3仅PetDragon4、BaseBullet、FollowBaseObjectBullet、BaseMonster、HitTest/AUtils及上述既有合同指向的局部消费者；按 `docs/workflow/air-runtime-verification.md` 使用已有本机工具，不安装复杂软件。
+
+待证明的可观察问题：
+- 48帧左右方向的真实递归显示树、bounds、alpha/filter/blank与原版HitTest绘制输入是什么，如何映射214A裁边资源？
+- 整数/分数根位置、目标边缘与独立P1/P2根下，哪些输入命中/未命中；候选采样与源运行的偏差是什么？
+- 第1次enter创建、先碰撞再跟随、末帧碰撞后释放及受伤不截断的顺序怎样成为214E可消费字段？
+
+有限状态/fixture：
+- 一个根对象全部48帧×左右方向=96个源显示状态；源显示基准保持940×590，超出舞台的碰撞另用原始局部bounds核对，不能按截图裁掉。
+- 复用218三目标碰撞形状；每状态覆盖相交/分离、左右上下边缘、整数与分数根、P1/P2独立根；提取前冻结fixture清单及数量，不按候选实现结果缩减。
+- 空白帧（若存在）、第一/末帧、owner移动/翻转跟随、hurt与离场清理的正反条件；不新增整关旅程。
+
+输出产物：
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-220-dragon4-trigger-collision.json`：来源hash/locator、96状态递归显示列表与独立核对后状态；未解项阻止verified。
+- `docs/tasks/evidence/TASK-SETTINGS-220/`：source-display-list、collision-contract、源运行oracle、采样差异、mutation结果、handoff；需要的运行采样包可在同目录生成。
+- 可重跑的源提取/独立验证命令；本地中间产物位于 `local-resources/regima/task-outputs/task-settings-220/`；诊断图片遵循agent-protocol生命周期，不长期保留可再生输出。
+
+完成定义：
+- 214E能直接消费trigger逐帧碰撞输入和源正负oracle；源显示事实verified，采样精度已证或有用户对本对象明确批准的差异合同。不得以现有PNG哈希或视觉一致证明碰撞。
+
+验收标准：
+- 恢复源独立核对、Schema、96状态完整性、原版基准与稳定再生成通过；源expected不调用现代碰撞helper。
+- 逐帧/方向/根位置/目标边缘的命中正负验证；拒绝首帧mask、实心矩形、翻转、crop、相位/根混用、空白残留及末帧先销毁等适用变异。
+- 不要求新增逐像素视觉校准；采样存在差异时明确区分命中布尔和buffer像素偏差，不能沿用219授权掩盖本对象差异。
+- 213真值、214A资源及218/219相关既有输入回归；structure、workflow、annotations、problem audit、diff check通过，命令和结果写handoff。
+
+禁止范围：
+- 不修改src/生产PNG/原始提取、不改变公共设计或存档，不执行四阶战斗、P1G、215/216，不把本补证等同全族完成。
+
+状态更新：
+- 完成后归档本项、恢复 `TASK-SLICE-214E` 唯一Ready；同步功能线/覆盖与机制切片，不提升现代实现完成度。
+
+推荐后续任务：
+- `TASK-SLICE-214E`。
+
+完成日期：2026-09-14。
+
+完成结果：
+- 48帧/96方向状态/384对象、五源定义与遮罩闭包、11520原版HitTest例/78373320像素零差异；480相位编码、7采样与10产物变异通过；四个权威产物重复生成字节一致。
+- 213/214A/218/219输入回归通过。交接见 `docs/tasks/evidence/TASK-SETTINGS-220/handoff.md`；恢复214E，未修改src/生产资源、未运行P1G、不计完整第三家族完成。
+
 
 ### TASK-SLICE-214D
 
@@ -12748,3 +12850,9 @@ UI 原生化合同：
 推荐任务：
 
 - `TASK-SLICE-214`：直接消费 213 的 44 个合同和逐状态基准，修正龙宠现代实现并完成五关/TestScene 的 P1/P2 玩家可见验收。
+
+## 2026-09-14 214E及214B/214完整家族关闭
+
+2026-09-14 TASK-SLICE-214E完成：dragon4继承技能、qlaoyi首回调trigger/四次可选真实分身/免费连锁与12秒/早死治疗闭合；完整44合同、64组家族trace、60组五关P1/P2消费者、345态投影及pet P1G=0，全系统/build和正式Stage1-2/TestScene可见伤害/清理通过。219四效果104像素批准近似保留，220 trigger有限样本零残差；本批补四阶魔花乘数。214E、214B与214同次归档，TASK-SETTINGS-215唯一Ready。猴/马/青龙三族完成，六族及旧入口仍未闭合，功能线保持Active、VS-067仍部分实现。交接见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。
+
+父合同持久镜像位于214E/parent-contract.md、parent-implementation-contract.md、task-contract.md；镜像中的Ready/Blocked/Split措辞仅为历史输入，当前状态以本归档为准。没有执行Git提交或上传。

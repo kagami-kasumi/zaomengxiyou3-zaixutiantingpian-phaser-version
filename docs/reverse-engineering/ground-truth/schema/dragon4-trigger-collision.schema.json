@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zaixu-tianding:schema:dragon4-trigger-collision:v1",
+  "title": "One masked dragon4 trigger with independently verified finite source sampling",
+  "type": "object",
+  "required": ["schemaVersion", "truthId", "status", "scope", "provenance", "targetContract", "frames", "maskPack", "rootMapping", "sampling", "lifecycle", "completeness"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "truthId": {"const": "task-settings-220.dragon4-trigger-collision"},
+    "status": {"enum": ["draft", "verified"]},
+    "scope": {"type": "object", "required": ["taskId", "symbols", "frameCounts", "frames", "directionalStates"], "properties": {
+      "taskId": {"const": "TASK-SETTINGS-220"}, "symbols": {"const": ["PetDragonBullet4"]},
+      "frameCounts": {"const": {"PetDragonBullet4": 48}}, "frames": {"const": 48}, "directionalStates": {"const": 96}
+    }},
+    "frames": {"type": "array", "minItems": 48, "maxItems": 48, "items": {
+      "type": "object", "required": ["symbol", "frame", "characterId", "blank", "localBounds", "directions", "displayList", "production"],
+      "properties": {
+        "symbol": {"const": "PetDragonBullet4"}, "frame": {"type": "integer", "minimum": 1, "maximum": 48},
+        "characterId": {"const": 539}, "blank": {"const": false}, "localBounds": {"$ref": "#/$defs/bounds"},
+        "directions": {"type": "object", "required": ["left", "right"], "additionalProperties": {"type": "object", "required": ["bounds", "fieldId"], "properties": {"bounds": {"$ref": "#/$defs/bounds"}, "fieldId": {"type": "string"}}}},
+        "displayList": {"type": "array", "minItems": 3, "maxItems": 3},
+        "production": {"type": "object", "required": ["path", "sha256", "cropX", "cropY", "registrationX", "registrationY", "collisionUsesPngAlpha"], "properties": {"sha256": {"$ref": "#/$defs/hash"}, "collisionUsesPngAlpha": {"const": false}}}
+      }
+    }},
+    "maskPack": {"type": "object", "required": ["path", "sha256"], "properties": {"sha256": {"$ref": "#/$defs/hash"}}},
+    "rootMapping": {"type": "object", "required": ["expression", "owners", "facing", "independence", "sourceCoordinate"], "properties": {
+      "expression": {"const": {"x": "combat.x", "y": "combat.y"}}, "owners": {"const": ["P1", "P2"]}
+    }},
+    "sampling": {"type": "object", "required": ["status", "accuracy", "minIntersectionWidth", "minIntersectionHeight", "algorithm", "phaseOrder", "blank", "precision", "verifier", "approvalRequiredForObservedResiduals"], "properties": {
+      "status": {"enum": ["pending-independent-verification", "finite-source-verified"]}, "accuracy": {"const": 1},
+      "minIntersectionWidth": {"const": 1}, "minIntersectionHeight": {"const": 1}, "approvalRequiredForObservedResiduals": {"const": true}
+    }},
+    "lifecycle": {"type": "object", "required": ["triggerHostTick", "remainingCount", "sourceAction", "bodyAction", "sourceOrder", "damageOnLastFrame", "followsAfterCollision", "hurtInterrupts", "attackId", "hitHealCallback", "sourceEvidence"], "properties": {
+      "triggerHostTick": {"const": 1}, "remainingCount": {"const": 48}, "sourceAction": {"const": "hit4"}, "bodyAction": {"const": "hit5"},
+      "damageOnLastFrame": {"const": true}, "followsAfterCollision": {"const": true}, "hurtInterrupts": {"const": false}, "hitHealCallback": {"const": false}
+    }},
+    "completeness": {"type": "object", "required": ["displayListMatched", "stateSetMatched", "unresolved"], "properties": {
+      "displayListMatched": {"type": "boolean"}, "stateSetMatched": {"type": "boolean"}, "unresolved": {"type": "array"}
+    }}
+  },
+  "allOf": [{"if": {"properties": {"status": {"const": "verified"}}}, "then": {"properties": {
+    "sampling": {"properties": {"status": {"const": "finite-source-verified"}}},
+    "completeness": {"properties": {"displayListMatched": {"const": true}, "stateSetMatched": {"const": true}, "unresolved": {"maxItems": 0}}}
+  }}}],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "bounds": {"type": "object", "required": ["left", "top", "width", "height"], "properties": {
+      "left": {"type": "number"}, "top": {"type": "number"}, "width": {"type": "number", "minimum": 0}, "height": {"type": "number", "minimum": 0}
+    }}
+  }
+}

@@ -10,7 +10,7 @@ const mutations = [
   ['skill-mp', 'pet-behaviors/Dragon1PetBehavior', 'const mpCost = 20', 'const mpCost = 0'],
   ['wave-delay', 'PetDragon23ProjectileSystem', '(index + 1) * 200', '(index + 1) * 300'],
   ['wave-offset', 'PetDragon23ProjectileSystem', '[-150, -10]', '[-151, -10]'],
-  ['magic-kind', 'PetDragon23ProjectileSystem', "action === 'ltwj' ? 'magic'", "action === 'ltwj' ? 'physics'"],
+  ['magic-kind', 'PetDragon23ProjectileSystem', "action === 'ltwj' || action === 'qlaoyi' ? 'magic'", "action === 'ltwj' || action === 'qlaoyi' ? 'physics'"],
   ['skill-power', 'PetDragon23ProjectileSystem', 'pet.atk * 7.2', 'pet.atk * 6.2'],
   ['hurt-cut', 'PetDragon23ProjectileSystem', "context.animation?.action === 'hurt'", "context.animation?.action === 'never'"],
   ['follow-root', 'PetDragon23ProjectileSystem', 'p.x + context.runtime.x - entry.owner.x', 'p.x'],
@@ -18,6 +18,7 @@ const mutations = [
 ] as const;
 const directory = path.resolve('.tmp/dragon23-mutations');
 mkdirSync(directory, { recursive: true });
+const baselines = ['docs/tasks/evidence/TASK-SLICE-214D/runtime-traces.json'].map(file => ({ file, bytes: readFileSync(file) }));
 const results = [];
 for (const [id, stem, from, to] of mutations) {
   const file = path.resolve(`src/systems/${stem}.ts`);
@@ -33,11 +34,12 @@ for (const [id, stem, from, to] of mutations) {
   } }] });
   const executable = path.join(directory, `${id}.mjs`);
   writeFileSync(executable, bundle.outputFiles[0]!.text);
-  const run = spawnSync(process.execPath, [executable], { encoding: 'utf8', timeout: 30000 });
+  const run = spawnSync(process.execPath, [executable], { encoding: 'utf8', timeout: 30000, env: { ...process.env, PET_DRAGON_MUTATION: '1' } });
   assert.equal(run.error, undefined, `${id}: must execute`);
   const rejected = run.status !== 0 && run.stderr.includes('AssertionError');
   results.push({ id, rejected, exitCode: run.status });
   assert.ok(rejected, `${id}: expected a semantic assertion failure\n${run.stderr}`);
 }
+for (const { file, bytes } of baselines) assert.deepEqual(readFileSync(file), bytes, 'Mutation process overwrote baseline: ' + file);
 writeFileSync('docs/tasks/evidence/TASK-SLICE-214D/mutation-results.json', JSON.stringify(results, null, 2) + '\n');
 console.log(`Dragon23 ${results.length} independent implementation mutations rejected.`);

@@ -97,6 +97,7 @@
 | Gate | 任务 | 通过合同 | 2026-08-25 基线 |
 | --- | --- | --- | --- |
 | P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `0`：结构 gate 已通过；不证明 Scene/正式消费者或玩家可见自主战斗 |
+| P1G | 214E | 青龙四形态完整44合同、真实分身/继承技能/奥义、source伤害治疗、五关/TestScene P1/P2及345态投影 | `0`：64组trace、60组消费者、20实现变异和正式运行通过；其余六族/旧入口未闭合，系统实施中/未退出 |
 | P1GD | 214D | 二三阶normal/fs/sdcc/九对象ltwj、逐帧批准碰撞采样、P1/P2真实伤害治疗/清理与174态投影 | `0`：9实现变异、5视觉变异、6448原版case、12消费者组及浏览器通过；四阶/P1G/all未完成 |
 | P1GC | 214C5 | 初阶dragon1正式/TestScene真实战斗、同源本体/分身/弹体投影与生命周期，72原版状态逐像素及生产trace | `0`：P1GS、真实行为/14变异、生产消费者、4视觉变异、正式双人重试/返回；其余形态及all未完成 |
 | P1GS | 214C1 | 单顶层Runtime内主/子复用公共步骤；数值/目标/token/来源隔离、旧key拒绝、子事件、失败创建回滚与级联清理；保持猴马全部既有门禁 | `0`：P1/P1B/P1R/P1H、私有会话合同与10类实现mutation通过；只证明接缝，P1GC/P1G仍待214C2/214E |
@@ -150,3 +151,5 @@
 2026-09-13 / 219交接：源空间事实已verified，用户批准四效果有记录的碰撞近似（6,448例零命中差异、104像素差异），214D恢复Ready。近似不改变设计角色/所有权或生命周期；P1GD仍未实施/未通过，后续不得用219输入验证替代正式战斗验收。
 
 2026-09-13 / 214D实施映射：Dragon1PetBehavior按form1/2/3复用公共继承行为；PetDragon23ProjectileSystem只持私有效果/波次，PetDragonEffectCollisionSystem只消费219有限相位近似。PetGroundSessionMovement消费可选动作速度事实，不复制移动算法；同一Registry、EntitySession和presenter承接正式/TestScene。P1GD=0，本批通过，系统实施中/未退出；剩余四阶及全家族由214E承接。
+
+2026-09-14 / 214E：Dragon4PetBehavior复用既有公共Session；新增可选initialAction、enterEvent/多hit、动作enter速度事实，不增第二移动/目标/CD owner。PetDragon23ProjectileSystem承接四阶trigger/AoyiBuff，PetDragonEffectCollisionSystem分别消费219批准近似及220 verified输入。P1G=0，44合同及正式双人可见伤害/生命周期通过；系统仍实施中/未退出，未执行all。见214E/handoff.md。

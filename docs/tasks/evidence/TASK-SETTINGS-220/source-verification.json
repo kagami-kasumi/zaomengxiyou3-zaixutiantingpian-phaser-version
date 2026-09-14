@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "sourceDefinitions": 5,
+  "targetDefinitions": 7,
+  "frames": 48,
+  "directionalStates": 96,
+  "recursiveNodes": 144,
+  "colorFilterInstances": 48,
+  "maskedStates": 48,
+  "sourceDisplayListSha256": "052ef70491f70e4f67af3d225bfc53ae8b266473eeaf0e707e38ea1be2723848",
+  "nativeReportSha256": "21542c1b38464e41579c1394b2cf637f03ee5bb3d75d388fcdb50399b61938f9",
+  "scope": "Unchanged source bytes and native recursive states. Sampling correctness is a separate check."
+}
