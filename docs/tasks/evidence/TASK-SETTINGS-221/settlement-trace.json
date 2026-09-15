@@ -1,0 +1,1187 @@
+{
+  "runtime": "WIN 51,1,1,5",
+  "sources": [
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "startLine": 795,
+      "endLine": 851,
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+      "sliceSha256": "80ec6bdac9096e920072304eeaaa7e0e4ac95a87f08e8921223a3afaee1093ed",
+      "startMarker": "override public function reduceHp",
+      "endMarker": "         if(this.roleProperies.getHHP() > 0)"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "startLine": 1794,
+      "endLine": 1801,
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+      "sliceSha256": "2748d28409116c097f157a824a288df72d719ad150ed7c1a796954abbf3980fd",
+      "startMarker": "public function addHeroHurtMc",
+      "endMarker": "      protected function addMissMc"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "startLine": 1197,
+      "endLine": 1203,
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+      "sliceSha256": "b43bd4488d4149e6bbae60f7f33a1b2e7d4573796673e5bef97d17cbee53294a",
+      "startMarker": "override public function getHurtByPig8",
+      "endMarker": "      public function beMagicAttack1"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+      "startLine": 865,
+      "endLine": 889,
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+      "sliceSha256": "e60e8852bf9121f1182fae6cbfbf9c8a2ffd8eef2ce488e5825bcdc5523a0f55",
+      "startMarker": "override public function reduceHp",
+      "endMarker": "            if(gc.sid == this.sourceRole.sid && gc.isInRoom())"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+      "startLine": 974,
+      "endLine": 979,
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+      "sliceSha256": "8b9af20ced6d9ffeaa0dbca7a46b9de0e18a02ad79a267aa368315d985a4bd5a"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as",
+      "startLine": 815,
+      "endLine": 841,
+      "sha256": "191254fd38a36365424154a36984f7cdf05ba3571df9b55b624e7d96373fefb4",
+      "sliceSha256": "8aaae71e079ed9d6ba615ad8914d1b6c966d67f3d283eaa538d30f4cb394cc0b",
+      "startMarker": "public function setHHP",
+      "endMarker": "public function getHHP"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseRoleProperies.as",
+      "startLine": 841,
+      "endLine": 846,
+      "sha256": "191254fd38a36365424154a36984f7cdf05ba3571df9b55b624e7d96373fefb4",
+      "sliceSha256": "93fc344ea9de0f4c6ba72cf91c5c493c60cca89cbf374bf6a5de20c5743c9665",
+      "startMarker": "public function getHHP",
+      "endMarker": "public function setMMP"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+      "startLine": 2356,
+      "endLine": 2361,
+      "sha256": "b9bba062ed38c9e475bb4e1b29dfc2328ba968453ed8d2fe821a403eb4b4dbc2",
+      "sliceSha256": "7cb8ad064da31ee8e9789460347d8f3e755fc28fad4692edba16d97d625165d4",
+      "startMarker": "public function setHp",
+      "endMarker": "public function setSHp"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+      "startLine": 2452,
+      "endLine": 2461,
+      "sha256": "b9bba062ed38c9e475bb4e1b29dfc2328ba968453ed8d2fe821a403eb4b4dbc2",
+      "sliceSha256": "d89bc957b16315bbab77bf7bd5ee3e4b89dee0ff6e5193a40468dcc4705397f5",
+      "startMarker": "public function getHp",
+      "endMarker": "public function getSHp"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 1330,
+      "endLine": 1337,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "bc0a702a8b89cfb5733cbd0b2bec18ae2481de524bf779cd8c5bd082fae37d9d",
+      "startMarker": "public function remove(param1:Object)",
+      "endMarker": "         if(param1.name == BaseAddEffect.POISON)"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 2711,
+      "endLine": 2734,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "ceca838af6b7df7f4092b918661f5d0b020ce6a7d9d9528c5998b8b42d2191e7",
+      "startMarker": "public function reduceMagicUmbDef",
+      "endMarker": "public function reducetjglShieldDef"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 2734,
+      "endLine": 2757,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "76868c7d04db00dabf72a76395d418957f9b7aa864afda0c198ece9caeaa626e",
+      "startMarker": "public function reducetjglShieldDef",
+      "endMarker": "      protected function hide_magic_umb_def"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 3577,
+      "endLine": 3593,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "fcb4b24528625980287ef91b35ec80c6f490c3bebfc95188251b2b5733d13331",
+      "startMarker": "public function getBuffByName",
+      "endMarker": "public function getBuffTimeLeftByName"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "startLine": 3609,
+      "endLine": 3625,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "sliceSha256": "54890ed8dd344e5c7ce05e95afb2d61bb7ca7a187e028a1f37db54fbb0354061",
+      "startMarker": "public function curDebuff",
+      "endMarker": "public function getAllBuffArray"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as",
+      "startLine": 1999,
+      "endLine": 2010,
+      "sha256": "1a55dc67a6e0af9a8db2a60e45933ec9c1152c58c74f16bc9a113d8e618b85a1",
+      "sliceSha256": "54b51be9c88c75581c5ac26da23b87f8b658eafde0a8d3365cd9ed1916b726a2",
+      "startMarker": "override public function addHeroHurtMc",
+      "endMarker": "      private function isAttackingButCanAttack"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMutiLevelListenering.as",
+      "startLine": 838,
+      "endLine": 918,
+      "sha256": "29d2cd9a39d65862318de3486cd6b5d3be068e1504a31d5b0404f1e14ae4e1f7",
+      "sliceSha256": "b59af1fad5bfca2ddbb6ce9eeb3fa3f02e4ed4eda40de62c945a3888ca3def1a",
+      "startMarker": "private function refreshOtherMutiUser",
+      "endMarker": "      private function refreshRoomList"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "method": "cureHp",
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+      "sliceSha256": "5b88583c24e98fc89a036604310cd9a950406bc3ec60b11d45269922184fc11d"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+      "method": "cureHp",
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+      "sliceSha256": "ac3a2eb19f497f4ce973271fa24ef048ee082c52f6aaf8f369414f886dc0da83"
+    }
+  ],
+  "cases": [
+    {
+      "values": [
+        0
+      ],
+      "id": "1-0-0-false",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-0-0-true",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [
+        0
+      ],
+      "id": "1-0-1-false",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-0-1-true",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [
+        0
+      ],
+      "id": "1-0-2-false",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-0-2-true",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [
+        0,
+        0
+      ],
+      "id": "1-0-3-false",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-0-3-true",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1
+      ],
+      "id": "1-1-0-false",
+      "hp": 199,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-1-0-true",
+      "hp": 201,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1
+      ],
+      "id": "1-1-1-false",
+      "hp": 199,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-1-1-true",
+      "hp": 201,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1
+      ],
+      "id": "1-1-2-false",
+      "hp": 199,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-1-2-true",
+      "hp": 201,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1,
+        0
+      ],
+      "id": "1-1-3-false",
+      "hp": 200,
+      "petHp": 199
+    },
+    {
+      "values": [],
+      "id": "1-1-3-true",
+      "hp": 201,
+      "petHp": 201
+    },
+    {
+      "values": [
+        19
+      ],
+      "id": "1-19-0-false",
+      "hp": 181,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-19-0-true",
+      "hp": 219,
+      "petHp": 200
+    },
+    {
+      "values": [
+        19
+      ],
+      "id": "1-19-1-false",
+      "hp": 181,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-19-1-true",
+      "hp": 219,
+      "petHp": 200
+    },
+    {
+      "values": [
+        19
+      ],
+      "id": "1-19-2-false",
+      "hp": 181,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-19-2-true",
+      "hp": 219,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1,
+        18
+      ],
+      "id": "1-19-3-false",
+      "hp": 182,
+      "petHp": 199
+    },
+    {
+      "values": [],
+      "id": "1-19-3-true",
+      "hp": 219,
+      "petHp": 219
+    },
+    {
+      "values": [
+        20
+      ],
+      "id": "1-20-0-false",
+      "hp": 180,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-20-0-true",
+      "hp": 220,
+      "petHp": 200
+    },
+    {
+      "values": [
+        20
+      ],
+      "id": "1-20-1-false",
+      "hp": 180,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-20-1-true",
+      "hp": 220,
+      "petHp": 200
+    },
+    {
+      "values": [
+        20
+      ],
+      "id": "1-20-2-false",
+      "hp": 180,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-20-2-true",
+      "hp": 220,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1,
+        19
+      ],
+      "id": "1-20-3-false",
+      "hp": 181,
+      "petHp": 199
+    },
+    {
+      "values": [],
+      "id": "1-20-3-true",
+      "hp": 221,
+      "petHp": 221
+    },
+    {
+      "values": [
+        21
+      ],
+      "id": "1-21-0-false",
+      "hp": 179,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-21-0-true",
+      "hp": 221,
+      "petHp": 200
+    },
+    {
+      "values": [
+        21
+      ],
+      "id": "1-21-1-false",
+      "hp": 179,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-21-1-true",
+      "hp": 221,
+      "petHp": 200
+    },
+    {
+      "values": [
+        21
+      ],
+      "id": "1-21-2-false",
+      "hp": 179,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-21-2-true",
+      "hp": 221,
+      "petHp": 200
+    },
+    {
+      "values": [
+        2,
+        19
+      ],
+      "id": "1-21-3-false",
+      "hp": 181,
+      "petHp": 198
+    },
+    {
+      "values": [],
+      "id": "1-21-3-true",
+      "hp": 222,
+      "petHp": 222
+    },
+    {
+      "values": [
+        99
+      ],
+      "id": "1-99-0-false",
+      "hp": 101,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-99-0-true",
+      "hp": 299,
+      "petHp": 200
+    },
+    {
+      "values": [
+        99
+      ],
+      "id": "1-99-1-false",
+      "hp": 101,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-99-1-true",
+      "hp": 299,
+      "petHp": 200
+    },
+    {
+      "values": [
+        99
+      ],
+      "id": "1-99-2-false",
+      "hp": 101,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-99-2-true",
+      "hp": 299,
+      "petHp": 200
+    },
+    {
+      "values": [
+        5,
+        94
+      ],
+      "id": "1-99-3-false",
+      "hp": 106,
+      "petHp": 195
+    },
+    {
+      "values": [],
+      "id": "1-99-3-true",
+      "hp": 303,
+      "petHp": 303
+    },
+    {
+      "values": [
+        100
+      ],
+      "id": "1-100-0-false",
+      "hp": 100,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-100-0-true",
+      "hp": 300,
+      "petHp": 200
+    },
+    {
+      "values": [
+        100
+      ],
+      "id": "1-100-1-false",
+      "hp": 100,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-100-1-true",
+      "hp": 300,
+      "petHp": 200
+    },
+    {
+      "values": [
+        100
+      ],
+      "id": "1-100-2-false",
+      "hp": 100,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-100-2-true",
+      "hp": 300,
+      "petHp": 200
+    },
+    {
+      "values": [
+        5,
+        95
+      ],
+      "id": "1-100-3-false",
+      "hp": 105,
+      "petHp": 195
+    },
+    {
+      "values": [],
+      "id": "1-100-3-true",
+      "hp": 305,
+      "petHp": 305
+    },
+    {
+      "values": [
+        101
+      ],
+      "id": "1-101-0-false",
+      "hp": 99,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-101-0-true",
+      "hp": 301,
+      "petHp": 200
+    },
+    {
+      "values": [
+        101
+      ],
+      "id": "1-101-1-false",
+      "hp": 99,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-101-1-true",
+      "hp": 301,
+      "petHp": 200
+    },
+    {
+      "values": [
+        101
+      ],
+      "id": "1-101-2-false",
+      "hp": 99,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-101-2-true",
+      "hp": 301,
+      "petHp": 200
+    },
+    {
+      "values": [
+        6,
+        95
+      ],
+      "id": "1-101-3-false",
+      "hp": 105,
+      "petHp": 194
+    },
+    {
+      "values": [],
+      "id": "1-101-3-true",
+      "hp": 306,
+      "petHp": 306
+    },
+    {
+      "values": [
+        2001
+      ],
+      "id": "1-2001-0-false",
+      "hp": 0,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-2001-0-true",
+      "hp": 1000,
+      "petHp": 200
+    },
+    {
+      "values": [
+        2001
+      ],
+      "id": "1-2001-1-false",
+      "hp": 0,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-2001-1-true",
+      "hp": 1000,
+      "petHp": 200
+    },
+    {
+      "values": [
+        2001
+      ],
+      "id": "1-2001-2-false",
+      "hp": 0,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "1-2001-2-true",
+      "hp": 1000,
+      "petHp": 200
+    },
+    {
+      "values": [
+        101,
+        1900
+      ],
+      "id": "1-2001-3-false",
+      "hp": 0,
+      "petHp": 99
+    },
+    {
+      "values": [],
+      "id": "1-2001-3-true",
+      "hp": 1000,
+      "petHp": 1000
+    },
+    {
+      "values": [
+        0
+      ],
+      "id": "2-0-0-false",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-0-0-true",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [
+        0
+      ],
+      "id": "2-0-1-false",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-0-1-true",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [
+        0
+      ],
+      "id": "2-0-2-false",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-0-2-true",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [
+        0,
+        0
+      ],
+      "id": "2-0-3-false",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-0-3-true",
+      "hp": 200,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1
+      ],
+      "id": "2-1-0-false",
+      "hp": 199,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-1-0-true",
+      "hp": 201,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1
+      ],
+      "id": "2-1-1-false",
+      "hp": 199,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-1-1-true",
+      "hp": 201,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1
+      ],
+      "id": "2-1-2-false",
+      "hp": 199,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-1-2-true",
+      "hp": 201,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1,
+        0
+      ],
+      "id": "2-1-3-false",
+      "hp": 200,
+      "petHp": 199
+    },
+    {
+      "values": [],
+      "id": "2-1-3-true",
+      "hp": 201,
+      "petHp": 201
+    },
+    {
+      "values": [
+        19
+      ],
+      "id": "2-19-0-false",
+      "hp": 181,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-19-0-true",
+      "hp": 219,
+      "petHp": 200
+    },
+    {
+      "values": [
+        19
+      ],
+      "id": "2-19-1-false",
+      "hp": 181,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-19-1-true",
+      "hp": 219,
+      "petHp": 200
+    },
+    {
+      "values": [
+        19
+      ],
+      "id": "2-19-2-false",
+      "hp": 181,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-19-2-true",
+      "hp": 219,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1,
+        18
+      ],
+      "id": "2-19-3-false",
+      "hp": 182,
+      "petHp": 199
+    },
+    {
+      "values": [],
+      "id": "2-19-3-true",
+      "hp": 219,
+      "petHp": 219
+    },
+    {
+      "values": [
+        20
+      ],
+      "id": "2-20-0-false",
+      "hp": 180,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-20-0-true",
+      "hp": 220,
+      "petHp": 200
+    },
+    {
+      "values": [
+        20
+      ],
+      "id": "2-20-1-false",
+      "hp": 180,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-20-1-true",
+      "hp": 220,
+      "petHp": 200
+    },
+    {
+      "values": [
+        20
+      ],
+      "id": "2-20-2-false",
+      "hp": 180,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-20-2-true",
+      "hp": 220,
+      "petHp": 200
+    },
+    {
+      "values": [
+        1,
+        19
+      ],
+      "id": "2-20-3-false",
+      "hp": 181,
+      "petHp": 199
+    },
+    {
+      "values": [],
+      "id": "2-20-3-true",
+      "hp": 221,
+      "petHp": 221
+    },
+    {
+      "values": [
+        21
+      ],
+      "id": "2-21-0-false",
+      "hp": 179,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-21-0-true",
+      "hp": 221,
+      "petHp": 200
+    },
+    {
+      "values": [
+        21
+      ],
+      "id": "2-21-1-false",
+      "hp": 179,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-21-1-true",
+      "hp": 221,
+      "petHp": 200
+    },
+    {
+      "values": [
+        21
+      ],
+      "id": "2-21-2-false",
+      "hp": 179,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-21-2-true",
+      "hp": 221,
+      "petHp": 200
+    },
+    {
+      "values": [
+        2,
+        19
+      ],
+      "id": "2-21-3-false",
+      "hp": 181,
+      "petHp": 198
+    },
+    {
+      "values": [],
+      "id": "2-21-3-true",
+      "hp": 222,
+      "petHp": 222
+    },
+    {
+      "values": [
+        99
+      ],
+      "id": "2-99-0-false",
+      "hp": 101,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-99-0-true",
+      "hp": 299,
+      "petHp": 200
+    },
+    {
+      "values": [
+        99
+      ],
+      "id": "2-99-1-false",
+      "hp": 101,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-99-1-true",
+      "hp": 299,
+      "petHp": 200
+    },
+    {
+      "values": [
+        99
+      ],
+      "id": "2-99-2-false",
+      "hp": 101,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-99-2-true",
+      "hp": 299,
+      "petHp": 200
+    },
+    {
+      "values": [
+        5,
+        94
+      ],
+      "id": "2-99-3-false",
+      "hp": 106,
+      "petHp": 195
+    },
+    {
+      "values": [],
+      "id": "2-99-3-true",
+      "hp": 303,
+      "petHp": 303
+    },
+    {
+      "values": [
+        100
+      ],
+      "id": "2-100-0-false",
+      "hp": 100,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-100-0-true",
+      "hp": 300,
+      "petHp": 200
+    },
+    {
+      "values": [
+        100
+      ],
+      "id": "2-100-1-false",
+      "hp": 100,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-100-1-true",
+      "hp": 300,
+      "petHp": 200
+    },
+    {
+      "values": [
+        100
+      ],
+      "id": "2-100-2-false",
+      "hp": 100,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-100-2-true",
+      "hp": 300,
+      "petHp": 200
+    },
+    {
+      "values": [
+        5,
+        95
+      ],
+      "id": "2-100-3-false",
+      "hp": 105,
+      "petHp": 195
+    },
+    {
+      "values": [],
+      "id": "2-100-3-true",
+      "hp": 305,
+      "petHp": 305
+    },
+    {
+      "values": [
+        101
+      ],
+      "id": "2-101-0-false",
+      "hp": 99,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-101-0-true",
+      "hp": 301,
+      "petHp": 200
+    },
+    {
+      "values": [
+        101
+      ],
+      "id": "2-101-1-false",
+      "hp": 99,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-101-1-true",
+      "hp": 301,
+      "petHp": 200
+    },
+    {
+      "values": [
+        101
+      ],
+      "id": "2-101-2-false",
+      "hp": 99,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-101-2-true",
+      "hp": 301,
+      "petHp": 200
+    },
+    {
+      "values": [
+        6,
+        95
+      ],
+      "id": "2-101-3-false",
+      "hp": 105,
+      "petHp": 194
+    },
+    {
+      "values": [],
+      "id": "2-101-3-true",
+      "hp": 306,
+      "petHp": 306
+    },
+    {
+      "values": [
+        2001
+      ],
+      "id": "2-2001-0-false",
+      "hp": 0,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-2001-0-true",
+      "hp": 1000,
+      "petHp": 200
+    },
+    {
+      "values": [
+        2001
+      ],
+      "id": "2-2001-1-false",
+      "hp": 0,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-2001-1-true",
+      "hp": 1000,
+      "petHp": 200
+    },
+    {
+      "values": [
+        2001
+      ],
+      "id": "2-2001-2-false",
+      "hp": 0,
+      "petHp": 200
+    },
+    {
+      "values": [],
+      "id": "2-2001-2-true",
+      "hp": 1000,
+      "petHp": 200
+    },
+    {
+      "values": [
+        101,
+        1900
+      ],
+      "id": "2-2001-3-false",
+      "hp": 0,
+      "petHp": 99
+    },
+    {
+      "values": [],
+      "id": "2-2001-3-true",
+      "hp": 1000,
+      "petHp": 1000
+    }
+  ]
+}

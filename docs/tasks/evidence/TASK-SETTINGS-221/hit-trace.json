@@ -1,0 +1,964 @@
+{
+  "runtime": "WIN 51,1,1,5",
+  "sources": [
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "checkAttack",
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "sliceSha256": "5a10da5712c53473a1f886f80530c3674b7c2ddc57e8d2fccf24d04309ff8889"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "refreshSourceRoleAttackInfoObject",
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "sliceSha256": "9b21c831f830695b0947c263fec5a91a00ec917229e8e95515789a17d38aeaed"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "getRealHurt",
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "sliceSha256": "3ec6f953c74e62b73e035dbe866aac1e8869892a7bbe9cd5c882f89f9978d91f"
+    }
+  ],
+  "cases": [
+    {
+      "id": "snapshot-before",
+      "hurt": 73,
+      "atk": 282
+    },
+    {
+      "id": "snapshot-after",
+      "hurt": 145,
+      "atk": 282
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "6-true-0",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "6-true-1",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "6-true-2",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "6-true-3",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "6-true-4",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "6-true-5",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "6-true-6",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "6-true-7",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "6-true-8",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "6-true-9",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "6-true-10",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "6-true-11",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1",
+        "attack-2"
+      ],
+      "id": "6-true-12",
+      "calls": 3,
+      "count": 96,
+      "refresh": 3,
+      "attackId": 2
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1",
+        "attack-2"
+      ],
+      "id": "6-true-13",
+      "calls": 3,
+      "count": 96,
+      "refresh": 3,
+      "attackId": 2
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1",
+        "attack-2"
+      ],
+      "id": "6-true-14",
+      "calls": 3,
+      "count": 96,
+      "refresh": 3,
+      "attackId": 2
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1",
+        "attack-2"
+      ],
+      "id": "6-true-15",
+      "calls": 3,
+      "count": 96,
+      "refresh": 3,
+      "attackId": 2
+    },
+    {
+      "seen": [],
+      "id": "6-false-0",
+      "calls": 1,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "6-false-1",
+      "calls": 2,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "6-false-2",
+      "calls": 3,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "6-false-3",
+      "calls": 4,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "6-false-4",
+      "calls": 5,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "6-false-5",
+      "calls": 6,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "6-false-6",
+      "calls": 7,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "6-false-7",
+      "calls": 8,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "6-false-8",
+      "calls": 9,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "6-false-9",
+      "calls": 10,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "6-false-10",
+      "calls": 11,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "6-false-11",
+      "calls": 12,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "6-false-12",
+      "calls": 13,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 2
+    },
+    {
+      "seen": [],
+      "id": "6-false-13",
+      "calls": 14,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 2
+    },
+    {
+      "seen": [],
+      "id": "6-false-14",
+      "calls": 15,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 2
+    },
+    {
+      "seen": [],
+      "id": "6-false-15",
+      "calls": 16,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 2
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "7-true-0",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "7-true-1",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "7-true-2",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "7-true-3",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "7-true-4",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "7-true-5",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "7-true-6",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "7-true-7",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "7-true-8",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "7-true-9",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "7-true-10",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "7-true-11",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "7-true-12",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1"
+      ],
+      "id": "7-true-13",
+      "calls": 2,
+      "count": 97,
+      "refresh": 2,
+      "attackId": 1
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1",
+        "attack-2"
+      ],
+      "id": "7-true-14",
+      "calls": 3,
+      "count": 96,
+      "refresh": 3,
+      "attackId": 2
+    },
+    {
+      "seen": [
+        "attack-0",
+        "attack-1",
+        "attack-2"
+      ],
+      "id": "7-true-15",
+      "calls": 3,
+      "count": 96,
+      "refresh": 3,
+      "attackId": 2
+    },
+    {
+      "seen": [],
+      "id": "7-false-0",
+      "calls": 1,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "7-false-1",
+      "calls": 2,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "7-false-2",
+      "calls": 3,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "7-false-3",
+      "calls": 4,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "7-false-4",
+      "calls": 5,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "7-false-5",
+      "calls": 6,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "7-false-6",
+      "calls": 7,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "7-false-7",
+      "calls": 8,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "7-false-8",
+      "calls": 9,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "7-false-9",
+      "calls": 10,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "7-false-10",
+      "calls": 11,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "7-false-11",
+      "calls": 12,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "7-false-12",
+      "calls": 13,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "7-false-13",
+      "calls": 14,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 1
+    },
+    {
+      "seen": [],
+      "id": "7-false-14",
+      "calls": 15,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 2
+    },
+    {
+      "seen": [],
+      "id": "7-false-15",
+      "calls": 16,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 2
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-0",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-1",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-2",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-3",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-4",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-5",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-6",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-7",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-8",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-9",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-10",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-11",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-12",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-13",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-14",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [
+        "attack-0"
+      ],
+      "id": "999-true-15",
+      "calls": 1,
+      "count": 98,
+      "refresh": 1,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-0",
+      "calls": 1,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-1",
+      "calls": 2,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-2",
+      "calls": 3,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-3",
+      "calls": 4,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-4",
+      "calls": 5,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-5",
+      "calls": 6,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-6",
+      "calls": 7,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-7",
+      "calls": 8,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-8",
+      "calls": 9,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-9",
+      "calls": 10,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-10",
+      "calls": 11,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-11",
+      "calls": 12,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-12",
+      "calls": 13,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-13",
+      "calls": 14,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-14",
+      "calls": 15,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "seen": [],
+      "id": "999-false-15",
+      "calls": 16,
+      "count": 99,
+      "refresh": 0,
+      "attackId": 0
+    },
+    {
+      "hurt": 111,
+      "id": "defense-physics--200"
+    },
+    {
+      "hurt": 101,
+      "id": "defense-physics-0"
+    },
+    {
+      "hurt": 80,
+      "id": "defense-physics-20"
+    },
+    {
+      "hurt": 0,
+      "id": "defense-physics-100"
+    },
+    {
+      "hurt": 1,
+      "id": "defense-physics-200"
+    },
+    {
+      "hurt": 111,
+      "id": "defense-magic--200"
+    },
+    {
+      "hurt": 101,
+      "id": "defense-magic-0"
+    },
+    {
+      "hurt": 80,
+      "id": "defense-magic-20"
+    },
+    {
+      "hurt": 0,
+      "id": "defense-magic-100"
+    },
+    {
+      "hurt": 1,
+      "id": "defense-magic-200"
+    }
+  ]
+}

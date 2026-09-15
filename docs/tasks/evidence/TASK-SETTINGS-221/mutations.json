@@ -1,0 +1,50 @@
+[
+  {
+    "id": "range",
+    "rejected": true
+  },
+  {
+    "id": "owner",
+    "rejected": true
+  },
+  {
+    "id": "timing",
+    "rejected": true
+  },
+  {
+    "id": "mana",
+    "rejected": true
+  },
+  {
+    "id": "gate",
+    "rejected": true
+  },
+  {
+    "id": "free-chain",
+    "rejected": true
+  },
+  {
+    "id": "delay",
+    "rejected": true
+  },
+  {
+    "id": "dead-callback",
+    "rejected": true
+  },
+  {
+    "id": "counter",
+    "rejected": true
+  },
+  {
+    "id": "hurt-suppression",
+    "rejected": true
+  },
+  {
+    "id": "magic-flower",
+    "rejected": true
+  },
+  {
+    "id": "cooldown",
+    "rejected": true
+  }
+]

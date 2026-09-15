@@ -1,0 +1,858 @@
+{
+  "truthId": "task-settings-221.pet-turtle-behavior",
+  "status": "behavior-evidence",
+  "forms": [
+    {
+      "form": 1,
+      "className": "PetTurtle1",
+      "baseClass": "BasePet",
+      "rangeExpression": "40",
+      "attacksAt24Fps": {
+        "hit1": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            6,
+            -5
+          ],
+          "attackInterval": 999,
+          "power": 12,
+          "attackKind": "physics"
+        },
+        "hit2": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            10,
+            0
+          ],
+          "attackInterval": 7,
+          "power": 12,
+          "attackKind": "magic"
+        }
+      },
+      "rowFrameCounts": [
+        6,
+        1,
+        5,
+        3,
+        3
+      ],
+      "rowHolds": [
+        [
+          2,
+          2,
+          2,
+          3,
+          2,
+          4
+        ],
+        [
+          8
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          10
+        ],
+        [
+          2,
+          2,
+          10
+        ]
+      ],
+      "skills": [
+        "sld"
+      ],
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "PetTurtle1",
+        "line": 12,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "cc7ce81ef8e6b51b708f09548c334b13d1a4436c8f78e4793bf3336fb4b66c40"
+      }
+    },
+    {
+      "form": 2,
+      "className": "PetTurtle2",
+      "baseClass": "BasePet",
+      "rangeExpression": "2 * 60",
+      "attacksAt24Fps": {
+        "hit1": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            6,
+            -5
+          ],
+          "attackInterval": 999,
+          "power": 12,
+          "attackKind": "physics"
+        },
+        "hit2": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            10,
+            0
+          ],
+          "attackInterval": 999,
+          "power": 12,
+          "attackKind": "magic"
+        }
+      },
+      "rowFrameCounts": [
+        6,
+        4,
+        1,
+        5,
+        4,
+        3
+      ],
+      "rowHolds": [
+        [
+          2,
+          2,
+          2,
+          3,
+          2,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          8
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          10
+        ],
+        [
+          2,
+          2,
+          10
+        ]
+      ],
+      "skills": [
+        "sld",
+        "txlj"
+      ],
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+        "method": "PetTurtle2",
+        "line": 12,
+        "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+        "sliceSha256": "b27686e7135468435272c0201be34ec786841d353f7c5a4145e846a55d8ed599"
+      }
+    },
+    {
+      "form": 3,
+      "className": "PetTurtle3",
+      "baseClass": "BasePet",
+      "rangeExpression": "150",
+      "attacksAt24Fps": {
+        "hit1": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            6,
+            -5
+          ],
+          "attackInterval": 999,
+          "power": 12,
+          "attackKind": "physics"
+        },
+        "hit2": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            10,
+            0
+          ],
+          "attackInterval": 999,
+          "power": 12,
+          "attackKind": "magic"
+        },
+        "hit3": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            5,
+            0
+          ],
+          "attackInterval": 999,
+          "power": 12,
+          "attackKind": "magic"
+        }
+      },
+      "rowFrameCounts": [
+        6,
+        4,
+        1,
+        5,
+        4,
+        3,
+        3
+      ],
+      "rowHolds": [
+        [
+          2,
+          2,
+          2,
+          3,
+          2,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          8
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          10
+        ],
+        [
+          2,
+          2,
+          10
+        ],
+        [
+          2,
+          2,
+          10
+        ]
+      ],
+      "skills": [
+        "sld",
+        "txlj",
+        "sybh"
+      ],
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+        "method": "PetTurtle3",
+        "line": 12,
+        "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281",
+        "sliceSha256": "32c36ecf7f16e02936086d650080394beeae36ed43437a478c121ff3a7f9b100"
+      }
+    },
+    {
+      "form": 4,
+      "className": "PetTurtle4",
+      "baseClass": "BasePet",
+      "rangeExpression": "150",
+      "attacksAt24Fps": {
+        "hit1": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            6,
+            -5
+          ],
+          "attackInterval": 999,
+          "power": 12,
+          "attackKind": "physics"
+        },
+        "hit2": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            6,
+            0
+          ],
+          "attackInterval": 999,
+          "power": 12,
+          "attackKind": "physics"
+        },
+        "hit3": {
+          "hitMaxCount": 99,
+          "attackBackSpeed": [
+            2,
+            0
+          ],
+          "attackInterval": 6,
+          "power": 12,
+          "attackKind": "magic"
+        }
+      },
+      "rowFrameCounts": [
+        6,
+        4,
+        1,
+        5,
+        4,
+        3,
+        3
+      ],
+      "rowHolds": [
+        [
+          2,
+          2,
+          2,
+          3,
+          2,
+          4
+        ],
+        [
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          8
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          10
+        ],
+        [
+          2,
+          2,
+          10
+        ],
+        [
+          2,
+          2,
+          10
+        ]
+      ],
+      "skills": [
+        "sld",
+        "txlj",
+        "sybh",
+        "xwaoyi"
+      ],
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "PetTurtle4",
+        "line": 16,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "6c2f00fd1fe32ffaefd19f29bf860f9a32b0f1dd2b6b8f7df56a8fb3c99340e8"
+      }
+    }
+  ],
+  "contracts": [
+    {
+      "id": "entry.forms",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "method": "addPetByPi",
+        "line": 448,
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+        "sliceSha256": "63e87788aa48540b269aee62313a2e8008ba52840bbf919844d4bae2616874e7"
+      },
+      "fixtureSelector": "init-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "四类直接继承BasePet；按petName实例化对应类",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "ai.priority",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "myIntelligence",
+        "line": 305,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+      },
+      "fixtureSelector": "priority-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "sld→txlj→sybh→xwaoyi→秒拍普攻；AI后CD减一",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "ai.range",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "myIntelligence",
+        "line": 305,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+      },
+      "fixtureSelector": "outside-|inside-",
+      "modernConsumer": "PetCombatTargeting",
+      "statement": "40/120/150/150内才按0.7首随机普攻，失败再独立0.3随机",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "ai.owner",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "myIntelligence",
+        "line": 305,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+      },
+      "fixtureSelector": "remote-",
+      "modernConsumer": "HeroPartyRuntimeBridge",
+      "statement": "single或sourceRole.sid本地才自动选择；两玩家各自owner",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "ai.target",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "searchTarget",
+        "line": 1075,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "61db7ab2bea3d9c5924608da5013049bea1e28a53444ceac152c509a948de9b8"
+      },
+      "fixtureSelector": "outside-",
+      "modernConsumer": "PetCombatTargeting",
+      "statement": "原数组首个距离<=1200目标；不是最近排序；>=1200或死亡清目标",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "ai.follow",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "followSource",
+        "line": 1023,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "6a0a4f218ef598e4479747dc4fd3197c83cdd3574c609f07dd463e20919f0dff"
+      },
+      "fixtureSelector": "outside-",
+      "modernConsumer": "PetCombatEntitySession",
+      "statement": "跟随阈值640；追击只按x转向；warp与地面规则复用205/217证据",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "normal.1",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "normalHit",
+        "line": 273,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "4a853ce007a9d7d168e8f917cdbdf1621199be082f9fc995768fcbbc1f2f6c95"
+      },
+      "fixtureSelector": "normal-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "真普攻hit1；第三cell countdown10创建PetTurtle1Bullet1",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "normal.2",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+        "method": "normalHit",
+        "line": 327,
+        "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+        "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+      },
+      "fixtureSelector": "normal-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "真普攻hit1；第四cell countdown10创建PetTurtle2Bullet1",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "normal.3",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+        "method": "normalHit",
+        "line": 403,
+        "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281",
+        "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+      },
+      "fixtureSelector": "normal-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "真普攻hit1；第四cell countdown10创建PetTurtle2Bullet1",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "normal.4",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "normalHit",
+        "line": 545,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+      },
+      "fixtureSelector": "normal-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "真普攻hit1；第四cell countdown10创建PetTurtle2Bullet1",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "sld.gates",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "beforeSkill1Start",
+        "line": 202,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "a835cadda5756b088f2bac60d8ddb97ec27119bb19a9e6d408845d3dbf8c07db"
+      },
+      "fixtureSelector": "gate-|low-mp-",
+      "modernConsumer": "PetTurtleSkillSystem",
+      "statement": "已学、20MP、距离50..200含边界",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "sld.release",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "releSkill1",
+        "line": 213,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "246c485f11008614ae63e278385f4245904bc27b2c82f06e3a0cc36926307cb4"
+      },
+      "fixtureSelector": "release-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "新attack id、保护10tick、hit2、扣20MP",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "sld.effect",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "doHit2",
+        "line": 240,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "ff02172f834ad3871b76dac0dc21080f80a570c16d46ca8f9ba1fc205237c5d3"
+      },
+      "fixtureSelector": "frame-",
+      "modernConsumer": "PetProjectileCombatSystem",
+      "statement": "FollowBaseObjectBullet；hurt不断；创建即cureHp(uint(noncritPower))，不是命中治疗",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "sld.link-heal",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+        "method": "doHit2",
+        "line": 275,
+        "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+        "sliceSha256": "ae15dec3cf3fd286927fbf90338266194a568b4b336fdbf8cd4db607a5cbeb04"
+      },
+      "fixtureSelector": "frame-",
+      "modernConsumer": "PetBattleOwnershipSystem",
+      "statement": "双方buff存在才直接写hero HP；四阶SetHHp事件；不递归hero cureHp",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "txlj.release",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+        "method": "releSkill2",
+        "line": 234,
+        "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+        "sliceSha256": "5989cb8ad3e165a668af4ae6f54c18ab63d7550b9a035dca6fddb3d4c7bee5cf"
+      },
+      "fixtureSelector": "release-",
+      "modernConsumer": "PetBattleOwnershipSystem",
+      "statement": "无动作切换；双方同buff；first/second转uint；仅harm存在扣20MP",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "txlj.damage",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "method": "reduceHp",
+        "line": 795,
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+        "sliceSha256": "7cf91f3dccdc10041aad212be389a105772bdb6aeab9918b18d1a3f2a2aef22f"
+      },
+      "fixtureSelector": "settlement",
+      "modernConsumer": "HeroCombatSystem",
+      "statement": "盾优先；双buff时pet ceil(5%)，hero int(95%)后ceil；显示不是HP差",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "txlj.heal",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "method": "cureHp",
+        "line": 343,
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+        "sliceSha256": "5b88583c24e98fc89a036604310cd9a950406bc3ec60b11d45269922184fc11d"
+      },
+      "fixtureSelector": "settlement",
+      "modernConsumer": "PetBattleOwnershipSystem",
+      "statement": "双buff时pet和hero均int(105%)，hero后ceil不恢复小数",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "sybh.release",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+        "method": "releSkill3",
+        "line": 309,
+        "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281",
+        "sliceSha256": "af9422725d08f89bcacac417b966859337b696851bac1aac8b16c333158de13b"
+      },
+      "fixtureSelector": "release-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "20MP/hit3/保护10；第三cell countdown10出效果",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "sybh.effects",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "doHit3",
+        "line": 455,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "5e1ade0b671b977be3ecb650b48ef4fc1e34a2ab0a51ad7485f3d5a6ca085c60"
+      },
+      "fixtureSelector": "frame-",
+      "modernConsumer": "PetProjectileCombatSystem",
+      "statement": "三阶scale1，四阶scale2；四阶hit3间隔frameClips*.25",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "aoyi.gate",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "beforeSkill4Start",
+        "line": 265,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "87c633770ebdfb4866687f0ace86a8417df4c7142239278adda68b054f3d6544"
+      },
+      "fixtureSelector": "aoyi-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "目标、已学、MP>=30；releSkill4不扣蓝",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "aoyi.chain",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "releSkill4",
+        "line": 366,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "8416ea6865a16281cad7b0d3784167dcb253859e89c7e6e5d02d0e1b906114fe"
+      },
+      "fixtureSelector": "aoyi-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "8种已学组合；立即/2秒/4秒免费SLD、免费TXLJ、SYBH持续5秒",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "aoyi.damage-window",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "doHit3InAoyi",
+        "line": 468,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "054be1d955359f0deaa8af6a5b0bd16f72676e74c5ff2619239b175b76b3633a"
+      },
+      "fixtureSelector": "aoyi-",
+      "modernConsumer": "PetProjectileCombatSystem",
+      "statement": "不随末帧销毁；120ticks@24；static世界根；末帧仍可碰撞",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "aoyi.hurt",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "reduceHp",
+        "line": 491,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "5dd4b9ad07a162e46963371d5208d7bacc16adad87ce0b49b6d2c83233ad43e6"
+      },
+      "fixtureSelector": "aoyi-hurt-",
+      "modernConsumer": "PetCombatEntitySession",
+      "statement": "仍扣HP；压制hurt参数/反击；GXP或奥义拒绝击退；hurt动作清isAoyi",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "aoyi.cleanup",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "releSkill4",
+        "line": 366,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "8416ea6865a16281cad7b0d3784167dcb253859e89c7e6e5d02d0e1b906114fe"
+      },
+      "fixtureSelector": "aoyi-rest|aoyi-dead|aoyi-destroy-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "延迟回调只检petInfo/isFight/!dead；活宠销毁后回调1009是源缺陷",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "damage.power",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+        "method": "getPetHarmObj",
+        "line": 1017,
+        "sha256": "b9bba062ed38c9e475bb4e1b29dfc2328ba968453ed8d2fe821a403eb4b4dbc2",
+        "sliceSha256": "b31bca70a0f6de066b6a8827c0df017400c7970da3a1c6710bd7fd579878ebdb"
+      },
+      "fixtureSelector": "power-|init-",
+      "modernConsumer": "PetProjectileCombatSystem",
+      "statement": "first总乘1.05；四阶才乘魔花；暴击独立；fsnl uint",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "damage.snapshot",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+        "method": "refreshSourceRoleAttackInfoObject",
+        "line": 433,
+        "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+        "sliceSha256": "9b21c831f830695b0947c263fec5a91a00ec917229e8e95515789a17d38aeaed"
+      },
+      "fixtureSelector": "hit",
+      "modernConsumer": "PetProjectileCombatSystem",
+      "statement": "setAction缓存伤害；pet atk*2.8；成功命中后再刷新供下一个目标",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "damage.dedup",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+        "method": "checkAttack",
+        "line": 225,
+        "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+        "sliceSha256": "5a10da5712c53473a1f886f80530c3674b7c2ddc57e8d2fccf24d04309ff8889"
+      },
+      "fixtureSelector": "hit",
+      "modernConsumer": "PetProjectileCombatSystem",
+      "statement": "每攻击id目标去重；interval相等时换id；miss行为由怪物决定",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "damage.defense",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+        "method": "getRealHurt",
+        "line": 1369,
+        "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+        "sliceSha256": "3ec6f953c74e62b73e035dbe866aac1e8869892a7bbe9cd5c882f89f9978d91f"
+      },
+      "fixtureSelector": "hit",
+      "modernConsumer": "PetProjectileCombatSystem",
+      "statement": "物理atk/def比例、魔法mDef比例；上限1.1、负比例1、int返回",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "hurt.counter",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "reduceHp",
+        "line": 865,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "d92274d55b59caff0ee4327692edacd98572785631f23cb43a014328702d2a6a"
+      },
+      "fixtureSelector": "counter-|hurt-",
+      "modernConsumer": "PetCombatEntitySession",
+      "statement": "宠物本身非致死param2=true才QLFJ随机反击；不是主人任意受击触发",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "hurt.death",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "reduceHp",
+        "line": 865,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "d92274d55b59caff0ee4327692edacd98572785631f23cb43a014328702d2a6a"
+      },
+      "fixtureSelector": "dead-",
+      "modernConsumer": "PetCombatEntitySession",
+      "statement": "single首次dead扣寿命一次，死亡动画结束destroy；原伤害显示可大于HP差",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "lifecycle.destroy",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "destroy",
+        "line": 1150,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "0c860bde14dd44f137a111cec2a20b149614e0a4d9e1f2bbfbea3314a63b8584"
+      },
+      "fixtureSelector": "destroy-",
+      "modernConsumer": "PetCombatRuntime",
+      "statement": "销毁body/buff/bullet，清sourceRole宠物和owner；现代需取消所有自身回调",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    },
+    {
+      "id": "lifecycle.replace",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "method": "changePet",
+        "line": 2561,
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+        "sliceSha256": "0cdb5342b58c4e3573da3d7956e70dfd1e448ea61dfa145415e68791e386a410"
+      },
+      "fixtureSelector": "destroy-",
+      "modernConsumer": "HeroPartyRuntimeBridge",
+      "statement": "changePet先destroy旧宠再initPet；重试/返回经hero销毁链",
+      "evidenceLevel": "确认事实",
+      "geometry": "deferred-to-TASK-SETTINGS-222"
+    }
+  ],
+  "unresolvedBehavior": [],
+  "deferred": [
+    "recursive-display-lists",
+    "source-pixel-collision-oracle",
+    "body-host-tick-projection",
+    "formal-runtime-consumption"
+  ],
+  "runtimeBoundary": "AS3 computational slices on bundled AIR 51.1.1.5; controlled external services, no Flash Player or full-scene claim"
+}

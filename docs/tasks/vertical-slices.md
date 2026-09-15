@@ -1,5 +1,7 @@
 # 纵向切片复现表
 
+2026-09-15 TASK-SETTINGS-221完成代码证据：32合同、511受控原生AS3状态、12类语义变异、双包13符号定位；29合同含源片段执行，3项静态调用/跟随声明，全部现代消费者仍待。TASK-SETTINGS-222唯一Ready承接完整视觉/碰撞真值；玄龟未复现，TASK-ARCH-204与VS-067仍部分完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-221/handoff.md`。
+
 2026-09-14 216C及父216完成：默认5173可发现全宠物档、显式点击/刷新保留/原存档进入地图、正式与损坏槽保护及4174/非本地/query隔离9浏览器状态通过。A/B完整证据核销，M-054当前producer已复现、VS-072已完成；TASK-SETTINGS-221玄龟完整行为证据唯一Ready，六族与194后续仍待，功能线Active。见 `docs/tasks/evidence/TASK-SLICE-216C/handoff.md`。
 
 2026-09-14 216B完成：当前hero/pet/environment/turtle producer同链，216实际TestScene adapter状态、五关双owner真实trace/清理、1-2实际英雄与宠物pnum和68原版显示对照通过。216C唯一Ready；父216/VS-072仍待默认5173入口，未实现家族不冒充覆盖。见 `docs/tasks/evidence/TASK-SLICE-216B/handoff.md`。
