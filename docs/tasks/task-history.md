@@ -13,6 +13,12 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-216C | 默认本地全宠物QA入口 | 可发现建档/刷新与正式槽隔离 | M-032、M-035、M-042、M-049、M-054、VS-072 | [216C交接](evidence/TASK-SLICE-216C/handoff.md)；9真实浏览器状态、slot保护及全回归，父216同批关闭 |
+| TASK-SLICE-216 | 承伤数字与本地QA父合同 | 全部A/B/C合同核销 | M-032、M-035、M-042、M-049、M-054、VS-072 | [完整核销](evidence/TASK-SLICE-216C/handoff.md)；pnum/全部当前producer/五关/5173入口完成，221 Ready |
+| TASK-SLICE-216B | 承伤producer正式接入 | 现有英雄/宠物/环境/转嫁共用原版pnum | M-032、M-035、M-042、M-049、M-054、VS-072 | [216B交接](evidence/TASK-SLICE-216B/handoff.md)；216真实caller状态、五关双人trace/清理、68原版显示对照、10变异及全回归；216C Ready，父合同未完成 |
+| TASK-SLICE-216B2 | 环境承伤结算前置 | 冰火int/盾/保护与来源 | M-032、M-042、M-054、VS-072 | [216B2交接](evidence/TASK-SLICE-216B2/handoff.md)；20+24状态、保护序列/并行来源、13变异及全回归，216B恢复Ready |
+| TASK-SLICE-216B1 | 承伤结算前置 | 现有整数与保护/盾/转嫁顺序 | M-032、M-042、M-054、VS-072 | [216B1交接](evidence/TASK-SLICE-216B1/handoff.md)；36共享入口、216真实caller状态、10变异及全回归，216B恢复Ready |
+| TASK-SLICE-216A | pnum资源与显示投影 | 十字形、唯一bundle与原版显示API | M-032、M-035、M-042、M-049、M-054、VS-072 | [216A交接](evidence/TASK-SLICE-216A/handoff.md)；68实际Phaser态与27变异，216B Ready；未接伤害producer |
 | TASK-SETTINGS-215 | 角色/宠物承伤数字逆向 | pnum视觉、producer数值/owner与特殊边界 | M-032、M-035、M-042、M-049、M-054、VS-072 | [215交接](evidence/TASK-SETTINGS-215/handoff.md)；109源渲染态、22原数值执行、34fixture、16变异；216 Ready |
 | TASK-SLICE-214E | 青龙完整家族收束 | dragon1..4真实自主战斗/分身/全部技能与生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | [214E交接](evidence/TASK-SLICE-214E/handoff.md)；44合同、P1G=0、345态、64组trace、60组消费者与正式可见伤害；215 Ready |
 | TASK-SLICE-214B | 青龙完整家族收束 | dragon1..4真实自主战斗/分身/全部技能与生命周期 | M-032、M-034、M-035、M-042、M-044、VS-067 | [214E交接](evidence/TASK-SLICE-214E/handoff.md)；44合同、P1G=0、345态、64组trace、60组消费者与正式可见伤害；215 Ready |
@@ -314,6 +320,361 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-216C
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：
+- `M-032`、`M-035`、`M-042`、`M-049`、`M-054`、`VS-072`
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 如需改变存档schema、普通槽位规则或非本地可见性，先拆同线解除项；不得扩大fixture权限或静默覆盖用户档。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主 agent 负责实现与归并；可独立验证的只读包优先 Luna，按 agent-protocol 准入表执行
+- 并行工作包：主工作包内的独立合同/验证核对；无可并行有用工作时串行
+- 写入 owner：主 agent
+- 归并检查点：实现前及关闭前
+- 方法观测：无
+
+输入资料：
+- 父合同 [TASK-SLICE-216](#task-slice-216)，未分配条款仍由父合同持有。
+- [215 handoff](evidence/TASK-SETTINGS-215/handoff.md)、[源索引](../reverse-engineering/player-pet-incoming-damage-feedback-index.md)、[verified manifest](../reverse-engineering/ground-truth/manifests/task-settings-215-player-pet-incoming-damage-feedback.json)。
+- [216 预检与合同分配](evidence/TASK-SLICE-216/preflight.md)。
+
+输出产物：
+- 5173 localhost默认可发现并可创建/刷新210A全宠物QA存档的入口，复用既有fixture，保持4174、非localhost、正式schema和普通槽位规则隔离。
+- 无隐藏查询知识的浏览器旅程、刷新复验、已有正式槽/损坏槽保护、查询误触发/非本地暴露负测试与runtime audit。
+- 核对216A/B证据和父216条款的完整分配；不重跑输入未变化的全部原始采样。
+
+完成定义：
+- 用户从默认5173入口能发现并使用全宠物QA档，现有用户档不被覆盖；父216的资源、producer、正式运行和QA合同全部有通过证据才同批归档父216。
+
+验收标准：
+- 5173默认入口/点击/刷新、4174及非localhost隐藏与禁执行、无查询误触发、正式槽保护专项通过。
+- 复用已验收216B正式战斗报告；若QA改动产生新的战斗输入，再运行对应回归，不把存档成功当伤害验证。
+- test:systems、build、check:structure、check:annotations、check:workflow、audit:problems、git diff --check通过；实际浏览器入口无console warning/error。
+
+禁止范围：
+- 不改战斗公式、宠物家族或原版可见UI；QA入口仅适用已授权本地环境，不能成为正式现代替代层。
+
+状态更新：
+- 完成后归档216C及父216、回写机制/切片/覆盖台账；按完整家族方法生成下一未闭合宠物家族task并成为唯一Ready，当前线仍Active。
+
+推荐后续任务：
+- 依据当前六个未闭合家族缺口生成同线下一完整家族任务；九家族全部完成后才进入194。
+
+执行结果（2026-09-14）：已完成并归档。全部子合同核销见 [216C交接](evidence/TASK-SLICE-216C/handoff.md)，当前下一执行项TASK-SETTINGS-221；父合同中的Ready/Split为历史输入，不再调度。
+
+
+### TASK-SLICE-216
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+逆向子类型：
+- 不适用
+
+逆向方案：
+- 不适用
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；Split，215 verified与交接已完成；216A → 216B → 216C）
+
+目标机制/切片：
+- `M-032`、`M-035`、`M-042`、`M-049`、`M-054`、`VS-072`
+
+规模预算：
+- 主工作包：0
+- 预计上下文压缩：0
+- 独立验收批次：0
+
+拆分触发：
+- 若 215 留下实现影响 unresolved，或需要同时实现治疗/回蓝/蓝耗/miss、新存档字段、第二套战斗 Runtime 或新的共享 UI 组件族，先拆同线解除项；不得用 `hurtnum` 或现代文本代替 `pnum`。
+- 允许把 210A 已有的 localhost-only 全宠物 QA fixture 接入 5173 可发现入口；若必须改变正式存档 schema、生产槽位规则或非本地环境可见性，立即拆分，不在本 task 扩权。
+
+协作计划：
+- 模式：主 agent + subagent（预检只读核对）
+- 并行工作包：子 agent 只读核对215与现有producer；主 agent核对资源/规模并持有全部写入
+- 写入 owner：主 agent
+- 归并检查点：共享事件/显示链完成后、正式运行验收前
+- 方法观测：无
+
+输入资料：
+- 215 的 verified manifest、证据矩阵、逐状态原版基准、generator/check 和完整 acceptance handoff。
+- 固定入口：`docs/reverse-engineering/player-pet-incoming-damage-feedback-index.md`、`docs/reverse-engineering/ground-truth/manifests/task-settings-215-player-pet-incoming-damage-feedback.json`、`docs/tasks/evidence/TASK-SETTINGS-215/handoff.md`。严格区分原生行为执行trace与按已证显示值重放的原生图像，不把后者当伤害执行证明。
+- 当前 `HeroCombatSystem`、`Stage1CombatSystem`、`PetCombatRuntime`、环境伤害、`CombatFeedbackSystem/View`、TestScene 与正式五关消费者。
+
+输出产物：
+- 角色/宠物承伤经 215 冻结的 producer 与数值语义生成 typed incoming-damage feedback；怪物攻击、声明的环境/持续伤害入口共用稳定 event id、producer kind/ordinal、target kind/owner、settled damage、display value、HP before/after、world anchor 和生命周期。
+- 215 的源反证已替代早期“只按有效 HP decrease 生成唯一数字”的假设：致死显示值可超过 HP delta，直接零值可显示0，Role3 GXP显示单独除二，Pig8/毒/火可有两个producer；同一producer重放去重不得吞掉不同producer。盾满吸收/溢出与显式producer分别验收，不变更已有伤害公式或顺带实现未完成家族。
+- `pnum0..9` 由 combat-common 唯一加载，显示层直接消费 215 真值投影；不得影响 211/212 的怪物 `hurtnum/bnum`、连击计数、最高连击或结果页。
+- TestScene 与正式五关 P1/P2 使用同一 producer/view；角色与出战宠物的受击数字、hurt/dead、返回/重试/重载清理同链。
+- 5173 默认本地验收入口可发现并创建/刷新 210A 已有全宠物 QA 存档，不再要求用户预先知道 `?qaPetSave=all`；4174、非 localhost 与正式存档 schema/普通槽位规则保持隔离。
+- source-isolated 黑盒 trace、负场景、专项测试、runtime audit 与 940×590 逐状态差异证据。
+
+UI 原生化合同：
+- 显示列表清单：直接消费 215 冻结的 `ANumber/pnum` 对象树、字形、位距、锚点、矩阵、动画和销毁。
+- 原版机器真值 JSON：运行时和测试断言 `task-settings-215.player-pet-incoming-damage-feedback` 的 truthId/status/完整性并消费其投影；禁止复制坐标表。
+- 原版视觉基准：使用 215 的角色/宠物、P1/P2 和逐时间点 940×590 基准。
+- 允许的现代视觉例外：只允许稳定 event/runtime id；不新增可见替代层。
+- 逐状态验收：角色/宠物、P1/P2、普通/致死/无效/重复命中、215 判定适用的护盾/无敌/转嫁/环境状态，以及重试/返回/重载。
+- 差异证据：逐状态并排/叠图、对象/字形/几何/时序差异及 attack→settled damage/HP delta→producer/ordinal/display value→feedback→destroy 对应 trace；一击多producer按215逐项计数。
+
+完成定义：
+- 怪物及 215 声明且当前正式 Runtime 存在的其他 incoming-damage producer 在正式五关与 TestScene 中，以原版 `pnum` 给出正确、按producer区分、可清理的 P1/P2 数字反馈；拒绝碰撞无该producer的假数字，显式源例外按215保留，现有怪物伤害数字和连击语义不回归。尚不存在的房间/防御技能/家族能力明确登记消费者不适用；若验收要求补这些玩法，先按拆分触发生成同线task，不以mock宣告正式覆盖。
+
+验收标准：
+- 215 generator/check、Schema/完整性、字段级 verifier 与关键值/owner/timing mutation-kill 通过。
+- incoming-damage 专项覆盖角色/宠物、P1/P2、正式五关/TestScene、0/致死/无敌/护盾/转嫁/去重及生命周期；原 211/212 战斗反馈专项保持通过。
+- 5173 无隐藏知识旅程能看到并使用全宠物 QA 存档入口，刷新后 fixture 保持可复验；无查询参数误触发、非 localhost 暴露或正式槽位污染。
+- `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems` 与 `git diff --check` 通过。
+- 940×590 正式双人至少一关观察到角色和宠物 HP decrease 与各自头顶 `pnum` 一一对应，返回/重试/重载无残留，console warning/error 为 0。
+
+禁止范围：
+- 不修改伤害公式、怪物 AI、宠物家族行为、存档 schema、治疗/MP/miss；不把受击数字计入连击；不重做 211/212 资源或结果页。
+
+状态更新：
+- 更新机制/切片、当前线覆盖台账、task-board/history；完成后恢复按完整家族方法生成下一未闭合宠物家族，全部家族完成后再进入 194。
+
+推荐后续任务：
+- `TASK-SLICE-216A`（Done，已归档）→ `TASK-SLICE-216B1`（Done，已归档）→ `TASK-SLICE-216B2`（Done，已归档）→ `TASK-SLICE-216B`（Done，已归档）→ `TASK-SLICE-216C`（Ready）；全部完成后继续下一未闭合宠物家族；九家族全部完成后执行 `TASK-SLICE-194`。
+
+执行记录：
+- 2026-09-14 规模预检：新pnum资源派生、多个结算owner、端到端运行校准同时出现，命中task-generation三类必拆规则。本次只重排并交接，不修改src/资源、不降低215 verified或宣称216完成。完整原合同保留在本文件，分配与证据见 `docs/tasks/evidence/TASK-SLICE-216/preflight.md`。父任务只有216A/B/C全部验收后归档。
+
+执行结果（2026-09-14）：已完成并归档。全部子合同核销见 [216C交接](evidence/TASK-SLICE-216C/handoff.md)，当前下一执行项TASK-SETTINGS-221；父合同中的Ready/Split为历史输入，不再调度。
+
+
+### TASK-SLICE-216B
+
+任务类型：TASK-SLICE；任务模型：常规任务。
+
+功能条线：LINE-PRE-STAGE-2-3-PRESENTATION（Active；本task Done）。
+
+目标机制/切片：M-032、M-035、M-042、M-049、M-054、VS-072。
+
+规模预算：主工作包1，预计上下文压缩0，独立验收批次1。
+
+拆分触发：需要修改既有公式、补未实现家族/技能、第二Runtime、新存档字段或另一资源派生族，先保留合同拆同线解除项，不缩小断言。B1/B2已分别解除数值与环境反证。
+
+协作计划：主agent实现与归并，独立只读合同/验证核对；主agent单写，关闭前归并，无方法观测。
+
+输入资料：216A生产显示交接、父216完整合同、215 handoff/源索引/verified manifest、216预检与合同分配。
+
+输出产物：消费216A同一pnum资源/view，接入HeroCombatSystem、PetCombatEntitySession、环境、正式五关/TestScene当前producer；typed事件保留source/attack/runtime、producer/ordinal、target kind/owner、结算量/显示值/HP前后/世界锚点；精确适用性矩阵、source-isolated trace、负场景、运行审计和正式双人逐状态差异。TestScene已有玄龟必须接入，不能以未完成家族排除。
+
+完成定义：父216当前incoming运行条款在正式五关/TestScene闭合；P1/P2 hero/pet hurt/dead与数字同链，怪物数字、连击、最高值与结果页不回归；5173由216C承担。
+
+验收标准：普通/0/致死/无敌/盾满吸收与溢出/已有转嫁/重复attack及不同producer/环境/清理逐项验收；不存在效果精确登记消费者边界，不以mock冒充正式覆盖。独立trace、source/owner/timing变异、211/212与215检查；940×590实际双人至少一关hero/pet扣血和各自pnum、返回/重试/重载零残留、console零warning/error。test:systems、build、structure、annotations、workflow、audit、diff检查。
+
+禁止范围：不改伤害公式、怪物AI、宠物家族、存档schema、治疗/MP/miss或5173新入口。
+
+执行结果（2026-09-14）：[216B交接](evidence/TASK-SLICE-216B/handoff.md)记录全部证据与适用性，五关真实trace/清理、216碰撞状态及10变异、68原版显示对照、全系统/build通过。归档B，216C唯一Ready，父216保持Split；未提交Git。
+
+
+### TASK-SLICE-216B2
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本task Done）
+
+目标机制/切片：
+- `M-032`、`M-042`、`M-054`、`VS-072`
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 仅修现有环境伤害结算与来源/保护转发。若需新像素碰撞逆向、原版受击计量器、GXP/装备/未实现家族、治疗/存档或新增资源，保留合同并拆同线解除项；不通过直接显示取整掩盖浮点HP或漏盾。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主 agent实现共享结算与桥；只读源语义/负测试审查优先Luna，按agent-protocol准入表执行
+- 并行工作包：同一环境结算包内的源直接调用/保护时机与验收独立核对
+- 写入 owner：主 agent
+- 归并检查点：共享入口变更前、最终验证前
+- 方法观测：无
+
+输入资料：
+- [环境失败预检](evidence/TASK-SLICE-216B/environment-preflight.md)、[实际失败JSON](evidence/TASK-SLICE-216B/environment-preflight.json)。
+- [215源索引](../reverse-engineering/player-pet-incoming-damage-feedback-index.md)、[verified manifest](../reverse-engineering/ground-truth/manifests/task-settings-215-player-pet-incoming-damage-feedback.json)；IceThron/FireThron、BaseHero/Role3直接reduceHp与BaseObject保护属性相关窄段。
+- [216B1交接](evidence/TASK-SLICE-216B1/handoff.md)与当前HeroCombatSystem/HeroPartyRuntimeSystem、Stage21IceHazardSystem/Stage22FireHazardSystem、正式冰火/DEV火桥及其现有回归。
+
+输出产物：
+- 明确允许修正已证环境差异：int调用入参先于Role3比例；现有护盾吸收/溢出重入；直接reduceHp的hurt语义；已实现显式无敌状态在环境命中消耗attack前拒绝。普通受击时间窗不擅自视为原版isYourFather，不把applyHeroDamage怪物入口直接套到环境。
+- 英雄HP结算保持一个共享owner，怪物/直接环境只保留有证据的接受/动作策略；不得复制另一套减伤/盾公式。现有modern flat-defense只扣一次且维持非原版声称，不新增正式玄龟家族能力。
+- 环境hit保留hazard/source、attack、owner与时间身份；正式Stage21/Stage22及DEV火桥转发真实保护状态，伤害/击退/死亡来源不再与源结算脱节。现有随机范围、像素碰撞与动画不变。
+- 源独立expected、实际hazard→环境消费者trace和关键变异；历史失败JSON保持原样，不作为修复后通过输出覆盖。
+
+完成定义：
+- 5项历史数值冲突解除；实际冰/火环境消费者遵守已证int/盾/Role3和门控时机，P1/P2隔离；旧怪物/转嫁链不回归。完成后恢复216B真实producer接线，不关闭父216/VS-072。
+
+验收标准：
+- 初始HP200：冰16.5→HP184；火46.5→HP154；冰盾100→HP200/盾84；火盾30→HP184/盾0；冰sd8→HP186。另覆恰好耗尽、sd+overflow、零、致死及现代flatdef兼容。
+- 真实hazard门控/共享环境入口测试P1/P2、保护不消耗hitID、保护解除同attack可命中、重复attack拒绝、不同hazard独立；直接命中不凭普通怪物hurt保护窗被吞掉。
+- producer尚未接线，本项只验证真实伤害/盾/动作/来源状态；原版语义边界与现有现代不适用项明确记录。正式两桥与DEV火入口在实际运行函数中验证，不仅搜索源码。
+- int前后交换/去int、绕盾/丢overflow、错误owner/来源、保护固定false/保护后才消耗ID等变异必须失败。
+- 216B1专项、全 `test:systems`、`build`、`check:structure`、`check:annotations`、`check:workflow`、`audit:problems`、`git diff --check`通过；至少一条实际浏览器环境入口验证。
+
+禁止范围：
+- 不接新pnum/QA入口，不修改随机伤害范围、像素几何/资源/怪物AI/完整家族/受击计量器/存档schema。
+
+状态更新：
+- 完成归档本项、恢复216B唯一Ready；回写PG-017存量环境反证解除证据，全面性/存量条件不足不归档PG。
+
+推荐后续任务：
+- TASK-SLICE-216B。
+
+执行结果（2026-09-14）：共用HP结算修复5项反证，20+24实际状态、保护重试/并行来源、13变异、B1回归及全系统/build通过；边界见 [216B2交接](evidence/TASK-SLICE-216B2/handoff.md)。恢复216B唯一Ready，父216未完成，未提交Git。
+
+### TASK-SLICE-216B1
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本task Done）
+
+目标机制/切片：
+- `M-032`、`M-042`、`M-054`、`VS-072`
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 仅修正已存在承伤路径的整数赋回、保护/盾/转嫁顺序；若必须新增未实现GXP/装备/宠物能力、重做全部伤害公式、改治疗或存档、派生新资源，则保留当前合同并生成同线解除项。不得以简单101特例绕过满盾/无敌/溢出。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主 agent负责共享结算与桥接实现；独立源fixture/负测试核对优先Luna，按agent-protocol准入表执行
+- 并行工作包：同一结算包内的源边界与测试覆盖只读审查
+- 写入 owner：主 agent
+- 归并检查点：修改公式前及最终验收前
+- 方法观测：无
+
+输入资料：
+- [216B预检](evidence/TASK-SLICE-216B/preflight.md)、[失败数值](evidence/TASK-SLICE-216B/settlement-preflight.json)；该历史probe复现旧调用顺序，不是修复后验收入口。
+- [215源索引](../reverse-engineering/player-pet-incoming-damage-feedback-index.md)、[manifest](../reverse-engineering/ground-truth/manifests/task-settings-215-player-pet-incoming-damage-feedback.json)中的原始AS3/sourceChecks、native整数执行与盾/转嫁fixtures。
+- HeroCombatSystem、PetTurtleSkillSystem、PetBattleOwnershipSystem、TestSceneCombatBridge/BossArena，Role3Defense/Ultimate当前数值写入消费者；只窄读相关函数。
+- 现有 `tools/system-tests.ts:4112..4149`、`tools/system-tests/pet-battle-ownership-tests.ts` 与对应HeroCombat测试。
+
+输出产物：
+- 在本解除项内明确允许修正以下已证既存结算差异：玄龟owner乘0.95的AS3 int赋回（101→95，pet仍6）；已有Role3减伤输入的int边界（101×0.99先截99）；TestScene碰撞拒绝/无敌与盾裁决先于宠物转嫁副作用。
+- 一个共享结算接缝持有现有英雄接受/拒绝→已实现减伤→盾吸收/溢出→转嫁→hero/pet HP的顺序；Monster30与Monster3桥只适配来源和目标，不能各写一份保护逻辑。不要把视图回调用作结算owner。
+- 保留原盾溢出在相关override重新进入时的源整数/顺序语义；只处理当前实际存在的防御能力，不新增GXP/装备/家族行为。已有flat-defense的归属先从其直接消费者核对，不能顺手把未知解释为源原值。
+- 由源215冻结expected、真实当前共享入口产生actual的独立测试与source/owner/顺序变异；更新旧测试固化的96错误断言。历史失败JSON保留，不被通过运行覆盖。
+
+完成定义：
+- 当前已有路径的101转嫁、Role3整数边界、无敌拒绝、满盾与盾溢出、致死/失效link以及P1/P2隔离均由正确的单一结算顺序处理；没有保护被拒仍扣宠物血的副作用。
+- 修复实际数值与副作用来源后恢复216B，供其发布真实settledDamage/displayValue/HP trace。本项不接入pnum producer、不宣称VS-072或玄龟完整家族完成。
+
+验收标准：
+- 101→hero95/pet6；hero/pet原HP200→105/194；旧ceil变异必须失败。
+- 无敌/碰撞拒绝与满额盾保护hero/pet不变；盾消耗基于转嫁前的真实输入，溢出才进入转嫁。以先转嫁再盾、先转嫁再拒绝、丢失overflow、错误owner变异证明顺序，不能只验最终总HP。
+- 当前Role3 sd level1输入101、无flat-defense条件下，结算99，HP200→101；禁用int变异必须失败。多级/零/致死和当前盾组合按已证源范围扩展。
+- 实际TestScene Monster30/Monster3消费者通过共享入口；正式既有HeroCombat消费者、角色技能与宠物owner回归通过。至少一条真实运行路径观察保护/转嫁数值；不要求新增UI。
+- `npm run test:systems`、`npm run build`、`npm run check:structure`、`npm run check:annotations`、`npm run check:workflow`、`npm run audit:problems`、`git diff --check`通过。
+
+禁止范围：
+- 不实现完整玄龟家族，不调整其他家族/技能系数、怪物AI、治疗、MP、存档schema；不接新伤害数字、QA入口或新资源。
+
+状态更新：
+- 完成后归档本task，恢复216B唯一Ready；216/VS-072完整合同保持，当前线仍Active。回写PG-017旧测试反证的修复证据，未满足其长期/存量条件不得归档PG。
+
+推荐后续任务：
+- TASK-SLICE-216B。
+
+执行结果（2026-09-14）：共享结算、两个实际TestScene消费者修复，36+216状态、10生产变异与全系统/build通过；完整边界见 [216B1交接](evidence/TASK-SLICE-216B1/handoff.md)。216B恢复唯一Ready，父216/VS-072未完成，未提交Git。
+
+### TASK-SLICE-216A
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本task Done）
+
+目标机制/切片：
+- `M-032`、`M-035`、`M-042`、`M-049`、`M-054`、`VS-072`
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 发现215影响实现的未知或需改伤害owner、派生其他资源族，先拆同线解除项；不得在本批接全部战斗结算。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主 agent 负责实现与归并；可独立验证的只读包优先 Luna，按 agent-protocol 准入表执行
+- 并行工作包：主工作包内的独立合同/验证核对；无可并行有用工作时串行
+- 写入 owner：主 agent
+- 归并检查点：实现前及关闭前
+- 方法观测：无
+
+输入资料：
+- 父合同 [TASK-SLICE-216](task-definitions/TASK-SLICE-216.md)，未分配条款仍由父合同持有。
+- [215 handoff](evidence/TASK-SETTINGS-215/handoff.md)、[源索引](../reverse-engineering/player-pet-incoming-damage-feedback-index.md)、[verified manifest](../reverse-engineering/ground-truth/manifests/task-settings-215-player-pet-incoming-damage-feedback.json)。
+- [216 预检与合同分配](evidence/TASK-SLICE-216/preflight.md)。
+
+输出产物：
+- 从 restored OtherMat1.swf 的 verified 十个 pnum 派生运行资源及可再生检查；combat-common 为唯一加载 owner。
+- 显示层直接消费215的glyphs/animation/visualTruth投影，提供供216B调用的有界显示入口和清理合同；不得复制坐标表或复用hurtnum。
+- 940×590 原版/现代逐状态对象、字形、几何、时序及显式销毁差异，原版基准保持独立；代表图与精简报告写入本task evidence。
+
+完成定义：
+- 十字形来源/像素/alpha与原版匹配，角色/宠物×P1/P2、0/10/1234567890、七时间片及销毁显示API可复验；只关闭显示资源与投影，不证明真实伤害producer接入。
+
+验收标准：
+- 215 generator/check/self-test、Schema/完整性、生产资源再生成检查与字段/owner/timing mutation-kill通过。
+- 生产显示入口的独立差异验证通过，沿用215原版视觉基准和零可见例外；现代重放明确标为显示API验证。
+- 原211/212反馈专项、build、check:structure、check:annotations、check:workflow、audit:problems、git diff --check通过。
+
+禁止范围：
+- 不修改伤害公式、角色/宠物producer、QA存档、怪物数字/连击语义；不宣称VS-072完成。
+
+状态更新：
+- 归档本task并激活216B；父216保持Split，M-054/VS-072实现未闭合，当前线Active。
+
+推荐后续任务：
+- TASK-SLICE-216B。
+
+执行结果（2026-09-14）：十个源字形/精简投影/唯一combat-common和生产显示API完成；32原测量态、68真实Phaser双renderer态、13生产+13verifier+1采样变异通过，像素最多2/255通道取整差。215源检查、211/212回归、build、结构/标注/工作流通过；真实伤害producer仍由216B承担，未提升VS-072闭合。交接见 [216A handoff](evidence/TASK-SLICE-216A/handoff.md)。
+
 
 ### TASK-SETTINGS-215
 

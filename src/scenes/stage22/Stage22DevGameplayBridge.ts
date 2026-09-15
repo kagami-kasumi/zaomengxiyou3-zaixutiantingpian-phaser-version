@@ -10,6 +10,7 @@ import {
   updateStage22FireHazards,
   type Stage22FireHazardModel,
   type Stage22FireTarget,
+  type Stage22FireHit,
 } from '../../systems/Stage22FireHazardSystem';
 import {
   STAGE22_GROUND_PLATFORM_ID,
@@ -21,7 +22,7 @@ import {
   getStage22CameraScrollX,
   stage22MovementPlatforms,
 } from '../../systems/Stage22TraversalSystem';
-import { createHeroPartyRuntime } from '../HeroPartyRuntimeBridge';
+import { createHeroPartyRuntime, type HeroPartyRuntime, type HeroPartyViewSnapshot } from '../HeroPartyRuntimeBridge';
 
 const petGroundEnvironment = getPetGroundEnvironment(22);
 
@@ -73,16 +74,7 @@ export function createStage22DevGameplay(
       });
 
       const snapshots = heroes.snapshots();
-      const targets: Stage22FireTarget[] = snapshots.map((hero) => ({
-        slot: hero.slot,
-        x: hero.x,
-        y: hero.y,
-        width: hero.view.displayWidth,
-        height: hero.view.displayHeight,
-        facingX: hero.facingX,
-        alive: hero.alive,
-        isYourFather: false,
-      }));
+      const targets = createDevFireTargets(snapshots);
       const hits = updateStage22FireHazards(
         hazards,
         targets,
@@ -96,20 +88,7 @@ export function createStage22DevGameplay(
         });
       }
       if (!noDamage) {
-        heroes.applyEnvironmentHits(hits.map((hit) => {
-          const hero = snapshots.find((candidate) => candidate.slot === hit.target);
-          const halfWidth = (hero?.width ?? 0) / 2;
-          return {
-            target: hit.target,
-            damage: hit.damage,
-            knockbackX: hit.knockbackX,
-            bounds: {
-              left: STAGE22_TRAVEL_LEFT + halfWidth,
-              right: STAGE22_TRAVEL_RIGHT - halfWidth,
-            },
-            deathReason: 'movement-trap',
-          };
-        }));
+        applyDevFireHits(heroes, snapshots, hits, scene.time.now);
       }
       updateFireViews(hazards);
       const settledSnapshots = heroes.snapshots();
@@ -134,6 +113,43 @@ export function createStage22DevGameplay(
       heroes.destroy();
     },
   };
+}
+
+export function createDevFireTargets(snapshots: readonly HeroPartyViewSnapshot[]): Stage22FireTarget[] {
+      const targets: Stage22FireTarget[] = snapshots.map((hero) => ({
+        slot: hero.slot,
+        x: hero.x,
+        y: hero.y,
+        width: hero.view.displayWidth,
+        height: hero.view.displayHeight,
+        facingX: hero.facingX,
+        alive: hero.alive,
+        isYourFather: hero.environmentProtected,
+      }));
+  return targets;
+}
+
+export function applyDevFireHits(
+  heroes: HeroPartyRuntime,
+  snapshots: readonly HeroPartyViewSnapshot[],
+  hits: readonly Stage22FireHit[],
+  timeMs: number,
+): void {
+        heroes.applyEnvironmentHits(hits.map((hit) => {
+          const hero = snapshots.find((candidate) => candidate.slot === hit.target);
+          const halfWidth = (hero?.width ?? 0) / 2;
+          return {
+            source: { hazardId: hit.hazardId, attackId: hit.attackId, kind: 'fire-thorn', timeMs: timeMs },
+            target: hit.target,
+            damage: hit.damage,
+            knockbackX: hit.knockbackX,
+            bounds: {
+              left: STAGE22_TRAVEL_LEFT + halfWidth,
+              right: STAGE22_TRAVEL_RIGHT - halfWidth,
+            },
+            deathReason: 'movement-trap',
+          };
+        }));
 }
 
 export function hasVisibleStage22FirePixel(

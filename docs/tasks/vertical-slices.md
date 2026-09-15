@@ -1,5 +1,21 @@
 # 纵向切片复现表
 
+2026-09-14 216C及父216完成：默认5173可发现全宠物档、显式点击/刷新保留/原存档进入地图、正式与损坏槽保护及4174/非本地/query隔离9浏览器状态通过。A/B完整证据核销，M-054当前producer已复现、VS-072已完成；TASK-SETTINGS-221玄龟完整行为证据唯一Ready，六族与194后续仍待，功能线Active。见 `docs/tasks/evidence/TASK-SLICE-216C/handoff.md`。
+
+2026-09-14 216B完成：当前hero/pet/environment/turtle producer同链，216实际TestScene adapter状态、五关双owner真实trace/清理、1-2实际英雄与宠物pnum和68原版显示对照通过。216C唯一Ready；父216/VS-072仍待默认5173入口，未实现家族不冒充覆盖。见 `docs/tasks/evidence/TASK-SLICE-216B/handoff.md`。
+
+2026-09-14 216B2环境结算前置完成，216B恢复唯一Ready；20数值/双owner、4保护序列/并行来源、24实际浏览器adapter及13变异通过。VS-072仍缺真实数字producer/正式视觉和216C本地QA，未把函数运行当完整场景验收。见 `docs/tasks/evidence/TASK-SLICE-216B2/handoff.md`。
+
+2026-09-14 VS-072环境结算尚未通过：216B2唯一Ready，216B Blocked待其纠正5项实际冰/火int/盾/Role3数值及保护/身份转发；B1完成不覆盖环境。全部数字与QA合同保持，见 `docs/tasks/evidence/TASK-SLICE-216B/environment-preflight.md`。
+
+2026-09-14 216B1结算前置完成，216B恢复唯一Ready；36共享入口、216真实TestScene函数/碰撞状态和10变异通过。VS-072仍缺真实数字producer及正式视觉旅程，216C仍缺5173入口；本次不是全场景视觉验收。见 `docs/tasks/evidence/TASK-SLICE-216B1/handoff.md`。
+
+2026-09-14 VS-072实际结算预检未通过：216B Blocked，216B1唯一Ready修既有整数/保护/盾/转嫁，之后恢复B真实producer验收；216C仍待本地QA入口。失败数值和源位置见 `docs/tasks/evidence/TASK-SLICE-216B/preflight.md`。
+
+2026-09-14 216A资源/显示完成，216B唯一Ready。VS-072仍待真实承伤producer和正式旅程，216C仍待5173 QA入口；68态显示API与原版差异通过不能作为实际伤害执行证明。见 `docs/tasks/evidence/TASK-SLICE-216A/handoff.md`。
+
+2026-09-14 216规模预检：父216 Split，216A资源/显示唯一Ready，216B正式producer与216C本地QA入口Planned。215 verified保持；未改src或生产资源，不提升M-054/VS-072现代闭合状态。完整合同分配见 `docs/tasks/evidence/TASK-SLICE-216/preflight.md`。
+
 本文记录准备复现哪些可玩切片、每个切片依赖哪些已扒机制、实现到什么程度。具体任务状态以 `docs/tasks/task-board.md` 为准。
 
 ## 状态定义
@@ -86,7 +102,7 @@
 | VS-069 战斗技能 HUD 闭环 | 待机制 | 正式战斗 HUD 可见显示当前角色五槽技能，与技能功能页绑定、MP/冷却/可用性、P1/P2 和存档同源 | M-015、M-041、M-044、M-049、M-052 | `TASK-SETTINGS-197`、`TASK-SLICE-198/199` | 175D/183 只证明技能功能页；197 另建战斗 HUD 显示列表/verified 真值，198 做可见投影，199 闭合实时 owner 联动 |
 | VS-070 Stage 2-3 前表现整改正式旅程 | 待实现 | 冷启动正式 P1/P2 档串联装备 hover、宠物 UI/动画与实际伤害反馈、五角色动作、双向伤害数字/连击和技能 HUD，跨页/跨关/重载一致 | M-036、M-042、M-044、M-047、M-049、M-052、M-053、M-054、VS-066..069、VS-071..072 | `TASK-SLICE-200` | 只在所有前置/动态生成子 task 完成后执行；自动旅程和 940×590 人工验收全通过后才恢复 Stage 2-3 |
 | VS-071 怪物命中可见反馈与连击闭环 | 已完成 | Role、宠物与法宝只有在实际扣减怪物 HP 后才共享 hurt/HP、普通/暴击伤害数字与原版连击反馈，结果页记录真实最高连击 | M-032、M-035、M-049、M-053 | `TASK-SETTINGS-211`、`TASK-SLICE-212` 已完成；209/210 已闭合马系正式伤害 | 211 的 23 状态 verified truth 由 212 直接消费；source-isolated trace、负场景、结果页专项及 940×590 双人正式 Stage 1-2 已证明可见反馈与 HP delta 一一对应 |
-| VS-072 角色/宠物承伤数字闭环 | 待实现 | 怪物及证据声明的 incoming-damage producer 对角色/出战宠物按215的source producer/ordinal与显示值，在正确目标锚点显示原版 `pnum`，P1/P2 同源且不计连击 | M-032、M-035、M-042、M-049、M-054 | `TASK-SETTINGS-215`、`TASK-SLICE-216` | 215 先闭合 `pnum0..9`、最终显示值、特殊防御、owner、几何/时序真值；216 再接入正式五关/TestScene、HP delta trace、负场景和 940×590 验收 |
+| VS-072 角色/宠物承伤数字闭环 | 已完成 | 当前存在incoming producer按源显示值/ordinal在真实目标锚点显示pnum，P1/P2同源、不计连击、生命周期清理 | M-032、M-035、M-042、M-049、M-054 | TASK-SETTINGS-215、TASK-SLICE-216及A/B1/B2/B/C已完成 | 216C/handoff完整核销：68原版显示对照、216实际caller状态、五关双人trace/重试/返回/重载、1-2hero与pet真实数字和9本地QA旅程；不存在玩法的适用性边界见216B |
 
 ## 第一批推荐执行顺序
 

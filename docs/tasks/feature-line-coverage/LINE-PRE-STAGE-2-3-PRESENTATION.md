@@ -1,5 +1,21 @@
 # LINE-PRE-STAGE-2-3-PRESENTATION 覆盖台账
 
+2026-09-14 216C及父216完成：默认5173可发现全宠物档、显式点击/刷新保留/原存档进入地图、正式与损坏槽保护及4174/非本地/query隔离9浏览器状态通过。A/B完整证据核销，M-054当前producer已复现、VS-072已完成；TASK-SETTINGS-221玄龟完整行为证据唯一Ready，六族与194后续仍待，功能线Active。见 `docs/tasks/evidence/TASK-SLICE-216C/handoff.md`。
+
+2026-09-14 216B完成：当前hero/pet/environment/turtle producer同链，216实际TestScene adapter状态、五关双owner真实trace/清理、1-2实际英雄与宠物pnum和68原版显示对照通过。216C唯一Ready；父216/VS-072仍待默认5173入口，未实现家族不冒充覆盖。见 `docs/tasks/evidence/TASK-SLICE-216B/handoff.md`。
+
+2026-09-14 216B2完成：环境与怪物共用HP结算，int/盾/Role3与显式保护、来源/时间转发已修复；20数值/双owner、4保护序列/并行来源、24实际浏览器adapter状态、13变异及全回归通过。216B恢复唯一Ready，pnum producer/正式视觉与QA仍未闭合。见 `docs/tasks/evidence/TASK-SLICE-216B2/handoff.md`。
+
+2026-09-14 216B环境预检：实际冰/火入口5项浮点HP/漏盾/漏Role3反证，216B再Blocked、216B2唯一Ready修环境直接结算/保护与身份，B1成果保持。未改src、不把数字取整当结算正确、M-054/VS-072不提升。见 `docs/tasks/evidence/TASK-SLICE-216B/environment-preflight.md`。
+
+2026-09-14 216B1完成：共享结算101→95+6、Role3整数、保护/盾先于转嫁及溢出重入通过36组共享入口、216组真实TestScene caller状态、10类变异和全系统/build；216B恢复唯一Ready。未接pnum producer，父216/VS-072及5173入口仍未完成。见 `docs/tasks/evidence/TASK-SLICE-216B1/handoff.md`。
+
+2026-09-14 216B预检：实际101转嫁96+6（源95+6）、TestScene保护/满盾前扣pet、Role3整数赋回遗漏已复现。216B Blocked，216B1唯一Ready修正已存在结算后恢复B；不更改215 verified或216A显示完成事实，不提升M-054/VS-072。失败证据见 `docs/tasks/evidence/TASK-SLICE-216B/preflight.md`。
+
+2026-09-14 216A完成：十pnum源字形、唯一combat-common、精简真值投影和生产显示API通过32原测量态、68真实WebGL/Canvas状态及27变异；像素差异仅最多2/255通道取整，未声称零差异。216B唯一Ready承担全部真实producer/正式运行，216C承担5173入口；父216仍Split，M-054/VS-072现代闭合不提升。交接见 `docs/tasks/evidence/TASK-SLICE-216A/handoff.md`。
+
+2026-09-14 TASK-SLICE-216规模预检：新增pnum资源派生、多个结算owner与端到端校准同时出现，按task-generation拆为216A（Ready，资源/显示）→216B（Planned，全部当前producer与正式运行）→216C（Planned，5173 QA入口及父合同核销）。父216保持Split，215 verified不变；现有TestScene玄龟转嫁明确纳入B，未修改src/生产资源，M-054/VS-072现代闭合状态不提升。交接见 `docs/tasks/evidence/TASK-SLICE-216/preflight.md`。
+
 ## 用户确认范围
 
 - 所有玩家可见的装备格与已穿戴槽在悬停时显示该实例的有效数值，包含基础值、强化/随机/继承影响及原版字段格式；不另建装备数值 owner。
@@ -34,7 +50,7 @@
 | 宠物战斗公共类 | 203/204A 建立旧骨架；205 闭合 35 形态基类证据；206 冻结组合设计；204B 让结构 P1/P1B gate=0；207/208A 让猴系语义 P1R=0；209/210 让马系 43 项合同与正式 P1H=0 | 猴、马、青龙三族完整家族链已闭合（青龙44合同/P1G=0）；其余六家族与最终兼容入口仍未闭合 | 后续继续按完整证据→独立语义 verifier→正式运行合同逐族推进，最终 all=0 |
 | 宠物真动画 | 193 已冻结 35 形态/38 技能映射；193A..193D 已闭合猴/马视觉真值与投影；208A/210 已把两族动作/effect 绑定到 CombatRuntime action/projectile token | 猴、马、青龙三族语义/真动画同链已闭合；其余六家族尚未完成同标准合同 | 逐族闭合后由 194 最终跨族校准 |
 | 怪物命中反馈/伤害数字/连击 | 211 已生成 23 状态 verified 真值；212 已让英雄、猴/马宠物、法宝和 effect 的成功 HP decrease 共用 `CombatFeedbackEvent`、原版普通/暴击位图、队列与 Batter view | 无；effect 明确只显示不增连击，miss/0/dedup/dead 无反馈，结果页读取真实最高连击 | 专项/source trace/结果页、全系统、build 与 940×590 双人 Stage 1-2 零 console 通过；`TASK-SLICE-212/runtime-audit.md` |
-| 角色/宠物承伤数字 | 原版 AS3 已定位 `BaseHero.reduceHp()/BasePet.reduceHp() -> pnum0..9 -> ANumber`；现代怪物攻击、角色/宠物 HP decrease 与 hurt/dead 已存在；210A 全宠物 fixture 仅由隐藏查询参数触发 | 211/212 只覆盖怪物作为受伤目标；现代 incoming-damage producer 未创建角色/宠物数字，`pnum` 也未进入真值/资源 bundle/view；5173 默认入口不可发现全宠物 QA 档 | 215 冻结 `pnum`、数值/特殊防御/owner/几何/时序；216 直接消费并以角色/宠物、P1/P2、五关/TestScene、HP delta/负场景、5173 QA 入口可发现性和 940×590 差异关闭 |
+| 角色/宠物承伤数字 | 215完整源证据与216A/B1/B2/B/C全部完成；pnum十字形、当前producer、五关/TestScene与默认本地QA | 本切片已闭合；未实现家族能力保持独立缺口，不外推整族完成 | 216C/handoff全合同核销；221接玄龟完整家族行为证据，194仍待全部家族 |
 | 五角色动作流畅度 | 069/158 视觉索引/桥、163/164/173/174 几何与行为证据 | 用户观察到角色间卡顿与流畅度不一；根因可能在资源完整性、帧时序/持帧、clock、动作转移、加载或投影 | 195 跨角色可测对照与根因分类；只为受影响角色生成单角色修复 task；196 五角色统一校准 |
 | 战斗技能 HUD | 技能功能页 175D/183、五槽绑定数据、HUD snapshot/bridge 已有 | 用户在战斗 UI 中未看到角色技能；旧 M-049/VS-051 关闭结论待复核，不得用技能功能页替代 | 197 战斗 HUD 显示列表/verified 真值；198 可见原生投影；199 绑定/MP/冷却/P1-P2/存档联动 |
 | 正式旅程 | 当前单 schema、五关 Runtime、功能页 router 和旧 159 旅程 | 新 UI/动画组合后的冷启动、跨页/跨关/双人/重载尚未证明 | 200 独立自动旅程 + 940×590 人工视觉/手感验收 |
@@ -66,7 +82,7 @@
 23. `TASK-SLICE-210A`：Done；用户运行反证指出怪物不会伤害宠物。原版 `BaseBullet.checkAttack()` 在怪物攻击命中玩家候选后仍检查其出战宠物；现代正式桥现把同一 active attack 按宠物运行坐标、防御与 attack-id 去重派入 `PetCombatRuntime.damageEvents`，形成 HP decrease、hurt/dead 生命周期。5173 第 6 槽另由 localhost-only `qaPetSave=all` fixture 提供 P1/P2 各 35 形态、9 物种的视觉档，不覆盖其他槽。
 24. `TASK-SETTINGS-211 -> TASK-SLICE-212`：Done；verified 真值、统一成功 HP decrease producer、原版普通/暴击数字、共享连击/最高值、结果页与双人正式运行已闭合。
 25. `TASK-SETTINGS-213 -> TASK-SLICE-214`：213 Done、214 Split、214A Ready、214B Planned；213 已闭合 dragon1..4 的 44 项 verified 合同、11 显示对象/111 基准、九对象 ltwj、qlaoyi gate-only MP、owner/命中治疗/P1-P2 生命周期，214A 准备完整资源与对象级差异，214B 直接消费同一 truth 完成全部正式实现；资源准备不等于家族闭合。
-26. `TASK-SETTINGS-215 -> TASK-SLICE-216`：215 Done、216 Ready；用户反证表明角色/宠物实际承伤没有 `pnum`，且 5173 默认入口看不到查询参数门控的全宠物 QA 存档；先做 verified 真值，再闭合正式 P1/P2/TestScene incoming-damage 可见链与 localhost QA 入口可发现性。
+26. `TASK-SETTINGS-215 -> TASK-SLICE-216A -> TASK-SLICE-216B1 -> TASK-SLICE-216B2 -> TASK-SLICE-216B -> TASK-SLICE-216C`：215/216A/216B1/216B2 Done，216 Split，216B唯一Ready接全部真实producer；C本地QA仍Planned。用户反证的全部承伤与存档合同保持，未宣称现代完成。
 27. 旧 `TASK-ARCH-204C..G` 与 `TASK-SETTINGS-193E..TASK-SLICE-193R` 全部撤销；只为当前家族生成连续完整任务，完成前不切换家族；215/216 是用户反证插入的同线反馈修复对。
 28. `TASK-SLICE-194`：所有按新方法生成的完整家族任务及 212、216 双向伤害反馈完成后，做 P1/P2、跨物种、页面↔战斗↔存档的最终校准。
 29. `TASK-SETTINGS-195`：建立五角色同一帧时序/转移/加载对照，按证据生成“每受影响角色一 task”并插入 196 之前。

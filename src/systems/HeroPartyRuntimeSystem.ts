@@ -10,7 +10,10 @@ import type { PlayerInputState, PlayerSlot } from './InputSystem';
 import type { HeroId } from './HeroNormalAttackSystem';
 import type { EquipmentLoadout } from './EquipmentSystem';
 import type { HeroProgressionModel } from './ProgressionSystem';
-import { updateHeroCombat } from './HeroCombatSystem';
+import { applyHeroDirectDamage, updateHeroCombat } from './HeroCombatSystem';
+import { createDamageEvent } from './CombatSystem';
+import { createIncomingDamageFeedbackModel, destroyIncomingDamageFeedbackModel,
+  type IncomingDamageFeedbackModel } from './IncomingDamageFeedbackSystem';
 import { createProjectileSystem, updateProjectiles, type ProjectileSourceSnapshot } from './ProjectileSystem';
 import {
   isRole5LoongSwordProjectileAttack,
@@ -69,6 +72,8 @@ export type HeroRuntimeSnapshot = Readonly<{
   width: number;
   facingX: -1 | 1;
   alive: boolean;
+  /** Existing explicit magic-ring immunity only; not the normal post-hit time window. */
+  environmentProtected: boolean;
   hp: number;
   maxHp: number;
   mp: number;
@@ -77,6 +82,7 @@ export type HeroRuntimeSnapshot = Readonly<{
 }>;
 
 export type HeroPartyEnvironmentHit = Readonly<{
+  source?: Readonly<{ hazardId: string; attackId: number; kind: 'ice-thorn' | 'fire-thorn'; timeMs: number }>;
   target: PlayerSlot;
   damage: number;
   knockbackX: number;
@@ -93,6 +99,8 @@ export type HeroPartyRuntimeModel = {
   combat: Stage1CombatRuntime;
   projectiles: ReturnType<typeof createProjectileSystem>;
   destroyed: boolean;
+  environmentSerial: number;
+  incoming: IncomingDamageFeedbackModel;
 };
 
 export function createHeroPartyRuntimeModel(
@@ -112,12 +120,20 @@ export function createHeroPartyRuntimeModel(
     if (definition.skillLoadout) combat.skill.loadout = definition.skillLoadout;
     return { combat, movement: movement.members[index]!.movement };
   });
+  const incoming = createIncomingDamageFeedbackModel();
+  for (const member of members) {
+    member.combat.combat.incomingFeedback = { model: incoming, targetKind: 'hero', ownerSlot: member.combat.slot,
+      targetId: member.combat.slot, targetRuntimeId: `${incoming.runtimeId}:${member.combat.slot}`,
+      worldAnchor: () => ({ x: member.movement.x, y: member.movement.y }) };
+  }
   return {
     members,
     movement,
     combat: createStage1CombatRuntime(),
     projectiles: createProjectileSystem(),
     destroyed: false,
+    environmentSerial: 0,
+    incoming,
   };
 }
 
@@ -269,16 +285,21 @@ export function applyHeroPartyEnvironmentHits(
   for (const hit of hits) {
     const member = runtime.members.find((candidate) => candidate.combat.slot === hit.target);
     if (!member || member.combat.combat.state === 'dead') continue;
-    member.combat.combat.hp = Math.max(0, member.combat.combat.hp - hit.damage);
+    const source = hit.source;
+    const event = createDamageEvent({
+      sourceId: source?.hazardId ?? 'environment-direct', targetId: hit.target,
+      attackId: source ? `${source.hazardId}:${source.attackId}` : `environment-direct:${++runtime.environmentSerial}`,
+      actionName: source?.kind ?? 'environment-direct', amount: hit.damage, attackKind: 'magic',
+      knockbackX: hit.knockbackX, knockbackY: 0, occurredAtMs: source?.timeMs ?? 0,
+    });
+    if (!applyHeroDirectDamage(member.combat.combat, event, event.occurredAtMs)) continue;
     member.movement.x = Math.min(
-      Math.max(member.movement.x + hit.knockbackX, hit.bounds.left),
+      Math.max(member.movement.x + (member.combat.combat.role3KnockbackImmune ? 0 : hit.knockbackX), hit.bounds.left),
       hit.bounds.right,
     );
     if (member.combat.combat.hp === 0) {
       member.combat.combat.state = 'dead';
       member.combat.deathReason = hit.deathReason;
-    } else {
-      member.combat.combat.state = 'hurt';
     }
   }
 }
@@ -300,6 +321,7 @@ export function snapshotHeroParty(runtime: HeroPartyRuntimeModel): readonly Hero
     width: member.movement.width,
     facingX: member.movement.facingX,
     alive: member.combat.combat.state !== 'dead',
+    environmentProtected: Boolean(member.combat.combat.magicInvulnerability),
     hp: member.combat.combat.hp,
     maxHp: member.combat.combat.maxHp,
     mp: member.combat.mp,
@@ -315,4 +337,5 @@ export function destroyHeroPartyRuntime(runtime: HeroPartyRuntimeModel): void {
   runtime.movement.members.length = 0;
   runtime.projectiles.projectiles.length = 0;
   destroyCombatFeedbackModel(runtime.combat.feedback);
+  destroyIncomingDamageFeedbackModel(runtime.incoming);
 }

@@ -1,0 +1,505 @@
+{
+  "scope": "Actual production Phaser view, display API only; no damage execution claim",
+  "stateCount": 68,
+  "geometryTolerance": "0.051px source twips; alpha 1/255 native quantization; scale 0.0001",
+  "pixelTolerance": "Maximum 2/255 composited channel difference (premultiplied alpha rounding); no displaced glyph pixels permitted",
+  "rows": [
+    {
+      "id": "hero-P1-0",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 16,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P1-0.1",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 2,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P1-0.2",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P1-0.25",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P1-0.75",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 486,
+      "maximumChannelDifference": 2
+    },
+    {
+      "id": "hero-P1-1.249",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P1-1.25",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P2-0",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 16,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P2-0.1",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 2,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P2-0.2",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P2-0.25",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P2-0.75",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 486,
+      "maximumChannelDifference": 2
+    },
+    {
+      "id": "hero-P2-1.249",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P2-1.25",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P1-0",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 16,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "pet-P1-0.1",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 2,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "pet-P1-0.2",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "pet-P1-0.25",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "pet-P1-0.75",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 486,
+      "maximumChannelDifference": 2
+    },
+    {
+      "id": "pet-P1-1.249",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P1-1.25",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P2-0",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 16,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "pet-P2-0.1",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 2,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "pet-P2-0.2",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "pet-P2-0.25",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "pet-P2-0.75",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 486,
+      "maximumChannelDifference": 2
+    },
+    {
+      "id": "pet-P2-1.249",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P2-1.25",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "direct-value--12",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "direct-value-0",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "direct-value-10",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "direct-value-1234567890",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 104,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "explicit-destroy",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "camera-hero-P2",
+      "renderer": "webgl",
+      "geometryPassed": true,
+      "differentPixels": 1,
+      "maximumChannelDifference": 1
+    },
+    {
+      "id": "hero-P1-0",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P1-0.1",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P1-0.2",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P1-0.25",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P1-0.75",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 1192,
+      "maximumChannelDifference": 2
+    },
+    {
+      "id": "hero-P1-1.249",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P1-1.25",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P2-0",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P2-0.1",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P2-0.2",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P2-0.25",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P2-0.75",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 1192,
+      "maximumChannelDifference": 2
+    },
+    {
+      "id": "hero-P2-1.249",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "hero-P2-1.25",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P1-0",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P1-0.1",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P1-0.2",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P1-0.25",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P1-0.75",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 1192,
+      "maximumChannelDifference": 2
+    },
+    {
+      "id": "pet-P1-1.249",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P1-1.25",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P2-0",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P2-0.1",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P2-0.2",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P2-0.25",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P2-0.75",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 1192,
+      "maximumChannelDifference": 2
+    },
+    {
+      "id": "pet-P2-1.249",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "pet-P2-1.25",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "direct-value--12",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "direct-value-0",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "direct-value-10",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "direct-value-1234567890",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "explicit-destroy",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    },
+    {
+      "id": "camera-hero-P2",
+      "renderer": "canvas",
+      "geometryPassed": true,
+      "differentPixels": 0,
+      "maximumChannelDifference": 0
+    }
+  ],
+  "verifierMutationKills": [
+    "owner",
+    "target-kind",
+    "anchor-x",
+    "anchor-y",
+    "pop-scale",
+    "alpha",
+    "glyph",
+    "digit-stride",
+    "origin",
+    "smoothing",
+    "flip",
+    "missing-child",
+    "destroy-timing"
+  ],
+  "sourceHashes": {
+    "src/scenes/IncomingDamageFeedbackView.ts": "3b7e86364128c4e85248872b2d2ccc9ceabb2b6ce5a614fdf3a603aa2be6ea7d",
+    "src/scenes/IncomingDamageBitmapSampling.ts": "edefc44be0ec7f199e1baf2c4a265ff67aff9c7fa68e9ea1a04b3665ff68d702",
+    "src/assets/IncomingDamageFeedbackProjection.json": "221f559793247397a7cc18b448a86889c4102e54ec6cddc8935fbc687757fa16",
+    "docs/tasks/evidence/TASK-SETTINGS-215/native/measurement.json": "3c6c278605a53b3b0f3944d39f7236745b6b2f41d38f10b4d8cc5d2b0ba9b043"
+  }
+}

@@ -19,6 +19,7 @@ export type Stage21IceTarget = Readonly<{
   height: number;
   facingX: -1 | 1;
   alive: boolean;
+  isYourFather?: boolean;
 }>;
 
 export type Stage21IceHit = Readonly<{
@@ -73,7 +74,7 @@ export function updateStage21IceHazards(
     }
     advanceAnimation(hazard, elapsed);
     for (const target of targets) {
-      if (!target.alive || !intersectsVisibleThorn(hazard, target)) continue;
+      if (!target.alive || target.isYourFather || !intersectsVisibleThorn(hazard, target)) continue;
       const hitKey = `${target.slot}:${hazard.attackId}`;
       if (hazard.hitKeys.has(hitKey)) continue;
       hazard.hitKeys.add(hitKey);

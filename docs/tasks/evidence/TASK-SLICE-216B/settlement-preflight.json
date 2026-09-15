@@ -1,0 +1,50 @@
+{
+  "scope": "Real exported settlement functions plus explicitly identified current TestScene caller ordering; not gameplay trace",
+  "rows": [
+    {
+      "id": "transfer-101",
+      "expected": {
+        "ownerDamage": 95,
+        "petDamage": 6
+      },
+      "actual": {
+        "ownerDamage": 96,
+        "petDamage": 6
+      }
+    },
+    {
+      "id": "invulnerable",
+      "expected": {
+        "heroHp": 200,
+        "petHp": 200
+      },
+      "actual": {
+        "heroHp": 200,
+        "petHp": 194
+      },
+      "accepted": false
+    },
+    {
+      "id": "full-shield",
+      "expected": {
+        "heroHp": 200,
+        "petHp": 200
+      },
+      "actual": {
+        "heroHp": 200,
+        "petHp": 194
+      },
+      "accepted": true
+    },
+    {
+      "id": "role3-int-boundary",
+      "expected": {
+        "hp": 101
+      },
+      "actual": {
+        "hp": 100.01
+      },
+      "source": "Role3.as:1201..1222 int param1 *= reduceHurt; sd level1 only, no flat defense"
+    }
+  ]
+}

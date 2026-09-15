@@ -17,9 +17,10 @@ export function seedAllPetsQaSave(
   storage: SaveStorage,
   search: string,
   hostname: string,
+  port: string,
 ): AllPetsQaSaveResult {
   const local = hostname === 'localhost' || hostname === '127.0.0.1';
-  if (!local || new URLSearchParams(search).get('qaPetSave') !== 'all') return 'disabled';
+  if (!local || port !== '5173' || new URLSearchParams(search).get('qaPetSave') !== 'all') return 'disabled';
 
   const slot = inspectSaveSlot(storage, AllPetsQaSaveSlot);
   if (slot.status === 'valid' && slot.save) {

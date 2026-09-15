@@ -60,6 +60,7 @@ import { createFormalPetHorseBodyBridge } from './FormalPetHorseBodyBridge';
 import { createPetDragonPresentationBridge } from './PetDragonPresentationBridge';
 import { createPetDragonQaRoster, isPetDragonQaEnabled, isPetDragonQaOwnerProtected } from './PetDragonQaBridge';
 import { createCombatFeedbackView } from './CombatFeedbackView';
+import { createIncomingDamageFeedbackBridge } from './IncomingDamageFeedbackBridge';
 import { createCombatFeedbackQaBridge } from './CombatFeedbackQaBridge';
 import { createPetProjectileCombatBridge } from './PetProjectileCombatBridge';
 
@@ -175,6 +176,7 @@ export function createHeroPartyRuntime(
   const role1ShadowProjectileVisuals = createRole1ShadowProjectileVisualBridge(scene);
   const role1ShadowViews = new Map<string, Role1ShadowView>();
   const combatFeedbackView = createCombatFeedbackView(scene, model.combat.feedback);
+  const incomingFeedback = createIncomingDamageFeedbackBridge(scene, model.incoming);
   const combatFeedbackQa = createCombatFeedbackQaBridge(scene, model.combat.feedback);
   const petProjectileCombat = createPetProjectileCombatBridge(scene);
   const petDragonPresentation = createPetDragonPresentationBridge(scene);
@@ -343,6 +345,7 @@ export function createHeroPartyRuntime(
         const event = resolveStage1EnemyPetAttack({
           runtime: model.combat,
           enemy,
+          timeMs,
           target: {
             runtimeKey: snapshot.runtime.runtimeKey,
             x: snapshot.runtime.x,
@@ -386,6 +389,7 @@ export function createHeroPartyRuntime(
       petDragonPresentation.destroy();
       if (isPetDragonQaEnabled()) delete scene.game.canvas.dataset.petDragonQa;
       combatFeedbackView.destroy();
+      incomingFeedback.destroy();
       combatFeedbackQa.destroy();
       petCombatRuntimes.p1.destroy();
       petCombatRuntimes.p2.destroy();
@@ -416,6 +420,7 @@ export function createHeroPartyRuntime(
           targets: [],
           projectiles: frame.projectiles,
           damageEvents: pendingPetDamageEvents[slot],
+          incomingFeedback: { model: model.incoming, ownerSlot: slot, timeMs: frame.timeMs },
           deltaMs: frame.deltaMs,
           hostFps: scene.game.loop.targetFps,
           groundEnvironment: frame.groundEnvironmentFor?.(index),
@@ -432,6 +437,7 @@ export function createHeroPartyRuntime(
         projectiles: frame.projectiles,
         random: frame.random,
         damageEvents: pendingPetDamageEvents[slot],
+        incomingFeedback: { model: model.incoming, ownerSlot: slot, timeMs: frame.timeMs },
         animationEvents: pendingPetAnimationEvents[slot],
         deltaMs: frame.deltaMs,
         hostFps: scene.game.loop.targetFps,

@@ -1,5 +1,21 @@
 # 总机制表
 
+2026-09-14 216C及父216完成：默认5173可发现全宠物档、显式点击/刷新保留/原存档进入地图、正式与损坏槽保护及4174/非本地/query隔离9浏览器状态通过。A/B完整证据核销，M-054当前producer已复现、VS-072已完成；TASK-SETTINGS-221玄龟完整行为证据唯一Ready，六族与194后续仍待，功能线Active。见 `docs/tasks/evidence/TASK-SLICE-216C/handoff.md`。
+
+2026-09-14 216B完成：当前hero/pet/environment/turtle producer同链，216实际TestScene adapter状态、五关双owner真实trace/清理、1-2实际英雄与宠物pnum和68原版显示对照通过。216C唯一Ready；父216/VS-072仍待默认5173入口，未实现家族不冒充覆盖。见 `docs/tasks/evidence/TASK-SLICE-216B/handoff.md`。
+
+2026-09-14 216B2解除环境结算反证，216B恢复唯一Ready。冰火真实来源/attack/time、入参int/盾/Role3和现有显式保护经20+24状态、保护重试/不同来源及13变异通过；不称完整isYourFather实现，不把输入16.5等当pnum结算值。M-054/VS-072仍待全部producer与正式数字，见 `docs/tasks/evidence/TASK-SLICE-216B2/handoff.md`。
+
+2026-09-14 环境producer预检：Stage21冰刺/Stage22火刺是真实当前消费者，不能判不适用；实际共享环境入口5项int/盾/Role3差异已复现。216B Blocked、216B2唯一Ready；直接reduceHp与普通碰撞保护语义需区别，未改215/B1结论或提升完整闭合。见 `docs/tasks/evidence/TASK-SLICE-216B/environment-preflight.md`。
+
+2026-09-14 216B1结算反证解除，216B恢复唯一Ready。M-054当前转嫁/保护/盾/int差异由共享结算与真实TestScene消费者验证，36+216状态及10变异通过；modern flat-defense保留且不称源公式。承伤producer/正式视觉和QA仍待216B/C，M-054/VS-072不提升完整闭合。见 `docs/tasks/evidence/TASK-SLICE-216B1/handoff.md`。
+
+2026-09-14 216B预检反证：现代101转嫁96+6、保护/满盾先扣pet和Role3整数赋回遗漏需先修复；216B Blocked，216B1唯一Ready。215源真值/216A显示不变，M-032/M-042全局仍部分复现，M-054/VS-072未闭合。见 `docs/tasks/evidence/TASK-SLICE-216B/preflight.md`。
+
+2026-09-14 216A完成pnum资源与生产显示API：十glyph与唯一bundle、68原版/Phaser态及27变异通过；只是显示输入验证，实际承伤producer尚待216B，故M-054/VS-072现代状态不提升。216B唯一Ready，父216仍Split。交接见 `docs/tasks/evidence/TASK-SLICE-216A/handoff.md`。
+
+2026-09-14 216规模预检：父216 Split，216A资源/显示唯一Ready，216B正式producer与216C本地QA入口Planned。215 verified保持；未改src或生产资源，不提升M-054/VS-072现代闭合状态。完整合同分配见 `docs/tasks/evidence/TASK-SLICE-216/preflight.md`。
+
 本文记录整个项目的机制总进度：什么还没扒、什么已经扒了、什么已经复现。它是事实和进度清单，不是实现方案。
 
 它与 `docs/tasks/vertical-slices.md` 的分工：
@@ -82,7 +98,7 @@
 | M-051 | 天庭地图选关 | 已扒 | 已复现 | `heaven-map-index.md`、`SelectPLace.as`、`MapMenu.as`、`GMain.as`、`MainGame.as`、`GameWin.as`、`GameFail.as`、`OtherMat1.swf` 1343/963/1311/1297/1304/1290、用户 2026-07-23/24 试玩反馈 | `HeavenMapSystem.ts`、`HeavenMapScene.ts`、`FormalPartyRuntimeSystem.ts`、正式结果/退出桥、专项与视觉证据 | 四节点状态、单调进度、活动槽 party 直接进关、往返/重试/重载已完成；现代逐关人数 chooser 已删除且有静态防回流门禁 |
 | M-052 | 完整功能 UI | 已扒 | 部分复现 | `full-function-ui-index.md`、175A..I verified manifests、`evidence/TASK-SETTINGS-175-functional-ui-truth-audit.md`、既有 verified 工坊/装备 manifests | `StageFeatureEntryRouterSystem.ts`、`StageSettingsSystem.ts`、`FormalFeatureUiEntryBridge.ts`、正式功能页 systems/views、`FormalImmortalityPageTruth.ts` | 175A..I/180..188 的单页真值/投影证据保留；2026-08-17 用户正式复验反证装备 hover、宠物 UI 可见性/动画和战斗技能 HUD，故整体交付降级，由 `LINE-PRE-STAGE-2-3-PRESENTATION` 重新闭合 |
 | M-053 | 怪物命中可见反馈与连击 | 已扒 | 已复现 | `BaseMonster.as`、`CureHpQueue.as`、`GameInfo.as`、`Batter.as`、恢复 `OtherMat1.swf` 的 `hurtnum0..9`/`bnum0..9`/`num0..9`/`export.Batter`、`combat-hit-feedback-index.md` | `src/systems/CombatFeedbackSystem.ts`、`src/scenes/CombatFeedbackView.ts`、`src/scenes/CombatFeedbackQaBridge.ts`、`Stage1CombatSystem.ts`、TestScene 共享命中桥、五关正式 Runtime 与结果页 | 211 的 23 状态/53 对象 verified 真值已被直接消费；只有唯一实际 HP decrease 产生普通/暴击数字，Role/宠物/法宝共享 P1/P2 连击与最高值，effect 只显示数字，miss/0/dedup/dead 无假反馈。专项、source trace、结果页与 940×590 双人正式验收通过 |
-| M-054 | 角色/宠物承伤数字 | 已扒 | 未复现 | `BaseHero.reduceHp()/addHeroHurtMc()`、`BasePet.reduceHp()/addMonHurtMc()`、`BaseMutiLevelListenering.as`、`CureHpQueue.addHpLose()`、`ANumber.as`、恢复 `OtherMat1.swf` 的 `pnum0..9` | `Stage1CombatSystem.resolveStage1EnemyAttack/resolveStage1EnemyPetAttack`、`HeroCombatSystem.applyHeroDamage`、`PetCombatRuntime.consumeDamageEvents` 当前只扣 HP/驱动 hurt-dead，无 incoming-number producer/view | 215 verified：player-pet-incoming-damage-feedback-index.md、对应manifest和109源渲染态/22原数值执行/34fixture；216消费。显示值、HP delta、producer ordinal分离，现代仍未复现；治疗/MP/miss排除 |
+| M-054 | 角色/宠物承伤数字 | 已扒 | 已复现 | 215 verified：BaseHero/BasePet/ANumber与恢复OtherMat1的pnum0..9，109源图态/22源行为组/34fixture | IncomingDamageFeedbackSystem、HeroCombatSystem、PetCombatEntitySession、PetBattleOwnershipSystem、共享IncomingDamageFeedbackBridge/View与五关/TestScene | 216完整当前producer、P1/P2、0/致死/保护/盾/转嫁/环境/去重与清理通过；68原版显示对照、真实五关trace、5173入口见216C/handoff。未实现家族/技能按216B精确矩阵排除，治疗/MP/miss不在范围 |
 
 2026-07-24 前置体验补全调整：用户将天庭地图“丹药/商城/设置/任务”、关卡内“设置/技能/背包/法宝/宠物”、已完成关卡全部小怪真动画和五角色战斗 UI/技能动画提升为 Stage 2-3 逆向前置。`M-016/M-052` 现有“可达/已有页面业务”不得作为原版逐状态关闭证据；`M-030/M-034/M-047` 的代表性或占位视觉不得作为全集关闭证据。`M-044/M-050` 的六槽 V6 `localStorage` 已满足“存到本地”的基础要求，不新增重复实现，只由 `VS-063` 在全部新功能完成后做跨重启正式旅程回归。调度见 `LINE-PRE-STAGE-2-3-COMPLETION` 与 `GOAL-037..041`。
 

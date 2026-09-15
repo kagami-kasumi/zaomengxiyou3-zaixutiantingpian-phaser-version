@@ -1,0 +1,158 @@
+{
+  "truthId": "task-settings-215.player-pet-incoming-damage-feedback",
+  "status": "verified",
+  "sourceManifestSha256": "e4746ad7c9b96871fcd138f3babf52b235fd4365776fc53309a8acf955956ee1",
+  "completeness": {
+    "stateCount": 109,
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "animation": {
+    "digitStride": 20,
+    "anchorOffset": {
+      "x": -20,
+      "y": -60
+    },
+    "popScale": 4.0,
+    "popSeconds": 0.2,
+    "delaySeconds": 0.25,
+    "risePixels": 100.0,
+    "fadeSeconds": 1.0,
+    "destroySeconds": 1.25,
+    "ease": "Quad.easeOut"
+  },
+  "registrationPoint": {
+    "x": 0,
+    "y": 0
+  },
+  "render": {
+    "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-1.png",
+    "blendMode": "normal",
+    "filters": [],
+    "maskId": null
+  },
+  "rootSymbol": "my.ANumber",
+  "glyphs": [
+    {
+      "digit": 0,
+      "symbolClass": "pnum0",
+      "characterId": 70,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum0; DefineBitsLossless2 characterID=70",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-0.png",
+      "sha256": "c0fc2b299c20ef30ce08ba4444e53662fc20f0b98f5df9c0b92687210bdf8177",
+      "key": "combat-feedback.damage.incoming.0",
+      "path": "/assets/ui/combat-feedback/incoming/0.png"
+    },
+    {
+      "digit": 1,
+      "symbolClass": "pnum1",
+      "characterId": 68,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum1; DefineBitsLossless2 characterID=68",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-1.png",
+      "sha256": "ee270e646c2d73c4be4482b561841c5060de84019c24a0a2362057cfb10dc6a8",
+      "key": "combat-feedback.damage.incoming.1",
+      "path": "/assets/ui/combat-feedback/incoming/1.png"
+    },
+    {
+      "digit": 2,
+      "symbolClass": "pnum2",
+      "characterId": 67,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum2; DefineBitsLossless2 characterID=67",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-2.png",
+      "sha256": "56813300cdcc930e425e4eb11dc65fc1661ef5257656fe07719641b28c03ef4c",
+      "key": "combat-feedback.damage.incoming.2",
+      "path": "/assets/ui/combat-feedback/incoming/2.png"
+    },
+    {
+      "digit": 3,
+      "symbolClass": "pnum3",
+      "characterId": 66,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum3; DefineBitsLossless2 characterID=66",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-3.png",
+      "sha256": "c219b0c89af223e765ef5f8022bd7c25e30f4c1a38545c4f5d8827463bbff8ad",
+      "key": "combat-feedback.damage.incoming.3",
+      "path": "/assets/ui/combat-feedback/incoming/3.png"
+    },
+    {
+      "digit": 4,
+      "symbolClass": "pnum4",
+      "characterId": 65,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum4; DefineBitsLossless2 characterID=65",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-4.png",
+      "sha256": "5fea670ddf51a130ef7e3c436462889dfa55a4141a03dd60324e60fd107efa7e",
+      "key": "combat-feedback.damage.incoming.4",
+      "path": "/assets/ui/combat-feedback/incoming/4.png"
+    },
+    {
+      "digit": 5,
+      "symbolClass": "pnum5",
+      "characterId": 64,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum5; DefineBitsLossless2 characterID=64",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-5.png",
+      "sha256": "fc6e016ed0a0a3fc1d1aa242d8bd92bcf28633a80e4492e0ddeb8b57a63eac66",
+      "key": "combat-feedback.damage.incoming.5",
+      "path": "/assets/ui/combat-feedback/incoming/5.png"
+    },
+    {
+      "digit": 6,
+      "symbolClass": "pnum6",
+      "characterId": 63,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum6; DefineBitsLossless2 characterID=63",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-6.png",
+      "sha256": "014e5f39ed9a830c669b3496795f1e7a7f2b4a9d2be89a28cf0f1a335f147cc1",
+      "key": "combat-feedback.damage.incoming.6",
+      "path": "/assets/ui/combat-feedback/incoming/6.png"
+    },
+    {
+      "digit": 7,
+      "symbolClass": "pnum7",
+      "characterId": 59,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum7; DefineBitsLossless2 characterID=59",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-7.png",
+      "sha256": "b17312d5065efefcd7eb389298e7eb515912b1feb92426e85ac3f894d6d41ee0",
+      "key": "combat-feedback.damage.incoming.7",
+      "path": "/assets/ui/combat-feedback/incoming/7.png"
+    },
+    {
+      "digit": 8,
+      "symbolClass": "pnum8",
+      "characterId": 58,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum8; DefineBitsLossless2 characterID=58",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-8.png",
+      "sha256": "a33d2d194627239a2976f4cf924a9258a0a40561ae502d7b8adc669b6039d839",
+      "key": "combat-feedback.damage.incoming.8",
+      "path": "/assets/ui/combat-feedback/incoming/8.png"
+    },
+    {
+      "digit": 9,
+      "symbolClass": "pnum9",
+      "characterId": 57,
+      "width": 30,
+      "height": 30,
+      "locator": "SymbolClass pnum9; DefineBitsLossless2 characterID=57",
+      "assetRef": "docs/tasks/evidence/TASK-SETTINGS-215/native/images/glyph-9.png",
+      "sha256": "d480f4ca95743cdb28caab281deee7d6a81412548376b2af3cbedc3c296833b7",
+      "key": "combat-feedback.damage.incoming.9",
+      "path": "/assets/ui/combat-feedback/incoming/9.png"
+    }
+  ]
+}

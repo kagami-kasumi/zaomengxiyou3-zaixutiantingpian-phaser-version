@@ -1,0 +1,10 @@
+{
+  "killed": "disabled native bitmap sampling",
+  "failure": "actual WebGL/Canvas raster mismatch",
+  "normalReportsUnchanged": true,
+  "files": [
+    "display-verification.json",
+    "implementation-mutations.json",
+    "display-comparison.png"
+  ]
+}

@@ -16,7 +16,6 @@ import {
   type BundleLoadFeedback,
 } from './SceneAssetBundleBridge';
 import { readEquipmentPageQaOptions } from '../systems/EquipmentPageQaFixtureSystem';
-import { seedAllPetsQaSave } from '../systems/PetVisualQaFixtureSystem';
 
 export class BootScene extends Phaser.Scene {
   private loadingText?: Phaser.GameObjects.Text;
@@ -49,12 +48,6 @@ export class BootScene extends Phaser.Scene {
   }
 
   public create(): void {
-    const petSaveResult = seedAllPetsQaSave(
-      window.localStorage,
-      window.location.search,
-      window.location.hostname,
-    );
-    this.game.canvas.dataset.petVisualQaSave = petSaveResult;
     void this.routeFromBoot();
   }
 

@@ -30,6 +30,8 @@ export type PetCombatDamageEvent = Readonly<{
   runtimeKey: string;
   amount: number;
   sourceId?: string;
+  attackId?: string;
+  occurredAtMs?: number;
 }>;
 
 export type PetCombatAnimationEventName = 'enter' | 'hit' | 'complete' | 'dead-complete';

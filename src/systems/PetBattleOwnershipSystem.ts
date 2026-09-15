@@ -1,4 +1,6 @@
 import type { PlayerSlot } from './InputSystem';
+import type { DamageEvent } from './CombatSystem';
+import { applyHeroDamage, type HeroCombatModel } from './HeroCombatSystem';
 import type { Monster30Model } from './Monster30System';
 import { awardMonsterExperienceWithCurrentPet } from './PetConsumableSystem';
 import type { PlayerPetRosters } from './PetOwnershipSystem';
@@ -6,6 +8,8 @@ import { addPetExperience } from './PetProgressionSystem';
 import { getActivePet } from './PetRosterSystem';
 import { markActivePetSkillTriggered } from './PetSkillTickSystem';
 import { applyPetTurtleTxljOwnerDamage } from './PetTurtleSkillSystem';
+import { recordIncomingDamageFeedback } from './IncomingDamageFeedbackSystem';
+import type { PetRuntimeModel } from './PetTypes';
 import type { MonsterExperienceShareResult } from './PetTypes';
 
 export type PetExperienceTarget =
@@ -21,11 +25,39 @@ export function applyOwnedPetDamageRedirect(
   rosters: PlayerPetRosters,
   ownerSlot: PlayerSlot,
   incomingDamage: number,
+  onRedirect?: (result: ReturnType<typeof applyPetTurtleTxljOwnerDamage>) => void,
 ): number {
-  return applyPetTurtleTxljOwnerDamage(
+  const result = applyPetTurtleTxljOwnerDamage(
     rosters[ownerSlot],
     incomingDamage,
-  ).ownerDamage;
+  );
+  if (result.active) onRedirect?.(result);
+  return result.ownerDamage;
+}
+
+/** Redirect only the accepted damage that reaches HP after hero defenses. */
+export function applyOwnedHeroDamage(
+  hero: HeroCombatModel,
+  event: DamageEvent,
+  timeMs: number,
+  ownerSlot: PlayerSlot,
+  rosters?: PlayerPetRosters,
+  petRuntime?: PetRuntimeModel,
+): boolean {
+  return applyHeroDamage(hero, event, timeMs, rosters
+    ? (amount) => applyOwnedPetDamageRedirect(rosters, ownerSlot, amount, (result) => {
+      const pet = getActivePet(rosters[ownerSlot]);
+      const feedback = hero.incomingFeedback;
+      if (!pet || !feedback || !petRuntime || petRuntime.petId !== pet.id) return;
+      recordIncomingDamageFeedback({ model: feedback.model, targetKind: 'pet', ownerSlot,
+        targetId: pet.id, targetRuntimeId: petRuntime.runtimeKey ?? `${ownerSlot}:${pet.id}`,
+        worldAnchor: () => ({ x: petRuntime.x, y: petRuntime.y }) }, {
+        sourceId: event.sourceId, attackId: event.attackId, producerKind: 'turtle-transfer',
+        occurredAtMs: event.occurredAtMs, settledAtMs: timeMs,
+        settledDamage: result.petDamage, hpBefore: result.petHpBefore!, hpAfter: result.petHpAfter!,
+      });
+    })
+    : undefined);
 }
 
 export function markOwnedPetSkillTriggered(

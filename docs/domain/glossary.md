@@ -70,6 +70,11 @@
 | 战斗系统 | `CombatSystem` | System | Combat | 伤害事件、命中去重和首批互伤结算函数 | `DamageSystem`, `HitSystem` |
 | 伤害事件 | `DamageEvent` | Value Object | Combat | 一次伤害结算输入 | `HitInfo`, `DamageInfo` |
 | 战斗反馈事件 | `CombatFeedbackEvent` | Value Object / Event | Combat / Runtime | 只在伤害结算已形成实际 HP decrease 后派生，携带来源、owner、目标、暴击与可见反馈锚点；视图不得据攻击动画自行伪造 | `HitFeedback`, `DamagePopupEvent`, `FloatingDamageEvent` |
+| 承伤数字显示输入 | `IncomingDamageFeedbackDisplay` | Value Object | Combat / Runtime | 215原版pnum显示API；消费结算producer提供的显示整数、target/owner与世界根坐标，显示值不必等于HP差；不计连击 | — |
+| 承伤数字结算事件 | `IncomingDamageFeedbackEvent` | Value Object | Combat | 由实际HP结算owner发布source/attack/runtime、producer/ordinal、target/owner、结算值/显示值、HP前后与坐标快照；致死和零值不按HP差筛除 | — |
+| 承伤数字会话 | `IncomingDamageFeedbackModel` | Model | Combat / Runtime | 关卡会话内的事件身份去重、trace与直接显示订阅；不持有伤害公式、怪物队列或连击 | — |
+| 承伤数字目标绑定 | `IncomingDamageFeedbackTarget` | Value Object | Combat / Runtime | 把真实实体owner/runtime和当前世界根坐标绑定到其结算事件会话，发布时冻结坐标 | — |
+| 承伤数字生产者 | `IncomingDamageProducer` | Value Object | Combat | 区分英雄、宠物、转嫁、环境及源显式数字调用；相同attack的不同producer不合并 | — |
 | 命中框 | `Hitbox` | Value Object / Component | Combat | 攻击判定区域 | `AttackBox` |
 | 受击框 | `Hurtbox` | Value Object / Component | Combat | 被命中判定区域 | `BodyBox` |
 | 关卡 | `Level` | Entity / Config | Content | 一次可进入、刷怪、通关的流程 | `Stage`, `Mission` |

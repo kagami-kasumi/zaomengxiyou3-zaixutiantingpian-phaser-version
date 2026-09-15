@@ -1,0 +1,1726 @@
+{
+  "state": {
+    "scene": "Stage21Scene",
+    "loading": false,
+    "timeMs": 8370.199999999995,
+    "camera": {
+      "x": 0,
+      "y": 0
+    },
+    "heroes": [
+      {
+        "slot": "p1",
+        "x": 490,
+        "y": 519.0501981,
+        "width": 96,
+        "facingX": 1,
+        "alive": true,
+        "environmentProtected": false,
+        "hp": 43,
+        "maxHp": 80,
+        "mp": 50,
+        "maxMp": 50
+      },
+      {
+        "slot": "p2",
+        "x": 478,
+        "y": 519.0501981,
+        "width": 96,
+        "facingX": 1,
+        "alive": false,
+        "environmentProtected": false,
+        "hp": 0,
+        "maxHp": 50,
+        "mp": 100,
+        "maxMp": 100,
+        "deathReason": "movement-trap"
+      }
+    ],
+    "trace": [
+      {
+        "sourceId": "stage21-ice-ceiling-1",
+        "attackId": "stage21-ice-ceiling-1:1",
+        "producerKind": "environment-reduce-hp",
+        "occurredAtMs": 8170.1999999999925,
+        "settledAtMs": 8170.1999999999925,
+        "settledDamage": 16,
+        "hpBefore": 80,
+        "hpAfter": 64,
+        "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+        "runtimeId": "incoming-1",
+        "producerOrdinal": 0,
+        "targetKind": "hero",
+        "ownerSlot": "p1",
+        "targetId": "p1",
+        "targetRuntimeId": "incoming-1:p1",
+        "displayValue": 16,
+        "worldAnchor": {
+          "x": 388,
+          "y": 519.0501981
+        }
+      },
+      {
+        "sourceId": "stage21-ice-ceiling-1",
+        "attackId": "stage21-ice-ceiling-1:1",
+        "producerKind": "environment-reduce-hp",
+        "occurredAtMs": 8170.1999999999925,
+        "settledAtMs": 8170.1999999999925,
+        "settledDamage": 17,
+        "hpBefore": 50,
+        "hpAfter": 33,
+        "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+        "runtimeId": "incoming-1",
+        "producerOrdinal": 0,
+        "targetKind": "hero",
+        "ownerSlot": "p2",
+        "targetId": "p2",
+        "targetRuntimeId": "incoming-1:p2",
+        "displayValue": 17,
+        "worldAnchor": {
+          "x": 388,
+          "y": 519.0501981
+        }
+      },
+      {
+        "sourceId": "stage21-ice-ceiling-2",
+        "attackId": "stage21-ice-ceiling-2:1",
+        "producerKind": "environment-reduce-hp",
+        "occurredAtMs": 8303.533333333327,
+        "settledAtMs": 8303.533333333327,
+        "settledDamage": 11,
+        "hpBefore": 64,
+        "hpAfter": 53,
+        "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+        "runtimeId": "incoming-1",
+        "producerOrdinal": 0,
+        "targetKind": "hero",
+        "ownerSlot": "p1",
+        "targetId": "p1",
+        "targetRuntimeId": "incoming-1:p1",
+        "displayValue": 11,
+        "worldAnchor": {
+          "x": 446,
+          "y": 519.0501981
+        }
+      },
+      {
+        "sourceId": "stage21-ice-ceiling-2",
+        "attackId": "stage21-ice-ceiling-2:1",
+        "producerKind": "environment-reduce-hp",
+        "occurredAtMs": 8303.533333333327,
+        "settledAtMs": 8303.533333333327,
+        "settledDamage": 16,
+        "hpBefore": 33,
+        "hpAfter": 17,
+        "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+        "runtimeId": "incoming-1",
+        "producerOrdinal": 0,
+        "targetKind": "hero",
+        "ownerSlot": "p2",
+        "targetId": "p2",
+        "targetRuntimeId": "incoming-1:p2",
+        "displayValue": 16,
+        "worldAnchor": {
+          "x": 446,
+          "y": 519.0501981
+        }
+      },
+      {
+        "sourceId": "stage21-ice-ceiling-2",
+        "attackId": "stage21-ice-ceiling-2:2",
+        "producerKind": "environment-reduce-hp",
+        "occurredAtMs": 8336.866666666661,
+        "settledAtMs": 8336.866666666661,
+        "settledDamage": 10,
+        "hpBefore": 53,
+        "hpAfter": 43,
+        "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+        "runtimeId": "incoming-1",
+        "producerOrdinal": 0,
+        "targetKind": "hero",
+        "ownerSlot": "p1",
+        "targetId": "p1",
+        "targetRuntimeId": "incoming-1:p1",
+        "displayValue": 10,
+        "worldAnchor": {
+          "x": 468,
+          "y": 519.0501981
+        }
+      },
+      {
+        "sourceId": "stage21-ice-ceiling-2",
+        "attackId": "stage21-ice-ceiling-2:2",
+        "producerKind": "environment-reduce-hp",
+        "occurredAtMs": 8336.866666666661,
+        "settledAtMs": 8336.866666666661,
+        "settledDamage": 19,
+        "hpBefore": 17,
+        "hpAfter": 0,
+        "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+        "runtimeId": "incoming-1",
+        "producerOrdinal": 0,
+        "targetKind": "hero",
+        "ownerSlot": "p2",
+        "targetId": "p2",
+        "targetRuntimeId": "incoming-1:p2",
+        "displayValue": 19,
+        "worldAnchor": {
+          "x": 468,
+          "y": 519.0501981
+        }
+      }
+    ],
+    "objects": [
+      {
+        "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+        "x": 368,
+        "y": 459,
+        "scaleX": 1,
+        "alpha": 1,
+        "event": {
+          "sourceId": "stage21-ice-ceiling-1",
+          "attackId": "stage21-ice-ceiling-1:1",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8170.1999999999925,
+          "settledAtMs": 8170.1999999999925,
+          "settledDamage": 16,
+          "hpBefore": 80,
+          "hpAfter": 64,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-1:p1",
+          "displayValue": 16,
+          "worldAnchor": {
+            "x": 388,
+            "y": 519.0501981
+          },
+          "displayStartedAtMs": 8170.1999999999925
+        },
+        "glyphs": [
+          "combat-feedback.damage.incoming.1",
+          "combat-feedback.damage.incoming.6"
+        ]
+      },
+      {
+        "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+        "x": 368,
+        "y": 459,
+        "scaleX": 1,
+        "alpha": 1,
+        "event": {
+          "sourceId": "stage21-ice-ceiling-1",
+          "attackId": "stage21-ice-ceiling-1:1",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8170.1999999999925,
+          "settledAtMs": 8170.1999999999925,
+          "settledDamage": 17,
+          "hpBefore": 50,
+          "hpAfter": 33,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-1:p2",
+          "displayValue": 17,
+          "worldAnchor": {
+            "x": 388,
+            "y": 519.0501981
+          },
+          "displayStartedAtMs": 8170.1999999999925
+        },
+        "glyphs": [
+          "combat-feedback.damage.incoming.1",
+          "combat-feedback.damage.incoming.7"
+        ]
+      },
+      {
+        "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+        "x": 426,
+        "y": 459,
+        "scaleX": 2.3333333333333335,
+        "alpha": 1,
+        "event": {
+          "sourceId": "stage21-ice-ceiling-2",
+          "attackId": "stage21-ice-ceiling-2:1",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8303.533333333327,
+          "settledAtMs": 8303.533333333327,
+          "settledDamage": 11,
+          "hpBefore": 64,
+          "hpAfter": 53,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-1:p1",
+          "displayValue": 11,
+          "worldAnchor": {
+            "x": 446,
+            "y": 519.0501981
+          },
+          "displayStartedAtMs": 8303.533333333327
+        },
+        "glyphs": [
+          "combat-feedback.damage.incoming.1",
+          "combat-feedback.damage.incoming.1"
+        ]
+      },
+      {
+        "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+        "x": 426,
+        "y": 459,
+        "scaleX": 2.3333333333333335,
+        "alpha": 1,
+        "event": {
+          "sourceId": "stage21-ice-ceiling-2",
+          "attackId": "stage21-ice-ceiling-2:1",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8303.533333333327,
+          "settledAtMs": 8303.533333333327,
+          "settledDamage": 16,
+          "hpBefore": 33,
+          "hpAfter": 17,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-1:p2",
+          "displayValue": 16,
+          "worldAnchor": {
+            "x": 446,
+            "y": 519.0501981
+          },
+          "displayStartedAtMs": 8303.533333333327
+        },
+        "glyphs": [
+          "combat-feedback.damage.incoming.1",
+          "combat-feedback.damage.incoming.6"
+        ]
+      },
+      {
+        "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+        "x": 448,
+        "y": 459,
+        "scaleX": 3.0833333333333335,
+        "alpha": 1,
+        "event": {
+          "sourceId": "stage21-ice-ceiling-2",
+          "attackId": "stage21-ice-ceiling-2:2",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8336.866666666661,
+          "settledAtMs": 8336.866666666661,
+          "settledDamage": 10,
+          "hpBefore": 53,
+          "hpAfter": 43,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-1:p1",
+          "displayValue": 10,
+          "worldAnchor": {
+            "x": 468,
+            "y": 519.0501981
+          },
+          "displayStartedAtMs": 8336.866666666661
+        },
+        "glyphs": [
+          "combat-feedback.damage.incoming.1",
+          "combat-feedback.damage.incoming.0"
+        ]
+      },
+      {
+        "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+        "x": 448,
+        "y": 459,
+        "scaleX": 3.0833333333333335,
+        "alpha": 1,
+        "event": {
+          "sourceId": "stage21-ice-ceiling-2",
+          "attackId": "stage21-ice-ceiling-2:2",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8336.866666666661,
+          "settledAtMs": 8336.866666666661,
+          "settledDamage": 19,
+          "hpBefore": 17,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-1:p2",
+          "displayValue": 19,
+          "worldAnchor": {
+            "x": 468,
+            "y": 519.0501981
+          },
+          "displayStartedAtMs": 8336.866666666661
+        },
+        "glyphs": [
+          "combat-feedback.damage.incoming.1",
+          "combat-feedback.damage.incoming.9"
+        ]
+      }
+    ],
+    "pets": {
+      "snapshots": {
+        "p1": {
+          "destroyed": false,
+          "petId": "p1-pet-dragon-1",
+          "species": "dragon",
+          "form": 1,
+          "runtime": {
+            "petId": "p1-pet-dragon-1",
+            "runtimeKey": "p1-pet-dragon-1:dragon:1:session:1:1",
+            "x": 100,
+            "y": 503.97519809999994,
+            "facingX": 1,
+            "state": "idle"
+          },
+          "phase": "alive",
+          "actionToken": 0,
+          "animation": {
+            "action": "wait",
+            "actionToken": 0,
+            "row": 0,
+            "column": 1,
+            "keyFrameIndex": 1,
+            "remainingHoldCount": 1,
+            "elapsedTicks": 3,
+            "complete": false
+          },
+          "groundMotion": {
+            "petId": "p1-pet-dragon-1",
+            "runtimeKey": "p1-pet-dragon-1:dragon:1:session:1:1",
+            "x": 100,
+            "y": 503.97519809999994,
+            "facingX": 1,
+            "state": "idle",
+            "velocityX": 0,
+            "velocityY": 1.5,
+            "direction": 0,
+            "standingOn": "level21-d172"
+          },
+          "summons": []
+        },
+        "p2": {
+          "destroyed": false,
+          "petId": "p2-pet-dragon-1",
+          "species": "dragon",
+          "form": 1,
+          "runtime": {
+            "petId": "p2-pet-dragon-1",
+            "runtimeKey": "p2-pet-dragon-1:dragon:1:session:2:1",
+            "x": 100,
+            "y": 503.97519809999994,
+            "facingX": 1,
+            "state": "idle"
+          },
+          "phase": "alive",
+          "actionToken": 0,
+          "animation": {
+            "action": "wait",
+            "actionToken": 0,
+            "row": 0,
+            "column": 1,
+            "keyFrameIndex": 1,
+            "remainingHoldCount": 1,
+            "elapsedTicks": 3,
+            "complete": false
+          },
+          "groundMotion": {
+            "petId": "p2-pet-dragon-1",
+            "runtimeKey": "p2-pet-dragon-1:dragon:1:session:2:1",
+            "x": 100,
+            "y": 503.97519809999994,
+            "facingX": 1,
+            "state": "idle",
+            "velocityX": 0,
+            "velocityY": 1.5,
+            "direction": 0,
+            "standingOn": "level21-d172"
+          },
+          "summons": []
+        }
+      },
+      "damage": [],
+      "pets": {
+        "p1": {
+          "id": "p1-pet-dragon-1",
+          "species": "dragon",
+          "form": 1,
+          "displayName": "小龙",
+          "level": 1,
+          "exp": 0,
+          "expToNext": 50,
+          "hp": 5000,
+          "maxHp": 10000,
+          "mp": 1000,
+          "maxMp": 1000,
+          "atk": 30,
+          "def": 100,
+          "critBonusRate": 0,
+          "skillDamageBonus": 0,
+          "moveSpeed": 5,
+          "lifetime": 100,
+          "quality": 1,
+          "hpQuality": 1,
+          "mpQuality": 1,
+          "atkQuality": 1,
+          "defQuality": 1,
+          "perception": 1,
+          "technique": 1,
+          "warpower": 1,
+          "isActive": true,
+          "skills": [
+            "fs"
+          ],
+          "skillState": {
+            "monkey1Xj": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "monkey2Lj": {
+              "cooldownMs": 0
+            },
+            "monkey2Xj": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "monkey3Lyq": {
+              "cooldownMs": 0
+            },
+            "monkey3Xj": {
+              "cooldownMs": 0
+            },
+            "monkey3Lj": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "monkey4Jgaoyi": {
+              "cooldownMs": 0
+            },
+            "horse1Sp": {
+              "cooldownMs": 0
+            },
+            "horse2Bd": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "horse3Bz": {
+              "cooldownMs": 0
+            },
+            "horse4Tmaoyi": {
+              "cooldownMs": 0
+            },
+            "dragon1Fs": {
+              "cooldownMs": 0,
+              "cloneRemainingMs": 0
+            },
+            "dragon2Sdcc": {
+              "cooldownMs": 0,
+              "lastHealOnHit": 0
+            },
+            "dragon3Ltwj": {
+              "cooldownMs": 0,
+              "lastHealOnHit": 0
+            },
+            "dragon4Qlaoyi": {
+              "cooldownMs": 0,
+              "lastCombo": {
+                "cloneCombo": false,
+                "sdccCombo": false,
+                "ltwjCombo": false
+              }
+            },
+            "turtle1Sld": {
+              "cooldownMs": 0,
+              "lastHeal": 0,
+              "lastOwnerHeal": 0
+            },
+            "turtle2Txlj": {
+              "cooldownMs": 0,
+              "linkRemainingMs": 0,
+              "lastOwnerDamageRedirect": 0,
+              "lastOwnerDamageAfterRedirect": 0,
+              "lastOwnerHealBoost": 0,
+              "lastPetHeal": 0
+            },
+            "turtle3Sybh": {
+              "cooldownMs": 0
+            },
+            "turtle4Xwaoyi": {
+              "cooldownMs": 0,
+              "ultimateRemainingMs": 0,
+              "sldFreeCastTimersMs": [],
+              "lastCombo": {
+                "sldFreeCasts": 0,
+                "txljRefreshed": false,
+                "sybhSustained": false
+              }
+            },
+            "ufo1Pms": {
+              "cooldownMs": 0
+            },
+            "ufo2Ss": {
+              "cooldownMs": 0
+            },
+            "ufo3Kmsk": {
+              "cooldownMs": 0,
+              "risingMs": 0,
+              "risingTotalMs": 0
+            },
+            "tiger1Hy": {
+              "cooldownMs": 0
+            },
+            "tiger2Sxhz": {
+              "cooldownMs": 0,
+              "lastHeal": 0
+            },
+            "tiger3Hsqj": {
+              "cooldownMs": 0
+            },
+            "tiger4Bhaoyi": {
+              "cooldownMs": 0,
+              "lastCombo": {
+                "hyFreeCast": false,
+                "sxhzFreeCast": false,
+                "hsqjFreeCast": false
+              },
+              "comboStep": 0,
+              "comboStepElapsedMs": 0,
+              "emittedSteps": [],
+              "attackBoostReady": false
+            },
+            "phoenix1Np": {
+              "cooldownMs": 0,
+              "transformationRemainingMs": 0,
+              "pendingFullHeal": false,
+              "damageTakenMultiplier": 1,
+              "hurtActionImmune": false
+            },
+            "phoenix2Bshn": {
+              "cooldownMs": 0
+            },
+            "phoenix3Dhly": {
+              "cooldownMs": 0
+            },
+            "phoenix4Zqaoyi": {
+              "cooldownMs": 0,
+              "fireImbueActive": false
+            },
+            "rabbit1Yg": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "rabbit2Jf": {
+              "cooldownMs": 0,
+              "activeRemainingMs": 0,
+              "attackRate": 0.7,
+              "dodgeBonusRate": 0
+            },
+            "rabbit3Bs": {
+              "cooldownMs": 0
+            },
+            "rabbit4Ysaoyi": {
+              "cooldownMs": 0,
+              "activeRemainingMs": 0,
+              "healTickAccumulatorMs": 0,
+              "lastPetHeal": 0,
+              "lastOwnerHeal": 0
+            },
+            "mouse1Sc": {
+              "cooldownMs": 0
+            },
+            "mouse4Hxfb": {
+              "cooldownMs": 0
+            },
+            "mouse4Zsaoyi": {
+              "cooldownMs": 0,
+              "comboStep": 0,
+              "comboStepElapsedMs": 0,
+              "emittedSteps": []
+            },
+            "lastResult": "pet skill ready"
+          }
+        },
+        "p2": {
+          "id": "p2-pet-dragon-1",
+          "species": "dragon",
+          "form": 1,
+          "displayName": "小龙",
+          "level": 1,
+          "exp": 0,
+          "expToNext": 50,
+          "hp": 5000,
+          "maxHp": 10000,
+          "mp": 1000,
+          "maxMp": 1000,
+          "atk": 30,
+          "def": 100,
+          "critBonusRate": 0,
+          "skillDamageBonus": 0,
+          "moveSpeed": 5,
+          "lifetime": 100,
+          "quality": 1,
+          "hpQuality": 1,
+          "mpQuality": 1,
+          "atkQuality": 1,
+          "defQuality": 1,
+          "perception": 1,
+          "technique": 1,
+          "warpower": 1,
+          "isActive": true,
+          "skills": [
+            "fs"
+          ],
+          "skillState": {
+            "monkey1Xj": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "monkey2Lj": {
+              "cooldownMs": 0
+            },
+            "monkey2Xj": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "monkey3Lyq": {
+              "cooldownMs": 0
+            },
+            "monkey3Xj": {
+              "cooldownMs": 0
+            },
+            "monkey3Lj": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "monkey4Jgaoyi": {
+              "cooldownMs": 0
+            },
+            "horse1Sp": {
+              "cooldownMs": 0
+            },
+            "horse2Bd": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "horse3Bz": {
+              "cooldownMs": 0
+            },
+            "horse4Tmaoyi": {
+              "cooldownMs": 0
+            },
+            "dragon1Fs": {
+              "cooldownMs": 0,
+              "cloneRemainingMs": 0
+            },
+            "dragon2Sdcc": {
+              "cooldownMs": 0,
+              "lastHealOnHit": 0
+            },
+            "dragon3Ltwj": {
+              "cooldownMs": 0,
+              "lastHealOnHit": 0
+            },
+            "dragon4Qlaoyi": {
+              "cooldownMs": 0,
+              "lastCombo": {
+                "cloneCombo": false,
+                "sdccCombo": false,
+                "ltwjCombo": false
+              }
+            },
+            "turtle1Sld": {
+              "cooldownMs": 0,
+              "lastHeal": 0,
+              "lastOwnerHeal": 0
+            },
+            "turtle2Txlj": {
+              "cooldownMs": 0,
+              "linkRemainingMs": 0,
+              "lastOwnerDamageRedirect": 0,
+              "lastOwnerDamageAfterRedirect": 0,
+              "lastOwnerHealBoost": 0,
+              "lastPetHeal": 0
+            },
+            "turtle3Sybh": {
+              "cooldownMs": 0
+            },
+            "turtle4Xwaoyi": {
+              "cooldownMs": 0,
+              "ultimateRemainingMs": 0,
+              "sldFreeCastTimersMs": [],
+              "lastCombo": {
+                "sldFreeCasts": 0,
+                "txljRefreshed": false,
+                "sybhSustained": false
+              }
+            },
+            "ufo1Pms": {
+              "cooldownMs": 0
+            },
+            "ufo2Ss": {
+              "cooldownMs": 0
+            },
+            "ufo3Kmsk": {
+              "cooldownMs": 0,
+              "risingMs": 0,
+              "risingTotalMs": 0
+            },
+            "tiger1Hy": {
+              "cooldownMs": 0
+            },
+            "tiger2Sxhz": {
+              "cooldownMs": 0,
+              "lastHeal": 0
+            },
+            "tiger3Hsqj": {
+              "cooldownMs": 0
+            },
+            "tiger4Bhaoyi": {
+              "cooldownMs": 0,
+              "lastCombo": {
+                "hyFreeCast": false,
+                "sxhzFreeCast": false,
+                "hsqjFreeCast": false
+              },
+              "comboStep": 0,
+              "comboStepElapsedMs": 0,
+              "emittedSteps": [],
+              "attackBoostReady": false
+            },
+            "phoenix1Np": {
+              "cooldownMs": 0,
+              "transformationRemainingMs": 0,
+              "pendingFullHeal": false,
+              "damageTakenMultiplier": 1,
+              "hurtActionImmune": false
+            },
+            "phoenix2Bshn": {
+              "cooldownMs": 0
+            },
+            "phoenix3Dhly": {
+              "cooldownMs": 0
+            },
+            "phoenix4Zqaoyi": {
+              "cooldownMs": 0,
+              "fireImbueActive": false
+            },
+            "rabbit1Yg": {
+              "releaseReady": false,
+              "cooldownMs": 0
+            },
+            "rabbit2Jf": {
+              "cooldownMs": 0,
+              "activeRemainingMs": 0,
+              "attackRate": 0.7,
+              "dodgeBonusRate": 0
+            },
+            "rabbit3Bs": {
+              "cooldownMs": 0
+            },
+            "rabbit4Ysaoyi": {
+              "cooldownMs": 0,
+              "activeRemainingMs": 0,
+              "healTickAccumulatorMs": 0,
+              "lastPetHeal": 0,
+              "lastOwnerHeal": 0
+            },
+            "mouse1Sc": {
+              "cooldownMs": 0
+            },
+            "mouse4Hxfb": {
+              "cooldownMs": 0
+            },
+            "mouse4Zsaoyi": {
+              "cooldownMs": 0,
+              "comboStep": 0,
+              "comboStepElapsedMs": 0,
+              "emittedSteps": []
+            },
+            "lastResult": "pet skill ready"
+          }
+        }
+      }
+    }
+  },
+  "samples": [
+    {
+      "scene": "Stage21Scene",
+      "loading": false,
+      "timeMs": 8370.199999999995,
+      "camera": {
+        "x": 0,
+        "y": 0
+      },
+      "heroes": [
+        {
+          "slot": "p1",
+          "x": 490,
+          "y": 519.0501981,
+          "width": 96,
+          "facingX": 1,
+          "alive": true,
+          "environmentProtected": false,
+          "hp": 43,
+          "maxHp": 80,
+          "mp": 50,
+          "maxMp": 50
+        },
+        {
+          "slot": "p2",
+          "x": 478,
+          "y": 519.0501981,
+          "width": 96,
+          "facingX": 1,
+          "alive": false,
+          "environmentProtected": false,
+          "hp": 0,
+          "maxHp": 50,
+          "mp": 100,
+          "maxMp": 100,
+          "deathReason": "movement-trap"
+        }
+      ],
+      "trace": [
+        {
+          "sourceId": "stage21-ice-ceiling-1",
+          "attackId": "stage21-ice-ceiling-1:1",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8170.1999999999925,
+          "settledAtMs": 8170.1999999999925,
+          "settledDamage": 16,
+          "hpBefore": 80,
+          "hpAfter": 64,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-1:p1",
+          "displayValue": 16,
+          "worldAnchor": {
+            "x": 388,
+            "y": 519.0501981
+          }
+        },
+        {
+          "sourceId": "stage21-ice-ceiling-1",
+          "attackId": "stage21-ice-ceiling-1:1",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8170.1999999999925,
+          "settledAtMs": 8170.1999999999925,
+          "settledDamage": 17,
+          "hpBefore": 50,
+          "hpAfter": 33,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-1:p2",
+          "displayValue": 17,
+          "worldAnchor": {
+            "x": 388,
+            "y": 519.0501981
+          }
+        },
+        {
+          "sourceId": "stage21-ice-ceiling-2",
+          "attackId": "stage21-ice-ceiling-2:1",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8303.533333333327,
+          "settledAtMs": 8303.533333333327,
+          "settledDamage": 11,
+          "hpBefore": 64,
+          "hpAfter": 53,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-1:p1",
+          "displayValue": 11,
+          "worldAnchor": {
+            "x": 446,
+            "y": 519.0501981
+          }
+        },
+        {
+          "sourceId": "stage21-ice-ceiling-2",
+          "attackId": "stage21-ice-ceiling-2:1",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8303.533333333327,
+          "settledAtMs": 8303.533333333327,
+          "settledDamage": 16,
+          "hpBefore": 33,
+          "hpAfter": 17,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-1:p2",
+          "displayValue": 16,
+          "worldAnchor": {
+            "x": 446,
+            "y": 519.0501981
+          }
+        },
+        {
+          "sourceId": "stage21-ice-ceiling-2",
+          "attackId": "stage21-ice-ceiling-2:2",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8336.866666666661,
+          "settledAtMs": 8336.866666666661,
+          "settledDamage": 10,
+          "hpBefore": 53,
+          "hpAfter": 43,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-1:p1",
+          "displayValue": 10,
+          "worldAnchor": {
+            "x": 468,
+            "y": 519.0501981
+          }
+        },
+        {
+          "sourceId": "stage21-ice-ceiling-2",
+          "attackId": "stage21-ice-ceiling-2:2",
+          "producerKind": "environment-reduce-hp",
+          "occurredAtMs": 8336.866666666661,
+          "settledAtMs": 8336.866666666661,
+          "settledDamage": 19,
+          "hpBefore": 17,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-1:p2",
+          "displayValue": 19,
+          "worldAnchor": {
+            "x": 468,
+            "y": 519.0501981
+          }
+        }
+      ],
+      "objects": [
+        {
+          "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "x": 368,
+          "y": 459,
+          "scaleX": 1,
+          "alpha": 1,
+          "event": {
+            "sourceId": "stage21-ice-ceiling-1",
+            "attackId": "stage21-ice-ceiling-1:1",
+            "producerKind": "environment-reduce-hp",
+            "occurredAtMs": 8170.1999999999925,
+            "settledAtMs": 8170.1999999999925,
+            "settledDamage": 16,
+            "hpBefore": 80,
+            "hpAfter": 64,
+            "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+            "runtimeId": "incoming-1",
+            "producerOrdinal": 0,
+            "targetKind": "hero",
+            "ownerSlot": "p1",
+            "targetId": "p1",
+            "targetRuntimeId": "incoming-1:p1",
+            "displayValue": 16,
+            "worldAnchor": {
+              "x": 388,
+              "y": 519.0501981
+            },
+            "displayStartedAtMs": 8170.1999999999925
+          },
+          "glyphs": [
+            "combat-feedback.damage.incoming.1",
+            "combat-feedback.damage.incoming.6"
+          ]
+        },
+        {
+          "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "x": 368,
+          "y": 459,
+          "scaleX": 1,
+          "alpha": 1,
+          "event": {
+            "sourceId": "stage21-ice-ceiling-1",
+            "attackId": "stage21-ice-ceiling-1:1",
+            "producerKind": "environment-reduce-hp",
+            "occurredAtMs": 8170.1999999999925,
+            "settledAtMs": 8170.1999999999925,
+            "settledDamage": 17,
+            "hpBefore": 50,
+            "hpAfter": 33,
+            "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-1\",\"stage21-ice-ceiling-1:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+            "runtimeId": "incoming-1",
+            "producerOrdinal": 0,
+            "targetKind": "hero",
+            "ownerSlot": "p2",
+            "targetId": "p2",
+            "targetRuntimeId": "incoming-1:p2",
+            "displayValue": 17,
+            "worldAnchor": {
+              "x": 388,
+              "y": 519.0501981
+            },
+            "displayStartedAtMs": 8170.1999999999925
+          },
+          "glyphs": [
+            "combat-feedback.damage.incoming.1",
+            "combat-feedback.damage.incoming.7"
+          ]
+        },
+        {
+          "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "x": 426,
+          "y": 459,
+          "scaleX": 2.3333333333333335,
+          "alpha": 1,
+          "event": {
+            "sourceId": "stage21-ice-ceiling-2",
+            "attackId": "stage21-ice-ceiling-2:1",
+            "producerKind": "environment-reduce-hp",
+            "occurredAtMs": 8303.533333333327,
+            "settledAtMs": 8303.533333333327,
+            "settledDamage": 11,
+            "hpBefore": 64,
+            "hpAfter": 53,
+            "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+            "runtimeId": "incoming-1",
+            "producerOrdinal": 0,
+            "targetKind": "hero",
+            "ownerSlot": "p1",
+            "targetId": "p1",
+            "targetRuntimeId": "incoming-1:p1",
+            "displayValue": 11,
+            "worldAnchor": {
+              "x": 446,
+              "y": 519.0501981
+            },
+            "displayStartedAtMs": 8303.533333333327
+          },
+          "glyphs": [
+            "combat-feedback.damage.incoming.1",
+            "combat-feedback.damage.incoming.1"
+          ]
+        },
+        {
+          "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "x": 426,
+          "y": 459,
+          "scaleX": 2.3333333333333335,
+          "alpha": 1,
+          "event": {
+            "sourceId": "stage21-ice-ceiling-2",
+            "attackId": "stage21-ice-ceiling-2:1",
+            "producerKind": "environment-reduce-hp",
+            "occurredAtMs": 8303.533333333327,
+            "settledAtMs": 8303.533333333327,
+            "settledDamage": 16,
+            "hpBefore": 33,
+            "hpAfter": 17,
+            "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:1\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+            "runtimeId": "incoming-1",
+            "producerOrdinal": 0,
+            "targetKind": "hero",
+            "ownerSlot": "p2",
+            "targetId": "p2",
+            "targetRuntimeId": "incoming-1:p2",
+            "displayValue": 16,
+            "worldAnchor": {
+              "x": 446,
+              "y": 519.0501981
+            },
+            "displayStartedAtMs": 8303.533333333327
+          },
+          "glyphs": [
+            "combat-feedback.damage.incoming.1",
+            "combat-feedback.damage.incoming.6"
+          ]
+        },
+        {
+          "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+          "x": 448,
+          "y": 459,
+          "scaleX": 3.0833333333333335,
+          "alpha": 1,
+          "event": {
+            "sourceId": "stage21-ice-ceiling-2",
+            "attackId": "stage21-ice-ceiling-2:2",
+            "producerKind": "environment-reduce-hp",
+            "occurredAtMs": 8336.866666666661,
+            "settledAtMs": 8336.866666666661,
+            "settledDamage": 10,
+            "hpBefore": 53,
+            "hpAfter": 43,
+            "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p1\",\"incoming-1:p1\",\"environment-reduce-hp\",0]",
+            "runtimeId": "incoming-1",
+            "producerOrdinal": 0,
+            "targetKind": "hero",
+            "ownerSlot": "p1",
+            "targetId": "p1",
+            "targetRuntimeId": "incoming-1:p1",
+            "displayValue": 10,
+            "worldAnchor": {
+              "x": 468,
+              "y": 519.0501981
+            },
+            "displayStartedAtMs": 8336.866666666661
+          },
+          "glyphs": [
+            "combat-feedback.damage.incoming.1",
+            "combat-feedback.damage.incoming.0"
+          ]
+        },
+        {
+          "name": "IncomingDamage:[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+          "x": 448,
+          "y": 459,
+          "scaleX": 3.0833333333333335,
+          "alpha": 1,
+          "event": {
+            "sourceId": "stage21-ice-ceiling-2",
+            "attackId": "stage21-ice-ceiling-2:2",
+            "producerKind": "environment-reduce-hp",
+            "occurredAtMs": 8336.866666666661,
+            "settledAtMs": 8336.866666666661,
+            "settledDamage": 19,
+            "hpBefore": 17,
+            "hpAfter": 0,
+            "eventId": "[\"incoming-1\",\"stage21-ice-ceiling-2\",\"stage21-ice-ceiling-2:2\",\"p2\",\"incoming-1:p2\",\"environment-reduce-hp\",0]",
+            "runtimeId": "incoming-1",
+            "producerOrdinal": 0,
+            "targetKind": "hero",
+            "ownerSlot": "p2",
+            "targetId": "p2",
+            "targetRuntimeId": "incoming-1:p2",
+            "displayValue": 19,
+            "worldAnchor": {
+              "x": 468,
+              "y": 519.0501981
+            },
+            "displayStartedAtMs": 8336.866666666661
+          },
+          "glyphs": [
+            "combat-feedback.damage.incoming.1",
+            "combat-feedback.damage.incoming.9"
+          ]
+        }
+      ],
+      "pets": {
+        "snapshots": {
+          "p1": {
+            "destroyed": false,
+            "petId": "p1-pet-dragon-1",
+            "species": "dragon",
+            "form": 1,
+            "runtime": {
+              "petId": "p1-pet-dragon-1",
+              "runtimeKey": "p1-pet-dragon-1:dragon:1:session:1:1",
+              "x": 100,
+              "y": 503.97519809999994,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 0,
+            "animation": {
+              "action": "wait",
+              "actionToken": 0,
+              "row": 0,
+              "column": 1,
+              "keyFrameIndex": 1,
+              "remainingHoldCount": 1,
+              "elapsedTicks": 3,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "p1-pet-dragon-1",
+              "runtimeKey": "p1-pet-dragon-1:dragon:1:session:1:1",
+              "x": 100,
+              "y": 503.97519809999994,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 0,
+              "velocityY": 1.5,
+              "direction": 0,
+              "standingOn": "level21-d172"
+            },
+            "summons": []
+          },
+          "p2": {
+            "destroyed": false,
+            "petId": "p2-pet-dragon-1",
+            "species": "dragon",
+            "form": 1,
+            "runtime": {
+              "petId": "p2-pet-dragon-1",
+              "runtimeKey": "p2-pet-dragon-1:dragon:1:session:2:1",
+              "x": 100,
+              "y": 503.97519809999994,
+              "facingX": 1,
+              "state": "idle"
+            },
+            "phase": "alive",
+            "actionToken": 0,
+            "animation": {
+              "action": "wait",
+              "actionToken": 0,
+              "row": 0,
+              "column": 1,
+              "keyFrameIndex": 1,
+              "remainingHoldCount": 1,
+              "elapsedTicks": 3,
+              "complete": false
+            },
+            "groundMotion": {
+              "petId": "p2-pet-dragon-1",
+              "runtimeKey": "p2-pet-dragon-1:dragon:1:session:2:1",
+              "x": 100,
+              "y": 503.97519809999994,
+              "facingX": 1,
+              "state": "idle",
+              "velocityX": 0,
+              "velocityY": 1.5,
+              "direction": 0,
+              "standingOn": "level21-d172"
+            },
+            "summons": []
+          }
+        },
+        "damage": [],
+        "pets": {
+          "p1": {
+            "id": "p1-pet-dragon-1",
+            "species": "dragon",
+            "form": 1,
+            "displayName": "小龙",
+            "level": 1,
+            "exp": 0,
+            "expToNext": 50,
+            "hp": 5000,
+            "maxHp": 10000,
+            "mp": 1000,
+            "maxMp": 1000,
+            "atk": 30,
+            "def": 100,
+            "critBonusRate": 0,
+            "skillDamageBonus": 0,
+            "moveSpeed": 5,
+            "lifetime": 100,
+            "quality": 1,
+            "hpQuality": 1,
+            "mpQuality": 1,
+            "atkQuality": 1,
+            "defQuality": 1,
+            "perception": 1,
+            "technique": 1,
+            "warpower": 1,
+            "isActive": true,
+            "skills": [
+              "fs"
+            ],
+            "skillState": {
+              "monkey1Xj": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "monkey2Lj": {
+                "cooldownMs": 0
+              },
+              "monkey2Xj": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "monkey3Lyq": {
+                "cooldownMs": 0
+              },
+              "monkey3Xj": {
+                "cooldownMs": 0
+              },
+              "monkey3Lj": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "monkey4Jgaoyi": {
+                "cooldownMs": 0
+              },
+              "horse1Sp": {
+                "cooldownMs": 0
+              },
+              "horse2Bd": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "horse3Bz": {
+                "cooldownMs": 0
+              },
+              "horse4Tmaoyi": {
+                "cooldownMs": 0
+              },
+              "dragon1Fs": {
+                "cooldownMs": 0,
+                "cloneRemainingMs": 0
+              },
+              "dragon2Sdcc": {
+                "cooldownMs": 0,
+                "lastHealOnHit": 0
+              },
+              "dragon3Ltwj": {
+                "cooldownMs": 0,
+                "lastHealOnHit": 0
+              },
+              "dragon4Qlaoyi": {
+                "cooldownMs": 0,
+                "lastCombo": {
+                  "cloneCombo": false,
+                  "sdccCombo": false,
+                  "ltwjCombo": false
+                }
+              },
+              "turtle1Sld": {
+                "cooldownMs": 0,
+                "lastHeal": 0,
+                "lastOwnerHeal": 0
+              },
+              "turtle2Txlj": {
+                "cooldownMs": 0,
+                "linkRemainingMs": 0,
+                "lastOwnerDamageRedirect": 0,
+                "lastOwnerDamageAfterRedirect": 0,
+                "lastOwnerHealBoost": 0,
+                "lastPetHeal": 0
+              },
+              "turtle3Sybh": {
+                "cooldownMs": 0
+              },
+              "turtle4Xwaoyi": {
+                "cooldownMs": 0,
+                "ultimateRemainingMs": 0,
+                "sldFreeCastTimersMs": [],
+                "lastCombo": {
+                  "sldFreeCasts": 0,
+                  "txljRefreshed": false,
+                  "sybhSustained": false
+                }
+              },
+              "ufo1Pms": {
+                "cooldownMs": 0
+              },
+              "ufo2Ss": {
+                "cooldownMs": 0
+              },
+              "ufo3Kmsk": {
+                "cooldownMs": 0,
+                "risingMs": 0,
+                "risingTotalMs": 0
+              },
+              "tiger1Hy": {
+                "cooldownMs": 0
+              },
+              "tiger2Sxhz": {
+                "cooldownMs": 0,
+                "lastHeal": 0
+              },
+              "tiger3Hsqj": {
+                "cooldownMs": 0
+              },
+              "tiger4Bhaoyi": {
+                "cooldownMs": 0,
+                "lastCombo": {
+                  "hyFreeCast": false,
+                  "sxhzFreeCast": false,
+                  "hsqjFreeCast": false
+                },
+                "comboStep": 0,
+                "comboStepElapsedMs": 0,
+                "emittedSteps": [],
+                "attackBoostReady": false
+              },
+              "phoenix1Np": {
+                "cooldownMs": 0,
+                "transformationRemainingMs": 0,
+                "pendingFullHeal": false,
+                "damageTakenMultiplier": 1,
+                "hurtActionImmune": false
+              },
+              "phoenix2Bshn": {
+                "cooldownMs": 0
+              },
+              "phoenix3Dhly": {
+                "cooldownMs": 0
+              },
+              "phoenix4Zqaoyi": {
+                "cooldownMs": 0,
+                "fireImbueActive": false
+              },
+              "rabbit1Yg": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "rabbit2Jf": {
+                "cooldownMs": 0,
+                "activeRemainingMs": 0,
+                "attackRate": 0.7,
+                "dodgeBonusRate": 0
+              },
+              "rabbit3Bs": {
+                "cooldownMs": 0
+              },
+              "rabbit4Ysaoyi": {
+                "cooldownMs": 0,
+                "activeRemainingMs": 0,
+                "healTickAccumulatorMs": 0,
+                "lastPetHeal": 0,
+                "lastOwnerHeal": 0
+              },
+              "mouse1Sc": {
+                "cooldownMs": 0
+              },
+              "mouse4Hxfb": {
+                "cooldownMs": 0
+              },
+              "mouse4Zsaoyi": {
+                "cooldownMs": 0,
+                "comboStep": 0,
+                "comboStepElapsedMs": 0,
+                "emittedSteps": []
+              },
+              "lastResult": "pet skill ready"
+            }
+          },
+          "p2": {
+            "id": "p2-pet-dragon-1",
+            "species": "dragon",
+            "form": 1,
+            "displayName": "小龙",
+            "level": 1,
+            "exp": 0,
+            "expToNext": 50,
+            "hp": 5000,
+            "maxHp": 10000,
+            "mp": 1000,
+            "maxMp": 1000,
+            "atk": 30,
+            "def": 100,
+            "critBonusRate": 0,
+            "skillDamageBonus": 0,
+            "moveSpeed": 5,
+            "lifetime": 100,
+            "quality": 1,
+            "hpQuality": 1,
+            "mpQuality": 1,
+            "atkQuality": 1,
+            "defQuality": 1,
+            "perception": 1,
+            "technique": 1,
+            "warpower": 1,
+            "isActive": true,
+            "skills": [
+              "fs"
+            ],
+            "skillState": {
+              "monkey1Xj": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "monkey2Lj": {
+                "cooldownMs": 0
+              },
+              "monkey2Xj": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "monkey3Lyq": {
+                "cooldownMs": 0
+              },
+              "monkey3Xj": {
+                "cooldownMs": 0
+              },
+              "monkey3Lj": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "monkey4Jgaoyi": {
+                "cooldownMs": 0
+              },
+              "horse1Sp": {
+                "cooldownMs": 0
+              },
+              "horse2Bd": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "horse3Bz": {
+                "cooldownMs": 0
+              },
+              "horse4Tmaoyi": {
+                "cooldownMs": 0
+              },
+              "dragon1Fs": {
+                "cooldownMs": 0,
+                "cloneRemainingMs": 0
+              },
+              "dragon2Sdcc": {
+                "cooldownMs": 0,
+                "lastHealOnHit": 0
+              },
+              "dragon3Ltwj": {
+                "cooldownMs": 0,
+                "lastHealOnHit": 0
+              },
+              "dragon4Qlaoyi": {
+                "cooldownMs": 0,
+                "lastCombo": {
+                  "cloneCombo": false,
+                  "sdccCombo": false,
+                  "ltwjCombo": false
+                }
+              },
+              "turtle1Sld": {
+                "cooldownMs": 0,
+                "lastHeal": 0,
+                "lastOwnerHeal": 0
+              },
+              "turtle2Txlj": {
+                "cooldownMs": 0,
+                "linkRemainingMs": 0,
+                "lastOwnerDamageRedirect": 0,
+                "lastOwnerDamageAfterRedirect": 0,
+                "lastOwnerHealBoost": 0,
+                "lastPetHeal": 0
+              },
+              "turtle3Sybh": {
+                "cooldownMs": 0
+              },
+              "turtle4Xwaoyi": {
+                "cooldownMs": 0,
+                "ultimateRemainingMs": 0,
+                "sldFreeCastTimersMs": [],
+                "lastCombo": {
+                  "sldFreeCasts": 0,
+                  "txljRefreshed": false,
+                  "sybhSustained": false
+                }
+              },
+              "ufo1Pms": {
+                "cooldownMs": 0
+              },
+              "ufo2Ss": {
+                "cooldownMs": 0
+              },
+              "ufo3Kmsk": {
+                "cooldownMs": 0,
+                "risingMs": 0,
+                "risingTotalMs": 0
+              },
+              "tiger1Hy": {
+                "cooldownMs": 0
+              },
+              "tiger2Sxhz": {
+                "cooldownMs": 0,
+                "lastHeal": 0
+              },
+              "tiger3Hsqj": {
+                "cooldownMs": 0
+              },
+              "tiger4Bhaoyi": {
+                "cooldownMs": 0,
+                "lastCombo": {
+                  "hyFreeCast": false,
+                  "sxhzFreeCast": false,
+                  "hsqjFreeCast": false
+                },
+                "comboStep": 0,
+                "comboStepElapsedMs": 0,
+                "emittedSteps": [],
+                "attackBoostReady": false
+              },
+              "phoenix1Np": {
+                "cooldownMs": 0,
+                "transformationRemainingMs": 0,
+                "pendingFullHeal": false,
+                "damageTakenMultiplier": 1,
+                "hurtActionImmune": false
+              },
+              "phoenix2Bshn": {
+                "cooldownMs": 0
+              },
+              "phoenix3Dhly": {
+                "cooldownMs": 0
+              },
+              "phoenix4Zqaoyi": {
+                "cooldownMs": 0,
+                "fireImbueActive": false
+              },
+              "rabbit1Yg": {
+                "releaseReady": false,
+                "cooldownMs": 0
+              },
+              "rabbit2Jf": {
+                "cooldownMs": 0,
+                "activeRemainingMs": 0,
+                "attackRate": 0.7,
+                "dodgeBonusRate": 0
+              },
+              "rabbit3Bs": {
+                "cooldownMs": 0
+              },
+              "rabbit4Ysaoyi": {
+                "cooldownMs": 0,
+                "activeRemainingMs": 0,
+                "healTickAccumulatorMs": 0,
+                "lastPetHeal": 0,
+                "lastOwnerHeal": 0
+              },
+              "mouse1Sc": {
+                "cooldownMs": 0
+              },
+              "mouse4Hxfb": {
+                "cooldownMs": 0
+              },
+              "mouse4Zsaoyi": {
+                "cooldownMs": 0,
+                "comboStep": 0,
+                "comboStepElapsedMs": 0,
+                "emittedSteps": []
+              },
+              "lastResult": "pet skill ready"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

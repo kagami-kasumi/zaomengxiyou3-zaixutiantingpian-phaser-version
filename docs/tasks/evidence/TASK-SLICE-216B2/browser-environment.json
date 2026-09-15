@@ -1,0 +1,294 @@
+{
+  "scope": "Real ice/fire formal adapters and DEV fire hit adapter; real hazard functions, shared party settlement and loaded fire pixels in Edge; controlled targets, not complete scene/geometry acceptance",
+  "rows": [
+    {
+      "id": "ice/p1/protected",
+      "actual": [
+        200,
+        0
+      ],
+      "expected": [
+        200,
+        0
+      ]
+    },
+    {
+      "id": "ice/p1/shield",
+      "actual": [
+        200,
+        84,
+        1,
+        "stage21-ice-ceiling-1",
+        "stage21-ice-ceiling-1:0",
+        "p1"
+      ],
+      "expected": [
+        200,
+        84,
+        1,
+        "stage21-ice-ceiling-1",
+        "stage21-ice-ceiling-1:0",
+        "p1"
+      ]
+    },
+    {
+      "id": "ice/p1/duplicate",
+      "actual": 84,
+      "expected": 84
+    },
+    {
+      "id": "ice/p1/different-source",
+      "actual": [
+        184,
+        "hurt",
+        200
+      ],
+      "expected": [
+        184,
+        "hurt",
+        200
+      ]
+    },
+    {
+      "id": "ice/p2/protected",
+      "actual": [
+        200,
+        0
+      ],
+      "expected": [
+        200,
+        0
+      ]
+    },
+    {
+      "id": "ice/p2/shield",
+      "actual": [
+        200,
+        84,
+        1,
+        "stage21-ice-ceiling-1",
+        "stage21-ice-ceiling-1:0",
+        "p2"
+      ],
+      "expected": [
+        200,
+        84,
+        1,
+        "stage21-ice-ceiling-1",
+        "stage21-ice-ceiling-1:0",
+        "p2"
+      ]
+    },
+    {
+      "id": "ice/p2/duplicate",
+      "actual": 84,
+      "expected": 84
+    },
+    {
+      "id": "ice/p2/different-source",
+      "actual": [
+        184,
+        "hurt",
+        200
+      ],
+      "expected": [
+        184,
+        "hurt",
+        200
+      ]
+    },
+    {
+      "id": "fire/p1/protected",
+      "actual": [
+        200,
+        0
+      ],
+      "expected": [
+        200,
+        0
+      ]
+    },
+    {
+      "id": "fire/p1/shield",
+      "actual": [
+        200,
+        54,
+        1,
+        "stage22-fire-1",
+        "stage22-fire-1:1",
+        "p1"
+      ],
+      "expected": [
+        200,
+        54,
+        1,
+        "stage22-fire-1",
+        "stage22-fire-1:1",
+        "p1"
+      ]
+    },
+    {
+      "id": "fire/p1/duplicate",
+      "actual": 54,
+      "expected": 54
+    },
+    {
+      "id": "fire/p1/different-source",
+      "actual": [
+        154,
+        "hurt",
+        200
+      ],
+      "expected": [
+        154,
+        "hurt",
+        200
+      ]
+    },
+    {
+      "id": "fire/p2/protected",
+      "actual": [
+        200,
+        0
+      ],
+      "expected": [
+        200,
+        0
+      ]
+    },
+    {
+      "id": "fire/p2/shield",
+      "actual": [
+        200,
+        54,
+        1,
+        "stage22-fire-1",
+        "stage22-fire-1:1",
+        "p2"
+      ],
+      "expected": [
+        200,
+        54,
+        1,
+        "stage22-fire-1",
+        "stage22-fire-1:1",
+        "p2"
+      ]
+    },
+    {
+      "id": "fire/p2/duplicate",
+      "actual": 54,
+      "expected": 54
+    },
+    {
+      "id": "fire/p2/different-source",
+      "actual": [
+        154,
+        "hurt",
+        200
+      ],
+      "expected": [
+        154,
+        "hurt",
+        200
+      ]
+    },
+    {
+      "id": "dev-fire/p1/protected",
+      "actual": [
+        200,
+        0
+      ],
+      "expected": [
+        200,
+        0
+      ]
+    },
+    {
+      "id": "dev-fire/p1/shield",
+      "actual": [
+        200,
+        54,
+        1,
+        "stage22-fire-1",
+        "stage22-fire-1:1",
+        "p1"
+      ],
+      "expected": [
+        200,
+        54,
+        1,
+        "stage22-fire-1",
+        "stage22-fire-1:1",
+        "p1"
+      ]
+    },
+    {
+      "id": "dev-fire/p1/duplicate",
+      "actual": 54,
+      "expected": 54
+    },
+    {
+      "id": "dev-fire/p1/different-source",
+      "actual": [
+        154,
+        "hurt",
+        200
+      ],
+      "expected": [
+        154,
+        "hurt",
+        200
+      ]
+    },
+    {
+      "id": "dev-fire/p2/protected",
+      "actual": [
+        200,
+        0
+      ],
+      "expected": [
+        200,
+        0
+      ]
+    },
+    {
+      "id": "dev-fire/p2/shield",
+      "actual": [
+        200,
+        54,
+        1,
+        "stage22-fire-1",
+        "stage22-fire-1:1",
+        "p2"
+      ],
+      "expected": [
+        200,
+        54,
+        1,
+        "stage22-fire-1",
+        "stage22-fire-1:1",
+        "p2"
+      ]
+    },
+    {
+      "id": "dev-fire/p2/duplicate",
+      "actual": 54,
+      "expected": 54
+    },
+    {
+      "id": "dev-fire/p2/different-source",
+      "actual": [
+        154,
+        "hurt",
+        200
+      ],
+      "expected": [
+        154,
+        "hurt",
+        200
+      ]
+    }
+  ],
+  "errors": []
+}

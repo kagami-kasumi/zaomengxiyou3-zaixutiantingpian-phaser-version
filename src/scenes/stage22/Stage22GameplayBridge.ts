@@ -331,7 +331,7 @@ function createMonsterView(
   };
 }
 
-function updateFire(
+export function updateFire(
   scene: Phaser.Scene,
   heroes: HeroPartyRuntime,
   hazards: Stage22FireHazardModel[],
@@ -351,7 +351,7 @@ function updateFire(
       height: hero.view.displayHeight,
       facingX: hero.facingX,
       alive: hero.alive,
-      isYourFather: false,
+      isYourFather: hero.environmentProtected,
     })),
     deltaMs,
     (hazard, target) => hasVisibleStage22FirePixel(scene, hazard, target),
@@ -359,6 +359,7 @@ function updateFire(
   updateViews(hazards);
   if (ignoreDamage) return;
   heroes.applyEnvironmentHits(hits.map((hit) => ({
+    source: { hazardId: hit.hazardId, attackId: hit.attackId, kind: 'fire-thorn', timeMs: scene.time.now },
     target: hit.target,
     damage: hit.damage,
     knockbackX: hit.knockbackX,

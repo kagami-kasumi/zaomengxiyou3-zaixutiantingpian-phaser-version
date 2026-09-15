@@ -330,7 +330,8 @@ export function applyPetTurtleTxljOwnerDamage(
   const state = ensurePetSkillState(pet);
   const petHpBefore = pet.hp;
   const petDamage = Math.ceil(normalizedDamage * PetTuning.turtle2TxljPetDamageRate);
-  const redirectedOwnerDamage = Math.ceil(normalizedDamage * PetTuning.turtle2TxljOwnerDamageRate);
+  // BaseHero.reduceHp assigns the product back to its int parameter before ceil.
+  const redirectedOwnerDamage = Math.trunc(normalizedDamage * PetTuning.turtle2TxljOwnerDamageRate);
   pet.hp = Math.max(0, pet.hp - petDamage);
   state.turtle2Txlj.lastOwnerDamageRedirect = petDamage;
   state.turtle2Txlj.lastOwnerDamageAfterRedirect = redirectedOwnerDamage;

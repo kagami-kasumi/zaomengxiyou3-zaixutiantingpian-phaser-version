@@ -4124,10 +4124,10 @@ function testPetTurtle2TxljRedirectsOwnerDamageAndBoostsHealing(): void {
 
   const damage = applyPetTurtleTxljOwnerDamage(roster, 101);
   assert.equal(damage.active, true);
-  assert.equal(damage.ownerDamage, 96);
+  assert.equal(damage.ownerDamage, 95);
   assert.equal(damage.petDamage, 6);
   assert.equal(pet.hp, 194);
-  assert.equal(pet.skillState?.turtle2Txlj.lastOwnerDamageAfterRedirect, 96);
+  assert.equal(pet.skillState?.turtle2Txlj.lastOwnerDamageAfterRedirect, 95);
   assert.equal(pet.skillState?.turtle2Txlj.lastOwnerDamageRedirect, 6);
 
   ownerStats.hp = 50;

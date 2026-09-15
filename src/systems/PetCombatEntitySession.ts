@@ -15,6 +15,7 @@ import { DefaultGlobalSettings } from './GlobalSettingsSystem';
 import { PetGroundSessionMovement } from './PetGroundSessionMovement';
 import { PetGroundOwnerAnchors } from '../assets/PetGroundEnvironmentAssets';
 import type { PetBehaviorAction } from './PetBehavior';
+import { recordIncomingDamageFeedback } from './IncomingDamageFeedbackSystem';
 
 type EntityPorts = Readonly<{
   publish: (event: Omit<PetCombatRuntimeEvent, 'sequence'>) => void;
@@ -284,7 +285,18 @@ export class PetCombatEntitySession {
     if (this.phase !== 'alive') return;
     for (const event of frame.damageEvents ?? []) {
       if (event.runtimeKey !== this.runtimeKey) continue;
+      const hpBefore = this.pet.hp;
       this.pet.hp = Math.max(0, this.pet.hp - event.amount);
+      const feedback = frame.incomingFeedback;
+      if (feedback && event.attackId && event.sourceId && event.occurredAtMs !== undefined) {
+        recordIncomingDamageFeedback({ model: feedback.model, ownerSlot: feedback.ownerSlot,
+          targetKind: 'pet', targetId: this.pet.id, targetRuntimeId: this.runtimeKey,
+          worldAnchor: () => ({ x: this.runtime.x, y: this.runtime.y }) }, {
+          sourceId: event.sourceId, attackId: event.attackId, producerKind: 'pet-reduce-hp',
+          occurredAtMs: event.occurredAtMs, settledAtMs: feedback.timeMs,
+          settledDamage: event.amount, hpBefore, hpAfter: this.pet.hp,
+        });
+      }
       this.behavior.onDamaged(event, this.context(frame, targets));
       if (this.pet.hp <= 0) {
         this.beginDeath();

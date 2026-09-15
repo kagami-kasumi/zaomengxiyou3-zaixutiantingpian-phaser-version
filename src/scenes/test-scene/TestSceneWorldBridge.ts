@@ -138,6 +138,7 @@ export function applySingleMonster30Attack(this: any, monster: Monster30Model, t
       monster,
       players: this.getPlayers(),
       petRosters: this.playerPetRosters,
+      petRuntimes: { p1: this.petRuntime, p2: this.p2PetRuntime },
       hitRegistry: this.hitRegistry,
       renderedMonsterAttackIds: this.renderedMonsterAttackIds,
       time,

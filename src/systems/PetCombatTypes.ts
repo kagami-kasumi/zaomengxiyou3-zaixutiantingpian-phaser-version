@@ -11,6 +11,8 @@ import type { PetAnimationClock } from './PetAnimationClock';
 import type { PetGroundEnvironment } from '../assets/PetGroundEnvironmentAssets';
 import type { PetGroundMotion } from './PetGroundMovementSystem';
 import type { PetProjectileCombatPort } from './PetProjectileCombatPort';
+import type { IncomingDamageFeedbackModel } from './IncomingDamageFeedbackSystem';
+import type { PlayerSlot } from './InputSystem';
 
 export type PetCombatFrame = Readonly<{
   roster: PetRoster;
@@ -19,6 +21,7 @@ export type PetCombatFrame = Readonly<{
   projectiles?: ProjectileSystemModel;
   random?: PetSkillRandomSource;
   damageEvents?: readonly PetCombatDamageEvent[];
+  incomingFeedback?: Readonly<{ model: IncomingDamageFeedbackModel; ownerSlot: PlayerSlot; timeMs: number }>;
   animationEvents?: readonly PetCombatAnimationEvent[];
   deltaMs: number;
   /** Original host clock selected by the scene; movement speed is pixels per tick. */

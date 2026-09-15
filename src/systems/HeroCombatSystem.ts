@@ -1,4 +1,5 @@
 import type { DamageEvent } from './CombatSystem';
+import { recordIncomingDamageFeedback, type IncomingDamageFeedbackTarget } from './IncomingDamageFeedbackSystem';
 import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem';
 
 export type HeroCombatState = 'ready' | 'hurt' | 'dead';
@@ -62,6 +63,7 @@ export type HeroCombatModel = {
   damageProtectionMs?: number;
   knockbackVelocityX: number;
   lastDamageEvent?: DamageEvent;
+  incomingFeedback?: IncomingDamageFeedbackTarget;
   magicShield?: HeroMagicShield;
   magicInvulnerability?: HeroMagicInvulnerability;
   magicBuff?: HeroMagicBuff;
@@ -123,6 +125,7 @@ export function applyHeroDamage(
   hero: HeroCombatModel,
   event: DamageEvent,
   timeMs: number,
+  redirectDamage?: (amount: number) => number,
 ): boolean {
   if (
     hero.state === 'dead' ||
@@ -132,13 +135,11 @@ export function applyHeroDamage(
     return false;
   }
 
-  const role3Reduction = Math.min(1, Math.max(0, hero.role3DamageReduction ?? 0));
-  const role3DefenseBonus = Math.max(0, hero.role3DefenseBonus ?? 0);
-  const remainingDamage = absorbHeroDamageWithMagicShield(
-    hero,
-    Math.max(0, event.amount * (1 - role3Reduction) - role3DefenseBonus),
-  );
-  hero.hp = Math.max(0, hero.hp - remainingDamage);
+  const remainingDamage = settleHeroHpDamage(hero, event.amount, redirectDamage, (settledDamage, hpBefore, hpAfter) => {
+    recordIncomingDamageFeedback(hero.incomingFeedback, { sourceId: event.sourceId, attackId: event.attackId,
+      producerKind: 'hero-reduce-hp', occurredAtMs: event.occurredAtMs, settledAtMs: timeMs,
+      settledDamage, hpBefore, hpAfter });
+  });
   hero.lastDamageEvent = event;
 
   if (hero.hp <= 0) {
@@ -165,6 +166,49 @@ export function applyHeroDamage(
       : event.knockbackX * HeroCombatTuning.knockbackPixelsPerSecond;
   }
   return true;
+}
+
+
+/** Direct environment reduceHp: caller collision/father gate, no normal-hit time window. */
+export function applyHeroDirectDamage(hero: HeroCombatModel, event: DamageEvent, timeMs: number): boolean {
+  if (hero.state === 'dead' || hero.magicInvulnerability) return false;
+  const remainingDamage = settleHeroHpDamage(hero, event.amount, undefined, (settledDamage, hpBefore, hpAfter) => {
+    recordIncomingDamageFeedback(hero.incomingFeedback, { sourceId: event.sourceId, attackId: event.attackId,
+      producerKind: 'environment-reduce-hp', occurredAtMs: event.occurredAtMs, settledAtMs: timeMs,
+      settledDamage, hpBefore, hpAfter });
+  });
+  hero.lastDamageEvent = event;
+  if (hero.hp <= 0) {
+    hero.state = 'dead';
+    hero.hurtUntilMs = 0;
+    hero.invulnerableUntilMs = Number.POSITIVE_INFINITY;
+    hero.knockbackVelocityX = 0;
+  } else if (remainingDamage > 0 && !hero.role3KnockbackImmune) {
+    // Role3's shield/hit12 override clears param2 before BaseHero's hurt branch.
+    hero.state = 'hurt';
+    hero.hurtUntilMs = timeMs + HeroCombatTuning.hurtDurationMs;
+  }
+  return true;
+}
+
+function settleHeroHpDamage(
+  hero: HeroCombatModel,
+  amount: number,
+  redirectDamage?: (amount: number) => number,
+  onSettled?: (damage: number, hpBefore: number, hpAfter: number) => void,
+): number {
+  const role3Reduction = Math.min(1, Math.max(0, hero.role3DamageReduction ?? 0));
+  const role3DefenseBonus = Math.max(0, hero.role3DefenseBonus ?? 0);
+  // Role3.reduceHp assigns the reduced value back to an AS3 int parameter.
+  // Keep the existing modern flat defense once; it is not part of that override.
+  const reducedDamage = Math.max(0,
+    Math.trunc(Math.trunc(amount) * (1 - role3Reduction)) - role3DefenseBonus);
+  const hpDamage = absorbHeroDamageWithMagicShield(hero, reducedDamage, role3Reduction);
+  const remainingDamage = hpDamage === undefined ? 0 : redirectDamage?.(hpDamage) ?? hpDamage;
+  const hpBefore = hero.hp;
+  hero.hp = Math.max(0, hero.hp - remainingDamage);
+  if (hpDamage !== undefined) onSettled?.(remainingDamage, hpBefore, hero.hp);
+  return remainingDamage;
 }
 
 export function applyHeroMagicShield(
@@ -321,18 +365,27 @@ export function updateHeroMagicFlagGuard(
 function absorbHeroDamageWithMagicShield(
   hero: HeroCombatModel,
   amount: number,
-): number {
+  role3Reduction: number,
+): number | undefined {
   const shield = hero.magicShield;
-  if (!shield || amount <= 0) {
+  if (!shield) {
     return amount;
   }
+  // Even a direct zero returns through an existing shield, with no HP producer.
+  if (amount <= 0) return undefined;
 
   const absorbed = Math.min(shield.remainingAmount, amount);
   shield.remainingAmount -= absorbed;
   if (shield.remainingAmount <= 0) {
     hero.magicShield = undefined;
   }
-  return amount - absorbed;
+  const overflow = amount - absorbed;
+  // A fully absorbed hit returns from BaseHero, including exact depletion.
+  if (overflow <= 0) return undefined;
+  // Umbrella/TJGL overflow invokes the role override again after shield removal.
+  return shield.kind === 'role4Mds'
+    ? overflow
+    : Math.trunc(overflow * (1 - role3Reduction));
 }
 
 function keepMovementInsideBounds(

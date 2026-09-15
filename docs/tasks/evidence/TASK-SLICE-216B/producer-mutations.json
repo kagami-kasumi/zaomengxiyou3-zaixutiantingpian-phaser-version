@@ -1,0 +1,15 @@
+{
+  "scope": "In-memory production settlement and real browser consumer mutations; historical evidence and source files unmodified",
+  "killed": [
+    "hp-delta-display",
+    "drop-zero",
+    "merge-producers",
+    "no-replay-dedup",
+    "wrong-owner",
+    "wrong-anchor",
+    "stale-after-destroy",
+    "lost-pet-attack",
+    "lost-pet-time",
+    "drop-transfer"
+  ]
+}

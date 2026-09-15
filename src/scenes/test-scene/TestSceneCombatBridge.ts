@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { applyOwnedHeroDamage } from '../../systems/PetBattleOwnershipSystem';
+import type { PetRuntimeModel } from '../../systems/PetTypes';
 import {
   createDamageEvent,
   resolveHitOnce,
@@ -6,7 +8,6 @@ import {
   type HitRegistry,
 } from '../../systems/CombatSystem';
 import {
-  applyHeroDamage,
   isHeroCombatDead,
   type HeroCombatModel,
 } from '../../systems/HeroCombatSystem';
@@ -27,7 +28,6 @@ import {
   type Monster30Model,
 } from '../../systems/Monster30System';
 import {
-  applyOwnedPetDamageRedirect,
   claimMonsterExperienceForCurrentTarget,
   type PlayerPetRosters,
 } from '../../systems/PetSystem';
@@ -153,6 +153,7 @@ export function applyMonster30AttackToPlayers(params: {
   monster: Monster30Model;
   players: readonly CombatBridgePlayer[];
   petRosters?: PlayerPetRosters;
+  petRuntimes?: Partial<Record<PlayerSlot, PetRuntimeModel>>;
   hitRegistry: HitRegistry;
   renderedMonsterAttackIds: Set<string>;
   time: number;
@@ -197,28 +198,18 @@ export function applyMonster30AttackToPlayers(params: {
       targetId: player.slot,
       attackId: activeAttack.attackId,
       actionName: activeAttack.actionName,
-      amount: params.petRosters
-        ? applyOwnedPetDamageRedirect(
-          params.petRosters,
-          player.slot,
-          calculateStage1IncomingDamage(
-            activeAttack.attackKind,
-            activeAttack.damage,
-            player.baseStats?.defense ?? 0,
-          ),
-        )
-        : calculateStage1IncomingDamage(
-          activeAttack.attackKind,
-          activeAttack.damage,
-          player.baseStats?.defense ?? 0,
-        ),
+      amount: calculateStage1IncomingDamage(
+        activeAttack.attackKind,
+        activeAttack.damage,
+        player.baseStats?.defense ?? 0,
+      ),
       attackKind: activeAttack.attackKind,
       knockbackX: activeAttack.facingX * activeAttack.knockbackX,
       knockbackY: activeAttack.knockbackY,
       occurredAtMs: time,
     });
 
-    if (applyHeroDamage(player.combat, damageEvent, time)) {
+    if (applyOwnedHeroDamage(player.combat, damageEvent, time, player.slot, params.petRosters, params.petRuntimes?.[player.slot])) {
       applyMonster30MagicFlagCounterFromHero(monster, player.combat);
       result.damageEvents.push(damageEvent);
     }

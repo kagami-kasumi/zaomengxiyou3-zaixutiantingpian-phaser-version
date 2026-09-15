@@ -51,6 +51,7 @@ import {
 } from './AssetManifest';
 import { petCombatHudHeadAssets } from './PetCombatHudHeadAssets';
 import { combatHitFeedbackAssets } from './CombatHitFeedbackAssets';
+import { incomingDamageFeedbackAssets } from './IncomingDamageFeedbackAssets';
 import { inventoryItemAssets } from './InventoryItemAssets';
 import { inventoryUiAssetList } from './InventoryUiAssets';
 import {
@@ -311,6 +312,7 @@ const combatCommonAssets = [
   ...petDragonBundleAssets,
   ...Object.values(scaffoldAssets).map(svg),
   image(combatHitFeedbackAssets.batter),
+  ...incomingDamageFeedbackAssets.map(image),
   ...combatHitFeedbackAssets.ordinaryDigits.map(image),
   ...combatHitFeedbackAssets.criticalDigits.map(image),
   ...combatHitFeedbackAssets.comboDigitFrames.map(image),

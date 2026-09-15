@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { saveSlotAssets } from '../assets/AssetManifest';
 import { createSavePartyCreationView } from './save-slot/SavePartyCreationView';
+import { createPetVisualQaEntry } from './save-slot/PetVisualQaEntry';
 import {
   createPartySaveSlot,
   deleteSaveSlot,
@@ -74,6 +75,7 @@ export class SaveSlotScene extends Phaser.Scene {
     this.refreshSlots();
     this.bindKeyboardShortcuts();
     this.setSlotPanelOpen(true);
+    this.events.once('shutdown', createPetVisualQaEntry(this.storage, () => this.refreshSlots()));
   }
 
   private createMainMenuInteractions(): void {

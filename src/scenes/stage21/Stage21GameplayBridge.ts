@@ -160,7 +160,7 @@ export function createStage21Gameplay(
       monsters.set(monster.id, runtime);
     }
     if (qa.fastClear) clearStage21QaMonsters(flow, monsters, qa.holdEnemyType);
-    updateIceHazards(heroes, iceHazards, iceViews, deltaMs, Boolean(qa.fastClear || qa.noDamage));
+    updateIceHazards(heroes, iceHazards, iceViews, deltaMs, Boolean(qa.fastClear || qa.noDamage), scene.time.now);
     updateMonsterCombat(
       scene,
       heroes,
@@ -343,12 +343,13 @@ function updateStatus(
   );
 }
 
-function updateIceHazards(
+export function updateIceHazards(
   heroes: HeroPartyRuntime,
   hazards: Stage21IceHazardModel[],
   views: readonly Phaser.GameObjects.Image[],
   deltaMs: number,
   ignoreDamage = false,
+  timeMs = 0,
 ): void {
   const snapshots = heroes.snapshots();
   const hits = updateStage21IceHazards(hazards, snapshots.map((hero) => ({
@@ -359,6 +360,7 @@ function updateIceHazards(
     height: hero.view.displayHeight,
     facingX: hero.facingX,
     alive: hero.alive,
+    isYourFather: hero.environmentProtected,
   })), deltaMs);
   hazards.forEach((hazard, index) => {
     const view = views[index];
@@ -366,6 +368,7 @@ function updateIceHazards(
   });
   if (ignoreDamage) return;
   heroes.applyEnvironmentHits(hits.map((hit) => ({
+    source: { hazardId: hit.hazardId, attackId: hit.attackId, kind: 'ice-thorn', timeMs },
     target: hit.target,
     damage: hit.damage,
     knockbackX: hit.knockbackX,

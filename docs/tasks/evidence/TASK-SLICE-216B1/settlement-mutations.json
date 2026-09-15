@@ -1,0 +1,15 @@
+{
+  "scope": "In-memory production settlement and real browser consumer mutations; historical evidence and source files unmodified",
+  "killed": [
+    "owner-ceil",
+    "no-role3-int",
+    "redirect-before-protection",
+    "redirect-before-shield",
+    "drop-overflow",
+    "skip-overflow-reentry",
+    "wrong-owner",
+    "wrong-source-amount",
+    "skip-monster-collision",
+    "skip-boss-hit-registry"
+  ]
+}

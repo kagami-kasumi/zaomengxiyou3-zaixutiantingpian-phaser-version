@@ -1,0 +1,5053 @@
+{
+  "scope": "Controlled active attacks through real TestScene Monster30/Monster3 collision and settlement adapters; no full-scene turtle visual claim",
+  "rows": [
+    {
+      "id": "monster30/p1/transfer-101/hit",
+      "slot": "p1",
+      "caseId": "transfer-101",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "transfer-101",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 200,
+          "hpAfter": 194,
+          "eventId": "[\"incoming-1\",\"fixture-monster30\",\"transfer-101\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "transfer-101",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 200,
+          "hpAfter": 105,
+          "eventId": "[\"incoming-1\",\"fixture-monster30\",\"transfer-101\",\"p1\",\"incoming-1:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-1",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-1:p1",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/transfer-101/miss",
+      "slot": "p1",
+      "caseId": "transfer-101",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/transfer-101/duplicate",
+      "slot": "p1",
+      "caseId": "transfer-101",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/invulnerable/hit",
+      "slot": "p1",
+      "caseId": "invulnerable",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/invulnerable/miss",
+      "slot": "p1",
+      "caseId": "invulnerable",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/invulnerable/duplicate",
+      "slot": "p1",
+      "caseId": "invulnerable",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/magic-invulnerable/hit",
+      "slot": "p1",
+      "caseId": "magic-invulnerable",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/magic-invulnerable/miss",
+      "slot": "p1",
+      "caseId": "magic-invulnerable",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/magic-invulnerable/duplicate",
+      "slot": "p1",
+      "caseId": "magic-invulnerable",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/dead-hero/hit",
+      "slot": "p1",
+      "caseId": "dead-hero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/dead-hero/miss",
+      "slot": "p1",
+      "caseId": "dead-hero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/dead-hero/duplicate",
+      "slot": "p1",
+      "caseId": "dead-hero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/full-shield/hit",
+      "slot": "p1",
+      "caseId": "full-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/full-shield/miss",
+      "slot": "p1",
+      "caseId": "full-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/full-shield/duplicate",
+      "slot": "p1",
+      "caseId": "full-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/exact-shield/hit",
+      "slot": "p1",
+      "caseId": "exact-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/exact-shield/miss",
+      "slot": "p1",
+      "caseId": "exact-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/exact-shield/duplicate",
+      "slot": "p1",
+      "caseId": "exact-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/overflow-shield/hit",
+      "slot": "p1",
+      "caseId": "overflow-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "overflow-shield",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-19\",\"fixture-monster30\",\"overflow-shield\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-19",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "overflow-shield",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 48,
+          "hpBefore": 200,
+          "hpAfter": 152,
+          "eventId": "[\"incoming-19\",\"fixture-monster30\",\"overflow-shield\",\"p1\",\"incoming-19:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-19",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-19:p1",
+          "displayValue": 48,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/overflow-shield/miss",
+      "slot": "p1",
+      "caseId": "overflow-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/overflow-shield/duplicate",
+      "slot": "p1",
+      "caseId": "overflow-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/tjgl-overflow/hit",
+      "slot": "p1",
+      "caseId": "tjgl-overflow",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "tjgl-overflow",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-22\",\"fixture-monster30\",\"tjgl-overflow\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-22",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "tjgl-overflow",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 48,
+          "hpBefore": 200,
+          "hpAfter": 152,
+          "eventId": "[\"incoming-22\",\"fixture-monster30\",\"tjgl-overflow\",\"p1\",\"incoming-22:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-22",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-22:p1",
+          "displayValue": 48,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/tjgl-overflow/miss",
+      "slot": "p1",
+      "caseId": "tjgl-overflow",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/tjgl-overflow/duplicate",
+      "slot": "p1",
+      "caseId": "tjgl-overflow",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-sd1/hit",
+      "slot": "p1",
+      "caseId": "role3-sd1",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-sd1",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 5,
+          "hpBefore": 200,
+          "hpAfter": 195,
+          "eventId": "[\"incoming-25\",\"fixture-monster30\",\"role3-sd1\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-25",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 5,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-sd1",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 94,
+          "hpBefore": 200,
+          "hpAfter": 106,
+          "eventId": "[\"incoming-25\",\"fixture-monster30\",\"role3-sd1\",\"p1\",\"incoming-25:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-25",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-25:p1",
+          "displayValue": 94,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/role3-sd1/miss",
+      "slot": "p1",
+      "caseId": "role3-sd1",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-sd1/duplicate",
+      "slot": "p1",
+      "caseId": "role3-sd1",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-no-link/hit",
+      "slot": "p1",
+      "caseId": "role3-no-link",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-no-link",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 99,
+          "hpBefore": 200,
+          "hpAfter": 101,
+          "eventId": "[\"incoming-28\",\"fixture-monster30\",\"role3-no-link\",\"p1\",\"incoming-28:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-28",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-28:p1",
+          "displayValue": 99,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/role3-no-link/miss",
+      "slot": "p1",
+      "caseId": "role3-no-link",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-no-link/duplicate",
+      "slot": "p1",
+      "caseId": "role3-no-link",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-sd8/hit",
+      "slot": "p1",
+      "caseId": "role3-sd8",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-sd8",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 5,
+          "hpBefore": 200,
+          "hpAfter": 195,
+          "eventId": "[\"incoming-31\",\"fixture-monster30\",\"role3-sd8\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-31",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 5,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-sd8",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 87,
+          "hpBefore": 200,
+          "hpAfter": 113,
+          "eventId": "[\"incoming-31\",\"fixture-monster30\",\"role3-sd8\",\"p1\",\"incoming-31:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-31",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-31:p1",
+          "displayValue": 87,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/role3-sd8/miss",
+      "slot": "p1",
+      "caseId": "role3-sd8",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-sd8/duplicate",
+      "slot": "p1",
+      "caseId": "role3-sd8",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-overflow/hit",
+      "slot": "p1",
+      "caseId": "role3-overflow",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-overflow",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-34\",\"fixture-monster30\",\"role3-overflow\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-34",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-overflow",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 45,
+          "hpBefore": 200,
+          "hpAfter": 155,
+          "eventId": "[\"incoming-34\",\"fixture-monster30\",\"role3-overflow\",\"p1\",\"incoming-34:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-34",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-34:p1",
+          "displayValue": 45,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/role3-overflow/miss",
+      "slot": "p1",
+      "caseId": "role3-overflow",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-overflow/duplicate",
+      "slot": "p1",
+      "caseId": "role3-overflow",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-exact-shield/hit",
+      "slot": "p1",
+      "caseId": "role3-exact-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-exact-shield/miss",
+      "slot": "p1",
+      "caseId": "role3-exact-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/role3-exact-shield/duplicate",
+      "slot": "p1",
+      "caseId": "role3-exact-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/zero/hit",
+      "slot": "p1",
+      "caseId": "zero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "zero",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 0,
+          "hpBefore": 200,
+          "hpAfter": 200,
+          "eventId": "[\"incoming-40\",\"fixture-monster30\",\"zero\",\"p1\",\"incoming-40:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-40",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-40:p1",
+          "displayValue": 0,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/zero/miss",
+      "slot": "p1",
+      "caseId": "zero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/zero/duplicate",
+      "slot": "p1",
+      "caseId": "zero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/lethal-hero/hit",
+      "slot": "p1",
+      "caseId": "lethal-hero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "lethal-hero",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 200,
+          "hpAfter": 194,
+          "eventId": "[\"incoming-43\",\"fixture-monster30\",\"lethal-hero\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-43",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "lethal-hero",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 30,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-43\",\"fixture-monster30\",\"lethal-hero\",\"p1\",\"incoming-43:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-43",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-43:p1",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/lethal-hero/miss",
+      "slot": "p1",
+      "caseId": "lethal-hero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/lethal-hero/duplicate",
+      "slot": "p1",
+      "caseId": "lethal-hero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/lethal-pet/hit",
+      "slot": "p1",
+      "caseId": "lethal-pet",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "lethal-pet",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 3,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-46\",\"fixture-monster30\",\"lethal-pet\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-46",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "lethal-pet",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 200,
+          "hpAfter": 105,
+          "eventId": "[\"incoming-46\",\"fixture-monster30\",\"lethal-pet\",\"p1\",\"incoming-46:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-46",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-46:p1",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/lethal-pet/miss",
+      "slot": "p1",
+      "caseId": "lethal-pet",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/lethal-pet/duplicate",
+      "slot": "p1",
+      "caseId": "lethal-pet",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/dead-pet/hit",
+      "slot": "p1",
+      "caseId": "dead-pet",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "dead-pet",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 101,
+          "hpBefore": 200,
+          "hpAfter": 99,
+          "eventId": "[\"incoming-49\",\"fixture-monster30\",\"dead-pet\",\"p1\",\"incoming-49:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-49",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-49:p1",
+          "displayValue": 101,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/dead-pet/miss",
+      "slot": "p1",
+      "caseId": "dead-pet",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/dead-pet/duplicate",
+      "slot": "p1",
+      "caseId": "dead-pet",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/expired-link/hit",
+      "slot": "p1",
+      "caseId": "expired-link",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "expired-link",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 101,
+          "hpBefore": 200,
+          "hpAfter": 99,
+          "eventId": "[\"incoming-52\",\"fixture-monster30\",\"expired-link\",\"p1\",\"incoming-52:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-52",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-52:p1",
+          "displayValue": 101,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p1/expired-link/miss",
+      "slot": "p1",
+      "caseId": "expired-link",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p1/expired-link/duplicate",
+      "slot": "p1",
+      "caseId": "expired-link",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/transfer-101/hit",
+      "slot": "p2",
+      "caseId": "transfer-101",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "transfer-101",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 200,
+          "hpAfter": 194,
+          "eventId": "[\"incoming-55\",\"fixture-monster30\",\"transfer-101\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-55",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "transfer-101",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 200,
+          "hpAfter": 105,
+          "eventId": "[\"incoming-55\",\"fixture-monster30\",\"transfer-101\",\"p2\",\"incoming-55:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-55",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-55:p2",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/transfer-101/miss",
+      "slot": "p2",
+      "caseId": "transfer-101",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/transfer-101/duplicate",
+      "slot": "p2",
+      "caseId": "transfer-101",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/invulnerable/hit",
+      "slot": "p2",
+      "caseId": "invulnerable",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/invulnerable/miss",
+      "slot": "p2",
+      "caseId": "invulnerable",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/invulnerable/duplicate",
+      "slot": "p2",
+      "caseId": "invulnerable",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/magic-invulnerable/hit",
+      "slot": "p2",
+      "caseId": "magic-invulnerable",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/magic-invulnerable/miss",
+      "slot": "p2",
+      "caseId": "magic-invulnerable",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/magic-invulnerable/duplicate",
+      "slot": "p2",
+      "caseId": "magic-invulnerable",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/dead-hero/hit",
+      "slot": "p2",
+      "caseId": "dead-hero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/dead-hero/miss",
+      "slot": "p2",
+      "caseId": "dead-hero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/dead-hero/duplicate",
+      "slot": "p2",
+      "caseId": "dead-hero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/full-shield/hit",
+      "slot": "p2",
+      "caseId": "full-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/full-shield/miss",
+      "slot": "p2",
+      "caseId": "full-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/full-shield/duplicate",
+      "slot": "p2",
+      "caseId": "full-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/exact-shield/hit",
+      "slot": "p2",
+      "caseId": "exact-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/exact-shield/miss",
+      "slot": "p2",
+      "caseId": "exact-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/exact-shield/duplicate",
+      "slot": "p2",
+      "caseId": "exact-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/overflow-shield/hit",
+      "slot": "p2",
+      "caseId": "overflow-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "overflow-shield",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-73\",\"fixture-monster30\",\"overflow-shield\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-73",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "overflow-shield",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 48,
+          "hpBefore": 200,
+          "hpAfter": 152,
+          "eventId": "[\"incoming-73\",\"fixture-monster30\",\"overflow-shield\",\"p2\",\"incoming-73:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-73",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-73:p2",
+          "displayValue": 48,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/overflow-shield/miss",
+      "slot": "p2",
+      "caseId": "overflow-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/overflow-shield/duplicate",
+      "slot": "p2",
+      "caseId": "overflow-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/tjgl-overflow/hit",
+      "slot": "p2",
+      "caseId": "tjgl-overflow",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "tjgl-overflow",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-76\",\"fixture-monster30\",\"tjgl-overflow\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-76",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "tjgl-overflow",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 48,
+          "hpBefore": 200,
+          "hpAfter": 152,
+          "eventId": "[\"incoming-76\",\"fixture-monster30\",\"tjgl-overflow\",\"p2\",\"incoming-76:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-76",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-76:p2",
+          "displayValue": 48,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/tjgl-overflow/miss",
+      "slot": "p2",
+      "caseId": "tjgl-overflow",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/tjgl-overflow/duplicate",
+      "slot": "p2",
+      "caseId": "tjgl-overflow",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-sd1/hit",
+      "slot": "p2",
+      "caseId": "role3-sd1",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-sd1",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 5,
+          "hpBefore": 200,
+          "hpAfter": 195,
+          "eventId": "[\"incoming-79\",\"fixture-monster30\",\"role3-sd1\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-79",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 5,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-sd1",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 94,
+          "hpBefore": 200,
+          "hpAfter": 106,
+          "eventId": "[\"incoming-79\",\"fixture-monster30\",\"role3-sd1\",\"p2\",\"incoming-79:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-79",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-79:p2",
+          "displayValue": 94,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/role3-sd1/miss",
+      "slot": "p2",
+      "caseId": "role3-sd1",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-sd1/duplicate",
+      "slot": "p2",
+      "caseId": "role3-sd1",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-no-link/hit",
+      "slot": "p2",
+      "caseId": "role3-no-link",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-no-link",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 99,
+          "hpBefore": 200,
+          "hpAfter": 101,
+          "eventId": "[\"incoming-82\",\"fixture-monster30\",\"role3-no-link\",\"p2\",\"incoming-82:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-82",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-82:p2",
+          "displayValue": 99,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/role3-no-link/miss",
+      "slot": "p2",
+      "caseId": "role3-no-link",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-no-link/duplicate",
+      "slot": "p2",
+      "caseId": "role3-no-link",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-sd8/hit",
+      "slot": "p2",
+      "caseId": "role3-sd8",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-sd8",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 5,
+          "hpBefore": 200,
+          "hpAfter": 195,
+          "eventId": "[\"incoming-85\",\"fixture-monster30\",\"role3-sd8\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-85",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 5,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-sd8",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 87,
+          "hpBefore": 200,
+          "hpAfter": 113,
+          "eventId": "[\"incoming-85\",\"fixture-monster30\",\"role3-sd8\",\"p2\",\"incoming-85:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-85",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-85:p2",
+          "displayValue": 87,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/role3-sd8/miss",
+      "slot": "p2",
+      "caseId": "role3-sd8",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-sd8/duplicate",
+      "slot": "p2",
+      "caseId": "role3-sd8",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-overflow/hit",
+      "slot": "p2",
+      "caseId": "role3-overflow",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-overflow",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-88\",\"fixture-monster30\",\"role3-overflow\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-88",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "role3-overflow",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 45,
+          "hpBefore": 200,
+          "hpAfter": 155,
+          "eventId": "[\"incoming-88\",\"fixture-monster30\",\"role3-overflow\",\"p2\",\"incoming-88:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-88",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-88:p2",
+          "displayValue": 45,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/role3-overflow/miss",
+      "slot": "p2",
+      "caseId": "role3-overflow",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-overflow/duplicate",
+      "slot": "p2",
+      "caseId": "role3-overflow",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-exact-shield/hit",
+      "slot": "p2",
+      "caseId": "role3-exact-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-exact-shield/miss",
+      "slot": "p2",
+      "caseId": "role3-exact-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/role3-exact-shield/duplicate",
+      "slot": "p2",
+      "caseId": "role3-exact-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/zero/hit",
+      "slot": "p2",
+      "caseId": "zero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "zero",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 0,
+          "hpBefore": 200,
+          "hpAfter": 200,
+          "eventId": "[\"incoming-94\",\"fixture-monster30\",\"zero\",\"p2\",\"incoming-94:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-94",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-94:p2",
+          "displayValue": 0,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/zero/miss",
+      "slot": "p2",
+      "caseId": "zero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/zero/duplicate",
+      "slot": "p2",
+      "caseId": "zero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/lethal-hero/hit",
+      "slot": "p2",
+      "caseId": "lethal-hero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "lethal-hero",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 200,
+          "hpAfter": 194,
+          "eventId": "[\"incoming-97\",\"fixture-monster30\",\"lethal-hero\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-97",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "lethal-hero",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 30,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-97\",\"fixture-monster30\",\"lethal-hero\",\"p2\",\"incoming-97:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-97",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-97:p2",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/lethal-hero/miss",
+      "slot": "p2",
+      "caseId": "lethal-hero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/lethal-hero/duplicate",
+      "slot": "p2",
+      "caseId": "lethal-hero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/lethal-pet/hit",
+      "slot": "p2",
+      "caseId": "lethal-pet",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "lethal-pet",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 3,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-100\",\"fixture-monster30\",\"lethal-pet\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-100",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "lethal-pet",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 200,
+          "hpAfter": 105,
+          "eventId": "[\"incoming-100\",\"fixture-monster30\",\"lethal-pet\",\"p2\",\"incoming-100:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-100",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-100:p2",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/lethal-pet/miss",
+      "slot": "p2",
+      "caseId": "lethal-pet",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/lethal-pet/duplicate",
+      "slot": "p2",
+      "caseId": "lethal-pet",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/dead-pet/hit",
+      "slot": "p2",
+      "caseId": "dead-pet",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "dead-pet",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 101,
+          "hpBefore": 200,
+          "hpAfter": 99,
+          "eventId": "[\"incoming-103\",\"fixture-monster30\",\"dead-pet\",\"p2\",\"incoming-103:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-103",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-103:p2",
+          "displayValue": 101,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/dead-pet/miss",
+      "slot": "p2",
+      "caseId": "dead-pet",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/dead-pet/duplicate",
+      "slot": "p2",
+      "caseId": "dead-pet",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/expired-link/hit",
+      "slot": "p2",
+      "caseId": "expired-link",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "fixture-monster30",
+          "attackId": "expired-link",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 101,
+          "hpBefore": 200,
+          "hpAfter": 99,
+          "eventId": "[\"incoming-106\",\"fixture-monster30\",\"expired-link\",\"p2\",\"incoming-106:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-106",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-106:p2",
+          "displayValue": 101,
+          "worldAnchor": {
+            "x": 146,
+            "y": 76
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster30/p2/expired-link/miss",
+      "slot": "p2",
+      "caseId": "expired-link",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster30/p2/expired-link/duplicate",
+      "slot": "p2",
+      "caseId": "expired-link",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 146,
+        "y": 76
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/transfer-101/hit",
+      "slot": "p1",
+      "caseId": "transfer-101",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "transfer-101",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 200,
+          "hpAfter": 194,
+          "eventId": "[\"incoming-109\",\"monster3\",\"transfer-101\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-109",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "transfer-101",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 200,
+          "hpAfter": 105,
+          "eventId": "[\"incoming-109\",\"monster3\",\"transfer-101\",\"p1\",\"incoming-109:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-109",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-109:p1",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/transfer-101/miss",
+      "slot": "p1",
+      "caseId": "transfer-101",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/transfer-101/duplicate",
+      "slot": "p1",
+      "caseId": "transfer-101",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/invulnerable/hit",
+      "slot": "p1",
+      "caseId": "invulnerable",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/invulnerable/miss",
+      "slot": "p1",
+      "caseId": "invulnerable",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/invulnerable/duplicate",
+      "slot": "p1",
+      "caseId": "invulnerable",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/magic-invulnerable/hit",
+      "slot": "p1",
+      "caseId": "magic-invulnerable",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/magic-invulnerable/miss",
+      "slot": "p1",
+      "caseId": "magic-invulnerable",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/magic-invulnerable/duplicate",
+      "slot": "p1",
+      "caseId": "magic-invulnerable",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/dead-hero/hit",
+      "slot": "p1",
+      "caseId": "dead-hero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/dead-hero/miss",
+      "slot": "p1",
+      "caseId": "dead-hero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/dead-hero/duplicate",
+      "slot": "p1",
+      "caseId": "dead-hero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/full-shield/hit",
+      "slot": "p1",
+      "caseId": "full-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/full-shield/miss",
+      "slot": "p1",
+      "caseId": "full-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/full-shield/duplicate",
+      "slot": "p1",
+      "caseId": "full-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/exact-shield/hit",
+      "slot": "p1",
+      "caseId": "exact-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/exact-shield/miss",
+      "slot": "p1",
+      "caseId": "exact-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/exact-shield/duplicate",
+      "slot": "p1",
+      "caseId": "exact-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/overflow-shield/hit",
+      "slot": "p1",
+      "caseId": "overflow-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "overflow-shield",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-127\",\"monster3\",\"overflow-shield\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-127",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "overflow-shield",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 48,
+          "hpBefore": 200,
+          "hpAfter": 152,
+          "eventId": "[\"incoming-127\",\"monster3\",\"overflow-shield\",\"p1\",\"incoming-127:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-127",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-127:p1",
+          "displayValue": 48,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/overflow-shield/miss",
+      "slot": "p1",
+      "caseId": "overflow-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/overflow-shield/duplicate",
+      "slot": "p1",
+      "caseId": "overflow-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/tjgl-overflow/hit",
+      "slot": "p1",
+      "caseId": "tjgl-overflow",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "tjgl-overflow",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-130\",\"monster3\",\"tjgl-overflow\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-130",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "tjgl-overflow",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 48,
+          "hpBefore": 200,
+          "hpAfter": 152,
+          "eventId": "[\"incoming-130\",\"monster3\",\"tjgl-overflow\",\"p1\",\"incoming-130:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-130",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-130:p1",
+          "displayValue": 48,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/tjgl-overflow/miss",
+      "slot": "p1",
+      "caseId": "tjgl-overflow",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/tjgl-overflow/duplicate",
+      "slot": "p1",
+      "caseId": "tjgl-overflow",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-sd1/hit",
+      "slot": "p1",
+      "caseId": "role3-sd1",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-sd1",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 5,
+          "hpBefore": 200,
+          "hpAfter": 195,
+          "eventId": "[\"incoming-133\",\"monster3\",\"role3-sd1\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-133",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 5,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-sd1",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 94,
+          "hpBefore": 200,
+          "hpAfter": 106,
+          "eventId": "[\"incoming-133\",\"monster3\",\"role3-sd1\",\"p1\",\"incoming-133:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-133",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-133:p1",
+          "displayValue": 94,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/role3-sd1/miss",
+      "slot": "p1",
+      "caseId": "role3-sd1",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-sd1/duplicate",
+      "slot": "p1",
+      "caseId": "role3-sd1",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-no-link/hit",
+      "slot": "p1",
+      "caseId": "role3-no-link",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-no-link",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 99,
+          "hpBefore": 200,
+          "hpAfter": 101,
+          "eventId": "[\"incoming-136\",\"monster3\",\"role3-no-link\",\"p1\",\"incoming-136:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-136",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-136:p1",
+          "displayValue": 99,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/role3-no-link/miss",
+      "slot": "p1",
+      "caseId": "role3-no-link",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-no-link/duplicate",
+      "slot": "p1",
+      "caseId": "role3-no-link",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-sd8/hit",
+      "slot": "p1",
+      "caseId": "role3-sd8",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-sd8",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 5,
+          "hpBefore": 200,
+          "hpAfter": 195,
+          "eventId": "[\"incoming-139\",\"monster3\",\"role3-sd8\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-139",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 5,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-sd8",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 87,
+          "hpBefore": 200,
+          "hpAfter": 113,
+          "eventId": "[\"incoming-139\",\"monster3\",\"role3-sd8\",\"p1\",\"incoming-139:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-139",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-139:p1",
+          "displayValue": 87,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/role3-sd8/miss",
+      "slot": "p1",
+      "caseId": "role3-sd8",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-sd8/duplicate",
+      "slot": "p1",
+      "caseId": "role3-sd8",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-overflow/hit",
+      "slot": "p1",
+      "caseId": "role3-overflow",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-overflow",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-142\",\"monster3\",\"role3-overflow\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-142",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-overflow",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 45,
+          "hpBefore": 200,
+          "hpAfter": 155,
+          "eventId": "[\"incoming-142\",\"monster3\",\"role3-overflow\",\"p1\",\"incoming-142:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-142",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-142:p1",
+          "displayValue": 45,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/role3-overflow/miss",
+      "slot": "p1",
+      "caseId": "role3-overflow",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-overflow/duplicate",
+      "slot": "p1",
+      "caseId": "role3-overflow",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-exact-shield/hit",
+      "slot": "p1",
+      "caseId": "role3-exact-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-exact-shield/miss",
+      "slot": "p1",
+      "caseId": "role3-exact-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/role3-exact-shield/duplicate",
+      "slot": "p1",
+      "caseId": "role3-exact-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/zero/hit",
+      "slot": "p1",
+      "caseId": "zero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "zero",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 0,
+          "hpBefore": 200,
+          "hpAfter": 200,
+          "eventId": "[\"incoming-148\",\"monster3\",\"zero\",\"p1\",\"incoming-148:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-148",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-148:p1",
+          "displayValue": 0,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/zero/miss",
+      "slot": "p1",
+      "caseId": "zero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/zero/duplicate",
+      "slot": "p1",
+      "caseId": "zero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/lethal-hero/hit",
+      "slot": "p1",
+      "caseId": "lethal-hero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "lethal-hero",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 200,
+          "hpAfter": 194,
+          "eventId": "[\"incoming-151\",\"monster3\",\"lethal-hero\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-151",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "lethal-hero",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 30,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-151\",\"monster3\",\"lethal-hero\",\"p1\",\"incoming-151:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-151",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-151:p1",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/lethal-hero/miss",
+      "slot": "p1",
+      "caseId": "lethal-hero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/lethal-hero/duplicate",
+      "slot": "p1",
+      "caseId": "lethal-hero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/lethal-pet/hit",
+      "slot": "p1",
+      "caseId": "lethal-pet",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "lethal-pet",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 3,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-154\",\"monster3\",\"lethal-pet\",\"p1\",\"pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-154",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p1",
+          "targetId": "pet-turtle-2",
+          "targetRuntimeId": "pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "lethal-pet",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 200,
+          "hpAfter": 105,
+          "eventId": "[\"incoming-154\",\"monster3\",\"lethal-pet\",\"p1\",\"incoming-154:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-154",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-154:p1",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/lethal-pet/miss",
+      "slot": "p1",
+      "caseId": "lethal-pet",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/lethal-pet/duplicate",
+      "slot": "p1",
+      "caseId": "lethal-pet",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/dead-pet/hit",
+      "slot": "p1",
+      "caseId": "dead-pet",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "dead-pet",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 101,
+          "hpBefore": 200,
+          "hpAfter": 99,
+          "eventId": "[\"incoming-157\",\"monster3\",\"dead-pet\",\"p1\",\"incoming-157:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-157",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-157:p1",
+          "displayValue": 101,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/dead-pet/miss",
+      "slot": "p1",
+      "caseId": "dead-pet",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/dead-pet/duplicate",
+      "slot": "p1",
+      "caseId": "dead-pet",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/expired-link/hit",
+      "slot": "p1",
+      "caseId": "expired-link",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "expired-link",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 101,
+          "hpBefore": 200,
+          "hpAfter": 99,
+          "eventId": "[\"incoming-160\",\"monster3\",\"expired-link\",\"p1\",\"incoming-160:p1\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-160",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p1",
+          "targetId": "p1",
+          "targetRuntimeId": "incoming-160:p1",
+          "displayValue": 101,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p1/expired-link/miss",
+      "slot": "p1",
+      "caseId": "expired-link",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p1/expired-link/duplicate",
+      "slot": "p1",
+      "caseId": "expired-link",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/transfer-101/hit",
+      "slot": "p2",
+      "caseId": "transfer-101",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "transfer-101",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 200,
+          "hpAfter": 194,
+          "eventId": "[\"incoming-163\",\"monster3\",\"transfer-101\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-163",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "transfer-101",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 200,
+          "hpAfter": 105,
+          "eventId": "[\"incoming-163\",\"monster3\",\"transfer-101\",\"p2\",\"incoming-163:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-163",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-163:p2",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/transfer-101/miss",
+      "slot": "p2",
+      "caseId": "transfer-101",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/transfer-101/duplicate",
+      "slot": "p2",
+      "caseId": "transfer-101",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/invulnerable/hit",
+      "slot": "p2",
+      "caseId": "invulnerable",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/invulnerable/miss",
+      "slot": "p2",
+      "caseId": "invulnerable",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/invulnerable/duplicate",
+      "slot": "p2",
+      "caseId": "invulnerable",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/magic-invulnerable/hit",
+      "slot": "p2",
+      "caseId": "magic-invulnerable",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/magic-invulnerable/miss",
+      "slot": "p2",
+      "caseId": "magic-invulnerable",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/magic-invulnerable/duplicate",
+      "slot": "p2",
+      "caseId": "magic-invulnerable",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/dead-hero/hit",
+      "slot": "p2",
+      "caseId": "dead-hero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/dead-hero/miss",
+      "slot": "p2",
+      "caseId": "dead-hero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/dead-hero/duplicate",
+      "slot": "p2",
+      "caseId": "dead-hero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/full-shield/hit",
+      "slot": "p2",
+      "caseId": "full-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/full-shield/miss",
+      "slot": "p2",
+      "caseId": "full-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/full-shield/duplicate",
+      "slot": "p2",
+      "caseId": "full-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/exact-shield/hit",
+      "slot": "p2",
+      "caseId": "exact-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/exact-shield/miss",
+      "slot": "p2",
+      "caseId": "exact-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/exact-shield/duplicate",
+      "slot": "p2",
+      "caseId": "exact-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/overflow-shield/hit",
+      "slot": "p2",
+      "caseId": "overflow-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "overflow-shield",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-181\",\"monster3\",\"overflow-shield\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-181",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "overflow-shield",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 48,
+          "hpBefore": 200,
+          "hpAfter": 152,
+          "eventId": "[\"incoming-181\",\"monster3\",\"overflow-shield\",\"p2\",\"incoming-181:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-181",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-181:p2",
+          "displayValue": 48,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/overflow-shield/miss",
+      "slot": "p2",
+      "caseId": "overflow-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/overflow-shield/duplicate",
+      "slot": "p2",
+      "caseId": "overflow-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/tjgl-overflow/hit",
+      "slot": "p2",
+      "caseId": "tjgl-overflow",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "tjgl-overflow",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-184\",\"monster3\",\"tjgl-overflow\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-184",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "tjgl-overflow",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 48,
+          "hpBefore": 200,
+          "hpAfter": 152,
+          "eventId": "[\"incoming-184\",\"monster3\",\"tjgl-overflow\",\"p2\",\"incoming-184:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-184",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-184:p2",
+          "displayValue": 48,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/tjgl-overflow/miss",
+      "slot": "p2",
+      "caseId": "tjgl-overflow",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/tjgl-overflow/duplicate",
+      "slot": "p2",
+      "caseId": "tjgl-overflow",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-sd1/hit",
+      "slot": "p2",
+      "caseId": "role3-sd1",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-sd1",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 5,
+          "hpBefore": 200,
+          "hpAfter": 195,
+          "eventId": "[\"incoming-187\",\"monster3\",\"role3-sd1\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-187",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 5,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-sd1",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 94,
+          "hpBefore": 200,
+          "hpAfter": 106,
+          "eventId": "[\"incoming-187\",\"monster3\",\"role3-sd1\",\"p2\",\"incoming-187:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-187",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-187:p2",
+          "displayValue": 94,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/role3-sd1/miss",
+      "slot": "p2",
+      "caseId": "role3-sd1",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-sd1/duplicate",
+      "slot": "p2",
+      "caseId": "role3-sd1",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-no-link/hit",
+      "slot": "p2",
+      "caseId": "role3-no-link",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-no-link",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 99,
+          "hpBefore": 200,
+          "hpAfter": 101,
+          "eventId": "[\"incoming-190\",\"monster3\",\"role3-no-link\",\"p2\",\"incoming-190:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-190",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-190:p2",
+          "displayValue": 99,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/role3-no-link/miss",
+      "slot": "p2",
+      "caseId": "role3-no-link",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-no-link/duplicate",
+      "slot": "p2",
+      "caseId": "role3-no-link",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-sd8/hit",
+      "slot": "p2",
+      "caseId": "role3-sd8",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-sd8",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 5,
+          "hpBefore": 200,
+          "hpAfter": 195,
+          "eventId": "[\"incoming-193\",\"monster3\",\"role3-sd8\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-193",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 5,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-sd8",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 87,
+          "hpBefore": 200,
+          "hpAfter": 113,
+          "eventId": "[\"incoming-193\",\"monster3\",\"role3-sd8\",\"p2\",\"incoming-193:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-193",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-193:p2",
+          "displayValue": 87,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/role3-sd8/miss",
+      "slot": "p2",
+      "caseId": "role3-sd8",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-sd8/duplicate",
+      "slot": "p2",
+      "caseId": "role3-sd8",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-overflow/hit",
+      "slot": "p2",
+      "caseId": "role3-overflow",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-overflow",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 3,
+          "hpBefore": 200,
+          "hpAfter": 197,
+          "eventId": "[\"incoming-196\",\"monster3\",\"role3-overflow\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-196",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 3,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "role3-overflow",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 45,
+          "hpBefore": 200,
+          "hpAfter": 155,
+          "eventId": "[\"incoming-196\",\"monster3\",\"role3-overflow\",\"p2\",\"incoming-196:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-196",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-196:p2",
+          "displayValue": 45,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/role3-overflow/miss",
+      "slot": "p2",
+      "caseId": "role3-overflow",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-overflow/duplicate",
+      "slot": "p2",
+      "caseId": "role3-overflow",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-exact-shield/hit",
+      "slot": "p2",
+      "caseId": "role3-exact-shield",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-exact-shield/miss",
+      "slot": "p2",
+      "caseId": "role3-exact-shield",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/role3-exact-shield/duplicate",
+      "slot": "p2",
+      "caseId": "role3-exact-shield",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/zero/hit",
+      "slot": "p2",
+      "caseId": "zero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "zero",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 0,
+          "hpBefore": 200,
+          "hpAfter": 200,
+          "eventId": "[\"incoming-202\",\"monster3\",\"zero\",\"p2\",\"incoming-202:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-202",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-202:p2",
+          "displayValue": 0,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/zero/miss",
+      "slot": "p2",
+      "caseId": "zero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/zero/duplicate",
+      "slot": "p2",
+      "caseId": "zero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/lethal-hero/hit",
+      "slot": "p2",
+      "caseId": "lethal-hero",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "lethal-hero",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 200,
+          "hpAfter": 194,
+          "eventId": "[\"incoming-205\",\"monster3\",\"lethal-hero\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-205",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "lethal-hero",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 30,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-205\",\"monster3\",\"lethal-hero\",\"p2\",\"incoming-205:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-205",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-205:p2",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/lethal-hero/miss",
+      "slot": "p2",
+      "caseId": "lethal-hero",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/lethal-hero/duplicate",
+      "slot": "p2",
+      "caseId": "lethal-hero",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/lethal-pet/hit",
+      "slot": "p2",
+      "caseId": "lethal-pet",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "lethal-pet",
+          "producerKind": "turtle-transfer",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 6,
+          "hpBefore": 3,
+          "hpAfter": 0,
+          "eventId": "[\"incoming-208\",\"monster3\",\"lethal-pet\",\"p2\",\"p2-pet-turtle-2:turtle:2\",\"turtle-transfer\",0]",
+          "runtimeId": "incoming-208",
+          "producerOrdinal": 0,
+          "targetKind": "pet",
+          "ownerSlot": "p2",
+          "targetId": "p2-pet-turtle-2",
+          "targetRuntimeId": "p2-pet-turtle-2:turtle:2",
+          "displayValue": 6,
+          "worldAnchor": {
+            "x": 65,
+            "y": 204
+          }
+        },
+        {
+          "sourceId": "monster3",
+          "attackId": "lethal-pet",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 95,
+          "hpBefore": 200,
+          "hpAfter": 105,
+          "eventId": "[\"incoming-208\",\"monster3\",\"lethal-pet\",\"p2\",\"incoming-208:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-208",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-208:p2",
+          "displayValue": 95,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/lethal-pet/miss",
+      "slot": "p2",
+      "caseId": "lethal-pet",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/lethal-pet/duplicate",
+      "slot": "p2",
+      "caseId": "lethal-pet",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/dead-pet/hit",
+      "slot": "p2",
+      "caseId": "dead-pet",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "dead-pet",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 101,
+          "hpBefore": 200,
+          "hpAfter": 99,
+          "eventId": "[\"incoming-211\",\"monster3\",\"dead-pet\",\"p2\",\"incoming-211:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-211",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-211:p2",
+          "displayValue": 101,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/dead-pet/miss",
+      "slot": "p2",
+      "caseId": "dead-pet",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/dead-pet/duplicate",
+      "slot": "p2",
+      "caseId": "dead-pet",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/expired-link/hit",
+      "slot": "p2",
+      "caseId": "expired-link",
+      "gate": "hit",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": [
+        {
+          "sourceId": "monster3",
+          "attackId": "expired-link",
+          "producerKind": "hero-reduce-hp",
+          "occurredAtMs": 0,
+          "settledAtMs": 0,
+          "settledDamage": 101,
+          "hpBefore": 200,
+          "hpAfter": 99,
+          "eventId": "[\"incoming-214\",\"monster3\",\"expired-link\",\"p2\",\"incoming-214:p2\",\"hero-reduce-hp\",0]",
+          "runtimeId": "incoming-214",
+          "producerOrdinal": 0,
+          "targetKind": "hero",
+          "ownerSlot": "p2",
+          "targetId": "p2",
+          "targetRuntimeId": "incoming-214:p2",
+          "displayValue": 101,
+          "worldAnchor": {
+            "x": 165,
+            "y": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "monster3/p2/expired-link/miss",
+      "slot": "p2",
+      "caseId": "expired-link",
+      "gate": "miss",
+      "heroAnchor": {
+        "x": 10000,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    },
+    {
+      "id": "monster3/p2/expired-link/duplicate",
+      "slot": "p2",
+      "caseId": "expired-link",
+      "gate": "duplicate",
+      "heroAnchor": {
+        "x": 165,
+        "y": -12
+      },
+      "petAnchor": {
+        "x": 65,
+        "y": 204
+      },
+      "events": []
+    }
+  ]
+}

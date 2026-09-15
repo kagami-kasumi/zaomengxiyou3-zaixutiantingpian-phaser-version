@@ -342,6 +342,7 @@ export function resolveStage1EnemyAttack(params: {
 export function resolveStage1EnemyPetAttack(params: Readonly<{
   runtime: Stage1CombatRuntime;
   enemy: Stage1CombatEnemy;
+  timeMs?: number;
   target: Readonly<{
     runtimeKey: string;
     x: number;
@@ -363,6 +364,8 @@ export function resolveStage1EnemyPetAttack(params: Readonly<{
       target.defense,
     ),
     sourceId: enemy.id,
+    attackId: enemy.activeAttack.attackId,
+    occurredAtMs: params.timeMs ?? 0,
   };
 }
 

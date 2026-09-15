@@ -1,11 +1,10 @@
 ﻿import Phaser from 'phaser';
+import { applyOwnedHeroDamage } from '../../systems/PetBattleOwnershipSystem';
 // boundary: this bridge adapts the Stage 1-1 boss view, combat events, arena flow,
 // and shared monster runtime; it does not own gravity, reward probabilities,
 // pickup seeking, damage formulas, or progression rules.
 import {
   activateBossArena,
-  applyOwnedPetDamageRedirect,
-  applyHeroDamage,
   applyMonster3Hit,
   checkBossArenaTrigger,
   calculateStage1HeroDamage,
@@ -177,14 +176,10 @@ export function applyBossAttack(this: any, time: number): void {
         targetId: player.slot,
         attackId: activeAttack.attackId,
         actionName: activeAttack.actionName,
-        amount: applyOwnedPetDamageRedirect(
-          this.playerPetRosters,
-          player.slot,
-          calculateStage1IncomingDamage(
-            activeAttack.attackKind,
-            activeAttack.damage,
-            player.baseStats?.defense ?? 0,
-          ),
+        amount: calculateStage1IncomingDamage(
+          activeAttack.attackKind,
+          activeAttack.damage,
+          player.baseStats?.defense ?? 0,
         ),
         attackKind: activeAttack.attackKind,
         knockbackX: activeAttack.facingX * activeAttack.knockbackX,
@@ -192,7 +187,8 @@ export function applyBossAttack(this: any, time: number): void {
         occurredAtMs: time,
       });
 
-      if (applyHeroDamage(player.combat, damageEvent, time)) {
+      if (applyOwnedHeroDamage(player.combat, damageEvent, time, player.slot, this.playerPetRosters,
+        player.slot === 'p1' ? this.petRuntime : this.p2PetRuntime)) {
         this.lastDamageEvent = damageEvent;
       }
     }
@@ -289,4 +285,3 @@ export function updateBossArenaVisuals(this: any, deltaMs: number): void {
       'BOSS FIGHT',
     );
   }
-
