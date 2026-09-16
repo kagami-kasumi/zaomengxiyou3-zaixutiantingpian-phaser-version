@@ -1,0 +1,1022 @@
+{
+  "taskId": "TASK-SETTINGS-222A",
+  "status": "expected-only",
+  "forms": [
+    {
+      "form": 1,
+      "symbol": "PetTurtleBmd1",
+      "cellSize": [
+        150,
+        150
+      ],
+      "offset": [
+        1,
+        -10
+      ],
+      "actions": [
+        {
+          "action": "wait",
+          "row": 0,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "walk",
+          "row": 0,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hurt",
+          "row": 1,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit1",
+          "row": 3,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit2",
+          "row": 4,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "dead",
+          "row": 2,
+          "resetColumnOnlyOnRowChange": true
+        }
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 3,
+              "entryHostTick": 7,
+              "lastHostTick": 9
+            },
+            {
+              "column": 4,
+              "holdTicks": 2,
+              "entryHostTick": 10,
+              "lastHostTick": 11
+            },
+            {
+              "column": 5,
+              "holdTicks": 4,
+              "entryHostTick": 12,
+              "lastHostTick": 15
+            }
+          ],
+          "totalHostTicks": 15
+        },
+        {
+          "row": 1,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 8,
+              "entryHostTick": 1,
+              "lastHostTick": 8
+            }
+          ],
+          "totalHostTicks": 8
+        },
+        {
+          "row": 2,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 2,
+              "entryHostTick": 7,
+              "lastHostTick": 8
+            },
+            {
+              "column": 4,
+              "holdTicks": 2,
+              "entryHostTick": 9,
+              "lastHostTick": 10
+            }
+          ],
+          "totalHostTicks": 10
+        },
+        {
+          "row": 3,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 10,
+              "entryHostTick": 5,
+              "lastHostTick": 14
+            }
+          ],
+          "totalHostTicks": 14
+        },
+        {
+          "row": 4,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 10,
+              "entryHostTick": 5,
+              "lastHostTick": 14
+            }
+          ],
+          "totalHostTicks": 14
+        }
+      ],
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+      "sourceSha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+      "sourceMethods": [
+        {
+          "method": "initBBDC",
+          "startLine": 38,
+          "sliceSha256": "219d7582cb2b8a6d1fb56c5b5da7721079550ce21f732a07e5d7134fc25108b3",
+          "code": "override protected function initBBDC() : void\n      {\n         var _loc1_:* = null;\n         var _loc2_:Array = BaseBitmapDataPool.getBitmapDataArrayByName(\"PetTurtleBmd1\");\n         if(_loc2_)\n         {\n            _loc1_ = {\n               \"name\":\"body\",\n               \"source\":_loc2_\n            };\n            bbdc = new BaseBitmapDataClip([_loc1_],150,150,new Point(0,0));\n            bbdc.setOffsetXY(1,-10);\n            bbdc.setFrameStopCount([[2,2,2,3,2,4],[8],[2,2,2,2,2],[2,2,10],[2,2,10]]);\n            bbdc.setFrameCount([6,1,5,3,3]);\n            bbdc.setEnterFrameCallBack(this.enterFrameFunc,this.exitFrameFunc);\n            bbdc.setAddScriptWhenFrameOver(this.scriptFrameOverFunc);\n            this.body.addChild(bbdc);\n            return;\n         }\n         throw new Error(\"PetTurtleBmd1--BitmapData Error!\");\n      }"
+        },
+        {
+          "method": "setAction",
+          "startLine": 67,
+          "sliceSha256": "7574746ce4ddead35a9e1f9b6173e7ae4cea66ffdd20dcde8617db3156dd0e7f",
+          "code": "override public function setAction(param1:String) : void\n      {\n         super.setAction(param1);\n         var _loc2_:Point = this.bbdc.getCurPoint();\n         switch(param1)\n         {\n            case \"wait\":\n               if(_loc2_.y != 0)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(0);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"walk\":\n               if(_loc2_.y != 0)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(0);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hurt\":\n               if(_loc2_.y != 1)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(1);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit1\":\n               if(_loc2_.y != 3)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(3);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit2\":\n               if(_loc2_.y != 4)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(4);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"dead\":\n               if(_loc2_.y != 2)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(2);\n               }\n               this.bbdc.setState(param1);\n         }\n      }"
+        },
+        {
+          "method": "enterFrameFunc",
+          "startLine": 149,
+          "sliceSha256": "958c5d530875fc357a3665622883f78e051d4cf6f1063f6468042e124a475bb2",
+          "code": "override protected function enterFrameFunc(param1:Point) : void\n      {\n         var _loc2_:String = this.bbdc.getState();\n         var _loc3_:uint = uint(this.getBBDC().getDirect());\n         var _loc4_:Point = new Point();\n         switch(_loc2_)\n         {\n            case \"hit1\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 2)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x - 85;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x + 85;\n                        }\n                        _loc4_.y = this.y - 40;\n                        this.doHit1(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit1\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n               break;\n            case \"hit2\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 2)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x - 75;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x + 75;\n                        }\n                        _loc4_.y = this.y - 125;\n                        this.doHit2(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit2\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n         }\n      }"
+        },
+        {
+          "method": "scriptFrameOverFunc",
+          "startLine": 123,
+          "sliceSha256": "b26034e56e7fa7bbe5174b3417dd749b2d73d0c2aa4970b6deeef27b8b170742",
+          "code": "override protected function scriptFrameOverFunc(param1:int) : void\n      {\n         var _loc2_:String = this.bbdc.getState();\n         switch(_loc2_)\n         {\n            case \"walk\":\n               this.bbdc.setFramePointX(0);\n               break;\n            case \"wait\":\n               this.bbdc.setFramePointX(0);\n               break;\n            case \"hit1\":\n               this.setAction(\"wait\");\n               break;\n            case \"hit2\":\n               this.setAction(\"wait\");\n               break;\n            case \"hurt\":\n               this.setStatic();\n               this.setAction(\"wait\");\n               break;\n            case \"dead\":\n               this.destroy();\n         }\n      }"
+        }
+      ]
+    },
+    {
+      "form": 2,
+      "symbol": "PetTurtleBmd2",
+      "cellSize": [
+        200,
+        200
+      ],
+      "offset": [
+        1,
+        -10
+      ],
+      "actions": [
+        {
+          "action": "wait",
+          "row": 0,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "walk",
+          "row": 1,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hurt",
+          "row": 2,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit1",
+          "row": 4,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit2",
+          "row": 5,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "dead",
+          "row": 3,
+          "resetColumnOnlyOnRowChange": true
+        }
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 3,
+              "entryHostTick": 7,
+              "lastHostTick": 9
+            },
+            {
+              "column": 4,
+              "holdTicks": 2,
+              "entryHostTick": 10,
+              "lastHostTick": 11
+            },
+            {
+              "column": 5,
+              "holdTicks": 4,
+              "entryHostTick": 12,
+              "lastHostTick": 15
+            }
+          ],
+          "totalHostTicks": 15
+        },
+        {
+          "row": 1,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 4,
+              "entryHostTick": 1,
+              "lastHostTick": 4
+            },
+            {
+              "column": 1,
+              "holdTicks": 4,
+              "entryHostTick": 5,
+              "lastHostTick": 8
+            },
+            {
+              "column": 2,
+              "holdTicks": 4,
+              "entryHostTick": 9,
+              "lastHostTick": 12
+            },
+            {
+              "column": 3,
+              "holdTicks": 4,
+              "entryHostTick": 13,
+              "lastHostTick": 16
+            }
+          ],
+          "totalHostTicks": 16
+        },
+        {
+          "row": 2,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 8,
+              "entryHostTick": 1,
+              "lastHostTick": 8
+            }
+          ],
+          "totalHostTicks": 8
+        },
+        {
+          "row": 3,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 2,
+              "entryHostTick": 7,
+              "lastHostTick": 8
+            },
+            {
+              "column": 4,
+              "holdTicks": 2,
+              "entryHostTick": 9,
+              "lastHostTick": 10
+            }
+          ],
+          "totalHostTicks": 10
+        },
+        {
+          "row": 4,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 10,
+              "entryHostTick": 7,
+              "lastHostTick": 16
+            }
+          ],
+          "totalHostTicks": 16
+        },
+        {
+          "row": 5,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 10,
+              "entryHostTick": 5,
+              "lastHostTick": 14
+            }
+          ],
+          "totalHostTicks": 14
+        }
+      ],
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+      "sourceSha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+      "sourceMethods": [
+        {
+          "method": "initBBDC",
+          "startLine": 38,
+          "sliceSha256": "572e494148b83f633fb5d4c028999e10d8e0bab6eff08eec49108d2ad6dc751a",
+          "code": "override protected function initBBDC() : void\n      {\n         var _loc1_:* = null;\n         var _loc2_:Array = BaseBitmapDataPool.getBitmapDataArrayByName(\"PetTurtleBmd2\");\n         if(_loc2_)\n         {\n            _loc1_ = {\n               \"name\":\"body\",\n               \"source\":_loc2_\n            };\n            bbdc = new BaseBitmapDataClip([_loc1_],200,200,new Point(0,0));\n            bbdc.setOffsetXY(1,-10);\n            bbdc.setFrameStopCount([[2,2,2,3,2,4],[4,4,4,4],[8],[2,2,2,2,2],[2,2,2,10],[2,2,10]]);\n            bbdc.setFrameCount([6,4,1,5,4,3]);\n            bbdc.setEnterFrameCallBack(this.enterFrameFunc,this.exitFrameFunc);\n            bbdc.setAddScriptWhenFrameOver(this.scriptFrameOverFunc);\n            this.body.addChild(bbdc);\n            return;\n         }\n         throw new Error(\"PetTurtleBmd2--BitmapData Error!\");\n      }"
+        },
+        {
+          "method": "setAction",
+          "startLine": 67,
+          "sliceSha256": "6e8afb95980dd60fe48d080711327d0f467d658515f88d9099e6f47991dc0369",
+          "code": "override public function setAction(param1:String) : void\n      {\n         super.setAction(param1);\n         var _loc2_:Point = this.bbdc.getCurPoint();\n         switch(param1)\n         {\n            case \"wait\":\n               if(_loc2_.y != 0)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(0);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"walk\":\n               if(_loc2_.y != 1)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(1);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hurt\":\n               if(_loc2_.y != 2)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(2);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit1\":\n               if(_loc2_.y != 4)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(4);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit2\":\n               if(_loc2_.y != 5)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(5);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"dead\":\n               if(_loc2_.y != 3)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(3);\n               }\n               this.bbdc.setState(param1);\n         }\n      }"
+        },
+        {
+          "method": "enterFrameFunc",
+          "startLine": 149,
+          "sliceSha256": "9d5ff59528c797e5f08363cd744b13a20a4f470560028fb008524857179e22ba",
+          "code": "override protected function enterFrameFunc(param1:Point) : void\n      {\n         var _loc2_:String = this.bbdc.getState();\n         var _loc3_:uint = uint(this.getBBDC().getDirect());\n         var _loc4_:Point = new Point();\n         switch(_loc2_)\n         {\n            case \"hit1\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 3)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x - 95;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x + 95;\n                        }\n                        _loc4_.y = this.y - 60;\n                        this.doHit1(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit1\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n               break;\n            case \"hit2\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 2)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x - 80;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x + 80;\n                        }\n                        _loc4_.y = this.y - 125;\n                        this.doHit2(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit2\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n         }\n      }"
+        },
+        {
+          "method": "scriptFrameOverFunc",
+          "startLine": 123,
+          "sliceSha256": "b26034e56e7fa7bbe5174b3417dd749b2d73d0c2aa4970b6deeef27b8b170742",
+          "code": "override protected function scriptFrameOverFunc(param1:int) : void\n      {\n         var _loc2_:String = this.bbdc.getState();\n         switch(_loc2_)\n         {\n            case \"walk\":\n               this.bbdc.setFramePointX(0);\n               break;\n            case \"wait\":\n               this.bbdc.setFramePointX(0);\n               break;\n            case \"hit1\":\n               this.setAction(\"wait\");\n               break;\n            case \"hit2\":\n               this.setAction(\"wait\");\n               break;\n            case \"hurt\":\n               this.setStatic();\n               this.setAction(\"wait\");\n               break;\n            case \"dead\":\n               this.destroy();\n         }\n      }"
+        }
+      ]
+    },
+    {
+      "form": 3,
+      "symbol": "PetTurtleBmd3",
+      "cellSize": [
+        250,
+        250
+      ],
+      "offset": [
+        21,
+        5
+      ],
+      "actions": [
+        {
+          "action": "wait",
+          "row": 0,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "walk",
+          "row": 1,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hurt",
+          "row": 2,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit1",
+          "row": 4,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit2",
+          "row": 5,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit3",
+          "row": 6,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "dead",
+          "row": 3,
+          "resetColumnOnlyOnRowChange": true
+        }
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 3,
+              "entryHostTick": 7,
+              "lastHostTick": 9
+            },
+            {
+              "column": 4,
+              "holdTicks": 2,
+              "entryHostTick": 10,
+              "lastHostTick": 11
+            },
+            {
+              "column": 5,
+              "holdTicks": 4,
+              "entryHostTick": 12,
+              "lastHostTick": 15
+            }
+          ],
+          "totalHostTicks": 15
+        },
+        {
+          "row": 1,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 4,
+              "entryHostTick": 1,
+              "lastHostTick": 4
+            },
+            {
+              "column": 1,
+              "holdTicks": 4,
+              "entryHostTick": 5,
+              "lastHostTick": 8
+            },
+            {
+              "column": 2,
+              "holdTicks": 4,
+              "entryHostTick": 9,
+              "lastHostTick": 12
+            },
+            {
+              "column": 3,
+              "holdTicks": 4,
+              "entryHostTick": 13,
+              "lastHostTick": 16
+            }
+          ],
+          "totalHostTicks": 16
+        },
+        {
+          "row": 2,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 8,
+              "entryHostTick": 1,
+              "lastHostTick": 8
+            }
+          ],
+          "totalHostTicks": 8
+        },
+        {
+          "row": 3,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 2,
+              "entryHostTick": 7,
+              "lastHostTick": 8
+            },
+            {
+              "column": 4,
+              "holdTicks": 2,
+              "entryHostTick": 9,
+              "lastHostTick": 10
+            }
+          ],
+          "totalHostTicks": 10
+        },
+        {
+          "row": 4,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 10,
+              "entryHostTick": 7,
+              "lastHostTick": 16
+            }
+          ],
+          "totalHostTicks": 16
+        },
+        {
+          "row": 5,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 10,
+              "entryHostTick": 5,
+              "lastHostTick": 14
+            }
+          ],
+          "totalHostTicks": 14
+        },
+        {
+          "row": 6,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 10,
+              "entryHostTick": 5,
+              "lastHostTick": 14
+            }
+          ],
+          "totalHostTicks": 14
+        }
+      ],
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+      "sourceSha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281",
+      "sourceMethods": [
+        {
+          "method": "initBBDC",
+          "startLine": 45,
+          "sliceSha256": "ea9ebb39129dae51a81695385ffc06020b908f32442775c707bccbfcd3c97155",
+          "code": "override protected function initBBDC() : void\n      {\n         var _loc1_:* = null;\n         var _loc2_:Array = BaseBitmapDataPool.getBitmapDataArrayByName(\"PetTurtleBmd3\");\n         if(_loc2_)\n         {\n            _loc1_ = {\n               \"name\":\"body\",\n               \"source\":_loc2_\n            };\n            bbdc = new BaseBitmapDataClip([_loc1_],250,250,new Point(0,0));\n            bbdc.setOffsetXY(21,5);\n            bbdc.setFrameStopCount([[2,2,2,3,2,4],[4,4,4,4],[8],[2,2,2,2,2],[2,2,2,10],[2,2,10],[2,2,10]]);\n            bbdc.setFrameCount([6,4,1,5,4,3,3]);\n            bbdc.setEnterFrameCallBack(this.enterFrameFunc,this.exitFrameFunc);\n            bbdc.setAddScriptWhenFrameOver(this.scriptFrameOverFunc);\n            this.body.addChild(bbdc);\n            return;\n         }\n         throw new Error(\"PetTurtleBmd3--BitmapData Error!\");\n      }"
+        },
+        {
+          "method": "setAction",
+          "startLine": 74,
+          "sliceSha256": "12acb9361fb66395074f31234b0db1de1df6ae8d8c907b3d03928184a487e320",
+          "code": "override public function setAction(param1:String) : void\n      {\n         super.setAction(param1);\n         var _loc2_:Point = this.bbdc.getCurPoint();\n         switch(param1)\n         {\n            case \"wait\":\n               if(_loc2_.y != 0)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(0);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"walk\":\n               if(_loc2_.y != 1)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(1);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hurt\":\n               if(_loc2_.y != 2)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(2);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit1\":\n               if(_loc2_.y != 4)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(4);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit2\":\n               if(_loc2_.y != 5)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(5);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit3\":\n               if(_loc2_.y != 6)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(6);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"dead\":\n               if(_loc2_.y != 3)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(3);\n               }\n               this.bbdc.setState(param1);\n         }\n      }"
+        },
+        {
+          "method": "enterFrameFunc",
+          "startLine": 167,
+          "sliceSha256": "b06349a6d8daae9056768f99eedca57e7b4ffe91db3e50ba79eba78bd7f1992f",
+          "code": "override protected function enterFrameFunc(param1:Point) : void\n      {\n         var _loc2_:String = this.bbdc.getState();\n         var _loc3_:uint = uint(this.getBBDC().getDirect());\n         var _loc4_:Point = new Point();\n         switch(_loc2_)\n         {\n            case \"hit1\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 3)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x - 140;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x + 140;\n                        }\n                        _loc4_.y = this.y - 75;\n                        this.doHit1(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit1\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n               break;\n            case \"hit2\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 2)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x - 75;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x + 75;\n                        }\n                        _loc4_.y = this.y - 115;\n                        this.doHit2(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit2\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n               break;\n            case \"hit3\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 2)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x;\n                        }\n                        _loc4_.y = this.y - 20;\n                        this.doHit3(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit3\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n         }\n      }"
+        },
+        {
+          "method": "scriptFrameOverFunc",
+          "startLine": 138,
+          "sliceSha256": "271f944811fd041f37244f7483d4f9e93083a8294829ff6d4d6f6effd6673047",
+          "code": "override protected function scriptFrameOverFunc(param1:int) : void\n      {\n         var _loc2_:String = this.bbdc.getState();\n         switch(_loc2_)\n         {\n            case \"walk\":\n               this.bbdc.setFramePointX(0);\n               break;\n            case \"wait\":\n               this.bbdc.setFramePointX(0);\n               break;\n            case \"hit1\":\n               this.setAction(\"wait\");\n               break;\n            case \"hit2\":\n               this.setAction(\"wait\");\n               break;\n            case \"hit3\":\n               this.setAction(\"wait\");\n               break;\n            case \"hurt\":\n               this.setStatic();\n               this.setAction(\"wait\");\n               break;\n            case \"dead\":\n               this.destroy();\n         }\n      }"
+        }
+      ]
+    },
+    {
+      "form": 4,
+      "symbol": "PetTurtleBmd4",
+      "cellSize": [
+        250,
+        250
+      ],
+      "offset": [
+        21,
+        -17
+      ],
+      "actions": [
+        {
+          "action": "wait",
+          "row": 0,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "walk",
+          "row": 1,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hurt",
+          "row": 2,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit1",
+          "row": 4,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit2",
+          "row": 5,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "hit3",
+          "row": 6,
+          "resetColumnOnlyOnRowChange": true
+        },
+        {
+          "action": "dead",
+          "row": 3,
+          "resetColumnOnlyOnRowChange": true
+        }
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 3,
+              "entryHostTick": 7,
+              "lastHostTick": 9
+            },
+            {
+              "column": 4,
+              "holdTicks": 2,
+              "entryHostTick": 10,
+              "lastHostTick": 11
+            },
+            {
+              "column": 5,
+              "holdTicks": 4,
+              "entryHostTick": 12,
+              "lastHostTick": 15
+            }
+          ],
+          "totalHostTicks": 15
+        },
+        {
+          "row": 1,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 4,
+              "entryHostTick": 1,
+              "lastHostTick": 4
+            },
+            {
+              "column": 1,
+              "holdTicks": 4,
+              "entryHostTick": 5,
+              "lastHostTick": 8
+            },
+            {
+              "column": 2,
+              "holdTicks": 4,
+              "entryHostTick": 9,
+              "lastHostTick": 12
+            },
+            {
+              "column": 3,
+              "holdTicks": 4,
+              "entryHostTick": 13,
+              "lastHostTick": 16
+            }
+          ],
+          "totalHostTicks": 16
+        },
+        {
+          "row": 2,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 8,
+              "entryHostTick": 1,
+              "lastHostTick": 8
+            }
+          ],
+          "totalHostTicks": 8
+        },
+        {
+          "row": 3,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 2,
+              "entryHostTick": 7,
+              "lastHostTick": 8
+            },
+            {
+              "column": 4,
+              "holdTicks": 2,
+              "entryHostTick": 9,
+              "lastHostTick": 10
+            }
+          ],
+          "totalHostTicks": 10
+        },
+        {
+          "row": 4,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 2,
+              "entryHostTick": 5,
+              "lastHostTick": 6
+            },
+            {
+              "column": 3,
+              "holdTicks": 10,
+              "entryHostTick": 7,
+              "lastHostTick": 16
+            }
+          ],
+          "totalHostTicks": 16
+        },
+        {
+          "row": 5,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 10,
+              "entryHostTick": 5,
+              "lastHostTick": 14
+            }
+          ],
+          "totalHostTicks": 14
+        },
+        {
+          "row": 6,
+          "cells": [
+            {
+              "column": 0,
+              "holdTicks": 2,
+              "entryHostTick": 1,
+              "lastHostTick": 2
+            },
+            {
+              "column": 1,
+              "holdTicks": 2,
+              "entryHostTick": 3,
+              "lastHostTick": 4
+            },
+            {
+              "column": 2,
+              "holdTicks": 10,
+              "entryHostTick": 5,
+              "lastHostTick": 14
+            }
+          ],
+          "totalHostTicks": 14
+        }
+      ],
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+      "sourceSha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+      "sourceMethods": [
+        {
+          "method": "initBBDC",
+          "startLine": 49,
+          "sliceSha256": "eb25c4a7d67647c1e15394829e9670fa029ef67d6825a3ad95fc3f59efe55e44",
+          "code": "override protected function initBBDC() : void\n      {\n         var _loc1_:Object = null;\n         var _loc2_:Array = BaseBitmapDataPool.getBitmapDataArrayByName(\"PetTurtleBmd4\");\n         if(_loc2_)\n         {\n            _loc1_ = {\n               \"name\":\"body\",\n               \"source\":_loc2_\n            };\n            bbdc = new BaseBitmapDataClip([_loc1_],250,250,new Point(0,0));\n            bbdc.setOffsetXY(21,-17);\n            bbdc.setFrameStopCount([[2,2,2,3,2,4],[4,4,4,4],[8],[2,2,2,2,2],[2,2,2,10],[2,2,10],[2,2,10]]);\n            bbdc.setFrameCount([6,4,1,5,4,3,3]);\n            bbdc.setEnterFrameCallBack(this.enterFrameFunc,this.exitFrameFunc);\n            bbdc.setAddScriptWhenFrameOver(this.scriptFrameOverFunc);\n            this.body.addChild(bbdc);\n            return;\n         }\n         throw new Error(\"PetTurtleBmd4--BitmapData Error!\");\n      }"
+        },
+        {
+          "method": "setAction",
+          "startLine": 78,
+          "sliceSha256": "909870288d3777e5404ad72e48bdfe60ca5fc0edae290051e1b03f8229167962",
+          "code": "override public function setAction(param1:String) : void\n      {\n         super.setAction(param1);\n         var _loc2_:Point = this.bbdc.getCurPoint();\n         switch(param1)\n         {\n            case \"wait\":\n               if(_loc2_.y != 0)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(0);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"walk\":\n               if(_loc2_.y != 1)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(1);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hurt\":\n               this.isAoyi = false;\n               if(_loc2_.y != 2)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(2);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit1\":\n               if(_loc2_.y != 4)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(4);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit2\":\n               if(_loc2_.y != 5)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(5);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"hit3\":\n               if(_loc2_.y != 6)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(6);\n               }\n               this.bbdc.setState(param1);\n               break;\n            case \"dead\":\n               if(_loc2_.y != 3)\n               {\n                  this.bbdc.setFramePointX(0);\n                  this.bbdc.setFramePointY(3);\n               }\n               this.bbdc.setState(param1);\n         }\n      }"
+        },
+        {
+          "method": "enterFrameFunc",
+          "startLine": 172,
+          "sliceSha256": "b06349a6d8daae9056768f99eedca57e7b4ffe91db3e50ba79eba78bd7f1992f",
+          "code": "override protected function enterFrameFunc(param1:Point) : void\n      {\n         var _loc2_:String = this.bbdc.getState();\n         var _loc3_:uint = uint(this.getBBDC().getDirect());\n         var _loc4_:Point = new Point();\n         switch(_loc2_)\n         {\n            case \"hit1\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 3)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x - 140;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x + 140;\n                        }\n                        _loc4_.y = this.y - 75;\n                        this.doHit1(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit1\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n               break;\n            case \"hit2\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 2)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x - 75;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x + 75;\n                        }\n                        _loc4_.y = this.y - 115;\n                        this.doHit2(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit2\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n               break;\n            case \"hit3\":\n               if(gc.isSingleGame() || gc.sid == this.sourceRole.sid)\n               {\n                  if(param1.x == 2)\n                  {\n                     if(this.bbdc.getCurFrameCount() == 10)\n                     {\n                        if(_loc3_ == 0)\n                        {\n                           _loc4_.x = this.x;\n                        }\n                        else\n                        {\n                           _loc4_.x = this.x;\n                        }\n                        _loc4_.y = this.y - 20;\n                        this.doHit3(_loc3_,_loc4_);\n                        gc.sendPetAttack(this.sourceRole.getRoleId(),\"hit3\",this.getBBDC().getDirect(),_loc4_.x,_loc4_.y,[]);\n                     }\n                  }\n               }\n         }\n      }"
+        },
+        {
+          "method": "scriptFrameOverFunc",
+          "startLine": 143,
+          "sliceSha256": "271f944811fd041f37244f7483d4f9e93083a8294829ff6d4d6f6effd6673047",
+          "code": "override protected function scriptFrameOverFunc(param1:int) : void\n      {\n         var _loc2_:String = this.bbdc.getState();\n         switch(_loc2_)\n         {\n            case \"walk\":\n               this.bbdc.setFramePointX(0);\n               break;\n            case \"wait\":\n               this.bbdc.setFramePointX(0);\n               break;\n            case \"hit1\":\n               this.setAction(\"wait\");\n               break;\n            case \"hit2\":\n               this.setAction(\"wait\");\n               break;\n            case \"hit3\":\n               this.setAction(\"wait\");\n               break;\n            case \"hurt\":\n               this.setStatic();\n               this.setAction(\"wait\");\n               break;\n            case \"dead\":\n               this.destroy();\n         }\n      }"
+        }
+      ]
+    }
+  ],
+  "cellCount": 93,
+  "note": "Host tick ranges derive from initializer holds and require independent original BaseBitmapDataClip execution; not a native observation."
+}

@@ -1,0 +1,142 @@
+{
+  "status": "passed-bounded-check",
+  "mutations": [
+    {
+      "symbol": "AoyiBuff",
+      "spriteId": 120,
+      "changes": [
+        {
+          "depth": "1",
+          "clipDepth": "3"
+        }
+      ],
+      "originalSha256": "c0c004f9bf55c456bdd0f48d6eecb77578e27153ab064a77919114899a02437b",
+      "controlSha256": "1d80aa4940524ce89ef383b9aafba78a356578007e3e9927daccc3d278111bed",
+      "mutantSha256": "c3134d9c2eb8b03ff79fed3bd9108de808f07761441fda4af468a88491495eeb"
+    },
+    {
+      "symbol": "PetTurtle1Bullet2",
+      "spriteId": 503,
+      "changes": [
+        {
+          "depth": "1",
+          "clipDepth": "4"
+        }
+      ],
+      "originalSha256": "6246d086437364983ce11ac6c63606e161dca98c5623b874a2a0add50b5470dd",
+      "controlSha256": "2d09724f8bc798e14166b77cdb10dc4687f88e1b9450d0f923d4a86935cb7d95",
+      "mutantSha256": "dc69627cf77aee460fa9e2e0ac17aeb6130cfeb057268ae222384ee8a978327b"
+    }
+  ],
+  "checks": [
+    {
+      "symbol": "AoyiBuff",
+      "roundTripMismatchTicks": [],
+      "mutationChangedTicks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "rejected": true,
+      "witnesses": [
+        {
+          "variant": "original",
+          "tick": 0,
+          "path": "docs/tasks/evidence/TASK-SETTINGS-222A/native-baselines/39cbf4c6abef3f13e0763c2b869dd420cb078e3f15922d99b30120b88018d128.png",
+          "sha256": "39cbf4c6abef3f13e0763c2b869dd420cb078e3f15922d99b30120b88018d128"
+        },
+        {
+          "variant": "control",
+          "tick": 0,
+          "path": "docs/tasks/evidence/TASK-SETTINGS-222A/native-baselines/39cbf4c6abef3f13e0763c2b869dd420cb078e3f15922d99b30120b88018d128.png",
+          "sha256": "39cbf4c6abef3f13e0763c2b869dd420cb078e3f15922d99b30120b88018d128"
+        },
+        {
+          "variant": "mutant",
+          "tick": 0,
+          "path": "docs/tasks/evidence/TASK-SETTINGS-222A/native-baselines/289669e1813deb4d52d7f34f27e95913f62b2cf86ea6fde7098fb3329d018e96.png",
+          "sha256": "289669e1813deb4d52d7f34f27e95913f62b2cf86ea6fde7098fb3329d018e96"
+        }
+      ]
+    },
+    {
+      "symbol": "PetTurtle1Bullet2",
+      "roundTripMismatchTicks": [],
+      "mutationChangedTicks": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "rejected": true,
+      "witnesses": [
+        {
+          "variant": "original",
+          "tick": 9,
+          "path": "docs/tasks/evidence/TASK-SETTINGS-222A/native-baselines/b481d35a9b39932e2e38cde4f4168745a7baae2ea306980a16370143b23f191b.png",
+          "sha256": "b481d35a9b39932e2e38cde4f4168745a7baae2ea306980a16370143b23f191b"
+        },
+        {
+          "variant": "control",
+          "tick": 9,
+          "path": "docs/tasks/evidence/TASK-SETTINGS-222A/native-baselines/b481d35a9b39932e2e38cde4f4168745a7baae2ea306980a16370143b23f191b.png",
+          "sha256": "b481d35a9b39932e2e38cde4f4168745a7baae2ea306980a16370143b23f191b"
+        },
+        {
+          "variant": "mutant",
+          "tick": 9,
+          "path": "docs/tasks/evidence/TASK-SETTINGS-222A/native-baselines/37fb578203f5876a27b465c58e1dc56dacef471d5a0e406e1f334e6a35b86fe6.png",
+          "sha256": "37fb578203f5876a27b465c58e1dc56dacef471d5a0e406e1f334e6a35b86fe6"
+        }
+      ]
+    }
+  ],
+  "states": 192,
+  "probeSha256": "fac5ae8f5a7ce0e58d819843904bf5cbd9d677e15d553f082654966ca97d4bf1"
+}

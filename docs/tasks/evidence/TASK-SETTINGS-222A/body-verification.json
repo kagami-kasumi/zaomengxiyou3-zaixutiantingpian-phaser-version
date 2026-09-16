@@ -1,0 +1,8 @@
+{
+  "status": "passed-bounded-check",
+  "cells": 372,
+  "clockSteps": 702,
+  "alphaMismatches": [],
+  "scope": "Native BBDC bitmap cell alpha, direction, offset and enter/over countdown only. Full pet setAction/completion and dynamic skills pending.",
+  "measurementSha256": "8c0beba839399a0cf904e262a282cbcd870364b97f44b661ba1475d93eddf40b"
+}

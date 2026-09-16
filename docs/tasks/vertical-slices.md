@@ -1,5 +1,9 @@
 # 纵向切片复现表
 
+2026-09-15 TASK-SETTINGS-222A完成：13符号视觉verified，11,572状态/20,215显示对象，原生24fps、193源码方法指纹及独立递归时钟/遮罩变异通过；32合同完整交接。222B唯一Ready承接碰撞与父222联合核销；父222仍Split，玄龟现代实现/204/VS-067仍未完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-222A/handoff.md`。
+
+2026-09-15 TASK-SETTINGS-222规模预检：恢复SWF确认SYBH根18/内部30帧；现有采样按根帧去重/末帧停止、effect单位缩放及青龙15帧mask假设不能直接覆盖玄龟动态/scale2。222保留全合同并Split，222A唯一Ready（全部视觉与原生动态组合），222B Planned（碰撞采样及联合核销）。未晋升真值，未改src/生产资源，玄龟/204/VS-067仍未完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-222/preflight.md`。
+
 2026-09-15 TASK-SETTINGS-221完成代码证据：32合同、511受控原生AS3状态、12类语义变异、双包13符号定位；29合同含源片段执行，3项静态调用/跟随声明，全部现代消费者仍待。TASK-SETTINGS-222唯一Ready承接完整视觉/碰撞真值；玄龟未复现，TASK-ARCH-204与VS-067仍部分完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-221/handoff.md`。
 
 2026-09-14 216C及父216完成：默认5173可发现全宠物档、显式点击/刷新保留/原存档进入地图、正式与损坏槽保护及4174/非本地/query隔离9浏览器状态通过。A/B完整证据核销，M-054当前producer已复现、VS-072已完成；TASK-SETTINGS-221玄龟完整行为证据唯一Ready，六族与194后续仍待，功能线Active。见 `docs/tasks/evidence/TASK-SLICE-216C/handoff.md`。

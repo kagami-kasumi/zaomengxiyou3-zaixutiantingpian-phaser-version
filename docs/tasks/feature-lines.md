@@ -32,7 +32,7 @@
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
 | LINE-PRE-STAGE-2-3-COMPLETION | Done | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | — | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 无 | 165D 已把炼丹炉右栏闭合为原生 25 格投影；全线关闭合同满足 |
 | LINE-CORE-PROGRESSION-COMPLETION | Done | Stage 2-3 前完成炼丹炉左页与四功能、全装备 UI/数值、五角色成长、存档扩展、关卡左下五入口、用户确认的 UI 整改及复评确认的同线纠错 | — | `feature-line-coverage/LINE-CORE-PROGRESSION-COMPLETION.md` | 无 | 188 已让丹药页直接消费 132 对象/26 状态真值；当前线全部范围、专项、正式旅程、全系统、build 与 940×590 零 console 验收闭合 |
-| LINE-PRE-STAGE-2-3-PRESENTATION | Active | 在执行 Stage 2-3 前按用户复验闭合装备悬停数值、宠物页/战斗 UI 与真动画、完整宠物战斗公共类、怪物/角色/宠物伤害数字与连击反馈、五角色动作流畅度/视觉完整性、战斗技能 HUD 可见与原生化 | TASK-SETTINGS-222 | `feature-line-coverage/LINE-PRE-STAGE-2-3-PRESENTATION.md` | 221代码行为证据完成；222接玄龟完整视觉/碰撞真值 | 猴/马/青龙三族完成，玄龟等六族及194后续仍待；功能线保持Active |
+| LINE-PRE-STAGE-2-3-PRESENTATION | Active | 在执行 Stage 2-3 前按用户复验闭合装备悬停数值、宠物页/战斗 UI 与真动画、完整宠物战斗公共类、怪物/角色/宠物伤害数字与连击反馈、五角色动作流畅度/视觉完整性、战斗技能 HUD 可见与原生化 | TASK-SETTINGS-222B | `feature-line-coverage/LINE-PRE-STAGE-2-3-PRESENTATION.md` | 222A完整视觉verified；222B碰撞与父合同联合核销仍待 | 猴/马/青龙三族完成，玄龟等六族及194后续仍待；功能线保持Active |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待 `LINE-PRE-STAGE-2-3-PRESENTATION` 关闭 | 六段证据尚未开始 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |
@@ -449,3 +449,7 @@
 2026-09-14 TASK-SLICE-214E完成：dragon4继承技能、qlaoyi首回调trigger/四次可选真实分身/免费连锁与12秒/早死治疗闭合；完整44合同、64组家族trace、60组五关P1/P2消费者、345态投影及pet P1G=0，全系统/build和正式Stage1-2/TestScene可见伤害/清理通过。219四效果104像素批准近似保留，220 trigger有限样本零残差；本批补四阶魔花乘数。214E、214B与214同次归档，TASK-SETTINGS-215唯一Ready。猴/马/青龙三族完成，六族及旧入口仍未闭合，功能线保持Active、VS-067仍部分实现。交接见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。
 
 2026-09-15 TASK-SETTINGS-221完成代码证据：32合同、511受控原生AS3状态、12类语义变异、双包13符号定位；29合同含源片段执行，3项静态调用/跟随声明，全部现代消费者仍待。TASK-SETTINGS-222唯一Ready承接完整视觉/碰撞真值；玄龟未复现，TASK-ARCH-204与VS-067仍部分完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-221/handoff.md`。
+
+2026-09-15 TASK-SETTINGS-222规模预检：恢复SWF确认SYBH根18/内部30帧；现有采样按根帧去重/末帧停止、effect单位缩放及青龙15帧mask假设不能直接覆盖玄龟动态/scale2。222保留全合同并Split，222A唯一Ready（全部视觉与原生动态组合），222B Planned（碰撞采样及联合核销）。未晋升真值，未改src/生产资源，玄龟/204/VS-067仍未完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-222/preflight.md`。
+
+2026-09-15 TASK-SETTINGS-222A完成：13符号视觉verified，11,572状态/20,215显示对象，原生24fps、193源码方法指纹及独立递归时钟/遮罩变异通过；32合同完整交接。222B唯一Ready承接碰撞与父222联合核销；父222仍Split，玄龟现代实现/204/VS-067仍未完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-222A/handoff.md`。

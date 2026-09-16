@@ -1,0 +1,15 @@
+{
+  "status": "passed-bounded-check",
+  "independentNativeClockComparisons": 2916,
+  "bodyHoldSteps": 702,
+  "failures": [],
+  "failureCount": 0,
+  "mutationRejected": {
+    "BBDC-hold": true,
+    "valid-child-phase": true,
+    "SYBH-TTL": true,
+    "buff-expiry": true
+  },
+  "phaseContract": "Observed native startup alignment: newly constructed objects remain at frame1 at birth capture and the following EXIT_FRAME; loaded/reset free-play advances at its first EXIT_FRAME. Free-play index is max(0,hostTick-birthTick-1) for both pre-loop and in-callback construction. After this explicit startup alignment, compare complete recursive native frame signatures; never root-frame dedup.",
+  "profile": "Native24 only. 20/30 frame budgets in expected-visual-states.json are source calculations."
+}

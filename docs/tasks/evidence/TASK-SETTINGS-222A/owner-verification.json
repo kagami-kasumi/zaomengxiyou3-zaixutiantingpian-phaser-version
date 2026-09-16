@@ -1,0 +1,116 @@
+{
+  "status": "passed-bounded-check",
+  "expectedFromOriginalSymbolClass": [
+    {
+      "id": "StageCommon",
+      "sha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9",
+      "symbols": {
+        "AoyiBuff": 120,
+        "ObjectBaseSprite": 105,
+        "ObjectBaseSprite3": 103,
+        "ObjectBaseSprite4": 101
+      }
+    },
+    {
+      "id": "pet1",
+      "sha256": "0699a5d3a49ea8024d3635b18c6349f5d7f7cf5f1db869dd18a0a5ee6de60644",
+      "symbols": {
+        "PetTurtle3Bullet3": 534,
+        "PetTurtle2Bullet1": 511,
+        "PetTurtle2Buff": 507,
+        "PetTurtle1Bullet2": 504,
+        "PetTurtle1Bullet1": 473,
+        "PetTurtleBmd4": 22,
+        "PetTurtleBmd3": 15,
+        "PetTurtleBmd2": 11,
+        "PetTurtleBmd1": 7
+      }
+    }
+  ],
+  "sourceMethods": [
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/Aloader.as",
+      "method": "Aloader",
+      "startLine": 32,
+      "sha256": "7f62dba64c3c70638881e7cf49b3ff479a926ca3f89e3e020ee65005fba82d85",
+      "sliceSha256": "6d05fc1355ceb1d7af47e1937680382a326e435caf43b6fd6f103523ed645c5e"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/Aloader.as",
+      "method": "init",
+      "startLine": 39,
+      "sha256": "7f62dba64c3c70638881e7cf49b3ff479a926ca3f89e3e020ee65005fba82d85",
+      "sliceSha256": "2dcc49b5b95f7a1b595bbfb09690f2440df3b2cfb29fc8af175b2f32ab7e25fe"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/Aloader.as",
+      "method": "next",
+      "startLine": 45,
+      "sha256": "7f62dba64c3c70638881e7cf49b3ff479a926ca3f89e3e020ee65005fba82d85",
+      "sliceSha256": "1c1c9d08420271b220da805d7cff3e54ecbed00085a6f18485acc2321a09f4b2"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/Aloader.as",
+      "method": "loadswf",
+      "startLine": 56,
+      "sha256": "7f62dba64c3c70638881e7cf49b3ff479a926ca3f89e3e020ee65005fba82d85",
+      "sliceSha256": "e6e73908792afb3ba117ae6a106e3f4cea3adde5cde18dd7aa44b996f91fcfd8"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/AssetsLoader.as",
+      "method": "loadByName",
+      "startLine": 87,
+      "sha256": "91143a80367f1d723840eed3a0b05ab29eab0de865804b96ac47525bdce3f8ab",
+      "sliceSha256": "af14bd83e113df272989c3089370f3aaa6ac97e6826516ccdffb4d0e6e489534"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/AssetsLoader.as",
+      "method": "checkNext",
+      "startLine": 188,
+      "sha256": "91143a80367f1d723840eed3a0b05ab29eab0de865804b96ac47525bdce3f8ab",
+      "sliceSha256": "0009e82c0e81ae932cb48ead012bcdb26c066fd9bcb03aff5d3fd2c4ece6c1ef"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/AssetsLoader.as",
+      "method": "loadSwfByName",
+      "startLine": 210,
+      "sha256": "91143a80367f1d723840eed3a0b05ab29eab0de865804b96ac47525bdce3f8ab",
+      "sliceSha256": "68f05592d2f258430e8596cec20ad084879057f4052958a3ab84ace8a09c9271"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/AssetsLoader.as",
+      "method": "loadCompleteHandler",
+      "startLine": 234,
+      "sha256": "91143a80367f1d723840eed3a0b05ab29eab0de865804b96ac47525bdce3f8ab",
+      "sliceSha256": "7dd037548f16d7c4c2d127f6a238a52bbfeb56c8f723c980f2c8f26f69fbcce7"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/AssetsLoader.as",
+      "method": "__loadToLocalComplete",
+      "startLine": 256,
+      "sha256": "91143a80367f1d723840eed3a0b05ab29eab0de865804b96ac47525bdce3f8ab",
+      "sliceSha256": "c38ef471a871a7c9f2fe762c92f33587f1d4a4c3c79fa6e87aad892d7abc55a2"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/loader/AssetsLoader.as",
+      "method": "getRolesAndPetsAssets",
+      "startLine": 263,
+      "sha256": "91143a80367f1d723840eed3a0b05ab29eab0de865804b96ac47525bdce3f8ab",
+      "sliceSha256": "f4a92cad596224248d6bd4aeb1d6073028ef5418ec5af18c42dab182db8554ba"
+    },
+    {
+      "sourcePath": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/AUtils.as",
+      "method": "getNewObj",
+      "startLine": 25,
+      "sha256": "c09e7f2b908826e117e099969a47952efe69f80b6150e66a9e0e91dc36296b5d",
+      "sliceSha256": "3de852f2bb89eace50e11368788e9cb54406f17362319285162d02e07012b1d1"
+    }
+  ],
+  "failures": [],
+  "mutationRejected": {
+    "source": true,
+    "owner": true,
+    "phase": true
+  },
+  "boundary": "Controlled StageCommon then pet1, matching currentDomain/getDefinitionByName and unload retention. No claim about unrelated full-game preload collisions."
+}
