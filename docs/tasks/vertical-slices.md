@@ -1,5 +1,9 @@
 # 纵向切片复现表
 
+2026-09-17 TASK-SETTINGS-225完成：11,572态独立资源投影verified，13符号/32合同保留；11,544态零差异，28态308像素仅按用户精确元组许可，包络失败0。effects冻结源码重放、原点输入、归档重复生成、21类变异与最终资源审计通过；223恢复唯一Ready，224A/B/C Planned。未改src/public或旧真值，玄龟/204/VS-067及功能线仍未完成。交接见 `docs/tasks/evidence/TASK-SETTINGS-225/handoff.md`。
+
+2026-09-17 TASK-SLICE-223消费预检：原生归档完整；local-RGBA nearest/flip候选在2,440效果状态中132态、65,664像素非零，不能沿用碰撞容差。signed/scale舞台基准存在，但SYBH双倍对象屏外部分及动态独立图层转换仍需补证。223保留全13符号/32合同并Blocked，TASK-SETTINGS-225唯一Ready；224A/B/C保持Planned。未改src/生产资源或222原真值，玄龟/204/VS-067仍未完成、功能线Active。证据见 `docs/tasks/evidence/TASK-SLICE-223/preflight.md`。
+
 2026-09-17 TASK-SETTINGS-222B及父222完成：完整家族真值verified，保留222A全部13符号视觉与221全部32行为合同；94,656静态、31,344绘制后及31,704攻击入口碰撞案例，命中布尔全部一致。静态20案例70像素仅按用户批准的精确列表接受，动态像素零差异。223资源准备唯一Ready，224A/B/C Planned；玄龟现代实现、204、VS-067及功能线仍未完成。见 `docs/tasks/evidence/TASK-SETTINGS-222B/handoff.md`。
 
 2026-09-15 TASK-SETTINGS-222A完成：13符号视觉verified，11,572状态/20,215显示对象，原生24fps、193源码方法指纹及独立递归时钟/遮罩变异通过；32合同完整交接。222B唯一Ready承接碰撞与父222联合核销；父222仍Split，玄龟现代实现/204/VS-067仍未完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-222A/handoff.md`。

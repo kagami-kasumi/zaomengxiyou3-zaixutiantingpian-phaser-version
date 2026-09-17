@@ -154,6 +154,10 @@
 
 ## 资源和提取层
 
+- `docs/tasks/evidence/`
+  - 本地验证截图、trace、报告和中间产物，默认 Git 忽略；保留现有游戏直接导入的 7 个 JSON 白名单以保证拉取后可构建运行。
+  - 证据引用供本地复验使用；后续新增运行必需数据进入正式源码/资源目录，不得依赖被忽略文件。
+
 - `docs/reverse-engineering/evb-extraction-report.md`
   - EVB 原始目录恢复、176-byte SWF 还原、哈希清单和 FFDec 验证报告。
   - RegiMA 恢复目录位于 Git 忽略的 `local-resources/regima/`；现代工程按资源族选择性导出和接入。

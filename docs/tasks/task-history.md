@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-225 | 玄龟独立资源投影补证 | 完整signed/scale对象与独立动态组合输入 | M-034、M-035、M-042、VS-067 | [交接](evidence/TASK-SETTINGS-225/handoff.md)；11,572态verified，精确批准28态308像素，223恢复Ready |
 | TASK-SETTINGS-222B | 玄龟碰撞真值与父合同核销 | 完整32合同与原生视觉/有限碰撞联合交接 | M-032、M-034、M-035、M-042、VS-012、VS-067 | [交接](evidence/TASK-SETTINGS-222B/handoff.md)；223 Ready，现代家族待实现 |
 | TASK-SETTINGS-222 | 玄龟完整家族视觉/碰撞真值 | 完整32合同与原生视觉/有限碰撞联合交接 | M-032、M-034、M-035、M-042、VS-012、VS-067 | [交接](evidence/TASK-SETTINGS-222B/handoff.md)；223 Ready，现代家族待实现 |
 | TASK-SETTINGS-222A | 玄龟完整视觉真值 | 13符号逐态及原生动态组合 | M-032、M-034、M-035、M-042、VS-012、VS-067 | [交接](evidence/TASK-SETTINGS-222A/handoff.md)；11,572状态verified，222B Ready；碰撞与现代实现待验 |
@@ -324,6 +325,92 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-225
+
+完成：2026-09-17。全部专项与最终审计通过，精确用户许可已绑定；223恢复Ready，现代家族与功能线仍未完成。以下为冻结执行合同。
+
+任务类型：
+- `TASK-SETTINGS`
+
+任务模型：
+- `逆向任务`
+
+逆向子类型：
+- `视觉真值逆向`
+
+逆向方案：
+- `docs/reverse-engineering/plans/turtle-resource-projection-truth.md`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：
+- `M-034`、`M-035`、`M-042`、`VS-067`
+
+规模预算：
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 两包仅为完整方向/scale局部对象输入与已有动态fixture的独立对象组合证据；出现第三资料族、另造Flash栅格器、进入现代生产资源/Runtime或第三验收批次时，执行前拆分并保留全状态合同，不按单技能缩减。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent负责源采样与唯一写入；Luna只读核对源集合、基准独立性与状态覆盖
+- 并行工作包：主agent采样时，子agent核对223反证与222A原始基准未被改写
+- 写入 owner：主 agent
+- 归并检查点：采样前、晋升前
+- 方法观测：无
+
+待证明的可观察问题：
+- 为什么单位局部图nearest/flip转换在132个原生效果状态有非零差异？哪些源裁切、注册点、像素相位或滤镜条件决定正确资源转换？不得预先断言根因。
+- 如何保留SYBH scale2双方向的屏外像素及原注册点，且回投既有940×590基准为零差异？
+- 既有5,856动态/2,904buff状态能否由可独立移动的body、效果及双方buff资源按显示树合成，且保持滤镜、alpha、mask、递归时钟、深度与清理状态？
+
+输入资料：
+- `docs/workflow/reverse-engineering-task-protocol.md`与上述唯一逆向方案。
+- `docs/tasks/evidence/TASK-SLICE-223/preflight.md`及`local-rgba-preflight.json`。
+- 父222 verified family manifest、222A body/effects/dynamic/buff四原生语料和既有独立基准；221全32行为合同只作调用证据，不重开数值逆向。
+- 恢复`assets/pet1.swf`与`assets/StageCommon.swf`的既有13符号定义闭包；`tools/turtle-visual/VisualProbe.as`、`DynamicProbe.as`及既有生成/验证器。
+- `docs/workflow/air-runtime-verification.md`；沿用已安装SDK与原游戏runtime，既有源文件只读。
+
+有限范围与入口：
+- 第一包：222A effects原有9符号×122 tick、2,440方向/scale状态；普通攻击、SLD、SYBH不得按root frame丢递归相位。单位正向localImage与完整按变换对象RGBA分别声明，几何bounds不能自动作为滤镜/像素包络。
+- 第二包：222A原有四本体372投影、5,856动态和2,904buff状态；既有owner、学习组合、生命周期fixture不扩展。完整组合基准仅用于独立比较，不作为生产对象贴图。
+
+输出产物：
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-225-turtle-resource-projection.json`：原始显示对象、完整对象像素输入、裁切/原点、方向/scale/相位、组合关系、source/hash及222A state ID映射；使用现有UI Schema，必要附加字段通过独立完整性检查约束。
+- `docs/tasks/evidence/TASK-SETTINGS-225/`：证据矩阵、独立期望集、原生补充语料归档与hash、逐态差异、变异与重复生成报告、223交接。
+- 大型采样及可再生诊断在Git忽略目录，保留既有原生基准；225不生成`src/`或`public/`资源。
+
+完成定义：
+- 原生完整对象与独立合成表示有可重复、可追溯输入；全部11,572原声明状态逐态比较，仅允许2026-09-17用户明确批准的28状态308像素精确白名单（状态、坐标、原版/候选RGBA均须匹配），其余零视觉差异；所需源事实未知清零且Schema/完整性验证通过，223可恢复原有两包执行范围。
+
+验收标准：
+- 既有222A基准/hash不变；补充采样来自恢复SWF或源方法支架，记录WIN版本/24fps/quality，不能用现代输出重建原版基准。
+- 不用整fixture截图替代独立资源；显式验证SYBH双倍屏外内容、普通攻击负方向、SLD不同相位，保留32合同与13符号全集。
+- 拒绝source/state/owner/timing/scale/mask/filter/裁切/缺帧/图层缺失变异；重复生成一致；批准清单之外无法零差异则保留draft与具体未知，不自动增加视觉容差；精确许可须通过状态/坐标/双方RGBA负向变异检查。
+- `check:structure`、`check:workflow`、`check:annotations`、`audit:problems`、`git diff --check`与专项通过。碰撞精确残差许可不参与视觉验收。
+
+禁止范围：
+- 不改恢复SWF/legacy、旧基准，不新增宠物或游戏运行旅程，不实现战斗、碰撞算法、存档，不降低223/224A/B/C验收，不提前进入194。
+
+状态更新：
+- 完成225后归档，恢复223为唯一Ready；本次不关闭玄龟现代实现、204、VS-067或功能线。
+
+推荐后续任务：
+- `TASK-SLICE-223`。
+
+UI 原生化合同：
+- 显示列表清单：继承222A全部13符号及11,572状态，补充独立层与完整包络；hover/pressed不适用。
+- 原版机器真值 JSON：上述225补充manifest与父222；未verified不解除223阻塞。
+- 原版视觉基准：222A既有940×590原生基准及225新增完整对象源采样，二者独立比对。
+- 允许的现代视觉例外：用户在本对话明确回复“允许差异”；仅限 `docs/tasks/evidence/TASK-SETTINGS-225/visual-exception-approval.json` 绑定的原始清单，28状态308像素。不得推广成通道容差或豁免整状态；碰撞许可仍独立。
+- 逐状态验收：全部原声明P1/P2、方向、scale、递归相位、组合、进入/退出；原点可逆还原。
+- 差异证据：逐态像素/对象差异与代表叠图；禁止以零console或哈希相同代替独立合成验证。
+
 
 ### TASK-SETTINGS-222B
 

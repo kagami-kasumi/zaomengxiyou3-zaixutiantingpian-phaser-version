@@ -13,7 +13,7 @@
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 猴系 P1R=0、马系 P1H=0、青龙 P1G=0；其余六族与旧入口仍待逐族闭合 | 后续按当前线覆盖缺口生成单家族 task | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-SLICE-223 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟完整视觉与碰撞资源准备 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 全族合同保留与本批独立交接 | TASK-SLICE-224A | [定义](task-definitions/TASK-SLICE-223.md) |
+| TASK-SLICE-223 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟完整视觉与碰撞资源准备 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 消费225已验收11,572态资源输入及精确视觉许可；全32合同保留 | TASK-SLICE-224A | [定义](task-definitions/TASK-SLICE-223.md) |
 | TASK-SLICE-224A | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟公共入口/普攻/SLD/TXLJ | M-032、M-034、M-035、M-042、VS-012、VS-067 | 全族合同保留与本批独立交接 | TASK-SLICE-224B | [定义](task-definitions/TASK-SLICE-224A.md) |
 | TASK-SLICE-224B | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟SYBH/奥义/受伤结算 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 全族合同保留与本批独立交接 | TASK-SLICE-224C | [定义](task-definitions/TASK-SLICE-224B.md) |
 | TASK-SLICE-224C | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟全32合同与正式五关联合验收 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 全族合同保留与本批独立交接 | 按覆盖台账生成下一家族 | [定义](task-definitions/TASK-SLICE-224C.md) |

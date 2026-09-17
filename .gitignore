@@ -27,3 +27,21 @@ Thumbs.db
 /docs/tasks/evidence/TASK-SLICE-*/*side-by-side*.png
 /docs/tasks/evidence/TASK-SLICE-*/*region-diff*.png
 /docs/tasks/evidence/TASK-SLICE-*/pre-fix-*.png
+
+# Local task evidence; retain only data imported by the runnable game.
+/docs/tasks/evidence/*
+!/docs/tasks/evidence/TASK-SETTINGS-217/
+/docs/tasks/evidence/TASK-SETTINGS-217/*
+!/docs/tasks/evidence/TASK-SETTINGS-218/
+/docs/tasks/evidence/TASK-SETTINGS-218/*
+!/docs/tasks/evidence/TASK-SETTINGS-219/
+/docs/tasks/evidence/TASK-SETTINGS-219/*
+!/docs/tasks/evidence/TASK-SETTINGS-220/
+/docs/tasks/evidence/TASK-SETTINGS-220/*
+!/docs/tasks/evidence/TASK-SETTINGS-217/environment-properties.json
+!/docs/tasks/evidence/TASK-SETTINGS-217/source-contract.json
+!/docs/tasks/evidence/TASK-SETTINGS-218/collision-contract.json
+!/docs/tasks/evidence/TASK-SETTINGS-219/collision-contract.json
+!/docs/tasks/evidence/TASK-SETTINGS-219/runtime-mask-pack.json
+!/docs/tasks/evidence/TASK-SETTINGS-220/collision-contract.json
+!/docs/tasks/evidence/TASK-SETTINGS-220/runtime-mask-pack.json
