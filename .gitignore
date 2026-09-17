@@ -13,7 +13,12 @@ local-resources/
 
 # Local reverse-engineering corpora. They may live inside the workspace for
 # stable discovery, but remain outside Git unless curated explicitly.
-鍐嶇画澶╁涵1.1.exe
+/再续天庭1.1.exe
+
+# Large reverse-engineering manifests are local verification inputs. They are
+# not required to build or run the game and exceed normal Git hosting limits.
+/docs/reverse-engineering/ground-truth/manifests/task-settings-222-pet-turtle-family.json
+/docs/reverse-engineering/ground-truth/manifests/task-settings-222a-pet-turtle-visual.json
 
 *.log
 *.err.log
