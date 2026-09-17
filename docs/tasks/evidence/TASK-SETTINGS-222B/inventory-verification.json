@@ -1,8 +1,0 @@
-{
-  "status": "passed",
-  "requiredFiles": 151474,
-  "missingFiles": [],
-  "missingTileMutationRejected": true,
-  "indexSha256": "61671394e9f02a27162675be163d8a396c7178965ad71a9b4f85b81ff017b716",
-  "boundary": "Every declared field phase and nonempty native oracle image is archived; out-of-bounds tile lookups may return transparent, missing in-bounds tiles cannot pass this gate."
-}

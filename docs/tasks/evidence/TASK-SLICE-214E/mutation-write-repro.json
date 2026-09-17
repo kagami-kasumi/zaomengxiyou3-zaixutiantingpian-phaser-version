@@ -1,8 +1,0 @@
-{
-  "mutation": "first-mask",
-  "exitCode": 1,
-  "assertionRejected": true,
-  "overwroteBaseline": true,
-  "baselineSha256": "ed2c68bd82d04ffb2cb2236571d6598e2e578d5e0ce8dd2521d7a507d50bbf31",
-  "mutantSha256": "8fa142872ebdaf1a4f8f799acfd830b3eb40c9dab3c172bf50f5696161f1ca35"
-}
