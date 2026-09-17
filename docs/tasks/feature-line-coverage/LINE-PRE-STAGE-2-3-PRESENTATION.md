@@ -1,5 +1,7 @@
 # LINE-PRE-STAGE-2-3-PRESENTATION 覆盖台账
 
+2026-09-17 TASK-SETTINGS-222B及父222完成：完整家族真值verified，保留222A全部13符号视觉与221全部32行为合同；94,656静态、31,344绘制后及31,704攻击入口碰撞案例，命中布尔全部一致。静态20案例70像素仅按用户批准的精确列表接受，动态像素零差异。223资源准备唯一Ready，224A/B/C Planned；玄龟现代实现、204、VS-067及功能线仍未完成。见 `docs/tasks/evidence/TASK-SETTINGS-222B/handoff.md`。
+
 2026-09-15 TASK-SETTINGS-222A完成：13符号视觉verified，11,572状态/20,215显示对象，原生24fps、193源码方法指纹及独立递归时钟/遮罩变异通过；32合同完整交接。222B唯一Ready承接碰撞与父222联合核销；父222仍Split，玄龟现代实现/204/VS-067仍未完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-222A/handoff.md`。
 
 2026-09-15 TASK-SETTINGS-222规模预检：恢复SWF确认SYBH根18/内部30帧；现有采样按根帧去重/末帧停止、effect单位缩放及青龙15帧mask假设不能直接覆盖玄龟动态/scale2。222保留全合同并Split，222A唯一Ready（全部视觉与原生动态组合），222B Planned（碰撞采样及联合核销）。未晋升真值，未改src/生产资源，玄龟/204/VS-067仍未完成，功能线Active。见 `docs/tasks/evidence/TASK-SETTINGS-222/preflight.md`。

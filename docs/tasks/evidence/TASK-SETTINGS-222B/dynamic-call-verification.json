@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "cases": 31704,
+  "callerStates": 5856,
+  "sourceCallerUnchanged": true,
+  "pixels": 110725560,
+  "positive": 9418,
+  "differentPixels": 0,
+  "differentCases": 0,
+  "booleanMismatches": 0,
+  "examples": [],
+  "bySymbol": {
+    "PetTurtle3Bullet3": {
+      "cases": 15936,
+      "differentPixels": 0
+    },
+    "PetTurtle1Bullet1": {
+      "cases": 264,
+      "differentPixels": 0
+    },
+    "PetTurtle1Bullet2": {
+      "cases": 14568,
+      "differentPixels": 0
+    },
+    "PetTurtle2Bullet1": {
+      "cases": 936,
+      "differentPixels": 0
+    }
+  },
+  "nonAttackingStates": 312,
+  "nativeSha256": "456840879a73f521d4d9dbcfbcaee5c6e52787c12ed979ee0b1c51962b883945",
+  "sourceTraceSha256": "859471a7fbea019b2e7ea1801aaaf0282f45155f0ee698e14af46b2d872f603c",
+  "boundary": "Native source visual/lifetime methods plus original HitTest observation. Source attack-id/settlement behavior remains the independent 221 computational trace; not full-game or modern-runtime reproduction.",
+  "observationPoint": "checkAttack-entry"
+}

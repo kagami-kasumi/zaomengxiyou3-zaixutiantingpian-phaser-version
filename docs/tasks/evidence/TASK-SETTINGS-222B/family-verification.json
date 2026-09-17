@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "manifestSha256": "a4cc3e4e6b9cf4a099d8499b1da1d78affbac748e0883aab9b9e3bd29c336886",
+  "contracts": 32,
+  "mutations": {
+    "owner": true,
+    "scale": true,
+    "collision": true,
+    "timing": true,
+    "source": true,
+    "contract": true,
+    "visual": true,
+    "target": true,
+    "target-hash": true,
+    "consumer": true,
+    "collision-status": true,
+    "collision-downgrade": true,
+    "collision-evidence": true
+  },
+  "boundary": "Full embedded visual/behavior and collision join; promotion additionally requires current native integrity, specific evidence gates, and successor task handoff."
+}

@@ -1,0 +1,1515 @@
+{
+  "taskId": "TASK-SETTINGS-222B",
+  "status": "legacy-evidence-handoff",
+  "behaviorSha256": "55ffd587d0bc8a92fac9e4c2ead186b18baf8da6ce1f54113a661f1e6e03ea16",
+  "visualMatrixSha256": "363ebb242714b62b3d1da069fd9c54809aecd2c054872dea69074b562544dd05",
+  "contracts": [
+    {
+      "contractId": "entry.forms",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/0",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "method": "addPetByPi",
+        "line": 448,
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+        "sliceSha256": "63e87788aa48540b269aee62313a2e8008ba52840bbf919844d4bae2616874e7"
+      },
+      "behaviorFixtureSelector": "init-",
+      "visualUnits": [
+        "body-all-cells"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "init-"
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "entry.forms",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+          "method": "addPetByPi",
+          "line": 448,
+          "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+          "sliceSha256": "63e87788aa48540b269aee62313a2e8008ba52840bbf919844d4bae2616874e7"
+        },
+        "fixtureSelector": "init-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u56db\u7c7b\u76f4\u63a5\u7ee7\u627fBasePet\uff1b\u6309petName\u5b9e\u4f8b\u5316\u5bf9\u5e94\u7c7b",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "ai.priority",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/1",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "myIntelligence",
+        "line": 305,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+      },
+      "behaviorFixtureSelector": "priority-",
+      "visualUnits": [
+        "body-all-cells"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "priority-"
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "ai.priority",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+          "method": "myIntelligence",
+          "line": 305,
+          "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+          "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+        },
+        "fixtureSelector": "priority-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "sld\u2192txlj\u2192sybh\u2192xwaoyi\u2192\u79d2\u62cd\u666e\u653b\uff1bAI\u540eCD\u51cf\u4e00",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "ai.range",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/2",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "myIntelligence",
+        "line": 305,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+      },
+      "behaviorFixtureSelector": "outside-|inside-",
+      "visualUnits": [
+        "body-all-cells"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "outside-|inside-"
+      },
+      "futureConsumer": "PetCombatTargeting",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "ai.range",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+          "method": "myIntelligence",
+          "line": 305,
+          "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+          "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+        },
+        "fixtureSelector": "outside-|inside-",
+        "modernConsumer": "PetCombatTargeting",
+        "statement": "40/120/150/150\u5185\u624d\u63090.7\u9996\u968f\u673a\u666e\u653b\uff0c\u5931\u8d25\u518d\u72ec\u7acb0.3\u968f\u673a",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "ai.owner",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/3",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "myIntelligence",
+        "line": 305,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+      },
+      "behaviorFixtureSelector": "remote-",
+      "visualUnits": [
+        "body-all-cells"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "remote-"
+      },
+      "futureConsumer": "HeroPartyRuntimeBridge",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "ai.owner",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+          "method": "myIntelligence",
+          "line": 305,
+          "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+          "sliceSha256": "fe16e6c47448fdf4ca7c2573d7caae7d4a4b0ec3ac3ed67c834e51387b23b6ea"
+        },
+        "fixtureSelector": "remote-",
+        "modernConsumer": "HeroPartyRuntimeBridge",
+        "statement": "single\u6216sourceRole.sid\u672c\u5730\u624d\u81ea\u52a8\u9009\u62e9\uff1b\u4e24\u73a9\u5bb6\u5404\u81eaowner",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "ai.target",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/4",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "searchTarget",
+        "line": 1075,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "61db7ab2bea3d9c5924608da5013049bea1e28a53444ceac152c509a948de9b8"
+      },
+      "behaviorFixtureSelector": "outside-",
+      "visualUnits": [
+        "body-all-cells"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "outside-"
+      },
+      "futureConsumer": "PetCombatTargeting",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "ai.target",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+          "method": "searchTarget",
+          "line": 1075,
+          "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+          "sliceSha256": "61db7ab2bea3d9c5924608da5013049bea1e28a53444ceac152c509a948de9b8"
+        },
+        "fixtureSelector": "outside-",
+        "modernConsumer": "PetCombatTargeting",
+        "statement": "\u539f\u6570\u7ec4\u9996\u4e2a\u8ddd\u79bb<=1200\u76ee\u6807\uff1b\u4e0d\u662f\u6700\u8fd1\u6392\u5e8f\uff1b>=1200\u6216\u6b7b\u4ea1\u6e05\u76ee\u6807",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "ai.follow",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/5",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "followSource",
+        "line": 1023,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "6a0a4f218ef598e4479747dc4fd3197c83cdd3574c609f07dd463e20919f0dff"
+      },
+      "behaviorFixtureSelector": "outside-",
+      "visualUnits": [
+        "body-all-cells"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "outside-"
+      },
+      "futureConsumer": "PetCombatEntitySession",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "ai.follow",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+          "method": "followSource",
+          "line": 1023,
+          "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+          "sliceSha256": "6a0a4f218ef598e4479747dc4fd3197c83cdd3574c609f07dd463e20919f0dff"
+        },
+        "fixtureSelector": "outside-",
+        "modernConsumer": "PetCombatEntitySession",
+        "statement": "\u8ddf\u968f\u9608\u503c640\uff1b\u8ffd\u51fb\u53ea\u6309x\u8f6c\u5411\uff1bwarp\u4e0e\u5730\u9762\u89c4\u5219\u590d\u7528205/217\u8bc1\u636e",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "normal.1",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/6",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "normalHit",
+        "line": 273,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "4a853ce007a9d7d168e8f917cdbdf1621199be082f9fc995768fcbbc1f2f6c95"
+      },
+      "behaviorFixtureSelector": "normal-",
+      "visualUnits": [
+        "body-all-cells",
+        "normal-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle1Bullet1"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle1Bullet1"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": null
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "normal.1",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+          "method": "normalHit",
+          "line": 273,
+          "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+          "sliceSha256": "4a853ce007a9d7d168e8f917cdbdf1621199be082f9fc995768fcbbc1f2f6c95"
+        },
+        "fixtureSelector": "normal-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u771f\u666e\u653bhit1\uff1b\u7b2c\u4e09cell countdown10\u521b\u5efaPetTurtle1Bullet1",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "normal.2",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/7",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+        "method": "normalHit",
+        "line": 327,
+        "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+        "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+      },
+      "behaviorFixtureSelector": "normal-",
+      "visualUnits": [
+        "body-all-cells",
+        "normal-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle2Bullet1"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle2Bullet1"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": null
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "normal.2",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+          "method": "normalHit",
+          "line": 327,
+          "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+          "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+        },
+        "fixtureSelector": "normal-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u771f\u666e\u653bhit1\uff1b\u7b2c\u56dbcell countdown10\u521b\u5efaPetTurtle2Bullet1",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "normal.3",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/8",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+        "method": "normalHit",
+        "line": 403,
+        "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281",
+        "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+      },
+      "behaviorFixtureSelector": "normal-",
+      "visualUnits": [
+        "body-all-cells",
+        "normal-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle2Bullet1"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle2Bullet1"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": null
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "normal.3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+          "method": "normalHit",
+          "line": 403,
+          "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281",
+          "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+        },
+        "fixtureSelector": "normal-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u771f\u666e\u653bhit1\uff1b\u7b2c\u56dbcell countdown10\u521b\u5efaPetTurtle2Bullet1",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "normal.4",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/9",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "normalHit",
+        "line": 545,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+      },
+      "behaviorFixtureSelector": "normal-",
+      "visualUnits": [
+        "body-all-cells",
+        "normal-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle2Bullet1"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle2Bullet1"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": null
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "normal.4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "method": "normalHit",
+          "line": 545,
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+          "sliceSha256": "71242d1c634b8d5fceb5895cc2c83da7a93062c7b4f0007e24e982bceac6077c"
+        },
+        "fixtureSelector": "normal-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u771f\u666e\u653bhit1\uff1b\u7b2c\u56dbcell countdown10\u521b\u5efaPetTurtle2Bullet1",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "sld.gates",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/10",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "beforeSkill1Start",
+        "line": 202,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "a835cadda5756b088f2bac60d8ddb97ec27119bb19a9e6d408845d3dbf8c07db"
+      },
+      "behaviorFixtureSelector": "gate-|low-mp-",
+      "visualUnits": [
+        "body-all-cells",
+        "sld-native",
+        "linked-native"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "gate-|low-mp-"
+      },
+      "futureConsumer": "PetTurtleSkillSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "sld.gates",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+          "method": "beforeSkill1Start",
+          "line": 202,
+          "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+          "sliceSha256": "a835cadda5756b088f2bac60d8ddb97ec27119bb19a9e6d408845d3dbf8c07db"
+        },
+        "fixtureSelector": "gate-|low-mp-",
+        "modernConsumer": "PetTurtleSkillSystem",
+        "statement": "\u5df2\u5b66\u300120MP\u3001\u8ddd\u79bb50..200\u542b\u8fb9\u754c",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "sld.release",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/11",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "releSkill1",
+        "line": 213,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "246c485f11008614ae63e278385f4245904bc27b2c82f06e3a0cc36926307cb4"
+      },
+      "behaviorFixtureSelector": "release-",
+      "visualUnits": [
+        "body-all-cells",
+        "sld-native",
+        "linked-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "release-"
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "sld.release",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+          "method": "releSkill1",
+          "line": 213,
+          "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+          "sliceSha256": "246c485f11008614ae63e278385f4245904bc27b2c82f06e3a0cc36926307cb4"
+        },
+        "fixtureSelector": "release-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u65b0attack id\u3001\u4fdd\u62a410tick\u3001hit2\u3001\u626320MP",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "sld.effect",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/12",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+        "method": "doHit2",
+        "line": 240,
+        "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+        "sliceSha256": "ff02172f834ad3871b76dac0dc21080f80a570c16d46ca8f9ba1fc205237c5d3"
+      },
+      "behaviorFixtureSelector": "frame-",
+      "visualUnits": [
+        "body-all-cells",
+        "sld-native",
+        "linked-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle1Bullet2"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle1Bullet2"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": "sampling-approval.json"
+      },
+      "futureConsumer": "PetProjectileCombatSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "sld.effect",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+          "method": "doHit2",
+          "line": 240,
+          "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407",
+          "sliceSha256": "ff02172f834ad3871b76dac0dc21080f80a570c16d46ca8f9ba1fc205237c5d3"
+        },
+        "fixtureSelector": "frame-",
+        "modernConsumer": "PetProjectileCombatSystem",
+        "statement": "FollowBaseObjectBullet\uff1bhurt\u4e0d\u65ad\uff1b\u521b\u5efa\u5373cureHp(uint(noncritPower))\uff0c\u4e0d\u662f\u547d\u4e2d\u6cbb\u7597",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "sld.link-heal",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/13",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+        "method": "doHit2",
+        "line": 275,
+        "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+        "sliceSha256": "ae15dec3cf3fd286927fbf90338266194a568b4b336fdbf8cd4db607a5cbeb04"
+      },
+      "behaviorFixtureSelector": "frame-",
+      "visualUnits": [
+        "body-all-cells",
+        "sld-native",
+        "linked-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "frame-"
+      },
+      "futureConsumer": "PetBattleOwnershipSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "sld.link-heal",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+          "method": "doHit2",
+          "line": 275,
+          "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+          "sliceSha256": "ae15dec3cf3fd286927fbf90338266194a568b4b336fdbf8cd4db607a5cbeb04"
+        },
+        "fixtureSelector": "frame-",
+        "modernConsumer": "PetBattleOwnershipSystem",
+        "statement": "\u53cc\u65b9buff\u5b58\u5728\u624d\u76f4\u63a5\u5199hero HP\uff1b\u56db\u9636SetHHp\u4e8b\u4ef6\uff1b\u4e0d\u9012\u5f52hero cureHp",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "txlj.release",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/14",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+        "method": "releSkill2",
+        "line": 234,
+        "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+        "sliceSha256": "5989cb8ad3e165a668af4ae6f54c18ab63d7550b9a035dca6fddb3d4c7bee5cf"
+      },
+      "behaviorFixtureSelector": "release-",
+      "visualUnits": [
+        "dual-buff-native",
+        "linked-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "release-"
+      },
+      "futureConsumer": "PetBattleOwnershipSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "txlj.release",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+          "method": "releSkill2",
+          "line": 234,
+          "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca",
+          "sliceSha256": "5989cb8ad3e165a668af4ae6f54c18ab63d7550b9a035dca6fddb3d4c7bee5cf"
+        },
+        "fixtureSelector": "release-",
+        "modernConsumer": "PetBattleOwnershipSystem",
+        "statement": "\u65e0\u52a8\u4f5c\u5207\u6362\uff1b\u53cc\u65b9\u540cbuff\uff1bfirst/second\u8f6cuint\uff1b\u4ec5harm\u5b58\u5728\u626320MP",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "txlj.damage",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/15",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "method": "reduceHp",
+        "line": 795,
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+        "sliceSha256": "7cf91f3dccdc10041aad212be389a105772bdb6aeab9918b18d1a3f2a2aef22f"
+      },
+      "behaviorFixtureSelector": "settlement",
+      "visualUnits": [
+        "dual-buff-native",
+        "linked-native"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "settlement"
+      },
+      "futureConsumer": "HeroCombatSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "txlj.damage",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+          "method": "reduceHp",
+          "line": 795,
+          "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+          "sliceSha256": "7cf91f3dccdc10041aad212be389a105772bdb6aeab9918b18d1a3f2a2aef22f"
+        },
+        "fixtureSelector": "settlement",
+        "modernConsumer": "HeroCombatSystem",
+        "statement": "\u76fe\u4f18\u5148\uff1b\u53ccbuff\u65f6pet ceil(5%)\uff0chero int(95%)\u540eceil\uff1b\u663e\u793a\u4e0d\u662fHP\u5dee",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "txlj.heal",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/16",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "method": "cureHp",
+        "line": 343,
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+        "sliceSha256": "5b88583c24e98fc89a036604310cd9a950406bc3ec60b11d45269922184fc11d"
+      },
+      "behaviorFixtureSelector": "settlement",
+      "visualUnits": [
+        "dual-buff-native",
+        "linked-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "settlement"
+      },
+      "futureConsumer": "PetBattleOwnershipSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "txlj.heal",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+          "method": "cureHp",
+          "line": 343,
+          "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+          "sliceSha256": "5b88583c24e98fc89a036604310cd9a950406bc3ec60b11d45269922184fc11d"
+        },
+        "fixtureSelector": "settlement",
+        "modernConsumer": "PetBattleOwnershipSystem",
+        "statement": "\u53ccbuff\u65f6pet\u548chero\u5747int(105%)\uff0chero\u540eceil\u4e0d\u6062\u590d\u5c0f\u6570",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "sybh.release",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/17",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+        "method": "releSkill3",
+        "line": 309,
+        "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281",
+        "sliceSha256": "af9422725d08f89bcacac417b966859337b696851bac1aac8b16c333158de13b"
+      },
+      "behaviorFixtureSelector": "release-",
+      "visualUnits": [
+        "body-all-cells",
+        "sybh-native",
+        "effects-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "release-"
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "sybh.release",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+          "method": "releSkill3",
+          "line": 309,
+          "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281",
+          "sliceSha256": "af9422725d08f89bcacac417b966859337b696851bac1aac8b16c333158de13b"
+        },
+        "fixtureSelector": "release-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "20MP/hit3/\u4fdd\u62a410\uff1b\u7b2c\u4e09cell countdown10\u51fa\u6548\u679c",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "sybh.effects",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/18",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "doHit3",
+        "line": 455,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "5e1ade0b671b977be3ecb650b48ef4fc1e34a2ab0a51ad7485f3d5a6ca085c60"
+      },
+      "behaviorFixtureSelector": "frame-",
+      "visualUnits": [
+        "body-all-cells",
+        "sybh-native",
+        "effects-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle3Bullet3"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle3Bullet3"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": null
+      },
+      "futureConsumer": "PetProjectileCombatSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "sybh.effects",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "method": "doHit3",
+          "line": 455,
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+          "sliceSha256": "5e1ade0b671b977be3ecb650b48ef4fc1e34a2ab0a51ad7485f3d5a6ca085c60"
+        },
+        "fixtureSelector": "frame-",
+        "modernConsumer": "PetProjectileCombatSystem",
+        "statement": "\u4e09\u9636scale1\uff0c\u56db\u9636scale2\uff1b\u56db\u9636hit3\u95f4\u9694frameClips*.25",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "aoyi.gate",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/19",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "beforeSkill4Start",
+        "line": 265,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "87c633770ebdfb4866687f0ace86a8417df4c7142239278adda68b054f3d6544"
+      },
+      "behaviorFixtureSelector": "aoyi-",
+      "visualUnits": [
+        "aoyi-eight-masks-native",
+        "aoyi-lifecycle-native",
+        "effects-native"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "aoyi-"
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "aoyi.gate",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "method": "beforeSkill4Start",
+          "line": 265,
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+          "sliceSha256": "87c633770ebdfb4866687f0ace86a8417df4c7142239278adda68b054f3d6544"
+        },
+        "fixtureSelector": "aoyi-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u76ee\u6807\u3001\u5df2\u5b66\u3001MP>=30\uff1breleSkill4\u4e0d\u6263\u84dd",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "aoyi.chain",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/20",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "releSkill4",
+        "line": 366,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "8416ea6865a16281cad7b0d3784167dcb253859e89c7e6e5d02d0e1b906114fe"
+      },
+      "behaviorFixtureSelector": "aoyi-",
+      "visualUnits": [
+        "aoyi-eight-masks-native",
+        "aoyi-lifecycle-native",
+        "effects-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle1Bullet2",
+          "PetTurtle3Bullet3"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle1Bullet2",
+            "PetTurtle3Bullet3"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": "sampling-approval.json"
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "aoyi.chain",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "method": "releSkill4",
+          "line": 366,
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+          "sliceSha256": "8416ea6865a16281cad7b0d3784167dcb253859e89c7e6e5d02d0e1b906114fe"
+        },
+        "fixtureSelector": "aoyi-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "8\u79cd\u5df2\u5b66\u7ec4\u5408\uff1b\u7acb\u5373/2\u79d2/4\u79d2\u514d\u8d39SLD\u3001\u514d\u8d39TXLJ\u3001SYBH\u6301\u7eed5\u79d2",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "aoyi.damage-window",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/21",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "doHit3InAoyi",
+        "line": 468,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "054be1d955359f0deaa8af6a5b0bd16f72676e74c5ff2619239b175b76b3633a"
+      },
+      "behaviorFixtureSelector": "aoyi-",
+      "visualUnits": [
+        "aoyi-eight-masks-native",
+        "aoyi-lifecycle-native",
+        "effects-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle1Bullet2",
+          "PetTurtle3Bullet3"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle1Bullet2",
+            "PetTurtle3Bullet3"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": "sampling-approval.json"
+      },
+      "futureConsumer": "PetProjectileCombatSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "aoyi.damage-window",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "method": "doHit3InAoyi",
+          "line": 468,
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+          "sliceSha256": "054be1d955359f0deaa8af6a5b0bd16f72676e74c5ff2619239b175b76b3633a"
+        },
+        "fixtureSelector": "aoyi-",
+        "modernConsumer": "PetProjectileCombatSystem",
+        "statement": "\u4e0d\u968f\u672b\u5e27\u9500\u6bc1\uff1b120ticks@24\uff1bstatic\u4e16\u754c\u6839\uff1b\u672b\u5e27\u4ecd\u53ef\u78b0\u649e",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "aoyi.hurt",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/22",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "reduceHp",
+        "line": 491,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "5dd4b9ad07a162e46963371d5208d7bacc16adad87ce0b49b6d2c83233ad43e6"
+      },
+      "behaviorFixtureSelector": "aoyi-hurt-",
+      "visualUnits": [
+        "aoyi-eight-masks-native",
+        "aoyi-lifecycle-native",
+        "effects-native"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "aoyi-hurt-"
+      },
+      "futureConsumer": "PetCombatEntitySession",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "aoyi.hurt",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "method": "reduceHp",
+          "line": 491,
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+          "sliceSha256": "5dd4b9ad07a162e46963371d5208d7bacc16adad87ce0b49b6d2c83233ad43e6"
+        },
+        "fixtureSelector": "aoyi-hurt-",
+        "modernConsumer": "PetCombatEntitySession",
+        "statement": "\u4ecd\u6263HP\uff1b\u538b\u5236hurt\u53c2\u6570/\u53cd\u51fb\uff1bGXP\u6216\u5965\u4e49\u62d2\u7edd\u51fb\u9000\uff1bhurt\u52a8\u4f5c\u6e05isAoyi",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "aoyi.cleanup",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/23",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+        "method": "releSkill4",
+        "line": 366,
+        "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+        "sliceSha256": "8416ea6865a16281cad7b0d3784167dcb253859e89c7e6e5d02d0e1b906114fe"
+      },
+      "behaviorFixtureSelector": "aoyi-rest|aoyi-dead|aoyi-destroy-",
+      "visualUnits": [
+        "aoyi-eight-masks-native",
+        "aoyi-lifecycle-native",
+        "effects-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-after-cleanup",
+        "reason": "Source cleanup removes/destroys bullets before subsequent step inputs; there is no independent attack mask for a destroyed actor. Behavior trace proves cleanup, 222A proves visual lifetime, and 222B compares all caller states unchanged.",
+        "evidence": [
+          "dynamic-call-verification.json",
+          "dynamic-verification.json"
+        ],
+        "behaviorFixtureSelector": "aoyi-rest|aoyi-dead|aoyi-destroy-"
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "aoyi.cleanup",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "method": "releSkill4",
+          "line": 366,
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33",
+          "sliceSha256": "8416ea6865a16281cad7b0d3784167dcb253859e89c7e6e5d02d0e1b906114fe"
+        },
+        "fixtureSelector": "aoyi-rest|aoyi-dead|aoyi-destroy-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u5ef6\u8fdf\u56de\u8c03\u53ea\u68c0petInfo/isFight/!dead\uff1b\u6d3b\u5ba0\u9500\u6bc1\u540e\u56de\u8c031009\u662f\u6e90\u7f3a\u9677",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "damage.power",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/24",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+        "method": "getPetHarmObj",
+        "line": 1017,
+        "sha256": "b9bba062ed38c9e475bb4e1b29dfc2328ba968453ed8d2fe821a403eb4b4dbc2",
+        "sliceSha256": "b31bca70a0f6de066b6a8827c0df017400c7970da3a1c6710bd7fd579878ebdb"
+      },
+      "behaviorFixtureSelector": "power-|init-",
+      "visualUnits": [
+        "effects-native",
+        "collision-sprite-visuals"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "power-|init-"
+      },
+      "futureConsumer": "PetProjectileCombatSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "damage.power",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+          "method": "getPetHarmObj",
+          "line": 1017,
+          "sha256": "b9bba062ed38c9e475bb4e1b29dfc2328ba968453ed8d2fe821a403eb4b4dbc2",
+          "sliceSha256": "b31bca70a0f6de066b6a8827c0df017400c7970da3a1c6710bd7fd579878ebdb"
+        },
+        "fixtureSelector": "power-|init-",
+        "modernConsumer": "PetProjectileCombatSystem",
+        "statement": "first\u603b\u4e581.05\uff1b\u56db\u9636\u624d\u4e58\u9b54\u82b1\uff1b\u66b4\u51fb\u72ec\u7acb\uff1bfsnl uint",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "damage.snapshot",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/25",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+        "method": "refreshSourceRoleAttackInfoObject",
+        "line": 433,
+        "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+        "sliceSha256": "9b21c831f830695b0947c263fec5a91a00ec917229e8e95515789a17d38aeaed"
+      },
+      "behaviorFixtureSelector": "hit",
+      "visualUnits": [
+        "effects-native",
+        "collision-sprite-visuals"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "hit"
+      },
+      "futureConsumer": "PetProjectileCombatSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "damage.snapshot",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+          "method": "refreshSourceRoleAttackInfoObject",
+          "line": 433,
+          "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+          "sliceSha256": "9b21c831f830695b0947c263fec5a91a00ec917229e8e95515789a17d38aeaed"
+        },
+        "fixtureSelector": "hit",
+        "modernConsumer": "PetProjectileCombatSystem",
+        "statement": "setAction\u7f13\u5b58\u4f24\u5bb3\uff1bpet atk*2.8\uff1b\u6210\u529f\u547d\u4e2d\u540e\u518d\u5237\u65b0\u4f9b\u4e0b\u4e00\u4e2a\u76ee\u6807",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "damage.dedup",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/26",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+        "method": "checkAttack",
+        "line": 225,
+        "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+        "sliceSha256": "5a10da5712c53473a1f886f80530c3674b7c2ddc57e8d2fccf24d04309ff8889"
+      },
+      "behaviorFixtureSelector": "hit",
+      "visualUnits": [
+        "effects-native",
+        "collision-sprite-visuals"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "verified-finite-fixtures",
+        "profiles": [
+          "PetTurtle1Bullet1",
+          "PetTurtle2Bullet1",
+          "PetTurtle1Bullet2",
+          "PetTurtle3Bullet3"
+        ],
+        "staticEvidence": "sampling-verification.json",
+        "dynamicEvidence": "dynamic-call-verification.json",
+        "fixtureSelector": {
+          "symbols": [
+            "PetTurtle1Bullet1",
+            "PetTurtle2Bullet1",
+            "PetTurtle1Bullet2",
+            "PetTurtle3Bullet3"
+          ],
+          "allDeclaredScales": true,
+          "owners": [
+            "P1",
+            "P2"
+          ]
+        },
+        "exception": "sampling-approval.json",
+        "registryEvidence": "registry-verification.json"
+      },
+      "futureConsumer": "PetProjectileCombatSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "damage.dedup",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+          "method": "checkAttack",
+          "line": 225,
+          "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+          "sliceSha256": "5a10da5712c53473a1f886f80530c3674b7c2ddc57e8d2fccf24d04309ff8889"
+        },
+        "fixtureSelector": "hit",
+        "modernConsumer": "PetProjectileCombatSystem",
+        "statement": "\u6bcf\u653b\u51fbid\u76ee\u6807\u53bb\u91cd\uff1binterval\u76f8\u7b49\u65f6\u6362id\uff1bmiss\u884c\u4e3a\u7531\u602a\u7269\u51b3\u5b9a",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "damage.defense",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/27",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+        "method": "getRealHurt",
+        "line": 1369,
+        "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+        "sliceSha256": "3ec6f953c74e62b73e035dbe866aac1e8869892a7bbe9cd5c882f89f9978d91f"
+      },
+      "behaviorFixtureSelector": "hit",
+      "visualUnits": [
+        "effects-native",
+        "collision-sprite-visuals"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "hit"
+      },
+      "futureConsumer": "PetProjectileCombatSystem",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "damage.defense",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+          "method": "getRealHurt",
+          "line": 1369,
+          "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+          "sliceSha256": "3ec6f953c74e62b73e035dbe866aac1e8869892a7bbe9cd5c882f89f9978d91f"
+        },
+        "fixtureSelector": "hit",
+        "modernConsumer": "PetProjectileCombatSystem",
+        "statement": "\u7269\u7406atk/def\u6bd4\u4f8b\u3001\u9b54\u6cd5mDef\u6bd4\u4f8b\uff1b\u4e0a\u96501.1\u3001\u8d1f\u6bd4\u4f8b1\u3001int\u8fd4\u56de",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "hurt.counter",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/28",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "reduceHp",
+        "line": 865,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "d92274d55b59caff0ee4327692edacd98572785631f23cb43a014328702d2a6a"
+      },
+      "behaviorFixtureSelector": "counter-|hurt-",
+      "visualUnits": [
+        "body-all-cells",
+        "normal-native",
+        "death-native"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-independent-mask",
+        "reason": "This contract governs a behavior decision, numeric settlement, owner relation or action release. It does not define a separate attack display shape; attack geometry is covered by normal/sld.effect/sybh.effects/aoyi collision rows.",
+        "behaviorFixtureSelector": "counter-|hurt-"
+      },
+      "futureConsumer": "PetCombatEntitySession",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "hurt.counter",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+          "method": "reduceHp",
+          "line": 865,
+          "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+          "sliceSha256": "d92274d55b59caff0ee4327692edacd98572785631f23cb43a014328702d2a6a"
+        },
+        "fixtureSelector": "counter-|hurt-",
+        "modernConsumer": "PetCombatEntitySession",
+        "statement": "\u5ba0\u7269\u672c\u8eab\u975e\u81f4\u6b7bparam2=true\u624dQLFJ\u968f\u673a\u53cd\u51fb\uff1b\u4e0d\u662f\u4e3b\u4eba\u4efb\u610f\u53d7\u51fb\u89e6\u53d1",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "hurt.death",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/29",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "reduceHp",
+        "line": 865,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "d92274d55b59caff0ee4327692edacd98572785631f23cb43a014328702d2a6a"
+      },
+      "behaviorFixtureSelector": "dead-",
+      "visualUnits": [
+        "body-all-cells",
+        "normal-native",
+        "death-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-after-cleanup",
+        "reason": "Source cleanup removes/destroys bullets before subsequent step inputs; there is no independent attack mask for a destroyed actor. Behavior trace proves cleanup, 222A proves visual lifetime, and 222B compares all caller states unchanged.",
+        "evidence": [
+          "dynamic-call-verification.json",
+          "dynamic-verification.json"
+        ],
+        "behaviorFixtureSelector": "dead-"
+      },
+      "futureConsumer": "PetCombatEntitySession",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "hurt.death",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+          "method": "reduceHp",
+          "line": 865,
+          "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+          "sliceSha256": "d92274d55b59caff0ee4327692edacd98572785631f23cb43a014328702d2a6a"
+        },
+        "fixtureSelector": "dead-",
+        "modernConsumer": "PetCombatEntitySession",
+        "statement": "single\u9996\u6b21dead\u6263\u5bff\u547d\u4e00\u6b21\uff0c\u6b7b\u4ea1\u52a8\u753b\u7ed3\u675fdestroy\uff1b\u539f\u4f24\u5bb3\u663e\u793a\u53ef\u5927\u4e8eHP\u5dee",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "lifecycle.destroy",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/30",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "method": "destroy",
+        "line": 1150,
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+        "sliceSha256": "0c860bde14dd44f137a111cec2a20b149614e0a4d9e1f2bbfbea3314a63b8584"
+      },
+      "behaviorFixtureSelector": "destroy-",
+      "visualUnits": [
+        "body-all-cells",
+        "destroy-native"
+      ],
+      "visualRelation": "Direct native action/effect/lifecycle observations.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-after-cleanup",
+        "reason": "Source cleanup removes/destroys bullets before subsequent step inputs; there is no independent attack mask for a destroyed actor. Behavior trace proves cleanup, 222A proves visual lifetime, and 222B compares all caller states unchanged.",
+        "evidence": [
+          "dynamic-call-verification.json",
+          "dynamic-verification.json"
+        ],
+        "behaviorFixtureSelector": "destroy-"
+      },
+      "futureConsumer": "PetCombatRuntime",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "lifecycle.destroy",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+          "method": "destroy",
+          "line": 1150,
+          "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42",
+          "sliceSha256": "0c860bde14dd44f137a111cec2a20b149614e0a4d9e1f2bbfbea3314a63b8584"
+        },
+        "fixtureSelector": "destroy-",
+        "modernConsumer": "PetCombatRuntime",
+        "statement": "\u9500\u6bc1body/buff/bullet\uff0c\u6e05sourceRole\u5ba0\u7269\u548cowner\uff1b\u73b0\u4ee3\u9700\u53d6\u6d88\u6240\u6709\u81ea\u8eab\u56de\u8c03",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    },
+    {
+      "contractId": "lifecycle.replace",
+      "behaviorPointer": "docs/tasks/evidence/TASK-SETTINGS-221/behavior-contract.json#/contracts/31",
+      "source": {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "method": "changePet",
+        "line": 2561,
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+        "sliceSha256": "0cdb5342b58c4e3573da3d7956e70dfd1e448ea61dfa145415e68791e386a410"
+      },
+      "behaviorFixtureSelector": "destroy-",
+      "visualUnits": [
+        "body-all-cells",
+        "destroy-native"
+      ],
+      "visualRelation": "Existing action/effect visual contract; this behavior decision has no separate turtle artwork.",
+      "visualStatus": "verified",
+      "collision": {
+        "status": "not-applicable-after-cleanup",
+        "reason": "Source cleanup removes/destroys bullets before subsequent step inputs; there is no independent attack mask for a destroyed actor. Behavior trace proves cleanup, 222A proves visual lifetime, and 222B compares all caller states unchanged. The 221 changePet destroy/init contract remains mandatory; replacement pet attacks consume the normal and skill collision rows.",
+        "evidence": [
+          "dynamic-call-verification.json",
+          "dynamic-verification.json"
+        ],
+        "behaviorFixtureSelector": "destroy-"
+      },
+      "futureConsumer": "HeroPartyRuntimeBridge",
+      "consumerStatus": "pending-formal-implementation",
+      "behavior": {
+        "id": "lifecycle.replace",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+          "method": "changePet",
+          "line": 2561,
+          "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8",
+          "sliceSha256": "0cdb5342b58c4e3573da3d7956e70dfd1e448ea61dfa145415e68791e386a410"
+        },
+        "fixtureSelector": "destroy-",
+        "modernConsumer": "HeroPartyRuntimeBridge",
+        "statement": "changePet\u5148destroy\u65e7\u5ba0\u518dinitPet\uff1b\u91cd\u8bd5/\u8fd4\u56de\u7ecfhero\u9500\u6bc1\u94fe",
+        "evidenceLevel": "\u786e\u8ba4\u4e8b\u5b9e",
+        "geometry": "deferred-to-TASK-SETTINGS-222"
+      },
+      "behaviorResponsibility": "Retained in full from 221; collision N/A applies only to an independent attack mask, never to behavior triggers, target selection, numeric settlement or owner lifecycle."
+    }
+  ],
+  "declaredContractIds": [
+    "entry.forms",
+    "ai.priority",
+    "ai.range",
+    "ai.owner",
+    "ai.target",
+    "ai.follow",
+    "normal.1",
+    "normal.2",
+    "normal.3",
+    "normal.4",
+    "sld.gates",
+    "sld.release",
+    "sld.effect",
+    "sld.link-heal",
+    "txlj.release",
+    "txlj.damage",
+    "txlj.heal",
+    "sybh.release",
+    "sybh.effects",
+    "aoyi.gate",
+    "aoyi.chain",
+    "aoyi.damage-window",
+    "aoyi.hurt",
+    "aoyi.cleanup",
+    "damage.power",
+    "damage.snapshot",
+    "damage.dedup",
+    "damage.defense",
+    "hurt.counter",
+    "hurt.death",
+    "lifecycle.destroy",
+    "lifecycle.replace"
+  ],
+  "boundary": "Legacy behavior, visual and finite collision evidence only; no modern implementation acceptance is implied."
+}
