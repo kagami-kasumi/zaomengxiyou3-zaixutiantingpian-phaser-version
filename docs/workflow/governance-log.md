@@ -1,5 +1,16 @@
 # 工作流治理日志
 
+## 2026-09-18：224A1生产消费闭合
+
+2026-09-18 TASK-SLICE-224A1完成：既有bundle/coordinator接入650文件与六包生产解码，11,572态只读owner/paintParts投影、61,424相位和157,704原生碰撞case通过P1TA0。原始RGBA保留28态308像素精确许可；碰撞保留20例70像素，命中布尔全同。真实Phaser WebGL逐态画布对照、9类实现变异及加载失败/退出/重入通过。224A2唯一Ready，父A的17责任及全族32合同仍待行为/正式消费者核销，224A保持Split，A3/B/C Planned；玄龟/204/VS-067未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A1/handoff.md`。
+
+复核补齐真实画布逐态读取及原生/批准摘要分列；本批仅增加P1TA0资源门禁，不修改调度规则或降低行为验收。
+
+## 2026-09-18：224A执行前预算核定
+
+- 生产资源消费需要独立验收，连同公共行为/真实攻击、双owner结算与联合验收超出原两批预算；224A保留全部17责任并Split，224A1唯一Ready，A2/A3/B/C Planned。
+- 不修改工作流规则，不新增平行Runtime，不以文件数或compact判超限；没有实现通过或真值降级。证据见 `docs/tasks/evidence/TASK-SLICE-224A/preflight.md`，集中PG反馈写入problem-audit。
+
 ## 2026-09-17：超大逆向输入退出 Git 历史
 
 - 修正 `再续天庭1.1.exe` 的乱码忽略规则，并将该 452.11 MB 本地原始语料从未推送历史移除。

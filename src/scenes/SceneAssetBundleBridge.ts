@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { discardIncompleteTurtleAssets, hasTurtleAssets, isTurtleManifest, prepareTurtleAssets } from './PetTurtleAssetBridge';
 import {
   getSceneAssetBundleId,
   sceneAssetBundles,
@@ -27,6 +28,7 @@ export function queueSceneAssetBundleForPreload(
 ): void {
   const queued = new Set<string>();
   const visit = (id: AssetBundleId): void => {
+    if (id === 'pet-turtle') throw new Error('pet-turtle requires awaited ensureSceneAssetBundle decoding');
     const bundle = sceneAssetBundles[id];
     for (const dependency of bundle.dependencies) visit(dependency);
     for (const asset of bundle.assets) {
@@ -157,6 +159,7 @@ function loadPhaserAssets(
       if (settled) return;
       settled = true;
       cleanup();
+      if (error && bundleId === 'pet-turtle') discardIncompleteTurtleAssets(scene);
       if (error) reject(error);
       else resolve();
     };
@@ -170,7 +173,9 @@ function loadPhaserAssets(
         ));
         return;
       }
-      settle();
+      if (bundleId === 'pet-turtle') {
+        void prepareTurtleAssets(scene, () => settled).then(() => settle(), error => settle(error));
+      } else settle();
     };
     const onShutdown = (): void => {
       settle(new Error(`Scene "${scene.scene.key}" shut down while loading "${bundleId}".`));
@@ -185,6 +190,8 @@ function loadPhaserAssets(
 }
 
 function hasPhaserAsset(scene: Phaser.Scene, asset: BundleAssetDefinition): boolean {
+  if (asset.kind === 'binary') return scene.cache.binary.exists(asset.key)
+    && (!isTurtleManifest(asset.path) || hasTurtleAssets(scene));
   return asset.kind === 'text'
     ? scene.cache.text.exists(asset.key)
     : scene.textures.exists(asset.key);
@@ -192,6 +199,12 @@ function hasPhaserAsset(scene: Phaser.Scene, asset: BundleAssetDefinition): bool
 
 function queuePhaserAsset(scene: Phaser.Scene, asset: BundleAssetDefinition): void {
   switch (asset.kind) {
+    case 'binary':
+      // A failed decode may have cached valid bytes, but the manifest readiness
+      // sentinel must be queued again to re-enter the same load transaction.
+      scene.cache.binary.remove(asset.key);
+      scene.load.binary(asset.key, asset.path);
+      break;
     case 'image':
       scene.load.image(asset.key, asset.path);
       break;

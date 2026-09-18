@@ -26,6 +26,7 @@
 
 - `src/assets/`
   - 现代资源 manifest 和资源键。
+  - `PetTurtleAssets`/`PetTurtleCollisionAssets`只解码与查询已交付内容，`PetTurtleProjection`只合成显式快照；不持有时钟/AI/伤害。加载仍归既有bundle/coordinator，Phaser显示及销毁归`PetTurtlePresentationBridge`。
   - 不直接复制或重生成 `local-resources/regima/legacy-extraction/` 原始提取结果。
   - 关卡资源物理目录、共享/单关 owner 和防死资源门禁遵循 `stage-asset-ownership.md`；怪物定义与资源 owner 遵循 `monster-asset-ownership.md`。同一物理路径不得由多个 cache key 或 bundle 重复声明。
 

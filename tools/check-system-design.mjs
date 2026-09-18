@@ -130,6 +130,24 @@ const contracts = {
     },
   },
   pet: {
+    P1TA0(errors, tests) {
+      requireFiles(['src/assets/PetTurtleAssets.ts', 'src/assets/PetTurtleProjection.ts',
+        'src/assets/PetTurtleCollisionAssets.ts', 'src/scenes/PetTurtleAssetBridge.ts',
+        'src/scenes/PetTurtlePresentationBridge.ts'], errors);
+      requireMatches('src/scenes/SceneAssetBundleBridge.ts', [
+        ['awaited turtle resource preparation', /prepareTurtleAssets\(scene,\s*\(\)\s*=>\s*settled\)/u],
+        ['failed transaction cleanup', /discardIncompleteTurtleAssets\(scene\)/u],
+      ], errors);
+      forbidAcross(['src/assets/PetTurtleAssets.ts', 'src/assets/PetTurtleProjection.ts',
+        'src/assets/PetTurtleCollisionAssets.ts'], [
+        ['local evidence runtime dependency', /from\s+['"][^'"]*(?:evidence|local-resources)/u],
+        ['second combat owner', /new\s+(?:PetCombatRuntime|PetCombatEntitySession|PetAnimationClock)\s*\(/u],
+      ], errors);
+      requireTest('pet-turtle-oracle-tests', tests, errors);
+      requireTest('pet-turtle-resource-tests', tests, errors);
+      requireTest('asset-bundle-tests', tests, errors);
+      requireTest('pet-turtle-acceptance-tests', tests, errors);
+    },
     P1(errors, tests) {
       const required = [
         'src/systems/PetCombatRuntime.ts',

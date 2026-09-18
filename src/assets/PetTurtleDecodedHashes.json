@@ -1,0 +1,26 @@
+{
+  "body": {
+    "compressedSha256": "29195200f902a288dea9ef94ed4ef37cfc7b76eab593ac9dbf351587af100810",
+    "decodedSha256": "95aefa21b0bfb72036379ead138f5ff4ea4d6c363305e8ed136f680661ded825"
+  },
+  "buff": {
+    "compressedSha256": "98d9567d1a0f0fffa005d926dd86844ccf9111fddc061efed4b3e6e6b4c3d1c6",
+    "decodedSha256": "67002e643054975286c1765fc9b007d840856d3587507c7a12ac530991406390"
+  },
+  "collision": {
+    "compressedSha256": "b597c448b12c9d98da9a470189dcd17f7dd5d0ab38be4815c70e5e5c33267f37",
+    "decodedSha256": "fd7ff431a5d8a5b042701ee05f8aad7248d19c22bdf818e694da6c44a8302937"
+  },
+  "display": {
+    "compressedSha256": "ce65af81e8cb21bd62946f2f990ea26914f92b286f752b156e6aa7539f62022d",
+    "decodedSha256": "b94afda441f80a1a14526d5a15522e8e41d9220b633af1de11e014d9afff4bab"
+  },
+  "dynamic": {
+    "compressedSha256": "60cedd73e0b08cc85b77f926362eae3f1675ceeee389ac75f758fa04ac6b1f5f",
+    "decodedSha256": "1ba52c96524ef4f15e1e8c133616c7c365aeadb10d7161e9fe7acabc706db26e"
+  },
+  "effects": {
+    "compressedSha256": "e532ffa078fcf6be3495cfce4970338861a3f32638c6c51b3ea3062b4a50483a",
+    "decodedSha256": "2676673da141ab1e806b31dfc55e81926b55555e288719d4c4b9701ac3ed4e19"
+  }
+}

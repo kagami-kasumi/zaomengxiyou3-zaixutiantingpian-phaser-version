@@ -1,5 +1,9 @@
 # 纵向切片复现表
 
+2026-09-18 TASK-SLICE-224A1完成：既有bundle/coordinator接入650文件与六包生产解码，11,572态只读owner/paintParts投影、61,424相位和157,704原生碰撞case通过P1TA0。原始RGBA保留28态308像素精确许可；碰撞保留20例70像素，命中布尔全同。真实Phaser WebGL逐态画布对照、9类实现变异及加载失败/退出/重入通过。224A2唯一Ready，父A的17责任及全族32合同仍待行为/正式消费者核销，224A保持Split，A3/B/C Planned；玄龟/204/VS-067未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A1/handoff.md`。
+
+2026-09-18 TASK-SLICE-224A执行前预检：223文件交付不含生产gzip加载、独立owner/paintParts投影及位平面适配；正式盾后转嫁/主人治疗也未接通。资源消费、公共行为/真实攻击、双owner结算及联合核销需三批独立验收，超出原两批预算。224A保留17责任并Split，224A1唯一Ready，224A2/A3与224B/C Planned；全32合同、13符号和P1TA/P1T不降低。未改src/public或原真值，不提高玄龟/204/VS-067及功能线完成度。证据见 `docs/tasks/evidence/TASK-SLICE-224A/preflight.md`。
+
 2026-09-18 TASK-SLICE-223完成：13符号/32合同资源准备闭合，11,572态、643独立PNG与6份数据包共650文件；61,424碰撞相位映射无损压为3,140位平面。视觉11,544态零差异，仅原批准28态308像素；157,704碰撞案例布尔全同，仅原20案例70像素。重复生成、12类元数据变异、独立PNG/位场解码与原生oracle、生产build及无本地证据的650文件交付检查通过。224A唯一Ready，224B/C Planned；尚未接入正式战斗Runtime，玄龟/204/VS-067及功能线保持未完成。交接见 `docs/tasks/evidence/TASK-SLICE-223/handoff.md`。
 
 2026-09-17 TASK-SETTINGS-225完成：11,572态独立资源投影verified，13符号/32合同保留；11,544态零差异，28态308像素仅按用户精确元组许可，包络失败0。effects冻结源码重放、原点输入、归档重复生成、21类变异与最终资源审计通过；223恢复唯一Ready，224A/B/C Planned。未改src/public或旧真值，玄龟/204/VS-067及功能线仍未完成。交接见 `docs/tasks/evidence/TASK-SETTINGS-225/handoff.md`。

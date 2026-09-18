@@ -1,4 +1,5 @@
 import { petDragonBundleAssets } from './PetDragonAnimationAssets';
+import { petTurtleBundleAssets } from './PetTurtleAssetCatalog';
 import {
   combatHudAssets,
   craftingAssets,
@@ -90,6 +91,7 @@ export type AssetBundleId =
   | 'pet-native-heads'
   | 'pet-combat-hud-heads'
   | 'combat-common'
+  | 'pet-turtle'
   | 'combat-hero-1'
   | 'combat-hero-2'
   | 'combat-hero-3'
@@ -110,7 +112,7 @@ export type AssetBundleId =
   | MonsterResourceFamilyId;
 
 export type BundleAssetDefinition =
-  | Readonly<{ kind: 'image' | 'svg' | 'text'; key: string; path: string }>
+  | Readonly<{ kind: 'image' | 'svg' | 'text' | 'binary'; key: string; path: string }>
   | Readonly<{
     kind: 'spritesheet';
     key: string;
@@ -392,6 +394,10 @@ const stage22BundleAssets = [
 ];
 
 export const sceneAssetBundles = {
+  'pet-turtle': {
+    dependencies: [],
+    assets: petTurtleBundleAssets,
+  },
   shell: {
     dependencies: [],
     assets: shellAssets,

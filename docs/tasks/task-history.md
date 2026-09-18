@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-224A1 | 玄龟生产资源消费 | 六包解码/相位查询与只读投影 | M-032、M-034、M-035、M-042、VS-012、VS-067 | P1TA0=0；[生产API](../../tools/turtle-runtime/README.md)，[交接](evidence/TASK-SLICE-224A1/handoff.md)；224A2 Ready |
 | TASK-SLICE-223 | 玄龟资源准备 | 全13符号视觉与碰撞可消费包 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 11,572态/157,704碰撞案例验收；[资源入口](../../tools/turtle-assets/README.md)，[交接](evidence/TASK-SLICE-223/handoff.md) |
 | TASK-SETTINGS-225 | 玄龟独立资源投影补证 | 完整signed/scale对象与独立动态组合输入 | M-034、M-035、M-042、VS-067 | [交接](evidence/TASK-SETTINGS-225/handoff.md)；11,572态verified，精确批准28态308像素，223恢复Ready |
 | TASK-SETTINGS-222B | 玄龟碰撞真值与父合同核销 | 完整32合同与原生视觉/有限碰撞联合交接 | M-032、M-034、M-035、M-042、VS-012、VS-067 | [交接](evidence/TASK-SETTINGS-222B/handoff.md)；223 Ready，现代家族待实现 |
@@ -326,6 +327,78 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-224A1
+
+当前状态：Done（2026-09-18）。2026-09-18 TASK-SLICE-224A1完成：既有bundle/coordinator接入650文件与六包生产解码，11,572态只读owner/paintParts投影、61,424相位和157,704原生碰撞case通过P1TA0。原始RGBA保留28态308像素精确许可；碰撞保留20例70像素，命中布尔全同。真实Phaser WebGL逐态画布对照、9类实现变异及加载失败/退出/重入通过。224A2唯一Ready，父A的17责任及全族32合同仍待行为/正式消费者核销，224A保持Split，A3/B/C Planned；玄龟/204/VS-067未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A1/handoff.md`。
+
+玄龟生产资源消费与只读投影。父任务：`TASK-SLICE-224A`（Split）。
+
+任务类型：
+- `TASK-SLICE`
+
+任务模型：
+- `常规任务`
+
+功能条线：
+- `LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：
+- `M-032`、`M-034`、`M-035`、`M-042`、`VS-012`、`VS-067`
+
+规模预算：
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 新资料族、第三独立工作包或第三独立验收批次出现时，先窄查证据再拆分；文件数量和实际compact不作触发。不得新增平行Runtime、时钟、HP、CD或目标owner。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent唯一写入；Luna只读核对合同/独立预期和负例
+- 并行工作包：主agent实现时，子agent核对本批输入及验收覆盖
+- 写入 owner：主 agent
+- 归并检查点：实现前、验收前
+- 方法观测：无
+
+具体系统设计：
+- `docs/architecture/system-designs/pet.md`；沿用唯一Runtime/EntitySession/Registry及正式公共bridge，按设计验收协议执行，本批不得退出完整宠物设计。
+
+输入资料：
+- 父 `TASK-SLICE-224A` 全部17责任与UI合同；`docs/reverse-engineering/pet-turtle-family-index.md`、221行为合同、222/225 verified输入与223交接。
+- `public/assets/pets/turtle/manifest.json`、`tools/turtle-assets/README.md`、`docs/tasks/evidence/TASK-SLICE-223/handoff.md`。
+- `docs/tasks/evidence/TASK-SLICE-224A/preflight.md` 的已核对接缝与拆分依据。只窄读本批涉及的源码/原生输入；不得把历史最小技能建议当成完整家族事实。
+
+禁止范围：
+- 不修改原始提取/恢复SWF，不重做223资源派生，不改存档格式，不提前执行224B/C或194；不降低猴/马/青龙门禁，不以旧1009缺陷制造现代错误。
+- 运行只依赖Git交付数据；原生复验可依赖本地语料。全部13符号/32合同继续保留，不以本批有限通过宣布整族完成。
+
+要解决的问题：223交付了资源文件，现有生产loader/presenter/碰撞类型尚不能直接消费gzip、owner paintParts、烘焙方向和相位位平面。
+
+主工作包：
+1. 在既有bundle/coordinator入口接入生产解码、类型化查询与缓存；保留完整六包、13符号/32合同和源状态身份，提供本体时钟定义与碰撞相位查询，不复制第二事实表。
+2. 只读投影适配器消费独立owner/paintParts/源depth/注册点和动画快照；以现有生产加载入口驱动受控验收，不创建可战斗turtle占位Behavior。
+
+输出产物：生产资源API、碰撞位平面查询、只读投影组件及独立原生对照报告；后续Behavior使用相同API，不重新加载或生成数据。
+
+完成定义：从public实际解码并消费11,572视觉状态和61,424碰撞相位映射；生产查询/投影实际输出对照原生oracle。650文件加载所有权与重复进入/失败清理受控，缺帧/错owner/错相位明确失败。此批不核销17项行为责任。
+
+验收标准：两批分别验证资源/位平面解码与生产投影。通过浏览器真实加载和940×590逐态差异验证；碰撞重放157,704案例，保留两份独立有限例外。以错方向、重复alpha/scale、paintParts重复绘制、错depth/注册点、缺phase等变异证明实际消费。运行build、structure、相关资源/加载回归、workflow、annotations、audit和diff；不能只运行223离线脚本就宣称生产消费通过。
+
+设计验收命令：`npm run check:system-design -- pet P1TA0`。本批实现并注册资源消费有界gate，不能因此将P1TA或任何玄龟行为合同标为通过。
+
+状态更新：2026-09-18，Done。P1TA0=0；本批仅资源消费/只读投影通过，不核销父A行为责任。
+
+推荐后续任务：TASK-SLICE-224A2；保持功能线Active。
+
+UI 原生化合同：
+- 显示列表清单：父222内嵌222A的displayObjects及states，保留13符号递归child、depth、注册点、矩阵、mask/filter和原始命中区。
+- 原版机器真值 JSON：`task-settings-222.pet-turtle-family`，`docs/reverse-engineering/ground-truth/manifests/task-settings-222-pet-turtle-family.json`，pet-family-ground-truth Schema；未verified阻塞执行。资源层/Canvas直接消费派生且可回溯状态ID，不另造事实表。
+- 原版视觉基准：222A原生24fps、940×590未裁切RGBA与动态host-tick基准；来源/哈希及重放入口见222A/B handoff。
+- 允许的现代视觉例外：225已批准的28状态308像素精确清单，由223资源manifest保留原状态/坐标/双方RGBA；其他零差异。222B批准的20案例70碰撞像素独立，不外推。
+- 逐状态验收：本批全部声明动作/cell、方向、P1/P2、递归相位、进入/退出与适用技能组合；hover/pressed无对应战斗对象，记N/A。
+- 差异证据：原版/现代同态叠图、像素与可见对象差异、原注册点还原；不得以零console或HP变化替代视觉验收。
 
 ### TASK-SLICE-223
 

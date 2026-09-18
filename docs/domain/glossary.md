@@ -31,6 +31,8 @@
 | 游戏设置 | `GameSettings` | Config | Runtime | 画布、速度等全局轻量配置 | `GameConfig`, `Settings` |
 | 游戏上下文 | `GameContext` | Context / Query Facade | Runtime | 薄运行时上下文，只提供共享运行时集合和查询入口，不承载玩法规则或完整 ECS 生命周期 | `WorldContext`, `RuntimeContext`, `GameWorld` |
 | 资源清单 | `AssetManifest` | Config | Content | 现代资源键和加载策略 | `ResourceManifest`, `AssetsMap` |
+| 玄龟已解码资源 | `PetTurtleAssets` | Read-only Resource Catalog | Content | 同一Phaser缓存中的223交付资源查询，含原状态、显示树、时钟定义和碰撞位平面；不持有战斗时钟、HP或目标 | — |
+| 玄龟视觉状态 | `TurtleVisualState` | Read-only Resource Record | Content | 保留原生stateId、owner/paintParts、递归相位、显示树链接与源trace；不是可变战斗状态 | — |
 | 场景 | `Scene` | Phaser Concept | Runtime | Phaser 场景；具体类可用 `BootScene`、`TestScene` | `Screen`, `View` |
 | 英雄 | `Hero` | Entity | Combat | 玩家可控制战斗角色；对应 AS3 `Role*` 行为参考 | `Role`, `Character`, `PlayerCharacter` |
 | 英雄编号 | `HeroId` | Value Object / Type | Combat | 五个可选英雄的稳定编号，对应 AS3 `roleid` 1 至 5 | `RoleId`, `CharacterId` |

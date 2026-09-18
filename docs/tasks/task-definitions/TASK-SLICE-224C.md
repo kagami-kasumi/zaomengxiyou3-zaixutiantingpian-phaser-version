@@ -58,3 +58,5 @@ UI 原生化合同：
 
 设计验收命令：
 - `npm run check:system-design -- pet P1T`。本批实现并注册该有界gate；独立语义/变异/生产trace支撑，非零阻塞结项。P1TA/P1TB只证明各批，P1T必须联合全部32合同；不降低既有P1R/P1H/P1G。
+
+2026-09-18依赖更新：父224A已Split为224A1→224A2→224A3，A3通过完整P1TA后才满足本项的224A前置；本项仍Planned，原范围/合同保持。
