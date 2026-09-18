@@ -1,5 +1,7 @@
 # TASK-SLICE-224A
 
+223资源交接：`public/assets/pets/turtle/manifest.json`、`tools/turtle-assets/README.md` 与本地 `docs/tasks/evidence/TASK-SLICE-223/handoff.md`。完整13符号/32合同、独立owner/paintParts、显示树、源时序和碰撞相位均已派生；消费不得依赖被忽略的证据文件，原生复验仍需本地语料。
+
 任务类型：
 - `TASK-SLICE`
 
@@ -40,11 +42,11 @@
 
 合同责任：entry.forms、ai.priority、ai.range、ai.owner、ai.target、ai.follow、normal.1..4、sld.gates、sld.release、sld.effect、sld.link-heal、txlj.release、txlj.damage、txlj.heal。ai.priority先保留完整已学技能优先级输入，并明确SYBH/奥义最终由224B验收；不改变原版选择事实。
 
-完成定义：
+完成定义：本批17项责任合同经生产入口、原生视觉/碰撞输入和P1TA语义gate核销；其余SYBH/奥义及全32项联合验收明确交接224B/C。
 
 验收标准：独立源预期验证四形态×P1/P2从范围外追击至范围内才攻击；真实怪物HP变化、miss不计成功、去重/刷新、双方治疗和盾后转嫁顺序，不能只把目标放到弹体中心制造命中。TestScene与正式场景共用生产入口，940×590原版逐态差异、资源/时钟/owner变异拒绝；npm check:structure、build、相关行为/系统回归、check:workflow、check:annotations、audit:problems和diff检查通过。只关闭本批17合同实现责任，完整32合同仍由224C联合验收。
 
-状态更新：
+状态更新：2026-09-18，223已完成，本任务恢复唯一Ready。
 
 推荐后续任务：归档224A、激活224B；204/VS-067继续未完成。
 
@@ -52,7 +54,7 @@ UI 原生化合同：
 - 显示列表清单：父222内嵌222A的displayObjects及states，保留13符号递归child、depth、注册点、矩阵、mask/filter和原始命中区。
 - 原版机器真值 JSON：`task-settings-222.pet-turtle-family`，`docs/reverse-engineering/ground-truth/manifests/task-settings-222-pet-turtle-family.json`，pet-family-ground-truth Schema；未verified阻塞执行。资源层/Canvas直接消费派生且可回溯状态ID，不另造事实表。
 - 原版视觉基准：222A原生24fps、940×590未裁切RGBA与动态host-tick基准；来源/哈希及重放入口见222A/B handoff。
-- 允许的现代视觉例外：空。222B批准的20案例70碰撞像素仅属有限采样，不是视觉例外。
+- 允许的现代视觉例外：225已批准的28状态308像素精确清单，由223资源manifest保留原状态/坐标/双方RGBA；其他零差异。222B批准的20案例70碰撞像素独立，不外推。
 - 逐状态验收：本批全部声明动作/cell、方向、P1/P2、递归相位、进入/退出与适用技能组合；hover/pressed无对应战斗对象，记N/A。
 - 差异证据：原版/现代同态叠图、像素与可见对象差异、原注册点还原；不得以零console或HP变化替代视觉验收。
 

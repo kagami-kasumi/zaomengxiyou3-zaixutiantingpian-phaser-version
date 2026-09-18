@@ -1,5 +1,7 @@
 # 总机制表
 
+2026-09-18 TASK-SLICE-223完成：13符号/32合同资源准备闭合，11,572态、643独立PNG与6份数据包共650文件；61,424碰撞相位映射无损压为3,140位平面。视觉11,544态零差异，仅原批准28态308像素；157,704碰撞案例布尔全同，仅原20案例70像素。重复生成、12类元数据变异、独立PNG/位场解码与原生oracle、生产build及无本地证据的650文件交付检查通过。224A唯一Ready，224B/C Planned；尚未接入正式战斗Runtime，玄龟/204/VS-067及功能线保持未完成。交接见 `docs/tasks/evidence/TASK-SLICE-223/handoff.md`。
+
 2026-09-17 TASK-SETTINGS-225完成：11,572态独立资源投影verified，13符号/32合同保留；11,544态零差异，28态308像素仅按用户精确元组许可，包络失败0。effects冻结源码重放、原点输入、归档重复生成、21类变异与最终资源审计通过；223恢复唯一Ready，224A/B/C Planned。未改src/public或旧真值，玄龟/204/VS-067及功能线仍未完成。交接见 `docs/tasks/evidence/TASK-SETTINGS-225/handoff.md`。
 
 2026-09-17 TASK-SLICE-223消费预检：原生归档完整；local-RGBA nearest/flip候选在2,440效果状态中132态、65,664像素非零，不能沿用碰撞容差。signed/scale舞台基准存在，但SYBH双倍对象屏外部分及动态独立图层转换仍需补证。223保留全13符号/32合同并Blocked，TASK-SETTINGS-225唯一Ready；224A/B/C保持Planned。未改src/生产资源或222原真值，玄龟/204/VS-067仍未完成、功能线Active。证据见 `docs/tasks/evidence/TASK-SLICE-223/preflight.md`。

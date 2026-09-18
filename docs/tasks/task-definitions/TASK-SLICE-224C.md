@@ -1,5 +1,7 @@
 # TASK-SLICE-224C
 
+223资源交接：`public/assets/pets/turtle/manifest.json`、`tools/turtle-assets/README.md` 与本地 `docs/tasks/evidence/TASK-SLICE-223/handoff.md`。完整13符号/32合同、独立owner/paintParts、显示树、源时序和碰撞相位均已派生；消费不得依赖被忽略的证据文件，原生复验仍需本地语料。
+
 任务类型：
 - `TASK-SLICE`
 
@@ -50,7 +52,7 @@ UI 原生化合同：
 - 显示列表清单：父222内嵌222A的displayObjects及states，保留13符号递归child、depth、注册点、矩阵、mask/filter和原始命中区。
 - 原版机器真值 JSON：`task-settings-222.pet-turtle-family`，`docs/reverse-engineering/ground-truth/manifests/task-settings-222-pet-turtle-family.json`，pet-family-ground-truth Schema；未verified阻塞执行。资源层/Canvas直接消费派生且可回溯状态ID，不另造事实表。
 - 原版视觉基准：222A原生24fps、940×590未裁切RGBA与动态host-tick基准；来源/哈希及重放入口见222A/B handoff。
-- 允许的现代视觉例外：空。222B批准的20案例70碰撞像素仅属有限采样，不是视觉例外。
+- 允许的现代视觉例外：225已批准的28状态308像素精确清单，由223资源manifest保留原状态/坐标/双方RGBA；其他零差异。222B批准的20案例70碰撞像素独立，不外推。
 - 逐状态验收：本批全部声明动作/cell、方向、P1/P2、递归相位、进入/退出与适用技能组合；hover/pressed无对应战斗对象，记N/A。
 - 差异证据：原版/现代同态叠图、像素与可见对象差异、原注册点还原；不得以零console或HP变化替代视觉验收。
 
