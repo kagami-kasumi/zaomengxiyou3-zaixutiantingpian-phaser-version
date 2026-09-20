@@ -130,7 +130,7 @@ const body = readFileSync('src/scenes/FormalPetHorseBodyBridge.ts', 'utf8');
 const testScene = readFileSync('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', 'utf8');
 const testMagicBridge = readFileSync('src/scenes/test-scene/TestScenePetMagicBridge.ts', 'utf8');
 assert.match(formal, /resolveFormalPetHorseProjectileHits\s*\(/u);
-assert.match(formal, /p1:\s*new PetCombatRuntime\(\)[\s\S]*p2:\s*new PetCombatRuntime\(\)/u);
+assert.match(formal, /p1:\s*new PetCombatRuntime\(petTurtle\.registry\)[\s\S]*p2:\s*new PetCombatRuntime\(petTurtle\.registry\)/u);
 assert.doesNotMatch(body, /PetRuntimeSystem/u);
 assert.match(body, /PetCombatSnapshot/u);
 assert.match(testScene, /runtime\.updatePets\s*\(/u);

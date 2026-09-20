@@ -41,6 +41,7 @@ export class PetCombatEntitySession {
   hostTick = 0;
   targetAcquiredThisFrame = false;
   private pendingHostTicks = 0;
+  private protectionCount = -1;
   private pendingDamage: NonNullable<PetCombatFrame['damageEvents']>[number][] = [];
   private pendingAnimation: NonNullable<PetCombatFrame['animationEvents']>[number][] = [];
 
@@ -130,9 +131,10 @@ export class PetCombatEntitySession {
     this.behavior.beforeActions?.(this.context(frame, targets));
     if (this.released) return;
     if (frame.projectileCombat) targets = targets.filter(target => frame.projectileCombat!.target(target.id)?.alive ?? target.isAlive);
-    const targetWasCleared = this.validateStickyTarget(targets);
+    const ownsPet = frame.isLocalOwner !== false;
+    const targetWasCleared = ownsPet && this.validateStickyTarget(targets);
     this.targetAcquiredThisFrame = false;
-    if (!this.target && !targetWasCleared) {
+    if (ownsPet && !this.target && !targetWasCleared) {
       this.target = this.targeting.orderedFirstTarget(this.runtime, targets, PetTuning.searchRange);
       this.targetAcquiredThisFrame = this.target !== undefined;
     }
@@ -143,7 +145,7 @@ export class PetCombatEntitySession {
     }
     const shouldChaseTarget = this.target !== undefined && attackRange !== undefined
       && this.targeting.distance(this.runtime, this.target) > attackRange;
-    if (!this.ground && this.behavior.canMove(context)) {
+    if (ownsPet && !this.ground && this.behavior.canMove(context)) {
       if (shouldChaseTarget && this.target && attackRange !== undefined) {
         chasePetRuntimeTarget(this.runtime, this.pet, this.target, attackRange, frame.deltaMs, frame.hostFps);
       } else if (this.target && attackRange !== undefined) {
@@ -158,10 +160,10 @@ export class PetCombatEntitySession {
     if (!this.ground && (currentAnimation === 'wait' || currentAnimation === 'walk')) {
       this.animation!.select(this.runtime.state === 'follow' ? 'walk' : 'wait', this.actionToken);
     }
-    let action = this.ground
+    let action = !ownsPet ? undefined : this.ground
       ? this.selectGroundAction(context, targetWasCleared, attackRange, frame.groundEnvironment!)
       : this.behavior.selectAction(context);
-    if (!this.ground && !action) {
+    if (ownsPet && !this.ground && !action) {
       if (this.target && attackRange !== undefined) {
         if (this.targeting.distance(this.runtime, this.target) <= attackRange) {
           action = this.behavior.basicAttack(context);
@@ -170,7 +172,9 @@ export class PetCombatEntitySession {
         action = this.behavior.basicAttack(context);
       }
     }
-    if (action) {
+    if (action?.deferred) {
+      this.publish({ type: 'behavior', behaviorEvent: { type: 'pet-action-deferred', payload: { action: action.type } } });
+    } else if (action) {
       this.actionToken += 1;
       this.animation?.select(action.type, this.actionToken);
       this.behavior.executeAction(action, this.context(frame, targets));
@@ -197,6 +201,8 @@ export class PetCombatEntitySession {
     if (this.ground?.step(frame.groundEnvironment!, this.pet.moveSpeed, this.animation?.snapshot().action)) {
       this.animation!.select(this.runtime.state === 'follow' ? 'walk' : 'wait', this.actionToken);
     }
+    // BaseObject.step expires setYourFather only after its count passes below zero.
+    if (this.protectionCount >= 0) this.protectionCount--;
   }
 
   private selectGroundAction(
@@ -244,6 +250,11 @@ export class PetCombatEntitySession {
     this.ground?.face(direction);
   }
 
+  protectFromHits(sourceCount: number): void {
+    if (!Number.isSafeInteger(sourceCount) || sourceCount < 0) throw new Error('Invalid pet protection count');
+    this.protectionCount = Math.max(this.protectionCount, sourceCount);
+  }
+
   private advanceAnimation(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[]): void {
     this.ground?.applyEnterVelocity(this.animation?.snapshot().action);
     this.animation?.advance(frame.deltaMs, frame.hostFps ?? DefaultGlobalSettings.frameRate, (event) => {
@@ -264,6 +275,7 @@ export class PetCombatEntitySession {
       hp: this.pet.hp, maxHp: this.pet.maxHp, mp: this.pet.mp, maxMp: this.pet.maxMp,
       animation: this.animation?.snapshot(),
       groundMotion: this.ground?.snapshot(),
+      protectedFromHits: this.protectionCount >= 0,
     });
   }
 

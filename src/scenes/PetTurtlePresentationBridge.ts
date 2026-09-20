@@ -5,11 +5,11 @@ import { renderTurtleState } from '../assets/PetTurtleProjection';
 
 let nextPresentation = 0;
 /** Stateless snapshot projection; runtime owns selection, time, and release. */
-export function createPetTurtlePresentationBridge(scene: Phaser.Scene, assets: PetTurtleAssets) {
+export function createPetTurtlePresentationBridge(scene: Phaser.Scene, assets: PetTurtleAssets, depth = 42) {
   const key = `pet-turtle-presentation:${++nextPresentation}`;
   const texture = scene.textures.createCanvas(key, 940, 590);
   if (!texture) throw new Error('Cannot allocate turtle presentation canvas');
-  const image = scene.add.image(0, 0, key).setOrigin(0, 0).setDepth(42).setScrollFactor(0);
+  const image = scene.add.image(0, 0, key).setOrigin(0, 0).setDepth(depth).setScrollFactor(0);
   image.setName(key);
   let disposed = false;
   const destroy = () => {
@@ -25,6 +25,8 @@ export function createPetTurtlePresentationBridge(scene: Phaser.Scene, assets: P
       const data = texture.context.createImageData(940, 590); data.data.set(rgba);
       texture.context.putImageData(data, 0, 0); texture.refresh();
       image.setData('turtleStateId', stateId);
+      image.setData('turtleOwners', owners);
+      image.setData('turtleViewport', viewport);
       return rgba;
     },
     destroy,

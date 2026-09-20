@@ -345,6 +345,8 @@ export type PetRuntimeModel = {
   x: number;
   y: number;
   facingX: -1 | 1;
+  /** Display root matrix sign; independent of the bitmap clip's facing. */
+  rootScaleX?: -1 | 1;
   state: PetRuntimeState;
 };
 

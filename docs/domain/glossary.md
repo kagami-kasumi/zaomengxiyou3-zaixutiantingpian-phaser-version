@@ -33,6 +33,8 @@
 | 资源清单 | `AssetManifest` | Config | Content | 现代资源键和加载策略 | `ResourceManifest`, `AssetsMap` |
 | 玄龟已解码资源 | `PetTurtleAssets` | Read-only Resource Catalog | Content | 同一Phaser缓存中的223交付资源查询，含原状态、显示树、时钟定义和碰撞位平面；不持有战斗时钟、HP或目标 | — |
 | 玄龟视觉状态 | `TurtleVisualState` | Read-only Resource Record | Content | 保留原生stateId、owner/paintParts、递归相位、显示树链接与源trace；不是可变战斗状态 | — |
+| 玄龟命中采样 | `PetTurtleCollisionSystem` | Stateless Query | Combat | 将实际效果根与怪物根换算为原生交集，消费同一玄龟资源位平面；不选择目标、不推进时钟、不结算HP | — |
+| 玄龟攻击数值 | `PetTurtleDamageSystem` | Stateless Calculation | Combat | 表达原版普攻/圣灵盾威力与BaseBullet缓存输入；缓存接受和HP结算沿用公共战斗入口 | — |
 | 场景 | `Scene` | Phaser Concept | Runtime | Phaser 场景；具体类可用 `BootScene`、`TestScene` | `Screen`, `View` |
 | 英雄 | `Hero` | Entity | Combat | 玩家可控制战斗角色；对应 AS3 `Role*` 行为参考 | `Role`, `Character`, `PlayerCharacter` |
 | 英雄编号 | `HeroId` | Value Object / Type | Combat | 五个可选英雄的稳定编号，对应 AS3 `roleid` 1 至 5 | `RoleId`, `CharacterId` |
@@ -56,6 +58,8 @@
 | 宠物动作时钟 | `PetAnimationClock` | Runtime Clock | Combat / Presentation | EntitySession持有的逐hosttick倒计时游标；消费形态只读持帧定义并产生typed动画事件，不负责AI、伤害或View | — |
 | 宠物私有召唤句柄 | `PetCombatSummonHandle` | Value Object | Combat / Runtime | 由顶层Runtime分配的私有实体身份；Behavior经窄端口创建/释放，包含父实体与出战来源身份，不持有另一套AI/CD | — |
 | 宠物行为 | `PetBehavior` | Strategy Contract | Combat | 只表达某宠物种类/形态的技能选择、释放和持续效果差异，不拥有队伍存档、场景显示对象或公共跟随生命周期 | `PetAI`, `CompanionBehavior`, `PetStrategy` |
+| 玄龟差异行为 | `TurtlePetBehavior` | Strategy | Combat | 四形态普攻/圣灵盾差异，经公共Session持有时钟、HP、CD与目标；后续技能选中时明确deferred，不伪装已释放 | — |
+| 玄龟私有效果 | `PetTurtleProjectileSystem` | Internal Effect System | Combat | Behavior持有普攻/圣灵盾效果句柄，公共Session逐host tick推进；复用共享弹体存储、原生位平面与公共伤害端口 | — |
 | 青龙后期形态私有效果 | `PetDragon23ProjectileSystem` | Internal Effect System | Combat | 二至四阶Behavior私有的逐host tick弹体与延迟波次，复用共享弹体存储/伤害端口，不持第二Runtime；沿用既有文件名 | — |
 | 青龙效果碰撞采样 | `PetDragonEffectCollisionSystem` | Pure System | Combat | 消费219旧效果批准采样及220独立trigger源场；近似批准不跨对象，有限验证不声明普遍AIR像素等价 | — |
 | 四阶青龙差异行为 | `Dragon4PetBehavior` | Strategy | Combat | 在青龙公共差异实现上表达奥义条件链、强化分身与移除治疗；AI、时钟、移动和私有实体生命周期仍由公共Session持有 | — |

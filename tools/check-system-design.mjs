@@ -130,6 +130,31 @@ const contracts = {
     },
   },
   pet: {
+    P1TA1(errors, tests) {
+      contracts.pet.P1TA0(errors, tests);
+      requireFiles(['src/systems/pet-behaviors/TurtlePetBehavior.ts',
+        'src/systems/PetTurtleProjectileSystem.ts', 'src/scenes/PetTurtleCombatBridge.ts'], errors);
+      requireMatches('src/systems/pet-behaviors/createDefaultPetBehaviorRegistry.ts', [
+        ['turtle registry factory', /new TurtlePetBehavior\(/u],
+      ], errors);
+      requireMatches('src/scenes/HeroPartyRuntimeBridge.ts', [
+        ['shared turtle bridge', /createPetTurtleCombatBridge\(scene\)/u],
+        ['same runtime registry', /new PetCombatRuntime\(petTurtle.registry\)/u],
+      ], errors);
+      forbidAcross(['src/systems/pet-behaviors/TurtlePetBehavior.ts',
+        'src/systems/PetTurtleProjectileSystem.ts', 'src/scenes/PetTurtleCombatBridge.ts'], [
+        ['second session or clock owner', /new\s+(?:PetCombatRuntime|PetCombatEntitySession|PetAnimationClock)\s*\(/u],
+        ['local evidence runtime dependency', /from\s+['"][^'"]*(?:evidence|local-resources)/u],
+      ], errors);
+      for (const name of ['pet-turtle-combat-clock-tests', 'pet-turtle-world-collision-tests',
+        'pet-turtle-runtime-tests', 'pet-turtle-caller-order-tests', 'pet-turtle-combat-acceptance-tests',
+        'pet-combat-runtime-design-tests', 'pet-combat-session-tests', 'pet-animation-session-tests',
+        'pet-dragon23-runtime-tests', 'pet-dragon4-runtime-tests',
+        'pet-monkey-family-runtime-tests', 'pet-monkey-behavior-contract-runtime-tests',
+        'pet-monkey-animation-runtime-tests', 'pet-horse-family-runtime-tests',
+        'pet-horse-behavior-contract-runtime-tests', 'pet-horse-animation-runtime-tests',
+        'formal-pet-tests', 'formal-pet-journey-tests']) requireTest(name, tests, errors);
+    },
     P1TA0(errors, tests) {
       requireFiles(['src/assets/PetTurtleAssets.ts', 'src/assets/PetTurtleProjection.ts',
         'src/assets/PetTurtleCollisionAssets.ts', 'src/scenes/PetTurtleAssetBridge.ts',
@@ -241,7 +266,7 @@ const contracts = {
         ['P1/P2 damage ownership port', /ownerSlotForPet/u],
       ], errors);
       requireMatches(formal, [
-        ['dual public pet runtimes', /p1:\s*new PetCombatRuntime\(\)[\s\S]*p2:\s*new PetCombatRuntime\(\)/u],
+        ['dual public pet runtimes', /p1:\s*new PetCombatRuntime\(petTurtle\.registry\)[\s\S]*p2:\s*new PetCombatRuntime\(petTurtle\.registry\)/u],
         ['formal monkey hit resolution', /resolveFormalPetMonkeyProjectileHits\s*\(/u],
         ['formal animation feedback queue', /pendingPetAnimationEvents/u],
       ], errors);
@@ -287,7 +312,7 @@ const contracts = {
         ['tmaoyi delayed explosion', /explosionDelayMs/u],
       ], errors);
       requireMatches(formal, [
-        ['dual public pet runtimes', /p1:\s*new PetCombatRuntime\(\)[\s\S]*p2:\s*new PetCombatRuntime\(\)/u],
+        ['dual public pet runtimes', /p1:\s*new PetCombatRuntime\(petTurtle\.registry\)[\s\S]*p2:\s*new PetCombatRuntime\(petTurtle\.registry\)/u],
         ['formal horse hit resolution', /resolveFormalPetHorseProjectileHits\s*\(/u],
         ['formal animation feedback queue', /pendingPetAnimationEvents/u],
       ], errors);

@@ -471,6 +471,8 @@ export class TestScene extends Phaser.Scene {
     destroyPetProjectileVisuals(this);
     this.runtime?.destroy();
     this.runtime = undefined;
+    for (const view of this.monsterViews.values()) this.destroyMonsterView(view);
+    this.monsterViews.clear();
   }
 
   public getUpdatePipeline(): TestSceneUpdatePipeline {

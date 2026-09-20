@@ -348,9 +348,11 @@ export function resolveStage1EnemyPetAttack(params: Readonly<{
     x: number;
     defense: number;
     hp: number;
+    protectedFromHits?: boolean;
   }>;
 }>): PetCombatDamageEvent | undefined {
   const { enemy, target } = params;
+  if (target.protectedFromHits) return undefined;
   if (enemy.phase !== 'active' || !enemy.activeAttack || target.hp <= 0) return undefined;
   if (Math.abs(target.x - enemy.x) > enemy.activeAttack.attackRange) return undefined;
   if (!resolveHitOnce(params.runtime.hitRegistry, enemy.activeAttack.attackId, target.runtimeKey)) {

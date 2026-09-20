@@ -96,6 +96,7 @@
 
 | Gate | 任务 | 通过合同 | 2026-08-25 基线 |
 | --- | --- | --- | --- |
+| P1TA1 | 224A2 | 玄龟四形态公共行为、普攻/SLD共13责任；组合P1TA0 | `0`：13责任、332原生caller、15,768世界碰撞、6实现变异、双场景实战及既有家族回归；A3/B/C和P1TA/P1T/all仍未完成 |
 | P1TA0 | 224A1 | 玄龟六包/650文件的生产加载、原生逐态只读投影与碰撞位平面消费 | `0`：11,572态、157,704原生case、9类实现变异和真实浏览器；不核销A的17项或整族32行为合同 |
 | P1 | 204B | ordered-first/1200、sticky target、选择后活动 CD、`alive/dead-playing`、typed animation completion、完整 Behavior 钩子 | `0`：结构 gate 已通过；不证明 Scene/正式消费者或玩家可见自主战斗 |
 | P1G | 214E | 青龙四形态完整44合同、真实分身/继承技能/奥义、source伤害治疗、五关/TestScene P1/P2及345态投影 | `0`：64组trace、60组消费者、20实现变异和正式运行通过；其余六族/旧入口未闭合，系统实施中/未退出 |
@@ -156,3 +157,5 @@
 2026-09-14 / 214E：Dragon4PetBehavior复用既有公共Session；新增可选initialAction、enterEvent/多hit、动作enter速度事实，不增第二移动/目标/CD owner。PetDragon23ProjectileSystem承接四阶trigger/AoyiBuff，PetDragonEffectCollisionSystem分别消费219批准近似及220 verified输入。P1G=0，44合同及正式双人可见伤害/生命周期通过；系统仍实施中/未退出，未执行all。见214E/handoff.md。
 
 2026-09-18 / 224A1：P1TA0=0，本批生产资源消费通过。PetTurtleAssets/CollisionAssets属于内容查询，既有AssetBundleCoordinator为唯一加载owner；SceneAssetBundleBridge等待解码后发布ready，PetTurtlePresentationBridge只接state/owner/viewport快照，无AI/HP/CD或第二时钟。11,572原生RGBA及真实WebGL显示、61,424相位、157,704case、9实现变异通过。正式Behavior/17责任/P1TA及32合同/P1T仍由A2/A3/B/C完成；设计继续实施中/未退出，未执行all。见224A1/handoff.md及tools/turtle-runtime/README.md。
+
+2026-09-20 / 224A2：P1TA1=0，本批通过、系统实施中/未退出。行为与投影消费同一公共owner及版本化资源，未来TXLJ/SYBH/奥义显式deferred，不假成功。HeroParty接线及TestScene重启视图清理通过；父A剩余4项交A3，完整P1T/all未执行。证据见224A2/handoff.md。

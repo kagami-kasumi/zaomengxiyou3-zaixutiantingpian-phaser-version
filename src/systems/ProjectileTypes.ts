@@ -240,6 +240,8 @@ export type ProjectileVariant =
   | 'pet-dragon3-ltwj'
   | 'pet-dragon4-qlaoyi'
   | 'pet-turtle1-sld'
+  | 'pet-turtle-normal'
+  | 'pet-turtle-sld'
   | 'pet-turtle3-sybh'
   | 'pet-turtle4-xwaoyi'
   | 'pet-ufo1-pms'

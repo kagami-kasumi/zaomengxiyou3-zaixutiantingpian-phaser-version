@@ -69,11 +69,15 @@ UI 原生化合同：
 
 连续子项：
 - `TASK-SLICE-224A1` Done（2026-09-18）：生产资源消费/只读投影，P1TA0，不核销行为责任。
-- `TASK-SLICE-224A2` Ready：公共行为/四形态普攻/SLD共13责任，P1TA1。
-- `TASK-SLICE-224A3` Planned：SLD链接治疗/TXLJ共4责任，联合全部17项并运行P1TA；只有该项通过才归档父A并激活224B。
+- `TASK-SLICE-224A2` Done（2026-09-20）：公共行为/四形态普攻/SLD共13责任，P1TA1。
+- `TASK-SLICE-224A3` Ready：SLD链接治疗/TXLJ共4责任，联合全部17项并运行P1TA；只有该项通过才归档父A并激活224B。
 
 224B/C的SYBH/奥义、受伤结算、全部32项/五关联合验收不变；不提高玄龟、204、VS-067完成度。按agent-protocol执行前超预算规则，本次只重排和交接，不在此轮隐式执行子项。
 
 ## 2026-09-18 A1交接
 
 2026-09-18 TASK-SLICE-224A1完成：既有bundle/coordinator接入650文件与六包生产解码，11,572态只读owner/paintParts投影、61,424相位和157,704原生碰撞case通过P1TA0。原始RGBA保留28态308像素精确许可；碰撞保留20例70像素，命中布尔全同。真实Phaser WebGL逐态画布对照、9类实现变异及加载失败/退出/重入通过。224A2唯一Ready，父A的17责任及全族32合同仍待行为/正式消费者核销，224A保持Split，A3/B/C Planned；玄龟/204/VS-067未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A1/handoff.md`。
+
+## 2026-09-20 A2交接
+
+2026-09-20 TASK-SLICE-224A2完成：同一Registry/Runtime/EntitySession接四形态公共行为、真实普攻/SLD共13责任，P1TA1=0（组合P1TA0）。四形态×P1/P2、332原生caller、15,768世界碰撞、6类实现变异及正式/TestScene共304实战图层对照/重入退出通过；显示根与camera各轴各≤0.5px整数对齐按长期授权记录，原像素许可不扩大。A3链接治疗/TXLJ四项唯一Ready，父A仍Split，B/C Planned；玄龟整族/204/VS-067及pet all仍未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A2/handoff.md`。

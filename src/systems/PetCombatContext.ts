@@ -53,11 +53,18 @@ export function createPetCombatContext(
     hostFps: frame.hostFps ?? DefaultGlobalSettings.frameRate,
     hostTick: session.hostTick,
     targetAcquiredThisFrame: session.targetAcquiredThisFrame,
+    isLocalOwner: frame.isLocalOwner !== false,
     animation: session.animationSnapshot(),
     grounded: session.snapshot().groundMotion?.standingOn !== undefined,
     projectileCombat: frame.projectileCombat,
     isGxp: frame.gxpRuntimeKeys?.includes(session.runtimeKey) ?? false,
     face: (direction) => { requireLiveSession(); session.face(direction); },
+    setRootScaleX: (sign) => {
+      requireLiveSession();
+      if (sign !== -1 && sign !== 1) throw new Error('Invalid pet root scale');
+      session.runtime.rootScaleX = sign;
+    },
+    protectFromHits: (sourceCount) => { requireLiveSession(); session.protectFromHits(sourceCount); },
     healSelf: (hp, mp = 0) => {
       requireLiveSession();
       if (!Number.isFinite(hp) || !Number.isFinite(mp) || hp < 0 || mp < 0) throw new Error('Invalid pet healing');

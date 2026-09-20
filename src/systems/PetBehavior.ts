@@ -18,6 +18,8 @@ import type {
 
 export type PetBehaviorAction = Readonly<{
   type: string;
+  /** Selected source branch whose implementation is not delivered yet; never a successful cast. */
+  deferred?: boolean;
   payload?: unknown;
 }>;
 
@@ -69,6 +71,7 @@ export type PetBehaviorContext = Readonly<{
   hostFps: number;
   hostTick: number;
   targetAcquiredThisFrame: boolean;
+  isLocalOwner: boolean;
   animation?: ReturnType<PetAnimationClock['snapshot']>;
   grounded?: boolean;
   projectileCombat?: PetProjectileCombatPort;
@@ -79,8 +82,10 @@ export type PetBehaviorContext = Readonly<{
   castBasicAttack: () => PetSkillCastResult;
   relocate: (x: number, y: number) => void;
   face: (direction: -1 | 1) => void;
+  setRootScaleX: (sign: -1 | 1) => void;
   healSelf: (hp: number, mp?: number) => void;
   spendMp: (amount: number) => boolean;
+  protectFromHits: (sourceCount: number) => void;
   setSkillCooldown: (skill: Exclude<keyof PetSkillState, 'lastResult'>, milliseconds: number) => void;
   releaseSelf: (reason: PetCombatReleaseReason) => void;
   playAnimation: (action: string) => void;

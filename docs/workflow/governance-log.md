@@ -1,5 +1,11 @@
 # 工作流治理日志
 
+## 2026-09-20：224A2有界语义门禁
+
+2026-09-20 TASK-SLICE-224A2完成：同一Registry/Runtime/EntitySession接四形态公共行为、真实普攻/SLD共13责任，P1TA1=0（组合P1TA0）。四形态×P1/P2、332原生caller、15,768世界碰撞、6类实现变异及正式/TestScene共304实战图层对照/重入退出通过；显示根与camera各轴各≤0.5px整数对齐按长期授权记录，原像素许可不扩大。A3链接治疗/TXLJ四项唯一Ready，父A仍Split，B/C Planned；玄龟整族/204/VS-067及pet all仍未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A2/handoff.md`。
+
+注册P1TA1，组合P1TA0的完整资源/浏览器复验与A2的13责任、源调用者时序、真实碰撞/怪物HP、实战图层和实现变异。猴/马门禁只将固定无参构造断言更新为同一默认Registry的资源注入构造，行为断言不降低。变异子进程禁止写正常trace并验证字节不变。此门禁不替代父A的P1TA、整族P1T或最终all；不改变任务调度协议。
+
 ## 2026-09-18：224A1生产消费闭合
 
 2026-09-18 TASK-SLICE-224A1完成：既有bundle/coordinator接入650文件与六包生产解码，11,572态只读owner/paintParts投影、61,424相位和157,704原生碰撞case通过P1TA0。原始RGBA保留28态308像素精确许可；碰撞保留20例70像素，命中布尔全同。真实Phaser WebGL逐态画布对照、9类实现变异及加载失败/退出/重入通过。224A2唯一Ready，父A的17责任及全族32合同仍待行为/正式消费者核销，224A保持Split，A3/B/C Planned；玄龟/204/VS-067未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A1/handoff.md`。

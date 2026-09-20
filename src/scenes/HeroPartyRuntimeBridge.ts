@@ -1,4 +1,5 @@
 import type { PetGroundEnvironment } from '../assets/PetGroundEnvironmentAssets';
+import { createPetTurtleCombatBridge } from './PetTurtleCombatBridge';
 // boundary: this bridge owns active hero movement/combat and hero visual updates;
 // levels provide only input, environment snapshots, and monster target models.
 import Phaser from 'phaser';
@@ -86,6 +87,7 @@ export type HeroPartyRuntime = Readonly<{
     groundEnvironmentFor?: (index: number) => PetGroundEnvironment | undefined;
   }>) => void;
   snapshots: () => readonly HeroPartyViewSnapshot[];
+  petSnapshots: () => Readonly<Partial<Record<'p1' | 'p2', PetCombatSnapshot>>>;
   hudSnapshots: () => readonly ReturnType<typeof createStage1CombatPlayerHudSnapshot>[];
   rewardPlayers: () => readonly Readonly<{
     view: Phaser.GameObjects.Image;
@@ -102,6 +104,10 @@ export function readHeroPartyPresentationSnapshot(
   scene: Phaser.Scene,
 ): readonly Omit<HeroPartyViewSnapshot, 'view'>[] | undefined {
   return heroPartyRuntimeByScene.get(scene)?.snapshots().map(({ view: _view, ...snapshot }) => snapshot);
+}
+
+export function readHeroPartyPetSnapshots(scene: Phaser.Scene) {
+  return heroPartyRuntimeByScene.get(scene)?.petSnapshots();
 }
 
 export function createHeroPartyRuntime(
@@ -180,6 +186,7 @@ export function createHeroPartyRuntime(
   const combatFeedbackQa = createCombatFeedbackQaBridge(scene, model.combat.feedback);
   const petProjectileCombat = createPetProjectileCombatBridge(scene);
   const petDragonPresentation = createPetDragonPresentationBridge(scene);
+  const petTurtle = createPetTurtleCombatBridge(scene);
   const formalPetMonkeyBodies = scene.scene.key === 'TestScene'
     ? undefined
     : createFormalPetMonkeyBodyBridge(scene);
@@ -188,8 +195,8 @@ export function createHeroPartyRuntime(
     : createFormalPetHorseBodyBridge(scene);
   let destroyed = false;
   const petCombatRuntimes = {
-    p1: new PetCombatRuntime(),
-    p2: new PetCombatRuntime(),
+    p1: new PetCombatRuntime(petTurtle.registry),
+    p2: new PetCombatRuntime(petTurtle.registry),
   };
   const petCombatSnapshots: Partial<Record<'p1' | 'p2', PetCombatSnapshot>> = {};
   const pendingPetAnimationEvents: Partial<Record<'p1' | 'p2', PetCombatAnimationEvent[]>> = {};
@@ -351,6 +358,7 @@ export function createHeroPartyRuntime(
             x: snapshot.runtime.x,
             defense: pet.def,
             hp: pet.hp,
+            protectedFromHits: snapshot.protectedFromHits,
           },
         });
         if (event) pendingPetDamageEvents[slot] = [...(pendingPetDamageEvents[slot] ?? []), event];
@@ -361,6 +369,7 @@ export function createHeroPartyRuntime(
       });
     },
     snapshots,
+    petSnapshots: () => Object.freeze({ ...petCombatSnapshots }),
     hudSnapshots: () => model.members.map((member) => {
       const roster = petRosters[member.combat.slot];
       return createStage1CombatPlayerHudSnapshot(
@@ -387,6 +396,7 @@ export function createHeroPartyRuntime(
       formalPetMonkeyBodies?.destroy();
       formalPetHorseBodies?.destroy();
       petDragonPresentation.destroy();
+      petTurtle.destroy();
       if (isPetDragonQaEnabled()) delete scene.game.canvas.dataset.petDragonQa;
       combatFeedbackView.destroy();
       incomingFeedback.destroy();
@@ -412,7 +422,7 @@ export function createHeroPartyRuntime(
   }>): void {
     for (const [index, member] of model.members.entries()) {
       const slot = member.combat.slot;
-      const roster = petRosters[slot];
+      const roster = petTurtle.readyRoster(petRosters[slot]);
       if (!roster || member.combat.combat.state === 'dead') {
         petCombatSnapshots[slot] = petCombatRuntimes[slot].update({
           roster: roster ?? { pets: [], selectedIndex: 0, message: '' },
@@ -449,6 +459,7 @@ export function createHeroPartyRuntime(
       pendingPetAnimationEvents[slot] = [];
     }
     petDragonPresentation.update(Object.values(petCombatSnapshots), frame.projectiles.projectiles);
+    petTurtle.update(petCombatSnapshots, frame.projectiles.projectiles);
     if (isPetDragonQaEnabled()) scene.game.canvas.dataset.petDragonQa = JSON.stringify({
       snapshots: petCombatSnapshots,
       damage: model.combat.audit.damageEvents.slice(-60),

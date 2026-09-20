@@ -52,6 +52,7 @@ export class PetCombatRuntime {
       actionToken: active?.actionToken,
       animation: active?.animation,
       groundMotion: active?.groundMotion,
+      protectedFromHits: active?.protectedFromHits,
       summons: Object.freeze([...this.entities.values()]
         .filter((entity) => entity.parentRuntimeKey && !entity.released)
         .map((entity) => entity.snapshot())),

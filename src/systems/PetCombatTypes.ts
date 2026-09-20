@@ -15,6 +15,8 @@ import type { IncomingDamageFeedbackModel } from './IncomingDamageFeedbackSystem
 import type { PlayerSlot } from './InputSystem';
 
 export type PetCombatFrame = Readonly<{
+  /** Offline P1/P2 are local. False models a source-owned remote pet without granting AI authority. */
+  isLocalOwner?: boolean;
   roster: PetRoster;
   owner: Readonly<PetOwnerSnapshot>;
   targets: readonly PetSkillTarget[];
@@ -66,6 +68,7 @@ export type PetCombatEntitySnapshot = Readonly<{
   parentRuntimeKey?: string;
   sourcePetId: string;
   hp: number;
+  protectedFromHits?: boolean;
   maxHp: number;
   mp: number;
   maxMp: number;
@@ -74,6 +77,7 @@ export type PetCombatEntitySnapshot = Readonly<{
 }>;
 
 export type PetCombatSnapshot = Readonly<{
+  protectedFromHits?: boolean;
   destroyed: boolean;
   petId?: string;
   species?: string;

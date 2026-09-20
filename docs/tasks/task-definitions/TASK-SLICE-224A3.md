@@ -60,7 +60,7 @@
 
 设计验收命令：`npm run check:system-design -- pet P1TA`。本批注册完整有界gate，强制组合P1TA0/P1TA1与4项结算语义；P1TB/P1T和all继续未完成。
 
-状态更新：2026-09-18，Planned；本批尚未实施。
+状态更新：2026-09-20，Ready；224A2/P1TA1通过，本批尚未实施。输入追加 `docs/tasks/evidence/TASK-SLICE-224A2/handoff.md` 与 `tools/turtle-runtime/README.md`；继续保留已记录的根/camera整数光栅对齐例外，碰撞与时序不随之量化。
 
 推荐后续任务：TASK-SLICE-224B；保持功能线Active。
 

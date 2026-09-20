@@ -1,5 +1,7 @@
 # 功能条线台账
 
+2026-09-20 TASK-SLICE-224A2完成：同一Registry/Runtime/EntitySession接四形态公共行为、真实普攻/SLD共13责任，P1TA1=0（组合P1TA0）。四形态×P1/P2、332原生caller、15,768世界碰撞、6类实现变异及正式/TestScene共304实战图层对照/重入退出通过；显示根与camera各轴各≤0.5px整数对齐按长期授权记录，原像素许可不扩大。A3链接治疗/TXLJ四项唯一Ready，父A仍Split，B/C Planned；玄龟整族/204/VS-067及pet all仍未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A2/handoff.md`。
+
 2026-09-18 TASK-SLICE-224A1完成：既有bundle/coordinator接入650文件与六包生产解码，11,572态只读owner/paintParts投影、61,424相位和157,704原生碰撞case通过P1TA0。原始RGBA保留28态308像素精确许可；碰撞保留20例70像素，命中布尔全同。真实Phaser WebGL逐态画布对照、9类实现变异及加载失败/退出/重入通过。224A2唯一Ready，父A的17责任及全族32合同仍待行为/正式消费者核销，224A保持Split，A3/B/C Planned；玄龟/204/VS-067未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A1/handoff.md`。
 
 2026-09-18 TASK-SLICE-224A执行前预检：223文件交付不含生产gzip加载、独立owner/paintParts投影及位平面适配；正式盾后转嫁/主人治疗也未接通。资源消费、公共行为/真实攻击、双owner结算及联合核销需三批独立验收，超出原两批预算。224A保留17责任并Split，224A1唯一Ready，224A2/A3与224B/C Planned；全32合同、13符号和P1TA/P1T不降低。未改src/public或原真值，不提高玄龟/204/VS-067及功能线完成度。证据见 `docs/tasks/evidence/TASK-SLICE-224A/preflight.md`。
@@ -36,7 +38,7 @@
 | LINE-STAGE-2-2 | Done | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-2 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | — | `feature-line-coverage/LINE-STAGE-2-2.md` | 无 | 真场景/五停点/54 怪/9 火焰/Monster16 八动作与六攻击/显门/统一失败/2-3 保存全部闭合；专项、全系统、structure、build、annotations、workflow、diff check 与 940×590 1P/2P 返回重载零 console 通过 |
 | LINE-PRE-STAGE-2-3-COMPLETION | Done | 在继续 Stage 2-3 逆向前，先闭合原版 1.1 可入包资源全集与正式背包基础，再补齐天庭地图四个服务入口、关卡内五个功能入口、已完成关卡全部小怪真动画、通用关卡生命周期/可玩运行框架、五角色战斗 UI/技能动画，并以既有本地六槽存档完成正式旅程回归 | — | `feature-line-coverage/LINE-PRE-STAGE-2-3-COMPLETION.md` | 无 | 165D 已把炼丹炉右栏闭合为原生 25 格投影；全线关闭合同满足 |
 | LINE-CORE-PROGRESSION-COMPLETION | Done | Stage 2-3 前完成炼丹炉左页与四功能、全装备 UI/数值、五角色成长、存档扩展、关卡左下五入口、用户确认的 UI 整改及复评确认的同线纠错 | — | `feature-line-coverage/LINE-CORE-PROGRESSION-COMPLETION.md` | 无 | 188 已让丹药页直接消费 132 对象/26 状态真值；当前线全部范围、专项、正式旅程、全系统、build 与 940×590 零 console 验收闭合 |
-| LINE-PRE-STAGE-2-3-PRESENTATION | Active | 在执行 Stage 2-3 前按用户复验闭合装备悬停数值、宠物页/战斗 UI 与真动画、完整宠物战斗公共类、怪物/角色/宠物伤害数字与连击反馈、五角色动作流畅度/视觉完整性、战斗技能 HUD 可见与原生化 | TASK-SLICE-224A2 | `feature-line-coverage/LINE-PRE-STAGE-2-3-PRESENTATION.md` | A1资源消费P1TA0通过→A2行为/普攻/SLD Ready→A3链接结算/P1TA；224B/C Planned | 猴/马/青龙三族完成，玄龟等六族及194后续仍待；功能线保持Active |
+| LINE-PRE-STAGE-2-3-PRESENTATION | Active | 在执行 Stage 2-3 前按用户复验闭合装备悬停数值、宠物页/战斗 UI 与真动画、完整宠物战斗公共类、怪物/角色/宠物伤害数字与连击反馈、五角色动作流畅度/视觉完整性、战斗技能 HUD 可见与原生化 | TASK-SLICE-224A3 | `feature-line-coverage/LINE-PRE-STAGE-2-3-PRESENTATION.md` | A1/P1TA0及A2/P1TA1通过→A3链接结算/P1TA Ready；224B/C Planned | 猴/马/青龙三族完成，玄龟等六族及194后续仍待；功能线保持Active |
 | LINE-STAGE-2-3 | Planned | 按 Stage 2 内容扩展路线顺延：先逆向 Stage 2-3 真场景、专属流程、怪物/机关与结果保存，再由证据拆分可玩实现范围 | TASK-SETTINGS-064（Planned） | `feature-line-coverage/LINE-STAGE-2-3.md` | 等待 `LINE-PRE-STAGE-2-3-PRESENTATION` 关闭 | 六段证据尚未开始 |
 | LINE-MONSTER-ARCH | Planned | 重构怪物与关卡组织：关卡负责遭遇编排，怪物定义/运行时/AI/物理/战斗/视觉/奖励各有明确 owner，以组合策略替代深继承并消除双运行时登记 | TASK-ARCH-010A（Planned） | `feature-line-coverage/LINE-MONSTER-ARCH.md` | 等待当前 `LINE-STAGE-2-3` 关闭后获得 WIP | 尚未实施；设计合同与两阶段迁移任务已登记 |
 | LINE-SHARED-UI-COMPONENTS | Planned | 治理灵魂余额、原生按钮/关闭生命周期和背包/物品展示的共享组件边界，分批迁移已知消费者且保留各页原生 Symbol、几何、皮肤与流程 | TASK-ARCH-014A（Planned） | `feature-line-coverage/LINE-SHARED-UI-COMPONENTS.md` | 等待当前 Active 线关闭或用户重新调度；不得以组件化名义抢占 WIP | `PG-011`、Split 父任务与六个独立 Goal 已登记，尚未开始存量审计或迁移 |

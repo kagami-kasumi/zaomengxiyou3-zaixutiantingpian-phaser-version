@@ -73,6 +73,16 @@ export class PetTurtleAssets {
     return { ...selection, cells: row.cells, totalHostTicks: row.totalHostTicks,
       cellSize: body.cellSize, offset: body.offset };
   }
+  bodyCollision(form: number) {
+    const data = this.collision.data.petColipse;
+    const owner = data.owners.find(row => row.form === form);
+    const stateId = `effect:${owner?.colipseSymbol}:0:s1:d1`;
+    const bounds = data.displayObjects.filter(object => object.parentId === null)
+      .flatMap(object => object.placements).find(placement => placement.stateId === stateId)?.localBounds;
+    if (!owner || !bounds) throw new Error(`Missing turtle body collision ${form}`);
+    return { width: bounds.width, height: bounds.height,
+      registration: { x: -bounds.left, y: -bounds.top } };
+  }
   private validate(): void {
     if (this.states.size !== 11572 || this.images.size !== 643 || turtleManifest.contracts.length !== 32
       || Object.keys(this.collision.data.mapping).length !== 61424) throw new Error('Incomplete turtle asset delivery');

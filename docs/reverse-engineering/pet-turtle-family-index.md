@@ -1,5 +1,7 @@
 # 玄龟完整家族行为证据（221）
 
+2026-09-20 TASK-SLICE-224A2完成：同一Registry/Runtime/EntitySession接四形态公共行为、真实普攻/SLD共13责任，P1TA1=0（组合P1TA0）。四形态×P1/P2、332原生caller、15,768世界碰撞、6类实现变异及正式/TestScene共304实战图层对照/重入退出通过；显示根与camera各轴各≤0.5px整数对齐按长期授权记录，原像素许可不扩大。A3链接治疗/TXLJ四项唯一Ready，父A仍Split，B/C Planned；玄龟整族/204/VS-067及pet all仍未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A2/handoff.md`。
+
 2026-09-17 TASK-SETTINGS-222B及父222完成：完整家族真值verified，保留222A全部13符号视觉与221全部32行为合同；94,656静态、31,344绘制后及31,704攻击入口碰撞案例，命中布尔全部一致。静态20案例70像素仅按用户批准的精确列表接受，动态像素零差异。223资源准备唯一Ready，224A/B/C Planned；玄龟现代实现、204、VS-067及功能线仍未完成。见 `docs/tasks/evidence/TASK-SETTINGS-222B/handoff.md`。
 
 范围：`turtle1..4`，代码行为证据；不宣称视觉 verified 或现代完整复现。机器合同为 [behavior-contract.json](../tasks/evidence/TASK-SETTINGS-221/behavior-contract.json)，`truthId=task-settings-221.pet-turtle-behavior`。32 个稳定合同 ID 必须由后续视觉与正式实现共同核销；不能以单技能或 216 的 101 转嫁样本关闭整族。

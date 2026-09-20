@@ -233,7 +233,7 @@ function testSharedFormalAndTestSceneConsumersAreWired(): void {
   const body = readFileSync('src/scenes/FormalPetMonkeyBodyBridge.ts', 'utf8');
   const testScene = readFileSync('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', 'utf8');
   const legacy = readFileSync('src/scenes/test-scene/TestScenePetMagicBridge.ts', 'utf8');
-  assert.match(formal, /new PetCombatRuntime\(\)/u);
+  assert.match(formal, /new PetCombatRuntime\(petTurtle\.registry\)/u);
   assert.match(formal, /resolveFormalPetMonkeyProjectileHits/u);
   assert.match(testScene, /runtime\.updatePets\(/u);
   assert.doesNotMatch(body, /PetRuntimeSystem/u);

@@ -3,6 +3,8 @@ export type TurtlePoint = Readonly<{ x: number; y: number }>;
 export type TurtlePixels = Readonly<{ width: number; height: number; rgba: Uint8Array }>;
 export type TurtleTree = Readonly<{
   path: string; matrix: { a: number; b: number; c: number; d: number; tx: number; ty: number };
+  localBounds?: Readonly<{ x: number; y: number; width: number; height: number }>;
+  frame?: number; totalFrames?: number;
   children: readonly TurtleTree[];
 }>;
 export type TurtlePart = Readonly<{
@@ -40,7 +42,18 @@ export type TurtleCollisionPackage = Readonly<{
     sourceOwner: string; characterId: number; fixture: Readonly<{
     phaseMap: Readonly<Record<string, Readonly<Record<string, number>>>>; lastTick: number; [key: string]: unknown;
   }> }>[];
-  trees: unknown; sampling: unknown; petColipse: unknown; monsterTargets: unknown; approvedResidual: unknown;
+  trees: unknown; sampling: unknown; approvedResidual: unknown;
+  monsterTargets: Readonly<{
+    mappings: readonly Readonly<{ monsterId: number; symbol: string;
+      runtimeBounds: Readonly<{ left: number; top: number; width: number; height: number }> }>[];
+    symbols: readonly Readonly<{ symbol: string; characterId: number }>[];
+  }>;
+  petColipse: Readonly<{
+    owners: readonly Readonly<{ form: number; colipseSymbol: string }>[];
+    displayObjects: readonly Readonly<{ parentId: string | null; placements: readonly Readonly<{
+      stateId: string; localBounds: Readonly<{ left: number; top: number; width: number; height: number }>;
+    }>[] }>[];
+  }>;
 }>;
 export type TurtleCollisionSample = Readonly<{
   field: string; sourceRoot: TurtlePoint;
