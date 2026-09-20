@@ -53,6 +53,7 @@ export class PetCombatRuntime {
       animation: active?.animation,
       groundMotion: active?.groundMotion,
       protectedFromHits: active?.protectedFromHits,
+      turtleLinkVisible: active?.turtleLinkVisible,
       summons: Object.freeze([...this.entities.values()]
         .filter((entity) => entity.parentRuntimeKey && !entity.released)
         .map((entity) => entity.snapshot())),

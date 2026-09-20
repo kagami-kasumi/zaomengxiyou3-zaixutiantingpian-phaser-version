@@ -16,6 +16,7 @@ import { PetGroundSessionMovement } from './PetGroundSessionMovement';
 import { PetGroundOwnerAnchors } from '../assets/PetGroundEnvironmentAssets';
 import type { PetBehaviorAction } from './PetBehavior';
 import { recordIncomingDamageFeedback } from './IncomingDamageFeedbackSystem';
+import { refreshTurtleLink, stepTurtleLink, isTurtleLinkPaired, type PetTurtleLinkBuff } from './PetTurtleLinkSystem';
 
 type EntityPorts = Readonly<{
   publish: (event: Omit<PetCombatRuntimeEvent, 'sequence'>) => void;
@@ -41,6 +42,9 @@ export class PetCombatEntitySession {
   hostTick = 0;
   targetAcquiredThisFrame = false;
   private pendingHostTicks = 0;
+  private turtleLink?: PetTurtleLinkBuff;
+  private latestFrame?: PetCombatFrame;
+  private ownerCombat?: PetCombatFrame['ownerCombat'];
   private protectionCount = -1;
   private pendingDamage: NonNullable<PetCombatFrame['damageEvents']>[number][] = [];
   private pendingAnimation: NonNullable<PetCombatFrame['animationEvents']>[number][] = [];
@@ -88,6 +92,15 @@ export class PetCombatEntitySession {
   }
 
   update(frame: PetCombatFrame, eventsOnly = false): void {
+    if (frame.ownerCombat) {
+      if (this.ownerCombat && this.ownerCombat !== frame.ownerCombat) throw new Error('Pet combat owner cannot change within a session');
+      this.ownerCombat = frame.ownerCombat;
+      if (this.turtleLink) {
+        this.turtleLink.pet = this.pet;
+        if (frame.ownerCombat.turtleLink?.peer?.() === this.turtleLink) frame.ownerCombat.turtleLink.pet = this.pet;
+      }
+    }
+    this.latestFrame = frame;
     if (this.ground && !frame.groundEnvironment) throw new Error('Ground pet requires verified level environment');
     if (!this.animation) {
       this.updateFrame(frame, eventsOnly);
@@ -124,6 +137,7 @@ export class PetCombatEntitySession {
     if (this.phase === 'dead-playing' || eventsOnly) {
       if (this.phase === 'dead-playing') this.advanceAnimation(frame, targets);
       if (this.released) return;
+      stepTurtleLink(this.turtleLink);
       this.ports.stepChildren(frame, true);
       return;
     }
@@ -175,8 +189,8 @@ export class PetCombatEntitySession {
     if (action?.deferred) {
       this.publish({ type: 'behavior', behaviorEvent: { type: 'pet-action-deferred', payload: { action: action.type } } });
     } else if (action) {
-      this.actionToken += 1;
-      this.animation?.select(action.type, this.actionToken);
+      if (!action.preservesAnimation) this.actionToken += 1;
+      if (!action.preservesAnimation) this.animation?.select(action.type, this.actionToken);
       this.behavior.executeAction(action, this.context(frame, targets));
       this.publish({ type: 'action', action: { ...action }, actionToken: this.actionToken });
     }
@@ -203,6 +217,7 @@ export class PetCombatEntitySession {
     }
     // BaseObject.step expires setYourFather only after its count passes below zero.
     if (this.protectionCount >= 0) this.protectionCount--;
+    stepTurtleLink(this.turtleLink);
   }
 
   private selectGroundAction(
@@ -255,6 +270,34 @@ export class PetCombatEntitySession {
     this.protectionCount = Math.max(this.protectionCount, sourceCount);
   }
 
+  linkOwner(frame: PetCombatFrame, value: number, durationTicks: number): void {
+    if (!frame.ownerCombat) throw new Error('TXLJ requires the actual owner combat port');
+    const hero = frame.ownerCombat, fps = frame.hostFps ?? DefaultGlobalSettings.frameRate;
+    this.turtleLink = refreshTurtleLink(this.turtleLink, this.pet, this.runtimeKey, value, durationTicks, fps);
+    hero.turtleLink = refreshTurtleLink(hero.turtleLink, this.pet, this.runtimeKey, value, durationTicks, fps);
+    this.turtleLink.peer = () => hero.turtleLink; hero.turtleLink.peer = () => this.turtleLink;
+    hero.turtleLink.pet = this.pet;
+    hero.turtleLink.runtimeKey = this.runtimeKey;
+    hero.turtleLink.reduceHp = (amount, event, timeMs) => {
+      if (this.released || !this.latestFrame) return;
+      const latest = this.latestFrame;
+      this.consumeDamageEvents({ ...latest,
+        incomingFeedback: latest.incomingFeedback ? { ...latest.incomingFeedback, timeMs } : undefined,
+        damageEvents: [{ runtimeKey: this.runtimeKey, amount, sourceId: event.sourceId,
+          attackId: event.attackId, occurredAtMs: event.occurredAtMs, producerKind: 'turtle-transfer' }] },
+      this.targeting.livingTargets(latest.targets));
+    };
+  }
+
+  healLinkedOwner(frame: PetCombatFrame, amount: number, notification: 'direct' | 'event'): void {
+    if (!isTurtleLinkPaired(this.turtleLink) || frame.ownerCombat?.turtleLink !== this.turtleLink.peer?.()) return;
+    const hero = frame.ownerCombat!, before = hero.hp;
+    // SLD uses setHHP / SetHHp, never BaseHero.cureHp (no second 1.05 or pet echo).
+    hero.hp = Math.min(hero.maxHp, Math.max(0, (hero.hp + amount) | 0));
+    this.publish({ type: 'behavior', behaviorEvent: { type: 'turtle-linked-owner-healed',
+      payload: { notification, amount, hpBefore: before, hpAfter: hero.hp } } });
+  }
+
   private advanceAnimation(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[]): void {
     this.ground?.applyEnterVelocity(this.animation?.snapshot().action);
     this.animation?.advance(frame.deltaMs, frame.hostFps ?? DefaultGlobalSettings.frameRate, (event) => {
@@ -276,6 +319,7 @@ export class PetCombatEntitySession {
       animation: this.animation?.snapshot(),
       groundMotion: this.ground?.snapshot(),
       protectedFromHits: this.protectionCount >= 0,
+      turtleLinkVisible: !!(this.turtleLink?.active && this.turtleLink.started),
     });
   }
 
@@ -283,6 +327,7 @@ export class PetCombatEntitySession {
     if (this.released) return;
     this.released = true;
     this.releaseReason = reason;
+    if (this.turtleLink) this.turtleLink.active = false;
     const failures: unknown[] = [];
     try { this.behavior.destroy(reason); } catch (error) { failures.push(error); }
     try { this.ports.releaseChildren(reason); } catch (error) { failures.push(error); }
@@ -304,7 +349,7 @@ export class PetCombatEntitySession {
         recordIncomingDamageFeedback({ model: feedback.model, ownerSlot: feedback.ownerSlot,
           targetKind: 'pet', targetId: this.pet.id, targetRuntimeId: this.runtimeKey,
           worldAnchor: () => ({ x: this.runtime.x, y: this.runtime.y }) }, {
-          sourceId: event.sourceId, attackId: event.attackId, producerKind: 'pet-reduce-hp',
+          sourceId: event.sourceId, attackId: event.attackId, producerKind: event.producerKind ?? 'pet-reduce-hp',
           occurredAtMs: event.occurredAtMs, settledAtMs: feedback.timeMs,
           settledDamage: event.amount, hpBefore, hpAfter: this.pet.hp,
         });

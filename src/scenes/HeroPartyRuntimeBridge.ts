@@ -442,6 +442,7 @@ export function createHeroPartyRuntime(
       }
       petCombatSnapshots[slot] = petCombatRuntimes[slot].update({
         roster,
+        ownerCombat: member.combat.combat,
         owner: { x: member.movement.x, y: member.movement.y, facingX: member.movement.facingX },
         targets: frame.targets,
         projectiles: frame.projectiles,
@@ -459,7 +460,11 @@ export function createHeroPartyRuntime(
       pendingPetAnimationEvents[slot] = [];
     }
     petDragonPresentation.update(Object.values(petCombatSnapshots), frame.projectiles.projectiles);
-    petTurtle.update(petCombatSnapshots, frame.projectiles.projectiles);
+    petTurtle.update(petCombatSnapshots, frame.projectiles.projectiles, model.members.map((member, index) => ({
+      slot: member.combat.slot, x: member.movement.x,
+      y: member.movement.y + (frame.groundEnvironmentFor?.(index)?.ownerRootOffsetY ?? 0),
+      turtleLinkVisible: !!(member.combat.combat.turtleLink?.active && member.combat.combat.turtleLink.started),
+    })));
     if (isPetDragonQaEnabled()) scene.game.canvas.dataset.petDragonQa = JSON.stringify({
       snapshots: petCombatSnapshots,
       damage: model.combat.audit.damageEvents.slice(-60),

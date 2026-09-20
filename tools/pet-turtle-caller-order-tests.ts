@@ -107,6 +107,8 @@ function createContext(
     face: (direction: -1 | 1) => { runtime.facingX = direction; },
     setRootScaleX: (sign: -1 | 1) => { runtime.rootScaleX = sign; },
     healSelf: (hp: number) => { pet.hp = Math.min(pet.maxHp, pet.hp + (hp | 0)); },
+    linkOwner: () => { throw new Error('Caller fixture has no TXLJ release'); },
+    healLinkedOwner: () => {}, // Native caller fixtures here are explicitly unlinked.
     spendMp: (amount: number) => { if (pet.mp < amount) return false; pet.mp -= amount; return true; },
     protectFromHits: () => {},
     setSkillCooldown: () => {},

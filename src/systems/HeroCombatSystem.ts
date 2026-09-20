@@ -1,4 +1,5 @@
 import type { DamageEvent } from './CombatSystem';
+import { redirectTurtleLinkDamage, updateHeroTurtleLink, type PetTurtleLinkBuff } from './PetTurtleLinkSystem';
 import { recordIncomingDamageFeedback, type IncomingDamageFeedbackTarget } from './IncomingDamageFeedbackSystem';
 import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem';
 
@@ -54,6 +55,7 @@ export type HeroMagicFlagGuard = {
 };
 
 export type HeroCombatModel = {
+  turtleLink?: PetTurtleLinkBuff;
   id: string;
   hp: number;
   maxHp: number;
@@ -96,6 +98,8 @@ export function createHeroCombat(id: string): HeroCombatModel {
 }
 
 export function resetHeroCombat(hero: HeroCombatModel): void {
+  if (hero.turtleLink) hero.turtleLink.active = false;
+  hero.turtleLink = undefined;
   hero.hp = hero.maxHp;
   hero.state = 'ready';
   hero.hurtUntilMs = 0;
@@ -135,7 +139,8 @@ export function applyHeroDamage(
     return false;
   }
 
-  const remainingDamage = settleHeroHpDamage(hero, event.amount, redirectDamage, (settledDamage, hpBefore, hpAfter) => {
+  const redirect = hero.turtleLink ? (amount: number) => redirectTurtleLinkDamage(hero, amount, event, timeMs) : redirectDamage;
+  const remainingDamage = settleHeroHpDamage(hero, event.amount, redirect, (settledDamage, hpBefore, hpAfter) => {
     recordIncomingDamageFeedback(hero.incomingFeedback, { sourceId: event.sourceId, attackId: event.attackId,
       producerKind: 'hero-reduce-hp', occurredAtMs: event.occurredAtMs, settledAtMs: timeMs,
       settledDamage, hpBefore, hpAfter });
@@ -172,7 +177,8 @@ export function applyHeroDamage(
 /** Direct environment reduceHp: caller collision/father gate, no normal-hit time window. */
 export function applyHeroDirectDamage(hero: HeroCombatModel, event: DamageEvent, timeMs: number): boolean {
   if (hero.state === 'dead' || hero.magicInvulnerability) return false;
-  const remainingDamage = settleHeroHpDamage(hero, event.amount, undefined, (settledDamage, hpBefore, hpAfter) => {
+  const remainingDamage = settleHeroHpDamage(hero, event.amount,
+    amount => redirectTurtleLinkDamage(hero, amount, event, timeMs), (settledDamage, hpBefore, hpAfter) => {
     recordIncomingDamageFeedback(hero.incomingFeedback, { sourceId: event.sourceId, attackId: event.attackId,
       producerKind: 'environment-reduce-hp', occurredAtMs: event.occurredAtMs, settledAtMs: timeMs,
       settledDamage, hpBefore, hpAfter });
@@ -280,6 +286,7 @@ export function updateHeroCombat(
   timeMs: number,
   deltaMs: number,
 ): void {
+  updateHeroTurtleLink(hero, deltaMs);
   updateHeroMagicShield(hero, deltaMs);
   updateHeroMagicInvulnerability(hero, deltaMs);
 

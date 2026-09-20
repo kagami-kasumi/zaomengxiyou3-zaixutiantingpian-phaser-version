@@ -40,7 +40,11 @@ export class PetTurtleProjectileSystem {
       this.bullets.push({ projectile, cache, action, sourceX: twip(runtime.x), sourceY: twip(runtime.y),
         sourceMatrixA: runtime.rootScaleX ?? 1, lastTick });
       const hpBefore = context.pet.hp;
-      if (sld) context.healSelf(getPetTurtleNoncriticalPower(context, action) >>> 0);
+      if (sld) {
+        const heal = getPetTurtleNoncriticalPower(context, action) >>> 0;
+        context.healSelf(heal);
+        if (form >= 2) context.healLinkedOwner(heal, form === 4 ? 'event' : 'direct');
+      }
       context.emit({ type: 'turtle-projectile-created', payload: {
         projectileId: projectile.projectileId, sourceId: context.pet.id, symbol, action,
         sourceRoot: { x: twip(runtime.x), y: twip(runtime.y) },

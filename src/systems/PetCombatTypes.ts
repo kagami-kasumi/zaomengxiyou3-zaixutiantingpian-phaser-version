@@ -13,12 +13,14 @@ import type { PetGroundMotion } from './PetGroundMovementSystem';
 import type { PetProjectileCombatPort } from './PetProjectileCombatPort';
 import type { IncomingDamageFeedbackModel } from './IncomingDamageFeedbackSystem';
 import type { PlayerSlot } from './InputSystem';
+import type { HeroCombatModel } from './HeroCombatSystem';
 
 export type PetCombatFrame = Readonly<{
   /** Offline P1/P2 are local. False models a source-owned remote pet without granting AI authority. */
   isLocalOwner?: boolean;
   roster: PetRoster;
   owner: Readonly<PetOwnerSnapshot>;
+  ownerCombat?: HeroCombatModel;
   targets: readonly PetSkillTarget[];
   projectiles?: ProjectileSystemModel;
   random?: PetSkillRandomSource;
@@ -58,6 +60,7 @@ export type PetCombatSummonHandle = Readonly<{
 }>;
 
 export type PetCombatEntitySnapshot = Readonly<{
+  turtleLinkVisible?: boolean;
   petId: string;
   species: string;
   form: number;
@@ -77,6 +80,7 @@ export type PetCombatEntitySnapshot = Readonly<{
 }>;
 
 export type PetCombatSnapshot = Readonly<{
+  turtleLinkVisible?: boolean;
   protectedFromHits?: boolean;
   destroyed: boolean;
   petId?: string;

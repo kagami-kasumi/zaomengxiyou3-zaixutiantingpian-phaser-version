@@ -50,3 +50,16 @@ HTTP服务器可以原样发送gzip，也可以以Content-Encoding解码后返�
 显示对照中，独立原生PNG与生产投影交替通过同一Phaser后端；WebGL与Canvas2D背景合成存在一色阶舍入差，不能将不同后端混作同态零差异依据。原始RGBA另由独立摘要严格核对，只有原28态308像素许可；`browser-display-states.json`保留11,572项最终画布双方摘要。参考纹理仅存在于验收scene。
 
 运行仅依赖src/public；原生验收需要本地语料和docs/tasks/evidence前置输入。新报告在本地`docs/tasks/evidence/TASK-SLICE-224A1`，可再生浏览器图在`.tmp/verification-images/TASK-SLICE-224A1`，不提交Git。
+
+## 224A3链接结算与父A门禁
+
+`PetTurtleLinkSystem`只定义既有HeroCombat/EntitySession各自持有的瞬态buff及结算函数，不创建独立Runtime或HP。Party传入实际ownerCombat；同名刷新保留value，双方buff有效才结算。伤害在盾后把ceil(5%)送回原pet session，英雄取int(95%)；cureHp链接路径先int再105%再int。SLD创建时的主人治疗直接setHHP，不依赖命中、不重复放大。未链接的旧治疗调用保持既有小数行为。
+
+`PetTurtleCombatBridge`复用原PetTurtle2Buff单帧与manifest注册偏移，分别投影主人/宠物现有状态。原BasePet.destroy不删除主人buff，因此换宠后主人显示可留至到期，但双方结算立即失效；场景退出销毁所有视图。英雄状态由HeroCombat更新，宠物状态在EntitySession原host tick末尾更新。
+
+- `node tools/run-system-tests.mjs pet-turtle-link-tests`：144原生结算数值、2,904原生buff/refresh态、实际enemy resolver、P1/P2隔离、盾后顺序、三进阶形态SLD及刷新/过期。
+- `node tools/turtle-runtime/link-mutations.mjs`：真实baseline和9类源变异，拒绝错owner/单边buff/错误取整/盾前转嫁/重复治疗/假命中门禁/刷新value/到期偏移；变异不得覆盖正常trace。
+- `node tools/turtle-runtime/run-combat-browser.mjs --links`：Stage12/TestScene×二三四阶，真实Party/敌人结算、原生同后端图层对照、重入/退出和存档不变。测试bundle暴露既有Party，仅供探针使用。
+- `npm run check:system-design -- pet P1TA`：强制组合P1TA1（含P1TA0）及上述链接验收，核销父A的17项；P1TB/P1T/all仍需后续任务。先build并启动4174 preview；不要同时启动第二个run-system-tests进程，它们共享临时编译目录。
+
+本批报告在本地`docs/tasks/evidence/TASK-SLICE-224A3/`。沿用原精确视觉/碰撞许可及A2显示根/camera各轴≤0.5px整数对齐，碰撞和时序不量化。完整32合同及五关家族生命周期不能由这两个场景的有限链接验收替代。

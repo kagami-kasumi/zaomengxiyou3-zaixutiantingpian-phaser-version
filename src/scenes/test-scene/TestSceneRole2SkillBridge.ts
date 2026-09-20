@@ -1,5 +1,6 @@
 import type { HeroBaseStats } from '../../systems/EquipmentSystem';
 import type { HeroCombatModel } from '../../systems/HeroCombatSystem';
+import { applyHeroHealing } from '../../systems/PetTurtleLinkSystem';
 import type { HeroMovementModel } from '../../systems/HeroMovementSystem';
 import type { HeroNormalAttackModel } from '../../systems/HeroNormalAttackSystem';
 import {
@@ -94,7 +95,7 @@ function createSupportTargets(
         maxHp: player.combat.maxHp, isAlive: player.combat.state !== 'dead',
         heal: (amount) => {
           if (player.combat.state !== 'dead') {
-            player.combat.hp = Math.min(player.combat.maxHp, player.combat.hp + amount);
+            applyHeroHealing(player.combat, amount);
           }
         },
       });

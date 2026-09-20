@@ -24,6 +24,7 @@ import {
   type ProjectileSystemModel,
 } from './ProjectileSystem';
 import { MagicWeaponTuning } from './MagicWeaponTuning';
+import { applyHeroHealing } from './PetTurtleLinkSystem';
 import type {
   MagicWeaponActiveEffect,
   MagicWeaponBaguaEffect,
@@ -476,7 +477,7 @@ function applyMagicWeaponRing(
     totalMs: effect.invulnerableMs,
     remainingMs: effect.invulnerableMs,
   });
-  target.combat.hp = Math.min(target.combat.maxHp, target.combat.hp + effect.hpRestore);
+  applyHeroHealing(target.combat, effect.hpRestore);
   target.skill.mp = Math.min(target.skill.maxMp, target.skill.mp + effect.mpRestore);
 }
 

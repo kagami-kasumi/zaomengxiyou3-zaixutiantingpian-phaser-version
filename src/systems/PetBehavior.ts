@@ -20,6 +20,8 @@ export type PetBehaviorAction = Readonly<{
   type: string;
   /** Selected source branch whose implementation is not delivered yet; never a successful cast. */
   deferred?: boolean;
+  /** Instant source action such as TXLJ which does not select a body animation. */
+  preservesAnimation?: boolean;
   payload?: unknown;
 }>;
 
@@ -29,6 +31,7 @@ export type PetBehaviorEvent = Readonly<{
 }>;
 
 export type PetCombatDamageEvent = Readonly<{
+  producerKind?: 'pet-reduce-hp' | 'turtle-transfer';
   runtimeKey: string;
   amount: number;
   sourceId?: string;
@@ -84,6 +87,8 @@ export type PetBehaviorContext = Readonly<{
   face: (direction: -1 | 1) => void;
   setRootScaleX: (sign: -1 | 1) => void;
   healSelf: (hp: number, mp?: number) => void;
+  linkOwner: (value: number, durationTicks: number) => void;
+  healLinkedOwner: (hp: number, notification: 'direct' | 'event') => void;
   spendMp: (amount: number) => boolean;
   protectFromHits: (sourceCount: number) => void;
   setSkillCooldown: (skill: Exclude<keyof PetSkillState, 'lastResult'>, milliseconds: number) => void;

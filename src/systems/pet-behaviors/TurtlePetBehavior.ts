@@ -26,10 +26,19 @@ export class TurtlePetBehavior implements PetBehavior {
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined {
     const skill = selectPetTurtleSkill(context);
     if (!skill) return undefined;
-    // A3/B own these releases. Preserve the winning branch without spending or falling through.
-    return skill === 'sld' ? { type: 'hit2' } : { type: skill, deferred: true };
+    return skill === 'sld' ? { type: 'hit2' } : skill === 'txlj'
+      ? { type: 'txlj', preservesAnimation: true } : { type: skill, deferred: true };
   }
   executeAction(action: PetBehaviorAction, context: PetBehaviorContext): void {
+    if (action.type === 'txlj') {
+      if (context.target) context.face(context.runtime.x < context.target.x ? 1 : -1);
+      context.protectFromHits(10);
+      context.linkOwner((5 * context.pet.technique * 1.05) >>> 0, context.hostFps * ((4 * context.pet.warpower) >>> 0));
+      if (!context.spendMp(20)) throw new Error('Turtle TXLJ lost its MP gate');
+      context.setSkillCooldown('turtle2Txlj', 20000);
+      context.emit({ type: 'turtle-txlj-released' });
+      return;
+    }
     if (action.type !== 'hit1' && action.type !== 'hit2') throw new Error(`Unsupported turtle release ${action.type}`);
     if (context.target) context.face(context.runtime.x < context.target.x ? 1 : -1);
     if (action.type === 'hit2') {

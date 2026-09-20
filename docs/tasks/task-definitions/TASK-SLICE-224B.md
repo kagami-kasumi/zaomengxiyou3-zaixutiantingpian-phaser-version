@@ -62,3 +62,5 @@ UI 原生化合同：
 - `npm run check:system-design -- pet P1TB`。本批实现并注册该有界gate；独立语义/变异/生产trace支撑，非零阻塞结项。P1TA/P1TB只证明各批，P1T必须联合全部32合同；不降低既有P1R/P1H/P1G。
 
 2026-09-18依赖更新：父224A已Split为224A1→224A2→224A3，A3通过完整P1TA后才满足本项的224A前置；本项仍Planned，原范围/合同保持。
+
+2026-09-20激活：224A3及父224A的17项经P1TA=0关闭，本项为唯一Ready。追加输入 `docs/tasks/evidence/TASK-SLICE-224A3/handoff.md` 与 `tools/turtle-runtime/README.md`。保留源事实：TXLJ双buff分别由既有owner推进；换宠仅销毁pet buff，hero残留显示至到期但不再双向结算；SLD创建即治疗、不依赖怪物命中。B仍负责SYBH/奥义/受伤反击与伤害合同，不得把父A有限通过当作整族完成。

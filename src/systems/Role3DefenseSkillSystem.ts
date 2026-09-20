@@ -1,5 +1,6 @@
 ﻿import { clampSkillLevel as clampLevel } from './SkillMathUtils';
 import { findJustPressedSkillSlot } from './SkillInputUtils';
+import { applyHeroHealing } from './PetTurtleLinkSystem';
 import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { HeroCombatModel } from './HeroCombatSystem';
@@ -210,7 +211,7 @@ export function tryRole3RjHealOnHit(params: {
   if ((params.random ?? Math.random)() > chance) return 0;
   const heal = Math.max(0, params.sourcePower) * 0.2;
   const hpBefore = params.combat.hp;
-  params.combat.hp = Math.min(params.combat.maxHp, params.combat.hp + heal);
+  applyHeroHealing(params.combat, heal);
   return params.combat.hp - hpBefore;
 }
 

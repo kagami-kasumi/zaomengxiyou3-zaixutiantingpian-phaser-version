@@ -30,7 +30,8 @@ export function createPetTurtleCombatBridge(scene: Phaser.Scene) {
       // to no active entity while its replacement's resource transaction completes.
       return { ...roster!, pets: [] };
     },
-    update(snapshots: Partial<Record<'p1' | 'p2', PetCombatSnapshot>>, projectiles: readonly ProjectileModel[]) {
+    update(snapshots: Partial<Record<'p1' | 'p2', PetCombatSnapshot>>, projectiles: readonly ProjectileModel[],
+      owners: readonly Readonly<{ slot: string; x: number; y: number; turtleLinkVisible: boolean }>[] = []) {
       if (disposed) return;
       const live = new Set<string>(), sources = new Set<string>();
       const viewport = { x: Math.round(scene.cameras.main.scrollX), y: Math.round(scene.cameras.main.scrollY) };
@@ -52,6 +53,13 @@ export function createPetTurtleCombatBridge(scene: Phaser.Scene) {
         const state = requireTurtleAssets(scene).body(snapshot.form!, animation.row, animation.column,
           runtime.facingX > 0 ? 1 : 0, slot === 'p1' ? 'P1' : 'P2');
         draw(runtime.runtimeKey, state.id, runtime.x, runtime.y, 42);
+        const linkOffset = requireTurtleAssets(scene).linkOffset();
+        if (snapshot.turtleLinkVisible) draw(`${runtime.runtimeKey}:link`,
+          'effect:PetTurtle2Buff:0:s1:d1', runtime.x + linkOffset.x, runtime.y + linkOffset.y, 44);
+      }
+      for (const owner of owners) if (owner.turtleLinkVisible) {
+        const offset = requireTurtleAssets(scene).linkOffset();
+        draw(`${owner.slot}:link`, 'effect:PetTurtle2Buff:0:s1:d1', owner.x + offset.x, owner.y + offset.y, 44);
       }
       for (const projectile of projectiles) {
         if (projectile.isExpired || !sources.has(projectile.sourceId) || projectile.petHostTick === undefined

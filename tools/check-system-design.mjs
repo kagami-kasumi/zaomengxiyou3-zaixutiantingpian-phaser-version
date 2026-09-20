@@ -130,6 +130,17 @@ const contracts = {
     },
   },
   pet: {
+    P1TA(errors, tests) {
+      contracts.pet.P1TA1(errors, tests);
+      requireFiles(['src/systems/PetTurtleLinkSystem.ts', 'tools/pet-turtle-link-tests.ts'], errors);
+      requireMatches('src/scenes/HeroPartyRuntimeBridge.ts', [
+        ['actual hero owner combat model', /ownerCombat:\s*member\.combat\.combat/u],
+      ], errors);
+      requireMatches('src/systems/HeroCombatSystem.ts', [
+        ['shared shield-after link settlement', /redirectTurtleLinkDamage\(hero, amount, event, timeMs\)/u],
+      ], errors);
+      for (const name of ['pet-turtle-link-tests', 'pet-turtle-link-acceptance-tests']) requireTest(name, tests, errors);
+    },
     P1TA1(errors, tests) {
       contracts.pet.P1TA0(errors, tests);
       requireFiles(['src/systems/pet-behaviors/TurtlePetBehavior.ts',

@@ -72,6 +72,12 @@ export function createPetCombatContext(
       session.pet.hp = Math.min(session.pet.maxHp, session.pet.hp + (hp | 0));
       session.pet.mp = Math.min(session.pet.maxMp, session.pet.mp + (mp | 0));
     },
+    linkOwner: (value, durationTicks) => {
+      requireLiveSession(); session.linkOwner(frame, value, durationTicks);
+    },
+    healLinkedOwner: (hp, notification) => {
+      requireLiveSession(); session.healLinkedOwner(frame, hp, notification);
+    },
     spendMp: (amount) => {
       requireLiveSession();
       if (!Number.isFinite(amount) || amount < 0) throw new Error('Invalid pet MP cost');

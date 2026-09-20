@@ -1,5 +1,6 @@
 ﻿import { clampSkillLevel as clampLevel, clampSkillLevelOrZero as clampLevelOrZero } from './SkillMathUtils';
 import { findJustPressedSkillSlot } from './SkillInputUtils';
+import { applyHeroHealing } from './PetTurtleLinkSystem';
 import { SkillMpByLevel, SkillFixedDamageCount, SkillFactorBase, SkillFactorPerLevel, Role1DamageFinalMultiplier } from './SkillTuning';
 import { SkillProjectileEffectKeys } from '../assets/AssetManifest';
 import type { AttackKind } from './CombatSystem';
@@ -760,7 +761,7 @@ export function tryRole1SxLifeSteal(params: {
   ) return 0;
   const heal = Math.floor(Math.max(0, params.actualDamage) * params.runtime.lifeStealPercent / 100);
   const hpBefore = params.combat.hp;
-  params.combat.hp = Math.min(params.combat.maxHp, params.combat.hp + heal);
+  applyHeroHealing(params.combat, heal);
   return params.combat.hp - hpBefore;
 }
 

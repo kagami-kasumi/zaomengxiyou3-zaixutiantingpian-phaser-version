@@ -64,6 +64,12 @@ export class PetTurtleAssets {
   effect(symbol: string, tick: number, scale: 1 | 2, sign: -1 | 1) {
     return this.state(`effect:${symbol}:${tick}:s${scale}:d${sign}`);
   }
+  linkOffset() {
+    const tree = this.state('buff:buff-2-1-7:2').sourceTrace.display;
+    const matrix = tree?.children[0]?.children[0]?.matrix;
+    if (!matrix) throw new Error('Missing verified TXLJ owner placement');
+    return { x: matrix.tx, y: matrix.ty };
+  }
   bodyAnimation(form: number, action: string) {
     const body = turtleManifest.bodyAnimations.find(row => row.form === form);
     const selection = body?.actions.find(row => row.action === action);

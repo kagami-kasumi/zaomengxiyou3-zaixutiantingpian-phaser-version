@@ -473,6 +473,8 @@ export class TestScene extends Phaser.Scene {
     this.runtime = undefined;
     for (const view of this.monsterViews.values()) this.destroyMonsterView(view);
     this.monsterViews.clear();
+    for (const view of this.dropViews.values()) view.root.destroy(true);
+    this.dropViews.clear();
   }
 
   public getUpdatePipeline(): TestSceneUpdatePipeline {

@@ -4,7 +4,7 @@
 
 ## 当前推荐
 
-`TASK-SLICE-224A3` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SLICE-224A3.md)。
+`TASK-SLICE-224B` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SLICE-224B.md)。
 
 本节由 `npm run generate:harness` 从下方状态表生成；历史事件见工作流治理日志。
 
@@ -13,9 +13,7 @@
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 猴系 P1R=0、马系 P1H=0、青龙 P1G=0；其余六族与旧入口仍待逐族闭合 | 后续按当前线覆盖缺口生成单家族 task | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-SLICE-224A | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟公共入口/普攻/SLD/TXLJ | M-032、M-034、M-035、M-042、VS-012、VS-067 | 全族合同保留与本批独立交接 | TASK-SLICE-224A3 | [定义](task-definitions/TASK-SLICE-224A.md) |
-| TASK-SLICE-224A3 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟TXLJ双owner结算与224A联合验收 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 父17责任/全32合同保留及本批独立交接 | TASK-SLICE-224B | [定义](task-definitions/TASK-SLICE-224A3.md) |
-| TASK-SLICE-224B | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟SYBH/奥义/受伤结算 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 全族合同保留与本批独立交接 | TASK-SLICE-224C | [定义](task-definitions/TASK-SLICE-224B.md) |
+| TASK-SLICE-224B | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟SYBH/奥义/受伤结算 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 全族合同保留与本批独立交接 | TASK-SLICE-224C | [定义](task-definitions/TASK-SLICE-224B.md) |
 | TASK-SLICE-224C | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 玄龟有界接续 | 玄龟全32合同与正式五关联合验收 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 全族合同保留与本批独立交接 | 按覆盖台账生成下一家族 | [定义](task-definitions/TASK-SLICE-224C.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在 207/208 及后续逐个生成的完整家族任务全部完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |
 | TASK-SETTINGS-195 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色动作完整性/流畅度审计 | 比较五角色原 SWF 与现代帧时序、持帧、转移、clock、解包/加载/投影完整性并确定根因 | M-018..M-025、M-035、M-047、VS-068 | 可重现跨角色差异矩阵、根因分类、每受影响角色修复子 task | 执行所有生成的单角色子 task，然后 TASK-SLICE-196 | [定义](task-definitions/TASK-SETTINGS-195.md) |
