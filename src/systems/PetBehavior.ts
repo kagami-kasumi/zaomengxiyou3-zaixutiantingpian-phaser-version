@@ -37,6 +37,9 @@ export type PetCombatDamageEvent = Readonly<{
   sourceId?: string;
   attackId?: string;
   occurredAtMs?: number;
+  /** BasePet.reduceHp(param2); HP-only transfers must not cause hurt or QLFJ. */
+  reactsToHit?: boolean;
+  knockback?: Readonly<{ x: number; y: number }>;
 }>;
 
 export type PetCombatAnimationEventName = 'enter' | 'hit' | 'complete' | 'dead-complete';
@@ -94,6 +97,7 @@ export type PetBehaviorContext = Readonly<{
   setSkillCooldown: (skill: Exclude<keyof PetSkillState, 'lastResult'>, milliseconds: number) => void;
   releaseSelf: (reason: PetCombatReleaseReason) => void;
   playAnimation: (action: string) => void;
+  restartAnimationCell: () => void;
   spawnSummon: (request: PetCombatSummonRequest) => PetCombatSummonHandle;
   releaseSummon: (handle: PetCombatSummonHandle, reason?: PetCombatReleaseReason) => void;
   summonSnapshots: () => readonly PetCombatEntitySnapshot[];
@@ -105,6 +109,11 @@ export interface PetBehavior {
   afterChildren?(context: PetBehaviorContext): void;
   createAnimationClock?(): PetAnimationClock;
   groundMovement?(): PetGroundMovementDefinition;
+  suppressGroundMove?(context: PetBehaviorContext): boolean;
+  suppressTurning?(context: PetBehaviorContext): boolean;
+  rejectKnockback?(context: PetBehaviorContext): boolean;
+  losesLifeOnDeath?(): boolean;
+  targetsDamageSource?(): boolean;
   enter(context: PetBehaviorContext): void;
   canMove(context: PetBehaviorContext): boolean;
   selectAction(context: PetBehaviorContext): PetBehaviorAction | undefined;

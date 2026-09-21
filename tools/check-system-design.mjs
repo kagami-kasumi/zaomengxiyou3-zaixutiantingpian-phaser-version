@@ -130,6 +130,18 @@ const contracts = {
     },
   },
   pet: {
+    P1TB(errors, tests) {
+      contracts.pet.P1TA(errors, tests);
+      requireMatches('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', [
+        ['actual sandbox pet incoming route', /resolveTestSceneTurtleIncoming\(runtime,/u],
+      ], errors);
+      forbidAcross(['src/systems/pet-behaviors/TurtlePetBehavior.ts'], [
+        ['parallel wall-clock callbacks', /\b(?:setTimeout|setInterval)\s*\(/u],
+        ['unfinished turtle skill branch', /deferred:\s*true/u],
+      ], errors);
+      for (const name of ['pet-turtle-skill-runtime-tests', 'pet-turtle-skill-acceptance-tests',
+        'pet-ground-movement-tests', 'pet-ground-session-tests']) requireTest(name, tests, errors);
+    },
     P1TA(errors, tests) {
       contracts.pet.P1TA1(errors, tests);
       requireFiles(['src/systems/PetTurtleLinkSystem.ts', 'tools/pet-turtle-link-tests.ts'], errors);

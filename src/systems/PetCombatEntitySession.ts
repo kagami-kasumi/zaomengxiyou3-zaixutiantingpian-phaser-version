@@ -153,6 +153,7 @@ export class PetCombatEntitySession {
       this.targetAcquiredThisFrame = this.target !== undefined;
     }
     let context = this.context(frame, targets);
+    if (this.ground) this.ground.suppressTurning = this.behavior.suppressTurning?.(context) ?? false;
     const attackRange = this.behavior.basicAttackRange?.(context);
     if (attackRange !== undefined && (!Number.isFinite(attackRange) || attackRange < 0)) {
       throw new Error(`Pet basic attack range must be finite and non-negative: ${attackRange}`);
@@ -212,7 +213,8 @@ export class PetCombatEntitySession {
     }
     this.advanceAnimation(frame, targets);
     if (this.released) return;
-    if (this.ground?.step(frame.groundEnvironment!, this.pet.moveSpeed, this.animation?.snapshot().action)) {
+    if (this.ground?.step(frame.groundEnvironment!, this.pet.moveSpeed, this.animation?.snapshot().action,
+      this.behavior.suppressGroundMove?.(this.context(frame, targets)) ?? false, frame.deltaMs)) {
       this.animation!.select(this.runtime.state === 'follow' ? 'walk' : 'wait', this.actionToken);
     }
     // BaseObject.step expires setYourFather only after its count passes below zero.
@@ -261,6 +263,7 @@ export class PetCombatEntitySession {
   }
 
   face(direction: -1 | 1): void {
+    if (this.ground?.suppressTurning) return;
     this.runtime.facingX = direction;
     this.ground?.face(direction);
   }
@@ -269,6 +272,8 @@ export class PetCombatEntitySession {
     if (!Number.isSafeInteger(sourceCount) || sourceCount < 0) throw new Error('Invalid pet protection count');
     this.protectionCount = Math.max(this.protectionCount, sourceCount);
   }
+
+  restartAnimationCell(): void { this.animation?.restartCell(); }
 
   linkOwner(frame: PetCombatFrame, value: number, durationTicks: number): void {
     if (!frame.ownerCombat) throw new Error('TXLJ requires the actual owner combat port');
@@ -354,6 +359,13 @@ export class PetCombatEntitySession {
           settledDamage: event.amount, hpBefore, hpAfter: this.pet.hp,
         });
       }
+      if (event.sourceId && event.producerKind !== 'turtle-transfer' && this.behavior.targetsDamageSource?.()) {
+        const attacker = targets.find(target => target.id === event.sourceId && target.isAlive);
+        if (attacker) this.target = attacker;
+      }
+      if (event.knockback && !this.behavior.rejectKnockback?.(this.context(frame, targets))) {
+        this.ground?.applyKnockback(event.knockback);
+      }
       this.behavior.onDamaged(event, this.context(frame, targets));
       if (this.pet.hp <= 0) {
         this.beginDeath();
@@ -381,6 +393,7 @@ export class PetCombatEntitySession {
   private beginDeath(): void {
     if (this.phase !== 'alive') return;
     this.phase = 'dead-playing';
+    if (this.behavior.losesLifeOnDeath?.()) this.pet.lifetime = Math.max(0, this.pet.lifetime - 1);
     this.target = undefined;
     this.actionToken += 1;
     this.animation?.select('dead', this.actionToken);

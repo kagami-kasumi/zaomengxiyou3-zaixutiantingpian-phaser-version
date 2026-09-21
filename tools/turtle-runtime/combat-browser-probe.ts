@@ -9,9 +9,29 @@ import { applyHeroMagicShield } from '../../src/systems/HeroCombatSystem';
 import { createStage1CombatEnemy } from '../../src/systems/Stage1CombatSystem';
 
 let time = 0;
+const documentId = crypto.randomUUID();
 const rosters: Partial<Record<'p1' | 'p2', PetRoster>> = {};
 const activeScene = () => game.scene.getScenes(true).find(scene => readHeroPartyPresentationSnapshot(scene));
 Object.assign(window, { turtleCombatProbe: {
+  prepareVisualTargets() {
+    // Keep natural target positions/physics; incoming behavior has a separate
+    // resolver test. This visual fixture must not randomly interrupt its cast.
+    const scene = activeScene() as any;
+    for (const monster of scene?.getMonster30s?.() ?? []) {
+      monster.attackDecisionTimerMs = 1000000;
+      if (monster.state === 'hit1') { monster.state = 'wait'; monster.activeAttack = undefined; }
+    }
+  },
+  arm(skill: string, learned?: string[]) {
+    for (const roster of Object.values(rosters)) {
+      const pet = roster!.pets.find(p => p.isActive)!;
+      if (learned) pet.skills = learned;
+      for (const [name, state] of Object.entries(pet.skillState!)) {
+        if (name.startsWith('turtle') && typeof state === 'object' && state) (state as any).cooldownMs = 100000;
+      }
+      pet.skillState![skill === 'sybh' ? 'turtle3Sybh' : 'turtle4Xwaoyi'].cooldownMs = 0;
+    }
+  },
   linkSettlement() {
     const party = (window as any).__turtleParty;
     const members = party.compatibilityMembers();
@@ -36,14 +56,15 @@ Object.assign(window, { turtleCombatProbe: {
     const healing = heroes.map((h: any, i: number) => ({ hero: h.hp, pet: pets[i]!.hp }));
     return { before, damage, duplicate, healing };
   },
-  install(form: number, skills = ['sld']) {
+  install(form: number, skills = ['sld'], deferSkills = false) {
     const scene = activeScene() as any;
     if (!scene) throw Error('Production hero party is not ready');
     for (const slot of ['p1', 'p2'] as const) {
       const roster = createSeedPetRoster();
       for (const pet of roster.pets) {
         pet.id = `${slot}-${pet.id}`; pet.isActive = pet.species === 'turtle' && pet.form === form;
-        if (pet.isActive) Object.assign(pet, { skills, hp: 5000, maxHp: 10000, mp: 1000, maxMp: 1000, atk: 30, def: 100 });
+        if (pet.isActive) Object.assign(pet, { skills: deferSkills ? [] : skills, hp: 5000, maxHp: 10000,
+          mp: 1000, maxMp: 1000, atk: 1, def: 100 });
       }
       rosters[slot] = roster;
       // TestScene feeds this same public event from its roster each update.
@@ -56,7 +77,10 @@ Object.assign(window, { turtleCombatProbe: {
   },
   snapshot() {
     const scene = activeScene();
-    return { scene: scene?.scene.key, loading: scene?.load.isLoading(),
+    return { documentId, scene: scene?.scene.key, loading: scene?.load.isLoading(),
+      heroes: scene && readHeroPartyPresentationSnapshot(scene),
+      sandbox: scene?.scene.key === 'TestScene' ? { climb: (scene as any).verticalClimb,
+        monsters: (scene as any).getMonster30s().map((m: any) => ({ id: m.id, hp: m.hp, x: m.x, y: m.y, state: m.state })) } : undefined,
       pets: scene && readHeroPartyPetSnapshots(scene),
       stats: Object.fromEntries(Object.entries(rosters).map(([slot, roster]) => [slot, roster?.pets.find(p => p.isActive)])),
       views: scene?.children.list.filter(object => object.name.startsWith('pet-turtle-presentation:')).map(object => ({
@@ -69,7 +93,13 @@ Object.assign(window, { turtleCombatProbe: {
   },
   stop() { time = game.loop.now; game.loop.stop(); },
   compare(refs: any[]) { return compareCombatLayers(game, activeScene()!, refs, () => game.step(time, 0)); },
-  step(count: number) { for (let i = 0; i < count; i++) { time += 1000 / 30; game.step(time, 1000 / 30); } },
+  step(count: number) {
+    for (let i = 0; i < count; i++) {
+      // Manual Game.step does not update TimeStep.delta; TestScene reads that
+      // production field, so both consumers must receive the same host frame.
+      game.loop.delta = 1000 / 30; time += game.loop.delta; game.step(time, game.loop.delta);
+    }
+  },
   resume() { game.loop.start(game.step.bind(game)); },
   keys(codes: number[], down: boolean) {
     for (const scene of game.scene.getScenes(true)) for (const code of codes) {

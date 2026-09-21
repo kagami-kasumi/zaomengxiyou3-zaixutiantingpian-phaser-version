@@ -16,6 +16,8 @@ export type PetGroundMovementDefinition = Readonly<{
 }>;
 
 export class PetGroundSessionMovement {
+  suppressTurning = false;
+  private recoil: { initialX: number; elapsedMs: number } | undefined;
   private velocity = { velocityX: 0, velocityY: 0, direction: 0 as -1 | 0 | 1,
     standingOn: undefined as string | undefined };
 
@@ -30,11 +32,13 @@ export class PetGroundSessionMovement {
   }
 
   turnTo(x: number): void {
+    if (this.suppressTurning) return;
     this.velocity.direction = this.runtime.x > x ? -1 : 1;
     this.runtime.facingX = this.velocity.direction;
   }
 
   face(direction: -1 | 1): void {
+    if (this.suppressTurning) return;
     this.velocity.direction = direction;
     this.runtime.facingX = direction;
   }
@@ -76,13 +80,27 @@ export class PetGroundSessionMovement {
     this.runtime.state = 'warp';
   }
 
-  step(environment: PetGroundEnvironment, speed: number, action: string | undefined): boolean {
+  applyKnockback(value: Readonly<{ x: number; y: number }>): void {
+    this.velocity.velocityX = value.x * 2;
+    this.velocity.velocityY = value.y;
+    this.velocity.direction = value.x < 0 ? -1 : 1;
+    this.recoil = { initialX: value.x * 2, elapsedMs: 0 };
+  }
+
+  step(environment: PetGroundEnvironment, speed: number, action: string | undefined, suppressMove = false, deltaMs = 1000 / 24): boolean {
+    if (this.recoil) {
+      const t = Math.min(1, this.recoil.elapsedMs / 400);
+      this.velocity.velocityX = this.recoil.initialX * (0.2 + 0.8 * (1 - t) ** 3);
+      this.recoil.elapsedMs += deltaMs;
+      if (t === 1) this.recoil = undefined;
+    }
     const motion = { ...this.runtime, ...this.velocity };
     const result = stepPetGroundMotion(motion, {
       speed: this.definition.speedByAction?.[action ?? ''] ?? speed,
       gravity: this.definition.gravity, collision: this.definition.collision,
       walls: environment.walls, attacking: this.isAttacking(action), hurt: action === 'hurt',
       mayMoveDuringGroundAttack: action === undefined || !this.definition.immobileGroundActions.includes(action),
+      suppressMove,
     });
     this.runtime.x = motion.x;
     this.runtime.y = motion.y;

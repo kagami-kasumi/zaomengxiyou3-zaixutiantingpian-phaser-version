@@ -111,6 +111,7 @@ export type Stage1CombatEnemy = {
     attackKind: AttackKind;
     damage: number;
     attackRange: number;
+    knockback?: Readonly<{ x: number; y: number }>;
   }>;
   lastHitBy?: PlayerSlot;
   petHorseIceRemainingMs?: number;
@@ -360,6 +361,8 @@ export function resolveStage1EnemyPetAttack(params: Readonly<{
   }
   return {
     runtimeKey: target.runtimeKey,
+    reactsToHit: true,
+    knockback: enemy.activeAttack.knockback,
     amount: calculateStage1IncomingDamage(
       enemy.activeAttack.attackKind,
       enemy.activeAttack.damage,

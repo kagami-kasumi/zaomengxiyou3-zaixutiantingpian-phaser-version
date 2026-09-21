@@ -60,3 +60,5 @@ UI 原生化合同：
 - `npm run check:system-design -- pet P1T`。本批实现并注册该有界gate；独立语义/变异/生产trace支撑，非零阻塞结项。P1TA/P1TB只证明各批，P1T必须联合全部32合同；不降低既有P1R/P1H/P1G。
 
 2026-09-18依赖更新：父224A已Split为224A1→224A2→224A3，A3通过完整P1TA后才满足本项的224A前置；本项仍Planned，原范围/合同保持。
+
+2026-09-20激活：224B的13责任/P1TB=0通过，A的17责任/P1TA同次重验；本项唯一Ready。输入追加 `docs/tasks/evidence/TASK-SLICE-224B/handoff.md` 与 `tools/turtle-runtime/README.md`。C保留lifecycle.destroy/replace、完整32合同、五关/TestScene双owner及旧玄龟入口清零；须核定TestScene实例保留竖爬/刷怪状态对真实重试的影响，B视觉用例的document隔离不证明完整世界重试；不得把B的有限清理场景替代完整联合。沿用A2显示根/camera各轴≤0.5px取整例外，不外推碰撞；B实战PNG覆盖交集与A1全状态资源证据互补。

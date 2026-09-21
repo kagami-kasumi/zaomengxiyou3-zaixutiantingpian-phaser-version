@@ -96,6 +96,7 @@ export function createPetCombatContext(
       requireLiveSession();
       session.playAnimation(action);
     },
+    restartAnimationCell: () => { requireLiveSession(); session.restartAnimationCell(); },
     castSkill: (request) => castAt(request, targets),
     castSkillAt: (request, target) => castAt(request, [target]),
     castBasicAttack: () => {

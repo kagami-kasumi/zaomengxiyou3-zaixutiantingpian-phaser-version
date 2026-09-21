@@ -31,7 +31,8 @@ import { createAttackFlash, type AttackFlash } from './TestSceneViews';
 import { toPhaserRect } from './TestSceneGeometry';
 import type { ProjectileSystemModel } from '../../systems/ProjectileSystem';
 import { isRole1ShadowQaEnabled } from './TestSceneConfig';
-import { adaptTestScenePetEnemies } from './TestScenePetEnemyAdapter';
+import { adaptTestScenePetEnemies, resolveTestSceneTurtleIncoming } from './TestScenePetEnemyAdapter';
+import { hasTurtleAssets, requireTurtleAssets } from '../PetTurtleAssetBridge';
 import { claimMonsterExperienceForCurrentTarget } from '../../systems/PetSystem';
 import { FormalPetsUpdatedEvent } from '../feature-ui/FormalPetRuntimeBridge';
 import {
@@ -146,6 +147,7 @@ export function createTestSceneHeroPartyRuntime(
       });
     },
     updateNormalAttacks: (input, previousInput, timeMs, compatibility) => {
+      if (hasTurtleAssets(scene)) resolveTestSceneTurtleIncoming(runtime, scene.getMonster30s(), requireTurtleAssets(scene), timeMs);
       for (const slot of ['p1', 'p2'] as const) {
         scene.events.emit(FormalPetsUpdatedEvent, { owner: slot, roster: scene.playerPetRosters[slot] });
       }

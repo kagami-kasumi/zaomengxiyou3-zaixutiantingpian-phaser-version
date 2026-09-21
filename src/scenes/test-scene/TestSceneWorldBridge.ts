@@ -156,6 +156,7 @@ export function applySingleMonster30Attack(this: any, monster: Monster30Model, t
   }
 export function tryPetQlfjCounterAttack(this: any, monster: Monster30Model, time: number, slot: 'p1' | 'p2' = 'p1'): void {
     const roster = this.playerPetRosters[slot];
+    if (roster?.pets.some((pet: { species: string; isActive: boolean }) => pet.isActive && pet.species === 'turtle')) return;
     const result = requestPetQlfjCounterAttack({
       roster,
       runtime: slot === 'p1' ? this.petRuntime : this.p2PetRuntime,

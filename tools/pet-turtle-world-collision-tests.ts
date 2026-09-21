@@ -14,10 +14,10 @@ const monsterIds = [105, 107, 95].map(characterId => {
 let cases = 0;
 for await (const line of createInterface({ input: createReadStream('docs/tasks/evidence/TASK-SLICE-224A1/dynamic-call-oracle.jsonl'), crlfDelay: Infinity })) {
   const row = JSON.parse(line);
-  const parsed = /^(PetTurtle[12]Bullet[12])-(\d+)-s1-d(-?1)$/.exec(row.field);
+  const parsed = /^(PetTurtle[123]Bullet[123])-(\d+)-s([12])-d(-?1)$/.exec(row.field);
   if (!parsed) continue;
   const result = samplePetTurtleHit(assets, { symbol: parsed[1]!, nativeTick: Number(parsed[2]),
-    root: row.sourceRoot, facingX: -Number(parsed[3]) as -1 | 1 }, {
+    root: row.sourceRoot, scale: Number(parsed[3]) as 1 | 2, facingX: -Number(parsed[4]) as -1 | 1 }, {
     monsterId: monsterIds[row.targetIndex]!,
     x: row.targetDraw.x + row.intersection.x, y: row.targetDraw.y + row.intersection.y,
   });

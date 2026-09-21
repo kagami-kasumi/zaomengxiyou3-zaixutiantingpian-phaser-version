@@ -34,7 +34,7 @@ export class PetCombatRuntime {
     validatePetCombatFrame(frame);
     this.publishedEvents = [];
     const activePet = frame.roster.pets.find((pet) => (
-      pet.isActive && pet.lifetime > 0
+      pet.isActive && (pet.lifetime > 0 || (this.active?.pet === pet && this.active.phase === 'dead-playing'))
       && !(pet.hp <= 0 && this.completedDeadIdentity === `${pet.id}:${pet.species}:${pet.form}`)
     ));
     this.synchronizePet(activePet, frame.owner, frame.groundEnvironment?.ownerRootOffsetY);

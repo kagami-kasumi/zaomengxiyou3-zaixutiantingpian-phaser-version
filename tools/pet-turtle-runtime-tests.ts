@@ -97,7 +97,7 @@ for (const form of [1, 2, 3, 4] as const) for (const owner of ['p1', 'p2'] as co
   assert.equal(p.actionName, 'hit2');
   assert.equal(p.attackKind, form === 4 ? 'physics' : 'magic');
   const tickBefore = p.petHostTick!;
-  shield.step({ damageEvents: [{ runtimeKey: shield.runtime.snapshot().runtime!.runtimeKey, amount: 1 }] });
+  shield.step({ damageEvents: [{ runtimeKey: shield.runtime.snapshot().runtime!.runtimeKey, amount: 1, reactsToHit: true }] });
   assert.equal(shield.runtime.snapshot().animation?.action, 'hurt');
   assert.equal(p.petHostTick, tickBefore + 1);
   assert.equal(p.isExpired, false);
@@ -168,7 +168,7 @@ for (const form of [1, 2, 3, 4] as const) for (const owner of ['p1', 'p2'] as co
   }
 }
 
-// Ordered selection, one-frame sticky invalidation, and a deferred winning branch.
+// Ordered selection, one-frame sticky invalidation, and the winning SYBH branch.
 {
   const s = setup(4, 'p2', ['sybh', 'xwaoyi']);
   const far = { id: 'far', x: 1000, y: -30, isAlive: true }, near = { id: 'near', x: 100, y: -30, isAlive: true };
@@ -180,10 +180,9 @@ for (const form of [1, 2, 3, 4] as const) for (const owner of ['p1', 'p2'] as co
   s.pet.skillState!.turtle4Xwaoyi.cooldownMs = 0;
   const token = s.runtime.snapshot().actionToken;
   s.step({ targets: [near] });
-  const event = s.runtime.events().find(row => row.behaviorEvent?.type === 'pet-action-deferred');
-  assert.deepEqual(event?.behaviorEvent?.payload, { action: 'sybh' });
-  assert.equal(s.runtime.snapshot().actionToken, token);
-  assert.equal(s.pet.mp, 1000);
+  assert(s.runtime.events().some(row => row.behaviorEvent?.type === 'turtle-sybh-released'));
+  assert.equal(s.runtime.snapshot().actionToken, token! + 1);
+  assert.equal(s.pet.mp, 980);
   assert.equal(s.pet.skillState!.turtle2Txlj.cooldownMs, 0);
   assert.equal(s.projectiles.projectiles.length, 0);
   s.runtime.destroy();

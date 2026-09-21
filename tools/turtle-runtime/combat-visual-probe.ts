@@ -29,16 +29,28 @@ export async function compareCombatLayers(game: Phaser.Game, scene: Phaser.Scene
       const root = actual.getData('turtleOwners').root, viewport = actual.getData('turtleViewport');
       const image = new Image(); image.src = ref.url; await image.decode();
       context.clearRect(0, 0, 940, 590);
-      context.drawImage(image, root.x - ref.root.x - viewport.x, root.y - ref.root.y - viewport.y);
+      const dx = root.x - ref.root.x - viewport.x, dy = root.y - ref.root.y - viewport.y;
+      context.drawImage(image, dx, dy);
+      for (const pixel of ref.approvedPixels ?? []) {
+        const data = context.createImageData(1, 1); data.data.set(pixel.candidate);
+        context.putImageData(data, pixel.x + dx, pixel.y + dy);
+      }
       texture.refresh(); reference.setVisible(true);
       const expected = capture(); reference.setVisible(false); actual.setVisible(true);
       const observed = capture(); actual.setVisible(false);
-      let differentPixels = 0, maxDelta = 0;
+      let differentPixels = 0, maxDelta = 0, comparedPixels = 0;
       for (let i = 0; i < observed.length; i += 4) {
+        const x = i / 4 % 940, y = Math.floor(i / 4 / 940);
+        // A shifted native stage PNG only proves its captured rectangle. Full
+        // independent owner surfaces and every state are covered by P1TA0/225.
+        if (ref.boundedCapture && (x < dx || x >= dx + 940 || y < dy || y >= dy + 590)) continue;
+        comparedPixels++;
         if (observed.slice(i, i + 4).some((v, c) => v !== expected[i + c])) differentPixels++;
         for (let c = 0; c < 4; c++) maxDelta = Math.max(maxDelta, Math.abs(observed[i + c]! - expected[i + c]!));
       }
-      rows.push({ stateId: ref.stateId, root, viewport, nativeSha256: ref.sha256, differentPixels, maxDelta });
+      rows.push({ stateId: ref.stateId, root, viewport, nativeSha256: ref.sha256,
+        comparedPixels, excludedOutsideNativeCapture: 940 * 590 - comparedPixels,
+        approvedPixels: ref.approvedPixels?.length ?? 0, differentPixels, maxDelta });
     }
     return rows;
   } finally {

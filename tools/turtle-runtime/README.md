@@ -63,3 +63,26 @@ HTTP服务器可以原样发送gzip，也可以以Content-Encoding解码后返�
 - `npm run check:system-design -- pet P1TA`：强制组合P1TA1（含P1TA0）及上述链接验收，核销父A的17项；P1TB/P1T/all仍需后续任务。先build并启动4174 preview；不要同时启动第二个run-system-tests进程，它们共享临时编译目录。
 
 本批报告在本地`docs/tasks/evidence/TASK-SLICE-224A3/`。沿用原精确视觉/碰撞许可及A2显示根/camera各轴≤0.5px整数对齐，碰撞和时序不量化。完整32合同及五关家族生命周期不能由这两个场景的有限链接验收替代。
+
+## 224B 山岳庇护、奥义与受伤结算
+
+三/四阶SYBH由原本体hit3第2列倒计时10回调创建，scale分别1/2；普通效果末帧仍攻击，四阶命中间隔为`int(hostFps*0.25)`。hit3不锁地面移动。奥义MP≥30才可选但不扣MP，沿用SLD→TXLJ→SYBH→奥义的技能优先级；已学SLD在0/2/4秒免费释放，已学TXLJ立即链接，已学SYBH以direct=0、5秒TTL持续。18帧根与30帧子时间轴组合周期90，资源查询取模而不持第二时钟。TTL在检查攻击前到期，24fps下共有119次检查；AoyiBuff自身仍为14帧末帧销毁，不能误作5秒视觉。
+
+奥义5秒内阻止移动、转向、hurt/击退但不免HP；GXP阻止hurt/击退。QLFJ只从本宠物的有反应受伤触发，转嫁、HP-only、死亡不反击；TestScene英雄受伤旧入口排除玄龟，怪物实际攻击矩形经Party共享pet resolver回到原Session。击退先于hurt/counter，寿命只在首次死亡扣一次，寿命归零仍播完dead。计时由既有EntitySession host tick推进，暂停随宿主暂停；不使用独立墙钟回调。休息/替换/死亡/销毁停止后续免费释放，原1009已知缺陷不复制。完整五关生命周期责任仍属于224C。
+
+- `python tools/turtle-runtime/measure-caller-order.py --skills`：补测原BasePet调用顺序下的三四阶SYBH和奥义8组合，P1/P2共1,744个原生攻击入口；源与wrapper哈希绑定，范围为受控源方法而非完整原版AI。
+- `pet-turtle-skill-runtime-tests`：60组SYBH/奥义（20/24/30fps×双owner）、8组形态/owner hurt/death、技能门槛/顺序/远端、power与成功后快照刷新、防御、去重、非命中和真实TestScene入站矩形。预期来自221原始数值、原AS3与上述独立AIR轨迹。
+- `pet-turtle-world-collision-tests`：扩展至全部31,704个原生攻击入口，包括scale1/2的SYBH。世界边界保留Flash twip与Rectangle的加减顺序，不能用等价实数公式忽略浮点边缘像素。
+- `node tools/turtle-runtime/skill-mutations.mjs`：16类真实生产变异，包含owner/scale/mask/时点/优先级/间隔/TTL/免费MP/回调/hurt/移动/反击输入/概率边界/寿命/power/快照；正常trace禁止由失败子进程覆盖。
+- `node tools/turtle-runtime/run-combat-browser.mjs --skills`：Stage12/TestScene×SYBH3/4及奥义8组合×双玩家，940×590真实生产视图与独立原生图层比较。为防止预置期间先释放其他技能，暂停后才开启指定技能，攻击力1保留目标。每场保留技能可见时截图、采样与差异报告。
+- `npm run check:system-design -- pet P1TB`：强制组合P1TA全部资源/行为/链接回归、上述B语义/变异/浏览器及共享地面测试，不等于P1T或pet all。
+
+B实战参考图源为固定940×590原生截图，位移后仅比较该截图覆盖与当前视口的交集，报告明确记录被排除区域；不把原生截图外新露出部分声称为本次实战逐像素验证。全对象/完整状态仍由组合的A1/225独立owner资源及11,572态核对。原28态308视觉像素、20例70碰撞像素和A2根/camera取整例外均不扩大。Hover/pressed不适用。
+
+视觉场景在暂停后延后TestScene怪物攻击决策并结束已起手攻击，避免新增真实受击随机打断待观察动作；保留原目标坐标、物理与宠物自主追击。此控制同样用于A2/A3视觉回归，不声明敌方攻击对抗场景；真实受击矩形/HP/反击/去重由B入站语义测试独立验证。
+
+手动浏览器推进同时设置TimeStep.delta和Game.step的delta为1/30秒；前者是TestScene真实消费端，后者是正式关卡消费端。不能只传step参数而让TestScene读取暂停前的随机delta。
+
+各视觉case在检查restart旧纹理释放后，从新document初始化独立遭遇，并用documentId拒绝旧上下文；原TestScene实例的竖爬/刷怪状态并不因restart自动恢复新遭遇。所有视觉case设atk1避免准备期间清空目标，保留自然位置、AI选择/追击与真实释放；伤害数值由独立Runtime测试承担。纯restart的完整世界重试与全族清理归C核定，不以新document隔离冒充该合同完成。截图前额外完整render，防止图层比较的最后一层残留到PNG。
+
+运行只消费src/public；B原生轨迹与报告在本地`docs/tasks/evidence/TASK-SLICE-224B/`，复验需本地语料。A的17责任加B的13责任仍不等于C的完整32合同核销。

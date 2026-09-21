@@ -41,6 +41,7 @@ export function stepPetGroundMotion(
     attacking: boolean;
     hurt: boolean;
     mayMoveDuringGroundAttack: boolean;
+    suppressMove?: boolean;
   }>,
 ): Readonly<{ landed: boolean; hitHead: boolean; hitSide: boolean }> {
   const { collision } = input;
@@ -89,9 +90,11 @@ export function stepPetGroundMotion(
   }
   // The recovered BaseObject.isWalkOrRun() returns true; wait alone must not
   // discard an existing direction. setStatic is the operation that clears it.
-  motion.x += motion.velocityX;
-  motion.y += motion.velocityY;
-  motion.velocityY += input.gravity;
+  if (!input.suppressMove) {
+    motion.x += motion.velocityX;
+    motion.y += motion.velocityY;
+    motion.velocityY += input.gravity;
+  }
   return { landed, hitHead, hitSide };
 }
 

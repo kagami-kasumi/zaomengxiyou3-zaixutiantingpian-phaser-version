@@ -63,9 +63,9 @@ export function createPetTurtleCombatBridge(scene: Phaser.Scene) {
       }
       for (const projectile of projectiles) {
         if (projectile.isExpired || !sources.has(projectile.sourceId) || projectile.petHostTick === undefined
-          || !['pet-turtle-normal', 'pet-turtle-sld'].includes(projectile.variant)) continue;
+          || !['pet-turtle-normal', 'pet-turtle-sld', 'pet-turtle3-sybh', 'pet-turtle4-xwaoyi'].includes(projectile.variant)) continue;
         const state = requireTurtleAssets(scene).effect(projectile.sourceSymbol, Math.max(0, projectile.petHostTick - 1),
-          1, -projectile.facingX as -1 | 1);
+          projectile.petEffectScale ?? 1, -projectile.facingX as -1 | 1);
         draw(projectile.projectileId, state.id, projectile.x, projectile.y, 43);
       }
       for (const [key, view] of views) if (!live.has(key)) { view.presenter.destroy(); views.delete(key); }

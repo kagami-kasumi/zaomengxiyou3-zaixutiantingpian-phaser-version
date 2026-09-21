@@ -15,7 +15,7 @@ for (const form of [1, 2, 3, 4] as const) {
   assert.equal(createHash('sha256').update(source).digest('hex'), provenance.sha256);
   const text = source.toString('utf8');
   const enter = text.slice(text.indexOf('function enterFrameFunc'), text.indexOf('function beforeSkill1Start'));
-  for (const action of ['wait', 'walk', 'hurt', 'hit1', 'hit2', 'dead']) {
+  for (const action of ['wait', 'walk', 'hurt', 'hit1', 'hit2', ...(form >= 3 ? ['hit3'] : []), 'dead']) {
     for (const direct of [0, 1]) {
       const clock = createPetTurtleAnimationClock(assets, form);
       clock.select(action, 7);
@@ -39,7 +39,7 @@ for (const form of [1, 2, 3, 4] as const) {
         assert.deepEqual(hitEvents, expected, `${form}/${action} original enterFrameFunc callback`);
         assert.equal(hitEvents.length, 1);
       } else assert.deepEqual(hitEvents, []);
-      assert.equal(clock.snapshot().action, ['hurt', 'hit1', 'hit2'].includes(action) ? 'wait' : action);
+      assert.equal(clock.snapshot().action, ['hurt', 'hit1', 'hit2', 'hit3'].includes(action) ? 'wait' : action);
     }
   }
   const clock = createPetTurtleAnimationClock(assets, form);

@@ -8,45 +8,48 @@ import { samplePetTurtleHit } from './PetTurtleCollisionSystem';
 
 /** Private effect handles, advanced only by the public entity session. */
 export class PetTurtleProjectileSystem {
-  private bullets: { projectile: ProjectileModel; cache: DragonDamageCache; action: 'hit1' | 'hit2';
-    sourceX: number; sourceY: number; sourceMatrixA: -1 | 1; lastTick: number }[] = [];
+  private bullets: { projectile: ProjectileModel; cache: DragonDamageCache; action: 'hit1' | 'hit2' | 'hit3';
+    sourceX: number; sourceY: number; sourceMatrixA: -1 | 1; lastTick: number; timed: boolean; follows: boolean }[] = [];
   constructor(private readonly assets: PetTurtleAssets) {}
 
-  emit(context: PetBehaviorContext, action: 'hit1' | 'hit2'): void {
+  emit(context: PetBehaviorContext, action: 'hit1' | 'hit2' | 'hit3', aoyi = false, visualOnly = false): void {
     if (!context.projectileCombat) throw new Error('Turtle requires a real projectile combat port');
-    const form = context.pet.form, sld = action === 'hit2';
-    const symbol = sld ? 'PetTurtle1Bullet2' : form === 1 ? 'PetTurtle1Bullet1' : 'PetTurtle2Bullet1';
-    const offset = sld ? (form === 1 ? [75, -125] : form === 2 ? [80, -125] : [75, -115])
+    const form = context.pet.form, sld = action === 'hit2', sybh = action === 'hit3';
+    const scale = sybh && form === 4 && !visualOnly ? 2 : 1;
+    const symbol = visualOnly ? 'AoyiBuff' : sybh ? 'PetTurtle3Bullet3' : sld ? 'PetTurtle1Bullet2' : form === 1 ? 'PetTurtle1Bullet1' : 'PetTurtle2Bullet1';
+    const offset = visualOnly ? [0, 0] : sybh ? [0, -20] : sld ? (form === 1 ? [75, -125] : form === 2 ? [80, -125] : [75, -115])
       : form === 1 ? [85, -40] : form === 2 ? [95, -60] : [140, -75];
     const tree = this.assets.effect(symbol, 0, 1, 1).meta.tree!;
-    const lastTick = tree.totalFrames;
+    const lastTick = aoyi && !visualOnly ? context.hostFps * 5 : tree.totalFrames;
     if (!lastTick || !tree.localBounds) throw new Error(`Missing turtle effect lifetime ${symbol}`);
-    const cache = refreshPetTurtleDamage(context, action);
+    const rolledCache = refreshPetTurtleDamage(context, action);
+    const cache = visualOnly ? { ...rolledCache, hurt: 0, critical: false } : rolledCache;
     context.castSkill(({ roster, runtime, projectiles }) => {
       const projectile = spawnProjectileFromTuning(projectiles, {
-        sourceId: context.pet.id, x: twip(runtime.x), y: twip(runtime.y), facingX: runtime.facingX,
-      }, sld ? 'pet-turtle-sld' : 'pet-turtle-normal', sld ? 'turtle-sld' : 'turtle-normal', {
-        actionName: action, assetKey: '', sourceSymbol: symbol, runtimeName: symbol,
+        sourceId: context.pet.id, x: twip(runtime.x), y: twip(runtime.y), facingX: aoyi || visualOnly ? -1 : runtime.facingX,
+      }, visualOnly ? 'pet-turtle4-xwaoyi' : sybh ? 'pet-turtle3-sybh' : sld ? 'pet-turtle-sld' : 'pet-turtle-normal', symbol, {
+        actionName: visualOnly ? 'null' : action, assetKey: '', sourceSymbol: symbol, runtimeName: symbol,
         offsetX: offset[0]!, offsetY: offset[1]!, speedX: 0, speedY: 0, distance: undefined,
         width: tree.localBounds!.width, height: tree.localBounds!.height,
         lifetimeMs: lastTick * 1000 / context.hostFps, damage: cache.hurt,
-        attackKind: !sld || form === 4 ? 'physics' : 'magic',
-        knockbackX: runtime.facingX * (sld ? form === 4 ? 6 : 10 : 6), knockbackY: sld ? 0 : -5,
-        hitIntervalFrames: sld && form === 1 ? 7 : 999, maxHits: 99,
+        attackKind: sybh ? 'magic' : !sld || form === 4 ? 'physics' : 'magic',
+        knockbackX: runtime.facingX * (sybh ? form === 4 ? 2 : 5 : sld ? form === 4 ? 6 : 10 : 6), knockbackY: sld || sybh ? 0 : -5,
+        hitIntervalFrames: sybh && form === 4 ? Math.trunc(context.hostFps * 0.25) : sld && form === 1 ? 7 : 999, maxHits: 99,
       });
       projectile.petHostTick = 0; projectile.petActionToken = context.actionToken;
-      projectile.critical = cache.critical; projectile.destroyWhenSourceHurt = false;
+      projectile.petEffectScale = scale; projectile.visualOnly = visualOnly;
+      projectile.critical = cache.critical; projectile.destroyWhenSourceHurt = visualOnly;
       projectiles.projectiles.push(projectile);
       this.bullets.push({ projectile, cache, action, sourceX: twip(runtime.x), sourceY: twip(runtime.y),
-        sourceMatrixA: runtime.rootScaleX ?? 1, lastTick });
+        sourceMatrixA: runtime.rootScaleX ?? 1, lastTick, timed: aoyi && !visualOnly, follows: sld || visualOnly });
       const hpBefore = context.pet.hp;
-      if (sld) {
+      if (sld && !visualOnly) {
         const heal = getPetTurtleNoncriticalPower(context, action) >>> 0;
         context.healSelf(heal);
         if (form >= 2) context.healLinkedOwner(heal, form === 4 ? 'event' : 'direct');
       }
       context.emit({ type: 'turtle-projectile-created', payload: {
-        projectileId: projectile.projectileId, sourceId: context.pet.id, symbol, action,
+        projectileId: projectile.projectileId, sourceId: context.pet.id, symbol, action, scale,
         sourceRoot: { x: twip(runtime.x), y: twip(runtime.y) },
         x: projectile.x, y: projectile.y, hpBefore, hpAfter: context.pet.hp, cache,
       } });
@@ -62,13 +65,15 @@ export class PetTurtleProjectileSystem {
       const p = entry.projectile;
       if (p.isExpired) continue;
       const tick = p.petHostTick!;
+      // BaseBullet.step destroys timed effects before checkAttack on the expiry tick.
+      if (entry.timed && tick + 1 >= entry.lastTick) { p.isExpired = true; continue; }
       if (tick > 0 && tick % p.hitIntervalFrames === 0) p.hitSerial++;
-      for (const target of context.targets) {
+      for (const target of p.visualOnly ? [] : context.targets) {
         if (p.isExpired) break;
         const world = combat.target(target.id);
         if (!world?.alive) continue;
         const sample = samplePetTurtleHit(this.assets, {
-          symbol: p.sourceSymbol, nativeTick: tick, root: p, facingX: p.facingX,
+          symbol: p.sourceSymbol, nativeTick: tick, root: p, facingX: p.facingX, scale: p.petEffectScale,
         }, world);
         if (!sample.hit) continue;
         entry.cache = consumeDragonDamageCache(entry.cache, {
@@ -83,8 +88,9 @@ export class PetTurtleProjectileSystem {
       } });
       p.petHostTick = tick + 1; p.elapsedMs = (tick + 1) * 1000 / context.hostFps;
       if (tick + 1 === entry.lastTick) p.isExpired = true;
+      if (p.destroyWhenSourceHurt && context.animation?.action === 'hurt') p.isExpired = true;
       // FollowBaseObjectBullet applies root/matrix changes AFTER BaseBullet's checkAttack.
-      if (entry.action === 'hit2' && !p.isExpired) {
+      if (entry.follows && !p.isExpired) {
         const x = twip(context.runtime.x), y = twip(context.runtime.y);
         p.x = twip(p.x + x - entry.sourceX); p.y = twip(p.y + y - entry.sourceY);
         entry.sourceX = x; entry.sourceY = y;

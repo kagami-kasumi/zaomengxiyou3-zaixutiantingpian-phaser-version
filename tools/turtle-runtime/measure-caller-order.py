@@ -8,11 +8,14 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / 'local-resources/regima/task-outputs/TASK-SETTINGS-222A/dynamic-air'
-WORK = ROOT / 'local-resources/regima/task-outputs/TASK-SLICE-224A2/caller-order'
-OUT = ROOT / 'docs/tasks/evidence/TASK-SLICE-224A2'
+SKILLS = '--skills' in sys.argv
+TASK = 'TASK-SLICE-224B' if SKILLS else 'TASK-SLICE-224A2'
+WORK = ROOT / f'local-resources/regima/task-outputs/{TASK}/caller-order'
+OUT = ROOT / f'docs/tasks/evidence/{TASK}'
 SDK = Path('D:/AIRsdkmanager/sdk/AIRSDK_51.3.4')
 
 
@@ -43,6 +46,10 @@ def main():
  capture();addEventListener(Event.EXIT_FRAME,step);
 }
 ''' + probe[end:]
+    if SKILLS:
+        probe = probe.replace("maxTick=45;", "maxTick=151;")
+        probe = probe.replace("  make(form,owner,'normal');make(form,owner,'sld');",
+            "  if(form>=3)make(form,owner,'sybh');if(form==4)for(var mask:int=0;mask<8;mask++)make(4,owner,'aoyi',mask);")
     bullet_loop = '  for each(var b:BaseBullet in p.magicBulletArray.concat())if(!b.isReadyToDestroy)b.step2();'
     assert probe.count(bullet_loop) == 1
     probe = probe.replace(bullet_loop, '')
@@ -57,6 +64,7 @@ def main():
 public class CallerCapture {
  public static var scenario:String,tick:int;
  public static function observe(b:Object):void {
+  if(b.isReadyToDestroy)return;
   trace('CALL '+JSON.stringify({scenario:scenario,tick:tick,bullet:b.snapshot(),
    tree:NativeTree.tree(b.getImgMc(),b.getImgMc(),"root")}));
  }

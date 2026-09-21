@@ -62,6 +62,8 @@ export class PetTurtleAssets {
     return this.state(`body:turtle${form}-r${row}-c${column}-d${direct}-${owner}`);
   }
   effect(symbol: string, tick: number, scale: 1 | 2, sign: -1 | 1) {
+    // SYBH's independent 18/30-frame MovieClips repeat jointly every 90 frames.
+    if (symbol === 'PetTurtle3Bullet3' && tick >= 90) tick %= 90;
     return this.state(`effect:${symbol}:${tick}:s${scale}:d${sign}`);
   }
   linkOffset() {

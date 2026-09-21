@@ -58,6 +58,14 @@ export class PetAnimationClock {
     this.completed = false;
   }
 
+  restartCell(): void {
+    this.column = 0;
+    this.keyFrameIndex = 0;
+    this.remaining = this.definition(this.action).holds[0]!;
+    this.elapsed = 0;
+    this.completed = false;
+  }
+
   advance(deltaMs: number, hostFps: number,
     onEvent?: (event: PetAnimationClockEvent) => void): readonly PetAnimationClockEvent[] {
     if (!Number.isFinite(deltaMs) || deltaMs < 0 || !Number.isFinite(hostFps) || hostFps <= 0) {

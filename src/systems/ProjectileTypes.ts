@@ -54,6 +54,7 @@ export type ProjectileModel = {
   petActionToken?: number;
   /** Advanced by the source entity's host clock, never by the render-frame loop. */
   petHostTick?: number;
+  petEffectScale?: 1 | 2;
   petHealOnHit?: number;
   petComboTags?: string[];
   explosionDelayMs?: number;

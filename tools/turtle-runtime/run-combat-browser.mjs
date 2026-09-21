@@ -7,10 +7,13 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 
 const links = process.argv.includes('--links');
-const dir = 'dist/__turtle_combat', out = `docs/tasks/evidence/${links ? 'TASK-SLICE-224A3' : 'TASK-SLICE-224A2'}`;
+const skills = process.argv.includes('--skills');
+const dir = 'dist/__turtle_combat', out = `docs/tasks/evidence/${skills ? 'TASK-SLICE-224B' : links ? 'TASK-SLICE-224A3' : 'TASK-SLICE-224A2'}`;
 mkdirSync(dir, { recursive: true }); mkdirSync(out, { recursive: true });
 mkdirSync(`${dir}/native`, { recursive: true });
 const catalog = new Map();
+const approved = new Map(JSON.parse(readFileSync('docs/tasks/evidence/TASK-SLICE-224A1/visual-oracle.json', 'utf8'))
+  .map(row => [`${row.mode}:${row.nativeId}`, row.approvedPixels]));
 const native = name => JSON.parse(gunzipSync(readFileSync(`docs/tasks/evidence/TASK-SETTINGS-222A/${name}-native.json.gz`)));
 for (const row of native('body').cells) catalog.set(`body:${row.id}`, { file: row.file, root: row.root, sha256: row.sha256 });
 for (const row of native('effects').states) for (const baseline of row.baselines) {
@@ -20,7 +23,9 @@ function reference(view) {
   const ref = catalog.get(view.stateId); assert(ref, view.stateId);
   assert.equal(createHash('sha256').update(readFileSync(ref.file)).digest('hex'), ref.sha256);
   copyFileSync(ref.file, `${dir}/native/${ref.sha256}.png`);
-  return { ...ref, name: view.name, stateId: view.stateId, url: `./native/${ref.sha256}.png` };
+  const nativeId = view.stateId.startsWith('effect:') ? `effects:${view.stateId.slice(7)}` : view.stateId;
+  return { ...ref, approvedPixels: approved.get(nativeId) ?? [], boundedCapture: skills,
+    name: view.name, stateId: view.stateId, url: `./native/${ref.sha256}.png` };
 }
 await build({ entryPoints: ['tools/turtle-runtime/combat-browser-probe.ts'], bundle: true, format: 'iife',
   plugins: links ? [{ name: 'observe-existing-party', setup(build) {
@@ -76,20 +81,36 @@ try {
     await command('Page.navigate', { url: `http://127.0.0.1:4174/__turtle_combat/index.html?${route}&players=2` });
     await until(`window.turtleCombatProbe?.snapshot().scene === '${scene}'`, scene);
     const baselineSave = await evaluate('turtleCombatProbe.snapshot().storedSaves');
-    for (const form of links ? [2, 3, 4] : [1, 2, 3, 4]) {
-      if (form > (links ? 2 : 1)) {
+    const scenarios = skills ? [{ form: 3, id: 'sybh3', learned: ['sybh'] }, { form: 4, id: 'sybh4', learned: ['sybh'] },
+      ...Array.from({ length: 8 }, (_, mask) => ({ form: 4, id: `aoyi${mask}`,
+        learned: ['xwaoyi', ...['sld', 'txlj', 'sybh'].filter((_, i) => mask & (1 << i))] }))]
+      : (links ? [2, 3, 4] : [1, 2, 3, 4]).map(form => ({ form, id: `form${form}`, learned: links ? ['txlj', 'sld'] : ['sld'] }));
+    for (const [scenarioIndex, scenario] of scenarios.entries()) {
+      const { form, id: caseId, learned } = scenario;
+      if (scenarioIndex > 0) {
         const oldTextures = await evaluate('turtleCombatProbe.snapshot().textures');
         await evaluate('turtleCombatProbe.restart()');
         await until(`turtleCombatProbe.snapshot().scene === '${scene}' && ${JSON.stringify(oldTextures)}.every(k=>!turtleCombatProbe.snapshot().textures.includes(k))`, `${scene} replacement cleanup`);
+        // Each visual case needs a fresh encounter, rather than the sandbox's
+        // retained climb/spawn state. Restart texture disposal is checked above.
+        const oldDocument = await evaluate('turtleCombatProbe.snapshot().documentId');
+        await command('Page.navigate', { url: `http://127.0.0.1:4174/__turtle_combat/index.html?${route}&players=2` });
+        await until(`window.turtleCombatProbe?.snapshot().scene === '${scene}' && turtleCombatProbe.snapshot().documentId !== ${JSON.stringify(oldDocument)}`, `${scene} independent encounter`);
       }
-      await evaluate(`turtleCombatProbe.install(${form}, ${JSON.stringify(links ? ['txlj', 'sld'] : ['sld'])});`);
+      await evaluate(`turtleCombatProbe.install(${form}, ${JSON.stringify(learned)}, ${skills});`);
       await until(`Object.values(turtleCombatProbe.snapshot().pets ?? {}).filter(p=>p.species==='turtle'&&p.form===${form}).length===2`, `turtle${form} ready`);
-      await evaluate('turtleCombatProbe.stop(); turtleCombatProbe.keys([68,39],true)');
+      await evaluate('turtleCombatProbe.stop(); turtleCombatProbe.prepareVisualTargets(); turtleCombatProbe.keys([68,39],true)');
+      if (skills) await evaluate(`turtleCombatProbe.arm('${learned.includes('xwaoyi') ? 'xwaoyi' : 'sybh'}', ${JSON.stringify(learned)})`);
       const samples = [], differences = [], seen = new Set();
-      let settlement;
+      let settlement, capturedSkill = false;
       for (let frame = 0; frame < 60; frame++) {
         const sample = await evaluate('turtleCombatProbe.keys([68,39],true); turtleCombatProbe.step(5); turtleCombatProbe.snapshot()');
         samples.push(sample);
+        if (skills && !capturedSkill && sample.views.some(v => v.stateId?.includes(learned.includes('xwaoyi') ? 'AoyiBuff' : 'PetTurtle3Bullet3'))) {
+          const png = await command('Page.captureScreenshot', { format: 'png' });
+          writeFileSync(`${out}/skill-${scene}-${caseId}.png`, Buffer.from(png.data, 'base64'));
+          capturedSkill = true;
+        }
         if (links && !settlement && sample.views.filter(v => v.stateId?.startsWith('effect:PetTurtle2Buff:')).length === 4) {
           settlement = await evaluate('turtleCombatProbe.linkSettlement()');
           assert.deepEqual(settlement.damage, [{ hero: 405, pet: 494 }, { hero: 500, pet: 500 }]);
@@ -103,21 +124,24 @@ try {
         if (refs.length) {
           const diff = await evaluate(`turtleCombatProbe.compare(${JSON.stringify(refs)})`);
           differences.push(...diff);
-          assert(diff.every(row => row.differentPixels === 0), JSON.stringify(diff.filter(row => row.differentPixels)));
+          assert(diff.every(row => row.comparedPixels > 0 && row.differentPixels === 0),
+            JSON.stringify(diff.filter(row => !row.comparedPixels || row.differentPixels)));
           refs.forEach(ref => seen.add(`${ref.name}/${ref.stateId}`));
         }
       }
       await evaluate('turtleCombatProbe.keys([68,39],false)');
+      await evaluate('turtleCombatProbe.step(1)');
       const state = samples.at(-1);
       if (links) assert(settlement, `${scene}/${form}: missing actual dual-owner links/settlement`);
       assert.deepEqual(state.storedSaves, baselineSave, 'No fixture saves');
       const png = await command('Page.captureScreenshot', { format: 'png' });
-      writeFileSync(`${out}/combat-${scene}-form${form}.png`, Buffer.from(png.data, 'base64'));
-      writeFileSync(`${out}/combat-${scene}-form${form}.json`, JSON.stringify(samples) + '\n');
+      writeFileSync(`${out}/combat-${scene}-${caseId}.png`, Buffer.from(png.data, 'base64'));
+      writeFileSync(`${out}/combat-${scene}-${caseId}.json`, JSON.stringify(samples) + '\n');
       const effects = samples.filter(s => s.views.some(v => v.stateId?.startsWith('effect:'))).length;
       assert(effects > 0, `${scene}/${form} no real effects`);
-      writeFileSync(`${out}/differences-${scene}-form${form}.json`, JSON.stringify(differences) + '\n');
-      reports.push({ scene, form, samples: samples.length, effects, comparedLayers: differences.length, differentPixels: 0, settlement });
+      if (skills) assert(samples.some(s => s.views.some(v => v.stateId?.includes(learned.includes('xwaoyi') ? 'AoyiBuff' : 'PetTurtle3Bullet3'))), `${scene}/${caseId} missing production skill`);
+      writeFileSync(`${out}/differences-${scene}-${caseId}.json`, JSON.stringify(differences) + '\n');
+      reports.push({ scene, form, caseId, samples: samples.length, effects, comparedLayers: differences.length, differentPixels: 0, settlement });
       console.log(JSON.stringify(reports.at(-1)));
       await evaluate('turtleCombatProbe.resume()');
     }

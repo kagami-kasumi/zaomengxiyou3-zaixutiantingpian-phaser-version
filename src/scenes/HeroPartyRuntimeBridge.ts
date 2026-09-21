@@ -77,6 +77,8 @@ export type HeroPartyRuntime = Readonly<{
   applyEnvironmentHits: (hits: readonly HeroPartyEnvironmentHit[]) => void;
   resolveAttacks: (monsterTargets: readonly Stage1CombatEnemy[], timeMs: number) => void;
   resolveEnemyAttack: (enemy: Stage1CombatEnemy, timeMs: number) => void;
+  resolvePetEnemyAttack: (enemy: Stage1CombatEnemy, timeMs: number,
+    accepts?: (snapshot: PetCombatSnapshot) => boolean) => void;
   updatePets: (frame: Readonly<{
     targets: readonly PetSkillTarget[];
     combatEnemies?: readonly Stage1CombatEnemy[];
@@ -345,29 +347,13 @@ export function createHeroPartyRuntime(
     },
     resolveEnemyAttack: (enemy, timeMs) => {
       resolveHeroPartyEnemyAttack(model, enemy, timeMs);
-      for (const slot of ['p1', 'p2'] as const) {
-        const pet = getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' });
-        const snapshot = petCombatSnapshots[slot];
-        if (!pet || !snapshot?.runtime) continue;
-        const event = resolveStage1EnemyPetAttack({
-          runtime: model.combat,
-          enemy,
-          timeMs,
-          target: {
-            runtimeKey: snapshot.runtime.runtimeKey,
-            x: snapshot.runtime.x,
-            defense: pet.def,
-            hp: pet.hp,
-            protectedFromHits: snapshot.protectedFromHits,
-          },
-        });
-        if (event) pendingPetDamageEvents[slot] = [...(pendingPetDamageEvents[slot] ?? []), event];
-      }
+      resolvePetEnemyAttack(enemy, timeMs);
       model.members.forEach((member, index) => {
         const view = views[index];
         if (view) syncFallbackFeedback(view, member.combat);
       });
     },
+    resolvePetEnemyAttack,
     snapshots,
     petSnapshots: () => Object.freeze({ ...petCombatSnapshots }),
     hudSnapshots: () => model.members.map((member) => {
@@ -410,6 +396,28 @@ export function createHeroPartyRuntime(
   };
   heroPartyRuntimeByScene.set(scene, runtime);
   return runtime;
+
+  function resolvePetEnemyAttack(enemy: Stage1CombatEnemy, timeMs: number,
+    accepts?: (snapshot: PetCombatSnapshot) => boolean): void {
+      for (const slot of ['p1', 'p2'] as const) {
+        const pet = getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' });
+        const snapshot = petCombatSnapshots[slot];
+        if (!pet || !snapshot?.runtime || (accepts && !accepts(snapshot))) continue;
+        const event = resolveStage1EnemyPetAttack({
+          runtime: model.combat,
+          enemy,
+          timeMs,
+          target: {
+            runtimeKey: snapshot.runtime.runtimeKey,
+            x: snapshot.runtime.x,
+            defense: pet.def,
+            hp: pet.hp,
+            protectedFromHits: snapshot.protectedFromHits,
+          },
+        });
+        if (event) pendingPetDamageEvents[slot] = [...(pendingPetDamageEvents[slot] ?? []), event];
+      }
+  }
 
   function updatePets(frame: Readonly<{
     targets: readonly PetSkillTarget[];
