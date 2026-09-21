@@ -1,4 +1,19 @@
-# 玄龟生产资源消费（224A1）
+# 玄龟生产资源与完整家族验收
+
+## 224C 全家族生命周期与联合门禁
+
+2026-09-21：完整P1T退出0，32合同、20组四形态/五关双owner与5条结果重试/返回/重载旅程通过，666次实战图层对照无新增差异；check:all通过。证据与适用边界见 `docs/tasks/evidence/TASK-SLICE-224C/handoff.md`（仅本地）；下一任务226处理猴马时序，宠物总设计保持实施中。
+
+`TestSceneEncounterReset`只在上一局SHUTDOWN完成后、新Runtime创建前重置竖爬、刷怪、Boss、弹体、掉落和命中登记；Phaser DisplayList负责销毁旧显示对象，helper不拥有第二场景生命周期。正式四关仍复用既有PlayableLevelRuntime。旧TestScene玄龟四技能调用已移除，P1/P2统一进入原HeroParty的Registry/Runtime。
+
+Session释放立即按sourceId移除共享弹体，不依赖下一帧；`detachTurtleLink`断开主人buff的peer/reduceHp/pet引用，保留原版主人buff显示到期。替换后同名buff重新绑定新会话，过期事件不能结算到新宠；奥义回调仍只随原host tick推进，释放后无后续免费施法。
+
+- `node tools/run-system-tests.mjs pet-turtle-lifecycle-tests`：直接编译现有生产updatePets闭包，五关环境×四形态×双owner的实际怪物HP/来源、自疗、休息、替换、旧事件、死亡与立即销毁；TestScene适配真实Monster30。
+- `node tools/turtle-runtime/lifecycle-mutations.mjs`：独立断言拒绝owner引用、源弹体残留、休息遗漏、旧世界/镜头、正式目标丢失和错误命中owner七种真实生产变异。
+- `node tools/turtle-runtime/run-combat-browser.mjs --family`：940×590五关全四形态双人，实际生产图层与原生图层对照，休息/替换、失败结果的retry/back回调、同document重试、旧display销毁、整页重载与存档不变。Stage22使用既有`qaBossState=wait&qaNoDamage=1`维持视觉遭遇，真实承伤由独立结算测试覆盖；不称地火对抗全覆盖。`TURTLE_FAMILY_SCENE`只用于局部诊断，完整门禁要求20场景和五条旅程，不能以单关报告替代。
+- `npm run check:system-design -- pet P1T`：联合完整P1TB/P1TA/P1TA0全部语义、原生oracle、资源/画布/碰撞、八种奥义组合及变异；严格核销32项合同与C生命周期/五关。运行前build并开启4174 preview，不与另一system-tests进程并行。
+
+视觉和碰撞保持独立验收：原225的28态308像素、222B的20例70像素，以及A2显示根/camera各轴≤0.5px取整均不扩大。主人链接显示保留不等于允许旧owner引用残留。运行只依赖src/public；源级复验仍需本地语料和前置原生fixture。P1T不代表pet all或整条功能线关闭，猴马时序反证仍交226处理。
 
 开发检查频率：局部修改先跑受影响专项；跨公共路径迭代可运行 `npm run check:system-design -- pet P1TB --iteration`，保留22组静态/行为/碰撞/家族回归并延后六组完整资源/oracle生成/浏览器/变异检查，依赖本地已准备fixture。完整验收仍使用不带参数的gate，迭代通过不代表结项。下文逐态/碰撞的大数字是脚本内部数据量，不是同等数量的独立流程或人工评审；向对话只返回摘要与失败例。
 

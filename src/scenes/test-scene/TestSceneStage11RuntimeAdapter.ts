@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { resetTestSceneEncounter } from './TestSceneEncounterReset';
 import type { FormalPartyRuntime } from '../../systems/FormalPartyRuntimeSystem';
 import {
   isStage11DoorQaEnabled,
@@ -26,6 +27,7 @@ export function createTestSceneStage11Runtime(
   scene: Phaser.Scene & any,
   partyRuntime: FormalPartyRuntime,
 ): PlayableLevelRuntime {
+  resetTestSceneEncounter(scene, scene.scale.height);
   return createPlayableLevelRuntime(scene, partyRuntime, stage11LevelDefinition, {
     configureCamera: (runtimeScene) => {
       runtimeScene.cameras.main.scrollY = stage11LevelDefinition.worldBounds.height - 590;

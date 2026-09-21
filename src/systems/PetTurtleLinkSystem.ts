@@ -13,7 +13,7 @@ export type PetTurtleLinkBuff = {
   hostFps: number;
   pendingMs: number;
   peer?: () => PetTurtleLinkBuff | undefined;
-  pet: PetState;
+  pet?: PetState;
   reduceHp?: (amount: number, event: DamageEvent, timeMs: number) => void;
 };
 
@@ -51,6 +51,21 @@ export function isTurtleLinkPaired(buff: PetTurtleLinkBuff | undefined): buff is
   return !!(buff?.active && buff.peer?.()?.active && buff.peer()?.peer?.() === buff);
 }
 
+/** Keep the hero's original display lifetime, release references to the departed session. */
+export function detachTurtleLink(buff: PetTurtleLinkBuff | undefined): void {
+  if (!buff) return;
+  const peer = buff.peer?.();
+  if (peer?.peer?.() === buff) {
+    peer.peer = undefined;
+    peer.reduceHp = undefined;
+    peer.pet = undefined;
+  }
+  buff.active = false;
+  buff.peer = undefined;
+  buff.reduceHp = undefined;
+  buff.pet = undefined;
+}
+
 export function redirectTurtleLinkDamage(hero: HeroCombatModel, amount: number, event: DamageEvent, timeMs: number): number {
   const buff = hero.turtleLink;
   if (!isTurtleLinkPaired(buff)) return amount;
@@ -68,7 +83,7 @@ export function applyHeroHealing(hero: HeroCombatModel, amount: number): number 
   const buff = hero.turtleLink;
   if (isTurtleLinkPaired(buff)) {
     heal = (((heal | 0) * 1.05) | 0);
-    if (buff.pet.hp > 0) buff.pet.hp = Math.min(buff.pet.maxHp, buff.pet.hp + heal);
+    if (buff.pet && buff.pet.hp > 0) buff.pet.hp = Math.min(buff.pet.maxHp, buff.pet.hp + heal);
   }
   const before = hero.hp;
   hero.hp = Math.min(hero.maxHp, hero.hp + heal);

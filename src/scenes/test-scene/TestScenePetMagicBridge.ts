@@ -31,10 +31,6 @@ import {
   requestPetMonkey3LyqSkill,
   requestPetMonkey3XjSkill,
   requestPetMonkey4JgaoyiSkill,
-  requestPetTurtle1SldSkill,
-  requestPetTurtle2TxljSkill,
-  requestPetTurtle3SybhSkill,
-  requestPetTurtle4XwaoyiSkill,
   requestPetUfo1PmsSkill,
   requestPetUfo2SsSkill,
   requestPetUfo3KmskSkill,
@@ -329,75 +325,6 @@ function updatePetSystemForOwner(this: any, delta: number): void {
         runtime: this.petRuntime,
         targets: this.createPetSkillTargets(),
         projectiles: this.projectileSystem,
-      });
-      if (result.ok) {
-        this.syncPetView(activePet);
-        return;
-      }
-    }
-    // ─── turtle chain ───
-    if (
-      activePet.species === 'turtle' &&
-      activePet.form === 4 &&
-      (activePet.skillState?.turtle4Xwaoyi.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
-    ) {
-      const result = requestPetTurtle4XwaoyiSkill({
-        roster: this.petRoster,
-        runtime: this.petRuntime,
-        targets: this.createPetSkillTargets(),
-        projectiles: this.projectileSystem,
-        ownerStats: petAutoBuffOwnerStats,
-      });
-      if (result.ok) {
-        owner.combat.hp = petAutoBuffOwnerStats.hp;
-        this.syncPetView(activePet);
-        return;
-      }
-    }
-    if (
-      activePet.species === 'turtle' &&
-      activePet.form === 3 &&
-      (activePet.skillState?.turtle3Sybh.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
-    ) {
-      const result = requestPetTurtle3SybhSkill({
-        roster: this.petRoster,
-        runtime: this.petRuntime,
-        targets: this.createPetSkillTargets(),
-        projectiles: this.projectileSystem,
-      });
-      if (result.ok) {
-        this.syncPetView(activePet);
-        return;
-      }
-    }
-    if (
-      activePet.species === 'turtle' &&
-      activePet.form !== 3 &&
-      activePet.skills.includes('sld') &&
-      (activePet.skillState?.turtle1Sld.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
-    ) {
-      const result = requestPetTurtle1SldSkill({
-        roster: this.petRoster,
-        runtime: this.petRuntime,
-        targets: this.createPetSkillTargets(),
-        projectiles: this.projectileSystem,
-        ownerStats: petAutoBuffOwnerStats,
-      });
-      if (result.ok) {
-        owner.combat.hp = petAutoBuffOwnerStats.hp;
-        this.syncPetView(activePet);
-        return;
-      }
-    }
-    if (
-      activePet.species === 'turtle' &&
-      activePet.form === 2 &&
-      (activePet.skillState?.turtle2Txlj.cooldownMs ?? Number.POSITIVE_INFINITY) <= 0
-    ) {
-      const result = requestPetTurtle2TxljSkill({
-        roster: this.petRoster,
-        runtime: this.petRuntime,
-        targets: this.createPetSkillTargets(),
       });
       if (result.ok) {
         this.syncPetView(activePet);

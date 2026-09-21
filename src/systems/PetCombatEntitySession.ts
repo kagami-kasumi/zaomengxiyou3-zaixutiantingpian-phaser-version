@@ -16,7 +16,7 @@ import { PetGroundSessionMovement } from './PetGroundSessionMovement';
 import { PetGroundOwnerAnchors } from '../assets/PetGroundEnvironmentAssets';
 import type { PetBehaviorAction } from './PetBehavior';
 import { recordIncomingDamageFeedback } from './IncomingDamageFeedbackSystem';
-import { refreshTurtleLink, stepTurtleLink, isTurtleLinkPaired, type PetTurtleLinkBuff } from './PetTurtleLinkSystem';
+import { refreshTurtleLink, stepTurtleLink, isTurtleLinkPaired, detachTurtleLink, type PetTurtleLinkBuff } from './PetTurtleLinkSystem';
 
 type EntityPorts = Readonly<{
   publish: (event: Omit<PetCombatRuntimeEvent, 'sequence'>) => void;
@@ -332,11 +332,11 @@ export class PetCombatEntitySession {
     if (this.released) return;
     this.released = true;
     this.releaseReason = reason;
-    if (this.turtleLink) this.turtleLink.active = false;
+    detachTurtleLink(this.turtleLink);
     const failures: unknown[] = [];
     try { this.behavior.destroy(reason); } catch (error) { failures.push(error); }
     try { this.ports.releaseChildren(reason); } catch (error) { failures.push(error); }
-    if (this.parentRuntimeKey && this.projectiles) {
+    if (this.projectiles) {
       this.projectiles.projectiles = this.projectiles.projectiles.filter(({ sourceId }) => sourceId !== this.pet.id);
     }
     try { this.publish({ type: 'deactivated', reason }); } catch (error) { failures.push(error); }

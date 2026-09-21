@@ -130,6 +130,14 @@ const contracts = {
     },
   },
   pet: {
+    P1T(errors, tests) {
+      contracts.pet.P1TB(errors, tests);
+      forbidAcross(petTestConsumers, [['legacy turtle skill calls', /requestPetTurtle\d\w*Skill/u]], errors);
+      requireMatches('src/scenes/test-scene/TestSceneStage11RuntimeAdapter.ts', [
+        ['fresh encounter before runtime creation', /resetTestSceneEncounter\(scene, scene.scale.height\)/u],
+      ], errors);
+      for (const name of ['pet-turtle-lifecycle-tests', 'pet-turtle-family-acceptance-tests']) requireTest(name, tests, errors);
+    },
     P1TB(errors, tests) {
       contracts.pet.P1TA(errors, tests);
       requireMatches('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', [

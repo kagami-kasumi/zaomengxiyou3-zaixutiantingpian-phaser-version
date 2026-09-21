@@ -7,12 +7,52 @@ import { compareCombatLayers } from './combat-visual-probe';
 import { applyHeroHealing } from '../../src/systems/PetTurtleLinkSystem';
 import { applyHeroMagicShield } from '../../src/systems/HeroCombatSystem';
 import { createStage1CombatEnemy } from '../../src/systems/Stage1CombatSystem';
+import { LevelResultAssetKeys } from '../../src/assets/AssetManifest';
 
 let time = 0;
 const documentId = crypto.randomUUID();
 const rosters: Partial<Record<'p1' | 'p2', PetRoster>> = {};
+let oldDisplayObjects: any[] = [];
 const activeScene = () => game.scene.getScenes(true).find(scene => readHeroPartyPresentationSnapshot(scene));
 Object.assign(window, { turtleCombatProbe: {
+  retainOldDisplays() { oldDisplayObjects = [...(activeScene()?.children.list ?? [])]; return oldDisplayObjects.length; },
+  oldDisplaysReleased() { return oldDisplayObjects.every(object => !object.scene && !object.active); },
+  rest(slot: 'p1' | 'p2') {
+    const roster = rosters[slot]!;
+    roster.pets.forEach(p => { p.isActive = false; });
+    activeScene()!.events.emit(FormalPetsUpdatedEvent, { owner: slot, roster });
+  },
+  fail() {
+    const party = (window as any).__turtleParty;
+    for (const member of party.compatibilityMembers()) {
+      member.combat.combat.hp = 0; member.combat.combat.state = 'dead';
+    }
+  },
+  pressResult(action: 'retry' | 'back') {
+    const visit = (objects: any[]): any => {
+      for (const object of objects) {
+        if (object.texture?.key === (action === 'retry' ? LevelResultAssetKeys.retryUp : LevelResultAssetKeys.backUp)) return object;
+        const child = object.list && visit(object.list); if (child) return child;
+      }
+    };
+    const button = visit(activeScene()!.children.list);
+    if (!button) throw Error(`Missing real failure result ${action} button`);
+    button.emit('pointerup');
+  },
+  worldIdentity() {
+    const scene = activeScene() as any;
+    return scene?.scene.key === 'TestScene' ? { cameraY: scene.verticalClimb.cameraY,
+      targetCameraY: scene.verticalClimb.targetCameraY, spawnTimerMs: scene.verticalClimb.spawnTimerMs,
+      ids: scene.getMonster30s().map((m: any) => m.id) } : undefined;
+  },
+  markOldWorld() {
+    const scene = activeScene() as any;
+    if (scene?.scene.key === 'TestScene') {
+      scene.verticalClimb.cameraY = -123;
+      scene.verticalClimb.targetCameraY = -456;
+      scene.verticalClimb.spawnTimerMs = 999999;
+    }
+  },
   prepareVisualTargets() {
     // Keep natural target positions/physics; incoming behavior has a separate
     // resolver test. This visual fixture must not randomly interrupt its cast.

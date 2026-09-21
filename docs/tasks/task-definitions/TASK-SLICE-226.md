@@ -4,7 +4,7 @@
 
 任务模型：`常规任务`
 
-功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务Planned）
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务Ready）
 
 目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-012`、`VS-067`
 
@@ -28,7 +28,7 @@
 - 归并检查点：实现前、验收前
 - 方法观测：无
 
-前置与排期：224C完成后激活本项，先于下一新宠物家族和194。当前不执行重做，224C仍唯一Ready；其猴马回归只能证明未新增回归，不能核销本项。
+前置与排期：224C已完成全32合同/P1T，本项唯一Ready，先于下一新宠物家族和194。224C猴马回归只证明未新增回归，不能核销本项的原版相位反证。
 
 输入资料：
 - `docs/workflow/reverse-engineering-protocol.md`、`docs/architecture/src-boundaries.md`、`docs/architecture/system-designs/pet.md`（实施中、未退出）。

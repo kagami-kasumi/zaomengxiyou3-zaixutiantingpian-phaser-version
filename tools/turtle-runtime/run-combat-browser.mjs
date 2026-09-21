@@ -8,7 +8,8 @@ import assert from 'node:assert/strict';
 
 const links = process.argv.includes('--links');
 const skills = process.argv.includes('--skills');
-const dir = 'dist/__turtle_combat', out = `docs/tasks/evidence/${skills ? 'TASK-SLICE-224B' : links ? 'TASK-SLICE-224A3' : 'TASK-SLICE-224A2'}`;
+const family = process.argv.includes('--family');
+const dir = 'dist/__turtle_combat', out = `docs/tasks/evidence/${family ? 'TASK-SLICE-224C' : skills ? 'TASK-SLICE-224B' : links ? 'TASK-SLICE-224A3' : 'TASK-SLICE-224A2'}`;
 mkdirSync(dir, { recursive: true }); mkdirSync(out, { recursive: true });
 mkdirSync(`${dir}/native`, { recursive: true });
 const catalog = new Map();
@@ -28,7 +29,7 @@ function reference(view) {
     name: view.name, stateId: view.stateId, url: `./native/${ref.sha256}.png` };
 }
 await build({ entryPoints: ['tools/turtle-runtime/combat-browser-probe.ts'], bundle: true, format: 'iife',
-  plugins: links ? [{ name: 'observe-existing-party', setup(build) {
+  plugins: links || family ? [{ name: 'observe-existing-party', setup(build) {
     build.onLoad({ filter: /HeroPartyRuntimeBridge\.ts$/ }, ({ path }) => ({ loader: 'ts',
       contents: readFileSync(path, 'utf8').replace('heroPartyRuntimeByScene.set(scene, runtime);',
         'heroPartyRuntimeByScene.set(scene, runtime); (globalThis as any).__turtleParty = runtime;') }));
@@ -43,7 +44,7 @@ const edge = spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe
 ], { stdio: 'ignore', windowsHide: true });
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 let socket, id = 0;
-const pending = new Map(), errors = [], reports = [];
+const pending = new Map(), errors = [], reports = [], journeys = [];
 async function command(method, params = {}) {
   const key = ++id;
   const result = new Promise((resolve, reject) => {
@@ -74,13 +75,17 @@ try {
     const message = JSON.parse(data);
     if (message.id) { const waiter = pending.get(message.id); pending.delete(message.id); if (message.error) waiter?.reject(message.error); else waiter?.resolve(message.result); }
     else if (message.method === 'Runtime.exceptionThrown') errors.push(message.params);
+    else if (message.method === 'Runtime.consoleAPICalled' && ['error', 'warning'].includes(message.params.type)) errors.push(message.params);
   });
   await command('Runtime.enable'); await command('Page.enable');
   await command('Emulation.setDeviceMetricsOverride', { width: 940, height: 590, deviceScaleFactor: 1, mobile: false });
-  for (const [route, scene] of [['qaStage=1-2', 'Stage12Scene'], ['qaStage=1-1-role1', 'TestScene']]) {
+  for (const [route, scene] of [['qaStage=1-2', 'Stage12Scene'], ['qaStage=1-1-role1', 'TestScene'],
+    ...(family ? [['qaStage=1-3', 'Stage13Scene'], ['qaStage=2-1', 'Stage21Scene'], ['qaBossState=wait&qaNoDamage=1', 'Stage22Scene']] : [])]) {
+    if (family && process.env.TURTLE_FAMILY_SCENE && scene !== process.env.TURTLE_FAMILY_SCENE) continue;
     await command('Page.navigate', { url: `http://127.0.0.1:4174/__turtle_combat/index.html?${route}&players=2` });
     await until(`window.turtleCombatProbe?.snapshot().scene === '${scene}'`, scene);
     const baselineSave = await evaluate('turtleCombatProbe.snapshot().storedSaves');
+    const initialWorld = family ? await evaluate('turtleCombatProbe.worldIdentity()') : undefined;
     const scenarios = skills ? [{ form: 3, id: 'sybh3', learned: ['sybh'] }, { form: 4, id: 'sybh4', learned: ['sybh'] },
       ...Array.from({ length: 8 }, (_, mask) => ({ form: 4, id: `aoyi${mask}`,
         learned: ['xwaoyi', ...['sld', 'txlj', 'sybh'].filter((_, i) => mask & (1 << i))] }))]
@@ -93,9 +98,11 @@ try {
         await until(`turtleCombatProbe.snapshot().scene === '${scene}' && ${JSON.stringify(oldTextures)}.every(k=>!turtleCombatProbe.snapshot().textures.includes(k))`, `${scene} replacement cleanup`);
         // Each visual case needs a fresh encounter, rather than the sandbox's
         // retained climb/spawn state. Restart texture disposal is checked above.
+        if (!family) {
         const oldDocument = await evaluate('turtleCombatProbe.snapshot().documentId');
         await command('Page.navigate', { url: `http://127.0.0.1:4174/__turtle_combat/index.html?${route}&players=2` });
         await until(`window.turtleCombatProbe?.snapshot().scene === '${scene}' && turtleCombatProbe.snapshot().documentId !== ${JSON.stringify(oldDocument)}`, `${scene} independent encounter`);
+        }
       }
       await evaluate(`turtleCombatProbe.install(${form}, ${JSON.stringify(learned)}, ${skills});`);
       await until(`Object.values(turtleCombatProbe.snapshot().pets ?? {}).filter(p=>p.species==='turtle'&&p.form===${form}).length===2`, `turtle${form} ready`);
@@ -143,16 +150,59 @@ try {
       writeFileSync(`${out}/differences-${scene}-${caseId}.json`, JSON.stringify(differences) + '\n');
       reports.push({ scene, form, caseId, samples: samples.length, effects, comparedLayers: differences.length, differentPixels: 0, settlement });
       console.log(JSON.stringify(reports.at(-1)));
+      if (family) {
+        const beforeRest = await evaluate('turtleCombatProbe.snapshot()');
+        await evaluate("turtleCombatProbe.rest('p1'); turtleCombatProbe.step(2)");
+        const rested = await evaluate('turtleCombatProbe.snapshot()');
+        assert.equal(rested.pets.p1.runtime, undefined);
+        assert.equal(rested.pets.p2.runtime.runtimeKey, beforeRest.pets.p2.runtime.runtimeKey);
+        assert.equal(rested.views.filter(v => v.stateId.startsWith('body:')).length, 1);
+        await evaluate(`turtleCombatProbe.install(${form}, ['sld']); turtleCombatProbe.step(2)`);
+        const replaced = await evaluate('turtleCombatProbe.snapshot()');
+        assert.notEqual(replaced.pets.p1.runtime.runtimeKey, beforeRest.pets.p1.runtime.runtimeKey);
+        reports.at(-1).restAndReplace = true;
+      }
       await evaluate('turtleCombatProbe.resume()');
     }
     const oldTextures = await evaluate('turtleCombatProbe.snapshot().textures');
-    await evaluate('turtleCombatProbe.restart()');
+    const documentBeforeRetry = await evaluate('turtleCombatProbe.snapshot().documentId');
+    const worldBeforeRetry = family ? await evaluate('turtleCombatProbe.worldIdentity()') : undefined;
+    if (family) assert(await evaluate('turtleCombatProbe.retainOldDisplays()') > 0);
+    if (family) await evaluate('turtleCombatProbe.stop(); turtleCombatProbe.fail(); turtleCombatProbe.step(120); turtleCombatProbe.markOldWorld(); turtleCombatProbe.pressResult("retry"); turtleCombatProbe.resume()');
+    else await evaluate('turtleCombatProbe.restart()');
     await until(`turtleCombatProbe.snapshot().scene === '${scene}' && ${JSON.stringify(oldTextures)}.every(k=>!turtleCombatProbe.snapshot().textures.includes(k))`, `${scene} restart cleanup`);
-    await evaluate('turtleCombatProbe.stop(); turtleCombatProbe.leave(); turtleCombatProbe.step(2)');
+    if (family) {
+      assert.equal(await evaluate('turtleCombatProbe.snapshot().documentId'), documentBeforeRetry, 'Retry must reuse the same document');
+      if (scene === 'TestScene') {
+        const world = await evaluate('turtleCombatProbe.worldIdentity()');
+        assert(!world.ids.some(id => worldBeforeRetry.ids.includes(id)), 'Retry cannot retain old monsters');
+        assert.equal(world.cameraY, initialWorld.cameraY, 'Retry restores the bottom of the climb');
+        assert.equal(world.targetCameraY, initialWorld.targetCameraY);
+        assert(world.spawnTimerMs < 999999, 'Retry discards the previous spawn timer');
+      }
+    }
+    if (family) {
+      await evaluate('turtleCombatProbe.stop(); turtleCombatProbe.fail(); turtleCombatProbe.step(120); turtleCombatProbe.pressResult("back"); turtleCombatProbe.resume()');
+      await until('!turtleCombatProbe.snapshot().scene && turtleCombatProbe.snapshot().textures.length === 0', `${scene} real back route shutdown`);
+    }
+    else await evaluate('turtleCombatProbe.stop(); turtleCombatProbe.leave(); turtleCombatProbe.step(2)');
     assert.deepEqual(await evaluate('turtleCombatProbe.snapshot().textures'), [], `${scene} leaked turtle textures`);
+    if (family) {
+      assert(await evaluate('turtleCombatProbe.oldDisplaysReleased()'), 'Phaser shutdown must destroy old displays before references are reset');
+      await command('Page.navigate', { url: `http://127.0.0.1:4174/__turtle_combat/index.html?${route}&players=2` });
+      await until(`window.turtleCombatProbe?.snapshot().scene === '${scene}' && turtleCombatProbe.snapshot().documentId !== ${JSON.stringify(documentBeforeRetry)}`, `${scene} reload`);
+      await evaluate('turtleCombatProbe.install(4, ["sld"])');
+      await until("Object.values(turtleCombatProbe.snapshot().pets ?? {}).filter(p=>p.species==='turtle').length===2", `${scene} reload pet owners`);
+      assert.deepEqual(await evaluate('turtleCombatProbe.snapshot().storedSaves'), baselineSave);
+      await evaluate('turtleCombatProbe.stop(); turtleCombatProbe.leave(); turtleCombatProbe.step(2)');
+      assert.deepEqual(await evaluate('turtleCombatProbe.snapshot().textures'), []);
+      journeys.push({ scene, sameDocumentRetry: true, failedPartyBeforeRetry: true, oldDisplaysReleased: true,
+        returnedWithZeroTextures: true, newDocumentReload: true, bothOwnersReloaded: true, savesUnchanged: true,
+        ...(scene === 'TestScene' ? { oldWorldMarkerDiscarded: true, oldMonsterIdsDiscarded: true } : {}) });
+    }
   }
   assert.deepEqual(errors, []);
-  writeFileSync(`${out}/combat-browser.json`, JSON.stringify({ status: 'passed', viewport: { width: 940, height: 590 }, reports, errors }, null, 2) + '\n');
+  writeFileSync(`${out}/combat-browser.json`, JSON.stringify({ status: 'passed', viewport: { width: 940, height: 590 }, reports, journeys, errors }, null, 2) + '\n');
 } finally {
   if (socket?.readyState === WebSocket.OPEN) await command('Browser.close').catch(() => {});
   socket?.close(); edge.kill();
