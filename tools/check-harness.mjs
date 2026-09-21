@@ -54,19 +54,18 @@ export function validate(documents, { checkSnapshot = true } = {}) {
     const decisions = directives.filter(line => /先|拆分|处理/.test(line));
     if (decisions.length !== 1 || decisions[0] !== expected) errors.push(`${file}: structure decisions must delegate to AGENTS rule 7`);
   }
-  for (const file of ['AGENTS.md', 'CLAUDE.md', 'docs/workflow/agent-protocol.md']) {
-    if (/(?:首次|第一次|第二次|二次)\s*compact\s*(?:后|时)?\s*(?:只|不得|必须|强制|即视为)|允许一次\s*compact/.test(documents[file])) errors.push(`${file}: compact count must not force stopping or handoff`);
+  for (const file of ['AGENTS.md', 'CLAUDE.md', 'docs/workflow/agent-protocol.md', 'docs/workflow/code-quality-gates.md', 'docs/workflow/task-generation.md']) {
+    if (/(?:首次|第一次|第二次|二次)\s*compact\s*(?:后|时)?\s*(?:只|不得|必须|强制|即视为)|允许一次\s*compact|first compact[\s\S]*?finish only/i.test(documents[file])) errors.push(`${file}: compact count must not force stopping or handoff`);
   }
   const scripts = JSON.parse(documents['package.json']).scripts;
   if (scripts['check:harness'] !== 'node --test tools/check-harness.test.mjs && node tools/check-harness.mjs && node tools/run-problem-audit.mjs --validate') errors.push('check:harness must retain its isolated checks');
-  if (!scripts['check:workflow']?.startsWith('npm run check:harness && node tools/validate-workflow.mjs &&')) errors.push('check:workflow must include harness and legacy validation');
-  for (const gate of ['node tools/validate-asset-annotations.mjs', 'npm run check:level-architecture']) {
-    if (!scripts['check:workflow']?.includes(gate)) errors.push(`check:workflow must retain ${gate}`);
-  }
+  if (scripts['check:workflow'] !== 'npm run check:harness && node tools/validate-workflow.mjs') errors.push('check:workflow must include only harness and legacy validation');
+  if (scripts['check:workflow:full'] !== 'npm run check:workflow && node tools/validate-asset-annotations.mjs && npm run check:level-architecture') errors.push('check:workflow:full must retain asset and level checks exactly once');
+  if (scripts['check:all'] !== 'npm run check:workflow:full && npm run check:structure && npm run check:code') errors.push('check:all must retain full workflow and code checks exactly once');
   return errors;
 }
 
-const files = ['AGENTS.md', 'CLAUDE.md', 'docs/workflow/agent-protocol.md', 'docs/workflow/README.md',
+const files = ['AGENTS.md', 'CLAUDE.md', 'docs/workflow/agent-protocol.md', 'docs/workflow/code-quality-gates.md', 'docs/workflow/task-generation.md', 'docs/workflow/README.md',
   'docs/workflow/document-map.md', 'docs/tasks/task-board.md', 'docs/tasks/execution-queue.md',
   'docs/tasks/feature-lines.md', 'package.json'];
 

@@ -1,4 +1,5 @@
 import horseFamilyTruthJson from '../../../docs/reverse-engineering/ground-truth/manifests/task-settings-209-pet-horse-family.json';
+import { PetNormalAttackDecision } from '../PetNormalAttackDecision';
 import type {
   PetBehavior,
   PetBehaviorAction,
@@ -32,7 +33,7 @@ const requestByAction = Object.fromEntries(
 ) as Readonly<Record<HorseActionType, PetBehaviorSkillRequest>>;
 
 export class HorsePetBehavior implements PetBehavior {
-  private normalBranchRemainingMs = 0;
+  private readonly normalAttack = new PetNormalAttackDecision();
 
   constructor(private readonly form: HorsePetForm) {}
 
@@ -85,12 +86,8 @@ export class HorsePetBehavior implements PetBehavior {
   }
 
   basicAttack(context: PetBehaviorContext): PetBehaviorAction | undefined {
-    if (!context.target || this.normalBranchRemainingMs > 0) return undefined;
-    this.normalBranchRemainingMs = 1_000;
     const attackRate = horseFamilyTruth.forms[this.form - 1]?.attackRate ?? 0.7;
-    if (context.random() <= attackRate) return { type: 'basic-attack' };
-    context.emit({ type: context.random() < 0.3 ? 'wait' : 'chase' });
-    return undefined;
+    return this.normalAttack.select(context, attackRate);
   }
 
   executeAction(action: PetBehaviorAction, context: PetBehaviorContext): void {
@@ -128,7 +125,7 @@ export class HorsePetBehavior implements PetBehavior {
   }
 
   updateEffects(context: PetBehaviorContext): void {
-    this.normalBranchRemainingMs = Math.max(0, this.normalBranchRemainingMs - context.deltaMs);
+    this.normalAttack.update(context.deltaMs);
   }
 
   onDamaged(event: PetCombatDamageEvent, context: PetBehaviorContext): void {
@@ -141,7 +138,7 @@ export class HorsePetBehavior implements PetBehavior {
   }
 
   destroy(_reason: PetBehaviorDestroyReason): void {
-    this.normalBranchRemainingMs = 0;
+    this.normalAttack.reset();
   }
 }
 

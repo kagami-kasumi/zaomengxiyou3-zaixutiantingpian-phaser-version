@@ -1,5 +1,7 @@
 # 纵向切片复现表
 
+2026-09-21 VS-067纠正：猴/马旧家族门禁未覆盖BasePet普攻决策相位，两族改为待TASK-SLICE-226重做，不能以旧P1R/P1H=0证明完整原版时序；224C后执行226，VS-067保持部分实现。
+
 2026-09-20 TASK-SLICE-224B完成：玄龟三四阶SYBH、奥义8组合及受伤/反击/伤害结算13责任通过P1TB=0（组合完整P1TA）。60组双owner/多帧率技能、1,744原生caller、31,704动态世界碰撞、16类生产变异与20组双场景共871次实战图层对照通过；视觉捕获覆盖交集及原有精确许可如实保留。A的17项与B的13项已有批次证据，224C唯一Ready接两项生命周期及全32合同/五关联合；玄龟整族、204、VS-067、pet all未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224B/handoff.md`。
 
 2026-09-20 TASK-SLICE-224A3及父224A完成：SLD链接治疗、TXLJ释放/盾后转嫁/双方治疗4项与A2的13项合并为17项，P1TA=0（同次组合P1TA1/P1TA0）。144原生结算数值、2,904原生buff态、9类链接源变异及Stage12/TestScene×二三四阶P1/P2共310实战图层对照通过；正式enemy盾后101伤害为hero95/pet6，101治疗双方106。沿用精确像素许可与显示根/camera各轴≤0.5px整数对齐，不量化碰撞/时序。224B唯一Ready、C Planned；玄龟全32合同/204/VS-067/pet all仍未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224A3/handoff.md`。

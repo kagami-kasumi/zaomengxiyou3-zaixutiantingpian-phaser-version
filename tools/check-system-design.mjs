@@ -279,7 +279,7 @@ const contracts = {
         ['animation completion input', /animationEvents/u],
       ], errors);
       requireMatches(monkey, [
-        ['two-roll normal branch', /random\(\)\s*<=\s*0\.7[\s\S]*random\(\)\s*<\s*0\.3/u],
+        ['shared normal branch', /new PetNormalAttackDecision\(\)[\s\S]*normalAttack\.select\(context, 0\.7\)/u],
         ['form4 inherited action priority', /case\s+4:[\s\S]*monkey3-lyq[\s\S]*monkey3-xj[\s\S]*monkey3-lj[\s\S]*monkey4-jgaoyi/u],
         ['form4 hurt release', /this\.form\s*===\s*4[\s\S]*monkey3Lj\.releaseReady\s*=\s*true/u],
       ], errors);
@@ -297,12 +297,14 @@ const contracts = {
       forbidMatches(body, [['legacy PetRuntimeSystem dependency', /PetRuntimeSystem/u]], errors);
       requireTest('pet-combat-runtime-design-tests', tests, errors);
       requireTest('pet-monkey-family-runtime-tests', tests, errors);
+      requireTest('pet-normal-attack-decision-tests', tests, errors);
       requireTest('pet-monkey-behavior-contract-runtime-tests', tests, errors);
       requireTest('pet-monkey-animation-runtime-tests', tests, errors);
       requireTest('formal-pet-tests', tests, errors);
       requireTest('formal-pet-journey-tests', tests, errors);
     },
     P1H(errors, tests) {
+      requireTest('pet-normal-attack-decision-tests', tests, errors);
       const runtime = 'src/systems/PetCombatRuntime.ts';
       const horse = 'src/systems/pet-behaviors/HorsePetBehavior.ts';
       const combat = 'src/systems/PetHorseCombatSystem.ts';
@@ -319,7 +321,7 @@ const contracts = {
       requireMatches(horse, [
         ['verified horse truth dependency', /task-settings-209-pet-horse-family\.json/u],
         ['form attack range port', /getPetHorseAttackRange\s*\(/u],
-        ['two-roll normal branch', /random\(\)\s*<=\s*attackRate[\s\S]*random\(\)\s*<\s*0\.3/u],
+        ['shared normal branch', /new PetNormalAttackDecision\(\)[\s\S]*normalAttack\.select\(context, attackRate\)/u],
         ['inherited bd priority', /this\.form\s*>=\s*2[\s\S]*horse2Bd\.releaseReady/u],
         ['inherited sp priority', /skills\.includes\(['"]sp['"]\)/u],
         ['inherited bz priority', /this\.form\s*>=\s*3[\s\S]*skills\.includes\(['"]bz['"]\)/u],
@@ -562,6 +564,33 @@ const contracts = {
   },
 };
 
+// One invocation may request several gates sharing dependencies. Keep all assertions,
+// but visit each gate once per result set; no results survive this process.
+function deduplicateGates(gates) {
+  const visits = new WeakMap();
+  for (const [name, check] of Object.entries(gates)) {
+    gates[name] = (errors, tests) => {
+      if (!visits.has(errors)) visits.set(errors, new Set());
+      const visited = visits.get(errors);
+      if (visited.has(name)) return;
+      visited.add(name);
+      check(errors, tests);
+    };
+  }
+}
+for (const gates of Object.values(contracts)) deduplicateGates(gates);
+
+// Explicit opt-in for development, never an acceptance result. Unknown/new tests
+// stay enabled; only these known full-corpus/generator/browser/mutation jobs defer.
+const turtleFullAcceptanceTests = new Set([
+  'pet-turtle-oracle-tests', 'pet-turtle-resource-tests', 'pet-turtle-acceptance-tests',
+  'pet-turtle-combat-acceptance-tests', 'pet-turtle-link-acceptance-tests',
+  'pet-turtle-skill-acceptance-tests',
+]);
+function selectTests(tests, iteration) {
+  return [...tests].filter(name => !iteration || !turtleFullAcceptanceTests.has(name));
+}
+
 function selfTest() {
   const errors = [];
   const source = 'export class Sample { static create() {} }';
@@ -569,6 +598,27 @@ function selfTest() {
   if (/export\s+function\s+Sample/u.test(source)) errors.push('negative pattern produced a false positive');
   const duplicate = new Set(['one', 'one', 'two']);
   if (duplicate.size !== 2) errors.push('test de-duplication failed');
+  let visits = 0;
+  const sample = {
+    leaf(result, tests) { visits++; result.push('retained failure'); tests.add('leaf-test'); },
+    parent(result, tests) { sample.leaf(result, tests); tests.add('parent-test'); },
+  };
+  deduplicateGates(sample);
+  const result = [];
+  const tests = new Set();
+  sample.parent(result, tests);
+  sample.leaf(result, tests);
+  sample.parent(result, tests);
+  if (visits !== 1 || result.length !== 1 || tests.size !== 2) errors.push('shared gate lost coverage or ran twice');
+  sample.parent([], new Set());
+  if (visits !== 2) errors.push('gate results leaked between invocations');
+  const full = new Set([...turtleFullAcceptanceTests, 'pet-turtle-runtime-tests',
+    'pet-turtle-world-collision-tests', 'new-unknown-test']);
+  if (selectTests(full, false).length !== full.size) errors.push('full acceptance lost tests');
+  const partial = selectTests(full, true);
+  if (partial.join(',') !== 'pet-turtle-runtime-tests,pet-turtle-world-collision-tests,new-unknown-test') {
+    errors.push('iteration must retain behavior, collision and unknown tests');
+  }
   if (errors.length > 0) {
     console.error('System design gate self-test failed:');
     errors.forEach((error) => console.error(`  - ${error}`));
@@ -577,7 +627,11 @@ function selfTest() {
   console.log('System design gate self-test passed.');
 }
 
-const [system, requestedGate = 'all'] = process.argv.slice(2);
+const [system, ...gateArguments] = process.argv.slice(2);
+const iteration = gateArguments.includes('--iteration');
+const gateNames = gateArguments.filter(name => name !== '--iteration');
+const requestedGates = gateNames.length ? [...new Set(gateNames)] : ['all'];
+const requestedGate = requestedGates.join(',');
 
 if (system === '--self-test') {
   selfTest();
@@ -585,12 +639,21 @@ if (system === '--self-test') {
 }
 
 if (!system || !contracts[system]) {
-  console.error('Usage: node tools/check-system-design.mjs <level|pet|hero> <gate|all>');
+  console.error('Usage: node tools/check-system-design.mjs <level|pet|hero> <gate...|all>');
+  process.exit(2);
+}
+
+if (iteration && (system !== 'pet' || requestedGates.includes('all'))) {
+  console.error('--iteration requires explicit pet gates; it cannot run or satisfy all.');
   process.exit(2);
 }
 
 const availableGates = Object.keys(contracts[system]);
-const selectedGates = requestedGate === 'all' ? availableGates : [requestedGate];
+const selectedGates = requestedGates.includes('all') ? availableGates : requestedGates;
+if (requestedGates.includes('all') && requestedGates.length > 1) {
+  console.error('all must be used alone.');
+  process.exit(2);
+}
 if (selectedGates.some((gate) => !contracts[system][gate])) {
   console.error(`Unknown ${system} gate: ${requestedGate}. Available: ${availableGates.join(', ')}, all`);
   process.exit(2);
@@ -607,9 +670,14 @@ if (uniqueErrors.length > 0) {
   process.exit(1);
 }
 
-if (tests.size > 0) {
+const runnableTests = selectTests(tests, iteration);
+if (iteration) {
+  const deferred = [...tests].filter(name => !runnableTests.includes(name));
+  console.log(`DEVELOPMENT ONLY: ${runnableTests.length} test groups; ${deferred.length} deferred: ${deferred.join(', ')}. Not acceptance.`);
+}
+if (runnableTests.length > 0) {
   try {
-    execFileSync(process.execPath, ['tools/run-system-tests.mjs', ...tests], {
+    execFileSync(process.execPath, ['tools/run-system-tests.mjs', ...runnableTests], {
       cwd: root,
       stdio: 'inherit',
     });
@@ -619,4 +687,6 @@ if (tests.size > 0) {
   }
 }
 
-console.log(`System design check passed for ${system}/${requestedGate}: ${selectedGates.join(', ')}.`);
+console.log(iteration
+  ? `Development iteration passed for ${system}/${requestedGate}; FULL ACCEPTANCE NOT RUN. Do not mark a task complete.`
+  : `System design check passed for ${system}/${requestedGate}: ${selectedGates.join(', ')}.`);

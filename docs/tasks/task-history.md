@@ -10020,6 +10020,8 @@ UI 原生化合同：
 
 ### TASK-SLICE-208A
 
+2026-09-21后续反证：本次历史范围/命中/source修复证据保留；猴系普攻决策后1000ms倒计时与BasePet连续timeCount取模不同，原P1R未覆盖该相位，完整复现结论收窄。后续重做见TASK-SLICE-226，不把旧gate通过记录改写成机器已失败。
+
 任务类型：`TASK-SLICE`。任务模型：常规任务。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-209`）。
 
 完成定义：
@@ -14007,6 +14009,8 @@ UI 原生化合同：
 - `TASK-SLICE-210`：直接消费 209 的 43 项 verified 合同，在正式 P1/P2/TestScene 同源 Runtime 闭合范围外追击、真实普攻/全部技能、实际 HP decrease、真动画、owner 与生命周期，并完成 MO-003 第二家族最终裁决输入。
 
 ### TASK-SLICE-210
+
+2026-09-21后续反证：本次历史技能/伤害/owner证据保留；马系普攻决策后1000ms倒计时与BasePet连续timeCount取模不同，原P1H未覆盖该相位，完整复现结论收窄。后续重做见TASK-SLICE-226，不把旧gate通过记录改写成机器已失败。
 
 任务类型：`TASK-SLICE`。任务模型：常规任务。功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（继续 `Active`，下一 task 为 `TASK-SETTINGS-211`）。
 

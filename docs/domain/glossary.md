@@ -59,6 +59,7 @@
 | 宠物动作时钟 | `PetAnimationClock` | Runtime Clock | Combat / Presentation | EntitySession持有的逐hosttick倒计时游标；消费形态只读持帧定义并产生typed动画事件，不负责AI、伤害或View | — |
 | 宠物私有召唤句柄 | `PetCombatSummonHandle` | Value Object | Combat / Runtime | 由顶层Runtime分配的私有实体身份；Behavior经窄端口创建/释放，包含父实体与出战来源身份，不持有另一套AI/CD | — |
 | 宠物行为 | `PetBehavior` | Strategy Contract | Combat | 只表达某宠物种类/形态的技能选择、释放和持续效果差异，不拥有队伍存档、场景显示对象或公共跟随生命周期 | `PetAI`, `CompanionBehavior`, `PetStrategy` |
+| 宠物普攻分支决策 | `PetNormalAttackDecision` | Internal Behavior Component | Combat | 猴/马 Behavior 各持一个实例，复用普攻分支间隔与两次条件随机选择；概率由家族提供，不持动画时钟、技能CD、目标或伤害状态 | — |
 | 玄龟差异行为 | `TurtlePetBehavior` | Strategy | Combat | 四形态普攻/圣灵盾差异，经公共Session持有时钟、HP、CD与目标；后续技能选中时明确deferred，不伪装已释放 | — |
 | 玄龟私有效果 | `PetTurtleProjectileSystem` | Internal Effect System | Combat | Behavior持有普攻/圣灵盾效果句柄，公共Session逐host tick推进；复用共享弹体存储、原生位平面与公共伤害端口 | — |
 | 青龙后期形态私有效果 | `PetDragon23ProjectileSystem` | Internal Effect System | Combat | 二至四阶Behavior私有的逐host tick弹体与延迟波次，复用共享弹体存储/伤害端口，不持第二Runtime；沿用既有文件名 | — |

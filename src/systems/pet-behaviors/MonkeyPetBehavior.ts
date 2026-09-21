@@ -17,6 +17,7 @@ import {
   requestPetMonkey4JgaoyiSkill,
 } from '../PetSystem';
 import monkeyFamilyTruth from '../../../docs/reverse-engineering/ground-truth/manifests/task-settings-207-pet-monkey-family.json';
+import { PetNormalAttackDecision } from '../PetNormalAttackDecision';
 
 export type MonkeyPetForm = 1 | 2 | 3 | 4;
 
@@ -44,7 +45,7 @@ const attackRangeByForm = Object.freeze(Object.fromEntries(
 ) as Record<MonkeyPetForm, number>);
 
 export class MonkeyPetBehavior implements PetBehavior {
-  private normalBranchRemainingMs = 0;
+  private readonly normalAttack = new PetNormalAttackDecision();
   private jgaoyiRemaining = 0;
   private jgaoyiStepRemainingMs = 0;
 
@@ -97,11 +98,7 @@ export class MonkeyPetBehavior implements PetBehavior {
   }
 
   basicAttack(context: PetBehaviorContext): PetBehaviorAction | undefined {
-    if (!context.target || this.normalBranchRemainingMs > 0) return undefined;
-    this.normalBranchRemainingMs = 1_000;
-    if (context.random() <= 0.7) return { type: 'basic-attack' };
-    context.emit({ type: context.random() < 0.3 ? 'wait' : 'chase' });
-    return undefined;
+    return this.normalAttack.select(context, 0.7);
   }
 
   executeAction(action: PetBehaviorAction, context: PetBehaviorContext): void {
@@ -138,7 +135,7 @@ export class MonkeyPetBehavior implements PetBehavior {
   }
 
   updateEffects(context: PetBehaviorContext): void {
-    this.normalBranchRemainingMs = Math.max(0, this.normalBranchRemainingMs - context.deltaMs);
+    this.normalAttack.update(context.deltaMs);
     if (this.jgaoyiRemaining <= 0) return;
     this.jgaoyiStepRemainingMs = Math.max(0, this.jgaoyiStepRemainingMs - context.deltaMs);
     if (this.jgaoyiStepRemainingMs > 0) return;

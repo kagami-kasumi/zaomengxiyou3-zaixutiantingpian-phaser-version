@@ -5,9 +5,9 @@ This document records harness-level rules for AI agents that edit game code. It 
 ## Required Gates
 
 - Source edits under `src/` must run `npm run test:systems` and `npm run build` before the task is marked complete.
-- Workflow, task, domain, or harness document edits must run `npm run check:workflow`.
-- `npm run check:harness` is the independent fast check for harness routes, links, scheduling snapshots and PG contracts. The full `check:workflow` retains legacy validation, asset annotations and level architecture checks. After editing board status, run `npm run generate:harness` to refresh its derived recommendation.
-- Mixed code and workflow edits should run `npm run check:all`.
+- Workflow, task, domain, or harness document edits must run `npm run check:workflow` (harness plus legacy document validation).
+- `npm run check:harness` is the independent fast check for harness routes, links, scheduling snapshots and PG contracts. `npm run check:workflow:full` adds asset annotations and level architecture checks; run these when their inputs change. After editing board status, run `npm run generate:harness` to refresh its derived recommendation.
+- Mixed code and workflow edits may use `npm run check:all` for the full combination, or run each required constituent once. Do not rerun successful constituents through a wrapper when their inputs have not changed.
 - Before adding new logic to any file, run `npm run check:structure`. If the target file appears in errors, splitting is mandatory before adding logic. If the target file appears only in warnings, split it first for feature work; for a small local fix, document the reason and keep the edit narrow. Warnings in unrelated files do not block the current task.
 - Visual testing is useful, but it is not enough for completion. A visual pass must be paired with a deterministic command whenever the changed behavior can be represented as a system invariant.
 - Do not start `npm run dev` by default. For automated visual inspection, build first and then use the user-approved `npm run preview` endpoint on `0.0.0.0:4174`. The preview may remain running between inspections and should only be stopped for a port conflict, an explicit user request, or another concrete need.
@@ -34,10 +34,20 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 
 - Every unfinished task definition must declare `规模预算` and an actionable `拆分触发`; new tasks must expect 0 context compactions.
 - A task may contain at most two main work packages and two independently closable acceptance batches. A task that exceeds either cap must be split before activation.
-- The first compact during task execution is a size-overrun signal: finish only the current check, leave a safe handoff, split the remaining work, and do not open another resource family or implementation package.
+- Compaction is not a stopping or splitting condition. Count independently deliverable work packages and acceptance batches, not skills, test commands, states, player slots or individual contracts. Follow `task-generation.md` for family-sized delivery and actual scope changes.
 - `npm run check:workflow` validates these fields, rejects embedded definitions in the lightweight board, and rejects missing, orphaned, or mislinked task-definition files.
 
 ## Reverse Engineering Evidence Gate
+
+Validation frequency and reuse:
+
+- During implementation, run affected tests. At delivery, run the required system regression and build once against the final code. Later document-only edits do not invalidate code results.
+- Before invoking a composite gate, inspect its constituents and choose one invocation covering the required set. Reuse only successful results for unchanged code, tests, fixtures, resources, configuration and environment; changed or uncertain inputs require rerunning affected checks. Failed checks never count as passed dependencies.
+- Browser comparisons against `dist` require a build of current source; mutations must be restored before accepting a normal run. This is same-batch reuse, not a new permanent cache or per-check report.
+- Unchanged source truth and visual baselines may be referenced. Changes to animation, collision, damage, lifecycle or presentation require affected-state regression; family integration still covers the complete declared contract set.
+- Save long command output locally and report exit codes, useful counts and failures. Do not reload successful logs or unchanged documents merely to narrate a handoff.
+- For turtle development, prefer the explicit pet gate `--iteration` mode or a focused behavior test while editing; use the full gate once when closing the batch. Full source/resource/browser evidence is required on its first delivery and after relevant changes, not after every small behavior edit. Iteration results are never acceptance results.
+- Report test groups, visual states, host-tick phases, collision cases and pixels as different units. Large automatic sample counts are not independent reviews; return one summary and a few failing examples, not per-state logs. A high count cannot establish coverage of an untested semantic dimension such as decision phase.
 
 - Any implementation claiming original-game parity must cite an on-disk evidence matrix governed by `docs/workflow/reverse-engineering-protocol.md`; chat summaries are not implementation evidence.
 - Level-local AS3 is insufficient when shared input, physics, camera, state-machine, save, or result systems consume the data. The real shared call path must be traced before implementation.

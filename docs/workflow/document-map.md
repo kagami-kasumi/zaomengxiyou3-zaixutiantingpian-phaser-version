@@ -84,7 +84,7 @@
 - `tools/check-harness.mjs`、`tools/check-harness.test.mjs`
   - 独立 harness 门禁及负向用例：检查入口规则引用、当前调度快照、相对文档链接和检查命令组合。
   - `--write` 只更新看板当前推荐，不改功能线或 task 状态；不读取游戏源码或本地资源。
-  - `check:workflow` 仍承担完整兼容组合检查；该轻量门禁不替代游戏正确性或证据全面性校验。
+  - `check:workflow` 组合 harness 与旧文档校验；`check:workflow:full` 保留资源标注与关卡架构专项，`check:all` 继续包含完整组合。轻量门禁不替代游戏正确性或证据全面性校验。
 
 - `AGENTS.md`
   - Agent 强规则入口。

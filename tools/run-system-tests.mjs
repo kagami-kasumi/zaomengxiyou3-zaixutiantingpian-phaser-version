@@ -63,6 +63,7 @@ const bundledTests = requestedTests.length > 0
       'formal-pet-tests',
       'formal-pet-journey-tests',
       'pet-monkey-family-runtime-tests',
+      'pet-normal-attack-decision-tests',
       'pet-movement-clock-tests',
       'pet-dragon1-clock-tests',
       'pet-dragon1-presentation-tests',

@@ -1,5 +1,7 @@
 # 玄龟生产资源消费（224A1）
 
+开发检查频率：局部修改先跑受影响专项；跨公共路径迭代可运行 `npm run check:system-design -- pet P1TB --iteration`，保留22组静态/行为/碰撞/家族回归并延后六组完整资源/oracle生成/浏览器/变异检查，依赖本地已准备fixture。完整验收仍使用不带参数的gate，迭代通过不代表结项。下文逐态/碰撞的大数字是脚本内部数据量，不是同等数量的独立流程或人工评审；向对话只返回摘要与失败例。
+
 ## 224A2 战斗接线与复验
 
 `PetTurtleCombatBridge` 为原公共 P1/P2 Runtime 注入同一默认 Registry 的资源提供器。等待既有 bundle 就绪后，四形态由 `TurtlePetBehavior` 接管；场景只提交 roster/目标/环境并投影 snapshot。TestScene 同样绕开旧玄龟技能/本体旁路。共享 EntitySession 独占目标、CD、动画、HP、保护计数和 host tick；Behavior 的私有弹体句柄仅在该 host tick 内推进。

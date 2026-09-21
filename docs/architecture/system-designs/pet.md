@@ -1,10 +1,14 @@
 # 宠物系统类设计
 
+2026-09-21原版时序反证（当前结论优先于历史通过记录）：猴/马也经BasePet.myIntelligence按连续timeCount取模决策，PetNormalAttackDecision的决策后1000ms重置无此原版依据。此前P1R/P1H=0只证明旧测试通过；两族完整复现状态降为待重做，公共抽取不是原版正确性证明。TASK-SLICE-226在224C后修正共享时序并扩展黑盒相位门禁；不撤销未受反证的资源与伤害证据，不将当前青龙实现自动视为全细节原版真值。
+
 设计状态：当前有效；`TASK-ARCH-206` 已依据 `TASK-SETTINGS-205` 校正。
 
 验收状态：实施中。
 
 验收退出：未退出。
+
+2026-09-21 公共逻辑局部整理：猴/马 Behavior 组合 `PetNormalAttackDecision`，只共享普攻分支间隔和两次条件随机选择；保留家族概率、技能优先级、释放事件和销毁差异。Registry 仍为唯一工厂，不新增 Runtime/动画时钟/技能CD owner。本批 `pet P1R P1H` 联合门禁=0（10组专项），全系统/build通过，本批通过、系统实施中；不代表玄龟或系统 all 完成。
 
 实施 task：`TASK-ARCH-203/204A` 只完成旧 P1/P1B 骨架；206 校正活动时钟、ordered-first 索敌和死亡生命周期，204B 让对应结构 gate=0。207/208 随后接入猴系证据与正式消费者，但 2026-08-26 用户反证其未消费各形态 `attackRange`。PG-017 V2 先让独立行为 verifier/P1R 稳定失败，208A 再闭合范围外追击→范围内攻击→verified hit→pet-source damage/cleanup；当前 P1R=0，继续逐族推进。
 

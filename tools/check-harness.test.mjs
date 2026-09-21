@@ -10,12 +10,16 @@ function fixture() {
   return {
     'AGENTS.md': 'compact 后复核当前合同与改动，继续原 task；次数不触发交接。',
     ...routes,
+    'docs/workflow/code-quality-gates.md': 'Compaction is not a stopping condition.',
+    'docs/workflow/task-generation.md': '按交付边界拆分。',
     'docs/tasks/task-board.md': board.replace('PLACEHOLDER', recommendation(board)),
     'docs/tasks/feature-lines.md': '| LINE-ONE | Active | scope | TASK-SLICE-001 |',
     'docs/tasks/execution-queue.md': '## 活跃治理执行项\n\n当前为空。',
     'package.json': JSON.stringify({ scripts: {
       'check:harness': 'node --test tools/check-harness.test.mjs && node tools/check-harness.mjs && node tools/run-problem-audit.mjs --validate',
-      'check:workflow': 'npm run check:harness && node tools/validate-workflow.mjs && node tools/validate-asset-annotations.mjs && npm run check:level-architecture',
+      'check:workflow': 'npm run check:harness && node tools/validate-workflow.mjs',
+      'check:workflow:full': 'npm run check:workflow && node tools/validate-asset-annotations.mjs && npm run check:level-architecture',
+      'check:all': 'npm run check:workflow:full && npm run check:structure && npm run check:code',
     } }),
   };
 }
@@ -36,6 +40,10 @@ test('other same-line blocked tasks do not become extra execution owners', () =>
 });
 
 const cases = [
+  ['quality gate compact conflict', 'docs/workflow/code-quality-gates.md', text => `${text}\nThe first compact is an overrun: finish only the current check.`, 'compact count'],
+  ['task generation compact conflict', 'docs/workflow/task-generation.md', text => `${text}\n首次 compact 后必须拆分。`, 'compact count'],
+  ['full workflow omitted', 'package.json', text => text.replace('npm run check:workflow:full &&', 'npm run check:workflow &&'), 'check:all'],
+  ['duplicate workflow execution', 'package.json', text => text.replace('npm run check:workflow:full &&', 'npm run check:workflow && npm run check:workflow:full &&'), 'check:all'],
   ['stale recommendation', 'docs/tasks/task-board.md', text => text.replace('本节由', '唯一 Ready 仍为 211。\n本节由'), '当前推荐'],
   ['two Ready tasks', 'docs/tasks/task-board.md', text => `${text}\n| TASK-SLICE-002 | Ready | LINE-ONE |`, 'exactly one'],
   ['cross-line task', 'docs/tasks/task-board.md', text => text.replace('LINE-ONE', 'LINE-TWO'), 'belong'],
