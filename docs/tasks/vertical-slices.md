@@ -1,5 +1,7 @@
 # 纵向切片复现表
 
+2026-09-26 / TASK-SETTINGS-231完成：公共怪物死亡经验XP-01..08已补证，264原包AIR样本、六源变异/四字段损坏拒绝、12实际类型继承与五关/TestScene消费者矩阵通过；P1宠火焰致死仍给P2的现代反例保留。英雄无宠100%、带宠各60%、宠物指定petInfo100%，效果/AI/目标清理相位和换宠对象分别核定。231归档，TASK-SLICE-238唯一Ready实施公共归属，232..235保持Planned；PG-006方案不充分转V2复盘中。未改src/public，不提升M-030/032/040或VS-067现代完成度，原84及整线仍未关闭。合同见 `docs/reverse-engineering/monster-death-experience-contract.md`。
+
 2026-09-26 / TASK-SLICE-236完成：公共击退已接入五关/TestScene真实owner，保留早晚结算相位、原host单位、Tween覆盖与边缘旧Tween。124650原生轨迹态、5184真实hit/physics态、432原方向、8生产变异及五关9201显示同步态/537旧Boss态通过；真实重试返回全部释放。237探针完成Tween反复force写末值的反例同次纠正并新增第8源变异。236归档，TASK-SETTINGS-231唯一Ready；仅核销公共击退责任，原84其余责任、身体/死亡、完整家族/all/VS-067与整线不关闭。合同与本地证据见 monster-pet-knockback-contract.md、TASK-SLICE-236/scene-verification.json。
 
 2026-09-26 / TASK-SETTINGS-237完成：12实际类型288构造profile、7560组/189000受控运动态及五关43墙3096组/77400态原方法输入重放通过，69120自由状态独立解析核对；七类编译源变异改变轨迹并被拒绝，正常源重复一致、8类Schema反例拒绝。实际BaseMonster行走谓词及越界覆盖同次补齐。237归档、236恢复唯一Ready；只解除实际profile输入阻塞，现代击退、231/232与原84公共责任仍待，M-030/032/042、VS-067及整线不提升。交接见 `docs/reverse-engineering/monster-pet-knockback-contract.md`。

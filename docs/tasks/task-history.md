@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-231 | 公共怪物死亡经验归属补证 | 对象身份/AI清理/英雄宠物经验与消费者缺口 | M-030、M-032、M-040、VS-067 | 264原包AIR态、六源变异；[合同](../reverse-engineering/monster-death-experience-contract.md)，238 Ready，现代待实现 |
 | TASK-SLICE-236 | 公共怪物击退消费 | 实际profile/早晚相位/真实位移与清理 | M-030、M-032、M-042、VS-067 | 124650原生态、5184真实端口态、8生产变异及五关/旧Boss可见同步；[合同](../reverse-engineering/monster-pet-knockback-contract.md)，231 Ready |
 | TASK-SETTINGS-237 | 实际怪物构造profile补证 | 12类型构造/谓词与217/218空间联合轨迹 | M-030、M-032、M-042、VS-067 | 288profile、七源变异拒绝；[合同](../reverse-engineering/monster-pet-knockback-contract.md)，236恢复Ready |
 | TASK-SETTINGS-230 | 公共怪物击退代码补证 | 原速度、边界、去重与host顺序 | M-030、M-032、M-042、VS-067 | 27000运动态/5源变异；[合同](../reverse-engineering/monster-pet-knockback-contract.md)，236 Ready、现代仍待 |
@@ -339,6 +340,73 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-231
+
+2026-09-26 / TASK-SETTINGS-231完成：公共怪物死亡经验XP-01..08已补证，264原包AIR样本、六源变异/四字段损坏拒绝、12实际类型继承与五关/TestScene消费者矩阵通过；P1宠火焰致死仍给P2的现代反例保留。英雄无宠100%、带宠各60%、宠物指定petInfo100%，效果/AI/目标清理相位和换宠对象分别核定。231归档，TASK-SLICE-238唯一Ready实施公共归属，232..235保持Planned；PG-006方案不充分转V2复盘中。未改src/public，不提升M-030/032/040或VS-067现代完成度，原84及整线仍未关闭。合同见 `docs/reverse-engineering/monster-death-experience-contract.md`。
+
+验证：`python tools/monster-reward-source/audit.py`、`capture.py`、`verify.py --mutations`通过；现代preflight复现已知错误；monster-runtime与stage1-combat两个既有专项通过但不证明归属修复。check:structure无error、8既有warning；最终workflow/audit及diff结果见本地231/handoff.md。只读subagent核对全部消费者与证据声明，BaseBullet完整入口未动态重放的边界已修正。未提交或推送Git。
+
+### 原执行合同（历史快照，状态以本节完成归档为准）
+
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`代码逆向`
+
+逆向方案：不适用。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Planned）
+
+目标机制/切片：`M-030`、`M-032`、`M-040`、`VS-067`
+
+要解决的问题：226冰火接线暴露公共怪物击杀归属映射缺口。正式TestScene适配链中P1宠物直接命中、P2为AI目标，随后目标火焰致死，现有经验claim得到P2；诊断见`tools/pet-target-owner-preflight.ts`。原BaseMonster.beMagicAttack更新curAttackTarget，reduceHp不重设它，并按BaseHero/BasePet分支分配经验；现代targetSlot、owner slot和源对象种类不是同一事实。
+
+范围：只核定普通/持续伤害后的怪物攻击者对象、死亡经验接收者和消费者映射，区分英雄、宠物、P1/P2、后续直接命中、AI重选、攻击者死亡/离场/换宠。复用已证弹体命中和火焰时序，不扩展为所有战利品/怪物AI重构。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若需新增掉落视觉/随机分布资料族或修改全怪物AI，保留未知并另行拆分；本项只补行为合同并生成最小公共消费实现task。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent整理源对象/经验合同；Luna只读核对正式五关/TestScene消费者和反例。
+- 并行工作包：同一归属合同中的原版分支与现代输入/消费者映射可独立返回。
+- 写入 owner：主 agent
+- 归并检查点：验收前
+- 方法观测：无
+
+输入资料：
+- 226进度记录、`tools/pet-target-owner-preflight.ts`与本地`docs/tasks/evidence/TASK-SLICE-226/target-owner-preflight.json`；诊断退出0不是正确性通过。
+- 原`BaseMonster.as`的beMagicAttack/curAttackTarget/myIntelligence/reduceHp、BasePet/hero相关伤害入口，沿真实调用链窄读。
+- `PetBattleOwnershipSystem.ts`、`MonsterDefeatRewardSystem.ts`、`Stage1RewardBridge.ts`、`TestScenePetEnemyAdapter.ts`、`TestSceneHeroPartyRuntimeBridge.ts`与`TestSceneWorldBridge.ts`的owner ledger/经验消费者。
+
+输出产物：
+- 六段证据链的有界击杀归属合同及原版独立动态样本，明确对象种类、对象身份、owner和分配时机。
+- 正式五关/TestScene消费者矩阵，标出已证一致、反例和未知；不得只把targetSlot改为火焰源owner。
+- 根据证据生成同线最小公共归属消费实现task。
+
+完成定义：相关源归属/经验分支与现代缺口可独立复验，后续实现输入与关闭合同明确。
+
+验收标准：
+- 独立expected拒绝“始终AI最近目标”“固定火焰来源”“统一英雄/宠物经验比例”“换宠后把旧宠经验给新宠”“重复奖励”。
+- 区分显式攻击者重设、原AI合法重选、纯效果tick；源证据缺失则标未知，不把slot相同当对象相同。
+- 不以受控sink、最终经验变多或map存在证明完整消费者；必要分支与生命周期边界逐项交接。
+- `npm run check:workflow`、`npm run audit:problems`与相应源证据校验通过。
+
+禁止范围：不修改原始提取结果，不自行实现未证归属规则，不重做宠物资源/冰火视觉，不据本项提升整线完成度。
+
+状态更新：Ready（2026-09-26，236公共击退已完成），当前执行项以 task-board.md 的状态表及派生推荐为准；226本地整改已归档，本项公共机制尚未修复，须继续核销原84承接矩阵中的相关责任。
+
+推荐后续任务：依据证据生成同线公共击杀归属实现task，完成后回到尚未核销的猴马联合验收或下一完整家族。
+
+
 
 ### TASK-SLICE-236
 
