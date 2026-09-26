@@ -1,5 +1,7 @@
 # 猴马原版合同缺口核查（226 预检）
 
+2026-09-26 / TASK-SETTINGS-230完成：原受击运动27000态/432方向、14入口/4去重/4调度及3原生Tween覆盖模式通过，5源变异拒绝、确定性重复生成一致；217/218空间引用与230行为sidecar交接。现代无位移反例仍存在，236唯一Ready实施公共击退，231..235保持Planned；原84组合责任、全族/204/VS-067与功能线均不关闭。合同见 `docs/reverse-engineering/monster-pet-knockback-contract.md`。
+
 2026-09-26 / TASK-SLICE-226本项整改完成：猴马连续host时序、资格/目标/地面/反击、真实碰撞伤害、奥义/冰火/显示及生命周期已补证修正；扩大P1R/P1H/P1G/P1T=0，新增正式目标投影后的P1R/P1H=0。原41/43责任保留于226合同承接矩阵，公共230..235仍未修复，猴马完整家族、204/all/194/VS-067均不关闭。下一执行项TASK-SETTINGS-230（Ready），功能线保持Active。 MH-01..07本项反例及消费入口已核销；公共边界按承接矩阵保留，不外推原关卡生成时机。
 
 2026-09-25 / 运动与碰撞外形：原BaseObject/Pet摘取方法、原restored StageCommon collider及静态控制墙的25,920态表明两族实际应走非飞行运动，而当前Runtime未接ground；初始vy4、重力1.5、构造水平5及各form落地攻击锁/猴4整步锁均需消费。原生Sprite3=31.1×30、Sprite4=35×70、Sprite=50×100，旧207/209宽高部分少0.05；不作为视觉例外豁免。共享ground helper在真实外形下有1,224顶头后坐标态不符，末坐标twip诊断可消除但不是生产修复。13,824原owner-follow/warp分支另保留，详见`ground-native.json`、`follow-native.json`及进度。

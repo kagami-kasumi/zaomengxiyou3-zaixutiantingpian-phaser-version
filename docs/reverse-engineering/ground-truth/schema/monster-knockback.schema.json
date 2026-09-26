@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bounded original monster knockback behavior sidecar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "truthId",
+    "status",
+    "scope",
+    "generatedBy",
+    "spatialTruth",
+    "sources",
+    "methods",
+    "counts",
+    "deterministicObservationSha256",
+    "applicability",
+    "motion",
+    "entryAndScheduler",
+    "naturalTweenOutcome",
+    "exclusions",
+    "unresolved",
+    "monsterProfiles"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "truthId": {
+      "const": "task-settings-230.monster-knockback"
+    },
+    "status": {
+      "const": "verified"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "generatedBy": {
+      "type": "string"
+    },
+    "spatialTruth": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "truthId",
+          "sha256"
+        ]
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ]
+      }
+    },
+    "methods": {
+      "type": "array",
+      "minItems": 30,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "method",
+          "line",
+          "fileSha256",
+          "methodSha256"
+        ]
+      }
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "motionStates",
+        "gateCases",
+        "scheduleStates"
+      ]
+    },
+    "deterministicObservationSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "applicability": {
+      "type": "object",
+      "required": [
+        "monsterIds",
+        "owners",
+        "boss",
+        "coordinateSpace",
+        "velocityUnit",
+        "stateColumns"
+      ]
+    },
+    "motion": {
+      "type": "array",
+      "minItems": 270,
+      "maxItems": 270,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "shape",
+          "fps",
+          "mode",
+          "direction",
+          "collider",
+          "states"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "shape": {
+            "enum": [
+              "ObjectBaseSprite",
+              "ObjectBaseSprite2",
+              "ObjectBaseSprite7"
+            ]
+          },
+          "fps": {
+            "enum": [
+              20,
+              24,
+              30
+            ]
+          },
+          "mode": {
+            "type": "string"
+          },
+          "direction": {
+            "enum": [
+              -1,
+              1
+            ]
+          },
+          "collider": {
+            "type": "object",
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ]
+          },
+          "states": {
+            "type": "array",
+            "minItems": 25,
+            "maxItems": 25,
+            "items": {
+              "type": "array",
+              "minItems": 8,
+              "maxItems": 8,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "entryAndScheduler": {
+      "type": "array",
+      "minItems": 23,
+      "maxItems": 23
+    },
+    "naturalTweenOutcome": {
+      "type": "object",
+      "required": [
+        "replace",
+        "edgeReturn",
+        "zero"
+      ]
+    },
+    "exclusions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "unresolved": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "monsterProfiles": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "path",
+          "sha256",
+          "collider",
+          "explicitlyFlying",
+          "movementPredicateOverrides"
+        ]
+      }
+    }
+  }
+}
