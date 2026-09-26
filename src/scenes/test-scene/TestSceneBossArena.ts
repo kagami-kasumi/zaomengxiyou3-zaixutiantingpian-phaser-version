@@ -1,5 +1,6 @@
 ﻿import Phaser from 'phaser';
 import { applyOwnedHeroDamage } from '../../systems/PetBattleOwnershipSystem';
+import { updateTestSceneBossPhysics } from './TestSceneMonsterKnockbackBridge';
 // boundary: this bridge adapts the Stage 1-1 boss view, combat events, arena flow,
 // and shared monster runtime; it does not own gravity, reward probabilities,
 // pickup seeking, damage formulas, or progression rules.
@@ -17,7 +18,6 @@ import {
   revealTransferDoor,
   resolveHitOnce,
   updateMonster3,
-  updateMonsterPhysics,
   createMonsterDefeatRewardRuntime,
   settleMonsterDefeatRewards,
   DropTuning,
@@ -51,13 +51,7 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
     }
 
     if (this.bossArena.state === 'active' && this.bossArena.boss) {
-      updateMonsterPhysics(
-        this.bossArena.boss.physics,
-        this.bossArena.boss.x,
-        this.movementPlatforms,
-        delta,
-      );
-      this.bossArena.boss.y = this.bossArena.boss.physics.y;
+      updateTestSceneBossPhysics(this, this.bossArena.boss, this.movementPlatforms, delta, time);
       updateMonster3(
         this.bossArena.boss,
         this.getMonster3Targets(),

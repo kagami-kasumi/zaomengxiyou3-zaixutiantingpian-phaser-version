@@ -66,6 +66,7 @@ function create(context: PetBehaviorContext, projectiles: ProjectileSystemModel,
     knockbackX: config.knockback[0]!, knockbackY: config.knockback[1]!,
     hitIntervalFrames: config.interval, maxHits: config.maxHits,
   });
+  p.petSourceKnockback = { x: config.knockback[0]!, y: config.knockback[1]!, direction: explosion ? 'direct' : 'velocity', direct: p.facingX };
   p.petHostTick = 0; p.petActionToken = context.actionToken; p.petRenderDirection = 1;
   bindMonkeyHorseNativeClipClock(p, context);
   p.petTargetEffects = petTargetEffectPayload(context, action, context.pet.atk);

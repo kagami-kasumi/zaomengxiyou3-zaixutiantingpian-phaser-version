@@ -6,7 +6,9 @@ import { coreSystemTests, fullSystemTests, selectSystemTests } from './system-te
 
 test('daily core is a bounded subset; the original full regression stays intact', () => {
   assert.equal(coreSystemTests.length, 14);
-  assert.equal(fullSystemTests.length, 88);
+  assert.equal(fullSystemTests.length, 90); // Original 88 plus the two shared knockback consumers.
+  assert.ok(fullSystemTests.includes('monster-knockback-tests'));
+  assert.ok(fullSystemTests.includes('monster-knockback-binding-tests'));
   assert.equal(new Set(fullSystemTests).size, fullSystemTests.length);
   assert.deepEqual(selectSystemTests().tests, coreSystemTests);
   assert.deepEqual(selectSystemTests(['--full']).tests, fullSystemTests);

@@ -16,6 +16,8 @@ export type ProjectileSpawnPoint = {
 };
 
 export type ProjectileModel = {
+  /** Original attack dictionary and direction source, independent of the rendered root sign. */
+  petSourceKnockback?: Readonly<{ x: number; y: number; direction: 'direct' | 'velocity' | 'unchanged'; direct?: -1 | 1 }> | null;
   petTargetEffects?: readonly PetTargetEffectInput[];
   id: number;
   projectileId: string;

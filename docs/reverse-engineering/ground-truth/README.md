@@ -12,6 +12,7 @@
 
 - `schema/ui-ground-truth.schema.json`：UI、HUD、菜单、页面、按钮及其他视觉/空间对象的规范结构。
 - `schema/pet-family-ground-truth.schema.json`：完整宠物家族的 owner、AI、动作/技能、命中伤害、碰撞、双玩家生命周期、现代消费者与 P1R 交接结构。
+- `schema/monster-knockback-profile.schema.json`：237实际12类构造profile、动作运动谓词、原生击退轨迹及217/218/230溯源；不替代230共享入口/Tween合同或236现代消费者验收。
 - `manifests/<task-or-scope>.json`：经 Schema 校验、可供实现和测试消费的版本化真值；实际产生后才创建。
 - `local-resources/regima/task-outputs/<task-id>/`：FFDec XML、原始导出、运行截图和中间计算结果；该目录由 Git 忽略，不得反向写入 `legacy-extraction/`。
 

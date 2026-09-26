@@ -91,6 +91,6 @@
 | horse/horse4.tmaoyi-explosion | `pet-horse-aoyi-birth-tests`、`pet-horse-aoyi-runtime-tests`、`pet-horse-aoyi-multi-combat-tests`、`pet-horse-retired-parent-tests` | — |
 | horse/horse4.tmaoyi-cleanup | `pet-horse-aoyi-birth-tests`、`pet-horse-aoyi-runtime-tests`、`pet-horse-aoyi-multi-combat-tests`、`pet-horse-retired-parent-tests` | — |
 
-公共后续编号：230击退证据已完成、236击退实现未完成、231死亡奖励归属、232怪物身体/攻击/目标效果顺序、233Canvas尺寸取整、234实时捕获身份、235共享被动回复与六增益。后续任务必须继续消费受影响的原合同，不以本矩阵登记作为修复。
+公共后续编号：230/237击退证据及236实际消费已完成（2026-09-26；仅公共击退，完整身体/死亡/家族组合仍保留）、231死亡奖励归属、232怪物身体/攻击/目标效果顺序、233Canvas尺寸取整、234实时捕获身份、235共享被动回复与六增益。后续任务必须继续消费受影响的原合同，不以本矩阵登记作为修复。
 
 实际画布证据沿用226进度中原版PNG与正式WebGL逐状态对照；Canvas差异明确保留233，不宣称跨渲染器像素一致。

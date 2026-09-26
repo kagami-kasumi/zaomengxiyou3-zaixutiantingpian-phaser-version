@@ -1,3 +1,5 @@
+import { createSceneMonsterCombat } from '../MonsterKnockbackBridge';
+import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 import { stepMonsterPetTargetEffects } from '../../systems/MonsterPetTargetEffectSystem';
 // boundary: Stage 1-3 submits level input/environment/monster targets to HeroPartyRuntime;
@@ -28,13 +30,12 @@ import {
   STAGE13_SCREEN_LEFT_X,
 } from '../../systems/Stage13TraversalSystem';
 import {
-  createStage1CombatEnemy,
   updateStage1Enemy,
   type Stage1CombatEnemy,
 } from '../../systems/Stage1CombatSystem';
 import {
   createMonsterPhysics,
-  updateMonsterPhysics,
+  updateCombatMonsterPhysics,
   type MonsterPhysicsModel,
 } from '../../systems/MonsterPhysicsSystem';
 import { createStage1RewardBridge, type Stage1RewardBridge } from '../stage1/Stage1RewardBridge';
@@ -190,8 +191,7 @@ function updateMonsterCombat(
   rewards: Stage1RewardBridge,
 ): void {
   for (const monster of monsters.values()) {
-    updateMonsterPhysics(monster.physics, monster.combat.x, stage13MovementPlatforms, deltaMs);
-    monster.combat.y = monster.physics.y;
+    updateCombatMonsterPhysics(monster.physics, monster.combat, stage13MovementPlatforms, deltaMs, timeMs, scene.game.loop.targetFps);
     stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
     updateStage1Enemy({
       enemy: monster.combat,
@@ -227,7 +227,7 @@ function createMonsterView(
     motionMode: monster.isFlying ? 'flying' : 'grounded',
   });
   return {
-    combat: createStage1CombatEnemy({
+    combat: createSceneMonsterCombat(scene, 13, {
       id: monster.id,
       enemyType: monster.enemyType,
       x: monster.x,
@@ -248,6 +248,7 @@ function syncMonsterView(
 }
 
 function destroyMonsterView(monster: MonsterRuntime): void {
+  disposeMonsterKnockback(monster.combat.petKnockback);
   destroyStage13MonsterView(monster.view);
 }
 

@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-236 | 公共怪物击退消费 | 实际profile/早晚相位/真实位移与清理 | M-030、M-032、M-042、VS-067 | 124650原生态、5184真实端口态、8生产变异及五关/旧Boss可见同步；[合同](../reverse-engineering/monster-pet-knockback-contract.md)，231 Ready |
+| TASK-SETTINGS-237 | 实际怪物构造profile补证 | 12类型构造/谓词与217/218空间联合轨迹 | M-030、M-032、M-042、VS-067 | 288profile、七源变异拒绝；[合同](../reverse-engineering/monster-pet-knockback-contract.md)，236恢复Ready |
 | TASK-SETTINGS-230 | 公共怪物击退代码补证 | 原速度、边界、去重与host顺序 | M-030、M-032、M-042、VS-067 | 27000运动态/5源变异；[合同](../reverse-engineering/monster-pet-knockback-contract.md)，236 Ready、现代仍待 |
 | TASK-SLICE-226 | 猴马时序与专属行为整改 | 原版相位、实际身体/弹体/地面/伤害与生命周期 | M-032、M-034、M-042、VS-012、VS-067 | 扩大P1R/P1H/P1G/P1T=0，最终P1R/P1H=0；[交接](../reverse-engineering/evidence/TASK-SLICE-226-handoff.md)及[原84承接](../reverse-engineering/evidence/TASK-SLICE-226-contract-coverage.md)；公共230..235仍open，230 Ready |
 | TASK-SETTINGS-229 | 马系空间与host相位补证 | 四形态/十主效果/Aoyi/冰效与继承显示 | M-032、M-034、M-035、M-042、VS-067 | 665态/3190对象、387960碰撞、158912动态检测、43合同verified；[交接](../reverse-engineering/evidence/TASK-SETTINGS-229-horse-spatial-progress.md)；226 Ready、现代整改未完成 |
@@ -337,6 +339,150 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-236
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务已完成）
+
+目标机制/切片：`M-030`、`M-032`、`M-042`、`VS-067`
+
+要解决的问题：230已证实宠物命中只记击退event、实际怪物不运动；现代pet命中又早于怪物物理，不能直接按当前帧写速度。以230有界原合同接入现有真实模型，不执行怪物架构线重构。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若现有217/218空间输入不能覆盖所需原怪物/墙，或必须重做身体回调/死亡/奖励，保留本合同并转同线补证；不得猜几何或把231/232问题一起重构。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent处理共享运动/结算相位；Luna只读独立核对实际五关/TestScene消费者和轨迹。
+- 并行工作包：原生expected与现代轨迹独立比对，同属一份击退合同。
+- 写入 owner：主 agent
+- 归并检查点：验收前
+- 方法观测：无
+
+输入资料：
+- `docs/reverse-engineering/monster-pet-knockback-contract.md`（六段证据及完整分支/排除矩阵）。
+- `docs/reverse-engineering/ground-truth/manifests/behavior/task-settings-230-monster-knockback.json`；保留其`/entryAndScheduler`、方向、去重及自然Tween覆盖；通用`/motion`仅在其受控范围使用，不复制手写expected。
+- `docs/reverse-engineering/ground-truth/manifests/behavior/task-settings-237-monster-knockback-profiles.json`；实际类型直接消费`/profiles`、`/motion`、`/environmentInputs`、`/environmentMotion`及217/218几何引用。288构造上下文、1890代表轨迹和3096五关墙输入重放已经原生验证；实际gravity/speed/运动谓词不可外推230统一壳。
+- `tools/monster-knockback-source/{capture.py,verify.py,generate.py}`；完整本地原生报告和源级重放依赖本地语料，正式运行不可依赖忽略的证据目录。
+- `tools/pet-monster-knockback-preflight.ts`；现有Stage1Combat/PetProjectileCombat/PetMonkeyCombat/PetHorseCombat/MonsterPhysics、Registry与五关/TestScene真实模型/adapter。
+- 226原41/43承接矩阵中的公共击退责任；231/232仍各自承担归属与身体/死亡时序。
+
+输出产物：
+- 原速度单位、Tween覆盖/边缘早退、下一host步消费、真实坐标写回的共享实现；现有每实体owner和去重入口保留。
+- 正式五关与TestScene实际可达宠物目标消费；飞行/普通/Boss、P1/P2、重复/拒绝/0伤害、冻结/恢复、边界/落地和释放清理证据。
+- 原oracle与实际模型轨迹对账、真正生产变异门禁、940×590实际可见运动和重试/返回清理证据；如实列出未覆盖身体/死亡组合。
+
+完成定义：230已证范围由真实生产消费者完整消费，HP/event绿灯不能替代坐标/速度/timing通过；击退公共责任可回填，不提升猴马全族或整线完成度。
+
+验收标准：
+- 原生速度/轨迹比较区分Point和Sprite赋值，不用视觉容差放宽物理；20/24/30源host与不同render delta核对实际相位，不沿用2400重力或硬编码24作无证据换算。
+- 保护/闪避/去重、新id覆盖、边界旧tween、P1/P2顺序必须由真实结算端口验证；不以遍历audit事件重放；区分原生host早入口和跳过petHostTick的旧猴/马晚入口，不能给晚入口额外延迟。
+- 五关/TestScene实际x/y、碰撞/目标投影及显示同步；明确TestScene只读facade到真实Monster30接缝，怪物类型/原点来自既有真值。Monster3 arena只核销实际可达路径。
+- 无消费、错误单位、错误命中/物理顺序、重复应用及漏清理的生产变异被拒绝；同时保持原伤害/经验/奖励回归。
+- 当前hurt180ms、Boss反击/身体恢复等未证现代差异不伪称原版；不得用本项关闭231/232。
+- `npm run check:structure`、相关系统/五关测试、`npm run build`、`npm run check:workflow`、`npm run audit:problems`及有界可见验收通过。
+
+禁止范围：不改原提取结果、不重做宠物资源、不新增怪物架构设计、不改死亡奖励归属、不降低226原84合同；运行不得依赖本地证据目录。
+
+状态更新：Ready（2026-09-26）。237已用实际构造、218碰撞边界和217五关墙数组闭合输入，七源变异拒绝、正常源重复一致；解除原profile阻塞。现代公共击退尚未修复，本定义全部消费者/相位/生产变异/可见验收合同保留。
+
+执行记录（以下为237补证前的消费预检历史；解除证据见237机器输入和原合同）：
+- 主agent唯一写入，Luna只读核对消费者；本批没有修改src/public、230真值或其生成器，原有未提交改动保留。
+- `node tools/monster-knockback-profile-preflight.mjs` 可重复产出11/12几何差异与Monster30重力差异，退出0仅表示诊断复现。报告：`docs/tasks/evidence/TASK-SLICE-236/profile-preflight.json`；交接：`docs/tasks/evidence/TASK-SLICE-236/preflight.md`。
+- 纠正初查：Monster30局部scaleX=.5乘父类2后为1，最终宽114与230一致；几何反例属于其余11类。vy=-4只作源公式推导，不冒充新原生运行采样。
+- 解除条件：237保留230既有观测，交付12实际构造profile、复用218注册点/缩放与217墙的原生轨迹及独立反例门禁；本定义全部实施/五关/TestScene/变异/可见验收责任不减。
+
+推荐后续任务：完成后激活 `TASK-SETTINGS-231`，继续公共责任队列；232身体生命周期与其后233..235仍保留。
+
+
+236实施完成记录（2026-09-26）：
+- 生产实现和原输入纠错见monster-pet-knockback-contract.md的236实际消费节；src运行只依赖正式assets瘦profile，不读取本地evidence。核心运动共享，每实体binding依附既有owner，未新建怪物架构。
+- 26组核心+受影响专项、独立地面/碰撞回归、8生产变异、237发布/8Schema负例及瘦资产一致性通过；build/tsc通过。五关真实场景9201态显示同步、P1/P2及restart/返回均通过；TestScene旧猴马Boss入口537态、双向速度与清理通过。完整命令与浏览器范围见tools/local-validation.md和本地handoff.md。
+- 发现并修正Tween完成末值被force复活、方向元数据、AI恢复追击残留及飞行hover永久失效；保留原受控反例。身体恢复仍按现有180/250ms，未宣称原版，不改死亡/奖励。
+- 大文件TestSceneWorldBridge仅窄接受击/物理/清理调用和目标几何；新算法置于共享系统，未以本任务大改场景。Luna只读核对消费者/恢复/释放，主agent唯一写入。
+- 结构仅8既有warning；构建仅既有大chunk警告。工作流、活跃PG审计最终结果见本地project-checks.json；PG未达整体关闭合同，不归档。未修改原始语料、未提交Git。
+- 状态：已完成；下一执行项TASK-SETTINGS-231，功能线仍Active，232..235与原84组合责任保留。本次goal到236结束，不执行231。
+
+
+### TASK-SETTINGS-237
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`代码逆向`
+
+逆向方案：不适用；沿用 `docs/workflow/reverse-engineering-protocol.md`，复用既有217/218空间真值，不重新提取视觉资源。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Done）
+
+目标机制/切片：`M-030`、`M-032`、`M-042`、`VS-067`
+
+要解决的问题：236消费预检确认230共享方法测试壳不含实际怪物构造profile。11类地面colipse宽度少父类倍增；Monster30实际gravity=0而壳为1.5；wait/setSpeed及攻击禁止移动谓词也必须按实际类型核定。源哈希、Schema通过与通用轨迹不能代替实际profile联合验证。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 如发现217/218未覆盖的新形状、斜墙/运动墙或必须执行完整身体/死亡/奖励生命周期才能确定运动输入，保留本合同并转同线有界补证；不得把231/232重做进来。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：GPT-6主agent处理原生采样与构造链；Luna只读核对12类型构造字段及218映射，输入范围明确、可独立验证。
+- 并行工作包：原BaseObject/BaseMonster与12派生类profile清单，对比新原生观测，不读取现代轨迹充当expected。
+- 写入 owner：主 agent
+- 归并检查点：验收前
+- 方法观测：无
+
+输入资料：
+- `docs/reverse-engineering/monster-pet-knockback-contract.md`、230行为manifest、`tools/monster-knockback-source/`，保留现有270条通用轨迹、方向/入口/早晚调度及自然Tween覆盖观测。
+- `tools/monster-knockback-profile-preflight.mjs` 与 `docs/tasks/evidence/TASK-SLICE-236/profile-preflight.json`；本地报告可用该脚本再生。
+- `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as`、`base/BaseMonster.as`及`export/monster/Monster2/3/4/5/6/7/8/9/10/16/19/30.as`（逐个窄读真实文件）。
+- verified `task-settings-217-pet-ground-environment.json`、`task-settings-218-dragon1-target-collision.json`及其`collision-contract.json`；恢复 `assets/StageCommon.swf` 与主包原TweenMax。原始资料只读。
+- 236定义及预检消费者图；仅阅读现代consumer接口确认输入需求，不以现代实现推导原版expected。
+
+待证明的可观察问题：
+- 父/子构造和运行前赋值的实际gravity、horizontal/run speed、isFly、colipse缩放/注册点、动作运动谓词分别是什么？相同者可以有证据去重，不能按shape名直接等同。
+- 真实profile受击首步、连续缓动、wait恢复、受控dead、冻结/恢复、屏幕边界与墙接触的坐标/速度是否与230通用壳不同？固定动作的采样不得宣称完整身体回调已证。
+- 20/24/30host及相同秒时长下的相位如何消费？P1/P2、普通/Boss是否仍等价；早入口/晚入口既有调度合同保持。
+
+输出产物：
+- 在独立237行为sidecar和对应Schema中冻结实际profile→源构造/方法指纹→218几何→原生轨迹关联，状态为verified前清零本范围unresolved；原生采样和报告本地保留，正式运行必需数据放正式源码/资源目录或精确白名单，不能依赖忽略的报告。
+- `docs/reverse-engineering/monster-pet-knockback-contract.md`增补六段证据、精确JSON Pointer、差异与排除矩阵；保留230既有事实，不覆写为实际怪物全集通过。
+- 可重复原方法/AIR运行生成入口、独立原生坐标/Point速度比较、构造profile变异拒绝及236可直接消费的交接清单。
+
+完成定义：12类实际构造profile和已有空间真值的受击运动联合输入闭合，足以恢复236；原版身体/死亡/奖励仍由231/232承担，现代击退尚未实现。
+
+验收标准：
+- 独立核对BaseMonster.colipse.scaleX*=2及子类局部缩放，11类地面宽100/120与Monster30宽114直接消费218实测值；源/空间hash一致。不要把手抄坐标或新现代helper当oracle。
+- Monster30重力0的原生轨迹必须拒绝1.5变异；11类地面轨迹必须拒绝遗漏父类缩放的变异；wait/setSpeed、Monster16/30运动谓词按真实profile核对。未知必须显式阻塞。
+- SourceBody壳替代项完整声明，profile的真实赋值链与执行方法可追溯；不宣称构造壳等同完整场景，不沿用统一5速度或统一1.5重力作为全部类型事实。
+- 保留230入口、去重、自然Tween覆盖和早/晚相位合同；扩展输入不可抹掉现有反例。Sprite twip与Point精度分别比较，物理不使用视觉容差。
+- `node tools/monster-knockback-profile-preflight.mjs`保留旧壳诊断，新验证另明确证明实际profile通过；Schema/完整性、原生重放、变异和重复生成通过；`npm run check:workflow`、`npm run audit:problems`通过。
+
+禁止范围：不修改原始提取结果、不安装复杂软件、不写src玩法、不重做宠物资源、不扩大到死亡归属/完整身体回调、不得降低236或226原84责任。
+
+状态更新：Done（2026-09-26），解除236实际构造profile原生输入缺口；230受控共享方法结论与217/218真值在原声明范围内保留。
+
+推荐后续任务：完成后恢复 `TASK-SLICE-236` 为唯一Ready；236完成后才激活231，232..235维持原队列。
+
+执行结果：
+- 288实际构造profile；7560组/189000受控状态，69120自由状态独立解析比较；五关43墙3096组/77400态原方法输入重放。正式sidecar发布1890受控代表轨迹及全部环境轨迹，8.9 MB，可直接读取而不依赖忽略报告。
+- 七类源变异均改变实际轨迹且被拒绝：父scale、飞行gravity、统一speed、stage9、Monster30 hit1、Monster16 hit4、BaseMonster行走谓词；正常源恢复后确定性观测一致。Schema及8坏数据拒绝、重复生成、验证路由5测试通过。
+- 独立只读复核发现并补齐BaseMonster.isWalkOrRun/checkOver；其余物理谓词覆盖未发现遗漏。完整AI/身体/死亡/奖励与恢复时长不在本项，checkOver阈值不宣称专项验收。
+- 原生报告、变异和复验脚本见tools/monster-knockback-profile-source/；本地交接与检查见docs/tasks/evidence/TASK-SETTINGS-237/handoff.md和project-checks.json。未修改src/public或原始语料，未实施Git提交。
+
 
 ### TASK-SETTINGS-230
 

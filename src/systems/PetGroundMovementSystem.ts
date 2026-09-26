@@ -44,8 +44,10 @@ export function stepPetGroundMotion(
     hurt: boolean;
     mayMoveDuringGroundAttack: boolean;
     suppressMove?: boolean;
+    /** BaseMonster overrides the otherwise-true BaseObject predicate. */
+    walkOrRun?: boolean;
   }>,
-): Readonly<{ landed: boolean; hitHead: boolean; hitSide: boolean }> {
+): Readonly<{ landed: boolean; hitHead: boolean; hitSide: boolean; hitLeft: boolean; hitRight: boolean }> {
   const { collision } = input;
   const wasStanding = motion.standingOn !== undefined;
   if (!input.hurt) {
@@ -56,6 +58,8 @@ export function stepPetGroundMotion(
   let landed = false;
   let hitHead = false;
   let hitSide = false;
+  let hitLeft = false;
+  let hitRight = false;
   for (const wall of input.walls) {
     const current = bounds(motion, collision);
     const next = { left: current.left + motion.velocityX, right: current.right + motion.velocityX,
@@ -82,12 +86,14 @@ export function stepPetGroundMotion(
       motion.x = sourceCoordinate(wall.right + 2 + collision.width / 2);
       motion.velocityX = 0;
       hitSide = true;
+      hitLeft = true;
     }
     if (motion.velocityX >= 0 && current.left <= wall.left
       && next.right >= wall.left && next.left <= wall.right && motion.y + collision.height / 2 > wall.top + 5) {
       motion.x = sourceCoordinate(wall.left - 2 - collision.width / 2);
       motion.velocityX = 0;
       hitSide = true;
+      hitRight = true;
     }
   }
   // The recovered BaseObject.isWalkOrRun() returns true; wait alone must not
@@ -95,11 +101,14 @@ export function stepPetGroundMotion(
   if (!input.suppressMove) {
     // Every original Sprite assignment truncates independently, including a
     // collision snap before the subsequent movement in this same host step.
-    motion.x = sourceCoordinate(motion.x + motion.velocityX);
+    const landedWalking = landed && !input.attacking && !input.hurt && motion.direction !== 0;
+    if ((input.walkOrRun ?? true) || !motion.standingOn || input.hurt || landedWalking) {
+      motion.x = sourceCoordinate(motion.x + motion.velocityX);
+    }
     motion.y = sourceCoordinate(motion.y + motion.velocityY);
     motion.velocityY += input.gravity;
   }
-  return { landed, hitHead, hitSide };
+  return { landed, hitHead, hitSide, hitLeft, hitRight };
 }
 
 function bounds(motion: PetGroundMotion, collision: PetGroundCollision) {

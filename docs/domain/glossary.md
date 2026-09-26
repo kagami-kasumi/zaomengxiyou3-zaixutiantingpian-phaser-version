@@ -47,6 +47,9 @@
 | 英雄队伍运行时 | `HeroPartyRuntime` | Runtime / Orchestrator | Combat / Runtime | 单局活动英雄的唯一运行时 owner，按 `PlayerSlot` 持有移动、战斗、普攻、技能与角色视觉生命周期；只消费关卡环境快照，不拥有地形、波次或机关规则 | `PlayerRuntime`, `PartyCombatRuntime`, `LevelHeroRuntime` |
 | 英雄运行时 | `HeroRuntime` | Abstract Runtime Class | Combat / Runtime | 单个活动英雄的公共运行时骨架，统一移动、战斗、普攻、技能、快照与销毁顺序；`Hero1Runtime` 至 `Hero5Runtime` 只实现角色差异钩子，由 `HeroPartyRuntime` 聚合 | `RoleRuntime`, `CharacterRuntime`, `PlayerHeroRuntime` |
 | 怪物 | `Monster` | Entity | Combat | 敌方单位 | `Enemy`, `Mob` |
+| 怪物击退运动 | `MonsterKnockbackMotion` | Runtime Model | Combat | 每个既有怪物owner持有的原host步速度、接触与秒制缓动；不新建怪物注册表 | `MonsterRecoilRuntime` |
+| 怪物击退接缝 | `MonsterKnockbackBinding` | Runtime Model | Combat / Runtime | 挂在既有实体上的相位队列、host步累计和运动投影；释放随实体owner，不设全局注册表 | `MonsterRecoilSession` |
+| 怪物击退计算 | `MonsterKnockbackSystem` | System | Combat | 按237实际profile推进原受击轨迹，复用静态轴对齐地面碰撞；不拥有AI、伤害或奖励 | `EnemyKnockbackSystem` |
 | 怪物定义 | `MonsterDefinition` | Config | Combat / Content | 某类怪物跨关卡共享的只读配置，引用数值、物理、行为、能力、动画和奖励 profile | `EnemyDefinition`, `MonsterConfig` |
 | 怪物定义目录 | `MonsterDefinitionCatalog` | Config / Registry | Combat / Content | 按怪物类型稳定 ID 查询唯一 `MonsterDefinition`；不保存单局可变状态 | `MonsterRegistry`, `EnemyCatalog` |
 | 怪物运行状态 | `MonsterRuntime` | Runtime Model | Combat | 一只具体怪物的稳定 ID、位置、生命、目标与生命周期状态；不包含 Phaser 显示对象 | `EnemyRuntime`, `MonsterInstance` |

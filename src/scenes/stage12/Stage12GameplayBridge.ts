@@ -75,6 +75,7 @@ export function createStage12Gameplay(
     stage12MovementPlatforms,
   );
   const monsters = createMonsterRuntimeRegistry<Stage12MonsterView>({
+    level: 12,
     scene,
     platforms: stage12MovementPlatforms,
     views: {

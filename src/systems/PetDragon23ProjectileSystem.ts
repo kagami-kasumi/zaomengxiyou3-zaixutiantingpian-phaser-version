@@ -56,6 +56,7 @@ export class PetDragon23ProjectileSystem {
           knockbackX: action === 'normal' ? 3 : action === 'sdcc' ? 7 : action === 'qlaoyi' ? 1 : 2, knockbackY: -5,
           hitIntervalFrames: action === 'normal' ? 10 : action === 'sdcc' ? 8 : 999, maxHits: 99,
         });
+      projectile.petSourceKnockback = { x: projectile.knockbackX, y: projectile.knockbackY, direction: 'direct', direct: projectile.facingX };
       projectile.petHostTick = 0;
       projectile.petActionToken = context.actionToken;
       projectile.critical = cache.critical;

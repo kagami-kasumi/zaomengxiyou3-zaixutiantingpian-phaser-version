@@ -1,4 +1,6 @@
 import type { MovementPlatform } from './HeroMovementSystem';
+import { disposeMonsterKnockback } from './MonsterKnockbackBinding';
+import { DefaultGlobalSettings } from './GlobalSettingsSystem';
 import { stepMonsterPetTargetEffects } from './MonsterPetTargetEffectSystem';
 import {
   createStage1CombatEnemy,
@@ -8,7 +10,7 @@ import {
 } from './Stage1CombatSystem';
 import {
   createMonsterPhysics,
-  updateMonsterPhysics,
+  updateCombatMonsterPhysics,
   type MonsterPhysicsModel,
 } from './MonsterPhysicsSystem';
 
@@ -38,6 +40,7 @@ export type MonsterRuntimeEvent =
   | Readonly<{ type: 'cleared' }>;
 
 export type MonsterRuntimeFrame = Readonly<{
+  timeMs?: number;
   hostFps?: number;
   targets: readonly Readonly<{ slot: 'p1' | 'p2'; x: number; alive: boolean }>[];
   platforms: readonly MovementPlatform[];
@@ -94,8 +97,8 @@ export function updateMonsterRuntimeRegistry(
 ): readonly MonsterRuntimeEvent[] {
   if (registry.destroyed) return [];
   for (const runtime of registry.monsters.values()) {
-    updateMonsterPhysics(runtime.physics, runtime.combat.x, frame.platforms, frame.deltaMs);
-    runtime.combat.y = runtime.physics.y;
+    updateCombatMonsterPhysics(runtime.physics, runtime.combat, frame.platforms, frame.deltaMs,
+      frame.timeMs ?? 0, frame.hostFps ?? DefaultGlobalSettings.frameRate);
     stepMonsterPetTargetEffects(runtime.combat, frame.deltaMs, frame.hostFps);
     updateStage1Enemy({ enemy: runtime.combat, targets: frame.targets, deltaMs: frame.deltaMs });
   }
@@ -131,13 +134,16 @@ export function removeMonster(
   registry: MonsterRuntimeRegistryModel,
   id: string,
 ): readonly MonsterRuntimeEvent[] {
-  if (registry.destroyed || !registry.monsters.delete(id)) return [];
+  if (registry.destroyed) return [];
+  disposeMonsterKnockback(registry.monsters.get(id)?.combat.petKnockback);
+  if (!registry.monsters.delete(id)) return [];
   return registry.monsters.size === 0 ? [{ type: 'cleared' }] : [];
 }
 
 export function destroyMonsterRuntimeRegistry(registry: MonsterRuntimeRegistryModel): void {
   if (registry.destroyed) return;
   registry.destroyed = true;
+  for (const monster of registry.monsters.values()) disposeMonsterKnockback(monster.combat.petKnockback);
   registry.monsters.clear();
 }
 

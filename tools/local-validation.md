@@ -50,8 +50,37 @@ OOM 是资源失败，不算通过；分段通过不能代替声明为完整的�
 
 击退 manifest 的 `counts` 是原采样规模（1080 组运动），`motion` 是核验等价后发布的 270 组代表轨迹。`directionObservations` 指明原 native 文件、方向行筛选和规范化 SHA-256：哈希针对 432 条方向记录，不是含非确定性自然时间采样的整个文件。重新生成必须走生成器，不手改真值。
 
+### 实际怪物构造 profile（237）
+
+230只证明受控共享方法；12实际类型的构造/运动联合输入使用237，不以230绿色代替。首次或源/fixture失效时依次运行：
+
+```powershell
+python tools/monster-knockback-profile-source/capture.py
+python tools/monster-knockback-profile-source/verify.py --mutations
+python tools/monster-knockback-profile-source/generate.py --check
+```
+
+同样依赖现有Python/jsonschema、Java、AIR SDK/原runtime、原AS3/恢复SWF，以及217/218输入和230版本化合同；缺依赖会非零退出，不算覆盖，也不自动安装。237输出目录可由capture首次创建；`--check`要求已发布的237 manifest存在，首次发布去掉该参数。原始native/八变异与verification报告本地保留，机器sidecar已内含实际profile和代表轨迹，源码运行不得依赖忽略的原始报告。`generate.py`不运行AIR，但会重建正常AS3壳并对比编译输入hash，防止用旧采样发布新fixture。
+
+`verify.py --existing-mutations`只复查已存在的原生变异报告；需要新的源运行证据必须用`--mutations`。8类变异同时要求原生轨迹改变及独立验证失败。237 Schema显式复验可用 `node tools/validate-ui-ground-truth.mjs docs/reverse-engineering/ground-truth/manifests/behavior/task-settings-237-monster-knockback-profiles.json`；发布器另验证8类坏数据。不将原AIR采样加入普通构建或默认日常测试。
+
 ## 真值扫描
 
 `npm run check:ground-truth` 只扫描 Git 在册 JSON（递归含 behavior）；`npm run check:ui-ground-truth -- --local` 额外扫描本机忽略文件。显式路径使用相同分派规则。未登记且不声明已支持 `$schema` 的文件会失败；每个错误含文件名。新增文件应先显式验证，进入 Git 后纳入默认扫描。
 
 228/229 的新 Schema 验证交接结构和嵌套 UI，原行为反例和生产语义仍由原专项负责；不能凭这个绿色结果宣布 PG-017 或整个家族关闭。
+
+
+### TASK-SLICE-236 公共怪物击退
+
+运行资产为src/assets/monster-knockback-profiles.json；由 `node tools/generate-monster-knockback-profiles.mjs --check` 验证与版本化237输入一致，运行不读本地证据。纯计算和实际结算/physics测试已加入full清单；日常按受影响范围显式运行：
+
+```powershell
+node tools/run-system-tests.mjs --core monster-knockback-tests monster-knockback-binding-tests stage12-flow-tests stage13-flow-tests stage21-tests stage22-tests
+node tools/run-monster-knockback-mutations.mjs
+node tools/generate-monster-knockback-profiles.mjs --check
+```
+
+`monster-knockback-direction-tests` 另外需要本地230/native.json，缺失按run-system-tests的LOCAL_INPUT_MISSING退出2，不冒充已覆盖。237再发布复验：`python tools/monster-knockback-profile-source/generate.py --check`；原语料及AIR输入未变不重复全量源采样。
+
+真实场景观察：先build和preview，再 `node tools/monster-knockback-scene-probe.mjs` 生成dist下本地诊断页，浏览器访问 `/__monster-knockback/index.html?qaStage=1-2&players=2&qaPetDragon=1&auto=1&lifecycle=1`；其余qaStage为1-1-role1、1-3、2-1，2-2用qaBossState=wait。源内只注入观测回调与本地夹具，未更改生产运动。2-2取消已有展示冻结，TestScene boss3=1额外走实际旧弹体集合/碰撞入口；不验证家族目标选择或弹体视觉。导出DOM观察JSON为evidence中的stage11/12/13/21/22.json后运行 `node tools/verify-monster-knockback-scenes.mjs`。截图和原始trace仅本地，build会清除此诊断页；这些不是正式发布资源。

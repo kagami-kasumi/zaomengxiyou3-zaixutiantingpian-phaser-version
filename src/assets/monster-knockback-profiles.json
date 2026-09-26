@@ -1,0 +1,6150 @@
+{
+  "truthId": "task-settings-237.monster-knockback-profiles",
+  "sourceSha256": "17ae4bf9b4b38c43eb767ea4fddcdbfd7c541aed09f1f12fede8caf959c330aa",
+  "profiles": [
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 2,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 2,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 3,
+      "monsterId": 2,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 2,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 2,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 2,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 2,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 2,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 3,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 3,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 3,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 3,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 3,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 3,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 3,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 3,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 4,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 4,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 3,
+      "monsterId": 4,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 4,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 4,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 4,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 4,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 4,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 5,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 5,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 3,
+      "monsterId": 5,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 5,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 5,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 5,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 5,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 5,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 6,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 6,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 3,
+      "monsterId": 6,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 6,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 6,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 6,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 6,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 6,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 7,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 7,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 7,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 7,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 7,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 7,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 7,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 7,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 8,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 8,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 8,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 8,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 8,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 8,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 8,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 8,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 9,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 9,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 9,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 9,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 9,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 9,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 9,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 9,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 10,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 10,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 10,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 10,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 10,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 10,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 10,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 10,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 4,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 16,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 16,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 3,
+      "monsterId": 16,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 16,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": true,
+      "level": 2,
+      "monsterId": 16,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 16,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 16,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": true,
+      "level": 1,
+      "monsterId": 16,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 130,
+          "width": 120,
+          "x": -60,
+          "y": -65
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 19,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 19,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 19,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 19,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 19,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 19,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 19,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 19,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 100,
+          "width": 100,
+          "x": -50,
+          "y": -50
+        },
+        "flying": false,
+        "gravity": 1.5,
+        "horizontalSpeed": 3.5,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 30,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": true,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 42,
+          "width": 114,
+          "x": -57,
+          "y": -21
+        },
+        "flying": true,
+        "gravity": 0,
+        "horizontalSpeed": 7,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 30,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": true,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 42,
+          "width": 114,
+          "x": -57,
+          "y": -21
+        },
+        "flying": true,
+        "gravity": 0,
+        "horizontalSpeed": 7,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 30,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": true,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 42,
+          "width": 114,
+          "x": -57,
+          "y": -21
+        },
+        "flying": true,
+        "gravity": 0,
+        "horizontalSpeed": 7,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 1
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 30,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": true,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 42,
+          "width": 114,
+          "x": -57,
+          "y": -21
+        },
+        "flying": true,
+        "gravity": 0,
+        "horizontalSpeed": 7,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 2,
+      "monsterId": 30,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": true,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 42,
+          "width": 114,
+          "x": -57,
+          "y": -21
+        },
+        "flying": true,
+        "gravity": 0,
+        "horizontalSpeed": 7,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 2
+    },
+    {
+      "boss": false,
+      "level": 3,
+      "monsterId": 30,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": true,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 42,
+          "width": 114,
+          "x": -57,
+          "y": -21
+        },
+        "flying": true,
+        "gravity": 0,
+        "horizontalSpeed": 7,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 3
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 30,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": true,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 42,
+          "width": 114,
+          "x": -57,
+          "y": -21
+        },
+        "flying": true,
+        "gravity": 0,
+        "horizontalSpeed": 7,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 8
+    },
+    {
+      "boss": false,
+      "level": 1,
+      "monsterId": 30,
+      "predicates": {
+        "dead": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit1": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": true,
+          "walkOrRun": false
+        },
+        "hit2": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit3": {
+          "attacking": true,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hit4": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "hurt": {
+          "attacking": false,
+          "beAttacking": true,
+          "cannotMove": false,
+          "walkOrRun": false
+        },
+        "wait": {
+          "attacking": false,
+          "beAttacking": false,
+          "cannotMove": false,
+          "walkOrRun": false
+        }
+      },
+      "profile": {
+        "collider": {
+          "height": 42,
+          "width": 114,
+          "x": -57,
+          "y": -21
+        },
+        "flying": true,
+        "gravity": 0,
+        "horizontalSpeed": 7,
+        "initialVx": 0,
+        "initialVy": 4,
+        "runSpeed": 10
+      },
+      "stage": 9
+    }
+  ]
+}

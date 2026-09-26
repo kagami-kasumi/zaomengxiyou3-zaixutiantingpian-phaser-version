@@ -1,3 +1,4 @@
+import { getPetProjectileKnockback } from './PetProjectileKnockback';
 import { PetSkillEffectKeys } from '../assets/AssetManifest';
 import {
   getProjectileAttackId,
@@ -128,6 +129,7 @@ export function resolveFormalPetMonkeyProjectileHits(params: Readonly<{
     for (const enemy of params.enemies) {
       const isTrackedTarget = projectile.trackingTargetId === enemy.id;
       if (enemy.phase === 'dead' || (!isTrackedTarget && !containsPoint(hitbox, enemy))) continue;
+      const knockback = getPetProjectileKnockback(projectile);
       const event = resolveStage1PetHit({
         runtime: params.combat,
         enemy,
@@ -137,8 +139,9 @@ export function resolveFormalPetMonkeyProjectileHits(params: Readonly<{
         actionName: projectile.actionName,
         attackKind: projectile.attackKind,
         damage: projectile.damage,
-        knockbackX: projectile.knockbackX,
-        knockbackY: projectile.knockbackY,
+        knockbackX: knockback?.x ?? 0,
+        knockbackY: knockback?.y ?? 0,
+        hasKnockback: knockback !== undefined,
         timeMs: params.timeMs,
         critical: projectile.critical,
       });

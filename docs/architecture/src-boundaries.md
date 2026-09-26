@@ -40,6 +40,8 @@
 - `src/scenes/test-scene/*Bridge.ts` 是过渡层：负责把 scene 状态、Phaser 显示对象和可测试 system 输入/输出接起来。桥接层可以短期偏厚，但不能新增核心战斗、掉落、宠物、法宝或关卡规则。
 - 当 bridge 文件继续增长时，优先判断哪些逻辑可以下沉到 `src/systems/`，而不是只把 bridge 再机械拆成更多场景文件。
 
+怪物击退由既有实体持有`MonsterKnockbackBinding`，`MonsterKnockbackSystem`只计算237原运动，复用静态墙函数；`MonsterKnockbackBridge`只转换217关卡输入与相机平移。成功命中端口提交早/晚相位，物理owner单次写回，禁止从audit事件重放或另建计时器/注册表。未命中实体仍沿用既有普通运动；完整AI/身体/死亡合同不由236冒充闭合。
+
 ## `GameContext` / `EntityManager` 路线
 
 - 保留薄 `GameContext`：它只提供当前集成场景需要的运行时查询，不承载规则、不持有复杂生命周期。

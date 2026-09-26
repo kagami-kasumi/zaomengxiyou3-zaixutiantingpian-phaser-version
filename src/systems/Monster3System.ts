@@ -1,4 +1,5 @@
 import type { AttackKind } from './CombatSystem';
+import type { MonsterKnockbackBinding } from './MonsterKnockbackBinding';
 import type { Hitbox } from './HeroNormalAttackSystem';
 import type { PlayerSlot } from './InputSystem';
 import { getStage1EnemyConfig } from './Stage1CombatSystem';
@@ -13,6 +14,7 @@ export type Monster3Target = {
 };
 
 export type Monster3Model = {
+  petKnockback?: MonsterKnockbackBinding;
   x: number;
   y: number;
   hp: number;
@@ -142,6 +144,10 @@ export function updateMonster3(
 
   const target = selectNearestTarget(monster, targets);
   monster.targetSlot = target?.slot;
+  if (monster.petKnockback?.active) {
+    monster.petKnockback.motion.direction = 0;
+    monster.petKnockback.motion.velocityX = 0;
+  }
 
   if (!target) {
     monster.state = 'wait';
@@ -164,7 +170,8 @@ export function updateMonster3(
 
   if (absXDistance > Monster3Tuning.attackRange) {
     monster.state = 'walk';
-    moveTowardTarget(monster, xDistance, deltaMs);
+    if (monster.petKnockback?.active) monster.petKnockback.motion.direction = monster.facingX;
+    else moveTowardTarget(monster, xDistance, deltaMs);
     return;
   }
 

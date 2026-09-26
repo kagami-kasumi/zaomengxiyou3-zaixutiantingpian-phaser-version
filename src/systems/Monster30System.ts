@@ -1,4 +1,5 @@
 import type { AttackKind } from './CombatSystem';
+import { advanceMonsterKnockback, disposeMonsterKnockback, type MonsterKnockbackBinding } from './MonsterKnockbackBinding';
 import { createMonsterPetTargetEffectState, advanceMonsterPetTargetEffects,
   type MonsterPetTargetEffectState } from './MonsterPetTargetEffectSystem';
 import { DefaultGlobalSettings } from './GlobalSettingsSystem';
@@ -16,6 +17,7 @@ export type Monster30Target = {
 };
 
 export type Monster30Model = {
+  petKnockback?: MonsterKnockbackBinding;
   petTargetEffectState?: MonsterPetTargetEffectState;
   id: string;
   x: number;
@@ -192,11 +194,16 @@ export function updateMonster30(
   deltaMs: number,
   random: () => number = Math.random,
   hostFps: number = DefaultGlobalSettings.frameRate,
+  timeMs = 0,
 ): void {
   if (monster.state === 'removed') {
+    disposeMonsterKnockback(monster.petKnockback);
     return;
   }
 
+  advanceMonsterKnockback(monster.petKnockback, monster, { deltaMs, timeMs, hostFps, action: monster.state,
+    frozen: !!(monster.petTargetEffectState?.effects.snapshot('pethorse_ice') || monster.magicBaguaStun
+      || monster.magicZlHummerStun || monster.magicSnowIce || monster.magicPearlStun || monster.role4MbyjStun) });
   const stateBeforeDebuff = monster.state;
   if (monster.petTargetEffectState) advanceMonsterPetTargetEffects(monster.petTargetEffectState, deltaMs, hostFps);
   updateMonster30MagicFlagDebuff(monster, deltaMs);
@@ -264,10 +271,22 @@ export function updateMonster30(
 
   if (!target) {
     monster.state = 'wait';
+    if (monster.petKnockback?.active) {
+      monster.petKnockback.motion.direction = 0;
+      monster.petKnockback.motion.velocityX = 0;
+    }
     return;
   }
 
+  // The existing AI resumes after its existing hurt state. Keep its hover intent
+  // in the entity-owned motion instead of disabling it after the first pet hit.
   hoverNearTarget(monster, target, deltaMs);
+  if (monster.petKnockback?.active) {
+    monster.petKnockback.motion.y = monster.y - monster.petKnockback.sourceOffsetY;
+    monster.petKnockback.motion.velocityY = 0;
+    monster.petKnockback.motion.direction = 0;
+    monster.petKnockback.motion.velocityX = 0;
+  }
 
   const xDistance = target.x - monster.x;
   const absXDistance = Math.abs(xDistance);
@@ -276,7 +295,8 @@ export function updateMonster30(
 
   if (absXDistance > Monster30Tuning.attackRange) {
     monster.state = 'walk';
-    moveTowardTarget(monster, xDistance, deltaMs);
+    if (monster.petKnockback?.active) monster.petKnockback.motion.direction = monster.facingX;
+    else moveTowardTarget(monster, xDistance, deltaMs);
     return;
   }
 

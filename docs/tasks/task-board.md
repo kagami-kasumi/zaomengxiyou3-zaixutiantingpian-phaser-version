@@ -4,7 +4,7 @@
 
 ## 当前推荐
 
-`TASK-SLICE-236` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SLICE-236.md)。
+`TASK-SETTINGS-231` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SETTINGS-231.md)。
 
 本节由 `npm run generate:harness` 从下方状态表生成；历史事件见工作流治理日志。
 
@@ -12,9 +12,8 @@
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 青龙P1G与玄龟32合同/P1T已闭合；猴马226本地整改通过，公共230..235组合仍待；其余五族与旧入口仍待闭合 | 236/231..235公共责任→下一完整家族 | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-SLICE-236 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 公共怪物击退消费 | 将230原速度/相位/边界接入真实怪物模型 | M-030、M-032、M-042、VS-067 | 原27000运动态与早晚入口合同就绪；现代位移仍缺失 | TASK-SETTINGS-231 | [定义](task-definitions/TASK-SLICE-236.md) |
-| TASK-SETTINGS-231 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 公共怪物死亡归属补证 | 核定curAttackTarget与英雄/宠物经验分配 | M-030、M-032、M-040、VS-067 | P1宠物命中后火焰致死却按AI目标P2领奖的反例已复现；待源对象/消费者合同 | 依据证据生成同线公共归属实现task | [定义](task-definitions/TASK-SETTINGS-231.md) |
+| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 青龙P1G与玄龟32合同/P1T已闭合；猴马226本地整改通过，公共230..235组合仍待；其余五族与旧入口仍待闭合 | 231..235公共责任→下一完整家族 | [定义](task-definitions/TASK-ARCH-204.md) |
+| TASK-SETTINGS-231 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | 公共怪物死亡归属补证 | 核定curAttackTarget与英雄/宠物经验分配 | M-030、M-032、M-040、VS-067 | P1宠物命中后火焰致死却按AI目标P2领奖的反例已复现；待源对象/消费者合同 | 依据证据生成同线公共归属实现task | [定义](task-definitions/TASK-SETTINGS-231.md) |
 | TASK-SETTINGS-232 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 公共怪物身体与攻击生命周期补证 | 核定身体回调、目标效果、独立弹体及死亡顺序 | M-030、M-032、M-042、VS-067 | 火焰致死吞掉显示回调，伤害依赖源activeAttack；待原动态与消费者合同 | 依据证据生成同线公共消费实现task | [定义](task-definitions/TASK-SETTINGS-232.md) |
 | TASK-SLICE-233 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 共享Canvas回退像素对齐 | 修正roundPixels绘制尺寸扩张并核验正式场景 | M-035、M-042、VS-067 | 850态WebGL通过、654态Canvas不符的实际反例 | 回填同线Canvas视觉验收 | [定义](task-definitions/TASK-SLICE-233.md) |
 | TASK-SLICE-234 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 公共捕获宠物身份与双owner隔离 | 消除实时捕获重复ID引起的跨slot清理 | M-032、M-042、M-044、VS-067 | 两真实Runtime中释放P1误删P2弹体反例 | 回填同线双owner生命周期验收 | [定义](task-definitions/TASK-SLICE-234.md) |

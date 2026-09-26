@@ -36,6 +36,7 @@ export class PetTurtleProjectileSystem {
         knockbackX: runtime.facingX * (sybh ? form === 4 ? 2 : 5 : sld ? form === 4 ? 6 : 10 : 6), knockbackY: sld || sybh ? 0 : -5,
         hitIntervalFrames: sybh && form === 4 ? Math.trunc(context.hostFps * 0.25) : sld && form === 1 ? 7 : 999, maxHits: 99,
       });
+      projectile.petSourceKnockback = { x: projectile.knockbackX * runtime.facingX, y: projectile.knockbackY, direction: 'direct', direct: runtime.facingX };
       projectile.petHostTick = 0; projectile.petActionToken = context.actionToken;
       projectile.petEffectScale = scale; projectile.visualOnly = visualOnly;
       projectile.critical = cache.critical; projectile.destroyWhenSourceHurt = visualOnly;

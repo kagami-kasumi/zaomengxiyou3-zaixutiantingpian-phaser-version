@@ -2,6 +2,9 @@
 // monster, projectile, drop, or level domain rules.
 import Phaser from 'phaser';
 import { GameSettings } from '../../core/GameSettings';
+import { acceptTestScenePetKnockback } from './TestSceneMonsterKnockbackBridge';
+import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
+import { getDragonTargetCollisionBounds } from '../../systems/PetDragonCollisionSystem';
 import {
   applyMonster3Hit,
   applyMonster30Hit,
@@ -114,7 +117,7 @@ export function updateMonster30s(this: any, delta: number): void {
     const surviving: Monster30Model[] = [];
 
     for (const monster of this.monster30s) {
-      updateMonster30(monster, targets, delta, undefined, this.game.loop.targetFps);
+      updateMonster30(monster, targets, delta, undefined, this.game.loop.targetFps, this.time.now);
       if (monster.hp <= 0) {
         const award = claimMonsterExperienceForCurrentTarget(monster);
         if (award) this.awardMonsterExperience(award.ownerSlot, award.experience);
@@ -122,6 +125,7 @@ export function updateMonster30s(this: any, delta: number): void {
       if (monster.state !== 'removed') {
         surviving.push(monster);
       } else {
+        disposeMonsterKnockback(monster.petKnockback);
         this.spawnMonster30DropSlice(monster);
       }
     }
@@ -625,7 +629,9 @@ export function applyProjectileHits(this: any, time: number): void {
         const hitbox = getProjectileHitbox(projectile);
         const attackBounds = toPhaserRect(hitbox);
 
-        if (!Phaser.Geom.Intersects.RectangleToRectangle(attackBounds, monsterBounds)) {
+        const petBounds = projectile.variant.startsWith('pet-')
+          ? toPhaserRect(getDragonTargetCollisionBounds(30, monster.x, monster.y)) : monsterBounds;
+        if (!Phaser.Geom.Intersects.RectangleToRectangle(attackBounds, petBounds)) {
           continue;
         }
 
@@ -649,6 +655,7 @@ export function applyProjectileHits(this: any, time: number): void {
           critical: projectile.critical,
         });
 
+        acceptTestScenePetKnockback(this, monster, 30, projectile, time);
         if (applyMonster30Hit(monster, damageEvent.amount)) {
           if (projectile.magicStunMs && projectile.magicStunMs > 0) {
             applyMonster30MagicZlHummerStun(monster, {
@@ -752,7 +759,9 @@ export function applyProjectileHits(this: any, time: number): void {
         const hitbox = getProjectileHitbox(projectile);
         const attackBounds = toPhaserRect(hitbox);
 
-        if (!Phaser.Geom.Intersects.RectangleToRectangle(attackBounds, bossBounds)) {
+        const petBounds = projectile.variant.startsWith('pet-')
+          ? toPhaserRect(getDragonTargetCollisionBounds(3, this.bossArena.boss.x, this.bossArena.boss.y)) : bossBounds;
+        if (!Phaser.Geom.Intersects.RectangleToRectangle(attackBounds, petBounds)) {
           continue;
         }
 
@@ -776,6 +785,7 @@ export function applyProjectileHits(this: any, time: number): void {
           critical: projectile.critical,
         });
 
+        acceptTestScenePetKnockback(this, this.bossArena.boss, 3, projectile, time);
         if (applyMonster3Hit(this.bossArena.boss, damageEvent.amount)) {
           if (isPlayerSlot(projectile.sourceId)) {
             tryRole1LifeStealForPlayer(

@@ -1,6 +1,7 @@
 // Shared Phaser projection for the pure monster registry. Levels provide only
 // spawn commands, environment snapshots, and narrow encounter/reward events.
 import Phaser from 'phaser';
+import { createSceneMonsterKnockback } from './MonsterKnockbackBridge';
 import type { MovementPlatform } from '../systems/HeroMovementSystem';
 import {
   collectDefeatEvents,
@@ -33,6 +34,7 @@ export type MonsterRuntimeRegistry = Readonly<{
 }>;
 
 export function createMonsterRuntimeRegistry<View>(options: Readonly<{
+  level?: 11 | 12 | 13 | 21 | 22;
   scene: Phaser.Scene;
   platforms: readonly MovementPlatform[];
   views: MonsterViewAdapter<View>;
@@ -53,6 +55,9 @@ export function createMonsterRuntimeRegistry<View>(options: Readonly<{
   return {
     spawn: (commands) => {
       const events = spawnMonsters(model, commands);
+      if (options.level) for (const combat of getMonsterCombatTargets(model)) {
+        combat.petKnockback ??= createSceneMonsterKnockback(options.scene, options.level, combat.enemyType, combat);
+      }
       handleEvents(events);
       return events;
     },
@@ -60,6 +65,7 @@ export function createMonsterRuntimeRegistry<View>(options: Readonly<{
       if (destroyed) return [];
       const events: MonsterRuntimeEvent[] = [];
       events.push(...updateMonsterRuntimeRegistry(model, {
+        timeMs,
         hostFps: options.scene.game.loop.targetFps,
         targets: heroes.snapshots(),
         platforms: options.platforms,

@@ -26,6 +26,7 @@ export class PetDragon1ProjectileSystem {
         damage: cache.hurt, attackKind: 'physics', knockbackX: 3, knockbackY: -5,
         hitIntervalFrames: 10, maxHits: 99,
       });
+      projectile.petSourceKnockback = { x: projectile.knockbackX, y: projectile.knockbackY, direction: 'direct', direct: projectile.facingX };
       projectile.petHostTick = 0;
       projectile.petActionToken = context.actionToken;
       projectile.critical = cache.critical;

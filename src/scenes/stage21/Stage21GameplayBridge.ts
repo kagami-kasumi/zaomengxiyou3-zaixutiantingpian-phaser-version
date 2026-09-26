@@ -1,3 +1,5 @@
+import { createSceneMonsterCombat } from '../MonsterKnockbackBridge';
+import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 import { stepMonsterPetTargetEffects } from '../../systems/MonsterPetTargetEffectSystem';
 // boundary: Stage 2-1 submits level input/environment/monster targets to HeroPartyRuntime;
@@ -34,13 +36,12 @@ import {
 } from '../../systems/Stage21IceHazardSystem';
 import type { Stage21QaOptions } from '../../systems/Stage21EntrySystem';
 import {
-  createStage1CombatEnemy,
   updateStage1Enemy,
   type Stage1CombatEnemy,
 } from '../../systems/Stage1CombatSystem';
 import {
   createMonsterPhysics,
-  updateMonsterPhysics,
+  updateCombatMonsterPhysics,
   type MonsterPhysicsModel,
 } from '../../systems/MonsterPhysicsSystem';
 import { createStage1RewardBridge, type Stage1RewardBridge } from '../stage1/Stage1RewardBridge';
@@ -236,8 +237,7 @@ function updateMonsterCombat(
   qa: Stage21QaOptions,
 ): void {
   for (const monster of monsters.values()) {
-    updateMonsterPhysics(monster.physics, monster.combat.x, stage21MovementPlatforms, deltaMs);
-    monster.combat.y = monster.physics.y;
+    updateCombatMonsterPhysics(monster.physics, monster.combat, stage21MovementPlatforms, deltaMs, timeMs, scene.game.loop.targetFps);
     stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
     const holdRecoveryForVisual = monster.combat.phase === 'recovery'
       && isStage21MonsterAttackAction(monster.view.visual.action)
@@ -286,7 +286,7 @@ function createMonsterView(
     motionMode: 'grounded',
   });
   return {
-    combat: createStage1CombatEnemy({
+    combat: createSceneMonsterCombat(scene, 21, {
       id: monster.id,
       enemyType: monster.enemyType,
       x: monster.x,
@@ -313,6 +313,7 @@ function syncMonsterView(
 }
 
 function destroyMonsterView(monster: MonsterRuntime): void {
+  disposeMonsterKnockback(monster.combat.petKnockback);
   destroyStage21MonsterView(monster.view);
 }
 

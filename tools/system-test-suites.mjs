@@ -22,6 +22,8 @@ export const fullSystemTests = [
   'stage21-tests',
   'stage22-tests',
   'stage1-combat-tests',
+  'monster-knockback-tests',
+  'monster-knockback-binding-tests',
   'combat-feedback-tests',
   'incoming-feedback-display-tests',
   'incoming-settlement-tests',

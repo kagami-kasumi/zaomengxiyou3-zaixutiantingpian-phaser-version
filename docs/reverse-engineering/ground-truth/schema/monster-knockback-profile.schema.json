@@ -1,0 +1,843 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "truthId",
+    "status",
+    "scope",
+    "generatedBy",
+    "sources",
+    "methods",
+    "inputReferences",
+    "fixtureSources",
+    "counts",
+    "observationSha256",
+    "profiles",
+    "motion",
+    "stateColumns",
+    "units",
+    "retainedContract",
+    "equivalence",
+    "exclusions",
+    "unresolved",
+    "environmentInputs",
+    "environmentMotion"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "truthId": {
+      "const": "task-settings-237.monster-knockback-profiles"
+    },
+    "status": {
+      "const": "verified"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "generatedBy": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "methods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "method",
+          "line",
+          "fileSha256",
+          "methodSha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "fileSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "methodSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "inputReferences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256",
+          "role"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "fixtureSources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "constructorCases",
+        "motionGroups",
+        "motionStates",
+        "analyticStates",
+        "environmentGroups",
+        "environmentStates"
+      ],
+      "properties": {
+        "constructorCases": {
+          "const": 288
+        },
+        "motionGroups": {
+          "const": 7560
+        },
+        "motionStates": {
+          "const": 189000
+        },
+        "analyticStates": {
+          "const": 69120
+        },
+        "environmentGroups": {
+          "const": 3096
+        },
+        "environmentStates": {
+          "const": 77400
+        }
+      }
+    },
+    "observationSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "monsterId",
+          "stage",
+          "level",
+          "fps",
+          "profile",
+          "boss",
+          "predicates"
+        ],
+        "properties": {
+          "monsterId": {
+            "enum": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              16,
+              19,
+              30
+            ]
+          },
+          "stage": {
+            "type": "integer"
+          },
+          "level": {
+            "type": "integer"
+          },
+          "fps": {
+            "enum": [
+              20,
+              24,
+              30
+            ]
+          },
+          "profile": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "gravity",
+              "horizontalSpeed",
+              "runSpeed",
+              "flying",
+              "collider",
+              "initialVx",
+              "initialVy"
+            ],
+            "properties": {
+              "gravity": {
+                "type": "number"
+              },
+              "horizontalSpeed": {
+                "type": "number"
+              },
+              "runSpeed": {
+                "type": "number"
+              },
+              "flying": {
+                "type": "boolean"
+              },
+              "collider": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "x",
+                  "y",
+                  "width",
+                  "height"
+                ],
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "width": {
+                    "type": "number"
+                  },
+                  "height": {
+                    "type": "number"
+                  }
+                }
+              },
+              "initialVx": {
+                "type": "number"
+              },
+              "initialVy": {
+                "type": "number"
+              }
+            }
+          },
+          "boss": {
+            "type": "boolean"
+          },
+          "predicates": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "wait",
+              "hurt",
+              "dead",
+              "hit1",
+              "hit2",
+              "hit3",
+              "hit4"
+            ],
+            "properties": {
+              "wait": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "attacking",
+                  "cannotMove",
+                  "beAttacking",
+                  "walkOrRun"
+                ],
+                "properties": {
+                  "attacking": {
+                    "type": "boolean"
+                  },
+                  "cannotMove": {
+                    "type": "boolean"
+                  },
+                  "beAttacking": {
+                    "type": "boolean"
+                  },
+                  "walkOrRun": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "hurt": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "attacking",
+                  "cannotMove",
+                  "beAttacking",
+                  "walkOrRun"
+                ],
+                "properties": {
+                  "attacking": {
+                    "type": "boolean"
+                  },
+                  "cannotMove": {
+                    "type": "boolean"
+                  },
+                  "beAttacking": {
+                    "type": "boolean"
+                  },
+                  "walkOrRun": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "dead": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "attacking",
+                  "cannotMove",
+                  "beAttacking",
+                  "walkOrRun"
+                ],
+                "properties": {
+                  "attacking": {
+                    "type": "boolean"
+                  },
+                  "cannotMove": {
+                    "type": "boolean"
+                  },
+                  "beAttacking": {
+                    "type": "boolean"
+                  },
+                  "walkOrRun": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "hit1": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "attacking",
+                  "cannotMove",
+                  "beAttacking",
+                  "walkOrRun"
+                ],
+                "properties": {
+                  "attacking": {
+                    "type": "boolean"
+                  },
+                  "cannotMove": {
+                    "type": "boolean"
+                  },
+                  "beAttacking": {
+                    "type": "boolean"
+                  },
+                  "walkOrRun": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "hit2": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "attacking",
+                  "cannotMove",
+                  "beAttacking",
+                  "walkOrRun"
+                ],
+                "properties": {
+                  "attacking": {
+                    "type": "boolean"
+                  },
+                  "cannotMove": {
+                    "type": "boolean"
+                  },
+                  "beAttacking": {
+                    "type": "boolean"
+                  },
+                  "walkOrRun": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "hit3": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "attacking",
+                  "cannotMove",
+                  "beAttacking",
+                  "walkOrRun"
+                ],
+                "properties": {
+                  "attacking": {
+                    "type": "boolean"
+                  },
+                  "cannotMove": {
+                    "type": "boolean"
+                  },
+                  "beAttacking": {
+                    "type": "boolean"
+                  },
+                  "walkOrRun": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "hit4": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "attacking",
+                  "cannotMove",
+                  "beAttacking",
+                  "walkOrRun"
+                ],
+                "properties": {
+                  "attacking": {
+                    "type": "boolean"
+                  },
+                  "cannotMove": {
+                    "type": "boolean"
+                  },
+                  "beAttacking": {
+                    "type": "boolean"
+                  },
+                  "walkOrRun": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "minItems": 288,
+      "maxItems": 288
+    },
+    "motion": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "monsterId",
+          "stage",
+          "fps",
+          "mode",
+          "direction",
+          "owner",
+          "boss",
+          "states"
+        ],
+        "properties": {
+          "monsterId": {
+            "enum": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              16,
+              19,
+              30
+            ]
+          },
+          "stage": {
+            "enum": [
+              1,
+              9
+            ]
+          },
+          "fps": {
+            "enum": [
+              20,
+              24,
+              30
+            ]
+          },
+          "mode": {
+            "enum": [
+              "air",
+              "floor",
+              "ceiling",
+              "left",
+              "right",
+              "through",
+              "through-up",
+              "through-down",
+              "screen-left",
+              "screen-left-equal",
+              "screen-right",
+              "screen-right-equal",
+              "stun",
+              "wait",
+              "dead",
+              "hit1",
+              "hit4",
+              "recover",
+              "unfreeze",
+              "hit1-floor",
+              "hit4-floor"
+            ]
+          },
+          "direction": {
+            "enum": [
+              -1,
+              1
+            ]
+          },
+          "owner": {
+            "const": 1
+          },
+          "boss": {
+            "const": false
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "minItems": 9,
+              "maxItems": 9,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "items": false
+            },
+            "minItems": 25,
+            "maxItems": 25
+          }
+        }
+      },
+      "minItems": 1890,
+      "maxItems": 1890
+    },
+    "stateColumns": {
+      "const": [
+        "x",
+        "y",
+        "vx",
+        "vy",
+        "standing",
+        "head",
+        "wallLeft",
+        "wallRight",
+        "action"
+      ]
+    },
+    "units": {
+      "type": "string"
+    },
+    "retainedContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "truthId",
+        "path",
+        "sha256",
+        "pointers"
+      ],
+      "properties": {
+        "truthId": {
+          "const": "task-settings-230.monster-knockback"
+        },
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "pointers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "equivalence": {
+      "type": "string"
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "unresolved": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "environmentInputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "level",
+          "walls"
+        ],
+        "properties": {
+          "level": {
+            "enum": [
+              11,
+              12,
+              13,
+              21,
+              22
+            ]
+          },
+          "walls": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "left",
+                "top",
+                "width",
+                "height",
+                "throughClass",
+                "markers"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "left": {
+                  "type": "number"
+                },
+                "top": {
+                  "type": "number"
+                },
+                "width": {
+                  "type": "number"
+                },
+                "height": {
+                  "type": "number"
+                },
+                "throughClass": {
+                  "type": "boolean"
+                },
+                "markers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 0
+                }
+              }
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "environmentMotion": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "monsterId",
+          "level",
+          "wallId",
+          "fps",
+          "direction",
+          "worldOffset",
+          "states"
+        ],
+        "properties": {
+          "monsterId": {
+            "enum": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              16,
+              19,
+              30
+            ]
+          },
+          "level": {
+            "enum": [
+              11,
+              12,
+              13,
+              21,
+              22
+            ]
+          },
+          "wallId": {
+            "type": "string"
+          },
+          "fps": {
+            "enum": [
+              20,
+              24,
+              30
+            ]
+          },
+          "direction": {
+            "enum": [
+              -1,
+              1
+            ]
+          },
+          "worldOffset": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "minItems": 9,
+              "maxItems": 9,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "items": false
+            },
+            "minItems": 25,
+            "maxItems": 25
+          }
+        }
+      },
+      "minItems": 3096,
+      "maxItems": 3096
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Original actual monster constructor profiles and bounded native knockback trajectories"
+}

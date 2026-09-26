@@ -158,7 +158,7 @@ export function createTestSceneHeroPartyRuntime(
             const award = claimMonsterExperienceForCurrentTarget(monster, slot);
             if (award) scene.awardMonsterExperience(award.ownerSlot, award.experience);
           }
-        }),
+        }, scene),
         targets: scene.createPetSkillTargets(),
         groundEnvironmentFor: () => petGroundEnvironment,
         projectiles: compatibility.projectileSystem,

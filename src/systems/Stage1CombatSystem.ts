@@ -1,4 +1,5 @@
 import { initializeMonsterPetTargetEffects, isMonsterPetIceActive } from './MonsterPetTargetEffectSystem';
+import { acceptMonsterKnockback, type MonsterKnockbackBinding } from './MonsterKnockbackBinding';
 import {
   createDamageEvent,
   createHitRegistry,
@@ -96,6 +97,7 @@ export type Stage1CombatPlayer = {
 };
 
 export type Stage1CombatEnemy = {
+  petKnockback?: MonsterKnockbackBinding;
   petTargetEffectState?: import('./MonsterPetTargetEffectSystem').MonsterPetTargetEffectState;
   id: string;
   enemyType: Stage1EnemyType;
@@ -287,16 +289,25 @@ export function updateStage1Enemy(params: {
   }
 
   const target = nearestLivingTarget(model.x, targets);
-  if (!target) return;
+  if (!target) {
+    stopMonsterApproach(model);
+    return;
+  }
   const config = getStage1EnemyConfig(model.enemyType);
   const distance = target.x - model.x;
   model.facingX = distance < 0 ? -1 : 1;
   if (Math.abs(distance) > config.attackRange) {
+    if (model.petKnockback?.active) {
+      model.petKnockback.motion.direction = model.facingX;
+      model.petKnockback.motion.action = 'walk';
+      return;
+    }
     const travel = config.moveSpeed * Math.max(0, params.deltaMs) / 1_000;
     model.x += Math.sign(distance) * Math.min(Math.abs(distance), travel);
     return;
   }
 
+  stopMonsterApproach(model);
   const serial = model.attackSerial + 1;
   const attack = getStage1EnemyAttack(model.enemyType, serial);
   model.attackSerial = serial;
@@ -489,6 +500,9 @@ export function resolveStage1PetHit(params: Readonly<{
   knockbackY: number;
   timeMs: number;
   critical?: boolean;
+  /** Native pet host runs before monster physics; legacy projectile resolution runs after it. */
+  knockbackPhase?: 'early' | 'late';
+  hasKnockback?: boolean;
   /** Opt-in source bullet semantics; existing monkey/horse callers retain their damage path. */
   sourceBullet?: Readonly<{
     cache: DragonDamageCache;
@@ -502,6 +516,10 @@ export function resolveStage1PetHit(params: Readonly<{
   if (params.sourceBullet?.protected) return undefined;
   if (!resolveHitOnce(params.runtime.hitRegistry, params.attackId, params.enemy.id)) return undefined;
   if (params.sourceBullet && params.sourceBullet.random() <= params.sourceBullet.dodgeProbability) return undefined;
+  if (params.hasKnockback !== false) acceptMonsterKnockback(params.enemy.petKnockback,
+    { x: params.knockbackX, y: params.knockbackY, timeMs: params.timeMs },
+    { x: params.enemy.x, y: params.enemy.y, action: getStage1MonsterMotionAction(params.enemy),
+      frozen: isMonsterPetIceActive(params.enemy) }, params.knockbackPhase ?? 'late');
   params.enemy.lastHitBy = params.ownerSlot;
   params.sourceBullet?.applyEffects?.();
   const hpBefore = params.enemy.hp;
@@ -548,6 +566,20 @@ export function resolveStage1PetHit(params: Readonly<{
     incrementsCombo: true,
   });
   return event;
+}
+
+export function getStage1MonsterMotionAction(enemy: Stage1CombatEnemy): string {
+  if (enemy.phase === 'hurt' || enemy.phase === 'dead') return enemy.phase;
+  if (enemy.activeAttack) return enemy.activeAttack.actionName;
+  return enemy.petKnockback?.motion.action === 'walk' ? 'walk' : 'wait';
+}
+
+/** Translate the existing AI's stop intent; this is not a hurt/tween completion rule. */
+function stopMonsterApproach(enemy: Stage1CombatEnemy): void {
+  if (!enemy.petKnockback?.active) return;
+  enemy.petKnockback.motion.direction = 0;
+  enemy.petKnockback.motion.velocityX = 0;
+  enemy.petKnockback.motion.action = 'wait';
 }
 
 function recordDamage(

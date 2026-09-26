@@ -1,3 +1,5 @@
+import { createSceneMonsterCombat } from '../MonsterKnockbackBridge';
+import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 import { stepMonsterPetTargetEffects } from '../../systems/MonsterPetTargetEffectSystem';
 // boundary: Stage 2-2 submits level input/environment/monster targets to HeroPartyRuntime;
@@ -5,13 +7,12 @@ import { stepMonsterPetTargetEffects } from '../../systems/MonsterPetTargetEffec
 import Phaser from 'phaser';
 import { createInputSystem } from '../../systems/InputSystem';
 import {
-  createStage1CombatEnemy,
   updateStage1Enemy,
   type Stage1CombatEnemy,
 } from '../../systems/Stage1CombatSystem';
 import {
   createMonsterPhysics,
-  updateMonsterPhysics,
+  updateCombatMonsterPhysics,
   type MonsterPhysicsModel,
 } from '../../systems/MonsterPhysicsSystem';
 import {
@@ -258,8 +259,7 @@ function updateMonsterCombat(
 ): void {
   for (const monster of monsters.values()) {
     if (freezeBossShowcase && monster.combat.id === 'stage22-qa-monster16') continue;
-    updateMonsterPhysics(monster.physics, monster.combat.x, stage22MovementPlatforms, deltaMs);
-    monster.combat.y = monster.physics.y;
+    updateCombatMonsterPhysics(monster.physics, monster.combat, stage22MovementPlatforms, deltaMs, timeMs, scene.game.loop.targetFps);
     stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
     const waitingForVisual = monster.combat.phase === 'recovery'
       && isMonsterAttackVisual(monster)
@@ -304,7 +304,7 @@ function createMonsterView(
       motionMode: 'grounded',
     });
     return {
-      combat: createStage1CombatEnemy({
+      combat: createSceneMonsterCombat(scene, 22, {
         id: enemy.id,
         enemyType: 16,
         x: enemy.x,
@@ -321,7 +321,7 @@ function createMonsterView(
     motionMode: 'grounded',
   });
   return {
-    combat: createStage1CombatEnemy({
+    combat: createSceneMonsterCombat(scene, 22, {
       id: enemy.id,
       enemyType: enemy.enemyType,
       x: enemy.x,
@@ -427,6 +427,7 @@ function defaultShowcaseTick(
 }
 
 function destroyMonster(monster: MonsterRuntime): void {
+  disposeMonsterKnockback(monster.combat.petKnockback);
   if (monster.combat.enemyType === 16) destroyMonster16View(monster.view as Monster16View);
   else destroyStage21MonsterView(monster.view as Stage21MonsterView);
 }

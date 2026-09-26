@@ -1,3 +1,4 @@
+import { getPetProjectileKnockback } from './PetProjectileKnockback';
 import horseFamilyTruthJson from '../../docs/reverse-engineering/ground-truth/manifests/task-settings-209-pet-horse-family.json';
 import {
   getProjectileAttackId,
@@ -219,6 +220,7 @@ export function resolveFormalPetHorseProjectileHits(params: Readonly<{
     for (const enemy of params.enemies) {
       const tracked = projectile.trackingTargetId === enemy.id;
       if (enemy.phase === 'dead' || (!tracked && !containsPoint(hitbox, enemy))) continue;
+      const knockback = getPetProjectileKnockback(projectile);
       const event = resolveStage1PetHit({
         runtime: params.combat,
         enemy,
@@ -228,8 +230,9 @@ export function resolveFormalPetHorseProjectileHits(params: Readonly<{
         actionName: projectile.actionName,
         attackKind: projectile.attackKind,
         damage: projectile.damage,
-        knockbackX: projectile.knockbackX,
-        knockbackY: projectile.knockbackY,
+        knockbackX: knockback?.x ?? 0,
+        knockbackY: knockback?.y ?? 0,
+        hasKnockback: knockback !== undefined,
         timeMs: params.timeMs,
         critical: projectile.critical,
       });

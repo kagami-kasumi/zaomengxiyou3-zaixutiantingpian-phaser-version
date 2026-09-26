@@ -1,4 +1,7 @@
 import type { MovementPlatform } from './HeroMovementSystem';
+import { advanceMonsterKnockback } from './MonsterKnockbackBinding';
+import { getStage1MonsterMotionAction, type Stage1CombatEnemy } from './Stage1CombatSystem';
+import { isMonsterPetIceActive } from './MonsterPetTargetEffectSystem';
 
 export type MonsterMotionMode = 'grounded' | 'flying';
 
@@ -60,6 +63,24 @@ export function updateMonsterPhysics(
   model.y = nextY;
   model.grounded = false;
   model.currentPlatformId = undefined;
+}
+
+/** The combat owner and physics projection share one displacement path per update. */
+export function updateCombatMonsterPhysics(model: MonsterPhysicsModel, enemy: Stage1CombatEnemy,
+  platforms: readonly MovementPlatform[], deltaMs: number, timeMs: number, hostFps: number): void {
+  const binding = enemy.petKnockback;
+  if (!binding?.active) {
+    updateMonsterPhysics(model, enemy.x, platforms, deltaMs);
+    enemy.y = model.y;
+  }
+  if (advanceMonsterKnockback(binding, enemy, { deltaMs, timeMs, hostFps,
+    action: getStage1MonsterMotionAction(enemy), frozen: isMonsterPetIceActive(enemy) })) {
+    model.y = enemy.y;
+    model.height = binding!.profile.profile.collider.height;
+    model.velocityY = binding!.motion.velocityY * hostFps;
+    model.grounded = binding!.motion.standingOn !== undefined;
+    model.currentPlatformId = binding!.motion.standingOn;
+  }
 }
 
 function findLandingPlatform(

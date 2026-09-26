@@ -140,7 +140,10 @@ function testAllStage1ConsumersUseSharedOwners(): void {
   const stage11World = read('src/scenes/test-scene/TestSceneWorldBridge.ts');
   const stage12 = read('src/scenes/stage12/Stage12GameplayBridge.ts');
   const stage13 = read('src/scenes/stage13/Stage13GameplayBridge.ts');
-  assert.ok(stage11Boss.includes('updateMonsterPhysics('));
+  assert.ok(stage11Boss.includes('updateTestSceneBossPhysics('));
+  const bossPhysics = read('src/scenes/test-scene/TestSceneMonsterKnockbackBridge.ts');
+  assert.ok(bossPhysics.includes('updateMonsterPhysics('));
+  assert.ok(bossPhysics.includes('advanceMonsterKnockback('));
   assert.ok(stage11Boss.includes('settleMonsterDefeatRewards('));
   assert.ok(stage11World.includes('settleMonsterDefeatRewards('));
   assert.ok(stage12.includes('createStage1RewardBridge('));

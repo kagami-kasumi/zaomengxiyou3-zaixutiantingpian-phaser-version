@@ -1,5 +1,11 @@
 # 纵向切片复现表
 
+2026-09-26 / TASK-SLICE-236完成：公共击退已接入五关/TestScene真实owner，保留早晚结算相位、原host单位、Tween覆盖与边缘旧Tween。124650原生轨迹态、5184真实hit/physics态、432原方向、8生产变异及五关9201显示同步态/537旧Boss态通过；真实重试返回全部释放。237探针完成Tween反复force写末值的反例同次纠正并新增第8源变异。236归档，TASK-SETTINGS-231唯一Ready；仅核销公共击退责任，原84其余责任、身体/死亡、完整家族/all/VS-067与整线不关闭。合同与本地证据见 monster-pet-knockback-contract.md、TASK-SLICE-236/scene-verification.json。
+
+2026-09-26 / TASK-SETTINGS-237完成：12实际类型288构造profile、7560组/189000受控运动态及五关43墙3096组/77400态原方法输入重放通过，69120自由状态独立解析核对；七类编译源变异改变轨迹并被拒绝，正常源重复一致、8类Schema反例拒绝。实际BaseMonster行走谓词及越界覆盖同次补齐。237归档、236恢复唯一Ready；只解除实际profile输入阻塞，现代击退、231/232与原84公共责任仍待，M-030/032/042、VS-067及整线不提升。交接见 `docs/reverse-engineering/monster-pet-knockback-contract.md`。
+
+2026-09-26 / TASK-SLICE-236消费预检：230通用壳未应用实际构造profile，11类地面碰撞宽度与218不符，Monster30重力1.5与源构造0不符；可重复诊断与独立消费者核对确认。236保留全合同并Blocked，TASK-SETTINGS-237唯一Ready补实际profile原生轨迹；231..235保持Planned。未改src/public、230真值或原提取结果；217/218及230通用壳结论保留，M-030/032/042、VS-067与整线不提升。见 `docs/tasks/evidence/TASK-SLICE-236/preflight.md`。
+
 2026-09-26 / TASK-SETTINGS-230完成：原受击运动27000态/432方向、14入口/4去重/4调度及3原生Tween覆盖模式通过，5源变异拒绝、确定性重复生成一致；217/218空间引用与230行为sidecar交接。现代无位移反例仍存在，236唯一Ready实施公共击退，231..235保持Planned；原84组合责任、全族/204/VS-067与功能线均不关闭。合同见 `docs/reverse-engineering/monster-pet-knockback-contract.md`。
 
 2026-09-26 / TASK-SLICE-226本项整改完成：猴马连续host时序、资格/目标/地面/反击、真实碰撞伤害、奥义/冰火/显示及生命周期已补证修正；扩大P1R/P1H/P1G/P1T=0，新增正式目标投影后的P1R/P1H=0。原41/43责任保留于226合同承接矩阵，公共230..235仍未修复，猴马完整家族、204/all/194/VS-067均不关闭。下一执行项TASK-SETTINGS-230（Ready），功能线保持Active。

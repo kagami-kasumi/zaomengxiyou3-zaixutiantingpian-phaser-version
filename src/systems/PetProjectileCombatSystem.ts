@@ -1,4 +1,5 @@
 import type { PetProjectileCombatPort } from './PetProjectileCombatPort';
+import { getPetProjectileKnockback } from './PetProjectileKnockback';
 import { addMonsterPetTargetEffects } from './MonsterPetTargetEffectSystem';
 import { getProjectileAttackId } from './ProjectileSystem';
 import { resolveStage1PetHit, type Stage1CombatEnemy, type Stage1CombatRuntime } from './Stage1CombatSystem';
@@ -38,11 +39,13 @@ export function createPetProjectileCombatPort(input: Readonly<{
     hit: (projectile, targetId, cache) => {
       const enemy = input.enemies.find(enemy => enemy.id === targetId);
       if (!enemy) return false;
+      const knockback = getPetProjectileKnockback(projectile);
       return resolveStage1PetHit({ runtime: input.combat, enemy, ownerSlot: input.ownerSlot,
         petId: projectile.sourceId, attackId: getProjectileAttackId(projectile),
         actionName: projectile.actionName, attackKind: projectile.attackKind, damage: cache.hurt,
-        critical: cache.critical, knockbackX: projectile.knockbackX, knockbackY: projectile.knockbackY,
-        timeMs: input.timeMs, sourceBullet: { cache,
+        critical: cache.critical, knockbackX: knockback?.x ?? 0, knockbackY: knockback?.y ?? 0,
+        hasKnockback: knockback !== undefined,
+        timeMs: input.timeMs, knockbackPhase: 'early', sourceBullet: { cache,
           protected: enemy.sourceHitProtection?.protected ?? false,
           dodgeProbability: enemy.sourceHitProtection?.dodgeProbability ?? 0,
           random: input.random,

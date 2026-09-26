@@ -53,6 +53,7 @@ export class PetMonkeyHorseProjectileSystem {
         hitIntervalFrames: definition.interval, maxHits: definition.maxHits,
       });
       projectile.x = toDragonSourceCoordinate(projectile.x); projectile.y = toDragonSourceCoordinate(projectile.y);
+      projectile.petSourceKnockback = { x: projectile.knockbackX * runtime.facingX, y: projectile.knockbackY, direction: 'direct', direct: runtime.facingX };
       projectile.petHostTick = 0; projectile.petActionToken = context.actionToken;
       bindMonkeyHorseNativeClipClock(projectile, context);
       projectile.critical = cache.critical; projectile.destroyWhenSourceHurt = false;
@@ -103,7 +104,8 @@ export class PetMonkeyHorseProjectileSystem {
           knockbackX: runtime.facingX * definition.knockback[0]!, knockbackY: definition.knockback[1]!,
           hitIntervalFrames: definition.interval, maxHits: definition.maxHits });
         projectile.x = toDragonSourceCoordinate(projectile.x); projectile.y = toDragonSourceCoordinate(projectile.y);
-        projectile.petHostTick = 0; projectile.petActionToken = context.actionToken;
+        projectile.petSourceKnockback = { x: projectile.knockbackX * runtime.facingX, y: projectile.knockbackY, direction: 'direct', direct: runtime.facingX };
+      projectile.petHostTick = 0; projectile.petActionToken = context.actionToken;
         bindMonkeyHorseNativeClipClock(projectile, context);
         projectile.critical = cache.critical; projectile.visualOnly = effect.disabled;
         projectile.petTargetEffects = petTargetEffectPayload(context, action, this.initialAttack);
