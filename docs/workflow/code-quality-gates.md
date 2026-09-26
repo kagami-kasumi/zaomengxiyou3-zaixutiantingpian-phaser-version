@@ -4,13 +4,38 @@ This document records harness-level rules for AI agents that edit game code. It 
 
 ## Required Gates
 
-- Source edits under `src/` must run `npm run test:systems` and `npm run build` before the task is marked complete.
+- Source edits under `src/` require daily core regression (`npm run test:systems`), tests for the affected behavior, and `npm run build` once against the final relevant inputs. Successful unchanged results from the same batch may be reused; this does not require a full regression on every task.
 - Workflow, task, domain, or harness document edits must run `npm run check:workflow` (harness plus legacy document validation).
 - `npm run check:harness` is the independent fast check for harness routes, links, scheduling snapshots and PG contracts. `npm run check:workflow:full` adds asset annotations and level architecture checks; run these when their inputs change. After editing board status, run `npm run generate:harness` to refresh its derived recommendation.
-- Mixed code and workflow edits may use `npm run check:all` for the full combination, or run each required constituent once. Do not rerun successful constituents through a wrapper when their inputs have not changed.
+- Mixed code and workflow edits run only their required constituents once. `npm run check:all` is an explicit full audit, not the default closing ritual. Use it for a release, broadly coupled/unknown impact, or an explicit full-audit requirement. Do not rerun successful constituents through a wrapper when their inputs have not changed.
 - Before adding new logic to any file, run `npm run check:structure`. If the target file appears in errors, splitting is mandatory before adding logic. If the target file appears only in warnings, split it first for feature work; for a small local fix, document the reason and keep the edit narrow. Warnings in unrelated files do not block the current task.
 - Visual testing is useful, but it is not enough for completion. A visual pass must be paired with a deterministic command whenever the changed behavior can be represented as a system invariant.
 - Do not start `npm run dev` by default. For automated visual inspection, build first and then use the user-approved `npm run preview` endpoint on `0.0.0.0:4174`. The preview may remain running between inspections and should only be stopped for a port conflict, an explicit user request, or another concrete need.
+
+## Daily core, affected tests and full audit
+
+用户于 2026-09-26 明确要求减少重复验证、日常只保留核心。命令职责如下：
+
+- `npm run test:systems`：14 组核心，覆盖启动节奏、基础战斗/成长、存档与双人隔离、关卡终态、受击/环境结算、共享英雄/怪物/宠物生命周期和玩家流程。清单唯一 owner 为 `tools/system-test-suites.mjs`。
+- `npm run test:systems -- --core <专项名...>`：核心与受影响专项合并，同名组只执行一次。只传专项名则只执行指定项，保留现有设计门禁的显式清单语义。
+- `npm run test:systems -- --list` / `--full --list`：只看计划，不执行测试。
+- `npm run check:code`：日常核心与构建；已分别通过就不再补跑本命令。
+- `npm run test:systems:full`：原 88 组完整系统回归；`check:code:full` 额外含全部在册真值校验和构建，`check:all` 再含完整 workflow 与结构检查。全量语义保留，不用核心结果冒充全量。
+
+日常移出的 74 组保留原断言。它们按改动触发，不是取消验证；核心 14 组也不是彼此完全不重叠。旧 `system-tests` 仍含独有基础合同，未证明被替代前保留。后续新增测试优先覆盖新行为/边界/真实反例；多个参数仅在能区分不同行为分支时保留，纯重复排列可在证明等价后合并。不得仅为减少用例数删掉失败反例或缩小宣称的原版一致性范围。
+
+| 改动范围 | 核心以外应选择的验证 |
+| --- | --- |
+| 文档/状态说明 | workflow；源码输入未变不重跑游戏测试和 build |
+| 测试调度/runner | `test:test-selection`、harness 与受改动工具测试；纯清单变更可复用同批不变的测试执行结果 |
+| 某关刷怪、门、遍历、Boss | 对应 stage flow/traversal/专项目标；不默认重扫全部资源 |
+| 共享宠物 AI/移动/时钟/碰撞/结算 | 相应 decision/clock/runtime 专项及受影响家族；不能只用玄龟生命周期代表所有家族 |
+| 商店、技能、背包、工坊等具体业务 | 对应 formal/transaction 专项；完整 journey 不能替代该业务边界 |
+| 纹理、atlas、catalog、bundle、资源路径 | 对应 resource/presentation/ownership 专项及受影响状态视觉检查 |
+| 真值、Schema、生成器或源输入 | 对应 Schema、坏数据反例及必要源复验；普通业务修改不重放全部原版采样 |
+| 首次交付、跨系统大改、影响不清或任务明确要求完整验收 | 对应完整回归/设计/浏览器验收；同批相同输入成功结果仍只取得一次 |
+
+“只测一次”的单位是同一批次中未变化的相关代码、测试、fixture、资源、配置与环境。改了其中一项就重测受影响项；失败或未运行结果不能复用。跨命令是否复用由执行者核对已有日志/结果，工具不提供永久免检缓存，也不新增检查台账。计划好一条包含核心与专项的命令，执行后不再为了收尾格式追加 `check:all`。
 
 ## System Test Triggers
 
@@ -41,7 +66,7 @@ Add or update `tools/system-tests.ts` when a change touches any of these areas:
 
 Validation frequency and reuse:
 
-- During implementation, run affected tests. At delivery, run the required system regression and build once against the final code. Later document-only edits do not invalidate code results.
+- During implementation, run affected tests. At delivery, run the daily core plus affected specialized tests and build once against the final relevant inputs; use full regression only for the triggers above. Later document-only edits do not invalidate code results.
 - Before invoking a composite gate, inspect its constituents and choose one invocation covering the required set. Reuse only successful results for unchanged code, tests, fixtures, resources, configuration and environment; changed or uncertain inputs require rerunning affected checks. Failed checks never count as passed dependencies.
 - Browser comparisons against `dist` require a build of current source; mutations must be restored before accepting a normal run. This is same-batch reuse, not a new permanent cache or per-check report.
 - Unchanged source truth and visual baselines may be referenced. Changes to animation, collision, damage, lifecycle or presentation require affected-state regression; family integration still covers the complete declared contract set.

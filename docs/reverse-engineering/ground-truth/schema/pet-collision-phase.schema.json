@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pet-collision-phase.schema.json",
+  "description": "Structural handoff and embedded UI schema checks; not native behavior or modern runtime acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "truthId",
+    "taskId",
+    "status",
+    "scope",
+    "sources",
+    "naturalDisplay",
+    "inheritedDisplay",
+    "geometry",
+    "body",
+    "evidence",
+    "contractMatrix",
+    "hostSemantics",
+    "displayInventory",
+    "completeness",
+    "consumerBoundary"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "truthId": {
+      "enum": [
+        "task-settings-228.pet-monkey-collision-phase",
+        "task-settings-229.pet-horse-collision-phase"
+      ]
+    },
+    "taskId": {
+      "enum": [
+        "TASK-SETTINGS-228",
+        "TASK-SETTINGS-229"
+      ]
+    },
+    "status": {
+      "const": "verified"
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1
+    },
+    "naturalDisplay": {
+      "$ref": "urn:zaixu-tianding:schema:ui-ground-truth:v1"
+    },
+    "inheritedDisplay": {
+      "type": "object",
+      "required": [
+        "ui",
+        "geometry",
+        "nativeTimeline",
+        "hudInputs"
+      ],
+      "properties": {
+        "ui": {
+          "$ref": "urn:zaixu-tianding:schema:ui-ground-truth:v1"
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "required": [
+        "status",
+        "sources"
+      ]
+    },
+    "body": {
+      "type": "object",
+      "required": [
+        "forms",
+        "cellCount",
+        "bitmapSources"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "contractMatrix": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "hostSemantics": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "displayInventory": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "completeness": {
+      "type": "object",
+      "required": [
+        "contractIds",
+        "requiredEvidence",
+        "unresolved"
+      ],
+      "properties": {
+        "contractIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "requiredEvidence": {
+          "type": "array",
+          "minItems": 1
+        },
+        "unresolved": {
+          "type": "array",
+          "maxItems": 0
+        }
+      }
+    },
+    "consumerBoundary": {
+      "type": "object",
+      "required": [
+        "implementationTask",
+        "runtimeDataPolicy",
+        "notProven"
+      ]
+    }
+  }
+}

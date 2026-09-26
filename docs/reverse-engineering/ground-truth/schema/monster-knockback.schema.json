@@ -20,7 +20,9 @@
     "naturalTweenOutcome",
     "exclusions",
     "unresolved",
-    "monsterProfiles"
+    "monsterProfiles",
+    "countsMeaning",
+    "directionObservations"
   ],
   "properties": {
     "schemaVersion": {
@@ -193,15 +195,163 @@
     "entryAndScheduler": {
       "type": "array",
       "minItems": 23,
-      "maxItems": 23
+      "maxItems": 23,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "x",
+              "y"
+            ],
+            "properties": {
+              "type": {
+                "const": "null-config"
+              },
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "owner",
+              "mode",
+              "misses",
+              "state",
+              "ids",
+              "accepted"
+            ],
+            "properties": {
+              "type": {
+                "const": "gate"
+              },
+              "owner": {
+                "enum": [
+                  1,
+                  2
+                ]
+              },
+              "mode": {
+                "enum": [
+                  "hit",
+                  "protected",
+                  "dodge",
+                  "geometry-miss",
+                  "forced",
+                  "null-config",
+                  "excluded-hero-bullet"
+                ]
+              },
+              "misses": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "state": {
+                "$ref": "#/$defs/state"
+              },
+              "ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              },
+              "accepted": {
+                "type": "boolean"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "mode",
+              "ids",
+              "state",
+              "refresh"
+            ],
+            "properties": {
+              "type": {
+                "const": "dedup"
+              },
+              "mode": {
+                "enum": [
+                  "same",
+                  "different",
+                  "protected-then-hit",
+                  "dodge-then-hit"
+                ]
+              },
+              "ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              },
+              "state": {
+                "$ref": "#/$defs/state"
+              },
+              "refresh": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "tick",
+              "state"
+            ],
+            "properties": {
+              "type": {
+                "const": "schedule"
+              },
+              "tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "state": {
+                "$ref": "#/$defs/state"
+              }
+            }
+          }
+        ]
+      }
     },
     "naturalTweenOutcome": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "replace",
         "edgeReturn",
         "zero"
-      ]
+      ],
+      "properties": {
+        "replace": {
+          "type": "number"
+        },
+        "edgeReturn": {
+          "type": "number"
+        },
+        "zero": {
+          "type": "number"
+        }
+      }
     },
     "exclusions": {
       "type": "array",
@@ -228,6 +378,126 @@
           "explicitlyFlying",
           "movementPredicateOverrides"
         ]
+      }
+    },
+    "countsMeaning": {
+      "const": "counts describe original source observations; motion contains 270 equivalent representative groups, each with 25 states"
+    },
+    "directionObservations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "selection",
+        "canonicalization",
+        "sha256",
+        "count"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "selection": {
+          "const": "rows where type == direction"
+        },
+        "canonicalization": {
+          "const": "Python json.dumps(sort_keys=True,separators=(comma,colon)); UTF-8"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "count": {
+          "const": 432
+        }
+      }
+    }
+  },
+  "$defs": {
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y",
+        "stageX",
+        "stageY",
+        "vx",
+        "vy",
+        "left",
+        "right",
+        "standing",
+        "head",
+        "wallLeft",
+        "wallRight",
+        "action",
+        "collider"
+      ],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "stageX": {
+          "type": "number"
+        },
+        "stageY": {
+          "type": "number"
+        },
+        "vx": {
+          "type": "number"
+        },
+        "vy": {
+          "type": "number"
+        },
+        "left": {
+          "type": "boolean"
+        },
+        "right": {
+          "type": "boolean"
+        },
+        "standing": {
+          "type": "boolean"
+        },
+        "head": {
+          "type": "boolean"
+        },
+        "wallLeft": {
+          "type": "boolean"
+        },
+        "wallRight": {
+          "type": "boolean"
+        },
+        "action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "collider": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          }
+        }
       }
     }
   }

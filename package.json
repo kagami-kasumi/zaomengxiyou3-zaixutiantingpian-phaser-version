@@ -190,14 +190,22 @@
     "check:system-design": "node tools/check-system-design.mjs",
     "check:workflow": "npm run check:harness && node tools/validate-workflow.mjs",
     "check:workflow:full": "npm run check:workflow && node tools/validate-asset-annotations.mjs && npm run check:level-architecture",
-    "check:all": "npm run check:workflow:full && npm run check:structure && npm run check:code",
+    "check:all": "npm run check:workflow:full && npm run check:structure && npm run check:code:full",
     "check:harness": "node --test tools/check-harness.test.mjs && node tools/check-harness.mjs && node tools/run-problem-audit.mjs --validate",
-    "generate:harness": "node tools/check-harness.mjs --write"
+    "generate:harness": "node tools/check-harness.mjs --write",
+    "test:pet-turtle": "node tools/run-system-tests.mjs pet-turtle-lifecycle-tests",
+    "check:ground-truth": "node --test tools/ground-truth-validation.test.mjs && node tools/validate-ui-ground-truth.mjs",
+    "test:monster-knockback-truth": "node tools/check-monster-knockback-truth.mjs",
+    "test:systems:full": "node tools/run-system-tests.mjs --full",
+    "test:test-selection": "node --test tools/system-test-suites.test.mjs",
+    "check:code:full": "npm run check:ground-truth && npm run test:systems:full && npm run build"
   },
   "dependencies": {
     "phaser": "^3.90.0"
   },
   "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"
   }

@@ -46,7 +46,7 @@
 | 原生host宠物弹体 | `src/systems/PetProjectileCombatSystem.ts:38` → `Stage1CombatSystem.ts:479` | 接受/去重、HP、hurt、事件由现有 combat owner 持有；速度仅写 DamageEvent。击退应从成功结算单次转交运动 owner，不能另建 HP/去重副本 |
 | 旧猴/马弹体兼容入口 | `PetMonkeyCombatSystem.ts:114-150`、`PetHorseCombatSystem.ts:204-248` → 同一 `resolveStage1PetHit`；`HeroPartyRuntimeBridge.ts:321-340` | `resolveAttacks`在物理之后调用；两者显式跳过`petHostTick !== undefined`的新路径。晚阶段接受的新id必须核对，但不据代码存在宣称当前正常新宠物会走旧路径；remainingHits/recordProjectileHit仍由原弹体owner处理 |
 | 共享物理 | `src/systems/MonsterPhysicsSystem.ts:34` | 只处理 y/2400重力/顶面落地，飞行直接 return；没有 vx/tween/完整墙/源相位消费。既有物理模块是共享接缝，不能只把 event 值写到 velocityY 后宣称闭合 |
-| Stage1-1/1-2 | `MonsterRuntimeRegistrySystem.ts:64`、`MonsterRuntimeRegistryBridge.ts:53` | 每个 registry entry 已有 combat/physics 同一配对。出生默认 grounded/100 须按类型接已有定义，不能让飞行沿默认地面路径 |
+| Stage1-1/1-2 | `MonsterRuntimeRegistrySystem.ts:64`、`src/scenes/MonsterRuntimeRegistryBridge.ts:53` | 每个 registry entry 已有 combat/physics 同一配对。出生默认 grounded/100 须按类型接已有定义，不能让飞行沿默认地面路径 |
 | Stage1-3/2-1/2-2 | 各 `Stage13/21/22GameplayBridge.ts` 的 create/updateMonsterCombat | 当前自有 Map 持有配对，复用同一个共享消费方法；不为本任务强制迁移整套 registry 或复制三套规则 |
 | TestScene | `TestSceneWorldBridge.ts:112`、`TestScenePetEnemyAdapter.ts:29`、`Monster30System.ts` | adapter 的 x/y 只有 getter，HP setter落真实模型；没有速度写回。必须让实际 Monster30 模型消费击退，不能写 facade 临时字段。Monster3 arena为另一 owner，只验证其实际可达宠物入口；没有入口不能伪造一条作通过证据 |
 | 每帧实际顺序 | `HeroPartyRuntimeBridge.ts:283,419`；各 GameplayBridge heroes.update在monster update之前 | **现代原生host宠物命中早于怪物物理**，与原世界顺序相反；兼容旧弹体入口则在物理之后。实现要有明确待消费相位/队列或等价调度，分别记录早/晚入口，既保证下一原host步，又不重复应用或给晚入口多延迟一帧；不得简单把当前调用顺序当原版 |

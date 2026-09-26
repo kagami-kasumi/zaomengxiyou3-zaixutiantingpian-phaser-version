@@ -19,7 +19,9 @@ function fixture() {
       'check:harness': 'node --test tools/check-harness.test.mjs && node tools/check-harness.mjs && node tools/run-problem-audit.mjs --validate',
       'check:workflow': 'npm run check:harness && node tools/validate-workflow.mjs',
       'check:workflow:full': 'npm run check:workflow && node tools/validate-asset-annotations.mjs && npm run check:level-architecture',
-      'check:all': 'npm run check:workflow:full && npm run check:structure && npm run check:code',
+      'check:all': 'npm run check:workflow:full && npm run check:structure && npm run check:code:full',
+      'check:code:full': 'npm run check:ground-truth && npm run test:systems:full && npm run build',
+      'test:systems:full': 'node tools/run-system-tests.mjs --full',
     } }),
   };
 }
@@ -40,6 +42,8 @@ test('other same-line blocked tasks do not become extra execution owners', () =>
 });
 
 const cases = [
+  ['full code silently downgraded', 'package.json', text => text.replace('npm run test:systems:full &&', 'npm run test:systems &&'), 'check:code:full'],
+  ['full runner silently downgraded', 'package.json', text => text.replace('tools/run-system-tests.mjs --full', 'tools/run-system-tests.mjs --core'), 'test:systems:full'],
   ['quality gate compact conflict', 'docs/workflow/code-quality-gates.md', text => `${text}\nThe first compact is an overrun: finish only the current check.`, 'compact count'],
   ['task generation compact conflict', 'docs/workflow/task-generation.md', text => `${text}\n首次 compact 后必须拆分。`, 'compact count'],
   ['full workflow omitted', 'package.json', text => text.replace('npm run check:workflow:full &&', 'npm run check:workflow &&'), 'check:all'],

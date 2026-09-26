@@ -1,5 +1,11 @@
 # 玄龟生产资源与完整家族验收
 
+## 日常回归与本地复验
+
+`npm run test:pet-turtle` 运行不依赖忽略语料的生命周期测试，已加入默认 `test:systems` / `check:all`。它覆盖四形态、五关、双主人和休息/替换/死亡/销毁，不代表完整家族视觉和技能验收。
+
+其余 13 组继续由完整 P1T 或显式测试名执行，需本地原生证据；涉及画布还需 build、4174 preview、Edge 与 Python 图像依赖。全部测试分层、输入路径、8GB 堆设置和退出码见 [本地验证说明](../local-validation.md)，机器清单见 `tools/turtle-test-registry.mjs`。缺材料输出 `LOCAL_INPUT_MISSING`，不能算通过。
+
 ## 224C 全家族生命周期与联合门禁
 
 2026-09-21：完整P1T退出0，32合同、20组四形态/五关双owner与5条结果重试/返回/重载旅程通过，666次实战图层对照无新增差异；check:all通过。证据与适用边界见 `docs/tasks/evidence/TASK-SLICE-224C/handoff.md`（仅本地）；下一任务226处理猴马时序，宠物总设计保持实施中。

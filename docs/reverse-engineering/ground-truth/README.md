@@ -2,6 +2,12 @@
 
 本目录保存从原始 SWF、AS3 调用链和可追溯运行态中提取的、可由程序直接消费的原版真值。它是逆向证据矩阵与现代实现之间的结构化交接物，不是对逆向结论的人工改写。
 
+## 校验入口
+
+`npm run check:ground-truth` 已接入 `check:code:full` / `check:all`（普通日常代码检查不全扫真值）：先跑校验器负向测试，再按各自 Schema 校验 Git 在册 manifest（包含 `behavior/`）。旧 `check:ui-ground-truth` 保留兼容，但也按类型分派，不再把行为数据强塞进 UI Schema。新 manifest 声明 `$schema`；历史无声明产物在 `tools/ground-truth-validation.mjs` 显式登记，未知类型报错，不静默跳过。
+
+默认不扫描 Git 忽略的本地大文件，避免不同机器结果漂移；`npm run check:ui-ground-truth -- --local` 或显式文件路径可复验本地数据。输出会写明覆盖范围。完整原版行为、哈希/再生成、浏览器验证仍是独立层，Schema 通过不能冒充玩法正确。玄龟与击退的前置条件、命令和缺输入退出码见 [本地验证说明](../../../tools/local-validation.md)。
+
 ## 目录边界
 
 - `schema/ui-ground-truth.schema.json`：UI、HUD、菜单、页面、按钮及其他视觉/空间对象的规范结构。

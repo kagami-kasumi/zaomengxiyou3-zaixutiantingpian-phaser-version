@@ -53,9 +53,14 @@ def main():
     assert evidence['deterministicObservationSha256']==digest
     value=dict(schemaVersion=1,truthId='task-settings-230.monster-knockback',status='verified',
                scope='Bounded original shared pet-to-monster knockback; no full scene, hurt animation or modern acceptance claim',
-               generatedBy='python tools/monster-knockback-source/generate.py',
+               generatedBy='python tools/monster-knockback-source/capture.py -> python tools/monster-knockback-source/verify.py --mutations -> python tools/monster-knockback-source/generate.py',
                spatialTruth=spatial,sources=report['sources'],methods=report['methods'],
                counts=counts,deterministicObservationSha256=hashlib.sha256(json.dumps(stable,sort_keys=True,separators=(',',':')).encode()).hexdigest(),
+               countsMeaning='counts describe original source observations; motion contains 270 equivalent representative groups, each with 25 states',
+               directionObservations=dict(path=(OUT/'native.json').relative_to(ROOT).as_posix(),
+                   selection='rows where type == direction',
+                   canonicalization='Python json.dumps(sort_keys=True,separators=(comma,colon)); UTF-8',
+                   sha256=hashlib.sha256(json.dumps([r for r in stable if r['type']=='direction'],sort_keys=True,separators=(',',':')).encode()).hexdigest(),count=432),
                applicability=dict(monsterIds=[2,3,4,5,6,7,8,9,10,16,19,30],owners=[1,2],boss=[False,True],
                                   coordinateSpace='gameSence local root; screen guard uses localToGlobal',
                                   velocityUnit='pixels per original host step; tween duration is seconds',
@@ -66,7 +71,9 @@ def main():
                            'full body callback/HP/death/AI implementation and hurt recovery duration (232)',
                            'reward owner (231), modern consumer and browser acceptance (236)'],unresolved=[])
     jsonschema.Draft202012Validator(json.loads(SCHEMA.read_text(encoding="utf-8"))).validate(value)
-    text=json.dumps(value,ensure_ascii=False,separators=(',',':'))+'\n'
+    # AS3 object enumeration order may change across AIR launches. Canonical
+    # ordering keeps --check sensitive to content, not dictionary insertion order.
+    text=json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n'
     if '--check' in sys.argv:assert DEST.read_text(encoding='utf-8')==text
     else:DEST.write_text(text,encoding='utf-8')
     print('230 bounded truth:',len(groups),'trajectories;',len(text.encode()),'bytes')

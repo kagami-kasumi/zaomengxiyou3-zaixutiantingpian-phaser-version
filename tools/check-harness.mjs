@@ -61,7 +61,9 @@ export function validate(documents, { checkSnapshot = true } = {}) {
   if (scripts['check:harness'] !== 'node --test tools/check-harness.test.mjs && node tools/check-harness.mjs && node tools/run-problem-audit.mjs --validate') errors.push('check:harness must retain its isolated checks');
   if (scripts['check:workflow'] !== 'npm run check:harness && node tools/validate-workflow.mjs') errors.push('check:workflow must include only harness and legacy validation');
   if (scripts['check:workflow:full'] !== 'npm run check:workflow && node tools/validate-asset-annotations.mjs && npm run check:level-architecture') errors.push('check:workflow:full must retain asset and level checks exactly once');
-  if (scripts['check:all'] !== 'npm run check:workflow:full && npm run check:structure && npm run check:code') errors.push('check:all must retain full workflow and code checks exactly once');
+  if (scripts['check:all'] !== 'npm run check:workflow:full && npm run check:structure && npm run check:code:full') errors.push('check:all must retain full workflow and code checks exactly once');
+  if (scripts['check:code:full'] !== 'npm run check:ground-truth && npm run test:systems:full && npm run build') errors.push('check:code:full must retain truth, full regression and build exactly once');
+  if (scripts['test:systems:full'] !== 'node tools/run-system-tests.mjs --full') errors.push('test:systems:full must select the full suite');
   return errors;
 }
 

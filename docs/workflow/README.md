@@ -101,7 +101,7 @@ npm run check:harness
 
 修改看板状态表后运行 `npm run generate:harness`，只刷新“当前推荐”派生段落，再运行校验。状态表是 task 状态来源，推荐段落不得手写历史或后续任务说明；功能线范围与关闭证据仍由功能线台账维护。生成命令发现跨线或多执行项时拒绝写入。
 
-`check:workflow` 执行 harness 和旧 workflow/领域/证据合同检查；资源标注与关卡架构检查移入 `check:workflow:full`，`check:all` 继续覆盖全部原检查。仅文档修改不启动资源和关卡专项。检查频率与输入失效规则统一见 `code-quality-gates.md`，不另建检查台账。
+`check:workflow` 执行 harness 和旧 workflow/领域/证据合同检查；资源标注与关卡架构检查移入 `check:workflow:full`，`check:all` 通过 `check:code:full` 继续覆盖全部原检查，但不是普通任务的默认收尾。仅文档修改不启动资源和关卡专项。检查频率与输入失效规则统一见 `code-quality-gates.md`，不另建检查台账。
 
 修改任务或工作流文档后运行：
 
@@ -123,14 +123,14 @@ npm run check:annotations
 
 `check:workflow:full` 已包含资源标注校验。
 
-修改 `src/` 后运行：
+修改 `src/` 后运行日常核心、受影响专项及构建；同批相同输入已经通过的结果直接复用：
 
 ```bash
-npm run test:systems
+npm run test:systems -- --core <受影响专项名>
 npm run build
 ```
 
-混合代码和工作流改动后运行：
+混合改动只补对应 workflow 检查，不自动升级全量。明确要求完整审计、跨系统影响不清或发布前使用：
 
 ```bash
 npm run check:all
