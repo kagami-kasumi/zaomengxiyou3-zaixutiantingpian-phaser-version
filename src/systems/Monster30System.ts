@@ -1,4 +1,7 @@
 import type { AttackKind } from './CombatSystem';
+import { createMonsterPetTargetEffectState, advanceMonsterPetTargetEffects,
+  type MonsterPetTargetEffectState } from './MonsterPetTargetEffectSystem';
+import { DefaultGlobalSettings } from './GlobalSettingsSystem';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
 import type { PlayerSlot } from './InputSystem';
@@ -13,6 +16,7 @@ export type Monster30Target = {
 };
 
 export type Monster30Model = {
+  petTargetEffectState?: MonsterPetTargetEffectState;
   id: string;
   x: number;
   y: number;
@@ -163,7 +167,7 @@ let monster30Serial = 0;
 export function createMonster30(x: number, y: number, id?: string): Monster30Model {
   monster30Serial += 1;
 
-  return {
+  const monster: Monster30Model = {
     id: id ?? `monster30-${monster30Serial}`,
     x,
     y,
@@ -176,6 +180,10 @@ export function createMonster30(x: number, y: number, id?: string): Monster30Mod
     attackDecisionTimerMs: Monster30Tuning.attackDecisionIntervalMs,
     attackSerial: 0,
   };
+  monster.petTargetEffectState = createMonsterPetTargetEffectState(hurt => {
+    applyMonster30Hit(monster, hurt | 0, false);
+  });
+  return monster;
 }
 
 export function updateMonster30(
@@ -183,18 +191,21 @@ export function updateMonster30(
   targets: readonly Monster30Target[],
   deltaMs: number,
   random: () => number = Math.random,
+  hostFps: number = DefaultGlobalSettings.frameRate,
 ): void {
   if (monster.state === 'removed') {
     return;
   }
 
   const stateBeforeDebuff = monster.state;
+  if (monster.petTargetEffectState) advanceMonsterPetTargetEffects(monster.petTargetEffectState, deltaMs, hostFps);
   updateMonster30MagicFlagDebuff(monster, deltaMs);
   updateMonster30MagicPearlEffects(monster, deltaMs);
   updateMonster30PetBurn(monster, deltaMs);
   if (stateBeforeDebuff !== 'dead' && monster.state === 'dead') {
     return;
   }
+  if (monster.petTargetEffectState?.effects.snapshot('pethorse_ice')) return;
 
   if (monster.state === 'dead') {
     clearMonster30MagicFlagDebuff(monster);
@@ -282,7 +293,7 @@ export function updateMonster30(
   }
 }
 
-export function applyMonster30Hit(monster: Monster30Model, damage: number): boolean {
+export function applyMonster30Hit(monster: Monster30Model, damage: number, reactsToHit = true): boolean {
   if (monster.state === 'dead' || monster.state === 'removed') {
     return false;
   }
@@ -296,6 +307,7 @@ export function applyMonster30Hit(monster: Monster30Model, damage: number): bool
     return true;
   }
 
+  if (!reactsToHit) return true;
   monster.state = 'hurt';
   monster.stateTimerMs = Monster30Tuning.hurtDurationMs;
   monster.activeAttack = undefined;

@@ -48,7 +48,13 @@ for(const entry of ['formal','TestScene']) for(const reason of ['retry','return'
   const update=new Function('model','petRosters','petCombatRuntimes','petCombatSnapshots','pendingPetDamageEvents',
     'pendingPetAnimationEvents','scene','petProjectileCombat','petDragonPresentation','isPetDragonQaEnabled','petTurtle',closure+'\nreturn updatePets;')(
       model,rosters,runtimes,snapshots,{p1:[],p2:[]},{p1:[],p2:[]},{game:{loop:{targetFps:24}}},
-      (input:any)=>createPetProjectileCombatPort({...input,mask:()=>({width:67,height:53,alpha})}),presentation,()=>false,{readyRoster:(roster:any)=>roster,update(){}});
+      Object.assign((input:any)=>createPetProjectileCombatPort({...input,mask:()=>({width:67,height:53,alpha})}), {
+        readyRoster(roster:any) {
+          // This fixture supplies Dragon1 textures only; monkey/horse readiness is tested separately.
+          assert.ok(roster.pets.every((pet:any)=>!pet.isActive||pet.species==='dragon'));
+          return roster;
+        },
+      }),presentation,()=>false,{readyRoster:(roster:any)=>roster,update(){}});
   let tick=0;
   const step=()=>{
     tick++;

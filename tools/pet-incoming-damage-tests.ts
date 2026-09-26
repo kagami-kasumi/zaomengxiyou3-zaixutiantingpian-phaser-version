@@ -1,3 +1,4 @@
+import { bodyGroundFixture } from './pet226-body/ground-fixture';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { PetCombatRuntime } from '../src/systems/PetCombatRuntime';
@@ -13,6 +14,7 @@ const pet = roster.pets[0]!;
 const runtime = new PetCombatRuntime();
 const snapshot = runtime.update({
   roster,
+  groundEnvironment: bodyGroundFixture('monkey', 1, 200),
   owner: { x: 200, y: 300, facingX: 1 },
   targets: [],
   deltaMs: 0,
@@ -41,10 +43,12 @@ assert.ok(event);
 const hpBefore = pet.hp;
 runtime.update({
   roster,
+  groundEnvironment: bodyGroundFixture('monkey', 1, 200),
   owner: { x: 200, y: 300, facingX: 1 },
   targets: [],
   damageEvents: [event],
-  deltaMs: 0,
+  deltaMs: 1000 / 24,
+  hostFps: 24,
 });
 assert.equal(pet.hp, hpBefore - event.amount);
 assert.ok(runtime.events().some(({ behaviorEvent }) => behaviorEvent?.type === 'damaged'));

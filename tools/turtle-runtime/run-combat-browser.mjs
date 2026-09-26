@@ -45,6 +45,8 @@ const edge = spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 let socket, id = 0;
 const pending = new Map(), errors = [], reports = [], journeys = [];
+const failedRequests = [], contexts = [], requestUrls = new Map();
+let phase = 'startup';
 async function command(method, params = {}) {
   const key = ++id;
   const result = new Promise((resolve, reject) => {
@@ -74,14 +76,19 @@ try {
   socket.addEventListener('message', ({ data }) => {
     const message = JSON.parse(data);
     if (message.id) { const waiter = pending.get(message.id); pending.delete(message.id); if (message.error) waiter?.reject(message.error); else waiter?.resolve(message.result); }
-    else if (message.method === 'Runtime.exceptionThrown') errors.push(message.params);
-    else if (message.method === 'Runtime.consoleAPICalled' && ['error', 'warning'].includes(message.params.type)) errors.push(message.params);
+    else if (message.method === 'Runtime.exceptionThrown') errors.push({ ...message.params, phase });
+    else if (message.method === 'Runtime.consoleAPICalled' && ['error', 'warning'].includes(message.params.type)) errors.push({ ...message.params, phase });
+    else if (message.method === 'Runtime.executionContextCreated') contexts.push({ ...message.params.context, phase });
+    else if (message.method === 'Network.requestWillBeSent') requestUrls.set(message.params.requestId, message.params.request.url);
+    else if (message.method === 'Network.loadingFailed') failedRequests.push({ ...message.params,
+      url: requestUrls.get(message.params.requestId), phase });
   });
-  await command('Runtime.enable'); await command('Page.enable');
+  await command('Runtime.enable'); await command('Page.enable'); await command('Network.enable');
   await command('Emulation.setDeviceMetricsOverride', { width: 940, height: 590, deviceScaleFactor: 1, mobile: false });
   for (const [route, scene] of [['qaStage=1-2', 'Stage12Scene'], ['qaStage=1-1-role1', 'TestScene'],
     ...(family ? [['qaStage=1-3', 'Stage13Scene'], ['qaStage=2-1', 'Stage21Scene'], ['qaBossState=wait&qaNoDamage=1', 'Stage22Scene']] : [])]) {
     if (family && process.env.TURTLE_FAMILY_SCENE && scene !== process.env.TURTLE_FAMILY_SCENE) continue;
+    phase = `${scene}: route navigation`;
     await command('Page.navigate', { url: `http://127.0.0.1:4174/__turtle_combat/index.html?${route}&players=2` });
     await until(`window.turtleCombatProbe?.snapshot().scene === '${scene}'`, scene);
     const baselineSave = await evaluate('turtleCombatProbe.snapshot().storedSaves');
@@ -92,18 +99,22 @@ try {
       : (links ? [2, 3, 4] : [1, 2, 3, 4]).map(form => ({ form, id: `form${form}`, learned: links ? ['txlj', 'sld'] : ['sld'] }));
     for (const [scenarioIndex, scenario] of scenarios.entries()) {
       const { form, id: caseId, learned } = scenario;
+      phase = `${scene}/${caseId}: setup`;
       if (scenarioIndex > 0) {
         const oldTextures = await evaluate('turtleCombatProbe.snapshot().textures');
+        phase = `${scene}/${caseId}: restart`;
         await evaluate('turtleCombatProbe.restart()');
         await until(`turtleCombatProbe.snapshot().scene === '${scene}' && ${JSON.stringify(oldTextures)}.every(k=>!turtleCombatProbe.snapshot().textures.includes(k))`, `${scene} replacement cleanup`);
         // Each visual case needs a fresh encounter, rather than the sandbox's
         // retained climb/spawn state. Restart texture disposal is checked above.
         if (!family) {
         const oldDocument = await evaluate('turtleCombatProbe.snapshot().documentId');
+        phase = `${scene}/${caseId}: independent encounter navigation`;
         await command('Page.navigate', { url: `http://127.0.0.1:4174/__turtle_combat/index.html?${route}&players=2` });
         await until(`window.turtleCombatProbe?.snapshot().scene === '${scene}' && turtleCombatProbe.snapshot().documentId !== ${JSON.stringify(oldDocument)}`, `${scene} independent encounter`);
         }
       }
+      phase = `${scene}/${caseId}: install and battle`;
       await evaluate(`turtleCombatProbe.install(${form}, ${JSON.stringify(learned)}, ${skills});`);
       await until(`Object.values(turtleCombatProbe.snapshot().pets ?? {}).filter(p=>p.species==='turtle'&&p.form===${form}).length===2`, `turtle${form} ready`);
       await evaluate('turtleCombatProbe.stop(); turtleCombatProbe.prepareVisualTargets(); turtleCombatProbe.keys([68,39],true)');
@@ -164,6 +175,7 @@ try {
       }
       await evaluate('turtleCombatProbe.resume()');
     }
+    phase = `${scene}: retry and shutdown`;
     const oldTextures = await evaluate('turtleCombatProbe.snapshot().textures');
     const documentBeforeRetry = await evaluate('turtleCombatProbe.snapshot().documentId');
     const worldBeforeRetry = family ? await evaluate('turtleCombatProbe.worldIdentity()') : undefined;
@@ -204,6 +216,8 @@ try {
   assert.deepEqual(errors, []);
   writeFileSync(`${out}/combat-browser.json`, JSON.stringify({ status: 'passed', viewport: { width: 940, height: 590 }, reports, journeys, errors }, null, 2) + '\n');
 } finally {
+  writeFileSync(`${out}/combat-browser-diagnostics.json`, JSON.stringify({ phase, errors,
+    failedRequests, contexts, completedReports: reports.length }, null, 2) + '\n');
   if (socket?.readyState === WebSocket.OPEN) await command('Browser.close').catch(() => {});
   socket?.close(); edge.kill();
 }

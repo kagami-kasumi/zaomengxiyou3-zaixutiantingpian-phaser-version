@@ -1,0 +1,55 @@
+{
+  "sourceTask": "TASK-SETTINGS-228",
+  "sourceHashes": {
+    "20120203": "3383e2f13967cfc33e7a8fd937cf37c407784f769b86beebb15694befcefb832",
+    "StageCommon": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9"
+  },
+  "clips": {
+    "PetMonkey1Bullet1": {
+      "rootFrames": 10,
+      "cycleStart": 2,
+      "cycleTicks": 30
+    },
+    "PetMonkey1Bullet2": {
+      "rootFrames": 16,
+      "cycleStart": 2,
+      "cycleTicks": 16
+    },
+    "PetMonkey2Bullet1": {
+      "rootFrames": 4,
+      "cycleStart": 1,
+      "cycleTicks": 4
+    },
+    "PetMonkey2Bullet2_1": {
+      "rootFrames": 4,
+      "cycleStart": 2,
+      "cycleTicks": 4
+    },
+    "PetMonkey2Bullet2_2": {
+      "rootFrames": 5,
+      "cycleStart": 2,
+      "cycleTicks": 5
+    },
+    "PetMonkey3Bullet1": {
+      "rootFrames": 6,
+      "cycleStart": 2,
+      "cycleTicks": 6
+    },
+    "PetMonkey3Bullet2": {
+      "rootFrames": 25,
+      "cycleStart": 2,
+      "cycleTicks": 25
+    },
+    "PetMonkey3Bullet3_1": {
+      "rootFrames": 4,
+      "cycleStart": 2,
+      "cycleTicks": 4
+    },
+    "PetMonkey3Bullet3_2": {
+      "rootFrames": 6,
+      "cycleStart": 2,
+      "cycleTicks": 6
+    }
+  },
+  "scope": "Script-free source timeline state closure; canonical ticks index existing independently verified native collision fields. Render rasters are a separate contract."
+}

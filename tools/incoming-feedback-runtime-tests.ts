@@ -8,6 +8,7 @@ import { applyOwnedHeroDamage } from '../src/systems/PetBattleOwnershipSystem';
 import { createSettlementFixture } from './incoming-settlement-cases';
 import { createPetRuntime } from '../src/systems/PetRuntimeSystem';
 import { PetCombatRuntime } from '../src/systems/PetCombatRuntime';
+import { bodyGroundFixture } from './pet226-body/ground-fixture';
 import { createSeedPetRoster } from '../src/systems/PetRosterSystem';
 import { createStage1CombatEnemy, createStage1CombatRuntime, resolveStage1EnemyPetAttack } from '../src/systems/Stage1CombatSystem';
 
@@ -74,6 +75,7 @@ for (const slot of ['p1', 'p2'] as const) {
   const pet = roster.pets.find(p => p.isActive)!; pet.hp = 10;
   const runtime = new PetCombatRuntime();
   const frame = { roster, owner: { x: 300, y: 400, facingX: 1 as const }, targets: [], deltaMs: 0,
+    groundEnvironment: bodyGroundFixture('monkey', 1, 300),
     incomingFeedback: { model: model.incoming, ownerSlot: slot, timeMs: 300 } };
   const snapshot = runtime.update(frame);
   const enemy = createStage1CombatEnemy({ id: 'pet-attacker', enemyType: 30, x: snapshot.runtime!.x, y: 400 });

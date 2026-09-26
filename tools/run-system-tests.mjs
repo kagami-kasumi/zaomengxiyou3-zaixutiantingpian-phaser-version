@@ -10,6 +10,7 @@ const bundledTests = requestedTests.length > 0
   ? requestedTests
   : [
       'system-tests',
+      'game-startup-frame-rate-tests',
       'level-lifecycle-tests',
       'level-result-tests',
       'crafting-tests',

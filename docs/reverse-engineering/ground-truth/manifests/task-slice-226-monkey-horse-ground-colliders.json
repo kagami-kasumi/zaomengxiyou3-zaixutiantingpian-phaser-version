@@ -1,0 +1,631 @@
+{
+  "schemaVersion": 1,
+  "truthId": "task-slice-226.monkey-horse-ground-colliders",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SLICE-226",
+    "surfaceId": "monkey-horse-ground-colliders",
+    "originalVersion": "restored StageCommon.swf, bundled AIR",
+    "description": "Three isolated collision MovieClips at identity root, complete trees and native bounds. No AI/physics/Scene completion claim."
+  },
+  "generatedBy": {
+    "tool": "tools/pet226-body/generate_ground_geometry.py",
+    "toolVersion": "1",
+    "command": "python tools/pet226-body/generate_ground_geometry.py",
+    "generatedAt": "2026-09-25T00:00:00Z"
+  },
+  "provenance": [
+    {
+      "id": "stage-common",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/StageCommon.swf",
+      "sha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9",
+      "locator": "SymbolClasses: ObjectBaseSprite3, ObjectBaseSprite4, ObjectBaseSprite"
+    }
+  ],
+  "stage": {
+    "width": 320,
+    "height": 320,
+    "frameRate": 24,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "TL"
+  },
+  "states": [
+    {
+      "id": "collider-ObjectBaseSprite3",
+      "entry": "Isolated restored collider at root identity; game collider is normally hidden.",
+      "frame": 1,
+      "fixtureId": "collider-ObjectBaseSprite3",
+      "baselineId": "baseline-collider-ObjectBaseSprite3"
+    },
+    {
+      "id": "collider-ObjectBaseSprite4",
+      "entry": "Isolated restored collider at root identity; game collider is normally hidden.",
+      "frame": 1,
+      "fixtureId": "collider-ObjectBaseSprite4",
+      "baselineId": "baseline-collider-ObjectBaseSprite4"
+    },
+    {
+      "id": "collider-ObjectBaseSprite",
+      "entry": "Isolated restored collider at root identity; game collider is normally hidden.",
+      "frame": 1,
+      "fixtureId": "collider-ObjectBaseSprite",
+      "baselineId": "baseline-collider-ObjectBaseSprite"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "collider-ObjectBaseSprite3/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 103,
+        "symbolClass": "ObjectBaseSprite3",
+        "instanceName": "instance3",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite3",
+          "visible": true,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -15.55,
+            "height": 30,
+            "top": -15,
+            "width": 31.1
+          },
+          "stageBounds": {
+            "left": -15.55,
+            "height": 30,
+            "top": -15,
+            "width": 31.1
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/0",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite3.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "collider-ObjectBaseSprite3/root/0",
+      "parentId": "collider-ObjectBaseSprite3/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 102,
+        "symbolClass": null,
+        "instanceName": "instance4",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite3",
+          "visible": true,
+          "localMatrix": {
+            "d": 0.5555419921875,
+            "tx": -15.55,
+            "ty": -15,
+            "a": 0.5555419921875,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "height": 54,
+            "top": 0,
+            "width": 56
+          },
+          "stageBounds": {
+            "left": -15.55,
+            "height": 30,
+            "top": -15,
+            "width": 31.1
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/0",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite3.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "collider-ObjectBaseSprite3/root/0/0",
+      "parentId": "collider-ObjectBaseSprite3/root/0",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 53,
+        "symbolClass": null,
+        "instanceName": "instance5",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite3",
+          "visible": true,
+          "localMatrix": {
+            "d": 0.449981689453125,
+            "tx": 0,
+            "ty": 0,
+            "a": 0.79998779296875,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "height": 120,
+            "top": 0,
+            "width": 70
+          },
+          "stageBounds": {
+            "left": -15.55,
+            "height": 30,
+            "top": -15,
+            "width": 31.1
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/0",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite3.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "collider-ObjectBaseSprite4/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 101,
+        "symbolClass": "ObjectBaseSprite4",
+        "instanceName": "instance6",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite4",
+          "visible": true,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -17.5,
+            "height": 70,
+            "top": -35,
+            "width": 35
+          },
+          "stageBounds": {
+            "left": -17.5,
+            "height": 70,
+            "top": -35,
+            "width": 35
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/1",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite4.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "collider-ObjectBaseSprite4/root/0",
+      "parentId": "collider-ObjectBaseSprite4/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 100,
+        "symbolClass": null,
+        "instanceName": "instance7",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite4",
+          "visible": true,
+          "localMatrix": {
+            "d": 1,
+            "tx": -17.5,
+            "ty": -35,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "height": 70,
+            "top": 0,
+            "width": 35
+          },
+          "stageBounds": {
+            "left": -17.5,
+            "height": 70,
+            "top": -35,
+            "width": 35
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/1",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite4.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "collider-ObjectBaseSprite4/root/0/0",
+      "parentId": "collider-ObjectBaseSprite4/root/0",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 53,
+        "symbolClass": null,
+        "instanceName": "instance8",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite4",
+          "visible": true,
+          "localMatrix": {
+            "d": 0.58331298828125,
+            "tx": 0,
+            "ty": 0,
+            "a": 0.5,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "height": 120,
+            "top": 0,
+            "width": 70
+          },
+          "stageBounds": {
+            "left": -17.5,
+            "height": 70,
+            "top": -35,
+            "width": 35
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/1",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite4.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "collider-ObjectBaseSprite/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 105,
+        "symbolClass": "ObjectBaseSprite",
+        "instanceName": "instance9",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite",
+          "visible": true,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -25,
+            "height": 100,
+            "top": -50,
+            "width": 50
+          },
+          "stageBounds": {
+            "left": -25,
+            "height": 100,
+            "top": -50,
+            "width": 50
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/2",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "collider-ObjectBaseSprite/root/0",
+      "parentId": "collider-ObjectBaseSprite/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 104,
+        "symbolClass": null,
+        "instanceName": "instance10",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite",
+          "visible": true,
+          "localMatrix": {
+            "d": 1,
+            "tx": -25,
+            "ty": -50,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "height": 100,
+            "top": 0,
+            "width": 50
+          },
+          "stageBounds": {
+            "left": -25,
+            "height": 100,
+            "top": -50,
+            "width": 50
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/2",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "collider-ObjectBaseSprite/root/0/0",
+      "parentId": "collider-ObjectBaseSprite/root/0",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "stage-common",
+        "characterId": 53,
+        "symbolClass": null,
+        "instanceName": "instance11",
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "collider-ObjectBaseSprite",
+          "visible": true,
+          "localMatrix": {
+            "d": 0.8333282470703125,
+            "tx": 0,
+            "ty": 0,
+            "a": 0.7142791748046875,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "height": 120,
+            "top": 0,
+            "width": 70
+          },
+          "stageBounds": {
+            "left": -25,
+            "height": 100,
+            "top": -50,
+            "width": 50
+          },
+          "alpha": 1,
+          "derivation": "observed",
+          "derivationMethod": "Native restored display tree/getBounds at root identity; complete child list matched independently decoded SWF timeline.",
+          "evidenceRefs": [
+            "docs/tasks/evidence/TASK-SLICE-226/collider-native.json#/rows/2",
+            "task-settings-228.pet-monkey-collision-phase#/geometry/StageCommon"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "baseline-collider-ObjectBaseSprite3",
+      "stateId": "collider-ObjectBaseSprite3",
+      "path": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite3.png",
+      "sha256": "36e920c062efc5225163dfc658b8fd06c9a085dfcab25d51a418434593bc9680",
+      "width": 36,
+      "height": 34,
+      "crop": {
+        "left": -18,
+        "height": 34,
+        "top": -17,
+        "width": 36
+      }
+    },
+    {
+      "id": "baseline-collider-ObjectBaseSprite4",
+      "stateId": "collider-ObjectBaseSprite4",
+      "path": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite4.png",
+      "sha256": "428bc59f8b78ea24cc62e6173dc983d12957168ef4e6d7a2964d5ba7adf3e253",
+      "width": 40,
+      "height": 74,
+      "crop": {
+        "left": -20,
+        "height": 74,
+        "top": -37,
+        "width": 40
+      }
+    },
+    {
+      "id": "baseline-collider-ObjectBaseSprite",
+      "stateId": "collider-ObjectBaseSprite",
+      "path": "local-resources/regima/task-outputs/TASK-SLICE-226/collider-air/ObjectBaseSprite.png",
+      "sha256": "63f96c6dc0cd7bb53f1d72b6787c06f251f1861a6e1b4657088a9164f71b3b4d",
+      "width": 54,
+      "height": 104,
+      "crop": {
+        "left": -27,
+        "height": 104,
+        "top": -52,
+        "width": 54
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "collider-ObjectBaseSprite3",
+      "collider-ObjectBaseSprite4",
+      "collider-ObjectBaseSprite"
+    ],
+    "extractedStateIds": [
+      "collider-ObjectBaseSprite3",
+      "collider-ObjectBaseSprite4",
+      "collider-ObjectBaseSprite"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "collider-ObjectBaseSprite3": 3,
+      "collider-ObjectBaseSprite4": 3,
+      "collider-ObjectBaseSprite": 3
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "docs/tasks/evidence/TASK-SLICE-226/collider-native.json",
+    "docs/tasks/evidence/TASK-SLICE-226/ground-native.json"
+  ]
+}

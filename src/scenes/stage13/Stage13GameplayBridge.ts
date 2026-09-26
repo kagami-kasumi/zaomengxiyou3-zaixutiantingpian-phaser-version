@@ -1,4 +1,5 @@
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
+import { stepMonsterPetTargetEffects } from '../../systems/MonsterPetTargetEffectSystem';
 // boundary: Stage 1-3 submits level input/environment/monster targets to HeroPartyRuntime;
 // it keeps encounter waves and the not-yet-migrated monster runtime only.
 import Phaser from 'phaser';
@@ -191,6 +192,7 @@ function updateMonsterCombat(
   for (const monster of monsters.values()) {
     updateMonsterPhysics(monster.physics, monster.combat.x, stage13MovementPlatforms, deltaMs);
     monster.combat.y = monster.physics.y;
+    stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
     updateStage1Enemy({
       enemy: monster.combat,
       targets: heroes.snapshots(),

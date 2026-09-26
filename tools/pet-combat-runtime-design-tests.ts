@@ -1,3 +1,4 @@
+import { bodyGroundFixture } from './pet226-body/ground-fixture';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import type {
@@ -15,6 +16,7 @@ import { createDefaultPetBehaviorRegistry } from '../src/systems/pet-behaviors/c
 import { createSeedPetRoster } from '../src/systems/PetRosterSystem';
 import { createProjectileSystem } from '../src/systems/ProjectileSystem';
 import type { PetRoster, PetState } from '../src/systems/PetTypes';
+import { noTargetBodyFixturePort } from './pet226-body/body-fixture-collision';
 
 const owner = { x: 200, y: 300, facingX: 1 as const };
 
@@ -289,16 +291,20 @@ function testHorseDamageHookArmsTheExistingFreezeTrigger(): void {
   const roster = createSeedPetRoster();
   const horse = activatePet(roster, 'horse', 2);
   const runtime = new PetCombatRuntime();
-  const initial = runtime.update({ roster, owner, targets: [], deltaMs: 0 });
+  const groundEnvironment = bodyGroundFixture('horse', 2, owner.y - 100);
+  const initial = runtime.update({ roster, owner, groundEnvironment, targets: [], deltaMs: 0 });
   assert.equal(horse.skillState!.horse2Bd.releaseReady, false);
   runtime.update({
     roster,
     owner,
-    targets: [{ id: 'target', x: 210, y: 300, isAlive: true }],
+    groundEnvironment,
+    targets: [{ id: 'target', x: 210, y: owner.y - 100, isAlive: true }],
     projectiles: createProjectileSystem(),
     damageEvents: [{ runtimeKey: initial.runtime!.runtimeKey, amount: 1 }],
-    deltaMs: 0,
+    deltaMs: 1000 / 24, hostFps: 24,
   });
+  runtime.update({ roster, owner, groundEnvironment, targets: [{ id: 'target', x: 210, y: owner.y - 100, isAlive: true }],
+    projectiles: createProjectileSystem(), deltaMs: 1000 / 24, hostFps: 24 });
   const payload = runtime.events().find(({ behaviorEvent }) => (
     (behaviorEvent?.payload as { action?: string } | undefined)?.action === 'horse2-bd'
   ))?.behaviorEvent?.payload as { ok?: boolean } | undefined;
@@ -310,21 +316,31 @@ function testMonkeyDamageHookArmsTheExistingSacrificeTrigger(): void {
   const roster = createSeedPetRoster();
   const monkey = activatePet(roster, 'monkey', 1);
   const runtime = new PetCombatRuntime();
-  const initial = runtime.update({ roster, owner, targets: [], deltaMs: 0 });
+  const groundEnvironment = bodyGroundFixture('monkey', 1, owner.y - 100);
+  const projectiles = createProjectileSystem();
+  const initial = runtime.update({ roster, owner, groundEnvironment, targets: [], deltaMs: 0 });
   assert.equal(monkey.skillState!.monkey1Xj.releaseReady, false);
   runtime.update({
     roster,
     owner,
-    targets: [{ id: 'target', x: 210, y: 300, isAlive: true }],
-    projectiles: createProjectileSystem(),
+    groundEnvironment,
+    targets: [{ id: 'target', x: 210, y: owner.y - 100, isAlive: true }],
+    projectiles,
     damageEvents: [{ runtimeKey: initial.runtime!.runtimeKey, amount: 1 }],
-    deltaMs: 0,
+    deltaMs: 1000 / 24, hostFps: 24,
   });
+  runtime.update({ roster, owner, groundEnvironment, targets: [{ id: 'target', x: 210, y: owner.y - 100, isAlive: true }],
+    projectiles, deltaMs: 1000 / 24, hostFps: 24 });
   const payload = runtime.events().find(({ behaviorEvent }) => (
     (behaviorEvent?.payload as { action?: string } | undefined)?.action === 'monkey1-xj'
   ))?.behaviorEvent?.payload as { ok?: boolean } | undefined;
   assert.equal(payload?.ok, true);
-  assert.equal(monkey.skillState!.monkey1Xj.releaseReady, false, 'existing cast rule must consume the damage trigger');
+  assert.equal(monkey.skillState!.monkey1Xj.releaseReady, true, 'source release preserves the flag until doHit2');
+  assert.equal(projectiles.projectiles.length, 0);
+  runtime.update({ roster, owner, groundEnvironment, targets: [{ id: 'target', x: 210, y: owner.y - 100, isAlive: true }],
+    projectiles, deltaMs: 4 * 1000 / 24, hostFps: 24 });
+  assert.equal(monkey.skillState!.monkey1Xj.releaseReady, false, 'native callback consumes the damage trigger');
+  assert.equal(projectiles.projectiles.length, 1);
 }
 
 function testRuntimeRejectsBadFramesAndMissingBehaviorTransactionally(): void {
@@ -400,35 +416,40 @@ function testDefaultRegistryRunsMonkeyAndHorseRulesThroughOneRuntimeClock(): voi
     if (species === 'horse' && form === 2) pet.skillState!.horse2Bd.releaseReady = true;
     const projectiles = createProjectileSystem();
     const runtime = new PetCombatRuntime();
+    const groundEnvironment = bodyGroundFixture(species, form, owner.y - 100);
 
     runtime.update({
       roster,
       owner,
-      targets: [{ id: 'target', x: 210, y: 300, isAlive: true }],
+      groundEnvironment,
+      targets: [{ id: 'target', x: owner.x + 80, y: owner.y - 100, isAlive: true }],
       projectiles,
       random: () => 1,
-      deltaMs: 16,
+      deltaMs: 2 * 1000 / 24, hostFps: 24,
     });
 
     const behaviorEvent = runtime.events().find(({ type }) => type === 'behavior');
     const payload = behaviorEvent?.behaviorEvent?.payload as { action?: string; ok?: boolean } | undefined;
     assert.equal(payload?.action, expectedAction, `${species}:${form} must choose its registered skill`);
     assert.equal(payload?.ok, true, `${species}:${form} must call the existing skill rule successfully`);
-    assert.ok(projectiles.projectiles.length > 0, `${species}:${form} must preserve projectile-system ownership`);
 
     const cooldownAfterCast = getActionCooldown(pet, expectedAction);
     assert.ok(cooldownAfterCast > 0, `${expectedAction} must write the existing cooldown state`);
     runtime.update({
       roster,
       owner,
-      targets: [{ id: 'target', x: 210, y: 300, isAlive: true }],
+      groundEnvironment,
+      targets: [{ id: 'target', x: owner.x + 80, y: owner.y - 100, isAlive: true }],
       projectiles,
       deltaMs: 16,
     });
-    assert.equal(getActionCooldown(pet, expectedAction), cooldownAfterCast - 16);
+    assert.equal(getActionCooldown(pet, expectedAction), cooldownAfterCast, 'partial render frame must not advance source cooldown');
     const nextPayload = runtime.events().find(({ type }) => type === 'behavior')
       ?.behaviorEvent?.payload as { action?: string } | undefined;
     assert.notEqual(nextPayload?.action, expectedAction, `${expectedAction} must not repeat while cooling`);
+    runtime.update({ roster, owner, groundEnvironment, targets: [{ id: 'target', x: owner.x + 80, y: owner.y - 100, isAlive: true }],
+      projectiles, deltaMs: 7 * 1000 / 24, hostFps: 24, projectileCombat: noTargetBodyFixturePort });
+    assert.ok(projectiles.projectiles.length > 0, `${species}:${form} body callbacks preserve projectile-system ownership`);
   }
 }
 
@@ -437,12 +458,14 @@ function testRealBehaviorRequiresTheSkillExecutionPort(): void {
   const monkey = activatePet(roster, 'monkey', 2);
   monkey.skillState!.monkey2Lj.cooldownMs = 0;
   const runtime = new PetCombatRuntime();
+  const groundEnvironment = bodyGroundFixture('monkey', 2, owner.y - 100);
   assert.throws(
     () => runtime.update({
       roster,
       owner,
-      targets: [{ id: 'target', x: 210, y: 300, isAlive: true }],
-      deltaMs: 0,
+    groundEnvironment,
+      targets: [{ id: 'target', x: 210, y: owner.y - 100, isAlive: true }],
+      deltaMs: 2 * 1000 / 24, hostFps: 24,
     }),
     /requires projectiles/u,
   );

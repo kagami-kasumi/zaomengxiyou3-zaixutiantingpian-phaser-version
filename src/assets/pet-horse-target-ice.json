@@ -1,0 +1,24 @@
+{
+  "kind": "image",
+  "key": "pet-horse-target-ice",
+  "path": "assets/pets/monkey-horse/PetHorseIceEffect.png",
+  "truthId": "task-settings-229.horse-natural-display",
+  "stateId": "ice-0",
+  "symbol": "PetHorseIceEffect",
+  "sha256": "9977a34560b6d6ce09fec5dee94acb6b52d6d6e6f620ef0f09937ea14b06ec1a",
+  "sourceSha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9",
+  "width": 75,
+  "height": 137,
+  "crop": {
+    "left": -33,
+    "top": -68,
+    "width": 75,
+    "height": 137
+  },
+  "sourceBounds": {
+    "left": -33,
+    "top": -68,
+    "width": 74.9,
+    "height": 136.55
+  }
+}

@@ -29,6 +29,17 @@ const passingTrace: readonly BehaviorRuntimeTraceFrame[] = [
 assert.deepEqual(validateBehaviorRuntimeTrace(passingTrace), []);
 assert.deepEqual(behaviorTraceSchema.items.required, [...behaviorRuntimeTraceRequiredFields]);
 assert.deepEqual(verifyRangeAttackDamageChain(expected, passingTrace), []);
+const deferredBirth = passingTrace.map(entry => ({ ...entry }));
+deferredBirth[2]!.projectileId = undefined;
+deferredBirth[2]!.projectileActionToken = undefined;
+assert.deepEqual(verifyRangeAttackDamageChain(expected, deferredBirth), [], 'body callback may follow the action-selection frame');
+const wrongToken = deferredBirth.map(entry => ({ ...entry }));
+wrongToken[3]!.projectileActionToken = 2;
+assert.ok(verifyRangeAttackDamageChain(expected, wrongToken).some(issue => issue.code === 'WRONG_ACTION_TOKEN'));
+const expiresAfterHit = [...deferredBirth.map(entry => ({ ...entry, cleanupReason: undefined })),
+  frame({ frame: 4, elapsedMs: 800, distance: 40, petX: 100, cleanupReason: 'expired' })];
+assert.deepEqual(verifyRangeAttackDamageChain(expected, expiresAfterHit), [], 'native max99 normal expires after its hit');
+assert.ok(verifyRangeAttackDamageChain(expected, expiresAfterHit.slice(0, -1)).some(issue => issue.code === 'NO_CLEANUP'));
 assert.deepEqual(validateBehaviorContractCoverage(
   monkeyFamilyTruth.p1rAcceptance.contractIds,
   monkeyBehaviorContractCoverage,

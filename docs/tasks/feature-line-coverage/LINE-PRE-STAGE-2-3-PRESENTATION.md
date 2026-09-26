@@ -1,5 +1,28 @@
 # LINE-PRE-STAGE-2-3-PRESENTATION 覆盖台账
 
+2026-09-26 / TASK-SLICE-226本项整改完成：猴马连续host时序、资格/目标/地面/反击、真实碰撞伤害、奥义/冰火/显示及生命周期已补证修正；扩大P1R/P1H/P1G/P1T=0，新增正式目标投影后的P1R/P1H=0。原41/43责任保留于226合同承接矩阵，公共230..235仍未修复，猴马完整家族、204/all/194/VS-067均不关闭。下一执行项TASK-SETTINGS-230（Ready），功能线保持Active。
+
+2026-09-25 / 226补充发现正式party双slot96例就绪自动增益未触发；独立公共被动回复/六增益合同交同线Planned TASK-SETTINGS-235。受控计数为0，不冒充原默认300的首帧行为，组合合同未核销；226仍唯一Ready。
+
+2026-09-25 / 226双owner增量：24例正式party/两族Runtime通过并修复单机死亡漏扣寿命，build/P1R/P1H/全系统=0；结论限定唯一ID。真实catchNewPet又复现两slot同为pet-monkey1-2，释放P1后2弹体变0且P2仍活，公共捕获身份修正新增Planned TASK-SLICE-234。84例逐形态受击/释放/致死优先级通过，新联合门禁待终态；226未完成，不能把种子或QA前缀当所有实时捕获保证。
+
+2026-09-25 / 226实际画布：马旧资源302/850态WebGL反例修正，原生资源接线后850态零残差，build/P1R/P1H/完整system-tests=0。Canvas654态失败独立登记同线Planned TASK-SLICE-233；关闭取整只在诊断fixture通过，生产未修。226仍唯一Ready，完整生命周期/原84合同未关闭，整线Active。
+
+2026-09-25 / 226暂停与显示增量：猴384清理/碰撞及107520 EXIT显示，马624常规、46080落雷运动与2388暂停新生爆炸态已由正式owner/port/shared view核对；注册点镜像与timer/display顺序反例修复，本批build、P1R/P1H及完整system-tests退出0。原84合同全面核销、源释放/恢复组合和实际逐状态画布仍待；226继续唯一Ready、功能线Active，不提升猴马整体完成度。公共230/231/232仍Planned。
+
+2026-09-25 / 226目标效果组合核查：新增同线Planned TASK-SETTINGS-232，补公共怪物身体回调、独立攻击对象与死亡顺序合同。现代Monster30火焰致死会吞掉显示回调，正式伤害又依赖死亡时清空的activeAttack；目前仅有源码与受控现代诊断，需原动态补证。226仍唯一Ready，原84合同和未核销组合边界保留，不提升整线或机制完成度。
+
+2026-09-25 / 226冰火核查新增公共归属缺口：P1宠物命中后目标火焰致死，TestScene经验claim仍取AI目标P2；原curAttackTarget还区分英雄/宠物对象。新增同线Planned TASK-SETTINGS-231补源合同并生成公共实现，226仍唯一Ready，原84合同不降级或删除。
+
+2026-09-24 / 226附加核查：普通命中后共享怪物击退事件未驱动物理的动态反例已确认，新增同线TASK-SETTINGS-230（Planned）补齐源运动合同并交接公共消费实现。226仍唯一Ready，原84合同/两族联合验收未降低；不提升功能线或猴马完成度。
+2026-09-24 / 229完成：马四形态/十主效果/Aoyi/冰效输入verified，665态/3190对象、387960独立碰撞、158912动态检测，43合同保留；真实TweenMax延迟与父清理已核对。226恢复唯一Ready，MH-01..07仍待生产整改；源完成不提升现代复现完成度。见 `docs/reverse-engineering/evidence/TASK-SETTINGS-229-horse-spatial-progress.md`。
+
+2026-09-21 / 228完成：猴原版空间/host输入verified，622显示态/1950对象、349164碰撞、46080动态host步、672奥义例和41合同完整交接；继承HeroBeHurt/miss/hpSlip已补齐。229马为唯一Ready，226保持Blocked；现代完成度不提升。证据见 `docs/reverse-engineering/evidence/TASK-SETTINGS-228-monkey-spatial-progress.md`。
+
+2026-09-21 / 227完成：3,408源gate/AI/step/碰撞判定前缀case、10源变异及43现代拒绝；84旧合同/129方法引用保留。仅代码补充合同与空间输入边界交付，正式显示/动作/碰撞与两族完整复现仍待。228猴空间Ready、229马Planned，之后恢复226；详见 `docs/reverse-engineering/evidence/TASK-SETTINGS-227-monkey-horse-supplement.md`。
+
+2026-09-21 / 226预检纠正：两族四形态×P1/P2共16例锁定目标远距仍扣血；猴2/3/4未学习技能各49次失败选择并阻塞普攻。另补lyq距离、hurt/stun/攻击态、移动/目标序输入核查，完整清单见 `docs/reverse-engineering/pet-monkey-horse-gap-audit.md`。226保持原41/43全合同并Blocked，227唯一Ready补行为合同与碰撞/空间输入边界；必要视觉补证后才恢复226。无src/资源变更，不提高两族或整线完成度。
+
 2026-09-21 TASK-SLICE-224C完成：玄龟全32合同通过完整P1T=0（组合A/B及资源全集），四形态×五关×P1/P2正式消费者、休息/替换、真实失败重试/返回/重载通过。修复TestScene同实例重试世界残留、会话释放后的主人链接引用与根宠弹体残留，删除旧玄龟技能分支。原视觉/碰撞精确例外不扩大。TASK-SLICE-226唯一Ready；猴马时序反证仍待重做，其余五家族与旧入口待闭合，204/VS-067/pet all未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224C/handoff.md`。
 
 2026-09-21当前缺口：猴/马普攻使用决策后1000ms重置，与原版BasePet连续timeCount取模不符。两族完整复现降为待重做；TASK-SLICE-226在224C后、下一家族前统一修正和联合验收，41/43旧合同保留并增加相位责任。

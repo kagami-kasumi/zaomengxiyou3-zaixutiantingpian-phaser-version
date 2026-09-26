@@ -1,0 +1,447 @@
+{
+  "symbol": "FireBuff",
+  "truthId": "task-settings-228.monkey-natural-display",
+  "sourceSha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9",
+  "frames": [
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-1",
+      "path": "assets/pets/monkey-horse/FireBuff-01.png",
+      "stateId": "fire-1",
+      "frame": 1,
+      "sha256": "277cb5df93babe0620d50846886e9ad01d17a8999c535a94e4a9fa114531724e",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -43,
+        "top": -47.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-2",
+      "path": "assets/pets/monkey-horse/FireBuff-02.png",
+      "stateId": "fire-2",
+      "frame": 2,
+      "sha256": "c9bd88c6fe20c9526fd9eda90e6d91fb57be6e7ef21c6e0f40fdf7f112c6bf74",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-3",
+      "path": "assets/pets/monkey-horse/FireBuff-03.png",
+      "stateId": "fire-3",
+      "frame": 3,
+      "sha256": "11973208567579f4362a741768e29c86b0c2d1ee7a74e6e42d2ac148fc5b2899",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-4",
+      "path": "assets/pets/monkey-horse/FireBuff-04.png",
+      "stateId": "fire-4",
+      "frame": 4,
+      "sha256": "1bfc97b81aac4ca84dd7791bacd3792aa569dff9897ca33e0d1e2eb097f5323e",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-5",
+      "path": "assets/pets/monkey-horse/FireBuff-05.png",
+      "stateId": "fire-5",
+      "frame": 5,
+      "sha256": "dcc8c29a4f9628a739c3bc019375df287676d917a5288465fb99528dd2da83f1",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-6",
+      "path": "assets/pets/monkey-horse/FireBuff-06.png",
+      "stateId": "fire-6",
+      "frame": 6,
+      "sha256": "30dbaddb3ff0f3d944c8fd57fcdd5eefe1dc155f80ba688061f09af60a405a40",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-7",
+      "path": "assets/pets/monkey-horse/FireBuff-07.png",
+      "stateId": "fire-7",
+      "frame": 7,
+      "sha256": "0e868905353a1a36b445a5b3cd6910ebd589210b737707ac7aec93d9e43d6d3d",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-8",
+      "path": "assets/pets/monkey-horse/FireBuff-08.png",
+      "stateId": "fire-8",
+      "frame": 8,
+      "sha256": "51cde7409b6a47c269cbdbaf259068f3f0914ec7b87c34c58ec246a36ebefd8c",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-9",
+      "path": "assets/pets/monkey-horse/FireBuff-09.png",
+      "stateId": "fire-9",
+      "frame": 9,
+      "sha256": "d861ef66a2fe2039325c6b74189e752c8c95223c55a4ddc1392fb4174f1f51ab",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-10",
+      "path": "assets/pets/monkey-horse/FireBuff-10.png",
+      "stateId": "fire-10",
+      "frame": 10,
+      "sha256": "c3a7d66eb4d6b55ed7de3cb15b46b08f300777629b4620257e5c1a83ebb315e9",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-11",
+      "path": "assets/pets/monkey-horse/FireBuff-11.png",
+      "stateId": "fire-11",
+      "frame": 11,
+      "sha256": "d617a9f58aa90facca28f1e4c7ef9e5da925e8986b9c0aceb0ca8781390c4f71",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-12",
+      "path": "assets/pets/monkey-horse/FireBuff-12.png",
+      "stateId": "fire-12",
+      "frame": 12,
+      "sha256": "85c93d29eb107ca94992ae14f2dd76ac3128e6385cd811fe4a330ea63ef51b77",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-13",
+      "path": "assets/pets/monkey-horse/FireBuff-13.png",
+      "stateId": "fire-13",
+      "frame": 13,
+      "sha256": "2331c00dac5fb4bad64cddba4a369019070ddc90a27be2080f377fa58fe16d59",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-14",
+      "path": "assets/pets/monkey-horse/FireBuff-14.png",
+      "stateId": "fire-14",
+      "frame": 14,
+      "sha256": "0f8ba43e0f35ed1619dc30242a05243a724bca2af1334a1e55ec55caf4820199",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-15",
+      "path": "assets/pets/monkey-horse/FireBuff-15.png",
+      "stateId": "fire-15",
+      "frame": 15,
+      "sha256": "c08bff0ce2bfe80c83d10e3b1c1cf2be5edd3e3bd3bf5bcef3e9c71010be24c8",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -47,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-16",
+      "path": "assets/pets/monkey-horse/FireBuff-16.png",
+      "stateId": "fire-16",
+      "frame": 16,
+      "sha256": "88b1eca8cc1b89a1d610676b24c6b0c3f9b02abed43bead30a393ccf2758480e",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -50,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-17",
+      "path": "assets/pets/monkey-horse/FireBuff-17.png",
+      "stateId": "fire-17",
+      "frame": 17,
+      "sha256": "dac7162a72ce5345eb5c3e34b62789d2333871467e9223a65f3346781f5b41cc",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -51.5,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-18",
+      "path": "assets/pets/monkey-horse/FireBuff-18.png",
+      "stateId": "fire-18",
+      "frame": 18,
+      "sha256": "cf19cfd5efdb814a19801fed013b613ec4db9e3603082ae58300c8eb5142dae3",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -53.9,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-19",
+      "path": "assets/pets/monkey-horse/FireBuff-19.png",
+      "stateId": "fire-19",
+      "frame": 19,
+      "sha256": "3658d7c8bdb7760c2041207c0380ba5ccb69f2774e2dc66970f4955b75f10b1f",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -56,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-monkey-target-fire-20",
+      "path": "assets/pets/monkey-horse/FireBuff-20.png",
+      "stateId": "fire-20",
+      "frame": 20,
+      "sha256": "8c6d905ae9c3c4b397aab6402e607f20ed0a248f4d761dbeb4fa96f5be648a3b",
+      "width": 200,
+      "height": 200,
+      "crop": {
+        "left": -100,
+        "top": -100,
+        "width": 200,
+        "height": 200
+      },
+      "sourceBounds": {
+        "left": -56,
+        "top": -49.7,
+        "width": 100,
+        "height": 100
+      }
+    }
+  ]
+}

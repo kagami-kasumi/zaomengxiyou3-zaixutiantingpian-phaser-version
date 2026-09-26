@@ -1,3 +1,5 @@
+import { toDragonSourceCoordinate as sourceCoordinate } from './PetDragonCollisionSystem';
+
 export type PetGroundCollision = Readonly<{
   width: number;
   height: number;
@@ -64,26 +66,26 @@ export function stepPetGroundMotion(
     const tolerance = 8 + (wall.usesWallTolerance ? Math.abs(motion.velocityY) : 0);
     if (motion.velocityY > 0 && motion.y + collision.height / 2 <= wall.top + tolerance && !wall.throughDown
       && (wall.isThroughWallClass || (current.right > wall.left && current.left < wall.right))) {
-      motion.y = wall.top - 0.1 - collision.height / 2;
+      motion.y = sourceCoordinate(wall.top - 0.1 - collision.height / 2);
       motion.velocityY = 0;
       motion.standingOn = wall.id;
       landed = true;
     }
     if (wall.through || wall.throughUp) continue;
     if (motion.velocityY <= 0 && current.top > wall.bottom) {
-      motion.y = wall.bottom + 0.1 + collision.height / 2;
+      motion.y = sourceCoordinate(wall.bottom + 0.1 + collision.height / 2);
       motion.velocityY = 0;
       hitHead = true;
     }
     if (motion.velocityX <= 0 && current.left >= wall.right
       && next.left <= wall.right && next.right >= wall.left && motion.y + collision.height / 2 > wall.top + 5) {
-      motion.x = wall.right + 2 + collision.width / 2;
+      motion.x = sourceCoordinate(wall.right + 2 + collision.width / 2);
       motion.velocityX = 0;
       hitSide = true;
     }
     if (motion.velocityX >= 0 && current.left <= wall.left
       && next.right >= wall.left && next.left <= wall.right && motion.y + collision.height / 2 > wall.top + 5) {
-      motion.x = wall.left - 2 - collision.width / 2;
+      motion.x = sourceCoordinate(wall.left - 2 - collision.width / 2);
       motion.velocityX = 0;
       hitSide = true;
     }
@@ -91,8 +93,10 @@ export function stepPetGroundMotion(
   // The recovered BaseObject.isWalkOrRun() returns true; wait alone must not
   // discard an existing direction. setStatic is the operation that clears it.
   if (!input.suppressMove) {
-    motion.x += motion.velocityX;
-    motion.y += motion.velocityY;
+    // Every original Sprite assignment truncates independently, including a
+    // collision snap before the subsequent movement in this same host step.
+    motion.x = sourceCoordinate(motion.x + motion.velocityX);
+    motion.y = sourceCoordinate(motion.y + motion.velocityY);
     motion.velocityY += input.gravity;
   }
   return { landed, hitHead, hitSide };

@@ -19,18 +19,6 @@ import type { PetState } from '../../systems/PetSystem';
 import type { PetRuntimeModel } from '../../systems/PetTypes';
 import type { ProjectileModel } from '../../systems/ProjectileSystem';
 import {
-  createPetMonkeyAnimationView,
-  isSupportedPetMonkey,
-  syncPetMonkeyAnimationView,
-  type PetMonkeyAnimationView,
-} from '../PetMonkeyAnimationView';
-import {
-  createPetHorseAnimationView,
-  isSupportedPetHorse,
-  syncPetHorseAnimationView,
-  type PetHorseAnimationView,
-} from '../PetHorseAnimationView';
-import {
   createStage11MonsterView,
   setStage11MonsterViewVisible,
   type Stage11AttackGeometryRegistry,
@@ -49,7 +37,7 @@ type PlaceholderPetView = {
   label: Phaser.GameObjects.Text;
 };
 
-export type PetView = PlaceholderPetView | PetMonkeyAnimationView | PetHorseAnimationView;
+export type PetView = PlaceholderPetView;
 
 export type DropView = {
   root: Phaser.GameObjects.Container;
@@ -114,12 +102,6 @@ export function createPetView(
   x: number,
   y: number,
 ): PetView {
-  if (isSupportedPetMonkey(activePet)) {
-    return createPetMonkeyAnimationView(scene, activePet as PetState, x, y);
-  }
-  if (isSupportedPetHorse(activePet)) {
-    return createPetHorseAnimationView(scene, activePet as PetState, x, y);
-  }
   const root = scene.add.container(x, y);
   const body = scene.add.ellipse(0, 0, 38, 30, 0x7ad7a8, 0.9);
   const ear = scene.add.ellipse(-10, -18, 15, 12, 0xf3f6ff, 0.45);
@@ -136,46 +118,18 @@ export function createPetView(
   return { kind: 'placeholder', root, body, ear, eye, label };
 }
 
-export function petViewMatchesPet(view: PetView, pet: PetState): boolean {
-  if (view.kind === 'monkey-native') {
-    return isSupportedPetMonkey(pet) && view.petId === pet.id && view.form === pet.form;
-  }
-  if (view.kind === 'horse-native') {
-    return isSupportedPetHorse(pet) && view.petId === pet.id && view.form === pet.form;
-  }
-  return !isSupportedPetMonkey(pet) && !isSupportedPetHorse(pet);
+export function petViewMatchesPet(_view: PetView, pet: PetState): boolean {
+  return !['monkey', 'horse', 'dragon', 'turtle'].includes(pet.species);
 }
 
 export function syncPetViewPresentation(
-  scene: Phaser.Scene,
+  _scene: Phaser.Scene,
   view: PetView,
   activePet: PetState,
   runtime: PetRuntimeModel,
-  projectiles: readonly ProjectileModel[],
+  _projectiles: readonly ProjectileModel[],
   ownerLabel?: string,
 ): void {
-  if (view.kind === 'monkey-native') {
-    syncPetMonkeyAnimationView(
-      view,
-      activePet,
-      runtime,
-      projectiles,
-      scene.time.now,
-      scene.game.loop.targetFps,
-    );
-    return;
-  }
-  if (view.kind === 'horse-native') {
-    syncPetHorseAnimationView(
-      view,
-      activePet,
-      runtime,
-      projectiles,
-      scene.time.now,
-      scene.game.loop.targetFps,
-    );
-    return;
-  }
   view.root.setPosition(runtime.x, runtime.y);
   view.root.setScale(runtime.facingX < 0 ? -1 : 1, 1);
   view.body.setFillStyle(runtime.state === 'warp' ? 0xf2c14e : ownerLabel ? 0x74c0fc : 0x7ad7a8, 0.9);

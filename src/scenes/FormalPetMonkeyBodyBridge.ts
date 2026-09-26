@@ -26,13 +26,14 @@ type FormalPetMonkeyMember = Readonly<{
 
 type SlotPresentation = {
   view?: PetMonkeyAnimationView;
-  deadCompletionToken?: number;
 };
 
 type EffectFrameView = Readonly<{
   image: Phaser.GameObjects.Image;
   usage: PetMonkeyEffectUsage;
   startedAt: number;
+  hostOwned: boolean;
+  projectile: ProjectileModel;
 }>;
 
 export type FormalPetMonkeyBodyBridge = Readonly<{
@@ -49,6 +50,12 @@ export function createFormalPetMonkeyBodyBridge(
 ): FormalPetMonkeyBodyBridge {
   const slots: Record<Slot, SlotPresentation> = { p1: {}, p2: {} };
   const effects = new Map<number, readonly EffectFrameView[]>();
+  const syncNativeFrames = () => {
+    for (const frames of effects.values()) for (const effect of frames) {
+      if (effect.projectile.petNativePhaseTick && !effect.projectile.isExpired) syncNativeFrame(effect);
+    }
+  };
+  scene.game.events.on('poststep', syncNativeFrames);
 
   const destroySlot = (slot: Slot) => {
     slots[slot].view?.root.destroy(true);
@@ -74,35 +81,17 @@ export function createFormalPetMonkeyBodyBridge(
             pet,
             runtime.x,
             runtime.y,
-            timeMs,
           );
         }
-        syncPetMonkeyAnimationView(
-          presentation.view,
-          pet,
-          runtime,
-          projectiles,
-          timeMs,
-          scene.game.loop.targetFps,
-        );
-        if (
-          member.snapshot.phase === 'dead-playing'
-          && presentation.view.runtime.deadFinished
-          && member.snapshot.actionToken !== undefined
-          && presentation.deadCompletionToken !== member.snapshot.actionToken
-        ) {
-          presentation.deadCompletionToken = member.snapshot.actionToken;
-          animationEvents.push({
-            runtimeKey: runtime.runtimeKey,
-            actionToken: member.snapshot.actionToken,
-            eventName: 'dead-complete',
-          });
-        }
+        const animation = member.snapshot.animation;
+        if (!animation) throw new Error('Monkey presentation requires the combat body clock.');
+        syncPetMonkeyAnimationView(presentation.view, runtime, animation);
       }
       syncEffects(projectiles, timeMs);
       return animationEvents;
     },
     destroy: () => {
+      scene.game.events.off('poststep', syncNativeFrames);
       destroySlot('p1');
       destroySlot('p2');
       for (const frames of effects.values()) frames.forEach(({ image }) => image.destroy());
@@ -112,14 +101,17 @@ export function createFormalPetMonkeyBodyBridge(
 
   function syncEffects(projectiles: readonly ProjectileModel[], timeMs: number): void {
     for (const projectile of projectiles) {
-      if (!isPetMonkeyProjectileAsset(projectile.assetKey) || effects.has(projectile.id)) continue;
+      if (projectile.isExpired || !isPetMonkeyProjectileAsset(projectile.assetKey) || effects.has(projectile.id)) continue;
       const source = (['p1', 'p2'] as const)
         .map((slot) => slots[slot].view)
         .find((view) => view?.petId === projectile.sourceId);
-      const usages = getPetMonkeyEffectUsages(projectile.assetKey);
+      const usages = getPetMonkeyEffectUsages(projectile.assetKey)
+        .filter(usage => usage.asset.symbol === projectile.sourceSymbol);
       effects.set(projectile.id, usages.map((usage) => ({
         usage,
         startedAt: timeMs,
+        hostOwned: projectile.petHostTick !== undefined,
+        projectile,
         image: scene.add.image(
           (source?.root.x ?? projectile.x) + projectile.facingX * usage.offsetX,
           (source?.root.y ?? projectile.y) + usage.offsetY,
@@ -129,18 +121,26 @@ export function createFormalPetMonkeyBodyBridge(
           .setDepth(usage.depth),
       })));
     }
-    const activeIds = new Set(projectiles.map(({ id }) => id));
+    const activeIds = new Set(projectiles.filter(p => !p.isExpired).map(({ id }) => id));
     for (const [projectileId, frames] of effects) {
       const projectile = projectiles.find(({ id }) => id === projectileId);
       const elapsedMs = timeMs - (frames[0]?.startedAt ?? timeMs);
-      for (const { image, usage } of frames) {
+      for (const effect of frames) {
+        const { image, usage } = effect;
         const frameMs = 1000 / normalizeHostFps(scene.game.loop.targetFps);
-        const index = Math.floor(elapsedMs / frameMs) % usage.asset.frameKeys.length;
+        const index = projectile?.petHostTick !== undefined
+          ? Math.max(0, projectile.petHostTick - 1) % usage.asset.frameKeys.length
+          : Math.floor(elapsedMs / frameMs) % usage.asset.frameKeys.length;
         image.setTexture(usage.asset.frameKeys[index]!);
         const source = (['p1', 'p2'] as const)
           .map((slot) => slots[slot].view)
           .find((view) => view?.petId === projectile?.sourceId);
-        if (source && projectile) {
+        if (projectile?.petHostTick !== undefined) {
+          syncNativeFrame(effect);
+          image.setPosition(projectile.x, projectile.y);
+          image.setFlipX(false).setScale(projectile.petRenderDirection ?? -projectile.facingX, 1);
+        }
+        else if (source && projectile) {
           image.setPosition(
             source.root.x + projectile.facingX * usage.offsetX,
             source.root.y + usage.offsetY,
@@ -148,10 +148,19 @@ export function createFormalPetMonkeyBodyBridge(
         }
       }
       const loops = frames.some(({ usage }) => usage.loopsForFourSeconds);
-      if (activeIds.has(projectileId) || (loops && elapsedMs < 4_000)) continue;
+      if (activeIds.has(projectileId) || (!frames[0]?.hostOwned && loops && elapsedMs < 4_000)) continue;
       frames.forEach(({ image }) => image.destroy());
       effects.delete(projectileId);
     }
+  }
+
+  function syncNativeFrame(effect: EffectFrameView): void {
+    const tick = effect.projectile.petNativePhaseTick?.() ?? effect.projectile.petHostTick ?? 0;
+    const display = effect.usage.nativeDisplay;
+    const index = display.hostFrameIndices[tick];
+    const frame = index === undefined ? undefined : display.frames[index];
+    if (!frame) throw new Error(`Missing native monkey effect frame ${effect.projectile.sourceSymbol}/${tick}`);
+    effect.image.setTexture(frame.key).setOrigin(-frame.crop.left / frame.width, -frame.crop.top / frame.height);
   }
 }
 

@@ -25,7 +25,11 @@ assert.equal(getPetHorseBodyActionForProjectile(3, 'pet-skill.horse3.bz'), 'hit4
 assert.equal(getPetHorseBodyActionForProjectile(4, 'pet-skill.horse4.tmaoyi'), 'hit5-tmaoyi');
 assert.equal(getPetHorseEffectUsage('pet-skill.horse1.sp')?.asset.symbol, 'PetHorse1Bullet2');
 assert.equal(getPetHorseEffectUsage('pet-skill.horse4.tmaoyi')?.asset.frames.length, 8);
-assert.equal(getPetHorseEffectUsage('pet-skill.horse4.tmaoyi.explode')?.asset.frames.length, 30);
+const explosion = getPetHorseEffectUsage('pet-skill.horse4.tmaoyi.explode')!;
+assert.equal(explosion.hostFrameIndices?.length, 32);
+for (const index of explosion.hostFrameIndices!) {
+  assert.ok(explosion.asset.frames[index], `Missing explosion raster at mapped index ${index}`);
+}
 assert.equal(getPetHorseIceEffectAsset().symbol, 'PetHorseIceEffect');
 
 for (const asset of Object.values(petHorseBodyAssets)) {
@@ -40,10 +44,12 @@ for (const asset of Object.values(petHorseEffectAssets)) {
 }
 
 const testSceneViews = readFileSync('src/scenes/test-scene/TestSceneViews.ts', 'utf8');
-assert.ok(testSceneViews.includes("view.kind === 'horse-native'"));
+assert.equal(testSceneViews.includes("view.kind === 'horse-native'"), false);
 assert.ok(testSceneViews.includes("projectile.assetKey.startsWith('pet-skill.horse')"));
 const formalSource = readFileSync('src/scenes/HeroPartyRuntimeBridge.ts', 'utf8');
-assert.ok(formalSource.includes('createFormalPetHorseBodyBridge'));
+assert.ok(formalSource.includes('const formalPetHorseBodies = createFormalPetHorseBodyBridge(scene)'));
+assert.ok(readFileSync('src/scenes/test-scene/TestScenePetMagicBridge.ts', 'utf8')
+  .includes("['dragon', 'turtle', 'monkey', 'horse'].includes(sharedPet.species)"));
 for (const file of [
   'src/scenes/stage12/Stage12GameplayBridge.ts',
   'src/scenes/stage13/Stage13GameplayBridge.ts',

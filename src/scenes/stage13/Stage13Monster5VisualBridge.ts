@@ -1,3 +1,6 @@
+import { syncMonsterPetFireView, destroyMonsterPetFireView } from '../MonsterPetFireView';
+import { consumeMonsterPetBodyDelta } from '../../systems/MonsterPetTargetEffectSystem';
+import { syncMonsterPetIceView, destroyMonsterPetIceView } from '../MonsterPetIceView';
 import Phaser from 'phaser';
 import {
   monster5Atlas,
@@ -37,6 +40,7 @@ type AttackView = {
 
 export type Stage13Monster5View = {
   sprite: Phaser.GameObjects.Sprite;
+  ice?: Phaser.GameObjects.Image;
   visual: Stage13Monster5VisualModel;
   attacks: AttackView[];
   geometry: Stage13Monster5AttackGeometry;
@@ -102,12 +106,14 @@ export function updateStage13Monster5View(
   combat: Stage1CombatEnemy,
   deltaMs: number,
 ): boolean {
+  syncMonsterPetFireView(scene, view, combat);
+  syncMonsterPetIceView(scene, view, combat, combat.enemyType);
   const events = updateStage13Monster5Visual(view.visual, {
     phase: combat.phase,
     attackSerial: combat.attackSerial,
     facingX: combat.facingX,
     moving: combat.phase === 'approach',
-  }, deltaMs);
+  }, consumeMonsterPetBodyDelta(combat.petTargetEffectState, Stage13Monster5VisualTickMs, deltaMs));
   view.sprite
     .setPosition(combat.x, combat.y)
     .setFrame(getStage13Monster5AtlasFrame(view.visual))
@@ -127,6 +133,8 @@ export function updateStage13Monster5View(
 }
 
 export function destroyStage13Monster5View(view: Stage13Monster5View): void {
+  destroyMonsterPetFireView(view);
+  destroyMonsterPetIceView(view);
   view.sprite.destroy();
   for (const attack of view.attacks) attack.image.destroy();
   view.attacks.length = 0;

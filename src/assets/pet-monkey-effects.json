@@ -1,0 +1,264 @@
+{
+  "effects": [
+    {
+      "form": 1,
+      "action": "hit2",
+      "maxHits": 99,
+      "interval": 15,
+      "attackKind": "physics",
+      "knockback": [
+        8,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey1Bullet2",
+          "offsetX": 45.0,
+          "offsetY": -80,
+          "lifetime": 4.0,
+          "timed": true,
+          "cut": false,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "bc82b14bd316389841fe2267f4382354fae820a56fa0c868a2fa62aa80cb20dd"
+    },
+    {
+      "form": 2,
+      "action": "hit2",
+      "maxHits": 99,
+      "interval": 15,
+      "attackKind": "physics",
+      "knockback": [
+        8,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey2Bullet2_1",
+          "offsetX": 15.0,
+          "offsetY": -15,
+          "lifetime": 4,
+          "timed": false,
+          "cut": true,
+          "disabled": true,
+          "follows": true
+        },
+        {
+          "symbol": "PetMonkey2Bullet2_2",
+          "offsetX": 0.0,
+          "offsetY": 0,
+          "lifetime": 5,
+          "timed": false,
+          "cut": true,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "855283fddf3f988f0848460fc304d1802e2a8d83e3aa89b813281cc608afaa43"
+    },
+    {
+      "form": 2,
+      "action": "hit3",
+      "maxHits": 99,
+      "interval": 24,
+      "attackKind": "magic",
+      "knockback": [
+        6,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey1Bullet2",
+          "offsetX": 45.0,
+          "offsetY": -70,
+          "lifetime": 4.0,
+          "timed": true,
+          "cut": false,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "855283fddf3f988f0848460fc304d1802e2a8d83e3aa89b813281cc608afaa43"
+    },
+    {
+      "form": 3,
+      "action": "hit2",
+      "maxHits": 99,
+      "interval": 15,
+      "attackKind": "physics",
+      "knockback": [
+        8,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey3Bullet2",
+          "offsetX": 35.0,
+          "offsetY": -60,
+          "lifetime": 25,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": false
+        }
+      ],
+      "sourceSha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc"
+    },
+    {
+      "form": 3,
+      "action": "hit3",
+      "maxHits": 99,
+      "interval": 24,
+      "attackKind": "magic",
+      "knockback": [
+        6,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey1Bullet2",
+          "offsetX": 45.0,
+          "offsetY": -50,
+          "lifetime": 4.0,
+          "timed": true,
+          "cut": false,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc"
+    },
+    {
+      "form": 3,
+      "action": "hit4",
+      "maxHits": 99,
+      "interval": 15,
+      "attackKind": "magic",
+      "knockback": [
+        3,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey3Bullet3_1",
+          "offsetX": 0.0,
+          "offsetY": -15,
+          "lifetime": 4,
+          "timed": false,
+          "cut": true,
+          "disabled": true,
+          "follows": true
+        },
+        {
+          "symbol": "PetMonkey3Bullet3_2",
+          "offsetX": 10.0,
+          "offsetY": -15,
+          "lifetime": 6,
+          "timed": false,
+          "cut": true,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc"
+    },
+    {
+      "form": 4,
+      "action": "hit2",
+      "maxHits": 99,
+      "interval": 7,
+      "attackKind": "physics",
+      "knockback": [
+        5,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey3Bullet2",
+          "offsetX": 35.0,
+          "offsetY": -60,
+          "lifetime": 25,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": false
+        }
+      ],
+      "sourceSha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e"
+    },
+    {
+      "form": 4,
+      "action": "hit3",
+      "maxHits": 99,
+      "interval": 10,
+      "attackKind": "magic",
+      "knockback": [
+        3,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey1Bullet2",
+          "offsetX": 45.0,
+          "offsetY": -50,
+          "lifetime": 4.0,
+          "timed": true,
+          "cut": false,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e"
+    },
+    {
+      "form": 4,
+      "action": "hit4",
+      "maxHits": 99,
+      "interval": 13,
+      "attackKind": "magic",
+      "knockback": [
+        3,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetMonkey3Bullet3_1",
+          "offsetX": 0.0,
+          "offsetY": -15,
+          "lifetime": 4,
+          "timed": false,
+          "cut": true,
+          "disabled": true,
+          "follows": true
+        },
+        {
+          "symbol": "PetMonkey3Bullet3_2",
+          "offsetX": 10.0,
+          "offsetY": -15,
+          "lifetime": 6,
+          "timed": false,
+          "cut": true,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e"
+    }
+  ],
+  "jointMeasurements": [
+    {
+      "fps": 20,
+      "sha256": "a589f520a879937824199c72857bd4574dd23906346a67638b6d6f0d5965cb78"
+    },
+    {
+      "fps": 24,
+      "sha256": "d50ca6ea8db032a9d9d2b80b24f26e9901bfd3db47ec7be013e0447dad127eed"
+    },
+    {
+      "fps": 30,
+      "sha256": "b7ffa170c4bb8f35a50868101232c69cf619852ff1e00ff6c4f9ba66ba488e71"
+    }
+  ]
+}

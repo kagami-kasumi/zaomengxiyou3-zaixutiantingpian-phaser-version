@@ -189,12 +189,8 @@ export function createHeroPartyRuntime(
   const petProjectileCombat = createPetProjectileCombatBridge(scene);
   const petDragonPresentation = createPetDragonPresentationBridge(scene);
   const petTurtle = createPetTurtleCombatBridge(scene);
-  const formalPetMonkeyBodies = scene.scene.key === 'TestScene'
-    ? undefined
-    : createFormalPetMonkeyBodyBridge(scene);
-  const formalPetHorseBodies = scene.scene.key === 'TestScene'
-    ? undefined
-    : createFormalPetHorseBodyBridge(scene);
+  const formalPetMonkeyBodies = createFormalPetMonkeyBodyBridge(scene);
+  const formalPetHorseBodies = createFormalPetHorseBodyBridge(scene);
   let destroyed = false;
   const petCombatRuntimes = {
     p1: new PetCombatRuntime(petTurtle.registry),
@@ -383,6 +379,7 @@ export function createHeroPartyRuntime(
       formalPetHorseBodies?.destroy();
       petDragonPresentation.destroy();
       petTurtle.destroy();
+      petProjectileCombat.destroy();
       if (isPetDragonQaEnabled()) delete scene.game.canvas.dataset.petDragonQa;
       combatFeedbackView.destroy();
       incomingFeedback.destroy();
@@ -430,7 +427,7 @@ export function createHeroPartyRuntime(
   }>): void {
     for (const [index, member] of model.members.entries()) {
       const slot = member.combat.slot;
-      const roster = petTurtle.readyRoster(petRosters[slot]);
+      const roster = petProjectileCombat.readyRoster(petTurtle.readyRoster(petRosters[slot]));
       if (!roster || member.combat.combat.state === 'dead') {
         petCombatSnapshots[slot] = petCombatRuntimes[slot].update({
           roster: roster ?? { pets: [], selectedIndex: 0, message: '' },

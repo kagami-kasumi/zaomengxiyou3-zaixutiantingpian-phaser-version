@@ -47,6 +47,7 @@ export function createPetCombatContext(
     owner: Object.freeze({ ...frame.owner }),
     runtime: Object.freeze({ ...session.runtime }),
     targets: Object.freeze([...targets]), target: session.target,
+    selectTarget: target => { requireLiveSession(); session.target = Object.freeze({ ...target }); },
     actionToken: session.actionToken,
     parentRuntimeKey: session.parentRuntimeKey, sourcePetId: session.sourcePetId,
     deltaMs: frame.deltaMs, random: frame.random ?? Math.random,
@@ -57,7 +58,7 @@ export function createPetCombatContext(
     animation: session.animationSnapshot(),
     grounded: session.snapshot().groundMotion?.standingOn !== undefined,
     projectileCombat: frame.projectileCombat,
-    isGxp: frame.gxpRuntimeKeys?.includes(session.runtimeKey) ?? false,
+    get isGxp() { return session.currentGxp(frame); },
     face: (direction) => { requireLiveSession(); session.face(direction); },
     setRootScaleX: (sign) => {
       requireLiveSession();
@@ -99,11 +100,11 @@ export function createPetCombatContext(
     restartAnimationCell: () => { requireLiveSession(); session.restartAnimationCell(); },
     castSkill: (request) => castAt(request, targets),
     castSkillAt: (request, target) => castAt(request, [target]),
-    castBasicAttack: () => {
+    castBasicAttack: (target = session.target) => {
       const projectiles = requireProjectiles();
-      if (!session.target) throw new Error('Pet behavior basic attack requires an active runtime and target.');
+      if (!target) throw new Error('Pet behavior basic attack requires an active runtime and target.');
       const params = {
-        roster, runtime: session.runtime, target: session.target,
+        roster, runtime: session.runtime, target,
         actionToken: session.actionToken, projectiles, random: frame.random,
       };
       return session.pet.species === 'horse'

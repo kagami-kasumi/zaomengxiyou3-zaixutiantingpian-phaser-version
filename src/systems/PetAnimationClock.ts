@@ -3,6 +3,8 @@ import type { PetCombatAnimationEventName } from './PetBehavior';
 export type PetAnimationDefinition = Readonly<{
   row: number;
   holds: readonly number[];
+  /** BBDC counts logical keyframes independently of the repeated atlas columns. */
+  keyFrameCount?: number;
   loops: boolean;
   completionAction?: string;
   completionEvent?: PetCombatAnimationEventName;
@@ -35,6 +37,10 @@ export class PetAnimationClock {
     for (const definition of Object.values(definitions)) {
       if (!definition.holds.length || definition.holds.some((hold) => !Number.isSafeInteger(hold) || hold <= 0)) {
         throw new Error('Pet animation requires positive integer cell holds.');
+      }
+      if (definition.keyFrameCount !== undefined
+        && (!Number.isSafeInteger(definition.keyFrameCount) || definition.keyFrameCount <= 0)) {
+        throw new Error('Pet animation requires a positive logical keyframe count.');
       }
       if (definition.completionAction && !definitions[definition.completionAction]) {
         throw new Error('Pet animation completion route is missing.');
@@ -95,7 +101,7 @@ export class PetAnimationClock {
       if (this.remaining > 1) {
         this.remaining--;
         this.elapsed++;
-      } else if (this.keyFrameIndex + 1 < definition.holds.length) {
+      } else if (this.keyFrameIndex + 1 < (definition.keyFrameCount ?? definition.holds.length)) {
         this.column = (this.column + 1) % definition.holds.length;
         this.keyFrameIndex++;
         this.remaining = definition.holds[this.column]!;

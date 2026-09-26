@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "path": "/assets/pets/monkey-horse/collision.json.gz",
+  "compressedSha256": "80559b711d3d60ebace5001073b22c10bdb676856ba40ef87aa9a3cc7d938e79",
+  "decodedSha256": "7a7e5b56ce94e9881b58e1dbdcba9577336bd26e737fa2373e04385ddda32f4b",
+  "compressedBytes": 2715490,
+  "decodedBytes": 35048817,
+  "sourceCases": {
+    "monkey": 349164,
+    "horse": 387960
+  },
+  "generator": "python tools/pet226-body/pack_collision.py",
+  "scope": "Bounded source-phase projection; requires full world lifecycle and formal consumer validation before 226 completion."
+}

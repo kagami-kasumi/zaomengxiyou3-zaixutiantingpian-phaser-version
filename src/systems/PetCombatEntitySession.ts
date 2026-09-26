@@ -49,6 +49,11 @@ export class PetCombatEntitySession {
   private pendingDamage: NonNullable<PetCombatFrame['damageEvents']>[number][] = [];
   private pendingAnimation: NonNullable<PetCombatFrame['animationEvents']>[number][] = [];
 
+  /** Delayed source callbacks read the latest entity input, not their captured frame. */
+  currentGxp(fallback: PetCombatFrame): boolean {
+    return (this.latestFrame ?? fallback).gxpRuntimeKeys?.includes(this.runtimeKey) ?? false;
+  }
+
   constructor(
     public pet: PetState,
     readonly runtimeKey: string,
@@ -70,6 +75,7 @@ export class PetCombatEntitySession {
       this.ground = new PetGroundSessionMovement(this.runtime, groundDefinition);
       this.runtime.x = owner.x;
       this.runtime.y = owner.y + ownerRootOffsetY + PetGroundOwnerAnchors.spawnOffsetY;
+      if (groundDefinition.initialFacingX !== undefined) this.runtime.facingX = groundDefinition.initialFacingX;
     }
     if (position) {
       this.runtime.x = position.x;
@@ -102,7 +108,7 @@ export class PetCombatEntitySession {
     }
     this.latestFrame = frame;
     if (this.ground && !frame.groundEnvironment) throw new Error('Ground pet requires verified level environment');
-    if (!this.animation) {
+    if (!this.animation && !this.behavior.usesHostTicks) {
       this.updateFrame(frame, eventsOnly);
       return;
     }
@@ -128,13 +134,15 @@ export class PetCombatEntitySession {
   private updateFrame(frame: PetCombatFrame, eventsOnly: boolean): void {
     if (this.released) return;
     if (frame.projectiles) this.projectiles = frame.projectiles;
-    let targets = this.targeting.livingTargets(frame.targets);
+    let targets = this.behavior.searchIncludesDead
+      ? frame.targets.map(target => Object.freeze({ ...target }))
+      : this.targeting.livingTargets(frame.targets);
     this.consumeDamageEvents(frame, targets);
     if (this.released) return;
     this.consumeAnimationEvents(frame, targets);
     if (this.released) return;
     if (this.pet.hp <= 0 && this.phase === 'alive') this.beginDeath();
-    if (this.phase === 'dead-playing' || eventsOnly) {
+    if ((this.phase === 'dead-playing' && !this.behavior.stepsWhileDying) || eventsOnly) {
       if (this.phase === 'dead-playing') this.advanceAnimation(frame, targets);
       if (this.released) return;
       stepTurtleLink(this.turtleLink);
@@ -144,12 +152,18 @@ export class PetCombatEntitySession {
 
     this.behavior.beforeActions?.(this.context(frame, targets));
     if (this.released) return;
-    if (frame.projectileCombat) targets = targets.filter(target => frame.projectileCombat!.target(target.id)?.alive ?? target.isAlive);
+    if (frame.projectileCombat) targets = this.behavior.searchIncludesDead
+      ? targets.map(target => Object.freeze({ ...target,
+        isAlive: frame.projectileCombat!.target(target.id)?.alive ?? target.isAlive }))
+      : targets.filter(target => frame.projectileCombat!.target(target.id)?.alive ?? target.isAlive);
     const ownsPet = frame.isLocalOwner !== false;
-    const targetWasCleared = ownsPet && this.validateStickyTarget(targets);
+    const canThink = ownsPet && this.phase === 'alive'
+      && !this.ground?.definition.intelligenceBlockedActions?.includes(this.animation?.snapshot().action ?? '');
+    const targetWasCleared = canThink && this.validateStickyTarget(targets);
     this.targetAcquiredThisFrame = false;
-    if (ownsPet && !this.target && !targetWasCleared) {
-      this.target = this.targeting.orderedFirstTarget(this.runtime, targets, PetTuning.searchRange);
+    if (canThink && !this.target && !targetWasCleared) {
+      this.target = this.targeting.orderedFirstTarget(this.runtime, targets, PetTuning.searchRange,
+        this.behavior.searchIncludesDead);
       this.targetAcquiredThisFrame = this.target !== undefined;
     }
     let context = this.context(frame, targets);
@@ -160,7 +174,7 @@ export class PetCombatEntitySession {
     }
     const shouldChaseTarget = this.target !== undefined && attackRange !== undefined
       && this.targeting.distance(this.runtime, this.target) > attackRange;
-    if (ownsPet && !this.ground && this.behavior.canMove(context)) {
+    if (canThink && !this.ground && this.behavior.canMove(context)) {
       if (shouldChaseTarget && this.target && attackRange !== undefined) {
         chasePetRuntimeTarget(this.runtime, this.pet, this.target, attackRange, frame.deltaMs, frame.hostFps);
       } else if (this.target && attackRange !== undefined) {
@@ -175,10 +189,11 @@ export class PetCombatEntitySession {
     if (!this.ground && (currentAnimation === 'wait' || currentAnimation === 'walk')) {
       this.animation!.select(this.runtime.state === 'follow' ? 'walk' : 'wait', this.actionToken);
     }
-    let action = !ownsPet ? undefined : this.ground
+    let action = !canThink ? undefined : this.ground
       ? this.selectGroundAction(context, targetWasCleared, attackRange, frame.groundEnvironment!)
-      : this.behavior.selectAction(context);
-    if (ownsPet && !this.ground && !action) {
+      : this.behavior.usesHostTicks && (targetWasCleared || this.targetAcquiredThisFrame)
+        ? undefined : this.behavior.selectAction(context);
+    if (canThink && !this.ground && !action) {
       if (this.target && attackRange !== undefined) {
         if (this.targeting.distance(this.runtime, this.target) <= attackRange) {
           action = this.behavior.basicAttack(context);
@@ -207,14 +222,14 @@ export class PetCombatEntitySession {
       const environment = frame.groundEnvironment;
       if (!environment) throw new Error('Ground pet requires verified level environment');
       const actionNow = this.animation?.snapshot().action;
-      if (!this.ground.isAttacking(actionNow) && actionNow !== 'hurt') {
+      if (this.phase === 'alive' && !this.ground.isAttacking(actionNow) && !this.ground.isHurt(actionNow)) {
         this.ground.warp(context.owner);
       }
     }
     this.advanceAnimation(frame, targets);
     if (this.released) return;
     if (this.ground?.step(frame.groundEnvironment!, this.pet.moveSpeed, this.animation?.snapshot().action,
-      this.behavior.suppressGroundMove?.(this.context(frame, targets)) ?? false, frame.deltaMs)) {
+      this.behavior.suppressGroundMove?.(this.context(frame, targets)) ?? false, frame.deltaMs, context.isGxp)) {
       this.animation!.select(this.runtime.state === 'follow' ? 'walk' : 'wait', this.actionToken);
     }
     // BaseObject.step expires setYourFather only after its count passes below zero.
@@ -232,7 +247,7 @@ export class PetCombatEntitySession {
     if (!targetWasCleared && (!this.target || this.targetAcquiredThisFrame)) {
       if (attemptTick) ground.followOwner(context.owner);
     } else if (!targetWasCleared && !ground.isAttacking(context.animation?.action)
-      && context.animation?.action !== 'hurt' && this.behavior.canMove(context)) {
+      && !ground.isHurt(context.animation?.action) && this.behavior.canMove(context)) {
       action = this.behavior.selectAction(context);
       if (!action && attemptTick && this.target) {
         if (attackRange !== undefined && this.targeting.distance(this.runtime, this.target) <= attackRange) {
@@ -245,7 +260,7 @@ export class PetCombatEntitySession {
     }
     // Source checks the action selected by this AI pass before jump/drop.
     const selected = action?.type ?? this.animation?.snapshot().action;
-    if (!ground.isAttacking(selected) && selected !== 'hurt') {
+    if (!ground.isAttacking(selected) && !ground.isHurt(selected)) {
       ground.adjustVertical(context.owner, environment);
     }
     return action;
@@ -403,7 +418,7 @@ export class PetCombatEntitySession {
   private validateStickyTarget(targets: readonly Readonly<PetSkillTarget>[]): boolean {
     if (!this.target) return false;
     const current = targets.find(({ id }) => id === this.target?.id);
-    if (current && this.targeting.distance(this.runtime, current) < PetTuning.searchRange) {
+    if (current?.isAlive && this.targeting.distance(this.runtime, current) < PetTuning.searchRange) {
       this.target = current;
       return false;
     }

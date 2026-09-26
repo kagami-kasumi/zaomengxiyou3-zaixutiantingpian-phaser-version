@@ -1,0 +1,103 @@
+{
+  "effects": [
+    {
+      "family": "monkey",
+      "form": 1,
+      "action": "hit2",
+      "name": "petmonkey_fire",
+      "seconds": 3.6,
+      "hurtOperation": "/",
+      "hurtOperand": 10.0,
+      "requiresBd": false,
+      "sourceSha256": "bc82b14bd316389841fe2267f4382354fae820a56fa0c868a2fa62aa80cb20dd"
+    },
+    {
+      "family": "monkey",
+      "form": 2,
+      "action": "hit2",
+      "name": "petmonkey_fire",
+      "seconds": 3.6,
+      "hurtOperation": "/",
+      "hurtOperand": 10.0,
+      "requiresBd": false,
+      "sourceSha256": "855283fddf3f988f0848460fc304d1802e2a8d83e3aa89b813281cc608afaa43"
+    },
+    {
+      "family": "monkey",
+      "form": 3,
+      "action": "hit2",
+      "name": "petmonkey_fire",
+      "seconds": 3.6,
+      "hurtOperation": "/",
+      "hurtOperand": 10.0,
+      "requiresBd": false,
+      "sourceSha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc"
+    },
+    {
+      "family": "monkey",
+      "form": 4,
+      "action": "hit2",
+      "name": "petmonkey_fire",
+      "seconds": 3.6,
+      "hurtOperation": "*",
+      "hurtOperand": 1.5,
+      "requiresBd": false,
+      "sourceSha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e"
+    },
+    {
+      "family": "horse",
+      "form": 1,
+      "action": "hit2",
+      "name": "pethorse_ice",
+      "seconds": 2.0,
+      "hurtOperation": null,
+      "hurtOperand": null,
+      "requiresBd": false,
+      "sourceSha256": "558fb01aa821fd6eb19bfb683df6452f84ef0dfaf3ae4da5ebc3b1eae6a5fc05"
+    },
+    {
+      "family": "horse",
+      "form": 2,
+      "action": "hit2",
+      "name": "pethorse_ice",
+      "seconds": 2.0,
+      "hurtOperation": null,
+      "hurtOperand": null,
+      "requiresBd": false,
+      "sourceSha256": "ee5f72352b2af1b12971481d02c855c14e1f2e57e96f108e8ec6ef0e227cd363"
+    },
+    {
+      "family": "horse",
+      "form": 3,
+      "action": "hit2",
+      "name": "pethorse_ice",
+      "seconds": 2.0,
+      "hurtOperation": null,
+      "hurtOperand": null,
+      "requiresBd": false,
+      "sourceSha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0"
+    },
+    {
+      "family": "horse",
+      "form": 4,
+      "action": "hit2",
+      "name": "pethorse_ice",
+      "seconds": 2.0,
+      "hurtOperation": null,
+      "hurtOperand": null,
+      "requiresBd": false,
+      "sourceSha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+    },
+    {
+      "family": "horse",
+      "form": 4,
+      "action": "hit5_1",
+      "name": "pethorse_ice",
+      "seconds": 2.4,
+      "hurtOperation": null,
+      "hurtOperand": null,
+      "requiresBd": true,
+      "sourceSha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+    }
+  ]
+}

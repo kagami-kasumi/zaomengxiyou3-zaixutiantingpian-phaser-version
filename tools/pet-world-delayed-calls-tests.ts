@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import { PetWorldDelayedCalls } from '../src/systems/PetWorldDelayedCalls';
+import { createPetWorldDelayBridge } from '../src/scenes/PetWorldDelayBridge';
+import { EventEmitter } from 'node:events';
+import type Phaser from 'phaser';
+
+let now = 300;
+const clock = new PetWorldDelayedCalls(() => now), fired: string[] = [];
+clock.schedule(1000, () => fired.push('p1'));
+now = 400; clock.schedule(900, () => fired.push('p2'));
+clock.advance(1299); assert.deepEqual(fired, []);
+now = 1700; clock.advance(now);
+assert.deepEqual(fired, ['p1', 'p2'], 'a capped render delta cannot stretch absolute one-second deadlines');
+clock.advance(now); assert.equal(fired.length, 2, 'callbacks are one-shot');
+clock.schedule(1000, () => fired.push('survives-source-release'));
+// No source session is involved; paused/dead/released actor decisions belong to the callback.
+now = 6000; clock.advance(now); assert.equal(fired.at(-1), 'survives-source-release');
+clock.schedule(0, () => { fired.push('shutdown'); clock.destroy(); });
+clock.schedule(0, () => fired.push('must-not-run'));
+clock.advance(now); assert.equal(fired.at(-1), 'shutdown');
+clock.advance(now + 10000); assert.equal(fired.length, 4);
+assert.throws(() => clock.schedule(1, () => {}), /disposed/);
+const game = { loop: { now: 0 }, events: new EventEmitter() };
+const bridge = createPetWorldDelayBridge({ game } as unknown as Phaser.Scene);
+let events = 0;
+bridge.schedule(1000, () => events++);
+game.loop.now = 999; game.events.emit('prestep', 999, 16); assert.equal(events, 0);
+game.loop.now = 5000; game.events.emit('prestep', 5000, 16); assert.equal(events, 1);
+bridge.schedule(1000, () => events++);
+bridge.destroy(); bridge.destroy();
+game.loop.now = 10000; game.events.emit('prestep', 10000, 16);
+assert.equal(events, 1); assert.equal(game.events.listenerCount('prestep'), 0);
+console.log('Pet world absolute deadlines, owner independence, one-shot execution and world shutdown passed.');

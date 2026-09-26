@@ -13,6 +13,10 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-226 | 猴马时序与专属行为整改 | 原版相位、实际身体/弹体/地面/伤害与生命周期 | M-032、M-034、M-042、VS-012、VS-067 | 扩大P1R/P1H/P1G/P1T=0，最终P1R/P1H=0；[交接](../reverse-engineering/evidence/TASK-SLICE-226-handoff.md)及[原84承接](../reverse-engineering/evidence/TASK-SLICE-226-contract-coverage.md)；公共230..235仍open，230 Ready |
+| TASK-SETTINGS-229 | 马系空间与host相位补证 | 四形态/十主效果/Aoyi/冰效与继承显示 | M-032、M-034、M-035、M-042、VS-067 | 665态/3190对象、387960碰撞、158912动态检测、43合同verified；[交接](../reverse-engineering/evidence/TASK-SETTINGS-229-horse-spatial-progress.md)；226 Ready、现代整改未完成 |
+| TASK-SETTINGS-228 | 猴系空间与host相位补证 | 完整四body/九主效果/继承显示与复杂碰撞输入 | M-032、M-034、M-035、M-042、VS-067 | 622显示态/1950对象、349164碰撞、46080动态步、672奥义例、41合同verified；[交接](../reverse-engineering/evidence/TASK-SETTINGS-228-monkey-spatial-progress.md)；229 Ready、226 Blocked |
+| TASK-SETTINGS-227 | 猴马行为缺口补证 | MH-01..07源语义与精确空间补证交接 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 3408源场景/10变异/43现代拒绝、84合同保留；[证据](../reverse-engineering/evidence/TASK-SETTINGS-227-monkey-horse-supplement.md)；228 Ready、229 Planned、226 Blocked |
 | TASK-SLICE-224C | 玄龟全族与生命周期 | 32合同、四形态五关P1/P2联合闭合 | M-032、M-034、M-035、M-042、VS-012、VS-067 | 完整P1T=0；[生产入口](../../tools/turtle-runtime/README.md)，[交接](evidence/TASK-SLICE-224C/handoff.md)；226 Ready，总设计未完成 |
 | TASK-SLICE-224B | 玄龟技能与受伤结算 | SYBH/奥义/受伤/伤害13责任 | M-032、M-034、M-035、M-042、VS-012、VS-067 | P1TB=0；[生产入口](../../tools/turtle-runtime/README.md)，[交接](evidence/TASK-SLICE-224B/handoff.md)；224C Ready，整族未完成 |
 | TASK-SLICE-224A3 | 玄龟链接结算与联合验收 | SLD/TXLJ双owner4项及父A17项核销 | M-032、M-034、M-035、M-042、VS-012、VS-067 | P1TA=0；[生产入口](../../tools/turtle-runtime/README.md)，[交接](evidence/TASK-SLICE-224A3/handoff.md)；224B Ready，整族未完成 |
@@ -332,6 +336,340 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-226
+
+2026-09-26 / TASK-SLICE-226本项整改完成：猴马连续host时序、资格/目标/地面/反击、真实碰撞伤害、奥义/冰火/显示及生命周期已补证修正；扩大P1R/P1H/P1G/P1T=0，新增正式目标投影后的P1R/P1H=0。原41/43责任保留于226合同承接矩阵，公共230..235仍未修复，猴马完整家族、204/all/194/VS-067均不关闭。下一执行项TASK-SETTINGS-230（Ready），功能线保持Active。
+
+2026-09-26 / 地面正式接线：两族groundMovement已接既有Session，出生朝向按原构造为右，普通攻击的相位/RNG由同一地面决策入口持有，hurt/dead在目标获取前拦AI。432出生/跟随与192实际普攻随机例、两族身体/技能/受击/双人生命周期回归及build通过。猴四新增原生1356组身体/地面联动oracle，现代1500组/154704态逐帧对账通过（含实际Sprite出生坐标、MP、目标/RNG、hurt/empty、render分片）。旧flat-body fixture迁移中。上一扩大联合门禁在八个browser case/console0后发生Node堆OOM，退出1；须在本批完成后重新运行，不宣称226完成。
+
+2026-09-25 / 226死亡保留调度：原BasePet.step/wrapper的288受控AIR态证明dead仍调用私有child并推进CD/timeCount，AI不运行；真实Runtime192态全部复现冻结。两族声明stepsWhileDying，由现有Session同一host循环继续已有效果/CD，禁止新AI，死亡完成仍按原入口清理；192态及incoming/hurt/party/retired-parent回归通过。地面物理正式接线仍待。此前资源URL修复后八个浏览器case零差异/console0，build和完整system-tests=0；当前扩大联合门禁待终态，不能复用此前失败批为通过。226未完成。
+
+2026-09-25 / 公共坐标联合重跑终态为1：.tmp/pet226-ground-coordinate-design-retry.log 在玄龟combat browser的console断言失败，八个视觉case均零差异，但记录768项猴马图片处理错误。代表PNG公有目录/构建目录/HTTP200字节一致且可解码，不能归因文件缺失；正在按页面阶段/网络取消补诊断（.tmp/pet226-ground-browser-diagnostic.log）。本批未通过，不复用此前绿色结论；226继续未完成。
+
+2026-09-25 / 公共被动范围核定：正式party96例反例涉及BasePet/PetInfo共享回复与六增益计时、数值和生命周期，超出两族专属整改；新增同线Planned TASK-SETTINGS-235补独立源合同并生成共享实现task。相关组合仍未核销，不把登记当修复；当前继续两族ground接线与完整验收。
+
+2026-09-25 / 地面计算与几何投影：shared stepPetGroundMotion每次碰撞定位/位移赋值执行原Sprite twip截断，25,920原生态无需探针后处理全部匹配；旧地面测试修正浮点位置预期，Runtime/party地面回归通过。独立StageCommon采集3态/9显示对象，经Schema与全运动样本核对，生成verified `task-slice-226-monkey-horse-ground-colliders.json`及正式`src/assets/pet-monkey-horse-ground.json`，未改旧提取。build=0；扩大P1R/P1H/P1G/P1T首跑被旧青龙fixture缺readyRoster中止，补青龙/玄龟模拟桥接后单项通过，联合重跑`.tmp/pet226-ground-coordinate-design-retry.log`待终态。猴马ground接线/被动/完整84仍待，226未完成。
+
+2026-09-25 / 移动原生补证：13,824原followSource/step分支样本确认640/1000边界与目标/动作门禁；25,920原BaseObject/Pet运动状态配restored StageCommon真实collider，确认两族非飞行、初始vy4及各形态移动锁。旧207/209碰撞宽高部分少0.05，不能直接拿旧profile接ground；现共享helper用原生profile仍有猴3/4顶头1,224态坐标不符，末坐标twip截断诊断全匹配但尚未修生产/验证中间赋值。证据见226进度，运动接线/被动/完整Scene与84合同仍待，226未完成。
+
+2026-09-25 / 受击反击增量：真实Runtime96个诊断样本复现QLFJ漏反击、640停走阈值、950提前warp和有目标漏warp。原reduceHp/PetInfo576个AIR分支样本与现代1152例对账，42次无目标反击经身体回调/私有owner出生，另72例保留旧目标朝向（含同x）。QLFJ已修、猴4normal补原12步保护，build/全系统及本批P1R/P1H=0（`.tmp/pet226-incoming-design.log`）。正式party96例另确认ready增益输入未触发。跟随/warp/passive仍未修，猴4反击插入奥义/完整Scene/84合同仍待，226未完成。
+
+2026-09-25 / 生命周期批收齐：24个真实party双slot例修正死亡漏扣寿命，84个受击/释放/致死优先级例通过；退休父原BaseHero入口补证及12现代Runtime/port/view例、584态确认HP仍正时延迟爆炸继续自然循环而不再step/伤害，不能擅自自动清理。本批P1R/P1H=0（`.tmp/pet226-retired-parent-design.log`），生产build/全系统及工程检查通过。公共Canvas233与捕获重复ID234已Planned；owner-follow/warp/passive整帧、QLFJ入口与完整Scene组合仍待，原84合同未全面核销，226继续Ready/未完成。
+
+2026-09-25 / 真实双人生命周期：24例两族四形态/三fps由正式HeroPartyRuntimeBridge.updatePets闭包与真实Runtime/port同时驱动P1/P2，覆盖休息、替换、旧事件、死亡完成及幂等销毁。首跑复现猴死亡寿命100!=99；BasePet单机死亡合同要求扣一次，两族补既有losesLifeOnDeath钩子后通过，P2弹体在P1释放时继续。build=0，本批P1R/P1H运行于`.tmp/pet226-life-design.log`；受击技能链、奥义释放/恢复与完整84合同仍待，226未完成。
+
+2026-09-25 / 实际画布增量：旧马八种效果在850个WebGL状态中302态不符，已替换为原生逐相位PNG/注册点；新WebGL850态零残差，build、P1R/P1H和完整system-tests均退出0。Canvas回退654态不符，关闭取整诊断850态通过但生产未改，独立共享修正登记Planned TASK-SLICE-233。原84合同中的真实受击、双slot换宠/死亡和恢复清理仍待逐项核销，226未完成。
+
+2026-09-25 / 普通暂停与显示：两族恢复碰撞/清理、注册点镜像、猴完整子树显示已接线；猴384效果/107520 EXIT态、马624常规/46080落雷运动/2388延迟出生显示态通过。原版暂停中延迟爆炸可见且首帧1、1、2、3，现代view创建与port注册顺序两反例已修正。最终build、P1R/P1H（`.tmp/pet226-horse-paused-birth-design.log`）和完整system-tests退出0；猴首次联合冰冻变异写回IO失败保留，源哈希一致且重跑通过。原84合同逐项核销、源释放/恢复组合及实际逐状态画布仍待，226未完成。
+
+2026-09-25 / 其余马暂停反例：13构造方式×双owner×双方向×三fps×自然/暂停共39936原生enter态已采集（暂停3..52，观察至128）。实际私有owner诊断156自然例全部匹配，156暂停例144个清理时点不符，例如马3 bz源tick62、现代tick81。该项仍归226，不能以AoyiBuff修复或联合门禁绿色关闭其他弹体。落雷显示批完整system-tests退出0；当前继续修复暂停相位/碰撞/清理与逐状态画布，226未完成。
+
+2026-09-25 / 落雷显示修正：8张原生逐帧图/注册点与0..320实测子相位进入正式bundle/shared view，移除末帧夹紧；1926显示对账、build及联合P1R/P1H=0（`.tmp/pet226-falling-display-design.log`）。全系统与13构造方式world暂停补证运行中；其他私有效果暂停、84合同和逐状态画布仍待，226未完成。
+
+2026-09-25 / 奥义前置暂停消费：正式world显示相位经port交私有owner清理，共享view只读；1536原生状态覆盖暂停/恢复、双owner与三fps，14帧投影复用13原PNG。build及联合P1R/P1H最终退出0（`.tmp/pet226-native-clock-design-retry.log`）。首次门禁因马变异恢复IO失败，已按原hash恢复并修复原子写回，12变异拒绝；失败记录保留。仅AoyiBuff完成本相位接线，其余私有效果暂停、完整84合同与逐状态画布仍待，226未完成。
+
+2026-09-25 / 恢复清理原生补证：原BaseBullet/Follow代码在world暂停时不再调用step2，1536个enter状态确认自然帧继续循环，恢复后在实际帧14清理（世界tick14或28），不是冻结战斗age14。报告aoyi-world-pause-native.json；现代相位/恢复尚待实现。旧身体发射fixture分开前置与伤害弹体后90例通过，联合retry4运行中；226未完成。
+
+2026-09-25 / 长暂停补证：84原生显示态证实AoyiBuff在普通暂停跨14帧并循环；1..13新PNG与现资源完全一致，14与13像素相同，两个周期逐帧一致。现代暂停相位/恢复清理仍待实现。旧落雷出生测试已按前置/落雷分开断言，96出生+12前置例通过；联合retry3运行中（`.tmp/pet226-aoyi-prelude-design-retry3.log`），226未完成。
+
+2026-09-25 / 普通暂停显示补证：原MainGame暂停链停止world ENTER_FRAME，BaseHero→BasePet→私有step2也随之停止；仅isStopGame=true仍调用step2的旧生命周期探针不能代表该入口。扩展原生暂停探针的42态确认宠物私有AoyiBuff自然帧继续（未运行终止清理）；当前petHostTick显示需补普通暂停/恢复同步，不能直接用目标FireBuff方案或旧冻结结论。联合重试因disabled-attacks变异触发fixture TypeError失败，已加明确禁止查询断言、8变异通过；retry2仍运行，226未完成。
+
+2026-09-25 / 奥义前置生命周期增量：18组/288原生状态对账跟随位移、翻转、hurt切断和源销毁，禁用效果拒绝所有碰撞查询。联合门禁初次因猴变异恢复OSError22失败，已按旧源hash精确恢复、修复原子写回并重跑7变异通过；完整联合重试位于`.tmp/pet226-aoyi-prelude-design-retry.log`，仍待终态。暂停与画布未覆盖，226未完成。
+
+2026-09-25 / 奥义前置接线：AoyiBuff在技能释放成功路径创建，归既有私有弹体owner持有，disabled Follow、14结束步；13原帧进入正式bundle和共享horse视图。12实际Runtime释放/MP/结束例、216奥义命中及36引用例通过。暂停/受伤/源销毁与实景仍待；构建修复必需distance/path字段后正在复验，联合P1R/P1H尚待本批执行，226未完成。
+
+2026-09-25 / 附属联合复验与奥义资源：冰火身份/叠层批次联合P1R/P1H退出0（`.tmp/pet226-attachment-design.log`）。马AoyiBuff的13个可见原帧已从229真值投影，三fps逐字节一致，12条自然轨迹确认第14帧移除；生成器--check通过，尚未接入bundle/Behavior/view。实际画布、奥义生命周期及余下原合同仍待，226未完成。
+
+2026-09-25 / 冰火叠层与同帧重建：8个原生show/hide状态确认附属按创建顺序叠放、重复show保留身份、隐藏重加换身份。目标状态新增显示创建序号，实际两个view对账8态通过；42火焰暂停/12912冰矩阵/35身体回归及build通过。上一fire-view联合门禁已退出0，本批联合复验运行于`.tmp/pet226-attachment-design.log`。实际组合像素、奥义与完整生命周期仍待，226未完成。
+
+2026-09-25 / 火焰view接线：五关既有view持有原20帧FireBuff，Game poststep播放使普通Scene pause期间继续，伤害寿命仍由目标效果持有。42原生暂停帧对照、刷新/位置wrapper/效果destroy和Scene清理检查通过，build=0；本批联合P1R/P1H正在运行（`.tmp/pet226-fire-view-design.log`），未以此前门禁替代。冰火叠层、同render取消重加及实际画布仍待，226未完成。
+
+2026-09-25 / 火焰资源与暂停补证：20帧原PNG已进入正式bundle，源hash/尺寸/循环与build、联合P1R/P1H通过。原MainGame.stopGame/continueGame及AUtils递归方法配原生FireBuff的42态探针证实普通暂停不停止目标火焰，而世界逻辑和弹体子动画停止；不能绑定火焰显示到暂停的目标效果步。正式火焰view与画布仍待，226未完成。
+
+2026-09-25 / 公共攻击边界拆出补证：回调反例继续追踪到正式伤害依赖monster.activeAttack且致死清空，原Monster30则创建独立SpecialEffectBullet。修复需公共怪物攻击生命周期合同，不能仅提前绘图；新增同线Planned TASK-SETTINGS-232负责原动态和公共消费交接。226仍Ready，猴马目标效果及原84合同完整保留，相关组合边界未核销。
+
+2026-09-25 / 回调顺序反例：`tools/pet-target-body-order-preflight.ts`通过实际Monster30和Stage11动画消费者复现20/24/30 fps下火焰首tick致死时hit1显示回调从1变0，死亡动作同时提前推进1步。比较基于BaseObject先body后效果与Monster30 enterFrame源码；尚非原AIR/全Scene验证，不把诊断退出0计为通过。该项继续作为226目标效果集成的未核销边界，需补正式顺序消费，不以冻结计数或联合门禁绿色关闭。
+
+2026-09-25 / 身体冻结计数增量：目标效果既有host时钟记录允许推进的身体步，五关实际view单次消费；35例覆盖首帧、到期、恢复、拆帧和批量步，四个生产变异均拒绝，已发射攻击继续独立推进。build、完整system-tests和联合P1R/P1H均为0。物理/AI未随身体暂停；火焰致死与同帧动作切换的完整回调顺序、实际冰画布和其他附属/生命周期仍待，原84合同保留，226未完成。
+
+2026-09-25 / 原生冰显示接线：229已验证PNG/边界进入正式bundle，五关既有view消费公共目标冰显示；12912原生矩阵、隔离/跟随/清理及完整system-tests通过。浏览器随后发现Phaser默认启动fps导致猴一碰撞phase122越界，main现从持久全局设置初始化fps，6个实际配置例通过，新构建QA关卡未再记录该错误。冰效果实景仍未触发验证，身体冻结/火焰/奥义附属与完整生命周期仍待，226未完成。
+
+2026-09-25 / 旧总测试迁移：猴facade按源出生位置、双效果、共享旗标及无伪奥义弹体修正，system-tests通过；龙消费者fixture补readyRoster且限定dragon物种，默认测试清单剩余项分段通过。没有改生产出生/碰撞以迁就旧预期，真实native Runtime证据保留。冻结动画、原生附属画布和完整生命周期仍待，226未完成。
+
+2026-09-25 / TestScene目标效果增量：实际Monster30出生持有效果状态，临时命中adapter转发同一状态，既有更新按host FPS推进；12例覆盖相位、跨wrapper持久化、火焰无hurt反应和死亡，联合P1R/P1H=0。实际奖励反例为P1宠物命中后火焰致死却给AI目标P2经验，已新增同线Planned TASK-SETTINGS-231补共享归属源合同。原版先body后效果，冻结首尾帧、附属画布及完整生命周期仍待，226保持唯一Ready、未完成。
+
+2026-09-25 / 冰火正式接线增量：九源字典投影进入实际弹体，正式伤害port写目标效果，Registry及13/21/22循环推进目标host时钟；猴/马各108 Runtime增加效果落点/源释放保留断言，奥义216例核BD冰条件，12 world合同通过，联合P1R/P1H=0。画布、实际动画冻结、TestScene和完整清理仍待，226保持Ready、未完成。
+
+2026-09-25 / 冰火模型准备：PetTargetEffects对账5950原生火焰、17904冰冻状态，P1R/P1H新增检查并通过。模型尚无正式消费者，命中写入、目标host时钟、冻结/画布与生命周期必须继续接线验收；不宣称冰火已修复，226保持Ready。
+
+2026-09-25 / 延迟GXP增量：context读取同Session最新输入，48新增开启/取消例对账原AIR算术，奥义实际例增至216，冻结GXP生产变异拒绝；联合P1R/P1H=0。源语料尚未发现宠物GXP开启调用者，入口可达性保持未知，不凭空补技能。冰火/画布/暂停与完整生命周期仍待，226继续Ready。
+
+2026-09-25 / 奥义目标引用增量：正式port按对象绑定追踪目标，修复数组移除/同ID替换导致追踪丢失或转移；36实际Runtime例与恢复旧查询变异通过，完整pet P1R P1H=0。GXP正式输入生产者、冰火/画布/暂停及完整生命周期仍待，226保持唯一Ready、未完成，详见进度记录。
+
+2026-09-24 / 奥义与门禁增量：Horse4实际回调已接native命中/源EnemyMove/一秒world绝对时间延迟；96出生、384运动、168实际Runtime、240原hit5Hit回调和十变异通过。旧猴family/range预期已按原body/joint迁移，完整pet P1R P1H现退出0；原84合同未删减，但火焰/冰冻、AoyiBuff/原生画布、暂停及完整生命周期仍未齐，226继续唯一Ready、未完成。细节见226进度记录。
+
+2026-09-24 / 马常规技能增量：九配置及真实回调接入native碰撞，108 Runtime/324 follow与六实现变异通过；猴回归通过。持续活目标补证反证旧121帧覆盖，Horse4Bullet5正式碰撞profile扩至实测320帧。奥义/冰火/完整生命周期与画布仍待，原84合同及Ready保留，细节见226进度记录。
+
+2026-09-24 / 猴技能主弹体增量：九组技能配置由228源与joint投影，私有PetMonkeyHorseProjectileSystem统一normal/猴技能host步。108 Runtime例/14672逐age态、144跟随受伤清理例/3928态、8技能源码变异通过；火焰尚未接入，暂停/目标死亡/完整画布仍待。完整P1R/P1H仍退出1，原84合同未删减，226继续Ready。
+
+2026-09-24 / 数据与伤害增量：normal八配置直接消费src/assets/pet-monkey-horse-normal.json；2784组原AS3算术oracle对齐，新伤害owner现用于normal。共享怪物击退消费缺口已动态复现，登记同线Planned TASK-SETTINGS-230补源合同并生成公共实现项；本项不扩大为怪物架构重构，也不宣称完整受击手感已关闭。技能、全部原合同与画布仍待。
+2026-09-24 / 普攻接入：两族四形态normal已由Behavior私有句柄按公共host step消费正式像素/怪物port，96真实伤害与原joint逐age对照、6源码变异通过。技能resolver、附属效果、全生命周期/位移与完整旧门禁仍未闭合；不得据此关闭MH-02或本task。另登记正式怪物击退位移消费待核销，不仅核对event数值。
+
+2026-09-24 / 生产修改进行中：身体时钟/显示单owner、普攻及常规技能回调、资格/目标序与猴四奥义回调链已局部接入；新增奥义216身体/672目标例与7变异通过。碰撞资源/TS采样与世界ROI通过1474248原版布尔，尚未接入正式resolver。P1R/P1H与完整联合验收未完成。继续点见 `docs/reverse-engineering/evidence/TASK-SLICE-226-progress.md`。
+
+2026-09-24 / 229完成：马四形态/十主效果/Aoyi/冰效输入verified，665态/3190对象、387960独立碰撞、158912动态检测，43合同保留；真实TweenMax延迟与父清理已核对。226恢复唯一Ready，MH-01..07仍待生产整改；源完成不提升现代复现完成度。见 `docs/reverse-engineering/evidence/TASK-SETTINGS-229-horse-spatial-progress.md`。 历史Blocked描述由本条解除，既有验收合同不删减。
+
+2026-09-21 / 228交付：猴源输入已verified，完整41合同/继承显示/自然相位/复杂碰撞及动态组合见 `docs/reverse-engineering/evidence/TASK-SETTINGS-228-monkey-spatial-progress.md`。本项仍Blocked，仅待229马源输入；实现时必须消费真值并拒绝MH-01..07旧行为，不能将源补证完成当生产修复。
+
+2026-09-21 / 227交付：源调度/资格/状态与碰撞判定前缀3,408个受控原生case及10变异已通过，现代43例拒绝；84原合同全部保留。实现仍Blocked：228猴、229马负责真实显示/host相位/复杂碰撞oracle及动态清理组合，均完成后恢复本项。交接见 `docs/reverse-engineering/evidence/TASK-SETTINGS-227-monkey-horse-supplement.md`；不得把probe的显式sink当原版完整动画、移动或伤害实现。
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务本地整改已完成，公共责任另有承接）
+
+2026-09-21执行预检：除相位外，真实Runtime/正式resolver复现16/16锁定目标远距错误扣血，猴2/3/4未学习技能各49次失败选择并阻塞普攻；另有lyq距离、状态/移动及碰撞输入缺口。按独立资料缺口触发交接至唯一Ready `TASK-SETTINGS-227`，详见 `docs/reverse-engineering/pet-monkey-horse-gap-audit.md`。本项原41/43及新增时序合同全部保留，增加MH-01..07逐项核销；未改src，未完成或归档。227及其必要视觉补证交付后恢复本项，不能仅修取模便宣布两族完成。
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-012`、`VS-067`
+
+要解决的问题：猴/马当前普攻在一次决策后启动1000ms倒计时，原版BasePet按连续timeCount取模触发。把这两种现代实现解释成家族原生差异没有依据；现有P1R/P1H通过没有覆盖决策相位。重做两族共同调度及受影响行为绑定，不重做已确认的资源全集，不按技能拆任务。
+
+范围澄清：目前只确认上述偏差，不等于猴马只有这一项问题。工作包1先对两族四形态做一次有界source→正式消费者缺口核查，覆盖step/动画回调和命中先后、技能CD/优先级、攻击/受伤状态门禁、目标/追击/移动、伤害来源/去重、死亡/换宠与双owner。结果在本任务执行记录区分已确认偏差、尚未验证和已证一致，禁止把现代代码差异自行解释为原版差异。依赖同一时序修正的偏差在本项闭合；独立资料/机制缺口按拆分触发交接，不无限扩大为全项目审计。既有素材/正确技能数据按证据复用，不默认全部推倒。
+
+规模预算：
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：2
+
+拆分触发：
+- 若出现两族之外的独立原版资料缺口或需要另行交付的公共机制改造，必须先核定是否超出范围，超出后拆分；四形态、技能和测试场景是两族验收内部清单，不触发机械拆分。
+
+2026-09-26 独立公共边界裁决（依据用户“存在其他问题一并加入任务列表，或一并解决”及上述拆分触发）：230怪物击退、231死亡奖励归属、232怪物身体/攻击生命周期、233共享Canvas取整、234捕获ID、235共享被动回复/自动增益保留为独立任务。226负责两族专属行为、共享host时序、实际身体/弹体/地面/目标入口及本项反例整改；原41/43合同一项不删，但涉及这些公共机制的组合责任由合同矩阵明确关联后续任务，不能标为全量通过。226的有界整改完成不提升猴马完整家族、204、194或VS-067为完成。此裁决没有把猴四连段、马四多目标、受击/死亡/换宠、实际伤害或视觉验收拆走，也不以任务登记替代修复证据。
+
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent唯一写入；Luna只读核对原版调度链与独立反例
+- 并行工作包：主agent处理公共时序时，子agent核对两族继承/重写方法及相位反例
+- 写入 owner：主 agent
+- 归并检查点：实现前、验收前
+- 方法观测：无
+
+前置与排期：224C已完成全32合同/P1T，227/228/229输入已交付，本项恢复Ready，仍先于下一新宠物家族和194。224C猴马回归只证明未新增回归，不能核销本项的原版相位反证。
+
+已解除的输入阻塞：227行为、228猴与229马空间/host/清理真值已verified。实现需消费两份collision-phase manifest，逐项拒绝旧反例并保留原41/43与MH-01..07；源fixture的显式成功命中/死亡入口不替代正式Runtime和消费者验收。
+
+输入资料：
+- `docs/workflow/reverse-engineering-protocol.md`、`docs/architecture/src-boundaries.md`、`docs/architecture/system-designs/pet.md`（实施中、未退出）。
+- 原版根：`local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/`；`base/BasePet.as:159-165`先myIntelligence、后CD/计数递增与59999归零，`:305-382`目标/技能优先级及`:354`的`timeCount % gc.frameClips == 0`。
+- 同根`export/pet/PetMonkey1.as:335`、`PetHorse1.as:356`、`PetDragon1.as:366`、`PetTurtle1.as:324`均调用super.myIntelligence；四阶猴699/马722亦调用。执行前沿真实step调用者、frameClips来源、各形态override继续核对，不能把初阶或摘录外推成全族运行证明。
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-207-pet-monkey-family.json`、`task-settings-209-pet-horse-family.json`及既有源引用/视觉基准；只修正受反证影响的时序合同和生成入口，保留其他已证事实。适用视觉输入优先窄查restored-swfs。
+- `PetCombatRuntime.ts`、`PetCombatEntitySession.ts`、`PetNormalAttackDecision.ts`、猴/马Behavior、Registry、动画/Projectile与正式五关/TestScene消费者；`tools/check-system-design.mjs`中的P1R/P1H和现有两族行为verifier。
+
+输出产物：
+- 工作包1：原版调度证据与旧实现失败反例；在既有Runtime/Session中统一原版tick语义，移除或改造PetNormalAttackDecision的无依据倒计时。不得直接把青龙地面物理套给猴马；只复用经证实的调度共性。时钟起点、step先后、暂停/死亡/换宠及59999归零按源核对。
+- 工作包2：猴、马各一次本项整改联合验收，原完整家族责任由41/43合同矩阵继续追踪。两族四形态全部继承/专属技能、普攻、动画命中/实际伤害、双owner与清理回归；补齐时间相位黑盒合同、修正旧测试预期与P1R/P1H门禁。两族结果分别可判，任务在本项整改全部通过、独立公共责任明确交接后完成；未完成的公共组合不得核销。
+
+完成定义：两族共享帧时序与本项专属行为按源修正，旧实现反例及两族本项联合验收全部通过；原84合同逐项保留证据与独立公共后续责任，不宣称完整家族全量闭合。
+
+验收标准：
+- 先证明旧1000ms实现至少在错相位入范围/技能结束或受伤恢复后可被原版独立expected拒绝，再修改生产代码；expected不得读取现代倒计时或由现代实现生成。
+- 覆盖初始计数、非周期节点入范围/获得目标、技能优先占用节点、攻击/受伤恢复、换目标、暂停恢复、计数归零，以及实际支持的host帧率和不同render delta；随机调用次数、两次条件随机边界、首次普攻和后续普攻tick与源一致。未证事实保持未知并阻塞相应完成声明。
+- 实际调用公共Runtime/正式消费者取trace，而非只测试新helper；注入重置计时、相位提前/推迟、CD先后和错误owner变异，门禁必须拒绝。
+- 两族既有41/43项合同不删减，新增时序责任并明确映射；P1/P2四形态的攻击/技能/命中/伤害/清理联合通过。时序影响的可见状态使用既有显示列表、verified视觉真值和原版基准逐状态对比；资源未变不重复全量提取，无新增视觉例外授权。
+- `npm run check:system-design -- pet P1R P1H`必须为0且已包含新增相位反例/变异；青龙/玄龟相关公共时钟回归按改动范围执行；全系统、build、workflow、problem audit和diff通过。未变检查按去重规则复用，不能以当前旧gate=0宣称原版时序正确。
+
+禁止范围：不修改原始提取结果，不新增平行Runtime/Scene时钟，不改存档/成长/装备，不取消原版随机、技能优先级、双人或视觉合同，不宣布pet all/整线完成，不以减少任务为由省略原版证据。
+
+状态更新：完成后同步两族覆盖台账、设计验收记录、M-032/M-042/VS-067及历史纠正备注；PG-017反馈必须以新增语义拒绝能力复核，不能仅恢复旧绿色状态。
+
+推荐后续任务：两族全部闭合后，依据当前线覆盖台账生成下一未完成完整家族任务；194仍等待全部家族闭合。
+
+
+### TASK-SETTINGS-229
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`视觉真值逆向`
+
+逆向方案：`docs/reverse-engineering/plans/pet-family-collision-phase-supplement.md`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务Done）
+
+目标机制/切片：`M-032`、`M-034`、`M-035`、`M-042`、`VS-067`
+
+待证明问题：马四形态原普通弹、继承技能、奥义下落/追踪/延迟爆炸的真实逐host显示和复杂碰撞；source跟随、source-hurt与冰效依技能/形态不同，不能按同symbol或锁定身份简化。
+
+规模预算：
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若出现声明的四body/10主bullet/冰效及直接依赖之外的新资料族或独立公共采样改造，按具体缺口拆分；不按技能或状态数量机械拆分。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent负责原生fixture/真值；Luna只读核对完整效果和合同映射
+- 并行工作包：主agent采样时，Luna核对不同形态弹体类、setter和继承创建点
+- 写入 owner：主 agent
+- 归并检查点：范围冻结前、验收前
+- 方法观测：无
+
+输入资料：
+- 228已完成：`docs/reverse-engineering/evidence/TASK-SETTINGS-228-monkey-spatial-progress.md` 与 `task-settings-228-pet-monkey-collision-phase.json`。按精确source hash可复用HeroBeHurt/miss/hpSlip/保护方法和原HitTest归约；AoyiBuff在马有实际调用，不照搬猴的排除结论。
+- `docs/workflow/reverse-engineering-task-protocol.md`、`docs/workflow/reverse-engineering-protocol.md`、`docs/reverse-engineering/evb-extraction-report.md`、`docs/reverse-engineering/asset-annotation/workflow.md`与本task唯一方案。
+- `docs/reverse-engineering/evidence/TASK-SETTINGS-227-monkey-horse-supplement.md`、227源fixture/43项保留映射、209/193C原真值与基准；228公共采样方法按源hash及适用范围复用，不能复用猴的碰撞结果。
+- 恢复源assets/20120203.swf、pet1.swf、StageCommon.swf；原Horse1..4、BasePet、BaseBullet、SpecialEffectBullet、FollowBaseObjectBullet、EnemyMoveBullet、BBDC、BaseAddEffect冰效与HitTest/实际BaseMonster调用链。
+- 10主bullet：PetHorse1Bullet1/2、PetHorse2Bullet1/2、PetHorse3Bullet1/2/3/4、PetHorse4Bullet5、PetHorse4Bullet5Explode；附加PetHorseIceEffect、继承AoyiBuff及所有直接创建/依赖显示对象。四body复用已证owner/像素。
+- 正式五关/TestScene目标colipse已有217/218映射按实际消费者核销；保留完整本家族normal/sp/bd/bz/tmaoyi清单。
+
+输出产物：
+- 当前有界证据与继续点：`docs/reverse-engineering/evidence/TASK-SETTINGS-229-horse-spatial-progress.md`；未完成项核销前不晋升verified、不恢复226。
+- 工作包1：原生四body/效果动态显示和phase真值，含horse1.sp Follow与高阶sp Special差异、bd source-hurt例外、奥义按目标反向创建/学sp追踪、学bd冰、学bz爆炸/两者共存延迟及父死亡取消。
+- 工作包2：正式目标原包AIR HitTest独立oracle、源基准/差异与完整43合同输入映射；生成 `docs/reverse-engineering/ground-truth/manifests/task-settings-229-pet-horse-collision-phase.json`，大oracle仅本地。
+
+完成定义：声明的本家族完整显示/host相位/碰撞通过Schema、独立原生oracle和全状态核对并verified，影响226马实现的未知清零；43项与227补充合同全部保留。
+
+验收标准：
+- 原source驱动源/目标真实坐标、注册点、双向嵌套图层和20/24/30fps；单帧根/8帧嵌套不得按根帧去重，body回调与effect时钟分开。
+- 覆盖碰撞正负边界、离开/进入、首帧/递归mask、source移动/受伤、disabled AoyiBuff、末帧/超时/距离、死亡/延迟爆炸取消、source/owner私有清理；不得把附属冰效果当攻击碰撞体。
+- 原生oracle与独立生成/解码对比，错误方向/相位/源类/生命周期/碰撞变异必须拒绝；原有显示许可不外推碰撞、伤害或时序。
+- 真值生成复现、workflow、problem audit、diff通过；旧P1H/build不替代源验收。
+
+禁止范围：不改src/生产资源/原提取结果，不重做未受反证的资源全集，不扩至新家族，不新增Runtime，不宣称226或整线完成。
+
+状态更新：同步马覆盖/机制输入/PG-017与227交接。228/229均完成且226输入未知清零后，恢复226唯一Ready，保留完整两族联合验收。
+
+推荐后续任务：`TASK-SLICE-226`。
+
+完成日期：2026-09-24。完整交接见 `docs/reverse-engineering/evidence/TASK-SETTINGS-229-horse-spatial-progress.md`；43合同/665态/387960碰撞及四实际动态变异通过，源输入verified。226恢复唯一Ready；现代整改未完成，PG-004/017不归档，未提交Git。上文输入/计划是冻结任务合同，不代表当前仍有未完成源包。
+
+### TASK-SETTINGS-228
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`视觉真值逆向`
+
+逆向方案：`docs/reverse-engineering/plans/pet-family-collision-phase-supplement.md`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务Done）
+
+目标机制/切片：`M-032`、`M-034`、`M-035`、`M-042`、`VS-067`
+
+待证明问题：猴四形态原普通弹/全部技能的真实body回调、效果逐host绘制/跟随/失效与目标复杂碰撞；不能用锁定身份或点碰撞替代原版HitTest。227已闭合有界gate/AI/step，尚未提供这些空间输入。
+
+规模预算：
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若出现当前9主效果/四body及其直接依赖之外的新资料族或独立采样工具改造，按具体输入边界拆分；形态/技能/状态数量不机械拆分。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent持有原生采样/真值，Luna只读核对显示/合同全集
+- 并行工作包：主agent构建原生fixture时，Luna核对四形态创建点和遗漏状态
+- 写入 owner：主 agent
+- 归并检查点：采样集合冻结前、验收前
+- 方法观测：无
+
+输入资料：
+- `docs/workflow/reverse-engineering-task-protocol.md`、`docs/workflow/reverse-engineering-protocol.md`、`docs/reverse-engineering/evb-extraction-report.md`、`docs/reverse-engineering/asset-annotation/workflow.md`与本task唯一方案。
+- `docs/reverse-engineering/evidence/TASK-SETTINGS-227-monkey-horse-supplement.md`、MH-01..07、227源fixture与41项保留映射；207/193A原真值、生成器和基准。
+- 恢复源 `local-resources/regima/source/restored-swfs/assets/20120203.swf`、`pet1.swf`、`StageCommon.swf`；原Monkey1..4、BasePet、BaseObject、BaseBullet、SpecialEffectBullet、FollowBaseObjectBullet、BBDC、HitTest及实际目标BaseMonster调用链。
+- 有限主要effect：PetMonkey1Bullet1/2、PetMonkey2Bullet1/2_1/2_2、PetMonkey3Bullet1/2/3_1/3_2；四body沿既有owner优先级复用。直接创建/继承的附属显示对象必须核销，不能仅凭9个principal symbol断言完整。
+- 正式五关/TestScene目标colipse已有217/218映射按实际Monster消费者精确复用；核销全部当前正式目标形状，不将宠物本体colipse当怪物命中oracle。
+
+输出产物：
+- 工作包1：四body与完整effect显示/时序补充真值，覆盖发射回调、Follow/disabled前置、4秒xj、source-hurt/末帧/死亡销毁、jgaoyi五段与中间xj/lj动作覆盖、双方向和20/24/30fps。
+- 工作包2：独立原包AIR HitTest oracle与可消费相位/几何真值、原基准和逐状态差异，完整41合同输入映射；生成 `docs/reverse-engineering/ground-truth/manifests/task-settings-228-pet-monkey-collision-phase.json`，完整大oracle/中间产物仅本地保存。
+
+交付证据：`docs/reverse-engineering/evidence/TASK-SETTINGS-228-monkey-spatial-progress.md`。622态/1950对象UI Schema、349164重建碰撞、46080连续host步、672奥义边界和完整继承显示通过，41合同汇总manifest verified且可重复生成；未改现代实现。
+
+完成定义：本家族声明的显示/相位/碰撞输入通过Schema、原生独立oracle与完整性核对并verified，影响226猴实现的未知清零；保留全部41项及227补充合同。
+
+验收标准：
+- 原source输入驱动的完整state集合，递归对象/注册点/嵌套矩阵与mask/filter均有locator/hash；未改像素状态可复用既有基准但不得把body hold误当effect elapsed。
+- 正式目标的正负碰撞、目标离开/进入、P1/P2私有来源、source移动/翻转/受伤、disabled前置与清理组合均有原生expected；normal/xj/lj/lyq/jgaoyi全部内部清单核销。
+- 独立变异与完整性门禁拒绝错误碰撞/相位/生命周期；新碰撞容差不得套用其他家族或显示长期授权。保留未知不升verified。
+- 检查真值/生成重现、workflow、problem audit及diff；不以生产build或旧P1R通过充当源验收。
+
+禁止范围：不改src/生产资源/原提取结果，不补马或新家族，不新增Runtime，不以本任务完成宣称226/整族正式实现完成。
+
+状态更新：同步227交接、猴覆盖、机制输入状态和PG-017补强；归档后激活229，226继续Blocked直到两族输入均齐。
+
+推荐后续任务：`TASK-SETTINGS-229`，随后恢复 `TASK-SLICE-226`。
+
+完成记录（2026-09-21）：原生与独立重建622显示态/1950对象、349164碰撞例、46080动态host步及672奥义目标例通过；完整41合同manifest verified，复生成/Schema/原生变异已核销。229唯一Ready；226等待马输入，未修改src或宣称现代修复完成。
+
+
+### TASK-SETTINGS-227
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`代码逆向`
+
+逆向方案：不适用
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务Done）
+
+目标机制/切片：`M-032`、`M-034`、`M-035`、`M-042`、`VS-012`、`VS-067`
+
+要解决的问题：226有界核查已复现两族锁定目标绕过碰撞，以及猴2/3/4未学习技能占用选择；另有lyq距离、hurt/stun/攻击态、移动与目标输入序缺口。只有连续timeCount修正不足以支持两族完整联合验收。先补源独立、可执行的行为输入及碰撞/空间补证边界。
+
+规模预算：
+- 主工作包：2
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 本项只补代码合同与明确视觉输入清单；若需要新SWF逐相位显示/HitTest采样，生成独立视觉真值task及唯一方案，不在本项混做大范围资源生成和实现；不按形态/技能数机械拆分。
+
+协作计划：
+- 模式：主 agent + subagent
+- 模型分工：主agent负责源合同与输入裁决；Luna只读独立核对一族override/消费者映射
+- 并行工作包：主agent构建源行为fixture时，Luna核对猴马八形态继承/重写和MH清单遗漏
+- 写入 owner：主 agent
+- 归并检查点：冻结合同前、验收前
+- 方法观测：无
+
+输入资料：
+- `docs/reverse-engineering/pet-monkey-horse-gap-audit.md` 的MH-01..07；`tools/pet-226-preflight-probe.ts`与本地226反例JSON。
+- `docs/workflow/reverse-engineering-protocol.md`；207猴/209马verified家族真值、对应生成器与既有原版视觉基准。保留原41/43项，不无依据推翻资源事实。
+- 原版根 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/`：BasePet、BaseObject、BaseMonster、BaseBullet、八形态PetMonkey/PetHorse、SpecialEffectBullet/FollowBaseObjectBullet、BaseHero及PhysicsWorld/MainGame真实调用者。只沿MH合同窄查依赖；视觉定位优先restored-swfs。
+- `PetCombatRuntime/EntitySession/Context`、两族Behavior/CombatSystem、PetRuntimeSystem、动画桥、ProjectileSystem、正式五关/TestScene目标/受伤/碰撞调用者；读取现代实现只为映射与反例，不能生成expected。
+
+输出产物：
+- 工作包1：可执行的原版行为fixture与证据矩阵。覆盖八形态全部继承/专属技能的资格/优先级、MP、距离、release、hurt/stun/攻击状态、step先后、相位/随机次数、子弹出生/命中/去重/失效、移动/目标顺序及owner/清理。每项保留源hash/locator、独立expected与现代责任映射。
+- 工作包2：逐项核销MH清单，冻结全部必需碰撞/空间输入的对象、相位、怪物消费者及现有产物覆盖；明确哪些207/209字段能复用，哪些缺独立原版HitTest。需要视觉补证时只生成有界同线task/方案，并保持226Blocked；不得以代码审阅代替视觉真值。
+
+完成定义：MH-01..07已转为带一手证据和独立expected的有界输入合同，原41/43项均有保留/补充映射；代码未知清零或由精确后续补证task持有，226恢复条件及下一唯一Ready可机器校验。
+
+验收标准：
+- 至少让226旧实现的16例远距命中、猴2/3/4未学习技能抢占，以及错相位反例被源独立expected拒绝；400边界、无MP、伤害/技能恢复与目标获取同tick不得读取现代测试常量作为expected。
+- 执行原版片段/原生运行时trace或可审计的源语义fixture，区分静态确认、运行确认、推断、未知；源语义与现代运行各自生成，变异能拒绝省略碰撞、取消learned/MP/distance、改变状态门禁和step先后。
+- 所有空间/视觉事实只引用现有verified真值；新所需真值未获得前不标完整已扒/可实现。不能复制青龙物理、使用点命中替代complexHitTest或外推其他家族的像素近似许可。
+- 明确正式五关/TestScene消费者与原版目标顺序；P1/P2、生命周期旧证据可复用但不得假称此次已重验。
+- 补充合同独立检查、workflow、problem audit、diff通过；不运行无src改动的完整生产build冒充原版验证。
+
+禁止范围：不改src/生产资源/存档/原提取结果，不生成另一个Runtime，不删除旧合同，不宣称226、pet all或整线完成，不扩至其他家族。
+
+状态更新：同步缺口核查、覆盖台账、机制/切片输入状态及PG-017补强结果；227完成移历史。226未解除所有资料阻塞前保持Blocked。
+
+推荐后续任务：若碰撞/空间输入仍缺，按已冻结清单生成同线视觉真值补证项并设唯一Ready；输入齐全则恢复 `TASK-SLICE-226`，由其修复全部已登记行为并联合验收两族，不进入新家族。
+
+完成记录（2026-09-21）：3,408原包AIR受控source场景、10源变异、43现代拒绝反例、84原合同映射与129方法inventory交付。只闭合本项代码补证/精确空间输入边界；228猴/229马继续空间/动态相位输入，226仍Blocked。正式说明见 `docs/reverse-engineering/evidence/TASK-SETTINGS-227-monkey-horse-supplement.md`。未改src/生产资源，不提升家族复现。
+
 
 ### TASK-SLICE-224C
 

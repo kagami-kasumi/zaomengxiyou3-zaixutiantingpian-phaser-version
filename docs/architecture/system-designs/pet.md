@@ -1,5 +1,73 @@
 # 宠物系统类设计
 
+2026-09-26 / TASK-SLICE-226本项整改完成：猴马连续host时序、资格/目标/地面/反击、真实碰撞伤害、奥义/冰火/显示及生命周期已补证修正；扩大P1R/P1H/P1G/P1T=0，新增正式目标投影后的P1R/P1H=0。原41/43责任保留于226合同承接矩阵，公共230..235仍未修复，猴马完整家族、204/all/194/VS-067均不关闭。下一执行项TASK-SETTINGS-230（Ready），功能线保持Active。
+
+2026-09-26 / 地面正式接线：两族groundMovement已接既有Session，出生朝向按原构造为右，普通攻击的相位/RNG由同一地面决策入口持有，hurt/dead在目标获取前拦AI。432出生/跟随与192实际普攻随机例、两族身体/技能/受击/双人生命周期回归及build通过。猴四新增原生1356组身体/地面联动oracle，现代1500组/154704态逐帧对账通过（含实际Sprite出生坐标、MP、目标/RNG、hurt/empty、render分片）。旧flat-body fixture迁移中。上一扩大联合门禁在八个browser case/console0后发生Node堆OOM，退出1；须在本批完成后重新运行，不宣称226完成。
+
+2026-09-25 / 226死亡保留调度：原BasePet.step/wrapper的288受控AIR态证明dead仍调用私有child并推进CD/timeCount，AI不运行；真实Runtime192态全部复现冻结。两族声明stepsWhileDying，由现有Session同一host循环继续已有效果/CD，禁止新AI，死亡完成仍按原入口清理；192态及incoming/hurt/party/retired-parent回归通过。地面物理正式接线仍待。此前资源URL修复后八个浏览器case零差异/console0，build和完整system-tests=0；当前扩大联合门禁待终态，不能复用此前失败批为通过。226未完成。
+
+2026-09-25 / 公共坐标联合重跑终态为1：.tmp/pet226-ground-coordinate-design-retry.log 在玄龟combat browser的console断言失败，八个视觉case均零差异，但记录768项猴马图片处理错误。代表PNG公有目录/构建目录/HTTP200字节一致且可解码，不能归因文件缺失；正在按页面阶段/网络取消补诊断（.tmp/pet226-ground-browser-diagnostic.log）。本批未通过，不复用此前绿色结论；226继续未完成。
+
+2026-09-25 / 226公共坐标批：现有PetGroundMovementSystem在每次原Sprite定位处截断twip，不增加时钟或家族Runtime；25,920原BaseObject/Pet/StageCommon状态匹配。独立原生碰撞3态9对象的新verified几何投影已交付，但两族尚未提供groundMovement，不宣称consumer接线完成。build通过，本批扩展P1R/P1H/P1G/P1T验证共享影响；旧readyRoster测试适配补齐后联合重跑见`.tmp/pet226-ground-coordinate-design-retry.log`，未获终态前本批未判通过。系统实施中未退出。
+
+2026-09-25 / 226受击反击批：猴马QLFJ从真实damageEvents进入家族normal/body/private projectile owner，取消目标存在的发射前提；保持既有Registry/Session单时钟，未增加立即伤害旁路。576原生分支与1152 Runtime、42无目标发射、72目标朝向通过，build/全系统/P1R/P1H=0（`.tmp/pet226-incoming-design.log`）。跟随/warp及正式party96例被动入口反例仍由226处理；系统实施中未退出，不用此增量关闭84合同。
+
+2026-09-25 226生命周期增量联合通过：P1R/P1H含24 party、84 hurt-release和12退休父/584原生态，`.tmp/pet226-retired-parent-design.log`=0。生产只接既有寿命钩子，无新生命周期owner；退休回调按源保留自然显示/冻结私有逻辑。build/完整system-tests沿用寿命批0；源退休入口probe与测试追加后未再改生产。原84合同/Scene及公共233/234未全闭合，仍实施中/未退出。
+
+2026-09-25 226寿命与双slot批：猴马复用Session既有losesLifeOnDeath钩子，修正首次死亡未扣寿命；正式party闭包24例同时P1/P2的休息/替换/死亡/清理通过，加入P1R/P1H。build=0，联合门禁`.tmp/pet226-life-design.log`待终态；设计仍实施中/未退出，受击技能及奥义释放/恢复组合未全闭合。
+
+2026-09-25 226马原生资源批：既有shared view消费原生相位图/注册点，未新增owner；实际WebGL850态零残差，build/P1R/P1H/完整system-tests=0。Canvas回退独立共享差异列Planned233，原84合同生命周期仍待，设计保持实施中/未退出。
+
+2026-09-25 226暂停出生批通过：猴上一联合retry退出0；马shared view在Game poststep同步同一弹体列表以呈现暂停期的新生爆炸，正式port先更新display再执行timer，仍无第二伤害/清理owner。60原回调/2388显示态、96落雷/46080运动态及19马生产变异纳入P1H；build与完整P1R/P1H=0（`.tmp/pet226-horse-paused-birth-design.log`）。全系统/工程检查待收齐；84合同全面核销、源释放/恢复组合及实际画布未全闭合，实施中/未退出。
+
+2026-09-25 226普通暂停增量：马624清理/碰撞例、sp9216原EXIT显示及实际Phaser注册点顶点检查通过，马注册点批build/P1R/P1H=0（`.tmp/pet226-horse-origin-design.log`）。有限源时钟现归`PetMonkeyHorseNativeClipClock`，猴复用既有port/private owner，新增384原生清理/位移/碰撞例及107520原EXIT显示态，未新建生命周期owner；猴build=0，当前联合门禁`.tmp/pet226-monkey-pause-design.log`待终态。马奥义完整暂停/延迟组合、实际画布和原84合同尚未全齐，仍实施中/未退出。
+
+2026-09-25 226落雷显示批次通过：source/formal两尺度原生phase投影由assets持有，既有shared view读取hostFrameIndices，无新增行为或清理owner。1926逐态显示、build及联合P1R/P1H=0（`.tmp/pet226-falling-display-design.log`）；暂停/完整画布及余下合同仍未清零，系统实施中/未退出。
+
+2026-09-25 226奥义前置批次通过：既有私有Projectile owner持有前置与恢复清理，world bridge仅供自然显示相位，view无伤害/终止owner。1536原生状态由实际clock/private owner/horse view对账，build及完整P1R/P1H退出0（`.tmp/pet226-native-clock-design-retry.log`）。保留首次变异写回失败，12变异恢复后通过。其余私有动画暂停、完整合同和画布未清零；系统实施中/未退出。
+
+2026-09-25 226附属批次最终复验：联合P1R/P1H退出0（`.tmp/pet226-attachment-design.log`），覆盖新冰火身份/层级consumer检查。马AoyiBuff原生资源已投影但无正式consumer，不作实现声明；混合画布与其余生命周期仍待，实施中/未退出。
+
+2026-09-25 226附属身份增量：显示创建序号归目标状态，view消费身份/层级；不创建第二战斗时钟。8原生对象/顺序态与既有冰火回归、build通过。上批fire-view联合P1R/P1H=0；本批attachment联合门禁仍在运行。混合像素与其余完整消费者尚待，实施中/未退出。
+
+2026-09-25 226火焰资源增量：20帧原PNG与注册信息由既有pet-monkey-horse bundle持有，生成器与资源测试通过；build、联合P1R/P1H退出0（`.tmp/pet226-fire-assets-design.log`）。尚无火焰view consumer；42原生暂停态说明显示播放不可绑定暂停的战斗效果步。系统继续实施中/未退出。
+
+2026-09-25 226身体冻结增量：复用目标效果host步记录身体推进量，五关原view消费后清零，无第二时钟；已发射攻击仍由原路径推进。35实际bridge例和四生产变异通过，build、完整system-tests及联合P1R/P1H=0（`.tmp/pet226-ice-body-design.log`）。完整怪物回调顺序与附属画布/生命周期仍未清零，设计继续实施中/未退出。
+
+2026-09-25 226启动修复最终复验：实际main帧率配置检查加入P1R/P1H，联合门禁在修复后退出0（`.tmp/pet226-startup-fps-design.log`），build和QA入口复验通过；系统仍实施中/未退出，冰效组合画布及身体冻结不能由这些结果替代。
+
+2026-09-25 226冰显示增量：MonsterPetIceView只持Phaser附属图，不建行为/目标计时owner，五关复用既有目标效果状态和218 colipse尺寸；PNG及小投影由正式bundle持有。12912原矩阵/headless view与完整系统回归、联合P1R/P1H通过（`.tmp/pet226-ice-display-design.log`），真实启动fps遗漏另由main初始化既有全局设置修复，新增配置回归。组合画布、身体冻结及余下附属/生命周期未清零，继续实施中/未退出。
+
+2026-09-25 226旧总测试迁移：facade断言按原出生/前置效果/共享旗标/身体奥义迁移，龙消费者替身补readyRoster并限制dragon物种，未改生产角色与职责。默认系统测试清单经失败修复后的分段回归全部通过；联合pet P1R P1H=0（`.tmp/pet226-legacy-design.log`）。原84合同保留，实际冻结动画/附属画布/完整生命周期仍待，设计继续实施中/未退出。
+
+2026-09-25 226 TestScene消费增量：Monster30持有公共目标效果状态，adapter只转发，既有模型提供无hurt HP入口；未新建怪物Runtime或Scene算法。12个实际adapter/模型用例通过，联合pet P1R P1H=0（`.tmp/pet226-sandbox-effects-design.log`），共享怪物与13/21/22回归通过。XP反例另交231，动画首尾帧冻结、原生附属画布与完整生命周期仍未清零，实施中/未退出。
+
+2026-09-25 226冰火正式接线：效果归怪物模型，源Behavior只提交字典payload；MonsterPetTargetEffectSystem复用既有HP/死亡入口，不创建第二怪物Runtime。正式世界循环在物理后/AI前推进，避免视觉等待跳过计时；联合P1R/P1H=0（`.tmp/pet226-target-hit-design.log`）、怪物与13/21/22既有回归及build通过。实际附属画布/动画冻结、TestScene与全部清理未齐，仍实施中/未退出。
+
+2026-09-25 226目标效果模型准备：新增PetTargetEffects作为待接入的目标效果状态模块，无宠物owner或第二world时钟；5950 fire/17904 ice原生状态对账纳入P1R/P1H，完整门禁=0（`.tmp/pet226-target-effects-design.log`）。正式怪物更新/命中/视觉消费者仍未接，系统实施中/未退出，不能据模型检查关闭226。
+
+2026-09-25 226延迟GXP批次：context通过既有Session读取最新输入，无新增buff状态机或计时owner；48输入切换例与冻结GXP变异通过，完整pet P1R P1H=0（`.tmp/pet226-live-gxp-design.log`）。原版宠物GXP开启调用者未找到，正式可达性未知；设计仍实施中/未退出，226仍未完成。
+
+2026-09-25 226目标引用增量：沿用正式combat port与Behavior私有entry持有目标对象读取器，未新增Runtime/世界管理器。36 Runtime引用场景与新增生产变异通过，完整pet P1R P1H=0（`.tmp/pet226-retained-target-design.log`）；系统仍实施中/未退出，剩余冰火、GXP正式入口、原生画布和全生命周期未清零。
+
+2026-09-24 226奥义批次：沿用Behavior私有Projectile owner；HorseAoyiProjectiles/Motion只承担源专属差异，world delay由PetProjectileCombatPort转接已有Game绝对时间，Party/Scene负责销毁。原41/43保留且旧错误同步发射预期按native迁移，完整pet P1R P1H=0；本批门禁通过，但系统仍实施中/未退出。原84逐状态完整覆盖、冰火/前置视觉/暂停与五关生命周期尚未清零，不以门禁绿判226完成。
+
+2026-09-24 226马常规技能批次：沿用同一Behavior私有Projectile owner与公共Session/伤害port，九技能实际回调迁入；108 Runtime/324 follow/六变异通过。长寿命原生补证并扩Horse4碰撞profile至320；未新增Runtime或关卡私有算法。完整P1R/P1H仍退出1（旧monkey family零delta生弹断言），本批不通过、实施中/未退出，奥义/冰火/全生命周期及画布未闭合。
+
+2026-09-24 226猴技能批次：原normal私有句柄扩展并改名PetMonkeyHorseProjectileSystem，由原Behavior持有，仍使用公共Session及正式伤害port，没有新Runtime。九技能主弹体进入native碰撞/接受后cache刷新，108 Runtime/144跟随用例与8变异通过；P1/P1B通过，完整P1R/P1H仍退出1（旧family零delta生弹断言），本批不通过、实施中/未退出。火焰、马技能、暂停/生命周期和画布不作完成声明。
+
+2026-09-24 226本批复验：normal私有host弹体与正式碰撞/伤害port已接入，96 Runtime例、6实际源码变异及2784原AS3伤害算术通过；normal配置与公式分支消费正式src/assets投影，build通过。完整P1R/P1H仍退出1（旧monkey normal零delta生弹断言），本批不通过、仍实施中/未退出。技能、全部原84合同和画布生命周期尚待，230另承公共怪物击退源补证。
+
+2026-09-24 226当前批次：奥义回调链及碰撞采样资源增量已实现；1474248原生/正式尺度采样通过，但正式resolver及生命周期未接完。完整 `pet P1R P1H` 再验退出1，仍停于旧monkey normal零delta生弹断言；本批不通过，系统继续实施中/未退出。不得用局部身体/采样/变异结果替代完整84合同。
+
+2026-09-24 / 226实现增量：猴马usesHostTicks复用Session现有host缓冲，普攻读取连续hostTick而非自持倒计时；资格门禁先查learned/MP/距离。480源gate、72Runtime相位及龙龟局部回归通过；完整P1R/P1H退出1（旧猴普通弹时序测试），本批不通过、仍实施中/未退出。详见226进度记录，不能以build绿色覆盖。
+
+2026-09-21 / 228源输入完成：猴41合同空间/host真值verified；229马Ready后再恢复226。未改现代模式或消费者，设计验收仍实施中/未退出。
+
+2026-09-21 / 227补证交付：3,408原生受控源case/10变异与43现代Runtime拒绝，不是P1R/P1H通过。保留84合同，228/229先补真实空间/动态输入再恢复226；无src修改，既定模式与验收实施中/未退出不变。
+
+2026-09-21 / 226输入预检：P1R/P1H完整正确性除时序外又被MH-02/03反证（16例远距命中、猴2/3/4未学技能抢占）。不重跑旧gate后宣称修复，不改既定模式；226Blocked、227唯一Ready补输入，后续必须把MH-01..07对应独立expected与变异纳入门禁。系统仍实施中/未退出，原41/43与226时序合同保留。详见 `docs/reverse-engineering/pet-monkey-horse-gap-audit.md`。
+
 2026-09-21 TASK-SLICE-224C完成：玄龟全32合同通过完整P1T=0（组合A/B及资源全集），四形态×五关×P1/P2正式消费者、休息/替换、真实失败重试/返回/重载通过。修复TestScene同实例重试世界残留、会话释放后的主人链接引用与根宠弹体残留，删除旧玄龟技能分支。原视觉/碰撞精确例外不扩大。TASK-SLICE-226唯一Ready；猴马时序反证仍待重做，其余五家族与旧入口待闭合，204/VS-067/pet all未完成，功能线Active。交接见 `docs/tasks/evidence/TASK-SLICE-224C/handoff.md`。
 
 2026-09-21原版时序反证（当前结论优先于历史通过记录）：猴/马也经BasePet.myIntelligence按连续timeCount取模决策，PetNormalAttackDecision的决策后1000ms重置无此原版依据。此前P1R/P1H=0只证明旧测试通过；两族完整复现状态降为待重做，公共抽取不是原版正确性证明。TASK-SLICE-226在224C后修正共享时序并扩展黑盒相位门禁；不撤销未受反证的资源与伤害证据，不将当前青龙实现自动视为全细节原版真值。
@@ -62,11 +130,11 @@
 
 1. 校验输入，按 `PlayerSlot`/roster 同步当前出战引用；换宠或离场按 `replaced/inactive/runtime-destroyed` 幂等清理旧会话。
 2. 消费上一 host tick 入队的 damage/animation 事件。HP 首次归零时转为 `dead-playing` 并发布 dead 动画命令；不得在此处卸载。
-3. `dead-playing` 只允许处理动画完成与清理事件，不索敌、不行动、不推进战斗 CD。收到匹配会话的 dead-complete 后，依次执行 Behavior 私有清理、来源 projectile/effect 清理、view release、活动引用清空。
+3. `dead-playing` 不索敌、不发动新行动。默认只处理动画与清理；原BasePet.step及两族wrapper的288态原生证据确认猴/马保留会话仍推进已有私有效果、活动CD、host计数和物理，由Behavior声明`stepsWhileDying`，复用同一Session步骤；不可直接推广至未验证家族。收到匹配会话的 dead-complete 后，依次执行 Behavior 私有清理、来源 projectile/effect 清理、view release、活动引用清空。
 4. `alive` 时先校验 sticky target：死亡或距离 `>=1200` 则只清空并结束本帧索敌；没有旧目标时按输入顺序选择首个存活且距离 `<=1200` 的目标。
 5. 根据 `canMove` 推进公共 follow/warp；Runtime 统一动作优先级：受击/强制态、形态技能、普攻 fallback、跟随/idle。Behavior 只返回差异命令。
 6. 执行动作，推进当前 Behavior 的活动效果并发布只读 snapshot/command/event。
-7. 最后仅调用 `tickActivePetSkillState(activePet, deltaMs)`；未出战 roster 项、`dead-playing` 会话和已销毁会话不推进战斗时钟。
+7. 最后仅调用 `tickActivePetSkillState(activePet, deltaMs)`；未出战 roster 项和已销毁会话不推进战斗时钟；`dead-playing` 仅源证据确认且声明`stepsWhileDying`的会话继续，其他家族沿用原门禁。
 
 动画命中回调带 `runtimeKey + actionToken + eventName`，Runtime 必须拒绝旧会话/旧动作事件。死亡完成也是同一受控事件，不允许 View 自行删除系统状态。
 
@@ -133,6 +201,7 @@
 
 | 日期/Task | 范围 | 结果 | 结论 |
 | --- | --- | --- | --- |
+| 2026-09-26 / 226 | 猴马host/地面/伤害/生命周期及公共回归 | P1R/P1H/P1G/P1T=0；正式目标投影增量后P1R/P1H=0；原84承接矩阵保留公共open项 | 本项通过，系统实施中/未退出；230..235及其余家族/all继续 |
 | 2026-09-05 / 214C1 | 私有实体公共接缝 | P1GS=0，P1/P1B/P1R/P1H=0，10类mutation-kill、正式五关旅程、全系统/build/LSP通过 | 本批通过，系统实施中；没有青龙Behavior/正式视觉/伤害治疗完成结论，214C2继续P1GC |
 | 2026-08-24 / 203 | 旧 P1 骨架 | 当时 gate 0 | 205 后降级：只证明类存在，不证明新合同 |
 | 2026-08-25 / 204A | 旧 P1B Monkey/Horse | 当时 gate 0 | 205 后降级：复用了既有规则，但时钟/索敌/死亡与钩子合同不成立 |

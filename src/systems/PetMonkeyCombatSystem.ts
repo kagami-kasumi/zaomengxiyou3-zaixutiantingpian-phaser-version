@@ -88,7 +88,7 @@ export function requestPetMonkeyBasicAttack(params: Readonly<{
       sourceId: pet.id,
       x: params.runtime.x,
       y: params.runtime.y,
-      facingX: params.target.x < params.runtime.x ? -1 : 1,
+      facingX: params.runtime.facingX,
     },
     definition.variant,
     `monkey${pet.form}-normal`,
@@ -120,7 +120,7 @@ export function resolveFormalPetMonkeyProjectileHits(params: Readonly<{
 }>): readonly DamageEvent[] {
   const events: DamageEvent[] = [];
   for (const projectile of params.projectiles.projectiles) {
-    if (!projectile.variant.startsWith('pet-monkey') || projectile.isExpired) continue;
+    if (projectile.petHostTick !== undefined || projectile.visualOnly || !projectile.variant.startsWith('pet-monkey') || projectile.isExpired) continue;
     if (!isAtVerifiedHitFrame(projectile) || projectile.remainingHits <= 0) continue;
     const ownerSlot = params.ownerSlotForPet(projectile.sourceId);
     if (!ownerSlot) continue;

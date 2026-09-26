@@ -1,0 +1,995 @@
+{
+  "monkey": {
+    "1": {
+      "actions": {
+        "wait": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "keyFrameCount": 4,
+          "loops": true,
+          "hits": []
+        },
+        "walk": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            2
+          ],
+          "keyFrameCount": 4,
+          "loops": true,
+          "hits": []
+        },
+        "hurt": {
+          "row": 1,
+          "holds": [
+            8
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": true
+        },
+        "hit1": {
+          "row": 3,
+          "holds": [
+            2,
+            2,
+            2,
+            10
+          ],
+          "keyFrameCount": 4,
+          "loops": false,
+          "hits": [
+            {
+              "column": 3,
+              "remaining": 10
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit2": {
+          "row": 4,
+          "holds": [
+            1,
+            1,
+            1,
+            12
+          ],
+          "keyFrameCount": 4,
+          "loops": false,
+          "hits": [
+            {
+              "column": 3,
+              "remaining": 11
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "dead": {
+          "row": 2,
+          "holds": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "keyFrameCount": 6,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "dead-complete",
+          "completionStatic": false
+        }
+      },
+      "sourceSha256": "bc82b14bd316389841fe2267f4382354fae820a56fa0c868a2fa62aa80cb20dd"
+    },
+    "2": {
+      "actions": {
+        "wait": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ],
+          "keyFrameCount": 6,
+          "loops": true,
+          "hits": []
+        },
+        "walk": {
+          "row": 1,
+          "holds": [
+            4,
+            4,
+            4,
+            4
+          ],
+          "keyFrameCount": 4,
+          "loops": true,
+          "hits": []
+        },
+        "hurt": {
+          "row": 2,
+          "holds": [
+            8
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": true
+        },
+        "hit1": {
+          "row": 4,
+          "holds": [
+            2,
+            2,
+            8
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 8
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit2": {
+          "row": 5,
+          "holds": [
+            1,
+            1
+          ],
+          "keyFrameCount": 12,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 1
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit3": {
+          "row": 6,
+          "holds": [
+            10
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 10
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "dead": {
+          "row": 3,
+          "holds": [
+            2,
+            2,
+            2,
+            2,
+            10
+          ],
+          "keyFrameCount": 5,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "dead-complete",
+          "completionStatic": false
+        }
+      },
+      "sourceSha256": "855283fddf3f988f0848460fc304d1802e2a8d83e3aa89b813281cc608afaa43"
+    },
+    "3": {
+      "actions": {
+        "wait": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ],
+          "keyFrameCount": 6,
+          "loops": true,
+          "hits": []
+        },
+        "walk": {
+          "row": 1,
+          "holds": [
+            4,
+            4,
+            4,
+            4
+          ],
+          "keyFrameCount": 4,
+          "loops": true,
+          "hits": []
+        },
+        "hurt": {
+          "row": 2,
+          "holds": [
+            8
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": true
+        },
+        "hit1": {
+          "row": 4,
+          "holds": [
+            2,
+            2,
+            8
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 8
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit2": {
+          "row": 5,
+          "holds": [
+            2,
+            9,
+            15
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 2
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit3": {
+          "row": 6,
+          "holds": [
+            10
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 10
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit4": {
+          "row": 7,
+          "holds": [
+            1,
+            1
+          ],
+          "keyFrameCount": 20,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 1
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "dead": {
+          "row": 3,
+          "holds": [
+            2,
+            2,
+            2,
+            2,
+            10
+          ],
+          "keyFrameCount": 5,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "dead-complete",
+          "completionStatic": false
+        }
+      },
+      "sourceSha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc"
+    },
+    "4": {
+      "actions": {
+        "wait": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ],
+          "keyFrameCount": 6,
+          "loops": true,
+          "hits": []
+        },
+        "walk": {
+          "row": 1,
+          "holds": [
+            4,
+            4,
+            4,
+            4
+          ],
+          "keyFrameCount": 4,
+          "loops": true,
+          "hits": []
+        },
+        "hurt": {
+          "row": 2,
+          "holds": [
+            8
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": true
+        },
+        "hit1": {
+          "row": 4,
+          "holds": [
+            2,
+            2,
+            8
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 8
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit2": {
+          "row": 5,
+          "holds": [
+            2,
+            9,
+            15
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 2
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit3": {
+          "row": 6,
+          "holds": [
+            10
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 10
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit4": {
+          "row": 7,
+          "holds": [
+            1,
+            1
+          ],
+          "keyFrameCount": 20,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 1
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit5": {
+          "row": 8,
+          "holds": [
+            2,
+            2,
+            2
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "dead": {
+          "row": 3,
+          "holds": [
+            2,
+            2,
+            2,
+            2,
+            10
+          ],
+          "keyFrameCount": 5,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "dead-complete",
+          "completionStatic": false
+        }
+      },
+      "sourceSha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e"
+    }
+  },
+  "horse": {
+    "1": {
+      "actions": {
+        "wait": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ],
+          "keyFrameCount": 6,
+          "loops": true,
+          "hits": []
+        },
+        "walk": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ],
+          "keyFrameCount": 6,
+          "loops": true,
+          "hits": []
+        },
+        "hurt": {
+          "row": 1,
+          "holds": [
+            8
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": true
+        },
+        "hit1": {
+          "row": 3,
+          "holds": [
+            2,
+            2,
+            1,
+            1,
+            8
+          ],
+          "keyFrameCount": 5,
+          "loops": false,
+          "hits": [
+            {
+              "column": 4,
+              "remaining": 8
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit2": {
+          "row": 4,
+          "holds": [
+            2,
+            2,
+            2,
+            8
+          ],
+          "keyFrameCount": 4,
+          "loops": false,
+          "hits": [
+            {
+              "column": 3,
+              "remaining": 8
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "dead": {
+          "row": 2,
+          "holds": [
+            2,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "keyFrameCount": 6,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "dead-complete",
+          "completionStatic": false
+        }
+      },
+      "sourceSha256": "558fb01aa821fd6eb19bfb683df6452f84ef0dfaf3ae4da5ebc3b1eae6a5fc05"
+    },
+    "2": {
+      "actions": {
+        "wait": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ],
+          "keyFrameCount": 6,
+          "loops": true,
+          "hits": []
+        },
+        "walk": {
+          "row": 1,
+          "holds": [
+            4,
+            4,
+            4,
+            4
+          ],
+          "keyFrameCount": 4,
+          "loops": true,
+          "hits": []
+        },
+        "hurt": {
+          "row": 2,
+          "holds": [
+            8
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": true
+        },
+        "hit1": {
+          "row": 4,
+          "holds": [
+            2,
+            4,
+            20
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 20
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit2": {
+          "row": 5,
+          "holds": [
+            15
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 15
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit3": {
+          "row": 6,
+          "holds": [
+            2,
+            2,
+            1,
+            1,
+            8
+          ],
+          "keyFrameCount": 5,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 1
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "dead": {
+          "row": 3,
+          "holds": [
+            2,
+            2,
+            2,
+            2,
+            10
+          ],
+          "keyFrameCount": 4,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "dead-complete",
+          "completionStatic": false
+        }
+      },
+      "sourceSha256": "ee5f72352b2af1b12971481d02c855c14e1f2e57e96f108e8ec6ef0e227cd363"
+    },
+    "3": {
+      "actions": {
+        "wait": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ],
+          "keyFrameCount": 6,
+          "loops": true,
+          "hits": []
+        },
+        "walk": {
+          "row": 1,
+          "holds": [
+            4,
+            4,
+            4,
+            4
+          ],
+          "keyFrameCount": 4,
+          "loops": true,
+          "hits": []
+        },
+        "hurt": {
+          "row": 2,
+          "holds": [
+            8
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": true
+        },
+        "hit1": {
+          "row": 4,
+          "holds": [
+            2,
+            2,
+            20
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 20
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit2": {
+          "row": 5,
+          "holds": [
+            15
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 15
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit3": {
+          "row": 6,
+          "holds": [
+            2,
+            2,
+            1,
+            1,
+            10
+          ],
+          "keyFrameCount": 5,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 1
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit4": {
+          "row": 7,
+          "holds": [
+            2,
+            2,
+            20
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 20
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "dead": {
+          "row": 3,
+          "holds": [
+            2,
+            2,
+            2,
+            2,
+            10
+          ],
+          "keyFrameCount": 4,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "dead-complete",
+          "completionStatic": false
+        }
+      },
+      "sourceSha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0"
+    },
+    "4": {
+      "actions": {
+        "wait": {
+          "row": 0,
+          "holds": [
+            2,
+            2,
+            2,
+            3,
+            2,
+            4
+          ],
+          "keyFrameCount": 6,
+          "loops": true,
+          "hits": []
+        },
+        "walk": {
+          "row": 1,
+          "holds": [
+            4,
+            4,
+            4,
+            4
+          ],
+          "keyFrameCount": 4,
+          "loops": true,
+          "hits": []
+        },
+        "hurt": {
+          "row": 2,
+          "holds": [
+            8
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": true
+        },
+        "hit1": {
+          "row": 4,
+          "holds": [
+            2,
+            2,
+            20
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 20
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit2": {
+          "row": 5,
+          "holds": [
+            15
+          ],
+          "keyFrameCount": 1,
+          "loops": false,
+          "hits": [
+            {
+              "column": 0,
+              "remaining": 15
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit3": {
+          "row": 6,
+          "holds": [
+            2,
+            2,
+            1,
+            1,
+            10
+          ],
+          "keyFrameCount": 5,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 1
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit4": {
+          "row": 7,
+          "holds": [
+            2,
+            2,
+            20
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 20
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "hit5": {
+          "row": 8,
+          "holds": [
+            2,
+            2,
+            10
+          ],
+          "keyFrameCount": 3,
+          "loops": false,
+          "hits": [
+            {
+              "column": 2,
+              "remaining": 10
+            }
+          ],
+          "completionEvent": "complete",
+          "completionAction": "wait",
+          "completionStatic": false
+        },
+        "dead": {
+          "row": 3,
+          "holds": [
+            2,
+            2,
+            2,
+            2,
+            10
+          ],
+          "keyFrameCount": 5,
+          "loops": false,
+          "hits": [],
+          "completionEvent": "dead-complete",
+          "completionStatic": false
+        }
+      },
+      "sourceSha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+    }
+  }
+}

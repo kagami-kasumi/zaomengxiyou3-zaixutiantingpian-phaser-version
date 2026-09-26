@@ -60,6 +60,7 @@ export function createMonsterRuntimeRegistry<View>(options: Readonly<{
       if (destroyed) return [];
       const events: MonsterRuntimeEvent[] = [];
       events.push(...updateMonsterRuntimeRegistry(model, {
+        hostFps: options.scene.game.loop.targetFps,
         targets: heroes.snapshots(),
         platforms: options.platforms,
         deltaMs,

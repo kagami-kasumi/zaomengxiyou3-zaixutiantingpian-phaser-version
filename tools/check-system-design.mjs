@@ -287,7 +287,8 @@ const contracts = {
         ['animation completion input', /animationEvents/u],
       ], errors);
       requireMatches(monkey, [
-        ['shared normal branch', /new PetNormalAttackDecision\(\)[\s\S]*normalAttack\.select\(context, 0\.7\)/u],
+        ['original ground definition', /groundMovement\(\)[\s\S]*getPetMonkeyHorseGroundDefinition\('monkey', this\.form\)/u],
+        ['shared incoming counter decision', /new PetNormalAttackDecision\(\)[\s\S]*normalAttack\.counter\(context\)/u],
         ['form4 inherited action priority', /case\s+4:[\s\S]*monkey3-lyq[\s\S]*monkey3-xj[\s\S]*monkey3-lj[\s\S]*monkey4-jgaoyi/u],
         ['form4 hurt release', /this\.form\s*===\s*4[\s\S]*monkey3Lj\.releaseReady\s*=\s*true/u],
       ], errors);
@@ -305,6 +306,40 @@ const contracts = {
       forbidMatches(body, [['legacy PetRuntimeSystem dependency', /PetRuntimeSystem/u]], errors);
       requireTest('pet-combat-runtime-design-tests', tests, errors);
       requireTest('pet-monkey-family-runtime-tests', tests, errors);
+      requireTest('pet-monkey-horse-party-lifecycle-tests', tests, errors);
+      requireTest('pet-monkey-horse-hurt-release-tests', tests, errors);
+      requireTest('pet-monkey-horse-incoming-tests', tests, errors);
+      requireTest('pet-monkey-horse-ground-motion-tests', tests, errors);
+      requireTest('pet-monkey-horse-ground-definition-tests', tests, errors);
+      requireTest('pet-monkey-horse-dead-step-tests', tests, errors);
+      requireTest('pet-monkey-horse-ground-runtime-tests', tests, errors);
+      requireTest('pet-monkey-aoyi-ground-tests', tests, errors);
+      requireTest('pet-monkey-aoyi-combat-tests', tests, errors);
+      requireTest('pet-target-fire-assets-tests', tests, errors);
+      requireTest('pet-target-fire-display-tests', tests, errors);
+      requireTest('pet-target-attachment-tests', tests, errors);
+      requireTest('pet-monkey-source-gate-tests', tests, errors);
+      requireTest('pet-monkey-body-emission-tests', tests, errors);
+      requireTest('pet-monkey-aoyi-mutation-tests', tests, errors);
+      requireTest('pet-monkey-horse-collision-field-tests', tests, errors);
+      requireTest('pet-monkey-horse-asset-tests', tests, errors);
+      requireTest('pet-monkey-horse-normal-runtime-tests', tests, errors);
+      requireTest('pet-monkey-horse-damage-tests', tests, errors);
+      requireTest('pet-monkey-skill-projectile-tests', tests, errors);
+      requireTest('pet-target-fire-tests', tests, errors);
+      requireTest('pet-target-world-tests', tests, errors);
+      requireTest('pet-target-test-scene-tests', tests, errors);
+      requireTest('game-startup-frame-rate-tests', tests, errors);
+      requireTest('pet-monkey-effect-follow-tests', tests, errors);
+      requireTest('pet-monkey-world-pause-tests', tests, errors);
+      requireTest('pet-monkey-pause-display-tests', tests, errors);
+      requireTest('pet-monkey-pause-mutation-tests', tests, errors);
+      requireTest('pet-monkey-skill-mutation-tests', tests, errors);
+      requireTest('pet-monkey-horse-normal-mutation-tests', tests, errors);
+      requireTest('pet-source-phase-tests', tests, errors);
+      requireTest('pet-monkey-horse-body-clock-tests', tests, errors);
+      requireTest('pet-monkey-horse-target-order-tests', tests, errors);
+      requireTest('pet-monkey-horse-formal-target-tests', tests, errors);
       requireTest('pet-normal-attack-decision-tests', tests, errors);
       requireTest('pet-monkey-behavior-contract-runtime-tests', tests, errors);
       requireTest('pet-monkey-animation-runtime-tests', tests, errors);
@@ -312,6 +347,47 @@ const contracts = {
       requireTest('formal-pet-journey-tests', tests, errors);
     },
     P1H(errors, tests) {
+      requireTest('pet-monkey-horse-formal-target-tests', tests, errors);
+      requireTest('pet-monkey-horse-party-lifecycle-tests', tests, errors);
+      requireTest('pet-monkey-horse-hurt-release-tests', tests, errors);
+      requireTest('pet-monkey-horse-incoming-tests', tests, errors);
+      requireTest('pet-monkey-horse-ground-motion-tests', tests, errors);
+      requireTest('pet-monkey-horse-ground-definition-tests', tests, errors);
+      requireTest('pet-monkey-horse-dead-step-tests', tests, errors);
+      requireTest('game-startup-frame-rate-tests', tests, errors);
+      requireTest('pet-monkey-horse-ground-runtime-tests', tests, errors);
+      requireTest('pet-horse-aoyi-birth-tests', tests, errors);
+      requireTest('pet-horse-aoyi-prelude-tests', tests, errors);
+      requireTest('pet-horse-aoyi-prelude-follow-tests', tests, errors);
+      requireTest('pet-horse-aoyi-world-pause-tests', tests, errors);
+      requireTest('pet-horse-world-pause-tests', tests, errors);
+      requireTest('pet-horse-aoyi-world-motion-tests', tests, errors);
+      requireTest('pet-horse-paused-birth-display-tests', tests, errors);
+      requireTest('pet-horse-retired-parent-tests', tests, errors);
+      requireTest('pet-horse-sp-display-tests', tests, errors);
+      requireTest('pet-horse-falling-display-tests', tests, errors);
+      requireTest('pet-horse-aoyi-motion-tests', tests, errors);
+      requireTest('pet-horse-aoyi-runtime-tests', tests, errors);
+      requireTest('pet-horse-aoyi-multi-combat-tests', tests, errors);
+      requireTest('pet-target-ice-tests', tests, errors);
+      requireTest('pet-target-ice-display-tests', tests, errors);
+      requireTest('pet-target-ice-body-tests', tests, errors);
+      requireTest('pet-target-ice-body-mutation-tests', tests, errors);
+      requireTest('pet-horse-aoyi-callback-tests', tests, errors);
+      requireTest('pet-horse-aoyi-mutation-tests', tests, errors);
+      requireTest('pet-world-delayed-calls-tests', tests, errors);
+      requireTest('pet-horse-skill-projectile-tests', tests, errors);
+      requireTest('pet-horse-effect-follow-tests', tests, errors);
+      requireTest('pet-horse-skill-mutation-tests', tests, errors);
+      requireTest('pet-monkey-horse-normal-runtime-tests', tests, errors);
+      requireTest('pet-monkey-horse-damage-tests', tests, errors);
+      requireTest('pet-monkey-horse-normal-mutation-tests', tests, errors);
+      requireTest('pet-monkey-horse-collision-field-tests', tests, errors);
+      requireTest('pet-monkey-horse-asset-tests', tests, errors);
+      requireTest('pet-horse-body-emission-tests', tests, errors);
+      requireTest('pet-source-phase-tests', tests, errors);
+      requireTest('pet-monkey-horse-body-clock-tests', tests, errors);
+      requireTest('pet-monkey-horse-target-order-tests', tests, errors);
       requireTest('pet-normal-attack-decision-tests', tests, errors);
       const runtime = 'src/systems/PetCombatRuntime.ts';
       const horse = 'src/systems/pet-behaviors/HorsePetBehavior.ts';
@@ -327,9 +403,9 @@ const contracts = {
         ['dual runtime animation completion input', /animationEvents/u],
       ], errors);
       requireMatches(horse, [
-        ['verified horse truth dependency', /task-settings-209-pet-horse-family\.json/u],
+        ['original ground definition', /groundMovement\(\)[\s\S]*getPetMonkeyHorseGroundDefinition\('horse', this\.form\)/u],
         ['form attack range port', /getPetHorseAttackRange\s*\(/u],
-        ['shared normal branch', /new PetNormalAttackDecision\(\)[\s\S]*normalAttack\.select\(context, attackRate\)/u],
+        ['shared incoming counter decision', /new PetNormalAttackDecision\(\)[\s\S]*normalAttack\.counter\(context\)/u],
         ['inherited bd priority', /this\.form\s*>=\s*2[\s\S]*horse2Bd\.releaseReady/u],
         ['inherited sp priority', /skills\.includes\(['"]sp['"]\)/u],
         ['inherited bz priority', /this\.form\s*>=\s*3[\s\S]*skills\.includes\(['"]bz['"]\)/u],

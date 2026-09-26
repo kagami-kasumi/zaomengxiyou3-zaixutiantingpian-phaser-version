@@ -1,0 +1,362 @@
+{
+  "formulae": {
+    "monkey": {
+      "1": {
+        "hit1": {
+          "skill": "xj",
+          "multiplier": 2.6,
+          "normal": true,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(this._petInfo.getAtk() + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit2": {
+          "skill": "xj",
+          "multiplier": 2.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        }
+      },
+      "2": {
+        "hit1": {
+          "skill": "lj",
+          "multiplier": 4.2,
+          "normal": true,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(this._petInfo.getAtk() + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit2": {
+          "skill": "lj",
+          "multiplier": 4.2,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit3": {
+          "skill": "xj",
+          "multiplier": 2.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        }
+      },
+      "3": {
+        "hit1": {
+          "skill": "lyq",
+          "multiplier": 6.8,
+          "normal": true,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(this._petInfo.getAtk() + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit2": {
+          "skill": "lyq",
+          "multiplier": 6.8,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit3": {
+          "skill": "xj",
+          "multiplier": 2.6,
+          "normal": false,
+          "magic": false,
+          "critical": false,
+          "gxp": true,
+          "flower": false,
+          "expression": "Number(_loc3_.first) * _loc6_"
+        },
+        "hit4": {
+          "skill": "lj",
+          "multiplier": 4.2,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        }
+      },
+      "4": {
+        "hit1": {
+          "skill": "lyq",
+          "multiplier": 6.8,
+          "normal": true,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(this._petInfo.getAtk() + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit2": {
+          "skill": "lyq",
+          "multiplier": 6.8,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit3": {
+          "skill": "xj",
+          "multiplier": 2.6,
+          "normal": false,
+          "magic": false,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "Number(_loc3_.first) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit4": {
+          "skill": "lj",
+          "multiplier": 4.2,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit5": {
+          "skill": null,
+          "multiplier": 0,
+          "normal": false,
+          "magic": false,
+          "critical": false,
+          "gxp": false,
+          "flower": false,
+          "expression": "0"
+        }
+      }
+    },
+    "horse": {
+      "1": {
+        "hit1": {
+          "skill": "sp",
+          "multiplier": 3.6,
+          "normal": true,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(this._petInfo.getAtk() + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit2": {
+          "skill": "sp",
+          "multiplier": 3.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        }
+      },
+      "2": {
+        "hit1": {
+          "skill": "bd",
+          "multiplier": 3.6,
+          "normal": true,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(this._petInfo.getAtk() + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit2": {
+          "skill": "bd",
+          "multiplier": 3.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit3": {
+          "skill": "sp",
+          "multiplier": 3.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        }
+      },
+      "3": {
+        "hit1": {
+          "skill": "bd",
+          "multiplier": 3.6,
+          "normal": true,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(this._petInfo.getAtk() + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit2": {
+          "skill": "bd",
+          "multiplier": 3.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit3": {
+          "skill": "sp",
+          "multiplier": 3.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        },
+        "hit4": {
+          "skill": "bz",
+          "multiplier": 6.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": false,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_"
+        }
+      },
+      "4": {
+        "hit1": {
+          "skill": "bd",
+          "multiplier": 3.6,
+          "normal": true,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(this._petInfo.getAtk() + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit2": {
+          "skill": "bd",
+          "multiplier": 3.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit3": {
+          "skill": "sp",
+          "multiplier": 3.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit4": {
+          "skill": "bz",
+          "multiplier": 6.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit5_1": {
+          "skill": "sp",
+          "multiplier": 3.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        },
+        "hit5_2": {
+          "skill": "bz",
+          "multiplier": 6.6,
+          "normal": false,
+          "magic": true,
+          "critical": true,
+          "gxp": true,
+          "flower": true,
+          "expression": "(_loc3_.first + _loc5_) * _loc4_ * _loc6_ * Number(this.hurtBaseEffectRate())"
+        }
+      }
+    }
+  },
+  "skillFactor": 1.05,
+  "sources": [
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/petInfo/PetInfo.as",
+      "sha256": "b9bba062ed38c9e475bb4e1b29dfc2328ba968453ed8d2fe821a403eb4b4dbc2",
+      "method": "getPetHarmObj"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey1.as",
+      "sha256": "bc82b14bd316389841fe2267f4382354fae820a56fa0c868a2fa62aa80cb20dd",
+      "method": "getRealPower"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey2.as",
+      "sha256": "855283fddf3f988f0848460fc304d1802e2a8d83e3aa89b813281cc608afaa43",
+      "method": "getRealPower"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey3.as",
+      "sha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc",
+      "method": "getRealPower"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey4.as",
+      "sha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e",
+      "method": "getRealPower"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse1.as",
+      "sha256": "558fb01aa821fd6eb19bfb683df6452f84ef0dfaf3ae4da5ebc3b1eae6a5fc05",
+      "method": "getRealPower"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse2.as",
+      "sha256": "ee5f72352b2af1b12971481d02c855c14e1f2e57e96f108e8ec6ef0e227cd363",
+      "method": "getRealPower"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse3.as",
+      "sha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0",
+      "method": "getRealPower"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse4.as",
+      "sha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599",
+      "method": "getRealPower"
+    }
+  ]
+}

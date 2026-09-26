@@ -1,4 +1,5 @@
 import monkeyTruthJson from '../../docs/reverse-engineering/ground-truth/manifests/task-settings-193a-pet-monkey-animation.json';
+import nativeDisplay from './pet-monkey-native-display.json';
 
 type Bounds = Readonly<{ left: number; top: number; width: number; height: number }>;
 type Placement = Readonly<{
@@ -65,6 +66,7 @@ export type PetMonkeyEffectUsage = Readonly<{
   registrationOrigin: Readonly<{ x: number; y: number }>;
   depth: number;
   loopsForFourSeconds: boolean;
+  nativeDisplay: typeof nativeDisplay.clips[keyof typeof nativeDisplay.clips];
 }>;
 
 export function assertVerifiedPetMonkeyAnimationTruth(): void {
@@ -212,6 +214,7 @@ export function getPetMonkeyEffectUsages(assetKey: string): readonly PetMonkeyEf
       },
       depth: objectId.endsWith('prelude') ? 41 : 47,
       loopsForFourSeconds: symbol === 'PetMonkey1Bullet2',
+      nativeDisplay: nativeDisplay.clips[symbol],
     };
   });
 }

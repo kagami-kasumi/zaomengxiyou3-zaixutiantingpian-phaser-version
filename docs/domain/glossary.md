@@ -22,6 +22,8 @@
 
 | 中文概念 | 推荐代码名 | 类型 | 上下文 | 说明 | 禁止别名 |
 | --- | --- | --- | --- | --- | --- |
+| 宠物攻击的目标附加效果 | `PetTargetEffects` | Internal Effect State | Combat | 受击目标持有猴火/马冰的连续host计数、刷新和取消状态；不属于源宠物生命周期，也不持有第二套HP | `PetBurnRuntime` |
+| 怪物宠物附加效果消费 | `MonsterPetTargetEffectSystem` | System | Combat | 将目标效果接到怪物既有HP、世界host推进及可见状态，死亡仍走既有怪物归属/奖励路径 | `MonsterPetBuffRuntime` |
 | 玩家槽位 | `PlayerSlot` | Value Object / Type | Input | P1/P2 控制位，不等于角色实体 | `PlayerIndex`, `UserSlot` |
 | 玄龟链接效果 | `PetTurtleLinkBuff` | Type | Combat | HeroCombat 与 PetCombatEntitySession 各持一份瞬态效果；同名刷新，不持有第二套 HP，引用实际宠物会话 | `TurtleLinkRuntime` |
 | 玩家输入状态 | `PlayerInputState` | Type | Input | 单个玩家当前输入意图 | `PlayerInput`, `KeyState`, `ControlState` |

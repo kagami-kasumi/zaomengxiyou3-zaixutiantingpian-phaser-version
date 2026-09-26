@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { getPetDragonCollision } from '../src/assets/PetDragonAnimationAssets';
+import { toDragonSourceCoordinate } from '../src/systems/PetDragonCollisionSystem';
 import { getPetGroundEnvironment, type PetGroundEnvironment } from '../src/assets/PetGroundEnvironmentAssets';
 import { PetCombatRuntime } from '../src/systems/PetCombatRuntime';
 import { createPetProjectileCombatPort } from '../src/systems/PetProjectileCombatSystem';
@@ -80,7 +81,7 @@ for (const fps of [20, 24, 30]) {
   const floor = env.walls.find((wall) => !wall.throughDown && wall.right - wall.left > 1000)!;
   assert.ok(floor, 'production truth supplies original floor');
   const g = setup(fps, env);
-  const rootY = floor.top - 0.1 - getPetDragonCollision(1).height / 2;
+  const rootY = toDragonSourceCoordinate(floor.top - 0.1 - getPetDragonCollision(1).height / 2);
   const startX = floor.left + 100;
   g.frame.owner = { x: startX + 800, y: rootY - env.ownerRootOffsetY, facingX: 1 };
   g.probes[0]!.context.relocate(startX, rootY);
@@ -220,9 +221,9 @@ const updateProductionPets = new Function('model', 'petRosters', 'petCombatRunti
     combat: { slot: index === 0 ? 'p1' : 'p2', combat: { state: 'ready' } } })) },
   { p1: p1.frame.roster, p2: p2.frame.roster }, { p1: p1.runtime, p2: p2.runtime }, snapshots,
   { p1: [], p2: [] }, { p1: [], p2: [] }, { game: { loop: { targetFps: 20 } } },
-  (input: Omit<Parameters<typeof createPetProjectileCombatPort>[0], 'mask'>) => createPetProjectileCombatPort({
+  Object.assign((input: Omit<Parameters<typeof createPetProjectileCombatPort>[0], 'mask'>) => createPetProjectileCombatPort({
     ...input, mask: () => { throw new Error('Movement-only probe must not request a hit mask'); },
-  }),
+  }), { readyRoster: (roster: any) => roster }),
   { update() {} },
   () => false,
   { readyRoster: (roster: any) => roster, update() {} },

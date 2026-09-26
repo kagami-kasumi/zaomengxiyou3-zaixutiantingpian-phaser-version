@@ -51,13 +51,13 @@ for (const level of [11, 12, 13, 21, 22] as const) for (const form of [1, 2, 3, 
   const update = new Function('model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots', 'pendingPetDamageEvents',
     'pendingPetAnimationEvents', 'scene', 'petProjectileCombat', 'petDragonPresentation', 'isPetDragonQaEnabled', 'petTurtle',
     closure + '\nreturn updatePets;')(model, rosters, runtimes, snapshots, pending, animations,
-    { game: { loop: { targetFps: 24 } } }, (input: any) => {
+    { game: { loop: { targetFps: 24 } } }, Object.assign((input: any) => {
       const port = createPetProjectileCombatPort(input);
       return { ...port, hit: (p: any, id: string, cache: any) => {
         assert(p.sourceId.startsWith(`${input.ownerSlot}-`), 'Production hit owner must match the source pet');
         return port.hit(p, id, cache);
       } };
-    }, { update() {} }, () => false,
+    }, { readyRoster: (r: any) => r }), { update() {} }, () => false,
     { readyRoster: (r: any) => r, update: (s: any) => { presented = s; } });
   let tick = 0;
   const step = () => {

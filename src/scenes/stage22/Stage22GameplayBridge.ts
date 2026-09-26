@@ -1,4 +1,5 @@
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
+import { stepMonsterPetTargetEffects } from '../../systems/MonsterPetTargetEffectSystem';
 // boundary: Stage 2-2 submits level input/environment/monster targets to HeroPartyRuntime;
 // it keeps fire hazards, encounter waves, QA, and the not-yet-migrated monster runtime only.
 import Phaser from 'phaser';
@@ -259,6 +260,7 @@ function updateMonsterCombat(
     if (freezeBossShowcase && monster.combat.id === 'stage22-qa-monster16') continue;
     updateMonsterPhysics(monster.physics, monster.combat.x, stage22MovementPlatforms, deltaMs);
     monster.combat.y = monster.physics.y;
+    stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
     const waitingForVisual = monster.combat.phase === 'recovery'
       && isMonsterAttackVisual(monster)
       && !monster.view.visual.completed;

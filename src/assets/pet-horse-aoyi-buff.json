@@ -1,0 +1,285 @@
+{
+  "symbol": "AoyiBuff",
+  "truthId": "task-settings-229.horse-natural-display",
+  "sourceSha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9",
+  "sourceFrameCount": 14,
+  "naturalRemovalFrame": 14,
+  "nativeFrameRasterIndices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    12
+  ],
+  "frames": [
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-1",
+      "path": "assets/pets/monkey-horse/AoyiBuff-01.png",
+      "frame": 1,
+      "stateIds": [
+        "20-4",
+        "24-4",
+        "30-4"
+      ],
+      "sha256": "a632e5016466284018cf495c734e9ca02c073f87b99ece921d552ee05466237e",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -95,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-2",
+      "path": "assets/pets/monkey-horse/AoyiBuff-02.png",
+      "frame": 2,
+      "stateIds": [
+        "20-5",
+        "24-5",
+        "30-5"
+      ],
+      "sha256": "a632e5016466284018cf495c734e9ca02c073f87b99ece921d552ee05466237e",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -95,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-3",
+      "path": "assets/pets/monkey-horse/AoyiBuff-03.png",
+      "frame": 3,
+      "stateIds": [
+        "20-6",
+        "24-6",
+        "30-6"
+      ],
+      "sha256": "4adb35cfff6f7cf4bec7779b3b0c69420c199a5b0787dbacf459214ac930d1de",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -287,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-4",
+      "path": "assets/pets/monkey-horse/AoyiBuff-04.png",
+      "frame": 4,
+      "stateIds": [
+        "20-7",
+        "24-7",
+        "30-7"
+      ],
+      "sha256": "4adb35cfff6f7cf4bec7779b3b0c69420c199a5b0787dbacf459214ac930d1de",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -287,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-5",
+      "path": "assets/pets/monkey-horse/AoyiBuff-05.png",
+      "frame": 5,
+      "stateIds": [
+        "20-8",
+        "24-8",
+        "30-8"
+      ],
+      "sha256": "e79650dd92fb6559d9e266983a1c4ac9854e855d91a2dfa002e7f4e5b0c5da6c",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -479,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-6",
+      "path": "assets/pets/monkey-horse/AoyiBuff-06.png",
+      "frame": 6,
+      "stateIds": [
+        "20-9",
+        "24-9",
+        "30-9"
+      ],
+      "sha256": "e79650dd92fb6559d9e266983a1c4ac9854e855d91a2dfa002e7f4e5b0c5da6c",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -479,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-7",
+      "path": "assets/pets/monkey-horse/AoyiBuff-07.png",
+      "frame": 7,
+      "stateIds": [
+        "20-10",
+        "24-10",
+        "30-10"
+      ],
+      "sha256": "b7395504787e7228a2bbe298f16c68bc9d5d5ec4989b3a555614aba74904ee67",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -671,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-8",
+      "path": "assets/pets/monkey-horse/AoyiBuff-08.png",
+      "frame": 8,
+      "stateIds": [
+        "20-11",
+        "24-11",
+        "30-11"
+      ],
+      "sha256": "b7395504787e7228a2bbe298f16c68bc9d5d5ec4989b3a555614aba74904ee67",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -671,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-9",
+      "path": "assets/pets/monkey-horse/AoyiBuff-09.png",
+      "frame": 9,
+      "stateIds": [
+        "20-12",
+        "24-12",
+        "30-12"
+      ],
+      "sha256": "b7395504787e7228a2bbe298f16c68bc9d5d5ec4989b3a555614aba74904ee67",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -671,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-10",
+      "path": "assets/pets/monkey-horse/AoyiBuff-10.png",
+      "frame": 10,
+      "stateIds": [
+        "20-0",
+        "24-0",
+        "30-0"
+      ],
+      "sha256": "62a41e48c9d7ac4e5490cc83d9604552e8024aee7889d3baeffd5bb624fede10",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -863,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-11",
+      "path": "assets/pets/monkey-horse/AoyiBuff-11.png",
+      "frame": 11,
+      "stateIds": [
+        "20-1",
+        "24-1",
+        "30-1"
+      ],
+      "sha256": "62a41e48c9d7ac4e5490cc83d9604552e8024aee7889d3baeffd5bb624fede10",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -863,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-12",
+      "path": "assets/pets/monkey-horse/AoyiBuff-12.png",
+      "frame": 12,
+      "stateIds": [
+        "20-2",
+        "24-2",
+        "30-2"
+      ],
+      "sha256": "62a41e48c9d7ac4e5490cc83d9604552e8024aee7889d3baeffd5bb624fede10",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -863,
+        "top": -102,
+        "width": 960,
+        "height": 384
+      }
+    },
+    {
+      "kind": "image",
+      "key": "pet-horse-aoyi-buff-13",
+      "path": "assets/pets/monkey-horse/AoyiBuff-13.png",
+      "frame": 13,
+      "stateIds": [
+        "20-3",
+        "24-3",
+        "30-3"
+      ],
+      "sha256": "e608f3ecfec48faaa3f6c12b9d9c493019a3d0167bb08e53d39b4cfc8dec7ed4",
+      "width": 960,
+      "height": 384,
+      "crop": {
+        "left": -95,
+        "top": -294,
+        "width": 960,
+        "height": 384
+      }
+    }
+  ]
+}

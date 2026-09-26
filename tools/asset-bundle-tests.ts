@@ -51,6 +51,15 @@ const requiredBundles = [
 ] as const;
 
 for (const bundleId of requiredBundles) assert.ok(sceneAssetBundles[bundleId]);
+// Native manifests store public-relative file paths; runtime URLs must retain
+// the same resource when the document lives below a nested diagnostic route.
+for (const asset of sceneAssetBundles['pet-monkey-horse'].assets) {
+  const root = new URL(asset.path, 'https://game.example/index.html');
+  const nested = new URL(asset.path, 'https://game.example/__turtle_combat/index.html');
+  assert.equal(nested.pathname, root.pathname, `${asset.key}: document-relative asset URL`);
+  assert.ok(root.pathname.startsWith('/assets/'), asset.key);
+  assert.ok(readFileSync(path.join(repoRoot, 'public', root.pathname)).length > 0, asset.key);
+}
 assert.equal(sceneAssetBundles.shell.assets.length, 3);
 assert.equal(sceneAssetBundles.shell.dependencies.length, 0);
 assert.equal(sceneBundleBySceneKey.SaveSlotScene, 'shell');

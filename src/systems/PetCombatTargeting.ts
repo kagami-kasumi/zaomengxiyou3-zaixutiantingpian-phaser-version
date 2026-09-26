@@ -16,11 +16,12 @@ export class PetCombatTargeting {
     origin: PetCombatPoint,
     orderedTargets: readonly PetSkillTarget[],
     searchRange: number,
+    includeDead = false,
   ): Readonly<PetSkillTarget> | undefined {
     if (!Number.isFinite(searchRange) || searchRange < 0) {
       throw new Error(`Pet combat search range must be finite and non-negative: ${searchRange}`);
     }
-    return this.livingTargets(orderedTargets)
+    return (includeDead ? orderedTargets : this.livingTargets(orderedTargets))
       .find((target) => this.distance(origin, target) <= searchRange);
   }
 

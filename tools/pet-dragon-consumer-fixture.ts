@@ -58,7 +58,13 @@ for(const form of forms) for(const stage of levels ?? ['formal','TestScene']) fo
   const update=new Function('model','petRosters','petCombatRuntimes','petCombatSnapshots','pendingPetDamageEvents',
     'pendingPetAnimationEvents','scene','petProjectileCombat','petDragonPresentation','isPetDragonQaEnabled','petTurtle',closure+'\nreturn updatePets;')(
       model,rosters,runtimes,snapshots,{p1:[],p2:[]},{p1:[],p2:[]},{game:{loop:{targetFps:24}}},
-      (input:any)=>createPetProjectileCombatPort({...input,mask:()=>({width:67,height:53,alpha})}),presentation,()=>false,{readyRoster:(roster:any)=>roster,update(){}});
+      Object.assign((input:any)=>createPetProjectileCombatPort({...input,mask:()=>({width:67,height:53,alpha})}), {
+        readyRoster(roster:any) {
+          // Dragon fixtures must not bypass monkey/horse asset readiness.
+          assert.ok(roster.pets.every((pet:any)=>!pet.isActive||pet.species==='dragon'));
+          return roster;
+        },
+      }),presentation,()=>false,{readyRoster:(roster:any)=>roster,update(){}});
   let tick=0;
   const step=()=>{
     tick++;

@@ -1,4 +1,5 @@
 import type { MovementPlatform } from './HeroMovementSystem';
+import { stepMonsterPetTargetEffects } from './MonsterPetTargetEffectSystem';
 import {
   createStage1CombatEnemy,
   updateStage1Enemy,
@@ -37,6 +38,7 @@ export type MonsterRuntimeEvent =
   | Readonly<{ type: 'cleared' }>;
 
 export type MonsterRuntimeFrame = Readonly<{
+  hostFps?: number;
   targets: readonly Readonly<{ slot: 'p1' | 'p2'; x: number; alive: boolean }>[];
   platforms: readonly MovementPlatform[];
   deltaMs: number;
@@ -94,6 +96,7 @@ export function updateMonsterRuntimeRegistry(
   for (const runtime of registry.monsters.values()) {
     updateMonsterPhysics(runtime.physics, runtime.combat.x, frame.platforms, frame.deltaMs);
     runtime.combat.y = runtime.physics.y;
+    stepMonsterPetTargetEffects(runtime.combat, frame.deltaMs, frame.hostFps);
     updateStage1Enemy({ enemy: runtime.combat, targets: frame.targets, deltaMs: frame.deltaMs });
   }
   return collectDefeatEvents(registry);

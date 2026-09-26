@@ -270,7 +270,7 @@ testPetMonkey3XjSpawnsProjectileAndDamagesMonster30();
 testPetMonkey3LjRequiresLearnedSkillMpTriggerCooldownAndTarget();
 testPetMonkey3LjSpawnsProjectileAndDamagesMonster30();
 testPetMonkey4JgaoyiRequiresLearnedSkillMpCooldownAndTarget();
-testPetMonkey4JgaoyiSpawnsHit5FeedbackWithoutDirectDamage();
+testPetMonkey4JgaoyiPreparesBodyActionWithoutProjectile();
 testPetHorse1SpRequiresLearnedSkillMpDistanceCooldownAndTarget();
 testPetHorse1SpSpawnsProjectileDamagesAndIcesMonster30();
 testPetHorse1SpCombinesWithFsnlAndSxkb();
@@ -1912,10 +1912,10 @@ function testPetMonkey1XjSpawnsProjectileAndDamagesMonster30(): void {
   assert.equal(projectile.variant, 'pet-monkey1-xj');
   assert.equal(projectile.sourceId, pet.id);
   assert.equal(projectile.runtimeName, 'PetMonkey1Bullet2');
-  assert.equal(rectanglesIntersect(
-    getProjectileHitbox(projectile),
-    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
-  ), true);
+  // PetMonkey1.doHit2 births relative to the pet, not at the selected target.
+  // Native Runtime collision/damage is covered by pet-monkey-skill-projectile-tests.
+  assert.deepEqual([projectile.x, projectile.y], [45, -80]);
+  assert.equal(monster.hp, monster.maxHp);
 
   assert.equal(applyMonster30Hit(monster, projectile.damage), true);
   assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.monkey1XjDamageMultiplier);
@@ -1999,17 +1999,18 @@ function testPetMonkey2LjSpawnsProjectileAndDamagesMonster30(): void {
   assert.equal(result.mpAfter, mpBefore - PetTuning.monkey2LjMpCost);
   assert.equal(pet.mp, mpBefore - PetTuning.monkey2LjMpCost);
   assertNearlyEqual(result.damage ?? 0, pet.atk * PetTuning.monkey2LjDamageMultiplier);
-  assert.equal(getActiveProjectiles(projectiles).length, 1);
+  assert.equal(getActiveProjectiles(projectiles).length, 2);
 
-  const projectile = getActiveProjectiles(projectiles)[0];
+  const [prelude, projectile] = getActiveProjectiles(projectiles);
+  assert.ok(prelude);
+  assert.equal(prelude.runtimeName, 'PetMonkey2Bullet2_1');
+  assert.equal(prelude.visualOnly, true);
   assert.ok(projectile);
   assert.equal(projectile.variant, 'pet-monkey2-lj');
   assert.equal(projectile.sourceId, pet.id);
-  assert.equal(projectile.runtimeName, 'PetMonkey2Bullet2');
-  assert.equal(rectanglesIntersect(
-    getProjectileHitbox(projectile),
-    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
-  ), true);
+  assert.equal(projectile.runtimeName, 'PetMonkey2Bullet2_2');
+  assert.deepEqual([projectile.x, projectile.y], [0, 0]);
+  assert.equal(monster.hp, monster.maxHp);
 
   assert.equal(applyMonster30Hit(monster, projectile.damage), true);
   assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.monkey2LjDamageMultiplier);
@@ -2124,10 +2125,8 @@ function testPetMonkey2XjSpawnsProjectileAndDamagesMonster30(): void {
   assert.equal(projectile.sourceId, pet.id);
   assert.equal(projectile.actionName, 'hit3');
   assert.equal(projectile.runtimeName, 'PetMonkey1Bullet2');
-  assert.equal(rectanglesIntersect(
-    getProjectileHitbox(projectile),
-    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
-  ), true);
+  assert.deepEqual([projectile.x, projectile.y], [45, -70]);
+  assert.equal(monster.hp, monster.maxHp);
 
   assert.equal(applyMonster30Hit(monster, projectile.damage), true);
   assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.monkey2XjDamageMultiplier);
@@ -2242,10 +2241,8 @@ function testPetMonkey3LyqSpawnsProjectileAndDamagesMonster30(): void {
   assert.equal(projectile.sourceId, pet.id);
   assert.equal(projectile.actionName, 'hit2');
   assert.equal(projectile.runtimeName, 'PetMonkey3Bullet2');
-  assert.equal(rectanglesIntersect(
-    getProjectileHitbox(projectile),
-    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
-  ), true);
+  assert.deepEqual([projectile.x, projectile.y], [35, -60]);
+  assert.equal(monster.hp, monster.maxHp);
 
   assert.equal(applyMonster30Hit(monster, projectile.damage), true);
   assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.monkey3LyqDamageMultiplier);
@@ -2420,6 +2417,8 @@ function testPetMonkey3XjSpawnsProjectileAndDamagesMonster30(): void {
   const monster = createMonster30(100, 0, 'm30-pet-m3-xj-hit');
   const projectiles = createProjectileSystem();
   const mpBefore = pet.mp;
+  // Seed LJ's flag only to prove XJ clears it; XJ does not require this trigger.
+  markActivePetSkillTriggered(roster);
 
   const result = requestPetMonkey3XjSkill({
     roster,
@@ -2441,13 +2440,12 @@ function testPetMonkey3XjSpawnsProjectileAndDamagesMonster30(): void {
   assert.equal(projectile.sourceId, pet.id);
   assert.equal(projectile.actionName, 'hit3');
   assert.equal(projectile.runtimeName, 'PetMonkey1Bullet2');
-  assert.equal(rectanglesIntersect(
-    getProjectileHitbox(projectile),
-    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
-  ), true);
+  assert.deepEqual([projectile.x, projectile.y], [45, -50]);
+  assert.equal(monster.hp, monster.maxHp);
 
   assert.equal(applyMonster30Hit(monster, projectile.damage), true);
   assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.monkey3XjDamageMultiplier);
+  assert.equal(pet.skillState?.monkey3Lj.releaseReady, false);
   assert.equal(pet.skillState?.monkey3Xj.cooldownMs, PetTuning.monkey3XjCooldownMs);
 }
 
@@ -2508,7 +2506,8 @@ function testPetMonkey3LjRequiresLearnedSkillMpTriggerCooldownAndTarget(): void 
     projectiles,
   });
   assert.equal(result.ok, true);
-  assert.equal(pet.skillState?.monkey3Lj.releaseReady, false);
+  // Original doHit4 does not clear skill3Release; doHit3 (XJ) clears it.
+  assert.equal(pet.skillState?.monkey3Lj.releaseReady, true);
   assert.equal(pet.skillState?.monkey3Lj.cooldownMs, PetTuning.monkey3LjCooldownMs);
 
   markActivePetSkillTriggered(roster);
@@ -2551,22 +2550,24 @@ function testPetMonkey3LjSpawnsProjectileAndDamagesMonster30(): void {
   assert.equal(result.mpAfter, mpBefore - PetTuning.monkey3LjMpCost);
   assert.equal(pet.mp, mpBefore - PetTuning.monkey3LjMpCost);
   assertNearlyEqual(result.damage ?? 0, pet.atk * PetTuning.monkey3LjDamageMultiplier);
-  assert.equal(getActiveProjectiles(projectiles).length, 1);
+  assert.equal(getActiveProjectiles(projectiles).length, 2);
 
-  const projectile = getActiveProjectiles(projectiles)[0];
+  const [prelude, projectile] = getActiveProjectiles(projectiles);
+  assert.ok(prelude);
+  assert.equal(prelude.runtimeName, 'PetMonkey3Bullet3_1');
+  assert.equal(prelude.visualOnly, true);
   assert.ok(projectile);
   assert.equal(projectile.variant, 'pet-monkey3-lj');
   assert.equal(projectile.sourceId, pet.id);
   assert.equal(projectile.actionName, 'hit4');
   assert.equal(projectile.runtimeName, 'PetMonkey3Bullet3_2');
-  assert.equal(rectanglesIntersect(
-    getProjectileHitbox(projectile),
-    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
-  ), true);
+  assert.deepEqual([projectile.x, projectile.y], [10, -15]);
+  assert.equal(monster.hp, monster.maxHp);
 
   assert.equal(applyMonster30Hit(monster, projectile.damage), true);
   assertNearlyEqual(monster.hp, monster.maxHp - pet.atk * PetTuning.monkey3LjDamageMultiplier);
-  assert.equal(pet.skillState?.monkey3Lj.releaseReady, false);
+  // Original doHit4 does not clear skill3Release; doHit3 (XJ) clears it.
+  assert.equal(pet.skillState?.monkey3Lj.releaseReady, true);
   assert.equal(pet.skillState?.monkey3Lj.cooldownMs, PetTuning.monkey3LjCooldownMs);
 }
 
@@ -2636,7 +2637,7 @@ function testPetMonkey4JgaoyiRequiresLearnedSkillMpCooldownAndTarget(): void {
   assert.equal(result.ok, true);
 }
 
-function testPetMonkey4JgaoyiSpawnsHit5FeedbackWithoutDirectDamage(): void {
+function testPetMonkey4JgaoyiPreparesBodyActionWithoutProjectile(): void {
   const roster = createSeedPetRoster();
   const pet = deploySeedMonkey4(roster);
   pet.critBonusRate = 1;
@@ -2656,23 +2657,12 @@ function testPetMonkey4JgaoyiSpawnsHit5FeedbackWithoutDirectDamage(): void {
   assert.equal(result.mpBefore, mpBefore);
   assert.equal(result.mpAfter, mpBefore - PetTuning.monkey4JgaoyiMpCost);
   assert.equal(pet.mp, mpBefore - PetTuning.monkey4JgaoyiMpCost);
-  assert.equal(result.damage, PetTuning.monkey4JgaoyiHit5Damage);
-  assert.equal(getActiveProjectiles(projectiles).length, 1);
-
-  const projectile = getActiveProjectiles(projectiles)[0];
-  assert.ok(projectile);
-  assert.equal(projectile.variant, 'pet-monkey4-jgaoyi');
-  assert.equal(projectile.sourceId, pet.id);
-  assert.equal(projectile.actionName, 'hit5');
-  assert.equal(projectile.runtimeName, 'PetMonkeyBmd4Hit5');
-  assert.equal(projectile.damage, 0);
-  assert.equal(rectanglesIntersect(
-    getProjectileHitbox(projectile),
-    { x: monster.x - 36, y: monster.y - 28, width: 72, height: 56 },
-  ), true);
-
-  assert.equal(applyMonster30Hit(monster, projectile.damage), true);
-  assertNearlyEqual(monster.hp, monster.maxHp);
+  // Original releSkill4 selects body hit5; it does not create a hit5 projectile.
+  // The repeated body/target chain is verified by the actual Runtime Aoyi tests.
+  assert.equal(result.damage, undefined);
+  assert.equal(result.projectile, undefined);
+  assert.equal(getActiveProjectiles(projectiles).length, 0);
+  assert.equal(monster.hp, monster.maxHp);
   assert.equal(pet.skillState?.monkey4Jgaoyi.cooldownMs, PetTuning.monkey4JgaoyiCooldownMs);
 }
 

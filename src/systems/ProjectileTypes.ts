@@ -1,4 +1,5 @@
 import type { AttackKind } from './CombatSystem';
+import type { PetTargetEffectInput } from './PetTargetEffectPayload';
 
 export type ProjectileSourceState = 'ready' | 'hurt' | 'dead';
 
@@ -15,6 +16,7 @@ export type ProjectileSpawnPoint = {
 };
 
 export type ProjectileModel = {
+  petTargetEffects?: readonly PetTargetEffectInput[];
   id: number;
   projectileId: string;
   variant: ProjectileVariant;
@@ -54,6 +56,12 @@ export type ProjectileModel = {
   petActionToken?: number;
   /** Advanced by the source entity's host clock, never by the render-frame loop. */
   petHostTick?: number;
+  /** Read-only natural clip phase. Its world display clock continues during ordinary pause. */
+  petNativeFrame?: () => number;
+  /** Canonical observed recursive display phase; not the paused combat age. */
+  petNativePhaseTick?: () => number;
+  /** Native effect root sign; independent of the immutable attack direction. */
+  petRenderDirection?: -1 | 1;
   petEffectScale?: 1 | 2;
   petHealOnHit?: number;
   petComboTags?: string[];

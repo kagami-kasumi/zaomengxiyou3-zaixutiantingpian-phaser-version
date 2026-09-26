@@ -70,6 +70,7 @@ export type PetBehaviorContext = Readonly<{
   runtime: Readonly<PetRuntimeModel>;
   targets: readonly Readonly<PetSkillTarget>[];
   target?: Readonly<PetSkillTarget>;
+  selectTarget: (target: Readonly<PetSkillTarget>) => void;
   actionToken: number;
   parentRuntimeKey?: string;
   sourcePetId: string;
@@ -85,7 +86,7 @@ export type PetBehaviorContext = Readonly<{
   random: () => number;
   castSkill: (request: PetBehaviorSkillRequest) => PetSkillCastResult;
   castSkillAt: (request: PetBehaviorSkillRequest, target: Readonly<PetSkillTarget>) => PetSkillCastResult;
-  castBasicAttack: () => PetSkillCastResult;
+  castBasicAttack: (target?: Readonly<PetSkillTarget>) => PetSkillCastResult;
   relocate: (x: number, y: number) => void;
   face: (direction: -1 | 1) => void;
   setRootScaleX: (sign: -1 | 1) => void;
@@ -105,6 +106,12 @@ export type PetBehaviorContext = Readonly<{
 }>;
 
 export interface PetBehavior {
+  /** Advance the shared session algorithm only at source host-tick boundaries. */
+  readonly usesHostTicks?: boolean;
+  /** Verified retained-dead source loop: existing effects/CD/physics still step; AI does not. */
+  readonly stepsWhileDying?: boolean;
+  /** BasePet searches the supplied opponent array before checking death on the next tick. */
+  readonly searchIncludesDead?: boolean;
   beforeActions?(context: PetBehaviorContext): void;
   afterChildren?(context: PetBehaviorContext): void;
   createAnimationClock?(): PetAnimationClock;

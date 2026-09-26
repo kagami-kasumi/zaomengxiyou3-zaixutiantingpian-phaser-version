@@ -1,0 +1,40 @@
+{
+  "symbol": "PetHorse4Bullet5",
+  "explosionSymbol": "PetHorse4Bullet5Explode",
+  "explosionLastTick": 30,
+  "attack": {
+    "maxHits": 1,
+    "interval": 20,
+    "knockback": [
+      0,
+      0
+    ]
+  },
+  "explosionAttack": {
+    "maxHits": 99,
+    "interval": 8,
+    "knockback": [
+      0,
+      0
+    ]
+  },
+  "ttlSeconds": 10.0,
+  "distance": 2000.0,
+  "startY": 50.0,
+  "spacing": 90.0,
+  "speed": [
+    0.0,
+    1.0
+  ],
+  "acceleration": [
+    0.0,
+    1.0
+  ],
+  "horizontalTrackingSpeed": 0.0,
+  "targetYOffset": 31.0,
+  "trackingSpeed": 9.0,
+  "maxDownwardSpeed": 35.0,
+  "sourceSha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599",
+  "motionSourceSha256": "75bd3d79c9dd683a3a3278133e967946df78cbba1eddb82e6bb8ed85fb7a14d0",
+  "explosionLifecycleSha256": "af10c57d0acee61b2c6e1f22c926ec1acb7ec3e5a53fb162b2853c52a01b069d"
+}

@@ -1,3 +1,6 @@
+import { syncMonsterPetFireView, destroyMonsterPetFireView } from '../MonsterPetFireView';
+import { consumeMonsterPetBodyDelta } from '../../systems/MonsterPetTargetEffectSystem';
+import { syncMonsterPetIceView, destroyMonsterPetIceView } from '../MonsterPetIceView';
 import Phaser from 'phaser';
 import {
   monster16Atlas,
@@ -41,6 +44,7 @@ type Monster16AttackView = {
 
 export type Monster16View = {
   sprite: Phaser.GameObjects.Sprite;
+  ice?: Phaser.GameObjects.Image;
   visual: Monster16VisualModel;
   attacks: Monster16AttackView[];
   geometry: Monster16AttackGeometryRegistry;
@@ -118,13 +122,15 @@ export function updateMonster16View(
   deltaMs: number,
 ): boolean {
   const moving = combat.phase === 'approach' && Math.abs(combat.x - view.lastX) > 0.001;
+  syncMonsterPetFireView(scene, view, combat);
+  syncMonsterPetIceView(scene, view, combat, combat.enemyType);
   const events = updateMonster16Visual(view.visual, {
     phase: combat.phase,
     attackSerial: combat.attackSerial,
     attackAction: combat.activeAttack?.actionName,
     facingX: combat.facingX,
     moving,
-  }, deltaMs);
+  }, consumeMonsterPetBodyDelta(combat.petTargetEffectState, Monster16VisualTickMs, deltaMs));
   view.lastX = combat.x;
   view.sprite
     .setPosition(combat.x, combat.y)
@@ -149,6 +155,8 @@ export function updateMonster16View(
 }
 
 export function destroyMonster16View(view: Monster16View): void {
+  destroyMonsterPetFireView(view);
+  destroyMonsterPetIceView(view);
   view.sprite.destroy();
   for (const attack of view.attacks) attack.image.destroy();
   view.attacks.length = 0;

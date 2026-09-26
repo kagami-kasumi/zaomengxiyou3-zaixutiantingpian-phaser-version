@@ -1,5 +1,13 @@
 import { petDragonBundleAssets } from './PetDragonAnimationAssets';
 import { petTurtleBundleAssets } from './PetTurtleAssetCatalog';
+import { monkeyHorseCollisionAsset } from './PetMonkeyHorseCollisionPackage';
+import { petHorseIceAsset } from './PetHorseIceAsset';
+import petMonkeyTargetFire from './pet-monkey-target-fire.json';
+import petHorseAoyiBuff from './pet-horse-aoyi-buff.json';
+import petHorseFallingDisplay from './pet-horse-falling-display.json';
+import petHorseSpDisplay from './pet-horse-sp-native-display.json';
+import petMonkeyNativeDisplay from './pet-monkey-native-display.json';
+import petHorseNativeDisplay from './pet-horse-native-display.json';
 import {
   combatHudAssets,
   craftingAssets,
@@ -92,6 +100,7 @@ export type AssetBundleId =
   | 'pet-combat-hud-heads'
   | 'combat-common'
   | 'pet-turtle'
+  | 'pet-monkey-horse'
   | 'combat-hero-1'
   | 'combat-hero-2'
   | 'combat-hero-3'
@@ -135,7 +144,7 @@ type FrameSequenceAsset = Readonly<{
 const image = (asset: SingleAsset): BundleAssetDefinition => ({
   kind: 'image',
   key: asset.key,
-  path: asset.path,
+  path: asset.path.startsWith('assets/') ? `/${asset.path}` : asset.path,
 });
 
 const svg = (asset: SingleAsset): BundleAssetDefinition => ({
@@ -394,6 +403,15 @@ const stage22BundleAssets = [
 ];
 
 export const sceneAssetBundles = {
+  'pet-monkey-horse': {
+    dependencies: [],
+    assets: [monkeyHorseCollisionAsset, image(petHorseIceAsset), ...petMonkeyTargetFire.frames.map(image),
+      ...petHorseAoyiBuff.frames.map(image), ...petHorseFallingDisplay.frames.map(image), ...petHorseSpDisplay.frames.map(image),
+      ...Object.values(petMonkeyNativeDisplay.clips).flatMap(clip => clip.frames.map(image)),
+      ...Object.entries(petHorseNativeDisplay.clips)
+        .filter(([symbol]) => !['PetHorse3Bullet3', 'PetHorse4Bullet5'].includes(symbol))
+        .flatMap(([, clip]) => clip.frames.map(image))],
+  },
   'pet-turtle': {
     dependencies: [],
     assets: petTurtleBundleAssets,

@@ -1,3 +1,4 @@
+import { initializeMonsterPetTargetEffects, isMonsterPetIceActive } from './MonsterPetTargetEffectSystem';
 import {
   createDamageEvent,
   createHitRegistry,
@@ -95,6 +96,7 @@ export type Stage1CombatPlayer = {
 };
 
 export type Stage1CombatEnemy = {
+  petTargetEffectState?: import('./MonsterPetTargetEffectSystem').MonsterPetTargetEffectState;
   id: string;
   enemyType: Stage1EnemyType;
   x: number;
@@ -225,7 +227,7 @@ export function createStage1CombatEnemy(params: {
   y: number;
 }): Stage1CombatEnemy {
   const config = getStage1EnemyConfig(params.enemyType);
-  return {
+  const enemy: Stage1CombatEnemy = {
     ...params,
     hp: config.maxHp,
     maxHp: config.maxHp,
@@ -234,6 +236,8 @@ export function createStage1CombatEnemy(params: {
     facingX: -1,
     attackSerial: 0,
   };
+  initializeMonsterPetTargetEffects(enemy);
+  return enemy;
 }
 
 export function updateStage1CombatPlayer(params: {
@@ -263,6 +267,7 @@ export function updateStage1Enemy(params: {
 }): void {
   const { enemy: model, targets } = params;
   if (model.phase === 'dead') return;
+  if (isMonsterPetIceActive(model)) return;
 
   if (model.phase !== 'approach') {
     model.phaseRemainingMs = Math.max(0, model.phaseRemainingMs - Math.max(0, params.deltaMs));
@@ -490,12 +495,15 @@ export function resolveStage1PetHit(params: Readonly<{
     protected: boolean;
     dodgeProbability: number;
     random: () => number;
+    applyEffects?: () => void;
   }>;
 }>): DamageEvent | undefined {
   if (params.enemy.phase === 'dead') return undefined;
   if (params.sourceBullet?.protected) return undefined;
   if (!resolveHitOnce(params.runtime.hitRegistry, params.attackId, params.enemy.id)) return undefined;
   if (params.sourceBullet && params.sourceBullet.random() <= params.sourceBullet.dodgeProbability) return undefined;
+  params.enemy.lastHitBy = params.ownerSlot;
+  params.sourceBullet?.applyEffects?.();
   const hpBefore = params.enemy.hp;
   const amount = Math.min(hpBefore, params.sourceBullet
     ? params.attackKind === 'magic'

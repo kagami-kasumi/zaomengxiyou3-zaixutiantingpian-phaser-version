@@ -11,6 +11,13 @@ export type PetGroundMovementDefinition = Readonly<{
   attackRate: number;
   attackActions: readonly string[];
   immobileGroundActions: readonly string[];
+  initialVelocity?: Readonly<{ x: number; y: number }>;
+  initialFacingX?: -1 | 1;
+  speed?: number;
+  gxpSpeed?: number;
+  hurtActions?: readonly string[];
+  intelligenceBlockedActions?: readonly string[];
+  suppressMoveActions?: readonly string[];
   speedByAction?: Readonly<Record<string, number>>;
   enterVelocityByAction?: Readonly<Record<string, Readonly<{ x: number; y: number }>>>;
 }>;
@@ -21,7 +28,10 @@ export class PetGroundSessionMovement {
   private velocity = { velocityX: 0, velocityY: 0, direction: 0 as -1 | 0 | 1,
     standingOn: undefined as string | undefined };
 
-  constructor(private readonly runtime: PetRuntimeModel, readonly definition: PetGroundMovementDefinition) {}
+  constructor(private readonly runtime: PetRuntimeModel, readonly definition: PetGroundMovementDefinition) {
+    this.velocity.velocityX = definition.initialVelocity?.x ?? 0;
+    this.velocity.velocityY = definition.initialVelocity?.y ?? 0;
+  }
 
   snapshot(): Readonly<PetGroundMotion> { return Object.freeze({ ...this.runtime, ...this.velocity }); }
 
@@ -56,6 +66,10 @@ export class PetGroundSessionMovement {
     return action !== undefined && this.definition.attackActions.includes(action);
   }
 
+  isHurt(action: string | undefined): boolean {
+    return action !== undefined && (this.definition.hurtActions?.includes(action) ?? action === 'hurt');
+  }
+
   applyEnterVelocity(action: string | undefined): void {
     const velocity = this.definition.enterVelocityByAction?.[action ?? ''];
     if (velocity) {
@@ -87,7 +101,7 @@ export class PetGroundSessionMovement {
     this.recoil = { initialX: value.x * 2, elapsedMs: 0 };
   }
 
-  step(environment: PetGroundEnvironment, speed: number, action: string | undefined, suppressMove = false, deltaMs = 1000 / 24): boolean {
+  step(environment: PetGroundEnvironment, speed: number, action: string | undefined, suppressMove = false, deltaMs = 1000 / 24, isGxp = false): boolean {
     if (this.recoil) {
       const t = Math.min(1, this.recoil.elapsedMs / 400);
       this.velocity.velocityX = this.recoil.initialX * (0.2 + 0.8 * (1 - t) ** 3);
@@ -96,17 +110,18 @@ export class PetGroundSessionMovement {
     }
     const motion = { ...this.runtime, ...this.velocity };
     const result = stepPetGroundMotion(motion, {
-      speed: this.definition.speedByAction?.[action ?? ''] ?? speed,
+      speed: this.definition.speedByAction?.[action ?? '']
+        ?? (isGxp ? this.definition.gxpSpeed : undefined) ?? this.definition.speed ?? speed,
       gravity: this.definition.gravity, collision: this.definition.collision,
-      walls: environment.walls, attacking: this.isAttacking(action), hurt: action === 'hurt',
+      walls: environment.walls, attacking: this.isAttacking(action), hurt: this.isHurt(action),
       mayMoveDuringGroundAttack: action === undefined || !this.definition.immobileGroundActions.includes(action),
-      suppressMove,
+      suppressMove: suppressMove || this.definition.suppressMoveActions?.includes(action ?? ''),
     });
     this.runtime.x = motion.x;
     this.runtime.y = motion.y;
     this.velocity = { velocityX: motion.velocityX, velocityY: motion.velocityY,
       direction: motion.direction, standingOn: motion.standingOn };
-    if (result.landed && !this.isAttacking(action) && action !== 'hurt') {
+    if (result.landed && !this.isAttacking(action) && !this.isHurt(action)) {
       this.runtime.state = motion.direction === 0 ? 'idle' : 'follow';
       return true;
     }

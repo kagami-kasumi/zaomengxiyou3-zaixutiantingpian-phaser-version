@@ -1,0 +1,1002 @@
+{
+  "truthId": "task-slice-226.monkey-pause-display",
+  "clips": {
+    "PetMonkey1Bullet1": {
+      "hostFrameIndices": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        0
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet1-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet1Native-0.png",
+          "sha256": "58f17393c6257b50ed4c8dbfd770dccc1c4d71871e46e0f9e1e4038e3fdd88db",
+          "width": 38,
+          "height": 49,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 38,
+            "height": 49
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet1-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet1Native-1.png",
+          "sha256": "8bc171241845dd3db49212e3975581a8b3b37cc63dc3417628b6d739b933bfe5",
+          "width": 48,
+          "height": 62,
+          "crop": {
+            "left": -11,
+            "top": -9,
+            "width": 48,
+            "height": 62
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet1-native-2",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet1Native-2.png",
+          "sha256": "e2a0f7c65ff25372b1e0b1205716c30226b67feee963f186c10bc24a40fc04d5",
+          "width": 48,
+          "height": 61,
+          "crop": {
+            "left": -11,
+            "top": -10,
+            "width": 48,
+            "height": 61
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet1-native-3",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet1Native-3.png",
+          "sha256": "7e9c339853c24a256268cd091f53f8a1528159b61af3bb60dad3071e53e27701",
+          "width": 45,
+          "height": 60,
+          "crop": {
+            "left": -8,
+            "top": -7,
+            "width": 45,
+            "height": 60
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet1-native-4",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet1Native-4.png",
+          "sha256": "1e786004e6fbaa77cb0ded01dfbc2bf40663d2a2e6760d7755f8477553cf28f7",
+          "width": 42,
+          "height": 60,
+          "crop": {
+            "left": -4,
+            "top": -7,
+            "width": 42,
+            "height": 60
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet1-native-5",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet1Native-5.png",
+          "sha256": "2aa4fa20701cdd6d8d56046069001186b5267e3ee7d0ef618ad2f4a683723e11",
+          "width": 1,
+          "height": 1,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 1,
+            "height": 1
+          }
+        }
+      ]
+    },
+    "PetMonkey1Bullet2": {
+      "hostFrameIndices": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        6,
+        7,
+        7,
+        0
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet2-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet2Native-0.png",
+          "sha256": "ca6860cf16b0a6bfd6f4d9d1c929d8686702085c8c2a250c88e9efe4c2af9601",
+          "width": 132,
+          "height": 132,
+          "crop": {
+            "left": -16,
+            "top": -16,
+            "width": 132,
+            "height": 132
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet2-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet2Native-1.png",
+          "sha256": "bbee3a52bb3e2ce8062c25ac4990258df9bfc3d30e9135b1e6131ed9c42229ed",
+          "width": 132,
+          "height": 132,
+          "crop": {
+            "left": -16,
+            "top": -16,
+            "width": 132,
+            "height": 132
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet2-native-2",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet2Native-2.png",
+          "sha256": "d62f88e23dc5d57f09d54f63dce462b721b4c02f196c1c82cb0c8e9f39c292e2",
+          "width": 132,
+          "height": 132,
+          "crop": {
+            "left": -16,
+            "top": -16,
+            "width": 132,
+            "height": 132
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet2-native-3",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet2Native-3.png",
+          "sha256": "c012e956f44d057ada8eeb897b1dbc0654357b3763d444849032797f12577631",
+          "width": 132,
+          "height": 132,
+          "crop": {
+            "left": -16,
+            "top": -16,
+            "width": 132,
+            "height": 132
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet2-native-4",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet2Native-4.png",
+          "sha256": "bbe2c9927c55d4a0e1fde1a6265ff0588493646404719cddd2d96b864e602bc0",
+          "width": 132,
+          "height": 132,
+          "crop": {
+            "left": -16,
+            "top": -16,
+            "width": 132,
+            "height": 132
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet2-native-5",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet2Native-5.png",
+          "sha256": "d1e04aab5df98fa4bd2167c0a745eed2fe3336f6cd7485898285308f6c4ad1e7",
+          "width": 132,
+          "height": 132,
+          "crop": {
+            "left": -16,
+            "top": -16,
+            "width": 132,
+            "height": 132
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet2-native-6",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet2Native-6.png",
+          "sha256": "00e4370f8daa34cbcaef2a11dc399a91460f7f7eb4c52a6ba55ad079bcb7c426",
+          "width": 132,
+          "height": 132,
+          "crop": {
+            "left": -16,
+            "top": -16,
+            "width": 132,
+            "height": 132
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey1Bullet2-native-7",
+          "path": "assets/pets/monkey-horse/PetMonkey1Bullet2Native-7.png",
+          "sha256": "6cb3eb8e73b2d26202e57292edc56b1125d50ac9d08c1c8c6907c9af2b748adf",
+          "width": 132,
+          "height": 132,
+          "crop": {
+            "left": -16,
+            "top": -16,
+            "width": 132,
+            "height": 132
+          }
+        }
+      ]
+    },
+    "PetMonkey2Bullet1": {
+      "hostFrameIndices": [
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet1-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet1Native-0.png",
+          "sha256": "a23c363e4511f0aaddc70d540132507f55200cab482ad97f86033f2ef5c2da59",
+          "width": 122,
+          "height": 44,
+          "crop": {
+            "left": -15,
+            "top": 3,
+            "width": 122,
+            "height": 44
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet1-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet1Native-1.png",
+          "sha256": "8d3112b1ee5f8899d0728ced84a81891a0aa176ea1471f20071544f7208c36eb",
+          "width": 94,
+          "height": 30,
+          "crop": {
+            "left": -12,
+            "top": 12,
+            "width": 94,
+            "height": 30
+          }
+        }
+      ]
+    },
+    "PetMonkey2Bullet2_1": {
+      "hostFrameIndices": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        0
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet2_1-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet2_1Native-0.png",
+          "sha256": "09dc2953c4647a24a67b3e9f402c2048bdab107675c128da94ecf191cc85b419",
+          "width": 24,
+          "height": 20,
+          "crop": {
+            "left": -1,
+            "top": -4,
+            "width": 24,
+            "height": 20
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet2_1-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet2_1Native-1.png",
+          "sha256": "c18cc79ad978e807379686f3015bd03eb624e0847ff786ff654aee9a63d70196",
+          "width": 36,
+          "height": 26,
+          "crop": {
+            "left": -22,
+            "top": -5,
+            "width": 36,
+            "height": 26
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet2_1-native-2",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet2_1Native-2.png",
+          "sha256": "67699e86461904fb2c450936f53c8c72130174a1102cb8792dd59bdb694a9feb",
+          "width": 57,
+          "height": 40,
+          "crop": {
+            "left": -60,
+            "top": -13,
+            "width": 57,
+            "height": 40
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet2_1-native-3",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet2_1Native-3.png",
+          "sha256": "2aa4fa20701cdd6d8d56046069001186b5267e3ee7d0ef618ad2f4a683723e11",
+          "width": 1,
+          "height": 1,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 1,
+            "height": 1
+          }
+        }
+      ]
+    },
+    "PetMonkey2Bullet2_2": {
+      "hostFrameIndices": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        3,
+        0
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet2_2-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet2_2Native-0.png",
+          "sha256": "1eab6c555096bdffc0810ee976274602bfd5c8af0b257fa78160b987a3b5cc96",
+          "width": 18,
+          "height": 12,
+          "crop": {
+            "left": 0,
+            "top": 5,
+            "width": 18,
+            "height": 12
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet2_2-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet2_2Native-1.png",
+          "sha256": "80456157037d6e5c5fa0433467e822686ae829f6acb6572bc432d7fe5fc78ed4",
+          "width": 23,
+          "height": 20,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 23,
+            "height": 20
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet2_2-native-2",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet2_2Native-2.png",
+          "sha256": "071f807f93dc3aa80f9309fa54dcfd190dbd34a77fa6a44c972a9cecb7b6a933",
+          "width": 36,
+          "height": 25,
+          "crop": {
+            "left": -22,
+            "top": -1,
+            "width": 36,
+            "height": 25
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey2Bullet2_2-native-3",
+          "path": "assets/pets/monkey-horse/PetMonkey2Bullet2_2Native-3.png",
+          "sha256": "e408a1ed41f4ec1d5311ed4f44f088e2c58b367457a6cfc9cb66fe39ca2e6e82",
+          "width": 58,
+          "height": 40,
+          "crop": {
+            "left": -60,
+            "top": -9,
+            "width": 58,
+            "height": 40
+          }
+        }
+      ]
+    },
+    "PetMonkey3Bullet1": {
+      "hostFrameIndices": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        0
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet1-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet1Native-0.png",
+          "sha256": "23c36ecdd0161a80c66cd7381a38e70ac4ee7776d7472e0a34b120489106f3b8",
+          "width": 123,
+          "height": 68,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 123,
+            "height": 68
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet1-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet1Native-1.png",
+          "sha256": "7ef14d4dd33029581eb62a6c43f20e20cfd28fd843eda1000cdc66f1f05a9297",
+          "width": 127,
+          "height": 66,
+          "crop": {
+            "left": -6,
+            "top": -4,
+            "width": 127,
+            "height": 66
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet1-native-2",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet1Native-2.png",
+          "sha256": "5387f5f4a2621d51c537b1ec8d9e591bc62aaf2b7d02de34a82522055bf78c54",
+          "width": 84,
+          "height": 44,
+          "crop": {
+            "left": 24,
+            "top": 12,
+            "width": 84,
+            "height": 44
+          }
+        }
+      ]
+    },
+    "PetMonkey3Bullet2": {
+      "hostFrameIndices": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        8,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        0
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-0.png",
+          "sha256": "c6e362c4932cf07195272c9d8bbedd4945ff4206cfca6da087240a0eaaa3574b",
+          "width": 80,
+          "height": 50,
+          "crop": {
+            "left": -10,
+            "top": 28,
+            "width": 80,
+            "height": 50
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-1.png",
+          "sha256": "a76ee6b242e81c00734a795849b9cb4383e19c6c59bf7ebcf89dc97ff783babb",
+          "width": 96,
+          "height": 50,
+          "crop": {
+            "left": -26,
+            "top": 28,
+            "width": 96,
+            "height": 50
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-2",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-2.png",
+          "sha256": "2ab3f388145feb272d9f5e1ae3d28943303d092ad79fd6c6c8741e5633cf79ad",
+          "width": 111,
+          "height": 50,
+          "crop": {
+            "left": -40,
+            "top": 28,
+            "width": 111,
+            "height": 50
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-3",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-3.png",
+          "sha256": "853f5a2eb31732fd214cef0f046a383663338d8673a050e09f08a942fec7025d",
+          "width": 111,
+          "height": 49,
+          "crop": {
+            "left": -40,
+            "top": 28,
+            "width": 111,
+            "height": 49
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-4",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-4.png",
+          "sha256": "7f718bdf911fe86c7623e0fefbab4259c1461ead0b321eac103fe6758d6bbbf5",
+          "width": 111,
+          "height": 49,
+          "crop": {
+            "left": -40,
+            "top": 28,
+            "width": 111,
+            "height": 49
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-5",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-5.png",
+          "sha256": "01e52e9277a39927ee08ffe7200a6b1657660b0cb62451709237af11fc0f4d26",
+          "width": 111,
+          "height": 49,
+          "crop": {
+            "left": -40,
+            "top": 28,
+            "width": 111,
+            "height": 49
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-6",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-6.png",
+          "sha256": "da7410faebfdef975fddcced5541f74c97232d38799b3727921f85807f49eb4a",
+          "width": 111,
+          "height": 49,
+          "crop": {
+            "left": -40,
+            "top": 28,
+            "width": 111,
+            "height": 49
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-7",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-7.png",
+          "sha256": "37658b547db54e8d2f5e93d3dbf6a6b7960e921efec57292090f8c9abb65191d",
+          "width": 111,
+          "height": 49,
+          "crop": {
+            "left": -40,
+            "top": 28,
+            "width": 111,
+            "height": 49
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-8",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-8.png",
+          "sha256": "5f7d5e848149e9187d16567c76c23a417affb94e8db2733fcc965f7612781681",
+          "width": 114,
+          "height": 52,
+          "crop": {
+            "left": -41,
+            "top": 27,
+            "width": 114,
+            "height": 52
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-9",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-9.png",
+          "sha256": "4c8be28c5cc11e219f13f17a8e5477d780caf362db8cc53e1a94bbc63e67ae81",
+          "width": 238,
+          "height": 174,
+          "crop": {
+            "left": -142,
+            "top": -42,
+            "width": 238,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-10",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-10.png",
+          "sha256": "bb2e8204d5e72c74054595ed3f2e0196e875dfada459a58d6bc03fa56d6b7610",
+          "width": 238,
+          "height": 174,
+          "crop": {
+            "left": -160,
+            "top": -42,
+            "width": 238,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-11",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-11.png",
+          "sha256": "68a77843782d07ae976dbc3f4599bcadde78d0db2a23701fb8d9b4448381cad6",
+          "width": 238,
+          "height": 174,
+          "crop": {
+            "left": -178,
+            "top": -42,
+            "width": 238,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-12",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-12.png",
+          "sha256": "ed5c2b355909cdda2770abd954f71f15587d3b18d2e02a07881af65d310f508d",
+          "width": 238,
+          "height": 174,
+          "crop": {
+            "left": -196,
+            "top": -42,
+            "width": 238,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-13",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-13.png",
+          "sha256": "8c07e87fd0c2c26da2df00a53c56efb0a0520ee62b3e33de3f3d4f0f5b8a6832",
+          "width": 238,
+          "height": 174,
+          "crop": {
+            "left": -214,
+            "top": -42,
+            "width": 238,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-14",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-14.png",
+          "sha256": "3bed75b84f030ce7a975b863ca81270947b6424be4402619d687e94675652bf1",
+          "width": 238,
+          "height": 174,
+          "crop": {
+            "left": -232,
+            "top": -42,
+            "width": 238,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-15",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-15.png",
+          "sha256": "b656d38f853f152e407c955749e531b1a89a617f0762253746b64ef1729ad378",
+          "width": 238,
+          "height": 174,
+          "crop": {
+            "left": -250,
+            "top": -42,
+            "width": 238,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-16",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-16.png",
+          "sha256": "c5e59bfbc387c7416fd534ddc40f0bb0f28e0138efed5b4fc3578038e87d1d96",
+          "width": 238,
+          "height": 174,
+          "crop": {
+            "left": -268,
+            "top": -42,
+            "width": 238,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-17",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-17.png",
+          "sha256": "5d890436731921d0dcce9a2985fed86af2b9aeb84dc0f8495711328b38979158",
+          "width": 239,
+          "height": 174,
+          "crop": {
+            "left": -286,
+            "top": -42,
+            "width": 239,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-18",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-18.png",
+          "sha256": "1061441a4a16b97ffc4284ec964ad4e31dbbaa7e4513a61e81db9bb367eec5b4",
+          "width": 239,
+          "height": 174,
+          "crop": {
+            "left": -286,
+            "top": -42,
+            "width": 239,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-19",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-19.png",
+          "sha256": "cc4e6ea42db8b2402af42b2c6fb49207a006af18d0b05e15b718cc20094fafef",
+          "width": 239,
+          "height": 174,
+          "crop": {
+            "left": -286,
+            "top": -42,
+            "width": 239,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-20",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-20.png",
+          "sha256": "f73bfec2de2e32df0d6692636a03192f3f767d519262abd04bdab686865b5b77",
+          "width": 239,
+          "height": 174,
+          "crop": {
+            "left": -286,
+            "top": -42,
+            "width": 239,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-21",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-21.png",
+          "sha256": "4fc8383a924dbd4be629e8f477caa97b9afd1fe2156881a7d1c4b89dfe2a2dd3",
+          "width": 239,
+          "height": 174,
+          "crop": {
+            "left": -286,
+            "top": -42,
+            "width": 239,
+            "height": 174
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet2-native-22",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet2Native-22.png",
+          "sha256": "db8fef5acd0a97f2cd9c0f2ced73137f73588b41de80dcde5c584945bccdc41b",
+          "width": 239,
+          "height": 174,
+          "crop": {
+            "left": -286,
+            "top": -42,
+            "width": 239,
+            "height": 174
+          }
+        }
+      ]
+    },
+    "PetMonkey3Bullet3_1": {
+      "hostFrameIndices": [
+        0,
+        0,
+        1,
+        2,
+        3,
+        0
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_1-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_1Native-0.png",
+          "sha256": "394499cda0950862bb5da1864e1413cdbef3e2e2c804a5da525e2779aa256b96",
+          "width": 39,
+          "height": 23,
+          "crop": {
+            "left": 12,
+            "top": 0,
+            "width": 39,
+            "height": 23
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_1-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_1Native-1.png",
+          "sha256": "18a7b5812c4fddf84b5a9d2748408fc887c948a8dba2fb46f895b00032743732",
+          "width": 58,
+          "height": 35,
+          "crop": {
+            "left": -36,
+            "top": -7,
+            "width": 58,
+            "height": 35
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_1-native-2",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_1Native-2.png",
+          "sha256": "2fde87896ce9c9e2df8737981d7273be5b84bb9fce60cca9777cbc481b2cb1b5",
+          "width": 102,
+          "height": 59,
+          "crop": {
+            "left": -96,
+            "top": -25,
+            "width": 102,
+            "height": 59
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_1-native-3",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_1Native-3.png",
+          "sha256": "2aa4fa20701cdd6d8d56046069001186b5267e3ee7d0ef618ad2f4a683723e11",
+          "width": 1,
+          "height": 1,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 1,
+            "height": 1
+          }
+        }
+      ]
+    },
+    "PetMonkey3Bullet3_2": {
+      "hostFrameIndices": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        3,
+        4,
+        0
+      ],
+      "frames": [
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_2-native-0",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_2Native-0.png",
+          "sha256": "5831c4a58fb69dfb3e66ff820eb3d13f81e67762bdc6a507f744685845689eb4",
+          "width": 38,
+          "height": 23,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 38,
+            "height": 23
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_2-native-1",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_2Native-1.png",
+          "sha256": "1fa25226c44127b461af2452dc5a734d8d88e6ce51a093032e8158e56bdbbbea",
+          "width": 38,
+          "height": 23,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 38,
+            "height": 23
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_2-native-2",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_2Native-2.png",
+          "sha256": "ad05beb2193a891a31c9ae5d039fa3358e4082bfcdea2fc7b5e20fc396281927",
+          "width": 57,
+          "height": 35,
+          "crop": {
+            "left": -48,
+            "top": -7,
+            "width": 57,
+            "height": 35
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_2-native-3",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_2Native-3.png",
+          "sha256": "b12a2b1867d7f2ce0c99ad545cb1cd1865dbed467742096133c0b566d59a9afb",
+          "width": 101,
+          "height": 59,
+          "crop": {
+            "left": -108,
+            "top": -25,
+            "width": 101,
+            "height": 59
+          }
+        },
+        {
+          "kind": "image",
+          "key": "pet-PetMonkey3Bullet3_2-native-4",
+          "path": "assets/pets/monkey-horse/PetMonkey3Bullet3_2Native-4.png",
+          "sha256": "2aa4fa20701cdd6d8d56046069001186b5267e3ee7d0ef618ad2f4a683723e11",
+          "width": 1,
+          "height": 1,
+          "crop": {
+            "left": 0,
+            "top": 0,
+            "width": 1,
+            "height": 1
+          }
+        }
+      ]
+    }
+  }
+}

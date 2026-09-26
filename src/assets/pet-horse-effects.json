@@ -1,0 +1,237 @@
+{
+  "effects": [
+    {
+      "form": 1,
+      "action": "hit2",
+      "maxHits": 99,
+      "interval": 24,
+      "attackKind": "magic",
+      "knockback": [
+        5,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse1Bullet2",
+          "offsetX": 40.0,
+          "offsetY": -15,
+          "lifetime": 8,
+          "timed": false,
+          "cut": true,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "558fb01aa821fd6eb19bfb683df6452f84ef0dfaf3ae4da5ebc3b1eae6a5fc05"
+    },
+    {
+      "form": 2,
+      "action": "hit2",
+      "maxHits": 99,
+      "interval": 24,
+      "attackKind": "magic",
+      "knockback": [
+        5,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse2Bullet2",
+          "offsetX": 85.0,
+          "offsetY": -95,
+          "lifetime": 45,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "ee5f72352b2af1b12971481d02c855c14e1f2e57e96f108e8ec6ef0e227cd363"
+    },
+    {
+      "form": 2,
+      "action": "hit3",
+      "maxHits": 99,
+      "interval": 21,
+      "attackKind": "magic",
+      "knockback": [
+        3,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse1Bullet2",
+          "offsetX": 60.0,
+          "offsetY": -25,
+          "lifetime": 8,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": false
+        }
+      ],
+      "sourceSha256": "ee5f72352b2af1b12971481d02c855c14e1f2e57e96f108e8ec6ef0e227cd363"
+    },
+    {
+      "form": 3,
+      "action": "hit2",
+      "maxHits": 99,
+      "interval": 24,
+      "attackKind": "magic",
+      "knockback": [
+        5,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse3Bullet2",
+          "offsetX": 70.0,
+          "offsetY": -85,
+          "lifetime": 15,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0"
+    },
+    {
+      "form": 3,
+      "action": "hit3",
+      "maxHits": 99,
+      "interval": 21,
+      "attackKind": "magic",
+      "knockback": [
+        3,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse3Bullet3",
+          "offsetX": 80.0,
+          "offsetY": -45,
+          "lifetime": 8,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": false
+        }
+      ],
+      "sourceSha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0"
+    },
+    {
+      "form": 3,
+      "action": "hit4",
+      "maxHits": 99,
+      "interval": 12,
+      "attackKind": "magic",
+      "knockback": [
+        5,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse3Bullet4",
+          "offsetX": 55.0,
+          "offsetY": -50,
+          "lifetime": 31,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": false
+        }
+      ],
+      "sourceSha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0"
+    },
+    {
+      "form": 4,
+      "action": "hit2",
+      "maxHits": 99,
+      "interval": 24,
+      "attackKind": "magic",
+      "knockback": [
+        5,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse3Bullet2",
+          "offsetX": 70.0,
+          "offsetY": -85,
+          "lifetime": 15,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": true
+        }
+      ],
+      "sourceSha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+    },
+    {
+      "form": 4,
+      "action": "hit3",
+      "maxHits": 99,
+      "interval": 21,
+      "attackKind": "magic",
+      "knockback": [
+        3,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse3Bullet3",
+          "offsetX": 80.0,
+          "offsetY": -45,
+          "lifetime": 8,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": false
+        }
+      ],
+      "sourceSha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+    },
+    {
+      "form": 4,
+      "action": "hit4",
+      "maxHits": 99,
+      "interval": 12,
+      "attackKind": "magic",
+      "knockback": [
+        5,
+        0
+      ],
+      "effects": [
+        {
+          "symbol": "PetHorse3Bullet4",
+          "offsetX": 55.0,
+          "offsetY": -50,
+          "lifetime": 31,
+          "timed": false,
+          "cut": false,
+          "disabled": false,
+          "follows": false
+        }
+      ],
+      "sourceSha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+    }
+  ],
+  "jointMeasurements": [
+    {
+      "fps": 20,
+      "sha256": "ce340c7a54cf62e5ee77184cd7a5c81a9dce97311ab707e22d29b559799ca896",
+      "compiledSha256": "1f9134caea65920633648cf4f4360131ab7ad0ce39be21ae50824710faca92fb"
+    },
+    {
+      "fps": 24,
+      "sha256": "45298c161d90a2771ae6683404584da810acd3387a913ae516a599e615469217",
+      "compiledSha256": "1f9134caea65920633648cf4f4360131ab7ad0ce39be21ae50824710faca92fb"
+    },
+    {
+      "fps": 30,
+      "sha256": "b66094651c22cf69ddbdff87f06ee03eeddf818e52ae6057a07207ab22bfa4ec",
+      "compiledSha256": "1f9134caea65920633648cf4f4360131ab7ad0ce39be21ae50824710faca92fb"
+    }
+  ]
+}

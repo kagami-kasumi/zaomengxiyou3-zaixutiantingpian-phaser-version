@@ -1,4 +1,8 @@
 import horseTruthJson from '../../docs/reverse-engineering/ground-truth/manifests/task-settings-193c-pet-horse-animation.json';
+import aoyiBuff from './pet-horse-aoyi-buff.json';
+import fallingDisplay from './pet-horse-falling-display.json';
+import spDisplay from './pet-horse-sp-native-display.json';
+import nativeDisplay from './pet-horse-native-display.json';
 
 type Bounds = Readonly<{ left: number; top: number; width: number; height: number }>;
 type Placement = Readonly<{
@@ -65,6 +69,7 @@ export type PetHorseEffectUsage = Readonly<{
   depth: number;
   followsPet: boolean;
   fixedDirection: boolean;
+  hostFrameIndices?: readonly number[];
 }>;
 
 export function assertVerifiedPetHorseAnimationTruth(): void {
@@ -220,6 +225,29 @@ export function isPetHorseProjectileAsset(assetKey: string): boolean {
 }
 
 export function getPetHorseEffectUsage(assetKey: string): PetHorseEffectUsage | undefined {
+  if (assetKey === 'pet-skill.horse3.sp' || assetKey === 'pet-skill.horse4.sp') return {
+    objectId: 'horse3-sp', offsetX: 0, offsetY: 0, depth: 47, followsPet: false, fixedDirection: false,
+    hostFrameIndices: spDisplay.hostFrameIndices,
+    asset: { key: assetKey, symbol: spDisplay.symbol, frames: spDisplay.frames.map(frame => ({
+      key: frame.key, path: frame.path,
+      registrationOrigin: { x: -frame.crop.left / frame.width, y: -frame.crop.top / frame.height },
+    })) },
+  };
+  if (assetKey === 'pet-skill.horse4.tmaoyi') return {
+    objectId: 'horse4-tmaoyi-falling', offsetX: 0, offsetY: 0, depth: 47, followsPet: false, fixedDirection: true,
+    hostFrameIndices: fallingDisplay.hostFrameIndices,
+    asset: { key: assetKey, symbol: fallingDisplay.symbol, frames: fallingDisplay.frames.map(frame => ({
+      key: frame.key, path: frame.path,
+      registrationOrigin: { x: -frame.crop.left / frame.width, y: -frame.crop.top / frame.height },
+    })) },
+  };
+  if (assetKey === 'pet-skill.horse4.aoyi-buff') return {
+    objectId: 'horse4-aoyi-buff', offsetX: 0, offsetY: 0, depth: 47, followsPet: false, fixedDirection: true,
+    // Native long-pause captures verify frame 14 is pixel-identical to frame 13.
+    asset: { key: assetKey, symbol: aoyiBuff.symbol, frames: aoyiBuff.nativeFrameRasterIndices.map(index => aoyiBuff.frames[index]!).map(frame => ({
+      key: frame.key, path: frame.path, registrationOrigin: { x: -frame.crop.left / frame.width, y: -frame.crop.top / frame.height },
+    })) },
+  };
   const objectId = projectileObjectIds[assetKey];
   if (!objectId) return undefined;
   const object = requireObject(objectId);
@@ -230,9 +258,14 @@ export function getPetHorseEffectUsage(assetKey: string): PetHorseEffectUsage | 
   if (!placement || !(symbol in petHorseEffectAssets)) {
     throw new Error(`${PetHorseAnimationTruthId} is missing effect geometry for ${objectId}.`);
   }
+  const native = nativeDisplay.clips[symbol as keyof typeof nativeDisplay.clips];
+  if (!native) throw new Error(`Missing native horse display projection ${symbol}`);
   return {
     objectId,
-    asset: petHorseEffectAssets[symbol],
+    asset: { key: assetKey, symbol, frames: native.frames.map(frame => ({ key: frame.key, path: frame.path,
+      registrationOrigin: { x: -frame.crop.left / frame.width, y: -frame.crop.top / frame.height },
+    })) },
+    hostFrameIndices: native.hostFrameIndices,
     offsetX: fixedDirection ? 0 : Math.abs(placement.localMatrix.tx) - placement.registrationPoint.x,
     offsetY: fixedDirection ? 0 : placement.localMatrix.ty + placement.registrationPoint.y,
     depth: objectId.endsWith('explode') ? 48 : 47,

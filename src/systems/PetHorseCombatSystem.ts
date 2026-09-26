@@ -122,9 +122,24 @@ export function requestPetHorseSkill(
     actionToken?: number;
   }>,
 ): PetSkillCastResult {
+  const prepared = preparePetHorseSkill(action, params);
+  if (!prepared.ok) return prepared;
+  return { ...emitPetHorseSkill(action, params), mpBefore: prepared.mpBefore };
+}
+
+export function preparePetHorseSkill(
+  action: HorseSkillAction,
+  params: Readonly<{
+    roster: PetRoster;
+    runtime: PetRuntimeModel;
+    targets: readonly PetSkillTarget[];
+    projectiles: ProjectileSystemModel;
+    random?: PetSkillRandomSource;
+    actionToken?: number;
+  }>,
+): PetSkillCastResult {
   const pet = getActiveHorse(params.roster);
   if (!pet) return failure(params.roster, 'No active horse');
-  const form = pet.form as HorseForm;
   const target = params.targets.find(({ isAlive }) => isAlive);
   if (!target) return failure(params.roster, `${pet.displayName} ${action} has no target`, pet);
   if (!pet.skills.includes(action)) return failure(params.roster, `${pet.displayName} has not learned ${action}`, pet);
@@ -139,6 +154,25 @@ export function requestPetHorseSkill(
   pet.mp -= mpCost;
   setCooldownAndRelease(state, action);
 
+  return success(params.roster, pet, target, undefined, [], 0, mpBefore, action);
+}
+
+export function emitPetHorseSkill(
+  action: HorseSkillAction,
+  params: Readonly<{
+    roster: PetRoster;
+    runtime: PetRuntimeModel;
+    targets: readonly PetSkillTarget[];
+    projectiles: ProjectileSystemModel;
+    random?: PetSkillRandomSource;
+    actionToken?: number;
+  }>,
+): PetSkillCastResult {
+  const pet = getActiveHorse(params.roster);
+  const target = params.targets[0];
+  if (!pet || !target) return failure(params.roster, 'Horse emission requires its source and selected target', pet);
+  const form = pet.form as HorseForm;
+  if (action === 'bd' && pet.skillState) pet.skillState.horse2Bd.releaseReady = false;
   if (action === 'tmaoyi') {
     const projectiles = spawnTmaoyiProjectiles(
       pet,
@@ -148,7 +182,7 @@ export function requestPetHorseSkill(
       params.actionToken ?? 0,
       params.random,
     );
-    return success(params.roster, pet, target, projectiles[0], projectiles, 0, mpBefore, action);
+    return success(params.roster, pet, target, projectiles[0], projectiles, 0, pet.mp, action);
   }
   const roll = calculateHorseDamage(pet, action, params.random);
   const result = spawnAction({
@@ -164,7 +198,7 @@ export function requestPetHorseSkill(
     damage: roll.amount,
     critical: roll.critical,
   });
-  return { ...result, mpBefore, mpAfter: pet.mp };
+  return result;
 }
 
 export function resolveFormalPetHorseProjectileHits(params: Readonly<{
@@ -177,7 +211,7 @@ export function resolveFormalPetHorseProjectileHits(params: Readonly<{
   const events: DamageEvent[] = [];
   const pendingExplosions: ProjectileModel[] = [];
   for (const projectile of params.projectiles.projectiles) {
-    if (!isHorseProjectile(projectile) || projectile.isExpired || projectile.remainingHits <= 0) continue;
+    if (projectile.petHostTick !== undefined || !isHorseProjectile(projectile) || projectile.isExpired || projectile.remainingHits <= 0) continue;
     if (projectile.elapsedMs < (projectile.activeAfterMs ?? 0)) continue;
     const ownerSlot = params.ownerSlotForPet(projectile.sourceId);
     if (!ownerSlot) continue;
@@ -256,7 +290,7 @@ function spawnAction(params: Readonly<{
     hitIntervalFrames: hitIntervalFor(frozen.hit),
     maxHits: 1,
   };
-  const facingX = params.target.x < params.runtime.x ? -1 : 1;
+  const facingX = params.runtime.facingX;
   const projectile = spawnProjectileFromTuning(
     params.projectiles,
     { sourceId: params.pet.id, x: params.runtime.x, y: params.runtime.y, facingX },
@@ -411,7 +445,6 @@ function setCooldownAndRelease(state: NonNullable<PetState['skillState']>, actio
   if (action === 'sp') state.horse1Sp.cooldownMs = 4_000;
   if (action === 'bd') {
     state.horse2Bd.cooldownMs = 2_000;
-    state.horse2Bd.releaseReady = false;
   }
   if (action === 'bz') state.horse3Bz.cooldownMs = 6_000;
   if (action === 'tmaoyi') state.horse4Tmaoyi.cooldownMs = 24_000;

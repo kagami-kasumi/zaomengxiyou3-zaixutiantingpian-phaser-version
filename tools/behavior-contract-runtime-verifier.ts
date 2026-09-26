@@ -191,17 +191,18 @@ export function verifyRangeAttackDamageChain(
     return issues;
   }
 
-  const attack = trace.slice(firstInRange).find((entry) => entry.action === 'basic-attack' && entry.projectileId);
-  if (!attack) {
+  const attack = trace.slice(firstInRange).find((entry) => entry.action === 'basic-attack');
+  const birth = attack && trace.slice(trace.indexOf(attack)).find(entry => entry.projectileId);
+  if (!attack || !birth) {
     issues.push({ code: 'NO_ATTACK', contractId: expected.contractId, message: 'no in-range basic attack projectile' });
     return issues;
   }
-  if (attack.actionToken === undefined || attack.projectileActionToken !== attack.actionToken) {
+  if (attack.actionToken === undefined || birth.projectileActionToken !== attack.actionToken) {
     issues.push({
       code: 'WRONG_ACTION_TOKEN',
       contractId: expected.contractId,
-      message: `projectile action token ${attack.projectileActionToken ?? 'missing'} does not match runtime action token ${attack.actionToken ?? 'missing'}`,
-      frame: attack.frame,
+      message: `projectile action token ${birth.projectileActionToken ?? 'missing'} does not match runtime action token ${attack.actionToken ?? 'missing'}`,
+      frame: birth.frame,
     });
   }
 
@@ -210,7 +211,7 @@ export function verifyRangeAttackDamageChain(
     issues.push({ code: 'NO_HIT', contractId: expected.contractId, message: 'no projectile hit event linked to damage' });
     return issues;
   }
-  if (hit.projectileId !== attack.projectileId || hit.projectileActionToken !== attack.actionToken) {
+  if (hit.projectileId !== birth.projectileId || hit.projectileActionToken !== attack.actionToken) {
     issues.push({
       code: 'WRONG_ACTION_TOKEN',
       contractId: expected.contractId,
@@ -242,7 +243,10 @@ export function verifyRangeAttackDamageChain(
       frame: hit.frame,
     });
   }
-  if (!trace.slice(trace.indexOf(hit)).some(({ cleanupReason }) => cleanupReason === 'hit')) {
+  if (!trace.some((entry, index) => index >= trace.indexOf(hit) && (
+    (entry.cleanupReason === 'hit' && entry.projectileId === hit.projectileId)
+    || (entry.cleanupReason === 'expired' && trace[index - 1]?.projectileId === hit.projectileId)
+  ))) {
     issues.push({ code: 'NO_CLEANUP', contractId: expected.contractId, message: 'hit projectile was not cleaned up' });
   }
   return issues;

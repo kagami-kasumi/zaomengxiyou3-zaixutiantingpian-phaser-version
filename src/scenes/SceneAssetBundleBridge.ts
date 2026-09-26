@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 import { discardIncompleteTurtleAssets, hasTurtleAssets, isTurtleManifest, prepareTurtleAssets } from './PetTurtleAssetBridge';
+import { discardIncompleteMonkeyHorseAssets, hasMonkeyHorseAssets, isMonkeyHorseCollisionAsset,
+  prepareMonkeyHorseAssets } from './PetMonkeyHorseAssetBridge';
 import {
   getSceneAssetBundleId,
   sceneAssetBundles,
@@ -28,7 +30,7 @@ export function queueSceneAssetBundleForPreload(
 ): void {
   const queued = new Set<string>();
   const visit = (id: AssetBundleId): void => {
-    if (id === 'pet-turtle') throw new Error('pet-turtle requires awaited ensureSceneAssetBundle decoding');
+    if (id === 'pet-turtle' || id === 'pet-monkey-horse') throw new Error(`${id} requires awaited ensureSceneAssetBundle decoding`);
     const bundle = sceneAssetBundles[id];
     for (const dependency of bundle.dependencies) visit(dependency);
     for (const asset of bundle.assets) {
@@ -160,6 +162,7 @@ function loadPhaserAssets(
       settled = true;
       cleanup();
       if (error && bundleId === 'pet-turtle') discardIncompleteTurtleAssets(scene);
+      if (error && bundleId === 'pet-monkey-horse') discardIncompleteMonkeyHorseAssets(scene);
       if (error) reject(error);
       else resolve();
     };
@@ -175,6 +178,8 @@ function loadPhaserAssets(
       }
       if (bundleId === 'pet-turtle') {
         void prepareTurtleAssets(scene, () => settled).then(() => settle(), error => settle(error));
+      } else if (bundleId === 'pet-monkey-horse') {
+        void prepareMonkeyHorseAssets(scene, () => settled).then(() => settle(), error => settle(error));
       } else settle();
     };
     const onShutdown = (): void => {
@@ -191,7 +196,8 @@ function loadPhaserAssets(
 
 function hasPhaserAsset(scene: Phaser.Scene, asset: BundleAssetDefinition): boolean {
   if (asset.kind === 'binary') return scene.cache.binary.exists(asset.key)
-    && (!isTurtleManifest(asset.path) || hasTurtleAssets(scene));
+    && (!isTurtleManifest(asset.path) || hasTurtleAssets(scene))
+    && (!isMonkeyHorseCollisionAsset(asset.key) || hasMonkeyHorseAssets(scene));
   return asset.kind === 'text'
     ? scene.cache.text.exists(asset.key)
     : scene.textures.exists(asset.key);

@@ -114,7 +114,7 @@ export function updateMonster30s(this: any, delta: number): void {
     const surviving: Monster30Model[] = [];
 
     for (const monster of this.monster30s) {
-      updateMonster30(monster, targets, delta);
+      updateMonster30(monster, targets, delta, undefined, this.game.loop.targetFps);
       if (monster.hp <= 0) {
         const award = claimMonsterExperienceForCurrentTarget(monster);
         if (award) this.awardMonsterExperience(award.ownerSlot, award.experience);

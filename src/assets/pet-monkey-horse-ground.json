@@ -1,0 +1,601 @@
+{
+  "truthId": "task-slice-226.monkey-horse-ground-colliders",
+  "forms": {
+    "monkey": {
+      "1": {
+        "symbol": "ObjectBaseSprite3",
+        "collision": {
+          "width": 31.1,
+          "height": 30,
+          "registration": {
+            "x": 15.55,
+            "y": 15
+          }
+        },
+        "sourceActions": {
+          "wait": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "walk": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hurt": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hit1": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit2": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "dead": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          }
+        },
+        "movement": {
+          "gravity": 1.5,
+          "jumpPower": -30.0,
+          "speed": 5.0,
+          "gxpSpeed": 10.0,
+          "attackRate": 0.7,
+          "initialVelocity": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "initialFacingX": 1,
+          "intelligenceBlockedActions": [
+            "hurt",
+            "dead"
+          ]
+        }
+      },
+      "2": {
+        "symbol": "ObjectBaseSprite4",
+        "collision": {
+          "width": 35,
+          "height": 70,
+          "registration": {
+            "x": 17.5,
+            "y": 35
+          }
+        },
+        "sourceActions": {
+          "wait": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "walk": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hurt": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hit1": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit2": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit3": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "dead": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          }
+        },
+        "movement": {
+          "gravity": 1.5,
+          "jumpPower": -30.0,
+          "speed": 5.0,
+          "gxpSpeed": 10.0,
+          "attackRate": 0.7,
+          "initialVelocity": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "initialFacingX": 1,
+          "intelligenceBlockedActions": [
+            "hurt",
+            "dead"
+          ]
+        }
+      },
+      "3": {
+        "symbol": "ObjectBaseSprite",
+        "collision": {
+          "width": 50,
+          "height": 100,
+          "registration": {
+            "x": 25,
+            "y": 50
+          }
+        },
+        "sourceActions": {
+          "wait": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "walk": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hurt": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hit1": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit2": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit3": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit4": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "dead": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          }
+        },
+        "movement": {
+          "gravity": 1.5,
+          "jumpPower": -30.0,
+          "speed": 5.0,
+          "gxpSpeed": 10.0,
+          "attackRate": 0.7,
+          "initialVelocity": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "initialFacingX": 1,
+          "intelligenceBlockedActions": [
+            "hurt",
+            "dead"
+          ]
+        }
+      },
+      "4": {
+        "symbol": "ObjectBaseSprite",
+        "collision": {
+          "width": 50,
+          "height": 100,
+          "registration": {
+            "x": 25,
+            "y": 50
+          }
+        },
+        "sourceActions": {
+          "wait": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "walk": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hurt": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hit1": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": true
+          },
+          "hit2": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": true
+          },
+          "hit3": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit4": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": true
+          },
+          "hit5": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "dead": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          }
+        },
+        "movement": {
+          "gravity": 1.5,
+          "jumpPower": -30.0,
+          "speed": 5.0,
+          "gxpSpeed": 10.0,
+          "attackRate": 0.7,
+          "initialVelocity": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "initialFacingX": 1,
+          "intelligenceBlockedActions": [
+            "hurt",
+            "dead"
+          ]
+        }
+      }
+    },
+    "horse": {
+      "1": {
+        "symbol": "ObjectBaseSprite3",
+        "collision": {
+          "width": 31.1,
+          "height": 30,
+          "registration": {
+            "x": 15.55,
+            "y": 15
+          }
+        },
+        "sourceActions": {
+          "wait": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "walk": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hurt": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hit1": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit2": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "dead": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          }
+        },
+        "movement": {
+          "gravity": 1.5,
+          "jumpPower": -30.0,
+          "speed": 5.0,
+          "gxpSpeed": 10.0,
+          "attackRate": 0.7,
+          "initialVelocity": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "initialFacingX": 1,
+          "intelligenceBlockedActions": [
+            "hurt",
+            "dead"
+          ]
+        }
+      },
+      "2": {
+        "symbol": "ObjectBaseSprite4",
+        "collision": {
+          "width": 35,
+          "height": 70,
+          "registration": {
+            "x": 17.5,
+            "y": 35
+          }
+        },
+        "sourceActions": {
+          "wait": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "walk": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hurt": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hit1": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit2": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit3": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "dead": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          }
+        },
+        "movement": {
+          "gravity": 1.5,
+          "jumpPower": -30.0,
+          "speed": 5.0,
+          "gxpSpeed": 10.0,
+          "attackRate": 0.7,
+          "initialVelocity": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "initialFacingX": 1,
+          "intelligenceBlockedActions": [
+            "hurt",
+            "dead"
+          ]
+        }
+      },
+      "3": {
+        "symbol": "ObjectBaseSprite4",
+        "collision": {
+          "width": 35,
+          "height": 70,
+          "registration": {
+            "x": 17.5,
+            "y": 35
+          }
+        },
+        "sourceActions": {
+          "wait": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "walk": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hurt": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hit1": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit2": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit3": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit4": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "dead": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          }
+        },
+        "movement": {
+          "gravity": 1.5,
+          "jumpPower": -30.0,
+          "speed": 5.0,
+          "gxpSpeed": 10.0,
+          "attackRate": 0.7,
+          "initialVelocity": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "initialFacingX": 1,
+          "intelligenceBlockedActions": [
+            "hurt",
+            "dead"
+          ]
+        }
+      },
+      "4": {
+        "symbol": "ObjectBaseSprite4",
+        "collision": {
+          "width": 35,
+          "height": 70,
+          "registration": {
+            "x": 17.5,
+            "y": 35
+          }
+        },
+        "sourceActions": {
+          "wait": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "walk": {
+            "attacking": false,
+            "hurt": false,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hurt": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          },
+          "hit1": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit2": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit3": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit4": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "hit5": {
+            "attacking": true,
+            "hurt": false,
+            "immobileOnFloor": true,
+            "suppressMove": false
+          },
+          "dead": {
+            "attacking": false,
+            "hurt": true,
+            "immobileOnFloor": false,
+            "suppressMove": false
+          }
+        },
+        "movement": {
+          "gravity": 1.5,
+          "jumpPower": -30.0,
+          "speed": 5.0,
+          "gxpSpeed": 10.0,
+          "attackRate": 0.7,
+          "initialVelocity": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "initialFacingX": 1,
+          "intelligenceBlockedActions": [
+            "hurt",
+            "dead"
+          ]
+        }
+      }
+    }
+  }
+}

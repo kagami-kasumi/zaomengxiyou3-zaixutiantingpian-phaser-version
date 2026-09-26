@@ -213,8 +213,8 @@ const updateParty = new Function('model', 'petRosters', 'petCombatRuntimes', 'pe
   { p1: party[0]!.roster, p2: party[1]!.roster },
   { p1: party[0]!.runtime, p2: party[1]!.runtime }, snapshots,
   { p1: [], p2: [] }, { p1: [], p2: [] }, { game: { loop: { targetFps: 24 } } },
-  (input: Omit<Parameters<typeof createPetProjectileCombatPort>[0], 'mask'>) =>
-    createPetProjectileCombatPort({ ...input, mask: () => mask }),
+  Object.assign((input: Omit<Parameters<typeof createPetProjectileCombatPort>[0], 'mask'>) =>
+    createPetProjectileCombatPort({ ...input, mask: () => mask }), { readyRoster: (roster: any) => roster }),
   { update() {} },
   () => false,
   { readyRoster: (roster: any) => roster, update() {} },

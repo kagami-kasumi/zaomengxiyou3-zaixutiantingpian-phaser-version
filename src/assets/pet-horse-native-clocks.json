@@ -1,0 +1,61 @@
+{
+  "sourceTask": "TASK-SETTINGS-229",
+  "sourceHashes": {
+    "20120203": "3383e2f13967cfc33e7a8fd937cf37c407784f769b86beebb15694befcefb832",
+    "StageCommon": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9",
+    "pet1": "0699a5d3a49ea8024d3635b18c6349f5d7f7cf5f1db869dd18a0a5ee6de60644"
+  },
+  "clips": {
+    "PetHorse1Bullet1": {
+      "rootFrames": 5,
+      "cycleStart": 1,
+      "cycleTicks": 5
+    },
+    "PetHorse1Bullet2": {
+      "rootFrames": 8,
+      "cycleStart": 2,
+      "cycleTicks": 8
+    },
+    "PetHorse2Bullet1": {
+      "rootFrames": 14,
+      "cycleStart": 2,
+      "cycleTicks": 14
+    },
+    "PetHorse2Bullet2": {
+      "rootFrames": 45,
+      "cycleStart": 1,
+      "cycleTicks": 45
+    },
+    "PetHorse3Bullet1": {
+      "rootFrames": 20,
+      "cycleStart": 2,
+      "cycleTicks": 20
+    },
+    "PetHorse3Bullet2": {
+      "rootFrames": 15,
+      "cycleStart": 1,
+      "cycleTicks": 15
+    },
+    "PetHorse3Bullet3": {
+      "rootFrames": 8,
+      "cycleStart": 2,
+      "cycleTicks": 120
+    },
+    "PetHorse3Bullet4": {
+      "rootFrames": 31,
+      "cycleStart": 2,
+      "cycleTicks": 31
+    },
+    "PetHorse4Bullet5": {
+      "rootFrames": 1,
+      "cycleStart": 2,
+      "cycleTicks": 8
+    },
+    "PetHorse4Bullet5Explode": {
+      "rootFrames": 30,
+      "cycleStart": 2,
+      "cycleTicks": 30
+    }
+  },
+  "scope": "Script-free source timeline state closure; canonical ticks index existing independently verified native collision fields. Render rasters are a separate contract."
+}

@@ -30,6 +30,8 @@ export function adaptTestScenePetEnemies(monsters: readonly Monster30Model[],
   onHitOwner: (monster: Monster30Model, slot: PlayerSlot) => void): Stage1CombatEnemy[] {
   return monsters.map(monster => ({
     id: monster.id, enemyType: 30,
+    get petTargetEffectState() { return monster.petTargetEffectState; },
+    set petTargetEffectState(value) { monster.petTargetEffectState = value; },
     get x() { return monster.x; }, get y() { return monster.y; },
     get hp() { return monster.hp; },
     set hp(value: number) { applyMonster30Hit(monster, Math.max(0, monster.hp - value)); },

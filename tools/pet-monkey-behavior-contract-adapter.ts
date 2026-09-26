@@ -1,7 +1,9 @@
+import { bodyGroundFixture } from './pet226-body/ground-fixture';
 import monkeyFamilyTruth from '../docs/reverse-engineering/ground-truth/manifests/task-settings-207-pet-monkey-family.json';
-import type { PlayerSlot } from '../src/systems/InputSystem';
+import { firstPrivateCollisionAge } from './pet226-body/source-collision-age';
 import { PetCombatRuntime } from '../src/systems/PetCombatRuntime';
-import { resolveFormalPetMonkeyProjectileHits } from '../src/systems/PetMonkeyCombatSystem';
+import { createPetProjectileCombatPort } from '../src/systems/PetProjectileCombatSystem';
+import { bodyFixtureCollisionAssets } from './pet226-body/body-fixture-collision';
 import { createSeedPetRoster } from '../src/systems/PetRosterSystem';
 import { createProjectileSystem, updateProjectiles } from '../src/systems/ProjectileSystem';
 import { createStage1CombatEnemy, createStage1CombatRuntime } from '../src/systems/Stage1CombatSystem';
@@ -42,7 +44,8 @@ export function collectMonkeyRangeScenario(
   const runtime = new PetCombatRuntime();
   const projectiles = createProjectileSystem();
   const owner = ownerBySlot[ownerSlot];
-  const initialized = runtime.update({ roster, owner, targets: [], projectiles, random: () => 0.1, deltaMs: 0 });
+  const groundEnvironment = bodyGroundFixture('monkey', form, owner.y - 100);
+  const initialized = runtime.update({ roster, owner, groundEnvironment, targets: [], projectiles, random: () => 0.1, deltaMs: 0 });
   if (!initialized.runtime) throw new Error(`monkey${form} failed to initialize`);
   const targetId = `controlled-target-${ownerSlot}-monkey${form}`;
   const target = {
@@ -61,37 +64,37 @@ export function collectMonkeyRangeScenario(
     const deltaMs = frame === 0 ? 0 : 100;
     elapsedMs += deltaMs;
     if (frame > 0) updateProjectiles(projectiles, [{ id: pet.id, state: 'ready' }], deltaMs);
+    const hpBefore = enemy.hp, eventStart = combat.audit.damageEvents.length;
+    const port = createPetProjectileCombatPort({ enemies: [enemy], combat, ownerSlot, timeMs: elapsedMs,
+      random: () => 0.1, monkeyHorseCollision: () => bodyFixtureCollisionAssets,
+      mask: () => { throw new Error('Monkey range trace requires native collision fields'); } });
     const snapshot = runtime.update({
       roster,
       owner,
+      groundEnvironment,
       targets: [target],
       projectiles,
       random: () => 0.1,
       deltaMs,
+      hostFps: 24,
+      projectileCombat: port,
     });
     if (!snapshot.runtime) throw new Error(`monkey${form} runtime disappeared in frame ${frame}`);
     const runtimeEvents = runtime.events();
     const actionEvent = runtimeEvents.find(({ type }) => type === 'action');
-    const hpBefore = enemy.hp;
-    const damageEvents = resolveFormalPetMonkeyProjectileHits({
-      projectiles,
-      combat,
-      enemies: [enemy],
-      ownerSlotForPet: (petId): PlayerSlot | undefined => petId === pet.id ? ownerSlot : undefined,
-      timeMs: elapsedMs,
-    });
+    const damageEvents = combat.audit.damageEvents.slice(eventStart);
     const damageEvent = damageEvents[0];
     const projectile = damageEvent
       ? projectiles.projectiles.find(({ projectileId }) => damageEvent.attackId.startsWith(`${projectileId}:`))
       : projectiles.projectiles[0];
     const cleanupReason = previousProjectileId && !projectiles.projectiles.some(({ projectileId }) => projectileId === previousProjectileId)
       ? 'expired' as const
-      : damageEvent ? 'hit' as const : undefined;
+      : undefined;
     trace.push(Object.freeze({
       frame,
       elapsedMs,
       ownerSlot,
-      consumerPath: 'PetCombatRuntime+formal-hit-resolver',
+      consumerPath: 'PetCombatRuntime+native-collision+formal-damage-port',
       runtimeKey: snapshot.runtime.runtimeKey,
       petId: pet.id,
       petX: snapshot.runtime.x,
@@ -121,7 +124,7 @@ export function collectMonkeyRangeScenario(
     expected: Object.freeze({
       contractId: `monkey${form}.normal`,
       attackRange: frozenForm.attackRange,
-      minimumHitElapsedMs: frozenForm.actions.normal.frameCount * (1000 / 24),
+      minimumHitElapsedMs: firstPrivateCollisionAge('monkey', form) * (1000 / 24),
       petSourceId: pet.id,
       targetId,
     }),

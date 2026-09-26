@@ -3,17 +3,12 @@ import { readFileSync } from 'node:fs';
 import monkeyFamilyTruth from '../docs/reverse-engineering/ground-truth/manifests/task-settings-207-pet-monkey-family.json';
 import { PetCombatRuntime } from '../src/systems/PetCombatRuntime';
 import { createSeedPetRoster } from '../src/systems/PetRosterSystem';
-import {
-  createProjectileSystem,
-  updateProjectiles,
-} from '../src/systems/ProjectileSystem';
-import {
-  createStage1CombatEnemy,
-  createStage1CombatRuntime,
-} from '../src/systems/Stage1CombatSystem';
-import { resolveFormalPetMonkeyProjectileHits } from '../src/systems/PetMonkeyCombatSystem';
+import { createProjectileSystem } from '../src/systems/ProjectileSystem';
+import { verifyFamilySkillProjectiles } from './pet-family-skill-projectile-fixture';
+import { noTargetBodyFixturePort } from './pet226-body/body-fixture-collision';
 import { PetTuning } from '../src/systems/PetTuning';
 import type { PetRoster, PetState } from '../src/systems/PetTypes';
+import { bodyGroundFixture } from './pet226-body/ground-fixture';
 
 const owner = { x: 200, y: 300, facingX: 1 as const };
 
@@ -25,71 +20,15 @@ function testVerifiedP1RContractSetIsComplete(): void {
   assert.deepEqual(ids, monkeyFamilyTruth.contractMatrix.map(({ id }) => id));
 }
 
-function testAllFourFormsCreateTrueBasicAttackProjectiles(): void {
-  for (const form of [1, 2, 3, 4] as const) {
-    const roster = activateMonkey(form);
-    disableAllMonkeySkills(roster.pets.find((pet) => pet.isActive)!);
-    const runtime = new PetCombatRuntime();
-    const projectiles = createProjectileSystem();
-    const snapshot = runtime.update({
-      roster,
-      owner,
-      targets: [{ id: 'target', x: 160, y: 270, isAlive: true }],
-      projectiles,
-      random: () => 0.1,
-      deltaMs: 0,
-    });
-    assert.equal(snapshot.form, form);
-    assert.equal(projectiles.projectiles.length, 1, `monkey${form} normal projectile`);
-    const projectile = projectiles.projectiles[0]!;
-    assert.equal(projectile.variant, `pet-monkey${form}-normal`);
-    assert.equal(projectile.sourceId, `pet-monkey-${form}`);
-    assert.ok(projectile.assetKey.endsWith(`monkey${form}.normal`));
-    assert.ok((projectile.damage ?? 0) > 0);
-  }
+async function testAllFourFormsCreateTrueBasicAttackProjectiles(): Promise<void> {
+  // 226 replaces zero-delta births with original body callbacks for all four forms.
+  await import('./pet-monkey-horse-normal-runtime-tests');
 }
 
-function testBasicAttackHitFrameDamagesFormalMonsterOnce(): void {
-  const roster = activateMonkey(1);
-  const pet = roster.pets.find((candidate) => candidate.isActive)!;
-  disableAllMonkeySkills(pet);
-  const projectiles = createProjectileSystem();
-  const runtime = new PetCombatRuntime();
-  runtime.update({
-    roster,
-    owner,
-    targets: [{ id: 'monster', x: 160, y: 270, isAlive: true }],
-    projectiles,
-    random: () => 0.1,
-    deltaMs: 0,
-  });
-  const combat = createStage1CombatRuntime();
-  const enemy = createStage1CombatEnemy({ id: 'monster', enemyType: 30, x: 160, y: 270 });
-  const hpBefore = enemy.hp;
-  assert.equal(resolveFormalPetMonkeyProjectileHits({
-    projectiles,
-    combat,
-    enemies: [enemy],
-    ownerSlotForPet: () => 'p1',
-    timeMs: 0,
-  }).length, 0, 'damage must wait for the verified hit frame');
-  updateProjectiles(projectiles, [{ id: pet.id, state: 'ready' }], 430);
-  assert.equal(resolveFormalPetMonkeyProjectileHits({
-    projectiles,
-    combat,
-    enemies: [enemy],
-    ownerSlotForPet: () => 'p1',
-    timeMs: 430,
-  }).length, 1);
-  assert.ok(enemy.hp < hpBefore);
-  assert.equal(enemy.lastHitBy, 'p1');
-  assert.equal(resolveFormalPetMonkeyProjectileHits({
-    projectiles,
-    combat,
-    enemies: [enemy],
-    ownerSlotForPet: () => 'p1',
-    timeMs: 501,
-  }).length, 0, 'attack-id dedup must reject a second hit');
+async function testBasicAttackHitFrameDamagesFormalMonsterOnce(): Promise<void> {
+  // The same native fixture also proves no birth hit, actual monster damage, owner and ID dedup.
+  // Reuse it once per module instead of retaining the obsolete fixed 430 ms resolver expectation.
+  await import('./pet-monkey-horse-normal-runtime-tests');
 }
 
 function testP1P2RuntimeStateAndDamageOwnershipStayPrivate(): void {
@@ -100,8 +39,16 @@ function testP1P2RuntimeStateAndDamageOwnershipStayPrivate(): void {
   const projectiles = createProjectileSystem();
   const p1 = new PetCombatRuntime();
   const p2 = new PetCombatRuntime();
-  p1.update({ roster: p1Roster, owner, targets: [{ id: 'a', x: 170, y: 270, isAlive: true }], projectiles, random: () => 0.1, deltaMs: 0 });
-  p2.update({ roster: p2Roster, owner: { ...owner, x: 500 }, targets: [{ id: 'b', x: 480, y: 270, isAlive: true }], projectiles, random: () => 0.1, deltaMs: 0 });
+  const p1Ground = bodyGroundFixture('monkey', 2, owner.y - 100);
+  const p2Ground = bodyGroundFixture('monkey', 3, owner.y - 100);
+  p1.update({ roster: p1Roster, owner, groundEnvironment: p1Ground, targets: [{ id: 'a', x: 170, y: owner.y - 100, isAlive: true }], projectiles, random: () => 0.1, deltaMs: 0 });
+  p2.update({ roster: p2Roster, owner: { ...owner, x: 500 }, groundEnvironment: p2Ground, targets: [{ id: 'b', x: 480, y: owner.y - 100, isAlive: true }], projectiles, random: () => 0.1, deltaMs: 0 });
+  for (let tick = 0; tick < 80 && projectiles.projectiles.length < 2; tick++) {
+    p1.update({ roster: p1Roster, owner, groundEnvironment: p1Ground, targets: [{ id: 'a', x: 170, y: owner.y - 100, isAlive: true }], projectiles,
+      random: () => 0.1, deltaMs: 1000 / 24, hostFps: 24, projectileCombat: noTargetBodyFixturePort });
+    p2.update({ roster: p2Roster, owner: { ...owner, x: 500 }, groundEnvironment: p2Ground, targets: [{ id: 'b', x: 480, y: owner.y - 100, isAlive: true }], projectiles,
+      random: () => 0.1, deltaMs: 1000 / 24, hostFps: 24, projectileCombat: noTargetBodyFixturePort });
+  }
   assert.notEqual(p1.snapshot().runtime?.runtimeKey, p2.snapshot().runtime?.runtimeKey);
   assert.deepEqual(projectiles.projectiles.map(({ sourceId }) => sourceId), ['pet-monkey-2', 'pet-monkey-3']);
   p1.destroy();
@@ -109,45 +56,8 @@ function testP1P2RuntimeStateAndDamageOwnershipStayPrivate(): void {
   assert.equal(p2.snapshot().destroyed, false);
 }
 
-function testEveryMonkeySkillProjectileReachesItsVerifiedHitFrame(): void {
-  const cases = [
-    { form: 1, variant: 'pet-monkey1-xj', hitFrame: 11, arm: (pet: PetState) => { pet.skillState!.monkey1Xj.releaseReady = true; pet.skillState!.monkey1Xj.cooldownMs = 0; } },
-    { form: 2, variant: 'pet-monkey2-lj', hitFrame: 1, arm: (pet: PetState) => { pet.skillState!.monkey2Lj.cooldownMs = 0; } },
-    { form: 2, variant: 'pet-monkey2-xj', hitFrame: 10, arm: (pet: PetState) => { pet.skillState!.monkey2Lj.cooldownMs = 9_999; pet.skillState!.monkey2Xj.releaseReady = true; pet.skillState!.monkey2Xj.cooldownMs = 0; } },
-    { form: 3, variant: 'pet-monkey3-lyq', hitFrame: 2, arm: (pet: PetState) => { pet.skillState!.monkey3Lyq.cooldownMs = 0; } },
-    { form: 3, variant: 'pet-monkey3-xj', hitFrame: 10, arm: (pet: PetState) => { pet.skillState!.monkey3Lyq.cooldownMs = 9_999; pet.skillState!.monkey3Xj.cooldownMs = 0; } },
-    { form: 3, variant: 'pet-monkey3-lj', hitFrame: 1, arm: (pet: PetState) => { pet.skillState!.monkey3Lyq.cooldownMs = 9_999; pet.skillState!.monkey3Xj.cooldownMs = 9_999; pet.skillState!.monkey3Lj.releaseReady = true; pet.skillState!.monkey3Lj.cooldownMs = 0; } },
-    { form: 4, variant: 'pet-monkey3-lyq', hitFrame: 2, arm: (pet: PetState) => { pet.skillState!.monkey3Lyq.cooldownMs = 0; } },
-    { form: 4, variant: 'pet-monkey3-xj', hitFrame: 10, arm: (pet: PetState) => { pet.skillState!.monkey3Lyq.cooldownMs = 9_999; pet.skillState!.monkey3Xj.cooldownMs = 0; } },
-    { form: 4, variant: 'pet-monkey3-lj', hitFrame: 1, arm: (pet: PetState) => { pet.skillState!.monkey3Lyq.cooldownMs = 9_999; pet.skillState!.monkey3Xj.cooldownMs = 9_999; pet.skillState!.monkey3Lj.releaseReady = true; pet.skillState!.monkey3Lj.cooldownMs = 0; } },
-  ] as const;
-  for (const scenario of cases) {
-    const roster = activateMonkey(scenario.form);
-    const pet = roster.pets.find((candidate) => candidate.isActive)!;
-    pet.mp = 500;
-    scenario.arm(pet);
-    const projectiles = createProjectileSystem();
-    new PetCombatRuntime().update({
-      roster,
-      owner,
-      targets: [{ id: 'monster', x: 250, y: 260, isAlive: true }],
-      projectiles,
-      random: () => 0.9,
-      deltaMs: 0,
-    });
-    const projectile = projectiles.projectiles.find(({ variant }) => variant === scenario.variant);
-    assert.ok(projectile, `monkey${scenario.form} ${scenario.variant} must spawn`);
-    const enemy = createStage1CombatEnemy({ id: 'monster', enemyType: 30, x: projectile.x, y: projectile.y });
-    const combat = createStage1CombatRuntime();
-    updateProjectiles(projectiles, [{ id: pet.id, state: 'ready' }], scenario.hitFrame * (1000 / 24) + 5);
-    assert.equal(resolveFormalPetMonkeyProjectileHits({
-      projectiles,
-      combat,
-      enemies: [enemy],
-      ownerSlotForPet: () => 'p1',
-      timeMs: 500,
-    }).length, 1, `${scenario.variant} must damage at its verified hit frame`);
-  }
+async function testEveryMonkeySkillProjectileReachesItsVerifiedHitFrame(): Promise<void> {
+  await verifyFamilySkillProjectiles('monkey');
 }
 
 function testEvidenceCooldownsAndForm4DamageRelease(): void {
@@ -163,69 +73,24 @@ function testEvidenceCooldownsAndForm4DamageRelease(): void {
   const roster = activateMonkey(4);
   const pet = roster.pets.find((candidate) => candidate.isActive)!;
   const runtime = new PetCombatRuntime();
-  const first = runtime.update({ roster, owner, targets: [], deltaMs: 0 });
+  const groundEnvironment = bodyGroundFixture('monkey', 4, owner.y - 100);
+  const first = runtime.update({ roster, owner, groundEnvironment, targets: [], deltaMs: 0 });
   runtime.update({
     roster,
     owner,
+    groundEnvironment,
     targets: [],
     damageEvents: [{ runtimeKey: first.runtime!.runtimeKey, amount: 1 }],
-    deltaMs: 0,
+    deltaMs: 1000 / 24,
+    hostFps: 24,
   });
   assert.equal(pet.skillState!.monkey3Lj.releaseReady, true);
 }
 
-function testJgaoyiRunsFiveStepsAndHurtCancelsAChain(): void {
-  const roster = activateMonkey(4);
-  const pet = roster.pets.find((candidate) => candidate.isActive)!;
-  pet.mp = 500;
-  const state = pet.skillState!;
-  state.monkey3Lyq.cooldownMs = 9_999;
-  state.monkey3Xj.cooldownMs = 9_999;
-  state.monkey3Lj.cooldownMs = 9_999;
-  state.monkey3Lj.releaseReady = false;
-  state.monkey4Jgaoyi.cooldownMs = 0;
-  const runtime = new PetCombatRuntime();
-  const projectiles = createProjectileSystem();
-  const targets = [
-    { id: 'outside', x: 10, y: 260, isAlive: true },
-    { id: 'visible-a', x: 400, y: 260, isAlive: true },
-    { id: 'visible-b', x: 600, y: 260, isAlive: true },
-  ];
-  const steps: unknown[] = [];
-  let snapshot = runtime.update({ roster, owner, targets, projectiles, random: () => 0.5, deltaMs: 0 });
-  steps.push(...runtime.events().filter(({ behaviorEvent }) => behaviorEvent?.type === 'jgaoyi-chain-step'));
-  for (let index = 0; index < 4; index += 1) {
-    snapshot = runtime.update({ roster, owner, targets, projectiles, random: () => 0.5, deltaMs: 400 });
-    steps.push(...runtime.events().filter(({ behaviorEvent }) => behaviorEvent?.type === 'jgaoyi-chain-step'));
-  }
-  assert.equal(steps.length, 5);
-  assert.equal(projectiles.projectiles.filter(({ variant }) => variant === 'pet-monkey4-jgaoyi').length, 1);
-  assert.equal(projectiles.projectiles.filter(({ variant }) => variant === 'pet-monkey3-xj').length, 4);
-  assert.equal(projectiles.projectiles.filter(({ variant }) => variant === 'pet-monkey3-lj').length, 4);
-  assert.equal(projectiles.projectiles.filter(({ variant }) => variant === 'pet-monkey3-lyq').length, 1);
-  assert.equal(snapshot.runtime?.x, owner.x);
-  assert.equal(snapshot.runtime?.y, owner.y - 50);
-
-  const cancelRoster = activateMonkey(4);
-  const cancelPet = cancelRoster.pets.find((candidate) => candidate.isActive)!;
-  cancelPet.mp = 500;
-  cancelPet.skillState!.monkey3Lyq.cooldownMs = 9_999;
-  cancelPet.skillState!.monkey3Xj.cooldownMs = 9_999;
-  cancelPet.skillState!.monkey3Lj.cooldownMs = 9_999;
-  cancelPet.skillState!.monkey4Jgaoyi.cooldownMs = 0;
-  const cancelRuntime = new PetCombatRuntime();
-  const cancelProjectiles = createProjectileSystem();
-  const active = cancelRuntime.update({ roster: cancelRoster, owner, targets, projectiles: cancelProjectiles, random: () => 0.5, deltaMs: 0 });
-  cancelRuntime.update({
-    roster: cancelRoster,
-    owner,
-    targets,
-    projectiles: cancelProjectiles,
-    random: () => 0.9,
-    damageEvents: [{ runtimeKey: active.runtime!.runtimeKey, amount: 1, sourceId: 'monster' }],
-    deltaMs: 400,
-  });
-  assert.ok(cancelRuntime.events().some(({ behaviorEvent }) => behaviorEvent?.type === 'jgaoyi-chain-cancelled'));
+async function testJgaoyiRunsFiveStepsAndHurtCancelsAChain(): Promise<void> {
+  // Original callbacks now run coupled to original ground, including every
+  // learned subset, target/transform boundary, hurt/empty and render partitions.
+  await import('./pet-monkey-aoyi-ground-tests');
 }
 
 function testSharedFormalAndTestSceneConsumersAreWired(): void {
@@ -262,11 +127,11 @@ function disableAllMonkeySkills(pet: PetState): void {
 }
 
 testVerifiedP1RContractSetIsComplete();
-testAllFourFormsCreateTrueBasicAttackProjectiles();
-testBasicAttackHitFrameDamagesFormalMonsterOnce();
+await testAllFourFormsCreateTrueBasicAttackProjectiles();
+await testBasicAttackHitFrameDamagesFormalMonsterOnce();
 testP1P2RuntimeStateAndDamageOwnershipStayPrivate();
-testEveryMonkeySkillProjectileReachesItsVerifiedHitFrame();
+await testEveryMonkeySkillProjectileReachesItsVerifiedHitFrame();
 testEvidenceCooldownsAndForm4DamageRelease();
-testJgaoyiRunsFiveStepsAndHurtCancelsAChain();
+await testJgaoyiRunsFiveStepsAndHurtCancelsAChain();
 testSharedFormalAndTestSceneConsumersAreWired();
 console.log('Pet monkey family P1R runtime, damage, owner, and consumer tests passed.');

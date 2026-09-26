@@ -1,0 +1,153 @@
+{
+  "monkey": {
+    "forms": {
+      "1": {
+        "symbol": "PetMonkey1Bullet1",
+        "offsetX": 45.0,
+        "offsetY": -25,
+        "lastTick": 10,
+        "maxHits": 99,
+        "interval": 999,
+        "attackKind": "physics",
+        "knockback": [
+          6,
+          -5
+        ],
+        "sourceSha256": "bc82b14bd316389841fe2267f4382354fae820a56fa0c868a2fa62aa80cb20dd"
+      },
+      "2": {
+        "symbol": "PetMonkey2Bullet1",
+        "offsetX": 65.0,
+        "offsetY": -30,
+        "lastTick": 4,
+        "maxHits": 99,
+        "interval": 999,
+        "attackKind": "physics",
+        "knockback": [
+          6,
+          -5
+        ],
+        "sourceSha256": "855283fddf3f988f0848460fc304d1802e2a8d83e3aa89b813281cc608afaa43"
+      },
+      "3": {
+        "symbol": "PetMonkey3Bullet1",
+        "offsetX": 100.0,
+        "offsetY": -40,
+        "lastTick": 6,
+        "maxHits": 99,
+        "interval": 999,
+        "attackKind": "physics",
+        "knockback": [
+          6,
+          -5
+        ],
+        "sourceSha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc"
+      },
+      "4": {
+        "symbol": "PetMonkey3Bullet1",
+        "offsetX": 100.0,
+        "offsetY": -40,
+        "lastTick": 6,
+        "maxHits": 99,
+        "interval": 999,
+        "attackKind": "physics",
+        "knockback": [
+          4,
+          -5
+        ],
+        "sourceSha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e"
+      }
+    },
+    "jointMeasurements": [
+      {
+        "fps": 20,
+        "sha256": "a589f520a879937824199c72857bd4574dd23906346a67638b6d6f0d5965cb78"
+      },
+      {
+        "fps": 24,
+        "sha256": "d50ca6ea8db032a9d9d2b80b24f26e9901bfd3db47ec7be013e0447dad127eed"
+      },
+      {
+        "fps": 30,
+        "sha256": "b7ffa170c4bb8f35a50868101232c69cf619852ff1e00ff6c4f9ba66ba488e71"
+      }
+    ]
+  },
+  "horse": {
+    "forms": {
+      "1": {
+        "symbol": "PetHorse1Bullet1",
+        "offsetX": 45.0,
+        "offsetY": -25,
+        "lastTick": 5,
+        "maxHits": 99,
+        "interval": 999,
+        "attackKind": "physics",
+        "knockback": [
+          6,
+          -5
+        ],
+        "sourceSha256": "558fb01aa821fd6eb19bfb683df6452f84ef0dfaf3ae4da5ebc3b1eae6a5fc05"
+      },
+      "2": {
+        "symbol": "PetHorse2Bullet1",
+        "offsetX": 70.0,
+        "offsetY": -90,
+        "lastTick": 14,
+        "maxHits": 99,
+        "interval": 999,
+        "attackKind": "physics",
+        "knockback": [
+          6,
+          -5
+        ],
+        "sourceSha256": "ee5f72352b2af1b12971481d02c855c14e1f2e57e96f108e8ec6ef0e227cd363"
+      },
+      "3": {
+        "symbol": "PetHorse3Bullet1",
+        "offsetX": 150.0,
+        "offsetY": -140,
+        "lastTick": 20,
+        "maxHits": 99,
+        "interval": 999,
+        "attackKind": "physics",
+        "knockback": [
+          6,
+          -5
+        ],
+        "sourceSha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0"
+      },
+      "4": {
+        "symbol": "PetHorse3Bullet1",
+        "offsetX": 150.0,
+        "offsetY": -140,
+        "lastTick": 20,
+        "maxHits": 99,
+        "interval": 999,
+        "attackKind": "physics",
+        "knockback": [
+          6,
+          -5
+        ],
+        "sourceSha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+      }
+    },
+    "jointMeasurements": [
+      {
+        "fps": 20,
+        "sha256": "ce340c7a54cf62e5ee77184cd7a5c81a9dce97311ab707e22d29b559799ca896",
+        "compiledSha256": "1f9134caea65920633648cf4f4360131ab7ad0ce39be21ae50824710faca92fb"
+      },
+      {
+        "fps": 24,
+        "sha256": "45298c161d90a2771ae6683404584da810acd3387a913ae516a599e615469217",
+        "compiledSha256": "1f9134caea65920633648cf4f4360131ab7ad0ce39be21ae50824710faca92fb"
+      },
+      {
+        "fps": 30,
+        "sha256": "b66094651c22cf69ddbdff87f06ee03eeddf818e52ae6057a07207ab22bfa4ec",
+        "compiledSha256": "1f9134caea65920633648cf4f4360131ab7ad0ce39be21ae50824710faca92fb"
+      }
+    ]
+  }
+}

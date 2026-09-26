@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { loadGlobalSettings } from './systems/GlobalSettingsSystem';
 import { BootScene } from './scenes/BootScene';
 import { FeatureUiScene } from './scenes/FeatureUiScene';
 import { EquipmentPageQaScene } from './scenes/EquipmentPageQaScene';
@@ -26,6 +27,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   backgroundColor: '#101724',
   pixelArt: false,
   roundPixels: true,
+  fps: { target: loadGlobalSettings(window.localStorage).frameRate },
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
