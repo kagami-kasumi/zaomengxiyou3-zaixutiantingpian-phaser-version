@@ -71,6 +71,7 @@ export function claimMonsterExperienceForCurrentTarget(
   monster: Monster30Model,
   fallbackOwner?: PlayerSlot,
 ): OwnedMonsterExperienceAward | undefined {
+  if (monster.experienceBinding) return undefined;
   if (monster.experienceAwardedTo || monster.experience <= 0) return undefined;
   const ownerSlot = monster.targetSlot ?? fallbackOwner;
   if (!ownerSlot) return undefined;
@@ -89,8 +90,7 @@ export function awardMonsterExperienceByTarget(
     return awardMonsterExperienceWithCurrentPet(roster, normalizedExperience);
   }
 
-  const pet = roster.pets.find((candidate) => candidate.id === target.petId)
-    ?? getActivePet(roster);
+  const pet = roster.pets.find((candidate) => candidate.id === target.petId);
   if (!pet) {
     return { heroExperience: 0, petExperience: 0 };
   }

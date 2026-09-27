@@ -1,3 +1,4 @@
+import { settleMonsterExperience, selectMonsterAttackTarget, clearUnavailableMonsterAttackTarget, type MonsterExperienceBinding } from './MonsterExperienceSystem';
 import type { AttackKind } from './CombatSystem';
 import { advanceMonsterKnockback, disposeMonsterKnockback, type MonsterKnockbackBinding } from './MonsterKnockbackBinding';
 import { createMonsterPetTargetEffectState, advanceMonsterPetTargetEffects,
@@ -17,6 +18,7 @@ export type Monster30Target = {
 };
 
 export type Monster30Model = {
+  experienceBinding?: MonsterExperienceBinding;
   petKnockback?: MonsterKnockbackBinding;
   petTargetEffectState?: MonsterPetTargetEffectState;
   id: string;
@@ -188,7 +190,11 @@ export function createMonster30(x: number, y: number, id?: string): Monster30Mod
   return monster;
 }
 
-export function updateMonster30(
+export function updateMonster30(...args: Parameters<typeof advanceMonster30>): void {
+  try { advanceMonster30(...args); } finally { clearUnavailableMonsterAttackTarget(args[0]); }
+}
+
+function advanceMonster30(
   monster: Monster30Model,
   targets: readonly Monster30Target[],
   deltaMs: number,
@@ -231,6 +237,9 @@ export function updateMonster30(
     return;
   }
 
+  const retained = (monster.state === 'hurt' && monster.stateTimerMs > deltaMs) || monster.magicBaguaStun || monster.magicZlHummerStun || monster.magicSnowIce || monster.magicPearlStun || monster.role4MbyjStun
+    ? undefined : selectMonsterAttackTarget(monster, monster.x, monster.y, 1000);
+
   if (monster.state === 'hurt') {
     monster.activeAttack = undefined;
     monster.stateTimerMs -= deltaMs;
@@ -266,7 +275,10 @@ export function updateMonster30(
     return;
   }
 
-  const target = selectNearestTarget(monster, targets);
+
+  const target = monster.experienceBinding
+    ? retained && { ...(retained.movementPosition?.() ?? retained.position()), slot: retained.ownerSlot }
+    : selectNearestTarget(monster, targets);
   monster.targetSlot = target?.slot;
 
   if (!target) {
@@ -322,6 +334,7 @@ export function applyMonster30Hit(monster: Monster30Model, damage: number, react
 
   if (monster.hp <= 0) {
     monster.state = 'dead';
+    settleMonsterExperience(monster);
     monster.stateTimerMs = Monster30Tuning.deadDurationMs;
     monster.activeAttack = undefined;
     return true;
@@ -650,6 +663,7 @@ function updateMonster30MagicFlagDebuff(monster: Monster30Model, deltaMs: number
 
     if (monster.hp <= 0) {
       monster.state = 'dead';
+    settleMonsterExperience(monster);
       monster.stateTimerMs = Monster30Tuning.deadDurationMs;
       monster.activeAttack = undefined;
       break;
@@ -719,6 +733,7 @@ function updateMonster30MagicPearlEffects(monster: Monster30Model, deltaMs: numb
     monster.hp = Math.max(0, monster.hp - poison.damagePerSecond);
     if (monster.hp <= 0) {
       monster.state = 'dead';
+    settleMonsterExperience(monster);
       monster.stateTimerMs = Monster30Tuning.deadDurationMs;
       monster.activeAttack = undefined;
       break;
@@ -742,6 +757,7 @@ function updateMonster30PetBurn(monster: Monster30Model, deltaMs: number): void 
     monster.hp = Math.max(0, monster.hp - burn.damagePerSecond);
     if (monster.hp <= 0) {
       monster.state = 'dead';
+    settleMonsterExperience(monster);
       monster.stateTimerMs = Monster30Tuning.deadDurationMs;
       monster.activeAttack = undefined;
       break;

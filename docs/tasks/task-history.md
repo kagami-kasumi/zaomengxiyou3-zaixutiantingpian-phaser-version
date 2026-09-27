@@ -13,6 +13,8 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-238 | 公共怪物经验归属消费 | 对象身份/AI清理/同步经验/真实进度与存档 | M-030、M-032、M-040、VS-067 | 264源expected、612选择、76真实保存、10变异、24场景；[合同](../reverse-engineering/monster-death-experience-contract.md)，232 Ready |
+| TASK-SETTINGS-239 | 公共经验目标选择输入补证 | 双英雄排序/候选/12类型警戒范围与根适配 | M-030、M-032、M-040、VS-067 | 612选择/180构造/240消费者输入/9源变异；[合同](../reverse-engineering/monster-death-experience-contract.md)，238恢复Ready |
 | TASK-SETTINGS-231 | 公共怪物死亡经验归属补证 | 对象身份/AI清理/英雄宠物经验与消费者缺口 | M-030、M-032、M-040、VS-067 | 264原包AIR态、六源变异；[合同](../reverse-engineering/monster-death-experience-contract.md)，238 Ready，现代待实现 |
 | TASK-SLICE-236 | 公共怪物击退消费 | 实际profile/早晚相位/真实位移与清理 | M-030、M-032、M-042、VS-067 | 124650原生态、5184真实端口态、8生产变异及五关/旧Boss可见同步；[合同](../reverse-engineering/monster-pet-knockback-contract.md)，231 Ready |
 | TASK-SETTINGS-237 | 实际怪物构造profile补证 | 12类型构造/谓词与217/218空间联合轨迹 | M-030、M-032、M-042、VS-067 | 288profile、七源变异拒绝；[合同](../reverse-engineering/monster-pet-knockback-contract.md)，236恢复Ready |
@@ -340,6 +342,147 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-238
+
+2026-09-27 / TASK-SLICE-238完成：公共怪物经验对象、合法AI选择/尾部清理、首死分配与真实英雄/原宠roster/存档已接五关和TestScene普通怪/Boss。264独立源expected、612选择态、76实际进度/保存例、10生产变异、24组实际场景/双owner/重载通过；原宠物页经验文字按175A depth修正遮挡，P1/P2页面实测。238归档，TASK-SETTINGS-232唯一Ready；仅核销公共经验责任，232..235、原84其余组合、完整家族/VS-067与整线保持未完成。详见monster-death-experience-contract.md的238节与本地238/handoff.md。
+
+产物：MonsterExperienceSystem及party/保存桥、实际source捕获、五关接线与严格生产验证工具。验证及fixture边界见合同238节；结构9 warnings无error，大文件仅委托适配。原执行合同如下，状态以本节归档为准。
+
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Ready）
+
+目标机制/切片：`M-030`、`M-032`、`M-040`、`VS-067`
+
+要解决的问题：231核定原版curAttackTarget是有生命周期的英雄/宠物对象，而当前TestScene以AI slot发经验、正式四关只向hero发全额经验、宠物身份在命中后丢失，Stage1-1 Boss弹体路径还未写归属。公共奖励去重不能证明接收者正确；PG-006 V2由本项落实，不另起治理执行项。
+
+范围：以231的XP-01..08为唯一输入，完成同一公共怪物经验归属合同的命中写入、合法AI重选/清理、死亡快照、hero/pet分配、幂等与实际进度/存档消费；覆盖当前12类型、五关与TestScene普通怪/Boss。保留当前怪物/奖励/宠物owner，关卡只适配；不按关卡复制分配规则，不重做整套AI或掉落系统。经验与dropAura的读取时机分别保留，不顺手把XP快照强加给掉落。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若需要新增任意AI排序、删除宠物数据、非当前12类型的奖励覆写、升级视觉或掉落资料族，先保留当前合同并补证/拆分；不凭slot补猜对象或扩大为全怪物AI改造。
+- 现有入口合并与同一合同五关联合验收属于一包；若出现独立存档架构改造而非既有owner接线，核对预算后先拆分，不能降级为只测helper。
+
+协作计划：
+- 模式：主 agent + subagent。
+- 模型分工：主agent实现公共归属和真实消费者；简单独立入口核查/反例复验优先Luna只读。
+- 并行工作包：subagent核对五关/TestScene入口和原expected，主agent完成共享owner接线。
+- 写入 owner：主 agent。
+- 归并检查点：联合验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster-death-experience-contract.md`（XP-01..08、六段证据链、现代消费者矩阵）。
+- `tools/monster-reward-source/` 与本地231 `source-trace.json/source-audit.json/verification.json`；原包AIR264例是有界方法运行，不是完整游戏回放。源哈希不变时复用，不反复重采。
+- `tools/pet-target-owner-preflight.ts` 与226 `target-owner-preflight.json`（当前诊断明确断言错误P2，不得把退出0当修复）。
+- `docs/architecture/src-boundaries.md`、`docs/workflow/problems/PG-006-怪物物理与死亡奖励按关卡漂移.md` V2；沿231矩阵窄读命中、AI、死亡、进度与存档真实消费者。
+- 226原41/43承接责任、236击退相位，以及未完成232身体/死亡责任；不得因修归属取消其他责任。
+
+输出产物：
+- 公共对象归属与一次性经验结算接入全部上述入口；种类、slot、运行实体身份和持久宠物身份分开，不靠同slot当前宠代替旧宠。
+- 独立expected驱动的生产trace、关键生产变异、正式五关/TestScene及真实存档消费者结果。
+- 每条矩阵的关闭证据及反例更新，原诊断保留历史并转为修复后的严格断言或迁移到专项。
+
+完成定义：XP-01..08在正式入口/真实模型/真实roster与持久层联合通过；当前12类型和双owner没有遗漏消费者，不以字面map、受控sink或总经验变多代替闭合。
+
+验收标准：
+- 有效直击先写具体对象再死亡结算；保护/闪避/碰撞失败不改；接受零伤害或空attackInfo时按源写入时点处理；纯效果tick不改归属。
+- 保持合法AI重选，拒绝“始终最近AI”“固定火焰来源”；明确受击/debuff门禁和效果→AI→目标清理相位，不用死亡时fallback伪造原目标。
+- 英雄无宠100%，英雄有实际当前宠双方各60%并按int边界；宠物仅原petInfo100%，英雄0。当前宠不得仅从roster的出战标记推断存在，必须符合实际hero.getPet语义。
+- 攻击者死亡/离场/换宠、晚到弹体、目标已清理/未清理、再一帧合法AI重选、无存活英雄、P1/P2、重复死亡与重复效果分别有正反样本。失效或不存在petId绝不回退新activePet。
+- 真实hero经验、pet经验与保存/重载一一核对；界面读数由现有视图显示，不新增可见UI。死亡时已结算的经验不能在重试/返回/新场景重复发放。
+- 五关实际创建的consumer与TestScene普通怪/Boss均走真实攻击；Stage1-1 Boss pet-*通用弹体路径必须单独覆盖。正式四关不能仅测Stage1RewardBridge受控sink。
+- 保留既有掉落概率、掉落幂等、怪物物理、击退与玩法生命周期；运行对应窄回归、build、check:structure、check:workflow、audit:problems及正式P1/P2可见经验/重载验证。验收报告明确232未核销边界，不能据本项关闭整线/猴马全族。
+
+禁止范围：不改原始提取结果，不替换原版视觉，不实现231排除的完整掉落/全怪物AI，不自行改经验比例或放宽264源expected，不以受控碰撞为正式攻击验收。
+
+状态更新：Ready（2026-09-26，239双英雄选择输入补证完成；恢复本项全部XP-01..08与正式经验持久化验收）。
+
+推荐后续任务：`TASK-SETTINGS-232`；继续核定公共身体/攻击/死亡顺序。232..235及完整家族剩余责任保持，不在本次238请求跨task执行。
+
+
+预检交接（历史保留）：238的6例numeric nearest反例由239补齐输入后解除阻塞；原生产实现尚未修复。新增输入 `docs/reverse-engineering/reference/monster-target-selection-contract.json` 与死亡经验合同239章节，含612选择/180构造/240实际模型投影及9源变异；原XP-01..08/264态、12类型、五关/TestScene、真实原宠身份/存档/可见经验/232未核销边界全部保留。239完成只解除选择输入阻塞，不降低任何完成标准。
+
+
+### TASK-SETTINGS-239
+
+完成日期：2026-09-26。2026-09-26 / TASK-SETTINGS-239完成：612原包AIR选择态、180实际构造态、240真实模型/生产投影态、9源变异和4损坏报告反例通过；12类型警戒范围/Config候选顺序/特殊排序及既有218英雄根换算输入闭合。231的264经验态和完整XP-01..08保持；239归档，238恢复唯一Ready。未改src/public，不提升生产经验归属、原84/完整家族/VS-067完成度，232..235与功能线仍未关闭。交接见monster-death-experience-contract.md的239节与reference/monster-target-selection-contract.json。
+
+验证：原包AIR51.1.1.5、独立expected/变异/源哈希/再生一致通过；workflow、structure、audit及diff收尾检查见本地 `docs/tasks/evidence/TASK-SETTINGS-239/project-checks.json`。原版完整游戏/现代经验生产修复不在本项，仍归238。
+
+### 原执行合同（历史快照，状态以本节完成归档为准）
+
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`代码逆向`
+
+逆向方案：不适用；沿用 `docs/workflow/reverse-engineering-protocol.md`。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Ready）
+
+目标机制/切片：`M-030`、`M-032`、`M-040`、`VS-067`
+
+要解决的问题：238消费预检确认原AUtils选择与现代数值最近选择不同；231只覆盖100/400同数量级候选，未冻结正式12类型的alertRange与实际候选输入。若直接复用现代AI，清理后重选的经验接收者会错误。不能把6个诊断样本当作完整选择合同。
+
+范围：仅补齐当前12类型（2/3/4/5/6/7/8/9/10/16/19/30）、五关/TestScene、最多P1/P2两英雄的XP-03选择输入和XP-04清理后重选合同。核定AUtils原排序/索引、Config候选顺序/过滤、实际构造alertRange与当前模式覆写、参与距离计算的对象坐标来源及现代适配。保留231的XP-01..08、264态及经验比例；不扩展完整AI攻击/移动/全怪物排序。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若发现所需新SWF几何无法由217/218/237及现有英雄注册点证据支持，保持未知并生成有界视觉真值前置任务，不在本代码逆向任务猜测坐标偏移。
+- 若需要第三候选、其他怪物类型、完整AI攻击或独立模式资料族，先保留当前范围并拆分，不扩大本项。
+
+协作计划：
+- 模式：主 agent + subagent。
+- 模型分工：主agent核定原生选择语义；Luna只读核对12类型构造/候选输入与现代消费者映射。
+- 并行工作包：同一选择合同内的静态输入核对，返回路径、源哈希、事实/未知与遗漏。
+- 写入 owner：主 agent。
+- 归并检查点：原生样本冻结及验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster-death-experience-contract.md`，尤其XP-03/04与原探针边界。
+- `tools/monster-experience-target-preflight.py`；本地 `docs/tasks/evidence/TASK-SLICE-238/selection-preflight.json`、`preflight.md`。
+- `tools/monster-reward-source/` 与231源哈希/trace；输入不变的264态复用，不重复全采。
+- 主包AS3：`AUtils.as`、`config/Config.as`、`base/BaseMonster.as`、上述12个 `export/monster/Monster*.as`；按调用窄查构造、重选及尾部清理。
+- `src/systems/Stage1CombatSystem.ts`、`Monster30System.ts`、`Monster3System.ts`、`MonsterRuntimeRegistrySystem.ts` 和现有五关/TestScene候选生产者；既有217/218/237与英雄坐标证据只按需要窄查。
+- `docs/workflow/air-runtime-verification.md`；已安装SDK及原包AIR只读复用，不安装复杂软件。
+
+输出产物：
+- 在既有死亡经验合同补充有来源/证据等级/未知边界的选择输入合同与六段证据矩阵。
+- 可重复原源码运行fixture、独立expected、实际12类型profile及候选输入映射，源/方法/SWF哈希与本地原生trace；生产必需数据如需交付须进入正式资源目录或精确白名单，不依赖被忽略evidence。
+- 238全部五关/TestScene消费者的明确接线要求，补齐后恢复238为唯一Ready。
+
+完成定义：当前正式双英雄选择及警戒范围可供238直接消费；同数量级/跨数量级、顺序、平局、空/单候选、死亡过滤、二维距离、范围内外/边界及先选后过滤均有独立断言；没有影响经验接收者的未决输入。仅定位文件不算完成。
+
+验收标准：
+- 执行原AUtils/Config/BaseMonster方法，保留sort选项与indexOf语义；不能用现代numeric sort生成原expected。两英雄输入保持原Config顺序，不能以现代列表顺序假定原版。
+- 核查12类型构造最终alertRange及正式模式条件；不能只采基类初值或混入EndlessModeCreate的2000覆写。
+- 原生运行与独立表双验，加入numeric-sort、一维距离、先范围过滤、错误tie/候选顺序及始终重选等适用变异；不适用项明确原因。
+- 以真实现代候选producer核对对象身份、坐标来源、生命状态与顺序；空间事实复用已verified证据，缺失保持未知，不造UI/空间真值。
+- 231生命周期/经验合同不放宽，6例预检反例必须有明确解释和生产消费要求；报告区分原方法支架与完整旧游戏运行，后者未执行不得声称通过。
+- 运行专项、`npm run check:workflow`、`npm run audit:problems`；本项不改现代玩法、不宣称238生产经验/持久化通过。
+
+禁止范围：不改原始提取结果、不新增现代AI架构、不做完整攻击/移动/掉落逆向、不替换视觉、不按slot猜对象、不把本项补证视为猴马原84/全家族/整线完成。
+
+状态更新：Ready（2026-09-26，238预检触发AI排序补证）。
+
+推荐后续任务：`TASK-SLICE-238`；恢复其完整XP-01..08、五关/TestScene、真实持久层与可见经验验收，之后才是232..235。
+
 
 ### TASK-SETTINGS-231
 
@@ -14856,3 +14999,67 @@ UI 原生化合同：
 2026-09-14 TASK-SLICE-214E完成：dragon4继承技能、qlaoyi首回调trigger/四次可选真实分身/免费连锁与12秒/早死治疗闭合；完整44合同、64组家族trace、60组五关P1/P2消费者、345态投影及pet P1G=0，全系统/build和正式Stage1-2/TestScene可见伤害/清理通过。219四效果104像素批准近似保留，220 trigger有限样本零残差；本批补四阶魔花乘数。214E、214B与214同次归档，TASK-SETTINGS-215唯一Ready。猴/马/青龙三族完成，六族及旧入口仍未闭合，功能线保持Active、VS-067仍部分实现。交接见 `docs/tasks/evidence/TASK-SLICE-214E/handoff.md`。
 
 父合同持久镜像位于214E/parent-contract.md、parent-implementation-contract.md、task-contract.md；镜像中的Ready/Blocked/Split措辞仅为历史输入，当前状态以本归档为准。没有执行Git提交或上传。
+
+
+# TASK-SETTINGS-232（Done，2026-09-27）
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`代码逆向`
+
+逆向方案：不适用。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Done）
+
+目标机制/切片：`M-030`、`M-032`、`M-042`、`VS-067`
+
+要解决的问题：226火焰致死检查发现公共怪物身体、效果与攻击对象的顺序缺口。实际Monster30与Stage11动画consumer在20/24/30 fps下先执行致死火焰再推进身体，丢失已准备的hit1显示回调；伤害consumer又依赖死亡时立即清空的activeAttack。原BaseObject先身体再效果，Monster30帧回调创建独立SpecialEffectBullet；仅提前绘图不能证明攻击正确。
+
+范围：核定Monster30代表的身体回调→独立攻击创建→目标效果→死亡/移除顺序及正式五关同类消费者映射。明确原弹体在源死亡、销毁、受伤、冰冻与世界暂停时的保留/清理边界；不假定所有怪物完全相同，不扩大为全部怪物技能重做。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若需新视觉资源全集或声明外怪物的专属行为资料，保留未知并另列有界任务；本项只交付公共顺序与独立攻击生命周期合同，再生成最小消费实现任务。
+
+协作计划（2026-09-27执行）：
+- 模式：主 agent + subagent；同一工作包，不增加 task 或验收批次。
+- 模型分工：当前默认模型；原生支架涉及源方法拼接、动态时钟与证据边界，主/子共同复核。可用子模型目录未提供协议优先的 `gpt-5.6-luna`，不猜测其可调用性。
+- 并行工作包：只读现代五关/TestScene消费者调查；隔离目录原AS3动态probe；主 agent核对公共调用链、分支与空间证据并归并合同。
+- 写入 owner：主 agent独占任务/合同/状态文档；源probe子 agent仅写 `tools/monster-body-order-source/` 与232本地产物目录；消费者调查只读。
+- 归并检查点：源证据晋升和收尾验收前核对独立expected、运行边界、消费者与全部反例。
+- 方法观测：无。
+
+输入资料：
+- `tools/pet-target-body-order-preflight.ts`与本地`docs/tasks/evidence/TASK-SLICE-226/target-body-order-preflight.json`；这是受控现代诊断，不是源动态或正式Scene验收。
+- 原`BaseObject.step`、`BaseBitmapDataClip.step`、`BaseMonster.reduceHp/beMagicAttack/destroy`、`export/monster/Monster30.enterFrameFunc/doHi1`及`SpecialEffectBullet`真实调用者。
+- `Monster30System.ts`、`Stage11MonsterVisualSystem.ts`、`TestSceneCombatBridge.ts`、`TestSceneWorldBridge.ts`、`MonsterRuntimeRegistrySystem.ts`与五关既有视觉/伤害consumer。
+
+输出产物：
+- 六段证据链及原版独立动态样本，记录身体回调、弹体对象身份、出生位置、首次命中、源死亡/销毁与弹体结束的先后。
+- 正式五关消费者矩阵，区分显示事件、伤害对象和目标效果；不得把可见攻击图等同可伤害弹体。
+- 根据原版合同生成同线公共消费实现任务；明确226仍待回填的组合验收。
+
+完成定义：原版公共顺序与独立攻击生命周期可复验，现代反例及后续修复边界明确；不以补证完成宣称猴马或怪物复现完成。
+
+验收标准：
+- 对比20/24/30 fps、同帧致死与非致死火焰、冰冻首尾、源直接死亡/销毁及暂停，区分实际源记录与推断。
+- 独立expected拒绝“效果先于身体”“死亡后补一个纯显示事件”“源死亡立即删除所有攻击”“每次绘图重复发射”；源分支不同则分别保留。
+- 实际伤害消费者必须在后续实现合同中有独立验证，不只检查事件数量；不凭当前现代动画比较路径充当原AIR真值。
+- `npm run check:workflow`、`npm run audit:problems`与相应源证据校验通过。
+
+禁止范围：不修改原始提取结果，不重新设计宠物系统，不把公共怪物攻击职责搬进宠物Behavior或Phaser视图，不凭本任务登记删除226原84合同。
+
+状态更新：Done（2026-09-27）；公共顺序和生命周期证据完成，生产消费未修复，240唯一Ready承接Monster30，其余类型及原84组合责任保留。
+
+推荐后续任务：依据结果生成同线公共怪物攻击顺序/生命周期实现task，随后回填猴马目标效果组合验收。
+
+
+完成记录：2026-09-27 / TASK-SETTINGS-232完成：Monster30身体先效果、独立攻击下一世界步检测、HP死亡保留而destroy清弹已交叉确认。45组810原方法AIR态、三帧率66恢复SWF时钟态、6编译源变异和4损坏反例通过，baseline重复一致；五关12类型88源locator与实际伤害消费者已列明。保留碰撞/HP服务sink、效果到期注入及完整场景未重放边界。232归档，TASK-SLICE-240唯一Ready先消费Monster30两条owner；其他类型/233..235、原84组合、完整家族/VS-067及功能线仍未完成。合同见monster-body-attack-lifecycle-contract.md与reference/monster-body-attack-lifecycle-contract.json。
+
+验收：原方法capture/verify --mutations（45组810态、六源变异、四报告损坏）、恢复SWF时间轴（66态）、静态12类型88locator及现代三fps反例通过；check:workflow、audit:problems、check:structure与diff检查见本地handoff。未修改src/public，未进行生产修复。原任务输入、禁止范围与验收合同完整保留于本历史段。

@@ -1,3 +1,4 @@
+import { settleMonsterExperience } from './MonsterExperienceSystem';
 import type { Stage1CombatEnemy } from './Stage1CombatSystem';
 import { PetTargetEffects } from './PetTargetEffects';
 import type { PetTargetEffectInput } from './PetTargetEffectPayload';
@@ -17,6 +18,7 @@ export function initializeMonsterPetTargetEffects(enemy: Stage1CombatEnemy): Mon
     enemy.hp = Math.max(0, enemy.hp - (hurt | 0));
     if (enemy.hp === 0) {
       enemy.phase = 'dead'; enemy.phaseRemainingMs = 0; enemy.activeAttack = undefined;
+      settleMonsterExperience(enemy);
     }
   });
   enemy.petTargetEffectState = state;

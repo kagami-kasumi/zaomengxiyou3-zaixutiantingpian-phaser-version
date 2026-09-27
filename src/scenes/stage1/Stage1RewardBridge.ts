@@ -18,7 +18,6 @@ import {
   settleMonsterDefeatRewards,
 } from '../../systems/MonsterDefeatRewardSystem';
 import {
-  awardStage1CombatPlayerExperience,
   type Stage1CombatEnemy,
   type Stage1CombatPlayer,
 } from '../../systems/Stage1CombatSystem';
@@ -64,7 +63,7 @@ export function createStage1RewardBridge(
     );
     if (taskChanges > 0 && taskStorage && taskSave) {
       saveActiveGame(taskStorage, {
-        ...taskSave,
+        ...(loadActiveGame(taskStorage) ?? taskSave),
         savedAt: new Date().toISOString(),
         partyTasks: encodePartyTaskModel(taskModel),
       });
@@ -83,11 +82,7 @@ export function createStage1RewardBridge(
       settleY: findSettleY(enemy.x, spawnY, platforms),
     });
     if (!result) return;
-    const target = players.find((player) => player.combat.slot === result.experience.owner);
-    if (target) {
-      awardStage1CombatPlayerExperience(target.combat, result.experience.amount);
-      persistStage1RewardProgression(taskStorage, target.combat);
-    }
+
   };
 
   const update = (deltaMs: number): void => {

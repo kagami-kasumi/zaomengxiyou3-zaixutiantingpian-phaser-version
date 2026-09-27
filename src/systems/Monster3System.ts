@@ -1,3 +1,4 @@
+import { settleMonsterExperience, selectMonsterAttackTarget, clearUnavailableMonsterAttackTarget, type MonsterExperienceBinding } from './MonsterExperienceSystem';
 import type { AttackKind } from './CombatSystem';
 import type { MonsterKnockbackBinding } from './MonsterKnockbackBinding';
 import type { Hitbox } from './HeroNormalAttackSystem';
@@ -14,6 +15,7 @@ export type Monster3Target = {
 };
 
 export type Monster3Model = {
+  experienceBinding?: MonsterExperienceBinding;
   petKnockback?: MonsterKnockbackBinding;
   x: number;
   y: number;
@@ -97,7 +99,11 @@ export function createMonster3(x: number, y: number): Monster3Model {
   };
 }
 
-export function updateMonster3(
+export function updateMonster3(...args: Parameters<typeof advanceMonster3>): void {
+  try { advanceMonster3(...args); } finally { clearUnavailableMonsterAttackTarget(args[0]); }
+}
+
+function advanceMonster3(
   monster: Monster3Model,
   targets: readonly Monster3Target[],
   deltaMs: number,
@@ -115,6 +121,9 @@ export function updateMonster3(
     }
     return;
   }
+
+  const retained = monster.state === 'hurt' && monster.stateTimerMs > deltaMs
+    ? undefined : selectMonsterAttackTarget(monster, monster.x, monster.y, 1000);
 
   if (monster.state === 'hurt') {
     monster.activeAttack = undefined;
@@ -142,7 +151,10 @@ export function updateMonster3(
     monster.activeAttack = undefined;
   }
 
-  const target = selectNearestTarget(monster, targets);
+
+  const target = monster.experienceBinding
+    ? retained && { ...retained.position(), slot: retained.ownerSlot }
+    : selectNearestTarget(monster, targets);
   monster.targetSlot = target?.slot;
   if (monster.petKnockback?.active) {
     monster.petKnockback.motion.direction = 0;
@@ -197,6 +209,7 @@ export function applyMonster3Hit(monster: Monster3Model, damage: number): boolea
 
   if (monster.hp <= 0) {
     monster.state = 'dead';
+    settleMonsterExperience(monster);
     monster.stateTimerMs = Monster3Tuning.deadDurationMs;
     monster.activeAttack = undefined;
     return true;

@@ -123,7 +123,7 @@ export function resolveFormalPetMonkeyProjectileHits(params: Readonly<{
   for (const projectile of params.projectiles.projectiles) {
     if (projectile.petHostTick !== undefined || projectile.visualOnly || !projectile.variant.startsWith('pet-monkey') || projectile.isExpired) continue;
     if (!isAtVerifiedHitFrame(projectile) || projectile.remainingHits <= 0) continue;
-    const ownerSlot = params.ownerSlotForPet(projectile.sourceId);
+    const ownerSlot = projectile.experienceSource?.ownerSlot ?? params.ownerSlotForPet(projectile.sourceId);
     if (!ownerSlot) continue;
     const hitbox = getProjectileHitbox(projectile);
     for (const enemy of params.enemies) {
@@ -135,6 +135,7 @@ export function resolveFormalPetMonkeyProjectileHits(params: Readonly<{
         enemy,
         ownerSlot,
         petId: projectile.sourceId,
+        experienceSource: projectile.experienceSource,
         attackId: getProjectileAttackId(projectile),
         actionName: projectile.actionName,
         attackKind: projectile.attackKind,

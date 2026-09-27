@@ -1,3 +1,4 @@
+import { petExperienceClosureFixture, petExperienceClosureBindings } from './pet-experience-closure-fixture';
 import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -215,8 +216,8 @@ const closure = ts.transpileModule(bridge.slice(start, end), { compilerOptions: 
 const p1 = setup(20, getPetGroundEnvironment(12));
 const p2 = setup(20, getPetGroundEnvironment(21));
 const snapshots: Record<string, ReturnType<PetCombatRuntime['snapshot']>> = {};
-const updateProductionPets = new Function('model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots',
-  'pendingPetDamageEvents', 'pendingPetAnimationEvents', 'scene', 'petProjectileCombat', 'petDragonPresentation', 'isPetDragonQaEnabled', 'petTurtle', `${closure}\nreturn updatePets;`)(
+const updateProductionPets = new Function('experienceDependencies', 'model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots',
+  'pendingPetDamageEvents', 'pendingPetAnimationEvents', 'scene', 'petProjectileCombat', 'petDragonPresentation', 'isPetDragonQaEnabled', 'petTurtle', `${petExperienceClosureBindings}${closure}\nreturn updatePets;`)(petExperienceClosureFixture,
   { members: [p1, p2].map((p, index) => ({ movement: p.frame.owner,
     combat: { slot: index === 0 ? 'p1' : 'p2', combat: { state: 'ready' } } })) },
   { p1: p1.frame.roster, p2: p2.frame.roster }, { p1: p1.runtime, p2: p2.runtime }, snapshots,

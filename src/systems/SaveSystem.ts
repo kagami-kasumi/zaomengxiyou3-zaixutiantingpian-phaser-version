@@ -548,7 +548,7 @@ function sanitizeEquipmentStatsOverride(value: Record<string, unknown>): Partial
   return result;
 }
 
-function encodePet(pet: PetState): PetSave {
+export function encodePet(pet: PetState): PetSave {
   const { skillState: _skillState, autoBuffState: _autoBuffState, magicFlowerBuff: _magicFlowerBuff, ...persistent } = pet;
   return {
     ...persistent,

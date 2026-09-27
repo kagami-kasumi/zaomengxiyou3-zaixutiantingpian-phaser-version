@@ -1,3 +1,5 @@
+import type { PlayerSlot } from './InputSystem';
+import type { MonsterAttackTarget } from './MonsterExperienceSystem';
 import { PetBehaviorRegistry } from './PetBehaviorRegistry';
 import { PetCombatTargeting } from './PetCombatTargeting';
 import { createDefaultPetBehaviorRegistry } from './pet-behaviors/createDefaultPetBehaviorRegistry';
@@ -39,8 +41,18 @@ export class PetCombatRuntime {
     ));
     this.synchronizePet(activePet, frame.owner, frame.groundEnvironment?.ownerRootOffsetY);
     if (!this.active) return this.snapshot();
+    const rosterIndex = frame.roster.pets.indexOf(activePet!);
+    if (rosterIndex >= 0) frame.roster.pets[rosterIndex] = this.active.pet;
     this.stepEntity(this.active, frame);
     return this.snapshot();
+  }
+
+  currentAttackTarget(ownerSlot: PlayerSlot): MonsterAttackTarget | undefined {
+    return this.active && !this.active.released ? this.active.attackTarget(ownerSlot) : undefined;
+  }
+
+  supports(pet: Pick<PetState, 'species' | 'form'>): boolean {
+    return this.registry.has(pet.species, pet.form);
   }
 
   snapshot(): PetCombatSnapshot {
@@ -82,7 +94,7 @@ export class PetCombatRuntime {
     }
     const identity = `${pet.id}:${pet.species}:${pet.form}`;
     if (this.active?.identity === identity) {
-      this.active.pet = pet;
+      if (this.active.pet !== pet) Object.assign(this.active.pet, pet);
       return;
     }
     // Resolve before releasing the current session: failed selection leaves it intact.

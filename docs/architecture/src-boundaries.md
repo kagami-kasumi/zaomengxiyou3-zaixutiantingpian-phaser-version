@@ -59,6 +59,7 @@
 - `LevelLifecycleBridge` 只把 Phaser 显示对象边界、玩家有效性和上键输入适配成系统输入；通关规则不得回填 scene/gameplay bridge。
 - `LevelResultView` 是全部关卡唯一的结果展示 presenter：只消费生命周期终态、成绩快照和路由回调，统一投影原版 `GameWin` / `GameFail` 及按钮状态。关卡不得新增私有 `Stage*ResultBridge`，也不得用全屏现代 `Rectangle/Text` 回填结果页。
 - `MonsterDefinitionCatalog` 保存跨关卡只读战斗定义，`MonsterAssetCatalog` 保存 monster id 到视觉/几何资源族的映射，`MonsterRuntimeRegistry` 保存单局可变怪物状态；三者不得混为同一个 Registry。
+- `MonsterExperienceSystem` 只维护既有怪物模型上的目标引用与首次死亡经验；`HeroPartyExperienceSystem` 从既有队伍持有英雄/当前宠回调。宠物Session与兼容Runtime在发射时捕获自身对象，不能按命中时active pet反查；存档桥保存真实roster，掉落仍由原奖励owner处理。
 - `HeroPartyRuntime` 是单局活动英雄的唯一运行时 owner：按 `PlayerSlot` 持有移动、战斗、普攻、技能和角色视觉生命周期。关卡只提交平台、移动边界与特殊环境快照，不声明 `PlayerRuntime`，不直接调用角色内部 update/resolve。
 - 关卡、宠物和英雄当前类设计分别见 `system-designs/level.md`、`system-designs/pet.md`、`system-designs/hero.md`。关卡保持组合式 `PlayableLevelRuntime`，不得新建万能 `BaseLevel`；宠物战斗统一经 `PetCombatRuntime` 注入 `PetBehavior`；英雄队伍聚合单英雄 `HeroRuntime`，五英雄实现只覆盖差异钩子。三份设计在各自验收退出前约束迁移 task，退出后不再触发设计模式专项检查。
 - `PetCombatEntitySession` 与 `PetCombatContext` 是宠物Runtime内部公共步骤/端口实现；Scene和Behavior不直接创建或推进实体会话。私有召唤物只经Behavior窄端口创建/释放，临时数值不进入持久roster；正式桥继续只消费顶层Runtime快照与typed事件。

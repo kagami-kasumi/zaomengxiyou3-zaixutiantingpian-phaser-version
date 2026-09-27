@@ -1,3 +1,4 @@
+import { petExperienceClosureFixture, petExperienceClosureBindings } from './pet-experience-closure-fixture';
 import assert from 'node:assert/strict';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -48,9 +49,9 @@ for (const level of [11, 12, 13, 21, 22] as const) for (const form of [1, 2, 3, 
   formal.hp = formal.maxHp = monster.maxHp;
   const enemies = level === 11 ? adaptTestScenePetEnemies([monster], () => {}) : [formal];
   let presented: any;
-  const update = new Function('model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots', 'pendingPetDamageEvents',
+  const update = new Function('experienceDependencies', 'model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots', 'pendingPetDamageEvents',
     'pendingPetAnimationEvents', 'scene', 'petProjectileCombat', 'petDragonPresentation', 'isPetDragonQaEnabled', 'petTurtle',
-    closure + '\nreturn updatePets;')(model, rosters, runtimes, snapshots, pending, animations,
+    petExperienceClosureBindings + closure + '\nreturn updatePets;')(petExperienceClosureFixture,model, rosters, runtimes, snapshots, pending, animations,
     { game: { loop: { targetFps: 24 } } }, Object.assign((input: any) => {
       const port = createPetProjectileCombatPort(input);
       return { ...port, hit: (p: any, id: string, cache: any) => {

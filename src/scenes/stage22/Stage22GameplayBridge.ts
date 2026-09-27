@@ -1,3 +1,4 @@
+import { getMonsterRewardConfig } from '../../systems/MonsterDefeatRewardSystem';
 import { createSceneMonsterCombat } from '../MonsterKnockbackBridge';
 import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
@@ -8,6 +9,7 @@ import Phaser from 'phaser';
 import { createInputSystem } from '../../systems/InputSystem';
 import {
   updateStage1Enemy,
+  maintainStage1EnemyTarget,
   type Stage1CombatEnemy,
 } from '../../systems/Stage1CombatSystem';
 import {
@@ -258,6 +260,7 @@ function updateMonsterCombat(
   freezeBossShowcase: boolean,
 ): void {
   for (const monster of monsters.values()) {
+    heroes.experience.bind(monster.combat, getMonsterRewardConfig(monster.combat.enemyType).experience);
     if (freezeBossShowcase && monster.combat.id === 'stage22-qa-monster16') continue;
     updateCombatMonsterPhysics(monster.physics, monster.combat, stage22MovementPlatforms, deltaMs, timeMs, scene.game.loop.targetFps);
     stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
@@ -271,6 +274,7 @@ function updateMonsterCombat(
         deltaMs,
       });
     }
+    if (waitingForVisual) maintainStage1EnemyTarget(monster.combat);
     updateMonsterView(scene, monster, deltaMs);
     if (!ignoreEnemyDamage) {
       heroes.resolveEnemyAttack(monster.combat, timeMs);

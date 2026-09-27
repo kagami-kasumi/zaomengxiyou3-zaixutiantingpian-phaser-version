@@ -1,3 +1,4 @@
+import { getMonsterRewardConfig } from '../systems/MonsterDefeatRewardSystem';
 // Shared Phaser projection for the pure monster registry. Levels provide only
 // spawn commands, environment snapshots, and narrow encounter/reward events.
 import Phaser from 'phaser';
@@ -63,6 +64,7 @@ export function createMonsterRuntimeRegistry<View>(options: Readonly<{
     },
     update: (heroes, timeMs, deltaMs) => {
       if (destroyed) return [];
+      for (const enemy of getMonsterCombatTargets(model)) heroes.experience.bind(enemy, getMonsterRewardConfig(enemy.enemyType).experience);
       const events: MonsterRuntimeEvent[] = [];
       events.push(...updateMonsterRuntimeRegistry(model, {
         timeMs,

@@ -41,7 +41,7 @@ export function createPetProjectileCombatPort(input: Readonly<{
       if (!enemy) return false;
       const knockback = getPetProjectileKnockback(projectile);
       return resolveStage1PetHit({ runtime: input.combat, enemy, ownerSlot: input.ownerSlot,
-        petId: projectile.sourceId, attackId: getProjectileAttackId(projectile),
+        petId: projectile.sourceId, experienceSource: projectile.experienceSource, attackId: getProjectileAttackId(projectile),
         actionName: projectile.actionName, attackKind: projectile.attackKind, damage: cache.hurt,
         critical: cache.critical, knockbackX: knockback?.x ?? 0, knockbackY: knockback?.y ?? 0,
         hasKnockback: knockback !== undefined,

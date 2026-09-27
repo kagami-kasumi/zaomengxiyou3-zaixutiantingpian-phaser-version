@@ -49,7 +49,7 @@ XP-01的BaseBullet producer/attack-id去重顺序为静态源码**确认事实**
 
 ## 现代消费者矩阵
 
-以下为2026-09-26核定的现代缺口；`targetSlot`、slot级`lastHitBy`、宠物实体ID与roster PetInfo身份不能互换。
+以下保留2026-09-26实施前的现代缺口；238接线及验证见文末。`targetSlot`、slot级`lastHitBy`、宠物实体ID与roster PetInfo身份不能互换。
 
 | 入口 | 实际链与关键位置 | 当前反例/缺口 | 238关闭要求 |
 | --- | --- | --- | --- |
@@ -82,3 +82,92 @@ npm run audit:problems
 本地保留：`docs/tasks/evidence/TASK-SETTINGS-231/` 的source-trace/source-audit/verification、日志与handoff；`local-resources/regima/task-outputs/TASK-SETTINGS-231/air/` 的生成支架、SWF与descriptor用于下一task复验。均非生产依赖；Git保留本合同、工具与独立expected，换机器运行源级复验仍需本地语料和已安装AIR，普通游戏构建不需要这些文件。
 
 未决边界：没有当前有限经验归属合同内的未决源分支；完整旧游戏画面、升级进化、删宠移出roster后的持久化政策、其他怪物覆写/任意AI排序不在本项的通过声明。238遇到删除宠物数据而非仅离场的需求时须保留原对象接收与存档存在性区别，禁止fallback新宠，必要时同线补证。灵魂/dropAura读取目标的时机不同，不得用本经验合同顺手重写掉落owner。
+
+
+## 238消费预检边界（2026-09-26）
+
+**交叉确认（有限诊断）**：`tools/monster-experience-target-preflight.py` 执行原 `AUtils.GetNearestObj/GetDisBetweenTwoObj` 与 `BaseMonster.selectTarget`，原包AIR51.1.1.5共6输入全部符合独立预期。在怪物(0,0)、P1(20,0)、P2(100,0)、alertRange=1000时源选择P2，两个现代选择器选择P1；候选位置交换后源P1、现代P2。二维输入P1(100,400)/P2(200,0)时源P2，Stage1只按x选择P1。range=50的两例源均无目标；其中20/100例表明不能先过滤范围再选最近。range=50仅为诊断输入，不声称当前12类型实际配置如此。
+
+**确认事实**：Stage1CombatSystem:606的helper按一维数值距离排序，类型输入无alertRange；Monster30System:753按二维数值最近选择。后者有范围检查也不代表原AUtils排序已消费。231固定100/400同数量级的264态仍成立，6例不是其经验比例/生命周期的反证；它们反证的是把现有数值最近选择当作合法XP-03消费者。
+
+**未知/待239**：双英雄排序边界（含平局/空/单候选）、12实际构造最终alertRange、正式候选顺序与坐标适配尚无完整消费合同。239负责补证，238保持Blocked及全部XP-01..08责任。诊断采用注入的两活候选、调用原函数，不执行完整Config/构造/旧游戏；没有视觉或空间真值晋升，不改原231归档。可复验哈希/命令/原输出见本地 `docs/tasks/evidence/TASK-SLICE-238/selection-preflight.json`。
+
+
+## 239选择输入补证完成（2026-09-26）
+
+238预检的未知已在本有限范围解除；上节保留为历史失败记录，不再是当前阻塞。机器行为合同为 `docs/reverse-engineering/reference/monster-target-selection-contract.json`（`task-settings-239.monster-target-selection`）。238必须消费本节与原XP-01..08，不能恢复numeric nearest或经验fallback。
+
+### 选择合同与接线要求
+
+| 项 | 原事实/证据 | 238消费要求 |
+| --- | --- | --- |
+| 候选 | Config.as:1122按hero1、hero2顺序加入存在且非isDead的英雄；不排除仅readyToDestroy的活英雄，不加入pet | 从当前单局真实英雄对象按p1→p2建立候选，保存对象身份；不可依赖任意members/view数组顺序 |
+| 选择 | AUtils.as:327无NUMERIC标志排序距离，再以indexOf(0)回指候选；612组原包AIR通过 | 只在无当前对象且通过原AI门禁时选择；最多两候选时按默认Number十进制字符串字典序，等距离保留第一候选；空/单候选分别无对象/唯一英雄 |
+| 二维距离 | AUtils.as:316用sqrt(dx*dx+dy*dy)，输入是BaseObject.x/y | 使用同一世界坐标系的对象根，不用一维x、屏幕坐标、BBDC偏移或Math.hypot的另一舍入算法 |
+| 警戒 | BaseMonster.as:708先选候选，再距离<=alertRange；原生180构造态验证12类在五关/20,24,30fps中最终值 | Monster19=600，其余11类=1000；不得先过滤范围再选，不得把攻击距离当警戒距离。EndlessModeCreate=2000唯一调用StageListener981，不属于本五关 |
+| 保留与清理 | 原XP-03/04保留：活对象保留；已有死对象本次只清空；step尾部清死/readyToDestroy；效果致死可能先结算未清对象 | 同一对象归属供AI及死亡读；不能在每帧或死亡时用最近/首存活hero覆盖。恢复旧活hero/pet来源、已清为空及下一次合法重选三个状态 |
+| 英雄根适配 | Role1..5 newColipse均ObjectBaseSprite；BaseHero:114仅横向scale1.2；BaseObject.getBottom:894为height/2+y。复用218 `/symbols/0`、`/monsterMappings/0/runtimeBounds` 原生高度100/top-50 | 对现代movement底点，根x=movement.x、根y=movement.y−50；角色BBDC视觉偏移不参与。两者已处于同一scene/world时共同平移抵消；不向距离转换额外加入落地0.1 |
+| 怪物根 | 218/237已核定combat.x/y为对象根，236绑定持有sourceOffsetY及motion | 同次输入双方必须在同一坐标系：使用现代combat根与转换后的现代hero根，或对双方一致移除sourceOffsetY；禁止只移一方 |
+
+**交叉确认范围**：612选择态、180实际构造态、240真实HeroParty模型/生产投影表达式态；9原源码变异拒绝（numeric、一维、先过滤、反转平局、候选逆序、始终重选、严格小于、纳入死英雄、不清离场），4损坏报告反例拒绝。231源哈希及264经验态复验未改写。全部输入/源码/编译SWF/原包AIR51.1.1.5/工具与输出哈希在本地239报告中可查；机器合同收录完整612有限样本及12profile。
+
+### 六段证据矩阵
+
+| 段 | 证据等级与材料 | 边界/反证条件 |
+| --- | --- | --- |
+| 局部 | 确认事实：12完整构造与newColipse；恢复源StageCommon，原237构造支架复用 | 新怪物/第三候选/无尽模式不外推 |
+| 共享链 | 交叉确认：原Config/AUtils/BaseMonster方法，231 step/清理及typed经验setter原样保留 | 动态支架的移动、攻击、升级等服务是明确stub，不等于旧游戏回放 |
+| 空间 | 既有verified218同一ObjectBaseSprite及217/237环境/怪物根；5英雄newColipse/scaleY/getBottom源码推导底点→根 | 不生成新视觉几何；不宣称英雄完整视觉、出生点或原移动轨迹等价；不得使用FFDec99.95代替AIR原生100 |
+| 可观察合同 | 612独立expected覆盖同/跨数量级、交换、平局、空/单候选、死亡/仅离场、二维/十进制、边界、保留与清理 | 当前正常双英雄、有限实测状态；任意非有限坐标、第三候选另核 |
+| 现代映射 | 240实际HeroParty模型及抽取的生产表达式执行；源码哈希绑定四关目标输入/TestScene方法 | 它证明当前输入是什么，不证明整个Phaser场景或生产选择/经验已修复 |
+| 双验 | 原包AIR原方法/真实构造与独立表/源变异；真实现代模型/投影核对；verify及--check再生一致 | 本项没有UI变化，无像素验收声明；正式攻击、可见经验与真实保存/重载全部仍交238 |
+
+### 五关/TestScene消费者交接
+
+- Stage1-2：MonsterRuntimeRegistryBridge的`targets: heroes.snapshots()`实际转发HeroParty快照；Registry frame/Stage1目前只声明slot/x/alive，须将y及具体英雄引用沿原owner接入。
+- Stage1-3/2-1/2-2：各GameplayBridge的同名targets表达式直接转发快照，y是movement脚点，包含dead entry；在公共选择端按原Config过滤与顺序，不逐关复制规则。
+- Stage1-1/TestScene普通怪/Boss：TestScene.getMonsterTargets先过滤死亡后读取marker sprite.x/y；marker由HeroPartyRuntimeBridge.syncVisuals写movement脚点。转换应从同一实际成员的movement/root读取并核对更新相位，不把显示偏移或当前数组下标当对象身份。
+- 原生排序不同的6预检例仍是生产反例；本项不修改src，不能把补证通过写成238实现通过。reversed模型输入刻意测试适配前提，不宣称正式路由当前以错误顺序创建英雄。
+- 同一场景平移抵消仅适用于双方同坐标系；原始出生/完整逐帧移动及wall的0.1落地间距仍由原移动合同持有，不在本次目标转换顺手改动。
+
+复验入口：`python tools/monster-selection-source/capture.py`、`capture.py --mutations`、`profiles.py`、`audit.py`、`npx --no-install tsx tools/monster-selection-consumer-inputs.ts`、`python tools/monster-selection-source/verify.py --check`。源输入不变时复用本地原生报告，优先运行audit/verify；不要重复全采231。完整报告与handoff在 `docs/tasks/evidence/TASK-SETTINGS-239/`，支架/SWF在 `local-resources/regima/task-outputs/TASK-SETTINGS-239/`；生产依赖不得指向这些被忽略目录。
+
+## 238生产接线与验收（2026-09-27）
+
+`MonsterExperienceSystem` 保存既有实体上的对象引用，在第一次死亡同步分配。`HeroPartyExperienceSystem` 连接实际英雄进度、当前运行宠物和原roster；`HeroPartyExperienceBridge` 写回既有active save，不创建第二套进度或奖励owner。经验从死亡时发放，掉落仍由原defeat-id/Stage1RewardBridge处理；任务进度保存改读最新save，避免用旧快照覆盖刚结算的经验。
+
+| 生产边界 | 接线 | 验证责任 |
+| --- | --- | --- |
+| 五关创建/AI/尾部清理 | Registry与13/21/22自有创建路径在效果/AI之前绑定；视觉等待分支也维护目标。Monster30/3保留既有运动/攻击，选择根使用239投影，Monster30移动仍使用脚底坐标 | 612独立源选择态；264源expected；实际五关创建 |
+| 英雄接受直击 | Stage1CombatSystem、TestScene近战及普通/Boss弹体在接受后、HP变化前写对象 | 保护/闪避/零伤害反例；双owner实际按键攻击 |
+| 宠物攻击身份 | EntitySession生成稳定引用；PetCombatContext在生弹及私有攻击口捕获，猴/马resolver、马后续爆炸继承；兼容宠物沿原runtime挂元数据 | 24实际native普攻碰撞、失效ID、旧宠/换宠、同identity roster替换反例 |
+| 效果与死亡 | 纯效果只扣受害者HP；Stage1/Monster30/Monster3第一次死亡调用同一分配；旧slot领奖在已绑定实体上退出 | 原264首次/重复/旧对象/清空后/再次AI选择，7核心生产变异 |
+| 实际英雄/宠物/保存 | 英雄无实际宠100%，有宠各int(60%)；宠物仅保留petInfo100%；共享后重读当前宠。按slot写真实progression与encodePet | 12类型×P1/P2×3分配分支72例，加2旧宠晚到引用、2升级临界值，共76例；3消费者生产变异 |
+| TestScene Boss通用pet-* | 兼容updateOwnedPetSystem真实生弹并捕获source，WorldBridge实际几何/去重/伤害/死亡/保存 | P1/P2单独Boss样本；显式提供Boss目标作为攻击请求输入，不替换碰撞，不声明完整Boss宠物AI |
+
+`tools/pet-target-owner-preflight.ts` 已迁移至严格的实际模型/roster/保存专项；226原错误P2报告仅保留为历史，不能再把旧诊断退出0计作通过。TestScene兼容宠物由既有兼容owner执行，未注册到公共PetCombatRuntime的物种不再误送该运行器；本次未实现新的家族Behavior。
+
+复验入口：
+
+```powershell
+npx esbuild tools/monster-experience-trace.ts --bundle --platform=node --format=esm --outfile=.tmp/monster-experience-trace.mjs
+node .tmp/monster-experience-trace.mjs
+python -B tools/verify-monster-experience.py
+npx esbuild tools/monster-experience-runtime-tests.ts --bundle --platform=node --format=esm --outfile=.tmp/monster-experience-runtime-tests.mjs
+node .tmp/monster-experience-runtime-tests.mjs
+node tools/run-monster-experience-mutations.mjs
+node tools/run-monster-experience-browser.mjs
+# 宠物矩阵另设 XP_BROWSER_PET=1；Boss另设 XP_BROWSER_SCENE=TestScene / XP_BROWSER_BOSS=1。
+```
+
+本地证据目录 `docs/tasks/evidence/TASK-SLICE-238/` 保存production-trace、runtime-save-results、mutations及browser逐场景/owner/重载结果；`handoff.md`记录最终检查、实际场景数量和失败后修正。原231/239expected及源语料未被生产测试重写。生产运行不依赖该证据目录。
+
+验证边界：264态使用生产目标/AI/死亡逻辑，但其无player/商人回血/英雄setter中换宠仍是显式回调环境，不冒充完整旧游戏。当前现代场景无商人时装buff生产者，保留首死回调合同，不借本项新增时装系统。76例使用真实progression/roster/codec，24宠物攻击的敌人初始HP=1、宠物ATK=10000是明确fixture；旧引用例先证明正常换宠会清除旧弹体，再强制提交保留引用，不能称作被删除弹体自然命中。浏览器使用level20存档和英雄生存保护；宠物ATK=10000，正常关卡由真实按键/宠物AI攻击，未修改怪物HP或注入命中。
+
+未核销：232身体→攻击对象→效果→死亡顺序、233Canvas、234捕获身份、235被动回复，以及原84其余组合/完整猴马家族、VS-067和整条功能线。对象身份隔离只解决本次XP及带source弹体清理，不等于234完整捕获流程已修复。无新UI或原版视觉替换，也不以既有HUD截图宣称UI原生化。
+
+### 238可见经验的窄修复
+
+重载后的实际宠物页采用175A既有 `task-settings-175a.pet-page` verified真值（74对象/16态）和原版结构基准，不新增UI资源或重提语料。显示列表范围仅 `expmc`（character852/depth44）与 `exptxt`（character912/depth103）；根932同父子关系与坐标直接消费原manifest。经验字符串从FormalPetPageSystem恢复的同一roster读取，经FormalPetPageView写入；原稿先画文字再画进度图，导致文字存在但不可见，已改为进度图后画该文字。源depth与现代截图交叉确认，原版显示语义未新增推断。
+
+差异证据：本地238/browser/pet-xp-page-before.png显示文字被遮挡；Stage12Scene-p1/p2-pet-pet-page.png显示恢复后的数值，P2为10/11025，并由page.json保存实际文本。只核销P1/P2经验字段这一状态差异，不称为全页或其他资质字段的新增验收。原字体/抗锯齿和长期授权像素差异不扩大；无新增现代视觉例外。`npm run test:pet-page-truth`复核原74对象/16态、Schema及原生资产约束通过，未重生成或改写verified JSON。

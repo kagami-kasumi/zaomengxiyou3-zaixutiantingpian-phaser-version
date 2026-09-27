@@ -1,3 +1,4 @@
+import { getMonsterRewardConfig } from '../../systems/MonsterDefeatRewardSystem';
 import { createSceneMonsterCombat } from '../MonsterKnockbackBridge';
 import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
@@ -37,6 +38,7 @@ import {
 import type { Stage21QaOptions } from '../../systems/Stage21EntrySystem';
 import {
   updateStage1Enemy,
+  maintainStage1EnemyTarget,
   type Stage1CombatEnemy,
 } from '../../systems/Stage1CombatSystem';
 import {
@@ -237,6 +239,7 @@ function updateMonsterCombat(
   qa: Stage21QaOptions,
 ): void {
   for (const monster of monsters.values()) {
+    heroes.experience.bind(monster.combat, getMonsterRewardConfig(monster.combat.enemyType).experience);
     updateCombatMonsterPhysics(monster.physics, monster.combat, stage21MovementPlatforms, deltaMs, timeMs, scene.game.loop.targetFps);
     stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
     const holdRecoveryForVisual = monster.combat.phase === 'recovery'
@@ -249,6 +252,7 @@ function updateMonsterCombat(
         deltaMs,
       });
     }
+    if (holdRecoveryForVisual) maintainStage1EnemyTarget(monster.combat);
     const freezeForcedDeadFrame = monster.combat.enemyType === qa.holdEnemyType
       && qa.forcedEnemyState === 'dead'
       && monster.view.visual.action === 'dead'

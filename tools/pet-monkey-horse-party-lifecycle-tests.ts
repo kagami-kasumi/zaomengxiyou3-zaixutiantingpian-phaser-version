@@ -1,3 +1,4 @@
+import { petExperienceClosureFixture, petExperienceClosureBindings } from './pet-experience-closure-fixture';
 import { bodyGroundFixture } from './pet226-body/ground-fixture';
 /** Real party update closure, production family Behaviors/ports and simultaneous owners.
  * Scope: existing ordinary-effect release contract; delayed Horse4 callbacks are separate. */
@@ -43,9 +44,9 @@ for (const fps of [20, 24, 30]) {
     monkeyHorseCollision: () => bodyFixtureCollisionAssets, displayTick: () => tick,
     mask: () => { throw Error('Ordinary family attacks require native collision'); },
   }), { readyRoster: (r: any) => r });
-  const update = new Function('model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots',
+  const update = new Function('experienceDependencies', 'model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots',
     'pendingPetDamageEvents', 'pendingPetAnimationEvents', 'scene', 'petProjectileCombat',
-    'petDragonPresentation', 'isPetDragonQaEnabled', 'petTurtle', closure + '\nreturn updatePets;')(
+    'petDragonPresentation', 'isPetDragonQaEnabled', 'petTurtle', petExperienceClosureBindings + closure + '\nreturn updatePets;')(petExperienceClosureFixture,
     model, rosters, runtimes, snapshots, pending, animations, { game: { loop: { targetFps: fps } } },
     port, { update(s: any) { presented = s; } }, () => false, { readyRoster: (r: any) => r, update() {} });
   const enemy = createStage1CombatEnemy({ id: 'target', enemyType: 2, x: 340, y: 350 });

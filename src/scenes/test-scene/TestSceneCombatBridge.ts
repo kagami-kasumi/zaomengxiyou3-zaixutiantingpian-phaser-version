@@ -1,3 +1,4 @@
+import { acceptMonsterAttackTarget } from '../../systems/MonsterExperienceSystem';
 import Phaser from 'phaser';
 import { applyOwnedHeroDamage } from '../../systems/PetBattleOwnershipSystem';
 import type { PetRuntimeModel } from '../../systems/PetTypes';
@@ -128,6 +129,7 @@ export function applyHeroNormalAttackToMonster30s(params: {
       knockbackY: -2,
       occurredAtMs: time,
     });
+    acceptMonsterAttackTarget(monster, monster.experienceBinding?.heroes().find(hero => hero.ownerSlot === player.slot));
     applyMonster30Hit(monster, damageEvent.amount);
     result.damageEvents.push(damageEvent);
     result.monsterAuraTargets.push({ monsterId: monster.id, slot: player.slot });

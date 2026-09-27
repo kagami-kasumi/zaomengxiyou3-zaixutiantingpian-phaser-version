@@ -21,12 +21,12 @@
 | monkey/runtime.normal-roll | `pet-normal-attack-session-tests`、`pet-source-phase-tests` | — |
 | monkey/runtime.cooldown-order | `pet-source-phase-tests`、`pet-monkey-horse-dead-step-tests` | — |
 | monkey/runtime.auto-buff | 未核销：共享被动独立源合同与消费待235 | 235 |
-| monkey/runtime.hurt | `pet-monkey-horse-incoming-tests`、`pet-monkey-horse-hurt-release-tests` | 230证据已交接、236实现、232 |
-| monkey/runtime.death | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-dead-step-tests` | 231、232 |
+| monkey/runtime.hurt | `pet-monkey-horse-incoming-tests`、`pet-monkey-horse-hurt-release-tests` | 230证据已交接、236实现、232补证完成/240及其他类型消费待 |
+| monkey/runtime.death | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-dead-step-tests` | 231/239补证及238经验消费已完成；232补证完成；240及其他类型消费仍待 |
 | monkey/runtime.destroy | `pet-monkey-horse-party-lifecycle-tests`、`pet-horse-retired-parent-tests` | 234 |
 | monkey/runtime.projectile-collision | `pet-monkey-horse-collision-field-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-skill-projectile-tests`、`pet-horse-skill-projectile-tests` | — |
 | monkey/runtime.attack-id-dedup | `pet-monkey-horse-normal-runtime-tests`、`pet-monkey-skill-projectile-tests`、`pet-horse-skill-projectile-tests` | — |
-| monkey/runtime.damage-pipeline | `pet-monkey-horse-damage-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-aoyi-combat-tests`、`pet-horse-aoyi-runtime-tests` | 230证据已交接、236实现、231、232 |
+| monkey/runtime.damage-pipeline | `pet-monkey-horse-damage-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-aoyi-combat-tests`、`pet-horse-aoyi-runtime-tests` | 230证据已交接、236实现、231/239补证及238经验消费已完成；232补证完成；240及其他类型消费仍待 |
 | monkey/runtime.p1-p2 | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-normal-runtime-tests` | 234 |
 | monkey/monkey1.normal | `pet-monkey-horse-normal-runtime-tests`、`pet-monkey-body-emission-tests` | — |
 | monkey/monkey1.xj | `pet-monkey-body-emission-tests`、`pet-monkey-skill-projectile-tests`、`pet-monkey-effect-follow-tests` | — |
@@ -61,13 +61,13 @@
 | horse/runtime.action-priority | `pet-monkey-source-gate-tests`、`pet-monkey-horse-hurt-release-tests` | — |
 | horse/runtime.normal-roll | `pet-normal-attack-session-tests`、`pet-source-phase-tests` | — |
 | horse/runtime.cooldown-order | `pet-source-phase-tests`、`pet-monkey-horse-dead-step-tests` | — |
-| horse/runtime.hurt | `pet-monkey-horse-incoming-tests`、`pet-monkey-horse-hurt-release-tests` | 230证据已交接、236实现、232 |
-| horse/runtime.death | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-dead-step-tests` | 231、232 |
+| horse/runtime.hurt | `pet-monkey-horse-incoming-tests`、`pet-monkey-horse-hurt-release-tests` | 230证据已交接、236实现、232补证完成/240及其他类型消费待 |
+| horse/runtime.death | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-dead-step-tests` | 231/239补证及238经验消费已完成；232补证完成；240及其他类型消费仍待 |
 | horse/runtime.destroy | `pet-monkey-horse-party-lifecycle-tests`、`pet-horse-retired-parent-tests` | 234 |
 | horse/runtime.projectile-collision | `pet-monkey-horse-collision-field-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-skill-projectile-tests`、`pet-horse-skill-projectile-tests` | — |
 | horse/runtime.attack-id-dedup | `pet-monkey-horse-normal-runtime-tests`、`pet-monkey-skill-projectile-tests`、`pet-horse-skill-projectile-tests` | — |
-| horse/runtime.damage-pipeline | `pet-monkey-horse-damage-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-aoyi-combat-tests`、`pet-horse-aoyi-runtime-tests` | 230证据已交接、236实现、231、232 |
-| horse/runtime.ice-effect | `pet-target-ice-tests`、`pet-target-ice-body-tests`、`pet-target-ice-display-tests`、`pet-horse-aoyi-multi-combat-tests` | 232 |
+| horse/runtime.damage-pipeline | `pet-monkey-horse-damage-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-aoyi-combat-tests`、`pet-horse-aoyi-runtime-tests` | 230证据已交接、236实现、231/239补证及238经验消费已完成；232补证完成；240及其他类型消费仍待 |
+| horse/runtime.ice-effect | `pet-target-ice-tests`、`pet-target-ice-body-tests`、`pet-target-ice-display-tests`、`pet-horse-aoyi-multi-combat-tests` | 232补证完成/240及其他类型消费待 |
 | horse/runtime.p1-p2 | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-normal-runtime-tests` | 234 |
 | horse/horse1.normal | `pet-monkey-horse-normal-runtime-tests`、`pet-horse-body-emission-tests` | — |
 | horse/horse1.sp | `pet-horse-body-emission-tests`、`pet-horse-skill-projectile-tests`、`pet-horse-effect-follow-tests` | — |
@@ -91,6 +91,6 @@
 | horse/horse4.tmaoyi-explosion | `pet-horse-aoyi-birth-tests`、`pet-horse-aoyi-runtime-tests`、`pet-horse-aoyi-multi-combat-tests`、`pet-horse-retired-parent-tests` | — |
 | horse/horse4.tmaoyi-cleanup | `pet-horse-aoyi-birth-tests`、`pet-horse-aoyi-runtime-tests`、`pet-horse-aoyi-multi-combat-tests`、`pet-horse-retired-parent-tests` | — |
 
-公共后续编号：230/237击退证据及236实际消费已完成（2026-09-26；仅公共击退，完整身体/死亡/家族组合仍保留）、231死亡奖励归属、232怪物身体/攻击/目标效果顺序、233Canvas尺寸取整、234实时捕获身份、235共享被动回复与六增益。后续任务必须继续消费受影响的原合同，不以本矩阵登记作为修复。
+公共后续编号：230/237击退证据及236实际消费已完成（2026-09-26；仅公共击退，完整身体/死亡/家族组合仍保留）、231/239补证及238死亡经验消费已完成（2026-09-27；仅经验，不包含完整身体/死亡组合）、232怪物身体/攻击/目标效果顺序证据完成，240承接Monster30两条owner消费且其他类型责任保留、233Canvas尺寸取整、234实时捕获身份、235共享被动回复与六增益。后续任务必须继续消费受影响的原合同，不以本矩阵登记作为修复。
 
 实际画布证据沿用226进度中原版PNG与正式WebGL逐状态对照；Canvas差异明确保留233，不宣称跨渲染器像素一致。

@@ -36,11 +36,20 @@ export function createPetCombatContext(
   const roster = session.parentRuntimeKey
     ? { pets: [session.pet], selectedIndex: 0, message: '' }
     : frame.roster;
+  const source = frame.incomingFeedback && session.attackTarget(frame.incomingFeedback.ownerSlot);
+  const stampProjectiles = <T>(cast: () => T): T => {
+    const model = requireProjectiles(), before = new Set(model.projectiles);
+    const result = cast();
+    for (const projectile of model.projectiles) {
+      if (!before.has(projectile)) projectile.experienceSource = source;
+    }
+    return result;
+  };
   const castAt = (request: PetBehaviorSkillRequest, selected: readonly Readonly<PetSkillTarget>[]) => (
-    request({
+    stampProjectiles(() => request({
       roster, runtime: session.runtime, targets: selected, projectiles: requireProjectiles(),
       random: frame.random, actionToken: session.actionToken,
-    })
+    }))
   );
   return Object.freeze({
     pet: session.pet,
@@ -57,7 +66,11 @@ export function createPetCombatContext(
     isLocalOwner: frame.isLocalOwner !== false,
     animation: session.animationSnapshot(),
     grounded: session.snapshot().groundMotion?.standingOn !== undefined,
-    projectileCombat: frame.projectileCombat,
+    projectileCombat: frame.projectileCombat && { ...frame.projectileCombat,
+      hit: (projectile, targetId, cache) => {
+        return frame.projectileCombat!.hit({ ...projectile, experienceSource: projectile.experienceSource ?? source }, targetId, cache);
+      },
+    },
     get isGxp() { return session.currentGxp(frame); },
     face: (direction) => { requireLiveSession(); session.face(direction); },
     setRootScaleX: (sign) => {
@@ -107,9 +120,9 @@ export function createPetCombatContext(
         roster, runtime: session.runtime, target,
         actionToken: session.actionToken, projectiles, random: frame.random,
       };
-      return session.pet.species === 'horse'
+      return stampProjectiles(() => session.pet.species === 'horse'
         ? requestPetHorseBasicAttack(params)
-        : requestPetMonkeyBasicAttack(params);
+        : requestPetMonkeyBasicAttack(params));
     },
     relocate: (x, y) => {
       requireLiveSession();

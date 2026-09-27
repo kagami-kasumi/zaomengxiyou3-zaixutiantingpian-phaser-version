@@ -1,5 +1,13 @@
 # 纵向切片复现表
 
+2026-09-27 / TASK-SETTINGS-232完成：Monster30身体先效果、独立攻击下一世界步检测、HP死亡保留而destroy清弹已交叉确认。45组810原方法AIR态、三帧率66恢复SWF时钟态、6编译源变异和4损坏反例通过，baseline重复一致；五关12类型88源locator与实际伤害消费者已列明。保留碰撞/HP服务sink、效果到期注入及完整场景未重放边界。232归档，TASK-SLICE-240唯一Ready先消费Monster30两条owner；其他类型/233..235、原84组合、完整家族/VS-067及功能线仍未完成。合同见monster-body-attack-lifecycle-contract.md与reference/monster-body-attack-lifecycle-contract.json。
+
+2026-09-27 / TASK-SLICE-238完成：公共怪物经验对象、合法AI选择/尾部清理、首死分配与真实英雄/原宠roster/存档已接五关和TestScene普通怪/Boss。264独立源expected、612选择态、76实际进度/保存例、10生产变异、24组实际场景/双owner/重载通过；原宠物页经验文字按175A depth修正遮挡，P1/P2页面实测。238归档，TASK-SETTINGS-232唯一Ready；仅核销公共经验责任，232..235、原84其余组合、完整家族/VS-067与整线保持未完成。详见monster-death-experience-contract.md的238节与本地238/handoff.md。
+
+2026-09-26 / TASK-SETTINGS-239完成：612原包AIR选择态、180实际构造态、240真实模型/生产投影态、9源变异和4损坏报告反例通过；12类型警戒范围/Config候选顺序/特殊排序及既有218英雄根换算输入闭合。231的264经验态和完整XP-01..08保持；239归档，238恢复唯一Ready。未改src/public，不提升生产经验归属、原84/完整家族/VS-067完成度，232..235与功能线仍未关闭。交接见monster-death-experience-contract.md的239节与reference/monster-target-selection-contract.json。
+
+2026-09-26 / TASK-SLICE-238消费预检：6组原包AIR源选择诊断确认跨数量级排序与现代数值最近选择不同，二维距离及先选后警戒过滤也不能由现有一维helper代替。231的264有限样本与XP-01..08保留，但未覆盖实际12类型选择输入；238全合同保留并Blocked，TASK-SETTINGS-239唯一Ready补候选/排序/alertRange后恢复238。未改src/public或原真值，经验生产修复、232..235、原84/全族/VS-067与整线仍未完成。证据见 `docs/tasks/evidence/TASK-SLICE-238/preflight.md`，复验入口 `tools/monster-experience-target-preflight.py`。
+
 2026-09-26 / TASK-SETTINGS-231完成：公共怪物死亡经验XP-01..08已补证，264原包AIR样本、六源变异/四字段损坏拒绝、12实际类型继承与五关/TestScene消费者矩阵通过；P1宠火焰致死仍给P2的现代反例保留。英雄无宠100%、带宠各60%、宠物指定petInfo100%，效果/AI/目标清理相位和换宠对象分别核定。231归档，TASK-SLICE-238唯一Ready实施公共归属，232..235保持Planned；PG-006方案不充分转V2复盘中。未改src/public，不提升M-030/032/040或VS-067现代完成度，原84及整线仍未关闭。合同见 `docs/reverse-engineering/monster-death-experience-contract.md`。
 
 2026-09-26 / TASK-SLICE-236完成：公共击退已接入五关/TestScene真实owner，保留早晚结算相位、原host单位、Tween覆盖与边缘旧Tween。124650原生轨迹态、5184真实hit/physics态、432原方向、8生产变异及五关9201显示同步态/537旧Boss态通过；真实重试返回全部释放。237探针完成Tween反复force写末值的反例同次纠正并新增第8源变异。236归档，TASK-SETTINGS-231唯一Ready；仅核销公共击退责任，原84其余责任、身体/死亡、完整家族/all/VS-067与整线不关闭。合同与本地证据见 monster-pet-knockback-contract.md、TASK-SLICE-236/scene-verification.json。

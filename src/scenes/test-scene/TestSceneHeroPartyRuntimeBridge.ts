@@ -1,3 +1,5 @@
+import { readLegacyPetExperience } from '../../systems/PetExperienceTargetSystem';
+import { awardTestSceneHeroExperience } from './TestSceneExperienceBridge';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 // boundary: Stage 1-1 compatibility code reaches hero models only through this
 // bridge; HeroPartyRuntime remains their lifecycle and visual owner.
@@ -103,6 +105,8 @@ export function createTestSceneHeroPartyRuntime(
         ? createRole1ShadowQaLoadout()
         : getTestHeroSkillLoadoutPreset(heroId as HeroId, 0),
       restoreActiveSave,
+      awardHeroExperience: (slot, amount) => awardTestSceneHeroExperience(scene, slot, amount),
+      legacyPetExperience: slot => readLegacyPetExperience(slot === 'p1' ? scene.petRuntime : scene.p2PetRuntime),
     },
   );
   const players = runtime.compatibilityMembers().map((member, index): TestScenePlayerView => {

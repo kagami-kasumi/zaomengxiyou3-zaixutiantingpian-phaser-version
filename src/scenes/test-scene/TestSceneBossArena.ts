@@ -1,3 +1,4 @@
+import { bindTestSceneMonsterExperience, acceptTestSceneMonsterAttacker } from './TestSceneExperienceBridge';
 ﻿import Phaser from 'phaser';
 import { applyOwnedHeroDamage } from '../../systems/PetBattleOwnershipSystem';
 import { updateTestSceneBossPhysics } from './TestSceneMonsterKnockbackBridge';
@@ -51,6 +52,7 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
     }
 
     if (this.bossArena.state === 'active' && this.bossArena.boss) {
+      bindTestSceneMonsterExperience(this, this.bossArena.boss, 7);
       updateTestSceneBossPhysics(this, this.bossArena.boss, this.movementPlatforms, delta, time);
       updateMonster3(
         this.bossArena.boss,
@@ -84,7 +86,7 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
               context: this.createCurrentDropContext(),
             },
           });
-          if (rewards) this.awardMonsterExperience(rewards.experience.owner, rewards.experience.amount);
+          void rewards; // Experience is synchronous at the first death transition.
         }
         revealTransferDoor(this.bossArena);
         if (this.bossDoorView) {
@@ -112,6 +114,7 @@ export function activateBossFight(this: any): void {
     }
 
     activateBossArena(this.bossArena);
+    if (this.bossArena.boss) bindTestSceneMonsterExperience(this, this.bossArena.boss, 7);
     this.arenaWasActive = true;
     this.bossSpawnedOnce = true;
 
@@ -225,6 +228,7 @@ export function applyPlayerHitOnBoss(this: any, player: any, time: number): void
     });
     this.lastDamageEvent = damageEvent;
     boss.lastHitBy = player.slot;
+    acceptTestSceneMonsterAttacker(this, boss, 7, player.slot);
     applyMonster3Hit(boss, damageEvent.amount);
   }
 

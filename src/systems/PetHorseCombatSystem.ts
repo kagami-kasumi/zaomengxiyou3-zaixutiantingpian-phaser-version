@@ -214,7 +214,7 @@ export function resolveFormalPetHorseProjectileHits(params: Readonly<{
   for (const projectile of params.projectiles.projectiles) {
     if (projectile.petHostTick !== undefined || !isHorseProjectile(projectile) || projectile.isExpired || projectile.remainingHits <= 0) continue;
     if (projectile.elapsedMs < (projectile.activeAfterMs ?? 0)) continue;
-    const ownerSlot = params.ownerSlotForPet(projectile.sourceId);
+    const ownerSlot = projectile.experienceSource?.ownerSlot ?? params.ownerSlotForPet(projectile.sourceId);
     if (!ownerSlot) continue;
     const hitbox = getProjectileHitbox(projectile);
     for (const enemy of params.enemies) {
@@ -226,6 +226,7 @@ export function resolveFormalPetHorseProjectileHits(params: Readonly<{
         enemy,
         ownerSlot,
         petId: projectile.sourceId,
+        experienceSource: projectile.experienceSource,
         attackId: getProjectileAttackId(projectile),
         actionName: projectile.actionName,
         attackKind: projectile.attackKind,
@@ -406,6 +407,7 @@ function createTmaoyiExplosion(
       maxHits: 1,
     },
   );
+  projectile.experienceSource = source.experienceSource;
   projectile.activeAfterMs = source.explosionDelayMs ?? 0;
   projectile.petActionToken = source.petActionToken;
   projectile.trackingTargetId = enemy.id;

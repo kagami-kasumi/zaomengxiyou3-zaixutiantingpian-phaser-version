@@ -1,3 +1,4 @@
+import { acceptMonsterAttackTarget, settleMonsterExperience, selectMonsterAttackTarget, clearUnavailableMonsterAttackTarget, type MonsterAttackTarget, type MonsterExperienceBinding } from './MonsterExperienceSystem';
 import { initializeMonsterPetTargetEffects, isMonsterPetIceActive } from './MonsterPetTargetEffectSystem';
 import { acceptMonsterKnockback, type MonsterKnockbackBinding } from './MonsterKnockbackBinding';
 import {
@@ -97,6 +98,7 @@ export type Stage1CombatPlayer = {
 };
 
 export type Stage1CombatEnemy = {
+  experienceBinding?: MonsterExperienceBinding;
   petKnockback?: MonsterKnockbackBinding;
   petTargetEffectState?: import('./MonsterPetTargetEffectSystem').MonsterPetTargetEffectState;
   id: string;
@@ -129,6 +131,7 @@ export type Stage1CombatAudit = {
 };
 
 export type Stage1CombatRuntime = {
+  experienceHeroes?: readonly MonsterAttackTarget[];
   hitRegistry: HitRegistry;
   audit: Stage1CombatAudit;
   feedback: CombatFeedbackModel;
@@ -262,7 +265,19 @@ export function updateStage1CombatPlayer(params: {
   return event;
 }
 
-export function updateStage1Enemy(params: {
+/** A display hold must not suspend the source target lifecycle. */
+export function maintainStage1EnemyTarget(enemy: Stage1CombatEnemy): void {
+  if (enemy.phase !== 'dead' && enemy.phase !== 'hurt' && !isMonsterPetIceActive(enemy)) {
+    selectMonsterAttackTarget(enemy, enemy.x, enemy.y, enemy.enemyType === 19 ? 600 : 1000);
+  }
+  clearUnavailableMonsterAttackTarget(enemy);
+}
+
+export function updateStage1Enemy(params: Parameters<typeof advanceStage1Enemy>[0]): void {
+  try { advanceStage1Enemy(params); } finally { clearUnavailableMonsterAttackTarget(params.enemy); }
+}
+
+function advanceStage1Enemy(params: {
   enemy: Stage1CombatEnemy;
   targets: readonly { slot: PlayerSlot; x: number; alive: boolean }[];
   deltaMs: number;
@@ -270,6 +285,8 @@ export function updateStage1Enemy(params: {
   const { enemy: model, targets } = params;
   if (model.phase === 'dead') return;
   if (isMonsterPetIceActive(model)) return;
+  const retained = model.phase === 'hurt' && model.phaseRemainingMs > Math.max(0, params.deltaMs)
+    ? undefined : selectMonsterAttackTarget(model, model.x, model.y, model.enemyType === 19 ? 600 : 1000);
 
   if (model.phase !== 'approach') {
     model.phaseRemainingMs = Math.max(0, model.phaseRemainingMs - Math.max(0, params.deltaMs));
@@ -288,7 +305,8 @@ export function updateStage1Enemy(params: {
     model.phase = 'approach';
   }
 
-  const target = nearestLivingTarget(model.x, targets);
+
+  const target = model.experienceBinding ? retained?.position() : nearestLivingTarget(model.x, targets);
   if (!target) {
     stopMonsterApproach(model);
     return;
@@ -430,6 +448,7 @@ export function resolveStage1HeroHit(params: Readonly<{
   runtime: Stage1CombatRuntime;
   enemy: Stage1CombatEnemy;
   sourceId: string;
+  experienceSource?: MonsterAttackTarget;
   ownerSlot?: PlayerSlot;
   source?: CombatFeedbackSource;
   attackId: string;
@@ -441,9 +460,12 @@ export function resolveStage1HeroHit(params: Readonly<{
   timeMs: number;
   critical?: boolean;
   incrementsCombo?: boolean;
+  random?: () => number;
 }>): DamageEvent | undefined {
-  if (params.enemy.phase === 'dead') return undefined;
+  if (params.enemy.phase === 'dead' || params.enemy.sourceHitProtection?.protected) return undefined;
   if (!resolveHitOnce(params.runtime.hitRegistry, params.attackId, params.enemy.id)) return undefined;
+  if (params.enemy.sourceHitProtection && (params.random ?? Math.random)() <= params.enemy.sourceHitProtection.dodgeProbability) return undefined;
+  acceptMonsterAttackTarget(params.enemy, params.experienceSource ?? params.runtime.experienceHeroes?.find(hero => hero.ownerSlot === (params.ownerSlot ?? params.sourceId)));
   const hpBefore = params.enemy.hp;
   const amount = Math.min(hpBefore, calculateStage1HeroDamage(
     params.enemy.enemyType,
@@ -468,6 +490,7 @@ export function resolveStage1HeroHit(params: Readonly<{
   params.enemy.activeAttack = undefined;
   params.enemy.phase = params.enemy.hp === 0 ? 'dead' : 'hurt';
   params.enemy.phaseRemainingMs = params.enemy.hp === 0 ? 0 : Stage1CombatTuning.enemyHurtMs;
+  if (params.enemy.hp === 0) settleMonsterExperience(params.enemy);
   params.runtime.audit.damageEvents.push(event);
   recordCombatFeedback(params.runtime.feedback, {
     damageEvent: event,
@@ -492,6 +515,7 @@ export function resolveStage1PetHit(params: Readonly<{
   enemy: Stage1CombatEnemy;
   ownerSlot: PlayerSlot;
   petId: string;
+  experienceSource?: MonsterAttackTarget;
   attackId: string;
   actionName: string;
   attackKind: AttackKind;
@@ -520,6 +544,7 @@ export function resolveStage1PetHit(params: Readonly<{
     { x: params.knockbackX, y: params.knockbackY, timeMs: params.timeMs },
     { x: params.enemy.x, y: params.enemy.y, action: getStage1MonsterMotionAction(params.enemy),
       frozen: isMonsterPetIceActive(params.enemy) }, params.knockbackPhase ?? 'late');
+  acceptMonsterAttackTarget(params.enemy, params.experienceSource);
   params.enemy.lastHitBy = params.ownerSlot;
   params.sourceBullet?.applyEffects?.();
   const hpBefore = params.enemy.hp;
@@ -549,6 +574,7 @@ export function resolveStage1PetHit(params: Readonly<{
   params.enemy.activeAttack = undefined;
   params.enemy.phase = params.enemy.hp === 0 ? 'dead' : 'hurt';
   params.enemy.phaseRemainingMs = params.enemy.hp === 0 ? 0 : Stage1CombatTuning.enemyHurtMs;
+  if (params.enemy.hp === 0) settleMonsterExperience(params.enemy);
   params.runtime.audit.damageEvents.push(event);
   recordCombatFeedback(params.runtime.feedback, {
     damageEvent: event,

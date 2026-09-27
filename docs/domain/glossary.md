@@ -52,6 +52,11 @@
 | 怪物击退计算 | `MonsterKnockbackSystem` | System | Combat | 按237实际profile推进原受击轨迹，复用静态轴对齐地面碰撞；不拥有AI、伤害或奖励 | `EnemyKnockbackSystem` |
 | 怪物定义 | `MonsterDefinition` | Config | Combat / Content | 某类怪物跨关卡共享的只读配置，引用数值、物理、行为、能力、动画和奖励 profile | `EnemyDefinition`, `MonsterConfig` |
 | 怪物定义目录 | `MonsterDefinitionCatalog` | Config / Registry | Combat / Content | 按怪物类型稳定 ID 查询唯一 `MonsterDefinition`；不保存单局可变状态 | `MonsterRegistry`, `EnemyCatalog` |
+| 怪物攻击目标引用 | `MonsterAttackTarget` | Runtime Reference | Combat / Progression | 区分英雄/宠物、slot、运行实体与可选持久petId；保留真实对象回调，不按当前出战宠反查 | — |
+| 怪物死亡经验绑定 | `MonsterExperienceBinding` | Internal State | Combat / Progression | 怪物既有模型持有目标与首次死亡结算状态；效果先于AI，帧尾清理；不接管掉落 | — |
+| 怪物经验结算 | `MonsterExperienceSystem` | System | Combat / Progression | 消费231/239合同维护对象目标、原双英雄选择及一次性经验分配；由真实party/roster owner写数值和存档 | — |
+| 英雄队伍经验适配 | `HeroPartyExperienceSystem` | System Adapter | Progression | 现有HeroPartyRuntime持有稳定英雄引用和实际当前宠查询；不创建第二英雄或宠物运行时 | — |
+| 兼容宠物经验引用 | `PetExperienceTargetSystem` | Internal Adapter | Combat / Progression | 为尚未迁入Session的现有PetRuntimeModel保留对象身份与离场标记，瞬态元数据不进入存档 | — |
 | 怪物运行状态 | `MonsterRuntime` | Runtime Model | Combat | 一只具体怪物的稳定 ID、位置、生命、目标与生命周期状态；不包含 Phaser 显示对象 | `EnemyRuntime`, `MonsterInstance` |
 | 怪物行为策略 | `MonsterBrain` | Strategy / System Contract | Combat | 根据怪物与目标快照输出移动、攻击或技能意图；地面、飞行与 Boss 可替换实现 | `EnemyAI`, `MonsterController` |
 | 怪物运行时注册表 | `MonsterRuntimeRegistry` | Runtime Registry | Combat / Runtime | 存活怪物唯一登记点，负责稳定 ID、创建、查询、死亡登记与安全移除；第一版不是完整 ECS | `MonsterWorld`, `EnemyManager`, `MonsterManager` |

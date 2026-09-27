@@ -1,3 +1,6 @@
+import { createHeroPartyExperience } from '../systems/HeroPartyExperienceSystem';
+import { getMonsterRewardConfig } from '../systems/MonsterDefeatRewardSystem';
+import { persistHeroPartyExperience } from './HeroPartyExperienceBridge';
 import type { PetGroundEnvironment } from '../assets/PetGroundEnvironmentAssets';
 import { createPetTurtleCombatBridge } from './PetTurtleCombatBridge';
 // boundary: this bridge owns active hero movement/combat and hero visual updates;
@@ -70,6 +73,7 @@ export type HeroPartyViewSnapshot = HeroRuntimeSnapshot & Readonly<{
 }>;
 
 export type HeroPartyRuntime = Readonly<{
+  experience: ReturnType<typeof createHeroPartyExperience>;
   update: (frame: HeroPartyFrame) => void;
   updateMovement: (frame: HeroPartyFrame) => void;
   updateCombatStates: (frame: Omit<HeroPartyFrame, 'inputs'>) => void;
@@ -108,6 +112,10 @@ export function readHeroPartyPresentationSnapshot(
   return heroPartyRuntimeByScene.get(scene)?.snapshots().map(({ view: _view, ...snapshot }) => snapshot);
 }
 
+export function readHeroPartyExperience(scene: Phaser.Scene) {
+  return heroPartyRuntimeByScene.get(scene)?.experience;
+}
+
 export function readHeroPartyPetSnapshots(scene: Phaser.Scene) {
   return heroPartyRuntimeByScene.get(scene)?.petSnapshots();
 }
@@ -124,6 +132,8 @@ export function createHeroPartyRuntime(
       index: number,
     ) => HeroSkillLoadout | undefined;
     restoreActiveSave?: boolean;
+    awardHeroExperience?: (slot: 'p1' | 'p2', amount: number) => void;
+    legacyPetExperience?: (slot: 'p1' | 'p2') => ReturnType<PetCombatRuntime['currentAttackTarget']>;
   }>,
 ): HeroPartyRuntime {
   const role1ShadowQa = isFormalRole1ShadowQaEnabled();
@@ -280,8 +290,12 @@ export function createHeroPartyRuntime(
     }
   };
 
+  const experience = createHeroPartyExperience(model, slot => petCombatRuntimes[slot].currentAttackTarget(slot) ?? options.legacyPetExperience?.(slot),
+    () => { if (mayRestoreActiveSave) persistHeroPartyExperience(getBrowserStorage(), model, petRosters); }, options.awardHeroExperience);
   const runtime: HeroPartyRuntime = {
+    experience,
     update: (frame) => {
+      for (const enemy of frame.monsterTargets ?? []) experience.bind(enemy, getMonsterRewardConfig(enemy.enemyType).experience);
       if (destroyed) return;
       const activePetSources = (['p1', 'p2'] as const).flatMap((slot) => {
         const pet = getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' });
@@ -319,23 +333,20 @@ export function createHeroPartyRuntime(
       });
     },
     resolveAttacks: (monsterTargets, timeMs) => {
+      for (const enemy of monsterTargets) experience.bind(enemy, getMonsterRewardConfig(enemy.enemyType).experience);
       resolveHeroPartyAttacks(model, monsterTargets, timeMs);
       resolveFormalPetMonkeyProjectileHits({
         projectiles: model.projectiles,
         combat: model.combat,
         enemies: monsterTargets,
-        ownerSlotForPet: (petId) => (['p1', 'p2'] as const).find((slot) => (
-          getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' })?.id === petId
-        )),
+        ownerSlotForPet: () => undefined,
         timeMs,
       });
       resolveFormalPetHorseProjectileHits({
         projectiles: model.projectiles,
         combat: model.combat,
         enemies: monsterTargets,
-        ownerSlotForPet: (petId) => (['p1', 'p2'] as const).find((slot) => (
-          getActivePet(petRosters[slot] ?? { pets: [], selectedIndex: 0, message: '' })?.id === petId
-        )),
+        ownerSlotForPet: () => undefined,
         timeMs,
       });
       combatFeedbackView.flush();
@@ -425,9 +436,14 @@ export function createHeroPartyRuntime(
     random?: () => number;
     groundEnvironmentFor?: (index: number) => PetGroundEnvironment | undefined;
   }>): void {
+    for (const enemy of frame.combatEnemies ?? []) experience.bind(enemy, getMonsterRewardConfig(enemy.enemyType).experience);
     for (const [index, member] of model.members.entries()) {
       const slot = member.combat.slot;
-      const roster = petProjectileCombat.readyRoster(petTurtle.readyRoster(petRosters[slot]));
+      let roster = petProjectileCombat.readyRoster(petTurtle.readyRoster(petRosters[slot]));
+      const activePet = roster && getActivePet(roster);
+      if (options.legacyPetExperience && activePet && !petCombatRuntimes[slot].supports(activePet)) {
+        roster = undefined; // TestScene's existing compatibility owner steps these families.
+      }
       if (!roster || member.combat.combat.state === 'dead') {
         petCombatSnapshots[slot] = petCombatRuntimes[slot].update({
           roster: roster ?? { pets: [], selectedIndex: 0, message: '' },

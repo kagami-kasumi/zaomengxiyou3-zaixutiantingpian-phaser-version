@@ -144,9 +144,11 @@ function addSelectedPetProjection(
     speedtxt: String(pet.moveSpeed),
     crittxt: `${Math.trunc(pet.critBonusRate * 100)}%`,
   };
-  Object.entries(fields).forEach(([id, copy]) => addField(scene, objects, id, copy));
+  Object.entries(fields).filter(([id]) => id !== 'exptxt').forEach(([id, copy]) => addField(scene, objects, id, copy));
 
   addProgress(scene, objects, 852, ratioFrame(pet.exp, pet.expToNext));
+  // Verified 175A display list: exptxt depth 103 is above expmc depth 44.
+  addField(scene, objects, 'exptxt', fields.exptxt!);
   addProgress(scene, objects, 858, ratioFrame(pet.hpQuality, 2000));
   addProgress(scene, objects, 863, ratioFrame(pet.mpQuality, 2000));
   addProgress(scene, objects, 868, ratioFrame(pet.atkQuality, 2000));

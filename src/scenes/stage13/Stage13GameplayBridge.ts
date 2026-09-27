@@ -1,3 +1,4 @@
+import { getMonsterRewardConfig } from '../../systems/MonsterDefeatRewardSystem';
 import { createSceneMonsterCombat } from '../MonsterKnockbackBridge';
 import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
@@ -191,6 +192,7 @@ function updateMonsterCombat(
   rewards: Stage1RewardBridge,
 ): void {
   for (const monster of monsters.values()) {
+    heroes.experience.bind(monster.combat, getMonsterRewardConfig(monster.combat.enemyType).experience);
     updateCombatMonsterPhysics(monster.physics, monster.combat, stage13MovementPlatforms, deltaMs, timeMs, scene.game.loop.targetFps);
     stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
     updateStage1Enemy({

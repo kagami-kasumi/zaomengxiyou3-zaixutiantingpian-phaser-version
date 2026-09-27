@@ -1,3 +1,4 @@
+import { petExperienceClosureFixture, petExperienceClosureBindings } from './pet-experience-closure-fixture';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync } from 'node:fs';
@@ -205,9 +206,9 @@ const party = [setup(24, [], () => 0.5, 'p1'), setup(24, [], () => 0.5, 'p2')];
 const sharedCombat = createStage1CombatRuntime();
 const sharedProjectiles = createProjectileSystem();
 const snapshots: Record<string, ReturnType<PetCombatRuntime['snapshot']>> = {};
-const updateParty = new Function('model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots',
+const updateParty = new Function('experienceDependencies', 'model', 'petRosters', 'petCombatRuntimes', 'petCombatSnapshots',
   'pendingPetDamageEvents', 'pendingPetAnimationEvents', 'scene', 'petProjectileCombat', 'petDragonPresentation', 'isPetDragonQaEnabled', 'petTurtle',
-  `${closure}\nreturn updatePets;`)(
+  `${petExperienceClosureBindings}${closure}\nreturn updatePets;`)(petExperienceClosureFixture,
   { combat: sharedCombat, members: party.map((p, index) => ({ movement: p.frame.owner,
     combat: { slot: index === 0 ? 'p1' : 'p2', combat: { state: 'ready' } } })) },
   { p1: party[0]!.roster, p2: party[1]!.roster },

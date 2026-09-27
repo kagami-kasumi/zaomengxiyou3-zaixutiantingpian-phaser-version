@@ -1,3 +1,4 @@
+import { bindLegacyPetExperience, retireLegacyPetExperience } from '../../systems/PetExperienceTargetSystem';
 ﻿// boundary: pet/magic bridge adapts scene objects to systems; it does not own
 // pet or magic weapon progression rules.
 import {
@@ -91,7 +92,16 @@ export function updateOwnedPetSystem(input: OwnedPetSystemInput): PetRuntimeMode
     syncPetView: input.syncView,
     destroyPetView: input.destroyView,
   };
+  const before = new Set(input.projectiles.projectiles);
   updatePetSystemForOwner.call(adapter, input.deltaMs);
+  if (input.runtime !== adapter.petRuntime) retireLegacyPetExperience(input.runtime);
+  const pet = input.roster.pets.find(candidate => candidate.id === adapter.petRuntime?.petId);
+  if (adapter.petRuntime && pet) {
+    const source = bindLegacyPetExperience(adapter.petRuntime, input.roster, input.ownerSlot);
+    for (const projectile of input.projectiles.projectiles) {
+      if (!before.has(projectile)) projectile.experienceSource = source;
+    }
+  }
   return adapter.petRuntime;
 }
 

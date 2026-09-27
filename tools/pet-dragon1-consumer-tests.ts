@@ -1,3 +1,4 @@
+import { petExperienceClosureFixture, petExperienceClosureBindings } from './pet-experience-closure-fixture';
 import assert from 'node:assert/strict';
 import { readFileSync, mkdirSync } from 'node:fs';
 import { writeFileSync } from './write-dragon-evidence';
@@ -45,8 +46,8 @@ for(const entry of ['formal','TestScene']) for(const reason of ['retry','return'
   const formalEnemy=createStage1CombatEnemy({id:monster.id,enemyType:30,x:monster.x,y:monster.y});
   formalEnemy.hp=formalEnemy.maxHp=1000000;
   const enemies=entry==='TestScene'?adaptTestScenePetEnemies([monster],(_monster,slot)=>owners.push(slot)):[formalEnemy];
-  const update=new Function('model','petRosters','petCombatRuntimes','petCombatSnapshots','pendingPetDamageEvents',
-    'pendingPetAnimationEvents','scene','petProjectileCombat','petDragonPresentation','isPetDragonQaEnabled','petTurtle',closure+'\nreturn updatePets;')(
+  const update=new Function('experienceDependencies', 'model','petRosters','petCombatRuntimes','petCombatSnapshots','pendingPetDamageEvents',
+    'pendingPetAnimationEvents','scene','petProjectileCombat','petDragonPresentation','isPetDragonQaEnabled','petTurtle',petExperienceClosureBindings+closure+'\nreturn updatePets;')(petExperienceClosureFixture,
       model,rosters,runtimes,snapshots,{p1:[],p2:[]},{p1:[],p2:[]},{game:{loop:{targetFps:24}}},
       Object.assign((input:any)=>createPetProjectileCombatPort({...input,mask:()=>({width:67,height:53,alpha})}), {
         readyRoster(roster:any) {

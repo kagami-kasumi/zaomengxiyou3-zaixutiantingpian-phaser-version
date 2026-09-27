@@ -34,6 +34,8 @@ export function adaptTestScenePetEnemies(monsters: readonly Monster30Model[],
     if (scene) monster.petKnockback ??= createSceneMonsterKnockback(scene, 11, 30, monster);
     return {
     id: monster.id, enemyType: 30,
+    get experienceBinding() { return monster.experienceBinding; },
+    set experienceBinding(value) { monster.experienceBinding = value; },
     get petTargetEffectState() { return monster.petTargetEffectState; },
     set petTargetEffectState(value) { monster.petTargetEffectState = value; },
     get petKnockback() { return monster.petKnockback; },

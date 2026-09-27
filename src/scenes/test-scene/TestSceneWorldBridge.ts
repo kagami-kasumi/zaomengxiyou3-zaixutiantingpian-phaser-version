@@ -1,3 +1,4 @@
+import { bindTestSceneMonsterExperience, acceptTestSceneMonsterAttacker } from './TestSceneExperienceBridge';
 ﻿// boundary: world bridge syncs scene visuals and runtime hooks; it does not own
 // monster, projectile, drop, or level domain rules.
 import Phaser from 'phaser';
@@ -117,6 +118,7 @@ export function updateMonster30s(this: any, delta: number): void {
     const surviving: Monster30Model[] = [];
 
     for (const monster of this.monster30s) {
+      bindTestSceneMonsterExperience(this, monster, monster.experience);
       updateMonster30(monster, targets, delta, undefined, this.game.loop.targetFps, this.time.now);
       if (monster.hp <= 0) {
         const award = claimMonsterExperienceForCurrentTarget(monster);
@@ -187,6 +189,9 @@ export function tryPetQlfjCounterAttack(this: any, monster: Monster30Model, time
       occurredAtMs: time,
     });
     const hpBefore = monster.hp;
+    const source = monster.experienceBinding?.heroes().find(hero => hero.ownerSlot === slot)?.currentPet?.();
+    acceptTestSceneMonsterAttacker(this, monster, monster.experience, damageEvent.sourceId,
+      source?.petId === result.pet?.id ? source : undefined);
     if (applyMonster30Hit(monster, damageEvent.amount)) {
       this.lastDamageEvent = damageEvent;
       recordTestSceneCombatFeedback(this.combatFeedback, {
@@ -392,6 +397,7 @@ export function spawnMonster30Wave(this: any): number {
         () => Math.random(),
       );
       const monster = createMonster30(pos.x, pos.y);
+      bindTestSceneMonsterExperience(this, monster, monster.experience);
       this.monster30s.push(monster);
     }
 
@@ -656,6 +662,7 @@ export function applyProjectileHits(this: any, time: number): void {
         });
 
         acceptTestScenePetKnockback(this, monster, 30, projectile, time);
+        acceptTestSceneMonsterAttacker(this, monster, monster.experience, projectile.sourceId, projectile.experienceSource);
         if (applyMonster30Hit(monster, damageEvent.amount)) {
           if (projectile.magicStunMs && projectile.magicStunMs > 0) {
             applyMonster30MagicZlHummerStun(monster, {
@@ -786,6 +793,7 @@ export function applyProjectileHits(this: any, time: number): void {
         });
 
         acceptTestScenePetKnockback(this, this.bossArena.boss, 3, projectile, time);
+        acceptTestSceneMonsterAttacker(this, this.bossArena.boss, 7, projectile.sourceId, projectile.experienceSource);
         if (applyMonster3Hit(this.bossArena.boss, damageEvent.amount)) {
           if (isPlayerSlot(projectile.sourceId)) {
             tryRole1LifeStealForPlayer(

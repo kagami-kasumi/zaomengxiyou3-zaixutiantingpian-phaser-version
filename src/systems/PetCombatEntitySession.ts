@@ -1,3 +1,6 @@
+import type { MonsterAttackTarget } from './MonsterExperienceSystem';
+import type { PlayerSlot } from './InputSystem';
+import { addPetExperience } from './PetProgressionSystem';
 import type { PetBehavior, PetBehaviorContext } from './PetBehavior';
 import type {
   PetCombatEntitySnapshot, PetCombatFrame, PetCombatReleaseReason,
@@ -328,6 +331,19 @@ export class PetCombatEntitySession {
     });
   }
 
+  private experienceTarget?: MonsterAttackTarget;
+
+  attackTarget(ownerSlot: PlayerSlot): MonsterAttackTarget {
+    return this.experienceTarget ??= Object.freeze({
+      kind: 'pet', ownerSlot, runtimeId: this.runtimeKey,
+      petId: this.parentRuntimeKey ? undefined : this.pet.id,
+      position: () => ({ x: this.runtime.x, y: this.runtime.y }),
+      isDead: () => this.pet.hp <= 0,
+      isReadyToDestroy: () => this.released,
+      addExperience: (amount: number) => { addPetExperience(this.pet, amount); },
+    });
+  }
+
   snapshot(): PetCombatEntitySnapshot {
     return Object.freeze({
       petId: this.pet.id, species: this.pet.species, form: this.pet.form,
@@ -352,7 +368,8 @@ export class PetCombatEntitySession {
     try { this.behavior.destroy(reason); } catch (error) { failures.push(error); }
     try { this.ports.releaseChildren(reason); } catch (error) { failures.push(error); }
     if (this.projectiles) {
-      this.projectiles.projectiles = this.projectiles.projectiles.filter(({ sourceId }) => sourceId !== this.pet.id);
+      this.projectiles.projectiles = this.projectiles.projectiles.filter(projectile => projectile.experienceSource
+        ? projectile.experienceSource.runtimeId !== this.runtimeKey : projectile.sourceId !== this.pet.id);
     }
     try { this.publish({ type: 'deactivated', reason }); } catch (error) { failures.push(error); }
     if (failures.length) throw new AggregateError(failures, 'Pet release callbacks failed after cleanup');
