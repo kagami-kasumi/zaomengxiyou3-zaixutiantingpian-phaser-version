@@ -1,3 +1,4 @@
+import { monster30PetTargetProfile } from '../systems/Monster30CollisionSystem';
 import { createHeroPartyExperience } from '../systems/HeroPartyExperienceSystem';
 import { getMonsterRewardConfig } from '../systems/MonsterDefeatRewardSystem';
 import { persistHeroPartyExperience } from './HeroPartyExperienceBridge';
@@ -418,12 +419,17 @@ export function createHeroPartyRuntime(
           target: {
             runtimeKey: snapshot.runtime.runtimeKey,
             x: snapshot.runtime.x,
+            y: snapshot.runtime.y,
+            collisionProfile: enemy.enemyType === 30 && snapshot.species && snapshot.form
+              ? monster30PetTargetProfile(snapshot.species, snapshot.form) : undefined,
             defense: pet.def,
             hp: pet.hp,
             protectedFromHits: snapshot.protectedFromHits,
           },
         });
-        if (event) pendingPetDamageEvents[slot] = [...(pendingPetDamageEvents[slot] ?? []), event];
+        if (event && enemy.enemyType === 30) {
+          petCombatSnapshots[slot] = petCombatRuntimes[slot].applyDamageEvents([event], timeMs);
+        } else if (event) pendingPetDamageEvents[slot] = [...(pendingPetDamageEvents[slot] ?? []), event];
       }
   }
 

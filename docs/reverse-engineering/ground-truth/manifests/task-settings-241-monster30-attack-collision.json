@@ -1,0 +1,4463 @@
+{
+  "schemaVersion": 1,
+  "truthId": "task-settings-241.monster30-attack-collision",
+  "status": "verified",
+  "scope": {
+    "taskId": "TASK-SETTINGS-241",
+    "surfaceId": "monster30-attack-collision",
+    "originalVersion": "RegiMA 1.1 / bundled AIR 51.1.1.5",
+    "description": "10 attack frames x 2 directions; actual target profiles, phase fields and collision oracle linked via reference sidecar. No modern damage completion."
+  },
+  "generatedBy": {
+    "tool": "tools/monster30-collision/generate.py",
+    "toolVersion": "1",
+    "command": "python tools/monster30-collision/generate.py --verify",
+    "generatedAt": "2026-09-27T00:00:00Z"
+  },
+  "provenance": [
+    {
+      "id": "attack",
+      "sourceType": "restored-swf",
+      "sourcePath": "local-resources/regima/source/restored-swfs/assets/1.swf",
+      "sha256": "14470fa742917ebd902763ddee7971876c458478a7b2711f1eeb8beaea2b0d7e",
+      "locator": "Monster30Bullet1 character21, child20; 13 definition closure"
+    }
+  ],
+  "stage": {
+    "width": 940,
+    "height": 590,
+    "frameRate": 24,
+    "coordinateSpace": "stage",
+    "scaleMode": "noScale",
+    "alignment": "TL"
+  },
+  "states": [
+    {
+      "id": "f1-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 1,
+      "fixtureId": "f1-s1",
+      "baselineId": "f1-s1"
+    },
+    {
+      "id": "f1-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 1,
+      "fixtureId": "f1-s-1",
+      "baselineId": "f1-s-1"
+    },
+    {
+      "id": "f2-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 2,
+      "fixtureId": "f2-s1",
+      "baselineId": "f2-s1"
+    },
+    {
+      "id": "f2-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 2,
+      "fixtureId": "f2-s-1",
+      "baselineId": "f2-s-1"
+    },
+    {
+      "id": "f3-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 3,
+      "fixtureId": "f3-s1",
+      "baselineId": "f3-s1"
+    },
+    {
+      "id": "f3-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 3,
+      "fixtureId": "f3-s-1",
+      "baselineId": "f3-s-1"
+    },
+    {
+      "id": "f4-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 4,
+      "fixtureId": "f4-s1",
+      "baselineId": "f4-s1"
+    },
+    {
+      "id": "f4-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 4,
+      "fixtureId": "f4-s-1",
+      "baselineId": "f4-s-1"
+    },
+    {
+      "id": "f5-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 5,
+      "fixtureId": "f5-s1",
+      "baselineId": "f5-s1"
+    },
+    {
+      "id": "f5-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 5,
+      "fixtureId": "f5-s-1",
+      "baselineId": "f5-s-1"
+    },
+    {
+      "id": "f6-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 6,
+      "fixtureId": "f6-s1",
+      "baselineId": "f6-s1"
+    },
+    {
+      "id": "f6-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 6,
+      "fixtureId": "f6-s-1",
+      "baselineId": "f6-s-1"
+    },
+    {
+      "id": "f7-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 7,
+      "fixtureId": "f7-s1",
+      "baselineId": "f7-s1"
+    },
+    {
+      "id": "f7-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 7,
+      "fixtureId": "f7-s-1",
+      "baselineId": "f7-s-1"
+    },
+    {
+      "id": "f8-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 8,
+      "fixtureId": "f8-s1",
+      "baselineId": "f8-s1"
+    },
+    {
+      "id": "f8-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 8,
+      "fixtureId": "f8-s-1",
+      "baselineId": "f8-s-1"
+    },
+    {
+      "id": "f9-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 9,
+      "fixtureId": "f9-s1",
+      "baselineId": "f9-s1"
+    },
+    {
+      "id": "f9-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 9,
+      "fixtureId": "f9-s-1",
+      "baselineId": "f9-s-1"
+    },
+    {
+      "id": "f10-s1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 10,
+      "fixtureId": "f10-s1",
+      "baselineId": "f10-s1"
+    },
+    {
+      "id": "f10-s-1",
+      "entry": "Native restored MovieClip EXIT_FRAME, independently linked to source world detection phases",
+      "frame": 10,
+      "fixtureId": "f10-s-1",
+      "baselineId": "f10-s-1"
+    }
+  ],
+  "displayObjects": [
+    {
+      "id": "f1-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f1-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -62.75,
+            "top": -58.7,
+            "width": 119.95,
+            "height": 85.15
+          },
+          "stageBounds": {
+            "left": 407.25,
+            "top": 236.3,
+            "width": 119.95000000000005,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f1-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f1-s1/root/1",
+      "parentId": "f1-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f1-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -2.4,
+            "top": -7.55,
+            "width": 120.85000000000001,
+            "height": 71.45
+          },
+          "stageBounds": {
+            "left": 402.2,
+            "top": 234.55,
+            "width": 130.09999999999997,
+            "height": 88.59999999999997
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f1-s1/root/1/1",
+      "parentId": "f1-s1/root/1",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 10,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f1-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9539794921875,
+            "tx": -10.15,
+            "ty": 2.1,
+            "a": 0.9539794921875,
+            "b": -0.29986572265625,
+            "c": 0.29986572265625
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 407.25,
+            "top": 236.3,
+            "width": 119.95000000000005,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [
+          {
+            "blurX": 0,
+            "blurY": 0,
+            "type": "flash.filters::BlurFilter"
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f1-s1/root/1/1/7",
+      "parentId": "f1-s1/root/1/1",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 9,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f1-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 407.25,
+            "top": 236.3,
+            "width": 119.95000000000005,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f1-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f1-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -62.75,
+            "top": -58.7,
+            "width": 119.95,
+            "height": 85.15
+          },
+          "stageBounds": {
+            "left": 412.8,
+            "top": 236.3,
+            "width": 119.94999999999999,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f1-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f1-s-1/root/1",
+      "parentId": "f1-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f1-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -2.4,
+            "top": -7.55,
+            "width": 120.85000000000001,
+            "height": 71.45
+          },
+          "stageBounds": {
+            "left": 407.7,
+            "top": 234.55,
+            "width": 130.09999999999997,
+            "height": 88.59999999999997
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f1-s-1/root/1/1",
+      "parentId": "f1-s-1/root/1",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 10,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f1-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9539794921875,
+            "tx": -10.15,
+            "ty": 2.1,
+            "a": 0.9539794921875,
+            "b": -0.29986572265625,
+            "c": 0.29986572265625
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 412.8,
+            "top": 236.3,
+            "width": 119.94999999999999,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [
+          {
+            "blurX": 0,
+            "blurY": 0,
+            "type": "flash.filters::BlurFilter"
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f1-s-1/root/1/1/7",
+      "parentId": "f1-s-1/root/1/1",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 9,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f1-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 412.8,
+            "top": 236.3,
+            "width": 119.94999999999999,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f2-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 2
+      },
+      "placements": [
+        {
+          "stateId": "f2-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -107.45,
+            "top": -56.55,
+            "width": 162.95,
+            "height": 108
+          },
+          "stageBounds": {
+            "left": 362.55,
+            "top": 238.45,
+            "width": 162.95,
+            "height": 108
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f2-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f2-s1/root/1",
+      "parentId": "f2-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 2
+      },
+      "placements": [
+        {
+          "stateId": "f2-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -42.9,
+            "top": -5.05,
+            "width": 151.85,
+            "height": 86.45
+          },
+          "stageBounds": {
+            "left": 362.55,
+            "top": 238.45,
+            "width": 162.95,
+            "height": 108
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f2-s1/root/1/1",
+      "parentId": "f2-s1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 12,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f2-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -42.9,
+            "top": -5.05,
+            "width": 151.85,
+            "height": 86.45
+          },
+          "stageBounds": {
+            "left": 362.55,
+            "top": 238.45,
+            "width": 162.95,
+            "height": 108
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f2-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 2
+      },
+      "placements": [
+        {
+          "stateId": "f2-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -107.45,
+            "top": -56.55,
+            "width": 162.95,
+            "height": 108
+          },
+          "stageBounds": {
+            "left": 414.5,
+            "top": 238.45,
+            "width": 162.95000000000005,
+            "height": 108
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f2-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f2-s-1/root/1",
+      "parentId": "f2-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 2
+      },
+      "placements": [
+        {
+          "stateId": "f2-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -42.9,
+            "top": -5.05,
+            "width": 151.85,
+            "height": 86.45
+          },
+          "stageBounds": {
+            "left": 414.5,
+            "top": 238.45,
+            "width": 162.95000000000005,
+            "height": 108
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f2-s-1/root/1/1",
+      "parentId": "f2-s-1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 12,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f2-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -42.9,
+            "top": -5.05,
+            "width": 151.85,
+            "height": 86.45
+          },
+          "stageBounds": {
+            "left": 414.5,
+            "top": 238.45,
+            "width": 162.95000000000005,
+            "height": 108
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f3-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 3
+      },
+      "placements": [
+        {
+          "stateId": "f3-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -145.65,
+            "top": -50.35,
+            "width": 189.65,
+            "height": 119.85
+          },
+          "stageBounds": {
+            "left": 324.35,
+            "top": 244.65,
+            "width": 189.64999999999998,
+            "height": 119.85
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f3-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f3-s1/root/1",
+      "parentId": "f3-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 3
+      },
+      "placements": [
+        {
+          "stateId": "f3-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -82.15,
+            "top": -0.8,
+            "width": 177.60000000000002,
+            "height": 94.55
+          },
+          "stageBounds": {
+            "left": 324.35,
+            "top": 244.65,
+            "width": 189.64999999999998,
+            "height": 119.85
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f3-s1/root/1/1",
+      "parentId": "f3-s1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 14,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f3-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -82.15,
+            "top": -0.8,
+            "width": 177.60000000000002,
+            "height": 94.55
+          },
+          "stageBounds": {
+            "left": 324.35,
+            "top": 244.65,
+            "width": 189.64999999999998,
+            "height": 119.85
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f3-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 3
+      },
+      "placements": [
+        {
+          "stateId": "f3-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -145.65,
+            "top": -50.35,
+            "width": 189.65,
+            "height": 119.85
+          },
+          "stageBounds": {
+            "left": 426,
+            "top": 244.65,
+            "width": 189.64999999999998,
+            "height": 119.85
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f3-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f3-s-1/root/1",
+      "parentId": "f3-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 3
+      },
+      "placements": [
+        {
+          "stateId": "f3-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -82.15,
+            "top": -0.8,
+            "width": 177.60000000000002,
+            "height": 94.55
+          },
+          "stageBounds": {
+            "left": 426,
+            "top": 244.65,
+            "width": 189.64999999999998,
+            "height": 119.85
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f3-s-1/root/1/1",
+      "parentId": "f3-s-1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 14,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f3-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -82.15,
+            "top": -0.8,
+            "width": 177.60000000000002,
+            "height": 94.55
+          },
+          "stageBounds": {
+            "left": 426,
+            "top": 244.65,
+            "width": 189.64999999999998,
+            "height": 119.85
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f4-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 4
+      },
+      "placements": [
+        {
+          "stateId": "f4-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -163.55,
+            "top": -29.7,
+            "width": 164,
+            "height": 108.45
+          },
+          "stageBounds": {
+            "left": 306.45,
+            "top": 265.3,
+            "width": 164,
+            "height": 108.44999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f4-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f4-s1/root/1",
+      "parentId": "f4-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 4
+      },
+      "placements": [
+        {
+          "stateId": "f4-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -102.35,
+            "top": 13.35,
+            "width": 152.8,
+            "height": 86.75
+          },
+          "stageBounds": {
+            "left": 306.45,
+            "top": 265.3,
+            "width": 164,
+            "height": 108.44999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f4-s1/root/1/1",
+      "parentId": "f4-s1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 16,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f4-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -102.35,
+            "top": 13.35,
+            "width": 152.8,
+            "height": 86.75
+          },
+          "stageBounds": {
+            "left": 306.45,
+            "top": 265.3,
+            "width": 164,
+            "height": 108.44999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f4-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 4
+      },
+      "placements": [
+        {
+          "stateId": "f4-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -163.55,
+            "top": -29.7,
+            "width": 164,
+            "height": 108.45
+          },
+          "stageBounds": {
+            "left": 469.55,
+            "top": 265.3,
+            "width": 163.99999999999994,
+            "height": 108.44999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f4-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f4-s-1/root/1",
+      "parentId": "f4-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 4
+      },
+      "placements": [
+        {
+          "stateId": "f4-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -102.35,
+            "top": 13.35,
+            "width": 152.8,
+            "height": 86.75
+          },
+          "stageBounds": {
+            "left": 469.55,
+            "top": 265.3,
+            "width": 163.99999999999994,
+            "height": 108.44999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f4-s-1/root/1/1",
+      "parentId": "f4-s-1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 16,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f4-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -102.35,
+            "top": 13.35,
+            "width": 152.8,
+            "height": 86.75
+          },
+          "stageBounds": {
+            "left": 469.55,
+            "top": 265.3,
+            "width": 163.99999999999994,
+            "height": 108.44999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f5-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "f5-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -174.7,
+            "top": -4.15,
+            "width": 119.94999999999999,
+            "height": 85.15
+          },
+          "stageBounds": {
+            "left": 295.3,
+            "top": 290.85,
+            "width": 119.94999999999999,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f5-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f5-s1/root/1",
+      "parentId": "f5-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "f5-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -121.25,
+            "top": 29.8,
+            "width": 120.85,
+            "height": 71.45
+          },
+          "stageBounds": {
+            "left": 290.2,
+            "top": 289.15,
+            "width": 130.10000000000002,
+            "height": 88.55000000000001
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f5-s1/root/1/1",
+      "parentId": "f5-s1/root/1",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 10,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f5-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9539794921875,
+            "tx": -129,
+            "ty": 39.45,
+            "a": 0.9539794921875,
+            "b": -0.29986572265625,
+            "c": 0.29986572265625
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 295.3,
+            "top": 290.85,
+            "width": 119.94999999999999,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [
+          {
+            "blurX": 0,
+            "blurY": 0,
+            "type": "flash.filters::BlurFilter"
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f5-s1/root/1/1/7",
+      "parentId": "f5-s1/root/1/1",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 9,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f5-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 295.3,
+            "top": 290.85,
+            "width": 119.94999999999999,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f5-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "f5-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -174.7,
+            "top": -4.15,
+            "width": 119.94999999999999,
+            "height": 85.15
+          },
+          "stageBounds": {
+            "left": 524.75,
+            "top": 290.85,
+            "width": 119.95000000000005,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f5-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f5-s-1/root/1",
+      "parentId": "f5-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 5
+      },
+      "placements": [
+        {
+          "stateId": "f5-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -121.25,
+            "top": 29.8,
+            "width": 120.85,
+            "height": 71.45
+          },
+          "stageBounds": {
+            "left": 519.7,
+            "top": 289.15,
+            "width": 130.0999999999999,
+            "height": 88.55000000000001
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f5-s-1/root/1/1",
+      "parentId": "f5-s-1/root/1",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 10,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f5-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9539794921875,
+            "tx": -129,
+            "ty": 39.45,
+            "a": 0.9539794921875,
+            "b": -0.29986572265625,
+            "c": 0.29986572265625
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 524.75,
+            "top": 290.85,
+            "width": 119.95000000000005,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [
+          {
+            "blurX": 0,
+            "blurY": 0,
+            "type": "flash.filters::BlurFilter"
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f5-s-1/root/1/1/7",
+      "parentId": "f5-s-1/root/1/1",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 9,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f5-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 524.75,
+            "top": 290.85,
+            "width": 119.95000000000005,
+            "height": 85.14999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f6-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 6
+      },
+      "placements": [
+        {
+          "stateId": "f6-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -175.15,
+            "top": -4.35,
+            "width": 120.10000000000001,
+            "height": 84.1
+          },
+          "stageBounds": {
+            "left": 294.85,
+            "top": 290.65,
+            "width": 120.09999999999997,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f6-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f6-s1/root/1",
+      "parentId": "f6-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 6
+      },
+      "placements": [
+        {
+          "stateId": "f6-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -121.5,
+            "top": 29.65,
+            "width": 120.8,
+            "height": 70.30000000000001
+          },
+          "stageBounds": {
+            "left": 289.95,
+            "top": 289.05,
+            "width": 129.90000000000003,
+            "height": 87.39999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f6-s1/root/1/1",
+      "parentId": "f6-s1/root/1",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 10,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f6-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.95758056640625,
+            "tx": -19.35,
+            "ty": 4.9,
+            "a": -0.95758056640625,
+            "b": 0.2881622314453125,
+            "c": 0.2881622314453125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 294.85,
+            "top": 290.65,
+            "width": 120.09999999999997,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [
+          {
+            "blurX": 0,
+            "blurY": 0,
+            "type": "flash.filters::BlurFilter"
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f6-s1/root/1/1/7",
+      "parentId": "f6-s1/root/1/1",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 9,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f6-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 294.85,
+            "top": 290.65,
+            "width": 120.09999999999997,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f6-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 6
+      },
+      "placements": [
+        {
+          "stateId": "f6-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -175.15,
+            "top": -4.35,
+            "width": 120.10000000000001,
+            "height": 84.1
+          },
+          "stageBounds": {
+            "left": 525.05,
+            "top": 290.65,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f6-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f6-s-1/root/1",
+      "parentId": "f6-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 6
+      },
+      "placements": [
+        {
+          "stateId": "f6-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -121.5,
+            "top": 29.65,
+            "width": 120.8,
+            "height": 70.30000000000001
+          },
+          "stageBounds": {
+            "left": 520.15,
+            "top": 289.05,
+            "width": 129.89999999999998,
+            "height": 87.39999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f6-s-1/root/1/1",
+      "parentId": "f6-s-1/root/1",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 10,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f6-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.95758056640625,
+            "tx": -19.35,
+            "ty": 4.9,
+            "a": -0.95758056640625,
+            "b": 0.2881622314453125,
+            "c": 0.2881622314453125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 525.05,
+            "top": 290.65,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [
+          {
+            "blurX": 0,
+            "blurY": 0,
+            "type": "flash.filters::BlurFilter"
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f6-s-1/root/1/1/7",
+      "parentId": "f6-s-1/root/1/1",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 9,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f6-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 525.05,
+            "top": 290.65,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f7-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 7
+      },
+      "placements": [
+        {
+          "stateId": "f7-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -171.25,
+            "top": -25.15,
+            "width": 162.7,
+            "height": 106.5
+          },
+          "stageBounds": {
+            "left": 298.75,
+            "top": 269.85,
+            "width": 162.7,
+            "height": 106.5
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f7-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f7-s1/root/1",
+      "parentId": "f7-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 7
+      },
+      "placements": [
+        {
+          "stateId": "f7-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -110.65,
+            "top": 16.55,
+            "width": 151.8,
+            "height": 84.9
+          },
+          "stageBounds": {
+            "left": 298.75,
+            "top": 269.85,
+            "width": 162.7,
+            "height": 106.5
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f7-s1/root/1/1",
+      "parentId": "f7-s1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 17,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f7-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -110.65,
+            "top": 16.55,
+            "width": 151.8,
+            "height": 84.9
+          },
+          "stageBounds": {
+            "left": 298.75,
+            "top": 269.85,
+            "width": 162.7,
+            "height": 106.5
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f7-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 7
+      },
+      "placements": [
+        {
+          "stateId": "f7-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -171.25,
+            "top": -25.15,
+            "width": 162.7,
+            "height": 106.5
+          },
+          "stageBounds": {
+            "left": 478.55,
+            "top": 269.85,
+            "width": 162.7,
+            "height": 106.5
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f7-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f7-s-1/root/1",
+      "parentId": "f7-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 7
+      },
+      "placements": [
+        {
+          "stateId": "f7-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -110.65,
+            "top": 16.55,
+            "width": 151.8,
+            "height": 84.9
+          },
+          "stageBounds": {
+            "left": 478.55,
+            "top": 269.85,
+            "width": 162.7,
+            "height": 106.5
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f7-s-1/root/1/1",
+      "parentId": "f7-s-1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 17,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f7-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -110.65,
+            "top": 16.55,
+            "width": 151.8,
+            "height": 84.9
+          },
+          "stageBounds": {
+            "left": 478.55,
+            "top": 269.85,
+            "width": 162.7,
+            "height": 106.5
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f8-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 8
+      },
+      "placements": [
+        {
+          "stateId": "f8-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -159.65,
+            "top": -42.7,
+            "width": 189.45000000000002,
+            "height": 117.95
+          },
+          "stageBounds": {
+            "left": 310.35,
+            "top": 252.3,
+            "width": 189.45,
+            "height": 117.94999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f8-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f8-s1/root/1",
+      "parentId": "f8-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 8
+      },
+      "placements": [
+        {
+          "stateId": "f8-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -97.1,
+            "top": 4.7,
+            "width": 177.64999999999998,
+            "height": 92.64999999999999
+          },
+          "stageBounds": {
+            "left": 310.35,
+            "top": 252.3,
+            "width": 189.45,
+            "height": 117.94999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f8-s1/root/1/1",
+      "parentId": "f8-s1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 18,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f8-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -97.1,
+            "top": 4.7,
+            "width": 177.64999999999998,
+            "height": 92.64999999999999
+          },
+          "stageBounds": {
+            "left": 310.35,
+            "top": 252.3,
+            "width": 189.45,
+            "height": 117.94999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f8-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 8
+      },
+      "placements": [
+        {
+          "stateId": "f8-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -159.65,
+            "top": -42.7,
+            "width": 189.45000000000002,
+            "height": 117.95
+          },
+          "stageBounds": {
+            "left": 440.2,
+            "top": 252.3,
+            "width": 189.45,
+            "height": 117.94999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f8-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f8-s-1/root/1",
+      "parentId": "f8-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 8
+      },
+      "placements": [
+        {
+          "stateId": "f8-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -97.1,
+            "top": 4.7,
+            "width": 177.64999999999998,
+            "height": 92.64999999999999
+          },
+          "stageBounds": {
+            "left": 440.2,
+            "top": 252.3,
+            "width": 189.45,
+            "height": 117.94999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f8-s-1/root/1/1",
+      "parentId": "f8-s-1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 18,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f8-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -97.1,
+            "top": 4.7,
+            "width": 177.64999999999998,
+            "height": 92.64999999999999
+          },
+          "stageBounds": {
+            "left": 440.2,
+            "top": 252.3,
+            "width": 189.45,
+            "height": 117.94999999999999
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f9-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 9
+      },
+      "placements": [
+        {
+          "stateId": "f9-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -115.9,
+            "top": -51.75,
+            "width": 163.7,
+            "height": 106.9
+          },
+          "stageBounds": {
+            "left": 354.1,
+            "top": 243.25,
+            "width": 163.69999999999993,
+            "height": 106.89999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f9-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f9-s1/root/1",
+      "parentId": "f9-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 9
+      },
+      "placements": [
+        {
+          "stateId": "f9-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -51.95,
+            "top": -1.4,
+            "width": 152.75,
+            "height": 85.15
+          },
+          "stageBounds": {
+            "left": 354.1,
+            "top": 243.25,
+            "width": 163.69999999999993,
+            "height": 106.89999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f9-s1/root/1/1",
+      "parentId": "f9-s1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 19,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f9-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -51.95,
+            "top": -1.4,
+            "width": 152.75,
+            "height": 85.15
+          },
+          "stageBounds": {
+            "left": 354.1,
+            "top": 243.25,
+            "width": 163.69999999999993,
+            "height": 106.89999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f9-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 9
+      },
+      "placements": [
+        {
+          "stateId": "f9-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -115.9,
+            "top": -51.75,
+            "width": 163.7,
+            "height": 106.9
+          },
+          "stageBounds": {
+            "left": 422.2,
+            "top": 243.25,
+            "width": 163.7,
+            "height": 106.89999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f9-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f9-s-1/root/1",
+      "parentId": "f9-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 9
+      },
+      "placements": [
+        {
+          "stateId": "f9-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -51.95,
+            "top": -1.4,
+            "width": 152.75,
+            "height": 85.15
+          },
+          "stageBounds": {
+            "left": 422.2,
+            "top": 243.25,
+            "width": 163.7,
+            "height": 106.89999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f9-s-1/root/1/1",
+      "parentId": "f9-s-1/root/1",
+      "depth": 1,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 19,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f9-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -51.95,
+            "top": -1.4,
+            "width": 152.75,
+            "height": 85.15
+          },
+          "stageBounds": {
+            "left": 422.2,
+            "top": 243.25,
+            "width": 163.7,
+            "height": 106.89999999999998
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f10-s1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 10
+      },
+      "placements": [
+        {
+          "stateId": "f10-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -62.5,
+            "top": -57.55,
+            "width": 120.1,
+            "height": 84.1
+          },
+          "stageBounds": {
+            "left": 407.5,
+            "top": 237.45,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f10-s1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f10-s1/root/1",
+      "parentId": "f10-s1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 10
+      },
+      "placements": [
+        {
+          "stateId": "f10-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -2.2,
+            "top": -6.25,
+            "width": 120.8,
+            "height": 70.3
+          },
+          "stageBounds": {
+            "left": 402.6,
+            "top": 235.85,
+            "width": 129.89999999999998,
+            "height": 87.4
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f10-s1/root/1/1",
+      "parentId": "f10-s1/root/1",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 10,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f10-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.95758056640625,
+            "tx": 99.95,
+            "ty": -31,
+            "a": -0.95758056640625,
+            "b": 0.2881622314453125,
+            "c": 0.2881622314453125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 407.5,
+            "top": 237.45,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [
+          {
+            "blurX": 0,
+            "blurY": 0,
+            "type": "flash.filters::BlurFilter"
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f10-s1/root/1/1/7",
+      "parentId": "f10-s1/root/1/1",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 9,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f10-s1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 407.5,
+            "top": 237.45,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f10-s-1/root",
+      "parentId": null,
+      "depth": 0,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 21,
+        "symbolClass": "Monster30Bullet1",
+        "instanceName": null,
+        "frame": 10
+      },
+      "placements": [
+        {
+          "stateId": "f10-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 470,
+            "ty": 295,
+            "a": -1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -62.5,
+            "top": -57.55,
+            "width": 120.1,
+            "height": 84.1
+          },
+          "stageBounds": {
+            "left": 412.4,
+            "top": 237.45,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f10-s-1.png",
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f10-s-1/root/1",
+      "parentId": "f10-s-1/root",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 20,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 10
+      },
+      "placements": [
+        {
+          "stateId": "f10-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.9889373779296875,
+            "tx": -64.3,
+            "ty": -35.4,
+            "a": 0.9889373779296875,
+            "b": -0.1483154296875,
+            "c": 0.1483154296875
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": -2.2,
+            "top": -6.25,
+            "width": 120.8,
+            "height": 70.3
+          },
+          "stageBounds": {
+            "left": 407.5,
+            "top": 235.85,
+            "width": 129.89999999999998,
+            "height": 87.4
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f10-s-1/root/1/1",
+      "parentId": "f10-s-1/root/1",
+      "depth": 1,
+      "objectType": "movie-clip",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 10,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f10-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 0.95758056640625,
+            "tx": 99.95,
+            "ty": -31,
+            "a": -0.95758056640625,
+            "b": 0.2881622314453125,
+            "c": 0.2881622314453125
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 412.4,
+            "top": 237.45,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [
+          {
+            "blurX": 0,
+            "blurY": 0,
+            "type": "flash.filters::BlurFilter"
+          }
+        ],
+        "maskId": null
+      }
+    },
+    {
+      "id": "f10-s-1/root/1/1/7",
+      "parentId": "f10-s-1/root/1/1",
+      "depth": 7,
+      "objectType": "shape",
+      "sourceIdentity": {
+        "provenanceId": "attack",
+        "characterId": 9,
+        "symbolClass": null,
+        "instanceName": null,
+        "frame": 1
+      },
+      "placements": [
+        {
+          "stateId": "f10-s-1",
+          "visible": true,
+          "alpha": 1,
+          "localMatrix": {
+            "d": 1,
+            "tx": 0,
+            "ty": 0,
+            "a": 1,
+            "b": 0,
+            "c": 0
+          },
+          "registrationPoint": {
+            "x": 0,
+            "y": 0
+          },
+          "localBounds": {
+            "left": 0,
+            "top": 25.85,
+            "width": 114.45,
+            "height": 38.949999999999996
+          },
+          "stageBounds": {
+            "left": 412.4,
+            "top": 237.45,
+            "width": 120.10000000000002,
+            "height": 84.10000000000002
+          },
+          "derivation": "observed",
+          "derivationMethod": "Native bounds/matrix observation cross-checked with source-tag tree; root includes fixture wrapper placement",
+          "evidenceRefs": [
+            "attack",
+            "docs/tasks/evidence/TASK-SETTINGS-241/source-display-list.json",
+            "docs/tasks/evidence/TASK-SETTINGS-241/native.json"
+          ]
+        }
+      ],
+      "render": {
+        "assetRef": null,
+        "blendMode": "normal",
+        "filters": [],
+        "maskId": null
+      }
+    }
+  ],
+  "baselines": [
+    {
+      "id": "f1-s1",
+      "stateId": "f1-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f1-s1.png",
+      "sha256": "15f63a96888ba26a8ddb3aa1325456ff323ff30698621b5b50d6cd898974a854",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f1-s-1",
+      "stateId": "f1-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f1-s-1.png",
+      "sha256": "8b20bd5349a8f6596be74b59bcb628230e929650e6892b809303d94f8fe2460d",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f2-s1",
+      "stateId": "f2-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f2-s1.png",
+      "sha256": "42746bf2e6c0146ff38b67de4f4c61f216e17c8ca1c54dbdfbca65d557dffe3a",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f2-s-1",
+      "stateId": "f2-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f2-s-1.png",
+      "sha256": "0c290af94be791f283eb7cffcaec8a03f32233140a7a41c0be480e2a07f54fd6",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f3-s1",
+      "stateId": "f3-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f3-s1.png",
+      "sha256": "513765b7ffd743accfacafd1990a874185e29aa4ff18556740c63e154c6e4659",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f3-s-1",
+      "stateId": "f3-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f3-s-1.png",
+      "sha256": "db333e458a7bc943d359c6483c227dabc1aed1de0c2f2cde5964a3282bc8c81d",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f4-s1",
+      "stateId": "f4-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f4-s1.png",
+      "sha256": "59dfc4f835517e64818bf5f32843047b93c0bef6c90a5f902bc845c6ac1b0781",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f4-s-1",
+      "stateId": "f4-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f4-s-1.png",
+      "sha256": "35bcddc664186a8e2af2b5c21d1cf51ca74b77ae2f795abf99a7aa5a24284cf8",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f5-s1",
+      "stateId": "f5-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f5-s1.png",
+      "sha256": "2fd829bef173ff484f050f2061af30faa06c0c005b994ebc929ea41cdfab9404",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f5-s-1",
+      "stateId": "f5-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f5-s-1.png",
+      "sha256": "89cf0035d6c9965c02f0f4a82edfd2cc81541a5368baf94ad3f6776fa74e8164",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f6-s1",
+      "stateId": "f6-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f6-s1.png",
+      "sha256": "6e179dfa6d3a98ff2d6c82ef8351feb36a0e496c1d6d285d7da9499335adea82",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f6-s-1",
+      "stateId": "f6-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f6-s-1.png",
+      "sha256": "42fd6cc6a28e5304341db3de053d5c267361fd146f6dc98598399dd3ce18fc41",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f7-s1",
+      "stateId": "f7-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f7-s1.png",
+      "sha256": "b0a377b25710730d2932d09bbad7457c3299a643c4d089e70b0ab6df1664125d",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f7-s-1",
+      "stateId": "f7-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f7-s-1.png",
+      "sha256": "22e54491d65c8513cd0fa2ba912b90b673efd746b7fe2a6ebc33fac5010001ad",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f8-s1",
+      "stateId": "f8-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f8-s1.png",
+      "sha256": "b7c8e62cd992310113fbca00c83a5d27e9350121a1cfbb7d44a229c13696dde0",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f8-s-1",
+      "stateId": "f8-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f8-s-1.png",
+      "sha256": "38733805134d91d1f913c3d2355f73810fca55193d535fce60df945e6bffb302",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f9-s1",
+      "stateId": "f9-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f9-s1.png",
+      "sha256": "e3186a643b27db33d7c243e4e82dce45c9268df253e3f0091705212ba5fdd6c4",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f9-s-1",
+      "stateId": "f9-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f9-s-1.png",
+      "sha256": "a2e3c6e2ce58c179b182a70b4761dbe08256c8cb6aefcddaebaa8d75b995ad77",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f10-s1",
+      "stateId": "f10-s1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f10-s1.png",
+      "sha256": "d95869e30a53b91fdafe1cb22f759fec9ee4c97a8913663a767ab9e3eb664669",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    },
+    {
+      "id": "f10-s-1",
+      "stateId": "f10-s-1",
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/baselines/f10-s-1.png",
+      "sha256": "4e945d9561c11ce10892866f306db6010a8564eee2fee50ff311b1b71ad4ca7d",
+      "width": 940,
+      "height": 590,
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 940,
+        "height": 590
+      }
+    }
+  ],
+  "completeness": {
+    "expectedStateIds": [
+      "f1-s1",
+      "f1-s-1",
+      "f2-s1",
+      "f2-s-1",
+      "f3-s1",
+      "f3-s-1",
+      "f4-s1",
+      "f4-s-1",
+      "f5-s1",
+      "f5-s-1",
+      "f6-s1",
+      "f6-s-1",
+      "f7-s1",
+      "f7-s-1",
+      "f8-s1",
+      "f8-s-1",
+      "f9-s1",
+      "f9-s-1",
+      "f10-s1",
+      "f10-s-1"
+    ],
+    "extractedStateIds": [
+      "f1-s1",
+      "f1-s-1",
+      "f2-s1",
+      "f2-s-1",
+      "f3-s1",
+      "f3-s-1",
+      "f4-s1",
+      "f4-s-1",
+      "f5-s1",
+      "f5-s-1",
+      "f6-s1",
+      "f6-s-1",
+      "f7-s1",
+      "f7-s-1",
+      "f8-s1",
+      "f8-s-1",
+      "f9-s1",
+      "f9-s-1",
+      "f10-s1",
+      "f10-s-1"
+    ],
+    "expectedVisibleObjectCountByState": {
+      "f1-s1": 4,
+      "f1-s-1": 4,
+      "f2-s1": 3,
+      "f2-s-1": 3,
+      "f3-s1": 3,
+      "f3-s-1": 3,
+      "f4-s1": 3,
+      "f4-s-1": 3,
+      "f5-s1": 4,
+      "f5-s-1": 4,
+      "f6-s1": 4,
+      "f6-s-1": 4,
+      "f7-s1": 3,
+      "f7-s-1": 3,
+      "f8-s1": 3,
+      "f8-s-1": 3,
+      "f9-s1": 3,
+      "f9-s-1": 3,
+      "f10-s1": 4,
+      "f10-s-1": 4
+    },
+    "displayListMatched": true,
+    "stateSetMatched": true,
+    "unresolved": []
+  },
+  "evidenceRefs": [
+    "docs/reverse-engineering/reference/monster30-attack-collision-contract.json",
+    "docs/tasks/evidence/TASK-SETTINGS-241/phase.json",
+    "docs/tasks/evidence/TASK-SETTINGS-241/repeat.json",
+    "docs/tasks/evidence/TASK-SETTINGS-241/verification.json",
+    "docs/tasks/evidence/TASK-SETTINGS-241/approved-pixel-differences.json"
+  ],
+  "$schema": "../schema/ui-ground-truth.schema.json"
+}

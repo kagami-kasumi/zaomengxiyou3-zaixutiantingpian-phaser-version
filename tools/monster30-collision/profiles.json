@@ -1,0 +1,94 @@
+[
+  {
+    "id": "hero-ObjectBaseSprite",
+    "kind": "hero",
+    "symbol": "ObjectBaseSprite",
+    "scaleX": 1.2,
+    "scaleY": 1,
+    "x": 0,
+    "y": 0,
+    "parentScaleX": 1,
+    "parentScaleY": 1,
+    "types": [
+      "Role1",
+      "Role2",
+      "Role3",
+      "Role4",
+      "Role5"
+    ]
+  },
+  {
+    "id": "pet-ObjectBaseSprite3",
+    "kind": "pet",
+    "symbol": "ObjectBaseSprite3",
+    "scaleX": 1,
+    "scaleY": 1,
+    "x": 0,
+    "y": 0,
+    "parentScaleX": 1,
+    "parentScaleY": 1,
+    "types": [
+      "PetMonkey1",
+      "PetHorse1",
+      "PetKabu1",
+      "PetKabu2",
+      "PetTiger1",
+      "PetTurtle1",
+      "PetPhoenix1",
+      "PetDragon1",
+      "PetRabbit1"
+    ]
+  },
+  {
+    "id": "pet-ObjectBaseSprite4",
+    "kind": "pet",
+    "symbol": "ObjectBaseSprite4",
+    "scaleX": 1,
+    "scaleY": 1,
+    "x": 0,
+    "y": 0,
+    "parentScaleX": 1,
+    "parentScaleY": 1,
+    "types": [
+      "PetMonkey2",
+      "PetHorse2",
+      "PetHorse3",
+      "PetHorse4",
+      "PetTiger2",
+      "PetTurtle2",
+      "PetPhoenix2",
+      "PetPhoenix3",
+      "PetPhoenix4",
+      "PetDragon2",
+      "PetDragon3",
+      "PetDragon4",
+      "PetRabbit2",
+      "PetRabbit3",
+      "PetMouse1",
+      "PetMouse2",
+      "PetMouse3",
+      "PetMouse4"
+    ]
+  },
+  {
+    "id": "pet-ObjectBaseSprite",
+    "kind": "pet",
+    "symbol": "ObjectBaseSprite",
+    "scaleX": 1,
+    "scaleY": 1,
+    "x": 0,
+    "y": 0,
+    "parentScaleX": 1,
+    "parentScaleY": 1,
+    "types": [
+      "PetMonkey3",
+      "PetMonkey4",
+      "PetKabu3",
+      "PetTiger3",
+      "PetTiger4",
+      "PetTurtle3",
+      "PetTurtle4",
+      "PetRabbit4"
+    ]
+  }
+]

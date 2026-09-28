@@ -46,6 +46,8 @@
 | 英雄战斗模型 | `HeroCombatModel` | Model | Combat | 单个英雄生命、受击、死亡、保护和最近伤害事件状态 | `PlayerCombatModel`, `HeroHealthState` |
 | 英雄队伍运行时 | `HeroPartyRuntime` | Runtime / Orchestrator | Combat / Runtime | 单局活动英雄的唯一运行时 owner，按 `PlayerSlot` 持有移动、战斗、普攻、技能与角色视觉生命周期；只消费关卡环境快照，不拥有地形、波次或机关规则 | `PlayerRuntime`, `PartyCombatRuntime`, `LevelHeroRuntime` |
 | 英雄运行时 | `HeroRuntime` | Abstract Runtime Class | Combat / Runtime | 单个活动英雄的公共运行时骨架，统一移动、战斗、普攻、技能、快照与销毁顺序；`Hero1Runtime` 至 `Hero5Runtime` 只实现角色差异钩子，由 `HeroPartyRuntime` 聚合 | `RoleRuntime`, `CharacterRuntime`, `PlayerHeroRuntime` |
+| 飞鸟怪独立攻击 | `Monster30AttackRuntime` | Runtime Model | Combat | 由既有Monster30实体持有身体时钟和已发射攻击，出生根固定，HP死亡不撤销，destroy释放；只覆盖232/241合同 | — |
+| 飞鸟怪命中查询 | `Monster30CollisionSystem` | Stateless Query | Combat | 消费241正式位场与实际colipse profile，不持有HP/显示时钟 | — |
 | 怪物 | `Monster` | Entity | Combat | 敌方单位 | `Enemy`, `Mob` |
 | 怪物击退运动 | `MonsterKnockbackMotion` | Runtime Model | Combat | 每个既有怪物owner持有的原host步速度、接触与秒制缓动；不新建怪物注册表 | `MonsterRecoilRuntime` |
 | 怪物击退接缝 | `MonsterKnockbackBinding` | Runtime Model | Combat / Runtime | 挂在既有实体上的相位队列、host步累计和运动投影；释放随实体owner，不设全局注册表 | `MonsterRecoilSession` |

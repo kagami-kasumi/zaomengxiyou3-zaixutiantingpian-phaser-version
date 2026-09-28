@@ -1,0 +1,2394 @@
+{
+  "schemaVersion": 1,
+  "truthId": "task-settings-241.monster30-attack-collision",
+  "status": "verified",
+  "manifest": "docs/reverse-engineering/ground-truth/manifests/task-settings-241-monster30-attack-collision.json",
+  "sources": [
+    {
+      "path": "local-resources/regima/source/restored-swfs/assets/1.swf",
+      "sha256": "14470fa742917ebd902763ddee7971876c458478a7b2711f1eeb8beaea2b0d7e"
+    },
+    {
+      "path": "local-resources/regima/source/restored-swfs/assets/StageCommon.swf",
+      "sha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/HitTest.as",
+      "sha256": "156a7e5f08a0aeca5dc4160fa08d648e12c6e687e031dcdeffcaa04a703ac87f"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/AUtils.as",
+      "method": "testIntersects",
+      "sha256": "b2c0170a33dda1eeec938f060cf4d50e88917d41129383862d9c15326515c2b4"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "hero-ObjectBaseSprite",
+      "kind": "hero",
+      "symbol": "ObjectBaseSprite",
+      "scaleX": 1.2,
+      "scaleY": 1,
+      "x": 0,
+      "y": 0,
+      "parentScaleX": 1,
+      "parentScaleY": 1,
+      "types": [
+        "Role1",
+        "Role2",
+        "Role3",
+        "Role4",
+        "Role5"
+      ]
+    },
+    {
+      "id": "pet-ObjectBaseSprite3",
+      "kind": "pet",
+      "symbol": "ObjectBaseSprite3",
+      "scaleX": 1,
+      "scaleY": 1,
+      "x": 0,
+      "y": 0,
+      "parentScaleX": 1,
+      "parentScaleY": 1,
+      "types": [
+        "PetMonkey1",
+        "PetHorse1",
+        "PetKabu1",
+        "PetKabu2",
+        "PetTiger1",
+        "PetTurtle1",
+        "PetPhoenix1",
+        "PetDragon1",
+        "PetRabbit1"
+      ]
+    },
+    {
+      "id": "pet-ObjectBaseSprite4",
+      "kind": "pet",
+      "symbol": "ObjectBaseSprite4",
+      "scaleX": 1,
+      "scaleY": 1,
+      "x": 0,
+      "y": 0,
+      "parentScaleX": 1,
+      "parentScaleY": 1,
+      "types": [
+        "PetMonkey2",
+        "PetHorse2",
+        "PetHorse3",
+        "PetHorse4",
+        "PetTiger2",
+        "PetTurtle2",
+        "PetPhoenix2",
+        "PetPhoenix3",
+        "PetPhoenix4",
+        "PetDragon2",
+        "PetDragon3",
+        "PetDragon4",
+        "PetRabbit2",
+        "PetRabbit3",
+        "PetMouse1",
+        "PetMouse2",
+        "PetMouse3",
+        "PetMouse4"
+      ]
+    },
+    {
+      "id": "pet-ObjectBaseSprite",
+      "kind": "pet",
+      "symbol": "ObjectBaseSprite",
+      "scaleX": 1,
+      "scaleY": 1,
+      "x": 0,
+      "y": 0,
+      "parentScaleX": 1,
+      "parentScaleY": 1,
+      "types": [
+        "PetMonkey3",
+        "PetMonkey4",
+        "PetKabu3",
+        "PetTiger3",
+        "PetTiger4",
+        "PetTurtle3",
+        "PetTurtle4",
+        "PetRabbit4"
+      ]
+    }
+  ],
+  "profileSources": {
+    "types": [
+      {
+        "type": "Role1",
+        "profile": "hero-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as",
+          "sha256": "9785fb74ddadc858c2bda6d084612a7f50bbd09392e45a99e71a9a7b80fde489"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role1.as",
+          "sha256": "9785fb74ddadc858c2bda6d084612a7f50bbd09392e45a99e71a9a7b80fde489"
+        },
+        "line": 267
+      },
+      {
+        "type": "Role2",
+        "profile": "hero-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role2.as",
+          "sha256": "cdfea276e85d4d8cc619fb6ca33901cbe2e7d42afd02b2bf5738acbdab16cf3b"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role2.as",
+          "sha256": "cdfea276e85d4d8cc619fb6ca33901cbe2e7d42afd02b2bf5738acbdab16cf3b"
+        },
+        "line": 214
+      },
+      {
+        "type": "Role3",
+        "profile": "hero-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as",
+          "sha256": "1a55dc67a6e0af9a8db2a60e45933ec9c1152c58c74f16bc9a113d8e618b85a1"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role3.as",
+          "sha256": "1a55dc67a6e0af9a8db2a60e45933ec9c1152c58c74f16bc9a113d8e618b85a1"
+        },
+        "line": 192
+      },
+      {
+        "type": "Role4",
+        "profile": "hero-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role4.as",
+          "sha256": "66b6456edf846f6878cec085f48245d15de2ead742a46262e5b9b3faf6832705"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role4.as",
+          "sha256": "66b6456edf846f6878cec085f48245d15de2ead742a46262e5b9b3faf6832705"
+        },
+        "line": 316
+      },
+      {
+        "type": "Role5",
+        "profile": "hero-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role5.as",
+          "sha256": "7b947e6aa3885aec2741f60ae80440de206bb91009bc9fb19758aca0c8434c78"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/hero/Role5.as",
+          "sha256": "7b947e6aa3885aec2741f60ae80440de206bb91009bc9fb19758aca0c8434c78"
+        },
+        "line": 701
+      },
+      {
+        "type": "PetMonkey1",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey1.as",
+          "sha256": "bc82b14bd316389841fe2267f4382354fae820a56fa0c868a2fa62aa80cb20dd"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey1.as",
+          "sha256": "bc82b14bd316389841fe2267f4382354fae820a56fa0c868a2fa62aa80cb20dd"
+        },
+        "line": 67
+      },
+      {
+        "type": "PetMonkey2",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey2.as",
+          "sha256": "855283fddf3f988f0848460fc304d1802e2a8d83e3aa89b813281cc608afaa43"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey2.as",
+          "sha256": "855283fddf3f988f0848460fc304d1802e2a8d83e3aa89b813281cc608afaa43"
+        },
+        "line": 74
+      },
+      {
+        "type": "PetMonkey3",
+        "profile": "pet-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey3.as",
+          "sha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey3.as",
+          "sha256": "4ad78699aebbfbc78e9be70f09bde8e434d8d3eee513a5338d3e906cde0d6bdc"
+        },
+        "line": 80
+      },
+      {
+        "type": "PetMonkey4",
+        "profile": "pet-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey4.as",
+          "sha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMonkey4.as",
+          "sha256": "9c81aa42be60053ca202f8519ce905a1cf40f2060597569fbea5096cb936e72e"
+        },
+        "line": 84
+      },
+      {
+        "type": "PetHorse1",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse1.as",
+          "sha256": "558fb01aa821fd6eb19bfb683df6452f84ef0dfaf3ae4da5ebc3b1eae6a5fc05"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse1.as",
+          "sha256": "558fb01aa821fd6eb19bfb683df6452f84ef0dfaf3ae4da5ebc3b1eae6a5fc05"
+        },
+        "line": 92
+      },
+      {
+        "type": "PetHorse2",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse2.as",
+          "sha256": "ee5f72352b2af1b12971481d02c855c14e1f2e57e96f108e8ec6ef0e227cd363"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse2.as",
+          "sha256": "ee5f72352b2af1b12971481d02c855c14e1f2e57e96f108e8ec6ef0e227cd363"
+        },
+        "line": 94
+      },
+      {
+        "type": "PetHorse3",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse3.as",
+          "sha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse3.as",
+          "sha256": "a956e69c4f5d5403274f3bcfa00408b20d1705fb6f7b5fd53a49edd7831104a0"
+        },
+        "line": 93
+      },
+      {
+        "type": "PetHorse4",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse4.as",
+          "sha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetHorse4.as",
+          "sha256": "3ccc009f39f2e3508c6a15b06691e55c922b3064827623f6cba905e65e34b599"
+        },
+        "line": 94
+      },
+      {
+        "type": "PetKabu1",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetKabu1.as",
+          "sha256": "748413cac420d14804c1b0a9d955977861d502d4f036a206bcae90af491e45ab"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetKabu1.as",
+          "sha256": "748413cac420d14804c1b0a9d955977861d502d4f036a206bcae90af491e45ab"
+        },
+        "line": 59
+      },
+      {
+        "type": "PetKabu2",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetKabu2.as",
+          "sha256": "d2f0fc6cc18365be85b5075cb36cc1749e982ba090d9779afe5ee1784e6e98f6"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetKabu2.as",
+          "sha256": "d2f0fc6cc18365be85b5075cb36cc1749e982ba090d9779afe5ee1784e6e98f6"
+        },
+        "line": 59
+      },
+      {
+        "type": "PetKabu3",
+        "profile": "pet-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetKabu3.as",
+          "sha256": "b3e30eab00f7d6a1275caea02baef272ccddcc8a030db1460db346cf0ba7ba3c"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetKabu3.as",
+          "sha256": "b3e30eab00f7d6a1275caea02baef272ccddcc8a030db1460db346cf0ba7ba3c"
+        },
+        "line": 67
+      },
+      {
+        "type": "PetTiger1",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTiger1.as",
+          "sha256": "f6e06377ff0529cde73180f0082a4d77ab48389e24fc61523ac12a7dd217a09b"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTiger1.as",
+          "sha256": "f6e06377ff0529cde73180f0082a4d77ab48389e24fc61523ac12a7dd217a09b"
+        },
+        "line": 57
+      },
+      {
+        "type": "PetTiger2",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTiger2.as",
+          "sha256": "5d17677fa85c8a350d591902b47f1b7f415dd2a65b1cc7fb8e6fbb6e45d1c683"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTiger2.as",
+          "sha256": "5d17677fa85c8a350d591902b47f1b7f415dd2a65b1cc7fb8e6fbb6e45d1c683"
+        },
+        "line": 77
+      },
+      {
+        "type": "PetTiger3",
+        "profile": "pet-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTiger3.as",
+          "sha256": "1b6a6439ddc4a77df46e5070f11807ecc402f5e0e348043899758fd0ae0664db"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTiger3.as",
+          "sha256": "1b6a6439ddc4a77df46e5070f11807ecc402f5e0e348043899758fd0ae0664db"
+        },
+        "line": 85
+      },
+      {
+        "type": "PetTiger4",
+        "profile": "pet-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTiger4.as",
+          "sha256": "84de34d969b6cd8993bfbd620a0fa66fa13b7c2078718284724e733fb41754d8"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTiger4.as",
+          "sha256": "84de34d969b6cd8993bfbd620a0fa66fa13b7c2078718284724e733fb41754d8"
+        },
+        "line": 90
+      },
+      {
+        "type": "PetTurtle1",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+          "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle1.as",
+          "sha256": "639919b81c44213e089dd7710085c9bcb130c786fa4dad8f5f7086c983930407"
+        },
+        "line": 60
+      },
+      {
+        "type": "PetTurtle2",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+          "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle2.as",
+          "sha256": "99c41ef0f2884b4e14874d58711dc02972e8508b19b2b8362bbc30ff7c6268ca"
+        },
+        "line": 60
+      },
+      {
+        "type": "PetTurtle3",
+        "profile": "pet-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+          "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle3.as",
+          "sha256": "036fccccc05e8c05f29478957c0218c6098bbd0fef846fbcca483912b7b3e281"
+        },
+        "line": 67
+      },
+      {
+        "type": "PetTurtle4",
+        "profile": "pet-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetTurtle4.as",
+          "sha256": "0e6f79b5b29af82def5afd978239e1bc2b1219bff7e4a29ce042b8e2baa84e33"
+        },
+        "line": 71
+      },
+      {
+        "type": "PetPhoenix1",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetPhoenix1.as",
+          "sha256": "0d8359a296b0c8423d5d26367d0fbbc2581da2ed5c54c668aa4ad71e4561e270"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetPhoenix1.as",
+          "sha256": "0d8359a296b0c8423d5d26367d0fbbc2581da2ed5c54c668aa4ad71e4561e270"
+        },
+        "line": 53
+      },
+      {
+        "type": "PetPhoenix2",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetPhoenix2.as",
+          "sha256": "e74cab6231165411ca70a308f73977f8fd06e43d1c426d8ba9e1ee6d51520c29"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetPhoenix2.as",
+          "sha256": "e74cab6231165411ca70a308f73977f8fd06e43d1c426d8ba9e1ee6d51520c29"
+        },
+        "line": 60
+      },
+      {
+        "type": "PetPhoenix3",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetPhoenix3.as",
+          "sha256": "c0bfaa24f50939764767eaa640deecacf403999f04550919c93b5bbb51a8ea07"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetPhoenix3.as",
+          "sha256": "c0bfaa24f50939764767eaa640deecacf403999f04550919c93b5bbb51a8ea07"
+        },
+        "line": 68
+      },
+      {
+        "type": "PetPhoenix4",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetPhoenix4.as",
+          "sha256": "e4f7bb5ea5fc6831971630ec95b8a9c422ac8e0a05218beb40c6ffe3bac9631f"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetPhoenix4.as",
+          "sha256": "e4f7bb5ea5fc6831971630ec95b8a9c422ac8e0a05218beb40c6ffe3bac9631f"
+        },
+        "line": 77
+      },
+      {
+        "type": "PetDragon1",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon1.as",
+          "sha256": "a1d9f80e9fc68784b6d4e63d43cd7703baf53ff4a46ed97eadd129f0e5f3998e"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon1.as",
+          "sha256": "a1d9f80e9fc68784b6d4e63d43cd7703baf53ff4a46ed97eadd129f0e5f3998e"
+        },
+        "line": 85
+      },
+      {
+        "type": "PetDragon2",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon2.as",
+          "sha256": "c2eaf4311f7d612143397a8339b70e5e5c07119c19f54046fe398fa822354b8f"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon2.as",
+          "sha256": "c2eaf4311f7d612143397a8339b70e5e5c07119c19f54046fe398fa822354b8f"
+        },
+        "line": 85
+      },
+      {
+        "type": "PetDragon3",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon3.as",
+          "sha256": "83b57dc5e73d355dfb67ca3d83c707e2d50319d524195ea4ef2645099bff25c7"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon3.as",
+          "sha256": "83b57dc5e73d355dfb67ca3d83c707e2d50319d524195ea4ef2645099bff25c7"
+        },
+        "line": 85
+      },
+      {
+        "type": "PetDragon4",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon4.as",
+          "sha256": "b34c427a30308ade65a1c3a7a9b2ae48da98f9dd76005f89325c1f259b0a2403"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetDragon4.as",
+          "sha256": "b34c427a30308ade65a1c3a7a9b2ae48da98f9dd76005f89325c1f259b0a2403"
+        },
+        "line": 95
+      },
+      {
+        "type": "PetRabbit1",
+        "profile": "pet-ObjectBaseSprite3",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetRabbit1.as",
+          "sha256": "f8f5a71cd3102b77376b3100fc173645c05658859cacb88837bc2a2853862b65"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetRabbit1.as",
+          "sha256": "f8f5a71cd3102b77376b3100fc173645c05658859cacb88837bc2a2853862b65"
+        },
+        "line": 56
+      },
+      {
+        "type": "PetRabbit2",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetRabbit2.as",
+          "sha256": "58415d196cd68c96cf22228c6cff05a94dd69f38a5ef62059d488ede867660b2"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetRabbit2.as",
+          "sha256": "58415d196cd68c96cf22228c6cff05a94dd69f38a5ef62059d488ede867660b2"
+        },
+        "line": 59
+      },
+      {
+        "type": "PetRabbit3",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetRabbit3.as",
+          "sha256": "db660b9da14aa42e7fd504d7c4e96b4502929b1930e32d876141947b56995919"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetRabbit3.as",
+          "sha256": "db660b9da14aa42e7fd504d7c4e96b4502929b1930e32d876141947b56995919"
+        },
+        "line": 71
+      },
+      {
+        "type": "PetRabbit4",
+        "profile": "pet-ObjectBaseSprite",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetRabbit4.as",
+          "sha256": "264e08ca856c1776e114f0acaef0537f95e0b68a135bf89c9e36522fc9cdaa9a"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetRabbit4.as",
+          "sha256": "264e08ca856c1776e114f0acaef0537f95e0b68a135bf89c9e36522fc9cdaa9a"
+        },
+        "line": 71
+      },
+      {
+        "type": "PetMouse1",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMouse1.as",
+          "sha256": "d4f82c52078c309449ad82b3c9815accccb4de2d4156cd18911d6e7ad0da76f1"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMouse1.as",
+          "sha256": "d4f82c52078c309449ad82b3c9815accccb4de2d4156cd18911d6e7ad0da76f1"
+        },
+        "line": 58
+      },
+      {
+        "type": "PetMouse2",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMouse2.as",
+          "sha256": "f435e649915c3cd578e611e3f84cbf74467519a7261aa632a69a40edf2d098ac"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMouse1.as",
+          "sha256": "d4f82c52078c309449ad82b3c9815accccb4de2d4156cd18911d6e7ad0da76f1"
+        },
+        "line": 58
+      },
+      {
+        "type": "PetMouse3",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMouse3.as",
+          "sha256": "7f70314a837de1e78fbab5e32b8eda6ca296cc1e4eed73d4af516cd7f0e5adc0"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMouse1.as",
+          "sha256": "d4f82c52078c309449ad82b3c9815accccb4de2d4156cd18911d6e7ad0da76f1"
+        },
+        "line": 58
+      },
+      {
+        "type": "PetMouse4",
+        "profile": "pet-ObjectBaseSprite4",
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMouse4.as",
+          "sha256": "ad0d8d04f2768d879064729063ce27ee56119fb26d4213e621bde6b3eb5fd506"
+        },
+        "constructorSource": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/pet/PetMouse4.as",
+          "sha256": "ad0d8d04f2768d879064729063ce27ee56119fb26d4213e621bde6b3eb5fd506"
+        },
+        "line": 69
+      }
+    ],
+    "colipseWrites": [
+      {
+        "source": {
+          "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+          "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8"
+        },
+        "line": 114,
+        "text": "this.colipse.scaleX = 1.2;"
+      }
+    ],
+    "commonSources": [
+      {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+        "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7"
+      },
+      {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+        "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8"
+      },
+      {
+        "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+        "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42"
+      }
+    ]
+  },
+  "targets": [
+    {
+      "id": "hero-ObjectBaseSprite",
+      "tree": {
+        "matrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1.1999969482421875,
+          "b": 0,
+          "c": 0
+        },
+        "blendMode": "normal",
+        "bounds": {
+          "y": -50,
+          "height": 100,
+          "x": -25,
+          "width": 50
+        },
+        "stageBounds": {
+          "y": -50,
+          "height": 100,
+          "x": -30,
+          "width": 60
+        },
+        "totalFrames": 1,
+        "visible": false,
+        "worldMatrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1.1999969482421875,
+          "b": 0,
+          "c": 0
+        },
+        "frame": 1,
+        "alpha": 1,
+        "children": [
+          {
+            "matrix": {
+              "d": 1,
+              "tx": -25,
+              "ty": -50,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "blendMode": "normal",
+            "bounds": {
+              "y": 0,
+              "height": 100,
+              "x": 0,
+              "width": 50
+            },
+            "stageBounds": {
+              "y": -50,
+              "height": 100,
+              "x": -30,
+              "width": 60
+            },
+            "totalFrames": 1,
+            "visible": true,
+            "worldMatrix": {
+              "d": 1,
+              "tx": -30,
+              "ty": -50,
+              "a": 1.1999969482421875,
+              "b": 0,
+              "c": 0
+            },
+            "frame": 1,
+            "alpha": 1,
+            "children": [
+              {
+                "matrix": {
+                  "d": 0.8333282470703125,
+                  "tx": 0,
+                  "ty": 0,
+                  "a": 0.7142791748046875,
+                  "b": 0,
+                  "c": 0
+                },
+                "blendMode": "normal",
+                "alpha": 1,
+                "bounds": {
+                  "y": 0,
+                  "height": 120,
+                  "x": 0,
+                  "width": 70
+                },
+                "children": [],
+                "stageBounds": {
+                  "y": -50,
+                  "height": 100,
+                  "x": -30,
+                  "width": 60
+                },
+                "worldMatrix": {
+                  "d": 0.8333283066749573,
+                  "tx": -30,
+                  "ty": -50,
+                  "a": 0.8571329116821289,
+                  "b": 0,
+                  "c": 0
+                },
+                "visible": true,
+                "type": "flash.display::Shape",
+                "filters": []
+              }
+            ],
+            "type": "flash.display::MovieClip",
+            "filters": []
+          }
+        ],
+        "type": "ObjectBaseSprite",
+        "filters": []
+      },
+      "bounds": {
+        "y": -50,
+        "height": 100,
+        "x": -30,
+        "width": 60
+      }
+    },
+    {
+      "id": "pet-ObjectBaseSprite3",
+      "tree": {
+        "matrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "blendMode": "normal",
+        "bounds": {
+          "y": -15,
+          "height": 30,
+          "x": -15.55,
+          "width": 31.1
+        },
+        "stageBounds": {
+          "y": -15,
+          "height": 30,
+          "x": -15.55,
+          "width": 31.1
+        },
+        "totalFrames": 1,
+        "visible": false,
+        "worldMatrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "frame": 1,
+        "alpha": 1,
+        "children": [
+          {
+            "matrix": {
+              "d": 0.5555419921875,
+              "tx": -15.55,
+              "ty": -15,
+              "a": 0.5555419921875,
+              "b": 0,
+              "c": 0
+            },
+            "blendMode": "normal",
+            "bounds": {
+              "y": 0,
+              "height": 54,
+              "x": 0,
+              "width": 56
+            },
+            "stageBounds": {
+              "y": -15,
+              "height": 30,
+              "x": -15.55,
+              "width": 31.1
+            },
+            "totalFrames": 1,
+            "visible": true,
+            "worldMatrix": {
+              "d": 0.5555419921875,
+              "tx": -15.5,
+              "ty": -15,
+              "a": 0.5555419921875,
+              "b": 0,
+              "c": 0
+            },
+            "frame": 1,
+            "alpha": 1,
+            "children": [
+              {
+                "matrix": {
+                  "d": 0.449981689453125,
+                  "tx": 0,
+                  "ty": 0,
+                  "a": 0.79998779296875,
+                  "b": 0,
+                  "c": 0
+                },
+                "blendMode": "normal",
+                "alpha": 1,
+                "bounds": {
+                  "y": 0,
+                  "height": 120,
+                  "x": 0,
+                  "width": 70
+                },
+                "children": [],
+                "stageBounds": {
+                  "y": -15,
+                  "height": 30,
+                  "x": -15.55,
+                  "width": 31.1
+                },
+                "worldMatrix": {
+                  "d": 0.24998372793197632,
+                  "tx": -15.5,
+                  "ty": -15,
+                  "a": 0.44442683458328247,
+                  "b": 0,
+                  "c": 0
+                },
+                "visible": true,
+                "type": "flash.display::Shape",
+                "filters": []
+              }
+            ],
+            "type": "flash.display::MovieClip",
+            "filters": []
+          }
+        ],
+        "type": "ObjectBaseSprite3",
+        "filters": []
+      },
+      "bounds": {
+        "y": -15,
+        "height": 30,
+        "x": -15.55,
+        "width": 31.1
+      }
+    },
+    {
+      "id": "pet-ObjectBaseSprite4",
+      "tree": {
+        "matrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "blendMode": "normal",
+        "bounds": {
+          "y": -35,
+          "height": 70,
+          "x": -17.5,
+          "width": 35
+        },
+        "stageBounds": {
+          "y": -35,
+          "height": 70,
+          "x": -17.5,
+          "width": 35
+        },
+        "totalFrames": 1,
+        "visible": false,
+        "worldMatrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "frame": 1,
+        "alpha": 1,
+        "children": [
+          {
+            "matrix": {
+              "d": 1,
+              "tx": -17.5,
+              "ty": -35,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "blendMode": "normal",
+            "bounds": {
+              "y": 0,
+              "height": 70,
+              "x": 0,
+              "width": 35
+            },
+            "stageBounds": {
+              "y": -35,
+              "height": 70,
+              "x": -17.5,
+              "width": 35
+            },
+            "totalFrames": 1,
+            "visible": true,
+            "worldMatrix": {
+              "d": 1,
+              "tx": -17.5,
+              "ty": -35,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "frame": 1,
+            "alpha": 1,
+            "children": [
+              {
+                "matrix": {
+                  "d": 0.58331298828125,
+                  "tx": 0,
+                  "ty": 0,
+                  "a": 0.5,
+                  "b": 0,
+                  "c": 0
+                },
+                "blendMode": "normal",
+                "alpha": 1,
+                "bounds": {
+                  "y": 0,
+                  "height": 120,
+                  "x": 0,
+                  "width": 70
+                },
+                "children": [],
+                "stageBounds": {
+                  "y": -35,
+                  "height": 70,
+                  "x": -17.5,
+                  "width": 35
+                },
+                "worldMatrix": {
+                  "d": 0.58331298828125,
+                  "tx": -17.5,
+                  "ty": -35,
+                  "a": 0.5,
+                  "b": 0,
+                  "c": 0
+                },
+                "visible": true,
+                "type": "flash.display::Shape",
+                "filters": []
+              }
+            ],
+            "type": "flash.display::MovieClip",
+            "filters": []
+          }
+        ],
+        "type": "ObjectBaseSprite4",
+        "filters": []
+      },
+      "bounds": {
+        "y": -35,
+        "height": 70,
+        "x": -17.5,
+        "width": 35
+      }
+    },
+    {
+      "id": "pet-ObjectBaseSprite",
+      "tree": {
+        "matrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "blendMode": "normal",
+        "bounds": {
+          "y": -50,
+          "height": 100,
+          "x": -25,
+          "width": 50
+        },
+        "stageBounds": {
+          "y": -50,
+          "height": 100,
+          "x": -25,
+          "width": 50
+        },
+        "totalFrames": 1,
+        "visible": false,
+        "worldMatrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "frame": 1,
+        "alpha": 1,
+        "children": [
+          {
+            "matrix": {
+              "d": 1,
+              "tx": -25,
+              "ty": -50,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "blendMode": "normal",
+            "bounds": {
+              "y": 0,
+              "height": 100,
+              "x": 0,
+              "width": 50
+            },
+            "stageBounds": {
+              "y": -50,
+              "height": 100,
+              "x": -25,
+              "width": 50
+            },
+            "totalFrames": 1,
+            "visible": true,
+            "worldMatrix": {
+              "d": 1,
+              "tx": -25,
+              "ty": -50,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "frame": 1,
+            "alpha": 1,
+            "children": [
+              {
+                "matrix": {
+                  "d": 0.8333282470703125,
+                  "tx": 0,
+                  "ty": 0,
+                  "a": 0.7142791748046875,
+                  "b": 0,
+                  "c": 0
+                },
+                "blendMode": "normal",
+                "alpha": 1,
+                "bounds": {
+                  "y": 0,
+                  "height": 120,
+                  "x": 0,
+                  "width": 70
+                },
+                "children": [],
+                "stageBounds": {
+                  "y": -50,
+                  "height": 100,
+                  "x": -25,
+                  "width": 50
+                },
+                "worldMatrix": {
+                  "d": 0.8333283066749573,
+                  "tx": -25,
+                  "ty": -50,
+                  "a": 0.7142791748046875,
+                  "b": 0,
+                  "c": 0
+                },
+                "visible": true,
+                "type": "flash.display::Shape",
+                "filters": []
+              }
+            ],
+            "type": "flash.display::MovieClip",
+            "filters": []
+          }
+        ],
+        "type": "ObjectBaseSprite",
+        "filters": []
+      },
+      "bounds": {
+        "y": -50,
+        "height": 100,
+        "x": -25,
+        "width": 50
+      }
+    }
+  ],
+  "attackBounds": [
+    {
+      "frame": 1,
+      "sign": 1,
+      "localBounds": {
+        "y": -58.7,
+        "height": 85.15,
+        "x": -62.75,
+        "width": 119.95
+      },
+      "worldBounds": {
+        "y": 236.3,
+        "height": 85.14999999999998,
+        "x": 407.25,
+        "width": 119.95000000000005
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 1,
+      "sign": -1,
+      "localBounds": {
+        "y": -58.7,
+        "height": 85.15,
+        "x": -62.75,
+        "width": 119.95
+      },
+      "worldBounds": {
+        "y": 236.3,
+        "height": 85.14999999999998,
+        "x": 412.8,
+        "width": 119.94999999999999
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 2,
+      "sign": 1,
+      "localBounds": {
+        "y": -56.55,
+        "height": 108,
+        "x": -107.45,
+        "width": 162.95
+      },
+      "worldBounds": {
+        "y": 238.45,
+        "height": 108,
+        "x": 362.55,
+        "width": 162.95
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 2,
+      "sign": -1,
+      "localBounds": {
+        "y": -56.55,
+        "height": 108,
+        "x": -107.45,
+        "width": 162.95
+      },
+      "worldBounds": {
+        "y": 238.45,
+        "height": 108,
+        "x": 414.5,
+        "width": 162.95000000000005
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 3,
+      "sign": 1,
+      "localBounds": {
+        "y": -50.35,
+        "height": 119.85,
+        "x": -145.65,
+        "width": 189.65
+      },
+      "worldBounds": {
+        "y": 244.65,
+        "height": 119.85,
+        "x": 324.35,
+        "width": 189.64999999999998
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 3,
+      "sign": -1,
+      "localBounds": {
+        "y": -50.35,
+        "height": 119.85,
+        "x": -145.65,
+        "width": 189.65
+      },
+      "worldBounds": {
+        "y": 244.65,
+        "height": 119.85,
+        "x": 426,
+        "width": 189.64999999999998
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 4,
+      "sign": 1,
+      "localBounds": {
+        "y": -29.7,
+        "height": 108.45,
+        "x": -163.55,
+        "width": 164
+      },
+      "worldBounds": {
+        "y": 265.3,
+        "height": 108.44999999999999,
+        "x": 306.45,
+        "width": 164
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 4,
+      "sign": -1,
+      "localBounds": {
+        "y": -29.7,
+        "height": 108.45,
+        "x": -163.55,
+        "width": 164
+      },
+      "worldBounds": {
+        "y": 265.3,
+        "height": 108.44999999999999,
+        "x": 469.55,
+        "width": 163.99999999999994
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 5,
+      "sign": 1,
+      "localBounds": {
+        "y": -4.15,
+        "height": 85.15,
+        "x": -174.7,
+        "width": 119.94999999999999
+      },
+      "worldBounds": {
+        "y": 290.85,
+        "height": 85.14999999999998,
+        "x": 295.3,
+        "width": 119.94999999999999
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 5,
+      "sign": -1,
+      "localBounds": {
+        "y": -4.15,
+        "height": 85.15,
+        "x": -174.7,
+        "width": 119.94999999999999
+      },
+      "worldBounds": {
+        "y": 290.85,
+        "height": 85.14999999999998,
+        "x": 524.75,
+        "width": 119.95000000000005
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 6,
+      "sign": 1,
+      "localBounds": {
+        "y": -4.35,
+        "height": 84.1,
+        "x": -175.15,
+        "width": 120.10000000000001
+      },
+      "worldBounds": {
+        "y": 290.65,
+        "height": 84.10000000000002,
+        "x": 294.85,
+        "width": 120.09999999999997
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 6,
+      "sign": -1,
+      "localBounds": {
+        "y": -4.35,
+        "height": 84.1,
+        "x": -175.15,
+        "width": 120.10000000000001
+      },
+      "worldBounds": {
+        "y": 290.65,
+        "height": 84.10000000000002,
+        "x": 525.05,
+        "width": 120.10000000000002
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 7,
+      "sign": 1,
+      "localBounds": {
+        "y": -25.15,
+        "height": 106.5,
+        "x": -171.25,
+        "width": 162.7
+      },
+      "worldBounds": {
+        "y": 269.85,
+        "height": 106.5,
+        "x": 298.75,
+        "width": 162.7
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 7,
+      "sign": -1,
+      "localBounds": {
+        "y": -25.15,
+        "height": 106.5,
+        "x": -171.25,
+        "width": 162.7
+      },
+      "worldBounds": {
+        "y": 269.85,
+        "height": 106.5,
+        "x": 478.55,
+        "width": 162.7
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 8,
+      "sign": 1,
+      "localBounds": {
+        "y": -42.7,
+        "height": 117.95,
+        "x": -159.65,
+        "width": 189.45000000000002
+      },
+      "worldBounds": {
+        "y": 252.3,
+        "height": 117.94999999999999,
+        "x": 310.35,
+        "width": 189.45
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 8,
+      "sign": -1,
+      "localBounds": {
+        "y": -42.7,
+        "height": 117.95,
+        "x": -159.65,
+        "width": 189.45000000000002
+      },
+      "worldBounds": {
+        "y": 252.3,
+        "height": 117.94999999999999,
+        "x": 440.2,
+        "width": 189.45
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 9,
+      "sign": 1,
+      "localBounds": {
+        "y": -51.75,
+        "height": 106.9,
+        "x": -115.9,
+        "width": 163.7
+      },
+      "worldBounds": {
+        "y": 243.25,
+        "height": 106.89999999999998,
+        "x": 354.1,
+        "width": 163.69999999999993
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 9,
+      "sign": -1,
+      "localBounds": {
+        "y": -51.75,
+        "height": 106.9,
+        "x": -115.9,
+        "width": 163.7
+      },
+      "worldBounds": {
+        "y": 243.25,
+        "height": 106.89999999999998,
+        "x": 422.2,
+        "width": 163.7
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 10,
+      "sign": 1,
+      "localBounds": {
+        "y": -57.55,
+        "height": 84.1,
+        "x": -62.5,
+        "width": 120.1
+      },
+      "worldBounds": {
+        "y": 237.45,
+        "height": 84.10000000000002,
+        "x": 407.5,
+        "width": 120.10000000000002
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": 1,
+        "b": 0,
+        "c": 0
+      }
+    },
+    {
+      "frame": 10,
+      "sign": -1,
+      "localBounds": {
+        "y": -57.55,
+        "height": 84.1,
+        "x": -62.5,
+        "width": 120.1
+      },
+      "worldBounds": {
+        "y": 237.45,
+        "height": 84.10000000000002,
+        "x": 412.4,
+        "width": 120.10000000000002
+      },
+      "rootMatrix": {
+        "d": 1,
+        "tx": 470,
+        "ty": 295,
+        "a": -1,
+        "b": 0,
+        "c": 0
+      }
+    }
+  ],
+  "phaseFields": [
+    {
+      "sign": 1,
+      "phaseStride": 1422,
+      "height": 91,
+      "bounds": {
+        "y": -58.7,
+        "height": 85.15,
+        "x": -62.75,
+        "width": 119.95
+      },
+      "rawBytes": 568800,
+      "originX": 65,
+      "id": "f1-s1",
+      "frame": 1,
+      "originY": 61,
+      "phaseCount": 400,
+      "width": 125,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f1-s1.deflate",
+      "sha256": "556fd8a31f4fe2bb51cb161e1e48cd52b4b9095e0bffcc57f81540b3776f0464"
+    },
+    {
+      "sign": 1.2,
+      "phaseStride": 854,
+      "height": 105,
+      "bounds": {
+        "y": -50,
+        "height": 100,
+        "x": -25,
+        "width": 50
+      },
+      "rawBytes": 341600,
+      "originX": 32,
+      "id": "hero-ObjectBaseSprite",
+      "frame": 0,
+      "originY": 52,
+      "phaseCount": 400,
+      "width": 65,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/hero-ObjectBaseSprite.deflate",
+      "sha256": "885c0393240c5fb787cccaf8151a2f4fab0ad41650b4ef3356c15676cef7e2b5"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 162,
+      "height": 35,
+      "bounds": {
+        "y": -15,
+        "height": 30,
+        "x": -15.55,
+        "width": 31.1
+      },
+      "rawBytes": 64800,
+      "originX": 18,
+      "id": "pet-ObjectBaseSprite3",
+      "frame": 0,
+      "originY": 17,
+      "phaseCount": 400,
+      "width": 37,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/pet-ObjectBaseSprite3.deflate",
+      "sha256": "be779e480f6a617b59770aa3d5046d98bf59341e1dfaf6598c77fa69c37b3cea"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 375,
+      "height": 75,
+      "bounds": {
+        "y": -35,
+        "height": 70,
+        "x": -17.5,
+        "width": 35
+      },
+      "rawBytes": 150000,
+      "originX": 20,
+      "id": "pet-ObjectBaseSprite4",
+      "frame": 0,
+      "originY": 37,
+      "phaseCount": 400,
+      "width": 40,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/pet-ObjectBaseSprite4.deflate",
+      "sha256": "d6a2b758ff0aeb2e08d12ef65e395dbf1a3aef2ed9da3c1277a46127ea9513eb"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 722,
+      "height": 105,
+      "bounds": {
+        "y": -50,
+        "height": 100,
+        "x": -25,
+        "width": 50
+      },
+      "rawBytes": 288800,
+      "originX": 27,
+      "id": "pet-ObjectBaseSprite",
+      "frame": 0,
+      "originY": 52,
+      "phaseCount": 400,
+      "width": 55,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/pet-ObjectBaseSprite.deflate",
+      "sha256": "2ecac5da993d0d4476fdc78d20c88bd7211ee44e20ace0d4902023616eb3e498"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 1422,
+      "height": 91,
+      "bounds": {
+        "y": -58.7,
+        "height": 85.15,
+        "x": -62.75,
+        "width": 119.95
+      },
+      "rawBytes": 568800,
+      "originX": 60,
+      "id": "f1-s-1",
+      "frame": 1,
+      "originY": 61,
+      "phaseCount": 400,
+      "width": 125,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f1-s-1.deflate",
+      "sha256": "917421928529f9c7776b5dbbb3ad71483d1dd93d5d57218d794da2a846baff46"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 2373,
+      "height": 113,
+      "bounds": {
+        "y": -56.55,
+        "height": 108,
+        "x": -107.45,
+        "width": 162.95
+      },
+      "rawBytes": 949200,
+      "originX": 110,
+      "id": "f2-s1",
+      "frame": 2,
+      "originY": 59,
+      "phaseCount": 400,
+      "width": 168,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f2-s1.deflate",
+      "sha256": "023afd167ac475694ee3af5ead42a234adbb0d98fcc03dee61db09703344d680"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 2373,
+      "height": 113,
+      "bounds": {
+        "y": -56.55,
+        "height": 108,
+        "x": -107.45,
+        "width": 162.95
+      },
+      "rawBytes": 949200,
+      "originX": 58,
+      "id": "f2-s-1",
+      "frame": 2,
+      "originY": 59,
+      "phaseCount": 400,
+      "width": 168,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f2-s-1.deflate",
+      "sha256": "ec833010e0c725c2c33754662223cace26f71a8f32e4aa264f52e5abfcd03dbe"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 3047,
+      "height": 125,
+      "bounds": {
+        "y": -50.35,
+        "height": 119.85,
+        "x": -145.65,
+        "width": 189.65
+      },
+      "rawBytes": 1218800,
+      "originX": 148,
+      "id": "f3-s1",
+      "frame": 3,
+      "originY": 53,
+      "phaseCount": 400,
+      "width": 195,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f3-s1.deflate",
+      "sha256": "47bc418cff9fa7201c11523e5230d6c572c422a5fe17deb09f9fee842ebe2467"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 3047,
+      "height": 125,
+      "bounds": {
+        "y": -50.35,
+        "height": 119.85,
+        "x": -145.65,
+        "width": 189.65
+      },
+      "rawBytes": 1218800,
+      "originX": 46,
+      "id": "f3-s-1",
+      "frame": 3,
+      "originY": 53,
+      "phaseCount": 400,
+      "width": 195,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f3-s-1.deflate",
+      "sha256": "5a29cacf3319eb3f71704c94b1be0be47cb4d5278dd90e8bf7978f26406740f4"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 2409,
+      "height": 114,
+      "bounds": {
+        "y": -29.7,
+        "height": 108.45,
+        "x": -163.55,
+        "width": 164
+      },
+      "rawBytes": 963600,
+      "originX": 166,
+      "id": "f4-s1",
+      "frame": 4,
+      "originY": 32,
+      "phaseCount": 400,
+      "width": 169,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f4-s1.deflate",
+      "sha256": "b8136b2838c630160160460ed46c3efba0d0cb4e869a3a7cbabdfb29997d786a"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 2409,
+      "height": 114,
+      "bounds": {
+        "y": -29.7,
+        "height": 108.45,
+        "x": -163.55,
+        "width": 164
+      },
+      "rawBytes": 963600,
+      "originX": 3,
+      "id": "f4-s-1",
+      "frame": 4,
+      "originY": 32,
+      "phaseCount": 400,
+      "width": 169,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f4-s-1.deflate",
+      "sha256": "9fd6fb199d80e3b201455d2ac6360e5b1061010a76423b9297c8bd36a6affb80"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 1422,
+      "height": 91,
+      "bounds": {
+        "y": -4.15,
+        "height": 85.15,
+        "x": -174.7,
+        "width": 119.94999999999999
+      },
+      "rawBytes": 568800,
+      "originX": 177,
+      "id": "f5-s1",
+      "frame": 5,
+      "originY": 7,
+      "phaseCount": 400,
+      "width": 125,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f5-s1.deflate",
+      "sha256": "66bfb4e133461c12c22159d282afd346eef507e57d315096c4f75a8e5b16a7ad"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 1422,
+      "height": 91,
+      "bounds": {
+        "y": -4.15,
+        "height": 85.15,
+        "x": -174.7,
+        "width": 119.94999999999999
+      },
+      "rawBytes": 568800,
+      "originX": -52,
+      "id": "f5-s-1",
+      "frame": 5,
+      "originY": 7,
+      "phaseCount": 400,
+      "width": 125,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f5-s-1.deflate",
+      "sha256": "59e0190ad66ccd21548bf6a340d20f0a5c31f887776e078e4e82e1856618d18b"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 1418,
+      "height": 90,
+      "bounds": {
+        "y": -4.35,
+        "height": 84.1,
+        "x": -175.15,
+        "width": 120.10000000000001
+      },
+      "rawBytes": 567200,
+      "originX": 178,
+      "id": "f6-s1",
+      "frame": 6,
+      "originY": 7,
+      "phaseCount": 400,
+      "width": 126,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f6-s1.deflate",
+      "sha256": "806a9bafcf6c96f6232ff0a122a9629517950f4eeec7ea0ded738041f54ef9ef"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 1418,
+      "height": 90,
+      "bounds": {
+        "y": -4.35,
+        "height": 84.1,
+        "x": -175.15,
+        "width": 120.10000000000001
+      },
+      "rawBytes": 567200,
+      "originX": -53,
+      "id": "f6-s-1",
+      "frame": 6,
+      "originY": 7,
+      "phaseCount": 400,
+      "width": 126,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f6-s-1.deflate",
+      "sha256": "69823f4830a5807a970127209ea27e3ce5a51578a443988a8a3d608a1c65d5d1"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 2352,
+      "height": 112,
+      "bounds": {
+        "y": -25.15,
+        "height": 106.5,
+        "x": -171.25,
+        "width": 162.7
+      },
+      "rawBytes": 940800,
+      "originX": 174,
+      "id": "f7-s1",
+      "frame": 7,
+      "originY": 28,
+      "phaseCount": 400,
+      "width": 168,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f7-s1.deflate",
+      "sha256": "ebb388e85894baac124a1e233d0ec31c7c57d5fc72efd6aa787ffc82125cc6b7"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 2352,
+      "height": 112,
+      "bounds": {
+        "y": -25.15,
+        "height": 106.5,
+        "x": -171.25,
+        "width": 162.7
+      },
+      "rawBytes": 940800,
+      "originX": -6,
+      "id": "f7-s-1",
+      "frame": 7,
+      "originY": 28,
+      "phaseCount": 400,
+      "width": 168,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f7-s-1.deflate",
+      "sha256": "7895898afcfa22be49d7cfc39b40c97f8cee6fdaf251fecf2a7e3a6da97675b9"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 2999,
+      "height": 123,
+      "bounds": {
+        "y": -42.7,
+        "height": 117.95,
+        "x": -159.65,
+        "width": 189.45000000000002
+      },
+      "rawBytes": 1199600,
+      "originX": 162,
+      "id": "f8-s1",
+      "frame": 8,
+      "originY": 45,
+      "phaseCount": 400,
+      "width": 195,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f8-s1.deflate",
+      "sha256": "224dede93f3a98505b832a6621f7cda909e5c6877ca4e48cd34bbdc30512e56a"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 2999,
+      "height": 123,
+      "bounds": {
+        "y": -42.7,
+        "height": 117.95,
+        "x": -159.65,
+        "width": 189.45000000000002
+      },
+      "rawBytes": 1199600,
+      "originX": 32,
+      "id": "f8-s-1",
+      "frame": 8,
+      "originY": 45,
+      "phaseCount": 400,
+      "width": 195,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f8-s-1.deflate",
+      "sha256": "96a27e22dec620d6582cda279d1569510bb0baf1961bc56e3c396b3023e859d0"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 2366,
+      "height": 112,
+      "bounds": {
+        "y": -51.75,
+        "height": 106.9,
+        "x": -115.9,
+        "width": 163.7
+      },
+      "rawBytes": 946400,
+      "originX": 118,
+      "id": "f9-s1",
+      "frame": 9,
+      "originY": 54,
+      "phaseCount": 400,
+      "width": 169,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f9-s1.deflate",
+      "sha256": "931a1acd56a46024fbeda1ec05df028a5a16f9f66b03da9beafebc93addad90f"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 2366,
+      "height": 112,
+      "bounds": {
+        "y": -51.75,
+        "height": 106.9,
+        "x": -115.9,
+        "width": 163.7
+      },
+      "rawBytes": 946400,
+      "originX": 50,
+      "id": "f9-s-1",
+      "frame": 9,
+      "originY": 54,
+      "phaseCount": 400,
+      "width": 169,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f9-s-1.deflate",
+      "sha256": "27f782c60c5bee1137448b75d272e47e57c33840970363fc4cd5b07449294bb6"
+    },
+    {
+      "sign": 1,
+      "phaseStride": 1418,
+      "height": 90,
+      "bounds": {
+        "y": -57.55,
+        "height": 84.1,
+        "x": -62.5,
+        "width": 120.1
+      },
+      "rawBytes": 567200,
+      "originX": 65,
+      "id": "f10-s1",
+      "frame": 10,
+      "originY": 60,
+      "phaseCount": 400,
+      "width": 126,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f10-s1.deflate",
+      "sha256": "f435e56a9f348a6bff0a0f314f59d43285a587ab586497957dc6fd937f344cab"
+    },
+    {
+      "sign": -1,
+      "phaseStride": 1418,
+      "height": 90,
+      "bounds": {
+        "y": -57.55,
+        "height": 84.1,
+        "x": -62.5,
+        "width": 120.1
+      },
+      "rawBytes": 567200,
+      "originX": 60,
+      "id": "f10-s-1",
+      "frame": 10,
+      "originY": 60,
+      "phaseCount": 400,
+      "width": 126,
+      "path": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/fields/f10-s-1.deflate",
+      "sha256": "17ea3ca7e796b4941731d8160d51486fd1c4069fc8057e08805ec27305e6386b"
+    }
+  ],
+  "sampling": {
+    "phasesPerAxis": 20,
+    "phaseOrder": "y*20+x",
+    "bitOrder": "little",
+    "translation": "signed quarter-pixel truncation; source-native finite validation only",
+    "predicate": "AND source/target planes; exclude sole (0,0) pixel to match original getColorBoundsRect",
+    "targetBounds": "native actual construction; never visible body bounds",
+    "limitations": "Finite frozen input domain; exact 379-case/382-pixel list approved by user 2026-09-27; zero Boolean differences required. No arbitrary-coordinate pixel identity claim."
+  },
+  "fixtures": {
+    "path": "docs/tasks/evidence/TASK-SETTINGS-241/fixtures.json",
+    "sha256": "ad4d802b2d4e4585e21237e033c5d86e9c44ab3f02f2c1b8789c1cb45386a8f1"
+  },
+  "oracle": {
+    "path": "docs/tasks/evidence/TASK-SETTINGS-241/native.json",
+    "sha256": "3df852deb1535e6a4564091786dfb8dce784145e3fbb04c5602fc0162939c233",
+    "caseCount": 93920,
+    "bufferPath": "local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/air/buffers.deflate",
+    "bufferSha256": "e75e1294bc7fa028f58b2e97a44511cfad9711cbc8d7db24a979e98fec143717"
+  },
+  "phaseTrace": {
+    "path": "docs/tasks/evidence/TASK-SETTINGS-241/phase.json",
+    "sha256": "db92e2e114c83187706850937bfb6e83d413fce209ba93f93f5c1fe7ba9331c3"
+  },
+  "unresolved": [],
+  "targetSourceTrees": {
+    "status": "source-tree-matched",
+    "source": "local-resources/regima/source/restored-swfs/assets/StageCommon.swf",
+    "sha256": "c6fc973d7d606ce4ea177b0ac075844c86a5ee7e493235fa812a029fbe4f29c9",
+    "states": [
+      {
+        "id": "hero-ObjectBaseSprite",
+        "tree": {
+          "characterId": 105,
+          "kind": "DefineSpriteTag",
+          "frame": 1,
+          "children": [
+            {
+              "characterId": 104,
+              "kind": "DefineSpriteTag",
+              "frame": 1,
+              "children": [
+                {
+                  "characterId": 53,
+                  "kind": "DefineShape3Tag",
+                  "frame": 1,
+                  "children": [],
+                  "depth": 1,
+                  "matrix": {
+                    "a": 0.7142791748046875,
+                    "d": 0.8333282470703125,
+                    "b": 0,
+                    "c": 0,
+                    "tx": 0.0,
+                    "ty": 0.0
+                  },
+                  "alpha": 1,
+                  "filters": [],
+                  "placedAt": 1,
+                  "locator": "DefineSprite/104/subTags/0"
+                }
+              ],
+              "depth": 1,
+              "matrix": {
+                "a": 1,
+                "d": 1,
+                "b": 0,
+                "c": 0,
+                "tx": -25.0,
+                "ty": -50.0
+              },
+              "alpha": 1,
+              "filters": [],
+              "placedAt": 1,
+              "locator": "DefineSprite/105/subTags/0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "pet-ObjectBaseSprite3",
+        "tree": {
+          "characterId": 103,
+          "kind": "DefineSpriteTag",
+          "frame": 1,
+          "children": [
+            {
+              "characterId": 102,
+              "kind": "DefineSpriteTag",
+              "frame": 1,
+              "children": [
+                {
+                  "characterId": 53,
+                  "kind": "DefineShape3Tag",
+                  "frame": 1,
+                  "children": [],
+                  "depth": 1,
+                  "matrix": {
+                    "a": 0.79998779296875,
+                    "d": 0.449981689453125,
+                    "b": 0,
+                    "c": 0,
+                    "tx": 0.0,
+                    "ty": 0.0
+                  },
+                  "alpha": 1,
+                  "filters": [],
+                  "placedAt": 1,
+                  "locator": "DefineSprite/102/subTags/0"
+                }
+              ],
+              "depth": 1,
+              "matrix": {
+                "a": 0.5555419921875,
+                "d": 0.5555419921875,
+                "b": 0,
+                "c": 0,
+                "tx": -15.55,
+                "ty": -15.0
+              },
+              "alpha": 1,
+              "filters": [],
+              "placedAt": 1,
+              "locator": "DefineSprite/103/subTags/0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "pet-ObjectBaseSprite4",
+        "tree": {
+          "characterId": 101,
+          "kind": "DefineSpriteTag",
+          "frame": 1,
+          "children": [
+            {
+              "characterId": 100,
+              "kind": "DefineSpriteTag",
+              "frame": 1,
+              "children": [
+                {
+                  "characterId": 53,
+                  "kind": "DefineShape3Tag",
+                  "frame": 1,
+                  "children": [],
+                  "depth": 1,
+                  "matrix": {
+                    "a": 0.5,
+                    "d": 0.58331298828125,
+                    "b": 0,
+                    "c": 0,
+                    "tx": 0.0,
+                    "ty": 0.0
+                  },
+                  "alpha": 1,
+                  "filters": [],
+                  "placedAt": 1,
+                  "locator": "DefineSprite/100/subTags/0"
+                }
+              ],
+              "depth": 1,
+              "matrix": {
+                "a": 1,
+                "d": 1,
+                "b": 0,
+                "c": 0,
+                "tx": -17.5,
+                "ty": -35.0
+              },
+              "alpha": 1,
+              "filters": [],
+              "placedAt": 1,
+              "locator": "DefineSprite/101/subTags/0"
+            }
+          ]
+        }
+      },
+      {
+        "id": "pet-ObjectBaseSprite",
+        "tree": {
+          "characterId": 105,
+          "kind": "DefineSpriteTag",
+          "frame": 1,
+          "children": [
+            {
+              "characterId": 104,
+              "kind": "DefineSpriteTag",
+              "frame": 1,
+              "children": [
+                {
+                  "characterId": 53,
+                  "kind": "DefineShape3Tag",
+                  "frame": 1,
+                  "children": [],
+                  "depth": 1,
+                  "matrix": {
+                    "a": 0.7142791748046875,
+                    "d": 0.8333282470703125,
+                    "b": 0,
+                    "c": 0,
+                    "tx": 0.0,
+                    "ty": 0.0
+                  },
+                  "alpha": 1,
+                  "filters": [],
+                  "placedAt": 1,
+                  "locator": "DefineSprite/104/subTags/0"
+                }
+              ],
+              "depth": 1,
+              "matrix": {
+                "a": 1,
+                "d": 1,
+                "b": 0,
+                "c": 0,
+                "tx": -25.0,
+                "ty": -50.0
+              },
+              "alpha": 1,
+              "filters": [],
+              "placedAt": 1,
+              "locator": "DefineSprite/105/subTags/0"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "verification": {
+    "status": "passed",
+    "cases": 93920,
+    "pixels": 58411155,
+    "hitMismatches": 0,
+    "approvedResidualCases": 379,
+    "approvedResidualPixels": 382,
+    "approvalSha256": "a9a0615cfd95aef38a88da538551f1ce9ccbe3c8269467265cee143e22d0b29d",
+    "mutants": {
+      "flip": "f1-s1-hero-ObjectBaseSprite-left-16-30",
+      "origin": "f1-s1-hero-ObjectBaseSprite-grid-80--80-0",
+      "origin-y": "f1-s1-pet-ObjectBaseSprite3-grid--60-40-0.25",
+      "target-scale": "f1-s1-hero-ObjectBaseSprite-right-8--30",
+      "child-clock": "f1-s1-hero-ObjectBaseSprite-left-1--30",
+      "transparent-as-bounds": "f1-s1-hero-ObjectBaseSprite-left-1--30",
+      "edge-rounding": "f1-s1-pet-ObjectBaseSprite3-grid--60-40-0.05",
+      "sole-origin": "f1-s1-pet-ObjectBaseSprite-grid-0-60-0.05"
+    },
+    "broadPhaseOmission": {
+      "status": "equivalent",
+      "petCases": 70440,
+      "proof": "AUtils positive bounds intersection is necessary for HitTest nonempty >=1 pixel intersection; omission cannot change this pure spatial Boolean. Caller retains broad-phase explicitly."
+    },
+    "phaseObservations": 324,
+    "nativeChecks": 60,
+    "repeat": {
+      "status": "passed",
+      "cases": 93920,
+      "phaseFields": 24,
+      "sourceCasesEqual": true,
+      "fieldBytesEqual": true
+    }
+  },
+  "approvedPixelDifferences": {
+    "status": "user-approved",
+    "date": "2026-09-27",
+    "userAnswer": "批准该精确清单，继续验收与实现",
+    "scope": "Only frozen 379 cases / 382 pixel tuples in 93920 cases; all hit Booleans must remain identical. No blanket gameplay or arbitrary-coordinate approximation approval.",
+    "candidateSha256": "2daffdd281c6f57c3d87330e79a350ca14ba875d1ecbb16454de5372b6889468",
+    "candidatePath": "docs/tasks/evidence/TASK-SETTINGS-241/candidate-pixel-differences.json"
+  }
+}

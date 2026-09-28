@@ -13,6 +13,9 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-233 | 共享Canvas回退像素修正 | 移除roundPixels尺寸扩张，保留坐标语义 | M-035、M-042、VS-067 | Canvas/WebGL各850态零残差；正式AUTO回退与888绘制检查；[验收](../reverse-engineering/canvas-sprite-extent-acceptance.md)，234 Ready |
+| TASK-SLICE-240 | Monster30公共身体与独立攻击消费 | 两owner身体先效果/独立伤害/只读显示与清理 | M-030、M-032、M-034、M-042、VS-067 | 93920命中、66生命周期、210宠物HP、216原生相位、七变异、12场景与六地图重入；[验收](../reverse-engineering/monster30-runtime-acceptance.md)，233 Ready |
+| TASK-SETTINGS-241 | Monster30攻击命中补证 | 单攻击十帧双向与实际英雄/宠物colipse | M-030、M-032、M-034、M-042、VS-067 | 93920原生命中/58411155像素、4profile/40构造、324时序、8查询变异；精确379例382像素用户批准且布尔零差异；[合同](../reverse-engineering/monster30-attack-collision-contract.md)，240恢复Ready |
 | TASK-SLICE-238 | 公共怪物经验归属消费 | 对象身份/AI清理/同步经验/真实进度与存档 | M-030、M-032、M-040、VS-067 | 264源expected、612选择、76真实保存、10变异、24场景；[合同](../reverse-engineering/monster-death-experience-contract.md)，232 Ready |
 | TASK-SETTINGS-239 | 公共经验目标选择输入补证 | 双英雄排序/候选/12类型警戒范围与根适配 | M-030、M-032、M-040、VS-067 | 612选择/180构造/240消费者输入/9源变异；[合同](../reverse-engineering/monster-death-experience-contract.md)，238恢复Ready |
 | TASK-SETTINGS-231 | 公共怪物死亡经验归属补证 | 对象身份/AI清理/英雄宠物经验与消费者缺口 | M-030、M-032、M-040、VS-067 | 264原包AIR态、六源变异；[合同](../reverse-engineering/monster-death-experience-contract.md)，238 Ready，现代待实现 |
@@ -342,6 +345,202 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-233
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Completed）
+
+目标机制/切片：`M-035`、`M-042`、`VS-067`
+
+要解决的问题：226实际画布对照中，猴马私有效果WebGL的850态全通过，Canvas回退654态不符。Phaser CanvasRenderer.batchSprite在camera.roundPixels=true时把绘制宽高各加0.5，引起透明边缘重采样。正式main使用AUTO和roundPixels=true；这是共享回退渲染规则，独立于家族时间轴。
+
+范围：复用226原图与相位，修正共享Canvas绘制尺寸/整数对齐；核验猴马双向效果和一个正式关卡的身体、地形、HUD。保留WebGL、碰撞、伤害及播放时钟。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若需重做相机、全场景缩放或新增原版资料，先交接独立边界；不把单fixture关闭取整通过当正式场景完成。
+
+协作计划：
+- 模式：单 agent
+- 模型分工：共享配置和实际浏览器证据紧密依赖，由主agent连续处理。
+- 并行工作包：无
+- 写入 owner：主 agent
+- 归并检查点：验收前
+- 方法观测：无
+
+输入资料：
+- `tools/pet226-display-browser-probe.ts`、`tools/build-pet226-display-probe.mjs`、`tools/pet226-body/prepare_display_browser.py`。
+- 本地`docs/tasks/evidence/TASK-SLICE-226/horse-display-webgl-after.json`与`effect-display-canvas-before.json`，观察来自实际浏览器可见报告。
+- verified的`task-slice-226-monkey-pause-display.json`、`task-slice-226-horse-pause-display.json`及原生EXIT基准。
+- `src/main.ts`、当前Phaser的`CanvasRenderer.js`和正式场景相机消费者。
+
+输出产物：共享Canvas尺寸/取整修正、双渲染器逐状态差异报告、正式场景回归与必要的精确视觉例外。
+
+完成定义：正式Canvas回退不再出现本反例，WebGL和代表性场景无新增偏移，结果可复验；不宣称所有场景像素一致。
+
+验收标准：
+- 保留654态失败证据；expected使用原生独立采样，不能来自现代输出。
+- 实际浏览器复验850态双向效果，记录alpha及预乘RGB残差，不能只看零console error。
+- 核验正式AUTO回退、相机滚动及小数位置，不用fixture配置替代生产接线。
+- build、相关系统测试、workflow、problem audit和diff检查通过。
+
+禁止范围：不修改node_modules作为交付方案，不改原始提取，不全局放宽像素阈值掩盖几何差异，不改战斗合同。
+
+状态更新：Completed（2026-09-28）。完整验收及复验见 `docs/reverse-engineering/canvas-sprite-extent-acceptance.md`；下一项TASK-SLICE-234。
+
+
+### TASK-SLICE-240
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Completed）
+
+目标机制/切片：`M-030`、`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：232已证明Monster30身体回调应先于目标效果，生成的独立攻击在下一world tick检测，源HP归零不立即清攻击、destroy才清理。现代1-1/TestScene与1-3仍在效果后读取身体，伤害绑定源activeAttack；只补显示会留下致死时攻击无伤害的错误。
+
+范围：Monster30同一行为在1-1/TestScene与1-3的两条现有owner路径，身体回调→独立攻击记录→真正英雄/宠物伤害→只读显示→死亡/销毁/退出。其他11类型仅保留232消费者矩阵和兼容回归，不扩大为所有怪物技能重做。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 消费预检若缺Monster30Bullet1对实际英雄/宠物的必要空间/像素命中机器真值，先标记输入缺口，生成同线有界补证任务；不能拿现有矩形/横向距离或218目标壳真值替代。
+- 如必须同时重做其他怪物专属行为/新视觉资源全集，另列任务并保留本合同；不得把Monster16 follow/hurt-cut或Monster2纯视觉/Tween套成Monster30默认。
+
+协作计划：
+- 模式：主 agent + subagent（可独立返回且主agent有并行工作时）。
+- 模型分工：按agent-protocol准入表；主agent负责共享运行时边界，简单只读源/消费者核对优先可用Luna。
+- 并行工作包：有界输入适用性或独立回归核对；不增加主工作包。
+- 写入 owner：主 agent独占运行时/状态文档；子agent默认只读。
+- 归并检查点：实现前核定输入、完成前核定全部真实消费者。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster-body-attack-lifecycle-contract.md` 与 `reference/monster-body-attack-lifecycle-contract.json`，BA-01..08；原源locator必须窄读。
+- `tools/monster-body-order-source/`、`tools/monster-body-timeline/`及232本地证据；注意受控collision sink、注入效果到期、显式MovieClip帧边界，不能当作生产验收。
+- `tools/pet-target-body-order-preflight.ts`与226原84责任承接矩阵；原现代三fps失败反例必须转为真实通过。
+- `Monster30System`、`Stage1CombatSystem`、`MonsterPetTargetEffectSystem`、Stage11/13视觉与正式/TestScene实际伤害consumer；`src-boundaries.md`。
+- 既有恢复 `assets/1.swf` character21、068视觉资料及218目标碰撞真值，只按已证明范围复用。
+
+输出产物：
+- 既有owner下的Monster30独立攻击生命周期与只读显示投影，逐一删除本范围对源activeAttack存活的错误依赖；不把玩法放进Phaser view。
+- 同帧火焰/冰冻、受伤、源死亡/销毁、暂停、退出重入、P1/P2英雄与宠物的实际伤害及逐状态显示证据。
+- 232 BA-01..07与226相关组合责任回填；其他类型/公共责任保持明确未完成。
+
+完成定义：两条正式owner路径都使用同一已证Monster30顺序与独立攻击合同；HP真实变化、去重、首次命中、来源身份、出生根和清理可复验。源死亡后的可见攻击与伤害一致，不以事件数量或普通build代替。
+
+验收标准：
+- 实现前运行check:structure；Monster30System现有warning优先拆分，仅拆本范围，不能顺手大重构。
+- 对20/24/30fps、致死/非致死火焰、冰冻首尾、直接hurt/dead/destroy、暂停/恢复、同Scene重试及返回重载执行独立expected；拒绝232六类反例。
+- 同时检查真实DamageEvent、英雄/宠物HP、attackId去重和双owner来源，证明显示图不是唯一改变；不伪造目标位置来声称自然碰撞通过。
+- 适用视觉/空间输入按reverse-engineering-protocol核对机器真值、原版基准和逐状态差异；无新增可见替代层，轻微容差按长期授权记录。
+- 相关系统专项、build、check:workflow、audit:problems通过；结构无新error；原公共经验/击退与五关兼容保持。
+
+禁止范围：不改原始提取结果，不迁移整套怪物系统，不新增设计模式验收方案，不关闭全部五关/猴马完整家族/204/all/VS-067，不删除226其余84责任。
+
+输入解除：2026-09-27，241的verified机器真值与精确批准残差已交付，见`docs/reverse-engineering/monster30-attack-collision-contract.md`及同名reference JSON。有限采样与零布尔边界原样消费，不扩为任意像素恒等声明。
+
+执行前恢复记录：Ready（2026-09-27）。用户明确授权同一目标“继续241并恢复240”，继续完整双owner真实伤害、顺序与生命周期实施；尚未宣称现代修复通过。
+
+推荐后续任务：依据本次输入和消费者证据生成同线其他怪物公共顺序消费项，或在本范围闭合且无新增阻塞后恢复TASK-SLICE-233；未覆盖类型的公共责任必须先明确承接，不能用Monster30通过替代。
+
+完成记录：2026-09-28。完整合同按两owner已验收，见`docs/reverse-engineering/monster30-runtime-acceptance.md`及本地240/handoff.md；下一唯一Ready为TASK-SLICE-233。原定义的输入预检/授权恢复记录保留为历史，不代表当前未完成。
+
+
+### TASK-SETTINGS-241
+
+完成日期：2026-09-27。93920原生命中、58411155比较像素、4profile/40构造、324相位观察与8查询变异通过；精确379例382像素差异获用户明确批准，最终布尔零差异。Schema/重复原生捕获、源攻击与目标树交叉验证通过。现代实现归240，不关闭其他11类型与原84剩余责任。详见monster30-attack-collision-contract.md。
+
+### 原执行合同（历史快照，状态以本节完成归档为准）
+
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`视觉真值逆向`
+
+逆向方案：`docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Ready）
+
+目标机制/切片：`M-030`、`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：240消费预检确认232仅证明身体/独立攻击生命周期，068可见边界与218青龙攻击目标壳不能证明Monster30Bullet1对英雄/宠物的真实命中。补齐单攻击对象和实际受击colipse输入后恢复240，不扩大为全怪攻击或全家族动画。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若实际colipse存在尚无证据的独立动态状态族或目标源包，超出本单对象输入闭合范围，保留240全合同并先拆出有界输入项；不能退回矩形近似或缩掉实际消费者。
+- 不因角色/宠物形态数量重做本体视觉全集；只核定真实参与本攻击命中的colipse及其变换。需要全身动画或新攻击行为时另列任务。
+
+协作计划：
+- 模式：主 agent + subagent（存在可独立返回的核对包时）。
+- 模型分工：主agent负责源运行、真值与适用性判断；Luna只读核对构造映射或独立产物覆盖。
+- 并行工作包：5英雄/35宠物形态colipse构造映射核对，与主agent单攻击对象采样并行；只扫描必要构造及colipse写入，不逆向其他技能。
+- 写入 owner：主 agent。
+- 归并检查点：采样前冻结实际唯一目标profile；验收前核对状态/消费者全集。
+- 方法观测：无。
+
+输入资料：
+- `docs/workflow/reverse-engineering-protocol.md` 与 `docs/workflow/reverse-engineering-task-protocol.md`，以及上方唯一逆向方案。
+- `docs/tasks/evidence/TASK-SLICE-240/preflight.md`（本地诊断）；稳定缺口摘要见 `docs/reverse-engineering/monster-body-attack-lifecycle-contract.md` 的240预检节。
+- 232行为合同与 `reference/monster-body-attack-lifecycle-contract.json`，BA-01..07原样保留，不重新解释源死亡/销毁。
+- 恢复源 `local-resources/regima/source/restored-swfs/assets/1.swf`：`Monster30Bullet1` character21，10帧；必要目标壳从 `assets/StageCommon.swf` 和实际构造所引用恢复源窄查，不从旧提取缺失推断视觉缺失。
+- 068 `stage1-monster-visuals-index.md` 与本地 `task-settings-068-stage1-monsters/attack-object-frame-geometry.csv`，只复用身份/定位。
+- 218 `ground-truth/manifests/task-settings-218-dragon1-target-collision.json` 与本地 `TASK-SETTINGS-218/collision-contract.json`，只复用经证明的目标壳几何/方法；PetDragon1Bullet1 oracle不是本攻击oracle。
+- 局部/共享AS3：Monster30.doHi1、SpecialEffectBullet、BaseBullet、BaseHero.beMagicAttack、BasePet.beMagicAttack、BaseObject.newColipse及HitTest/AUtils；仅沿5英雄/35宠物实际colipse构造与变换写入补充局部类。
+- 240的两条现代owner、HeroPartyRuntimeBridge/PetCombatRuntime目标快照与注册根映射；不修改src/public。
+- `ground-truth/README.md`、视觉Schema、`evb-extraction-report.md`、`asset-annotation/workflow.md`；涉及运行工具时读 `docs/workflow/air-runtime-verification.md`。
+
+范围与状态fixture：
+- RegiMA 1.1，940×590，同父世界注册根；入口为Monster30.doHi1创建SpecialEffectBullet，BaseBullet下一world step调用真实英雄/宠物命中谓词。
+- 固定10根帧×左右方向；逐帧递归child/alpha/matrix，若有独立子时钟按真实播放展开，不按联合bounds或重复导出尺寸宣称逐帧相同。
+- 先从原构造枚举5英雄/35宠物的唯一colipse profile、父子缩放、朝向与root换算；相同profile可共享采样，但每个实际类型必须有映射依据。受击colipse不等于可见身体，禁止要求无关全身帧全集。
+- 对每一唯一profile、攻击帧与方向冻结命中/不命中、边缘接触、整数/亚像素偏移、双方相对高度、同父平移和镜像fixture。边界坐标由源显示树生成；枚举范围、步长及例数必须在运行前落盘，不能从现代结果筛选。
+- 分别覆盖英雄pixel与宠物broad-phase→pixel谓词，以及P1/P2来源/目标身份；空间oracle与伤害算式、闪避/保护门禁分开标记。不得把强制命中param3或受控true sink算作真实命中样本。
+- 采样/静态快照与原生播放相位交叉确认，保留暂停/末帧检测顺序的232引用；不声称有限输入网格等于完整自然场景旅程。
+
+输出产物：
+- `docs/reverse-engineering/monster30-attack-collision-contract.md`：六段证据矩阵、源locator、目标profile、根换算、两条owner消费合同、未知与反证。
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-241-monster30-attack-collision.json`：`truthId=task-settings-241.monster30-attack-collision`，按视觉/空间Schema生成显示树、变换、帧、基准与source hash；仅全部适用输入闭合后verified。
+- 必要碰撞sidecar/专用Schema及可重复生成/独立验证入口；相位、目标profile、逐例布尔/alpha覆盖和原生基准保留关联。
+- 原始导出/原生基准置于 `local-resources/regima/task-outputs/task-settings-241-monster30-attack-collision/`；精简验收/交接置于 `docs/tasks/evidence/TASK-SETTINGS-241/`，运行消费数据由后续240交付到正式资源目录。
+
+完成定义：单攻击对象及240实际英雄/宠物目标的必要空间输入已闭合，verified机器真值与独立原生命中oracle可重复验证；不能只找到资源或输出可解析JSON。240两条owner能够据此生成注册根/碰撞数据，不依赖旧矩形、横向距离或青龙攻击oracle。
+
+验收标准：
+- 对已冻结全集逐状态核对递归显示列表、注册矩阵、帧/child时钟、目标profile与source hash；expected与extracted独立，所有实现相关unresolved清零。
+- 原生HitTest及AUtils真实执行与独立像素采样/几何计算比较；命中布尔全部一致，像素/边缘差异逐例解释。碰撞差异不得套用视觉轻微容差授权。
+- 真实变异拒绝错误翻转、原点、目标父scale、根/子时钟、透明像素、边缘舍入和忽略宠物broad-phase；不能只做报告字段损坏测试。
+- 原生基准与逐态差异可追溯；两次生成一致、Schema与完整性、输入适用性、check:workflow及audit:problems通过。
+- UI菜单不适用；无现代视觉替代层。明确原生AIR与旧Flash Player的证据边界。
+
+禁止范围：不改legacy-extraction、src/public、232/218既有真值或其他11怪物技能；不核销240真实HP/Scene验收、226其余84责任、完整家族/204/all/VS-067。
+
+状态更新：Ready（2026-09-27；240输入预检触发的同线解除阻塞任务）。
+
+执行授权：2026-09-27用户明确“授权继续241并恢复240”；当前目标允许完成本项后恢复240实施，覆盖原单次调度交接限制，不降低两项验收标准。
+
+推荐后续任务：输入闭合后恢复 `TASK-SLICE-240` 唯一Ready，继续其完整双owner真实伤害与生命周期验收；本项不越过240执行233。
+
+
 
 ### TASK-SLICE-238
 

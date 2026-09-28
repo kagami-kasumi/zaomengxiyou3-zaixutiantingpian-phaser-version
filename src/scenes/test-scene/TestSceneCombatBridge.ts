@@ -1,3 +1,4 @@
+import { monster30AttackHits } from '../../systems/Monster30AttackRuntime';
 import { acceptMonsterAttackTarget } from '../../systems/MonsterExperienceSystem';
 import Phaser from 'phaser';
 import { applyOwnedHeroDamage } from '../../systems/PetBattleOwnershipSystem';
@@ -25,7 +26,6 @@ import {
 import {
   applyMonster30MagicFlagCounterFromHero,
   applyMonster30Hit,
-  getMonster30AttackHitbox,
   type Monster30Model,
 } from '../../systems/Monster30System';
 import {
@@ -167,29 +167,13 @@ export function applyMonster30AttackToPlayers(params: {
     return result;
   }
 
-  const activeAttack = monster.activeAttack;
-  const hitbox = getMonster30AttackHitbox(monster);
-  if (!activeAttack || !hitbox) {
-    return result;
-  }
-
-  if (!renderedMonsterAttackIds.has(activeAttack.attackId)) {
-    renderedMonsterAttackIds.add(activeAttack.attackId);
-    result.flashBounds.push(toPhaserRect(hitbox));
-  }
-
-  const attackBounds = toPhaserRect(hitbox);
+  void renderedMonsterAttackIds; // Native attack display is a read-only runtime projection.
+  for (const activeAttack of monster.attackRuntime?.detections ?? []) {
   for (const player of players) {
-    if (!player.movement || isHeroCombatDead(player.combat)) {
-      continue;
-    }
-
-    if (!Phaser.Geom.Intersects.RectangleToRectangle(
-      attackBounds,
-      getPlayerBounds(player),
-    )) {
-      continue;
-    }
+    if (!player.movement || isHeroCombatDead(player.combat)) continue;
+    if (time < player.combat.invulnerableUntilMs || player.combat.magicInvulnerability) continue;
+    if (!monster30AttackHits(activeAttack, 'hero-ObjectBaseSprite',
+      player.movement.x, player.movement.y - 50)) continue;
 
     if (!resolveHitOnce(hitRegistry, activeAttack.attackId, player.slot)) {
       continue;
@@ -217,6 +201,7 @@ export function applyMonster30AttackToPlayers(params: {
     }
   }
 
+  }
   return result;
 }
 

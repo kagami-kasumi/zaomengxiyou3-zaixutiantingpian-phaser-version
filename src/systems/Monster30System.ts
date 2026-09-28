@@ -1,138 +1,14 @@
-import { settleMonsterExperience, selectMonsterAttackTarget, clearUnavailableMonsterAttackTarget, type MonsterExperienceBinding } from './MonsterExperienceSystem';
-import type { AttackKind } from './CombatSystem';
-import { advanceMonsterKnockback, disposeMonsterKnockback, type MonsterKnockbackBinding } from './MonsterKnockbackBinding';
-import { createMonsterPetTargetEffectState, advanceMonsterPetTargetEffects,
-  type MonsterPetTargetEffectState } from './MonsterPetTargetEffectSystem';
+import { beginMonster30AttackStep, stepMonster30Attack, syncMonster30BodyState, destroyMonster30Attacks } from './Monster30AttackRuntime';
+import { settleMonsterExperience, selectMonsterAttackTarget, clearUnavailableMonsterAttackTarget } from './MonsterExperienceSystem';
+import { advanceMonsterKnockback, disposeMonsterKnockback } from './MonsterKnockbackBinding';
+import { createMonsterPetTargetEffectState, advanceMonsterPetTargetEffects } from './MonsterPetTargetEffectSystem';
 import { DefaultGlobalSettings } from './GlobalSettingsSystem';
 import type { HeroCombatModel } from './HeroCombatSystem';
 import type { Hitbox } from './HeroNormalAttackSystem';
-import type { PlayerSlot } from './InputSystem';
 import { getStage1EnemyConfig } from './Stage1CombatSystem';
 
-export type Monster30State = 'wait' | 'walk' | 'hurt' | 'hit1' | 'dead' | 'removed';
-
-export type Monster30Target = {
-  slot: PlayerSlot;
-  x: number;
-  y: number;
-};
-
-export type Monster30Model = {
-  experienceBinding?: MonsterExperienceBinding;
-  petKnockback?: MonsterKnockbackBinding;
-  petTargetEffectState?: MonsterPetTargetEffectState;
-  id: string;
-  x: number;
-  y: number;
-  hp: number;
-  maxHp: number;
-  experience: number;
-  experienceAwardedTo?: PlayerSlot;
-  state: Monster30State;
-  facingX: -1 | 1;
-  targetSlot?: PlayerSlot;
-  stateTimerMs: number;
-  attackDecisionTimerMs: number;
-  attackSerial: number;
-  activeAttack?: Monster30ActiveAttack;
-  magicFlowerDebuff?: MonsterMagicFlowerDebuff;
-  magicFlagDebuff?: MonsterMagicFlagDebuff;
-  magicBaguaStun?: MonsterMagicBaguaStun;
-  magicZlHummerStun?: MonsterMagicZlHummerStun;
-  magicSnowIce?: MonsterMagicSnowIce;
-  magicPearlStun?: MonsterMagicPearlStun;
-  magicPearlPoison?: MonsterMagicPearlPoison;
-  role4MbyjStun?: MonsterRole4MbyjStun;
-  petBurn?: MonsterPetBurn;
-};
-
-export type MonsterMagicFlowerDebuff = {
-  kind: 'magicFlowerDebuff';
-  sourceName: string;
-  damageMultiplier: number;
-  totalMs: number;
-  remainingMs: number;
-};
-
-export type MonsterMagicFlagDebuff = {
-  kind: 'magicFlagDebuff';
-  sourceName: string;
-  hitMultiplier: number;
-  hpDamageRatePerSecond: number;
-  totalMs: number;
-  remainingMs: number;
-  tickCarryMs: number;
-  lastTickDamage: number;
-};
-
-export type MonsterMagicBaguaStun = {
-  kind: 'magicBaguaStun';
-  sourceName: string;
-  totalMs: number;
-  remainingMs: number;
-};
-
-export type MonsterMagicZlHummerStun = {
-  kind: 'magicZlHummerStun';
-  sourceName: string;
-  totalMs: number;
-  remainingMs: number;
-};
-
-export type MonsterMagicSnowIce = {
-  kind: 'magicSnowIce';
-  sourceName: string;
-  totalMs: number;
-  remainingMs: number;
-};
-
-export type MonsterMagicPearlStun = {
-  kind: 'magicPearlStun';
-  sourceName: string;
-  totalMs: number;
-  remainingMs: number;
-};
-
-export type MonsterMagicPearlPoison = {
-  kind: 'magicPearlPoison';
-  sourceName: string;
-  damagePerSecond: number;
-  totalMs: number;
-  remainingMs: number;
-  tickCarryMs: number;
-  lastTickDamage: number;
-};
-
-export type MonsterPetBurn = {
-  kind: 'petBurn';
-  sourceName: string;
-  damagePerSecond: number;
-  totalMs: number;
-  remainingMs: number;
-  tickCarryMs: number;
-  lastTickDamage: number;
-};
-
-export type MonsterRole4MbyjStun = {
-  kind: 'role4MbyjStun';
-  sourceName: 'mbyj';
-  totalMs: number;
-  remainingMs: number;
-};
-
-export type Monster30ActiveAttack = {
-  id: number;
-  attackId: string;
-  actionName: 'hit1';
-  elapsedMs: number;
-  hitboxActiveFromMs: number;
-  hitboxActiveUntilMs: number;
-  damage: number;
-  attackKind: AttackKind;
-  knockbackX: number;
-  knockbackY: number;
-  facingX: -1 | 1;
-};
+export type { Monster30State, Monster30Target, Monster30Model, MonsterMagicFlowerDebuff, MonsterMagicFlagDebuff, MonsterMagicBaguaStun, MonsterMagicZlHummerStun, MonsterMagicSnowIce, MonsterMagicPearlStun, MonsterMagicPearlPoison, MonsterPetBurn, MonsterRole4MbyjStun, Monster30ActiveAttack } from './Monster30Model';
+import type { Monster30Model, Monster30Target, MonsterMagicFlowerDebuff } from './Monster30Model';
 
 const stage1Monster30Config = getStage1EnemyConfig(30);
 
@@ -191,7 +67,7 @@ export function createMonster30(x: number, y: number, id?: string): Monster30Mod
 }
 
 export function updateMonster30(...args: Parameters<typeof advanceMonster30>): void {
-  try { advanceMonster30(...args); } finally { clearUnavailableMonsterAttackTarget(args[0]); }
+  try { advanceMonster30(...args); } finally { syncMonster30BodyState(args[0]); clearUnavailableMonsterAttackTarget(args[0]); }
 }
 
 function advanceMonster30(
@@ -203,6 +79,7 @@ function advanceMonster30(
   timeMs = 0,
 ): void {
   if (monster.state === 'removed') {
+    destroyMonster30Attacks(monster);
     disposeMonsterKnockback(monster.petKnockback);
     return;
   }
@@ -211,7 +88,8 @@ function advanceMonster30(
     frozen: !!(monster.petTargetEffectState?.effects.snapshot('pethorse_ice') || monster.magicBaguaStun
       || monster.magicZlHummerStun || monster.magicSnowIce || monster.magicPearlStun || monster.role4MbyjStun) });
   const stateBeforeDebuff = monster.state;
-  if (monster.petTargetEffectState) advanceMonsterPetTargetEffects(monster.petTargetEffectState, deltaMs, hostFps);
+  beginMonster30AttackStep(monster);
+  if (monster.petTargetEffectState) advanceMonsterPetTargetEffects(monster.petTargetEffectState, deltaMs, hostFps, stopped => stepMonster30Attack(monster, stopped));
   updateMonster30MagicFlagDebuff(monster, deltaMs);
   updateMonster30MagicPearlEffects(monster, deltaMs);
   updateMonster30PetBurn(monster, deltaMs);
@@ -231,8 +109,9 @@ function advanceMonster30(
     clearMonster30PetBurn(monster);
     monster.activeAttack = undefined;
     monster.stateTimerMs -= deltaMs;
-    if (monster.stateTimerMs <= 0) {
+    if (monster.attackRuntime?.body.completed) {
       monster.state = 'removed';
+      destroyMonster30Attacks(monster);
     }
     return;
   }

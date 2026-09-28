@@ -1,3 +1,4 @@
+import { destroyMonster30Attacks, pauseMonster30AttackDisplay } from '../../systems/Monster30AttackRuntime';
 import Phaser from 'phaser';
 import { resetTestSceneEncounter } from './TestSceneEncounterReset';
 import type { FormalPartyRuntime } from '../../systems/FormalPartyRuntimeSystem';
@@ -44,6 +45,14 @@ export function createTestSceneStage11Runtime(
     },
     createEncounter: (_runtimeScene, _playerCount, _playerViews, world) => {
       initializeEncounter(scene, world);
+      const pauseAttacks = () => {
+        for (const monster of scene.monster30s ?? []) {
+          pauseMonster30AttackDisplay(monster);
+          const view = scene.monsterViews.get(monster);
+          if (view) scene.syncMonsterView(monster, view, 0);
+        }
+      };
+      scene.events.on(Phaser.Scenes.Events.PAUSE, pauseAttacks);
       let reported = false;
       return {
         update: (deltaMs) => {
@@ -67,6 +76,8 @@ export function createTestSceneStage11Runtime(
         },
         unlockProgress: () => scene.stage11Flow?.unlockProgress ?? scene.levelUnlockProgress,
         destroy: () => {
+          scene.events.off(Phaser.Scenes.Events.PAUSE, pauseAttacks);
+          for (const monster of scene.monster30s ?? []) destroyMonster30Attacks(monster);
           scene.stage1CombatHud?.destroy();
           scene.stage1CombatHud = undefined;
           scene.heroPartyRuntime?.destroy();

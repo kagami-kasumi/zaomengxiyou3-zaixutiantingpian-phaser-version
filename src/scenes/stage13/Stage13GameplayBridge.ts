@@ -1,3 +1,4 @@
+import { destroyMonster30Attacks, pauseMonster30AttackDisplay } from '../../systems/Monster30AttackRuntime';
 import { getMonsterRewardConfig } from '../../systems/MonsterDefeatRewardSystem';
 import { createSceneMonsterCombat } from '../MonsterKnockbackBridge';
 import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
@@ -98,6 +99,12 @@ export function createStage13Gameplay(
     color: '#dce8ff', fontFamily: 'Arial, sans-serif', fontSize: '14px',
     backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
   }).setScrollFactor(0).setDepth(100).setVisible(false);
+  const pauseAttacks = () => {
+    for (const monster of monsters.values()) if (monster.combat.enemyType === 30) {
+      pauseMonster30AttackDisplay(monster.combat); syncMonsterView(scene, monster, 0);
+    }
+  };
+  scene.events.on(Phaser.Scenes.Events.PAUSE, pauseAttacks);
   let reportedResult: 'failed' | 'cleared' | undefined;
 
   const update = (deltaMs: number): 'failed' | 'cleared' | undefined => {
@@ -165,6 +172,7 @@ export function createStage13Gameplay(
     flow,
     update,
     destroy: () => {
+      scene.events.off(Phaser.Scenes.Events.PAUSE, pauseAttacks);
       status.destroy();
       rewards.destroy();
       hud.destroy();
@@ -250,6 +258,7 @@ function syncMonsterView(
 }
 
 function destroyMonsterView(monster: MonsterRuntime): void {
+  if (monster.combat.enemyType === 30) destroyMonster30Attacks(monster.combat);
   disposeMonsterKnockback(monster.combat.petKnockback);
   destroyStage13MonsterView(monster.view);
 }

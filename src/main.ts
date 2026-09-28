@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { installCanvasSpriteExtentFix } from './core/PhaserCanvasSprite';
 import { loadGlobalSettings } from './systems/GlobalSettingsSystem';
 import { BootScene } from './scenes/BootScene';
 import { FeatureUiScene } from './scenes/FeatureUiScene';
@@ -21,6 +22,7 @@ import './styles.css';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
+  callbacks: { postBoot: installCanvasSpriteExtentFix },
   parent: 'game',
   width: 940,
   height: 590,

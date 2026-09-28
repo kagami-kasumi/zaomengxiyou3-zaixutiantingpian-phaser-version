@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { installCanvasSpriteExtentFix } from '../src/core/PhaserCanvasSprite';
 import { createFormalPetHorseBodyBridge } from '../src/scenes/FormalPetHorseBodyBridge';
 import { createFormalPetMonkeyBodyBridge } from '../src/scenes/FormalPetMonkeyBodyBridge';
 import { getPetHorseEffectUsage } from '../src/assets/PetHorseAnimationAssets';
@@ -101,5 +102,6 @@ class Probe extends Phaser.Scene {
   }
 }
 new Phaser.Game({ type: renderer === 'canvas' ? Phaser.CANVAS : Phaser.WEBGL, width: 940, height: 590,
+  callbacks: { postBoot: new URLSearchParams(location.search).has('unfixed') ? () => {} : installCanvasSpriteExtentFix },
   parent: 'game', transparent: true, pixelArt: false, roundPixels, banner: false,
   audio: { noAudio: true }, fps: { target: 60 }, render: { preserveDrawingBuffer: true }, scene: [Probe] });

@@ -1,5 +1,13 @@
 # 工作流治理日志
 
+2026-09-28 / 240归档：12实际场景组合、六正式地图返回重入、核心与受影响25组、build、真值Schema及七生产变异通过；240完整定义移入历史，233恢复唯一Ready。Monster30范围之外的责任和视觉/碰撞残差边界继续保留，无跨入233实施。
+
+2026-09-28 / 240消费验收：按用户授权完成241后继续既有240范围。身体/独立攻击/HP/只读显示进入两owner；首轮资源空filter、116px反向注册点、暂停入口相位及观察trace回写时间错误均按独立原生/真实场景反证修复并保留边界。新增七生产变异与core+受影响专项，241精确碰撞批准清单不扩大；无新PG/MO或设计模式流程，收尾状态由看板与240验收合同记录。
+
+2026-09-27 / TASK-SETTINGS-241完成：Monster30Bullet1的10帧双向、4个真实colipse profile/40构造、20态显示树、93920原生命中与324相位观察已verified。8查询变异被拒绝，重复生成一致；用户仅批准379例382像素精确残差，命中布尔零差异。TASK-SLICE-240恢复唯一Ready，并按用户“授权继续241并恢复240”继续本目标；真实HP/双owner实现尚待240，其他11类型、原84其余责任、整族/all/VS-067不关闭。详见monster30-attack-collision-contract.md。 未改工作流规则；用户授权覆盖单次调度交接限制。原生与查表差异没有套视觉容差；省略粗筛属已证明等价变异并如实记录。
+
+2026-09-27 / 240输入预检：按现行显式拆分条件保留TASK-SLICE-240完整合同并Blocked，TASK-SETTINGS-241唯一Ready补Monster30Bullet1与实际英雄/宠物colipse命中输入。集中PG审计已记录；未改工作流规则、src/public或既有真值。首次check:workflow拒绝缺少阻塞原因字段及逆向协议引用，已补齐；任务调度、覆盖台账和推荐同批同步，不执行下一任务，不新增PG/MO。
+
 2026-09-26 / TASK-SETTINGS-231完成：公共怪物死亡经验XP-01..08已补证，264原包AIR样本、六源变异/四字段损坏拒绝、12实际类型继承与五关/TestScene消费者矩阵通过；P1宠火焰致死仍给P2的现代反例保留。英雄无宠100%、带宠各60%、宠物指定petInfo100%，效果/AI/目标清理相位和换宠对象分别核定。231归档，TASK-SLICE-238唯一Ready实施公共归属，232..235保持Planned；PG-006方案不充分转V2复盘中。未改src/public，不提升M-030/032/040或VS-067现代完成度，原84及整线仍未关闭。合同见 `docs/reverse-engineering/monster-death-experience-contract.md`。
 
 2026-09-26 / TASK-SLICE-236完成：公共击退已接入五关/TestScene真实owner，保留早晚结算相位、原host单位、Tween覆盖与边缘旧Tween。124650原生轨迹态、5184真实hit/physics态、432原方向、8生产变异及五关9201显示同步态/537旧Boss态通过；真实重试返回全部释放。237探针完成Tween反复force写末值的反例同次纠正并新增第8源变异。236归档，TASK-SETTINGS-231唯一Ready；仅核销公共击退责任，原84其余责任、身体/死亡、完整家族/all/VS-067与整线不关闭。合同与本地证据见 monster-pet-knockback-contract.md、TASK-SLICE-236/scene-verification.json。 未新增调度规则或PG，源探针反例回写PG-017；未执行Git操作。

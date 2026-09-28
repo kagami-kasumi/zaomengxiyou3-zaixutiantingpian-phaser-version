@@ -84,3 +84,25 @@ node tools/generate-monster-knockback-profiles.mjs --check
 `monster-knockback-direction-tests` 另外需要本地230/native.json，缺失按run-system-tests的LOCAL_INPUT_MISSING退出2，不冒充已覆盖。237再发布复验：`python tools/monster-knockback-profile-source/generate.py --check`；原语料及AIR输入未变不重复全量源采样。
 
 真实场景观察：先build和preview，再 `node tools/monster-knockback-scene-probe.mjs` 生成dist下本地诊断页，浏览器访问 `/__monster-knockback/index.html?qaStage=1-2&players=2&qaPetDragon=1&auto=1&lifecycle=1`；其余qaStage为1-1-role1、1-3、2-1，2-2用qaBossState=wait。源内只注入观测回调与本地夹具，未更改生产运动。2-2取消已有展示冻结，TestScene boss3=1额外走实际旧弹体集合/碰撞入口；不验证家族目标选择或弹体视觉。导出DOM观察JSON为evidence中的stage11/12/13/21/22.json后运行 `node tools/verify-monster-knockback-scenes.mjs`。截图和原始trace仅本地，build会清除此诊断页；这些不是正式发布资源。
+
+
+### TASK-SETTINGS-241 / TASK-SLICE-240 Monster30
+
+运行数据为 `src/assets/monster30-collision.json`，只依赖已提交模块与资源。241有限原生样本及用户批准的379例/382像素残差不扩大为任意输入恒等；93920命中布尔必须一致。
+
+```powershell
+python tools/monster30-collision/generate.py --verify
+python tools/monster30-collision/export_runtime.py --check
+node tools/run-system-tests.mjs monster30-phase-tests monster30-lifecycle-tests monster30-pet-damage-tests monster30-collision-tests pet-target-body-order-preflight
+node tools/run-monster30-mutations.mjs
+```
+
+前两条及phase/collision专项要求本机241 source/native/phase fields/批准清单、恢复SWF和既有Python/jsonschema/Java工具；缺输入不算覆盖，不自动安装复杂软件。lifecycle/pet HP使用正式代码与public资产。四项已加入full，日常仍选核心+受影响专项。
+
+实际浏览器：build、preview4174后运行 `node tools/run-monster30-browser.mjs`；每个场景/FPS/模式启动隔离Edge，测试页只写dist。M30_SCENE=TestScene或Stage13Scene、M30_FPS=20/24/30、M30_MODE=normal/fatal可选单例；M30_VISUAL=1另抓20个只读投影态，之后 `python tools/monster30-collision/verify_display.py` 对照241独立AIR原图。截图/trace/报告只保留本地evidence。观察注入不替换命中/AI，按键自然移动/跳跃/攻击，存活HP夹具及效果计数器0的首tick致死火焰注入显式标记；1-3沿原流程走到第四遭遇点。火焰夹具先用既有bundle加载原FireBuff。纯投影fixture只验证画面，不作为自然碰撞证据。
+
+20态WebGL比较保留SVG边缘抗锯齿/尺寸舍入/模糊插值残差，不宣称像素完全一致；Canvas共享回退交233。241碰撞批准清单与这些显示差异分开记录。
+
+## 共享Canvas回退（233）
+
+`node tools/build-pet226-display-probe.mjs` 后运行 `node tools/run-canvas233-effects.mjs`；生产构建及4174 preview须先就绪，效果输入依赖226本地原生EXIT报告/PNG。正式AUTO回退与WebGL检查分别运行 `node tools/run-canvas233-scene.mjs canvas` / `webgl`。测试使用本机Edge；报告仅本地保存。有限850态要求修正后零残差，原654态反例必须仍可复现；场景几何对照不冒充原版整场景像素验收。

@@ -96,3 +96,8 @@
 
 - 修改任务、工作流或模块边界文档后，运行 `npm run check:workflow`。
 - 修改 `src/` 后，优先运行 `npm run build`；如果依赖未安装或无法运行，需要说明原因。
+
+
+## Monster30 身体与独立攻击
+
+240在既有Monster30/Stage1实体上附加`Monster30AttackRuntime`，由系统层拥有身体回调、攻击身份、出生根、检测相位和销毁；`Monster30CollisionSystem`消费241版本化位场，伤害继续由实际hero/pet owner结算。场景只调度并转交pause事件，暂停入口仅选择原MovieClip已进入的显示帧，不推进age/命中/身体。Stage11/13 view只投影runtime，不能再生成Monster30伤害或自走播放时钟。其他类型继续原owner；Role4人偶旧命中合同仍未迁移，不把英雄/宠物范围扩大成全部目标。

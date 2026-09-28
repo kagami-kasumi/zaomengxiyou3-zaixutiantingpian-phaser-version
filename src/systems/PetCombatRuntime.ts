@@ -55,6 +55,13 @@ export class PetCombatRuntime {
     return this.registry.has(pet.species, pet.form);
   }
 
+  applyDamageEvents(events: NonNullable<PetCombatFrame['damageEvents']>, timeMs: number): PetCombatSnapshot {
+    if (!this.destroyed) {
+      for (const entity of this.entities.values()) entity.applyDamageEvents(events, timeMs);
+    }
+    return this.snapshot();
+  }
+
   snapshot(): PetCombatSnapshot {
     const active = this.active?.snapshot();
     return Object.freeze({

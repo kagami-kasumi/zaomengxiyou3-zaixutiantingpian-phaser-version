@@ -87,6 +87,7 @@ export function updateStage13MonsterView(
     facingX: combat.facingX,
     attackSerial: combat.attackSerial,
     petTargetEffectState: combat.petTargetEffectState,
+    attackRuntime: combat.attackRuntime,
   }, deltaMs);
 }
 

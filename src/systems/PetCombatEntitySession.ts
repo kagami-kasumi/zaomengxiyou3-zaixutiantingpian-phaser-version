@@ -375,6 +375,15 @@ export class PetCombatEntitySession {
     if (failures.length) throw new AggregateError(failures, 'Pet release callbacks failed after cleanup');
   }
 
+  /** World bullet phase applies HP immediately without advancing pet AI/body again. */
+  applyDamageEvents(events: NonNullable<PetCombatFrame['damageEvents']>, timeMs: number): void {
+    if (this.released || !this.latestFrame) return;
+    const latest = this.latestFrame;
+    this.consumeDamageEvents({ ...latest, damageEvents: events,
+      incomingFeedback: latest.incomingFeedback ? { ...latest.incomingFeedback, timeMs } : undefined },
+    this.targeting.livingTargets(latest.targets));
+  }
+
   private consumeDamageEvents(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[]): void {
     if (this.phase !== 'alive') return;
     for (const event of frame.damageEvents ?? []) {

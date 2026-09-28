@@ -76,4 +76,19 @@
 
 ## 后续消费边界
 
+### 240消费预检（2026-09-27）
+
+确认事实：`BaseHero.as:1208/1227` 对自身colipse与弹体执行HitTest（imgMc1非空时替换输入）；`BasePet.as:566/585` 还先经AUtils.testIntersects。应补证真实受击colipse及其父子变换，不把可见身体动画当作命中轮廓。BaseHero构造:114还有colipse.scaleX=1.2，必须沿实际构造核对，不能只照搬同名symbol的裸bounds。
+
+已有232 sidecar `/status=verified-bounded-behavior` 不含本攻击碰撞真值；068 character21十帧可见边界不是像素oracle；218 manifest `/scope/description` 与本地collision-contract仅覆盖PetDragon1Bullet1和三个目标壳，Monster30在其中是受击怪物，不能反向充当Monster30Bullet1对英雄/宠物的命中输入。恢复assets/1.swf仍是目标源，不是资源丢失。
+
+现代消费者复核：`Stage1CombatSystem.ts:348..352/391..392` 仍要求源activeAttack且只检查x距离；`Monster30System.ts:603` 用源hit1与固定矩形。重跑 `node tools/run-system-tests.mjs pet-target-body-order-preflight`，20/24/30fps仍分别为身体先行比较1事件、现路径0事件；这是受控现代反例，不是原生碰撞/正式HP验收。
+
+240按显式输入缺口触发设Blocked，241以单对象/实际colipse空间真值补证为唯一Ready；232全部BA合同、其他11类型矩阵与226原84责任保留，未修改src/public或原真值，不提升现代完成度。主agent已归并Luna只读核对：接受218/068覆盖不足结论；将其“真实身体”措辞收窄为原方法实际使用的colipse，避免扩张为全本体动画逆向。复验与本地交接见 `docs/tasks/evidence/TASK-SLICE-240/preflight.md`。
+
 下一项 `TASK-SLICE-240` 只消费Monster30在1-1/TestScene及1-3两条owner路径：身体回调、独立伤害对象、显示投影与死亡/销毁。先核对所需攻击空间/碰撞输入，缺口必须有界补证，不得用现有矩形或横向距离作为原版像素真值。其他11类型保留本表与源分支责任，240不得宣称五关全怪完成。原226相关组合验收必须验证真实伤害，仍不核销其余公共231..235及84项剩余责任。
+
+
+## 240 现代消费
+
+Monster30两owner已接实体附属独立攻击runtime、241像素命中、真实hero/pet HP和只读显示。逐合同验收与精确边界见[240验收](monster30-runtime-acceptance.md)。原226三fps致死反例已转为实际runtime通过；66生命周期、210宠物HP、216原生EXIT相位、93920命中及七生产变异分别验证不同层次。232源sink边界仍保留，不能用本代表结果消除BA-08其他11类型、人偶或226其余公共责任。

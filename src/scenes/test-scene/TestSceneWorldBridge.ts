@@ -140,6 +140,7 @@ export function applyAllMonster30Attacks(this: any, time: number): void {
     }
   }
 export function applySingleMonster30Attack(this: any, monster: Monster30Model, time: number): void {
+    this.heroPartyRuntime?.resolveMonster30PetAttack(monster, time);
     const result = applyMonster30AttackToPlayers({
       monster,
       players: this.getPlayers(),

@@ -32,6 +32,7 @@ export type Stage11AttackGeometryRegistry = Readonly<
 >;
 
 type AttackView = {
+  attackId?: string;
   family: Stage11AttackFamily;
   image: Phaser.GameObjects.Image;
   frameIndex: number;
@@ -51,7 +52,7 @@ export type Stage11MonsterView = {
 type Stage11MonsterCombat = Pick<
   Monster3Model | Monster30Model,
   'x' | 'y' | 'state' | 'facingX' | 'attackSerial'
-> & Pick<Monster30Model, 'petTargetEffectState'>;
+> & Pick<Monster30Model, 'petTargetEffectState' | 'attackRuntime'>;
 
 const atlasByType = {
   3: monsterFamily330Atlases.monster3,
@@ -127,6 +128,32 @@ export function updateStage11MonsterView(
 ): boolean {
   syncMonsterPetFireView(scene, view, combat);
   syncMonsterPetIceView(scene, view, combat, view.visual.enemyType);
+  if (view.visual.enemyType === 30) {
+    const runtime = combat.attackRuntime;
+    if (runtime) Object.assign(view.visual, runtime.body);
+    view.sprite.setPosition(combat.x, combat.y).setFrame(getStage11MonsterAtlasFrame(view.visual))
+      .setFlipX(combat.facingX === 1);
+    const attacks = runtime?.attacks ?? [];
+    for (let i = view.attacks.length - 1; i >= 0; i--) {
+      if (!attacks.some(attack => attack.attackId === view.attacks[i]!.attackId)) {
+        view.attacks[i]!.image.destroy(); view.attacks.splice(i, 1);
+      }
+    }
+    for (const attack of attacks) {
+      let projection = view.attacks.find(view => view.attackId === attack.attackId);
+      if (!projection) {
+        projection = createAttackView(scene, 'monster30Hit1', attack.x, attack.y, attack.facingX, view.geometry);
+        projection.attackId = attack.attackId; view.attacks.push(projection);
+      }
+      const index = attack.frame - 1, geometry = projection.geometry[index]!;
+      projection.frameIndex = index;
+      projection.image.setPosition(attack.x, attack.y)
+        .setTexture(attackByFamily.monster30Hit1.frameKeys[index])
+        .setOrigin(attack.facingX === 1 ? 1 + geometry.minX / geometry.width : -geometry.minX / geometry.width, -geometry.minY / geometry.height)
+        .setFlipX(attack.facingX === 1);
+    }
+    return view.visual.completed;
+  }
   const events = updateStage11MonsterVisual(view.visual, {
     state: combat.state,
     attackSerial: combat.attackSerial,

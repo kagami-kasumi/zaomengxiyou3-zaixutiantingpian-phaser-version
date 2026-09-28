@@ -1,3 +1,4 @@
+import { monster30AttackHits, syncMonster30BodyState, type Monster30Attack } from './Monster30AttackRuntime';
 import { acceptMonsterAttackTarget, settleMonsterExperience, selectMonsterAttackTarget, clearUnavailableMonsterAttackTarget, type MonsterAttackTarget, type MonsterExperienceBinding } from './MonsterExperienceSystem';
 import { initializeMonsterPetTargetEffects, isMonsterPetIceActive } from './MonsterPetTargetEffectSystem';
 import { acceptMonsterKnockback, type MonsterKnockbackBinding } from './MonsterKnockbackBinding';
@@ -98,6 +99,7 @@ export type Stage1CombatPlayer = {
 };
 
 export type Stage1CombatEnemy = {
+  attackRuntime?: import('./Monster30AttackRuntime').Monster30AttackRuntime;
   experienceBinding?: MonsterExperienceBinding;
   petKnockback?: MonsterKnockbackBinding;
   petTargetEffectState?: import('./MonsterPetTargetEffectSystem').MonsterPetTargetEffectState;
@@ -274,7 +276,7 @@ export function maintainStage1EnemyTarget(enemy: Stage1CombatEnemy): void {
 }
 
 export function updateStage1Enemy(params: Parameters<typeof advanceStage1Enemy>[0]): void {
-  try { advanceStage1Enemy(params); } finally { clearUnavailableMonsterAttackTarget(params.enemy); }
+  try { advanceStage1Enemy(params); } finally { if (params.enemy.enemyType === 30) syncMonster30BodyState(params.enemy); clearUnavailableMonsterAttackTarget(params.enemy); }
 }
 
 function advanceStage1Enemy(params: {
@@ -337,37 +339,45 @@ function advanceStage1Enemy(params: {
   };
 }
 
+type IncomingMonsterAttack = Readonly<{
+  attackId: string; actionName: string; attackKind: AttackKind; damage: number;
+  attackRange: number; facingX: -1 | 1; knockback?: Readonly<{ x: number; y: number }>;
+  collisionAttack?: Monster30Attack;
+}>;
+
+function incomingMonsterAttacks(enemy: Stage1CombatEnemy): readonly IncomingMonsterAttack[] {
+  if (enemy.enemyType === 30) return (enemy.attackRuntime?.detections ?? []).map(attack => ({
+    ...attack, collisionAttack: attack, attackRange: 0,
+    knockback: { x: attack.facingX * attack.knockbackX, y: attack.knockbackY },
+  }));
+  return enemy.phase === 'active' && enemy.activeAttack ? [{ ...enemy.activeAttack, facingX: enemy.facingX }] : [];
+}
+
 export function resolveStage1EnemyAttack(params: {
   runtime: Stage1CombatRuntime;
   enemy: Stage1CombatEnemy;
-  players: readonly { player: Stage1CombatPlayer; x: number }[];
+  players: readonly { player: Stage1CombatPlayer; x: number; y?: number }[];
   timeMs: number;
 }): readonly DamageEvent[] {
   const { enemy } = params;
   const config = getStage1EnemyConfig(enemy.enemyType);
-  if (enemy.phase !== 'active' || !enemy.activeAttack) return [];
   const resolved: DamageEvent[] = [];
-  for (const target of params.players) {
-    if (target.player.combat.state === 'dead') continue;
-    if (Math.abs(target.x - enemy.x) > enemy.activeAttack.attackRange) continue;
-    if (!resolveHitOnce(params.runtime.hitRegistry, enemy.activeAttack.attackId, target.player.slot)) continue;
-    const amount = calculateStage1IncomingDamage(
-      enemy.activeAttack.attackKind,
-      enemy.activeAttack.damage,
-      Stage1CombatTuning.role1Level1PhysicalDefense,
-    );
-    const event = createDamageEvent({
-      sourceId: enemy.id,
-      targetId: target.player.slot,
-      attackId: enemy.activeAttack.attackId,
-      actionName: enemy.activeAttack.actionName,
-      amount,
-      attackKind: enemy.activeAttack.attackKind,
-      knockbackX: enemy.facingX * 5,
-      knockbackY: -3,
-      occurredAtMs: params.timeMs,
-    });
-    if (!applyHeroDamage(target.player.combat, event, params.timeMs)) continue;
+  for (const attack of incomingMonsterAttacks(enemy)) for (const target of params.players) {
+    const hero = target.player.combat;
+    if (hero.state === 'dead') continue;
+    if (attack.collisionAttack) {
+      if (target.y === undefined) throw new Error('Monster30 requires hero source-root y');
+      if (!monster30AttackHits(attack.collisionAttack, 'hero-ObjectBaseSprite', target.x, target.y)) continue;
+      if (params.timeMs < hero.invulnerableUntilMs || hero.magicInvulnerability) continue;
+    } else if (Math.abs(target.x - enemy.x) > attack.attackRange) continue;
+    if (!resolveHitOnce(params.runtime.hitRegistry, attack.attackId, target.player.slot)) continue;
+    const amount = calculateStage1IncomingDamage(attack.attackKind, attack.damage,
+      attack.collisionAttack ? target.player.effectiveStats.defense : Stage1CombatTuning.role1Level1PhysicalDefense);
+    const event = createDamageEvent({ sourceId: enemy.id, targetId: target.player.slot,
+      attackId: attack.attackId, actionName: attack.actionName, amount, attackKind: attack.attackKind,
+      knockbackX: attack.knockback?.x ?? attack.facingX * 5,
+      knockbackY: attack.knockback?.y ?? -3, occurredAtMs: params.timeMs });
+    if (!applyHeroDamage(hero, event, params.timeMs)) continue;
     recordDamage(params.runtime, target.player, event, config.isBoss);
     resolved.push(event);
   }
@@ -379,33 +389,23 @@ export function resolveStage1EnemyPetAttack(params: Readonly<{
   enemy: Stage1CombatEnemy;
   timeMs?: number;
   target: Readonly<{
-    runtimeKey: string;
-    x: number;
-    defense: number;
-    hp: number;
-    protectedFromHits?: boolean;
+    runtimeKey: string; x: number; y?: number; collisionProfile?: string;
+    defense: number; hp: number; protectedFromHits?: boolean;
   }>;
 }>): PetCombatDamageEvent | undefined {
   const { enemy, target } = params;
-  if (target.protectedFromHits) return undefined;
-  if (enemy.phase !== 'active' || !enemy.activeAttack || target.hp <= 0) return undefined;
-  if (Math.abs(target.x - enemy.x) > enemy.activeAttack.attackRange) return undefined;
-  if (!resolveHitOnce(params.runtime.hitRegistry, enemy.activeAttack.attackId, target.runtimeKey)) {
-    return undefined;
+  if (target.protectedFromHits || target.hp <= 0) return undefined;
+  for (const attack of incomingMonsterAttacks(enemy)) {
+    if (attack.collisionAttack) {
+      if (target.y === undefined || !target.collisionProfile) throw new Error('Monster30 requires actual pet colipse profile/root');
+      if (!monster30AttackHits(attack.collisionAttack, target.collisionProfile, target.x, target.y)) continue;
+    } else if (Math.abs(target.x - enemy.x) > attack.attackRange) continue;
+    if (!resolveHitOnce(params.runtime.hitRegistry, attack.attackId, target.runtimeKey)) continue;
+    return { runtimeKey: target.runtimeKey, reactsToHit: true, knockback: attack.knockback,
+      amount: calculateStage1IncomingDamage(attack.attackKind, attack.damage, target.defense),
+      sourceId: enemy.id, attackId: attack.attackId, occurredAtMs: params.timeMs ?? 0 };
   }
-  return {
-    runtimeKey: target.runtimeKey,
-    reactsToHit: true,
-    knockback: enemy.activeAttack.knockback,
-    amount: calculateStage1IncomingDamage(
-      enemy.activeAttack.attackKind,
-      enemy.activeAttack.damage,
-      target.defense,
-    ),
-    sourceId: enemy.id,
-    attackId: enemy.activeAttack.attackId,
-    occurredAtMs: params.timeMs ?? 0,
-  };
+  return undefined;
 }
 
 export function resolveStage1HeroAttack(params: {

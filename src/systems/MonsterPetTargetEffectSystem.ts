@@ -3,6 +3,7 @@ import type { Stage1CombatEnemy } from './Stage1CombatSystem';
 import { PetTargetEffects } from './PetTargetEffects';
 import type { PetTargetEffectInput } from './PetTargetEffectPayload';
 import { DefaultGlobalSettings } from './GlobalSettingsSystem';
+import { beginMonster30AttackStep, stepMonster30Attack, syncMonster30BodyState } from './Monster30AttackRuntime';
 
 export type MonsterPetTargetEffectState = {
   effects: PetTargetEffects; pendingTicks: number; fireVisible: boolean; iceVisible: boolean;
@@ -57,16 +58,21 @@ export function addMonsterPetTargetEffects(enemy: Stage1CombatEnemy, effects: re
 export function stepMonsterPetTargetEffects(enemy: Stage1CombatEnemy, deltaMs: number,
   hostFps: number = DefaultGlobalSettings.frameRate): void {
   const state = initializeMonsterPetTargetEffects(enemy);
-  advanceMonsterPetTargetEffects(state, deltaMs, hostFps);
+  if (enemy.enemyType === 30) {
+    beginMonster30AttackStep(enemy);
+    advanceMonsterPetTargetEffects(state, deltaMs, hostFps, stopped => stepMonster30Attack(enemy, stopped));
+    syncMonster30BodyState(enemy);
+  } else advanceMonsterPetTargetEffects(state, deltaMs, hostFps);
 }
 
 export function advanceMonsterPetTargetEffects(state: MonsterPetTargetEffectState, deltaMs: number,
-  hostFps: number = DefaultGlobalSettings.frameRate): void {
+  hostFps: number = DefaultGlobalSettings.frameRate, beforeEffects?: (bodyStopped: boolean) => void): void {
   state.bodyClockStarted = true;
   state.pendingTicks += Math.max(0, deltaMs) * hostFps / 1000;
   const ticks = Math.floor(state.pendingTicks + 1e-9);
   state.pendingTicks = Math.max(0, state.pendingTicks - ticks);
   for (let tick = 0; tick < ticks; tick++) {
+    beforeEffects?.(state.iceVisible);
     // BaseObject.step calls BBDC before BaseAddEffect: first show follows a body
     // step, and an expiry step still has a stopped body until continueFrame.
     if (!state.iceVisible) state.pendingBodyTicks++;

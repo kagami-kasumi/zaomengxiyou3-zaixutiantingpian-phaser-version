@@ -1,3 +1,4 @@
+import { destroyMonster30Attacks } from '../../systems/Monster30AttackRuntime';
 import { createBossArena, createVerticalClimbState } from '../../systems/LevelSystem';
 import { createProjectileSystem } from '../../systems/ProjectileSystem';
 import { createDropSystem } from '../../systems/DropSystem';
@@ -7,7 +8,7 @@ import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
 /** Called after SHUTDOWN (DisplayList already destroyed its children), before creating new owners. */
 export function resetTestSceneEncounter(scene: any, viewportHeight: number): void {
   scene.verticalClimb = createVerticalClimbState(viewportHeight);
-  for (const monster of scene.monster30s ?? []) disposeMonsterKnockback(monster.petKnockback);
+  for (const monster of scene.monster30s ?? []) { destroyMonster30Attacks(monster); disposeMonsterKnockback(monster.petKnockback); }
   disposeMonsterKnockback(scene.bossArena?.boss?.petKnockback);
   scene.monster30s = [];
   scene.bossArena = createBossArena();

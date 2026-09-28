@@ -1,3 +1,4 @@
+import { stepMonsterPetTargetEffects } from '../src/systems/MonsterPetTargetEffectSystem';
 import assert from 'node:assert/strict';
 import { createHeroMovement } from '../src/systems/HeroMovementSystem';
 import type { PlayerInputState } from '../src/systems/InputSystem';
@@ -34,6 +35,10 @@ function armEnemy(enemyType: 2 | 3 | 4 | 5 | 7 | 8 | 30, id: string) {
   assert.equal(enemy.phase, 'windup', 'body proximity alone must only begin a warning');
   updateStage1Enemy({ enemy, targets, deltaMs: getStage1EnemyConfig(enemyType).windupMs });
   assert.equal(enemy.phase, 'active');
+  if (enemyType === 30) {
+    stepMonsterPetTargetEffects(enemy, 1000 / 24, 24);
+    stepMonsterPetTargetEffects(enemy, 1000 / 24, 24);
+  }
   return enemy;
 }
 
@@ -60,7 +65,7 @@ function testSixSourcesCannotBurstInOneFrame(): void {
   const events = enemies.flatMap((enemy) => resolveStage1EnemyAttack({
     runtime,
     enemy,
-    players: [{ player, x: 0 }],
+    players: [{ player, x: 0, y: 0 }],
     timeMs: 1_000,
   }));
   assert.equal(events.length, 1, 'player-level protection rejects remaining same-frame sources');
@@ -76,10 +81,10 @@ function testAttackIdentityProtectionAndExpiry(): void {
   const first = armEnemy(7, 'm7-a');
   const second = armEnemy(7, 'm7-b');
   const third = armEnemy(7, 'm7-c');
-  assert.equal(resolveStage1EnemyAttack({ runtime, enemy: first, players: [{ player, x: 0 }], timeMs: 1_000 }).length, 1);
-  assert.equal(resolveStage1EnemyAttack({ runtime, enemy: first, players: [{ player, x: 0 }], timeMs: 1_000 }).length, 0, 'attack id resolves once');
-  assert.equal(resolveStage1EnemyAttack({ runtime, enemy: second, players: [{ player, x: 0 }], timeMs: 1_100 }).length, 0, 'independent attack is blocked during protection');
-  assert.equal(resolveStage1EnemyAttack({ runtime, enemy: third, players: [{ player, x: 0 }], timeMs: 4_001 }).length, 1, 'next independent attack resolves after protection');
+  assert.equal(resolveStage1EnemyAttack({ runtime, enemy: first, players: [{ player, x: 0, y: 0 }], timeMs: 1_000 }).length, 1);
+  assert.equal(resolveStage1EnemyAttack({ runtime, enemy: first, players: [{ player, x: 0, y: 0 }], timeMs: 1_000 }).length, 0, 'attack id resolves once');
+  assert.equal(resolveStage1EnemyAttack({ runtime, enemy: second, players: [{ player, x: 0, y: 0 }], timeMs: 1_100 }).length, 0, 'independent attack is blocked during protection');
+  assert.equal(resolveStage1EnemyAttack({ runtime, enemy: third, players: [{ player, x: 0, y: 0 }], timeMs: 4_001 }).length, 1, 'next independent attack resolves after protection');
   assert.equal(player.damageLog.length, 2);
 }
 
@@ -110,7 +115,7 @@ function testBossDeathClassification(): void {
   const player = createStage1CombatPlayer('p1');
   player.combat.hp = 20;
   const boss = armEnemy(3, 'monster3-boss');
-  const events = resolveStage1EnemyAttack({ runtime, enemy: boss, players: [{ player, x: 0 }], timeMs: 2_000 });
+  const events = resolveStage1EnemyAttack({ runtime, enemy: boss, players: [{ player, x: 0, y: 0 }], timeMs: 2_000 });
   assert.equal(events.length, 1);
   assert.equal(player.combat.state, 'dead');
   assert.equal(player.deathReason, 'boss-physical');

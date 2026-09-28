@@ -1,3 +1,5 @@
+import { applyMonster30LegacyPetDamage } from '../../systems/Monster30LegacyPetDamage';
+import { getActivePet } from '../../systems/PetRosterSystem';
 import { readLegacyPetExperience } from '../../systems/PetExperienceTargetSystem';
 import { awardTestSceneHeroExperience } from './TestSceneExperienceBridge';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
@@ -33,8 +35,7 @@ import { createAttackFlash, type AttackFlash } from './TestSceneViews';
 import { toPhaserRect } from './TestSceneGeometry';
 import type { ProjectileSystemModel } from '../../systems/ProjectileSystem';
 import { isRole1ShadowQaEnabled } from './TestSceneConfig';
-import { adaptTestScenePetEnemies, resolveTestSceneTurtleIncoming } from './TestScenePetEnemyAdapter';
-import { hasTurtleAssets, requireTurtleAssets } from '../PetTurtleAssetBridge';
+import { adaptTestScenePetEnemies } from './TestScenePetEnemyAdapter';
 import { claimMonsterExperienceForCurrentTarget } from '../../systems/PetSystem';
 import { FormalPetsUpdatedEvent } from '../feature-ui/FormalPetRuntimeBridge';
 import {
@@ -58,6 +59,7 @@ export type TestScenePlayerView = {
 
 export type TestSceneHeroPartyRuntime = Readonly<{
   players: () => TestScenePlayerView[];
+  resolveMonster30PetAttack: (monster: import('../../systems/Monster30System').Monster30Model, timeMs: number) => void;
   updateMovement: (
     input: InputState,
     timeMs: number,
@@ -135,6 +137,18 @@ export function createTestSceneHeroPartyRuntime(
 
   return {
     players: () => players,
+    resolveMonster30PetAttack: (monster, timeMs) => {
+      const enemy = adaptTestScenePetEnemies([monster], () => {})[0]!;
+      runtime.resolvePetEnemyAttack(enemy, timeMs);
+      const snapshots = runtime.petSnapshots();
+      for (const slot of ['p1', 'p2'] as const) {
+        if (snapshots[slot]?.runtime) continue;
+        const pet = getActivePet(scene.playerPetRosters[slot]);
+        const legacy = slot === 'p1' ? scene.petRuntime : scene.p2PetRuntime;
+        if (pet && legacy) applyMonster30LegacyPetDamage(monster, pet, legacy, scene.hitRegistry, timeMs,
+          players.find(player => player.slot === slot)?.combat.incomingFeedback);
+      }
+    },
     updateMovement: (input, timeMs, deltaMs, platforms, bounds) => {
       runtime.updateMovement({
         inputs: [input.p1, input.p2],
@@ -151,7 +165,6 @@ export function createTestSceneHeroPartyRuntime(
       });
     },
     updateNormalAttacks: (input, previousInput, timeMs, compatibility) => {
-      if (hasTurtleAssets(scene)) resolveTestSceneTurtleIncoming(runtime, scene.getMonster30s(), requireTurtleAssets(scene), timeMs);
       for (const slot of ['p1', 'p2'] as const) {
         scene.events.emit(FormalPetsUpdatedEvent, { owner: slot, roster: scene.playerPetRosters[slot] });
       }

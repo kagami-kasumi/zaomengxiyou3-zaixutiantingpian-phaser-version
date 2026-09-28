@@ -5,8 +5,7 @@
   </g>
   <defs>
     <g id="sprite0">
-      <filter color-interpolation-filters="sRGB" height="300%" id="filter0" width="300%" x="-100%" y="-100%"/>
-      <use ffdec:characterId="10" filter="url(#filter0)" height="38.95" transform="matrix(-0.9576, 0.2882, 0.2882, 0.9576, 99.95, -31.0)" width="114.45" xlink:href="#sprite1"/>
+      <use ffdec:characterId="10" height="38.95" transform="matrix(-0.9576, 0.2882, 0.2882, 0.9576, 99.95, -31.0)" width="114.45" xlink:href="#sprite1"/>
     </g>
     <g id="sprite1">
       <use ffdec:characterId="9" height="38.95" transform="matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)" width="114.45" xlink:href="#shape0"/>

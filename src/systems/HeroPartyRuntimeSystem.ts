@@ -272,6 +272,7 @@ export function resolveHeroPartyEnemyAttack(
     players: runtime.members.map((member) => ({
       player: member.combat,
       x: member.movement.x,
+      y: member.movement.y - 50,
     })),
     timeMs,
   });
