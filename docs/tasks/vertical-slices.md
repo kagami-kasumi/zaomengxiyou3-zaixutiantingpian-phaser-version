@@ -1,5 +1,7 @@
 # 纵向切片复现表
 
+2026-09-28 / TASK-SLICE-234完成：公共捕获改为独立128位身份，运行roster派生owner并沿用P2单前缀；猴马双owner释放、同owner重捕、旧存档/三轮重载及正式保存通知后实际P2碰撞伤害通过。12组身份回归、3生产变异、22组相关回归与build通过；仅核销捕获身份责任，原84其余公共责任、完整家族/VS-067及整线不关闭。235唯一Ready。验收见 `docs/reverse-engineering/pet-capture-identity-acceptance.md`。
+
 2026-09-28 / TASK-SLICE-233完成：共享Canvas移除roundPixels目标宽高0.5扩张；原654/850反例保留，修正后Canvas/WebGL各850态alpha与预乘RGB残差均0。正式AUTO回退Stage12双人12组位置/滚动、888次绘制（含8组crop/flip/mask/resolution边界）通过；仅尺寸变化，坐标语义不变。234唯一Ready；235、其他怪物、原84其余责任、完整家族/VS-067与整线仍未完成。验收见 `docs/reverse-engineering/canvas-sprite-extent-acceptance.md`。
 
 2026-09-28 / TASK-SLICE-240完成：Monster30两条owner已消费232/241，身体先效果、独立攻击、英雄/宠物真实HP、死亡保留/destroy清理和只读显示闭合。93920命中零布尔差异、66生命周期、210宠物HP、216原生EXIT相位、七生产变异、12场景组合与六返回地图重入通过；20态显示保留精确栅格化残差。241碰撞批准清单不扩大。233恢复唯一Ready；其他11类型、人偶、原84其余责任、完整家族/all/VS-067与整线不关闭。详见monster30-runtime-acceptance.md。

@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-234 | 公共捕获身份与双owner隔离 | 避免同名捕获/放生重捕复用身份 | M-032、M-042、M-044、VS-067 | 12组真实捕获/释放/存档/正式通知与P2碰撞伤害、3变异、22组回归；[验收](../reverse-engineering/pet-capture-identity-acceptance.md)，235 Ready |
 | TASK-SLICE-233 | 共享Canvas回退像素修正 | 移除roundPixels尺寸扩张，保留坐标语义 | M-035、M-042、VS-067 | Canvas/WebGL各850态零残差；正式AUTO回退与888绘制检查；[验收](../reverse-engineering/canvas-sprite-extent-acceptance.md)，234 Ready |
 | TASK-SLICE-240 | Monster30公共身体与独立攻击消费 | 两owner身体先效果/独立伤害/只读显示与清理 | M-030、M-032、M-034、M-042、VS-067 | 93920命中、66生命周期、210宠物HP、216原生相位、七变异、12场景与六地图重入；[验收](../reverse-engineering/monster30-runtime-acceptance.md)，233 Ready |
 | TASK-SETTINGS-241 | Monster30攻击命中补证 | 单攻击十帧双向与实际英雄/宠物colipse | M-030、M-032、M-034、M-042、VS-067 | 93920原生命中/58411155像素、4profile/40构造、324时序、8查询变异；精确379例382像素用户批准且布尔零差异；[合同](../reverse-engineering/monster30-attack-collision-contract.md)，240恢复Ready |
@@ -345,6 +346,58 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-234
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Completed）
+
+目标机制/切片：`M-032`、`M-042`、`M-044`、`VS-067`
+
+要解决的问题：普通初始/存档恢复会给P2宠物加前缀，但catchNewPet按名称和roster长度生成ID，实时捕获不带owner。实际两slot同时捕获monkey1得到相同pet-monkey1-2；两真实Runtime各出生弹体后销毁P1，Session.release按sourceId过滤共享数组，P2弹体也被删除而P2仍存活。
+
+范围：修正公共捕获、实时roster更新和战斗清理的身份保证；覆盖同名捕获、放生后重捕、P1/P2及保存重载。沿用现有身份/归属owner，不为猴马增加专用前缀补丁，不改变成长或捕获概率。
+
+规模预算：
+- 主工作包：1
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若需要存档schema迁移或全领域身份重构，先冻结兼容边界再拆出独立工作；本项不扩张为所有实体ID改造。
+
+协作计划：
+- 模式：主 agent 实现 + 单个只读有界核对
+- 模型分工：主 agent 负责捕获身份、正式消费测试与归并；gpt-5.6-luna 核对存档兼容和直接消费者（范围明确，可独立核验）。
+- 并行工作包：既有ID解码、owner传播和保存重载风险核对；禁止写入与扩展领域ID改造。
+- 写入 owner：主 agent
+- 归并检查点：验收前
+- 方法观测：无
+
+输入资料：
+- `tools/pet-capture-owner-preflight.ts`及本地`docs/tasks/evidence/TASK-SLICE-226/capture-owner-preflight.json`；退出0仅表示采集成功。
+- PetOwnershipSystem、PetRosterSystem.catchNewPet、PetMagicBottleSystem、TestSceneMagicOwnershipBridge、HeroPartyRuntimeBridge.syncPets、SaveSystem.decodePetId及PetCombatEntitySession.release。
+- 226双slot生命周期测试只证明唯一ID下的隔离，不替代本项。
+
+输出产物：公共身份保证修正；真实捕获→即时激活→攻击→一侧释放→另一侧继续的回归，兼容重载与同owner重捕检查。
+
+完成定义：原反例被拒绝，真实捕获与保存流程不会产生跨owner清理/伤害归属混淆；不凭修ID宣称全部家族闭合。
+
+验收标准：
+- 保留旧反例：两对象同ID，2个弹体变0，P2仍活；修正后只清理P1且P2原弹体/Runtime身份保留。
+- 通过真实魔法瓶/捕获与正式roster通知路径，禁止仅给fixture加slot前缀。
+- 检查同owner放生后重捕、既有存档、P2重载不重复加前缀及来源归属。
+- 相关所有权/存档/生命周期测试、build、workflow、problem audit和diff通过。
+
+禁止范围：不修改原版资料、捕获概率、成长数值，不按物种维护另一份身份表，不丢弃或静默替换既有宠物记录。
+
+状态更新：Completed（2026-09-28）。12组身份、3内存生产变异、22组相关系统回归、build、结构/LSP通过。完整验收见 `docs/reverse-engineering/pet-capture-identity-acceptance.md`；原反例保留，捕获身份责任回填226矩阵，整族/VS-067不关闭。
+
+推荐后续任务：TASK-SETTINGS-235（Ready），补公共被动回复与自动增益合同。
+
 
 ### TASK-SLICE-233
 

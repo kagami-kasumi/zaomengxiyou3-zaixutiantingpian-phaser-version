@@ -1,4 +1,5 @@
 import type { ProjectileModel } from './ProjectileSystem';
+import type { PlayerSlot } from './InputSystem';
 
 export type PetId = string;
 
@@ -332,6 +333,8 @@ export type PetMouse4ZsaoyiSkillState = {
 };
 
 export type PetRoster = {
+  /** Runtime ownership; save decoding derives this from the player slot. */
+  ownerSlot?: PlayerSlot;
   pets: PetState[];
   selectedIndex: number;
   message: string;

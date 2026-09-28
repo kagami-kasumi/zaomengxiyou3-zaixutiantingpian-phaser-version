@@ -4,7 +4,7 @@
 
 测试名均指 `tools/<名称>.ts`。伤害/目标夹具使用明确受控输入；原始关卡生成时机不在本项重新核定。完整家族、Canvas及公共怪物/捕获/被动责任按后续列保留。
 
-| 家族/原合同 | 本项可执行证据 | 公共后续（尚未修复） |
+| 家族/原合同 | 本项可执行证据 | 公共后续与完成证据 |
 | --- | --- | --- |
 | monkey/owner.body | `pet-monkey-horse-asset-tests`、`asset-bundle-tests` | — |
 | monkey/owner.effects | `pet-monkey-horse-asset-tests`、`asset-bundle-tests` | — |
@@ -23,11 +23,11 @@
 | monkey/runtime.auto-buff | 未核销：共享被动独立源合同与消费待235 | 235 |
 | monkey/runtime.hurt | `pet-monkey-horse-incoming-tests`、`pet-monkey-horse-hurt-release-tests` | 230证据已交接、236实现、232补证完成/240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
 | monkey/runtime.death | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-dead-step-tests` | 231/239补证及238经验消费已完成；232补证完成；240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
-| monkey/runtime.destroy | `pet-monkey-horse-party-lifecycle-tests`、`pet-horse-retired-parent-tests` | 234 |
+| monkey/runtime.destroy | `pet-monkey-horse-party-lifecycle-tests`、`pet-horse-retired-parent-tests` | 234已完成：`pet-capture-identity-tests`（猴马真实捕获双owner清理、正式保存通知与来源）及3生产变异；见捕获身份验收 |
 | monkey/runtime.projectile-collision | `pet-monkey-horse-collision-field-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-skill-projectile-tests`、`pet-horse-skill-projectile-tests` | — |
 | monkey/runtime.attack-id-dedup | `pet-monkey-horse-normal-runtime-tests`、`pet-monkey-skill-projectile-tests`、`pet-horse-skill-projectile-tests` | — |
 | monkey/runtime.damage-pipeline | `pet-monkey-horse-damage-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-aoyi-combat-tests`、`pet-horse-aoyi-runtime-tests` | 230证据已交接、236实现、231/239补证及238经验消费已完成；232补证完成；240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
-| monkey/runtime.p1-p2 | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-normal-runtime-tests` | 234 |
+| monkey/runtime.p1-p2 | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-normal-runtime-tests` | 234已完成：`pet-capture-identity-tests`（猴马真实捕获双owner清理、正式保存通知与来源）及3生产变异；见捕获身份验收 |
 | monkey/monkey1.normal | `pet-monkey-horse-normal-runtime-tests`、`pet-monkey-body-emission-tests` | — |
 | monkey/monkey1.xj | `pet-monkey-body-emission-tests`、`pet-monkey-skill-projectile-tests`、`pet-monkey-effect-follow-tests` | — |
 | monkey/monkey1.hurt-release | `pet-monkey-horse-hurt-release-tests`、`pet-monkey-horse-incoming-tests` | — |
@@ -63,12 +63,12 @@
 | horse/runtime.cooldown-order | `pet-source-phase-tests`、`pet-monkey-horse-dead-step-tests` | — |
 | horse/runtime.hurt | `pet-monkey-horse-incoming-tests`、`pet-monkey-horse-hurt-release-tests` | 230证据已交接、236实现、232补证完成/240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
 | horse/runtime.death | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-dead-step-tests` | 231/239补证及238经验消费已完成；232补证完成；240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
-| horse/runtime.destroy | `pet-monkey-horse-party-lifecycle-tests`、`pet-horse-retired-parent-tests` | 234 |
+| horse/runtime.destroy | `pet-monkey-horse-party-lifecycle-tests`、`pet-horse-retired-parent-tests` | 234已完成：`pet-capture-identity-tests`（猴马真实捕获双owner清理、正式保存通知与来源）及3生产变异；见捕获身份验收 |
 | horse/runtime.projectile-collision | `pet-monkey-horse-collision-field-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-skill-projectile-tests`、`pet-horse-skill-projectile-tests` | — |
 | horse/runtime.attack-id-dedup | `pet-monkey-horse-normal-runtime-tests`、`pet-monkey-skill-projectile-tests`、`pet-horse-skill-projectile-tests` | — |
 | horse/runtime.damage-pipeline | `pet-monkey-horse-damage-tests`、`pet-monkey-horse-normal-runtime-tests`、`pet-monkey-aoyi-combat-tests`、`pet-horse-aoyi-runtime-tests` | 230证据已交接、236实现、231/239补证及238经验消费已完成；232补证完成；240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
 | horse/runtime.ice-effect | `pet-target-ice-tests`、`pet-target-ice-body-tests`、`pet-target-ice-display-tests`、`pet-horse-aoyi-multi-combat-tests` | 232补证完成/240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
-| horse/runtime.p1-p2 | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-normal-runtime-tests` | 234 |
+| horse/runtime.p1-p2 | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-normal-runtime-tests` | 234已完成：`pet-capture-identity-tests`（猴马真实捕获双owner清理、正式保存通知与来源）及3生产变异；见捕获身份验收 |
 | horse/horse1.normal | `pet-monkey-horse-normal-runtime-tests`、`pet-horse-body-emission-tests` | — |
 | horse/horse1.sp | `pet-horse-body-emission-tests`、`pet-horse-skill-projectile-tests`、`pet-horse-effect-follow-tests` | — |
 | horse/horse2.normal | `pet-monkey-horse-normal-runtime-tests`、`pet-horse-body-emission-tests` | — |
@@ -91,7 +91,7 @@
 | horse/horse4.tmaoyi-explosion | `pet-horse-aoyi-birth-tests`、`pet-horse-aoyi-runtime-tests`、`pet-horse-aoyi-multi-combat-tests`、`pet-horse-retired-parent-tests` | — |
 | horse/horse4.tmaoyi-cleanup | `pet-horse-aoyi-birth-tests`、`pet-horse-aoyi-runtime-tests`、`pet-horse-aoyi-multi-combat-tests`、`pet-horse-retired-parent-tests` | — |
 
-公共后续编号：230/237击退证据及236实际消费已完成（2026-09-26；仅公共击退，完整身体/死亡/家族组合仍保留）、231/239补证及238死亡经验消费已完成（2026-09-27；仅经验，不包含完整身体/死亡组合）、232怪物身体/攻击/目标效果顺序证据完成，241补证及240 Monster30两条owner消费完成（2026-09-28）；其他11类型与人偶责任保留在204公共承接范围，按232消费者矩阵继续有界生成、233Canvas尺寸取整已完成、234实时捕获身份、235共享被动回复与六增益。后续任务必须继续消费受影响的原合同，不以本矩阵登记作为修复。
+公共后续编号：230/237击退证据及236实际消费已完成（2026-09-26；仅公共击退，完整身体/死亡/家族组合仍保留）、231/239补证及238死亡经验消费已完成（2026-09-27；仅经验，不包含完整身体/死亡组合）、232怪物身体/攻击/目标效果顺序证据完成，241补证及240 Monster30两条owner消费完成（2026-09-28）；其他11类型与人偶责任保留在204公共承接范围，按232消费者矩阵继续有界生成、233Canvas尺寸取整已完成、234实时捕获身份已完成（2026-09-28；仅身份，不扩大为历史损坏存档修复）、235共享被动回复与六增益。后续任务必须继续消费受影响的原合同，不以本矩阵登记作为修复。
 
 实际画布证据沿用226进度中原版PNG与正式WebGL逐状态对照；233已将850态Canvas与WebGL残差清零；仅该有限全集，不宣称全部场景跨渲染器像素一致。
 

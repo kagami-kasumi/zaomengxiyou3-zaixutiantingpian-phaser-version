@@ -25,6 +25,8 @@ export function createPlayerPetRosters(
     p1: createSeedPetRoster(),
     p2: createOwnedSeedRoster('p2'),
   };
+  rosters.p1.ownerSlot = 'p1';
+  rosters.p2.ownerSlot = 'p2';
   if (!options.includeSkillShowcase) {
     rosters.p1.pets = rosters.p1.pets.slice(0, 1);
     rosters.p2.pets = rosters.p2.pets.slice(0, 1);

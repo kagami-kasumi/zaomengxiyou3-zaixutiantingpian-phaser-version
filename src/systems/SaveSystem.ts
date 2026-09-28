@@ -573,6 +573,7 @@ function decodePetRoster(
     pets,
     selectedIndex: pets.length === 0 ? 0 : clampInteger(selectedIndex, 0, pets.length - 1),
     message: 'Pet save loaded',
+    ownerSlot,
   };
 }
 

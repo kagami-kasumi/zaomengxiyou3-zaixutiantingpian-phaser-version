@@ -348,7 +348,7 @@ export function catchNewPet(
   const pet = createPetStateFromDefinition(
     definition ?? createFallbackPetDefinition(petName),
     level,
-    roster.pets.length + 1,
+    roster,
   );
   roster.pets.push(pet);
   roster.selectedIndex = roster.pets.length - 1;
@@ -385,14 +385,19 @@ function createFallbackPetDefinition(petName: string): CapturablePetDefinition {
 function createPetStateFromDefinition(
   definition: CapturablePetDefinition,
   level: number,
-  serial: number,
+  roster: PetRoster,
 ): PetState {
   const normalizedLevel = Math.max(1, Math.floor(level));
   const qualities = createDefaultPetQualities();
   const stats = getPetBaseStats(definition.species, normalizedLevel, qualities);
+  // Roster length reuses identities after release and collides across players.
+  // getRandomValues also works on the supported HTTP preview origin.
+  const serial = Array.from(crypto.getRandomValues(new Uint32Array(4)),
+    value => value.toString(16).padStart(8, '0')).join('');
+  const ownerPrefix = roster.ownerSlot === 'p2' ? 'p2-' : '';
 
   return {
-    id: `pet-${definition.petName}-${serial}`,
+    id: `${ownerPrefix}pet-${definition.petName}-${serial}`,
     species: definition.species,
     form: definition.form,
     displayName: definition.displayName,
@@ -419,4 +424,3 @@ function createPetStateFromDefinition(
     skillState: createPetSkillState(),
   };
 }
-

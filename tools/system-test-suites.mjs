@@ -79,6 +79,7 @@ export const fullSystemTests = [
   'pet-dragon-family-consumer-tests',
   'pet-dragon-family-audit-tests',
   'pet-animation-session-tests',
+  'pet-capture-identity-tests',
   // Other turtle tests require native evidence/browser prerequisites;
   // see turtle-test-registry.mjs and local-validation.md. P1T runs them.
   ...defaultTurtleTests,
@@ -117,6 +118,7 @@ export const coreSystemTests = [
   'hero-party-runtime-tests',
   'monster-runtime-tests',
   'pet-animation-session-tests',
+  'pet-capture-identity-tests',
   ...defaultTurtleTests,
   'formal-game-loop-journey-tests',
 ];
