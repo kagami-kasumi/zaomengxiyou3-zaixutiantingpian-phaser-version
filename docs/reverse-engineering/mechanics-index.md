@@ -1,5 +1,7 @@
 # 总机制表
 
+2026-10-01 / TASK-SETTINGS-235完成：公共回复fps+1周期、旧值刷新顺序、六项独立检查/MP/uint时长与主人int属性到期已交叉确认；720原生case、10编译源变异、4损坏报告及重复一致通过。46提取类静态清单与六恢复视觉符号仅定位，未宣称视觉完整或正式消费；242唯一Ready接共享数值，六特效视觉及原84其余公共责任、完整家族/204/all/VS-067与功能线仍未关闭。合同见 `docs/reverse-engineering/pet-passive-auto-buff-contract.md`。
+
 2026-09-28 / TASK-SLICE-234完成：公共捕获改为独立128位身份，运行roster派生owner并沿用P2单前缀；猴马双owner释放、同owner重捕、旧存档/三轮重载及正式保存通知后实际P2碰撞伤害通过。12组身份回归、3生产变异、22组相关回归与build通过；仅核销捕获身份责任，原84其余公共责任、完整家族/VS-067及整线不关闭。235唯一Ready。验收见 `docs/reverse-engineering/pet-capture-identity-acceptance.md`。
 
 2026-09-28 / TASK-SLICE-233完成：共享Canvas移除roundPixels目标宽高0.5扩张；原654/850反例保留，修正后Canvas/WebGL各850态alpha与预乘RGB残差均0。正式AUTO回退Stage12双人12组位置/滚动、888次绘制（含8组crop/flip/mask/resolution边界）通过；仅尺寸变化，坐标语义不变。234唯一Ready；235、其他怪物、原84其余责任、完整家族/VS-067与整线仍未完成。验收见 `docs/reverse-engineering/canvas-sprite-extent-acceptance.md`。

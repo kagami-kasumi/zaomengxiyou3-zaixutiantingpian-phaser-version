@@ -20,7 +20,7 @@
 | monkey/runtime.action-priority | `pet-monkey-source-gate-tests`、`pet-monkey-horse-hurt-release-tests` | — |
 | monkey/runtime.normal-roll | `pet-normal-attack-session-tests`、`pet-source-phase-tests` | — |
 | monkey/runtime.cooldown-order | `pet-source-phase-tests`、`pet-monkey-horse-dead-step-tests` | — |
-| monkey/runtime.auto-buff | 未核销：共享被动独立源合同与消费待235 | 235 |
+| monkey/runtime.auto-buff | 未核销：235共享源合同已闭合，720原生expected；数值会话消费待242，六特效视觉仍待 | 242及同线视觉后续 |
 | monkey/runtime.hurt | `pet-monkey-horse-incoming-tests`、`pet-monkey-horse-hurt-release-tests` | 230证据已交接、236实现、232补证完成/240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
 | monkey/runtime.death | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-dead-step-tests` | 231/239补证及238经验消费已完成；232补证完成；240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
 | monkey/runtime.destroy | `pet-monkey-horse-party-lifecycle-tests`、`pet-horse-retired-parent-tests` | 234已完成：`pet-capture-identity-tests`（猴马真实捕获双owner清理、正式保存通知与来源）及3生产变异；见捕获身份验收 |
