@@ -83,6 +83,7 @@ export type PetBehaviorContext = Readonly<{
   grounded?: boolean;
   projectileCombat?: PetProjectileCombatPort;
   isGxp: boolean;
+  passiveBonuses?: Readonly<{ crit: number; magic: number }>;
   random: () => number;
   castSkill: (request: PetBehaviorSkillRequest) => PetSkillCastResult;
   castSkillAt: (request: PetBehaviorSkillRequest, target: Readonly<PetSkillTarget>) => PetSkillCastResult;
@@ -108,6 +109,9 @@ export type PetBehaviorContext = Readonly<{
 export interface PetBehavior {
   /** Advance the shared session algorithm only at source host-tick boundaries. */
   readonly usesHostTicks?: boolean;
+  /** Verified BasePet passive loop; legacy families remain on their existing path. */
+  readonly publicPassive?: boolean;
+  readonly passiveEventName?: string;
   /** Verified retained-dead source loop: existing effects/CD/physics still step; AI does not. */
   readonly stepsWhileDying?: boolean;
   /** BasePet searches the supplied opponent array before checking death on the next tick. */

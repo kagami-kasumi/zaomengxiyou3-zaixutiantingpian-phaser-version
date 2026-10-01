@@ -17,6 +17,8 @@ import type { PetBehaviorContext } from '../src/systems/PetBehavior';
 import { createMonster30 } from '../src/systems/Monster30System';
 import { resolveTestSceneTurtleIncoming } from '../src/scenes/test-scene/TestScenePetEnemyAdapter';
 import type { HeroPartyRuntime } from '../src/scenes/HeroPartyRuntimeBridge';
+import { createMonster30AttackRuntime } from '../src/systems/Monster30AttackRuntime';
+import { monster30PetTargetProfile } from '../src/systems/Monster30CollisionSystem';
 
 const assets = await PetTurtleAssets.decode(path => new Uint8Array(readFileSync(`public${path}`)));
 const registry = createDefaultPetBehaviorRegistry(() => assets);
@@ -272,18 +274,26 @@ for (const owner of ['p1', 'p2'] as const) {
 for (const owner of ['p1', 'p2'] as const) {
   const s = setup(4, owner, ['qlfj']); s.step();
   const snapshot = s.runtime.snapshot(), root = snapshot.runtime!;
-  const monster = createMonster30(root.x + 120, root.y - 28);
+  const profile = monster30PetTargetProfile('turtle', 4);
+  const hit = JSON.parse(readFileSync('docs/tasks/evidence/TASK-SETTINGS-241/native.json', 'utf8')).cases
+    .find(row => row.profile === profile && row.sign === -1 && row.hit);
+  assert(hit, 'independent native turtle hit fixture required');
+  const monster = createMonster30(root.x + hit.sourceRoot.x - hit.targetRoot.x,
+    root.y + hit.sourceRoot.y - hit.targetRoot.y);
   monster.state = 'hit1';
-  monster.activeAttack = { attackId: `sandbox-${owner}`, actionName: 'hit1', facingX: -1,
-    elapsedMs: 100, hitboxActiveFromMs: 50, hitboxActiveUntilMs: 150,
-    damage: 100, attackKind: 'physics', knockbackX: 6, knockbackY: -5 } as any;
+  monster.attackRuntime = createMonster30AttackRuntime();
+  monster.attackRuntime.detections.push({ attackId: `sandbox-${owner}`, sourceId: monster.id,
+    x: monster.x, y: monster.y, frame: hit.frame, age: 0, actionName: 'hit1', facingX: -1,
+    damage: 100, attackKind: 'physics', knockbackX: 6, knockbackY: -5 });
   let accepted = 0;
   const party = { resolvePetEnemyAttack(enemy, _time, accepts) {
-    assert(accepts!(snapshot));
-    assert(!accepts!({ ...snapshot, species: 'horse' }));
-    assert(!accepts!({ ...snapshot, runtime: { ...root, y: root.y + 1000 } }));
+    assert.equal(accepts, undefined, '240 uses the shared actual colipse route');
+    assert.equal(resolveStage1EnemyPetAttack({ runtime: s.combat, enemy,
+      target: { runtimeKey: root.runtimeKey, x: root.x, y: root.y + 1000,
+        collisionProfile: profile, hp: s.pet.hp, defense: 20 } }), undefined);
     const event = resolveStage1EnemyPetAttack({ runtime: s.combat, enemy,
-      target: { runtimeKey: root.runtimeKey, x: root.x, hp: s.pet.hp, defense: 20 } });
+      target: { runtimeKey: root.runtimeKey, x: root.x, y: root.y,
+        collisionProfile: profile, hp: s.pet.hp, defense: 20 } });
     if (event) { accepted++; assert.deepEqual(event.knockback, { x: -6, y: -5 });
       s.step({ damageEvents: [event], random: () => 0 }); }
   } } as HeroPartyRuntime;
@@ -291,7 +301,7 @@ for (const owner of ['p1', 'p2'] as const) {
   resolveTestSceneTurtleIncoming(party, [monster], assets, 101);
   assert.equal(accepted, 1); assert.equal(s.named('turtle-counter').length, 1);
   assert.equal(s.runtime.snapshot().groundMotion?.direction, 1, 'Counter faces its target after applying incoming recoil');
-  monster.activeAttack!.elapsedMs = 151;
+  monster.attackRuntime.detections = [];
   resolveTestSceneTurtleIncoming(party, [monster], assets, 151);
   assert.equal(accepted, 1); s.runtime.destroy();
 }

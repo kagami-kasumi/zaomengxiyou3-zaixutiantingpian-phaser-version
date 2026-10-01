@@ -1,3 +1,4 @@
+import { PetPassiveSession } from './PetPassiveSession';
 import type { MonsterAttackTarget } from './MonsterExperienceSystem';
 import type { PlayerSlot } from './InputSystem';
 import { addPetExperience } from './PetProgressionSystem';
@@ -33,6 +34,7 @@ type EntityPorts = Readonly<{
 // Internal to PetCombatRuntime: one algorithm for its active pet and private summons.
 export class PetCombatEntitySession {
   readonly runtime: PetRuntimeModel;
+  readonly passive: PetPassiveSession | undefined;
   readonly identity: string;
   phase: PetCombatSessionPhase = 'alive';
   actionToken = 0;
@@ -69,6 +71,7 @@ export class PetCombatEntitySession {
     position?: Readonly<{ x: number; y: number; facingX: -1 | 1 }>,
     ownerRootOffsetY = 0,
   ) {
+    this.passive = behavior.publicPassive ? new PetPassiveSession() : undefined;
     this.identity = `${pet.id}:${pet.species}:${pet.form}`;
     this.animation = behavior.createAnimationClock?.();
     this.runtime = { ...createPetRuntime(pet, owner), runtimeKey };
@@ -122,9 +125,9 @@ export class PetCombatEntitySession {
     const hostFps = frame.hostFps ?? DefaultGlobalSettings.frameRate;
     this.pendingDamage.push(...(frame.damageEvents ?? []));
     this.pendingAnimation.push(...(frame.animationEvents ?? []));
-    this.pendingHostTicks += frame.deltaMs * hostFps / 1000;
-    const ticks = Math.floor(this.pendingHostTicks + 1e-9);
-    this.pendingHostTicks = Math.max(0, this.pendingHostTicks - ticks);
+    if (frame.hostTicks === undefined) this.pendingHostTicks += frame.deltaMs * hostFps / 1000;
+    const ticks = frame.hostTicks ?? Math.floor(this.pendingHostTicks + 1e-9);
+    if (frame.hostTicks === undefined) this.pendingHostTicks = Math.max(0, this.pendingHostTicks - ticks);
     for (let tick = 0; tick < ticks && !this.released; tick++) {
       const damageEvents = tick === 0 ? this.pendingDamage.splice(0) : [];
       const animationEvents = tick === 0 ? this.pendingAnimation.splice(0) : [];
@@ -159,8 +162,14 @@ export class PetCombatEntitySession {
       ? targets.map(target => Object.freeze({ ...target,
         isAlive: frame.projectileCombat!.target(target.id)?.alive ?? target.isAlive }))
       : targets.filter(target => frame.projectileCombat!.target(target.id)?.alive ?? target.isAlive);
+    const hpBefore = this.pet.hp, mpBefore = this.pet.mp;
+    if (this.passive?.recover(this.pet, frame.hostFps ?? DefaultGlobalSettings.frameRate)) {
+      this.publish({ type: 'behavior', behaviorEvent: { type: this.behavior.passiveEventName ?? 'pet-passive',
+        payload: { hpBefore, hpAfter: this.pet.hp, mpBefore, mpAfter: this.pet.mp } } });
+    }
+    const stunned = frame.stunnedRuntimeKeys?.includes(this.runtimeKey) ?? false;
     const ownsPet = frame.isLocalOwner !== false;
-    const canThink = ownsPet && this.phase === 'alive'
+    const canThink = ownsPet && !stunned && this.phase === 'alive'
       && !this.ground?.definition.intelligenceBlockedActions?.includes(this.animation?.snapshot().action ?? '');
     const targetWasCleared = canThink && this.validateStickyTarget(targets);
     this.targetAcquiredThisFrame = false;
@@ -213,6 +222,11 @@ export class PetCombatEntitySession {
       this.behavior.executeAction(action, this.context(frame, targets));
       this.publish({ type: 'action', action: { ...action }, actionToken: this.actionToken });
     }
+    // Hurt does not skip the source tail check; stunned AI and private dragon type1 do.
+    if (ownsPet && !stunned && !this.parentRuntimeKey) {
+      this.passive?.check(this.pet, frame.hostFps ?? DefaultGlobalSettings.frameRate, frame.ownerAddPetBuff);
+    }
+    this.passive?.refresh(this.pet);
     this.behavior.updateEffects(context);
     if (this.released) return;
     this.ports.stepChildren(frame, false);
@@ -238,6 +252,7 @@ export class PetCombatEntitySession {
     // BaseObject.step expires setYourFather only after its count passes below zero.
     if (this.protectionCount >= 0) this.protectionCount--;
     stepTurtleLink(this.turtleLink);
+    this.passive?.stepEffects();
   }
 
   private selectGroundAction(
@@ -346,6 +361,7 @@ export class PetCombatEntitySession {
 
   snapshot(): PetCombatEntitySnapshot {
     return Object.freeze({
+      passive: this.passive?.snapshot(),
       petId: this.pet.id, species: this.pet.species, form: this.pet.form,
       runtime: Object.freeze({ ...this.runtime }),
       target: this.target ? Object.freeze({ ...this.target }) : undefined,
@@ -363,6 +379,7 @@ export class PetCombatEntitySession {
     if (this.released) return;
     this.released = true;
     this.releaseReason = reason;
+    this.passive?.destroy();
     detachTurtleLink(this.turtleLink);
     const failures: unknown[] = [];
     try { this.behavior.destroy(reason); } catch (error) { failures.push(error); }

@@ -61,8 +61,10 @@
 - `MonsterDefinitionCatalog` 保存跨关卡只读战斗定义，`MonsterAssetCatalog` 保存 monster id 到视觉/几何资源族的映射，`MonsterRuntimeRegistry` 保存单局可变怪物状态；三者不得混为同一个 Registry。
 - `MonsterExperienceSystem` 只维护既有怪物模型上的目标引用与首次死亡经验；`HeroPartyExperienceSystem` 从既有队伍持有英雄/当前宠回调。宠物Session与兼容Runtime在发射时捕获自身对象，不能按命中时active pet反查；存档桥保存真实roster，掉落仍由原奖励owner处理。
 - `HeroPartyRuntime` 是单局活动英雄的唯一运行时 owner：按 `PlayerSlot` 持有移动、战斗、普攻、技能和角色视觉生命周期。关卡只提交平台、移动边界与特殊环境快照，不声明 `PlayerRuntime`，不直接调用角色内部 update/resolve。
+- `Stage1CombatPlayer.petBuffs`与`HeroPetBuffSystem`持有四项主人瞬时效果，复用slot世界host先于宠物推进；不挂PetState、不写存档。兼容场景的currentStats直接引用成员effectiveStats，baseStats只作成长/装备输入；Scene不复制效果算法。
 - 关卡、宠物和英雄当前类设计分别见 `system-designs/level.md`、`system-designs/pet.md`、`system-designs/hero.md`。关卡保持组合式 `PlayableLevelRuntime`，不得新建万能 `BaseLevel`；宠物战斗统一经 `PetCombatRuntime` 注入 `PetBehavior`；英雄队伍聚合单英雄 `HeroRuntime`，五英雄实现只覆盖差异钩子。三份设计在各自验收退出前约束迁移 task，退出后不再触发设计模式专项检查。
 - `PetCombatEntitySession` 与 `PetCombatContext` 是宠物Runtime内部公共步骤/端口实现；Scene和Behavior不直接创建或推进实体会话。私有召唤物只经Behavior窄端口创建/释放，临时数值不进入持久roster；正式桥继续只消费顶层Runtime快照与typed事件。
+- `PetPassiveSession`仅拥有该实体公共回复缓存、六自动增益计数及自身效果；由EntitySession原host驱动。四项主人效果通过`ownerAddPetBuff`进入既有hero owner，Scene不持有公式，保存不包含会话临时字段。
 - 猴马私有弹体由Behavior持有的`PetMonkeyHorseProjectileSystem`统一推进；`PetHorseAoyiProjectiles`只投影发射/命中回调，`PetHorseAoyiMotion`只承担源EnemyMove运动。独立延迟通过`PetProjectileCombatPort.delay`访问场景拥有的`PetWorldDelayedCalls`，`PetWorldDelayBridge`仅转接既有Game绝对时间戳，不累计第二份Scene/宠物时钟。换宠不取消源回调，Party销毁与Scene shutdown清空world队列并解除listener；完整原版暂停/世界退出映射仍由226验收。
 - 猴火/马冰附加效果归受击目标的`MonsterPetTargetEffectSystem`持有，`PetTargetEffects`执行原BaseAddEffect局部状态机；命中port只提交源字典payload。怪物世界循环在物理后/AI前按host步推进，包括等待视觉recovery的帧，不挂在宠物Session或被跳过的AI函数内；View只消费可见/冻结状态，不再拥有伤害或效果寿命。
 - `PetNormalAttackDecision` 只由猴/马 Behavior 各自组合，消费Session连续hostTick/fps并执行条件随机选择；不得承接动画时钟、技能CD、目标、伤害或公共Session生命周期。家族释放事件和技能优先级保持局部。

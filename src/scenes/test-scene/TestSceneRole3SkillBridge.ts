@@ -1,3 +1,4 @@
+import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
 import type { HeroBaseStats } from '../../systems/EquipmentSystem';
 import type { HeroCombatModel } from '../../systems/HeroCombatSystem';
 import type { HeroMovementModel } from '../../systems/HeroMovementSystem';
@@ -34,6 +35,7 @@ export type Role3BridgePlayer = {
   normalAttack: HeroNormalAttackModel;
   skill: HeroSkillModel;
   baseStats: HeroBaseStats;
+  currentStats?: HeroBaseStats;
 };
 
 export function updateRole3SkillBridge(params: {
@@ -63,7 +65,7 @@ export function updateRole3SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
     });
     if (event) {
       events.push(event);
@@ -76,7 +78,7 @@ export function updateRole3SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       targets: createControlTargets(params.monsters),
     });
     if (controlEvent) events.push(controlEvent);
@@ -88,7 +90,7 @@ export function updateRole3SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
     });
     if (impactEvent) events.push(impactEvent);
     const mobilityEvent = requestRole3MobilitySkillFromInput({
@@ -99,7 +101,7 @@ export function updateRole3SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
     });
     if (mobilityEvent) events.push(mobilityEvent);
     const ultimateEvent = requestRole3UltimateSkillFromInput({
@@ -110,7 +112,7 @@ export function updateRole3SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       targets: createUltimateTargets(params.monsters),
     });
     if (ultimateEvent) events.push(ultimateEvent);

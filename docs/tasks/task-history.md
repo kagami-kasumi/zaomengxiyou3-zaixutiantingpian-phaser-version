@@ -13,6 +13,10 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-242B | 公共回复/六增益数值联合 | 1717源样本、真实会话/技能/HUD/保存 | M-032、M-034、M-042、VS-067 | [验收](../reverse-engineering/pet-passive-runtime-acceptance.md)，联合gate通过，244 Ready |
+| TASK-SLICE-242 | 公共被动数值父任务 | 242A主人owner与242B共享数值完整归并 | M-032、M-034、M-042、VS-067 | A/B均通过；六特效视觉与完整家族保持后续 |
+| TASK-SETTINGS-243 | 公共资质/零时长补证 | 正式输入域与六增益零时长相位 | M-032、M-034、M-042、VS-067 | 997原生/5源变异/7损坏/重复一致，162codec；[合同](../reverse-engineering/pet-passive-auto-buff-contract.md)，恢复242B |
+| TASK-SLICE-242A | 主人属性公共接缝 | 当前属性同源、四主人效果原相位与清理 | M-032、M-034、M-042、VS-067 | 31消费组/10变异/10映射身份，设计联合与核心/build通过；[验收](../reverse-engineering/hero-pet-buff-owner-acceptance.md)，242B Ready |
 | TASK-SETTINGS-235 | 公共宠物被动/自动增益补证 | 回复周期、六增益顺序/数值/会话与正式入口缺口 | M-032、M-034、M-042、VS-067 | 720原生case、10源变异/4损坏反例、重复一致；[合同](../reverse-engineering/pet-passive-auto-buff-contract.md)，242 Ready，视觉/现代消费仍待 |
 | TASK-SLICE-234 | 公共捕获身份与双owner隔离 | 避免同名捕获/放生重捕复用身份 | M-032、M-042、M-044、VS-067 | 12组真实捕获/释放/存档/正式通知与P2碰撞伤害、3变异、22组回归；[验收](../reverse-engineering/pet-capture-identity-acceptance.md)，235 Ready |
 | TASK-SLICE-233 | 共享Canvas回退像素修正 | 移除roundPixels尺寸扩张，保留坐标语义 | M-035、M-042、VS-067 | Canvas/WebGL各850态零残差；正式AUTO回退与888绘制检查；[验收](../reverse-engineering/canvas-sprite-extent-acceptance.md)，234 Ready |
@@ -347,6 +351,299 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-242B
+
+完成记录：2026-10-01，数值与联合合同通过并归档；以下历史执行合同原样保留。后续TASK-SETTINGS-244。验收见[公共被动](../reverse-engineering/pet-passive-runtime-acceptance.md)，本地完整记录见`docs/tasks/evidence/TASK-SLICE-242B/handoff.md`。
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+逆向子类型：不适用。
+
+逆向方案：不适用。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Ready）
+
+2026-10-01输入预检：实际捕获/洗练/还童双owner共8例确认technique/warpower为1/1、0/0、4/4、8/8，超出235固定3/1动态输入；warpower=0还引入未采样的零时长首次/属性到期边界。命中本任务明确的数字/时序拆分触发，`TASK-SETTINGS-243`唯一Ready补证，本任务Blocked并保留以下完整合同。复验入口`node tools/pet-passive-input-preflight.mjs`；本地证据`docs/tasks/evidence/TASK-SLICE-242B/input-preflight.json`。243完成后恢复本任务，原720及新增边界须联合消费，不以预检证明实现通过。
+
+2026-10-01执行前预检：真实party/兼容映射10例确认主人属性输入分裂，既有hero owner不具备PB-08的host-tick属性相位，命中下方“新的owner迁移”拆分触发。拆出 [242A](#task-slice-242a)（Ready；属性owner/宿主接缝）与 [242B](#task-slice-242b)（Planned；原公共回复/六增益与完整联合验收）。本文件保留父合同全集，B全部通过后同次归档父242。证据：`docs/tasks/evidence/TASK-SLICE-242/preflight.md`；无src/public改动或玩法核销。
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：消费242A完成的主人当前属性/host接缝，原样承担父242所有被动/六增益数值和联合合同；235已补齐720原生expected，但正式party仍缺回复/六自动增益入口。旧helper按24fps换算毫秒、首成功即return，并把给主人的效果计时放在PetState；直接接helper不能满足原版多项同帧、整数数值、会话替换及主人独立到期合同。
+
+范围：在既有每slot Runtime/EntitySession原host tick与party英雄属性owner内，接公共回复与六增益数值/计时；猴马四形态为主验收消费者，并回归已接入青龙/玄龟、显式防止青龙type1私有分身误获公共增益。五正式入口复用同一调用。六项特效的显示列表/时间轴/资源投影是独立后续，当前只使用既有原生HUD/伤害反馈验证实际数值，不添加视觉占位，不声明自动增益视觉完整。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`（实施中，尚未退出）。
+
+本批设计验收 gate：`npm run check:system-design -- pet P1GS P1G P1T`。将本批生产消费和实现变异测试接入对应公共gate；不以旧gate绿灯替代新增被动合同，不运行all关闭全系统。
+
+规模预算：
+- 主工作包：1（共享数值/会话接入与五关联合消费）
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 出现235声明外的数字/时序输入，或需要新的效果视觉真值、专属技能或新的owner迁移时，先保持完整合同并另列有界补证项；不得猜补，也不在本批重构所有家族。
+
+协作计划：
+- 模式：主 agent + subagent（环境允许时）
+- 模型分工：主agent负责共享实现与最终归并；Luna只读核对生产消费者/原expected，按agent-protocol准入执行
+- 并行工作包：本批内部有界消费者/合同核对，输出精确来源、遗漏与反例
+- 写入 owner：主 agent
+- 归并检查点：实现前、验收前
+- 方法观测：无
+
+输入资料：
+- `docs/reverse-engineering/hero-pet-buff-owner-acceptance.md`与历史242A完成产物及父`TASK-SLICE-242.md`完整合同；缺少A实际生产owner验收不得激活本任务。
+- `docs/reverse-engineering/pet-passive-auto-buff-contract.md`、`docs/reverse-engineering/reference/pet-passive-auto-buff-contract.json`的PB-01..10与`/expectedCases`。
+- `tools/pet-passive-source/`；本地235原生报告和226的96例诊断（只证明入口缺失）。
+- `HeroPartyRuntimeBridge`、`PetCombatRuntime`、`PetCombatEntitySession`、既有hero combat/skill/baseStats/持续效果owner、`PetAutoBuffSystem`、`TestScenePetMagicBridge`及五关消费者。
+- `docs/reverse-engineering/evidence/TASK-SLICE-226-contract-coverage.md`原41+43承接矩阵；已 verified 家族输入与生死/暂停合同。
+
+输出产物：
+- 唯一公共数值/时钟接入，真实HP/MP回复、六项门禁/MP扣减/顺序/数值/到期与效果实际技能消费者。
+- 原720expected对实际生产trace的独立比较；覆盖缺少case、二次1.05、首成功return、固定秒计时、错误活动对象、换宠重置/主人到期、stun/hurt混淆等实际生产变异。
+- 正式五关P1/P2可见HUD数值、真实技能/伤害结果、休息/换宠/死亡/暂停/重试返回与当前存档临时字段排除证据。
+- 回填226相关数值/会话责任，并生成同线六增益视觉补证/消费任务；未覆盖视觉和其他公共责任保持未完成。
+
+完成定义：共享数值在真实party双owner与五关正式入口消费，计时/学习/MP/属性生效与到期均由独立原版expected核销，实际技能伤害和HP/MP结果通过；不是六特效或完整家族关闭。
+
+验收标准：
+- 20/24/30fps：回复fps+1周期、旧值本轮/新值下轮；300默认、受控ready、4320/5400再次触发；多项同帧与MP19/20/119/120边界。
+- stun冻结AI内计数而回复仍推进；hurt仍检查；世界暂停不推进任何逻辑；死亡仅依原家族stepsWhileDying和真实destroy边界推进，不无限tick死亡实体。
+- sxkb/fsnl进入真实暴击/技能加值端口；四项主人int属性按源比例与转换生效和到期；同名刷新保留旧value。不能用最终HP下降单独证明每条效果。
+- 每slot唯一活动会话；休息roster不tick、再出战/替换重置默认；宠物销毁清自身效果，已经加入主人效果由主人继续到期，主人死亡/关卡退出由既有hero owner清理。
+- 五关正式双人实际入口与真实双方数值隔离，失败重试/返回释放，无第二Runtime、第二时钟或逐关数值实现；保持猴马/青龙/玄龟原合同及P1GS/P1G/P1T。
+- 使用既有HUD真值与940×590逐状态数值可见证据；不修改UI布局或用现代图形替代原增益符号；六特效视觉独立待补。
+- `npm run test:systems`与受影响专项、build、structure、workflow、audit:problems和本批硬设计gate通过。
+
+禁止范围：不修改原提取结果，不把300默认清零伪装正式首帧；不把旧helper直接多次调用当六项原版顺序；不把PetState持久字段作为独立会话时钟；不提前关闭204/all/194/VS-067、六特效或其余家族；不删除原84合同。
+
+状态更新：Ready（2026-10-01；243补证完成，恢复原完整联合验收）。
+
+已解除的阻塞原因：235固定3/1动态输入未覆盖实际捕获/洗练/还童的资质/战力，尤其零战力的零时长效果/属性相位；TASK-SETTINGS-243补证完成后恢复Ready，原720和五关联合验收全部保留。
+
+推荐后续任务：本任务与父242联合完成后生成同线六增益视觉真值与投影有界任务。公共怪物其他11类型/人偶与完整家族责任继续由204承接，全部满足前不进入下一家族或194。
+
+
+242A交接：四项主人入口为HeroPetBuffSystem.addHeroPetBuff；状态由Stage1CombatPlayer持有，正式ownerStep已由共同party bridge接入，不另加时钟。当前属性使用currentStats/effectiveStats；旧baseStats只作基础输入。详见hero-pet-buff-owner-acceptance.md，A不接自动触发。
+
+243交接：消费`docs/reverse-engineering/reference/pet-passive-input-contract.json`的997例，连同235原720共同对账。零时长仍扣MP/重置计数，首效果step清空且主人属性不变；raw getter与uint setter路径分开。正常成长域0..8，现代外部存档可读小数/大值；按实际输入路径选择原getter语义，禁止混用setter或改变存档规则。243未替代B真实技能、会话、五关HUD及硬gate。
+
+
+### TASK-SLICE-242
+
+完成记录：2026-10-01，数值与联合合同通过并归档；以下历史执行合同原样保留。后续TASK-SETTINGS-244。验收见[公共被动](../reverse-engineering/pet-passive-runtime-acceptance.md)，本地完整记录见`docs/tasks/evidence/TASK-SLICE-242B/handoff.md`。
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+逆向子类型：不适用。
+
+逆向方案：不适用。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Split）
+
+2026-10-01执行前预检：真实party/兼容映射10例确认主人属性输入分裂，既有hero owner不具备PB-08的host-tick属性相位，命中下方“新的owner迁移”拆分触发。拆出 [242A](#task-slice-242a)（Ready；属性owner/宿主接缝）与 [242B](#task-slice-242b)（Planned；原公共回复/六增益与完整联合验收）。本文件保留父合同全集，B全部通过后同次归档父242。证据：`docs/tasks/evidence/TASK-SLICE-242/preflight.md`；无src/public改动或玩法核销。
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：235已补齐720原生expected，但正式party仍缺回复/六自动增益入口。旧helper按24fps换算毫秒、首成功即return，并把给主人的效果计时放在PetState；直接接helper不能满足原版多项同帧、整数数值、会话替换及主人独立到期合同。
+
+范围：在既有每slot Runtime/EntitySession原host tick与party英雄属性owner内，接公共回复与六增益数值/计时；猴马四形态为主验收消费者，并回归已接入青龙/玄龟、显式防止青龙type1私有分身误获公共增益。五正式入口复用同一调用。六项特效的显示列表/时间轴/资源投影是独立后续，当前只使用既有原生HUD/伤害反馈验证实际数值，不添加视觉占位，不声明自动增益视觉完整。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`（实施中，尚未退出）。
+
+本批设计验收 gate：`npm run check:system-design -- pet P1GS P1G P1T`。将本批生产消费和实现变异测试接入对应公共gate；不以旧gate绿灯替代新增被动合同，不运行all关闭全系统。
+
+规模预算：
+- 主工作包：0（Split父任务；原主包完整转交242A/B）
+- 预计上下文压缩：0
+- 独立验收批次：0（联合验收由242B承接）
+
+拆分触发：
+- 出现235声明外的数字/时序输入，或需要新的效果视觉真值、专属技能或新的owner迁移时，先保持完整合同并另列有界补证项；不得猜补，也不在本批重构所有家族。
+
+协作计划：
+- 模式：主 agent + subagent（环境允许时）
+- 模型分工：主agent负责共享实现与最终归并；Luna只读核对生产消费者/原expected，按agent-protocol准入执行
+- 并行工作包：本批内部有界消费者/合同核对，输出精确来源、遗漏与反例
+- 写入 owner：主 agent
+- 归并检查点：实现前、验收前
+- 方法观测：无
+
+输入资料：
+- `docs/reverse-engineering/pet-passive-auto-buff-contract.md`、`docs/reverse-engineering/reference/pet-passive-auto-buff-contract.json`的PB-01..10与`/expectedCases`。
+- `tools/pet-passive-source/`；本地235原生报告和226的96例诊断（只证明入口缺失）。
+- `HeroPartyRuntimeBridge`、`PetCombatRuntime`、`PetCombatEntitySession`、既有hero combat/skill/baseStats/持续效果owner、`PetAutoBuffSystem`、`TestScenePetMagicBridge`及五关消费者。
+- `docs/reverse-engineering/evidence/TASK-SLICE-226-contract-coverage.md`原41+43承接矩阵；已 verified 家族输入与生死/暂停合同。
+
+输出产物：
+- 唯一公共数值/时钟接入，真实HP/MP回复、六项门禁/MP扣减/顺序/数值/到期与效果实际技能消费者。
+- 原720expected对实际生产trace的独立比较；覆盖缺少case、二次1.05、首成功return、固定秒计时、错误活动对象、换宠重置/主人到期、stun/hurt混淆等实际生产变异。
+- 正式五关P1/P2可见HUD数值、真实技能/伤害结果、休息/换宠/死亡/暂停/重试返回与当前存档临时字段排除证据。
+- 回填226相关数值/会话责任，并生成同线六增益视觉补证/消费任务；未覆盖视觉和其他公共责任保持未完成。
+
+完成定义：共享数值在真实party双owner与五关正式入口消费，计时/学习/MP/属性生效与到期均由独立原版expected核销，实际技能伤害和HP/MP结果通过；不是六特效或完整家族关闭。
+
+验收标准：
+- 20/24/30fps：回复fps+1周期、旧值本轮/新值下轮；300默认、受控ready、4320/5400再次触发；多项同帧与MP19/20/119/120边界。
+- stun冻结AI内计数而回复仍推进；hurt仍检查；世界暂停不推进任何逻辑；死亡仅依原家族stepsWhileDying和真实destroy边界推进，不无限tick死亡实体。
+- sxkb/fsnl进入真实暴击/技能加值端口；四项主人int属性按源比例与转换生效和到期；同名刷新保留旧value。不能用最终HP下降单独证明每条效果。
+- 每slot唯一活动会话；休息roster不tick、再出战/替换重置默认；宠物销毁清自身效果，已经加入主人效果由主人继续到期，主人死亡/关卡退出由既有hero owner清理。
+- 五关正式双人实际入口与真实双方数值隔离，失败重试/返回释放，无第二Runtime、第二时钟或逐关数值实现；保持猴马/青龙/玄龟原合同及P1GS/P1G/P1T。
+- 使用既有HUD真值与940×590逐状态数值可见证据；不修改UI布局或用现代图形替代原增益符号；六特效视觉独立待补。
+- `npm run test:systems`与受影响专项、build、structure、workflow、audit:problems和本批硬设计gate通过。
+
+禁止范围：不修改原提取结果，不把300默认清零伪装正式首帧；不把旧helper直接多次调用当六项原版顺序；不把PetState持久字段作为独立会话时钟；不提前关闭204/all/194/VS-067、六特效或其余家族；不删除原84合同。
+
+状态更新：Split（2026-10-01；新增主人属性owner迁移超出原既有接线预算），242A Done并归档，242B唯一Ready。
+
+推荐后续任务：242A → 242B；B联合完成后生成同线六增益视觉真值与投影有界任务。公共怪物其他11类型/人偶与完整家族责任继续由204承接，全部满足前不进入下一家族或194。
+
+242A完成产物见主人属性验收；父242继续Split，完整数值合同只在242B通过后核销。
+
+2026-10-01：242B预检确认生产资质/战力含0/0等235声明外输入，B保持完整合同并Blocked；TASK-SETTINGS-243唯一Ready补正式输入域及零时长原生证据，完成后恢复B。原720、五关联合和六特效后续不减少。
+
+243已完成并归档，242B恢复唯一Ready，须消费235+243并完成原完整联合合同。
+
+
+### TASK-SETTINGS-243
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：代码逆向。
+
+逆向方案：不适用。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Done）
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：242B预检通过真实捕获/洗练/还童生产函数确认P1/P2的资质/战力存在1/1、0/0、4/4、8/8输入；235动态壳固定3/1且以替身getter返回字段。尤其warpower=0导致六项效果time=0，其首次生效、主人属性扣回/空槽边界没有原生expected，不能将正时长样本外推。静态源公式仍有效，本任务补足正式输入的原生动态边界，不重做235。
+
+范围：沿PetInfo实际gettechnique/getwarpower及六项getPetHarmObj、BasePet.checkBuffSkill、BaseAddEffect和四项主人属性原方法，补正式可达整数资质/战力与零时长的有界数值证据。沿实际捕获/洗练/还童/存档读入路径核定输入域；不实现成长系统，不增加视觉逆向。
+
+规模预算：
+- 主工作包：1（正式输入域与六增益数值/零时长原生补证）
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 若需新增成长机制复现、增益期间装备/等级重算合同或视觉真值，保持本批数值输入边界，另列有界后续；不得以此削减242B原720及五关联合责任。
+
+协作计划：
+- 模式：主 agent + subagent（环境允许时）
+- 模型分工：主agent负责原生采样和证据裁决；Luna只读核对生产输入域与expected覆盖
+- 并行工作包：捕获/洗练/还童/存档到PB输入的消费者清单与缺口
+- 写入 owner：主 agent
+- 归并检查点：采样前、验收前
+- 方法观测：无
+
+输入资料：
+- `docs/tasks/task-definitions/TASK-SLICE-242B.md`及父242完整合同。
+- `docs/reverse-engineering/pet-passive-auto-buff-contract.md`与reference同名JSON（原720expected不可改写）。
+- `tools/pet-passive-source/`、`tools/pet-passive-input-preflight.mjs`、本地`docs/tasks/evidence/TASK-SLICE-242B/input-preflight.json`。
+- 只读主包`petInfo/PetInfo.as`的gettechnique/getwarpower/getPetHarmObj、`base/BasePet.as`、`base/BaseAddEffect.as`、`base/BaseRoleProperies.as`；沿源调用链窄读。
+- `src/systems/PetRosterSystem.ts`、`PetGrowthSystem.ts`及实际存档输入消费者；242A主人属性验收文档。
+
+输出产物：
+- 在既有被动合同中追加六段证据矩阵、正式输入域及替身边界；新增独立sidecar，保留235原720字节和语义。
+- 原方法动态expected：四形态、20/24/30fps、生产可达整数输入域；实际getter的8/大于8边界及必要转换探针须区分正式可达与受控输入。
+- 每项value、uint时长、MP/顺序、宠物暴击/技能读口、主人首次生效/到期/零时长连续步骤与同名刷新记录。零时长不可用正时长外推；保留原版可能不直观的结果。
+- 编译源变异与损坏报告拒绝、重复生成一致；交接242B实际生产消费及新增反例，不新增现代算法。
+
+完成定义：正式数值输入域及零时长原生动态证据闭合，可被242B测试直接消费；243完成后恢复242B唯一Ready，不关闭任何现代数值或视觉合同。
+
+验收标准：
+- 生产输入通过实际函数/存档读口复现，声明完整有限域；不要只验证源码字符串或虚构资质fixture。
+- AIR执行原getter/公式/效果及属性片段，来源hash、locator、替身与未知明确；不修改原提取集。
+- 数值及time=0/正时长各有独立预期与字段覆盖；忽略getter上限、uint转换时点错误、零时长当无效果、刷新换值等源变异必须被拒绝。
+- 原235的720expected保持不变；新旧边界并列交接，不以新样本取代旧样本。
+- 源验证、生成确定性、`npm run check:workflow`、`npm run check:structure`、`npm run audit:problems`通过。
+
+禁止范围：不改src/public；不重做235全部采样；不猜补零时长；不重构成长/存档；不提升242B、242、原84、六特效、204/all/194/VS-067或整线完成度。
+
+状态更新：Done（2026-10-01；997原生例、生产输入核对及反例通过）。
+
+推荐后续任务：恢复同线`TASK-SLICE-242B`，原720与新增243expected共同验收，之后按B原合同生成六增益视觉任务。
+
+
+完成记录：2026-10-01 / TASK-SETTINGS-243完成：972正式整数域效果组合、16原getter/setter边界、9刷新组合共997原生例通过，5编译源变异/7损坏报告拒绝、重复一致；162双owner codec组合与0..8生产见证及5外部存档边界通过。零时长先入效果扣MP、首效果step清空且主人属性不变。235原720字节不变，独立pet-passive-input-contract.json交接；243归档，242B恢复唯一Ready消费两份expected与原完整五关合同。未改src/public，242/原84/六特效/204/all/194/VS-067及整线不关闭。
+
+### TASK-SLICE-242A
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+逆向子类型：不适用。
+
+逆向方案：不适用。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active；本任务 Done）
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：242消费预检证实Stage1CombatPlayer.effectiveStats与TestScene兼容baseStats分裂；同一combat/skill引用不足以证明属性同源。现有hero毫秒效果步骤也不提供235要求的主人效果→int属性→宠物host-tick相位。先修这个独立现代owner接缝，避免242B只改HUD或部分技能。
+
+范围：在既有party成员内收敛四项主人增益所需HP/MP上限、攻击、防御的当前属性端口，让Stage1-1兼容角色技能/世界技能、正式Role1技能、Monster30防御和现有HUD读取同一成员的当前值；保留成长/装备作为基础输入。为已加入主人的smjc/mfjc/gjjc/fyjc提供源host-tick效果→属性相位，由现有世界调度提供tick，不另建Runtime、独立计时器或全roster循环。接缝在无出战宠物时也可到期；主人死亡/退出由既有owner清理。仅消费受控已加入效果，不接宠物自动触发。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`（实施中，尚未退出）。
+
+本批设计验收 gate：`npm run check:system-design -- pet P1GS P1G P1T`。新增生产主人接缝/消费者/实现变异纳入公共gate，不以旧绿灯替代本批合同，不运行all。
+
+规模预算：
+- 主工作包：1（主人当前属性与host相位公共接缝迁移）
+- 预计上下文压缩：0
+- 独立验收批次：1
+
+拆分触发：
+- 遇到235声明之外的属性组合、成长/装备改变期间的原版重算语义或新的原版输入缺口，先明确适用边界并建立同线有界补证，不猜补、不重构全部英雄系统。
+
+协作计划：
+- 模式：主 agent + subagent（环境允许时）
+- 模型分工：主agent负责owner迁移与归并；Luna只读核对消费者清单和受控expected
+- 并行工作包：本批内部消费者/相位核对，输出实际读取入口、引用身份、漏项
+- 写入 owner：主 agent
+- 归并检查点：实现前、验收前
+- 方法观测：无
+
+输入资料：
+- 父合同 `TASK-SLICE-242.md` 与 `docs/tasks/evidence/TASK-SLICE-242/preflight.md`、`owner-preflight.json`；诊断入口 `tools/pet-passive-owner-preflight.ts`（修复后不能仍把gap复现作为通过标准）。
+- `docs/reverse-engineering/pet-passive-auto-buff-contract.md`、`reference/pet-passive-auto-buff-contract.json` 的PB-07..09、12条effects及refresh/expiry expected与对应BaseHero/BaseAddEffect/BaseRoleProperies源locator。
+- HeroPartyRuntimeSystem/Bridge、Stage1CombatSystem/Hud、HeroCombatSystem、TestSceneHeroPartyRuntimeBridge、各角色技能/世界/进度适配的实际属性消费者；五关共同调用链。
+
+输出产物：
+- 既有成员唯一当前属性接缝与生产owner效果相位；主人状态不挂PetState、不写存档。
+- 5角色×P1/P2当前读取与引用身份、实际技能伤害/防御/HUD消费、20/24/30fps原effects/refresh/expiry比较；数值必须来自235expected，不能自造原版expected。
+- 对仍读旧baseStats、过早/过晚移除、浮点赋值、同名刷新换value、无宠不tick/换宠清主人、暂停仍推进等实际生产变异的拒绝证据；五关共同调度与死亡/退出清理回归。
+- 242B可消费的精确成员端口、host调度顺序、剩余输入边界和交接。
+
+完成定义：四项已加入主人效果通过实际成员owner正确生效/到期，兼容与正式消费者同源，独立源expected和实现变异核销；仅完成公共owner接缝，不宣称宠物回复/自动增益已接入。
+
+验收标准：
+- 原form1 `[333,77,1000,200,101,39]` → `[406,161,1220,420,119,54]` → `[332,76,999,199,100,38]`，其余form/fps及timeLeft=0属性扣回、下一效果step置null按235全部指定case对账；同名刷新保留旧value。
+- 同一party成员当前属性被Stage1-1角色技能/世界/防御与其他正式入口既有消费者直接读取，P1/P2隔离；不以独立正向模型或HUD变化代替实际技能/伤害/防御检查。
+- 休息/更换宠物不清已加入主人效果，主人死/退出清理，世界暂停无tick；沿用现有调度，不增加第二时钟或逐关效果算法。
+- 未加入效果的既有成长/装备/技能行为保持；本批不猜测235未包含的成长中途重算组合。受影响专项、`npm run test:systems`、build、structure、workflow、audit:problems和声明硬设计gate通过。
+
+禁止范围：不触发六自动增益、不改原提取或235真值、不修改UI布局/添加特效占位、不重设计全部英雄/宠物系统、不降低父242或原84合同、不关闭204/all/194/VS-067。
+
+状态更新：Done（2026-10-01；主人属性与宿主相位接缝验收完成）。
+
+推荐后续任务：TASK-SLICE-242B（沿用父242完整数值、会话、五关联合验收；完成后才生成六特效视觉任务）。
+
+完成记录：2026-10-01 / TASK-SLICE-242A完成：既有party拥有四项已加入主人效果与当前属性；复用slot host先主人效果/属性后主宠及private实体，无宠仍到期。12原effects/refresh/expiry、五角色双slot实际技能与承伤、共同五关调度/休息换宠/死亡退出共31组，10生产变异和10组映射身份通过；build、核心系统、工程检查及P1GS/P1G/P1T联合门禁退出0。A归档，242B唯一Ready承担原720expected、公共回复/六增益与正式五关联合。父242、原84、六特效、完整家族/204/all/194/VS-067未关闭，功能线Active。验收见 `docs/reverse-engineering/hero-pet-buff-owner-acceptance.md`；增长/装备中途重算组合仍属235未覆盖边界。
+
+验证：31消费组、10主人变异、10映射身份、四冰冻/十私有会话变异；npm run test:systems（核心回归，受影响专项由设计联合覆盖）、build、check:structure、check:workflow、audit:problems及check:system-design -- pet P1GS P1G P1T全部退出0。设计gate曾因旧路由/清弹定位、冰冻变异漏检和青龙支架依赖非零；玄龟专项也拒绝过时清弹定位，修复实际消费测试后终态通过；未放宽合同。其余B/视觉/源级复验边界保留。
+
 
 ### TASK-SETTINGS-235
 

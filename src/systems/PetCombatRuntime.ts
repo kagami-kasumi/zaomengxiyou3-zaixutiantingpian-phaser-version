@@ -9,6 +9,7 @@ import type {
   PetCombatSnapshot, PetCombatSummonHandle, PetCombatSummonRequest,
 } from './PetCombatTypes';
 import type { PetOwnerSnapshot, PetState } from './PetTypes';
+import { DefaultGlobalSettings } from './GlobalSettingsSystem';
 
 export type {
   PetCombatFrame, PetCombatRuntimeEvent, PetCombatSessionPhase, PetCombatSnapshot,
@@ -25,6 +26,7 @@ export class PetCombatRuntime {
   private publishedEvents: PetCombatRuntimeEvent[] = [];
   private nextEventSequence = 1;
   private destroyed = false;
+  private pendingOwnerHostTicks = 0;
 
   constructor(
     private readonly registry: PetBehaviorRegistry = createDefaultPetBehaviorRegistry(),
@@ -40,9 +42,26 @@ export class PetCombatRuntime {
       && !(pet.hp <= 0 && this.completedDeadIdentity === `${pet.id}:${pet.species}:${pet.form}`)
     ));
     this.synchronizePet(activePet, frame.owner, frame.groundEnvironment?.ownerRootOffsetY);
-    if (!this.active) return this.snapshot();
     const rosterIndex = frame.roster.pets.indexOf(activePet!);
-    if (rosterIndex >= 0) frame.roster.pets[rosterIndex] = this.active.pet;
+    if (this.active && rosterIndex >= 0) frame.roster.pets[rosterIndex] = this.active.pet;
+    if (frame.ownerStep) {
+      // A formal slot uses this single host accumulator for hero effects and
+      // main/private pet entities. Session accumulation is bypassed below.
+      const fps = frame.hostFps ?? DefaultGlobalSettings.frameRate;
+      this.pendingOwnerHostTicks += frame.deltaMs * fps / 1000;
+      const ticks = Math.floor(this.pendingOwnerHostTicks + 1e-9);
+      this.pendingOwnerHostTicks = Math.max(0, this.pendingOwnerHostTicks - ticks);
+      for (let tick = 0; tick < ticks; tick++) {
+        frame.ownerStep();
+        if (this.active) this.stepEntity(this.active, { ...frame, hostTicks: 1, deltaMs: 1000 / fps,
+          damageEvents: tick === 0 ? frame.damageEvents : [],
+          animationEvents: tick === 0 ? frame.animationEvents : [] });
+      }
+      // Retain subframe events in the existing session buffer without a tick.
+      if (!ticks && this.active) this.stepEntity(this.active, { ...frame, hostTicks: 0 });
+      return this.snapshot();
+    }
+    if (!this.active) return this.snapshot();
     this.stepEntity(this.active, frame);
     return this.snapshot();
   }
@@ -70,6 +89,7 @@ export class PetCombatRuntime {
       runtime: active?.runtime, target: active?.target, phase: active?.phase,
       actionToken: active?.actionToken,
       animation: active?.animation,
+      passive: active?.passive,
       groundMotion: active?.groundMotion,
       protectedFromHits: active?.protectedFromHits,
       turtleLinkVisible: active?.turtleLinkVisible,

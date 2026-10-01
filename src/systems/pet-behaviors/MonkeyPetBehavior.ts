@@ -51,6 +51,7 @@ const attackRangeByForm = Object.freeze(Object.fromEntries(
 ) as Record<MonkeyPetForm, number>);
 
 export class MonkeyPetBehavior implements PetBehavior {
+  readonly publicPassive = true;
   private readonly projectiles = new PetMonkeyHorseProjectileSystem();
   beforeActions(context: PetBehaviorContext): void { this.projectiles.step(context); }
   readonly usesHostTicks = true;

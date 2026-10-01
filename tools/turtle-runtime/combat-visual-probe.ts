@@ -27,10 +27,14 @@ export async function compareCombatLayers(game: Phaser.Game, scene: Phaser.Scene
       const actual = objects.find(o => o.name === ref.name)!;
       if (!actual) throw Error(`Missing live view ${ref.name}`);
       const root = actual.getData('turtleOwners').root, viewport = actual.getData('turtleViewport');
-      const image = new Image(); image.src = ref.url; await image.decode();
+      // Decode independently of the stopped headless compositor/RAF clock.
+      const response = await fetch(ref.url);
+      if (!response.ok) throw Error(`Missing native reference ${ref.url}`);
+      const image = await createImageBitmap(await response.blob());
       context.clearRect(0, 0, 940, 590);
       const dx = root.x - ref.root.x - viewport.x, dy = root.y - ref.root.y - viewport.y;
       context.drawImage(image, dx, dy);
+      image.close();
       for (const pixel of ref.approvedPixels ?? []) {
         const data = context.createImageData(1, 1); data.data.set(pixel.candidate);
         context.putImageData(data, pixel.x + dx, pixel.y + dy);
@@ -45,7 +49,8 @@ export async function compareCombatLayers(game: Phaser.Game, scene: Phaser.Scene
         // independent owner surfaces and every state are covered by P1TA0/225.
         if (ref.boundedCapture && (x < dx || x >= dx + 940 || y < dy || y >= dy + 590)) continue;
         comparedPixels++;
-        if (observed.slice(i, i + 4).some((v, c) => v !== expected[i + c])) differentPixels++;
+        if (observed[i] !== expected[i] || observed[i + 1] !== expected[i + 1]
+          || observed[i + 2] !== expected[i + 2] || observed[i + 3] !== expected[i + 3]) differentPixels++;
         for (let c = 0; c < 4; c++) maxDelta = Math.max(maxDelta, Math.abs(observed[i + c]! - expected[i + c]!));
       }
       rows.push({ stateId: ref.stateId, root, viewport, nativeSha256: ref.sha256,

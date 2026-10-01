@@ -139,7 +139,7 @@ export class PetDragon23ProjectileSystem {
       ? (pet.maxHp * 0.03 + pet.atk * 3) * 1.05 : (pet.maxHp * 0.024 + pet.atk * 7.2) * 1.05;
     return refreshDragonDamageCache({ attack: pet.atk, power,
       effectRate: this.form === 4 ? (pet.magicFlowerBuff?.attackMultiplier ?? 1) : 1,
-      magicAdd: pet.autoBuffState?.fsnl.active?.bonusSkillDamage ?? 0, gxp: context.isGxp },
-    () => context.random() <= pet.critBonusRate + (pet.autoBuffState?.sxkb.active?.bonusCritRate ?? 0));
+      magicAdd: context.passiveBonuses?.magic ?? pet.autoBuffState?.fsnl.active?.bonusSkillDamage ?? 0, gxp: context.isGxp },
+    () => context.random() <= pet.critBonusRate + (context.passiveBonuses?.crit ?? pet.autoBuffState?.sxkb.active?.bonusCritRate ?? 0));
   }
 }

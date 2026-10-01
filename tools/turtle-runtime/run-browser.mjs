@@ -76,8 +76,8 @@ try {
     for (let i = 0; i < result.frames.length; i++) {
       if (!result.frames[i]) continue;
       await evaluate(`window.turtleShow(${JSON.stringify(result.frames[i])})`); await delay(100);
-      const shot = await command('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: 940, height: 590, scale: 1 } });
-      writeFileSync(`${shots}/browser-${i}.png`, Buffer.from(shot.data, 'base64'));
+      const shot = await evaluate('window.turtleCapture()');
+      writeFileSync(`${shots}/browser-${i}.png`, Buffer.from(shot, 'base64'));
       const mode = result.frames[i].split(':')[0];
       const native = JSON.parse(gunzipSync(readFileSync(`docs/tasks/evidence/TASK-SETTINGS-222A/${mode}-native.json.gz`)));
       const state = JSON.parse(gunzipSync(readFileSync(`public/assets/pets/turtle/${mode}.json.gz`))).states.find(s => s.id === result.frames[i]);
@@ -85,11 +85,11 @@ try {
         : native.rows.find(r => `${r.id}-${r.tick}` === state.nativeId).capture;
       copyFileSync(ref, `${dir}/native-${i}.png`);
       await evaluate(`window.turtleShowNative('native-${i}.png')`); await delay(100);
-      const nativeShot = await command('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: 940, height: 590, scale: 1 } });
-      writeFileSync(`${shots}/native-${i}.png`, Buffer.from(nativeShot.data, 'base64'));
+      const nativeShot = await evaluate('window.turtleCapture()');
+      writeFileSync(`${shots}/native-${i}.png`, Buffer.from(nativeShot, 'base64'));
       await evaluate('window.turtleShowNative()');
     }
-    writeFileSync(`${out}/browser-verification.json`, JSON.stringify({ ...result, errors, shots }));
+    writeFileSync(`${out}/browser-verification.json`, JSON.stringify({ ...result, captureMethod: 'actual-game-canvas', errors, shots }));
   }
   console.log(result);
 } finally {

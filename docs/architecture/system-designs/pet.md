@@ -1,5 +1,11 @@
 # 宠物系统类设计
 
+2026-10-01 / TASK-SLICE-242B及父242完成：235原720+243原997由公共生产数值owner消费，24双owner会话/保存往返、四家族8消费者、猴马4真实增益技能命中、14变异、五关940×590 HUD/暂停休息/重试返回通过。P1GS/P1G/P1T、核心系统、build及工程检查通过；B/父242归档，244唯一Ready补六效果视觉真值。数值完成不代表六特效、原84其余责任或完整家族/204/all/194/VS-067关闭，功能线保持Active。详见 `docs/reverse-engineering/pet-passive-runtime-acceptance.md`。
+
+2026-10-01 / TASK-SLICE-242A完成：既有party拥有四项已加入主人效果与当前属性；复用slot host先主人效果/属性后主宠及private实体，无宠仍到期。12原effects/refresh/expiry、五角色双slot实际技能与承伤、共同五关调度/休息换宠/死亡退出共31组，10生产变异和10组映射身份通过；build、核心系统、工程检查及P1GS/P1G/P1T联合门禁退出0。A归档，242B唯一Ready承担原720expected、公共回复/六增益与正式五关联合。父242、原84、六特效、完整家族/204/all/194/VS-067未关闭，功能线Active。验收见 `docs/reverse-engineering/hero-pet-buff-owner-acceptance.md`；增长/装备中途重算组合仍属235未覆盖边界。
+
+2026-10-01 / TASK-SLICE-242执行前预检拆分：实际party/兼容映射10例确认主人攻击/防御输入分裂，既有hero owner不含PB-08的host-tick属性相位，命中新的owner迁移触发。父242保留全部合同并Split，242A唯一Ready先收敛属性/宿主接缝，242B Planned承担原720expected、回复/六增益与五关联合验收。无src/public或原真值变更，不核销原84、204/all/194/VS-067或六特效；功能线Active。证据见 `docs/tasks/evidence/TASK-SLICE-242/preflight.md`，诊断入口 `tools/pet-passive-owner-preflight.ts`。
+
 2026-09-26 / TASK-SLICE-226本项整改完成：猴马连续host时序、资格/目标/地面/反击、真实碰撞伤害、奥义/冰火/显示及生命周期已补证修正；扩大P1R/P1H/P1G/P1T=0，新增正式目标投影后的P1R/P1H=0。原41/43责任保留于226合同承接矩阵，公共230..235仍未修复，猴马完整家族、204/all/194/VS-067均不关闭。下一执行项TASK-SETTINGS-230（Ready），功能线保持Active。
 
 2026-09-26 / 地面正式接线：两族groundMovement已接既有Session，出生朝向按原构造为右，普通攻击的相位/RNG由同一地面决策入口持有，hurt/dead在目标获取前拦AI。432出生/跟随与192实际普攻随机例、两族身体/技能/受击/双人生命周期回归及build通过。猴四新增原生1356组身体/地面联动oracle，现代1500组/154704态逐帧对账通过（含实际Sprite出生坐标、MP、目标/RNG、hurt/empty、render分片）。旧flat-body fixture迁移中。上一扩大联合门禁在八个browser case/console0后发生Node堆OOM，退出1；须在本批完成后重新运行，不宣称226完成。
@@ -167,6 +173,8 @@
 ## 迁移 gate 与真实基线
 
 214C1 实现映射：`PetCombatRuntime` 仍是每slot唯一顶层owner；其内部 `PetCombatEntitySession` 统一执行主实体/私有实体的公共步骤，`PetCombatContext` 适配窄端口。主实体引用roster数值，私有召唤物采用隔离的临时数值引用，不写存档。Behavior只持句柄并请求创建/释放，不持另一套公共AI/CD。祖先死亡时子实体只消费事件/清理，不继续AI/CD；这属于现代事件路由，不是青龙完整复现结论。
+
+242B公共步骤映射：`PetPassiveSession`为EntitySession内部状态部件，仅拥有回复缓存、六计数与宠物自身效果；其recover/check/refresh/stepEffects由原host步骤调用。`PetCombatContext.passiveBonuses`供既有伤害策略读取，`ownerAddPetBuff`把四项效果交给242A的英雄owner。禁止Scene直接构造/推进被动、私有青龙分身检查六增益、持久roster保存瞬时效果；此映射不新增顶层Runtime或时钟。
 
 | Gate | 任务 | 通过合同 | 2026-08-25 基线 |
 | --- | --- | --- | --- |

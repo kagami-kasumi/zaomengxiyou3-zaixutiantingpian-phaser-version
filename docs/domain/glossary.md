@@ -22,6 +22,8 @@
 
 | 中文概念 | 推荐代码名 | 类型 | 上下文 | 说明 | 禁止别名 |
 | --- | --- | --- | --- | --- | --- |
+| 宠物给予主人的属性效果 | `HeroPetBuffState` | Internal Effect State | Combat | 既有party成员持有四项原host效果及已应用标志；属性仍写入该成员combat/skill/effectiveStats，不属于PetState | `PetOwnerStatsRuntime` |
+| 主人宠物属性效果步骤 | `HeroPetBuffSystem` | System | Combat | 消费既有世界宿主tick，执行效果到期与int属性相位；不持独立计时器或另建英雄 | `HeroBuffRuntime` |
 | 宠物攻击的目标附加效果 | `PetTargetEffects` | Internal Effect State | Combat | 受击目标持有猴火/马冰的连续host计数、刷新和取消状态；不属于源宠物生命周期，也不持有第二套HP | `PetBurnRuntime` |
 | 怪物宠物附加效果消费 | `MonsterPetTargetEffectSystem` | System | Combat | 将目标效果接到怪物既有HP、世界host推进及可见状态，死亡仍走既有怪物归属/奖励路径 | `MonsterPetBuffRuntime` |
 | 玩家槽位 | `PlayerSlot` | Value Object / Type | Input | P1/P2 控制位，不等于角色实体 | `PlayerIndex`, `UserSlot` |
@@ -143,3 +145,5 @@
 - AS3 `BaseObject` 是行为参考，不直接成为现代代码基类名。
 - AS3 `Bullet` 相关类在现代领域中优先命名为 `Projectile`。
 - AS3 `StageListener` 相关关卡流程在现代领域中归入 `Level`。
+
+| 宠物公共被动会话 | `PetPassiveSession` | Internal Runtime State | Combat | EntitySession持有回复/六增益计数及宠物自身效果；复用宿主步，不进入roster存档 | `PetPassiveRuntime` |

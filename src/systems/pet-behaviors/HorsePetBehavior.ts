@@ -32,6 +32,7 @@ const requestByAction = Object.fromEntries(
 ) as Readonly<Record<HorseActionType, PetBehaviorSkillRequest>>;
 
 export class HorsePetBehavior implements PetBehavior {
+  readonly publicPassive = true;
   private readonly projectiles = new PetMonkeyHorseProjectileSystem();
   beforeActions(context: PetBehaviorContext): void { this.projectiles.step(context); }
   readonly usesHostTicks = true;

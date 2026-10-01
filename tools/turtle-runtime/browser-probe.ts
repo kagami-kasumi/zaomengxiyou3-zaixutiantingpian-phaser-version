@@ -6,7 +6,7 @@ import { petTurtleBundleAssets, turtleAssetKey, turtleManifest } from '../../src
 
 declare global { interface Window { turtleProbe: Record<string, unknown>; turtleDisplayRows: Record<string, unknown>[];
   turtleShow: (id: string) => void;
-  turtleShowNative: (url?: string) => Promise<void>; } }
+  turtleShowNative: (url?: string) => Promise<void>; turtleCapture: () => string; } }
 window.turtleProbe = { state: 'loading' };
 window.turtleDisplayRows = [];
 const pause = () => new Promise<void>(resolve => setTimeout(resolve, 0));
@@ -106,7 +106,10 @@ class Probe extends Phaser.Scene {
       }
     };
     const readDisplay = async () => {
-      await new Promise<void>(resolve => this.game.events.once(Phaser.Core.Events.POST_RENDER, () => resolve()));
+      // Static oracle states have no world clock. Render each selected state
+      // explicitly; headless RAF can stop while the strict comparison awaits it.
+      this.game.loop.stop(); this.game.loop.delta = 0;
+      this.game.step(this.game.loop.now, 0);
       displayed.clearRect(0, 0, 940, 590); displayed.drawImage(this.game.canvas, 0, 0);
       return displayed.getImageData(0, 0, 940, 590).data;
     };
@@ -152,6 +155,10 @@ class Probe extends Phaser.Scene {
     assert(released, 'released presenter still renders');
     const again = createPetTurtlePresentationBridge(this, assets);
     window.turtleShow = id => { again.update(id); };
+    window.turtleCapture = () => {
+      this.game.loop.delta = 0; this.game.step(this.game.loop.now, 0);
+      return this.game.canvas.toDataURL('image/png').split(',')[1]!;
+    };
     window.turtleShowNative = async url => {
       if (!url) { showNative(false); return; }
       const reference = new Image(); reference.src = url; await reference.decode();

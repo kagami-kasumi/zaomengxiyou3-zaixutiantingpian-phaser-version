@@ -9,7 +9,8 @@ import Phaser from 'phaser';
 import type { HeroCombatModel } from '../../systems/HeroCombatSystem';
 import type { HeroMovementBounds, HeroMovementModel, MovementPlatform } from '../../systems/HeroMovementSystem';
 import type { HeroNormalAttackModel } from '../../systems/HeroNormalAttackSystem';
-import type { HeroBaseStats } from '../../systems/EquipmentSystem';
+import type { HeroBaseStats, HeroEffectiveStats } from '../../systems/EquipmentSystem';
+import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
 import type { HeroProgressionModel } from '../../systems/ProgressionSystem';
 import type { HeroSkillLoadout, HeroSkillModel } from '../../systems/HeroSkillSystem';
 import type { InputState, PlayerSlot } from '../../systems/InputSystem';
@@ -54,6 +55,8 @@ export type TestScenePlayerView = {
   normalAttack: HeroNormalAttackModel;
   skill: HeroSkillModel;
   baseStats: HeroBaseStats;
+  readonly currentStats: HeroEffectiveStats;
+  updateCurrentStats: (stats: HeroEffectiveStats) => void;
   progression: HeroProgressionModel;
 };
 
@@ -123,6 +126,8 @@ export function createTestSceneHeroPartyRuntime(
       normalAttack: member.combat.normalAttack,
       skill: member.combat.skill,
       baseStats: getHeroBaseStats(member.combat.normalAttack.heroId, progression.level),
+      get currentStats() { return member.combat.effectiveStats; },
+      updateCurrentStats: stats => { Object.assign(member.combat.effectiveStats, stats); },
       progression,
     };
   });
@@ -218,7 +223,7 @@ export function createTestSceneHeroPartyRuntime(
           timeMs,
           player.normalAttack.heroId === 2 ? {
             ...player.skill.learnedRole2Skills,
-            sourcePower: player.baseStats.power,
+            sourcePower: readHeroCurrentStats(player)!.power,
             resource: player.skill,
             extraDamageMultiplier: () => takeRole2NormalAttackExtraMultiplier(player.skill),
           } : undefined,
@@ -261,7 +266,7 @@ export function createTestSceneHeroPartyRuntime(
                 y: player.movement.y,
                 facingX: player.movement.facingX,
               },
-              sourcePower: player.baseStats.power,
+              sourcePower: readHeroCurrentStats(player)!.power,
             });
           }
         }

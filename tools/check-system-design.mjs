@@ -141,7 +141,8 @@ const contracts = {
     P1TB(errors, tests) {
       contracts.pet.P1TA(errors, tests);
       requireMatches('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', [
-        ['actual sandbox pet incoming route', /resolveTestSceneTurtleIncoming\(runtime,/u],
+        ['actual sandbox pet incoming route', /runtime\.resolvePetEnemyAttack\(enemy,\s*timeMs\)/u],
+        ['sandbox source enemy adapter', /adaptTestScenePetEnemies\(\[monster\]/u],
       ], errors);
       forbidAcross(['src/systems/pet-behaviors/TurtlePetBehavior.ts'], [
         ['parallel wall-clock callbacks', /\b(?:setTimeout|setInterval)\s*\(/u],
@@ -454,6 +455,18 @@ const contracts = {
       }
       requireTest('pet-combat-session-tests', tests, errors);
       requireTest('pet-combat-session-mutation-tests', tests, errors);
+      requireTest('hero-pet-buff-tests', tests, errors);
+      requireTest('pet-passive-tests', tests, errors);
+      requireTest('pet-passive-runtime-tests', tests, errors);
+      requireTest('pet-passive-consumer-tests', tests, errors);
+      requireTest('pet-passive-mutation-tests', tests, errors);
+      requireTest('hero-pet-buff-mutation-tests', tests, errors);
+      requireMatches('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', [
+        ['live party current attributes', /get currentStats\(\)\s*\{\s*return member\.combat\.effectiveStats/u],
+      ], errors);
+      requireMatches('src/scenes/HeroPartyRuntimeBridge.ts', [
+        ['shared owner phase supplied by party', /ownerStep:\s*\(\)\s*=>\s*member\.combat\.stepPetBuffs/u],
+      ], errors);
     },
     P1GC(errors, tests) {
       contracts.pet.P1GS(errors, tests);

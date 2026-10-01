@@ -32,7 +32,9 @@ for (const parts of sample.owner === 1 && ['static', 'empty', 'hurt', 'counter']
   pet.skills = ['jgaoyi', ...(['lyq', 'xj', 'lj'] as const).filter((_, index) => sample.skills & (1 << index))];
   if (sample.mode === 'counter') pet.skills.push('qlfj');
   pet.hp = pet.maxHp = 100; pet.warpower = 1;
-  pet.mp = 1000; pet.critBonusRate = 0;
+  // The native body probe excludes public recovery. Keep its mana fixture valid
+  // and recovery zero while exercising the production session and chain costs.
+  pet.mp = pet.maxMp = 1000; pet.level = 0; pet.critBonusRate = 0;
   for (const key of ['monkey3Lyq', 'monkey3Xj', 'monkey3Lj'] as const) pet.skillState![key].cooldownMs = 1e9;
   const behavior: PetBehavior = new MonkeyPetBehavior(4);
   // Development diagnostic only: identify coupling errors before enabling the

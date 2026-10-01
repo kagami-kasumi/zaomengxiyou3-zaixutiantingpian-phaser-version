@@ -22,7 +22,8 @@ for (const sample of native.cases.filter((c: any) => ['static', 'counter'].inclu
   const pet = roster.pets.find(p => p.isActive)!;
   pet.id = `p${sample.owner}-${pet.id}`; pet.skills = ['jgaoyi', 'lyq', 'xj', 'lj'];
   if (sample.mode === 'counter') pet.skills.push('qlfj');
-  Object.assign(pet, { hp: 100, maxHp: 100, mp: 1000, atk: 17, warpower: 1, critBonusRate: 0 });
+  // Match the native body fixture's excluded public recovery without invalid MP.
+  Object.assign(pet, { hp: 100, maxHp: 100, mp: 1000, maxMp: 1000, level: 0, atk: 17, warpower: 1, critBonusRate: 0 });
   const behavior = new MonkeyPetBehavior(4);
   let release = false;
   // Match the source's explicit entrance: exclude unrelated later AI casts, but

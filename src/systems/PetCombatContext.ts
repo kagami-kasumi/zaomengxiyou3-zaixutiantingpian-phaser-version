@@ -53,6 +53,7 @@ export function createPetCombatContext(
   );
   return Object.freeze({
     pet: session.pet,
+    get passiveBonuses() { return session.passive?.bonuses(); },
     owner: Object.freeze({ ...frame.owner }),
     runtime: Object.freeze({ ...session.runtime }),
     targets: Object.freeze([...targets]), target: session.target,

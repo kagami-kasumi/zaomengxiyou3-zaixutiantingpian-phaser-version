@@ -61,3 +61,27 @@ effects循环手动按已静态核定的主人效果→属性顺序执行指定�
 复验入口见 [`tools/pet-passive-source/README.md`](../../tools/pet-passive-source/README.md)。720原生case、10编译源变异、4损坏报告及重复一致通过；运行时是游戏包AIR51.1.1.5，不写作当年Flash Player实测。原代码未修改，src/public未修改。源码原方法或指定分支是真实运算，展示/移动/联机/保护/Tween替身边界在sidecar `/sourceFragments`；无完整原游戏或增益视觉复现声明。
 
 同线 `TASK-SLICE-242` 接公共回复与六增益数值/会话、正式P1/P2与五关实际属性和技能消费者；数字/HUD沿用既有已验证资源。六特效视觉完整逆向/投影独立后续，不加入现代占位，也不以本任务或242的数字通过关闭全视觉/整家族。原226的41+43合同保留，runtime.auto-buff在242真实消费通过前仍未核销；其他怪物/人偶、其余家族、204/all/194/VS-067与功能线保持未完成。
+
+## 242B输入预检补充（2026-10-01）
+
+2026-10-01 / TASK-SLICE-242B输入预检：真实捕获/洗练/还童P1/P2共8例确认资质/战力1/1、0/0、4/4、8/8，超出235固定3/1；零战力引入未采样的零时长效果/属性边界。B完整合同保留并Blocked，TASK-SETTINGS-243唯一Ready补证，完成后恢复B。未改src/public或235真值，不核销原720、原84、242/204/all/194/VS-067或六特效，功能线Active。证据：docs/tasks/evidence/TASK-SLICE-242B/input-preflight.json；复验：node tools/pet-passive-input-preflight.mjs。
+
+原公式与getter静态事实不撤销；235动态壳Info的gettechnique/getwarpower直接返回固定字段，没有执行原getter。生产quality2洗练可达warpower=0，不能由正时长effects样本推断零时长首次属性/到期行为。243须独立追加原生expected，保持235原720不变。子agent核对采用入口缺失和固定资质边界结论；其gate MP枚举遗漏40/1000，主agent按Probe.as原七值保留，不采纳该枚举。
+
+## 243 正式资质与零时长补证（2026-10-01）
+
+独立补充输入：`reference/pet-passive-input-contract.json`，`contractId=task-settings-243.pet-passive-input`。原235的720expected字节保持不变；243不替代其AI/回复/MP门禁和会话合同。
+
+| 合同 | 局部证据与共享调用 | 视觉 | 等级/边界 | 验证与现代交接 |
+| --- | --- | --- | --- | --- |
+| PI-01 正式输入域 | PetRosterSystem.catchNewPet→createPetStateFromDefinition；PetGrowthSystem.rerollPetGrowthAttributes/returnPetToChild；SaveSystem.encodePet/decodePet | 纯数值，不适用 | 确认事实：正常成长整数0..8；外部存档额外接受非负小数/大值 | 实际生产函数各轴见证、162双owner codec组合、5外部输入；不是原版成长复现声明 |
+| PI-02 原输入转换 | 原PetInfo.gettechnique/getwarpower、settechnique/setwarpower→getPetHarmObj→BasePet.checkBuffSkill | 不适用 | 交叉确认：getter先判断>8映射4，否则int返回；setter先uint存储。直接raw与setter路径不同 | 16原方法边界探针，不能将现代decoder宽松输入当原版setter结果 |
+| PI-03 六项数值/时长 | 原getPetHarmObj六分支、统一1.05；checkBuffSkill六项MP/入效果/uint秒再乘fps | 不适用 | 交叉确认：0..8×0..8×四形态×三fps共972例 | 六value、time、mp、counts、暴击/技能原读口；242B须同时消费235和243 |
+| PI-04 零时长/属性 | 原BaseAddEffect首次/到期片段与Props原四项step/add/remove；受控主人效果→属性→宠物效果循环 | 不适用 | 交叉确认局部片段；非完整BaseHero.step | time=0先入六项并扣120MP；首效果step置null，主人属性保持基础值，宠物加值消失；不允许把time=0当未触发 |
+| PI-05 同名刷新 | 原BaseAddEffect.add/step；0、1、3旧time与0、1、5新time组合 | 不适用 | 交叉确认局部效果，不扩大至中途换装备组合 | 旧效果仍在则保留7，time=0已经清空再加则新值99；九组合逐步对账 |
+
+正常正时长沿用235顺序：主人属性timeLeft=0先扣回，下一效果step置null。零时长在首次效果step已经清空，属性没有经历add/remove。所有零战力组合均核对，不只用0/0掩盖非零增益值。原getter原始8.9先被>8映射4，而setter(8.9)先uint成8后getter为8；这两个受控路径不能混淆。外部现代存档如何送入正式宠物消费者由242B按明确输入路径处理，不在本批修改SaveSystem。
+
+复验见`tools/pet-passive-input-source/README.md`；源hash/locator、runtime及expected在独立sidecar。采样仍复用235移动/视觉/联机等sink和属性片段边界，没有完整游戏或新视觉采样。首次采样进程60秒超时已终止，后续采用保存超时日志的同一有界入口成功；没有以超时视为通过。派生动画、六符号显示列表、主人中途成长/装备组合仍不属于本批。
+
+最终验证：997例、5编译源变异、7损坏报告（含locator/slice/runtime）、原生重复一致及235原文件SHA保持。972采样为“实际生产函数独立轴见证支持的整数域+受控效果笛卡尔组合”，不声称972对在完整原生成长过程中自然产生。子agent所提原生成长可达性限制按此保留；本任务未要求原成长机制重放，不扩大范围。来源定位建议已落实为原方法startLine/sliceSha256复核。

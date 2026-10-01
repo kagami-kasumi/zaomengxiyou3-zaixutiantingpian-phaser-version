@@ -1,3 +1,4 @@
+import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
 import { bindTestSceneMonsterExperience, acceptTestSceneMonsterAttacker } from './TestSceneExperienceBridge';
 ﻿// boundary: world bridge syncs scene visuals and runtime hooks; it does not own
 // monster, projectile, drop, or level domain rules.
@@ -705,7 +706,7 @@ export function applyProjectileHits(this: any, time: number): void {
               projectile,
               target: poisonTarget,
               hero: owner.combat,
-              sourcePower: owner.baseStats.power,
+              sourcePower: readHeroCurrentStats(owner)!.power!,
             });
             if (poisonBurst && poisonBurst.amount > 0) {
               const poisonDamageEvent = createDamageEvent({
@@ -1085,7 +1086,7 @@ function tryRole3HealForPlayer(player: any): void {
   tryRole3RjHealOnHit({
     runtime: player.skill.role3Runtime,
     combat: player.combat,
-    sourcePower: player.baseStats.power,
+    sourcePower: readHeroCurrentStats(player)!.power!,
   });
 }
 
@@ -1102,5 +1103,4 @@ function tryRole1LifeStealForPlayer(
     attackKind,
   });
 }
-
 

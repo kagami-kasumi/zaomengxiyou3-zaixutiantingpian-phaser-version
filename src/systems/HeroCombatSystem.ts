@@ -55,6 +55,7 @@ export type HeroMagicFlagGuard = {
 };
 
 export type HeroCombatModel = {
+  clearPetBuffs?: () => void;
   turtleLink?: PetTurtleLinkBuff;
   id: string;
   hp: number;
@@ -98,6 +99,7 @@ export function createHeroCombat(id: string): HeroCombatModel {
 }
 
 export function resetHeroCombat(hero: HeroCombatModel): void {
+  hero.clearPetBuffs?.();
   if (hero.turtleLink) hero.turtleLink.active = false;
   hero.turtleLink = undefined;
   hero.hp = hero.maxHp;
@@ -149,6 +151,7 @@ export function applyHeroDamage(
 
   if (hero.hp <= 0) {
     hero.state = 'dead';
+    hero.clearPetBuffs?.();
     hero.hurtUntilMs = 0;
     hero.invulnerableUntilMs = Number.POSITIVE_INFINITY;
     hero.knockbackVelocityX = 0;
@@ -186,6 +189,7 @@ export function applyHeroDirectDamage(hero: HeroCombatModel, event: DamageEvent,
   hero.lastDamageEvent = event;
   if (hero.hp <= 0) {
     hero.state = 'dead';
+    hero.clearPetBuffs?.();
     hero.hurtUntilMs = 0;
     hero.invulnerableUntilMs = Number.POSITIVE_INFINITY;
     hero.knockbackVelocityX = 0;

@@ -1,3 +1,4 @@
+import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
 import type { HeroBaseStats } from '../../systems/EquipmentSystem';
 import type { HeroCombatModel } from '../../systems/HeroCombatSystem';
 import type { HeroMovementModel } from '../../systems/HeroMovementSystem';
@@ -23,6 +24,7 @@ export type Role5BridgePlayer = {
   normalAttack: HeroNormalAttackModel;
   skill: HeroSkillModel;
   baseStats: HeroBaseStats;
+  currentStats?: HeroBaseStats;
 };
 
 export type Role5BridgeResult = {
@@ -59,7 +61,7 @@ export function updateRole5SkillBridge(params: {
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
       targets,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       timeMs: params.timeMs,
     });
     if (cast) {
@@ -94,7 +96,7 @@ export function updateRole5SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       jrjlLevel: player.skill.role5Runtime.jrjlLevel,
       timeMs: params.timeMs,
     });
@@ -113,7 +115,7 @@ export function updateRole5SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       timeMs: params.timeMs,
     });
     if (companionCast) {
@@ -132,7 +134,7 @@ export function updateRole5SkillBridge(params: {
           y: player.movement.y,
           facingX: player.movement.facingX,
         },
-        sourcePower: player.baseStats.power,
+        sourcePower: readHeroCurrentStats(player)!.power,
       });
       if (jrjl) result.spawnedProjectiles.push(jrjl);
     }

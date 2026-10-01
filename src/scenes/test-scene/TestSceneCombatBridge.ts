@@ -1,3 +1,4 @@
+import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
 import { monster30AttackHits } from '../../systems/Monster30AttackRuntime';
 import { acceptMonsterAttackTarget } from '../../systems/MonsterExperienceSystem';
 import Phaser from 'phaser';
@@ -39,6 +40,7 @@ export type CombatBridgePlayer = {
   combat: HeroCombatModel;
   normalAttack: HeroNormalAttackModel;
   baseStats?: { defense: number };
+  currentStats?: { defense: number };
 };
 
 export type CombatBridgeResult = {
@@ -187,7 +189,7 @@ export function applyMonster30AttackToPlayers(params: {
       amount: calculateStage1IncomingDamage(
         activeAttack.attackKind,
         activeAttack.damage,
-        player.baseStats?.defense ?? 0,
+        readHeroCurrentStats(player)?.defense ?? 0,
       ),
       attackKind: activeAttack.attackKind,
       knockbackX: activeAttack.facingX * activeAttack.knockbackX,

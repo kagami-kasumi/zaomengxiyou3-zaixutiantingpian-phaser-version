@@ -14,6 +14,13 @@ const documentId = crypto.randomUUID();
 const rosters: Partial<Record<'p1' | 'p2', PetRoster>> = {};
 let oldDisplayObjects: any[] = [];
 const activeScene = () => game.scene.getScenes(true).find(scene => readHeroPartyPresentationSnapshot(scene));
+// ScenePlugin queues transitions. Flush that queue deterministically after a
+// manual-clock case; restarting RAF alone can leave its callback unscheduled.
+const flushSceneOperations = () => {
+  const wasRunning = game.loop.running;
+  game.loop.stop(); game.loop.delta = 0; game.step(time, 0);
+  if (wasRunning) game.loop.start(game.step.bind(game));
+};
 Object.assign(window, { turtleCombatProbe: {
   retainOldDisplays() { oldDisplayObjects = [...(activeScene()?.children.list ?? [])]; return oldDisplayObjects.length; },
   oldDisplaysReleased() { return oldDisplayObjects.every(object => !object.scene && !object.active); },
@@ -38,6 +45,7 @@ Object.assign(window, { turtleCombatProbe: {
     const button = visit(activeScene()!.children.list);
     if (!button) throw Error(`Missing real failure result ${action} button`);
     button.emit('pointerup');
+    flushSceneOperations();
   },
   worldIdentity() {
     const scene = activeScene() as any;
@@ -118,6 +126,8 @@ Object.assign(window, { turtleCombatProbe: {
   snapshot() {
     const scene = activeScene();
     return { documentId, scene: scene?.scene.key, loading: scene?.load.isLoading(),
+      clock: { started: game.loop.started, running: game.loop.running, frame: game.loop.frame,
+        pendingScenes: (game.scene as any)._queue, status: scene?.sys.settings.status },
       heroes: scene && readHeroPartyPresentationSnapshot(scene),
       sandbox: scene?.scene.key === 'TestScene' ? { climb: (scene as any).verticalClimb,
         monsters: (scene as any).getMonster30s().map((m: any) => ({ id: m.id, hp: m.hp, x: m.x, y: m.y, state: m.state })) } : undefined,
@@ -131,8 +141,17 @@ Object.assign(window, { turtleCombatProbe: {
       storedSaves: { ...localStorage },
     };
   },
-  stop() { time = game.loop.now; game.loop.stop(); },
+  stop() { time = Math.max(time, game.loop.now); game.loop.stop(); },
+  pumpReadyStep() {
+    if (!game.renderer || !game.isRunning) return;
+    game.loop.stop(); time = Math.max(time, game.loop.now);
+    game.loop.delta = 1000 / 30; time += game.loop.delta; game.step(time, game.loop.delta);
+  },
   compare(refs: any[]) { return compareCombatLayers(game, activeScene()!, refs, () => game.step(time, 0)); },
+  captureCanvas() {
+    game.loop.delta = 0; game.step(time, 0);
+    return game.canvas.toDataURL('image/png').split(',')[1];
+  },
   step(count: number) {
     for (let i = 0; i < count; i++) {
       // Manual Game.step does not update TimeStep.delta; TestScene reads that
@@ -146,6 +165,6 @@ Object.assign(window, { turtleCombatProbe: {
       const key = scene.input.keyboard?.addKey(code); if (key) key.isDown = down;
     }
   },
-  restart() { const scene = activeScene(); scene?.scene.restart(scene.sys.settings.data); },
+  restart() { const scene = activeScene(); scene?.scene.restart(scene.sys.settings.data); flushSceneOperations(); },
   leave() { activeScene()?.scene.start('SaveSlotScene'); },
 } });

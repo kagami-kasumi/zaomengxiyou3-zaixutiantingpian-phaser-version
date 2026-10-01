@@ -25,6 +25,9 @@ const scene: any = { add: { sprite: display, image: display }, textures: { exist
     assert.ok(asset); return readFileSync(`public/${asset.path}`, 'utf8');
   } } } };
 const cases: { id: number; create: () => any; update: (...args: any[]) => any }[] = [
+  // Monster30 now projects its independent runtime (240). Monster3 exercises
+  // the still-live legacy attack-view clock, including its ice regression.
+  { id: 3, create: () => createStage11MonsterView(scene, 3, 0, 0, readStage11AttackGeometry(scene)), update: updateStage11MonsterView },
   { id: 30, create: () => createStage11MonsterView(scene, 30, 0, 0, readStage11AttackGeometry(scene)), update: updateStage11MonsterView },
   { id: 7, create: () => createStage12MonsterView(scene, 7, 0, 0, readStage12AttackGeometry(scene)), update: updateStage12MonsterView },
   { id: 5, create: () => createStage13Monster5View(scene, 0, 0, readStage13Monster5AttackGeometry(scene)), update: updateStage13Monster5View },
@@ -44,17 +47,23 @@ for (const entry of cases) for (const fps of [20, 24, 30]) for (const parts of [
   const attack = { family: Object.keys(view.geometry)[0], image: display(), frameIndex: 0,
     elapsedMs: 0, ageMs: 0, facingX: -1, followOwner: false, geometry: Object.values(view.geometry)[0] };
   view.attacks.push(attack);
+  const attackReferenceView = entry.create();
+  const attackReference = { ...attack, image: display() };
+  attackReferenceView.attacks.push(attackReference);
   for (let tick = 1; tick <= 8; tick++) {
     for (let part = 0; part < parts; part++) {
       const delta = 1000 / fps / parts;
       advanceMonsterPetTargetEffects(state, delta, fps);
       entry.update(scene, view, combat, delta);
+      entry.update(scene, attackReferenceView, referenceCombat, delta);
       // Real registry also queries completion with zero delta; it must not replay ticks.
       entry.update(scene, view, combat, 0);
     }
     if (tick === 1 || tick >= 4) entry.update(scene, reference, referenceCombat, 1000 / 30);
     assert.deepEqual(view.visual, reference.visual, `${entry.id}/${fps}/${parts}/${tick}`);
-    if (tick === 2 || tick === 3) assert.ok(attack.frameIndex > 0 || !attack.image.active, 'emitted attack keeps advancing while body is frozen');
+    assert.deepEqual([attack.frameIndex, attack.elapsedMs, attack.image.active],
+      [attackReference.frameIndex, attackReference.elapsedMs, attackReference.image.active],
+      'emitted attack clock stays independent through every frozen tick');
   }
   checked++;
 }

@@ -5,6 +5,7 @@ import { PetTurtleProjectileSystem } from '../PetTurtleProjectileSystem';
 import { selectPetTurtleSkill } from '../PetTurtleSkillSelection';
 
 export class TurtlePetBehavior implements PetBehavior {
+  readonly publicPassive = true;
   private readonly projectiles: PetTurtleProjectileSystem;
   private isAoyi = false;
   private elapsedAoyiMs: number | undefined;

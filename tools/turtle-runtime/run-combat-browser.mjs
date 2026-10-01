@@ -50,7 +50,7 @@ let phase = 'startup';
 async function command(method, params = {}) {
   const key = ++id;
   const result = new Promise((resolve, reject) => {
-    const timer = setTimeout(() => { pending.delete(key); reject(Error(`CDP timeout ${method}`)); }, 60000);
+    const timer = setTimeout(() => { pending.delete(key); reject(Error(`CDP timeout ${method}: ${params.expression ?? phase}`)); }, 60000);
     pending.set(key, { resolve: value => { clearTimeout(timer); resolve(value); }, reject });
   });
   socket.send(JSON.stringify({ id: key, method, params })); return result;
@@ -61,7 +61,15 @@ async function evaluate(expression) {
   return result.result.value;
 }
 async function until(expression, description) {
-  for (let i = 0; i < 600; i++) { if (await evaluate(expression)) return; await delay(100); }
+  for (let i = 0; i < 600; i++) {
+    if (await evaluate(expression)) return;
+    // The probe already owns a manual Game clock for pixel comparisons. Keep
+    // readiness on that same clock instead of waiting on a stalled headless RAF.
+    await evaluate('window.turtleCombatProbe?.pumpReadyStep()');
+    await delay(100);
+  }
+  const snapshot = await evaluate('window.turtleCombatProbe?.snapshot()');
+  writeFileSync(`${out}/timeout-diagnostic.json`, JSON.stringify({ description, expression, phase, snapshot, errors, failedRequests }, null, 2) + '\n');
   throw Error(`Timeout ${description}: ${JSON.stringify(errors)}`);
 }
 try {
@@ -125,8 +133,8 @@ try {
         const sample = await evaluate('turtleCombatProbe.keys([68,39],true); turtleCombatProbe.step(5); turtleCombatProbe.snapshot()');
         samples.push(sample);
         if (skills && !capturedSkill && sample.views.some(v => v.stateId?.includes(learned.includes('xwaoyi') ? 'AoyiBuff' : 'PetTurtle3Bullet3'))) {
-          const png = await command('Page.captureScreenshot', { format: 'png' });
-          writeFileSync(`${out}/skill-${scene}-${caseId}.png`, Buffer.from(png.data, 'base64'));
+          const png = await evaluate('turtleCombatProbe.captureCanvas()');
+          writeFileSync(`${out}/skill-${scene}-${caseId}.png`, Buffer.from(png, 'base64'));
           capturedSkill = true;
         }
         if (links && !settlement && sample.views.filter(v => v.stateId?.startsWith('effect:PetTurtle2Buff:')).length === 4) {
@@ -134,8 +142,8 @@ try {
           assert.deepEqual(settlement.damage, [{ hero: 405, pet: 494 }, { hero: 500, pet: 500 }]);
           assert.deepEqual(settlement.duplicate, settlement.damage);
           assert.deepEqual(settlement.healing, [{ hero: 405, pet: 494 }, { hero: 606, pet: 606 }]);
-          const linkedPng = await command('Page.captureScreenshot', { format: 'png' });
-          writeFileSync(`${out}/linked-${scene}-form${form}.png`, Buffer.from(linkedPng.data, 'base64'));
+          const linkedPng = await evaluate('turtleCombatProbe.captureCanvas()');
+          writeFileSync(`${out}/linked-${scene}-form${form}.png`, Buffer.from(linkedPng, 'base64'));
         }
         assert.equal(sample.views.filter(view => view.stateId?.startsWith('body:')).length, 2, `${scene}/${form} visible owners`);
         const refs = sample.views.filter(view => !seen.has(`${view.name}/${view.stateId}`)).map(reference);
@@ -152,8 +160,10 @@ try {
       const state = samples.at(-1);
       if (links) assert(settlement, `${scene}/${form}: missing actual dual-owner links/settlement`);
       assert.deepEqual(state.storedSaves, baselineSave, 'No fixture saves');
-      const png = await command('Page.captureScreenshot', { format: 'png' });
-      writeFileSync(`${out}/combat-${scene}-${caseId}.png`, Buffer.from(png.data, 'base64'));
+      // Native-layer comparisons above remain the oracle. Export the actual
+      // freshly rendered 940x590 Game canvas without waiting on CDP compositor RAF.
+      const png = await evaluate('turtleCombatProbe.captureCanvas()');
+      writeFileSync(`${out}/combat-${scene}-${caseId}.png`, Buffer.from(png, 'base64'));
       writeFileSync(`${out}/combat-${scene}-${caseId}.json`, JSON.stringify(samples) + '\n');
       const effects = samples.filter(s => s.views.some(v => v.stateId?.startsWith('effect:'))).length;
       assert(effects > 0, `${scene}/${form} no real effects`);
@@ -214,7 +224,7 @@ try {
     }
   }
   assert.deepEqual(errors, []);
-  writeFileSync(`${out}/combat-browser.json`, JSON.stringify({ status: 'passed', viewport: { width: 940, height: 590 }, reports, journeys, errors }, null, 2) + '\n');
+  writeFileSync(`${out}/combat-browser.json`, JSON.stringify({ status: 'passed', captureMethod: 'actual-game-canvas', viewport: { width: 940, height: 590 }, reports, journeys, errors }, null, 2) + '\n');
 } finally {
   writeFileSync(`${out}/combat-browser-diagnostics.json`, JSON.stringify({ phase, errors,
     failedRequests, contexts, completedReports: reports.length }, null, 2) + '\n');

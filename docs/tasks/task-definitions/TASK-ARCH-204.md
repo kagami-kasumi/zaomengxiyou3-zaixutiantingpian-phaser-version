@@ -1,5 +1,11 @@
 # TASK-ARCH-204
 
+2026-10-01 / TASK-SLICE-242B及父242完成：235原720+243原997由公共生产数值owner消费，24双owner会话/保存往返、四家族8消费者、猴马4真实增益技能命中、14变异、五关940×590 HUD/暂停休息/重试返回通过。P1GS/P1G/P1T、核心系统、build及工程检查通过；B/父242归档，244唯一Ready补六效果视觉真值。数值完成不代表六特效、原84其余责任或完整家族/204/all/194/VS-067关闭，功能线保持Active。详见 `docs/reverse-engineering/pet-passive-runtime-acceptance.md`。
+
+2026-10-01 / TASK-SLICE-242A完成：既有party拥有四项已加入主人效果与当前属性；复用slot host先主人效果/属性后主宠及private实体，无宠仍到期。12原effects/refresh/expiry、五角色双slot实际技能与承伤、共同五关调度/休息换宠/死亡退出共31组，10生产变异和10组映射身份通过；build、核心系统、工程检查及P1GS/P1G/P1T联合门禁退出0。A归档，242B唯一Ready承担原720expected、公共回复/六增益与正式五关联合。父242、原84、六特效、完整家族/204/all/194/VS-067未关闭，功能线Active。验收见 `docs/reverse-engineering/hero-pet-buff-owner-acceptance.md`；增长/装备中途重算组合仍属235未覆盖边界。
+
+2026-10-01 / TASK-SLICE-242执行前预检拆分：实际party/兼容映射10例确认主人攻击/防御输入分裂，既有hero owner不含PB-08的host-tick属性相位，命中新的owner迁移触发。父242保留全部合同并Split，242A唯一Ready先收敛属性/宿主接缝，242B Planned承担原720expected、回复/六增益与五关联合验收。无src/public或原真值变更，不核销原84、204/all/194/VS-067或六特效；功能线Active。证据见 `docs/tasks/evidence/TASK-SLICE-242/preflight.md`，诊断入口 `tools/pet-passive-owner-preflight.ts`。
+
 2026-10-01 / TASK-SETTINGS-235完成：公共回复fps+1周期、旧值刷新顺序、六项独立检查/MP/uint时长与主人int属性到期已交叉确认；720原生case、10编译源变异、4损坏报告及重复一致通过。46提取类静态清单与六恢复视觉符号仅定位，未宣称视觉完整或正式消费；242唯一Ready接共享数值，六特效视觉及原84其余公共责任、完整家族/204/all/VS-067与功能线仍未关闭。合同见 `docs/reverse-engineering/pet-passive-auto-buff-contract.md`。
 
 2026-09-26 / 231补证完成：公共击退已由236核销；死亡经验源合同与264 AIR态已闭合，公共归属生产消费转同线TASK-SLICE-238（唯一Ready），其后232..235。父任务仍Split、原41/43及完整家族/all责任不降低。

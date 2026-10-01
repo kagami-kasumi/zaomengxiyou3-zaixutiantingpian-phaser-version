@@ -1,3 +1,4 @@
+import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
 import type { HeroBaseStats } from '../../systems/EquipmentSystem';
 import type { HeroCombatModel } from '../../systems/HeroCombatSystem';
 import type { HeroMovementModel } from '../../systems/HeroMovementSystem';
@@ -33,6 +34,7 @@ export type Role1BridgePlayer = {
   normalAttack: HeroNormalAttackModel;
   skill: HeroSkillModel;
   baseStats: HeroBaseStats;
+  currentStats?: HeroBaseStats;
 };
 
 export type Role1SkillBridgeResult = Readonly<{
@@ -91,7 +93,7 @@ export function updateRole1SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       timeMs: params.timeMs,
     });
     if (event) {
@@ -108,7 +110,7 @@ export function updateRole1SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       targets: params.targets,
       timeMs: params.timeMs,
     });
@@ -121,7 +123,7 @@ export function updateRole1SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       targets: params.targets,
       timeMs: params.timeMs,
     });

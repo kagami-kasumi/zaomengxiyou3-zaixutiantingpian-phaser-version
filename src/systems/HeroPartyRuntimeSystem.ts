@@ -36,6 +36,7 @@ import {
   updateFormalRole1ShadowRuntime,
 } from './Role1ShadowFormalRuntimeSystem';
 import { destroyCombatFeedbackModel } from './CombatFeedbackSystem';
+import { clearHeroPetBuffs } from './HeroPetBuffSystem';
 
 export type HeroPartyMemberDefinition = Readonly<{
   slot: PlayerSlot;
@@ -334,6 +335,7 @@ export function snapshotHeroParty(runtime: HeroPartyRuntimeModel): readonly Hero
 export function destroyHeroPartyRuntime(runtime: HeroPartyRuntimeModel): void {
   if (runtime.destroyed) return;
   runtime.destroyed = true;
+  for (const member of runtime.members) clearHeroPetBuffs(member.combat);
   runtime.members.length = 0;
   runtime.movement.members.length = 0;
   runtime.projectiles.projectiles.length = 0;

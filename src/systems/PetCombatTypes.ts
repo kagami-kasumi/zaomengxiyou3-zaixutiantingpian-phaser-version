@@ -14,6 +14,8 @@ import type { PetProjectileCombatPort } from './PetProjectileCombatPort';
 import type { IncomingDamageFeedbackModel } from './IncomingDamageFeedbackSystem';
 import type { PlayerSlot } from './InputSystem';
 import type { HeroCombatModel } from './HeroCombatSystem';
+import type { HeroPetBuffName } from './HeroPetBuffSystem';
+import type { PetPassiveSession } from './PetPassiveSession';
 
 export type PetCombatFrame = Readonly<{
   /** Offline P1/P2 are local. False models a source-owned remote pet without granting AI authority. */
@@ -30,6 +32,12 @@ export type PetCombatFrame = Readonly<{
   deltaMs: number;
   /** Original host clock selected by the scene; movement speed is pixels per tick. */
   hostFps?: number;
+  /** Party-owned hero effect phase; the existing slot runtime drives it even without a pet. */
+  ownerStep?: () => void;
+  ownerAddPetBuff?: (name: HeroPetBuffName, value: number, ticks: number) => void;
+  stunnedRuntimeKeys?: readonly string[];
+  /** Internal world-dispatched step, bypassing the entity's render-frame accumulator. */
+  hostTicks?: 0 | 1;
   groundEnvironment?: PetGroundEnvironment;
   projectileCombat?: PetProjectileCombatPort;
   /** Transient entity effects, indexed by session key rather than persistent skills. */
@@ -60,6 +68,7 @@ export type PetCombatSummonHandle = Readonly<{
 }>;
 
 export type PetCombatEntitySnapshot = Readonly<{
+  passive?: ReturnType<PetPassiveSession['snapshot']>;
   turtleLinkVisible?: boolean;
   petId: string;
   species: string;
@@ -80,6 +89,7 @@ export type PetCombatEntitySnapshot = Readonly<{
 }>;
 
 export type PetCombatSnapshot = Readonly<{
+  passive?: ReturnType<PetPassiveSession['snapshot']>;
   turtleLinkVisible?: boolean;
   protectedFromHits?: boolean;
   destroyed: boolean;

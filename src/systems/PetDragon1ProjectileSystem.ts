@@ -91,7 +91,7 @@ export class PetDragon1ProjectileSystem {
   private refresh(context: PetBehaviorContext): DragonDamageCache {
     const pet = context.pet;
     return refreshDragonDamageCache({ attack: pet.atk,
-      magicAdd: pet.autoBuffState?.fsnl.active?.bonusSkillDamage ?? 0, gxp: context.isGxp },
-    () => context.random() <= pet.critBonusRate + (pet.autoBuffState?.sxkb.active?.bonusCritRate ?? 0));
+      magicAdd: context.passiveBonuses?.magic ?? pet.autoBuffState?.fsnl.active?.bonusSkillDamage ?? 0, gxp: context.isGxp },
+    () => context.random() <= pet.critBonusRate + (context.passiveBonuses?.crit ?? pet.autoBuffState?.sxkb.active?.bonusCritRate ?? 0));
   }
 }

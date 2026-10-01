@@ -1,5 +1,15 @@
 # 纵向切片复现表
 
+2026-10-01 / TASK-SLICE-242B及父242完成：235原720+243原997由公共生产数值owner消费，24双owner会话/保存往返、四家族8消费者、猴马4真实增益技能命中、14变异、五关940×590 HUD/暂停休息/重试返回通过。P1GS/P1G/P1T、核心系统、build及工程检查通过；B/父242归档，244唯一Ready补六效果视觉真值。数值完成不代表六特效、原84其余责任或完整家族/204/all/194/VS-067关闭，功能线保持Active。详见 `docs/reverse-engineering/pet-passive-runtime-acceptance.md`。
+
+2026-10-01 / TASK-SETTINGS-243完成：972正式整数域效果组合、16原getter/setter边界、9刷新组合共997原生例通过，5编译源变异/7损坏报告拒绝、重复一致；162双owner codec组合与0..8生产见证及5外部存档边界通过。零时长先入效果扣MP、首效果step清空且主人属性不变。235原720字节不变，独立pet-passive-input-contract.json交接；243归档，242B恢复唯一Ready消费两份expected与原完整五关合同。未改src/public，242/原84/六特效/204/all/194/VS-067及整线不关闭。
+
+2026-10-01 / TASK-SLICE-242B输入预检：真实捕获/洗练/还童P1/P2共8例确认资质/战力1/1、0/0、4/4、8/8，超出235固定3/1；零战力引入未采样的零时长效果/属性边界。B完整合同保留并Blocked，TASK-SETTINGS-243唯一Ready补证，完成后恢复B。未改src/public或235真值，不核销原720、原84、242/204/all/194/VS-067或六特效，功能线Active。证据：docs/tasks/evidence/TASK-SLICE-242B/input-preflight.json；复验：node tools/pet-passive-input-preflight.mjs。
+
+2026-10-01 / TASK-SLICE-242A完成：既有party拥有四项已加入主人效果与当前属性；复用slot host先主人效果/属性后主宠及private实体，无宠仍到期。12原effects/refresh/expiry、五角色双slot实际技能与承伤、共同五关调度/休息换宠/死亡退出共31组，10生产变异和10组映射身份通过；build、核心系统、工程检查及P1GS/P1G/P1T联合门禁退出0。A归档，242B唯一Ready承担原720expected、公共回复/六增益与正式五关联合。父242、原84、六特效、完整家族/204/all/194/VS-067未关闭，功能线Active。验收见 `docs/reverse-engineering/hero-pet-buff-owner-acceptance.md`；增长/装备中途重算组合仍属235未覆盖边界。
+
+2026-10-01 / TASK-SLICE-242执行前预检拆分：实际party/兼容映射10例确认主人攻击/防御输入分裂，既有hero owner不含PB-08的host-tick属性相位，命中新的owner迁移触发。父242保留全部合同并Split，242A唯一Ready先收敛属性/宿主接缝，242B Planned承担原720expected、回复/六增益与五关联合验收。无src/public或原真值变更，不核销原84、204/all/194/VS-067或六特效；功能线Active。证据见 `docs/tasks/evidence/TASK-SLICE-242/preflight.md`，诊断入口 `tools/pet-passive-owner-preflight.ts`。
+
 2026-10-01 / TASK-SETTINGS-235完成：公共回复fps+1周期、旧值刷新顺序、六项独立检查/MP/uint时长与主人int属性到期已交叉确认；720原生case、10编译源变异、4损坏报告及重复一致通过。46提取类静态清单与六恢复视觉符号仅定位，未宣称视觉完整或正式消费；242唯一Ready接共享数值，六特效视觉及原84其余公共责任、完整家族/204/all/VS-067与功能线仍未关闭。合同见 `docs/reverse-engineering/pet-passive-auto-buff-contract.md`。
 
 2026-09-28 / TASK-SLICE-234完成：公共捕获改为独立128位身份，运行roster派生owner并沿用P2单前缀；猴马双owner释放、同owner重捕、旧存档/三轮重载及正式保存通知后实际P2碰撞伤害通过。12组身份回归、3生产变异、22组相关回归与build通过；仅核销捕获身份责任，原84其余公共责任、完整家族/VS-067及整线不关闭。235唯一Ready。验收见 `docs/reverse-engineering/pet-capture-identity-acceptance.md`。

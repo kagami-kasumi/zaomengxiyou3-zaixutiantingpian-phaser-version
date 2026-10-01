@@ -1,4 +1,5 @@
 import { monster30AttackHits, syncMonster30BodyState, type Monster30Attack } from './Monster30AttackRuntime';
+import { addHeroPetBuff, type HeroPetBuffName, clearHeroPetBuffs, createHeroPetBuffState, stepHeroPetBuffs, type HeroPetBuffState } from './HeroPetBuffSystem';
 import { acceptMonsterAttackTarget, settleMonsterExperience, selectMonsterAttackTarget, clearUnavailableMonsterAttackTarget, type MonsterAttackTarget, type MonsterExperienceBinding } from './MonsterExperienceSystem';
 import { initializeMonsterPetTargetEffects, isMonsterPetIceActive } from './MonsterPetTargetEffectSystem';
 import { acceptMonsterKnockback, type MonsterKnockbackBinding } from './MonsterKnockbackBinding';
@@ -82,6 +83,9 @@ export const Stage1CombatTuning = {
 } as const;
 
 export type Stage1CombatPlayer = {
+  petBuffs: HeroPetBuffState;
+  stepPetBuffs: () => void;
+  addPetBuff: (name: HeroPetBuffName, value: number, ticks: number) => void;
   slot: PlayerSlot;
   combat: HeroCombatModel;
   normalAttack: HeroNormalAttackModel;
@@ -192,8 +196,11 @@ export function createStage1CombatPlayer(
   combat.maxHp = effectiveStats.maxHp;
   combat.hp = combat.maxHp;
   combat.damageProtectionMs = Stage1CombatTuning.playerProtectionMs;
-  return {
+  const player: Stage1CombatPlayer = {
     slot,
+    petBuffs: createHeroPetBuffState(),
+    stepPetBuffs: () => stepHeroPetBuffs(player),
+    addPetBuff: (name, value, ticks) => addHeroPetBuff(player, name, value, ticks),
     combat,
     normalAttack: createHeroNormalAttack(heroId),
     damageLog: [],
@@ -206,6 +213,8 @@ export function createStage1CombatPlayer(
     effectiveStats,
     skill: createHeroSkillModel({ slots: [null, null, null, null, null] }, effectiveStats.maxMp),
   };
+  combat.clearPetBuffs = () => clearHeroPetBuffs(player);
+  return player;
 }
 
 export function awardStage1CombatPlayerExperience(

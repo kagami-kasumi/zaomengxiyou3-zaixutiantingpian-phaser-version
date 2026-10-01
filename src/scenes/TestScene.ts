@@ -800,11 +800,11 @@ export class TestScene extends Phaser.Scene {
       ...(this.playerCount === 2 ? [`combat p2:${formatHeroCombatState(p2?.combat)}`] : []),
       `progress p1:${formatHeroProgressionState(
         p1,
-        p1 ? calculateEffectiveStats(p1.baseStats, this.getEquipmentLoadoutForPlayer(p1)) : undefined,
+        p1?.currentStats,
       )}`,
       ...(this.playerCount === 2 ? [`progress p2:${formatHeroProgressionState(
         p2,
-        p2 ? calculateEffectiveStats(p2.baseStats, this.getEquipmentLoadoutForPlayer(p2)) : undefined,
+        p2?.currentStats,
       )}`] : []),
       `normal p1:${formatHeroNormalAttackState(p1?.normalAttack)}`,
       ...(this.playerCount === 2 ? [`normal p2:${formatHeroNormalAttackState(p2?.normalAttack)}`] : []),
@@ -894,6 +894,7 @@ export class TestScene extends Phaser.Scene {
       player.baseStats,
       this.getEquipmentLoadoutForPlayer(player),
     );
+    player.updateCurrentStats?.(stats);
     const hpDelta = stats.maxHp - previousMaxHp;
     const mpDelta = stats.maxMp - previousMaxMp;
 

@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 const out = '.tmp/turtle-lifecycle-mutations'; mkdirSync(out, { recursive: true });
 const cases = [
   ['owner-reference', 'PetCombatEntitySession.ts', 'detachTurtleLink(this.turtleLink);', ''],
-  ['source-removal', 'PetCombatEntitySession.ts', "this.projectiles.projectiles.filter(({ sourceId }) => sourceId !== this.pet.id)", 'this.projectiles.projectiles'],
+  ['source-removal', 'PetCombatEntitySession.ts', 'projectile.experienceSource.runtimeId !== this.runtimeKey : projectile.sourceId !== this.pet.id', 'true : true'],
   ['rest', 'PetCombatRuntime.ts', "if (this.active) this.releaseEntity(this.active, 'inactive');", ''],
   ['world-reset', 'TestSceneEncounterReset.ts', 'scene.monster30s = [];', ''],
   ['climb-reset', 'TestSceneEncounterReset.ts', 'scene.verticalClimb = createVerticalClimbState(viewportHeight);', ''],

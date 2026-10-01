@@ -1,3 +1,4 @@
+import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
 import { bindTestSceneMonsterExperience, acceptTestSceneMonsterAttacker } from './TestSceneExperienceBridge';
 ﻿import Phaser from 'phaser';
 import { applyOwnedHeroDamage } from '../../systems/PetBattleOwnershipSystem';
@@ -176,7 +177,7 @@ export function applyBossAttack(this: any, time: number): void {
         amount: calculateStage1IncomingDamage(
           activeAttack.attackKind,
           activeAttack.damage,
-          player.baseStats?.defense ?? 0,
+          readHeroCurrentStats(player)?.defense ?? 0,
         ),
         attackKind: activeAttack.attackKind,
         knockbackX: activeAttack.facingX * activeAttack.knockbackX,

@@ -1,3 +1,4 @@
+import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
 import type { HeroBaseStats } from '../../systems/EquipmentSystem';
 import type { HeroCombatModel } from '../../systems/HeroCombatSystem';
 import { applyHeroHealing } from '../../systems/PetTurtleLinkSystem';
@@ -30,6 +31,7 @@ export type Role2BridgePlayer = {
   normalAttack: HeroNormalAttackModel;
   skill: HeroSkillModel;
   baseStats: HeroBaseStats;
+  currentStats?: HeroBaseStats;
 };
 
 export type Role2SkillBridgeResult = {
@@ -70,7 +72,7 @@ export function updateRole2SkillBridge(params: {
       combat: player.combat,
       normalAttack: player.normalAttack,
       projectiles: params.projectiles,
-      sourcePower: player.baseStats.power,
+      sourcePower: readHeroCurrentStats(player)!.power,
       supportTargets: createSupportTargets(params.players, params.petRosters, params.petRuntimes),
       controlTargets: createControlTargets(params.monsters),
       timeMs: params.timeMs,

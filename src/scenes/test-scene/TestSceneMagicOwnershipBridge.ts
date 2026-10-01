@@ -101,7 +101,7 @@ function createTarget(owner: any, loadout: any): any {
   return {
     combat: owner.combat,
     skill: owner.skill,
-    effectiveStats: calculateEffectiveStats(owner.baseStats, loadout),
+    effectiveStats: owner.currentStats ?? calculateEffectiveStats(owner.baseStats, loadout),
     movement: owner.movement,
   };
 }

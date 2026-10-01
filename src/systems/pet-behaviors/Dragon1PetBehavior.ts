@@ -7,9 +7,9 @@ import { createDragon1CloneState } from '../PetDragonCloneState';
 import { toDragonSourceCoordinate } from '../PetDragonCollisionSystem';
 
 export class Dragon1PetBehavior implements PetBehavior {
+  readonly publicPassive = true;
   protected readonly projectiles: PetDragon1ProjectileSystem | PetDragon23ProjectileSystem;
-  private passiveCount = 0;
-  private passiveLevel = 0;
+  readonly passiveEventName = 'dragon1-passive';
   private remainingTicks: number | undefined;
 
   constructor(protected readonly form: 1 | 2 | 3 | 4 = 1) {
@@ -63,15 +63,7 @@ export class Dragon1PetBehavior implements PetBehavior {
 
   beforeActions(context: PetBehaviorContext): void {
     this.projectiles.step(context);
-    if (this.passiveCount++ >= context.hostFps) {
-      this.passiveCount = 0;
-      const hpBefore = context.pet.hp;
-      const mpBefore = context.pet.mp;
-      context.healSelf(this.passiveLevel * 3, this.passiveLevel);
-      context.emit({ type: 'dragon1-passive', payload: {
-        hpBefore, hpAfter: context.pet.hp, mpBefore, mpAfter: context.pet.mp,
-      } });
-    }
+
   }
 
   updateEffects(context: PetBehaviorContext): void {
@@ -83,7 +75,6 @@ export class Dragon1PetBehavior implements PetBehavior {
         return;
       }
     }
-    this.passiveLevel = Math.floor(context.pet.level / 5);
   }
 
   afterChildren(context: PetBehaviorContext): void {

@@ -1,5 +1,9 @@
 # 日常回归与本地原版复验
 
+242B公共被动：`pet-passive-tests`消费版本化235/243原生expected；`pet-passive-runtime-tests`验证实际会话/保存往返；`pet-passive-consumer-tests`另需226的228/229正式碰撞原生报告与现有玄龟发布资源；`pet-passive-mutation-tests`在内存编译14变体。`node tools/pet-passive-browser/run.mjs`需要已构建资源、4174 preview及本机Edge，生成实际五关940×590截图；QA路由禁用保存，保存合同由生产save往返测试承担。完整设计验收仍使用task声明的P1GS/P1G/P1T，不替代六特效视觉。
+
+完整联合runner将大量bundle保留在同一Node进程；242B曾在默认约4GB堆上限退出。可用内存充足时，在本次命令进程设置`NODE_OPTIONS=--max-old-space-size=8192`后执行原完整命令；不改变测试集合，不能把此前内存退出当通过。
+
 普通开发使用 `npm run test:systems` 的14组核心，加受影响专项并构建；同批不变成功结果直接复用。明确需要完整审计时用 `npm run check:all`，包含 workflow、结构、版本化真值 Schema/负向测试、88组完整系统回归（含玄龟生命周期）和构建。测试触发与复用以 `docs/workflow/code-quality-gates.md` 为准。原始截图、AS3、本机 AIR 和忽略的采样报告不属于这项承诺。Schema 检查只证明数据结构，不证明原版行为或现代游戏完全一致。
 
 ## 玄龟
@@ -18,7 +22,7 @@
 | world-collision-tests | `TASK-SLICE-224A1/dynamic-call-oracle.jsonl` |
 | runtime-tests | `TASK-SETTINGS-221/source-trace.json`、A2 native-caller-order、原 AS3 |
 | link-tests | `TASK-SETTINGS-221/settlement-trace.json`、`TASK-SETTINGS-222A/buff-native.json.gz`、原 AS3 |
-| skill-runtime-tests | 221 source-trace、`TASK-SLICE-224B/native-caller-order.json`、原 AS3 |
+| skill-runtime-tests | 221 source-trace、`TASK-SLICE-224B/native-caller-order.json`、原 AS3；240后真实Monster30承伤另需241 native.json |
 | oracle-tests | 222A body/effects/dynamic/buff-native、222B native-corpus-index/native-corpus.zip、报告引用的本地 PNG、Python numpy/Pillow |
 | acceptance-tests | A1 visual/plane/dynamic/full oracle、Python numpy/Pillow、浏览器条件 |
 | combat-acceptance-tests | A2 runtime-trace、浏览器条件 |

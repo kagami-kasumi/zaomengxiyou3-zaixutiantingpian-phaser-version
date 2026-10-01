@@ -8,7 +8,7 @@ export const turtleTests = {
   'pet-turtle-world-collision-tests': { inputs: ['TASK-SLICE-224A1/dynamic-call-oracle.jsonl'] },
   'pet-turtle-runtime-tests': { inputs: ['TASK-SETTINGS-221/source-trace.json', 'TASK-SLICE-224A2/native-caller-order.json'], source: true },
   'pet-turtle-link-tests': { inputs: ['TASK-SETTINGS-221/settlement-trace.json', 'TASK-SETTINGS-222A/buff-native.json.gz'], source: true },
-  'pet-turtle-skill-runtime-tests': { inputs: ['TASK-SETTINGS-221/source-trace.json', 'TASK-SLICE-224B/native-caller-order.json'], source: true },
+  'pet-turtle-skill-runtime-tests': { inputs: ['TASK-SETTINGS-221/source-trace.json', 'TASK-SLICE-224B/native-caller-order.json', 'TASK-SETTINGS-241/native.json'], source: true },
   'pet-turtle-oracle-tests': { inputs: ['TASK-SETTINGS-222A/body-native.json.gz', 'TASK-SETTINGS-222A/buff-native.json.gz'], nativeOracle: true },
   'pet-turtle-acceptance-tests': { inputs: ['TASK-SLICE-224A1/visual-oracle.json'], browser: true },
   'pet-turtle-combat-acceptance-tests': { inputs: ['TASK-SLICE-224A2/runtime-trace.json'], browser: true },

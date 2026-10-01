@@ -31,7 +31,7 @@ export function refreshMonkeyHorseContextDamage(context: PetBehaviorContext, act
   const pet = context.pet;
   if (pet.species !== 'monkey' && pet.species !== 'horse') throw new Error('Unexpected damage family');
   return refreshMonkeyHorseDamage({ family: pet.species, form: pet.form, action, attack: pet.atk,
-    magic: pet.autoBuffState?.fsnl.active?.bonusSkillDamage ?? 0, gxp: context.isGxp,
+    magic: context.passiveBonuses?.magic ?? pet.autoBuffState?.fsnl.active?.bonusSkillDamage ?? 0, gxp: context.isGxp,
     flower: pet.magicFlowerBuff?.attackMultiplier ?? 1,
-    critRate: pet.critBonusRate + (pet.autoBuffState?.sxkb.active?.bonusCritRate ?? 0) }, context.random);
+    critRate: pet.critBonusRate + (context.passiveBonuses?.crit ?? pet.autoBuffState?.sxkb.active?.bonusCritRate ?? 0) }, context.random);
 }
