@@ -99,6 +99,8 @@ export const fullSystemTests = [
   'pet-passive-runtime-tests',
   'pet-passive-consumer-tests',
   'pet-passive-mutation-tests',
+  'pet-attached-display-tests',
+  'pet-attached-mutation-tests',
   'hero-pet-buff-mutation-tests',
   'hero-progression-runtime-tests',
   'monster-runtime-tests',

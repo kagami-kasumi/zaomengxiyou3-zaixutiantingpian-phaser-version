@@ -1,5 +1,7 @@
 # TASK-SETTINGS-244 六公共增益视觉复验
 
+245消费预检（不改244输入，也不等于现代验收）：`retirement_preflight.mjs`是245A改造前adapter的历史负向诊断，改造后不再作为现行验收运行；原结果及源码hash保留于245本地证据。`python tools/pet-passive-visual/projection_preflight.py`比较44个原生淡出态与post-raster alpha候选。当前显示生命周期复验改用`node tools/run-system-tests.mjs pet-attached-display-tests pet-attached-mutation-tests`与`node tools/pet-attached-browser.mjs`；边界见`docs/reverse-engineering/pet-attached-display-acceptance.md`。
+
 输入只读：恢复pet1.swf、已知StageCommon colipse、legacy AS3、已安装FFDec与AIR SDK，以及原包AIR51.1.1.5。输出只写244本地目录；不修改src/public或原提取结果。主合同见 `docs/reverse-engineering/pet-passive-visual-contract.md`。
 
 在项目根目录执行：

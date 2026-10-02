@@ -1,6 +1,7 @@
 // boundary: formal levels share one horse presentation adapter. It consumes the
 // public PetCombatSnapshot/projectile stream and never owns pet movement or damage.
 import Phaser from 'phaser';
+import { petAttachedDisplayLifecycle } from './PetAttachedDisplayLifecycle';
 import {
   getPetHorseEffectUsage,
   type PetHorseEffectUsage,
@@ -25,6 +26,7 @@ type FormalPetHorseMember = Readonly<{
 
 type SlotPresentation = {
   view?: PetHorseAnimationView;
+  runtimeKey?: string;
 };
 
 type EffectView = Readonly<{
@@ -45,13 +47,16 @@ export type FormalPetHorseBodyBridge = Readonly<{
 
 export function createFormalPetHorseBodyBridge(scene: Phaser.Scene): FormalPetHorseBodyBridge {
   const slots: Record<Slot, SlotPresentation> = { p1: {}, p2: {} };
+  let attachedDisplays: ReturnType<typeof petAttachedDisplayLifecycle> | undefined;
+  const ownedRoots = new Set<Phaser.GameObjects.Container>();
   const effects = new Map<number, EffectView>();
   let latestProjectiles: readonly ProjectileModel[] = [], latestSceneTime = 0;
   // World timers may append an effect while Scene.update is paused.
   const syncNativeFrames = () => syncEffects(latestProjectiles, latestSceneTime);
   scene.game.events.on('poststep', syncNativeFrames);
   const destroySlot = (slot: Slot) => {
-    slots[slot].view?.root.destroy(true);
+    const root = slots[slot].view?.root;
+    if (root) attachedDisplays!.retire(root);
     slots[slot] = {};
   };
 
@@ -68,9 +73,15 @@ export function createFormalPetHorseBodyBridge(scene: Phaser.Scene): FormalPetHo
           destroySlot(slot);
           continue;
         }
-        if (!presentation.view || presentation.view.petId !== pet.id || presentation.view.form !== pet.form) {
-          presentation.view?.root.destroy(true);
+        if (!presentation.view || presentation.view.petId !== pet.id || presentation.view.form !== pet.form
+          || presentation.runtimeKey !== runtime.runtimeKey) {
+          if (presentation.view) attachedDisplays!.retire(presentation.view.root);
           presentation.view = createPetHorseAnimationView(scene, pet, runtime.x, runtime.y);
+          const root = presentation.view.root;
+          presentation.runtimeKey = runtime.runtimeKey;
+          ownedRoots.add(root);
+          root.once('destroy', () => ownedRoots.delete(root));
+          (attachedDisplays ??= petAttachedDisplayLifecycle(scene)).register(runtime.runtimeKey, presentation.view.root, presentation.view.sprite);
         }
         const animation = member.snapshot.animation;
         if (!animation) throw new Error('Horse presentation requires the combat body clock.');
@@ -83,6 +94,8 @@ export function createFormalPetHorseBodyBridge(scene: Phaser.Scene): FormalPetHo
       scene.game.events.off('poststep', syncNativeFrames);
       destroySlot('p1');
       destroySlot('p2');
+      for (const root of ownedRoots) attachedDisplays!.dispose(root);
+      ownedRoots.clear();
       for (const effect of effects.values()) effect.image.destroy();
       effects.clear();
       latestProjectiles = [];

@@ -460,6 +460,8 @@ const contracts = {
       requireTest('pet-passive-runtime-tests', tests, errors);
       requireTest('pet-passive-consumer-tests', tests, errors);
       requireTest('pet-passive-mutation-tests', tests, errors);
+      requireTest('pet-attached-display-tests', tests, errors);
+      requireTest('pet-attached-mutation-tests', tests, errors);
       requireTest('hero-pet-buff-mutation-tests', tests, errors);
       requireMatches('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', [
         ['live party current attributes', /get currentStats\(\)\s*\{\s*return member\.combat\.effectiveStats/u],

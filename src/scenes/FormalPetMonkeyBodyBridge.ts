@@ -1,6 +1,7 @@
 // boundary: formal levels share one monkey presentation adapter. It reads the
 // existing roster and hero movement owners without owning pet rules or saves.
 import Phaser from 'phaser';
+import { petAttachedDisplayLifecycle } from './PetAttachedDisplayLifecycle';
 import {
   getPetMonkeyEffectUsages,
   isPetMonkeyProjectileAsset,
@@ -26,6 +27,7 @@ type FormalPetMonkeyMember = Readonly<{
 
 type SlotPresentation = {
   view?: PetMonkeyAnimationView;
+  runtimeKey?: string;
 };
 
 type EffectFrameView = Readonly<{
@@ -49,6 +51,8 @@ export function createFormalPetMonkeyBodyBridge(
   scene: Phaser.Scene,
 ): FormalPetMonkeyBodyBridge {
   const slots: Record<Slot, SlotPresentation> = { p1: {}, p2: {} };
+  let attachedDisplays: ReturnType<typeof petAttachedDisplayLifecycle> | undefined;
+  const ownedRoots = new Set<Phaser.GameObjects.Container>();
   const effects = new Map<number, readonly EffectFrameView[]>();
   const syncNativeFrames = () => {
     for (const frames of effects.values()) for (const effect of frames) {
@@ -58,7 +62,8 @@ export function createFormalPetMonkeyBodyBridge(
   scene.game.events.on('poststep', syncNativeFrames);
 
   const destroySlot = (slot: Slot) => {
-    slots[slot].view?.root.destroy(true);
+    const root = slots[slot].view?.root;
+    if (root) attachedDisplays!.retire(root);
     slots[slot] = {};
   };
 
@@ -74,14 +79,20 @@ export function createFormalPetMonkeyBodyBridge(
           destroySlot(slot);
           continue;
         }
-        if (!presentation.view || presentation.view.petId !== pet.id || presentation.view.form !== pet.form) {
-          presentation.view?.root.destroy(true);
+        if (!presentation.view || presentation.view.petId !== pet.id || presentation.view.form !== pet.form
+          || presentation.runtimeKey !== runtime.runtimeKey) {
+          if (presentation.view) attachedDisplays!.retire(presentation.view.root);
           presentation.view = createPetMonkeyAnimationView(
             scene,
             pet,
             runtime.x,
             runtime.y,
           );
+          const root = presentation.view.root;
+          presentation.runtimeKey = runtime.runtimeKey;
+          ownedRoots.add(root);
+          root.once('destroy', () => ownedRoots.delete(root));
+          (attachedDisplays ??= petAttachedDisplayLifecycle(scene)).register(runtime.runtimeKey, presentation.view.root, presentation.view.sprite);
         }
         const animation = member.snapshot.animation;
         if (!animation) throw new Error('Monkey presentation requires the combat body clock.');
@@ -94,6 +105,8 @@ export function createFormalPetMonkeyBodyBridge(
       scene.game.events.off('poststep', syncNativeFrames);
       destroySlot('p1');
       destroySlot('p2');
+      for (const root of ownedRoots) attachedDisplays!.dispose(root);
+      ownedRoots.clear();
       for (const frames of effects.values()) frames.forEach(({ image }) => image.destroy());
       effects.clear();
     },

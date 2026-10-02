@@ -1,5 +1,9 @@
 # 工作流治理日志
 
+2026-10-02 / 245A归档：全部声明验收通过，独立定义移入task-history，245B成为同线唯一Ready，父245完整六效果/五关合同继续保留。未关闭设计all或功能线；preview缺失造成的等待和恢复记入本地交接。
+
+2026-10-02 / 245A验收增量：既有pet P1GS纳入公共附属显示的5,408原生状态对账与7生产变异，组合P1R/P1H/P1G/P1T仍保持全部既有合同，不新增门禁种类。实际Canvas/WebGL及Scene重启独立验收由`tools/pet-attached-browser.mjs`提供；支架使用postBoot、限定about:blank、像素循环让出浏览器事件队列和原PNG SHA检查。先前支架失败不计通过，有限轻微颜色舍入与完整六效果尚待边界详见`../reverse-engineering/pet-attached-display-acceptance.md`。
+
 2026-10-01 / TASK-SLICE-242B及父242完成：235原720+243原997由公共生产数值owner消费，24双owner会话/保存往返、四家族8消费者、猴马4真实增益技能命中、14变异、五关940×590 HUD/暂停休息/重试返回通过。P1GS/P1G/P1T、核心系统、build及工程检查通过；B/父242归档，244唯一Ready补六效果视觉真值。数值完成不代表六特效、原84其余责任或完整家族/204/all/194/VS-067关闭，功能线保持Active。详见 `docs/reverse-engineering/pet-passive-runtime-acceptance.md`。
 
 2026-10-01 / 242B验收增量：公共gate登记原生数值消费、真实会话/保存、真实技能命中及14内存生产变异；未增加新门禁类型。两处旧奥义fixture用有效MP上限/零回复匹配原body probe边界，保留既有断言；浏览器按真实loader等待、唯一fixture身份和MP镜像纠正就绪/前态，未改生产UI或生命周期。六特效视觉按现有规则生成同线244，B完整gate通过前保持Planned。

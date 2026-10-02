@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-245A | 公共附属显示生命周期 | 原生附属退休与实际adapter清理 | M-034、M-042、VS-067 | 5408原态、7变异、双后端各5312态与重启；[验收](../reverse-engineering/pet-attached-display-acceptance.md)，245B Ready |
 | TASK-SETTINGS-244 | 六公共增益视觉真值 | 六符号显示树/时序/宿主清理 | M-032、M-034、M-042、VS-067 | 65280原生态、7运行/10字段反证；[合同](../reverse-engineering/pet-passive-visual-contract.md)，245 Ready |
 | TASK-SLICE-242B | 公共回复/六增益数值联合 | 1717源样本、真实会话/技能/HUD/保存 | M-032、M-034、M-042、VS-067 | [验收](../reverse-engineering/pet-passive-runtime-acceptance.md)，联合gate通过，244 Ready |
 | TASK-SLICE-242 | 公共被动数值父任务 | 242A主人owner与242B共享数值完整归并 | M-032、M-034、M-042、VS-067 | A/B均通过；六特效视觉与完整家族保持后续 |
@@ -352,6 +353,64 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-245A
+
+完成记录：2026-10-02 / TASK-SLICE-245A完成：公共附属显示生命周期已接入猴/马实际adapter；身体立即销毁，附属显示独立推进、按原一秒量化easeOut退休，双runtimeKey及Scene退出/重启清理通过。5408原状态精确对账、7生产变异、Canvas/WebGL各64组5312态及2实际生命周期旅程通过；最大可见通道差2.2667/255，阈值3，保留轻微舍入差异。P1GS/P1R/P1H/P1G/P1T、核心系统/build及工程检查通过。A归档，245B唯一Ready承接全部六效果与五关合同；父245、204/all/194/VS-067和整线不关闭。详见 `docs/reverse-engineering/pet-attached-display-acceptance.md`。
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-034`、`M-042`、`VS-067`
+
+要解决的问题：245预检证明现有猴/马adapter在休息和替换时递归销毁root。244的PV-07要求宠物附属效果独立于已释放战斗实体继续一秒淡出；必须先建立共同显示退休接缝，不能逐家族复制或延长数值会话。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`（实施中、未退出）。本批gate：`npm run check:system-design -- pet P1GS P1R P1H P1G P1T`；不得核销all。
+
+规模预算：
+- 主工作包：1（共同附属显示生命周期及已有adapter接缝；不接六效果自动触发）
+- 预计上下文压缩：0
+- 独立验收批次：1（原生退休合同、实际共享接缝与既有家族回归联合）
+
+拆分触发：
+- 需要改变身体动画/战斗实体释放、数值owner或新增家族行为时停止扩展，保留本项与父245合同。
+- 出现244未采样的pause+fade组合或声明外宿主，不自填原版事实；仅为当前必需缺口生成有界补证。
+
+协作计划：
+- 模式：主agent + 有界subagent；按agent-protocol由Luna只读检查原生生命周期和生产接缝，主agent唯一写入。
+- 并行工作包：PV-07源记录/销毁路径独立核查；不改task状态或共享文件。
+- 写入 owner：主agent。
+- 归并检查点：实现前、验收前；方法观测：无。
+
+输入资料：
+- 父 `TASK-SLICE-245.md` 全合同及 `docs/tasks/evidence/TASK-SLICE-245/preflight.md`。
+- `docs/reverse-engineering/pet-passive-visual-contract.md`、244 verified manifest的host-destroy/effect-destroy/world-pause记录及独立原PNG；`tools/pet-passive-visual/README.md`。
+- 原BasePet.destroy、BaseBitmapDataClip.destroy、BaseAddEffect.destroy与244已执行的Tween源片段；只读原语料。
+- `docs/architecture/src-boundaries.md`、pet设计及验收协议、实际FormalPetMonkey/HorseBodyBridge、PetWorldDisplayBridge、PetCombatRuntime/EntitySession及共享party调用者。
+
+输出产物：
+- 共同附属显示接缝，明确active/retired/disposed身份、注册点/世界位置、parent、显示相位、alpha及scene退出强制清理；由已有Game显示时钟驱动，不建第二战斗时钟。
+- 现有猴/马adapter的接入和B消费接口；其他已迁移家族仅在声明profile适用性与实际入口确认后复用，不因本项声称其六效果可见。
+- 独立原生数据对账、实际adapter/Canvas退休与销毁证据、变异及交接文档。测试可以依赖本地原生基准，生产不能依赖忽略目录。
+
+完成定义：共同显示退休接缝真实接入现有adapter，能承接附属效果而不保留战斗/伤害owner；退出可立即彻底清理。不是六效果资源或正式可见完成，父245全部资源/触发/五关合同仍由B承担。
+
+验收标准：
+- 实际adapter中挂载244原资源的测试输入，休息/替换只释放身体与战斗会话，附属效果保持源位置、独立帧与原一秒easeOut/量化alpha；不同runtimeKey/双owner不串线。
+- 以244原生expected验证host-destroy、effect-destroy、自然100帧提前结束及普通world pause；未采样的pause+fade叠加保持未证，不能当已验证组合。
+- 源BBDC.destroy移除身体，不允许为了增益淡出把身体也保留。原数值1717 expected不变，退休对象不能攻击/回复/推进技能。
+- Scene退出/失败重试/重复destroy立即清空退休显示与listener；测试不能只验证mock destroy次数，须运行实际Phaser画布和生产adapter。
+- 至少反证立即递归清子、永久保留、重新开始动画、错误alpha、双owner串线与退出残留；原生资源不能被现代圆环/占位代替。
+- 指定设计gate、适用系统测试、build、check:structure、check:workflow、audit:problems退出0；记录有限样本和轻微舍入差异，不宣称整族或全画面一致。
+
+禁止范围：不改原语料、数值公式、家族攻击策略、身体死亡规则或存档；不新增宠物Runtime/数值owner；不执行B的六自动触发与五关全合同，不关闭204/all/194/VS-067。
+
+状态更新：Done（2026-10-02；共同显示接缝及本批全部验收通过）。
+
+推荐后续任务：`TASK-SLICE-245B`，完整承接父245六效果消费与正式联合验收。
 
 ### TASK-SETTINGS-244
 

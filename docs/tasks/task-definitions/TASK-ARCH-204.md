@@ -1,5 +1,7 @@
 # TASK-ARCH-204
 
+2026-10-02 / TASK-SLICE-245A完成：公共附属显示生命周期已接入猴/马实际adapter；身体立即销毁，附属显示独立推进、按原一秒量化easeOut退休，双runtimeKey及Scene退出/重启清理通过。5408原状态精确对账、7生产变异、Canvas/WebGL各64组5312态及2实际生命周期旅程通过；最大可见通道差2.2667/255，阈值3，保留轻微舍入差异。P1GS/P1R/P1H/P1G/P1T、核心系统/build及工程检查通过。A归档，245B唯一Ready承接全部六效果与五关合同；父245、204/all/194/VS-067和整线不关闭。详见 `docs/reverse-engineering/pet-attached-display-acceptance.md`。
+
 2026-10-01 / TASK-SETTINGS-244完成：六公共增益107源定义/7时间轴、384fixture/65,280原生态与45,068归一化对象verified；原生重复完全一致，7运行变体/10字段变异、来源/Schema/生命周期/裁切通过。确认宠物100帧自移除与主人20/25帧独立显示、零时长/刷新/暂停/淡出差异。完整大manifest与原PNG仅本地，未改src/public；245唯一Ready消费六效果，204/all/194/VS-067及整线不关闭。合同见 `docs/reverse-engineering/pet-passive-visual-contract.md`。
 
 2026-10-01 / TASK-SLICE-242B及父242完成：235原720+243原997由公共生产数值owner消费，24双owner会话/保存往返、四家族8消费者、猴马4真实增益技能命中、14变异、五关940×590 HUD/暂停休息/重试返回通过。P1GS/P1G/P1T、核心系统、build及工程检查通过；B/父242归档，244唯一Ready补六效果视觉真值。数值完成不代表六特效、原84其余责任或完整家族/204/all/194/VS-067关闭，功能线保持Active。详见 `docs/reverse-engineering/pet-passive-runtime-acceptance.md`。
