@@ -1,0 +1,1508 @@
+{
+  "truthId": "task-settings-248.monster3-attack-collision",
+  "status": "verified",
+  "manifest": "docs/reverse-engineering/ground-truth/manifests/monster3-attack-collision.json",
+  "attacks": [
+    {
+      "attack": 1,
+      "symbol": "Monster3Bullet1",
+      "characterId": 70,
+      "totalFrames": 5,
+      "sourceDisplayList": {
+        "path": "docs/tasks/evidence/TASK-SETTINGS-248/attack1/source-display-list.json",
+        "sha256": "5264c2d7739b52245bbde80eea01fffaf1482f5d0287fd27d3edb88fd296811e"
+      },
+      "oracle": {
+        "path": "docs/tasks/evidence/TASK-SETTINGS-248/attack1/native.json",
+        "sha256": "7f29350dd1a1ca3eef366009235bc0b82c81ec5bac78b7baf93b0bd6a90e0f29",
+        "caseCount": 46960
+      },
+      "fixtures": {
+        "path": "docs/tasks/evidence/TASK-SETTINGS-248/attack1/fixtures.json",
+        "sha256": "67a2584a52702e45c5cb257b53b2dd199ed063d1994e07687f9184c5cd52b53e"
+      },
+      "phaseFields": [
+        {
+          "sign": 1,
+          "height": 112,
+          "originX": 2,
+          "bounds": {
+            "y": 0,
+            "height": 106.35,
+            "x": 0,
+            "width": 104.8
+          },
+          "id": "f1-s1",
+          "frame": 1,
+          "rawBytes": 616000,
+          "phaseCount": 400,
+          "phaseStride": 1540,
+          "originY": 2,
+          "width": 110,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f1-s1.deflate",
+          "sha256": "b1e75039d59416331ff5bc6cceece26718888b67a6a490850f84738ce9fcb531"
+        },
+        {
+          "sign": 1.2,
+          "height": 105,
+          "originX": 32,
+          "bounds": {
+            "y": -50,
+            "height": 100,
+            "x": -25,
+            "width": 50
+          },
+          "id": "hero-ObjectBaseSprite",
+          "frame": 0,
+          "rawBytes": 341600,
+          "phaseCount": 400,
+          "phaseStride": 854,
+          "originY": 52,
+          "width": 65,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/hero-ObjectBaseSprite.deflate",
+          "sha256": "885c0393240c5fb787cccaf8151a2f4fab0ad41650b4ef3356c15676cef7e2b5"
+        },
+        {
+          "sign": 1,
+          "height": 35,
+          "originX": 18,
+          "bounds": {
+            "y": -15,
+            "height": 30,
+            "x": -15.55,
+            "width": 31.1
+          },
+          "id": "pet-ObjectBaseSprite3",
+          "frame": 0,
+          "rawBytes": 64800,
+          "phaseCount": 400,
+          "phaseStride": 162,
+          "originY": 17,
+          "width": 37,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/pet-ObjectBaseSprite3.deflate",
+          "sha256": "be779e480f6a617b59770aa3d5046d98bf59341e1dfaf6598c77fa69c37b3cea"
+        },
+        {
+          "sign": 1,
+          "height": 75,
+          "originX": 20,
+          "bounds": {
+            "y": -35,
+            "height": 70,
+            "x": -17.5,
+            "width": 35
+          },
+          "id": "pet-ObjectBaseSprite4",
+          "frame": 0,
+          "rawBytes": 150000,
+          "phaseCount": 400,
+          "phaseStride": 375,
+          "originY": 37,
+          "width": 40,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/pet-ObjectBaseSprite4.deflate",
+          "sha256": "d6a2b758ff0aeb2e08d12ef65e395dbf1a3aef2ed9da3c1277a46127ea9513eb"
+        },
+        {
+          "sign": 1,
+          "height": 105,
+          "originX": 27,
+          "bounds": {
+            "y": -50,
+            "height": 100,
+            "x": -25,
+            "width": 50
+          },
+          "id": "pet-ObjectBaseSprite",
+          "frame": 0,
+          "rawBytes": 288800,
+          "phaseCount": 400,
+          "phaseStride": 722,
+          "originY": 52,
+          "width": 55,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/pet-ObjectBaseSprite.deflate",
+          "sha256": "2ecac5da993d0d4476fdc78d20c88bd7211ee44e20ace0d4902023616eb3e498"
+        },
+        {
+          "sign": -1,
+          "height": 112,
+          "originX": 107,
+          "bounds": {
+            "y": 0,
+            "height": 106.35,
+            "x": 0,
+            "width": 104.8
+          },
+          "id": "f1-s-1",
+          "frame": 1,
+          "rawBytes": 616000,
+          "phaseCount": 400,
+          "phaseStride": 1540,
+          "originY": 2,
+          "width": 110,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f1-s-1.deflate",
+          "sha256": "6b1ce3202f00b73d9ca0bc567474c17f4f16b8143cdc4a972f9cb2f6d05dec38"
+        },
+        {
+          "sign": 1,
+          "height": 69,
+          "originX": -1,
+          "bounds": {
+            "y": 42.45,
+            "height": 63.5,
+            "x": 3.9,
+            "width": 122.94999999999999
+          },
+          "id": "f2-s1",
+          "frame": 2,
+          "rawBytes": 441600,
+          "phaseCount": 400,
+          "phaseStride": 1104,
+          "originY": -40,
+          "width": 128,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f2-s1.deflate",
+          "sha256": "ceee2d9b82991f825fb87a150f0db75be8f3928684888bd1aeb40995ede39533"
+        },
+        {
+          "sign": -1,
+          "height": 69,
+          "originX": 129,
+          "bounds": {
+            "y": 42.45,
+            "height": 63.5,
+            "x": 3.9,
+            "width": 122.94999999999999
+          },
+          "id": "f2-s-1",
+          "frame": 2,
+          "rawBytes": 441600,
+          "phaseCount": 400,
+          "phaseStride": 1104,
+          "originY": -40,
+          "width": 128,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f2-s-1.deflate",
+          "sha256": "26218b7012851f2524bc738096c1b0c673d52da7ab8627a2822f57ef8f091fa3"
+        },
+        {
+          "sign": 1,
+          "height": 69,
+          "originX": -1,
+          "bounds": {
+            "y": 42.45,
+            "height": 63.5,
+            "x": 3.9,
+            "width": 122.94999999999999
+          },
+          "id": "f3-s1",
+          "frame": 3,
+          "rawBytes": 441600,
+          "phaseCount": 400,
+          "phaseStride": 1104,
+          "originY": -40,
+          "width": 128,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f3-s1.deflate",
+          "sha256": "ceee2d9b82991f825fb87a150f0db75be8f3928684888bd1aeb40995ede39533"
+        },
+        {
+          "sign": -1,
+          "height": 69,
+          "originX": 129,
+          "bounds": {
+            "y": 42.45,
+            "height": 63.5,
+            "x": 3.9,
+            "width": 122.94999999999999
+          },
+          "id": "f3-s-1",
+          "frame": 3,
+          "rawBytes": 441600,
+          "phaseCount": 400,
+          "phaseStride": 1104,
+          "originY": -40,
+          "width": 128,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f3-s-1.deflate",
+          "sha256": "26218b7012851f2524bc738096c1b0c673d52da7ab8627a2822f57ef8f091fa3"
+        },
+        {
+          "sign": 1,
+          "height": 69,
+          "originX": -1,
+          "bounds": {
+            "y": 42.45,
+            "height": 63.5,
+            "x": 3.9,
+            "width": 122.94999999999999
+          },
+          "id": "f4-s1",
+          "frame": 4,
+          "rawBytes": 441600,
+          "phaseCount": 400,
+          "phaseStride": 1104,
+          "originY": -40,
+          "width": 128,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f4-s1.deflate",
+          "sha256": "ceee2d9b82991f825fb87a150f0db75be8f3928684888bd1aeb40995ede39533"
+        },
+        {
+          "sign": -1,
+          "height": 69,
+          "originX": 129,
+          "bounds": {
+            "y": 42.45,
+            "height": 63.5,
+            "x": 3.9,
+            "width": 122.94999999999999
+          },
+          "id": "f4-s-1",
+          "frame": 4,
+          "rawBytes": 441600,
+          "phaseCount": 400,
+          "phaseStride": 1104,
+          "originY": -40,
+          "width": 128,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f4-s-1.deflate",
+          "sha256": "26218b7012851f2524bc738096c1b0c673d52da7ab8627a2822f57ef8f091fa3"
+        },
+        {
+          "sign": 1,
+          "height": 69,
+          "originX": -1,
+          "bounds": {
+            "y": 42.45,
+            "height": 63.5,
+            "x": 3.9,
+            "width": 122.94999999999999
+          },
+          "id": "f5-s1",
+          "frame": 5,
+          "rawBytes": 441600,
+          "phaseCount": 400,
+          "phaseStride": 1104,
+          "originY": -40,
+          "width": 128,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f5-s1.deflate",
+          "sha256": "ceee2d9b82991f825fb87a150f0db75be8f3928684888bd1aeb40995ede39533"
+        },
+        {
+          "sign": -1,
+          "height": 69,
+          "originX": 129,
+          "bounds": {
+            "y": 42.45,
+            "height": 63.5,
+            "x": 3.9,
+            "width": 122.94999999999999
+          },
+          "id": "f5-s-1",
+          "frame": 5,
+          "rawBytes": 441600,
+          "phaseCount": 400,
+          "phaseStride": 1104,
+          "originY": -40,
+          "width": 128,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack1/air/fields/f5-s-1.deflate",
+          "sha256": "26218b7012851f2524bc738096c1b0c673d52da7ab8627a2822f57ef8f091fa3"
+        }
+      ],
+      "verification": {
+        "status": "passed-exact-approved-residuals",
+        "cases": 46960,
+        "positive": 7280,
+        "negative": 39680,
+        "pixels": 14485422,
+        "booleanDifferences": 0,
+        "residualCases": 10,
+        "residualPixels": 10,
+        "diagnostic": {
+          "targetDifferences": 0,
+          "attackDifferences": 10,
+          "compositeDifferences": 0
+        },
+        "mutants": {
+          "flip": "f1-s1-hero-ObjectBaseSprite-center",
+          "origin-x": "f1-s1-pet-ObjectBaseSprite3-left-16-30",
+          "origin-y": "f1-s1-hero-ObjectBaseSprite-bottom-8--30",
+          "profile": "f1-s1-hero-ObjectBaseSprite-left-8--30",
+          "frame": "f1-s1-hero-ObjectBaseSprite-left-8--30",
+          "bounds": "f1-s1-hero-ObjectBaseSprite-left-1--30",
+          "rounding": "f1-s1-pet-ObjectBaseSprite3-bottom-2-0",
+          "omitted-child": "f1-s1-hero-ObjectBaseSprite-center",
+          "sole-origin": "f1-s-1-pet-ObjectBaseSprite3-bottom-2-0"
+        },
+        "repeat": {
+          "status": "passed",
+          "cases": 46960,
+          "phaseFields": 14,
+          "sourceCasesEqual": true,
+          "fieldBytesEqual": true,
+          "displayTreesEqual": true,
+          "baselinePngBytesEqual": true
+        },
+        "candidateSha256": "de7ee5a60c9b8750c362e081c459d3bc510995b02b06b4a7bcbb6d5583ca57b7",
+        "profileTypes": 40,
+        "profileSourceSha256": "57ff617e067ff898c077ff97e4217aacf81d11668af176cad16652564711b6ce",
+        "approvalSha256": "2b0e27eab84b957295373ffc15f362dbc5440bd79406843b02305f468ba961eb"
+      },
+      "residuals": {
+        "path": "docs/tasks/evidence/TASK-SETTINGS-248/attack1/candidate-pixel-differences.json",
+        "sha256": "de7ee5a60c9b8750c362e081c459d3bc510995b02b06b4a7bcbb6d5583ca57b7"
+      }
+    },
+    {
+      "attack": 2,
+      "symbol": "Monster3Bullet2",
+      "characterId": 74,
+      "totalFrames": 10,
+      "sourceDisplayList": {
+        "path": "docs/tasks/evidence/TASK-SETTINGS-248/attack2/source-display-list.json",
+        "sha256": "d853d00eed4ab2d016822c076bfc95e4bff928435734e04bfdad77e349d4d42e"
+      },
+      "oracle": {
+        "path": "docs/tasks/evidence/TASK-SETTINGS-248/attack2/native.json",
+        "sha256": "5f6a472127c424abe07b3d0ee3ce18882e3d2d5fc48f934e3cd0570750d7d134",
+        "caseCount": 93920
+      },
+      "fixtures": {
+        "path": "docs/tasks/evidence/TASK-SETTINGS-248/attack2/fixtures.json",
+        "sha256": "115c6b85d0e94d00af6107ff293088f2b54fe10790813e571551574044ea3b5c"
+      },
+      "phaseFields": [
+        {
+          "id": "f1-s1",
+          "height": 56,
+          "frame": 1,
+          "phaseStride": 770,
+          "bounds": {
+            "y": 0,
+            "height": 50.8,
+            "x": 0,
+            "width": 104.05
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 2,
+          "originX": 2,
+          "rawBytes": 308000,
+          "width": 110,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f1-s1.deflate",
+          "sha256": "ccef2b75eed7cb3c4e018976e15391771266deafeb008b6cf06b4a5d3cc2fc9d"
+        },
+        {
+          "id": "hero-ObjectBaseSprite",
+          "height": 105,
+          "frame": 0,
+          "phaseStride": 854,
+          "bounds": {
+            "y": -50,
+            "height": 100,
+            "x": -25,
+            "width": 50
+          },
+          "phaseCount": 400,
+          "sign": 1.2,
+          "originY": 52,
+          "originX": 32,
+          "rawBytes": 341600,
+          "width": 65,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/hero-ObjectBaseSprite.deflate",
+          "sha256": "885c0393240c5fb787cccaf8151a2f4fab0ad41650b4ef3356c15676cef7e2b5"
+        },
+        {
+          "id": "pet-ObjectBaseSprite3",
+          "height": 35,
+          "frame": 0,
+          "phaseStride": 162,
+          "bounds": {
+            "y": -15,
+            "height": 30,
+            "x": -15.55,
+            "width": 31.1
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 17,
+          "originX": 18,
+          "rawBytes": 64800,
+          "width": 37,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/pet-ObjectBaseSprite3.deflate",
+          "sha256": "be779e480f6a617b59770aa3d5046d98bf59341e1dfaf6598c77fa69c37b3cea"
+        },
+        {
+          "id": "pet-ObjectBaseSprite4",
+          "height": 75,
+          "frame": 0,
+          "phaseStride": 375,
+          "bounds": {
+            "y": -35,
+            "height": 70,
+            "x": -17.5,
+            "width": 35
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 37,
+          "originX": 20,
+          "rawBytes": 150000,
+          "width": 40,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/pet-ObjectBaseSprite4.deflate",
+          "sha256": "d6a2b758ff0aeb2e08d12ef65e395dbf1a3aef2ed9da3c1277a46127ea9513eb"
+        },
+        {
+          "id": "pet-ObjectBaseSprite",
+          "height": 105,
+          "frame": 0,
+          "phaseStride": 722,
+          "bounds": {
+            "y": -50,
+            "height": 100,
+            "x": -25,
+            "width": 50
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 52,
+          "originX": 27,
+          "rawBytes": 288800,
+          "width": 55,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/pet-ObjectBaseSprite.deflate",
+          "sha256": "2ecac5da993d0d4476fdc78d20c88bd7211ee44e20ace0d4902023616eb3e498"
+        },
+        {
+          "id": "f1-s-1",
+          "height": 56,
+          "frame": 1,
+          "phaseStride": 770,
+          "bounds": {
+            "y": 0,
+            "height": 50.8,
+            "x": 0,
+            "width": 104.05
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 2,
+          "originX": 107,
+          "rawBytes": 308000,
+          "width": 110,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f1-s-1.deflate",
+          "sha256": "9d03a407c4c01b21bf406dc81c6dfdd2eff08aeb11f05e197ba54b6a028d898f"
+        },
+        {
+          "id": "f2-s1",
+          "height": 60,
+          "frame": 2,
+          "phaseStride": 915,
+          "bounds": {
+            "y": -1.75,
+            "height": 54.75,
+            "x": -5.35,
+            "width": 116.1
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 4,
+          "originX": 8,
+          "rawBytes": 366000,
+          "width": 122,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f2-s1.deflate",
+          "sha256": "2f79aee62100101603da035df78c0fd7c5e042dec77c857d3818de3ba419861c"
+        },
+        {
+          "id": "f2-s-1",
+          "height": 60,
+          "frame": 2,
+          "phaseStride": 915,
+          "bounds": {
+            "y": -1.75,
+            "height": 54.75,
+            "x": -5.35,
+            "width": 116.1
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 4,
+          "originX": 113,
+          "rawBytes": 366000,
+          "width": 122,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f2-s-1.deflate",
+          "sha256": "f707d54195d1b5d856234fb4edf8ccb2f5d4d6135bfe2e929f7728d9813fd3ea"
+        },
+        {
+          "id": "f3-s1",
+          "height": 63,
+          "frame": 3,
+          "phaseStride": 1032,
+          "bounds": {
+            "y": -3.1,
+            "height": 57.75,
+            "x": -9.45,
+            "width": 125.5
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 6,
+          "originX": 12,
+          "rawBytes": 412800,
+          "width": 131,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f3-s1.deflate",
+          "sha256": "a59a4f3a196cc130c9ac85223b4b89c48cc06c42737117dbc8f10d3aea117baf"
+        },
+        {
+          "id": "f3-s-1",
+          "height": 63,
+          "frame": 3,
+          "phaseStride": 1032,
+          "bounds": {
+            "y": -3.1,
+            "height": 57.75,
+            "x": -9.45,
+            "width": 125.5
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 6,
+          "originX": 119,
+          "rawBytes": 412800,
+          "width": 131,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f3-s-1.deflate",
+          "sha256": "dc0d1584399711f9d7874264d6065e5fa14c11ebb5b89d208523da25ef178319"
+        },
+        {
+          "id": "f4-s1",
+          "height": 65,
+          "frame": 4,
+          "phaseStride": 1114,
+          "bounds": {
+            "y": -4,
+            "height": 59.85,
+            "x": -12.25,
+            "width": 131.75
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 6,
+          "originX": 15,
+          "rawBytes": 445600,
+          "width": 137,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f4-s1.deflate",
+          "sha256": "2482ae1c2a6daa0d1954fd41a041bdbf783cf9e9995057a6958dbee5c810380e"
+        },
+        {
+          "id": "f4-s-1",
+          "height": 65,
+          "frame": 4,
+          "phaseStride": 1114,
+          "bounds": {
+            "y": -4,
+            "height": 59.85,
+            "x": -12.25,
+            "width": 131.75
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 6,
+          "originX": 122,
+          "rawBytes": 445600,
+          "width": 137,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f4-s-1.deflate",
+          "sha256": "9b61ee6cde6985df742bb0f57e227ae5074d77b6a410eb2ca9c27f00c50bf111"
+        },
+        {
+          "id": "f5-s1",
+          "height": 66,
+          "frame": 5,
+          "phaseStride": 1164,
+          "bounds": {
+            "y": -4.5,
+            "height": 60.9,
+            "x": -13.75,
+            "width": 135.05
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 7,
+          "originX": 16,
+          "rawBytes": 465600,
+          "width": 141,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f5-s1.deflate",
+          "sha256": "135d44d32b8032d7d7988f5c03de59004d67cf7f7a81775564e7e8632b61ed0b"
+        },
+        {
+          "id": "f5-s-1",
+          "height": 66,
+          "frame": 5,
+          "phaseStride": 1164,
+          "bounds": {
+            "y": -4.5,
+            "height": 60.9,
+            "x": -13.75,
+            "width": 135.05
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 7,
+          "originX": 124,
+          "rawBytes": 465600,
+          "width": 141,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f5-s-1.deflate",
+          "sha256": "d2405488075752c93d4659e1ac09b333e9bd6720756dcd48b32556b1cad31565"
+        },
+        {
+          "id": "f6-s1",
+          "height": 66,
+          "frame": 6,
+          "phaseStride": 1155,
+          "bounds": {
+            "y": -4.45,
+            "height": 60.85,
+            "x": -13.75,
+            "width": 134.85
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 7,
+          "originX": 16,
+          "rawBytes": 462000,
+          "width": 140,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f6-s1.deflate",
+          "sha256": "84517896f830c2dad6964b466e1e9e5966c433ec43bfa3bca2136f272ea3cfac"
+        },
+        {
+          "id": "f6-s-1",
+          "height": 66,
+          "frame": 6,
+          "phaseStride": 1155,
+          "bounds": {
+            "y": -4.45,
+            "height": 60.85,
+            "x": -13.75,
+            "width": 134.85
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 7,
+          "originX": 124,
+          "rawBytes": 462000,
+          "width": 140,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f6-s-1.deflate",
+          "sha256": "6ebcaa9228dde6e5e581ff1003562b55c394ffb75cc06d5af7afbd4bcffb8b93"
+        },
+        {
+          "id": "f7-s1",
+          "height": 65,
+          "frame": 7,
+          "phaseStride": 1114,
+          "bounds": {
+            "y": -4.05,
+            "height": 59.9,
+            "x": -12.2,
+            "width": 131.29999999999998
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 7,
+          "originX": 15,
+          "rawBytes": 445600,
+          "width": 137,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f7-s1.deflate",
+          "sha256": "3369bc925f80cab68f93471455cc11ef7ffc81e7f996d0cb6031aa115e7f5867"
+        },
+        {
+          "id": "f7-s-1",
+          "height": 65,
+          "frame": 7,
+          "phaseStride": 1114,
+          "bounds": {
+            "y": -4.05,
+            "height": 59.9,
+            "x": -12.2,
+            "width": 131.29999999999998
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 7,
+          "originX": 122,
+          "rawBytes": 445600,
+          "width": 137,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f7-s-1.deflate",
+          "sha256": "ec296c9e6b7bae5c168c4d2333b37208fc53b77936d17b9c22df1f719f32d466"
+        },
+        {
+          "id": "f8-s1",
+          "height": 63,
+          "frame": 8,
+          "phaseStride": 1032,
+          "bounds": {
+            "y": -3.1,
+            "height": 57.7,
+            "x": -9.35,
+            "width": 125.25
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 6,
+          "originX": 12,
+          "rawBytes": 412800,
+          "width": 131,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f8-s1.deflate",
+          "sha256": "cd7cc60290383ea748330907324e82eec22027b80144fb95a067bb74eba631b3"
+        },
+        {
+          "id": "f8-s-1",
+          "height": 63,
+          "frame": 8,
+          "phaseStride": 1032,
+          "bounds": {
+            "y": -3.1,
+            "height": 57.7,
+            "x": -9.35,
+            "width": 125.25
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 6,
+          "originX": 118,
+          "rawBytes": 412800,
+          "width": 131,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f8-s-1.deflate",
+          "sha256": "dce5d5f5dee4edfddfd0d63a80d8cad9b6ca57c1e74a0e32da0e09c37a8f9a5c"
+        },
+        {
+          "id": "f9-s1",
+          "height": 60,
+          "frame": 9,
+          "phaseStride": 908,
+          "bounds": {
+            "y": -1.8,
+            "height": 54.9,
+            "x": -4.8,
+            "width": 115.14999999999999
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 4,
+          "originX": 7,
+          "rawBytes": 363200,
+          "width": 121,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f9-s1.deflate",
+          "sha256": "798ef70424ee2b53b3ade71e6c2a81cef3f4fceeb6b69f370bfd6f946b9092e3"
+        },
+        {
+          "id": "f9-s-1",
+          "height": 60,
+          "frame": 9,
+          "phaseStride": 908,
+          "bounds": {
+            "y": -1.8,
+            "height": 54.9,
+            "x": -4.8,
+            "width": 115.14999999999999
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 4,
+          "originX": 113,
+          "rawBytes": 363200,
+          "width": 121,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f9-s-1.deflate",
+          "sha256": "2a7e5f159b199aeb7fcc587f11a88d919eea665aaaebec14a9aba02966f78756"
+        },
+        {
+          "id": "f10-s1",
+          "height": 56,
+          "frame": 10,
+          "phaseStride": 770,
+          "bounds": {
+            "y": 0,
+            "height": 50.8,
+            "x": 0,
+            "width": 104.05
+          },
+          "phaseCount": 400,
+          "sign": 1,
+          "originY": 2,
+          "originX": 2,
+          "rawBytes": 308000,
+          "width": 110,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f10-s1.deflate",
+          "sha256": "ccef2b75eed7cb3c4e018976e15391771266deafeb008b6cf06b4a5d3cc2fc9d"
+        },
+        {
+          "id": "f10-s-1",
+          "height": 56,
+          "frame": 10,
+          "phaseStride": 770,
+          "bounds": {
+            "y": 0,
+            "height": 50.8,
+            "x": 0,
+            "width": 104.05
+          },
+          "phaseCount": 400,
+          "sign": -1,
+          "originY": 2,
+          "originX": 107,
+          "rawBytes": 308000,
+          "width": 110,
+          "path": "local-resources/regima/task-outputs/TASK-SETTINGS-248/attack2/air/fields/f10-s-1.deflate",
+          "sha256": "9d03a407c4c01b21bf406dc81c6dfdd2eff08aeb11f05e197ba54b6a028d898f"
+        }
+      ],
+      "verification": {
+        "status": "passed-exact-approved-residuals",
+        "cases": 93920,
+        "positive": 19155,
+        "negative": 74765,
+        "pixels": 28421345,
+        "booleanDifferences": 0,
+        "residualCases": 418,
+        "residualPixels": 441,
+        "diagnostic": {
+          "targetDifferences": 0,
+          "attackDifferences": 441,
+          "compositeDifferences": 0
+        },
+        "mutants": {
+          "flip": "f1-s1-hero-ObjectBaseSprite-center",
+          "origin-x": "f1-s1-hero-ObjectBaseSprite-left-1--30",
+          "origin-y": "f1-s1-hero-ObjectBaseSprite-top-2--30",
+          "profile": "f1-s1-hero-ObjectBaseSprite-left-1--30",
+          "frame": "f1-s1-hero-ObjectBaseSprite-left-1--30",
+          "bounds": "f1-s1-hero-ObjectBaseSprite-top-1--30",
+          "rounding": "f1-s1-hero-ObjectBaseSprite-right-0.95--30",
+          "omitted-child": "f1-s1-hero-ObjectBaseSprite-center",
+          "sole-origin": "f1-s1-hero-ObjectBaseSprite-grid--20-60-0.25"
+        },
+        "repeat": {
+          "status": "passed",
+          "cases": 93920,
+          "phaseFields": 24,
+          "sourceCasesEqual": true,
+          "fieldBytesEqual": true,
+          "displayTreesEqual": true,
+          "baselinePngBytesEqual": true
+        },
+        "candidateSha256": "a8969c0a66113ef4834caeeb3bb5f5d6b9a29e87520792c11bdf55b692229e45",
+        "profileTypes": 40,
+        "profileSourceSha256": "57ff617e067ff898c077ff97e4217aacf81d11668af176cad16652564711b6ce",
+        "approvalSha256": "2b0e27eab84b957295373ffc15f362dbc5440bd79406843b02305f468ba961eb"
+      },
+      "residuals": {
+        "path": "docs/tasks/evidence/TASK-SETTINGS-248/attack2/candidate-pixel-differences.json",
+        "sha256": "a8969c0a66113ef4834caeeb3bb5f5d6b9a29e87520792c11bdf55b692229e45"
+      }
+    }
+  ],
+  "profiles": [
+    {
+      "id": "hero-ObjectBaseSprite",
+      "kind": "hero",
+      "symbol": "ObjectBaseSprite",
+      "scaleX": 1.2,
+      "scaleY": 1,
+      "x": 0,
+      "y": 0,
+      "parentScaleX": 1,
+      "parentScaleY": 1,
+      "types": [
+        "Role1",
+        "Role2",
+        "Role3",
+        "Role4",
+        "Role5"
+      ]
+    },
+    {
+      "id": "pet-ObjectBaseSprite3",
+      "kind": "pet",
+      "symbol": "ObjectBaseSprite3",
+      "scaleX": 1,
+      "scaleY": 1,
+      "x": 0,
+      "y": 0,
+      "parentScaleX": 1,
+      "parentScaleY": 1,
+      "types": [
+        "PetMonkey1",
+        "PetHorse1",
+        "PetKabu1",
+        "PetKabu2",
+        "PetTiger1",
+        "PetTurtle1",
+        "PetPhoenix1",
+        "PetDragon1",
+        "PetRabbit1"
+      ]
+    },
+    {
+      "id": "pet-ObjectBaseSprite4",
+      "kind": "pet",
+      "symbol": "ObjectBaseSprite4",
+      "scaleX": 1,
+      "scaleY": 1,
+      "x": 0,
+      "y": 0,
+      "parentScaleX": 1,
+      "parentScaleY": 1,
+      "types": [
+        "PetMonkey2",
+        "PetHorse2",
+        "PetHorse3",
+        "PetHorse4",
+        "PetTiger2",
+        "PetTurtle2",
+        "PetPhoenix2",
+        "PetPhoenix3",
+        "PetPhoenix4",
+        "PetDragon2",
+        "PetDragon3",
+        "PetDragon4",
+        "PetRabbit2",
+        "PetRabbit3",
+        "PetMouse1",
+        "PetMouse2",
+        "PetMouse3",
+        "PetMouse4"
+      ]
+    },
+    {
+      "id": "pet-ObjectBaseSprite",
+      "kind": "pet",
+      "symbol": "ObjectBaseSprite",
+      "scaleX": 1,
+      "scaleY": 1,
+      "x": 0,
+      "y": 0,
+      "parentScaleX": 1,
+      "parentScaleY": 1,
+      "types": [
+        "PetMonkey3",
+        "PetMonkey4",
+        "PetKabu3",
+        "PetTiger3",
+        "PetTiger4",
+        "PetTurtle3",
+        "PetTurtle4",
+        "PetRabbit4"
+      ]
+    }
+  ],
+  "targets": [
+    {
+      "id": "hero-ObjectBaseSprite",
+      "bounds": {
+        "y": -50,
+        "height": 100,
+        "x": -30,
+        "width": 60
+      },
+      "tree": {
+        "matrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1.1999969482421875,
+          "b": 0,
+          "c": 0
+        },
+        "blendMode": "normal",
+        "bounds": {
+          "y": -50,
+          "height": 100,
+          "x": -25,
+          "width": 50
+        },
+        "totalFrames": 1,
+        "visible": false,
+        "worldMatrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1.1999969482421875,
+          "b": 0,
+          "c": 0
+        },
+        "frame": 1,
+        "alpha": 1,
+        "children": [
+          {
+            "matrix": {
+              "d": 1,
+              "tx": -25,
+              "ty": -50,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "blendMode": "normal",
+            "bounds": {
+              "y": 0,
+              "height": 100,
+              "x": 0,
+              "width": 50
+            },
+            "totalFrames": 1,
+            "visible": true,
+            "worldMatrix": {
+              "d": 1,
+              "tx": -30,
+              "ty": -50,
+              "a": 1.1999969482421875,
+              "b": 0,
+              "c": 0
+            },
+            "frame": 1,
+            "alpha": 1,
+            "children": [
+              {
+                "worldMatrix": {
+                  "d": 0.8333283066749573,
+                  "tx": -30,
+                  "ty": -50,
+                  "a": 0.8571329116821289,
+                  "b": 0,
+                  "c": 0
+                },
+                "blendMode": "normal",
+                "alpha": 1,
+                "bounds": {
+                  "y": 0,
+                  "height": 120,
+                  "x": 0,
+                  "width": 70
+                },
+                "children": [],
+                "type": "flash.display::Shape",
+                "matrix": {
+                  "d": 0.8333282470703125,
+                  "tx": 0,
+                  "ty": 0,
+                  "a": 0.7142791748046875,
+                  "b": 0,
+                  "c": 0
+                },
+                "visible": true,
+                "stageBounds": {
+                  "y": -50,
+                  "height": 100,
+                  "x": -30,
+                  "width": 60
+                },
+                "filters": []
+              }
+            ],
+            "type": "flash.display::MovieClip",
+            "stageBounds": {
+              "y": -50,
+              "height": 100,
+              "x": -30,
+              "width": 60
+            },
+            "filters": []
+          }
+        ],
+        "type": "ObjectBaseSprite",
+        "stageBounds": {
+          "y": -50,
+          "height": 100,
+          "x": -30,
+          "width": 60
+        },
+        "filters": []
+      }
+    },
+    {
+      "id": "pet-ObjectBaseSprite3",
+      "bounds": {
+        "y": -15,
+        "height": 30,
+        "x": -15.55,
+        "width": 31.1
+      },
+      "tree": {
+        "matrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "blendMode": "normal",
+        "bounds": {
+          "y": -15,
+          "height": 30,
+          "x": -15.55,
+          "width": 31.1
+        },
+        "totalFrames": 1,
+        "visible": false,
+        "worldMatrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "frame": 1,
+        "alpha": 1,
+        "children": [
+          {
+            "matrix": {
+              "d": 0.5555419921875,
+              "tx": -15.55,
+              "ty": -15,
+              "a": 0.5555419921875,
+              "b": 0,
+              "c": 0
+            },
+            "blendMode": "normal",
+            "bounds": {
+              "y": 0,
+              "height": 54,
+              "x": 0,
+              "width": 56
+            },
+            "totalFrames": 1,
+            "visible": true,
+            "worldMatrix": {
+              "d": 0.5555419921875,
+              "tx": -15.5,
+              "ty": -15,
+              "a": 0.5555419921875,
+              "b": 0,
+              "c": 0
+            },
+            "frame": 1,
+            "alpha": 1,
+            "children": [
+              {
+                "worldMatrix": {
+                  "d": 0.24998372793197632,
+                  "tx": -15.5,
+                  "ty": -15,
+                  "a": 0.44442683458328247,
+                  "b": 0,
+                  "c": 0
+                },
+                "blendMode": "normal",
+                "alpha": 1,
+                "bounds": {
+                  "y": 0,
+                  "height": 120,
+                  "x": 0,
+                  "width": 70
+                },
+                "children": [],
+                "type": "flash.display::Shape",
+                "matrix": {
+                  "d": 0.449981689453125,
+                  "tx": 0,
+                  "ty": 0,
+                  "a": 0.79998779296875,
+                  "b": 0,
+                  "c": 0
+                },
+                "visible": true,
+                "stageBounds": {
+                  "y": -15,
+                  "height": 30,
+                  "x": -15.55,
+                  "width": 31.1
+                },
+                "filters": []
+              }
+            ],
+            "type": "flash.display::MovieClip",
+            "stageBounds": {
+              "y": -15,
+              "height": 30,
+              "x": -15.55,
+              "width": 31.1
+            },
+            "filters": []
+          }
+        ],
+        "type": "ObjectBaseSprite3",
+        "stageBounds": {
+          "y": -15,
+          "height": 30,
+          "x": -15.55,
+          "width": 31.1
+        },
+        "filters": []
+      }
+    },
+    {
+      "id": "pet-ObjectBaseSprite4",
+      "bounds": {
+        "y": -35,
+        "height": 70,
+        "x": -17.5,
+        "width": 35
+      },
+      "tree": {
+        "matrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "blendMode": "normal",
+        "bounds": {
+          "y": -35,
+          "height": 70,
+          "x": -17.5,
+          "width": 35
+        },
+        "totalFrames": 1,
+        "visible": false,
+        "worldMatrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "frame": 1,
+        "alpha": 1,
+        "children": [
+          {
+            "matrix": {
+              "d": 1,
+              "tx": -17.5,
+              "ty": -35,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "blendMode": "normal",
+            "bounds": {
+              "y": 0,
+              "height": 70,
+              "x": 0,
+              "width": 35
+            },
+            "totalFrames": 1,
+            "visible": true,
+            "worldMatrix": {
+              "d": 1,
+              "tx": -17.5,
+              "ty": -35,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "frame": 1,
+            "alpha": 1,
+            "children": [
+              {
+                "worldMatrix": {
+                  "d": 0.58331298828125,
+                  "tx": -17.5,
+                  "ty": -35,
+                  "a": 0.5,
+                  "b": 0,
+                  "c": 0
+                },
+                "blendMode": "normal",
+                "alpha": 1,
+                "bounds": {
+                  "y": 0,
+                  "height": 120,
+                  "x": 0,
+                  "width": 70
+                },
+                "children": [],
+                "type": "flash.display::Shape",
+                "matrix": {
+                  "d": 0.58331298828125,
+                  "tx": 0,
+                  "ty": 0,
+                  "a": 0.5,
+                  "b": 0,
+                  "c": 0
+                },
+                "visible": true,
+                "stageBounds": {
+                  "y": -35,
+                  "height": 70,
+                  "x": -17.5,
+                  "width": 35
+                },
+                "filters": []
+              }
+            ],
+            "type": "flash.display::MovieClip",
+            "stageBounds": {
+              "y": -35,
+              "height": 70,
+              "x": -17.5,
+              "width": 35
+            },
+            "filters": []
+          }
+        ],
+        "type": "ObjectBaseSprite4",
+        "stageBounds": {
+          "y": -35,
+          "height": 70,
+          "x": -17.5,
+          "width": 35
+        },
+        "filters": []
+      }
+    },
+    {
+      "id": "pet-ObjectBaseSprite",
+      "bounds": {
+        "y": -50,
+        "height": 100,
+        "x": -25,
+        "width": 50
+      },
+      "tree": {
+        "matrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "blendMode": "normal",
+        "bounds": {
+          "y": -50,
+          "height": 100,
+          "x": -25,
+          "width": 50
+        },
+        "totalFrames": 1,
+        "visible": false,
+        "worldMatrix": {
+          "d": 1,
+          "tx": 0,
+          "ty": 0,
+          "a": 1,
+          "b": 0,
+          "c": 0
+        },
+        "frame": 1,
+        "alpha": 1,
+        "children": [
+          {
+            "matrix": {
+              "d": 1,
+              "tx": -25,
+              "ty": -50,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "blendMode": "normal",
+            "bounds": {
+              "y": 0,
+              "height": 100,
+              "x": 0,
+              "width": 50
+            },
+            "totalFrames": 1,
+            "visible": true,
+            "worldMatrix": {
+              "d": 1,
+              "tx": -25,
+              "ty": -50,
+              "a": 1,
+              "b": 0,
+              "c": 0
+            },
+            "frame": 1,
+            "alpha": 1,
+            "children": [
+              {
+                "worldMatrix": {
+                  "d": 0.8333283066749573,
+                  "tx": -25,
+                  "ty": -50,
+                  "a": 0.7142791748046875,
+                  "b": 0,
+                  "c": 0
+                },
+                "blendMode": "normal",
+                "alpha": 1,
+                "bounds": {
+                  "y": 0,
+                  "height": 120,
+                  "x": 0,
+                  "width": 70
+                },
+                "children": [],
+                "type": "flash.display::Shape",
+                "matrix": {
+                  "d": 0.8333282470703125,
+                  "tx": 0,
+                  "ty": 0,
+                  "a": 0.7142791748046875,
+                  "b": 0,
+                  "c": 0
+                },
+                "visible": true,
+                "stageBounds": {
+                  "y": -50,
+                  "height": 100,
+                  "x": -25,
+                  "width": 50
+                },
+                "filters": []
+              }
+            ],
+            "type": "flash.display::MovieClip",
+            "stageBounds": {
+              "y": -50,
+              "height": 100,
+              "x": -25,
+              "width": 50
+            },
+            "filters": []
+          }
+        ],
+        "type": "ObjectBaseSprite",
+        "stageBounds": {
+          "y": -50,
+          "height": 100,
+          "x": -25,
+          "width": 50
+        },
+        "filters": []
+      }
+    }
+  ],
+  "phase": {
+    "path": "docs/tasks/evidence/TASK-SETTINGS-248/phase-binding.json",
+    "sha256": "b5a36a734a463944404c68d56522d27517089e14d0dba29d7a629a3ad963e787"
+  },
+  "sampling": {
+    "phasesPerAxis": 20,
+    "bitOrder": "little",
+    "translation": "quarter-pixel signed truncation; finite frozen domain only",
+    "predicate": "AND planes then original sole-origin getColorBoundsRect rule",
+    "limitations": "Exact approved finite residual tuples only; zero Boolean differences required. No arbitrary-coordinate equivalence or real HP claim."
+  },
+  "unresolved": [],
+  "approval": {
+    "status": "user-approved",
+    "date": "2026-10-02",
+    "authorization": "User replied 允许 to the exact 428-case/451-pixel approval request in this chat.",
+    "candidates": {
+      "1": "de7ee5a60c9b8750c362e081c459d3bc510995b02b06b4a7bcbb6d5583ca57b7",
+      "2": "a8969c0a66113ef4834caeeb3bb5f5d6b9a29e87520792c11bdf55b692229e45"
+    },
+    "residualCases": 428,
+    "residualPixels": 451,
+    "booleanDifferencesRequired": 0,
+    "scope": "Only these exact collision pixel tuples; no Boolean, damage or timing tolerance; no modern implementation approval implied"
+  }
+}
