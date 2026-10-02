@@ -37,6 +37,10 @@ This document records harness-level rules for AI agents that edit game code. It 
 
 “只测一次”的单位是同一批次中未变化的相关代码、测试、fixture、资源、配置与环境。改了其中一项就重测受影响项；失败或未运行结果不能复用。跨命令是否复用由执行者核对已有日志/结果，工具不提供永久免检缓存，也不新增检查台账。计划好一条包含核心与专项的命令，执行后不再为了收尾格式追加 `check:all`。
 
+## 校验结果读取试验
+
+只在执行/读取本批校验结果时应用 [MO-004](methods/MO-004-校验摘要与按需诊断.md)（[PG-019](problems/PG-019-校验结果模型读取成本缺少约束.md)）：完整日志本地保存，通过先读含真实退出码、范围、重要告警/跳过及路径的摘要，失败按错误窄读。已核对且相关输入未变的同批结果直接引用；证据不足时展开，不降低断言、合同或人工视觉要求。后续三个真实批次集中采样，达到复核点裁决；不增加每条测试的记录或模型审阅。
+
 ## System Test Triggers
 
 Add or update `tools/system-tests.ts` when a change touches any of these areas:

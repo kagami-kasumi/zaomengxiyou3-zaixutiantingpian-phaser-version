@@ -102,3 +102,5 @@
 242B共享被动数值核销见[验收](../pet-passive-runtime-acceptance.md)：猴马共用实际session与伤害消费者，青龙/玄龟公共接缝回归；六特效视觉经244/246及245B闭合，原41+43条目及其他公共责任完整保留。
 
 245B六效果视觉核销见[验收](../pet-passive-display-acceptance.md)。247仅承接Monster3原版身体/两个独立攻击缺口；其余类型、人偶与原84组合责任不据此核销。
+
+2026-10-02 / 247补充：Monster3原方法/两攻击实时相位有界通过，248补空间与真实colipse命中；尚未消费两条现代owner，原84相关责任不核销。合同见 `../monster3-body-attack-contract.md`。

@@ -92,3 +92,7 @@
 ## 240 现代消费
 
 Monster30两owner已接实体附属独立攻击runtime、241像素命中、真实hero/pet HP和只读显示。逐合同验收与精确边界见[240验收](monster30-runtime-acceptance.md)。原226三fps致死反例已转为实际runtime通过；66生命周期、210宠物HP、216原生EXIT相位、93920命中及七生产变异分别验证不同层次。232源sink边界仍保留，不能用本代表结果消除BA-08其他11类型、人偶或226其余公共责任。
+
+## Monster3后续证据（247）
+
+247已独立核实Monster3两攻击的身体/发射/目标服务/死后保留与destroy；见[Monster3合同](monster3-body-attack-contract.md)。两攻击不同持帧、方向偏移、hit2间隔4与实时首次检测第1帧均不能套用Monster30。248承接空间/像素真值，现代两owner尚未迁移；本文件其余类型静态清单及226剩余责任不降低。

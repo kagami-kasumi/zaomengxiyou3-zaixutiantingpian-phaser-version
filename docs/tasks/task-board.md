@@ -4,7 +4,7 @@
 
 ## 当前推荐
 
-`TASK-SETTINGS-247` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SETTINGS-247.md)。
+`TASK-SETTINGS-248` 是当前 Ready 游戏执行项。执行合同见 [定义](task-definitions/TASK-SETTINGS-248.md)。
 
 本节由 `npm run generate:harness` 从下方状态表生成；历史事件见工作流治理日志。
 
@@ -12,8 +12,8 @@
 
 | Task | 状态 | 功能条线 | 类型 | 目标 | 目标机制/切片 | 输出 | 下一步 | 定义 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 青龙P1G与玄龟32合同/P1T已闭合；猴马226本地整改通过，公共剩余组合仍待，235源合同已交接242；其余五族与旧入口仍待闭合 | 247 Monster3原版合同→其他公共责任 | [定义](task-definitions/TASK-ARCH-204.md) |
-| TASK-SETTINGS-247 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | Monster3身体/独立攻击逆向 | 核实两个攻击的原版时序、命中与死亡清理 | M-030、M-034、M-042、VS-067 | 六段链、独立动态样本、消费者缺口 | 按结果生成同线补证或消费 | [定义](task-definitions/TASK-SETTINGS-247.md) |
+| TASK-ARCH-204 | Split | LINE-PRE-STAGE-2-3-PRESENTATION | 完整宠物战斗公共类父任务 | 以独立行为语义验证过的完整单家族链逐族扩展并最终 all=0 | M-032、M-034、M-042、VS-012、VS-067 | 青龙P1G与玄龟32合同/P1T已闭合；猴马226本地整改通过，公共剩余组合仍待，235源合同已交接242；其余五族与旧入口仍待闭合 | 248 Monster3空间/命中输入→两owner消费→其他公共责任 | [定义](task-definitions/TASK-ARCH-204.md) |
+| TASK-SETTINGS-248 | Ready | LINE-PRE-STAGE-2-3-PRESENTATION | Monster3两攻击视觉/命中真值 | 核实两攻击显示树、原生相位与实际colipse命中 | M-030、M-034、M-042、VS-067 | verified真值、原生基准、独立oracle与消费合同 | 两owner有界实现或确切补证 | [定义](task-definitions/TASK-SETTINGS-248.md) |
 | TASK-SLICE-194 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 宠物真动画/UI 最终校准 | 在 207/208 及后续逐个生成的完整家族任务全部完成后闭合跨物种、P1/P2、页面↔战斗↔存档旅程 | M-034、M-042、M-044、M-052、VS-067 | 宠物全 corpus 完整性、动作/行为绑定、正式旅程与零占位回填 | TASK-SETTINGS-195 | [定义](task-definitions/TASK-SLICE-194.md) |
 | TASK-SETTINGS-195 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色动作完整性/流畅度审计 | 比较五角色原 SWF 与现代帧时序、持帧、转移、clock、解包/加载/投影完整性并确定根因 | M-018..M-025、M-035、M-047、VS-068 | 可重现跨角色差异矩阵、根因分类、每受影响角色修复子 task | 执行所有生成的单角色子 task，然后 TASK-SLICE-196 | [定义](task-definitions/TASK-SETTINGS-195.md) |
 | TASK-SLICE-196 | Planned | LINE-PRE-STAGE-2-3-PRESENTATION | 五角色统一校准 | 统一复验五角色 UI/本体/普攻/技能动作流畅度与正式 Runtime 转移 | M-018..M-025、M-047、M-049、VS-068 | 五角色同标准自动对账、940×590 动作对照与无未解释卡顿 | TASK-SETTINGS-197 | [定义](task-definitions/TASK-SLICE-196.md) |

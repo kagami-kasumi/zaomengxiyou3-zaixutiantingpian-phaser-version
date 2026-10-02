@@ -1,5 +1,7 @@
 # 工作流治理日志
 
+2026-10-02 / 登记PG-019与MO-004：只治理校验阶段模型读取/重复分析成本，试行通过读摘要、失败窄诊断、同批结果复用。以输入字符代理量与质量护栏观察后续三批，最迟2026-10-16起首次相关工作裁决；分项token未知，不宣称已节省。不删断言、不改Canvas/WebGL、不新增游戏任务或抢占执行队列；入口在code-quality-gates及README，样本集中problem-audit。
+
 2026-10-02 / TASK-SLICE-245B及父245完成：六原效果181正式PNG/2720原生pose及显示树/矩阵/滤镜元数据已接入既有数值owner与共享显示路径；Canvas/WebGL各65,280态通过，最大可见通道差2.266667/2.301961，保留≤3颜色舍入及域外≤0.5px/轴对齐例外。五关双owner完整旅程、首次/暂停及青龙玄龟补充共248层原PNG零差，11生产反证、原1717数值、五项pet gate、核心/build和工程检查通过。B与父245归档，TASK-SETTINGS-247唯一Ready补Monster3身体/两攻击生命周期；不外推其他类型/人偶、204/all/194/VS-067或整线完成。见 `docs/reverse-engineering/pet-passive-display-acceptance.md`。
 
 2026-10-02 / 245B末轮门禁支架修复：旧玄龟11,572态支架在10,200态后Image.decode报EncodingError，未记为验收通过；参考文件全在且PNG头完整。改fetch/createImageBitmap并在drawImage后close，截图读取复用同入口；增加HTTP/URL诊断，原字节hash、逐态真实像素和11,572覆盖断言不变。重新运行完整五gate，不以先前部分样本替代。
