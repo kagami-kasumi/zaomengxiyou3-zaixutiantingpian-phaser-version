@@ -12,13 +12,22 @@ export function createPetTurtlePresentationBridge(scene: Phaser.Scene, assets: P
   const image = scene.add.image(0, 0, key).setOrigin(0, 0).setDepth(depth).setScrollFactor(0);
   image.setName(key);
   let disposed = false;
-  const destroy = () => {
+  const releaseTexture = () => {
     if (disposed) return;
-    disposed = true; image.destroy(); scene.textures.remove(key);
+    disposed = true; scene.textures.remove(key);
     scene.events.off('shutdown', destroy);
   };
+  const destroy = () => {
+    if (disposed) return;
+    // External body retirement already runs Image.destroy. Its destroy event
+    // releases only the texture, avoiding a recursive second Image.destroy.
+    image.off('destroy', releaseTexture);
+    image.destroy(); releaseTexture();
+  };
   scene.events.once('shutdown', destroy);
+  image.once('destroy', releaseTexture);
   return {
+    body: image,
     update(stateId: string, owners: Readonly<Record<string, TurtlePoint>> = {}, viewport: TurtlePoint = { x: 0, y: 0 }) {
       if (disposed) throw new Error('Turtle presenter is released');
       const rgba = renderTurtleState(assets, assets.state(stateId), owners, 940, 590, viewport);

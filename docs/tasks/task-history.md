@@ -13,6 +13,9 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-245B | 六公共增益正式消费 | 六效果完整资源/生命周期/五关 | M-032、M-034、M-042、VS-067 | 双后端各65280态、248正式层、11变异、五gate；[验收](../reverse-engineering/pet-passive-display-acceptance.md) |
+| TASK-SLICE-245 | 六公共增益视觉父合同 | 245A接缝与245B全合同闭合 | M-032、M-034、M-042、VS-067 | 245A/B全部通过；247 Ready，204/all保持未完成 |
+| TASK-SETTINGS-246 | 六增益局部投影逆向 | 原生局部栅格完整重建244状态 | M-032、M-034、M-042、VS-067 | 1093树/226PNG、65280态零差、重复与13反证；[合同](../reverse-engineering/pet-passive-local-projection-contract.md)，245B Ready |
 | TASK-SLICE-245A | 公共附属显示生命周期 | 原生附属退休与实际adapter清理 | M-034、M-042、VS-067 | 5408原态、7变异、双后端各5312态与重启；[验收](../reverse-engineering/pet-attached-display-acceptance.md)，245B Ready |
 | TASK-SETTINGS-244 | 六公共增益视觉真值 | 六符号显示树/时序/宿主清理 | M-032、M-034、M-042、VS-067 | 65280原生态、7运行/10字段反证；[合同](../reverse-engineering/pet-passive-visual-contract.md)，245 Ready |
 | TASK-SLICE-242B | 公共回复/六增益数值联合 | 1717源样本、真实会话/技能/HUD/保存 | M-032、M-034、M-042、VS-067 | [验收](../reverse-engineering/pet-passive-runtime-acceptance.md)，联合gate通过，244 Ready |
@@ -353,6 +356,191 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-245B
+
+完成记录：2026-10-02 / TASK-SLICE-245B及父245完成：六原效果181正式PNG/2720原生pose及显示树/矩阵/滤镜元数据已接入既有数值owner与共享显示路径；Canvas/WebGL各65,280态通过，最大可见通道差2.266667/2.301961，保留≤3颜色舍入及域外≤0.5px/轴对齐例外。五关双owner完整旅程、首次/暂停及青龙玄龟补充共248层原PNG零差，11生产反证、原1717数值、五项pet gate、核心/build和工程检查通过。B与父245归档，TASK-SETTINGS-247唯一Ready补Monster3身体/两攻击生命周期；不外推其他类型/人偶、204/all/194/VS-067或整线完成。见 `docs/reverse-engineering/pet-passive-display-acceptance.md`。
+
+原任务合同与执行历史（状态文字保留历史，以本段完成记录为准）：
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：在245A公共显示退休接缝就绪后完成六效果正式资源、数值owner显示身份与真实五关消费。245A只提供接缝，不代替本项视觉或旅程。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`（实施中、未退出）。本批gate：`npm run check:system-design -- pet P1GS P1R P1H P1G P1T`；不得核销all。
+
+规模预算：
+- 主工作包：2（全部六效果正式资源/投影；既有owner接线与正式五关联合）
+- 预计上下文压缩：0
+- 独立验收批次：2（全部244视觉消费；正式生命周期/旅程联合）
+
+拆分触发：
+- 原点/缩放/滤镜出现不可解释像素差异、声明外宿主或新的公共机制缺口时按父245原触发有界补证/拆分，不略过状态。
+
+协作计划：
+- 模式：主agent + 有界subagent；Luna只读对账244全状态与消费遗漏，主agent唯一写入。
+- 并行工作包：六效果状态/矩阵/生命周期独立核查。
+- 写入 owner：主agent。
+- 归并检查点：接线前、验收前；方法观测：无。
+
+输入资料：父 `TASK-SLICE-245.md` 全文合同、245A交接、244原生verified manifest/PNG及生成工具、235/243原1717数值expected、pet设计与验收协议、src边界及实际Session/主人owner/presenter/bundle消费者。
+
+输出产物：父245声明的六原符号全部正式透明资源、帧/矩阵/注册点/颜色滤镜数据、共同presenter与owner生命周期接缝、独立原生逐态差异和五关P1/P2正式旅程。运行必需数据进入src/public，Git拉取安装依赖即可运行。
+
+完成定义：原样满足父245全部完成定义和验收标准；不得以245A的接缝测试减去本项的实际视觉/正式五关证据。通过后同次归档B与父245，不关闭204/all/194/VS-067。
+
+验收标准：
+- 直接比较实际Canvas/WebGL输出与244全部适用原生状态、树/矩阵/滤镜/注册点，不能以现代图生成expected。
+- sxkb/fsnl 100帧自移除、嵌套6帧、早晚刷新不重播、重加、zero/short、宠物淡出与数值期限分离；四主人20/25帧、零时长完整显示、hurt中断、world暂停、数组/parent清理逐项对账。
+- BBDC方向与root方向独立，主人效果在休息/替换后继续完成；双方owner不串、退出/重试无残留。其他已迁移家族先核验verified profile适用性。
+- 保留父245全部反证：错误父级/原点/方向、提前/冻结、刷新重复、数值到期误销毁、休息误清主人效果与退出残留。
+- 五正式入口双人首次/活跃/结束、暂停恢复、换宠休息、真实失败重试/返回/重载，保持HUD并留下逐状态可见差异；零console不能代替视觉通过。
+- 原1717数值expected、猴马/青龙/玄龟回归、指定设计gate、适用系统测试/build、workflow/structure/audit:problems全部退出0，验证交付不依赖本地大manifest或忽略证据。
+
+禁止范围：继承父245全部禁止范围；不改235/243公式、原语料、家族行为，不扩张视觉例外或新增数值owner，不宣称其余家族/84剩余责任完成。
+
+状态更新：Ready（2026-10-02；246原生局部投影verified后恢复，完整原合同不删减）。
+
+补证结果：TASK-SETTINGS-246已完成；消费 `docs/reverse-engineering/pet-passive-local-projection-contract.md` 与本地projection-contract.json。65,280状态原生局部贴回零差不等于现代双后端通过；运行资源需正式导出，记录域外变换不能静默近似。
+
+执行记录（245B预检历史）：244与245A仍有效。已核对50原位图、72原profile/方向clip及65,280态；实际Canvas候选在sxkb/fsnl/mfjc残留包络外差异，未把诊断包络当视觉许可，随后由246补齐原生局部栅格。所有试验src/public和数值显示事件试改已撤回，候选仅在tools及本地产物。Dragon/Turtle可以普通适配既有register/retire，不据此增加公共机制任务。完整原六效果、五关、数值1717和指定gate合同保留，不以补证代替本项验收。详见`docs/reverse-engineering/pet-passive-projection-preflight.md`。
+
+推荐后续任务：本项完整闭合后再按204剩余公共责任及当前覆盖缺口生成同线唯一Ready，保持功能线Active。
+
+
+### TASK-SLICE-245
+
+完成记录：2026-10-02 / TASK-SLICE-245B及父245完成：六原效果181正式PNG/2720原生pose及显示树/矩阵/滤镜元数据已接入既有数值owner与共享显示路径；Canvas/WebGL各65,280态通过，最大可见通道差2.266667/2.301961，保留≤3颜色舍入及域外≤0.5px/轴对齐例外。五关双owner完整旅程、首次/暂停及青龙玄龟补充共248层原PNG零差，11生产反证、原1717数值、五项pet gate、核心/build和工程检查通过。B与父245归档，TASK-SETTINGS-247唯一Ready补Monster3身体/两攻击生命周期；不外推其他类型/人偶、204/all/194/VS-067或整线完成。见 `docs/reverse-engineering/pet-passive-display-acceptance.md`。
+
+原任务合同与执行历史（状态文字保留历史，以本段完成记录为准）：
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：242完成公共数值，但六效果尚无正式可见投影；244现已证明不同宿主、播放寿命、暂停及清理，不能统一按buff数值time显示/隐藏。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`（当前有效、实施中）。本批设计验收gate：`npm run check:system-design -- pet P1GS`、`P1R`、`P1H`、`P1G`、`P1T`；分别按同一命令替换gate执行，退出非0不通过。本项不得核销all。
+
+规模预算：
+- 主工作包：0（Split父合同，不直接执行；245A承担新增共享显示退休接缝，245B承接本文件全部原合同）
+- 预计上下文压缩：0
+- 独立验收批次：0（验收由子任务承担；245B全部通过后才核销父合同）
+
+拆分触发：
+- 原生原点/缩放/滤镜转换出现不可解释像素差异或声明外宿主profile，先有界补证，不自行扩大视觉例外。
+- 若必须新增数值owner、共享渲染机制研发或改造家族行为，保留全部合同并拆出同线前置；不逐关复制，不以略过状态减少验收。
+
+协作计划：
+- 模式：主agent + 有界subagent；主agent承担资源/运行时决策与唯一实现写入，Luna独立核对244源合同和消费差异。
+- 并行工作包：只读原生矩阵/生命周期核查；不能改task状态或共享核心文件。
+- 写入 owner：主agent；子agent只读。
+- 归并检查点：接线前及验收前；方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/pet-passive-visual-contract.md`与244 verified manifest，及`tools/pet-passive-visual/README.md`；必须先核验本地完整真值与原生baseline，不能用现代图重建expected。
+- 235/243数值合同与`pet-passive-runtime-acceptance.md`、`hero-pet-buff-owner-acceptance.md`；保持原1717 expected。
+- `docs/architecture/src-boundaries.md`、当前pet设计/验收协议及实际Session/主人owner/presenter/asset bundle消费者。
+- 原猴马四形态、五英雄显示profile；对其他已迁移家族仅能在既有verified profile适用性确认后复用公共路径，声明外状态先补证，不假称完整家族覆盖。
+
+输出产物：
+- 六原效果可重复生成的正式透明资源、帧/注册点/尺寸/颜色滤镜数据，运行数据进入正式src/public目录；Git拉取安装依赖即可运行，不能依赖244忽略文件。
+- 既有主人效果owner/PetPassiveSession到共同presenter的生命周期接缝：身份、首次创建、刷新不重播、显示帧独立推进、场景层/宠物层、暂停和销毁。
+- 全部244适用状态独立消费结果与差异、真实五关P1/P2场景证据和精简验收文档。
+
+完成定义：六效果按244源合同在正式共享路径可见，并以原生expected验证实际渲染和生命周期；不是仅资源存在，也不关闭204/all/194/VS-067。
+
+验收标准：
+- 消费六原符号与全部声明显示状态/矩阵；直接比较真实Canvas/WebGL输出，按实际后端保留差异，不用renderer自绘参考冒充原生。
+- sxkb/fsnl的100帧自移除、嵌套6帧、早/晚刷新、重加、zero/short、宠物淡出；四主人效果20/25帧独立完成、零时长仍显示、hurt中断、world暂停、原数组/parent清理全部独立对账。
+- 宠物BBDC方向与root矩阵分开；休息/替换后主人四效果继续由主人拥有，场景退出/失败重试无残留，双owner不串状态。
+- 至少反证错误父级/原点/方向、时间提前/冻结、刷新重复、数值到期误销毁、宠物休息误清主人效果与退出残留。
+- 五正式入口双人可见首次/活跃/结束、暂停/恢复、换宠/休息、实际失败重试/返回/重载；保留既有HUD，零console不能单独证明视觉通过。
+- 原1717数值、猴马及青龙/玄龟回归、指定设计gate、适用系统测试/build、workflow/structure/audit:problems全部退出0；文件交付不依赖本地大manifest或证据。
+
+禁止范围：不改原语料，不重写235/243公式，不替换为现代占位，不新增第二宠物Runtime或逐关规则，不宣称其他未验宿主/完整家族/原84其余责任已经闭合。
+
+状态更新：Split（2026-10-02消费预检命中共享渲染机制拆分触发）。
+
+执行记录：原生244仍verified；实际猴/马adapter的休息、替换、退出6例确认root与附属child同步销毁，当前没有显示退休接缝承接PV-07。245A唯一Ready先建立公共附属显示生命周期，245B Planned承接六效果全部原验收。这里只要求保留附属效果，不把原BBDC身体销毁改为身体淡出，不延长战斗实体或数值owner寿命。44个原生淡出对比的post-raster alpha候选最大可见通道差2，无大于2的像素；这是转换预检，不是Phaser视觉验收。主agent采用子agent的原生完整性与接缝定位，拒绝其“4×4透明图等于屏外”推断：透明哨兵不能证明屏外几何。详见 `docs/tasks/evidence/TASK-SLICE-245/preflight.md`。
+
+245A完成记录：共同显示接缝及指定gate通过，验收见 `docs/reverse-engineering/pet-attached-display-acceptance.md`；六效果正式触发及完整五关仍由B承担，上述预检记录保留为历史。
+
+推荐后续任务：`TASK-SLICE-245B`（Ready，246原生局部投影已verified，全部合同不删减）。B完整通过后同次核销本父任务，再按204剩余公共责任生成同线下一任务。
+
+245B预检记录（2026-10-02）：有限六效果源位图矩阵候选在全量实际Canvas对账中仍有未归因差异；触发原点/缩放/滤镜有界补证，不是新增公共root机制。未保留生产代码或资源试改，244/245A证据不降级。详见`docs/reverse-engineering/pet-passive-projection-preflight.md`。
+
+
+### TASK-SETTINGS-246
+
+完成记录：2026-10-02 / TASK-SETTINGS-246完成：原SWF局部实例采样1,093树/226种PNG，全部65,280状态与244独立舞台基准可见像素及裁切外alpha零差，重复一致，13项反证与Schema通过。恒等滤镜移除仍影响1,432态，保留原生局部栅格而不猜测Canvas采样。246归档、245B恢复唯一Ready；采样域包含原分数位置，不宣称任意重采样或现代双后端/五关通过。未改src/public、原语料或244，245/204/all/194/VS-067及功能线仍未关闭。合同见 `docs/reverse-engineering/pet-passive-local-projection-contract.md`。
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`视觉真值逆向`
+
+逆向方案：`docs/reverse-engineering/plans/pet-passive-resource-projection.md`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：245B六效果有限Canvas候选在全部244状态中出现尚未归因的局部采样残差。244最终舞台PNG和矩阵仍有效，但不能独立证明现代重栅格/平移等价。补齐源局部原点、位图采样、滤镜中间层与透明资源组合输入后恢复B，不重做数值或生命周期。
+
+规模预算：
+- 主工作包：2（有限原生分离采样与归因；全部244状态联合对账及资源投影合同）
+- 预计上下文压缩：0
+- 独立验收批次：2（独立原生重放/重复；完整状态消费与反证）
+
+拆分触发：
+- 发现六效果外资源/宿主、新的玩法时序或需要通用SWF渲染器时先重新核定范围；不按帧数、状态数或compact拆分。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent判断采样/归因；Luna只读核对状态集合、source hash与残差清单。
+- 并行工作包：原生分离采样期间独立核对244完整集和候选遗漏。
+- 写入 owner：主agent；子agent不改文件。
+- 归并检查点：补采样前、晋升前；方法观测：无。
+
+待证明的可观察问题：
+- 50张原位图的原生解码、50矩形FillStyle66的重复/边缘/分数bitmapMatrix如何决定局部像素？
+- sxkb/fsnl的712恒等滤镜是否影响中间栅格原点、采样或组合；无滤镜mfjc残差如何独立归因？
+- 能否从原生局部透明产物及矩阵重建244全部适用状态，明确允许的微小差异及其有限范围？不能将诊断包络直接当视觉许可。
+
+输入资料：`docs/workflow/reverse-engineering-task-protocol.md`、244 verified manifest、原生PNG/trace及source-definitions；`pet-passive-visual-contract.md`、`pet-passive-projection-preflight.md`、`tools/pet-passive-assets/README.md`及失败候选；恢复`assets/pet1.swf`六符号，StageCommon仅既有三种colipse输入；原包AIR与既有SDK。仅按现有locator窄读BaseAddEffect、FollowBaseObjectBullet等六效果显示方法。
+
+有限范围、入口和状态：六原符号713/738/761/778/805/806及共同712、50shape/50bitmap；保留244全部384fixture/65,280状态、猴马四形态与五英雄P1/P2。只增加解释局部投影所需的原点/矩阵/透明合成观察，不新增玩法旅程或原版家族范围。
+
+输出产物：独立原生局部投影归档、字段/相位/滤镜映射、逐状态差异/残差归因、`task-settings-246.pet-passive-projection`机器真值和B可重复消费入口；产物仅本地，运行数据由B正式导出。
+
+完成定义：原生投影输入达到verified、unresolved为空，保留244行为和全状态合同且B不需猜测局部采样事实；完成后恢复245B为唯一Ready，不执行B、不宣称现代正式视觉通过。
+
+验收标准：
+- 源哈希、50位图/50shape/7MC和全部状态集合完整；局部透明采样来自原SWF/AIR，不能由候选Canvas生成expected。
+- 同状态独立stage原PNG、源树和局部重建三方比较，覆盖首次、move分数位移、root方向/BBDC方向、嵌套6帧、淡出alpha及全部既有profile；透明4×4哨兵不能证明屏外几何。
+- 重复生成一致；错误bitmap、矩阵/原点、滤镜中间层、重复填充、帧/方向、遗漏profile必须被反证。差异原因、范围和长期授权适用性逐项记录，不扩大碰撞或时序容差。
+- Schema/完整性、workflow/structure/audit:problems退出0；不得以有限代表态替代最终声明状态集。
+
+UI 原生化合同：显示列表/父子/depth/矩阵/注册点/滤镜沿用244并增加必要局部栅格映射；原版基准为原包AIR 51.1.1.5、940×590/24fps；机器真值路径`docs/reverse-engineering/ground-truth/manifests/task-settings-246-pet-passive-projection.json`；全量状态差异可复查，轻微像素差按既有授权如实记录，不新增可见替代层。B才承担Canvas/WebGL和五关正式验收。
+
+禁止范围：不改src/public、244权威产物或legacy原提取；不改235/243数值、六效果生命周期、宠物显示owner或家族行为；不研发跨资源通用SWF渲染器，不关闭245/204/all/194/VS-067。
+
+状态更新：Done（2026-10-02；全部声明状态原生局部重建、重复、反证和Schema通过）。
+
+推荐后续任务：`TASK-SLICE-245B`（补证通过后恢复唯一Ready，完整原合同不删减）。
+
 
 ### TASK-SLICE-245A
 

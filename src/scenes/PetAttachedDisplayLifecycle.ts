@@ -50,6 +50,10 @@ export class PetAttachedDisplayLifecycle {
     if (!attachment.display(0)) this.remove(key, id);
   }
 
+  rootFor(key: string): Phaser.GameObjects.Container | undefined {
+    return this.identities.get(key)?.root;
+  }
+
   remove(key: string, id: string): void {
     const entry = this.identities.get(key), attachment = entry?.attachments.get(id);
     if (!entry || !attachment) return;

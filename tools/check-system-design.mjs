@@ -461,13 +461,17 @@ const contracts = {
       requireTest('pet-passive-consumer-tests', tests, errors);
       requireTest('pet-passive-mutation-tests', tests, errors);
       requireTest('pet-attached-display-tests', tests, errors);
+      requireTest('pet-passive-display-assets-tests', tests, errors);
       requireTest('pet-attached-mutation-tests', tests, errors);
       requireTest('hero-pet-buff-mutation-tests', tests, errors);
       requireMatches('src/scenes/test-scene/TestSceneHeroPartyRuntimeBridge.ts', [
         ['live party current attributes', /get currentStats\(\)\s*\{\s*return member\.combat\.effectiveStats/u],
       ], errors);
       requireMatches('src/scenes/HeroPartyRuntimeBridge.ts', [
-        ['shared owner phase supplied by party', /ownerStep:\s*\(\)\s*=>\s*member\.combat\.stepPetBuffs/u],
+        ['shared owner phase supplied by party', /ownerStep:\s*\(\)\s*=>\s*passiveDisplay\.ownerStep\(member/u],
+      ], errors);
+      requireMatches('src/scenes/HeroPartyPassiveDisplayBridge.ts', [
+        ['same numerical owner after bullet step', /display\.stepHero[\s\S]*member\.combat\.stepPetBuffs\(signal\s*=>\s*display\.hero/u],
       ], errors);
     },
     P1GC(errors, tests) {

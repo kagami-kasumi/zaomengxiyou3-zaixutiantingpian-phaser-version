@@ -20,9 +20,12 @@ if (!lifecycleOnly) {
 writeFileSync(`${dir}/visual-oracle.json`, JSON.stringify(visualOracle));
 }
 writeFileSync(`${dir}/index.html`, '<html><head><link rel="icon" href="data:,"></head><body style="margin:0;background:#202020"><script src="probe.js"></script></body></html>');
+const previewResponse = await fetch('http://127.0.0.1:4174/__turtle_probe/index.html');
+assert(previewResponse.ok, 'Start npm run preview on port 4174 before turtle browser checks');
 const port = lifecycleOnly ? 9449 : 9448;
 const edge = spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', [
   '--headless=new', '--no-first-run', '--no-default-browser-check', '--window-size=940,680',
+  '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows',
   `--remote-debugging-port=${port}`, `--user-data-dir=${path.resolve(`.tmp/turtle-browser-profile-${process.pid}`)}`, 'about:blank',
 ], { stdio: 'ignore', windowsHide: true });
 const delay = ms => new Promise(r => setTimeout(r, ms));
@@ -43,11 +46,11 @@ async function evaluate(expression) {
 try {
   let pages;
   for (let i = 0; i < 100; i++) {
-    try { pages = await (await fetch(`http://127.0.0.1:${port}/json`, { signal: AbortSignal.timeout(1000) })).json(); if (pages.some(p => p.type === 'page')) break; } catch {}
+    try { pages = await (await fetch(`http://127.0.0.1:${port}/json`, { signal: AbortSignal.timeout(1000) })).json(); if (pages.some(p => p.type === 'page' && p.url === 'about:blank')) break; } catch {}
     await delay(100);
   }
-  assert(pages?.some(p => p.type === 'page'), 'Edge did not start');
-  socket = new WebSocket(pages.find(p => p.type === 'page').webSocketDebuggerUrl);
+  assert(pages?.some(p => p.type === 'page' && p.url === 'about:blank'), 'Edge did not start');
+  socket = new WebSocket(pages.find(p => p.type === 'page' && p.url === 'about:blank').webSocketDebuggerUrl);
   await new Promise((resolve, reject) => { socket.addEventListener('open', resolve, { once: true }); socket.addEventListener('error', reject, { once: true }); });
   socket.addEventListener('message', ({ data }) => {
     const m = JSON.parse(data);
@@ -55,10 +58,13 @@ try {
     else if (m.method === 'Runtime.exceptionThrown') errors.push(m);
   });
   await command('Runtime.enable'); await command('Page.enable');
+  await command('Page.bringToFront');
   await command('Emulation.setDeviceMetricsOverride', { width: 940, height: 590, deviceScaleFactor: 1, mobile: false });
   await command('Page.navigate', { url: `http://127.0.0.1:4174/__turtle_probe/index.html${lifecycleOnly ? '?lifecycleOnly' : ''}` });
   let result;
   for (let i = 0; i < 1800; i++) {
+    // Enterprise extension welcome tabs can appear after navigation.
+    if (await evaluate('document.hidden')) await command('Page.bringToFront');
     result = await evaluate('window.turtleProbe');
     if (result?.state === 'passed' || result?.state === 'failed') break;
     if (i % 30 === 0) console.log('turtle browser', result);

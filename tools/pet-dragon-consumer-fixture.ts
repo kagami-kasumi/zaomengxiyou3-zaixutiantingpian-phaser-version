@@ -1,3 +1,4 @@
+import { petDisplaySceneFixture } from './pet-display-scene-fixture';
 import assert from 'node:assert/strict';
 import { petExperienceClosureFixture, petExperienceClosureBindings } from './pet-experience-closure-fixture';
 import { readFileSync, mkdirSync } from 'node:fs';
@@ -39,7 +40,7 @@ for(const form of forms) for(const stage of levels ?? ['formal','TestScene']) fo
     display.setPosition=(x:number,y:number)=>{display.x=x;display.y=y;return display;};
     display.destroy=()=>{display.destroyed=true;};displays.push(display);return display;
   };
-  const presentation=createPetDragonPresentationBridge({add:{sprite:add,image:add}} as any);
+  const presentation=createPetDragonPresentationBridge(petDisplaySceneFixture(add) as any);
   const rosters=Object.fromEntries(['p1','p2'].map(slot=>{
     const roster=createSeedPetRoster();
     roster.pets.forEach(p=>{p.id=slot+'-'+p.id;p.isActive=p.species==='dragon'&&p.form===form;

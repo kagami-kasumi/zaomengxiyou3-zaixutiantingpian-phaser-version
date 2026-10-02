@@ -205,7 +205,8 @@ for (const level of [11, 12, 13, 21, 22] as const) {
 }
 const bridge = readFileSync('src/scenes/HeroPartyRuntimeBridge.ts', 'utf8').replaceAll('\r\n', '\n');
 assert.ok(bridge.includes('frame.environmentFor(index, model.members[index]!.movement).petGroundEnvironment'));
-assert.equal(bridge.split('groundEnvironment: frame.groundEnvironmentFor?.(index)').length - 1, 2);
+assert.ok(bridge.includes('const groundEnvironment = frame.groundEnvironmentFor?.(index);'));
+assert.equal(bridge.match(/^\s+groundEnvironment,$/gm)?.length, 2);
 // Execute the actual production closure (only TypeScript erasure), with real runtimes.
 // This avoids booting Phaser while testing the P1/P2 forwarding body, rather than copying it.
 const ts = createRequire(import.meta.url)('typescript') as typeof import('typescript');

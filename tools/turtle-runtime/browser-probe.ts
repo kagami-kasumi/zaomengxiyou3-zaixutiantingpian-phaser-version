@@ -15,6 +15,12 @@ interface NativeVisual {
   mode: string; nativeId: string; nativeSha256: string; expectedSha256: string; nativeUrl: string;
   approvedPixels: { x: number; y: number; candidate: number[] }[];
 }
+async function loadNativeImage(url: string) {
+  const response = await fetch(url);
+  assert(response.ok, `native image HTTP ${response.status}: ${url}`);
+  try { return await createImageBitmap(await response.blob()); }
+  catch (error) { throw new Error(`native image decode ${url}: ${String(error)}`); }
+}
 function canvasContext() {
   const canvas = document.createElement('canvas'); canvas.width = 940; canvas.height = 590;
   return canvas.getContext('2d', { willReadFrequently: true })!;
@@ -117,8 +123,8 @@ class Probe extends Phaser.Scene {
     for (const [mode, pack] of assets.packages) for (const state of pack.states) {
       const reference = expected.get(`${mode}:${state.nativeId}`)!;
       assert(/^[a-f0-9]{64}$/.test(reference.nativeSha256), 'missing independent native digest');
-      const nativeImage = new Image(); nativeImage.src = reference.nativeUrl; await nativeImage.decode();
-      native.clearRect(0, 0, 940, 590); native.drawImage(nativeImage, 0, 0);
+      const nativeImage = await loadNativeImage(reference.nativeUrl);
+      native.clearRect(0, 0, 940, 590); native.drawImage(nativeImage, 0, 0); nativeImage.close();
       for (const pixel of reference.approvedPixels) {
         const data = native.createImageData(1, 1); data.data.set(pixel.candidate);
         native.putImageData(data, pixel.x, pixel.y);
@@ -161,8 +167,8 @@ class Probe extends Phaser.Scene {
     };
     window.turtleShowNative = async url => {
       if (!url) { showNative(false); return; }
-      const reference = new Image(); reference.src = url; await reference.decode();
-      native.clearRect(0, 0, 940, 590); native.drawImage(reference, 0, 0);
+      const reference = await loadNativeImage(url);
+      native.clearRect(0, 0, 940, 590); native.drawImage(reference, 0, 0); reference.close();
       nativeTexture.refresh(); showNative(true);
     };
     again.update('body:turtle4-r0-c0-d0-P2');

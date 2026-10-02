@@ -1,3 +1,4 @@
+import { petDisplaySceneFixture } from './pet-display-scene-fixture';
 import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -16,7 +17,7 @@ const add = (x: number, y: number, key: string) => {
   d.setData = () => d; d.destroy = () => { d.destroyed = true; };
   displays.push(d); return d;
 };
-const view = createPetDragonPresentationBridge({ add: { sprite: add, image: add } } as any);
+const view = createPetDragonPresentationBridge(petDisplaySceneFixture(add) as any);
 const projections: any[] = [];
 for (const state of index.items.filter(state => state.id.startsWith('dragon4'))) {
   const facingX = state.id.endsWith('.right') ? 1 : -1;

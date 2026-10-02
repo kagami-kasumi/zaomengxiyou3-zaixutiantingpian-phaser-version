@@ -53,4 +53,6 @@ Thumbs.db
 
 # 244: complete large native truth; regenerated locally, not a game runtime input.
 /docs/reverse-engineering/ground-truth/manifests/task-settings-244-pet-passive-effects.json
+/docs/reverse-engineering/ground-truth/manifests/task-settings-246-pet-passive-projection.json
+/tools/pet-passive-assets/__pycache__/
 /tools/pet-passive-visual/__pycache__/

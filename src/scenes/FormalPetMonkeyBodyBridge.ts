@@ -75,6 +75,10 @@ export function createFormalPetMonkeyBodyBridge(
         const member = members.find((candidate) => candidate.slot === slot);
         const pet = member?.pet;
         const runtime = member?.snapshot.runtime;
+        // Roster events can precede the next combat owner phase. Never pair a
+        // new selection with the previous session's display identity.
+        if (member?.snapshot.petId && (pet?.id !== member.snapshot.petId
+          || pet.form !== member.snapshot.form || pet.species !== member.snapshot.species)) continue;
         if (!member || !pet || !runtime || !isSupportedPetMonkey(pet)) {
           destroySlot(slot);
           continue;

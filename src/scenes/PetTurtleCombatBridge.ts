@@ -1,4 +1,5 @@
 import type Phaser from 'phaser';
+import { petAttachedDisplayLifecycle } from './PetAttachedDisplayLifecycle';
 import type { PetRoster } from '../systems/PetTypes';
 import type { PetCombatSnapshot } from '../systems/PetCombatTypes';
 import type { ProjectileModel } from '../systems/ProjectileTypes';
@@ -10,11 +11,15 @@ import { createPetTurtlePresentationBridge } from './PetTurtlePresentationBridge
 /** Resource readiness and read-only views; no second combat runtime or animation clock. */
 export function createPetTurtleCombatBridge(scene: Phaser.Scene) {
   let loading: Promise<void> | undefined, failure: unknown, disposed = false;
-  const views = new Map<string, { presenter: ReturnType<typeof createPetTurtlePresentationBridge>; signature: string }>();
+  const views = new Map<string, { presenter: ReturnType<typeof createPetTurtlePresentationBridge>; signature: string; root?: Phaser.GameObjects.Container }>();
+  const ownedRoots = new Set<Phaser.GameObjects.Container>();
+  let attached: ReturnType<typeof petAttachedDisplayLifecycle> | undefined;
   const destroy = () => {
     if (disposed) return;
     disposed = true;
     for (const view of views.values()) view.presenter.destroy();
+    for (const root of ownedRoots) attached!.dispose(root);
+    ownedRoots.clear();
     views.clear(); scene.events.off('shutdown', destroy);
   };
   scene.events.once('shutdown', destroy);
@@ -35,13 +40,20 @@ export function createPetTurtleCombatBridge(scene: Phaser.Scene) {
       if (disposed) return;
       const live = new Set<string>(), sources = new Set<string>();
       const viewport = { x: Math.round(scene.cameras.main.scrollX), y: Math.round(scene.cameras.main.scrollY) };
-      const draw = (key: string, stateId: string, x: number, y: number, depth: number) => {
+      const draw = (key: string, stateId: string, x: number, y: number, depth: number, body = false) => {
         live.add(key);
         let view = views.get(key);
         if (!view) {
           view = { presenter: createPetTurtlePresentationBridge(scene, requireTurtleAssets(scene), depth), signature: '' };
           views.set(key, view);
+          if (body) {
+            view.root = scene.add.container(x, y).setDepth(depth);
+            const root = view.root; ownedRoots.add(root);
+            root.once('destroy', () => ownedRoots.delete(root));
+            (attached ??= petAttachedDisplayLifecycle(scene)).register(key, root, view.presenter.body);
+          }
         }
+        view.root?.setPosition(x, y);
         const root = { x: Math.round(x), y: Math.round(y) };
         const signature = `${stateId}/${root.x}/${root.y}/${viewport.x}/${viewport.y}`;
         if (view.signature !== signature) { view.presenter.update(stateId, { root }, viewport); view.signature = signature; }
@@ -52,7 +64,7 @@ export function createPetTurtleCombatBridge(scene: Phaser.Scene) {
         sources.add(snapshot.petId);
         const state = requireTurtleAssets(scene).body(snapshot.form!, animation.row, animation.column,
           runtime.facingX > 0 ? 1 : 0, slot === 'p1' ? 'P1' : 'P2');
-        draw(runtime.runtimeKey, state.id, runtime.x, runtime.y, 42);
+        draw(runtime.runtimeKey, state.id, runtime.x, runtime.y, 42, true);
         const linkOffset = requireTurtleAssets(scene).linkOffset();
         if (snapshot.turtleLinkVisible) draw(`${runtime.runtimeKey}:link`,
           'effect:PetTurtle2Buff:0:s1:d1', runtime.x + linkOffset.x, runtime.y + linkOffset.y, 44);
@@ -68,7 +80,10 @@ export function createPetTurtleCombatBridge(scene: Phaser.Scene) {
           projectile.petEffectScale ?? 1, -projectile.facingX as -1 | 1);
         draw(projectile.projectileId, state.id, projectile.x, projectile.y, 43);
       }
-      for (const [key, view] of views) if (!live.has(key)) { view.presenter.destroy(); views.delete(key); }
+      for (const [key, view] of views) if (!live.has(key)) {
+        if (view.root) attached!.retire(view.root); else view.presenter.destroy();
+        views.delete(key);
+      }
     },
     destroy,
   };

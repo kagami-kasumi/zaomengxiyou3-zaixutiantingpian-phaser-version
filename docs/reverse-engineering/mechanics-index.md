@@ -1,8 +1,14 @@
 # 总机制表
 
+2026-10-02 / TASK-SLICE-245B及父245完成：六原效果181正式PNG/2720原生pose及显示树/矩阵/滤镜元数据已接入既有数值owner与共享显示路径；Canvas/WebGL各65,280态通过，最大可见通道差2.266667/2.301961，保留≤3颜色舍入及域外≤0.5px/轴对齐例外。五关双owner完整旅程、首次/暂停及青龙玄龟补充共248层原PNG零差，11生产反证、原1717数值、五项pet gate、核心/build和工程检查通过。B与父245归档，TASK-SETTINGS-247唯一Ready补Monster3身体/两攻击生命周期；不外推其他类型/人偶、204/all/194/VS-067或整线完成。见 `docs/reverse-engineering/pet-passive-display-acceptance.md`。
+
+2026-10-02 / TASK-SETTINGS-246完成：原SWF局部实例采样1,093树/226种PNG，全部65,280状态与244独立舞台基准可见像素及裁切外alpha零差，重复一致，13项反证与Schema通过。恒等滤镜移除仍影响1,432态，保留原生局部栅格而不猜测Canvas采样。246归档、245B恢复唯一Ready；采样域包含原分数位置，不宣称任意重采样或现代双后端/五关通过。未改src/public、原语料或244，245/204/all/194/VS-067及功能线仍未关闭。合同见 `docs/reverse-engineering/pet-passive-local-projection-contract.md`。
+
+2026-10-02 / TASK-SLICE-245B投影预检：50原生位图与全部244状态的Canvas候选仍有未归因采样残差；试验src/public与数值接线已撤回，244/245A保持有效。245B全合同保留并Blocked，TASK-SETTINGS-246唯一Ready补局部原点/位图采样/滤镜投影输入，完成后恢复B。不是公共root重构，不提升245/204/all/194/VS-067或整线完成度。见 `docs/reverse-engineering/pet-passive-projection-preflight.md`。
+
 2026-10-02 / TASK-SLICE-245A完成：公共附属显示生命周期已接入猴/马实际adapter；身体立即销毁，附属显示独立推进、按原一秒量化easeOut退休，双runtimeKey及Scene退出/重启清理通过。5408原状态精确对账、7生产变异、Canvas/WebGL各64组5312态及2实际生命周期旅程通过；最大可见通道差2.2667/255，阈值3，保留轻微舍入差异。P1GS/P1R/P1H/P1G/P1T、核心系统/build及工程检查通过。A归档，245B唯一Ready承接全部六效果与五关合同；父245、204/all/194/VS-067和整线不关闭。详见 `docs/reverse-engineering/pet-attached-display-acceptance.md`。
 
-2026-10-02：245消费预检发现公共附属显示退休接缝缺口，父245 Split，245A Ready、245B Planned承接全合同。仅诊断和调度，未改src/public或244真值，不提高M-032/M-034/M-042复现状态。详见 `../tasks/task-definitions/TASK-SLICE-245.md`。
+2026-10-02：245消费预检发现公共附属显示退休接缝缺口，父245 Split，245A Ready、245B Planned承接全合同。仅诊断和调度，未改src/public或244真值，不提高M-032/M-034/M-042复现状态。详见 `../tasks/task-history.md#task-slice-245`。
 
 2026-10-01 / TASK-SETTINGS-244完成：六公共增益107源定义/7时间轴、384fixture/65,280原生态与45,068归一化对象verified；原生重复完全一致，7运行变体/10字段变异、来源/Schema/生命周期/裁切通过。确认宠物100帧自移除与主人20/25帧独立显示、零时长/刷新/暂停/淡出差异。完整大manifest与原PNG仅本地，未改src/public；245唯一Ready消费六效果，204/all/194/VS-067及整线不关闭。合同见 `docs/reverse-engineering/pet-passive-visual-contract.md`。
 

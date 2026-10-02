@@ -3,6 +3,9 @@ import type { HeroPetBuffName } from './HeroPetBuffSystem';
 
 export const petAutoBuffNames = ['sxkb', 'fsnl', 'smjc', 'mfjc', 'gjjc', 'fyjc'] as const;
 type Name = typeof petAutoBuffNames[number];
+/** Transient first-show/remove command; never persisted or replayed on refresh. */
+export type PetPassiveVisualSignal = Readonly<{ type: 'show' | 'hide'; name: Name }>;
+export type PetPassiveVisualPort = (signal: PetPassiveVisualSignal) => void;
 type Effect = { name: Name; value: number; time: number; isFirst: boolean; startTime?: number };
 
 /** Instance-owned BasePet counters. No persistent roster fields or independent clock. */
@@ -52,11 +55,17 @@ export class PetPassiveSession {
     else this.effects.push({ name, value, time, isFirst: true });
   }
 
-  stepEffects(): void {
+  stepEffects(visual?: PetPassiveVisualPort): void {
     this.effects.forEach((effect, index) => {
       if (!effect) return;
-      if (effect.isFirst) { effect.isFirst = false; effect.startTime = this.count; }
-      if (this.count - effect.startTime! >= effect.time) this.effects[index] = null;
+      if (effect.isFirst) {
+        effect.isFirst = false; effect.startTime = this.count;
+        visual?.({ type: 'show', name: effect.name });
+      }
+      if (this.count - effect.startTime! >= effect.time) {
+        this.effects[index] = null;
+        visual?.({ type: 'hide', name: effect.name });
+      }
     });
     this.count++;
   }

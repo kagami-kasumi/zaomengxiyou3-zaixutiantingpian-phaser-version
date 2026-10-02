@@ -20,7 +20,7 @@
 | monkey/runtime.action-priority | `pet-monkey-source-gate-tests`、`pet-monkey-horse-hurt-release-tests` | — |
 | monkey/runtime.normal-roll | `pet-normal-attack-session-tests`、`pet-source-phase-tests` | — |
 | monkey/runtime.cooldown-order | `pet-source-phase-tests`、`pet-monkey-horse-dead-step-tests` | — |
-| monkey/runtime.auto-buff | 数值/会话子范围242A/B通过：1717源样本、24双owner会话、真实技能及五关HUD；六特效视觉未核销 | 244视觉真值及后续消费 |
+| monkey/runtime.auto-buff | 数值/会话子范围242A/B通过：1717源样本、24双owner会话、真实技能及五关HUD；245B六特效视觉子范围通过 | 244/246源输入，245B双后端各65280态/五关248层/11反证，见六增益显示验收 |
 | monkey/runtime.hurt | `pet-monkey-horse-incoming-tests`、`pet-monkey-horse-hurt-release-tests` | 230证据已交接、236实现、232补证完成/240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
 | monkey/runtime.death | `pet-monkey-horse-party-lifecycle-tests`、`pet-monkey-horse-dead-step-tests` | 231/239补证及238经验消费已完成；232补证完成；240 Monster30两条owner消费完成；其他11类型与人偶消费仍待 |
 | monkey/runtime.destroy | `pet-monkey-horse-party-lifecycle-tests`、`pet-horse-retired-parent-tests` | 234已完成：`pet-capture-identity-tests`（猴马真实捕获双owner清理、正式保存通知与来源）及3生产变异；见捕获身份验收 |
@@ -99,4 +99,6 @@
 
 233共享后端核销见[Canvas验收](../canvas-sprite-extent-acceptance.md)，四条visual责任的本次Canvas缺口关闭；原84其余公共责任仍保留。
 
-242B共享被动数值核销见[验收](../pet-passive-runtime-acceptance.md)：猴马共用实际session与伤害消费者，青龙/玄龟公共接缝回归；六特效视觉交244，原41+43条目及其他公共责任完整保留。
+242B共享被动数值核销见[验收](../pet-passive-runtime-acceptance.md)：猴马共用实际session与伤害消费者，青龙/玄龟公共接缝回归；六特效视觉经244/246及245B闭合，原41+43条目及其他公共责任完整保留。
+
+245B六效果视觉核销见[验收](../pet-passive-display-acceptance.md)。247仅承接Monster3原版身体/两个独立攻击缺口；其余类型、人偶与原84组合责任不据此核销。

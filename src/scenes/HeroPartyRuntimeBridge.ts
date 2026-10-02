@@ -61,6 +61,7 @@ import {
   type FormalPetsUpdatedPayload,
 } from './feature-ui/FormalPetRuntimeBridge';
 import { createFormalPetMonkeyBodyBridge } from './FormalPetMonkeyBodyBridge';
+import { createHeroPartyPassiveDisplayBridge } from './HeroPartyPassiveDisplayBridge';
 import { createFormalPetHorseBodyBridge } from './FormalPetHorseBodyBridge';
 import { createPetDragonPresentationBridge } from './PetDragonPresentationBridge';
 import { createPetDragonQaRoster, isPetDragonQaEnabled, isPetDragonQaOwnerProtected } from './PetDragonQaBridge';
@@ -202,6 +203,7 @@ export function createHeroPartyRuntime(
   const petTurtle = createPetTurtleCombatBridge(scene);
   const formalPetMonkeyBodies = createFormalPetMonkeyBodyBridge(scene);
   const formalPetHorseBodies = createFormalPetHorseBodyBridge(scene);
+  const passiveDisplay = createHeroPartyPassiveDisplayBridge(scene);
   let destroyed = false;
   const petCombatRuntimes = {
     p1: new PetCombatRuntime(petTurtle.registry),
@@ -272,6 +274,7 @@ export function createHeroPartyRuntime(
       ))?.combat.slot;
       if (slot) pendingPetAnimationEvents[slot] = [...(pendingPetAnimationEvents[slot] ?? []), event];
     }
+    passiveDisplay.sync(Object.values(petCombatSnapshots));
     if (role1ShadowQa) {
       scene.game.canvas.dataset.formalRole1ShadowQa = JSON.stringify(model.members
         .filter((member) => member.combat.normalAttack.heroId === 1)
@@ -394,6 +397,7 @@ export function createHeroPartyRuntime(
       petProjectileCombat.destroy();
       if (isPetDragonQaEnabled()) delete scene.game.canvas.dataset.petDragonQa;
       combatFeedbackView.destroy();
+      passiveDisplay.destroy();
       incomingFeedback.destroy();
       combatFeedbackQa.destroy();
       petCombatRuntimes.p1.destroy();
@@ -445,6 +449,7 @@ export function createHeroPartyRuntime(
     for (const enemy of frame.combatEnemies ?? []) experience.bind(enemy, getMonsterRewardConfig(enemy.enemyType).experience);
     for (const [index, member] of model.members.entries()) {
       const slot = member.combat.slot;
+      const groundEnvironment = frame.groundEnvironmentFor?.(index);
       let roster = petProjectileCombat.readyRoster(petTurtle.readyRoster(petRosters[slot]));
       const activePet = roster && getActivePet(roster);
       if (options.legacyPetExperience && activePet && !petCombatRuntimes[slot].supports(activePet)) {
@@ -460,9 +465,10 @@ export function createHeroPartyRuntime(
           incomingFeedback: { model: model.incoming, ownerSlot: slot, timeMs: frame.timeMs },
           deltaMs: frame.deltaMs,
           hostFps: scene.game.loop.targetFps,
-          ownerStep: () => member.combat.stepPetBuffs?.(),
+          ownerStep: () => passiveDisplay.ownerStep(member, groundEnvironment?.ownerRootOffsetY ?? 0),
+          passiveVisual: passiveDisplay.petSignal,
         ownerAddPetBuff: member.combat.addPetBuff,
-          groundEnvironment: frame.groundEnvironmentFor?.(index),
+          groundEnvironment,
           projectileCombat: petProjectileCombat({ combat: model.combat, enemies: frame.combatEnemies ?? [],
             ownerSlot: slot, timeMs: frame.timeMs, random: frame.random ?? Math.random }),
         });
@@ -481,9 +487,10 @@ export function createHeroPartyRuntime(
         animationEvents: pendingPetAnimationEvents[slot],
         deltaMs: frame.deltaMs,
         hostFps: scene.game.loop.targetFps,
-        ownerStep: () => member.combat.stepPetBuffs?.(),
+        ownerStep: () => passiveDisplay.ownerStep(member, groundEnvironment?.ownerRootOffsetY ?? 0),
+        passiveVisual: passiveDisplay.petSignal,
         ownerAddPetBuff: member.combat.addPetBuff,
-        groundEnvironment: frame.groundEnvironmentFor?.(index),
+        groundEnvironment,
         projectileCombat: petProjectileCombat({ combat: model.combat, enemies: frame.combatEnemies ?? [],
           ownerSlot: slot, timeMs: frame.timeMs, random: frame.random ?? Math.random }),
       });

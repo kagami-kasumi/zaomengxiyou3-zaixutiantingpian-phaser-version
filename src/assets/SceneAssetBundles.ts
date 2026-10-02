@@ -1,4 +1,5 @@
 import { petDragonBundleAssets } from './PetDragonAnimationAssets';
+import { petPassiveImages } from './PetPassiveAssets';
 import { petTurtleBundleAssets } from './PetTurtleAssetCatalog';
 import { monkeyHorseCollisionAsset } from './PetMonkeyHorseCollisionPackage';
 import { petHorseIceAsset } from './PetHorseIceAsset';
@@ -538,7 +539,7 @@ export const sceneAssetBundles = {
   },
   'combat-common': {
     dependencies: ['pet-combat-hud-heads'],
-    assets: combatCommonAssets,
+    assets: [...combatCommonAssets, ...petPassiveImages.map(image)],
   },
   'combat-hero-1': {
     dependencies: [],

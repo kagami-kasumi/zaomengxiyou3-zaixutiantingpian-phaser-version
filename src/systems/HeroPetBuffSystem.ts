@@ -1,4 +1,5 @@
 import type { Stage1CombatPlayer } from './Stage1CombatSystem';
+import type { PetPassiveVisualPort } from './PetPassiveSession';
 
 export type HeroPetBuffName = 'smjc' | 'mfjc' | 'gjjc' | 'fyjc';
 type Effect = { name: HeroPetBuffName; value: number; time: number; startTime: number; isFirst: boolean };
@@ -25,13 +26,16 @@ export function addHeroPetBuff(player: Stage1CombatPlayer, name: HeroPetBuffName
 }
 
 /** Called once by the shared world host, before that owner's pet step. */
-export function stepHeroPetBuffs(player: Stage1CombatPlayer): void {
+export function stepHeroPetBuffs(player: Stage1CombatPlayer, visual?: PetPassiveVisualPort): void {
   if (player.combat.state === 'dead') { clearHeroPetBuffs(player); return; }
   const state = player.petBuffs;
   for (let index = 0; index < state.effects.length; index++) {
     const effect = state.effects[index];
     if (!effect) continue;
-    if (effect.isFirst) { effect.isFirst = false; effect.startTime = state.count; }
+    if (effect.isFirst) {
+      effect.isFirst = false; effect.startTime = state.count;
+      visual?.({ type: 'show', name: effect.name });
+    }
     if (state.count - effect.startTime >= effect.time) state.effects[index] = null;
   }
   state.count++;

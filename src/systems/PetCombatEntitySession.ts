@@ -252,7 +252,7 @@ export class PetCombatEntitySession {
     // BaseObject.step expires setYourFather only after its count passes below zero.
     if (this.protectionCount >= 0) this.protectionCount--;
     stepTurtleLink(this.turtleLink);
-    this.passive?.stepEffects();
+    this.passive?.stepEffects(signal => frame.passiveVisual?.(this.runtimeKey, signal));
   }
 
   private selectGroundAction(

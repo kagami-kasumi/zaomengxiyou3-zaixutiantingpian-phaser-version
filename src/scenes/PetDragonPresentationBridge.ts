@@ -1,4 +1,5 @@
 import type Phaser from 'phaser';
+import { petAttachedDisplayLifecycle } from './PetAttachedDisplayLifecycle';
 import { getPetDragonBodyAsset, getPetDragonBodyPlacement, getPetDragonCloneAlpha,
   getPetDragonEffectFrame, getPetDragonEffectPlacement } from '../assets/PetDragonAnimationAssets';
 import type { PetCombatSnapshot } from '../systems/PetCombatTypes';
@@ -8,6 +9,9 @@ import type { ProjectileModel } from '../systems/ProjectileTypes';
 export function createPetDragonPresentationBridge(scene: Phaser.Scene) {
   const bodies = new Map<string, Phaser.GameObjects.Sprite>();
   const effects = new Map<number, Phaser.GameObjects.Image>();
+  const roots = new Map<string, Phaser.GameObjects.Container>();
+  const ownedRoots = new Set<Phaser.GameObjects.Container>();
+  let attached: ReturnType<typeof petAttachedDisplayLifecycle> | undefined;
   return {
     update(snapshots: readonly PetCombatSnapshot[], projectiles: readonly ProjectileModel[]) {
       const activeBodies = new Set<string>();
@@ -26,7 +30,12 @@ export function createPetDragonPresentationBridge(scene: Phaser.Scene) {
             sprite = scene.add.sprite(placement.x, placement.y, asset.key).setOrigin(0, 0).setDepth(42);
             sprite.setName(`PetDragonBody:${key}`);
             bodies.set(key, sprite);
+            const root = scene.add.container(runtime.x, runtime.y).setDepth(42);
+            roots.set(key, root); ownedRoots.add(root);
+            root.once('destroy', () => ownedRoots.delete(root));
+            (attached ??= petAttachedDisplayLifecycle(scene)).register(key, root, sprite);
           }
+          roots.get(key)!.setPosition(runtime.x, runtime.y);
           sprite.setPosition(placement.x, placement.y).setFlipX(placement.flipX)
             .setFrame(animation.row * asset.columns + animation.column)
             // PetDragon1.doHit2 assigns bbdc.alpha=0.5 on the real private entity.
@@ -34,7 +43,9 @@ export function createPetDragonPresentationBridge(scene: Phaser.Scene) {
           sprite.setData('petDragonSnapshot', entity);
         }
       }
-      for (const [key, sprite] of bodies) if (!activeBodies.has(key)) { sprite.destroy(); bodies.delete(key); }
+      for (const [key] of bodies) if (!activeBodies.has(key)) {
+        attached!.retire(roots.get(key)!); roots.delete(key); bodies.delete(key);
+      }
       const activeEffects = new Set<number>();
       for (const projectile of projectiles) {
         if (projectile.petHostTick === undefined || projectile.isExpired || !sources.has(projectile.sourceId)
@@ -57,9 +68,10 @@ export function createPetDragonPresentationBridge(scene: Phaser.Scene) {
       for (const [id, image] of effects) if (!activeEffects.has(id)) { image.destroy(); effects.delete(id); }
     },
     destroy() {
-      for (const sprite of bodies.values()) sprite.destroy();
+      for (const body of bodies.values()) body.destroy();
+      for (const root of ownedRoots) attached!.dispose(root);
       for (const image of effects.values()) image.destroy();
-      bodies.clear(); effects.clear();
+      bodies.clear(); effects.clear(); roots.clear(); ownedRoots.clear();
     },
   };
 }

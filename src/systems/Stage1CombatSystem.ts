@@ -1,4 +1,5 @@
 import { monster30AttackHits, syncMonster30BodyState, type Monster30Attack } from './Monster30AttackRuntime';
+import type { PetPassiveVisualPort } from './PetPassiveSession';
 import { addHeroPetBuff, type HeroPetBuffName, clearHeroPetBuffs, createHeroPetBuffState, stepHeroPetBuffs, type HeroPetBuffState } from './HeroPetBuffSystem';
 import { acceptMonsterAttackTarget, settleMonsterExperience, selectMonsterAttackTarget, clearUnavailableMonsterAttackTarget, type MonsterAttackTarget, type MonsterExperienceBinding } from './MonsterExperienceSystem';
 import { initializeMonsterPetTargetEffects, isMonsterPetIceActive } from './MonsterPetTargetEffectSystem';
@@ -84,7 +85,7 @@ export const Stage1CombatTuning = {
 
 export type Stage1CombatPlayer = {
   petBuffs: HeroPetBuffState;
-  stepPetBuffs: () => void;
+  stepPetBuffs: (visual?: PetPassiveVisualPort) => void;
   addPetBuff: (name: HeroPetBuffName, value: number, ticks: number) => void;
   slot: PlayerSlot;
   combat: HeroCombatModel;
@@ -199,7 +200,7 @@ export function createStage1CombatPlayer(
   const player: Stage1CombatPlayer = {
     slot,
     petBuffs: createHeroPetBuffState(),
-    stepPetBuffs: () => stepHeroPetBuffs(player),
+    stepPetBuffs: (visual) => stepHeroPetBuffs(player, visual),
     addPetBuff: (name, value, ticks) => addHeroPetBuff(player, name, value, ticks),
     combat,
     normalAttack: createHeroNormalAttack(heroId),

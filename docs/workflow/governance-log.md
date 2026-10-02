@@ -1,5 +1,11 @@
 # 工作流治理日志
 
+2026-10-02 / TASK-SLICE-245B及父245完成：六原效果181正式PNG/2720原生pose及显示树/矩阵/滤镜元数据已接入既有数值owner与共享显示路径；Canvas/WebGL各65,280态通过，最大可见通道差2.266667/2.301961，保留≤3颜色舍入及域外≤0.5px/轴对齐例外。五关双owner完整旅程、首次/暂停及青龙玄龟补充共248层原PNG零差，11生产反证、原1717数值、五项pet gate、核心/build和工程检查通过。B与父245归档，TASK-SETTINGS-247唯一Ready补Monster3身体/两攻击生命周期；不外推其他类型/人偶、204/all/194/VS-067或整线完成。见 `docs/reverse-engineering/pet-passive-display-acceptance.md`。
+
+2026-10-02 / 245B末轮门禁支架修复：旧玄龟11,572态支架在10,200态后Image.decode报EncodingError，未记为验收通过；参考文件全在且PNG头完整。改fetch/createImageBitmap并在drawImage后close，截图读取复用同入口；增加HTTP/URL诊断，原字节hash、逐态真实像素和11,572覆盖断言不变。重新运行完整五gate，不以先前部分样本替代。
+
+2026-10-02 / 245B验收增量：P1GS登记原生资源/显示树直接消费，原主人owner静态门禁改查Scene适配器→原数值owner，原1717与其余家族断言保持；闭包fixture补显示端口，Dragon场景替身补真实容器事件，ground环境只查询一次。新增实际双后端/正式五关及11生产变异工具，不改变门禁种类。旧玄龟浏览器被扩展欢迎页抢前台后原样恢复，并明确选择about:blank、bringToFront和禁后台节流；不降低像素断言。详细失败及现代例外见pet-passive-display-acceptance.md。
+
 2026-10-02 / 245A归档：全部声明验收通过，独立定义移入task-history，245B成为同线唯一Ready，父245完整六效果/五关合同继续保留。未关闭设计all或功能线；preview缺失造成的等待和恢复记入本地交接。
 
 2026-10-02 / 245A验收增量：既有pet P1GS纳入公共附属显示的5,408原生状态对账与7生产变异，组合P1R/P1H/P1G/P1T仍保持全部既有合同，不新增门禁种类。实际Canvas/WebGL及Scene重启独立验收由`tools/pet-attached-browser.mjs`提供；支架使用postBoot、限定about:blank、像素循环让出浏览器事件队列和原PNG SHA检查。先前支架失败不计通过，有限轻微颜色舍入与完整六效果尚待边界详见`../reverse-engineering/pet-attached-display-acceptance.md`。
@@ -2806,3 +2812,9 @@ P1R新增原227资格矩阵与Runtime相位检查，P1H共享相位检查，保�
 ## 2026-09-06：214C4碰撞输入补证调度
 
 214C4独立源核对发现目标colipse/像素采样真值缺口，设Blocked并创建同线218为唯一Ready；所有父级战斗合同保持。PG-017回写方案不充分/V2.3，集中审计记录一次；不修改调度规则、不建立治理抢占项。现有213/214A视觉事实保留，初步src试改全部撤回，预检脚本只输出阻塞证据，不替代生产战斗验收。
+
+245B门禁重跑环境记录：后续浏览器连接确认4174 preview已停止（connection refused），原参考PNG均存在；因此先前EncodingError不能归因于文件损坏或内存问题。恢复项目已授权preview，当前完整gate浏览器阶段重新导航；fetch响应检查保留以使后续HTTP错误有明确URL，未修改图片或比较阈值。
+
+245B末轮联合门禁：浏览器11,572态及三张940×590原生画面对比已通过，随后同一Node进程在默认约4GB堆上限退出。此为tools/local-validation.md既有242B容量边界；前轮漏带环境设置。保留design-gates-default-heap-failure.log，按既有NODE_OPTIONS=--max-old-space-size=8192仅本次命令环境重跑原116组五gate，未改变测试集合或全局配置。
+
+245B归档文档检查首次拒绝两个任务定义的CRLF首行及247缺少显式逆向方案字段；改回LF，并声明代码逆向方案不适用，不新增视觉方案或改变执行范围。

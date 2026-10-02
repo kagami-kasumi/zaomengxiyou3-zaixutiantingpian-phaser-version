@@ -34,6 +34,7 @@ export type PetCombatFrame = Readonly<{
   hostFps?: number;
   /** Party-owned hero effect phase; the existing slot runtime drives it even without a pet. */
   ownerStep?: () => void;
+  passiveVisual?: (runtimeKey: string, signal: import('./PetPassiveSession').PetPassiveVisualSignal) => void;
   ownerAddPetBuff?: (name: HeroPetBuffName, value: number, ticks: number) => void;
   stunnedRuntimeKeys?: readonly string[];
   /** Internal world-dispatched step, bypassing the entity's render-frame accumulator. */

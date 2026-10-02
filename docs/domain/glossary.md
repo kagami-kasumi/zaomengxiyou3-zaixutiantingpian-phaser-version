@@ -147,3 +147,5 @@
 - AS3 `StageListener` 相关关卡流程在现代领域中归入 `Level`。
 
 | 宠物公共被动会话 | `PetPassiveSession` | Internal Runtime State | Combat | EntitySession持有回复/六增益计数及宠物自身效果；复用宿主步，不进入roster存档 | `PetPassiveRuntime` |
+
+| 宠物增益显示信号 | `PetPassiveVisualSignal` / `PetPassiveVisualPort` | Transient Display Port | Combat | 既有数值owner发出的首次显示/宠物效果隐藏命令；刷新不重发，主人独立显示不随数值到期清除，不持久化 | `PetBuffRuntime` |
