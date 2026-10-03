@@ -1,5 +1,9 @@
 # LINE-PRE-STAGE-2-3-PRESENTATION 覆盖台账
 
+2026-10-03 / TASK-SETTINGS-251完成：Monster3目标接收有限原方法域16,960例、64世界序列、9真实编译源变异及正常重复通过；6报告/4reference损坏拒绝。原HP、闪避/保护、盾/转移、随机、ID间隔与returnvoid语义已交接。251归档，249恢复唯一Ready消费247/248/250/251；未改src/public或原语料，不关闭249、204/all、194、VS-067或整线。见 `docs/reverse-engineering/monster3-reception-contract.md`。
+
+2026-10-03 / TASK-SLICE-249接收预检：6组P1/P2生产观察确认英雄闪避/魔防未消费及保护拒绝提前登记ID；247/250实际HP仍为接受服务。249保留全部合同并Blocked，TASK-SETTINGS-251唯一Ready补Monster3来源/目标接收与HP/随机/ID间隔后恢复249。未改src/public或原真值，不关闭204/all/194/VS-067或整线。见 `docs/reverse-engineering/monster3-reception-preflight.md`。
+
 2026-10-02 / TASK-SETTINGS-250完成：Monster3自然选择/CD的1764组27936原方法态、1644决策/744自然发射通过；九真实编译源变异、六报告/四reference损坏拒绝，正常源重复一致。确认严格欧氏<200、技能不自动转向、CD选择后递减/忙态不停及难度概率。250归档，249恢复唯一Ready消费247/248/250全部输入；未改src/public，真实HP/显示/两owner旅程与204/all/194/VS-067及整线仍未关闭。见 `docs/reverse-engineering/monster3-natural-attack-contract.md`。
 
 2026-10-02 / TASK-SLICE-249输入预检：8组P1/P2实际生产观察确认Boss水平含等号判定/攻击中CD停计及Stage13伤害hit1与奇偶hit2显示分裂；247直接指定动作，239仅目标选择，缺自然选择/CD原生相位。249保留全合同并Blocked，TASK-SETTINGS-250唯一Ready补有界自然决策后恢复249。未改src/public或247/248真值，204/all/194/VS-067与整线不关闭。见 `docs/reverse-engineering/monster3-runtime-preflight.md`。

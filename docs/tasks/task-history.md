@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-251 | Monster3接收行为补证 | 目标接收/HP/随机/保护/ID间隔 | M-030、M-032、M-034、M-042、VS-067 | 16,960原生case/64序列/9源变异/重复；[合同](../reverse-engineering/monster3-reception-contract.md)，恢复249 |
 | TASK-SETTINGS-250 | Monster3自然选择补证 | 自然hit1/hit2与CD到247身体接缝 | M-030、M-034、M-042、VS-067 | 1764组27936态/9源变异/重复；[合同](../reverse-engineering/monster3-natural-attack-contract.md)，恢复249 |
 | TASK-SETTINGS-248 | Monster3两攻击空间逆向 | 原生显示与实际目标命中输入 | M-030、M-034、M-042、VS-067 | 30态190对象/140880命中、精确残差获准；[合同](../reverse-engineering/monster3-attack-collision-contract.md)，249 Ready |
 | TASK-SETTINGS-247 | Monster3身体/独立攻击逆向 | 两攻击行为与原生时钟 | M-030、M-034、M-042、VS-067 | 45360原方法态、1620实时相位、9源变异与重复；[合同](../reverse-engineering/monster3-body-attack-contract.md)，248 Ready |
@@ -359,6 +360,76 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-251
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`代码逆向`
+
+逆向方案：不适用；复用247/248/250，不新增视觉采样方案。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-032`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：249要求实际HP/保护/闪避/去重，但247/250目标承伤是接受服务，现代incoming入口未消费闪避/魔防，且旧Monster3路径保护拒绝前已登记ID。缺少Monster3→英雄/宠物真实接收原方法oracle，不能将现有固定数值扣HP冒充完整源合同。
+
+规模预算：
+- 主工作包：2（冻结源接收调用链/有限输入矩阵；原方法执行与独立expected/反证）
+- 预计上下文压缩：0
+- 独立验收批次：2（源接收/HP/随机序与重复；独立oracle/变异及249映射交接）
+
+拆分触发：
+- 出现新的空间/完整Scene依赖，或需要逆向与Monster3接收无关的技能/装备全集时，保留已定接收矩阵，列精确缺口并拆分，不无限扩到完整战斗系统。
+- 需要修改现代公共伤害owner或迁移其他攻击源时留给实现项；本项不修改src/public。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：GPT-6主agent负责原方法fixture、独立oracle及唯一写入；Luna只读核查源分支/现代输入覆盖。
+- 并行工作包：英雄/宠物接收、来源参数与两owner映射的遗漏清单；包含在上述两包内。
+- 写入 owner：主agent。
+- 归并检查点：冻结fixture前、最终验收前。
+- 方法观测：无；不恢复已停止的MO-004采样。
+
+输入资料：
+- `docs/reverse-engineering/monster3-reception-preflight.md`与`tools/monster3-reception-preflight.mjs`；只作生产差异诊断。
+- `docs/reverse-engineering/monster3-body-attack-contract.md`及reference；`monster3-attack-collision-contract.md`及reference/verified manifest；`monster3-natural-attack-contract.md`及reference。
+- 主包`local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/`的`export/monster/Monster3.as`，`base/BaseMonster.as`的初始化/Hit/Critical/getRealPower，`base/BaseBullet.as`的checkAttack/ID/间隔，`base/BaseHero.as`及`base/BasePet.as`的beMagicAttack/countHurt/reduceHp/保护；沿实际字段调用窄读RoleProperty/PetInfo和当前可达覆写/效果，不全文聚合。
+- `docs/reverse-engineering/combat-rules-index.md`仅历史简化边界；既有玄龟转移、HeroCombatSystem HP结算及宠物属性/被动合同只在当前接收路径调用时窄读。
+- 现代消费者：HeroCombatSystem/PetBattleOwnershipSystem与settleHeroHpDamage、Stage1CombatSystem、PetCombatEntitySession、TestSceneBossArena、HeroPartyRuntimeBridge及当前兼容宠物接收入口；不能用现代实现生成原expected。
+- `docs/workflow/air-runtime-verification.md`、现有247/250 AIR工具；已有工具可复用，不安装复杂软件。
+
+待证明的可观察问题与有限范围：
+- 仅Monster3 hit1/hit2（Boss/普通构造，difficulty0/1/2）攻击英雄/宠物；复用248的5英雄/35宠物profile身份，但接收覆写须重新判定，按等价分支冻结代表实例及完整映射。
+- 来源Hit/Critical、魔花乘数与getRealPower调用次数；目标miss/兔疾风随机阈值、物防/魔防及AS3整数转换。测试临界等号、零/非零、不同随机序及物理/魔法差别。
+- 区分几何未命中、保护拒绝、闪避接受不扣HP、命中接受扣HP；按源循环核对英雄后宠物、P1/P2、攻击ID登记、999/4间隔、拒绝后重试/接受后再命中。
+- 覆盖本次249正式owner的普通存活/死亡、已有保护、护盾/减伤及玄龟转移接缝；开始时列明确输入范围与真实可达依据。无关技能和完整家族AI不在本项；不能用未声明stub绕过会改变当前HP的分支。
+- 固定源/目标注册根与已证碰撞结果，几何本身复用248；原版真实HP、返回值、ID记录、随机序与保护状态不能stub。场景、显示、寻路等外围服务逐项声明边界。
+
+输出产物：
+- `docs/reverse-engineering/monster3-reception-contract.md`与`reference/monster3-reception-contract.json`（有限行为真值、源SHA/方法locator/fixture与独立expected）。
+- 可重复的`tools/monster3-reception-source/`原方法执行/验证工具；本地原日志`local-resources/regima/task-outputs/TASK-SETTINGS-251/`及精简证据`docs/tasks/evidence/TASK-SETTINGS-251/`。
+- 249完整输入/消费者映射，保留247/248/250全部合同；必要的现代接收结果接缝由249实施，不在此新建设计模式。
+
+完成定义：上述冻结域中，Monster3两攻击经过真实源接收/数值/HP方法的结果可复跑，独立oracle核对接受结果、HP、ID/间隔、保护与随机顺序；影响249的未知清零并恢复249 Ready。
+
+验收标准：
+- 每例记录source/target构造、owner、attack/action、原输入、每次随机、accepted、HP前后、保护/ID状态和宠物受击反应；oracle独立于被测源fixture与现代实现，不能只断言最终HP。
+- P1/P2×hero/pet×两攻击；正常/边界/拒绝重试/闪避接受/再次命中/死亡；阶段差异按真实时钟输入说明。完整输入全集与已采样集合自动核对。
+- 真实编译源变异至少覆盖：闪避返回false、保护登记ID、随机阈值/顺序、忽略魔防、错误source Hit/暴击、hit2间隔、遗漏宠物；必须成功运行且改变观察后被独立expected拒绝，报告损坏另计。
+- 原方法/受控服务边界、精确源SHA、重复生成一致和六段证据链完整；不新增几何事实，不把AIR测试说成完整Flash Scene重放。
+- 运行相关原生工具、check:structure、check:workflow、audit:problems；Git提交工具/精简reference，原生复验依赖本地语料，但未来游戏运行不得依赖ignored证据。
+
+禁止范围：不改src/public或原语料，不重做247/248/250，不迁移其他怪物/人偶，不关闭249、204/all/194/VS-067或整线。
+
+状态更新：Done（2026-10-03；有限原方法与独立oracle/反证通过，恢复249）。
+
+推荐后续任务：补证通过后恢复`TASK-SLICE-249`全部合同；不自动声明两owner伤害实现完成。
+
+完成记录：16,960直接接收case、64世界序列、九真实AS3编译源变异、正常源重复及六报告/四reference损坏检查通过。原HP方法与两处returnvoid字节码恢复均有SHA/日志；完整边界及249消费映射见monster3-reception-contract.md。未修改src/public或原始语料。结构/workflow/PG审计见本地251证据，不宣称现代生产完成。
 
 ### TASK-SETTINGS-250
 

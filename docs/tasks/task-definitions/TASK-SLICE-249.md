@@ -28,6 +28,7 @@
 - 方法观测：仅命中实际校验触发时读取MO-004，不为采样增加验证。
 
 输入资料：
+- `docs/reverse-engineering/monster3-reception-contract.md`及`reference/monster3-reception-contract.json`，contractId=`task-settings-251.monster3-reception`；独立接收HP/随机/保护/ID预期及明确有限域，不代替本项生产旅程。
 - `docs/reverse-engineering/monster3-natural-attack-contract.md`及`reference/monster3-natural-attack-contract.json`，contractId=`task-settings-250.monster3-natural-attack`；两owner共同消费构造/难度、CD相位、自然动作与方向，保留有界移动/效果服务边界。
 - `docs/reverse-engineering/monster3-body-attack-contract.md`、`reference/monster3-body-attack-contract.json`及247真实phase/source-baseline。
 - `docs/reverse-engineering/monster3-attack-collision-contract.md`、`reference/monster3-attack-collision-contract.json`、`ground-truth/manifests/monster3-attack-collision.json`，truthId=`task-settings-248.monster3-attack-collision`。
@@ -53,7 +54,13 @@
 
 禁止范围：不修改原提取/恢复源，不做系统重设计，不扩展其他怪物或人偶，不关闭204/all/194/VS-067、未迁移家族或整线。
 
-状态更新：Ready（2026-10-02；250自然选择/CD输入verified后恢复；全部原合同保留）。
+状态更新：Ready（2026-10-03；251接收补证通过，247/248/250/251及本项全部两owner合同保留）。
+
+历史阻塞原因：247/250目标承伤仍为接受服务；251已补目标接收有限真值，现代消费仍由本项完成。
+
+解除结果：TASK-SETTINGS-251 verified reference已提供16,960直接case、64世界序列、9编译变异、重复及十项损坏反证；本项所需接收输入在冻结域内已明确，域外装备/完整AI等不外推。
+
+解除阻塞任务：`TASK-SETTINGS-251`（已归档至task-history）。
 
 前置补证已解除：250提供1764组27936态、1644次决策、744自然发射、九源变异与重复；自然选择/CD从本次reference消费，不沿用现代水平<=200、统一0.42或Stage13奇偶猜测。
 
@@ -66,3 +73,11 @@
 推荐后续任务：按226公共剩余责任生成同线下一有界类型/输入任务；不得越过剩余公共责任直接宣布全族完成或切线。
 
 250完成补充（2026-10-02）：自然技能输入已解除；原预检记录作为历史保留。两owner实际HP、独立碰撞/显示与全生命周期仍未实施，不把250的接受服务和固定位置当完整场景。下一步执行本项全部验收。
+
+执行记录（2026-10-03）：
+- 主agent与Luna只读核查确认实际接收输入缺口；纠正代理将英雄来源deephit套到怪物来源的摘要，Monster3使用BaseMonster.Hit分支。
+- `node tools/monster3-reception-preflight.mjs`通过6组P1/P2生产观察：闪避/魔防输入未消费、保护拒绝已登记ID；非原生HP或正式Scene验收。
+- 见`docs/reverse-engineering/monster3-reception-preflight.md`。命中缺少实际HP输入触发，251唯一Ready；未改src/public/原真值，不归档249或提升整线状态。
+- 结构检查退出0（8项既有warning）；workflow初次因Blocked原因/定义CRLF头拒绝，修正后退出0（PlayerSlot既有warning），当前执行251；audit扫描8活跃PG并集中记录。原生补证、build与游戏旅程未执行，249未完成。
+
+251完成补充（2026-10-03）：读取251合同与reference，保留原始returnvoid返回/受击ID差异；接收属性与随机须接入现有权威HP owner，不用sink或直接写HP验收。现代实现、碰撞/显示、双人旅程与生命周期全部仍待本项；不得因输入补齐缩减验收。

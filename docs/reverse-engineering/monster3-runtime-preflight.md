@@ -1,6 +1,8 @@
 # Monster3 正式消费输入预检
 
-2026-10-02，`TASK-SLICE-249` **Blocked**，`TASK-SETTINGS-250` 为同线唯一 Ready。仅完成输入预检与调度，不宣称249完成；未修改src/public、247/248原真值或原语料。
+当前说明（2026-10-03）：下列自然选择阻塞已由250解除；本次新发现的实际HP/接收输入缺口见[接收预检](monster3-reception-preflight.md)，下一项为251。本页保留历史观察。
+
+历史预检：2026-10-02，`TASK-SLICE-249` **Blocked**，`TASK-SETTINGS-250` 为同线唯一 Ready。仅完成输入预检与调度，不宣称249完成；未修改src/public、247/248原真值或原语料。
 
 ## 可复跑证据
 
