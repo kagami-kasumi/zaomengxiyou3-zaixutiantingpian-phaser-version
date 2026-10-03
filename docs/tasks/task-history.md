@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-250 | Monster3自然选择补证 | 自然hit1/hit2与CD到247身体接缝 | M-030、M-034、M-042、VS-067 | 1764组27936态/9源变异/重复；[合同](../reverse-engineering/monster3-natural-attack-contract.md)，恢复249 |
 | TASK-SETTINGS-248 | Monster3两攻击空间逆向 | 原生显示与实际目标命中输入 | M-030、M-034、M-042、VS-067 | 30态190对象/140880命中、精确残差获准；[合同](../reverse-engineering/monster3-attack-collision-contract.md)，249 Ready |
 | TASK-SETTINGS-247 | Monster3身体/独立攻击逆向 | 两攻击行为与原生时钟 | M-030、M-034、M-042、VS-067 | 45360原方法态、1620实时相位、9源变异与重复；[合同](../reverse-engineering/monster3-body-attack-contract.md)，248 Ready |
 | TASK-SLICE-245B | 六公共增益正式消费 | 六效果完整资源/生命周期/五关 | M-032、M-034、M-042、VS-067 | 双后端各65280态、248正式层、11变异、五gate；[验收](../reverse-engineering/pet-passive-display-acceptance.md) |
@@ -358,6 +359,74 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-250
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：代码逆向
+
+逆向方案：不适用；沿用 `docs/workflow/reverse-engineering-protocol.md`。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：249生产预检确认Boss水平距离含等号、攻击中CD停计及Stage13固定伤害动作/奇偶显示分裂；247直接指定动作的原生探针没有自然选择链，旧静态摘要不足以确定正式两owner的逐步选择输入。仅补Monster3自然hit1/hit2决策到已证247发射的接缝，不扩成全部怪物AI。
+
+规模预算：
+- 主工作包：1（Monster3自然动作选择/CD有界原方法输入合同）
+- 预计上下文压缩：0
+- 独立验收批次：1（原方法trace、独立预期、源变异及重复）
+
+拆分触发：
+- 若需完整寻路/运动、受击反击新机制、其他类型或新视觉资料族，列出影响249的精确边界，再生成同线有界补证；禁止连带重做公共怪物AI。
+- 无法隔离必要真实调用链时标记未知，不用现代行为或手算trace替代源运行。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent负责原方法探针与唯一写入；Luna只读核对源覆盖与239/247既有边界。
+- 并行工作包：源方法/场景/反证覆盖矩阵，与主agent探针工作并行。
+- 写入 owner：主agent。
+- 归并检查点：探针冻结前及最终验收前。
+- 方法观测：仅实际命中MO-004采样触发时读取，不增加验证以凑样本。
+
+输入资料：
+- `docs/reverse-engineering/monster3-runtime-preflight.md`、`tools/monster3-input-preflight.mjs`及本地249 `input-preflight.json`。
+- `docs/reverse-engineering/monster3-body-attack-contract.md`及reference（247身体/已发攻击保持）；`monster3-attack-collision-contract.md`及reference（248空间保持）。
+- `docs/reverse-engineering/reference/monster-target-selection-contract.json`（239已有目标合同，只补与动作选择的接缝，不重复扩展目标全集）。
+- `docs/reverse-engineering/monsters-index.md:127..179`、`levels-index.md:657..670`旧静态摘要，不能冒充原生trace。
+- 主AS3根 `local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/`：`export/monster/Monster3.as`的构造、myIntelligence、beforeSkill1Start、releSkill1；`base/BaseMonster.as`的step/IntelligenceTime/myIntelligence/hasAttackTarget/countCD/attackTarget与实际调用的状态谓词；`AUtils.GetDisBetweenTwoObj`真实计算。必要身体回调复用247，目标选择复用239。
+- 两消费者：`Monster3System.ts`、`Stage1CombatSystem.ts`和`Stage13MonsterVisualBridge.ts`；只读对照。
+
+输出产物：
+- `docs/reverse-engineering/monster3-natural-attack-contract.md`与可提交精简 `reference/monster3-natural-attack-contract.json`（源SHA/locator、状态输入、独立expected、证据等级、unknown）。
+- 有界可复跑原方法采样/独立verifier/源变异入口，位于 `tools/monster3-selection-source/`。
+- 本地 `docs/tasks/evidence/TASK-SETTINGS-250/` 原生trace、重复摘要和反证；原始构建产物放 `local-resources/regima/task-outputs/TASK-SETTINGS-250/`。
+
+完成定义：自然选择到247身体动作入口所必需的条件、顺序、CD/随机数消费和状态转换由实际源方法执行与独立预期交叉确认，明确stub边界，足以让249两owner共同消费；不以静态摘录或现代诊断宣布原版运行通过。
+
+验收标准：
+- 冻结20/24/30fps、Boss/普通构造、P1/P2/双目标、左右方向的有限输入；复用239目标选择合同及247身体phase，记录实际接缝，禁止把直接setAction当自然选择。
+- 验证两点距离严格200边界（199/200/201及非零纵差）、普攻150边界、随机分支与调用顺序；相同随机输入重复一致，明确是否转向及何时分配攻击身份。
+- 验证初始2秒/后续4秒CD、CD=1到0的相位、无目标/目标失效、wait/walk/hit1/hit2/hurt/dead、冰冻/效果相位解冻、暂停恢复和动作完成后重入。只覆盖影响本两攻击选择的实际源分支。
+- 原方法选择出的动作确实进入247身体回调并产生两种独立攻击；抽查已证出生/首次检测相位不漂移。HP与像素仍由249验收，不重新生成248真值或扩大批准残差。
+- 源编译变异至少拒绝：距离改水平/严格变含等号、CD先后换序、busy期错误停CD、技能/普攻优先级错、Stage13式奇偶选动作；每项明确适用源分支，不把编译失败或损坏日志冒充源变异成功。
+- 六段证据链与源哈希完整；纯选择/CD数值合同不用UI Schema伪装视觉完整，空间显示复用248 verified输入，不生成新视觉结论。源运行观察与独立解析核对构成双重验证，完整Scene旅程留给249。
+- 运行专项验证、正常源重复、相关reference完整性、`npm run check:workflow`与`npm run audit:problems`；收尾恢复249唯一Ready并结束本次执行。
+
+禁止范围：不改src/public、原提取/恢复SWF、247/248独立expected或精确批准清单；不实现249，不扩展其他怪物/人偶、完整寻路、Boss反击系统或整线关闭。
+
+状态更新：Done（2026-10-02；有界自然选择原方法合同、独立oracle/反证与重复完成，249恢复唯一Ready）。
+
+推荐后续任务：恢复 `TASK-SLICE-249` 全部原合同；不绕过Monster3两owner和真实HP/显示/生命周期验收。
+
+执行结果：1764组27936态、1644决策/744自然发射；九真实编译源变异、六报告/四reference损坏全部拒绝，重复一致。独立Luna源边界复核已归并。源码/public/247/248不变，真实HP与正式旅程留249。
+
+验证：capture.py；verify.py --mutations；verify.py --write-reference --check-reference --audit-existing --negative-checks均退出0。check:structure退出0（8既有warning）；check:workflow/audit:problems收尾记录在集中审计。首轮AIR文件写入SecurityError修正路径后重跑；不是源语义验收通过。
+
 
 ### TASK-SETTINGS-248
 

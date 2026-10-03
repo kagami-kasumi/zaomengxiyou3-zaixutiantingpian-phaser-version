@@ -28,6 +28,7 @@
 - 方法观测：仅命中实际校验触发时读取MO-004，不为采样增加验证。
 
 输入资料：
+- `docs/reverse-engineering/monster3-natural-attack-contract.md`及`reference/monster3-natural-attack-contract.json`，contractId=`task-settings-250.monster3-natural-attack`；两owner共同消费构造/难度、CD相位、自然动作与方向，保留有界移动/效果服务边界。
 - `docs/reverse-engineering/monster3-body-attack-contract.md`、`reference/monster3-body-attack-contract.json`及247真实phase/source-baseline。
 - `docs/reverse-engineering/monster3-attack-collision-contract.md`、`reference/monster3-attack-collision-contract.json`、`ground-truth/manifests/monster3-attack-collision.json`，truthId=`task-settings-248.monster3-attack-collision`。
 - `tools/monster3-collision/`与248本地原生oracle、字段、PNG、精确批准清单；用户只批准428case/451像素，布尔必须零差异。
@@ -52,6 +53,16 @@
 
 禁止范围：不修改原提取/恢复源，不做系统重设计，不扩展其他怪物或人偶，不关闭204/all/194/VS-067、未迁移家族或整线。
 
-状态更新：Ready（2026-10-02；248获用户精确残差批准并verified后承接）。
+状态更新：Ready（2026-10-02；250自然选择/CD输入verified后恢复；全部原合同保留）。
+
+前置补证已解除：250提供1764组27936态、1644次决策、744自然发射、九源变异与重复；自然选择/CD从本次reference消费，不沿用现代水平<=200、统一0.42或Stage13奇偶猜测。
+
+执行记录（2026-10-02）：
+- 主agent与Luna只读核查已归并；247直接指定动作，不含自然技能/CD决策原生trace。239仅目标选择，旧monsters/levels摘要不能填补此边界。
+- `node tools/monster3-input-preflight.mjs`：P1/P2共8生产观察，Boss水平含等号判定、攻击中CD停计，Stage13第二攻击伤害hit1/显示映射hit2；这是受控现代诊断，不是原生或正式Scene验收。
+- 证据与下一动作：`docs/reverse-engineering/monster3-runtime-preflight.md`；执行250后恢复本项全部两owner/HP/显示/生命周期合同。未修改src/public、247/248真值或原语料。
+- `npm run check:structure`通过，8项既有warning；工作流补齐阻塞字段并重生成推荐后通过（保留PlayerSlot别名warning），PG审计8活跃项已集中记录；MO-004到第三批按指标不足停止，PG-019复盘。249未完成，不归档历史。
 
 推荐后续任务：按226公共剩余责任生成同线下一有界类型/输入任务；不得越过剩余公共责任直接宣布全族完成或切线。
+
+250完成补充（2026-10-02）：自然技能输入已解除；原预检记录作为历史保留。两owner实际HP、独立碰撞/显示与全生命周期仍未实施，不把250的接受服务和固定位置当完整场景。下一步执行本项全部验收。

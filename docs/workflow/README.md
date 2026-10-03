@@ -70,7 +70,7 @@
 
 ## 维护规则
 
-校验结果读取的限期试验见 [MO-004](methods/MO-004-校验摘要与按需诊断.md)，问题合同见 [PG-019](problems/PG-019-校验结果模型读取成本缺少约束.md)。仅在本来需要校验时触发，关注模型读取成本，不减少自动验证覆盖；正常样本集中一次记录。
+校验读取规则见 `code-quality-gates.md`。[MO-004](methods/MO-004-校验摘要与按需诊断.md)已在第三批停止量化试验并归档；不宣称节省、不再自动采样。[PG-019](problems/PG-019-校验结果模型读取成本缺少约束.md)保持复盘中。
 
 - 游戏逆向、实现、切片和现代架构任务在 `docs/tasks/task-board.md` 维护轻量索引，完整合同分别写入 `docs/tasks/task-definitions/TASK-*.md`。
 - 会抢占游戏工作的脚手架治理项在 `docs/tasks/execution-queue.md` 维护优先级和 Ready/Blocked 状态，合同仍写在对应 `docs/workflow/problems/PG-*.md`；不得复制为游戏 task。

@@ -1,5 +1,9 @@
 # 总机制表
 
+2026-10-02 / TASK-SETTINGS-250完成：Monster3自然选择/CD的1764组27936原方法态、1644决策/744自然发射通过；九真实编译源变异、六报告/四reference损坏拒绝，正常源重复一致。确认严格欧氏<200、技能不自动转向、CD选择后递减/忙态不停及难度概率。250归档，249恢复唯一Ready消费247/248/250全部输入；未改src/public，真实HP/显示/两owner旅程与204/all/194/VS-067及整线仍未关闭。见 `docs/reverse-engineering/monster3-natural-attack-contract.md`。
+
+2026-10-02 / TASK-SLICE-249输入预检：8组P1/P2实际生产观察确认Boss水平含等号判定/攻击中CD停计及Stage13伤害hit1与奇偶hit2显示分裂；247直接指定动作，239仅目标选择，缺自然选择/CD原生相位。249保留全合同并Blocked，TASK-SETTINGS-250唯一Ready补有界自然决策后恢复249。未改src/public或247/248真值，204/all/194/VS-067与整线不关闭。见 `docs/reverse-engineering/monster3-runtime-preflight.md`。
+
 2026-10-02 / TASK-SETTINGS-248完成：Monster3两攻击30原生态/190显示对象、4实际目标profile/40构造、140880原生HitTest与135真实检测相位已verified；用户仅批准428case/451像素精确残差，命中布尔零差异。原生case/树/PNG/位场和真值再生成一致，18查询反例、4真实编译/子树变异与Schema通过。248归档，TASK-SLICE-249唯一Ready承接两owner独立攻击/真实HP/显示与生命周期；未改src/public，不关闭其他类型/人偶、204/all/194/VS-067及整线。见 `docs/reverse-engineering/monster3-attack-collision-contract.md`。
 
 2026-10-02 / TASK-SETTINGS-247完成：Monster3两攻击648组45,360原方法态、288恢复SWF时钟态与1,620实时相位/135实际检测通过；9编译源变异、4报告/4reference/3相位损坏拒绝，源与原生重复一致。首次实际检测第1帧与受控goto第2帧明确分开；目标HP/像素仍为受控边界。247归档，248唯一Ready补两攻击空间/命中真值；未改src/public，不关闭两owner现代消费、其他类型/人偶、204/all/194/VS-067及整线。见 `docs/reverse-engineering/monster3-body-attack-contract.md`。
