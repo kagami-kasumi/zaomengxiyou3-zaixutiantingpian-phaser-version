@@ -1,5 +1,11 @@
 # 纵向切片复现表
 
+2026-10-04 / TASK-SETTINGS-257A完成：用户明确接受冻结234个单像素碰撞例外，精确hash绑定后两普攻392768例独立重验通过（布尔零差异）；96显示态/176对象、10368相位/780检测绑定及原生重复/负例齐备，空间真值verified。A归档，257B唯一Ready补原Tween与公共英雄坐标；父257仍Split、真实HP未知保留，无src/public修改，不关闭204/all/194/VS-067或整线。见 `docs/reverse-engineering/monster2-attack-space-contract.md`。
+
+2026-10-04 / TASK-SETTINGS-257A在制：96态/176显示对象原树与视觉核对、392768原生碰撞例（布尔零差异）、10368相位与780检测绑定完成，原生重复及负例通过；第一普攻234个单像素残差待明确裁决，第二普攻像素零差异。257A Blocked且真值blocked，257B仍Planned；未改src/public，不晋升父257、204/all/194/VS-067或整线。证据：`docs/reverse-engineering/monster2-attack-space-contract.md`。
+
+2026-10-04 / TASK-SETTINGS-257预检拆分：公共英雄坐标受控顺序反例462态/148对与40目标构造复核完成，原版真实Tween调度仍待补证；父257保留全合同Split，257A空间唯一Ready、257B公共调度Planned。无src/public或视觉真值晋升，VS-067仍部分实现；证据见 `docs/reverse-engineering/monster2-space-preflight.md`。
+
 2026-10-04 / TASK-SETTINGS-256完成：Monster2原方法648例/45360态、自然选择1764例/27936态及1344决策、原生3456相位/246检测、96玩家列表与6门例通过；19编译行为/2原生运行变异与7报告损坏拒绝，正常身体/决策/原生重复一致。确认hit1两独立对象、hit2仅裸MC与Tween请求，裸MC不受原暂停弹体列表控制且第14帧EXIT自移除。真实HP/像素/Tween插值未知保留；257唯一Ready补空间/显示及控制投影。未改src/public或原语料，其他类型/人偶、204/all/194/VS-067与整线不关闭。见 `docs/reverse-engineering/monster2-body-attack-contract.md`。
 
 2026-10-04 / TASK-SLICE-249B及父249完成：Monster3两owner独立攻击/真实P1/P2英雄宠物HP、140880空间case、两Scene原生30态与死亡留弹/失败重试核销；255兼容19形态完成，新增自然UFO双Scene旅程、105660当前profile样本及7 owner/4显示/1旧路径反证。117组全回归、build与架构检查通过。下一TASK-SETTINGS-256唯一Ready补Monster2有界行为输入；其余类型、人偶、204/all/194/VS-067及整线保持未完成。

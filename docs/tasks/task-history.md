@@ -13,6 +13,7 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SETTINGS-257A | Monster2空间/显示逆向 | 三对象96态与两普攻392768碰撞例，精确234像素许可 | M-030、M-034、M-042、VS-067 | [合同](../reverse-engineering/monster2-attack-space-contract.md)，空间verified；下一257B |
 | TASK-SLICE-249 | Monster3独立攻击联合消费 | 两Scene实际英雄/宠物与完整有限生命周期 | M-030、M-034、M-042、VS-067 | [联合验收](../reverse-engineering/monster3-runtime-acceptance.md)，117组回归；下一256 |
 | TASK-SLICE-249B | Monster3独立攻击联合消费 | 两Scene实际英雄/宠物与完整有限生命周期 | M-030、M-034、M-042、VS-067 | [联合验收](../reverse-engineering/monster3-runtime-acceptance.md)，117组回归；下一256 |
 | TASK-SLICE-255 | 兼容受击身体owner | 19形态hurt/dead/保护/清理与原生投影 | M-034、M-042、VS-067 | 114双Scene组合、416显示态、16生产反证；[验收](../reverse-engineering/pet-reception-body-runtime-acceptance.md)，恢复249B |
@@ -367,6 +368,87 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SETTINGS-257A
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`视觉真值逆向`
+
+逆向方案：`docs/reverse-engineering/plans/ground-truth-fine-grained-generation.md`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：父257预检确认聚拢涉及新的公共英雄坐标调度，交257B独立补证；本项完整承担父合同三对象显示与两普攻像素输入，不消减状态或将Tween误当已完成。拆分证据见 `docs/reverse-engineering/monster2-space-preflight.md`。
+
+规模预算：
+- 主工作包：1（三对象显示、两普攻像素及256原生相位联合输入）
+- 预计上下文压缩：0
+- 独立验收批次：1（原空间/显示/实际HitTest与生命周期联合核对）
+
+拆分触发：
+- 发现目标profile新增构造/受击分支或新的独立原显示机制时，冻结已证范围并生成同线补证；不研发新引擎。
+- 碰撞残差超出可解释域时保留完整case和失败，不能套241/248许可或缩小fixture；按父合同补证，不把视觉容差用于命中。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent负责原生采样/规范化；Luna只读审计源显示身份/目标构造及256相位覆盖。
+- 并行工作包：主agent采样时，子agent返回对象/相位/未知/反证清单。
+- 写入 owner：主agent。
+- 归并检查点：真值晋升前。
+- 方法观测：无。
+
+待证明的可观察问题：
+- 三对象逐帧/双向的递归显示树、注册点、矩阵、mask/filter、屏外完整性是什么？
+- 两普攻在256真实checkAttack相位对实际P1/P2英雄/宠物colipse如何命中？拒绝、末帧和源死后不能由矩形或可见身体替代。
+- 裸MC原生出生、暂停继续与第14帧EXIT移除的显示输入怎样绑定？
+
+有限范围、入口与fixture：
+- 再续天庭1.1、940×590、Stage1-2 Monster2 hit1/hit2，20/24/30 host档。
+- 恢复 `assets/1.swf`：Monster2Bullet1_1 char49/14帧、Monster2Bullet1_2 char34/20帧、Monster2Bullet2 char30/14帧；不扩身体atlas。
+- 三对象双向，出生/首次检测/末次检测/EXIT；normal、暂停恢复、源hurt/dead/destroy。精确绑定256 `/nativePhase`，不套受控goto提前结束tick。
+- 两普攻目标是P1/P2实际英雄及当前宠物colipse；241/248经40构造/4profile及源hash复核才复用目标，不复用攻击或残差。完整枚举帧×方向×profile×边界坐标，采样前冻结有限域及分数位置，不按现代通过率缩域。
+
+输入资料：
+- 父 `TASK-SETTINGS-257.md`、预检合同、`docs/workflow/reverse-engineering-protocol.md`、`docs/workflow/reverse-engineering-task-protocol.md`及本定义唯一方案。
+- `docs/reverse-engineering/monster2-body-attack-contract.md`、`reference/monster2-body-attack-contract.json`、`tools/monster2-source/`，保留M2-01..09和未知清单。
+- `docs/reverse-engineering/evb-extraction-report.md`、`asset-annotation/workflow.md`、`ground-truth/README.md`与UI Schema。
+- 上述恢复源包与 `assets/StageCommon.swf`；Monster2、SpecialEffectBullet、BaseBullet、BaseHero/BasePet、HitTest/AUtils的实际空间调用段。
+- `tools/monster30-collision/`与`tools/monster3-collision/`仅按适用性复用工具/目标；父预检profiles脚本可重验哈希。
+- Stage12/Registry/Stage1Combat/HeroParty只作消费者映射，不修改src。
+
+输出产物：`docs/reverse-engineering/monster2-attack-space-contract.md`；`docs/reverse-engineering/ground-truth/manifests/monster2-attack-space.json`，truthId=`task-settings-257.monster2-attack-space`；原生PNG/树/位场/HitTest、重复工具与反证、256相位映射。原始产物 `local-resources/regima/task-outputs/TASK-SETTINGS-257A/`，报告 `docs/tasks/evidence/TASK-SETTINGS-257A/`。保留父稳定truthId以供联合交接，manifest范围只声明本项已证空间。
+
+完成定义：三对象逐状态空间/显示与两普攻像素输入全部verified，来源、字段、独立原生交叉验证齐全；父Tween/公共坐标责任明确交257B，不能据A宣布父或生产就绪。
+
+UI 原生化合同：
+- 显示列表：每根每帧双向递归到叶，保留字符、父子/depth、矩阵、注册点、滤镜遮罩；无菜单/按钮/文本明确不适用。
+- 机器真值：上述manifest由原生与独立源提取规范化，按UI Schema验证；未解空间事实阻止verified。
+- 原版视觉基准：恢复SWF原AIR直绘940×590及明确局部裁切/屏外包络，逐态PNG/hash。
+- 允许的现代视觉例外：初始空，仅用户长期授权的轻微像素/抗锯齿/颜色舍入可据实记录；不涵盖碰撞/时序。
+- 逐状态差异：全部帧、双向、P1/P2目标、出生/首次/末次/暂停恢复/死亡销毁/EXIT；原生与候选像素/边缘及树对账，保留域外边界和失败。hover等业务UI不适用。
+
+验收标准：
+- 完整覆盖父257相应空间/显示合同及256M2-01..09相关生命周期，裸MC与登记弹体分开核对。
+- 原HitTest oracle与独立候选查询；每case像素/命中布尔可追溯；不用现代expected自证。
+- 源hash/locator、状态集、两次稳定结果及实际源/运行变异；Schema/编译不能代替事实验证。
+- 运行 `check:workflow`、适用真值Schema检查、`audit:problems`，更新覆盖台账。工具/精简必要数据随Git交付，完整原基准本地保留。
+- 完成后激活257B，父257继续Split；真实HP仍未知则保留至父联合核销时生成同线代码补证。
+
+禁止范围：不实现Monster2、不改src/public或原语料；不执行257B公共调度、不扩其他类型/完整家族，不使用Monster3/30碰撞容差。
+
+状态更新：Done（2026-10-04；用户明确接受冻结234像素，独立重验及verified再生成通过；下一257B唯一Ready）。
+
+原阻塞解除：用户2026-10-04明确回复“接受例外”，仅精确清单许可，布尔/时序/伤害不放宽。
+
+推荐后续任务：`TASK-SETTINGS-257B`。
+
+完成记录：2026-10-04 / TASK-SETTINGS-257A完成：用户明确接受冻结234个单像素碰撞例外，精确hash绑定后两普攻392768例独立重验通过（布尔零差异）；96显示态/176对象、10368相位/780检测绑定及原生重复/负例齐备，空间真值verified。A归档，257B唯一Ready补原Tween与公共英雄坐标；父257仍Split、真实HP未知保留，无src/public修改，不关闭204/all/194/VS-067或整线。见 `docs/reverse-engineering/monster2-attack-space-contract.md`。
+
 
 ### TASK-SLICE-249
 
