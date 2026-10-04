@@ -16792,3 +16792,65 @@ UI 原生化合同：
 完成记录：2026-09-27 / TASK-SETTINGS-232完成：Monster30身体先效果、独立攻击下一世界步检测、HP死亡保留而destroy清弹已交叉确认。45组810原方法AIR态、三帧率66恢复SWF时钟态、6编译源变异和4损坏反例通过，baseline重复一致；五关12类型88源locator与实际伤害消费者已列明。保留碰撞/HP服务sink、效果到期注入及完整场景未重放边界。232归档，TASK-SLICE-240唯一Ready先消费Monster30两条owner；其他类型/233..235、原84组合、完整家族/VS-067及功能线仍未完成。合同见monster-body-attack-lifecycle-contract.md与reference/monster-body-attack-lifecycle-contract.json。
 
 验收：原方法capture/verify --mutations（45组810态、六源变异、四报告损坏）、恢复SWF时间轴（66态）、静态12类型88locator及现代三fps反例通过；check:workflow、audit:problems、check:structure与diff检查见本地handoff。未修改src/public，未进行生产修复。原任务输入、禁止范围与验收合同完整保留于本历史段。
+
+
+## TASK-SETTINGS-256
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：232 BA-08仅静态映射其余怪物，Monster3/30完成不能覆盖Stage1-2的Monster2。特别是doHi2创建纯MovieClip并控制玩家Tween，不进入magicBulletArray；现有普通activeAttack路径不能作为原伤害/清理事实。先冻结这一单类型的行为输入，再据真实缺口生成空间/显示补证或现代消费任务。
+
+规模预算：
+- 主工作包：2（Monster2局部与共享调用链；原方法受控动态验证和实现交接）
+- 预计上下文压缩：0
+- 独立验收批次：2（行为oracle与源变异；现代消费者/输入缺口映射）
+
+拆分触发：
+- 缺少攻击像素、显示树或Tween视觉事实且超出本行为合同，明确未知并另建同线视觉补证，不以Monster3/30已批准残差外推。
+- 出现需要独立公共接收机制的新分支时，只冻结该分支输入和消费者，后续另设实现任务，不扩成其他类型批量逆向。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent冻结合同与原动态样本；Luna只读审计调用链/纯视觉与伤害边界。
+- 并行工作包：主agent采样时独立核对Monster2到Stage12/Registry/party实际消费者。
+- 写入 owner：主agent。
+- 归并检查点：验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster-body-attack-lifecycle-contract.md`及reference，BA-01..08；BA-08对Monster2仅静态证据。
+- `docs/reverse-engineering/monster3-runtime-acceptance.md`、`monster30-runtime-acceptance.md`只供现代接缝与已完成范围参考，不能代替Monster2原事实。
+- 只读`local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as`及确有调用的BaseMonster/BaseObject/BaseBullet、对应bullet与PhysicsWorld；先窄查源命名与调用点。
+- 视觉symbol/原命名资源优先窄查`local-resources/regima/source/restored-swfs/`；本项不新增视觉像素完成声明。
+- Stage12、MonsterRuntimeRegistrySystem/Bridge、Stage1CombatSystem、HeroPartyRuntimeBridge中的实际消费者。
+
+输出产物：`docs/reverse-engineering/monster2-body-attack-contract.md`、对应reference行为JSON、可重复原动态probe/verifier与源变异；消费者/未证输入清单和唯一同线后续任务。
+
+完成定义：Monster2身体回调、实际攻击对象或纯视觉对象、首次/末次检测、源hurt/dead/destroy、暂停、Tween控制与清理的六段证据链明确；可执行部分有独立原oracle和负向反证，未证空间/视觉不猜补。
+
+验收标准：
+- 按源方法区分每种攻击和doHi2纯MovieClip/Tween分支，记录当前伤害producer、引用与target归属；不得把可见效果等同伤害弹体。
+- 核对身体先效果、出生/新对象下一world步、末帧处理与源死亡/显式销毁/暂停分支；20/24/30按原host步或明确计时单位采样，不把手动步进当实时时钟。
+- 自然选择/CD/概率若是后续消费者必需输入则纳入有界源调用链；不能复用Monster3概率或现代奇偶猜测。
+- 使用原方法/原类执行或明确标注接受服务；HP、碰撞与Tween插值未经验证时列unknown，不以sink证明真实伤害/视觉。
+- 原source/hash、重复一致、关键源行为变异被实际样本拒绝；编译失败不计反证。
+- 交接保留232其他10类型、Role4人偶、未迁移家族与完整公共责任；运行check:workflow与audit:problems，不修改生产玩法或原语料。
+
+禁止范围：不实现Monster2，不扩成其他怪物/完整家族，不关闭204/all/194/VS-067或整线；不改原提取结果，不新增视觉容差。
+
+状态更新：Done（2026-10-04；有界行为合同完成，未知空间/HP/Tween插值明确交接）。
+
+推荐后续任务：按本项实际输入缺口生成唯一同线Monster2空间/显示补证或实现任务；资料未verified时不得直接实现，不跨类型批量扩张。
+
+
+完成记录：
+
+2026-10-04 / TASK-SETTINGS-256完成：Monster2原方法648例/45360态、自然选择1764例/27936态及1344决策、原生3456相位/246检测、96玩家列表与6门例通过；19编译行为/2原生运行变异与7报告损坏拒绝，正常身体/决策/原生重复一致。确认hit1两独立对象、hit2仅裸MC与Tween请求，裸MC不受原暂停弹体列表控制且第14帧EXIT自移除。真实HP/像素/Tween插值未知保留；257唯一Ready补空间/显示及控制投影。未改src/public或原语料，其他类型/人偶、204/all/194/VS-067与整线不关闭。见 `docs/reverse-engineering/monster2-body-attack-contract.md`。
+
+交付：`tools/monster2-source/`、`docs/reverse-engineering/monster2-body-attack-contract.md`及`reference/monster2-body-attack-contract.json`。独立原生与源变异复验入口见合同；现代消费者由Luna只读审计、主agent复核并归并。完整本地原trace保留供257与后续消费，不承诺随Git交付。下一项为同线`TASK-SETTINGS-257`；未执行生产玩法变更。

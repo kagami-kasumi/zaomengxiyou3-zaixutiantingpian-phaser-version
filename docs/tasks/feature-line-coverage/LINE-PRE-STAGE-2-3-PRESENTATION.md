@@ -1,5 +1,7 @@
 # LINE-PRE-STAGE-2-3-PRESENTATION 覆盖台账
 
+2026-10-04 / TASK-SETTINGS-256完成：Monster2原方法648例/45360态、自然选择1764例/27936态及1344决策、原生3456相位/246检测、96玩家列表与6门例通过；19编译行为/2原生运行变异与7报告损坏拒绝，正常身体/决策/原生重复一致。确认hit1两独立对象、hit2仅裸MC与Tween请求，裸MC不受原暂停弹体列表控制且第14帧EXIT自移除。真实HP/像素/Tween插值未知保留；257唯一Ready补空间/显示及控制投影。未改src/public或原语料，其他类型/人偶、204/all/194/VS-067与整线不关闭。见 `docs/reverse-engineering/monster2-body-attack-contract.md`。
+
 2026-10-04 / TASK-SLICE-249B及父249完成：Monster3两owner独立攻击/真实P1/P2英雄宠物HP、140880空间case、两Scene原生30态与死亡留弹/失败重试核销；255兼容19形态完成，新增自然UFO双Scene旅程、105660当前profile样本及7 owner/4显示/1旧路径反证。117组全回归、build与架构检查通过。下一TASK-SETTINGS-256唯一Ready补Monster2有界行为输入；其余类型、人偶、204/all/194/VS-067及整线保持未完成。
 
 2026-10-04 / TASK-SLICE-255完成：19形态兼容受击owner复用实际HP，原时钟/保护/死亡与精确source清理接入双owner；两Scene三档受伤/重复hurt/死亡/暂停/退出重进通过。416态双底显示最大差0.498039/255，7时钟+7 owner+2显示生产反证通过。255归档，249B恢复唯一Ready继续原全部两Scene合同；父249/204/194/VS-067与整线不关闭。见 `docs/reverse-engineering/pet-reception-body-runtime-acceptance.md`。

@@ -1,0 +1,912 @@
+{
+  "schemaVersion": 1,
+  "contractId": "task-settings-256.monster2-body-attack",
+  "status": "verified-bounded-behavior",
+  "scope": "Monster2 original body/attack/world methods, natural decision and recorded Tween service requests; not geometry, actual HP, Tween interpolation or modern reproduction.",
+  "attacks": {
+    "hit1": {
+      "bodyHolds": [
+        2,
+        2,
+        15,
+        16
+      ],
+      "births": [
+        5,
+        20
+      ],
+      "symbols": [
+        "Monster2Bullet1_1",
+        "Monster2Bullet1_2"
+      ],
+      "frames": [
+        14,
+        20
+      ],
+      "offsets": [
+        [
+          75,
+          -100
+        ],
+        [
+          -90,
+          -35
+        ]
+      ],
+      "interval": 999
+    },
+    "hit2": {
+      "bodyHolds": [
+        2,
+        2,
+        2,
+        14
+      ],
+      "births": [
+        7
+      ],
+      "symbol": "Monster2Bullet2",
+      "frames": 14,
+      "offset": [
+        -35,
+        -80
+      ],
+      "tweenSeconds": 1,
+      "target": "all gc.getPlayerArray heroes"
+    }
+  },
+  "deathBodyHolds": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    7
+  ],
+  "selection": {
+    "skillInitialCdHostSteps": "fps*1",
+    "skillResetCdHostSteps": "fps*5",
+    "skillDistance": {
+      "metric": "euclidean",
+      "operator": "<",
+      "value": 500
+    },
+    "normalRange": {
+      "metric": "absX",
+      "operator": "<=",
+      "value": 250
+    },
+    "normalDecision": "count % fps == 0",
+    "probability": {
+      "normalBoss": 0.423,
+      "normalNonBoss": 0.366,
+      "difficulty1": 0.85,
+      "difficulty2": 0.89
+    },
+    "unusedRandomBeforeSkill": true,
+    "skillFacesTarget": false,
+    "normalFacesTarget": true,
+    "cdPhase": "after decision, including busy/hurt/dead; ready returns",
+    "sourceDropProbabilityNotAttackProbability": 0.8
+  },
+  "nativePhase": {
+    "firstDetectionFrame": 1,
+    "births": {
+      "hit1": [
+        5,
+        20
+      ],
+      "hit2": [
+        7
+      ]
+    },
+    "firstChecks": [
+      6,
+      21
+    ],
+    "lastChecks": [
+      19,
+      40
+    ],
+    "pause3LastChecks": [
+      22,
+      43
+    ],
+    "rawRemoval": {
+      "frame": 14,
+      "worldTick": 21,
+      "phase": "EXIT",
+      "unaffectedBySourceDestroy": true,
+      "unaffectedByMainGamePause": true
+    },
+    "pause": "source stopGame/continueGame; enrolled bullets stop/play; Tween pauseAll(true,true)/resumeAll requests"
+  },
+  "control": {
+    "durationSeconds": 1,
+    "target": "Config.getPlayerArray: non-null hero1/hero2 with !isDead(), P1 then P2; ready flag is not filtered",
+    "destination": "source x, source y-50 copied at call",
+    "pets": false,
+    "damageObject": false,
+    "enrolled": false,
+    "sourceDestroyCancelsTween": "no cancellation in traced source; actual Tween lifetime/interpolation not exercised",
+    "gameExit": "MainGame.destroyGame calls TweenMax.killAll(false); static only"
+  },
+  "contracts": {
+    "M2-01": "BBDC callback before effects; hit1 emits at host steps 5 and 20, hit2 at 7",
+    "M2-02": "hit1 two independent SpecialEffectBullet roots with hit1 action and interval999; source motion does not drag them",
+    "M2-03": "world processes old bullets before body; first native query next step frame1; final frame queried before cleanup",
+    "M2-04": "hurt/dead preserve emitted default bullets; interrupted body suppresses later emission; explicit destroy clears enrolled references",
+    "M2-05": "doHi2 creates raw MovieClip plus 1 second Tween requests for living heroes; no attack enrollment or BaseBullet damage calls",
+    "M2-06": "raw frame14 script removes parent and stops; native ENTER/world sees frame14 before EXIT removal; source destroy leaves raw visual",
+    "M2-07": "source pause enrollments exclude raw visual; Tween pause/resume are recorded services; low-level isStopGame differs from world pause",
+    "M2-08": "natural skill priority/CD/probability/distance/facing use Monster2 constructor and source shared methods, not alternating serial",
+    "M2-09": "source boss opens doors only if no living Monster4; world removes ready source; fade/UI/reward remain omitted services"
+  },
+  "sources": [
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "step",
+      "line": 461,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "d79e5f446ec8f3c50a1ba3e490a3ba4d36a15542b8336f7181489760907bbd29"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "frameShow",
+      "line": 312,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "c545f4f0db169d5a9ebb36211dc61adf755c20af14cd34ac5937c992893b16a9"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "setState",
+      "line": 517,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "c6cdcb92eeae5e22f5b4c332bda7cc10c57dca763f6b0991b1b0a308b6e93df8"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "getState",
+      "line": 526,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "9060cc26e8108f644e709dbd50bc33135f62ebd796c263d58f0dd6706b3ee258"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "setFramePointX",
+      "line": 446,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "6c51101832ae4ac98c23950c18733b03c9567467842fd9fb6a4aa107b94d1374"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "setFramePointY",
+      "line": 455,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "e539315cfd411afd12468ee20c72f4a8777386649a59d439e7c0ec7141d4c748"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "getCurPoint",
+      "line": 546,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "9c45533c2cfd6b8c9a7002a38c5f3c73dd321dd41e979876800ccda8b957fa91"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "getCurFrameCount",
+      "line": 556,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "e24c3213328a7774a56df4128f99fddcd16f379b5029017bae6ee8e0fd0979ac"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "stopFrame",
+      "line": 566,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "b60d05027cf3258b049986abd3b9de88cedefeccc2f07263d2405883e58ea68d"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "continueFrame",
+      "line": 572,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "2cdf5a8c082590b58237379109f23dea535295824abea3692b967254e062b62f"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "addFrameScriptEnterEveryFrame",
+      "line": 413,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "a457bb67c374276fe799baee4fec51cd65815deb66cbdf40b9a36c1ebbef7beb"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBitmapDataClip.as",
+      "method": "addFrameScriptExitEveryFrame",
+      "line": 424,
+      "sha256": "7a52392e0ed6e97f3dc4d9cc6dd32be58969f88bfa13cd4905a15764b9e879d2",
+      "methodSha256": "858b3fbb58792448d5af79a5f107cb355914964a400fcd8f3ffb8cb720bdb1da"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "step",
+      "line": 165,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "f0bfa344238e3f64f1900a95084f5671328d04bfb5cec4cbc2903009372be1db"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "setAction",
+      "line": 999,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "249b96e294eb45ffade8fa143e4daa52a50466f1df18d701d280c100440f6e63"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "reduceHp",
+      "line": 1433,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "84d2d76c64b659a8f7e7123f51e6c936c896d9db80c6f124b79a012939429de3"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "destroy",
+      "line": 751,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "82f1dc8e17d1b5eac090a7082cb977bebd0ec8a9284647841169364dc7ea90a4",
+      "fragment": "isReadyToDestroy through magicBulletArray=null; UI, Tween fade and post-cleanup fields excluded"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster30.as",
+      "method": "setAction",
+      "line": 82,
+      "sha256": "67dd2bbce4853063cd0641abef6a490c8163bb9bb785939e7f59641bd1060b79",
+      "methodSha256": "018d838422f9cfb2ed5fb9dba5c7cde0165b858b0cee1737eb7cb7fd229ce37d"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster30.as",
+      "method": "enterFrameFunc",
+      "line": 154,
+      "sha256": "67dd2bbce4853063cd0641abef6a490c8163bb9bb785939e7f59641bd1060b79",
+      "methodSha256": "37b0962a66f4a8ff5e02b0474b82f521bceb05cb114eddf2c5b03676bcb12941"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster30.as",
+      "method": "doHi1",
+      "line": 171,
+      "sha256": "67dd2bbce4853063cd0641abef6a490c8163bb9bb785939e7f59641bd1060b79",
+      "methodSha256": "4abac44caeb76ae7a1ed94d35dee80293606f3ea35b0b2284a762c7e95c578ef"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster30.as",
+      "method": "exitFrameFunc",
+      "line": 183,
+      "sha256": "67dd2bbce4853063cd0641abef6a490c8163bb9bb785939e7f59641bd1060b79",
+      "methodSha256": "9538d2ba43e7270d283245fee03df91cc86be777beeb59df88aa98da48810ec8"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster30.as",
+      "method": "scriptFrameOverFunc",
+      "line": 130,
+      "sha256": "67dd2bbce4853063cd0641abef6a490c8163bb9bb785939e7f59641bd1060b79",
+      "methodSha256": "7305a1096fc3b314088371615b4d6e9b1d5d24db37c235dac30dbbf5eb709bff"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "method": "step",
+      "line": 251,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "methodSha256": "e4a3e7955e1bcee6e5928c42f207ece05b5f82c6583d0745373ad7af533cec9a",
+      "fragment": "PETMONKEY_FIRE branch only; countdown injection explicitly controlled"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "method": "show_pethorse_ice",
+      "line": 2944,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "methodSha256": "c9bd6849183de54f1fad77c18bd747bb15b87ec54eebe2002309412b8a8b04a6"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseAddEffect.as",
+      "method": "hide_pethorse_ice",
+      "line": 2973,
+      "sha256": "aee184ddb61725c4f4268ade44f37effaa9bb632daef16186866f4cc8684d511",
+      "methodSha256": "ec7ac3a9585af10d59427ecb890a6beb2cdd3101b3bc0431ae87ff0540b37d38"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "BaseBullet",
+      "line": 90,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "fcb646bd5dc27ac588f886de9bb3f2ce67fb2126394e1a18c5bfc3553309480a"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "step2",
+      "line": 105,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "e3bdea45ff933622248b13172e468d1f87b6d00899602faec69e6850daeccb80"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "step",
+      "line": 153,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "b861c069a8272845bb06d60356c813032fcfa7d63dfba008f01b1fbfca9d0127"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "checkAttack",
+      "line": 225,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "5a10da5712c53473a1f886f80530c3674b7c2ddc57e8d2fccf24d04309ff8889"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "destroy",
+      "line": 403,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "a6250227eb4fc89f74a2c0d1c34983673dad4ebc69b0b4fa53e0b825f2ee6558"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "setRole",
+      "line": 427,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "5471ecf39d0799903109a09655f3a549395a1bbbe32a36e30013c33ba6cd8dba"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "setAction",
+      "line": 486,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "77fa07b3173ba8ae3a804f139b554263006c37f8a506cac1a0727c80f72279d0"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "refreshSourceRoleAttackInfoObject",
+      "line": 433,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "9b21c831f830695b0947c263fec5a91a00ec917229e8e95515789a17d38aeaed"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "setDirect",
+      "line": 469,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "78b92d81924289cfacfacd6d569cbd4448924646054a29366181c2723d8d66e6"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "getAttackId",
+      "line": 598,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "839bbf2f2eea5db6fb91dfb145a35261b387d5ad9ec7bab50248a0bc7aa34a5d"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "newAttackId",
+      "line": 593,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "b874090fed1d30e8a593b92569586531ec6b7467fe44d3c90a6d5cf32e4d592b"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "getImcName",
+      "line": 578,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "d6ea7f3459e570efed55f9103f9454af4c2180ca5afef6382e12098a64e856b3"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "getImgMc1",
+      "line": 588,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "36c898e214ea3a791da8d5fafbd62433d3e4eed143eb4dfe030f44af207484d8"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "setBingoRate",
+      "line": 618,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "af6014b838d518f68f070d42b8d6a618a4301abb35e2c99d4affaa0f3e2ad627"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "setDestroyInCount",
+      "line": 554,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "e26a4abfdf66d585184a19fd7db3a3178cc3312fb072cdb6d2715d1aea711328"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseBullet.as",
+      "method": "setHurtCanCutDownEffect",
+      "line": 176,
+      "sha256": "70ebadf7758400170bca4991053954863d9872cd04ea293dd286534796e32e96",
+      "methodSha256": "7cb0f586c83e7d4a73b45344c5fd01ba9dce0c32f01960fd5b8f611169feab63"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as",
+      "method": "step",
+      "line": 470,
+      "sha256": "371a5bd35d0e7a69e5648d60c8de61fc1d3555babb8e9323838a5698117cde49",
+      "methodSha256": "77845b115a7d5953185f0ea8986a0a17f6db218c47a774b2e19388afea3000fd"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/World/PhysicsWorld.as",
+      "method": "clearWaitFromParentArray",
+      "line": 453,
+      "sha256": "371a5bd35d0e7a69e5648d60c8de61fc1d3555babb8e9323838a5698117cde49",
+      "methodSha256": "bee6d47ec68e6378064a00907025c1d83e1f7a303a4bea369c01c4fd9df84930"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "initBBDC",
+      "line": 71,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "ea6dac38c540e0601aae233e96434fb5f38f61ccd4d557ff9518a54d59e8de6d"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "Monster2",
+      "line": 12,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "d2f762d8bdfd86f7cd267a0ad35085b329ed2083d26a68b90900ab0e2cc61070"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "setAction",
+      "line": 100,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "6e8afb95980dd60fe48d080711327d0f467d658515f88d9099e6f47991dc0369"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "enterFrameFunc",
+      "line": 183,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "8ff9ab86c0f54d790509b9df79b852c6e37ce43d1647347e9e87b40b98664898"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "doHi1_1",
+      "line": 229,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "3a29a930c9708bcd8c1ccc9ca941dbf10d97e3f0741febb8de8b1ba13cd3bc2f"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "doHi1_2",
+      "line": 248,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "98d8fa03eb58b558fdaebcc69feca9a02ccd6ad5aead53b9a46e4203717d849b"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "doHi2",
+      "line": 267,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "5af5cb2fbe82e20e678026ae43c298ccb41fa37b442a020ca3eb70f0cbcdd1a1"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "exitFrameFunc",
+      "line": 295,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "9538d2ba43e7270d283245fee03df91cc86be777beeb59df88aa98da48810ec8"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "scriptFrameOverFunc",
+      "line": 156,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "256e411e0814843742d60e7a5528d9ca3613f61d523efb03fb1af24892a7c648"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "destroy",
+      "line": 307,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "c6807897eba9900f34b390a8d6971f19eb97968930ee4088103085c11b8dec1f"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/bullet/SpecialEffectBullet.as",
+      "method": "step",
+      "line": 15,
+      "sha256": "863c64f210f4534c246e84d5bad9d799cd95809f29f982117a877f1dd88be3d0",
+      "methodSha256": "053b1f74f0d00a7e6f62d09335a4967f8c07cdcd533bf087f64b691e94eba34c"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "isBeAttacking",
+      "line": 1051,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "f6a71cf30d47cfd22c597103cc90db8bc21a48abd30c8a8a6fc7cf8792e8ba3a"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "isAttacking",
+      "line": 1046,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "bfedd1287cd20fb09f2df8bf479fada89bb9213cb8bd0834b67e2eea2a570f77"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "newAttackId",
+      "line": 1016,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "b874090fed1d30e8a593b92569586531ec6b7467fe44d3c90a6d5cf32e4d592b"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "getNumAttackId",
+      "line": 1026,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "8b50327425fb4eb8dd2054b06028ac3c919f10924693be55139c1153bb6b9972"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "turnLeft",
+      "line": 625,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "260a218b7eb7824e5b9d249e628ad6d2a327649bbf792a3e38fd497fc1aad93a"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "turnRight",
+      "line": 651,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "f0d07954aadb6810308efd15eef0fe1173940d1ec544a8cc6233ba309650923c"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseObject.as",
+      "method": "setStatic",
+      "line": 1088,
+      "sha256": "fff45f68a219ae9dfe54fe97681824dd3dcce532851a8c296b8fe8cb7e925ca7",
+      "methodSha256": "74872bca2b1d411ec02b0d1b527b07f1ea909f249324058e86b83223fcca988c"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "__added",
+      "line": 149,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "c53617db8e877b869e1f3e5e455231fb2d7017f32a6e7fc2aeeb65a8e83d28aa"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "step",
+      "line": 305,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "303f62771f10e729798de678af0a15af9df919ba5cf5e8c2235fcab49ec1981f"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "addcount",
+      "line": 1558,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "cf806fe67ed24f6ab6d2ce4cf03f5456000521e6ad4a8660598bc016adf74baa"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "IntelligenceTime",
+      "line": 402,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "5b69d692eaf009db2f6be95decacc7506af3c1357fcd990c872c5790db3b2915"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "countCD",
+      "line": 407,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "6842a252ee77efe1265181293c2c6d8afeec4fe9529c1ea3b59218e19fab8213"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "myIntelligence",
+      "line": 532,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "e91792fa669465d55d976b214ec0e7e1de1b6f8a93c13301c6e3babe65187e7f"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "hasAttackTarget",
+      "line": 564,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "743e4c8fab22ac9a67fa2cba3e6b8b6d7e5514c93d5b4f081777b1cf7a9a756f"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "attackTarget",
+      "line": 642,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "a970bd645256dea713a83d59000873a5696dc645f36ce242f64e1fb2bdb017bc"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "faceToTarget",
+      "line": 1902,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "049a92cbbbc1258d4162e3f4c3b38c4f3d0a161314b80d8d73a38cebb805c460"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "selectTarget",
+      "line": 708,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "e513e04dfa16000889475cf38d0466e4e681858c63511fea43053d215d957dd3"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "beforeSkill1Start",
+      "line": 450,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "d605b28a45dd3abb551ae766460a8023f1406b8d6cd873c0a5b19fd8243adb4e"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "beforeSkill2Start",
+      "line": 455,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "347054dafe74edf018ec4ea4cac1b593511fc2928846086aa6ef3e15c7241eb4"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "beforeSkill3Start",
+      "line": 460,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "d374d87fa53021529536e47e8b3ee319232937c7da9fa3de05ea10354fa1a155"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "beforeSkill4Start",
+      "line": 465,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "0e862879dd2eead4756b319c514701c23996ff1e3e8b0565d6212bb393baa738"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "beforeSkill5Start",
+      "line": 470,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "f998c1499e030afd774ece2a01e91594a388a30685efc5b370d056e0aa235081"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "releSkill1",
+      "line": 650,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "36b52cd53e9b465ad3bc44fa68709d566e4d75aa8cb5e3f2a5361c80577e81ba"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "releSkill2",
+      "line": 654,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "64368fab55df88261d4b36555df26a22b38fe41ee35dd1d0e8319c9c7553d68e"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "releSkill3",
+      "line": 658,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "221feacc7381c29ff4ad4fd710510b418e3cafa951c635e0cccd18f458037dbd"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "releSkill4",
+      "line": 662,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "0ae45d6aa0177db8989641f691114003701e75ea5f6c1657fcd0d6c8d727ae04"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "releSkill5",
+      "line": 666,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "4e8db355105e723c286848ffa13f0dc01433a4912fd8d91b93c9b96aebd63b9d"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "normalWalk",
+      "line": 475,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "e72805627e72792140abde3404181644d1321800f49fa2c1b9927bab26bbcd41"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "randomWalk",
+      "line": 506,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "f3f89c5c98e686c8d73218e9a14f9feefdccdaa120a8413b98e085b5d67a47a7"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "followTarget",
+      "line": 670,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "19c7592fa4be7074096e277985d684d6471dceb8f4eef684566f343ce08c4300"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "flyFollowTarget",
+      "line": 685,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "4acf5a1b6739da77bce6af29bde0baca4948db8fcb9635618df64afc35a9e192"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "method": "isDead",
+      "line": 1493,
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b",
+      "methodSha256": "8dde7730be384c750bcb2ccbd339db11da53a95b650b11286f3feb52a022df86"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "myIntelligence",
+      "line": 299,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "46c3f637fa7979ef7cccc32ed21333971a833fb5afbcff78392448dc81b18f63"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "beforeSkill1Start",
+      "line": 217,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "bd2f7fa6fb10399c058453b5640a27356a2a45c1f16bd1d679a98306088e60e7"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/export/monster/Monster2.as",
+      "method": "releSkill1",
+      "line": 222,
+      "sha256": "be2a36e8afc712cf0104951e6cd773b9afa71f7fb374700fcce4b3add9a6d8fb",
+      "methodSha256": "c99c77ecaacec9185e4e625dad5040982832688c2e61955297dfe8ab0af07b1a"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/AUtils.as",
+      "method": "GetDisBetweenTwoObj",
+      "line": 316,
+      "sha256": "c09e7f2b908826e117e099969a47952efe69f80b6150e66a9e0e91dc36296b5d",
+      "methodSha256": "b95bfb46f3935a7202ee3bd1c1d0bbfd2df0de3105d2a6afb89d2d838a47c904"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/AUtils.as",
+      "method": "GetNearestObj",
+      "line": 327,
+      "sha256": "c09e7f2b908826e117e099969a47952efe69f80b6150e66a9e0e91dc36296b5d",
+      "methodSha256": "beb51f1a74e566671b032b6082562d6f580606441b861dc5967a870c6cb88aa1"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/config/Config.as",
+      "method": "getPlayerArray",
+      "line": 1122,
+      "sha256": "ebc4558bed160ede34a26f026d2414dd62af141d1b142958b5cd83e03b5dcfa0",
+      "methodSha256": "ce04655b8e9c7f3ad006559e4aacf912913a109606725ad0999797dd5101d522"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/MainGame.as",
+      "method": "stopGame",
+      "line": 621,
+      "sha256": "57a9936397ff0edbfc060727cada8c1a84c88b478c047935368c5bc417d814ed",
+      "methodSha256": "735a393e82078bdc2686d7e088702c52639d77c23fbbc9a99c2735114087203d"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/MainGame.as",
+      "method": "continueGame",
+      "line": 674,
+      "sha256": "57a9936397ff0edbfc060727cada8c1a84c88b478c047935368c5bc417d814ed",
+      "methodSha256": "21ca8c81aecee819ffd62fa8ab79ac50750f381250634c4db7a461fd37deb500"
+    }
+  ],
+  "staticSources": [
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/my/MainGame.as",
+      "sha256": "57a9936397ff0edbfc060727cada8c1a84c88b478c047935368c5bc417d814ed"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseHero.as",
+      "sha256": "821eb938395609f6cc496c1eb07d054d3f0a5c67590ca2de50fb82e938f9f3f8"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BasePet.as",
+      "sha256": "29445a84725a475a69d4a779eec57d488a2288a306ae7555e8ce8f5abd622c42"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/base/BaseMonster.as",
+      "sha256": "fcbb52a290b82e95378072940ac7581f298abb0f2c10d72f7019480cb501539b"
+    },
+    {
+      "path": "local-resources/regima/legacy-extraction/resources_by_swf/[172845].swf/scripts/config/Config.as",
+      "sha256": "ebc4558bed160ede34a26f026d2414dd62af141d1b142958b5cd83e03b5dcfa0"
+    }
+  ],
+  "modernConsumers": [
+    {
+      "path": "src/scenes/Stage12Scene.ts",
+      "sha256": "64fd8822bddfe6c151f4a4d3ee34e652df271fe14aa38d91df10eb7ca42a4b32"
+    },
+    {
+      "path": "src/systems/MonsterRuntimeRegistrySystem.ts",
+      "sha256": "10dd840b08f3cd3f111a9533a81eef987d1b48a20e16484d52bcf2f1ddbbc6ed"
+    },
+    {
+      "path": "src/scenes/MonsterRuntimeRegistryBridge.ts",
+      "sha256": "799b49621a628fdca3346e33f4473d520fab282c7c821b8b4b6b49bc8fb689ff"
+    },
+    {
+      "path": "src/systems/Stage1CombatSystem.ts",
+      "sha256": "86cd12e532bd32b5118ab33b4e67561dbcb581ec5aa3c84194a3026715acfaf0"
+    },
+    {
+      "path": "src/scenes/HeroPartyRuntimeBridge.ts",
+      "sha256": "eca818793c57467f3a7010da4b32b5a6de714c3aacda037114e467737b2da611"
+    },
+    {
+      "path": "src/systems/MonsterDefinitionCatalog.ts",
+      "sha256": "93cf782d4c47656cb7ac97e7286df5dd3d28b209f46e6c3dccb20930b66c5a06"
+    },
+    {
+      "path": "src/systems/Stage12MonsterVisualSystem.ts",
+      "sha256": "96ccecb9a7539bd1b304d4347d2019688913488602089db1a3ee2b9963a2bd03"
+    },
+    {
+      "path": "src/scenes/stage12/Stage12MonsterVisualBridge.ts",
+      "sha256": "3647d048ab9c3ffe39abad7d83828edaa46bc247fe65b42c6877c81f7f541460"
+    }
+  ],
+  "identities": {
+    "Monster2Bullet1_1": {
+      "characterId": 49,
+      "totalFrames": 14,
+      "locator": "DefineSprite/49",
+      "tagSha256": "67e17d8ee6494a99df475231a6f0e4b410bafe731d10637499284411651c0c1c"
+    },
+    "Monster2Bullet1_2": {
+      "characterId": 34,
+      "totalFrames": 20,
+      "locator": "DefineSprite/34",
+      "tagSha256": "f275d237891925b30ccebdc7eaf0996d765858f619670503b7c5c5452ab3bd98"
+    },
+    "Monster2Bullet2": {
+      "characterId": 30,
+      "totalFrames": 14,
+      "locator": "DefineSprite/30",
+      "tagSha256": "06700e496827e61f91857f815a4ffca738b923aa7c5ac9640bdd874725baf999"
+    }
+  },
+  "restoredSwfSha256": "14470fa742917ebd902763ddee7971876c458478a7b2711f1eeb8beaea2b0d7e",
+  "rawScript": {
+    "path": "local-resources/regima/task-outputs/TASK-SETTINGS-256/identity/script/scripts/Monster2Bullet2.as",
+    "sha256": "c6286f45e3c48a223d94c090b7ce059873f02ea3b3a00a7faae3a55a0ab9e85e"
+  },
+  "acceptance": {
+    "bodyCases": 648,
+    "bodyStates": 45360,
+    "selectionCases": 1764,
+    "selectionStates": 27936,
+    "selectionDecisions": 1344,
+    "nativeStates": 3456,
+    "nativeChecks": 246,
+    "rosterCases": 96,
+    "doorCases": 6,
+    "compiledBehaviorMutations": 19,
+    "nativeMutations": 2,
+    "reportCorruptions": 7
+  },
+  "evidence": {
+    "source-baseline": "docs/tasks/evidence/TASK-SETTINGS-256/source-baseline.json",
+    "selection-baseline": "docs/tasks/evidence/TASK-SETTINGS-256/selection-baseline.json",
+    "phase": "docs/tasks/evidence/TASK-SETTINGS-256/phase.json",
+    "identity": "docs/tasks/evidence/TASK-SETTINGS-256/identity.json",
+    "roster": "docs/tasks/evidence/TASK-SETTINGS-256/roster.json",
+    "verification": "docs/tasks/evidence/TASK-SETTINGS-256/verification.json",
+    "native-verification": "docs/tasks/evidence/TASK-SETTINGS-256/native-verification.json"
+  },
+  "unknown": [
+    "Three symbols full display trees, matrices/registration and pixel baselines",
+    "Two hit1 objects actual hero/pet colipse pixel collision and final HP reception",
+    "Original Tween interpolation/default easing/overwrite/hero movement conflict and hero death lifetime",
+    "Full original scene/menu journey and production integration"
+  ],
+  "nextTask": "TASK-SETTINGS-257",
+  "limitations": "Original source method/fragment execution in bundled AIR 51.1.1.5; body harness omits AI/physics/rewards/UI/fade and injects effect expiry. Selection executes original AI/CD with controlled random; movement endpoints remain sinks. Target HP/pixel and Tween interpolation are unverified. Native phase executes real restored clips and original pause methods, not full game UI. Behavior sidecar is not a UI/space manifest."
+}
