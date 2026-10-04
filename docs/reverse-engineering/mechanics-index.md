@@ -1,5 +1,7 @@
 # 总机制表
 
+2026-10-04 / TASK-SETTINGS-257B及父257完成：原Tween ABC 4832态、真实共享坐标链5436世界态/7248英雄态独立零差异及重复一致；18场自然运行验证lazy起点、1秒终点、twip量化、活动覆盖、暂停恢复、死亡/destroy后继续与真实Scene退出，9类编译/运行变异拒绝。257A空间/392768碰撞及234像素精确许可、M2-01..09与无伤害producer完整保留。258唯一Ready补真实HP；未改src/public，不关闭204/all/194/VS-067或Active功能线。见 `docs/reverse-engineering/monster2-gather-coordinate-contract.md`。
+
 2026-10-04 / TASK-SETTINGS-257A完成：用户明确接受冻结234个单像素碰撞例外，精确hash绑定后两普攻392768例独立重验通过（布尔零差异）；96显示态/176对象、10368相位/780检测绑定及原生重复/负例齐备，空间真值verified。A归档，257B唯一Ready补原Tween与公共英雄坐标；父257仍Split、真实HP未知保留，无src/public修改，不关闭204/all/194/VS-067或整线。见 `docs/reverse-engineering/monster2-attack-space-contract.md`。
 
 2026-10-04 / TASK-SETTINGS-257A在制：96态/176显示对象原树与视觉核对、392768原生碰撞例（布尔零差异）、10368相位与780检测绑定完成，原生重复及负例通过；第一普攻234个单像素残差待明确裁决，第二普攻像素零差异。257A Blocked且真值blocked，257B仍Planned；未改src/public，不晋升父257、204/all/194/VS-067或整线。证据：`docs/reverse-engineering/monster2-attack-space-contract.md`。
