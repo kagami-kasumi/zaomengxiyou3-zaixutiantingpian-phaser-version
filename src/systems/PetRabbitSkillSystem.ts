@@ -2,6 +2,7 @@ import type { ProjectileSystemModel } from './ProjectileSystem';
 import { PetTuning } from './PetTuning';
 import { getActivePet } from './PetRosterSystem';
 import { createPetSkillState } from './PetSkillStateSystem';
+import { DefaultGlobalSettings } from './GlobalSettingsSystem';
 import type { PetAutoBuffOwnerStats, PetRoster, PetRuntimeModel, PetSkillCastResult, PetSkillRandomSource, PetSkillState, PetSkillTarget, PetState } from './PetTypes';
 
 // ─── rabbit1/yg (月光) - passive hit-triggered ──────────────
@@ -52,7 +53,9 @@ export function requestPetRabbit1YgSkill(params: {
 
 export function requestPetRabbit2JfSkill(params: {
   roster: PetRoster;
+  hostFps?: number;
 }): PetSkillCastResult {
+  const fps = rabbitHostFps(params.hostFps);
   const pet = getActivePet(params.roster);
   if (!pet) return setFail(params.roster, 'No active pet');
   const state = ensureState(pet);
@@ -64,7 +67,11 @@ export function requestPetRabbit2JfSkill(params: {
   const mpBefore = pet.mp;
   pet.mp = Math.max(0, pet.mp - PetTuning.rabbit2JfMpCost);
   state.rabbit2Jf.cooldownMs = PetTuning.rabbit2JfCooldownMs;
-  state.rabbit2Jf.activeRemainingMs = PetTuning.rabbit2JfDurationMs;
+  const duration = pet.form === 2 ? PetTuning.rabbit2JfDurationMs : PetTuning.rabbit3JfDurationMs;
+  state.rabbit2Jf.remainingHostTicks = duration * fps / 1000;
+  // BaseAddEffect evaluates the refreshed startTime at elapsed=0 next step.
+  state.rabbit2Jf.refreshPending = true;
+  state.rabbit2Jf.activeRemainingMs = duration;
   state.rabbit2Jf.attackRate = PetTuning.rabbit2JfBuffedAttackRate;
   state.rabbit2Jf.dodgeBonusRate = Math.min(1, 0.1 + pet.form * 0.1);
 
@@ -133,15 +140,26 @@ export function updatePetRabbitPersistentEffects(params: {
   roster: PetRoster;
   ownerStats?: PetAutoBuffOwnerStats;
   deltaMs: number;
+  hostFps?: number;
 }): void {
+  const fps = rabbitHostFps(params.hostFps);
+  if (!Number.isFinite(params.deltaMs) || params.deltaMs < 0) throw new Error('Rabbit effects require a non-negative finite delta');
   const delta = Math.max(0, params.deltaMs);
   for (const pet of params.roster.pets) {
     const state = pet.skillState;
     if (!state || pet.species !== 'rabbit') continue;
 
     const jf = state.rabbit2Jf;
-    jf.activeRemainingMs = Math.max(0, jf.activeRemainingMs - delta);
-    if (jf.activeRemainingMs === 0) {
+    jf.pendingHostTicks += delta * fps / 1000;
+    let ticks = Math.floor(jf.pendingHostTicks + 1e-9);
+    jf.pendingHostTicks = Math.max(0, jf.pendingHostTicks - ticks);
+    if (ticks > 0 && jf.refreshPending) {
+      ticks--;
+      jf.refreshPending = false;
+    }
+    jf.remainingHostTicks = Math.max(0, jf.remainingHostTicks - ticks);
+    jf.activeRemainingMs = jf.remainingHostTicks * 1000 / fps;
+    if (jf.remainingHostTicks === 0) {
       jf.attackRate = PetTuning.rabbit2JfBaseAttackRate;
       jf.dodgeBonusRate = 0;
     }
@@ -166,6 +184,11 @@ export function updatePetRabbitPersistentEffects(params: {
       }
     }
   }
+}
+
+function rabbitHostFps(value: number = DefaultGlobalSettings.frameRate): number {
+  if (!Number.isFinite(value) || value <= 0) throw new Error('Rabbit effects require positive hostFps');
+  return value;
 }
 
 // ─── shared ─────────────────────────────────────────────────

@@ -206,7 +206,7 @@ export class MonkeyPetBehavior implements PetBehavior {
       this.normalTarget = undefined;
       this.skillTarget = undefined;
       this.skillAction = undefined;
-      const counter = this.normalAttack.counter(context);
+      const counter = event.receptionAction !== undefined ? event.receptionAction === 'hit1' : this.normalAttack.counter(context);
       if (counter) {
         context.playAnimation('basic-attack');
         this.executeAction({ type: 'basic-attack' }, context);

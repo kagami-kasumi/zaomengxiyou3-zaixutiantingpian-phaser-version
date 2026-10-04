@@ -22,7 +22,7 @@ import {
   updatePetTiger4BhaoyiCombo,
   type PetAutoBuffOwnerStats,
   type PetState,
-} from './TestSceneSystems';
+} from '../../systems/PetSystem';
 
 export function updateAdvancedPetSkillChains(
   scene: any,
@@ -30,7 +30,7 @@ export function updateAdvancedPetSkillChains(
   ownerStats: PetAutoBuffOwnerStats,
   deltaMs: number,
 ): boolean {
-  updatePetRabbitPersistentEffects({ roster: scene.petRoster, ownerStats, deltaMs });
+  updatePetRabbitPersistentEffects({ roster: scene.petRoster, ownerStats, deltaMs, hostFps: scene.hostFps });
   const targets = scene.createPetSkillTargets();
 
   if ((activePet.skillState?.mouse4Zsaoyi.comboStep ?? 0) > 0) {
@@ -94,7 +94,7 @@ function updateRabbitChain(scene: any, pet: PetState, ownerStats: PetAutoBuffOwn
     if (skill === 'yg' && pet.skillState?.rabbit1Yg.releaseReady && ready(pet.skillState.rabbit1Yg.cooldownMs)
       && requestPetRabbit1YgSkill({ roster: scene.petRoster, runtime: scene.petRuntime, targets, projectiles: scene.projectileSystem }).ok) return sync(scene, pet);
     if (skill === 'jf' && pet.form >= 2 && ready(pet.skillState?.rabbit2Jf.cooldownMs)
-      && requestPetRabbit2JfSkill({ roster: scene.petRoster }).ok) return sync(scene, pet);
+      && requestPetRabbit2JfSkill({ roster: scene.petRoster, hostFps: scene.hostFps }).ok) return sync(scene, pet);
     if (skill === 'bs' && pet.form >= 3 && ready(pet.skillState?.rabbit3Bs.cooldownMs)
       && requestPetRabbit3BsSkill({ roster: scene.petRoster, runtime: scene.petRuntime, targets, projectiles: scene.projectileSystem }).ok) return sync(scene, pet);
     if (skill === 'ysaoyi' && pet.form === 4 && ready(pet.skillState?.rabbit4Ysaoyi.cooldownMs)

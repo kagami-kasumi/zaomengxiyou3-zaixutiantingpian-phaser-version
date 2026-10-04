@@ -3,7 +3,15 @@ import type { PlayerSlot } from './InputSystem';
 
 export type PetId = string;
 
-export type PetState = {
+/** Undefined fields mean unavailable historical data, never an implicit zero. */
+export type PetReceptionAttributes = {
+  missRate?: number;
+  magicDefenseRate?: number;
+  receptionAttributeSource?: 'known' | 'legacy-missing-baseline';
+  receptionBaselineFields?: Array<'missRate' | 'magicDefenseRate'>;
+};
+
+export type PetState = PetReceptionAttributes & {
   id: PetId;
   species: string;
   form: number;
@@ -311,6 +319,10 @@ export type PetRabbit1YgSkillState = {
 
 export type PetRabbit2JfSkillState = {
   cooldownMs: number;
+  /** Current effect clock; milliseconds below are a compatibility projection. */
+  remainingHostTicks: number;
+  pendingHostTicks: number;
+  refreshPending: boolean;
   activeRemainingMs: number;
   attackRate: number;
   dodgeBonusRate: number;
@@ -343,6 +355,7 @@ export type PetRoster = {
 export type PetRuntimeState = 'idle' | 'follow' | 'warp';
 
 export type PetRuntimeModel = {
+  monsterHitIds?: string[];
   petId: PetId;
   runtimeKey: string;
   x: number;

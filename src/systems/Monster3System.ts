@@ -15,6 +15,9 @@ export type Monster3Target = {
 };
 
 export type Monster3Model = {
+  monster3WorldState?: import('./Monster3CombatWorld').Monster3CombatWorldState;
+  petTargetEffectState?: import('./MonsterPetTargetEffectSystem').MonsterPetTargetEffectState;
+  monster3AttackRuntime?: import('./Monster3AttackRuntime').Monster3AttackRuntime;
   experienceBinding?: MonsterExperienceBinding;
   petKnockback?: MonsterKnockbackBinding;
   x: number;

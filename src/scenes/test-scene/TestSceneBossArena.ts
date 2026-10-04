@@ -1,7 +1,8 @@
-import { readHeroCurrentStats } from '../../systems/HeroCurrentStats';
+import { adaptMonster3BossCombat } from '../../systems/Monster3BossCombatAdapter';
+import { updateMonster3CombatWorld, syncMonster3CombatBody } from '../../systems/Monster3CombatWorld';
+import { getGlobalSettings } from '../../systems/GlobalSettingsSystem';
 import { bindTestSceneMonsterExperience, acceptTestSceneMonsterAttacker } from './TestSceneExperienceBridge';
 ﻿import Phaser from 'phaser';
-import { applyOwnedHeroDamage } from '../../systems/PetBattleOwnershipSystem';
 import { updateTestSceneBossPhysics } from './TestSceneMonsterKnockbackBridge';
 // boundary: this bridge adapts the Stage 1-1 boss view, combat events, arena flow,
 // and shared monster runtime; it does not own gravity, reward probabilities,
@@ -11,15 +12,12 @@ import {
   applyMonster3Hit,
   checkBossArenaTrigger,
   calculateStage1HeroDamage,
-  calculateStage1IncomingDamage,
   createDamageEvent,
   getActiveHeroHitbox,
-  getMonster3AttackHitbox,
   isBossDead,
   isHeroCombatDead,
   revealTransferDoor,
   resolveHitOnce,
-  updateMonster3,
   createMonsterDefeatRewardRuntime,
   settleMonsterDefeatRewards,
   DropTuning,
@@ -27,7 +25,6 @@ import {
   type PlayerSlot,
 } from './TestSceneSystems';
 import type { Stage11FlowModel } from '../../systems/Stage11FlowSystem';
-import { getPlayerBounds } from './TestSceneCombatBridge';
 import { toPhaserRect } from './TestSceneGeometry';
 import {
   setStage11MonsterViewVisible,
@@ -55,17 +52,16 @@ export function updateBossArena(this: any, input: InputState, time: number, delt
     if (this.bossArena.state === 'active' && this.bossArena.boss) {
       bindTestSceneMonsterExperience(this, this.bossArena.boss, 7);
       updateTestSceneBossPhysics(this, this.bossArena.boss, this.movementPlatforms, delta, time);
-      updateMonster3(
-        this.bossArena.boss,
-        this.getMonster3Targets(),
-        delta,
-      );
+      updateMonster3CombatWorld(adaptMonster3BossCombat(this.bossArena.boss), {
+        parentId: 'stage11', timeMs: time, deltaMs: delta, hostFps: this.game.loop.targetFps,
+        difficulty: getGlobalSettings().difficulty, boss: true, flower: false,
+        targets: this.heroPartyRuntime.monster3Targets,
+      });
 
       if (!this.bossSpawnedOnce && this.bossArena.boss.state !== 'dead') {
         this.bossSpawnedOnce = true;
       }
 
-      this.applyBossAttack(time);
 
       if (isBossDead(this.bossArena.boss) && !this.bossArena.door.visible) {
         const boss = this.bossArena.boss;
@@ -132,64 +128,6 @@ export function getMonster3Targets(this: any): readonly { slot: PlayerSlot; x: n
         x: player.sprite.x,
         y: player.sprite.y,
       }));
-  }
-
-export function applyBossAttack(this: any, time: number): void {
-    const boss = this.getBossArena().boss;
-    if (!boss) {
-      return;
-    }
-
-    const hitbox = getMonster3AttackHitbox(boss);
-    const activeAttack = boss.activeAttack;
-    if (!hitbox || !activeAttack) {
-      if (boss.state === 'hit1' || boss.state === 'hit2') {
-        this.renderedMonsterAttackIds.add(activeAttack?.attackId ?? '');
-      }
-      return;
-    }
-
-    if (!this.renderedMonsterAttackIds.has(activeAttack.attackId)) {
-      this.renderedMonsterAttackIds.add(activeAttack.attackId);
-      // The authoritative Monster3 attack object is rendered by the Stage 1-1
-      // visual bridge; keep the hitbox for gameplay without a rectangle overlay.
-    }
-
-    const attackBounds = toPhaserRect(hitbox);
-    for (const player of this.getPlayers()) {
-      if (!player.movement || isHeroCombatDead(player.combat)) {
-        continue;
-      }
-
-      if (!Phaser.Geom.Intersects.RectangleToRectangle(attackBounds, getPlayerBounds(player))) {
-        continue;
-      }
-
-      if (!resolveHitOnce(this.hitRegistry, activeAttack.attackId, player.slot)) {
-        continue;
-      }
-
-      const damageEvent = createDamageEvent({
-        sourceId: 'monster3',
-        targetId: player.slot,
-        attackId: activeAttack.attackId,
-        actionName: activeAttack.actionName,
-        amount: calculateStage1IncomingDamage(
-          activeAttack.attackKind,
-          activeAttack.damage,
-          readHeroCurrentStats(player)?.defense ?? 0,
-        ),
-        attackKind: activeAttack.attackKind,
-        knockbackX: activeAttack.facingX * activeAttack.knockbackX,
-        knockbackY: activeAttack.knockbackY,
-        occurredAtMs: time,
-      });
-
-      if (applyOwnedHeroDamage(player.combat, damageEvent, time, player.slot, this.playerPetRosters,
-        player.slot === 'p1' ? this.petRuntime : this.p2PetRuntime)) {
-        this.lastDamageEvent = damageEvent;
-      }
-    }
   }
 
 export function applyPlayerHitOnBoss(this: any, player: any, time: number): void {
@@ -261,6 +199,7 @@ export function updateBossArenaVisuals(this: any, deltaMs: number): void {
     if (!boss || !this.bossView || !this.bossArenaLabel) {
       return;
     }
+    syncMonster3CombatBody(adaptMonster3BossCombat(boss));
 
     if (bossArena.state === 'inactive') {
       this.bossArenaLabel.setText('');

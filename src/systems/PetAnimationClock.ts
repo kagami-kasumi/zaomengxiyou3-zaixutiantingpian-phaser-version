@@ -5,6 +5,9 @@ export type PetAnimationDefinition = Readonly<{
   holds: readonly number[];
   /** BBDC counts logical keyframes independently of the repeated atlas columns. */
   keyFrameCount?: number;
+  /** Original BBDC can select its logical limit from the CURRENT atlas column. */
+  keyFrameCountsByColumn?: readonly number[];
+  resetKeyFrameOnComplete?: boolean;
   loops: boolean;
   completionAction?: string;
   completionEvent?: PetCombatAnimationEventName;
@@ -42,6 +45,11 @@ export class PetAnimationClock {
         && (!Number.isSafeInteger(definition.keyFrameCount) || definition.keyFrameCount <= 0)) {
         throw new Error('Pet animation requires a positive logical keyframe count.');
       }
+      if (definition.keyFrameCountsByColumn &&
+        (definition.keyFrameCountsByColumn.length !== definition.holds.length ||
+          definition.keyFrameCountsByColumn.some(count => !Number.isSafeInteger(count) || count <= 0))) {
+        throw new Error('Pet animation requires one positive keyframe limit per column.');
+      }
       if (definition.completionAction && !definitions[definition.completionAction]) {
         throw new Error('Pet animation completion route is missing.');
       }
@@ -69,6 +77,17 @@ export class PetAnimationClock {
     this.keyFrameIndex = 0;
     this.remaining = this.definition(this.action).holds[0]!;
     this.elapsed = 0;
+    this.completed = false;
+  }
+
+  /** BBDC.setFramePointX refreshes the hold but does not reset its key index. */
+  setColumn(column: number): void {
+    const definition = this.definition(this.action);
+    if (!Number.isSafeInteger(column) || column < 0 || column >= definition.holds.length) {
+      throw new Error('Pet animation column outside its source row.');
+    }
+    this.column = column;
+    this.remaining = definition.holds[column]!;
     this.completed = false;
   }
 
@@ -101,7 +120,8 @@ export class PetAnimationClock {
       if (this.remaining > 1) {
         this.remaining--;
         this.elapsed++;
-      } else if (this.keyFrameIndex + 1 < (definition.keyFrameCount ?? definition.holds.length)) {
+      } else if (this.keyFrameIndex + 1 < (definition.keyFrameCountsByColumn?.[this.column]
+        ?? definition.keyFrameCount ?? definition.holds.length)) {
         this.column = (this.column + 1) % definition.holds.length;
         this.keyFrameIndex++;
         this.remaining = definition.holds[this.column]!;
@@ -112,6 +132,7 @@ export class PetAnimationClock {
         this.remaining = definition.holds[0]!;
         this.elapsed = 0;
       } else {
+        if (definition.resetKeyFrameOnComplete) this.keyFrameIndex = 0;
         if (definition.completionEvent) event(definition.completionEvent);
         // A behavior may select a source-defined conditional route in its callback.
         if (this.action !== action || this.token !== token) continue;

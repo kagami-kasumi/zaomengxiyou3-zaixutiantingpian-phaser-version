@@ -22,7 +22,7 @@ export function updateP2PetSystem(this: any, deltaMs: number): void {
     projectiles: this.projectileSystem,
     deltaMs,
     hostFps: this.game.loop.targetFps,
-    syncView: (pet) => syncP2PetView.call(this, pet),
+    syncView: (pet, runtime) => { this.p2PetRuntime = runtime; syncP2PetView.call(this, pet); },
     destroyView: () => destroyP2PetView.call(this),
   });
 }

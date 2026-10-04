@@ -12,6 +12,7 @@ import type {
   PetSkillResetResult,
   PetState,
 } from './PetTypes';
+import { growPetReceptionAttributes } from './PetReceptionAttributes';
 
 export function resetPetSkillsByLevel(
   pet: PetState,
@@ -35,7 +36,11 @@ export function resetPetSkillsByLevel(
   };
 }
 
-export function addPetExperience(pet: PetState, amount: number): PetExperienceResult {
+export function addPetExperience(
+  pet: PetState,
+  amount: number,
+  random: PetSkillRandomSource = Math.random,
+): PetExperienceResult {
   const appliedExp = Math.max(0, Math.floor(amount));
   const levelBefore = pet.level;
   const expBefore = pet.exp;
@@ -58,6 +63,7 @@ export function addPetExperience(pet: PetState, amount: number): PetExperienceRe
       formChanges.push(formChange);
     }
     refreshPetStatsForLevel(pet);
+    growPetReceptionAttributes(pet, random);
     pet.expToNext = getPetExperienceToNextLevel(pet.level);
   }
 

@@ -88,6 +88,16 @@ export class Dragon1PetBehavior implements PetBehavior {
   }
 
   onDamaged(_event: unknown, context: PetBehaviorContext): void {
+    const reception = (_event as { receptionAction?: string }).receptionAction;
+    if (reception !== undefined) {
+      if (context.pet.hp > 0 && (reception === 'hurt' || reception === 'hit1')) {
+        if (reception === 'hit1') {
+          context.playAnimation('normal');
+          this.executeAction({ type: 'normal' }, context);
+        } else context.playAnimation('hurt');
+      }
+      return;
+    }
     if (context.pet.hp > 0 && !context.isGxp) context.playAnimation('hurt');
   }
 

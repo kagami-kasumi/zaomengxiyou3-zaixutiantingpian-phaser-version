@@ -31,6 +31,8 @@ export type PetBehaviorEvent = Readonly<{
 }>;
 
 export type PetCombatDamageEvent = Readonly<{
+  /** An already settled native receiver decision; do not draw QLFJ again. */
+  receptionAction?: string;
   producerKind?: 'pet-reduce-hp' | 'turtle-transfer';
   runtimeKey: string;
   amount: number;

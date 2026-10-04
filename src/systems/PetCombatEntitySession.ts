@@ -21,6 +21,11 @@ import { PetGroundOwnerAnchors } from '../assets/PetGroundEnvironmentAssets';
 import type { PetBehaviorAction } from './PetBehavior';
 import { recordIncomingDamageFeedback } from './IncomingDamageFeedbackSystem';
 import { refreshTurtleLink, stepTurtleLink, isTurtleLinkPaired, detachTurtleLink, type PetTurtleLinkBuff } from './PetTurtleLinkSystem';
+import { settleOwnedPetHpDamage } from './PetBattleOwnershipSystem';
+import { preparePetMonsterReception, finishPetMonsterReception, readPetMonsterReceptionState, rejectPetMonsterReception,
+  type PetMonsterReceptionInput, type PetMonsterReceptionEffect } from './PetMonsterDamageReception';
+import type { MonsterDamageRequest } from './MonsterDamageReception';
+import { clearPetRabbitJifeng } from './PetSkillStateSystem';
 
 type EntityPorts = Readonly<{
   publish: (event: Omit<PetCombatRuntimeEvent, 'sequence'>) => void;
@@ -53,6 +58,7 @@ export class PetCombatEntitySession {
   private protectionCount = -1;
   private pendingDamage: NonNullable<PetCombatFrame['damageEvents']>[number][] = [];
   private pendingAnimation: NonNullable<PetCombatFrame['animationEvents']>[number][] = [];
+  readonly monsterHitIds: string[] = [];
 
   /** Delayed source callbacks read the latest entity input, not their captured frame. */
   currentGxp(fallback: PetCombatFrame): boolean {
@@ -379,6 +385,7 @@ export class PetCombatEntitySession {
     if (this.released) return;
     this.released = true;
     this.releaseReason = reason;
+    clearPetRabbitJifeng(this.pet);
     this.passive?.destroy();
     detachTurtleLink(this.turtleLink);
     const failures: unknown[] = [];
@@ -393,6 +400,41 @@ export class PetCombatEntitySession {
   }
 
   /** World bullet phase applies HP immediately without advancing pet AI/body again. */
+  receiveCurrentMonsterDamage(counterChance: number | undefined, request: MonsterDamageRequest): PetMonsterReceptionEffect {
+    if (this.released || this.phase !== 'alive' || this.protectionCount >= 0) {
+      return rejectPetMonsterReception(this.pet, this.runtime.state);
+    }
+    return this.receiveMonsterDamage({ ...readPetMonsterReceptionState(this.pet), counterChance }, request);
+  }
+
+  receiveMonsterDamage(input: Omit<PetMonsterReceptionInput, 'action' | 'protected' | 'gxp'>,
+    request: MonsterDamageRequest): PetMonsterReceptionEffect {
+    if (!this.latestFrame) throw new Error('Pet reception requires the existing session frame');
+    const current = this.latestFrame;
+    const frame = { ...current, random: request.source.random,
+      incomingFeedback: current.incomingFeedback ? { ...current.incomingFeedback, timeMs: request.timeMs } : undefined };
+    const receiver = { ...input, action: this.animation?.snapshot().action ?? this.runtime.state,
+      protected: this.released || this.phase !== 'alive' || this.protectionCount >= 0,
+      gxp: this.currentGxp(frame) };
+    const hpBefore = this.pet.hp;
+    const prepared = preparePetMonsterReception(this.pet, receiver, request);
+    const targets = this.targeting.livingTargets(frame.targets);
+    const event = { runtimeKey: this.runtimeKey, amount: prepared.amount, sourceId: request.sourceId,
+      attackId: request.attackId, occurredAtMs: request.timeMs, reactsToHit: true,
+      knockback: request.bingo ? undefined : { x: request.knockbackX, y: request.knockbackY } };
+    const damageReceived = !prepared.missed && (prepared.accepted || prepared.returnVoid);
+    if (damageReceived) this.consumeDamageEvents({ ...frame, damageEvents: [event] }, targets, true, !request.bingo);
+    const result = finishPetMonsterReception(this.pet, receiver, request, prepared, hpBefore);
+    if (result.registerReceiverId) this.monsterHitIds.push(request.attackId);
+    if (damageReceived) {
+      if (result.protectionTicks !== undefined) this.protectFromHits(result.protectionTicks);
+      this.behavior.onDamaged({ ...event, receptionAction: result.action,
+        reactsToHit: result.action === 'hurt' || result.action === 'hit1' }, this.context(frame, targets));
+      if (this.pet.hp <= 0) this.beginDeath(true);
+    }
+    return result;
+  }
+
   applyDamageEvents(events: NonNullable<PetCombatFrame['damageEvents']>, timeMs: number): void {
     if (this.released || !this.latestFrame) return;
     const latest = this.latestFrame;
@@ -401,12 +443,12 @@ export class PetCombatEntitySession {
     this.targeting.livingTargets(latest.targets));
   }
 
-  private consumeDamageEvents(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[]): void {
+  private consumeDamageEvents(frame: PetCombatFrame, targets: readonly Readonly<PetSkillTarget>[], deferReaction = false, retarget = true): void {
     if (this.phase !== 'alive') return;
     for (const event of frame.damageEvents ?? []) {
       if (event.runtimeKey !== this.runtimeKey) continue;
       const hpBefore = this.pet.hp;
-      this.pet.hp = Math.max(0, this.pet.hp - event.amount);
+      settleOwnedPetHpDamage(this.pet, event.amount);
       const feedback = frame.incomingFeedback;
       if (feedback && event.attackId && event.sourceId && event.occurredAtMs !== undefined) {
         recordIncomingDamageFeedback({ model: feedback.model, ownerSlot: feedback.ownerSlot,
@@ -417,13 +459,14 @@ export class PetCombatEntitySession {
           settledDamage: event.amount, hpBefore, hpAfter: this.pet.hp,
         });
       }
-      if (event.sourceId && event.producerKind !== 'turtle-transfer' && this.behavior.targetsDamageSource?.()) {
+      if (retarget && event.sourceId && event.producerKind !== 'turtle-transfer' && this.behavior.targetsDamageSource?.()) {
         const attacker = targets.find(target => target.id === event.sourceId && target.isAlive);
         if (attacker) this.target = attacker;
       }
       if (event.knockback && !this.behavior.rejectKnockback?.(this.context(frame, targets))) {
         this.ground?.applyKnockback(event.knockback);
       }
+      if (deferReaction) continue;
       this.behavior.onDamaged(event, this.context(frame, targets));
       if (this.pet.hp <= 0) {
         this.beginDeath();
@@ -448,10 +491,10 @@ export class PetCombatEntitySession {
     }
   }
 
-  private beginDeath(): void {
+  private beginDeath(lifetimeAlreadySettled = false): void {
     if (this.phase !== 'alive') return;
     this.phase = 'dead-playing';
-    if (this.behavior.losesLifeOnDeath?.()) this.pet.lifetime = Math.max(0, this.pet.lifetime - 1);
+    if (!lifetimeAlreadySettled && this.behavior.losesLifeOnDeath?.()) this.pet.lifetime = Math.max(0, this.pet.lifetime - 1);
     this.target = undefined;
     this.actionToken += 1;
     this.animation?.select('dead', this.actionToken);

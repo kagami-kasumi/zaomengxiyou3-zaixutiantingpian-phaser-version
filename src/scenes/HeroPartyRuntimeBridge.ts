@@ -1,4 +1,6 @@
 import { monster30PetTargetProfile } from '../systems/Monster30CollisionSystem';
+import { heroPartyMonster3Targets } from './HeroPartyMonster3Reception';
+import { createHeroPartyCompatibilityPets } from './HeroPartyCompatibilityPets';
 import { createHeroPartyExperience } from '../systems/HeroPartyExperienceSystem';
 import { getMonsterRewardConfig } from '../systems/MonsterDefeatRewardSystem';
 import { persistHeroPartyExperience } from './HeroPartyExperienceBridge';
@@ -43,7 +45,7 @@ import {
   createCombatHudPetSnapshot,
   createStage1CombatPlayerHudSnapshot,
 } from '../systems/Stage1CombatHudSystem';
-import { createSeedPetRoster, getActivePet } from '../systems/PetRosterSystem';
+import { clearRosterPetRabbitJifeng, createSeedPetRoster, getActivePet } from '../systems/PetRosterSystem';
 import type { PetRoster } from '../systems/PetTypes';
 import type { PetSkillTarget } from '../systems/PetTypes';
 import type { ProjectileSystemModel } from '../systems/ProjectileSystem';
@@ -83,6 +85,7 @@ export type HeroPartyRuntime = Readonly<{
   applyEnvironmentHits: (hits: readonly HeroPartyEnvironmentHit[]) => void;
   resolveAttacks: (monsterTargets: readonly Stage1CombatEnemy[], timeMs: number) => void;
   resolveEnemyAttack: (enemy: Stage1CombatEnemy, timeMs: number) => void;
+  monster3Targets: (attack: Parameters<typeof heroPartyMonster3Targets>[4]) => ReturnType<typeof heroPartyMonster3Targets>;
   resolvePetEnemyAttack: (enemy: Stage1CombatEnemy, timeMs: number,
     accepts?: (snapshot: PetCombatSnapshot) => boolean) => void;
   updatePets: (frame: Readonly<{
@@ -102,6 +105,7 @@ export type HeroPartyRuntime = Readonly<{
     combat: ReturnType<typeof createHeroPartyRuntimeModel>['members'][number]['combat'];
   }>[];
   compatibilityMembers: () => ReturnType<typeof createHeroPartyRuntimeModel>['members'];
+  compatibilityPetRuntime: (slot: 'p1' | 'p2') => import('../systems/PetTypes').PetRuntimeModel | undefined;
   highestCombo: () => number;
   destroy: () => void;
 }>;
@@ -136,6 +140,7 @@ export function createHeroPartyRuntime(
     restoreActiveSave?: boolean;
     awardHeroExperience?: (slot: 'p1' | 'p2', amount: number) => void;
     legacyPetExperience?: (slot: 'p1' | 'p2') => ReturnType<PetCombatRuntime['currentAttackTarget']>;
+    legacyPetRuntime?: (slot: 'p1' | 'p2') => import('../systems/PetTypes').PetRuntimeModel | undefined;
   }>,
 ): HeroPartyRuntime {
   const role1ShadowQa = isFormalRole1ShadowQaEnabled();
@@ -205,6 +210,8 @@ export function createHeroPartyRuntime(
   const formalPetHorseBodies = createFormalPetHorseBodyBridge(scene);
   const passiveDisplay = createHeroPartyPassiveDisplayBridge(scene);
   let destroyed = false;
+  const compatibilityPets = createHeroPartyCompatibilityPets(scene);
+  const compatibilityPetRuntime = options.legacyPetRuntime ?? compatibilityPets.runtime;
   const petCombatRuntimes = {
     p1: new PetCombatRuntime(petTurtle.registry),
     p2: new PetCombatRuntime(petTurtle.registry),
@@ -294,7 +301,8 @@ export function createHeroPartyRuntime(
     }
   };
 
-  const experience = createHeroPartyExperience(model, slot => petCombatRuntimes[slot].currentAttackTarget(slot) ?? options.legacyPetExperience?.(slot),
+  const experience = createHeroPartyExperience(model, slot => petCombatRuntimes[slot].currentAttackTarget(slot)
+    ?? options.legacyPetExperience?.(slot) ?? compatibilityPets.experience(slot),
     () => { if (mayRestoreActiveSave) persistHeroPartyExperience(getBrowserStorage(), model, petRosters); }, options.awardHeroExperience);
   const runtime: HeroPartyRuntime = {
     experience,
@@ -364,6 +372,8 @@ export function createHeroPartyRuntime(
         if (view) syncFallbackFeedback(view, member.combat);
       });
     },
+    monster3Targets: attack => heroPartyMonster3Targets(model, petCombatRuntimes,
+      slot => petRosters[slot] ? getActivePet(petRosters[slot]) : undefined, () => destroyed, attack, compatibilityPetRuntime),
     resolvePetEnemyAttack,
     snapshots,
     petSnapshots: () => Object.freeze({ ...petCombatSnapshots }),
@@ -379,6 +389,7 @@ export function createHeroPartyRuntime(
       combat: member.combat,
     })),
     compatibilityMembers: () => model.members,
+    compatibilityPetRuntime,
     highestCombo: () => model.combat.feedback.highestCombo,
     updatePets,
     destroy: () => {
@@ -402,6 +413,8 @@ export function createHeroPartyRuntime(
       combatFeedbackQa.destroy();
       petCombatRuntimes.p1.destroy();
       petCombatRuntimes.p2.destroy();
+      compatibilityPets.destroy();
+      for (const roster of Object.values(petRosters)) clearRosterPetRabbitJifeng(roster);
       if (role1ShadowQa) delete scene.game.canvas.dataset.formalRole1ShadowQa;
       destroyHeroPartyRuntime(model);
       heroPartyRuntimeByScene.delete(scene);
@@ -452,8 +465,9 @@ export function createHeroPartyRuntime(
       const groundEnvironment = frame.groundEnvironmentFor?.(index);
       let roster = petProjectileCombat.readyRoster(petTurtle.readyRoster(petRosters[slot]));
       const activePet = roster && getActivePet(roster);
-      if (options.legacyPetExperience && activePet && !petCombatRuntimes[slot].supports(activePet)) {
-        roster = undefined; // TestScene's existing compatibility owner steps these families.
+      if (!options.legacyPetRuntime) compatibilityPets.update(member, roster, frame);
+      if (activePet && !petCombatRuntimes[slot].supports(activePet)) {
+        roster = undefined; // The shared compatibility owner steps these families.
       }
       if (!roster || member.combat.combat.state === 'dead') {
         petCombatSnapshots[slot] = petCombatRuntimes[slot].update({

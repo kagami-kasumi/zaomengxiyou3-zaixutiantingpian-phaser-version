@@ -18,6 +18,9 @@ import type { Monster30Model } from '../../systems/Monster30System';
 import type { PetState } from '../../systems/PetSystem';
 import type { PetRuntimeModel } from '../../systems/PetTypes';
 import type { ProjectileModel } from '../../systems/ProjectileSystem';
+import { readPetReceptionBody } from '../../systems/PetReceptionBodyOwner';
+import { getPetReceptionBodyPose } from '../../assets/PetReceptionBodyAssets';
+import { createPetPassiveImage } from '../PetPassiveImage';
 import {
   createStage11MonsterView,
   setStage11MonsterViewVisible,
@@ -35,6 +38,7 @@ type PlaceholderPetView = {
   ear: Phaser.GameObjects.Ellipse;
   eye: Phaser.GameObjects.Ellipse;
   label: Phaser.GameObjects.Text;
+  reception?: Phaser.GameObjects.Image;
 };
 
 export type PetView = PlaceholderPetView;
@@ -123,7 +127,7 @@ export function petViewMatchesPet(_view: PetView, pet: PetState): boolean {
 }
 
 export function syncPetViewPresentation(
-  _scene: Phaser.Scene,
+  scene: Phaser.Scene,
   view: PetView,
   activePet: PetState,
   runtime: PetRuntimeModel,
@@ -131,6 +135,22 @@ export function syncPetViewPresentation(
   ownerLabel?: string,
 ): void {
   view.root.setPosition(runtime.x, runtime.y);
+  const owner = readPetReceptionBody(runtime), body = owner?.snapshot();
+  const receiving = owner && body && body.phase !== 'released' && (body.action === 'hurt' || body.action === 'dead');
+  for (const placeholder of [view.body, view.ear, view.eye, view.label]) placeholder.setVisible(!receiving);
+  if (receiving) {
+    const pose = getPetReceptionBodyPose(owner.form, body.action as 'hurt' | 'dead', body.row, body.column,
+      runtime.facingX === 1 ? 1 : 0);
+    if (!scene.textures.exists(pose.key)) throw new Error(`Pet reception body bundle missing: ${pose.key}`);
+    if (!view.reception) {
+      view.reception = createPetPassiveImage(scene, pose.key);
+      view.root.add(view.reception);
+    }
+    view.root.setScale(1, 1);
+    view.reception.setTexture(pose.key).setPosition(pose.x, pose.y).setVisible(true);
+    return;
+  }
+  view.reception?.setVisible(false);
   view.root.setScale(runtime.facingX < 0 ? -1 : 1, 1);
   view.body.setFillStyle(runtime.state === 'warp' ? 0xf2c14e : ownerLabel ? 0x74c0fc : 0x7ad7a8, 0.9);
   view.ear.setFillStyle(0xf3f6ff, runtime.state === 'follow' ? 0.7 : 0.45);

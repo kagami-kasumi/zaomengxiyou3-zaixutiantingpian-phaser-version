@@ -99,7 +99,7 @@ export class TurtlePetBehavior implements PetBehavior {
   onDamaged(event: PetCombatDamageEvent, context: PetBehaviorContext): void {
     if (context.pet.hp <= 0 || context.isGxp || this.isAoyi || event.reactsToHit !== true || event.producerKind === 'turtle-transfer') return;
     const chance = (0.05 + this.form / 100) * context.pet.warpower * 1.05;
-    if (context.pet.skills.includes('qlfj') && context.random() <= chance) {
+    if (event.receptionAction !== undefined ? event.receptionAction === 'hit1' : context.pet.skills.includes('qlfj') && context.random() <= chance) {
       context.playAnimation('hit1');
       this.executeAction({ type: 'hit1' }, context);
       context.emit({ type: 'turtle-counter' });

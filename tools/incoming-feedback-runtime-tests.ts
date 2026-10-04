@@ -78,7 +78,9 @@ for (const slot of ['p1', 'p2'] as const) {
     groundEnvironment: bodyGroundFixture('monkey', 1, 300),
     incomingFeedback: { model: model.incoming, ownerSlot: slot, timeMs: 300 } };
   const snapshot = runtime.update(frame);
-  const enemy = createStage1CombatEnemy({ id: 'pet-attacker', enemyType: 30, x: snapshot.runtime!.x, y: 400 });
+  // This fixture covers ordinary activeAttack feedback. Monster3/30 now own
+  // independent bullets and have separate actual reception suites.
+  const enemy = createStage1CombatEnemy({ id: 'pet-attacker', enemyType: 2, x: snapshot.runtime!.x, y: 400 });
   enemy.phase = 'active'; enemy.activeAttack = { attackId: 'pet-hit', actionName: 'hit1', attackKind: 'magic', damage: 99, attackRange: 100 };
   const event = resolveStage1EnemyPetAttack({ runtime: createStage1CombatRuntime(), enemy, timeMs: 250,
     target: { runtimeKey: snapshot.runtime!.runtimeKey, x: snapshot.runtime!.x, defense: 0, hp: pet.hp } })!;

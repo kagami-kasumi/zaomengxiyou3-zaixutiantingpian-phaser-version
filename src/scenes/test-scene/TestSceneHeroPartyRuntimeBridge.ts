@@ -36,7 +36,7 @@ import { createAttackFlash, type AttackFlash } from './TestSceneViews';
 import { toPhaserRect } from './TestSceneGeometry';
 import type { ProjectileSystemModel } from '../../systems/ProjectileSystem';
 import { isRole1ShadowQaEnabled } from './TestSceneConfig';
-import { adaptTestScenePetEnemies } from './TestScenePetEnemyAdapter';
+import { adaptTestScenePetEnemies, adaptTestSceneBossPetEnemy } from './TestScenePetEnemyAdapter';
 import { claimMonsterExperienceForCurrentTarget } from '../../systems/PetSystem';
 import { FormalPetsUpdatedEvent } from '../feature-ui/FormalPetRuntimeBridge';
 import {
@@ -61,6 +61,7 @@ export type TestScenePlayerView = {
 };
 
 export type TestSceneHeroPartyRuntime = Readonly<{
+  monster3Targets: HeroPartyRuntime['monster3Targets'];
   players: () => TestScenePlayerView[];
   resolveMonster30PetAttack: (monster: import('../../systems/Monster30System').Monster30Model, timeMs: number) => void;
   updateMovement: (
@@ -112,6 +113,7 @@ export function createTestSceneHeroPartyRuntime(
       restoreActiveSave,
       awardHeroExperience: (slot, amount) => awardTestSceneHeroExperience(scene, slot, amount),
       legacyPetExperience: slot => readLegacyPetExperience(slot === 'p1' ? scene.petRuntime : scene.p2PetRuntime),
+      legacyPetRuntime: slot => slot === 'p1' ? scene.petRuntime : scene.p2PetRuntime,
     },
   );
   const players = runtime.compatibilityMembers().map((member, index): TestScenePlayerView => {
@@ -142,6 +144,7 @@ export function createTestSceneHeroPartyRuntime(
 
   return {
     players: () => players,
+    monster3Targets: runtime.monster3Targets,
     resolveMonster30PetAttack: (monster, timeMs) => {
       const enemy = adaptTestScenePetEnemies([monster], () => {})[0]!;
       runtime.resolvePetEnemyAttack(enemy, timeMs);
@@ -174,13 +177,14 @@ export function createTestSceneHeroPartyRuntime(
         scene.events.emit(FormalPetsUpdatedEvent, { owner: slot, roster: scene.playerPetRosters[slot] });
       }
       runtime.updatePets({
-        combatEnemies: adaptTestScenePetEnemies(scene.getMonster30s(), (monster, slot) => {
+        combatEnemies: [...adaptTestScenePetEnemies(scene.getMonster30s(), (monster, slot) => {
           scene.monster30AuraTargets.set(monster.id, slot);
           if (monster.hp <= 0 && !monster.experienceAwardedTo) {
             const award = claimMonsterExperienceForCurrentTarget(monster, slot);
             if (award) scene.awardMonsterExperience(award.ownerSlot, award.experience);
           }
-        }, scene),
+        }, scene), ...(scene.bossArena.state === 'active' && scene.bossArena.boss
+          ? [adaptTestSceneBossPetEnemy(scene, scene.bossArena.boss)] : [])],
         targets: scene.createPetSkillTargets(),
         groundEnvironmentFor: () => petGroundEnvironment,
         projectiles: compatibility.projectileSystem,

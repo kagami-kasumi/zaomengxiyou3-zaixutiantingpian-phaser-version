@@ -5252,14 +5252,16 @@ function testPetRabbit2JfBuffZeroDamage(): void {
   assert.equal(r.ok, false); assert.match(r.message, /not learned jf/);
   pet.skills.push('jf');
 
-  r = requestPetRabbit2JfSkill({ roster });
+  r = requestPetRabbit2JfSkill({ roster, hostFps: 30 });
   assert.equal(r.ok, true);
   assert.equal(r.damage, 0);
   assert.match(r.message, /jf疾风/);
   assert.equal(pet.skillState?.rabbit2Jf.activeRemainingMs, PetTuning.rabbit2JfDurationMs);
   assert.equal(pet.skillState?.rabbit2Jf.attackRate, PetTuning.rabbit2JfBuffedAttackRate);
   assertNearlyEqual(pet.skillState?.rabbit2Jf.dodgeBonusRate ?? 0, 0.1 + pet.form * 0.1);
-  updatePetRabbitPersistentEffects({ roster, deltaMs: PetTuning.rabbit2JfDurationMs });
+  updatePetRabbitPersistentEffects({ roster, deltaMs: PetTuning.rabbit2JfDurationMs, hostFps: 30 });
+  assert.equal(pet.skillState?.rabbit2Jf.attackRate, PetTuning.rabbit2JfBuffedAttackRate);
+  updatePetRabbitPersistentEffects({ roster, deltaMs: 1000 / 30, hostFps: 30 });
   assert.equal(pet.skillState?.rabbit2Jf.attackRate, PetTuning.rabbit2JfBaseAttackRate);
   assert.equal(pet.skillState?.rabbit2Jf.dodgeBonusRate, 0);
 }

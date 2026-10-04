@@ -1,4 +1,20 @@
-import type { PetDragon4QlaoyiComboState, PetSkillState } from './PetTypes';
+import type { PetDragon4QlaoyiComboState, PetRabbit2JfSkillState, PetSkillState, PetState } from './PetTypes';
+
+function createRabbitJifengState(): PetRabbit2JfSkillState {
+  return { cooldownMs: 0, remainingHostTicks: 0, pendingHostTicks: 0, refreshPending: false,
+    activeRemainingMs: 0, attackRate: 0.7, dodgeBonusRate: 0 };
+}
+
+export function isPetRabbitJifengActive(pet: PetState): boolean {
+  return pet.species === 'rabbit' && pet.form >= 2
+    && (pet.skillState?.rabbit2Jf.remainingHostTicks ?? 0) > 0;
+}
+
+/** Clear this entity's current effect without treating its cooldown as active. */
+export function clearPetRabbitJifeng(pet: PetState): void {
+  const state = pet.skillState?.rabbit2Jf;
+  if (state) Object.assign(state, createRabbitJifengState(), { cooldownMs: state.cooldownMs });
+}
 
 export function createPetSkillState(): PetSkillState {
   return {
@@ -121,7 +137,7 @@ export function createPetSkillState(): PetSkillState {
     phoenix3Dhly: { cooldownMs: 0 },
     phoenix4Zqaoyi: { cooldownMs: 0, fireImbueActive: false },
     rabbit1Yg: { releaseReady: false, cooldownMs: 0 },
-    rabbit2Jf: { cooldownMs: 0, activeRemainingMs: 0, attackRate: 0.7, dodgeBonusRate: 0 },
+    rabbit2Jf: createRabbitJifengState(),
     rabbit3Bs: { cooldownMs: 0 },
     rabbit4Ysaoyi: { cooldownMs: 0, activeRemainingMs: 0, healTickAccumulatorMs: 0, lastPetHeal: 0, lastOwnerHeal: 0 },
     mouse1Sc: { cooldownMs: 0 },

@@ -75,7 +75,7 @@ export function updateStage13MonsterView(
   if (view.kind === 'monster5') {
     return updateStage13Monster5View(scene, view.view, combat, deltaMs);
   }
-  const attackState = combat.enemyType === 3 && combat.attackSerial % 2 === 0 ? 'hit2' : 'hit1';
+  const attackState = combat.activeAttack?.actionName === 'hit2' ? 'hit2' : 'hit1';
   const state = combat.phase === 'dead' ? 'dead'
     : combat.phase === 'hurt' ? 'hurt'
       : combat.phase === 'approach' ? 'walk'
@@ -88,6 +88,7 @@ export function updateStage13MonsterView(
     attackSerial: combat.attackSerial,
     petTargetEffectState: combat.petTargetEffectState,
     attackRuntime: combat.attackRuntime,
+    monster3AttackRuntime: combat.monster3AttackRuntime,
   }, deltaMs);
 }
 

@@ -7,7 +7,7 @@ export type NativeCollisionData = Readonly<{ fields: readonly Readonly<{
 type Point = Readonly<{ x: number; y: number }>;
 type Bounds = Point & Readonly<{ width: number; height: number }>;
 type Field = NativeCollisionData['fields'][number];
-export function createNativeAttackCollision(data: NativeCollisionData) {
+export function createNativeAttackCollision(data: NativeCollisionData, worldBoundsInTwips = false) {
 const fields = new Map(data.fields.map(field => [field.id, field]));
 const decoded = new Map<string, readonly Uint8Array[]>();
 
@@ -27,6 +27,14 @@ function planes(f: Field): readonly Uint8Array[] {
 }
 
 function bounds(f: Field, root: Point): Bounds {
+  if (worldBoundsInTwips) {
+    // Native getBounds reports world twip edges; adding separately serialized
+    // local bounds can otherwise turn a one-pixel ROI into 0.9999999999999.
+    const twip = (value: number) => Math.round(value * 20) / 20;
+    const x = twip(root.x + f.bounds.x), y = twip(root.y + f.bounds.y);
+    return { x, y, width: twip(root.x + f.bounds.x + f.bounds.width) - x,
+      height: twip(root.y + f.bounds.y + f.bounds.height) - y };
+  }
   return { x: root.x + f.bounds.x, y: root.y + f.bounds.y,
     width: f.bounds.width, height: f.bounds.height };
 }
@@ -49,7 +57,8 @@ function sampler(f: Field, root: Point, q: Point): (x: number, y: number) => boo
 
 /** Input roots are source-world registration points, never visible bounds centers. */
 function sample(id: string,
-  sourceRoot: Point, profileId: string, targetRoot: Point): boolean {
+  sourceRoot: Point, profileId: string, targetRoot: Point,
+  inspectPixel?: (x: number, y: number, hit: boolean) => void): boolean {
   const attack = field(id), target = field(profileId);
   const a = bounds(attack, sourceRoot), b = bounds(target, targetRoot);
   const x = Math.max(a.x, b.x), y = Math.max(a.y, b.y);
@@ -62,11 +71,17 @@ function sample(id: string,
   if (width < 1 || height < 1) return false;
   const sourcePixel = sampler(attack, sourceRoot, { x, y });
   const targetPixel = sampler(target, targetRoot, { x, y });
+  let hit = false;
   for (let py = 0; py < height; py++) for (let px = 0; px < width; px++) {
+    const overlap = sourcePixel(px, py) && targetPixel(px, py);
+    inspectPixel?.(px, py, overlap);
     // Original bundled AIR getColorBoundsRect excludes the sole origin pixel.
-    if ((px !== 0 || py !== 0) && sourcePixel(px, py) && targetPixel(px, py)) return true;
+    if ((px !== 0 || py !== 0) && overlap) {
+      if (!inspectPixel) return true;
+      hit = true;
+    }
   }
-  return false;
+  return hit;
 }
 
 function attackBounds(id: string, root: Point): Bounds {

@@ -1,4 +1,7 @@
 import { destroyMonster30Attacks, pauseMonster30AttackDisplay } from '../../systems/Monster30AttackRuntime';
+import { destroyMonster3Attacks, pauseMonster3AttackDisplay } from '../../systems/Monster3AttackRuntime';
+import { updateMonster3CombatWorld, syncMonster3CombatBody } from '../../systems/Monster3CombatWorld';
+import { getGlobalSettings } from '../../systems/GlobalSettingsSystem';
 import { getMonsterRewardConfig } from '../../systems/MonsterDefeatRewardSystem';
 import { createSceneMonsterCombat } from '../MonsterKnockbackBridge';
 import { disposeMonsterKnockback } from '../../systems/MonsterKnockbackBinding';
@@ -100,8 +103,10 @@ export function createStage13Gameplay(
     backgroundColor: '#101724cc', padding: { x: 8, y: 5 },
   }).setScrollFactor(0).setDepth(100).setVisible(false);
   const pauseAttacks = () => {
-    for (const monster of monsters.values()) if (monster.combat.enemyType === 30) {
-      pauseMonster30AttackDisplay(monster.combat); syncMonsterView(scene, monster, 0);
+    for (const monster of monsters.values()) {
+      if (monster.combat.enemyType === 30) pauseMonster30AttackDisplay(monster.combat);
+      if (monster.combat.monster3AttackRuntime) pauseMonster3AttackDisplay(monster.combat.monster3AttackRuntime);
+      syncMonsterView(scene, monster, 0);
     }
   };
   scene.events.on(Phaser.Scenes.Events.PAUSE, pauseAttacks);
@@ -202,14 +207,16 @@ function updateMonsterCombat(
   for (const monster of monsters.values()) {
     heroes.experience.bind(monster.combat, getMonsterRewardConfig(monster.combat.enemyType).experience);
     updateCombatMonsterPhysics(monster.physics, monster.combat, stage13MovementPlatforms, deltaMs, timeMs, scene.game.loop.targetFps);
-    stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
-    updateStage1Enemy({
-      enemy: monster.combat,
-      targets: heroes.snapshots(),
-      deltaMs,
-    });
+    if (monster.combat.enemyType === 3) {
+      updateMonster3CombatWorld(monster.combat, { parentId: 'stage13', timeMs, deltaMs,
+        hostFps: scene.game.loop.targetFps, difficulty: getGlobalSettings().difficulty,
+        boss: false, flower: false, targets: heroes.monster3Targets });
+    } else {
+      stepMonsterPetTargetEffects(monster.combat, deltaMs, scene.game.loop.targetFps);
+      updateStage1Enemy({ enemy: monster.combat, targets: heroes.snapshots(), deltaMs });
+    }
     syncMonsterView(scene, monster, deltaMs);
-    heroes.resolveEnemyAttack(monster.combat, timeMs);
+    if (monster.combat.enemyType !== 3) heroes.resolveEnemyAttack(monster.combat, timeMs);
   }
   heroes.resolveAttacks([...monsters.values()].map((monster) => monster.combat), timeMs);
   for (const [id, monster] of monsters) {
@@ -221,6 +228,7 @@ function updateMonsterCombat(
       monster.defeatReported = true;
     }
     if (!visualComplete) continue;
+    if (monster.combat.monster3AttackRuntime?.attacks.length) continue;
     destroyMonsterView(monster);
     monsters.delete(id);
   }
@@ -254,10 +262,12 @@ function syncMonsterView(
   monster: MonsterRuntime,
   deltaMs: number,
 ): boolean {
+  if (monster.combat.enemyType === 3) syncMonster3CombatBody(monster.combat);
   return updateStage13MonsterView(scene, monster.view, monster.combat, deltaMs);
 }
 
 function destroyMonsterView(monster: MonsterRuntime): void {
+  if (monster.combat.monster3AttackRuntime) destroyMonster3Attacks(monster.combat.monster3AttackRuntime);
   if (monster.combat.enemyType === 30) destroyMonster30Attacks(monster.combat);
   disposeMonsterKnockback(monster.combat.petKnockback);
   destroyStage13MonsterView(monster.view);

@@ -5,8 +5,8 @@ import test from 'node:test';
 import { coreSystemTests, fullSystemTests, selectSystemTests } from './system-test-suites.mjs';
 
 test('daily core is a bounded subset; the original full regression stays intact', () => {
-  assert.equal(coreSystemTests.length, 14);
-  assert.equal(fullSystemTests.length, 90); // Original 88 plus the two shared knockback consumers.
+  assert.equal(coreSystemTests.length, 15);
+  assert.equal(fullSystemTests.length, 117); // Includes the added reception and independent Monster3 owner suites.
   assert.ok(fullSystemTests.includes('monster-knockback-tests'));
   assert.ok(fullSystemTests.includes('monster-knockback-binding-tests'));
   assert.equal(new Set(fullSystemTests).size, fullSystemTests.length);
@@ -18,7 +18,7 @@ test('daily core is a bounded subset; the original full regression stays intact'
 
 test('core plus affected tests runs each group once; explicit design gates stay explicit', () => {
   const selected = selectSystemTests(['--core', 'pet-movement-clock-tests', 'save-slot-tests', 'pet-movement-clock-tests']);
-  assert.equal(selected.tests.length, 15);
+  assert.equal(selected.tests.length, coreSystemTests.length + 1);
   assert.equal(selected.tests.filter(name => name === 'save-slot-tests').length, 1);
   assert.deepEqual(selectSystemTests(['pet-turtle-runtime-tests', 'pet-turtle-runtime-tests']).tests, ['pet-turtle-runtime-tests']);
   assert.equal(selectSystemTests(['pet-turtle-runtime-tests']).scope, 'selected');

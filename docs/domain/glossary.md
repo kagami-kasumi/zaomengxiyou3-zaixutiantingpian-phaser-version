@@ -22,6 +22,10 @@
 
 | 中文概念 | 推荐代码名 | 类型 | 上下文 | 说明 | 禁止别名 |
 | --- | --- | --- | --- | --- | --- |
+| 怪物命中来源属性 | `MonsterDamageSource` | Type | Combat | 已处理的来源Hit/暴击/魔花/随机输入；不持HP或第二怪物 | `MonsterDamageOwner` |
+| 怪物命中接收请求 | `MonsterDamageRequest` | Type | Combat | 来源、动作、几何布尔、难度与原host输入；不含预期HP | `MonsterDamageFixture` |
+| 怪物命中接收结果 | `MonsterDamageReception` | Value Object | Combat | 拒绝、闪避接受、returnvoid与实际HP前后值；HP由既有owner写入 | `MonsterHealthResult` |
+| 怪物攻击接收计数 | `MonsterAttackReception` | Internal State | Combat | 独立攻击的ID/检测间隔/max；不持显示、几何或世界时钟 | `MonsterReceptionRuntime` |
 | 宠物给予主人的属性效果 | `HeroPetBuffState` | Internal Effect State | Combat | 既有party成员持有四项原host效果及已应用标志；属性仍写入该成员combat/skill/effectiveStats，不属于PetState | `PetOwnerStatsRuntime` |
 | 主人宠物属性效果步骤 | `HeroPetBuffSystem` | System | Combat | 消费既有世界宿主tick，执行效果到期与int属性相位；不持独立计时器或另建英雄 | `HeroBuffRuntime` |
 | 宠物攻击的目标附加效果 | `PetTargetEffects` | Internal Effect State | Combat | 受击目标持有猴火/马冰的连续host计数、刷新和取消状态；不属于源宠物生命周期，也不持有第二套HP | `PetBurnRuntime` |
@@ -69,11 +73,14 @@
 | 怪物运行时注册表 | `MonsterRuntimeRegistry` | Runtime Registry | Combat / Runtime | 存活怪物唯一登记点，负责稳定 ID、创建、查询、死亡登记与安全移除；第一版不是完整 ECS | `MonsterWorld`, `EnemyManager`, `MonsterManager` |
 | 宠物 | `Pet` | Entity | Combat / Progression | 玩家持有并可出战的伙伴实体；对应 AS3 `PetInfo`/`BasePet` 行为参考 | `Companion`, `Familiar` |
 | 宠物模型 | `PetState` | Model | Combat / Progression | 单只宠物的可持久化运行数据，包含名称、等级、HP/MP、寿命、出战状态和技能名 | `PetInfo`, `PetData` |
+| 宠物持久接收属性 | `PetReceptionAttributes` | Value / Save Fields | Combat / Progression / Save | PetState的missRate与magicDefenseRate比例及来源；A政策在存储边界备份后补缺项0并持久保留legacy-missing-baseline及字段列表，初始化/读档不代替成长或伤害结算 | `PetDefenseRuntime` |
 | 宠物消耗品 | `PetConsumable` | Item Effect / Type | Progression | 道具背包中可对当前出战宠物生效的普通道具效果，例如寿命丹、还魂丹、经验石 | `PetItem`, `CompanionConsumable`, `FamiliarItem` |
 | 宠物系统 | `PetSystem` | System | Combat / Progression | 管理宠物列表、单只出战、跟随实体运行状态和首批宠物 UI 数据 | `CompanionSystem`, `FamiliarSystem` |
 | 宠物战斗运行时 | `PetCombatRuntime` | Runtime Class / Strategy Context | Combat / Runtime | 单个出战宠物在战斗中的唯一生命周期 owner，统一同步、跟随、索敌、技能选择、效果推进、快照与销毁；种类/形态差异只经 `PetBehavior` 注入 | `CompanionRuntime`, `PetBattleSystem`, `PetController` |
 | 宠物战斗实体会话 | `PetCombatEntitySession` | Internal Runtime Session | Combat / Runtime | PetCombatRuntime内部复用的单实体步骤与临时会话；持有数值引用、目标/动作/阶段，不是第二顶层运行时或持久roster owner | — |
 | 宠物动作时钟 | `PetAnimationClock` | Runtime Clock | Combat / Presentation | EntitySession持有的逐hosttick倒计时游标；消费形态只读持帧定义并产生typed动画事件，不负责AI、伤害或View | — |
+| 宠物受击身体时钟 | `PetReceptionBodyClock` | Internal Runtime Component | Combat / Presentation | 254兼容19形态hurt/dead条件行路由，组合共享PetAnimationClock；只产生结束/技能清理信号，不持HP、保护、AI或显示对象；非受击动作只作为输入游标 | — |
+| 兼容宠物受击组件 | `PetReceptionBodyOwner` | Internal Runtime Component | Combat / Runtime | 组合在既有兼容PetRuntimeModel上的动作/保护/清理组件；持有实际PetState引用，复用PetBattleOwnershipSystem唯一HP写入，不创建第二roster/AI/世界时钟 | — |
 | 宠物私有召唤句柄 | `PetCombatSummonHandle` | Value Object | Combat / Runtime | 由顶层Runtime分配的私有实体身份；Behavior经窄端口创建/释放，包含父实体与出战来源身份，不持有另一套AI/CD | — |
 | 宠物行为 | `PetBehavior` | Strategy Contract | Combat | 只表达某宠物种类/形态的技能选择、释放和持续效果差异，不拥有队伍存档、场景显示对象或公共跟随生命周期 | `PetAI`, `CompanionBehavior`, `PetStrategy` |
 | 宠物普攻分支决策 | `PetNormalAttackDecision` | Internal Behavior Component | Combat | 猴/马 Behavior 各持一个实例，复用普攻分支间隔与两次条件随机选择；概率由家族提供，不持动画时钟、技能CD、目标或伤害状态 | — |
@@ -152,3 +159,6 @@
 | 宠物公共被动会话 | `PetPassiveSession` | Internal Runtime State | Combat | EntitySession持有回复/六增益计数及宠物自身效果；复用宿主步，不进入roster存档 | `PetPassiveRuntime` |
 
 | 宠物增益显示信号 | `PetPassiveVisualSignal` / `PetPassiveVisualPort` | Transient Display Port | Combat | 既有数值owner发出的首次显示/宠物效果隐藏命令；刷新不重发，主人独立显示不随数值到期清除，不持久化 | `PetBuffRuntime` |
+
+| Monster3独立攻击 | `Monster3Attack` / `Monster3AttackRuntime` | Runtime State | Combat | 持有独立攻击根/帧/接收计数与引用生命周期；身体死亡不自动清弹，显示只投影 | `Monster3BulletState` |
+| Monster3自然选择计数 | `Monster3Selection` | Runtime State | Combat | 持有原宿主count/CD/rate；位置、动作和目标继续来自既有owner | `Monster3AIState` |

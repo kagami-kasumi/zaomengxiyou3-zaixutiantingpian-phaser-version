@@ -1,6 +1,10 @@
 import { destroyMonster30Attacks, pauseMonster30AttackDisplay } from '../../systems/Monster30AttackRuntime';
+import { destroyMonster3Attacks, pauseMonster3AttackDisplay } from '../../systems/Monster3AttackRuntime';
 import Phaser from 'phaser';
 import { resetTestSceneEncounter } from './TestSceneEncounterReset';
+import { clearRosterPetRabbitJifeng } from '../../systems/PetRosterSystem';
+import { releaseCompatibilityPet } from '../../systems/PetReceptionCompatibilitySystem';
+import { destroyP2PetView } from './TestSceneP2PetBridge';
 import type { FormalPartyRuntime } from '../../systems/FormalPartyRuntimeSystem';
 import {
   isStage11DoorQaEnabled,
@@ -46,6 +50,8 @@ export function createTestSceneStage11Runtime(
     createEncounter: (_runtimeScene, _playerCount, _playerViews, world) => {
       initializeEncounter(scene, world);
       const pauseAttacks = () => {
+        const bossAttack = scene.bossArena?.boss?.monster3AttackRuntime;
+        if (bossAttack) { pauseMonster3AttackDisplay(bossAttack); scene.updateBossArenaVisuals(0); }
         for (const monster of scene.monster30s ?? []) {
           pauseMonster30AttackDisplay(monster);
           const view = scene.monsterViews.get(monster);
@@ -76,8 +82,17 @@ export function createTestSceneStage11Runtime(
         },
         unlockProgress: () => scene.stage11Flow?.unlockProgress ?? scene.levelUnlockProgress,
         destroy: () => {
+          releaseCompatibilityPet(scene.petRuntime);
+          releaseCompatibilityPet(scene.p2PetRuntime);
+          scene.destroyPetView?.();
+          destroyP2PetView.call(scene);
+          clearRosterPetRabbitJifeng(scene.petRoster);
+          clearRosterPetRabbitJifeng(scene.p2PetRoster);
+          scene.petRuntime = undefined;
+          scene.p2PetRuntime = undefined;
           scene.events.off(Phaser.Scenes.Events.PAUSE, pauseAttacks);
           for (const monster of scene.monster30s ?? []) destroyMonster30Attacks(monster);
+          if (scene.bossArena?.boss?.monster3AttackRuntime) destroyMonster3Attacks(scene.bossArena.boss.monster3AttackRuntime);
           scene.stage1CombatHud?.destroy();
           scene.stage1CombatHud = undefined;
           scene.heroPartyRuntime?.destroy();

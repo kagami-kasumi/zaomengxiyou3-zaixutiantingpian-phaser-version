@@ -1,4 +1,5 @@
 import { petDragonBundleAssets } from './PetDragonAnimationAssets';
+import { petReceptionBodyImages } from './PetReceptionBodyAssets';
 import { petPassiveImages } from './PetPassiveAssets';
 import { petTurtleBundleAssets } from './PetTurtleAssetCatalog';
 import { monkeyHorseCollisionAsset } from './PetMonkeyHorseCollisionPackage';
@@ -9,6 +10,7 @@ import petHorseFallingDisplay from './pet-horse-falling-display.json';
 import petHorseSpDisplay from './pet-horse-sp-native-display.json';
 import petMonkeyNativeDisplay from './pet-monkey-native-display.json';
 import petHorseNativeDisplay from './pet-horse-native-display.json';
+import monster3NativeDisplay from './monster3-native-display.json';
 import {
   combatHudAssets,
   craftingAssets,
@@ -102,6 +104,7 @@ export type AssetBundleId =
   | 'combat-common'
   | 'pet-turtle'
   | 'pet-monkey-horse'
+  | 'pet-reception-body'
   | 'combat-hero-1'
   | 'combat-hero-2'
   | 'combat-hero-3'
@@ -382,6 +385,7 @@ const monsterResourceBundleAssets = (familyId: MonsterResourceFamilyId): BundleA
       frameHeight: asset.cellHeight,
     })),
     ...attackAssets,
+    ...(familyId === 'monster-family-3-30' ? monster3NativeDisplay.poses.map(image) : []),
     {
       kind: 'text',
       key: family.geometry.key,
@@ -404,6 +408,10 @@ const stage22BundleAssets = [
 ];
 
 export const sceneAssetBundles = {
+  'pet-reception-body': {
+    dependencies: [],
+    assets: petReceptionBodyImages.map(image),
+  },
   'pet-monkey-horse': {
     dependencies: [],
     assets: [monkeyHorseCollisionAsset, image(petHorseIceAsset), ...petMonkeyTargetFire.frames.map(image),
@@ -538,7 +546,7 @@ export const sceneAssetBundles = {
     ],
   },
   'combat-common': {
-    dependencies: ['pet-combat-hud-heads'],
+    dependencies: ['pet-combat-hud-heads', 'pet-reception-body'],
     assets: [...combatCommonAssets, ...petPassiveImages.map(image)],
   },
   'combat-hero-1': {

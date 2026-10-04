@@ -66,7 +66,8 @@ export function stepMonsterPetTargetEffects(enemy: Stage1CombatEnemy, deltaMs: n
 }
 
 export function advanceMonsterPetTargetEffects(state: MonsterPetTargetEffectState, deltaMs: number,
-  hostFps: number = DefaultGlobalSettings.frameRate, beforeEffects?: (bodyStopped: boolean) => void): void {
+  hostFps: number = DefaultGlobalSettings.frameRate, beforeEffects?: (bodyStopped: boolean) => void,
+  afterEffects?: () => void): void {
   state.bodyClockStarted = true;
   state.pendingTicks += Math.max(0, deltaMs) * hostFps / 1000;
   const ticks = Math.floor(state.pendingTicks + 1e-9);
@@ -77,6 +78,9 @@ export function advanceMonsterPetTargetEffects(state: MonsterPetTargetEffectStat
     // step, and an expiry step still has a stopped body until continueFrame.
     if (!state.iceVisible) state.pendingBodyTicks++;
     state.effects.step(hostFps);
+    // AI/CD belong to each world tick, including catch-up ticks. They observe
+    // expiry and lethal effect writes from this tick, never the previous one.
+    afterEffects?.();
   }
 }
 

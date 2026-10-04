@@ -5,6 +5,13 @@ import type { Stage1CombatEnemy } from '../../systems/Stage1CombatSystem';
 import type { PlayerSlot } from '../../systems/InputSystem';
 import type { PetTurtleAssets } from '../../assets/PetTurtleAssets';
 import type { HeroPartyRuntime } from '../HeroPartyRuntimeBridge';
+import type { Monster3Model } from '../../systems/Monster3System';
+import { adaptMonster3BossCombat } from '../../systems/Monster3BossCombatAdapter';
+
+export function adaptTestSceneBossPetEnemy(scene: Phaser.Scene, boss: Monster3Model): Stage1CombatEnemy {
+  boss.petKnockback ??= createSceneMonsterKnockback(scene, 11, 3, boss);
+  return adaptMonster3BossCombat(boss);
+}
 
 /** The sandbox's actual active attack goes through the same pet HP/event owner. */
 export function resolveTestSceneTurtleIncoming(runtime: HeroPartyRuntime, monsters: readonly Monster30Model[],

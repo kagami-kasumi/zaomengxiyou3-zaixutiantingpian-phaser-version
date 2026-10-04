@@ -1,5 +1,23 @@
 # 纵向切片复现表
 
+2026-10-04 / TASK-SLICE-249B及父249完成：Monster3两owner独立攻击/真实P1/P2英雄宠物HP、140880空间case、两Scene原生30态与死亡留弹/失败重试核销；255兼容19形态完成，新增自然UFO双Scene旅程、105660当前profile样本及7 owner/4显示/1旧路径反证。117组全回归、build与架构检查通过。下一TASK-SETTINGS-256唯一Ready补Monster2有界行为输入；其余类型、人偶、204/all/194/VS-067及整线保持未完成。
+
+2026-10-04 / TASK-SLICE-255完成：19形态兼容受击owner复用实际HP，原时钟/保护/死亡与精确source清理接入双owner；两Scene三档受伤/重复hurt/死亡/暂停/退出重进通过。416态双底显示最大差0.498039/255，7时钟+7 owner+2显示生产反证通过。255归档，249B恢复唯一Ready继续原全部两Scene合同；父249/204/194/VS-067与整线不关闭。见 `docs/reverse-engineering/pet-reception-body-runtime-acceptance.md`。
+
+2026-10-04 / TASK-SETTINGS-254完成：19形态hurt/dead行为与416态原生视觉双JSON已verified，14编译源变异、3owner反序与8合同损坏反证通过，源hash/Schema/再生成一致。254归档；TASK-SLICE-255唯一Ready实现兼容受击身体owner，完成后恢复249B全部两Scene合同。父249/204/194/VS-067和整线未关闭。见 `docs/reverse-engineering/pet-reception-body-timing-contract.md`。
+
+2026-10-04 / 249B已完成两Scene普通三帧率、真实失败重试、火伤致死留弹、30态显示与默认hurt模型反证；兼容19形态仍缺两动作精确时序和A外动作owner。保留249B全部合同并Blocked，254唯一Ready补有界两动作原版输入，再接owner实现后恢复B；不关闭父249/VS-067/功能线。
+
+2026-10-03 / TASK-SLICE-253完成：正式两属性创建/逐级成长/存取、疾风原host边界与当前接收owner、双owner实际生命周期已验证；用户明确选A，原raw备份、缺项现代0、字段级历史未知来源和幂等迁移通过。32生产变异及3浏览器变异、16组回归通过，253归档、249B恢复唯一Ready，父249/VS-067及整线不关闭。见 `docs/reverse-engineering/pet-reception-input-runtime-acceptance.md`。
+
+2026-10-03 / TASK-SETTINGS-252完成：424属性case、162疾风时间线35996态、13原生源变异及5证据绑定反证通过；reference verified，完整观察本地保留。新宠/成长/存取与兔2五秒、兔3/4十秒的当前效果合同交253。253唯一Ready实现属性/效果owner与存档；旧档政策已询问待选择，不伪造历史值。249B保持Blocked及父249全部两Scene合同，其他公共责任不关闭。见 `docs/reverse-engineering/pet-reception-input-contract.md`。
+
+2026-10-03 / TASK-SLICE-249B实施中转输入阻塞：共享攻击/自然选择已实现，27936决策态、21312连续态、135检测phase、140880碰撞及42906767像素/精确451残差、12生产变异通过；两Scene尚未接入。正式PetState/升级/双owner恢复缺miss/mDef，兔疾风当前效果未映射；249B保留全合同并Blocked，252唯一Ready补有界生产来源，再生成owner/存档接入前置后恢复B。见 `docs/reverse-engineering/monster3-pet-input-preflight.md`，不关闭父249或整线。
+
+2026-10-03 / TASK-SLICE-249A完成：251全部16,960接收与64世界序列通过生产HP owner；70英雄实时属性入口、576真实宠物Session及11生产变异通过。现有HP/盾/死亡owner保持唯一，受控属性与正式接缝边界见 `docs/reverse-engineering/monster3-receiver-runtime-acceptance.md`。A归档、249B唯一Ready；两Scene攻击/空间/显示/生命周期仍待，父249及204/all/194/VS-067和整线未关闭。
+
+2026-10-03 / TASK-SLICE-249公共接收预检拆分：251独立fixture与生产HP owner四例对照，Role1双方960一致，Role5原970/现代960；pet同步接受结果缺失另经静态核查。新增公共owner机制独立交付，249保留全部合同并Split，249A唯一Ready、249B Planned承接原两owner联合验收。本次只重排，未改src/public或原真值，204/all/194/VS-067与整线仍未关闭。见 `docs/reverse-engineering/monster3-receiver-owner-preflight.md`。
+
 2026-10-03 / TASK-SETTINGS-251完成：Monster3目标接收有限原方法域16,960例、64世界序列、9真实编译源变异及正常重复通过；6报告/4reference损坏拒绝。原HP、闪避/保护、盾/转移、随机、ID间隔与returnvoid语义已交接。251归档，249恢复唯一Ready消费247/248/250/251；未改src/public或原语料，不关闭249、204/all、194、VS-067或整线。见 `docs/reverse-engineering/monster3-reception-contract.md`。
 
 2026-10-03 / TASK-SLICE-249接收预检：6组P1/P2生产观察确认英雄闪避/魔防未消费及保护拒绝提前登记ID；247/250实际HP仍为接受服务。249保留全部合同并Blocked，TASK-SETTINGS-251唯一Ready补Monster3来源/目标接收与HP/随机/ID间隔后恢复249。未改src/public或原真值，不关闭204/all/194/VS-067或整线。见 `docs/reverse-engineering/monster3-reception-preflight.md`。

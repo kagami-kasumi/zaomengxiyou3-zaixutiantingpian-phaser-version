@@ -145,7 +145,7 @@ export class HorsePetBehavior implements PetBehavior {
       this.normalTarget = undefined;
       this.skillTarget = undefined;
       this.skillAction = undefined;
-      if (this.normalAttack.counter(context)) {
+      if (event.receptionAction !== undefined ? event.receptionAction === 'hit1' : this.normalAttack.counter(context)) {
         context.playAnimation('basic-attack');
         this.executeAction({ type: 'basic-attack' }, context);
       } else if (context.animation?.action === 'hurt') context.restartAnimationCell();

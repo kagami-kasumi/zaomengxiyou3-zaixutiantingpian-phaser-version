@@ -65,10 +65,13 @@
 - 关卡、宠物和英雄当前类设计分别见 `system-designs/level.md`、`system-designs/pet.md`、`system-designs/hero.md`。关卡保持组合式 `PlayableLevelRuntime`，不得新建万能 `BaseLevel`；宠物战斗统一经 `PetCombatRuntime` 注入 `PetBehavior`；英雄队伍聚合单英雄 `HeroRuntime`，五英雄实现只覆盖差异钩子。三份设计在各自验收退出前约束迁移 task，退出后不再触发设计模式专项检查。
 - `PetCombatEntitySession` 与 `PetCombatContext` 是宠物Runtime内部公共步骤/端口实现；Scene和Behavior不直接创建或推进实体会话。私有召唤物只经Behavior窄端口创建/释放，临时数值不进入持久roster；正式桥继续只消费顶层Runtime快照与typed事件。
 - `PetPassiveSession`仅拥有该实体公共回复缓存、六自动增益计数及自身效果；由EntitySession原host驱动。四项主人效果通过`ownerAddPetBuff`进入既有hero owner，Scene不持有公式，保存不包含会话临时字段。
+- `PetReceptionAttributes`组合在持久PetState中；初始化与显式存档读取使用同一字段规则，不拥有伤害结算或效果时钟。成长只归既有逐级事件，不由Scene、读档或普通基础属性refresh重复生产。用户选择A后，`PetReceptionSaveMigration`只由SaveSystem存储边界调用：原raw先备份，缺失/非法项补现代0，来源和字段列表贯穿恢复与成长；纯parse/restore不静默回填或写存储，列表inspect保持只读。
 - `PetAttachedDisplayLifecycle`由Scene持有，以runtimeKey注册实际身体root与附属显示；Game显示阶段只推进显示回调和退休alpha。猴/马adapter退休时立即删除body，附属显示按源淡出；Scene退出强制清空。它不持PetState或战斗实体，不延长数值/伤害/技能寿命；六效果首次信号来自既有PetPassiveSession/HeroPetBuffSystem；PetPassiveDisplayBridge只持显示身份、原生帧与投影，主人独立clip不随数值期限或宠物退休销毁。Dragon/Turtle使用独立附件anchor，不改变身体坐标。PetPassiveImage仅在单图同步渲染期间关闭重复局部取整并恢复camera设置；域外小数位置按已声明的≤0.5px/轴对齐。
 - 猴马私有弹体由Behavior持有的`PetMonkeyHorseProjectileSystem`统一推进；`PetHorseAoyiProjectiles`只投影发射/命中回调，`PetHorseAoyiMotion`只承担源EnemyMove运动。独立延迟通过`PetProjectileCombatPort.delay`访问场景拥有的`PetWorldDelayedCalls`，`PetWorldDelayBridge`仅转接既有Game绝对时间戳，不累计第二份Scene/宠物时钟。换宠不取消源回调，Party销毁与Scene shutdown清空world队列并解除listener；完整原版暂停/世界退出映射仍由226验收。
 - 猴火/马冰附加效果归受击目标的`MonsterPetTargetEffectSystem`持有，`PetTargetEffects`执行原BaseAddEffect局部状态机；命中port只提交源字典payload。怪物世界循环在物理后/AI前按host步推进，包括等待视觉recovery的帧，不挂在宠物Session或被跳过的AI函数内；View只消费可见/冻结状态，不再拥有伤害或效果寿命。
 - `PetNormalAttackDecision` 只由猴/马 Behavior 各自组合，消费Session连续hostTick/fps并执行条件随机选择；不得承接动画时钟、技能CD、目标、伤害或公共Session生命周期。家族释放事件和技能优先级保持局部。
+- `PetReceptionBodyClock`只在兼容hurt/dead边界组合PetAnimationClock，按254条件保留实际进入行/列；共享时钟支持按当前列取keyframe上限和不清key的setColumn。它不替代既有HP/保护owner，不从View计时；`PetReceptionBodyAssets`仅查询原生双方向池输出，运行PNG由verified254基准导出。
+- `PetReceptionBodyOwner`是既有兼容runtime上的接收状态组件，HP仍由PetBattleOwnershipSystem单写；它调度身体、保护与退场，不创建另一份roster或完整技能AI。`PetReceptionCompatibilitySystem`绑定既有经验source并按其对象身份清理投射物；`HeroPartyCompatibilityPets`只持有每个slot的runtime/view引用，并复用TestScene的兼容更新入口。原生hurt/dead显示通过PetReceptionBodyAssets查询，预载归combat-common依赖。
 - `PetAnimationClock`只负责共享倒计时游标；`PetDragonAnimationClock`从verified资源查询构造定义。EntitySession持有和推进时钟、消费typed事件；View消费只读动画snapshot，不能再持另一套战斗时钟。Frame.hostFps由场景传入，公共移动按每实体moveSpeed进行原版单位换算。
 - 怪物差异优先通过 `MonsterBrain`、物理 profile、能力集合、动画集合和奖励 profile 组合，不建立承载全部职责的万能 `BaseMonster`。
 - `MonsterRuntimeRegistry` 只持有稳定 ID 与纯运行状态；Phaser view 映射由关卡无关的实体视图 adapter 持有。关卡遭遇只发 spawn 命令并消费 spawned/defeated/cleared 事件，不声明怪物 runtime 类型或 `Map`，不直接调用怪物内部 update/resolve。
@@ -104,3 +107,9 @@
 ## Monster30 身体与独立攻击
 
 240在既有Monster30/Stage1实体上附加`Monster30AttackRuntime`，由系统层拥有身体回调、攻击身份、出生根、检测相位和销毁；`Monster30CollisionSystem`消费241版本化位场，伤害继续由实际hero/pet owner结算。场景只调度并转交pause事件，暂停入口仅选择原MovieClip已进入的显示帧，不推进age/命中/身体。Stage11/13 view只投影runtime，不能再生成Monster30伤害或自走播放时钟。其他类型继续原owner；Role4人偶旧命中合同仍未迁移，不把英雄/宠物范围扩大成全部目标。
+
+## Monster3 有限接收端口
+
+249A的`MonsterDamageReception`只准备251已证接收结果，不写HP。英雄经`HeroMonsterDamageReception`进入既有`HeroCombatSystem`；宠物经`PetCombatRuntime`/`PetCombatEntitySession`或兼容`PetBattleOwnershipSystem`共享HP结算。动作、保护、实时属性由当前owner读取或显式输入，不建立第二份权威状态。`MonsterAttackReception`仅管理接收ID、间隔和有序检查，不能成为独立world/显示时钟；Monster3实际两owner消费与兼容动作/保护分发留给249B。有限域与真实Session覆盖见`docs/reverse-engineering/monster3-receiver-runtime-acceptance.md`。
+
+249B共享核心已建立`Monster3AttackRuntime`与`Monster3Selection`，但正式两owner尚未接入，当前不表示游戏已迁移。碰撞消费248正式资源，原world twip边界选项经过全部140880case与精确残差验证；`Monster3AttackView`只读投影，不推进时钟。252先解除正式宠物属性/效果输入缺口，再恢复两Scene消费。

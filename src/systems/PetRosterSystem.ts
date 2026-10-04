@@ -4,7 +4,8 @@ import {
   getPetBaseStats,
   getPetExperienceToNextLevel,
 } from './PetProgressionSystem';
-import { createPetSkillState } from './PetSkillStateSystem';
+import { clearPetRabbitJifeng, createPetSkillState } from './PetSkillStateSystem';
+import { createPetReceptionAttributes } from './PetReceptionAttributes';
 import type { CapturableMonsterId, CapturablePetDefinition, PetRoster, PetState } from './PetTypes';
 function createSeedPet(params: {
   id: string;
@@ -30,6 +31,7 @@ function createSeedPet(params: {
     maxMp: stats.maxMp,
     atk: stats.atk,
     def: stats.def,
+    ...createPetReceptionAttributes(),
     critBonusRate: 0,
     skillDamageBonus: 0,
     moveSpeed: 5,
@@ -293,6 +295,7 @@ export function setSelectedPetActive(roster: PetRoster): boolean {
   }
 
   for (const pet of roster.pets) {
+    if (pet.isActive && pet.id !== selected.id) clearPetRabbitJifeng(pet);
     pet.isActive = pet.id === selected.id;
   }
   roster.message = `${selected.displayName} deployed`;
@@ -306,9 +309,15 @@ export function restSelectedPet(roster: PetRoster): boolean {
     return false;
   }
 
+  clearPetRabbitJifeng(selected);
   selected.isActive = false;
   roster.message = `${selected.displayName} resting`;
   return true;
+}
+
+/** Scene owners may retain the roster after destroying its combat runtime. */
+export function clearRosterPetRabbitJifeng(roster: PetRoster | undefined): void {
+  for (const pet of roster?.pets ?? []) clearPetRabbitJifeng(pet);
 }
 
 export function releaseSelectedPet(roster: PetRoster): PetState | undefined {
@@ -318,6 +327,7 @@ export function releaseSelectedPet(roster: PetRoster): PetState | undefined {
     return undefined;
   }
 
+  clearPetRabbitJifeng(selected);
   roster.pets.splice(roster.selectedIndex, 1);
   roster.selectedIndex = Math.max(0, Math.min(roster.selectedIndex, roster.pets.length - 1));
   roster.message = `${selected.displayName} released`;
@@ -410,6 +420,7 @@ function createPetStateFromDefinition(
     maxMp: stats.maxMp,
     atk: stats.atk,
     def: stats.def,
+    ...createPetReceptionAttributes(),
     critBonusRate: 0,
     skillDamageBonus: 0,
     moveSpeed: 5,

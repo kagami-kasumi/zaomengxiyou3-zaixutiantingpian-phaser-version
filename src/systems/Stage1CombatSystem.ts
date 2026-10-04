@@ -104,6 +104,8 @@ export type Stage1CombatPlayer = {
 };
 
 export type Stage1CombatEnemy = {
+  monster3WorldState?: import('./Monster3CombatWorld').Monster3CombatWorldState;
+  monster3AttackRuntime?: import('./Monster3AttackRuntime').Monster3AttackRuntime;
   attackRuntime?: import('./Monster30AttackRuntime').Monster30AttackRuntime;
   experienceBinding?: MonsterExperienceBinding;
   petKnockback?: MonsterKnockbackBinding;
@@ -606,6 +608,7 @@ export function resolveStage1PetHit(params: Readonly<{
 
 export function getStage1MonsterMotionAction(enemy: Stage1CombatEnemy): string {
   if (enemy.phase === 'hurt' || enemy.phase === 'dead') return enemy.phase;
+  if (enemy.enemyType === 3 && enemy.monster3WorldState) return enemy.monster3WorldState.action;
   if (enemy.activeAttack) return enemy.activeAttack.actionName;
   return enemy.petKnockback?.motion.action === 'walk' ? 'walk' : 'wait';
 }

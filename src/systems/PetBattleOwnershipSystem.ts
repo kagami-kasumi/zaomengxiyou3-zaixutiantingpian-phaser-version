@@ -11,6 +11,34 @@ import { applyPetTurtleTxljOwnerDamage } from './PetTurtleSkillSystem';
 import { recordIncomingDamageFeedback } from './IncomingDamageFeedbackSystem';
 import type { PetRuntimeModel } from './PetTypes';
 import type { MonsterExperienceShareResult } from './PetTypes';
+import type { PetState } from './PetTypes';
+import type { MonsterDamageRequest } from './MonsterDamageReception';
+import { preparePetMonsterReception, finishPetMonsterReception, readPetMonsterReceptionInput, rejectPetMonsterReception,
+  type PetMonsterReceptionInput, type PetMonsterReceptionEffect } from './PetMonsterDamageReception';
+
+/** Shared HP write used by the existing pet session and compatibility owner. */
+export function settleOwnedPetHpDamage(pet: PetState, amount: number): void {
+  pet.hp = Math.max(0, pet.hp - amount);
+}
+
+/** Production adapter reads the current PetState immediately before settlement. */
+export function receiveCurrentOwnedPetMonsterDamage(pet: PetState, runtime: PetRuntimeModel,
+  context: Pick<PetMonsterReceptionInput, 'action' | 'protected' | 'gxp' | 'counterChance'>,
+  request: MonsterDamageRequest): PetMonsterReceptionEffect {
+  if (context.protected) return rejectPetMonsterReception(pet, context.action);
+  return receiveOwnedPetMonsterDamage(pet, runtime, readPetMonsterReceptionInput(pet, context), request);
+}
+
+/** Compatibility entry. Its caller owns current action/protection and applies the returned reaction. */
+export function receiveOwnedPetMonsterDamage(pet: PetState, runtime: PetRuntimeModel, input: PetMonsterReceptionInput,
+  request: MonsterDamageRequest): PetMonsterReceptionEffect {
+  const hpBefore = pet.hp;
+  const prepared = preparePetMonsterReception(pet, input, request);
+  if (!prepared.missed && (prepared.accepted || prepared.returnVoid)) settleOwnedPetHpDamage(pet, prepared.amount);
+  const result = finishPetMonsterReception(pet, input, request, prepared, hpBefore);
+  if (result.registerReceiverId) (runtime.monsterHitIds ??= []).push(request.attackId);
+  return result;
+}
 
 export type PetExperienceTarget =
   | { kind: 'hero'; ownerSlot: PlayerSlot }

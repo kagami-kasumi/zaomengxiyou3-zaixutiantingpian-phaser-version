@@ -31,7 +31,13 @@ const runtimeDeclarations = Object.entries(sceneAssetBundles).flatMap(([bundleId
 );
 const runtimePaths = runtimeDeclarations.map((asset) => asset.path).sort();
 
-assert.equal(diskPaths.length, 424, 'the monster domain must retain all 424 visual and geometry files');
+assert.equal(diskPaths.length, 454, 'retain the 424 existing files plus 30 Monster3 native direction/frame images');
+for (const attack of [1, 2]) for (const sign of [-1, 1]) for (let frame = 1; frame <= (attack === 1 ? 5 : 10); frame++) {
+  const pose = runtimeDeclarations.filter(asset => asset.key === `monster3-native-a${attack}-f${frame}-s${sign}`);
+  assert.equal(pose.length, 1, 'each native pose must be loadable under exactly one owner');
+  assert.equal(pose[0]!.bundleId, 'monster-family-3-30');
+  assert.equal(pose[0]!.path, `/assets/monsters/family-3-30/monster3-native/a${attack}-f${frame}-s${sign}.png`);
+}
 assert.equal(new Set(runtimePaths).size, runtimePaths.length, 'each monster file needs one runtime owner');
 assert.deepEqual(runtimePaths, diskPaths, 'monster disk files and runtime declarations must match exactly');
 assert.ok(runtimePaths.every((assetPath) => !assetPath.includes('/stage')));

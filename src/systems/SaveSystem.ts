@@ -10,6 +10,8 @@ import {
 import type { HeroProgressionModel } from './ProgressionSystem';
 import { getHeroExperienceToNextLevel, ProgressionTuning } from './ProgressionSystem';
 import { createPetSkillState } from './PetSkillStateSystem';
+import { restorePetReceptionAttributes } from './PetReceptionAttributes';
+import { backupPetReceptionSave, migratePetReceptionSave } from './PetReceptionSaveMigration';
 import { PetTuning } from './PetTuning';
 import type { PetRoster, PetState } from './PetTypes';
 import type { PlayerSlot } from './InputSystem';
@@ -222,7 +224,13 @@ export function saveGame(
   save: GameSave,
   storageKey = GameSaveStorageKey,
 ): void {
-  storage.setItem(storageKey, serializeGameSave(save));
+  const original = storage.getItem(storageKey);
+  const raw = serializeGameSave(save);
+  const next = parseGameSave(raw) ? migratePetReceptionSave(raw) : { raw, changed: false };
+  if (next.changed || (original !== null && parseGameSave(original) && migratePetReceptionSave(original).changed)) {
+    backupPetReceptionSave(storage, storageKey, original ?? raw);
+  }
+  storage.setItem(storageKey, next.raw);
 }
 
 export function loadGame(
@@ -230,7 +238,14 @@ export function loadGame(
   storageKey = GameSaveStorageKey,
 ): GameSave | undefined {
   const raw = storage.getItem(storageKey);
-  return raw === null ? undefined : parseGameSave(raw);
+  if (raw === null) return undefined;
+  const save = parseGameSave(raw);
+  if (!save) return undefined;
+  const migrated = migratePetReceptionSave(raw);
+  if (!migrated.changed) return save;
+  backupPetReceptionSave(storage, storageKey, raw);
+  storage.setItem(storageKey, migrated.raw);
+  return parseGameSave(migrated.raw);
 }
 
 export function clearGameSave(storage: SaveStorage, storageKey = GameSaveStorageKey): void {
@@ -595,6 +610,7 @@ function decodePet(saved: PetSave, index: number, ownerSlot: PlayerSlot): PetSta
     maxMp,
     atk: nonNegativeNumber(saved.atk),
     def: nonNegativeNumber(saved.def),
+    ...restorePetReceptionAttributes(saved),
     critBonusRate: clampNumber(saved.critBonusRate, 0, 1),
     skillDamageBonus: nonNegativeNumber(saved.skillDamageBonus),
     moveSpeed: nonNegativeNumber(saved.moveSpeed),

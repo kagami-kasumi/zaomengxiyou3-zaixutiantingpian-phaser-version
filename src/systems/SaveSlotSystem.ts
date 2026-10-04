@@ -135,8 +135,10 @@ export function createPartySaveSlot(
 export function selectSaveSlot(storage: SaveStorage, slotId: SaveSlotId): GameSave | undefined {
   const snapshot = inspectSaveSlot(storage, slotId);
   if (snapshot.status !== 'valid' || !snapshot.save) return undefined;
+  const save = loadGame(storage, snapshot.storageKey);
+  if (!save) return undefined;
   storage.setItem(ActiveSaveSlotStorageKey, String(slotId));
-  return snapshot.save;
+  return save;
 }
 
 export function deleteSaveSlot(storage: SaveStorage, slotId: SaveSlotId): void {

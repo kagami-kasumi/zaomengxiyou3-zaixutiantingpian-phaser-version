@@ -114,7 +114,8 @@ assert.equal(
   sceneAssetBundles['pet-combat-hud-heads'].assets.length,
   Object.keys(petCombatHudHeadAssets).length,
 );
-assert.deepEqual(sceneAssetBundles['combat-common'].dependencies, ['pet-combat-hud-heads']);
+// Native reception bodies must be ready before the first synchronous hit render.
+assert.deepEqual(sceneAssetBundles['combat-common'].dependencies, ['pet-combat-hud-heads', 'pet-reception-body']);
 for (const characterId of [597, 608]) {
   for (let frame = 1; frame <= 5; frame += 1) {
     assert.ok(
@@ -175,7 +176,7 @@ assert.throws(
     },
   };
   await coordinator.ensure('stage-12', adapter);
-  assert.deepEqual(calls, ['pet-combat-hud-heads', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12']);
+  assert.deepEqual(calls, ['pet-combat-hud-heads', 'pet-reception-body', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12']);
   await coordinator.ensure('combat-hero-2', adapter);
   assert.equal(calls.at(-1), 'combat-hero-2');
   assert.equal(loadedKeys.has('hero-animation.hero2.body'), true);
@@ -187,7 +188,7 @@ assert.throws(
   assert.deepEqual(
     calls,
     [
-      'pet-combat-hud-heads', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12',
+      'pet-combat-hud-heads', 'pet-reception-body', 'combat-common', 'stage-1-common', 'monster-family-2-4-7-8', 'stage-12',
       'combat-hero-2', 'combat-hero-2-skills',
     ],
   );

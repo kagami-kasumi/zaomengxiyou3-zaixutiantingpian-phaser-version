@@ -27,7 +27,8 @@ export function updateTestSceneBossPhysics(scene: Phaser.Scene, boss: Monster3Mo
     boss.y = boss.physics.y;
   }
   if (advanceMonsterKnockback(boss.petKnockback, boss, { deltaMs, timeMs,
-    hostFps: scene.game.loop.targetFps, action: boss.state, frozen: false })) {
+    hostFps: scene.game.loop.targetFps, action: boss.state,
+    frozen: !!boss.petTargetEffectState?.effects.snapshot('pethorse_ice') })) {
     boss.physics.y = boss.y;
     boss.physics.height = boss.petKnockback!.profile.profile.collider.height;
     boss.physics.velocityY = boss.petKnockback!.motion.velocityY * scene.game.loop.targetFps;

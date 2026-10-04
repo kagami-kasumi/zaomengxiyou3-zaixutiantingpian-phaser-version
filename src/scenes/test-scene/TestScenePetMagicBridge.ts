@@ -1,4 +1,9 @@
-import { bindLegacyPetExperience, retireLegacyPetExperience } from '../../systems/PetExperienceTargetSystem';
+import { bindLegacyPetExperience } from '../../systems/PetExperienceTargetSystem';
+import { clearRosterPetRabbitJifeng } from '../../systems/PetRosterSystem';
+import { prepareCompatibilityPetReception, releaseCompatibilityPet } from '../../systems/PetReceptionCompatibilitySystem';
+import { readPetReceptionBody } from '../../systems/PetReceptionBodyOwner';
+import { DefaultGlobalSettings } from '../../systems/GlobalSettingsSystem';
+import { isBossDead } from '../../systems/LevelSystem';
 ﻿// boundary: pet/magic bridge adapts scene objects to systems; it does not own
 // pet or magic weapon progression rules.
 import {
@@ -16,11 +21,16 @@ import {
   clearMonster30MagicPearlStun,
   clearMonster30MagicSnowIce,
   clearMonster30MagicZlHummerStun,
+} from '../../systems/Monster30System';
+import {
   createHeroCombat,
-  createHeroSkillModel,
-  getActivePet,
-  isBossDead,
   isHeroCombatDead,
+} from '../../systems/HeroCombatSystem';
+import {
+  createHeroSkillModel,
+} from '../../systems/HeroSkillSystem';
+import {
+  getActivePet,
   requestPetDragon1FsSkill,
   requestPetDragon2SdccSkill,
   requestPetDragon3LtwjSkill,
@@ -40,15 +50,23 @@ import {
   updatePetAutoBuffs,
   updatePetRuntime,
   updatePetSkillState,
-  type MagicWeaponEnemyTarget,
-  type MagicWeaponPlatform,
-  type MovementPlatform,
   type PetSkillTarget,
   type PetRoster,
   type PetRuntimeModel,
+} from '../../systems/PetSystem';
+import {
+  type MagicWeaponEnemyTarget,
+  type MagicWeaponPlatform,
+} from '../../systems/MagicWeaponTypes';
+import {
+  type MovementPlatform,
+} from '../../systems/HeroMovementSystem';
+import {
   type PlayerSlot,
+} from '../../systems/InputSystem';
+import {
   type ProjectileSystemModel,
-} from './TestSceneSystems';
+} from '../../systems/ProjectileTypes';
 import { updateAdvancedPetSkillChains } from './TestSceneAdvancedPetSkillBridge';
 type MagicWeaponPlatformView = { root: Phaser.GameObjects.Container; body: Phaser.GameObjects.Rectangle; glow: Phaser.GameObjects.Rectangle; label: Phaser.GameObjects.Text };
 export function updatePetSystem(this: any, delta: number): void {
@@ -62,7 +80,7 @@ export function updatePetSystem(this: any, delta: number): void {
     projectiles: this.projectileSystem,
     deltaMs: delta,
     hostFps: this.game.loop.targetFps,
-    syncView: (pet) => this.syncPetView(pet),
+    syncView: (pet, runtime) => { this.petRuntime = runtime; this.syncPetView(pet); },
     destroyView: () => this.destroyPetView(),
   });
 }
@@ -76,7 +94,7 @@ export type OwnedPetSystemInput = {
   projectiles: ProjectileSystemModel;
   deltaMs: number;
   hostFps?: number;
-  syncView(pet: NonNullable<ReturnType<typeof getActivePet>>): void;
+  syncView(pet: NonNullable<ReturnType<typeof getActivePet>>, runtime: PetRuntimeModel): void;
   destroyView(): void;
 };
 
@@ -89,18 +107,25 @@ export function updateOwnedPetSystem(input: OwnedPetSystemInput): PetRuntimeMode
     petRuntime: input.runtime,
     projectileSystem: input.projectiles,
     createPetSkillTargets: () => input.targets,
-    syncPetView: input.syncView,
+    // The body is rendered once after its source-ordered host step below.
+    syncPetView: (_pet: NonNullable<ReturnType<typeof getActivePet>>) => {},
+    syncReceptionView: input.syncView,
     destroyPetView: input.destroyView,
   };
   const before = new Set(input.projectiles.projectiles);
   updatePetSystemForOwner.call(adapter, input.deltaMs);
-  if (input.runtime !== adapter.petRuntime) retireLegacyPetExperience(input.runtime);
+  if (input.runtime !== adapter.petRuntime) releaseCompatibilityPet(input.runtime, 'replaced');
   const pet = input.roster.pets.find(candidate => candidate.id === adapter.petRuntime?.petId);
   if (adapter.petRuntime && pet) {
     const source = bindLegacyPetExperience(adapter.petRuntime, input.roster, input.ownerSlot);
     for (const projectile of input.projectiles.projectiles) {
       if (!before.has(projectile)) projectile.experienceSource = source;
     }
+    const body = readPetReceptionBody(adapter.petRuntime);
+    body?.synchronizeTransformation();
+    body?.update(input.deltaMs, input.hostFps ?? DefaultGlobalSettings.frameRate);
+    if (body?.snapshot().phase !== 'released') input.syncView(pet, adapter.petRuntime);
+    else input.destroyView();
   }
   return adapter.petRuntime;
 }
@@ -108,18 +133,26 @@ export function updateOwnedPetSystem(input: OwnedPetSystemInput): PetRuntimeMode
 function updatePetSystemForOwner(this: any, delta: number): void {
     const sharedPet = getActivePet(this.petRoster);
     if (sharedPet && ['dragon', 'turtle', 'monkey', 'horse'].includes(sharedPet.species) && sharedPet.form <= 4) {
+      releaseCompatibilityPet(this.petRuntime, 'replaced');
       this.petRuntime = undefined;
       this.destroyPetView();
       return;
     }
     const owner = this.getInventoryPlayer();
     if (!owner?.movement || isHeroCombatDead(owner.combat)) {
+      releaseCompatibilityPet(this.petRuntime);
+      clearRosterPetRabbitJifeng(this.petRoster);
       this.petRuntime = undefined;
       this.destroyPetView();
       return;
     }
 
-    this.petRuntime = syncPetRuntimeWithRoster(
+    const previousRuntime = this.petRuntime;
+    const previousBody = readPetReceptionBody(previousRuntime);
+    const dyingPet = previousBody?.snapshot().phase === 'dead-playing'
+      && this.petRoster.pets.includes(previousBody.pet) && previousBody.pet.isActive ? previousBody.pet : undefined;
+    if (previousBody?.snapshot().phase === 'released' && sharedPet && sharedPet.hp > 0) this.petRuntime = undefined;
+    if (!dyingPet) this.petRuntime = syncPetRuntimeWithRoster(
       this.petRoster,
       this.petRuntime,
       {
@@ -129,13 +162,20 @@ function updatePetSystemForOwner(this: any, delta: number): void {
       },
     );
 
-    const activePet = getActivePet(this.petRoster);
+    if (previousRuntime !== this.petRuntime) releaseCompatibilityPet(previousRuntime, 'replaced');
+    const activePet = dyingPet ?? getActivePet(this.petRoster);
     if (!this.petRuntime || !activePet) {
       this.destroyPetView();
       return;
     }
 
-    updatePetRuntime(
+    const body = prepareCompatibilityPetReception(activePet, this.petRuntime, this.petRoster,
+      this.ownerSlot, this.projectileSystem, this.destroyPetView,
+      () => this.syncReceptionView(activePet, this.petRuntime), owner.combat.incomingFeedback);
+    if (body.snapshot().phase === 'released') return;
+    body.synchronizeTransformation();
+    const receiving = body.snapshot().action === 'hurt' || body.snapshot().phase !== 'alive';
+    if (!receiving) updatePetRuntime(
       this.petRuntime,
       activePet,
       {
@@ -173,6 +213,7 @@ function updatePetSystemForOwner(this: any, delta: number): void {
       return;
     }
     updatePetSkillState(this.petRoster, delta);
+    if (receiving) return;
     if (updateAdvancedPetSkillChains(this, activePet, petAutoBuffOwnerStats, delta)) {
       owner.combat.hp = petAutoBuffOwnerStats.hp;
       return;

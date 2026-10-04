@@ -45,7 +45,7 @@ export function usePetConsumable(
   }
 
   if (fillName === 'djyys') {
-    const experience = addPetExperience(pet, PetTuning.petExperienceStoneExp);
+    const experience = addPetExperience(pet, PetTuning.petExperienceStoneExp, random);
     const message = experience.levelsGained > 0
       ? `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp} Lv.${experience.levelBefore}->${experience.levelAfter}`
       : `${pet.displayName} 经验 +${PetTuning.petExperienceStoneExp}`;

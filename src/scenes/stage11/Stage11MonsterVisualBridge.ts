@@ -1,4 +1,6 @@
 import { syncMonsterPetFireView, destroyMonsterPetFireView } from '../MonsterPetFireView';
+import { syncMonster3AttackViews, destroyMonster3AttackViews, type Monster3AttackViews } from './Monster3AttackView';
+import type { Monster3AttackRuntime } from '../../systems/Monster3AttackRuntime';
 import { consumeMonsterPetBodyDelta } from '../../systems/MonsterPetTargetEffectSystem';
 import { syncMonsterPetIceView, destroyMonsterPetIceView } from '../MonsterPetIceView';
 import Phaser from 'phaser';
@@ -46,13 +48,16 @@ export type Stage11MonsterView = {
   ice?: Phaser.GameObjects.Image;
   visual: Stage11MonsterVisualModel;
   attacks: AttackView[];
+  monster3Attacks: Monster3AttackViews;
   geometry: Stage11AttackGeometryRegistry;
 };
 
 type Stage11MonsterCombat = Pick<
   Monster3Model | Monster30Model,
   'x' | 'y' | 'state' | 'facingX' | 'attackSerial'
-> & Pick<Monster30Model, 'petTargetEffectState' | 'attackRuntime'>;
+> & Pick<Monster30Model, 'petTargetEffectState' | 'attackRuntime'> & {
+  monster3AttackRuntime?: Monster3AttackRuntime;
+};
 
 const atlasByType = {
   3: monsterFamily330Atlases.monster3,
@@ -116,6 +121,7 @@ export function createStage11MonsterView(
     sprite,
     visual: createStage11MonsterVisual(enemyType),
     attacks: [],
+    monster3Attacks: new Map(),
     geometry,
   };
 }
@@ -128,6 +134,19 @@ export function updateStage11MonsterView(
 ): boolean {
   syncMonsterPetFireView(scene, view, combat);
   syncMonsterPetIceView(scene, view, combat, view.visual.enemyType);
+  if (view.visual.enemyType === 3 && combat.monster3AttackRuntime) {
+    // The world owns body/emission/lifetime. Paint can run repeatedly or while
+    // paused without taking another step or constructing another attack.
+    const runtime = combat.monster3AttackRuntime;
+    Object.assign(view.visual, runtime.body);
+    view.sprite.setPosition(combat.x, combat.y).setFrame(getStage11MonsterAtlasFrame(view.visual))
+      .setFlipX(runtime.body.facingX === 1);
+    for (const attack of view.attacks) attack.image.destroy();
+    view.attacks.length = 0;
+    syncMonster3AttackViews(scene, view.monster3Attacks, runtime);
+    for (const attack of view.monster3Attacks.values()) attack.setVisible(view.sprite.visible);
+    return view.visual.completed;
+  }
   if (view.visual.enemyType === 30) {
     const runtime = combat.attackRuntime;
     if (runtime) Object.assign(view.visual, runtime.body);
@@ -184,6 +203,7 @@ export function setStage11MonsterViewVisible(
   view.sprite.setVisible(visible);
   view.ice?.setVisible(visible);
   for (const attack of view.attacks) attack.image.setVisible(visible);
+  for (const attack of view.monster3Attacks.values()) attack.setVisible(visible);
 }
 
 export function destroyStage11MonsterView(view: Stage11MonsterView): void {
@@ -192,6 +212,7 @@ export function destroyStage11MonsterView(view: Stage11MonsterView): void {
   view.sprite.destroy();
   for (const attack of view.attacks) attack.image.destroy();
   view.attacks.length = 0;
+  destroyMonster3AttackViews(view.monster3Attacks);
 }
 
 function createAttackView(

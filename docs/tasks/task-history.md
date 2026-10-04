@@ -13,6 +13,13 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-249 | Monster3独立攻击联合消费 | 两Scene实际英雄/宠物与完整有限生命周期 | M-030、M-034、M-042、VS-067 | [联合验收](../reverse-engineering/monster3-runtime-acceptance.md)，117组回归；下一256 |
+| TASK-SLICE-249B | Monster3独立攻击联合消费 | 两Scene实际英雄/宠物与完整有限生命周期 | M-030、M-034、M-042、VS-067 | [联合验收](../reverse-engineering/monster3-runtime-acceptance.md)，117组回归；下一256 |
+| TASK-SLICE-255 | 兼容受击身体owner | 19形态hurt/dead/保护/清理与原生投影 | M-034、M-042、VS-067 | 114双Scene组合、416显示态、16生产反证；[验收](../reverse-engineering/pet-reception-body-runtime-acceptance.md)，恢复249B |
+| TASK-SETTINGS-254 | 兼容受击两动作补证 | 19形态hurt/dead、保护/清理输入 | M-034、M-042、VS-067 | 双verified JSON、416视觉态、2910时钟与14源反证；[合同](../reverse-engineering/pet-reception-body-timing-contract.md)，255接owner |
+| TASK-SLICE-253 | 宠物接收输入owner | 正式属性成长/存取与疾风当前状态接收 | M-032、M-034、M-042、M-044、VS-067 | 用户选A：备份/来源/幂等迁移；32生产+3浏览器变异、16组回归；[验收](../reverse-engineering/pet-reception-input-runtime-acceptance.md)，恢复249B |
+| TASK-SETTINGS-252 | 宠物接收输入补证 | 冻结miss/mDef生产存取和兔疾风当前效果 | M-032、M-034、M-042、M-044、VS-067 | 424属性/35996效果态、13源变异、5绑定反证；253实施后恢复249B |
+| TASK-SLICE-249A | Monster3公共接收前置 | 有限接收接入现有英雄/宠物owner | M-030、M-034、M-042、VS-067 | 16960接收/64世界/70英雄/576Session/11变异；[验收](../reverse-engineering/monster3-receiver-runtime-acceptance.md)，249B Ready |
 | TASK-SETTINGS-251 | Monster3接收行为补证 | 目标接收/HP/随机/保护/ID间隔 | M-030、M-032、M-034、M-042、VS-067 | 16,960原生case/64序列/9源变异/重复；[合同](../reverse-engineering/monster3-reception-contract.md)，恢复249 |
 | TASK-SETTINGS-250 | Monster3自然选择补证 | 自然hit1/hit2与CD到247身体接缝 | M-030、M-034、M-042、VS-067 | 1764组27936态/9源变异/重复；[合同](../reverse-engineering/monster3-natural-attack-contract.md)，恢复249 |
 | TASK-SETTINGS-248 | Monster3两攻击空间逆向 | 原生显示与实际目标命中输入 | M-030、M-034、M-042、VS-067 | 30态190对象/140880命中、精确残差获准；[合同](../reverse-engineering/monster3-attack-collision-contract.md)，249 Ready |
@@ -360,6 +367,538 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-249
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：247/248已闭合Monster3两攻击的有界行为与空间输入；TestScene Boss及Stage1-3普通Monster3仍依赖activeAttack、矩形/横向范围和旧显示选择。两条正式owner必须共同消费独立攻击合同，不以单条专用Monster3System完成代替通用Stage13消费者。
+
+规模预算：
+- 主工作包：0（Split父合同；原两包由249A/249B承接）
+- 预计上下文压缩：0
+- 独立验收批次：0（Split父合同；完整验收保留于249A/249B）
+
+拆分触发：
+- 缺少影响实际HP、自然技能选择或投影的原版输入时，先列确切缺口并生成同线有界补证，不猜补。
+- 需要新公共碰撞算法、完整Monster3本体动画重审或其他怪物/人偶迁移时，保留本合同并拆分；不扩张本项。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent负责实现/唯一写入；Luna只读核查247 M3-01..08与两owner消费者覆盖。
+- 并行工作包：源合同到生产消费者/测试覆盖矩阵，与主agent实现并行。
+- 写入 owner：主agent。
+- 归并检查点：实现前和最终验收前。
+- 方法观测：仅命中实际校验触发时读取MO-004，不为采样增加验证。
+
+输入资料：
+- `docs/reverse-engineering/monster3-reception-contract.md`及`reference/monster3-reception-contract.json`，contractId=`task-settings-251.monster3-reception`；独立接收HP/随机/保护/ID预期及明确有限域，不代替本项生产旅程。
+- `docs/reverse-engineering/monster3-natural-attack-contract.md`及`reference/monster3-natural-attack-contract.json`，contractId=`task-settings-250.monster3-natural-attack`；两owner共同消费构造/难度、CD相位、自然动作与方向，保留有界移动/效果服务边界。
+- `docs/reverse-engineering/monster3-body-attack-contract.md`、`reference/monster3-body-attack-contract.json`及247真实phase/source-baseline。
+- `docs/reverse-engineering/monster3-attack-collision-contract.md`、`reference/monster3-attack-collision-contract.json`、`ground-truth/manifests/monster3-attack-collision.json`，truthId=`task-settings-248.monster3-attack-collision`。
+- `tools/monster3-collision/`与248本地原生oracle、字段、PNG、精确批准清单；用户只批准428case/451像素，布尔必须零差异。
+- `docs/architecture/src-boundaries.md`，既有Monster30独立攻击消费仅作现代接缝参考，不复用其攻击像素/批准清单。
+- 两owner：TestSceneBossArena/Monster3System；Stage13GameplayBridge/Stage1CombatSystem/Stage13MonsterVisualBridge及共享Stage11MonsterVisualBridge。
+- 226剩余公共责任按既有承接矩阵保留，不据此关闭其他类型或完整家族。
+
+输出产物：
+- 两owner共享的Monster3独立攻击生产实现、可重复生成到正式src/public的必要碰撞/显示输入。
+- `docs/reverse-engineering/monster3-runtime-acceptance.md`、本地`docs/tasks/evidence/TASK-SLICE-249/`独立覆盖/差异/正式旅程证据。
+
+完成定义：两攻击在两owner下按247/248源合同形成真实英雄/宠物承伤、原生时序与只读显示，源死亡与弹体生命周期解耦；源oracle、生产反证及正式旅程通过，无运行时ignored evidence依赖。
+
+验收标准：
+- 247 M3-01..08逐项映射：身体先效果，hit1第7步/hit2第6步发射；原同父偏移与方向；出生下一world步首次第1帧检测；末帧先检测后销毁；hit1间隔999/hit2间隔4；英雄后宠物及拒绝后重试。
+- 真实生产HP/保护/闪避/去重由已有权威owner结算，P1/P2和各自宠物均覆盖；不能以服务sink/手动HP写入或仅伤害事件计数验收。
+- HP死亡、默认hurt保留已发攻击；显式destroy/退出/重试清空对象与parent/source引用；冰火、同帧致死、暂停子树/恢复、只读重画/持帧/重入不重复发射。
+- 全140880原生空间case由正式生产查询复验，命中布尔零差异；精确批准元组外不允许新增碰撞残差，不把任意坐标等价写成已证事实。
+- 全30原生状态的两方向显示/注册点/嵌套alpha与135真实检测相位直接消费；正式940×590两owner可见、暂停/死后保留与清理逐状态核对，不用普通怪外观或无console报错代替两攻击可见证据。
+- 实际生产源/帧/方向/原点/profile、错误首帧/去重、源死清弹和destroy留弹等变异应被拒绝；独立expected不得由被测实现生成。
+- 两owner正式入口/双人/英雄宠物受伤/返回与重进、失败重试；Monster30及已闭合宠物家族相关回归保持。运行build、相关系统回归、check:structure、check:workflow、audit:problems；新运行数据必须随Git交付。
+
+禁止范围：不修改原提取/恢复源，不做系统重设计，不扩展其他怪物或人偶，不关闭204/all/194/VS-067、未迁移家族或整线。
+
+状态更新：Done（2026-10-04；249A/B联合核销父249完整有限合同，下一TASK-SETTINGS-256）。
+
+历史阻塞原因：247/250目标承伤仍为接受服务；251已补目标接收有限真值，现代消费仍由本项完成。
+
+解除结果：TASK-SETTINGS-251 verified reference已提供16,960直接case、64世界序列、9编译变异、重复及十项损坏反证；本项所需接收输入在冻结域内已明确，域外装备/完整AI等不外推。
+
+解除阻塞任务：`TASK-SETTINGS-251`（已归档至task-history）。
+
+前置补证已解除：250提供1764组27936态、1644次决策、744自然发射、九源变异与重复；自然选择/CD从本次reference消费，不沿用现代水平<=200、统一0.42或Stage13奇偶猜测。
+
+执行记录（2026-10-02）：
+- 主agent与Luna只读核查已归并；247直接指定动作，不含自然技能/CD决策原生trace。239仅目标选择，旧monsters/levels摘要不能填补此边界。
+- `node tools/monster3-input-preflight.mjs`：P1/P2共8生产观察，Boss水平含等号判定、攻击中CD停计，Stage13第二攻击伤害hit1/显示映射hit2；这是受控现代诊断，不是原生或正式Scene验收。
+- 证据与下一动作：`docs/reverse-engineering/monster3-runtime-preflight.md`；执行250后恢复本项全部两owner/HP/显示/生命周期合同。未修改src/public、247/248真值或原语料。
+- `npm run check:structure`通过，8项既有warning；工作流补齐阻塞字段并重生成推荐后通过（保留PlayerSlot别名warning），PG审计8活跃项已集中记录；MO-004到第三批按指标不足停止，PG-019复盘。249未完成，不归档历史。
+
+推荐后续任务：按226公共剩余责任生成同线下一有界类型/输入任务；不得越过剩余公共责任直接宣布全族完成或切线。
+
+250完成补充（2026-10-02）：自然技能输入已解除；原预检记录作为历史保留。两owner实际HP、独立碰撞/显示与全生命周期仍未实施，不把250的接受服务和固定位置当完整场景。下一步执行本项全部验收。
+
+执行记录（2026-10-03）：
+- 主agent与Luna只读核查确认实际接收输入缺口；纠正代理将英雄来源deephit套到怪物来源的摘要，Monster3使用BaseMonster.Hit分支。
+- `node tools/monster3-reception-preflight.mjs`通过6组P1/P2生产观察：闪避/魔防输入未消费、保护拒绝已登记ID；非原生HP或正式Scene验收。
+- 见`docs/reverse-engineering/monster3-reception-preflight.md`。命中缺少实际HP输入触发，251唯一Ready；未改src/public/原真值，不归档249或提升整线状态。
+- 结构检查退出0（8项既有warning）；workflow初次因Blocked原因/定义CRLF头拒绝，修正后退出0（PlayerSlot既有warning），当前执行251；audit扫描8活跃PG并集中记录。原生补证、build与游戏旅程未执行，249未完成。
+
+251完成补充（2026-10-03）：读取251合同与reference，保留原始returnvoid返回/受击ID差异；接收属性与随机须接入现有权威HP owner，不用sink或直接写HP验收。现代实现、碰撞/显示、双人旅程与生命周期全部仍待本项；不得因输入补齐缩减验收。
+
+执行前规模核对（2026-10-03）：251消费显示既有权威owner不含目标动作减伤和同步pet接受结果。四例独立reference/生产HP对照及Luna只读核查归并，见`docs/reverse-engineering/monster3-receiver-owner-preflight.md`。这是新增公共接收机制改造的独立交付边界，不按case数或compact拆分；249A负责251有限接收，249B保留本项全部247/248/250/251及正式两owner验收。本次仅重排交接，A/B均未实施，父249不归档。下一执行项为TASK-SLICE-249A。
+
+2026-10-03：249A已完成并归档，接收验收见 `docs/reverse-engineering/monster3-receiver-runtime-acceptance.md`；249B Ready，父合同继续Split，尚未核销。
+
+2026-10-03后续：249B共享机制部分通过但正式宠物属性/当前效果生产者缺失，B转Blocked、252唯一Ready；见 `docs/reverse-engineering/monster3-pet-input-preflight.md`。父全合同保留，不因共享核心通过核销。
+
+2026-10-03接续：252有限输入已verified，253唯一Ready实现属性/效果owner及存档后恢复249B全部合同；原父范围不变，尚未核销。
+
+最终完成记录：2026-10-04 / TASK-SLICE-249B及父249完成：Monster3两owner独立攻击/真实P1/P2英雄宠物HP、140880空间case、两Scene原生30态与死亡留弹/失败重试核销；255兼容19形态完成，新增自然UFO双Scene旅程、105660当前profile样本及7 owner/4显示/1旧路径反证。117组全回归、build与架构检查通过。下一TASK-SETTINGS-256唯一Ready补Monster2有界行为输入；其余类型、人偶、204/all/194/VS-067及整线保持未完成。 详见monster3-runtime-acceptance.md当前联合矩阵，历史增量按当时状态保留。
+
+
+### TASK-SLICE-249B
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：在249A公共接收能力完成后，同时迁移Boss与Stage13普通Monster3的独立攻击、自然选择、空间查询、只读显示与生命周期。父249原合同全部保留，A的owner验收不替代本项正式联合验收。
+
+规模预算：
+- 主工作包：2（两owner独立攻击/空间/自然选择消费；真实HP/显示/生命周期联合验收）
+- 预计上下文压缩：0
+- 独立验收批次：2（原oracle与生产变异；两owner正式旅程及工程回归）
+
+拆分触发：
+- 缺影响实际HP/自然选择/投影的原版输入时，列精确缺口再补证；不猜补。
+- 需要新公共碰撞算法、完整Monster3本体重审、其他怪物/人偶迁移或A声明外公共owner改造时，保留原合同并拆分。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent唯一实现；Luna只读核对父249合同到两owner及测试覆盖。
+- 并行工作包：247 M3-01..08和248/250/251/A消费矩阵，与实现并行。
+- 写入 owner：主agent。
+- 归并检查点：实现前及最终验收前。
+- 方法观测：无。
+
+输入资料：
+- 父`TASK-SLICE-249.md`的完整输入、输出与验收标准，全部沿用；A归档后的`monster3-receiver-runtime-acceptance.md`及正式接收端口。
+- 247/248/250/251四份合同、reference和248 verified manifest；本地原oracle/PNG/135相位与精确批准清单。
+- `docs/architecture/src-boundaries.md`；TestSceneBossArena/Monster3System和Stage13GameplayBridge/Stage1CombatSystem/Stage13MonsterVisualBridge/Stage11MonsterVisualBridge。
+
+输出产物：两owner正式实现、可重复生成且随Git交付的运行输入、`docs/reverse-engineering/monster3-runtime-acceptance.md`与本地`docs/tasks/evidence/TASK-SLICE-249B/`。
+
+完成定义：父249全部验收在两owner下通过，实际英雄/宠物HP由A接收端口进入原owner结算，源死亡留弹而destroy/退出清弹；A/B通过才共同核销父249。
+
+验收标准：
+- 完整执行父249八项验收，逐项提供证据，不以“沿用A”跳过真实Scene消费者。
+- 247 M3-01..08：身体先效果、7/6步出生、下一world步第1帧检测、末帧先检测后销毁、999/4间隔、英雄后其宠物及拒绝后重试。
+- 250独立expected核对自然选择/CD/概率/有序随机和方向；动作不得继续奇偶猜测。251及A接收规则进入真实P1/P2和各自宠物HP。
+- 全140880空间case由生产查询复验，布尔零差异，碰撞残差仅限248批准428case/451像素精确元组；30原生双方向显示态/注册点/alpha与135实际检测相位直接消费。
+- HP死亡/default hurt保留已发攻击；冰火/同帧致死、暂停子树/恢复、重画/持帧/重入无重复发射，destroy/退出/失败重试清对象及引用。
+- 940×590两正式入口双人、英雄宠物受伤、两攻击可见、暂停/死后保留、返回重进及失败重试逐状态核对；源/帧/方向/原点/profile/首帧/去重/死亡与destroy等生产变异被拒。
+- Monster30及已闭合家族回归、build、相关系统、check:structure、check:workflow、audit:problems通过；游戏不依赖ignored evidence。
+
+禁止范围：沿用父249全部禁止范围；不得将A完成当作B/父249完成，不关闭其他类型/人偶、204/all/194/VS-067或整线。
+
+状态更新：Done（2026-10-04；249A/B联合核销父249完整有限合同，下一TASK-SETTINGS-256）。
+
+推荐后续任务：A/B共同核销父249后，按226公共剩余责任生成同线下一有界类型/输入任务，不直接跳到完整家族或切线。
+
+原阻塞已解除：253接入正式字段、成长、当前效果与接收端口；用户选A，旧档原raw备份/缺项现代0/历史未知来源/幂等迁移已验证。初始缺口证据保留在 `docs/reverse-engineering/monster3-pet-input-preflight.md`；当前交接见 `docs/reverse-engineering/pet-reception-input-runtime-acceptance.md`。兼容target须按当前owner/runtime身份撤销，Session使用currentMonsterReceptionTarget；不从旧低层fixture输入构造生产假值。
+
+解除阻塞任务：`TASK-SLICE-253`已完成并归档；252原版真值保持不变。
+
+执行记录（2026-10-03）：共享核心16960接收基础之外，27936决策/21312连续态、540世界态/135检测、140880碰撞与42906767像素/精确451残差、12生产变异通过。未接入两Scene，未进行正式HP/显示/旅程验收，不关闭本项。初次碰撞浮点边缘错判经world twip边界修复，全域回归；ready fixture不执行世界、销毁frame=0由原观察纠正。原资源导出--check通过；正式显示helper仅准备，不提升完成度。
+
+执行增量（2026-10-03，世界步接缝）：新增Monster3WorldStep，复用已有MonsterPetTargetEffectSystem唯一累积时钟，在每个补帧世界步执行旧弹接收→身体→效果→选择/CD→只读同步；不另建HP或效果owner。原135检测相位/540态已改为经过该接缝验证；20/24/30fps冰冻到期当步AI、补帧、同帧火伤致死及零delta检查通过。Stage13移除serial奇偶动作猜测，暂读真实activeAttack.actionName。27936决策/21312连续态、Monster30的216显示相位/66生命周期/210宠物HP回归与build通过。两Scene尚未消费新世界接缝，真实HP/投影/旅程仍待完成，不关闭任务。
+
+当前输入核对：251来源锁定BaseMonster构造基础Hit/Critical/ReduceMagicDef均0；MonsterDamageSource.hit即基础值，boss也传0，由monsterSourceHit加6，不能重复加。Turtle counterChance可用现有PetSystem公式。gxpRuntimeKeys当前无生产者，Monster3没有Monster30现存的magicFlowerDebuff字段；应明确现有效果未实现边界，不能从奖励gxp=4或Monster30字段猜Monster3当前效果。原源定位为scripts/export/monster/Monster3.as与scripts/base/BaseMonster.as。下一步将当前真实owner接入共享世界步及接收端口，再完成联合验收。
+
+执行增量（2026-10-03，正式显示/接收端口）：Stage11MonsterVisualBridge增加Monster3独立runtime只读投影、重复绘制复用、显隐和销毁；Stage13传递同一runtime，模型字段已准备但正式世界更新尚未接入，旧生成路径须在切换后删除。HeroPartyMonster3Reception读取当前英雄有效属性/位置和各自PetCombatRuntime.currentMonsterReceptionTarget，复用现有qlfj概率函数，换宠/销毁旧pair提前拒绝。HeroPartyRuntimeBridge只增加独立bridge委托，既有15系统import警告不增加系统职责。GXP无当前生产者边界显式保留。
+
+本次验证：显示port双动作/方向重复绘制不变、复用/幂等销毁；双人实际hero HP随当前防御变化、hero/pet独立ID及旧roster/销毁拒绝通过；后者为控制位置adapter测试，不冒充自然Scene旅程。首次缺groundEnvironment与根坐标未命中失败后修正fixture，未修改碰撞真值。6组回归包含135相位/540态、576真实Pet Session、Monster30 216相位/66生命周期；build通过。剩余：两Scene实际调用stepMonster3World、生产source/effect/target与兼容宠物接入、旧伤害路径撤销、源死亡/退出联合生命周期、正式940×590全部旅程及父249完整反证。
+
+执行增量（2026-10-03，Stage13生产切换）：Monster3CombatWorld适配现有Stage1CombatEnemy HP/坐标/目标/动作，Stage13类型3调用共享世界步及heroes.monster3Targets，跳过旧stepMonsterPetTargetEffects/updateStage1Enemy/resolveEnemyAttack分支，旧activeAttack不生成。暂停、死亡留弹、身体完成后等待弹体结束及destroy释放引用已接入；hurt/dead的只读身体同步与运动动作读真实Monster3状态。30原生方向/帧PNG已加入family-3-30资源包，均为现存Git文件；资源归属测试旧424总数失败后更新到424+30并逐key/path/唯一owner核对，未删既有文件或放宽匹配。
+
+本次证据：新增实际Stage1模型→自然选择→独立攻击→正式party接收→P1/P2 HP链，20/24/30fps均自然出现两攻击并按7/6步出生；源死亡下一步仍检测旧攻击，destroy清source/parent。此为生产模型集成测试，尚非正式浏览器旅程。135相位、Monster30 216相位/66生命周期、资源包与Stage13视觉/flow/traversal回归通过，build及两个目标文件LSP通过。Stage13现有GXP/Monster3魔花无生产者，显式false只描述当前无该效果，不声称已实现这些效果。剩余TestScene Boss/兼容宠物接线、两Scene正式浏览器/HP/显示/生命周期全验收和父249完整变异矩阵，不关闭任务。
+
+执行增量（2026-10-03，TestScene Boss生产切换）：新增Monster3BossCombatAdapter纯访问器，HP/坐标/目标/击杀归属/效果/独立攻击仍写现有Boss。BossArena使用同一Monster3CombatWorld，旧applyBossAttack矩形伤害函数及TestScene两处绑定删除；大TestScene仅删绑定不新增逻辑。暂停显示、退出和重试清弹接入；Boss加入现有正式宠物combatEnemies，冰冻运动读取当前效果，火伤由共享效果owner写真实Boss HP。两模型×三帧率自然hit1/hit2、7/6步出生、实际P1/P2 HP、源死下一步检测和destroy清引用通过；初始火伤致死阻止AI随机并同步死亡身体通过。9组回归及build通过。
+
+剩余精确缺口：TestScene兼容宠物PetRuntimeModel只有idle/follow/warp，非Session家族没有通用action/保护倒计时/受击动作消费者；receiveCurrentOwnedPetMonsterDamage仍未成为正式caller。不能从移动状态推断hit2/hurt/dead，不能只写HP而忽略返回reaction/protectionTicks。当前只接真实Session16，未声明35形态完整Scene接收；继续核定有界兼容owner实施范围，再做两Scene浏览器及父249全部验收。
+
+执行增量（2026-10-03，首个正式浏览器样本）：Stage13/30fps/普通/双人猴一阶真实存档旅程通过；2900步自然两攻击、9步直接HP对账覆盖P1/P2英雄及各自PetState，暂停、直接restart清理、返回地图/重进通过。开发入口无宠物、未暴露宠物与CDP超时均保留为失败，不计通过。完整当前审计见 `docs/reverse-engineering/monster3-runtime-acceptance.md`；Boss、死后命中、真实失败重试、30态像素和兼容owner未齐，保持Ready及父合同。
+
+执行增量（2026-10-04）：Stage13普通20/24fps正式双人样本通过（660/740步，15/4次实际HP对账），自然双攻击、暂停、直接重启/地图重进均通过；详情见运行验收文档。预览停止失败经监听核实后恢复，runner新增HTTP前置检查并准确记录帧率scope。兼容受击保护与动画结束已定位到原BaseObject/BasePet及逐形态回调，仍待接线，不猜统一时长；完整父合同保持未完成。
+
+执行增量（2026-10-04，Boss路线在制）：探针接真实Boss访问器只读观察，正式键盘路线排除旧场景对象、保持跳台目标并修边缘等待；失败样本已保存，尚未抵达Boss，不能计验收通过。最新双击奔跑驱动待实跑。兼容19形态hurt/dead缺verified结束时序，详见运行验收文档；父合同与Ready保持。
+
+执行增量（2026-10-04，Boss首个正式样本）：30fps双人真实存档、键盘完整登台及近距离往返，1160步17次直接HP对账覆盖双方英雄和各自猴一阶，自然双攻击、暂停、直接重启清理、地图返回重进通过。截图已检查，errors为空；30fps无战斗路线测试通过，20fps路线诊断仍失败。完整剩余合同见运行验收文档，不关闭父249。
+
+执行增量（2026-10-04，Boss三帧率）：20/24/30fps正式双人普通样本通过，460/680/980步及12/10/15次HP对账，双方英雄宠物与自然双攻击、暂停/退出重进齐备。逐成员登台修正的失败已保留；runner失败状态不再沿用旧passed。实际失败2500ms与原生按钮路径已定位，尚待执行；兼容/视觉/死后与最终反证合同不变。
+
+执行增量（2026-10-04，真实失败重试）：两Scene 30fps在原完整承伤前置后一次低HP夹具，由实际伤害致死；2500ms逐世界delta对账、原生按钮鼠标点击、正常世界步处理重试队列、新party及旧party/runtime/source/parent清理、地图返回重进通过。两失败截图检查，原失败记录保留；此前直接restart不再作为此项唯一证据。详见运行验收文档，其他父合同仍待。
+
+执行增量（2026-10-04，死后留弹）：两Scene 30fps自然hit1在身体tick6受控首次火伤致死，实际Scene出生当步HP0仍有age0/frame1，之后完整五相位与末帧释放对账；Boss P2 999970→999930、Stage13 P1 999808→999770为实际死后伤害。普通双方英雄宠物矩阵仍单独保留，未声称一弹全四目标；暂停/清理/返回重进通过。默认hurt/兼容/显示及最终反证仍待。
+
+执行增量（2026-10-04，全显示态）：两正式Scene各30态生产投影，120张黑白底实际WebGL采样与248 AIR逐像素比对通过，最大可见通道差0.498039/255、恢复alpha差0，bounds/注册点完全一致。透明快照编码失败保留，改双底采样消除预乘导出歧义，未放宽阈值；export_runtime --check通过。隔离绘制与自然旅程证据明确分开；兼容/默认hurt及最终反证回归仍待。
+
+
+执行增量（2026-10-04，默认受伤留弹）：真实Boss/Stage1受击入口、两模型×三帧率确认扣血/hurt后同一已发攻击继续检测与保留来源引用；新增hurt-clears生产反证被拒绝，共13核心变异及恢复后五组正向测试通过。完整证据见运行验收文档，仍不替代浏览器受伤/兼容19形态/完整反证。保持Ready。
+
+
+阻塞原因：兼容19形态缺hurt/dead原版帧时序，且非Session没有消费受击reaction/protectionTicks的正式动作owner。先254补证，再同线owner实现；当前全部已完成证据保留，原父合同不缩减。
+
+阻塞更新（2026-10-04）：254原版有限输入已完成并verified；现在仅等待TASK-SLICE-255实现兼容19形态受击身体/保护/清理owner，然后恢复本任务完整验收。既有A方案和父249全合同不变。
+
+阻塞解除（2026-10-04）：255已完成并归档；两Scene三档19形态实际受伤/重复hurt/死亡、暂停与退出旧引用拒绝，以及416态投影/16生产反证通过。受控目标放置不替代本项自然旅程；反击入口元数据不声称完整家族攻击。恢复本项全部原合同及最终回归，用户A迁移不重做。
+
+最终完成记录：2026-10-04 / TASK-SLICE-249B及父249完成：Monster3两owner独立攻击/真实P1/P2英雄宠物HP、140880空间case、两Scene原生30态与死亡留弹/失败重试核销；255兼容19形态完成，新增自然UFO双Scene旅程、105660当前profile样本及7 owner/4显示/1旧路径反证。117组全回归、build与架构检查通过。下一TASK-SETTINGS-256唯一Ready补Monster2有界行为输入；其余类型、人偶、204/all/194/VS-067及整线保持未完成。 详见monster3-runtime-acceptance.md当前联合矩阵，历史增量按当时状态保留。
+
+
+### TASK-SLICE-255
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-034`、`M-042`、`VS-067`
+
+要解决的问题：249B兼容19形态尚无受伤/死亡动作、保护与销毁的正式owner。254已冻结有限原版输入；本任务将其接入已有HP/属性owner，保留249B全部两Scene验收，不扩展完整家族AI或技能。
+
+规模预算：
+- 主工作包：2（共享受击动作/保护/清理owner；恢复源身体资源投影及现有双owner接线）
+- 预计上下文压缩：0
+- 独立验收批次：2（行为与生产反证；显示/双owner与退出重进）
+
+拆分触发：
+- 遇到254范围外且当前接收链必需的新原版事实，先明确缺口并补证；不得猜补完整技能或AI。
+- 当前owner接线需要新增独立公共机制时，记录独立交付边界并重新核定预算；不得以测试数量或compact拆分。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent负责生产修改，Luna只读核对输入消费/负向测试覆盖。
+- 并行工作包：在主agent实现期间独立核对254 JSON到现代消费者的字段映射与遗漏，输出精确路径/风险。
+- 写入 owner：主agent。
+- 归并检查点：验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/pet-reception-body-timing-contract.md`。
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-254-pet-reception-behavior.json`，含19形态源owner、条件入口、逐步时钟、暂停、保护、接收与销毁。
+- `docs/reverse-engineering/ground-truth/manifests/task-settings-254-pet-reception-body-timing.json`，含416原生池输出状态、注册点/方向/边界和原PNG hash。
+- 251接收合同、253现有正式属性/HP owner与用户A迁移合同；`TASK-SLICE-249B.md`及`monster3-runtime-acceptance.md`中的实际接缝。
+- `docs/architecture/src-boundaries.md`及目标源码；局部恢复源资源只用于正式运行资产导出与复验。
+
+输出产物：正式共享受击owner、直接消费/编译254真值的身体投影资源与适配器、独立测试/生产变异、`docs/reverse-engineering/pet-reception-body-runtime-acceptance.md`。
+
+完成定义：兼容19形态在当前双方宠物实际HP owner上执行原hurt/dead/保护/清理与身体显示，所需资源随Git交付；现有完整家族owner不被替换；249B能够恢复其完整两Scene验收。
+
+验收标准：
+- 禁止复制另一套HP/属性owner。hurt/dead只由实际接收结果触发；保护与原接收拒绝/ID登记顺序保持251合同。
+- 原条件入口、帧数/持帧、重复hurt保留key、凤凰hit2非致死保留、fatal进入dead、pause/dead恢复、setStatic/wait与destroy分支消费254机器输入；20/24/30按host tick验证，不把15tick改成统一8tick。
+- 正式双owner隔离：死亡、退出、重进、替换宠物清理自身身体/附属/source引用，另一owner不变。区分原保留bbdc字段/保护表null值与现代可回收实现，不新增悬挂活动更新。
+- 按selectedOwner导出身体运行资源并接入现有资产加载边界；注册点、方向、逐态非透明bounds/像素对账覆盖254状态集。截图/完整trace可本地，运行不得依赖ignored证据。
+- 使用原机器trace作为expected；帧数/持帧/条件入口/保护边界/重复重置/清理owner/方向或资源来源等生产变异必须被实际结果拒绝，编译失败不算通过。
+- 可自动结束的相关系统测试、结构/边界检查、build、check:workflow与audit:problems通过；浏览器需要时使用4174 preview。
+
+禁止范围：不逆向或实现19形态全部技能/普攻/AI；不重做253迁移；不关闭249B/249/204/194/VS-067或整线；不修改原始语料。
+
+状态更新：Done（2026-10-04；有限owner、原生显示、两Scene双owner/暂停/退出和工程检查通过）。
+
+推荐后续任务：恢复TASK-SLICE-249B为唯一Ready，继续其原完整两Scene/当前双方实际HP/显示/生命周期与生产反证验收，不缩减父249合同。
+
+执行增量（2026-10-04）：条件身体时钟已组合既有PetAnimationClock，45675原生状态与7隔离生产变异通过；导出416正式PNG及显示索引，源hash/像素/再生成检查和资产bundle测试通过。TypeScript与四项旧时钟回归通过。尚未接入实际HP/保护/清理/Scene，255不完成，249B不解除；详见pet-reception-body-runtime-acceptance.md。
+
+执行增量（同日）：实际HP/保护/释放owner与双方Scene兼容适配已接入；1644接收态、24守卫、57死亡deadline组合及共享更新入口通过，另7个owner生产变异拒绝。两Scene各416原生显示态双底像素比较通过，最大差0.498039/255。实际世界推进矩阵和最终收口仍在制，不解除249B。
+
+完成记录：2026-10-04 / TASK-SLICE-255完成：19形态兼容受击owner复用实际HP，原时钟/保护/死亡与精确source清理接入双owner；两Scene三档受伤/重复hurt/死亡/暂停/退出重进通过。416态双底显示最大差0.498039/255，7时钟+7 owner+2显示生产反证通过。255归档，249B恢复唯一Ready继续原全部两Scene合同；父249/204/194/VS-067与整线不关闭。见 `docs/reverse-engineering/pet-reception-body-runtime-acceptance.md`。
+
+### TASK-SETTINGS-254
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`视觉真值逆向`
+
+逆向方案：`docs/reverse-engineering/plans/pet-reception-body-timing.md`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-034`、`M-042`、`VS-067`
+
+要解决的问题：249B兼容19形态缺hurt/dead动作帧时序和结束回调；现有PetRuntimeModel移动状态不能充当接收后的动作/保护/销毁owner。保留249B与父249全部合同，先冻结共享受击生命周期所需的有限输入。
+
+规模预算：
+- 主工作包：2（19形态两动作及共享时钟证据；恢复源逐态验证与机器真值）
+- 预计上下文压缩：0
+- 独立验收批次：2（原始提取/Schema/源时钟；状态完整性/反证/独立核对）
+
+拆分触发：
+- 需要普攻、技能或完整家族AI逆向时，不扩本项，另生成同线任务。
+- 源符号加载优先级或逐态几何不能由当前源包闭合时，列精确缺口再拆分；不得用统一时长或现代截图补证。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 并行工作包：Luna只读核对两动作源字段/继承与结果完整性，主agent同时提取与验证。
+- 写入 owner：主agent。
+- 归并检查点：范围冻结后和最终验收前。
+- 方法观测：无。
+
+待证明的可观察问题：hurt/dead对应哪一行、各帧保持多少host tick、重复受击如何重置、保护与动画时钟如何分别推进、hurt结束是否wait/setStatic、dead何时释放原owner及附属引用。保护5秒不等于死亡动画长度。
+
+有限范围：ufo1..3、tigress1..4、phoenix1..4、rabbit1..4、mouse1..4，共19形态；仅hurt/dead及其共享进入/结束合同，不包含技能、普攻或完整家族迁移。鼠系实际名称/继承必须由源目录核定，不按现代名称猜测。
+
+输入资料：
+- 249B定义和monster3-runtime-acceptance.md的兼容缺口；251接收合同与253现有属性owner只作接口边界。
+- restored-swfs/assets/{pet1,20120203,20120808,mouse,StageCommon}.swf；原主AS3的BasePet/BaseObject/BaseBitmapDataClip、目标PetKabu/PetTiger/PetPhoenix/PetRabbit/PetMouse类及实际必要继承；Aloader/AssetsLoader优先级。
+- pet-animation-corpus.md及其生成器只作定位；193A/193C生成器可复用提取方法，不充当目标家族真值。
+- docs/workflow/reverse-engineering-protocol.md、docs/workflow/reverse-engineering-task-protocol.md、ground-truth/README.md、evb-extraction-report.md、asset-annotation/workflow.md。
+
+输出产物：pet-reception-body-timing-contract.md、Schema校验的ground-truth/manifests/task-settings-254-pet-reception-body-timing.json、可重复生成/验证工具；原始PNG/显示列表/trace仅存local-resources/regima/task-outputs/TASK-SETTINGS-254/与docs/tasks/evidence/TASK-SETTINGS-254/。
+
+完成定义：全部19形态两动作及共享生命周期有可溯源机器真值和独立运行证据，影响接收owner的unresolved为空；仅完成本有限输入，不代表家族视觉/技能全闭合。
+
+验收标准：
+- 冻结精确源类、symbol、owner包/hash与两动作状态集；覆盖继承、frameCount、frameStopCount、动作行、offset、注册点、结束回调。
+- 恢复源基准与逐帧显示列表/非透明bounds完整，源时钟在20/24/30fps下推进到hurt恢复和dead销毁；重复hurt、暂停、保护倒计时独立核对。
+- Schema、状态全集、hash/locator和再生成一致；帧数/持帧/动作行/结束回调/owner优先级变异必须被行为或像素验证拒绝，编译失败不算通过。
+- 六段证据链、未知与反证条件、现代消费映射落盘；不得从现代实现生成expected。
+- check:workflow、check:structure、audit:problems通过。
+
+禁止范围：不修改src/public、原始提取或restored源包；不实现全家族技能，不关闭249B/249/204/194/VS-067或功能线。未验证JSON不得标verified。
+
+状态更新：Done（2026-10-04；19形态两动作及有限共享生命周期输入verified）。
+
+推荐后续任务：以本项结果生成同线兼容受击动作/保护/生命周期owner接入任务，完成后恢复249B原完整两Scene验收；不得直接把本项输入完成视为249B完成。
+
+
+执行增量（2026-10-04）：19形态38动作源字段及恢复SWF符号候选已由tools/pet-reception-body-source.mjs提取，鼠2/3继承与所有结束回调经只读核对。Phoenix数组帧数/&&进入守卫/hit2拒绝hurt使统一8tick推导不成立，保留原条件待原生trace；详见pet-reception-body-timing-contract.md。产物draft，尚无verified manifest，254未完成。
+
+
+执行增量（2026-10-04，原方法时钟）：2910输入/40362态捕获，138独立边界断言与3编译源变异通过；凤凰x0保持旧行15tick、x1切hurt8tick、hit2拒绝经原方法运行确认。手动tick/控制atlas输入与sink边界已明确，不能替代实际保护/暂停/完整视觉；254保持Ready。
+
+
+执行增量（2026-10-04，生命周期补证）：原BaseObject.step/setYourFather与BasePet.reduceHp进入有界探针，228暂停、114重复hurt/致死接收、3保护时钟独立断言通过，6真实编译源变异拒绝。重复hurt保留关键帧计数，Phoenix规范夹具tick13结束；protected在count0仍保持、下一步解除。真实销毁/视觉仍未闭合，详见输入合同，不晋升verified。
+
+
+执行增量（2026-10-04，原生视觉采样）：同域顺序加载确认Kabu三同名Class仍为20120203定义；416双方向控制态完成原池/原取帧方法采样，独立池像素→舞台比较可见RGB/alpha/bounds零差。发现兔/鼠需原MovieClip栅格化，已保留实际路径；递归源显示树/视觉反证/Schema与最终复核仍待，draft不晋升。
+
+
+执行增量（2026-10-04，源显示树/反证）：416态786源记录已采集，96个MovieClip态新实例直绘与顺序池像素精确一致；父子/帧/mask引用校验通过。3个原点/方向/行真实编译视觉变异拒绝，正向复验通过。characterId时间轴绑定、Schema与其余生命周期/反证待补，仍draft。
+
+
+执行增量（2026-10-04，真实清理/受击入口）：8原BasePet/BBDC/Bullet/Hero/保护表清理场景与4编译源反证通过；24凤凰hit2→真实reduceHp入口确认非致死保留动作、致死进入dead。记录bbdc字段保留及保护表值null但键未删除，不伪称所有引用清空；Tween只核原请求/回调，未重验插值。剩余规范化/绑定与未覆盖反证仍待。
+
+
+执行增量（2026-10-04，来源/规范化）：786原生节点绑定恢复SWF characterId通过；Kabu三形态加载顺序反转造成可复查像素差，独立owner校验通过；时钟7变异重跑。416态视觉draft通过Schema与项目分派器；独立审查要求另落正式时序/生命周期JSON，不能只用本地trace引用。保持Ready与draft。
+
+完成记录：两正式JSON均verified，416视觉态/786源绑定、2910时钟/228暂停/114接收/24守卫/3保护/8清理、14编译源反证与3owner反序通过；8合同数据损坏拒绝、hash/Schema/字节再生成通过。后续TASK-SLICE-255，不关闭249B或父249。详见最终交接。
+
+### TASK-SLICE-253
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`M-044`、`VS-067`
+
+要解决的问题：252已证明原PetInfo两持久接收属性及疾风当前效果来源；现代缺字段/恢复丢字段，二阶疾风共用10秒且没有原接收映射，使249B无法提供真实输入。
+
+规模预算：
+- 主工作包：2（持久属性生产/存取；既有疾风效果owner到接收端口）
+- 预计上下文压缩：0
+- 独立验收批次：2（原独立预期到生产owner；P1/P2存取/效果生命周期与反证）
+
+拆分触发：
+- 出现252/251未覆盖的新原版输入时先登记有界缺口，不猜原值；不扩为全成长、全部宠物AI或完整兔家族。
+- 249B两正式Scene攻击/碰撞/显示/旅程仍由B负责，本项只交付其必需的公共输入owner，不缩减父249合同。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent实现与验收；Luna只读审计生产者/存档/消费者遗漏和迁移反例。
+- 并行工作包：固定252合同的字段生产到P1/P2恢复矩阵，可与主agent编码独立进行。
+- 写入 owner：主agent。
+- 归并检查点：实现前及最终验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/pet-reception-input-contract.md`与`reference/pet-reception-input-contract.json`；424属性case、162疾风时间线/1134边界见证及本地完整原生报告。
+- 251原接收合同、249A接收端口及`monster3-pet-input-preflight.md`；不改原expected生成结论。
+- `docs/architecture/src-boundaries.md`、`PetTypes`、`PetRosterSystem`、`PetProgressionSystem`、`PetGrowthSystem`、`SaveSystem`、`PetRabbitSkillSystem`、`PetCombatEntitySession`及其真实消费者。
+
+输出产物：
+- 正式持久字段、来源标记、逐级增长与读写；复用现有效果owner的疾风状态/接收映射；真实双owner生产验证与变异。
+- `docs/reverse-engineering/pet-reception-input-runtime-acceptance.md`与本地`docs/tasks/evidence/TASK-SLICE-253/`。
+
+完成定义：新宠与有明确字段的宠物可从真实owner产生原接收输入，旧档按用户选择的明确现代政策处理且不伪造原版历史值；双owner存取与疾风时钟/清理通过，249B输入阻塞解除。
+
+验收标准：
+- 新种子/捕获明确为0，保存/恢复显式0、非零、上限附近；P1/P2独立，禁止任意缺失值静默伪装为已知原值。
+- 每个真实升级事件在新等级≥60时累计miss/mDef，保留原随机次序及恒零mDef随机项的消费；原第三次crit抽样不可丢失或误作buff字段。普通refresh、进化、读档不重复增长，返童保留值，59/60/61/90和连续升级对252独立预期。
+- 原读档上限与成长无封顶分离；非数字/非有限输入按显式现代校验政策处理，不能传播NaN、清空整个旧档或丢其他宠物数据。
+- 旧档政策沿252合同两候选，用户回答前可推进新宠/显式值及效果owner，不能实施依赖该选择的旧档回填。选兼容基线时必须保留历史未知来源和原档备份、迁移幂等；选严格未知时不得无值进入需要确切属性的战斗。记录用户选择及来源，不用默认选项冒充回答。
+- 复用rabbit2Jf当前状态，二阶5秒、三四阶10秒；按原step/首帧/刷新/失效边界验证20/24/30fps。技能拥有、CD和active独立；接收读active，不能因CD未到期继续闪避。
+- 同一owner推进时钟、暂停不推进、只读刷新不推进；休战/替换/返童/进化重建/destroy/重入清理瞬态，不串P1/P2；保留现有稳定技能效果消费者，不新建第二战斗/效果owner。
+- 真实生产接收端口消费字段及当前效果，拒绝漏增长/重复增长/漏随机/恢复错位/缺失伪造/错误形态时长/CD替代/失效偏一帧等变异；测试fixture值不能代替正式初始化和存取路径。
+- build、相关宠物成长/保存/技能/接收及Monster3核心回归、check:structure、check:workflow、audit:problems通过。运行必需数据不能依赖ignored evidence。
+
+禁止范围：不改原语料及247/248/250/251/252真值；不重写完整成长或兔AI/视觉；不关闭249B/父249、204/all/194/VS-067或整线；不清空用户存档；未经所选政策不得回填旧档未知值。
+
+状态更新：Done（2026-10-03；用户明确选择A，原raw备份/字段级来源/幂等迁移及全部本项验证通过，恢复249B完整合同）。
+
+裁决来源：2026-10-03用户直接回复“A”，选择仅缺项为现代0、保留历史未知来源、备份原档和幂等迁移。历史随机总值仍不可还原；此裁决只授权明确的现代兼容政策，不改变252原版事实。原等待阻塞已解除，完成迁移后再解除249B前置阻塞。
+
+推荐后续任务：恢复`TASK-SLICE-249B`，执行其父249全部两Scene联合合同。
+
+执行记录（2026-10-03，在制）：新宠/捕获创建与显式存取接入；真实P1/P2、124捕获/12保存原预期、缺失/非法保留及返童/进化保留通过，6个生产持久化变异被拒；8组相关回归、LSP/build通过。成长、疾风owner/接收与旧档政策仍未完成，见`docs/reverse-engineering/pet-reception-input-runtime-acceptance.md`；不解除249B阻塞。
+
+成长增量（2026-10-03）：每个实际升级事件累计两字段并消费原三个随机，普通refresh不增长，经验石复用random；268原预期及真实升级/道具/未知状态通过，属性合计14生产变异拒绝，system-tests等8组回归通过。仍待疾风owner/接收与旧档政策，不解除249B阻塞。
+
+疾风/接收增量（2026-10-03）：162原时间线/1134边界见证、双owner roster/growth/reset清理和当前接收端口测试通过，8生产变异拒绝；owner死亡/Scene退出接线已补，完整退出/重入联合验证与旧档政策仍待完成。具体边界、初次测试失败与后续入口见验收文档；保持Ready，不解除249B阻塞。
+
+生命周期收束（2026-10-03）：真实TestScene二至四阶×20/24/30fps九组双owner，暂停、P1/P2死亡恢复、退出重入及帧间换roster已通过；Scene/Party实际各自对象清理，3浏览器生产变异被行为断言拒绝并恢复正常编译后通过。当前值端口增加旧target撤销前置检查，9输入/时钟变异通过。旧档政策成为唯一当前外部阻塞，改Blocked，父249/249B范围和状态不缩减。
+
+完成记录（2026-10-03）：A政策在真实load/select/save/default key/slot路径落地，原raw先备份，缺失项补现代0，legacy-missing-baseline和字段列表贯穿成长/保存/返童/进化；失败不切档、不清档、重试及槽复用不覆盖备份。14属性成长、9输入时钟、9迁移生产变异及3浏览器变异通过；16组相关回归和恢复后独立build通过。详情/失败边界见pet-reception-input-runtime-acceptance.md；253归档、249B唯一Ready，父249及整线不关闭。
+
+
+### TASK-SETTINGS-252
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`代码逆向`
+
+逆向方案：不适用（沿用代码逆向六段证据链）。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-032`、`M-034`、`M-042`、`M-044`、`VS-067`
+
+要解决的问题：249B正式接收没有PetInfo.miss/mDef的生产/存档来源，兔疾风冷却不能表示当前闪避效果；251只冻结显式处理后输入。不得默认0或用等级猜历史随机。
+
+规模预算：
+- 主工作包：1（宠物接收属性/疾风当前效果到owner的有界输入合同）
+- 预计上下文压缩：0
+- 独立验收批次：2（原方法/独立expected及反证；正式字段生产者与迁移缺口交接）
+
+拆分触发：
+- 出现与miss/mDef/疾风接收门无关的完整成长、全部家族AI、完整技能视觉或跨来源迁移，保留为域外，不纳入本项。
+- 现代字段/存档实现独立为后继前置；本项不混入大范围代码改造或249B两Scene验收。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent原方法执行与真值归并；Luna只读核对PetInfo写入/保存/恢复及当前效果消费者覆盖。
+- 并行工作包：同一有限输入的生产者到消费者矩阵，与主agent原生验证并行。
+- 写入 owner：主agent。
+- 归并检查点：实现前与最终验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster3-pet-input-preflight.md`与249B生产preflight报告；父249及249B完整合同。
+- `monster3-reception-contract.md`与251 reference；`monster3-receiver-runtime-acceptance.md`。原接收expected不可由新实现重生成。
+- `docs/workflow/reverse-engineering-protocol.md`、`local-resources/regima/legacy-extraction/README_extract.md`。
+- 原`petInfo/PetInfo.as`的初始化、reSetPetAttributeValue及调用链、相关重置/进化/捕获/存取、属性getter/setter；仅沿miss/mDef数据流窄读。
+- 原`BasePet.beMagicAttack`、兔2/3/4疾风释放及`BaseAddEffect`对应效果生命周期；只证明接收所需当前效果状态，不扩为兔全族实现。
+- 现代`PetTypes`、`PetRosterSystem`、`PetProgressionSystem`、`PetGrowthSystem`、`SaveSystem`、Session与兼容兔技能owner。
+
+输出产物：
+- `docs/reverse-engineering/pet-reception-input-contract.md`与精简可提交`reference/pet-reception-input-contract.json`，有界原方法执行/独立预期/变异工具。
+- 本地`docs/tasks/evidence/TASK-SETTINGS-252/`及来源定位/SHA、覆盖表、现代字段映射和旧存档信息损失裁决；后继公共owner实现合同。
+
+完成定义：原版miss/mDef的实际生产与存取、疾风当前效果状态可复验，输入单位/随机/阈值/时钟及未知明确，后继能实现真实owner而无需猜默认值。不得把新宠初值0外推到旧高等级存档。
+
+验收标准：
+- 按六段证据链核对初始化、59/60/61及上限附近、连续升级/重算、保存加载与读取上限；覆盖会实际写入两属性的相关生产入口，含随机消费顺序，未覆盖入口明确为未知。
+- 双owner及有/无明确存档值、零/非零/边界值；原方法实际执行，独立expected先冻结。历史随机无法恢复时保留缺失，不伪造确定原值。
+- 兔2/3/4疾风释放、拒绝、二阶5×fps及三四阶10×fps边界（含三四阶在5×fps仍有效）、重复释放/到期、暂停/重入/清理中影响接收门的有限状态；效果拥有与技能拥有/CD分开，实际接收验证沿用251。
+- 真实源变异覆盖漏增长、随机消费错、保存/读取错位或封顶错误、用CD替代效果、过早/延迟失效；不能用JSON字面量或服务返回冒充实际行为。
+- 核对现代生产者/持久化/Session和兼容消费者，制定具体有限接入合同。旧现代存档迁移属于现代决定；需要授权时先形成可审核证据和方案，不擅自清空/重置用户存档。
+- check:workflow、check:structure、audit:problems通过；原语料和247/248/250/251真值只读，运行数据未来放正式目录。
+
+禁止范围：不修改src/public或原语料，不实现完整宠物成长/兔家族，不关闭249B/父249、204/all/194/VS-067或整线；不伪造缺失历史属性。
+
+状态更新：Done（2026-10-03；424属性case、162时间线35996态、13源变异及5绑定反证通过；仅原版有限输入合同，现代接入交253）。
+
+推荐后续任务：TASK-SLICE-253实现同线有界属性/效果owner及存档接入，完成后恢复TASK-SLICE-249B全部两owner联合验收。
+
+验收记录：`pet-reception-input-contract.md`与reference已verified；工具check.py绑定实际AS3/SWF/fixture/输出及源SHA，完整报告本地保留。升级随机以perception=0为明确前置，效果step片段及服务边界明示，不冒充完整AI/Scene。现代旧档信息损失已裁决，候选兼容政策向用户询问，未写用户存档。原语料、src/public和既有真值本项未修改。
+
+
+### TASK-SLICE-249A
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：251已提供有限接收真值，但既有Hero/Pet HP owner缺目标动作减伤与同步接受结果；不能只在Monster3调用者预算amount或以扣HP事件代替接收。249预检四例已证明Role5动作HP不符，宠物Session返回void的边界另经静态核查。
+
+规模预算：
+- 主工作包：1（现有权威owner的有限接收机制及来源/目标端口适配）
+- 预计上下文压缩：0
+- 独立验收批次：2（251原expected/生产反证；实际owner端口与相关回归）
+
+拆分触发：
+- 251冻结输入不足时列精确缺口，不猜补；不展开完整装备、未冻结技能AI或全部来源迁移。
+- 如果需要重审角色本体动画/完整家族或新HP owner，则保留本项并拆出有界前置，不塞入本项。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent唯一实现；Luna只读核对251字段到现有owner映射。
+- 并行工作包：接收结果/随机/盾递归/保护和ID边界覆盖清单，与主agent实现并行。
+- 写入 owner：主agent。
+- 归并检查点：实现前与最终验收前。
+- 方法观测：无；不重开已停止MO-004。
+
+输入资料：
+- 父`TASK-SLICE-249.md`、`docs/reverse-engineering/monster3-receiver-owner-preflight.md`及其四例报告。
+- `docs/reverse-engineering/monster3-reception-contract.md`、`reference/monster3-reception-contract.json`；251 source locator、独立expected和世界序列；原语料只读。
+- `monster3-body-attack-contract.md`、`monster3-natural-attack-contract.md`的来源/ID/有序随机交接边界。
+- `docs/architecture/src-boundaries.md`；`HeroCombatSystem`、`PetBattleOwnershipSystem`、`PetCombatRuntime`、`PetCombatEntitySession`、兼容pet入口及实际消费者。
+
+输出产物：
+- 现有Hero/Pet权威owner中的接收能力与最小typed端口；不创建第二HP owner。
+- `docs/reverse-engineering/monster3-receiver-runtime-acceptance.md`、本地`docs/tasks/evidence/TASK-SLICE-249A/`及可复跑生产验证入口。
+
+完成定义：251冻结域的来源计算与目标接收通过真实生产owner消费，明确返回拒绝/接受但零HP/接受并扣HP（并保留原returnvoid语义）；A可独立用受控攻击输入验收，B可直接接入。不得以独立纯函数通过代替实际HP、盾、保护、死亡/技能回调。
+
+验收标准：
+- 251全部16,960 direct expected与64世界序列作为独立预期；保留40身份、双owner、两攻击及普通/Boss的域，不缩减为四个预检例。
+- 核对有序随机、Hero/Pet闪避阈值差、魔防边界、来源Hit副作用/暴击/魔花、盾吸收及溢出重复覆写、Role3/Role5/凤凰/兔、玄龟转移与死亡/反击输入；仅消费251已冻结状态，不冒充全家族技能实现。
+- 真实生产HP由现有owner写入；初始化可设fixture，接收后不得测试手写HP、以服务sink或伤害计数冒充。无命中/保护拒绝可用同ID重试，闪避接受须区分；64世界序列的ID/max/count/保护/随机与HP联合核对。
+- 身份/属性/当前动作/保护来自现有运行owner，受控fixture端口与正式可达映射分别注明；A不声明正式两Scene旅程通过。无法映射的必要输入必须作为未完成，不能默认零。
+- 真实生产变异覆盖忽略魔防/目标动作、错误随机消费、保护提前登记ID、把宠物returnvoid当true、盾溢出漏二次减伤及遗漏宠物；独立expected不可由被测实现生成。
+- 相关英雄/宠物/Monster30/环境HP回归、build、check:structure、check:workflow、audit:problems通过；新运行数据随Git交付，不依赖ignored evidence。
+
+禁止范围：不改原语料/真值，不实现Monster3独立攻击/碰撞/显示/自然AI，不迁移其他怪物，不关闭父249、204/all/194/VS-067或整线；不改完整系统设计。
+
+状态更新：Done（2026-10-03；251有限生产接收与实际owner验收通过）。
+
+推荐后续任务：`TASK-SLICE-249B`，共同消费A并执行父249全部两owner联合合同；父249仅在A/B均通过后归档。
+
+完成记录：见 `docs/reverse-engineering/monster3-receiver-runtime-acceptance.md`；16960 direct、64世界序列、70英雄入口、576真实Session、11生产变异及相关回归/build/structure通过。未关闭父249；249B承接全部两owner联合合同。
+
 
 ### TASK-SETTINGS-251
 

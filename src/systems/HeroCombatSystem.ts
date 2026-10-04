@@ -5,6 +5,13 @@ import type { HeroMovementBounds, HeroMovementModel } from './HeroMovementSystem
 
 export type HeroCombatState = 'ready' | 'hurt' | 'dead';
 
+/** A source-verified incoming override, evaluated by the existing HP owner. */
+export type HeroIncomingDamagePolicy = Readonly<{
+  reduce: (amount: number) => number;
+  reactsToHit: boolean;
+  protectionMs: number;
+}>;
+
 export type HeroMagicShieldKind =
   | 'magicUmbrellaDefend'
   | 'magicUmbrellaDefend2'
@@ -55,6 +62,7 @@ export type HeroMagicFlagGuard = {
 };
 
 export type HeroCombatModel = {
+  monsterHitIds?: string[];
   clearPetBuffs?: () => void;
   turtleLink?: PetTurtleLinkBuff;
   id: string;
@@ -99,6 +107,7 @@ export function createHeroCombat(id: string): HeroCombatModel {
 }
 
 export function resetHeroCombat(hero: HeroCombatModel): void {
+  hero.monsterHitIds = undefined;
   hero.clearPetBuffs?.();
   if (hero.turtleLink) hero.turtleLink.active = false;
   hero.turtleLink = undefined;
@@ -132,6 +141,7 @@ export function applyHeroDamage(
   event: DamageEvent,
   timeMs: number,
   redirectDamage?: (amount: number) => number,
+  policy?: HeroIncomingDamagePolicy,
 ): boolean {
   if (
     hero.state === 'dead' ||
@@ -146,7 +156,7 @@ export function applyHeroDamage(
     recordIncomingDamageFeedback(hero.incomingFeedback, { sourceId: event.sourceId, attackId: event.attackId,
       producerKind: 'hero-reduce-hp', occurredAtMs: event.occurredAtMs, settledAtMs: timeMs,
       settledDamage, hpBefore, hpAfter });
-  });
+  }, policy);
   hero.lastDamageEvent = event;
 
   if (hero.hp <= 0) {
@@ -158,7 +168,7 @@ export function applyHeroDamage(
     return true;
   }
 
-  if (hero.role4Hit12KnockbackImmune) {
+  if (hero.role4Hit12KnockbackImmune || policy?.reactsToHit === false) {
     hero.knockbackVelocityX = 0;
     return true;
   }
@@ -167,7 +177,7 @@ export function applyHeroDamage(
     hero.state = 'hurt';
     hero.hurtUntilMs = timeMs + HeroCombatTuning.hurtDurationMs;
     hero.invulnerableUntilMs = timeMs + (
-      hero.damageProtectionMs ?? HeroCombatTuning.invulnerableDurationMs
+      policy?.protectionMs ?? hero.damageProtectionMs ?? HeroCombatTuning.invulnerableDurationMs
     );
     hero.knockbackVelocityX = hero.role3KnockbackImmune || hero.role4Hit12KnockbackImmune
       ? 0
@@ -206,14 +216,16 @@ function settleHeroHpDamage(
   amount: number,
   redirectDamage?: (amount: number) => number,
   onSettled?: (damage: number, hpBefore: number, hpAfter: number) => void,
+  policy?: HeroIncomingDamagePolicy,
 ): number {
   const role3Reduction = Math.min(1, Math.max(0, hero.role3DamageReduction ?? 0));
   const role3DefenseBonus = Math.max(0, hero.role3DefenseBonus ?? 0);
   // Role3.reduceHp assigns the reduced value back to an AS3 int parameter.
   // Keep the existing modern flat defense once; it is not part of that override.
-  const reducedDamage = Math.max(0,
-    Math.trunc(Math.trunc(amount) * (1 - role3Reduction)) - role3DefenseBonus);
-  const hpDamage = absorbHeroDamageWithMagicShield(hero, reducedDamage, role3Reduction);
+  const reduce = policy?.reduce ?? ((value: number) => Math.max(0,
+    Math.trunc(Math.trunc(value) * (1 - role3Reduction)) - role3DefenseBonus));
+  const reducedDamage = reduce(amount);
+  const hpDamage = absorbHeroDamageWithMagicShield(hero, reducedDamage, role3Reduction, policy?.reduce);
   const remainingDamage = hpDamage === undefined ? 0 : redirectDamage?.(hpDamage) ?? hpDamage;
   const hpBefore = hero.hp;
   hero.hp = Math.max(0, hero.hp - remainingDamage);
@@ -377,6 +389,7 @@ function absorbHeroDamageWithMagicShield(
   hero: HeroCombatModel,
   amount: number,
   role3Reduction: number,
+  reduceOverride?: (amount: number) => number,
 ): number | undefined {
   const shield = hero.magicShield;
   if (!shield) {
@@ -394,6 +407,7 @@ function absorbHeroDamageWithMagicShield(
   // A fully absorbed hit returns from BaseHero, including exact depletion.
   if (overflow <= 0) return undefined;
   // Umbrella/TJGL overflow invokes the role override again after shield removal.
+  if (reduceOverride) return reduceOverride(overflow);
   return shield.kind === 'role4Mds'
     ? overflow
     : Math.trunc(overflow * (1 - role3Reduction));

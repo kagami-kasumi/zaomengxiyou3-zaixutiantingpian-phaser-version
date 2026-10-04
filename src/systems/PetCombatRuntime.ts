@@ -10,6 +10,10 @@ import type {
 } from './PetCombatTypes';
 import type { PetOwnerSnapshot, PetState } from './PetTypes';
 import { DefaultGlobalSettings } from './GlobalSettingsSystem';
+import type { MonsterDamageRequest } from './MonsterDamageReception';
+import type { PetMonsterReceptionInput, PetMonsterReceptionEffect } from './PetMonsterDamageReception';
+import { rejectPetMonsterReception } from './PetMonsterDamageReception';
+import type { MonsterReceptionTarget } from './MonsterAttackReception';
 
 export type {
   PetCombatFrame, PetCombatRuntimeEvent, PetCombatSessionPhase, PetCombatSnapshot,
@@ -79,6 +83,34 @@ export class PetCombatRuntime {
       for (const entity of this.entities.values()) entity.applyDamageEvents(events, timeMs);
     }
     return this.snapshot();
+  }
+
+  receiveMonsterDamage(runtimeKey: string,
+    input: Omit<PetMonsterReceptionInput, 'action' | 'protected' | 'gxp'>,
+    request: MonsterDamageRequest): PetMonsterReceptionEffect | undefined {
+    if (this.destroyed) return undefined;
+    const entity = this.entities.get(runtimeKey);
+    return entity?.receiveMonsterDamage(input, request);
+  }
+
+  /** Internal world port: source counters register on the same target-owned ID list. */
+  currentMonsterReceptionTarget(runtimeKey: string,
+    readCounterChance: () => number | undefined): MonsterReceptionTarget | undefined {
+    if (this.destroyed) return undefined;
+    const entity = this.entities.get(runtimeKey);
+    if (!entity) return undefined;
+    return { ids: entity.monsterHitIds,
+      receive: request => this.destroyed || entity.released || this.entities.get(runtimeKey) !== entity
+        ? rejectPetMonsterReception(entity.pet, entity.runtime.state)
+        : entity.receiveCurrentMonsterDamage(readCounterChance(), request) };
+  }
+
+  monsterReceptionTarget(runtimeKey: string,
+    readInput: () => Omit<PetMonsterReceptionInput, 'action' | 'protected' | 'gxp'>): MonsterReceptionTarget | undefined {
+    if (this.destroyed) return undefined;
+    const entity = this.entities.get(runtimeKey);
+    if (!entity) return undefined;
+    return { ids: entity.monsterHitIds, receive: request => entity.receiveMonsterDamage(readInput(), request) };
   }
 
   snapshot(): PetCombatSnapshot {

@@ -731,7 +731,7 @@ function getPetDragon4QlaoyiComboTags(combo: PetDragon4QlaoyiComboState): string
   return tags;
 }
 
-function calculatePetQlfjCounterChance(pet: PetState): number {
+export function calculatePetQlfjCounterChance(pet: PetState): number {
   return Math.max(0, Math.min(1, (
     PetTuning.qlfjBaseChance + pet.form * PetTuning.qlfjFormChanceStep
   ) * pet.warpower * PetTuning.qlfjChanceMultiplier));

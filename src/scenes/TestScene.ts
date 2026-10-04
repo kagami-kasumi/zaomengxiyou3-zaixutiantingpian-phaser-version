@@ -164,7 +164,6 @@ import {
 import { updateP2PetSystem as updateP2PetSystemImpl } from './test-scene/TestSceneP2PetBridge';
 import {
   activateBossFight as activateBossFightImpl,
-  applyBossAttack as applyBossAttackImpl,
   applyPlayerHitOnBoss as applyPlayerHitOnBossImpl,
   getBossBounds as getBossBoundsImpl,
   getMonster3Targets as getMonster3TargetsImpl,
@@ -575,7 +574,6 @@ export class TestScene extends Phaser.Scene {
   private updateBossArena = updateBossArenaImpl;
   public activateBossFight = activateBossFightImpl;
   public getMonster3Targets = getMonster3TargetsImpl;
-  public applyBossAttack = applyBossAttackImpl;
   public applyPlayerHitOnBoss = applyPlayerHitOnBossImpl;
   public getBossBounds = getBossBoundsImpl;
   private updateBossHitByPlayers = updateBossHitByPlayersImpl;
