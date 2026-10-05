@@ -11,7 +11,7 @@ import { addMonsterPetTargetEffects } from '../src/systems/MonsterPetTargetEffec
 
 for (const fps of [20, 24, 30]) for (const boss of [false, true]) {
   const party = createHeroPartyRuntimeModel(['p1', 'p2'].map(slot => ({
-    slot: slot as 'p1' | 'p2', heroId: 1, x: 300, y: 200, width: 40,
+    slot: slot as 'p1' | 'p2', heroId: 1, x: 300, y: 250, width: 40,
   })));
   for (const member of party.members) {
     member.combat.combat.hp = member.combat.combat.maxHp = 10000;
@@ -24,7 +24,7 @@ for (const fps of [20, 24, 30]) for (const boss of [false, true]) {
     : createStage1CombatEnemy({ id: 'natural', enemyType: 3, x: 200, y: 200 });
   enemy.experienceBinding = { settled: false, experience: 7, persist() {},
     heroes: () => party.members.map(member => ({ kind: 'hero', ownerSlot: member.combat.slot,
-      runtimeId: member.combat.slot, position: () => member.movement,
+      runtimeId: member.combat.slot, position: () => ({ x: member.movement.x, y: member.movement.y - 50 }),
       isDead: () => member.combat.combat.hp <= 0, isReadyToDestroy: () => false, addExperience() {},
     })),
   };

@@ -64,6 +64,8 @@ export type HeroMagicFlagGuard = {
 export type HeroCombatModel = {
   monsterHitIds?: string[];
   clearPetBuffs?: () => void;
+  /** Existing party owner releases attached pets synchronously on actual death. */
+  onDeath?: () => void;
   turtleLink?: PetTurtleLinkBuff;
   id: string;
   hp: number;
@@ -161,10 +163,14 @@ export function applyHeroDamage(
 
   if (hero.hp <= 0) {
     hero.state = 'dead';
+    // BaseHero.destroy clears prior IDs before the fatal receiver/bullet append.
+    // Preserve the in-flight pair's reference while clearing that history.
+    if (hero.monsterHitIds) hero.monsterHitIds.length = 0;
     hero.clearPetBuffs?.();
     hero.hurtUntilMs = 0;
     hero.invulnerableUntilMs = Number.POSITIVE_INFINITY;
     hero.knockbackVelocityX = 0;
+    hero.onDeath?.();
     return true;
   }
 
@@ -199,10 +205,12 @@ export function applyHeroDirectDamage(hero: HeroCombatModel, event: DamageEvent,
   hero.lastDamageEvent = event;
   if (hero.hp <= 0) {
     hero.state = 'dead';
+    if (hero.monsterHitIds) hero.monsterHitIds.length = 0;
     hero.clearPetBuffs?.();
     hero.hurtUntilMs = 0;
     hero.invulnerableUntilMs = Number.POSITIVE_INFINITY;
     hero.knockbackVelocityX = 0;
+    hero.onDeath?.();
   } else if (remainingDamage > 0 && !hero.role3KnockbackImmune) {
     // Role3's shield/hit12 override clears param2 before BaseHero's hurt branch.
     hero.state = 'hurt';

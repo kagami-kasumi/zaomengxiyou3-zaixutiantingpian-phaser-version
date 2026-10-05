@@ -22,6 +22,8 @@
 
 | 中文概念 | 推荐代码名 | 类型 | 上下文 | 说明 | 禁止别名 |
 | --- | --- | --- | --- | --- | --- |
+| 英雄原版运动输入 | `HeroSourceMovementInput` | Value Object | Combat / Runtime | 261普通构造profile、host步长和已证静态墙输入；由既有HeroMovement入口适配源root/速度单位，位置与速度仍归既有movement | — |
+| 英雄聚拢坐标控制 | `HeroGatherCoordinateSystem` | System | Combat | 257B原一秒Tween的lazy起点、覆盖和暂停/退出；持有既有movement引用，不拥有第二份英雄坐标、物理或HP | — |
 | 怪物命中来源属性 | `MonsterDamageSource` | Type | Combat | 已处理的来源Hit/暴击/魔花/随机输入；不持HP或第二怪物 | `MonsterDamageOwner` |
 | 怪物命中接收请求 | `MonsterDamageRequest` | Type | Combat | 来源、动作、几何布尔、难度与原host输入；不含预期HP | `MonsterDamageFixture` |
 | 怪物命中接收结果 | `MonsterDamageReception` | Value Object | Combat | 拒绝、闪避接受、returnvoid与实际HP前后值；HP由既有owner写入 | `MonsterHealthResult` |
@@ -162,3 +164,6 @@
 
 | Monster3独立攻击 | `Monster3Attack` / `Monster3AttackRuntime` | Runtime State | Combat | 持有独立攻击根/帧/接收计数与引用生命周期；身体死亡不自动清弹，显示只投影 | `Monster3BulletState` |
 | Monster3自然选择计数 | `Monster3Selection` | Runtime State | Combat | 持有原宿主count/CD/rate；位置、动作和目标继续来自既有owner | `Monster3AIState` |
+| Monster2独立攻击 | `Monster2Attack` / `Monster2AttackRuntime` | Runtime State | Combat | 既有怪物持有身体与两独立hit1的根、相位、接收和引用；hit2不成为伤害弹 | — |
+| Monster2裸聚拢显示 | `Monster2RawDisplay` | Display State | Combat | 独立14帧ENTER/EXIT生命周期，无sourceRole或HP；普通暂停继续，Scene退出清理 | — |
+| 怪物自然选择策略 | `MonsterAttackSelection` | Shared Policy | Combat | 复用有限原选择顺序，Monster2/3分别提供CD与范围；不持有第二怪物目标或动作owner | — |

@@ -146,6 +146,12 @@ export class PetCombatRuntime {
     }
   }
 
+  /** Owner death releases the current tree without treating pets as hit deaths. */
+  releaseOwner(): void {
+    if (this.active) this.releaseEntity(this.active, 'inactive');
+    this.pendingOwnerHostTicks = 0;
+  }
+
   private synchronizePet(pet: PetState | undefined, owner: Readonly<PetOwnerSnapshot>, ownerRootOffsetY = 0): void {
     if (!pet) {
       if (this.active) this.releaseEntity(this.active, 'inactive');

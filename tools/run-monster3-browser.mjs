@@ -68,15 +68,19 @@ writeFileSync(path.join(dir,'index.html'),'<meta charset="utf-8"><link rel="icon
 const port=19000+process.pid%10000;
 const edge=spawn('C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',[
   '--headless=new','--no-first-run','--no-default-browser-check',
+  '--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows',
   `--remote-debugging-port=${port}`,`--user-data-dir=${path.resolve('.tmp/monster-experience-profile-'+port)}`,
   'about:blank',
 ],{stdio:'ignore',windowsHide:true});
 const delay=ms=>new Promise(r=>setTimeout(r,ms));
 let socket;let verificationPath;let id=0;const pending=new Map();const errors=[];
 async function command(method,params={}) {
+  if (method === 'Page.captureScreenshot' && (process.env.PARTY_RETIREMENT || process.env.M3_FAILURE)) {
+    return { data: await evaluate('monster3Probe.capture()') };
+  }
   const key=++id;
   const result=new Promise((resolve,reject)=>{
-    const timer=setTimeout(()=>{pending.delete(key);reject(Error(`CDP timeout: ${method}`));},20000);
+    const timer=setTimeout(()=>{pending.delete(key);reject(Error(`CDP timeout: ${method}`));},60000);
     pending.set(key,{resolve:v=>{clearTimeout(timer);resolve(v);},reject:e=>{clearTimeout(timer);reject(e);}});
   });
   socket.send(JSON.stringify({id:key,method,params}));return result;
@@ -105,7 +109,7 @@ try {
   await command('Runtime.enable');
   await command('Page.enable');
   await command('Emulation.setDeviceMetricsOverride',{width:940,height:590,deviceScaleFactor:1,mobile:false});
-  const out=process.env.PET_RECEPTION_SCENE||process.env.PET_RECEPTION_VISUAL
+  const out=process.env.PARTY_RETIREMENT ? 'docs/tasks/evidence/TASK-SLICE-259/browser' : process.env.PET_RECEPTION_SCENE||process.env.PET_RECEPTION_VISUAL
     ? 'docs/tasks/evidence/TASK-SLICE-255/browser' : 'docs/tasks/evidence/TASK-SLICE-249B/browser';mkdirSync(out,{recursive:true});
   verificationPath=`${out}/verification-${process.env.M3_SCENE??'all'}-${process.env.M3_FPS??'all'}-${process.env.M3_MODE??'all'}${process.env.M3_FAILURE?'--failure':''}${process.env.M3_VISUAL?'--visual':''}${process.env.M3_PET_SPECIES?'--'+process.env.M3_PET_SPECIES:''}${process.env.M3_VISUAL_MUTATION?'--'+process.env.M3_VISUAL_MUTATION:''}${process.env.M3_SCENE_MUTATION?'--'+process.env.M3_SCENE_MUTATION:''}${process.env.PET_RECEPTION_MUTATION?'--'+process.env.PET_RECEPTION_MUTATION:''}.json`;
   writeFileSync(verificationPath,JSON.stringify({status:'running',startedAt:new Date().toISOString()}));
@@ -114,15 +118,47 @@ try {
   for(const [route,name] of routes.filter(([,n])=>!process.env.M3_SCENE||process.env.M3_SCENE===n)) for(const fps of (process.env.M3_FPS?[Number(process.env.M3_FPS)]:[20,24,30])) for(const mode of ['normal','fatal'].filter(m=>!process.env.M3_MODE||process.env.M3_MODE===m)) {
     const url=`http://127.0.0.1:4174/${probeDirectory}/index.html?${route}&players=2`;
     await command('Page.navigate',{url:'about:blank'}); await delay(100); await command('Page.navigate',{url});
+    await command('Page.bringToFront');
     for(let i=0;i<350;i++){if((await evaluate('window.monster3Probe?.ready()'))?.scene===name)break;await delay(100);}
     await evaluate(`monster3Probe.prepare(${fps},${JSON.stringify(process.env.M3_PET_SPECIES??'monkey')})`);await command('Page.navigate',{url:'about:blank'}); await delay(100); await command('Page.navigate',{url});
+    await command('Page.bringToFront');
     let ready;
     for(let i=0;i<350;i++){ready=await evaluate('window.monster3Probe?.ready()');if(ready?.scene===name&&!ready.loading)break;await delay(100);}
     assert.equal(ready?.scene,name,JSON.stringify({ready,errors}));
+    if (process.env.PARTY_RETIREMENT) await delay(1000);
+    if (process.env.M3_FAILURE) await evaluate('monster3Probe.assetsReady()');
     await evaluate('monster3Probe.restart()');
     for(let i=0;i<350;i++) { ready=await evaluate('monster3Probe.ready()'); if(ready?.scene===name&&!ready.loading&&ready.source==='active-save')break; await delay(100); }
     assert.equal(ready.source,'active-save','Pet journey must restore the real saved rosters');
+    if (process.env.PARTY_RETIREMENT || process.env.M3_FAILURE) {
+      for (let i = 0; i < 350; i++) { if (await evaluate('monster3Probe.retirementReady()')) break; await delay(100); }
+      assert(await evaluate('monster3Probe.retirementReady()'), 'Both real pet owners must finish production asset readiness');
+    }
     await evaluate(`monster3Probe.stop('${mode}')`);
+    if (process.env.PARTY_RETIREMENT) {
+      await evaluate('monster3Probe.step(120)');
+      const target = 'docs/tasks/evidence/TASK-SLICE-259/browser'; mkdirSync(target, { recursive: true });
+      if (fps === 30) {
+        const before = await command('Page.captureScreenshot', { format: 'png' });
+        writeFileSync(`${target}/${name}-${fps}-${process.env.M3_PET_SPECIES ?? 'monkey'}-before.png`, Buffer.from(before.data, 'base64'));
+      }
+      const rows = await evaluate('monster3Probe.retirement()');
+      writeFileSync(`${target}/${name}-${fps}-${process.env.M3_PET_SPECIES ?? 'monkey'}.json`, JSON.stringify(rows, null, 2));
+      for (const row of rows) {
+        assert.equal(row.heroHp, 0); assert.equal(row.remaining, 98);
+        for (const key of ['petHpUnchanged', 'lifeUnchanged', 'sessionGone', 'compatibilityGone', 'bodyReleased', 'staleRejected', 'otherPreserved']) assert.equal(row[key], true, key);
+      }
+      await evaluate('monster3Probe.renderRetirement()');
+      const png = await command('Page.captureScreenshot', { format: 'png' });
+      writeFileSync(`${target}/${name}-${fps}-${process.env.M3_PET_SPECIES ?? 'monkey'}.png`, Buffer.from(png.data, 'base64'));
+      await evaluate('monster3Probe.restart()');
+      for (let i = 0; i < 350; i++) { const r = await evaluate('monster3Probe.ready()'); if (r.scene === name && !r.loading) break; await delay(100); }
+      await evaluate('monster3Probe.return()');
+      for (let i = 0; i < 350; i++) { if ((await evaluate('monster3Probe.ready()')).scenes.includes('HeavenMapScene')) break; await delay(100); }
+      assert((await evaluate('monster3Probe.ready()')).scenes.includes('HeavenMapScene'));
+      reports.push({ scene: name, fps, retirement: rows }); console.log(`${name}/${fps} synchronous retirement passed`);
+      continue;
+    }
     if(process.env.PET_RECEPTION_SCENE) {
       const target=`docs/tasks/evidence/TASK-SLICE-255/browser`;mkdirSync(target,{recursive:true});
       const truth=JSON.parse(readFileSync('docs/reverse-engineering/ground-truth/manifests/task-settings-254-pet-reception-behavior.json','utf8'));
@@ -269,6 +305,11 @@ try {
     let reloaded=await evaluate('monster3Probe.snapshot()');
     assert(reloaded.retiredAttackReferences.length>0&&reloaded.retiredAttackReferences.every(a=>a.sourceReleased&&a.parentReleased),'Retained old attack objects release source and parent references');
     assert(reloaded.monsters.slice(0,state.monsters.length).filter(m=>m.runtime).every(m=>m.runtime.destroyed),'Retry releases old attack owners: '+JSON.stringify({file,ready:await evaluate('monster3Probe.ready()'),remaining:reloaded.monsters.slice(0,state.monsters.length).filter(m=>m.runtime&&!m.runtime.destroyed)}));
+    if (process.env.M3_FAILURE) {
+      await delay(1000);
+      for(let i=0;i<350;i++){if(!(await evaluate('monster3Probe.ready()')).loading)break;await delay(100);}
+      assert(!(await evaluate('monster3Probe.ready()')).loading, 'Retry assets must finish before map navigation');
+    }
     await evaluate('monster3Probe.return()');await delay(150);
     reloaded=await evaluate('monster3Probe.snapshot()');assert(reloaded.monsters.every(m=>!m.runtime||m.runtime.destroyed),'Return releases all attack owners: '+JSON.stringify({ready:await evaluate('monster3Probe.ready()'),remaining:reloaded.monsters.filter(m=>m.runtime&&!m.runtime.destroyed)}));
     assert((await evaluate('monster3Probe.ready()')).scenes.includes('HeavenMapScene'),'Return uses the formal map route');

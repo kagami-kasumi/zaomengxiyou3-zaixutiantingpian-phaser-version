@@ -2,6 +2,11 @@ import { defaultTurtleTests } from './turtle-test-registry.mjs';
 
 // Complete pre-existing regression remains available explicitly.
 export const fullSystemTests = [
+  'hero-gather-coordinate-tests',
+  'hero-gather-world-tests',
+  'hero-gather-native-replay-tests',
+  'hero-root-reception-tests',
+  'monster-party-retirement-tests',
   'system-tests',
   'game-startup-frame-rate-tests',
   'level-lifecycle-tests',
@@ -26,6 +31,15 @@ export const fullSystemTests = [
   'monster30-lifecycle-tests',
   'monster30-pet-damage-tests',
   'monster30-collision-tests',
+  'monster2-collision-tests',
+  'monster2-selection-tests',
+  'monster2-world-selection-tests',
+  'monster2-attack-phase-tests',
+  'monster2-body-contract-tests',
+  'monster2-combat-world-tests',
+  'monster2-gather-roster-tests',
+  'monster2-reception-contract-tests',
+  'monster2-party-reception-tests',
   'monster3-collision-tests',
   'monster3-selection-tests',
   'monster3-attack-phase-tests',

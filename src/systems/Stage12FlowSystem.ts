@@ -109,6 +109,16 @@ export function defeatStage12Enemy(model: Stage12FlowModel, enemyId: string): bo
   return true;
 }
 
+/** Monster2.destroy checks living Monster4 instances, including retained dead bodies. */
+export function removeStage12Monster2(model: Stage12FlowModel, enemyId: string, isBoss: boolean,
+  monsters: readonly Readonly<{ enemyType: number; hp: number }>[]): void {
+  if (model.aliveEnemies.delete(enemyId)) model.defeatedCount += 1;
+  finishActiveStopPointIfCleared(model, false);
+  if (isBoss && !monsters.some(enemy => enemy.enemyType === 4 && enemy.hp > 0)) {
+    model.doorVisible = true;
+  }
+}
+
 function createEnemy(model: Stage12FlowModel, point: Stage12SpawnPoint): Stage12Enemy {
   const enemyType = point.enemyType;
   return {
@@ -123,7 +133,7 @@ function createEnemy(model: Stage12FlowModel, point: Stage12SpawnPoint): Stage12
   };
 }
 
-function finishActiveStopPointIfCleared(model: Stage12FlowModel): void {
+function finishActiveStopPointIfCleared(model: Stage12FlowModel, revealDoor = true): void {
   const activeIdx = model.activeStopPointIdx;
   if (activeIdx === undefined) return;
   const allGenerated = model.activeSpawners.every((spawner) => spawner.remaining === 0);
@@ -133,7 +143,7 @@ function finishActiveStopPointIfCleared(model: Stage12FlowModel): void {
   model.activeStopPointIdx = undefined;
   if (activeIdx === 4) {
     model.nextStopPointIdx = undefined;
-    model.doorVisible = true;
+    if (revealDoor) model.doorVisible = true;
   } else {
     model.nextStopPointIdx = (activeIdx + 1) as 1 | 2 | 3 | 4;
   }

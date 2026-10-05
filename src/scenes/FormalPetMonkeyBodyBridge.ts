@@ -45,6 +45,7 @@ export type FormalPetMonkeyBodyBridge = Readonly<{
     timeMs: number,
   ) => readonly PetCombatAnimationEvent[];
   destroy: () => void;
+  releaseSlot: (slot: Slot) => void;
 }>;
 
 export function createFormalPetMonkeyBodyBridge(
@@ -68,6 +69,7 @@ export function createFormalPetMonkeyBodyBridge(
   };
 
   return {
+    releaseSlot: destroySlot,
     update: (members, projectiles, timeMs) => {
       const animationEvents: PetCombatAnimationEvent[] = [];
       for (const slot of ['p1', 'p2'] as const) {

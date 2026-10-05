@@ -21,6 +21,7 @@ export function createHeroPartyCompatibilityPets(scene: Phaser.Scene) {
     delete entries[slot];
   }
   return {
+    clear,
     runtime: (slot: 'p1' | 'p2') => entries[slot]?.runtime,
     experience: (slot: 'p1' | 'p2') => readLegacyPetExperience(entries[slot]?.runtime),
     update(member: HeroPartyRuntimeModel['members'][number], roster: PetRoster | undefined,

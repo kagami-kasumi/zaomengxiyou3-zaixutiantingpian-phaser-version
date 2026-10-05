@@ -1,5 +1,17 @@
 # 纵向切片复现表
 
+2026-10-05 / TASK-SLICE-260B及父260完成：正式Stage1-2同一owner消费M2-01..09、两独立hit1与无伤害聚拢；648/45360身体、8480接收/6804世界态、392768碰撞、96态严格显示、九组自然/生命周期及真实宠物增量通过。15系统/2浏览器/2显示生产变异与260A坐标顺序反证保留，最终P1GS 79组/build/核心通过。262唯一Ready补Monster4行为输入；其他类型/人偶、完整家族、204/all/194/VS-067和Active线保持未完成。验收见 `docs/reverse-engineering/monster2-runtime-acceptance.md`。
+
+2026-10-05 / TASK-SLICE-260A完成：同一movement消费有限原运动与聚拢，正式Stage1-2有序接缝、九组受控矩阵及退出旅程通过。260B唯一Ready继续自然Monster2完整联合验收；父260/204/all/194/VS-067与Active线不关闭。证据见 `docs/reverse-engineering/monster2-coordinate-runtime-acceptance.md`。
+
+2026-10-04 / TASK-SETTINGS-261完成：普通Role1..4为6/10、Role5默认7/11每host步，构造false分支与运行时切形明确分开；原根/现代脚点差50。原方法35334世界态/47112英雄态重复一致、两次各54场自然运行和7源变异通过。源输入sidecar已verified，260A恢复唯一Ready接实际movement/有序接缝，260B仍Planned；不关闭父260/204/all/194/VS-067或Active功能线。见 `docs/reverse-engineering/hero-gather-motion-contract.md`。
+
+2026-10-04 / 260A在制输入反例：原Tween4832态经新控制器对账通过，但真实HeroParty三fps×双slot水平步进为18/15/12px而257B受控原输入为5px；正式角色参数/根坐标不能由fixture或现代常量假定。260A保留全部合同并Blocked，261唯一Ready补有限运动输入，260B仍Planned。控制器尚未接Scene，不关闭父260/204/all/194/VS-067或整线；见 `docs/reverse-engineering/monster2-coordinate-runtime-acceptance.md`。
+
+2026-10-04 / TASK-SLICE-260执行前拆分：Stage1-2先英雄后怪物的生产顺序与257B已证Tween→怪物→英雄冲突。260保留全部合同并Split，260A唯一Ready交付既有坐标owner聚拢/有序接缝，260B Planned承担完整M2-01..09、257A/257B/258和正式自然双owner联合验收。本批未改src/public或原expected，不关闭204/all/194/VS-067或Active功能线。静态证据与裁决见 `docs/reverse-engineering/monster2-runtime-preflight.md`。
+
+2026-10-04 / TASK-SLICE-259完成：公共英雄实际致死同步释放当前slot的Session/兼容宠物及旧接收引用，不额外扣宠物HP/lifetime/命中次数。108原输入首检测+12盾/转移、私有树、6生产变异、两Scene×三fps×双owner共12受控组及两条自然失败重试/返回旅程通过；全量118组、pet P1GS 79组和build通过。260唯一Ready承接Monster2完整M2-01..09与257A/257B/258、234像素精确许可；不关闭204/all/194/VS-067、PG-017或Active功能线。验收见 `docs/reverse-engineering/monster-party-retirement-acceptance.md`。
+
 2026-10-04 / TASK-SETTINGS-258完成：8480原接收案例、162序列/6804世界态、正常重复与12编译变异/8数据负例通过；真实英雄destroy在同次弹体遍历前清宠。实际双owner诊断反证英雄致死后宠物仍1000→977、remaining97而非98，259唯一Ready先修同步退休，再生成Monster2实现。256M2-01..09、257A/257B与234像素精确许可完整保留；未改src/public，不关闭204/all/194/VS-067或Active功能线。见 `docs/reverse-engineering/monster2-reception-contract.md`。
 
 2026-10-04 / TASK-SETTINGS-257B及父257完成：原Tween ABC 4832态、真实共享坐标链5436世界态/7248英雄态独立零差异及重复一致；18场自然运行验证lazy起点、1秒终点、twip量化、活动覆盖、暂停恢复、死亡/destroy后继续与真实Scene退出，9类编译/运行变异拒绝。257A空间/392768碰撞及234像素精确许可、M2-01..09与无伤害producer完整保留。258唯一Ready补真实HP；未改src/public，不关闭204/all/194/VS-067或Active功能线。见 `docs/reverse-engineering/monster2-gather-coordinate-contract.md`。

@@ -1,3 +1,4 @@
+import monster2NativeDisplay from './monster2-native-display.json';
 import { petDragonBundleAssets } from './PetDragonAnimationAssets';
 import { petReceptionBodyImages } from './PetReceptionBodyAssets';
 import { petPassiveImages } from './PetPassiveAssets';
@@ -386,6 +387,7 @@ const monsterResourceBundleAssets = (familyId: MonsterResourceFamilyId): BundleA
     })),
     ...attackAssets,
     ...(familyId === 'monster-family-3-30' ? monster3NativeDisplay.poses.map(image) : []),
+    ...(familyId === 'monster-family-2-4-7-8' ? monster2NativeDisplay.poses.map(image) : []),
     {
       kind: 'text',
       key: family.geometry.key,

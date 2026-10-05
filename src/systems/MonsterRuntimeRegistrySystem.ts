@@ -1,3 +1,4 @@
+import { destroyMonster2Attacks } from './Monster2AttackRuntime';
 import type { MovementPlatform } from './HeroMovementSystem';
 import { disposeMonsterKnockback } from './MonsterKnockbackBinding';
 import { DefaultGlobalSettings } from './GlobalSettingsSystem';
@@ -40,6 +41,7 @@ export type MonsterRuntimeEvent =
   | Readonly<{ type: 'cleared' }>;
 
 export type MonsterRuntimeFrame = Readonly<{
+  updateMonster2?: (enemy: Stage1CombatEnemy) => void;
   timeMs?: number;
   hostFps?: number;
   targets: readonly Readonly<{ slot: 'p1' | 'p2'; x: number; alive: boolean }>[];
@@ -99,8 +101,13 @@ export function updateMonsterRuntimeRegistry(
   for (const runtime of registry.monsters.values()) {
     updateCombatMonsterPhysics(runtime.physics, runtime.combat, frame.platforms, frame.deltaMs,
       frame.timeMs ?? 0, frame.hostFps ?? DefaultGlobalSettings.frameRate);
-    stepMonsterPetTargetEffects(runtime.combat, frame.deltaMs, frame.hostFps);
-    updateStage1Enemy({ enemy: runtime.combat, targets: frame.targets, deltaMs: frame.deltaMs });
+    if (runtime.combat.enemyType === 2) {
+      if (!frame.updateMonster2) throw new Error('Monster2 requires its verified world consumer');
+      frame.updateMonster2(runtime.combat);
+    } else {
+      stepMonsterPetTargetEffects(runtime.combat, frame.deltaMs, frame.hostFps);
+      updateStage1Enemy({ enemy: runtime.combat, targets: frame.targets, deltaMs: frame.deltaMs });
+    }
   }
   return collectDefeatEvents(registry);
 }
@@ -135,7 +142,9 @@ export function removeMonster(
   id: string,
 ): readonly MonsterRuntimeEvent[] {
   if (registry.destroyed) return [];
-  disposeMonsterKnockback(registry.monsters.get(id)?.combat.petKnockback);
+  const combat = registry.monsters.get(id)?.combat;
+  if (combat?.monster2AttackRuntime) destroyMonster2Attacks(combat.monster2AttackRuntime);
+  disposeMonsterKnockback(combat?.petKnockback);
   if (!registry.monsters.delete(id)) return [];
   return registry.monsters.size === 0 ? [{ type: 'cleared' }] : [];
 }
@@ -143,7 +152,10 @@ export function removeMonster(
 export function destroyMonsterRuntimeRegistry(registry: MonsterRuntimeRegistryModel): void {
   if (registry.destroyed) return;
   registry.destroyed = true;
-  for (const monster of registry.monsters.values()) disposeMonsterKnockback(monster.combat.petKnockback);
+  for (const monster of registry.monsters.values()) {
+    if (monster.combat.monster2AttackRuntime) destroyMonster2Attacks(monster.combat.monster2AttackRuntime);
+    disposeMonsterKnockback(monster.combat.petKnockback);
+  }
   registry.monsters.clear();
 }
 

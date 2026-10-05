@@ -7,7 +7,7 @@ import { monster3AttackRequest, type Monster3Attack } from '../src/systems/Monst
 
 // Owner adapter test; placement is controlled and is not a natural Scene journey.
 const model = createHeroPartyRuntimeModel(['p1', 'p2'].map(slot => ({
-  slot: slot as 'p1' | 'p2', heroId: 1, x: 300, y: 200, width: 40,
+  slot: slot as 'p1' | 'p2', heroId: 1, x: 300, y: 250, width: 40,
 })));
 const runtimes = { p1: new PetCombatRuntime(), p2: new PetCombatRuntime() };
 const pets = Object.fromEntries(['p1', 'p2'].map(slot => {

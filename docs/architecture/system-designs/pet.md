@@ -1,5 +1,7 @@
 # 宠物系统类设计
 
+2026-10-04 / TASK-SLICE-259：两个HeroCombatSystem实际致死入口绑定既有party slot，Session releaseOwner与兼容clear沿原释放服务，猴马releaseSlot只清本slot，死亡update不重建。P1GS门禁79组退出0，全量118组及双Scene/双owner同步退休通过。设计仍实施中，未完成/未退出；不扩大到装备复活、全家族或all门禁。详见 `docs/reverse-engineering/monster-party-retirement-acceptance.md`。
+
 2026-10-01 / TASK-SLICE-242B及父242完成：235原720+243原997由公共生产数值owner消费，24双owner会话/保存往返、四家族8消费者、猴马4真实增益技能命中、14变异、五关940×590 HUD/暂停休息/重试返回通过。P1GS/P1G/P1T、核心系统、build及工程检查通过；B/父242归档，244唯一Ready补六效果视觉真值。数值完成不代表六特效、原84其余责任或完整家族/204/all/194/VS-067关闭，功能线保持Active。详见 `docs/reverse-engineering/pet-passive-runtime-acceptance.md`。
 
 2026-10-01 / TASK-SLICE-242A完成：既有party拥有四项已加入主人效果与当前属性；复用slot host先主人效果/属性后主宠及private实体，无宠仍到期。12原effects/refresh/expiry、五角色双slot实际技能与承伤、共同五关调度/休息换宠/死亡退出共31组，10生产变异和10组映射身份通过；build、核心系统、工程检查及P1GS/P1G/P1T联合门禁退出0。A归档，242B唯一Ready承担原720expected、公共回复/六增益与正式五关联合。父242、原84、六特效、完整家族/204/all/194/VS-067未关闭，功能线Active。验收见 `docs/reverse-engineering/hero-pet-buff-owner-acceptance.md`；增长/装备中途重算组合仍属235未覆盖边界。
@@ -209,6 +211,8 @@
 
 | 日期/Task | 范围 | 结果 | 结论 |
 | --- | --- | --- | --- |
+| 2026-10-05 / 260B | Monster2接入共享当前hero/pet接收与原owner退休，致死清旧命中ID | 最终P1GS 79组=0，日志`.tmp/task260b-close-P1GS.log`；build 518模块=0 | 本批门禁通过，系统实施中/未退出；不关闭all或其余家族 |
+| 2026-10-05 / 260A | 英雄坐标/Stage1-2单步接缝及既有宠物聚合owner回归 | 最终P1GS=0；九正式受控组/退休108+12/核心20组通过，日志`.tmp/task260a-close-P1GS.log` | 本批通过，实施中/未退出；自然Monster2由260B验收，all及其余家族保持 |
 | 2026-10-02 / 245B、父245 | 六效果正式资源/owner投影及五关 | P1GS/P1R/P1H/P1G/P1T=0；双后端各65280态、248正式层、11生产变异、1717数值及核心/build通过 | 本批通过，实施中/未退出；all、其他类型/人偶及其余家族不关闭 |
 | 2026-10-02 / 245A | 公共附属显示退休及猴/马adapter | P1GS/P1R/P1H/P1G/P1T=0；5408原态/7变异、双后端各5312态与Scene重启、核心/build通过 | 本批通过，实施中/未退出；六效果全合同由245B承担，all及其余家族不关闭 |
 | 2026-09-26 / 226 | 猴马host/地面/伤害/生命周期及公共回归 | P1R/P1H/P1G/P1T=0；正式目标投影增量后P1R/P1H=0；原84承接矩阵保留公共open项 | 本项通过，系统实施中/未退出；230..235及其余家族/all继续 |

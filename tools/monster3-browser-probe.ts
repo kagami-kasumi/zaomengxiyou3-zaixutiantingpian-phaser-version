@@ -1,5 +1,6 @@
 import { ensureSceneAssetBundle, startSceneWithBundle } from '../src/scenes/SceneAssetBundleBridge';
 import { game } from '../src/main';
+import { probePartyRetirement } from './monster-party-retirement-probe';
 import { createDefaultGameSave, createSaveSlot, getSaveSlotStorageKey, ActiveSaveSlotStorageKey } from '../src/systems/SaveSlotSystem';
 import { createPartyConfiguration } from '../src/systems/PartyConfigurationSystem';
 import { getActivePet, createSeedPetRoster } from '../src/systems/PetRosterSystem';
@@ -34,6 +35,16 @@ const fatalTrace: any[] = [];
 let failureParty: any;
 let compatibilityExit: any;
 Object.assign(window, { monster3Probe: {
+  assetsReady: () => Promise.all(['combat-hero-1-skills', 'combat-hero-2-skills'].map(
+    id => ensureSceneAssetBundle(active().scene, id as 'combat-hero-1-skills' | 'combat-hero-2-skills'))),
+  retirement: () => probePartyRetirement(active()),
+  retirementReady: () => !!active() && ['p1', 'p2'].every(slot =>
+    active().runtime.petSnapshots()[slot]?.runtime || active().runtime.compatibilityPetRuntime(slot)),
+  renderRetirement: () => { game.step(time, 0); },
+  capture: () => new Promise<string>(resolve => {
+    game.renderer.snapshot(image => resolve((image as HTMLImageElement).src.split(',')[1]!));
+    game.step(time, 0);
+  }),
   armCompatibilityExit() {
     const p = active(), fps = p.scene.game.loop.targetFps;
     for (const slot of ['p1', 'p2']) Object.assign(p.petRosters[slot].pets[0], { hp: 100, lifetime: 2 });
@@ -111,7 +122,9 @@ Object.assign(window, { monster3Probe: {
     localStorage.removeItem(getSaveSlotStorageKey(1)); createSaveSlot(localStorage, 1, save);
     localStorage.setItem(ActiveSaveSlotStorageKey, '1');
   },
-  ready: () => ({ scene: active()?.scene.scene.key, loading: active()?.scene.load.isLoading(), scenes: game.scene.getScenes(true).map(s => s.scene.key), parties: observed.parties.length, source: active()?.runtime.rewardPlayers()[0]?.view.getData('formalPartySource') }),
+  ready: () => ({ scene: active()?.scene.scene.key, loading: active()?.scene.load.isLoading(), scenes: game.scene.getScenes(true).map(s => s.scene.key),
+    loaders: game.scene.getScenes(true).map(s => ({ scene: s.scene.key, loading: s.load.isLoading(), progress: s.load.progress, pending: s.load.list.size, inflight: s.load.inflight.size })),
+    parties: observed.parties.length, source: active()?.runtime.rewardPlayers()[0]?.view.getData('formalPartySource') }),
   async stop(mode: string) {
     if(mode==='fatal') await ensureSceneAssetBundle(active().scene,'pet-monkey-horse');
     game.loop.stop(); time = game.loop.now; fatal = mode === 'fatal';

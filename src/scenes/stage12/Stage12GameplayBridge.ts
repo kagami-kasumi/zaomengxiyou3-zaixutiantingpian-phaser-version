@@ -5,6 +5,7 @@ import { createInputSystem } from '../../systems/InputSystem';
 import {
   createStage12Flow,
   defeatStage12Enemy,
+  removeStage12Monster2,
   touchStage12StopPoint,
   updateStage12Spawners,
   type Stage12FlowModel,
@@ -37,6 +38,8 @@ import {
   type Stage12MonsterView,
 } from './Stage12MonsterVisualBridge';
 import { createMonsterRuntimeRegistry } from '../MonsterRuntimeRegistryBridge';
+import { heroSourceMovementProfile } from '../../systems/HeroSourceMovementSystem';
+import type { HeroPartyFrame } from '../../systems/HeroPartyRuntimeSystem';
 
 type HeroSnapshots = ReturnType<HeroPartyRuntime['snapshots']>;
 
@@ -91,7 +94,12 @@ export function createStage12Gameplay(
     },
     onDefeated: (enemy) => {
       rewards.onMonsterDefeated(enemy);
-      defeatStage12Enemy(flow, enemy.id);
+      if (enemy.enemyType !== 2) defeatStage12Enemy(flow, enemy.id);
+    },
+    onRemoved: enemy => {
+      // Monster2's door callback belongs to source destruction, after body and emitted bullets.
+      if (enemy.enemyType === 2) removeStage12Monster2(flow, enemy.id,
+        flow.aliveEnemies.get(enemy.id)?.isBoss ?? false, monsters.combatTargets());
     },
   });
   const hud = createStage1CombatHudBridge(
@@ -115,23 +123,30 @@ export function createStage12Gameplay(
   }).setScrollFactor(0).setDepth(100).setVisible(false);
   let reportedResult: Stage12GameplayResult | undefined;
 
-  const update = (deltaMs: number): Stage12GameplayResult | undefined => {
+  const worldStep = (deltaMs: number, timeMs: number): Stage12GameplayResult | undefined => {
     if (reportedResult) return undefined;
     const state = input.read();
-    heroes.update({
+    const frame: HeroPartyFrame = {
       inputs: [state.p1, state.p2],
-      timeMs: scene.time.now,
+      timeMs,
       deltaMs,
       monsterTargets: monsters.combatTargets(),
-      environmentFor: (_index, movement) => ({
-          petGroundEnvironment,
+      environmentFor: (index, movement) => ({
+        petGroundEnvironment,
+        sourceMotion: {
+          hostFps: scene.game.loop.targetFps,
+          profile: heroSourceMovementProfile(playerViews[index]!.getData('heroId')),
+          walls: petGroundEnvironment.walls,
+          screenLeft: scene.cameras.main.scrollX + 20,
+          screenRight: scene.cameras.main.scrollX + 920,
+        },
         platforms: stage12MovementPlatforms,
         bounds: {
           left: scene.cameras.main.scrollX + STAGE12_SCREEN_LEFT_X - movement.width / 2,
           right: getStage12TravelRight(flow.nextStopPointIdx) + movement.width / 2,
         },
       }),
-    });
+    };
     const heroSnapshots = heroes.snapshots();
     if (fbEnter.update(
       deltaMs,
@@ -149,7 +164,7 @@ export function createStage12Gameplay(
       x: enemy.x,
       y: enemy.y,
     })));
-    monsters.update(heroes, scene.time.now, deltaMs);
+    monsters.update(heroes, timeMs, deltaMs, () => heroes.update(frame));
     rewards.update(deltaMs);
     hud.update(deltaMs);
     const settledHeroSnapshots = heroes.snapshots();
@@ -177,6 +192,23 @@ export function createStage12Gameplay(
 
     followParty(scene, settledHeroSnapshots, flow);
     updateStatus(status, flow, settledHeroSnapshots, rewards.getSummary());
+    return undefined;
+  };
+
+  // Phaser's targetFps alone does not cap RAF. Advance each world owner once
+  // per configured source host step; never run 6px movement sixty times when
+  // the world is configured for thirty. Tween precedes each monster/hero step.
+  let pendingWorldMs = 0;
+  const update = (deltaMs: number): Stage12GameplayResult | undefined => {
+    if (reportedResult) return undefined;
+    pendingWorldMs += Math.max(0, deltaMs);
+    const frameMs = 1000 / scene.game.loop.targetFps;
+    while (pendingWorldMs + 1e-8 >= frameMs) {
+      pendingWorldMs = Math.max(0, pendingWorldMs - frameMs);
+      heroes.gather.advance((scene.game.loop.time - pendingWorldMs) / 1000);
+      const result = worldStep(frameMs, scene.time.now - pendingWorldMs);
+      if (result) return result;
+    }
     return undefined;
   };
 

@@ -104,6 +104,8 @@ export type Stage1CombatPlayer = {
 };
 
 export type Stage1CombatEnemy = {
+  monster2WorldState?: import('./Monster2CombatWorld').Monster2CombatWorldState;
+  monster2AttackRuntime?: import('./Monster2AttackRuntime').Monster2AttackRuntime;
   monster3WorldState?: import('./Monster3CombatWorld').Monster3CombatWorldState;
   monster3AttackRuntime?: import('./Monster3AttackRuntime').Monster3AttackRuntime;
   attackRuntime?: import('./Monster30AttackRuntime').Monster30AttackRuntime;
@@ -297,6 +299,7 @@ function advanceStage1Enemy(params: {
   deltaMs: number;
 }): void {
   const { enemy: model, targets } = params;
+  if (model.enemyType === 2) return;
   if (model.phase === 'dead') return;
   if (isMonsterPetIceActive(model)) return;
   const retained = model.phase === 'hurt' && model.phaseRemainingMs > Math.max(0, params.deltaMs)
@@ -358,6 +361,7 @@ type IncomingMonsterAttack = Readonly<{
 }>;
 
 function incomingMonsterAttacks(enemy: Stage1CombatEnemy): readonly IncomingMonsterAttack[] {
+  if (enemy.enemyType === 2) return [];
   if (enemy.enemyType === 30) return (enemy.attackRuntime?.detections ?? []).map(attack => ({
     ...attack, collisionAttack: attack, attackRange: 0,
     knockback: { x: attack.facingX * attack.knockbackX, y: attack.knockbackY },
@@ -608,6 +612,7 @@ export function resolveStage1PetHit(params: Readonly<{
 
 export function getStage1MonsterMotionAction(enemy: Stage1CombatEnemy): string {
   if (enemy.phase === 'hurt' || enemy.phase === 'dead') return enemy.phase;
+  if (enemy.enemyType === 2 && enemy.monster2WorldState) return enemy.monster2WorldState.action;
   if (enemy.enemyType === 3 && enemy.monster3WorldState) return enemy.monster3WorldState.action;
   if (enemy.activeAttack) return enemy.activeAttack.actionName;
   return enemy.petKnockback?.motion.action === 'walk' ? 'walk' : 'wait';

@@ -349,6 +349,20 @@ function testReleaseCallbackFailureStillCleansEveryEntity(): void {
 }
 
 testReleaseCallbackFailureStillCleansEveryEntity();
+{
+  const r = rig();
+  const child = r.summon(2000);
+  r.probes.get(child.runtimeKey)!.context.spawnSummon({ pet: r.pet, x: 2200, y: 270, facingX: 1 });
+  const before = structuredClone(r.roster);
+  r.runtime.releaseOwner();
+  assert.equal(r.runtime.snapshot().runtime, undefined);
+  assert.equal(r.runtime.snapshot().summons!.length, 0);
+  for (const probe of r.probes.values()) assert.deepEqual(probe.released, ['inactive']);
+  assert.deepEqual(r.roster, before, 'Owner retirement does not charge pet HP or life');
+  r.runtime.releaseOwner();
+  for (const probe of r.probes.values()) assert.deepEqual(probe.released, ['inactive']);
+  r.runtime.destroy();
+}
 testIndependentStateAndRealCombatPort();
 testOldAndCrossPlayerKeys();
 testDeathAndCascade();

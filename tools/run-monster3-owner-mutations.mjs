@@ -5,13 +5,13 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 const output = 'docs/tasks/evidence/TASK-SLICE-249B/owner-mutations';
 mkdirSync(output, { recursive: true });
-const adapter = 'src/scenes/HeroPartyMonster3Reception.ts';
+const adapter = 'src/scenes/HeroPartyMonsterReception.ts';
 const variants = [
  ['owner-slot',adapter,'pet-reception-compatibility-tests', [['slot = player.slot;',"slot = 'p1' as const;"]]],
  ['stale-runtime',adapter,'monster3-compatibility-target-tests', [['readCompatibility?.(slot) === compatibility','true'],['current === compatibility','true']]],
  ['stale-roster',adapter,'monster3-compatibility-target-tests', [['readPet(slot) === pet','true']]],
  ['destroyed-scene',adapter,'monster3-compatibility-target-tests', [['!destroyed() && ','']]],
- ['wrong-profile',adapter,'monster3-owner-profile-tests', [['monster3TargetProfile(`Pet${sourceName}${pet.form}`)',"monster3TargetProfile('Role1')"]]],
+ ['wrong-profile',adapter,'monster3-owner-profile-tests', [['`Pet${sourceName}${pet.form}`',"'Role1'"]]],
  ['retain-source','src/systems/Monster3AttackRuntime.ts','monster3-attack-lifetime-tests',[['attack.source = undefined;','// retained source']]],
  ['retain-parent','src/systems/Monster3AttackRuntime.ts','monster3-attack-lifetime-tests',[['attack.parentId = undefined;','// retained parent']]],
 ];

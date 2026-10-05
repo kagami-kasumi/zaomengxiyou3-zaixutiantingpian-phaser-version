@@ -1,0 +1,54 @@
+{
+  "source": {
+    "path": "docs/reverse-engineering/reference/hero-gather-motion-contract.json",
+    "sha256": "2200cbb1eaf2ad1f1ec6a5208ef3ae0e5bcc5d05db5dd2b1417dc302e6b6e640"
+  },
+  "collision": {
+    "y": -50,
+    "height": 100,
+    "x": -30,
+    "width": 60
+  },
+  "profiles": [
+    {
+      "heroId": 1,
+      "walk": 6,
+      "run": 10,
+      "gravity": 1.5,
+      "jump": -20,
+      "initialVy": 4
+    },
+    {
+      "heroId": 2,
+      "walk": 6,
+      "run": 10,
+      "gravity": 1.5,
+      "jump": -20,
+      "initialVy": 4
+    },
+    {
+      "heroId": 3,
+      "walk": 6,
+      "run": 10,
+      "gravity": 1.5,
+      "jump": -20,
+      "initialVy": 4
+    },
+    {
+      "heroId": 4,
+      "walk": 6,
+      "run": 10,
+      "gravity": 1.5,
+      "jump": -20,
+      "initialVy": 4
+    },
+    {
+      "heroId": 5,
+      "walk": 7,
+      "run": 11,
+      "gravity": 1.5,
+      "jump": -20,
+      "initialVy": 4
+    }
+  ]
+}

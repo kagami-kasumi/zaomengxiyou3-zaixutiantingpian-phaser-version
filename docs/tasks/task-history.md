@@ -13,6 +13,11 @@
 
 | Task | 类型 | 目标 | 目标机制/切片 | 产物 |
 | --- | --- | --- | --- | --- |
+| TASK-SLICE-260B | Monster2完整联合实现 | M2-01..09、原空间/接收与正式双owner | M-030、M-034、M-042、VS-067 | [验收](../reverse-engineering/monster2-runtime-acceptance.md)，完整有限联合；下一262 |
+| TASK-SLICE-260 | Monster2父任务 | 260A公共坐标与260B自然联合全部核销 | M-030、M-034、M-042、VS-067 | [验收](../reverse-engineering/monster2-runtime-acceptance.md)，父合同不缩减 |
+| TASK-SLICE-260A | 聚拢坐标正式接缝 | 同一movement消费源运动与Tween→怪物→英雄 | M-030、M-034、M-042、VS-067 | [验收](../reverse-engineering/monster2-coordinate-runtime-acceptance.md)，54360态/九正式组/11变异；下一260B |
+| TASK-SETTINGS-261 | 聚拢英雄运动输入 | 普通参数/root映射与有限原坐标竞争 | M-011、M-012、M-030、M-042、VS-067 | [合同](../reverse-engineering/hero-gather-motion-contract.md)，47112英雄态/108自然场/7源变异；恢复260A |
+| TASK-SLICE-259 | 公共同步退休 | 英雄致死同次释放双owner宠物/旧端口 | M-030、M-034、M-042、VS-067 | [验收](../reverse-engineering/monster-party-retirement-acceptance.md)，118组/6变异/12受控组；下一260 |
 | TASK-SETTINGS-258 | Monster2真实HP接收 | 两hit1原HP/保护/同步销毁与联合输入核销 | M-030、M-034、M-042、VS-067 | [合同](../reverse-engineering/monster2-reception-contract.md)，8480案例/6804态/12变异；下一259 |
 | TASK-SETTINGS-257B | Monster2聚拢公共坐标 | 原Tween/真实共享链与自然暂停覆盖退出 | M-030、M-034、M-042、VS-067 | [合同](../reverse-engineering/monster2-gather-coordinate-contract.md)；9变异；下一258 |
 | TASK-SETTINGS-257 | Monster2空间与控制父合同 | 257A空间/像素与257B坐标联合核销 | M-030、M-034、M-042、VS-067 | [联合矩阵](../reverse-engineering/monster2-gather-coordinate-contract.md)；真实HP仍待258 |
@@ -371,6 +376,329 @@
 | TASK-SLICE-122 | 验收闭合 | 完成全配方双玩家事务矩阵与运行时验收并关闭 LINE-CRAFTING | M-039、VS-042、VS-043、VS-044 | 112×P1/P2 共 224 条事务、混合实例/堆叠继承修复、入口/面板截图、完整关闭证据 |
 
 ## 已完成任务定义
+
+### TASK-SLICE-260B
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：承接父260全部合同，在260A公共坐标/顺序接缝完成后进行完整Monster2联合实现。Monster2仍使用通用activeAttack与旧技能选择；256/257A/257B/258已闭合身体、两独立普攻、裸聚拢MC、空间、原Tween及真实接收，259解除英雄致死同次清宠缺口。需要在既有怪物和英雄owner上消费完整有限输入，不能把hit2字典当作伤害producer。
+
+输入前置：`TASK-SLICE-260A`及`docs/reverse-engineering/monster2-coordinate-runtime-acceptance.md`；父合同`TASK-SLICE-260.md`和预检`docs/reverse-engineering/monster2-runtime-preflight.md`。A的受控请求结果不替代本项自然producer与全部联合验收。
+
+规模预算：
+- 主工作包：2（既有Monster2身体/两普攻及其资源接入；消费260A既有坐标控制及正式联合消费）
+- 预计上下文压缩：0
+- 独立验收批次：2（原版行为/空间/接收与生产变异；正式双owner/可见/暂停/退出旅程）
+
+拆分触发：
+- 执行前核对当前生产接缝；若需要新增公共世界显示时钟、独立资源派生工具链或其他原版资料族，按独立交付边界拆分，不缩减M2-01..09和联合验收。
+- 若聚拢需重建英雄/怪物owner或与已证物理顺序冲突，先冻结精确边界并生成同线前置；禁止新建第二份英雄坐标、HP或整套怪物框架。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent实现与归并；Luna只读核对256/257/258合同覆盖及旧消费者撤销。
+- 并行工作包：完整M2-01..09、两弹/裸MC/Tween责任映射与生产反证清单。
+- 写入 owner：主agent。
+- 归并检查点：源合同核销及正式验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster2-body-attack-contract.md`与`reference/monster2-body-attack-contract.json`（完整M2-01..09）。
+- `docs/reverse-engineering/monster2-attack-space-contract.md`、`reference/monster2-attack-space-contract.json`及`ground-truth/manifests/monster2-attack-space.json`；257A原生基准与392768碰撞输入。
+- `docs/reverse-engineering/monster2-gather-coordinate-contract.md`及其reference（原Tween 4832态、5436世界态/7248英雄态、18场自然运行）。
+- `docs/reverse-engineering/monster2-reception-contract.md`及其reference（8480真实接收、162序列）；`monster-party-retirement-acceptance.md`及259生产回归。
+- 当前`Stage12Scene`、`Stage1CombatSystem`、`MonsterRuntimeRegistryBridge`、`HeroPartyRuntimeBridge`及Monster3独立攻击/接收/显示消费者，`docs/architecture/src-boundaries.md`。
+- 上述证据的精确原AS3 locator；视觉优先恢复`assets/1.swf`，旧提取只读。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`；未退出时运行`npm run check:system-design -- pet P1GS`，不因本任务重设计或关闭all。
+
+输出产物：Monster2有限实现、正式运行资源及可重复派生入口、实际生产合同/变异测试、正式双owner证据和`docs/reverse-engineering/monster2-runtime-acceptance.md`。大批原始观察放本地`docs/tasks/evidence/TASK-SLICE-260B/`，游戏运行不依赖ignored证据。
+
+完成定义：现有正式Monster2消费者按原自然选择和身体相位创建两独立hit1对象及无伤害聚拢裸MC；两弹真实像素命中进入既有英雄/宠物HP owner；原聚拢通过既有英雄坐标写入顺序、暂停和退出端口执行。完整M2-01..09与257/258联合矩阵有可复查结果，其他怪物与未迁移家族状态不外推。
+
+验收标准：
+- 两普攻分别第5/20步出生、6/21首次检测、19/40末检测，power29/physics/interval999/max99与两对象独立ID；第二弹空显示帧仍检测。真实owner致死同步清宠、非致死/保护拒绝独立接收保留259回归。
+- 消费257A全部96显示态/176对象及392768碰撞案例，234像素许可仅按原精确元组/hash接受；实现和测试消费verified输入。正式逐状态原基准对比、双方向/注册点/空帧完整，不以截图存在或包围盒替代。
+- 256完整自然选择/CD/随机/朝向、身体先效果、hurt/冰冻/火伤致死、已发弹保留、显式destroy清弹与Monster4门条件；撤销原Monster2旧伤害/交替技能路径，不能双重生产。
+- 聚拢只针对原实时玩家列表，不选宠物，无hit2伤害；原lazy起点、一秒ease、twip、物理/墙/镜头写入竞争、重叠覆盖、主人/源死后保留、暂停恢复与退出kill合同直接对账257B。
+- 裸MC保持原14帧EXIT移除，普通暂停仍推进；显示时钟与伤害world不能混成一个生命周期。新引用/旧引用与销毁幂等通过实际owner测试。
+- 正式Stage1-2及当前其他实际Monster2消费者完成P1/P2、20/24/30fps自然两普攻/聚拢、真实HP、清理、失败重试/返回/重载；无消费者则明确说明，不制造仅测试存在的第二怪物owner。
+- 生产变异覆盖相位/漏第二弹/空帧提前释放/错误hit2伤害/碰撞旁路/坐标顺序/暂停裸MC/退出/旧owner继续，必须编译成功后由行为或原基准拒绝。
+- `check:structure`、相关系统回归、`build`、适用pet gate、`check:workflow`、`audit:problems`通过；PG-017只回写本批范围，不以局部通过关闭存量问题。
+
+禁止范围：不扩其他怪物AI、完整装备/复活系统、其他宠物家族或完整怪物架构；不改原expected迎合实现，不扩碰撞许可，不关闭204/all/194/VS-067或Active功能线。
+
+状态更新：Done（2026-10-05；原合同全部由260A/260B核销，功能线保持Active）。
+
+推荐后续任务：依204公共责任覆盖台账生成同线唯一下一项；若本合同因明确独立交付边界拆分，先完成全部Monster2联合责任再选择其他公共责任。
+
+260B完成记录：2026-10-05 / TASK-SLICE-260B及父260完成：正式Stage1-2同一owner消费M2-01..09、两独立hit1与无伤害聚拢；648/45360身体、8480接收/6804世界态、392768碰撞、96态严格显示、九组自然/生命周期及真实宠物增量通过。15系统/2浏览器/2显示生产变异与260A坐标顺序反证保留，最终P1GS 79组/build/核心通过。262唯一Ready补Monster4行为输入；其他类型/人偶、完整家族、204/all/194/VS-067和Active线保持未完成。验收见 `docs/reverse-engineering/monster2-runtime-acceptance.md`。
+
+完成记录：2026-10-05 / TASK-SLICE-260B及父260完成：正式Stage1-2同一owner消费M2-01..09、两独立hit1与无伤害聚拢；648/45360身体、8480接收/6804世界态、392768碰撞、96态严格显示、九组自然/生命周期及真实宠物增量通过。15系统/2浏览器/2显示生产变异与260A坐标顺序反证保留，最终P1GS 79组/build/核心通过。262唯一Ready补Monster4行为输入；其他类型/人偶、完整家族、204/all/194/VS-067和Active线保持未完成。验收见 `docs/reverse-engineering/monster2-runtime-acceptance.md`。
+
+### TASK-SLICE-260
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：Monster2仍使用通用activeAttack与旧技能选择；256/257A/257B/258已闭合身体、两独立普攻、裸聚拢MC、空间、原Tween及真实接收，259解除英雄致死同次清宠缺口。需要在既有怪物和英雄owner上消费完整有限输入，不能把hit2字典当作伤害producer。
+
+规模预算：
+- 主工作包：0（Split父任务不直接执行；原两工作包分配至260A/260B，完整责任不减）
+- 预计上下文压缩：0
+- 独立验收批次：0（Split父任务由260B完整联合验收后收束）
+
+拆分触发：
+- 执行前核对当前生产接缝；若需要新增公共世界显示时钟、独立资源派生工具链或其他原版资料族，按独立交付边界拆分，不缩减M2-01..09和联合验收。
+- 若聚拢需重建英雄/怪物owner或与已证物理顺序冲突，先冻结精确边界并生成同线前置；禁止新建第二份英雄坐标、HP或整套怪物框架。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent实现与归并；Luna只读核对256/257/258合同覆盖及旧消费者撤销。
+- 并行工作包：完整M2-01..09、两弹/裸MC/Tween责任映射与生产反证清单。
+- 写入 owner：主agent。
+- 归并检查点：源合同核销及正式验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster2-body-attack-contract.md`与`reference/monster2-body-attack-contract.json`（完整M2-01..09）。
+- `docs/reverse-engineering/monster2-attack-space-contract.md`、`reference/monster2-attack-space-contract.json`及`ground-truth/manifests/monster2-attack-space.json`；257A原生基准与392768碰撞输入。
+- `docs/reverse-engineering/monster2-gather-coordinate-contract.md`及其reference（原Tween 4832态、5436世界态/7248英雄态、18场自然运行）。
+- `docs/reverse-engineering/monster2-reception-contract.md`及其reference（8480真实接收、162序列）；`monster-party-retirement-acceptance.md`及259生产回归。
+- 当前`Stage12Scene`、`Stage1CombatSystem`、`MonsterRuntimeRegistryBridge`、`HeroPartyRuntimeBridge`及Monster3独立攻击/接收/显示消费者，`docs/architecture/src-boundaries.md`。
+- 上述证据的精确原AS3 locator；视觉优先恢复`assets/1.swf`，旧提取只读。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`；未退出时运行`npm run check:system-design -- pet P1GS`，不因本任务重设计或关闭all。
+
+输出产物：Monster2有限实现、正式运行资源及可重复派生入口、实际生产合同/变异测试、正式双owner证据和`docs/reverse-engineering/monster2-runtime-acceptance.md`。大批原始观察放本地`docs/tasks/evidence/TASK-SLICE-260/`，游戏运行不依赖ignored证据。
+
+完成定义：现有正式Monster2消费者按原自然选择和身体相位创建两独立hit1对象及无伤害聚拢裸MC；两弹真实像素命中进入既有英雄/宠物HP owner；原聚拢通过既有英雄坐标写入顺序、暂停和退出端口执行。完整M2-01..09与257/258联合矩阵有可复查结果，其他怪物与未迁移家族状态不外推。
+
+验收标准：
+- 两普攻分别第5/20步出生、6/21首次检测、19/40末检测，power29/physics/interval999/max99与两对象独立ID；第二弹空显示帧仍检测。真实owner致死同步清宠、非致死/保护拒绝独立接收保留259回归。
+- 消费257A全部96显示态/176对象及392768碰撞案例，234像素许可仅按原精确元组/hash接受；实现和测试消费verified输入。正式逐状态原基准对比、双方向/注册点/空帧完整，不以截图存在或包围盒替代。
+- 256完整自然选择/CD/随机/朝向、身体先效果、hurt/冰冻/火伤致死、已发弹保留、显式destroy清弹与Monster4门条件；撤销原Monster2旧伤害/交替技能路径，不能双重生产。
+- 聚拢只针对原实时玩家列表，不选宠物，无hit2伤害；原lazy起点、一秒ease、twip、物理/墙/镜头写入竞争、重叠覆盖、主人/源死后保留、暂停恢复与退出kill合同直接对账257B。
+- 裸MC保持原14帧EXIT移除，普通暂停仍推进；显示时钟与伤害world不能混成一个生命周期。新引用/旧引用与销毁幂等通过实际owner测试。
+- 正式Stage1-2及当前其他实际Monster2消费者完成P1/P2、20/24/30fps自然两普攻/聚拢、真实HP、清理、失败重试/返回/重载；无消费者则明确说明，不制造仅测试存在的第二怪物owner。
+- 生产变异覆盖相位/漏第二弹/空帧提前释放/错误hit2伤害/碰撞旁路/坐标顺序/暂停裸MC/退出/旧owner继续，必须编译成功后由行为或原基准拒绝。
+- `check:structure`、相关系统回归、`build`、适用pet gate、`check:workflow`、`audit:problems`通过；PG-017只回写本批范围，不以局部通过关闭存量问题。
+
+禁止范围：不扩其他怪物AI、完整装备/复活系统、其他宠物家族或完整怪物架构；不改原expected迎合实现，不扩碰撞许可，不关闭204/all/194/VS-067或Active功能线。
+
+状态更新：Done（2026-10-05；原合同全部由260A/260B核销，功能线保持Active）。
+
+推荐后续任务：依204公共责任覆盖台账生成同线唯一下一项；若本合同因明确独立交付边界拆分，先完成全部Monster2联合责任再选择其他公共责任。
+
+#### 执行前拆分记录
+
+2026-10-04：`Stage12GameplayBridge.ts:121/152`先英雄后怪物，与257B原Tween→怪物→英雄顺序冲突。按第二拆分触发先交付260A公共坐标控制与有序接缝，再由260B自然producer、两弹/裸MC及正式联合验收核销全部M2-01..09、257A/257B/258。原资源/显示时钟可适配，不以其命名或空帧导出为拆分理由。主agent采纳Luna只读顺序核查，不采纳尚无原相位依据的postStep全部检测建议。详见`docs/reverse-engineering/monster2-runtime-preflight.md`。本次仅拆分交接，无生产实现，不归档父260。下一执行项`TASK-SLICE-260A`。
+
+2026-10-05：260A已交付实际movement、坐标生命周期和Registry有序接缝；九组受控Stage1-2与退出旅程通过。父任务不归档，下一260B核销所有自然攻击/空间/接收/视觉联合责任。
+
+完成记录：2026-10-05 / TASK-SLICE-260B及父260完成：正式Stage1-2同一owner消费M2-01..09、两独立hit1与无伤害聚拢；648/45360身体、8480接收/6804世界态、392768碰撞、96态严格显示、九组自然/生命周期及真实宠物增量通过。15系统/2浏览器/2显示生产变异与260A坐标顺序反证保留，最终P1GS 79组/build/核心通过。262唯一Ready补Monster4行为输入；其他类型/人偶、完整家族、204/all/194/VS-067和Active线保持未完成。验收见 `docs/reverse-engineering/monster2-runtime-acceptance.md`。
+
+
+### TASK-SLICE-260A
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：260预检确认正式Stage1-2先完整英雄更新再怪物更新，与257B原Tween→怪物→英雄的坐标竞争顺序冲突。先建立既有owner间的有序接缝和聚拢坐标控制，禁止第二份英雄位置/HP或重复英雄步进。
+
+规模预算：
+- 主工作包：2（既有HeroParty上的有限Tween坐标控制；Stage1-2/Registry有序接缝与正式验证）
+- 预计上下文压缩：0
+- 独立验收批次：2（257B实际坐标对账/生产变异；正式Stage1-2双owner接缝与回归）
+
+拆分触发：
+- 若已证有限坐标合同不能映射现有movement/静态墙/屏幕写入，定位具体冲突；需要重建完整英雄物理或新的原版资料族时生成同线前置，不手写近似冒充原版。
+- 不扩成五关公共框架重构；其他消费者只做受影响回归，未采用新端口时保持原行为。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent实现与归并；Luna只读核对257B完整轨迹/生命周期及真实owner调用次数。
+- 并行工作包：257B字段与生产反证清单。
+- 写入 owner：主agent。
+- 归并检查点：实现前及最终验收前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster2-runtime-preflight.md`及父`TASK-SLICE-260.md`。
+- `docs/reverse-engineering/monster2-gather-coordinate-contract.md`及`reference/monster2-gather-coordinate-contract.json`完整`/rules`、`/trajectories`、`/acceptance`。
+- `docs/reverse-engineering/hero-gather-motion-contract.md`及对应reference：正式参数/原root/脚点转换、有限原轨迹和明确排除项；既有257B受控5px输入不改。
+- 256身体/攻击、257A空间及258真实接收合同，用于确保接缝不改变检测与伤害顺序；259退休回归。
+- `src/scenes/stage12/Stage12GameplayBridge.ts`、`MonsterRuntimeRegistryBridge.ts`、`HeroPartyRuntimeBridge.ts`，及对应HeroParty/Registry/Movement系统与必要消费者。
+- `docs/architecture/src-boundaries.md`；原AS3 locator由257B sidecar提供，旧语料只读。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`；未退出时运行`npm run check:system-design -- pet P1GS`，不重新设计或关闭all。
+
+输出产物：现有owner上的聚拢请求/时间/暂停/退出端口、有序生产调用接缝、独立合同/生产变异/正式受控请求证据，以及`docs/reverse-engineering/monster2-coordinate-runtime-acceptance.md`。原始观察本地放`docs/tasks/evidence/TASK-SLICE-260A/`。
+
+完成定义：既有英雄movement单写坐标，实际Stage1-2可按257B顺序执行Tween及怪物请求→英雄移动；请求同帧移动影响下一render的lazy起点。未接Monster2自然producer的边界明确留给B，不能用受控请求声称原完整聚拢已复现。
+
+验收标准：
+- 对账257B 4832原Tween态、5436世界态/7248英雄态及18自然场对应的不变量，实际生产控制器消费verified输入；字段、时间浮点顺序和twip规则不因实现方便改变。
+- 覆盖P1/P2/双方×20/24/30，移动/重力/静态墙/屏幕写入、lazy起点、一秒ease、活动覆盖、暂停恢复、HP死亡/英雄destroy/源destroy后保留及退出kill不跳终点。原有限域外不外推。
+- Stage1-2真实HeroParty/Registry上记录顺序与每tick写入；调用原owner受控请求，禁止测试另建坐标替身冒充正式消费。英雄、宠物、投射物、怪物物理/效果/接收不得双推进；259真实致死同步清宠保持。
+- 先核对256/258检测相位再决定切口，不把全部碰撞随意后移到英雄步进后。两弹的完整自然链由B验收。
+- 生产变异至少拒绝请求晚于英雄移动、起点立即捕获、物理后写Tween、错误覆盖、暂停漏停、退出漏kill、死亡误kill及英雄重复步进；必须编译成功且由独立行为断言拒绝。
+- 正式Stage1-2双owner受控请求、暂停恢复、失败重试/返回/重载验证；自然Monster2与三对象视觉仍由B承担，保留其他怪物和已实现宠物相关回归。
+- `check:structure`、受影响系统/日常核心回归、`build`、适用pet gate、`check:workflow`和`audit:problems`通过；组合命令去重，PG-017只记有限样本。
+
+禁止范围：不接新的Monster2两弹/裸MC视觉，不替换原expected，不造第二英雄/怪物owner，不扩完整物理框架、装备复活或其他家族；不关闭父260/204/all/194/VS-067或功能线。
+
+状态更新：Done（2026-10-05；实际owner/有序接缝、原有限轨迹、正式受控矩阵和生命周期通过；自然Monster2及完整联合验收由260B承担）。
+
+输入阻塞已解除：261已核定普通角色参数、host量纲、root/脚点及有限墙/屏幕竞争；采用 `docs/reverse-engineering/hero-gather-motion-contract.md` 和对应reference。实际movement、Stage1-2生命周期及场景顺序变异已完成；以下日期记录保留中间失败，不以独立Tween覆盖完整世界验收。
+
+推荐后续任务：完成后激活`TASK-SLICE-260B`并结束本次/goal；B重新承担父260完整联合验收。
+
+#### 260A过程记录
+
+2026-10-04：实际owner的54360英雄态、原库4832态、18场冻结时钟重放及352200接收root样本通过；八个隔离编译变异拒绝。Stage1-2调用顺序已接线，聚拢Scene生命周期拆至独立bridge以消除16系统依赖error，结构现0error/8warning。核心和退休回归通过；正式浏览器全矩阵、场景顺序变异及最终gate仍在进行，A不归档。当前结果与历史失败分别见验收文档。
+
+2026-10-04：261完成源参数/有限运行输入，已解除输入阻塞并恢复Ready。增加实际production owner消费261的936条轨迹/47112英雄态（含run和六profile），保留257B全部矩阵；普通实际Role5使用默认7/11，第六profile仅显式构造分支。Root先量化再投影feet，检查Monster3接收root边界与既有Stage1扣50路径，避免二次扣减。仍按原两工作包完成，不扩完整英雄物理。
+
+2026-10-04：已新增未接Scene的HeroGatherCoordinateSystem及原Tween4832态对账，全部通过；真实HeroParty六组水平运动诊断却原5px/步对现代18/15/12px。完整世界轨迹/正式接缝未实现，未通过A验收。不得改全局常量或用测试替代物理冒充通过。261唯一Ready补正式五角色有效运动参数、root/脚点和静态墙/屏幕有限输入；A全部合同保留，控制器/测试恢复复用。证据和下一动作见`docs/reverse-engineering/monster2-coordinate-runtime-acceptance.md`。本次新增src未进入生产路径，与已有259改动分开；相关检查见`.tmp/task260a-*.log`。
+
+2026-10-05收尾：原库4832态、实际owner54360态、18场冻结时钟重放、352200接收root样本、八个系统/三个Scene编译变异、九组实际Stage1-2矩阵及失败重试/返回/重载通过；最终pet P1GS=0。Phaser队列恢复与世界残余时间的倒退问题由独立GatherBridge在世界时钟内恢复修复。完整检查/边界见monster2-coordinate-runtime-acceptance；260B激活，父260/204/all及功能线保持未完成。
+
+
+### TASK-SETTINGS-261
+
+任务类型：`TASK-SETTINGS`
+
+任务模型：`逆向任务`
+
+逆向子类型：`代码逆向`
+
+逆向方案：不适用；沿用 `docs/workflow/reverse-engineering-protocol.md`。
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-011`、`M-012`、`M-030`、`M-042`、`VS-067`
+
+要解决的问题：260A已验证Tween自身4832态，但真实HeroParty在257B受控水平输入下每步18/15/12px，原fixture为5px。257B的HeroBase采用显式5/1.5参数及受控角色方法，不能据此直接改正式五角色速度、重力和碰撞根。需补齐聚拢实际消费者的原角色构造/运动输入与坐标映射，决定既有movement的最小迁移合同，不能将未知物理差异当视觉容差。
+
+规模预算：
+- 主工作包：2（原正式五角色构造至公共运动/坐标的有限输入；该有限域原方法运行与迁移合同）
+- 预计上下文压缩：0
+- 独立验收批次：2（来源/几何引用/有限原方法矩阵与变异；257B竞争组合及现代owner差异核对）
+
+拆分触发：
+- 仅补Monster2聚拢会读写的英雄平移、速度、静态墙/屏幕及坐标根，不逆向全部键盘、技能、动画、装备或完整角色系统。
+- 发现必要碰撞/墙几何不在257A/217现有verified域时，明确缺失对象并生成有界视觉真值前置；不从旧提取或手抄bounds伪造视觉事实。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent追踪/运行/归并；Luna只读核对五角色构造参数、关键override和现代坐标消费者。
+- 并行工作包：五角色速度/重力/碰撞root映射与精确locator。
+- 写入 owner：主agent。
+- 归并检查点：原运行支架固定前及合同关闭前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster2-coordinate-runtime-acceptance.md`及`tools/hero-gather-owner-preflight.ts`，本地`docs/tasks/evidence/TASK-SLICE-260A/owner-preflight.json`。
+- `docs/reverse-engineering/monster2-gather-coordinate-contract.md`及reference完整范围/排除项；256/257A/258原证据不改。
+- `docs/reverse-engineering/movement-index.md`先速度、坐标、重力/落地关键词窄读；不能把旧功能性完成状态当源级逐值证据。
+- 原`Role1..Role5`构造和与该域相关override、`BaseHero`/`BaseObject`构造/step/move/墙/屏幕路径、`PhysicsWorld`注册顺序及当前原frameRate输入。只按调用链读必要方法。
+- 恢复`assets/StageCommon.swf`实际英雄colipse由257A目标树/源hash优先复用；Stage1-2静态几何由既有217真值查询，不重新提取旧语料。
+- 当前`HeroMovementSystem`、`LevelHeroMovementSystem`、`HeroPartyRuntimeSystem`及Stage12相关消费者；其不参与原expected生成。
+
+输出产物：`docs/reverse-engineering/hero-gather-motion-contract.md`与有源hash/locator、参数/坐标映射/有限轨迹/排除项的`reference/hero-gather-motion-contract.json`，可重复原方法运行和独立反证工具。原始日志/SWF/观察放本地`docs/tasks/evidence/TASK-SETTINGS-261/`和`local-resources/regima/task-outputs/TASK-SETTINGS-261/`。
+
+完成定义：明确正式五角色在该有限域使用何种速度/重力/host步进、root/脚点/碰撞坐标、墙/屏幕写入及Tween竞争；用原方法运行和独立expected证明，不用现代循环反向生成真值。输出足够支撑260A单一movement owner的有限修正合同，域外保持未知，不宣称完整英雄物理逆向。
+
+验收标准：
+- 角色构造与有效override到实际原玩家对象可追溯，区分257B显式受控5/1.5与正式角色参数，量纲和20/24/30世界帧率逐项确认。
+- 以257B十二模式/三fps/P1-P2-双方为公共竞争域，覆盖五角色相关差异；固定输入在运行前，独立对账每步位置/速度/量化、墙/屏幕、lazy起点、覆盖、暂停和死亡/移除后Tween保留。原自然时钟与显式受控时钟分别报告。
+- 明确body root与现代movement feet的变换；引用verified目标profile和墙几何，保留边界和source hashes。无新增视觉内容则不创建平行UI真值；新增适用空间事实必须按Schema建立verified机器输入。
+- 源编译变异拒绝错误速度单位、先加重力、漏twip、错误root偏移、墙落点/屏幕边界及请求/运动顺序；重复原运行与报告损坏负例通过。
+- 输出一套最小迁移合同：沿用既有HeroParty坐标/HP，不通过只在测试中替换物理来宣称正式原版一致，不新增完整怪物框架或隐式切到角色动作功能线。
+- `check:workflow`、`audit:problems`及工具必要检查通过；不得改变256/257/258原expected、234碰撞许可或现代代码来让逆向结果通过。
+
+禁止范围：不修改src/public实现，不重做完整英雄动作/技能/输入/海水/移动斜墙系统，不关闭260A/260B/父260/204/all/194/VS-067或功能线。
+
+状态更新：已完成（2026-10-04；有限原输入verified，260A恢复唯一Ready）。
+
+推荐后续任务：若输入可在260A两工作包内消费，恢复`TASK-SLICE-260A`唯一Ready；若确需独立公共物理实现，先生成同线最小前置，保留A/B和父260全部合同。完成本任务后结束当次/goal。
+
+执行结果：原构造语句/共享原方法及原Tween ABC，六profile×三fps×双owner组合，35334世界态/47112英雄态、936轨迹重复一致；两次各54自然场/216运动顺序样本通过，7编译源变异及4字段损坏负例拒绝。Luna核对source/root并串行执行变异，主agent归并和证据绑定。Role5构造false分支不外推自然切形，完整角色/斜墙/海水等域外保留；src/public未改。合同与最小迁移入口见 `docs/reverse-engineering/hero-gather-motion-contract.md`，实际实现与正式验收留260A/B。
+
+
+### TASK-SLICE-259
+
+任务类型：`TASK-SLICE`
+
+任务模型：`常规任务`
+
+功能条线：`LINE-PRE-STAGE-2-3-PRESENTATION`（Active）
+
+目标机制/切片：`M-030`、`M-034`、`M-042`、`VS-067`
+
+要解决的问题：258真实destroy链及双owner生产诊断反证：英雄被同次怪物命中致死后，当前缓存的pet接收端口仍扣宠物HP并减少弹体remaining；原版先destroy/clearPet，随后getPet为空。251有限数值域不能替代这条同步生命周期。先修公共owner，避免Monster2继续接入错误边界。
+
+规模预算：
+- 主工作包：1（既有英雄/宠物owner同步退休及真实消费者联合验证）
+- 预计上下文压缩：0
+- 独立验收批次：1（原258关键序列、生产变异与正式双owner清理回归）
+
+拆分触发：
+- 若发现实际复活装备、额外公共生命周期或缺原版时序/视觉输入，冻结精确入口并生成同线补证；不猜测、不扩Monster2实现。
+- 若需新增独立世界/宠物owner或重建完整怪物架构，先核定并拆分，禁止复制第二套HP/销毁规则。
+
+协作计划：
+- 模式：主agent + 有界subagent。
+- 模型分工：主agent修改实际owner；Luna只读核对258原合同与生产调用/清理顺序。
+- 并行工作包：P1/P2同次致死、保护拒绝、非致死及过期端口的消费者清单和反证条件。
+- 写入 owner：主agent。
+- 归并检查点：最终源合同核销前。
+- 方法观测：无。
+
+输入资料：
+- `docs/reverse-engineering/monster2-reception-contract.md`及`reference/monster2-reception-contract.json`；`tools/monster2-reception-owner-diagnostic.ts`、本地258/modern-retirement-diagnostic.json。
+- 原BaseHero.reduceHp/destroy/clearAllBullets/clearPet、BasePet.destroy、BaseBullet.checkAttack、Config.getPlayerArray精确源locator；258源/原生已闭合，不重做完整逆向。
+- `monster3-reception-contract.md`、`monster3-receiver-runtime-acceptance.md`、`monster3-runtime-acceptance.md`、`pet-reception-body-runtime-acceptance.md`相关同步生命周期范围。
+- `src/scenes/HeroPartyMonster3Reception.ts`、`HeroPartyRuntimeBridge.ts`；`MonsterAttackReception.ts`、`HeroMonsterDamageReception.ts`、当前PetCombatRuntime/EntitySession/兼容身体owner及其真实消费者。
+- `docs/architecture/src-boundaries.md`；`docs/workflow/problems/PG-017-真值表不管用.md`中的258反证只作问题背景，执行步骤以本合同为准。
+
+关联具体系统设计：`docs/architecture/system-designs/pet.md`；若仍未已完成/已退出，本批必须执行 `npm run check:system-design -- pet P1GS`；已退出按协议不重开。
+
+输出产物：既有公共owner修复、实际生产测试/变异、正式双owner清理证据、`docs/reverse-engineering/monster-party-retirement-acceptance.md`及下一Monster2有界任务。原始观察与报告放 `docs/tasks/evidence/TASK-SLICE-259/`。
+
+完成定义：英雄该次真正致死且进入销毁时，先通过现有owner同步清理宠物/session/旧接收引用，随后同次怪物遍历不再结算该宠；宠物不被误记为受击死亡、不得额外扣HP/lifetime/弹体remaining；其他slot不受影响。盾吸收、非致死、保护/闪避等没有执行英雄destroy的情况仍允许有效宠物独立接收。由真实owner和正式路径证明，不以仅检查hpBefore/hpAfter替代退休与引用清理。
+
+验收标准：
+- 258无复活致死源序列直接消费，P1/P2/双方×20/24/30；英雄1HP/29HP/30HP、保护拒绝后宠物命中、宠物先致死、盾/转移不致死、双弹及旧端口再次访问分别保留。
+- 使用实际party函数、真实已迁移Session和兼容pet身体owner；退休时主/私有实体、弹体、显示生命周期沿用现有服务，不改原宠物受击死亡lifetime语义。
+- 新测试拒绝延后一tick清理、仅HP判断而旧端口继续、错误扣pet lifetime、跨slot清理以及把英雄拒绝当宠物拒绝等生产变异；不要求原受控ready裸状态直接映射为现代已退休端口可接受。
+- 正式Stage1-3/TestScene已有Monster3消费者验证同次致死、失败重试/返回、P1/P2与另一slot继续，必要可见证据；同时保留251数值/255身体回归及原Monster3有限资源/行为合同。
+- `check:structure`、相关系统测试、`build`、适用pet gate、`check:workflow`与`audit:problems`通过；PG-017补强结果回写，不因单项修复关闭整PG。
+
+禁止范围：不实现Monster2攻击/聚拢、不修改258原expected迎合生产；不扩其他怪物行为、全装备/复活系统或完整宠物家族；不新增owner、不改变碰撞许可；不关闭204/all/194/VS-067或功能线。
+
+状态更新：Done（2026-10-04；公共owner同步退休及完整本批验收通过）。
+
+执行记录（2026-10-04）：规模预检维持单公共owner工作包，无复活装备或新增owner需求。同步HP死亡回调与现有Session/兼容释放已接；108原序列案例、12盾/转移、私有树及6生产变异通过。Stage13/TestScene双owner三档12组受控清理、两条自然失败重试/返回旅程、118组全量、P1GS 79组及工程检查通过，本项归档。只读Luna核对已归并；共享桥603行warning以窄生命周期接线说明，规则绑定独立在HeroPartyPetRetirement，无整桥扩展。验收正文见`docs/reverse-engineering/monster-party-retirement-acceptance.md`；后续260为唯一Ready，本次不执行。
+
+推荐后续任务：本项通过后，以256/257A/257B/258完整输入生成同线Monster2有界实现；明确两弹/身体/自然选择与聚拢坐标owner的工作包边界，必要按独立交付边界拆分。原M2-01..09、234像素精确许可、裸MC暂停/EXIT及全部未完成公共责任不丢失。
 
 ### TASK-SETTINGS-258
 

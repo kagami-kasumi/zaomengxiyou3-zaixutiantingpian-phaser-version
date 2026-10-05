@@ -1,5 +1,17 @@
 # 总机制表
 
+2026-10-05 / TASK-SLICE-260B及父260完成：正式Stage1-2同一owner消费M2-01..09、两独立hit1与无伤害聚拢；648/45360身体、8480接收/6804世界态、392768碰撞、96态严格显示、九组自然/生命周期及真实宠物增量通过。15系统/2浏览器/2显示生产变异与260A坐标顺序反证保留，最终P1GS 79组/build/核心通过。262唯一Ready补Monster4行为输入；其他类型/人偶、完整家族、204/all/194/VS-067和Active线保持未完成。验收见 `docs/reverse-engineering/monster2-runtime-acceptance.md`。
+
+2026-10-05 / TASK-SLICE-260A完成：同一movement消费有限原运动与聚拢，正式Stage1-2有序接缝、九组受控矩阵及退出旅程通过。260B唯一Ready继续自然Monster2完整联合验收；父260/204/all/194/VS-067与Active线不关闭。证据见 `docs/reverse-engineering/monster2-coordinate-runtime-acceptance.md`。
+
+2026-10-04 / TASK-SETTINGS-261完成：普通Role1..4为6/10、Role5默认7/11每host步，构造false分支与运行时切形明确分开；原根/现代脚点差50。原方法35334世界态/47112英雄态重复一致、两次各54场自然运行和7源变异通过。源输入sidecar已verified，260A恢复唯一Ready接实际movement/有序接缝，260B仍Planned；不关闭父260/204/all/194/VS-067或Active功能线。见 `docs/reverse-engineering/hero-gather-motion-contract.md`。
+
+2026-10-04 / 260A在制输入反例：原Tween4832态经新控制器对账通过，但真实HeroParty三fps×双slot水平步进为18/15/12px而257B受控原输入为5px；正式角色参数/根坐标不能由fixture或现代常量假定。260A保留全部合同并Blocked，261唯一Ready补有限运动输入，260B仍Planned。控制器尚未接Scene，不关闭父260/204/all/194/VS-067或整线；见 `docs/reverse-engineering/monster2-coordinate-runtime-acceptance.md`。
+
+2026-10-04 / TASK-SLICE-260执行前拆分：Stage1-2先英雄后怪物的生产顺序与257B已证Tween→怪物→英雄冲突。260保留全部合同并Split，260A唯一Ready交付既有坐标owner聚拢/有序接缝，260B Planned承担完整M2-01..09、257A/257B/258和正式自然双owner联合验收。本批未改src/public或原expected，不关闭204/all/194/VS-067或Active功能线。静态证据与裁决见 `docs/reverse-engineering/monster2-runtime-preflight.md`。
+
+2026-10-04 / TASK-SLICE-259完成：公共英雄实际致死同步释放当前slot的Session/兼容宠物及旧接收引用，不额外扣宠物HP/lifetime/命中次数。108原输入首检测+12盾/转移、私有树、6生产变异、两Scene×三fps×双owner共12受控组及两条自然失败重试/返回旅程通过；全量118组、pet P1GS 79组和build通过。260唯一Ready承接Monster2完整M2-01..09与257A/257B/258、234像素精确许可；不关闭204/all/194/VS-067、PG-017或Active功能线。验收见 `docs/reverse-engineering/monster-party-retirement-acceptance.md`。
+
 2026-10-04 / TASK-SETTINGS-258完成：8480原接收案例、162序列/6804世界态、正常重复与12编译变异/8数据负例通过；真实英雄destroy在同次弹体遍历前清宠。实际双owner诊断反证英雄致死后宠物仍1000→977、remaining97而非98，259唯一Ready先修同步退休，再生成Monster2实现。256M2-01..09、257A/257B与234像素精确许可完整保留；未改src/public，不关闭204/all/194/VS-067或Active功能线。见 `docs/reverse-engineering/monster2-reception-contract.md`。
 
 2026-10-04 / TASK-SETTINGS-257B及父257完成：原Tween ABC 4832态、真实共享坐标链5436世界态/7248英雄态独立零差异及重复一致；18场自然运行验证lazy起点、1秒终点、twip量化、活动覆盖、暂停恢复、死亡/destroy后继续与真实Scene退出，9类编译/运行变异拒绝。257A空间/392768碰撞及234像素精确许可、M2-01..09与无伤害producer完整保留。258唯一Ready补真实HP；未改src/public，不关闭204/all/194/VS-067或Active功能线。见 `docs/reverse-engineering/monster2-gather-coordinate-contract.md`。
@@ -197,7 +209,7 @@
 | M-008 | 基础键位 | 已扒 | 已复现 | `controls-index.md` | `src/systems/InputSystem.ts`、`src/scenes/TestScene.ts` 双玩家输入验证 | 后续角色控制器读取结构化 input state |
 | M-009 | 方向键归属 | 已扒 | 已复现 | `KeyBoardControl.as`、`controls-index.md` | `InputBindings.p2` 独占方向键，`TestScene` 同时显示 P1/P2 状态 | 后续移动切片继续保持方向键只属于 P2 |
 | M-010 | `keyarray` 四位 | 已扒 | 未复现 | `BaseHero.as`、`controls-index.md` | 无 | 角色控制器实现时转成结构化 input intent |
-| M-011 | 跑步 | 已扒 | 已复现 | `movement-index.md`、`BaseHero.addDoubleCount()` | `src/systems/HeroMovementSystem.ts`、`src/scenes/TestScene.ts` | 后续在正式角色控制器中复用并按真素材继续校准手感 |
+| M-011 | 跑步 | 已扒 | 部分复现 | `movement-index.md`、`BaseHero.addDoubleCount()` | `src/systems/HeroMovementSystem.ts`、`src/scenes/TestScene.ts` | 261已核定6/10与默认7/11每host步；260A在Stage1-2消费有限普通运动/竞争，未外推五关完整动作或技能物理 |
 | M-012 | 跳跃 | 已扒 | 已复现 | `movement-index.md`、`KeyBoardControl.as`、Role1—Role5 `myKeyDown()`、`BaseHero.jump()`、`BaseHero.step()`、`BaseObject.getDownFloor()` | `src/systems/HeroMovementSystem.ts`、`src/scenes/TestScene.ts`、`Stage12GameplayBridge.ts` | Stage 1-2 已复用通用重力/落地/二段跳，P1 K 与 P2 小键盘 2 已有专项回归；水中重复跳与白龙特例继续后置 |
 | M-013 | 下落平台 | 已扒 | 已复现 | `movement-index.md`、`BaseObject.getFallDown()`、`PhysicsWorld.addSubObj()` | `src/systems/HeroMovementSystem.ts`、`src/scenes/TestScene.ts` | 后续补完整平台库并继续校准特殊平台类型 |
 | M-014 | 上/交互/通关 | 已扒 | 已复现 | `levels-index.md`、`level-result-ui-index.md`、`BaseHero.checkTransferDoor()`、`Role*.myKeyDown()`、`MainGame.levelClear()`、`GameWin.as`、`GameFail.as`、2026-07-26/30 用户试玩反馈 | `LevelLifecycleSystem.ts`、`LevelLifecycleBridge.ts`、`LevelResultView.ts`、五关 Flow/scenes | `TASK-ARCH-015` 统一真实 bounds 重叠 + 对应上键、全员判负、幂等解锁与结果终态；`TASK-SLICE-161` 补齐唯一原版 GameWin/GameFail presenter 并删除五关私有黑框，后续关卡必须同时消费生命周期与结果视图 |

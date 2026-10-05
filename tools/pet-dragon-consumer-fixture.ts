@@ -105,8 +105,9 @@ for(const form of forms) for(const stage of levels ?? ['formal','TestScene']) fo
   p1.isActive=true;step();assert.notEqual(snapshots.p1.runtime.runtimeKey,oldKey);
   const replacement={...p1,id:p1.id+'-replacement'};rosters.p1!.pets=[replacement];step();
   assert.equal(snapshots.p1.petId,replacement.id);
-  // Existing owner-dead branch keeps a pet session but suppresses new targets.
-  model.members[0]!.combat.combat.state='dead';step();assert.ok(snapshots.p1.runtime);
+  // 258 actual destroy/clearPet supersedes retained-session behavior; 259 tests synchronous HP death.
+  model.members[0]!.combat.combat.state='dead';step();assert.equal(snapshots.p1.runtime,undefined);
+  assert.ok(snapshots.p2.runtime, 'Other owner stays attached');
   {
     runtimes.p1.destroy();runtimes.p2.destroy();presentation.destroy();
     assert.ok(displays.every(d=>d.destroyed));

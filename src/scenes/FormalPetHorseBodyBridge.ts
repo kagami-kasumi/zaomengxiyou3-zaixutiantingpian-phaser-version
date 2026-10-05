@@ -43,6 +43,7 @@ export type FormalPetHorseBodyBridge = Readonly<{
     timeMs: number,
   ) => readonly PetCombatAnimationEvent[];
   destroy: () => void;
+  releaseSlot: (slot: Slot) => void;
 }>;
 
 export function createFormalPetHorseBodyBridge(scene: Phaser.Scene): FormalPetHorseBodyBridge {
@@ -61,6 +62,7 @@ export function createFormalPetHorseBodyBridge(scene: Phaser.Scene): FormalPetHo
   };
 
   return {
+    releaseSlot: destroySlot,
     update: (members, projectiles, timeMs) => {
       latestProjectiles = projectiles; latestSceneTime = timeMs;
       const animationEvents: PetCombatAnimationEvent[] = [];

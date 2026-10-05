@@ -6,6 +6,7 @@ import {
   type MovementPlatform,
 } from './HeroMovementSystem';
 import type { PlayerInputState } from './InputSystem';
+import type { HeroSourceMovementInput } from './HeroSourceMovementSystem';
 
 export type LevelHeroMovementMember = {
   movement: HeroMovementModel;
@@ -24,6 +25,7 @@ export type LevelHeroMovementSpawn = Readonly<{
 }>;
 
 export type LevelHeroMovementEnvironment = Readonly<{
+  sourceMotion?: HeroSourceMovementInput;
   platforms: readonly MovementPlatform[];
   bounds: HeroMovementBounds;
 }>;
@@ -60,6 +62,7 @@ export function updateLevelHeroMovementRuntime(
       environment.bounds,
       timeMs,
       deltaMs,
+      environment.sourceMotion,
     );
     member.previousInput = input;
   });

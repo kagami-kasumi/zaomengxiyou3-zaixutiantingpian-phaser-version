@@ -1,4 +1,5 @@
 import type { PetGroundEnvironment } from '../assets/PetGroundEnvironmentAssets';
+import type { HeroSourceMovementInput } from './HeroSourceMovementSystem';
 import type { HeroSkillLoadout } from './HeroSkillSystem';
 import type { HeroMovementBounds, HeroMovementModel, MovementPlatform } from './HeroMovementSystem';
 import {
@@ -51,6 +52,7 @@ export type HeroPartyMemberDefinition = Readonly<{
 }>;
 
 export type LevelHeroEnvironmentSnapshot = Readonly<{
+  sourceMotion?: HeroSourceMovementInput;
   petGroundEnvironment?: PetGroundEnvironment;
   platforms: readonly MovementPlatform[];
   bounds: HeroMovementBounds;
@@ -333,6 +335,12 @@ export function snapshotHeroParty(runtime: HeroPartyRuntimeModel): readonly Hero
 }
 
 export function destroyHeroPartyRuntime(runtime: HeroPartyRuntimeModel): void {
+  // BaseHero.destroy sets static and clears vertical speed before detaching.
+  // Retained coordinate references must not expose a live motion after exit.
+  for (const member of runtime.members) {
+    member.movement.velocityX = 0;
+    member.movement.velocityY = 0;
+  }
   if (runtime.destroyed) return;
   runtime.destroyed = true;
   for (const member of runtime.members) clearHeroPetBuffs(member.combat);

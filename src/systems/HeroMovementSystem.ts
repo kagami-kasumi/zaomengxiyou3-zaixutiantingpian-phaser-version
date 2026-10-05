@@ -1,4 +1,5 @@
 import type { AxisDirection, PlayerInputState } from './InputSystem';
+import { stepHeroSourceMovement, type HeroSourceMovementInput } from './HeroSourceMovementSystem';
 
 export type HeroMovementState = 'wait' | 'walk' | 'run' | 'jump1' | 'jump2' | 'jump3';
 export type MovementPlatformKind = 'solid' | 'through';
@@ -77,6 +78,7 @@ export function updateHeroMovement(
   bounds: HeroMovementBounds,
   timeMs: number,
   deltaMs: number,
+  sourceMotion?: HeroSourceMovementInput,
 ): void {
   if (timeMs < hero.skillMovementLockedUntilMs) {
     hero.velocityX = 0;
@@ -85,7 +87,14 @@ export function updateHeroMovement(
     return;
   }
   updateRunIntent(hero, input, previousInput, timeMs);
-  applyJumpIntent(hero, input, previousInput, platforms, timeMs);
+  applyJumpIntent(hero, input, previousInput, platforms, timeMs,
+    sourceMotion ? sourceMotion.profile.jump * sourceMotion.hostFps : HeroMovementTuning.jumpVelocity);
+
+  if (sourceMotion) {
+    stepHeroSourceMovement(hero, input.moveX, sourceMotion);
+    updateMovementState(hero, input);
+    return;
+  }
 
   const deltaSeconds = deltaMs / 1000;
   const previousBottomY = hero.y;
@@ -174,6 +183,7 @@ function applyJumpIntent(
   previousInput: PlayerInputState | undefined,
   platforms: readonly MovementPlatform[],
   timeMs: number,
+  jumpVelocity: number,
 ): void {
   const justPressedJump = input.jump && !(previousInput?.jump ?? false);
 
@@ -204,7 +214,7 @@ function applyJumpIntent(
   hero.grounded = false;
   hero.currentPlatformId = undefined;
   hero.jumpCount = hero.jumpCount === 0 ? 1 : 2;
-  hero.velocityY = HeroMovementTuning.jumpVelocity;
+  hero.velocityY = jumpVelocity;
   hero.state = hero.jumpCount === 1 ? 'jump1' : 'jump2';
 }
 

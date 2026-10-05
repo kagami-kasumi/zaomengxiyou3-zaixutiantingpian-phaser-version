@@ -1,6 +1,7 @@
 import { applyMonster30LegacyPetDamage } from '../../systems/Monster30LegacyPetDamage';
 import { getActivePet } from '../../systems/PetRosterSystem';
 import { readLegacyPetExperience } from '../../systems/PetExperienceTargetSystem';
+import { releaseCompatibilityPet } from '../../systems/PetReceptionCompatibilitySystem';
 import { awardTestSceneHeroExperience } from './TestSceneExperienceBridge';
 import { getPetGroundEnvironment } from '../../assets/PetGroundEnvironmentAssets';
 // boundary: Stage 1-1 compatibility code reaches hero models only through this
@@ -114,6 +115,11 @@ export function createTestSceneHeroPartyRuntime(
       awardHeroExperience: (slot, amount) => awardTestSceneHeroExperience(scene, slot, amount),
       legacyPetExperience: slot => readLegacyPetExperience(slot === 'p1' ? scene.petRuntime : scene.p2PetRuntime),
       legacyPetRuntime: slot => slot === 'p1' ? scene.petRuntime : scene.p2PetRuntime,
+      releaseLegacyPet: slot => {
+        const key = slot === 'p1' ? 'petRuntime' : 'p2PetRuntime';
+        releaseCompatibilityPet(scene[key]);
+        scene[key] = undefined;
+      },
     },
   );
   const players = runtime.compatibilityMembers().map((member, index): TestScenePlayerView => {

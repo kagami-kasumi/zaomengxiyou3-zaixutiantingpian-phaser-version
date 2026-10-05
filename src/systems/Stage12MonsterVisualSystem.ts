@@ -33,6 +33,7 @@ export type Stage12MonsterVisualModel = {
 };
 
 export type Stage12MonsterVisualSnapshot = Readonly<{
+  action?: Stage12MonsterAction;
   phase: Stage1EnemyAttackPhase;
   attackSerial: number;
   facingX: -1 | 1;
@@ -181,7 +182,8 @@ function selectAction(
   }
   if (snapshot.attackSerial !== model.attackSerial) {
     model.attackSerial = snapshot.attackSerial;
-    startAction(model, chooseStage12MonsterAttack(model.enemyType, snapshot.attackSerial));
+    startAction(model, snapshot.action === 'hit1' || snapshot.action === 'hit2'
+      ? snapshot.action : chooseStage12MonsterAttack(model.enemyType, snapshot.attackSerial));
     return;
   }
   if (model.action === 'hit1' || model.action === 'hit2' || model.action === 'hurt') return;
@@ -206,6 +208,7 @@ function advanceFrame(
   }
   if (model.action === 'dead') {
     model.frameIndex = definition.holdTicks.length - 1;
+    if (model.enemyType === 2) model.frameTick = definition.holdTicks[model.frameIndex]! - 1;
     model.completed = true;
     return;
   }

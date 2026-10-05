@@ -1,3 +1,5 @@
+import { syncMonster2AttackViews, destroyMonster2AttackViews, type Monster2AttackViews } from '../Monster2AttackView';
+import { syncMonster2CombatBody } from '../../systems/Monster2CombatWorld';
 import { syncMonsterPetFireView, destroyMonsterPetFireView } from '../MonsterPetFireView';
 import { consumeMonsterPetBodyDelta } from '../../systems/MonsterPetTargetEffectSystem';
 import { syncMonsterPetIceView, destroyMonsterPetIceView } from '../MonsterPetIceView';
@@ -40,6 +42,7 @@ type AttackView = {
 };
 
 export type Stage12MonsterView = {
+  monster2Attacks?: Monster2AttackViews;
   sprite: Phaser.GameObjects.Sprite;
   ice?: Phaser.GameObjects.Image;
   visual: Stage12MonsterVisualModel;
@@ -133,6 +136,15 @@ export function updateStage12MonsterView(
 ): boolean {
   syncMonsterPetFireView(scene, view, combat);
   syncMonsterPetIceView(scene, view, combat, combat.enemyType);
+  if (combat.enemyType === 2 && combat.monster2AttackRuntime) {
+    consumeMonsterPetBodyDelta(combat.petTargetEffectState, Stage12VisualTickMs, 0);
+    syncMonster2CombatBody(combat);
+    view.visual = combat.monster2AttackRuntime.body;
+    view.sprite.setPosition(combat.x, combat.y).setFrame(getStage12MonsterAtlasFrame(view.visual))
+      .setFlipX(combat.facingX === 1);
+    syncMonster2AttackViews(scene, view.monster2Attacks ??= new Map(), combat.monster2AttackRuntime.attacks);
+    return view.visual.completed;
+  }
   const events = updateStage12MonsterVisual(view.visual, {
     phase: combat.phase,
     attackSerial: combat.attackSerial,
@@ -163,6 +175,7 @@ export function destroyStage12MonsterView(view: Stage12MonsterView): void {
   destroyMonsterPetFireView(view);
   destroyMonsterPetIceView(view);
   view.sprite.destroy();
+  if (view.monster2Attacks) destroyMonster2AttackViews(view.monster2Attacks);
   for (const attack of view.attacks) attack.image.destroy();
   view.attacks.length = 0;
 }

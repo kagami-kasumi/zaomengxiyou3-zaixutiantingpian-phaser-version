@@ -61,6 +61,7 @@
 - `MonsterDefinitionCatalog` 保存跨关卡只读战斗定义，`MonsterAssetCatalog` 保存 monster id 到视觉/几何资源族的映射，`MonsterRuntimeRegistry` 保存单局可变怪物状态；三者不得混为同一个 Registry。
 - `MonsterExperienceSystem` 只维护既有怪物模型上的目标引用与首次死亡经验；`HeroPartyExperienceSystem` 从既有队伍持有英雄/当前宠回调。宠物Session与兼容Runtime在发射时捕获自身对象，不能按命中时active pet反查；存档桥保存真实roster，掉落仍由原奖励owner处理。
 - `HeroPartyRuntime` 是单局活动英雄的唯一运行时 owner：按 `PlayerSlot` 持有移动、战斗、普攻、技能和角色视觉生命周期。关卡只提交平台、移动边界与特殊环境快照，不声明 `PlayerRuntime`，不直接调用角色内部 update/resolve。
+- `HeroPartyRuntime.gather`只持有既有movement的原root投影引用，不另存英雄位置/HP；`HeroSourceMovementSystem`在同一movement更新内适配原host单位并复用静态墙积分。Stage1-2由Registry的后怪物回调调用完整HeroParty一次，Tween先于世界步；Scene暂停/退出由runtime统一管理。其他Scene未采用该端口时保持原更新入口。
 - `Stage1CombatPlayer.petBuffs`与`HeroPetBuffSystem`持有四项主人瞬时效果，复用slot世界host先于宠物推进；不挂PetState、不写存档。兼容场景的currentStats直接引用成员effectiveStats，baseStats只作成长/装备输入；Scene不复制效果算法。
 - 关卡、宠物和英雄当前类设计分别见 `system-designs/level.md`、`system-designs/pet.md`、`system-designs/hero.md`。关卡保持组合式 `PlayableLevelRuntime`，不得新建万能 `BaseLevel`；宠物战斗统一经 `PetCombatRuntime` 注入 `PetBehavior`；英雄队伍聚合单英雄 `HeroRuntime`，五英雄实现只覆盖差异钩子。三份设计在各自验收退出前约束迁移 task，退出后不再触发设计模式专项检查。
 - `PetCombatEntitySession` 与 `PetCombatContext` 是宠物Runtime内部公共步骤/端口实现；Scene和Behavior不直接创建或推进实体会话。私有召唤物只经Behavior窄端口创建/释放，临时数值不进入持久roster；正式桥继续只消费顶层Runtime快照与typed事件。
@@ -110,6 +111,14 @@
 
 ## Monster3 有限接收端口
 
+260A的`HeroGatherCoordinateSystem`只保存实际movement引用和一秒坐标Tween状态，复用现有twip函数；不拥有英雄位置副本、HP、物理、输入或Scene时钟。Stage1-2既有world入口执行Tween→怪物→完整英雄步骤；死亡/角色detach不取消引用，暂停冻结、最终退出清理由既有Scene owner接线。原库与真实运动输入边界见`monster2-coordinate-runtime-acceptance.md`。
+
 249A的`MonsterDamageReception`只准备251已证接收结果，不写HP。英雄经`HeroMonsterDamageReception`进入既有`HeroCombatSystem`；宠物经`PetCombatRuntime`/`PetCombatEntitySession`或兼容`PetBattleOwnershipSystem`共享HP结算。动作、保护、实时属性由当前owner读取或显式输入，不建立第二份权威状态。`MonsterAttackReception`仅管理接收ID、间隔和有序检查，不能成为独立world/显示时钟；Monster3实际两owner消费与兼容动作/保护分发留给249B。有限域与真实Session覆盖见`docs/reverse-engineering/monster3-receiver-runtime-acceptance.md`。
 
 249B共享核心已建立`Monster3AttackRuntime`与`Monster3Selection`，但正式两owner尚未接入，当前不表示游戏已迁移。碰撞消费248正式资源，原world twip边界选项经过全部140880case与精确残差验证；`Monster3AttackView`只读投影，不推进时钟。252先解除正式宠物属性/效果输入缺口，再恢复两Scene消费。
+
+## Monster2 身体、两普攻与裸显示
+
+`Monster2CombatWorld`适配既有Stage1CombatEnemy，不复制HP、位置或目标；`Monster2WorldStep`复用目标效果host时钟，旧弹→身体→效果→自然选择。`Monster2AttackRuntime`拥有两独立hit1攻击及source/parent释放；hit2只请求聚拢和裸显示。HP零保留弹体至其末帧或源dead动作完成，显式Registry销毁清弹。Stage12Flow在实际源移除时按boss/存活Monster4条件处理门，不由显示或HP观察者另开门。
+
+`Monster2RawDisplayBridge`通过既有world display时钟独立推进14帧裸MC，普通Scene暂停继续，源死亡不销毁，Scene退出清理。`Monster2AttackView`只投影verified原crop与独立collision位场，不生成伤害或另计时。`HeroPartyMonsterReception`统一Monster2/3当前hero/pet身份，几何由各家提供，HP/保护/属性仍由当前真实owner负责；失效引用必须在读取旧宠物技能前拒绝。
